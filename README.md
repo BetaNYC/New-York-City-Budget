@@ -48,8 +48,13 @@ New-York-City-Budget/
 │   │   └── capital/     Section 254 capital changes (FY26 + FY27; FY25 is an appropriation-changes doc)
 │   ├── fy26/transparency-resolutions/   post-adoption designations (10 resolutions)
 │   └── combined/        all-years roll-ups
-└── code/                ← parser scripts (schedule C, terms, capital, transparency) + tests + requirements.txt
+├── code/                ← parser scripts (schedule C, terms, capital, transparency) + tests + requirements.txt
+└── mcp/                 ← prototype MCP server (see below)
 ```
+
+### `mcp/` — prototype MCP server
+
+`mcp/` holds a **prototype** [Model Context Protocol](https://modelcontextprotocol.io) server (TypeScript + SQLite) that exposes this repo's data to MCP-capable AI clients as structured query tools — Schedule C awards, Terms & Conditions, §254 capital, the FY2026 Transparency Resolutions, and the Legistar crosswalk. It reads the repo's own `data/` tree directly (no copied snapshot) and builds a local, git-ignored SQLite index from it, so the query layer and the data always move together. Still a prototype — see [`mcp/README.md`](mcp/README.md) for tools, scope, and how to build and run it.
 
 ## The data files
 
@@ -79,6 +84,13 @@ Post-adoption discretionary designations from the 10 FY2026 Transparency Resolut
 
 ### `data/combined/`
 `all_years_initiatives.csv` and `all_years_awards.csv` — the per-year files stacked with a leading `year` column for cross-year analysis.
+
+`legistar_crosswalk.csv` — links each budget source document to its NYC Council **Legistar** legislative record (matter number, adoption date, and detail-page URL), for FY2008–FY2027. One row per document. Columns: `fiscal_year, document_type, local_file, legistar_matter_number, legistar_url, adoption_date, status, notes`.
+- `document_type` ∈ `schedule_c`, `terms_conditions`, `capital_a`, `capital_b`, `transparency_reso_NN` (NN = the within-year sequence number).
+- `local_file` is the repo-relative path to the source PDF (under `source/FYnn/`); it is blank for matter-only rows where the Legislation exists but no local document was downloaded. Source-relative paths are used (not `data/`) because FY2008–FY2024 are not yet parsed to structured CSVs — that PDF→CSV work is deferred; this crosswalk is the legislative-provenance index that lands first.
+- `status` ∈ `confirmed` (matter individually verified, including "positional" bracket-confirmations and "inferred exhibit" Contract-Budget rows — the qualifier is kept in `notes`), `candidate` (an anchor/earliest-in-sequence or an exhibit not confirmed as a standalone matter — deliberately *not* upgraded to confirmed), or `not_located` (no Legistar matter found, or a matter with no local file, or a genuine archival gap).
+- `legistar_url` is blank for the FY2015–FY2020 Transparency Resolutions, whose per-item Legistar IDs were not captured in the source research (resolve on demand from the matter number).
+- Built from the three `research/2026-07-07-legistar-links-*.md` docs (which carry the per-row Legistar citations and same-day corrections). Where those docs corrected an earlier row (e.g. FY2012 Capital A, FY2013/FY2018 Schedule C), the corrected value is used and the correction is recorded in `notes`.
 
 ## Reconciliation status
 

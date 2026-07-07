@@ -26,7 +26,7 @@ reso date          rows      designate$        rescind$          net$
 rows by action:  designate=2868  purpose_change=596  rescind=1291
 rows by fiscal year:  ?=1  2023=8  2024=92  2025=226  2026=4428
 
-unresolved organization (dense-chart text-layer artifacts): 9 of 4755 rows (0.19%) -- amount/EIN/agency captured, org name orphaned
+unresolved organization (dense-chart text-layer artifacts): 0 of 4755 rows (0.00%) -- amount/EIN/agency captured, org name orphaned
 
 SPOTLIGHT - Artificial Intelligence Community Engagement (AICE, $1M initiative):
   resolution 3 (2025-10-29), 24 rows, net $0

@@ -2,3 +2,8 @@
 __pycache__/
 *.pyc
 .venv/
+
+# mcp/ prototype (Node MCP server that reads this repo's data/ tree)
+mcp/node_modules/
+mcp/dist/
+mcp/**/budget.db*

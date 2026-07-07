@@ -136,3 +136,90 @@ different title phrasing (e.g. no "designation" language) that a differently-wor
 search would catch; and cross-checking coverage depth against the Council's own
 Legistar "Session" groupings, which imply pre-1998 records may exist but weren't probed
 here.
+
+## Addendum 2: Establishing the floor year (checked 2026-07-07, follow-up pass)
+
+**Data current as of:** 2026-07-07. Bounded scoping/discovery probe, not an import.
+Follow-on to Addendum 1 above — the task was specifically to push past the FY2008
+finding and establish whether an earlier floor exists, and whether any floor found is
+a content floor (practice didn't exist yet) or a records floor (Legistar doesn't have
+the data).
+
+**Method:** Same phrase-search approach as Addendum 1, run two ways: (1) `nyc-council-
+mcp`'s `search_legislation_live` tool, and (2) direct browsing of `legistar.council.
+nyc.gov/Legislation.aspx`'s own search UI (via Claude in Chrome), restricted to "All
+Years" / "All Types", with `text` search enabled. The web UI proved more reliable for
+this pass — it returns a true total record count and supports pagination to the oldest
+match, where `search_legislation_live` sorts by last-modified and is capped at a
+50-result limit, making it unsuitable for finding the true floor of a large result set.
+
+**Findings:**
+
+1. **Year-by-year phrase probes confirm no standalone Fiscal 2006 or Fiscal 2007
+   designation resolution exists.** Exact-phrase searches for `"designation of certain
+   organizations to receive funding in the Fiscal 2006"` and `"...Fiscal 2007"` both
+   returned **zero records** on the Legistar web UI (All Years, All Types). The Fiscal
+   2007 cycle appears **only** inside two retroactive/omnibus catch-up resolutions
+   filed years later — `Res 2147-2009` (filed 2009, covering "Fiscal 2007, Fiscal 2009
+   and Fiscal 2010") and `Res 0058-2010` (filed 2010, covering "Fiscal 2007, Fiscal
+   2008, Fiscal 2009 and Fiscal 2010") — confirming Addendum 1's tentative read. No
+   standalone Fiscal 2007-cycle resolution exists at all.
+
+2. **The unrestricted phrase search establishes a hard floor at Res 1090-2007.**
+   Searching the exact phrase `"designation of certain organizations"` with no year
+   filter (All Years, All Types) returns **212 records total** on Legistar's own search
+   UI, paginated newest-to-oldest. The last (oldest) record on page 3 of 3 is:
+   **`Res 1090-2007`, "Resolution approving the designation of certain organizations to
+   receive funding in the Fiscal 2008 Expense Budget," Committee on Finance, prime
+   sponsor David I. Weprin, introduced/adopted 2007-10-17.** A broader phrase search —
+   `"to receive funding in the"` (drops "designation of certain organizations"
+   entirely, in case of title variants) — returns the **same 212 records and the same
+   floor**, `Res 1090-2007`. Two independently-worded phrase searches converge on the
+   identical oldest matter, which is strong (not just suggestive) evidence this is a
+   real floor rather than a phrasing artifact.
+
+3. **This is a content floor, not a records floor.** Legistar's indexing clearly
+   covers Committee on Finance (and other committees') activity well before 2007 with
+   no apparent gap: a `"Schedule C"` search surfaced `M 0305-1998` (a Mayor's Message
+   to Committee on Finance, dated 1998-06-11, disapproving items "as set forth in
+   Schedule A" [expense], "Schedule B" [contract], "Schedule C" [capital budget], and
+   "Schedule D" [terms/conditions] under NYC Charter §255(a) — note this is a
+   *different, older* "Schedule C" meaning capital budget, not discretionary funding;
+   flagging so the repo's own "Schedule C" terminology isn't conflated with this
+   1998-era usage). A loose two-word search for `member item` (247 records, unquoted,
+   so it matches "member" or "item" independently) surfaced ordinary, fully-indexed
+   Committee matters from 2004, 2005, and 2006 (e.g. `Res 0259-2006`, `Int 0765-2005`),
+   confirming Legistar's full-text index has no coverage gap in the 2004–2007 range —
+   the absence of designation-resolution hits there is a content absence, not a search
+   or indexing failure.
+
+**Confirmed floor year: FY2008 (standalone resolution, filed 2007) — high confidence.**
+FY2007 exists only as a retroactive line item inside 2009–2010 catch-up resolutions,
+not as its own designation resolution — treat FY2007 as *not independently sourceable*
+via this mechanism. FY2006 and earlier: no evidence of this resolution mechanism at
+all, despite confirmed full Legistar coverage for that era under other matter types.
+
+**Interpretation (flagged as inference, not confirmed via primary source in this
+pass):** The pattern — a cluster of retroactive omnibus catch-up resolutions filed in
+2009–2010 covering Fiscal 2007–2010 "new designations and changes," immediately
+following the first-ever standalone resolution in October 2007 — is consistent with
+the public record of an NYC Council member-item/discretionary-funding accountability
+reform that followed a 2008 slush-fund scandal (federal and state investigations into
+undisclosed/fictitious "member item" grantees, prompting Speaker Christine Quinn's
+administration to formalize public Council votes on funding designations). If that
+context is accurate, discretionary funding before FY2008 was likely designated
+administratively (via the Schedule C capital/expense budget process itself, or an
+internal Council/OMB process) **without** a standalone public Council resolution — which
+would explain why no such resolution is findable on Legistar before Res 1090-2007, even
+though the underlying spending presumably existed. **This paragraph is analytical
+inference from the record pattern, not a sourced historical claim — it should be
+verified against contemporaneous news coverage or Council rules history before being
+treated as fact in any downstream deliverable.**
+
+**Recommended year range for the subsequent full document-sourcing pass:** FY2008
+onward is the floor for standalone Schedule-C-equivalent designation resolutions.
+FY2007 is not independently sourceable via this resolution mechanism (retroactive
+catch-up only — the two catch-up resolutions themselves could still be sourced as
+partial FY2007 data if the sourcing pass wants to attempt it, with the caveat that
+they are omnibus, multi-year documents, not clean single-year filings). Nothing earlier
+than FY2007 was found under this mechanism in this pass.

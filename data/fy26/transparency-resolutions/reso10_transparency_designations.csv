@@ -1,11 +1,11 @@
 resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
-10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,,"Jewish Community Council of Greater Coney Island, Inc.",Southern Brooklyn Speaker,112665181,-50000,DYCD,260,005,,
-10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,,"Community Shuttle Jewish Community Council of Greater Coney Island, Inc.",Staten Island Speaker,112665181,50000,DYCD,260,005,,
-10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,,Community Shuttle Nigel Sylvester Foundation,Switching Gears Bike Program - Council District 27 Williams,870931546,-5000,DYCD,260,005,,
-10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,,*** Williams Nigel Sylvester Foundation,Council District 27,870931546,5000,DYCD,260,005,,***
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Speaker,"Jewish Community Council of Greater Coney Island, Inc.",Southern Brooklyn Community Shuttle,112665181,-50000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Speaker,"Jewish Community Council of Greater Coney Island, Inc.",Staten Island Community Shuttle,112665181,50000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Williams,Nigel Sylvester Foundation,Switching Gears Bike Program - Council District 27,870931546,-5000,DYCD,260,005,,***
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Williams,Nigel Sylvester Foundation,Council District 27,870931546,5000,DYCD,260,005,,***
 10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Mealy,"Kan Cobra Tiger Alliance, Inc.",Council District 41 & Mt. Ararat Senior Center,463766464,-5000,DYCD,260,005,,
-10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Mealy,St. James Holiness Church,Council District 41,800079644,-5000,DYCD,260,005,,
-10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Mealy,"Lincoln Terrace Tennis Association, Inc.","Summer & Winter Tennis Programs Mealy 043672661 DYCD ($15,000) 260 312 ** Mealy 77th Precinct Community Council, Inc. - Council District 41",113463183,15000,DYCD,260,005,,**
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Mealy,St. James Holiness Church,"Council District 41 Lincoln Terrace Tennis Association, Inc. - Summer & Winter Tennis Programs",800079644,-5000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Mealy,"** 77th Precinct Community Council, Inc.",Council District 41,113463183,15000,DYCD,260,005,,**
 10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Mealy,"77th Precinct Community Council, Inc.",Council District41,113463183,10000,DYCD,260,005,,
 10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Mealy,Wilson Department of Youth and Community Development,,136400434,-6000,DYCD,260,005,,**
 10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Mealy,Wilson Department of Transportation,Bike Helmet Giveaway - Council District 3,136400434,6000,DOT,841,011,,**
@@ -17,8 +17,8 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Restler,"DUMBO District Management Association, Inc.",Council District 33,200214837,6000,SBS,801,002,,**
 10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Speaker,"East River Development Alliance, Inc.",,861096987,-100000,DYCD,260,005,,**
 10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Speaker,"East River Development Alliance, Inc.",,861096987,100000,HPD,806,012,,**
-10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Speaker,Department of Parks and Recreation,Adopt-A-Bench Program - Council Dinowitz,136400434,-5000,DPR,846,006,,
-10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Speaker,"District 11 ** Mosholu-Montefiore Community Center, Inc.",Teen Center - Council District Dinowitz,133622107,5000,DYCD,260,312,,
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Dinowitz,Department of Parks and Recreation,Adopt-A-Bench Program - Council District 11,136400434,-5000,DPR,846,006,,**
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Dinowitz,"Mosholu-Montefiore Community Center, Inc.",Teen Center - Council District 11,133622107,5000,DYCD,260,312,,**
 10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,"Broad Channel Volunteers, Inc.",,112557794,-178850,FDNY,057,005,,
 10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Fire Department of New York,,136400434,178850,FDNY,057,005,,
 10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,Department of Youth and Community Development,,136400434,-6000,DYCD,260,005,,**
@@ -27,10 +27,10 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Partnership for After School Education, Inc.",,133976066,50000,DYCD,260,312,,**
 10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,United Way of New York City,,132617681,1000000,DOE,040,402,,**
 10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Council of School Supervisors and Administrators of the City of NY,,112024569,255000,DOE,040,454,,**
-10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"United Federation of Teachers Educational Foundation, Inc.",Teacher Center Speaker,139226721,250000,DOE,040,402,,
-10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"** Speaker St. John's Bread and Life Program, Inc.",,113174514,150000,DYCD,260,005,,**
-10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Brooklyn Community Pride Center, Inc.",LGBTQIA+ Mental & Behavioral Speaker,262214534,150000,DHMH,816,120,,
-10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Health Services ** Speaker Children of Promise, NYC",Saturday Enrichment Program,830440009,50000,DYCD,260,312,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"United Federation of Teachers Educational Foundation, Inc.",Teacher Center,139226721,250000,DOE,040,402,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"St. John's Bread and Life Program, Inc.",,113174514,150000,DYCD,260,005,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Brooklyn Community Pride Center, Inc.",LGBTQIA+ Mental & Behavioral Health Services,262214534,150000,DHMH,816,120,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Children of Promise, NYC",Saturday Enrichment Program,830440009,50000,DYCD,260,312,,**
 10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Bedford Stuyvesant Family Health Center, Inc.",,112412205,150000,DHMH,816,117,,**
 10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Korean Community Services of Metropolitan New York, Inc.",,237348989,50000,DHMH,816,120,,**
 10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,University Settlement Society of New York,,135562374,200000,DYCD,260,005,,**
@@ -45,13 +45,13 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Department of Sanitation,,136400434,84000,DSNY,827,102,,**
 10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"UA3, Inc.",,474803090,50000,DYCD,260,005,,**
 10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Greater Bethel Community Development Corporation,,320000557,50000,DYCD,260,005,,**
-10,2026-06-30,Neighborhood Development Grant Initiative - Fiscal 2026,2026,rescind,,,"NYSARC, Inc., New York City Chapter, AHRC New York City",Bronx ArTech Collective Center - Farias,133779611,-20000,DYCD,260,005,,
-10,2026-06-30,Neighborhood Development Grant Initiative - Fiscal 2026,2026,designate,,,"Council District 18 Farias NYSARC, Inc., New York City Chapter",Bronx ArTech Collective Center - Council District 18,135596746,20000,DYCD,260,005,,
-10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,,"Ballroom Basix USA, Inc.","Public School/Middle School 200Q (25Q200), Discovery School Gennaro",273218865,-20000,DCLA,126,003,,
-10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,,"(25Q201) & Public School 154Q (25Q154) Ballroom Basix USA, Inc.","Public School 154Q (25Q154), 219Q Paul Klapper (25Q219), 165Q Gennaro",273218865,20000,DCLA,126,003,,
-10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,,"Edith K. Bergtraum (25Q165) & The Discovery School for Inquiry and Rese (25Q201) Wilson Ballroom Basix USA, Inc.",Multi-Cultural In-School Program,273218865,-10000,DCLA,126,003,,
-10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,,"Ballroom Basix USA, Inc.",Humanities Preparatory Academy (02M605) & Public School 212M Wilson,273218865,10000,DCLA,126,003,,
-10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,,"Midtown West (02M212) Mealy Crown Heights Jewish Community Council, Inc.",Council District 40,237390996,-20000,DYCD,260,005,,
+10,2026-06-30,Neighborhood Development Grant Initiative - Fiscal 2026,2026,rescind,,Farias,"NYSARC, Inc., New York City Chapter, AHRC New York City",Bronx ArTech Collective Center - Council District 18,133779611,-20000,DYCD,260,005,,
+10,2026-06-30,Neighborhood Development Grant Initiative - Fiscal 2026,2026,designate,,Farias,"NYSARC, Inc., New York City Chapter",Bronx ArTech Collective Center - Council District 18,135596746,20000,DYCD,260,005,,
+10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Gennaro,"Ballroom Basix USA, Inc.","Public School/Middle School 200Q (25Q200), Discovery School (25Q201) & Public School 154Q (25Q154)",273218865,-20000,DCLA,126,003,,
+10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Gennaro,"Ballroom Basix USA, Inc.","Public School 154Q (25Q154), 219Q Paul Klapper (25Q219), 165Q Edith K. Bergtraum (25Q165) & The Discovery School for Inquiry and Rese (25Q201)",273218865,20000,DCLA,126,003,,
+10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Gennaro,"Wilson Ballroom Basix USA, Inc.",Multi-Cultural In-School Program,273218865,-10000,DCLA,126,003,,
+10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Gennaro,"Ballroom Basix USA, Inc.",Humanities Preparatory Academy (02M605) & Public School 212M Wilson Midtown West (02M212),273218865,10000,DCLA,126,003,,
+10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Mealy,"Crown Heights Jewish Community Council, Inc.",Council District 40,237390996,-20000,DYCD,260,005,,
 10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Mealy,"Crown Heights Jewish Community Council, Inc.",Council District 41,237390996,20000,DYCD,260,005,,
 10,2026-06-30,Food Pantries - Fiscal 2026,2026,rescind,,,Brooklyn Delegation Food Bank For New York City,Bethlehem Nation's Food Pantry - EFRO# 85527,133179546,-882,DYCD,260,005,,
 10,2026-06-30,Food Pantries - Fiscal 2026,2026,designate,,,Brooklyn Delegation Food Bank For New York City,,133179546,882,DYCD,260,005,,

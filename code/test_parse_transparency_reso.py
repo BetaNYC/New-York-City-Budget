@@ -90,6 +90,50 @@ def test_unresolved_org_rate_is_small():
     assert len(miss) / len(rows) < 0.01, f'unresolved-org rate too high: {len(miss)}/{len(rows)}'
 
 
+@pytest.mark.skipif(not os.path.exists(COMBINED), reason='combined CSV not built yet')
+def test_no_anchor_debris_in_org_or_program():
+    """On standard award charts (designate/rescind), a printed '$' amount must never appear
+    inside the organization or program field. Its presence means a broken anchor line (an EIN
+    that lost its hyphen in the text layer, so it was never recognised as its own award) was
+    folded into a neighbouring award's org blob -- the dense-chart bleed this parser guards
+    against. EIN/amount are still captured on the real anchor rows; only the leaked debris is
+    excluded. (Scope excludes purpose_change rows: 'Purpose of Funds Changes' charts carry a
+    trailing free-text purpose whose wrapping is a separate, pre-existing known limitation.)"""
+    for r in _rows(COMBINED):
+        if r['action'] == 'purpose_change':
+            continue
+        assert '$' not in r['organization'] and '$' not in r['program'], \
+            f"anchor debris in org/program of EIN {r['ein']}: " \
+            f"{r['organization']!r} / {r['program']!r}"
+
+
+@pytest.mark.skipif(not os.path.exists(COMBINED), reason='combined CSV not built yet')
+def test_member_surname_not_bled_into_wrapped_program():
+    """Regression guard for the column-bleed bug: on standard charts the council-member column
+    sits on the EIN anchor line while the org/program text wraps onto the lines above and below
+    it. The parser must take the member from the anchor line (not append it to the tail of the
+    wrapped blob) and must re-attach the wrap-below line to the right award.
+
+    Concrete repro (Reso 02, Youth Discretionary - Fiscal 2025, NYC First, Inc., EIN
+    46-2754933): the buggy output read '...& Public Restler' (member 'Restler' overwriting the
+    wrapped 'School 54K The Detective Rafael Ramos School' continuation). Assert both the
+    rescind and the paired designate row now carry the member in its own column and the full,
+    Restler-free program text."""
+    repro = [r for r in _rows(COMBINED)
+             if r['ein'] == '462754933' and r['resolution'] == '2'
+             and 'Youth Discretionary' in r['chart']]
+    assert len(repro) == 2, f'expected the 2 NYC First repro rows, got {len(repro)}'
+    for r in repro:
+        assert r['council_member'] == 'Restler', f"member not in its column: {r!r}"
+        assert r['organization'] == 'NYC First, Inc.', f"org bled: {r['organization']!r}"
+        assert 'Restler' not in r['program'], f"member bled into program: {r['program']!r}"
+    designate = next(r for r in repro if int(r['amount']) > 0)
+    assert designate['program'] == (
+        'Public School 307K Daniel Hale Williams (13K307) & '
+        'Public School 54K The Detective Rafael Ramos School (13K054)'), \
+        f"wrapped program not reassembled: {designate['program']!r}"
+
+
 # ---------- layer 2: re-parse from source (skipped when PDFs absent) ----------
 
 @pytest.mark.skipif(not os.path.isdir(SRC), reason='source PDFs not present')
@@ -106,6 +150,26 @@ def test_reparse_from_source_matches():
     aice = [r for r in rows if 'Artificial Intelligence' in r['chart']]
     assert sum(r['amount'] for r in aice) == 0, 'AICE net-out failed on fresh parse'
     assert sum(r['amount'] for r in aice if r['amount'] > 0) == 1_000_000
+
+
+@pytest.mark.skipif(not os.path.isdir(SRC), reason='source PDFs not present')
+def test_reparse_repro_row_no_member_bleed():
+    """Re-derive the column-bleed repro (Reso 02, NYC First, EIN 46-2754933) straight from the
+    PDF and assert the member/org/program come out clean -- proves the fix lives in the parser,
+    not just the committed CSV."""
+    sys.path.insert(0, HERE)
+    import parse_transparency_reso as P
+    import glob
+    reso2 = next(p for p in sorted(glob.glob(os.path.join(SRC, 'Transparency-Reso-*.pdf')))
+                 if '-02-' in os.path.basename(p))
+    rows = P.parse(reso2, 2, '2025-09-25', P.default_roster())
+    repro = [r for r in rows if r['ein'] == '462754933'
+             and 'Youth Discretionary' in r['chart']]
+    assert len(repro) == 2, f'expected 2 repro rows from source, got {len(repro)}'
+    for r in repro:
+        assert r['council_member'] == 'Restler'
+        assert r['organization'] == 'NYC First, Inc.'
+        assert 'Restler' not in r['program']
 
 
 if __name__ == '__main__':

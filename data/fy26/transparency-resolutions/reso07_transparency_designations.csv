@@ -1,8 +1,8 @@
 resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
 7,2026-03-10,Local Initiatives - Fiscal 2026,2026,rescind,,Paladino,Department of Parks and Recreation,Holiday Lighting - Bowne Park,136400434,-5000,DPR,846,006,,
 7,2026-03-10,Local Initiatives - Fiscal 2026,2026,designate,,Paladino,Department of Parks and Recreation,Council District 19,136400434,5000,DPR,846,006,,
-7,2026-03-10,Local Initiatives - Fiscal 2026,2026,rescind,,Paladino,"Jewish Community Council of Greater Coney Island, Inc.",Staten Island Speaker,112665181,-50000,DYCD,260,005,,
-7,2026-03-10,Local Initiatives - Fiscal 2026,2026,designate,,Paladino,"Community Shuttle Jewish Community Council of Greater Coney Island, Inc.",Southern Brooklyn Speaker,112665181,50000,DYCD,260,005,,
+7,2026-03-10,Local Initiatives - Fiscal 2026,2026,rescind,,Speaker,"Jewish Community Council of Greater Coney Island, Inc.",Staten Island Community Shuttle,112665181,-50000,DYCD,260,005,,
+7,2026-03-10,Local Initiatives - Fiscal 2026,2026,designate,,Speaker,"Jewish Community Council of Greater Coney Island, Inc.",Southern Brooklyn Community Shuttle,112665181,50000,DYCD,260,005,,
 7,2026-03-10,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,"Entertainers for Education Alliance, Inc.",,432115174,-50000,DYCD,260,312,,
 7,2026-03-10,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,Department of Education,Community School District 28-MBK/MSK,136400434,-15000,DOE,040,402,,**
 7,2026-03-10,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Department of Education,Community School District 28-MBK/MSK,136400434,15000,DOE,040,401,,**
@@ -11,19 +11,19 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 7,2026-03-10,A Greener NYC - Fiscal 2026,2026,rescind,,De La Rosa,Friends of WHEELS,Environmental Programming & Education,421775449,-10000,DYCD,260,005,,
 7,2026-03-10,A Greener NYC - Fiscal 2026,2026,designate,,De La Rosa,"Futures Ignite, Inc.",Environmental Programming & Education,421775449,10000,DYCD,260,005,,
 7,2026-03-10,Digital Inclusion and Literacy Initiative - Fiscal 2026,2026,rescind,,Mealy,"Digital Girl, Inc.",Public School 184K Newport (23K184),472288307,-20000,DYCD,260,005,,
-7,2026-03-10,Digital Inclusion and Literacy Initiative - Fiscal 2026,2026,designate,,Mealy,"Digital Girl, Inc.",Public School 189K The Bilingual Center (17K189) & Public School 770K New Mealy,472288307,20000,DYCD,260,005,,
-7,2026-03-10,Digital Inclusion and Literacy Initiative - Fiscal 2026,2026,rescind,,Mealy,American Academy (17K770) De La Rosa Friends of WHEELS,College & Career Pathways Program,421775449,-25000,DYCD,260,005,,
+7,2026-03-10,Digital Inclusion and Literacy Initiative - Fiscal 2026,2026,designate,,Mealy,"Digital Girl, Inc.",Public School 189K The Bilingual Center (17K189) & Public School 770K New American Academy (17K770),472288307,20000,DYCD,260,005,,
+7,2026-03-10,Digital Inclusion and Literacy Initiative - Fiscal 2026,2026,rescind,,De La Rosa,Friends of WHEELS,College & Career Pathways Program,421775449,-25000,DYCD,260,005,,
 7,2026-03-10,Digital Inclusion and Literacy Initiative - Fiscal 2026,2026,designate,,De La Rosa,"Futures Ignite, Inc.",College & Career Pathways Program,421775449,25000,DYCD,260,005,,
 7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,rescind,,,Battered Women's Resource Center,,113302911,-60000,DSS/HRA,069,112,,
 7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,designate,,,"Battered Women's Resource Center, Inc.",,113302911,60000,DSS/HRA,069,112,,
 7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,rescind,,Mealy,Battered Women's Resource Center,Domestic Violence & Counseling - Council District 41,113302911,-15000,DSS/HRA,069,112,,
-7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,designate,,Mealy,"Battered Women's Resource Center, Inc.",Domestic Violence & Counseling - Council District Mealy,113302911,15000,DSS/HRA,069,112,,
+7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,designate,,Mealy,"Battered Women's Resource Center, Inc.",Domestic Violence & Counseling - Council District 41,113302911,15000,DSS/HRA,069,112,,
 7,2026-03-10,Food Pantries - Fiscal 2026,2026,rescind,,,Queens Delegation Food Bank For New York City,Buddhist Tzu Chi Foundation - EFRO# 85511,133179546,-4849,DYCD,260,005,,
 7,2026-03-10,Food Pantries - Fiscal 2026,2026,designate,,,Queens Delegation Buddhist Tzu Chi Foundation,Food Distribution - Council District 20,942952782,4849,DYCD,260,005,,
 7,2026-03-10,NYC Cleanup - Fiscal 2026,2026,rescind,,Hanks,"Silver Mount Cemetery Conservancy, Incorporated",,882833328,-10000,DYCD,260,005,,
 7,2026-03-10,NYC Cleanup - Fiscal 2026,2026,designate,,Hanks,"Silver Mount Cemetery Association, Inc.",,135579013,10000,DYCD,260,005,,
 7,2026-03-10,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,rescind,,Brooks-Powers,"Ballroom Basix USA, Inc.",Public School 197Q The Ocean School (27Q197),273218865,-20000,DCLA,126,003,,
-7,2026-03-10,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,designate,,Brooks-Powers,"Ballroom Basix USA, Inc.",Public School/ Middle School 042Q R. Vernam (27Q042) & Public Brooks-Powers,273218865,20000,DCLA,126,003,,
+7,2026-03-10,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,designate,,Brooks-Powers,"Ballroom Basix USA, Inc.",Public School/ Middle School 042Q R. Vernam (27Q042) & Public School 197Q The Ocean School (27Q197),273218865,20000,DCLA,126,003,,
 7,2026-03-10,Worker Cooperative Business Development Initiative - Fiscal 2026,2026,rescind,,,Small Business Services,,136400434,-150000,SBS,801,002,,**
 7,2026-03-10,Worker Cooperative Business Development Initiative - Fiscal 2026,2026,rescind,,,Small Business Services,,136400434,-9999,SBS,801,002,,**
 7,2026-03-10,Chamber on the Go and Small Business Assistance- Fiscal 2026,2026,rescind,,,Small Business Services,,136400434,-111295,SBS,801,002,,**
