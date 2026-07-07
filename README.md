@@ -113,6 +113,20 @@ python code/parse_capital.py     <Capital.pdf>   --outdir data/fy28/capital     
 
 Always read the generated `*_reconciliation.txt` to confirm a parse before trusting a new year.
 
+## Future work
+
+- **Schedule C vs. actuals.** Compare discretionary designations here against NYC
+  Checkbook spending/contract data — do designations actually convert into paid
+  contracts, and at what lag or drop-off rate?
+- **Capital project lifecycle.** Trace a Section 254 capital line from budget proposal
+  through adoption (this repo) to actual payment and completion (Checkbook capital
+  commitments) — an end-to-end view of how capital dollars move from planning to
+  money spent.
+
+See `research/` for active and lodged scoping plans, including closing the
+FY2022–FY2024 gap between this repo's PDF-extracted years and NYC Open Data's
+FY2009–FY2021 historical archive.
+
 ---
 
 *Source: NYC Council Finance Division, adopted budget Schedule C, Terms & Conditions, and Section 254 capital changes, FY2025–FY2027, [council.nyc.gov](https://council.nyc.gov/budget/). Structured and analyzed by [BetaNYC](https://beta.nyc).*
