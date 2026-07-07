@@ -1,37 +1,37 @@
 resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,,"Find Community Connection Project, Inc.",Youth Professional Development Louis,883724403,-5000,DYCD,260,005,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,,"Program – Council District 45 ** Louis Find Community Connection Project, Inc.",Council District 45,883724403,5000,DYCD,260,312,,**
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,,"Nexgen Women In Accounting, Inc.",Future Financial Leaders - Council District Louis,851202832,-5000,DYCD,260,312,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,,45 Louis Department of Youth and Community Development,,136400434,5000,DYCD,260,312,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,,Department of Youth and Community Development,,136400434,-5000,DYCD,260,312,,**
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Louis,"Find Community Connection Project, Inc.",Youth Professional Development Program – Council District 45,883724403,-5000,DYCD,260,005,,**
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Louis,"Find Community Connection Project, Inc.",Council District 45,883724403,5000,DYCD,260,312,,**
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Louis,"Nexgen Women In Accounting, Inc.",Future Financial Leaders - Council District 45,851202832,-5000,DYCD,260,312,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Louis,Department of Youth and Community Development,,136400434,5000,DYCD,260,312,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Louis,Department of Youth and Community Development,,136400434,-5000,DYCD,260,312,,**
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Louis,Brooklyn Museum,,111672743,5000,DCLA,126,008,,**
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Louis,"African American Women In Cinema Organization, Inc.",Cinema Program & Banks,134151020,-5000,DYCD,260,005,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Louis,Filmmaking,"Council District 42 Banks Jewish Community Council of Canarsie, Inc. - Council District 42",112608645,5000,DYCD,260,005,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Louis,"African American Women In Cinema Organization, Inc.",Cinema Program & Banks,134151020,-5000,DYCD,260,005,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Louis,Filmmaking,"Council District 42 Banks Jewish Community Council of Canarsie, Inc. - Council District 42",112608645,5000,DYCD,260,005,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Banks,"African American Women In Cinema Organization, Inc.",Cinema Program & Filmmaking - Council District 42,134151020,-5000,DYCD,260,005,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Banks,"Jewish Community Council of Canarsie, Inc.",Council District 42,112608645,5000,DYCD,260,005,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Banks,"African American Women In Cinema Organization, Inc.",Cinema Program & Filmmaking - Council District 42,134151020,-5000,DYCD,260,005,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Banks,"Jewish Community Council of Canarsie, Inc.",Council District 42,112608645,5000,DYCD,260,005,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Louis,"Global Trauma Research, Inc.",Mental Wellness Services - Council District 45,472294632,-5000,DHMH,816,120,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Louis,Department of Health and Mental Hygiene,,136400434,5000,DHMH,816,120,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Louis,"Department of Health and Mental Hygiene ** DHMH ($5,000) 816 120 Brooklyn Queens Conservatory of Music","Music Education, Music Therapy & Louis",111532426,5000,DCLA,126,003,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Louis,Public Events,"Council District 45 ** Speaker Amigos Del Museo Del Barrio, Inc.",237156720,150000,DCLA,126,022,,***
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Louis,"J. Sanchez Rocking the Boat, Inc.",,134177814,-16000,DCLA,126,003,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Louis,"J. Sanchez Rocking the Boat, Inc.",Youth Development Programs,134177814,16000,DCLA,126,003,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Louis,Brooklyn Queens Conservatory of Music,"Music Education, Music Therapy & Public Events - Council District 45",111532426,5000,DCLA,126,003,,**
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Speaker,"Amigos Del Museo Del Barrio, Inc.",,237156720,150000,DCLA,126,022,,***
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Speaker,"J. Sanchez Rocking the Boat, Inc.",,134177814,-16000,DCLA,126,003,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Speaker,"J. Sanchez Rocking the Boat, Inc.",Youth Development Programs,134177814,16000,DCLA,126,003,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Speaker,Department of Transportation,,136400434,-50000,DOT,841,013,,**
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Speaker,"Jewish Community Council of Greater Coney Island, Inc.",Staten Island Speaker,112665181,50000,DYCD,260,005,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Speaker,Community Shuttle ** Zhuang Department of Youth and Community Development,,136400434,-5000,DYCD,260,005,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Speaker,"Jewish Community Council of Greater Coney Island, Inc.",Staten Island Community Shuttle,112665181,50000,DYCD,260,005,,**
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Zhuang,Department of Youth and Community Development,,136400434,-5000,DYCD,260,005,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Zhuang,"Mahalla USA, Inc.",Council District 43,842552292,5000,DYCD,260,005,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Zhuang,Department of Youth and Community Development,,136400434,-17000,DYCD,260,005,,**
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,,"Edith and Carl Marks Jewish Community House of Bensonhurst, Inc.",After Zhuang,111633484,17000,DYCD,260,312,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,,School Enrichment Programs,Council District 43 ** Encarnacion Department of Parks and Recreation - More Garden's Funds,136400434,-5000,DPR,846,006,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,,Department of Parks and Recreation,,136400434,5000,DPR,846,006,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,,Department of Parks and Recreation,,136400434,-5000,DPR,846,006,,**
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,,Encarnacion More Gardens! Fund,Council District 8,522415900,5000,DCLA,126,003,,**
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Zhuang,"Edith and Carl Marks Jewish Community House of Bensonhurst, Inc.",After School Enrichment Programs - Council District 43,111633484,17000,DYCD,260,312,,**
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Zhuang,Encarnacion Department of Parks and Recreation,More Garden's Funds,136400434,-5000,DPR,846,006,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Zhuang,Department of Parks and Recreation,,136400434,5000,DPR,846,006,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Zhuang,Department of Parks and Recreation,,136400434,-5000,DPR,846,006,,**
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Zhuang,Encarnacion More Gardens! Fund,Council District 8,522415900,5000,DCLA,126,003,,**
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Ariola,Fire Department of New York,Engine 331 & Ladder 173,136400434,-25500,FDNY,057,005,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Ariola,Fire Department of New York,,136400434,25500,FDNY,057,005,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Ariola,Fire Department of New York,,136400434,-25500,FDNY,057,005,,**
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Ariola,"Chamber of Commerce Borough of Queens, Inc.",Council District 32,110559220,10000,SBS,801,002,,**
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Ariola,"HeartShare Human Services of NY, R.C. Diocese of Brooklyn",Heart Paws- Ariola,111633549,15500,DHMH,816,120,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Ariola,"Canine Therapy Program ** Chamber of Commerce Borough of Queens, Inc.",Rockaway Civic & Ozone Ariola,110559220,-20000,SBS,801,002,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Ariola,"Park Ariola Chamber of Commerce Borough of Queens, Inc.",Council District 32,110559220,20000,SBS,801,002,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Ariola,"HeartShare Human Services of NY, R.C. Diocese of Brooklyn",Heart Paws- Canine Therapy Program,111633549,15500,DHMH,816,120,,**
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Ariola,"Chamber of Commerce Borough of Queens, Inc.",Rockaway Civic & Ozone Park,110559220,-20000,SBS,801,002,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Ariola,"Chamber of Commerce Borough of Queens, Inc.",Council District 32,110559220,20000,SBS,801,002,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Speaker,"Bellevue Day Care Center, Inc.",,132676567,-100000,DOE,040,410,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Speaker,Department of Education,,136400434,100000,DOE,040,410,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Speaker,Department of Education,,136400434,-100000,DOE,040,410,,**
@@ -43,8 +43,8 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Dinowitz,Department of Youth and Community Development,,136400434,-15000,DYCD,260,005,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Dinowitz,"Council on the Environment, Inc.",Norwood Farmstand - Council District 11,132765465,15000,DYCD,260,005,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Dinowitz,Department of Youth and Community Development,,136400434,-5000,DYCD,260,005,,**
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Dinowitz,Department of Parks and Recreation,Adopt-A-Bench Program - Council Dinowitz,136400434,5000,DPR,846,006,,
-6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Dinowitz,District 11 ** Stevens Exalt Youth,Core Internship Program - Council District 16,205540955,-10000,DYCD,260,312,,
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Dinowitz,Department of Parks and Recreation,Adopt-A-Bench Program - Council District 11,136400434,5000,DPR,846,006,,**
+6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Stevens,Exalt Youth,Core Internship Program - Council District 16,205540955,-10000,DYCD,260,312,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,,Department of Youth and Community Development,,136400434,5000,DYCD,260,312,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,designate,,Stevens,"City Year, Inc.",Council District 16,222882549,5000,DYCD,260,312,,
 6,2026-02-12,Local Initiatives - Fiscal 2026,2026,rescind,,Stevens,Department of Youth and Community Development,,136400434,-5000,DYCD,260,312,,**
@@ -53,22 +53,22 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2026-02-12,Aging Discretionary - Fiscal 2023,2023,designate,,Zhuang,United Chinese Association of Brooklyn,,371469112,10000,DFTA,125,003,,
 6,2026-02-12,Aging Discretionary - Fiscal 2023,2023,rescind,,Brewer,Shmira Civilian Volunteer Patrol of Boro Park,,113260405,-5000,DFTA,125,003,,
 6,2026-02-12,Aging Discretionary - Fiscal 2023,2023,designate,,Brewer,"New York Justice For Our Neighbors, Inc.",Council District 6,842948798,5000,DFTA,125,003,,
-6,2026-02-12,Youth Discretionary - Fiscal 2026,2026,rescind,,,"Council For Living Music, Inc., The",Jazz Mentors Panel Discussion & Student Council District 3,133447662,-5000,DYCD,260,312,,
-6,2026-02-12,Youth Discretionary - Fiscal 2026,2026,designate,,,Jam Sessions Council District 3 New York Society for the Prevention of Cruelty to Children,Council District 3,131624134,5000,DYCD,260,312,,
-6,2026-02-12,Youth Discretionary - Fiscal 2026,2026,rescind,,,Brooklyn Queens Conservatory of Music,"Music Education, Music Therapy & Louis",111532426,-5000,DYCD,260,312,,
-6,2026-02-12,Youth Discretionary - Fiscal 2026,2026,designate,,,Public Events,Council District 45 Louis Department of Youth and Community Development,136400434,5000,DYCD,260,312,,
+6,2026-02-12,Youth Discretionary - Fiscal 2026,2026,rescind,,,"Council For Living Music, Inc., The",Jazz Mentors Panel Discussion & Student Council District 3 Jam Sessions,133447662,-5000,DYCD,260,312,,
+6,2026-02-12,Youth Discretionary - Fiscal 2026,2026,designate,,,Council District 3 New York Society for the Prevention of Cruelty to Children,Council District 3,131624134,5000,DYCD,260,312,,
+6,2026-02-12,Youth Discretionary - Fiscal 2026,2026,rescind,,Louis,Brooklyn Queens Conservatory of Music,"Music Education, Music Therapy & Public Events - Council District 45",111532426,-5000,DYCD,260,312,,
+6,2026-02-12,Youth Discretionary - Fiscal 2026,2026,designate,,Louis,Department of Youth and Community Development,,136400434,5000,DYCD,260,312,,
 6,2026-02-12,Youth Discretionary - Fiscal 2026,2026,rescind,,Louis,Department of Youth and Community Development,,136400434,-5000,DYCD,260,312,,
-6,2026-02-12,Youth Discretionary - Fiscal 2026,2026,designate,,Louis,"B'nai B'rith Hillel Foundation, Inc.",Afterschool Program for Homeless Louis,116036253,5000,DYCD,260,312,,
+6,2026-02-12,Youth Discretionary - Fiscal 2026,2026,designate,,Louis,"B'nai B'rith Hillel Foundation, Inc.",Afterschool Program for Homeless Children - District 45,116036253,5000,DYCD,260,312,,
 6,2026-02-12,Anti-Poverty - Fiscal 2026,2026,rescind,,Joseph,Research Foundation of the City University of New York,Council District 40,131988190,-10000,CUNY,042,001,,
-6,2026-02-12,Anti-Poverty - Fiscal 2026,2026,designate,,Joseph,Research Foundation of the City University of New York,Haitian Studies Joseph,131988190,10000,CUNY,042,001,,
-6,2026-02-12,Anti-Poverty - Fiscal 2026,2026,rescind,,Joseph,Institute,"Council District 40 B'nai B'rith Hillel Foundation, Inc. - Afterschool Program for Homeless Louis",116036253,-5000,DYCD,260,312,,
-6,2026-02-12,Anti-Poverty - Fiscal 2026,2026,designate,,Joseph,Children,District 45 Department of Youth and Community Development,136400434,5000,DYCD,260,312,,
-6,2026-02-12,Anti-Poverty - Fiscal 2026,2026,rescind,,Joseph,Department of Youth and Community Development,,136400434,-5000,DYCD,260,312,,**
-6,2026-02-12,Anti-Poverty - Fiscal 2026,2026,designate,,Joseph,"Global Trauma Research, Inc.",Mental Health & Supportive Services - Council Louis,472294632,5000,DHMH,816,120,,
+6,2026-02-12,Anti-Poverty - Fiscal 2026,2026,designate,,Joseph,Research Foundation of the City University of New York,Haitian Studies Institute - Council District 40,131988190,10000,CUNY,042,001,,
+6,2026-02-12,Anti-Poverty - Fiscal 2026,2026,rescind,,Louis,"B'nai B'rith Hillel Foundation, Inc.",Afterschool Program for Homeless Children - District 45,116036253,-5000,DYCD,260,312,,
+6,2026-02-12,Anti-Poverty - Fiscal 2026,2026,designate,,Louis,Department of Youth and Community Development,,136400434,5000,DYCD,260,312,,
+6,2026-02-12,Anti-Poverty - Fiscal 2026,2026,rescind,,Louis,Department of Youth and Community Development,,136400434,-5000,DYCD,260,312,,**
+6,2026-02-12,Anti-Poverty - Fiscal 2026,2026,designate,,Louis,"Global Trauma Research, Inc.",Mental Health & Supportive Services - Council District 45,472294632,5000,DHMH,816,120,,**
 6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,"Bartlett Foundation, The",Council District 28 Schools,900952784,-15000,DYCD,260,312,,
 6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Bartlett Foundation, The",Council District 28,900952784,15000,DYCD,260,312,,
-6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,"Center for Family Life in Sunset Park, Inc.",Worker Cooperative Business Speaker,851058164,-500000,DYCD,260,005,,
-6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Development Speaker Center for Family Life in Sunset Park, Inc.",,851058164,500000,DYCD,260,005,,
+6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,"Center for Family Life in Sunset Park, Inc.",Worker Cooperative Business Development,851058164,-500000,DYCD,260,005,,
+6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Center for Family Life in Sunset Park, Inc.",,851058164,500000,DYCD,260,005,,
 6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Jamaica Center for Arts and Learning, Inc.",,112478709,100000,DCLA,126,022,,***
 6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Uptown Grand Central,,811133229,100000,DCLA,126,003,,***
 6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,Department of Youth and Community Development,,136400434,-70000,DYCD,260,005,,
@@ -82,9 +82,9 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,Department of Parks and Recreation,Firework Show - Council District 32,136400434,-75000,DPR,846,006,,
 6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Department of Parks and Recreation,,136400434,75000,DPR,846,006,,
 6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,Department of Parks and Recreation,,136400434,-75000,DPR,846,006,,**
-6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Chamber of Commerce Borough of Queens, Inc.",Council District 32 Firework Speaker,110559220,75000,SBS,801,002,,
-6,2026-02-12,Community Safety and Victim Services - Fiscal 2026,2026,rescind,,,"Urban Youth Alliance International, Inc.",Youth & Anti-Violence Programming - Stevens,132969182,-10000,DYCD,260,312,,
-6,2026-02-12,Community Safety and Victim Services - Fiscal 2026,2026,designate,,,Council District 16 Stevens Exalt Youth,Core Internship Program - Council District 16,205540955,10000,DYCD,260,312,,
+6,2026-02-12,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Chamber of Commerce Borough of Queens, Inc.",Council District 32 Firework Show,110559220,75000,SBS,801,002,,**
+6,2026-02-12,Community Safety and Victim Services - Fiscal 2026,2026,rescind,,Stevens,"Urban Youth Alliance International, Inc.",Youth & Anti-Violence Programming - Council District 16,132969182,-10000,DYCD,260,312,,
+6,2026-02-12,Community Safety and Victim Services - Fiscal 2026,2026,designate,,Stevens,Exalt Youth,Core Internship Program - Council District 16,205540955,10000,DYCD,260,312,,
 6,2026-02-12,A Greener NYC - Fiscal 2026,2026,rescind,,Mealy,New York Botanical Garden,Green Thumb Gardens - Council District 41,131693134,-10000,DCLA,126,005,,
 6,2026-02-12,A Greener NYC - Fiscal 2026,2026,designate,,Mealy,New York Botanical Garden,Council District 41,131693134,10000,DCLA,126,005,,
 6,2026-02-12,A Greener NYC - Fiscal 2026,2026,rescind,,Restler,"Horticultural Society of New York, The",Tree Bed Planters - Council District 33,130854930,-35000,DPR,846,006,,
@@ -98,22 +98,22 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2026-02-12,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,rescind,,Mealy,Brooklyn Children's Museum Corporation,Christopher Avenue Community School (23K401),112495664,-20000,DCLA,126,022,,
 6,2026-02-12,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,designate,,Mealy,Brooklyn Children's Museum Corporation,Riverdale Avenue Middle School (23K668),112495664,20000,DCLA,126,022,,
 6,2026-02-12,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,rescind,,Salaam,"Association Nationale Des Senegalais D'Amerique, Inc.",,133804747,-20000,DYCD,260,312,,
-6,2026-02-12,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,designate,,Salaam,"Association Nationale Des Senegalais D'Amerique, Inc.",Wadleigh Secondary School for the Salaam,133804747,20000,DYCD,260,312,,
-6,2026-02-12,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,rescind,,Salaam,"Performing & Visual Arts (03M415) Learning through an Expanded Arts Program, Inc.",Spruce Street Educational Campus Marte,132925233,-20000,DCLA,126,003,,
-6,2026-02-12,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,designate,,Salaam,"(02M397) Learning through an Expanded Arts Program, Inc.",Public School 140M Nathan Straus Marte,132925233,20000,DCLA,126,003,,
-6,2026-02-12,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,rescind,,Salaam,"(01M140) Lee Ballroom Basix USA, Inc.",Public School / Intermediate School 266Q (26Q266),273218865,-20000,DCLA,126,003,,
+6,2026-02-12,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,designate,,Salaam,"Association Nationale Des Senegalais D'Amerique, Inc.",Wadleigh Secondary School for the Performing & Visual Arts (03M415),133804747,20000,DYCD,260,312,,
+6,2026-02-12,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,rescind,,Marte,"Learning through an Expanded Arts Program, Inc.",Spruce Street Educational Campus (02M397),132925233,-20000,DCLA,126,003,,
+6,2026-02-12,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,designate,,Marte,"Learning through an Expanded Arts Program, Inc.",Public School 140M Nathan Straus (01M140),132925233,20000,DCLA,126,003,,
+6,2026-02-12,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,rescind,,Lee,"Ballroom Basix USA, Inc.",Public School / Intermediate School 266Q (26Q266),273218865,-20000,DCLA,126,003,,
 6,2026-02-12,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,designate,,Lee,"Ballroom Basix USA, Inc.",Public School 046Q Alley Pond(26Q046),273218865,20000,DCLA,126,003,,
 6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Marte,"Fourth Arts Block, Inc.",Council District 1,043767933,-10000,DYCD,260,005,,
 6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Marte,Department of Youth and Community Development,,136400434,10000,DYCD,260,005,,
 6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Marte,Department of Youth and Community Development,,136400434,-10000,DYCD,260,005,,**
 6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Marte,"Fourth Arts Block, Inc.",Council District 1,043767933,10000,DCLA,126,003,,**
-6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Marte,"Ballroom Basix USA, Inc.",Public School 104Q The Bays Water (27Q104) & Village Academy Brooks-Powers,273218865,-10000,DCLA,126,003,,
-6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Marte,"(27Q319) Ballroom Basix USA, Inc.",Public School 104Q The Bays Water (27Q104) & Public School 195Q Brooks-Powers,273218865,10000,DCLA,126,003,,
-6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Marte,William Haberle (29Q195) Department of Cultural Affairs,,136400434,-15000,DCLA,126,003,,
-6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Marte,"Association of Dominican Classical Artists, Inc.",Washington Heights Community Conservatory Abreu,133843597,15000,DCLA,126,003,,
-6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Marte,"- Council District 7 Louis Roads to Success, Inc.",Cultural & Professional Development Programs - Council District 45,113599459,-10000,DCLA,126,003,,
-6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Marte,Department of Cultural Affairs,,136400434,10000,DCLA,126,003,,
-6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Marte,Department of Cultural Affairs,,136400434,-10000,DCLA,126,003,,**
+6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Brooks-Powers,"Ballroom Basix USA, Inc.",Public School 104Q The Bays Water (27Q104) & Village Academy (27Q319),273218865,-10000,DCLA,126,003,,
+6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Brooks-Powers,"Ballroom Basix USA, Inc.",Public School 104Q The Bays Water (27Q104) & Public School 195Q William Haberle (29Q195),273218865,10000,DCLA,126,003,,
+6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Brooks-Powers,Department of Cultural Affairs,,136400434,-15000,DCLA,126,003,,
+6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Abreu,"Association of Dominican Classical Artists, Inc.",Washington Heights Community Conservatory - Council District 7,133843597,15000,DCLA,126,003,,
+6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Louis,"Roads to Success, Inc.",Cultural & Professional Development Programs - Council District 45,113599459,-10000,DCLA,126,003,,
+6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Louis,Department of Cultural Affairs,,136400434,10000,DCLA,126,003,,
+6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Louis,Department of Cultural Affairs,,136400434,-10000,DCLA,126,003,,**
 6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Louis,"Roads to Success, Inc.",Cultural & Professional Development Programs - Council District 45,113599459,10000,DYCD,260,005,,**
 6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Louis,Department of Youth and Community Development,,136400434,-10000,DYCD,260,005,,
 6,2026-02-12,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Zhuang,"Edith and Carl Marks Jewish Community House of Bensonhurst, Inc.",Council District 43,111633484,10000,DYCD,260,005,,
@@ -136,9 +136,9 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2026-02-12,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,designate,,Stevens,Northern Manhattan Coalition for Immigrant Rights,Council District 16,133255591,10000,DSS/HRA,069,112,,
 6,2026-02-12,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,designate,,Salaam,Afrikana Corporation,Council District 9,932592894,15000,DSS/HRA,069,112,,
 6,2026-02-12,NYC Cleanup - Fiscal 2026,2026,rescind,,,Department of Sanitation,,136400434,-10000,DSNY,827,102,,**
-6,2026-02-12,NYC Cleanup - Fiscal 2026,2026,designate,,,"Association of Community Employment Programs for the Homeless, Inc.",Sanitation Services - Restler,133846431,10000,DYCD,260,005,,
-6,2026-02-12,NYC Cleanup - Fiscal 2026,2026,rescind,,,South Williamsburg ** Department of Sanitation,,136400434,-15000,DSNY,827,109,,**
-6,2026-02-12,NYC Cleanup - Fiscal 2026,2026,designate,,,"Association of Community Employment Programs for the Homeless, Inc.",Snow Removal - Stevens,133846431,15000,DYCD,260,005,,
+6,2026-02-12,NYC Cleanup - Fiscal 2026,2026,designate,,Restler,"Association of Community Employment Programs for the Homeless, Inc.",Sanitation Services - South Williamsburg,133846431,10000,DYCD,260,005,,**
+6,2026-02-12,NYC Cleanup - Fiscal 2026,2026,rescind,,Restler,Department of Sanitation,,136400434,-15000,DSNY,827,109,,**
+6,2026-02-12,NYC Cleanup - Fiscal 2026,2026,designate,,Stevens,"Association of Community Employment Programs for the Homeless, Inc.",Snow Removal - Council District 16,133846431,15000,DYCD,260,005,,**
 6,2026-02-12,SU-CASA - Fiscal 2026,2026,rescind,,,Department of Cultural Affairs,,136400434,-45000,DCLA,126,003,,
 6,2026-02-12,SU-CASA - Fiscal 2026,2026,designate,,,"Thomas-Henry Spanish Theatre Repertory Company, Ltd.",Corona OAC,132672755,15000,DCLA,126,003,,
 6,2026-02-12,SU-CASA - Fiscal 2026,2026,designate,,Mealy,"Nia Theatrical Production Company, Inc.",Wayside Out Tilden Senior Center,113427470,15000,DCLA,126,003,,

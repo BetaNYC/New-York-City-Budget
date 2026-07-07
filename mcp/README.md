@@ -1,0 +1,67 @@
+# mcp/ — NYC Budget MCP server (prototype)
+
+A local Model Context Protocol (MCP) server that wraps this repository's data — NYC Council discretionary funding (Schedule C), Terms & Conditions, Section 254 capital changes, the FY2026 Transparency Resolutions, and the FY2008–FY2027 Legistar crosswalk — and exposes it to MCP-capable AI clients as structured query tools.
+
+> **Status: prototype.** This validates the tool design against real data before deciding whether it becomes a public BetaNYC MCP. It reads the repo's `data/` tree directly (no vendored copy), builds a local SQLite index, and serves it over stdio.
+
+It reads the parent repo's own `../data/` tree directly — there is no copied CSV snapshot to keep in sync. Data and query layer live in one repo and move together.
+
+## Data scope (read this first)
+
+| Dataset | Coverage | Notes |
+|---|---|---|
+| Schedule C awards | **FY2025–FY2027** | FY2008–FY2024 are not parsed to CSV yet (source PDFs only) |
+| Terms & Conditions | **FY2025–FY2027** | |
+| Capital (§254) | **FY2025–FY2027** | FY2025 is a different, non-reconcilable document type |
+| Transparency Resolutions | **FY2026** | The FY2026 file also carries embedded FY2023–FY2025 rows |
+| Legistar crosswalk | **FY2008–FY2027** | Provenance index; covers years not yet parsed to CSV |
+
+The tools do **not** pretend pre-FY2025 award/terms/capital data exists. `list_available_fiscal_years` reports the gap explicitly.
+
+## Tools
+
+| Tool | Purpose |
+|---|---|
+| `search_awards` | Schedule C awards by EIN / organization / program / council member / fiscal year / category / initiative |
+| `get_awards_by_ein` | Every award for an EIN across FY2025–FY2027, with per-year totals |
+| `search_transparency_resolutions` | FY2026 post-adoption designations / rescissions / purpose changes |
+| `get_legistar_link` | Legistar matter/URL/adoption date for a source document (surfaces `status`) |
+| `search_capital_projects` | §254 capital by agency / fiscal year / sponsor / title |
+| `get_terms_conditions` | Reporting mandates by fiscal year / agency |
+| `list_available_fiscal_years` | What each dataset actually covers (the parse-gap guard) |
+
+### The fiscal-sponsor caveat (important for correct EIN use)
+
+EIN is the only reliable cross-system join key, **but a single EIN can be a fiscal sponsor** covering dozens of programs. EIN `13-2612524` ("Delegation Fund for the City of New York, Inc.") is a passthrough — to isolate one grantee (e.g. BetaNYC) filter by `program` as well as `ein`. `get_awards_by_ein` honestly returns the whole pool; `search_awards(ein, program)` narrows it. (A maintained fiscal-sponsor alias table is future work — see the user-journeys doc.)
+
+## Architecture
+
+Modeled on [`@betanyc/nyc-charter-laws-rules`](https://github.com/BetaNYC/nyc-charter-laws-rules) — a local/offline corpus with no live upstream API. TypeScript + the MCP SDK + zod, served over stdio.
+
+- **`../data/`** — the parent repo's real CSVs (the single source of truth). This server reads them directly; there is no vendored snapshot inside `mcp/`.
+- **`scripts/build-index.mjs`** — reads those CSVs and builds a local **SQLite** index (`mcp/data/budget.db`, git-ignored) via `better-sqlite3`. Idempotent: the `.db` is dropped and rebuilt each run. SQLite (not DuckDB) was chosen to match `nyc-council-mcp`'s established BetaNYC pattern and its synchronous query style.
+- **`src/db.ts`** — opens the `.db` read-only and exposes one query function per tool.
+- **`src/server.ts` / `src/index.ts`** — MCP tool definitions, zod-validated routing, stdio transport.
+
+CSV parsing uses `csv-parse` because organization names contain quoted commas (`"El Puente de Williamsburg, Inc."`) that a naive split corrupts.
+
+## Build & run
+
+From inside `mcp/`:
+
+```bash
+npm install          # runs prepare → build + build-index
+npm start            # launch the MCP server over stdio
+npm run build-index  # rebuild mcp/data/budget.db from ../data/
+npm test             # build + build-index + run the journey tests
+```
+
+`mcp/data/budget.db` is a build artifact (git-ignored); `npm install` regenerates it from `../data/`.
+
+## Tests
+
+`test/journeys.test.js` re-runs all 8 user journeys from `people/noel/work/2026-07-07-mcp-budget-user-journeys.md` (in the BetaNYC workspace) against the real MCP tools, driven in-process through the MCP protocol via `InMemoryTransport`, asserting the same real answers found by hand: BetaNYC EIN `13-2612524` (FY25 $115k / FY26 $115k / FY27 $95k), Council District 33 / Restler capital ($18,750,000 across 12 FY2026 projects), and the FY2026 Transparency Resolution 1 Noel Pointer → El Puente CASA transfer. Journey 8 (Socrata cross-source diff) is genuinely blocked; the test asserts the MCP correctly reports the FY2008–FY2024 parse gap instead.
+
+## Provenance & licensing
+
+This server reads the repo's own derived data. Provenance, reconciliation status, and licensing are covered by the [repository README](../README.md) and [`LICENSE`](../LICENSE): derived data and code are MIT; the underlying budget documents are © The City of New York.

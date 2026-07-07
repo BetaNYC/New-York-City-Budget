@@ -1,0 +1,53 @@
+{
+  "name": "nyc-budget-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PROTOTYPE (local-only, unpublished) MCP server for BetaNYC's New York City Budget data — Council discretionary funding (Schedule C), Terms & Conditions, Section 254 capital changes, FY2026 Transparency Resolutions, and the FY2008–FY2027 Legistar crosswalk.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "nyc",
+    "new-york-city",
+    "civic-tech",
+    "open-data",
+    "budget",
+    "discretionary-funding",
+    "schedule-c",
+    "betanyc",
+    "prototype"
+  ],
+  "license": "MIT",
+  "author": "BetaNYC",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "nyc-budget-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "scripts"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build-index": "node scripts/build-index.mjs",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "prepare": "npm run build && npm run build-index",
+    "pretest": "npm run build && npm run build-index",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "better-sqlite3": "^12.10.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.0.0",
+    "csv-parse": "^5.5.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
