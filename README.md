@@ -21,7 +21,7 @@ City budgets are among the most consequential public documents there are, and am
 This repository has two kinds of content under two different terms:
 
 - **Source documents** (`source/`) are **© The City of New York**. They are official NYC Council adopted-budget publications, reproduced here as public records for transparency and analysis. All rights to those documents remain with the City of New York.
-- **Software and derived data** — the parser code in `code/`, the extracted CSVs in `data/`, and the analysis in `docs/` — are released under the **MIT License** (see [`LICENSE`](LICENSE)). This code was **built with [Claude](https://claude.ai)**.
+- **Software and derived data** — the parser code in `code/`, the extracted CSVs in `data/`, and the [analysis document](Insights-NYC-Council-Discretionary-FY25-FY27.md) — are released under the **MIT License** (see [`LICENSE`](LICENSE)). This code was **built with [Claude](https://claude.ai)**.
 
 If you use the derived data, please attribute BetaNYC and link back to this repository, and cite the City of New York as the source of the underlying documents.
 
@@ -35,8 +35,9 @@ Three Python parsers (in `code/`) read the PDF text layer and emit structured ro
 
 ```
 New-York-City-Budget/
-├── README.md            ← you are here
-├── LICENSE              ← MIT, for the code + derived data
+├── README.md                                       ← you are here
+├── Insights-NYC-Council-Discretionary-FY25-FY27.md ← narrative analysis
+├── LICENSE                                         ← MIT, for the code + derived data
 ├── source/              ← official NYC Council PDFs, © City of New York
 │   ├── FY25/  FY26/  FY27/
 ├── data/                ← extracted, reconciled CSVs
@@ -45,8 +46,7 @@ New-York-City-Budget/
 │   │   ├── terms/       Terms & Conditions (reporting mandates)
 │   │   └── capital/     Section 254 capital changes (FY27 only)
 │   └── combined/        all-years roll-ups
-├── code/                ← the three parser scripts + requirements.txt
-└── docs/                ← narrative analysis
+└── code/                ← the three parser scripts + requirements.txt
 ```
 
 ## The data files
