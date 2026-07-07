@@ -73,3 +73,66 @@ extension, or something to drop for cross-year consistency. Open question below.
 - The FY2022–FY2024 gap — see the sibling scoping doc; kept deliberately separate.
 - Parsing/extraction code — once scoped, this routes to `software-engineer` like any
   other extraction work in this repo.
+
+## Addendum: Legistar historical depth (checked 2026-07-07)
+
+**Data current as of:** 2026-07-07. Bounded research note, not an import — written for
+whoever picks up this task later. Checked as a side effect of the FY22 gap-fill task
+(finding FY2022's missing Resolution-A capital document required browsing Legistar
+directly), so the question "how far back does Legistar itself go, independent of
+council.nyc.gov's own archive pages and independent of the Open Data FY2009–2021
+dataset above" got a cheap answer along the way.
+
+**Method:** `legistar.council.nyc.gov/Legislation.aspx`'s own search UI (not the
+`nyc-council-mcp` local index — see caveat below), full-text search restricted to
+"All Years," probing for the Schedule-C-equivalent legislative pattern: Committee-on-
+Finance resolutions titled "Resolution approving the... designation of certain
+organizations to receive funding in the Fiscal `NNNN` Expense Budget."
+
+**Findings — 3 data points:**
+
+1. **Legistar's own year-filter dropdown lists individual years back to 1994** (and
+   "Session 1998 to 2001," "Session 2010 to 2013," etc. groupings before that) — this
+   is the outer bound of what the system exposes at all, for any matter type.
+2. **General capital-budget-resolution matters ("Executive Capital Budget for FY'`NN`")
+   are confirmed present back to 1998** (`Res 0327-1998`, "Budget, Capital," introduced
+   1998-06-05) via a live full-text search on `nyc-council-mcp`'s
+   `search_legislation_live` tool for the phrase "CAPITAL PROGRAM FOR THE ENSUING THREE
+   YEARS" — one unbroken run of one-per-year matches, 1998 through 2026 (used directly
+   to find FY2022's document; see the sibling FY22–24 scoping doc).
+3. **Schedule-C-equivalent "designation of organizations to receive funding" resolutions
+   are confirmed back to the FY2008 budget cycle**, filed contemporaneously in 2007:
+   `Res 1090-2007`, "Resolution approving the designation of certain organizations to
+   receive funding in the Fiscal 2008 Expense Budget" (Committee on Finance, adopted).
+   Earlier retroactive/omnibus resolutions (e.g. `Res 0058-2010`, filed 2010, covering
+   "Fiscal 2007, Fiscal 2008, Fiscal 2009 and Fiscal 2010 Expense Budgets" in one
+   catch-up resolution) reference Fiscal 2007 designations too, but no *standalone*
+   Fiscal 2007-cycle designation resolution surfaced in this pass. A probe for the same
+   phrasing at "Fiscal 2000 Expense Budget" returned zero hits — inconclusive (could be
+   genuinely absent, or the practice existed under different phrasing/committee
+   structure that far back and isn't findable by this exact string).
+
+**Headline comparison:** Legistar's Schedule-C-equivalent coverage (confirmed to FY2008,
+filed 2007) predates NYC Open Data's `4d7f-74pe` floor (FY2009) by at least one budget
+cycle, and likely more if searched harder — this pass did not exhaustively probe FY2001–
+FY2007. It also goes meaningfully deeper than council.nyc.gov's own budget-archive pages,
+which (per the sibling FY22–24 scoping doc) only reliably expose FY2022 onward.
+
+**Caveat — tool quirk carried over from the FY22–24 pass:** `nyc-council-mcp`'s
+*local* full-text index (`search_bills`/`search_legislation`, not `_live`) still
+under-indexes Resolutions relative to Introductions (see that doc's global finding on
+Transparency Resolutions). All of the above was found via either the *live* Legistar API
+search (`search_legislation_live`, which is reliable but returns results sorted by
+last-modified rather than relevance/date, capped at the requested `limit`) or by
+browsing `legistar.council.nyc.gov`'s own web search UI directly. A future pass wanting
+a denser or more exhaustive year-by-year inventory should plan on the web UI, not the
+local index, and should budget for the "All Years" dropdown reverting to "This Year"
+after each AJAX postback (a recurring UI quirk that silently zeroes out results if not
+re-set before every search).
+
+**Not done in this pass (left for whoever picks up the import):** a systematic
+year-by-year sweep back through FY2001; confirming whether the pre-2007 practice used
+different title phrasing (e.g. no "designation" language) that a differently-worded
+search would catch; and cross-checking coverage depth against the Council's own
+Legistar "Session" groupings, which imply pre-1998 records may exist but weren't probed
+here.

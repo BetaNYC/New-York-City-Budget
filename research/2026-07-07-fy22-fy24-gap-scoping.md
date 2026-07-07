@@ -2,10 +2,12 @@
 
 **Report generated:** 2026-07-07
 **Data current as of:** 2026-07-07
-**Status:** Discovery pass complete. 11 of 12 possible core documents (Schedule C, Terms
-& Conditions, Capital ×2 document types where published) + all 37 transparency
-resolutions downloaded and format-tested against the existing FY25–27 parsers. Ready to
-hand to `software-engineer` for the parsing phase.
+**Last revised:** 2026-07-07 — FY2022's previously-missing Resolution-A capital document
+located via Legistar and added; see the FY2022 section and cross-year summary below.
+**Status:** Discovery pass complete. **12 of 12** possible core documents (Schedule C,
+Terms & Conditions, Capital ×2 document types) + all 37 transparency resolutions
+downloaded and format-tested against the existing FY25–27 parsers. Ready to hand to
+`software-engineer` for the parsing phase.
 
 ## Why this gap exists
 
@@ -143,16 +145,68 @@ test — real recipients, real money, right agencies, right fiscal year.
 
 ### FY2022
 
-**Source status — all four document types found and downloaded**, all directly from
-`council.nyc.gov/budget/fy2022/`:
+**Source status — all four document types found and downloaded.** Three came directly
+from `council.nyc.gov/budget/fy2022/`; the fourth (Resolution-A/Appropriation-Changes
+capital document) was not on council.nyc.gov and was instead located via Legistar in a
+2026-07-07 follow-up pass — see below.
 
 | Document | Local path | Status |
 |---|---|---|
 | Schedule C | `source/FY22/Fiscal-2022-Schedule-C-Merge-6.30.21.pdf` | Found, downloaded (326 pages) |
 | Terms & Conditions | `source/FY22/FY22-Terms-and-Conditions_FINAL.pdf` | Found, downloaded (18 pages) |
 | Capital (Section 254), Capital Project Detail type | `source/FY22/FY22-Sec254-Capital-Supporting-Detail-Book.pdf` | Found, downloaded (92 pages) |
-| Capital (Section 254), Resolution-A/Appropriation-Changes type | — | **Not found on council.nyc.gov.** The FY2022 archive page has only one capital link (the Supporting Detail Book above); no "Reso A Book" or "Changes To..." link is present, unlike FY2023/FY2024 (see below). Not chased via Wayback/Legistar within the time budget — flagged as an open gap, not confirmed unpublished. |
+| Capital (Section 254), Resolution-A/Appropriation-Changes type | `source/FY22/FY22-Sec254-Capital-ResoA-Book.pdf` | **Found via Legistar (2026-07-07), not council.nyc.gov.** Downloaded (78 pages). See "FY2022 Resolution-A capital document — found via Legistar" below for how. |
 | Transparency Resolutions | `source/FY22/transparency-resolutions/` | All 14 found and downloaded (`Transparency-Reso-01-2021-07-29.pdf` … `Transparency-Reso-14-2022-06-13.pdf`, covering July 29, 2021 – June 13, 2022) |
+
+**FY2022 Resolution-A capital document — found via Legistar (2026-07-07).** The
+FY2022 archive page on council.nyc.gov genuinely only ever published the Capital Project
+Detail / Supporting Detail Book; it does not link a Resolution-A/"Changes To..." capital
+document the way FY2023/FY2024 do. That document exists — it's Council legislation, not
+a missing publication — and was found directly on `legistar.council.nyc.gov`:
+
+- **Legistar file:** `Res 1701-2021`, "M 301 - Executive Capital Budget for FY'22,"
+  Committee on Finance, sponsor Daniel Dromm, adopted 2021-06-30. Title: "RESOLUTION BY
+  THE NEW YORK CITY COUNCIL PURSUANT TO SECTION 254 OF THE NEW YORK CITY CHARTER... BE
+  AND THE SAME ARE HEREBY APPROVED IN ACCORDANCE WITH THE FOLLOWING SCHEDULE OF CHANGES
+  (RESOLUTION A)." (Its companion, `Res 1702-2021`, is Resolution B — the total-amounts
+  adoption resolution, not the schedule of changes; not the document sought here.)
+- **How it was found:** `nyc-council-mcp`'s `search_legislation_live` tool (live
+  Legistar API) does support full-text search, but only if queried with short/generic
+  terms — multi-word phrases like "section 254 capital budget" or "Resolution A capital"
+  returned zero hits, while single terms like "budget," "capital," or "254" worked (the
+  API appears to require single-token matches and sorts by last-modified, not
+  relevance/date, capped at the requested `limit`). Searching "254" and "capital"
+  separately and grepping the results for the phrase "CAPITAL PROGRAM FOR THE ENSUING
+  THREE YEARS" surfaced one Resolution-A/Resolution-B pair per fiscal year going back to
+  1998, including FY2022's pair. The companion pattern (Resolution A is always the
+  Legistar file number immediately below Resolution B, e.g. FY24's A/B pair is
+  `Res 0708-2023`/`Res 0709-2023`) both confirmed the FY2022 identification and located
+  FY2023's Resolution A (`Res 0227-2022`, already in hand from council.nyc.gov as
+  `FY23-Sec254-Capital-ResoA-Book.pdf`) as a cross-check.
+- **Getting the PDF:** `get_bill`/`get_bill_history` on the MCP do not surface
+  attachments. The attachment list only appears on Legistar's own web `Legislation
+  Details` page (browsed via Claude in Chrome), which listed 11 attachments for
+  `Res 1701-2021` including "FY'22 Changes To the Executive Capital Budget Adopted by
+  the City Council" — the document itself, titled identically to FY2024's
+  council.nyc.gov filename. Downloaded directly from Legistar's `View.ashx` attachment
+  endpoint.
+- **Content check:** opens "The City of New York / Fiscal Year 2022 Changes To the
+  Executive Capital Budget Adopted by the City Council / Pursuant to Section 254 of the
+  City Charter" — same document type/title convention as FY23's `FY23-Sec254-Capital-
+  ResoA-Book.pdf` and FY24's `Fiscal-Year-2024-Changes-To-The-Executive-Capital-Budget-
+  Adopted-by-the-City-Council.pdf`.
+- **Format note (for `software-engineer`, supplementing the deviation below):** ran
+  `parse_capital_fy25.py` unmodified against this file. It correctly walks the
+  document's structure — 151 change blocks identified across 23 agencies, matching the
+  agency-header/budget-line-code parsing logic FY23/FY24 use successfully — but every
+  dollar amount reads as `$0`. Root cause: the parser's `MONEY` regex expects an amount
+  token concatenated with its suffix, e.g. `160,000(CN)` as one word. FY2022's PDF
+  renders the *first* amount column with a space before `(CN)` (`160,000 (CN)`, split
+  into two separate word objects by `pdfplumber`) while later columns in the same row
+  are concatenated (`0(CN)`, no space) — an inconsistent, column-position-dependent
+  spacing quirk not present in FY23/FY24's source PDFs. A fix needs the amount-detection
+  logic to also match a bare number token immediately followed by a separate `(CN)`
+  token, not just the single concatenated-token form.
 
 **Transparency-resolution-equivalent legislation inventory:** 14 resolutions, titled
 "Transparency Resolution #1–#14" on the council.nyc.gov page itself — same name FY26
@@ -201,15 +255,19 @@ uses. Confirms the practice and the naming both predate FY26 by at least 4 years
 
 **Feasibility verdict:** Schedule C — parseable today, zero code changes. Terms &
 Conditions — needs a small `_legacy` HEADER-regex variant (no line-order/layout fix
-needed, moderate effort, maybe an hour of work). Capital — needs a pdfplumber
-coordinate-clustering rewrite following the pattern already established in
-`parse_capital_fy25.py`/`parse_transparency_reso.py` (higher effort than T&C, lower than
-building from scratch since the technique is proven in-repo). Transparency Resolutions —
-parseable today with the single-PDF invocation of `parse_transparency_reso.py`; only
-`batch()` needs its hardcoded `!= 10` PDF-count assertion (`code/parse_transparency_reso.py:259`)
-parameterized to accept 14. The missing Reso-A/Appropriation-Changes capital document is
-the one open item requiring a follow-up decision (accept the gap, or spend more time on
-Wayback/Legistar).
+needed, moderate effort, maybe an hour of work). Capital (Capital Project Detail /
+Supporting Detail Book type) — needs a pdfplumber coordinate-clustering rewrite
+following the pattern already established in `parse_capital_fy25.py`/
+`parse_transparency_reso.py` (higher effort than T&C, lower than building from scratch
+since the technique is proven in-repo). Capital (Resolution-A/Appropriation-Changes
+type) — document now in hand (found via Legistar, 2026-07-07); `parse_capital_fy25.py`
+correctly parses its structure (151 change blocks, 23 agencies) but needs a small
+amount-regex fix for a space-before-`(CN)` tokenization quirk in the first amount column
+(see format note above) — low effort, smaller than the T&C fix. Transparency
+Resolutions — parseable today with the single-PDF invocation of
+`parse_transparency_reso.py`; only `batch()` needs its hardcoded `!= 10` PDF-count
+assertion (`code/parse_transparency_reso.py:259`) parameterized to accept 14. **No open
+gaps remain** — all 12 core documents across FY2022–FY2024 are now downloaded.
 
 ---
 
@@ -311,11 +369,11 @@ FY24-specific new work.
 | Schedule C | Found, reconciles 24/26 | Found, reconciles 26/26 | Found, reconciles 24/26 | **None** — `parse_schedule_c.py` works as-is on all three |
 | Terms & Conditions | Found, 0 rows (unnumbered headers + bare Capital Budget items) | Same deviation | Same deviation | **One shared variant** — HEADER regex without leading-number requirement + synthetic item_number + a second bare-"Capital Budget" header pattern. Same fix serves all three years. |
 | Capital — Capital Project Detail ("Supporting Detail Book") | Found, 0 projects (pypdf column-scrambling) | Same deviation | Same deviation | **One shared pdfplumber rewrite** — apply the coordinate-clustering technique already proven in `parse_capital_fy25.py`/`parse_transparency_reso.py`. Subtotals exist for reconciliation in all three years (34/32/32 `TOTALS FOR` lines). |
-| Capital — Resolution A / Appropriation Changes | **Not found** on council.nyc.gov (open gap) | Found, parses cleanly with `parse_capital_fy25.py` unmodified | Found, parses cleanly with `parse_capital_fy25.py` unmodified | **None** for FY23/FY24. FY22 needs a decision: accept the gap, or spend more time chasing Wayback/Legistar. |
+| Capital — Resolution A / Appropriation Changes | Found via Legistar (2026-07-07, not council.nyc.gov), 151 change blocks parse but amounts read $0 (tokenization quirk) | Found, parses cleanly with `parse_capital_fy25.py` unmodified | Found, parses cleanly with `parse_capital_fy25.py` unmodified | **Small amount-regex fix for FY22** (space-before-`(CN)` tokenization in the first amount column only). **None** for FY23/FY24. |
 | Transparency Resolutions | Found, 14 resos, parses cleanly per-PDF | Found, 14 resos, parses cleanly per-PDF | Found, 9 resos, parses cleanly per-PDF | **None** for single-PDF parsing. `batch()`'s hardcoded `!= 10` count assertion (line 259) needs to accept 14/14/9 instead of always-10. |
 
-**Total new source material added:** 11 core PDFs (3 FY22 + 4 FY23 + 4 FY24 — FY22 is one
-short because its Resolution-A/Appropriation-Changes capital document wasn't found) + 37
-transparency-resolution PDFs (14 + 14 + 9) = 48 files across `source/FY22/`,
-`source/FY23/`, `source/FY24/` (including `transparency-resolutions/` subfolders),
-roughly 50MB combined.
+**Total new source material added:** 12 core PDFs (4 FY22 + 4 FY23 + 4 FY24 — full parity
+across all three years, including FY2022's Resolution-A capital document found via
+Legistar on 2026-07-07) + 37 transparency-resolution PDFs (14 + 14 + 9) = 49 files across
+`source/FY22/`, `source/FY23/`, `source/FY24/` (including `transparency-resolutions/`
+subfolders), roughly 50MB combined.
