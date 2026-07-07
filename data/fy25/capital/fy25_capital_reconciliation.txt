@@ -1,0 +1,39 @@
+CAPITAL (§254) EXTRACTION — NOT RECONCILABLE (fy25)
+source: Fiscal-2025-Capital-Changes.pdf (88 pages)
+
+FY2025 is the Section-254 APPROPRIATION-CHANGES schedule ('Changes to Part I'), a
+different document type than FY2026/FY2027 'Capital Project Detail'. It contains NO
+'TOTALS FOR <agency> (N PROJECTS)' subtotal lines, so there is NOTHING to reconcile
+the FY27 way. It also has no borough / sub-id / council-sponsor columns (emitted empty).
+The single printed total is a citywide grand total ($15.28B), the whole adopted budget,
+not the sum of these changes. Numbers below are the sum of the printed (CN) change
+amounts per agency, provided for sanity only — there is no printed subtotal to check them
+against.
+
+change blocks parsed: 149
+total FY2025 (CN) change amount: $5,219,850,599
+
+AGENCY                                              sum FY2025 (CN)   blocks
+ADMIN FOR CHILDREN'S SERVICES                             1,199,000        4
+BROOKLYN PUBLIC LIBRARY                                  25,000,000        1
+CULTURAL INSTITUTIONS                                    80,419,000       56
+DEP EQUIPMENT                                               210,000        1
+DEPARTMENT FOR THE AGING                                    404,000        3
+ECONOMIC DEVELOPMENT                                     25,483,000       16
+EDUCATION                                             3,698,686,000        2
+FIRE                                                     91,177,812        1
+HEALTH                                                   35,238,000       19
+HEALTH & HOSPITALS CORP.                                 56,000,000        1
+HIGHER EDUCATION                                         45,542,747        2
+HIGHWAYS                                                 22,835,566        4
+HOUSING & DEVELOPMENT                                   195,766,859        4
+HOUSING AUTHORITY                                       363,175,281        1
+HUMAN RESOURCES                                           4,196,000        5
+NEW YORK PUBLIC LIBRARY                                  48,935,648        1
+PARKS                                                   235,312,832        7
+POLICE                                                   18,691,863        1
+PUBLIC BUILDINGS                                        166,819,194       15
+QUEENS BOROUGH PUB. LIB.                                 28,500,000        1
+RESILIENCY, TECHNOLOGY & EQUIP.                           5,000,000        1
+SANITATION                                                  668,000        1
+TRAFFIC                                                  70,589,797        2

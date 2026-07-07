@@ -1,0 +1,57 @@
+FY2026 NYC COUNCIL TRANSPARENCY RESOLUTIONS - PARSE + RECONCILIATION NOTES
+==============================================================================
+
+RECONCILIATION STATUS: NOT RECONCILABLE (against printed totals).
+These documents print NO per-chart or grand totals -- only award rows. There is
+nothing in the source to reconcile parsed dollar sums against. The figures below
+are parse counts, not reconciled totals. The one internal consistency check the
+documents permit is the transfer net-out: within a chart a rescission (negative)
+and its paired re-designation (positive) should net to ~0. Reported as "net".
+
+reso date          rows      designate$        rescind$          net$
+----------------------------------------------------------------------
+   1 2025-08-14     985     126,810,193    -125,531,859     1,278,334
+   2 2025-09-25    1638      63,618,264     -63,783,118      -164,854
+   3 2025-10-29     832      40,843,076     -40,843,076             0
+   4 2025-11-25     487      19,229,877     -19,229,877             0
+   5 2025-12-18     162       4,451,702      -6,506,702    -2,055,000
+   6 2026-02-12     190       5,026,756      -5,021,756         5,000
+   7 2026-03-10      78       4,250,649      -4,250,649             0
+   8 2026-04-16      91       1,257,393      -1,256,393         1,000
+   9 2026-05-20     141       2,089,404      -2,089,404             0
+  10 2026-06-30     151       6,429,739      -6,414,739        15,000
+----------------------------------------------------------------------
+ ALL               4755     274,007,053    -274,927,573      -920,520
+
+rows by action:  designate=2868  purpose_change=596  rescind=1291
+rows by fiscal year:  ?=1  2023=8  2024=92  2025=226  2026=4428
+
+unresolved organization (dense-chart text-layer artifacts): 9 of 4755 rows (0.19%) -- amount/EIN/agency captured, org name orphaned
+
+SPOTLIGHT - Artificial Intelligence Community Engagement (AICE, $1M initiative):
+  resolution 3 (2025-10-29), 24 rows, net $0
+  rescinded from pool: $-1,000,000 (Department of Youth and Community Development)
+  designated to 23 named recipients ($1,000,000):
+    $   36,000  African Communities Together, Inc.
+    $   36,000  Arab American Association of New York, Inc.
+    $   36,000  Bronx Tech Hub, Inc.
+    $   36,000  Center for Family Life in Sunset Park, Inc.
+    $   36,000  Chinese American Planning Council, Inc.
+    $   36,000  Door
+    $   36,000  East River Development Alliance, Inc.
+    $   36,000  Educational Video Center, Inc.
+    $   36,000  El Puente de Williamsburg, Inc.
+    $   36,000  Faith in New York
+    $  208,000  Fund for the City of New York, Inc.
+    $   36,000  Hamilton-Madison House, Inc.
+    $   36,000  Jewish Community Center of Staten Island, Inc.
+    $   36,000  Knowledge House Fellowship, Inc., The
+    $   36,000  Mosholu-Montefiore Community Center, Inc.
+    $   36,000  NAACP New York State Conference
+    $   36,000  New Immigrant Community Empowerment (NICE)
+    $   36,000  New York LGBT Network, Inc.
+    $   36,000  Northern Manhattan Improvement Corporation
+    $   36,000  Older Adults Technology Services (OATS), Inc.
+    $   36,000  Smart Community Initiative, Inc.
+    $   36,000  Union Settlement Association, Inc.
+    $   36,000  United Cerebral Palsy of New York City, Inc.

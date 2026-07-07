@@ -1,0 +1,117 @@
+#!/usr/bin/env python3
+"""
+Regression tests for the FY25/FY26 capital parsers.
+
+Two layers:
+  1. Invariants on the committed output CSVs (always run) — schema, no column bleed, and the
+     hard reconciliation facts (FY26 grand totals tie exactly; the one negative adjustment).
+  2. Re-parse from the source PDF when it is present (skipped in CI / on machines without the
+     iCloud source tree) — asserts FY26 reconciles 31/31 and both grand totals match.
+
+Run: pytest code/test_parse_capital.py   (or: python code/test_parse_capital.py)
+"""
+import csv, os, sys, subprocess
+import pytest
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.dirname(HERE)
+FY26_CSV = os.path.join(REPO, "data", "fy26", "capital", "fy26_capital_projects.csv")
+FY25_CSV = os.path.join(REPO, "data", "fy25", "capital", "fy25_capital_projects.csv")
+
+FY27_COLS = ["part", "agency", "budget_line", "sub_id", "boro", "fy1", "fy2", "fy3", "fy4",
+             "sponsor", "title", "building_code", "school_code"]
+BORO = set("MXKQRA")
+
+# Source PDFs (iCloud tree; absent in CI). Set via env to override.
+SRC = os.environ.get("NYC_BUDGET_SRC",
+    "/Users/noneck/Library/Mobile Documents/iCloud~md~obsidian/Documents/"
+    "Apple Notes/INBOX/NYC Budget FY 27/Source Documents")
+FY26_PDF = os.path.join(SRC, "FY 26", "Fiscal-2026-Capital-Budget-Supporting-Details-1.pdf")
+FY25_PDF = os.path.join(SRC, "FY 25", "Fiscal-2025-Capital-Changes.pdf")
+AWARDS = [os.path.join(REPO, "data", fy, "schedule_c", f"{fy}_schedule_c_awards.csv")
+          for fy in ("fy25", "fy26", "fy27")]
+
+
+def _rows(path):
+    with open(path) as f:
+        return list(csv.DictReader(f))
+
+
+# ---------- layer 1: committed-CSV invariants ----------
+
+@pytest.mark.skipif(not os.path.exists(FY26_CSV), reason="fy26 output not generated")
+def test_fy26_schema_and_columns():
+    rows = _rows(FY26_CSV)
+    assert rows and list(rows[0].keys()) == FY27_COLS
+    for r in rows:
+        assert r["part"] in ("I", "II")
+        assert r["agency"] and r["title"]
+        assert r["boro"] in BORO
+        assert len(r["budget_line"].split()) == 2   # 'AG CN0584'
+        assert len(r["sub_id"].split()) == 2         # 'AG D001'
+        # no wide/negative amount bled into the title
+        for tok in r["title"].split():
+            assert not tok.lstrip("-").replace(",", "").isdigit() or len(tok) < 7
+
+
+@pytest.mark.skipif(not os.path.exists(FY26_CSV), reason="fy26 output not generated")
+def test_fy26_grand_totals_tie_exactly():
+    rows = _rows(FY26_CSV)
+    def part(p):
+        rs = [r for r in rows if r["part"] == p]
+        return sum(int(r["fy1"]) for r in rs), len(rs)
+    assert part("I") == (779_320_000, 1259)    # printed 'TOTALS FOR ALL (1259 PROJECTS)'
+    assert part("II") == (203_243_000, 197)    # printed 'TOTALS FOR ALL (197 PROJECTS)'
+
+
+@pytest.mark.skipif(not os.path.exists(FY26_CSV), reason="fy26 output not generated")
+def test_fy26_negative_adjustment_present():
+    # PV MA0005 is a -183,000 FY2026 adjustment; missing it desyncs Cultural Institutions.
+    rows = _rows(FY26_CSV)
+    neg = [r for r in rows if int(r["fy1"]) < 0]
+    assert len(neg) == 1 and neg[0]["budget_line"] == "PV MA0005" and neg[0]["fy1"] == "-183000"
+
+
+@pytest.mark.skipif(not os.path.exists(FY25_CSV), reason="fy25 output not generated")
+def test_fy25_shape():
+    import re
+    rows = _rows(FY25_CSV)
+    assert rows and "action" in rows[0]          # FY25-only extra column
+    code = re.compile(r"^[A-Z]{1,3}-D[A-Z0-9]+$")
+    for r in rows:
+        assert r["part"] == "I"
+        assert code.match(r["budget_line"])
+        assert r["agency"] and r["title"]
+        assert r["boro"] == "" and r["sub_id"] == "" and r["sponsor"] == ""  # not in this doc
+
+
+# ---------- layer 2: re-parse from source PDF (skipped without the PDFs) ----------
+
+@pytest.mark.skipif(not os.path.exists(FY26_PDF), reason="FY26 source PDF not available")
+def test_fy26_reparse_reconciles_31_of_31(tmp_path):
+    import parse_capital_fy26 as P
+    roster = P.load_roster(AWARDS)
+    projects, subtotals = P.parse(FY26_PDF, roster)
+    for p in projects:
+        p["sponsor"] = p.get("sponsor", "")
+    from collections import defaultdict
+    got = defaultdict(int); cnt = defaultdict(int)
+    for p in projects:
+        got[(p["part"], p["agency"])] += p["fy1"]; cnt[(p["part"], p["agency"])] += 1
+    ok = sum(1 for st in subtotals
+             if got[(st["part"], st["agency"])] == st["fy1"]
+             and cnt[(st["part"], st["agency"])] == st["projects"])
+    assert (ok, len(subtotals)) == (31, 31)
+
+
+@pytest.mark.skipif(not os.path.exists(FY25_PDF), reason="FY25 source PDF not available")
+def test_fy25_reparse_block_count():
+    import parse_capital_fy25 as P
+    projects = P.parse(FY25_PDF)
+    assert len(projects) == 149
+    assert all(p["part"] == "I" for p in projects)
+
+
+if __name__ == "__main__":
+    sys.path.insert(0, HERE)
+    raise SystemExit(pytest.main([__file__, "-v"]))

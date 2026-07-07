@@ -1,0 +1,79 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+7,2026-03-10,Local Initiatives - Fiscal 2026,2026,rescind,,Paladino,Department of Parks and Recreation,Holiday Lighting - Bowne Park,136400434,-5000,DPR,846,006,,
+7,2026-03-10,Local Initiatives - Fiscal 2026,2026,designate,,Paladino,Department of Parks and Recreation,Council District 19,136400434,5000,DPR,846,006,,
+7,2026-03-10,Local Initiatives - Fiscal 2026,2026,rescind,,Paladino,"Jewish Community Council of Greater Coney Island, Inc.",Staten Island Speaker,112665181,-50000,DYCD,260,005,,
+7,2026-03-10,Local Initiatives - Fiscal 2026,2026,designate,,Paladino,"Community Shuttle Jewish Community Council of Greater Coney Island, Inc.",Southern Brooklyn Speaker,112665181,50000,DYCD,260,005,,
+7,2026-03-10,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,"Entertainers for Education Alliance, Inc.",,432115174,-50000,DYCD,260,312,,
+7,2026-03-10,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,Department of Education,Community School District 28-MBK/MSK,136400434,-15000,DOE,040,402,,**
+7,2026-03-10,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Department of Education,Community School District 28-MBK/MSK,136400434,15000,DOE,040,401,,**
+7,2026-03-10,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,Battered Women's Resource Center,,113302911,-40000,DYCD,260,402,,
+7,2026-03-10,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Battered Women's Resource Center, Inc.",,113302911,40000,DYCD,260,402,,
+7,2026-03-10,A Greener NYC - Fiscal 2026,2026,rescind,,De La Rosa,Friends of WHEELS,Environmental Programming & Education,421775449,-10000,DYCD,260,005,,
+7,2026-03-10,A Greener NYC - Fiscal 2026,2026,designate,,De La Rosa,"Futures Ignite, Inc.",Environmental Programming & Education,421775449,10000,DYCD,260,005,,
+7,2026-03-10,Digital Inclusion and Literacy Initiative - Fiscal 2026,2026,rescind,,Mealy,"Digital Girl, Inc.",Public School 184K Newport (23K184),472288307,-20000,DYCD,260,005,,
+7,2026-03-10,Digital Inclusion and Literacy Initiative - Fiscal 2026,2026,designate,,Mealy,"Digital Girl, Inc.",Public School 189K The Bilingual Center (17K189) & Public School 770K New Mealy,472288307,20000,DYCD,260,005,,
+7,2026-03-10,Digital Inclusion and Literacy Initiative - Fiscal 2026,2026,rescind,,Mealy,American Academy (17K770) De La Rosa Friends of WHEELS,College & Career Pathways Program,421775449,-25000,DYCD,260,005,,
+7,2026-03-10,Digital Inclusion and Literacy Initiative - Fiscal 2026,2026,designate,,De La Rosa,"Futures Ignite, Inc.",College & Career Pathways Program,421775449,25000,DYCD,260,005,,
+7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,rescind,,,Battered Women's Resource Center,,113302911,-60000,DSS/HRA,069,112,,
+7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,designate,,,"Battered Women's Resource Center, Inc.",,113302911,60000,DSS/HRA,069,112,,
+7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,rescind,,Mealy,Battered Women's Resource Center,Domestic Violence & Counseling - Council District 41,113302911,-15000,DSS/HRA,069,112,,
+7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,designate,,Mealy,"Battered Women's Resource Center, Inc.",Domestic Violence & Counseling - Council District Mealy,113302911,15000,DSS/HRA,069,112,,
+7,2026-03-10,Food Pantries - Fiscal 2026,2026,rescind,,,Queens Delegation Food Bank For New York City,Buddhist Tzu Chi Foundation - EFRO# 85511,133179546,-4849,DYCD,260,005,,
+7,2026-03-10,Food Pantries - Fiscal 2026,2026,designate,,,Queens Delegation Buddhist Tzu Chi Foundation,Food Distribution - Council District 20,942952782,4849,DYCD,260,005,,
+7,2026-03-10,NYC Cleanup - Fiscal 2026,2026,rescind,,Hanks,"Silver Mount Cemetery Conservancy, Incorporated",,882833328,-10000,DYCD,260,005,,
+7,2026-03-10,NYC Cleanup - Fiscal 2026,2026,designate,,Hanks,"Silver Mount Cemetery Association, Inc.",,135579013,10000,DYCD,260,005,,
+7,2026-03-10,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,rescind,,Brooks-Powers,"Ballroom Basix USA, Inc.",Public School 197Q The Ocean School (27Q197),273218865,-20000,DCLA,126,003,,
+7,2026-03-10,Cultural After-School Adventure (CASA) - Fiscal 2026,2026,designate,,Brooks-Powers,"Ballroom Basix USA, Inc.",Public School/ Middle School 042Q R. Vernam (27Q042) & Public Brooks-Powers,273218865,20000,DCLA,126,003,,
+7,2026-03-10,Worker Cooperative Business Development Initiative - Fiscal 2026,2026,rescind,,,Small Business Services,,136400434,-150000,SBS,801,002,,**
+7,2026-03-10,Worker Cooperative Business Development Initiative - Fiscal 2026,2026,rescind,,,Small Business Services,,136400434,-9999,SBS,801,002,,**
+7,2026-03-10,Chamber on the Go and Small Business Assistance- Fiscal 2026,2026,rescind,,,Small Business Services,,136400434,-111295,SBS,801,002,,**
+7,2026-03-10,BID Containerization - Fiscal 2026,2026,designate,,,Department of Sanitation,,136400434,121294,DSNY,827,106,,**
+7,2026-03-10,BID Containerization - Fiscal 2026,2026,rescind,,,Department of Sanitation,,136400434,-121294,DSNY,827,106,,**
+7,2026-03-10,BID Containerization - Fiscal 2026,2026,designate,,,"Cypress Hills Local Development Corporation, Inc.",,112683663,29141,DSNY,827,106,,**
+7,2026-03-10,BID Containerization - Fiscal 2026,2026,designate,,,Center for Employment Opportunities,,133843322,29247,DSNY,827,106,,**
+7,2026-03-10,BID Containerization - Fiscal 2026,2026,designate,,,Neighborhood Initiatives Development Corporation (NIDC),,133110811,38203,DSNY,827,106,,**
+7,2026-03-10,BID Containerization - Fiscal 2026,2026,designate,,,"Sutphin Boulevard District Management Association, Inc.",,300253124,24000,DSNY,827,106,,**
+7,2026-03-10,BID Containerization - Fiscal 2026,2026,designate,,,"Bedford Stuyvesant Gateway District Management Association, Inc.",,270295829,703,DSNY,827,106,,**
+7,2026-03-10,BID Containerization - Fiscal 2026,2026,rescind,,,Department of Sanitation,,136400434,-9196,DSNY,827,106,,
+7,2026-03-10,BID Containerization - Fiscal 2026,2026,designate,,,"Bedford Stuyvesant Gateway District Management Association, Inc.",,270295829,9196,DSNY,827,106,,
+7,2026-03-10,Citywide Young Adult Entrepreneurship Program Initiative - Fiscal 2026,2026,designate,,,"Entertainers for Education Alliance, Inc.",,432115174,50000,DYCD,260,312,,
+7,2026-03-10,Citywide Young Adult Entrepreneurship Program Initiative - Fiscal 2026,2026,designate,,,"AIMHigh Empowerment Institute, Inc.",,813143733,50000,DYCD,260,312,,**
+7,2026-03-10,Citywide Young Adult Entrepreneurship Program Initiative - Fiscal 2026,2026,designate,,,"BKBNK, Inc.",,821420342,50000,DYCD,260,312,,**
+7,2026-03-10,Citywide Young Adult Entrepreneurship Program Initiative - Fiscal 2026,2026,designate,,,Partners Uplifting our Daughters and Sons,,473679850,50000,DYCD,260,312,,**
+7,2026-03-10,Hate Crimes Prevention - Fiscal 2026,2026,rescind,,,"Hollaback, Inc.",,273199988,-50000,DYCD,260,402,,
+7,2026-03-10,Hate Crimes Prevention - Fiscal 2026,2026,designate,,,"Right To Be, Inc.",,273199988,50000,DYCD,260,402,,
+7,2026-03-10,Construction Site Safety Training - Fiscal 2026,2026,rescind,,,"Positive Workforce, Inc.",,133459199,-275000,SBS,801,002,,
+7,2026-03-10,Construction Site Safety Training - Fiscal 2026,2026,designate,,,"Positive Workforce Coalition, Inc.",,133459199,275000,SBS,801,002,,
+7,2026-03-10,Community Development Financial Institutions - Fiscal 2026,2026,rescind,,,"Asian Americans For Equality, Inc.",,133187792,-660000,SBS,801,002,,
+7,2026-03-10,Community Development Financial Institutions - Fiscal 2026,2026,designate,,,"Accompany Capital, Inc.",,810584343,330000,SBS,801,002,,
+7,2026-03-10,Community Development Financial Institutions - Fiscal 2026,2026,designate,,,BOC Capital Corp.,,113596666,330000,SBS,801,002,,
+7,2026-03-10,Speaker's Initiative - Fiscal 2025,2025,rescind,,Speaker,"Positive Workforce, Inc.",,133459199,-275000,SBS,801,002,,
+7,2026-03-10,Speaker's Initiative - Fiscal 2025,2025,designate,,Speaker,"Positive Workforce Coalition, Inc.",,133459199,275000,SBS,801,002,,
+7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025,2025,rescind,,,Battered Women's Resource Center,,113302911,-60000,DSS/HRA,069,112,,
+7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025,2025,designate,,,"Battered Women's Resource Center, Inc.",,113302911,60000,DSS/HRA,069,112,,
+7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025,2025,rescind,,Mealy,Battered Women's Resource Center,Domestic Violence & Counseling,113302911,-15000,DSS/HRA,069,112,,
+7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025,2025,designate,,Mealy,"Battered Women's Resource Center, Inc.",Domestic Violence & Counseling,113302911,15000,DSS/HRA,069,112,,
+7,2026-03-10,Cultural Immigrant Initiative - Fiscal 2025,2025,rescind,,Salaam,"Chess-in-the-Schools, Inc.",In-school Reading & Writing Programs,136119036,-10000,DYCD,260,312,,
+7,2026-03-10,Cultural Immigrant Initiative - Fiscal 2025,2025,designate,,Salaam,"Chess-in-the-Schools, Inc.",In-school Chess Instruction,136119036,10000,DYCD,260,312,,
+7,2026-03-10,Speaker's Initiative - Fiscal 2024,2024,rescind,,Speaker,Battered Women's Resource Center,,113302911,-40000,DYCD,260,402,,
+7,2026-03-10,Speaker's Initiative - Fiscal 2024,2024,designate,,Speaker,"Battered Women's Resource Center, Inc.",,113302911,40000,DYCD,260,402,,
+7,2026-03-10,A Greener NYC - Fiscal 2024,2024,rescind,,De La Rosa,Friends of WHEELS,,421775449,-10000,DYCD,260,005,,
+7,2026-03-10,A Greener NYC - Fiscal 2024,2024,designate,,De La Rosa,"Futures Ignite, Inc.",,421775449,10000,DYCD,260,005,,
+7,2026-03-10,NYC Cleanup - Fiscal 2024,2024,rescind,,De La Rosa,Friends of WHEELS,,421775449,-28000,DYCD,260,005,,
+7,2026-03-10,NYC Cleanup - Fiscal 2024,2024,designate,,De La Rosa,"Futures Ignite, Inc.",,421775449,28000,DYCD,260,005,,
+7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2024,2024,rescind,,,Battered Women's Resource Center,,113302911,-60000,MOCJ,098,002,,
+7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2024,2024,designate,,,"Battered Women's Resource Center, Inc.",,113302911,60000,MOCJ,098,002,,
+7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2024,2024,rescind,,Mealy,Battered Women's Resource Center,Domestic Violence & Counseling,113302911,-25000,MOCJ,098,002,,
+7,2026-03-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2024,2024,designate,,Mealy,"Battered Women's Resource Center, Inc.",Domestic Violence & Counseling,113302911,25000,MOCJ,098,002,,
+7,2026-03-10,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,Department of Parks and Recreation,Holiday Funds will be used to support Holiday Lighting in Bowne Park in Council District Local Paladino Lighting - Bowne Park,136400434,-5000,DPR,,,19.,
+7,2026-03-10,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,Department of Parks and Recreation,Council Funds will be used to maintain Bocce courts within Council District 19 starting Local Paladino District 19,136400434,5000,DPR,,,with Bowne Park.,
+7,2026-03-10,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,"Speaker's Funding to support programs in literacy, homelessness prevention, food Initiative Speaker Inclusive Community Wellness, Inc.",,813753696,-600000,DYCD,,,"assistance, immigrant support, and mental health.",
+7,2026-03-10,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,"Speaker's Initiative Speaker Inclusive Community Wellness, Inc.",,813753696,600000,DYCD,,,To provide funding to increase community access to swim instruction.,
+7,2026-03-10,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,"Jewish Community Council of Greater Coney Local Speaker Island, Inc.",Staten Island Community Shuttle,112665181,-50000,DYCD,,,Funds will provide financial support for the Staten Island Community Shuttle. Jewish Community Council of Greater Coney,
+7,2026-03-10,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,"Island, Inc.",Southern Brooklyn Community Funds will provide financial support for the Sea Gate - Borough Park Community Local Speaker Shuttle,112665181,50000,DYCD,,,Shuttle.,
+7,2026-03-10,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,Speaker's Initiative Speaker Department of Education,,136400434,-100000,DOE,,,To provide funding support to print the Hidden Voices curriculum for distribution. Funding supports the printing of materials associated with the Jewish American,**
+7,2026-03-10,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,Speaker's and Muslim American curriculum to support the effective implementation of the Initiative Speaker Department of Education,,136400434,100000,DOE,,,curriculum. This initiative will establish a containerization acquisition fund to support Business Improvement Districts (BIDS) across the City in acquiring trash containers to Association of Community Employment comply with the City's new rules on garbage containerization that limit loose,**
+7,2026-03-10,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,"Programs for the Homeless, Inc. garbage bags on streets and sidewalks. BID Containerization",,133846431,-1000000,DSNY,,,This initiative will establish a containerization acquisition fund to support Business Improvement Districts (BIDS) and supplemental cleaning and business support networks across the City in acquiring trash containers to comply with the City's,
+7,2026-03-10,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,"Association of Community Employment new rules on garbage containerization that limit loose garbage bags on streets BID Containerization Programs for the Homeless, Inc.",,133846431,1000000,DSNY,,,and sidewalks. This initiative will establish a containerization acquisition fund to support Business Improvement Districts (BIDS) across the City in acquiring trash containers to,
+7,2026-03-10,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,"comply with the City's new rules on garbage containerization that limit loose BID Containerization Doe Fund, Inc., The",,133412540,-261016,DSNY,,,garbage bags on streets and sidewalks. This initiative will establish a containerization acquisition fund to support Business Improvement Districts (BIDS) and supplemental cleaning and business support networks across the City in acquiring trash containers to comply with the City's,
+7,2026-03-10,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,"new rules on garbage containerization that limit loose garbage bags on streets BID Containerization Doe Fund, Inc., The",,133412540,261016,DSNY,,,and sidewalks.,

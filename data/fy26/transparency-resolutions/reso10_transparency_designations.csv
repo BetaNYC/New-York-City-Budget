@@ -1,0 +1,152 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,,"Jewish Community Council of Greater Coney Island, Inc.",Southern Brooklyn Speaker,112665181,-50000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,,"Community Shuttle Jewish Community Council of Greater Coney Island, Inc.",Staten Island Speaker,112665181,50000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,,Community Shuttle Nigel Sylvester Foundation,Switching Gears Bike Program - Council District 27 Williams,870931546,-5000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,,*** Williams Nigel Sylvester Foundation,Council District 27,870931546,5000,DYCD,260,005,,***
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Mealy,"Kan Cobra Tiger Alliance, Inc.",Council District 41 & Mt. Ararat Senior Center,463766464,-5000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Mealy,St. James Holiness Church,Council District 41,800079644,-5000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Mealy,"Lincoln Terrace Tennis Association, Inc.","Summer & Winter Tennis Programs Mealy 043672661 DYCD ($15,000) 260 312 ** Mealy 77th Precinct Community Council, Inc. - Council District 41",113463183,15000,DYCD,260,005,,**
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Mealy,"77th Precinct Community Council, Inc.",Council District41,113463183,10000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Mealy,Wilson Department of Youth and Community Development,,136400434,-6000,DYCD,260,005,,**
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Mealy,Wilson Department of Transportation,Bike Helmet Giveaway - Council District 3,136400434,6000,DOT,841,011,,**
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Felder,Bensonhurst Council of Jewish Organizations,,112568013,-5000,DYCD,260,005,,**
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Felder,Shaare Zion Congregation,Educational & Youth Programming,111735956,5000,DYCD,260,312,,**
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Banks,"Network of Angels, Inc.",Council District 42,263564521,-7500,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Banks,Department of Youth and Community Development,,136400434,7500,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Restler,"DUMBO District Management Association, Inc.",Council District 33,200214837,-6000,DOT,841,011,,**
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Restler,"DUMBO District Management Association, Inc.",Council District 33,200214837,6000,SBS,801,002,,**
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Speaker,"East River Development Alliance, Inc.",,861096987,-100000,DYCD,260,005,,**
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Speaker,"East River Development Alliance, Inc.",,861096987,100000,HPD,806,012,,**
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,rescind,,Speaker,Department of Parks and Recreation,Adopt-A-Bench Program - Council Dinowitz,136400434,-5000,DPR,846,006,,
+10,2026-06-30,Local Initiatives - Fiscal 2026,2026,designate,,Speaker,"District 11 ** Mosholu-Montefiore Community Center, Inc.",Teen Center - Council District Dinowitz,133622107,5000,DYCD,260,312,,
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,"Broad Channel Volunteers, Inc.",,112557794,-178850,FDNY,057,005,,
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Fire Department of New York,,136400434,178850,FDNY,057,005,,
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,Department of Youth and Community Development,,136400434,-6000,DYCD,260,005,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,Bedford Stuyvesant Restoration Corporation,,116083182,-100000,DYCD,260,005,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,Bedford Stuyvesant Restoration Corporation,,116083182,-2500000,SBS,801,002,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Partnership for After School Education, Inc.",,133976066,50000,DYCD,260,312,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,United Way of New York City,,132617681,1000000,DOE,040,402,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Council of School Supervisors and Administrators of the City of NY,,112024569,255000,DOE,040,454,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"United Federation of Teachers Educational Foundation, Inc.",Teacher Center Speaker,139226721,250000,DOE,040,402,,
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"** Speaker St. John's Bread and Life Program, Inc.",,113174514,150000,DYCD,260,005,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Brooklyn Community Pride Center, Inc.",LGBTQIA+ Mental & Behavioral Speaker,262214534,150000,DHMH,816,120,,
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Health Services ** Speaker Children of Promise, NYC",Saturday Enrichment Program,830440009,50000,DYCD,260,312,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Bedford Stuyvesant Family Health Center, Inc.",,112412205,150000,DHMH,816,117,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Korean Community Services of Metropolitan New York, Inc.",,237348989,50000,DHMH,816,120,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,University Settlement Society of New York,,135562374,200000,DYCD,260,005,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Asian Americans for Equality, Inc.",,133187792,50000,DYCD,260,005,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Korean American Family Service Center, The",,133609811,50000,DYCD,260,312,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Communities Resist, Inc.",,841899350,50000,DSS/HRA,069,107,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Institute for Community Living, Inc.",,133306195,100000,DHMH,816,120,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,City University of New York,Central Office,133893536,51000,CUNY,042,001,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,Department of Education,Afro American Parents Educational Center,136400434,-284000,DOE,040,410,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"Association of Community Employment Programs for the Homeless, Inc.",,133846431,50000,DYCD,260,005,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Center for Employment Opportunities,,133843322,50000,DYCD,260,005,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Department of Sanitation,,136400434,84000,DSNY,827,102,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,"UA3, Inc.",,474803090,50000,DYCD,260,005,,**
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Greater Bethel Community Development Corporation,,320000557,50000,DYCD,260,005,,**
+10,2026-06-30,Neighborhood Development Grant Initiative - Fiscal 2026,2026,rescind,,,"NYSARC, Inc., New York City Chapter, AHRC New York City",Bronx ArTech Collective Center - Farias,133779611,-20000,DYCD,260,005,,
+10,2026-06-30,Neighborhood Development Grant Initiative - Fiscal 2026,2026,designate,,,"Council District 18 Farias NYSARC, Inc., New York City Chapter",Bronx ArTech Collective Center - Council District 18,135596746,20000,DYCD,260,005,,
+10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,,"Ballroom Basix USA, Inc.","Public School/Middle School 200Q (25Q200), Discovery School Gennaro",273218865,-20000,DCLA,126,003,,
+10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,,"(25Q201) & Public School 154Q (25Q154) Ballroom Basix USA, Inc.","Public School 154Q (25Q154), 219Q Paul Klapper (25Q219), 165Q Gennaro",273218865,20000,DCLA,126,003,,
+10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,,"Edith K. Bergtraum (25Q165) & The Discovery School for Inquiry and Rese (25Q201) Wilson Ballroom Basix USA, Inc.",Multi-Cultural In-School Program,273218865,-10000,DCLA,126,003,,
+10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,,"Ballroom Basix USA, Inc.",Humanities Preparatory Academy (02M605) & Public School 212M Wilson,273218865,10000,DCLA,126,003,,
+10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,,"Midtown West (02M212) Mealy Crown Heights Jewish Community Council, Inc.",Council District 40,237390996,-20000,DYCD,260,005,,
+10,2026-06-30,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Mealy,"Crown Heights Jewish Community Council, Inc.",Council District 41,237390996,20000,DYCD,260,005,,
+10,2026-06-30,Food Pantries - Fiscal 2026,2026,rescind,,,Brooklyn Delegation Food Bank For New York City,Bethlehem Nation's Food Pantry - EFRO# 85527,133179546,-882,DYCD,260,005,,
+10,2026-06-30,Food Pantries - Fiscal 2026,2026,designate,,,Brooklyn Delegation Food Bank For New York City,,133179546,882,DYCD,260,005,,
+10,2026-06-30,Food Pantries - Fiscal 2026,2026,rescind,,,Manhattan Delegation Food Bank For New York City,Christ and St. Stephen's Food Pantry - EFRO# 80517,133179546,-2380,DYCD,260,005,,
+10,2026-06-30,Food Pantries - Fiscal 2026,2026,designate,,,Manhattan Delegation Food Bank For New York City,,133179546,2380,DYCD,260,005,,
+10,2026-06-30,Food Pantries - Fiscal 2026,2026,rescind,,,Manhattan Delegation Food Bank For New York City,Park Avenue Synagogue - EFRO# 81139,133179546,-5231,DYCD,260,005,,
+10,2026-06-30,Food Pantries - Fiscal 2026,2026,designate,,,Manhattan Delegation Food Bank For New York City,,133179546,5231,DYCD,260,005,,
+10,2026-06-30,Food Pantries - Fiscal 2026,2026,rescind,,,Queens Delegation Food Bank For New York City,Our Lady of Grace Ministry - EFRO# 80942,133179546,-3623,DYCD,260,005,,
+10,2026-06-30,Food Pantries - Fiscal 2026,2026,designate,,,Queens Delegation Food Bank For New York City,,133179546,3623,DYCD,260,005,,
+10,2026-06-30,Food Pantries - Fiscal 2026,2026,rescind,,,Queens Delegation Food Bank For New York City,Salvation Army Ridgewood Citadel Corps - EFRO# 80974,133179546,-1495,DYCD,260,005,,
+10,2026-06-30,Food Pantries - Fiscal 2026,2026,designate,,,Queens Delegation Food Bank For New York City,,133179546,1495,DYCD,260,005,,
+10,2026-06-30,SU-CASA - Fiscal 2026,2026,rescind,,,Department of Cultural Affairs,,136400434,-45000,DCLA,126,003,,
+10,2026-06-30,SU-CASA - Fiscal 2026,2026,designate,,,"Santosuosso Teatro Circulo, Ltd.",Bay Ridge Ctr for Life Long Learning,133805585,15000,DCLA,126,003,,
+10,2026-06-30,SU-CASA - Fiscal 2026,2026,designate,,Farias,"Teatro Circulo, Ltd.",Kips Bay Castle Hill OAC,133805585,15000,DCLA,126,003,,
+10,2026-06-30,SU-CASA - Fiscal 2026,2026,designate,,Farias,"Teatro Circulo, Ltd.",SHOPP Soundview Social Club,133805585,15000,DCLA,126,003,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"125th Street District Management Association, Inc.",,133740434,-10755,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"86th Street Bay Ridge District Management Association, Inc.",,113619986,-19953,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Association of Community Employment Programs for the Homeless, Inc.",,133846431,-846723,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Belmont District Management Association, Inc.",,270834463,-1796,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,Bryant Park Corporation,,133009946,-36100,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Capitol District Management Association, Inc. (161st St)",,270699754,-15000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Castle Hill District Management Association, Inc.",,920829346,-40000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,Center for Employment Opportunities (CEO),,133843322,-29247,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Central Fulton Street District Management Association, Inc.",,800356502,-6309,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Chinatown District Management Association, Inc.",,455491393,-80000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Columbus Avenue District Management Association, Inc.",,061561857,-82250,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"DUMBO District Management Association, Inc.",,200214837,-29105,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,Flatbush Avenue District Management Association,,112908148,-1,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Flatbush Nostrand Junction District Management Association, Inc.",,870793638,-100000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Forest Avenue District Management Association, Inc.",,141933279,-35000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,Greater JFK District Management Association Inc.,,822193145,-57224,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"HUB-Third Ave Merchants District Management Association, Inc.",,133455415,-6587,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Hudson Yards Hell's Kitchen Business Improvement District, Inc.",,471247857,-148516,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Kings Highway District Management Association, Inc.",,112977052,-6350,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,Lenape Bloemendael District Management Association,,133466792,-55493,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Lincoln Square District Management Association, Inc.",,133922300,-51,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Meatpacking District Management Association, Inc.",,810788036,-12654,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,Mosholu-Jerome East Gun Hill Road District Management Association,,133877808,-57672,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Myrtle Avenue Brooklyn DMA, Inc.",,202659913,-1000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,Myrtle Avenue District Management Association,,112912570,-3107,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"New Dorp District Management Association, Inc.",,823226337,-18213,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,NoHo NY District Management Association,,133919295,-7800,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"North Flatbush Avenue District Management Association, Inc.",,112764038,-4550,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Park Slope Fifth Avenue District Management Association, Inc.",,263926626,-85000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,Pitkin Avenue Business Improvement District,,112709046,-54000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"SoHo Broadway District Management Association, Inc.",,471044631,-30094,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"South Shore District Management Association, Inc.",,810728516,-25000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Southern Boulevard District Management Association, Inc.",,263497932,-30000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Steinway Street District Management Association, Inc.",,113067330,-40000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Sunset Park District Management Association, Inc.",,113251860,-56000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Sutphin Boulevard District Management Association, Inc. (Downtown Jamaica)",,300253124,-10467,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Throggs Neck District Management Association, Inc.",,842946779,-54470,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Union Square Partnership, Inc.",,133004730,-3655,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Washington Heights Business Improvement District Mgmt Association, Inc.",,133348873,-20000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,West Village District Management Association,,883290964,-125000,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Westchester Square District Management Association, Inc.",,383873130,-16556,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,rescind,,,"Woodhaven District Management Association, Inc.",,113149139,-921,DSNY,827,106,,
+10,2026-06-30,BID Containerization - Fiscal 2026,2026,designate,,,Department of Sanitation,,136400434,2262619,DSNY,827,106,,
+10,2026-06-30,Foreclosure Prevention Programs - Fiscal 2026,2026,rescind,,,"Neighborhood Housing Services of Jamaica, Inc.",,237398279,-55000,HPD,806,009,,
+10,2026-06-30,Foreclosure Prevention Programs - Fiscal 2026,2026,designate,,,"Neighborhood Housing Services of Queens CDC, Inc.",,471267077,55000,HPD,806,009,,
+10,2026-06-30,Peer Specialists Support - Fiscal 2026,2026,rescind,,,Department of Health and Mental Hygiene,,136400434,-100000,DHMH,816,120,,
+10,2026-06-30,Peer Specialists Support - Fiscal 2026,2026,designate,,,"Youth Justice Network, Inc.",,133576756,50000,DHMH,816,120,,
+10,2026-06-30,Peer Specialists Support - Fiscal 2026,2026,designate,,,"NYSARC, Inc., New York City Chapter",,135596746,50000,DHMH,816,120,,
+10,2026-06-30,Local Initiatives - Fiscal 2025,2025,rescind,,Williams,Nigel Sylvester Foundation,Council District 27,870931546,-5000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2025,2025,designate,,Williams,Nigel Sylvester Foundation,Switching Gears Bike Program - Council District 27,870931546,5000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2025,2025,rescind,,Banks,"Network of Angels, Inc.",Council District 42,263564521,-10000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2025,2025,designate,,Banks,Department of Youth and Community Development,,136400434,10000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2025,2025,rescind,,Banks,"Wong Elmhurst United, Inc.",Council District 30,472632132,-500,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2025,2025,designate,,Banks,"Wong Glendale Civilian Observation Patrol, Inc., The",,112502910,500,DYCD,260,005,,
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2025,2025,rescind,,Speaker,Jewish Home Lifecare Manhattan,,131624033,-100000,SBS,801,011,,
+10,2026-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2025,2025,designate,,Speaker,Department of Small Business Services,,136400434,100000,SBS,801,011,,
+10,2026-06-30,Worker Cooperative Business Development Initiative - Fiscal 2025,2025,rescind,,,Democracy at Work Institute,,275265123,-5000,SBS,801,002,,
+10,2026-06-30,Worker Cooperative Business Development Initiative - Fiscal 2025,2025,rescind,,,"ICA Group, Inc., The",,042628399,-95778,SBS,801,002,,
+10,2026-06-30,Worker Cooperative Business Development Initiative - Fiscal 2025,2025,rescind,,,"Mary Mitchell Family and Youth Center, Inc.",,133385032,-54057,SBS,801,002,,
+10,2026-06-30,Worker Cooperative Business Development Initiative - Fiscal 2025,2025,rescind,,,"NYC NOWC, Inc.",,465245034,-42500,SBS,801,002,,
+10,2026-06-30,Worker Cooperative Business Development Initiative - Fiscal 2025,2025,rescind,,,"Working World, Inc.",,202264584,-5610,SBS,801,002,,
+10,2026-06-30,Worker Cooperative Business Development Initiative - Fiscal 2025,2025,designate,,,Small Business Services,,136400434,202945,SBS,801,002,,
+10,2026-06-30,Foreclosure Prevention Programs - Fiscal 2025,2025,rescind,,,"Neighborhood Housing Services of Jamaica, Inc.",,237398279,-55000,HPD,806,009,,
+10,2026-06-30,Foreclosure Prevention Programs - Fiscal 2025,2025,designate,,,"Neighborhood Housing Services of Queens CDC, Inc.",,471267077,55000,HPD,806,009,,
+10,2026-06-30,Protect NYC Families - Fiscal 2025,2025,rescind,,,SCO Family of Services,,112777066,-35714,DSS/HRA,069,107,,
+10,2026-06-30,Protect NYC Families - Fiscal 2025,2025,rescind,,,SCO Family of Services,,112777066,-30000,DSS/HRA,069,107,,
+10,2026-06-30,Protect NYC Families - Fiscal 2025,2025,designate,,,Department of Social Services,,136400434,65714,DSS/HRA,069,107,,
+10,2026-06-30,Youth Discretionary - Fiscal 2024,2024,rescind,,Farias,Bronx Community Cable Programming Corporation,Youth Arts & Media,133545233,-5000,DYCD,260,312,,
+10,2026-06-30,Youth Discretionary - Fiscal 2024,2024,designate,,Farias,BronxNet Public Media Corporation,Youth Arts & Media Initiative,133545233,5000,DYCD,260,312,,
+10,2026-06-30,Foreclosure Prevention Programs - Fiscal 2024,2024,rescind,,,"Neighborhood Housing Services of Jamaica, Inc.",,237398279,-55000,HPD,806,009,,
+10,2026-06-30,Foreclosure Prevention Programs - Fiscal 2024,2024,designate,,,Housing Preservation and Development,,136400434,55000,HPD,806,009,,
+10,2026-06-30,Local Initiatives - Fiscal 2023,2023,rescind,,De La Rosa,"My Beauty Mark Foundation, Inc.",,814132606,-10000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2023,2023,designate,,De La Rosa,"Vive Group, Inc., The",,814132606,10000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2023,2023,rescind,,De La Rosa,"My Beauty Mark Foundation, Inc.",,814132606,-10000,DYCD,260,005,,
+10,2026-06-30,Local Initiatives - Fiscal 2023,2023,designate,,De La Rosa,"Vive Group, Inc., The",,814132606,10000,DYCD,260,005,,
+10,2026-06-30,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,"Funding will support the Switching Gears bike program, which provides youth in Nigel Sylvester Foundation","Switching Gears Council District 27 with bicycles, safety equipment, and guided instruction to Local Williams Bike Program - Council District 27",870931546,-5000,DYCD,,,promote safe riding skills and active lifestyles.,***
+10,2026-06-30,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,Nigel Sylvester Foundation,Council District 27 Local Williams,870931546,5000,DYCD,,,Funding will support programming in Council District 27. Jewish Community Council of Greater Coney,***
+10,2026-06-30,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,"Island, Inc.",Southern Brooklyn Community Funds will provide financial support for the Sea Gate – Borough Park Community Local Speaker Shuttle,112665181,-50000,DYCD,,,Shuttle.,
+10,2026-06-30,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,"Jewish Community Council of Greater Coney Local Speaker Island, Inc.",Staten Island Community Shuttle,112665181,50000,DYCD,,,Funds will provide financial support for the Staten Island Community Shuttle.,
+10,2026-06-30,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,"DUMBO District Management Association, Inc.",Local Restler Council District 33,200214837,-6000,DOT,,,Funds will be used to support programming in Council District 33.,
+10,2026-06-30,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,"DUMBO District Management Association, Inc.",Local Restler Council District 33,200214837,6000,SBS,,,To support BID operations and programming in Council District 33. Funds will be used to restore the Marine Hospital quarantine station that,
+10,2026-06-30,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,Staten Island Economic Development operated from 1799-1858 and create a memorial to the many Irish immigrants Local Speaker Corporation,,133706442,-25000,DYCD,,,who died there.,
+10,2026-06-30,Purpose of Funds Changes - Fiscal 2026,2026,purpose_change,,,Staten Island Economic Development Funding to support beautification including holiday lights and American flags in Local Speaker Corporation,,133706442,25000,DYCD,,,recognition of America 250 in Council District 49.,

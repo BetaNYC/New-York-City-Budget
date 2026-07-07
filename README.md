@@ -40,13 +40,15 @@ New-York-City-Budget/
 ├── LICENSE                                         ← MIT, for the code + derived data
 ├── source/              ← official NYC Council PDFs, © City of New York
 │   ├── FY25/  FY26/  FY27/
+│   └── FY26/transparency-resolutions/   ← 10 post-adoption designation resolutions
 ├── data/                ← extracted, reconciled CSVs
 │   ├── fy25/  fy26/  fy27/
 │   │   ├── schedule_c/  discretionary expense funding
 │   │   ├── terms/       Terms & Conditions (reporting mandates)
-│   │   └── capital/     Section 254 capital changes (FY27 only)
+│   │   └── capital/     Section 254 capital changes (FY26 + FY27; FY25 is an appropriation-changes doc)
+│   ├── fy26/transparency-resolutions/   post-adoption designations (10 resolutions)
 │   └── combined/        all-years roll-ups
-└── code/                ← the three parser scripts + requirements.txt
+└── code/                ← parser scripts (schedule C, terms, capital, transparency) + tests + requirements.txt
 ```
 
 ## The data files
@@ -67,9 +69,13 @@ Detail breakouts with a `purpose` field: `_a_aging` (Aging Discretionary), `_b_l
 ### `data/{year}/terms/{year}_terms_and_conditions.csv`
 `item_number, agency_name, agency_code, units_of_appropriation, num_units, report_deadlines, coverage_period, condition_text`
 
-### `data/fy27/capital/fy27_capital_projects.csv` (FY2027 only)
-`part, agency, budget_line, sub_id, boro, fy1, fy2, fy3, fy4, sponsor, title, building_code, school_code`
-`fy1` is the adoption year; `fy2..fy4` are out-years. `boro`: M/X/K/Q/R.
+### `data/{year}/capital/{year}_capital_projects.csv`
+Section 254 capital changes. `part, agency, budget_line, sub_id, boro, fy1, fy2, fy3, fy4, sponsor, title, building_code, school_code` — `fy1` is the adoption year; `fy2..fy4` are out-years; `boro`: M/X/K/Q/R.
+- **FY2027 and FY2026** use the "Capital Project Detail" schedule and reconcile against printed agency subtotals.
+- **FY2025** is a different document type (the "Appropriation Changes" resolution) — no borough/sub-id/sponsor columns, no subtotals to reconcile; it adds an `action` column (ELIMINATE/SUBSTITUTE/NEW PROJECT) and is labeled `NOT RECONCILABLE`.
+
+### `data/fy26/transparency-resolutions/`
+Post-adoption discretionary designations from the 10 FY2026 Transparency Resolutions (per-resolution `resoNN_transparency_designations.csv` files + a combined `fy26_transparency_all.csv`). Columns: `resolution, date, chart, fiscal_year, action, source, council_member, organization, program, ein, amount, agency, agy_num, ua, purpose, flags` — `action` ∈ designate / rescind / purpose_change; rescissions carry negative amounts. These record money the adopted budget left "to be designated post-adoption" (e.g. the FY2026 AI Community Engagement $1M). **No printed totals exist**, so they are labeled `NOT RECONCILABLE`; the only internal check is that transfers (rescind + re-designate) net to zero.
 
 ### `data/combined/`
 `all_years_initiatives.csv` and `all_years_awards.csv` — the per-year files stacked with a leading `year` column for cross-year analysis.
@@ -82,13 +88,16 @@ Detail breakouts with a `purpose` field: `_a_aging` (Aging Discretionary), `_b_l
 | **FY2026** | 24 / 25 exact | Immigrant Services: the source PDF's own line items exceed its printed total by **$800** |
 | **FY2025** | 24 / 26 exact | Education: the source PDF's own line items exceed its printed total by **$50,000** |
 
-The two "misses" are arithmetic inconsistencies **inside the official PDFs**, not extraction errors — the parser faithfully captured both the line items and the printed total, and they disagree in the source. FY2027 capital reconciles 23 of 26 agency subtotals. See each `*_reconciliation.txt` for the line-by-line check.
+The two "misses" are arithmetic inconsistencies **inside the official PDFs**, not extraction errors — the parser faithfully captured both the line items and the printed total, and they disagree in the source.
+
+**Capital (Section 254):** FY2026 reconciles **31/31** agency subtotals (amount + project count); FY2027 reconciles **23/26**; FY2025 is a different document type with no subtotals (`NOT RECONCILABLE`). **Transparency Resolutions:** no printed totals (`NOT RECONCILABLE`); transfers net to zero as expected. See each `*_reconciliation.txt` for details.
 
 ## Known limitations
 
 - Some `initiative_provider` award rows have imperfect organization *names* (EIN + amount are correct).
 - Borough delegations ("Brooklyn", "Queens", …) appear in the `member` column as collective sponsors.
-- **FY2025 and FY2026 capital are not included** — the FY2025 file is encrypted and the FY2026 file has a scrambled text layer, both needing layout-aware extraction. Only FY2027 capital is parsed.
+- **FY2025 capital is not row-comparable to FY2026/FY2027** — it is the "Appropriation Changes" resolution (a different document type), lacking borough/sub-id/sponsor columns and per-agency subtotals. FY2026 and FY2027 capital share a schema and reconcile.
+- **Transparency Resolutions have no printed totals** to reconcile against (only the transfer net-out check); ~0.2% of rows have an imperfect organization name (EIN + amount are recoverable).
 - Category names differ across years (FY2025 has a standalone "Libraries" that later folds into "Cultural Organizations"). Normalize before comparing.
 
 ## Reproduce or extend to a new year
