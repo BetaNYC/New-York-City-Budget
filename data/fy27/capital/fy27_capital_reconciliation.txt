@@ -1,0 +1,34 @@
+CAPITAL (§254) RECONCILIATION (fy27)
+source: Supporting-Detail-for-FY2027-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254.V4.pdf (80 pages)
+projects parsed: 1358 | agency subtotals: 26
+total FY1 (all projects): $992,528,000
+
+PART/AGENCY                                                   proj$       printed$    n   pn  status
+I DEPARTMENT FOR THE AGING                                5,321,000      5,321,000    4    4  OK
+I ADMIN FOR CHILDREN'S SERVICES                          18,018,000     18,018,000    7    7  OK
+I EDUCATION                                             225,464,000    225,464,000  709  709  OK
+I ECONOMIC DEVELOPMENT                                   24,175,000     24,175,000   10   10  OK
+I FIRE                                                   26,292,000     26,292,000   31   31  OK
+I HOUSING AUTHORITY                                       6,290,000      6,290,000    7    7  OK
+I HOUSING & DEVELOPMENT                                  53,535,000     54,135,000   63   65  DIFF
+I HEALTH                                                 16,492,000     16,492,000   34   34  OK
+I HIGHER EDUCATION                                       39,297,000     39,297,000   29   29  OK
+I HEALTH & HOSPITALS CORP.                               50,878,000     50,878,000   27   27  OK
+I HUMAN RESOURCES                                        19,233,000     19,483,000   18   19  DIFF
+I HIGHWAYS                                                8,875,000      8,875,000   16   16  OK
+I BROOKLYN PUBLIC LIBRARY                                 9,975,000      9,975,000    8    8  OK
+I NEW YORK PUBLIC LIBRARY                                13,517,000     13,517,000   18   18  OK
+I QUEENS BOROUGH PUB. LIB.                                9,250,000      9,250,000    3    3  OK
+I PARKS                                                 182,096,000    182,096,000  107  107  OK
+I POLICE                                                  1,856,000      1,856,000    7    7  OK
+I CULTURAL INSTITUTIONS                                 110,398,000    110,398,000   83   83  OK
+I PUBLIC BUILDINGS                                       31,876,000     31,876,000   29   29  OK
+II DEPARTMENT FOR THE AGING                               5,321,000      5,321,000    4    4  OK
+II ADMIN FOR CHILDREN'S SERVICES                         18,018,000     18,018,000    7    7  OK
+II ECONOMIC DEVELOPMENT                                   2,675,000      2,675,000    5    5  OK
+II HEALTH                                                16,492,000     16,492,000   34   34  OK
+II HUMAN RESOURCES                                       19,483,000     19,483,000   19   19  OK
+II CULTURAL INSTITUTIONS                                          0    117,862,000    0   82  DIFF
+II PUBLIC BUILDINGS                                      30,826,000     30,826,000   27   27  OK
+
+23/26 agency subtotals reconcile (amount + project count)
