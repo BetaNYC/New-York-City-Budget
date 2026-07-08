@@ -96,8 +96,10 @@ TYPES = {
         cols=["year", "category", "agencies", "initiative", "amount"],
         ein=None, amounts=["amount"], rule="positive", year_col="year"),
     "combined_awards": dict(
+        # `purpose` mirrors the per-year schedule_c_awards schema — build_combined.py carries it
+        # through so source-distinct rows are not collapsed into false duplicates (DATA-ANOMALIES #8).
         cols=["year", "category", "initiative", "award_type", "member", "organization",
-              "program", "ein", "amount", "agency"],
+              "program", "ein", "amount", "agency", "purpose"],
         ein="ein", amounts=["amount"], rule="positive", year_col="year",
         text_cols=["organization", "program"]),
 }

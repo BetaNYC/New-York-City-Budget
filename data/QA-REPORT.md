@@ -110,7 +110,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 
 | file | rows | EIN cov | hard | soft findings |
 |---|---|---|---|---|
-| `combined/all_years_awards.csv` | 33420 | 100% | 0 | duplicate: 149 duplicate row instance(s); e.g. x2: ['FY17', 'HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider']...; column_bleed: 96 suspected surname-in-organization residual(s); e.g. line 489: 'Hudson Guild' |
+| `combined/all_years_awards.csv` | 33420 | 100% | 0 | duplicate: 142 duplicate row instance(s); e.g. x2: ['FY17', 'HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider']...; column_bleed: 96 suspected surname-in-organization residual(s); e.g. line 489: 'Hudson Guild' |
 | `combined/all_years_initiatives.csv` | 2598 | — | 0 | — |
 | `fy09/schedule_c/fy09_schedule_c_initiatives.csv` | 123 | — | 0 | — |
 | `fy10/schedule_c/fy10_schedule_c_initiatives.csv` | 124 | — | 0 | — |
