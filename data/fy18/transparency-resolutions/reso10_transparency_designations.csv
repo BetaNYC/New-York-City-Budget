@@ -9,10 +9,10 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 10,2018-04-11,Local Initiatives - Fiscal 2018,2018,designate,,,Wildlife Conservation Society,Discovery Guides - Queens Zoo Constantinides,131740011,5000,DCLA,,,.00 126 007,**
 10,2018-04-11,Local Initiatives - Fiscal 2018,2018,rescind,,,Espinal Cypress Hills Local Development Corporation,,112683663,-55000,DYCD,,,.00) 260 005,
 10,2018-04-11,Local Initiatives - Fiscal 2018,2018,designate,,,"Espinal Cypress Hills Local Development Corporation, Inc.",,112683663,55000,DYCD,,,.00 260 005,
-10,2018-04-11,Local Initiatives - Fiscal 2018,2018,rescind,,,"Powers Murray Hill Committee, Inc.",,237361016,-5000,DPR,,,.00) 846 006,**
-10,2018-04-11,Local Initiatives - Fiscal 2018,2018,designate,,,"Powers Murray Hill Committee, Inc.",,237361016,5000,DYCD,,,.00 260 005,**
-10,2018-04-11,Local Initiatives - Fiscal 2018,2018,rescind,,,"Rivera Murray Hill Committee, Inc.",,237361016,-4500,DPR,,,.00) 846 006,**
-10,2018-04-11,Local Initiatives - Fiscal 2018,2018,designate,,,"Rivera Murray Hill Committee, Inc.",,237361016,4500,DYCD,,,.00 260 005,**
+10,2018-04-11,Local Initiatives - Fiscal 2018,2018,rescind,,Powers,"Murray Hill Committee, Inc.",,237361016,-5000,DPR,,,.00) 846 006,**
+10,2018-04-11,Local Initiatives - Fiscal 2018,2018,designate,,Powers,"Murray Hill Committee, Inc.",,237361016,5000,DYCD,,,.00 260 005,**
+10,2018-04-11,Local Initiatives - Fiscal 2018,2018,rescind,,Rivera,"Murray Hill Committee, Inc.",,237361016,-4500,DPR,,,.00) 846 006,**
+10,2018-04-11,Local Initiatives - Fiscal 2018,2018,designate,,Rivera,"Murray Hill Committee, Inc.",,237361016,4500,DYCD,,,.00 260 005,**
 10,2018-04-11,Aging Discretionary - Fiscal 2018,2018,rescind,,,"Organization Conduit EIN Dromm Queens World Film Initiative, Inc.",,465631277,-5000,DFTA,,,.00) 125 003,
 10,2018-04-11,Aging Discretionary - Fiscal 2018,2018,designate,,,"Dromm New York Irish Center, Inc.",,550869151,5000,DFTA,,,.00 125 003,
 10,2018-04-11,Youth Discretionary - Fiscal 2018,2018,rescind,,,Organization Conduit EIN Treyger Coney Island Generation Gap Reunion Committee Corp,,208562533,-33500,DYCD,,,.00) 260 312,
@@ -24,14 +24,14 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 10,2018-04-11,Youth Discretionary - Fiscal 2018,2018,designate,,,"Constantinides New York Harbor Foundation, Inc.",,272918478,5000,DYCD,,,.00 260 312,
 10,2018-04-11,Speaker's Initiative to Address Citywide Needs - Fiscal 2018,2018,designate,,Speaker,"Organization Conduit EIN Man Up, Inc.",,030553092,400000,MOCJ,,,.00 098 002,**
 10,2018-04-11,Initiative to Address Borough Wide Needs - Fiscal 2018,2018,rescind,,,Organization Conduit EIN Brooklyn Coney Island Generation Gap Reunion Committee Corp Delegation,,208562533,-16250,DYCD,,,.00) 260 312,
-10,2018-04-11,Initiative to Address Borough Wide Needs - Fiscal 2018,2018,designate,,,"Brooklyn Art's House Schools, Inc. Delegation",,870790139,5000,DYCD,,,.00 260 312,
-10,2018-04-11,Initiative to Address Borough Wide Needs - Fiscal 2018,2018,designate,,,"Brooklyn Brighton Ballet Theater Company, Inc. Delegation",,113195590,5000,DYCD,,,.00 260 312,
-10,2018-04-11,Initiative to Address Borough Wide Needs - Fiscal 2018,2018,designate,,,Brooklyn Young Men's Christian Association of Greater New York Delegation,,131624228,6250,DYCD,,,.00 260 312,
-10,2018-04-11,NYC Cleanup Initiative - Fiscal 2018,2018,rescind,,,Powers Department of Sanitation,,136400434,-50000,DSNY,,,.00) 827 109,
-10,2018-04-11,NYC Cleanup Initiative - Fiscal 2018,2018,designate,,,Powers Department of Sanitation,,136400434,50000,DSNY,,,.00 827 102,
-10,2018-04-11,NYC Cleanup Initiative - Fiscal 2018,2018,rescind,,,Department of Youth and Community Development,,136400434,-34815,DYCD,,,.00) 260 005,**
-10,2018-04-11,NYC Cleanup Initiative - Fiscal 2018,2018,designate,,,Ulrich Department of Sanitation,,136400434,14815,DSNY,,,.00 827 102,**
-10,2018-04-11,NYC Cleanup Initiative - Fiscal 2018,2018,designate,,,"Treyger Alliance for Coney Island, Inc.",,460802042,20000,DYCD,,,.00 260 005,
+10,2018-04-11,Initiative to Address Borough Wide Needs - Fiscal 2018,2018,designate,,Brooklyn Delegation,"Art's House Schools, Inc.",,870790139,5000,DYCD,,,.00 260 312,
+10,2018-04-11,Initiative to Address Borough Wide Needs - Fiscal 2018,2018,designate,,Brooklyn Delegation,"Brighton Ballet Theater Company, Inc.",,113195590,5000,DYCD,,,.00 260 312,
+10,2018-04-11,Initiative to Address Borough Wide Needs - Fiscal 2018,2018,designate,,Brooklyn Delegation,Young Men's Christian Association of Greater New York,,131624228,6250,DYCD,,,.00 260 312,
+10,2018-04-11,NYC Cleanup Initiative - Fiscal 2018,2018,rescind,,Powers,Department of Sanitation,,136400434,-50000,DSNY,,,.00) 827 109,
+10,2018-04-11,NYC Cleanup Initiative - Fiscal 2018,2018,designate,,Powers,Department of Sanitation,,136400434,50000,DSNY,,,.00 827 102,
+10,2018-04-11,NYC Cleanup Initiative - Fiscal 2018,2018,rescind,,Powers,Department of Youth and Community Development,,136400434,-34815,DYCD,,,.00) 260 005,**
+10,2018-04-11,NYC Cleanup Initiative - Fiscal 2018,2018,designate,,Powers,Ulrich Department of Sanitation,,136400434,14815,DSNY,,,.00 827 102,**
+10,2018-04-11,NYC Cleanup Initiative - Fiscal 2018,2018,designate,,Powers,"Treyger Alliance for Coney Island, Inc.",,460802042,20000,DYCD,,,.00 260 005,
 10,2018-04-11,Support Our Seniors Initiative - Fiscal 2018,2018,rescind,,,"Cumbo Hope City Empowerment Center, Inc.",,113629292,-16000,DFTA,,,.00) 125 003,
 10,2018-04-11,Support Our Seniors Initiative - Fiscal 2018,2018,designate,,,"Cumbo Heights and Hills, Inc.",,237237927,16000,DFTA,,,.00 125 003,
 10,2018-04-11,Parks Equity Initiative - Fiscal 2018,2018,rescind,,,Treyger Friends of Kaiser Park Inc,,200763333,-20000,DPR,,,.00) 846 006,

@@ -43,13 +43,13 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 9,2026-05-20,Anti-Poverty - Fiscal 2026,2026,rescind,,Osse,Department of Parks and Recreation,,136400434,-9750,DPR,846,006,,**
 9,2026-05-20,Anti-Poverty - Fiscal 2026,2026,designate,,Osse,"Laundromat Project, Inc., The",Council District 36,870753479,9750,DYCD,260,005,,**
 9,2026-05-20,Boroughwide Needs - Fiscal 2026,2026,rescind,,,One Hundred Black Men,Junior One Hundred Mentorship Program - Council Brooklyn Delegation District 45 & Central Brooklyn,237379940,-5000,DYCD,260,312,,
-9,2026-05-20,Boroughwide Needs - Fiscal 2026,2026,designate,,,Brooklyn Delegation Department of Youth and Community Development,,136400434,5000,DYCD,260,312,,
-9,2026-05-20,Boroughwide Needs - Fiscal 2026,2026,rescind,,,Brooklyn Delegation Department of Youth and Community Development,,136400434,-5000,DYCD,260,312,,**
+9,2026-05-20,Boroughwide Needs - Fiscal 2026,2026,designate,,Brooklyn Delegation,Department of Youth and Community Development,,136400434,5000,DYCD,260,312,,
+9,2026-05-20,Boroughwide Needs - Fiscal 2026,2026,rescind,,Brooklyn Delegation,Department of Youth and Community Development,,136400434,-5000,DYCD,260,312,,**
 9,2026-05-20,Boroughwide Needs - Fiscal 2026,2026,designate,,,"Rooftop Films, Inc.",Community Movie & Film Screenings - Council District 45 Brooklyn Delegation,352323897,5000,DCLA,126,003,,**
 9,2026-05-20,Boroughwide Needs - Fiscal 2026,2026,rescind,,,Department of Parks and Recreation,Citibins - Brower Park & Herbert Von Brooklyn Delegation King Park,136400434,-10250,DPR,846,006,,**
 9,2026-05-20,Boroughwide Needs - Fiscal 2026,2026,designate,,,"Brooklyn Ballers Sports, Youth and Educational Corporation",Youth Basketball Brooklyn Delegation Programs,651209020,10250,DYCD,260,312,,**
-9,2026-05-20,Boroughwide Needs - Fiscal 2026,2026,rescind,,,Brooklyn Delegation New York City Housing Authority,Community Garden - Stuyvesant Gardens II,136400434,-2500,HPD,806,012,,
-9,2026-05-20,Boroughwide Needs - Fiscal 2026,2026,designate,,,Brooklyn Delegation New York City Housing Authority,Marcy Houses Community Garden,136400434,2500,HPD,806,012,,
+9,2026-05-20,Boroughwide Needs - Fiscal 2026,2026,rescind,,Brooklyn Delegation,New York City Housing Authority,Community Garden - Stuyvesant Gardens II,136400434,-2500,HPD,806,012,,
+9,2026-05-20,Boroughwide Needs - Fiscal 2026,2026,designate,,Brooklyn Delegation,New York City Housing Authority,Marcy Houses Community Garden,136400434,2500,HPD,806,012,,
 9,2026-05-20,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,"Broad Channel Volunteers, Inc.",,112557794,-230000,FDNY,057,005,,
 9,2026-05-20,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Fire Department of New York,,136400434,230000,FDNY,057,005,,
 9,2026-05-20,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,Department of Education,Afro American Parents Educational Center,136400434,-284000,DOE,040,402,,**
@@ -106,8 +106,8 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 9,2026-05-20,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Hanks,"Ballroom Basix USA, Inc.","Public School 068Q Cambridge (24Q068), Public School 088Q Wong (24Q088) Seneca & Public School 009Q (75Q009)",273218865,19000,DCLA,126,003,,
 9,2026-05-20,Cultural Immigrant Initiative - Fiscal 2026,2026,rescind,,Hanks,"Aldebol Forum of Italian American Educators 1, Inc.",,133308542,-10000,DYCD,260,005,,
 9,2026-05-20,Cultural Immigrant Initiative - Fiscal 2026,2026,designate,,Hanks,"Aldebol Education Through Music, Inc.",Music Education Program,133613210,10000,DYCD,260,005,,
-9,2026-05-20,Food Pantries - Fiscal 2026,2026,rescind,,,Brooklyn Delegation Food Bank For New York City,Children of the Light International Ministry Inc. - EFRO# 85276,133179546,-1129,DYCD,260,005,,
-9,2026-05-20,Food Pantries - Fiscal 2026,2026,designate,,,Brooklyn Delegation Food Bank For New York City,Kingslawn United Presbyterian Church - EFRO# 85442,133179546,1129,DYCD,260,005,,
+9,2026-05-20,Food Pantries - Fiscal 2026,2026,rescind,,Brooklyn Delegation,Food Bank For New York City,Children of the Light International Ministry Inc. - EFRO# 85276,133179546,-1129,DYCD,260,005,,
+9,2026-05-20,Food Pantries - Fiscal 2026,2026,designate,,Brooklyn Delegation,Food Bank For New York City,Kingslawn United Presbyterian Church - EFRO# 85442,133179546,1129,DYCD,260,005,,
 9,2026-05-20,HIV/AIDS Pathways to Care (Formerly Ending the Epidemic and HIV/AIDS Faith Community Based Initiative) - Fiscal 2026,2026,rescind,,,Greater Allen AME Cathedral of New York,,112527706,-21675,DHMH,816,112,,
 9,2026-05-20,HIV/AIDS Pathways to Care (Formerly Ending the Epidemic and HIV/AIDS Faith Community Based Initiative) - Fiscal 2026,2026,designate,,,Allen African Methodist Episcopal Church,,112527706,21675,DHMH,816,112,,
 9,2026-05-20,Violence Prevention and Intervention for Youth and Young Adults (Formerly Art a Catalyst for Change and Crisis Management System) - Fiscal 2026,2026,rescind,,,"Ballroom Basix USA, Inc.",Academy of Urban Planning and Engineering (32K552),273218865,-18000,DCLA,126,003,,

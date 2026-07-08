@@ -58,6 +58,40 @@ def test_schema_and_hygiene():
             f'org text bled into member: {r["council_member"]!r}'
 
 
+def test_peel_delegation_unit():
+    """Unit test for the borough-delegation sponsor peel (DATA-ANOMALIES sec.16). The sponsor
+    '<Borough> Delegation' bleeds onto the organization line (leading, or split around the org
+    when it wraps); peel_delegation recovers it into the member and cleans the org, while never
+    touching a plain borough-led org name that carries no 'Delegation' token."""
+    import parse_transparency_reso as P
+    # leading "<Boro> Delegation <org>"
+    assert P.peel_delegation('Bronx Delegation Afro-Latino Association for Policy & Advocacy') \
+        == ('Bronx Delegation', 'Afro-Latino Association for Policy & Advocacy')
+    assert P.peel_delegation('Staten Island Delegation Grace Foundation of New York') \
+        == ('Staten Island Delegation', 'Grace Foundation of New York')
+    # split "<Boro> <org> Delegation"
+    assert P.peel_delegation('Staten Island Grace Foundation of New York Delegation') \
+        == ('Staten Island Delegation', 'Grace Foundation of New York')
+    # bare leading "Delegation <org>" -> stripped, no sponsor recovered
+    assert P.peel_delegation('Delegation Fundacion de Ayuda') == ('', 'Fundacion de Ayuda')
+    # negatives: never touch a borough-led org with no "Delegation" token, or a plain org
+    assert P.peel_delegation('Manhattan Chamber of Commerce') == ('', 'Manhattan Chamber of Commerce')
+    assert P.peel_delegation('Bronx Council on the Arts, Inc.') == ('', 'Bronx Council on the Arts, Inc.')
+    assert P.peel_delegation('New York Academy of Medicine, The') == ('', 'New York Academy of Medicine, The')
+
+
+@pytest.mark.skipif(not os.path.exists(COMBINED), reason='combined CSV not built yet')
+def test_no_delegation_bleed_in_org():
+    """The bled borough-delegation sponsor must not lead an organization value in the committed
+    combined CSV. A handful of heavily-mangled abbreviated rows may still carry 'Delegation'
+    mid-string (pre-existing dense-layout artifacts), so the guard is on the leading position."""
+    import re
+    rows = _rows(COMBINED)
+    boro = r'(?:Bronx|Brooklyn|Manhattan|Queens|Staten Island)'
+    bled = [r for r in rows if re.match(r'^(?:' + boro + r' )?Delegation\b', r['organization'])]
+    assert not bled, f'{len(bled)} org values still lead with a bled Delegation sponsor'
+
+
 @pytest.mark.skipif(not os.path.exists(COMBINED), reason='combined CSV not built yet')
 def test_all_ten_resolutions_present():
     resos = {int(r['resolution']) for r in _rows(COMBINED)}

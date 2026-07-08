@@ -1,32 +1,32 @@
 resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
 5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,,"Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Brooklyn Delegation BrooklynHousingandFamilyServices,Inc. Brooklyn",,112412584,-4219,HPD,,,.00) 806 009,
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,,"Delegation CrownHeightsJewishCommunityCouncil,Inc.",,237390996,4219,DYCD,,,.00 260 005,
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,,"CrownHeightsJewishCommunityCouncil,Inc.",,237390996,4219,DYCD,,,.00 260 005,
 5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,,"Lander FourthArtsBlock,Inc.",,043767933,-3000,DPR,,,.00) 846 006,
 5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,,"Lander FourthArtsBlock,Inc.",,043767933,3000,DCLA,,,.00 126 003,
 5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,,Jackson ManhattanLandTrust,,760715837,-3500,DPR,,,.00) 846 006,
 5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,,"Jackson GreenGuerillas,Inc.",,132903183,3500,DPR,,,.00 846 006,
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,,Mealy 81stPrecinctCommunityCouncil,,112517189,-5000,DYCD,,,.00) 260 312,**
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,,"Mealy ComputersforYouthFoundation,Inc.-IS392",,133935309,5000,DOE,,,.00 040 402,**
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,,Vann StuyvesantGardensIITenantAssociation,,204998252,-1000,NYCHA,,,.00) 098 002,**
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,,Vann BridgeStreetDevelopmentCorporation,,113250772,1000,DYCD,,,.00 260 005,**
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,,"Dromm DoeFund,Inc.,The",,133412540,-3500,DYCD,,,.00) 260 005,**
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,,"Dromm DoeFund,Inc.,The",,133412540,3500,DHS,,,.00 071 200,**
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,,"Eugene FriendsofCrownHeightsEducationalCenters,Inc.",,112305641,-4500,DYCD,,,.00) 260 005,**
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,,"Eugene BrooklynCongregationsUnited,Inc. Eugene DorchesterSeniorCitizensCenter,Inc.** 11-2305581",,611567317,3800,DYCD,,,.00 260 005,
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,,Eugene FriendsUnitedYouthCenter,,113584429,-7000,DYCD,,,.00) 260 312,**
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,,"Eugene Arab-AmericanFamilySupportCenter,Inc.,The",,113167245,3900,DYCD,,,.00 260 005,
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,,"Eugene DorchesterSeniorCitizensCenter,Inc.",,112305581,3100,DFTA,,,.00 125 003,**
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,,"Williams NathanD.AllsbrooksFoundation,Inc.",,263492339,-3500,DYCD,,,.00) 260 312,**
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,,"Williams NeighborhoodHousingServicesofEastFlatbush,Inc.** Reyna ReachingAcrosstheWorldMinistries 11-3572515",,133098397,3500,HPD,,,.00 806 009,
-5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,,"Reyna GlendaleCivilianObservationPatrol,Inc.,The",,112502910,2500,DYCD,,,.00 260 005,
-5,2012-11-13,YouthInitiatives-Fiscal2013,2013,rescind,,,"Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Mealy ComputersforYouthFoundation,Inc.",,133935309,-5000,DYCD,,,.00) 260 312,
-5,2012-11-13,YouthInitiatives-Fiscal2013,2013,designate,,,Mealy 81stPrecinctCommunityCouncil,,112517189,5000,DYCD,,,.00 260 312,
-5,2012-11-13,YouthInitiatives-Fiscal2013,2013,rescind,,,Crowley HolyChildJesusSports,,111639802,-3500,DYCD,,,.00) 260 312 GreaterWoodhavenDevelopmentCorporation 112508190,
-5,2012-11-13,YouthInitiatives-Fiscal2013,2013,designate,,,Crowley ChurchoftheHolyChildJesus,,111639802,3500,DYCD,,,.00 260 312 GreaterWoodhavenDevelopmentCorporation 112508190,
-5,2012-11-13,YouthInitiatives-Fiscal2013,2013,rescind,,,"Williams BrooklynSteppers,Inc.,The",,271223035,-3500,DYCD,,,.00) 260 312,
-5,2012-11-13,YouthInitiatives-Fiscal2013,2013,designate,,,"Williams NathanD.AllsbrooksFoundation,Inc.",,263492339,3500,DYCD,,,.00 260 312,
-5,2012-11-13,YouthInitiatives-Fiscal2013,2013,rescind,,,"Reyna SunofJusticeCadets,Inc.",,261432017,-2500,DYCD,,,.00) 260 312,
-5,2012-11-13,YouthInitiatives-Fiscal2013,2013,designate,,,Reyna ReachingAcrosstheWorldMinistries,,113572515,2500,DYCD,,,.00 260 312,
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,Mealy,81stPrecinctCommunityCouncil,,112517189,-5000,DYCD,,,.00) 260 312,**
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,Mealy,"ComputersforYouthFoundation,Inc.-IS392",,133935309,5000,DOE,,,.00 040 402,**
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,Mealy,Vann StuyvesantGardensIITenantAssociation,,204998252,-1000,NYCHA,,,.00) 098 002,**
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,Mealy,Vann BridgeStreetDevelopmentCorporation,,113250772,1000,DYCD,,,.00 260 005,**
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,Mealy,"Dromm DoeFund,Inc.,The",,133412540,-3500,DYCD,,,.00) 260 005,**
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,Mealy,"Dromm DoeFund,Inc.,The",,133412540,3500,DHS,,,.00 071 200,**
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,Mealy,"Eugene FriendsofCrownHeightsEducationalCenters,Inc.",,112305641,-4500,DYCD,,,.00) 260 005,**
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,Mealy,"Eugene BrooklynCongregationsUnited,Inc. Eugene DorchesterSeniorCitizensCenter,Inc.** 11-2305581",,611567317,3800,DYCD,,,.00 260 005,
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,Mealy,Eugene FriendsUnitedYouthCenter,,113584429,-7000,DYCD,,,.00) 260 312,**
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,Mealy,"Eugene Arab-AmericanFamilySupportCenter,Inc.,The",,113167245,3900,DYCD,,,.00 260 005,
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,Mealy,"Eugene DorchesterSeniorCitizensCenter,Inc.",,112305581,3100,DFTA,,,.00 125 003,**
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,rescind,,Williams,"NathanD.AllsbrooksFoundation,Inc.",,263492339,-3500,DYCD,,,.00) 260 312,**
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,Williams,"NeighborhoodHousingServicesofEastFlatbush,Inc.** Reyna ReachingAcrosstheWorldMinistries 11-3572515",,133098397,3500,HPD,,,.00 806 009,
+5,2012-11-13,LocalInitiatives-Fiscal2013,2013,designate,,Williams,"Reyna GlendaleCivilianObservationPatrol,Inc.,The",,112502910,2500,DYCD,,,.00 260 005,
+5,2012-11-13,YouthInitiatives-Fiscal2013,2013,rescind,,Mealy,"Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * ComputersforYouthFoundation,Inc.",,133935309,-5000,DYCD,,,.00) 260 312,
+5,2012-11-13,YouthInitiatives-Fiscal2013,2013,designate,,Mealy,81stPrecinctCommunityCouncil,,112517189,5000,DYCD,,,.00 260 312,
+5,2012-11-13,YouthInitiatives-Fiscal2013,2013,rescind,,Mealy,Crowley HolyChildJesusSports,,111639802,-3500,DYCD,,,.00) 260 312 GreaterWoodhavenDevelopmentCorporation 112508190,
+5,2012-11-13,YouthInitiatives-Fiscal2013,2013,designate,,Mealy,Crowley ChurchoftheHolyChildJesus,,111639802,3500,DYCD,,,.00 260 312 GreaterWoodhavenDevelopmentCorporation 112508190,
+5,2012-11-13,YouthInitiatives-Fiscal2013,2013,rescind,,Williams,"BrooklynSteppers,Inc.,The",,271223035,-3500,DYCD,,,.00) 260 312,
+5,2012-11-13,YouthInitiatives-Fiscal2013,2013,designate,,Williams,"NathanD.AllsbrooksFoundation,Inc.",,263492339,3500,DYCD,,,.00 260 312,
+5,2012-11-13,YouthInitiatives-Fiscal2013,2013,rescind,,Williams,"Reyna SunofJusticeCadets,Inc.",,261432017,-2500,DYCD,,,.00) 260 312,
+5,2012-11-13,YouthInitiatives-Fiscal2013,2013,designate,,Williams,Reyna ReachingAcrosstheWorldMinistries,,113572515,2500,DYCD,,,.00 260 312,
 5,2012-11-13,HIV/AIDSFaithBasedInitiative-Fiscal2013,2013,rescind,,,Organization EINNumber Agency Amount Agy# U/A * HIV/AIDSFaithBasedInitiative,,136400434,-1500000,DOHMH,,,.00) 816 112,
 5,2012-11-13,HIV/AIDSFaithBasedInitiative-Fiscal2013,2013,designate,,,AbyssinianBaptistChurch,,131635250,6400,DOHMH,,,.00 816 112 *,
 5,2012-11-13,HIV/AIDSFaithBasedInitiative-Fiscal2013,2013,designate,,,AbyssinianDevelopmentCorporation,,133552154,6400,DOHMH,,,.00 816 112,
@@ -206,11 +206,11 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 5,2012-11-13,HIV/AIDSCommunitiesofColor-Fiscal2013,2013,designate,,,"ClergyUnitedforCommunityEmpowerment,Inc.(formerlySQCCE)",,113030795,28800,DOHMH,,,.00 816 112,
 5,2012-11-13,HIV/AIDSCommunitiesofColor-Fiscal2013,2013,designate,,,VocesLatinaCorp.,,202312651,9175,DOHMH,,,.00 816 112 *,
 5,2012-11-13,HIV/AIDSCommunitiesofColor-Fiscal2013,2013,designate,,,CommunityHealthActionofStatenIsland(formerlySIAIDSTaskforce),,133556132,28800,DOHMH,,,.00 816 112,
-5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,rescind,,,Member Organization EINNumber Agency Amount Agy# U/A * Williams CreativeOutletDanceTheatreofBrooklynInc-PublicSchool268,,113307754,-20000,DCLA,,,.00) 126 003,
-5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,designate,,,Williams BrooklynArtsCouncil(BAC)-PublicSchool268,,237072915,20000,DCLA,,,.00 126 003,
-5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,rescind,,,"Mealy CircuitProductions,Inc-P.S.398",,132881858,-20000,DCLA,,,.00) 126 003,
-5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,designate,,,"Mealy CircuitProductions,Inc-P.S.12",,132881858,20000,DCLA,,,.00 126 003,
-5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,rescind,,,Halloran FlushingCouncilonCultureandtheArts-PS94DavidD.Porter,,112652182,-20000,DCLA,,,.00) 126 022,
-5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,designate,,,Halloran FlushingCouncilonCultureandtheArts-PS159,,112652182,20000,DCLA,,,.00 126 022,
-5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,rescind,,,Levin BrooklynConservatoryofMusic-PS110,,111532426,-20000,DCLA,,,.00) 126 003,
-5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,designate,,,"Levin CenterforArtsEducation,Inc.-PS110",,133938080,20000,DCLA,,,.00 126 003,
+5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,rescind,,Williams,Member Organization EINNumber Agency Amount Agy# U/A * CreativeOutletDanceTheatreofBrooklynInc-PublicSchool268,,113307754,-20000,DCLA,,,.00) 126 003,
+5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,designate,,Williams,BrooklynArtsCouncil(BAC)-PublicSchool268,,237072915,20000,DCLA,,,.00 126 003,
+5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,rescind,,Mealy,"CircuitProductions,Inc-P.S.398",,132881858,-20000,DCLA,,,.00) 126 003,
+5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,designate,,Mealy,"CircuitProductions,Inc-P.S.12",,132881858,20000,DCLA,,,.00 126 003,
+5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,rescind,,Mealy,Halloran FlushingCouncilonCultureandtheArts-PS94DavidD.Porter,,112652182,-20000,DCLA,,,.00) 126 022,
+5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,designate,,Mealy,Halloran FlushingCouncilonCultureandtheArts-PS159,,112652182,20000,DCLA,,,.00 126 022,
+5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,rescind,,Mealy,Levin BrooklynConservatoryofMusic-PS110,,111532426,-20000,DCLA,,,.00) 126 003,
+5,2012-11-13,CulturalAfterSchoolAdventure-Fiscal2013,2013,designate,,Mealy,"Levin CenterforArtsEducation,Inc.-PS110",,133938080,20000,DCLA,,,.00 126 003,

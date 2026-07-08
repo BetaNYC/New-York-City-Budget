@@ -29,18 +29,18 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Speaker,Palma FAN4Kids,,260092086,5000,DOE,,,.00 040 402,**
 2,2017-07-20,Local Initiatives - Fiscal 2018,2018,rescind,,Speaker,"Community Health Action of Staten Island, Inc.",,133556132,-25000,DYCD,,,.00) 260 005,
 2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Speaker,"Pride Center of Staten Island, Inc.",,463358895,25000,DYCD,,,.00 260 312,
-2,2017-07-20,Local Initiatives - Fiscal 2018,2018,rescind,,Speaker,"Mealy Make Music New York, Inc.",,205751217,-5000,DYCD,,,.00) 260 005,**
-2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Speaker,"Mealy Make Music New York, Inc.",,205751217,5000,DCLA,,,.00 126 003,**
-2,2017-07-20,Local Initiatives - Fiscal 2018,2018,rescind,,Speaker,"Cohen Little Orchestra Society-Orpheon, Inc., The",,132638292,-5000,DCLA,,,.00) 126 003,
-2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Speaker,"Cohen Innovative Charitable Initiatives, Inc.",,141813190,5000,DCLA,,,.00 126 003 *,
-2,2017-07-20,Local Initiatives - Fiscal 2018,2018,rescind,,Speaker,Cohen Mosholu Preservation Corporation,,133109387,-5000,DYCD,,,.00) 260 005,
-2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Speaker,Mosholu-Jerome East Gun Hill Road District Management Cohen Association,,133877808,5000,DYCD,,,.00 260 005 *,
-2,2017-07-20,Local Initiatives - Fiscal 2018,2018,rescind,,Speaker,Van Bramer Wildcat Service Corporation,,132725423,-24800,DYCD,,,.00) 260 005,**
-2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Speaker,New York City Housing Authority,"Ravenswood Residents Van Bramer Association, Inc.",136400434,8265,NYCHA,,,.00 098 002,**
-2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Speaker,New York City Housing Authority,Queensbridge Tenant's Van Bramer Association,136400434,8265,NYCHA,,,.00 098 002,**
-2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Speaker,New York City Housing Authority,Woodside Houses Tenants Van Bramer Association,136400434,8270,NYCHA,,,.00 098 002,**
-2,2017-07-20,Local Initiatives - Fiscal 2018,2018,rescind,,Speaker,Rosenthal Medicine Show Theatre Ensemble,,237158715,-3500,DCLA,,,.00) 126 003,**
-2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Speaker,Rosenthal Department of Education,Public School 84M,136400434,3500,DOE,,,.00 040 402,**
+2,2017-07-20,Local Initiatives - Fiscal 2018,2018,rescind,,Mealy,"Make Music New York, Inc.",,205751217,-5000,DYCD,,,.00) 260 005,**
+2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Mealy,"Make Music New York, Inc.",,205751217,5000,DCLA,,,.00 126 003,**
+2,2017-07-20,Local Initiatives - Fiscal 2018,2018,rescind,,Mealy,"Cohen Little Orchestra Society-Orpheon, Inc., The",,132638292,-5000,DCLA,,,.00) 126 003,
+2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Mealy,"Cohen Innovative Charitable Initiatives, Inc.",,141813190,5000,DCLA,,,.00 126 003 *,
+2,2017-07-20,Local Initiatives - Fiscal 2018,2018,rescind,,Mealy,Cohen Mosholu Preservation Corporation,,133109387,-5000,DYCD,,,.00) 260 005,
+2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Mealy,Mosholu-Jerome East Gun Hill Road District Management Cohen Association,,133877808,5000,DYCD,,,.00 260 005 *,
+2,2017-07-20,Local Initiatives - Fiscal 2018,2018,rescind,,Mealy,Van Bramer Wildcat Service Corporation,,132725423,-24800,DYCD,,,.00) 260 005,**
+2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Mealy,New York City Housing Authority,"Ravenswood Residents Van Bramer Association, Inc.",136400434,8265,NYCHA,,,.00 098 002,**
+2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Mealy,New York City Housing Authority,Queensbridge Tenant's Van Bramer Association,136400434,8265,NYCHA,,,.00 098 002,**
+2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Mealy,New York City Housing Authority,Woodside Houses Tenants Van Bramer Association,136400434,8270,NYCHA,,,.00 098 002,**
+2,2017-07-20,Local Initiatives - Fiscal 2018,2018,rescind,,Mealy,Rosenthal Medicine Show Theatre Ensemble,,237158715,-3500,DCLA,,,.00) 126 003,**
+2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Mealy,Rosenthal Department of Education,Public School 84M,136400434,3500,DOE,,,.00 040 402,**
 2,2017-07-20,Local Initiatives - Fiscal 2018,2018,rescind,,Speaker,"Jewish Community Council of Greater Coney Island, Inc.",,112665181,-115000,DFTA,,,.00) 125 003,**
 2,2017-07-20,Local Initiatives - Fiscal 2018,2018,designate,,Speaker,"Jewish Community Council of Greater Coney Island, Inc.",,112665181,115000,DYCD,,,.00 260 005,**
 2,2017-07-20,Local Initiatives - Fiscal 2018,2018,rescind,,,"Organization Conduit EIN Mark-Viverito Boys Club of New York, Inc., The",,135591750,-5000,DYCD,,,.00) 260 312,
@@ -226,15 +226,15 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,rescind,,,Perkins Manhattan Legal Services,,132613958,-6000,MOCJ,,,.00) 098 002 *,
 2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,"Perkins Harlem Mothers Stop Another Violent End, Inc.",,260847222,27000,MOCJ,,,.00 098 002 *,
 2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,"Perkins Her Justice, Inc.",,133688519,5000,MOCJ,,,.00 098 002,
-2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,"Salamanca Comunilife, Inc.",,133530299,5000,MOCJ,,,.00 098 002 *,
-2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,"Salamanca Point Community Development Corporation, The",,133765140,5000,MOCJ,,,.00 098 002 *,
-2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,Salamanca Women's Empowerment Self Defense Academy,,270390465,5000,MOCJ,,,.00 098 002,
-2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,"Treyger Edith and Carl Marks Jewish Community House of Bensonhurst, Inc.",,111633484,47333,MOCJ,,,.00 098 002,
-2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,"Treyger Jewish Community Council of Greater Coney Island, Inc.",,112665181,29260,MOCJ,,,.00 098 002,
-2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,"Treyger Salt and Sea Mission Church, Inc.",,113012147,30000,MOCJ,,,.00 098 002,
-2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,"Treyger SBH Community Service Network, Inc.",,237406410,10000,MOCJ,,,.00 098 002,
-2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,Ulrich District Attorney-Queens,,136400434,63111,DAQN,,,.00 904 002,**
-2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,"Ulrich Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,53482,MOCJ,,,.00 098 002,
+2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,Salamanca,"Comunilife, Inc.",,133530299,5000,MOCJ,,,.00 098 002 *,
+2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,Salamanca,"Point Community Development Corporation, The",,133765140,5000,MOCJ,,,.00 098 002 *,
+2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,Salamanca,Women's Empowerment Self Defense Academy,,270390465,5000,MOCJ,,,.00 098 002,
+2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,Salamanca,"Treyger Edith and Carl Marks Jewish Community House of Bensonhurst, Inc.",,111633484,47333,MOCJ,,,.00 098 002,
+2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,Salamanca,"Treyger Jewish Community Council of Greater Coney Island, Inc.",,112665181,29260,MOCJ,,,.00 098 002,
+2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,Salamanca,"Treyger Salt and Sea Mission Church, Inc.",,113012147,30000,MOCJ,,,.00 098 002,
+2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,Salamanca,"Treyger SBH Community Service Network, Inc.",,237406410,10000,MOCJ,,,.00 098 002,
+2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,Salamanca,Ulrich District Attorney-Queens,,136400434,63111,DAQN,,,.00 904 002,**
+2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,Salamanca,"Ulrich Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,53482,MOCJ,,,.00 098 002,
 2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,"Vallone Brooklyn Legal Services, Inc.",,132605605,18519,MOCJ,,,.00 098 002,
 2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,Vallone Jewish Association for Services for the Aged (JASA),,132620896,45000,MOCJ,,,.00 098 002,
 2,2017-07-20,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018,2018,designate,,,Vallone Korean American Family Services,,133609811,53074,MOCJ,,,.00 098 002,
@@ -402,30 +402,30 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 2,2017-07-20,Parks Equity Initiative - Fiscal 2018,2018,designate,,,Vallone New York Restoration Project,,133959056,10000,DPR,,,.00 846 006,
 2,2017-07-20,Parks Equity Initiative - Fiscal 2018,2018,designate,,,Vallone Department of Parks and Recreation,,136400434,68500,DPR,,,.00 846 006,
 2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,rescind,,,Department of Youth and Community Development,,136400434,-181193,DYCD,,,.00) 260 005,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,"Bronx Delegation Coalition for the Homeless, Inc.",,133072967,25000,DYCD,,,.00 260 005,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,Bronx Delegation St. Paul's Lutheran Church,,111711000,10000,DYCD,,,.00 260 005 *,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,Bronx Delegation Second Chance Resources Group,,454345759,9333,DYCD,,,.00 260 005 *,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,Manhattan Delegation Door,"A Center of Alternatives, Inc., The",136127348,10620,DYCD,,,.00 260 005,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,"Manhattan Delegation MCCNY Charities, Inc.",,275282132,10620,DYCD,,,.00 260 005,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,Manhattan Delegation Church of the Holy Apostles,,132892297,10620,DYCD,,,.00 260 005,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,"Staten Island Delegation Franciscan Handmaids of Mary St. Edward Food Pantry, Inc.",,133913578,17500,DYCD,,,.00 260 005 *,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,"Staten Island Delegation Council of Jewish Organzations of Staten Island, Inc.",,133525474,27500,DYCD,,,.00 260 005,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,"Staten Island Delegation World Association For Community Empowerment, Inc.",,134182791,5000,DYCD,,,.00 260 005,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,"Staten Island Delegation Staten Island Liberian Community Association, Inc.",,133936101,5000,DYCD,,,.00 260 005,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,Staten Island Delegation Second Chance Resources Group,,454345759,10000,DYCD,,,.00 260 005 *,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,"Staten Island Delegation Salvation Army, The",,135562351,5000,DYCD,,,.00 260 005,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,Staten Island Delegation Tomchei Shabbos of Staten Island,,223901876,10000,DYCD,,,.00 260 005 *,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,"Staten Island Delegation Community Health Action of Staten Island, Inc.",,133556132,5000,DYCD,,,.00 260 005,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,Staten Island Delegation University of Notre Dame Alumni Club of Staten Island,,311344537,5000,DYCD,,,.00 260 005,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,"Staten Island Delegation Jewish Community Center of Staten Island, Inc.",,135562256,10000,DYCD,,,.00 260 005,
-2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,,"Staten Island Delegation African Refuge, Inc.",,010873188,5000,DYCD,,,.00 260 005,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Bronx Delegation,"Coalition for the Homeless, Inc.",,133072967,25000,DYCD,,,.00 260 005,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Bronx Delegation,St. Paul's Lutheran Church,,111711000,10000,DYCD,,,.00 260 005 *,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Bronx Delegation,Second Chance Resources Group,,454345759,9333,DYCD,,,.00 260 005 *,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Manhattan Delegation,Door,"A Center of Alternatives, Inc., The",136127348,10620,DYCD,,,.00 260 005,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Manhattan Delegation,"MCCNY Charities, Inc.",,275282132,10620,DYCD,,,.00 260 005,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Manhattan Delegation,Church of the Holy Apostles,,132892297,10620,DYCD,,,.00 260 005,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Staten Island Delegation,"Franciscan Handmaids of Mary St. Edward Food Pantry, Inc.",,133913578,17500,DYCD,,,.00 260 005 *,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Staten Island Delegation,"Council of Jewish Organzations of Staten Island, Inc.",,133525474,27500,DYCD,,,.00 260 005,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Staten Island Delegation,"World Association For Community Empowerment, Inc.",,134182791,5000,DYCD,,,.00 260 005,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Staten Island Delegation,"Staten Island Liberian Community Association, Inc.",,133936101,5000,DYCD,,,.00 260 005,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Staten Island Delegation,Second Chance Resources Group,,454345759,10000,DYCD,,,.00 260 005 *,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Staten Island Delegation,"Salvation Army, The",,135562351,5000,DYCD,,,.00 260 005,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Staten Island Delegation,Tomchei Shabbos of Staten Island,,223901876,10000,DYCD,,,.00 260 005 *,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Staten Island Delegation,"Community Health Action of Staten Island, Inc.",,133556132,5000,DYCD,,,.00 260 005,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Staten Island Delegation,University of Notre Dame Alumni Club of Staten Island,,311344537,5000,DYCD,,,.00 260 005,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Staten Island Delegation,"Jewish Community Center of Staten Island, Inc.",,135562256,10000,DYCD,,,.00 260 005,
+2,2017-07-20,Food Pantries Initiative - Fiscal 2018,2018,designate,,Staten Island Delegation,"African Refuge, Inc.",,010873188,5000,DYCD,,,.00 260 005,
 2,2017-07-20,Neighborhood Development Grant Initiative - Fiscal 2018,2018,rescind,,,Department of Small Business Services,,136400434,-132000,DSBS,,,.00) 801 002,
 2,2017-07-20,Neighborhood Development Grant Initiative - Fiscal 2018,2018,designate,,,"Cabrera United Auto Merchants Association, Inc.",,364615681,22000,DSBS,,,.00 801 002,
 2,2017-07-20,Neighborhood Development Grant Initiative - Fiscal 2018,2018,designate,,,Cornegy Bridge Street Development Corporation,,113250772,22000,DSBS,,,.00 801 002,
 2,2017-07-20,Neighborhood Development Grant Initiative - Fiscal 2018,2018,designate,,,Lancman Greater Jamaica Development Corp,,237021273,22000,DSBS,,,.00 801 002,
 2,2017-07-20,Neighborhood Development Grant Initiative - Fiscal 2018,2018,designate,,,"Perkins Harlem Business Alliance, Inc.",,133591350,22000,DSBS,,,.00 801 002,
-2,2017-07-20,Neighborhood Development Grant Initiative - Fiscal 2018,2018,designate,,,"Salamanca Urban Health Plan, Inc.",,237360305,22000,DSBS,,,.00 801 002,
-2,2017-07-20,Neighborhood Development Grant Initiative - Fiscal 2018,2018,designate,,,Van Bramer Sunnyside District Management Association,,261278224,22000,DSBS,,,.00 801 002,
+2,2017-07-20,Neighborhood Development Grant Initiative - Fiscal 2018,2018,designate,,Salamanca,"Urban Health Plan, Inc.",,237360305,22000,DSBS,,,.00 801 002,
+2,2017-07-20,Neighborhood Development Grant Initiative - Fiscal 2018,2018,designate,,Salamanca,Van Bramer Sunnyside District Management Association,,261278224,22000,DSBS,,,.00 801 002,
 2,2017-07-20,Cultural Immigrant Initiative - Fiscal 2018,2018,rescind,,,Department of Cultural Affairs,,136400434,-1271000,DCLA,,,.00) 126 003,
 2,2017-07-20,Cultural Immigrant Initiative - Fiscal 2018,2018,designate,,,"Borelli New York Women in Film & Television, Inc.",,132983705,10000,DCLA,,,.00 126 003,
 2,2017-07-20,Cultural Immigrant Initiative - Fiscal 2018,2018,designate,,,Borelli Asian American Arts Alliance,,133480189,10000,DCLA,,,.00 126 003,

@@ -13,18 +13,18 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2021-11-10,Local Initiatives - Fiscal 2022,2022,designate,,,"Cumbo Planned Parenthood of Greater New York, Inc.",Project Street Beat,132621497,5000,DHMH,816,112,,**
 6,2021-11-10,Local Initiatives - Fiscal 2022,2022,rescind,,,"CD48 Sparks PPD, Inc.",,260794276,-7500,DHMH,816,120,,
 6,2021-11-10,Local Initiatives - Fiscal 2022,2022,designate,,,"CD48 Sparks PPD, Inc.",,260794276,7500,DHMH,816,113,,
-6,2021-11-10,Local Initiatives - Fiscal 2022,2022,rescind,,,Holden Department of Sanitation,Council District 30,136400434,-5000,DSNY,827,109,,**
-6,2021-11-10,Local Initiatives - Fiscal 2022,2022,designate,,,Holden Department of Transportation,Bike Helmet Giveaway - Council District 30,136400434,5000,DOT,841,011,,**
-6,2021-11-10,Local Initiatives - Fiscal 2022,2022,rescind,,,"Brooks-Powers Swim Strong Foundation, Inc.",Far Rockaway,371526132,-5000,DYCD,260,312,,
-6,2021-11-10,Local Initiatives - Fiscal 2022,2022,designate,,,"Brooks-Powers Swim Strong Foundation, Inc.",Council District 31,371526132,5000,DYCD,260,312,,
-6,2021-11-10,Local Initiatives - Fiscal 2022,2022,rescind,,,"Louis Bridge Multicultural and Advocacy Project, Inc., The",Council District 45,454634142,-4000,DYCD,260,312,,**
-6,2021-11-10,Local Initiatives - Fiscal 2022,2022,designate,,,"Louis Samaritans of New York, Inc.",Council District 45,133164464,4000,DHMH,816,120,,**
-6,2021-11-10,Local Initiatives - Fiscal 2022,2022,rescind,,,Louis Brooklyn Defender Services,Council District 45,113305406,-5000,DSS/HRA,069,107,,**
-6,2021-11-10,Local Initiatives - Fiscal 2022,2022,designate,,,"Louis Young New Yorkers, Inc.",Council District 45,811465388,5000,DHMH,816,120,,**
-6,2021-11-10,Youth Discretionary - Fiscal 2022,2022,rescind,,,"Brooks-Powers Chess-in-the-Schools, Inc.",Public School 52Q (29Q52),136119036,-5000,DYCD,260,312,,
-6,2021-11-10,Youth Discretionary - Fiscal 2022,2022,designate,,,"Brooks-Powers Chess-in-the-Schools, Inc.",Council District 31,136119036,5000,DYCD,260,312,,
-6,2021-11-10,Youth Discretionary - Fiscal 2022,2022,rescind,,,"Louis Samaritans of New York, Inc.",Cuncil District 45,133164464,-4000,DYCD,260,312,,
-6,2021-11-10,Youth Discretionary - Fiscal 2022,2022,designate,,,"Louis Bridge Multicultural and Advocacy Project, Inc., The",Council District 45,454634142,4000,DYCD,260,312,,
+6,2021-11-10,Local Initiatives - Fiscal 2022,2022,rescind,,Holden,Department of Sanitation,Council District 30,136400434,-5000,DSNY,827,109,,**
+6,2021-11-10,Local Initiatives - Fiscal 2022,2022,designate,,Holden,Department of Transportation,Bike Helmet Giveaway - Council District 30,136400434,5000,DOT,841,011,,**
+6,2021-11-10,Local Initiatives - Fiscal 2022,2022,rescind,,Brooks-Powers,"Swim Strong Foundation, Inc.",Far Rockaway,371526132,-5000,DYCD,260,312,,
+6,2021-11-10,Local Initiatives - Fiscal 2022,2022,designate,,Brooks-Powers,"Swim Strong Foundation, Inc.",Council District 31,371526132,5000,DYCD,260,312,,
+6,2021-11-10,Local Initiatives - Fiscal 2022,2022,rescind,,Louis,"Bridge Multicultural and Advocacy Project, Inc., The",Council District 45,454634142,-4000,DYCD,260,312,,**
+6,2021-11-10,Local Initiatives - Fiscal 2022,2022,designate,,Louis,"Samaritans of New York, Inc.",Council District 45,133164464,4000,DHMH,816,120,,**
+6,2021-11-10,Local Initiatives - Fiscal 2022,2022,rescind,,Louis,Brooklyn Defender Services,Council District 45,113305406,-5000,DSS/HRA,069,107,,**
+6,2021-11-10,Local Initiatives - Fiscal 2022,2022,designate,,Louis,"Young New Yorkers, Inc.",Council District 45,811465388,5000,DHMH,816,120,,**
+6,2021-11-10,Youth Discretionary - Fiscal 2022,2022,rescind,,Brooks-Powers,"Chess-in-the-Schools, Inc.",Public School 52Q (29Q52),136119036,-5000,DYCD,260,312,,
+6,2021-11-10,Youth Discretionary - Fiscal 2022,2022,designate,,Brooks-Powers,"Chess-in-the-Schools, Inc.",Council District 31,136119036,5000,DYCD,260,312,,
+6,2021-11-10,Youth Discretionary - Fiscal 2022,2022,rescind,,Louis,"Samaritans of New York, Inc.",Cuncil District 45,133164464,-4000,DYCD,260,312,,
+6,2021-11-10,Youth Discretionary - Fiscal 2022,2022,designate,,Louis,"Bridge Multicultural and Advocacy Project, Inc., The",Council District 45,454634142,4000,DYCD,260,312,,
 6,2021-11-10,Anti-Poverty Initiative - Fiscal 2022,2022,rescind,,,Eugene Brooklyn Defender Services,Mental Health Initiative,113305406,-5000,DHMH,816,120,,
 6,2021-11-10,Anti-Poverty Initiative - Fiscal 2022,2022,designate,,,"Eugene Young New Yorkers, Inc.",Mental Health Initiative,811465388,5000,DHMH,816,120,,
 6,2021-11-10,A Greener NYC - Fiscal 2022,2022,rescind,,,D. Diaz City Parks Foundation,Tree Guards - Council District 37,133561657,-30000,DPR,846,006,,***
@@ -32,34 +32,34 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2021-11-10,A Greener NYC - Fiscal 2022,2022,rescind,,,Department of Youth and Community Development,,136400434,-82000,DYCD,260,005,,
 6,2021-11-10,A Greener NYC - Fiscal 2022,2022,designate,,,"Perkins Horticultural Society of New York, The",Council District 9,130854930,55000,DYCD,260,005,,
 6,2021-11-10,A Greener NYC - Fiscal 2022,2022,designate,,,"Perkins Green Guerillas, Inc.",,132903183,10000,DYCD,260,005,,
-6,2021-11-10,A Greener NYC - Fiscal 2022,2022,designate,,,"Feliz Bronx is Blooming, The",Council District 15,463141885,17000,DYCD,260,005,,
-6,2021-11-10,A Greener NYC - Fiscal 2022,2022,rescind,,,Department of Youth and Community Development,,136400434,-45000,DYCD,260,005,,**
-6,2021-11-10,A Greener NYC - Fiscal 2022,2022,designate,,,Maisel Department of Parks and Recreation,Council District 46,136400434,45000,DPR,846,006,,**
+6,2021-11-10,A Greener NYC - Fiscal 2022,2022,designate,,Feliz,"Bronx is Blooming, The",Council District 15,463141885,17000,DYCD,260,005,,
+6,2021-11-10,A Greener NYC - Fiscal 2022,2022,rescind,,Feliz,Department of Youth and Community Development,,136400434,-45000,DYCD,260,005,,**
+6,2021-11-10,A Greener NYC - Fiscal 2022,2022,designate,,Feliz,Maisel Department of Parks and Recreation,Council District 46,136400434,45000,DPR,846,006,,**
 6,2021-11-10,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,Department of Cultural Affairs,,136400434,-60000,DCLA,126,003,,
 6,2021-11-10,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Maisel BRIC Arts Media Brooklyn, Inc.",Public School 277K Gerritsen Beach (22K277),112547268,20000,DCLA,126,003,,
-6,2021-11-10,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Brooks-Powers Marquis Studios, Ltd.",Public School 052Q Queens (29Q052),133047206,20000,DCLA,126,003,,
-6,2021-11-10,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Brooks-Powers Marquis Studios, Ltd.",Frederick Douglass Academy VI High School (27Q260),133047206,20000,DCLA,126,003,,
+6,2021-11-10,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Brooks-Powers,"Marquis Studios, Ltd.",Public School 052Q Queens (29Q052),133047206,20000,DCLA,126,003,,
+6,2021-11-10,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Brooks-Powers,"Marquis Studios, Ltd.",Frederick Douglass Academy VI High School (27Q260),133047206,20000,DCLA,126,003,,
 6,2021-11-10,Neighborhood Development Grant Initiative - Fiscal 2022,2022,rescind,,,Department of Small Business Services,,136400434,-10000,SBS,801,002,,**
 6,2021-11-10,Neighborhood Development Grant Initiative - Fiscal 2022,2022,designate,,,"Perkins Nuyorican Poets Cafe, Inc.",,510139390,10000,DYCD,260,005,,**
 6,2021-11-10,Neighborhood Development Grant Initiative - Fiscal 2022,2022,rescind,,,Department of Small Business Services,,136400434,-30000,SBS,801,002,,
-6,2021-11-10,Neighborhood Development Grant Initiative - Fiscal 2022,2022,designate,,,"Feliz Fordham Road District Management Association, Inc.",Fordham BID Events & Initiatives,260117797,20000,SBS,801,002,,
-6,2021-11-10,Neighborhood Development Grant Initiative - Fiscal 2022,2022,designate,,,Dinowitz Kingsbridge District Management Association,Kingsbridge BID Power Washing,364457572,10000,SBS,801,002,,
+6,2021-11-10,Neighborhood Development Grant Initiative - Fiscal 2022,2022,designate,,Feliz,"Fordham Road District Management Association, Inc.",Fordham BID Events & Initiatives,260117797,20000,SBS,801,002,,
+6,2021-11-10,Neighborhood Development Grant Initiative - Fiscal 2022,2022,designate,,Dinowitz,Kingsbridge District Management Association,Kingsbridge BID Power Washing,364457572,10000,SBS,801,002,,
 6,2021-11-10,NYC Cleanup Initiative - Fiscal 2022,2022,rescind,,,Department of Youth and Community Development,,136400434,-105000,DYCD,260,005,,
 6,2021-11-10,NYC Cleanup Initiative - Fiscal 2022,2022,designate,,,"Borelli Where to Turn, Inc.",Council District 51,200404386,5000,DYCD,260,005,,
 6,2021-11-10,NYC Cleanup Initiative - Fiscal 2022,2022,designate,,,Perkins Uptown Grand Central,Council District 9,811133229,20000,DYCD,260,005,,
-6,2021-11-10,NYC Cleanup Initiative - Fiscal 2022,2022,designate,,,"Feliz Horticultural Society of New York, The",Fordham Plaza Maintenance and Beautification,130854930,80000,DYCD,260,005,,
-6,2021-11-10,NYC Cleanup Initiative - Fiscal 2022,2022,rescind,,,Department of Youth and Community Development,,136400434,-65000,DYCD,260,005,,**
-6,2021-11-10,NYC Cleanup Initiative - Fiscal 2022,2022,designate,,,Perkins Department of Sanitation,Malcolm X & Frederick Douglass Boulevards,136400434,65000,DSNY,827,102,,**
-6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,rescind,,,Holden Department of Parks and Recreation,Council District 30,136400434,-40000,DPR,846,006,,***
-6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,rescind,,,Holden Department of Parks and Recreation,Ognibene Garden,136400434,-5000,DPR,846,006,,***
-6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,rescind,,,City Parks Foundation,Tree Guards - Knickerboker Avenue's Commercial Strip - Council D. Diaz District 37,133561657,-30000,DPR,846,006,,***
-6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,designate,,,Department of Parks and Recreation,,136400434,75000,DPR,846,006,,***
-6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,rescind,,,Department of Parks and Recreation,,136400434,-50000,DPR,846,006,,
-6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,designate,,,Maisel Department of Parks and Recreation,"Seaview Park, Marine Park & McGuire Park",136400434,15000,DPR,846,006,,
-6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,designate,,,Maisel Department of Parks and Recreation,Council District 46,136400434,35000,DPR,846,006,,
-6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,rescind,,,Department of Parks and Recreation,,136400434,-20000,DPR,846,006,,**
-6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,designate,,,"Perkins Council on the Environment, Inc.",Council District 9,132765465,10000,DYCD,260,005,,**
-6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,designate,,,Perkins New York Restoration Project,Council District 9,133959056,10000,DYCD,260,005,,**
+6,2021-11-10,NYC Cleanup Initiative - Fiscal 2022,2022,designate,,Feliz,"Horticultural Society of New York, The",Fordham Plaza Maintenance and Beautification,130854930,80000,DYCD,260,005,,
+6,2021-11-10,NYC Cleanup Initiative - Fiscal 2022,2022,rescind,,Feliz,Department of Youth and Community Development,,136400434,-65000,DYCD,260,005,,**
+6,2021-11-10,NYC Cleanup Initiative - Fiscal 2022,2022,designate,,Feliz,Perkins Department of Sanitation,Malcolm X & Frederick Douglass Boulevards,136400434,65000,DSNY,827,102,,**
+6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,rescind,,Holden,Department of Parks and Recreation,Council District 30,136400434,-40000,DPR,846,006,,***
+6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,rescind,,Holden,Department of Parks and Recreation,Ognibene Garden,136400434,-5000,DPR,846,006,,***
+6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,rescind,,Holden,City Parks Foundation,Tree Guards - Knickerboker Avenue's Commercial Strip - Council D. Diaz District 37,133561657,-30000,DPR,846,006,,***
+6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,designate,,Holden,Department of Parks and Recreation,,136400434,75000,DPR,846,006,,***
+6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,rescind,,Holden,Department of Parks and Recreation,,136400434,-50000,DPR,846,006,,
+6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,designate,,Holden,Maisel Department of Parks and Recreation,"Seaview Park, Marine Park & McGuire Park",136400434,15000,DPR,846,006,,
+6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,designate,,Holden,Maisel Department of Parks and Recreation,Council District 46,136400434,35000,DPR,846,006,,
+6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,rescind,,Holden,Department of Parks and Recreation,,136400434,-20000,DPR,846,006,,**
+6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,designate,,Holden,"Perkins Council on the Environment, Inc.",Council District 9,132765465,10000,DYCD,260,005,,**
+6,2021-11-10,Parks Equity Initiative - Fiscal 2022,2022,designate,,Holden,Perkins New York Restoration Project,Council District 9,133959056,10000,DYCD,260,005,,**
 6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,rescind,,,"Borelli Intrepid Museum Foundation, Inc.",Public School 004 Maurice Wollin (31R004),133062419,-20000,DCLA,126,003,,
 6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,,"Borelli Intrepid Museum Foundation, Inc.",Council District 51,133062419,20000,DCLA,126,003,,
 6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,rescind,,,Department of Cultural Affairs,,136400434,-36000,DCLA,126,003,,
@@ -70,49 +70,49 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,,Maisel Hendrick I Lott House Preservation Association,,133945416,6000,DCLA,126,003,,
 6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,rescind,,,Department of Youth and Community Development,,136400434,-45000,DYCD,260,005,,**
 6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,,"Maisel Brooklyn Arts Council, Inc.",,237072915,10000,DCLA,126,003,,**
-6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,,Holden City University of New York,Queens Performing Arts Center,136400434,35000,CUNY,042,001,,**
-6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,rescind,,,City University of New York,,136400434,-5000,CUNY,042,001,,
-6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,,Holden City University of New York,Queens Performing Arts Center,136400434,5000,CUNY,042,001,,
-6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,rescind,,,Brannan Yemeni American Merchants Association,,823539502,-10000,DYCD,260,005,,**
-6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,rescind,,,Lander Yemeni American Merchants Association,,823539502,-10000,DYCD,260,005,,**
-6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,rescind,,,Levine Yemeni American Merchants Association,,823539502,-15000,DYCD,260,005,,**
-6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,,Brannan Yemeni American Merchants Association,,823539502,10000,DCLA,126,003,,**
-6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,,Lander Yemeni American Merchants Association,,823539502,10000,DCLA,126,003,,**
-6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,,Levine Yemeni American Merchants Association,,823539502,15000,DCLA,126,003,,**
+6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,Holden,City University of New York,Queens Performing Arts Center,136400434,35000,CUNY,042,001,,**
+6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,rescind,,Holden,City University of New York,,136400434,-5000,CUNY,042,001,,
+6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,Holden,City University of New York,Queens Performing Arts Center,136400434,5000,CUNY,042,001,,
+6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,rescind,,Brannan,Yemeni American Merchants Association,,823539502,-10000,DYCD,260,005,,**
+6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,rescind,,Brannan,Lander Yemeni American Merchants Association,,823539502,-10000,DYCD,260,005,,**
+6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,rescind,,Brannan,Levine Yemeni American Merchants Association,,823539502,-15000,DYCD,260,005,,**
+6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,Brannan,Yemeni American Merchants Association,,823539502,10000,DCLA,126,003,,**
+6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,Brannan,Lander Yemeni American Merchants Association,,823539502,10000,DCLA,126,003,,**
+6,2021-11-10,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,Brannan,Levine Yemeni American Merchants Association,,823539502,15000,DCLA,126,003,,**
 6,2021-11-10,Support Our Seniors - Fiscal 2022,2022,rescind,,,Department for the Aging,,136400434,-13500,DFTA,125,003,,
 6,2021-11-10,Support Our Seniors - Fiscal 2022,2022,designate,,,"Perkins Institute for the Puerto Rican/Hispanic Elderly, Inc.",,132987263,13500,DFTA,125,003,,
-6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,rescind,,,Brooklyn Delegation Camp Friendship Inc.,,510187589,-10000,DYCD,260,005,,
-6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,,"Brooklyn Delegation Camp Friendship, Inc.",,510187589,10000,DYCD,260,005,,
+6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,rescind,,Brooklyn Delegation,Camp Friendship Inc.,,510187589,-10000,DYCD,260,005,,
+6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,Brooklyn Delegation,"Camp Friendship, Inc.",,510187589,10000,DYCD,260,005,,
 6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,rescind,,,Department of Youth and Community Development,,136400434,-153731,DYCD,260,005,,
-6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,,"Brooklyn Delegation Council of Jewish Organizations of Flatbush, Inc.",,112864728,18000,DYCD,260,005,,
-6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,,Brooklyn Delegation Boro Park Jewish Community Council,,113475993,47062,DYCD,260,005,,
-6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,,"Brooklyn Delegation SBH Community Service Network, Inc.",,237406410,46500,DYCD,260,005,,
-6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,,Brooklyn Delegation Masbia of Boro Park,,263851559,12500,DYCD,260,005,,
-6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,,Brooklyn Delegation Masbia of Flatbush,,271209610,5000,DYCD,260,005,,
-6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,,"Brooklyn Delegation Council of Peoples Organization, Inc.",,753046891,5000,DYCD,260,005,,
-6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,,Brooklyn Delegation Food Bank For New York City,CAMBA Food Pantry - EFRO# 81742,133179546,5316,DYCD,260,005,,
-6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,,Queens Delegation Food Bank For New York City,Center of Hope International - EFRO# 87007,133179546,5233,DYCD,260,005,,
-6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,,Queens Delegation Food Bank For New York City,St. Raphael RC Church Food Pantry - EFRO# 83628,133179546,6320,DYCD,260,005,,
+6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,Brooklyn Delegation,"Council of Jewish Organizations of Flatbush, Inc.",,112864728,18000,DYCD,260,005,,
+6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,Brooklyn Delegation,Boro Park Jewish Community Council,,113475993,47062,DYCD,260,005,,
+6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,Brooklyn Delegation,"SBH Community Service Network, Inc.",,237406410,46500,DYCD,260,005,,
+6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,Brooklyn Delegation,Masbia of Boro Park,,263851559,12500,DYCD,260,005,,
+6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,Brooklyn Delegation,Masbia of Flatbush,,271209610,5000,DYCD,260,005,,
+6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,Brooklyn Delegation,"Council of Peoples Organization, Inc.",,753046891,5000,DYCD,260,005,,
+6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,Brooklyn Delegation,Food Bank For New York City,CAMBA Food Pantry - EFRO# 81742,133179546,5316,DYCD,260,005,,
+6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,Queens Delegation,Food Bank For New York City,Center of Hope International - EFRO# 87007,133179546,5233,DYCD,260,005,,
+6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,Queens Delegation,Food Bank For New York City,St. Raphael RC Church Food Pantry - EFRO# 83628,133179546,6320,DYCD,260,005,,
 6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,,Food Bank For New York City,St. Teresa Church Saint Vincent DePaul Society - EFRO# Queens Delegation 84105,133179546,2318,DYCD,260,005,,
-6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,,"Queens Delegation Hour Children, Inc.",Food Pantry,133647412,482,DYCD,260,005,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,rescind,,,Holden Mayor's Office of Criminal Justice,,136400434,-15000,MOCJ,098,002,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,,Holden Brooklyn Legal Services Corporation A,,132605599,15000,MOCJ,098,002,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,rescind,,,"Maisel Safe Horizon, Inc.",,132946970,-15000,MOCJ,098,002,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,,Maisel Brooklyn Defender Services,Council District 46,113305406,5000,MOCJ,098,002,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,,"Maisel HOPE Program, Inc., The",Council District 46,133268539,5000,MOCJ,098,002,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,,"Maisel Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",Council District 46,132738818,5000,MOCJ,098,002,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,rescind,,,Mayor's Office of Criminal Justice,,136400434,-167000,MOCJ,098,002,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,,"Menchaca Arab American Association of New York, Inc.",,113604756,25000,MOCJ,098,002,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,,"Menchaca Arab-American Family Support Center, Inc., The",,113167245,7500,MOCJ,098,002,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,,"Fund for the City of New York, Inc.",Red Hook Community Justice Center: Counseling and Menchaca Restorative Services (CARES),132612524,37000,MOCJ,098,002,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,,"Menchaca Sanctuary for Families, Inc.",,133193119,37000,MOCJ,098,002,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,,"Menchaca Sunset Park Health Council, Inc.",,202508411,26500,MOCJ,098,002,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,,Vallone Brooklyn Legal Services Corporation A,,132605599,25000,MOCJ,098,002,,
-6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,,Holden Brooklyn Legal Services Corporation A,,132605599,9000,MOCJ,098,002,,
+6,2021-11-10,Food Pantries Initiative - Fiscal 2022,2022,designate,,Queens Delegation,"Hour Children, Inc.",Food Pantry,133647412,482,DYCD,260,005,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,rescind,,Holden,Mayor's Office of Criminal Justice,,136400434,-15000,MOCJ,098,002,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,Holden,Brooklyn Legal Services Corporation A,,132605599,15000,MOCJ,098,002,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,rescind,,Holden,"Maisel Safe Horizon, Inc.",,132946970,-15000,MOCJ,098,002,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,Holden,Maisel Brooklyn Defender Services,Council District 46,113305406,5000,MOCJ,098,002,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,Holden,"Maisel HOPE Program, Inc., The",Council District 46,133268539,5000,MOCJ,098,002,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,Holden,"Maisel Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",Council District 46,132738818,5000,MOCJ,098,002,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,rescind,,Holden,Mayor's Office of Criminal Justice,,136400434,-167000,MOCJ,098,002,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,Holden,"Menchaca Arab American Association of New York, Inc.",,113604756,25000,MOCJ,098,002,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,Holden,"Menchaca Arab-American Family Support Center, Inc., The",,113167245,7500,MOCJ,098,002,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,Holden,"Fund for the City of New York, Inc.",Red Hook Community Justice Center: Counseling and Menchaca Restorative Services (CARES),132612524,37000,MOCJ,098,002,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,Holden,"Menchaca Sanctuary for Families, Inc.",,133193119,37000,MOCJ,098,002,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,Holden,"Menchaca Sunset Park Health Council, Inc.",,202508411,26500,MOCJ,098,002,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,Holden,Vallone Brooklyn Legal Services Corporation A,,132605599,25000,MOCJ,098,002,,
+6,2021-11-10,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022,2022,designate,,Holden,Brooklyn Legal Services Corporation A,,132605599,9000,MOCJ,098,002,,
 6,2021-11-10,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,rescind,,,Department of Youth and Community Development,,136400434,-45000,DYCD,260,005,,
 6,2021-11-10,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,designate,,,Perkins Girl Be Heard Institute,,271848709,20000,DYCD,260,005,,
 6,2021-11-10,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,designate,,,"Perkins Harlem Commonwealth Council, Inc.",,136271908,5000,DYCD,260,005,,
-6,2021-11-10,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,designate,,,"Holden New York Edge, Inc.",Council District 30,113112635,20000,DYCD,260,005,,
+6,2021-11-10,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,designate,,Holden,"New York Edge, Inc.",Council District 30,113112635,20000,DYCD,260,005,,
 6,2021-11-10,Art a Catalyst for Change - Fiscal 2022,2022,rescind,,,Partners Uplifting our Daughters and Sons,Meyer Levin High School,473679850,-18000,DYCD,260,005,,
 6,2021-11-10,Art a Catalyst for Change - Fiscal 2022,2022,designate,,,Department of Youth and Community Development,Meyer Levin High School,136400434,18000,DYCD,260,005,,
 6,2021-11-10,Stabilizing NYC - Fiscal 2022,2022,rescind,,,Housing Preservation and Development,,136400434,-233228,HPD,806,009,,

@@ -1,230 +1,230 @@
 resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,,Feliz Department of Sanitation,Security Cameras - Council District 15,136400434,-40000,DSNY,827,109,,**
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,,Feliz New York Botanical Garden,Senior Group Tours,131693134,-10000,DCLA,126,005,,**
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,,"Committee for Hispanic Children and Families, Inc., The",Public School 059X Feliz The Community School of Technology (10X059),112622003,-10000,DYCD,260,312,,**
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,,"Feliz Marquis Studios, Ltd.",Public School 057X Crescent (12X057),133047206,20000,DCLA,126,003,,**
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,,"Midtown Management Group, Inc.",Public School 028X Mount Hope (09X028) Feliz,133192793,20000,DCLA,126,003,,**
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,,Feliz Renaissance Youth Center,Jonas Bronk Academy (10X228),134122438,20000,DCLA,126,003,,**
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,,Narcisse Mindful Doing,PACT – Parent and Child Time,880572264,-10000,DYCD,260,312,,
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,,"Narcisse Mindful Doing, Inc.",PACT – Parent and Child Time,880572264,10000,DYCD,260,312,,
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Feliz,Department of Sanitation,Security Cameras - Council District 15,136400434,-40000,DSNY,827,109,,**
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Feliz,New York Botanical Garden,Senior Group Tours,131693134,-10000,DCLA,126,005,,**
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Feliz,"Committee for Hispanic Children and Families, Inc., The",Public School 059X The Community School of Technology (10X059),112622003,-10000,DYCD,260,312,,**
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Feliz,"Marquis Studios, Ltd.",Public School 057X Crescent (12X057),133047206,20000,DCLA,126,003,,**
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Feliz,"Midtown Management Group, Inc.",Public School 028X Mount Hope (09X028),133192793,20000,DCLA,126,003,,**
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Feliz,Renaissance Youth Center,Jonas Bronk Academy (10X228),134122438,20000,DCLA,126,003,,**
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Narcisse,Mindful Doing,PACT – Parent and Child Time,880572264,-10000,DYCD,260,312,,
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Narcisse,"Mindful Doing, Inc.",PACT – Parent and Child Time,880572264,10000,DYCD,260,312,,
 5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,Mindful Doing,PACT – Parent and Child Time,880572264,-25000,DYCD,260,312,,
 5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Mindful Doing, Inc.",PACT – Parent and Child Time,880572264,25000,DYCD,260,312,,
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Gennaro Fund for the City of New York, Inc.",Queens Youth Court,132612524,-2500,DYCD,260,312,,
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Gennaro Justice Innovation, Inc.",Queens Youth Court,852810883,2500,DYCD,260,312,,
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Gennaro Fund for the City of New York, Inc.",Queens Youth Justice Center,132612524,-2500,DYCD,260,312,,
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Gennaro Justice Innovation, Inc.",Queens Youth Justice Center,852810883,2500,DYCD,260,312,,
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Gennaro Fund for the City of New York, Inc.",QYJC Youth Justice Council,132612524,-2500,DYCD,260,312,,
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Gennaro Justice Innovation, Inc.",QYJC Youth Justice Council,852810883,2500,DYCD,260,312,,
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,Farias Department of Health and Mental Hygiene,Health Bucks - Council District 18,136400434,-18000,DHMH,816,117,,**
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,Farias Albanian & American Open Hand Association,Council District 18,464607518,7500,DYCD,260,005,,**
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,Good Shepherd Services,Monroe Young Adult Borough Center - Council Farias District 18,135598710,10500,DYCD,260,005,,**
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Gennaro,"Fund for the City of New York, Inc.",Queens Youth Court,132612524,-2500,DYCD,260,312,,
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Gennaro,"Justice Innovation, Inc.",Queens Youth Court,852810883,2500,DYCD,260,312,,
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Gennaro,"Fund for the City of New York, Inc.",Queens Youth Justice Center,132612524,-2500,DYCD,260,312,,
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Gennaro,"Justice Innovation, Inc.",Queens Youth Justice Center,852810883,2500,DYCD,260,312,,
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Gennaro,"Fund for the City of New York, Inc.",QYJC Youth Justice Council,132612524,-2500,DYCD,260,312,,
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Gennaro,"Justice Innovation, Inc.",QYJC Youth Justice Council,852810883,2500,DYCD,260,312,,
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Farias,Department of Health and Mental Hygiene,Health Bucks - Council District 18,136400434,-18000,DHMH,816,117,,**
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Farias,Albanian & American Open Hand Association,Council District 18,464607518,7500,DYCD,260,005,,**
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Farias,Good Shepherd Services,Monroe Young Adult Borough Center - Council District 18,135598710,10500,DYCD,260,005,,**
 5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Avigdors Helping Hand, Inc.",Mentoring Program,593829893,-30000,DYCD,260,312,,
 5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Avigdors Helping Hand, Inc.",,593829893,30000,DYCD,260,312,,
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,Won Magar Association USA Inc,Immigrant Power Initiative,841655629,-10000,DYCD,260,005,,
-5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Won Magar Association USA, Inc.",Immigrant Power Initiative,841655629,10000,DYCD,260,005,,
-5,2022-11-22,Youth Discretionary - Fiscal 2023,2023,rescind,,,Ayala Door,"A Center of Alternatives, Inc., The - Bronx Youth Center",136127348,-10000,DYCD,260,312,,
-5,2022-11-22,Youth Discretionary - Fiscal 2023,2023,designate,,,Ayala Door,"A Center of Alternatives, Inc., The",136127348,10000,DYCD,260,312,,
-5,2022-11-22,Youth Discretionary - Fiscal 2023,2023,rescind,,,Marte Lower East Side Conservancy,A Day in the Life of an Immigrant Child,134107463,-5000,DYCD,260,312,,
-5,2022-11-22,Youth Discretionary - Fiscal 2023,2023,designate,,,Marte Lower East Side Conservancy,,134107463,5000,DYCD,260,312,,
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,rescind,,Won,Magar Association USA Inc,Immigrant Power Initiative,841655629,-10000,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2023,2023,designate,,Won,"Magar Association USA, Inc.",Immigrant Power Initiative,841655629,10000,DYCD,260,005,,
+5,2022-11-22,Youth Discretionary - Fiscal 2023,2023,rescind,,Ayala,Door,"A Center of Alternatives, Inc., The - Bronx Youth Center",136127348,-10000,DYCD,260,312,,
+5,2022-11-22,Youth Discretionary - Fiscal 2023,2023,designate,,Ayala,Door,"A Center of Alternatives, Inc., The",136127348,10000,DYCD,260,312,,
+5,2022-11-22,Youth Discretionary - Fiscal 2023,2023,rescind,,Marte,Lower East Side Conservancy,A Day in the Life of an Immigrant Child,134107463,-5000,DYCD,260,312,,
+5,2022-11-22,Youth Discretionary - Fiscal 2023,2023,designate,,Marte,Lower East Side Conservancy,,134107463,5000,DYCD,260,312,,
 5,2022-11-22,Anti-Poverty Initiative - Fiscal 2023,2023,rescind,,,"Ossé Both Sides of the Violence, Inc.",,871111476,-5000,DYCD,260,005,,
 5,2022-11-22,Anti-Poverty Initiative - Fiscal 2023,2023,designate,,,Ossé Bridge Street Development Corporation,,113250772,5000,DYCD,260,005,,
-5,2022-11-22,Anti-Poverty Initiative - Fiscal 2023,2023,rescind,,,"Ayala Sheltering Arms Children and Family Services, Inc.",Betances Day Care Center,133709095,-5500,DOE,040,402,,
-5,2022-11-22,Anti-Poverty Initiative - Fiscal 2023,2023,designate,,,Ayala Department of Education,,136400434,5500,DOE,040,402,,
-5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,,"Young New Yorkers, Inc.",Trauma-informed Restorative Arts Diversion & Youth Rivera Leadership/Empowerment Programs,811465388,-25000,DHMH,816,120,,**
-5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,"Young New Yorkers, Inc.",Trauma-informed Restorative Arts Diversion & Youth Rivera Leadership/Empowerment Programs,811465388,25000,DCLA,126,003,,**
-5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,,Icahn School of Medicine at Mount Sinai,Mount Sinai SAVI Program Against Paladino Sex Trafficking,136171197,-10000,MOCJ,098,002,,**
-5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,"Police Organization Providing Peer Assistance (POPPA), Inc.",109th & 111th Paladino Precincts,134128172,10000,DHMH,816,120,,**
-5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,,"Samaritans of New York, Inc.",Caring Community Suicide Prevention & Paladino Awareness Education Project,133164464,-10000,DHMH,816,120,,
-5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,"Police Organization Providing Peer Assistance (POPPA), Inc.",109th & 111th Paladino Precincts,134128172,10000,DHMH,816,120,,
-5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,,Mayor's Office of Criminal Justice,,136400434,-100000,MOCJ,098,002,,**
-5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,Yeger Shmira Civilian Volunteer Patrol of Boro Park,,113260405,25000,DYCD,260,005,,**
-5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,"Yeger Flatbush Shomrim Safety Patrol, Inc.",,203244567,25000,DYCD,260,005,,**
-5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,Hanks Canvas Institute,Council District 49 Schools,824902021,50000,DYCD,260,312,,**
+5,2022-11-22,Anti-Poverty Initiative - Fiscal 2023,2023,rescind,,Ayala,"Sheltering Arms Children and Family Services, Inc.",Betances Day Care Center,133709095,-5500,DOE,040,402,,
+5,2022-11-22,Anti-Poverty Initiative - Fiscal 2023,2023,designate,,Ayala,Department of Education,,136400434,5500,DOE,040,402,,
+5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,Rivera,"Young New Yorkers, Inc.",Trauma-informed Restorative Arts Diversion & Youth Leadership/Empowerment Programs,811465388,-25000,DHMH,816,120,,**
+5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,Rivera,"Young New Yorkers, Inc.",Trauma-informed Restorative Arts Diversion & Youth Leadership/Empowerment Programs,811465388,25000,DCLA,126,003,,**
+5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,Paladino,Icahn School of Medicine at Mount Sinai,Mount Sinai SAVI Program Against Sex Trafficking,136171197,-10000,MOCJ,098,002,,**
+5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,Paladino,"Police Organization Providing Peer Assistance (POPPA), Inc.",109th & 111th Precincts,134128172,10000,DHMH,816,120,,**
+5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,Paladino,"Samaritans of New York, Inc.",Caring Community Suicide Prevention & Awareness Education Project,133164464,-10000,DHMH,816,120,,
+5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,Paladino,"Police Organization Providing Peer Assistance (POPPA), Inc.",109th & 111th Precincts,134128172,10000,DHMH,816,120,,
+5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,Paladino,Mayor's Office of Criminal Justice,,136400434,-100000,MOCJ,098,002,,**
+5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,Paladino,Yeger Shmira Civilian Volunteer Patrol of Boro Park,,113260405,25000,DYCD,260,005,,**
+5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,Paladino,"Yeger Flatbush Shomrim Safety Patrol, Inc.",,203244567,25000,DYCD,260,005,,**
+5,2022-11-22,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,Hanks,Canvas Institute,Council District 49 Schools,824902021,50000,DYCD,260,312,,**
 5,2022-11-22,A Greener NYC - Fiscal 2023,2023,rescind,,,Department of Youth and Community Development,,136400434,-2500,DYCD,260,005,,
-5,2022-11-22,A Greener NYC - Fiscal 2023,2023,designate,,,"Won Billion Oyster Project, Inc.",Council District 26 Schools,272918478,2500,DYCD,260,005,,
-5,2022-11-22,A Greener NYC - Fiscal 2023,2023,rescind,,,Department of Parks and Recreation,,136400434,-10000,DPR,846,006,,**
-5,2022-11-22,A Greener NYC - Fiscal 2023,2023,designate,,,Lee Wildlife Conservation Society,Council District 23,131740011,10000,DCLA,126,007,,**
-5,2022-11-22,A Greener NYC - Fiscal 2023,2023,rescind,,,"Ayala Horticultural Society of New York, The",Environmental Literacy - Patterson Houses,130854930,-10000,DYCD,260,005,,
-5,2022-11-22,A Greener NYC - Fiscal 2023,2023,designate,,,"Horticultural Society of New York, The","Education Programs: Gardening, Nutrition, Health & Ayala Wellness, & Environmental Literacy",130854930,10000,DYCD,260,005,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"De La Rosa Salvadori Center, Ltd.",High School for Law and Public Service (06M467),112883503,-20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"De La Rosa Salvadori Center, Ltd.",Paula Hedbavny School (06M278),112883503,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Paladino Flushing Council on Culture and the Arts, Inc.",Public School 32Q State Street (25Q032),112652182,-20000,DCLA,126,022,,**
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Paladino Magic Box Productions, Inc.",Public School 079Q Francis Lewis (25Q079),202924921,20000,DCLA,126,003,,**
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Osse Reel Stories Teen Filmmaking, Inc.",Boys and Girls High School (16K455),200936377,-20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,Osse Department of Cultural Affairs,,136400434,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Abreu Aaron Davis Hall, Inc.",A. Philip Randolph Campus High School (06M540),133166308,-20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Abreu Harlem Stage, Inc.",A. Philip Randolph Campus High School (06M540),133166308,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Ayala Young Audiences New York, Inc.",,131997754,-20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Ayala Young Audiences New York, Inc.",Park East High School (04M495),131997754,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Kan Cobra Tiger Alliance, Inc.",The Urban Assembly School for Global Commerce (05M157) Jordan,463766464,-20000,DCLA,126,003,,**
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Jordan Roads to Success, Inc.",Public School 180M Hugo Newman (03M180),113599459,20000,DYCD,260,312,,**
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,Jordan I'RAISE Girls & Boys International Corporation,Public School 180M Hugo Newman (03M180),463299217,-20000,DYCD,260,312,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,I'RAISE Girls & Boys International Corporation,The Urban Assembly School for Global Jordan Commerce (05M157),463299217,20000,DYCD,260,312,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Brooks-Powers American Debate League, Inc.",Public School 270Q Queens (29Q270),471624385,-20000,DYCD,260,312,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"American Debate League, Inc.",Public School 270Q Queens (29Q270) & Collaborative Arts Brooks-Powers Middle School (29Q355),471624385,20000,DYCD,260,312,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Dinowitz Horticultural Society of New York, The",Public School 16X (11X016),130854930,-20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Dinowitz Bronx Arts Ensemble, Inc.",Public School 016X Wakefield (11X016),510186869,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Borelli Intrepid Museum Foundation, Inc.",Intermediate School 7R (31R007),133062419,-20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Borelli Intrepid Museum Foundation, Inc.",Intermediate School 34R (31R0034),133062419,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Louis Digital Girl, Inc.",School of Science & Technology (22K152),472288307,-20000,DYCD,260,312,,**
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Louis Dancewave, Inc.",Public School 244K Richard R. Green (18K244),112726558,20000,DCLA,126,003,,**
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,Department of Cultural Affairs,,136400434,-340000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,Society of the Third Street Music School Settlement,Public School 019M Asher Levy Rivera (01M019),135596825,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger Reel Stories Teen Filmmaking, Inc.",Franklin Delano Roosevelt High School (20K505),200936377,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger NIA Community Services Network, Inc.",Public School 238K Anne Sullivan (21K238),112697931,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger NIA Community Services Network, Inc.",Public School 177K The Marlboro (21K177),112697931,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger NIA Community Services Network, Inc.",Public School 121K Nelson A. Rockefeller (21K121),112697931,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger NIA Community Services Network, Inc.",Public School 099K Isaac Asimov (21K099),112697931,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,Yeger Jewish Museum,Barkai Yeshiva,136146854,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger Intrepid Museum Foundation, Inc.",The SEEALL Academy (20K180),133062419,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger Brooklyn Arts Council, Inc.",Yeshiva of Flatbush,237072915,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger Brooklyn Arts Council, Inc.",St Athansius School,237072915,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger Brooklyn Arts Council, Inc.",Shulamith School for Girls,237072915,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger Brooklyn Arts Council, Inc.",Public School 231K (75K231),237072915,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger Brooklyn Arts Council, Inc.",Public School 226K Alfred De B. Mason (21K226),237072915,20000,DCLA,126,003,,
+5,2022-11-22,A Greener NYC - Fiscal 2023,2023,designate,,Won,"Billion Oyster Project, Inc.",Council District 26 Schools,272918478,2500,DYCD,260,005,,
+5,2022-11-22,A Greener NYC - Fiscal 2023,2023,rescind,,Won,Department of Parks and Recreation,,136400434,-10000,DPR,846,006,,**
+5,2022-11-22,A Greener NYC - Fiscal 2023,2023,designate,,Lee,Wildlife Conservation Society,Council District 23,131740011,10000,DCLA,126,007,,**
+5,2022-11-22,A Greener NYC - Fiscal 2023,2023,rescind,,Ayala,"Horticultural Society of New York, The",Environmental Literacy - Patterson Houses,130854930,-10000,DYCD,260,005,,
+5,2022-11-22,A Greener NYC - Fiscal 2023,2023,designate,,Ayala,"Horticultural Society of New York, The","Education Programs: Gardening, Nutrition, Health & Wellness, & Environmental Literacy",130854930,10000,DYCD,260,005,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,De La Rosa,"Salvadori Center, Ltd.",High School for Law and Public Service (06M467),112883503,-20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,De La Rosa,"Salvadori Center, Ltd.",Paula Hedbavny School (06M278),112883503,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,Paladino,"Flushing Council on Culture and the Arts, Inc.",Public School 32Q State Street (25Q032),112652182,-20000,DCLA,126,022,,**
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Paladino,"Magic Box Productions, Inc.",Public School 079Q Francis Lewis (25Q079),202924921,20000,DCLA,126,003,,**
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,Osse,"Reel Stories Teen Filmmaking, Inc.",Boys and Girls High School (16K455),200936377,-20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Osse,Department of Cultural Affairs,,136400434,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,Abreu,"Aaron Davis Hall, Inc.",A. Philip Randolph Campus High School (06M540),133166308,-20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Abreu,"Harlem Stage, Inc.",A. Philip Randolph Campus High School (06M540),133166308,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,Ayala,"Young Audiences New York, Inc.",,131997754,-20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Ayala,"Young Audiences New York, Inc.",Park East High School (04M495),131997754,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,Ayala,"Kan Cobra Tiger Alliance, Inc.",The Urban Assembly School for Global Commerce (05M157) Jordan,463766464,-20000,DCLA,126,003,,**
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Ayala,"Jordan Roads to Success, Inc.",Public School 180M Hugo Newman (03M180),113599459,20000,DYCD,260,312,,**
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,Ayala,Jordan I'RAISE Girls & Boys International Corporation,Public School 180M Hugo Newman (03M180),463299217,-20000,DYCD,260,312,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Ayala,I'RAISE Girls & Boys International Corporation,The Urban Assembly School for Global Jordan Commerce (05M157),463299217,20000,DYCD,260,312,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,Brooks-Powers,"American Debate League, Inc.",Public School 270Q Queens (29Q270),471624385,-20000,DYCD,260,312,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Brooks-Powers,"American Debate League, Inc.",Public School 270Q Queens (29Q270) & Collaborative Arts Middle School (29Q355),471624385,20000,DYCD,260,312,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,Dinowitz,"Horticultural Society of New York, The",Public School 16X (11X016),130854930,-20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Dinowitz,"Bronx Arts Ensemble, Inc.",Public School 016X Wakefield (11X016),510186869,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,Dinowitz,"Borelli Intrepid Museum Foundation, Inc.",Intermediate School 7R (31R007),133062419,-20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Dinowitz,"Borelli Intrepid Museum Foundation, Inc.",Intermediate School 34R (31R0034),133062419,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,Louis,"Digital Girl, Inc.",School of Science & Technology (22K152),472288307,-20000,DYCD,260,312,,**
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Louis,"Dancewave, Inc.",Public School 244K Richard R. Green (18K244),112726558,20000,DCLA,126,003,,**
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,Louis,Department of Cultural Affairs,,136400434,-340000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Rivera,Society of the Third Street Music School Settlement,Public School 019M Asher Levy (01M019),135596825,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Rivera,"Yeger Reel Stories Teen Filmmaking, Inc.",Franklin Delano Roosevelt High School (20K505),200936377,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Rivera,"Yeger NIA Community Services Network, Inc.",Public School 238K Anne Sullivan (21K238),112697931,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Rivera,"Yeger NIA Community Services Network, Inc.",Public School 177K The Marlboro (21K177),112697931,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Rivera,"Yeger NIA Community Services Network, Inc.",Public School 121K Nelson A. Rockefeller (21K121),112697931,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Rivera,"Yeger NIA Community Services Network, Inc.",Public School 099K Isaac Asimov (21K099),112697931,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Rivera,Yeger Jewish Museum,Barkai Yeshiva,136146854,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Rivera,"Yeger Intrepid Museum Foundation, Inc.",The SEEALL Academy (20K180),133062419,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Rivera,"Yeger Brooklyn Arts Council, Inc.",Yeshiva of Flatbush,237072915,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Rivera,"Yeger Brooklyn Arts Council, Inc.",St Athansius School,237072915,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Rivera,"Yeger Brooklyn Arts Council, Inc.",Shulamith School for Girls,237072915,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Rivera,"Yeger Brooklyn Arts Council, Inc.",Public School 231K (75K231),237072915,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,Rivera,"Yeger Brooklyn Arts Council, Inc.",Public School 226K Alfred De B. Mason (21K226),237072915,20000,DCLA,126,003,,
 5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger Brooklyn Arts Council, Inc.",Public School 205K Clarion (20K205),237072915,20000,DCLA,126,003,,
 5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger Brooklyn Arts Council, Inc.",Intermediate School 096K Seth Low (21K096),237072915,20000,DCLA,126,003,,
 5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,rescind,,,Department of Cultural Affairs,,136400434,-155000,DCLA,126,003,,
-5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,,"Williams Jamaica Center for Arts and Learning, Inc.",Hip Hop 50 - Council District 27,112478709,10000,DCLA,126,003,,
-5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,,Menin Make the Road New York,,113344389,20000,DCLA,126,003,,
-5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,,"Yeger New York United Jewish Association, Inc.",,262647383,40000,DCLA,126,003,,
-5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,,Yeger Jewish Children's Museum,,133798344,30000,DCLA,126,003,,
-5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,,"Yeger Federation of Italian American Organizations of Brooklyn, Ltd.",,112507910,40000,DCLA,126,003,,
-5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,,"Yeger Metro Chamber Orchestra, Inc.",,473034551,15000,DCLA,126,003,,
-5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,rescind,,,Department of Cultural Affairs,,136400434,-15000,DCLA,126,003,,**
-5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,,"Williams Creative Jazz Organization, Inc.",Council District 27,113543021,15000,DYCD,260,005,,**
-5,2022-11-22,Digital Inclusion and Literacy Initiative - Fiscal 2023,2023,rescind,,,"Williams Allen Community Senior Citizens Center, Inc.",,112326244,-30000,DYCD,260,005,,
-5,2022-11-22,Digital Inclusion and Literacy Initiative - Fiscal 2023,2023,designate,,,Williams Allen Neighborhood Preservation & Development Corporation,,112705085,30000,DYCD,260,005,,
+5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,Williams,"Jamaica Center for Arts and Learning, Inc.",Hip Hop 50 - Council District 27,112478709,10000,DCLA,126,003,,
+5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,Menin,Make the Road New York,,113344389,20000,DCLA,126,003,,
+5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,Menin,"Yeger New York United Jewish Association, Inc.",,262647383,40000,DCLA,126,003,,
+5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,Menin,Yeger Jewish Children's Museum,,133798344,30000,DCLA,126,003,,
+5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,Menin,"Yeger Federation of Italian American Organizations of Brooklyn, Ltd.",,112507910,40000,DCLA,126,003,,
+5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,Menin,"Yeger Metro Chamber Orchestra, Inc.",,473034551,15000,DCLA,126,003,,
+5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,rescind,,Menin,Department of Cultural Affairs,,136400434,-15000,DCLA,126,003,,**
+5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,Williams,"Creative Jazz Organization, Inc.",Council District 27,113543021,15000,DYCD,260,005,,**
+5,2022-11-22,Digital Inclusion and Literacy Initiative - Fiscal 2023,2023,rescind,,Williams,"Allen Community Senior Citizens Center, Inc.",,112326244,-30000,DYCD,260,005,,
+5,2022-11-22,Digital Inclusion and Literacy Initiative - Fiscal 2023,2023,designate,,Williams,Allen Neighborhood Preservation & Development Corporation,,112705085,30000,DYCD,260,005,,
 5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,rescind,,,Department of Small Business Services,,136400434,-40000,SBS,801,002,,
-5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,"Ung Asian American Federation, Inc.",Placemaking/Plaza/Public Space Activation/Public Art,133572287,10000,SBS,801,002,,
-5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,Brooks-Powers Greater Jamaica Development Corporation,Council District 31,237021273,10000,SBS,801,002,,
-5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,"Yeger Council of Jewish Organizations of Flatbush, Inc.",,112864728,5000,SBS,801,002,,
-5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,Yeger Boro Park Jewish Community Council,,113475993,5000,SBS,801,002,,
-5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,"Louis Brooklyn Alliance, Inc.",Council District 45,112145956,10000,SBS,801,002,,
-5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,rescind,,,Department of Youth and Community Development,,136400434,-10000,DYCD,260,005,,
-5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,"Dinowtiz Horticultural Society of New York, The",,130854930,10000,DYCD,260,005,,
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,De La Rosa Department of Sanitation,Litter Basket Service,136400434,-16880,DSNY,827,102,,**
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,De La Rosa Department of Sanitation,New Baskets,136400434,16880,DSNY,827,109,,**
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,De La Rosa Department of Sanitation,Litter Basket Service,136400434,-66120,DSNY,827,102,,
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,De La Rosa Department of Sanitation,Council District 10,136400434,66120,DSNY,827,102,,
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,De La Rosa Bronx Community Board #8,Marble Hill Clean Up Initiative,136400434,-28000,BXCB,388,002,,**
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,De La Rosa Department of Sanitation,Marble Hill,136400434,28000,DSNY,827,102,,**
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,Sanchez New York Botanical Garden,Bronx Green-Up Program,131693134,-15000,DYCD,260,005,,**
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,Sanchez New York Botanical Garden,Bronx Green-Up Program,131693134,15000,DCLA,126,005,,**
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,"Farias Green City Force, Inc.",Council District 18,800428040,-30000,DYCD,260,005,,
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,"Farias Green City Force, Inc.",Council District 18,800428040,-20000,DYCD,260,005,,
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,"Farias Association of Community Employment Programs for the Homeless, Inc.",Council District 18,133846431,25000,DYCD,260,005,,
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,Farias Wildcat Service Corporation,Council District 18,132725423,25000,DYCD,260,005,,
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,Brooks-Powers Department of Sanitation,Council District 31,136400434,-5000,DSNY,827,109,,**
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,Brooks-Powers Department of Sanitation,Council District 31,136400434,5000,DSNY,827,102,,**
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,Brooks-Powers Department of Sanitation,Council District 31,136400434,-30000,DSNY,827,002,,**
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,Brooks-Powers Department of Sanitation,Council District 31,136400434,30000,DSNY,827,102,,**
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,Department of Sanitation,,136400434,-163600,DSNY,827,102,,**
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,Department of Youth and Community Development,,136400434,-1400,DYCD,260,005,,
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,Borelli New York City H2O,Council District 51,453860014,5000,DYCD,260,005,,**
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,Rivera Foundation for New York's Strongest,Council District 2,813523248,10000,DYCD,260,005,,**
-5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,"Association of Community Employment Programs for the Homeless, Inc.",Council District 44 Yeger,133846431,150000,DYCD,260,005,,**
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,rescind,,,Stevens New York Restoration Project,"Bette Rose, Clay Ave and Sedgwick Houses",133959056,-10000,DPR,846,006,,**
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,,Stevens New York Restoration Project,"Bette Rose, Clay Ave and Sedgwick Houses",133959056,10000,DYCD,260,005,,**
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,rescind,,,Feliz New York Restoration Project,Green Spaces - Council District 15,133959056,-5000,DYCD,260,005,,
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,,"Feliz Green Guerillas, Inc.",,132903183,5000,DYCD,260,005,,
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,rescind,,,Department of Youth and Community Development,,136400434,-35136,DYCD,260,005,,**
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,,Department of Parks and Recreation,,136400434,35136,DPR,846,006,,**
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,rescind,,,Department of Parks and Recreation,,136400434,-10000,DPR,846,006,,
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,,Gennaro Department of Parks and Recreation,Family Days - Council District 24,136400434,5000,DPR,846,006,,
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,,"Louis Brooklyn Golf Alliance, Inc.",Council District 45,460773869,5000,DPR,846,006,,
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,rescind,,,Department of Parks and Recreation,,136400434,-35000,DPR,846,006,,**
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,,"Osse Big Apple Leadership Academy for the Arts, Inc.",,842688048,5000,DYCD,260,005,,**
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,,Borelli Catholic Charities of Staten Island,,135562286,10000,DYCD,260,005,,**
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,,Won Queens Historical Society,Moore Jackson Cemetery,237016007,5000,DCLA,126,003,,**
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,,"Feliz Green Guerillas, Inc.",,132903183,5000,DYCD,260,005,,**
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,,"Dinowtiz Bronx Arts Ensemble, Inc.",Council District 11,510186869,10000,DCLA,126,003,,**
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,rescind,,,Ayala Department of Parks and Recreation,Cevita Garden,136400434,-5000,DPR,846,006,,
-5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,,Ayala Department of Parks and Recreation,Cuevita Garden,136400434,5000,DPR,846,006,,
+5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,Ung,"Asian American Federation, Inc.",Placemaking/Plaza/Public Space Activation/Public Art,133572287,10000,SBS,801,002,,
+5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,Brooks-Powers,Greater Jamaica Development Corporation,Council District 31,237021273,10000,SBS,801,002,,
+5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,Brooks-Powers,"Yeger Council of Jewish Organizations of Flatbush, Inc.",,112864728,5000,SBS,801,002,,
+5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,Brooks-Powers,Yeger Boro Park Jewish Community Council,,113475993,5000,SBS,801,002,,
+5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,Louis,"Brooklyn Alliance, Inc.",Council District 45,112145956,10000,SBS,801,002,,
+5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,rescind,,Louis,Department of Youth and Community Development,,136400434,-10000,DYCD,260,005,,
+5,2022-11-22,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,Louis,"Dinowtiz Horticultural Society of New York, The",,130854930,10000,DYCD,260,005,,
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,De La Rosa,Department of Sanitation,Litter Basket Service,136400434,-16880,DSNY,827,102,,**
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,De La Rosa,Department of Sanitation,New Baskets,136400434,16880,DSNY,827,109,,**
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,De La Rosa,Department of Sanitation,Litter Basket Service,136400434,-66120,DSNY,827,102,,
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,De La Rosa,Department of Sanitation,Council District 10,136400434,66120,DSNY,827,102,,
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,De La Rosa,Bronx Community Board #8,Marble Hill Clean Up Initiative,136400434,-28000,BXCB,388,002,,**
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,De La Rosa,Department of Sanitation,Marble Hill,136400434,28000,DSNY,827,102,,**
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,Sanchez,New York Botanical Garden,Bronx Green-Up Program,131693134,-15000,DYCD,260,005,,**
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,Sanchez,New York Botanical Garden,Bronx Green-Up Program,131693134,15000,DCLA,126,005,,**
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,Farias,"Green City Force, Inc.",Council District 18,800428040,-30000,DYCD,260,005,,
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,Farias,"Green City Force, Inc.",Council District 18,800428040,-20000,DYCD,260,005,,
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,Farias,"Association of Community Employment Programs for the Homeless, Inc.",Council District 18,133846431,25000,DYCD,260,005,,
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,Farias,Wildcat Service Corporation,Council District 18,132725423,25000,DYCD,260,005,,
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,Brooks-Powers,Department of Sanitation,Council District 31,136400434,-5000,DSNY,827,109,,**
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,Brooks-Powers,Department of Sanitation,Council District 31,136400434,5000,DSNY,827,102,,**
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,Brooks-Powers,Department of Sanitation,Council District 31,136400434,-30000,DSNY,827,002,,**
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,Brooks-Powers,Department of Sanitation,Council District 31,136400434,30000,DSNY,827,102,,**
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,Brooks-Powers,Department of Sanitation,,136400434,-163600,DSNY,827,102,,**
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,Brooks-Powers,Department of Youth and Community Development,,136400434,-1400,DYCD,260,005,,
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,Brooks-Powers,Borelli New York City H2O,Council District 51,453860014,5000,DYCD,260,005,,**
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,Rivera,Foundation for New York's Strongest,Council District 2,813523248,10000,DYCD,260,005,,**
+5,2022-11-22,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,Rivera,"Association of Community Employment Programs for the Homeless, Inc.",Council District 44 Yeger,133846431,150000,DYCD,260,005,,**
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,rescind,,Stevens,New York Restoration Project,"Bette Rose, Clay Ave and Sedgwick Houses",133959056,-10000,DPR,846,006,,**
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,Stevens,New York Restoration Project,"Bette Rose, Clay Ave and Sedgwick Houses",133959056,10000,DYCD,260,005,,**
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,rescind,,Feliz,New York Restoration Project,Green Spaces - Council District 15,133959056,-5000,DYCD,260,005,,
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,Feliz,"Green Guerillas, Inc.",,132903183,5000,DYCD,260,005,,
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,rescind,,Feliz,Department of Youth and Community Development,,136400434,-35136,DYCD,260,005,,**
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,Feliz,Department of Parks and Recreation,,136400434,35136,DPR,846,006,,**
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,rescind,,Feliz,Department of Parks and Recreation,,136400434,-10000,DPR,846,006,,
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,Gennaro,Department of Parks and Recreation,Family Days - Council District 24,136400434,5000,DPR,846,006,,
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,Louis,"Brooklyn Golf Alliance, Inc.",Council District 45,460773869,5000,DPR,846,006,,
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,rescind,,Louis,Department of Parks and Recreation,,136400434,-35000,DPR,846,006,,**
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,Osse,"Big Apple Leadership Academy for the Arts, Inc.",,842688048,5000,DYCD,260,005,,**
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,Osse,Borelli Catholic Charities of Staten Island,,135562286,10000,DYCD,260,005,,**
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,Won,Queens Historical Society,Moore Jackson Cemetery,237016007,5000,DCLA,126,003,,**
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,Feliz,"Green Guerillas, Inc.",,132903183,5000,DYCD,260,005,,**
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,Feliz,"Dinowtiz Bronx Arts Ensemble, Inc.",Council District 11,510186869,10000,DCLA,126,003,,**
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,rescind,,Ayala,Department of Parks and Recreation,Cevita Garden,136400434,-5000,DPR,846,006,,
+5,2022-11-22,Parks Equity Initiative - Fiscal 2023,2023,designate,,Ayala,Department of Parks and Recreation,Cuevita Garden,136400434,5000,DPR,846,006,,
 5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,rescind,,,"Jordan Palante Harlem, Inc.",,800209989,-20000,DFTA,125,003,,
 5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,,Jordan Department for the Aging,,136400434,20000,DFTA,125,003,,
-5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,rescind,,,Feliz New York Botanical Garden,Senior Breakfast - Council District 15,131693134,-30000,DFTA,125,003,,**
-5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,,Feliz New York Botanical Garden,Senior Breakfast - Council District 15,131693134,30000,DCLA,126,005,,**
-5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,rescind,,,De La Rosa InHisName United Inc,Inhisname Technology & Education,813439023,-10000,DFTA,125,003,,
-5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,,"De La Rosa InHisName United, Inc.",Inhisname Technology & Education,813439023,10000,DFTA,125,003,,
-5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,rescind,,,"Catholic Charities Community Services, Archdiocese of New York",Central Harlem Senior Jordan Center,135562185,-25000,DFTA,125,003,,
-5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,,"Jordan Central Harlem Senior Citizens' Centers, Inc.",,132754783,25000,DFTA,125,003,,
-5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,rescind,,,Sanchez Wildlife Conservation Society,Programas de Ciencia en Español,131740011,-10000,DFTA,125,003,,**
-5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,,Sanchez Wildlife Conservation Society,Programas de Ciencia en Español,131740011,10000,DCLA,126,007,,**
-5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,rescind,,,Department for the Aging,,136400434,-20000,DFTA,125,003,,
-5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,,"Borelli Community Agency for Senior Citizens, Inc.",Council District 51 - Transportation Services,133263537,10000,DFTA,125,003,,
-5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,,"Brannan NIA Community Services Network, Inc.",Senior Programming - Council District 43,112697931,10000,DFTA,125,003,,
-5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,rescind,,,Department for the Aging,,136400434,-10000,DFTA,125,003,,**
-5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,,Feliz New York Botanical Garden,Senior Breakfast - Council District 15,131693134,10000,DCLA,126,005,,**
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,rescind,,,"Marte Asian-American Coalition for Children and Families, Inc.",AAPI Community Support Initiative,133682471,-10000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Marte HOPE Program, Inc., The",,133268539,5000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Marte New York Asian Women's Center, Inc.",,133286250,5000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,rescind,,,Mayor's Office of Criminal Justice,,136400434,-1326000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Brewer Connect, Inc.",,020694269,5000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Brewer Crime Victims Treatment Center, Inc.",Male Survivor & Sexual Violence Prevention Program,815080860,40000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Brewer Her Justice, Inc.",Economic Empowerment Project,133688519,8000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Brewer Housing Conservation Coordinators, Inc.",,510141489,35000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Brewer Manhattan Legal Services,,132613958,5000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Brewer Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,20000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"New York City Gay and Lesbian Anti-Violence Project, Inc.",Intimate Partner Violence Brewer Counseling & Services,133149200,5000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Brewer Urban Resource Institute,Trauma Informed Abusive Partner Intervention Program,112561648,5000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Brewer Violence Intervention Program,,133540337,10000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,De La Rosa Manhattan Legal Services,Manhattan,132613958,10000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Planned Parenthood of Greater New York, Inc.",Reproductive Health Services - Council Feliz District 15,132621497,40000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Gennaro Amudim Community Resources, Inc.",,470984801,25000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Gennaro Shalom Task Force, Inc.",,113207504,98000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Hanks Arab-American Family Support Center, Inc., The",Council District 49,113167245,10000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Hanks Community Agency for Senior Citizens, Inc.",Council District 49,133263537,10000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Hanks Community Health Action of Staten Island, Inc.",Council District 49,133556132,35000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Hanks Legal Aid Society,Council District 49,135562265,20000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Hanks Legal Services NYC,Council District 49,132600199,50000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Hanks Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",Council District 49,132738818,10000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Hanks Pride Center of Staten Island, Inc.",Council District 49,463358895,5000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Hanks Sauti Yetu Center for African Women, Inc.",Council District 49,201209795,5000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Hanks Seamen's Society for Children and Families,Council District 49,135563010,25000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Hanks Staten Island Urban Center,Council District 49,371833463,25000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Jordan Children's Aid Society, The",Harlem,135562191,10000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Jordan Harlem Mothers Stop Another Violent End, Inc.",,260847222,20000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Jordan Her Justice, Inc.",Council District 9,133688519,20000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Jordan Man Up, Inc.",Council District 9,030553092,15000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Jordan Manhattan Legal Services,Council District 9,132613958,15000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Jordan Neighborhood Defender Service, Inc.",Right to Family Advocacy Project,061296692,25000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Jordan New Heritage Theatre Group, Inc., The",Council District 9,132683678,15000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Jordan One Hundred Black Men,Council District 9,237379940,10000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Jordan One Hundred Black Men,Harlem,237379940,15000,MOCJ,098,002,,
+5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,rescind,,Feliz,New York Botanical Garden,Senior Breakfast - Council District 15,131693134,-30000,DFTA,125,003,,**
+5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,Feliz,New York Botanical Garden,Senior Breakfast - Council District 15,131693134,30000,DCLA,126,005,,**
+5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,rescind,,De La Rosa,InHisName United Inc,Inhisname Technology & Education,813439023,-10000,DFTA,125,003,,
+5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,De La Rosa,"InHisName United, Inc.",Inhisname Technology & Education,813439023,10000,DFTA,125,003,,
+5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,rescind,,De La Rosa,"Catholic Charities Community Services, Archdiocese of New York",Central Harlem Senior Jordan Center,135562185,-25000,DFTA,125,003,,
+5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,De La Rosa,"Jordan Central Harlem Senior Citizens' Centers, Inc.",,132754783,25000,DFTA,125,003,,
+5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,rescind,,Sanchez,Wildlife Conservation Society,Programas de Ciencia en Español,131740011,-10000,DFTA,125,003,,**
+5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,Sanchez,Wildlife Conservation Society,Programas de Ciencia en Español,131740011,10000,DCLA,126,007,,**
+5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,rescind,,Sanchez,Department for the Aging,,136400434,-20000,DFTA,125,003,,
+5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,Sanchez,"Borelli Community Agency for Senior Citizens, Inc.",Council District 51 - Transportation Services,133263537,10000,DFTA,125,003,,
+5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,Brannan,"NIA Community Services Network, Inc.",Senior Programming - Council District 43,112697931,10000,DFTA,125,003,,
+5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,rescind,,Brannan,Department for the Aging,,136400434,-10000,DFTA,125,003,,**
+5,2022-11-22,Support Our Seniors - Fiscal 2023,2023,designate,,Feliz,New York Botanical Garden,Senior Breakfast - Council District 15,131693134,10000,DCLA,126,005,,**
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,rescind,,Marte,"Asian-American Coalition for Children and Families, Inc.",AAPI Community Support Initiative,133682471,-10000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Marte,"HOPE Program, Inc., The",,133268539,5000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Marte,"New York Asian Women's Center, Inc.",,133286250,5000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,rescind,,Marte,Mayor's Office of Criminal Justice,,136400434,-1326000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Brewer,"Connect, Inc.",,020694269,5000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Brewer,"Crime Victims Treatment Center, Inc.",Male Survivor & Sexual Violence Prevention Program,815080860,40000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Brewer,"Her Justice, Inc.",Economic Empowerment Project,133688519,8000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Brewer,"Housing Conservation Coordinators, Inc.",,510141489,35000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Brewer,Manhattan Legal Services,,132613958,5000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Brewer,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,20000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Brewer,"New York City Gay and Lesbian Anti-Violence Project, Inc.",Intimate Partner Violence Counseling & Services,133149200,5000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Brewer,Urban Resource Institute,Trauma Informed Abusive Partner Intervention Program,112561648,5000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Brewer,Violence Intervention Program,,133540337,10000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,De La Rosa,Manhattan Legal Services,Manhattan,132613958,10000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Feliz,"Planned Parenthood of Greater New York, Inc.",Reproductive Health Services - Council District 15,132621497,40000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Gennaro,"Amudim Community Resources, Inc.",,470984801,25000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Gennaro,"Shalom Task Force, Inc.",,113207504,98000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,"Arab-American Family Support Center, Inc., The",Council District 49,113167245,10000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,"Community Agency for Senior Citizens, Inc.",Council District 49,133263537,10000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,"Community Health Action of Staten Island, Inc.",Council District 49,133556132,35000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,Legal Aid Society,Council District 49,135562265,20000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,Legal Services NYC,Council District 49,132600199,50000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",Council District 49,132738818,10000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,"Pride Center of Staten Island, Inc.",Council District 49,463358895,5000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,"Sauti Yetu Center for African Women, Inc.",Council District 49,201209795,5000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,Seamen's Society for Children and Families,Council District 49,135563010,25000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,Staten Island Urban Center,Council District 49,371833463,25000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,"Jordan Children's Aid Society, The",Harlem,135562191,10000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,"Jordan Harlem Mothers Stop Another Violent End, Inc.",,260847222,20000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,"Jordan Her Justice, Inc.",Council District 9,133688519,20000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,"Jordan Man Up, Inc.",Council District 9,030553092,15000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,Jordan Manhattan Legal Services,Council District 9,132613958,15000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,"Jordan Neighborhood Defender Service, Inc.",Right to Family Advocacy Project,061296692,25000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,"Jordan New Heritage Theatre Group, Inc., The",Council District 9,132683678,15000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,Jordan One Hundred Black Men,Council District 9,237379940,10000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Hanks,Jordan One Hundred Black Men,Harlem,237379940,15000,MOCJ,098,002,,
 5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Jordan Songs of Solomon: An Inspirational Ensemble, Inc.",Council District 9,134195889,15000,MOCJ,098,002,,
 5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Jordan TBS New Direction, Inc.",Council District 9,821581953,15000,MOCJ,098,002,,
 5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Jordan Voices of Community Activists & Leaders (VOCAL-NY), Inc.",Harlem,134094385,20000,MOCJ,098,002,,
 5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Jordan We All Really Matter, Inc.",Council Districts 9,452455826,15000,MOCJ,098,002,,
 5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Jordan Young Excellence Society, Inc.",Council District 9,821555832,15000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Louis Arab-American Family Support Center, Inc., The",,113167245,7500,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Louis Flatbush Development Corporation,,510188251,7500,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Salamanca We All Really Matter, Inc.",,452455826,22000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Velazquez Appellate Advocates,,113305212,6000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Velazquez Arab-American Family Support Center, Inc., The",,113167245,15000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Velazquez Day One New York, Inc.",,061103000,15000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Velazquez Hebrew Home for the Aged at Riverdale, The",,131739971,20000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Velazquez Legal Aid Society,,135562265,15000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Velazquez Legal Information for Families Today (LIFT),,133910567,15000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Velazquez Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,80000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Velazquez New York Legal Assistance Group, Inc.",,133505428,38000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Velazquez Northern Manhattan Coalition for Immigrant Rights,,133255591,6000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Velazquez Women's Housing and Economic Development Corporation (WHEDco),,113099604,15000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Vernikov Apna Brooklyn Community Center, Inc.",Council District 48,820706930,20000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Vernikov Council of Jewish Organizations of Flatbush, Inc.",Council District 48,112864728,40000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Vernikov Jewish Community Council of Greater Coney Island, Inc.",Council District 48,112665181,10000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Vernikov Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",Council District 48,132738818,15000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Vernikov New York Legal Assistance Group, Inc.",Council District 48,133505428,20000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Vernikov Ohel Children's Home and Family Services, Inc.",Council District 48,116078704,20000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Vernikov Pakistani American Skilled Women Organization,Council District 48,850869897,15000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Vernikov United Task Force, Inc.",Council District 48,812505465,55000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Yeger Amudim Community Resources, Inc.",,470984801,20000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Yeger Imeinu, Inc. dba Rachel's Place",,260774611,20000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Yeger SBH Community Service Network, Inc.",,237406410,93000,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,rescind,,,"Louis Day One New York, Inc.",,061103000,-2500,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Louis Violence Intervention Program,Council District 45,133540337,2500,MOCJ,098,002,,
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,rescind,,,Louis District Attorney-Kings,,136400434,-2500,DABK,903,002,,**
-5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Louis Violence Intervention Program,Council District 45,133540337,2500,MOCJ,098,002,,**
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Louis,"Arab-American Family Support Center, Inc., The",,113167245,7500,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Louis,Flatbush Development Corporation,,510188251,7500,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Salamanca,"We All Really Matter, Inc.",,452455826,22000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Salamanca,Velazquez Appellate Advocates,,113305212,6000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Salamanca,"Velazquez Arab-American Family Support Center, Inc., The",,113167245,15000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Salamanca,"Velazquez Day One New York, Inc.",,061103000,15000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Salamanca,"Velazquez Hebrew Home for the Aged at Riverdale, The",,131739971,20000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Salamanca,Velazquez Legal Aid Society,,135562265,15000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Salamanca,Velazquez Legal Information for Families Today (LIFT),,133910567,15000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Salamanca,"Velazquez Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,80000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Salamanca,"Velazquez New York Legal Assistance Group, Inc.",,133505428,38000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Salamanca,Velazquez Northern Manhattan Coalition for Immigrant Rights,,133255591,6000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Salamanca,Velazquez Women's Housing and Economic Development Corporation (WHEDco),,113099604,15000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Vernikov,"Apna Brooklyn Community Center, Inc.",Council District 48,820706930,20000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Vernikov,"Council of Jewish Organizations of Flatbush, Inc.",Council District 48,112864728,40000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Vernikov,"Jewish Community Council of Greater Coney Island, Inc.",Council District 48,112665181,10000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Vernikov,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",Council District 48,132738818,15000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Vernikov,"New York Legal Assistance Group, Inc.",Council District 48,133505428,20000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Vernikov,"Ohel Children's Home and Family Services, Inc.",Council District 48,116078704,20000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Vernikov,Pakistani American Skilled Women Organization,Council District 48,850869897,15000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Vernikov,"United Task Force, Inc.",Council District 48,812505465,55000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Vernikov,"Yeger Amudim Community Resources, Inc.",,470984801,20000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Vernikov,"Yeger Imeinu, Inc. dba Rachel's Place",,260774611,20000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Vernikov,"Yeger SBH Community Service Network, Inc.",,237406410,93000,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,rescind,,Louis,"Day One New York, Inc.",,061103000,-2500,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Louis,Violence Intervention Program,Council District 45,133540337,2500,MOCJ,098,002,,
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,rescind,,Louis,District Attorney-Kings,,136400434,-2500,DABK,903,002,,**
+5,2022-11-22,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,Louis,Violence Intervention Program,Council District 45,133540337,2500,MOCJ,098,002,,**
 5,2022-11-22,Coalition Theaters of Color - Fiscal 2023,2023,rescind,,,"Aaron Davis Hall, Inc.",,133166308,-30000,DCLA,126,003,,
 5,2022-11-22,Coalition Theaters of Color - Fiscal 2023,2023,designate,,,"Harlem Stage, Inc.",,133166308,30000,DCLA,126,003,,
 5,2022-11-22,AAPI Community Support - Fiscal 2023,2023,rescind,,,City University of New York,Queens College - Asian/Asian American Center,133893536,-80000,DYCD,260,005,,**
@@ -332,34 +332,34 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 5,2022-11-22,Citywide Young Adult Entpreneurship Program Initiative - Fiscal 2023,2023,designate,,,Partners Uplifting our Daughters and Sons,,473679850,250000,DYCD,260,312,,
 5,2022-11-22,Pride At Work - Fiscal 2023,2023,rescind,,,Department of Small Business Services,,136400434,-61000,SBS,801,011,,
 5,2022-11-22,Pride At Work - Fiscal 2023,2023,designate,,,Pathways To Apprenticeship,,811099195,61000,SBS,801,011,,
-5,2022-11-22,Local Initiatives - Fiscal 2022,2022,rescind,,,Brooks-Powers District 29Q Community Education Council,,690210637,-10000,DOE,040,402,,
-5,2022-11-22,Local Initiatives - Fiscal 2022,2022,designate,,,Brooks-Powers District 29Q Community Education Council,,136400434,10000,DOE,040,402,,
-5,2022-11-22,Local Initiatives - Fiscal 2022,2022,rescind,,,"Jordan Aaron Davis Hall, Inc.",Education Program,133166308,-10000,DCLA,126,003,,
-5,2022-11-22,Local Initiatives - Fiscal 2022,2022,designate,,,"Jordan Harlem Stage, Inc.",Education Program,133166308,10000,DCLA,126,003,,
-5,2022-11-22,Local Initiatives - Fiscal 2022,2022,rescind,,,Yeger Mevakshai Hashem,,273083348,-5000,DYCD,260,005,,
-5,2022-11-22,Local Initiatives - Fiscal 2022,2022,designate,,,Yeger Together We Are,,270213447,5000,DYCD,260,005,,
-5,2022-11-22,Local Initiatives - Fiscal 2022,2022,rescind,,,"One Stop Richmond Hill Community Center, Inc.","ESL, Citizenship, Computer, Ariola GED",680602829,-30000,DYCD,260,312,,
-5,2022-11-22,Local Initiatives - Fiscal 2022,2022,designate,,,"Ariola One Stop Richmond Hill Community Center, Inc.",,680602829,30000,DYCD,260,312,,
-5,2022-11-22,Local Initiatives - Fiscal 2022,2022,rescind,,,"Committee for Hispanic Children and Families, Inc., The",High School Youth Gutierrez Development Programs - Council District 34,112622003,-5000,DYCD,260,312,,
-5,2022-11-22,Local Initiatives - Fiscal 2022,2022,designate,,,"Gutierrez Committee for Hispanic Children and Families, Inc., The",,112622003,5000,DYCD,260,312,,
-5,2022-11-22,Local Initiatives - Fiscal 2022,2022,rescind,,,Ayala Department of Youth and Community Development,,136400434,-5000,DYCD,260,005,,
-5,2022-11-22,Local Initiatives - Fiscal 2022,2022,designate,,,Ayala Yemeni American Merchants Association,Council District 8,823539502,5000,DYCD,260,005,,
-5,2022-11-22,Youth Discretionary - Fiscal 2022,2022,rescind,,,"One Stop Richmond Hill Community Center, Inc.",Youth Programming - Council Ariola District 32,680602829,-20000,DYCD,260,312,,
-5,2022-11-22,Youth Discretionary - Fiscal 2022,2022,designate,,,"Ariola One Stop Richmond Hill Community Center, Inc.",,680602829,20000,DYCD,260,312,,
-5,2022-11-22,Youth Discretionary - Fiscal 2022,2022,rescind,,,"Gutierrez Committee for Hispanic Children and Families, Inc., The",Council District 34,112622003,-75000,DYCD,260,312,,
-5,2022-11-22,Youth Discretionary - Fiscal 2022,2022,designate,,,"Gutierrez Committee for Hispanic Children and Families, Inc., The",,112622003,75000,DYCD,260,312,,
-5,2022-11-22,Anti-Poverty Initiative - Fiscal 2022,2022,rescind,,,"Abreu Aaron Davis Hall, Inc.",Francis Davis/Harlem Stage Education Program,133166308,-5000,DCLA,126,003,,
-5,2022-11-22,Anti-Poverty Initiative - Fiscal 2022,2022,designate,,,"Abreu Harlem Stage, Inc.",Francis Davis/Harlem Stage Education Program,133166308,5000,DCLA,126,003,,
-5,2022-11-22,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,rescind,,,"Brooks-Powers Simon Wiesenthal Center, Inc.",,953964928,-7500,DYCD,260,005,,
-5,2022-11-22,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,designate,,,Brooks-Powers Department of Youth and Community Development,,136400434,7500,DYCD,260,005,,
-5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2022,2022,rescind,,,"De La Rosa Aaron Davis Hall, Inc.",,133166308,-20000,DCLA,126,003,,
-5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,,"De La Rosa Harlem Stage, Inc.",,133166308,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Ballroom Basix USA, Inc.",Public School 197Q The Ocean School (27Q197) & Brooks-Powers Public School/Middle School 138Q Sunrise (29Q138),273218865,-20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Ballroom Basix USA, Inc.",Public School 197Q The Ocean School (27Q197) & Brooks-Powers Public School 253Q (27Q253),273218865,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Jordan Aaron Davis Hall, Inc.",A. Philip Randolph Campus High School (06M540),133166308,-20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Jordan Harlem Stage, Inc.",A. Philip Randolph Campus High School (06M540),133166308,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Abreu Aaron Davis Hall, Inc.",A. Philip Randolph Campus High School (06M540),133166308,-20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Abreu Harlem Stage, Inc.",A. Philip Randolph Campus High School (06M540),133166308,20000,DCLA,126,003,,
+5,2022-11-22,Local Initiatives - Fiscal 2022,2022,rescind,,Brooks-Powers,District 29Q Community Education Council,,690210637,-10000,DOE,040,402,,
+5,2022-11-22,Local Initiatives - Fiscal 2022,2022,designate,,Brooks-Powers,District 29Q Community Education Council,,136400434,10000,DOE,040,402,,
+5,2022-11-22,Local Initiatives - Fiscal 2022,2022,rescind,,Brooks-Powers,"Jordan Aaron Davis Hall, Inc.",Education Program,133166308,-10000,DCLA,126,003,,
+5,2022-11-22,Local Initiatives - Fiscal 2022,2022,designate,,Brooks-Powers,"Jordan Harlem Stage, Inc.",Education Program,133166308,10000,DCLA,126,003,,
+5,2022-11-22,Local Initiatives - Fiscal 2022,2022,rescind,,Brooks-Powers,Yeger Mevakshai Hashem,,273083348,-5000,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2022,2022,designate,,Brooks-Powers,Yeger Together We Are,,270213447,5000,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2022,2022,rescind,,Ariola,"One Stop Richmond Hill Community Center, Inc.","ESL, Citizenship, Computer, GED",680602829,-30000,DYCD,260,312,,
+5,2022-11-22,Local Initiatives - Fiscal 2022,2022,designate,,Ariola,"One Stop Richmond Hill Community Center, Inc.",,680602829,30000,DYCD,260,312,,
+5,2022-11-22,Local Initiatives - Fiscal 2022,2022,rescind,,Gutierrez,"Committee for Hispanic Children and Families, Inc., The",High School Youth Development Programs - Council District 34,112622003,-5000,DYCD,260,312,,
+5,2022-11-22,Local Initiatives - Fiscal 2022,2022,designate,,Gutierrez,"Committee for Hispanic Children and Families, Inc., The",,112622003,5000,DYCD,260,312,,
+5,2022-11-22,Local Initiatives - Fiscal 2022,2022,rescind,,Ayala,Department of Youth and Community Development,,136400434,-5000,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2022,2022,designate,,Ayala,Yemeni American Merchants Association,Council District 8,823539502,5000,DYCD,260,005,,
+5,2022-11-22,Youth Discretionary - Fiscal 2022,2022,rescind,,Ariola,"One Stop Richmond Hill Community Center, Inc.",Youth Programming - Council District 32,680602829,-20000,DYCD,260,312,,
+5,2022-11-22,Youth Discretionary - Fiscal 2022,2022,designate,,Ariola,"One Stop Richmond Hill Community Center, Inc.",,680602829,20000,DYCD,260,312,,
+5,2022-11-22,Youth Discretionary - Fiscal 2022,2022,rescind,,Gutierrez,"Committee for Hispanic Children and Families, Inc., The",Council District 34,112622003,-75000,DYCD,260,312,,
+5,2022-11-22,Youth Discretionary - Fiscal 2022,2022,designate,,Gutierrez,"Committee for Hispanic Children and Families, Inc., The",,112622003,75000,DYCD,260,312,,
+5,2022-11-22,Anti-Poverty Initiative - Fiscal 2022,2022,rescind,,Abreu,"Aaron Davis Hall, Inc.",Francis Davis/Harlem Stage Education Program,133166308,-5000,DCLA,126,003,,
+5,2022-11-22,Anti-Poverty Initiative - Fiscal 2022,2022,designate,,Abreu,"Harlem Stage, Inc.",Francis Davis/Harlem Stage Education Program,133166308,5000,DCLA,126,003,,
+5,2022-11-22,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,rescind,,Brooks-Powers,"Simon Wiesenthal Center, Inc.",,953964928,-7500,DYCD,260,005,,
+5,2022-11-22,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,designate,,Brooks-Powers,Department of Youth and Community Development,,136400434,7500,DYCD,260,005,,
+5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2022,2022,rescind,,De La Rosa,"Aaron Davis Hall, Inc.",,133166308,-20000,DCLA,126,003,,
+5,2022-11-22,Cultural Immigrant Initiative - Fiscal 2022,2022,designate,,De La Rosa,"Harlem Stage, Inc.",,133166308,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Brooks-Powers,"Ballroom Basix USA, Inc.",Public School 197Q The Ocean School (27Q197) & Public School/Middle School 138Q Sunrise (29Q138),273218865,-20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Brooks-Powers,"Ballroom Basix USA, Inc.",Public School 197Q The Ocean School (27Q197) & Public School 253Q (27Q253),273218865,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Brooks-Powers,"Jordan Aaron Davis Hall, Inc.",A. Philip Randolph Campus High School (06M540),133166308,-20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Brooks-Powers,"Jordan Harlem Stage, Inc.",A. Philip Randolph Campus High School (06M540),133166308,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Abreu,"Aaron Davis Hall, Inc.",A. Philip Randolph Campus High School (06M540),133166308,-20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Abreu,"Harlem Stage, Inc.",A. Philip Randolph Campus High School (06M540),133166308,20000,DCLA,126,003,,
 5,2022-11-22,Pandemic Support for Human Service Providers - Fiscal 2022,2022,rescind,,,Queens Law Associates Not-For-Profit Corporation,,270364845,-106739,MOCJ,098,002,,
 5,2022-11-22,Pandemic Support for Human Service Providers - Fiscal 2022,2022,designate,,,Mayor's Office of Criminal Justice,,136400434,106739,MOCJ,098,002,,
 5,2022-11-22,Pandemic Support for Human Service Providers - Fiscal 2022,2022,rescind,,,"Street Corner Resources, Inc.",,260149521,-5330,MOCJ,098,002,,
@@ -376,28 +376,28 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 5,2022-11-22,Crisis Management System - Fiscal 2021,2021,designate,,,Mayor's Office of Criminal Justice,,136400434,35000,MOCJ,098,002,,
 5,2022-11-22,Crisis Management System - Fiscal 2021,2021,rescind,,,"Berean Community and Family Life Center, Inc.",,112870465,-35000,MOCJ,098,002,,
 5,2022-11-22,Crisis Management System - Fiscal 2021,2021,designate,,,Mayor's Office of Criminal Justice,,136400434,35000,MOCJ,098,002,,
-5,2022-11-22,Local Initiatives - Fiscal 2021,2021,rescind,,,"Holden Federazione Italo-Americana of Brooklyn & Queens, Inc.",,113044143,-5000,DYCD,260,005,,
-5,2022-11-22,Local Initiatives - Fiscal 2021,2021,rescind,,,"Holden Woodhaven Residents Block Association, Inc.",,237388148,-5000,DYCD,260,005,,
-5,2022-11-22,Local Initiatives - Fiscal 2021,2021,rescind,,,"Rodriguez Dominican Sunday, Inc.",,134188781,-5000,DYCD,260,005,,
-5,2022-11-22,Local Initiatives - Fiscal 2021,2021,designate,,,Rodriguez Dominican Community Center NYC Inc.,,134188781,5000,DYCD,260,005,,
-5,2022-11-22,Local Initiatives - Fiscal 2021,2021,rescind,,,"Levine Dominican Sunday, Inc.","ESL, Citizenship, Computer, GED",134188781,-5000,DYCD,260,005,,
-5,2022-11-22,Local Initiatives - Fiscal 2021,2021,designate,,,Levine Dominican Community Center NYC Inc.,"ESL, Citizenship, Computer, GED",134188781,5000,DYCD,260,005,,
-5,2022-11-22,Local Initiatives - Fiscal 2021,2021,rescind,,,"Holden Associazione Culturale Italiana di New York, Inc.",,264316546,-7500,DYCD,260,005,,
-5,2022-11-22,Local Initiatives - Fiscal 2021,2021,rescind,,,Holden Our Lady of Hope Roman Catholic Church,,112023047,-5000,DYCD,260,005,,
-5,2022-11-22,Local Initiatives - Fiscal 2021,2021,designate,,,"Holden Outstanding Renewal Enterprises, Inc.",,133320984,14500,DYCD,260,005,,
-5,2022-11-22,Local Initiatives - Fiscal 2021,2021,designate,,,Holden QueensRail Corporation,,475388098,8000,DYCD,260,005,,
-5,2022-11-22,Youth Discretionary - Fiscal 2021,2021,rescind,,,"Holden Detective Rafael Ramos Foundation, The",,475466069,-5000,DYCD,260,312,,
-5,2022-11-22,Youth Discretionary - Fiscal 2021,2021,rescind,,,Holden Sacred Heart Youth Program,,111666876,-6000,DYCD,260,312,,
-5,2022-11-22,Youth Discretionary - Fiscal 2021,2021,rescind,,,"Holden Works Little League, Inc.",,112949074,-2500,DYCD,260,312,,
-5,2022-11-22,Youth Discretionary - Fiscal 2021,2021,designate,,,"Holden Outstanding Renewal Enterprises, Inc.",,133320984,13500,DYCD,260,312,,
-5,2022-11-22,Anti-Poverty - Fiscal 2021,2021,rescind,,,"Abreu Aaron Davis Hall, Inc.",Francis Davis/Harlem Stage Education,133166308,-5000,DCLA,126,003,,
-5,2022-11-22,Anti-Poverty - Fiscal 2021,2021,designate,,,"Abreu Harlem Stage, Inc.",Francis Davis/Harlem Stage Education,133166308,5000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"Abreu Aaron Davis Hall, Inc.",A. Philip Randolph Campus High School (06M540),133166308,-20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Abreu Harlem Stage, Inc.",A. Philip Randolph Campus High School (06M540),133166308,20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"Jordan Aaron Davis Hall, Inc.",A. Philip Randolph Campus High School (06M540),133166308,-20000,DCLA,126,003,,
-5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Jordan Harlem Stage, Inc.",A. Philip Randolph Campus High School (06M540),133166308,20000,DCLA,126,003,,
-5,2022-11-22,Food Pantries - Fiscal 2021,2021,rescind,,,"Queens Delegation Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,-7500,DYCD,260,005,,
-5,2022-11-22,Food Pantries - Fiscal 2021,2021,designate,,,Queens Delegation Department of Youth and Community Development,,136400434,7500,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2021,2021,rescind,,Holden,"Federazione Italo-Americana of Brooklyn & Queens, Inc.",,113044143,-5000,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2021,2021,rescind,,Holden,"Woodhaven Residents Block Association, Inc.",,237388148,-5000,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2021,2021,rescind,,Holden,"Rodriguez Dominican Sunday, Inc.",,134188781,-5000,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2021,2021,designate,,Holden,Rodriguez Dominican Community Center NYC Inc.,,134188781,5000,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2021,2021,rescind,,Holden,"Levine Dominican Sunday, Inc.","ESL, Citizenship, Computer, GED",134188781,-5000,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2021,2021,designate,,Holden,Levine Dominican Community Center NYC Inc.,"ESL, Citizenship, Computer, GED",134188781,5000,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2021,2021,rescind,,Holden,"Associazione Culturale Italiana di New York, Inc.",,264316546,-7500,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2021,2021,rescind,,Holden,Our Lady of Hope Roman Catholic Church,,112023047,-5000,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2021,2021,designate,,Holden,"Outstanding Renewal Enterprises, Inc.",,133320984,14500,DYCD,260,005,,
+5,2022-11-22,Local Initiatives - Fiscal 2021,2021,designate,,Holden,QueensRail Corporation,,475388098,8000,DYCD,260,005,,
+5,2022-11-22,Youth Discretionary - Fiscal 2021,2021,rescind,,Holden,"Detective Rafael Ramos Foundation, The",,475466069,-5000,DYCD,260,312,,
+5,2022-11-22,Youth Discretionary - Fiscal 2021,2021,rescind,,Holden,Sacred Heart Youth Program,,111666876,-6000,DYCD,260,312,,
+5,2022-11-22,Youth Discretionary - Fiscal 2021,2021,rescind,,Holden,"Works Little League, Inc.",,112949074,-2500,DYCD,260,312,,
+5,2022-11-22,Youth Discretionary - Fiscal 2021,2021,designate,,Holden,"Outstanding Renewal Enterprises, Inc.",,133320984,13500,DYCD,260,312,,
+5,2022-11-22,Anti-Poverty - Fiscal 2021,2021,rescind,,Abreu,"Aaron Davis Hall, Inc.",Francis Davis/Harlem Stage Education,133166308,-5000,DCLA,126,003,,
+5,2022-11-22,Anti-Poverty - Fiscal 2021,2021,designate,,Abreu,"Harlem Stage, Inc.",Francis Davis/Harlem Stage Education,133166308,5000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,Abreu,"Aaron Davis Hall, Inc.",A. Philip Randolph Campus High School (06M540),133166308,-20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,Abreu,"Harlem Stage, Inc.",A. Philip Randolph Campus High School (06M540),133166308,20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,Abreu,"Jordan Aaron Davis Hall, Inc.",A. Philip Randolph Campus High School (06M540),133166308,-20000,DCLA,126,003,,
+5,2022-11-22,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,Abreu,"Jordan Harlem Stage, Inc.",A. Philip Randolph Campus High School (06M540),133166308,20000,DCLA,126,003,,
+5,2022-11-22,Food Pantries - Fiscal 2021,2021,rescind,,Queens Delegation,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,-7500,DYCD,260,005,,
+5,2022-11-22,Food Pantries - Fiscal 2021,2021,designate,,Queens Delegation,Department of Youth and Community Development,,136400434,7500,DYCD,260,005,,
 5,2022-11-22,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,Youth,,"Yeger Congregation Kehilas Belz USA, Inc.",,113143733,-20000,DYCD,,,To provide funding support for youth programs.,
 5,2022-11-22,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Funding to be used to create flyers and programming for culturally- Youth Yeger Congregation Kehilas Belz USA, Inc.",,113143733,20000,DYCD,,,sensitive bilingual programs for youth.,
 5,2022-11-22,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Door,"A Center of Alternatives, Inc., The - Youth Ayala",136127348,-10000,DYCD,,,To provide funding for ESOL classes at The Bronx Youth Center. Bronx Youth Center,

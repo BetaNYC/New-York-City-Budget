@@ -22,17 +22,17 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 7,2009-12-21,LocalInitiatives,,rescind,,,"Ignizio EmergencyChildren'sHelpOrganization,Inc.",,113828185,-5000,DYCD,,,.00) 260 312,**
 7,2009-12-21,LocalInitiatives,,rescind,,,"Ignizio SpecialOlympicsNewYork,Inc.",,237061382,-5000,DYCD,,,.00) 260 312,**
 7,2009-12-21,LocalInitiatives,,designate,,,"Ignizio Garibaldi-MeucciMuseum** CC-Fidler,",,061725844,10000,DCA,,,.00 126 003,
-7,2009-12-21,LocalInitiatives,,rescind,,,"Brooklyn Delegation RidgewoodBushwickSeniorCitizensCouncil,Inc.** CC-Fidler,",,112453853,-350000,DFTA,,,.00) 125 003,
-7,2009-12-21,LocalInitiatives,,designate,,,"Brooklyn Delegation RidgewoodBushwickSeniorCitizensCouncil,Inc.** WadleighSecondarySchoolfortheVisualandPerforming",,112453853,350000,DYCD,,,.00 260 005,
+7,2009-12-21,LocalInitiatives,,rescind,,Brooklyn Delegation,"RidgewoodBushwickSeniorCitizensCouncil,Inc.** CC-Fidler,",,112453853,-350000,DFTA,,,.00) 125 003,
+7,2009-12-21,LocalInitiatives,,designate,,Brooklyn Delegation,"RidgewoodBushwickSeniorCitizensCouncil,Inc.** WadleighSecondarySchoolfortheVisualandPerforming",,112453853,350000,DYCD,,,.00 260 005,
 7,2009-12-21,LocalInitiatives,,rescind,,,Dickens Arts,,136400434,-5000,DOE,,,.00) 040 402,**
 7,2009-12-21,LocalInitiatives,,designate,,,WadleighSecondarySchoolfortheVisualandPerforming Dickens Arts,,136400434,5000,DYCD,,,".00 260 312 CommunityWorks,Inc. 13-3580813",**
 7,2009-12-21,LocalInitiatives,,rescind,,,"Yassky CouncilofUrbanProfessionals,Inc.",,010683413,-10000,DSBS,,,.00) 801 002 *,**
 7,2009-12-21,LocalInitiatives,,designate,,,"Yassky CouncilofUrbanProfessionals,Inc.",,010683413,10000,DYCD,,,.00 260 005 *,**
 7,2009-12-21,LocalInitiatives,,rescind,,,Viverito RaícesLatinMusicMuseum,,208531737,-5000,DCA,,,.00) 126 003,**
 7,2009-12-21,LocalInitiatives,,designate,,,Viverito RaícesLatinMusicMuseum,,208531737,5000,DYCD,,,.00 260 005,**
-7,2009-12-21,LocalInitiatives,,rescind,,,Brewer AmericanComposersOrchestra,,132838450,-3500,DYCD,,,.00) 260 312,**
-7,2009-12-21,LocalInitiatives,,designate,,,"Brewer AmericanComposersOrchestra** CC-White,",,132838450,3500,DOE,,,.00 040 402,
-7,2009-12-21,LocalInitiatives,,rescind,,,"Weprin,Mitchell, Reyna NewYorkIndustrialRetentionNetwork",,510178586,-145000,DSBS,,,.00) 801 002,**
+7,2009-12-21,LocalInitiatives,,rescind,,Brewer,AmericanComposersOrchestra,,132838450,-3500,DYCD,,,.00) 260 312,**
+7,2009-12-21,LocalInitiatives,,designate,,Brewer,"AmericanComposersOrchestra** CC-White,",,132838450,3500,DOE,,,.00 040 402,
+7,2009-12-21,LocalInitiatives,,rescind,,Brewer,"Weprin,Mitchell, Reyna NewYorkIndustrialRetentionNetwork",,510178586,-145000,DSBS,,,.00) 801 002,**
 7,2009-12-21,LocalInitiatives,,designate,,,"FiscalConduit/Sponsoring Member Organization EINNumber Agency Amount Agy# U/A Organization FiscalConduitEIN * CC-White, Weprin,Mitchell, FundfortheCityofNewYork,Inc.-NewYorkIndustrial Reyna RetentionNetwork",,132612524,145000,DSBS,,,.00 801 002,**
 7,2009-12-21,LocalInitiatives,,rescind,,,"Mitchell ServingThoseWhoServe,Inc.",,200069773,-2000,DYCD,,,.00) 260 005 *,**
 7,2009-12-21,LocalInitiatives,,rescind,,,Mitchell ImmaculateConceptionSchool,,132687296,-3000,DYCD,,,".00) 260 312 UnitedActivitiesUnlimited,Inc. 13-2921483 *",**

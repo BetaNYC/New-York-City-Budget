@@ -77,24 +77,24 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,,New York City Housing Authority,Berry Street Tenants Association Levin,136400434,1200,NYCHA,,,.00 098 002,**
 1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,,Levin Little Essentials,,275281758,-3500,DYCD,,,.00) 260 312,
 1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,,Levin Little Essentials,,275281758,3500,DYCD,,,".00 260 312 Brooklyn Arts Council, Inc. 23-7072915",
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,,Williams Flatbush Development Corporation,,510188251,-6000,DYCD,,,.00) 260 005,
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,,"Williams East Flatbush Village, Inc.",,800612019,3000,DYCD,,,.00 260 005,
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,,"Williams Voice of Justice For Children and Families, The",,454634142,3000,DYCD,,,.00 260 005,
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,,"Lancman Queens College Foundation, Inc.",,116080521,-4200,CUNY,,,.00) 042 001,
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,,Lancman Taft Institute for Government,,131953096,4200,CUNY,,,.00 042 001,
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,,"Lancman India Home, Inc.",,208747291,-20000,DFTA,,,.00) 125 003,**
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,,Lancman Department of Parks and Recreation ** 13-6400434 DPR Lancman Greater Jamaica Development Corpporation,,237021273,15000,DSBS,,,.00 801 002,**
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,,"Lancman Shalom Task Force, Inc.",,113207504,-10000,MOCJ,,,.00) 098 002,**
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,,"Lancman Shalom Task Force, Inc.",,113207504,10000,DYCD,,,.00 260 005,**
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,,"Kallos East 69th Street Association, Inc.",,260555623,-1000,DYCD,,,.00) 260 005,
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,,"Kallos Citizens Committee for New York City, Inc.",,510171818,1000,DYCD,,,.00 260 005,
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,,Eugene Department of Sanitation,,136400434,-11000,DSNY,,,.00) 827 009,**
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,,"Eugene Friends of Brooklyn Community Board 12, Inc.",,204531249,5500,DSBS,,,.00 801 002 *,**
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,,"Eugene One Brooklyn Fund, Inc.",,465189061,5500,DYCD,,,.00 260 005,**
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,,Eugene Prospect Lefferts Gardens Neighborhood Association Inc.,,237064386,-5000,DYCD,,,.00) 260 005,
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,,Eugene Prospect Lefferts Gardens Neighborhood Association Inc.,,237064386,5000,HPD,,,.00 806 009,
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,,"Cumbo Prospect Heights Neighborhood Development Council, Inc.",,412138050,-3500,DYCD,,,.00) 260 005 *,
-1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,,"Cumbo Prospect Heights Neighborhood Development Council, Inc.",,412138050,3500,DYCD,,,".00 260 005 Pratt Area Community Council, Inc. 11-2451752 *",
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,Williams,Flatbush Development Corporation,,510188251,-6000,DYCD,,,.00) 260 005,
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,Williams,"East Flatbush Village, Inc.",,800612019,3000,DYCD,,,.00 260 005,
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,Williams,"Voice of Justice For Children and Families, The",,454634142,3000,DYCD,,,.00 260 005,
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,Williams,"Lancman Queens College Foundation, Inc.",,116080521,-4200,CUNY,,,.00) 042 001,
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,Williams,Lancman Taft Institute for Government,,131953096,4200,CUNY,,,.00 042 001,
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,Williams,"Lancman India Home, Inc.",,208747291,-20000,DFTA,,,.00) 125 003,**
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,Williams,Lancman Department of Parks and Recreation ** 13-6400434 DPR Lancman Greater Jamaica Development Corpporation,,237021273,15000,DSBS,,,.00 801 002,**
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,Williams,"Lancman Shalom Task Force, Inc.",,113207504,-10000,MOCJ,,,.00) 098 002,**
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,Williams,"Lancman Shalom Task Force, Inc.",,113207504,10000,DYCD,,,.00 260 005,**
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,Williams,"Kallos East 69th Street Association, Inc.",,260555623,-1000,DYCD,,,.00) 260 005,
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,Williams,"Kallos Citizens Committee for New York City, Inc.",,510171818,1000,DYCD,,,.00 260 005,
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,Williams,Eugene Department of Sanitation,,136400434,-11000,DSNY,,,.00) 827 009,**
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,Williams,"Eugene Friends of Brooklyn Community Board 12, Inc.",,204531249,5500,DSBS,,,.00 801 002 *,**
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,Williams,"Eugene One Brooklyn Fund, Inc.",,465189061,5500,DYCD,,,.00 260 005,**
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,Williams,Eugene Prospect Lefferts Gardens Neighborhood Association Inc.,,237064386,-5000,DYCD,,,.00) 260 005,
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,Williams,Eugene Prospect Lefferts Gardens Neighborhood Association Inc.,,237064386,5000,HPD,,,.00 806 009,
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,rescind,,Williams,"Cumbo Prospect Heights Neighborhood Development Council, Inc.",,412138050,-3500,DYCD,,,.00) 260 005 *,
+1,2015-07-23,Local Initiatives - Fiscal 2016,2016,designate,,Williams,"Cumbo Prospect Heights Neighborhood Development Council, Inc.",,412138050,3500,DYCD,,,".00 260 005 Pratt Area Community Council, Inc. 11-2451752 *",
 1,2015-07-23,Aging Discretionary - Fiscal 2016,2016,rescind,,,"Organization Conduit EIN Cumbo Fort Greene Council, Inc.",,112300840,-10000,DFTA,,,.00) 125 003,
 1,2015-07-23,Aging Discretionary - Fiscal 2016,2016,designate,,,"Cumbo Crown Heights Jewish Community Council, Inc.",,237390996,10000,DFTA,,,.00 125 003,
 1,2015-07-23,Youth Discretionary - Fiscal 2016,2016,rescind,,,"Organization Conduit EIN Crowley Blau-Weiss Gottschee, Inc.",,116074351,-20000,DYCD,,,".00) 260 312 Maspeth Town Hall, Inc. 23-7259702",
@@ -241,17 +241,17 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,Ulrich Wildlife Conservation Society,PS 316 Queens Explorers Elementary School,131740011,20000,DCLA,,,.00 126 022,
 1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,Vallone Research Foundation of CUNY,Creative Arts Team - J.H.S. 185 Edward Bleeker,131988190,20000,DCLA,,,.00 126 003,
 1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,Van Bramer American Museum of the Moving Image,Public School 111Q,112730714,20000,DCLA,,,.00 126 022,
-1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,"Williams Brooklyn Arts Council, Inc.",Public School 208,237072915,20000,DCLA,,,.00 126 003,
-1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,"Williams Brooklyn Arts Council, Inc.",Public School 181,237072915,20000,DCLA,,,.00 126 003,
-1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,Williams Caribbean Cultural Theatre,Public School 198,830508237,20000,DCLA,,,.00 126 003,
-1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,Williams Research Foundation of CUNY,Creative Arts Team - Public School 119 Amersfort,131988190,20000,DCLA,,,.00 126 003,
-1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,"Williams East Flatbush Village, Inc.",Public School 109,800612019,20000,DCLA,,,.00 126 003,
-1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,Williams Girl Be Heard Institute,Hudde Middle School (Brooklyn),271848709,20000,DCLA,,,.00 126 003,
-1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,Williams Groundswell Community Mural Project,Midwood High School,113427213,20000,DCLA,,,.00 126 003,
-1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,"Williams Sesame Flyers International, Inc.",Public School 269,112692485,20000,DCLA,,,.00 126 003,
-1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,Gibson Girl Be Heard Institute,Middle School 022,271848709,20000,DCLA,,,.00 126 003,
-1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,rescind,,,Matteo Staten Island Institute of Arts and Sciences,Public School 46,133556427,-20000,DCLA,,,.00) 126 022,
-1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,Matteo Staten Island Institute of Arts and Sciences,Public School 46,135564127,20000,DCLA,,,.00 126 022,
+1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,Williams,"Brooklyn Arts Council, Inc.",Public School 208,237072915,20000,DCLA,,,.00 126 003,
+1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,Williams,"Brooklyn Arts Council, Inc.",Public School 181,237072915,20000,DCLA,,,.00 126 003,
+1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,Williams,Caribbean Cultural Theatre,Public School 198,830508237,20000,DCLA,,,.00 126 003,
+1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,Williams,Research Foundation of CUNY,Creative Arts Team - Public School 119 Amersfort,131988190,20000,DCLA,,,.00 126 003,
+1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,Williams,"East Flatbush Village, Inc.",Public School 109,800612019,20000,DCLA,,,.00 126 003,
+1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,Williams,Girl Be Heard Institute,Hudde Middle School (Brooklyn),271848709,20000,DCLA,,,.00 126 003,
+1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,Williams,Groundswell Community Mural Project,Midwood High School,113427213,20000,DCLA,,,.00 126 003,
+1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,Williams,"Sesame Flyers International, Inc.",Public School 269,112692485,20000,DCLA,,,.00 126 003,
+1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,Williams,Gibson Girl Be Heard Institute,Middle School 022,271848709,20000,DCLA,,,.00 126 003,
+1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,rescind,,Williams,Matteo Staten Island Institute of Arts and Sciences,Public School 46,133556427,-20000,DCLA,,,.00) 126 022,
+1,2015-07-23,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,Williams,Matteo Staten Island Institute of Arts and Sciences,Public School 46,135564127,20000,DCLA,,,.00 126 022,
 1,2015-07-23,NYC Digital Inclusion and Literacy Initiative - Fiscal 2016,2016,designate,,,"Arroyo Just-Us, Inc.",,132954007,20000,DYCD,,,.00 260 005,
 1,2015-07-23,NYC Digital Inclusion and Literacy Initiative - Fiscal 2016,2016,designate,,,Cabrera Older Adults Technology Services (OATS),,550882599,20000,DYCD,,,.00 260 005,
 1,2015-07-23,NYC Digital Inclusion and Literacy Initiative - Fiscal 2016,2016,designate,,,CD28 Older Adults Technology Services (OATS),,550882599,20000,DYCD,,,.00 260 005,
@@ -289,7 +289,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 1,2015-07-23,NYC Digital Inclusion and Literacy Initiative - Fiscal 2016,2016,designate,,,"Vallone Selfhelp Community Services, Inc.",,131624178,20000,DYCD,,,.00 260 005,
 1,2015-07-23,NYC Digital Inclusion and Literacy Initiative - Fiscal 2016,2016,designate,,,Van Bramer Coalition for Queens’,,611652332,20000,DYCD,,,.00 260 005,
 1,2015-07-23,NYC Digital Inclusion and Literacy Initiative - Fiscal 2016,2016,designate,,,"CD23 Just-Us, Inc.",,132954007,20000,DYCD,,,.00 260 005,
-1,2015-07-23,NYC Digital Inclusion and Literacy Initiative - Fiscal 2016,2016,designate,,,Williams East Flatbush Village,PS 244,800612019,20000,DYCD,,,.00 260 005,
+1,2015-07-23,NYC Digital Inclusion and Literacy Initiative - Fiscal 2016,2016,designate,,Williams,East Flatbush Village,PS 244,800612019,20000,DYCD,,,.00 260 005,
 1,2015-07-23,Anti-Gun Violence Initiative - Youth Programs - Fiscal 2016,2016,rescind,,,New Yorkers Against Gun Violence,,133780848,-30000,DYCD,,,.00) 260 312,
 1,2015-07-23,Anti-Gun Violence Initiative - Youth Programs - Fiscal 2016,2016,designate,,,New Yorkers Against Gun Violence Education Fund,,133808186,30000,DYCD,,,.00 260 312,
 1,2015-07-23,Anti-Gun Violence Initiative - Youth Programs - Fiscal 2016,2016,rescind,,,Department for Youth and Community Development,,136400434,-3000,DYCD,,,.00) 260 312,**

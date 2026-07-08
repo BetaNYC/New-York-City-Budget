@@ -26,10 +26,10 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,"Chin Greenwich House, Inc.",,135562204,3500,DFTA,,,.00 125 003,**
 12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,Greater Bethel Interdenminational Minitries,,510153893,-50000,DYCD,,,.00) 260 005,**
 12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Greater Bethel Interdenminational Minitries,,510153893,50000,DFTA,,,.00 125 003,**
-12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,Williams African American Women In Cinema,,134151020,-4000,DYCD,,,.00) 260 005,
-12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,"Williams Creative Outlet Dance Theatre, Inc.",,113307754,-3500,DYCD,,,.00) 260 005,
-12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Williams Christopher Rose Community Empowerment Campaign,,113423612,6000,DYCD,,,.00 260 005,
-12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,"Williams East Flatbush Village, Inc.",,800612019,8500,DYCD,,,.00 260 005,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,Williams,African American Women In Cinema,,134151020,-4000,DYCD,,,.00) 260 005,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,Williams,"Creative Outlet Dance Theatre, Inc.",,113307754,-3500,DYCD,,,.00) 260 005,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,Williams,Christopher Rose Community Empowerment Campaign,,113423612,6000,DYCD,,,.00 260 005,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,Williams,"East Flatbush Village, Inc.",,800612019,8500,DYCD,,,.00 260 005,
 12,2015-03-31,Aging Discretionary - Fiscal 2015,2015,rescind,,,"Organization Conduit EIN Cornegy Sumner Houses Tenants Association, Inc.",,112733344,-9000,DFTA,,,.00) 125 003,**
 12,2015-03-31,Aging Discretionary - Fiscal 2015,2015,designate,,,New York City Housing Authority,Sumner Houses Tenants Cornegy Association,136400434,9000,NYCHA,,,.00 098 002,**
 12,2015-03-31,Aging Discretionary - Fiscal 2015,2015,rescind,,,"Cornegy Tompkins Houses Resident Association, Inc.",,113095879,-3000,DFTA,,,.00) 125 003,**
@@ -40,8 +40,8 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 12,2015-03-31,Youth Discretionary - Fiscal 2015,2015,designate,,,Crowley Roman Catholic Church of St. Margaret,,111723800,3500,DYCD,,,.00 260 312,
 12,2015-03-31,Anti-Poverty Initiative - Fiscal 2015,2015,rescind,,,"Organization Conduit EIN Mark-Viverito Little Sisters of the Assumption Family Health Service, Inc.",,132867881,-15000,DYCD,,,.00) 260 005 *,
 12,2015-03-31,Anti-Poverty Initiative - Fiscal 2015,2015,designate,,,"Mark-Viverito Little Sisters of the Assumption Family Health Service, Inc.",,132867881,15000,DYCD,,,.00 260 312 *,
-12,2015-03-31,Anti-Poverty Initiative - Fiscal 2015,2015,rescind,,,Williams Central Brooklyn Legal Services Corp,,465144468,-3500,DSS/HRA,,,.00) 069 103,**
-12,2015-03-31,Anti-Poverty Initiative - Fiscal 2015,2015,designate,,,"Williams East Flatbush Village, Inc.",,800612019,3500,DYCD,,,.00 260 005,**
+12,2015-03-31,Anti-Poverty Initiative - Fiscal 2015,2015,rescind,,Williams,Central Brooklyn Legal Services Corp,,465144468,-3500,DSS/HRA,,,.00) 069 103,**
+12,2015-03-31,Anti-Poverty Initiative - Fiscal 2015,2015,designate,,Williams,"East Flatbush Village, Inc.",,800612019,3500,DYCD,,,.00 260 005,**
 12,2015-03-31,NYC Digital Inclusion and Literacy Initiative - Fiscal 2015,2015,rescind,,,Greenfield Cope Institute,,132889361,-14705,DYCD,,,.00) 260 005 *,
 12,2015-03-31,NYC Digital Inclusion and Literacy Initiative - Fiscal 2015,2015,designate,,,"Greenfield Agudath Israel of America Community Services, Inc",,133975090,14705,DYCD,,,.00 260 005,
 12,2015-03-31,Cultural Immigrant Intiative - Fiscal 2015,2015,rescind,,,Dickens Maysles Documentary Center,,202545574,-14700,DCLA,,,.00) 126 003 *,
@@ -75,7 +75,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 12,2015-03-31,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,"class in District 41 for the Licensed Practical Nurse entrance administered by the Anti-Poverty Mealy Reshaping Our Youth and Adult Lives, Inc.",,261470495,10000,DYCD,,,.00 Department of Education. Additionally recruits will have an option of acquiring an OSHA certificate for employment in the construction field as well.,
 12,2015-03-31,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,Funds will either be used for a mentoring program for difficult teenagers or to Youth Greenfield Igud L' Hachzokas Torah,,113588991,-10000,DYCD,,,.00) * provide suppers to the community.,
 12,2015-03-31,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,Funds will be used for a supper program that feeds free dinners to teenagers in Youth Greenfield Igud L' Hachzokas Torah,,113588991,10000,DYCD,,,.00 * the community Monday through Friday.,
-12,2015-03-31,Local Initiatives - Fiscal 2014,2014,rescind,,,Conduit EIN Williams African American Women In Cinema,,134151020,-3500,DYCD,,,.00) 260 005 *,
-12,2015-03-31,Local Initiatives - Fiscal 2014,2014,designate,,,"Williams East Flatbush Village, Inc.",,800612019,3500,DYCD,,,.00 260 005,
-12,2015-03-31,Youth Discretionary - Fiscal 2014,2014,rescind,,,Conduit EIN Williams Redemption Inc.,,562550383,-7500,DYCD,,,.00) 260 312,
-12,2015-03-31,Youth Discretionary - Fiscal 2014,2014,designate,,,"Williams East Flatbush Village, Inc.",,800612019,7500,DYCD,,,.00 260 312,
+12,2015-03-31,Local Initiatives - Fiscal 2014,2014,rescind,,Williams,Conduit EIN African American Women In Cinema,,134151020,-3500,DYCD,,,.00) 260 005 *,
+12,2015-03-31,Local Initiatives - Fiscal 2014,2014,designate,,Williams,"East Flatbush Village, Inc.",,800612019,3500,DYCD,,,.00 260 005,
+12,2015-03-31,Youth Discretionary - Fiscal 2014,2014,rescind,,Williams,Conduit EIN Redemption Inc.,,562550383,-7500,DYCD,,,.00) 260 312,
+12,2015-03-31,Youth Discretionary - Fiscal 2014,2014,designate,,Williams,"East Flatbush Village, Inc.",,800612019,7500,DYCD,,,.00 260 312,

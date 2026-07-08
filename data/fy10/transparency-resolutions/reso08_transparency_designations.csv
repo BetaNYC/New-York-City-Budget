@@ -61,57 +61,57 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 8,2010-03-03,LocalInitiatives,,designate,,,FriendsandFamilyofPublicSchool11-ThePTAofPS Quinn 11,,264153754,5000,DOE,,,.00 040 402,**
 8,2010-03-03,LocalInitiatives,,rescind,,,"Palma HPHomeownersAssociation,Inc.",,133132218,-25000,DYCD,,,.00) 260 005 *,
 8,2010-03-03,LocalInitiatives,,designate,,,"Palma KipsBayBoysandGirlsClub,Inc.",,131623850,25000,DYCD,,,.00 260 312,
-8,2010-03-03,LocalInitiatives,,rescind,,,Rivera AquinasHousingCorporation,,133076810,-20000,DYCD,,,.00) 260 312 *,**
-8,2010-03-03,LocalInitiatives,,designate,,,Rivera AquinasHousingCorporation,,133076810,20000,ACS,,,.00 068 004 *,**
-8,2010-03-03,LocalInitiatives,,rescind,,,MNDelegation TurtleBayMusicSchool,,131775772,-3500,DYCD,,,.00) 260 312 *,**
-8,2010-03-03,LocalInitiatives,,designate,,,MNDelegation TurtleBayMusicSchool,,131775772,3500,DCA,,,.00 126 003 *,**
-8,2010-03-03,LocalInitiatives,,rescind,,,"Cabrera BronxVeteransMedicalFoundation,Inc.",,133699250,-25000,DYCD,,,.00) 260 005,**
-8,2010-03-03,LocalInitiatives,,designate,,,"Cabrera BronxVeteransMedicalFoundation,Inc.",,133699250,25000,DOHMH,,,.00 816 113,**
-8,2010-03-03,LocalInitiatives,,rescind,,,"Fidler BrooklynBallet,Inc.",,020569320,-18500,DYCD,,,.00) 260 312,**
-8,2010-03-03,LocalInitiatives,,designate,,,"Fidler BrooklynBallet,Inc.",,020569320,18500,DCA,,,.00 126 003,**
-8,2010-03-03,LocalInitiatives,,rescind,,,"TrusteesofColumbiaUniversityoftheCityofNewYork, Jackson Inc.,The",,135598093,-3500,DYCD,,,.00) 260 005 *,**
-8,2010-03-03,LocalInitiatives,,designate,,,"TrusteesofColumbiaUniversityoftheCityofNewYork, Jackson Inc.,The",,135598093,3500,DOHMH,,,.00 816 113 *,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,AquinasHousingCorporation,,133076810,-20000,DYCD,,,.00) 260 312 *,**
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,AquinasHousingCorporation,,133076810,20000,ACS,,,.00 068 004 *,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,MNDelegation TurtleBayMusicSchool,,131775772,-3500,DYCD,,,.00) 260 312 *,**
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,MNDelegation TurtleBayMusicSchool,,131775772,3500,DCA,,,.00 126 003 *,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"Cabrera BronxVeteransMedicalFoundation,Inc.",,133699250,-25000,DYCD,,,.00) 260 005,**
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,"Cabrera BronxVeteransMedicalFoundation,Inc.",,133699250,25000,DOHMH,,,.00 816 113,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"Fidler BrooklynBallet,Inc.",,020569320,-18500,DYCD,,,.00) 260 312,**
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,"Fidler BrooklynBallet,Inc.",,020569320,18500,DCA,,,.00 126 003,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"TrusteesofColumbiaUniversityoftheCityofNewYork, Jackson Inc.,The",,135598093,-3500,DYCD,,,.00) 260 005 *,**
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,"TrusteesofColumbiaUniversityoftheCityofNewYork, Jackson Inc.,The",,135598093,3500,DOHMH,,,.00 816 113 *,**
 8,2010-03-03,LocalInitiatives,,rescind,,,"FiscalConduit/Sponsoring Organization Member Organization EINNumber Agency Amount Agy# U/A FiscalConduitEIN * James BrooklynBallet,Inc.",,020569320,-8513,DYCD,,,.00) 260 312,**
 8,2010-03-03,LocalInitiatives,,designate,,,"James BrooklynBallet,Inc.",,020569320,8513,DCA,,,.00 126 003,**
 8,2010-03-03,LocalInitiatives,,rescind,,,"James CentralJewishCouncil,Inc.",,113602492,-5000,DYCD,,,.00) 260 312 *,**
 8,2010-03-03,LocalInitiatives,,designate,,,"James BrooklynBallet,Inc.",,020569320,5000,DCA,,,.00 126 003,**
 8,2010-03-03,LocalInitiatives,,rescind,,,"WestBronxHousingandNeighborhoodResourceCenter, Koppell Inc.",,132941841,-5000,DYCD,,,.00) 260 005,**
-8,2010-03-03,LocalInitiatives,,rescind,,,"WestBronxHousingandNeighborhoodResourceCenter, Rivera Inc.",,132941841,-20000,DYCD,,,.00) 260 005,**
-8,2010-03-03,LocalInitiatives,,designate,,,"WestBronxHousingandNeighborhoodResourceCenter, Koppell Inc.",,132941841,5000,HPD,,,.00 806 009,**
-8,2010-03-03,LocalInitiatives,,designate,,,"WestBronxHousingandNeighborhoodResourceCenter, Rivera Inc.",,132941841,20000,HPD,,,.00 806 009,**
-8,2010-03-03,LocalInitiatives,,rescind,,,"Nelson BeProud,Inc.",,582674169,-3500,DYCD,,,.00) 260 312,**
-8,2010-03-03,LocalInitiatives,,designate,,,"Nelson Bechirot,Inc.",,203863572,3500,DOHMH,,,.00 816 113,**
-8,2010-03-03,LocalInitiatives,,rescind,,,"Oddo EmergencyChildren'sHelpOrganization,Inc.",,113828185,-10000,DYCD,,,.00) 260 312,**
-8,2010-03-03,LocalInitiatives,,designate,,,"Oddo EmergencyChildren'sHelpOrganization,Inc.",,113828185,10000,DOHMH,,,.00 816 113,**
-8,2010-03-03,LocalInitiatives,,rescind,,,Levin GowanusCanalCommunityDevelopmentCorporation,,112498292,-10000,DYCD,,,.00) 260 312,**
-8,2010-03-03,LocalInitiatives,,designate,,,"Levin BrooklynPerinatalNetwork,Inc.",,133428222,10000,DOHMH,,,.00 816 113,**
-8,2010-03-03,LocalInitiatives,,rescind,,,CC-Dickens BoroughofManhattanCommunityCollege,,136400434,-30000,CUNY,,,.00) 042 001,
-8,2010-03-03,LocalInitiatives,,rescind,,,CC BoroughofManhattanCommunityCollege,,136400434,-225000,CUNY,,,.00) 042 001,
-8,2010-03-03,LocalInitiatives,,designate,,,CC-Dickens BoroughofManhattanCommunityCollege,,133251186,30000,CUNY,,,.00 042 001,
-8,2010-03-03,LocalInitiatives,,designate,,,CC BoroughofManhattanCommunityCollege,,133251186,225000,CUNY,,,.00 042 001,
-8,2010-03-03,LocalInitiatives,,rescind,,,WadleighSecondarySchoolfortheVisualandPerforming Dickens Arts,,136400434,-5000,DYCD,,,".00) 260 312 CommunityWorks,Inc. 13-3580813",**
-8,2010-03-03,LocalInitiatives,,designate,,,WadleighSecondarySchoolfortheVisualandPerforming Dickens Arts,,136400434,5000,DOE,,,.00 040 402,**
-8,2010-03-03,LocalInitiatives,,rescind,,,"Crowley MaspethChamberofCommerce,Inc.",,113500705,-10000,DSBS,,,.00) 801 002,**
-8,2010-03-03,LocalInitiatives,,designate,,,"Crowley MaspethChamberofCommerce,Inc.",,113500705,10000,DYCD,,,.00 260 005,**
-8,2010-03-03,LocalInitiatives,,rescind,,,"Levin CouncilofUrbanProfessionals,Inc.",,010683413,-2000,DSBS,,,.00) 801 002 *,**
-8,2010-03-03,LocalInitiatives,,rescind,,,"Levin LandmarksPreservationFoundation,Inc.",,133035783,-6000,DYCD,,,.00) 260 005 *,**
-8,2010-03-03,LocalInitiatives,,designate,,,"Levin DUMBODistrictManagementAssociation,Inc.",,200214837,8000,DSBS,,,.00 801 002,**
-8,2010-03-03,LocalInitiatives,,rescind,,,"Lander BrooklynInformationandCulture,Inc.",,112547268,-10000,DCA,,,.00) 126 003,
-8,2010-03-03,LocalInitiatives,,rescind,,,"CC-Felder BrooklynInformationandCulture,Inc.",,112547268,-5000,DCA,,,.00) 126 003,
-8,2010-03-03,LocalInitiatives,,rescind,,,"Fidler BrooklynInformationandCulture,Inc.",,112547268,-5000,DCA,,,.00) 126 003,
-8,2010-03-03,LocalInitiatives,,rescind,,,"James BrooklynInformationandCulture,Inc.",,112547268,-5000,DCA,,,.00) 126 003,
-8,2010-03-03,LocalInitiatives,,rescind,,,"Recchia BrooklynInformationandCulture,Inc.",,112547268,-25000,DCA,,,.00) 126 003,
-8,2010-03-03,LocalInitiatives,,rescind,,,"Williams BrooklynInformationandCulture,Inc.",,112547268,-5000,DCA,,,.00) 126 003,
-8,2010-03-03,LocalInitiatives,,rescind,,,"Vann BrooklynInformationandCulture,Inc.",,112547268,-5000,DCA,,,.00) 126 003,
-8,2010-03-03,LocalInitiatives,,designate,,,"Lander BRICArts|Media|Bklyn,Inc.",,112547268,10000,DCA,,,.00 126 003,
-8,2010-03-03,LocalInitiatives,,designate,,,"CC-Felder BRICArts|Media|Bklyn,Inc.",,112547268,5000,DCA,,,.00 126 003,
-8,2010-03-03,LocalInitiatives,,designate,,,"Fidler BRICArts|Media|Bklyn,Inc.",,112547268,5000,DCA,,,.00 126 003,
-8,2010-03-03,LocalInitiatives,,designate,,,"James BRICArts|Media|Bklyn,Inc.",,112547268,5000,DCA,,,.00 126 003,
-8,2010-03-03,LocalInitiatives,,designate,,,"Recchia BRICArts|Media|Bklyn,Inc.",,112547268,25000,DCA,,,.00 126 003,
-8,2010-03-03,LocalInitiatives,,designate,,,"Williams BRICArts|Media|Bklyn,Inc.",,112547268,5000,DCA,,,.00 126 003,
-8,2010-03-03,LocalInitiatives,,designate,,,"Vann BRICArts|Media|Bklyn,Inc.",,112547268,5000,DCA,,,.00 126 003,
-8,2010-03-03,LocalInitiatives,,rescind,,,Dickens HarlemRenaissanceEconomicDevelopmentCorp.,,134054552,-4000,DSBS,,,.00) 801 002,**
-8,2010-03-03,LocalInitiatives,,designate,,,Dickens HarlemRenaissanceEconomicDevelopmentCorp.,,134054552,4000,DYCD,,,.00 260 312,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"WestBronxHousingandNeighborhoodResourceCenter, Inc.",,132941841,-20000,DYCD,,,.00) 260 005,**
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,"WestBronxHousingandNeighborhoodResourceCenter, Koppell Inc.",,132941841,5000,HPD,,,.00 806 009,**
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,"WestBronxHousingandNeighborhoodResourceCenter, Inc.",,132941841,20000,HPD,,,.00 806 009,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"Nelson BeProud,Inc.",,582674169,-3500,DYCD,,,.00) 260 312,**
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,"Nelson Bechirot,Inc.",,203863572,3500,DOHMH,,,.00 816 113,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"Oddo EmergencyChildren'sHelpOrganization,Inc.",,113828185,-10000,DYCD,,,.00) 260 312,**
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,"Oddo EmergencyChildren'sHelpOrganization,Inc.",,113828185,10000,DOHMH,,,.00 816 113,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,Levin GowanusCanalCommunityDevelopmentCorporation,,112498292,-10000,DYCD,,,.00) 260 312,**
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,"Levin BrooklynPerinatalNetwork,Inc.",,133428222,10000,DOHMH,,,.00 816 113,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,CC-Dickens BoroughofManhattanCommunityCollege,,136400434,-30000,CUNY,,,.00) 042 001,
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,CC BoroughofManhattanCommunityCollege,,136400434,-225000,CUNY,,,.00) 042 001,
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,CC-Dickens BoroughofManhattanCommunityCollege,,133251186,30000,CUNY,,,.00 042 001,
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,CC BoroughofManhattanCommunityCollege,,133251186,225000,CUNY,,,.00 042 001,
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,WadleighSecondarySchoolfortheVisualandPerforming Dickens Arts,,136400434,-5000,DYCD,,,".00) 260 312 CommunityWorks,Inc. 13-3580813",**
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,WadleighSecondarySchoolfortheVisualandPerforming Dickens Arts,,136400434,5000,DOE,,,.00 040 402,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"Crowley MaspethChamberofCommerce,Inc.",,113500705,-10000,DSBS,,,.00) 801 002,**
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,"Crowley MaspethChamberofCommerce,Inc.",,113500705,10000,DYCD,,,.00 260 005,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"Levin CouncilofUrbanProfessionals,Inc.",,010683413,-2000,DSBS,,,.00) 801 002 *,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"Levin LandmarksPreservationFoundation,Inc.",,133035783,-6000,DYCD,,,.00) 260 005 *,**
+8,2010-03-03,LocalInitiatives,,designate,,Rivera,"Levin DUMBODistrictManagementAssociation,Inc.",,200214837,8000,DSBS,,,.00 801 002,**
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"Lander BrooklynInformationandCulture,Inc.",,112547268,-10000,DCA,,,.00) 126 003,
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"CC-Felder BrooklynInformationandCulture,Inc.",,112547268,-5000,DCA,,,.00) 126 003,
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"Fidler BrooklynInformationandCulture,Inc.",,112547268,-5000,DCA,,,.00) 126 003,
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"James BrooklynInformationandCulture,Inc.",,112547268,-5000,DCA,,,.00) 126 003,
+8,2010-03-03,LocalInitiatives,,rescind,,Rivera,"Recchia BrooklynInformationandCulture,Inc.",,112547268,-25000,DCA,,,.00) 126 003,
+8,2010-03-03,LocalInitiatives,,rescind,,Williams,"BrooklynInformationandCulture,Inc.",,112547268,-5000,DCA,,,.00) 126 003,
+8,2010-03-03,LocalInitiatives,,rescind,,Williams,"Vann BrooklynInformationandCulture,Inc.",,112547268,-5000,DCA,,,.00) 126 003,
+8,2010-03-03,LocalInitiatives,,designate,,Williams,"Lander BRICArts|Media|Bklyn,Inc.",,112547268,10000,DCA,,,.00 126 003,
+8,2010-03-03,LocalInitiatives,,designate,,Williams,"CC-Felder BRICArts|Media|Bklyn,Inc.",,112547268,5000,DCA,,,.00 126 003,
+8,2010-03-03,LocalInitiatives,,designate,,Williams,"Fidler BRICArts|Media|Bklyn,Inc.",,112547268,5000,DCA,,,.00 126 003,
+8,2010-03-03,LocalInitiatives,,designate,,Williams,"James BRICArts|Media|Bklyn,Inc.",,112547268,5000,DCA,,,.00 126 003,
+8,2010-03-03,LocalInitiatives,,designate,,Williams,"Recchia BRICArts|Media|Bklyn,Inc.",,112547268,25000,DCA,,,.00 126 003,
+8,2010-03-03,LocalInitiatives,,designate,,Williams,"BRICArts|Media|Bklyn,Inc.",,112547268,5000,DCA,,,.00 126 003,
+8,2010-03-03,LocalInitiatives,,designate,,Williams,"Vann BRICArts|Media|Bklyn,Inc.",,112547268,5000,DCA,,,.00 126 003,
+8,2010-03-03,LocalInitiatives,,rescind,,Williams,Dickens HarlemRenaissanceEconomicDevelopmentCorp.,,134054552,-4000,DSBS,,,.00) 801 002,**
+8,2010-03-03,LocalInitiatives,,designate,,Williams,Dickens HarlemRenaissanceEconomicDevelopmentCorp.,,134054552,4000,DYCD,,,.00 260 312,**
 8,2010-03-03,LocalInitiatives,,rescind,,,FiscalConduit/Sponsoring Organization Member Organization EINNumber Agency Amount Agy# U/A FiscalConduitEIN * PublicSchool355K-WilliamsburgCollegiateCharter Levin School,,136400434,-5000,DOE,,,.00) 040 402,**
 8,2010-03-03,LocalInitiatives,,designate,,,PublicSchool355K-WilliamsburgCollegiateCharter Levin School,,136400434,5000,DYCD,,,.00 260 312,**
 8,2010-03-03,LocalInitiatives,,rescind,,,BatteryParkCityCommunity Chin ChinatownCommunityEmergencyResponseTeam,,841718656,-1500,OEM,,,".00) 017 002 EmergencyResponseTeam,Inc. 56-2473707",
@@ -492,11 +492,11 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 8,2010-03-03,YouthDiscretionary-FY2009,,rescind,,,James UrbanWordNYC James UrbanWordNYC 32-0250944 DYCD 260 312,,133859496,-4214,DYCD,,,.00) 260 312,
 8,2010-03-03,YouthDiscretionary-FY2008,,rescind,,,FiscalConduit/Sponsoring Member Organization EINNumber Agency Amount Agy# U/A Organization FiscalConduitEIN * Foster Children'sCirclePlanningCorp.,,133004655,-17500,DYCD,,,.00) 260 312 *,
 8,2010-03-03,YouthDiscretionary-FY2008,,designate,,,"Foster 1332FultonAvenueDayCareCenter,Inc.",,132690309,17500,DYCD,,,.00 260 312,
-8,2010-03-03,YouthDiscretionary-FY2007,,rescind,,,"FiscalConduit/Sponsoring Member Organization EINNumber Agency Amount Agy# U/A Organization FiscalConduitEIN * Gennaro SamuelFieldYM&YWHA,Inc.",,113071518,-53500,DYCD,,,.00) 260 312,**
-8,2010-03-03,YouthDiscretionary-FY2007,,designate,,,"Gennaro SamuelFieldYM&YWHA,Inc.",,113071518,36500,DYCD,,,.00 260 312,
-8,2010-03-03,YouthDiscretionary-FY2007,,designate,,,"Gennaro 75thAvenuePlaygroundVolunteerGroup,Inc.",,113243561,3000,DYCD,,,".00 260 312 SamuelFieldYM&YWHA,Inc. 11-3071518",
-8,2010-03-03,YouthDiscretionary-FY2007,,designate,,,Gennaro FriendsofCongregationIsheiYisrael,,412163151,3000,DYCD,,,".00 260 312 SamuelFieldYM&YWHA,Inc. 11-3071518",
-8,2010-03-03,YouthDiscretionary-FY2007,,designate,,,Gennaro KewGardensHillsCommunityFoundation,,510506772,3000,DYCD,,,".00 260 312 SamuelFieldYM&YWHA,Inc. 11-3071518",
-8,2010-03-03,YouthDiscretionary-FY2007,,designate,,,Gennaro NAACP-NortheastQueensBranch,,542166928,3000,DYCD,,,".00 260 312 SamuelFieldYM&YWHA,Inc. 11-3071518",
-8,2010-03-03,YouthDiscretionary-FY2007,,designate,,,Gennaro CongregationEtzChaim,,112585935,5000,DYCD,,,".00 260 312 SamuelFieldYM&YWHA,Inc. 11-3071518",
+8,2010-03-03,YouthDiscretionary-FY2007,,rescind,,Gennaro,"FiscalConduit/Sponsoring Member Organization EINNumber Agency Amount Agy# U/A Organization FiscalConduitEIN * SamuelFieldYM&YWHA,Inc.",,113071518,-53500,DYCD,,,.00) 260 312,**
+8,2010-03-03,YouthDiscretionary-FY2007,,designate,,Gennaro,"SamuelFieldYM&YWHA,Inc.",,113071518,36500,DYCD,,,.00 260 312,
+8,2010-03-03,YouthDiscretionary-FY2007,,designate,,Gennaro,"75thAvenuePlaygroundVolunteerGroup,Inc.",,113243561,3000,DYCD,,,".00 260 312 SamuelFieldYM&YWHA,Inc. 11-3071518",
+8,2010-03-03,YouthDiscretionary-FY2007,,designate,,Gennaro,FriendsofCongregationIsheiYisrael,,412163151,3000,DYCD,,,".00 260 312 SamuelFieldYM&YWHA,Inc. 11-3071518",
+8,2010-03-03,YouthDiscretionary-FY2007,,designate,,Gennaro,KewGardensHillsCommunityFoundation,,510506772,3000,DYCD,,,".00 260 312 SamuelFieldYM&YWHA,Inc. 11-3071518",
+8,2010-03-03,YouthDiscretionary-FY2007,,designate,,Gennaro,NAACP-NortheastQueensBranch,,542166928,3000,DYCD,,,".00 260 312 SamuelFieldYM&YWHA,Inc. 11-3071518",
+8,2010-03-03,YouthDiscretionary-FY2007,,designate,,Gennaro,CongregationEtzChaim,,112585935,5000,DYCD,,,".00 260 312 SamuelFieldYM&YWHA,Inc. 11-3071518",
 8,2010-03-03,Shelter Beds for At-Risk/LGBT Youth-FY 2009,,rescind,,,"Organization EINNumber Agency Amount Agy# U/A * DiscipleshipOutreachMinistries,Inc.(d/b/aTurningPoint)",,112838138,-372372,DYCD,,,.00) 260 312,**

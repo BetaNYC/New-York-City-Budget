@@ -1,19 +1,19 @@
 resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,"New York City Parents of Lesbians and Gay Men, Inc. (d/b/a Brewer PFLAG New York City)",,133049626,-3000,DYCD,,,.00) 260 312,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,Brewer West 87th Street Park and Garden,,134067780,3000,DYCD,,,.00 260 312,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,"Gentile American-Italian Coalition of Organizations, Inc. (AMICO)",,112649513,-3500,DFTA,,,.00) 125 003,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,"Gentile American-Italian Coalition of Organizations, Inc. (AMICO)",,112488439,3500,DFTA,,,.00 125 003,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,CC Hamilton Madison House,,135562412,11488,DOHMH,,,.00 816 112,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,CC Greenwich House,,135562204,50012,DOHMH,,,.00 816 112,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,CC Mental Health Providers of Western Queens 11-2700062 CC Department of Health and Mental Hygiene,,136400434,35745,DOHMH,,,.00 816 112,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,CC Cypress Hills Local Development Corporation,,112683663,-40000,HPD,,,.00) 806 009,**
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,CC Cypress Hills Local Development Corporation,,112683663,40000,DYCD,,,.00 260 312,**
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,"Crowley Forest Hills Football League, Inc.",,113057287,-5000,DYCD,,,.00) 260 312,**
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,Crowley Woodhaven Richmond Hill Volunteer Ambulance Corps,,112075437,-2500,FDNY,,,.00) 057 005 Greater Woodhaven Development Corporation 11-2508190,**
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,Crowley Church of the Holy Child Jesus,,111639802,-2500,DYCD,,,.00) 260 312 Greater Woodhaven Development Corporation 11-2508190,**
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,Crowley Middle Village Chamber of Commerce,,202277320,-2500,DYCD,,,".00) 260 005 Maspeth Town Hall, Inc. 23-7259702",**
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,"Crowley Greater Ridgewood Youth Council, Inc.",,112518141,3000,DYCD,,,.00 260 312,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,"Rabbi Israel Meyer Hacohen Rabbinical Seminary of America, Crowley Inc.",,111752021,9500,DFTA,,,.00 125 003,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,"New York City Parents of Lesbians and Gay Men, Inc. (d/b/a PFLAG New York City)",,133049626,-3000,DYCD,,,.00) 260 312,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,West 87th Street Park and Garden,,134067780,3000,DYCD,,,.00 260 312,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,"Gentile American-Italian Coalition of Organizations, Inc. (AMICO)",,112649513,-3500,DFTA,,,.00) 125 003,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,"Gentile American-Italian Coalition of Organizations, Inc. (AMICO)",,112488439,3500,DFTA,,,.00 125 003,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,CC Hamilton Madison House,,135562412,11488,DOHMH,,,.00 816 112,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,CC Greenwich House,,135562204,50012,DOHMH,,,.00 816 112,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,CC Mental Health Providers of Western Queens 11-2700062 CC Department of Health and Mental Hygiene,,136400434,35745,DOHMH,,,.00 816 112,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,CC Cypress Hills Local Development Corporation,,112683663,-40000,HPD,,,.00) 806 009,**
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,CC Cypress Hills Local Development Corporation,,112683663,40000,DYCD,,,.00 260 312,**
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,"Crowley Forest Hills Football League, Inc.",,113057287,-5000,DYCD,,,.00) 260 312,**
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,Crowley Woodhaven Richmond Hill Volunteer Ambulance Corps,,112075437,-2500,FDNY,,,.00) 057 005 Greater Woodhaven Development Corporation 11-2508190,**
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,Crowley Church of the Holy Child Jesus,,111639802,-2500,DYCD,,,.00) 260 312 Greater Woodhaven Development Corporation 11-2508190,**
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,Crowley Middle Village Chamber of Commerce,,202277320,-2500,DYCD,,,".00) 260 005 Maspeth Town Hall, Inc. 23-7259702",**
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,"Crowley Greater Ridgewood Youth Council, Inc.",,112518141,3000,DYCD,,,.00 260 312,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,"Rabbi Israel Meyer Hacohen Rabbinical Seminary of America, Crowley Inc.",,111752021,9500,DFTA,,,.00 125 003,
 3,2014-06-11,Aging Discretionary - Fiscal 2014,2014,rescind,,,St. Mary Star of the Sea and St. Gertrude Roman Catholic Richards Church,,111723781,-15000,DFTA,,,.00) 125 003,
 3,2014-06-11,Aging Discretionary - Fiscal 2014,2014,designate,,,Richards Jewish Association for Services for the Aged (JASA),,132620896,10000,DFTA,,,.00 125 003,
 3,2014-06-11,Aging Discretionary - Fiscal 2014,2014,designate,,,"Richards Services Now for Adult Persons (SNAP, Inc.)",,112591783,5000,DFTA,,,.00 125 003,
@@ -31,8 +31,8 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 3,2014-06-11,Youth Discretionary - Fiscal 2014,2014,rescind,,,"Crowley St. Pancras Catholic Youth Organization 11-1953521 Greater Ridgewood Youth Council, Inc. Crowley Church of the Holy Child Jesus",,111639802,-3500,DYCD,,,.00) 260 312,
 3,2014-06-11,Youth Discretionary - Fiscal 2014,2014,designate,,,"Crowley Greater Ridgewood Youth Council, Inc.",,112518141,6500,DYCD,,,.00 260 312,
 3,2014-06-11,Youth Discretionary - Fiscal 2014,2014,designate,,,"Crowley Maspeth Town Hall, Inc.",,237259702,15000,DYCD,,,.00 260 312,
-3,2014-06-11,Cultural After School Adventure - Fiscal 2014,2014,rescind,,,Williams CUNY Creative Arts Team,,136400434,-20000,DCLA,,,.00) 126 003,
-3,2014-06-11,Cultural After School Adventure - Fiscal 2014,2014,designate,,,Williams Creative Arts Team,,260073627,20000,DCLA,,,.00 126 003,
+3,2014-06-11,Cultural After School Adventure - Fiscal 2014,2014,rescind,,Williams,CUNY Creative Arts Team,,136400434,-20000,DCLA,,,.00) 126 003,
+3,2014-06-11,Cultural After School Adventure - Fiscal 2014,2014,designate,,Williams,Creative Arts Team,,260073627,20000,DCLA,,,.00 126 003,
 3,2014-06-11,MHy Contracted Svcs Partial PEG Rest'n - Chemical Dependency/ADUPCT- Fiscal 2014,2014,rescind,,,"South Bronx Mental Health Council, Inc.",,133039605,-38000,DOHMH,,,.00) 816 122,
 3,2014-06-11,MHy Contracted Svcs Partial PEG Rest'n - Chemical Dependency/ADUPCT- Fiscal 2014,2014,rescind,,,"Alcoholism Council/ Fellowship Center of New York, Inc., The",,237086871,-27848,DOHMH,,,.00) 816 122,
 3,2014-06-11,Autism Awareness - Fiscal 2014,2014,rescind,,,"Labor and Industry for Education, Inc.",,114088055,-42364,DOHMH,,,.00) 816 121,

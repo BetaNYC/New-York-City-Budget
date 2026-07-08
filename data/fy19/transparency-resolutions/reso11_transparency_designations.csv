@@ -1,46 +1,46 @@
 resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
 11,2019-06-19,Local Initiatives - Fiscal 2019,2019,rescind,,,"Cumbo Franklin Furnace Archive, Inc.",SEQential ART for KIDS,132879766,-5000,DYCD,260,312,,**
 11,2019-06-19,Local Initiatives - Fiscal 2019,2019,designate,,,"Cumbo Franklin Furnace Archive, Inc.",SEQential ART for KIDS,132879766,5000,DCLA,126,003,,**
-11,2019-06-19,Local Initiatives - Fiscal 2019,2019,rescind,,,Powers Waterside Tenants Association,,562596903,-6000,DYCD,260,005,*,
-11,2019-06-19,Local Initiatives - Fiscal 2019,2019,designate,,,Powers CityMeals on Wheels,,133634381,6000,DYCD,260,005,,
-11,2019-06-19,Local Initiatives - Fiscal 2019,2019,rescind,,,Ayala Our Firefighters Children's Foundation,East Harlem Repertory Theater,542064625,-5000,DOE,040,402,,
-11,2019-06-19,Local Initiatives - Fiscal 2019,2019,designate,,,Our Firefighters Children's Foundation,P.S. 72 (04M072); P.S. 108 Ayala (04M108); P.S. 30 (07X030); P.S. 65 (07X065)),542064625,5000,DOE,040,402,,
-11,2019-06-19,Local Initiatives - Fiscal 2019,2019,rescind,,,"Yeger Make Music New York, Inc.",,205751217,-5000,DCLA,126,003,,**
-11,2019-06-19,Local Initiatives - Fiscal 2019,2019,designate,,,"Yeger Make Music New York, Inc.",,205751217,5000,DYCD,260,005,,**
-11,2019-06-19,Local Initiatives - Fiscal 2019,2019,rescind,,,"Powers Turtle Bay Tree Fund, Inc.",,132561121,-7000,DPR,846,006,,
-11,2019-06-19,Local Initiatives - Fiscal 2019,2019,designate,,,"Powers Council on the Environment, Inc.",,132765465,7000,DPR,846,006,,
-11,2019-06-19,Local Initiatives - Fiscal 2019,2019,rescind,,,Holden Police Department,,136400434,-7000,NYPD,056,100,,**
-11,2019-06-19,Local Initiatives - Fiscal 2019,2019,designate,,,"Holden Queens Symphony Orchestra, Inc.",Concerts,112106191,5000,DCLA,126,003,,**
-11,2019-06-19,Local Initiatives - Fiscal 2019,2019,designate,,,"Holden Forest Park Trust, Inc.",,311558645,2000,DPR,846,006,,**
-11,2019-06-19,Youth Discretionary - Fiscal 2019,2019,rescind,,,Holden Shannon Gaels Gaelic Football Club,,272354756,-5000,DYCD,260,312,*,
-11,2019-06-19,Youth Discretionary - Fiscal 2019,2019,designate,,,Holden Boy Scouts of America,Greater New York Council,131624015,2500,DYCD,260,312,,
-11,2019-06-19,Youth Discretionary - Fiscal 2019,2019,designate,,,"Holden Bobbi and the Strays, Inc.",,113444285,2500,DYCD,260,312,,
-11,2019-06-19,NYC Cleanup - Fiscal 2019,2019,rescind,,,Brannan Junior Achievement of New York,,133031828,-6000,DYCD,260,312,,**
-11,2019-06-19,NYC Cleanup - Fiscal 2019,2019,designate,,,Brannan Wildcat Service Corporation,,132725423,6000,DYCD,260,005,,**
-11,2019-06-19,NYC Cleanup - Fiscal 2019,2019,rescind,,,Gibson Department of Sanitation,Council District 16,136400434,-35000,DSNY,827,102,,**
-11,2019-06-19,NYC Cleanup - Fiscal 2019,2019,designate,,,Gibson Department of Sanitation,Council District 16,136400434,35000,DSNY,827,109,,**
-11,2019-06-19,NYC Cleanup - Fiscal 2019,2019,rescind,,,Matteo Department of Sanitation,,136400434,-15000,DSNY,827,102,,**
-11,2019-06-19,NYC Cleanup - Fiscal 2019,2019,designate,,,Matteo Department of Sanitation,,136400434,15000,DSNY,827,109,,**
-11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,rescind,,,"Moya Amigos Del Museo Del Barrio, Inc.",Intermediate School 227Q,237156720,-20000,DCLA,126,003,,**
-11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,designate,,,"Moya Amigos Del Museo Del Barrio, Inc.",Intermediate School 227Q,237156720,20000,DCLA,126,022,,**
-11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,rescind,,,"Moya Amigos Del Museo Del Barrio, Inc.",Public School 307Q,237156720,-20000,DCLA,126,003,,**
-11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,designate,,,"Moya Amigos Del Museo Del Barrio, Inc.",Public School 307Q,237156720,20000,DCLA,126,022,,**
-11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,rescind,,,"Ampry-Samuel Elite Learners, Inc.",School of Marketing and Legal Studies,814482839,-20000,DYCD,260,312,,
-11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,designate,,,"Ampry-Samuel Elite Learners, Inc.",P.S. 398 Walter Weaver - 17K398,814482839,20000,DYCD,260,312,,
-11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,rescind,,,Van Bramer Mare Nostrum Elements,PS 11Q,264095519,-20000,DCLA,126,003,,
-11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,designate,,,Van Bramer Mare Nostrum Elements,PS 152Q,264095519,20000,DCLA,126,003,,
+11,2019-06-19,Local Initiatives - Fiscal 2019,2019,rescind,,Powers,Waterside Tenants Association,,562596903,-6000,DYCD,260,005,*,
+11,2019-06-19,Local Initiatives - Fiscal 2019,2019,designate,,Powers,CityMeals on Wheels,,133634381,6000,DYCD,260,005,,
+11,2019-06-19,Local Initiatives - Fiscal 2019,2019,rescind,,Ayala,Our Firefighters Children's Foundation,East Harlem Repertory Theater,542064625,-5000,DOE,040,402,,
+11,2019-06-19,Local Initiatives - Fiscal 2019,2019,designate,,Ayala,Our Firefighters Children's Foundation,P.S. 72 (04M072); P.S. 108 (04M108); P.S. 30 (07X030); P.S. 65 (07X065)),542064625,5000,DOE,040,402,,
+11,2019-06-19,Local Initiatives - Fiscal 2019,2019,rescind,,Ayala,"Yeger Make Music New York, Inc.",,205751217,-5000,DCLA,126,003,,**
+11,2019-06-19,Local Initiatives - Fiscal 2019,2019,designate,,Ayala,"Yeger Make Music New York, Inc.",,205751217,5000,DYCD,260,005,,**
+11,2019-06-19,Local Initiatives - Fiscal 2019,2019,rescind,,Powers,"Turtle Bay Tree Fund, Inc.",,132561121,-7000,DPR,846,006,,
+11,2019-06-19,Local Initiatives - Fiscal 2019,2019,designate,,Powers,"Council on the Environment, Inc.",,132765465,7000,DPR,846,006,,
+11,2019-06-19,Local Initiatives - Fiscal 2019,2019,rescind,,Holden,Police Department,,136400434,-7000,NYPD,056,100,,**
+11,2019-06-19,Local Initiatives - Fiscal 2019,2019,designate,,Holden,"Queens Symphony Orchestra, Inc.",Concerts,112106191,5000,DCLA,126,003,,**
+11,2019-06-19,Local Initiatives - Fiscal 2019,2019,designate,,Holden,"Forest Park Trust, Inc.",,311558645,2000,DPR,846,006,,**
+11,2019-06-19,Youth Discretionary - Fiscal 2019,2019,rescind,,Holden,Shannon Gaels Gaelic Football Club,,272354756,-5000,DYCD,260,312,*,
+11,2019-06-19,Youth Discretionary - Fiscal 2019,2019,designate,,Holden,Boy Scouts of America,Greater New York Council,131624015,2500,DYCD,260,312,,
+11,2019-06-19,Youth Discretionary - Fiscal 2019,2019,designate,,Holden,"Bobbi and the Strays, Inc.",,113444285,2500,DYCD,260,312,,
+11,2019-06-19,NYC Cleanup - Fiscal 2019,2019,rescind,,Brannan,Junior Achievement of New York,,133031828,-6000,DYCD,260,312,,**
+11,2019-06-19,NYC Cleanup - Fiscal 2019,2019,designate,,Brannan,Wildcat Service Corporation,,132725423,6000,DYCD,260,005,,**
+11,2019-06-19,NYC Cleanup - Fiscal 2019,2019,rescind,,Brannan,Gibson Department of Sanitation,Council District 16,136400434,-35000,DSNY,827,102,,**
+11,2019-06-19,NYC Cleanup - Fiscal 2019,2019,designate,,Brannan,Gibson Department of Sanitation,Council District 16,136400434,35000,DSNY,827,109,,**
+11,2019-06-19,NYC Cleanup - Fiscal 2019,2019,rescind,,Brannan,Matteo Department of Sanitation,,136400434,-15000,DSNY,827,102,,**
+11,2019-06-19,NYC Cleanup - Fiscal 2019,2019,designate,,Brannan,Matteo Department of Sanitation,,136400434,15000,DSNY,827,109,,**
+11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,rescind,,Moya,"Amigos Del Museo Del Barrio, Inc.",Intermediate School 227Q,237156720,-20000,DCLA,126,003,,**
+11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,designate,,Moya,"Amigos Del Museo Del Barrio, Inc.",Intermediate School 227Q,237156720,20000,DCLA,126,022,,**
+11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,rescind,,Moya,"Amigos Del Museo Del Barrio, Inc.",Public School 307Q,237156720,-20000,DCLA,126,003,,**
+11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,designate,,Moya,"Amigos Del Museo Del Barrio, Inc.",Public School 307Q,237156720,20000,DCLA,126,022,,**
+11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,rescind,,Moya,"Ampry-Samuel Elite Learners, Inc.",School of Marketing and Legal Studies,814482839,-20000,DYCD,260,312,,
+11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,designate,,Moya,"Ampry-Samuel Elite Learners, Inc.",P.S. 398 Walter Weaver - 17K398,814482839,20000,DYCD,260,312,,
+11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,rescind,,Moya,Van Bramer Mare Nostrum Elements,PS 11Q,264095519,-20000,DCLA,126,003,,
+11,2019-06-19,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,designate,,Moya,Van Bramer Mare Nostrum Elements,PS 152Q,264095519,20000,DCLA,126,003,,
 11,2019-06-19,Parks Equity Initiative - Fiscal 2019,2019,rescind,,,City Parks Foundation,"Jacob H. Schiff Playground, Anibal Aviles Playground, Morningside Levine Park, Montefiore Square, and/ or Morningside Park",133561657,-10000,DPR,846,006,,
 11,2019-06-19,Parks Equity Initiative - Fiscal 2019,2019,designate,,,City Parks Foundation,"Jacob H. Schiff Playground, Anibal Aviles Playground, Morningside Levine Park, Montefiore Square, Morningside Park, and/ or Riverside Oval Park",133561657,10000,DPR,846,006,,
 11,2019-06-19,Parks Equity Initiative - Fiscal 2019,2019,rescind,,,"Perkins Association of Community Employment Programs for the Homeless, Inc.",,133846431,-7500,DPR,846,006,,**
 11,2019-06-19,Parks Equity Initiative - Fiscal 2019,2019,designate,,,"Perkins Association of Community Employment Programs for the Homeless, Inc.",,133846431,7500,DYCD,260,005,,**
 11,2019-06-19,Parks Equity Initiative - Fiscal 2019,2019,rescind,,,Rodriguez Department of Parks and Recreation,,136400434,-10000,DPR,846,006,*,
 11,2019-06-19,Parks Equity Initiative - Fiscal 2019,2019,designate,,,Rodriguez Department of Parks and Recreation,Ann Loftus Playground @ Fort Tryon Park,136400434,10000,DPR,846,006,*,
-11,2019-06-19,Parks Equity Initiative - Fiscal 2019,2019,rescind,,,"Powers Turtle Bay Tree Fund, Inc.",,132561121,-10000,DPR,846,006,,
-11,2019-06-19,Parks Equity Initiative - Fiscal 2019,2019,designate,,,Powers City Parks Foundation,Central Park Summer Stage,133561657,10000,DPR,846,006,,
+11,2019-06-19,Parks Equity Initiative - Fiscal 2019,2019,rescind,,Powers,"Turtle Bay Tree Fund, Inc.",,132561121,-10000,DPR,846,006,,
+11,2019-06-19,Parks Equity Initiative - Fiscal 2019,2019,designate,,Powers,City Parks Foundation,Central Park Summer Stage,133561657,10000,DPR,846,006,,
 11,2019-06-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2019,2019,rescind,,,Borelli District Attorney-Richmond,,136400434,-35000,DASI,905,002,,**
 11,2019-06-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2019,2019,designate,,,Borelli District Attorney-Richmond,,136400434,35000,DASI,905,001,,**
-11,2019-06-19,Support Our Seniors Initiative - Fiscal 2019,2019,rescind,,,Adams Brooks Memorial United Methodist Church,,111832868,-10000,DFTA,125,003,,
-11,2019-06-19,Support Our Seniors Initiative - Fiscal 2019,2019,designate,,,Adams Brooks Memorial United Methodist Church,Brooks Senior Center,111832868,10000,DFTA,125,003,,
+11,2019-06-19,Support Our Seniors Initiative - Fiscal 2019,2019,rescind,,Adams,Brooks Memorial United Methodist Church,,111832868,-10000,DFTA,125,003,,
+11,2019-06-19,Support Our Seniors Initiative - Fiscal 2019,2019,designate,,Adams,Brooks Memorial United Methodist Church,Brooks Senior Center,111832868,10000,DFTA,125,003,,
 11,2019-06-19,Educational Programs for Students - Fiscal 2019,2019,rescind,,,Boro Park Jewish Community Council,,113475993,-425000,DOE,040,454,,**
 11,2019-06-19,Educational Programs for Students - Fiscal 2019,2019,designate,,,Boro Park Jewish Community Council,,113475993,425000,DYCD,260,005,,**
 11,2019-06-19,Educational Programs for Students - Fiscal 2019,2019,rescind,,,Together We Are,,270213447,-425000,DOE,040,454,,**

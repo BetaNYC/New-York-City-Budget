@@ -1,4 +1,4 @@
-FY2026 NYC COUNCIL TRANSPARENCY RESOLUTIONS - PARSE + RECONCILIATION NOTES
+FY26 NYC COUNCIL TRANSPARENCY RESOLUTIONS - PARSE + RECONCILIATION NOTES
 ==============================================================================
 
 RECONCILIATION STATUS: NOT RECONCILABLE (against printed totals).
@@ -27,6 +27,9 @@ rows by action:  designate=2868  purpose_change=596  rescind=1291
 rows by fiscal year:  ?=1  2023=8  2024=92  2025=226  2026=4428
 
 unresolved organization (dense-chart text-layer artifacts): 0 of 4755 rows (0.00%) -- amount/EIN/agency captured, org name orphaned
+
+org-text confidence: HIGH -- 0 of 4755 rows (0.00%) show glued-word (0) or header-bleed (0) artifacts in the org field.
+  (EIN / amount / agency / date / action are deterministic and unaffected.)
 
 SPOTLIGHT - Artificial Intelligence Community Engagement (AICE, $1M initiative):
   resolution 3 (2025-10-29), 24 rows, net $0

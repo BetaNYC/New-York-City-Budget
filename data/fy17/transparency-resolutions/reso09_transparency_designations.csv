@@ -86,15 +86,15 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 9,2017-02-01,HIV/AIDS Faith Based Initiative - Fiscal 2017,2017,designate,,,Citywide Public Health Solutions,,135669201,50000,DOHMH,,,.00 816 112,
 9,2017-02-01,HIV/AIDS Faith Based Initiative - Fiscal 2017,2017,designate,,,Bronx Parkchester Baptist Church,,132836302,10000,DOHMH,,,.00 816 112 *,
 9,2017-02-01,HIV/AIDS Faith Based Initiative - Fiscal 2017,2017,designate,,,Brooklyn Brooklyn Center for the Quality Life,,262651830,13021,DOHMH,,,.00 816 112 *,
-9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,rescind,,,"Mealy Doe Fund, Inc., The",,133412540,-35949,DYCD,,,.00) 260 005,
-9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,designate,,,Mealy Center for Employment Opportunities,,133843322,35949,DYCD,,,.00 260 005,
-9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,rescind,,,"Cornegy Doe Fund, Inc., The",,133412540,-41000,DYCD,,,.00) 260 005,**
-9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,designate,,,Cornegy Department of Sanitation,,136400434,41000,DSNY,,,.00 827 102,**
-9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,rescind,,,"Richards Doe Fund, Inc., The",,133412540,-45148,DYCD,,,.00) 260 005,**
-9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,designate,,,Richards Wildcat Service Corporation,,132725423,24832,DYCD,,,.00 260 005,
-9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,designate,,,Richards Department of Sanitation,,136400434,5000,DSNY,,,.00 827 109,**
-9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,designate,,,Richards Department of Sanitation,,136400434,15316,DSNY,,,.00 827 102,**
-9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,designate,,,Ulrich Queens Economic Development Corporation,,112436149,10000,DSBS,,,.00 801 002,
+9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,rescind,,Mealy,"Doe Fund, Inc., The",,133412540,-35949,DYCD,,,.00) 260 005,
+9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,designate,,Mealy,Center for Employment Opportunities,,133843322,35949,DYCD,,,.00 260 005,
+9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,rescind,,Mealy,"Cornegy Doe Fund, Inc., The",,133412540,-41000,DYCD,,,.00) 260 005,**
+9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,designate,,Mealy,Cornegy Department of Sanitation,,136400434,41000,DSNY,,,.00 827 102,**
+9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,rescind,,Mealy,"Richards Doe Fund, Inc., The",,133412540,-45148,DYCD,,,.00) 260 005,**
+9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,designate,,Mealy,Richards Wildcat Service Corporation,,132725423,24832,DYCD,,,.00 260 005,
+9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,designate,,Mealy,Richards Department of Sanitation,,136400434,5000,DSNY,,,.00 827 109,**
+9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,designate,,Mealy,Richards Department of Sanitation,,136400434,15316,DSNY,,,.00 827 102,**
+9,2017-02-01,NYC Cleanup Initiative - Fiscal 2017,2017,designate,,Mealy,Ulrich Queens Economic Development Corporation,,112436149,10000,DSBS,,,.00 801 002,
 9,2017-02-01,Food Pantries Initiative - Fiscal 2017,2017,rescind,,,Department of Youth and Community Development,,136400434,-14896,DYCD,,,.00) 260 005,
 9,2017-02-01,Food Pantries Initiative - Fiscal 2017,2017,designate,,,Brooklyn New Hope Family Worship Center,,113037658,7448,DYCD,,,.00 260 005 *,
 9,2017-02-01,Food Pantries Initiative - Fiscal 2017,2017,designate,,,"Brooklyn Christian Cultural Center, Inc.",,112732579,7448,DYCD,,,.00 260 005 *,
