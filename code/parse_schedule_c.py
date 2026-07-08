@@ -30,6 +30,18 @@ BOUNDARY = ("Agency:","U/A:","Scope of Service","Designation Method","Target Pop
 NOISE_WORDS = {"Fiscal","Total","Agency","Initiative","Amount","Appendix","Schedule","Council",
     "Purpose","Legal","Name","Tax","Sponsor","Community","Development","Designation","Method"}
 
+# Fund-family purpose detection (DATA-ANOMALIES sec.14). A leading singular "Fund"/"Find" is an
+# ORG NAME ("Fund for the City of New York, Inc.", "Find Aid for the Aged, Inc.") UNLESS followed
+# by a purpose verb ("Fund will be used to..."). Plural/gerund "Funds"/"Funding"/"Finds" are always
+# purpose prose. The old `funds?|finds?|funding` alternatives matched the bare org word "Fund",
+# misflagging FCNY's real name as purpose -- which truncated org names (ICARE ->"Assistance",
+# NYCETC ->"Coalition") and drove the per-EIN backfill to overwrite the correct FCNY rows with the
+# bled "Delegation Fund..." string.
+_PURPVERB = (r"will|would|to|are|is|was|be|been|shall|may|can|could|used|go|going|goes|"
+             r"help|helps|support|provide|provides|enhance|ensure|assist|defray|cover|"
+             r"purchase|pay|allow|expand|create|fund|make|reimburse")
+_FUNDLEAD = r"funds|funding|finds|(?:fund|find)\s+(?:" + _PURPVERB + r")\b"
+
 def money(s): return int(str(s).replace(",","").replace("$","").strip())
 def norm(s):  return re.sub(r'\s+',' ',s).strip().upper()
 def eind(e):  return e.replace("-","")   # digits-only EIN for stable aggregation
@@ -46,6 +58,20 @@ def derive_categories(pages):
         # FY25-FY27 head the contents page 'Table of Contents'; some earlier years (e.g. FY2018)
         # head it just 'Contents'. Match either as a standalone heading line.
         if re.search(r'(?im)^\s*(?:table of )?contents\s*$', pages[pn]): toc_pg=pn; break
+    # Fallback (DATA-ANOMALIES sec.15): some years' contents page carries no standalone
+    # "Contents"/"Table of Contents" heading line in the text layer -- e.g. FY2026, whose ToC
+    # sits on p.3 with the dotted category rows but no heading -- so the probe above finds nothing
+    # and the whole year would silently yield 0 categories. ONLY when the heading probe returned
+    # None, locate the ToC by dotted-entry density: the front-matter page (same <=8 window) with
+    # the most "Name .... page" rows. This never runs for a year whose heading probe already
+    # succeeded, so every heading-detected year is byte-identical.
+    if toc_pg is None:
+        best_pn, best_n = None, 0
+        for pn in sorted(pages):
+            if pn>8: break
+            n=sum(1 for ln in pages[pn].split("\n") if TOC_LINE.match(ln.strip()))
+            if n>best_n: best_pn, best_n = pn, n
+        if best_n>=5: toc_pg=best_pn
     cats=[]
     if toc_pg:
         for pn in range(toc_pg, toc_pg+3):
@@ -155,6 +181,12 @@ def parse_awards(pages, lo, hi, cats, roster):
 
     def emit(rec):
         head=re.sub(r'\s+',' '," ".join(rec["org"])).strip()
+        # Boroughwide Needs pages print the sponsor as "<Borough> Delegation"; the borough wraps to
+        # its own cell and the bare token "Delegation" leads the org line. build_roster excludes
+        # "Delegation", so it stays glued to the org ("Delegation Fund for the City of New York,
+        # Inc.", "Delegation Alley Pond Environmental Center, Inc."). Peel that bled sponsor token
+        # off the front of the org (DATA-ANOMALIES sec.14).
+        head=re.sub(r'(?i)^delegation\s+(?=\S)', '', head)
         member=rec["member"]
         if not member:
             toks=head.split()
@@ -177,7 +209,7 @@ def parse_awards(pages, lo, hi, cats, roster):
             if s and not RUNHDR.match(s) and not re.match(r'^\d{1,3}$',s): lines.append(s)
 
     def looks_purpose(s):
-        return bool(re.match(r"(?i)^(funds?|finds?|funding|to support|to provide|to defray|to assist|"
+        return bool(re.match(r"(?i)^(?:"+_FUNDLEAD+r"|to support|to provide|to defray|to assist|"
                              r"to enhance|to fund|to ensure|to cover|to |support|provide|provides)\b", s)) \
                or (s[:1].islower())
 
@@ -189,6 +221,17 @@ def parse_awards(pages, lo, hi, cats, roster):
             flush(); mode="MI"; buf=[]; member_hold=""; continue
         if low.startswith("legal name of organization"):
             flush(); mode="IP"; ip_purpose=("purpose" in low); buf=[]; member_hold=""; continue
+        # Repeated page-break column-header rows in the wide "with-purpose" tables carry a leading
+        # sponsor-column word -- "Sponsor" on Speaker's Initiative pages, "Delegation" on Boroughwide
+        # Needs pages -- instead of "Council Member"/"Legal Name...", so they miss the mode triggers
+        # above. Left unhandled they get buffered and bleed into the *next* award's org (e.g. p.274
+        # "Sponsor Legal Name of Organization ..." glued onto the West Side Work Coalition award),
+        # which the header-junk filter in main() then deletes as a whole row -- silently dropping a
+        # real award. Treat them as header noise: flush the prior record, clear the buffer, leave
+        # mode unchanged. Signature = the full column header (org + program + tax-id + amount).
+        if ("legal name of organization" in low and "program name" in low
+                and "amount" in low and re.search(r"tax id|ein", low)):
+            flush(); buf=[]; member_hold=""; continue
         if any(s.startswith(b) for b in BOUNDARY):
             flush(); buf=[]; member_hold=""; continue
         m=ANCHOR.search(s)
@@ -281,7 +324,7 @@ def main():
     from collections import Counter, defaultdict as _dd
     HJ=("legal name","program name","council member","sponsor legal")
     awards=[r for r in awards if not any(h in r["organization"].lower() for h in HJ)]
-    def _poll(o): return (not o) or bool(re.match(r'(?i)^(funds?|finds?|funding|to |support|provide|purpose)',o))
+    def _poll(o): return (not o) or bool(re.match(r'(?i)^(?:'+_FUNDLEAD+r'|to |support|provide|purpose)',o))
     nm=_dd(Counter)
     for r in awards:
         if not _poll(r["organization"]): nm[r["ein"]][r["organization"]]+=1

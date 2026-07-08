@@ -102,9 +102,54 @@ This is **genuinely unpopulated in the source, not a parse regression**: 0 empty
 
 **Residual (separate, pre-existing schedule_c defect, follow-up task filed):** ~5 FY2027 non-city rows still show a phantom sponsor from bogus `member` tokens ("The"/"Center") in the schedule_c CSVs — affects only the `sponsor` field, not `agency` or reconciliation.
 
-## 13. Transparency Resolutions — bled "<Borough> Delegation" sponsor in the organization field — RESOLVED
+## 13. Schedule C — repeated page-break header dropped whole award rows — RESOLVED (full corpus FY2016–FY2027)
 
-*(Numbering note: a companion Schedule C PR introduces §13–§15 on the Schedule C side; if that merges first, renumber this section to §16.)*
+**The bug.** In the wide "with-purpose" Schedule C tables (FY2021 onward), each page repeats a column-header line. On Speaker's Initiative pages it reads `Sponsor Legal Name of Organization - Program Name Tax ID Amount Agency Purpose of Funds`; on Boroughwide Needs pages the leading word is `Delegation` instead of `Sponsor`. Because these variants begin with `Sponsor`/`Delegation` (not `Council Member` or `Legal Name…`), `parse_awards()` did not recognize them as headers, so the line was buffered and bled into the **organization** field of the *next* award. The header-junk filter in `main()` (`HJ = (… "sponsor legal" …)`) then deleted the **entire row** as if it were header noise — silently dropping a real, funded award rather than stripping the bled-in fragment.
+
+**Concrete FY2027 case (the one that surfaced this):** Speaker's Initiative → **"Fund for the City of New York, Inc. – West Side Work Coalition", $125,000, DYCD** (source PDF p.274, EIN 13-2612524) was absent from `data/fy27/schedule_c/fy27_schedule_c_awards.csv`. This understated FCNY's FY2027 Schedule C passthrough by exactly $125,000 (36 rows / \$3,232,714 → the true **37 rows / \$3,357,714**).
+
+**Fix.** `parse_awards()` now recognizes the repeated `Sponsor…`/`Delegation…` column-header line (signature: contains "legal name of organization" + "program name" + "amount" + "tax id"/"ein") and treats it as header noise — it flushes the prior record and clears the buffer, leaving the parse mode unchanged, so the header can no longer glue itself onto the following award. The `main()` header-junk filter is unchanged; it simply no longer sees a corrupted row to delete. Category reconciliation is untouched (the fix is in `parse_awards`, not `parse_initiatives`): FY2027 stays **25/25 exact, GRAND TOTAL \$655,764,999**. A regression test (`test_parse_schedule_c.py::test_fy27_west_side_work_coalition_survives`) locks in that the West Side row survives and that FCNY reconciles to 37 / \$3,357,714.
+
+**Full-corpus outcome (regenerated in this PR).** The fix is in shared parser code, so the same dropped-row class was recovered in every wide-table year. Per-year recovered rows:
+
+| FY | awards before → after | recovered | reconciliation |
+|---|---|---|---|
+| FY2021 | 1,800 → 1,810 | +10 | 25/26 (unchanged) |
+| FY2022 | 1,479 → 1,492 | +13 | 24/26 (unchanged) |
+| FY2023 | 1,824 → 1,848 | +24 | 26/26 (unchanged) |
+| FY2024 | 5,299 → 5,368 | +69 | 24/26 (unchanged) |
+| FY2025 | 5,609 → 5,646 | +37 | 24/26 (unchanged) |
+| FY2026 | 5,806 → 5,838 | +32 | 24/25 (unchanged) |
+| FY2027 | 6,085 → 6,118 | +33 | 25/25 (unchanged) |
+
+FY2016–FY2020 use the older narrow format and have no repeated wide "with-purpose" header — **0 row change**. Category reconciliation is untouched in every year (the fix is in `parse_awards`, not `parse_initiatives`); each year's `*_schedule_c_initiatives.csv` and the appendix CSVs are byte-identical to before. All recovered rows carry real organization names (100% valid EIN coverage per `validate_data.py`). **FY2026** required a companion `derive_categories` fix to be regenerable at all (§15) — its category reconciliation (24/25, GRAND TOTAL \$665,080,821) is identical to committed; only the awards recovered.
+
+The regression test `test_parse_schedule_c.py::test_fy27_west_side_work_coalition_survives` locks in the FY2027 case (West Side row survives; FCNY reconciles to 37 / \$3,357,714).
+
+## 14. Schedule C — "Delegation Fund for the City of New York" mislabel + org-name truncations — RESOLVED (full corpus FY2016–FY2027)
+
+**The bug (two coupled defects).**
+1. **`^funds?` misclassification.** `_poll()` (per-EIN org backfill) and `looks_purpose()` (IP-mode org-buffer filter) both began their purpose-prose regex with `funds?|finds?|funding`, which matches the *bare org word* "Fund". So the real FCNY name **"Fund for the City of New York, Inc."** (EIN 13-2612524) was misread as purpose prose. Two consequences: (a) org names that wrapped across lines were **truncated** to their tail word — ICARE's row became `Assistance` (from "…Coordination and Technical **Assistance**", FY2027 p.192) and NYCETC became `Coalition` (from "New York City Employment and Training **Coalition**", p.250); (b) the per-EIN backfill excluded the correctly-parsed FCNY rows from its "majority org" vote and then **overwrote** them with the wrong surviving string, "Delegation Fund for the City of New York, Inc.".
+2. **Bled "Delegation" sponsor token.** On Boroughwide Needs pages the sponsor prints as "<Borough> Delegation"; the borough wraps to its own cell and the bare token **"Delegation"** leads the org line (`Queens` / `Delegation Alley Pond Environmental Center, Inc. …`). `build_roster` deliberately excludes the standalone token "Delegation", so it stayed glued to the org — producing not just "Delegation Fund…" but "Delegation Alley Pond…", "Delegation Apna…", and ~140 more per year.
+
+**The fix.**
+- A shared purpose-prefix helper (`_FUNDLEAD`, module level) now treats a leading singular **"Fund"/"Find" as an ORG NAME** unless it is immediately followed by a purpose verb ("Fund will be used to…"). Plural/gerund "Funds"/"Funding" remain always-purpose. This preserves "Fund for the City of New York, Inc." and "Find Aid for the Aged, Inc." while still catching "Funds will be used…", "Funding to support…", etc. Both `_poll()` and `looks_purpose()` use it. Result: truncations gone (ICARE and NYCETC render full names), and the backfill no longer overwrites correct FCNY rows.
+- `parse_awards()`'s `emit()` now peels a leading bled **"Delegation"** sponsor token off the org (`^delegation\s+`), fixing the whole "Delegation X" family, not just FCNY.
+
+**Outcome.** The string **"Delegation Fund" no longer appears in any Schedule C CSV** (all years FY2015–FY2027, including FY2026, and the combined roll-up), and no organization leads with the bled "Delegation" token. Per-year org relabelings (all verified as correct, not new mislabels): FY2021–FY2027 each drop ~120–165 "Delegation X" → "X" (FY2026's 30 "Delegation Fund…" rows → "Fund for the City of New York, Inc.", its own "Women's Fund for the City of New York, Inc." correctly preserved); FY2016 corrected 5 FCNY rows that the old backfill had mislabeled "Floating Hospital"/"Man Up"; FY2017/FY2018 cleaned mangled FCNY rows; FY2020 corrected "District 4" → "Find Aid for the Aged, Inc."; FY2019 was org-neutral. Category reconciliation is unchanged in every year. Regression tests: `test_fund_org_name_vs_purpose_prose` (both directions — org preserved, purpose still detected) and the FCNY/ICARE/NYCETC/no-leading-"Delegation" assertions in `test_fy27_west_side_work_coalition_survives`.
+
+**Not covered here:** (a) The **borough delegation** still lands in the `member` field as "<Borough> Delegation" (e.g. "Bronx Delegation") — correct sponsor attribution, not a defect. (b) A *parallel* "Delegation" sponsor bleed exists in the **Transparency Resolutions** output (`parse_transparency_reso.py`, a different parser and much larger — ~4,100 org rows carrying a "<Borough> Delegation" fragment); it is a separate code path handled in its own PR, not here. (c) Two FY2027 rows still show purpose text as the organization (EINs 92-1532576, 93-3219755) — the pre-existing MI-mode multi-designation mangle (§12 residual class), unchanged by this PR.
+
+## 15. Schedule C — FY2026 Table of Contents undetected (`derive_categories` heading gate) — RESOLVED
+
+**The bug.** `derive_categories()` locates the ToC by first finding a standalone `Contents`/`Table of Contents` heading line, then reading the dotted `Name .... page` entries beneath it. FY2026's source PDF (`Fiscal-2026-Schedule-C-4.pdf`) presents its ToC on p.3 with all 25 dotted category rows **but no standalone heading line** in the `pypdf 6.14.2` text layer. The heading probe therefore returned `None`, `derive_categories()` returned an empty list, and the whole year would parse with **no category labels** and a **0/0 reconciliation**. (The committed FY2026 data had been generated by an earlier environment whose text extraction exposed the heading; it was not reproducible with the current toolchain — surfaced during the §13/§14 full-corpus re-parse.)
+
+**The fix.** When — and only when — the heading probe finds nothing, `derive_categories()` now falls back to **dotted-entry density**: it picks the front-matter page (same ≤ 8 window) holding the most `TOC_LINE` `Name .... page` rows (requiring ≥ 5) as the ToC page, then proceeds exactly as before. Because the fallback runs *only* when the heading probe returned `None`, every year that already detects a heading is completely unaffected — verified by regenerating all years and confirming FY2016–FY2025 + FY2027 are **byte-identical** in awards, initiatives, and reconciliation; only FY2026 changed.
+
+**Outcome.** FY2026 now derives its 25 ToC categories (matching the committed reconciliation: 24/25 exact, GRAND TOTAL \$665,080,821), which unblocked its participation in the §13/§14 full-corpus re-parse. Regression test: `test_parse_schedule_c.py::test_fy26_toc_density_fallback` (asserts FY2026 has no heading line yet recovers its categories via the fallback).
+
+## 16. Transparency Resolutions — bled "<Borough> Delegation" sponsor in the organization field — RESOLVED
+
 
 **The bug.** Boroughwide Transparency-Resolution designations are sponsored by a borough delegation, printed **"<Borough> Delegation"**. In the PDF text layer the borough word and the token "Delegation" land on the **organization** line — leading (`Bronx Delegation Afro-Latino Association…`), split around the org where the line wraps (`Staten Island Grace Foundation of New York Delegation`), or bare (`Delegation Fundacion de Ayuda`). `load_schedule_c_roster()` deliberately excludes the standalone token "Delegation", so `detect_member()` never peels it and it stayed glued to the organization. ~4,100 org values across FY2010–FY2026 carried the bled sponsor.
 

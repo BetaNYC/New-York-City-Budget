@@ -60,6 +60,116 @@ def test_reconciliation_ratio(prefix, src, exact, total):
     assert got_exact >= exact, f"{prefix}: {got_exact} categories reconcile exact (expected >= {exact})"
 
 
+def test_fy27_west_side_work_coalition_survives(tmp_path):
+    """Regression: a real FCNY Schedule C award -- Speaker's Initiative ->
+    'Fund for the City of New York, Inc. - West Side Work Coalition', $125,000, DYCD
+    (source PDF p.274, EIN 13-2612524) -- was silently dropped from the FY27 CSV.
+
+    Root cause: a repeated page-break column header ('Sponsor Legal Name of Organization -
+    Program Name Tax ID Amount Agency Purpose of Funds') bled into the award's organization
+    buffer, and the header-junk filter in main() then deleted the ENTIRE row rather than
+    stripping the header fragment. The parser must retain the award. See DATA-ANOMALIES.md.
+
+    Driven end-to-end via subprocess so the header-junk filter and per-EIN backfill in main()
+    are exercised (not just parse_awards)."""
+    import csv, subprocess
+    src = os.path.join(REPO, "source/FY27/Fiscal-2027-Schedule-C-Final-3.pdf")
+    if not os.path.exists(src):
+        pytest.skip("FY27 source PDF missing")
+    subprocess.run(
+        [sys.executable, os.path.join(HERE, "parse_schedule_c.py"), src,
+         "--outdir", str(tmp_path), "--prefix", "fy27"],
+        check=True, capture_output=True, cwd=REPO,
+    )
+    with open(os.path.join(tmp_path, "fy27_schedule_c_awards.csv")) as f:
+        rows = list(csv.DictReader(f))
+
+    # The dropped award is back, with correct EIN / amount / agency / program / category.
+    west = [r for r in rows
+            if r["ein"] == "132612524" and "West Side Work Coalition" in r["program"]]
+    assert len(west) == 1, "West Side Work Coalition FCNY award missing from parsed awards"
+    w = west[0]
+    assert w["amount"] == "125000"
+    assert w["agency"] == "DYCD"
+    assert "Speaker" in w["category"]
+
+    # FCNY (EIN 13-2612524) Schedule C main-body passthrough: 37 awards totaling $3,357,714
+    # (was 36 / $3,232,714 before the fix dropped the $125,000 West Side row).
+    fcny = [r for r in rows if r["ein"] == "132612524"]
+    assert len(fcny) == 37, f"expected 37 FCNY awards, got {len(fcny)}"
+    assert sum(int(r["amount"]) for r in fcny) == 3357714
+
+    # No surviving award may carry repeated column-header text in its organization -- that was the
+    # signature of the bled-in header the filter used to delete whole rows.
+    junk = [r for r in rows
+            if "legal name of organization" in r["organization"].lower()
+            or "sponsor legal" in r["organization"].lower()]
+    assert not junk, f"{len(junk)} awards still carry header-junk organizations"
+
+    # --- Issue 2: the "Delegation Fund" mislabel + org-name truncations ---
+    # Every FCNY row now reads the true source name (was "Delegation Fund for the City of New
+    # York, Inc." -- a parser artifact from a bled sponsor token + a bad per-EIN backfill).
+    assert all(r["organization"] == "Fund for the City of New York, Inc." for r in fcny), \
+        "FCNY rows not all normalized to 'Fund for the City of New York, Inc.'"
+    # The bled sponsor token "Delegation" must never survive on the FRONT of an organization.
+    assert not any(r["organization"].startswith("Delegation") for r in rows), \
+        "some organization still leads with the bled 'Delegation' sponsor token"
+    # The `^funds?` misclassification used to truncate two FCNY program names to a single word.
+    icare = [r for r in fcny if "ICARE" in r["program"]]
+    nycetc = [r for r in fcny if "Employment and Training Coalition" in r["program"]]
+    assert icare and icare[0]["organization"] == "Fund for the City of New York, Inc.", "ICARE row truncated/missing"
+    assert nycetc and nycetc[0]["organization"] == "Fund for the City of New York, Inc.", "NYCETC row truncated/missing"
+
+
+def test_fund_org_name_vs_purpose_prose():
+    """Issue 2 root cause: the `^funds?` alternative in _poll()/looks_purpose() matched the bare
+    org word 'Fund', so a real org name ('Fund for the City of New York, Inc.') was misread as
+    purpose prose. The fix must separate BOTH directions -- org names beginning with Fund/Find
+    are preserved, while genuine 'Funds will be used to...' purpose text is still detected."""
+    import re
+    import parse_schedule_c as P
+    purpose_re = re.compile(r"(?i)^(?:" + P._FUNDLEAD + r")\b")
+
+    org_names = [  # must NOT be classified as purpose prose
+        "Fund for the City of New York, Inc.",
+        "Fund for the City of New York, Inc.- Brooklyn",
+        "Fund for New York City Voter Assistance Corporation",
+        "Find Aid for the Aged, Inc.",
+    ]
+    purpose_prose = [  # must still be classified as purpose
+        "Funds will be used to support the program.",
+        "Funding to support adult education and literacy programming.",
+        "Funds to be used for supplies.",
+        "Funding will support community engagement.",
+        "Funds would be used to cover costs.",
+        "Funding for the purchase of vehicles.",
+        "Fund will be used for: 1) Craic fest; 2) kids Fleadh.",  # singular Fund + verb = purpose
+    ]
+    for o in org_names:
+        assert not purpose_re.match(o), f"org name wrongly flagged as purpose: {o!r}"
+    for p in purpose_prose:
+        assert purpose_re.match(p), f"purpose prose not detected: {p!r}"
+
+
+def test_fy26_toc_density_fallback():
+    """FY26's contents page (source p.3) carries the dotted category rows but NO standalone
+    'Contents'/'Table of Contents' heading line in the text layer, so the heading probe finds
+    nothing and derive_categories() used to return 0 -> the whole year silently lost every
+    category label and reconciliation collapsed to 0/0. The dotted-entry-density fallback must
+    recover FY26's ToC, and it must engage ONLY because no heading line exists. See sec.15."""
+    import re
+    import parse_schedule_c as P
+    src = os.path.join(REPO, "source/FY26/Fiscal-2026-Schedule-C-4.pdf")
+    if not os.path.exists(src):
+        pytest.skip("FY26 source PDF missing")
+    pages = P.load_pages(src)
+    # Precondition: FY26 genuinely has no standalone heading line (else this guards nothing).
+    assert not any(re.search(r'(?im)^\s*(?:table of )?contents\s*$', pages[pn])
+                   for pn in pages if pn <= 8), "FY26 unexpectedly has a Contents heading line"
+    cats = P.derive_categories(pages)
+    assert len(cats) >= 24, f"FY26 ToC density fallback recovered only {len(cats)} categories"
+
+
 def test_fy18_toc_contents_heading():
     """FY18's contents page is headed 'Contents' (not 'Table of Contents'). The ToC-detection
     regex must find it, or the whole year silently yields 0 categories."""
