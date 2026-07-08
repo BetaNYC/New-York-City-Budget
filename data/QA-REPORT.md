@@ -38,24 +38,24 @@ Valid 9-digit EINs / total rows, per year and EIN-bearing doctype. Initiatives, 
 | FY2020 | awards | 2841/2841 | 100.0% |
 | FY2020 | transparency | 5319/5319 | 100.0% |
 | FY2021 | appendix | 4310/4310 | 100.0% |
-| FY2021 | awards | 1800/1800 | 100.0% |
+| FY2021 | awards | 1810/1810 | 100.0% |
 | FY2021 | transparency | 4463/4463 | 100.0% |
 | FY2022 | appendix | 4182/4182 | 100.0% |
-| FY2022 | awards | 1479/1479 | 100.0% |
+| FY2022 | awards | 1492/1492 | 100.0% |
 | FY2022 | transparency | 7768/7768 | 100.0% |
 | FY2023 | appendix | 4056/4056 | 100.0% |
-| FY2023 | awards | 1824/1824 | 100.0% |
+| FY2023 | awards | 1848/1848 | 100.0% |
 | FY2023 | transparency | 8354/8354 | 100.0% |
 | FY2024 | appendix | 3911/3911 | 100.0% |
-| FY2024 | awards | 5299/5299 | 100.0% |
+| FY2024 | awards | 5368/5368 | 100.0% |
 | FY2024 | transparency | 3294/3294 | 100.0% |
 | FY2025 | appendix | 3920/3920 | 100.0% |
-| FY2025 | awards | 5609/5609 | 100.0% |
+| FY2025 | awards | 5646/5646 | 100.0% |
 | FY2026 | appendix | 3914/3914 | 100.0% |
 | FY2026 | awards | 5806/5806 | 100.0% |
 | FY2026 | transparency | 4755/4755 | 100.0% |
 | FY2027 | appendix | 3860/3860 | 100.0% |
-| FY2027 | awards | 6085/6085 | 100.0% |
+| FY2027 | awards | 6118/6118 | 100.0% |
 
 ## Reconciliation roll-up
 
@@ -110,7 +110,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 
 | file | rows | EIN cov | hard | soft findings |
 |---|---|---|---|---|
-| `combined/all_years_awards.csv` | 33420 | 100% | 0 | duplicate: 142 duplicate row instance(s); e.g. x2: ['FY17', 'HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider']...; column_bleed: 96 suspected surname-in-organization residual(s); e.g. line 489: 'Hudson Guild' |
+| `combined/all_years_awards.csv` | 33606 | 100% | 0 | duplicate: 143 duplicate row instance(s); e.g. x2: ['FY17', 'HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider']...; column_bleed: 105 suspected surname-in-organization residual(s); e.g. line 489: 'Hudson Guild' |
 | `combined/all_years_initiatives.csv` | 2598 | — | 0 | — |
 | `fy09/schedule_c/fy09_schedule_c_initiatives.csv` | 123 | — | 0 | — |
 | `fy10/schedule_c/fy10_schedule_c_initiatives.csv` | 124 | — | 0 | — |
@@ -277,7 +277,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy21/schedule_c/fy21_appendix_a_aging.csv` | 514 | 100% | 0 | — |
 | `fy21/schedule_c/fy21_appendix_b_local.csv` | 2902 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Richards', 'Queens Borough Public Library', 'Arverne Library', '136400434']...; column_bleed: 46 suspected surname-in-organization residual(s); e.g. line 24: 'Adams Street Foundation, Inc.' |
 | `fy21/schedule_c/fy21_appendix_c_youth.csv` | 894 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 416: 'Hudson Guild' |
-| `fy21/schedule_c/fy21_schedule_c_awards.csv` | 1800 | 100% | 0 | duplicate: 4 duplicate row instance(s); e.g. x2: ['Boroughwide Needs', '', 'member_item', 'Brooklyn']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 1029: 'Hudson Guild' |
+| `fy21/schedule_c/fy21_schedule_c_awards.csv` | 1810 | 100% | 0 | duplicate: 4 duplicate row instance(s); e.g. x2: ['Boroughwide Needs', '', 'member_item', 'Brooklyn']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 1031: 'Hudson Guild' |
 | `fy21/schedule_c/fy21_schedule_c_initiatives.csv` | 124 | — | 0 | — |
 | `fy21/terms/fy21_terms_and_conditions.csv` | 46 | — | 0 | — |
 | `fy21/transparency-resolutions/fy21_transparency_all.csv` | 4463 | 100% | 0 | fiscal_year: 126 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 21 duplicate row instance(s); e.g. x2: ['1', '2020-08-27', 'Local Initiatives - Fiscal 2021', '2021']...; column_bleed: 592 suspected surname-in-organization residual(s); e.g. line 12: 'Adams City University of New York' |
@@ -293,7 +293,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy22/schedule_c/fy22_appendix_a_aging.csv` | 510 | 100% | 0 | — |
 | `fy22/schedule_c/fy22_appendix_b_local.csv` | 2790 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Eugene', 'Prospect Lefferts Gardens Neighborhood Association, Inc.', '', '237064386']...; column_bleed: 55 suspected surname-in-organization residual(s); e.g. line 12: 'Ayala 2020 Vision for Schools, Inc.' |
 | `fy22/schedule_c/fy22_appendix_c_youth.csv` | 882 | 100% | 0 | column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 411: 'Hudson Guild' |
-| `fy22/schedule_c/fy22_schedule_c_awards.csv` | 1479 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Speaker’s Initiative to Address Citywide Needs', 'Speaker’s Initiative to Address Citywide Needs', 'initiative_provider', '']...; column_bleed: 5 suspected surname-in-organization residual(s); e.g. line 409: 'Dinowitz, Riley New York Botanical Garden' |
+| `fy22/schedule_c/fy22_schedule_c_awards.csv` | 1492 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Speaker’s Initiative to Address Citywide Needs', 'Speaker’s Initiative to Address Citywide Needs', 'initiative_provider', '']...; column_bleed: 5 suspected surname-in-organization residual(s); e.g. line 409: 'Dinowitz, Riley New York Botanical Garden' |
 | `fy22/schedule_c/fy22_schedule_c_initiatives.csv` | 138 | — | 0 | — |
 | `fy22/terms/fy22_terms_and_conditions.csv` | 50 | — | 0 | — |
 | `fy22/transparency-resolutions/fy22_transparency_all.csv` | 7768 | 100% | 0 | fiscal_year: 134 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 40 duplicate row instance(s); e.g. x3: ['1', '2021-07-29', 'Local Initiatives - Fiscal 2022', '2022']...; column_bleed: 1210 suspected surname-in-organization residual(s); e.g. line 4: 'Powers Department of Parks and Recreation' |
@@ -315,7 +315,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy23/schedule_c/fy23_appendix_a_aging.csv` | 489 | 100% | 0 | — |
 | `fy23/schedule_c/fy23_appendix_b_local.csv` | 2726 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Brooks-Powers', 'Queens Borough Public Library', 'Laurelton Library', '136400434']...; column_bleed: 118 suspected surname-in-organization residual(s); e.g. line 29: 'Krishnan, Won Adhikaar for Human Rights and Social Justice' |
 | `fy23/schedule_c/fy23_appendix_c_youth.csv` | 841 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 410: 'Hudson Guild' |
-| `fy23/schedule_c/fy23_schedule_c_awards.csv` | 1824 | 100% | 0 | duplicate: 6 duplicate row instance(s); e.g. x3: ['BOROUGHWIDE NEEDS', '', 'member_item', 'Manhattan']...; column_bleed: 5 suspected surname-in-organization residual(s); e.g. line 1420: "Hudson, Narcisse, Women's Campaign Against Hunger, Inc., The" |
+| `fy23/schedule_c/fy23_schedule_c_awards.csv` | 1848 | 100% | 0 | duplicate: 6 duplicate row instance(s); e.g. x3: ['BOROUGHWIDE NEEDS', '', 'member_item', 'Manhattan']...; column_bleed: 7 suspected surname-in-organization residual(s); e.g. line 1394: 'Marte, Schulman Association of Community Employment Programs' |
 | `fy23/schedule_c/fy23_schedule_c_initiatives.csv` | 143 | — | 0 | — |
 | `fy23/terms/fy23_terms_and_conditions.csv` | 60 | — | 0 | — |
 | `fy23/transparency-resolutions/fy23_transparency_all.csv` | 8354 | 100% | 0 | amount: line 6896: designate amount 0 (expected > 0); amount: line 6897: designate amount 0 (expected > 0); fiscal_year: 544 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 11 row(s) with empty fiscal_year; duplicate: 42 duplicate row instance(s); e.g. x2: ['1', '2022-07-14', 'Youth Discretionary - Fiscal 2023', '2023']...; column_bleed: 3739 suspected surname-in-organization residual(s); e.g. line 2: 'Schulman FDNY Foundation' |
@@ -337,7 +337,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy24/schedule_c/fy24_appendix_a_aging.csv` | 477 | 100% | 0 | — |
 | `fy24/schedule_c/fy24_appendix_b_local.csv` | 2616 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Restler', 'Department of Education', 'Urban Assembly Institute of Math and Science for Young Women (K527)', '136400434']...; column_bleed: 89 suspected surname-in-organization residual(s); e.g. line 101: 'Brewer Aperture Foundation, Inc.' |
 | `fy24/schedule_c/fy24_appendix_c_youth.csv` | 818 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 408: 'Hudson Guild' |
-| `fy24/schedule_c/fy24_schedule_c_awards.csv` | 5299 | 100% | 0 | duplicate: 27 duplicate row instance(s); e.g. x2: ['CULTURAL ORGANIZATIONS', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 17 suspected surname-in-organization residual(s); e.g. line 657: 'Hudson Guild' |
+| `fy24/schedule_c/fy24_schedule_c_awards.csv` | 5368 | 100% | 0 | duplicate: 28 duplicate row instance(s); e.g. x2: ['CULTURAL ORGANIZATIONS', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 22 suspected surname-in-organization residual(s); e.g. line 394: 'Hudson Guild' |
 | `fy24/schedule_c/fy24_schedule_c_initiatives.csv` | 146 | — | 0 | — |
 | `fy24/terms/fy24_terms_and_conditions.csv` | 59 | — | 0 | — |
 | `fy24/transparency-resolutions/fy24_transparency_all.csv` | 3294 | 100% | 0 | fiscal_year: 215 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 29 duplicate row instance(s); e.g. x2: ['1', '2023-08-03', 'Community Safety and Victim Services Initiative - Fiscal 2024', '2024']...; column_bleed: 1311 suspected surname-in-organization residual(s); e.g. line 2: 'Marte Society of the Third Street Music School Settlement' |
@@ -354,7 +354,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy25/schedule_c/fy25_appendix_a_aging.csv` | 470 | 100% | 0 | — |
 | `fy25/schedule_c/fy25_appendix_b_local.csv` | 2616 | 100% | 0 | column_bleed: 85 suspected surname-in-organization residual(s); e.g. line 163: 'Holden Association of Community Employment Programs for the ' |
 | `fy25/schedule_c/fy25_appendix_c_youth.csv` | 834 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Salaam', 'Figure Skating in Harlem, Inc.', '', '133945168']...; column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 407: 'Hudson Guild' |
-| `fy25/schedule_c/fy25_schedule_c_awards.csv` | 5609 | 100% | 0 | duplicate: 18 duplicate row instance(s); e.g. x3: ['CULTURAL ORGANIZATION', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 12 suspected surname-in-program residual(s); e.g. line 212: 'Louis Pink Houses TA Programming' |
+| `fy25/schedule_c/fy25_schedule_c_awards.csv` | 5646 | 100% | 0 | duplicate: 18 duplicate row instance(s); e.g. x3: ['CULTURAL ORGANIZATION', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 14 suspected surname-in-program residual(s); e.g. line 212: 'Louis Pink Houses TA Programming' |
 | `fy25/schedule_c/fy25_schedule_c_initiatives.csv` | 158 | — | 0 | — |
 | `fy25/terms/fy25_terms_and_conditions.csv` | 65 | — | 0 | — |
 | `fy26/capital/fy26_capital_projects.csv` | 1456 | — | 0 | amount: line 1336: fy1 negative -183,000 (capital expected >= 0) |
@@ -379,7 +379,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy27/schedule_c/fy27_appendix_a_aging.csv` | 467 | 100% | 0 | — |
 | `fy27/schedule_c/fy27_appendix_b_local.csv` | 2558 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['Hanks', 'Grace Foundation of New York', 'Council District 49', '134131863']...; column_bleed: 85 suspected surname-in-organization residual(s); e.g. line 22: 'Salaam Abyssinian Baptist Church' |
 | `fy27/schedule_c/fy27_appendix_c_youth.csv` | 835 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Paladino', 'New York Sun Works, Inc.', 'Hydroponic Classrooms - Public School 094Q David D. Porter (26Q094)', '200670312']...; column_bleed: 3 suspected surname-in-program residual(s); e.g. line 361: 'Joseph Miccio Community Center Cornerstone Programs - Counci' |
-| `fy27/schedule_c/fy27_schedule_c_awards.csv` | 6085 | 100% | 0 | duplicate: 33 duplicate row instance(s); e.g. x2: ['Cultural Organizations', 'Cultural After-School Adventure (CASA)', 'member_item', 'Abreu']...; column_bleed: 16 suspected surname-in-program residual(s); e.g. line 203: 'Louis Armstrong Houses TA Association' |
+| `fy27/schedule_c/fy27_schedule_c_awards.csv` | 6118 | 100% | 0 | duplicate: 33 duplicate row instance(s); e.g. x2: ['Cultural Organizations', 'Cultural After-School Adventure (CASA)', 'member_item', 'Abreu']...; column_bleed: 16 suspected surname-in-program residual(s); e.g. line 203: 'Louis Armstrong Houses TA Association' |
 | `fy27/schedule_c/fy27_schedule_c_initiatives.csv` | 170 | — | 0 | — |
 | `fy27/terms/fy27_terms_and_conditions.csv` | 75 | — | 0 | — |
 

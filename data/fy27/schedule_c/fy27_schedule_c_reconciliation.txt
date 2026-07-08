@@ -31,9 +31,9 @@ Young Women's Initiative                                 11,798,914     11,798,9
 Youth Services                                           21,667,048     21,667,048  OK
 GRAND TOTAL                                             655,764,999    655,764,999  25/25 categories exact
 
-awards: 6085 rows  $600,928,032
-  member items:          3875  $105,830,497
-  initiative providers:  2210  $495,097,535
+awards: 6118 rows  $605,111,412
+  member items:          3884  $107,101,377
+  initiative providers:  2234  $498,010,035
 appendix A (aging):   467 rows  $5,610,000
 appendix B (local):  2558 rows  $36,539,000
 appendix C (youth):   835 rows  $7,650,000
