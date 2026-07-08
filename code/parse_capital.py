@@ -14,7 +14,16 @@ using an accent-normalized council-member roster (the two are glued together in 
 """
 import re, csv, os, argparse, unicodedata
 
-ROW = re.compile(r'^(\S+\s+CC\w+)\s+(\S+\s+D\w+)\s+([A-Z])\s+([\d,]+)((?:\s+\d[\d,]*)*)\s*(.*)$')
+# A data row: <AGCODE CODE> <AGCODE CODE> <BORO> <fy1> [<fy2..fy4>] <blob>.
+# Two code-column layouts share this document:
+#   * CITY items      -> budget line 'XX CC####',  sub id 'XX D####'/'XX DN###'; the blob after
+#                        the amounts is SPONSOR glued to TITLE (e.g. 'BREWERAILEY ...').
+#   * NON-CITY items  -> budget line 'XX MA####',  sub id 'XX 0N###'; the blob is the grantee
+#                        ORGANIZATION NAME only — there is no council sponsor on these rows.
+# Both code pairs must be accepted or the MA/0N rows fail to match, fall through to the
+# agency-header branch, and (a) get dropped as projects while (b) the last one leaks a whole
+# row's worth of text into the `agency` field of the CITY rows that follow it. (FY2027 bug.)
+ROW = re.compile(r'^(\S+\s+(?:CC|MA)\w+)\s+(\S+\s+(?:D|0N)\w+)\s+([A-Z])\s+([\d,]+)((?:\s+\d[\d,]*)*)\s*(.*)$')
 SUBTOTAL = re.compile(r'^([\d,]+)\s+([\d,]+)\s+([\d,]+)\s+([\d,]+)\s*TOTALS FOR\s+(.+?)\s+\((\d+)\s+PROJECTS?\)', re.I)
 PART = re.compile(r'^(I{1,3})\.$')
 BS = re.compile(r'\bB:\s*(\S+)|\bS:\s*(\S+)')
@@ -103,9 +112,13 @@ def parse(pages):
             bl,sub,boro,f1,outs,blob=rm.groups()
             ov=[money(x) for x in outs.split()] if outs.strip() else []
             ov+= [0,0,0]
+            # Non-city rows (sub id '0N###') have no council sponsor: the whole blob is the
+            # grantee org name. Flag them so the sponsor-splitter leaves the title intact
+            # rather than peeling a leading roster word (e.g. 'BROOKLYN' off 'BROOKLYN BALLET').
+            noncity=sub.split()[-1].startswith("0N")
             pending=dict(part=part,agency=agency,budget_line=re.sub(r'\s+',' ',bl),
                 sub_id=re.sub(r'\s+',' ',sub),boro=boro,fy1=money(f1),fy2=ov[0],
-                fy3=ov[1],fy4=ov[2],sponsor="",title=blob)
+                fy3=ov[1],fy4=ov[2],sponsor="",title=blob,_noncity=noncity)
             continue
         # agency header: all-caps line, not a row/subtotal, not a known section header
         if pending is None or True:
@@ -128,6 +141,8 @@ def main():
     roster=load_roster(a.roster)
     projects,subtotals=parse(pages)
     for p in projects:
+        if p.pop("_noncity", False):
+            continue                       # non-city grantee row: title already whole, no sponsor
         p["sponsor"],p["title"]=split_sponsor(p["title"],roster)
 
     P=lambda n: os.path.join(a.outdir,f"{a.prefix}_{n}")

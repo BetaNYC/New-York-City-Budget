@@ -240,6 +240,11 @@ def check_file(path, surnames):
     fy_empty = 0
     member_col = spec.get("member_col")
     text_cols = spec.get("text_cols", [])
+    # capital `agency` is a pure agency name (e.g. 'CULTURAL INSTITUTIONS'); a digit in it means a
+    # whole mis-parsed row's worth of text (amounts, codes) leaked into the column — the FY2027
+    # non-city column-bleed class. Agency names never contain digits in any parsed year, so this
+    # is a zero-false-positive signal.
+    agency_polluted = []
 
     for ln, r in enumerate(body, start=2):
         if len(r) != len(header):
@@ -303,6 +308,11 @@ def check_file(path, surnames):
                 elif res.year and yr > res.year + 1:
                     if len(year_bad) < 5:
                         year_bad.append((ln, f"{yv} is after folder year FY{res.year}"))
+        # capital agency-pollution: a digit in the agency name = a leaked mis-parsed row
+        if typ == "capital":
+            ag = cell(r, "agency")
+            if any(ch.isdigit() for ch in ag):
+                agency_polluted.append((ln, ag))
         # column bleed: a surname as the leading token of an org/program field
         for tcol in text_cols:
             v = cell(r, tcol).strip()
@@ -340,6 +350,11 @@ def check_file(path, surnames):
         ln, tcol, v = res.bleed_samples[0]
         res.soft.append(("column_bleed", f"{res.bleed} suspected surname-in-{tcol} residual(s); "
                                          f"e.g. line {ln}: {v!r}"))
+    if agency_polluted:
+        ln, v = agency_polluted[0]
+        res.soft.append(("agency_pollution", f"{len(agency_polluted)} capital row(s) with a digit "
+                                             f"in `agency` (leaked mis-parsed row); "
+                                             f"e.g. line {ln}: {v[:60]!r}"))
     return res
 
 

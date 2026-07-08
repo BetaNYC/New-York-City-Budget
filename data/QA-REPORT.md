@@ -1,7 +1,7 @@
 # NYC Budget — Data QA Report
 
-**Report generated:** 2026-07-07  
-**Data current as of:** 2026-07-07 (files under `data/`)  
+**Report generated:** 2026-07-08  
+**Data current as of:** 2026-07-08 (files under `data/`)  
 **Tool:** `code/validate_data.py`
 
 **Verdict:** PASS — 272 files, 0 hard failure(s), 516 soft advisory(ies).
@@ -103,7 +103,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | FY2026 | capital | 31/31 | PASS |
 | FY2026 | schedule_c | 24/25 | PARTIAL (1 in-source diff) |
 | FY2026 | transparency | — | N/A (no printed totals) |
-| FY2027 | capital | 23/26 | PARTIAL (3 in-source diff) |
+| FY2027 | capital | 24/26 | PARTIAL (2 in-source diff) |
 | FY2027 | schedule_c | 25/25 | PASS |
 
 ## Per-file findings
@@ -375,7 +375,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy26/transparency-resolutions/reso08_transparency_designations.csv` | 91 | 100% | 0 | fiscal_year: 16 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy26/transparency-resolutions/reso09_transparency_designations.csv` | 141 | 100% | 0 | fiscal_year: 12 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy26/transparency-resolutions/reso10_transparency_designations.csv` | 151 | 100% | 0 | fiscal_year: 27 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 2 duplicate row instance(s); e.g. x2: ['10', '2026-06-30', 'Local Initiatives - Fiscal 2023', '2023']...; column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 87: "Hudson Yards Hell's Kitchen Business Improvement District, I" |
-| `fy27/capital/fy27_capital_projects.csv` | 1358 | — | 0 | — |
+| `fy27/capital/fy27_capital_projects.csv` | 1388 | — | 0 | — |
 | `fy27/schedule_c/fy27_appendix_a_aging.csv` | 467 | 100% | 0 | — |
 | `fy27/schedule_c/fy27_appendix_b_local.csv` | 2558 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['Hanks', 'Grace Foundation of New York', 'Council District 49', '134131863']...; column_bleed: 85 suspected surname-in-organization residual(s); e.g. line 22: 'Salaam Abyssinian Baptist Church' |
 | `fy27/schedule_c/fy27_appendix_c_youth.csv` | 835 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Paladino', 'New York Sun Works, Inc.', 'Hydroponic Classrooms - Public School 094Q David D. Porter (26Q094)', '200670312']...; column_bleed: 3 suspected surname-in-program residual(s); e.g. line 361: 'Joseph Miccio Community Center Cornerstone Programs - Counci' |

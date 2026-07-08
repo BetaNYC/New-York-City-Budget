@@ -22,7 +22,7 @@ that the packages in `code/requirements.txt` are installed (`pypdf`, `pdfplumber
 | `parse_schedule_c_legacy.py` | Schedule C **initiatives** (early era, FY09-FY14) | pypdf text layer |
 | `parse_terms.py` | Terms & Conditions, **numbered-item** format (FY25–FY27) | pypdf text layer |
 | `parse_terms_legacy.py` | Terms & Conditions, **unnumbered-header** format (FY15–FY24) | pypdf text layer |
-| `parse_capital.py` | §254 Capital Project Detail — **FY27** clean-pypdf | pypdf text layer |
+| `parse_capital.py` | §254 Capital Project Detail — **FY27** clean-pypdf (city `CC/DN` **and** non-city `MA/0N` rows) | pypdf text layer |
 | `parse_capital_fy26.py` | §254 Capital Project Detail — **FY26** (pypdf-scrambled) | pdfplumber word coordinates |
 | `parse_capital_detail.py` | §254 Capital Project Detail — **FY20/FY22/FY23/FY24** ("Supporting Detail Book") | pdfplumber `extract_text()` (clean reading order) |
 | `parse_capital_fy25.py` | §254 Resolution-A / Appropriation-Changes (FY25 + FY17/FY21/FY23/FY24) | pdfplumber word coordinates |
@@ -237,6 +237,28 @@ a type-A book except FY17/FY21, which have only this type). Status recorded in t
 
 **FY19** is a third, older Capital-Project-Detail sub-format (extra community-district column, no
 SPONSOR column, `-` for zero, and **no `TOTALS FOR` subtotals**) — deferred / NOT RECONCILABLE.
+
+**FY27** is a Capital Project Detail book whose text layer pypdf preserves in reading order, so it
+uses `parse_capital.py` (not `parse_capital_detail.py`). Invocation:
+```bash
+.venv/bin/python code/parse_capital.py \
+    "source/FY27/Supporting-Detail-for-FY2027-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254.V4.pdf" \
+    --outdir data/fy27/capital --prefix fy27 --roster data/fy*/schedule_c/*_schedule_c_awards.csv
+```
+Reconciliation: **24/26** (the two open DIFFs — Part I `HOUSING & DEVELOPMENT` 63/65 and
+`HUMAN RESOURCES` 18/19 — are in-source line-item vs. printed-subtotal gaps, not parser errors).
+
+The row grammar has **two code-column layouts**: CITY items carry a `CC####` budget line and a
+`D####`/`DN###` sub id, with the SPONSOR glued to the front of the TITLE after the four amounts;
+NON-CITY items carry an `MA####` budget line and a `0N###` sub id, and have **no council sponsor**
+— the blob after the amounts is the grantee organization name in full. The `ROW` regex accepts
+both code pairs. A non-city row is flagged (`_noncity`) so the sponsor-splitter leaves its title
+intact rather than peeling a leading roster word (e.g. `BROOKLYN` off `BROOKLYN BALLET`).
+Before this fix the `MA/0N` rows failed the `CC/D`-only regex, fell through to the agency-header
+branch, were dropped as projects, and leaked a whole row's text into the `agency` field of the
+CITY rows that followed (52 polluted rows; the entire Part II `CULTURAL INSTITUTIONS` block was
+lost). `validate_data.py` now surfaces this class as an `agency_pollution` advisory (a digit in a
+capital `agency` name). See DATA-ANOMALIES.md #12.
 
 ---
 
