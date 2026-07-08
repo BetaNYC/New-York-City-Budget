@@ -18,6 +18,7 @@ that the packages in `code/requirements.txt` are installed (`pypdf`, `pdfplumber
 | Parser | Document type | Text technique |
 |---|---|---|
 | `parse_schedule_c.py` | Schedule C (discretionary expense) | pypdf text layer, ToC-driven |
+| `parse_schedule_c_fy15.py` | Schedule C — **FY2015 only** (adjacent-heading block→category mapping) | pypdf text layer |
 | `parse_schedule_c_legacy.py` | Schedule C **initiatives** (early era, FY09-FY14) | pypdf text layer |
 | `parse_terms.py` | Terms & Conditions, **numbered-item** format (FY25–FY27) | pypdf text layer |
 | `parse_terms_legacy.py` | Terms & Conditions, **unnumbered-header** format (FY15–FY24) | pypdf text layer |
@@ -57,7 +58,35 @@ Invocation pattern:
 | FY23 | `Fiscal-2023-Schedule-C-Merge-6.13.22-Final-1.pdf` | 26/26 exact | Perfectly clean. |
 | FY24 | `Fiscal-2024-Schedule-C-Merge-Final.pdf` | 24/26 exact | Criminal Justice +52,935 in-source; trailing Youth. |
 | FY08 | (earliest era) | see "Bounded / blocked" below | Distinct pre-FY09 format; deferred. |
-| FY15 | `fy2015-FY15-Schedule-C-Template-Final.pdf` | PARTIAL 21/28 | 3 categories undercount (real); best-effort, see below. |
+| FY15 | `fy2015-FY15-Schedule-C-Template-Final.pdf` | **24/24 exact** | Parsed by `parse_schedule_c_fy15.py` (NOT the shared parser). See the FY2015 section below. Award/EIN-level: 652 award rows. |
+
+### Schedule C — FY2015 (dedicated parser)
+
+FY2015 is parsed by **`parse_schedule_c_fy15.py`**, not `parse_schedule_c.py`. The shared parser
+maps the Nth summary block to the Nth ToC category (positional). FY2015's ToC leads with two
+narrative sections ("FROM BUDGET RESPONSE TO ADOPTION…", "INTRODUCTION"), so positional mapping
+shifts every label by two and drops the last four real categories as 0/0. The FY15 variant maps
+each block to the category heading that immediately **precedes** it, which labels all 24 blocks
+correctly. It reuses the shared parser's award/roster/appendix machinery unchanged (FY2015 IS a
+modern award/EIN-level year, unlike FY09–FY14).
+
+It reconciles **24/24 exact** (grand total $233,438,000). Three FY15 line-item formatting artifacts
+that the shared segmenter silently drops are handled in the variant — each hand-verified to sum to
+the printed category TOTAL, so they are extraction gaps, not in-source arithmetic:
+- **CUNY** — an initiative whose *name* contains "Council Initiatives" (`Results Based Accountability for Council Initiatives $500,000`), which the shared parser discards as a heading;
+- **HOUSING** — `$ 100,000` with a space between the `$` and the digits;
+- **YOUTH AND COMMUNITY DEVELOPMENT** — `…Youth Action Build Initiative 2,100,000`, a bare comma-grouped amount with no `$`.
+
+Four ToC entries carry no summary block: the two narrative sections above plus **BOROUGHWIDE NEEDS**
+and **HEALTH SERVICES AND PREVENTION** (real categories funded without a main-body Council-Initiatives
+summary). (The same three artifact classes likely explain some of the single-category "in-source"
+diffs recorded for FY16–FY24; hardening the shared parser for them is a separate, regression-gated pass.)
+
+```bash
+.venv/bin/python code/parse_schedule_c_fy15.py \
+    source/FY15/fy2015-FY15-Schedule-C-Template-Final.pdf \
+    --outdir data/fy15/schedule_c --prefix fy15
+```
 
 The single per-category diffs above are arithmetic inconsistencies *inside the official PDFs*
 (line items vs. the printed category TOTAL), the same class already documented for FY25–FY27 —
@@ -128,12 +157,11 @@ found on council.nyc.gov) → N/A.
   reconciled; see the early-era table above). **FY2008** remains deferred: a distinct earliest-era
   format with none of the FY09+ markers. NOTE: the main `parse_schedule_c.py` still raises on
   FY2008/FY2014-shaped input (0 categories) — those years route to the legacy parser instead.
-- **Schedule C FY2015** — **NOT committed** (open). Root cause: the ToC lists 28 categories but
-  only 24 have a Council-Initiatives summary block, which breaks parse_schedule_c.py's positional
-  block→category mapping (block N gets mislabeled once a middle category has no block), and 3
-  blocks also undercount their printed TOTAL. Fixing the mapping means changing the shared parser
-  (risk to the committed FY16-FY27 years), so FY15 is deferred rather than shipped mislabeled.
-  The FY15 Transparency Resolutions and Terms & Conditions ARE committed (they parse cleanly).
+- ~~**Schedule C FY2015**~~ — **RESOLVED** by the dedicated `parse_schedule_c_fy15.py` (adjacent-heading
+  block→category mapping), which does NOT modify the shared parser. Reconciles 24/24 exact and emits
+  652 EIN-anchored award rows. The three per-block "undercounts" turned out to be extraction gaps
+  (a 'Council Initiatives' initiative name, a '$ 100,000' space-after-$ amount, and a bare no-$
+  '2,100,000' amount), each verified to sum to the printed TOTAL. See the FY2015 section above.
 - ~~Schedule C FY2018~~ — **RESOLVED**: its contents page is headed 'Contents' not
   'Table of Contents'; the ToC-detection regex now matches both. Reconciles 24/27.
 
@@ -226,7 +254,7 @@ NOT_RECONCILED · BLOCKED · N/A (no such document that year).
 | FY12 | RECONCILED 16/16 (init)| N/A | BLOCKED (JBIG2 scan) | EXTRACTED 7 (org-text LOW) |
 | FY13 | RECONCILED 17/17 (init)| N/A | pending | EXTRACTED 9 (3 .doc BLOCKED) |
 | FY14 | RECONCILED 17/17 (init)| N/A | N/A (not published) | EXTRACTED 3 |
-| FY15 | OPEN (21/28, not committed) | EXTRACTED (17) | pending | EXTRACTED 12 |
+| FY15 | RECONCILED (24/24, fy15 parser) | EXTRACTED (17) | pending | EXTRACTED 12 |
 | FY16 | RECONCILED (24/26) | EXTRACTED (30) | pending | EXTRACTED 13 |
 | FY17 | RECONCILED (24/27) | EXTRACTED (30) | EXTRACTED (ResoA) | EXTRACTED 13 |
 | FY18 | RECONCILED (24/27) | EXTRACTED (33) | pending (ResoA 0 blocks) | EXTRACTED 12 |
