@@ -93,3 +93,7 @@ This is **genuinely unpopulated in the source, not a parse regression**: 0 empty
 ---
 
 *QA methodology and per-check results live in [`data/QA-REPORT.md`](data/QA-REPORT.md). This file is the human-readable index of what to be careful about; the QA report is the machine-generated evidence.*
+
+## 12. FY2027 capital — 52 rows with a leaked data string in the `agency` field (parser artifact)
+
+Surfaced 2026-07-08 during the IBO agency-expenditure crosswalk. In `data/fy27/capital/fy27_capital_projects.csv` only, **52 rows carry a malformed `agency` value** — a whole mis-parsed row's worth of text stuffed into the column, e.g. `"PV MA1002 PV 0N957 K 1,500,000 0 0 0 NOEL POINTER FOUNDATION"`. Root cause appears to be a sponsor string ("Speaker, ... Black, Latino and Asian Caucus") and adjacent columns splitting incorrectly on these rows. **FY2020, FY2022–FY2026 capital are clean** (0 affected rows); this is isolated to FY2027, consistent with FY2027 capital's known partial reconciliation (23/26). These rows fall outside any `(agency, fiscal_year)` join to IBO's agency-expenditure tables. **Fix pending** — a `parse_capital_detail.py` FY2027 column-boundary correction (own follow-up task); until then, treat FY2027 capital `agency` values containing digits or organization names as unreliable.
