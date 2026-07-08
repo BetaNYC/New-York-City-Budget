@@ -49,7 +49,7 @@ New-York-City-Budget/
 │   │   ├── terms/       Terms & Conditions (reporting mandates)
 │   │   └── capital/     Section 254 capital changes
 │   └── combined/        all-years roll-ups (built by code/build_combined.py)
-├── code/                ← parser scripts + variants + tests + PARSING.md manifest + requirements.txt
+├── code/                ← parser scripts + variants + validate_data.py (QA) + tests + PARSING.md + requirements.txt
 └── mcp/                 ← prototype MCP server (see below)
 ```
 
@@ -108,9 +108,10 @@ The two "misses" are arithmetic inconsistencies **inside the official PDFs**, no
 Beyond the flagship FY2025–FY2027 set, the repo now backfills earlier years. Full per-year,
 per-document-type detail (and the parser/invocation for each) is in [`code/PARSING.md`](code/PARSING.md); the headline:
 
-- **Schedule C** — reconciled for **FY2016–FY2024** (via `parse_schedule_c.py`) and **FY2009–FY2014**
+- **Schedule C** — reconciled for **FY2015–FY2024** (**FY2015** via the dedicated `parse_schedule_c_fy15.py`,
+  reconciled **24/24**; **FY2016–FY2024** via `parse_schedule_c.py`) and **FY2009–FY2014**
   (initiatives-only, via `parse_schedule_c_legacy.py` — the early-era documents carry no award-level
-  EIN tables). FY2008 and FY2015 remain open (see PARSING.md).
+  EIN tables; FY2015 and later DO). FY2008 remains open (see PARSING.md).
 - **§254 Capital (Capital Project Detail)** — reconciled **23/23–32/32** for **FY2020, FY2022, FY2023, FY2024**
   (via `parse_capital_detail.py`).
 - **Terms & Conditions** — extracted for **FY2015–FY2024** (via `parse_terms_legacy.py`; T&C print no totals).
@@ -120,6 +121,12 @@ per-document-type detail (and the parser/invocation for each) is in [`code/PARSI
   `*_reconciliation.txt`. FY2009 (scanned, no text layer) and FY2013 resolutions 07/10/11 (`.doc`) are blocked.
 
 **Capital (Section 254):** FY2026 reconciles **31/31** agency subtotals (amount + project count); FY2027 reconciles **23/26**; FY2025 is a different document type with no subtotals (`NOT RECONCILABLE`). **Transparency Resolutions:** no printed totals (`NOT RECONCILABLE`); transfers net to zero as expected. See each `*_reconciliation.txt` for details.
+
+**Data QA:** beyond per-file reconciliation, `code/validate_data.py` runs row-level and cross-file
+integrity checks (schema, EIN validity + per-year coverage, amount/sign sanity, fiscal-year
+integrity, duplicate detection, column-bleed heuristic, and a reconciliation roll-up) over the whole
+`data/` tree and writes a dated `data/QA-REPORT.md`. Latest run: 0 hard failures, 100% EIN coverage
+on every EIN-bearing file. Details in [`code/PARSING.md`](code/PARSING.md).
 
 ## Known limitations
 

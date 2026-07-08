@@ -266,3 +266,28 @@ NOT_RECONCILED · BLOCKED · N/A (no such document that year).
 | FY24 | RECONCILED (24/26) | EXTRACTED (59) | **RECONCILED 30/30** | EXTRACTED 9 |
 
 _"pending" = not yet processed in this pass; updated as work proceeds._
+
+---
+
+## Data QA — `validate_data.py`
+
+`code/validate_data.py` is a reusable, **stdlib-only** row-level validator over every parsed year
+in `data/` (FY2009–FY2027). It complements the per-file `*_reconciliation.txt` (which checks only
+category/subtotal TOTALS) with row-level and cross-file integrity: schema consistency, EIN validity +
+per-year coverage %, amount sanity (incl. transparency `designate`>0 / `rescind`<0 sign rules),
+fiscal-year integrity (allowing transparency's expected prior-year rows), within-file duplicate
+detection, a column-bleed heuristic (suspected member-surname leakage into org/program text), and a
+reconciliation roll-up parsed from every `*_reconciliation.txt`.
+
+It exits **non-zero only on HARD failures** (schema drift, malformed row, non-numeric amount,
+malformed EIN); soft advisories (zeros, sign anomalies, outliers, duplicates, bleed residuals,
+coverage notes) do not gate. It writes a dated report to `data/QA-REPORT.md` and prints a summary.
+
+```bash
+.venv/bin/python code/validate_data.py                    # validate ./data, write data/QA-REPORT.md
+.venv/bin/python code/validate_data.py --data-dir data --report data/QA-REPORT.md
+.venv/bin/python code/validate_data.py --no-report        # stdout only
+```
+
+Current run (2026-07-07): 272 files, **0 hard failures**, EIN coverage **100%** on every
+EIN-bearing file. Tests: `code/test_validate_data.py`.
