@@ -1,7 +1,7 @@
 CAPITAL (§254) RECONCILIATION (fy27)
 source: Supporting-Detail-for-FY2027-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254.V4.pdf (80 pages)
-projects parsed: 1358 | agency subtotals: 26
-total FY1 (all projects): $992,528,000
+projects parsed: 1388 | agency subtotals: 26
+total FY1 (all projects): $1,063,515,000
 
 PART/AGENCY                                                   proj$       printed$    n   pn  status
 I DEPARTMENT FOR THE AGING                                5,321,000      5,321,000    4    4  OK
@@ -28,7 +28,7 @@ II ADMIN FOR CHILDREN'S SERVICES                         18,018,000     18,018,0
 II ECONOMIC DEVELOPMENT                                   2,675,000      2,675,000    5    5  OK
 II HEALTH                                                16,492,000     16,492,000   34   34  OK
 II HUMAN RESOURCES                                       19,483,000     19,483,000   19   19  OK
-II CULTURAL INSTITUTIONS                                          0    117,862,000    0   82  DIFF
+II CULTURAL INSTITUTIONS                                117,862,000    117,862,000   82   82  OK
 II PUBLIC BUILDINGS                                      30,826,000     30,826,000   27   27  OK
 
-23/26 agency subtotals reconcile (amount + project count)
+24/26 agency subtotals reconcile (amount + project count)

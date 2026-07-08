@@ -120,7 +120,7 @@ per-document-type detail (and the parser/invocation for each) is in [`code/PARSI
   low-confidence in the older glued-text-layer years (FY2010–FY2013), flagged per-year in each
   `*_reconciliation.txt`. FY2009 (scanned, no text layer) and FY2013 resolutions 07/10/11 (`.doc`) are blocked.
 
-**Capital (Section 254):** FY2026 reconciles **31/31** agency subtotals (amount + project count); FY2027 reconciles **23/26**; FY2025 is a different document type with no subtotals (`NOT RECONCILABLE`). **Transparency Resolutions:** no printed totals (`NOT RECONCILABLE`); transfers net to zero as expected. See each `*_reconciliation.txt` for details.
+**Capital (Section 254):** FY2026 reconciles **31/31** agency subtotals (amount + project count); FY2027 reconciles **24/26**; FY2025 is a different document type with no subtotals (`NOT RECONCILABLE`). **Transparency Resolutions:** no printed totals (`NOT RECONCILABLE`); transfers net to zero as expected. See each `*_reconciliation.txt` for details.
 
 **Data QA:** beyond per-file reconciliation, `code/validate_data.py` runs row-level and cross-file
 integrity checks (schema, EIN validity + per-year coverage, amount/sign sanity, fiscal-year

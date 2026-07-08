@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """
-Regression tests for the FY25/FY26 capital parsers.
+Regression tests for the FY25/FY26/FY27 capital parsers.
 
 Two layers:
   1. Invariants on the committed output CSVs (always run) — schema, no column bleed, and the
      hard reconciliation facts (FY26 grand totals tie exactly; the one negative adjustment).
   2. Re-parse from the source PDF when it is present (skipped in CI / on machines without the
      iCloud source tree) — asserts FY26 reconciles 31/31 and both grand totals match.
+
+FY27 (parse_capital.py) locks the non-city column-bleed fix: 'PV MA#### PV 0N####' non-city
+grantee rows must parse as sponsorless data rows, never as agency headers (the pre-fix bug leaked
+a whole mis-parsed row's text into the `agency` field of the CITY rows that followed). Its source
+PDF is committed under source/FY27/, so the FY27 re-parse layer always runs here.
 
 Run: pytest code/test_parse_capital.py   (or: python code/test_parse_capital.py)
 """
@@ -17,6 +22,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 FY26_CSV = os.path.join(REPO, "data", "fy26", "capital", "fy26_capital_projects.csv")
 FY25_CSV = os.path.join(REPO, "data", "fy25", "capital", "fy25_capital_projects.csv")
+FY27_CSV = os.path.join(REPO, "data", "fy27", "capital", "fy27_capital_projects.csv")
+# FY27 source PDF is committed in-repo (unlike FY25/FY26, whose sources live in the iCloud tree).
+FY27_PDF = os.path.join(REPO, "source", "FY27",
+    "Supporting-Detail-for-FY2027-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254.V4.pdf")
 
 FY27_COLS = ["part", "agency", "budget_line", "sub_id", "boro", "fy1", "fy2", "fy3", "fy4",
              "sponsor", "title", "building_code", "school_code"]
@@ -110,6 +119,60 @@ def test_fy25_reparse_block_count():
     projects = P.parse(FY25_PDF)
     assert len(projects) == 149
     assert all(p["part"] == "I" for p in projects)
+
+
+# ---------- FY27 (parse_capital.py) — non-city column-bleed regression ----------
+
+@pytest.mark.skipif(not os.path.exists(FY27_CSV), reason="fy27 output not generated")
+def test_fy27_agency_never_polluted():
+    """The exact bug this fix closes: every `agency` value is a clean agency name — no digit,
+    no leaked 'PV MA#### ... amounts ... ORG' mis-parsed row. Would fail on the pre-fix CSV
+    (52 polluted rows)."""
+    rows = _rows(FY27_CSV)
+    assert rows and list(rows[0].keys()) == FY27_COLS
+    for r in rows:
+        assert not any(ch.isdigit() for ch in r["agency"]), \
+            f"digit in agency (leaked mis-parsed row): {r['agency']!r}"
+        assert "PV " not in r["agency"], f"leaked code string in agency: {r['agency']!r}"
+        assert r["part"] in ("I", "II") and r["agency"]
+        assert len(r["budget_line"].split()) == 2 and len(r["sub_id"].split()) == 2
+
+
+def test_fy27_noncity_MA_row_is_data_row_not_agency_header():
+    """Unit-level lock (no PDF): a 'PV MA#### PV 0N####' non-city row must parse as ONE
+    sponsorless data row under the current agency, not be mistaken for an agency header."""
+    import parse_capital as P
+    line = "PV MA1002 PV 0N957 K 1,500,000 0 0 0 NOEL POINTER FOUNDATION"
+    pages = {1: "II.\nCULTURAL INSTITUTIONS\n" + line}
+    projects, subtotals = P.parse(pages)
+    assert len(projects) == 1, "MA/0N non-city row must be captured as a project"
+    p = projects[0]
+    assert p["part"] == "II" and p["agency"] == "CULTURAL INSTITUTIONS"
+    assert p["budget_line"] == "PV MA1002" and p["sub_id"] == "PV 0N957"
+    assert (p["fy1"], p["fy2"], p["fy3"], p["fy4"]) == (1_500_000, 0, 0, 0)
+    assert p["title"] == "NOEL POINTER FOUNDATION"
+    assert p["_noncity"] is True   # flags the sponsor-splitter to leave the org title intact
+
+
+@pytest.mark.skipif(not os.path.exists(FY27_PDF), reason="FY27 source PDF not available")
+def test_fy27_reparse_recovers_noncity_and_reconciles(tmp_path):
+    """Re-parse the committed FY27 PDF: no polluted agency, the 30 non-city (MA/0N) grantee
+    rows are recovered as sponsorless projects, and reconciliation holds at 24/26 (>= the
+    pre-fix 23/26 — must not regress)."""
+    import parse_capital as P
+    pages = P.load_pages(FY27_PDF)
+    projects, subtotals = P.parse(pages)
+    assert not any(any(ch.isdigit() for ch in p["agency"]) for p in projects)
+    noncity = [p for p in projects if p.get("_noncity")]
+    assert len(noncity) == 30 and all(p["sponsor"] == "" for p in noncity)
+    from collections import defaultdict
+    got = defaultdict(int); cnt = defaultdict(int)
+    for p in projects:
+        got[(p["part"], p["agency"])] += p["fy1"]; cnt[(p["part"], p["agency"])] += 1
+    ok = sum(1 for st in subtotals
+             if got[(st["part"], st["agency"])] == st["fy1"]
+             and cnt[(st["part"], st["agency"])] == st["projects"])
+    assert (ok, len(subtotals)) == (24, 26)
 
 
 if __name__ == "__main__":
