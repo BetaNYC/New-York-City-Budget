@@ -27,7 +27,7 @@ rows by fiscal year:  ?=426  2011=2  2012=68  2013=1361
 
 unresolved organization (dense-chart text-layer artifacts): 0 of 1857 rows (0.00%) -- amount/EIN/agency captured, org name orphaned
 
-org-text confidence: LOW -- 618 of 1857 rows (33.28%) show glued-word (464) or header-bleed (154) artifacts in the org field.
+org-text confidence: LOW -- 686 of 1857 rows (36.94%) show glued-word (532) or header-bleed (154) artifacts in the org field.
   (EIN / amount / agency / date / action are deterministic and unaffected.)
   NOTE: this fiscal year predates the clean text-layer era; treat organization,
   council_member and program as best-effort. Join on EIN for reliable identity.

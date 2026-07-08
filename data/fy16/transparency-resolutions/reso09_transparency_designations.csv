@@ -33,7 +33,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 9,2016-01-19,Anti-Poverty Initiative - Fiscal 2016,2016,rescind,,,Rose Christ Church New Brighton,,135596815,-5000,DYCD,,,.00) 260 005 *,
 9,2016-01-19,Anti-Poverty Initiative - Fiscal 2016,2016,designate,,,Rose Christ Church New Brighton,,135596851,5000,DYCD,,,.00 260 005,
 9,2016-01-19,Initiative to Address Borough-Wide Needs - Fiscal 2016,2016,rescind,,,Organization Conduit EIN Bronx Delegation FAN4Kids A NJ Nonprofit Corporation,,260092086,-9500,DOE,,,.00) 040 402,
-9,2016-01-19,Initiative to Address Borough-Wide Needs - Fiscal 2016,2016,designate,,,Bronx Delegation FAN4Kids A NJ Nonprofit Corporation,PS 157X,260092086,9500,DOE,,,.00 040 402,
+9,2016-01-19,Initiative to Address Borough-Wide Needs - Fiscal 2016,2016,designate,,Bronx Delegation,FAN4Kids A NJ Nonprofit Corporation,PS 157X,260092086,9500,DOE,,,.00 040 402,
 9,2016-01-19,Cultural After School Adventure (CASA) - Fiscal 2016,2016,rescind,,,"Man Up!, Inc.","PATH (Performing Arts and Technology High School) at Thomas Jefferson High School Campus Chin Notes in Motion, Inc - Manhattan Early College of Advertising (MECA)",320005633,-20000,DCLA,,,.00) 126 003,
 9,2016-01-19,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,"Notes in Motion, Inc",Manhattan Early College of Advertising (MECA) & Murray Bergtrum High Chin School,320005633,20000,DCLA,,,.00 126 003,
 9,2016-01-19,Cultural After School Adventure (CASA) - Fiscal 2016,2016,rescind,,,Torres Center for Urban Pedagogy,Jonas Bronck Academy,113625306,-20000,DCLA,,,.00) 126 003,
@@ -49,8 +49,8 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 9,2016-01-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2016,2016,rescind,,,"Treyger Urban Neighborhood Services, Inc.",,141997299,-10000,MOCJ,,,.00) 098 002,
 9,2016-01-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2016,2016,designate,,,"Treyger SBH Community Service Network, Inc. (Sephardic Bikur Cholim)",,237406410,10000,MOCJ,,,.00 098 002 *,
 9,2016-01-19,Speaker's Initiative - Fiscal 2016,2016,designate,,Speaker,"City University of New York School of Law Foundation, Inc., The",,113235349,10000,CUNY,,,.00 042 001 *,**
-9,2016-01-19,Healthy Aging Initiative - Fiscal 2016,2016,rescind,,,"Mealy Wayside Out-Reach Development, Inc. (WORD)",Tilden Senior Center,113528680,-25000,DFTA,,,.00) 125 003,
-9,2016-01-19,Healthy Aging Initiative - Fiscal 2016,2016,designate,,,"Mealy Wayside Out-Reach Development, Inc. (WORD)",Mt. Ararat Senior Center,113528680,25000,DFTA,,,.00 125 003,
+9,2016-01-19,Healthy Aging Initiative - Fiscal 2016,2016,rescind,,Mealy,"Wayside Out-Reach Development, Inc. (WORD)",Tilden Senior Center,113528680,-25000,DFTA,,,.00) 125 003,
+9,2016-01-19,Healthy Aging Initiative - Fiscal 2016,2016,designate,,Mealy,"Wayside Out-Reach Development, Inc. (WORD)",Mt. Ararat Senior Center,113528680,25000,DFTA,,,.00 125 003,
 9,2016-01-19,Neighborhood Development Grant Initiative - Fiscal 2016,2016,rescind,,,Crowley Ridgewood Local Development Corporation,,112483351,-22000,DSBS,,,.00) 801 002,
 9,2016-01-19,Neighborhood Development Grant Initiative - Fiscal 2016,2016,designate,,,Crowley Queens Chamber of Commerce dba Chamber of Commerce Borough of Queens,,110559220,22000,DSBS,,,.00 801 002 *,
 9,2016-01-19,Food Pantries Initiative - Fiscal 2016,2016,rescind,,,SI Delegation Christ Church New Brighton,,135596815,-2000,DYCD,,,.00) 260 005 *,
@@ -100,18 +100,18 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,"Espinal Cypress Hills-Fulton Street Senior Citizens Center, Inc.",Cypress Hills Fulton Street NSC,112297647,2000,DFTA,,,.00 125 003 *,**
 9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,"Menchaca United Senior Citizens of Sunset Park, Inc.",Sunset Park NSC,112358277,2000,DFTA,,,.00 125 003 *,**
 9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,"Menchaca United Senior Citizens of Sunset Park, Inc.",United NSC,112358277,2000,DFTA,,,.00 125 003 *,**
-9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,"Mealy Fort Greene Council, Inc.",Hugh Gilroy NSC,112300840,2000,DFTA,,,.00 125 003 *,**
-9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,"Mealy Wayside Out-Reach Development, Inc. (WORD)",Tilden NSC,113528680,2000,DFTA,,,.00 125 003 *,**
-9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,"Barron Cypress Hills-Fulton Street Senior Citizens Center, Inc.",Cypress Hills Houses Senior Center,112297647,2000,DFTA,,,.00 125 003 *,**
-9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,"Young Men's and Young Women's Hebrew Association of Boro Park, Inc.",Boro Park Greenfield Neighborhood Center,111630917,2000,DFTA,,,.00 125 003 *,**
-9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,"Williams Catholic Charities Neighborhood Services, Inc.",CCNS Glenwood NSC,112047151,2000,DFTA,,,.00 125 003 *,**
-9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,Maisel Hebrew Educational Society,HES NSC,111642720,2000,DFTA,,,.00 125 003 *,**
-9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,"Treyger Jewish Community Council of Greater Coney Island, Inc.",Haber House Senior Center,112665181,2000,DFTA,,,.00 125 003 *,**
-9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,Deutsch Jewish Association for Services for the Aged (JASA),Senior Alliance NSC,132620896,2000,DFTA,,,.00 125 003 *,**
-9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,"Deutsch Young Israel Senior Services, Inc.",Young Israel Sr. Services NSC,134136312,2000,DFTA,,,.00 125 003 *,**
-9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,"Rose Community Agency for Senior Citizens, Inc.",Anderson NSC,133263537,2000,DFTA,,,.00 125 003 *,**
-9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,"Rose Catholic Charities Community Services, Archdiocese of New York",West Brighton NSC,135562185,2000,DFTA,,,.00 125 003 *,**
-9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,,"Borelli Staten Island Community Services Friendship Clubs, Inc.",GreatKills Friendship Club,132778244,2000,DFTA,,,.00 125 003 *,**
+9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,Mealy,"Fort Greene Council, Inc.",Hugh Gilroy NSC,112300840,2000,DFTA,,,.00 125 003 *,**
+9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,Mealy,"Wayside Out-Reach Development, Inc. (WORD)",Tilden NSC,113528680,2000,DFTA,,,.00 125 003 *,**
+9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,Mealy,"Barron Cypress Hills-Fulton Street Senior Citizens Center, Inc.",Cypress Hills Houses Senior Center,112297647,2000,DFTA,,,.00 125 003 *,**
+9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,Mealy,"Young Men's and Young Women's Hebrew Association of Boro Park, Inc.",Boro Park Greenfield Neighborhood Center,111630917,2000,DFTA,,,.00 125 003 *,**
+9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,Williams,"Catholic Charities Neighborhood Services, Inc.",CCNS Glenwood NSC,112047151,2000,DFTA,,,.00 125 003 *,**
+9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,Williams,Maisel Hebrew Educational Society,HES NSC,111642720,2000,DFTA,,,.00 125 003 *,**
+9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,Williams,"Treyger Jewish Community Council of Greater Coney Island, Inc.",Haber House Senior Center,112665181,2000,DFTA,,,.00 125 003 *,**
+9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,Williams,Deutsch Jewish Association for Services for the Aged (JASA),Senior Alliance NSC,132620896,2000,DFTA,,,.00 125 003 *,**
+9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,Williams,"Deutsch Young Israel Senior Services, Inc.",Young Israel Sr. Services NSC,134136312,2000,DFTA,,,.00 125 003 *,**
+9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,Williams,"Rose Community Agency for Senior Citizens, Inc.",Anderson NSC,133263537,2000,DFTA,,,.00 125 003 *,**
+9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,Williams,"Rose Catholic Charities Community Services, Archdiocese of New York",West Brighton NSC,135562185,2000,DFTA,,,.00 125 003 *,**
+9,2016-01-19,SU-CASA Initiative - Fiscal 2016,2016,designate,,Williams,"Borelli Staten Island Community Services Friendship Clubs, Inc.",GreatKills Friendship Club,132778244,2000,DFTA,,,.00 125 003 *,**
 9,2016-01-19,Participatory Budgeting at NYCHA Initiative - Fiscal 2016,2016,rescind,,,New York City Housing Authority,,136400434,-10000,NYCHA,,,.00) 098 002 *,**
 9,2016-01-19,Restorative Justice Program Initiative - Fiscal 2016,2016,rescind,,,Department of Education,,136400434,-300000,DOE,,,.00) 040 402,
 9,2016-01-19,Restorative Justice Program Initiative - Fiscal 2016,2016,designate,,,"New York Peace Institute, Inc.",The Urban Assembly School for Global Commerce,451964622,50000,DOE,,,.00 040 402 *,

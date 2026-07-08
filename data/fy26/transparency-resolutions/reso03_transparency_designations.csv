@@ -84,10 +84,10 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 3,2025-10-29,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,Bank Street College of Education,Liberty Leads,135562167,15000,DYCD,260,312,,**
 3,2025-10-29,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,rescind,,Speaker,"University Settlement Society of New York, Inc.",Adult Literacy Program,135562374,-20000,DYCD,260,005,,
 3,2025-10-29,Speaker's Initiative to Address Citywide Needs - Fiscal 2026,2026,designate,,Speaker,University Settlement Society of New York,Adult Literacy Program,135562374,20000,DYCD,260,005,,
-3,2025-10-29,Boroughwide Needs Initiative - Fiscal 2026,2026,rescind,,,Brooklyn Delegation BK Rams,Youth Programming,934263895,-10000,DYCD,260,312,,
+3,2025-10-29,Boroughwide Needs Initiative - Fiscal 2026,2026,rescind,,Brooklyn Delegation,BK Rams,Youth Programming,934263895,-10000,DYCD,260,312,,
 3,2025-10-29,Boroughwide Needs Initiative - Fiscal 2026,2026,designate,,,Department of Youth and Community Development,,136400434,10000,DYCD,260,312,,
 3,2025-10-29,Boroughwide Needs Initiative - Fiscal 2026,2026,rescind,,,Department of Youth and Community Development,,136400434,-10000,DYCD,260,312,,**
-3,2025-10-29,Boroughwide Needs Initiative - Fiscal 2026,2026,designate,,,"Brooklyn Delegation Brownsville Think Tank Matters, Inc.",Council District 42,472440990,10000,DYCD,260,005,,**
+3,2025-10-29,Boroughwide Needs Initiative - Fiscal 2026,2026,designate,,Brooklyn Delegation,"Brownsville Think Tank Matters, Inc.",Council District 42,472440990,10000,DYCD,260,005,,**
 3,2025-10-29,A Greener NYC - Fiscal 2026,2026,rescind,,Williams,Department of Parks and Recreation,Council District 27,136400434,-20000,DPR,846,006,,
 3,2025-10-29,A Greener NYC - Fiscal 2026,2026,designate,,Williams,Department of Parks and Recreation,,136400434,20000,DPR,846,006,,
 3,2025-10-29,A Greener NYC - Fiscal 2026,2026,rescind,,Williams,Department of Parks and Recreation,,136400434,-20000,DPR,846,006,,**
@@ -218,10 +218,10 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 3,2025-10-29,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,designate,,Stevens,Urban Justice Center -,,133442022,27000,DSS/HRA,069,112,,
 3,2025-10-29,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,designate,,Stevens,Violence Intervention Program,Council District 16,133540337,25000,DSS/HRA,069,112,,
 3,2025-10-29,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026,2026,designate,,Joseph,Pakistani American Skilled Women Organization,Council District 40,850869897,8000,DSS/HRA,069,112,,
-3,2025-10-29,Food Pantries - Fiscal 2026,2026,rescind,,,Queens Delegation Food Bank For New York City,ICNA Relief USA Flushing Food Pantry - EFRO# 85457,133179546,-5000,DYCD,260,005,,
-3,2025-10-29,Food Pantries - Fiscal 2026,2026,designate,,,"Queens Delegation ICNA Relief USA Programs, Inc.",Food Distribution - Council District 20,043810161,5000,DYCD,260,005,,
-3,2025-10-29,Food Pantries - Fiscal 2026,2026,rescind,,,Queens Delegation Food Bank For New York City,Vets Inc. - EFRO# 8544,133179546,-10000,DYCD,260,005,,
-3,2025-10-29,Food Pantries - Fiscal 2026,2026,designate,,,Queens Delegation Food Bank For New York City,Vets Inc. - EFRO# 85448,133179546,10000,DYCD,260,005,,
+3,2025-10-29,Food Pantries - Fiscal 2026,2026,rescind,,Queens Delegation,Food Bank For New York City,ICNA Relief USA Flushing Food Pantry - EFRO# 85457,133179546,-5000,DYCD,260,005,,
+3,2025-10-29,Food Pantries - Fiscal 2026,2026,designate,,Queens Delegation,"ICNA Relief USA Programs, Inc.",Food Distribution - Council District 20,043810161,5000,DYCD,260,005,,
+3,2025-10-29,Food Pantries - Fiscal 2026,2026,rescind,,Queens Delegation,Food Bank For New York City,Vets Inc. - EFRO# 8544,133179546,-10000,DYCD,260,005,,
+3,2025-10-29,Food Pantries - Fiscal 2026,2026,designate,,Queens Delegation,Food Bank For New York City,Vets Inc. - EFRO# 85448,133179546,10000,DYCD,260,005,,
 3,2025-10-29,Older Adult Center Improvements - Fiscal 2026,2026,rescind,,,"Allen Community Senior Citizens Center, Inc.",International Towers Senior Center,112326244,-65000,DFTA,125,003,,
 3,2025-10-29,Older Adult Center Improvements - Fiscal 2026,2026,rescind,,,"Allen Community Senior Citizens Center, Inc.",Linden Blvd Center,112326244,-70000,DFTA,125,003,,
 3,2025-10-29,Older Adult Center Improvements - Fiscal 2026,2026,rescind,,,"Allen Community Senior Citizens Center, Inc.",Rockaway Blvd. Center,112326244,-75000,DFTA,125,003,,
@@ -633,10 +633,10 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 3,2025-10-29,Speaker's Initiative to Address Citywide Needs - Fiscal 2024,2024,designate,,Speaker,"Campaign Against Hunger, Inc., The",,200934854,94700,DYCD,260,005,,
 3,2025-10-29,Speaker's Initiative to Address Citywide Needs - Fiscal 2024,2024,rescind,,Speaker,"University Settlement Society of New York, Inc.",Adult Literacy Program,135562374,-20000,DYCD,260,005,,
 3,2025-10-29,Speaker's Initiative to Address Citywide Needs - Fiscal 2024,2024,designate,,Speaker,University Settlement Society of New York,Adult Literacy Program,135562374,20000,DYCD,260,005,,
-3,2025-10-29,Food Pantries - Fiscal 2024,2024,rescind,,,Bronx Delegation Albanian & American Open Hand Association,,464607518,-15000,DYCD,260,005,,
-3,2025-10-29,Food Pantries - Fiscal 2024,2024,designate,,,"Bronx Delegation Open Hand Association, Inc.",,464607518,15000,DYCD,260,005,,
-3,2025-10-29,Food Pantries - Fiscal 2024,2024,rescind,,,Bronx Delegation Albanian & American Open Hand Association,,464607518,-10000,DYCD,260,005,,
-3,2025-10-29,Food Pantries - Fiscal 2024,2024,designate,,,"Bronx Delegation Open Hand Association, Inc.",,464607518,10000,DYCD,260,005,,
+3,2025-10-29,Food Pantries - Fiscal 2024,2024,rescind,,Bronx Delegation,Albanian & American Open Hand Association,,464607518,-15000,DYCD,260,005,,
+3,2025-10-29,Food Pantries - Fiscal 2024,2024,designate,,Bronx Delegation,"Open Hand Association, Inc.",,464607518,15000,DYCD,260,005,,
+3,2025-10-29,Food Pantries - Fiscal 2024,2024,rescind,,Bronx Delegation,Albanian & American Open Hand Association,,464607518,-10000,DYCD,260,005,,
+3,2025-10-29,Food Pantries - Fiscal 2024,2024,designate,,Bronx Delegation,"Open Hand Association, Inc.",,464607518,10000,DYCD,260,005,,
 3,2025-10-29,Local Initiatives - Fiscal 2024,2024,rescind,,Hudson,"University Settlement Society of New York, Inc.",Arts For Older Adults -,135562374,-5000,DYCD,260,005,,
 3,2025-10-29,Local Initiatives - Fiscal 2024,2024,designate,,Hudson,University Settlement Society of New York,Arts For Older Adults - Atlantic,135562374,5000,DYCD,260,005,,
 3,2025-10-29,Local Initiatives - Fiscal 2024,2024,rescind,,Hudson,"University Settlement Society of New York, Inc.",Arts For Older Adults -,135562374,-7000,DYCD,260,005,,

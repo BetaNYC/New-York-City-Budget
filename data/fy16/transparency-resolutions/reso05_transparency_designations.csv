@@ -1,12 +1,12 @@
 resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
 5,2015-10-15,Local Initiatives - Fiscal 2016,2016,rescind,,,Organization Conduit EIN Rosenthal Lantern Community Services,,133910692,-5000,DYCD,,,.00) 260 005,**
 5,2015-10-15,Local Initiatives - Fiscal 2016,2016,designate,,,Rosenthal Lantern Community Services,,133910692,5000,DOHMH,,,.00 816 113,**
-5,2015-10-15,Local Initiatives - Fiscal 2016,2016,rescind,,,"Williams New York Foundation For The Arts, Inc.",,237129564,-5000,DCLA,,,.00) 126 003 *,
-5,2015-10-15,Local Initiatives - Fiscal 2016,2016,designate,,,"Williams New York Foundation For The Arts, Inc.",Film Art Series,237129564,5000,DCLA,,,.00 126 003 *,
-5,2015-10-15,Local Initiatives - Fiscal 2016,2016,rescind,,,"Williams New York Foundation For The Arts, Inc.",,237129564,-9500,DCLA,,,.00) 126 003 *,
-5,2015-10-15,Local Initiatives - Fiscal 2016,2016,designate,,,"Williams New York Foundation For The Arts, Inc.",Film Art Series,237129564,9500,DCLA,,,.00 126 003 *,
-5,2015-10-15,Local Initiatives - Fiscal 2016,2016,rescind,,,Williams Legal Information for Families Today (LIFT),,133910567,-3500,DYCD,,,.00) 260 005,**
-5,2015-10-15,Local Initiatives - Fiscal 2016,2016,designate,,,Williams Legal Information for Families Today (LIFT),,133910567,3500,MOCJ,,,.00 098 002,**
+5,2015-10-15,Local Initiatives - Fiscal 2016,2016,rescind,,Williams,"New York Foundation For The Arts, Inc.",,237129564,-5000,DCLA,,,.00) 126 003 *,
+5,2015-10-15,Local Initiatives - Fiscal 2016,2016,designate,,Williams,"New York Foundation For The Arts, Inc.",Film Art Series,237129564,5000,DCLA,,,.00 126 003 *,
+5,2015-10-15,Local Initiatives - Fiscal 2016,2016,rescind,,Williams,"New York Foundation For The Arts, Inc.",,237129564,-9500,DCLA,,,.00) 126 003 *,
+5,2015-10-15,Local Initiatives - Fiscal 2016,2016,designate,,Williams,"New York Foundation For The Arts, Inc.",Film Art Series,237129564,9500,DCLA,,,.00 126 003 *,
+5,2015-10-15,Local Initiatives - Fiscal 2016,2016,rescind,,Williams,Legal Information for Families Today (LIFT),,133910567,-3500,DYCD,,,.00) 260 005,**
+5,2015-10-15,Local Initiatives - Fiscal 2016,2016,designate,,Williams,Legal Information for Families Today (LIFT),,133910567,3500,MOCJ,,,.00 098 002,**
 5,2015-10-15,Anti-Poverty Initiative - Fiscal 2016,2016,rescind,,,Organization Conduit EIN Eugene Church Avenue District Management Association,,112835403,-5000,DSBS,,,.00) 801 002,**
 5,2015-10-15,Anti-Poverty Initiative - Fiscal 2016,2016,designate,,,Eugene Boro Park Jewish Community Council,,113475993,5000,DYCD,,,.00 260 005,**
 5,2015-10-15,Cultural After School Adventure (CASA) - Fiscal 2016,2016,rescind,,,Arroyo Bronx Art Ensemble,,510186869,-20000,DCLA,,,.00) 126 003,
@@ -104,9 +104,9 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 5,2015-10-15,NYC Cleanup Initiative - Fiscal 2016,2016,designate,,,"Koo Downtown Flushing Transit Hub District Management Association, Inc.",,412111487,46921,DSBS,,,.00 801 002,**
 5,2015-10-15,NYC Cleanup Initiative - Fiscal 2016,2016,designate,,,Reynoso Ridgewood Local Development Corporation,,112483351,34000,DSBS,,,.00 801 002,**
 5,2015-10-15,Neighborhood Development Grant Initiative - Fiscal 2016,2016,rescind,,,Department of Small Business Services,,136400434,-66000,DSBS,,,.00) 801 002,
-5,2015-10-15,Neighborhood Development Grant Initiative - Fiscal 2016,2016,designate,,,Mealy Lincoln Terrace Tennis Association,,043672661,22000,DSBS,,,.00 801 002 *,
-5,2015-10-15,Neighborhood Development Grant Initiative - Fiscal 2016,2016,designate,,,Miller Queens Chamber of Commerce dba Chamber of Commerce Borough of Queens,,110559220,22000,DSBS,,,.00 801 002,
-5,2015-10-15,Neighborhood Development Grant Initiative - Fiscal 2016,2016,designate,,,"Rodriguez Washington Heights Business Improvement District Management Association, Inc.",,133348873,22000,DSBS,,,.00 801 002 *,
+5,2015-10-15,Neighborhood Development Grant Initiative - Fiscal 2016,2016,designate,,Mealy,Lincoln Terrace Tennis Association,,043672661,22000,DSBS,,,.00 801 002 *,
+5,2015-10-15,Neighborhood Development Grant Initiative - Fiscal 2016,2016,designate,,Mealy,Miller Queens Chamber of Commerce dba Chamber of Commerce Borough of Queens,,110559220,22000,DSBS,,,.00 801 002,
+5,2015-10-15,Neighborhood Development Grant Initiative - Fiscal 2016,2016,designate,,Mealy,"Rodriguez Washington Heights Business Improvement District Management Association, Inc.",,133348873,22000,DSBS,,,.00 801 002 *,
 5,2015-10-15,Cultural Immigrant Intiative - Fiscal 2016,2016,rescind,,,Department of Cultural Affairs,,136400434,-625000,DCLA,,,.00) 126 003,
 5,2015-10-15,Cultural Immigrant Intiative - Fiscal 2016,2016,designate,,,"Cabrera Society of the Educational Arts, Inc. (SEA)",,113210593,15625,DCLA,,,.00 126 003,
 5,2015-10-15,Cultural Immigrant Intiative - Fiscal 2016,2016,designate,,,"Cabrera Enact, Inc.",,133422660,15625,DCLA,,,.00 126 003,

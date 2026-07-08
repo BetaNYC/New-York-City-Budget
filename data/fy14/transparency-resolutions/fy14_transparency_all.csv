@@ -13,18 +13,18 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 1,2014-04-29,YouthDiscretionary-Fiscal2014,2014,rescind,,,Levin ProjectGirlPerformanceCollectiveInstitute,,271848709,-5000,DYCD,,,.00) 260 312,
 1,2014-04-29,YouthDiscretionary-Fiscal2014,2014,rescind,,,Levin 27-1848709 James ProjectGirlPerformanceCollectiveInstitute,,271848709,-3500,DYCD,,,.00) 260 312,
 1,2014-04-29,YouthDiscretionary-Fiscal2014,2014,designate,,,James GirlBeHeardInstitute `,,271848709,3500,DYCD,,,.00 260 312,
-1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,rescind,,,Member Organization EINNumber Agency Amount Agy# U/A * Gennaro KupferbergCenterPerformances,,116080521,-20000,DCLA,,,.00) 126 003,
-1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,designate,,,Gennaro QueensCollegeFoundationForKupferbergCenterPerformances,,116080521,20000,DCLA,,,.00 126 003,
-1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,rescind,,,CD19 KupferbergCenterPerformances,,116080521,-20000,DCLA,,,.00) 126 003,
-1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,designate,,,CD19 QueensCollegeFoundationForKupferbergCenterPerformances,,116080521,20000,DCLA,,,.00 126 003,
-1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,rescind,,,Koo KupferbergCenterPerformances,,116080521,-20000,DCLA,,,.00) 126 003,
-1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,designate,,,Koo QueensCollegeFoundationForKupferbergCenterPerformances,,116080521,20000,DCLA,,,.00 126 003,
-1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,rescind,,,Koslowitz KupferbergCenterPerformances,,116080521,-20000,DCLA,,,.00) 126 003,
-1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,designate,,,Koslowitz QueensCollegeFoundationForKupferbergCenterPerformances,,116080521,20000,DCLA,,,.00 126 003,
-1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,rescind,,,"Dromm QueensCollegeFoundation,Inc.FORKuperferbergCenterfortheArts",,116080521,-20000,DCLA,,,.00) 126 003,
-1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,designate,,,Dromm QueensCollegeFoundationForKupferbergCenterPerformances,,116080521,20000,DCLA,,,.00 126 003,
-1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,rescind,,,Koo QueensCollegeFoundation,,116080521,-20000,DCLA,,,.00) 126 003,
-1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,designate,,,Koo QueensCollegeFoundationForKupferbergCenterPerformances,,116080521,20000,DCLA,,,.00 126 003,
+1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,rescind,,Gennaro,Member Organization EINNumber Agency Amount Agy# U/A * KupferbergCenterPerformances,,116080521,-20000,DCLA,,,.00) 126 003,
+1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,designate,,Gennaro,QueensCollegeFoundationForKupferbergCenterPerformances,,116080521,20000,DCLA,,,.00 126 003,
+1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,rescind,,Gennaro,CD19 KupferbergCenterPerformances,,116080521,-20000,DCLA,,,.00) 126 003,
+1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,designate,,Gennaro,CD19 QueensCollegeFoundationForKupferbergCenterPerformances,,116080521,20000,DCLA,,,.00 126 003,
+1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,rescind,,Gennaro,Koo KupferbergCenterPerformances,,116080521,-20000,DCLA,,,.00) 126 003,
+1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,designate,,Gennaro,Koo QueensCollegeFoundationForKupferbergCenterPerformances,,116080521,20000,DCLA,,,.00 126 003,
+1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,rescind,,Gennaro,Koslowitz KupferbergCenterPerformances,,116080521,-20000,DCLA,,,.00) 126 003,
+1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,designate,,Gennaro,Koslowitz QueensCollegeFoundationForKupferbergCenterPerformances,,116080521,20000,DCLA,,,.00 126 003,
+1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,rescind,,Gennaro,"Dromm QueensCollegeFoundation,Inc.FORKuperferbergCenterfortheArts",,116080521,-20000,DCLA,,,.00) 126 003,
+1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,designate,,Gennaro,Dromm QueensCollegeFoundationForKupferbergCenterPerformances,,116080521,20000,DCLA,,,.00 126 003,
+1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,rescind,,Gennaro,Koo QueensCollegeFoundation,,116080521,-20000,DCLA,,,.00) 126 003,
+1,2014-04-29,CulturalAfterSchoolAdventure-Fiscal2014,2014,designate,,Gennaro,Koo QueensCollegeFoundationForKupferbergCenterPerformances,,116080521,20000,DCLA,,,.00 126 003,
 1,2014-04-29,SexualAssaultInitiative -Fiscal2014,2014,rescind,,,Organization EINNumber Agency Amount Agy# U/A * Mt.SinaiSchoolofMedicine,,136171197,-50000,OCJC,,,.00) 098 002,
 1,2014-04-29,SexualAssaultInitiative -Fiscal2014,2014,designate,,,IcahnSchoolofMedicineatMountSinai,,136171197,50000,OCJC,,,.00 098 002,
 1,2014-04-29,LocalInitiatives-Fiscal2013,2013,rescind,,,Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Oddo StatenIslandAtlanticCollegiateBaseballLeague,,271229660,-8000,DYCD,,,.00) 260 312,
@@ -43,17 +43,17 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 2,2014-05-29,Local Initiatives - Fiscal 2014,2014,designate,,,Greenfield Community Service Center of Greater Williamsburg Inc,,455180976,25000,DFTA,,,.00 125 003,
 2,2014-05-29,Local Initiatives - Fiscal 2014,2014,rescind,,,"Gentile American-Italian Coalition of Organizations, Inc. (AMICO)",,112488439,-3500,DFTA,,,.00) 125 003,
 2,2014-05-29,Local Initiatives - Fiscal 2014,2014,designate,,,"Gentile American-Italian Coalition of Organizations, Inc. (AMICO)",,112649513,3500,DFTA,,,.00 125 003,
-2,2014-05-29,Local Initiatives - Fiscal 2014,2014,rescind,,,"Brewer Citywide Youth Opera, Inc.",,050616054,-3000,DCLA,,,.00) 126 003,**
-2,2014-05-29,Local Initiatives - Fiscal 2014,2014,designate,,,"Brewer Citywide Youth Opera, Inc.",,050616054,3000,DYCD,,,.00 260 312,**
-2,2014-05-29,Local Initiatives - Fiscal 2014,2014,rescind,,,CC Cypress Hills Local Development Corporation,,112683663,-40000,DYCD,,,.00) 260 312,**
-2,2014-05-29,Local Initiatives - Fiscal 2014,2014,designate,,,CC Cypress Hills Local Development Corporation,,112683663,40000,HPD,,,.00 806 009,**
-2,2014-05-29,Local Initiatives - Fiscal 2014,2014,rescind,,,"Manhattan Delegation STPCV Tenants Association Foundation, Inc.",,274554330,-3500,DYCD,,,.00) 260 005,**
-2,2014-05-29,Local Initiatives - Fiscal 2014,2014,designate,,,"Manhattan Delegation STPCV Tenants Association Foundation, Inc.",,274554330,3500,HPD,,,.00 806 009,**
-2,2014-05-29,Local Initiatives - Fiscal 2014,2014,rescind,,,Trustees Of Columbia University In The City Of New York,Harlem Health Promotion Center Trustees of Columbia University in the City of New York 13-5598093,135598093,-38000,DOHMH,,,.00) 816 117,
-2,2014-05-29,Local Initiatives - Fiscal 2014,2014,rescind,,,"New York City Parents of Lesbians and Gay Men, Inc. (d/b/a Brewer PFLAG New York City)",,133049626,-500,DYCD,,,.00) 260 312,
-2,2014-05-29,Local Initiatives - Fiscal 2014,2014,designate,,,"Brewer Citywide Youth Opera, Inc.",,050616054,500,DYCD,,,.00 260 312,
-2,2014-05-29,Local Initiatives - Fiscal 2014,2014,rescind,,,Van Bramer Sunnyside Chamber of Commerce,,112944783,-15000,DSBS,,,.00) 801 002,
-2,2014-05-29,Local Initiatives - Fiscal 2014,2014,designate,,,Van Bramer Sunnyside District Management Association,,261278224,15000,DSBS,,,.00 801 002,
+2,2014-05-29,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,"Citywide Youth Opera, Inc.",,050616054,-3000,DCLA,,,.00) 126 003,**
+2,2014-05-29,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,"Citywide Youth Opera, Inc.",,050616054,3000,DYCD,,,.00 260 312,**
+2,2014-05-29,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,CC Cypress Hills Local Development Corporation,,112683663,-40000,DYCD,,,.00) 260 312,**
+2,2014-05-29,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,CC Cypress Hills Local Development Corporation,,112683663,40000,HPD,,,.00 806 009,**
+2,2014-05-29,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,"STPCV Tenants Association Foundation, Inc.",,274554330,-3500,DYCD,,,.00) 260 005,**
+2,2014-05-29,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,"STPCV Tenants Association Foundation, Inc.",,274554330,3500,HPD,,,.00 806 009,**
+2,2014-05-29,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,Trustees Of Columbia University In The City Of New York,Harlem Health Promotion Center Trustees of Columbia University in the City of New York 13-5598093,135598093,-38000,DOHMH,,,.00) 816 117,
+2,2014-05-29,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,"New York City Parents of Lesbians and Gay Men, Inc. (d/b/a PFLAG New York City)",,133049626,-500,DYCD,,,.00) 260 312,
+2,2014-05-29,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,"Citywide Youth Opera, Inc.",,050616054,500,DYCD,,,.00 260 312,
+2,2014-05-29,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,Van Bramer Sunnyside Chamber of Commerce,,112944783,-15000,DSBS,,,.00) 801 002,
+2,2014-05-29,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,Van Bramer Sunnyside District Management Association,,261278224,15000,DSBS,,,.00 801 002,
 2,2014-05-29,Aging Discretionary - Fiscal 2014,2014,rescind,,,"Greenfield American-Italian Coalition of Organizations, Inc. (AMICO)",,112488439,-7500,DFTA,,,.00) 125 003,
 2,2014-05-29,Aging Discretionary - Fiscal 2014,2014,designate,,,"Greenfield American-Italian Coalition of Organizations, Inc. (AMICO) American-Italian Coalition of Organizations, Inc. (AMICO -",,112649513,7500,DFTA,,,.00 125 003,
 2,2014-05-29,Aging Discretionary - Fiscal 2014,2014,rescind,,,Oddo Extended Services Program),,112488439,-5500,DFTA,,,.00) 125 003,
@@ -115,21 +115,21 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 2,2014-05-29,Purpose of Funds Changes - Fiscal 2014,2014,purpose_change,,,maintenance and breakdown of the flower baskets. The funds will also be used for graffiti Local Sunnyside District Management Association,,261278224,20000,DSBS,,,.00 cleaning and removal services.,
 2,2014-05-29,Purpose of Funds Changes - Fiscal 2013,2013,purpose_change,,,"Funds will be used to provide free tennis instruction, practice, play and educational activities for beginner and intermediate players, ages 6-18 years. Loaner racquets and balls will be provided to all participants. Special events, team tennis, games and Local Coney Island Sports Foundation, Inc.",,582432003,-4000,DYCD,,,".00)tournaments, educational and family activities, and trips.",
 2,2014-05-29,Purpose of Funds Changes - Fiscal 2013,2013,purpose_change,Local,,"Coney Island Sports Foundation, Inc.",,582432003,4000,DYCD,,,.00 Funds will be used to support a cultual event in Coney Island.,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,"New York City Parents of Lesbians and Gay Men, Inc. (d/b/a Brewer PFLAG New York City)",,133049626,-3000,DYCD,,,.00) 260 312,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,Brewer West 87th Street Park and Garden,,134067780,3000,DYCD,,,.00 260 312,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,"Gentile American-Italian Coalition of Organizations, Inc. (AMICO)",,112649513,-3500,DFTA,,,.00) 125 003,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,"Gentile American-Italian Coalition of Organizations, Inc. (AMICO)",,112488439,3500,DFTA,,,.00 125 003,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,CC Hamilton Madison House,,135562412,11488,DOHMH,,,.00 816 112,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,CC Greenwich House,,135562204,50012,DOHMH,,,.00 816 112,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,CC Mental Health Providers of Western Queens 11-2700062 CC Department of Health and Mental Hygiene,,136400434,35745,DOHMH,,,.00 816 112,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,CC Cypress Hills Local Development Corporation,,112683663,-40000,HPD,,,.00) 806 009,**
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,CC Cypress Hills Local Development Corporation,,112683663,40000,DYCD,,,.00 260 312,**
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,"Crowley Forest Hills Football League, Inc.",,113057287,-5000,DYCD,,,.00) 260 312,**
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,Crowley Woodhaven Richmond Hill Volunteer Ambulance Corps,,112075437,-2500,FDNY,,,.00) 057 005 Greater Woodhaven Development Corporation 11-2508190,**
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,Crowley Church of the Holy Child Jesus,,111639802,-2500,DYCD,,,.00) 260 312 Greater Woodhaven Development Corporation 11-2508190,**
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,,Crowley Middle Village Chamber of Commerce,,202277320,-2500,DYCD,,,".00) 260 005 Maspeth Town Hall, Inc. 23-7259702",**
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,"Crowley Greater Ridgewood Youth Council, Inc.",,112518141,3000,DYCD,,,.00 260 312,
-3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,,"Rabbi Israel Meyer Hacohen Rabbinical Seminary of America, Crowley Inc.",,111752021,9500,DFTA,,,.00 125 003,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,"New York City Parents of Lesbians and Gay Men, Inc. (d/b/a PFLAG New York City)",,133049626,-3000,DYCD,,,.00) 260 312,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,West 87th Street Park and Garden,,134067780,3000,DYCD,,,.00 260 312,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,"Gentile American-Italian Coalition of Organizations, Inc. (AMICO)",,112649513,-3500,DFTA,,,.00) 125 003,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,"Gentile American-Italian Coalition of Organizations, Inc. (AMICO)",,112488439,3500,DFTA,,,.00 125 003,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,CC Hamilton Madison House,,135562412,11488,DOHMH,,,.00 816 112,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,CC Greenwich House,,135562204,50012,DOHMH,,,.00 816 112,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,CC Mental Health Providers of Western Queens 11-2700062 CC Department of Health and Mental Hygiene,,136400434,35745,DOHMH,,,.00 816 112,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,CC Cypress Hills Local Development Corporation,,112683663,-40000,HPD,,,.00) 806 009,**
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,CC Cypress Hills Local Development Corporation,,112683663,40000,DYCD,,,.00 260 312,**
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,"Crowley Forest Hills Football League, Inc.",,113057287,-5000,DYCD,,,.00) 260 312,**
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,Crowley Woodhaven Richmond Hill Volunteer Ambulance Corps,,112075437,-2500,FDNY,,,.00) 057 005 Greater Woodhaven Development Corporation 11-2508190,**
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,Crowley Church of the Holy Child Jesus,,111639802,-2500,DYCD,,,.00) 260 312 Greater Woodhaven Development Corporation 11-2508190,**
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,rescind,,Brewer,Crowley Middle Village Chamber of Commerce,,202277320,-2500,DYCD,,,".00) 260 005 Maspeth Town Hall, Inc. 23-7259702",**
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,"Crowley Greater Ridgewood Youth Council, Inc.",,112518141,3000,DYCD,,,.00 260 312,
+3,2014-06-11,Local Initiatives - Fiscal 2014,2014,designate,,Brewer,"Rabbi Israel Meyer Hacohen Rabbinical Seminary of America, Crowley Inc.",,111752021,9500,DFTA,,,.00 125 003,
 3,2014-06-11,Aging Discretionary - Fiscal 2014,2014,rescind,,,St. Mary Star of the Sea and St. Gertrude Roman Catholic Richards Church,,111723781,-15000,DFTA,,,.00) 125 003,
 3,2014-06-11,Aging Discretionary - Fiscal 2014,2014,designate,,,Richards Jewish Association for Services for the Aged (JASA),,132620896,10000,DFTA,,,.00 125 003,
 3,2014-06-11,Aging Discretionary - Fiscal 2014,2014,designate,,,"Richards Services Now for Adult Persons (SNAP, Inc.)",,112591783,5000,DFTA,,,.00 125 003,
@@ -147,8 +147,8 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 3,2014-06-11,Youth Discretionary - Fiscal 2014,2014,rescind,,,"Crowley St. Pancras Catholic Youth Organization 11-1953521 Greater Ridgewood Youth Council, Inc. Crowley Church of the Holy Child Jesus",,111639802,-3500,DYCD,,,.00) 260 312,
 3,2014-06-11,Youth Discretionary - Fiscal 2014,2014,designate,,,"Crowley Greater Ridgewood Youth Council, Inc.",,112518141,6500,DYCD,,,.00 260 312,
 3,2014-06-11,Youth Discretionary - Fiscal 2014,2014,designate,,,"Crowley Maspeth Town Hall, Inc.",,237259702,15000,DYCD,,,.00 260 312,
-3,2014-06-11,Cultural After School Adventure - Fiscal 2014,2014,rescind,,,Williams CUNY Creative Arts Team,,136400434,-20000,DCLA,,,.00) 126 003,
-3,2014-06-11,Cultural After School Adventure - Fiscal 2014,2014,designate,,,Williams Creative Arts Team,,260073627,20000,DCLA,,,.00 126 003,
+3,2014-06-11,Cultural After School Adventure - Fiscal 2014,2014,rescind,,Williams,CUNY Creative Arts Team,,136400434,-20000,DCLA,,,.00) 126 003,
+3,2014-06-11,Cultural After School Adventure - Fiscal 2014,2014,designate,,Williams,Creative Arts Team,,260073627,20000,DCLA,,,.00 126 003,
 3,2014-06-11,MHy Contracted Svcs Partial PEG Rest'n - Chemical Dependency/ADUPCT- Fiscal 2014,2014,rescind,,,"South Bronx Mental Health Council, Inc.",,133039605,-38000,DOHMH,,,.00) 816 122,
 3,2014-06-11,MHy Contracted Svcs Partial PEG Rest'n - Chemical Dependency/ADUPCT- Fiscal 2014,2014,rescind,,,"Alcoholism Council/ Fellowship Center of New York, Inc., The",,237086871,-27848,DOHMH,,,.00) 816 122,
 3,2014-06-11,Autism Awareness - Fiscal 2014,2014,rescind,,,"Labor and Industry for Education, Inc.",,114088055,-42364,DOHMH,,,.00) 816 121,

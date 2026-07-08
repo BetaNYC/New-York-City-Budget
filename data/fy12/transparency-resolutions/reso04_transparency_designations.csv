@@ -47,21 +47,21 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 4,2011-11-03,LocalInitiatives(cont.),,rescind,,,James BrooklynKindergartenSociety,,111631820,-500,ACS,,,.00) 068 004,**
 4,2011-11-03,LocalInitiatives(cont.),,designate,,,PrattInstituteCenterforCommunityandEnvironmental James Development(PICCED),,111630822,2000,DSBS,,,.00 801 002,**
 4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Brewer WellnessintheSchools,Inc.",,251919494,-2000,DYCD,,,.00) 260 312,**
-4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Brewer CoolCulture,Inc.",,161636968,2000,DCA,,,.00 126 003,**
-4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Gentile FundfortheCityofNewYork,Inc.",,132612524,-3000,DYCD,,,.00) 260 312,**
-4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,3000,DCA,,,.00 126 003,**
-4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Gentile SunsetParkHealthCouncil,Inc.",,202508411,-2000,DYCD,,,.00) 260 312,**
-4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Gentile SymphonySpace,Inc.",,132941455,2000,DCA,,,.00 126 003,**
-4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Gentile HistoricHouseTrustofNewYorkCity,,133590825,-2000,DYCD,,,.00) 260 005,**
-4,2011-11-03,LocalInitiatives(cont.),,designate,,,Gentile HistoricHouseTrustofNewYorkCity,,133590825,2000,DPR,,,.00 846 006,**
-4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Halloran QueensCollegeFoundation,Inc.",,116080521,-3500,DCA,,,.00) 126 003,**
-4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Halloran QueensCollegeFoundation,Inc.",,116080521,3500,CUNY,,,.00 042 001,**
-4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Ulrich RockawayMusicandArtsCouncil,Inc.",,237082566,-10000,DCA,,,.00) 126 003,**
-4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Ulrich RockawayMusicandArtsCouncil,Inc.",,237082566,10000,DYCD,,,.00 260 005,**
-4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Rodriguez HistoricHouseTrustofNewYorkCity,,133590825,-2000,DCA,,,.00) 126 003,**
-4,2011-11-03,LocalInitiatives(cont.),,designate,,,Rodriguez HistoricHouseTrustofNewYorkCity,,133590825,2000,DPR,,,.00 846 006,**
-4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Recchia AssociazioniSicilianeUnitedeNewYork,Inc.",,113416416,-4000,DCA,,,.00) 126 003,**
-4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Recchia AssociazioniSicilianeUnitedeNewYork,Inc.",,113416416,4000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,Brewer,"CoolCulture,Inc.",,161636968,2000,DCA,,,.00 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,Brewer,"Gentile FundfortheCityofNewYork,Inc.",,132612524,-3000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,Brewer,"Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,3000,DCA,,,.00 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,Brewer,"Gentile SunsetParkHealthCouncil,Inc.",,202508411,-2000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,Brewer,"Gentile SymphonySpace,Inc.",,132941455,2000,DCA,,,.00 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,Brewer,Gentile HistoricHouseTrustofNewYorkCity,,133590825,-2000,DYCD,,,.00) 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,Brewer,Gentile HistoricHouseTrustofNewYorkCity,,133590825,2000,DPR,,,.00 846 006,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,Brewer,"Halloran QueensCollegeFoundation,Inc.",,116080521,-3500,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,Brewer,"Halloran QueensCollegeFoundation,Inc.",,116080521,3500,CUNY,,,.00 042 001,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,Brewer,"Ulrich RockawayMusicandArtsCouncil,Inc.",,237082566,-10000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,Brewer,"Ulrich RockawayMusicandArtsCouncil,Inc.",,237082566,10000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,Brewer,Rodriguez HistoricHouseTrustofNewYorkCity,,133590825,-2000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,Brewer,Rodriguez HistoricHouseTrustofNewYorkCity,,133590825,2000,DPR,,,.00 846 006,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,Brewer,"Recchia AssociazioniSicilianeUnitedeNewYork,Inc.",,113416416,-4000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,Brewer,"Recchia AssociazioniSicilianeUnitedeNewYork,Inc.",,113416416,4000,DYCD,,,.00 260 005,**
 4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Mendez St.AugustinesProjectInc.,The",,200386393,-3500,DCA,,,.00) 126 003,**
 4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Mendez St.AugustinesProjectInc.,The",,200386393,3500,DYCD,,,.00 260 005,**
 4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Mendez AGatheringoftheTribes,,133714232,-3000,DCA,,,.00) 126 003,**
@@ -92,10 +92,10 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Rodriguez HispanicFederation,Inc.",,133573852,9000,DYCD,,,.00 260 005 *,**
 4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Mark-Viverito ChildAbusePreventionProgram,Inc.",,112864750,-5000,DYCD,,,.00) 260 312,**
 4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Mark-Viverito ChildAbusePreventionProgram,Inc.",,112864750,5000,DOE,,,.00 040 402,**
-4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Brooklyn Delegation ActNowFoundation,Inc.",,830388512,-8437,DCA,,,.00) 126 003,**
-4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Brooklyn Delegation ActNowFoundation,Inc.",,830388512,8437,DYCD,,,.00 260 005,**
-4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Brooklyn Delegation MartinLutherKing,Jr.ConcertSeries,Inc.",,112638417,-5558,DCA,,,.00) 126 003,**
-4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Brooklyn Delegation MartinLutherKing,Jr.ConcertSeries,Inc.",,112638417,5558,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,Brooklyn Delegation,"ActNowFoundation,Inc.",,830388512,-8437,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,Brooklyn Delegation,"ActNowFoundation,Inc.",,830388512,8437,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,Brooklyn Delegation,"MartinLutherKing,Jr.ConcertSeries,Inc.",,112638417,-5558,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,Brooklyn Delegation,"MartinLutherKing,Jr.ConcertSeries,Inc.",,112638417,5558,DYCD,,,.00 260 005,**
 4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Comrie AfricanAmericanWomenInCinema,,134151020,-3500,DCA,,,.00) 126 003 *,**
 4,2011-11-03,LocalInitiatives(cont.),,designate,,,Comrie AfricanAmericanWomenInCinema,,134151020,3500,DYCD,,,.00 260 005 *,**
 4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Dilan BushwickInstituteofthePerformingArts,,112748834,-21000,DCA,,,.00) 126 003,**
@@ -103,20 +103,20 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 4,2011-11-03,AgingDiscretionary,,rescind,,,"FiscalConduit FiscalConduit/SponsoringOrganization EIN Member Organization EINNumber Agency Amount Agy# U/A * Gentile AssociationofInformedVoices,Inc. St.Rosalia-ReginaPacisNeighborhoodImprovement",,113595142,-1500,DFTA,,,.00) 125 003,
 4,2011-11-03,AgingDiscretionary,,rescind,,,"Gentile Association,Inc. 11-2697931 Garodnick SearchandCare,Inc.",,237444790,-3500,DFTA,,,".00) 125 003 StanleyM.IsaacsNeighborhoodCenter,Inc. 13-2572034",
 4,2011-11-03,AgingDiscretionary,,designate,,,"Garodnick SearchandCare,Inc.",,237444790,3500,DFTA,,,.00 125 003,
-4,2011-11-03,AgingDiscretionary,,designate,,,Gennaro YoungIsraelofQueensValley 13-3613262 Gennaro YoungIsraelofQueensValley,,112267876,10000,DFTA,,,.00 125 003,
+4,2011-11-03,AgingDiscretionary,,designate,,Gennaro,Gennaro YoungIsraelofQueensValley 13-3613262 YoungIsraelofQueensValley,,112267876,10000,DFTA,,,.00 125 003,
 4,2011-11-03,YouthDiscretionary,,rescind,,,FiscalConduit FiscalConduit/SponsoringOrganization EIN Member Organization EINNumber Agency Amount Agy# U/A * Lander PTAofPublicSchool32K,,731721398,-3000,DYCD,,,.00) 260 312,
 4,2011-11-03,YouthDiscretionary,,designate,,,Lander GroundswellCommunityMuralProject,,113427213,3000,DYCD,,,.00 260 312,
 4,2011-11-03,YouthDiscretionary,,rescind,,,"Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,-3000,DYCD,,,.00) 260 312,
 4,2011-11-03,YouthDiscretionary,,designate,,,"BayRidgeBensonhurstBeautification Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,3000,DYCD,,,.00 260 312 PreservationAllianceInc 11-3233233,
 4,2011-11-03,YouthDiscretionary,,rescind,,,"Gentile SymphonySpace,Inc.",,132941455,-2000,DYCD,,,.00) 260 312,
 4,2011-11-03,YouthDiscretionary,,designate,,,"BayRidgeBensonhurstBeautification Gentile SymphonySpace,Inc.",,132941455,2000,DYCD,,,.00 260 312 PreservationAllianceInc 11-3233233,
-4,2011-11-03,YouthDiscretionary,,rescind,,,"Brewer CoolCulture,Inc.",,161636968,-2000,DYCD,,,.00) 260 312,
-4,2011-11-03,YouthDiscretionary,,designate,,,"Brewer WellnessintheSchools,Inc.",,251919494,2000,DYCD,,,.00 260 312,
-4,2011-11-03,YouthDiscretionary,,rescind,,,"Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,-3000,DYCD,,,.00) 260 312,
-4,2011-11-03,YouthDiscretionary,,designate,,,"Gentile FundfortheCityofNewYork,Inc.",,132612524,3000,DYCD,,,.00 260 312,
-4,2011-11-03,YouthDiscretionary,,rescind,,,"Gentile SymphonySpace,Inc. SunsetParkHealthCouncil,Inc. 20-2508411",,132941455,-2000,DYCD,,,.00) 260 312,
-4,2011-11-03,YouthDiscretionary,,rescind,,,"Ferreras NewYorkMilitaryYouthCadets,Inc.",,113581787,-4000,DYCD,,,.00) 260 312,
-4,2011-11-03,YouthDiscretionary,,designate,,,"QueensboroughCommunityCollegeAuxiliaryEnterprise Ferreras Association,Inc.",,112037770,4000,DYCD,,,.00 260 312,
+4,2011-11-03,YouthDiscretionary,,rescind,,Brewer,"CoolCulture,Inc.",,161636968,-2000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,Brewer,"WellnessintheSchools,Inc.",,251919494,2000,DYCD,,,.00 260 312,
+4,2011-11-03,YouthDiscretionary,,rescind,,Brewer,"Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,-3000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,Brewer,"Gentile FundfortheCityofNewYork,Inc.",,132612524,3000,DYCD,,,.00 260 312,
+4,2011-11-03,YouthDiscretionary,,rescind,,Brewer,"Gentile SymphonySpace,Inc. SunsetParkHealthCouncil,Inc. 20-2508411",,132941455,-2000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,rescind,,Brewer,"Ferreras NewYorkMilitaryYouthCadets,Inc.",,113581787,-4000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,Brewer,"QueensboroughCommunityCollegeAuxiliaryEnterprise Ferreras Association,Inc.",,112037770,4000,DYCD,,,.00 260 312,
 4,2011-11-03,Cultural After-School Adventure (CASA),,rescind,,,CouncilMember Organization EINNumber Agency Amount Agy# U/A * Comrie QueensSymphonyOrchestra-IS59Q,,112106191,-20000,DCA,,,.00) 126 003,
 4,2011-11-03,Cultural After-School Adventure (CASA),,designate,,,"Comrie ReversingtheProjections,Inc.-IS59Q",,753260289,20000,DCA,,,.00 126 003,
 4,2011-11-03,Immigrant Opportunities Initiative,,rescind,,,CouncilMember Organization EINNumber Agency Amount Agy# U/A * ImmigrantOpportunitiesInitiative,,136400434,-50275,DYCD,,,.00) 260 005,
@@ -254,6 +254,6 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 4,2011-11-03,LocalInitiatives-Fiscal2011,2011,designate,,,"Vann BrooklynQueensLandTrust VanBramer SunnysideGardensPreservationAlliance,Inc.,The 54-2143785 DYCD 260 005 SunnysideCommunityServicesCenter,Inc. 51-0189327",,611441053,7000,DPR,,,.00 846 006,
 4,2011-11-03,LocalInitiatives-Fiscal2011,2011,rescind,,,"VanBramer SunnysideGardensPreservationAlliance,Inc.,The 54-2143785 DYCD 260 005 VanBramer SunnysideGardensPreservationAlliance,Inc.,The",,542143785,-3500,DSBS,,,".00) 801 002 SunnysideCommunityServicesCenter,Inc. 51-0189327",
 4,2011-11-03,LocalInitiatives-Fiscal2011,2011,designate,,,"VanBramer SunnysideGardensPreservationAlliance,Inc.,The",,542143785,3500,DSBS,,,.00 801 002,
-4,2011-11-03,AgingDiscretionary-Fiscal2011,2011,rescind,,,FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Gennaro YoungIsraelofQueensValley Gennaro YoungIsraelofQueensValley 11-2267876,,133613262,-10000,DFTA,,,.00) 125 003,
+4,2011-11-03,AgingDiscretionary-Fiscal2011,2011,rescind,,Gennaro,FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * YoungIsraelofQueensValley Gennaro YoungIsraelofQueensValley 11-2267876,,133613262,-10000,DFTA,,,.00) 125 003,
 4,2011-11-03,Infant Mortality Reduction-Fiscal 2011,2011,rescind,,,"FiscalConduit FiscalConduit/SponsoringOrganization EIN Organization EINNumber Agency Amount Agy# U/A * ChristtheRockWorldRestorationChurch International,Inc.",,621823291,-18606,DOHMH,,,.94) 816 113,
 4,2011-11-03,Infant Mortality Reduction-Fiscal 2011,2011,designate,,,"ChristtheRockInternational,Inc.",,621823291,18606,DOHMH,,,.94 816 113,

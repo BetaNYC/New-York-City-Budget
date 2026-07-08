@@ -70,6 +70,33 @@ def strip_flags(text):
         text = text[:m.start()].strip()
     return text, flags
 
+# Boroughwide Transparency-Resolution designations are sponsored by a borough delegation, printed
+# "<Borough> Delegation". The borough word and the token "Delegation" land on the ORGANIZATION line
+# (leading -- "Bronx Delegation <org>" -- or split around the org when the layout wraps --
+# "Staten Island <org> Delegation"), and load_schedule_c_roster() excludes the bare token
+# "Delegation", so detect_member() never peels it -- it stays glued to the org. peel_delegation()
+# recovers the sponsor into council_member and cleans the org. See DATA-ANOMALIES sec.16.
+BORO = r'(?:Bronx|Brooklyn|Manhattan|Queens|Staten\s+Island)'
+_DELEG_LEAD = re.compile(r'^(' + BORO + r')\s+Delegation\s+(?=\S)')       # "<Boro> Delegation <org>"
+_DELEG_WRAP = re.compile(r'^(' + BORO + r')\s+(.*\S)\s+Delegation$')      # "<Boro> <org> Delegation"
+_DELEG_BARE = re.compile(r'^Delegation\s+(?=\S)')                         # bare "Delegation <org>"
+
+def peel_delegation(blob):
+    """Return (sponsor_or_'', cleaned_blob). Peel a bled '<Borough> Delegation' sponsor off the
+    front (or split around) an organization blob; a bare leading 'Delegation' is stripped with no
+    sponsor recovered. Boroughs are the only recognized delegation tokens, and 'Delegation' must be
+    present, so a plain borough-led org name ('Manhattan Chamber of Commerce') is never touched."""
+    b = clean(blob)
+    m = _DELEG_LEAD.match(b)
+    if m:
+        return f'{m.group(1)} Delegation', b[m.end():].strip()
+    m = _DELEG_WRAP.match(b)
+    if m:
+        return f'{m.group(1)} Delegation', m.group(2).strip()
+    if _DELEG_BARE.match(b):
+        return '', _DELEG_BARE.sub('', b, count=1)
+    return '', blob
+
 def load_lines(pdf):
     """Return the document as ordered physical text lines, rebuilt from pdfplumber word
     coordinates (cluster words by y, sort each row by x). Each element is a dict:
@@ -297,6 +324,14 @@ def parse(pdf, resolution, date, roster_csv=None):
     # continuation attached after its anchor was processed) is known.
     for row in rows:
         blob, flags = strip_flags(row.pop('_blob'))
+        # Always strip a bled '<Borough> Delegation' token off the org (peel_delegation only ever
+        # matches an explicit Delegation pattern, never a plain borough-led org name), but recover
+        # it into council_member only when no member was already resolved -- so a row that mangled a
+        # real member together with a delegation-sponsored org still gets its org cleaned without
+        # overwriting the detected member.
+        sponsor, blob = peel_delegation(blob)
+        if sponsor and not row['council_member']:
+            row['council_member'] = sponsor
         row['organization'], row['program'] = split_org_program(blob)
         row['flags'] = flags
     return rows

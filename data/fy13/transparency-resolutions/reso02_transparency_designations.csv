@@ -15,8 +15,8 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 2,2012-08-22,LocalInitiatives-Fiscal2013,2013,designate,,,Vann BedfordStuyvesantRestorationCorporation,,116083182,15000,DYCD,,,.00 260 005,**
 2,2012-08-22,LocalInitiatives-Fiscal2013,2013,rescind,,,James GroundswellCommunityMuralProject,,113427213,-3500,DYCD,,,.00) 260 005,
 2,2012-08-22,LocalInitiatives-Fiscal2013,2013,designate,,,"James CouncilofJewishOrganizationsofFlatbush,Inc.",,112864728,3500,DYCD,,,.00 260 005,
-2,2012-08-22,LocalInitiatives-Fiscal2013,2013,rescind,,,"Brooklyn Delegation CrownHeightsJewishCommunityCouncil,Inc.",,237390996,-4219,DYCD,,,.00) 260 005,**
-2,2012-08-22,LocalInitiatives-Fiscal2013,2013,designate,,,"Brooklyn Delegation BrooklynHousingandFamilyServices,Inc.",,112412584,4219,HPD,,,.00 806 009,**
+2,2012-08-22,LocalInitiatives-Fiscal2013,2013,rescind,,Brooklyn Delegation,"CrownHeightsJewishCommunityCouncil,Inc.",,237390996,-4219,DYCD,,,.00) 260 005,**
+2,2012-08-22,LocalInitiatives-Fiscal2013,2013,designate,,Brooklyn Delegation,"BrooklynHousingandFamilyServices,Inc.",,112412584,4219,HPD,,,.00 806 009,**
 2,2012-08-22,LocalInitiatives-Fiscal2013,2013,rescind,,,"Crowley GlendaleCivilianObservationPatrol,Inc.,The",,112502910,-3500,DYCD,,,.00) 260 005,
 2,2012-08-22,LocalInitiatives-Fiscal2013,2013,designate,,,"Crowley GlendaleCivilianObservationPatrol,Inc.,The",,112502910,3500,DYCD,,,".00 260 005 GreaterRidgewoodYouthCouncil,Inc. 11-2518141",
 2,2012-08-22,LocalInitiatives-Fiscal2013,2013,rescind,,,"Crowley GlendaleVolunteerAmbulanceCorps,Inc.",,237348786,-3500,FDNY,,,.00) 057 005,
@@ -82,8 +82,8 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 2,2012-08-22,YouthDiscretionary-Fiscal2013,2013,designate,,,"Crowley ShootingStarsofQueens,Inc.",,200019695,3500,DYCD,,,.00 260 312 MaspethTownHall 23-7259702,
 2,2012-08-22,YouthDiscretionary-Fiscal2013,2013,rescind,,,Crowley St.StanislausAthleticAssociation,,111981305,-8000,DYCD,,,.00) 260 312,
 2,2012-08-22,YouthDiscretionary-Fiscal2013,2013,designate,,,Crowley St.StanislausAthleticAssociation,,111981305,8000,DYCD,,,.00 260 312 MaspethTownHall 23-7259702,
-2,2012-08-22,YouthDiscretionary-Fiscal2013,2013,rescind,,,Mealy BrooklynBureauofCommunityService,,111630780,-16000,DYCD,,,.00) 260 312,
-2,2012-08-22,YouthDiscretionary-Fiscal2013,2013,designate,,,Mealy BrooklynCommunityServices,,111630780,16000,DYCD,,,.00 260 312,
+2,2012-08-22,YouthDiscretionary-Fiscal2013,2013,rescind,,Mealy,BrooklynBureauofCommunityService,,111630780,-16000,DYCD,,,.00) 260 312,
+2,2012-08-22,YouthDiscretionary-Fiscal2013,2013,designate,,Mealy,BrooklynCommunityServices,,111630780,16000,DYCD,,,.00 260 312,
 2,2012-08-22,OST- FY 2013,,rescind,,,Organization EINNumber Agency Amount Agy# U/A * YoungWomen'sChristianAssociationoftheCityofNewYork-BedfordStuyvesant-PS54,,131624230,-176500,DYCD,,,.00) 260 312 *,
 2,2012-08-22,OST- FY 2013,,designate,,,"YMCAofGreaterNewYork/BedfordStuyvesant-PS54 LearningThroughAnExpandedArtsProgram,Inc.-P.S./M.School279-CaptainManuelRivera",,131624228,176500,DYCD,,,.00 260 312 *,
 2,2012-08-22,OST- FY 2013,,designate,,,"School 13-2925233 GoodShepherdServices-ElementarySchoolForMath,Science,AndTechnology",,135598710,200000,DYCD,,,.00 260 312 *,

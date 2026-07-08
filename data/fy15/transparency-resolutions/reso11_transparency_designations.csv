@@ -20,27 +20,27 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Palma SapnaNYC,Inc.",,263124969,5000,DYCD,,,.00 260 005,
 11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Vacca WestchesterSquarePartnership,Inc.",,263124969,-5000,DYCD,,,.00) 260 005,
 11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Vacca SapnaNYC,Inc.",,263124969,5000,DYCD,,,.00 260 005,
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Mealy CityWideCouncilofPresidents,,454847192,-5000,DYCD,,,.00) 260 005 *,
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Mealy ReshapingOurYouthandAdultLives,Inc.",,261470495,5000,DYCD,,,.00 260 005,
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Mealy CentralBrooklynLegalServicesCorp,,465144468,-10000,DSS/HRA,,,.00) 069 103 *,
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,Mealy SouthBrooklynLegalServices,,132605605,10000,DSS/HRA,,,.00 069 103,
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Cornegy AlphaUpsilonUplift,Inc.",,133923344,-5500,DYCD,,,.00) 260 312 *,
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Cornegy BodegaAssociationoftheUnitedStates,Inc.,The",,134060809,-15000,DYCD,,,.00) 260 312,
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Cornegy MarcyTennisClub,Inc.",,273170420,13000,DYCD,,,.00 260 312 *,
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Cornegy ChrisSOwensFoundationInc.,The",,271794499,7500,DYCD,,,.00 260 312 *,
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Mealy CircuitProductions,Inc.",,132881858,-5000,DYCD,,,.00) 260 312,**
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Mealy CircuitProductions,Inc.",,132881858,5000,DCLA,,,.00 126 003,**
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Mealy CircuitProductions,Inc.",,132881858,-3000,DYCD,,,.00) 260 312,**
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Mealy CircuitProductions,Inc.",,132881858,3000,DCLA,,,.00 126 003,**
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Ferreras FlushingCouncilonCultureandtheArtsInc.,,112652182,-3500,DYCD,,,.00) 260 312,**
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,Ferreras FlushingCouncilonCultureandtheArtsInc.,,112652182,3500,DCLA,,,.00 126 022,**
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Garodnick WildlifeConservationSociety-CentralParkZoo,,131740011,-3500,DCLA,,,.00) 126 007,**
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,Garodnick WildlifeConservationSociety-CentralParkZoo,,131740011,3500,DPR,,,.00 846 006,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Mealy,CityWideCouncilofPresidents,,454847192,-5000,DYCD,,,.00) 260 005 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Mealy,"ReshapingOurYouthandAdultLives,Inc.",,261470495,5000,DYCD,,,.00 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Mealy,CentralBrooklynLegalServicesCorp,,465144468,-10000,DSS/HRA,,,.00) 069 103 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Mealy,SouthBrooklynLegalServices,,132605605,10000,DSS/HRA,,,.00 069 103,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Mealy,"Cornegy AlphaUpsilonUplift,Inc.",,133923344,-5500,DYCD,,,.00) 260 312 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Mealy,"Cornegy BodegaAssociationoftheUnitedStates,Inc.,The",,134060809,-15000,DYCD,,,.00) 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Mealy,"Cornegy MarcyTennisClub,Inc.",,273170420,13000,DYCD,,,.00 260 312 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Mealy,"Cornegy ChrisSOwensFoundationInc.,The",,271794499,7500,DYCD,,,.00 260 312 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Mealy,"CircuitProductions,Inc.",,132881858,-5000,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Mealy,"CircuitProductions,Inc.",,132881858,5000,DCLA,,,.00 126 003,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Mealy,"CircuitProductions,Inc.",,132881858,-3000,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Mealy,"CircuitProductions,Inc.",,132881858,3000,DCLA,,,.00 126 003,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Mealy,Ferreras FlushingCouncilonCultureandtheArtsInc.,,112652182,-3500,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Mealy,Ferreras FlushingCouncilonCultureandtheArtsInc.,,112652182,3500,DCLA,,,.00 126 022,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Mealy,Garodnick WildlifeConservationSociety-CentralParkZoo,,131740011,-3500,DCLA,,,.00) 126 007,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Mealy,Garodnick WildlifeConservationSociety-CentralParkZoo,,131740011,3500,DPR,,,.00 846 006,**
 11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,FiscalConduit/Sponsoring Fiscal Member Organization EINNumber Agency Amount Agy# U/A * Organization ConduitEIN Cumbo WildlifeConservationSociety-ProspectParkZoo,,131740011,-5700,DCLA,,,.00) 126 007,**
 11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,Cumbo WildlifeConservationSociety-ProspectParkZoo,,131740011,5700,DPR,,,.00 846 006,**
 11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,Ferreras WildlifeConservationSociety-QueensZoo,,131740011,-5000,DCLA,,,.00) 126 007,**
 11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,Ferreras WildlifeConservationSociety-QueensZoo,,131740011,5000,DPR,,,.00 846 006,**
-11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,"Manhattan ApolloTheaterFoundation,Inc. Delegation",,133630066,-100,DCLA,,,.00) 126 003,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Manhattan Delegation,"ApolloTheaterFoundation,Inc.",,133630066,-100,DCLA,,,.00) 126 003,
 11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,Levin JazzreachPerformingArt&EducationAssociation,,113179208,100,DCLA,,,.00 126 003,
 11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,Gentile BrooklynInstituteofArtsandSciences,,111672743,-1000,DCLA,,,".00) 126 008 NIACommunityServicesNetwork,Inc. 11-2697931",
 11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,Gentile BrooklynMuseum,,111672743,1000,DCLA,,,.00 126 008,
@@ -109,11 +109,11 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 11,2015-02-26,Anti-PovertyInitiative-Fiscal2015,2015,rescind,,,"FiscalConduit/Sponsoring Fiscal Member Organization-Program EINNumber Agency Amount Agy# U/A * Organization ConduitEIN Ignizio StatenIslandNFPAssociation,Inc.",,203560375,-4500,DYCD,,,.00) 260 005,**
 11,2015-02-26,Anti-PovertyInitiative-Fiscal2015,2015,designate,,,"Ignizio StatenIslandNFPAssociation,Inc.",,203560375,4500,DSBS,,,.00 801 002,**
 11,2015-02-26,BoroughwideNeedsInitiative-Fiscal2015,2015,rescind,,,"FiscalConduit/Sponsoring Fiscal Member Organization-Program EINNumber Agency Amount Agy# U/A * Organization ConduitEIN Brooklyn City-WideCouncilOfPresidents,Inc. Delegation",,454847192,-38750,DYCD,,,.00) 260 005 *,
-11,2015-02-26,BoroughwideNeedsInitiative-Fiscal2015,2015,designate,,,"Brooklyn ReshapingOurYouthandAdultLives,Inc. Delegation",,261470495,38750,DYCD,,,.00 260 005,
-11,2015-02-26,HousingPreservationInitiative(HPI) -Fiscal2015,2015,rescind,,,"Member Organization EINNumber Agency Amount Agy# U/A * Mealy MHANYManagement,Inc.",,721303737,-50000,HPD,,,.00) 806 009 *,
-11,2015-02-26,HousingPreservationInitiative(HPI) -Fiscal2015,2015,designate,,,"Mealy BrooklynHousingandFamilyServices,Inc.",,112412584,50000,HPD,,,.00 806 009,
-11,2015-02-26,HousingPreservationInitiative(HPI) -Fiscal2015,2015,rescind,,,"Barron MHANYManagement,Inc.",,721303737,-50000,HPD,,,.00) 806 009 *,
-11,2015-02-26,HousingPreservationInitiative(HPI) -Fiscal2015,2015,designate,,,Barron NeighborhoodHousingServicesofEastFlatbush,,133098397,50000,HPD,,,.00 806 009,
+11,2015-02-26,BoroughwideNeedsInitiative-Fiscal2015,2015,designate,,Brooklyn Delegation,"ReshapingOurYouthandAdultLives,Inc.",,261470495,38750,DYCD,,,.00 260 005,
+11,2015-02-26,HousingPreservationInitiative(HPI) -Fiscal2015,2015,rescind,,Mealy,"Member Organization EINNumber Agency Amount Agy# U/A * MHANYManagement,Inc.",,721303737,-50000,HPD,,,.00) 806 009 *,
+11,2015-02-26,HousingPreservationInitiative(HPI) -Fiscal2015,2015,designate,,Mealy,"BrooklynHousingandFamilyServices,Inc.",,112412584,50000,HPD,,,.00 806 009,
+11,2015-02-26,HousingPreservationInitiative(HPI) -Fiscal2015,2015,rescind,,Mealy,"Barron MHANYManagement,Inc.",,721303737,-50000,HPD,,,.00) 806 009 *,
+11,2015-02-26,HousingPreservationInitiative(HPI) -Fiscal2015,2015,designate,,Mealy,Barron NeighborhoodHousingServicesofEastFlatbush,,133098397,50000,HPD,,,.00 806 009,
 11,2015-02-26,CulturalImmigrantIntiative-Fiscal2015,2015,rescind,,,Member Organization EINNumber Agency Amount Agy# U/A * Treyger ConeyIslandHostoryProject,,030541772,-14700,DCLA,,,.00) 126 003 *,
 11,2015-02-26,CulturalImmigrantIntiative-Fiscal2015,2015,designate,,,"Treyger ArtsHouseSchools,Inc.",,870790139,14700,DCLA,,,.00 126 003,
 11,2015-02-26,CulturalImmigrantIntiative-Fiscal2015,2015,rescind,,,DepartmentofCulturalAffairs,,136400434,-29400,DCLA,,,.00) 126 003,

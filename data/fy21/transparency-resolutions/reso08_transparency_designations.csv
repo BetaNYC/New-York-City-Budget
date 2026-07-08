@@ -11,25 +11,25 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,,Department of Education,Port Richmond High School - Girl's Cross Country Rose Track & Field Team,136400434,5000,DOE,040,402,,
 8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,,Port Richmond High School Boy's Track & Field Team,Port Richmond High Rose School Raider Men Cross-country/Track & Field Team,136643607,-5000,DOE,040,402,,
 8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,,Department of Education,Port Richmond High School - Boy's Cross Country Rose Track & Field Team,136400434,5000,DOE,040,402,,
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,,Holden New York City H2O,,453860014,-1500,DYCD,260,005,,**
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,,Holden Department of Parks and Recreation,,136400434,1500,DPR,846,006,,**
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,,"D. Diaz Muna Social Services, Inc.",,844338493,-5000,DYCD,260,005,,**
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,,"D. Diaz Forest Park Trust, Inc.",,311558645,5000,DPR,846,006,,**
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Holden,New York City H2O,,453860014,-1500,DYCD,260,005,,**
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Holden,Department of Parks and Recreation,,136400434,1500,DPR,846,006,,**
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Holden,"D. Diaz Muna Social Services, Inc.",,844338493,-5000,DYCD,260,005,,**
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Holden,"D. Diaz Forest Park Trust, Inc.",,311558645,5000,DPR,846,006,,**
 8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Speaker,"Butterflies By Blaq, Inc.","Pink Butterfly Program, Custom Cranial Prosthesis, and Donate and Create program",454874876,-45000,DYCD,260,005,,
 8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Speaker,"Butterflies By Blaq, Inc.",,454874876,45000,DYCD,260,005,,
 8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Speaker,Reynoso Myrtle Avenue District Management Association,,112912570,-20000,SBS,801,002,,**
 8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Speaker,Reynoso New York City H2O,,453860014,10000,DYCD,260,005,,**
 8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Speaker,Reynoso St. Nick's Alliance Corporation,,510192170,10000,HPD,806,009,,**
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Speaker,"Rivera United Jewish Council of the East Side, Inc.",Lillian Wald Senior Center,132735378,-2000,DFTA,125,003,,
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Speaker,"Rivera United Jewish Council of the East Side, Inc.",Lilian Wald Houses,132735378,2000,DFTA,125,003,,
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Speaker,Miller Department of Parks and Recreation,Family Day - Council District 27,136400434,-15000,DPR,846,006,,**
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Speaker,Miller Department of Parks and Recreation,Fitness Events - Council District 27,136400434,-10000,DPR,846,006,,**
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Speaker,"Miller King of Kings Foundation, Inc.",,030583790,20000,DYCD,260,005,,**
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Speaker,Miller Queens Center Of The Arts,,822358175,5000,DYCD,260,005,,**
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Speaker,Miller Department of Transportation,,136400434,-5000,DOT,841,011,,**
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Speaker,Miller Queens Center Of The Arts,,822358175,5000,DYCD,260,005,,**
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Speaker,"Cumbo Institute for Community Equity and Sharing, Inc.",Food Justice & Youth,830909234,-19000,DYCD,260,005,,
-8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Speaker,"Cumbo Institute for Community Equity and Sharing, Inc.",,830909234,19000,DYCD,260,005,,
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Rivera,"United Jewish Council of the East Side, Inc.",Lillian Wald Senior Center,132735378,-2000,DFTA,125,003,,
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Rivera,"United Jewish Council of the East Side, Inc.",Lilian Wald Houses,132735378,2000,DFTA,125,003,,
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Rivera,Miller Department of Parks and Recreation,Family Day - Council District 27,136400434,-15000,DPR,846,006,,**
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Rivera,Miller Department of Parks and Recreation,Fitness Events - Council District 27,136400434,-10000,DPR,846,006,,**
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Rivera,"Miller King of Kings Foundation, Inc.",,030583790,20000,DYCD,260,005,,**
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Rivera,Miller Queens Center Of The Arts,,822358175,5000,DYCD,260,005,,**
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Rivera,Miller Department of Transportation,,136400434,-5000,DOT,841,011,,**
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Rivera,Miller Queens Center Of The Arts,,822358175,5000,DYCD,260,005,,**
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,Rivera,"Cumbo Institute for Community Equity and Sharing, Inc.",Food Justice & Youth,830909234,-19000,DYCD,260,005,,
+8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,Rivera,"Cumbo Institute for Community Equity and Sharing, Inc.",,830909234,19000,DYCD,260,005,,
 8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,,Levin Department of Transportation,Bike Helmet Giveaway - Council District 33,136400434,-5000,DOT,841,011,,**
 8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,,Levin Greenpoint Reformed Church,,112100335,5000,DYCD,260,005,,**
 8,2021-06-30,Local Initiatives - Fiscal 2021,2021,rescind,,,Kallos Manhattan Community Board #11,Spirit of Service Festival,136400434,-2500,MNCB,351,002,,
@@ -46,16 +46,16 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 8,2021-06-30,Local Initiatives - Fiscal 2021,2021,designate,,,"Rose Jewish Community Center of Staten Island, Inc.",,135562256,5000,DYCD,260,005,,**
 8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,rescind,,,"Rosenthal P.S. 75 Parent-Teacher Association, Ltd.",Afterschool Program,133497284,-10000,DYCD,260,312,,
 8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,designate,,,"Rosenthal P.S. 75 Parent-Teacher Association, Ltd.",,133497284,10000,DYCD,260,312,,
-8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,rescind,,,"Powers Educational Alliance, Inc., The",Daddy & Me Swimming Program - 14th Street Y,135562210,-10000,DYCD,260,312,,
-8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,designate,,,"Powers Educational Alliance, Inc., The",14th Street Y,135562210,10000,DYCD,260,312,,
-8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,rescind,,,"Institute for Community Equity and Sharing, Inc.",Food Justice & Youth Cumbo Programming,830909234,-1000,DYCD,260,312,,
-8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,designate,,,"Cumbo Institute for Community Equity and Sharing, Inc.",,830909234,1000,DYCD,260,312,,
-8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,rescind,,,"Perkins Women In Need, Inc.",Specialized Children's Services - Council District 9,133164477,-10000,DYCD,260,312,,
-8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,designate,,,Perkins Young Faces Smiling,A. Philip Randolph High School,203537537,10000,DYCD,260,312,,
+8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,rescind,,Powers,"Educational Alliance, Inc., The",Daddy & Me Swimming Program - 14th Street Y,135562210,-10000,DYCD,260,312,,
+8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,designate,,Powers,"Educational Alliance, Inc., The",14th Street Y,135562210,10000,DYCD,260,312,,
+8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,rescind,,Powers,"Institute for Community Equity and Sharing, Inc.",Food Justice & Youth Cumbo Programming,830909234,-1000,DYCD,260,312,,
+8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,designate,,Powers,"Cumbo Institute for Community Equity and Sharing, Inc.",,830909234,1000,DYCD,260,312,,
+8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,rescind,,Powers,"Perkins Women In Need, Inc.",Specialized Children's Services - Council District 9,133164477,-10000,DYCD,260,312,,
+8,2021-06-30,Youth Discretionary - Fiscal 2021,2021,designate,,Powers,Perkins Young Faces Smiling,A. Philip Randolph High School,203537537,10000,DYCD,260,312,,
 8,2021-06-30,Aging Discretionary - Fiscal 2021,2021,rescind,,,Jewish Association for Services for the Aged (JASA),Throggs Neck Senior Gjonaj Center,132620896,-7000,DFTA,125,003,,
 8,2021-06-30,Aging Discretionary - Fiscal 2021,2021,designate,,,Gjonaj Jewish Association for Services for the Aged (JASA),,132620896,7000,DFTA,125,003,,
-8,2021-06-30,Aging Discretionary - Fiscal 2021,2021,rescind,,,"Rivera United Jewish Council of the East Side, Inc.",Lillian Wald Senior Center,132735378,-20000,DFTA,125,003,,
-8,2021-06-30,Aging Discretionary - Fiscal 2021,2021,designate,,,"Rivera United Jewish Council of the East Side, Inc.",Lilian Wald Houses,132735378,20000,DFTA,125,003,,
+8,2021-06-30,Aging Discretionary - Fiscal 2021,2021,rescind,,Rivera,"United Jewish Council of the East Side, Inc.",Lillian Wald Senior Center,132735378,-20000,DFTA,125,003,,
+8,2021-06-30,Aging Discretionary - Fiscal 2021,2021,designate,,Rivera,"United Jewish Council of the East Side, Inc.",Lilian Wald Houses,132735378,20000,DFTA,125,003,,
 8,2021-06-30,Anti-Poverty Initiative - Fiscal 2021,2021,rescind,,,Perkins Young Faces Smiling,A. Philip Randolph High School,203537537,-10000,DYCD,260,312,,
 8,2021-06-30,Anti-Poverty Initiative - Fiscal 2021,2021,designate,,,"Perkins Women In Need, Inc.",Specialized Children's Services - Council District 9,133164477,10000,DYCD,260,312,,
 8,2021-06-30,Anti-Poverty Initiative - Fiscal 2021,2021,rescind,,,"Perkins Women In Need, Inc.",Specialized Children's Services - Council District 9,133164477,-10000,DYCD,260,312,,**
@@ -64,44 +64,44 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 8,2021-06-30,Anti-Poverty Initiative - Fiscal 2021,2021,designate,,,Cornegy Young Men's Christian Association of Greater New York,,131624228,6500,DYCD,260,005,,
 8,2021-06-30,Anti-Poverty Initiative - Fiscal 2021,2021,rescind,,,"Dromm Queens Lesbian and Gay Pride Committee, Inc.",,113146598,-5000,DYCD,260,005,,
 8,2021-06-30,Anti-Poverty Initiative - Fiscal 2021,2021,designate,,,"Dromm LGBT Center Intercultural Collective, Inc.",,824397912,5000,DYCD,260,005,,
-8,2021-06-30,Boroughwide Needs Initiative - Fiscal 2021,2021,rescind,,,"Queens Delegation Butterflies By Blaq, Inc.",Hair Program,454874876,-25000,DYCD,260,005,,
-8,2021-06-30,Boroughwide Needs Initiative - Fiscal 2021,2021,designate,,,"Queens Delegation Butterflies By Blaq, Inc.",,454874876,25000,DYCD,260,005,,
+8,2021-06-30,Boroughwide Needs Initiative - Fiscal 2021,2021,rescind,,Queens Delegation,"Butterflies By Blaq, Inc.",Hair Program,454874876,-25000,DYCD,260,005,,
+8,2021-06-30,Boroughwide Needs Initiative - Fiscal 2021,2021,designate,,Queens Delegation,"Butterflies By Blaq, Inc.",,454874876,25000,DYCD,260,005,,
 8,2021-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2021,2021,rescind,,Speaker,"Maspeth Town Hall, Inc.",,237259702,-8000,DYCD,260,005,,
 8,2021-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2021,2021,designate,,Speaker,Department of Youth and Community Development,,136400434,8000,DYCD,260,005,,
 8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"Brooklyn Historical Society, The","Science, Technology and Research Early College High Eugene School at Erasmus (17K543)",111630813,-20000,DCLA,126,003,,
 8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,Carlos Lezama Archives and Caribbean Cultural Center,"Science, Technology and Research Eugene Early College High School at Erasmus (17K543)",020749266,20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"Adams 2020 Vision for Schools, Inc.",Public School 155Q (27Q155),453023036,-20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Adams 2020 Vision for Schools, Inc.",Public School 045Q Clarence Witherspoon (27Q045),453023036,20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"CD 22 Astoria Performing Arts Center, Inc.",Public School 151Q Mary D. Carter (30Q151),651209580,-20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"CD 22 Astoria Performing Arts Center, Inc.",Public School 2Q (30Q002),651209580,20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"Matteo Sundog Theatre, Inc.",Public School 50R (31R050),450476945,-20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Matteo Sundog Theatre, Inc.",Public School 046R Albert V. Maniscalco (31R046),450476945,20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"Feliz Little Orchestra Society-Orpheon, Inc., The",Public School/Intermediate School 54X (10X054),132638292,-20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Little Orchestra Society-Orpheon, Inc., The",Public School 9 Ryer Avenue Elementary School Feliz (10X009),132638292,20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"Ampry-Samuel Ifetayo Cultural Arts Academy, Inc.",Public School 28K (16K028),113027538,-20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Ampry-Samuel Ifetayo Cultural Arts Academy, Inc.",Public School 040 Samuel Huntington (28Q040),113027538,20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"Cumbo Ifetayo Cultural Arts Academy, Inc.",Emma L Johnston (17K241),113027538,-20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Cumbo Ifetayo Cultural Arts Academy, Inc.",New Bridges Elementary (17K532),113027538,20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"Kallos Town Hall Foundation, Inc.",Bayard Taylor (02M158),237296167,-20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Kallos Town Hall Foundation, Inc.",Repertory Company High School for Theatre Arts (02M531),237296167,20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"Dromm Games for Change, Inc.",Public School 102Q (24Q102),262623362,-20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Dromm Midtown Management Group, Inc.",Public School 102Q (24Q102),133192793,20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"Yeger NIA Community Services Network, Inc.",Public School 099K Isaac Asimov (21K099),112697931,-20000,DCLA,126,003,,
-8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Yeger NIA Community Services Network, Inc.",Public School 121K Nelson A. Rockefeller (21K121),112697931,20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,Adams,"2020 Vision for Schools, Inc.",Public School 155Q (27Q155),453023036,-20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,Adams,"2020 Vision for Schools, Inc.",Public School 045Q Clarence Witherspoon (27Q045),453023036,20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,Adams,"CD 22 Astoria Performing Arts Center, Inc.",Public School 151Q Mary D. Carter (30Q151),651209580,-20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,Adams,"CD 22 Astoria Performing Arts Center, Inc.",Public School 2Q (30Q002),651209580,20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,Adams,"Matteo Sundog Theatre, Inc.",Public School 50R (31R050),450476945,-20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,Adams,"Matteo Sundog Theatre, Inc.",Public School 046R Albert V. Maniscalco (31R046),450476945,20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,Feliz,"Little Orchestra Society-Orpheon, Inc., The",Public School/Intermediate School 54X (10X054),132638292,-20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,Feliz,"Little Orchestra Society-Orpheon, Inc., The",Public School 9 Ryer Avenue Elementary School (10X009),132638292,20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,Feliz,"Ampry-Samuel Ifetayo Cultural Arts Academy, Inc.",Public School 28K (16K028),113027538,-20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,Feliz,"Ampry-Samuel Ifetayo Cultural Arts Academy, Inc.",Public School 040 Samuel Huntington (28Q040),113027538,20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,Feliz,"Cumbo Ifetayo Cultural Arts Academy, Inc.",Emma L Johnston (17K241),113027538,-20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,Feliz,"Cumbo Ifetayo Cultural Arts Academy, Inc.",New Bridges Elementary (17K532),113027538,20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,Feliz,"Kallos Town Hall Foundation, Inc.",Bayard Taylor (02M158),237296167,-20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,Feliz,"Kallos Town Hall Foundation, Inc.",Repertory Company High School for Theatre Arts (02M531),237296167,20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,Feliz,"Dromm Games for Change, Inc.",Public School 102Q (24Q102),262623362,-20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,Feliz,"Dromm Midtown Management Group, Inc.",Public School 102Q (24Q102),133192793,20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,Feliz,"Yeger NIA Community Services Network, Inc.",Public School 099K Isaac Asimov (21K099),112697931,-20000,DCLA,126,003,,
+8,2021-06-30,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,Feliz,"Yeger NIA Community Services Network, Inc.",Public School 121K Nelson A. Rockefeller (21K121),112697931,20000,DCLA,126,003,,
 8,2021-06-30,Neighborhood Development Grant Initiative - Fiscal 2021,2021,rescind,,,"Fashion Center District Management Association, Inc.",Placemaking/Plaza Activation/Public Johnson Space Activation/Public Art,133718607,-10000,SBS,801,002,,
 8,2021-06-30,Neighborhood Development Grant Initiative - Fiscal 2021,2021,designate,,,Johnson Flatiron/23rd Street Partnership District Management Association,,204850064,10000,SBS,801,002,,
 8,2021-06-30,Neighborhood Development Grant Initiative - Fiscal 2021,2021,rescind,,,"Perkins Alliance for Urban Initiatives, Inc., The",,832125845,-10000,SBS,801,002,,
 8,2021-06-30,Neighborhood Development Grant Initiative - Fiscal 2021,2021,designate,,,"Perkins Harlem Week, Inc.",,133058019,10000,SBS,801,002,,
 8,2021-06-30,NYC Cleanup Initiative - Fiscal 2021,2021,rescind,,,"Yeger Kings Highway Beautification Association, Inc.",,204986882,-10000,DYCD,260,005,,
 8,2021-06-30,NYC Cleanup Initiative - Fiscal 2021,2021,designate,,,"Yeger Association of Community Employment Programs for the Homeless, Inc.",,133846431,10000,DYCD,260,005,,
-8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,rescind,,,"Ayala Latin American Workshop, Inc., The",,132995536,-15000,DYCD,260,005,,**
-8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,designate,,,"Ayala Latin American Workshop, Inc., The",,132995536,15000,DCLA,126,003,,**
-8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,rescind,,,"Brannan Arab American Association of New York, Inc.",,113604756,-40000,DCLA,126,003,,**
-8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,designate,,,"Brannan Arab American Association of New York, Inc.",,113604756,40000,DYCD,260,005,,**
-8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,rescind,,,"Kallos Harlem Week, Inc.",,133058019,-10000,DCLA,126,003,,**
-8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,designate,,,"Kallos Harlem Week, Inc.",,133058019,10000,DYCD,260,005,,**
-8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,rescind,,,"Menchaca Boricua Festival Committee, Inc.",,841650571,-25000,DCLA,126,003,,**
-8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,designate,,,Menchaca Department of Youth and Community Development,,136400434,25000,DYCD,260,005,,**
+8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,rescind,,Ayala,"Latin American Workshop, Inc., The",,132995536,-15000,DYCD,260,005,,**
+8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,designate,,Ayala,"Latin American Workshop, Inc., The",,132995536,15000,DCLA,126,003,,**
+8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,rescind,,Brannan,"Arab American Association of New York, Inc.",,113604756,-40000,DCLA,126,003,,**
+8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,designate,,Brannan,"Arab American Association of New York, Inc.",,113604756,40000,DYCD,260,005,,**
+8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,rescind,,Brannan,"Kallos Harlem Week, Inc.",,133058019,-10000,DCLA,126,003,,**
+8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,designate,,Brannan,"Kallos Harlem Week, Inc.",,133058019,10000,DYCD,260,005,,**
+8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,rescind,,Brannan,"Menchaca Boricua Festival Committee, Inc.",,841650571,-25000,DCLA,126,003,,**
+8,2021-06-30,Cultural Immigrant Initiative - Fiscal 2021,2021,designate,,Brannan,Menchaca Department of Youth and Community Development,,136400434,25000,DYCD,260,005,,**
 8,2021-06-30,Art a Catalyst for Change - Fiscal 2021,2021,rescind,,,"Black Spectrum Theatre Company, Inc.",New Prep Middle School 8Q,510135262,-15300,DCLA,126,003,,
 8,2021-06-30,Art a Catalyst for Change - Fiscal 2021,2021,designate,,,"Black Spectrum Theatre Company, Inc.",Redwood Middle School 332Q,510135262,15300,DCLA,126,003,,
 8,2021-06-30,Local Initiatives - Fiscal 2020,2020,rescind,,,Roman Catholic Church of the Holy Child Jesus in the Borough of Queens in Ulrich the City of New York,Golden Age Club,111639802,-5000,DYCD,260,312,,
@@ -146,11 +146,11 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 8,2021-06-30,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,"Stanley M. Isaacs Neighborhood Center, Aging Kallos",,132572034,26500,DFTA,,,fitness and cooling including the cost of instructors and supplies for Inc. - Senior Services - Council District 5 disabled or homebound seniors.,
 8,2021-06-30,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,New Purpose of Funds Roman Catholic Church of the Holy Child Funds will support the Holy Child Jesus Golden Age Club's social and Local Ulrich Jesus in the Borough of Queens in the City,,111639802,-5000,DFTA,,,cultural programming for senior citizens in Council District 32. of New York - Golden Age Club **,
 8,2021-06-30,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,Roman Catholic Church of the Holy Child Local Ulrich Jesus in the Borough of Queens in the City,,111639802,5000,DYCD,,,"Funding to support Teen Drama Group programs, supplies and activities. of New York **",
-8,2021-06-30,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,Local,,"Brooks-Powers 4 Kids in Need, Inc.",,300539949,-5000,DYCD,,,Funds to be used for program support in Council District 31. The funds for 4 Kids in Need incorporated will be used to purchase care,
-8,2021-06-30,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"packages, age appropriate educational books for tutoring and homework Local Brooks-Powers 4 Kids in Need, Inc.",,300539949,5000,DYCD,,,"programs, school supplies, pajamas, warm blankets, coats, pajamas,",
-8,2021-06-30,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"warm blankets, coats, and materials for mentorship programs. Local Levin Greenpoint Reformed Church",,112100335,-5000,DYCD,,,Funds will be used to pay staff salaries.,
-8,2021-06-30,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"Funding will be used for staff salaries for administrative support, Local Levin Greenpoint Reformed Church",,112100335,5000,DYCD,,,"distributing goods to people, managing volunteers, & operations support for the Hunger Program. Roman Catholic Church of the Holy Child",
-8,2021-06-30,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,Funds will support the Holy Child Jesus Golden Age Club's social and Local Ulrich Jesus in the Borough of Queens in the City,,111639802,-5000,DYCD,,,cultural programming for senior citizens in Council District 32. of New York - Golden Age Club,
-8,2021-06-30,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,Roman Catholic Church of the Holy Child Local Ulrich Jesus in the Borough of Queens in the City,,111639802,5000,DYCD,,,"Funding to support Teen Drama Group programs, supplies and activities. of New York",
+8,2021-06-30,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,Local,Brooks-Powers,"4 Kids in Need, Inc.",,300539949,-5000,DYCD,,,Funds to be used for program support in Council District 31. The funds for 4 Kids in Need incorporated will be used to purchase care,
+8,2021-06-30,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,Brooks-Powers,"packages, age appropriate educational books for tutoring and homework Local Brooks-Powers 4 Kids in Need, Inc.",,300539949,5000,DYCD,,,"programs, school supplies, pajamas, warm blankets, coats, pajamas,",
+8,2021-06-30,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,Brooks-Powers,"warm blankets, coats, and materials for mentorship programs. Local Levin Greenpoint Reformed Church",,112100335,-5000,DYCD,,,Funds will be used to pay staff salaries.,
+8,2021-06-30,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,Brooks-Powers,"Funding will be used for staff salaries for administrative support, Local Levin Greenpoint Reformed Church",,112100335,5000,DYCD,,,"distributing goods to people, managing volunteers, & operations support for the Hunger Program. Roman Catholic Church of the Holy Child",
+8,2021-06-30,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,Brooks-Powers,Funds will support the Holy Child Jesus Golden Age Club's social and Local Ulrich Jesus in the Borough of Queens in the City,,111639802,-5000,DYCD,,,cultural programming for senior citizens in Council District 32. of New York - Golden Age Club,
+8,2021-06-30,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,Brooks-Powers,Roman Catholic Church of the Holy Child Local Ulrich Jesus in the Borough of Queens in the City,,111639802,5000,DYCD,,,"Funding to support Teen Drama Group programs, supplies and activities. of New York",
 8,2021-06-30,Purpose of Funds Changes - Fiscal 2019,2019,purpose_change,,,NYC Cleanup Rodriguez Department of Sanitation,,136400434,-20000,DSNY,,,Direct Agency Funding,
 8,2021-06-30,Purpose of Funds Changes - Fiscal 2019,2019,purpose_change,,,Funding will be used to increase mobilized litter patrols & overtime basket NYC Cleanup Rodriguez Department of Sanitation,,136400434,20000,DSNY,,,trucks in Inwood from Dyckman to West 220th Street.,

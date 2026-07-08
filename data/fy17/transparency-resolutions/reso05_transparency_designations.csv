@@ -1,35 +1,35 @@
 resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,Organization Conduit EIN Mealy Brownsville Think Tank,,472440990,-15000,DYCD,,,.00) 260 005 *,
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,Mealy Brownsville Think Tank Matters,,472440990,15000,DYCD,,,.00 260 005 *,
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,"Rosenthal Wild Bird Find, Inc.",,320155774,-5000,DYCD,,,.00) 260 005,
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,"Rosenthal Wild Bird Fund, Inc.",,320155774,5000,DYCD,,,.00 260 005,
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,"Chin New York Foundation for Senior Citizens, Inc.",,132618568,-6000,DFTA,,,.00) 125 003,
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,"Chin New York Foundation for Senior Citizens, Inc.",,132618568,6000,DFTA,,,.00 125 003 *,
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,"Williams Young Israel Senior Services, Inc.",,134136312,-3500,DFTA,,,.00) 125 003,
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,Williams National Council of Young Israel,Young Israel Programs,030381957,3500,DFTA,,,.00 125 003 *,
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,"Williams Pratt Area Community Council, Inc.",,112451752,-40000,DYCD,,,.00) 260 312 *,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,"Williams Pratt Area Community Council, Inc.",,112451752,40000,HPD,,,.00 806 009 *,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,Williams Flatbush Development Corporation,,510188251,-40000,HPD,,,.00) 806 009,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,Williams Flatbush Development Corporation,,510188251,40000,DYCD,,,.00 260 005 *,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,"Johnson Actors Fund of America, The",,131635251,-5000,DCLA,,,.00) 126 003,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,"Johnson Actors Fund of America, The",,131635251,5000,DFTA,,,.00 125 003 *,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,Kallos Friends of the Upper East Side Historic Districts,,133193351,-16500,DCLA,,,.00) 126 003,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,Kallos Friends of the Upper East Side Historic Districts,,133193351,16500,DYCD,,,.00 260 005 *,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,"Salamanca Lincoln Center for the Performing Arts, Inc.",,131847137,-15000,DCLA,,,.00) 126 022,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,Salamanca Wildlife Conservation Society,,131740011,-5000,DCLA,,,.00) 126 007,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,Salamanca South Bronx Concerned Citizens,,582435828,20000,DYCD,,,.00 260 005 *,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,"Salamanca New York Lawyers for the Public Interest, Inc.",,132860703,-10000,DYCD,,,.00) 260 005,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,Salamanca Legal Services NYC,Bronx,132600199,10000,DSS/HRA,,,.00 069 107 *,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,"Reynoso EcoStation NY, Inc.",,270626902,-5000,DYCD,,,.00) 260 005,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,"Reynoso Ridgewood Bushwick Senior Citizens Council, Inc.",,112453853,5000,DPR,,,.00 846 006 *,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,"Williams New York United Jewish Association, Inc.",,262647383,-6500,DYCD,,,.00) 260 312,
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,"Williams New York City Outward Bound Center, Inc.",,133471084,3500,DOE,,,.00 040 402,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,Williams Girl Be Heard Institute,,271848709,3000,DCLA,,,.00 126 003,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,"Ulrich One Stop Richmond Hill Community Center, Inc.",,680602829,-10000,DYCD,,,.00) 260 312,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,"Ulrich Rockaway Theatre Company, Inc.",,113505908,10000,DCLA,,,.00 126 003,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,"Levin El Puente de Williamsburg, Inc.",,112614265,-3500,DYCD,,,.00) 260 312,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,,"Levin Generation Citizen, Inc.",,272039522,-3000,DYCD,,,.00) 260 312,**
-5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,,Levin Girl Be Heard Institute,,271848709,6500,DCLA,,,.00 126 003,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Mealy,Organization Conduit EIN Brownsville Think Tank,,472440990,-15000,DYCD,,,.00) 260 005 *,
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Mealy,Brownsville Think Tank Matters,,472440990,15000,DYCD,,,.00 260 005 *,
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Mealy,"Rosenthal Wild Bird Find, Inc.",,320155774,-5000,DYCD,,,.00) 260 005,
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Mealy,"Rosenthal Wild Bird Fund, Inc.",,320155774,5000,DYCD,,,.00 260 005,
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Mealy,"Chin New York Foundation for Senior Citizens, Inc.",,132618568,-6000,DFTA,,,.00) 125 003,
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Mealy,"Chin New York Foundation for Senior Citizens, Inc.",,132618568,6000,DFTA,,,.00 125 003 *,
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Williams,"Young Israel Senior Services, Inc.",,134136312,-3500,DFTA,,,.00) 125 003,
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Williams,National Council of Young Israel,Young Israel Programs,030381957,3500,DFTA,,,.00 125 003 *,
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Williams,"Pratt Area Community Council, Inc.",,112451752,-40000,DYCD,,,.00) 260 312 *,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Williams,"Pratt Area Community Council, Inc.",,112451752,40000,HPD,,,.00 806 009 *,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Williams,Flatbush Development Corporation,,510188251,-40000,HPD,,,.00) 806 009,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Williams,Flatbush Development Corporation,,510188251,40000,DYCD,,,.00 260 005 *,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Williams,"Johnson Actors Fund of America, The",,131635251,-5000,DCLA,,,.00) 126 003,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Williams,"Johnson Actors Fund of America, The",,131635251,5000,DFTA,,,.00 125 003 *,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Williams,Kallos Friends of the Upper East Side Historic Districts,,133193351,-16500,DCLA,,,.00) 126 003,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Williams,Kallos Friends of the Upper East Side Historic Districts,,133193351,16500,DYCD,,,.00 260 005 *,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Salamanca,"Lincoln Center for the Performing Arts, Inc.",,131847137,-15000,DCLA,,,.00) 126 022,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Salamanca,Wildlife Conservation Society,,131740011,-5000,DCLA,,,.00) 126 007,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Salamanca,South Bronx Concerned Citizens,,582435828,20000,DYCD,,,.00 260 005 *,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Salamanca,"New York Lawyers for the Public Interest, Inc.",,132860703,-10000,DYCD,,,.00) 260 005,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Salamanca,Legal Services NYC,Bronx,132600199,10000,DSS/HRA,,,.00 069 107 *,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Salamanca,"Reynoso EcoStation NY, Inc.",,270626902,-5000,DYCD,,,.00) 260 005,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Salamanca,"Reynoso Ridgewood Bushwick Senior Citizens Council, Inc.",,112453853,5000,DPR,,,.00 846 006 *,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Williams,"New York United Jewish Association, Inc.",,262647383,-6500,DYCD,,,.00) 260 312,
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Williams,"New York City Outward Bound Center, Inc.",,133471084,3500,DOE,,,.00 040 402,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Williams,Girl Be Heard Institute,,271848709,3000,DCLA,,,.00 126 003,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Williams,"Ulrich One Stop Richmond Hill Community Center, Inc.",,680602829,-10000,DYCD,,,.00) 260 312,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Williams,"Ulrich Rockaway Theatre Company, Inc.",,113505908,10000,DCLA,,,.00 126 003,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Williams,"Levin El Puente de Williamsburg, Inc.",,112614265,-3500,DYCD,,,.00) 260 312,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,rescind,,Williams,"Levin Generation Citizen, Inc.",,272039522,-3000,DYCD,,,.00) 260 312,**
+5,2016-10-27,Local Initiatives - Fiscal 2017,2017,designate,,Williams,Levin Girl Be Heard Institute,,271848709,6500,DCLA,,,.00 126 003,**
 5,2016-10-27,Aging Discretionary - Fiscal 2017,2017,rescind,,,Organization Conduit EIN Deutsch National Council of Young Israel,Young Israel Programs,030381957,-50000,DFTA,,,.00) 125 003 *,
 5,2016-10-27,Aging Discretionary - Fiscal 2017,2017,designate,,,Koslowitz National Council of Young Israel,Young Israel Programs,030381957,50000,DFTA,,,.00 125 003 *,
 5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,,Organization Conduit EIN Ferreras- St Andrew the Apostle Roman Catholic Church Copeland,,112265787,-9000,DYCD,,,.00) 260 312 *,
@@ -38,20 +38,20 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,,Espinal Opportunities for a Better Tomorrow,,112934620,10000,DYCD,,,.00 260 312 *,
 5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,,Miller St. Albans/Jamaica Little League,,800103495,-9500,DYCD,,,.00) 260 312 *,
 5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,,"Miller Springfield Rifles & Rifletttes, Inc",,237269660,9500,DYCD,,,.00 260 312 *,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,,"Mealy Victory Music & Dance Co., Inc.",,472167056,-5000,DYCD,,,.00) 260 312,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,,"Mealy Victory Music and Dance Company, Inc.",,472167056,5000,DYCD,,,.00 260 312,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,,"Torres Mary Mitchell Youth and Family Center, Inc.",,133385032,-40000,DYCD,,,.00) 260 312,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,,"Torres Mary Mitchell Family and Youth Center, Inc.",,133385032,40000,DYCD,,,.00 260 312,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,,"Williams New York City Outward Bound Center, Inc.",,133471084,-3500,DYCD,,,.00) 260 312,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,,Williams Girl Be Heard Institute,,271848709,-3000,DYCD,,,.00) 260 312,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,,"Williams New York United Jewish Association, Inc.",,262647383,6500,DYCD,,,.00 260 312,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,,"Ulrich Rockaway Theatre Company, Inc.",,113505908,-10000,DYCD,,,.00) 260 312,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,,"Ulrich One Stop Richmond Hill Community Center, Inc.",,680602829,10000,DYCD,,,.00 260 312,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,,Levin Girl Be Heard Institute,,271848709,-6500,DYCD,,,.00) 260 312,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,,"Levin El Puente de Williamsburg, Inc.",,112614265,3500,DYCD,,,.00 260 312,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,,"Levin Generation Citizen, Inc.",,272039522,3000,DYCD,,,.00 260 312,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,,"Cumbo One Love Soccer, Inc.",,811482903,-2500,DYCD,,,.00) 260 312,
-5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,,"Cumbo Magnus Mukoro Sports Foundation, Inc.",,812828793,2500,DYCD,,,.00 260 312 *,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,Mealy,"Victory Music & Dance Co., Inc.",,472167056,-5000,DYCD,,,.00) 260 312,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,Mealy,"Victory Music and Dance Company, Inc.",,472167056,5000,DYCD,,,.00 260 312,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,Mealy,"Torres Mary Mitchell Youth and Family Center, Inc.",,133385032,-40000,DYCD,,,.00) 260 312,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,Mealy,"Torres Mary Mitchell Family and Youth Center, Inc.",,133385032,40000,DYCD,,,.00 260 312,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,Williams,"New York City Outward Bound Center, Inc.",,133471084,-3500,DYCD,,,.00) 260 312,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,Williams,Girl Be Heard Institute,,271848709,-3000,DYCD,,,.00) 260 312,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,Williams,"New York United Jewish Association, Inc.",,262647383,6500,DYCD,,,.00 260 312,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,Williams,"Ulrich Rockaway Theatre Company, Inc.",,113505908,-10000,DYCD,,,.00) 260 312,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,Williams,"Ulrich One Stop Richmond Hill Community Center, Inc.",,680602829,10000,DYCD,,,.00 260 312,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,Williams,Levin Girl Be Heard Institute,,271848709,-6500,DYCD,,,.00) 260 312,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,Williams,"Levin El Puente de Williamsburg, Inc.",,112614265,3500,DYCD,,,.00 260 312,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,Williams,"Levin Generation Citizen, Inc.",,272039522,3000,DYCD,,,.00 260 312,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,rescind,,Williams,"Cumbo One Love Soccer, Inc.",,811482903,-2500,DYCD,,,.00) 260 312,
+5,2016-10-27,Youth Discretionary - Fiscal 2017,2017,designate,,Williams,"Cumbo Magnus Mukoro Sports Foundation, Inc.",,812828793,2500,DYCD,,,.00 260 312 *,
 5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,rescind,,,Department of Cultural Affairs,,136400434,-80000,DCLA,,,.00) 126 003,
 5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,designate,,,"Johnson Midori Foundation, Inc.",M422,133682472,20000,DCLA,,,.00 126 003,
 5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,designate,,,"Johnson JLSC Educational Tour Bus, Inc.",M412,134085631,20000,DCLA,,,.00 126 003,
@@ -63,13 +63,13 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,designate,,,"Barron Victory Music and Dance Company, Inc.",,472167056,20000,DCLA,,,.00 126 003,
 5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,rescind,,,"Barron Victory Music & Dance Company, Inc.",,472167056,-20000,DCLA,,,.00) 126 003,
 5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,designate,,,"Barron Victory Music and Dance Company, Inc.",,472167056,20000,DCLA,,,.00 126 003,
-5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,rescind,,,"Mealy Victory Music & Dance Co., Inc.",,472167056,-20000,DCLA,,,.00) 126 003,
-5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,designate,,,"Mealy Victory Music and Dance Company, Inc.",,472167056,20000,DCLA,,,.00 126 003,
-5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,rescind,,,"Mealy Victory Music & Dance Co., Inc.",,472167056,-20000,DCLA,,,.00) 126 003,
-5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,designate,,,"Mealy Victory Music and Dance Company, Inc.",,472167056,20000,DCLA,,,.00 126 003,
-5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,rescind,,,Garodnick Asian American Writers' Workship,,133677911,-20000,DCLA,,,.00) 126 003,
-5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,designate,,,Garodnick Asian American Writers' Workshop,,133677911,20000,DCLA,,,.00 126 003,
-5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,rescind,,,Department of Cultural Affairs,,136400434,-20000,DCLA,,,.00) 126 003,
+5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,rescind,,Mealy,"Victory Music & Dance Co., Inc.",,472167056,-20000,DCLA,,,.00) 126 003,
+5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,designate,,Mealy,"Victory Music and Dance Company, Inc.",,472167056,20000,DCLA,,,.00 126 003,
+5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,rescind,,Mealy,"Victory Music & Dance Co., Inc.",,472167056,-20000,DCLA,,,.00) 126 003,
+5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,designate,,Mealy,"Victory Music and Dance Company, Inc.",,472167056,20000,DCLA,,,.00 126 003,
+5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,rescind,,Mealy,Garodnick Asian American Writers' Workship,,133677911,-20000,DCLA,,,.00) 126 003,
+5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,designate,,Mealy,Garodnick Asian American Writers' Workshop,,133677911,20000,DCLA,,,.00 126 003,
+5,2016-10-27,Cultural After-School Adventure (CASA) - Fiscal 2017,2017,rescind,,Mealy,Department of Cultural Affairs,,136400434,-20000,DCLA,,,.00) 126 003,
 5,2016-10-27,SU CASA - Fiscal 2017,2017,designate,,,Department of Cultural Affairs,,136400434,20000,DCLA,,,.00 126 003,
 5,2016-10-27,Cultural Immigrant Initiative - Fiscal 2017,2017,rescind,,,Department of Cultural Affairs,,136400434,-1170000,DCLA,,,.00) 126 003,
 5,2016-10-27,Cultural Immigrant Initiative - Fiscal 2017,2017,designate,,,"Cohen Bronx Opera Company, Inc.",,237170675,40000,DCLA,,,.00 126 003,
@@ -121,10 +121,10 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 5,2016-10-27,Cultural Immigrant Initiative - Fiscal 2017,2017,designate,,,"Johnson Global Action Project, Inc.",,113425000,20000,DCLA,,,.00 126 003 *,
 5,2016-10-27,Cultural Immigrant Initiative - Fiscal 2017,2017,designate,,,Johnson Asian American Writers' Workshop,,133677911,20000,DCLA,,,.00 126 003,
 5,2016-10-27,Cultural Immigrant Initiative - Fiscal 2017,2017,designate,,,"Johnson Midtown Management Group, Inc.",,133192793,20000,DCLA,,,.00 126 003,
-5,2016-10-27,Cultural Immigrant Initiative - Fiscal 2017,2017,rescind,,,"Mealy Victory Music & Dance Co., Inc.",,472167056,-20000,DCLA,,,.00) 126 003,
-5,2016-10-27,Cultural Immigrant Initiative - Fiscal 2017,2017,designate,,,"Mealy Victory Music and Dance Company, Inc.",,472167056,20000,DCLA,,,.00 126 003,
-5,2016-10-27,Cultural Immigrant Initiative - Fiscal 2017,2017,rescind,,,"Mealy Victory Music & Dance Co., Inc.",,472167056,-20000,DCLA,,,.00) 126 003,
-5,2016-10-27,Cultural Immigrant Initiative - Fiscal 2017,2017,designate,,,"Mealy Victory Music and Dance Company, Inc.",,472167056,20000,DCLA,,,.00 126 003,
+5,2016-10-27,Cultural Immigrant Initiative - Fiscal 2017,2017,rescind,,Mealy,"Victory Music & Dance Co., Inc.",,472167056,-20000,DCLA,,,.00) 126 003,
+5,2016-10-27,Cultural Immigrant Initiative - Fiscal 2017,2017,designate,,Mealy,"Victory Music and Dance Company, Inc.",,472167056,20000,DCLA,,,.00 126 003,
+5,2016-10-27,Cultural Immigrant Initiative - Fiscal 2017,2017,rescind,,Mealy,"Victory Music & Dance Co., Inc.",,472167056,-20000,DCLA,,,.00) 126 003,
+5,2016-10-27,Cultural Immigrant Initiative - Fiscal 2017,2017,designate,,Mealy,"Victory Music and Dance Company, Inc.",,472167056,20000,DCLA,,,.00 126 003,
 5,2016-10-27,Domestic Violence and Empowerment (DoVE) - Fiscal 2017,2017,rescind,,,"Richards Day One New York, Inc.",,061103000,-98074,MOCJ,,,.00) 098 002,
 5,2016-10-27,Domestic Violence and Empowerment (DoVE) - Fiscal 2017,2017,designate,,,Richards Queens Law Associates Not-for-Profit Corporation,,270364845,98074,MOCJ,,,.00 098 002 *,
 5,2016-10-27,Domestic Violence and Empowerment (DoVE) - Fiscal 2017,2017,rescind,,,Levine Northern Manhattan Improvement Corporation,,132972415,-400,MOCJ,,,.00) 098 002,
@@ -166,8 +166,8 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 5,2016-10-27,Neighborhood Development Grant Initiative - Fiscal 2017,2017,designate,,,Johnson Hudson Yards Hells Kitchen Buisness Improvement District,,471247857,22000,DSBS,,,.00 801 002 *,
 5,2016-10-27,Neighborhood Development Grant Initiative - Fiscal 2017,2017,rescind,,,Rose Staten Island Downtown Alliance,,134104889,-22000,DSBS,,,.00) 801 002,
 5,2016-10-27,Neighborhood Development Grant Initiative - Fiscal 2017,2017,designate,,,"Rose Bayview Community Council, Inc.",,134104889,22000,DSBS,,,.00 801 002,
-5,2016-10-27,Neighborhood Development Grant Initiative - Fiscal 2017,2017,rescind,,,"Salamanca Urban Health Plan, Inc.",,237360305,-22000,DSBS,,,.00) 801 002,
-5,2016-10-27,Neighborhood Development Grant Initiative - Fiscal 2017,2017,designate,,,"Salamanca Urban Health Plan, Inc.",Project Hope - Hunts Point WorkForce Development,237360305,22000,DSBS,,,.00 801 002,
+5,2016-10-27,Neighborhood Development Grant Initiative - Fiscal 2017,2017,rescind,,Salamanca,"Urban Health Plan, Inc.",,237360305,-22000,DSBS,,,.00) 801 002,
+5,2016-10-27,Neighborhood Development Grant Initiative - Fiscal 2017,2017,designate,,Salamanca,"Urban Health Plan, Inc.",Project Hope - Hunts Point WorkForce Development,237360305,22000,DSBS,,,.00 801 002,
 5,2016-10-27,A Greener NYC - Fiscal 2017,2017,rescind,,,Department of Youth and Community Development,,136400434,-157116,DYCD,,,.00) 260 005,**
 5,2016-10-27,A Greener NYC - Fiscal 2017,2017,designate,,,"Cabrera Council on the Environment, Inc.",,132765465,13085,DYCD,,,.00 260 005,
 5,2016-10-27,A Greener NYC - Fiscal 2017,2017,designate,,,Cabrera Sustainable South Bronx -The HOPE Program,,020535999,13085,DYCD,,,.00 260 005,
@@ -451,8 +451,8 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 5,2016-10-27,Local Initiatives- Fiscal 2016,2016,designate,,Speaker,Levine Harlem Historical Society,,134088101,5000,DYCD,,,.00 260 005 *,
 5,2016-10-27,Local Initiatives- Fiscal 2015,2015,rescind,,,"Organization Conduit EIN Ulrich Corporal John Ruoff Post No. 632, American Legion, Inc.",,116104896,-5000,DYCD,,,.00) 260 005,
 5,2016-10-27,Local Initiatives- Fiscal 2015,2015,designate,,,"Ulrich Corporal John Ruoff Post No. 632, American Legion, Inc.",,116104896,5000,DYCD,,,.00 260 005 Greater Ridgewood Youth Council 11-2518141,
-5,2016-10-27,Local Initiatives- Fiscal 2015,2015,rescind,,,Williams Pacifica Foundation Radio,WBAI Radio,941347046,-3500,DYCD,,,.00) 260 005,
-5,2016-10-27,Local Initiatives- Fiscal 2015,2015,designate,,,Williams Flatbush Development Corporation,,510188251,3500,DYCD,,,.00 260 005 *,
+5,2016-10-27,Local Initiatives- Fiscal 2015,2015,rescind,,Williams,Pacifica Foundation Radio,WBAI Radio,941347046,-3500,DYCD,,,.00) 260 005,
+5,2016-10-27,Local Initiatives- Fiscal 2015,2015,designate,,Williams,Flatbush Development Corporation,,510188251,3500,DYCD,,,.00 260 005 *,
 5,2016-10-27,Children Under Five- Fiscal 2016,2016,rescind,,,Yeshiva University,,131624225,-425000,DOHMH,,,.00) 816 120,
 5,2016-10-27,Children Under Five- Fiscal 2016,2016,designate,,,Montefiore Medical Center,,131740114,425000,DOHMH,,,.00 816 120,
 5,2016-10-27,Purpose of Funds - Fiscal 2016,2016,purpose_change,,,"To fund Senior Citizen Transportation, Vocational Support Systems, Homecare, Jewish Community Council of Greater Coney Local Speaker 11-2665181 DFTA (115,000.00) Adult Literacy programing, the Horizons Academy, the NonProfit HelpDesk, Island, Inc. Health Insurance Help Center and Southern Brooklyn Community Shuttle Bus. Jewish Community Council of Greater Coney Local Speaker 11-2665181 DFTA 115,000.00 To fund Senior Citizen Transportation, Homecare, and Health Insurance Help. Island, Inc. The addition of ergonomically-designed stretchers and wheelchairs will assist to accommodate the growth in patient volume and bring improvements to the Local Speaker Brooklyn Hospital Center 11-1630755 DOHMH (50,000.00) overall patient experience. Modern streamlined stretchers improve the ability to move patients within the facility. They also allow the patients to sit up if their state of health allows this positioning. To provide funding support for the purchase of operating room equipment for the Local Speaker Brooklyn Hospital Center 11-1630755 DOHMH 50,000.00 Hospital. To support after school classes to BronxConnect youth to enable local at-risk and Local Salamanca Urban Youth Alliance International, Inc. 13-2969182 DYCD (10,000.00) high risk youth to explore leadership skills, community development and positive youth development. Funding to support after school programming at BronxConnect, enabling local at- risk and high risk youth to explore leadership skills, community development and Local Salamanca Urban Youth Alliance International, Inc. 13-2969182 DYCD 10,000.00 positive youth development. Programming will also include educational and recreational trips. Funds to sustain our Mental Health services at Harlem Dowling Westside- Far Rockaway. Funds to assist our Beacon By the Sea (including tutoring) at PS / MS Local Richards Child Center of New York, Inc., The 11-1733454 DYCD (10,000.00) 43. Funds to support our MS ExTRA 289 Afterschool program. Funds to uphold our Beacon program at PS 42. Funds to support the operating costs associated with the B41 Cornerstone Local Richards Child Center of New York, Inc., The 11-1733454 DYCD 10,000.00 program. Anti-Poverty Cabrera Kips Bay Boys & Girls Club 13-1623850 DYCD (6,000.00) the purpose of this request is to 1) reinstate and revitalize teen programming; and 2) to feature vigorous exercise, nutrition education and healthy culinary activities. Anti-Poverty Cabrera Kips Bay Boys & Girls Club 13-1623850 DYCD 6,000.00 We would allocate 2/3 of any support to enhanced teen programming and 1/3 to obesity prevention programming. Funds will support basketball and softball games and field trips and for the Youth Local Miller 103rd Precinct Community Council",,205484666,-5000,DYCD,,,.00) Explorers program and change it to reflect: Funds will be used for General,

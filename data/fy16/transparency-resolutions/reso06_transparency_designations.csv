@@ -8,17 +8,17 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2015-10-29,Local Initiatives - Fiscal 2016,2016,designate,,Speaker,Lancman Department of Sanitation,,136400434,10000,DSNY,,,.00 827 109,**
 6,2015-10-29,Local Initiatives - Fiscal 2016,2016,rescind,,Speaker,Jewish Community Center of Staten Matteo Public Administrator,"Richmond County Island, Inc.",133203842,-2000,PASI,,,.00) 945 002 13-5562256,
 6,2015-10-29,Local Initiatives - Fiscal 2016,2016,designate,,Speaker,Matteo Public Administrator,Richmond County,136400434,2000,PASI,,,.00 945 002,
-6,2015-10-29,Local Initiatives - Fiscal 2016,2016,rescind,,Speaker,Mealy Department of Parks and Recreation,Brevoort Playground,136400434,-24000,DPR,,,.00) 846 006,
-6,2015-10-29,Local Initiatives - Fiscal 2016,2016,designate,,Speaker,Department of Parks and Recreation,Brownsville Recreation Mealy Center,136400434,24000,DPR,,,.00 846 006,
-6,2015-10-29,Local Initiatives - Fiscal 2016,2016,rescind,,Speaker,"Mark-Viverito 162nd Street Merchants Association, Inc.",,300064721,-5500,DYCD,,,.00) 260 005,
-6,2015-10-29,Local Initiatives - Fiscal 2016,2016,designate,,Speaker,"Mark-Viverito 161st Street Merchants Association, Inc.",,300064721,5500,DYCD,,,.00 260 005,
-6,2015-10-29,Local Initiatives - Fiscal 2016,2016,rescind,,Speaker,Treyger Friends of Historic New Utrecht,,113407104,-2500,DCLA,,,.00) 126 003,**
-6,2015-10-29,Local Initiatives - Fiscal 2016,2016,designate,,Speaker,Treyger Friends of Historic New Utrecht,,113407104,2500,DYCD,,,.00 260 005,**
-6,2015-10-29,Local Initiatives - Fiscal 2016,2016,designate,,Speaker,Williams Top Development Corporation** 11-3409359 Williams Top Development Corporation,,113409359,8000,DYCD,,,.00 260 312,**
-6,2015-10-29,Aging Discretionary - Fiscal 2016,2016,rescind,,,Organization Conduit EIN Bergen Basin Community Development Corporation d/b/a Williams Millennium Development,,113199040,-3000,DFTA,,,.00) 125 003,
-6,2015-10-29,Aging Discretionary - Fiscal 2016,2016,designate,,,"Williams Brooklyn Arts Council, Inc.",,237072915,3000,DFTA,,,.00 125 003,
-6,2015-10-29,Youth Discretionary - Fiscal 2016,2016,rescind,,,"Organization Conduit EIN Williams Redemption, Inc.",,562550383,-7500,DYCD,,,.00) 260 312,
-6,2015-10-29,Youth Discretionary - Fiscal 2016,2016,designate,,,"Williams Fund for the City of New York, Inc.",,132612524,7500,DYCD,,,.00 260 312,
+6,2015-10-29,Local Initiatives - Fiscal 2016,2016,rescind,,Mealy,Department of Parks and Recreation,Brevoort Playground,136400434,-24000,DPR,,,.00) 846 006,
+6,2015-10-29,Local Initiatives - Fiscal 2016,2016,designate,,Mealy,Department of Parks and Recreation,Brownsville Recreation Center,136400434,24000,DPR,,,.00 846 006,
+6,2015-10-29,Local Initiatives - Fiscal 2016,2016,rescind,,Mealy,"Mark-Viverito 162nd Street Merchants Association, Inc.",,300064721,-5500,DYCD,,,.00) 260 005,
+6,2015-10-29,Local Initiatives - Fiscal 2016,2016,designate,,Mealy,"Mark-Viverito 161st Street Merchants Association, Inc.",,300064721,5500,DYCD,,,.00 260 005,
+6,2015-10-29,Local Initiatives - Fiscal 2016,2016,rescind,,Mealy,Treyger Friends of Historic New Utrecht,,113407104,-2500,DCLA,,,.00) 126 003,**
+6,2015-10-29,Local Initiatives - Fiscal 2016,2016,designate,,Mealy,Treyger Friends of Historic New Utrecht,,113407104,2500,DYCD,,,.00 260 005,**
+6,2015-10-29,Local Initiatives - Fiscal 2016,2016,designate,,Williams,Williams Top Development Corporation** 11-3409359 Top Development Corporation,,113409359,8000,DYCD,,,.00 260 312,**
+6,2015-10-29,Aging Discretionary - Fiscal 2016,2016,rescind,,Williams,Organization Conduit EIN Bergen Basin Community Development Corporation d/b/a Millennium Development,,113199040,-3000,DFTA,,,.00) 125 003,
+6,2015-10-29,Aging Discretionary - Fiscal 2016,2016,designate,,Williams,"Brooklyn Arts Council, Inc.",,237072915,3000,DFTA,,,.00 125 003,
+6,2015-10-29,Youth Discretionary - Fiscal 2016,2016,rescind,,Williams,"Organization Conduit EIN Redemption, Inc.",,562550383,-7500,DYCD,,,.00) 260 312,
+6,2015-10-29,Youth Discretionary - Fiscal 2016,2016,designate,,Williams,"Fund for the City of New York, Inc.",,132612524,7500,DYCD,,,.00 260 312,
 6,2015-10-29,Cultural After School Adventure (CASA) - Fiscal 2016,2016,rescind,,,Gibson City Parks Foundation,Morris High School,133561657,-20000,DCLA,,,.00) 126 003,
 6,2015-10-29,Cultural After School Adventure (CASA) - Fiscal 2016,2016,designate,,,Gibson Research Foundation of CUNY,Creative Arts Team - Morris High School,131988190,20000,DCLA,,,.00 126 003,
 6,2015-10-29,Cultural After School Adventure (CASA) - Fiscal 2016,2016,rescind,,,"Richards Fund for the City of New York, Inc.",Public School 42Q Robert Vernam,132612524,-20000,DCLA,,,.00) 126 003,
@@ -44,33 +44,33 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2015-10-29,NYC Support Our Seniors Initiative - Fiscal 2016,2016,designate,,,"Maisel Catholic Charities Neighborhood Services, Inc.",The Bay Senior Center,112047151,14705,DFTA,,,.00 125 003,
 6,2015-10-29,NYC Support Our Seniors Initiative - Fiscal 2016,2016,designate,,,Bergen Basin Community Development Corporation d/b/a Millennium Development,Mill Basin Maisel Center,113199040,14705,DFTA,,,.00 125 003,
 6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,rescind,,,Department of Youth and Community Development,,136400434,-895051,DYCD,,,.00) 260 005,**
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Brooklyn Delegation Bedford Stuyvesant Restoration Corporation,,116083182,10000,DYCD,,,.00 260 005 *,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Brooklyn Delegation Boro Park Jewish Community Council,,113475993,24830,DYCD,,,.00 260 005 *,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Brooklyn Delegation Brooklyn Public Library,New Lots Branch,136400434,41745,BPL,,,.00 038 001,**
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Brooklyn Delegation Brooklyn Public Library,Ft. Hamilton Branch,136400434,12830,BPL,,,.00 038 001,**
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Brooklyn Delegation Brooklyn Public Library,Arlington Branch,136400434,27830,BPL,,,.00 038 001,**
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Brooklyn Delegation Brooklyn Public Library,,136400434,17830,BPL,,,.00 038 001,**
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,"Brooklyn Delegation Council of Jewish Organizations of Flatbush, Inc.",,112864728,84575,DYCD,,,.00 260 005 *,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,"Brooklyn Delegation El Puente de Williamsburg, Inc.",,112614265,24690,DYCD,,,.00 260 005 *,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,"Brooklyn Delegation Fifth Avenue Committee, Inc.",,112475743,34945,DYCD,,,.00 260 005 *,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Brooklyn Delegation Life of Hope,,205252137,13915,DYCD,,,.00 260 005 *,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Brooklyn Delegation Medgar Evers College,,133893536,27830,CUNY,,,.00 042 001,**
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,"Brooklyn Delegation Mixteca Organization, Inc.",,113561651,35980,DYCD,,,.00 260 005 *,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,"Brooklyn Delegation NIA Community Services Network, Inc.",,112697931,15000,DYCD,,,.00 260 005,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,"Brooklyn Delegation New York United Jewish Association, Inc. (dba Jewish Community Council of Marine Park)",,262647383,20000,DYCD,,,.00 260 005,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Brooklyn Delegation Opportunities for a Better Tomorrow,,112934620,43290,DYCD,,,.00 260 005,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Brooklyn Delegation Urban Neighborhood Services,,141997299,10000,DYCD,,,.00 260 005,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Staten Island Delegation Staten Island Employment Education Consortium,,133097367,50000,DYCD,,,.00 260 005,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Queens Delegation Asian Americans for Equality,,133187792,50000,DYCD,,,.00 260 005,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,"Queens Delegation Central Queens YM & YWHA, Inc.",,111633509,50000,DYCD,,,.00 260 005,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,"Queens Delegation Greater Ridgewood Youth Council, Inc.",,112518141,50000,DYCD,,,.00 260 005,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,"Queens Delegation Haitian Americans United for Progress, Inc.",,112423857,50000,DYCD,,,.00 260 005,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,"Queens Delegation Jacob A. Riis Neighborhood Settlement House, Inc.",,111729398,33000,DYCD,,,.00 260 005,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,"Queens Delegation Korean Community Services of Metropolitan New York, Inc.",,237348989,50000,DYCD,,,.00 260 005,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Queens Delegation Make the Road New York,,113344389,8381,DYCD,,,.00 260 005,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Queens Delegation New Immigrant Community Empowerment (NICE),,113560625,8380,DYCD,,,.00 260 005,
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,Queens Delegation Queens Public Library,,136400434,50000,QBPL,,,.00 039 001,**
-6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,,"Queens Delegation Southern Queens Park Association, Inc.",,112432846,50000,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,Bedford Stuyvesant Restoration Corporation,,116083182,10000,DYCD,,,.00 260 005 *,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,Boro Park Jewish Community Council,,113475993,24830,DYCD,,,.00 260 005 *,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,Brooklyn Public Library,New Lots Branch,136400434,41745,BPL,,,.00 038 001,**
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,Brooklyn Public Library,Ft. Hamilton Branch,136400434,12830,BPL,,,.00 038 001,**
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,Brooklyn Public Library,Arlington Branch,136400434,27830,BPL,,,.00 038 001,**
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,Brooklyn Public Library,,136400434,17830,BPL,,,.00 038 001,**
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,"Council of Jewish Organizations of Flatbush, Inc.",,112864728,84575,DYCD,,,.00 260 005 *,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,"El Puente de Williamsburg, Inc.",,112614265,24690,DYCD,,,.00 260 005 *,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,"Fifth Avenue Committee, Inc.",,112475743,34945,DYCD,,,.00 260 005 *,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,Life of Hope,,205252137,13915,DYCD,,,.00 260 005 *,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,Medgar Evers College,,133893536,27830,CUNY,,,.00 042 001,**
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,"Mixteca Organization, Inc.",,113561651,35980,DYCD,,,.00 260 005 *,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,"NIA Community Services Network, Inc.",,112697931,15000,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,"New York United Jewish Association, Inc. (dba Jewish Community Council of Marine Park)",,262647383,20000,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,Opportunities for a Better Tomorrow,,112934620,43290,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Brooklyn Delegation,Urban Neighborhood Services,,141997299,10000,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Staten Island Delegation,Staten Island Employment Education Consortium,,133097367,50000,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Queens Delegation,Asian Americans for Equality,,133187792,50000,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Queens Delegation,"Central Queens YM & YWHA, Inc.",,111633509,50000,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Queens Delegation,"Greater Ridgewood Youth Council, Inc.",,112518141,50000,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Queens Delegation,"Haitian Americans United for Progress, Inc.",,112423857,50000,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Queens Delegation,"Jacob A. Riis Neighborhood Settlement House, Inc.",,111729398,33000,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Queens Delegation,"Korean Community Services of Metropolitan New York, Inc.",,237348989,50000,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Queens Delegation,Make the Road New York,,113344389,8381,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Queens Delegation,New Immigrant Community Empowerment (NICE),,113560625,8380,DYCD,,,.00 260 005,
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Queens Delegation,Queens Public Library,,136400434,50000,QBPL,,,.00 039 001,**
+6,2015-10-29,Adult Literacy Initiative - Fiscal 2016,2016,designate,,Queens Delegation,"Southern Queens Park Association, Inc.",,112432846,50000,DYCD,,,.00 260 005,
 6,2015-10-29,Neighborhood Development Grant Initiative - Fiscal 2016,2016,rescind,,,Department of Small Business Services,,136400434,-22000,DSBS,,,.00) 801 002,
 6,2015-10-29,Neighborhood Development Grant Initiative - Fiscal 2016,2016,designate,,,CD28 Queens Economic Development Corporation,,112436149,22000,DSBS,,,.00 801 002 *,
 6,2015-10-29,Cultural Immigrant Intiative - Fiscal 2016,2016,rescind,,,Matteo Sundog Theatre,,450476946,-31250,DCLA,,,.00) 126 003,

@@ -1,44 +1,44 @@
 resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
-5,2010-11-17,LocalInitiatives,,rescind,,,"FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Mealy NiaTheatricalProductionCompany,Inc.",,113427470,-28500,DYCD,,,.00) 260 312 *,**
-5,2010-11-17,LocalInitiatives,,rescind,,,"ManhattanDel. City-WideTaskForceonHousingCourt,Inc.",,133317188,-3500,HPD,,,.00) 806 009,
-5,2010-11-17,LocalInitiatives,,designate,,,"ManhattanDel. HousingCourtAnswers,Inc.",,133317188,3500,HPD,,,.00 806 009,
-5,2010-11-17,LocalInitiatives,,rescind,,,"Garodnick SamaritansofNewYork,Inc.",,133164464,-3500,DYCD,,,.00) 260 312,
-5,2010-11-17,LocalInitiatives,,designate,,,"Garodnick SamaritansofNewYork,Inc.",,133164464,3500,DYCD,,,.00 260 312,
-5,2010-11-17,LocalInitiatives,,rescind,,,"Garodnick SamaritansofNewYork,Inc.",,133164464,-3500,DYCD,,,.00) 260 312,**
-5,2010-11-17,LocalInitiatives,,designate,,,"Garodnick SamaritansofNewYork,Inc.",,133164464,3500,DOHMH,,,.00 816 120,**
-5,2010-11-17,LocalInitiatives,,rescind,,,Garodnick FriendsofArtandDesignInc.,,133798678,-3500,DYCD,,,.00) 260 312,
-5,2010-11-17,LocalInitiatives,,designate,,,Garodnick FriendsofArtandDesignInc.,,133798678,3500,DYCD,,,.00 260 312,
-5,2010-11-17,LocalInitiatives,,rescind,,,"James DedicatedtotheStruggle,Inc.",,010725804,-3000,DYCD,,,.00) 260 005,
-5,2010-11-17,LocalInitiatives,,designate,,,"James CrownHeightsYouthCollective,Inc.",,112506422,3000,DYCD,,,.00 260 005,
-5,2010-11-17,LocalInitiatives,,rescind,,,"Lappin GillenBrewerSchool,Inc.,The",,133764868,-12000,DYCD,,,.00) 260 005,
-5,2010-11-17,LocalInitiatives,,designate,,,"Lappin GillenBrewerSchool,Inc.,The",,133764868,5000,DYCD,,,.00 260 312,
-5,2010-11-17,LocalInitiatives,,designate,,,"Lappin LincolnCenterforthePerformingArts,Inc.",,131847137,7000,DYCD,,,.00 260 312,
-5,2010-11-17,LocalInitiatives,,rescind,,,"Lappin LincolnCenterforthePerformingArts,Inc.",,131847137,-7000,DYCD,,,.00) 260 312,**
-5,2010-11-17,LocalInitiatives,,rescind,,,"Lappin LincolnCenterforthePerformingArts,Inc.** 13-1847137 Viverito LaCasadelaHerenciaCulturalPuertorriquena,Inc.",,133205023,-10000,DCA,,,.00) 126 003,**
-5,2010-11-17,LocalInitiatives,,designate,,,"Viverito LaCasadelaHerenciaCulturalPuertorriquena,Inc.",,133205023,10000,DYCD,,,.00 260 005,**
-5,2010-11-17,LocalInitiatives,,rescind,,,"Lander NewYorkIndustrialRetentionNetwork,Inc.",,510178586,-3500,DSBS,,,.00) 801 002 *,
-5,2010-11-17,LocalInitiatives,,designate,,,PrattInstituteCenterforCommunityandEnvironmental Lander Development(PICCED),,111630822,3500,DSBS,,,.00 801 002 *,
-5,2010-11-17,LocalInitiatives,,rescind,,,"CC NewYorkIndustrialRetentionNetwork,Inc.",,510178586,-175000,DSBS,,,.00) 801 002,
-5,2010-11-17,LocalInitiatives,,designate,,,PrattInstituteCenterforCommunityandEnvironmental CC Development(PICCED),,111630822,175000,DSBS,,,.00 801 002,
-5,2010-11-17,LocalInitiatives,,rescind,,,"SouthwestBrooklynCitizensCorps,Ltd.d/b/aCommunity St.Rosalia-ReginaPacisNeighborhood Gentile EmergencyResponseTeam-CERT1NYC",,201759111,-1000,DYCD,,,".00) 260 005 ImprovementAssociation,Inc. 11-2697931 *",**
-5,2010-11-17,LocalInitiatives,,designate,,,"SouthwestBrooklynCitizensCorps,Ltd.d/b/aCommunity St.Rosalia-ReginaPacisNeighborhood Gentile EmergencyResponseTeam-CERT1NYC",,201759111,1000,OEM,,,".00 017 002 ImprovementAssociation,Inc. 11-2697931 *",**
-5,2010-11-17,LocalInitiatives,,rescind,,,"Mendez ConnectingtoAdvantages,Inc.",,900392858,-3500,DSS,,,.00) 069 105,**
-5,2010-11-17,LocalInitiatives,,designate,,,Mendez UniversitySettlementSocietyofNewYork,,135562374,3500,HPD,,,.00 806 009,**
-5,2010-11-17,LocalInitiatives,,rescind,,,"Viverito JetsofHarlem,Inc.",,203556368,-3500,DYCD,,,.00) 206 312 *,**
-5,2010-11-17,LocalInitiatives,,designate,,,Viverito OurFirefighters'Children'sFoundation,,542064625,3500,DOE,,,.00 040 402 *,**
-5,2010-11-17,LocalInitiatives,,rescind,,,"Viverito FriendsofPublicSchool163,Inc.",,201670261,-7500,DCA,,,.00) 126 003,**
-5,2010-11-17,LocalInitiatives,,designate,,,"Viverito FriendsofPublicSchool163,Inc.",,201670261,7500,DOE,,,.00 040 402,**
-5,2010-11-17,LocalInitiatives,,rescind,,,"Dilan YoungDancersinRepertory,Inc.",,112799128,-40000,DYCD,,,.00) 260 312,**
-5,2010-11-17,LocalInitiatives,,designate,,,"Dilan YoungDancersinRepertory,Inc.",,112799128,40000,DCA,,,.00 126 003,**
-5,2010-11-17,LocalInitiatives,,rescind,,,"FederazioneItalo-AmericanadiBrooklynandQueens,Inc. Crowley",,113044143,-3000,DFTA,,,.00) 125 003 *,**
-5,2010-11-17,LocalInitiatives,,designate,,,"FederazioneItalo-AmericanadiBrooklynandQueens,Inc. Crowley",,113044143,3000,DYCD,,,.00 260 312 *,**
-5,2010-11-17,LocalInitiatives,,rescind,,,Comrie HollisPresbyterianChurch,,111631786,-11550,DYCD,,,.00) 260 312,
-5,2010-11-17,LocalInitiatives,,designate,,,Comrie HollisPresbyterianChurch,,111631786,11550,DFTA,,,.00 125 003,
-5,2010-11-17,LocalInitiatives,,rescind,,,Koslowitz RegoParkJewishCenter,,111672786,-8200,DFTA,,,.00) 125 003,
-5,2010-11-17,LocalInitiatives,,designate,,,Koslowitz RegoParkJewishCenter,,111672786,8200,DFTA,,,".00 125 003 QueensJewishCommunityCouncil,Inc. 23-7172152",
-5,2010-11-17,LocalInitiatives,,rescind,,,Garodnick FriendsoftheUpperEastSideHistoricDistricts,,133193351,-3500,DYCD,,,.00) 260 312,**
-5,2010-11-17,LocalInitiatives,,designate,,,Garodnick WhitneyMuseumofAmericanArt,,131789318,3500,DCA,,,.00 126 003,**
-5,2010-11-17,LocalInitiatives,,rescind,,,Arroyo RollinTogetherLocalDevelopmentCorporation,,364552584,-5000,DYCD,,,.00) 260 005 *,
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * NiaTheatricalProductionCompany,Inc.",,113427470,-28500,DYCD,,,.00) 260 312 *,**
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"ManhattanDel. City-WideTaskForceonHousingCourt,Inc.",,133317188,-3500,HPD,,,.00) 806 009,
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,"ManhattanDel. HousingCourtAnswers,Inc.",,133317188,3500,HPD,,,.00 806 009,
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"Garodnick SamaritansofNewYork,Inc.",,133164464,-3500,DYCD,,,.00) 260 312,
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,"Garodnick SamaritansofNewYork,Inc.",,133164464,3500,DYCD,,,.00 260 312,
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"Garodnick SamaritansofNewYork,Inc.",,133164464,-3500,DYCD,,,.00) 260 312,**
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,"Garodnick SamaritansofNewYork,Inc.",,133164464,3500,DOHMH,,,.00 816 120,**
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,Garodnick FriendsofArtandDesignInc.,,133798678,-3500,DYCD,,,.00) 260 312,
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,Garodnick FriendsofArtandDesignInc.,,133798678,3500,DYCD,,,.00 260 312,
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"James DedicatedtotheStruggle,Inc.",,010725804,-3000,DYCD,,,.00) 260 005,
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,"James CrownHeightsYouthCollective,Inc.",,112506422,3000,DYCD,,,.00 260 005,
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"Lappin GillenBrewerSchool,Inc.,The",,133764868,-12000,DYCD,,,.00) 260 005,
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,"Lappin GillenBrewerSchool,Inc.,The",,133764868,5000,DYCD,,,.00 260 312,
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,"Lappin LincolnCenterforthePerformingArts,Inc.",,131847137,7000,DYCD,,,.00 260 312,
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"Lappin LincolnCenterforthePerformingArts,Inc.",,131847137,-7000,DYCD,,,.00) 260 312,**
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"Lappin LincolnCenterforthePerformingArts,Inc.** 13-1847137 Viverito LaCasadelaHerenciaCulturalPuertorriquena,Inc.",,133205023,-10000,DCA,,,.00) 126 003,**
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,"Viverito LaCasadelaHerenciaCulturalPuertorriquena,Inc.",,133205023,10000,DYCD,,,.00 260 005,**
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"Lander NewYorkIndustrialRetentionNetwork,Inc.",,510178586,-3500,DSBS,,,.00) 801 002 *,
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,PrattInstituteCenterforCommunityandEnvironmental Lander Development(PICCED),,111630822,3500,DSBS,,,.00 801 002 *,
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"CC NewYorkIndustrialRetentionNetwork,Inc.",,510178586,-175000,DSBS,,,.00) 801 002,
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,PrattInstituteCenterforCommunityandEnvironmental CC Development(PICCED),,111630822,175000,DSBS,,,.00 801 002,
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"SouthwestBrooklynCitizensCorps,Ltd.d/b/aCommunity St.Rosalia-ReginaPacisNeighborhood Gentile EmergencyResponseTeam-CERT1NYC",,201759111,-1000,DYCD,,,".00) 260 005 ImprovementAssociation,Inc. 11-2697931 *",**
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,"SouthwestBrooklynCitizensCorps,Ltd.d/b/aCommunity St.Rosalia-ReginaPacisNeighborhood Gentile EmergencyResponseTeam-CERT1NYC",,201759111,1000,OEM,,,".00 017 002 ImprovementAssociation,Inc. 11-2697931 *",**
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"Mendez ConnectingtoAdvantages,Inc.",,900392858,-3500,DSS,,,.00) 069 105,**
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,Mendez UniversitySettlementSocietyofNewYork,,135562374,3500,HPD,,,.00 806 009,**
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"Viverito JetsofHarlem,Inc.",,203556368,-3500,DYCD,,,.00) 206 312 *,**
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,Viverito OurFirefighters'Children'sFoundation,,542064625,3500,DOE,,,.00 040 402 *,**
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"Viverito FriendsofPublicSchool163,Inc.",,201670261,-7500,DCA,,,.00) 126 003,**
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,"Viverito FriendsofPublicSchool163,Inc.",,201670261,7500,DOE,,,.00 040 402,**
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"Dilan YoungDancersinRepertory,Inc.",,112799128,-40000,DYCD,,,.00) 260 312,**
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,"Dilan YoungDancersinRepertory,Inc.",,112799128,40000,DCA,,,.00 126 003,**
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,"FederazioneItalo-AmericanadiBrooklynandQueens,Inc. Crowley",,113044143,-3000,DFTA,,,.00) 125 003 *,**
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,"FederazioneItalo-AmericanadiBrooklynandQueens,Inc. Crowley",,113044143,3000,DYCD,,,.00 260 312 *,**
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,Comrie HollisPresbyterianChurch,,111631786,-11550,DYCD,,,.00) 260 312,
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,Comrie HollisPresbyterianChurch,,111631786,11550,DFTA,,,.00 125 003,
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,Koslowitz RegoParkJewishCenter,,111672786,-8200,DFTA,,,.00) 125 003,
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,Koslowitz RegoParkJewishCenter,,111672786,8200,DFTA,,,".00 125 003 QueensJewishCommunityCouncil,Inc. 23-7172152",
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,Garodnick FriendsoftheUpperEastSideHistoricDistricts,,133193351,-3500,DYCD,,,.00) 260 312,**
+5,2010-11-17,LocalInitiatives,,designate,,Mealy,Garodnick WhitneyMuseumofAmericanArt,,131789318,3500,DCA,,,.00 126 003,**
+5,2010-11-17,LocalInitiatives,,rescind,,Mealy,Arroyo RollinTogetherLocalDevelopmentCorporation,,364552584,-5000,DYCD,,,.00) 260 005 *,
 5,2010-11-17,LocalInitiatives,,designate,,,"FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * HUBThirdAvenueMerchantsDistrictManagement Arroyo Association,Inc.",,133455415,5000,DYCD,,,.00 260 005 *,
 5,2010-11-17,LocalInitiatives,,rescind,,,"Crowley GlendaleVolunteerAmbulanceCorps,Inc.",,237348786,-2500,FDNY,,,.00) 057 005 GreaterWoodhavenDevelopmentCorporation 11-2508190,
 5,2010-11-17,LocalInitiatives,,designate,,,"Crowley GlendaleVolunteerAmbulanceCorps,Inc.",,237348786,2500,FDNY,,,".00 057 005 GreaterRidgewoodYouthCouncil,Inc. 11-2518141",
@@ -72,20 +72,20 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,,"Ferreras QueensTheatreinthePark,Inc.-IntermediateSchool227Q",,113381629,20000,DCA,,,.00 126 022,
 5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,rescind,,,"StagesofLearning,Inc.-PublicSchool59M Garodnick",,113203321,-20000,DCA,,,.00) 126 003,
 5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,,"Garodnick ArtsConnection,Inc.-PublicSchool59M",,132953240,20000,DCA,,,.00 126 003,
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,rescind,,,"Mealy ProspectParkAlliance,Inc.-PublicSchool/IntermediateSchool137KRachelJean",,112843763,-20000,DCA,,,.00) 126 003,
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,,"Mealy BrooklynArtsCouncil,Inc.-PublicSchool/IntermediateSchool137KRachelJean",,237072915,20000,DCA,,,.00 126 003,
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,rescind,,,"Mealy ProspectParkAlliance,Inc.-PublicSchool298K-Dr.BettyShabazz",,112843763,-20000,DCA,,,.00) 126 003,
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,,"Mealy BrooklynArtsCouncil,Inc.-PublicSchool298K-Dr.BettyShabazz",,237072915,20000,DCA,,,.00 126 003,
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,rescind,,,"Williams BRICArts|Media|Bklyn,Inc.-PublicSchool244K",,112547268,-20000,DCA,,,.00) 126 003,
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,,"Williams BRICArts|Media|Bklyn,Inc.-PublicSchool119K",,112547268,20000,DCA,,,.00 126 003,
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,,"Barron ManUp!,Inc.-JuniorHighSchool166K-GeorgeGershwinJuniorHighSchool",,030553092,20000,DYCD,,,.00 260 312 *,**
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,,"Barron ManUp!,Inc.-PublicSchool328K",,030553092,20000,DYCD,,,.00 260 312 *,**
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,,Comrie ReversingtheProjections-IntermediateSchool59Q,,753260289,20000,DYCD,,,.00 260 312 *,**
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,,"Foster WoodycrestCenterforHumanDevelopment,Inc.-PublicSchool126X",,133184179,20000,DYCD,,,.00 260 312,**
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,,"Sanders,Jr Children'sTheatreCompany-PublicSchool105Q",,134120097,20000,DYCD,,,.00 260 312 *,**
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,,"Sanders,Jr Children'sTheatreCompany-ChallengePrepatoryAcademy",,134120097,20000,DYCD,,,.00 260 312 *,**
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,,"Rodriguez AlianzaDominicana,Inc.-JuniorHighSchool143M",,133402057,20000,DYCD,,,.00 260 312 *,**
-5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,,"Rodriguez AlianzaDominicana,Inc.-JuniorHighSchool52M",,133402057,20000,DYCD,,,.00 260 312 *,**
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,rescind,,Mealy,"ProspectParkAlliance,Inc.-PublicSchool/IntermediateSchool137KRachelJean",,112843763,-20000,DCA,,,.00) 126 003,
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,Mealy,"BrooklynArtsCouncil,Inc.-PublicSchool/IntermediateSchool137KRachelJean",,237072915,20000,DCA,,,.00 126 003,
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,rescind,,Mealy,"ProspectParkAlliance,Inc.-PublicSchool298K-Dr.BettyShabazz",,112843763,-20000,DCA,,,.00) 126 003,
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,Mealy,"BrooklynArtsCouncil,Inc.-PublicSchool298K-Dr.BettyShabazz",,237072915,20000,DCA,,,.00 126 003,
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,rescind,,Williams,"BRICArts|Media|Bklyn,Inc.-PublicSchool244K",,112547268,-20000,DCA,,,.00) 126 003,
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,Williams,"BRICArts|Media|Bklyn,Inc.-PublicSchool119K",,112547268,20000,DCA,,,.00 126 003,
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,Williams,"Barron ManUp!,Inc.-JuniorHighSchool166K-GeorgeGershwinJuniorHighSchool",,030553092,20000,DYCD,,,.00 260 312 *,**
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,Williams,"Barron ManUp!,Inc.-PublicSchool328K",,030553092,20000,DYCD,,,.00 260 312 *,**
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,Williams,Comrie ReversingtheProjections-IntermediateSchool59Q,,753260289,20000,DYCD,,,.00 260 312 *,**
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,Williams,"Foster WoodycrestCenterforHumanDevelopment,Inc.-PublicSchool126X",,133184179,20000,DYCD,,,.00 260 312,**
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,Williams,"Sanders,Jr Children'sTheatreCompany-PublicSchool105Q",,134120097,20000,DYCD,,,.00 260 312 *,**
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,Williams,"Sanders,Jr Children'sTheatreCompany-ChallengePrepatoryAcademy",,134120097,20000,DYCD,,,.00 260 312 *,**
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,Williams,"Rodriguez AlianzaDominicana,Inc.-JuniorHighSchool143M",,133402057,20000,DYCD,,,.00 260 312 *,**
+5,2010-11-17,CulturalAfterSchoolAdventure(CASA),,designate,,Williams,"Rodriguez AlianzaDominicana,Inc.-JuniorHighSchool52M",,133402057,20000,DYCD,,,.00 260 312 *,**
 5,2010-11-17,CitywideTaskForceonHousingCourt,,rescind,,,"Organization EINNumber Agency Amount Agy# U/A * City-WideTaskForceonHousingCourt,Inc.",,133317188,-500000,HPD,,,.00) 806 011,
 5,2010-11-17,CitywideTaskForceonHousingCourt,,designate,,,"HousingCourtAnswers,Inc.",,133317188,500000,HPD,,,.00 806 011,
 5,2010-11-17,HIV/AIDS-FaithBasedInitiative,,designate,,,"Organization EINNumber Agency Amount Agy# U/A * BedfordStuyvesantFamilyHealthCenter,Inc.(WatchfulEye)",,112412205,174651,DOHMH,,,.00 816 112,

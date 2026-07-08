@@ -31,8 +31,10 @@ rows by fiscal year:  ?=9  2014=11  2015=81  2016=4055
 
 unresolved organization (dense-chart text-layer artifacts): 0 of 4156 rows (0.00%) -- amount/EIN/agency captured, org name orphaned
 
-org-text confidence: MODERATE -- 195 of 4156 rows (4.69%) show glued-word (111) or header-bleed (84) artifacts in the org field.
+org-text confidence: LOW -- 211 of 4156 rows (5.08%) show glued-word (127) or header-bleed (84) artifacts in the org field.
   (EIN / amount / agency / date / action are deterministic and unaffected.)
+  NOTE: this fiscal year predates the clean text-layer era; treat organization,
+  council_member and program as best-effort. Join on EIN for reliable identity.
 
 SPOTLIGHT - Artificial Intelligence Community Engagement (AICE, $1M initiative):
   NOT FOUND in any parsed resolution.

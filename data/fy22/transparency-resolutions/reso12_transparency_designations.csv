@@ -1,72 +1,72 @@
 resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,rescind,,,Rivera National Museum of Mathematics,,271450809,-5000,DOE,040,402,,**
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,,Rivera National Museum of Mathematics,,271450809,5000,DCLA,126,003,,**
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,rescind,,,Velazquez Albanian American Council,,454527182,-10000,DYCD,260,005,,**
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,,Velazquez Department of Sanitation,Council District 13,136400434,10000,DSNY,827,102,,**
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,rescind,,,Yeger Department of Youth and Community Development,,136400434,-14500,DYCD,260,312,,**
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,,"Yeger Be Proud, Inc.",,582674169,2500,DYCD,260,005,,**
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,,"Yeger Propel Network, Inc.",,473168850,4000,DYCD,260,005,,**
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,,"Yeger Agudath Israel of America Community Services, Inc.",,133975090,4000,DYCD,260,005,,**
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,,"Yeger SBH Community Service Network, Inc.",,237406410,4000,DYCD,260,005,,**
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,rescind,,,Holden Department of Parks and Recreation,Juniper Park,136400434,-9465,DPR,846,006,,**
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,,Holden Department of Sanitation,Council District 30,136400434,8965,DSNY,827,109,,**
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,,Holden St. Stanislaus Catholic Church,,111981305,500,DYCD,260,312,,**
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,rescind,,,Joseph Brooklyn Community Board #12,,136400434,-5000,BKCB,482,002,,***
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,,Joseph Brooklyn Community Board #12,,136400434,5000,BKCB,484,002,,***
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,rescind,,,Joseph Brooklyn Community Board #12,,136400434,-5000,BKCB,484,002,,
-12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,,Joseph Brooklyn Community Board #14,,136400434,5000,BKCB,484,002,,
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,rescind,,Rivera,National Museum of Mathematics,,271450809,-5000,DOE,040,402,,**
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,Rivera,National Museum of Mathematics,,271450809,5000,DCLA,126,003,,**
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,rescind,,Rivera,Velazquez Albanian American Council,,454527182,-10000,DYCD,260,005,,**
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,Rivera,Velazquez Department of Sanitation,Council District 13,136400434,10000,DSNY,827,102,,**
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,rescind,,Rivera,Yeger Department of Youth and Community Development,,136400434,-14500,DYCD,260,312,,**
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,Rivera,"Yeger Be Proud, Inc.",,582674169,2500,DYCD,260,005,,**
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,Rivera,"Yeger Propel Network, Inc.",,473168850,4000,DYCD,260,005,,**
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,Rivera,"Yeger Agudath Israel of America Community Services, Inc.",,133975090,4000,DYCD,260,005,,**
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,Rivera,"Yeger SBH Community Service Network, Inc.",,237406410,4000,DYCD,260,005,,**
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,rescind,,Holden,Department of Parks and Recreation,Juniper Park,136400434,-9465,DPR,846,006,,**
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,Holden,Department of Sanitation,Council District 30,136400434,8965,DSNY,827,109,,**
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,Holden,St. Stanislaus Catholic Church,,111981305,500,DYCD,260,312,,**
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,rescind,,Joseph,Brooklyn Community Board #12,,136400434,-5000,BKCB,482,002,,***
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,Joseph,Brooklyn Community Board #12,,136400434,5000,BKCB,484,002,,***
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,rescind,,Joseph,Brooklyn Community Board #12,,136400434,-5000,BKCB,484,002,,
+12,2022-05-05,Local Initiatives - Fiscal 2022,2022,designate,,Joseph,Brooklyn Community Board #14,,136400434,5000,BKCB,484,002,,
 12,2022-05-05,Youth Discretionary - Fiscal 2022,2022,rescind,,,Velazquez Department of Youth and Community Development,,136400434,-7500,DYCD,260,312,*,
 12,2022-05-05,Youth Discretionary - Fiscal 2022,2022,designate,,,Velazquez Arthur Aviles Typical Theatre,,133997265,7500,DYCD,260,312,,
 12,2022-05-05,Youth Discretionary - Fiscal 2022,2022,rescind,,,Yeger Department of Youth and Community Development,,136400434,-6500,DYCD,260,312,*,
 12,2022-05-05,Youth Discretionary - Fiscal 2022,2022,designate,,,Yeger Mekimi,,550870419,6500,DYCD,260,312,,
 12,2022-05-05,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,rescind,,Speaker,City Univserity of New York,"Queensborough Community College Auxiliary Enterprise Association, Inc.",136400434,-15000,CUNY,042,001,,
 12,2022-05-05,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,designate,,Speaker,City University of New York,"Queensborough Community College Auxiliary Enterprise Association, Inc.",136400434,15000,CUNY,042,001,,
-12,2022-05-05,SU-CASA - Fiscal 2022,2022,rescind,,,"Caban Queens Theatre In The Park, Inc.",HANAC QUEENSVIEW NORC,113381629,-16250,DCLA,126,003,,
-12,2022-05-05,SU-CASA - Fiscal 2022,2022,designate,,,"Caban Queens Theatre In The Park, Inc.",HANAC Queensview,113381629,16250,DCLA,126,003,,
-12,2022-05-05,SU-CASA - Fiscal 2022,2022,rescind,,,"Jamaica Center for Arts and Learning, Inc.",ALPHA PHI ALPHA NEIGHBORHOOD SENIOR Williams CTR,112478709,-16250,DCLA,126,003,,
-12,2022-05-05,SU-CASA - Fiscal 2022,2022,designate,,,"Jamaica Center for Arts and Learning, Inc.",ALLEN COMMUNITY NEIGHBORHOOD Williams SENIOR CTR,112478709,16250,DCLA,126,003,,
-12,2022-05-05,SU-CASA - Fiscal 2022,2022,rescind,,,"Williams Braata Productions, Inc.",ALLEN COMMUNITY NEIGHBORHOOD SENIOR CTR,273402327,-16250,DCLA,126,003,,
-12,2022-05-05,SU-CASA - Fiscal 2022,2022,designate,,,"Williams Braata Productions, Inc.",ALPHA PHI ALPHA NEIGHBORHOOD SENIOR CTR,273402327,16250,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Stevens Young Adult Institute, Inc.",Intermediate School 229 Roland Patterson (09X229),112030172,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Stevens DreamYard Project, Inc.",Public School 146X Edward Collins (08X146),133759661,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,Marte Museum of Chinese in the Americas,School for Global Leaders (01M378),112517055,-20000,DCLA,126,003,,**
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,Marte Sophie Gerson Healthy Youth,Public School 126M Jacob August Riis (02M126),462977659,20000,DYCD,260,312,,**
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Groundswell Community Mural Project, Inc.",Middle School 442K Carroll Gardens School for Aviles Innovation (15K442),113427213,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Groundswell Community Mural Project, Inc.",Public School 69K Vincent D. Grippo School Aviles (20K069),113427213,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Groundswell Community Mural Project, Inc.",Public School 094K The Henry Longfellow Aviles (15K094 ),113427213,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Aviles Groundswell Community Mural Project, Inc.",Public School 015K Patrick F. Daly (15K015),113427213,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Aviles Groundswell Community Mural Project, Inc.",Public School 105K The Blythebourne (20K105),113427213,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Groundswell Community Mural Project, Inc.",Public School 172K Beacon School of Aviles Excellence (15K172),113427213,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,Williams Major Music International Corporation,Public School 15Q (29Q015),261159606,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,Williams Major Music International Corporation,Public School 134Q (29Q134),261159606,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Farias Big Brothers Big Sisters of New York City, Inc.",Mott Hall V High School (12X242),135600383,-20000,DYCD,260,312,,**
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,Farias Young Men's and Young Women's Hebrew Association,Mott Hall V High School (12X242),131624229,20000,DCLA,126,003,,**
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,Farias Young Men's and Young Women's Hebrew Association,Mott Hall V High School (12X242),131624229,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Farias Publicolor, Inc.",Junior High School 127X The Castle Hill (11X127),133912768,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Louis Little Orchestra Society-Orpheon, Inc., The",Public School 244 Richard R. Green (18K244),132638292,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Little Orchestra Society-Orpheon, Inc., The",Public School 152K School of Science & Louis Technology (22K152),132638292,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Museum of Contemporary African Diasporian Arts, Inc.","Middle School 267K Math, Science & Osse Technology (16K267)",113526774,-20000,DYCD,260,312,,**
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Museum of Contemporary African Diasporian Arts, Inc.","Middle School 267K Math, Science & Osse Technology (16K267)",113526774,20000,DCLA,126,003,,**
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Bottcher Young Adult Institute, Inc.",Restart Academy (M973),112030172,-20000,DYCD,260,312,,**
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Bottcher Young Adult Institute, Inc.",Restart Academy (M973),112030172,20000,DCLA,126,003,,**
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Nurse Town Hall Foundation, Inc.",Public School 73K (84K037),237296167,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Nurse Town Hall Foundation, Inc.",Brooklyn Environmental Exploration School (BEES) (23K664),237296167,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Gutierrez Bushwick Starr, Inc.",Public School 196K Ten Eyck (14K196),264546315,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Gutierrez Bushwick Starr, Inc.",Public School 239 (24Q239),264546315,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,City University of New York,Queensborough Community College Auxiliary Enterprise Assn. Krishnan Inc.- Public School 280Q (30Q280),133893536,-20000,CUNY,042,001,,**
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,Research Foundation of the City University of New York,Queensborough Community Krishnan College Auxiliary Enterprise Assn. Inc.- Public School 280Q (30Q280),131988190,20000,DCLA,126,003,,**
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Louis Brooklyn Arts Council, Inc.",Public School 109K (22K109),237072915,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Louis Brooklyn Arts Council, Inc.",Public School 208 Elsa Ebeling (18K208),237072915,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Colonial Farmhouse Restoration Society of Bellerose, Inc.",Public School 47Q - Chris Galas Ariola School (27Q047),112508369,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Colonial Farmhouse Restoration Society of Bellerose, Inc.",Public School/Middle School Ariola 114Q Belle Harbor (27Q114),112508369,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Gutierrez Marquis Studios, Ltd.",Public School 017K Henry D. Woodworth (14K017),133047206,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Gutierrez El Puente de Williamsburg, Inc.",Junior High School 050K John D. Wells (14K050),112614265,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Vernikov Brooklyn Historical Society, The",Public School 225K (21K225),111630813,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,Vernikov Department of Cultural Affairs,,136400434,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,Dinowitz New York Historical Society,The Matilda Avenue School (11X483),131624124,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,Dinowitz Department of Cultural Affairs,,136400434,20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,Department of Cultural Affairs,,136400434,-20000,DCLA,126,003,,
-12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,Yeger Jewish Museum,Barkai Yeshiva,136146854,20000,DCLA,126,003,,
+12,2022-05-05,SU-CASA - Fiscal 2022,2022,rescind,,Caban,"Queens Theatre In The Park, Inc.",HANAC QUEENSVIEW NORC,113381629,-16250,DCLA,126,003,,
+12,2022-05-05,SU-CASA - Fiscal 2022,2022,designate,,Caban,"Queens Theatre In The Park, Inc.",HANAC Queensview,113381629,16250,DCLA,126,003,,
+12,2022-05-05,SU-CASA - Fiscal 2022,2022,rescind,,Williams,"Jamaica Center for Arts and Learning, Inc.",ALPHA PHI ALPHA NEIGHBORHOOD SENIOR CTR,112478709,-16250,DCLA,126,003,,
+12,2022-05-05,SU-CASA - Fiscal 2022,2022,designate,,Williams,"Jamaica Center for Arts and Learning, Inc.",ALLEN COMMUNITY NEIGHBORHOOD SENIOR CTR,112478709,16250,DCLA,126,003,,
+12,2022-05-05,SU-CASA - Fiscal 2022,2022,rescind,,Williams,"Braata Productions, Inc.",ALLEN COMMUNITY NEIGHBORHOOD SENIOR CTR,273402327,-16250,DCLA,126,003,,
+12,2022-05-05,SU-CASA - Fiscal 2022,2022,designate,,Williams,"Braata Productions, Inc.",ALPHA PHI ALPHA NEIGHBORHOOD SENIOR CTR,273402327,16250,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Stevens,"Young Adult Institute, Inc.",Intermediate School 229 Roland Patterson (09X229),112030172,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Stevens,"DreamYard Project, Inc.",Public School 146X Edward Collins (08X146),133759661,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Marte,Museum of Chinese in the Americas,School for Global Leaders (01M378),112517055,-20000,DCLA,126,003,,**
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Marte,Sophie Gerson Healthy Youth,Public School 126M Jacob August Riis (02M126),462977659,20000,DYCD,260,312,,**
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Aviles,"Groundswell Community Mural Project, Inc.",Middle School 442K Carroll Gardens School for Innovation (15K442),113427213,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Aviles,"Groundswell Community Mural Project, Inc.",Public School 69K Vincent D. Grippo School (20K069),113427213,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Aviles,"Groundswell Community Mural Project, Inc.",Public School 094K The Henry Longfellow (15K094 ),113427213,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Aviles,"Groundswell Community Mural Project, Inc.",Public School 015K Patrick F. Daly (15K015),113427213,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Aviles,"Groundswell Community Mural Project, Inc.",Public School 105K The Blythebourne (20K105),113427213,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Aviles,"Groundswell Community Mural Project, Inc.",Public School 172K Beacon School of Excellence (15K172),113427213,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Williams,Major Music International Corporation,Public School 15Q (29Q015),261159606,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Williams,Major Music International Corporation,Public School 134Q (29Q134),261159606,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Farias,"Big Brothers Big Sisters of New York City, Inc.",Mott Hall V High School (12X242),135600383,-20000,DYCD,260,312,,**
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Farias,Young Men's and Young Women's Hebrew Association,Mott Hall V High School (12X242),131624229,20000,DCLA,126,003,,**
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Farias,Young Men's and Young Women's Hebrew Association,Mott Hall V High School (12X242),131624229,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Farias,"Publicolor, Inc.",Junior High School 127X The Castle Hill (11X127),133912768,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Louis,"Little Orchestra Society-Orpheon, Inc., The",Public School 244 Richard R. Green (18K244),132638292,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Louis,"Little Orchestra Society-Orpheon, Inc., The",Public School 152K School of Science & Technology (22K152),132638292,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Osse,"Museum of Contemporary African Diasporian Arts, Inc.","Middle School 267K Math, Science & Technology (16K267)",113526774,-20000,DYCD,260,312,,**
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Osse,"Museum of Contemporary African Diasporian Arts, Inc.","Middle School 267K Math, Science & Technology (16K267)",113526774,20000,DCLA,126,003,,**
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Bottcher,"Young Adult Institute, Inc.",Restart Academy (M973),112030172,-20000,DYCD,260,312,,**
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Bottcher,"Young Adult Institute, Inc.",Restart Academy (M973),112030172,20000,DCLA,126,003,,**
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Nurse,"Town Hall Foundation, Inc.",Public School 73K (84K037),237296167,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Nurse,"Town Hall Foundation, Inc.",Brooklyn Environmental Exploration School (BEES) (23K664),237296167,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Gutierrez,"Bushwick Starr, Inc.",Public School 196K Ten Eyck (14K196),264546315,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Gutierrez,"Bushwick Starr, Inc.",Public School 239 (24Q239),264546315,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Krishnan,City University of New York,Queensborough Community College Auxiliary Enterprise Assn. Inc.- Public School 280Q (30Q280),133893536,-20000,CUNY,042,001,,**
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Krishnan,Research Foundation of the City University of New York,Queensborough Community College Auxiliary Enterprise Assn. Inc.- Public School 280Q (30Q280),131988190,20000,DCLA,126,003,,**
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Louis,"Brooklyn Arts Council, Inc.",Public School 109K (22K109),237072915,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Louis,"Brooklyn Arts Council, Inc.",Public School 208 Elsa Ebeling (18K208),237072915,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Ariola,"Colonial Farmhouse Restoration Society of Bellerose, Inc.",Public School 47Q - Chris Galas School (27Q047),112508369,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Ariola,"Colonial Farmhouse Restoration Society of Bellerose, Inc.",Public School/Middle School 114Q Belle Harbor (27Q114),112508369,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Gutierrez,"Marquis Studios, Ltd.",Public School 017K Henry D. Woodworth (14K017),133047206,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Gutierrez,"El Puente de Williamsburg, Inc.",Junior High School 050K John D. Wells (14K050),112614265,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Vernikov,"Brooklyn Historical Society, The",Public School 225K (21K225),111630813,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Vernikov,Department of Cultural Affairs,,136400434,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Dinowitz,New York Historical Society,The Matilda Avenue School (11X483),131624124,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Dinowitz,Department of Cultural Affairs,,136400434,20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,Dinowitz,Department of Cultural Affairs,,136400434,-20000,DCLA,126,003,,
+12,2022-05-05,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,Dinowitz,Yeger Jewish Museum,Barkai Yeshiva,136146854,20000,DCLA,126,003,,
 12,2022-05-05,Parks Equity Initiative - Fiscal 2022,2022,rescind,,,Velazquez City Parks Foundation,Memorial Park,133561657,-50000,DPR,846,006,,
 12,2022-05-05,Parks Equity Initiative - Fiscal 2022,2022,designate,,,Velazquez City Parks Foundation,Seniors Fitness Programs - Pelham Bay Park,133561657,5000,DPR,846,006,,
 12,2022-05-05,Parks Equity Initiative - Fiscal 2022,2022,designate,,,Velazquez Department of Parks and Recreation,Family Day - Ferry Point Park/ Throgs Neck,136400434,4665,DPR,846,006,,
@@ -74,51 +74,51 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 12,2022-05-05,Parks Equity Initiative - Fiscal 2022,2022,designate,,,Velazquez Department of Parks and Recreation,Movies Under the Stars - Pelham Bay Park,136400434,12500,DPR,846,006,,
 12,2022-05-05,Parks Equity Initiative - Fiscal 2022,2022,designate,,,Velazquez Department of Parks and Recreation,Skate Event - Bufano Park,136400434,1600,DPR,846,006,,
 12,2022-05-05,Parks Equity Initiative - Fiscal 2022,2022,designate,,,Velazquez Department of Parks and Recreation,Cleanup Services - Orchard Beach Pelham Bay Park,136400434,21570,DPR,846,006,,
-12,2022-05-05,Parks Equity Initiative - Fiscal 2022,2022,rescind,,,Holden Department of Parks and Recreation,,136400434,-15000,DPR,846,006,,
-12,2022-05-05,Parks Equity Initiative - Fiscal 2022,2022,designate,,,Holden Department of Parks and Recreation,Council District 30,136400434,15000,DPR,846,006,,
-12,2022-05-05,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,rescind,,,Menin Department of Education,,136400434,-40000,DOE,040,454,,**
-12,2022-05-05,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,designate,,,"Menin Stanley M. Isaacs Neighborhood Center, Inc.",,132572034,40000,DYCD,260,005,,**
-12,2022-05-05,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,rescind,,,Powers WNET,,262810489,-20000,DOE,040,454,,**
-12,2022-05-05,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,designate,,,Powers WNET,CAMP TV,262810489,20000,DYCD,260,005,,**
-12,2022-05-05,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,rescind,,,"Stevens Bronx Documentary Center, The",Arturo Schomburg Senior Center,452403312,-20000,DCLA,126,003,,
-12,2022-05-05,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,designate,,,"Stevens Bronx Documentary Center, The",William Hodson Neighborhood Senior Center,452403312,20000,DCLA,126,003,,
+12,2022-05-05,Parks Equity Initiative - Fiscal 2022,2022,rescind,,Holden,Department of Parks and Recreation,,136400434,-15000,DPR,846,006,,
+12,2022-05-05,Parks Equity Initiative - Fiscal 2022,2022,designate,,Holden,Department of Parks and Recreation,Council District 30,136400434,15000,DPR,846,006,,
+12,2022-05-05,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,rescind,,Menin,Department of Education,,136400434,-40000,DOE,040,454,,**
+12,2022-05-05,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,designate,,Menin,"Stanley M. Isaacs Neighborhood Center, Inc.",,132572034,40000,DYCD,260,005,,**
+12,2022-05-05,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,rescind,,Powers,WNET,,262810489,-20000,DOE,040,454,,**
+12,2022-05-05,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,designate,,Powers,WNET,CAMP TV,262810489,20000,DYCD,260,005,,**
+12,2022-05-05,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,rescind,,Stevens,"Bronx Documentary Center, The",Arturo Schomburg Senior Center,452403312,-20000,DCLA,126,003,,
+12,2022-05-05,Digital Inclusion and Literacy Initiative - Fiscal 2022,2022,designate,,Stevens,"Bronx Documentary Center, The",William Hodson Neighborhood Senior Center,452403312,20000,DCLA,126,003,,
 12,2022-05-05,NYC Cleanup Initiative - Fiscal 2022,2022,rescind,,,Borelli Tottenville Historical Society,Beautifcation & Clean up - Council District 51,841678085,-10000,DPR,846,006,,**
 12,2022-05-05,NYC Cleanup Initiative - Fiscal 2022,2022,designate,,,Borelli New York City H2O,Clean Ups & Education,453860014,10000,DYCD,260,005,,**
-12,2022-05-05,Food Pantries - Fiscal 2022,2022,rescind,,,Bronx Delegation Food Bank For New York City,New St. John Baptist Church - EFRO#80179,133179546,-5000,DYCD,260,005,,
-12,2022-05-05,Food Pantries - Fiscal 2022,2022,designate,,,Bronx Delegation Food Bank For New York City,Part of the Solution - EFRO# 80121,133179546,5000,DYCD,260,005,,
-12,2022-05-05,Food Pantries - Fiscal 2022,2022,rescind,,,"Queens Delegation Services Now for Adult Persons (SNAP), Inc.",Brookville Center,112591783,-5000,DYCD,260,005,,
-12,2022-05-05,Food Pantries - Fiscal 2022,2022,designate,,,Queens Delegation Greater Bethel Community Development Corporation,,320000557,5000,DYCD,260,005,,
-12,2022-05-05,Food Pantries - Fiscal 2022,2022,rescind,,,Queens Delegation Food Bank For New York City,St. Margaret Mary Church - EFRO# 83401,133179546,-13396,DYCD,260,005,,
-12,2022-05-05,Food Pantries - Fiscal 2022,2022,designate,,,Queens Delegation Food Bank For New York City,"Cienfuegos Foundation, Inc - EFRO# 85452",133179546,13396,DYCD,260,005,,
-12,2022-05-05,Food Pantries - Fiscal 2022,2022,rescind,,,Queens Delegation Food Bank For New York City,Walk In Love Family Center - EFRO# 85079,133179546,-5000,DYCD,260,005,,
-12,2022-05-05,Food Pantries - Fiscal 2022,2022,designate,,,Queens Delegation Food Bank For New York City,Samuel Field YM/YWHA - EFRO# 80941,133179546,5000,DYCD,260,005,,
-12,2022-05-05,Food Pantries - Fiscal 2022,2022,rescind,,,Brooklyn Delegation Food Bank For New York City,Our Lady of Grace Parish Ministry - EFRO #83503,133179546,-5849,DYCD,260,005,,
-12,2022-05-05,Food Pantries - Fiscal 2022,2022,designate,,,Brooklyn Delegation Food Bank For New York City,Acts Community Development Corp. - EFRO# 84948,133179546,5849,DYCD,260,005,,
+12,2022-05-05,Food Pantries - Fiscal 2022,2022,rescind,,Bronx Delegation,Food Bank For New York City,New St. John Baptist Church - EFRO#80179,133179546,-5000,DYCD,260,005,,
+12,2022-05-05,Food Pantries - Fiscal 2022,2022,designate,,Bronx Delegation,Food Bank For New York City,Part of the Solution - EFRO# 80121,133179546,5000,DYCD,260,005,,
+12,2022-05-05,Food Pantries - Fiscal 2022,2022,rescind,,Queens Delegation,"Services Now for Adult Persons (SNAP), Inc.",Brookville Center,112591783,-5000,DYCD,260,005,,
+12,2022-05-05,Food Pantries - Fiscal 2022,2022,designate,,Queens Delegation,Greater Bethel Community Development Corporation,,320000557,5000,DYCD,260,005,,
+12,2022-05-05,Food Pantries - Fiscal 2022,2022,rescind,,Queens Delegation,Food Bank For New York City,St. Margaret Mary Church - EFRO# 83401,133179546,-13396,DYCD,260,005,,
+12,2022-05-05,Food Pantries - Fiscal 2022,2022,designate,,Queens Delegation,Food Bank For New York City,"Cienfuegos Foundation, Inc - EFRO# 85452",133179546,13396,DYCD,260,005,,
+12,2022-05-05,Food Pantries - Fiscal 2022,2022,rescind,,Queens Delegation,Food Bank For New York City,Walk In Love Family Center - EFRO# 85079,133179546,-5000,DYCD,260,005,,
+12,2022-05-05,Food Pantries - Fiscal 2022,2022,designate,,Queens Delegation,Food Bank For New York City,Samuel Field YM/YWHA - EFRO# 80941,133179546,5000,DYCD,260,005,,
+12,2022-05-05,Food Pantries - Fiscal 2022,2022,rescind,,Brooklyn Delegation,Food Bank For New York City,Our Lady of Grace Parish Ministry - EFRO #83503,133179546,-5849,DYCD,260,005,,
+12,2022-05-05,Food Pantries - Fiscal 2022,2022,designate,,Brooklyn Delegation,Food Bank For New York City,Acts Community Development Corp. - EFRO# 84948,133179546,5849,DYCD,260,005,,
 12,2022-05-05,Food Pantries - Fiscal 2022,2022,rescind,,,United Way of New York City,,132617681,-1000000,DYCD,260,005,,
 12,2022-05-05,Food Pantries - Fiscal 2022,2022,designate,,,Department of Youth and Community Development,,136400434,1000000,DYCD,260,005,*,
 12,2022-05-05,A Greener NYC - Fiscal 2022,2022,rescind,,,Department of Cultural Affairs,,136400434,-30000,DCLA,126,003,,**
 12,2022-05-05,A Greener NYC - Fiscal 2022,2022,designate,,,Department of Youth and Community Development,,136400434,30000,DYCD,260,005,,**
-12,2022-05-05,A Greener NYC - Fiscal 2022,2022,rescind,,,Holden Department of Parks and Recreation,Juniper Park,136400434,-35000,DPR,846,006,,
-12,2022-05-05,A Greener NYC - Fiscal 2022,2022,designate,,,Holden Department of Parks and Recreation,Council District 30,136400434,35000,DPR,846,006,,
-12,2022-05-05,A Greener NYC - Fiscal 2022,2022,rescind,,,Department of Cultural Affairs,,136400434,-50000,DCLA,126,003,,**
-12,2022-05-05,A Greener NYC - Fiscal 2022,2022,designate,,,"Yeger Kings Highway Beautification Association, Inc.",,204986882,20000,DYCD,260,005,,**
-12,2022-05-05,A Greener NYC - Fiscal 2022,2022,designate,,,"Yeger Association of Community Employment Programs for the Homeless, Inc.",,133846431,30000,DYCD,260,005,,**
+12,2022-05-05,A Greener NYC - Fiscal 2022,2022,rescind,,Holden,Department of Parks and Recreation,Juniper Park,136400434,-35000,DPR,846,006,,
+12,2022-05-05,A Greener NYC - Fiscal 2022,2022,designate,,Holden,Department of Parks and Recreation,Council District 30,136400434,35000,DPR,846,006,,
+12,2022-05-05,A Greener NYC - Fiscal 2022,2022,rescind,,Holden,Department of Cultural Affairs,,136400434,-50000,DCLA,126,003,,**
+12,2022-05-05,A Greener NYC - Fiscal 2022,2022,designate,,Holden,"Yeger Kings Highway Beautification Association, Inc.",,204986882,20000,DYCD,260,005,,**
+12,2022-05-05,A Greener NYC - Fiscal 2022,2022,designate,,Holden,"Yeger Association of Community Employment Programs for the Homeless, Inc.",,133846431,30000,DYCD,260,005,,**
 12,2022-05-05,Crisis Management System - Fiscal 2022,2022,rescind,,,IlluminArt Productions,IS 31R072,421727647,-40000,DOE,040,402,,
 12,2022-05-05,Crisis Management System - Fiscal 2022,2022,designate,,,IlluminArt Productions,Intermediate School 051R Edwin Markham (31R051),421727647,40000,DOE,040,402,,
 12,2022-05-05,Children and Families in NYC Homeless System - Fiscal 2022,2022,rescind,,,"BronxWorks, Inc.",,133254484,-50000,DHS,071,200,,
 12,2022-05-05,Children and Families in NYC Homeless System - Fiscal 2022,2022,designate,,,Department of Homeless Services,,136400434,50000,DHS,071,200,*,
-12,2022-05-05,Local Initiatives - Fiscal 2021,2021,rescind,,,"Caribbean American Chamber of Commerce and Industry, Inc.",Council Joseph District 40,112903423,-5000,SBS,801,002,,
-12,2022-05-05,Local Initiatives - Fiscal 2021,2021,designate,,,Joseph Department of Small Business Services,,136400434,5000,SBS,801,002,*,
-12,2022-05-05,Anti-Poverty Initiative - Fiscal 2021,2021,rescind,,,"Caribbean American Chamber of Commerce and Industry, Inc.",Council Joseph District 40,112903423,-5000,SBS,801,002,,
-12,2022-05-05,Anti-Poverty Initiative - Fiscal 2021,2021,designate,,,Joseph Department of Small Business Services,,136400434,5000,SBS,801,002,*,
+12,2022-05-05,Local Initiatives - Fiscal 2021,2021,rescind,,Joseph,"Caribbean American Chamber of Commerce and Industry, Inc.",Council District 40,112903423,-5000,SBS,801,002,,
+12,2022-05-05,Local Initiatives - Fiscal 2021,2021,designate,,Joseph,Department of Small Business Services,,136400434,5000,SBS,801,002,*,
+12,2022-05-05,Anti-Poverty Initiative - Fiscal 2021,2021,rescind,,Joseph,"Caribbean American Chamber of Commerce and Industry, Inc.",Council District 40,112903423,-5000,SBS,801,002,,
+12,2022-05-05,Anti-Poverty Initiative - Fiscal 2021,2021,designate,,Joseph,Department of Small Business Services,,136400434,5000,SBS,801,002,*,
 12,2022-05-05,Boroughwide Needs Initiative - Fiscal 2021,2021,rescind,,,"Caribbean American Chamber of Commerce and Industry, Inc.",Brooklyn Navy Brooklyn Delegation Yard,112903423,-10000,SBS,801,002,,
-12,2022-05-05,Boroughwide Needs Initiative - Fiscal 2021,2021,designate,,,Brooklyn Delegation Department of Small Business Services,,136400434,10000,SBS,801,002,*,
-12,2022-05-05,Neighborhood Development Grant Initiative - Fiscal 2021,2021,rescind,,,"Louis Caribbean American Chamber of Commerce and Industry, Inc.",,112903423,-10000,SBS,801,002,,
-12,2022-05-05,Neighborhood Development Grant Initiative - Fiscal 2021,2021,designate,,,Louis Department of Small Business Services,,136400434,10000,SBS,801,002,*,
-12,2022-05-05,Neighborhood Development Grant Initiative - Fiscal 2021,2021,rescind,,,"Jordan Harlem Week, Inc.",,133058019,-10000,SBS,801,002,,
-12,2022-05-05,Neighborhood Development Grant Initiative - Fiscal 2021,2021,designate,,,Jordan Department of Small Business Services,,136400434,10000,SBS,801,002,*,
-12,2022-05-05,Neighborhood Development Grant Initiative - Fiscal 2021,2021,rescind,,,"Vernikov Pakistani American Youth Organization, Inc.",,474022872,-10000,SBS,801,002,,
-12,2022-05-05,Neighborhood Development Grant Initiative - Fiscal 2021,2021,designate,,,Vernikov Department of Small Business Services,,136400434,10000,SBS,801,002,*,
+12,2022-05-05,Boroughwide Needs Initiative - Fiscal 2021,2021,designate,,Brooklyn Delegation,Department of Small Business Services,,136400434,10000,SBS,801,002,*,
+12,2022-05-05,Neighborhood Development Grant Initiative - Fiscal 2021,2021,rescind,,Louis,"Caribbean American Chamber of Commerce and Industry, Inc.",,112903423,-10000,SBS,801,002,,
+12,2022-05-05,Neighborhood Development Grant Initiative - Fiscal 2021,2021,designate,,Louis,Department of Small Business Services,,136400434,10000,SBS,801,002,*,
+12,2022-05-05,Neighborhood Development Grant Initiative - Fiscal 2021,2021,rescind,,Louis,"Jordan Harlem Week, Inc.",,133058019,-10000,SBS,801,002,,
+12,2022-05-05,Neighborhood Development Grant Initiative - Fiscal 2021,2021,designate,,Louis,Jordan Department of Small Business Services,,136400434,10000,SBS,801,002,*,
+12,2022-05-05,Neighborhood Development Grant Initiative - Fiscal 2021,2021,rescind,,Vernikov,"Pakistani American Youth Organization, Inc.",,474022872,-10000,SBS,801,002,,
+12,2022-05-05,Neighborhood Development Grant Initiative - Fiscal 2021,2021,designate,,Vernikov,Department of Small Business Services,,136400434,10000,SBS,801,002,*,
 12,2022-05-05,Chamber on the Go and Small Business Assistance - Fiscal 2021,2021,rescind,,,"Caribbean American Chamber of Commerce and Industry, Inc.",,112903423,-75225,SBS,801,002,,
 12,2022-05-05,Chamber on the Go and Small Business Assistance - Fiscal 2021,2021,designate,,,Department of Small Business Services,,136400434,75225,SBS,801,002,*,
 12,2022-05-05,Purpose of Funds Changes - Fiscal 2022,2022,purpose_change,,,"New Purpose of Funds United Jewish Council of the East Side, Funds will support UJC's programs and operations at Lillian Wald Senior Aging Rivera",,132735378,-20000,DFTA,,,Inc. - Lillian Wald Senior Center Center.,

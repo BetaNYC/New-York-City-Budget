@@ -1,26 +1,26 @@
 resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
-13,2023-05-11,Local Initiatives - Fiscal 2023,2023,rescind,,,"Brannan NIA Community Services Network, Inc.",Council District 43,112697931,-10000,DYCD,260,005,,**
-13,2023-05-11,Local Initiatives - Fiscal 2023,2023,designate,,,"Brannan 2020 Vision for Schools, Inc.",Council District 43,453023036,10000,DCLA,126,003,,**
-13,2023-05-11,Local Initiatives - Fiscal 2023,2023,rescind,,,Paladino Department of Youth and Community Development,,136400434,-5000,DYCD,260,005,,**
-13,2023-05-11,Local Initiatives - Fiscal 2023,2023,designate,,,Paladino Police Department,109th Precinct,136400434,5000,NYPD,056,100,,**
-13,2023-05-11,Local Initiatives - Fiscal 2023,2023,rescind,,,Paladino Department of Youth and Community Development,,136400434,-5000,DYCD,260,005,,
-13,2023-05-11,Local Initiatives - Fiscal 2023,2023,designate,,,"Paladino Greater Ridgewood Youth Council, Inc., The",,112518141,5000,DYCD,260,005,,
-13,2023-05-11,Boroughwide Needs Initiative - Fiscal 2023,2023,rescind,,,"Bronx Delegation Not On My Watch, Inc.",Club Alternatives,823809384,-20000,DYCD,260,005,,**
-13,2023-05-11,Boroughwide Needs Initiative - Fiscal 2023,2023,designate,,,"Bronx Delegation Veteran Advocacy Project, Inc.",Council District 12 Legal Services,823103233,20000,DSS/HRA,069,107,,**
-13,2023-05-11,Boroughwide Needs Initiative - Fiscal 2023,2023,rescind,,,"Bronx Delegation Not On My Watch, Inc.",Club Alternatives,823809384,-10000,DYCD,260,005,,
-13,2023-05-11,Boroughwide Needs Initiative - Fiscal 2023,2023,designate,,,Bronx Delegation Laal NYC,Reproductive Justice Initiative,832947989,10000,DYCD,260,005,,
+13,2023-05-11,Local Initiatives - Fiscal 2023,2023,rescind,,Brannan,"NIA Community Services Network, Inc.",Council District 43,112697931,-10000,DYCD,260,005,,**
+13,2023-05-11,Local Initiatives - Fiscal 2023,2023,designate,,Brannan,"2020 Vision for Schools, Inc.",Council District 43,453023036,10000,DCLA,126,003,,**
+13,2023-05-11,Local Initiatives - Fiscal 2023,2023,rescind,,Paladino,Department of Youth and Community Development,,136400434,-5000,DYCD,260,005,,**
+13,2023-05-11,Local Initiatives - Fiscal 2023,2023,designate,,Paladino,Police Department,109th Precinct,136400434,5000,NYPD,056,100,,**
+13,2023-05-11,Local Initiatives - Fiscal 2023,2023,rescind,,Paladino,Department of Youth and Community Development,,136400434,-5000,DYCD,260,005,,
+13,2023-05-11,Local Initiatives - Fiscal 2023,2023,designate,,Paladino,"Greater Ridgewood Youth Council, Inc., The",,112518141,5000,DYCD,260,005,,
+13,2023-05-11,Boroughwide Needs Initiative - Fiscal 2023,2023,rescind,,Bronx Delegation,"Not On My Watch, Inc.",Club Alternatives,823809384,-20000,DYCD,260,005,,**
+13,2023-05-11,Boroughwide Needs Initiative - Fiscal 2023,2023,designate,,Bronx Delegation,"Veteran Advocacy Project, Inc.",Council District 12 Legal Services,823103233,20000,DSS/HRA,069,107,,**
+13,2023-05-11,Boroughwide Needs Initiative - Fiscal 2023,2023,rescind,,Bronx Delegation,"Not On My Watch, Inc.",Club Alternatives,823809384,-10000,DYCD,260,005,,
+13,2023-05-11,Boroughwide Needs Initiative - Fiscal 2023,2023,designate,,Bronx Delegation,Laal NYC,Reproductive Justice Initiative,832947989,10000,DYCD,260,005,,
 13,2023-05-11,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Jordan Ballroom Basix USA, Inc.",Public School 149M Sojourner Truth (03M149),273218865,-20000,DCLA,126,003,,
 13,2023-05-11,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Ballroom Basix USA, Inc.",Public School 149M Sojourner Truth (03M149) & Public School Jordan 076M A. Philip Randolph (03M076),273218865,20000,DCLA,126,003,,
 13,2023-05-11,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Barron Entertainers for Education Alliance, Inc.",High School for Civil Rights (19K504),432115174,-20000,DCLA,126,003,,
 13,2023-05-11,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Entertainers for Education Alliance, Inc.",Junior High School 292K Margaret S. Douglas Barron (19K292),432115174,20000,DCLA,126,003,,
-13,2023-05-11,Cultural Immigrant Initiative - Fiscal 2023,2023,rescind,,,"Hudson Entertainers for Education Alliance, Inc.",I WILL GRADUATE Cultural Arts Program,432115174,-15000,DCLA,126,003,,
-13,2023-05-11,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,,"Entertainers for Education Alliance, Inc.",I WILL GRADUATE Cultural Arts Program - Elijah Hudson Stroud Middle School (17K353),432115174,15000,DCLA,126,003,,
+13,2023-05-11,Cultural Immigrant Initiative - Fiscal 2023,2023,rescind,,Hudson,"Entertainers for Education Alliance, Inc.",I WILL GRADUATE Cultural Arts Program,432115174,-15000,DCLA,126,003,,
+13,2023-05-11,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,Hudson,"Entertainers for Education Alliance, Inc.",I WILL GRADUATE Cultural Arts Program - Elijah Stroud Middle School (17K353),432115174,15000,DCLA,126,003,,
 13,2023-05-11,Community Land Trust - Fiscal 2023,2023,rescind,,,Margert Community Corporation,,112534700,-34834,HPD,806,009,,
 13,2023-05-11,Community Land Trust - Fiscal 2023,2023,designate,,,"Community Development Project, Inc.",Council District 31,831441257,34834,HPD,806,009,,
 13,2023-05-11,Welcome NYC - Fiscal 2023,2023,rescind,,,Department of Youth and Community Development,,136400434,-35000,DYCD,260,005,,
 13,2023-05-11,Welcome NYC - Fiscal 2023,2023,designate,,,"Emergency Shelter Network of Faith-Based and Community Organizations, Inc.",,461657874,25000,DYCD,260,005,,
 13,2023-05-11,Welcome NYC - Fiscal 2023,2023,designate,,,"Arab American Association of New York, Inc.",,113604756,10000,DYCD,260,005,,
-13,2023-05-11,Aging Discretionary - Fiscal 2022,2022,rescind,,,"Paladino Roman Catholic Church of St. Mel, The",St. Mel Leisure Club,111646313,-5000,DFTA,125,003,,
-13,2023-05-11,Aging Discretionary - Fiscal 2022,2022,designate,,,Paladino Department for the Aging,,136400434,5000,DFTA,125,003,,
-13,2023-05-11,Purpose of Funds Changes - Fiscal 2022,2022,purpose_change,Local,,Nurse Uniting Clergy Community And Police,,861258449,-10000,DYCD,,,Programing between NYPD and Clergy to improve community relations. Funds will support youth programs providing opportunities for at-risk youth,
-13,2023-05-11,Purpose of Funds Changes - Fiscal 2022,2022,purpose_change,,,"to grow as individuals and acquire skills, provide needed food and Local Nurse Uniting Clergy Community And Police",,861258449,10000,DYCD,,,"supplies for vulnerable seniors, and support community events focused on public safety in Council District 37.",
+13,2023-05-11,Aging Discretionary - Fiscal 2022,2022,rescind,,Paladino,"Roman Catholic Church of St. Mel, The",St. Mel Leisure Club,111646313,-5000,DFTA,125,003,,
+13,2023-05-11,Aging Discretionary - Fiscal 2022,2022,designate,,Paladino,Department for the Aging,,136400434,5000,DFTA,125,003,,
+13,2023-05-11,Purpose of Funds Changes - Fiscal 2022,2022,purpose_change,Local,Nurse,Uniting Clergy Community And Police,,861258449,-10000,DYCD,,,Programing between NYPD and Clergy to improve community relations. Funds will support youth programs providing opportunities for at-risk youth,
+13,2023-05-11,Purpose of Funds Changes - Fiscal 2022,2022,purpose_change,,Nurse,"to grow as individuals and acquire skills, provide needed food and Local Nurse Uniting Clergy Community And Police",,861258449,10000,DYCD,,,"supplies for vulnerable seniors, and support community events focused on public safety in Council District 37.",

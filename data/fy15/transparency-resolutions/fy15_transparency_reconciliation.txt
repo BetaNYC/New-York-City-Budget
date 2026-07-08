@@ -30,7 +30,7 @@ rows by fiscal year:  2011=1  2012=6  2013=20  2014=133  2015=2887
 
 unresolved organization (dense-chart text-layer artifacts): 0 of 3047 rows (0.00%) -- amount/EIN/agency captured, org name orphaned
 
-org-text confidence: MODERATE -- 81 of 3047 rows (2.66%) show glued-word (27) or header-bleed (54) artifacts in the org field.
+org-text confidence: MODERATE -- 93 of 3047 rows (3.05%) show glued-word (39) or header-bleed (54) artifacts in the org field.
   (EIN / amount / agency / date / action are deterministic and unaffected.)
 
 SPOTLIGHT - Artificial Intelligence Community Engagement (AICE, $1M initiative):
