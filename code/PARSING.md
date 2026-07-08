@@ -64,6 +64,36 @@ correctly maps to no block and shows 0/0.
 
 ---
 
+## Terms & Conditions — per year
+
+Two formats. **FY25–FY27** number each condition (`N. Agency (Code)`) → `parse_terms.py`.
+**FY15–FY24** print no item numbers → `parse_terms_legacy.py` (the current parser returns 0 rows
+on them). A condition can span several agency headers; like the FY25–FY27 data, that is emitted
+as one row keyed to the first (primary) agency, with every header's UA lines collected. Item
+numbers are synthesized in document order. T&C documents print no totals → **NOT RECONCILABLE**;
+correctness is checked by counts + regression tests (`test_parse_terms_legacy.py`).
+
+```bash
+.venv/bin/python code/parse_terms_legacy.py <TermsAndConditions.pdf> \
+    --outdir data/fyNN/terms --prefix fyNN
+```
+
+| FY | Source PDF | Conditions | Notes |
+|---|---|---|---|
+| FY15 | `fy2015-tc.pdf` | 17 | FY15/16 also print a bare sequence number per item; ignored (synthetic numbering) |
+| FY16 | `fy2016-tandc.pdf` | 30 | |
+| FY17 | `FY17-Terms-and-Conditions.pdf` | 30 | `2016-DOHMH-Terms-and-Conditions-Oral-Health.pdf` is a 1-agency supplement, not merged |
+| FY18 | `FY18-Terms-and-Conditions.pdf` | 33 | |
+| FY21 | `Fiscal-2021-Terms-and-Conditions.pdf` | 46 | |
+| FY22 | `FY22-Terms-and-Conditions_FINAL.pdf` | 50 | 3 Capital Budget items |
+| FY23 | `FY23-Terms-and-Conditions_FINAL_OMB-and-Council-Review-6.11.22.pdf` | 60 | |
+| FY24 | `FY24-Terms-and-Conditions.pdf` | 59 | |
+
+FY08–FY14, FY19, FY20: no standalone Terms & Conditions document exists (not published, or not
+found on council.nyc.gov) → N/A.
+
+---
+
 ## Bounded / blocked (tracked here, see status table at bottom)
 
 - **Schedule C FY2008–FY2014** — older document era; the parser finds 0 summary blocks (the
@@ -163,15 +193,15 @@ NOT_RECONCILED · BLOCKED · N/A (no such document that year).
 | FY12 | NOT_RECONCILED (older era) | N/A | BLOCKED (JBIG2 scan) | EXTRACTED 7 (org-text LOW) |
 | FY13 | NOT_RECONCILED (older era) | N/A | pending | EXTRACTED 9 (3 .doc BLOCKED) |
 | FY14 | NOT_RECONCILED (crash guarded) | N/A | N/A (not published) | EXTRACTED 3 |
-| FY15 | PARTIAL (21/28) | pending (legacy variant) | pending | EXTRACTED 12 |
-| FY16 | RECONCILED (24/26) | pending (legacy variant) | pending | EXTRACTED 13 |
-| FY17 | RECONCILED (24/27) | pending (legacy variant) | EXTRACTED (ResoA) | EXTRACTED 13 |
-| FY18 | NOT_RECONCILED (ToC) | pending (legacy variant) | pending (ResoA 0 blocks) | EXTRACTED 12 |
+| FY15 | PARTIAL (21/28) | EXTRACTED (17) | pending | EXTRACTED 12 |
+| FY16 | RECONCILED (24/26) | EXTRACTED (30) | pending | EXTRACTED 13 |
+| FY17 | RECONCILED (24/27) | EXTRACTED (30) | EXTRACTED (ResoA) | EXTRACTED 13 |
+| FY18 | NOT_RECONCILED (ToC) | EXTRACTED (33) | pending (ResoA 0 blocks) | EXTRACTED 12 |
 | FY19 | RECONCILED (27/28) | N/A | pending (FY19 sub-format) | EXTRACTED 11 |
 | FY20 | RECONCILED (27/28) | N/A | **RECONCILED 23/23** | EXTRACTED 8 |
-| FY21 | RECONCILED (25/26) | pending | EXTRACTED (ResoA) | EXTRACTED 8 |
-| FY22 | RECONCILED (24/26) | pending (legacy variant) | **RECONCILED 32/32** | EXTRACTED 14 |
-| FY23 | RECONCILED (26/26) | pending (legacy variant) | **RECONCILED 30/30** | EXTRACTED 14 |
-| FY24 | RECONCILED (24/26) | pending (legacy variant) | **RECONCILED 30/30** | EXTRACTED 9 |
+| FY21 | RECONCILED (25/26) | EXTRACTED (46) | EXTRACTED (ResoA) | EXTRACTED 8 |
+| FY22 | RECONCILED (24/26) | EXTRACTED (50) | **RECONCILED 32/32** | EXTRACTED 14 |
+| FY23 | RECONCILED (26/26) | EXTRACTED (60) | **RECONCILED 30/30** | EXTRACTED 14 |
+| FY24 | RECONCILED (24/26) | EXTRACTED (59) | **RECONCILED 30/30** | EXTRACTED 9 |
 
 _"pending" = not yet processed in this pass; updated as work proceeds._
