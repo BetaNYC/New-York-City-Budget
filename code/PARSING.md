@@ -48,13 +48,14 @@ Invocation pattern:
 |---|---|---|---|
 | FY16 | `fy2016-skedcf.pdf` | 24/26 exact | 1 in-source arithmetic diff (Criminal Justice −700k); 1 trailing no-block category. Awards: member attribution weak (roster=3). |
 | FY17 | `FY17-Schedule-C.pdf` | 24/27 exact | Mental Health +$200 in-source; 2 trailing no-block categories. Awards: member attribution weak (roster=3, all rows `initiative_provider`). |
+| FY18 | `FY-2018-Schedule-C-Cover-Template-FINAL-MERGE.pdf` | 24/27 exact | Children’s Services −$100k in-source; 2 trailing no-block categories. Contents page headed "Contents" (ToC-detection fix). |
 | FY19 | `Fiscal-2019-Schedule-C-Final-Report.pdf` | 27/28 exact | Only trailing Youth Services (no block). Clean. |
 | FY20 | `Fiscal-2020-Schedule-C-Final-Merge.pdf` | 27/28 exact | Only trailing Youth Services. Clean. |
 | FY21 | `Fiscal-2021-Schedule-C-Cover-REPORT-Final.pdf` | 25/26 exact | Only trailing Youth Services. Clean. |
 | FY22 | `Fiscal-2022-Schedule-C-Merge-6.30.21.pdf` | 24/26 exact | Veterans −714,500 in-source; trailing Youth. |
 | FY23 | `Fiscal-2023-Schedule-C-Merge-6.13.22-Final-1.pdf` | 26/26 exact | Perfectly clean. |
 | FY24 | `Fiscal-2024-Schedule-C-Merge-Final.pdf` | 24/26 exact | Criminal Justice +52,935 in-source; trailing Youth. |
-| FY08–FY15, FY18 | (older-era / ToC-detection) | see "Bounded / blocked" below | Not yet reconciled by the current parser. |
+| FY08–FY15 | (older-era format) | see "Bounded / blocked" below | Not yet reconciled by the current parser. |
 
 The single per-category diffs above are arithmetic inconsistencies *inside the official PDFs*
 (line items vs. the printed category TOTAL), the same class already documented for FY25–FY27 —
@@ -101,8 +102,8 @@ found on council.nyc.gov) → N/A.
   the reconciliation writer on a `None` page index (guarded). Bounded-effort target.
 - **Schedule C FY2015** — 21/28; three categories (Children's −500k, Food −100k, Senior −2.1M)
   genuinely undercount (dropped line items), beyond in-source arithmetic. Best-effort.
-- **Schedule C FY2018** — body parses (25 summary blocks) but ToC detection returns 0
-  categories, so blocks can't be labeled. A ToC-detection fix should recover it.
+- ~~Schedule C FY2018~~ — **RESOLVED**: its contents page is headed 'Contents' not
+  'Table of Contents'; the ToC-detection regex now matches both. Reconciles 24/27.
 
 ---
 
@@ -196,7 +197,7 @@ NOT_RECONCILED · BLOCKED · N/A (no such document that year).
 | FY15 | PARTIAL (21/28) | EXTRACTED (17) | pending | EXTRACTED 12 |
 | FY16 | RECONCILED (24/26) | EXTRACTED (30) | pending | EXTRACTED 13 |
 | FY17 | RECONCILED (24/27) | EXTRACTED (30) | EXTRACTED (ResoA) | EXTRACTED 13 |
-| FY18 | NOT_RECONCILED (ToC) | EXTRACTED (33) | pending (ResoA 0 blocks) | EXTRACTED 12 |
+| FY18 | RECONCILED (24/27) | EXTRACTED (33) | pending (ResoA 0 blocks) | EXTRACTED 12 |
 | FY19 | RECONCILED (27/28) | N/A | pending (FY19 sub-format) | EXTRACTED 11 |
 | FY20 | RECONCILED (27/28) | N/A | **RECONCILED 23/23** | EXTRACTED 8 |
 | FY21 | RECONCILED (25/26) | EXTRACTED (46) | EXTRACTED (ResoA) | EXTRACTED 8 |
