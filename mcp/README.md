@@ -1,10 +1,28 @@
-# mcp/ — NYC Budget MCP server (prototype)
+# @betanyc/nyc-budget-mcp — NYC Budget MCP server
 
-A local Model Context Protocol (MCP) server that wraps this repository's data — NYC Council discretionary funding (Schedule C), Terms & Conditions, Section 254 capital changes, the Transparency Resolutions, and the FY2008–FY2027 Legistar crosswalk — and exposes it to MCP-capable AI clients as structured query tools.
+A Model Context Protocol (MCP) server that wraps this repository's data — NYC Council discretionary funding (Schedule C), Terms & Conditions, Section 254 capital changes, the Transparency Resolutions, and the FY2008–FY2027 Legistar crosswalk — and exposes it to MCP-capable AI clients as structured query tools.
 
-> **Status: prototype.** This validates the tool design against real data before deciding whether it becomes a public BetaNYC MCP. It reads the repo's `data/` tree directly (no vendored copy), builds a local SQLite index, and serves it over stdio.
+Published on npm as [`@betanyc/nyc-budget-mcp`](https://www.npmjs.com/package/@betanyc/nyc-budget-mcp) and run via `npx` (see [Quick start](#quick-start-npx)). The published package ships a prebuilt SQLite index, so no local clone, build, or data checkout is needed to run it.
 
-It reads the parent repo's own `../data/` tree directly — there is no copied CSV snapshot to keep in sync. Data and query layer live in one repo and move together.
+At build time it reads the parent repo's own `../data/` tree directly — there is no copied CSV snapshot to keep in sync. Data and query layer live in one repo and move together.
+
+## Quick start (npx)
+
+Add this to your MCP client config (Claude Desktop, Claude Code, etc.):
+
+```json
+"mcpServers": {
+  "nyc-budget": {
+    "command": "npx",
+    "args": ["-y", "@betanyc/nyc-budget-mcp"]
+  }
+}
+```
+
+Restart the client — the 7 `nyc-budget` tools become available. `npx -y` resolves the
+package from npm per machine (no clone, build, or absolute path required — the BetaNYC-fleet
+portability convention), and the prebuilt budget index ships inside the package, so the
+server has its data on first run.
 
 ## Data scope (read this first)
 
@@ -56,14 +74,14 @@ npm run build-index  # rebuild mcp/data/budget.db from ../data/
 npm test             # build + build-index + run the journey tests
 ```
 
-`mcp/data/budget.db` is a build artifact (git-ignored); `npm install` regenerates it from `../data/`.
+`mcp/data/budget.db` is a build artifact (git-ignored); `npm install` regenerates it from `../data/`. It is **not** committed to git — the npm `files` allowlist ships it into the published tarball, freshly built by `prepare` at publish time (see [Releases](#releases)).
 
-## Run it as a live local MCP (prototype, personal-only)
+## Run from source (development)
 
-Because this is an unpublished prototype (`"private": true`, not on npm), wire it into your **personal, machine-local** client config — never the workspace's committed `.mcp.json` (which must stay portable / `npx`-resolvable per that repo's convention).
+To run a local, in-development build instead of the published package — e.g. after editing `src/` or the underlying `../data/` CSVs — point your client at the built entry with an **absolute path**:
 
 1. Build + index once: `npm install` (or `npm run build && npm run build-index`) inside `mcp/`.
-2. Add a project-scoped entry to `~/.claude.json` under your workspace's `projects` key (Claude Desktop: its equivalent config), using an **absolute path** to the built server:
+2. Add a project-scoped entry to `~/.claude.json` (Claude Desktop: its equivalent config):
    ```json
    "mcpServers": {
      "nyc-budget": {
@@ -75,13 +93,34 @@ Because this is an unpublished prototype (`"private": true`, not on npm), wire i
    The server resolves `budget.db` from its own `__dirname`, so it works regardless of the launch cwd — no `cwd` key needed.
 3. **Restart the client.** MCP servers load at startup; a running session will not hot-load a newly-added server.
 
-After restart the 7 `nyc-budget` tools are callable. **After any data or code change, re-run `npm run build && npm run build-index`** — the server serves the built `dist/` + `budget.db`, not the TypeScript source or the CSVs directly.
+**After any data or code change, re-run `npm run build && npm run build-index`** — the server serves the built `dist/` + `budget.db`, not the TypeScript source or the CSVs directly. For everyday use prefer the [npx quick start](#quick-start-npx) above.
 
 ## Tests
 
 `test/journeys.test.js` re-runs all 8 user journeys from `people/noel/work/2026-07-07-mcp-budget-user-journeys.md` (in the BetaNYC workspace) against the real MCP tools, driven in-process through the MCP protocol via `InMemoryTransport`, asserting the same real answers found by hand: BetaNYC EIN `13-2612524` (FY25 $115k / FY26 $115k / FY27 $95k), Council District 33 / Restler capital ($18,750,000 across 12 FY2026 projects), and the FY2026 Transparency Resolution 1 Noel Pointer → El Puente CASA transfer. Journey 8 asserts the MCP honestly reports its coverage and the FY2009–FY2014 no-EIN boundary.
 
 `test/coverage.test.js` is the per-fiscal-year gate: for **every award year FY2015–FY2027** it asserts the year is queryable through the tools, its award count and dollar total match the QA-cleared committed data exactly, and every award row carries a valid 9-digit EIN. It also asserts the honesty boundary (FY2009–FY2014 have no award rows), the exact per-dataset year coverage, and that the FY2010–FY2013 transparency low-confidence caveat is flagged and surfaced. Full suite: **27 tests, all passing** (13 per-year award checks + 4 coverage/honesty checks + 10 journeys).
+
+## Releases
+
+This package is published to npm by CI, never from a laptop. The release pipeline mirrors
+the BetaNYC MCP fleet, adapted for this monorepo (the package lives in `mcp/`, not the repo root):
+
+- **Version bump lands in a PR** — a semver bump in `mcp/package.json` (fix = patch, feature =
+  minor, breaking = major) plus a `CHANGELOG.md` entry, reviewed and merged to `main`.
+- **Publishing is tag-triggered.** `.github/workflows/release.yml` (repo root) fires on a pushed
+  **`mcp-v*`** tag whose version matches `mcp/package.json`. It installs, tests, and runs
+  `npm publish --provenance --access public` from `mcp/`, then cuts a GitHub Release. The
+  `mcp-v` prefix (not the fleet's bare `v*`) scopes releases to this MCP so a tag can't be
+  confused with a release of the repo's budget-data pipeline.
+- **To release** after the version-bump PR merges:
+  ```bash
+  git tag mcp-v<version>          # e.g. mcp-v1.0.0 — must match mcp/package.json
+  git push origin mcp-v<version>
+  ```
+  Watch the Release workflow in the Actions tab; it publishes on green.
+- **CI** — `.github/workflows/ci.yml` builds and tests `mcp/` on a Node 20/22 matrix for every
+  PR that touches the `mcp/` tree.
 
 ## Provenance & licensing
 

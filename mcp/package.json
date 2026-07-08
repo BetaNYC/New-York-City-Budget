@@ -1,8 +1,7 @@
 {
-  "name": "nyc-budget-mcp",
-  "version": "0.2.0",
-  "private": true,
-  "description": "PROTOTYPE (local-only, unpublished) MCP server for BetaNYC's New York City Budget data — Council discretionary funding (Schedule C, FY2015–FY2027 awards), Terms & Conditions, Section 254 capital changes, Transparency Resolutions (FY2010–FY2024 + FY2026), and the FY2008–FY2027 Legistar crosswalk.",
+  "name": "@betanyc/nyc-budget-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for BetaNYC's New York City Budget data — Council discretionary funding (Schedule C, FY2015–FY2027 awards), Terms & Conditions, Section 254 capital changes, Transparency Resolutions (FY2010–FY2024 + FY2026), and the FY2008–FY2027 Legistar crosswalk.",
   "keywords": [
     "mcp",
     "model-context-protocol",
@@ -13,11 +12,19 @@
     "budget",
     "discretionary-funding",
     "schedule-c",
-    "betanyc",
-    "prototype"
+    "betanyc"
   ],
   "license": "MIT",
   "author": "BetaNYC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BetaNYC/New-York-City-Budget.git",
+    "directory": "mcp"
+  },
+  "homepage": "https://github.com/BetaNYC/New-York-City-Budget/tree/main/mcp#readme",
+  "bugs": {
+    "url": "https://github.com/BetaNYC/New-York-City-Budget/issues"
+  },
   "type": "module",
   "main": "dist/index.js",
   "bin": {
@@ -25,7 +32,7 @@
   },
   "files": [
     "dist",
-    "scripts"
+    "data/budget.db"
   ],
   "scripts": {
     "build": "tsc",
