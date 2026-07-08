@@ -32,9 +32,9 @@ Young Women’s Initiative                                 15,192,048     15,192
 Youth Services                                                    0              0  DIFF +0
 GRAND TOTAL                                             465,014,395    465,728,895  24/26 categories exact
 
-awards: 1479 rows  $221,761,943
-  member items:           515  $19,489,611
-  initiative providers:   964  $202,272,332
+awards: 1492 rows  $222,556,943
+  member items:           518  $19,639,611
+  initiative providers:   974  $202,917,332
 appendix A (aging):   510 rows  $5,610,000
 appendix B (local):  2790 rows  $36,539,000
 appendix C (youth):   882 rows  $7,650,000

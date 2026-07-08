@@ -30,6 +30,18 @@ BOUNDARY = ("Agency:","U/A:","Scope of Service","Designation Method","Target Pop
 NOISE_WORDS = {"Fiscal","Total","Agency","Initiative","Amount","Appendix","Schedule","Council",
     "Purpose","Legal","Name","Tax","Sponsor","Community","Development","Designation","Method"}
 
+# Fund-family purpose detection (DATA-ANOMALIES sec.14). A leading singular "Fund"/"Find" is an
+# ORG NAME ("Fund for the City of New York, Inc.", "Find Aid for the Aged, Inc.") UNLESS followed
+# by a purpose verb ("Fund will be used to..."). Plural/gerund "Funds"/"Funding"/"Finds" are always
+# purpose prose. The old `funds?|finds?|funding` alternatives matched the bare org word "Fund",
+# misflagging FCNY's real name as purpose -- which truncated org names (ICARE ->"Assistance",
+# NYCETC ->"Coalition") and drove the per-EIN backfill to overwrite the correct FCNY rows with the
+# bled "Delegation Fund..." string.
+_PURPVERB = (r"will|would|to|are|is|was|be|been|shall|may|can|could|used|go|going|goes|"
+             r"help|helps|support|provide|provides|enhance|ensure|assist|defray|cover|"
+             r"purchase|pay|allow|expand|create|fund|make|reimburse")
+_FUNDLEAD = r"funds|funding|finds|(?:fund|find)\s+(?:" + _PURPVERB + r")\b"
+
 def money(s): return int(str(s).replace(",","").replace("$","").strip())
 def norm(s):  return re.sub(r'\s+',' ',s).strip().upper()
 def eind(e):  return e.replace("-","")   # digits-only EIN for stable aggregation
@@ -155,6 +167,12 @@ def parse_awards(pages, lo, hi, cats, roster):
 
     def emit(rec):
         head=re.sub(r'\s+',' '," ".join(rec["org"])).strip()
+        # Boroughwide Needs pages print the sponsor as "<Borough> Delegation"; the borough wraps to
+        # its own cell and the bare token "Delegation" leads the org line. build_roster excludes
+        # "Delegation", so it stays glued to the org ("Delegation Fund for the City of New York,
+        # Inc.", "Delegation Alley Pond Environmental Center, Inc."). Peel that bled sponsor token
+        # off the front of the org (DATA-ANOMALIES sec.14).
+        head=re.sub(r'(?i)^delegation\s+(?=\S)', '', head)
         member=rec["member"]
         if not member:
             toks=head.split()
@@ -177,7 +195,7 @@ def parse_awards(pages, lo, hi, cats, roster):
             if s and not RUNHDR.match(s) and not re.match(r'^\d{1,3}$',s): lines.append(s)
 
     def looks_purpose(s):
-        return bool(re.match(r"(?i)^(funds?|finds?|funding|to support|to provide|to defray|to assist|"
+        return bool(re.match(r"(?i)^(?:"+_FUNDLEAD+r"|to support|to provide|to defray|to assist|"
                              r"to enhance|to fund|to ensure|to cover|to |support|provide|provides)\b", s)) \
                or (s[:1].islower())
 
@@ -292,7 +310,7 @@ def main():
     from collections import Counter, defaultdict as _dd
     HJ=("legal name","program name","council member","sponsor legal")
     awards=[r for r in awards if not any(h in r["organization"].lower() for h in HJ)]
-    def _poll(o): return (not o) or bool(re.match(r'(?i)^(funds?|finds?|funding|to |support|provide|purpose)',o))
+    def _poll(o): return (not o) or bool(re.match(r'(?i)^(?:'+_FUNDLEAD+r'|to |support|provide|purpose)',o))
     nm=_dd(Counter)
     for r in awards:
         if not _poll(r["organization"]): nm[r["ein"]][r["organization"]]+=1

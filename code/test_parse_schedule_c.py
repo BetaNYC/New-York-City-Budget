@@ -106,6 +106,50 @@ def test_fy27_west_side_work_coalition_survives(tmp_path):
             or "sponsor legal" in r["organization"].lower()]
     assert not junk, f"{len(junk)} awards still carry header-junk organizations"
 
+    # --- Issue 2: the "Delegation Fund" mislabel + org-name truncations ---
+    # Every FCNY row now reads the true source name (was "Delegation Fund for the City of New
+    # York, Inc." -- a parser artifact from a bled sponsor token + a bad per-EIN backfill).
+    assert all(r["organization"] == "Fund for the City of New York, Inc." for r in fcny), \
+        "FCNY rows not all normalized to 'Fund for the City of New York, Inc.'"
+    # The bled sponsor token "Delegation" must never survive on the FRONT of an organization.
+    assert not any(r["organization"].startswith("Delegation") for r in rows), \
+        "some organization still leads with the bled 'Delegation' sponsor token"
+    # The `^funds?` misclassification used to truncate two FCNY program names to a single word.
+    icare = [r for r in fcny if "ICARE" in r["program"]]
+    nycetc = [r for r in fcny if "Employment and Training Coalition" in r["program"]]
+    assert icare and icare[0]["organization"] == "Fund for the City of New York, Inc.", "ICARE row truncated/missing"
+    assert nycetc and nycetc[0]["organization"] == "Fund for the City of New York, Inc.", "NYCETC row truncated/missing"
+
+
+def test_fund_org_name_vs_purpose_prose():
+    """Issue 2 root cause: the `^funds?` alternative in _poll()/looks_purpose() matched the bare
+    org word 'Fund', so a real org name ('Fund for the City of New York, Inc.') was misread as
+    purpose prose. The fix must separate BOTH directions -- org names beginning with Fund/Find
+    are preserved, while genuine 'Funds will be used to...' purpose text is still detected."""
+    import re
+    import parse_schedule_c as P
+    purpose_re = re.compile(r"(?i)^(?:" + P._FUNDLEAD + r")\b")
+
+    org_names = [  # must NOT be classified as purpose prose
+        "Fund for the City of New York, Inc.",
+        "Fund for the City of New York, Inc.- Brooklyn",
+        "Fund for New York City Voter Assistance Corporation",
+        "Find Aid for the Aged, Inc.",
+    ]
+    purpose_prose = [  # must still be classified as purpose
+        "Funds will be used to support the program.",
+        "Funding to support adult education and literacy programming.",
+        "Funds to be used for supplies.",
+        "Funding will support community engagement.",
+        "Funds would be used to cover costs.",
+        "Funding for the purchase of vehicles.",
+        "Fund will be used for: 1) Craic fest; 2) kids Fleadh.",  # singular Fund + verb = purpose
+    ]
+    for o in org_names:
+        assert not purpose_re.match(o), f"org name wrongly flagged as purpose: {o!r}"
+    for p in purpose_prose:
+        assert purpose_re.match(p), f"purpose prose not detected: {p!r}"
+
 
 def test_fy18_toc_contents_heading():
     """FY18's contents page is headed 'Contents' (not 'Table of Contents'). The ToC-detection

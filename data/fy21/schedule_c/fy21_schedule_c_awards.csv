@@ -127,8 +127,8 @@ Anti-Poverty,Anti-Poverty Initiative,member_item,Lander,Food Bank For New York C
 Anti-Poverty,Anti-Poverty Initiative,member_item,Dromm,Food Bank For New York City,Nutrition & Health Education Services,133179546,5000,DYCD,To support nutrition and health education programming and related services for low-income residents of Council District 25.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Cumbo,Fort Greene Strategic Neighborhood Action Partnership,Maternal Family Care,113343941,5000,DYCD,The program will provide carfare for participants in our parenting and anger management classes and fund a Mother's day celebration for all participants.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Dromm,"Fortune Society, Inc., The",Enhanced Education Program,132645436,10000,DYCD,To support the Queens-based Youth Education & Career Exploration (YE/CE) program for court involved youth.
-Anti-Poverty,Anti-Poverty Initiative,member_item,Cornegy,"Delegation Fund for the City of New York, Inc.",Legal Hand - North Crown Heights & Bedford Stuyvesant,132612524,5000,DYCD,Funding to support community legal workshops presented by Legal Hand.
-Anti-Poverty,Anti-Poverty Initiative,member_item,Miller,"Delegation Fund for the City of New York, Inc.",Legal Hand Jamaica,132612524,5000,DSS/HRA,Funding will support the expansion of community workshops that promote legal empowerment and legal information services.
+Anti-Poverty,Anti-Poverty Initiative,member_item,Cornegy,"Fund for the City of New York, Inc.",Legal Hand - North Crown Heights & Bedford Stuyvesant,132612524,5000,DYCD,Funding to support community legal workshops presented by Legal Hand.
+Anti-Poverty,Anti-Poverty Initiative,member_item,Miller,"Fund for the City of New York, Inc.",Legal Hand Jamaica,132612524,5000,DSS/HRA,Funding will support the expansion of community workshops that promote legal empowerment and legal information services.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Barron,"George Walker, Jr. Community Coalition, Inc., The",Council District 42,113341395,25000,DYCD,Funding to support operating expense costs for community youth programming including East New York Youth Court.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Perkins,"Getting Out and Staying Out, Inc.",Vocational Training Program - Council District 9,061711370,25000,DYCD,Funding to support the Vocational Training Program in Council District 9.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Rosenthal,Goddard Riverside Community Center,Monthly Housing Clinic,131893908,10000,HPD,Funds support a monthly housing clinic for residents in Council District 6.
@@ -316,132 +316,134 @@ Anti-Poverty,Anti-Poverty Initiative,member_item,Perkins,Young Faces Smiling,A. 
 Anti-Poverty,Anti-Poverty Initiative,member_item,Adams,Young Men's Christian Association of Greater New York,Jamaica Y Teen Center,131624228,5000,DYCD,"Funding to support the Teen Center and activities such as youth sports, tournaments, leadership training, social events, health and wellness activities, peer support, social games, special events and team building."
 Anti-Poverty,Anti-Poverty Initiative,member_item,Koo,Young Men's Christian Association of Greater New York,New Americans Welcome Center,131624228,5000,DYCD,"To fund the New Americans Welcome Center at the Flushing YMCA to provide multilingual services, including ESOL, computer literacy, and job preparation classes, legal resources, and workshops."
 Anti-Poverty,Anti-Poverty Initiative,member_item,Cornegy,Young Men's Christian Association of Greater New York,Teens Take The City,131624228,6500,DYCD,Funding will support Teens Take the City (TTC) a teen civic engagement program that teaches young people about city government and making a difference in the communities. FISCAL 2021 ADOPTED EXPENSE BUDGET ADJUSTMENT SUMMARY Page 9
-Boroughwide Needs,,member_item,Queens,"Delegation Alley Pond Environmental Center, Inc.",Educational Program,112405466,45000,DCLA,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Apna Brooklyn Community Center, Inc.",,820706930,5000,DYCD,Funding to support general operating expenses for community programs and events.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Art of Brooklyn Festival, Inc., The",Film Festival,453980747,5000,DCLA,
-Boroughwide Needs,,member_item,Manhattan,"Delegation Asian Americans For Equality, Inc.",,133187792,42220,SBS,
-Boroughwide Needs,,member_item,Manhattan,"Delegation Association of Dominican Classical Artists, Inc.",Washington Heights Community Conservancy & Community Concerts,133843597,21110,DCLA,
-Boroughwide Needs,,member_item,Brooklyn,Delegation Bedford Stuyvesant Restoration Corporation,,116083182,15000,DYCD,Funding will provide general operating support associated with programming and services.
-Boroughwide Needs,,member_item,Brooklyn,Delegation Beth Jacob Day Care Center,,112290419,7500,DOE,Funds will be used for childcare programs.
+Boroughwide Needs,,member_item,Queens,"Alley Pond Environmental Center, Inc.",Educational Program,112405466,45000,DCLA,
+Boroughwide Needs,,member_item,Brooklyn,"Apna Brooklyn Community Center, Inc.",,820706930,5000,DYCD,Funding to support general operating expenses for community programs and events.
+Boroughwide Needs,,member_item,Brooklyn,"Art of Brooklyn Festival, Inc., The",Film Festival,453980747,5000,DCLA,
+Boroughwide Needs,,member_item,Manhattan,"Asian Americans For Equality, Inc.",,133187792,42220,SBS,
+Boroughwide Needs,,member_item,Manhattan,"Association of Dominican Classical Artists, Inc.",Washington Heights Community Conservancy & Community Concerts,133843597,21110,DCLA,
+Boroughwide Needs,,member_item,Brooklyn,Bedford Stuyvesant Restoration Corporation,,116083182,15000,DYCD,Funding will provide general operating support associated with programming and services.
+Boroughwide Needs,,member_item,Brooklyn,Beth Jacob Day Care Center,,112290419,7500,DOE,Funds will be used for childcare programs.
 Boroughwide Needs,,member_item,Bronx Delegation,"BioBus, Inc.",,262092282,10000,DOE,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Black Veterans for Social Justice, Inc.",Veteran & Community Services,112608983,15000,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,"Black Veterans for Social Justice, Inc.",Veteran & Community Services,112608983,15000,DYCD,
 Boroughwide Needs,,member_item,Bronx Delegation,"Bombazo Dance Company, Inc.",Cultural Programming - Council District 18,813865472,5000,DYCD,Funding will support cultural programming in Council District 18.
-Boroughwide Needs,,member_item,Brooklyn,Delegation Bonnie Boys Club,Baseball Program,116075963,10000,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,Delegation Boro Park Jewish Community Council,,113475993,8750,DSS/HRA,
-Boroughwide Needs,,member_item,Staten Island,Delegation Borough President-Staten Island,,136400434,20000,SIBP,Funds will used to support the summer concerts series throughout Staten Island.
-Boroughwide Needs,,member_item,Queens,"Delegation Boys & Girls Club of Metro Queens, Inc.",After-School & Summer Programs,111966067,25000,DYCD,Funds will be used to support the after-school and summer programs.
-Boroughwide Needs,,member_item,Manhattan,"Delegation Boys and Girls Club of Harlem, Inc.",,133102951,21110,DYCD,Funds to support youth programming.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Bridge Multicultural and Advocacy Project, Inc., The",,454634142,7000,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,Delegation Brighton Beach District Management Association,,112843233,5000,SBS,
+Boroughwide Needs,,member_item,Brooklyn,Bonnie Boys Club,Baseball Program,116075963,10000,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,Boro Park Jewish Community Council,,113475993,8750,DSS/HRA,
+Boroughwide Needs,,member_item,Staten Island,Borough President-Staten Island,,136400434,20000,SIBP,Funds will used to support the summer concerts series throughout Staten Island.
+Boroughwide Needs,,member_item,Queens,"Boys & Girls Club of Metro Queens, Inc.",After-School & Summer Programs,111966067,25000,DYCD,Funds will be used to support the after-school and summer programs.
+Boroughwide Needs,,member_item,Manhattan,"Boys and Girls Club of Harlem, Inc.",,133102951,21110,DYCD,Funds to support youth programming.
+Boroughwide Needs,,member_item,Brooklyn,"Bridge Multicultural and Advocacy Project, Inc., The",,454634142,7000,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,Brighton Beach District Management Association,,112843233,5000,SBS,
 Boroughwide Needs,,initiative_provider,,"Funding to support neighborhood activities; including a children's festival, workshops and outdoor events showcasing culture from various ethnic groups. Bronx Delegation Bronx Arts Ensemble, Inc.",Community Concerts - Council District 8,510186869,7777,DCLA,To provide funding to support community concerts across the Bronx.
 Boroughwide Needs,,member_item,Bronx Delegation,"Bronx Parent Housing Network, Inc.",,134100758,37778,DYCD,Funds will be utilized to offer light lunch and dinner options to students daily.
 Boroughwide Needs,,member_item,Bronx Delegation,"BronxWorks, Inc.",,133254484,10000,DYCD,To provide wrap-around services for infants and their mothers.
 Boroughwide Needs,,member_item,Brooklyn,"Ballers Sports, Youth and Educational Corporation",Basketball Program,651209020,10000,DYCD,"To support youth basketball, college advising, character education, and general administration."
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Brooklyn Legal Services, Inc.",Preserve Affordable Housing,132605605,25000,DSS/HRA,Funding to support free legal services in Central Brooklyn.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation BrooklynONE Productions, Inc.",Brooklyn Shakespeare Festival,460692076,7500,DYCD,The funds will be used to support the Brooklyn Shakespeare Festival.
-Boroughwide Needs,,member_item,Queens,"Delegation Butterflies By Blaq, Inc.",Hair Program,454874876,25000,DYCD,Funding to support free cranial prosthesis' to clients experiencing permanent hair loss.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Caribbean American Chamber of Commerce and Industry, Inc.",,112903423,10000,SBS,
-Boroughwide Needs,,member_item,Manhattan,"Delegation Carter Burden Center for the Aging, Inc., The",Senior Care,237129499,42220,DFTA,Funding to support critical senior services in Manhattan.
+Boroughwide Needs,,member_item,Brooklyn,"Brooklyn Legal Services, Inc.",Preserve Affordable Housing,132605605,25000,DSS/HRA,Funding to support free legal services in Central Brooklyn.
+Boroughwide Needs,,member_item,Brooklyn,"BrooklynONE Productions, Inc.",Brooklyn Shakespeare Festival,460692076,7500,DYCD,The funds will be used to support the Brooklyn Shakespeare Festival.
+Boroughwide Needs,,member_item,Queens,"Butterflies By Blaq, Inc.",Hair Program,454874876,25000,DYCD,Funding to support free cranial prosthesis' to clients experiencing permanent hair loss.
+Boroughwide Needs,,member_item,Brooklyn,"Caribbean American Chamber of Commerce and Industry, Inc.",,112903423,10000,SBS,
+Boroughwide Needs,,member_item,Manhattan,"Carter Burden Center for the Aging, Inc., The",Senior Care,237129499,42220,DFTA,Funding to support critical senior services in Manhattan.
 Boroughwide Needs,,member_item,Bronx Delegation,"Catholic Charities Community Services, Archdiocese of New York",,135562185,17000,DYCD,Funding will support a diaper bank in Council District 18.
-Boroughwide Needs,,member_item,Brooklyn,Delegation Central Brooklyn Economic Development Corporation,,112981085,19375,DYCD,Funds will be used to support workforce development programming.
-Boroughwide Needs,,member_item,Staten Island,"Delegation Central Family Life Center, Inc., The",YouthBuild & Job Training Program,133626127,8000,DYCD,
-Boroughwide Needs,,member_item,Queens,"Delegation Child Center of NY, Inc., The",New Americans Outreach Program,111733454,20000,DYCD,Funding to support the New Americans Outreach Program.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Churches United for Fair Housing, Inc.",Affordable Housing Workshops,264698161,28750,HPD,
-Boroughwide Needs,,member_item,Brooklyn,Delegation City University of New York,John Jay College of Criminal Justice - Live Performances & Film Series,133893536,5000,CUNY,Funding to support live performances and film series.
-Boroughwide Needs,,member_item,Queens,Delegation City University of New York,Queensborough Community College - Kupferberg Holocaust Center,136400434,45000,CUNY,To support both the Kupferberg Holocaust Center and QPAC's programming and services.
+Boroughwide Needs,,member_item,Brooklyn,Central Brooklyn Economic Development Corporation,,112981085,19375,DYCD,Funds will be used to support workforce development programming.
+Boroughwide Needs,,member_item,Staten Island,"Central Family Life Center, Inc., The",YouthBuild & Job Training Program,133626127,8000,DYCD,
+Boroughwide Needs,,member_item,Queens,"Child Center of NY, Inc., The",New Americans Outreach Program,111733454,20000,DYCD,Funding to support the New Americans Outreach Program.
+Boroughwide Needs,,member_item,Brooklyn,"Churches United for Fair Housing, Inc.",Affordable Housing Workshops,264698161,28750,HPD,
+Boroughwide Needs,,member_item,Brooklyn,City University of New York,John Jay College of Criminal Justice - Live Performances & Film Series,133893536,5000,CUNY,Funding to support live performances and film series.
+Boroughwide Needs,,member_item,Queens,City University of New York,Queensborough Community College - Kupferberg Holocaust Center,136400434,45000,CUNY,To support both the Kupferberg Holocaust Center and QPAC's programming and services.
 Boroughwide Needs,,member_item,Bronx Delegation,"Committee for Hispanic Children and Families, Inc., The",Public School/Middle School 279X,112622003,7778,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Community Concerns Network, Inc.",,203419400,16750,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,Delegation Cong Chasdei Lev,,454786470,18750,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Congregation Kehilas Belz USA, Inc.",,113143733,7500,DYCD,Funds to be used for youth programs.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Cooper Street Community Association, Inc.",,462035796,10000,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,"Community Concerns Network, Inc.",,203419400,16750,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,Cong Chasdei Lev,,454786470,18750,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,"Congregation Kehilas Belz USA, Inc.",,113143733,7500,DYCD,Funds to be used for youth programs.
+Boroughwide Needs,,member_item,Brooklyn,"Cooper Street Community Association, Inc.",,462035796,10000,DYCD,
 Boroughwide Needs,,initiative_provider,,"Crenulated Company, Ltd., The d/b/a New Settlement Apartments",,141719016,18889,HPD,
 Boroughwide Needs,,member_item,Bronx Delegation,"Crenulated Company, Ltd., The d/b/a New Settlement Apartments",Swimming Instruction,141719016,10000,DYCD,
 Boroughwide Needs,,member_item,Bronx Delegation,Department of Education,Parent/Scholar Day - Albert Einstein Intermediate School 131X,136400434,5778,DOE,
-Boroughwide Needs,,member_item,Staten Island,Delegation Department of Parks and Recreation,,136400434,2000,DPR,Funds will be used for Port a Sans in parks in Council District 50.
-Boroughwide Needs,,member_item,Brooklyn,Delegation East New York Restoration Local Development Corporation,NYCHA Care,461763706,38750,DYCD,"Funding to support the Organizing, Recycling and Clean Up Initiative at NYCHA Development(s)."
-Boroughwide Needs,,member_item,Staten Island,"Delegation Eden II School for Autistic Children, Inc.",Encore Thrift Store Vocational Training & Early Childhood Program,132872916,5000,DYCD,
+Boroughwide Needs,,member_item,Staten Island,Department of Parks and Recreation,,136400434,2000,DPR,Funds will be used for Port a Sans in parks in Council District 50.
+Boroughwide Needs,,member_item,Brooklyn,East New York Restoration Local Development Corporation,NYCHA Care,461763706,38750,DYCD,"Funding to support the Organizing, Recycling and Clean Up Initiative at NYCHA Development(s)."
+Boroughwide Needs,,member_item,Staten Island,"Eden II School for Autistic Children, Inc.",Encore Thrift Store Vocational Training & Early Childhood Program,132872916,5000,DYCD,
 Boroughwide Needs,,initiative_provider,,"Funds will support administrative, staffing, and operational costs associated with the Early Childhood Program and vocational training store, Encore. Bronx Delegation Edgewater Park Volunteer Hose Company No. 1, Inc.",,136125044,10000,FDNY,
-Boroughwide Needs,,member_item,Staten Island,Delegation Egbe Omo Yoruba New York,Specialized High School Exam Prep program,134103638,5000,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Elite Learners, Inc.",,814482839,19375,DYCD,Funds will be used to support community events in Council District 41.
-Boroughwide Needs,,member_item,Queens,"Delegation Elmcor Youth and Adult Activities, Inc.",Youth Summit,112224539,50000,DYCD,Funding to support the operational and programming expenses associated with the Youth Summit.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Family Renaissance, Inc.",Our Male Rites of Passage Program,113190985,12000,DYCD,To fund Our Male Rites of Passage Program.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Fifth Avenue Committee, Inc.",New Americans Adult Education & Workforce Bridge Program,112475743,38750,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Fifth Avenue Committee, Inc.",New Americans Adult Education & Workforce Bridge Program,112475743,38750,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,Delegation Flatbush Development Corporation,,510188251,5750,HPD,
-Boroughwide Needs,,member_item,Queens,"Delegation Forestdale, Inc.",Strong Fathers Program,111631747,45000,ACS,To support the Strong Fathers program.
-Boroughwide Needs,,member_item,Brooklyn,Delegation Friends of Historic New Utrecht,Historic Education & Cultural Events,113407104,2500,DYCD,Funding to support free cultural and historical programming.
-Boroughwide Needs,,member_item,Staten Island,"Delegation Fund for the City of New York, Inc.",Freshkills Park,132612524,2500,DYCD,Funds will be used for support for programming and visits for CD51 students from Freshkills Alliance.
-Boroughwide Needs,,member_item,Manhattan,"Delegation Fund for the City of New York, Inc.",Midtown Community Court,132612524,21130,MOCJ,
+Boroughwide Needs,,member_item,Staten Island,Egbe Omo Yoruba New York,Specialized High School Exam Prep program,134103638,5000,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,"Elite Learners, Inc.",,814482839,19375,DYCD,Funds will be used to support community events in Council District 41.
+Boroughwide Needs,,member_item,Queens,"Elmcor Youth and Adult Activities, Inc.",Youth Summit,112224539,50000,DYCD,Funding to support the operational and programming expenses associated with the Youth Summit.
+Boroughwide Needs,,member_item,Brooklyn,"Family Renaissance, Inc.",Our Male Rites of Passage Program,113190985,12000,DYCD,To fund Our Male Rites of Passage Program.
+Boroughwide Needs,,member_item,Brooklyn,"Fifth Avenue Committee, Inc.",New Americans Adult Education & Workforce Bridge Program,112475743,38750,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,"Fifth Avenue Committee, Inc.",New Americans Adult Education & Workforce Bridge Program,112475743,38750,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,Flatbush Development Corporation,,510188251,5750,HPD,
+Boroughwide Needs,,member_item,Queens,"Forestdale, Inc.",Strong Fathers Program,111631747,45000,ACS,To support the Strong Fathers program.
+Boroughwide Needs,,member_item,Brooklyn,Friends of Historic New Utrecht,Historic Education & Cultural Events,113407104,2500,DYCD,Funding to support free cultural and historical programming.
+Boroughwide Needs,,member_item,Staten Island,"Fund for the City of New York, Inc.",Freshkills Park,132612524,2500,DYCD,Funds will be used for support for programming and visits for CD51 students from Freshkills Alliance.
+Boroughwide Needs,,member_item,Manhattan,"Fund for the City of New York, Inc.",Midtown Community Court,132612524,21130,MOCJ,
 Boroughwide Needs,,initiative_provider,,Good Shepherd Services,After-School Programs,135598710,10000,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Grace Family Services, Inc.",,202765775,5000,DYCD,
-Boroughwide Needs,,member_item,Staten Island,Delegation Grace Foundation of New York,,134131863,5000,DHMH,
-Boroughwide Needs,,member_item,Brooklyn,Delegation Hatzoloh Incorporated,Flatbush Hatzoloh,800369977,5000,FDNY,Funds to be used to support volunteer medical first responder program for Flatbush Hatzoloh.
-Boroughwide Needs,,member_item,Brooklyn,Delegation Hebrew Educational Society,Youth Leadership Group,111642720,8000,DYCD,Funds will be used to support a career development program for young adults.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation I Hold the Key, Inc.",,833034480,5000,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,Delegation Igud L'Hachzokas Torah,,113588991,7500,DYCD,Funds will be used for a mentoring program for teenagers and to provide suppers.
-Boroughwide Needs,,member_item,Queens,"Delegation India Home, Inc.",Senior Services,208747291,25000,DFTA,
-Boroughwide Needs,,member_item,Queens,"Delegation Jamaica Center for Arts and Learning, Inc.",Queens International Children's Festival & Downtown Jazz Festival,112478709,45000,DCLA,To support the Queens International Children's Festival and Downtown Jazz Festival.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Jewish Community Council of Canarsie, Inc.",Southeastern Brooklyn Safety Net,112608645,5750,DFTA,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Jewish Community Council of Greater Coney Island, Inc.",Southern Brooklyn Community Shuttle,112665181,10000,DYCD,To fund the Southern Brooklyn Community Shuttle.
-Boroughwide Needs,,member_item,Queens,"Delegation Jewish Community Council of the Rockaway Peninsula, Inc.",Senior Services,112425813,25000,DFTA,
+Boroughwide Needs,,member_item,Brooklyn,"Grace Family Services, Inc.",,202765775,5000,DYCD,
+Boroughwide Needs,,member_item,Staten Island,Grace Foundation of New York,,134131863,5000,DHMH,
+Boroughwide Needs,,member_item,Brooklyn,Hatzoloh Incorporated,Flatbush Hatzoloh,800369977,5000,FDNY,Funds to be used to support volunteer medical first responder program for Flatbush Hatzoloh.
+Boroughwide Needs,,member_item,Brooklyn,Hebrew Educational Society,Youth Leadership Group,111642720,8000,DYCD,Funds will be used to support a career development program for young adults.
+Boroughwide Needs,,member_item,Brooklyn,"I Hold the Key, Inc.",,833034480,5000,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,Igud L'Hachzokas Torah,,113588991,7500,DYCD,Funds will be used for a mentoring program for teenagers and to provide suppers.
+Boroughwide Needs,,member_item,Queens,"India Home, Inc.",Senior Services,208747291,25000,DFTA,
+Boroughwide Needs,,member_item,Bronx Delegation,"Institute for Family Health, The","Don’t Stress, Eat Fresh” Campaign",133273402,2500,DHMH,
+Boroughwide Needs,,member_item,Queens,"Jamaica Center for Arts and Learning, Inc.",Queens International Children's Festival & Downtown Jazz Festival,112478709,45000,DCLA,To support the Queens International Children's Festival and Downtown Jazz Festival.
+Boroughwide Needs,,member_item,Brooklyn,"Jewish Community Council of Canarsie, Inc.",Southeastern Brooklyn Safety Net,112608645,5750,DFTA,
+Boroughwide Needs,,member_item,Brooklyn,"Jewish Community Council of Greater Coney Island, Inc.",Southern Brooklyn Community Shuttle,112665181,10000,DYCD,To fund the Southern Brooklyn Community Shuttle.
+Boroughwide Needs,,member_item,Queens,"Jewish Community Council of the Rockaway Peninsula, Inc.",Senior Services,112425813,25000,DFTA,
 Boroughwide Needs,,initiative_provider,,"Kingsbridge Heights Community Center, Inc.",,132813809,4000,DYCD,
 Boroughwide Needs,,initiative_provider,,Funding will support KHCC Teen Ctr/Youth Dept. which offers comprehensive support services within a youth development framework to mainstream at-risk youth ages 11-21. Bronx Delegation Kips Bay Boys & Girls Club,,131623850,10000,DYCD,Funding will support cultural/community programming in Council District 18.
-Boroughwide Needs,,member_item,Queens,Delegation LGBT Network,Community Education in Schools,208512786,45000,DYCD,
-Boroughwide Needs,,member_item,Staten Island,"Delegation Literacy Trust, Inc.",,593551080,10000,DYCD,Funds will be used for literacy programming in Council District 51.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Make Music New York, Inc.",,205751217,5000,DCLA,
-Boroughwide Needs,,member_item,Queens,"Delegation Maspeth Town Hall, Inc.",After-School programs,237259702,25000,DYCD,Funds to be used to support after school programs in Queens.
-Boroughwide Needs,,member_item,Manhattan,"Delegation Met Council Research and Educational Fund, Inc.",Housing & Tenant Organizing,133580918,21110,HPD,To fund anti-eviction services and tenant organizing in Manhattan.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",SenioRepair,132738818,5000,DFTA,
+Boroughwide Needs,,member_item,Queens,LGBT Network,Community Education in Schools,208512786,45000,DYCD,
+Boroughwide Needs,,member_item,Staten Island,"Literacy Trust, Inc.",,593551080,10000,DYCD,Funds will be used for literacy programming in Council District 51.
+Boroughwide Needs,,member_item,Brooklyn,"Make Music New York, Inc.",,205751217,5000,DCLA,
+Boroughwide Needs,,member_item,Queens,"Maspeth Town Hall, Inc.",After-School programs,237259702,25000,DYCD,Funds to be used to support after school programs in Queens.
+Boroughwide Needs,,member_item,Manhattan,"Met Council Research and Educational Fund, Inc.",Housing & Tenant Organizing,133580918,21110,HPD,To fund anti-eviction services and tenant organizing in Manhattan.
+Boroughwide Needs,,member_item,Brooklyn,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",SenioRepair,132738818,5000,DFTA,
 Boroughwide Needs,,initiative_provider,,"Mind Builders Creative Arts Center, Inc.",Folk Culture Programs,132988157,37777,DCLA,Funding will support Community Folk Culture Programs.
 Boroughwide Needs,,member_item,Bronx Delegation,"Morris Park Community Association, Inc.",,237429900,27777,DYCD,
 Boroughwide Needs,,member_item,Bronx Delegation,"Mosholu-Montefiore Community Center, Inc.",College Bound Program,133622107,10280,DYCD,Funding will support MMCC College Bound Program.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation My Time, Inc.",Parent Support Educational Training,680646329,5000,DHMH,
-Boroughwide Needs,,member_item,Staten Island,"Delegation NAMI-NYC Staten Island, Inc.",,133370368,5000,DFTA,
-Boroughwide Needs,,member_item,Manhattan,"Delegation Nazareth Housing, Inc.",Housing Support & Social Services,133176952,21110,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Neighborhood Housing Services of Brooklyn CDC, Inc.",,471169779,6000,HPD,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Neighborhood Housing Services of Brooklyn CDC, Inc.",Housing Education Program,471169779,6000,HPD,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation New Wave Dance Youth and Community Development, Inc.",,465109569,5750,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,"My Time, Inc.",Parent Support Educational Training,680646329,5000,DHMH,
+Boroughwide Needs,,member_item,Staten Island,"NAMI-NYC Staten Island, Inc.",,133370368,5000,DFTA,
+Boroughwide Needs,,member_item,Manhattan,"Nazareth Housing, Inc.",Housing Support & Social Services,133176952,21110,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,"Neighborhood Housing Services of Brooklyn CDC, Inc.",,471169779,6000,HPD,
+Boroughwide Needs,,member_item,Brooklyn,"Neighborhood Housing Services of Brooklyn CDC, Inc.",Housing Education Program,471169779,6000,HPD,
+Boroughwide Needs,,member_item,Brooklyn,"New Wave Dance Youth and Community Development, Inc.",,465109569,5750,DYCD,
 Boroughwide Needs,,initiative_provider,,"Cohen, Torres New York Botanical Garden",Senior Events - Council District 17,131693134,20000,DCLA,
-Boroughwide Needs,,member_item,Brooklyn,Delegation New York City H2O,,453860014,3000,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,Delegation New York Committee for Occupational Safety and Health,,132935028,8000,DYCD,"Funds will be used for training, education and job skills."
-Boroughwide Needs,,member_item,Manhattan,"Delegation New York Common Pantry, Inc.",,133127972,42220,DYCD,
-Boroughwide Needs,,member_item,Staten Island,"Delegation New York Edge, Inc.",Public School 4R,113112635,7500,DYCD,"Funds will be used to support, programming for P.S. 4 (31R004) in Council District 51."
-Boroughwide Needs,,member_item,Brooklyn,"Delegation New York Junior Tennis League, Inc.",,237442256,5000,DYCD,Funds will be used for Community Tennis program in Council District 37.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation New York Legal Assistance Group, Inc.",Mobile Legal Help,133505428,5000,DSS/HRA,
-Boroughwide Needs,,member_item,Queens,"Delegation New York Sun Works, Inc.",Learning Classrooms,200670312,45000,DOE,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation New York United Jewish Association, Inc.",Educational Programming & Services,262647383,6000,DYCD,
-Boroughwide Needs,,member_item,Staten Island,"Delegation Northfield Community LDC of Staten Island, Inc.",Senior Homeowner Assistance Program,132974137,5000,HPD,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation NPower, Inc.",Tech Fundamentals Workforce Training,134145441,3000,DYCD,Funding to support tech fundamentals and workforce training to young adults (ages 18-25).
-Boroughwide Needs,,member_item,Staten Island,"Delegation On Your Mark, Inc.",,133128315,13000,DYCD,"Funds will be used for support for project teamwork, and engagement at south shore schools."
-Boroughwide Needs,,member_item,Brooklyn,Delegation Open Door Family Life Center,,201056519,8750,DYCD,Funds to combat food disparity within Council District 36.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Opportunities for a Better Tomorrow, Inc.",,112934620,28750,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,New York City H2O,,453860014,3000,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,New York Committee for Occupational Safety and Health,,132935028,8000,DYCD,"Funds will be used for training, education and job skills."
+Boroughwide Needs,,member_item,Manhattan,"New York Common Pantry, Inc.",,133127972,42220,DYCD,
+Boroughwide Needs,,member_item,Staten Island,"New York Edge, Inc.",Public School 4R,113112635,7500,DYCD,"Funds will be used to support, programming for P.S. 4 (31R004) in Council District 51."
+Boroughwide Needs,,member_item,Brooklyn,"New York Junior Tennis League, Inc.",,237442256,5000,DYCD,Funds will be used for Community Tennis program in Council District 37.
+Boroughwide Needs,,member_item,Brooklyn,"New York Legal Assistance Group, Inc.",Mobile Legal Help,133505428,5000,DSS/HRA,
+Boroughwide Needs,,member_item,Queens,"New York Sun Works, Inc.",Learning Classrooms,200670312,45000,DOE,
+Boroughwide Needs,,member_item,Brooklyn,"New York United Jewish Association, Inc.",Educational Programming & Services,262647383,6000,DYCD,
+Boroughwide Needs,,member_item,Staten Island,"Northfield Community LDC of Staten Island, Inc.",Senior Homeowner Assistance Program,132974137,5000,HPD,
+Boroughwide Needs,,member_item,Brooklyn,"NPower, Inc.",Tech Fundamentals Workforce Training,134145441,3000,DYCD,Funding to support tech fundamentals and workforce training to young adults (ages 18-25).
+Boroughwide Needs,,member_item,Staten Island,"On Your Mark, Inc.",,133128315,13000,DYCD,"Funds will be used for support for project teamwork, and engagement at south shore schools."
+Boroughwide Needs,,member_item,Brooklyn,Open Door Family Life Center,,201056519,8750,DYCD,Funds to combat food disparity within Council District 36.
+Boroughwide Needs,,member_item,Brooklyn,"Opportunities for a Better Tomorrow, Inc.",,112934620,28750,DYCD,
 Boroughwide Needs,,member_item,Bronx Delegation,"Osborne Association, Inc., The",Fulton Community Reentry Program,135563028,18888,MOCJ,Funding will support the operations of the Fulton Community Reentry Program.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Pakistani American Youth Organization, Inc.",,474022872,5000,DYCD,"Funding to provide educational, environmental, cultural, health and sports activities."
-Boroughwide Needs,,member_item,Manhattan,"Delegation Palante Harlem, Inc.",Tenant Organizing & Anti-Eviction,800209989,42220,HPD,Funds support tenant organizing and anti-eviction programs in Manhattan.
-Boroughwide Needs,,member_item,Brooklyn,Delegation Parent Child Relationship Association,Community Programs,831900689,2500,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,"Pakistani American Youth Organization, Inc.",,474022872,5000,DYCD,"Funding to provide educational, environmental, cultural, health and sports activities."
+Boroughwide Needs,,member_item,Manhattan,"Palante Harlem, Inc.",Tenant Organizing & Anti-Eviction,800209989,42220,HPD,Funds support tenant organizing and anti-eviction programs in Manhattan.
+Boroughwide Needs,,member_item,Brooklyn,Parent Child Relationship Association,Community Programs,831900689,2500,DYCD,
 Boroughwide Needs,,initiative_provider,,"The funds will be used for cleanup supplies, educational workshops, as well as community events: Back to School, Halloween, Mid-Autumn Festival, Lunar New Year, Easter, Children's Day, and Mother's Day, focused on family engagement. Bronx Delegation Per Scholas, Inc.",New York Tech Training Program,043252955,10000,DYCD,Funding will help support expenses associated with New York Tech Training Program.
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Propel Network, Inc.",,473168850,5000,DYCD,
-Boroughwide Needs,,member_item,Queens,"Delegation Queens Botanical Garden Society, Inc.",Garden Visitors,111635083,50000,DCLA,To fund public programming for garden visitors.
-Boroughwide Needs,,member_item,Manhattan,"Delegation Renaissance Technical Institute, Inc.",Educational Programs,472048750,21110,DYCD,Funds support RTI's educational programs through public schools in Manhattan.
-Boroughwide Needs,,member_item,Brooklyn,Delegation Rescuing Leftover Cuisine,Food Rescue Program - Council District 35,463198412,5000,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation Rethink Food NYC, Inc.",Food Rescue & Meal Preparation Program - Council District 35,821632259,5750,DYCD,
-Boroughwide Needs,,member_item,Staten Island,Delegation Richmond Medical Center,,743177454,10000,DHMH,Funds will be used for general operating cost.
-Boroughwide Needs,,member_item,Staten Island,Delegation Richmond Medical Center,Violence-Prevention & Immediate- Action Program.,743177454,5000,DHMH,
-Boroughwide Needs,,member_item,Manhattan,"Delegation Room to Grow National, Inc.",Family Support,134012096,21110,DYCD,
-Boroughwide Needs,,member_item,Staten Island,Delegation Seamen's Society for Children and Families,,135563010,5000,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,"Propel Network, Inc.",,473168850,5000,DYCD,
+Boroughwide Needs,,member_item,Queens,"Queens Botanical Garden Society, Inc.",Garden Visitors,111635083,50000,DCLA,To fund public programming for garden visitors.
+Boroughwide Needs,,member_item,Bronx Delegation,"Regional Aid for Interim Needs, Inc.",Nereid Senior Center,136213586,8500,DFTA,Funding will support senior services and programming at the Nereid Senior Center.
+Boroughwide Needs,,member_item,Manhattan,"Renaissance Technical Institute, Inc.",Educational Programs,472048750,21110,DYCD,Funds support RTI's educational programs through public schools in Manhattan.
+Boroughwide Needs,,member_item,Brooklyn,Rescuing Leftover Cuisine,Food Rescue Program - Council District 35,463198412,5000,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,"Rethink Food NYC, Inc.",Food Rescue & Meal Preparation Program - Council District 35,821632259,5750,DYCD,
+Boroughwide Needs,,member_item,Staten Island,Richmond Medical Center,,743177454,10000,DHMH,Funds will be used for general operating cost.
+Boroughwide Needs,,member_item,Staten Island,Richmond Medical Center,Violence-Prevention & Immediate- Action Program.,743177454,5000,DHMH,
+Boroughwide Needs,,member_item,Manhattan,"Room to Grow National, Inc.",Family Support,134012096,21110,DYCD,
+Boroughwide Needs,,member_item,Staten Island,Seamen's Society for Children and Families,,135563010,5000,DYCD,
 Boroughwide Needs,,initiative_provider,,"Funds will support administrative, staffing, and operational costs associated with the family day care services. Bronx Delegation Southern Boulevard District Management Association, Inc.",,263497932,10000,DYCD,Funds will be used to support annual events.
-Boroughwide Needs,,member_item,Staten Island,Delegation Staten Island University Hospital,,112868878,10000,DHMH,Funds will be used for general operating cost.
+Boroughwide Needs,,member_item,Staten Island,Staten Island University Hospital,,112868878,10000,DHMH,Funds will be used for general operating cost.
 Boroughwide Needs,,member_item,Bronx Delegation,Summer on the Hill,,651232087,10000,DYCD,"Funding will support Summer on the Hill's literacy, performing arts, and physical education program."
-Boroughwide Needs,,member_item,Queens,"Delegation Sunnyside Community Services, Inc.",Senior Services,510189327,25000,DFTA,
-Boroughwide Needs,,member_item,Brooklyn,Delegation Together We Are,,270213447,7500,DYCD,
+Boroughwide Needs,,member_item,Queens,"Sunnyside Community Services, Inc.",Senior Services,510189327,25000,DFTA,
+Boroughwide Needs,,member_item,Brooklyn,Together We Are,,270213447,7500,DYCD,
 Boroughwide Needs,,member_item,Bronx Delegation,"United Auto Merchants Association, Inc.",Business Compliance Program,364615681,2500,SBS,
-Boroughwide Needs,,member_item,Brooklyn,"Delegation United Jewish Organizations of Williamsburg, Inc.",Social Services,112728233,38750,DSS/HRA,
+Boroughwide Needs,,member_item,Brooklyn,"United Jewish Organizations of Williamsburg, Inc.",Social Services,112728233,38750,DSS/HRA,
 Boroughwide Needs,,initiative_provider,,"Urban Health Plan, Inc.",,237360305,7778,DHMH,Funds will be used to purchase emergency-grade medical supplies.
 Boroughwide Needs,,member_item,Bronx Delegation,"Urban Youth Alliance International, Inc.",BronxConnect ATI Program,132969182,10000,DYCD,
-Boroughwide Needs,,member_item,Manhattan,"Delegation Volunteers of Legal Service, Inc.",Elderly Project,133234630,21110,DFTA,Funds support civil legal services for seniors in Manhattan.
-Boroughwide Needs,,member_item,Manhattan,"Delegation West Side Center for Community Life, Inc.",86th Street & Mobile Food Pantry,710908184,42220,DYCD,
-Boroughwide Needs,,member_item,Brooklyn,Delegation Wildcat Service Corporation,Neighborhood Improvement Program,132725423,11250,DYCD,Funding to support the Neighborhood Improvement Program for Council District 43.
-Boroughwide Needs,,member_item,Staten Island,"Delegation Zimmer Club Youth Conservation Program of Staten Island, Inc.",,352262561,2000,DYCD,
+Boroughwide Needs,,member_item,Manhattan,"Volunteers of Legal Service, Inc.",Elderly Project,133234630,21110,DFTA,Funds support civil legal services for seniors in Manhattan.
+Boroughwide Needs,,member_item,Manhattan,"West Side Center for Community Life, Inc.",86th Street & Mobile Food Pantry,710908184,42220,DYCD,
+Boroughwide Needs,,member_item,Brooklyn,Wildcat Service Corporation,Neighborhood Improvement Program,132725423,11250,DYCD,Funding to support the Neighborhood Improvement Program for Council District 43.
+Boroughwide Needs,,member_item,Staten Island,"Zimmer Club Youth Conservation Program of Staten Island, Inc.",,352262561,2000,DYCD,
 Boroughwide Needs,City’s First Readers,initiative_provider,,"Broadway Housing Communities, Inc.",,133212867,54683,,
 Boroughwide Needs,City’s First Readers,member_item,Brooklyn,Public Library,,111904261,284750,,
 Boroughwide Needs,City’s First Readers,initiative_provider,,"Child Center of NY, Inc.",,111733454,132034,,
@@ -535,7 +537,7 @@ Community Development,Alternatives to Incarceration (ATIs),initiative_provider,,
 Community Development,Alternatives to Incarceration (ATIs),initiative_provider,,"College and Community Fellowship, Inc., The",,311720017,540000,,
 Community Development,Alternatives to Incarceration (ATIs),initiative_provider,,"EAC, Inc.",,237175609,1211706,,
 Community Development,Alternatives to Incarceration (ATIs),initiative_provider,,"Fortune Society, Inc., The",,132645436,2244465,,
-Community Development,Alternatives to Incarceration (ATIs),initiative_provider,,"Delegation Fund for the City of New York, Inc.",Center for Court Innovation,132612524,780000,,
+Community Development,Alternatives to Incarceration (ATIs),initiative_provider,,"Fund for the City of New York, Inc.",Center for Court Innovation,132612524,780000,,
 Community Development,Alternatives to Incarceration (ATIs),initiative_provider,,"Getting Out and Staying Out, Inc.",,061711370,180000,,
 Community Development,Alternatives to Incarceration (ATIs),initiative_provider,,"Girls for Gender Equity, Inc.",,043697166,135000,,
 Community Development,Alternatives to Incarceration (ATIs),initiative_provider,,"Greenburger Center for Social and Criminal Justice, Inc.",,464188973,405000,,
@@ -562,12 +564,12 @@ Criminal Justice Services,Diversion Programs,initiative_provider,,"Safe Horizon,
 Criminal Justice Services,Diversion Programs,initiative_provider,,Sakhi for South Asian Women,,133593806,75000,,
 Criminal Justice Services,Diversion Programs,initiative_provider,,Violence Intervention Program,,133540337,150000,,
 Criminal Justice Services,Innovative Criminal Justice Programs,initiative_provider,,Department of Probation,,136400434,200000,,
-Criminal Justice Services,Innovative Criminal Justice Programs,initiative_provider,,"Delegation Fund for the City of New York, Inc.",Center for Court Innovation,132612524,250000,,
-Criminal Justice Services,Innovative Criminal Justice Programs,initiative_provider,,"Delegation Fund for the City of New York, Inc.",A More Just NYC,132612524,325000,,
+Criminal Justice Services,Innovative Criminal Justice Programs,initiative_provider,,"Fund for the City of New York, Inc.",Center for Court Innovation,132612524,250000,,
+Criminal Justice Services,Innovative Criminal Justice Programs,initiative_provider,,"Fund for the City of New York, Inc.",A More Just NYC,132612524,325000,,
 Criminal Justice Services,Innovative Criminal Justice Programs,initiative_provider,,Kings County District Attorney,,136400434,458000,,
 Criminal Justice Services,Innovative Criminal Justice Programs,initiative_provider,,"Vera Institute of Justice, Inc.",,131941627,200000,,
 Criminal Justice Services,Innovative Criminal Justice Programs,initiative_provider,,Youth Represent,,208034010,75000,,
-Criminal Justice Services,Support for Victims of Human Trafficking,initiative_provider,,"Delegation Fund for the City of New York, Inc.",Center for Court Innovation,132612524,52935,,
+Criminal Justice Services,Support for Victims of Human Trafficking,initiative_provider,,"Fund for the City of New York, Inc.",Center for Court Innovation,132612524,52935,,
 Criminal Justice Services,Support for Victims of Human Trafficking,initiative_provider,,"Garden of Hope, Inc.",,200177587,242065,,
 Criminal Justice Services,Support for Victims of Human Trafficking,initiative_provider,,Girls Educational and Mentoring Services,,134150972,125000,,
 Criminal Justice Services,Support for Victims of Human Trafficking,initiative_provider,,Icahn School of Medicine at Mount Sinai,,136171197,75000,,
@@ -673,7 +675,7 @@ Education,College and Career Readiness,initiative_provider,,"New York City Outwa
 Education,Jill Chaifetz Helpline,initiative_provider,,"Advocates for Children of New York, Inc.",,112247307,250000,,
 Education,LGBTQ Inclusive Curriculum,initiative_provider,,Children's Health Fund,,133468427,450000,,
 Education,LGBTQ Inclusive Curriculum,initiative_provider,,New York City Community Learning Schools,,461227433,3000000,,
-Education,LGBTQ Inclusive Curriculum,initiative_provider,,"Delegation Fund for the City of New York, Inc.",NYC LGBT Historic Sites,132612524,25000,,
+Education,LGBTQ Inclusive Curriculum,initiative_provider,,"Fund for the City of New York, Inc.",NYC LGBT Historic Sites,132612524,25000,,
 Education,LGBTQ Inclusive Curriculum,initiative_provider,,"History UnErased, Inc.",,472852025,100000,,
 Education,LGBTQ Inclusive Curriculum,initiative_provider,,Lambda Literary Foundation,,521996380,100000,,
 Education,LGBTQ Inclusive Curriculum,initiative_provider,,LGBT Youth Out Loud,,841628418,25000,,
@@ -778,7 +780,7 @@ Health Services,Ending the Epidemic,initiative_provider,,"Community Healthcare N
 Health Services,Ending the Epidemic,initiative_provider,,Covenant House New York/Under 21,,133076376,18480,,
 Health Services,Ending the Epidemic,initiative_provider,,"Diaspora Community Services, Inc.",,113122295,120480,,
 Health Services,Ending the Epidemic,initiative_provider,,"Exponents, Inc.",,133572677,73730,,
-Health Services,Ending the Epidemic,initiative_provider,,"Delegation Fund for the City of New York, Inc.",,132612524,43980,,
+Health Services,Ending the Epidemic,initiative_provider,,"Fund for the City of New York, Inc.",,132612524,43980,,
 Health Services,Ending the Epidemic,initiative_provider,,"Gay Men's Health Crisis, Inc.",,133130146,315980,,
 Health Services,Ending the Epidemic,initiative_provider,,Goddard Riverside Community Center,,131893908,31230,,
 Health Services,Ending the Epidemic,initiative_provider,,Health + Hospitals,,132655001,197869,,
@@ -898,7 +900,7 @@ Health Services,Public Health Funding Backfill,initiative_provider,,"Family Serv
 Health Services,Public Health Funding Backfill,initiative_provider,,"Federation of Protestant Welfare Agencies, Inc.",,135562220,25925,,
 Health Services,Public Health Funding Backfill,initiative_provider,,"Five Pearls Foundation, The",,870731633,1063,,
 Health Services,Public Health Funding Backfill,initiative_provider,,Fort Greene Strategic Neighborhood Action Partnership,,113343941,17266,,
-Health Services,Public Health Funding Backfill,initiative_provider,,"Delegation Fund for the City of New York, Inc.",,132612524,14079,,
+Health Services,Public Health Funding Backfill,initiative_provider,,"Fund for the City of New York, Inc.",,132612524,14079,,
 Health Services,Public Health Funding Backfill,initiative_provider,,"Gay Men's Health Crisis, Inc.",,133130146,82079,,
 Health Services,Public Health Funding Backfill,initiative_provider,,Goddard Riverside Community Center,,131893908,1329,,
 Health Services,Public Health Funding Backfill,initiative_provider,,"HANAC, Inc.",,112290832,15447,,
@@ -1243,7 +1245,7 @@ Mental Health Services,Court-Involved Youth Mental Health,initiative_provider,,"
 Mental Health Services,Court-Involved Youth Mental Health,initiative_provider,,"Coalition for Behavioral Health, Inc., The",,132729071,174250,,
 Mental Health Services,Court-Involved Youth Mental Health,initiative_provider,,"EAC, Inc.",,237175609,85000,,
 Mental Health Services,Court-Involved Youth Mental Health,initiative_provider,,"Fortune Society, Inc., The",,132645436,127500,,
-Mental Health Services,Court-Involved Youth Mental Health,initiative_provider,,"Delegation Fund for the City of New York, Inc.",,132612524,192100,,
+Mental Health Services,Court-Involved Youth Mental Health,initiative_provider,,"Fund for the City of New York, Inc.",,132612524,192100,,
 Mental Health Services,Getting Out and Staying Out 61-711370,initiative_provider,,Good Shepherd Services,,135598710,127500,,
 Mental Health Services,Getting Out and Staying Out 61-711370,initiative_provider,,Jewish Child Care Association of New York,,131624060,148750,,
 Mental Health Services,Getting Out and Staying Out 61-711370,initiative_provider,,"Kingsbridge Heights Community Center, Inc.",,132813809,76500,,
@@ -1304,7 +1306,7 @@ Mental Health Services,Mental Health Services for Vulnerable Populations,initiat
 Mental Health Services,Mental Health Services for Vulnerable Populations,initiative_provider,,"Children’s Aid Society, The",,135562191,63750,,
 Mental Health Services,Mental Health Services for Vulnerable Populations,initiative_provider,,"Coalition for Behavioral Health, Inc., The",,132729071,85000,,
 Mental Health Services,Mental Health Services for Vulnerable Populations,initiative_provider,,"Comunilife, Inc.",,133530299,340000,,
-Mental Health Services,Mental Health Services for Vulnerable Populations,initiative_provider,,"Delegation Fund for the City of New York, Inc.",,132612524,70550,,
+Mental Health Services,Mental Health Services for Vulnerable Populations,initiative_provider,,"Fund for the City of New York, Inc.",,132612524,70550,,
 Mental Health Services,Mental Health Services for Vulnerable Populations,initiative_provider,,"Greenwich House, Inc.",,135562204,42500,,
 Mental Health Services,Mental Health Services for Vulnerable Populations,initiative_provider,,"Heights Hill Mental Health Service, SBPC, Community Advisory Board, Inc.",,112785605,106250,,
 Mental Health Services,Mental Health Services for Vulnerable Populations,initiative_provider,,"Lexington Center for Mental Health Services, Inc.",,112542317,17000,,
@@ -1345,7 +1347,7 @@ Public Safety,Crisis Management System,initiative_provider,,CUNY Creative Arts T
 Public Safety,Crisis Management System,initiative_provider,,"East Flatbush Village, Inc.",,800612019,40000,,
 Public Safety,Crisis Management System,initiative_provider,,"Elite Learners, Inc.",,814482839,80000,,
 Public Safety,Crisis Management System,initiative_provider,,"Floating Hospital, Inc., The",,131624169,35000,,
-Public Safety,Crisis Management System,initiative_provider,,"Delegation Fund for the City of New York, Inc.",,132612524,80000,,
+Public Safety,Crisis Management System,initiative_provider,,"Fund for the City of New York, Inc.",,132612524,80000,,
 Public Safety,Crisis Management System,initiative_provider,,"Getting Out and Staying Out, Inc.",,061711370,190600,,
 Public Safety,Crisis Management System,initiative_provider,,Good Shepherd Services,,135598710,40000,,
 Public Safety,Crisis Management System,initiative_provider,,Health + Hospitals,"Lincoln (Guns Down, Life Up)",132655001,200000,,
@@ -1574,8 +1576,9 @@ Small Business Services and Workforce Development,Worker Cooperative Business De
 Small Business Services and Workforce Development,Worker Cooperative Business Development Initiative,initiative_provider,,"Working World, Inc.",,202264584,400831,,
 Small Business Services and Workforce Development,Worker Cooperative Business Development Initiative,initiative_provider,,City University of New York,,133893536,146600,,
 Small Business Services and Workforce Development,Bridge Program for Workforce Development,initiative_provider,,"Goodwill Industries of Greater New York and Northern New Jersey, Inc.",,131641068,850000,,
+Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Ackerman Institute for the Family,,131923959,40000,DYCD,To provide funding for the Gender Family Project.
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Ali Forney Center,,300104507,40000,DYCD,
-Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Delegation Alley Pond Environmental Center, Inc.",Educational Programs,112405466,40000,DCLA,
+Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Alley Pond Environmental Center, Inc.",Educational Programs,112405466,40000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,The funding will be used to cover the various costs associated with implementing APECs educational programs. Torres American Museum of Natural History,Discovery Days,136162659,100000,DCLA,Funds will support field trips to the Museum for NYCHA families across the city.
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Irish An Claidheamh Soluis, Inc.",,510244834,50000,DCLA,To fund programs promoting Irish arts and culture.
 Speaker’s Initiative to Address Citywide Needs,,member_item,Constantinides,"Ansob Center for Refugees, Inc.",,113534833,20000,DYCD,Funds will be used to support legal services for immigrants and refugees.
@@ -1591,6 +1594,7 @@ Speaker’s Initiative to Address Citywide Needs,,member_item,Brooklyn,"Book Fes
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funding will allow increased outreach into NYC's diverse communities for a significant expansion of the BBF audience. It will fund a coordinator and related expenses for a public outreach program. Cumbo Brooklyn Center for the Arts, Inc.",,474160811,75000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Community Pride Center, Inc.",,262214534,25000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funding will support capacity-building to accommodate the organization's growing community engagement. Brooklyn Historical Society, The",,111630813,25000,DCLA,
+Speaker’s Initiative to Address Citywide Needs,,member_item,Levin,"Brooklyn Youth Chorus Academy, Inc.",,113129249,20000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Campaign Against Hunger, Inc., The",,200934854,225000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funding to support the continuation, expansion and enhancement of programming. Funding will enable providing additional food, fresh produce, healthy initiatives workshops and benefit access services. Powers Carnegie Hall Corporation, The",,131923626,25000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Central Astoria Local Development Coalition, Inc.",,112652331,20000,DYCD,
@@ -1598,16 +1602,17 @@ Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funds wi
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Funds for seriously ill children and their families to include concrete services such as hot meals and other food and medical items as needed by the patients their parents and siblings. Provide transportation to and from medical appointments & hospitals. Children's Museum of Manhattan,,132761376,75000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Classical Theatre of Harlem, Inc., The",,134046782,10000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Coalition for the Homeless, Inc.",Grand Central Food Program,133072967,50000,DHS,
-Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Delegation Cong Chasdei Lev,,454786470,20000,DYCD,
+Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Cong Chasdei Lev,,454786470,20000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funding to support the costs associated with obtaining food and supplies for distribution to the needy. Cool Culture, Inc.",Citywide Cultural Access Program,161636968,100000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funding would be used to cover the cost of free admission for up to five family members to 90 museums, zoos and botanic gardens; professional development to education professionals; and other programmatic materials to support parents. Corbin Hill Food Project, Inc., The",,461206478,50000,DYCD,The funds requested will provide subsidies for Community Boxes.
 Speaker’s Initiative to Address Citywide Needs,,member_item,Rose,"Eden II School for Autistic Children, Inc.",,132872916,25000,DHMH,Funds will be used to support Encore Vocational Training.
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Ampry-Samuel, Barron, BLAC Elite Learners, Inc.",Digital Pathways to Work,814482839,25000,DYCD,
-Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Delegation Elmcor Youth and Adult Activities, Inc.",,112224539,50000,DYCD,
+Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Elmcor Youth and Adult Activities, Inc.",,112224539,50000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"For a Community Education Summit to focus on the opioid crisis and related public health issues in Queens. Funds will be used for equipment rental, food, supplies, outreach and information materials, security and maintenance. Irish, Van Bramer Film Fleadh Foundation, Inc.",,134051235,15000,DCLA,
+Speaker’s Initiative to Address Citywide Needs,,member_item,Koo,"Flushing Council on Culture and the Arts, Inc.",,112652182,50000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"To fund high-quality arts programming for adults and families, educational programming, discounts and transportation for Senior Citizens and underserved audiences, and cross-cultural programming, and operational support. Fort Greene Park Conservancy, Inc.",,113637773,10000,DPR,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funding to support Fort Greene Park Summer programming; free community cultural and youth programs, activities and events in Fort Greene Park. Friends of the High Line, Inc.",,311734086,100000,DYCD,Funding will be used to support free education programming.
-Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Delegation Fund for the City of New York, Inc.",Jamaica Bay-Rockaway Parks Conservancy,132612524,40000,DYCD,Funds to be used to support the Jamaica Bay-Rockaway Parks Conservancy.
+Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Fund for the City of New York, Inc.",Jamaica Bay-Rockaway Parks Conservancy,132612524,40000,DYCD,Funds to be used to support the Jamaica Bay-Rockaway Parks Conservancy.
 Speaker’s Initiative to Address Citywide Needs,,member_item,Koo,"Garden of Hope, Inc.",,200177587,50000,MOCJ,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"To provide culturally and linguistically competent outreach and services for survivors/victims of domestic violence, child abuse, human trafficking, and sexual assault among NYC Chinese immigrants. Girl Be Heard Institute",,271848709,50000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"God's Love We Deliver, Inc.",Meals for Medically Frail,133366846,95000,DHMH,"Funding will support meals, supplies, and operations for people with severe illness."
@@ -1620,16 +1625,17 @@ Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Healthcar
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Hot Bread Kitchen, Ltd.",,263332972,50000,SBS,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"HSS Screening and Early Detection, Inc.",,473436880,25000,DHMH,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Hunger Free America, Inc.",,133471350,50000,DYCD,
+Speaker’s Initiative to Address Citywide Needs,,member_item,Cumbo,"Ifetayo Cultural Arts Academy, Inc.",,113027538,25000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,IlluminArt Productions,,421727647,25000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funding to support a theater production for children of people with substance use issues at no less than five Council District 51 schools. Deutsch Imeinu, Inc. dba Rachel's Place",,260774611,15000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funds will be used for stipends for youth, and other operational expenses such as rent, utilities, travel, food, supplies and for painting the facilities. Independence Care System, Inc.",,133964284,125000,HHC,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Iris House: A Center for Women Living with HIV, Inc.",,133699201,30000,DHMH,
-Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Delegation Jamaica Center for Arts and Learning, Inc.",,112478709,50000,DCLA,
+Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Jamaica Center for Arts and Learning, Inc.",,112478709,50000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funding will support the workspace program as well as in-school, after-school, Saturday Art center Workshops, and Summer Art programs. Jamel Gaines Creative Outlet, Inc.",,831788832,20000,DYCD,Funds will be used to support youth and community related programs and services.
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Jewish Children's Museum,,133798344,75000,DYCD,To provide funding support for safety and security enhancements.
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Ampry-Samuel, Cumbo, Deutsch Jewish Children's Museum",,133798344,90000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funds will be used to cover the cost associated with museum's educational and cultural programs. Jewish Coalition for Youth Education & Support, Inc.",,273152656,20000,DYCD,
-Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Delegation Jewish Community Council of Canarsie, Inc.",,112608645,50000,DFTA,
+Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Jewish Community Council of Canarsie, Inc.",,112608645,50000,DFTA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Jewish Community Council of Greater Coney Island, Inc.",Urban Neighborhood Services Social Worker,112665181,70000,DHMH,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Jewish Institute of Queens,Teen Lounge,542068797,90000,DYCD,To provide funding support for the JIQ After-School Program.
 Speaker’s Initiative to Address Citywide Needs,,member_item,Koo,"Korean American Family Service Center, The",,133609811,50000,MOCJ,
@@ -1639,6 +1645,7 @@ Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Lesbian 
 Speaker’s Initiative to Address Citywide Needs,,member_item,Dromm,"Leslie-Lohman Museum of Gay and Lesbian Art, The",,461245243,125000,DCLA,To provide educational and experiential arts programming addressing LGBTQ issues.
 Speaker’s Initiative to Address Citywide Needs,,member_item,Adams,"Literacy (LINC), Inc.",South Jamaica Reads,133911331,17000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funds will ensure children are ready for school and have the support they need to sustain grade-level reading proficiency in schools throughout the Jamaica area and among seven partner organizations. Loisaida, Inc.",,133023183,100000,DYCD,Funds will support Loisaida's Media & Technology Center programming.
+Speaker’s Initiative to Address Citywide Needs,,member_item,Louis,Armstrong House Museum,Armstrong NOW!,264178283,200000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,member_item,Louis,"Armstrong’s legacy through the Armstrong NOW! project. Bronx, Progressive LSNY Bronx Corporation",Bronx Immigration Partnership,161759590,25000,DSS/HRA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Masbia,,201923521,100000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Masbia of Queens,,270363356,50000,DYCD,
@@ -1653,7 +1660,8 @@ Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Assistin
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"New York Asian Women's Center, Inc.",Womankind's Helpline,133286250,50000,MOCJ,To support the Helpline program for Asian immigrant survivors of domestic violence.
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Cohen, Torres New York Botanical Garden",,131693134,50000,DCLA,To support expenses related to the Edible Academy School Partnership Program.
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"New York Chinese Opera Society, Inc.",,861171749,10000,DCLA,Funds will be used to support cultural performances.
-Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Delegation New York United Jewish Association, Inc.",,262647383,20000,DYCD,"Funding to support food pantry, benefits access and social services."
+Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"New York City AIDS Memorial, Inc.","Visual Impact: On AIDS, Art, and Activism",611632107,100000,DYCD,
+Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"New York United Jewish Association, Inc.",,262647383,20000,DYCD,"Funding to support food pantry, benefits access and social services."
 Speaker’s Initiative to Address Citywide Needs,,member_item,Cumbo,"Noel Pointer Foundation, Inc.",,113271472,75000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Northside Center for Child Development, Inc.",,131656679,100000,DYCD,To support Northside's After School and Summer program.
 Speaker’s Initiative to Address Citywide Needs,,member_item,Staten Island,"Oceanic Hook and Ladder Co. No. 1, Inc.",,465288351,20000,FDNY,
@@ -1666,10 +1674,11 @@ Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Queens-1
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Reaching Out Community Services, Inc.",,113615625,30000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funds will support social work, including help with Food Stamps, Health Insurance, and other benefits, a supermarket style Food Pantry, Tax Assistance, Nutritional Work Shops, F.E.A.T (Firsthand Emergency Action Team). Adams Reading Partners",South Jamaica Reads,770568469,10500,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Funds will ensure children are ready for school and have the support they need to sustain grade-level reading proficiency in schools throughout the Jamaica area and among eight partner organizations. Staten Island Richmond Engine Company No. 1,,132943389,20000,FDNY,
-Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Delegation Room to Grow National, Inc.",,134012096,50000,DYCD,
+Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Room to Grow National, Inc.",,134012096,50000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funding will support parenting, education, material support, and specialized referrals for babies and families living in poverty. Roundabout Theatre Company, Inc.",Theatrical Workforce Development Program,136192346,25000,DCLA,To provide funding support for the theatrical workforce development program.
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"BLAC, Gibson Sauti Yetu Center for African Women, Inc.",,201209795,100000,DSS/HRA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Shalom Task Force, Inc.",,113207504,25000,MOCJ,
+Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Sinergia, Inc.",,133183344,40000,DHMH,Funds would be used to provide support for programs to assist children with Autism.
 Speaker’s Initiative to Address Citywide Needs,,member_item,Cornegy,Society for the Preservation of Weeksville and Bedford Stuyvesant History,,237330454,50000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Society of the Educational Arts, Inc. (SEA)",,113210593,25000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Funds will support Teatro SEA's dropout prevention and theater for young audiences and immigrant communities programs. Sophie Gerson Healthy Youth,,462977659,15000,DYCD,
@@ -1690,6 +1699,7 @@ Speaker’s Initiative to Address Citywide Needs,,member_item,Ayala,"STRIVE Inte
 Speaker’s Initiative to Address Citywide Needs,,member_item,Van Bramer,"Studio in a School Association, Inc.",,133003112,50000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Studio in a School New York City will offer the Multilingual Learners Visual Arts Residency Program to 25 Title I schools citywide. Levin Tell Every Amazing Lady About Ovarian Cancer Foundation,,264417161,36840,DHMH,Funding will support T.E.A.L.'s Awareness and Education Program in NYC.
 Speaker’s Initiative to Address Citywide Needs,,member_item,Rivera,"Trevor Project, Inc., The",,954681287,75000,DHMH,To provide funding support for the End LGBTQ Youth Suicide program.
+Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Grodenchik, Jewish TSQ, Inc.",Emergency Food Pantry,112693305,55000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,"Funds will be used to purchase nutrient-dense proteins, fresh fruits and vegetables, milk products, quality baked goods, and other healthy packages products. Funds will also be used for utilities and supplies. Barron, Women's Victory Music and Dance Company, Inc.",Girl Empowerment Program,472167056,25000,DCLA,
 Speaker’s Initiative to Address Citywide Needs,,initiative_provider,,Violence Intervention Program,,133540337,50000,MOCJ,
 Speaker’s Initiative to Address Citywide Needs,,member_item,Cumbo,Visual Arts Research and Resource Center Relating to the Caribbean,,133054001,25000,DCLA,
@@ -1749,7 +1759,7 @@ Young Women’s Initiative,Young Women’s Leadership Development,initiative_pro
 Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,"Crenulated Company, Ltd. (dba New Settlement Apartments)",,141719016,40500,,
 Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,"Digital Girl, Inc.",,472288307,45900,,
 Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,"Drama Club, Inc.",,300836513,90000,,
-Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,"Delegation Fund for the City of New York, Inc.",Center for Court Innovation,132612524,90000,,
+Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,"Fund for the City of New York, Inc.",Center for Court Innovation,132612524,90000,,
 Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,"Girls for Gender Equity, Inc.",,043697166,98438,,
 Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,"Girls Who Code, Inc.",,300728021,63000,,
 Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,Grand Street Settlement,,135562230,90000,,
