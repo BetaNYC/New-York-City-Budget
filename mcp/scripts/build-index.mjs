@@ -31,11 +31,20 @@ const SRC = join(MCP_ROOT, "..", "data");
 // Built index stays inside mcp/ (git-ignored), out of the repo's tracked data/.
 const DB_PATH = join(MCP_ROOT, "data", "budget.db");
 
-const FISCAL_YEARS = [
-  { key: "fy25", year: 2025 },
-  { key: "fy26", year: 2026 },
-  { key: "fy27", year: 2027 },
-];
+// Per-dataset year coverage. Each list is the set of fiscal years that actually have a parsed,
+// QA-cleared CSV of that document type in ../data/ (see code/PARSING.md + data/QA-REPORT.md).
+// These differ by dataset — e.g. Terms has no FY19/FY20 document, Capital has no FY21 detail
+// book — so each ingest loop is driven by its own list, and list_available_fiscal_years reports
+// exactly these back. Award-bearing years start at FY2015 (first EIN-level Schedule C); FY2009–
+// FY2014 are initiatives-only (no EIN) and are DELIBERATELY excluded from the award tools.
+const yr = (n) => ({ key: `fy${n}`, year: 2000 + n });
+const AWARD_YEARS = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27].map(yr);
+const TERMS_YEARS = [15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27].map(yr); // no FY19/FY20 T&C doc
+const CAPITAL_YEARS = [20, 22, 23, 24, 25, 26, 27].map(yr); // no FY21 detail book
+// Transparency: every parsed resolution-document year. FY2010–FY2013 are LOW org/program text
+// confidence (financial columns reliable); surfaced downstream so callers join on EIN.
+const TRANSPARENCY_YEARS = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26].map(yr);
+const TRANSPARENCY_LOW_TEXT_CONFIDENCE = new Set([2010, 2011, 2012, 2013]);
 
 function log(event, detail) {
   console.error(
@@ -75,7 +84,13 @@ function main() {
     process.exit(1);
   }
   mkdirSync(dirname(DB_PATH), { recursive: true });
-  if (existsSync(DB_PATH)) rmSync(DB_PATH); // idempotent rebuild
+  // Idempotent rebuild: drop the db AND its WAL sidecars. Removing only budget.db but leaving a
+  // stale budget.db-wal / -shm behind makes the next open fail with SQLITE_IOERR_SHORT_READ
+  // (observed on network volumes), so clear all three.
+  for (const suffix of ["", "-wal", "-shm"]) {
+    const f = DB_PATH + suffix;
+    if (existsSync(f)) rmSync(f);
+  }
 
   const db = new Database(DB_PATH);
   db.pragma("journal_mode = WAL");
@@ -91,13 +106,14 @@ function main() {
     CREATE INDEX idx_awards_fy ON awards(fiscal_year);
 
     CREATE TABLE transparency (
-      resolution TEXT, date TEXT, chart TEXT, fiscal_year INTEGER, action TEXT,
+      source_fy INTEGER, resolution TEXT, date TEXT, chart TEXT, fiscal_year INTEGER, action TEXT,
       source TEXT, council_member TEXT, organization TEXT, program TEXT,
       ein TEXT, amount INTEGER, agency TEXT, agy_num TEXT, ua TEXT,
-      purpose TEXT, flags TEXT
+      purpose TEXT, flags TEXT, low_text_confidence INTEGER
     );
     CREATE INDEX idx_tr_ein ON transparency(ein);
     CREATE INDEX idx_tr_member ON transparency(council_member);
+    CREATE INDEX idx_tr_source_fy ON transparency(source_fy);
     CREATE INDEX idx_tr_fy ON transparency(fiscal_year);
 
     CREATE TABLE capital (
@@ -139,7 +155,7 @@ function main() {
   );
   counts.awards = db.transaction(() => {
     let n = 0;
-    for (const { key, year } of FISCAL_YEARS) {
+    for (const { key, year } of AWARD_YEARS) {
       const rows = readCsv(join(SRC, key, "schedule_c", `${key}_schedule_c_awards.csv`));
       for (const r of rows) {
         insAward.run({
@@ -170,7 +186,7 @@ function main() {
   );
   counts.terms = db.transaction(() => {
     let n = 0;
-    for (const { key, year } of FISCAL_YEARS) {
+    for (const { key, year } of TERMS_YEARS) {
       const rows = readCsv(join(SRC, key, "terms", `${key}_terms_and_conditions.csv`));
       for (const r of rows) {
         insTerm.run({
@@ -199,7 +215,7 @@ function main() {
   );
   counts.capital = db.transaction(() => {
     let n = 0;
-    for (const { key, year } of FISCAL_YEARS) {
+    for (const { key, year } of CAPITAL_YEARS) {
       const rows = readCsv(join(SRC, key, "capital", `${key}_capital_projects.csv`));
       for (const r of rows) {
         insCap.run({
@@ -225,37 +241,48 @@ function main() {
     return n;
   })();
 
-  // --- transparency resolutions (FY2026 file; carries embedded 2023–2026 rows) ---
+  // --- transparency resolutions (FY2010–FY2024 + FY2026) ---
+  // `source_fy` = the resolution document's fiscal year (the folder), which is the reliable,
+  // always-present per-year axis; the row-level `fiscal_year` is the embedded *designation* year,
+  // which is often blank in FY2010–FY2013 (DATA-ANOMALIES #11). `low_text_confidence` flags the
+  // FY2010–FY2013 years whose org/program TEXT is garbled (financials reliable; join on EIN).
   const insTr = db.prepare(
-    `INSERT INTO transparency (resolution, date, chart, fiscal_year, action, source,
-       council_member, organization, program, ein, amount, agency, agy_num, ua, purpose, flags)
-     VALUES (@resolution, @date, @chart, @fiscal_year, @action, @source,
-       @council_member, @organization, @program, @ein, @amount, @agency, @agy_num, @ua, @purpose, @flags)`
+    `INSERT INTO transparency (source_fy, resolution, date, chart, fiscal_year, action, source,
+       council_member, organization, program, ein, amount, agency, agy_num, ua, purpose, flags,
+       low_text_confidence)
+     VALUES (@source_fy, @resolution, @date, @chart, @fiscal_year, @action, @source,
+       @council_member, @organization, @program, @ein, @amount, @agency, @agy_num, @ua, @purpose,
+       @flags, @low_text_confidence)`
   );
   counts.transparency = db.transaction(() => {
     let n = 0;
-    const rows = readCsv(join(SRC, "fy26", "transparency-resolutions", "fy26_transparency_all.csv"));
-    for (const r of rows) {
-      const fy = Number.parseInt(r.fiscal_year, 10);
-      insTr.run({
-        resolution: r.resolution ?? "",
-        date: r.date ?? "",
-        chart: r.chart ?? "",
-        fiscal_year: Number.isNaN(fy) ? null : fy,
-        action: r.action ?? "",
-        source: r.source ?? "",
-        council_member: r.council_member ?? "",
-        organization: r.organization ?? "",
-        program: r.program ?? "",
-        ein: normEin(r.ein),
-        amount: parseAmount(r.amount),
-        agency: r.agency ?? "",
-        agy_num: r.agy_num ?? "",
-        ua: r.ua ?? "",
-        purpose: r.purpose ?? "",
-        flags: r.flags ?? "",
-      });
-      n++;
+    for (const { key, year } of TRANSPARENCY_YEARS) {
+      const lowConf = TRANSPARENCY_LOW_TEXT_CONFIDENCE.has(year) ? 1 : 0;
+      const rows = readCsv(join(SRC, key, "transparency-resolutions", `${key}_transparency_all.csv`));
+      for (const r of rows) {
+        const fy = Number.parseInt(r.fiscal_year, 10);
+        insTr.run({
+          source_fy: year,
+          resolution: r.resolution ?? "",
+          date: r.date ?? "",
+          chart: r.chart ?? "",
+          fiscal_year: Number.isNaN(fy) ? null : fy,
+          action: r.action ?? "",
+          source: r.source ?? "",
+          council_member: r.council_member ?? "",
+          organization: r.organization ?? "",
+          program: r.program ?? "",
+          ein: normEin(r.ein),
+          amount: parseAmount(r.amount),
+          agency: r.agency ?? "",
+          agy_num: r.agy_num ?? "",
+          ua: r.ua ?? "",
+          purpose: r.purpose ?? "",
+          flags: r.flags ?? "",
+          low_text_confidence: lowConf,
+        });
+        n++;
+      }
     }
     return n;
   })();
@@ -290,7 +317,15 @@ function main() {
   const setMeta = db.prepare("INSERT INTO meta (key, value) VALUES (?, ?)");
   setMeta.run("built_at", new Date().toISOString());
   setMeta.run("source", "BetaNYC/New-York-City-Budget (committed snapshot)");
-  setMeta.run("parsed_fiscal_years", "2025,2026,2027");
+  setMeta.run(
+    "parsed_fiscal_years",
+    JSON.stringify({
+      awards: AWARD_YEARS.map((y) => y.year),
+      terms: TERMS_YEARS.map((y) => y.year),
+      capital: CAPITAL_YEARS.map((y) => y.year),
+      transparency: TRANSPARENCY_YEARS.map((y) => y.year),
+    })
+  );
   setMeta.run("counts", JSON.stringify(counts));
 
   db.close();
