@@ -1,0 +1,90 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+6,2018-12-20,Local Initiatives - Fiscal 2019,2019,rescind,,,"Cumbo Alliance of Resident Theatres/New York, Inc.",,132768583,-3000,DYCD,260,005,,**
+6,2018-12-20,Local Initiatives - Fiscal 2019,2019,designate,,,"Cumbo Alliance of Resident Theatres/New York, Inc.",,132768583,3000,DCLA,126,003,,**
+6,2018-12-20,Local Initiatives - Fiscal 2019,2019,rescind,,,"Johnson Alliance of Resident Theatres/New York, Inc.",,132768583,-5000,DYCD,260,005,,**
+6,2018-12-20,Local Initiatives - Fiscal 2019,2019,designate,,,"Johnson Alliance of Resident Theatres/New York, Inc.",,132768583,5000,DCLA,126,003,,**
+6,2018-12-20,Local Initiatives - Fiscal 2019,2019,rescind,,,"Torres Bronx River Art Center, Inc",,133261148,-10000,DCLA,126,003,,**
+6,2018-12-20,Local Initiatives - Fiscal 2019,2019,designate,,,"Committee for Hispanic Children and Families, Inc., The",Public School 59X Torres,112622003,10000,DYCD,260,312,,**
+6,2018-12-20,Local Initiatives - Fiscal 2019,2019,rescind,,,Richards New York City Housing Authority,OceanBay Bayside,136400434,-1000,HPD,806,012,,**
+6,2018-12-20,Local Initiatives - Fiscal 2019,2019,designate,,,"Richards Community Center of the Rockaway Peninsula, Inc.",,113064561,1000,DYCD,260,005,,**
+6,2018-12-20,Local Initiatives - Fiscal 2019,2019,rescind,,,"Rivera Friends of Corlears Hook Park, Inc.",,473832182,-2500,DPR,846,006,,***
+6,2018-12-20,Local Initiatives - Fiscal 2019,2019,designate,,,Rivera City Parks Foundation,Charlie Parker Festival,133561657,2500,DPR,846,006,,***
+6,2018-12-20,Local Initiatives - Fiscal 2019,2019,rescind,,,"Constantinides HANAC, Inc.",Child and Family Preventive Service,112290832,-1000,DYCD,260,312,,**
+6,2018-12-20,Local Initiatives - Fiscal 2019,2019,designate,,,Constantinides CUNY Creative Arts Team,,133893536,1000,CUNY,042,001,,**
+6,2018-12-20,Anti-Poverty Initiative - Fiscal 2019,2019,rescind,,,"Torres JustFix, Inc.",,813080695,-5000,HPD,806,009,*,**
+6,2018-12-20,Anti-Poverty Initiative - Fiscal 2019,2019,designate,,,"Committee for Hispanic Children and Families, Inc., The",Public School 59X Torres,112622003,5000,DYCD,260,312,,**
+6,2018-12-20,Youth Discretionary - Fiscal 2019,2019,rescind,,,"Constantinides Child Center of NY, Inc., The",Baseball League,111733454,-1000,DYCD,260,312,,
+6,2018-12-20,Youth Discretionary - Fiscal 2019,2019,designate,,,"Constantinides HANAC, Inc.",Student Program,112290832,1000,DYCD,260,312,,
+6,2018-12-20,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,rescind,,,King Department of Cultural Affairs,Public School 153X,136400434,-20000,DCLA,126,003,*,
+6,2018-12-20,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,designate,,,"King Ballet Hispanico of New York, Inc.",,132685755,20000,DCLA,126,003,,
+6,2018-12-20,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,rescind,,,"Torres Committee for Hispanic Children and Families, Inc., The",,112622003,-20000,DCLA,126,003,,**
+6,2018-12-20,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,designate,,,"Torres Bronx River Art Center, Inc.",Public School 003X,133261148,20000,DCLA,126,003,,
+6,2018-12-20,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,rescind,,,"Reynoso Afro-Latin Jazz Alliance of New York, Inc.",PS 18K,453665976,-20000,DCLA,126,003,,***
+6,2018-12-20,Cultural After-School Adventure (CASA) - Fiscal 2019,2019,designate,,,"Reynoso Brooklyn Arts Council, Inc.",PS 18K,237072915,20000,DCLA,126,003,,***
+6,2018-12-20,NYC Cleanup Initiative - Fiscal 2019,2019,designate,,,Johnson Department of Sanitation,,136400434,50000,DSNY,827,102,,**
+6,2018-12-20,Parks Equity Initiative - Fiscal 2019,2019,rescind,,,Koo City Parks Foundation,,133561657,-5000,DPR,846,006,,**
+6,2018-12-20,Parks Equity Initiative - Fiscal 2019,2019,designate,,,"Koo Bowne House Historical Society, Inc., The",Beautify Historic Flushing,116111192,5000,DYCD,260,005,,**
+6,2018-12-20,Parks Equity Initiative - Fiscal 2019,2019,rescind,,,Torres City Parks Foundation,,133561657,-15000,DPR,846,006,,**
+6,2018-12-20,Parks Equity Initiative - Fiscal 2019,2019,designate,,,"Torres Mary Mitchell Family and Youth Center, Inc.",,133385032,10000,DYCD,260,312,,**
+6,2018-12-20,Parks Equity Initiative - Fiscal 2019,2019,designate,,,Torres Department of Parks and Recreation,Movie Night,136400434,5000,DPR,846,006,,
+6,2018-12-20,Parks Equity Initiative - Fiscal 2019,2019,rescind,,,Salamanca Department of Parks and Recreation,Bill Reiney Garden,136400434,-15000,DPR,846,006,,
+6,2018-12-20,Parks Equity Initiative - Fiscal 2019,2019,designate,,,Salamanca Department of Parks and Recreation,Playground 52 Backboards,136400434,15000,DPR,846,006,,
+6,2018-12-20,Educational Programs for Students - Fiscal 2019,2019,designate,,,Department of Education,Public School 160Q,136400434,100000,DOE,040,402,,**
+6,2018-12-20,Educational Programs for Students - Fiscal 2019,2019,designate,,,"City College 21st Century Foundation, Inc., The",STEM Program,133850823,500000,CUNY,042,001,*,**
+6,2018-12-20,Discretionary Child Care - Fiscal 2019,2019,designate,,,"Nasry Michelen Day Care Center, Inc.",,203108162,200000,ACS,068,004,,**
+6,2018-12-20,Center for Court Innovation - Fiscal 2019,2019,designate,,,"Fund for the City of New York, Inc.",Center for Court Innovation,132612524,200000,MOCJ,098,002,,**
+6,2018-12-20,Center for Court Innovation - Fiscal 2019,2019,designate,,,"Fund for the City of New York, Inc.",,132612524,150000,MOCJ,098,002,,**
+6,2018-12-20,Veterans Community Development - Fiscal 2019,2019,rescind,,,"Harlem United Community AIDS Center, Inc.",,133461695,-20000,DYCD,260,005,,
+6,2018-12-20,Veterans Community Development - Fiscal 2019,2019,designate,,,"Giving Alternative Learners Uplifting Opportunities, Inc.",,050615968,20000,DYCD,260,005,,
+6,2018-12-20,Veterans Community Development - Fiscal 2019,2019,rescind,,,"Harlem United Community AIDS Center, Inc.",,133461695,-10000,DYCD,260,005,,
+6,2018-12-20,Veterans Community Development - Fiscal 2019,2019,designate,,,"Row New York, Inc.",,113632924,10000,DYCD,260,005,,
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,"Arab-American Family Support Center, Inc., The",,113167245,15000,DYCD,260,312,,**
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,"Digital Girl, Inc.",,472288307,25000,DYCD,260,312,,**
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,"Drama Club, Inc.",,300836513,19000,DYCD,260,312,,**
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,"Fund for the City of New York, Inc.",,132612524,16000,DYCD,260,312,,**
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,"Girls for Gender Equity, Inc.",,043697166,20000,DYCD,260,312,,**
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,"Girls Who Code, Inc.",,300728021,20000,DYCD,260,312,,**
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,"Grand Street Settlement, Inc.",,135562230,10000,DYCD,260,312,,**
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,"Korean American Family Service Center, Inc., The",,133609811,10000,DYCD,260,312,,**
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,"Row New York, Inc.",,113632924,15000,DYCD,260,312,,**
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,Staten Island Urban Center,,371833463,20000,DYCD,260,312,,**
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,"Student Leadership Network, Inc.",,061517218,20000,DYCD,260,312,,**
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,"Brotherhood Sister Sol, Inc., The",,133857387,35000,DYCD,260,312,,**
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,"Sadie Nash Leadership Project, Inc.",,113633912,25000,DYCD,260,312,,**
+6,2018-12-20,Young Women's Leadership Development - Fiscal 2019,2019,designate,,,Junior Achievement of New York,,133031828,25000,DYCD,260,312,,**
+6,2018-12-20,Immigrant Opportunities Initiative - Fiscal 2019,2019,rescind,,,"Catholic Migration Services, Inc.",,112634818,-126000,DSS/HRA,069,107,,***
+6,2018-12-20,Immigrant Opportunities Initiative - Fiscal 2019,2019,designate,,,"Mobilization for Justice, Inc.",,132622748,126000,DSS/HRA,069,107,,***
+6,2018-12-20,Legal Services for the Working Poor - Fiscal 2019,2019,rescind,,,"Catholic Migration Services, Inc.",,112634818,-455000,DSS/HRA,069,107,,***
+6,2018-12-20,Legal Services for the Working Poor - Fiscal 2019,2019,designate,,,"Mobilization for Justice, Inc.",,132622748,455000,DSS/HRA,069,107,,***
+6,2018-12-20,Afterschool Enrichment Initiative - Fiscal 2019,2019,designate,,,Dominicanos USA,,463738190,25000,DYCD,260,312,*,**
+6,2018-12-20,Viral Hepatitis Prevention - Fiscal 2019,2019,rescind,,,Health + Hospitals,Coney Island Hospital,136400434,-53880,DHMH,816,112,,
+6,2018-12-20,Viral Hepatitis Prevention - Fiscal 2019,2019,designate,,,Health + Hospitals,Coney Island Hospital,132655001,53880,DHMH,816,112,,
+6,2018-12-20,Viral Hepatitis Prevention - Fiscal 2019,2019,rescind,,,Health + Hospitals,Kings County Hospital,136400434,-53880,DHMH,816,112,,
+6,2018-12-20,Viral Hepatitis Prevention - Fiscal 2019,2019,designate,,,Health + Hospitals,Kings County Hospital,132655001,53880,DHMH,816,112,,
+6,2018-12-20,Viral Hepatitis Prevention - Fiscal 2019,2019,rescind,,,Health + Hospitals,Bellevue Hospital,136400434,-120000,DHMH,816,112,,
+6,2018-12-20,Viral Hepatitis Prevention - Fiscal 2019,2019,designate,,,Health + Hospitals,Bellevue Hospital,132655001,120000,DHMH,816,112,,
+6,2018-12-20,"Senior Centers, Programs, and Enhancements - Fiscal 2019",2019,designate,,,"Conselyea Street Block Association, Inc.",Swinging 60s Senior Center,112347180,400000,DFTA,125,003,,
+6,2018-12-20,Local Initiatives - Fiscal 2018,2018,rescind,,,"Gibson Millennium Dance Company, Inc.",,133916131,-8000,DYCD,260,312,,
+6,2018-12-20,Local Initiatives - Fiscal 2018,2018,designate,,,"Gibson BronxWorks, Inc.",,133254484,8000,DYCD,260,312,,
+6,2018-12-20,Local Initiatives - Fiscal 2018,2018,rescind,,,Holden Ridgewood Local Development Corporation,,112483351,-15000,SBS,801,002,,
+6,2018-12-20,Local Initiatives - Fiscal 2018,2018,designate,,,Holden Department of Small Business Services,,136400434,15000,SBS,801,002,,
+6,2018-12-20,Local Initiatives - Fiscal 2017,2017,rescind,,,Vallone RC Church St. Andrews Avellino,The Andrean Players,111635086,-5000,DYCD,260,005,,
+6,2018-12-20,Local Initiatives - Fiscal 2017,2017,designate,,,Vallone RC Church St. Andrew Avellino,The Andrean Players,111635086,5000,DYCD,260,005,,
+6,2018-12-20,Local Initiatives - Fiscal 2017,2017,rescind,,,"Gibson Millennium Dance Company, Inc.",,133916131,-10000,DYCD,260,312,,
+6,2018-12-20,Local Initiatives - Fiscal 2017,2017,designate,,,"Gibson BronxWorks, Inc.",,133254484,10000,DYCD,260,312,,
+6,2018-12-20,Local Initiatives - Fiscal 2017,2017,rescind,,,"Gibson Millennium Dance Company, Inc.",,133916131,-10000,DYCD,260,312,,
+6,2018-12-20,Local Initiatives - Fiscal 2017,2017,designate,,,"Gibson Catholic Charities Community Services, Archdiocese of New York",,135562185,10000,DYCD,260,312,,
+6,2018-12-20,Local Initiatives - Fiscal 2017,2017,rescind,,,Holden Ridgewood Local Development Corporation,,112483351,-15000,DSBS,801,002,,
+6,2018-12-20,Local Initiatives - Fiscal 2017,2017,designate,,,Holden Department of Small Business Services,,136400434,15000,DSBS,801,002,,
+6,2018-12-20,Local Initiatives - Fiscal 2017,2017,rescind,,,Reynoso Ridgewood Local Development Corporation,,112483351,-20000,DSBS,801,002,,
+6,2018-12-20,Local Initiatives - Fiscal 2017,2017,designate,,,Reynoso Department of Small Business Services,,136400434,20000,DSBS,801,002,,
+6,2018-12-20,Purpose of Funds Changes - Fiscal 2019,2019,purpose_change,,,Jewish Community Council of the Rockaway Funds will be used to provide programmatic support for youth in Council Local Speaker,,112425813,-50000,DYCD,,,"Peninsula, Inc. District 31.",
+6,2018-12-20,Purpose of Funds Changes - Fiscal 2019,2019,purpose_change,,,Jewish Community Council of the Rockaway Local Speaker,,112425813,50000,DYCD,,,"Funds will be used to provide social services in Council District 31. Peninsula, Inc.",
+6,2018-12-20,Purpose of Funds Changes - Fiscal 2018,2018,purpose_change,,,"Funding will be used to: Deepen relationships with existing service providers; Recruit more service providers in all three EHP neighborhoods; Local Speaker Enterprise Community Partners, Inc.",,521231931,-50000,HPD,,,Develop a mobile enabled tool for EHP; Assess the impact of EHP on participating residents' housing stability.,
+6,2018-12-20,Purpose of Funds Changes - Fiscal 2018,2018,purpose_change,,,"Funding for focus groups and surveys to assess the impact of participating Local Speaker Enterprise Community Partners, Inc.",,521231931,50000,HPD,,,residents housing stability.,
+6,2018-12-20,Purpose of Funds Changes - Fiscal 2017,2017,purpose_change,,,,,113394747,-1000,DOHMH,,,* Local Yeger A Torah Infertility Medium of Exchange Funds will be used for general operating costs.,
+6,2018-12-20,Purpose of Funds Changes - Fiscal 2017,2017,purpose_change,,,Funding to support general operating costs including educational Local Yeger A Torah Infertility Medium of Exchange,,113394747,1000,DOHMH,,,*,
+6,2018-12-20,Purpose of Funds Changes - Fiscal 2017,2017,purpose_change,,,workshops and seminars. Local Deutsch A Torah Infertility Medium of Exchange,,113394747,-8500,DOHMH,,,Funding will be used to cover general operating costs. *,
+6,2018-12-20,Purpose of Funds Changes - Fiscal 2017,2017,purpose_change,,,Funding to support general operating costs including educational Local Deutsch A Torah Infertility Medium of Exchange,,113394747,8500,DOHMH,,,* workshops and seminars.,
+6,2018-12-20,Purpose of Funds Changes - Fiscal 2017,2017,purpose_change,,,"Parks Equity Riverside Park Conservancy, Inc.",Rosenthal,133443825,-10000,DPR,,,Scholarships for Riverside Park Sports Summer camp * Initiative Riverside Park,
+6,2018-12-20,Purpose of Funds Changes - Fiscal 2017,2017,purpose_change,,,"Parks Equity Riverside Park Conservancy, Inc.",Funding to support operational expenses associated with the running of Rosenthal,133443825,10000,DPR,,,* Initiative Riverside Park Riverside Park Sports Summer camp.,

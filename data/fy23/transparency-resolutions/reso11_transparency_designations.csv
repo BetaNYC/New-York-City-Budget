@@ -1,0 +1,138 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Fort Greene Council, Inc.",Mount Ararat Senior Center,112300840,-50000,DFTA,125,003,,
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Fort Greene Council, Inc.",,136400434,50000,DFTA,125,003,,
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,Won Department for the Aging,,136400434,-10000,DFTA,125,003,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Won Jacob A. Riis Neighborhood Settlement, The",,111729398,10000,DYCD,260,005,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,Louis Purpose Life Church,,475123327,-5000,DYCD,260,005,,
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,Louis Purpose Life Church,Council District 45,475123327,5000,DYCD,260,005,,
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,Research Foundation of the City University of New York,Williamsburg High Restler School for Architecture and Design (WHSAD),131988190,-5000,CUNY,042,001,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,Research Foundation of the City University of New York,Williamsburg High Restler School for Architecture and Design (WHSAD),131988190,5000,DCLA,126,003,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Louis Brooklyn Level Up, Inc.",,851148315,-5000,DYCD,260,005,,
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Louis Brooklyn Level Up, Inc.",Council District 45,851148315,5000,DYCD,260,005,,
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,Young Men's Christian Association of Greater New York,Second Grade Swim,131624228,-50000,DYCD,260,312,,
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,Young Men's Christian Association of Greater New York,,131624228,50000,DYCD,260,312,,
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Veterans Helping Veterans and Their Community, Inc.",Guns for Grants - Nurse Council District 37,814582706,-20000,DYCD,260,005,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Nurse BRIC Arts Media Brooklyn, Inc.",Council District 37,112547268,20000,DCLA,126,003,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,Yeger Department of Youth and Community Development,,136400434,-27000,DYCD,260,005,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,Yeger Congregation Bnai Yosef,,111994182,4000,DFTA,125,003,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,Yeger Shaare Zion Congregation,,111735956,4000,DYCD,260,312,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Yeger New York Cancer Center, Inc.",,272464042,4000,DHMH,816,117,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Yeger Ohel Children's Home and Family Services, Inc.",,116078704,7000,DFTA,125,003,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Yeger Gan Day Care Center, Inc.",,112302049,4000,DOE,040,410,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Yeger Vaad Refuah, Inc.",,201020908,4000,DYCD,260,312,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Osse Partnership with Children, Inc.",Brooklyn Emerging Leaders Academy,135596751,-2500,DYCD,260,312,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Osse Partnership with Children, Inc.",Brooklyn Emerging Leaders Academy,135596751,2500,DHMH,816,120,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Hanif Partnership with Children, Inc.",,135596751,-3000,DYCD,260,312,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Hanif Partnership with Children, Inc.",,135596751,3000,DCLA,126,003,,**
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Dinowitz Bronx Council on the Arts, Inc.",,132601303,-5000,DCLA,126,003,,
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Dinowitz Bronx Council on the Arts, Inc.",Bronx Memoir Project,132601303,5000,DCLA,126,003,,
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Nettwork, Inc. The",,863260336,-5000,DYCD,260,005,,
+11,2023-03-16,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,Department of Youth and Community Development,,136400434,5000,DYCD,260,005,,
+11,2023-03-16,Aging Discretionary - Fiscal 2023,2023,rescind,,,"Ayala Union Settlement Association, Inc.",Senior Centers,131632530,-20000,DFTA,125,003,,
+11,2023-03-16,Aging Discretionary - Fiscal 2023,2023,designate,,,"Ayala Union Settlement Association, Inc.",Gaylord White Older Adult Center,131632530,20000,DFTA,125,003,,
+11,2023-03-16,Youth Discretionary - Fiscal 2023,2023,rescind,,,Farias Kips Bay Boys & Girls Club,Castle Hill Center,131623850,-20000,DYCD,260,312,,
+11,2023-03-16,Youth Discretionary - Fiscal 2023,2023,designate,,,Farias Kips Bay Boys & Girls Club,,131623850,20000,DYCD,260,312,,
+11,2023-03-16,Youth Discretionary - Fiscal 2023,2023,rescind,,,Yeger Mevakshai Hashem,,273083348,-5000,DYCD,260,312,,
+11,2023-03-16,Youth Discretionary - Fiscal 2023,2023,designate,,,"Yeger Imeinu, Inc. dba Rachel's Place",,260774611,5000,DYCD,260,312,,
+11,2023-03-16,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Osse Partnership with Children, Inc.",Brooklyn Emerging Leaders Academy,135596751,-10000,DYCD,260,312,,**
+11,2023-03-16,Youth Discretionary - Fiscal 2023,2023,designate,,,"Osse Partnership with Children, Inc.",Brooklyn Emerging Leaders Academy,135596751,10000,DHMH,816,120,,**
+11,2023-03-16,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Osse Partnership with Children, Inc.",,135596751,-2500,DYCD,260,312,,**
+11,2023-03-16,Youth Discretionary - Fiscal 2023,2023,designate,,,"Osse Partnership with Children, Inc.",,135596751,2500,DHMH,816,120,,**
+11,2023-03-16,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,,"Powers Justice Innovation, Inc.",Community First,852810883,-30000,DYCD,260,005,,
+11,2023-03-16,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,Powers Center for Alternative Sentencing and Employment Services,,132668080,30000,DYCD,260,005,,
+11,2023-03-16,Speaker's Initiative to Address Citywide Needs - Fiscal 2023,2023,designate,,Speaker,"Merrill Park Civic Association of Springfield Gardens, Inc.",Robert Couche Senior Citizen Center,112304928,250000,DFTA,125,003,,**
+11,2023-03-16,A Greener NYC - Fiscal 2023,2023,rescind,,,"Ariola Waterfront Alliance, Inc.",Waterfront cleanup - Council District 32 Rockaway Beach,134355067,-10000,DYCD,260,005,,
+11,2023-03-16,A Greener NYC - Fiscal 2023,2023,designate,,,"Ariola Billion Oyster Project, Inc.",,272918478,10000,DYCD,260,005,,
+11,2023-03-16,A Greener NYC - Fiscal 2023,2023,rescind,,,"Yeger Kings Highway Beautification Association, Inc.",Council District 44,204986882,-50000,DYCD,260,005,,
+11,2023-03-16,A Greener NYC - Fiscal 2023,2023,designate,,,"Yeger Kings Highway Beautification Association, Inc.",Open Spaaces - Council District 44,204986882,50000,DYCD,260,005,,
+11,2023-03-16,A Greener NYC - Fiscal 2023,2023,rescind,,,Williams Department of Parks and Recreation,Roy Wilkins Park,136400434,-35000,DPR,846,006,,
+11,2023-03-16,A Greener NYC - Fiscal 2023,2023,designate,,,Williams Department of Parks and Recreation,Council District 27,136400434,35000,DPR,846,006,,
+11,2023-03-16,A Greener NYC - Fiscal 2023,2023,rescind,,,"Adams Nettwork, Inc. The",Council District 28,863260336,-10000,DYCD,260,005,,
+11,2023-03-16,A Greener NYC - Fiscal 2023,2023,designate,,,Adams Department of Youth and Community Development,,136400434,10000,DYCD,260,005,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Aviles Brooklyn Arts Council, Inc.",Public School 295K (15K295),237072915,-20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Aviles Brooklyn Arts Council, Inc.",Public School 169K Sunset Park (15K169),237072915,20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,Department of Youth and Community Development,,136400434,-20000,DYCD,260,312,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,Dinowitz New York City H2O,Public School 024X Spuyten Duyvil (10X024),453860014,20000,DYCD,260,312,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Yeger Brooklyn Arts Council, Inc.",Ahi Ezer Yeshiva,237072915,-20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,Yeger Jewish Museum,Yeshiva of Flatbush,136146854,20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,Dinowitz New York City H2O,Public School 024X Spuyten Duyvil (10X024),453860014,-20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Yeger Reel Stories Teen Filmmaking, Inc.",Franklin Delano Roosevelt High School (20K505),200936377,20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Mealy Victory Music and Dance Company, Inc.",,472167056,-20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Mealy Victory Music and Dance Company, Inc.",Public School 298 Dr. Betty Shabazz (23K298),472167056,20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Mealy Afro-Latin Jazz Alliance of New York, Inc.",,453665976,-20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Afro-Latin Jazz Alliance of New York, Inc.","The Gregory Jocko Jackson School of Sports, Art, Mealy and (23K284)",453665976,20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Brewer Kids Creative 404, Inc.",Public School 191M (03M191),753139502,-20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Brewer Kids Creative 404, Inc.","Urban Assembly School for Media Studies, The (03M307)",753139502,20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Hanif BRIC Arts Media Brooklyn, Inc.",Middle School 839K (15K839),112547268,-20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Hanif BRIC Arts Media Brooklyn, Inc.",Cyberarts Studio Academy (15K463),112547268,20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Riley Education Through Music, Inc.",Baychester Academy (11X169),133613210,-20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Riley Education Through Music, Inc.",Middle School 180X Dr. Daniel Hale Williams (11X180),133613210,20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Velazquez Marquis Studios, Ltd.",Bronx Delta School (08X392),133047206,-20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,Research Foundation of the City University of New York,Creative Arts Team (CAT) Cultural Velazquez After-School Adventures (CASA) - Bronx Delta School (08X392),131988190,20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Ballroom Basix USA, Inc.",Public School 197Q The Ocean School (27Q197) & Village Brooks-Powers Academy (27Q319),273218865,-20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Ballroom Basix USA, Inc.",Public School 197Q The Ocean School (27Q197) & Lighthouse Brooks-Powers Elementary School (27Q106),273218865,20000,DCLA,126,003,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,Borelli Staten Island Historical Society,Public School 32R (31R032),131985514,-20000,DCLA,126,022,,
+11,2023-03-16,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,Borelli Staten Island Historical Society,Public School 36R (31R036),131985514,20000,DCLA,126,022,,
+11,2023-03-16,Cultural Immigrant Initiative - Fiscal 2023,2023,rescind,,,Farias The Birthing Place L.L.C.,,851216710,-15000,DYCD,260,005,,
+11,2023-03-16,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,,"Farias Youth Ministries for Peace and Justice, Inc.",,134006535,15000,DYCD,260,005,,
+11,2023-03-16,Cultural Immigrant Initiative - Fiscal 2023,2023,rescind,,,"Brooks-Powers Ballroom Basix USA, Inc.",Lighthouse Elementary School (27Q106),273218865,-10000,DCLA,126,003,,
+11,2023-03-16,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,,"Ballroom Basix USA, Inc.",Public School 104Q The Bays Water (27Q104) & Village Academy Brooks-Powers (27Q319),273218865,10000,DCLA,126,003,,
+11,2023-03-16,Cultural Immigrant Initiative - Fiscal 2023,2023,rescind,,,"Moya Ballroom Basix USA, Inc.",Council District 21,273218865,-10000,DCLA,126,003,,
+11,2023-03-16,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,,"Moya Ballroom Basix USA, Inc.",Public School 127Q Aerospace Science Magnet School (30Q127),273218865,10000,DCLA,126,003,,
+11,2023-03-16,Support Our Seniors - Fiscal 2023,2023,rescind,,,Department for the Aging,,136400434,-10000,DFTA,125,003,,
+11,2023-03-16,Support Our Seniors - Fiscal 2023,2023,designate,,,"Won Sunnyside Community Services, Inc.",,510189327,10000,DFTA,125,003,,
+11,2023-03-16,Parks Equity Initiative - Fiscal 2023,2023,rescind,,,"Nurse Forest Park Trust, Inc.",Movie Nights at Highland Park,311558645,-10000,DPR,846,006,,
+11,2023-03-16,Parks Equity Initiative - Fiscal 2023,2023,designate,,,"Nurse Forest Park Trust, Inc.",Highland Park,311558645,10000,DPR,846,006,,
+11,2023-03-16,Parks Equity Initiative - Fiscal 2023,2023,rescind,,,Department of Parks and Recreation,,136400434,-5000,DPR,846,006,,
+11,2023-03-16,Parks Equity Initiative - Fiscal 2023,2023,designate,,,Velazquez Department of Parks and Recreation,Family Days & Skate Events,136400434,5000,DPR,846,006,,
+11,2023-03-16,Parks Equity Initiative - Fiscal 2023,2023,rescind,,,Department of Parks and Recreation,,136400434,-10000,DPR,846,006,,**
+11,2023-03-16,Parks Equity Initiative - Fiscal 2023,2023,designate,,,"Association of Community Employment Programs for the Homeless, Inc.",Council District 44 Yeger,133846431,10000,DYCD,260,005,,**
+11,2023-03-16,NYC Cleanup - Fiscal 2023,2023,rescind,,,Department of Parks and Recreation,,136400434,-5000,DPR,846,006,,**
+11,2023-03-16,NYC Cleanup - Fiscal 2023,2023,rescind,,,Department of Sanitation,,136400434,-80000,DSNY,827,102,,**
+11,2023-03-16,NYC Cleanup - Fiscal 2023,2023,rescind,,,Department of Small Business Services,,136400434,-45000,SBS,801,002,,**
+11,2023-03-16,NYC Cleanup - Fiscal 2023,2023,designate,,,"Association of Community Employment Programs for the Homeless, Inc.",Council District 44 Yeger,133846431,130000,DYCD,260,005,,**
+11,2023-03-16,NYC Cleanup - Fiscal 2023,2023,rescind,,,"Williams Nettwork, Inc. The",Council District 27,863260336,-20000,DYCD,260,005,,
+11,2023-03-16,NYC Cleanup - Fiscal 2023,2023,designate,,,"Williams BHALO, Inc.",,863048818,20000,DYCD,260,005,,
+11,2023-03-16,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,rescind,,,Mayor's Office of Criminal Justice,,136400434,-45000,MOCJ,098,002,,
+11,2023-03-16,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Mealy Urban Justice Center,,133442022,10000,MOCJ,098,002,,
+11,2023-03-16,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Mealy Legal Information for Families Today (LIFT),,133910567,10000,MOCJ,098,002,,
+11,2023-03-16,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Mealy Brooklyn Legal Services, Inc.",,132605605,5000,MOCJ,098,002,,
+11,2023-03-16,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Mealy Battered Women's Resource Center,,113302911,5000,MOCJ,098,002,,
+11,2023-03-16,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Mealy Girls for Gender Equity, Inc.",,043697166,15000,MOCJ,098,002,,
+11,2023-03-16,Hate Crimes Prevention - Fiscal 2023,2023,rescind,,,CUNY Jewish Studies Center at Hunter College,,136400434,-50000,CUNY,042,001,,
+11,2023-03-16,Hate Crimes Prevention - Fiscal 2023,2023,designate,,,City University of New York,Jewish Studies Center at Hunter College - Fighting Antisemitism,136400434,50000,CUNY,042,001,,
+11,2023-03-16,Trauma Recovery Centers - Fiscal 2023,2023,rescind,,,Department of Health and Mental Hygiene,,136400434,-250000,DHMH,816,120,,**
+11,2023-03-16,Aging Discretionary - Fiscal 2022,2022,rescind,,,"Hudson Q Kingdom Ministries, Inc.",Senior Programming,113201956,-4000,DFTA,125,003,,
+11,2023-03-16,Aging Discretionary - Fiscal 2022,2022,designate,,,Hudson Department for the Aging,,136400434,4000,DFTA,125,003,,
+11,2023-03-16,Food Pantries - Fiscal 2022,2022,rescind,,,Brooklyn Delegation Department of Youth and Community Development,,136400434,-14000,DYCD,260,005,,
+11,2023-03-16,Food Pantries - Fiscal 2022,2022,designate,,,Brooklyn Delegation Make the Road New York,Food Pantry,113344389,14000,DYCD,260,005,,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Community Safety and Victim Menin New York City H2O,Council District 5,453860014,-10000,DYCD,,,For programming purposes and for groups. Services Initiative Community Safety and,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,To help support students in Council District 5 with programming and Victim Menin New York City H2O,Council District 5,453860014,10000,DYCD,,,services. Services Initiative,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Funds will offer resources to ensure the development of local constituents Local Louis Purpose Life Church,,475123327,-5000,DYCD,,,in Council District 45.,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Funds will support senior programming and workshops, job readiness Local Louis Purpose Life Church",Council District 45,475123327,5000,DYCD,,,"program, and youth development in Council District 45.",
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Fort Greene Council, Inc.",Mount Ararat Local Speaker,112300840,-50000,DFTA,,,"Provide nutritional meals to seniors, homeless and families.",
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Senior Center Local Speaker Fort Greene Council, Inc.",,136400434,50000,DFTA,,,Funds will support programming and services.,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Funds will be used to Develop in collaboration with mental health Local Louis Brooklyn Level Up, Inc.",,851148315,-5000,DYCD,,,professionals to provide guidance and support for the community dealing with the trauma of systemic racism and loss in Council District 45,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Funds will create and develop a wellness toolkit that will focus on Local Louis Brooklyn Level Up, Inc.",Council District 45,851148315,5000,DYCD,,,addressing and providing resources to residents that relate to trauma of Historical African Burial grounds in the Area Council District 45.,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Young Men's Christian Association of Local Speaker,,131624228,-50000,DYCD,,,To provide funding support for Second Grade Swim program. Greater New York - Second Grade Swim,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Young Men's Christian Association of To provide funding support for Second Grade Swim program and free Local Speaker,,131624228,50000,DYCD,,,Greater New York lifeguard training and certification.,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Friends of the Upper East Side Historic To support planning, research, education and tools for residents of City Local Menin",,133193351,-35000,DCLA,,,Districts Council District 5. Funds will be used to maintain and expand architectural education,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Friends of the Upper East Side Historic Local Menin,,133193351,35000,DCLA,,,programs taught during the school day to public school students in Council Districts District 5. Funds will be used to maintain and expand architectural education,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Friends of the Upper East Side Historic Youth Menin,,133193351,-15000,DYCD,,,programs taught during the school day to public school students in Council Districts District 5.,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Friends of the Upper East Side Historic To support planning, research, education and tools for residents of City Youth Menin",,133193351,15000,DYCD,,,Districts Council District 5.,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Speaker's Initiative aimed at empowering youth to become leaders in advocating for Phipps Neighborhoods, Inc.",,132707665,-100000,DYCD,,,Initiative their communities.,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Speaker's Funds will support Phipps Neighborhood's youth services programs and Phipps Neighborhoods, Inc.",,132707665,100000,DYCD,,,Initiative operations. Community,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Safety and Stanley M. Isaacs Neighborhood Center, Menin",,132572034,-10000,DYCD,,,To support programming. Victim Inc. Services,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Community Safety and Stanley M. Isaacs Neighborhood Center, Funds would be purposed to assist in creating programming to assist Menin",,132572034,10000,DYCD,,,Victim Inc. residents in Council District 5. Services Community,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Safety and Funds for Community Safety and Victim Services Initiative programming Menin Women In Need, Inc.",,133164477,-10000,DHMH,,,Victim purposes. Services Community,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Safety and Funds would be purposed to assist in creating programming for Council Menin Women In Need, Inc.",,133164477,10000,DHMH,,,Victim District 5. Services Community,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Safety and Menin We All Really Matter, Inc.",,452455826,-25000,MOCJ,,,To support programming. Victim Services Community,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Safety and Funds would be purposed to assist in creating programming for Council Menin We All Really Matter, Inc.",,452455826,25000,MOCJ,,,Victim District 5. Services,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Kips Bay Boys & Girls Club,"Castle Hill Funding to support and expand delivery of teen empowerment, anti-gun Youth Farias",131623850,-20000,DYCD,,,Center violence programs and teen night programming at the Castle Hill Center.,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Funding to support and expand delivery of teen empowerment, anti-gun Youth Farias Kips Bay Boys & Girls Club",,131623850,20000,DYCD,,,"violence programs, and teen night programming within Council District 18.",
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Union Settlement Association, Inc.",Senior To fund programs and initiatives related to the health of seniors Council Aging Ayala,131632530,-20000,DFTA,,,Centers District 8. To fund programs and initiatives related to the health of seniors Council,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Union Settlement Association, Inc.",Aging Ayala,131632530,20000,DFTA,,,"District 8 at Gaylord White Older Adult Center, 2029 Second Ave (104th Gaylord White Older Adult Center St).",
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"To support core programming which nourishes the cultural ecosystem of Local Dinowitz Bronx Council on the Arts, Inc.",,132601303,-5000,DCLA,,,"The Bronx by connecting artists with resources and communities. Funding will go towards support for the Bronx Memoir Project, a writing",
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Bronx Council on the Arts, Inc.","Bronx workshop which encourages older adults, immigrants and aspiring writers Local Dinowitz",132601303,5000,DCLA,,,Memoir Project from lower-income populations to tell their unique stories about living in The Bronx.,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Kips Bay Boys & Girls Club,Castle Hill Funding for support of social worker to provide teen programing services Youth Farias,131623850,-20000,DYCD,,,Center at the Castle Hill Center.,
+11,2023-03-16,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Kips Bay Boys & Girls Club,Castle Hill Youth Farias,131623850,20000,DYCD,,,Funding to provide teen programing services at the Castle Hill Center. Center,

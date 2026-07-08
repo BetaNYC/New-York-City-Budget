@@ -1,0 +1,77 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+9,2024-06-30,Local Initiatives - Fiscal 2024,2024,rescind,,,"Louis Kyoung's Pacific Beat, Inc.",Council District 45,862713285,-5000,DYCD,260,005,,
+9,2024-06-30,Local Initiatives - Fiscal 2024,2024,designate,,,Louis Department of Youth and Community Development,,136400434,5000,DYCD,260,005,,
+9,2024-06-30,Local Initiatives - Fiscal 2024,2024,rescind,,,Cardinal McCloskey School and Home for Children,Bronx Drop-In Center for Stevens Homeless & Runaway Youth,131740443,-6000,DYCD,260,005,,
+9,2024-06-30,Local Initiatives - Fiscal 2024,2024,designate,,,Door,"A Center of Alternatives, Inc., The - Bronx Drop-In Center for Homeless Stevens & Runaway Youth",136127348,6000,DYCD,260,005,,
+9,2024-06-30,Local Initiatives - Fiscal 2024,2024,rescind,,,Salaam Genesis Museum of International Black Culture,,853743954,-10000,DYCD,260,005,,
+9,2024-06-30,Local Initiatives - Fiscal 2024,2024,designate,,,Genesis Museum of International Black Culture,Harlem Youth Portraying Black Salaam Heroes of the American Revolution,853743954,10000,DYCD,260,005,,
+9,2024-06-30,Youth Discretionary - Fiscal 2024,2024,rescind,,,Yeger Igud L'Hachzokas Torah,,113588991,-22000,DYCD,260,312,,
+9,2024-06-30,Youth Discretionary - Fiscal 2024,2024,designate,,,Yeger Department of Youth and Community Development,,136400434,22000,DYCD,260,312,,
+9,2024-06-30,Youth Discretionary - Fiscal 2024,2024,rescind,,,Brooklyn Delegation Igud L'Hachzokas Torah,,113588991,-7500,DYCD,260,312,,
+9,2024-06-30,Youth Discretionary - Fiscal 2024,2024,designate,,,Brooklyn Delegation Department of Youth and Community Development,,136400434,7500,DYCD,260,312,,
+9,2024-06-30,Community Safety and Victim Services - Fiscal 2024,2024,rescind,,,"Moya HANAC, Inc.",Public School 143 Louis Armstrong (24Q143),112290832,-50000,DYCD,260,312,,
+9,2024-06-30,Community Safety and Victim Services - Fiscal 2024,2024,designate,,,"Moya Hispanic Federation, Inc.",,133573852,50000,DYCD,260,312,,
+9,2024-06-30,Community Safety and Victim Services - Fiscal 2024,2024,rescind,,,"Moya HANAC, Inc.",Saturday Night Lights Soccer Program - Council District 21,112290832,-50000,DYCD,260,005,,
+9,2024-06-30,Community Safety and Victim Services - Fiscal 2024,2024,designate,,,"Moya Hispanic Federation, Inc.",,133573852,50000,DYCD,260,005,,
+9,2024-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2024,2024,rescind,,Speaker,"Wellness in the Schools, Inc.",Cook for Kids,251919494,-15000,DYCD,260,312,,
+9,2024-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2024,2024,designate,,Speaker,"Wellness in the Schools, Inc.",Coach for Kids,251919494,15000,DYCD,260,312,,
+9,2024-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2024,2024,designate,,Speaker,"Little Sisters of the Assumption Family Health Service, Inc.",,132867881,7500,DYCD,260,005,,**
+9,2024-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2024,2024,designate,,Speaker,"BRIC Arts Media Brooklyn, Inc.",,112547268,40000,DCLA,126,003,,**
+9,2024-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2024,2024,designate,,Speaker,Department of Youth and Community Development,,136400434,147500,DYCD,260,005,,**
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,rescind,,,"Osse Society of the Educational Arts, Inc.",Public School 44K (13k044),113210593,-20000,DCLA,126,003,,**
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,designate,,,Osse St. Nick's Alliance Corporation,Public School 059K The Dawn Best School (14K059),510192170,20000,DYCD,260,312,,**
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,rescind,,,"Broadway for Arts Education, Inc.",Public School/Intermediate School 087Q Middle Village Holden (24Q087),824317611,-20000,DCLA,126,003,,
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,designate,,,Young Men's Christian Association of Greater New York,Public School 071Q Forest Holden (24Q071),131624228,20000,DCLA,126,003,,
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,rescind,,,"Gutierrez El Puente de Williamsburg, Inc.",Public School 084K Jose De Diego (14K084),112614265,-20000,DCLA,126,003,,**
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,designate,,,Gutierrez Department of Youth and Community Development,,136400434,20000,DYCD,260,312,,**
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,rescind,,,"Hanks Richmond County Orchestra, Inc.",Curtis High School (31R450),134063615,-20000,DCLA,126,003,,
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,designate,,,"Hanks Richmond County Orchestra, Inc.",Stuyvesant High School (02M475),134063615,20000,DCLA,126,003,,
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,rescind,,,"Williams A Better Jamaica, Inc.",Public School 36Q (29Q036),113804421,-20000,DCLA,126,003,,
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,designate,,,"A Better Jamaica, Inc.",Public School 36Q (29Q036) & Public Schooll 140K Edward K Williams Ellington (28Q140),113804421,20000,DCLA,126,003,,
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,rescind,,,"Salaam Magic Box Productions, Inc.",The Locke School of Arts and Engineering (03M185),202924921,-20000,DCLA,126,003,,**
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,designate,,,Salaam Department of Youth and Community Development,,136400434,20000,DYCD,260,312,,**
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,rescind,,,Williams Major Music International Corporation,Public School 159Q (26Q159),261159606,-20000,DCLA,126,003,,
+9,2024-06-30,Cultural After-School Adventure (CASA) - Fiscal 2024,2024,designate,,,Major Music International Corporation,Intermediate School 059Q Springfield Gardens Williams (29Q059),261159606,20000,DCLA,126,003,,
+9,2024-06-30,Parks Equity Initiative - Fiscal 2024,2024,rescind,,,"Powers Asphalt Green, Inc.","Recess Enhancement, Waterproofing & Community Sports Leagues",136533158,-5000,DPR,846,006,,
+9,2024-06-30,Parks Equity Initiative - Fiscal 2024,2024,designate,,,Powers Sutton Place Parks Conservancy,,474054653,5000,DPR,846,006,,
+9,2024-06-30,Parks Equity Initiative - Fiscal 2024,2024,rescind,,,"Hudson ArtBridge Projects, Inc.",Prospect Park Arch Restoration Temporary Art Exhibit,611682898,-5000,DPR,846,006,,**
+9,2024-06-30,Parks Equity Initiative - Fiscal 2024,2024,designate,,,"Hudson ArtBridge Projects, Inc.",Prospect Park Arch Restoration Temporary Art Exhibit,611682898,5000,DCLA,126,003,,**
+9,2024-06-30,NYC Cleanup - Fiscal 2024,2024,rescind,,,"Hudson Myrtle Avenue Brooklyn DMA, Inc.",Council District 35,202659913,-40000,DYCD,260,005,,**
+9,2024-06-30,NYC Cleanup - Fiscal 2024,2024,designate,,,"Hudson Myrtle Avenue Brooklyn DMA, Inc.",Council District 35,202659913,40000,SBS,801,002,,**
+9,2024-06-30,Food Pantries - Fiscal 2024,2024,rescind,,,Queens Delegation Mt. Moriah AME Church,Food Pantry,112831746,-15000,DYCD,260,005,,
+9,2024-06-30,Food Pantries - Fiscal 2024,2024,designate,,,Queens Delegation Mount Moriah African Methodist Episcopal Church,Food Pantry,112831746,15000,DYCD,260,005,,
+9,2024-06-30,Food Pantries - Fiscal 2024,2024,rescind,,,Brooklyn Delegation Crown Heights Preservation Committee Corporation,,112322490,-10000,DYCD,260,005,,
+9,2024-06-30,Food Pantries - Fiscal 2024,2024,designate,,,"Brooklyn Delegation Crown Heights Jewish Community Council, Inc.",,237390996,10000,DYCD,260,005,,
+9,2024-06-30,Food Pantries - Fiscal 2024,2024,rescind,,,Brooklyn Delegation Crown Heights Preservation Committee Corporation,,112322490,-15312,DYCD,260,005,,
+9,2024-06-30,Food Pantries - Fiscal 2024,2024,designate,,,"Brooklyn Delegation Crown Heights Jewish Community Council, Inc.",,237390996,15312,DYCD,260,005,,
+9,2024-06-30,Food Pantries - Fiscal 2024,2024,rescind,,,Queens Delegation Food Bank For New York City,"Vets, Inc. - EFRO# 85238",133179546,-6945,DYCD,260,005,,
+9,2024-06-30,Food Pantries - Fiscal 2024,2024,designate,,,Queens Delegation Greater Bethel Community Development Corporation,Food Pantry,320000557,6945,DYCD,260,005,,
+9,2024-06-30,Neighborhood Development Grant Initiative - Fiscal 2024,2024,rescind,,,"Hudson Myrtle Avenue Brooklyn DMA, Inc.",Myrtle Ave Corridor - Community Programs,202659913,-10000,DYCD,260,005,,**
+9,2024-06-30,Neighborhood Development Grant Initiative - Fiscal 2024,2024,designate,,,"Hudson Myrtle Avenue Brooklyn DMA, Inc.",Myrtle Ave Corridor - Community Programs,202659913,10000,SBS,801,002,,**
+9,2024-06-30,HIV/AIDS Faith Based Initiative - Fiscal 2024,2024,rescind,,,Mt. Moriah AME Church,,112831746,-16675,DHMH,816,112,,
+9,2024-06-30,HIV/AIDS Faith Based Initiative - Fiscal 2024,2024,designate,,,Mount Moriah African Methodist Episcopal Church,,112831746,16675,DHMH,816,112,,
+9,2024-06-30,HIV/AIDS Faith Based Initiative - Fiscal 2024,2024,rescind,,,Mt. Moriah AME Church,,112831746,-3721,DHMH,816,112,,
+9,2024-06-30,HIV/AIDS Faith Based Initiative - Fiscal 2024,2024,designate,,,Mount Moriah African Methodist Episcopal Church,,112831746,3721,DHMH,816,112,,
+9,2024-06-30,Community Land Trust - Fiscal 2024,2024,rescind,,,"Mary Mitchell Family and Youth Center, Inc.",,133385032,-34833,HPD,806,009,,
+9,2024-06-30,Community Land Trust - Fiscal 2024,2024,designate,,,"Northwest Bronx Community and Clergy Coalition, Inc.",,132806160,34833,HPD,806,009,,
+9,2024-06-30,Financial Empowerment for NYC's Renters - Fiscal 2024,2024,rescind,,,Housing Preservation and Development,,136400434,-195000,HPD,806,009,,**
+9,2024-06-30,Boroughwide Needs Initiative - Fiscal 2023,2023,rescind,,,Brooklyn Delegation Igud L'Hachzokas Torah,,113588991,-7500,DYCD,260,312,,
+9,2024-06-30,Boroughwide Needs Initiative - Fiscal 2023,2023,designate,,,Brooklyn Delegation Department of Youth and Community Development,,136400434,7500,DYCD,260,312,,
+9,2024-06-30,Youth Discretionary - Fiscal 2023,2023,rescind,,,Yeger Igud L'Hachzokas Torah,,113588991,-22000,DYCD,260,312,,
+9,2024-06-30,Youth Discretionary - Fiscal 2023,2023,designate,,,Yeger Department of Youth and Community Development,,136400434,22000,DYCD,260,312,,
+9,2024-06-30,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Restler Jewish Coalition for Youth Education & Support, Inc.",Council District 33,273152656,-20000,DYCD,260,312,,
+9,2024-06-30,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Restler St. Vincent's Services, Inc.",Wyckoff Gardens Cornerstone,111631823,-10000,DYCD,260,312,,
+9,2024-06-30,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Brooklyn Boatworks, Inc.","Building Skills, Building Community - Council District Restler 33",271509754,-2000,DYCD,260,312,,
+9,2024-06-30,Youth Discretionary - Fiscal 2023,2023,rescind,,,Restler Brooklyn Kindergarten Society,The Sensory Gym,111631820,-5000,DYCD,260,312,,
+9,2024-06-30,Youth Discretionary - Fiscal 2023,2023,designate,,,Restler Make the Road New York,Youth Educational Programs - Council District 33,113344389,20000,DYCD,260,312,,
+9,2024-06-30,Youth Discretionary - Fiscal 2023,2023,designate,,,"Restler Churches United for Fair Housing, Inc.",Youth Organizing - Council District 33,264698161,17000,DYCD,260,312,,
+9,2024-06-30,"Senior Centers, Programs, and Enhancements - Fiscal 2023",2023,rescind,,,"Charles A Walburg Multi-Service Organization, Inc.",Hotshot Vans for Home Delivered Meals,237337180,-280000,DFTA,125,003,,
+9,2024-06-30,"Senior Centers, Programs, and Enhancements - Fiscal 2023",2023,designate,,,"Stanley M. Isaacs Neighborhood Center, Inc.",Hotshot Vans for Home Delivered Meals,132572034,280000,DFTA,125,003,,
+9,2024-06-30,LGBTQ Inclusive Curriculum - Fiscal 2023,2023,rescind,,,LGBT Network,,208512786,-195000,DYCD,260,312,,
+9,2024-06-30,LGBTQ Inclusive Curriculum - Fiscal 2023,2023,designate,,,"New York LGBT Network, Inc.",,208512786,195000,DYCD,260,312,,
+9,2024-06-30,Purpose of Funds Changes - Fiscal 2024,2024,purpose_change,,,Neighborhood Initiatives Development Funds will provide support for Council District 13 tenants in need of legal Local Marmorato,,133110811,-37000,DYCD,,,Corporation (NIDC) advocacy to prevent eviction. Funds will be used to sponsor Mother’s Day and Father’s Day events,
+9,2024-06-30,Purpose of Funds Changes - Fiscal 2024,2024,purpose_change,,,Neighborhood Initiatives Development Local Marmorato,,133110811,37000,DYCD,,,and to provide support to neighborhood groups in strengthening their Corporation (NIDC) organization and membership.,
+9,2024-06-30,Purpose of Funds Changes - Fiscal 2024,2024,purpose_change,,,"Speaker's Wellness in the Schools, Inc.",Cook for Speaker,251919494,-15000,DYCD,,,Funds will support Cook for Kids programming and services. Initiative Kids,
+9,2024-06-30,Purpose of Funds Changes - Fiscal 2024,2024,purpose_change,,,"Speaker's Wellness in the Schools, Inc.",Coach for Speaker,251919494,15000,DYCD,,,Funds will support Coach for Kids programming and services. Initiative Kids,
+9,2024-06-30,Purpose of Funds Changes - Fiscal 2024,2024,purpose_change,,,"Genesis Museum of International Black Funds to support the ""Harlem if these Streets Could Talk ""I AM Local Salaam",,853743954,-10000,DYCD,,,"Culture HARLEM"""" project. Funds to support HARLEM YOUTH Portraying BLACK HEROES of the",
+9,2024-06-30,Purpose of Funds Changes - Fiscal 2024,2024,purpose_change,,,"Genesis Museum of International Black AMERICAN REVOLUTION project, to train 25 Harlem youths in Local Salaam Culture",Harlem Youth Portraying Black,853743954,10000,DYCD,,,"research, public speaking and servicing as tour guides, and to support Heroes of the American Revolution public schools students to view THE BLACK PRESENCE in the ERA of the AMERICAN REVOLUTION exhibiion.",

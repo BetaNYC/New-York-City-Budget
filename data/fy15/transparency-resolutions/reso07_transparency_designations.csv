@@ -1,0 +1,285 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Conduit EIN Research Foundation of the City University of New York,Palma Community Legal Research Network,131988190,-10000,CUNY,,,.00) 042 001,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Research Foundation of the City University of New York,Palma Citizenship NOW,131988190,10000,CUNY,,,.00 042 001,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Bergen Basin Community Development Corporation d/b/a Maisel Millennium Development,,113199040,-3500,DFTA,,,.00) 125 003,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Bergen Basin Community Development Corporation d/b/a Maisel Millennium Development,,113199040,3500,DYCD,,,.00 260 005,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Lancman Asian Americans for Equality,,133187792,-200,DSBS,,,.00) 801 002,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Lancman Doe Fund, Inc., The",,133412540,200,DHS,,,.00 071 200,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Mark-Viverito Asian Americans for Equality,,133187792,-5000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Mark-Viverito Asian Americans for Equality,,133187792,5000,DYCD,,,.00 260 005,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Cornegy Bridge Street Development Corporation,,113250772,-35500,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Cornegy Bridge Street Development Corporation,,113250772,35500,DYCD,,,.00 260 005,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Cumbo Brooklyn Legal Services Corporation A,,132605599,-3500,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,Brooklyn Legal Services Corporation A,,132605599,-255000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Cumbo Brooklyn Legal Services Corporation A,,132605599,3500,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Brooklyn Legal Services Corporation A,,132605599,255000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,"Ulrich Catholic Migration Services, Inc.",,112634818,-4000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,"Ferreras Catholic Migration Services, Inc.",,112634818,-15000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,"Ulrich Catholic Migration Services, Inc.",,112634818,4000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,"Ferreras Catholic Migration Services, Inc.",,112634818,15000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,Mealy Central Brooklyn Legal Services Corp,,465144468,-10000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Mealy Central Brooklyn Legal Services Corp,,465144468,10000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,"Garodnick Eviction Intervention Services Homelessness Prevention, Inc.",,133311582,-5000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,"Kallos Eviction Intervention Services Homelessness Prevention, Inc.",,133311582,-20000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,"Garodnick Eviction Intervention Services Homelessness Prevention, Inc.",,133311582,5000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,"Kallos Eviction Intervention Services Homelessness Prevention, Inc.",,133311582,20000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,"Mark-Viverito Good Shepherd Services, Inc.",,135598710,-5000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,"Mark-Viverito Good Shepherd Services, Inc.",,135598710,5000,DYCD,,,.00 260 312,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,"Johnson Housing Conservation Coordinators, Inc.",,510141489,-15000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,"Rosenthal Housing Conservation Coordinators, Inc.",,510141489,-3500,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,"Housing Conservation Coordinators, Inc.",,510141489,-115000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,"Johnson Housing Conservation Coordinators, Inc.",,510141489,15000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,"Rosenthal Housing Conservation Coordinators, Inc.",,510141489,3500,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,"Housing Conservation Coordinators, Inc.",,510141489,115000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,Gibson New Destiny Housing Corporation,,133778489,-10000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Gibson New Destiny Housing Corporation,,133778489,10000,DYCD,,,.00 260 005,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,"Cornegy Pratt Area Community Council, Inc.",,112451752,-10000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,"Cornegy Pratt Area Community Council, Inc.",,112451752,10000,DSBS,,,.00 801 002,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Conduit EIN Garodnick Manhattan Legal Services,,132613958,-3500,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Johnson Manhattan Legal Services,,132613958,-3000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Rosenthal Manhattan Legal Services,,132613958,-3500,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Chin Manhattan Legal Services,,132613958,-3500,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Garodnick Manhattan Legal Services,,132613958,3500,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Johnson Manhattan Legal Services,,132613958,3000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Rosenthal Manhattan Legal Services,,132613958,3500,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Chin Manhattan Legal Services,,132613958,3500,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Kallos MFY Legal Services, Inc.",,132622748,-5000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Johnson MFY Legal Services, Inc.",,132622748,-3000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Rosenthal MFY Legal Services, Inc.",,132622748,-3500,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"King MFY Legal Services, Inc.",,132622748,-5000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Mark-Viverito MFY Legal Services, Inc.",,132622748,-3500,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Williams MFY Legal Services, Inc.",,132622748,-3500,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Kallos MFY Legal Services, Inc.",,132622748,5000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Johnson MFY Legal Services, Inc.",,132622748,3000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Rosenthal MFY Legal Services, Inc.",,132622748,3500,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"King MFY Legal Services, Inc.",,132622748,5000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Mark-Viverito MFY Legal Services, Inc.",,132622748,3500,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Williams MFY Legal Services, Inc.",,132622748,3500,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,Southside United Housing Development Fund Corp.,,112268359,-100000,HPD,,,.00) 806 009,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Southside United Housing Development Fund Corp.,,112268359,100000,DYCD,,,.00 260 005,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,Cabrera FAN4Kids A NJ Nonprofit Corporation,,260092086,-15000,DOE,,,.00) 040 402,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Cabrera FAN4Kids A NJ Nonprofit Corporation,PS 382X,260092086,15000,DOE,,,.00 040 402,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,Palma FAN4Kids A NJ Nonprofit Corporation,,260092086,-7000,DOE,,,.00) 040 402,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Palma FAN4Kids A NJ Nonprofit Corporation,PS 69X,260092086,7000,DOE,,,.00 040 402,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,Torres FAN4Kids A NJ Nonprofit Corporation,,260092086,-10000,DOE,,,.00) 040 402,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Torres FAN4Kids A NJ Nonprofit Corporation,PS 54X,260092086,10000,DOE,,,.00 040 402,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,Gibson FAN4Kids A NJ Nonprofit Corporation,,260092086,-8000,DOE,,,.00) 040 402,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Gibson FAN4Kids A NJ Nonprofit Corporation,PS 73X,260092086,8000,DOE,,,.00 040 402,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,Arroyo FAN4Kids A NJ Nonprofit Corporation,,260092086,-10000,DOE,,,.00) 040 402,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Arroyo FAN4Kids A NJ Nonprofit Corporation,PS 157X,260092086,10000,DOE,,,.00 040 402,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Conduit EIN Van Bramer Ayazamana Cultural Center, Inc.",,270521135,-4000,DCLA,,,.00) 126 003 *,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Van Bramer Fractured Atlas Productions, Inc.","Ayazamana Cultural Center, Inc.",113451703,4000,DCLA,,,.00 126 003,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Mark-Viverito BronxArtSpace,,454636159,-5000,DCLA,,,.00) 126 003 *,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Mark-Viverito Fractured Atlas Productions, Inc.",BronxArtSpace,113451703,5000,DCLA,,,.00 126 003,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Chin Downtown Community Television Center, Inc.",,132742777,-5000,DYCD,,,.00) 260 005,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Chin Downtown Community Television Center, Inc.",,132742777,5000,DCLA,,,.00 126 003,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Richards Fund for the City of New York, Inc.","Ballroom Basix USA, Inc.",132612524,-4500,DCLA,,,.00) 126 003,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Fund for the City of New York, Inc.","Ballroom Basix USA, Inc. - PS Richards 183Q",132612524,4500,DOE,,,.00 040 402,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Rosenthal Fund for the City of New York, Inc.","Ballroom Basix USA, Inc.",132612524,-3500,DCLA,,,.00) 126 003,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Rosenthal Fund for the City of New York, Inc.","Ballroom Basix USA, Inc. ** 13-2612524 Rodriguez Gabriela Mistral Foundation, Inc.",743217479,-5000,DCLA,,,.00) 126 003 *,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Rodriguez Gabriela Mistral Foundation, Inc.",,743217479,5000,DYCD,,,.00 260 005 *,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Cumbo Jack Arts, Inc.",,455346846,-5000,DCLA,,,.00) 126 003,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Cumbo Fractured Atlas Productions, Inc.","Jack Arts, Inc.",113451703,5000,DCLA,,,.00 126 003,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Matteo Joe Gheraldi Playwright Theater,,550862258,-1000,DCLA,,,".00) 126 003 Jewish Community Center of Staten Island, Inc. 13-5562256",**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Matteo Joe Gheraldi Playwright Theater,,550862258,1000,DYCD,,,".00 260 005 Jewish Community Center of Staten Island, Inc. 13-5562256",**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Chin Knickerbocker Chamber Orchestra,,262556569,-5000,DCLA,,,.00) 126 003,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Chin Knickerbocker Chamber Orchestra,,262556569,5000,DYCD,,,.00 260 005,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Rosenthal NYC Kidsfest,,263538262,-3500,DCLA,,,.00) 126 003,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Rosenthal Performance Zone, Inc.",NYC Kidsfest,133357408,3500,DCLA,,,.00 126 003 *,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Chin Smithsonian National Museum of the American Indian,,530206027,-3500,DCLA,,,.00) 126 003,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Fractured Atlas Productions, Inc.",Smithsonian National Museum Chin of the American Indian,113451703,3500,DCLA,,,.00 126 003,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Torres Belmont District Management Association, Inc.",,270834463,-20000,DCLA,,,.00) 126 003,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Torres Belmont District Management Association, Inc.",,270834463,20000,DYCD,,,.00 260 005,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Ulrich Woodhaven Richmond Hill Volunteer Ambulance Corps,,112075437,-5000,FDNY,,,.00) 057 005 *,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Ulrich Jewish Community Council of the Rockaway Peninsula, Inc.",,112425813,5000,DYCD,,,.00 260 312,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Cornegy Bedford Stuyvesant Residents Association, Inc.",,113624376,-2000,DYCD,,,.00) 260 005 *,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Cornegy New York City Housing Authority,Bedford-Stuyvesant Rehab,136400434,2000,NYCHA,,,.00 098 002 *,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Cornegy Bedford Stuyvesant Residents Association, Inc.",,113624376,-1500,DYCD,,,.00) 260 005 *,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Cornegy New York City Housing Authority,"Bedford-Stuyvesant Rehab ** 13-6400434 Cornegy Bedford Stuyvesant Residents Association, Inc.",113624376,-2000,HPD,,,.00) 806 009 *,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Cornegy New York City Housing Authority,Bedford-Stuyvesant Rehab,136400434,2000,NYCHA,,,.00 098 002 *,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Conduit EIN Mark-Viverito Highbridge Community Life Center,,133015539,-15000,DYCD,,,.00) 260 005,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Mark-Viverito Woodycrest Center For Human Development,,133184179,15000,DYCD,,,.00 260 312,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Mendez Loisaida, Inc.",,133023183,-4500,DYCD,,,.00) 260 312,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Mendez Dynamic Forms, Inc.",,133440226,4500,DCLA,,,.00 126 003,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Koo St. Kevin's Senior Club,,111666886,-250,DFTA,,,.00) 125 003,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Alzheimer's Disease and Related Disorders Association,"New York Koo City, Inc.",133277408,250,DFTA,,,.00 125 003,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Vacca Chester Civic Improvement Association,,133908492,-3500,DYCD,,,.00) 260 005,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Vacca God's Love We Deliver, Inc.",,133366846,3500,DOHMH,,,.00 816 112,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,"Richards Black Spectrum Theatre Company, Inc.",,510135262,-28000,DCLA,,,.00) 126 003,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Fund for the City of New York, Inc.",Rockaway Youth Task Force Richards,132612524,5000,DYCD,,,.00 260 312,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Richards 2020 Vision for Schools, Inc.",,453023036,5000,DYCD,,,.00 260 312,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Richards Society of the Educational Arts, Inc. (SEA)",,113210593,4000,DCLA,,,.00 126 003,
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Richards Doe Fund, Inc., The",,133412540,10000,DHS,,,.00 071 200,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,"Richards Publicolor, Inc.",,133912768,4000,DYCD,,,.00 260 312,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,rescind,,,Mealy Public School 21K,,136400434,-5000,DOE,,,.00) 040 402,**
+7,2014-12-17,Local Initiatives - Fiscal 2015,2015,designate,,,Mealy Neighborhood Technical Assistance Clinic,,113482054,5000,DYCD,,,.00 260 005 *,**
+7,2014-12-17,Aging Discretionary - Fiscal 2015,2015,rescind,,,"Conduit EIN Rosenthal Lincoln Housing Outreach, Inc.",,133668207,-5000,DFTA,,,.00) 125 003,
+7,2014-12-17,Aging Discretionary - Fiscal 2015,2015,designate,,,"Rosenthal Lincoln House Outreach, Inc.",,133668207,5000,DFTA,,,.00 125 003,
+7,2014-12-17,Youth Discretionary - Fiscal 2015,2015,rescind,,,"Conduit EIN Mendez Dynamic Forms, Inc.",,133440226,-4500,DYCD,,,.00) 260 312,
+7,2014-12-17,Youth Discretionary - Fiscal 2015,2015,designate,,,"Mendez Loisaida, Inc.",,133023183,4500,DYCD,,,.00 260 312,
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,rescind,,,"Conduit EIN Myrtle Ave Commercial Revitalization Development Project Local Cumbo Development Corporation, The",,311706307,-6500,DYCD,,,.00) 260 005,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,designate,,,"Myrtle Ave Commercial Revitalization Development Project Local Cumbo Development Corporation, The",,311706307,6500,DSBS,,,.00 801 002,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,rescind,,,"Ferreras Catholic Migration Services, Inc.",,112634818,-10000,HPD,,,.00) 806 009,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,designate,,,"Ferreras Catholic Migration Services, Inc.",,112634818,10000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,rescind,,,Williams Central Brooklyn Legal Services Corp,,465144468,-3500,HPD,,,.00) 806 009,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,designate,,,Williams Central Brooklyn Legal Services Corp,,465144468,3500,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,rescind,,,"Garodnick Housing Conservation Coordinators, Inc.",,510141489,-3500,HPD,,,.00) 806 009,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,designate,,,"Garodnick Housing Conservation Coordinators, Inc.",,510141489,3500,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,rescind,,,Levine Manhattan Legal Services,,132613958,-4000,HPD,,,.00) 806 009,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,rescind,,,Dickens Manhattan Legal Services,,132613958,-3500,HPD,,,.00) 806 009,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,rescind,,,Mendez Manhattan Legal Services,,132613958,-5000,HPD,,,.00) 806 009,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,designate,,,Levine Manhattan Legal Services,,132613958,4000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,designate,,,Dickens Manhattan Legal Services,,132613958,3500,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,designate,,,Mendez Manhattan Legal Services,,132613958,5000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,rescind,,,"Levin MFY Legal Services, Inc.",,132622748,-3500,HPD,,,.00) 806 009,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,rescind,,,"Levine MFY Legal Services, Inc.",,132622748,-4000,HPD,,,.00) 806 009,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,rescind,,,"Palma MFY Legal Services, Inc.",,132622748,-5000,HPD,,,.00) 806 009,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,rescind,,,"Chin MFY Legal Services, Inc.",,132622748,-7000,HPD,,,.00) 806 009,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,rescind,,,"Gibson MFY Legal Services, Inc.",,132622748,-5000,HPD,,,.00) 806 009,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,designate,,,"Levin MFY Legal Services, Inc.",,132622748,3500,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,designate,,,"Levine MFY Legal Services, Inc.",,132622748,4000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,designate,,,"Palma MFY Legal Services, Inc.",,132622748,5000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,designate,,,"Chin MFY Legal Services, Inc.",,132622748,7000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Anti-Poverty Initiatives - Fiscal 2015,2015,designate,,,"Gibson MFY Legal Services, Inc.",,132622748,5000,DSS/HRA,,,.00 069 103,**
+7,2014-12-17,Boroughwide Needs Initiative - Fiscal 2015,2015,rescind,,,Conduit EIN Brooklyn Erasmus Neighborhood Federation** Delegation,,112490986,-38750,HPD,,,.00) 806 009,
+7,2014-12-17,Boroughwide Needs Initiative - Fiscal 2015,2015,designate,,,Brooklyn Erasmus Neighborhood Federation** Delegation,,112490986,38750,DSBS,,,.00 801 002,
+7,2014-12-17,Boroughwide Needs Initiative - Fiscal 2015,2015,rescind,,,"Manhattan Eviction Intervention Services Homelessness Prevention, Inc.** Delegation",,133311582,-10555,HPD,,,.00) 806 009,
+7,2014-12-17,Boroughwide Needs Initiative - Fiscal 2015,2015,designate,,,"Manhattan Eviction Intervention Services Homelessness Prevention, Inc.** Delegation",,133311582,10555,DSS/HRA,,,.00 069 103,
+7,2014-12-17,Boroughwide Needs Initiative - Fiscal 2015,2015,rescind,,,"Manhattan MFY Legal Services, Inc.** Delegation",,132622748,-10556,HPD,,,.00) 806 009,
+7,2014-12-17,Boroughwide Needs Initiative - Fiscal 2015,2015,designate,,,"Manhattan MFY Legal Services, Inc.** Delegation",,132622748,10556,DSS/HRA,,,.00 069 103,
+7,2014-12-17,Cultural After-School Adventure (CASA) Initiative - Fiscal 2015,2015,rescind,,,"Rose St. George Theatre Restoration, Inc.",P.S. 044 Thomas C. Brown,200985637,-20000,DCLA,,,.00) 126 003,
+7,2014-12-17,Cultural After-School Adventure (CASA) Initiative - Fiscal 2015,2015,designate,,,Rose Staten Island Children's Museum,P.S. 044 Thomas C. Brown,237379930,20000,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural After-School Adventure (CASA) Initiative - Fiscal 2015,2015,rescind,,,Matteo Staten Island Institute of Arts and Sciences,Public School 46,133556427,-20000,DCLA,,,.00) 126 003,
+7,2014-12-17,Cultural After-School Adventure (CASA) Initiative - Fiscal 2015,2015,designate,,,Matteo Staten Island Institute of Arts and Sciences,Public School 46,135564127,20000,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural After-School Adventure (CASA) Initiative - Fiscal 2015,2015,rescind,,,Menchaca CUNY Creative Arts Team,Middle School 136,131988190,-20000,DCLA,,,.00) 126 003,
+7,2014-12-17,Cultural After-School Adventure (CASA) Initiative - Fiscal 2015,2015,designate,,,Menchaca Groundswell Community Mural Project,P.S. 310,113427213,20000,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural After-School Adventure (CASA) Initiative - Fiscal 2015,2015,rescind,,,"Arroyo Strikiing Viking Story, Inc.",Bronx Charter School for the Arts,020720786,-20000,DCLA,,,.00) 126 003,
+7,2014-12-17,Cultural After-School Adventure (CASA) Initiative - Fiscal 2015,2015,designate,,,"Arroyo Creative Minds NYC, Inc.","Striking Viking Story Pirates, Inc. - Bronx Charter School for the Arts",020720786,20000,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural After-School Adventure (CASA) Initiative - Fiscal 2015,2015,rescind,,,"Kallos Striking Viking Story Pirates, Inc.",P.S. 198 Isador E. Ida Straus,020720786,-20000,DCLA,,,.00) 126 003,
+7,2014-12-17,Cultural After-School Adventure (CASA) Initiative - Fiscal 2015,2015,designate,,,"Kallos Creative Minds NYC, Inc.","Striking Viking Story Pirates, Inc. - P.S. 198 Isador E. Ida Straus",020720786,20000,DCLA,,,.00 126 003,
+7,2014-12-17,NYC Cleanup Initiative - Fiscal 2015,2015,rescind,,,"Koslowitz Horticultural Society of New York, The",,130854930,-15000,DYCD,,,.00) 260 005,**
+7,2014-12-17,NYC Cleanup Initiative - Fiscal 2015,2015,designate,,,"Koslowitz Horticultural Society of New York, The",,130854930,15000,DSBS,,,.00 801 002,**
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,"Queens Delegation Battalion Pentecostal Assembly, Inc.",,113548121,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,Queens Delegation Church of God in Christ Jesus of the Apostles Faith Corp,,113071928,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,"Queens Delegation City Harvest, Inc.",,133170676,-527,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,"Queens Delegation City Harvest, Inc.",,133170676,-527,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,"Queens Delegation City Harvest, Inc.",,133170676,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,"Queens Delegation City Harvest, Inc.",,133170676,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,"Queens Delegation City Harvest, Inc.",,133170676,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,"Queens Delegation City Harvest, Inc.",,133170676,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,"Queens Delegation City Harvest, Inc.",,133170676,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,"Queens Delegation First Baptist Church of Corona NY, Inc.",,311767167,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,Queens Delegation Flushing Jewish Community Council,,112669559,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,Queens Delegation Hour Children,,133647412,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,Queens Delegation Jewish Center of Jackson Heights,,111681124,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,Queens Delegation Kehilat Sephardim,,113101774,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,Queens Delegation Masbia of Queens,,270363356,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,"Queens Delegation MCCNY Charities, Inc.",,275282132,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,Queens Delegation Our Lady of Grace,,111639827,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,"Queens Delegation Ridgewood Older Adult Center and Services, Inc.",,050607283,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,"Queens Delegation River Fund New York, Inc.",,113450363,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,"Queens Delegation Samaritan Outreach Ministries, Inc.",,113283859,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,Queens Delegation Solid Rock Baptist Church,,112999373,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,Queens Delegation St. Margaret Mary Roman Catholic Church,,111990941,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,rescind,,,Queens Delegation Voices of Hagar,,112438038,-526,DYCD,,,.00) 260 005,
+7,2014-12-17,Food Pantries Initiative - Fiscal 2015,2015,designate,,,Queens Delegation St. Theresas,,111731859,12100,DYCD,,,.00 260 005 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,rescind,,,Department of Cultural Affairs,,136400434,-1411200,DCLA,,,.00) 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Arroyo Bronx Documentary Center,,452403312,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Arroyo Musica De Camara, Inc.",,133253232,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Barron Purelements: An Evolution in Dance,,205332584,29400,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Cabrera Society of the Educational Arts, Inc.",,113210593,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Cabrera Shadow Box Theatre, Inc.",,132725580,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Chin Hester Street Collaborative,,200774906,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Chin Society of the Educational Arts, Inc.",,113210593,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Cohen Bronx Opera Company,,237170675,29400,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Constantinides Central Astoria Local Development Coalition, Inc.",,112652331,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Constantinides CYPRECO of America, Inc.",,112644226,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Cornegy Billie Holiday Theatre Inc,,112336154,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Cornegy Museum of Contemporary African Diasporan Arts,,113526774,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Crowley Midtown Management Group, Inc.",,133192793,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Crowley New York Women in Film and Television,,132983705,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Cumbo Kings Majestic Corporation,,112956108,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Cumbo International African Arts Festival,,112953522,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Deutsch Brighton Ballet Theater Company, Inc.",,113195590,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Deutsch Kingsborough Community College Auxiliary Enterprises Corp.,,113022873,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Dickens Maysles Documentary Center,,202545574,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Dickens Community-Word Project, Inc.",,134114145,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Dromm Latin American Cultural Center of Queens, Inc.",,112997255,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Dromm Houses on the Moon Theater Company,,204691926,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Espinal Elders Share the Arts,,133135292,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Espinal Society of the Educational Arts, Inc.",,113210593,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Eugene Society of the Educational Arts, Inc.",,113210593,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Eugene Caribbean Cultural Theatre, Inc.",,830508237,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Ferreras Louis Armstrong House,,264178283,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Ferreras Society of the Educational Arts, Inc.",,113210593,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Gentile Ballroom Basix USA, Inc.",,275265003,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Gentile Casa Belvedere, The Italian Cultural Foundation",,264411728,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Gibson Society of the Educational Arts,,113210593,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Gibson Renaissance-EMS,,134122438,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Ignizio Sundog Theatre, Inc.",,450476945,29400,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Johnson More Art, Inc.",,352345641,29400,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Kallos Roosevelt Island Youth Program, Inc.",,133077348,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Kallos Friends of the Upper East Side Historic Districts,,133193351,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,King Mind-Builders Creative Arts Center,,132988157,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"King Drammeh Institute, Inc.",,113191208,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Koo Youth Orchestra, CYCNY",,113377137,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Koo Asian American Arts Alliance,,133480189,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Koslowitz Queens Jewish Community Council, Inc.",,237172152,29400,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Lancman A Better Jamaica, Inc.",,113804421,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Lancman Queens Jewish Community Council, Inc.",,237172152,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Lander Arab American Association of NY, Inc.",,113604756,29400,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Levin Brooklyn Ballet, Inc.",,020569320,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Levin JazzReach Performing Arts and Education Association,,113179208,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Levine Mano a Mano: Mexican Culture Without Borders,,562545700,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Levine No Longer Empty, Inc.",,273160427,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Maisel Wyckoff House and Association, Inc.",,112615053,29400,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Mark-Viverito Bronx Children's Museum,,260579140,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Mark-Viverito Center for Traditional Music and Dance,,237379877,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Matteo Sundog Theatre,,450476945,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Matteo Casa Belvedere, The Italian Cultural Foundation",,264411728,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Mealy Tropicalfete,,452940435,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Mealy New York Foundation For The Arts, Inc.",caribBEING,237129564,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Menchaca Boricua Festival Committee, Inc.",,841650571,29400,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Mendez Teatro Circulo,,133805585,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Mendez Art Loisaida Foundation,,262583736,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Miller A Better Jamaica, Inc.",,113804421,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Miller Braata Productions,,273402327,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Palma Bronx River Art Center, Inc.",,133261148,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Palma Renaisance-EMS,,134122438,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Reynoso UnionDocs, Inc.",,861150496,29400,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Richards Black Spectrum Theatre Company, Inc.",,510135262,29400,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Rodriguez People's Theatre Project, Inc.",,264705999,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Rodriguez East Winds, Inc.",,134078840,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Rose Universal Temple of the Arts, Inc.",,133335286,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Rose Friends of Alice Austen House, Inc.",,133248928,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Rosenthal Fiji Theatre Co.,,132874863,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Rosenthal LIncoln Center for the Performing Arts,,131847137,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Torres Bronx Dance Theater,,132999528,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Torres Bronx River Art Center,,133261148,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Treyger Coney Island History Project,,030541772,14700,DCLA,,,.00 126 003 *,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Treyger Art's House Schools, Inc.",,870790139,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Ulrich Queens Symphony Orchestra,,112106191,29400,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Vacca Bronx Dance Theatre,,132999528,29400,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Vallone Midtown Management Group, Inc.",,133192793,29400,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Van Bramer Fractured Atlas Productions, Inc.","Nukanchik Sapi-Ayazamana, Inc.",113451703,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Van Bramer Thalia Spanish Theatre, Inc.",,237448611,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Weprin Alley Pond Environmental Center, Inc.",,112405466,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Weprin King Manor Association of Long Island, Inc.",,112396324,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Williams Haiti Cultural Exchange, Inc.",,342034041,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,"Williams New York Foundation For The Arts, Inc.",caribBEING,237129564,14700,DCLA,,,.00 126 003,
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,Local,,"Cumbo National Black Theatre Workshop, Inc.",,132632596,-3000,DCLA,,,.00) Funding will support the continued development of 4 projects.,
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,"This funding will support events, community engagements as it pertains to theatre Local Cumbo National Black Theatre Workshop, Inc.",,132632596,3000,DCLA,,,.00 production.,
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,Association of Latino Business Owners and Local Mendez,,463338649,-3500,HPD,,,.00) le and delivery of two disaster resiliency training sessions Residents,
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,Association of Latino Business Owners and Funding to support staff providing assistance regarding housing/legal/business issues,Local Mendez,463338649,3500,HPD,,,.00,
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,"Residents Increasing community awareness of programs, opportunities, services. Local Speaker Mayor's Office of Contract Services",,136400434,-50000,MAYOR,,,.00) Administrative fee and interest for supplemental loan funds.,
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,Local,Speaker,Mayor's Office of Contract Services,,136400434,50000,MAYOR,,,.00 CBO Capacity Building Training. Anti-Gun Violence Funding supports a messaging campaign that seeks to decrease gun violence. The,
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,Speaker,messaging campaign would include video and visual advertising. Funding would support Initiative,"Youth Downtown Community Television Center, Inc.",132742777,-10000,DYCD,,,".00) video production and distribution, and development and distribution of advertising Programs including subway ads Funding covers costs of conducting 15 BEYOND BULLETS anti-gun violence media arts workshops/screenings at community organizations and public schools throughout the City. DCTV will lead the workshops and provide media instructors, original youth-",
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,Speaker,"Anti-Gun Violence produced anti-gun violence films and public service announcements, and audio visual Initiative","Youth Downtown Community Television Center, Inc.",132742777,10000,DYCD,,,".00 equipment. Designed for youth ages 15-21, as well as parents, educators, and Programs community organizations, the BEYOND BULLETS workshops will inspire youth to use media to prevent gun violence and connect them to organizations that are working to stop it. Funding supports a messaging campaign that seeks to decrease gun violence. The",
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,Speaker,Anti-Gun Violence Initiative,Youth New Yorkers Against Gun Violence,133808186,-30000,DYCD,,,".00) messaging campaign would include video and visual advertising. Funding would support video production and distribution, and development and distribution of advertising Programs including subway ads Funding supports staffing and supervision of the reaction youth program, offered in several NY City public schools in Brooklyn and Manhattan, as well as community",
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,Speaker,Anti-Gun Violence workshops conducted in all five boroughs. The funds will help pay for the Program Initiative,Youth New Yorkers Against Gun Violence,133808186,30000,DYCD,,,".00 Director and Program Assistant and the time they expend in lesson preparation, class Programs and travel time. Funding will also pay for the Executive Director's supervision of the two staff members and programs. The reACTION program operates from October - June",
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,Speaker,"and the community workshops operate year-round. Local Maisel New 42nd Street, Inc., The",,133584032,-2500,DCLA,,,.00) To provide services to a public school within Brooklyn.,
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,Speaker,"To support the New Victory Education Program, providing low cost performances, Local Maisel New 42nd Street, Inc., The",,133584032,2500,DCLA,,,".00 classroom workshops, online resource guides, sign-interpreted education shows, or training for educators.",
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,Speaker,To support Make: School at P.S. 84. Funds will support acquisition of materials and Local Reynoso Brooklyn Legal Services Corporation A,,132605599,-5000,DOE,,,".00) supplies, production of educational resources, staff development and collaboration, execution of project lessons, documentation and development of online resources. To Support Make: STEAM in school District 14. Funds will support acquisition of",
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,Speaker,"materials and supplies, production of educational resources, staff development and Local Reynoso Brooklyn Legal Services Corporation A",,132605599,5000,DOE,,,".00 collaboration, execution of project lessons, documentation and development of online",
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,Speaker,resources. Local Rodriguez Northern Manhattan Arts Alliance,,261997496,-7000,DCLA,,,.00) Funding to support Regranting program for local artist through NOMAA * Funding to support NoMAA's Exhibition and Gallery program featuring local emerging,
+7,2014-12-17,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,Speaker,"and established artists; and includes openings, artist talks, and other special arts events Local Rodriguez Northern Manhattan Arts Alliance",,261997496,7000,DCLA,,,".00 for the community free to the general public. In addition to exhibition openings, NoMAA offers panels, discussions and other events to encourage wide exposure to and understanding of the cultural issues presented.",

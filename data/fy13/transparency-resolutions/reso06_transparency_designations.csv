@@ -1,0 +1,104 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * StLukes-RooseveltHospitalCenterCenterforComprehensive Brewer Care,,132997301,-3000,OCJC,,,.00) 098 002,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Brewer CrimeVictimsTreatmentCenter,,132997301,3000,OCJC,,,.00 098 002,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Reyna GroverClevelandHighSchool,,116039058,-10000,DOE,,,.00) 040 402 *,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,"Reyna GreaterRidgewoodHistoricalSociety,Inc.",,112409274,10000,DCLA,,,.00 126 003 *,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,"Palma EpiscopalSocialServicesofNewYork,Inc.",,133709095,-10000,DYCD,,,.00) 260 312,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Palma ReadingReformFoundationofNewYork** JewishAssociationforServicesfortheAged(JASA)-Mechler,,133081223,-4000,DYCD,,,.00) 260 312,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Palma HallSeniorCenter,,132620896,14000,DFTA,,,.00 125 003,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Fidler CongregationMerkazShiureiTorah,,412071394,-6000,DYCD,,,.00) 260 005 *,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Fidler CongregationMerkazShiureiTorahD/B/AMayanYisroel,,412071394,6000,DYCD,,,.00 260 005 *,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,"Oddo CommunityAssociationForJewishAt-RiskCemeteriesInc. MetropolitanNewYorkCoordinatingCouncilonJewishPoverty,",,562649778,-3500,DYCD,,,.00) 260 005 *,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Oddo Inc.,,132738818,3500,DYCD,,,.00 260 005,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Palma DepartmentofTransportation,,136400434,-3000,DOT,,,.00) 841 007,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Palma DepartmentofTransportation,,136400434,3000,DOT,,,.00 841 114,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,CC DominicanWomen’sDevelopmentCenter,,133593885,50000,DYCD,,,.00 260 005 *,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Recchia UniversalTempleoftheArts,,133335286,-25000,DYCD,,,.00) 260 312,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Recchia UniversalTempleoftheArts,,133335286,25000,DCLA,,,.00 126 003,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Ulrich FederationofHinduMandirsUSAInc.,,113276618,-5000,DYCD,,,.00) 260 005,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,"Ulrich ForestParkTrust,Inc.",,311558645,5000,DPR,,,.00 846 006,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,"CC BrooklynArtsCouncil,Inc.",,237072915,-45000,DYCD,,,.00) 260 005,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,"CC BrooklynArtsCouncil,Inc.",,237072915,45000,DCLA,,,.00 126 003,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Lander OldStoneHouseofBrooklyn,,113032836,-6000,DPR,,,.00) 846 006,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Lander OldStoneHouseofBrooklyn,,113032836,6000,DYCD,,,.00 260 005,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Eugene AesclepiusMedicalSociety,,113204211,-6000,DOHMH,,,.00) 816 113 *,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Eugene NewYorkLegalAssistanceGroup,,133505428,3000,DYCD,,,.00 260 005,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Eugene ErasmusNeighborhoodFederation,,112490986,3000,HPD,,,.00 806 009,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,"Rodriguez NorthernManhattanCoalitionforEconomicDevelopment,Inc.",,133951595,-4000,DYCD,,,.00) 260 005 *,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,"Rodriguez HispanicFederation,Inc.",,133573852,4000,DYCD,,,.00 260 005,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,CC NewYorkCityAllianceAgainstSexualAssault,,311702032,-40000,DYCD,,,.00) 260 005,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,CC NewYorkCityAllianceAgainstSexualAssault,,311702032,40000,OCJC,,,.00 098 002,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Oddo StatenIslandSaintsFastpitchSoftballClubInc.,,272525251,-1000,DYCD,,,.00) 260 312,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Oddo EnrichmentThroughtheArts,,113051230,-3500,DYCD,,,.00) 260 312,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Oddo St.MargaretMary,,132693090,4500,DYCD,,,.00 260 005 *,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,"Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Mendez Trinity'sServicesandFoodfortheHomeless,Inc.",,133401340,-12000,DYCD,,,.00) 260 005,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,"Mendez Trinity'sServicesandFoodfortheHomeless,Inc.",,133401340,12000,HRA,,,.00 069 105,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,"Ferreras CentroComunitarioYdeAsesoriaLegalInc. MetropolitanNewYorkCoordinatingCouncilonJewishPoverty,",,113558057,-7500,DYCD,,,.00) 260 005,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Ferreras Inc.,,132738818,7500,DYCD,,,.00 260 005,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,"Brewer FundfortheCityofNewYork,Inc.",,132612524,-3000,DCLA,,,.00) 126 003,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,"Brewer Afro-LatinJazzAlliance,Inc. QueensChamberofCommercedbaChamberofCommerce",,260670214,3000,DCLA,,,.00 126 003,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Koslowitz BoroughofQueens QueensChamberofCommercedbaChamberofCommerce,,110059220,-5000,DSBS,,,.00) 801 002,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Koslowitz BoroughofQueens,,110559220,5000,DSBS,,,.00 801 002,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Dilan CommunityImprovementAthleticLeague,,272493521,-6000,DYCD,,,.00) 260 312 *,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Dilan YouthServiceLeagueInc.,,111973738,6000,DYCD,,,.00 260 312,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,Dilan YouthServiceLeagueInc.,,111973738,-6000,DYCD,,,.00) 260 312,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Dilan NewYorkCityPoliceDepartment,,136400434,6000,NYPD,,,.00 056 100,**
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,"Vann VannguardUrbanImprovementAssociation,Inc.",,112442042,-6000,DYCD,,,.00) 260 312,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,rescind,,,"Vann VannguardUrbanImprovementAssociation,Inc.",,112442042,-29714,DYCD,,,.00) 260 312,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Vann BedfordStuyvesantRestorationCorporation,,116083182,10000,DYCD,,,.00 260 005,
+6,2012-12-10,LocalInitiatives-Fiscal2013,2013,designate,,,Vann BridgeStreetDevelopmentCorporation,,113250772,25714,DYCD,,,.00 260 312,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,rescind,,,Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Seabrook JewishAssociationforServicesfortheAged(JASA) JewishAssociationforServicesfortheAged(JASA)-Einstein,,132620896,-9000,DFTA,,,.00) 125 003,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,designate,,,Seabrook SeniorCenter,,132620896,9000,DFTA,,,.00 125 003,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,rescind,,,"Mealy FortGreeneSeniorCitizensCouncil,Inc. FortGreeneSeniorCitizensCouncil,Inc.-ChristopherBlenman",,112300840,-10000,DFTA,,,.00) 125 003,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,designate,,,Mealy SeniorCenter,,112300840,10000,DFTA,,,.00 125 003,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,rescind,,,"Mealy FortGreeneSeniorCitizensCouncil,Inc.",,112300840,-10000,DFTA,,,.00) 125 003,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,rescind,,,"Mealy FortGreeneSeniorCitizensCouncil,Inc. WaysideOut-ReachDevelopment,Inc.(WORD)-BrevoortSenior",,112300840,-9156,DFTA,,,.00) 125 003,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,designate,,,"Mealy Center WaysideOut-ReachDevelopment,Inc.(WORD)-TildenSenior",,113528680,7000,DFTA,,,.00 125 003,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,designate,,,"Mealy Center WaysideOut-ReachDevelopment,Inc.(WORD)-VanDykeI",,113528680,10000,DFTA,,,.00 125 003,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,designate,,,"Mealy SeniorCenter WaysideOut-ReachDevelopment,Inc.-SpringCreekGardens",,113528680,2156,DFTA,,,.00 125 003,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,rescind,,,Barron Senior DomainCommunityServicesD/B/A SpringCreekGardens,,113528680,-8000,DFTA,,,.00) 125 003,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,designate,,,Barron SeniorCenter,,453272811,8000,DFTA,,,.00 125 003 *,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,rescind,,,"Mendez GustavusAdolphusLutheranChurch EastSideCommunityGroupforSeniorServices,Inc.-Stein",,132783642,-4500,DFTA,,,.00) 125 003,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,designate,,,Mendez SeniorCenter,,237378342,2500,DFTA,,,.00 125 003,
+6,2012-12-10,AgingInitiatives-Fiscal2013,2013,designate,,,"Mendez UnitedJewishCounciloftheEastSide,Inc.",,132735378,2000,DFTA,,,.00 125 003,
+6,2012-12-10,YouthInitiatives-Fiscal2013,2013,rescind,,,"Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Palma EpiscopalSocialServicesofNewYork,Inc.",,133709095,-10000,DYCD,,,.00) 260 312,
+6,2012-12-10,YouthInitiatives-Fiscal2013,2013,designate,,,"Palma Globahood,Inc.",,208679614,10000,DYCD,,,.00 260 312,
+6,2012-12-10,YouthInitiatives-Fiscal2013,2013,rescind,,,Dilan YouthServiceLeagueInc.,,111973738,-6000,DYCD,,,.00) 260 312,
+6,2012-12-10,YouthInitiatives-Fiscal2013,2013,designate,,,Dilan CommunityImprovementAthleticLeague,,272493521,6000,DYCD,,,.00 260 312 *,
+6,2012-12-10,YouthInitiatives-Fiscal2013,2013,rescind,,,Eugene ChildrenFoundation,,061798143,-5000,DYCD,,,.00) 260 312 *,
+6,2012-12-10,YouthInitiatives-Fiscal2013,2013,designate,,,Eugene ChildrenFoundationForHelpinHaiti,,061798143,5000,DYCD,,,.00 260 312 *,
+6,2012-12-10,YouthInitiatives-Fiscal2013,2013,rescind,,,"Sanders JewishCommunityServicesCoalition,Inc.",,114081036,-8500,DYCD,,,.00) 260 312,
+6,2012-12-10,YouthInitiatives-Fiscal2013,2013,designate,,,"Sanders JewishCommunityCounciloftheRockawayPeninsula,Inc.",,112425813,8500,DYCD,,,.00 260 312,
+6,2012-12-10,YouthInitiatives-Fiscal2013,2013,rescind,,,Oddo St.MargaretMary,,132693090,-4500,DYCD,,,.00) 260 312 *,
+6,2012-12-10,YouthInitiatives-Fiscal2013,2013,designate,,,Oddo StatenIslandSaintsFastpitchSoftballClubInc.,,272525251,1000,DYCD,,,".00 260 312 JewishCommunityCenterofStatenIsland,Inc. 13-5562256",
+6,2012-12-10,YouthInitiatives-Fiscal2013,2013,designate,,,Oddo EnrichmentThroughtheArts,,113051230,3500,DYCD,,,.00 260 312,
+6,2012-12-10,SeniorCentersandProgramsRestoration-Fiscal2013,2013,rescind,,,Organization EINNumber Agency Amount Agy# U/A * JewishAssociationforServicesfortheAged(JASA)-DreiserSeniorCenter,,132620896,-50000,DFTA,,,.00) 125 003,
+6,2012-12-10,SeniorCentersandProgramsRestoration-Fiscal2013,2013,designate,,,JewishAssociationforServicesfortheAged(JASA)-EinsteinSeniorCenter,,132620896,50000,DFTA,,,.00 125 003,
+6,2012-12-10,SeniorCentersandProgramsRestoration-Fiscal2013,2013,rescind,,,PresbyterianSeniorServices-EnnisFrancisSeniorCenter,,131981482,-60000,DFTA,,,.00) 125 003,
+6,2012-12-10,SeniorCentersandProgramsRestoration-Fiscal2013,2013,designate,,,PresbyterianSeniorServices-PelhamFritzCenter,,131981482,60000,DFTA,,,.00 125 003,
+6,2012-12-10,InfantMortalityReduction-Fiscal2013,2013,rescind,,,Organization EINNumber Agency Amount Agy# U/A * QueensComprehensivePerinatalCouncil,,112870422,-127018,DOHMH,,,.59) 816 113,
+6,2012-12-10,InfantMortalityReduction-Fiscal2013,2013,designate,,,"ClergyUnitedforCommunityEmpowerment,Inc.(formerlySQCCE)",,113030795,127018,DOHMH,,,.59 816 113,
+6,2012-12-10,OST-Fiscal2013,2013,rescind,,,Organization EINNumber Agency Amount Agy# U/A * RidgewoodBushwickYouthCenter-RidgewoodBushwickYouthCenter,,112518141,-96000,DYCD,,,.00) 260 312,
+6,2012-12-10,OST-Fiscal2013,2013,designate,,,"RidgewoodBushwickSeniorCitizensCouncil,Inc.-RidgewoodBushwickYouthCenter",,112453853,96000,DYCD,,,.00 260 312,
+6,2012-12-10,OST-Fiscal2013,2013,rescind,,,"ChineseAmericanPlanningCouncil,Inc.-CPCQueensSchoolAge/DayCareCenter-PS20John Bowne",,136202692,-100000,DYCD,,,.00) 260 312,
+6,2012-12-10,OST-Fiscal2013,2013,designate,,,"ChildCenterofNewYork,Inc.,The-PublicSchool24-AndrewJacksonElementarySchool",,111733454,100000,DYCD,,,.00 260 312,
+6,2012-12-10,OST-Fiscal2013,2013,rescind,,,"ChildrensArts&ScienceWorkshops,Inc.-WestPrepAcademy",,132752494,-97500,DYCD,,,.00) 260 312,
+6,2012-12-10,OST-Fiscal2013,2013,designate,,,"CitizenSchools,Inc.-GlobalTechnologyPreparatory",,043259160,97500,DYCD,,,.00 260 312,
+6,2012-12-10,OST-Fiscal2013,2013,rescind,,,SupportiveChildrensAdvocacyNetwork(SCAN)-MullalyParkRecreationCenter,,132912963,-78000,DYCD,,,.00) 260 312,
+6,2012-12-10,OST-Fiscal2013,2013,designate,,,SupportiveChildrensAdvocacyNetwork(SCAN)-CIS339,,132912963,78000,DYCD,,,.00 260 312,
+6,2012-12-10,OST-Fiscal2013,2013,rescind,,,BergenBasinCommunityDevelopmentCorp.-P.S./I.S.225SeasideSchool,,113199040,-200000,DYCD,,,.00) 260 312,
+6,2012-12-10,OST-Fiscal2013,2013,designate,,,BergenBasinCommunityDevelopmentCorp.-PS317TheWatersideSchool,,113199040,200000,DYCD,,,.00 260 312,
+6,2012-12-10,OST-Fiscal2013,2013,rescind,,,Women'sHousingandEconomicDevelopmentCorporation(WHEDCO)-P/Is218RHernandez DualLang(X218),,113099604,-85000,DYCD,,,.00) 260 312,
+6,2012-12-10,OST-Fiscal2013,2013,designate,,,SupportiveChildrensAdvocacyNetwork(SCAN)-PS073BRONX(X073),,132912963,13500,DYCD,,,.00 260 312,
+6,2012-12-10,OST-Fiscal2013,2013,designate,,,"LearningThroughAnExpandedArtsProgram,Inc.-JHS22",,132925233,71500,DYCD,,,.00 260 312,
+6,2012-12-10,CoalitionofTheatersofColor-Fiscal2013,2013,rescind,,,Organization EINNumber Agency Amount Agy# U/A * CoalitionofTheatersofColor,,136400434,-85000,DCLA,,,.00) 126 003,
+6,2012-12-10,CoalitionofTheatersofColor-Fiscal2013,2013,designate,,,"BillieHolidayTheatre,Inc.",,112336154,85000,DCLA,,,.00 126 003 *,
+6,2012-12-10,DesignWeek-Fiscal2013,2013,rescind,,,Organization EINNumber Agency Amount Agy# U/A * NYC&Company,,134020446,-99950,DSBS,,,.00) 801 002,**
+6,2012-12-10,DesignWeek-Fiscal2013,2013,designate,,,DepartmentofCulturalAffairs,,136400434,99950,DCLA,,,.00 126 002,**
+6,2012-12-10,HIV/AIDSFaithBasedInitiative-Fiscal2013,2013,rescind,,,Organization EINNumber Agency Amount Agy# U/A * MountCarmelYouthDevelopmentCorporation,,133966802,-6400,DOHMH,,,.00) 816 112,
+6,2012-12-10,HIV/AIDSFaithBasedInitiative-Fiscal2013,2013,designate,,,MountCarmelYouthDevelopmentCorporation,,113598975,6400,DOHMH,,,.00 816 112,
+6,2012-12-10,HIV/AIDSFaithBasedInitiative-Fiscal2013,2013,rescind,,,NewHopefortheWorldMinistries,,260434061,-6400,DOHMH,,,.00) 816 112,
+6,2012-12-10,HIV/AIDSFaithBasedInitiative-Fiscal2013,2013,designate,,,NewHopeCommunityChurch,,061013595,6400,DOHMH,,,.00 816 112,
+6,2012-12-10,HIV/AIDSFaithBasedInitiative-Fiscal2013,2013,rescind,,,EvangelicalChristianChurch,,112528459,-6400,DOHMH,,,.00) 816 112,
+6,2012-12-10,HIV/AIDSFaithBasedInitiative-Fiscal2013,2013,designate,,,GoodNewsPowerOutreachMinistries,,274646653,6400,DOHMH,,,.00 816 112,
+6,2012-12-10,EarlyLearn/Childcare-Fiscal2013,2013,designate,,,"Member Organization EINNumber Agency Amount Agy# U/A * Barron Colony- SouthBrooklynHouses,Inc.-PineStreetDCC",,112197984,506170,ACS,,,.00 068 004,**

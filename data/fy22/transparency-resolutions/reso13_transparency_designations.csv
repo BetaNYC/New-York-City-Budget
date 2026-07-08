@@ -1,0 +1,67 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+13,2022-05-19,Local Initiatives - Fiscal 2022,2022,rescind,,Speaker,Department of Health and Mental Hygiene,,136400434,-60000,DHMH,816,112,*,**
+13,2022-05-19,Local Initiatives - Fiscal 2022,2022,rescind,,Speaker,Department of Health and Mental Hygiene,,136400434,-25000,DHMH,816,120,*,**
+13,2022-05-19,Local Initiatives - Fiscal 2022,2022,designate,,Speaker,"God's Love We Deliver, Inc.",,133366846,85000,DHMH,816,111,,**
+13,2022-05-19,Local Initiatives - Fiscal 2022,2022,rescind,,Speaker,Snug Harbor Cultural Center & Botanical Garden,Youth Matters - Teen Hanks Ambassadors,800193388,-9999,DYCD,260,005,,**
+13,2022-05-19,Local Initiatives - Fiscal 2022,2022,designate,,Speaker,Snug Harbor Cultural Center & Botanical Garden,Youth Matters - Teen Hanks Ambassadors,800193388,9999,DCLA,126,020,,**
+13,2022-05-19,Local Initiatives - Fiscal 2022,2022,rescind,,Speaker,Ariola Department of Education,Public School 114Q (27Q114) - Belle Harbor School,136400434,-15000,DOE,040,402,,
+13,2022-05-19,Local Initiatives - Fiscal 2022,2022,designate,,Speaker,Ariola Department of Education,,136400434,15000,DOE,040,402,,
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,rescind,,Speaker,Department of Small Business Services,,136400434,-471203,SBS,801,002,*,**
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,rescind,,Speaker,Department of Youth and Community Development,,136400434,-85000,DYCD,260,005,*,**
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,designate,,Speaker,Chhaya Community Development Corporation,,113580935,50000,HPD,806,009,,**
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,designate,,Speaker,"Coalition for the Homeless, Inc.",First Step Job Training Program,133072967,50000,DHS,071,200,,**
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,designate,,Speaker,"Neighborhood Housing Services of Jamaica, Inc.",,237398279,50000,DFTA,125,003,,**
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,designate,,Speaker,Turning Point for Women and Families,,542177390,75000,MOCJ,098,002,,**
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,designate,,Speaker,"God's Love We Deliver, Inc.",,133366846,15000,DHMH,816,111,,**
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,designate,,Speaker,"Student Leadership Network, Inc.",,061517218,100000,DOE,040,402,,**
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,designate,,Speaker,"Association of Community Employment Programs for the Homeless, Inc.",,133846431,142299,DYCD,260,005,,**
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,designate,,Speaker,Brooklyn Public Library,,111904261,150000,BPL,038,001,,**
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,designate,,Speaker,Queens Borough Public Library,,136400434,150000,QBPL,039,001,,**
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,designate,,Speaker,New York Public Library,,136400434,200000,NYPL,037,006,,**
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,designate,,Speaker,"United Federation of Teachers Educational Foundation, Inc.",,139226721,250000,DOE,040,402,,**
+13,2022-05-19,Speaker's Initiative to Address Citywide Needs - Fiscal 2022,2022,designate,,Speaker,Young Men's Christian Association of Greater New York,,131624228,250000,DYCD,260,312,,**
+13,2022-05-19,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,Vernikov Department of Cultural Affairs,,136400434,-20000,DCLA,126,003,,
+13,2022-05-19,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Vernikov Brighton Ballet Theater Company, Inc.",Public School 225K - The Eileen E. Zaglin (21K225),113195590,20000,DCLA,126,003,,
+13,2022-05-19,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,rescind,,,"Moya Dancing Classrooms, Inc.",Public School 16Q (24Q016),222542960,-20000,DCLA,126,003,,
+13,2022-05-19,Cultural After-School Adventure (CASA) - Fiscal 2022,2022,designate,,,"Moya Dancing Classrooms, Inc.",Public School 110Q (24Q110) Carlos Lezama Archives and Caribbean Cultural Center - Public School 181K Brooklyn (17K181),222542960,20000,DCLA,126,003,,
+13,2022-05-19,Food Pantries - Fiscal 2022,2022,rescind,,,Department of Youth and Community Development,,136400434,-1000000,DYCD,260,005,*,
+13,2022-05-19,Food Pantries - Fiscal 2022,2022,designate,,,"Campaign Against Hunger, Inc., The",,200934854,200000,DYCD,260,005,,
+13,2022-05-19,Food Pantries - Fiscal 2022,2022,designate,,,CityMeals on Wheels,,133634381,200000,DYCD,260,005,,
+13,2022-05-19,Food Pantries - Fiscal 2022,2022,designate,,,Food Bank For New York City,,133179546,200000,DYCD,260,005,,
+13,2022-05-19,Food Pantries - Fiscal 2022,2022,designate,,,"Hispanic Federation, Inc.",,133573852,200000,DYCD,260,005,,
+13,2022-05-19,Food Pantries - Fiscal 2022,2022,designate,,,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,200000,DYCD,260,005,,
+13,2022-05-19,Food Pantries - Fiscal 2022,2022,designate,,,"Catholic Charities Community Services, Archdiocese of New York",,135562185,471203,DYCD,260,005,,**
+13,2022-05-19,Food Pantries - Fiscal 2022,2022,rescind,,,"Manhattan Delegation MCCNY Charities, Inc.",Sylvia Rivera Memorial Food Pantry,275282132,-14834,DYCD,260,005,,
+13,2022-05-19,Food Pantries - Fiscal 2022,2022,designate,,,Manhattan Delegation Church of the Holy Apostles,,132892297,14834,DYCD,260,005,,
+13,2022-05-19,Food Pantries - Fiscal 2022,2022,rescind,,,Bronx Delegation Food Bank For New York City,Project EATS Covid relief pantry - EFRO# 85577,133179546,-3076,DYCD,260,005,,
+13,2022-05-19,Food Pantries - Fiscal 2022,2022,designate,,,Food Bank For New York City,Worldwide Movement Father Son and the Holy Spirit - EFRO# Bronx Delegation 84788,133179546,3076,DYCD,260,005,,
+13,2022-05-19,Food Pantries - Fiscal 2022,2022,rescind,,,Brooklyn Delegation Food Bank For New York City,St. Matthews's RC Church - EFRO# 80398,133179546,-1753,DYCD,260,005,,
+13,2022-05-19,Food Pantries - Fiscal 2022,2022,designate,,,Brooklyn Delegation Food Bank For New York City,Church of St. Mark - EFRO# 84761,133179546,1753,DYCD,260,005,,
+13,2022-05-19,A Greener NYC - Fiscal 2022,2022,rescind,,,"Paladino Waterfront Alliance, Inc.",,134355067,-15000,DYCD,260,005,,
+13,2022-05-19,A Greener NYC - Fiscal 2022,2022,designate,,,"Paladino Waterfront Alliance, Inc.",Estuary Explorers,134355067,15000,DYCD,260,005,,
+13,2022-05-19,A Greener NYC - Fiscal 2022,2022,rescind,,,"Paladino Outstanding Renewal Enterprises, Inc.",,133320984,-15000,DYCD,260,005,,
+13,2022-05-19,A Greener NYC - Fiscal 2022,2022,designate,,,"Paladino Outstanding Renewal Enterprises, Inc.",Electronic Waste Recycling,133320984,15000,DYCD,260,005,,
+13,2022-05-19,A Greener NYC - Fiscal 2022,2022,rescind,,,Department of Youth and Community Development,,136400434,-30000,DYCD,260,005,,
+13,2022-05-19,A Greener NYC - Fiscal 2022,2022,designate,,,Department of Cultural Affairs,,136400434,30000,DCLA,126,003,,
+13,2022-05-19,AAPI Community Support - Fiscal 2022,2022,rescind,,,"* Leviathan Lab, Inc.",,611732369,-40000,DYCD,260,005,,
+13,2022-05-19,AAPI Community Support - Fiscal 2022,2022,designate,,,Department of Youth and Community Development,,136400434,40000,DYCD,260,005,*,
+13,2022-05-19,Mental Health Services for Vulnerable Populations - Fiscal 2022,2022,rescind,,,"Modify Wellness, Inc",,862578460,-30000,DHMH,816,120,,
+13,2022-05-19,Mental Health Services for Vulnerable Populations - Fiscal 2022,2022,designate,,,"Modify Wellness, Inc.",,862578460,30000,DHMH,816,120,,
+13,2022-05-19,Alternatives to Incarceration (ATI's) - Fiscal 2022,2022,rescind,,,"* Fund for the City of New York, Inc.",CCI Brooklyn ATI Court Part,132612524,-395000,MOCJ,098,002,,**
+13,2022-05-19,Children and Families in NYC Homeless System - Fiscal 2022,2022,rescind,,,* Department of Homeless Services,,136400434,-50000,DHS,071,200,,**
+13,2022-05-19,Court-Involved Youth Mental Health Initiative - Fiscal 2022,2022,rescind,,,* Department of Health and Mental Hygiene,,136400434,-25000,DHMH,816,120,,**
+13,2022-05-19,Home Loan Program - Fiscal 2022,2022,rescind,,,"* Northfield Community LDC of Staten Island, Inc.",,132974137,-200000,HPD,806,009,,
+13,2022-05-19,Home Loan Program - Fiscal 2022,2022,designate,,,"Center for NYC Neighborhoods, Inc.",,830506416,200000,HPD,806,009,,
+13,2022-05-19,LGBTQ Inclusive Curriculum - Fiscal 2022,2022,rescind,,,* Department of Education,,136400434,-855000,DOE,040,454,,**
+13,2022-05-19,LGBTQ Inclusive Curriculum - Fiscal 2022,2022,rescind,,,"Fund for the City of New York, Inc.",The NEW Pride Agenda,132612524,-100000,DOE,040,454,*,**
+13,2022-05-19,LGBTQ Inclusive Curriculum - Fiscal 2022,2022,rescind,,,"GLAAD, Inc.",,133384027,-100000,DOE,040,454,*,**
+13,2022-05-19,LGBTQ Inclusive Curriculum - Fiscal 2022,2022,designate,,,"GLAAD, Inc.",,133384027,100000,DYCD,260,005,,**
+13,2022-05-19,Naturally Occurring Retirement Communities (NORCs) - Fiscal 2022,2022,rescind,,,"* New Partners, Inc.",,133885148,-309299,DFTA,125,003,,**
+13,2022-05-19,New York Immigrant Family Unity Project - Fiscal 2022,2022,designate,,,"Bronx Defenders, The",,133931074,250000,DSS/HRA,069,107,,**
+13,2022-05-19,New York Immigrant Family Unity Project - Fiscal 2022,2022,designate,,,Brooklyn Defender Services,,113305406,250000,DSS/HRA,069,107,,**
+13,2022-05-19,New York Immigrant Family Unity Project - Fiscal 2022,2022,designate,,,Legal Aid Society,,135562265,250000,DSS/HRA,069,107,,**
+13,2022-05-19,Physical Education and Fitness - Fiscal 2022,2022,rescind,,,* Department of Education,,136400434,-413000,DOE,040,402,,**
+13,2022-05-19,Cultural Immigrant Initiative - Fiscal 2021,2021,rescind,,,"Aviles Mixteca Organization, Inc.",,113561651,-25000,DYCD,260,005,*,
+13,2022-05-19,Cultural Immigrant Initiative - Fiscal 2021,2021,designate,,,Aviles Department of Youth and Community Development,,136400434,25000,DYCD,260,005,,
+13,2022-05-19,Food Pantries - Fiscal 2021,2021,rescind,,,"Manhattan Delegation MCCNY Charities, Inc.",,275282132,-11884,DYCD,260,005,*,
+13,2022-05-19,Food Pantries - Fiscal 2021,2021,designate,,,Manhattan Delegation Food Bank For New York City,,133179546,11884,DYCD,260,005,,

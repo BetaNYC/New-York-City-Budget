@@ -1,0 +1,234 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,rescind,,,Rosenthal Congregation B'nai Jeshurun,Meals Program,130594858,-5000,DSS/HRA,069,105,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,designate,,,Rosenthal Congregation B'nai Jeshurun Starafroler Hebria,Meals Program,130594858,5000,DSS/HRA,069,105,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,rescind,,,"Ampry-Samuel Nia Theatrical Production Company, Inc.",Brownsville Old Timer's Week,113427470,-15000,DCLA,126,003,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,designate,,,"Ampry-Samuel Victory Music and Dance Company, Inc.",,472167056,15000,DCLA,126,003,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,rescind,,,"Adams ENACT, Inc.",,133422660,-8000,DCLA,126,003,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,designate,,,"Adams Black Spectrum Theatre Company, Inc.",,510135262,4000,DCLA,126,003,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,designate,,,"Adams Jamaica Center for Arts and Learning, Inc.",,112478709,4000,DCLA,126,003,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,rescind,,,CD37 St. Peter's Evangelical Lutheran Church,,111797192,-20000,DYCD,260,312,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,designate,,,CD37 St. Peter's Evangelical Lutheran Church in the Borough of Brooklyn,,111797192,20000,DYCD,260,312,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,rescind,,Speaker,"New York City Audubon Society, Inc.",,133057954,-10000,DYCD,260,005,,**
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,designate,,Speaker,"New York City Audubon Society, Inc.",,133057954,10000,DPR,846,006,,**
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,rescind,,Speaker,"Rosenthal Sadie Nash Leadership Project, Inc.",,113633912,-5000,DYCD,260,312,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,designate,,Speaker,Rosenthal Department of Education,Frank McCourt High School (M417),136400434,5000,DOE,040,402,,**
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,rescind,,Speaker,"Friends of Hudson River Park, Inc.",,134112913,-150000,DYCD,260,005,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,designate,,Speaker,Hudson River Park Trust,,061546019,150000,DYCD,260,005,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,rescind,,Speaker,"Constantinides East River Development Alliance, Inc.",,861096987,-2500,DYCD,260,312,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,designate,,Speaker,Constantinides Jackson Heights Beautification Group,,112925587,2500,DYCD,260,005,,
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,rescind,,Speaker,"Rivera Loisaida, Inc.",,133023183,-30000,DCLA,126,003,,**
+7,2020-02-27,Local Initiatives - Fiscal 2020,2020,designate,,Speaker,"Rivera Loisaida, Inc.",,133023183,30000,DYCD,260,005,,**
+7,2020-02-27,Youth Discretionary - Fiscal 2020,2020,rescind,,,Reynoso Department of Youth and Community Development,,136400434,-5000,DYCD,260,312,,
+7,2020-02-27,Youth Discretionary - Fiscal 2020,2020,designate,,,"Reynoso ArtBridge Projects, Inc.",,611682898,5000,DYCD,260,312,,
+7,2020-02-27,Youth Discretionary - Fiscal 2020,2020,rescind,,,"Rosenthal ENACT, Inc.",,133422660,-5000,DYCD,260,312,*,**
+7,2020-02-27,Youth Discretionary - Fiscal 2020,2020,designate,,,"Rosenthal Sadie Nash Leadership Project, Inc.",,113633912,5000,DYCD,260,312,,
+7,2020-02-27,Youth Discretionary - Fiscal 2020,2020,rescind,,,"Constantinides Child Center of NY, Inc., The",,111733454,-2500,DYCD,260,312,,
+7,2020-02-27,Youth Discretionary - Fiscal 2020,2020,designate,,,"Constantinides East River Development Alliance, Inc.",,861096987,2500,DYCD,260,312,,
+7,2020-02-27,Youth Discretionary - Fiscal 2020,2020,rescind,,,"Lancman Cultural Collaborative Jamaica, Inc.",,113635991,-5000,DYCD,260,312,*,
+7,2020-02-27,Youth Discretionary - Fiscal 2020,2020,designate,,,"Lancman Queens Community House, Inc.",,112375583,5000,DYCD,260,312,,
+7,2020-02-27,Youth Discretionary - Fiscal 2020,2020,rescind,,,Cumbo Department of Youth and Community Development,,136400434,-2500,DYCD,260,312,,
+7,2020-02-27,Youth Discretionary - Fiscal 2020,2020,designate,,,"Cumbo Jamel Gaines Creative Outlet, Inc.",,831788832,2500,DYCD,260,312,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,rescind,,,Barron Department for the Aging,Council District 42,136400434,-38500,DFTA,125,003,*,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,designate,,,Bergen Basin Community Development Corporation d/b/a Millennium Barron Development,Vandalia Senior Center,113199040,12000,DFTA,125,003,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,designate,,,Bergen Basin Community Development Corporation d/b/a Millennium Barron Development,Abe Stark Senior Center,113199040,11500,DFTA,125,003,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,designate,,,Bergen Basin Community Development Corporation d/b/a Millennium Barron Development,Penn Wortman Senior Center,113199040,15000,DFTA,125,003,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,rescind,,,"Lancman Kew Gardens Hills Community Foundation, Inc.",,510506762,-5000,DFTA,125,003,*,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,designate,,,"Lancman Young Israel Programs, Inc.",,030381957,5000,DFTA,125,003,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,rescind,,,"Miller Jamaica Service Program for Older Adults (JSPOA), Inc.",,510204121,-15000,DFTA,125,003,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,rescind,,,"Miller Jamaica Service Program for Older Adults (JSPOA), Inc.",,510204121,-11500,DFTA,125,003,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,rescind,,,"Jamaica Service Program for Older Adults (JSPOA), Inc.",Transportation Miller Program,510204121,-7500,DFTA,125,003,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,designate,,,"Miller Allen Community Senior Citizens Center, Inc.",,112326244,15000,DFTA,125,003,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,designate,,,"Miller Allen Community Senior Citizens Center, Inc.",,112326244,11500,DFTA,125,003,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,designate,,,"Miller Allen Community Senior Citizens Center, Inc.",Transportation Program,112326244,7500,DFTA,125,003,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,rescind,,,"Jamaica Service Program for Older Adults (JSPOA), Inc.",Shelton House Lancman Senior Center,510204121,-5000,DFTA,125,003,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,designate,,,"Lancman Allen Community Senior Citizens Center, Inc.",Shelton House Senior Center,112326244,5000,DFTA,125,003,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,rescind,,,"Jamaica Service Program for Older Adults (JSPOA), Inc.",Rockaway Blvd. Adams Senior Center,510204121,-20000,DFTA,125,003,,
+7,2020-02-27,Aging Discretionary - Fiscal 2020,2020,designate,,,"Adams Allen Community Senior Citizens Center, Inc.",Rockaway Blvd. Senior Center,112326244,20000,DFTA,125,003,,
+7,2020-02-27,Speaker's Initiative to Address Citywide Needs - Fiscal 2020,2020,rescind,,Speaker,"Loisaida, Inc.",,133023183,-100000,DCLA,126,003,,**
+7,2020-02-27,Speaker's Initiative to Address Citywide Needs - Fiscal 2020,2020,designate,,Speaker,"Loisaida, Inc.",,133023183,100000,DYCD,260,005,,**
+7,2020-02-27,Speaker's Initiative to Address Citywide Needs - Fiscal 2020,2020,designate,,Speaker,Jewish Children's Museum,,133798344,75000,DYCD,260,005,,**
+7,2020-02-27,Speaker's Initiative to Address Citywide Needs - Fiscal 2020,2020,designate,,Speaker,Chinatown Partnership Local Development Corporation,,421650478,50000,HPD,806,009,,**
+7,2020-02-27,Speaker's Initiative to Address Citywide Needs - Fiscal 2020,2020,designate,,Speaker,"STRIVE International, Inc.",,133255679,50000,SBS,801,002,,**
+7,2020-02-27,Speaker's Initiative to Address Citywide Needs - Fiscal 2020,2020,designate,,Speaker,"Creative Outlet Dance Theatre of Brooklyn, Inc.",,113307754,20000,DYCD,260,005,,**
+7,2020-02-27,Speaker's Initiative to Address Citywide Needs - Fiscal 2020,2020,designate,,Speaker,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,375000,DYCD,260,005,,**
+7,2020-02-27,A Greener NYC - Fiscal 2020,2020,rescind,,,Lancman Department of Parks and Recreation,Park Rangers @ Captain Tilly,136400434,-10000,DPR,846,006,,
+7,2020-02-27,A Greener NYC - Fiscal 2020,2020,designate,,,Lancman Department of Parks and Recreation,Ranger Programming @ Captain Tilly,136400434,10000,DPR,846,006,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,rescind,,,Gjonaj Bartow-Pell Landmark Fund,Bronx Green Middle School (11X326),510243951,-20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,designate,,,Gjonaj Bartow-Pell Landmark Fund,Public School 175 City Island (11X175),510243951,20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,rescind,,,Research Foundation of the City University of New York,CUNY Creative Arts Team - Public Louis School 119K (22K119),133893536,-20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,designate,,,Research Foundation of the City University of New York,CUNY Creative Arts Team - Public Louis School 119K (22K119),131988190,20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,rescind,,,"Louis Jewish Community Council of Greater Coney Island, Inc.",Public School 269K,112665181,-20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,designate,,,"Jewish Community Council of Greater Coney Island, Inc.",Public School 361 East Flatbush Louis Early Childhood School (22K361),112665181,20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,rescind,,,Sugar Hill Children's Museum of Art and Storytelling,Thurgood Marshall Academy for Perkins Learning and Social Change (05M670),465412811,-20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,designate,,,Sugar Hill Children's Museum of Art and Storytelling,Public School 028 Wright Brothers Perkins (06M028),465412811,20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,rescind,,,"Lander Brooklyn Historical Society, The",Young Curator/ Young Scholars,111630813,-20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,designate,,,"Lander Brooklyn Historical Society, The",Public School 282 Park Slope (13K282),111630813,20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,rescind,,,"Richards DIVAS for Social Justice, Inc.","Gordon Parks School, The (29Q270)",300475160,-20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,designate,,,"Richards DIVAS for Social Justice, Inc.",Public School 132 Ralph Bunche (29Q132),300475160,20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,rescind,,,"Rodriguez Association of Dominican Classical Artists, Inc.",,133843597,-20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,designate,,,"Association of Dominican Classical Artists, Inc.",Gregorio Luperon High School for Science Rodriguez and Mathematics (06M552),133843597,20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,rescind,,,"Johnson JLSC Educational Tour Bus, Inc.",Hudson High School of Learning Technologies (02M437),134085631,-20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,designate,,,"Johnson Friends of the High Line, Inc.",Quest to Learn (02M422),311734086,20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,rescind,,,"Johnson JLSC Educational Tour Bus, Inc.",N.Y.C. Lab School for Collaborative Studies (02M412),134085631,-20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) - Fiscal 2020,2020,designate,,,"Johnson TADA! Theatre and Dance Alliance, Inc.",PS51M (02M051),133311294,20000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,rescind,,,"Holden JLSC Educational Tour Bus, Inc.",Educational Programs - Council District 30,134085631,-20000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,"Holden Queens Symphony Orchestra, Inc.",Orchestra Concerts - Council District 30,112106191,10000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,"Holden Greater Ridgewood Youth Council, Inc., The",,112518141,10000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,rescind,,,"Cohen Van Cortlandt Park Alliance, Inc.",,133843182,-20000,DYCD,260,005,,**
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,"Cohen Van Cortlandt Park Alliance, Inc.",Enslaved Peoples Project,133843182,20000,DCLA,126,003,,**
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,rescind,,,"Cohen Van Cortlandt Park Alliance, Inc.",,133843182,-10000,DYCD,260,005,,**
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,"Cohen Van Cortlandt Park Alliance, Inc.",Enslaved Peoples Project,133843182,10000,DCLA,126,003,,**
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,rescind,,,"Vallone JLSC Educational Tour Bus, Inc.",,134085631,-20000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,"Vallone Alley Pond Environmental Center, Inc.",Environmental Education Programs,112405466,10000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,Vallone Bayside Historical Society,,116049457,10000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,rescind,,,"Lancman JLSC Educational Tour Bus, Inc.",,134085631,-10000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,"Lancman Jewish Community Council of Greater Coney Island, Inc.",Fair - Council District 24,112665181,10000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,rescind,,,"Grodenchik JLSC Educational Tour Bus, Inc.",,134085631,-10000,DCLA,126,003,,**
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,City University of New York,Queensborough Community College - Kupferbeg Holocaust Grodenchik Center,136400434,10000,CUNY,042,001,,**
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,rescind,,,"Grodenchik JLSC Educational Tour Bus, Inc.",,134085631,-10000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,"Grodenchik Dancing Classrooms, Inc.",Public School 035 Nathaniel Woodhull (29Q035),222542960,10000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,rescind,,,"Koslowitz JLSC Educational Tour Bus, Inc.",,134085631,-48000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,Koslowitz Queens Museum of Art,,112278998,20000,DCLA,126,022,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,"Koslowitz Colonial Farmhouse Restoration Society of Bellerose, Inc.",,112508369,10000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,"Koslowitz RPGA Studio, Inc.",,472589237,8000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,"Koslowitz Queens Jewish Community Council, Inc.",,237172152,10000,DCLA,126,003,,
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,rescind,,,Deutsch Jewish Children's Museum,,133798344,-10000,DCLA,126,003,,***
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,Deutsch Jewish Children's Museum,,133798344,10000,DYCD,260,005,,***
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,rescind,,,"Rivera Loisaida, Inc.",,133023183,-30000,DCLA,126,003,,**
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,"Rivera Loisaida, Inc.",,133023183,30000,DYCD,260,005,,**
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,rescind,,,Moya Department of Cultural Affairs,,136400434,-10000,DCLA,126,003,,**
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,Moya Library Action Committee of Corona East Elmhurst,,112228514,5000,DYCD,260,312,,**
+7,2020-02-27,Cultural Immigrant Initiative - Fiscal 2020,2020,designate,,,"Moya Ballroom Basix USA, Inc.",,273218865,5000,DCLA,126,003,,
+7,2020-02-27,Digital Inclusion and Literacy Initiative - Fiscal 2020,2020,rescind,,,"Torres Mouse, Inc.","Middle School 129X (12X129), KAPPA III (12X316), and CS 300 (12X300)",133973196,-20000,DYCD,260,005,,
+7,2020-02-27,Digital Inclusion and Literacy Initiative - Fiscal 2020,2020,designate,,,"Torres Mouse, Inc.",Council District 15,133973196,20000,DYCD,260,005,,
+7,2020-02-27,Digital Inclusion and Literacy Initiative - Fiscal 2020,2020,rescind,,,"Mouse, Inc.","Middle School 391X (10X391), Crotona International HS (10X524), and BASE Torres (10X264)",133973196,-20000,DYCD,260,005,,
+7,2020-02-27,Digital Inclusion and Literacy Initiative - Fiscal 2020,2020,designate,,,"Torres Mouse, Inc.",Council District 15,133973196,20000,DYCD,260,005,,
+7,2020-02-27,Digital Inclusion and Literacy Initiative - Fiscal 2020,2020,rescind,,,"Gibson PowerMyLearning, Inc.",Junior High School 22,133935309,-20000,DYCD,260,005,,
+7,2020-02-27,Digital Inclusion and Literacy Initiative - Fiscal 2020,2020,designate,,,"Gibson PowerMyLearning, Inc.",Bronx High School of Law Government and Justice,133935309,20000,DYCD,260,005,,
+7,2020-02-27,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020,2020,rescind,,,Ulrich District Attorney-Queens,,136400434,-70000,DAQN,904,002,,**
+7,2020-02-27,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020,2020,designate,,,Ulrich District Attorney-Queens,,136400434,70000,DAQN,904,001,,**
+7,2020-02-27,Food Pantries Initiative - Fiscal 2020,2020,rescind,,,Brooklyn Delegation Food Bank For New York City,,133179546,-7469,DYCD,260,005,,
+7,2020-02-27,Food Pantries Initiative - Fiscal 2020,2020,designate,,,Brooklyn Delegation Food Bank For New York City,Bethlehem Baptist Church,133179546,7469,DYCD,260,005,,
+7,2020-02-27,Food Pantries Initiative - Fiscal 2020,2020,rescind,,,Manhattan Delegation Congregation B'nai Jeshurun,B'nai Jeshurun,130594858,-20000,DYCD,260,005,,
+7,2020-02-27,Food Pantries Initiative - Fiscal 2020,2020,designate,,,Manhattan Delegation Congregation B'nai Jeshurun Starafroler Hebria,B'nai Jeshurun,130594858,20000,DYCD,260,005,,
+7,2020-02-27,Healthy Aging Initiative - Fiscal 2020,2020,rescind,,,"Adams Jamaica Service Program for Older Adults (JSPOA), Inc.",Council District 28,510204121,-20000,DFTA,125,003,,
+7,2020-02-27,Healthy Aging Initiative - Fiscal 2020,2020,designate,,,"Adams Allen Community Senior Citizens Center, Inc.",Council District 28,112326244,20000,DFTA,125,003,,
+7,2020-02-27,Neighborhood Development Grant Initiative - Fiscal 2020,2020,rescind,,,Holden Greater Ridgewood Restoration Corporation,,112382250,-20000,DYCD,260,005,,**
+7,2020-02-27,Neighborhood Development Grant Initiative - Fiscal 2020,2020,designate,,,Holden Greater Ridgewood Restoration Corporation,,112382250,20000,SBS,801,002,,**
+7,2020-02-27,Parks Equity Initiative - Fiscal 2020,2020,rescind,,,"Van Bramer Citizens Committee for New York City, Inc.",,510171818,-10000,DPR,846,006,,**
+7,2020-02-27,Parks Equity Initiative - Fiscal 2020,2020,designate,,,"Van Bramer Citizens Committee for New York City, Inc.",,510171818,10000,DYCD,260,005,,**
+7,2020-02-27,Parks Equity Initiative - Fiscal 2020,2020,rescind,,,"Menchaca Council on the Environment, Inc.",Grow NYC,132765465,-10000,DPR,846,006,,**
+7,2020-02-27,Parks Equity Initiative - Fiscal 2020,2020,designate,,,"Menchaca Council on the Environment, Inc.",Grow NYC,132765465,10000,DYCD,260,005,,**
+7,2020-02-27,Parks Equity Initiative - Fiscal 2020,2020,rescind,,,Levine Washington Heights and Inwood Development Corporation,Riverside Oval,132950346,-10000,DPR,846,006,,
+7,2020-02-27,Parks Equity Initiative - Fiscal 2020,2020,designate,,,Levine Department of Parks and Recreation,Riverside Oval,136400434,10000,DPR,846,006,,
+7,2020-02-27,SU-CASA - Fiscal 2020,2020,rescind,,,Department of Cultural Affairs,,136400434,-75000,DCLA,126,003,,
+7,2020-02-27,SU-CASA - Fiscal 2020,2020,designate,,,"Chin Dance Works, Inc.",City Hall Neighborhood Senior Center,237426261,15000,DCLA,126,003,,
+7,2020-02-27,SU-CASA - Fiscal 2020,2020,designate,,,"Rosenthal Doing Art Together, Inc.",JASA Club 76,133363579,15000,DCLA,126,003,,
+7,2020-02-27,SU-CASA - Fiscal 2020,2020,designate,,,"Eugene Cultural Museum of African Art, Inc.",The Eric Edwards Collection - Fenimore Senior Center,900907203,15000,DCLA,126,003,,
+7,2020-02-27,SU-CASA - Fiscal 2020,2020,designate,,,"Powers Cumbe: Center for African and Diaspora Dance, Inc.",Sirovich Senior Center,475039336,15000,DCLA,126,003,,
+7,2020-02-27,SU-CASA - Fiscal 2020,2020,designate,,,"Cultural Museum of African Art, Inc.",The Eric Edwards Collection - Rosetta Gaston Senior Barron Center,900907203,15000,DCLA,126,003,,
+7,2020-02-27,SU-CASA - Fiscal 2020,2020,rescind,,,"Rodriguez Horticultural Society of New York, The",ARC XVI Ft Washington Sr Ctr,130854930,-15000,DCLA,126,003,,
+7,2020-02-27,SU-CASA - Fiscal 2020,2020,designate,,,"Rodriguez Horticultural Society of New York, The",Washington Heights Neighborhood SR CTR,130854930,15000,DCLA,126,003,,
+7,2020-02-27,SU-CASA - Fiscal 2020,2020,rescind,,,"Moya Loisaida, Inc.",Elmcor's Golden Phoenix Club One,133023183,-15000,DCLA,126,003,,
+7,2020-02-27,SU-CASA - Fiscal 2020,2020,designate,,,Moya Spanish Dance Arts Company,Elmcor's Golden Phoenix Club One,133286419,15000,DCLA,126,003,,
+7,2020-02-27,Support Our Seniors - Fiscal 2020,2020,rescind,,,"King Regional Aid for Interim Needs, Inc.",Eastchester Senior Center,136213586,-10000,DFTA,125,003,,
+7,2020-02-27,Support Our Seniors - Fiscal 2020,2020,designate,,,"King Regional Aid for Interim Needs, Inc.",Boston East NSC,136213586,10000,DFTA,125,003,,
+7,2020-02-27,Support Our Seniors - Fiscal 2020,2020,rescind,,,Bergen Basin Community Development Corporation d/b/a Millennium Development,"Vandalia, Barron Penn Wortman and Abe Stark, JASA Scheuer House of Coney Island",113199040,-60000,DFTA,125,003,,
+7,2020-02-27,Support Our Seniors - Fiscal 2020,2020,designate,,,Bergen Basin Community Development Corporation d/b/a Millennium Development,"Vandalia, Barron Penn Wortman and Abe Stark",113199040,60000,DFTA,125,003,,
+7,2020-02-27,Support Our Seniors - Fiscal 2020,2020,rescind,,,"Adams Jamaica Service Program for Older Adults (JSPOA), Inc.",Rockaway Blvd Center,510204121,-10000,DFTA,125,003,,
+7,2020-02-27,Support Our Seniors - Fiscal 2020,2020,designate,,,"Adams Allen Community Senior Citizens Center, Inc.",Rockaway Blvd Center,112326244,10000,DFTA,125,003,,
+7,2020-02-27,Support Our Seniors - Fiscal 2020,2020,rescind,,,"Miller Jamaica Service Program for Older Adults (JSPOA), Inc.",,510204121,-20000,DFTA,125,003,,
+7,2020-02-27,Support Our Seniors - Fiscal 2020,2020,designate,,,"Miller Allen Community Senior Citizens Center, Inc.",,112326244,20000,DFTA,125,003,,
+7,2020-02-27,Support Our Seniors - Fiscal 2020,2020,rescind,,,"Richards Jamaica Service Program for Older Adults (JSPOA), Inc.",,510204121,-10000,DFTA,125,003,,
+7,2020-02-27,Support Our Seniors - Fiscal 2020,2020,designate,,,"Richards Allen Community Senior Citizens Center, Inc.",,112326244,10000,DFTA,125,003,,
+7,2020-02-27,Educational Programs for Students - Fiscal 2020,2020,rescind,,,"National Association for the Advancement of Colored People, The",,912082874,-1000000,DOE,040,402,*,
+7,2020-02-27,Educational Programs for Students - Fiscal 2020,2020,designate,,,Department of Education,,136400434,1000000,DOE,040,402,,
+7,2020-02-27,Educational Programs for Students - Fiscal 2020,2020,designate,,,"United Federation of Teachers Educational Foundation, Inc.",,139226721,82500,DOE,040,402,,**
+7,2020-02-27,Support for Educators - Fiscal 2020,2020,designate,,,"United Federation of Teachers Educational Foundation, Inc.",,139226721,32000,DOE,040,402,,**
+7,2020-02-27,Work-Based Learning Internships - Fiscal 2020,2020,rescind,,,Department of Education,,136400434,-114500,DOE,040,401,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,rescind,,,Department of Health and Mental Hygiene,,136400434,-37513,DHMH,816,112,,
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,rescind,,,Department of Health and Mental Hygiene,,136400434,-97504,DHMH,816,113,,
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,rescind,,,Department of Health and Mental Hygiene,,136400434,-262109,DHMH,816,114,,
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,rescind,,,Department of Health and Mental Hygiene,,136400434,-307781,DHMH,816,117,,
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,rescind,,,Department of Health and Mental Hygiene,,136400434,-7500,DHMH,816,113,,
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,Community Service Society of New York,,135562202,57250,DHMH,816,117,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,"Council of Peoples Organization, Inc.",,753046891,13608,DHMH,816,117,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,"Jewish Community Center of Staten Island, Inc.",,135562256,4858,DHMH,816,117,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,"Jewish Community Council of the Rockaway Peninsula, Inc.",,112425813,9226,DHMH,816,117,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,"Korean Community Services of Metropolitan New York, Inc.",,237348989,9226,DHMH,816,117,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,"Long Island Gay and Lesbian Youth, Inc.",,113192966,13608,DHMH,816,117,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,Make the Road New York,,113344389,4858,DHMH,816,117,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,Northern Manhattan Improvement Corporation,,132972415,17976,DHMH,816,117,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,"Northern Manhattan Perinatal Partnership, Inc.",,133782555,4858,DHMH,816,117,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,"Polonians Organized to Minister to Our Community, Inc.",,112594500,4858,DHMH,816,117,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,South Asian Council for Social Services,,113632920,4858,DHMH,816,117,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,Urban Justice Center,,133442022,4858,DHMH,816,117,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,Women's Housing and Economic Development Corporation (WHEDco),,113099604,4858,DHMH,816,117,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,Health + Hospitals,,132655001,13470,DHMH,816,112,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,Health + Hospitals,,132655001,30000,DHMH,816,112,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,Health + Hospitals,,132655001,13500,DHMH,816,112,,**
+7,2020-02-27,Public Health Funding Backfill - Fiscal 2020,2020,designate,,,Health + Hospitals,,132655001,13470,DHMH,816,112,,**
+7,2020-02-27,Bridge Program for Workforce Development - Fiscal 2020,2020,designate,,,"Goodwill Industries of Greater New York and Northern New Jersey, Inc.",,131641068,1000000,DSS/HRA,069,103,,
+7,2020-02-27,Coalition Theaters of Color - Fiscal 2020,2020,rescind,,,"Kinding Sindaw Heritage Foundation, Inc.",,472655890,-20000,DYCD,260,005,,***
+7,2020-02-27,Coalition Theaters of Color - Fiscal 2020,2020,designate,,,"Kinding Sindaw Heritage Foundation, Inc.",,472655890,20000,DCLA,126,003,,***
+7,2020-02-27,Art a Catalyst for Change - Fiscal 2020,2020,rescind,,,"Man Up, Inc.",High School for Civil Rights (Thomas Jefferson HS Campus) (Brooklyn School),030553092,-18000,DCLA,126,003,,**
+7,2020-02-27,Art a Catalyst for Change - Fiscal 2020,2020,designate,,,"Man Up, Inc.",High School for Civil Rights (Thomas Jefferson HS Campus) (Brooklyn School),030553092,18000,DYCD,260,005,,**
+7,2020-02-27,Art a Catalyst for Change - Fiscal 2020,2020,rescind,,,"Man Up, Inc.",Junior High School 292K,030553092,-18000,DCLA,126,003,,**
+7,2020-02-27,Art a Catalyst for Change - Fiscal 2020,2020,designate,,,"Man Up, Inc.",Junior High School 292K,030553092,18000,DYCD,260,005,,**
+7,2020-02-27,Art a Catalyst for Change - Fiscal 2020,2020,rescind,,,"Man Up, Inc.",Van Siclen Community School (Brooklyn School),030553092,-18000,DCLA,126,003,,**
+7,2020-02-27,Art a Catalyst for Change - Fiscal 2020,2020,designate,,,"Man Up, Inc.",Van Siclen Community School (Brooklyn School),030553092,18000,DYCD,260,005,,**
+7,2020-02-27,Art a Catalyst for Change - Fiscal 2020,2020,rescind,,,"ENACT, Inc.",Academy for Language and Tech,133422660,-18000,DCLA,126,003,,
+7,2020-02-27,Art a Catalyst for Change - Fiscal 2020,2020,designate,,,"Midori Foundation, Inc.","Public School 279 Captain Manuel Rivera, Jr. (10X279)",133682472,18000,DCLA,126,003,,
+7,2020-02-27,"Senior Centers, Programs, and Enhancements - Fiscal 2020",2020,rescind,,,"Jamaica Service Program for Older Adults (JSPOA), Inc.",,510204121,-10000,DFTA,125,003,,
+7,2020-02-27,"Senior Centers, Programs, and Enhancements - Fiscal 2020",2020,designate,,,"Allen Community Senior Citizens Center, Inc.",,112326244,10000,DFTA,125,003,,
+7,2020-02-27,"Senior Centers, Programs, and Enhancements - Fiscal 2020",2020,designate,,,Jewish Association for Services for the Aged (JASA),,132620896,43000,DFTA,125,003,,
+7,2020-02-27,"Senior Centers, Programs, and Enhancements - Fiscal 2020",2020,designate,,,"Selfhelp Community Services, Inc.",Austin Street Senior Center,131624178,25000,DFTA,125,003,,
+7,2020-02-27,Census 2020 Outreach Initiative - Fiscal 2020,2020,rescind,,,NAACP New York State Conference,,131084135,-160000,DYCD,260,005,,**
+7,2020-02-27,Census 2020 Outreach Initiative - Fiscal 2020,2020,designate,,,City University of New York,Medgar Evers College - Law and Social Justice Racial Justice Advocates Project,133893536,160000,CUNY,042,001,,**
+7,2020-02-27,Cure Hate Initiative - Fiscal 2020,2020,designate,,,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,125000,MOCJ,098,002,,**
+7,2020-02-27,Social and Emotional Supports for Students - Fiscal 2020,2020,rescind,,,"Fund for the City of New York, Inc.",ENACT,132612524,-279225,DOE,040,454,,**
+7,2020-02-27,Social and Emotional Supports for Students - Fiscal 2020,2020,designate,,,Research Foundation of the City University of New York,CUNY Creative Arts Team,131988190,237500,DOE,040,454,,**
+7,2020-02-27,Local Initiatives - Fiscal 2019,2019,rescind,,,CD37 St. Peter's Evangelical Lutheran Church,,111797192,-20000,DYCD,260,312,,
+7,2020-02-27,Local Initiatives - Fiscal 2019,2019,designate,,,St Peters Evangelical Lutheran Church in the Borough of Brooklyn City of CD37 New York,,111797192,20000,DYCD,260,312,,
+7,2020-02-27,Youth Discretionay - Fiscal 2019,2019,rescind,,,"Lancman Cultural Collaborative Jamaica, Inc.",,113635991,-5000,DYCD,260,312,,
+7,2020-02-27,Youth Discretionay - Fiscal 2019,2019,designate,,,Lancman Young Israel of Jamaica Estates,,112518593,5000,DYCD,260,312,,
+7,2020-02-27,Youth Discretionary - Fiscal 2018,2018,rescind,,,"Lancman Cultural Collaborative Jamaica, Inc.",,113635991,-5000,DYCD,260,312,,
+7,2020-02-27,Youth Discretionary - Fiscal 2018,2018,designate,,,"Lancman Queens Community House, Inc.",,112375583,5000,DYCD,260,312,,
+7,2020-02-27,Cultural After-School Adventure (CASA) Initiative - Fiscal 2018,2018,rescind,,,Chin South Street Seaport Museum Foundation,,132596500,-20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) Initiative - Fiscal 2018,2018,designate,,,Chin Seaport Museum New York,,132596500,20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) Initiative - Fiscal 2018,2018,rescind,,,Chin South Street Seaport Museum Foundation,,132596500,-20000,DCLA,126,003,,
+7,2020-02-27,Cultural After-School Adventure (CASA) Initiative - Fiscal 2018,2018,designate,,,Chin Seaport Museum New York,,132596500,20000,DCLA,126,003,,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"New Purpose of Funds Funding to support CookCamp professional training program and to Youth Lander Wellness in the Schools, Inc.",,251919494,-3500,DYCD,,,,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"support implementation of Alternative Menu program. Youth Lander Wellness in the Schools, Inc.",,251919494,3500,DYCD,,,Funding will support the Cook Camp and Cook for Kids Program.,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"Speaker's Initiative Publicolor, Inc.",,133912768,-50000,DCLA,,,"To transform the exterior wall, bleachers, locker rooms, at VCP pool.",
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"Funds for painting the bleachers at VCP pool and other community site(s) Speaker's Initiative Publicolor, Inc.",,133912768,50000,DCLA,,,in the Bronx. To provide for the start-up of 36 new worker cooperative small,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"businesses, with positions for 140 new worker-owners, assist existing Local Speaker Business Outreach Center Network, Inc.",,113306111,-50000,SBS,,,"cooperatives through 1,365 service requests, and outreach to 1,749 cooperative workers.",
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"To support the provision of financial education, business planning, Local Speaker Business Outreach Center Network, Inc.",,113306111,50000,SBS,,,"marketing and financing workshops, coupled with one-on-one counseling and BOC Network's Child Care Business Development Project. Funding to support concert series of jazz and chamber music, a Meet-the-",
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"Author series, and community- based theater productions, visual arts Local Eugene PLG Arts, Inc.",,205947444,-6000,DYCD,,,exhibits and a new community ArtWalk/gallery tour and performances at Parkside Plaza.,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"Funding for the organization to pay musical contractors and musicians Local Eugene PLG Arts, Inc.",,205947444,6000,DYCD,,,who perform at free events they produce for residents in the community of Prospect-Lefferts Gardens.,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"To support services guiding foster youth towards permanency and Youth Levin St. Vincent's Services, Inc.",,111631823,-3500,DYCD,,,sustainable living.,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"Funding support for multi-sensory learning environments in the Wyckoff Youth Levin St. Vincent's Services, Inc.",,111631823,3500,DYCD,,,Gardens Cornerstone program.,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"Funds will be used to empower and support youth through community Anti-Poverty Richards Rockaway Youth Task Force, Inc.",,454926515,-10000,DYCD,,,"development, grassroots organizing and advocacy, civic engagement and * volunteer opportunities. The funding will be used to fund the Rockaway Youth Task Force's 10- week introductory program C.O.R.E, Community Organizing and Resistance Education, which offers youth a detailed history of racial",
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"inequality locally and nationally, as well as key movements and organizing Anti-Poverty Richards Rockaway Youth Task Force, Inc.",,454926515,10000,DYCD,,,"strategies for change. CORE is delivered three times per year for up to 40 * youth each cycle, and teaches critical skills such as advocacy campaign creation, base-building, how local and national governing bodies operate, the structure of local school systems, voting rights and registration, and a wide range of tactics and activities for change.",
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"Funds will be used to empower and support youth through community Local Richards Rockaway Youth Task Force, Inc.",,454926515,-5000,DYCD,,,"development, grassroots organizing and advocacy, civic engagement and * volunteer opportunities. The funding will be used to fund the Rockaway Youth Task Force's Youth Organizing program, the Rockaway Advocacy Project (RAP). Youth meet",
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"weekly and engage their fellow students, neighbors, families, community Local Richards Rockaway Youth Task Force, Inc.",,454926515,5000,DYCD,,,"* and faith organizations, elected officials, police, and businesses in targeted campaigns in four key areas: educational justice reform, criminal justice reform, civic engagement, and food justice and access.",
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,Boroughwide Brooklyn Brighton Beach District Management Showcase culture and products of various ethnic and cultural groups Needs,,112843233,-5000,SBS,,,"Delegation Association through various events, sensitive programs and children festival. Initiative Boroughwide Funding to support neighborhood activities; including workshops and",
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,Brooklyn Brighton Beach District Management Needs,,112843233,5000,SBS,,,"outdoor events showcasing culture and products of various ethnic groups, Delegation Association",
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,Initiative and children’s festival. Speaker's Initiative St. Nick's Alliance Corporation,,510192170,-400000,DYCD,,,Funds will be used to support workforce development programming.,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,Funds will be used to support workforce development and youth Speaker's Initiative St. Nick's Alliance Corporation,,510192170,400000,DYCD,,,programming.,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,New York Center for Interpersonal Local Matteo,,237085239,-2000,DYCD,,,"Funds will be used to support after-school and summer camp services. Development, Inc. After school program that services students from 5-12 years old M-F,",
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"New York Center for Interpersonal students have a snack, do their homework for one hour, engage in Local Matteo",,237085239,2000,DYCD,,,"Development, Inc. enrichment activities such as STEM/ Leadership/ ART for 1 hour and have a recreational (sports, physical fitness) 1 hour period.",
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"Queens Lesbian and Gay Pride Committee, Speaker's Initiative",,113146598,-65000,DYCD,,,To support the annual Queens Pride Parade and Festival. Inc.,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"Queens Lesbian and Gay Pride Committee, Funds are to be used for salary, subcontractors and other related Speaker's Initiative",,113146598,65000,DYCD,,,,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,Inc. expenses incurred in producing the Queens Pride Parade and Festival. Youth Ayala Door,"A Center of Alternatives, Inc., The",136127348,-10000,DYCD,,,To provide funding for ESOL classes at The Door's Bronx Youth Center.,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,To provide support for operations and overall programming at The Door’s Youth Ayala Door,"A Center of Alternatives, Inc., The",136127348,10000,DYCD,,,Bronx Youth Center.,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"Salvation Army, The",Bay Ridge Basketball Funding to operate a character-building basketball league for male Youth Brannan,135562351,-10000,DYCD,,,League teenagers and young adults in Council District 43.,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"Salvation Army, The",Bay Ridge Basketball Youth Brannan,135562351,10000,DYCD,,,Providing children Grades 1-5 with sports and arts activities. League,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,Southwest Brooklyn Industrial Development Local Menchaca,,112508370,-13500,DYCD,,,Funds will be used for CBA coalition cost. Corporation To support formation of a coalition of community based organizations and,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,Southwest Brooklyn Industrial Development Local Menchaca,,112508370,13500,DYCD,,,service providers in Distrcit 38 to explore a community benefits agreement Corporation with Industry City. Services and supplies for public events and outreach. NYC Cleanup promotes cleaner streets in New York City by providing,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"each City Council district with an allocation of $260,000 to fund cleaning NYC Cleanup Cohen Department of Sanitation",,136400434,-70000,DSNY,,,"services including, but not limited to, street sweeping, litter pickup, and graffiti removal.",
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,Funding will be to add extra 8 hour basket truck on Sundays for 39 weeks NYC Cleanup Cohen Department of Sanitation,,136400434,70000,DSNY,,,in Council District 11. NYC Cleanup promotes cleaner streets in New York City by providing,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"each City Council district with an allocation of $260,000 to fund cleaning NYC Cleanup Cohen Department of Parks and Recreation",,136400434,-40000,DPR,,,"services including, but not limited to, street sweeping, litter pickup, and",
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,graffiti removal. NYC Cleanup Cohen Department of Parks and Recreation,,136400434,40000,DPR,,,Funding will be to install treegurads in Council District 11.,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,Youth,,"Perkins Publicolor, Inc.",,133912768,-20000,DYCD,,,Funding to support the Wadleigh Secondary School Paint Club.,
+7,2020-02-27,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,Youth,,"Perkins Publicolor, Inc.",,133912768,20000,DYCD,,,Funding for Publicolor’s Next Steps program.,

@@ -1,0 +1,33 @@
+FY20 NYC COUNCIL TRANSPARENCY RESOLUTIONS - PARSE + RECONCILIATION NOTES
+==============================================================================
+
+RECONCILIATION STATUS: NOT RECONCILABLE (against printed totals).
+These documents print NO per-chart or grand totals -- only award rows. There is
+nothing in the source to reconcile parsed dollar sums against. The figures below
+are parse counts, not reconciled totals. The one internal consistency check the
+documents permit is the transfer net-out: within a chart a rescission (negative)
+and its paired re-designation (positive) should net to ~0. Reported as "net".
+
+reso date          rows      designate$        rescind$          net$
+----------------------------------------------------------------------
+   1 2019-07-23    1361      24,723,681     -24,723,680             1
+   2 2019-08-14    1268      34,874,755     -34,973,825       -99,070
+   3 2019-09-25    1062      26,609,600     -26,249,077       360,523
+   4 2019-11-14     539      21,949,444     -21,959,445       -10,001
+   5 2019-12-19     557      11,413,928      -9,982,231     1,431,697
+   6 2020-01-23     176       1,733,021      -1,733,021             0
+   7 2020-02-27     233       5,734,309      -4,500,101     1,234,208
+   8 2020-06-30     123       5,456,800      -5,456,800             0
+----------------------------------------------------------------------
+ ALL               5319     132,495,538    -129,578,180     2,917,358
+
+rows by action:  designate=3569  purpose_change=526  rescind=1224
+rows by fiscal year:  2018=32  2019=175  2020=5112
+
+unresolved organization (dense-chart text-layer artifacts): 0 of 5319 rows (0.00%) -- amount/EIN/agency captured, org name orphaned
+
+org-text confidence: HIGH -- 0 of 5319 rows (0.00%) show glued-word (0) or header-bleed (0) artifacts in the org field.
+  (EIN / amount / agency / date / action are deterministic and unaffected.)
+
+SPOTLIGHT - Artificial Intelligence Community Engagement (AICE, $1M initiative):
+  NOT FOUND in any parsed resolution.

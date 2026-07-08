@@ -1,0 +1,933 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+1,2011-08-17,Local Initiatives,,rescind,,,Oddo Enrichment Through the Arts,,113051230,-3500,DCA,,,.00) 126 003 *,**
+1,2011-08-17,Local Initiatives,,designate,,,Oddo Enrichment Through the Arts,,113051230,3500,DYCD,,,.00 260 312 *,**
+1,2011-08-17,Local Initiatives,,rescind,,,Oddo Joe Gheraldi Playwright Theater,,550862258,-3000,DCA,,,.00) 126 003 *,**
+1,2011-08-17,Local Initiatives,,designate,,,Oddo Joe Gheraldi Playwright Theater,,550862258,3000,DYCD,,,.00 260 312 *,**
+1,2011-08-17,Local Initiatives,,rescind,,,James Brooklyn Transition Center P753K,,690210637,-4000,DOE,,,.00) 040 402,
+1,2011-08-17,Local Initiatives,,designate,,,James Public School K753,School for Career Development,690210637,4000,DOE,,,.00 040 402,
+1,2011-08-17,Local Initiatives,,rescind,,,Queens College Foundation Inc for,Queens College Arts Crowley Center,116080521,-3500,DCA,,,.00) 126 003 *,**
+1,2011-08-17,Local Initiatives,,designate,,,Queens College Foundation Inc for,Queens College Arts Crowley Center,116080521,3500,CUNY,,,.00 042 001 *,**
+1,2011-08-17,Local Initiatives,,rescind,,,"Crowley Sacred Music Choral of Richmond Hill, Inc.",,113457320,-2000,DCA,,,.00) 126 003 Greater Woodhaven Development Corporation 11-2508190,
+1,2011-08-17,Local Initiatives,,designate,,,"Crowley Sacred Music Choral of Richmond Hill, Inc.",,113457320,2000,DYCD,,,.00 260 312 Greater Woodhaven Development Corporation 11-2508190,
+1,2011-08-17,Local Initiatives,,rescind,,,Rose National Lighthouse Museum,,134055215,-5000,DCA,,,.00) 126 003,**
+1,2011-08-17,Local Initiatives,,designate,,,Rose National Lighthouse Museum,,134055215,5000,DYCD,,,.00 260 312,**
+1,2011-08-17,Local Initiatives,,designate,,,"Rose Serenade at Historic Christ Church, Inc. 26-2609767 Rose Serenade at Historic Christ Church, Inc.",,262609767,1000,DYCD,,,.00 260 312 Jewish Community Council of Staten Island 13-5562256,
+1,2011-08-17,Local Initiatives,,rescind,,,"Rose Varsity Club of Staten Island, Inc.",,133993270,-2000,DYCD,,,.00) 260 312,
+1,2011-08-17,Local Initiatives,,designate,,,"Rose Varsity Club of Staten Island, Inc.",,133993270,2000,DYCD,,,.00 260 312 Jewish Community Council of Staten Island 13-5562256,
+1,2011-08-17,Local Initiatives,,rescind,,,"Catholic Charities Community Services, Archdiocese of Oddo New York",,135562185,-4500,DFTA,,,.00) 125 003,
+1,2011-08-17,Local Initiatives,,designate,,,"Oddo Catholic Charities Neighborhood Services, Inc.",,112047151,4500,DFTA,,,.00 125 003,
+1,2011-08-17,Local Initiatives,,rescind,,,Crowley Woodhaven Cultural Historical Society Inc,,113099784,-4000,DYCD,,,.00) 260 005 Greater Woodhaven Development Corporation 11-2508190,
+1,2011-08-17,Local Initiatives,,designate,,,Crowley Woodhaven Cultural Historical Society Inc,,113099784,4000,DYCD,,,.00 260 005,
+1,2011-08-17,Local Initiatives,,rescind,,,"Eugene Caribbean Cultural Theatre, Inc.",,830508237,-3500,DCA,,,.00) 126 003,**
+1,2011-08-17,Local Initiatives,,designate,,,"Eugene Caribbean Cultural Theatre, Inc.",,830508237,3500,DYCD,,,.00 260 005,**
+1,2011-08-17,Local Initiatives,,rescind,,,Lander Committee to Improve Carroll Park,,112592742,-2000,DCA,,,.00) 126 003,**
+1,2011-08-17,Local Initiatives,,designate,,,Lander Committee to Improve Carroll Park,,112592742,2000,DYCD,,,.00 260 312,**
+1,2011-08-17,Local Initiatives,,rescind,,,Levin 572574 Warren St Tenants Association,,800685710,-5000,DYCD,,,.00) 260 005 *,**
+1,2011-08-17,Local Initiatives,,designate,,,Levin 572574 Warren St Tenants Association,,800685710,5000,NYCHA,,,.00 098 002 *,**
+1,2011-08-17,Youth Discretionary,,rescind,,,"Crowley Blau-Weiss Gottschee, Inc.",,116074351,-5000,DYCD,,,".00) 260 312 Greater Ridgewood Youth Council, Inc. 11-2518141 *",
+1,2011-08-17,Youth Discretionary,,designate,,,"Crowley Blau-Weiss Gottschee, Inc.",,116074351,5000,DYCD,,,".00 260 312 Maspeth Town Hall, Inc. 23-7259702 *",
+1,2011-08-17,Youth Discretionary,,rescind,,,"Crowley Shooting Stars of Queens, Inc.",,200019695,-3500,DYCD,,,.00) 260 312 Greater Woodhaven Development Corporation 11-2508190,
+1,2011-08-17,Youth Discretionary,,designate,,,"Crowley Shooting Stars of Queens, Inc.",,200019695,3500,DYCD,,,".00 260 312 Maspeth Town Hall, Inc. 23-7259702",
+1,2011-08-17,Youth Discretionary,,rescind,,,Gennaro Young Israel of Queens Valley,,133613262,-10000,DYCD,,,.00) 260 312,
+1,2011-08-17,Youth Discretionary,,designate,,,Gennaro Young Israel of Queens Valley,,112267876,10000,DYCD,,,.00 260 312,
+1,2011-08-17,Youth Discretionary,,rescind,,,"Chin Hamilton-Madison House, Inc.",,135562412,-5000,DYCD,,,.00) 260 312,
+1,2011-08-17,Youth Discretionary,,designate,,,"Chin Chinese American Planning Council, Inc.",,136202692,5000,DYCD,,,.00 260 312,
+1,2011-08-17,Day Care Center PEG Restoration,,rescind,,,"American-Italian Coalition of Organizations, Inc. (AMICO) – Court Street Day Care",,112660297,-825000,ACS,,,.00) 068 004,
+1,2011-08-17,Day Care Center PEG Restoration,,designate,,,"Administration for Children’s Services [American-Italian Coalition of Organizations, Inc. (AMICO) – Court Street Day Care]",,112660297,825000,ACS,,,.00 068 004,
+1,2011-08-17,Day Care Center PEG Restoration,,rescind,,,BBCS Duffield Children’s Center,,111630780,-1366101,ACS,,,.00) 068 004,
+1,2011-08-17,Day Care Center PEG Restoration,,designate,,,Administration for Children’s Services [BBCS Duffield Children’s Center],,111630780,1366101,ACS,,,.00 068 004,
+1,2011-08-17,Day Care Center PEG Restoration,,designate,,,Bethel Baptist Day Care Center 11-2244360 Administration for Children’s Services [Bethel Baptist Day Care Center],,112244360,853389,ACS,,,.00 068 004,
+1,2011-08-17,Day Care Center PEG Restoration,,rescind,,,Bethel Mission – Sheldon Weaver Day Care Center,,060983254,-1367264,ACS,,,.00) 068 004,
+1,2011-08-17,Day Care Center PEG Restoration,,designate,,,Administration for Children’s Services [Bethel Mission – Sheldon Weaver Day Care Center],,060983254,1367264,ACS,,,.00 068 004,
+1,2011-08-17,Day Care Center PEG Restoration,,rescind,,,La Puerta Abierta – PAL,,135596811,-1008932,ACS,,,.00) 068 004,
+1,2011-08-17,Day Care Center PEG Restoration,,designate,,,Administration for Children’s Services [La Puerta Abierta – PAL],,135596811,1008932,ACS,,,.00 068 004,
+1,2011-08-17,Day Care Center PEG Restoration,,rescind,,,Strong Place Day Care Center,,112203754,-1014314,ACS,,,.00) 068 004,
+1,2011-08-17,Day Care Center PEG Restoration,,designate,,,Administration for Children’s Services [Strong Place Day Care Center],,112203754,1014314,ACS,,,.00 068 004,
+1,2011-08-17,Asthma Control Program,,rescind,,,Asthma Control Program,,136400434,-500000,DOHMH,,,.00) 816 113,
+1,2011-08-17,Asthma Control Program,,designate,,,Bronx Lebanon Hospital,,131974191,75000,DOHMH,,,.00 816 113,
+1,2011-08-17,Asthma Control Program,,designate,,,Long Island College Hospital,,111018985,75000,DOHMH,,,.00 816 113,
+1,2011-08-17,Asthma Control Program,,designate,,,Department of Health and Mental Hygiene,,136400433,100000,DOHMH,,,.00 816 113,
+1,2011-08-17,Asthma Control Program,,designate,,,"Department of Health and Mental Hygiene Union Settlement Association, Inc. 13-1632530",,136400434,100000,DOHMH,,,.00 816 113,
+1,2011-08-17,Asthma Control Program,,designate,,,Queens Comprehensive Perinatal Council,,112870422,75000,DOHMH,,,.00 816 113,
+1,2011-08-17,Alternatives to Incarceration,,rescind,,,Alternatives to Incarceration,,136400434,-3350000,MISC,,,.00) 098 002,
+1,2011-08-17,Alternatives to Incarceration,,designate,,,"Center for Alternative Sentencing and Employment Services (CASES), Inc.",,132668080,635025,MISC,,,.00 098 002,
+1,2011-08-17,Alternatives to Incarceration,,designate,,,Center for Community Alternatives' Crossroads Program,,161395992,315228,MISC,,,.00 098 002,
+1,2011-08-17,Alternatives to Incarceration,,designate,,,"Center for Employment Opportunities (CEO), Inc.",,133843322,347207,MISC,,,.00 098 002,
+1,2011-08-17,Alternatives to Incarceration,,designate,,,"Education and Assistance Corporation (EAC), Inc.",,237175609,927590,MISC,,,.00 098 002,
+1,2011-08-17,Alternatives to Incarceration,,designate,,,"Fortune Society, Inc., The",,132645436,200100,MISC,,,.00 098 002,
+1,2011-08-17,Alternatives to Incarceration,,designate,,,"Legal Action Center of the City of New York, Inc., The",,132756320,105075,MISC,,,.00 098 002,
+1,2011-08-17,Alternatives to Incarceration,,designate,,,"Osborne Association, Inc., The",,135563028,388325,MISC,,,.00 098 002,
+1,2011-08-17,Alternatives to Incarceration,,designate,,,"MISC 098 002 Women's Prison Association's Hopper Home, Inc.",,135596836,431450,,,,.00,
+1,2011-08-17,Cancer Initiative,,rescind,,,Cancer Initiative,,136400434,-1425000,DOHMH,816,113,,
+1,2011-08-17,Cancer Initiative,,designate,,,American-Italian Cancer Foundation,,133035711,175500,DOHMH,816,113,,
+1,2011-08-17,Cancer Initiative,,designate,,,"Charles B. Wang Community Health Center, Inc.",,132739694,40500,DOHMH,816,113,,
+1,2011-08-17,Cancer Initiative,,designate,,,"Gilda's Club New York, Inc.",,134046652,40000,DOHMH,816,113,,
+1,2011-08-17,Cancer Initiative,,designate,,,"Self-Help for Women with Breast or Ovarian Cancer (SHARE), Inc.",,133131914,87000,DOHMH,816,113,,
+1,2011-08-17,Cancer Initiative,,designate,,,"Astoria/Queens Share-ing and Care-ing, Inc.",,113220371,82000,DOHMH,816,113,,
+1,2011-08-17,Cancer Initiative,,designate,,,American Cancer Society,,160743902,1000000,DOHMH,816,113,,
+1,2011-08-17,Children under Five Initiative,,rescind,,,Children under Five Initiative,,136400434,-1250000,DOHMH,,,.00) 816 120,
+1,2011-08-17,Children under Five Initiative,,designate,,,Albert Einstein College of Medicine of Yeshiva University,,131624225,400000,DOHMH,,,.00 816 120,
+1,2011-08-17,Children under Five Initiative,,designate,,,"OHEL Children's Home and Family Services, Inc.",,116078704,100000,DOHMH,,,.00 816 120,
+1,2011-08-17,Children under Five Initiative,,designate,,,"Jewish Board of Family and Children's Services, Inc. (aka Pride of Judea)",,135564937,75000,DOHMH,,,.00 816 120,
+1,2011-08-17,Children under Five Initiative,,designate,,,"Safe Horizon, Inc. Safe Space, Inc. 11-1711014",,132946970,100000,DOHMH,,,.00 816 120,
+1,2011-08-17,Children under Five Initiative,,designate,,,University Settlement Society of New York,,135562374,200000,DOHMH,,,.00 816 120,
+1,2011-08-17,Children under Five Initiative,,designate,,,"Child Center of New York, Inc., The",,111733454,115000,DOHMH,,,.00 816 120,
+1,2011-08-17,Children under Five Initiative,,designate,,,"Staten Island Mental Health Society, Inc.",,135623279,60000,DOHMH,,,.00 816 120,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,rescind,,,Injection Drug Users Health Alliance (IDUHA),,136400434,-1000000,DOHMH,,,.00) 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,"Citiwide Harm Reduction Program, Inc.",,134009817,66879,DOHMH,,,.09 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,"New York Harm Reduction Educators, Inc.",,133678499,76654,DOHMH,,,.46 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,St. Ann's Corner of Harm Reduction,,133724008,61608,DOHMH,,,.32 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,"After Hours Project, Inc. Family Services Network of New York 11-2592651",,331007278,72743,DOHMH,,,.46 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,"Housing Works, Inc.",,133584089,24942,DOHMH,,,.97 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,New York City AIDS Housing Network (NYCAHN),,134094385,92539,DOHMH,,,.23 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,"Foundation for Research into Sexually Transmitted Diseases, Inc.",,133387630,61940,DOHMH,,,.60 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,Harlem United Community AIDS Center,,133461695,22887,DOHMH,,,.29 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,Harm Reduction Coalition,,943204958,23441,DOHMH,,,.76 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,"Lower East Side Harm Reduction Center, Inc.",,133727641,70147,DOHMH,,,.60 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,Positive Health Project,,133845305,49749,DOHMH,,,.58 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,"Praxis Housing Initiatives, Inc.",,133832223,30714,DOHMH,,,.28 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,Public Health Solutions,,135669201,69767,DOHMH,,,.44 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,"Safe Horizon, Inc. (Streetwork)",,132946970,50751,DOHMH,,,.13 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,Washington Heights Corner Project,,208672015,75835,DOHMH,,,.32 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,"AIDS Center of Queens County, Inc.",,112837894,53383,DOHMH,,,.13 816 112,
+1,2011-08-17,Injection Drug Users Health Alliance (IDUHA),,designate,,,Community Health Action of Staten Island (formerly SI AIDS Taskforce),,133556132,46524,DOHMH,,,.85 816 112,
+1,2011-08-17,Mental Health Contracts,,rescind,,,Mental Health Contracts,,136400434,-450000,DOHMH,,,.00) 816 120,
+1,2011-08-17,Mental Health Contracts,,designate,,,Department of Health and Mental Hygiene,,136400434,40000,DOHMH,,,.00 816 120,
+1,2011-08-17,Mental Health Contracts,,designate,,,"Center for Urban and Community Services, Inc.",,133687891,100000,DOHMH,,,.00 816 120,
+1,2011-08-17,Mental Health Contracts,,designate,,,"Children's Aid Society, The",,135562191,95000,DOHMH,,,.00 816 120,
+1,2011-08-17,Mental Health Contracts,,designate,,,"Coalition of Behavioral Health Agencies, Inc., The Federation Employment and Guidance Service (FEGS), Inc. 13-1624000",,132729071,85000,DOHMH,,,.00 816 120,
+1,2011-08-17,Mental Health Contracts,,designate,,,"Greenwich House, Inc.",,135562204,25000,DOHMH,,,.00 816 120,
+1,2011-08-17,Mental Health Contracts,,designate,,,"Child Center of New York, Inc., The",,111733454,45000,DOHMH,,,.00 816 120,
+1,2011-08-17,Obesity Intervention Program,,rescind,,,Obesity Intervention Program,,136400434,-1300000,DOHMH,,,.00) 816 113,
+1,2011-08-17,Obesity Intervention Program,,designate,,,Foundation for the Advancement of Cardiac Therapies-Health Corp.,,261269358,750000,DOHMH,,,.00 816 113,
+1,2011-08-17,Obesity Intervention Program,,designate,,,Harlem Hospital Center,,133092676,300000,DOHMH,,,.00 816 113,
+1,2011-08-17,Obesity Intervention Program,,designate,,,"New York Road Runners Foundation, Inc.",,133987945,250000,DOHMH,,,.00 816 113,
+1,2011-08-17,Geriatric Mental Health Services,,rescind,,,Geriatric Mental Health Services,,136400434,-2000000,DOHMH,,,.00) 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Bronx Jewish Community Council, Inc.",,132744533,79000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"BronxWorks, Inc.",,133254484,84000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"East Side House, Inc.",,131623989,79000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Riverdale Mental Health Association, Inc.",,131930700,118000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"St. Barnabas Hospital 13-1740122 Catholic Charities Neighborhood Services, Inc.",,112047151,84000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"OHEL Children's Home and Family Services, Inc.",,116078704,94000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Relief Resources, Inc.",,522323151,40000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"SBH Community Service Network, Inc. (Sephardic Bikur Cholim)",,237406410,40000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,Spanish Speaking Elderly Council-RAICES,,112730462,81000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Bridge, Inc., The",,131919799,79000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Chinese American Planning Council, Inc.",,136202692,84000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Grand Street Settlement, Inc.",,135562230,84000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,Hudson Guild,,135562989,84000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Institute for the Puerto Rican/Hispanic Elderly, Inc.",,132987263,79000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,Jewish Association for Services for the Aged (JASA),,132620896,79000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Jewish Board of Family and Children's Services, Inc. (aka Pride of Judea)",,135564937,84000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Lenox Hill Neighborhood House, Inc.",,131628180,84000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Service Program for Older People, Inc. (SPOP)",,132947616,79000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Services and Advocacy for GLBT Elders, Inc. (SAGE)",,132947657,84000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,Upper Manhattan Health Center,,133389470,79000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Visiting Nurse Service of New York Home Care, Inc.",,131624211,79000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Samuel Field YM & YWHA, Inc.",,113071518,81000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Sunnyside Community Services Center, Inc.",,510189327,84000,DOHMH,,,.00 816 120,
+1,2011-08-17,Geriatric Mental Health Services,,designate,,,"Project Hospitality, Inc.",,133234441,79000,DOHMH,,,.00 816 120,
+1,2011-08-17,Aging Initiatives - FY2011,,rescind,,,Dromm St. Joan of Arc,,111675278,-3500,DFTA,,,.00) 125 003,
+1,2011-08-17,Aging Initiatives - FY2011,,designate,,,Dromm St. Joan of Arc Church,,111675278,3500,DFTA,,,.00 125 003,
+1,2011-08-17,Youth Discretionary - FY2011,,rescind,,,Gennaro Young Israel of Queens Valley,,133613262,-7000,DYCD,,,.00) 260 312,
+1,2011-08-17,Youth Discretionary - FY2011,,designate,,,Gennaro Young Israel of Queens Valley,,112267876,7000,DYCD,,,.00 260 312,
+1,2011-08-17,Youth Discretionary - FY2011,,rescind,,,Dromm St. Joan of Arc,,111675278,-7500,DYCD,,,.00) 260 312,
+1,2011-08-17,Youth Discretionary - FY2011,,designate,,,Dromm St. Joan of Arc Church,,111675278,7500,DYCD,,,.00 260 312,
+3,2011-10-17,LocalInitiatives,,rescind,,,"FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * StRosalia-ReginaPacisNeighborhood Gentile NarrowsBotanicalGarden,Inc.,The",,113382931,-4500,DYCD,,,.00) 260 005 ImprovementAssociation 11-2697931,
+3,2011-10-17,LocalInitiatives,,designate,,,"Gentile NarrowsBotanicalGarden,Inc.,The",,113382931,4500,DYCD,,,.00 260 005,
+3,2011-10-17,LocalInitiatives,,rescind,,,"BayRidgeBensonhurstBeautification Gentile NationalOrganizationofItalianAmericanWomen,Inc.",,133155703,-3500,DYCD,,,.00) 260 312 PreservationAllianceInc 11-3233233,
+3,2011-10-17,LocalInitiatives,,designate,,,"Gentile NationalOrganizationofItalianAmericanWomen,Inc.",,133155703,3500,DYCD,,,.00 260 312,
+3,2011-10-17,LocalInitiatives,,rescind,,,"BayRidgeBensonhurstBeautification Gentile ReginaOperaCompany,Inc.",,112734261,-3500,DYCD,,,.00) 260 005 PreservationAllianceInc 11-3233233,
+3,2011-10-17,LocalInitiatives,,rescind,,,StRosalia-ReginaPacisNeighborhood Gentile ScandinavianEastCoastMuseum,,113634793,-4000,DYCD,,,.00) 260 005 ImprovementAssociation 11-2697931,
+3,2011-10-17,LocalInitiatives,,designate,,,Gentile ScandinavianEastCoastMuseum,,113634793,4000,DYCD,,,.00 260 005,
+3,2011-10-17,LocalInitiatives,,rescind,,,CC FriendsofSunnysideGardensParks,,261918532,-25000,DFTA,,,.00) 125 003,
+3,2011-10-17,LocalInitiatives,,designate,,,CC FriendsofSunnysideGardensParks,,261918532,25000,DPR,,,.00 846 006,
+3,2011-10-17,LocalInitiatives,,rescind,,,VanBramer FriendsofSunnysideGardensParks,,261918532,-22600,DFTA,,,.00) 125 003,
+3,2011-10-17,LocalInitiatives,,designate,,,VanBramer FriendsofSunnysideGardensParks,,261918532,22600,DPR,,,.00 846 006,
+3,2011-10-17,LocalInitiatives,,rescind,,,"Ferreras LibraryActionCommitteeofCorona-EastElmhurst,Inc.",,112228514,-20000,DYCD,,,.00) 260 005,
+3,2011-10-17,LocalInitiatives,,designate,,,"Ferreras LibraryActionCommitteeofCorona-EastElmhurst,Inc.",,112228514,20000,DCA,,,.00 126 003,
+3,2011-10-17,AgingDiscretionary,,rescind,,,FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Mealy DepartmentfortheAging,,136400434,-68750,DFTA,,,.00) 125 003,
+3,2011-10-17,AgingDiscretionary,,rescind,,,Mealy DepartmentfortheAging,,136400434,-20000,DFTA,,,.00) 125 003,
+3,2011-10-17,AgingDiscretionary,,designate,,,FortGreeneSeniorCitizensCouncil-HughGilroySenior Mealy Center,,112300840,27394,DFTA,,,.00 125 003,
+3,2011-10-17,AgingDiscretionary,,designate,,,FortGreeneSeniorCitizensCouncil-ChristopherC. Mealy BlenmanCenter,,112300840,5000,DFTA,,,.00 125 003,
+3,2011-10-17,AgingDiscretionary,,designate,,,CrownHeightsPreservation CommitteeCorporation- Mealy ShalomSeniorCenter,,112322490,5000,DFTA,,,.00 125 003,
+3,2011-10-17,AgingDiscretionary,,designate,,,"Mealy WaysideOut-ReachDevelopment,Inc.(WORD)-Mt.Arrata",,113528680,5000,DFTA,,,.00 125 003,
+3,2011-10-17,AgingDiscretionary,,designate,,,"WaysideOut-ReachDevelopment,Inc.(WORD)-Tilden Mealy SeniorCenter",,113528680,10200,DFTA,,,.00 125 003,
+3,2011-10-17,AgingDiscretionary,,designate,,,"WaysideOut-ReachDevelopment,Inc.(WORD)-VanDyke Mealy ISeniorCenter",,113528680,10000,DFTA,,,.00 125 003,
+3,2011-10-17,AgingDiscretionary,,designate,,,"WaysideOut-ReachDevelopment,Inc.(WORD)-Brevoort Mealy SeniorCitizenCenter",,113528680,16156,DFTA,,,.00 125 003,
+3,2011-10-17,AgingDiscretionary,,designate,,,"WaysideOut-ReachDevelopment,Inc.(WORD)-Rosetta Mealy GastonSeniorCenter",,113528680,10000,DFTA,,,.00 125 003,
+3,2011-10-17,YouthDiscretionary,,rescind,,,FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * FourthAvenuePresbyterianChurch/TheChildren's Gentile CommunityChorus,,112693994,-3500,DYCD,,,.00) 260 312,
+3,2011-10-17,YouthDiscretionary,,designate,,,FourthAvenuePresbyterianChurch/TheChildren's BayRidgeBensonhurstBeautification Gentile CommunityChorus,,112693994,3500,DYCD,,,.00 260 312 PreservationAllianceInc 11-3233233,
+3,2011-10-17,CulturalAfter-SchoolAdventure(CASA),,rescind,,,CouncilMember Organization EINNumber Agency Amount Agy# U/A * Barron CreativeOutletDanceTheatreofBrooklyn,,113307754,-20000,DCA,,,.00) 126 003,
+3,2011-10-17,CulturalAfter-SchoolAdventure(CASA),,designate,,,"Barron NoelPointerFoundation,Inc.-PS279HermanSchrieber",,113271472,20000,DCA,,,.00 126 003,
+3,2011-10-17,CulturalAfter-SchoolAdventure(CASA),,rescind,,,Levin ConeyIslandHistoryProject-PublicSchool16,,030541772,-20000,DCA,,,.00) 126 003,
+3,2011-10-17,CulturalAfter-SchoolAdventure(CASA),,designate,,,"Levin TADA!TheaterandDanceAlliance,Inc.-PublicSchool16",,133311294,20000,DCA,,,.00 126 003,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,rescind,,,CouncilMember Organization EINNumber Agency Amount Agy# U/A * ImmigrantOpportunitiesInitiative,,136400434,-3949725,DYCD,,,.00) 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Manhattan AfricanServicesCommittee,,133749744,23137,DYCD,,,.50 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"StatenIsland American-ItalianCoalitionofOrganizations,Inc.(AMICO)",,112488439,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Manhattan AsianAmericansforEquality,,133187792,23137,DYCD,,,.50 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Queens AssociationoftheBaroftheCityofNewYorkFund,Inc.-CityBarJusticeCenter",,136003018,50000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Brooklyn BedfordStuyvesantCommunityLegalServicesCorporation,,112149962,50335,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Brooklyn BoroParkJewishCommunityCouncil,,113475993,30000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Bronx BronxWorks,Inc.",,133254484,61250,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn BrooklynChinese-AmericanAssociation,Inc.",,113065859,9786,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Brooklyn BrooklynDefenderServices,,113305406,8886,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn CaribbeanWomen'sHealthAssociation,Inc.",,133323168,20000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn CatholicMigrationServices,Inc.",,113048411,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn CenterforLawandSocialJustice,MedgarEversCollege",,131988190,29786,CUNY,,,.00 042 001,**
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Queens CentralAmericanLegalAssistance,,112859151,60000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Manhattan ChineseAmericanPlanningCouncil,Inc.",,136202692,23137,DYCD,,,.50 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn ChineseAmericanPlanningCouncil,Inc.",,136202692,25939,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Brooklyn ChurchAvenueMerchantsBlockAssociation(CAMBA),,112480339,16786,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Queens CityUniversityofNewYorkSchoolofLawFoundation,Inc.,The",,113235349,58000,CUNY,,,.00 042 001,**
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Bronx CommitteeforHispanicChildrenandFamilies,Inc.,The",,112622003,50000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Manhattan CommitteeforHispanicChildrenandFamilies,Inc.,The",,112622003,23137,DYCD,,,.50 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Manhattan ComprehensiveDevelopment,Inc.",,133861648,23137,DYCD,,,.50 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn CouncilofJewishOrganizationsofFlatbush,Inc.",,112864728,53654,DYCD,,,.50 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Brooklyn CypressHillsLocalDevelopmentCorporation,,112683663,63685,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Manhattan DominicanWomen'sDevelopmentCenter,Inc.",,133593885,39123,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Queens EcuadorianInternationalCenter,Inc.",,010627174,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Bronx EmeraldIsleImmigrationCenter,,112932528,31000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Queens EmeraldIsleImmigrationCenter,,112932528,118000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Brooklyn EmeraldIsleImmigrationCenter,,112932528,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Brooklyn ErasmusNeighborhoodFederation,,112490986,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn FederationofItalianAmericanOrganizationsofBrooklyn,Ltd.",,112507910,50000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn FifthAvenueCommittee,Inc.",,112475743,25167,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Queens FlushingJewishCommunityCouncil,,112669559,6000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Bronx GambianSocietyinNewYork,Inc.",,133904936,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Queens HaitianAmericansUnitedforProgress,Inc.",,112423857,47000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"CouncilMember Organization EINNumber Agency Amount Agy# U/A * Queens HellenicAmericanNeighborhoodActionCommittee,Inc.(HANAC)",,112290832,114000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Manhattan HIVLawProject,Inc.,The",,133730564,39123,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Manhattan HousingConservationCoordinators,Inc.",,510141489,39123,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Bronx InternationalCenterinNewYork,Inc.,The",,131946733,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"StatenIsland JewishCommunityCenterofStatenIsland,Inc.",,135562256,80000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn JewishCommunityCouncilofGreaterConeyIsland,Inc.",,112665181,35469,DYCD,,,.50 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn KingsBayYM-YWHA,Inc.",,113068515,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Bronx KingsbridgeHeightsCommunityCenter,Inc.",,132813809,28500,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Bronx LegalAidSociety,,135562265,68750,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Manhattan LegalAidSociety,,135562265,33254,DYCD,,,.50 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Queens LegalAidSociety,,135562265,60000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,StatenIsland LegalAidSociety,,135562265,37500,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Brooklyn LegalAidSociety-Brooklyn,,135562265,41786,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Brooklyn LegalInformationforFamiliesToday(LIFT),,133910567,12667,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Bronx LegalServicesNYC-Bronx,,132600199,68750,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Manhattan LegalServicesNYC-Manhattan,,132600199,33254,DYCD,,,.50 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Queens LegalServicesNYC-QueensLegalServicesCorporation,,132605604,40000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,StatenIsland LegalServicesNYC-StatenIslandLegalServices,,132600199,53500,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Manhattan LenoxHillNeighborhoodHouse,Inc.",,131628180,39123,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Manhattan LittleSistersoftheAssumptionFamilyHealthService,Inc.",,132867881,23137,DYCD,,,.50 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Queens MaketheRoadNewYork,,113344389,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Bronx MaryMitchellYouthandFamilyCenter,Inc.",,133385032,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Manhattan MetropolitanNewYorkCoordinatingCouncilonJewishPoverty,Inc.",,132738818,23137,DYCD,,,.50 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Queens MetropolitanNewYorkCoordinatingCouncilonJewishPoverty,Inc.",,132738818,112000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn MetropolitanNewYorkCoordinatingCouncilonJewishPoverty,Inc.",,132738818,35939,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Manhattan MFYLegalServices,Inc.",,132622748,86009,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn MixtecaOrganization,Inc.",,113561651,45000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Bronx Mosholu-MontefioreCommunityCenter,Inc.",,133622107,28500,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Manhattan NeighborhoodDefenderService,Inc.",,061296692,39123,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Bronx NeighborhoodInitiativesDevelopmentCorporation(NIDC),,133110811,31000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Bronx NewYorkLegalAssistanceGroup,,133505428,75750,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Queens NewYorkLegalAssistanceGroup,,133505428,93000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Manhattan NorthernManhattanCoalitionforImmigrantRights,,133255591,39123,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Manhattan NorthernManhattanImprovementCorporation,,132972415,23137,DYCD,,,.50 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Bronx PhippsCommunityDevelopmentCorporation,,132707665,28500,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"CouncilMember Organization EINNumber Agency Amount Agy# U/A * Brooklyn PolishandSlavicCenter,Inc.",,112285970,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"StatenIsland PoloniansOrganizedtoMinisterOurCommunity(POMOC),Inc.",,112594500,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Queens PoloniansOrganizedtoMinisterOurCommunity(POMOC),Inc.",,112594500,40000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"StatenIsland PoloniansOrganizedtoMinisterOurCommunity(POMOC),Inc.-St.StanislausKostkaChurch",,112594500,45000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Queens QueensCommunityHouse,Inc.",,112375583,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Queens ResearchFoundationoftheCityUniversityofNewYork-CommunityLegalResourceNetwork,,131988190,63000,CUNY,,,.00 042 001,**
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Manhattan ResearchFoundationoftheCityUniversityofNewYork-CitizenshipNOW,,131988190,39123,CUNY,,,.00 042 001,**
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Bronx ResearchFoundationoftheCityUniversityofNewYork-CitizenshipNOW,,131988190,69500,CUNY,,,.00 042 001,**
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Manhattan ResearchFoundationoftheCityUniversityofNewYork-CitizenshipNOW,,131988190,23137,CUNY,,,.50 042 001,**
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Brooklyn ResearchFoundationoftheCityUniversityofNewYork-CitizenshipNOW,,131988190,21000,CUNY,,,.00 042 001,**
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Manhattan RiversideLanguageProgram,Inc.",,133280364,39123,DYCD,,,.00 042 001,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Bronx SanctuaryforFamilies,Inc.",,133193119,61250,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Manhattan SanctuaryforFamilies,Inc.",,133193119,23137,DYCD,,,.50 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Queens SanctuaryforFamilies,Inc.",,133193119,100000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn SanctuaryforFamilies,Inc.",,133193119,12000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn SBHCommunityServiceNetwork,Inc.(SephardicBikurChomlim)",,237406410,25900,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Bronx SouthBronxOverallEconomicDevelopmentCorporation,,132736022,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Brooklyn SouthBrooklynLegalServices,,132605605,22000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Queens SouthQueensBoysandGirlsClub,Inc.",,111966067,50000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn SouthsideCommunityMission,Inc.",,112306447,70939,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,StatenIsland StatenIslandEmploymentEducationConsortium,,133097367,65000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Bronx SupportiveChildrensAdvocacyNetwork(SCAN),,132912963,31000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Brooklyn UnitedCommunityCenters,inc.",,111950787,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Brooklyn UnitedJewishOrganizations(UJO)ofWilliamsburg,,112728233,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Bronx UrbanJusticeCenter,,133442022,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Manhattan UrbanJusticeCenter,,133442022,39123,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Bronx WestBronxHousingandNeighborhoodResourceCenter,Inc.",,132941841,31000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"StatenIsland WilliamA.EppsCommunityCenter,Inc.",,861074714,25000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,"Queens YoungKoreanAmericanServiceandEducationCenter,Inc.",,112710506,34000,DYCD,,,.00 260 005,
+3,2011-10-17,ImmigrantOpportunitiesInitiative,,designate,,,Bronx YouthMinistriesForPeaceandJustice,,134006535,66250,DYCD,,,.00 260 005,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"Organization EINNumber Agency Amount Agy# U/A * InfantMortalityReductionInitiative 13-6400434 AfricanServicesCommittee 13-3749744 BedfordStuyvesantFamilyHealthCenter,Inc.",,112412205,24796,DOHMH,,,.08 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,BronxHealthLink,,134045022,125606,DOHMH,,,.32 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"BronxWorks,formerlyCitizenAdviceBureau",,133254484,22320,DOHMH,,,.42 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,BrooklynPerinatalNetworkInc,,133428222,126659,DOHMH,,,.56 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"CaribbeanWomen'sHealthAssociation,Inc.",,133323168,95009,DOHMH,,,.31 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"ChristtheRockWorldRestorationChurchInternational,Inc.",,621823291,18606,DOHMH,,,.94 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,ChristopherRoseCommunityEmpowermentCampaign,,113423612,18606,DOHMH,,,.94 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,ChurchAvenueMerchantsBlockAssociation(CAMBA),,112480339,29156,DOHMH,,,.93 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"ClergyUnitedforCommunityEmpowerment,Inc.(formerlySQCCE)",,113030795,24796,DOHMH,,,.08 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"CommunityHealthcareNetwork,Inc.",,133083068,171045,DOHMH,,,.32 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"CommunityHealthcareNetwork,Inc.(Bronx)",,133083068,22320,DOHMH,,,.42 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"CommunityHealthcareNetwork,Inc.(Manhattan)",,133083068,24796,DOHMH,,,.08 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"DiasporaCommunityServices,Inc.",,113122295,29156,DOHMH,,,.93 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"DOHMHInfant,MaternalandReproductiveHealthPrograms",,136400434,479235,DOHMH,,,.00 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,FederationofCountyNetworks,,134156022,129524,DOHMH,,,.40 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,FederationofCountyNetworks,,134156022,28539,DOHMH,,,.01 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"Forestdale,Inc.",,111631747,24796,DOHMH,,,.08 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,FortGreeneStrategicNeighborhoodActionPartnership(S.N.A.P.),,113343941,29447,DOHMH,,,.82 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,GoodShepherdServices,,135598710,22320,DOHMH,,,.42 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,GreaterBrooklynHealthCoalition,,113484928,29156,DOHMH,,,.93 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"HaitianAmericansUnitedForProgress,Inc. LittleSistersoftheAssumption 13-2867881 LowerEastSideFamilyUnion 23-7412423",,112423857,18606,DOHMH,,,.94 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,MorrisHeightsHealthCenter 06-1081232 MountSinaiSchoolofMedicineofNewYorkUniversity 13-1624096 NewYorkAcademyofMedicine,,131656674,19200,DOHMH,,,.00 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,NorthernManhattanPerinatalPartnership,,133782555,10159,DOHMH,,,.00 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,NorthernManhattanPerinatalPartnership,,133782555,138474,DOHMH,,,.05 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,NYCHealthandHospitalCorp./EastNewYorkDiagnosticandTreatmentCenter,,132655001,15421,DOHMH,,,.00 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"PlannedParenthoodofNewYorkCity,Inc.",,132621497,22320,DOHMH,,,.42 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,QueensComprehensivePerinatalCouncil,,112870422,127018,DOHMH,,,.60 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,Organization EINNumber Agency Amount Agy# U/A * QueensComprehensivePerinatalCouncil(DownstateNYHealthyStartProjectstaff) 11-2870422 RichmondMedicalCenterd/b/aRichmondUniversityMedicalCenter 74-3177454 SCO-FamilyofServices(BrooklynNFP),,112777066,261303,DOHMH,,,.67 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,SIDSofPA(a/k/aCribsforKids),,251442806,50000,DOHMH,,,.00 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,St.BarnabasHospital,,131740122,22320,DOHMH,,,.42 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"UrbanHealthPlan,Inc.",,237360305,22320,DOHMH,,,.42 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,"VisitingNurseServiceofNewYorkHomeCare,Inc./EarlyStepsFamilyCenter",,131624211,24796,DOHMH,,,.08 816 113 *,
+3,2011-10-17,InfantMortalityReductionInitiative,,designate,,,WilliamF.RyanHealthCenter,,132884976,27890,DOHMH,,,.65 816 113 *,
+3,2011-10-17,AsthmaControlProgram,,designate,,,"Organization EINNumber Agency Amount Agy# U/A * LongIslandCollegeHospital 11-1018985 SUNYDownstateMedicalCenter,UniversityHospitalofBrooklynatLongIslandCollegeHospital",,111018985,75000,DOHMH,,,.00 816 113,
+3,2011-10-17,LocalInitiatives-Fiscal2011,2011,rescind,,,"FiscalConduit FiscalConduit/SponsoringOrganization EIN Member Organization EINNumber Agency Amount Agy# U/A * Jackson ForestHillsFootballLeague,Inc.",,113057287,-1000,DYCD,,,.00) 260 312,
+3,2011-10-17,LocalInitiatives-Fiscal2011,2011,designate,,,Jackson WashingtonHeights-InwoodCoalition,,132989768,1000,DYCD,,,.00 260 312,
+3,2011-10-17,LocalInitiatives-Fiscal2011,2011,rescind,,,"Sanders,Jr MargertCommunityCorporation",,112534700,-15000,DYCD,,,.00) 260 005 *,
+3,2011-10-17,LocalInitiatives-Fiscal2011,2011,rescind,,,"Sanders,Jr RosedaleJetsFootballAssociation,Inc.",,113401835,-3500,DYCD,,,.00) 260 312 *,
+3,2011-10-17,LocalInitiatives-Fiscal2011,2011,rescind,,,"Sanders,Jr MargertCommunityCorporation",,112534700,-35000,DYCD,,,.00) 260 005 *,
+3,2011-10-17,LocalInitiatives-Fiscal2011,2011,designate,,,"Sanders,Jr SouthernQueensParkAssociation,Inc.",,112432846,53500,DYCD,,,.00 260 005,
+4,2011-11-03,LocalInitiatives,,rescind,,,"FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Dilan SumnerHousesTenantsAssociation,Inc.",,112733344,-15000,DFTA,,,.00) 125 003,**
+4,2011-11-03,LocalInitiatives,,designate,,,"Dilan SumnerHousesTenantsAssociation,Inc.",,112733344,15000,NYCHA,,,.00 098 002,**
+4,2011-11-03,LocalInitiatives,,rescind,,,"Vallone CommunityEnvironmentalCenter,Inc.",,133762724,-3500,DCA,,,.00) 126 003 *,**
+4,2011-11-03,LocalInitiatives,,designate,,,"Vallone CommunityEnvironmentalCenter,Inc.",,133762724,3500,DYCD,,,.00 260 005 *,**
+4,2011-11-03,LocalInitiatives,,rescind,,,CC WestsideCrimePreventionProgram,,133087186,-7500,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives,,designate,,,"CC MeatpackingImprovementAssociation,Inc.",,208540196,7500,DSBS,,,.00 801 002 *,**
+4,2011-11-03,LocalInitiatives,,rescind,,,"Oddo RiversideOperaCompany,Inc.",,133966800,-1000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives,,designate,,,"Oddo RiversideOperaCompany,Inc.",,133966800,1000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives,,rescind,,,"James TrilokFusionArts,Inc.(TFA)",,113589624,-1500,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives,,designate,,,"James TrilokFusionArts,Inc.(TFA)",,113589624,1500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives,,rescind,,,"CC JewishCommunityCouncilofGreaterConeyIsland,Inc.",,112665181,-65000,DYCD,,,.00) 260 005,**
+4,2011-11-03,LocalInitiatives,,designate,,,"CC JewishCommunityCouncilofGreaterConeyIsland,Inc.",,112665181,65000,DFTA,,,.00 125 003,**
+4,2011-11-03,LocalInitiatives,,rescind,,,Rose CurtisHighSchool,,136400434,-5000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives,,designate,,,Rose CurtisHighSchool,,136400434,5000,DOE,,,.00 040 402,**
+4,2011-11-03,LocalInitiatives,,rescind,,,"CC WaytoWork,The",,131878246,-75000,DOE,,,.00) 040 454,**
+4,2011-11-03,LocalInitiatives,,designate,,,"CC WaytoWork,The",,131878246,75000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives,,rescind,,,StRosalia-ReginaPacisNeighborhood Gentile St.Patrick'sVincentdePaulSociety,,111631818,-3500,DYCD,,,.00) 260 005 ImprovementAssociation 11-2697931,
+4,2011-11-03,LocalInitiatives,,designate,,,Gentile St.Patrick'sVincentdePaulSociety,,111631818,3500,DYCD,,,.00 260 005,
+4,2011-11-03,LocalInitiatives,,rescind,,,"James Bailey'sCafé,Inc.",,200221451,-1500,DYCD,,,.00) 260 005,
+4,2011-11-03,LocalInitiatives,,rescind,,,James BrooklynDefenderServices,,113305406,-3000,DYCD,,,.00) 260 005,
+4,2011-11-03,LocalInitiatives,,rescind,,,James BrooklynFreeSchool,,201506040,-1500,DYCD,,,.00) 260 312,
+4,2011-11-03,LocalInitiatives,,designate,,,"James CaribbeanCulturalTheatre,Inc.",,830508237,2000,DYCD,,,.00 260 005,
+4,2011-11-03,LocalInitiatives,,designate,,,James TillaryParkFoundation 26-0316951 James TransportationAlternatives,,510186015,2000,DYCD,,,.00 260 005,
+4,2011-11-03,LocalInitiatives,,rescind,,,"James DespersUSASteelOrchestra,Inc.",,113499180,-2000,DYCD,,,.00) 260 312 *,
+4,2011-11-03,LocalInitiatives,,designate,,,"James DespersUSASteelOrchestra,Inc.",,113499180,2000,DCA,,,.00 126 003 *,
+4,2011-11-03,LocalInitiatives,,rescind,,,"James DespersUSASteelOrchestra,Inc.",,113499180,-2000,DCA,,,.00) 126 003 *,
+4,2011-11-03,LocalInitiatives,,designate,,,"James IfetayoCulturalArtsAcademy,Inc.",,113027538,1000,DCA,,,.00 126 003,
+4,2011-11-03,LocalInitiatives,,designate,,,"James CentralBrooklynJazzConsortium,Inc.",,113549224,1000,DCA,,,.00 126 003,
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * James BrooklynBureauofCommunityService,,111630780,-3000,DOHMH,,,.00) 816 120,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"James JudahInternationalChristianCenter,Inc.",,113352075,-3000,DOHMH,,,.00) 816 113,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,James GayMenofAfricanDescent(GMAD),,133597820,500,DOHMH,,,.00 816 112,
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"HeightsHillMentalHealthService,SBPC,Community James AdvisoryBoard,Inc.",,112785605,500,DOHMH,,,.00 816 120,
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,James BrownCommunityDevelopmentCorporation,,562629114,500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"James HopeCityEmpowermentCenter,Inc.",,113629292,500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,James K.S.J.A.M.M.DanceTroupe,,202352155,500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,James MachonChana,,113307109,500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"James PrattAreaCommunityCouncil,Inc.",,112451752,500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"James TrilokFusionArts,Inc.(TFA)",,113589624,1500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"James BusinessOutreachCenterNetwork,Inc.",,113306111,500,DSBS,,,.00 801 002,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,James NewYorkCityHousingAuthority,,136400434,500,NYCHA,,,.00 098 002,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"James NewYorkLawyersforthePublicInterest,Inc.",,132860703,-500,HPD,,,.00) 806 009,
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"James BrooklynHousingandFamilyServices,Inc.",,112412584,500,HPD,,,.00 806 009,
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,James PublicSchool46K-EdwardC.Blum,,136400434,-500,DOE,,,.00) 040 402,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,James PublicSchoolK753-SchoolforCareerDevelopment,,690210637,-500,DOE,,,.00) 040 402,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"James UrbanAssemblyAcademyofArtsandLetters,The",,136400434,-500,DOE,,,.00) 040 402,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,James BrooklynKindergartenSociety,,111631820,-500,ACS,,,.00) 068 004,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,PrattInstituteCenterforCommunityandEnvironmental James Development(PICCED),,111630822,2000,DSBS,,,.00 801 002,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Brewer WellnessintheSchools,Inc.",,251919494,-2000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Brewer CoolCulture,Inc.",,161636968,2000,DCA,,,.00 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Gentile FundfortheCityofNewYork,Inc.",,132612524,-3000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,3000,DCA,,,.00 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Gentile SunsetParkHealthCouncil,Inc.",,202508411,-2000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Gentile SymphonySpace,Inc.",,132941455,2000,DCA,,,.00 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Gentile HistoricHouseTrustofNewYorkCity,,133590825,-2000,DYCD,,,.00) 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Gentile HistoricHouseTrustofNewYorkCity,,133590825,2000,DPR,,,.00 846 006,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Halloran QueensCollegeFoundation,Inc.",,116080521,-3500,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Halloran QueensCollegeFoundation,Inc.",,116080521,3500,CUNY,,,.00 042 001,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Ulrich RockawayMusicandArtsCouncil,Inc.",,237082566,-10000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Ulrich RockawayMusicandArtsCouncil,Inc.",,237082566,10000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Rodriguez HistoricHouseTrustofNewYorkCity,,133590825,-2000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Rodriguez HistoricHouseTrustofNewYorkCity,,133590825,2000,DPR,,,.00 846 006,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Recchia AssociazioniSicilianeUnitedeNewYork,Inc.",,113416416,-4000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Recchia AssociazioniSicilianeUnitedeNewYork,Inc.",,113416416,4000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Mendez St.AugustinesProjectInc.,The",,200386393,-3500,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Mendez St.AugustinesProjectInc.,The",,200386393,3500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Mendez AGatheringoftheTribes,,133714232,-3000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Mendez AGatheringoftheTribes,,133714232,3000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Mark-Viverito FundfortheCityofNewYork,Inc.",,132612524,-5000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Mark-Viverito FundfortheCityofNewYork,Inc.",,132612524,5000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Levin DepartmentofEducationDioceseofBrooklyn,,237319473,-3500,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Levin DepartmentofEducationDioceseofBrooklyn,,237319473,3500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Halloran VoelkerOrthMuseum,The",,113498583,-3500,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Halloran VoelkerOrthMuseum,The",,113498583,3500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,BayRidgeBensonhurstBeautification Gentile BrooklynONEtheater,,262177816,-2500,DCA,,,.00) 126 003 PreservationAllianceInc 11-3233233 *,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,BayRidgeBensonhurstBeautification Gentile BrooklynONEtheater,,262177816,2500,DYCD,,,.00 260 005 PreservationAllianceInc 11-3233233 *,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Ferreras LatinAmericanInterculturalAlliance,,141947099,-5000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Ferreras LatinAmericanInterculturalAlliance,,141947099,5000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,QueensCollegeFoundationIncfor-QueensCollegeArts Crowley Center,,116080521,-3500,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,QueensCollegeFoundationIncfor-QueensCollegeArts Crowley Center,,116080521,3500,CUNY,,,.00 042 001,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Gonzalez DanceTheatreEtcetera,Inc.(DTE)",,133015965,-4000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Gonzalez DanceTheatreEtcetera,Inc.(DTE)",,133015965,4000,DCA,,,.00 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Vann FultonArtFair,Inc.",,113386595,-5000,DYCD,,,.00) 260 005 *,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Vann FultonArtFair,Inc.",,113386595,5000,DCA,,,.00 126 003 *,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Vann Bailey'sCafé,Inc.",,200221451,-10000,DYCD,,,.00) 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Vann Bailey'sCafé,Inc.",,200221451,10000,DPR,,,.00 846 006,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Vann ChildAbusePreventionProgram,Inc.",,112864750,-5000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Vann ChildAbusePreventionProgram,Inc.",,112864750,5000,DOE,,,.00 040 402,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Vacca MorrisParkCommunityAssociation,,237429900,-5000,DYCD,,,.00) 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Vacca MorrisParkCommunityAssociation,,237429900,5000,DFTA,,,.00 125 003,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,WashingtonHeightsandInwoodDevelopmentCorporation Rodriguez,,132950346,-9000,DSBS,,,.00) 801 002,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Rodriguez HispanicFederation,Inc.",,133573852,9000,DYCD,,,.00 260 005 *,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Mark-Viverito ChildAbusePreventionProgram,Inc.",,112864750,-5000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Mark-Viverito ChildAbusePreventionProgram,Inc.",,112864750,5000,DOE,,,.00 040 402,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Brooklyn Delegation ActNowFoundation,Inc.",,830388512,-8437,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Brooklyn Delegation ActNowFoundation,Inc.",,830388512,8437,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Brooklyn Delegation MartinLutherKing,Jr.ConcertSeries,Inc.",,112638417,-5558,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Brooklyn Delegation MartinLutherKing,Jr.ConcertSeries,Inc.",,112638417,5558,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Comrie AfricanAmericanWomenInCinema,,134151020,-3500,DCA,,,.00) 126 003 *,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Comrie AfricanAmericanWomenInCinema,,134151020,3500,DYCD,,,.00 260 005 *,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Dilan BushwickInstituteofthePerformingArts,,112748834,-21000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Dilan BushwickInstituteofthePerformingArts,,112748834,21000,DYCD,,,.00 260 005,**
+4,2011-11-03,AgingDiscretionary,,rescind,,,"FiscalConduit FiscalConduit/SponsoringOrganization EIN Member Organization EINNumber Agency Amount Agy# U/A * Gentile AssociationofInformedVoices,Inc. St.Rosalia-ReginaPacisNeighborhoodImprovement",,113595142,-1500,DFTA,,,.00) 125 003,
+4,2011-11-03,AgingDiscretionary,,rescind,,,"Gentile Association,Inc. 11-2697931 Garodnick SearchandCare,Inc.",,237444790,-3500,DFTA,,,".00) 125 003 StanleyM.IsaacsNeighborhoodCenter,Inc. 13-2572034",
+4,2011-11-03,AgingDiscretionary,,designate,,,"Garodnick SearchandCare,Inc.",,237444790,3500,DFTA,,,.00 125 003,
+4,2011-11-03,AgingDiscretionary,,designate,,,Gennaro YoungIsraelofQueensValley 13-3613262 Gennaro YoungIsraelofQueensValley,,112267876,10000,DFTA,,,.00 125 003,
+4,2011-11-03,YouthDiscretionary,,rescind,,,FiscalConduit FiscalConduit/SponsoringOrganization EIN Member Organization EINNumber Agency Amount Agy# U/A * Lander PTAofPublicSchool32K,,731721398,-3000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,,Lander GroundswellCommunityMuralProject,,113427213,3000,DYCD,,,.00 260 312,
+4,2011-11-03,YouthDiscretionary,,rescind,,,"Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,-3000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,,"BayRidgeBensonhurstBeautification Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,3000,DYCD,,,.00 260 312 PreservationAllianceInc 11-3233233,
+4,2011-11-03,YouthDiscretionary,,rescind,,,"Gentile SymphonySpace,Inc.",,132941455,-2000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,,"BayRidgeBensonhurstBeautification Gentile SymphonySpace,Inc.",,132941455,2000,DYCD,,,.00 260 312 PreservationAllianceInc 11-3233233,
+4,2011-11-03,YouthDiscretionary,,rescind,,,"Brewer CoolCulture,Inc.",,161636968,-2000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,,"Brewer WellnessintheSchools,Inc.",,251919494,2000,DYCD,,,.00 260 312,
+4,2011-11-03,YouthDiscretionary,,rescind,,,"Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,-3000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,,"Gentile FundfortheCityofNewYork,Inc.",,132612524,3000,DYCD,,,.00 260 312,
+4,2011-11-03,YouthDiscretionary,,rescind,,,"Gentile SymphonySpace,Inc. SunsetParkHealthCouncil,Inc. 20-2508411",,132941455,-2000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,rescind,,,"Ferreras NewYorkMilitaryYouthCadets,Inc.",,113581787,-4000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,,"QueensboroughCommunityCollegeAuxiliaryEnterprise Ferreras Association,Inc.",,112037770,4000,DYCD,,,.00 260 312,
+4,2011-11-03,Cultural After-School Adventure (CASA),,rescind,,,CouncilMember Organization EINNumber Agency Amount Agy# U/A * Comrie QueensSymphonyOrchestra-IS59Q,,112106191,-20000,DCA,,,.00) 126 003,
+4,2011-11-03,Cultural After-School Adventure (CASA),,designate,,,"Comrie ReversingtheProjections,Inc.-IS59Q",,753260289,20000,DCA,,,.00 126 003,
+4,2011-11-03,Immigrant Opportunities Initiative,,rescind,,,CouncilMember Organization EINNumber Agency Amount Agy# U/A * ImmigrantOpportunitiesInitiative,,136400434,-50275,DYCD,,,.00) 260 005,
+4,2011-11-03,Immigrant Opportunities Initiative,,designate,,,Brooklyn ResearchFoundationoftheCityUniversityofNewYork-CitizenshipNOW,,131988190,25275,CUNY,,,.00 042 001,**
+4,2011-11-03,Immigrant Opportunities Initiative,,designate,,,"Brooklyn SafeHorizon,Inc.",,132946970,25000,DYCD,,,.00 260 005,
+4,2011-11-03,Food Pantries-DYCD,,rescind,,,"CouncilMember Organization EINNumber Agency Amount Agy# U/A * Queens FirstBaptistChurchofCoronaNY,Inc.",,311767167,-5000,DYCD,,,.00) 260 005,
+4,2011-11-03,Food Pantries-DYCD,,designate,,,"Queens SamaritansOutreachMinistries,Inc.",,113397859,5000,DYCD,,,.00 260 005 *,
+4,2011-11-03,Diversityin the Media,,rescind,,,Organization EINNumber Agency Amount Agy# U/A * DepartmentofInformationandTechnology,,136400434,-100000,DOITT,,,.00) 858 002,**
+4,2011-11-03,Diversityin the Media,,designate,,,KingsboroughCommunityCollege,,136400434,100000,CUNY,,,.00 042 001,**
+4,2011-11-03,Infant MortalityReduction Initiative,,rescind,,,"Organization EINNumber Agency Amount Agy# U/A * ChristtheRockWorldRestorationChurchInternational,Inc.",,621823291,-18606,DOHMH,,,.94) 816 113,
+4,2011-11-03,Infant MortalityReduction Initiative,,designate,,,"ChristtheRockInternational,Inc.",,621823291,18606,DOHMH,,,.94 816 113,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"Organization EINNumber Agency Amount Agy# U/A * AbyssinianBaptistChurch,Inc.",,131635250,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,AbyssinianDevelopmentCorporation,,133552154,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,AgapeTabernacleInternationalFellowship,,113423637,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"AIDSCenterofQueensCounty,Inc.",,112837894,12800,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,AllSaintsEpiscopalChurch,,111735978,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"AmethystWomen'sProject,Inc.",,113055513,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,AntiochBaptistChurch-Brooklyn,,112836775,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,BedfordCentralPresbyterianChurch,,112870465,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"BedfordStuyvesantFamilyHealthCenter,Inc.",,112412205,174651,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"BereanCommunityFamilyLifeCenter(formerly,BereanBaptistChurch)",,111660857,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,BethesdaMissionaryBaptistChurchofJamaica,,112673958,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,BrightTempleAMEChurch,,133141241,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"BronxAIDSServices,Inc.",,133599121,27520,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,BronxChristianFellowship,,133870351,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"BrooklynAIDSTaskForce,Inc.",,113031208,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,BrooklynPlazaMedicalCenter,,112467268,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,BrownMemorialBaptistChurch,,111962041,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,CanaanBaptistChurchofChrist,,136013037,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"CaribbeanWomen'sHealthAssociation,Inc.",,133323168,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"CentralFamilyLifeCenter(formerly,FirstCentralBaptistChurch)",,133626127,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"ChildCenterofNewYork,The",,111733454,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,DOHMH 816 112 * ChristChurch,,133076051,6400,,,,.00,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"ChristtheRockWorldRestorationChurchInternational,Inc.",,621823291,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,ChurchofChristtheKingRC,,131740159,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,ChurchofGod(ThirdAve.),,620484177,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,ChurchoftheHolySpiritRC,,132696726,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,ChurchoftheLivingGodInternational,,010924463,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"ClergyUnitedforCommunityEmpowerment,Inc.(formerlySQCCE)",,113030795,28800,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"CommunityHealth&AwarenessMinistry,Inc.",,270043612,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,CommunityHealthActionofStatenIsland(formerlySIAIDSTaskforce),,133556132,25600,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,CommunityMethodistChurchofJacksonHeights,,111761477,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,Organization EINNumber Agency Amount Agy# U/A * ConcordBaptistChurch,,111665833,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,ConeyIslandCathedralofDeliverance,,112744627,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,ConventAvenueBaptistChurch,,132780116,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,EastWardMissionaryBaptistChurch,,134078762,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,EmmanuelBaptistChurch(Bronx),,133421183,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,EmmanuelBaptistChurch(Brooklyn)-HealingTouchMinistry,,111666232,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,EphesusSeventhDayAdventistChurch,,133631489,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,EvangelicalChristianChurch,,112528459,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"FamilyLifeDevelopmentCenter(formerly,NewLifeTabernacleChurch)",,113168615,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FellowshipBaptistChurch,,132865551,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FirstAMEBethelChurch,,131945828,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FirstBaptistChurchofCrownHeights,,112033058,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FirstBaptistChurchofFarRockaway,,112535221,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FirstCorinthianBaptistChurch,,133686242,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FirstHispanicUnitedMethodistChurch,,132967400,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FirstUnitedMethodistChurchofCorona,,112342098,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FordhamManorChurch,,133327445,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FOYHIV/AIDSMinistry(Mt.CalvaryBaptistChurch),,133869600,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"FriendshipBaptistChurch,Inc.,The",,113657224,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,GayMenofAfricanDescent(GMAD),,133597820,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,GodsoffspringChristianChurch,,201488693,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,DOHMH 816 112 * GraceBaptistChurch,,030570727,6400,,,,.00,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,GreaterAllenAMECathedralofNewYork,,112527706,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,HeavenlyVisionChristianCenter,,133706003,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Margaret’sEpiscopalChurch,,131773642,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"IglesiaDeDios""RocadeSalvacion""(ChurchofGod,Brooklyn)",,113405938,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,IglesiaEvangelicaLibreRemanente,,223862111,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,IglesiaMetodistaUnidadeJamaica(UnitedMethodistChurchofJamaica),,134994650,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,Immanuel&FirstSpanishUnitedMethodistChurch,,111681138,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"IrisHouse-ACenterForWomenLivingwithHIV/AIDS,Inc.",,133699201,25600,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"JamaicaServiceProgramforOlderAdults,Inc.(JSPOA)",,510204121,18800,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"JudahInternationalChristianCenter,Inc.",,113352075,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,JustaFriendAwayofStatenIsland(JAFASI),,270026154,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"Organization EINNumber Agency Amount Agy# U/A * LatinoCommissiononAIDS,Inc.",,133629466,169573,DOHMH,,,.60 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"LoveAliveInternationalFoundation,Inc.",,264819108,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MacedoniaBaptistChurch,,112522629,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MasjidAl-Tafa(UniversalBrotherhoodHumanitarianCenter),,364691654,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"MasjidSaburWorship,Educational&Referral",,133921329,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"MemorialBaptistChurch,Inc.",,132574792,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MetropolitanCommunityChurchofNewYork,,510152961,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"MinisterioRescate,Inc.(RescueMinistriesChurch)",,320052760,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountCarmelAMEChurch(MountCarmelYouthDevelopmentCorporation),,113598975,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountCarmelBaptistChurch,,133966802,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountHorebBaptistChurch,,112074467,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountMoriahAME,,208427029,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountParanBaptistChurch,,113099533,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountPisgahBaptistChurch,,112652949,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountSinaiBaptistChurch,,112222518,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MuslimWomen'sInstituteforResearchandDevelopment(MWIRD),,800010627,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MuslimWomen'sInstituteforResearchandDevelopment(MWIRD),,800010627,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"NationalBlackLeadershipCommissiononAIDS,Inc.",,133530740,255055,DOHMH,,,.40 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,NewHopefortheWorldMinistries,,260434061,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,NewMountZionBaptistChurch,,133976609,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,NewSt.JohntheBaptistChurch,,133706218,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,DOHMH 816 112 * ParadiseBaptistChurch,,111172480,6400,,,,.00,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"PentecostalChurch""ElEden""",,112590699,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,PleasantGroveFullGospelTabernacle,,043670076,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,PowerfulPraiseTabernacle,,061530040,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,PrimeraIglesiaMenonitadeBrooklyn,,232101926,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,ProjectStreetBeat,,132621497,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,ReachingAcrosstheWorldMinistries,,113572515,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,RehobothChurchInternational,,112716044,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,RiverofLivingWaterFellowshipChurch,,208586474,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,SaintEdwardtheMartyr,,132873155,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,SaltandSeaMission,,113012147,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,SiloamPresbyterianChurch,,112799119,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,Organization EINNumber Agency Amount Agy# U/A * St.AlbansCongregationalChurch,,112077266,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.AugustinChurch,,131740193,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.George'sEpiscopalChurch,,111821131,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Jerome'sChurchRC,,131740204,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.John'sBaptistChurch,,133539498,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Luke'sAMEChurch,,520204696,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Luke'sEpiscopalChurch,,132747442,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Matthew'sAMEChurch,,530204696,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.PaulBaptistChurch,,133203472,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Paul'sChurchintheVillage,,111642730,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Paul'sCommunityBaptistChurch,,112453951,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.SimonStockRomanCatholic,,131740377,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"St.Stephen'sOutreach,Inc.",,113116708,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,StatenIslandDeliveranceTemple,,331110319,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"SteinwayChildandFamilyServices,Inc.",,112326974,32000,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,SurvivorsFountainofHopeWellnessInitiative,,020675428,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,TheAfrican-AmericanMuslimCommissiononHIV/AIDS(MosqueofIslamicBrotherhood),,112457198,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,TransfigurationChurch,,112306447,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,TrinityLutheranParish,,131987477,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,UnityFellowshipChurchBreakingGround,,133703707,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"VannguardUrbanImprovementAssociation,Inc.",,112442042,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"DOHMH 816 112 * VillageCareofNewYork,Inc.-RedHookCommunityServiceCenter",,132911059,12800,,,,.00,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"You’reEligibleToo,Inc.(YET)",,204824991,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,YoungWomenofColorHIV/AIDSCoalition,,133848582,12800,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"ZetaZetaLambdaAlphaPhiAlphaYouthPrograms,Inc.",,112872641,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,LocalInitiatives-Fiscal2011,2011,rescind,,,"FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Vann BrooklynPride,Inc.",,611441052,-7000,DPR,,,.00) 846 006,
+4,2011-11-03,LocalInitiatives-Fiscal2011,2011,designate,,,"Vann BrooklynQueensLandTrust VanBramer SunnysideGardensPreservationAlliance,Inc.,The 54-2143785 DYCD 260 005 SunnysideCommunityServicesCenter,Inc. 51-0189327",,611441053,7000,DPR,,,.00 846 006,
+4,2011-11-03,LocalInitiatives-Fiscal2011,2011,rescind,,,"VanBramer SunnysideGardensPreservationAlliance,Inc.,The 54-2143785 DYCD 260 005 VanBramer SunnysideGardensPreservationAlliance,Inc.,The",,542143785,-3500,DSBS,,,".00) 801 002 SunnysideCommunityServicesCenter,Inc. 51-0189327",
+4,2011-11-03,LocalInitiatives-Fiscal2011,2011,designate,,,"VanBramer SunnysideGardensPreservationAlliance,Inc.,The",,542143785,3500,DSBS,,,.00 801 002,
+4,2011-11-03,AgingDiscretionary-Fiscal2011,2011,rescind,,,FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Gennaro YoungIsraelofQueensValley Gennaro YoungIsraelofQueensValley 11-2267876,,133613262,-10000,DFTA,,,.00) 125 003,
+4,2011-11-03,Infant Mortality Reduction-Fiscal 2011,2011,rescind,,,"FiscalConduit FiscalConduit/SponsoringOrganization EIN Organization EINNumber Agency Amount Agy# U/A * ChristtheRockWorldRestorationChurch International,Inc.",,621823291,-18606,DOHMH,,,.94) 816 113,
+4,2011-11-03,Infant Mortality Reduction-Fiscal 2011,2011,designate,,,"ChristtheRockInternational,Inc.",,621823291,18606,DOHMH,,,.94 816 113,
+5,2011-12-19,Samaritansof New YorkSuicidePreventionHotlinePEGRestoration- Fiscal2012,2012,rescind,,,Organization EINNumber Agency Amount Agy# U/A * SamaritansofNewYorkSuicidePreventionHotlinePEGRestoration,,136400434,-247000,DOHMH,,,.00) 816 120,
+5,2011-12-19,Samaritansof New YorkSuicidePreventionHotlinePEGRestoration- Fiscal2012,2012,designate,,,"SamaritansofNewYork,Inc.",,133164464,247000,DOHMH,,,.00 816 120,
+5,2011-12-19,SeniorCenterClosures-- PEGRestoration- Fiscal2012,2012,rescind,,,"Organization EINNumber Agency Amount Agy# U/A * AginginAmericaCommunityServices,Inc.-GlebeSeniorCenter",,134099045,-60000,DFTA,,,.00) 125 003,
+5,2011-12-19,SeniorCenterClosures-- PEGRestoration- Fiscal2012,2012,designate,,,JewishAssociationforServicesfortheAged(JASA)-GlebeSeniorCenter,,132620896,60000,DFTA,,,.00 125 003,
+5,2011-12-19,HIV/AIDSFaithBased Initiative-Fiscal2012,2012,rescind,,,Organization EINNumber Agency Amount Agy# U/A * RiverofLivingWaterFellowshipChurch,,208586474,-6400,DOHMH,,,.00) 816 112 *,
+5,2011-12-19,HIV/AIDSFaithBased Initiative-Fiscal2012,2012,designate,,,RiversofLivingFaithMinistries,,452453438,6400,DOHMH,,,.00 816 112 *,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,rescind,,,"Fiscal FiscalConduit/SponsoringOrganization ConduitEIN Member Organization EINNumber Agency Amount Agy# U/A * Weprin QueensTheatreinthePark,Inc.-PublicSchool133Q QueensTheatreinthePark,Inc.-IS74Nataniel",,113381629,-20000,DCA,,,.00) 126 022,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,designate,,,Weprin HawthorneIntermediateSchool,,113381629,20000,DCA,,,.00 126 022,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,rescind,,,"Eugene BrooklynArtsCouncil,Inc.-PublicSchool399",,237072916,-20000,DCA,,,.00) 126 003,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,designate,,,"Eugene BrooklynArtsCouncil,Inc.-PublicSchool399 CreativeOutletDanceTheatreofBrooklyn,Inc.-Public",,237072915,20000,DCA,,,.00 126 003,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,rescind,,,"Eugene School6 CreativeOutletDanceTheatreofBrooklyn,Inc.-Public",,113307755,-20000,DCA,,,.00) 126 003,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,designate,,,Eugene School6,,113307754,20000,DCA,,,.00 126 003,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,rescind,,,"Comrie ReversingtheProjections,Inc.-IS59Q",,753260289,-20000,DCA,,,.00) 126 003,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,designate,,,Comrie QueensSymphonyOrchestra-IS59Q,,112106191,20000,DCA,,,.00 126 003,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,rescind,,,"Mealy ProspectParkAlliance,Inc-P.S/I.S137K",,112843763,-20000,DCA,,,.00) 126 003,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,designate,,,"Mealy CentralBrooklynJazzConsortium,Inc-P.S/I.S137K",,113549224,20000,DCA,,,.00 126 003 *,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,rescind,,,"Ulrich IntrepidMuseumFoundation,Inc.-PS60Q IntrepidMuseumFoundation,Inc.-PS65—TheRaymond",,133062419,-20000,DCA,,,.00) 126 003,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,designate,,,Ulrich YorkElementarySchool,,133062419,20000,DCA,,,.00 126 003,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,rescind,,,"Quinn MidtownManagementGroup,Inc.-PublicSchool212",,133192793,-20000,DCA,,,.00) 126 003,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,designate,,,"Quinn MidtownManagementGroup,Inc.-PublicSchool41",,133192793,20000,DCA,,,.00 126 003,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,rescind,,,Gonzalez MetropolitanMuseumofArt-InterSchool136,,131624086,-20000,DCA,,,.00) 126 004,
+5,2011-12-19,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,designate,,,"Gonzalez BrooklynArtsCouncil,Inc.-InterSchool136",,237072915,20000,DCA,,,.00 126 004,
+5,2011-12-19,LocalInitiatives-Fiscal2011,2011,rescind,,,"FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Oddo Fisherman'sConservationAssociation,Inc.,The",,131135304,-1500,DYCD,,,.00) 260 005,
+5,2011-12-19,LocalInitiatives-Fiscal2011,2011,designate,,,"Oddo Fisherman'sConservationAssociation,Inc.,The",,331135304,1500,DYCD,,,.00 260 005,
+5,2011-12-19,LocalInitiatives-Fiscal2011,2011,rescind,,,"Ignizio Fisherman'sConservationAssociation,Inc.,The",,131135304,-5000,DYCD,,,.00) 260 005,
+5,2011-12-19,LocalInitiatives-Fiscal2011,2011,designate,,,"Ignizio Fisherman'sConservationAssociation,Inc.,The",,331135304,5000,DYCD,,,.00 260 005,
+5,2011-12-19,LocalInitiatives-Fiscal2011,2011,rescind,,,Ignizio YeshivaofStatenIsland,,135600419,-10000,DYCD,,,.00) 260 005,
+5,2011-12-19,LocalInitiatives-Fiscal2011,2011,designate,,,Ignizio MesivthaTifethJerusalem,,135600419,10000,DYCD,,,.00 260 005,
+5,2011-12-19,LocalInitiatives-Fiscal2011,2011,rescind,,,"Quinn Rosie'sBroadwayKids,Inc. DCA",,542099457,-6000,,,,.00) 126 003,
+5,2011-12-19,LocalInitiatives-Fiscal2011,2011,designate,,,"Quinn Rosie'sBroadwayKids,Inc.",,331194964,6000,DCA,,,.00 126 003,
+5,2011-12-19,YouthDiscretionary-Fiscal2011,2011,rescind,,,"FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Chin Rosie'sBroadwayKids,Inc.",,542099457,-3500,DYCD,,,.00) 260 312,
+5,2011-12-19,YouthDiscretionary-Fiscal2011,2011,designate,,,"Chin Rosie'sBroadwayKids,Inc.",,331194964,3500,DYCD,,,.00 260 312,
+5,2011-12-19,YouthDiscretionary-Fiscal2011,2011,rescind,,,"Mendez Rosie'sBroadwayKids,Inc.",,542099457,-3500,DYCD,,,.00) 260 312,
+5,2011-12-19,YouthDiscretionary-Fiscal2011,2011,designate,,,"Mendez Rosie'sBroadwayKids,Inc.",,331194964,3500,DYCD,,,.00 260 312,
+5,2011-12-19,YouthDiscretionary-Fiscal2011,2011,rescind,,,"Brewer JewishChildren'sLearningLab,Inc.",,133817786,-3000,DYCD,,,".00) 260 312 CitizensCommitteeforNewYorkCity,Inc. 51-0171818",
+5,2011-12-19,YouthDiscretionary-Fiscal2011,2011,designate,,,"Brewer JewishChildren'sLearningLab,Inc.",,133817786,3000,DYCD,,,.00 260 312,
+5,2011-12-19,YouthDiscretionary-Fiscal2011,2011,rescind,,,"Crowley WianekPolishFolkDanceCompany,Inc.",,263601469,-2000,DYCD,,,".00) 260 312 MaspethTownHall,Inc. 23-7259702",
+5,2011-12-19,YouthDiscretionary-Fiscal2011,2011,designate,,,"Crowley WianekPolishFolkDanceCompany,Inc.",,263601469,2000,DYCD,,,.00 260 312,
+5,2011-12-19,HIV/AIDSFaithBased Initiative-Fiscal2011,2011,rescind,,,"Organization EINNumber Agency Amount Agy# U/A * HouseofPeace,Inc.",,133355764,-6400,DOHMH,,,.00) 816 112,
+5,2011-12-19,HIV/AIDSFaithBased Initiative-Fiscal2011,2011,designate,,,"HouseofPeace,Inc.",,453131894,6400,DOHMH,,,.00 816 112,
+5,2011-12-19,ImmigrantOpportunitiesInitiative(IOI)-FY2011,,rescind,,,FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * StatenIsland St.StanislausKostkaChurch,,135564133,-60000,DYCD,,,.00) 260 005,
+5,2011-12-19,ImmigrantOpportunitiesInitiative(IOI)-FY2011,,designate,,,PoloniansOrganizedtoMinisterOur 260 005 StatenIsland St.StanislausKostkaChurch,,135564133,60000,DYCD,,,".00 Community(POMOC),Inc. 11-2594500",
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Queensborough Community College Auxiliary Enterprise Halloran Association, Inc.",,112037770,-2500,CUNY,,,.00) 042 001,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Halloran Queens College Foundation, Inc.",,116080521,-3500,CUNY,,,.00) 042 001,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Comrie Afrikan Poetry Theatre, Inc.",,112515828,3357,DCA,,,.00 126 003,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Comrie Afrikan Poetry Theatre, Inc.",,112515828,28000,DCA,,,.00 126 003,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Vann Fulton Art Fair, Inc.",,113386595,-5000,DCA,,,.00) 126 003,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Halloran Queens College Foundation, Inc.",,116080521,3500,DCA,,,.00 126 003,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Brewer Jazz at Lincoln Center, Inc.",,133888641,3000,DCA,,,.00 126 003,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler Jewish Community Council of Greater Coney Island, Inc.",,112665181,3500,DFTA,,,.00 125 003,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Halloran Samuel Field YM & YWHA, Inc.",,113071518,14000,DFTA,,,.00 125 003,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler United War Veterans of Kings County, Inc.",,113132145,3500,DFTA,,,.00 125 003 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Fidler Jewish Association for Services for the Aged (JASA),,132620896,2000,DFTA,,,.00 125 003,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Vacca Santa Maria Seniors Association,,132692936,-1000,DFTA,,,.00) 125 003,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Neighborhood Initiatives Development Vacca Santa Maria Seniors Association,,132692936,1000,DFTA,,,.00 125 003 Corporation (NIDC) 13-3110811,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Dickens Central Harlem Senior Citizens Coalition, Inc.",,132754783,9000,DFTA,,,.00 125 003,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Dickens 30-0251722 Dickens Seniorifics Basketball Team,,760761170,-3500,DFTA,,,.00) 125 003 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Dromm Doe Fund, Inc., The",,133412540,8500,DHS,,,.00 071 200,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Fidler A. Genovesi Environmental Center,,136400434,3000,DOE,,,.00 040 402,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Fidler Intermediate School 78K,Roy H. Mann School,136400434,5000,DOE,,,.00 040 402 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Levin George Westinghouse High School,,136400434,1000,DOE,,,.00 040 402 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Levin George Westinghouse High School,,136400434,2500,DOE,,,.00 040 402 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Halloran Friends of Firefighters, Inc.",,010611469,-3500,DOHMH,,,.00) 816 120,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Halloran American-Italian Cancer Foundation,,133035711,-1000,DOHMH,,,.00) 816 113,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Halloran American-Italian Cancer Foundation,,133035711,-500,DOHMH,,,.00) 816 113,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Oddo Grace Foundation of New York,,134131863,3000,DOHMH,,,.00 816 121,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Dilan La Nueva Esperanza,,204393724,15000,DOHMH,,,.00 816 112 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Halloran Flushing Hospital and Medical Center,,222742892,1000,DOHMH,,,.00 816 112,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Wills City Parks Foundation,,133561657,-10000,DPR,,,.00) 846 006,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Crowley Department of Parks and Recreation,,136400434,-7500,DPR,,,.00) 846 006,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Halloran Department of Parks and Recreation,,136400434,5000,DPR,,,.00 846 006,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Garodnick New York City Park Advocates, Inc.",,141883533,-3500,DPR,,,.00) 846 006,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Mark-Viverito New York City Park Advocates, Inc.",,141883533,-5000,DPR,,,.00) 846 006,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Wills Department of Parks and Recreation,,136400434,10000,DPR,,,.00 846 006,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Reyna Greater Ridgewood Restoration Corporation,,112382250,15000,DSBS,,,.00 801 002,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Rodriguez Washington Heights and Inwood Development Corporation,,132950346,9000,DSBS,,,.00 801 002,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Rodriguez Northern Manhattan Coalition for Economic Development, Inc.",,133951595,-9000,DSBS,,,.00) 801 002,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Community Prevention Alternatives for Families in CrisisNature- Halloran Nurture Counseling Center Inc,,204275448,-1000,DSS,,,.00) 069 105,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Wills NUR-UL-ISLAM,,030417877,1500,DYCD,,,.00 260 312 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Wills 03-0417877 Fidler Auditory/Oral School of New York, The",,061531077,3500,DYCD,,,.00 260 312 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler Getting Out and Staying Out, Inc.",,061711370,3500,DYCD,,,.00 260 312 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Halloran American Red Cross in Greater New York,,111631711,-1500,DYCD,,,.00) 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Comrie Hollis Presbyterian Church,,111631786,-11000,DYCD,,,.00) 260 312,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Fidler Edith and Carl Marks Jewish Community House of Bensonhurst,,111633484,2500,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Gentile Italian Board of Guardians,,111633571,-2000,DYCD,,,.00) 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,CC St. Rafael's Sports Association,,111946390,2500,DYCD,,,.00 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Wills South Queens Boys and Girls Club, Inc. CHART 1 (cont'd) Fiscal Fiscal Conduit/Sponsoring Organization Conduit EIN",,111966067,500,DYCD,,,.00 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Wills South Queens Boys and Girls Club, Inc.",,111966067,3500,DYCD,,,.00 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Fidler Yeshiva Ateres Yisroel ** Halloran 11-2203300,,112003553,3500,DYCD,,,.00 260 312 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler Parkville Youth Organization, Inc.",,112204831,3500,DYCD,,,.00 260 312 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Comrie Jamaica NAACP Day Care Center, Inc.",,112218994,-10000,DYCD,,,.00) 260 312,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Eugene Friends of Crown Heights Educational Centers, Inc.",,112305641,8000,DYCD,,,.00 260 312 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Reyna Greater Ridgewood Restoration Corporation,,112382250,-15000,DYCD,,,.00) 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Fidler Midwood Development Corporation,,112420752,3500,DYCD,,,.00 260 312 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Levin Ridgewood Bushwick Senior Citizens Council, Inc.",,112453853,-1000,DYCD,,,.00) 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Comrie Jamaica Center for Arts Learning Inc.,,112478709,5000,DYCD,,,.00 260 312 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Comrie Afrikan Poetry Theatre, Inc.",,112515828,-3357,DYCD,,,.00) 260 312,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Wills Bethany Baptist Church,,112538705,-7000,DYCD,,,.00) 260 312 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler Jewish Community Council of Canarsie, Inc.",,112608645,2500,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Halloran Vietnam Veterans of America, Inc.",Queens Chapter #32,112629339,-500,DYCD,,,.00) 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Halloran Flushing Town Hall,,112652182,-5000,DYCD,,,.00) 260 312,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"St. Rosalia-Regina Pacis Neighborhood Improvement Association, Gonzalez Inc.",,112697931,5000,DYCD,,,".00 260 005 Brooklyn Arts Council, Inc. 23-7072915 *",
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Fidler United Jewish Organizations (UJO) of Williamsburg,,112728233,2500,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler Council of Jewish Organizations of Flatbush, Inc.",,112864728,10000,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler Kings Bay YM-YWHA, Inc.",,113068515,5000,DYCD,,,.00 260 312,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Levin Promote Art Works Inc,,113172595,500,DYCD,,,.00 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Fidler American Friends of Mishkan Yecheskel,,113207880,3500,DYCD,,,.00 260 312 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Wills 113th Precinct Community Council Bay Ridge Bensonhurst Beautification and Preservation Alliance,",,113218377,500,DYCD,,,.00 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Gentile Inc.,,113233233,19500,DYCD,,,.00 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Gonzalez Sunset Park District Management Association Inc,,113251860,6000,DYCD,,,".00 260 005 Brooklyn Arts Council, Inc. 23-7072915 *",
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Eugene J'Ouvert City International, Inc.",,113363754,-5000,DYCD,,,.00) 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler 11-3373115 Vann Fulton Art Fair, Inc.",,113386595,5000,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Wills Rochdale Village Social Services, Inc.",,113397470,6000,DYCD,,,.00 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Wills Rochdale Village Social Services, Inc.",,113397470,7500,DYCD,,,.00 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Wills Rochdale Village Social Services, Inc.",,113397470,2000,DYCD,,,.00 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Korean American Community Center of New York, Inc. (KACCNY) Halloran",,113515647,-5000,DYCD,,,.00) 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Wills Dunton Block and Civic Association, Inc.",,113569234,-7000,DYCD,,,.00) 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler First Chernomorets USA, Inc.",,113586786,2500,DYCD,,,.00 260 312,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Gentile Arab American Association of New York, Inc.",,113604756,-2000,DYCD,,,.00) 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Fidler Guardians of the Sick,,116003433,5000,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Crowley Blau-Weiss Gottschee, Inc.",,116074351,4000,DYCD,,,".00 260 312 Maspeth Town Hall, Inc. 23-7259702",**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Gentile Ridge Chorale, The Jackson 13-0831470",,116264993,-5500,DYCD,,,.00) 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Ignizio Fisherman's Conservation Association, Inc., The",,131135304,-5000,DYCD,,,.00) 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Oddo Fisherman's Conservation Association, Inc., The",,131135304,-1500,DYCD,,,.00) 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Arroyo Casita Maria, Inc.",,131623994,-5000,DYCD,,,.00) 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Metropolitan New York Coordinating Council on Jewish Poverty, Fidler Inc.",,132738818,2500,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Jackson Phase Piggy Back, Inc.",,132782457,-3500,DYCD,,,.00) 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,CC Westside Crime Prevention Program,,133087186,-7500,DYCD,,,.00) 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Vacca Pelham Parkway Little League,,133208259,-2000,DYCD,,,.00) 260 312 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Neighborhood Initiatives Development Vacca Pelham Parkway Little League CHART 1 (cont'd) Fiscal Fiscal Conduit/Sponsoring Organization Conduit EIN,,133208259,2000,DYCD,,,.00 260 312 Corporation (NIDC) 13-3110811 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Comrie National Council of Negro Women of Greater New York, Inc.",,133247858,-10000,DYCD,,,.00) 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"James Metrotech Area District Management Association, Inc. Levin 13-3601854",,133601854,-8000,DYCD,,,.00) 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Gentile Midori Foundation, Inc., The (d/b/a Midori and Friends)",,133682472,-10000,DYCD,,,.00) 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Mendez A Gathering of the Tribes,,133714232,-3000,DYCD,,,.00) 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Vacca Catholic Widows and Widowers of the Bronx,,133715149,-1000,DYCD,,,.00) 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Neighborhood Initiatives Development Vacca Catholic Widows and Widowers of the Bronx,,133715149,1000,DYCD,,,.00 260 005 Corporation (NIDC) 13-3110811,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Foster Clay Avenue Tenants Association, Inc.",,133771737,-4000,DYCD,,,.00) 260 312,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler Agudath Israel of America Community Services, Inc.",,133975090,10000,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Rose Varsity Club of Staten Island, Inc.",,133993270,-2000,DYCD,,,.00) 260 312 Jewish Community Council of Staten Island 13-5562256,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Rose Varsity Club of Staten Island, Inc.",,133993270,2000,DYCD,,,.00 260 312 United Activities Unlimited 13-2921483,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Fidler Union of Orthodox Jewish Congregations of America,,135623717,1500,DYCD,,,.00 260 312,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler Hebrew Immigrant Aid Society (HIAS), Inc.",,135633307,3000,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Brewer Workmen's Circle/Arbeter Ring, Inc.",,136178558,-3000,DYCD,,,.00) 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Garodnick New York City Park Advocates, Inc.",,141883533,3500,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Mark-Viverito New York City Park Advocates, Inc.",,141883533,5000,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Levin Families United for Racial and Economic Equality (FUREE),,200092728,500,DYCD,,,.00 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Dromm 82nd Street Academics,,200788352,-5000,DYCD,,,.00) 260 312,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler Flatbush Shomrim Safety Patrol, Inc.",,203244567,1500,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Gonzalez Red Hook Initiative,,203904662,1000,DYCD,,,".00 260 005 Brooklyn Arts Council, Inc. 23-7072915",
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Dromm Youths International, Inc.",,208769463,-3500,DYCD,,,.00) 260 312 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Chin Tribeca CERT,,260260476,-3500,DYCD,,,.00) 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler NY United Jewish Association, Inc.",,262647383,2500,DYCD,,,.00 260 005 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler Asian Community United Society, Inc.",,264164117,5000,DYCD,,,.00 260 005 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Wills Young Leaders, Inc.",,270105011,-8000,DYCD,,,.00) 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Halloran Northeast Queens Community Action Network Inc,,273878264,-2500,DYCD,,,.00) 260 005 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Oddo 30-0249876 Dickens Central Harlem CERT, Inc.",,364653221,-4000,DYCD,,,.00) 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Arroyo Word of Life International, Inc.",,392063356,-5000,DYCD,,,.00) 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Fidler Congregation Merkaz Shiurei Torah,,412071394,1000,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Gonzalez Brooklyn Eighth Avenue Community Improvement Association Inc,,412240834,10700,DYCD,,,".00 260 005 Brooklyn Arts Council, Inc. 23-7072915 *",
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Vacca Pelham Bay Little League,,510256113,-2000,DYCD,,,.00) 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Neighborhood Initiatives Development Vacca Pelham Bay Little League,,510256113,2000,DYCD,,,.00 260 312 Corporation (NIDC) 13-3110811,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Coney Island Generation Gap Reunion Coney Island Youth Alive, Inc. Recchia",,510602645,-3600,DYCD,,,.00) 260 312 Committee Corp 20-8562533,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Jewish Community Council of Greater Coney Coney Island Youth Alive, Inc. Recchia Comrie 52-1251209",,510602645,3600,DYCD,,,".00 260 312 Island, Inc. 11-2665181",
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Vacca Throggs Neck Little League,,521287397,-2000,DYCD,,,.00) 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Neighborhood Initiatives Development Vacca Throggs Neck Little League,,521287397,2000,DYCD,,,.00 260 312 Corporation (NIDC) 13-3110811,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler Be Proud, Inc.",,582674169,2500,DYCD,,,.00 260 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Comrie Community Youth Care,,770695007,-7000,DYCD,,,.00) 260 312,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Comrie St. Albans/Jamaica Little League,,800103495,2500,DYCD,,,.00 260 312,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Our Lady of Perpetual Help Church c/o OLPH Baseball & Soccer CC League Inc,,111666873,5000,DYCD,,,.00 260 312 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Crowley St. Matthias Sports Association,,111685926,3500,DYCD,,,.00 260 312 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Wills 149th Street Block Association CHART 1 (cont'd) Fiscal Fiscal Conduit/Sponsoring Organization Conduit EIN,,112623769,3500,DYCD,,,.00 260 005 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Wills Community Baptist Church, Inc",,112890143,3500,DYCD,,,.00 260 005 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Gonzalez Brooklyn Chinese-American Association Gonzalez 11-3157642 Brooklyn Arts Council, Inc.",,113065859,10000,DYCD,,,".00 260 005 Brooklyn Arts Council, Inc. 23-7072915",
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Eugene J'Ouvert City International, Inc.",,113362754,5000,DYCD,,,.00 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Lappin Roosevelt Island Youth Program,,133077348,10000,DYCD,,,.00 260 312 *,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Mendez Trinity's Services and Food for the Homeless, Inc. (SAFH)",,133401340,3000,DYCD,,,.00 260 005 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,Eugene Life of Hope,,205252137,-8000,DYCD,,,.00) 260 005 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Gonzalez Brooklyn Arts Council, Inc.",,237072915,-42700,DYCD,,,.00) 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Myrtle Ave Commercial Revitalization Development Project Local James Development Corporation, The (MARP)",,311706307,8000,DYCD,,,.00 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Arroyo South Bronx Classical Charter School,,331132434,10000,DYCD,,,.00 260 312 *,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Ignizio Fisherman's Conservation Association, Inc., The",,331135304,5000,DYCD,,,.00 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Oddo Fisherman's Conservation Association, Inc., The",,331135304,1500,DYCD,,,.00 260 005,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Arroyo Little League Raiders Baseball, Inc.",,421610657,5000,DYCD,,,.00 260 312,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Gonzalez Food Vendors of Red Hook,,680673866,5000,DYCD,,,".00 260 005 Brooklyn Arts Council, Inc. 23-7072915 *",
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Fidler Gerritsen Beach Fire Volunteers, Inc.",,116076710,1000,FDNY,,,.00 057 005,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,rescind,,,"Wills Neighborhood Housing Services of Jamaica, Inc.",,237398279,-10000,HPD,,,.00) 806 009,
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Foster Clay Avenue Tenants Association, Inc.",,133771737,4000,OEM,,,.00 017 002,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,Chin Tribeca CERT,,260260476,3500,OEM,,,.00 017 002,**
+6,2012-01-04,Local Initiatives - Fiscal 2012,2012,designate,,,"Dickens Central Harlem CERT, Inc.",,364653221,4000,OEM,,,.00 017 002,**
+6,2012-01-04,Aging Discretionary - Fiscal 2012,2012,rescind,,,Brewer St. Martin's Housing Corporation,,132639529,-2000,DFTA,,,.00) 125 003,
+6,2012-01-04,Aging Discretionary - Fiscal 2012,2012,designate,,,Jewish Association for Services for the Aged St. Martin's Housing Corporation Brewer,,132639529,2000,DFTA,,,.00 125 003 (JASA) 13-2620896,
+6,2012-01-04,Aging Discretionary - Fiscal 2012,2012,rescind,,,Comrie Roy Wilkins Senior Dolphins,,131592005,-5000,DFTA,,,.00) 125 003 *,
+6,2012-01-04,Aging Discretionary - Fiscal 2012,2012,designate,,,Comrie Roy Wilkins Senior Dolphins,,113122498,5000,DFTA,,,.00 125 003 *,
+6,2012-01-04,Aging Discretionary - Fiscal 2012,2012,designate,,,"Chin 13-2980755 Chin Greenwich House, Inc.",,135562204,8000,DFTA,,,.00 125 003,
+6,2012-01-04,Aging Discretionary - Fiscal 2012,2012,rescind,,,"Quinn Caring Community, Inc., The",,132980755,-25000,DFTA,,,.00) 125 003,
+6,2012-01-04,Aging Discretionary - Fiscal 2012,2012,designate,,,"Quinn Greenwich House, Inc.",,135562204,25000,DFTA,,,.00 125 003,
+6,2012-01-04,Aging Discretionary - Fiscal 2012,2012,designate,,,Gennaro 11-2267876 Gennaro Young Israel of Queens Valley,,133613262,10000,DFTA,,,.00 125 003,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,rescind,,,"Gentile Bay Ridge Bensonhurst Beautification and Preservation Alliance, Inc.",,113233233,-20000,DYCD,,,.00) 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,"Gentile Arab American Association of New York, Inc.",,113604756,2000,DYCD,,,.00 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,Gentile Italian Board of Guardians,,111633571,2000,DYCD,,,.00 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,"Gentile Midori Foundation, Inc., The (d/b/a Midori and Friends)",,133682472,10000,DYCD,,,.00 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,"Gentile Ridge Chorale, The",,116264993,5500,DYCD,,,.00 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,Gentile Boy Scouts of America,Greater New York Council,131624015,500,DYCD,,,.00 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,rescind,,,"Dromm Jewish Center of Jackson Heights, The",,111681124,-5000,DYCD,,,.00) 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,Dromm 82nd Street Academics,,200788352,5000,DYCD,,,.00 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,rescind,,,"Comrie Afrikan Poetry Theatre, Inc.",,112515828,-28000,DYCD,,,.00) 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,Comrie Community Youth Care,,770695007,7000,DYCD,,,.00 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,Comrie Hollis Presbyterian Church,,111631786,11000,DYCD,,,.00 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,"Comrie Jamaica NAACP Day Care Center, Inc.",,112218994,10000,DYCD,,,.00 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,rescind,,,"Arroyo Episcopal Social Services of New York, Inc.",,133709095,-5000,DYCD,,,.00) 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,rescind,,,13-1623994 Rose STATEN ISLAND RISING STARS,,651321528,-2500,DYCD,,,.00) 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,Rose STATEN ISLAND RISING STARS,,651321528,2500,DYCD,,,".00 260 312 Jewish Community Center of Staten Island, Inc. 13-5562256",
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,rescind,,,Halloran St. Fidelis Roman Catholic Church,,111899721,-3500,DYCD,,,.00) 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,Halloran Queens Historical Society,,237016007,3500,DYCD,,,.00 260 312 *,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,rescind,,,"Wills A Better Jamaica, Inc.",,113804421,-3000,DYCD,,,.00) 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,"Wills South Queens Boys and Girls Club, Inc.",,111966067,3000,DYCD,,,.00 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,rescind,,,"Wills Nicole Paultre Bell When It's Real, It's Forever Fund, Inc., The",,208945512,-3500,DYCD,,,.00) 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,"Wills Sean Elijah Bell Foundation, Inc",,264682827,3500,DYCD,,,.00 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,rescind,,,Wills Bethany Baptist Church,,112538705,-8000,DYCD,,,.00) 260 312 *,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,"Wills Rochdale Village Social Services, Inc.",,113397470,8000,DYCD,,,.00 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,rescind,,,"Brewer Jazz at Lincoln Center, Inc.",,133888641,-3000,DYCD,,,.00) 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,"Brewer Workmen's Circle/Arbeter Ring, Inc.",,136178558,3000,DYCD,,,.00 260 312,
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,rescind,,,"Crowley Wianek Polish Folk Dance Company, Inc.",,263601469,-3000,DYCD,,,".00) 260 312 Maspeth Town Hall, Inc. 23-7259702 *",
+6,2012-01-04,Youth Discretionary - Fiscal 2012,2012,designate,,,"Crowley Blau-Weiss Gottschee, Inc.",,116074351,3000,DYCD,,,".00 260 312 Maspeth Town Hall, Inc. 23-7259702",
+6,2012-01-04,"Young Adult Institute and Workshop, Inc. (YAI) - Fiscal 2012",2012,rescind,,,"Young Adult Institute and Workshop, Inc. (YAI)",,136400434,-200000,DOHMH,,,.00) 816 121,
+6,2012-01-04,"Young Adult Institute and Workshop, Inc. (YAI) - Fiscal 2012",2012,designate,,,"Young Adult Institute and Workshop, Inc. (YAI)",,112030172,200000,DOHMH,,,.00 816 121,
+6,2012-01-04,Operation SNUG - Fiscal 2012,2012,designate,,,New York City Mission Society,,135562301,167000,OCJC,,,.00 098 002 *,**
+6,2012-01-04,"CONNECT, Inc. Community Empowerment Program - Fiscal 2012",2012,designate,,,"Connect, Inc.",,020694269,330000,ACS,,,.00 068 006,
+6,2012-01-04,Runaway and Homeless Youth Services PEG Restoration - Fiscal 2012,2012,rescind,,,"Covenant House New York/Under 21, Inc.",,133076376,-974176,DYCD,,,.00) 260 312,
+6,2012-01-04,Runaway and Homeless Youth Services PEG Restoration - Fiscal 2012,2012,designate,,,"Covenant House New York/Under 21, Inc.",,133076376,800216,DYCD,,,.00 260 312,
+6,2012-01-04,Runaway and Homeless Youth Services PEG Restoration - Fiscal 2012,2012,designate,,,"Covenant House New York/Under 21, Inc. 11-2777066",,133076376,173960,DYCD,,,.00 260 312,
+6,2012-01-04,Runaway and Homeless Youth Services PEG Restoration - Fiscal 2012,2012,designate,,,SCO Family of Services,,112777066,164400,DYCD,,,.00 260 312,
+6,2012-01-04,Runaway and Homeless Youth Services PEG Restoration - Fiscal 2012,2012,designate,,,SCO Family of Services,,112777066,205500,DYCD,,,.00 260 312,
+6,2012-01-04,Housing Preservation Initiative - Fiscal 2012,2012,rescind,,,Mount Hope Housing Company,,133419970,-50000,HPD,,,.00) 806 009,
+6,2012-01-04,Housing Preservation Initiative - Fiscal 2012,2012,designate,,,New Settlement Apartments,,141719016,50000,HPD,,,.00 806 009,
+6,2012-01-04,Community Consultants - Fiscal 2012,2012,rescind,,,Mount Hope Housing Company 13-2806160,,133419970,-10000,HPD,,,.00) 806 009,
+6,2012-01-04,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2012,2012,rescind,,,"National Council of Negro Women of Greater New York, Inc.",,133247858,-46625,MISC,,,.00) 098 002,
+6,2012-01-04,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2012,2012,designate,,,Queens Hospital Center (QHC),,116111194,46625,MISC,,,.00 098 002 *,
+6,2012-01-04,Immigrant Opportunities Initiative - Fiscal 2012,2012,rescind,,,Brooklyn Legal Aid Society,Brooklyn,135562265,-100,DYCD,,,.00) 260 005,**
+6,2012-01-04,Immigrant Opportunities Initiative - Fiscal 2012,2012,designate,,,"Brooklyn SBH Community Service Network, Inc. (Sephardic Bikur Chomlim)",,237406410,39,DYCD,,,.00 260 005,
+6,2012-01-04,Immigrant Opportunities Initiative - Fiscal 2012,2012,designate,,,"Brooklyn Fifth Avenue Committee, Inc.",,112475743,1,DYCD,,,.00 260 005,
+6,2012-01-04,Immigrant Opportunities Initiative - Fiscal 2012,2012,designate,,,Brooklyn Research Foundation of the City University of New York,Citizenship NOW,131988190,60,CUNY,,,.00 042 001,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,"Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Eugene RECOURSEHANDINC.,THE",,392056125,-20000,DOHMH,,,.00) 816 122 *,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,"Eugene FenimoreSeniorCenter,Inc.",,112772287,20000,DFTA,,,.00 125 003 *,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,Williams FlatbushDevelopmentCorporation,,510188251,-5500,DYCD,,,.00) 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,"Williams EastFlatbushVillage,Inc.",,800612019,5500,DYCD,,,.00 260 005 *,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,Ulrich FederationofHinduMandirs,,136400434,-5000,DYCD,,,.00) 260 005 *,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,Ulrich FederationofHinduMandirs,,113277618,5000,DYCD,,,.00 260 005 *,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,Gentile BrooklynONEtheater,,262177816,-2500,DCA,,,.00) 126 003 *,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,Gentile BrooklynONEtheater,,262177816,2500,DYCD,,,.00 260 005 *,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,Levin 572574WarrenStTenantsAssociation,,800685710,-3000,NYCHA,,,.00) 098 002,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,Levin BerryStreetSouth9thTenantAssociation,,230691815,-1000,NYCHA,,,.00) 098 002,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,Levin HelenKellerServicesfortheBlind,,111630807,4000,DFTA,,,.00 125 003 *,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,"CC EastRiverDevelopmentAlliance,Inc.",,861096987,-200000,DFTA,,,.00) 125 003,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,"CC EastRiverDevelopmentAlliance,Inc.** BergenBasinCommunityDevelopment",,861096987,200000,NYCHA,,,.00 098 002 *,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,Fidler JewishChildren'sMuseum,,133798344,-5000,DYCD,,,.00) 260 312 Corporationd/baMillenniumDevelopment 11-3199040,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,Fidler JewishChildren'sMuseum,,133798344,5000,DYCD,,,.00 260 312,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,Cabrera BaitulIslamMasjidandcommunitycenter,,133810201,-5000,DYCD,,,.00) 260 005 *,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,"Cabrera GospelMissionPentecostalChurch,Inc.",,327425524,-5000,DYCD,,,.00) 260 005 *,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,"Cabrera HispanicFederation,Inc.",,133573852,6000,DYCD,,,.00 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,Cabrera NewYorkCityChristianAthleticLeague,,800390499,4000,DYCD,,,.00 260 312,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,Vann NHSofBedford-StuyvesantInc,,800615267,-10000,DYCD,,,.00) 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,Vann NeighborhoodHousingServicesofNewYorkCity,,133098397,10000,DYCD,,,.00 260 005 *,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,"Dromm EcuadorianInternationalCenter,Inc.",,010627174,-6000,DYCD,,,.00) 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,"Dromm EcuadorianInternationalCenter,Inc.",,100627174,6000,DYCD,,,.00 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,"Ferreras EcuadorianInternationalCenter,Inc.",,010627174,-5000,DYCD,,,.00) 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,"Ferreras EcuadorianInternationalCenter,Inc.",,100627174,5000,DYCD,,,.00 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,"Koppell PoliceAthleticLeague,Inc.",,135596811,-10000,DYCD,,,.00) 260 312,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,"Koppell AsphaltGreen,Inc.",,136533158,10000,DPR,,,.00 846 006 *,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,Koppell FriendsofVanCortlandtPark** YoungMen'sandYoungWomen'sHebrewAssociationofthe,,133843182,-5000,DYCD,,,.00) 260 312,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,Koppell Bronx,,131740507,5000,DFTA,,,.00 125 003 *,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,"Vallone VarietyBoysandGirlsClubofQueens,Inc.",,116014770,-5000,DYCD,,,.00) 260 312,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,Vallone NYCHACommunityOperations,,136400571,5000,DFTA,,,.00 125 003 *,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,Williams OpenSpaceInstitutedoingbusinessforBrooklynFoodCoalition,,521053406,-3500,DYCD,,,.00) 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,Williams OpenSpaceInstitute,,521053406,3500,DYCD,,,.00 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,"Chin QueensLesbianandGayPrideCommittee,Inc.** 11-3146598 Chin QueensLesbianandGayPrideCommittee,Inc.",,113146598,4500,DYCD,,,.00 260 312,**
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,CC BronxBusinessAlliance,,204996322,-25000,DSBS,,,.00) 801 002,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,CC BronxBusinessAlliance,,134018987,25000,DSBS,,,.00 801 002,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,CC EmeraldIsleImmigrationCenter,,112922528,-125000,DYCD,,,.00) 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,designate,,,CC EmeraldIsleImmigrationCenter,,112932528,125000,DYCD,,,.00 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012,2012,rescind,,,CC EmeraldIsleImmigrationCenter,,112922528,-10000,DFTA,,,.00) 125 003,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,designate,,,FiscalConduit/SponsoringOrganization ConduitEIN Member Organization EINNumber Agency Amount Agy# U/A * CC EmeraldIsleImmigrationCenter,,112932528,10000,DFTA,,,.00 125 003,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,rescind,,,Dilan FiorentinoPlazaTenantAssociation,,061703310,-10000,NYCHA,,,.00) 098 002,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,designate,,,Dilan FiorentinoPlazaTenantAssociation,,611703310,10000,NYCHA,,,.00 098 002,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,rescind,,,"Recchia WestIndianAmericanDayCarnivalAssociation,Inc.",,237176397,-3000,DYCD,,,.00) 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,designate,,,"Recchia WestIndianAmericanDayCarnivalAssociation,Inc.",,237176396,3000,DYCD,,,.00 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,designate,,,Dilan BikoTransformationCenter 41-1716102 Dilan BikoTransformationCenter,,421716102,9500,DYCD,,,.00 260 005 *,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,rescind,,,Halloran FlushingHospitalandMedicalCenter,,222742892,-1000,DOHMH,,,.00) 816 112,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,designate,,,Halloran FlushingHospitalandMedicalCenter,,111631781,1000,DOHMH,,,.00 816 112,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,rescind,,,Halloran FlushingHospitalandMedicalCenter,,222742892,-5000,DOHMH,,,.00) 816 112,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,designate,,,Halloran FlushingHospitalandMedicalCenter,,111631781,5000,DOHMH,,,.00 816 112,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,rescind,,,"Rose RichmondCountySt.Patrick'sDayParadeCommittee,Inc.",,450589779,-3500,DYCD,,,.00) 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,designate,,,"Rose RichmondCountySt.Patrick'sDayParadeCommittee,Inc.",,133755987,3500,DYCD,,,.00 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,rescind,,,"Quinn HartleyHouse,Inc.",,131656652,-10000,DYCD,,,.00) 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2012(Continue),2012,designate,,,"Quinn HartleyHouse,Inc.",,131656652,10000,DYCD,,,.00 260 312,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,rescind,,,"Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Palma InstituteforthePuertoRican/HispanicElderly,Inc.",,132987263,-8500,DFTA,,,.00) 125 003,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,designate,,,Palma JewishAssociationforServicesfortheAged(JASA),,132620896,8500,DFTA,,,.00 125 003 *,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,rescind,,,"Palma St.RaymondCommunityOutreach,Inc.",,134043234,-3500,DFTA,,,.00) 125 003,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,designate,,,Palma JewishAssociationforServicesfortheAged(JASA),,132620896,3500,DFTA,,,.00 125 003 *,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,rescind,,,"Gonzalez SunsetBayCommunityServices,Inc.",,112439925,-13750,DFTA,,,.00) 125 003,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,designate,,,Gonzalez HarborHillHousing,,113152691,10000,DFTA,,,.00 125 003 *,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,designate,,,Gonzalez SunsetGardensHDFC,,203461755,3750,DFTA,,,.00 125 003 *,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,designate,,,"Ulrich CorporalJohnRuoffPostNo.632,AmericanLegion,Inc.",,116104896,5000,DFTA,,,.00 125 003 *,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,designate,,,Foster 13-3352725 Foster ConcourseVillageSpecialAdultCenter,,131977533,25000,DFTA,,,.00 125 003,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,rescind,,,Comrie RoyWilkinsSeniorDolphins,,113122498,-5000,DFTA,,,.00) 125 003,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,designate,,,Comrie RoyWilkinsSeniorDolphins,,131592005,5000,DFTA,,,.00 125 003,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,rescind,,,Ulrich St.CamillusGoldenAgeClub,,133157561,-5000,DFTA,,,.00) 125 003,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,designate,,,Ulrich St.CamillusGoldenAgeClub,,111674392,5000,DFTA,,,.00 125 003,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,rescind,,,Gennaro YoungIsraelofQueensValley,,133613262,-10000,DFTA,,,.00) 125 003,
+7,2012-02-01,AgingDiscretionary-Fiscal2012,2012,designate,,,Gennaro YoungIsraelofQueensValley,,112267876,10000,DFTA,,,.00 125 003,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,rescind,,,"Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Crowley WorksLittleLeague,Inc.",,112949074,-5000,DYCD,,,.00) 260 312 GreaterWoodhavenDevelopmentCorporation 11-2508190,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,designate,,,"Crowley WorksLittleLeague,Inc.",,112949074,5000,DYCD,,,.00 260 312,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,rescind,,,Brewer CornerstoneLearningCenter,,133779813,-4000,DYCD,,,.00) 260 312,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,designate,,,"Brewer FreshYouthInitiatives,Inc.",,133723207,4000,DYCD,,,.00 260 312 *,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,rescind,,,"Jackson HarlemLive,Inc.",,134050560,-3500,DYCD,,,.00) 260 312 *,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,designate,,,"Jackson HeightsCenterforImmigrantAdvocacy,The",,133878787,3500,DYCD,,,.00 260 312,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,rescind,,,"Koppell AsphaltGreen,Inc.",,136533158,-10000,DYCD,,,.00) 260 312,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,designate,,,"Koppell PoliceAthleticLeague,Inc.",,135596811,10000,DYCD,,,.00 260 312 *,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,rescind,,,"Koppell PoliceAthleticLeague,Inc.",,135596811,-5000,DYCD,,,.00) 260 312 *,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,designate,,,"Koppell KnoxGatesNeighborhoodAssociation,Inc. YoungMen'sandYoungWomen'sHebrewAssociationofthe",,133020575,5000,DYCD,,,.00 260 312 *,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,rescind,,,Koppell Bronx,,131740507,-6000,DYCD,,,.00) 260 312,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,designate,,,Koppell FriendsofVanCortlandtPark,,133843182,6000,DYCD,,,.00 260 312 *,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,designate,,,"13-5596811 Vallone VarietyBoysandGirlsClubofQueens,Inc.",,116014770,5000,DYCD,,,.00 260 312 *,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,rescind,,,"Halloran BaysideLittleLeague,Inc.",,113279032,-15000,DYCD,,,.00) 260 312,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,designate,,,"Halloran BaysideLittleLeague,Inc.",,521234764,15000,DYCD,,,.00 260 312,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,rescind,,,Jackson BoysandGirlsClubofHarlem,,133012951,-5000,DYCD,,,.00) 260 312,
+7,2012-02-01,YouthDiscretionary-Fiscal2012,2012,designate,,,Jackson BoysandGirlsClubofHarlem,,133102951,5000,DYCD,,,.00 260 312,
+7,2012-02-01,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,rescind,,,"Member Organization EINNumber Agency Amount Agy# U/A * Gennaro KupferbergCenterPerformances-PS131Q Gennaro QueensCollegeFoundation,Inc.-PS131Q 11-6080521",,130000004,-20000,DCA,,,.00) 126 003,
+7,2012-02-01,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,rescind,,,Koo KupferbergCenterPerformances-JHS185Q,,130000004,-20000,DCA,,,.00) 126 003,
+7,2012-02-01,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,designate,,,"Koo QueensCollegeFoundation,Inc.-JHS185Q",,116080521,20000,DCA,,,.00 126 003,
+7,2012-02-01,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,rescind,,,Jackson Children'sArtsCarnival-M368-HamiltonHeightsSchool,,132735153,-20000,DCA,,,.00) 126 003,
+7,2012-02-01,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,designate,,,"Jackson TADA!TheaterandDanceAlliance,Inc.-M368-HamiltonHeightsSchool",,133311294,20000,DCA,,,.00 126 003,
+7,2012-02-01,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,rescind,,,"Ulrich IntrepidMuseumFoundation,Inc.-PS47",,133062419,-20000,DCA,,,.00) 126 003,
+7,2012-02-01,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,designate,,,"Ulrich IntrepidMuseumFoundation,Inc.-PS60",,133062419,20000,DCA,,,.00 126 003,
+7,2012-02-01,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,rescind,,,"Recchia LearningThroughanExpandedArtsProgram,Inc.-PublicSchool121",,122925233,-20000,DCA,,,.00) 126 003,
+7,2012-02-01,CulturalAfter-SchoolAdventure(CASA)-Fiscal2012,2012,designate,,,"Recchia LearningThroughanExpandedArtsProgram,Inc.-PublicSchool121",,132925233,20000,DCA,,,.00 126 003,
+7,2012-02-01,ImmigrantOpportunitiesInitiative-Fiscal2012,2012,rescind,,,Member Organization EINNumber Agency Amount Agy# U/A * Queens ResearchFoundationoftheCityUniversityofNewYork,,131988190,-63000,CUNY,,,.00) 042 001,
+7,2012-02-01,ImmigrantOpportunitiesInitiative-Fiscal2012,2012,designate,,,"Queens CityUniversityofNewYorkSchoolofLawFoundation,Inc.,The",,113235349,63000,CUNY,,,.00 042 001,
+7,2012-02-01,ImmigrantOpportunitiesInitiative-Fiscal2012,2012,rescind,,,"Brooklyn MetropolitanNewYorkCoordinatingCouncilonJewishPoverty,Inc.",,132738818,-10000,DYCD,,,.00) 260 005,
+7,2012-02-01,ImmigrantOpportunitiesInitiative-Fiscal2012,2012,designate,,,Brooklyn NewYorkLegalAssistanceGroup,,133505428,10000,DYCD,,,.00 260 005,
+7,2012-02-01,ImmigrantOpportunitiesInitiative-Fiscal2012,2012,rescind,,,"Queens EcuadorianInternationalCenter,Inc.",,010627174,-25000,DYCD,,,.00) 260 005,
+7,2012-02-01,ImmigrantOpportunitiesInitiative-Fiscal2012,2012,designate,,,"Queens EcuadorianInternationalCenter,Inc.",,100627174,25000,DYCD,,,.00 260 005,
+7,2012-02-01,FoodPantries-DYCD-Fiscal2012,2012,rescind,,,Member Organization EINNumber Agency Amount Agy# U/A * Queens ElmhustCommunityServices,,820570675,-5000,DYCD,,,.00) 260 005,
+7,2012-02-01,FoodPantries-DYCD-Fiscal2012,2012,designate,,,Queens MetropolitanCommunityChurchofNewYork,,510152961,5000,DYCD,,,.00 260 005,
+7,2012-02-01,FoodPantries-DYCD-Fiscal2012,2012,rescind,,,"Queens BattalionPentecostalAssembly,Inc.",,113548121,-5000,DYCD,,,.00) 260 005,
+7,2012-02-01,FoodPantries-DYCD-Fiscal2012,2012,designate,,,"Queens BattalionPentecostalAssembly,Inc.",,364391337,5000,DYCD,,,.00 260 005,
+7,2012-02-01,DomesticViolenceandEmpowerment (DoVE) Initiative- Fiscal2012,2012,designate,,,"Organization EINNumber Agency Amount Agy# U/A * NewYorkAsianWomen'sCenter,Inc.",,133286250,30000,MISC,,,.00 098 002,
+7,2012-02-01,RunawayandHomelessYouth ServicesPEGRestoration - Fiscal2012,2012,rescind,,,Organization EINNumber Agency Amount Agy# U/A * SCOFamilyofServices,,112777067,-70000,DYCD,,,.00) 260 312,
+7,2012-02-01,RunawayandHomelessYouth ServicesPEGRestoration - Fiscal2012,2012,designate,,,SCOFamilyofServices,,112777066,70000,DYCD,,,.00 260 312,
+7,2012-02-01,RunawayandHomelessYouth ServicesPEGRestoration - Fiscal2012,2012,rescind,,,"SafeSpace,Inc.",,111711015,-70000,DYCD,,,.00) 260 312,
+7,2012-02-01,RunawayandHomelessYouth ServicesPEGRestoration - Fiscal2012,2012,designate,,,"SafeSpace,Inc.",,111711014,70000,DYCD,,,.00 260 312,
+7,2012-02-01,RunawayandHomelessYouth ServicesPEGRestoration - Fiscal2012,2012,designate,,,"13-2946971 SafeHorizon,Inc.",,132946970,6633,DYCD,,,.00 260 312,
+7,2012-02-01,RunawayandHomelessYouth ServicesPEGRestoration - Fiscal2012,2012,rescind,,,"SafeHorizon,Inc.",,132946972,-200000,DYCD,,,.00) 260 312,
+7,2012-02-01,RunawayandHomelessYouth ServicesPEGRestoration - Fiscal2012,2012,designate,,,"SafeHorizon,Inc.",,132946970,200000,DYCD,,,.00 260 312,
+7,2012-02-01,RunawayandHomelessYouth ServicesPEGRestoration - Fiscal2012,2012,rescind,,,"SafeHorizon,Inc. 13-2946970",,132946971,-200000,DYCD,,,.00) 260 312,
+7,2012-02-01,HIV/AIDSFaithBased Initiative- Fiscal2012,2012,rescind,,,"Organization EINNumber Agency Amount Agy# U/A * St.Stephen'sOutreach,Inc.",,113116708,-6400,DOHMH,,,.00) 816 112 *,
+7,2012-02-01,HIV/AIDSFaithBased Initiative- Fiscal2012,2012,designate,,,"StephenUnitedChurchofGod,Inc.",,112383004,6400,DOHMH,,,.00 816 112 *,
+7,2012-02-01,HIV/AIDSFaithBased Initiative- Fiscal2012,2012,rescind,,,"AmethystWomen'sProject,Inc.",,113055513,-6400,DOHMH,,,.00) 816 112 *,
+7,2012-02-01,HIV/AIDSFaithBased Initiative- Fiscal2012,2012,designate,,,"AmethystWomen'sProject,Inc.",,113505513,6400,DOHMH,,,.00 816 112 *,
+7,2012-02-01,Jobsto BuildOn- Fiscal2012,2012,rescind,,,Organization EINNumber Agency Amount Agy# U/A * ConsortiumforWorkerEducation(CWE),,133564313,-273000,DSBS,,,.00) 801 011,
+7,2012-02-01,Jobsto BuildOn- Fiscal2012,2012,designate,,,DepartmentofSmallBusinessServices-Administrative,,136400434,273000,DSBS,,,.00 801 011,
+7,2012-02-01,Adult LiteracyServicesInitiative- Fiscal2012,2012,rescind,,,"Organization EINNumber Agency Amount Agy# U/A * EcuadorianInternationalCenter,Inc.",,010627174,-30000,DYCD,,,.00) 260 005,
+7,2012-02-01,Adult LiteracyServicesInitiative- Fiscal2012,2012,designate,,,"EcuadorianInternationalCenter,Inc.",,100627174,30000,DYCD,,,.00 260 005,
+7,2012-02-01,LocalInitiatives-Fiscal2011,2011,rescind,,,Fiscal FiscalConduit/SponsoringOrganization ConduitEIN Member Organization EINNumber Agency Amount Agy# U/A * Reyna CooperParkResidentsCouncil,,113288877,-15000,DYCD,,,.00) 260 005 St.Nick'sAllianceCorporation 51-0192170,
+7,2012-02-01,LocalInitiatives-Fiscal2011,2011,designate,,,Reyna CooperParkResidentsCouncil,,113288877,15000,DYCD,,,.00 260 005,
+7,2012-02-01,YouthDiscretionary-Fiscal2011,2011,rescind,,,"Fiscal FiscalConduit/SponsoringOrganization ConduitEIN Member Organization EINNumber Agency Amount Agy# U/A * Halloran BaysideLittleLeague,Inc.",,521234764,-15000,DYCD,,,.00) 260 312,
+7,2012-02-01,YouthDiscretionary-Fiscal2011,2011,designate,,,"Halloran BaysideLittleLeague,Inc.",,113279032,15000,DYCD,,,.00 260 312,
+7,2012-02-01,YouthDiscretionary-Fiscal2011,2011,rescind,,,Reyna CooperParkCommunityCenterAdvisoryCommittee Reyna 11-3551550,,113551550,-10000,DYCD,,,.00) 260 312 St.Nick'sAllianceCorporation 51-0192170,
+7,2012-02-01,FoodPantries-Fiscal2011,2011,rescind,,,"Member Organization EINNumber Agency Amount Agy# U/A * Queens NortheasternConferenceofSeventhDayAdventists,Inc.",,131865286,-5000,DYCD,,,.00) 260 005,
+7,2012-02-01,FoodPantries-Fiscal2011,2011,designate,,,"Queens NortheasternConferenceofSeventhDayAdventists,Inc.",,020632575,5000,DYCD,,,.00 260 005,
+7,2012-02-01,HIV/AIDS Faith Based Initiative - Fiscal 2011,2011,rescind,,,Organization EINNumber Agency Amount Agy# U/A * BereanBaptistChurch,,112870465,-6400,DOHMH,,,.00) 816 112,
+7,2012-02-01,HIV/AIDS Faith Based Initiative - Fiscal 2011,2011,designate,,,BereanBaptistChurch,,111660857,6400,DOHMH,,,.00 816 112,

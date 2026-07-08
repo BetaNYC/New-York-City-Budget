@@ -1,0 +1,39 @@
+FY10 NYC COUNCIL TRANSPARENCY RESOLUTIONS - PARSE + RECONCILIATION NOTES
+==============================================================================
+
+RECONCILIATION STATUS: NOT RECONCILABLE (against printed totals).
+These documents print NO per-chart or grand totals -- only award rows. There is
+nothing in the source to reconcile parsed dollar sums against. The figures below
+are parse counts, not reconciled totals. The one internal consistency check the
+documents permit is the transfer net-out: within a chart a rescission (negative)
+and its paired re-designation (positive) should net to ~0. Reported as "net".
+
+reso date          rows      designate$        rescind$          net$
+----------------------------------------------------------------------
+   1 2009-03-11       0               0               0             0
+   2 2009-06-19       0               0               0             0
+   3 2009-06-30       0               0               0             0
+   4 2009-08-20       0               0               0             0
+   5 2009-10-28      86       2,391,500        -551,000     1,840,500
+   6 2009-11-16     214       4,625,423      -1,825,210     2,800,213
+   7 2009-12-21     195       6,191,034      -1,563,034     4,628,000
+   8 2010-03-03     501       5,051,024      -2,793,333     2,257,691
+   9 2010-03-25     317       1,668,177      -1,511,574       156,603
+  10 2010-04-29     309       1,394,029      -1,422,729       -28,700
+  11 2010-05-25      95         259,067        -260,240        -1,173
+  12 2010-06-29      71         664,922        -664,922             0
+----------------------------------------------------------------------
+ ALL               1788      22,245,176     -10,592,042    11,653,134
+
+rows by action:  designate=1116  rescind=672
+rows by fiscal year:  ?=1730  2008=58
+
+unresolved organization (dense-chart text-layer artifacts): 0 of 1788 rows (0.00%) -- amount/EIN/agency captured, org name orphaned
+
+org-text confidence: LOW -- 392 of 1788 rows (21.92%) show glued-word (268) or header-bleed (124) artifacts in the org field.
+  (EIN / amount / agency / date / action are deterministic and unaffected.)
+  NOTE: this fiscal year predates the clean text-layer era; treat organization,
+  council_member and program as best-effort. Join on EIN for reliable identity.
+
+SPOTLIGHT - Artificial Intelligence Community Engagement (AICE, $1M initiative):
+  NOT FOUND in any parsed resolution.

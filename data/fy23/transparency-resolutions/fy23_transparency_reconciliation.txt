@@ -1,0 +1,39 @@
+FY23 NYC COUNCIL TRANSPARENCY RESOLUTIONS - PARSE + RECONCILIATION NOTES
+==============================================================================
+
+RECONCILIATION STATUS: NOT RECONCILABLE (against printed totals).
+These documents print NO per-chart or grand totals -- only award rows. There is
+nothing in the source to reconcile parsed dollar sums against. The figures below
+are parse counts, not reconciled totals. The one internal consistency check the
+documents permit is the transfer net-out: within a chart a rescission (negative)
+and its paired re-designation (positive) should net to ~0. Reported as "net".
+
+reso date          rows      designate$        rescind$          net$
+----------------------------------------------------------------------
+   1 2022-07-14    1759      66,808,631     -67,088,731      -280,100
+   2 2022-08-11    1736      59,201,701     -59,381,701      -180,000
+   3 2022-09-29    1562      36,428,152     -36,100,652       327,500
+   4 2022-10-27     807      20,719,046     -21,152,483      -433,437
+   5 2022-11-22     423       7,452,764      -7,502,764       -50,000
+   6 2022-12-21     432      11,211,025     -11,206,025         5,000
+   7 2023-01-19     201       7,413,981      -2,408,981     5,005,000
+   8 2023-02-02     556      26,151,864     -26,116,864        35,000
+   9 2023-02-16     144       2,571,186      -2,571,186             0
+  10 2023-03-02     254      11,084,985     -11,084,985             0
+  11 2023-03-16     137       1,583,000      -1,583,000             0
+  12 2023-04-27     208       2,662,027      -2,662,027             0
+  13 2023-05-11      25         189,834        -189,834             0
+  14 2023-06-30     110       1,747,288      -1,747,288             0
+----------------------------------------------------------------------
+ ALL               8354     255,225,484    -250,796,521     4,428,963
+
+rows by action:  designate=6317  purpose_change=415  rescind=1622
+rows by fiscal year:  ?=11  2020=4  2021=178  2022=362  2023=7799
+
+unresolved organization (dense-chart text-layer artifacts): 0 of 8354 rows (0.00%) -- amount/EIN/agency captured, org name orphaned
+
+org-text confidence: HIGH -- 0 of 8354 rows (0.00%) show glued-word (0) or header-bleed (0) artifacts in the org field.
+  (EIN / amount / agency / date / action are deterministic and unaffected.)
+
+SPOTLIGHT - Artificial Intelligence Community Engagement (AICE, $1M initiative):
+  NOT FOUND in any parsed resolution.

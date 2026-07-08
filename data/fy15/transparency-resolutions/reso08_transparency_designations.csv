@@ -1,0 +1,41 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+8,2015-01-07,LocalInitiatives-Fiscal2015,2015,rescind,,,Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Ferreras SouthAsianYouthAction,,133943630,-5000,DYCD,,,.00) 260 312,**
+8,2015-01-07,LocalInitiatives-Fiscal2015,2015,designate,,,"Ferreras QueensBotanicalGardenSociety,Inc.",,111635083,5000,DCLA,,,.00 126 003,**
+8,2015-01-07,LocalInitiatives-Fiscal2015,2015,rescind,,,"Ignizio StatenIslandYouthSoccerLeague,Inc.",,320048308,-3500,DYCD,,,.00) 260 312,**
+8,2015-01-07,LocalInitiatives-Fiscal2015,2015,designate,,,"Ignizio NewYorkCityVerrazano10-13Association,Inc.",,134151778,3500,DFTA,,,.00 125 003,**
+8,2015-01-07,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,HarlemHospitalCenter,,132655001,-25000,DOHMH,,,.00) 816 113,**
+8,2015-01-07,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,HarlemHospitalCenter,,132655001,25000,HHC,,,.00 819 001,**
+8,2015-01-07,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Miller HollisPresbyterianChurch,,111631786,-3500,DFTA,,,.00) 125 003 *,**
+8,2015-01-07,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Miller ConlonLihfeTowersTenantsAdvocacyGroup,Inc.",,352397898,3500,NYCHA,,,.00 098 002,**
+8,2015-01-07,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Vacca CatholicWidowsandWidowersoftheBronx,,133715149,-1000,DYCD,,,.00) 260 005,
+8,2015-01-07,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,Vacca VISIONS/ServicesfortheBlindandVisuallyImpaired,,131624210,1000,DYCD,,,.00 260 312,
+8,2015-01-07,AgingDiscretionary-Fiscal2015,2015,rescind,,,"Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Miller ConlonLihfeTowersTenantsAdvocacyGroup,Inc.",,352397898,-3500,DFTA,,,.00) 125 003,
+8,2015-01-07,AgingDiscretionary-Fiscal2015,2015,designate,,,Miller HollisPresbyterianChurch,,111631786,3500,DFTA,,,.00 125 003 *,
+8,2015-01-07,YouthDiscretionary-Fiscal2015,2015,rescind,,,"Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Ferreras QueensBotanicalGardenSociety,Inc.",,111635083,-5000,DYCD,,,.00) 260 312,
+8,2015-01-07,YouthDiscretionary-Fiscal2015,2015,designate,,,Ferreras SouthAsianYouthAction,,133943630,5000,DYCD,,,.00 260 312,
+8,2015-01-07,YouthDiscretionary-Fiscal2015,2015,rescind,,,"Ignizio NewYorkCityVerrazano10-13Association,Inc.",,134151778,-3500,DYCD,,,.00) 260 312,
+8,2015-01-07,YouthDiscretionary-Fiscal2015,2015,designate,,,"Ignizio StatenIslandYouthSoccerLeague,Inc.",,320048308,3500,DYCD,,,.00 260 312,
+8,2015-01-07,Anti-PovertyInitiatives-Fiscal2015,2015,rescind,,,"Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Garodnick UpperGreenSide,Inc.",,208289407,-4000,DYCD,,,.00) 260 005,**
+8,2015-01-07,Anti-PovertyInitiatives-Fiscal2015,2015,designate,,,"Garodnick UpperGreenSide,Inc.",,208289407,4000,DPR,,,.00 846 006,**
+8,2015-01-07,Anti-PovertyInitiatives-Fiscal2015,2015,rescind,,,"Eugene ClaireHeureuseCommunityCenter,Inc.",,260364816,-4000,DYCD,,,.00) 260 005,**
+8,2015-01-07,Anti-PovertyInitiatives-Fiscal2015,2015,designate,,,"Eugene ClaireHeureuseCommunityCenter,Inc.",,260364816,4000,DFTA,,,.00 125 003,**
+8,2015-01-07,CulturalAfter-SchoolAdventure(CASA)Initiative-Fiscal2015,2015,rescind,,,Member Organization EINNumber Agency Amount Agy# U/A * VanBramer MuseumoftheMovingImage-PS150Q,,112730714,-20000,DCLA,,,.00) 126 003 *,
+8,2015-01-07,CulturalAfter-SchoolAdventure(CASA)Initiative-Fiscal2015,2015,designate,,,VanBramer AmericanMuseumoftheMovingImage-PS150Q,,112730714,20000,DCLA,,,.00 126 003 *,
+8,2015-01-07,AGreenerNYCInitiative-Fiscal2015,2015,rescind,,,"Organization EINNumber Agency Amount Agy# U/A * QueensBotanicalGardenSociety,Inc.",,111635083,-50000,DYCD,,,.00) 260 005,**
+8,2015-01-07,AGreenerNYCInitiative-Fiscal2015,2015,designate,,,"QueensBotanicalGardenSociety,Inc.",,111635083,50000,DCLA,,,.00 126 011,**
+8,2015-01-07,LocalDiscretionary-Fiscal2014,2014,rescind,,,Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization * ConduitEIN Vacca ChesterCivicImprovementAssociation,,133908492,-5000,DYCD,,,.00) 260 005,
+8,2015-01-07,LocalDiscretionary-Fiscal2014,2014,designate,,,Vacca NeighborhoodInitiativesDevelopmentCorporation,,133110811,5000,DYCD,,,.00 260 005,
+8,2015-01-07,LocalDiscretionary-Fiscal2014,2014,rescind,,,Vacca CatholicWidowsandWidowersoftheBronx,,133715149,-1000,DYCD,,,.00) 260 005,
+8,2015-01-07,LocalDiscretionary-Fiscal2014,2014,designate,,,Vacca VISIONS/ServicesfortheBlindandVisuallyImpaired,,131624210,1000,DYCD,,,.00 260 312,
+8,2015-01-07,YouthDiscretionary-Fiscal2014,2014,rescind,,,Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization * ConduitEIN Mark-Viverito MountSinaiSchoolofMedicineofNewYorkUniversity,,131624096,-5000,DYCD,,,.00) 260 312,
+8,2015-01-07,YouthDiscretionary-Fiscal2014,2014,designate,,,Mark-Viverito MountSinaiHospital,,131624096,5000,DYCD,,,.00 260 312,
+8,2015-01-07,LocalDiscretionary-Fiscal2013,2013,rescind,,,Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization * ConduitEIN Rose MountSinaiMedicalCenterInc.,,136271888,-5000,DYCD,,,.00) 260 312,
+8,2015-01-07,LocalDiscretionary-Fiscal2013,2013,designate,,,Rose MountSinaiHospital,,131624096,5000,DYCD,,,.00 260 312,
+8,2015-01-07,YouthDiscretionary-Fiscal2013,2013,rescind,,,Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization * ConduitEIN Garodnick MountSinaiMedicalCenterInc.,,136271888,-39714,DYCD,,,.00) 260 312,
+8,2015-01-07,YouthDiscretionary-Fiscal2013,2013,designate,,,Garodnick MountSinaiHospital,,131624096,39714,DYCD,,,.00 260 312,
+8,2015-01-07,PurposeofFundsChanges-Fiscal2015,2015,rescind,,,"Source Member Organization EINNumber Agency Amount NewPurposeofFunds * Local City-Wide FundfortheCityofNewYork,Inc.",,132612524,-200000,MISC,,,.00),
+8,2015-01-07,PurposeofFundsChanges-Fiscal2015,2015,designate,,,"Local City-Wide FundfortheCityofNewYork,Inc.",,132612524,200000,MISC,,,.00 Administrativefeeandinterestforsupplementalloanfunds.,
+8,2015-01-07,PurposeofFundsChanges-Fiscal2015,2015,rescind,,,"Russian-SpeakingCommunityCouncilOf Lawyerstaffing,venuerenting,materials,andotheroverheadcostforRussian Local Rodriguez ManhattanAndTheBronx Community Fundswillbeusedtoplanandimplementeducationaleventsonimmigrationandthe",,453368569,-7000,DYCD,,,.00),
+8,2015-01-07,PurposeofFundsChanges-Fiscal2015,2015,designate,,,"Russian-speakingcommunityanddevelopeducationalmaterialsforotherinstitutions onUSandworldmigration,cross-culturalcommunication,andrelatedtopics.2.Direct Russian-SpeakingCommunityCouncilOf services:fundswillbeusedtocoverthecosts(suchasrent,wages,etc.)ofproviding Local Rodriguez ManhattanAndTheBronx low-fee/probonoimmigrationandnaturalizationassistancebyanexperiencedbilingual attorney;EnglishandRussiancivicsclasses;andassistancewithapplyingforpublic benefits.3.Organizingandpublicawareness:fundswillbeusedtoward planning/holdingdiscussions/formsonmattersofcommunityconcern.",,453368569,7000,DYCD,,,.00,
+8,2015-01-07,PurposeofFundsChanges-Fiscal2014,2014,rescind,,,"Source Member Organization EINNumber Agency Amount NewPurposeofFunds * HenryStreetSettlementwillserveasafiscalconduit,fortheSalLainAthletic Association. Fundsareusedforasportsandrecreationalprogramthatservesthelow- Youth Mendez HenryStreetSettlement incomeyouthoftheLowerEastSide,includingrunningaflagfootballleagueduringthe",,131562242,-4000,DYCD,,,.00),
+8,2015-01-07,PurposeofFundsChanges-Fiscal2014,2014,designate,,,"fall,aswellasacommunityevent,andfieldtrip. Youth Mendez HenryStreetSettlement andfieldtrip.",,131562242,4000,DYCD,,,".00 FundingtosupportFlagfootballleagueattheSolLainplayground,communityevent",

@@ -1,0 +1,38 @@
+FY17 NYC COUNCIL TRANSPARENCY RESOLUTIONS - PARSE + RECONCILIATION NOTES
+==============================================================================
+
+RECONCILIATION STATUS: NOT RECONCILABLE (against printed totals).
+These documents print NO per-chart or grand totals -- only award rows. There is
+nothing in the source to reconcile parsed dollar sums against. The figures below
+are parse counts, not reconciled totals. The one internal consistency check the
+documents permit is the transfer net-out: within a chart a rescission (negative)
+and its paired re-designation (positive) should net to ~0. Reported as "net".
+
+reso date          rows      designate$        rescind$          net$
+----------------------------------------------------------------------
+   1 2016-07-14     684      22,732,699     -23,205,199      -472,500
+   2 2016-08-16    1019      31,878,693     -31,895,525       -16,832
+   3 2016-09-14     421      12,264,131     -10,819,751     1,444,380
+   4 2016-09-28     550      19,432,412     -19,342,412        90,000
+   5 2016-10-27     458       7,138,667      -7,144,672        -6,005
+   6 2016-11-16     166       3,631,785      -3,631,785             0
+   7 2016-12-15     332       4,210,738      -4,700,118      -489,380
+   8 2017-01-18     303      11,785,266     -11,749,828        35,438
+   9 2017-02-01     161       3,754,924      -3,734,924        20,000
+  10 2017-03-01     122       2,460,710      -2,460,710             0
+  11 2017-03-16     129       1,397,062      -1,417,062       -20,000
+  12 2017-04-05     130       2,157,444      -2,094,244        63,200
+  13 2017-06-06     181       1,145,133      -1,205,135       -60,002
+----------------------------------------------------------------------
+ ALL               4656     123,989,664    -123,401,365       588,299
+
+rows by action:  designate=3231  purpose_change=425  rescind=1000
+rows by fiscal year:  ?=2  2012=2  2014=2  2015=73  2016=136  2017=4441
+
+unresolved organization (dense-chart text-layer artifacts): 0 of 4656 rows (0.00%) -- amount/EIN/agency captured, org name orphaned
+
+org-text confidence: HIGH -- 0 of 4656 rows (0.00%) show glued-word (0) or header-bleed (0) artifacts in the org field.
+  (EIN / amount / agency / date / action are deterministic and unaffected.)
+
+SPOTLIGHT - Artificial Intelligence Community Engagement (AICE, $1M initiative):
+  NOT FOUND in any parsed resolution.
