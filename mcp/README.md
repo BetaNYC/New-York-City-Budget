@@ -58,6 +58,25 @@ npm test             # build + build-index + run the journey tests
 
 `mcp/data/budget.db` is a build artifact (git-ignored); `npm install` regenerates it from `../data/`.
 
+## Run it as a live local MCP (prototype, personal-only)
+
+Because this is an unpublished prototype (`"private": true`, not on npm), wire it into your **personal, machine-local** client config — never the workspace's committed `.mcp.json` (which must stay portable / `npx`-resolvable per that repo's convention).
+
+1. Build + index once: `npm install` (or `npm run build && npm run build-index`) inside `mcp/`.
+2. Add a project-scoped entry to `~/.claude.json` under your workspace's `projects` key (Claude Desktop: its equivalent config), using an **absolute path** to the built server:
+   ```json
+   "mcpServers": {
+     "nyc-budget": {
+       "command": "node",
+       "args": ["/ABSOLUTE/PATH/TO/New-York-City-Budget/mcp/dist/index.js"]
+     }
+   }
+   ```
+   The server resolves `budget.db` from its own `__dirname`, so it works regardless of the launch cwd — no `cwd` key needed.
+3. **Restart the client.** MCP servers load at startup; a running session will not hot-load a newly-added server.
+
+After restart the 7 `nyc-budget` tools are callable. **After any data or code change, re-run `npm run build && npm run build-index`** — the server serves the built `dist/` + `budget.db`, not the TypeScript source or the CSVs directly.
+
 ## Tests
 
 `test/journeys.test.js` re-runs all 8 user journeys from `people/noel/work/2026-07-07-mcp-budget-user-journeys.md` (in the BetaNYC workspace) against the real MCP tools, driven in-process through the MCP protocol via `InMemoryTransport`, asserting the same real answers found by hand: BetaNYC EIN `13-2612524` (FY25 $115k / FY26 $115k / FY27 $95k), Council District 33 / Restler capital ($18,750,000 across 12 FY2026 projects), and the FY2026 Transparency Resolution 1 Noel Pointer → El Puente CASA transfer. Journey 8 (Socrata cross-source diff) is genuinely blocked; the test asserts the MCP correctly reports the FY2008–FY2024 parse gap instead.
