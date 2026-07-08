@@ -8,7 +8,7 @@ Every column in every CSV this repository produces, what it means, and how the f
 
 ## Coverage at a glance
 
-Not every document type exists (or is machine-readable) for every year. This matters: the discretionary **award** files — the ones with per-organization EINs — only exist FY2016 onward. Earlier years have initiatives-level Schedule C only (no organization/EIN detail), because pre-FY2016 designations were largely made *after* budget adoption and live in the Transparency Resolutions instead.
+Not every document type exists (or is machine-readable) for every year. This matters: the discretionary **award** files — the ones with per-organization EINs — only exist **FY2015 onward** (FY2015 is the earliest EIN-level Schedule C). Earlier years (FY2009–FY2014) have initiatives-level Schedule C only (no organization/EIN detail), because those designations were largely made *after* budget adoption and live in the Transparency Resolutions instead.
 
 | FY | Schedule C | Terms & Conditions | Capital §254 | Transparency Resolutions |
 |----|-----------|--------------------|--------------|--------------------------|
@@ -22,13 +22,13 @@ Not every document type exists (or is machine-readable) for every year. This mat
 | 2022–2024 | **awards + initiatives** | ✔ | ✔ | ✔ |
 | 2025–2027 | **awards + initiatives** | ✔ | ✔ | 2026 only |
 
-"awards" = the `_awards.csv` file with per-organization EINs. **EIN-keyed analysis is only valid FY2016–FY2027** (plus FY2015 if its awards parse). See [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) for the full gap list.
+"awards" = the `_awards.csv` file with per-organization EINs. **EIN-keyed analysis (and the budget MCP's award tools) is valid FY2015–FY2027.** FY2009–FY2014 are initiatives-only (no EIN) and are excluded from EIN-keyed tooling. See [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) for the full gap list.
 
 ---
 
 ## `data/{year}/schedule_c/{year}_schedule_c_awards.csv`
 
-One row per discretionary designation to a named organization. **The primary who-got-what file. FY2016+ only.**
+One row per discretionary designation to a named organization. **The primary who-got-what file. FY2015+ only.**
 
 | Column | Type | Meaning |
 |--------|------|---------|
@@ -132,7 +132,7 @@ Post-adoption discretionary designations, rescissions, and purpose changes. **No
 
 Cross-year roll-ups built by [`code/build_combined.py`](code/build_combined.py). Same columns as the per-year files with a leading `year` column.
 
-- `all_years_awards.csv` — `year, category, initiative, award_type, member, organization, program, ein, amount, agency`
+- `all_years_awards.csv` — `year, category, initiative, award_type, member, organization, program, ein, amount, agency, purpose` (FY2015–FY2027; `purpose` is carried through so source-distinct rows are not collapsed into false duplicates — see DATA-ANOMALIES #10)
 - `all_years_initiatives.csv` — `year, category, agencies, initiative, amount`
 
 ## `data/combined/legistar_crosswalk.csv`
