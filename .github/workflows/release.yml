@@ -1,0 +1,81 @@
+# Release gate for @betanyc/nyc-budget-mcp.
+#
+# Adapted from the BetaNYC MCP fleet's release.yml (nyc-checkbook-mcp is the
+# reference), with one structural difference: in this repo the MCP is NOT the
+# repo root — it lives in the mcp/ subdirectory alongside the budget-data
+# pipeline and docs. So every npm step runs with working-directory: mcp, the
+# Node cache is keyed on mcp/package-lock.json, and the tag/version check reads
+# mcp/package.json.
+#
+# Trigger: pushing a tag of the form `mcp-v*` (e.g. mcp-v1.0.0). We scope the
+# tag with the `mcp-` prefix rather than the fleet's bare `v*` precisely because
+# this is a monorepo: a repo-global `v*` tag would ambiguously mean "release of
+# the whole New-York-City-Budget repo" (data pipeline included), not "release of
+# the MCP package." The prefix keeps MCP releases unambiguous and prevents a
+# future data-pipeline tag from firing an npm publish. The tag version must match
+# mcp/package.json (guarded below).
+#
+# Prerequisite: an NPM_TOKEN secret (org or repo) with publish rights to the
+# @betanyc scope. Provenance requires id-token: write and publishing from GitHub
+# Actions. The build reads ../data/ at pack time (via the `prepare` script), so
+# the full repo checkout is required — actions/checkout@v4 provides it.
+#
+# This never runs on branch pushes or PRs — only tags. Do not tag until the
+# version bump is merged to main.
+
+name: Release
+
+on:
+  push:
+    tags:
+      - "mcp-v*"
+
+permissions:
+  contents: write # create the GitHub Release
+  id-token: write # npm provenance attestation
+
+jobs:
+  publish:
+    name: Publish to npm + GitHub Release
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: mcp
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "npm"
+          cache-dependency-path: mcp/package-lock.json
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: npm test --if-present
+
+      - name: Verify tag matches package.json version
+        run: |
+          PKG_VERSION="$(node -p "require('./package.json').version")"
+          EXPECTED="mcp-v${PKG_VERSION}"
+          if [ "${GITHUB_REF_NAME}" != "${EXPECTED}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match mcp/package.json version (${PKG_VERSION}); expected ${EXPECTED}" >&2
+            exit 1
+          fi
+
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" --generate-notes

@@ -1,0 +1,76 @@
+# CI gate for @betanyc/nyc-budget-mcp (the MCP server in mcp/).
+#
+# Enforces that the TypeScript build (`npm run build` -> `tsc`) and the test
+# suite (`node --test test/*.test.js`) both pass on a clean `npm ci` install,
+# across the supported Node range. This catches type errors, dependency drift,
+# and data-layer regressions before merge — the same version-safety discipline
+# the main workspace's Python tree enforces in engineering-checks.yml (see
+# platform/system/engineering-standards.md in BetaNYC_AI_Workspace).
+#
+# Subdirectory note: the MCP is not the repo root — it lives in mcp/. Every npm
+# step runs with working-directory: mcp and the Node cache is keyed on
+# mcp/package-lock.json. The `prepare`/`pretest` scripts read ../data/ at build
+# time, so the full repo checkout (actions/checkout@v4) is required.
+#
+# Node matrix: 20.x and 22.x. package.json declares engines "node >= 18", but
+# Node 18 reached End-of-Life on 2025-04-30, so the matrix covers only
+# actively-maintained LTS releases (20 = floor, 22 = current LTS). This mirrors
+# the sibling nyc-checkbook-mcp CI convention. fail-fast is disabled so a break
+# on one version still reports the other.
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "mcp/**"
+      - ".github/workflows/**"
+  push:
+    branches: [main]
+    paths:
+      - "mcp/**"
+      - ".github/workflows/**"
+  # Manual trigger — lets us fire a run on any branch. A path-scoped
+  # pull_request/push event does not fire on the very PR that introduces the
+  # workflow, so this dispatch is retained as a low-cost on-demand affordance.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build + test (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version:
+          - "20.x"
+          - "22.x"
+
+    defaults:
+      run:
+        working-directory: mcp
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: mcp/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test
