@@ -1,0 +1,27 @@
+SCHEDULE C RECONCILIATION  (fy12)  [parser: parse_schedule_c_legacy.py, early-era]
+source: fy2012-skedcfinal.pdf  (393 pages)
+
+Early-era Schedule C: initiatives-summary reconciliation only. These documents carry NO
+award-level EIN tables (post-adoption designations live in the Transparency Resolutions),
+so no awards/appendix files are emitted.
+
+CATEGORY                                                initiatives        printed  status
+MOCS.                                                    46,890,000     46,890,000  OK
+CIVIL LEGAL SERVICES                                      4,035,000      4,035,000  OK
+CRIMINAL JUSTICE SERVICES                                 4,400,000      4,400,000  OK
+CULTURAL ORGANZIATIONS                                   35,348,790     35,348,790  OK
+DOMESTIC VIOLENCE                                         3,595,000      3,595,000  OK
+EDUCATION                                                10,750,000     10,750,000  OK
+ELECTED OFFICIALS                                           692,006        692,006  OK
+FIRE SERVICES                                            40,903,754     40,903,754  OK
+HIGHER EDUCATION                                          3,350,000      3,350,000  OK
+HOMELESS SERVICES                                         1,450,000      1,450,000  OK
+HOUSING                                                   5,260,000      5,260,000  OK
+LIBRARIES                                                61,000,000     61,000,000  OK
+PARKS AND RECREATION                                      7,820,500      7,820,500  OK
+SENIOR SERVICES                                           6,191,000      6,191,000  OK
+SOCIAL SERVICES                                          10,986,000     10,986,000  OK
+YOUTH AND COMMUNITY DEVELOPMENT                          33,420,000     33,420,000  OK
+GRAND TOTAL                                             276,092,050    276,092,050  16/16 categories exact
+
+initiatives rows: 97

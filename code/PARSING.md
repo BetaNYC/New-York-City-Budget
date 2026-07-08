@@ -18,6 +18,7 @@ that the packages in `code/requirements.txt` are installed (`pypdf`, `pdfplumber
 | Parser | Document type | Text technique |
 |---|---|---|
 | `parse_schedule_c.py` | Schedule C (discretionary expense) | pypdf text layer, ToC-driven |
+| `parse_schedule_c_legacy.py` | Schedule C **initiatives** (early era, FY09-FY14) | pypdf text layer |
 | `parse_terms.py` | Terms & Conditions, **numbered-item** format (FY25–FY27) | pypdf text layer |
 | `parse_terms_legacy.py` | Terms & Conditions, **unnumbered-header** format (FY15–FY24) | pypdf text layer |
 | `parse_capital.py` | §254 Capital Project Detail — **FY27** clean-pypdf | pypdf text layer |
@@ -55,13 +56,39 @@ Invocation pattern:
 | FY22 | `Fiscal-2022-Schedule-C-Merge-6.30.21.pdf` | 24/26 exact | Veterans −714,500 in-source; trailing Youth. |
 | FY23 | `Fiscal-2023-Schedule-C-Merge-6.13.22-Final-1.pdf` | 26/26 exact | Perfectly clean. |
 | FY24 | `Fiscal-2024-Schedule-C-Merge-Final.pdf` | 24/26 exact | Criminal Justice +52,935 in-source; trailing Youth. |
-| FY08–FY15 | (older-era format) | see "Bounded / blocked" below | Not yet reconciled by the current parser. |
+| FY08 | (earliest era) | see "Bounded / blocked" below | Distinct pre-FY09 format; deferred. |
+| FY15 | `fy2015-FY15-Schedule-C-Template-Final.pdf` | PARTIAL 21/28 | 3 categories undercount (real); best-effort, see below. |
 
 The single per-category diffs above are arithmetic inconsistencies *inside the official PDFs*
 (line items vs. the printed category TOTAL), the same class already documented for FY25–FY27 —
 not extraction errors. "Trailing no-block category" = a ToC category (usually Youth Services)
 funded only through an appendix, with no main-body Council-Initiatives summary block, so it
 correctly maps to no block and shows 0/0.
+
+---
+
+### Schedule C — early era (FY2009–FY2014)
+
+The FY09–FY14 Schedule C documents have NO award-level EIN tables (discretionary designations
+were made post-adoption — see the Transparency Resolutions for org-level detail). They DO carry a
+reconcilable per-category *initiatives summary* (`CATEGORY` → `Agency Initiative Funding` table →
+`TOTAL $X`). `parse_schedule_c_legacy.py` extracts it and reconciles the row sum against the
+printed TOTAL. It emits only `*_schedule_c_initiatives.csv` + `*_schedule_c_reconciliation.txt`
+(no awards/appendix files — that data isn't in these documents).
+
+```bash
+.venv/bin/python code/parse_schedule_c_legacy.py <ScheduleC.pdf> \
+    --outdir data/fyNN/schedule_c --prefix fyNN
+```
+
+| FY | Source PDF | Reconciliation |
+|---|---|---|
+| FY09 | `fy09-Schedule-C-final.pdf` | 21/22 (Health Svcs −$500k in-source) |
+| FY10 | `fy_2010_sched_c_final.pdf` | **21/21 exact** |
+| FY11 | `fy2011-C2011.pdf` | 18/19 (Education +$250k in-source) |
+| FY12 | `fy2012-skedcfinal.pdf` | **16/16 exact** |
+| FY13 | `fy2013-FY-2013-Schedule-C-Merge-Final1.pdf` | **17/17 exact** |
+| FY14 | `fy2014-skedc.pdf` | **17/17 exact** |
 
 ---
 
@@ -97,9 +124,10 @@ found on council.nyc.gov) → N/A.
 
 ## Bounded / blocked (tracked here, see status table at bottom)
 
-- **Schedule C FY2008–FY2014** — older document era; the parser finds 0 summary blocks (the
-  `Agency Initiative Amount` table marker and ToC shape differ). FY2014 additionally crashed
-  the reconciliation writer on a `None` page index (guarded). Bounded-effort target.
+- ~~Schedule C FY2009–FY2014~~ — **RESOLVED** by `parse_schedule_c_legacy.py` (initiatives-only,
+  reconciled; see the early-era table above). **FY2008** remains deferred: a distinct earliest-era
+  format with none of the FY09+ markers. NOTE: the main `parse_schedule_c.py` still raises on
+  FY2008/FY2014-shaped input (0 categories) — those years route to the legacy parser instead.
 - **Schedule C FY2015** — 21/28; three categories (Children's −500k, Food −100k, Senior −2.1M)
   genuinely undercount (dropped line items), beyond in-source arithmetic. Best-effort.
 - ~~Schedule C FY2018~~ — **RESOLVED**: its contents page is headed 'Contents' not
@@ -188,12 +216,12 @@ NOT_RECONCILED · BLOCKED · N/A (no such document that year).
 | FY | Schedule C | Terms & Conditions | Capital | Transparency Resolutions |
 |---|---|---|---|---|
 | FY08 | NOT_RECONCILED (older era) | N/A | BLOCKED (.doc only) | N/A (via Legistar only) |
-| FY09 | NOT_RECONCILED (0/22) | N/A | pending | BLOCKED (scanned, no text) |
-| FY10 | NOT_RECONCILED (older era) | N/A | pending | EXTRACTED 12 (org-text LOW) |
-| FY11 | NOT_RECONCILED (older era) | N/A | pending | EXTRACTED 10 (org-text LOW) |
-| FY12 | NOT_RECONCILED (older era) | N/A | BLOCKED (JBIG2 scan) | EXTRACTED 7 (org-text LOW) |
-| FY13 | NOT_RECONCILED (older era) | N/A | pending | EXTRACTED 9 (3 .doc BLOCKED) |
-| FY14 | NOT_RECONCILED (crash guarded) | N/A | N/A (not published) | EXTRACTED 3 |
+| FY09 | RECONCILED 21/22 (init)| N/A | pending | BLOCKED (scanned, no text) |
+| FY10 | RECONCILED 21/21 (init)| N/A | pending | EXTRACTED 12 (org-text LOW) |
+| FY11 | RECONCILED 18/19 (init)| N/A | pending | EXTRACTED 10 (org-text LOW) |
+| FY12 | RECONCILED 16/16 (init)| N/A | BLOCKED (JBIG2 scan) | EXTRACTED 7 (org-text LOW) |
+| FY13 | RECONCILED 17/17 (init)| N/A | pending | EXTRACTED 9 (3 .doc BLOCKED) |
+| FY14 | RECONCILED 17/17 (init)| N/A | N/A (not published) | EXTRACTED 3 |
 | FY15 | PARTIAL (21/28) | EXTRACTED (17) | pending | EXTRACTED 12 |
 | FY16 | RECONCILED (24/26) | EXTRACTED (30) | pending | EXTRACTED 13 |
 | FY17 | RECONCILED (24/27) | EXTRACTED (30) | EXTRACTED (ResoA) | EXTRACTED 13 |

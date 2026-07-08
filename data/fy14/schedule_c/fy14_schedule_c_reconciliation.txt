@@ -1,0 +1,28 @@
+SCHEDULE C RECONCILIATION  (fy14)  [parser: parse_schedule_c_legacy.py, early-era]
+source: fy2014-skedc.pdf  (439 pages)
+
+Early-era Schedule C: initiatives-summary reconciliation only. These documents carry NO
+award-level EIN tables (post-adoption designations live in the Transparency Resolutions),
+so no awards/appendix files are emitted.
+
+CATEGORY                                                initiatives        printed  status
+ANTI-GUN VIOLENCE INITIATIVE                              4,807,000      4,807,000  OK
+CUNY                                                     63,700,000     63,700,000  OK
+CIVIL LEGAL SERVICES                                      4,035,000      4,035,000  OK
+CRIMINAL JUSTICE SERVICES                                 4,950,000      4,950,000  OK
+CULTURAL ORGANIZATIONS                                   15,900,000     15,900,000  OK
+DOMESTIC VIOLENCE                                         4,250,000      4,250,000  OK
+EDUCATION                                                17,635,000     17,635,000  OK
+FIRE SERVICES                                            43,682,294     43,682,294  OK
+GOVERNMENT OFFICIALS                                        533,606        533,606  OK
+HIGHER EDUCATION                                          3,990,000      3,990,000  OK
+HOMELESS SERVICES                                         1,450,000      1,450,000  OK
+HOUSING                                                   5,060,000      5,060,000  OK
+IMMIGRANT SERVICES                                        5,100,000      5,100,000  OK
+LIBRARIES                                                12,849,000     12,849,000  OK
+PARKS AND RECREATION                                      4,437,000      4,437,000  OK
+SENIOR SERVICES                                          30,135,601     30,135,601  OK
+SOCIAL SERVICES                                          82,279,104     82,279,104  OK
+GRAND TOTAL                                             304,793,605    304,793,605  17/17 categories exact
+
+initiatives rows: 123
