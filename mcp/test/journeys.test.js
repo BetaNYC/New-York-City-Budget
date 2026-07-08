@@ -85,7 +85,7 @@ test("Journey 2 — community board: District 33 (Restler) FY2026 discretionary 
 });
 
 test("Journey 3 & 7 — BetaNYC (EIN 13-2612524) discretionary history FY25/26/27 + adoption status", async () => {
-  // EIN 13-2612524 is a fiscal sponsor (Delegation Fund) — narrow by program to isolate BetaNYC.
+  // EIN 13-2612524 is the Fund for the City of New York, a fiscal sponsor — narrow by program to isolate BetaNYC.
   const out = await callText("search_awards", { ein: "13-2612524", program: "BetaNYC", limit: 500 });
   assert.match(out, /FY2025: 6 award\(s\), \$115,000/);
   assert.match(out, /FY2026: 6 award\(s\), \$115,000/);
@@ -102,9 +102,12 @@ test("Journey 3 & 7 — BetaNYC (EIN 13-2612524) discretionary history FY25/26/2
 
 test("Journey 3 sanity — get_awards_by_ein returns the full fiscal-sponsor pool (not just BetaNYC)", async () => {
   const out = await callText("get_awards_by_ein", { ein: "132612524" });
-  // The Delegation Fund EIN aggregates many programs; the per-year totals far
-  // exceed BetaNYC's slice — proving the tool honestly returns the whole pool.
-  assert.match(out, /Delegation Fund for the City of New York/);
+  // EIN 13-2612524 is the Fund for the City of New York, a fiscal sponsor whose
+  // EIN aggregates many programs. The unfiltered call returns the whole pool
+  // (hundreds of awards across many orgs), far exceeding BetaNYC's slice —
+  // proving the tool honestly returns everything on the EIN, not just BetaNYC.
+  assert.match(out, /Fund for the City of New York/);
+  assert.match(out, /Center for Court Innovation/); // a large non-BetaNYC program on the same EIN
   assert.match(out, /FY2025:/);
   assert.match(out, /FY2026:/);
   assert.match(out, /FY2027:/);

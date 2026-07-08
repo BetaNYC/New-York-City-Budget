@@ -38,13 +38,13 @@ const EXPECTED_AWARDS = {
   2018: { count: 480, total: 102716956 },
   2019: { count: 846, total: 181026931 },
   2020: { count: 2841, total: 258762385 },
-  2021: { count: 1800, total: 201529188 },
-  2022: { count: 1479, total: 221761943 },
-  2023: { count: 1824, total: 260064374 },
-  2024: { count: 5299, total: 398000074 },
-  2025: { count: 5609, total: 410223110 },
-  2026: { count: 5806, total: 483619905 },
-  2027: { count: 6085, total: 600928032 },
+  2021: { count: 1810, total: 202070188 },
+  2022: { count: 1492, total: 222556943 },
+  2023: { count: 1848, total: 262419214 },
+  2024: { count: 5368, total: 400663574 },
+  2025: { count: 5646, total: 412985110 },
+  2026: { count: 5838, total: 487287245 },
+  2027: { count: 6118, total: 605111412 },
 };
 
 let client;
