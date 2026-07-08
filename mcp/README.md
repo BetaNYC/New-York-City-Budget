@@ -1,6 +1,6 @@
 # mcp/ — NYC Budget MCP server (prototype)
 
-A local Model Context Protocol (MCP) server that wraps this repository's data — NYC Council discretionary funding (Schedule C), Terms & Conditions, Section 254 capital changes, the FY2026 Transparency Resolutions, and the FY2008–FY2027 Legistar crosswalk — and exposes it to MCP-capable AI clients as structured query tools.
+A local Model Context Protocol (MCP) server that wraps this repository's data — NYC Council discretionary funding (Schedule C), Terms & Conditions, Section 254 capital changes, the Transparency Resolutions, and the FY2008–FY2027 Legistar crosswalk — and exposes it to MCP-capable AI clients as structured query tools.
 
 > **Status: prototype.** This validates the tool design against real data before deciding whether it becomes a public BetaNYC MCP. It reads the repo's `data/` tree directly (no vendored copy), builds a local SQLite index, and serves it over stdio.
 
@@ -10,21 +10,21 @@ It reads the parent repo's own `../data/` tree directly — there is no copied C
 
 | Dataset | Coverage | Notes |
 |---|---|---|
-| Schedule C awards | **FY2025–FY2027** | FY2008–FY2024 are not parsed to CSV yet (source PDFs only) |
-| Terms & Conditions | **FY2025–FY2027** | |
-| Capital (§254) | **FY2025–FY2027** | FY2025 is a different, non-reconcilable document type |
-| Transparency Resolutions | **FY2026** | The FY2026 file also carries embedded FY2023–FY2025 rows |
-| Legistar crosswalk | **FY2008–FY2027** | Provenance index; covers years not yet parsed to CSV |
+| Schedule C awards | **FY2015–FY2027** | FY2015 is the earliest EIN-level year. FY2009–FY2014 are initiatives-only (no EIN) and are **excluded** from the award tools; FY2008 is unparsed |
+| Terms & Conditions | **FY2015–FY2018 + FY2021–FY2027** | No standalone T&C document exists for FY2019/FY2020 |
+| Capital (§254) | **FY2020 + FY2022–FY2027** | No FY2021 detail book. FY2025 is the "Appropriation Changes" type (different schema, non-reconcilable) |
+| Transparency Resolutions | **FY2010–FY2024 + FY2026** | Filtered by resolution document year (`source_fy`). **FY2010–FY2013 org/program TEXT is low-confidence** — financial columns reliable, join on EIN. FY2009 + FY2025/FY2027 not parsed |
+| Legistar crosswalk | **FY2008–FY2027** | Provenance index; covers years not parsed to CSV |
 
-The tools do **not** pretend pre-FY2025 award/terms/capital data exists. `list_available_fiscal_years` reports the gap explicitly.
+The tools do **not** pretend data exists where it doesn't: FY2009–FY2014 award data (there is none — initiatives-only) and the unparsed years are reported honestly by `list_available_fiscal_years`, which states exact per-dataset coverage and the FY2009–FY2014 no-EIN boundary.
 
 ## Tools
 
 | Tool | Purpose |
 |---|---|
 | `search_awards` | Schedule C awards by EIN / organization / program / council member / fiscal year / category / initiative |
-| `get_awards_by_ein` | Every award for an EIN across FY2025–FY2027, with per-year totals |
-| `search_transparency_resolutions` | FY2026 post-adoption designations / rescissions / purpose changes |
+| `get_awards_by_ein` | Every award for an EIN across FY2015–FY2027, with per-year totals |
+| `search_transparency_resolutions` | FY2010–FY2024 + FY2026 post-adoption designations / rescissions / purpose changes (FY2010–FY2013 text low-confidence) |
 | `get_legistar_link` | Legistar matter/URL/adoption date for a source document (surfaces `status`) |
 | `search_capital_projects` | §254 capital by agency / fiscal year / sponsor / title |
 | `get_terms_conditions` | Reporting mandates by fiscal year / agency |
@@ -79,7 +79,9 @@ After restart the 7 `nyc-budget` tools are callable. **After any data or code ch
 
 ## Tests
 
-`test/journeys.test.js` re-runs all 8 user journeys from `people/noel/work/2026-07-07-mcp-budget-user-journeys.md` (in the BetaNYC workspace) against the real MCP tools, driven in-process through the MCP protocol via `InMemoryTransport`, asserting the same real answers found by hand: BetaNYC EIN `13-2612524` (FY25 $115k / FY26 $115k / FY27 $95k), Council District 33 / Restler capital ($18,750,000 across 12 FY2026 projects), and the FY2026 Transparency Resolution 1 Noel Pointer → El Puente CASA transfer. Journey 8 (Socrata cross-source diff) is genuinely blocked; the test asserts the MCP correctly reports the FY2008–FY2024 parse gap instead.
+`test/journeys.test.js` re-runs all 8 user journeys from `people/noel/work/2026-07-07-mcp-budget-user-journeys.md` (in the BetaNYC workspace) against the real MCP tools, driven in-process through the MCP protocol via `InMemoryTransport`, asserting the same real answers found by hand: BetaNYC EIN `13-2612524` (FY25 $115k / FY26 $115k / FY27 $95k), Council District 33 / Restler capital ($18,750,000 across 12 FY2026 projects), and the FY2026 Transparency Resolution 1 Noel Pointer → El Puente CASA transfer. Journey 8 asserts the MCP honestly reports its coverage and the FY2009–FY2014 no-EIN boundary.
+
+`test/coverage.test.js` is the per-fiscal-year gate: for **every award year FY2015–FY2027** it asserts the year is queryable through the tools, its award count and dollar total match the QA-cleared committed data exactly, and every award row carries a valid 9-digit EIN. It also asserts the honesty boundary (FY2009–FY2014 have no award rows), the exact per-dataset year coverage, and that the FY2010–FY2013 transparency low-confidence caveat is flagged and surfaced. Full suite: **27 tests, all passing** (13 per-year award checks + 4 coverage/honesty checks + 10 journeys).
 
 ## Provenance & licensing
 

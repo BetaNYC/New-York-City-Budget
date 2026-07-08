@@ -1,0 +1,28 @@
+SCHEDULE C RECONCILIATION  (fy13)  [parser: parse_schedule_c_legacy.py, early-era]
+source: fy2013-FY-2013-Schedule-C-Merge-Final1.pdf  (258 pages)
+
+Early-era Schedule C: initiatives-summary reconciliation only. These documents carry NO
+award-level EIN tables (post-adoption designations live in the Transparency Resolutions),
+so no awards/appendix files are emitted.
+
+CATEGORY                                                initiatives        printed  status
+ANTI-GUN VIOLENCE INITIATIVE                             66,168,000     66,168,000  OK
+CIVIL LEGAL SERVICES                                      4,035,000      4,035,000  OK
+CIVILIAN COMPLAINT REVIEW BOARD                           1,499,254      1,499,254  OK
+CRIMINAL JUSTICE SERVICES                                 4,900,000      4,900,000  OK
+CULTURAL ORGANZIATIONS                                   11,800,000     11,800,000  OK
+DOMESTIC VIOLENCE                                         3,625,000      3,625,000  OK
+EDUCATION                                                17,950,000     17,950,000  OK
+FIRE SERVICES                                            43,582,294     43,582,294  OK
+GOVERNMENT OFFICIALS                                        483,606        483,606  OK
+HIGHER EDUCATION                                          1,046,137      1,046,137  OK
+HOMELESS SERVICES                                           250,000        250,000  OK
+HOUSING                                                   5,194,000      5,194,000  OK
+LIBRARIES                                                22,000,000     22,000,000  OK
+PARKS AND RECREATION                                     19,220,000     19,220,000  OK
+SENIOR SERVICES                                          24,582,500     24,582,500  OK
+SOCIAL SERVICES                                          11,097,000     11,097,000  OK
+YOUTH AND COMMUNITY DEVELOPMENT                          75,442,100     75,442,100  OK
+GRAND TOTAL                                             312,874,891    312,874,891  17/17 categories exact
+
+initiatives rows: 121

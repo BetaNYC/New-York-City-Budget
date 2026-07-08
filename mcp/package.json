@@ -1,8 +1,8 @@
 {
   "name": "nyc-budget-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "PROTOTYPE (local-only, unpublished) MCP server for BetaNYC's New York City Budget data — Council discretionary funding (Schedule C), Terms & Conditions, Section 254 capital changes, FY2026 Transparency Resolutions, and the FY2008–FY2027 Legistar crosswalk.",
+  "description": "PROTOTYPE (local-only, unpublished) MCP server for BetaNYC's New York City Budget data — Council discretionary funding (Schedule C, FY2015–FY2027 awards), Terms & Conditions, Section 254 capital changes, Transparency Resolutions (FY2010–FY2024 + FY2026), and the FY2008–FY2027 Legistar crosswalk.",
   "keywords": [
     "mcp",
     "model-context-protocol",

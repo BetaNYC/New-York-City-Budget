@@ -1,0 +1,56 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,rescind,,,Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Rose WagnerCollege,,135604699,-5000,DYCD,,,.00) 260 005,**
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,designate,,,Rose WagnerCollege,,135604699,5000,DSBS,,,.00 801 002,**
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,rescind,,,Rose WagnerCollege,,135604699,-5000,DYCD,,,.00) 260 005,**
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,designate,,,Rose WagnerCollege,,135604699,5000,DSBS,,,.00 801 002,**
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,rescind,,,"Arroyo PattersonVolunteerCommittee,Inc.",,133794626,-5000,DYCD,,,.00) 260 005 *,
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,designate,,,"Arroyo TeamworkFoundation,Inc.",,133073873,5000,DYCD,,,.00 260 312 *,
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,rescind,,,Recchia OurLadyofGraceRomanCatholicChurch OurLadyofGraceRomanCatholicChurch-WidowsSupport,,111694947,-5000,DYCD,,,.00) 260 005 *,
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,designate,,,Recchia Group,,111694947,5000,DYCD,,,.00 260 005 *,
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,rescind,,,Recchia OurLadyofGraceRomanCatholicChurch,,111694947,-15000,DFTA,,,.00) 125 003 *,
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,designate,,,Recchia OurLadyofGraceRomanCatholicChurch-GoldenAgeGroup,,111694947,15000,DFTA,,,.00 125 003 *,
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,rescind,,,CC HarlemHospitalCenter,,132655001,-25000,DOHMH,,,.00) 816 113,
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,designate,,,CC HarlemHospitalCenter,,133092676,25000,DOHMH,,,.00 816 113,
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,rescind,,,"Dilan BrainTumorFoundation,The",,134009829,-10000,DOHMH,,,.00) 816 113 *,**
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,designate,,,"Dilan BrooklynHousingandFamilyServices,Inc.",,112412584,10000,HPD,,,.00 806 009,**
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,rescind,,,"Fidler 69thPrecinctCommunityCouncil,Inc. BergenBasinCommunityDevelopmentCorporationd/b/a",,237314869,-5000,DYCD,,,.00) 260 312 *,
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,designate,,,Fidler MillenniumDevelopment,,113199040,5000,DYCD,,,.00 260 312,
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,rescind,,,Chin CabriniCenterForNursingAndRehabilitation,,133742893,-5000,DYCD,,,.00) 260 005,
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,designate,,,"Chin St.AugustinesProjectInc.,The QueensCollegeFoundation,Inc.-KupferbergCenter",,200386393,5000,DYCD,,,.00 260 005 *,
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,rescind,,,"Dromm Performances** QueensCollegeFoundation,Inc.-KupferbergCenter",,116080521,-7500,DYCD,,,.00) 260 005,
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,designate,,,Dromm Performances,,116080521,7500,DCLA,,,.00 126 003,**
+8,2013-01-23,LocalInitiatives-Fiscal2013,2013,rescind,,,Vann ChildrenofPromiseNYC,,830440009,-4000,DYCD,,,.00) 260 312,
+8,2013-01-23,AgingInitiatives-Fiscal2013,2013,rescind,,,"Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Mealy FortGreeneCouncil-ChristopherBlenmanSeniorCenter WaysideOut-ReachDevelopment,Inc.(WORD)-BrevoortSenior",,112300840,-1000,DFTA,,,.00) 125 003,
+8,2013-01-23,AgingInitiatives-Fiscal2013,2013,rescind,,,Mealy Center,,113528680,-4844,DFTA,,,.00) 125 003,
+8,2013-01-23,AgingInitiatives-Fiscal2013,2013,rescind,,,"Mealy WaysideOut-ReachDevelopment,Inc.(WORD)-Mt.Arrata WaysideOut-ReachDevelopment,Inc.(WORD)-RosettaGaston",,113528680,-5000,DFTA,,,.00) 125 003,
+8,2013-01-23,AgingInitiatives-Fiscal2013,2013,rescind,,,"Mealy SeniorCenter WaysideOut-ReachDevelopment,Inc.(WORD)-TildenSenior",,113528680,-5000,DFTA,,,.00) 125 003,
+8,2013-01-23,AgingInitiatives-Fiscal2013,2013,rescind,,,"Mealy Center WaysideOut-ReachDevelopment,Inc.(WORD)-TildenSenior",,113528680,-10000,DFTA,,,.00) 125 003,
+8,2013-01-23,AgingInitiatives-Fiscal2013,2013,rescind,,,"Mealy Center WaysideOut-ReachDevelopment,Inc.(WORD)-VanDykeI",,113528680,-5000,DFTA,,,.00) 125 003,
+8,2013-01-23,AgingInitiatives-Fiscal2013,2013,rescind,,,Mealy SeniorCenter,,113528680,-2156,DFTA,,,.00) 125 003,
+8,2013-01-23,AgingInitiatives-Fiscal2013,2013,designate,,,Mealy NewYorkCityHousingAuthority-MarcusGarveySeniorCenter,,136400434,28000,DFTA,,,.00 125 003,
+8,2013-01-23,AgingInitiatives-Fiscal2013,2013,designate,,,Mealy FortGreeneCouncil-HughGilroySeniorCenter,,112300840,5000,DFTA,,,.00 125 003,
+8,2013-01-23,AgingInitiatives-Fiscal2013,2013,rescind,,,Vann FortGreeneCouncil-Jazz967,,112300840,-10000,DFTA,,,.00) 125 003,
+8,2013-01-23,AgingInitiatives-Fiscal2013,2013,designate,,,"Vann FortGreeneCouncil-Jazz966 InstituteforthePuertoRican/HispanicElderly,Inc.-Leonard",,112300840,10000,DFTA,,,.00 125 003,
+8,2013-01-23,AgingInitiatives-Fiscal2013,2013,rescind,,,"Viverito CovelloSeniorCenter CarterBurdenCenterfortheAging,Inc.,The-LeonardCovello",,132987263,-5500,DFTA,,,.00) 125 003,
+8,2013-01-23,AgingInitiatives-Fiscal2013,2013,designate,,,Viverito SeniorCenter,,237129499,5500,DFTA,,,.00 125 003,
+8,2013-01-23,YouthInitiatives-Fiscal2013,2013,designate,,,Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization ConduitEIN * Vann ChildrenofPromiseNYC,,830440009,4000,DYCD,,,.00 260 312,
+8,2013-01-23,RunawayandHomelessYouthPEGRestoration-Fiscal2013,2013,rescind,,,Organization EINNumber Agency Amount Agy# U/A * AliForneyCenter-BrooklynDrop-InCenterandAuxiliaryServices,,300104507,-287376,DYCD,,,.00) 260 312,
+8,2013-01-23,RunawayandHomelessYouthPEGRestoration-Fiscal2013,2013,designate,,,AliForneyCenter-ManhattanDrop-InCenterandAuxiliaryServices,,300104507,287376,DYCD,,,.00 260 312,
+8,2013-01-23,Anti-GunViolenceInitiative-Fiscal2013,2013,rescind,,,"Organization EINNumber Agency Amount Agy# U/A * FundfortheCityofNewYork,Inc.-ManUp",,132612524,-129400,DOP,,,.00) 781 003,
+8,2013-01-23,Anti-GunViolenceInitiative-Fiscal2013,2013,designate,,,"ManUp!,Inc.",,030553092,129400,DOP,,,.00 781 003,
+8,2013-01-23,OST-Fiscal2013,2013,rescind,,,Organization EINNumber Agency Amount Agy# U/A * Women'sHousingandEconomicDevelopmentCorporation(WHEDCO)-PS218RHernandezDualLang (X218),,113099604,-65000,DYCD,,,.00) 260 312,
+8,2013-01-23,OST-Fiscal2013,2013,designate,,,Women'sHousingandEconomicDevelopmentCorporation(WHEDCO)-IS218RHernandezDualLang (X218),,113099604,65000,DYCD,,,.00 260 312,
+8,2013-01-23,CulturalAfterSchoolAdventure-Fiscal2013,2013,rescind,,,"Member Organization EINNumber Agency Amount Agy# U/A * Quinn MoreArt,Inc-ClintonSchool",,352345641,-20000,DCLA,,,.00) 126 003,
+8,2013-01-23,CulturalAfterSchoolAdventure-Fiscal2013,2013,designate,,,"Quinn MoreArt,Inc.-NYCLabMiddleSchool",,352345641,20000,DCLA,,,.00 126 003,
+8,2013-01-23,InitiativeFundTransfers-Fiscal2013,2013,rescind,,,Source Organization EINNumber Agency Amount Agy# U/A * Anti-GunViolenceInitiative Anti-GunViolenceInitiative,,136400434,-120411,DOHMH,,,.00) 816 114,**
+8,2013-01-23,InitiativeFundTransfers-Fiscal2013,2013,rescind,,,Anti-GunViolenceInitiative Anti-GunViolenceInitiative,,136400434,-20000,DYCD,,,.00) 260 312,
+8,2013-01-23,InitiativeFundTransfers-Fiscal2013,2013,rescind,,,"OST FlatbushActionCommunityDayCareCenter,Inc.",,112253246,-120000,DYCD,,,.00) 260 312,
+8,2013-01-23,InitiativeFundTransfers-Fiscal2013,2013,designate,,,Anti-GunViolenceInitiative Anti-GunViolenceInitiative,,136400434,35000,DYCD,,,.00 260 005,
+8,2013-01-23,InitiativeFundTransfers-Fiscal2013,2013,designate,,,"Local/CC CouncilforUnity,Inc.",,112880221,150000,DYCD,,,.00 260 312,**
+8,2013-01-23,InitiativeFundTransfers-Fiscal2013,2013,rescind,,,NewSkills/NewJobs DepartmentofSmallBusinessServices,,136400434,-300000,DSBS,,,.00) 801 011,**
+8,2013-01-23,InitiativeFundTransfers-Fiscal2013,2013,designate,,,"MWBELeadershipAssociation NewYorkWomen'sChamberofCommerce,Inc. SeniorCentersandPrograms",,141845651,30000,DSBS,,,.00 801 002,
+8,2013-01-23,InitiativeFundTransfers-Fiscal2013,2013,rescind,,,"AginginAmericaCommunityServices,Inc.-GlebeSeniorCenter** Restoration",,134099045,-76335,DFTA,,,.00) 125 003,
+8,2013-01-23,InitiativeFundTransfers-Fiscal2013,2013,rescind,,,Transportation-OperatingCosts DepartmentfortheAging SeniorCentersandPrograms,,136400434,-25000,DFTA,,,.00) 125 003,
+8,2013-01-23,InitiativeFundTransfers-Fiscal2013,2013,designate,,,"Restoration Mid-BronxSeniorCitizensCouncil,Inc.",,237354073,65000,DFTA,,,.00 125 003,
+8,2013-01-23,InitiativeFundTransfers-Fiscal2013,2013,designate,,,Local/CC CBOTraining,,136400434,80758,MAYOR,,,.00 002 021,**
+8,2013-01-23,InitiativeFundTransfers-Fiscal2013,2013,designate,,,EarlyLearn/Childcare WilliamsbridgeNAACP,,132686694,300988,ACS,,,.00 068 004,**

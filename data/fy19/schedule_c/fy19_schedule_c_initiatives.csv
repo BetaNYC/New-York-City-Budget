@@ -1,0 +1,134 @@
+category,agencies,initiative,amount
+INTRODUCTION,,Multiple Anti-Poverty Initiative,2800000
+ANTI-POVERTY,,Multiple Boroughwide Needs Initiative,2000000
+BOROUGHWIDE NEEDS,DYCD,City’s First Readers,4444000
+BOROUGHWIDE NEEDS,ACS,Discretionary Child Care,5355190
+CHILDREN’S SERVICES,DYCD,Adult Literacy Initiative,4000000
+CHILDREN’S SERVICES,DYCD,Communities of Color Nonprofit Stabilization Fund,3700000
+CHILDREN’S SERVICES,DYCD,Digital Inclusion and Literacy Initiative,3060000
+CHILDREN’S SERVICES,"DYCD, NYCHA","Diversity, Inclusion and Equity in Tech Initiative",700000
+CHILDREN’S SERVICES,DYCD,LGBT Community Services,2000000
+CHILDREN’S SERVICES,"DYCD, DOHMH",Trans Equity Programs,1775000
+COMMUNITY DEVELOPMENT,MOCJ,Alternatives to Incarceration (ATI’s),8107000
+COMMUNITY DEVELOPMENT,MOCJ,Bail Fund,1555000
+COMMUNITY DEVELOPMENT,MOCJ,Center for Court Innovation,1710000
+COMMUNITY DEVELOPMENT,MOCJ,Initiative to Combat Sexual Assault,2810000
+COMMUNITY DEVELOPMENT,MOCJ,Support for Victims of Human Trafficking,1200000
+CRIMINAL JUSTICE SERVICES,DCLA,Coalition Theaters of Color,1965000
+CRIMINAL JUSTICE SERVICES,DCLA,Cultural After-School Adventure (CASA),15300000
+CRIMINAL JUSTICE SERVICES,DCLA,Cultural Immigrant Initiative,6375000
+CRIMINAL JUSTICE SERVICES,DCLA,Ghetto Film School (GFS) Accelerator Program Model,75000
+CRIMINAL JUSTICE SERVICES,DCLA,SU-CASA,3315000
+CULTURAL ORGANIZATIONS,MOCJ,Domestic Violence and Empowerment (DoVE) Initiative,9305000
+CULTURAL ORGANIZATIONS,"ACS, HRA, MOCJ",Supportive Alternatives to Violent Encounters (SAVE),2450000
+DOMESTIC VIOLENCE SERVICES,DOE,Child Mind Institute,500000
+DOMESTIC VIOLENCE SERVICES,DOE,Community Schools,3000000
+DOMESTIC VIOLENCE SERVICES,DOE,Dropout Prevention and Intervention,2485000
+DOMESTIC VIOLENCE SERVICES,DOE,Educational Programs for Students,4390000
+DOMESTIC VIOLENCE SERVICES,DOE,Guidance Counselors for All Schools,2000000
+DOMESTIC VIOLENCE SERVICES,DYCD,Jill Chaifetz Helpline,250000
+DOMESTIC VIOLENCE SERVICES,DOE,LGBTQ Inclusive Curriculum,600000
+DOMESTIC VIOLENCE SERVICES,DOE/DYCD,Physical Education and Fitness,1925000
+DOMESTIC VIOLENCE SERVICES,DOE,Support for Educators,20804500
+DOMESTIC VIOLENCE SERVICES,DOE,Support for Homeless Students,2000000
+EDUCATION,DYCD,A Greener NYC,3570000
+EDUCATION,DYCD,NYC Cleanup,11220000
+ENVIRONMENTAL INITIATIVES,DYCD,Access to Healthy Food and Nutritional Education,1055000
+ENVIRONMENTAL INITIATIVES,HRA,Food Access and Benefits,725000
+ENVIRONMENTAL INITIATIVES,DYCD,Food Pantries,4600000
+ENVIRONMENTAL INITIATIVES,DCAS,Halal and Kosher School Lunch Pilot,1000000
+FOOD INITIATIVES,,Community Boards Community Boards Enhancement,2507500
+GOVERNMENT OFFICIALS,DOHMH,Access Health,2500000
+GOVERNMENT OFFICIALS,DOHMH,Beating Hearts,350000
+GOVERNMENT OFFICIALS,DOHMH,Cancer Services,599500
+GOVERNMENT OFFICIALS,DOHMH,Child Health and Wellness,646000
+GOVERNMENT OFFICIALS,DOHMH,Ending the Epidemic,6945000
+GOVERNMENT OFFICIALS,DOHMH,HIV/AIDS Faith Based,1131000
+GOVERNMENT OFFICIALS,DOHMH,Maternal and Child Health Services,1692818
+GOVERNMENT OFFICIALS,DOHMH,Reproductive & Sexual Health Services,344788
+GOVERNMENT OFFICIALS,DOHMH,Viral Hepatitis Prevention,1923658
+HEALTH SERVICES,CUNY,Creative Arts Team,400000
+HEALTH SERVICES,CUNY,CUNY Child Care,600000
+HEALTH SERVICES,CUNY,CUNY Research Institutes,3170000
+HEALTH SERVICES,CUNY,Joseph S. Murphy Institute for Worker Education,1000000
+HEALTH SERVICES,"CUNY, DOE",Peter F. Vallone Academic Scholarship,14924669
+HIGHER EDUCATION INITIATIVES,DHS,Children and Families in NYC Homeless System,1350000
+HIGHER EDUCATION INITIATIVES,DHS,Citywide Homeless Prevention Fund,820000
+HOMELESS SERVICES,,1 HPD Community Housing Preservation Strategies,3651000
+HOMELESS SERVICES,,"2 HPD, DCA Financial Empowerment for NYC Renters",450000
+HOMELESS SERVICES,,3 HPD Foreclosure Buyback Initiative,1250000
+HOMELESS SERVICES,,4 HPD Home Loan Program,1000000
+HOMELESS SERVICES,,5 HPD Housing Court Answers,650000
+HOMELESS SERVICES,,6 HPD Housing Information Project,300000
+HOMELESS SERVICES,,7 HPD Mortgage Foreclosure Prevention Program,1000000
+HOMELESS SERVICES,,8 HPD Stabilizing NYC,2500000
+HOUSING,CUNY,CUNY Citizenship NOW! Program,2500000
+HOUSING,DOHMH,Immigrant Health Initiative,2000000
+HOUSING,HRA,Immigrant Opportunities Initiative,2600000
+HOUSING,DYCD,Key to the City,700000
+HOUSING,HRA,New York Immigrant Family Unity Project,10000000
+HOUSING,HRA,Unaccompanied Minors and Families,2000000
+IMMIGRANT SERVICES,"HRA, MOCJ",Legal Services for Low-Income New Yorkers,5300000
+IMMIGRANT SERVICES,MOCJ,Legal Information for Families Today (LIFT),485000
+IMMIGRANT SERVICES,HRA,Legal Services for the Working Poor,3205000
+IMMIGRANT SERVICES,HRA,Low Wage Worker Support,500000
+IMMIGRANT SERVICES,MOCJ,Prisoners’ Rights Project,1000000
+LEGAL SERVICES,BPL,Fiscal 2019 Subsidy,2250000
+LEGAL SERVICES,NYPL,Fiscal 2019 Subsidy,3500000
+LEGAL SERVICES,QBPL,Fiscal 2019 Subsidy,2250000
+LIBRARIES,DOHMH,Autism Awareness,3236846
+LIBRARIES,DOHMH,Children Under Five,1002000
+LIBRARIES,DOHMH,Court-Involved Youth Mental Health,2850000
+LIBRARIES,DOHMH,"Developmental, Psychological & Behavioral Health Services",2255493
+LIBRARIES,DOHMH,Geriatric Mental Health,1905540
+LIBRARIES,DOHMH,LGBTQ Youth Mental Health,1200000
+LIBRARIES,DOHMH,Medicaid Redesign Transition,500000
+LIBRARIES,DOHMH,Mental Health Services for Vulnerable Populations,1718000
+LIBRARIES,DOHMH,Opioid Prevention and Treatment,2000000
+MENTAL HEALTH SERVICES,DPR,Parks Equity Initiative,4603500
+PARKS AND RECREATION SERVICES,DCLA,Art a Catalyst for Change,720000
+PARKS AND RECREATION SERVICES,"DYCD, DOP, MOCJ",Crisis Management System,2590000
+PARKS AND RECREATION SERVICES,"DASI, DAQN, DABK",District Attorneys OTPS Enhancement,2563000
+PUBLIC SAFETY,DFTA,Access to Critical Services for Seniors,1180000
+PUBLIC SAFETY,DFTA,Borough Presidents’ Discretionary Funding Restoration,1129774
+PUBLIC SAFETY,DFTA,Case Management,1000000
+PUBLIC SAFETY,DFTA,Elder Abuse Enhancement,335000
+PUBLIC SAFETY,DFTA,Elie Wiesel Holocaust Survivors Initiative,3500000
+PUBLIC SAFETY,DFTA,Healthy Aging Initiative,2040000
+PUBLIC SAFETY,DFTA,Information and Referral Services,407811
+PUBLIC SAFETY,DFTA,LGBT Senior Services in Every Borough,1500000
+PUBLIC SAFETY,DFTA,Naturally Occurring Retirement Communities (NORCs),3654995
+PUBLIC SAFETY,DFTA,Senior Centers for Immigrant Populations,2000000
+PUBLIC SAFETY,DFTA,"Senior Centers, Programs, and Enhancements",2104000
+PUBLIC SAFETY,DFTA,Social Adult Day Care Enhancement,1055556
+PUBLIC SAFETY,DFTA,Support Our Seniors,4080000
+SENIOR SERVICES,SBS,Chamber on the Go and Small Business Assistance,1888855
+SENIOR SERVICES,SBS,Construction Site Safety Training,1100000
+SENIOR SERVICES,CUNY,Create New Technology Incubators,1400000
+SENIOR SERVICES,SBS,Day Laborer Workforce Initiative,1970000
+SENIOR SERVICES,DYCD,Green Jobs Corps Program,120000
+SENIOR SERVICES,SBS/DYCD,Job Training and Placement Initiative,8106000
+SENIOR SERVICES,SBS,Made in NYC,850000
+SENIOR SERVICES,SBS,MWBE Leadership Associations,600000
+SENIOR SERVICES,SBS,Neighborhood Development Grant Initiative,1836000
+SENIOR SERVICES,SBS/CUNY,Worker Cooperative Business Development Initiative,3499000
+SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,Multiple Speaker’s Initiative to Address Citywide Needs,11928000
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,HRA,Homeless Prevention Services for Veterans,300000
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,SBS,Job Placement for Veterans,200000
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,HRA,Legal Services for Veterans,450000
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,DOHMH,Mental Health Services for Veterans,420000
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,DYCD/DCLA/CUNY,Veterans Community Development,970000
+VETERAN SERVICES,DOHMH,Dedicated Contraceptive Fund,417500
+VETERAN SERVICES,HRA,HRA Teen RAPP,250000
+VETERAN SERVICES,MOCJ,Initiative for Immigrant Survivors of Domestic Violence,350000
+VETERAN SERVICES,MOCJ,Prevent Sexual Assault (PSA) Initiative for Young Adults,275000
+VETERAN SERVICES,MOCJ,Step In and Stop It Initiative to Address Bystander Intervention,154000
+VETERAN SERVICES,DOE,Work-Based Learning Internships,600000
+VETERAN SERVICES,ACS,Wrap-Around Support for Transitional-Aged Foster Youth,1100000
+VETERAN SERVICES,DYCD,Young Women's Leadership Development,1096000
+YOUNG WOMEN’S INITIATIVE,DYCD,Afterschool Enrichment Initiative,6303907
+YOUNG WOMEN’S INITIATIVE,DYCD,Big Brothers and Big Sisters of New York City,1200000
+YOUNG WOMEN’S INITIATIVE,DYCD,Civic Education in New York City Schools,550000
+YOUNG WOMEN’S INITIATIVE,DYCD,COMPASS,1813600
+YOUNG WOMEN’S INITIATIVE,DYCD,Sports Training and Rolemodels for Success (STARS) Initiative,1200000
+YOUNG WOMEN’S INITIATIVE,DYCD,YouthBuild Project Initiative,2100000

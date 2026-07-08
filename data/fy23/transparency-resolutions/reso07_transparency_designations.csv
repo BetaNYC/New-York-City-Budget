@@ -1,0 +1,202 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,rescind,,,Restler Brooklyn Museum,Arts Education - Public School 038 The Pacific (15K038),111672743,-5000,DCLA,126,008,,***
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,designate,,,Restler Brooklyn Museum,Arts Education - Public School 038 The Pacific (15K038),111672743,5000,DCLA,126,003,,***
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,rescind,,,Society for the Preservation of Weeksville and Bedford Stuyvesant History,Mealy Council District 41,237330454,-10000,DCLA,126,022,,***
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,designate,,,Society for the Preservation of Weeksville and Bedford Stuyvesant History,Mealy Council District 36,237330454,10000,DCLA,126,003,,***
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,rescind,,,Vernikov Chasdei Devorah Inc.,,342006065,-5000,FDNY,057,005,,
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,designate,,,"Vernikov Chasdei Devorah, Inc.",,342006065,5000,FDNY,057,005,,
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,rescind,,,"Brooklyn Arts Exchange, Inc.",After School Program - Public School 261K Philip Restler Livingston (15K261),113071458,-2000,DYCD,260,312,,**
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,designate,,,"Brooklyn Arts Exchange, Inc.",After School Program - Public School 261K Philip Restler Livingston (15K261),113071458,2000,DCLA,126,003,,**
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,rescind,,,"Hudson New York WEB Center, Inc.",Anti-Gun Violence Multimedia Arts Campaign,205620848,-5000,DYCD,260,312,,**
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,designate,,,"Hudson Brooklyn Arts Exchange, Inc.",BAX Equity & Access Youth Initiatives,113071458,5000,DCLA,126,003,,**
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,rescind,,,Holden Department of Sanitation,Council District 30,136400434,-5500,DSNY,827,109,,**
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,designate,,,Holden Department of Sanitation,Council District 30,136400434,5500,DSNY,827,102,,**
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,rescind,,,Holden Department of Sanitation,Council District 30,136400434,-30000,DSNY,827,102,*,
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,designate,,,Holden Department of Sanitation,Council District 30,136400434,30000,DSNY,827,102,,
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,rescind,,,Door,"A Center of Alternatives, Inc., The - Food & Nutrition Programming - Mealy Council District 41.",136127348,-10000,DYCD,260,005,,
+7,2023-01-19,Local Initiatives - Fiscal 2023,2023,designate,,,Mealy Door,"A Center of Alternatives, Inc., The - Food & Nutrition Programming",136127348,10000,DYCD,260,005,,
+7,2023-01-19,Youth Discretionary - Fiscal 2023,2023,rescind,,,Joseph Department of Youth and Community Development,,136400434,-7000,DYCD,260,312,,
+7,2023-01-19,Youth Discretionary - Fiscal 2023,2023,designate,,,"Joseph Elite Learners, Inc.",Council District 40,814482839,7000,DYCD,260,312,,
+7,2023-01-19,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Hudson Brooklyn Arts Exchange, Inc.",BAX Equity & Access Youth Initiatives,113071458,-5000,DYCD,260,312,,
+7,2023-01-19,Youth Discretionary - Fiscal 2023,2023,designate,,,"Hudson New York WEB Center, Inc.",Anti-Gun Violence Multimedia Arts Campaign,205620848,5000,DYCD,260,312,,
+7,2023-01-19,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Brooklyn Arts Exchange, Inc.",After School Program - Public School 261K Philip Restler Livingston (15K261),113071458,-500,DYCD,260,312,,**
+7,2023-01-19,Youth Discretionary - Fiscal 2023,2023,designate,,,"Brooklyn Arts Exchange, Inc.",After School Program - Public School 261K Philip Restler Livingston (15K261),113071458,500,DCLA,126,003,,**
+7,2023-01-19,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Hanif Brooklyn Arts Exchange, Inc.",,113071458,-10000,DYCD,260,312,,**
+7,2023-01-19,Youth Discretionary - Fiscal 2023,2023,designate,,,"Hanif Brooklyn Arts Exchange, Inc.",,113071458,10000,DCLA,126,003,,**
+7,2023-01-19,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,,Department of Youth and Community Development,,136400434,-8500,DYCD,260,312,,
+7,2023-01-19,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,Borelli Catholic Charities of Staten Island,Youth Soccer,135562286,5000,DYCD,260,312,,
+7,2023-01-19,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,"Holden Blau Weiss Gottschee, Inc.",,116074351,3500,DYCD,260,312,,
+7,2023-01-19,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,,Department of Health and Mental Hygiene,,136400434,-79000,DHMH,816,120,,**
+7,2023-01-19,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,Holden District Attorney-Queens,,136400434,14000,DAQN,904,002,,**
+7,2023-01-19,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,Borelli Department of Education,Public School 56R (31R056),136400434,5000,DOE,040,402,,**
+7,2023-01-19,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,Moya Department of Youth and Community Development,Council District 21,136400434,50000,DYCD,260,005,,**
+7,2023-01-19,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,"Moya Ecuadorian Civic Committee of New York City, Inc.",Council District 21,113553172,10000,DYCD,260,005,,**
+7,2023-01-19,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,,Department for the Aging,,136400434,-41500,DFTA,125,003,,**
+7,2023-01-19,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,"Moya East Elmhurst Corona Civic Association, Inc.",,112050254,20000,DYCD,260,005,,**
+7,2023-01-19,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,"Moya Flushing Meadow Soap Box Derby, Inc.",Council District 21,112737828,10000,DYCD,260,312,,**
+7,2023-01-19,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,"Moya Publicolor, Inc.",Council District 21,133912768,10000,DYCD,260,005,,**
+7,2023-01-19,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,"Holden Blau Weiss Gottschee, Inc.",,116074351,1500,DYCD,260,312,,**
+7,2023-01-19,Digital Inclusion and Literacy Initiative - Fiscal 2023,2023,rescind,,,"Mealy Fort Greene Council, Inc.",Christopher Blennan Neighborhood Seni Center,112300840,-20000,DYCD,260,005,,**
+7,2023-01-19,Digital Inclusion and Literacy Initiative - Fiscal 2023,2023,designate,,,"Mealy Fort Greene Council, Inc.",Christopher Blennan Neighborhood Senior Center,112300840,20000,DFTA,125,003,,**
+7,2023-01-19,Digital Inclusion and Literacy Initiative - Fiscal 2023,2023,rescind,,,Department of Youth and Community Development,,136400434,-25000,DYCD,260,005,,
+7,2023-01-19,Digital Inclusion and Literacy Initiative - Fiscal 2023,2023,designate,,,"Jordan Harlem Advocates for Seniors, Inc.",,811966114,25000,DYCD,260,005,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2023,2023,rescind,,,"Staten Island Chamber of Commerce Foundation, Inc.",North Shore of Staten Island - Council Hanks District 49,134069282,-10000,SBS,801,002,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,Hanks NYC Digital Media Center Inc.,District Marketing & Tourism - Council District 49,871658369,10000,SBS,801,002,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2023,2023,rescind,,,Department of Small Business Services,,136400434,-10000,SBS,801,002,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,"Borelli ArtBridge Projects, Inc.",Public Art & Business Development - Council District 51,611682898,10000,SBS,801,002,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2023,2023,rescind,,,Department of Youth and Community Development,,136400434,-45000,DYCD,260,005,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,Hanif Artopolis Development,,134003325,5000,DYCD,260,005,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,"Moya Hispanic Federation, Inc.",Community Programs,133573852,5000,DYCD,260,005,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,"Moya Publicolor, Inc.",Council District 21,133912768,5000,DYCD,260,005,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,"Riverdale Neighborhood House, Inc.",Placemaking/Plaza/Public Space Activation/Public Art - Dinowitz Council District 11,131740024,10000,DYCD,260,005,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,"Gutierrez Horticultural Society of New York, The",,130854930,10000,DYCD,260,005,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2023,2023,designate,,,"NIA Community Services Network, Inc.",Placemaking/Plaza/Public Space Activation/Public Art Brannan - Council District 43,112697931,10000,DYCD,260,005,,
+7,2023-01-19,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,Bottcher Wildcat Service Corporation,Neighborhood Improvement Services in District 3,132725423,-25000,DYCD,260,005,,
+7,2023-01-19,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,"Bottcher Association of Community Employment Programs for the Homeless, Inc.",Council District 3,133846431,25000,DYCD,260,005,,
+7,2023-01-19,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,"Jordan Association Nationale Des Senegalais D'Amerique, Inc.",,133804747,-10000,DYCD,260,005,,
+7,2023-01-19,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,"Jordan Artistic Dreams International, Inc.",Council District 9,452558520,10000,DCLA,126,003,,
+7,2023-01-19,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,Department of Sanitation,,136400434,-10000,DSNY,827,102,,
+7,2023-01-19,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,Restler Department of Sanitation,Montague St,136400434,10000,DSNY,827,102,,
+7,2023-01-19,NYC Cleanup Initiative - Fiscal 2023,2023,rescind,,,Department of Sanitation,,136400434,-10000,DSNY,827,102,,**
+7,2023-01-19,NYC Cleanup Initiative - Fiscal 2023,2023,designate,,,Restler Department of Parks and Recreation,Trash Bins - Council District 33 Parks,136400434,10000,DPR,846,006,,**
+7,2023-01-19,Parks Equity Initiative - Fiscal 2023,2023,rescind,,,Department of Parks and Recreation,,136400434,-15000,DPR,846,006,,
+7,2023-01-19,Parks Equity Initiative - Fiscal 2023,2023,designate,,,"Restler Open Space Alliance for North Brooklyn, Inc.",McGolrick Park,010849087,15000,DPR,846,006,,
+7,2023-01-19,Parks Equity Initiative - Fiscal 2023,2023,rescind,,,Department of Parks and Recreation,,136400434,-5000,DPR,846,006,,**
+7,2023-01-19,Parks Equity Initiative - Fiscal 2023,2023,designate,,,"Gutierrez El Puente de Williamsburg, Inc.",,112614265,5000,DYCD,260,005,,**
+7,2023-01-19,Support Our Seniors - Fiscal 2023,2023,rescind,,,"Gutierrez Riseboro Community Partnership, Inc.",,112453853,-15000,DFTA,125,003,,
+7,2023-01-19,Support Our Seniors - Fiscal 2023,2023,designate,,,"Gutierrez Riseboro Community Partnership, Inc.",Borinquen Plaza Senior Center,112453853,15000,DFTA,125,003,,
+7,2023-01-19,Support Our Seniors - Fiscal 2023,2023,rescind,,,Department for the Aging,,136400434,-35000,DFTA,125,003,,
+7,2023-01-19,Support Our Seniors - Fiscal 2023,2023,designate,,,"Gutierrez Riseboro Community Partnership, Inc.",Borinquen Plaza Senior Center,112453853,5000,DFTA,125,003,,
+7,2023-01-19,Support Our Seniors - Fiscal 2023,2023,designate,,,Gutierrez St. Nick's Alliance Corporation,Cooper Park Senior Center,510192170,5000,DFTA,125,003,,
+7,2023-01-19,Support Our Seniors - Fiscal 2023,2023,designate,,,"Selfhelp Community Services, Inc.",Senior Citizen Medical Transportation Program - Council Holden District 30,131624178,25000,DFTA,125,003,,
+7,2023-01-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,rescind,,,Nurse Urban Resource Institute,Economic Empowerment Program in District 37,112561648,-5000,MOCJ,098,003,,**
+7,2023-01-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Nurse Urban Resource Institute,Economic Empowerment Program - Council District 37,112561648,5000,MOCJ,098,002,,**
+7,2023-01-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Jordan Songs of Solomon: An Inspirational Ensemble, Inc.",Council District 9,134195889,5000,MOCJ,098,002,,
+7,2023-01-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,rescind,,,Mayor's Office of Criminal Justice,,136400434,-23000,MOCJ,098,002,,
+7,2023-01-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Aviles Sunset Park Health Council, Inc.",,202508411,10000,MOCJ,098,002,,
+7,2023-01-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,"Borelli Pride Center of Staten Island, Inc.",Domestic Violence Programming,463358895,13000,MOCJ,098,002,,
+7,2023-01-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,rescind,,,Mayor's Office of Criminal Justice,,136400434,-10000,MOCJ,098,002,,**
+7,2023-01-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023,2023,designate,,,Holden District Attorney-Queens,,136400434,10000,DAQN,904,002,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,rescind,,,"Lee Queens Theatre in the Park, Inc.",SNAP Eastern Queens Older Adult Center,113381629,-15000,DCLA,126,003,,
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,"Lee Queens Theatre in the Park, Inc.",Selfhelp Fresh Meadows NORC,113381629,15000,DCLA,126,003,,
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,rescind,,,Department of Cultural Affairs,,136400434,-210000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,"Afro-Latin Jazz Alliance of New York, Inc.",Lenox Hill Neighborhood House Older Adult Center Powers,453665976,15000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,"Powers Dancewave, Inc.","Stein Older Adult Center Older Adult Center, Inc.",112726558,15000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,"Velazquez Midtown Management Group, Inc.",PSS City Island Older Adult Center,133192793,15000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,"Velazquez Midtown Management Group, Inc.",Northeast Bronx Older Adult Center,133192793,15000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,"Stevens Horticultural Society of New York, The",Hope of Israel Senior Citizens Center,130854930,15000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,"Stevens Bronx River Art Center, Inc.",PSS Morrisania Air Rights Older Adult Center,133261148,15000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,"Williams Queens Theatre In The Park, Inc.",CCNS Hillcrest Older Adult Center,113381629,15000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,Gutierrez Spanish Dance Arts Company,"Southside Los Sures ""David Santiago"" Older Adult Center",133286419,15000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,Gutierrez Brooklyn Music School,St Nicks Alliance Swinging Sixties Older Adult Center,116000202,15000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,"Brighton Ballet Theater Company, Inc.",SHOREFRONT YM-YW OF BRIGHTON (Bright on Vernikov the Ocean NNORC),113195590,15000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,"Brighton Ballet Theater Company, Inc.",Young Israel Programs Midwood Older Adult Center Vernikov,113195590,15000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,Hanks Snug Harbor Cultural Center & Botanical Garden,JCC GO KOSSAH (Stapleton NNORC),800193388,15000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,Hanks IlluminArt Productions,West Brighton Older Adult Center,421727647,15000,DCLA,126,003,,**
+7,2023-01-19,SU-CASA - Fiscal 2023,2023,designate,,,"Hanks Sundog Theatre, Inc.",CASC New Lane NSC Older Adult Center,450476945,15000,DCLA,126,003,,**
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Louis Elite Learners, Inc.",Public School 198 Brooklyn (22K198),814482839,-20000,DYCD,260,312,,**
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Louis Ballroom Basix USA, Inc.",Public School 198 Brooklyn (22K198),273218865,20000,DCLA,126,003,,**
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,"Ariola Rockaway Artists Alliance, Inc.",Public School/ Middle School 114Q (27Q114),113217121,-20000,DYCD,260,312,,**
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Midtown Management Group, Inc.",Inside Broadway - Public School/ Middle School 114Q Ariola (27Q114),133192793,20000,DCLA,126,003,,**
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,Carr Snug Harbor Cultural Center & Botanical Garden,Intermediate School 51R (31R051),800193388,-20000,DCLA,126,022,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,Carr Staten Island Children's Museum,Intermediate School 51R (31R051),237379930,20000,DCLA,126,022,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,Carr Staten Island Historical Society,Public School 23R (31R023),131985514,-20000,DCLA,126,022,,**
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,Carr IlluminArt Productions,Public School 23R (31R023),421727647,20000,DCLA,126,003,,**
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,Department of Cultural Affairs,,136400434,-260000,DCLA,126,003,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Velazquez Arts Connection, Inc., The",Public School X014 Senator John Calandra (08X014),132953240,20000,DCLA,126,003,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Ballet Hispanico of New York, Inc.",Public School / Middle School 11X498 - Van Nest Velazquez Academy (11X498),132685755,20000,DCLA,126,003,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,Velazquez Bartow-Pell Landmark Fund,Junior High School 144X Michelangelo (11X144),510243951,20000,DCLA,126,003,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,Velazquez Bartow-Pell Landmark Fund,Public School 175X City Island (11X175),510243951,20000,DCLA,126,003,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Velazquez Bronx Arts Ensemble, Inc.",Public School 083X Donald Hertz (11X083),510186869,20000,DCLA,126,003,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Velazquez Education Through Music, Inc.",Public School 072X Dr. William Dorney (08X072),133613210,20000,DCLA,126,003,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Velazquez Marquis Studios, Ltd.",Public School X010 (75X010),133047206,20000,DCLA,126,003,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Velazquez Midtown Management Group, Inc.",Public School 071X Rose E. Scala (08X071),133192793,20000,DCLA,126,003,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Velazquez Midtown Management Group, Inc.",Public School 108X Philip J. Abinanti (11X108),133192793,20000,DCLA,126,003,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Velazquez Midtown Management Group, Inc.",Public School 304X Early Childhood School (08X304),133192793,20000,DCLA,126,003,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Velazquez Midtown Management Group, Inc.",Public School X012 Lewis and Clark School (75X012),133192793,20000,DCLA,126,003,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Velazquez Publicolor, Inc.",The STEAM Bridge School (11X481) - Paint Club,133912768,20000,DCLA,126,003,,
+7,2023-01-19,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,Research Foundation of the City University of New York,Creative Arts Team (CAT) Cultural Velazquez After-School Adventures (CASA) - Bronx Delta School (08X392),131988190,20000,DCLA,126,003,,
+7,2023-01-19,Cultural Immigrant Initiative - Fiscal 2023,2023,rescind,,,"Jordan Association Nationale Des Senegalais D'Amerique, Inc.",,133804747,-10000,DYCD,260,005,,**
+7,2023-01-19,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,,"Jordan Artistic Dreams International, Inc.",Council District 9,452558520,10000,DCLA,126,003,,**
+7,2023-01-19,Cultural Immigrant Initiative - Fiscal 2023,2023,rescind,,,"Jordan Songs of Solomon: An Inspirational Ensemble, Inc.",Harlem,134195889,-5000,DYCD,260,005,,
+7,2023-01-19,Cultural Immigrant Initiative - Fiscal 2023,2023,designate,,,"Jordan New Heritage Theatre Group, Inc., The",Global Theaters Programming,132683678,5000,DCLA,126,003,,
+7,2023-01-19,Food Pantries - Fiscal 2023,2023,rescind,,,Brooklyn Delegation St. Martin of Tours RC Church,,111630834,-8000,DYCD,260,005,,
+7,2023-01-19,Food Pantries - Fiscal 2023,2023,designate,,,Brooklyn Delegation Expecting Relief,,364722105,4000,DYCD,260,005,,
+7,2023-01-19,Food Pantries - Fiscal 2023,2023,designate,,,Brooklyn Delegation Volunteers of America,"Greater New York, Inc.",581959781,4000,DYCD,260,005,,
+7,2023-01-19,Crisis Management System - Fiscal 2023,2023,rescind,,,"Simon Wiesenthal Center, Inc.",Columbus HS campus,953964928,-40000,DOE,040,402,,**
+7,2023-01-19,Crisis Management System - Fiscal 2023,2023,designate,,,"Simon Wiesenthal Center, Inc.",Columbus HS campus,953964928,40000,DYCD,260,312,,**
+7,2023-01-19,Crisis Management System - Fiscal 2023,2023,rescind,,,"Simon Wiesenthal Center, Inc.",Lehman HS campus,953964928,-40000,DOE,040,402,,**
+7,2023-01-19,Crisis Management System - Fiscal 2023,2023,designate,,,"Simon Wiesenthal Center, Inc.",Lehman HS campus,953964928,40000,DYCD,260,312,,**
+7,2023-01-19,Crisis Management System - Fiscal 2023,2023,rescind,,,"Union Settlement Association, Inc.",,131632530,-35000,MOCJ,098,002,,
+7,2023-01-19,Crisis Management System - Fiscal 2023,2023,designate,,,"Union Settlement Association, Inc.",Community Activities,131632530,35000,MOCJ,098,002,,
+7,2023-01-19,Job Training and Placement Initiative - Fiscal 2023,2023,rescind,,,"Leap, Inc.",,113111694,-200000,SBS,801,011,,
+7,2023-01-19,Job Training and Placement Initiative - Fiscal 2023,2023,designate,,,"Leap, Inc.",Job Training & Placement,113111694,200000,SBS,801,011,,
+7,2023-01-19,Abortion Access Fund - Fiscal 2023,2023,rescind,,,Deparment of Health and Mental Hygiene,,136400434,-100000,DHMH,816,113,,**
+7,2023-01-19,Abortion Access Fund - Fiscal 2023,2023,designate,,,"Planned Parenthood of New York City, Inc.",,132621497,100000,DHMH,816,113,,**
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,rescind,,,Department of Health and Mental Hygiene,,136400434,-73750,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,"AID for AIDS International, Inc.",,133954568,5000,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,"Berean Community and Family Life Center, Inc.",,112870465,4750,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,Bridging Access to Care,,113031208,5000,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,Brooklyn Center for Quality Life,,262651830,5000,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,"Caribbean Women's Health Association, Inc.",,133323168,5000,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,"Community Health Project, Inc.",,133409680,5000,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,"Community Healthcare Network, Inc.",,133083068,5000,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,Emmanuel Baptist Church in Brooklyn,,111666232,5000,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,Greater Allen AME Cathedral of New York,,112527706,5000,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,"Hour Children, Inc.",,133647412,4750,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,"Jewish Community Center of Staten Island, Inc.",,135562256,4750,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,Mount Horeb Baptist Church,,112074467,5000,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,New Hope Community Church,,061013595,5000,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,"Urban Health Plan, Inc.",,237360305,4750,DHMH,816,112,,
+7,2023-01-19,HIV/AIDS Faith Based Initiative - Fiscal 2023,2023,designate,,,William F. Ryan Community Health Center,,132884976,4750,DHMH,816,112,,
+7,2023-01-19,Mental Health Services for Vulnerable Populations - Fiscal 2023,2023,rescind,,,Department of Health and Mental Hygiene,,136400434,-140000,DHMH,816,120,,
+7,2023-01-19,Mental Health Services for Vulnerable Populations - Fiscal 2023,2023,designate,,,BHRAGS Home Care Corp,,112579798,10000,DHMH,816,120,,
+7,2023-01-19,Mental Health Services for Vulnerable Populations - Fiscal 2023,2023,designate,,,"Dr. Theodore A. Atlas Foundation, Inc.",,134012789,10000,DHMH,816,120,,
+7,2023-01-19,Mental Health Services for Vulnerable Populations - Fiscal 2023,2023,designate,,,Partners Uplifting our Daughters and Sons,,473679850,10000,DHMH,816,120,,
+7,2023-01-19,Mental Health Services for Vulnerable Populations - Fiscal 2023,2023,designate,,,"Samaritan Daytop Village, Inc.",,112635374,100000,DHMH,816,120,,
+7,2023-01-19,Mental Health Services for Vulnerable Populations - Fiscal 2023,2023,designate,,,"Service Program for Older People (SPOP), Inc.",,132947616,10000,DHMH,816,120,,
+7,2023-01-19,Mental Health Services for Veterans - Fiscal 2023,2023,rescind,,,Department of Health and Mental Hygiene,,136400434,-100000,DHMH,816,120,,
+7,2023-01-19,Mental Health Services for Veterans - Fiscal 2023,2023,designate,,,New York and Presbyterian Hospital,,133957095,65000,DHMH,816,120,,
+7,2023-01-19,Mental Health Services for Veterans - Fiscal 2023,2023,designate,,,Operation Warrior Shield,,811268470,35000,DHMH,816,120,,
+7,2023-01-19,Language Services Worker Co-operatives - Fiscal 2023,2023,designate,,,"African Services Committee, Inc.",,133749744,700000,DYCD,260,005,,**
+7,2023-01-19,Language Services Worker Co-operatives - Fiscal 2023,2023,designate,,,"Asian American Federation, Inc.",,133572287,700000,DYCD,260,005,,**
+7,2023-01-19,Language Services Worker Co-operatives - Fiscal 2023,2023,designate,,,"MASA-MexEd, Inc. d/b/a Masa",,113640210,700000,DYCD,260,005,,**
+7,2023-01-19,Language Services Worker Co-operatives - Fiscal 2023,2023,designate,,,"New York Immigration Coalition, Inc.",,133573409,400000,DYCD,260,005,,**
+7,2023-01-19,Language Services Worker Co-operatives - Fiscal 2023,2023,designate,,,"Mixteca Organization, Inc.",,113561651,100000,DYCD,260,005,,**
+7,2023-01-19,Language Services Worker Co-operatives - Fiscal 2023,2023,designate,,,"Staten Island Community Job Center, Inc.",,472787706,100000,DYCD,260,005,,**
+7,2023-01-19,Language Services Worker Co-operatives - Fiscal 2023,2023,designate,,,Department of Youth and Community Development,,136400434,100000,DYCD,260,005,,**
+7,2023-01-19,Community Interpreter Bank - Fiscal 2023,2023,designate,,,Department of Youth and Community Development,,136400434,2200000,DYCD,260,005,,**
+7,2023-01-19,Local Initiatives - Fiscal 2022,2022,rescind,,,"Krishnan Accompany Capital, Inc.",COVID-19 Small Business Relief,810584343,-5000,SBS,801,002,,
+7,2023-01-19,Local Initiatives - Fiscal 2022,2022,designate,,,Krishnan Department of Small Business Services,,136400434,5000,SBS,801,002,,
+7,2023-01-19,Local Initiatives - Fiscal 2022,2022,rescind,,,Vernikov Brighton Beach District Management Association,,112843233,-10000,SBS,801,002,,
+7,2023-01-19,Local Initiatives - Fiscal 2022,2022,designate,,,Vernikov Department of Small Business Services,,136400434,10000,SBS,801,002,,
+7,2023-01-19,Youth Discretionary - Fiscal 2022,2022,rescind,,,Joseph Department of Youth and Community Development,,136400434,-12000,DYCD,260,312,,
+7,2023-01-19,Youth Discretionary - Fiscal 2022,2022,designate,,,"Joseph Elite Learners, Inc.",Council District 40,814482839,12000,DYCD,260,312,,
+7,2023-01-19,Food Pantries - Fiscal 2022,2022,rescind,,,Brooklyn Delegation St. Martin of Tours RC Church,,111630834,-14000,DYCD,260,005,,
+7,2023-01-19,Food Pantries - Fiscal 2022,2022,designate,,,Brooklyn Delegation Department of Youth and Community Development,,136400434,14000,DYCD,260,005,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2022,2022,designate,,,"Grand Slam foundation, Inc.",Organizational Development/Project Management De La Rosa Support,271822546,0,SBS,801,002,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2022,2022,designate,,,De La Rosa Department of Small Business Services,,136400434,0,SBS,801,002,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2022,2022,rescind,,,Mosholu-Jerome East Gun Hill Road District Management Association,Council Dinowitz District 11,133877808,-10000,SBS,801,002,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2022,2022,designate,,,Dinowitz Department of Small Business Services,,136400434,10000,SBS,801,002,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2022,2022,rescind,,,"Urban Health Plan, Inc.",Council District 17 - Business Attraction/Retention & Salamanca Organizing,237360305,-40000,SBS,801,002,,
+7,2023-01-19,Neighborhood Development Grant Initiative - Fiscal 2022,2022,designate,,,Salamanca Department of Small Business Services,,136400434,40000,SBS,801,002,,
+7,2023-01-19,Pandemic Support for Human Service Providers - Fiscal 2022,2022,rescind,,,"BRIC Arts Media Brooklyn, Inc.",,112547268,-157,SBS,801,011,,
+7,2023-01-19,Pandemic Support for Human Service Providers - Fiscal 2022,2022,designate,,,Department of Small Business Services,,136400434,157,SBS,801,011,,
+7,2023-01-19,Pandemic Support for Human Service Providers - Fiscal 2022,2022,rescind,,,New York Committee for Occupational Safety and Health,,132935028,-2286,SBS,801,011,,
+7,2023-01-19,Pandemic Support for Human Service Providers - Fiscal 2022,2022,designate,,,Department of Small Business Services,,136400434,2286,SBS,801,011,,
+7,2023-01-19,LGBTQ Inclusive Curriculum - Fiscal 2022,2022,rescind,,,"GLAAD, Inc.",,133384027,-100000,DYCD,260,005,,***
+7,2023-01-19,LGBTQ Inclusive Curriculum - Fiscal 2022,2022,designate,,,"GLAAD, Inc.",,133384027,100000,DOE,040,454,,***
+7,2023-01-19,MWBE Leadership Associations - Fiscal 2022,2022,rescind,,,"Urban Health Plan, Inc.",,237360305,-88855,SBS,801,005,,
+7,2023-01-19,MWBE Leadership Associations - Fiscal 2022,2022,designate,,,Department of Small Business Services,,136400434,88855,SBS,801,005,,
+7,2023-01-19,Chamber on the Go and Small Business Assistance - Fiscal 2022,2022,rescind,,,"Urban Health Plan, Inc.",,237360305,-47933,SBS,801,002,,
+7,2023-01-19,Chamber on the Go and Small Business Assistance - Fiscal 2022,2022,designate,,,Department of Small Business Services,,136400434,47933,SBS,801,002,,
+7,2023-01-19,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Funds will support 92Y’s Humanities and Arts education programming for Young Men's and Young Women's Hebrew Youth Menin,,131624229,-10000,DYCD,,,"New York City public schools, including the virtual Young Leaders Series, Association and the Teen Producers program.",
+7,2023-01-19,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Young Men's and Young Women's Hebrew Funds will support 92NY’s Humanities and Arts education programming for Youth Menin,,131624229,10000,DYCD,,,Association New York City public schools and the Teen Producers program. Funds will support 92Y’s Humanities and Arts education programming for,
+7,2023-01-19,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Young Men's and Young Women's Hebrew Local Speaker,,131624229,-100000,DYCD,,,"New York City public schools, including the virtual Young Leaders Series, Association and the Teen Producers program.",
+7,2023-01-19,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Young Men's and Young Women's Hebrew Funds will support 92NY’s Humanities and Arts education programming for Local Speaker,,131624229,100000,DYCD,,,Association New York City public schools and the Teen Producers program.,
+7,2023-01-19,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"To engage residents of The Bronx in cultural and environmental activism Local Dinowitz Bronx River Art Center, Inc.",,133261148,-5000,DCLA,,,for the betterment of their communities including increased quality-of-life experiences.,
+7,2023-01-19,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Funding in support of BRAC’s artistic educational programming through its Local Dinowitz Bronx River Art Center, Inc.",,133261148,5000,DCLA,,,"Maker Space, a co-working space for emerging Bronx-based entrepreneurs working in the creative and environmental industries. Door - A Center of Alternatives, Inc., The -",
+7,2023-01-19,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Funds will be used to provide Food & Nutrition Programming in Council Local Mealy Food & Nutrition Programming,Council,136127348,-10000,DYCD,,,District 41. District 41.,
+7,2023-01-19,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Door,"A Center of Alternatives, Inc., The - Funds will be used to provide Food & Nutrition Programming from Council Local Mealy",136127348,10000,DYCD,,,"Food & Nutrition Programming District 41. This funding supports community-based organizations and advocacy networks that provide a range of mental health programs, services, Mental Health trainings, and referrals throughout the City, addressing the mental health",
+7,2023-01-19,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Services for needs of vulnerable and marginalized populations, such as HIV-positive Department of Health and Mental Hygiene",,136400434,-140000,DHMH,,,"Vulnerable people, suicidal individuals, and people with developmental disabilities. Populations Additional populations of interest include children and youth, immigrants and people with limited English proficiency, homeless individuals and families, and at-risk seniors. This funding supports community-based organizations and advocacy networks that provide a range of mental health programs, services, trainings, and referrals throughout the City, addressing the mental health needs of vulnerable and marginalized populations, such as HIV-positive Mental Health people, suicidal individuals, and people with developmental disabilities.",
+7,2023-01-19,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Services for Department of Health and Mental Hygiene,,136400434,140000,DHMH,,,"Additional populations of interest include children and youth, immigrants Vulnerable and people with limited English proficiency, homeless individuals and Populations families, and at-risk seniors. Funding also supports the Brothers and Sisters Thrive program, which funds community-based organizations to launch community cultivated mental health programming to fight stigma increasing knowledge, access and connection to mental health care.",

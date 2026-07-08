@@ -1,0 +1,72 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+12,2010-06-29,LocalInitiatives,,rescind,,,FiscalConduit/Sponsoring Organization Member Organization EINNumber Agency Amount Agy# U/A FiscalConduitEIN * VanBramer SunnysideChamberofCommerce,,112944793,-7000,DSBS,,,.00) 801 002,
+12,2010-06-29,LocalInitiatives,,designate,,,VanBramer SunnysideChamberofCommerce,,112944783,7000,DSBS,,,.00 801 002,
+12,2010-06-29,LocalInitiatives,,rescind,,,"CC SunnysideGardensCommunityAssociation,Inc.",,261918532,-20000,DPR,,,.00) 846 006,
+12,2010-06-29,LocalInitiatives,,designate,,,"CC FriendsofSunnysideGardensParks,Inc.",,261918532,20000,DPR,,,.00 846 006,
+12,2010-06-29,LocalInitiatives,,rescind,,,CC-BKDel. TangerHillelatBrooklynCollege,,116036253,-25000,CUNY,,,.00) 042 001,
+12,2010-06-29,LocalInitiatives,,designate,,,"CC-BKDel. B'naiB'rithHillelFoundation,Inc.atBrooklynCollege",,116036253,25000,CUNY,,,.00 042 001,
+12,2010-06-29,LocalInitiatives,,rescind,,,Koo QueensCollegeAsianAmericanCenter,,131988190,-5000,CUNY,,,.00) 042 001,
+12,2010-06-29,LocalInitiatives,,designate,,,Koo QueensCollegeFoundation-AsianAmericanCenter,,116080521,5000,CUNY,,,.00 042 001,
+12,2010-06-29,LocalInitiatives,,rescind,,,"CC CenterforLawandSocialJustice,MedgarEversCollege",,131988190,-25000,CUNY,,,.00) 042 001,
+12,2010-06-29,LocalInitiatives,,rescind,,,"Vann CenterforLawandSocialJustice,MedgarEversCollege",,131988190,-5000,CUNY,,,.00) 042 001,
+12,2010-06-29,LocalInitiatives,,designate,,,CC ResearchFoundationoftheCityUniversityofNewYork,,131988190,25000,CUNY,,,.00 042 001,
+12,2010-06-29,LocalInitiatives,,designate,,,Vann ResearchFoundationoftheCityUniversityofNewYork,,131988190,5000,CUNY,,,.00 042 001,
+12,2010-06-29,LocalInitiatives,,rescind,,,Cabrera BronxCommunityCollege,,131988190,-20000,CUNY,,,.00) 042 001,
+12,2010-06-29,LocalInitiatives,,designate,,,Cabrera BronxCommunityCollege,,133277699,20000,CUNY,,,.00 042 001,
+12,2010-06-29,LocalInitiatives,,designate,,,CC BaisKavTziporah,,133044171,8500,DYCD,,,.00 260 312,**
+12,2010-06-29,LocalInitiatives,,designate,,,"CC SoulTigersMarchingBand,Inc.",,110615740,5000,DYCD,,,.00 260 312,**
+12,2010-06-29,LocalInitiatives,,rescind,,,CC StatenIslandChildren'sMuseum,,237379930,-5000,DCA,,,.00) 126 022,**
+12,2010-06-29,LocalInitiatives,,rescind,,,"CC StatenIslandPhilharmonicOrchestra,Inc.",,202732542,-1000,DCA,,,.00) 126 003,**
+12,2010-06-29,LocalInitiatives,,rescind,,,CC NewYorkHallofScience,,112104059,-4000,DCA,,,.00) 126 012,**
+12,2010-06-29,LocalInitiatives,,rescind,,,CC QueensHistoricalSociety,,237016007,-1000,DCA,,,.00) 126 003,**
+12,2010-06-29,LocalInitiatives,,rescind,,,"CC QueensSymphonyOrchestra,Inc.",,112106191,-2500,DCA,,,.00) 126 003,**
+12,2010-06-29,LocalInitiatives,,designate,,,CC StatenIslandChildren'sMuseum,,237379930,5000,DCA,,,.00 126 022,
+12,2010-06-29,LocalInitiatives,,designate,,,"CC StatenIslandPhilharmonicOrchestra,Inc.",,202732542,1000,DCA,,,.00 126 003,
+12,2010-06-29,LocalInitiatives,,designate,,,CC NewYorkHallofScience,,112104059,4000,DCA,,,.00 126 012,
+12,2010-06-29,LocalInitiatives,,designate,,,CC QueensHistoricalSociety,,237016007,1000,DCA,,,.00 126 003,
+12,2010-06-29,LocalInitiatives,,designate,,,"CC QueensSymphonyOrchestra,Inc.",,112106191,2500,DCA,,,.00 126 003,
+12,2010-06-29,LocalInitiatives,,rescind,,,"Sanders,Jr RockawayDevelopmentandRevitalizationCorporation",,112575794,-76000,DSBS,,,.00) 801 002,***
+12,2010-06-29,LocalInitiatives,,designate,,,"Sanders,Jr FitzgeraldHouse,Inc.",,810666671,3500,DYCD,,,.00 260 005,***
+12,2010-06-29,LocalInitiatives,,designate,,,"Sanders,Jr GirlScoutCouncilofGreaterNewYork,Inc.",,131624014,3500,DYCD,,,.00 260 312,***
+12,2010-06-29,LocalInitiatives,,designate,,,"Sanders,Jr Beach41stStreetHousesCommunityCenter",,136400571,60000,MISC,,,.00 098 002,***
+12,2010-06-29,LocalInitiatives,,designate,,,"KickersYouthSportsAssociationofSouthEastQueens, Sanders,Jr Inc.",,112988905,3500,DYCD,,,.00 260 312,***
+12,2010-06-29,LocalInitiatives,,designate,,,"Sanders,Jr RockawayInwoodMinisterialCoalition,Inc.",,113395869,5500,DYCD,,,.00 260 005,***
+12,2010-06-29,LocalInitiatives,,rescind,,,"JewishCommunityCouncilofKewGardensandRichmond MetropolitanNewYorkCoordinating Crowley Hill,Inc.",,133944621,-1500,DYCD,,,".00) 260 005 CouncilonJewishPoverty,Inc. 13-2738818",
+12,2010-06-29,LocalInitiatives,,designate,,,"JewishCommunityCouncilofKewGardensandRichmond Crowley Hill,Inc.",,133944621,1500,DYCD,,,.00 260 005,
+12,2010-06-29,LocalInitiatives,,rescind,,,"JewishCommunityCouncilofKewGardensandRichmond MetropolitanNewYorkCoordinating Koslowitz Hill,Inc.",,133944621,-17750,DYCD,,,".00) 260 005 CouncilonJewishPoverty,Inc. 13-2738818",
+12,2010-06-29,LocalInitiatives,,designate,,,"JewishCommunityCouncilofKewGardensandRichmond Koslowitz Hill,Inc.",,133944621,17750,DYCD,,,.00 260 005,
+12,2010-06-29,LocalInitiatives,,rescind,,,"Comrie SpringfieldRiflesandRiflettes,Inc.",,113250488,-7000,DYCD,,,.00) 260 312,
+12,2010-06-29,LocalInitiatives,,designate,,,"Comrie SpringfieldRiflesandRiflettes,Inc.",,237269660,7000,DYCD,,,.00 260 312,
+12,2010-06-29,LocalInitiatives,,rescind,,,"Vallone,Jr NYCHACommunityOperations",,136400571,-7500,DYCD,,,.00) 260 005,
+12,2010-06-29,LocalInitiatives,,designate,,,"Vallone,Jr NYCHACommunityOperations",,136400571,7500,MISC,,,.00 098 002,
+12,2010-06-29,LocalInitiatives,,rescind,,,"FiscalConduit/Sponsoring Organization Member Organization EINNumber Agency Amount Agy# U/A FiscalConduitEIN * James BrooklynBallet,Inc.",,020569320,-8513,DCA,,,.00) 126 003,
+12,2010-06-29,LocalInitiatives,,rescind,,,"Fidler BrooklynBallet,Inc.",,020569320,-18500,DCA,,,.00) 126 003,
+12,2010-06-29,LocalInitiatives,,rescind,,,"James BrooklynBallet,Inc.",,020569320,-5000,DCA,,,.00) 126 003,
+12,2010-06-29,LocalInitiatives,,designate,,,"James BrooklynBallet,Inc.",,020569320,8513,DYCD,,,.00 260 312,
+12,2010-06-29,LocalInitiatives,,designate,,,"Fidler BrooklynBallet,Inc.",,020569320,18500,DYCD,,,.00 260 312,
+12,2010-06-29,LocalInitiatives,,designate,,,"James BrooklynBallet,Inc.",,020569320,5000,DYCD,,,.00 260 312,
+12,2010-06-29,YouthDiscretionary,,rescind,,,FiscalConduit/Sponsoring Organization Member Organization EINNumber Agency Amount Agy# U/A FiscalConduitEIN * Jackson PiedPiperChildren'sTheatre,,131860024,-3500,DYCD,,,".00) 260 312 HolyTrinityChurch,Inwood 13-1860024",
+12,2010-06-29,YouthDiscretionary,,designate,,,"Jackson HolyTrinityChurch,Inwood-PiedPiperChildren'sTheatre",,131860024,3500,DYCD,,,.00 260 312,
+12,2010-06-29,YouthDiscretionary,,rescind,,,"JewishCommunityCouncilofKewGardensandRichmond MetropolitanNewYorkCoordinating Koslowitz Hill,Inc.",,133944621,-10214,DYCD,,,".00) 260 312 CouncilonJewishPoverty,Inc. 13-2738818",
+12,2010-06-29,YouthDiscretionary,,designate,,,"JewishCommunityCouncilofKewGardensandRichmond Koslowitz Hill,Inc.",,133944621,10214,DYCD,,,.00 260 312,
+12,2010-06-29,YouthDiscretionary,,rescind,,,Garodnick FriendsoftheUpperEastSideHistoricDistricts,,133193351,-5000,DYCD,,,.00) 260 312,
+12,2010-06-29,YouthDiscretionary,,rescind,,,"Garodnick LowerEastSideTenementMuseum,The",,133475390,-5000,DYCD,,,.00) 260 312,
+12,2010-06-29,YouthDiscretionary,,rescind,,,"Garodnick PrimaryStagesCompany,Inc.",,133258765,-5000,DYCD,,,.00) 260 312,
+12,2010-06-29,YouthDiscretionary,,designate,,,Garodnick FriendsoftheUpperEastSideHistoricDistricts,,133193351,5000,DCA,,,.00 126 003,
+12,2010-06-29,YouthDiscretionary,,designate,,,"Garodnick LowerEastSideTenementMuseum,The",,133475390,5000,DCA,,,.00 126 003,
+12,2010-06-29,YouthDiscretionary,,designate,,,"Garodnick PrimaryStagesCompany,Inc.",,133258765,5000,DCA,,,.00 126 003,
+12,2010-06-29,HealthyAging,,rescind,,,"Member Organization EINNumber Agency Amount Agy# U/A * Barron SpringCreekSeniorPartners,Inc.",,743158439,-2445,DFTA,,,.00) 125 003,
+12,2010-06-29,HealthyAging,,designate,,,"Barron WaysideOut-ReachDevelopment,Inc.-SpringCreekGardensSeniorCenter",,113528680,2445,DFTA,,,.00 125 003,
+12,2010-06-29,Immigrant Opportunities Initiative,,rescind,,,Borough Organization EINNumber Agency Amount Agy# U/A * ResearchFoundationoftheCityUniversityofNewYork-CommunityLegalResource Queens Network,,131988190,-78000,CUNY,,,.00) 042 001,
+12,2010-06-29,Immigrant Opportunities Initiative,,designate,,,Queens CommunityLegalResourceNetwork(CLRN),,113235349,78000,CUNY,,,.00 042 001,
+12,2010-06-29,Immigrant Opportunities Initiative,,rescind,,,ResearchFoundationoftheCityUniversityofNewYork-CUNYCitizenshipand Bronx ImmigrationProject,,133235349,-85000,CUNY,,,.00) 042 001,
+12,2010-06-29,Immigrant Opportunities Initiative,,rescind,,,ResearchFoundationoftheCityUniversityofNewYork-CUNYCitizenshipand Brooklyn ImmigrationProject,,133235349,-65000,CUNY,,,.00) 042 001,
+12,2010-06-29,Immigrant Opportunities Initiative,,rescind,,,ResearchFoundationoftheCityUniversityofNewYork-CUNYCitizenshipand Manhattan ImmigrationProject,,133235349,-50000,CUNY,,,.00) 042 001,
+12,2010-06-29,Immigrant Opportunities Initiative,,designate,,,ResearchFoundationoftheCityUniversityofNewYork-CUNYCitizenshipand Bronx ImmigrationProject,,131988190,85000,CUNY,,,.00 042 001,
+12,2010-06-29,Immigrant Opportunities Initiative,,designate,,,ResearchFoundationoftheCityUniversityofNewYork-CUNYCitizenshipand Brooklyn ImmigrationProject,,131988190,65000,CUNY,,,.00 042 001,
+12,2010-06-29,Immigrant Opportunities Initiative,,designate,,,ResearchFoundationoftheCityUniversityofNewYork-CUNYCitizenshipand Manhattan ImmigrationProject,,131988190,50000,CUNY,,,.00 042 001,
+12,2010-06-29,Immigrant Opportunities Initiative,,rescind,,,"Brooklyn CenterforLawandSocialJustice,MedgarEversCollege",,131988190,-65000,DYCD,,,.00) 260 005,
+12,2010-06-29,Immigrant Opportunities Initiative,,designate,,,"ResearchFoundationoftheCityUniversityofNewYork-CenterforLawandSocial Brooklyn Justice,MedgarEversCollege",,131988190,65000,DYCD,,,.00 260 005,
+12,2010-06-29,Immigrant Opportunities Initiative,,rescind,,,"Brooklyn MetropolitanNewYorkCoordinatingCouncilonJewishPoverty,Inc.",,132738818,-15000,DYCD,,,.00) 260 005,
+12,2010-06-29,Immigrant Opportunities Initiative,,designate,,,Brooklyn EdithandCarlMarksJewishCommunityHouseofBensonhurst,,111633484,15000,DYCD,,,.00 260 005,**
+12,2010-06-29,Cultural After School Adventure,,rescind,,,Member Organization EINNumber Agency Amount Agy# U/A * Rivera WildlifeConservationSociety-BronxZoo,,131740011,-13500,DCA,,,.00) 126 007,

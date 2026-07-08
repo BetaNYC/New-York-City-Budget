@@ -1,8 +1,10 @@
 # New York City Budget
 
-Machine-readable, reconciled structured data extracted from the **New York City Council's adopted budget documents** — discretionary funding (Schedule C), reporting mandates (Terms & Conditions), and capital changes (Section 254) — for **Fiscal Years 2025, 2026, and 2027**.
+Machine-readable, reconciled structured data extracted from the **New York City Council's adopted budget documents** — discretionary funding (Schedule C), reporting mandates (Terms & Conditions), capital changes (Section 254), and post-adoption Transparency Resolutions — for **Fiscal Years 2025, 2026, and 2027**, plus a **historical backfill to FY2009** (see coverage note below).
 
 Every dollar figure here was extracted **deterministically** from the Council's own PDFs and checked line by line against the documents' printed totals. The FY2027 discretionary schedule reconciles to the exact dollar: **$655,764,999**.
+
+**Per-year processing manifest:** [`code/PARSING.md`](code/PARSING.md) records, for every fiscal year and document type, exactly which parser + invocation produces its CSVs and the reconciliation status. It is the authoritative "how do I regenerate FY_N_?" reference.
 
 ---
 
@@ -39,22 +41,21 @@ New-York-City-Budget/
 ├── Insights-NYC-Council-Discretionary-FY25-FY27.md ← narrative analysis
 ├── LICENSE                                         ← MIT, for the code + derived data
 ├── source/              ← official NYC Council PDFs, © City of New York
-│   ├── FY25/  FY26/  FY27/
-│   └── FY26/transparency-resolutions/   ← 10 post-adoption designation resolutions
+│   ├── FY08/ … FY27/    (Schedule C, Terms, Capital, transparency-resolutions/ per year)
 ├── data/                ← extracted, reconciled CSVs
-│   ├── fy25/  fy26/  fy27/
+│   ├── fy09/ … fy27/    (per year: schedule_c/, terms/, capital/, transparency-resolutions/
+│   │   │                 — whichever document types exist and parse for that year)
 │   │   ├── schedule_c/  discretionary expense funding
 │   │   ├── terms/       Terms & Conditions (reporting mandates)
-│   │   └── capital/     Section 254 capital changes (FY26 + FY27; FY25 is an appropriation-changes doc)
-│   ├── fy26/transparency-resolutions/   post-adoption designations (10 resolutions)
-│   └── combined/        all-years roll-ups
-├── code/                ← parser scripts (schedule C, terms, capital, transparency) + tests + requirements.txt
+│   │   └── capital/     Section 254 capital changes
+│   └── combined/        all-years roll-ups (built by code/build_combined.py)
+├── code/                ← parser scripts + variants + validate_data.py (QA) + tests + PARSING.md + requirements.txt
 └── mcp/                 ← prototype MCP server (see below)
 ```
 
 ### `mcp/` — prototype MCP server
 
-`mcp/` holds a **prototype** [Model Context Protocol](https://modelcontextprotocol.io) server (TypeScript + SQLite) that exposes this repo's data to MCP-capable AI clients as structured query tools — Schedule C awards, Terms & Conditions, §254 capital, the FY2026 Transparency Resolutions, and the Legistar crosswalk. It reads the repo's own `data/` tree directly (no copied snapshot) and builds a local, git-ignored SQLite index from it, so the query layer and the data always move together. Still a prototype — see [`mcp/README.md`](mcp/README.md) for tools, scope, and how to build and run it.
+`mcp/` holds a **prototype** [Model Context Protocol](https://modelcontextprotocol.io) server (TypeScript + SQLite) that exposes this repo's data to MCP-capable AI clients as structured query tools — Schedule C awards (FY2015–FY2027), Terms & Conditions, §254 capital, the Transparency Resolutions (FY2010–FY2024 + FY2026), and the Legistar crosswalk. It reads the repo's own `data/` tree directly (no copied snapshot) and builds a local, git-ignored SQLite index from it, so the query layer and the data always move together. Still a prototype — see [`mcp/README.md`](mcp/README.md) for tools, scope, and how to build and run it.
 
 ## The data files
 
@@ -102,7 +103,30 @@ Post-adoption discretionary designations from the 10 FY2026 Transparency Resolut
 
 The two "misses" are arithmetic inconsistencies **inside the official PDFs**, not extraction errors — the parser faithfully captured both the line items and the printed total, and they disagree in the source.
 
+### Historical coverage (FY2009–FY2024)
+
+Beyond the flagship FY2025–FY2027 set, the repo now backfills earlier years. Full per-year,
+per-document-type detail (and the parser/invocation for each) is in [`code/PARSING.md`](code/PARSING.md); the headline:
+
+- **Schedule C** — reconciled for **FY2015–FY2024** (**FY2015** via the dedicated `parse_schedule_c_fy15.py`,
+  reconciled **24/24**; **FY2016–FY2024** via `parse_schedule_c.py`) and **FY2009–FY2014**
+  (initiatives-only, via `parse_schedule_c_legacy.py` — the early-era documents carry no award-level
+  EIN tables; FY2015 and later DO). FY2008 remains open (see PARSING.md).
+- **§254 Capital (Capital Project Detail)** — reconciled **23/23–32/32** for **FY2020, FY2022, FY2023, FY2024**
+  (via `parse_capital_detail.py`).
+- **Terms & Conditions** — extracted for **FY2015–FY2024** (via `parse_terms_legacy.py`; T&C print no totals).
+- **Transparency Resolutions** — extracted for **FY2010–FY2024** (no printed totals). Financial columns
+  (EIN/amount/agency/date/action) are reliable in every year; organization/member/program *text* is
+  low-confidence in the older glued-text-layer years (FY2010–FY2013), flagged per-year in each
+  `*_reconciliation.txt`. FY2009 (scanned, no text layer) and FY2013 resolutions 07/10/11 (`.doc`) are blocked.
+
 **Capital (Section 254):** FY2026 reconciles **31/31** agency subtotals (amount + project count); FY2027 reconciles **23/26**; FY2025 is a different document type with no subtotals (`NOT RECONCILABLE`). **Transparency Resolutions:** no printed totals (`NOT RECONCILABLE`); transfers net to zero as expected. See each `*_reconciliation.txt` for details.
+
+**Data QA:** beyond per-file reconciliation, `code/validate_data.py` runs row-level and cross-file
+integrity checks (schema, EIN validity + per-year coverage, amount/sign sanity, fiscal-year
+integrity, duplicate detection, column-bleed heuristic, and a reconciliation roll-up) over the whole
+`data/` tree and writes a dated `data/QA-REPORT.md`. Latest run: 0 hard failures, 100% EIN coverage
+on every EIN-bearing file. Details in [`code/PARSING.md`](code/PARSING.md).
 
 ## Known limitations
 
@@ -124,6 +148,12 @@ python code/parse_capital.py     <Capital.pdf>   --outdir data/fy28/capital     
 ```
 
 Always read the generated `*_reconciliation.txt` to confirm a parse before trusting a new year.
+
+**Earlier years and other document types use variant parsers** (`parse_schedule_c_legacy.py`,
+`parse_terms_legacy.py`, `parse_capital_detail.py`, `parse_transparency_reso.py`) — the exact
+parser and invocation for each fiscal year is in [`code/PARSING.md`](code/PARSING.md). After
+regenerating any Schedule C year, rebuild the cross-year roll-ups with
+`python code/build_combined.py`.
 
 ## Future work
 

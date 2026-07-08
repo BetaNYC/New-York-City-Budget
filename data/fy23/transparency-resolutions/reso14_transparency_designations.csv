@@ -1,0 +1,111 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,rescind,,,National Asian Pacific American Women's Forum,Not Your Model Minority: Ung Developing AAPI Women Leaders,364799986,-5000,DYCD,260,005,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,designate,,,Ung Police Department,109th Precinct - Auto Crime Unit Prevention Events,136400434,5000,NYPD,056,100,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,rescind,,,"Borelli Friends of Blue Heron Park, Inc.",,133073882,-7500,DYCD,260,005,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,designate,,,Borelli Department of Parks and Recreation,Urban Park Rangers,136400434,7500,DPR,846,006,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,rescind,,,Feliz Open Future Institute,Bronx Leadership Academy High School (09X525),455494252,-20000,DOE,040,402,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,rescind,,,Open Future Institute,The QUESTion Project - Belmont Preparatory High Feliz School (10X434),455494252,-20000,DOE,040,402,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,designate,,,Feliz Open Future Institute,,455494252,40000,DYCD,260,312,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,rescind,,,"Asphalt Green, Inc.",Community Sports Leagues - Roberto Clemente State Stevens Park,136533158,-5000,DPR,846,006,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,designate,,,"Asphalt Green, Inc.",Community Sports Leagues - Roberto Clemente State Stevens Park,136533158,5000,DYCD,260,005,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"New School, The",,133297197,-35000,MOCJ,098,002,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"New School, The",,133297197,35000,DYCD,260,005,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,Holden Animal Care and Control of New York City,Animal Care,133788986,-5000,DHMH,816,114,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,Holden Department of Parks and Recreation,Council District 30,136400434,4500,DPR,846,006,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,Holden St. Stanislaus Catholic Church,,111981305,500,DYCD,260,312,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Joseph New York Road Runners, Inc.",Council District 40,132949483,-5000,DYCD,260,312,,
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Joseph East Flatbush Village, Inc.",Boys2Manhood Initiative,800612019,5000,DYCD,260,312,,
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Gutierrez Chinese Better Living Association, Ltd.",Lindsey Park Houses,510627337,-5000,DFTA,125,003,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Gutierrez ArtBridge Projects, Inc.",,611682898,5000,DCLA,126,003,,**
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,rescind,,Speaker,"Schulman CHAZAQ Organization USA, Inc.",Main Street Beautification,462148352,-5000,DYCD,260,005,,
+14,2023-06-30,Local Initiatives - Fiscal 2023,2023,designate,,Speaker,"Schulman CHAZAQ Organization USA, Inc.",Community Beautification,462148352,5000,DYCD,260,005,,
+14,2023-06-30,Aging Discretionary - Fiscal 2023,2023,rescind,,,Paladino Department for the Aging,,136400434,-5000,DFTA,125,003,,
+14,2023-06-30,Aging Discretionary - Fiscal 2023,2023,designate,,,"Paladino Selfhelp Community Services, Inc.",Clearview Senior Center,131624178,5000,DFTA,125,003,,
+14,2023-06-30,Aging Discretionary - Fiscal 2023,2023,rescind,,,"Barron Spring Creek Senior Partners, Inc.",Spring Creek Partners,743158439,-7000,DFTA,125,003,,
+14,2023-06-30,Aging Discretionary - Fiscal 2023,2023,designate,,,Bergen Basin Community Development Corporation d/b/a Millennium Barron Development,Council District 42,113199040,7000,DFTA,125,003,,
+14,2023-06-30,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Kagan Coney Island Sharks, Inc.",Afterschool Enrichment Initiative,113304418,-7000,DYCD,260,312,,
+14,2023-06-30,Youth Discretionary - Fiscal 2023,2023,designate,,,"Kagan Coney Island Sharks, Inc.",,113304418,7000,DYCD,260,312,,
+14,2023-06-30,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Brewer New York Road Runners, Inc.",Fitness Program,132949483,-5000,DYCD,260,312,,
+14,2023-06-30,Youth Discretionary - Fiscal 2023,2023,designate,,,"Art Beyond Sight, Inc.",Disabled Student Driven Intergenerational Citywide Brewer Disability Inclusion & Disability Unite Banner Project,133477104,5000,DYCD,260,312,,
+14,2023-06-30,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Hanif New York Road Runners, Inc.",,132949483,-3500,DYCD,260,312,,
+14,2023-06-30,Youth Discretionary - Fiscal 2023,2023,designate,,,Hanif Department of Youth and Community Development,,136400434,3500,DYCD,260,312,,
+14,2023-06-30,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Powers New York Road Runners, Inc.",,132949483,-5000,DYCD,260,312,,
+14,2023-06-30,Youth Discretionary - Fiscal 2023,2023,designate,,,Young Men's Christian Association of Greater New York,Vanderbilt YMCA - Powers Youth Programming,131624228,5000,DYCD,260,312,,
+14,2023-06-30,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Barron Kwatny Foundation, Inc.",Council District 42,810606748,-10000,DYCD,260,312,,
+14,2023-06-30,Youth Discretionary - Fiscal 2023,2023,rescind,,,Barron Southern Community Development Corporation,Council District 42,800440647,-10000,DYCD,260,312,,
+14,2023-06-30,Youth Discretionary - Fiscal 2023,2023,rescind,,,"Barron Vocal Village, Inc.",Council District 42,821638218,-5000,DYCD,260,312,,
+14,2023-06-30,Youth Discretionary - Fiscal 2023,2023,designate,,,"Victory Music and Dance Company, Inc.",Community Youth Development Barron Programming,472167056,25000,DYCD,260,312,,
+14,2023-06-30,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,,"Yeger Ohel Children's Home and Family Services, Inc.",,116078704,-10000,MOCJ,098,002,,**
+14,2023-06-30,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,"Yeger Ohel Children's Home and Family Services, Inc.",,116078704,10000,DYCD,260,005,,**
+14,2023-06-30,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,,"Mealy Elite Learners, Inc.",,814482839,-100000,DYCD,260,312,,**
+14,2023-06-30,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,"Mealy Elite Learners, Inc.",Council District 41,814482839,100000,DYCD,260,005,,**
+14,2023-06-30,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,,Holden Department for the Aging,,136400434,-6556,DFTA,125,003,,**
+14,2023-06-30,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,Holden Department of Parks and Recreation,Council District 30,136400434,6556,DPR,846,006,,**
+14,2023-06-30,Community Safety and Victim Services Initiative - Fiscal 2023,2023,rescind,,,"Barron Brownsville Think Tank Matters, Inc.",42nd Council District,472440990,-10000,DYCD,260,005,,
+14,2023-06-30,Community Safety and Victim Services Initiative - Fiscal 2023,2023,designate,,,"Barron Elite Learners, Inc.",42nd Council District,814482839,10000,DYCD,260,005,,
+14,2023-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2023,2023,rescind,,Speaker,"Project Guardianship, Inc.",,845004265,-95000,MOCJ,098,002,,**
+14,2023-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2023,2023,designate,,Speaker,"Project Guardianship, Inc.",,845004265,95000,DYCD,260,005,,**
+14,2023-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2023,2023,rescind,,Speaker,"Little Haiti BK, Inc.",,824710754,-350000,DYCD,260,005,,**
+14,2023-06-30,Speaker's Initiative to Address Citywide Needs - Fiscal 2023,2023,designate,,Speaker,"Little Haiti BK, Inc.",,824710754,350000,DCLA,126,003,,**
+14,2023-06-30,Boroughwide Needs Initiative - Fiscal 2023,2023,rescind,,,"Brooklyn Delegation Forest Park Trust, Inc.",,311558645,-12000,DPR,846,006,,**
+14,2023-06-30,Boroughwide Needs Initiative - Fiscal 2023,2023,designate,,,Brooklyn Delegation Center for Employment Opportunities,Council District 47,133843322,12000,DYCD,260,005,,**
+14,2023-06-30,Parks Equity Initiative - Fiscal 2023,2023,rescind,,,Brewer New York City Street Tree Consortium,"Tree Planting, Pruning and Stewardship",133131911,-10000,DYCD,260,005,,
+14,2023-06-30,Parks Equity Initiative - Fiscal 2023,2023,designate,,,Brewer New York City Street Tree Consortium,,133131911,10000,DYCD,260,005,,
+14,2023-06-30,NYC Cleanup - Fiscal 2023,2023,rescind,,,Restler Department of Youth and Community Development,,136400434,-5000,DYCD,260,005,,
+14,2023-06-30,NYC Cleanup - Fiscal 2023,2023,designate,,,Restler Wildcat Service Corporation,Graffiti Removal - Council District 33,132725423,5000,DYCD,260,005,,
+14,2023-06-30,Food Pantries - Fiscal 2023,2023,rescind,,,Brooklyn Delegation Food Bank For New York City,Our Lady of Grace Parish - EFRO# 80343,133179546,-6000,DYCD,260,005,,
+14,2023-06-30,Food Pantries - Fiscal 2023,2023,designate,,,Brooklyn Delegation Food Bank For New York City,Apna Food Pantry Brighton Beach - EFRO# 85537,133179546,6000,DYCD,260,005,,
+14,2023-06-30,Food Pantries - Fiscal 2023,2023,rescind,,,Bronx Delegation Food Bank For New York City,Food Justice Ministry - EFRO# 81536,133179546,-9500,DYCD,260,005,,
+14,2023-06-30,Food Pantries - Fiscal 2023,2023,designate,,,Bronx Delegation Food Bank For New York City,Christ Disciples International Ministries - EFRO# 85225,133179546,9500,DYCD,260,005,,
+14,2023-06-30,Food Pantries - Fiscal 2023,2023,rescind,,,Brooklyn Delegation Food Bank For New York City,CCNS-Brooklyn West Family Center - EFRO# 80373,133179546,-6250,DYCD,260,005,,
+14,2023-06-30,Food Pantries - Fiscal 2023,2023,designate,,,Brooklyn Delegation Food Bank For New York City,North Brooklyn Angels - EFRO# 85496,133179546,6250,DYCD,260,005,,
+14,2023-06-30,Food Pantries - Fiscal 2023,2023,rescind,,,Manhattan Delegation Food Bank For New York City,St. Peter's Food Pantry – EFRO# 80577,133179546,-6247,DYCD,260,005,,
+14,2023-06-30,Food Pantries - Fiscal 2023,2023,designate,,,Manhattan Delegation Food Bank For New York City,,133179546,6247,DYCD,260,005,,
+14,2023-06-30,Digital Inclusion and Literacy Initiative - Fiscal 2023,2023,rescind,,,Narcisse Hebrew Language Academy Charter School,,264117186,-20000,DOE,040,402,,**
+14,2023-06-30,Digital Inclusion and Literacy Initiative - Fiscal 2023,2023,designate,,,Narcisse Hebrew Language Academy Charter School,,264117186,20000,DYCD,260,005,,**
+14,2023-06-30,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,rescind,,,Williams Major Music International Corporation,Public School 360Q (29Q360),261159606,-20000,DCLA,126,003,,
+14,2023-06-30,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,Williams Major Music International Corporation,Public School 036Q Saint Albans School (29Q036),261159606,20000,DCLA,126,003,,
+14,2023-06-30,Cultural After-School Adventure (CASA) - Fiscal 2023,2023,designate,,,"Paladino Flushing Council on Culture and the Arts, Inc.",Public School 32Q State Street (25Q032),112652182,20000,DCLA,126,022,,**
+14,2023-06-30,A Greener NYC- Fiscal 2023,2023,rescind,,,De La Rosa New York Restoration Project,Community Growing in Council District 10,133959056,-10000,DPR,846,006,,**
+14,2023-06-30,A Greener NYC- Fiscal 2023,2023,designate,,,De La Rosa New York Restoration Project,Community Growing Council District 10,133959056,10000,DYCD,260,005,,**
+14,2023-06-30,A Greener NYC- Fiscal 2023,2023,rescind,,,"Waterfront Alliance, Inc.",Waterfront Alliance: Community Waterfront education and De La Rosa Recreational Programming in District 10,134355067,-10000,DPR,846,006,,**
+14,2023-06-30,A Greener NYC- Fiscal 2023,2023,designate,,,"Waterfront Alliance, Inc.",Community Waterfront Education & Recreational Programming - De La Rosa Council District 10,134355067,10000,DYCD,260,005,,**
+14,2023-06-30,Pride at Work - Fiscal 2023,2023,rescind,,,Beth Israel Medical Center,,135564934,-50000,SBS,801,011,,
+14,2023-06-30,Pride at Work - Fiscal 2023,2023,designate,,,Department of Small Business Services,,136400434,50000,SBS,801,011,,
+14,2023-06-30,Community Housing Preservation Strategies - Fiscal 2023,2023,rescind,,,"West Harlem Group Assistance, Inc.",HPI,237169558,-61000,HPD,806,009,,
+14,2023-06-30,Community Housing Preservation Strategies - Fiscal 2023,2023,designate,,,Housing Preservation and Development,,136400434,61000,HPD,806,009,,
+14,2023-06-30,Physical Education and Fitness - Fiscal 2023,2023,rescind,,,"New York Road Runners, Inc.",,132949483,-250000,DYCD,260,312,,
+14,2023-06-30,Physical Education and Fitness - Fiscal 2023,2023,designate,,,Department of Youth and Community Development,,136400434,250000,DYCD,260,312,,
+14,2023-06-30,Support for Victims of Human Trafficking - Fiscal 2023,2023,rescind,,,"Fund for the City of New York, Inc.",,132612524,-52935,DYCD,260,005,,
+14,2023-06-30,Support for Victims of Human Trafficking - Fiscal 2023,2023,designate,,,"Justice Innovation, Inc.",,852810883,52935,DYCD,260,005,,
+14,2023-06-30,Art a Catalyst for Change - Fiscal 2023,2023,rescind,,,Department of Cultural Affairs,,136400434,-18000,DCLA,126,003,,
+14,2023-06-30,Art a Catalyst for Change - Fiscal 2023,2023,designate,,,"2020 Vision for Schools, Inc.",Park East High School (04M495) - Manhattan,453023036,18000,DCLA,126,003,,
+14,2023-06-30,Hate Crime Prevention Initiative - Fiscal 2023,2023,rescind,,,Research Foundation of the City University of New York,,131988190,-50000,MOCJ,098,002,,**
+14,2023-06-30,Hate Crime Prevention Initiative - Fiscal 2023,2023,designate,,,Research Foundation of the City University of New York,,131988190,50000,CUNY,042,001,,**
+14,2023-06-30,Hate Crime Prevention Initiative - Fiscal 2023,2023,rescind,,,Manhattan College,Fighting Antisemitism,131740468,-100000,MOCJ,098,002,,**
+14,2023-06-30,Hate Crime Prevention Initiative - Fiscal 2023,2023,designate,,,Manhattan College,Fighting Antisemitism,131740468,100000,DYCD,260,005,,**
+14,2023-06-30,Hate Crime Prevention Initiative - Fiscal 2023,2023,rescind,,,Israel Emergency Alliance,Fighting Antisemitism,010566033,-50000,MOCJ,098,002,,**
+14,2023-06-30,Hate Crime Prevention Initiative - Fiscal 2023,2023,designate,,,Israel Emergency Alliance,Fighting Antisemitism,010566033,50000,DYCD,260,005,,**
+14,2023-06-30,Hate Crime Prevention Initiative - Fiscal 2023,2023,rescind,,,"Blue Card, Inc., The",Fighting Antisemitism,131623910,-25000,MOCJ,098,002,,**
+14,2023-06-30,Hate Crime Prevention Initiative - Fiscal 2023,2023,designate,,,"Blue Card, Inc., The",Fighting Antisemitism,131623910,25000,DYCD,260,005,,**
+14,2023-06-30,Crisis Management System - Fiscal 2023,2023,rescind,,,"Berean Community and Family Life Center, Inc.",,112870465,-10600,MOCJ,098,002,,**
+14,2023-06-30,Crisis Management System - Fiscal 2023,2023,designate,,,"Berean Community and Family Life Center, Inc.",,112870465,10600,DYCD,260,005,,**
+14,2023-06-30,AAPI Community Support - Fiscal 2023,2023,rescind,,,Department of Youth and Community Development,,136400434,-20000,DYCD,260,005,,**
+14,2023-06-30,Local Initiatives - Fiscal 2022,2022,rescind,,,Feliz Open Future Institute,The QUESTion Project,455494252,-10000,DOE,040,402,,
+14,2023-06-30,Local Initiatives - Fiscal 2022,2022,designate,,,Feliz Department of Education,,136400434,10000,DOE,040,402,,
+14,2023-06-30,Local Initiatives - Fiscal 2022,2022,rescind,,,Feliz Department of Youth and Community Development,,136400434,-10000,DYCD,260,005,,
+14,2023-06-30,Local Initiatives - Fiscal 2022,2022,designate,,,Feliz Open Future Institute,The QUESTion Project,455494252,10000,DYCD,260,005,,
+14,2023-06-30,Aging Discretionary - Fiscal 2022,2022,rescind,,,Paladino Department for the Aging,,136400434,-5000,DFTA,125,003,,
+14,2023-06-30,Aging Discretionary - Fiscal 2022,2022,designate,,,"Paladino Selfhelp Community Services, Inc.",Clearview Senior Center,131624178,5000,DFTA,125,003,,
+14,2023-06-30,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Job Evergreens Cemetery Preservation This allocation will provide veterans, National Guard members and Placement for",,450637022,-40000,SBS,,,"Foundation, Inc. Reservists with job training and job placement services. Veterans Job This allocation will provide curriculum and educational materials for",
+14,2023-06-30,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Evergreens Cemetery Preservation Placement for,,450637022,40000,SBS,,,"veterans, National Guard members and Reservists with job training and Foundation, Inc. Veterans job placement services for green careers. Community",
+14,2023-06-30,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Safety and Victim Mealy Elite Learners, Inc.",,814482839,-100000,DYCD,,,Funds will aid in the positive revolution of youth & their families. Services Initiative Community,
+14,2023-06-30,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Safety and Funding to support our various initiatives in the 41st Council district. Victim Mealy Elite Learners, Inc.",Council District 41,814482839,100000,DYCD,,,"Funding will provide educational, Vocational, recreational and anti- Services violence programs to youth, Seniors and community members. Initiative",
+14,2023-06-30,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Coney Island Sharks, Inc.",Afterschool Funds will promote the full development and realization of potential by Youth Kagan,113304418,-7000,DYCD,,,Enrichment Initiative children and youth. Funds will be used to empower children and youth facing disadvantaged circumstances by providing sports opportunities and community-based,
+14,2023-06-30,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"interventions. Through football and cheerleading programs, academic Youth Kagan Coney Island Sharks, Inc.",,113304418,7000,DYCD,,,"tutoring, mentoring, and exposure to regional and national games, the initiative seeks to develop physical, academic, and life skills, preparing participants for future success in sports, education, and life.",
+14,2023-06-30,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Maspeth Town Hall, Inc.","Public School Funds to be used for staff support, programming, activities and trips for Local Holden",237259702,-1200,DYCD,,,049Q Dorothy Bonawit Kole (24Q049) seniors in Council District 30.,
+14,2023-06-30,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"Maspeth Town Hall, Inc.",Public School Local Holden,237259702,1200,DYCD,,,Funds will support Youth Program at Public School 49Q. 049Q Dorothy Bonawit Kole (24Q049) Funding to support the introduction of various theater arts/disciplines to,
+14,2023-06-30,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Calliope Creative Foundation,Theater in Aging Jordan,134158092,-25000,DFTA,,,black and latino youth; with activities/programming taking place within Harlem Council District 9. Funding to support the introduction of various theater arts/disciplines to,
+14,2023-06-30,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,Calliope Creative Foundation,Theater in Aging Jordan,134158092,25000,DFTA,,,black and latino seniors; with activities/programming taking place within Harlem Council District 9.,
+14,2023-06-30,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"CHAZAQ Organization USA, Inc.",Main Local Schulman,462148352,-5000,DYCD,,,Funding to support costs associated with Main Street Beautification. Street Beautification,
+14,2023-06-30,Purpose of Funds Changes - Fiscal 2023,2023,purpose_change,,,"CHAZAQ Organization USA, Inc.",Local Schulman,462148352,5000,DYCD,,,Funding to support costs associated with community street beautification. Community Beautification,

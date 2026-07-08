@@ -29,7 +29,7 @@ const PACKAGE_VERSION = (
 ).version;
 
 const SCOPE_NOTE =
-  "Structured award/terms/capital data covers FY2025–FY2027 only (FY2008–FY2024 are not yet parsed to CSV). The Legistar crosswalk covers FY2008–FY2027. Transparency Resolutions are FY2026 (that file also carries embedded FY2023–FY2025 rows).";
+  "Coverage: Schedule C awards FY2015–FY2027; Terms & Conditions FY2015–FY2018 + FY2021–FY2027; §254 capital FY2020 + FY2022–FY2027; Transparency Resolutions FY2010–FY2024 + FY2026 (org/program TEXT is low-confidence for FY2010–FY2013 — financial columns reliable; join on EIN). FY2009–FY2014 Schedule C is initiatives-only (no EIN) and is EXCLUDED from the award tools. FY2008 and the FY2009 transparency resolutions are unparsed (source blocked). The Legistar crosswalk covers FY2008–FY2027. Run list_available_fiscal_years for exact per-dataset coverage.";
 
 const FOOTER = `
 ---
@@ -68,7 +68,7 @@ export const server = new Server(
 const TOOLS = [
   {
     name: "search_awards",
-    description: `Search NYC Council discretionary (Schedule C) awards across FY2025–FY2027. Filter by any combination of EIN, organization name, program name, council member (surname), fiscal year, category, and initiative. NOTE: a single EIN can be a fiscal sponsor covering many programs — e.g. EIN 13-2612524 ("Delegation Fund for the City of New York, Inc.") is a passthrough for dozens of programs, so to isolate one grantee (e.g. BetaNYC) filter by \`program\` as well as \`ein\`. ${SCOPE_NOTE}`,
+    description: `Search NYC Council discretionary (Schedule C) awards across FY2015–FY2027 (the EIN-level years). Filter by any combination of EIN, organization name, program name, council member (surname), fiscal year, category, and initiative. NOTE: a single EIN can be a fiscal sponsor covering many programs — e.g. EIN 13-2612524 ("Delegation Fund for the City of New York, Inc.") is a passthrough for dozens of programs, so to isolate one grantee (e.g. BetaNYC) filter by \`program\` as well as \`ein\`. FY2009–FY2014 have no award/EIN data (initiatives-only) and are not searchable here. ${SCOPE_NOTE}`,
     inputSchema: {
       type: "object",
       properties: {
@@ -76,7 +76,7 @@ const TOOLS = [
         organization: { type: "string", description: "Organization name (substring, case-insensitive)" },
         program: { type: "string", description: "Program name (substring) — the field that distinguishes grantees under a shared fiscal-sponsor EIN" },
         council_member: { type: "string", description: "Sponsoring council member surname (substring)" },
-        fiscal_year: { type: "number", description: "2025, 2026, or 2027" },
+        fiscal_year: { type: "number", description: "Any year FY2015–FY2027" },
         category: { type: "string", description: "Schedule C category (substring)" },
         initiative: { type: "string", description: "Council initiative name (substring)" },
         limit: { type: "number", description: "Max rows (default 50, max 500)" },
@@ -85,27 +85,27 @@ const TOOLS = [
   },
   {
     name: "get_awards_by_ein",
-    description: `Return every Schedule C award tied to an EIN across FY2025–FY2027, with a per-fiscal-year count and total. This is the primary cross-system join key. Reminder: for a fiscal-sponsor EIN the result mixes many programs — narrow with search_awards(ein, program) to isolate one grantee. ${SCOPE_NOTE}`,
+    description: `Return every Schedule C award tied to an EIN across FY2015–FY2027, with a per-fiscal-year count and total. This is the primary cross-system join key. Reminder: for a fiscal-sponsor EIN the result mixes many programs — narrow with search_awards(ein, program) to isolate one grantee. ${SCOPE_NOTE}`,
     inputSchema: {
       type: "object",
       properties: {
         ein: { type: "string", description: "Tax ID; hyphens optional" },
-        fiscal_year: { type: "number", description: "Optional: restrict to 2025, 2026, or 2027" },
+        fiscal_year: { type: "number", description: "Optional: restrict to a year FY2015–FY2027" },
       },
       required: ["ein"],
     },
   },
   {
     name: "search_transparency_resolutions",
-    description: `Search the FY2026 NYC Council Transparency Resolutions — post-adoption discretionary designations, rescissions, and purpose changes. Rescissions carry negative amounts; a transfer is a rescind + designate pair on the same EIN/agency. Filter by EIN, council member, fiscal year, action (designate / rescind / purpose_change), or organization. This file also contains embedded FY2023–FY2025 rows, so pass fiscal_year to scope. ${SCOPE_NOTE}`,
+    description: `Search the NYC Council Transparency Resolutions FY2010–FY2024 + FY2026 — post-adoption discretionary designations, rescissions, and purpose changes. Rescissions carry negative amounts; a transfer is a rescind + designate pair on the same EIN/agency. Filter by EIN, council member, fiscal year, action (designate / rescind / purpose_change), or organization. IMPORTANT: \`fiscal_year\` filters the resolution *document's* fiscal year (the year whose budget it amends); each result also shows the row-level designation year, which can differ or be blank. CAVEAT: for FY2010–FY2013 the organization/council-member/program TEXT is low-confidence (glued/garbled PDF text layer) — the financial columns (EIN, amount, agency, date, action) are reliable, so join on EIN, not name; affected rows are flagged in the output. ${SCOPE_NOTE}`,
     inputSchema: {
       type: "object",
       properties: {
         ein: { type: "string", description: "Tax ID; hyphens optional" },
-        council_member: { type: "string", description: "Council member surname (substring)" },
-        fiscal_year: { type: "number", description: "e.g. 2026" },
+        council_member: { type: "string", description: "Council member surname (substring); unreliable for FY2010–FY2013" },
+        fiscal_year: { type: "number", description: "Resolution document fiscal year, FY2010–FY2024 or 2026" },
         action: { type: "string", enum: ["designate", "rescind", "purpose_change"], description: "Type of action" },
-        organization: { type: "string", description: "Organization name (substring)" },
+        organization: { type: "string", description: "Organization name (substring); unreliable for FY2010–FY2013" },
         limit: { type: "number", description: "Max rows (default 50, max 500)" },
       },
     },
@@ -124,12 +124,12 @@ const TOOLS = [
   },
   {
     name: "search_capital_projects",
-    description: `Search §254 capital changes across FY2025–FY2027. Filter by agency, fiscal year, sponsor (council member surname; co-sponsored rows list multiple), or project title. \`fy1\` is the adoption-year allocation. NOTE: FY2025 is the "Appropriation Changes" document — different schema (no borough/sub-id/sponsor, adds an action column) and NOT reconcilable; FY2026/FY2027 share a schema and reconcile against printed subtotals. ${SCOPE_NOTE}`,
+    description: `Search §254 capital changes across FY2020 + FY2022–FY2027 (no FY2021 detail book exists). Filter by agency, fiscal year, sponsor (council member surname; co-sponsored rows list multiple), or project title. \`fy1\` is the adoption-year allocation. NOTE: FY2025 is the "Appropriation Changes" document — different schema (no borough/sub-id/sponsor, adds an action column) and NOT reconcilable; FY2020/FY2022/FY2023/FY2024/FY2026 are "Supporting Detail Book" and reconcile against printed subtotals (FY2027 partially). ${SCOPE_NOTE}`,
     inputSchema: {
       type: "object",
       properties: {
         agency: { type: "string", description: "Agency name (substring)" },
-        fiscal_year: { type: "number", description: "2025, 2026, or 2027" },
+        fiscal_year: { type: "number", description: "FY2020, or any of FY2022–FY2027" },
         sponsor: { type: "string", description: "Sponsoring council member surname (substring)" },
         title: { type: "string", description: "Project title (substring)" },
         limit: { type: "number", description: "Max rows (default 50, max 500)" },
@@ -138,11 +138,11 @@ const TOOLS = [
   },
   {
     name: "get_terms_conditions",
-    description: `Retrieve Terms & Conditions (reporting mandates attached to appropriations) across FY2025–FY2027. Filter by fiscal year and/or agency name. ${SCOPE_NOTE}`,
+    description: `Retrieve Terms & Conditions (reporting mandates attached to appropriations) across FY2015–FY2018 + FY2021–FY2027 (no standalone T&C document exists for FY2019/FY2020). Filter by fiscal year and/or agency name. ${SCOPE_NOTE}`,
     inputSchema: {
       type: "object",
       properties: {
-        fiscal_year: { type: "number", description: "2025, 2026, or 2027" },
+        fiscal_year: { type: "number", description: "FY2015–FY2018 or FY2021–FY2027" },
         agency: { type: "string", description: "Agency name (substring)" },
         limit: { type: "number", description: "Max rows (default 50, max 500)" },
       },
@@ -150,7 +150,7 @@ const TOOLS = [
   },
   {
     name: "list_available_fiscal_years",
-    description: `Report which fiscal years each dataset actually covers, so callers are not surprised by the FY2008–FY2024 gap in parsed award data. Returns the parsed years for awards/terms/capital/transparency and the full crosswalk range.`,
+    description: `Report exactly which fiscal years each dataset actually covers, so callers are never misled about what exists. Returns the parsed years for awards/terms/capital/transparency and the full crosswalk range, plus the honesty caveats (FY2009–FY2014 initiatives-only/no-EIN and excluded from award tools; FY2010–FY2013 transparency text low-confidence).`,
     inputSchema: { type: "object", properties: {} },
   },
 ];
@@ -221,7 +221,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: "text",
               text: withFooter(
-                `EIN ${a.ein}: ${rows.length} award(s) across FY2025–FY2027, total ${money(total)}.\n` +
+                `EIN ${a.ein}: ${rows.length} award(s) across FY2015–FY2027, total ${money(total)}.\n` +
                   `Organization name(s) on file: ${orgs.join("; ") || "(none)"}\n\n` +
                   `Per fiscal year:\n${summarizeAwardsByYear(rows)}\n\nRows:\n${body}`
               ),
@@ -247,13 +247,18 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const body = rows
           .map(
             (r) =>
-              `Reso ${r.resolution} (${r.date}) · ${r.action} · ${money(r.amount)} · ${r.council_member || "(none)"} → ${r.organization}` +
+              `FY${r.source_fy} Reso ${r.resolution} (${r.date}) · ${r.action} · ${money(r.amount)} · ${r.council_member || "(none)"} → ${r.organization}` +
               (r.agency ? ` · ${r.agency}` : "") +
+              (r.low_text_confidence ? ` · ⚠ LOW-confidence text (join on EIN ${r.ein || "?"})` : "") +
               `\n    chart: ${r.chart}` +
               (r.purpose ? `\n    purpose: ${r.purpose}` : "")
           )
           .join("\n");
-        return { content: [{ type: "text", text: withFooter(`${rows.length} row(s):\n\n${body}`) }] };
+        const lowConf = rows.some((r) => r.low_text_confidence);
+        const caveat = lowConf
+          ? "\n\n⚠ Some rows are FY2010–FY2013, where the organization/member/program TEXT is low-confidence (garbled PDF text layer). The financial columns (EIN, amount, agency, date, action) are reliable — join on EIN, not name."
+          : "";
+        return { content: [{ type: "text", text: withFooter(`${rows.length} row(s):\n\n${body}${caveat}`) }] };
       }
 
       case "get_legistar_link": {
@@ -344,13 +349,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const r = listFiscalYears();
         const fmt = (ys: number[]) => (ys.length ? ys.map((y) => `FY${y}`).join(", ") : "(none)");
         const text =
-          `NYC Budget MCP — dataset coverage:\n\n` +
-          `Schedule C awards:        ${fmt(r.awards)} (parsed)\n` +
-          `Terms & Conditions:       ${fmt(r.terms)} (parsed)\n` +
-          `Capital (§254):           ${fmt(r.capital)} (parsed; FY2025 is a different, non-reconcilable document type)\n` +
-          `Transparency Resolutions: ${fmt(r.transparency)} (from the FY2026 file, which embeds prior-year rows)\n` +
-          `Legistar crosswalk:       FY${r.crosswalk.min}–FY${r.crosswalk.max} (provenance index; covers years not yet parsed to CSV)\n\n` +
-          `FY2008–FY2024 award/terms/capital data is NOT parsed yet — only source PDFs exist for those years. The crosswalk still links them to Legistar.`;
+          `NYC Budget MCP — dataset coverage (exact per-dataset parsed years):\n\n` +
+          `Schedule C awards:        ${fmt(r.awards)} (EIN-level)\n` +
+          `Terms & Conditions:       ${fmt(r.terms)}\n` +
+          `Capital (§254):           ${fmt(r.capital)} (FY2025 is the non-reconcilable "Appropriation Changes" type)\n` +
+          `Transparency Resolutions: ${fmt(r.transparency)} (by resolution document year; FY2010–FY2013 org/program text is LOW-confidence — join on EIN)\n` +
+          `Legistar crosswalk:       FY${r.crosswalk.min}–FY${r.crosswalk.max} (provenance index; covers years not parsed to CSV)\n\n` +
+          `HONESTY GUARD:\n` +
+          `• Award tools (search_awards / get_awards_by_ein) serve FY2015–FY2027 only.\n` +
+          `• FY2009–FY2014 Schedule C is INITIATIVES-ONLY (no per-organization rows, no EINs) and is deliberately NOT in the award tools. Its category/initiative totals live in the source repo, not here.\n` +
+          `• FY2008 Schedule C and the FY2009 Transparency Resolutions are unparsed (blocked source documents).\n` +
+          `• The crosswalk still links every FY2008–FY2027 document to Legistar even where no CSV is parsed.`;
         return { content: [{ type: "text", text: withFooter(text) }] };
       }
 

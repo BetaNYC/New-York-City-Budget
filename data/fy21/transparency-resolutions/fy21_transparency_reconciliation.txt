@@ -1,0 +1,33 @@
+FY21 NYC COUNCIL TRANSPARENCY RESOLUTIONS - PARSE + RECONCILIATION NOTES
+==============================================================================
+
+RECONCILIATION STATUS: NOT RECONCILABLE (against printed totals).
+These documents print NO per-chart or grand totals -- only award rows. There is
+nothing in the source to reconcile parsed dollar sums against. The figures below
+are parse counts, not reconciled totals. The one internal consistency check the
+documents permit is the transfer net-out: within a chart a rescission (negative)
+and its paired re-designation (positive) should net to ~0. Reported as "net".
+
+reso date          rows      designate$        rescind$          net$
+----------------------------------------------------------------------
+   1 2020-08-27    2414      54,310,096     -54,310,096             0
+   2 2020-09-23     705      25,183,141     -25,173,141        10,000
+   3 2020-10-29     249       6,512,406      -6,572,406       -60,000
+   4 2020-11-19     184       1,628,430      -1,628,430             0
+   5 2020-12-17     226       3,379,756      -3,389,756       -10,000
+   6 2021-02-25     218       3,123,181      -2,623,181       500,000
+   7 2021-04-22     312      20,630,244      -3,590,244    17,040,000
+   8 2021-06-30     155         896,300        -896,300             0
+----------------------------------------------------------------------
+ ALL               4463     115,663,554     -98,183,554    17,480,000
+
+rows by action:  designate=3392  purpose_change=314  rescind=757
+rows by fiscal year:  2019=16  2020=110  2021=4337
+
+unresolved organization (dense-chart text-layer artifacts): 0 of 4463 rows (0.00%) -- amount/EIN/agency captured, org name orphaned
+
+org-text confidence: HIGH -- 0 of 4463 rows (0.00%) show glued-word (0) or header-bleed (0) artifacts in the org field.
+  (EIN / amount / agency / date / action are deterministic and unaffected.)
+
+SPOTLIGHT - Artificial Intelligence Community Engagement (AICE, $1M initiative):
+  NOT FOUND in any parsed resolution.

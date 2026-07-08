@@ -40,6 +40,10 @@ FY     = re.compile(r'(?i)\bFiscal\s*(\d{4})\b')
 TAIL   = re.compile(r'^\s*(\d{3})\s+(\d{3})\b')          # Agy#  U/A  after amount
 PAGEFOOT = re.compile(r'(?i)^page\s+\d+$|^page\s+\d+\s+of\s+\d+$')
 FOOTNOTE = re.compile(r'^\s*\*+\s*(Indicates|Requires)', re.I)
+# Transparency-Reso-NN-YYYY-MM-DD.pdf  ->  (sequence number, adoption date). Universal across
+# all fiscal years' source folders, so batch() derives per-resolution metadata from the
+# filename rather than a hardcoded per-year table.
+FNAME = re.compile(r'Transparency-Reso-0*(\d+)-(\d{4}-\d{2}-\d{2})', re.I)
 
 def money(s):
     s = s.strip()
@@ -102,23 +106,29 @@ def load_lines(pdf):
     return out
 
 def load_schedule_c_roster(path):
-    """Authoritative FY2026 NYC Council member roster, taken from the repo's already-parsed
-    and printed-total-reconciled Schedule C awards CSV (the `member` column). Same Council,
-    same fiscal year, same designations -- so this is the correct, cite-able reference rather
-    than a name list guessed from memory or reconstructed heuristically from these PDFs
-    (leading-token frequency cannot separate a surname like 'Narcisse' from an org word like
-    'Neighborhood'). Returns a set of member names, e.g. {'Brannan','De La Rosa','Speaker'}."""
+    """NYC Council member roster taken from the repo's already-parsed and printed-total-
+    reconciled Schedule C awards CSV(s) (the `member` column). Same Council, same designations
+    -- so this is the correct, cite-able reference rather than a name list guessed from memory
+    or reconstructed heuristically from these PDFs (leading-token frequency cannot separate a
+    surname like 'Narcisse' from an org word like 'Neighborhood').
+
+    ``path`` may be a single CSV path (str) or a list of CSV paths. Passing several years'
+    awards CSVs unions their rosters -- useful for the FY2009-FY2015 transparency resolutions,
+    whose own Schedule C is not (yet) reconciled, so the closest available rosters stand in.
+    Returns a set of member names, e.g. {'Brannan','De La Rosa','Speaker'}."""
     import csv
+    paths = [path] if isinstance(path, str) else list(path or [])
     roster = set()
-    if path and os.path.exists(path):
-        with open(path, newline='') as f:
-            for r in csv.DictReader(f):
-                m = (r.get('member') or '').strip()
-                # keep surname designators; drop borough-delegation placeholders (they are
-                # not row-leading tokens in the transparency charts)
-                if m and 'Delegation' not in m and m not in (
-                        'Brooklyn', 'Bronx', 'Queens', 'Manhattan', 'Staten Island'):
-                    roster.add(m)
+    for p in paths:
+        if p and os.path.exists(p):
+            with open(p, newline='') as f:
+                for r in csv.DictReader(f):
+                    m = (r.get('member') or '').strip()
+                    # keep surname designators; drop borough-delegation placeholders (they are
+                    # not row-leading tokens in the transparency charts)
+                    if m and 'Delegation' not in m and m not in (
+                            'Brooklyn', 'Bronx', 'Queens', 'Manhattan', 'Staten Island'):
+                        roster.add(m)
     roster.add('Speaker')
     return roster
 
@@ -325,26 +335,49 @@ def default_roster():
     return os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                         'data', 'fy26', 'schedule_c', 'fy26_schedule_c_awards.csv')
 
-def batch(srcdir, outdir, roster_csv):
-    """Parse all 10 FY26 resolutions -> per-reso CSVs + combined + reconciliation notes."""
+def discover_resolutions(srcdir):
+    """List (num, date, path) for every Transparency-Reso PDF in ``srcdir``, sequence order.
+    Skips '-dup' duplicates and any non-PDF (e.g. FY2013's three .doc resolutions, which have
+    no text layer to parse deterministically and are reported as blocked, not parsed)."""
     import glob
+    found = []
+    for p in glob.glob(os.path.join(srcdir, 'Transparency-Reso-*.pdf')):
+        b = os.path.basename(p)
+        if '-dup' in b.lower():
+            continue
+        m = FNAME.search(b)
+        if not m:
+            continue
+        found.append((int(m.group(1)), m.group(2), p))
+    found.sort(key=lambda t: t[0])
+    return found
+
+def batch(srcdir, outdir, roster_csv):
+    """Back-compat entry point: parse the FY2026 resolutions the original way (prefix fy26)."""
+    return batch_year(srcdir, outdir, 'fy26', roster_csv)
+
+def batch_year(srcdir, outdir, prefix, roster_csv):
+    """Parse every Transparency Resolution PDF in ``srcdir`` (any count) -> per-reso CSVs +
+    a combined ``{prefix}_transparency_all.csv`` + reconciliation notes. Per-resolution
+    sequence number and adoption date come from the filename (see FNAME); ``roster_csv`` may
+    be one path or a list of Schedule C awards CSVs to union for member detection."""
     os.makedirs(outdir, exist_ok=True)
-    pdfs = sorted(glob.glob(os.path.join(srcdir, 'Transparency-Reso-*.pdf')))
-    if len(pdfs) != 10:
-        raise SystemExit(f'expected 10 PDFs in {srcdir}, found {len(pdfs)}')
+    resos = discover_resolutions(srcdir)
+    if not resos:
+        raise SystemExit(f'no Transparency-Reso-*.pdf found in {srcdir}')
     per, allrows = [], []
-    for pdf, (num, date) in zip(pdfs, FY26_META):
+    for num, date, pdf in resos:
         rows = parse(pdf, num, date, roster_csv)
         write_csv(os.path.join(outdir, f'reso{num:02d}_transparency_designations.csv'), rows)
         per.append((num, date, os.path.basename(pdf), rows)); allrows.extend(rows)
-    write_csv(os.path.join(outdir, 'fy26_transparency_all.csv'), allrows)
-    report = reconciliation_report(per, allrows)
-    open(os.path.join(outdir, 'fy26_transparency_reconciliation.txt'), 'w').write(report + '\n')
+    write_csv(os.path.join(outdir, f'{prefix}_transparency_all.csv'), allrows)
+    report = reconciliation_report(per, allrows, prefix)
+    open(os.path.join(outdir, f'{prefix}_transparency_reconciliation.txt'), 'w').write(report + '\n')
     print(report)
 
-def reconciliation_report(per, allrows):
+def reconciliation_report(per, allrows, prefix='fy26'):
     from collections import Counter
-    L = ['FY2026 NYC COUNCIL TRANSPARENCY RESOLUTIONS - PARSE + RECONCILIATION NOTES',
+    L = [f'{prefix.upper()} NYC COUNCIL TRANSPARENCY RESOLUTIONS - PARSE + RECONCILIATION NOTES',
          '=' * 78, '',
          'RECONCILIATION STATUS: NOT RECONCILABLE (against printed totals).',
          'These documents print NO per-chart or grand totals -- only award rows. There is',
@@ -368,6 +401,26 @@ def reconciliation_report(per, allrows):
     miss = [r for r in allrows if not r['organization'].strip() and r['ein'] != '136400434']
     L += ['', f'unresolved organization (dense-chart text-layer artifacts): {len(miss)} of {len(allrows)} rows '
           f'({100*len(miss)/max(len(allrows),1):.2f}%) -- amount/EIN/agency captured, org name orphaned']
+    # org-text confidence: older fiscal years (roughly FY2010-FY2013) have a PDF text layer that
+    # glues adjacent words together ('ChristChurchofNewBrighton') and lets the column header wrap
+    # into the first data row's org field. The deterministic financial columns (EIN, amount,
+    # agency, date, action) are unaffected -- they come from the EIN+$ anchor -- but the
+    # organization/member/program TEXT in such years is low-confidence. This metric quantifies it
+    # so the caveat travels with the data.
+    n = max(len(allrows), 1)
+    glued = sum(1 for r in allrows
+                if ' ' not in r['organization'].strip() and re.search(r'[A-Za-z]{18,}', r['organization']))
+    hdrbleed = sum(1 for r in allrows
+                   if re.search(r'EINNumber|FiscalConduit|EIN Number|Amount Agy|Agy# +U/A', r['organization']))
+    lowconf = glued + hdrbleed
+    pct = 100 * lowconf / n
+    band = 'HIGH' if pct < 1 else ('MODERATE' if pct < 5 else 'LOW')
+    L += ['', f'org-text confidence: {band} -- {lowconf} of {len(allrows)} rows ({pct:.2f}%) '
+          f'show glued-word ({glued}) or header-bleed ({hdrbleed}) artifacts in the org field.',
+          '  (EIN / amount / agency / date / action are deterministic and unaffected.)']
+    if band == 'LOW':
+        L += ['  NOTE: this fiscal year predates the clean text-layer era; treat organization,',
+              '  council_member and program as best-effort. Join on EIN for reliable identity.']
     # AICE spotlight
     aice = [r for r in allrows if 'Artificial Intelligence' in r['chart']]
     L += ['', 'SPOTLIGHT - Artificial Intelligence Community Engagement (AICE, $1M initiative):']
@@ -391,12 +444,14 @@ def main():
     ap.add_argument('--resolution'); ap.add_argument('--date')
     ap.add_argument('--outdir', required=True); ap.add_argument('--prefix')
     ap.add_argument('--batch', metavar='SRCDIR',
-                    help='parse all 10 FY26 resolutions found in SRCDIR')
-    ap.add_argument('--roster-csv', default=default_roster(),
-                    help='Schedule C awards CSV whose member column is the authoritative FY26 roster')
+                    help='parse every Transparency-Reso-*.pdf found in SRCDIR (any count)')
+    ap.add_argument('--roster-csv', nargs='*', default=[default_roster()],
+                    help='one or more Schedule C awards CSVs whose member column seeds the roster')
     a = ap.parse_args()
     if a.batch:
-        batch(a.batch, a.outdir, a.roster_csv)
+        prefix = a.prefix or 'fy26'
+        roster = a.roster_csv[0] if len(a.roster_csv) == 1 else a.roster_csv
+        batch_year(a.batch, a.outdir, prefix, roster)
         return
     if not (a.pdf and a.resolution and a.date and a.prefix):
         ap.error('single-PDF mode requires: pdf --resolution --date --prefix')

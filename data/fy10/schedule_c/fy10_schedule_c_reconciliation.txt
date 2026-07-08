@@ -1,0 +1,32 @@
+SCHEDULE C RECONCILIATION  (fy10)  [parser: parse_schedule_c_legacy.py, early-era]
+source: fy_2010_sched_c_final.pdf  (408 pages)
+
+Early-era Schedule C: initiatives-summary reconciliation only. These documents carry NO
+award-level EIN tables (post-adoption designations live in the Transparency Resolutions),
+so no awards/appendix files are emitted.
+
+CATEGORY                                                initiatives        printed  status
+CHILDREN SERVICES                                        15,900,000     15,900,000  OK
+CULTURAL ORGANZIATIONS AND LIBRARIES                     71,898,000     71,898,000  OK
+DISCHARGE PLANNING AND AFTERCARE SERVICES                   640,000        640,000  OK
+DOMESTIC VIOLENCE                                         4,470,000      4,470,000  OK
+EDUCATION                                                24,660,000     24,660,000  OK
+ELECTED OFFICIALS                                         7,743,629      7,743,629  OK
+HEALTH SERVICES AND PREVENTION                           26,781,000     26,781,000  OK
+HIGHER EDUCATION                                         28,090,000     28,090,000  OK
+HOMELESS SERVICES                                         1,150,000      1,150,000  OK
+HOUSING                                                   3,690,000      3,690,000  OK
+IMMIGRANT SERVICES                                        5,000,000      5,000,000  OK
+JOB DEVELOPMENT                                           7,284,000      7,284,000  OK
+LEGAL SERVICES                                           21,300,000     21,300,000  OK
+MENTAL HEALTH SERVICES                                    8,225,000      8,225,000  OK
+PARKS AND RECREATION                                      1,000,000      1,000,000  OK
+PUBLIC SAFETY / CRIMINAL JUSTICE SERVICES                23,477,000     23,477,000  OK
+SENIOR SERVICES                                          32,949,000     32,949,000  OK
+SEXUAL ASSAULT SERVICES                                     332,500        332,500  OK
+SMALL BUSINESS SERVICES                                   1,992,000      1,992,000  OK
+SOCIAL SERVICES                                           4,642,000      4,642,000  OK
+YOUTH AND COMMUNITY DEVELOPMENT                          22,547,000     22,547,000  OK
+GRAND TOTAL                                             313,771,129    313,771,129  21/21 categories exact
+
+initiatives rows: 124

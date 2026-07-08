@@ -1,0 +1,81 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,,"Organization Conduit EIN City-Wide Fund for the City of New York, Inc.",,132612524,-200000,MISC,,,.00) 098 002,**
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,"City-Wide Fund for the City of New York, Inc.",,132612524,200000,DYCD,,,.00 260 312,**
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,,"Vallone Andrean Players, The",,112203300,-7500,DYCD,,,.00) 260 005 *,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,Vallone St. Andrew Avellino Church,Andrean Players,112203300,7500,DYCD,,,.00 260 005,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,,Dickens 131 Saint Nicholas Avenue Tenant's League,,133513113,-3500,NYCHA,,,.00) 098 002 *,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,New York City Housing Authority,131 Saint Nicholas Avenue Dickens Tenant's League,136400434,3500,NYCHA,,,.00 098 002 *,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,,"Dickens Jackie Robinson Tenants Association, Inc.",,133420375,-3500,NYCHA,,,.00) 098 002 *,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,New York City Housing Authority,"Jackie Robinson Tenants Dickens Association, Inc.",136400434,3500,NYCHA,,,.00 098 002,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,,Dickens Rev. Dr. Martin Luther King Towers,,133794337,-3500,NYCHA,,,.00) 098 002 *,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,New York City Housing Authority,Rev. Dr. Martin Luther King Dickens Towers,136400434,3500,NYCHA,,,.00 098 002,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,,"Dickens St. Nicholas Houses Community Organization, Inc.",,262550841,-3500,NYCHA,,,.00) 098 002 *,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,New York City Housing Authority,"St. Nicholas Houses Community Dickens Organization, Inc.",136400434,3500,NYCHA,,,.00 098 002,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,,"Dickens Taft Tenants Organization, Inc.",,133123843,-3500,NYCHA,,,.00) 098 002 *,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,Dickens New York City Housing Authority,"Taft Tenants Organization, Inc.",136400434,3500,NYCHA,,,.00 098 002,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,,"Dickens Taft Tenants Organization, Inc.",,133123843,-3500,NYCHA,,,.00) 098 002 *,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,Dickens New York City Housing Authority,"Taft Tenants Organization, Inc.",136400434,3500,NYCHA,,,.00 098 002,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,,"Crowley Ridgewood, Glendale, Middle Village, Maspeth Little League",,900147560,-8000,DYCD,,,.00) 260 312 *,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,Crowley Woodhaven Cultural and Historical Society Inc.,,113099784,5000,DYCD,,,.00 260 005,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,Crowley Greater Woodhaven Development Corporation,,112508190,3000,DYCD,,,.00 260 005,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,,Crowley Road Runners Club Of America,,463550730,-3500,DYCD,,,.00) 260 005 *,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,"Crowley Greater Ridgewood Youth Council, Inc.",,112518141,3500,DYCD,,,.00 260 312,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,,"Mark-Viverito Federation Employment and Guidance Service, Inc.",,131624000,-10000,DYCD,,,.00) 260 312,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,Mark-Viverito Mercy Center,,133865634,10000,DYCD,,,.00 260 312,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,,"Chin Bodega Association of the United States, Inc., The",,134060809,-3500,DYCD,,,.00) 260 312,**
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,,"Chin Greenwich House, Inc.",,135562204,3500,DFTA,,,.00 125 003,**
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,Greater Bethel Interdenminational Minitries,,510153893,-50000,DYCD,,,.00) 260 005,**
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Greater Bethel Interdenminational Minitries,,510153893,50000,DFTA,,,.00 125 003,**
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,Williams African American Women In Cinema,,134151020,-4000,DYCD,,,.00) 260 005,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,rescind,,Speaker,"Williams Creative Outlet Dance Theatre, Inc.",,113307754,-3500,DYCD,,,.00) 260 005,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,Williams Christopher Rose Community Empowerment Campaign,,113423612,6000,DYCD,,,.00 260 005,
+12,2015-03-31,Local Initiatives - Fiscal 2015,2015,designate,,Speaker,"Williams East Flatbush Village, Inc.",,800612019,8500,DYCD,,,.00 260 005,
+12,2015-03-31,Aging Discretionary - Fiscal 2015,2015,rescind,,,"Organization Conduit EIN Cornegy Sumner Houses Tenants Association, Inc.",,112733344,-9000,DFTA,,,.00) 125 003,**
+12,2015-03-31,Aging Discretionary - Fiscal 2015,2015,designate,,,New York City Housing Authority,Sumner Houses Tenants Cornegy Association,136400434,9000,NYCHA,,,.00 098 002,**
+12,2015-03-31,Aging Discretionary - Fiscal 2015,2015,rescind,,,"Cornegy Tompkins Houses Resident Association, Inc.",,113095879,-3000,DFTA,,,.00) 125 003,**
+12,2015-03-31,Aging Discretionary - Fiscal 2015,2015,designate,,,New York City Housing Authority,Tompkins Houses Resident Cornegy Association,136400434,3000,NYCHA,,,.00 098 002,**
+12,2015-03-31,Aging Discretionary - Fiscal 2015,2015,rescind,,,"Cornegy Tompkins Houses Resident Association, Inc.",,113095879,-6000,DFTA,,,.00) 125 003,**
+12,2015-03-31,Aging Discretionary - Fiscal 2015,2015,designate,,,New York City Housing Authority,Tompkins Houses Resident Cornegy Association,136400434,6000,NYCHA,,,.00 098 002,**
+12,2015-03-31,Youth Discretionary - Fiscal 2015,2015,rescind,,,"Organization Conduit EIN Crowley Queens Titans, Inc.",,463655539,-3500,DYCD,,,.00) 260 312 Maspeth Town Hall 23-7259702,
+12,2015-03-31,Youth Discretionary - Fiscal 2015,2015,designate,,,Crowley Roman Catholic Church of St. Margaret,,111723800,3500,DYCD,,,.00 260 312,
+12,2015-03-31,Anti-Poverty Initiative - Fiscal 2015,2015,rescind,,,"Organization Conduit EIN Mark-Viverito Little Sisters of the Assumption Family Health Service, Inc.",,132867881,-15000,DYCD,,,.00) 260 005 *,
+12,2015-03-31,Anti-Poverty Initiative - Fiscal 2015,2015,designate,,,"Mark-Viverito Little Sisters of the Assumption Family Health Service, Inc.",,132867881,15000,DYCD,,,.00 260 312 *,
+12,2015-03-31,Anti-Poverty Initiative - Fiscal 2015,2015,rescind,,,Williams Central Brooklyn Legal Services Corp,,465144468,-3500,DSS/HRA,,,.00) 069 103,**
+12,2015-03-31,Anti-Poverty Initiative - Fiscal 2015,2015,designate,,,"Williams East Flatbush Village, Inc.",,800612019,3500,DYCD,,,.00 260 005,**
+12,2015-03-31,NYC Digital Inclusion and Literacy Initiative - Fiscal 2015,2015,rescind,,,Greenfield Cope Institute,,132889361,-14705,DYCD,,,.00) 260 005 *,
+12,2015-03-31,NYC Digital Inclusion and Literacy Initiative - Fiscal 2015,2015,designate,,,"Greenfield Agudath Israel of America Community Services, Inc",,133975090,14705,DYCD,,,.00 260 005,
+12,2015-03-31,Cultural Immigrant Intiative - Fiscal 2015,2015,rescind,,,Dickens Maysles Documentary Center,,202545574,-14700,DCLA,,,.00) 126 003 *,
+12,2015-03-31,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Dickens Maysles Institute,,202545574,14700,DCLA,,,.00 126 003,
+12,2015-03-31,Cultural Immigrant Intiative - Fiscal 2015,2015,rescind,,,"Treyger Art's House Schools, Inc.",,870790139,-14700,DCLA,,,.00) 126 003,
+12,2015-03-31,Cultural Immigrant Intiative - Fiscal 2015,2015,designate,,,Treyger Coney Island Hostory Project,,030541772,14700,DCLA,,,.00 126 003,
+12,2015-03-31,Early Childhood Literacy Initiative - Fiscal 2015,2015,rescind,,,Video Interaction Project (VIP),,131679615,-175000,DYCD,,,.00) 260 005,
+12,2015-03-31,Early Childhood Literacy Initiative - Fiscal 2015,2015,designate,,,"Children Of Bellevue, Inc.",Video Interaction Project (VIP),131679615,175000,DYCD,,,.00 260 005,
+12,2015-03-31,Sports Training and Rolemodels for Success (STARS) Initiative - Fiscal 2015,2015,rescind,,,"PowerPlay NYC, Inc.",,013404521,-500000,DYCD,,,.00) 260 312,
+12,2015-03-31,Sports Training and Rolemodels for Success (STARS) Initiative - Fiscal 2015,2015,designate,,,"PowerPlay NYC, Inc.",,134045021,500000,DYCD,,,.00 260 312,
+12,2015-03-31,Discretionary Child Care Initiative - Fiscal 2015,2015,rescind,,,Afro American 3,,132727406,-904395,ACS,,,.00) 068 004,
+12,2015-03-31,Discretionary Child Care Initiative - Fiscal 2015,2015,designate,,,Afro American Parents Educational Center,Afro American DCC #3,132727406,904395,ACS,,,.00 068 004,
+12,2015-03-31,Discretionary Child Care Initiative - Fiscal 2015,2015,rescind,,,Afro American 2,,132727406,-100000,ACS,,,.00) 068 004,
+12,2015-03-31,Discretionary Child Care Initiative - Fiscal 2015,2015,designate,,,Afro American Parents Educational Center,Afro American DCC #2,132727406,100000,ACS,,,.00 068 004,
+12,2015-03-31,Anti-Gun Violence Initiative - Community-Based Programs - Fiscal 2015,2015,rescind,,,"East River Development Alliance, Inc. (Urban Upbound)",,861096987,-250000,DOHMH,,,.00) 816 114,
+12,2015-03-31,Anti-Gun Violence Initiative - Community-Based Programs - Fiscal 2015,2015,designate,,,"Jacob A. Riis Neighborhood Settlement, Inc.",,111729398,250000,DOHMH,,,.00 816 114,
+12,2015-03-31,MWBE Leadership Associations Initiative - Fiscal 2015,2015,rescind,,,Brooklyn Economic Development Corporation,,112510289,-60925,DSBS,,,.00) 801 005 *,
+12,2015-03-31,MWBE Leadership Associations Initiative - Fiscal 2015,2015,designate,,,"Brooklyn Kings County Hispanic Chamber Of Commerce, Inc.",,202381186,30925,DSBS,,,.00 801 005,
+12,2015-03-31,MWBE Leadership Associations Initiative - Fiscal 2015,2015,designate,,,South Bronx Overall Economic Development Corporation,,132736022,7500,DSBS,,,.00 801 005,
+12,2015-03-31,MWBE Leadership Associations Initiative - Fiscal 2015,2015,designate,,,"ACCION East, Inc.",,113317234,7500,DSBS,,,.00 801 005,
+12,2015-03-31,MWBE Leadership Associations Initiative - Fiscal 2015,2015,designate,,,"New Bronx Chamber of Commerce, The",,371443165,7500,DSBS,,,.00 801 005,
+12,2015-03-31,MWBE Leadership Associations Initiative - Fiscal 2015,2015,designate,,,Queens Economic Development Corporation,,112436149,5000,DSBS,,,.00 801 005,
+12,2015-03-31,MWBE Leadership Associations Initiative - Fiscal 2015,2015,designate,,,"Harlem Business Alliance, Inc.",,133591350,2500,DSBS,,,.00 801 005,
+12,2015-03-31,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,"Funds will be used as stipends from the church for each participant. Day Camp for ages 6-15 from 8AM to 5:30PM, Monday","Friday, six weeks beginning July Local Miller Amity Baptist Church",112014196,-3500,DYCD,,,".00) * and August. Funds will be used for staff stipends, snacks, arts and crafts and educational material for campers.",
+12,2015-03-31,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,"Funds will be used for Day Camp staff stipends, snacks, arts and crafts, field trips, Local Miller Amity Baptist Church",,112014196,3500,DYCD,,,.00 *,
+12,2015-03-31,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,"recreational activities and educational material for campers. Youth Rose United Activities Unlimited, Inc.",,132921483,-35000,DYCD,,,.00) Funding will go towards the costs of an Aquatic Director and Lifeguards.,
+12,2015-03-31,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,"Additional staffing for the school year at W.B. Cornerstone and PS18 Beacon Youth Rose United Activities Unlimited, Inc.",,132921483,35000,DYCD,,,.00,
+12,2015-03-31,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,"School, plus night center at PS44, two (2) nights a week. Boro Bronx Delegation Mosholu-Montefiore Community Center, Inc.",,133622107,-10000,DYCD,,,.00) To support programming for Bronx individuals not proficient in English.,
+12,2015-03-31,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,"Boro Bronx Delegation Mosholu-Montefiore Community Center, Inc.",,133622107,10000,DYCD,,,.00 Funds will be used to support the college advisement program The funding will be used to pay for teachers and supplies for a test preparation class in District 41 for the Licensed Practical Nurse program entrance exam,
+12,2015-03-31,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,"administered by the Department of Education. The LPN program provides Anti-Poverty Mealy Reshaping Our Youth and Adult Lives, Inc.",,261470495,-10000,DYCD,,,.00) employment as a licensed practical nurse to anyone who completes the program. Funds will also be used to provide OSHA training to constituents of the 41st district. The funding will be used to pay for teachers and supplies for a test preparation,
+12,2015-03-31,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,"class in District 41 for the Licensed Practical Nurse entrance administered by the Anti-Poverty Mealy Reshaping Our Youth and Adult Lives, Inc.",,261470495,10000,DYCD,,,.00 Department of Education. Additionally recruits will have an option of acquiring an OSHA certificate for employment in the construction field as well.,
+12,2015-03-31,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,Funds will either be used for a mentoring program for difficult teenagers or to Youth Greenfield Igud L' Hachzokas Torah,,113588991,-10000,DYCD,,,.00) * provide suppers to the community.,
+12,2015-03-31,Purpose of Funds Changes - Fiscal 2015,2015,purpose_change,,,Funds will be used for a supper program that feeds free dinners to teenagers in Youth Greenfield Igud L' Hachzokas Torah,,113588991,10000,DYCD,,,.00 * the community Monday through Friday.,
+12,2015-03-31,Local Initiatives - Fiscal 2014,2014,rescind,,,Conduit EIN Williams African American Women In Cinema,,134151020,-3500,DYCD,,,.00) 260 005 *,
+12,2015-03-31,Local Initiatives - Fiscal 2014,2014,designate,,,"Williams East Flatbush Village, Inc.",,800612019,3500,DYCD,,,.00 260 005,
+12,2015-03-31,Youth Discretionary - Fiscal 2014,2014,rescind,,,Conduit EIN Williams Redemption Inc.,,562550383,-7500,DYCD,,,.00) 260 312,
+12,2015-03-31,Youth Discretionary - Fiscal 2014,2014,designate,,,"Williams East Flatbush Village, Inc.",,800612019,7500,DYCD,,,.00 260 312,

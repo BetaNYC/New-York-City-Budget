@@ -135,15 +135,16 @@ test("Journey 6 — procurement: FY2026 Noel Pointer CASA designation exists (bu
   // (City Record solicitation/notice cross-check is nyc-record-mcp's — out of scope here.)
 });
 
-test("Journey 8 — build-time validation: MCP correctly reports the FY2008–FY2024 parse gap", async () => {
-  // The Socrata cross-source diff is genuinely BLOCKED (needs pre-2025 parsed
-  // data AND explicit Socrata authorization — journeys doc J8). What the MCP
-  // must get right is honestly reporting that it cannot serve FY2019 awards.
+test("Journey 8 — build-time validation: MCP honestly reports its expanded coverage + the FY2009–FY2014 gap", async () => {
+  // Awards now reach back to FY2015 (the first EIN-level year). What the MCP must
+  // still get right: FY2009–FY2014 are initiatives-only (no EIN) and are NOT in
+  // the award tools, and the crosswalk spans the full range.
   const out = await callText("list_available_fiscal_years");
-  assert.match(out, /Schedule C awards:\s+FY2025, FY2026, FY2027/);
+  assert.match(out, /Schedule C awards:\s+FY2015, FY2016, FY2017, FY2018, FY2019, FY2020, FY2021, FY2022, FY2023, FY2024, FY2025, FY2026, FY2027/);
   assert.match(out, /Legistar crosswalk:\s+FY2008–FY2027/);
-  assert.match(out, /FY2008–FY2024 award\/terms\/capital data is NOT parsed/);
-  assert.doesNotMatch(out, /FY2019/); // never claims FY2019 award data exists
+  assert.match(out, /FY2009–FY2014 Schedule C is INITIATIVES-ONLY/);
+  // Award coverage line must never claim FY2014 (or earlier) EIN-level award data.
+  assert.doesNotMatch(out, /Schedule C awards:[^\n]*FY2014/);
 });
 
 test("get_terms_conditions returns FY2026 reporting mandates", async () => {

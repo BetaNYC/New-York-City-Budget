@@ -1,0 +1,41 @@
+SCHEDULE C RECONCILIATION  (fy17)
+source: FY17-Schedule-C.pdf  (355 pages)
+sections: body 6..132 | A 133 | B 166 | C 304
+categories from ToC: 27 | summary blocks found: 25  <-- MISMATCH | roster: 3 members
+
+CATEGORY                                                initiatives        printed  status
+INTRODUCTION                                              2,800,000      2,800,000  OK
+ANTI-POVERTY                                              2,000,000      2,000,000  OK
+BOROUGHWIDE NEEDS                                        15,147,069     15,147,069  OK
+CHILDREN’S SERVICES                                      11,140,000     11,140,000  OK
+COMMUNITY DEVELOPMENT                                     9,630,000      9,630,000  OK
+CRIMINAL JUSTICE SERVICES                                 8,255,000      8,255,000  OK
+CULTURAL ORGANIZATIONS                                   27,314,500     27,314,500  OK
+DOMESTIC VIOLENCE SERVICES                                9,802,000      9,802,000  OK
+EDUCATION                                                 5,655,000      5,655,000  OK
+ENVIRONMENTAL INITIATIVES                                   250,000        250,000  OK
+FOOD INITIATIVES                                         14,887,976     14,887,976  OK
+GOVERNMENT OFFICIALS                                     18,265,000     18,265,000  OK
+HEALTH SERVICES                                           1,820,000      1,820,000  OK
+HIGHER EDUCATION INITIATIVES                             16,301,000     16,301,000  OK
+HOMELESS SERVICES                                        13,530,000     13,530,000  OK
+HOUSING                                                   8,640,000      8,640,000  OK
+IMMIGRANT SERVICES                                       12,776,776     12,776,776  OK
+LEGAL SERVICES                                           12,093,205     12,093,205  OK
+MENTAL HEALTH SERVICES                                   11,895,534     11,895,334  DIFF +200
+PARKS AND RECREATION SERVICES                            21,440,585     21,440,585  OK
+PUBLIC SAFETY                                            16,457,855     16,457,855  OK
+SENIOR SERVICES                                           3,392,000      3,392,000  OK
+SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT         1,340,000      1,340,000  OK
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS           30,075,000     30,075,000  OK
+VETERAN SERVICES                                          5,000,000      5,000,000  OK
+YOUTH SERVICES                                                    0              0  DIFF +0
+YOUNG WOMEN’S INITIATIVE                                          0              0  DIFF +0
+GRAND TOTAL                                             279,908,500    279,908,300  24/27 categories exact
+
+awards: 364 rows  $89,901,487
+  member items:             0  $0
+  initiative providers:   364  $89,901,487
+appendix A (aging):     0 rows  $0
+appendix B (local):     0 rows  $0
+appendix C (youth):     0 rows  $0

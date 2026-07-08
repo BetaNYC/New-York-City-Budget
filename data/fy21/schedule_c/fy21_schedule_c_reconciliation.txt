@@ -1,0 +1,40 @@
+SCHEDULE C RECONCILIATION  (fy21)
+source: Fiscal-2021-Schedule-C-Cover-REPORT-Final.pdf  (343 pages)
+sections: body 6..128 | A 129 | B 158 | C 296
+categories from ToC: 26 | summary blocks found: 25  <-- MISMATCH | roster: 56 members
+
+CATEGORY                                                initiatives        printed  status
+Anti-Poverty                                              2,800,000      2,800,000  OK
+Boroughwide Needs                                         2,000,000      2,000,000  OK
+Children’s Services                                       8,805,756      8,805,756  OK
+Community Development                                    13,125,000     13,125,000  OK
+Criminal Justice Services                                24,678,497     24,678,497  OK
+Cultural Organizations                                   25,490,000     25,490,000  OK
+Domestic Violence Services                               12,255,000     12,255,000  OK
+Education                                                10,200,000     10,200,000  OK
+Environmental Initiatives                                 8,642,750      8,642,750  OK
+Food Initiatives                                         18,589,842     18,589,842  OK
+Health Services                                          20,924,719     20,924,719  OK
+Higher Education Initiatives                              1,844,500      1,844,500  OK
+Homeless Services                                        12,473,350     12,473,350  OK
+Housing                                                  28,431,800     28,431,800  OK
+Immigrant Services                                       10,036,500     10,036,500  OK
+Legal Services                                           11,900,000     11,900,000  OK
+Libraries                                                16,507,724     16,507,724  OK
+Mental Health Services                                    1,798,500      1,798,500  OK
+Parks and Recreation Services                             3,643,850      3,643,850  OK
+Public Safety                                            24,825,362     24,825,362  OK
+Senior Services                                          18,648,497     18,648,497  OK
+Small Business Services and Workforce Development         6,769,340      6,769,340  OK
+Speaker’s Initiative to Address Citywide Needs            2,726,500      2,726,500  OK
+Veteran Services                                          4,959,950      4,959,950  OK
+Young Women’s Initiative                                 12,191,494     12,191,494  OK
+Youth Services                                                    0              0  DIFF +0
+GRAND TOTAL                                             304,268,931    304,268,931  25/26 categories exact
+
+awards: 1800 rows  $201,529,188
+  member items:           484  $15,012,919
+  initiative providers:  1316  $186,516,269
+appendix A (aging):   514 rows  $5,610,000
+appendix B (local):  2902 rows  $36,539,000
+appendix C (youth):   894 rows  $7,650,000

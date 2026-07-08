@@ -43,7 +43,9 @@ def derive_categories(pages):
     toc_pg=None
     for pn in sorted(pages):
         if pn>8: break
-        if re.search(r'(?i)table of content', pages[pn]): toc_pg=pn; break
+        # FY25-FY27 head the contents page 'Table of Contents'; some earlier years (e.g. FY2018)
+        # head it just 'Contents'. Match either as a standalone heading line.
+        if re.search(r'(?im)^\s*(?:table of )?contents\s*$', pages[pn]): toc_pg=pn; break
     cats=[]
     if toc_pg:
         for pn in range(toc_pg, toc_pg+3):

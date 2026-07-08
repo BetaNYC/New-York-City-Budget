@@ -1,0 +1,185 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Rosenthal New York City Housing Authority,Domesite,136400434,-1000,HPD,806,012,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,Rosenthal New York City Housing Authority,Douglas Rehab,136400434,1000,HPD,806,012,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Rosenthal New York City Housing Authority,WSUR A,136400434,-2000,HPD,806,012,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,Rosenthal New York City Housing Authority,WSUR A 120 West 92nd,136400434,2000,HPD,806,012,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Rosenthal New York City Housing Authority,WSUR B,136400434,-2000,HPD,806,012,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,Rosenthal New York City Housing Authority,WSUR Brownstones,136400434,2000,HPD,806,012,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Rosenthal New York City Housing Authority,WSUR C.,136400434,-2000,HPD,806,012,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,Rosenthal New York City Housing Authority,WSUR C 589 Amsterdam Avenue,136400434,2000,HPD,806,012,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Ayala New York City Housing Authority,Mott Haven Houses,136400434,-4500,HPD,806,012,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,Ayala New York City Housing Authority,Millbrook Houses,136400434,4500,HPD,806,012,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,"Levin La Nueva Esperanza, Inc.",Food & Nutrition Services,204393724,-7500,DHMH,816,117,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,"Levin Community Help in Park Slope, Inc.",Soup Kitchen & Food Pantry,112449994,5000,DYCD,260,005,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,"Levin Berry Street Tenants Association, Inc.",,465367567,2500,DYCD,260,005,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Miller City University of New York,,133893536,-7500,CUNY,042,001,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,City University of New York,Queensborough Community College Auxiliary Miller Enterprises Association,133893536,7500,CUNY,042,001,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,"Adams Jamaica Center for Arts and Learning, Inc.",Children's Festival,112478709,-5000,DCLA,126,003,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,"Adams Jamaica Center for Arts and Learning, Inc.",Children's Festival,112478709,5000,DCLA,126,022,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Levine New York Shakespeare Festival,Project Access Shakespeare,131844852,-5000,DCLA,126,003,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,Levine New York Shakespeare Festival,Project Access Shakespeare,131844852,5000,DCLA,126,024,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Diaz Wildlife Conservation Society,Discovery Guide Program,131740011,-5000,DCLA,126,003,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,Diaz Wildlife Conservation Society,Discovery Guide Program,131740011,5000,DCLA,126,007,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Ayala Museum of the City of New York,,131624098,-5000,DCLA,126,005,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,Ayala Museum of the City of New York,,131624098,5000,DCLA,126,016,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Koo Young Women's Christian Association of Queens,,200351906,-5000,DYCD,260,312,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,"Koo Making Books Sing, Inc.",,134201577,5000,DYCD,260,312,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,"Koo Making Books Sing, Inc.",,134201577,-5000,DYCD,260,312,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,"Koo Making Books Sing, Inc.",,134201577,5000,DCLA,126,003,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Dromm Chhaya Community Development Corporation,Asset Building,113580935,-9750,DYCD,260,005,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,Dromm South Asian Council for Social Services,,113632920,9750,DYCD,260,005,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,"Rose Eden II School for Autistic Children, Inc.",Adult Recreational Program,132872916,-5000,DYCD,260,005,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,"Rose Eden II School for Autistic Children, Inc.",,132872916,5000,DYCD,260,005,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,"Kallos FIGMENT Project, Inc.",Roosevelt Island,204582464,-5000,DCLA,126,003,*,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,"Kallos FIGMENT Project, Inc.",Roosevelt Island,204582464,5000,DYCD,260,005,*,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,"Cornegy Green Earth Poets Cafe, Inc.",,464951821,-5000,DCLA,126,003,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,"Cornegy Green Earth Poets Cafe, Inc.",,464951821,5000,DYCD,260,005,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,"Reynoso Ujima Community Working Together, Inc.",,300708882,-5000,DYCD,260,312,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,Reynoso Department of Youth and Community Development,,136400434,5000,DYCD,260,312,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Reynoso Department of Youth and Community Development,,136400434,-5000,DYCD,260,312,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,Reynoso Central Brooklyn Economic Development Corporation,,112981085,5000,DYCD,260,005,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Gjonaj Department of Youth and Community Development,,136400434,-10000,DYCD,260,005,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,"Gjonaj Council on the Environment, Inc.",,132765465,10000,DYCD,260,005,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,"Gjonaj Morris Park Community Association, Inc.",Senior Program,237429900,-25000,DFTA,125,003,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,"Gjonaj Council on the Environment, Inc.",,132765465,25000,DYCD,260,005,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Gjonaj Quilts of Valor: Quilters by the Sea,,202474691,-5000,DYCD,260,005,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,"Gjonaj Council on the Environment, Inc.",,132765465,5000,DYCD,260,005,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Gjonaj White Plains Road District Management Association,Holiday Lighting,133776486,-5000,DYCD,260,005,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,Gjonaj Department of Youth and Community Development,,136400434,5000,DYCD,260,005,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,"Gjonaj Coalition on Positive Health Empowerment, Inc.",Illyria Clinic,272654975,-18000,DHMH,816,117,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,"Gjonaj Catholic Charities Community Services, Archdiocese of New York",,135562185,18000,DYCD,260,005,,**
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,rescind,,,Kingsbridge-Riverdale-Van Cortlandt Development Corporation,Community Gjonaj Building Initiative - Council District 13,133097905,-66000,DYCD,260,005,,
+4,2020-11-19,Local Initiatives - Fiscal 2021,2021,designate,,,Gjonaj Department of Youth and Community Development,,136400434,66000,DYCD,260,005,,
+4,2020-11-19,Anti-Poverty Initiatives - Fiscal 2021,2021,rescind,,,"Dromm MCCNY Charities, Inc.",Food Pantry,275282132,-5000,DYCD,260,005,,
+4,2020-11-19,Anti-Poverty Initiatives - Fiscal 2021,2021,designate,,,"Dromm Queens Lesbian and Gay Pride Committee, Inc.",,113146598,5000,DYCD,260,005,,
+4,2020-11-19,Anti-Poverty Initiatives - Fiscal 2021,2021,rescind,,,CUNY School of Law Justice & Auxiliary Services Corporation,City Counseling Gjonaj Program,901013912,-10000,CUNY,042,001,,**
+4,2020-11-19,Anti-Poverty Initiatives - Fiscal 2021,2021,designate,,,"Gjonaj Catholic Charities Community Services, Archdiocese of New York",,135562185,10000,DYCD,260,005,,**
+4,2020-11-19,Youth Discretionary - Fiscal 2021,2021,rescind,,,"Koo Making Books Sing, Inc.",,134201577,-5000,DYCD,260,312,,
+4,2020-11-19,Youth Discretionary - Fiscal 2021,2021,designate,,,Koo Young Women's Christian Association of Queens,,200351906,5000,DYCD,260,312,,
+4,2020-11-19,Youth Discretionary - Fiscal 2021,2021,rescind,,,"United States Wallball Association, Inc.",Public Handball & Basketball Rose Clinics/Tournaments,453569022,-5000,DYCD,260,312,,
+4,2020-11-19,Youth Discretionary - Fiscal 2021,2021,designate,,,"Rose United States Wallball Association, Inc.",,453569022,5000,DYCD,260,312,,
+4,2020-11-19,Youth Discretionary - Fiscal 2021,2021,rescind,,,"Cornegy Young Airmans Association, The",United Youth Aviators Summer Camp,832005292,-7500,DYCD,260,312,,
+4,2020-11-19,Youth Discretionary - Fiscal 2021,2021,designate,,,"Cornegy Little Sun People, Inc.",,113081207,7500,DYCD,260,312,,
+4,2020-11-19,Youth Discretionary - Fiscal 2021,2021,rescind,,,Reynoso Department of Youth and Community Development,,136400434,-5000,DYCD,260,312,,
+4,2020-11-19,Youth Discretionary - Fiscal 2021,2021,designate,,,"Reynoso Ujima Community Working Together, Inc.",,300708882,5000,DYCD,260,312,,
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,rescind,,,"Borelli Horticultural Society of New York, The",Gardening Skills & Nutrition Education,130854930,-10000,DCLA,126,003,,***
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,rescind,,,Snug Harbor Cultural Center & Botanical Garden,Environmental education & Workforce Borelli Development,800193388,-10000,DCLA,126,020,,***
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,rescind,,,Cabrera New York Botanical Garden,Council District 14,131693134,-10000,DCLA,126,005,,***
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,designate,,,Department of Youth and Community Development,,136400434,30000,DYCD,260,005,,***
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,rescind,,,Department of Cultural Affairs,,136400434,-30000,DCLA,126,003,,
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,designate,,,"Borelli Horticultural Society of New York, The",Gardening Skills & Nutrition Education,130854930,10000,DCLA,126,003,,
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,designate,,,Snug Harbor Cultural Center & Botanical Garden,Environmental education & Workforce Borelli Development,800193388,10000,DCLA,126,020,,
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,designate,,,Cabrera New York Botanical Garden,Council District 14,131693134,10000,DCLA,126,005,,
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,rescind,,,Cabrera Department of Parks and Recreation,Council District 14,136400434,-10000,DPR,846,006,,***
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,rescind,,,CD12 Department of Parks and Recreation,Haffen Park,136400434,-10000,DPR,846,006,,***
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,rescind,,,CD12 Department of Parks and Recreation,Agnes Haywood Playground,136400434,-10000,DPR,846,006,,***
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,rescind,,,"Powers Outstanding Renewal Enterprises, Inc.",Composting StuyTown GreenMarket,133320984,-20000,DSNY,827,102,,***
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,designate,,,Department of Youth and Community Development,,136400434,50000,DYCD,260,005,,***
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,rescind,,,Department of Cultural Affairs,,136400434,-50000,DCLA,126,003,,**
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,designate,,,Cabrera Department of Parks and Recreation,Council District 14,136400434,10000,DPR,846,006,,**
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,designate,,,CD12 Department of Parks and Recreation,Haffen Park,136400434,10000,DPR,846,006,,**
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,designate,,,CD12 Department of Parks and Recreation,Agnes Haywood Playground,136400434,10000,DPR,846,006,,**
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,designate,,,"Powers Outstanding Renewal Enterprises, Inc.",Composting StuyTown GreenMarket,133320984,20000,DSNY,827,102,,**
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,rescind,,,Department of Parks and Recreation,GrowNYC - Seed to Plate Public School 201Q (25Q201) CD24,136400434,-10000,DPR,846,006,,**
+4,2020-11-19,A Greener NYC - Fiscal 2021,2021,designate,,,"CD24 Council on the Environment, Inc.",GrowNYC - Seed to Plate Public School 201Q (25Q201),132765465,10000,DYCD,260,005,,**
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,Perkins Research Foundation of the City University of New York,,131988190,-20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,Research Foundation of the City University of New York,Public School 123M Mahalia Perkins Jackson (05M123),131988190,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"Richards Ballroom Basix USA, Inc.",Middle School 53Q (27Q053),273218865,-20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Richards Ballroom Basix USA, Inc.",Middle School 53Q (27Q053) / Village Academy (27Q319),273218865,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,"Richards Ballroom Basix USA, Inc.",Village Academy (27Q319),273218865,-20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Richards Ballroom Basix USA, Inc.",Public School 197Q The Ocean School (27Q197),273218865,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,Department of Cultural Affairs,,136400434,-80000,DCLA,126,022,,**
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,Department of Cultural Affairs,,136400434,-200000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Afro-Latin Jazz Alliance of New York, Inc.",Public School 132K The Conselyea School Reynoso (14K132),453665976,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Reynoso Afro-Latin Jazz Alliance of New York, Inc.",Public School 120K (14K120),453665976,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Reynoso Ballet Hispanico of New York, Inc.",Public School 239K (21K239),132685755,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Reynoso Ballroom Basix USA, Inc.",Learners and Leaders (24Q305),273218865,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Reynoso Ballroom Basix USA, Inc.",Public School 123K (32K123),273218865,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Reynoso Brooklyn Arts Council, Inc.",Public School 145K (32K145),237072915,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,Reynoso Brooklyn Queens Conservatory of Music,Public School 299K (32K299),111532426,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Reynoso Bushwick Starr, Inc.",Public School 274K (32K274),264546315,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Reynoso Bushwick Starr, Inc.",Public School 075K (32K075),264546315,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Reynoso Bushwick Starr, Inc.",Public School 018 Edward Bush (14K018),264546315,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Reynoso El Puente de Williamsburg, Inc.",Public School 257K (14K257),112614265,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,Reynoso Henry Street Settlement,Public School 147K (14K147),131562242,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Reynoso Marquis Studios, Ltd.",Public School 250K (14K250),133047206,20000,DCLA,126,003,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"CD37 Bushwick Starr, Inc.",Public School 106K (32K106),264546315,20000,DCLA,126,003,,**
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,Department of Cultural Affairs,,136400434,-20000,DCLA,126,022,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,"Reynoso Queens Botanical Garden Society, Inc.",Public School 081Q (24Q081),111635083,20000,DCLA,126,022,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,rescind,,,Dromm City University of New York,Public School 280Q (30Q280),136400434,-20000,CUNY,042,001,,
+4,2020-11-19,Cultural After-School Adventure (CASA) - Fiscal 2021,2021,designate,,,City University of New York,Queensborough Performing Arts Center - Public School 280Q Dromm (30Q280),136400434,20000,CUNY,042,001,,
+4,2020-11-19,Cultural Immigrant Initiative - Fiscal 2021,2021,rescind,,,"Cornegy Dwana Smallwood Performing Arts Center, Inc.",,900958731,-10000,DCLA,126,003,,**
+4,2020-11-19,Cultural Immigrant Initiative - Fiscal 2021,2021,designate,,,"Cornegy Entertainers for Education Alliance, Inc.",I Will Graduate,432115174,10000,DYCD,260,312,,**
+4,2020-11-19,Cultural Immigrant Initiative - Fiscal 2021,2021,rescind,,,Department of Cultural Affairs,,136400434,-10000,DCLA,126,003,,
+4,2020-11-19,Cultural Immigrant Initiative - Fiscal 2021,2021,designate,,,"Dromm Film Fleadh Foundation, Inc.",Council District 25,134051235,10000,DCLA,126,003,,
+4,2020-11-19,Cultural Immigrant Initiative - Fiscal 2021,2021,rescind,,,Department of Cultural Affairs,,136400434,-50000,DCLA,126,003,,**
+4,2020-11-19,Cultural Immigrant Initiative - Fiscal 2021,2021,designate,,,Gjonaj Kingsbridge-Riverdale-Van Cortlandt Development Corporation,,133097905,50000,DYCD,260,005,,**
+4,2020-11-19,Digital Inclusion and Literacy Initiative - Fiscal 2021,2021,rescind,,,Department of Youth and Community Development,,136400434,-15000,DYCD,260,005,,
+4,2020-11-19,Digital Inclusion and Literacy Initiative - Fiscal 2021,2021,designate,,,"Gjonaj Simon Wiesenthal Center, Inc.",,953964928,15000,DYCD,260,005,,
+4,2020-11-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2021,2021,rescind,,,"Cabrera New York Women's Chamber of Commerce, Inc.",,141845651,-10000,MOCJ,098,002,,***
+4,2020-11-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2021,2021,designate,,,Cabrera Northern Manhattan Coalition for Immigrant Rights,,133255591,10000,MOCJ,098,002,,***
+4,2020-11-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2021,2021,rescind,,,Mayor's Office of Criminal Justice,,136400434,-20000,MOCJ,098,002,,
+4,2020-11-19,Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2021,2021,designate,,,"Holden RPGA Studio, Inc.",,472589237,20000,MOCJ,098,002,,
+4,2020-11-19,Food Pantries Initiative - Fiscal 2021,2021,rescind,,,Brooklyn Delegation SCO Family of Services,,112777066,-10062,DYCD,260,005,,
+4,2020-11-19,Food Pantries Initiative - Fiscal 2021,2021,designate,,,Brooklyn Delegation SCO Family of Services,Bethany Food Pantry at 164 Suydam Street,112777066,10062,DYCD,260,005,,
+4,2020-11-19,Food Pantries Initiative - Fiscal 2021,2021,rescind,,,Brooklyn Delegation Masbia,,201923521,-1205,DYCD,260,005,,
+4,2020-11-19,Food Pantries Initiative - Fiscal 2021,2021,rescind,,,"Brooklyn Delegation People In Need, Inc.",,812473789,-1205,DYCD,260,005,,
+4,2020-11-19,Food Pantries Initiative - Fiscal 2021,2021,rescind,,,"Brooklyn Delegation Council of Peoples Organization, Inc.",,753046891,-1208,DYCD,260,005,,
+4,2020-11-19,Food Pantries Initiative - Fiscal 2021,2021,designate,,,"Brooklyn Delegation Community Help in Park Slope, Inc.",,112449994,3618,DYCD,260,005,,
+4,2020-11-19,Food Pantries Initiative - Fiscal 2021,2021,rescind,,,Bronx Delegation Food Bank For New York City,St. Peter's Love Kitchen Pantry - EFRO# 85174,133179546,-10000,DYCD,260,005,,
+4,2020-11-19,Food Pantries Initiative - Fiscal 2021,2021,designate,,,"Bronx Delegation Catholic Charities Community Services, Archdiocese of New York",,135562185,10000,DYCD,260,005,,
+4,2020-11-19,Food Pantries Initiative - Fiscal 2021,2021,rescind,,,"Bronx Delegation Jewish Community Council of Pelham Parkway, Inc.",,133099520,-16000,DYCD,260,005,,
+4,2020-11-19,Food Pantries Initiative - Fiscal 2021,2021,designate,,,"Bronx Delegation Catholic Charities Community Services, Archdiocese of New York",,135562185,16000,DYCD,260,005,,
+4,2020-11-19,NYC Cleanup Initiative - Fiscal 2021,2021,rescind,,,Holden Department of Sanitation,Council District 30,136400434,-20000,DSNY,827,102,,**
+4,2020-11-19,NYC Cleanup Initiative - Fiscal 2021,2021,designate,,,Holden Department of Parks and Recreation,Council District 30,136400434,20000,DPR,846,006,,**
+4,2020-11-19,NYC Cleanup Initiative - Fiscal 2021,2021,rescind,,,Department of Youth and Community Development,,136400434,-201000,DYCD,260,005,,
+4,2020-11-19,NYC Cleanup Initiative - Fiscal 2021,2021,designate,,,"Yeger Association of Community Employment Programs for the Homeless, Inc.",,133846431,75000,DYCD,260,005,,
+4,2020-11-19,NYC Cleanup Initiative - Fiscal 2021,2021,designate,,,"Yeger Kings Highway Beautification Association, Inc.",,204986882,10000,DYCD,260,005,,
+4,2020-11-19,NYC Cleanup Initiative - Fiscal 2021,2021,designate,,,Yeger Wildcat Service Corporation,,132725423,75000,DYCD,260,005,,
+4,2020-11-19,NYC Cleanup Initiative - Fiscal 2021,2021,designate,,,"CD37 Elite Knights, Inc.",,833393441,10000,DYCD,260,005,,
+4,2020-11-19,NYC Cleanup Initiative - Fiscal 2021,2021,designate,,,"CD37 Elite Learners, Inc.",,814482839,10000,DYCD,260,005,,
+4,2020-11-19,NYC Cleanup Initiative - Fiscal 2021,2021,designate,,,"CD37 Brooklyn Alliance, Inc.",,112145956,21000,DYCD,260,005,,
+4,2020-11-19,NYC Cleanup Initiative - Fiscal 2021,2021,rescind,,,Department of Youth and Community Development,,136400434,-34000,DYCD,260,005,,**
+4,2020-11-19,NYC Cleanup Initiative - Fiscal 2021,2021,designate,,,CD37 Department of Sanitation,,136400434,34000,DPR,827,102,,**
+4,2020-11-19,Support Our Seniors - Fiscal 2021,2021,rescind,,,Department for the Aging,,136400434,-200000,DFTA,125,003,,
+4,2020-11-19,Support Our Seniors - Fiscal 2021,2021,designate,,,Reynoso Jewish Association for Services for the Aged (JASA),Bushwick/Hylan Senior Centers,132620896,10000,DFTA,125,003,,
+4,2020-11-19,Support Our Seniors - Fiscal 2021,2021,designate,,,"Reynoso Ridgewood Older Adult Center and Services, Inc.",,050607283,24000,DFTA,125,003,,
+4,2020-11-19,Support Our Seniors - Fiscal 2021,2021,designate,,,"Reynoso Riseboro Community Partnership, Inc.",Riseboro Borinquen Plaza,112453853,14000,DFTA,125,003,,
+4,2020-11-19,Support Our Seniors - Fiscal 2021,2021,designate,,,"Reynoso Riseboro Community Partnership, Inc.",Riseboro Hope Gardens,112453853,18000,DFTA,125,003,,
+4,2020-11-19,Support Our Seniors - Fiscal 2021,2021,designate,,,Reynoso Southside United Housing Development Fund Corporation,HDFC,112268359,20000,DFTA,125,003,,
+4,2020-11-19,Support Our Seniors - Fiscal 2021,2021,designate,,,Reynoso Jewish Association for Services for the Aged (JASA),Williamsburg Senior Center,132620896,14000,DFTA,125,003,,
+4,2020-11-19,Support Our Seniors - Fiscal 2021,2021,designate,,,"Yeger Agudath Israel of America Community Services, Inc.",,133975090,10000,DFTA,125,003,,
+4,2020-11-19,Support Our Seniors - Fiscal 2021,2021,designate,,,Yeger Boro Park Jewish Community Council,,113475993,30000,DFTA,125,003,,
+4,2020-11-19,Support Our Seniors - Fiscal 2021,2021,designate,,,"Yeger Council of Jewish Organizations of Flatbush, Inc.",,112864728,10000,DFTA,125,003,,
+4,2020-11-19,Support Our Seniors - Fiscal 2021,2021,designate,,,"Yeger SBH Community Service Network, Inc.",,237406410,30000,DFTA,125,003,,
+4,2020-11-19,Support Our Seniors - Fiscal 2021,2021,designate,,,"Yeger Young Men's Young Women's Hebrew Association of Boro Park, Inc.",,111630917,20000,DFTA,125,003,,
+4,2020-11-19,Parks Equity Initiative - Fiscal 2021,2021,rescind,,,"Chin Horticultural Society of New York, The",Sara D. Roosevelt Park,130854930,-5000,DPR,846,006,,**
+4,2020-11-19,Parks Equity Initiative - Fiscal 2021,2021,designate,,,"Chin Horticultural Society of New York, The",Sara D. Roosevelt Park,130854930,5000,DYCD,260,005,,**
+4,2020-11-19,LGBT Community Services - Fiscal 2021,2021,rescind,,,City University of New York,,133893536,-42500,CUNY,042,001,,
+4,2020-11-19,LGBT Community Services - Fiscal 2021,2021,designate,,,City University of New York,Hunter College,133893536,42500,CUNY,042,001,,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,"New Purpose of Funds Ohel Children's Home and Family Services, Funding to support holocaust survivors and their family members who are Local Speaker",,116078704,-75000,DFTA,,,"Inc. in need of specialized aging services. To provide services to people with mental illness including education,",
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,"Ohel Children's Home and Family Services, Local Speaker",,116078704,75000,DFTA,,,"housing, case management, crisis intervention, counseling, and training Inc. for independent living.",
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,Funding to support outreach and online presence to promote arts events Local Lander Annual Gowanus Artists Studio Tour,,753192120,-5000,DYCD,,,in Gowanus including the Gowanus Open Studios tour.,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,Funding to support outreach and online presence to promote art events Local Lander Annual Gowanus Artists Studio Tour,,753192120,5000,DYCD,,,and support artists in Gowanus including the Arts Gowanus ArtWalk on Atlantic Avenue.,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,New York City Housing Authority,Local Rosenthal,136400434,-1000,HPD,,,Funds support tenant association activities at Domesite. Domesite,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,New York City Housing Authority,Douglas Local Rosenthal,136400434,1000,HPD,,,Funds support tenant association activities at Douglas Rehab.,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,Rehab Local Rosenthal New York City Housing Authority,WSUR A,136400434,-2000,HPD,,,Funds support tenant association activities at WSUR A.,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,New York City Housing Authority,WSUR A Local Rosenthal,136400434,2000,HPD,,,Funds support tenant association activities at WSUR A 120 West 92nd.,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,120 West 92nd Local Rosenthal New York City Housing Authority,WSUR B,136400434,-2000,HPD,,,Funds support tenant association activities at WSUR B.,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,New York City Housing Authority,WSUR Local Rosenthal,136400434,2000,HPD,,,Funds support tenant association activities at WSUR Brownstones. Brownstones,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,New York City Housing Authority,WSUR Local Rosenthal,136400434,-2000,HPD,,,Funds support tenant association activities at WSUR C. C.,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,New York City Housing Authority,WSUR C Funds support tenant association activities at WSUR C 589 Amsterdam Local Rosenthal,136400434,2000,HPD,,,589 Amsterdam Avenue Avenue. To support community activities and events for residents of the Mott,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,New York City Housing Authority,"Mott Haven Houses development, including annual family days. Funding will Local Ayala",136400434,-4500,HPD,,,"Haven Houses support the purchase of refreshments, supplies, and entertainment at these events. To support community activities and events for residents of the Millbrook",
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,New York City Housing Authority,"Millbrook Houses development, including annual family days. Funding will support Local Ayala",136400434,4500,HPD,,,"Houses the purchase of refreshments, supplies, and entertainment at these events.",
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,Funding will support holiday lights displays in the commercial corridors Local Cohen Mosholu Preservation Corporation,,133109387,-30000,DYCD,,,"along East 204th Street, West 235th to W 239th on Katonah Avenue, Bainbridge Avenue and White Plains Road and funds for speed cameras.",
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,Funding will support holiday lights displays in the commercial corridors Local Cohen Mosholu Preservation Corporation,,133109387,30000,DYCD,,,"along East 204th Street, West 235th to W 239th on Katonah Avenue, Bainbridge Avenue, Riverdale Ave, Johnson Ave and White Plains Road.",
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,"West Indian American Day Carnival Funding to educate the community on Caribbean arts & culture, along with Local Cumbo Association, Inc.",New York City West,237176396,-6000,DCLA,,,support for their transition to a new location at Bedford Armory in Spring Indian American Labor Day Parade *** 2021.,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,"West Indian American Day Carnival Local Cumbo Association, Inc.",New York City West,237176396,6000,DCLA,,,Funding to support the West Indian traditional cultural arts program. Indian American Labor Day Parade ***,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,"United States Wallball Association, Inc.","Funds will be utilized to help cover the administrative, operational and Youth Rose Public Handball & Basketball",453569022,-5000,DYCD,,,staffing costs associated with participating in tournaments for district,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,"Clinics/Tournaments youth, including travel and equipment. Youth Rose United States Wallball Association, Inc.",,453569022,5000,DYCD,,,Funds will be used to create one wallball game mural in the 49th district.,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,"Eden II School for Autistic Children, Inc.",Funding would be used to cover the cost of staffing and fees associated Local Rose,132872916,-5000,DYCD,,,Adult Recreational Program with community outings and trips.,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2021,2021,purpose_change,,,"Funds will be used to cover the costs associated with the purchase of on- Local Rose Eden II School for Autistic Children, Inc.",,132872916,5000,DYCD,,,site supplies/activities and meals.,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"West Indian American Day Carnival Local Cumbo Association, Inc.",New York City West,237176396,-6000,DCLA,,,Funding to support the West Indian traditional cultural arts program. Indian American Labor Day Parade,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,"West Indian American Day Carnival Funding to educate the community on Caribbean arts & culture, along with Local Cumbo Association, Inc.",New York City West,237176396,6000,DCLA,,,support for their transition to a new location at Bedford Armory in Spring Indian American Labor Day Parade 2021.,
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,Grand Street District Management Funding will be used to support clean up and beautification services in NYC Cleanup Reynoso,,112739527,-20000,DYCD,,,"Association, Inc. Ridgewood.",
+4,2020-11-19,Purpose of Funds Changes - Fiscal 2020,2020,purpose_change,,,Grand Street District Management Funding will be used to support clean up and beautification services on NYC Cleanup Reynoso,,112739527,20000,DYCD,,,"Association, Inc. Grand Street.",

@@ -75,6 +75,7 @@ export interface AwardRow {
 }
 
 export interface TransparencyRow {
+  source_fy: number;
   resolution: string;
   date: string;
   chart: string;
@@ -87,6 +88,7 @@ export interface TransparencyRow {
   amount: number | null;
   agency: string;
   purpose: string;
+  low_text_confidence: number;
 }
 
 export interface CapitalRow {
@@ -171,15 +173,18 @@ export interface TransparencyFilters {
 
 export function searchTransparency(f: TransparencyFilters): TransparencyRow[] {
   const p: unknown[] = [];
-  const sql = `SELECT resolution, date, chart, fiscal_year, action, council_member,
-      organization, program, ein, amount, agency, purpose
+  // `fiscal_year` filters `source_fy` — the resolution document's fiscal year (the reliable,
+  // always-present axis). The embedded row-level `fiscal_year` (designation year) is returned in
+  // every row but is often blank in FY2010–FY2013, so it is not the filter key. See DATA-ANOMALIES #11.
+  const sql = `SELECT source_fy, resolution, date, chart, fiscal_year, action, council_member,
+      organization, program, ein, amount, agency, purpose, low_text_confidence
     FROM transparency ${where([
       f.ein ? (p.push(normEin(f.ein)), "ein = ?") : null,
       likeClause("council_member", p, f.council_member),
-      eqClause("fiscal_year", p, f.fiscal_year),
+      eqClause("source_fy", p, f.fiscal_year),
       f.action ? (p.push(f.action), "action = ? COLLATE NOCASE") : null,
       likeClause("organization", p, f.organization),
-    ])} ORDER BY resolution, chart LIMIT ${cap(f.limit)}`;
+    ])} ORDER BY source_fy, resolution, chart LIMIT ${cap(f.limit)}`;
   return getDb().prepare(sql).all(...p) as TransparencyRow[];
 }
 
@@ -255,11 +260,17 @@ export function listFiscalYears(): FiscalYearReport {
   const cwRange = db
     .prepare(`SELECT MIN(fiscal_year) AS min, MAX(fiscal_year) AS max FROM crosswalk WHERE fiscal_year IS NOT NULL`)
     .get() as { min: number; max: number };
+  // Transparency coverage is reported by source_fy (the resolution document year) — the reliable
+  // per-year axis. The embedded row-level fiscal_year is blank for most FY2010–FY2013 rows, so
+  // DISTINCT on it would misreport coverage (DATA-ANOMALIES #11).
+  const transparency = (db
+    .prepare(`SELECT DISTINCT source_fy AS fiscal_year FROM transparency WHERE source_fy IS NOT NULL ORDER BY source_fy`)
+    .all() as { fiscal_year: number }[]).map((r) => r.fiscal_year);
   return {
     awards: distinct("awards"),
     terms: distinct("terms"),
     capital: distinct("capital"),
-    transparency: distinct("transparency"),
+    transparency,
     crosswalk: cwRange,
   };
 }

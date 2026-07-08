@@ -1,0 +1,259 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+4,2011-11-03,LocalInitiatives,,rescind,,,"FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Dilan SumnerHousesTenantsAssociation,Inc.",,112733344,-15000,DFTA,,,.00) 125 003,**
+4,2011-11-03,LocalInitiatives,,designate,,,"Dilan SumnerHousesTenantsAssociation,Inc.",,112733344,15000,NYCHA,,,.00 098 002,**
+4,2011-11-03,LocalInitiatives,,rescind,,,"Vallone CommunityEnvironmentalCenter,Inc.",,133762724,-3500,DCA,,,.00) 126 003 *,**
+4,2011-11-03,LocalInitiatives,,designate,,,"Vallone CommunityEnvironmentalCenter,Inc.",,133762724,3500,DYCD,,,.00 260 005 *,**
+4,2011-11-03,LocalInitiatives,,rescind,,,CC WestsideCrimePreventionProgram,,133087186,-7500,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives,,designate,,,"CC MeatpackingImprovementAssociation,Inc.",,208540196,7500,DSBS,,,.00 801 002 *,**
+4,2011-11-03,LocalInitiatives,,rescind,,,"Oddo RiversideOperaCompany,Inc.",,133966800,-1000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives,,designate,,,"Oddo RiversideOperaCompany,Inc.",,133966800,1000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives,,rescind,,,"James TrilokFusionArts,Inc.(TFA)",,113589624,-1500,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives,,designate,,,"James TrilokFusionArts,Inc.(TFA)",,113589624,1500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives,,rescind,,,"CC JewishCommunityCouncilofGreaterConeyIsland,Inc.",,112665181,-65000,DYCD,,,.00) 260 005,**
+4,2011-11-03,LocalInitiatives,,designate,,,"CC JewishCommunityCouncilofGreaterConeyIsland,Inc.",,112665181,65000,DFTA,,,.00 125 003,**
+4,2011-11-03,LocalInitiatives,,rescind,,,Rose CurtisHighSchool,,136400434,-5000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives,,designate,,,Rose CurtisHighSchool,,136400434,5000,DOE,,,.00 040 402,**
+4,2011-11-03,LocalInitiatives,,rescind,,,"CC WaytoWork,The",,131878246,-75000,DOE,,,.00) 040 454,**
+4,2011-11-03,LocalInitiatives,,designate,,,"CC WaytoWork,The",,131878246,75000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives,,rescind,,,StRosalia-ReginaPacisNeighborhood Gentile St.Patrick'sVincentdePaulSociety,,111631818,-3500,DYCD,,,.00) 260 005 ImprovementAssociation 11-2697931,
+4,2011-11-03,LocalInitiatives,,designate,,,Gentile St.Patrick'sVincentdePaulSociety,,111631818,3500,DYCD,,,.00 260 005,
+4,2011-11-03,LocalInitiatives,,rescind,,,"James Bailey'sCafé,Inc.",,200221451,-1500,DYCD,,,.00) 260 005,
+4,2011-11-03,LocalInitiatives,,rescind,,,James BrooklynDefenderServices,,113305406,-3000,DYCD,,,.00) 260 005,
+4,2011-11-03,LocalInitiatives,,rescind,,,James BrooklynFreeSchool,,201506040,-1500,DYCD,,,.00) 260 312,
+4,2011-11-03,LocalInitiatives,,designate,,,"James CaribbeanCulturalTheatre,Inc.",,830508237,2000,DYCD,,,.00 260 005,
+4,2011-11-03,LocalInitiatives,,designate,,,James TillaryParkFoundation 26-0316951 James TransportationAlternatives,,510186015,2000,DYCD,,,.00 260 005,
+4,2011-11-03,LocalInitiatives,,rescind,,,"James DespersUSASteelOrchestra,Inc.",,113499180,-2000,DYCD,,,.00) 260 312 *,
+4,2011-11-03,LocalInitiatives,,designate,,,"James DespersUSASteelOrchestra,Inc.",,113499180,2000,DCA,,,.00 126 003 *,
+4,2011-11-03,LocalInitiatives,,rescind,,,"James DespersUSASteelOrchestra,Inc.",,113499180,-2000,DCA,,,.00) 126 003 *,
+4,2011-11-03,LocalInitiatives,,designate,,,"James IfetayoCulturalArtsAcademy,Inc.",,113027538,1000,DCA,,,.00 126 003,
+4,2011-11-03,LocalInitiatives,,designate,,,"James CentralBrooklynJazzConsortium,Inc.",,113549224,1000,DCA,,,.00 126 003,
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * James BrooklynBureauofCommunityService,,111630780,-3000,DOHMH,,,.00) 816 120,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"James JudahInternationalChristianCenter,Inc.",,113352075,-3000,DOHMH,,,.00) 816 113,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,James GayMenofAfricanDescent(GMAD),,133597820,500,DOHMH,,,.00 816 112,
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"HeightsHillMentalHealthService,SBPC,Community James AdvisoryBoard,Inc.",,112785605,500,DOHMH,,,.00 816 120,
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,James BrownCommunityDevelopmentCorporation,,562629114,500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"James HopeCityEmpowermentCenter,Inc.",,113629292,500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,James K.S.J.A.M.M.DanceTroupe,,202352155,500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,James MachonChana,,113307109,500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"James PrattAreaCommunityCouncil,Inc.",,112451752,500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"James TrilokFusionArts,Inc.(TFA)",,113589624,1500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"James BusinessOutreachCenterNetwork,Inc.",,113306111,500,DSBS,,,.00 801 002,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,James NewYorkCityHousingAuthority,,136400434,500,NYCHA,,,.00 098 002,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"James NewYorkLawyersforthePublicInterest,Inc.",,132860703,-500,HPD,,,.00) 806 009,
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"James BrooklynHousingandFamilyServices,Inc.",,112412584,500,HPD,,,.00 806 009,
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,James PublicSchool46K-EdwardC.Blum,,136400434,-500,DOE,,,.00) 040 402,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,James PublicSchoolK753-SchoolforCareerDevelopment,,690210637,-500,DOE,,,.00) 040 402,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"James UrbanAssemblyAcademyofArtsandLetters,The",,136400434,-500,DOE,,,.00) 040 402,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,James BrooklynKindergartenSociety,,111631820,-500,ACS,,,.00) 068 004,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,PrattInstituteCenterforCommunityandEnvironmental James Development(PICCED),,111630822,2000,DSBS,,,.00 801 002,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Brewer WellnessintheSchools,Inc.",,251919494,-2000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Brewer CoolCulture,Inc.",,161636968,2000,DCA,,,.00 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Gentile FundfortheCityofNewYork,Inc.",,132612524,-3000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,3000,DCA,,,.00 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Gentile SunsetParkHealthCouncil,Inc.",,202508411,-2000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Gentile SymphonySpace,Inc.",,132941455,2000,DCA,,,.00 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Gentile HistoricHouseTrustofNewYorkCity,,133590825,-2000,DYCD,,,.00) 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Gentile HistoricHouseTrustofNewYorkCity,,133590825,2000,DPR,,,.00 846 006,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Halloran QueensCollegeFoundation,Inc.",,116080521,-3500,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Halloran QueensCollegeFoundation,Inc.",,116080521,3500,CUNY,,,.00 042 001,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Ulrich RockawayMusicandArtsCouncil,Inc.",,237082566,-10000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Ulrich RockawayMusicandArtsCouncil,Inc.",,237082566,10000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Rodriguez HistoricHouseTrustofNewYorkCity,,133590825,-2000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Rodriguez HistoricHouseTrustofNewYorkCity,,133590825,2000,DPR,,,.00 846 006,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Recchia AssociazioniSicilianeUnitedeNewYork,Inc.",,113416416,-4000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Recchia AssociazioniSicilianeUnitedeNewYork,Inc.",,113416416,4000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Mendez St.AugustinesProjectInc.,The",,200386393,-3500,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Mendez St.AugustinesProjectInc.,The",,200386393,3500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Mendez AGatheringoftheTribes,,133714232,-3000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Mendez AGatheringoftheTribes,,133714232,3000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Mark-Viverito FundfortheCityofNewYork,Inc.",,132612524,-5000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Mark-Viverito FundfortheCityofNewYork,Inc.",,132612524,5000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Levin DepartmentofEducationDioceseofBrooklyn,,237319473,-3500,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Levin DepartmentofEducationDioceseofBrooklyn,,237319473,3500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Halloran VoelkerOrthMuseum,The",,113498583,-3500,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Halloran VoelkerOrthMuseum,The",,113498583,3500,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,BayRidgeBensonhurstBeautification Gentile BrooklynONEtheater,,262177816,-2500,DCA,,,.00) 126 003 PreservationAllianceInc 11-3233233 *,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,BayRidgeBensonhurstBeautification Gentile BrooklynONEtheater,,262177816,2500,DYCD,,,.00 260 005 PreservationAllianceInc 11-3233233 *,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Ferreras LatinAmericanInterculturalAlliance,,141947099,-5000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Ferreras LatinAmericanInterculturalAlliance,,141947099,5000,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,QueensCollegeFoundationIncfor-QueensCollegeArts Crowley Center,,116080521,-3500,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,QueensCollegeFoundationIncfor-QueensCollegeArts Crowley Center,,116080521,3500,CUNY,,,.00 042 001,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Gonzalez DanceTheatreEtcetera,Inc.(DTE)",,133015965,-4000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Gonzalez DanceTheatreEtcetera,Inc.(DTE)",,133015965,4000,DCA,,,.00 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Vann FultonArtFair,Inc.",,113386595,-5000,DYCD,,,.00) 260 005 *,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Vann FultonArtFair,Inc.",,113386595,5000,DCA,,,.00 126 003 *,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Vann Bailey'sCafé,Inc.",,200221451,-10000,DYCD,,,.00) 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Vann Bailey'sCafé,Inc.",,200221451,10000,DPR,,,.00 846 006,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Vann ChildAbusePreventionProgram,Inc.",,112864750,-5000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Vann ChildAbusePreventionProgram,Inc.",,112864750,5000,DOE,,,.00 040 402,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Vacca MorrisParkCommunityAssociation,,237429900,-5000,DYCD,,,.00) 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Vacca MorrisParkCommunityAssociation,,237429900,5000,DFTA,,,.00 125 003,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,WashingtonHeightsandInwoodDevelopmentCorporation Rodriguez,,132950346,-9000,DSBS,,,.00) 801 002,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Rodriguez HispanicFederation,Inc.",,133573852,9000,DYCD,,,.00 260 005 *,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Mark-Viverito ChildAbusePreventionProgram,Inc.",,112864750,-5000,DYCD,,,.00) 260 312,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Mark-Viverito ChildAbusePreventionProgram,Inc.",,112864750,5000,DOE,,,.00 040 402,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Brooklyn Delegation ActNowFoundation,Inc.",,830388512,-8437,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Brooklyn Delegation ActNowFoundation,Inc.",,830388512,8437,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,"Brooklyn Delegation MartinLutherKing,Jr.ConcertSeries,Inc.",,112638417,-5558,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,"Brooklyn Delegation MartinLutherKing,Jr.ConcertSeries,Inc.",,112638417,5558,DYCD,,,.00 260 005,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Comrie AfricanAmericanWomenInCinema,,134151020,-3500,DCA,,,.00) 126 003 *,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Comrie AfricanAmericanWomenInCinema,,134151020,3500,DYCD,,,.00 260 005 *,**
+4,2011-11-03,LocalInitiatives(cont.),,rescind,,,Dilan BushwickInstituteofthePerformingArts,,112748834,-21000,DCA,,,.00) 126 003,**
+4,2011-11-03,LocalInitiatives(cont.),,designate,,,Dilan BushwickInstituteofthePerformingArts,,112748834,21000,DYCD,,,.00 260 005,**
+4,2011-11-03,AgingDiscretionary,,rescind,,,"FiscalConduit FiscalConduit/SponsoringOrganization EIN Member Organization EINNumber Agency Amount Agy# U/A * Gentile AssociationofInformedVoices,Inc. St.Rosalia-ReginaPacisNeighborhoodImprovement",,113595142,-1500,DFTA,,,.00) 125 003,
+4,2011-11-03,AgingDiscretionary,,rescind,,,"Gentile Association,Inc. 11-2697931 Garodnick SearchandCare,Inc.",,237444790,-3500,DFTA,,,".00) 125 003 StanleyM.IsaacsNeighborhoodCenter,Inc. 13-2572034",
+4,2011-11-03,AgingDiscretionary,,designate,,,"Garodnick SearchandCare,Inc.",,237444790,3500,DFTA,,,.00 125 003,
+4,2011-11-03,AgingDiscretionary,,designate,,,Gennaro YoungIsraelofQueensValley 13-3613262 Gennaro YoungIsraelofQueensValley,,112267876,10000,DFTA,,,.00 125 003,
+4,2011-11-03,YouthDiscretionary,,rescind,,,FiscalConduit FiscalConduit/SponsoringOrganization EIN Member Organization EINNumber Agency Amount Agy# U/A * Lander PTAofPublicSchool32K,,731721398,-3000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,,Lander GroundswellCommunityMuralProject,,113427213,3000,DYCD,,,.00 260 312,
+4,2011-11-03,YouthDiscretionary,,rescind,,,"Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,-3000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,,"BayRidgeBensonhurstBeautification Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,3000,DYCD,,,.00 260 312 PreservationAllianceInc 11-3233233,
+4,2011-11-03,YouthDiscretionary,,rescind,,,"Gentile SymphonySpace,Inc.",,132941455,-2000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,,"BayRidgeBensonhurstBeautification Gentile SymphonySpace,Inc.",,132941455,2000,DYCD,,,.00 260 312 PreservationAllianceInc 11-3233233,
+4,2011-11-03,YouthDiscretionary,,rescind,,,"Brewer CoolCulture,Inc.",,161636968,-2000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,,"Brewer WellnessintheSchools,Inc.",,251919494,2000,DYCD,,,.00 260 312,
+4,2011-11-03,YouthDiscretionary,,rescind,,,"Gentile SocietyoftheEducationalArts,Inc.(SEA)",,113210593,-3000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,,"Gentile FundfortheCityofNewYork,Inc.",,132612524,3000,DYCD,,,.00 260 312,
+4,2011-11-03,YouthDiscretionary,,rescind,,,"Gentile SymphonySpace,Inc. SunsetParkHealthCouncil,Inc. 20-2508411",,132941455,-2000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,rescind,,,"Ferreras NewYorkMilitaryYouthCadets,Inc.",,113581787,-4000,DYCD,,,.00) 260 312,
+4,2011-11-03,YouthDiscretionary,,designate,,,"QueensboroughCommunityCollegeAuxiliaryEnterprise Ferreras Association,Inc.",,112037770,4000,DYCD,,,.00 260 312,
+4,2011-11-03,Cultural After-School Adventure (CASA),,rescind,,,CouncilMember Organization EINNumber Agency Amount Agy# U/A * Comrie QueensSymphonyOrchestra-IS59Q,,112106191,-20000,DCA,,,.00) 126 003,
+4,2011-11-03,Cultural After-School Adventure (CASA),,designate,,,"Comrie ReversingtheProjections,Inc.-IS59Q",,753260289,20000,DCA,,,.00 126 003,
+4,2011-11-03,Immigrant Opportunities Initiative,,rescind,,,CouncilMember Organization EINNumber Agency Amount Agy# U/A * ImmigrantOpportunitiesInitiative,,136400434,-50275,DYCD,,,.00) 260 005,
+4,2011-11-03,Immigrant Opportunities Initiative,,designate,,,Brooklyn ResearchFoundationoftheCityUniversityofNewYork-CitizenshipNOW,,131988190,25275,CUNY,,,.00 042 001,**
+4,2011-11-03,Immigrant Opportunities Initiative,,designate,,,"Brooklyn SafeHorizon,Inc.",,132946970,25000,DYCD,,,.00 260 005,
+4,2011-11-03,Food Pantries-DYCD,,rescind,,,"CouncilMember Organization EINNumber Agency Amount Agy# U/A * Queens FirstBaptistChurchofCoronaNY,Inc.",,311767167,-5000,DYCD,,,.00) 260 005,
+4,2011-11-03,Food Pantries-DYCD,,designate,,,"Queens SamaritansOutreachMinistries,Inc.",,113397859,5000,DYCD,,,.00 260 005 *,
+4,2011-11-03,Diversityin the Media,,rescind,,,Organization EINNumber Agency Amount Agy# U/A * DepartmentofInformationandTechnology,,136400434,-100000,DOITT,,,.00) 858 002,**
+4,2011-11-03,Diversityin the Media,,designate,,,KingsboroughCommunityCollege,,136400434,100000,CUNY,,,.00 042 001,**
+4,2011-11-03,Infant MortalityReduction Initiative,,rescind,,,"Organization EINNumber Agency Amount Agy# U/A * ChristtheRockWorldRestorationChurchInternational,Inc.",,621823291,-18606,DOHMH,,,.94) 816 113,
+4,2011-11-03,Infant MortalityReduction Initiative,,designate,,,"ChristtheRockInternational,Inc.",,621823291,18606,DOHMH,,,.94 816 113,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"Organization EINNumber Agency Amount Agy# U/A * AbyssinianBaptistChurch,Inc.",,131635250,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,AbyssinianDevelopmentCorporation,,133552154,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,AgapeTabernacleInternationalFellowship,,113423637,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"AIDSCenterofQueensCounty,Inc.",,112837894,12800,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,AllSaintsEpiscopalChurch,,111735978,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"AmethystWomen'sProject,Inc.",,113055513,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,AntiochBaptistChurch-Brooklyn,,112836775,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,BedfordCentralPresbyterianChurch,,112870465,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"BedfordStuyvesantFamilyHealthCenter,Inc.",,112412205,174651,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"BereanCommunityFamilyLifeCenter(formerly,BereanBaptistChurch)",,111660857,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,BethesdaMissionaryBaptistChurchofJamaica,,112673958,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,BrightTempleAMEChurch,,133141241,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"BronxAIDSServices,Inc.",,133599121,27520,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,BronxChristianFellowship,,133870351,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"BrooklynAIDSTaskForce,Inc.",,113031208,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,BrooklynPlazaMedicalCenter,,112467268,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,BrownMemorialBaptistChurch,,111962041,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,CanaanBaptistChurchofChrist,,136013037,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"CaribbeanWomen'sHealthAssociation,Inc.",,133323168,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"CentralFamilyLifeCenter(formerly,FirstCentralBaptistChurch)",,133626127,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"ChildCenterofNewYork,The",,111733454,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,DOHMH 816 112 * ChristChurch,,133076051,6400,,,,.00,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"ChristtheRockWorldRestorationChurchInternational,Inc.",,621823291,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,ChurchofChristtheKingRC,,131740159,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,ChurchofGod(ThirdAve.),,620484177,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,ChurchoftheHolySpiritRC,,132696726,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,ChurchoftheLivingGodInternational,,010924463,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"ClergyUnitedforCommunityEmpowerment,Inc.(formerlySQCCE)",,113030795,28800,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,"CommunityHealth&AwarenessMinistry,Inc.",,270043612,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,CommunityHealthActionofStatenIsland(formerlySIAIDSTaskforce),,133556132,25600,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative,,designate,,,CommunityMethodistChurchofJacksonHeights,,111761477,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,Organization EINNumber Agency Amount Agy# U/A * ConcordBaptistChurch,,111665833,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,ConeyIslandCathedralofDeliverance,,112744627,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,ConventAvenueBaptistChurch,,132780116,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,EastWardMissionaryBaptistChurch,,134078762,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,EmmanuelBaptistChurch(Bronx),,133421183,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,EmmanuelBaptistChurch(Brooklyn)-HealingTouchMinistry,,111666232,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,EphesusSeventhDayAdventistChurch,,133631489,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,EvangelicalChristianChurch,,112528459,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"FamilyLifeDevelopmentCenter(formerly,NewLifeTabernacleChurch)",,113168615,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FellowshipBaptistChurch,,132865551,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FirstAMEBethelChurch,,131945828,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FirstBaptistChurchofCrownHeights,,112033058,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FirstBaptistChurchofFarRockaway,,112535221,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FirstCorinthianBaptistChurch,,133686242,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FirstHispanicUnitedMethodistChurch,,132967400,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FirstUnitedMethodistChurchofCorona,,112342098,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FordhamManorChurch,,133327445,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,FOYHIV/AIDSMinistry(Mt.CalvaryBaptistChurch),,133869600,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"FriendshipBaptistChurch,Inc.,The",,113657224,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,GayMenofAfricanDescent(GMAD),,133597820,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,GodsoffspringChristianChurch,,201488693,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,DOHMH 816 112 * GraceBaptistChurch,,030570727,6400,,,,.00,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,GreaterAllenAMECathedralofNewYork,,112527706,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,HeavenlyVisionChristianCenter,,133706003,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Margaret’sEpiscopalChurch,,131773642,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"IglesiaDeDios""RocadeSalvacion""(ChurchofGod,Brooklyn)",,113405938,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,IglesiaEvangelicaLibreRemanente,,223862111,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,IglesiaMetodistaUnidadeJamaica(UnitedMethodistChurchofJamaica),,134994650,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,Immanuel&FirstSpanishUnitedMethodistChurch,,111681138,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"IrisHouse-ACenterForWomenLivingwithHIV/AIDS,Inc.",,133699201,25600,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"JamaicaServiceProgramforOlderAdults,Inc.(JSPOA)",,510204121,18800,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"JudahInternationalChristianCenter,Inc.",,113352075,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,JustaFriendAwayofStatenIsland(JAFASI),,270026154,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"Organization EINNumber Agency Amount Agy# U/A * LatinoCommissiononAIDS,Inc.",,133629466,169573,DOHMH,,,.60 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"LoveAliveInternationalFoundation,Inc.",,264819108,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MacedoniaBaptistChurch,,112522629,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MasjidAl-Tafa(UniversalBrotherhoodHumanitarianCenter),,364691654,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"MasjidSaburWorship,Educational&Referral",,133921329,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"MemorialBaptistChurch,Inc.",,132574792,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MetropolitanCommunityChurchofNewYork,,510152961,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"MinisterioRescate,Inc.(RescueMinistriesChurch)",,320052760,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountCarmelAMEChurch(MountCarmelYouthDevelopmentCorporation),,113598975,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountCarmelBaptistChurch,,133966802,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountHorebBaptistChurch,,112074467,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountMoriahAME,,208427029,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountParanBaptistChurch,,113099533,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountPisgahBaptistChurch,,112652949,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MountSinaiBaptistChurch,,112222518,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MuslimWomen'sInstituteforResearchandDevelopment(MWIRD),,800010627,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,MuslimWomen'sInstituteforResearchandDevelopment(MWIRD),,800010627,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"NationalBlackLeadershipCommissiononAIDS,Inc.",,133530740,255055,DOHMH,,,.40 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,NewHopefortheWorldMinistries,,260434061,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,NewMountZionBaptistChurch,,133976609,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,NewSt.JohntheBaptistChurch,,133706218,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,DOHMH 816 112 * ParadiseBaptistChurch,,111172480,6400,,,,.00,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"PentecostalChurch""ElEden""",,112590699,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,PleasantGroveFullGospelTabernacle,,043670076,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,PowerfulPraiseTabernacle,,061530040,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,PrimeraIglesiaMenonitadeBrooklyn,,232101926,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,ProjectStreetBeat,,132621497,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,ReachingAcrosstheWorldMinistries,,113572515,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,RehobothChurchInternational,,112716044,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,RiverofLivingWaterFellowshipChurch,,208586474,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,SaintEdwardtheMartyr,,132873155,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,SaltandSeaMission,,113012147,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,SiloamPresbyterianChurch,,112799119,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,Organization EINNumber Agency Amount Agy# U/A * St.AlbansCongregationalChurch,,112077266,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.AugustinChurch,,131740193,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.George'sEpiscopalChurch,,111821131,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Jerome'sChurchRC,,131740204,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.John'sBaptistChurch,,133539498,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Luke'sAMEChurch,,520204696,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Luke'sEpiscopalChurch,,132747442,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Matthew'sAMEChurch,,530204696,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.PaulBaptistChurch,,133203472,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Paul'sChurchintheVillage,,111642730,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.Paul'sCommunityBaptistChurch,,112453951,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,St.SimonStockRomanCatholic,,131740377,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"St.Stephen'sOutreach,Inc.",,113116708,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,StatenIslandDeliveranceTemple,,331110319,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"SteinwayChildandFamilyServices,Inc.",,112326974,32000,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,SurvivorsFountainofHopeWellnessInitiative,,020675428,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,TheAfrican-AmericanMuslimCommissiononHIV/AIDS(MosqueofIslamicBrotherhood),,112457198,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,TransfigurationChurch,,112306447,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,TrinityLutheranParish,,131987477,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,UnityFellowshipChurchBreakingGround,,133703707,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"VannguardUrbanImprovementAssociation,Inc.",,112442042,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"DOHMH 816 112 * VillageCareofNewYork,Inc.-RedHookCommunityServiceCenter",,132911059,12800,,,,.00,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"You’reEligibleToo,Inc.(YET)",,204824991,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,YoungWomenofColorHIV/AIDSCoalition,,133848582,12800,DOHMH,,,.00 816 112 *,
+4,2011-11-03,HIV/AIDS Faith Based Initiative (cont.),,designate,,,"ZetaZetaLambdaAlphaPhiAlphaYouthPrograms,Inc.",,112872641,6400,DOHMH,,,.00 816 112 *,
+4,2011-11-03,LocalInitiatives-Fiscal2011,2011,rescind,,,"FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Vann BrooklynPride,Inc.",,611441052,-7000,DPR,,,.00) 846 006,
+4,2011-11-03,LocalInitiatives-Fiscal2011,2011,designate,,,"Vann BrooklynQueensLandTrust VanBramer SunnysideGardensPreservationAlliance,Inc.,The 54-2143785 DYCD 260 005 SunnysideCommunityServicesCenter,Inc. 51-0189327",,611441053,7000,DPR,,,.00 846 006,
+4,2011-11-03,LocalInitiatives-Fiscal2011,2011,rescind,,,"VanBramer SunnysideGardensPreservationAlliance,Inc.,The 54-2143785 DYCD 260 005 VanBramer SunnysideGardensPreservationAlliance,Inc.,The",,542143785,-3500,DSBS,,,".00) 801 002 SunnysideCommunityServicesCenter,Inc. 51-0189327",
+4,2011-11-03,LocalInitiatives-Fiscal2011,2011,designate,,,"VanBramer SunnysideGardensPreservationAlliance,Inc.,The",,542143785,3500,DSBS,,,.00 801 002,
+4,2011-11-03,AgingDiscretionary-Fiscal2011,2011,rescind,,,FiscalConduit Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization EIN * Gennaro YoungIsraelofQueensValley Gennaro YoungIsraelofQueensValley 11-2267876,,133613262,-10000,DFTA,,,.00) 125 003,
+4,2011-11-03,Infant Mortality Reduction-Fiscal 2011,2011,rescind,,,"FiscalConduit FiscalConduit/SponsoringOrganization EIN Organization EINNumber Agency Amount Agy# U/A * ChristtheRockWorldRestorationChurch International,Inc.",,621823291,-18606,DOHMH,,,.94) 816 113,
+4,2011-11-03,Infant Mortality Reduction-Fiscal 2011,2011,designate,,,"ChristtheRockInternational,Inc.",,621823291,18606,DOHMH,,,.94 816 113,

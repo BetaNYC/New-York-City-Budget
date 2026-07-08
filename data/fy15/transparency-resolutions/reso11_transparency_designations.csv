@@ -1,0 +1,179 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,FiscalConduit/Sponsoring Fiscal Member Organization EINNumber Agency Amount Agy# U/A * Organization ConduitEIN Cornegy MuslimConsultativeNetwork,,753163555,-5000,DYCD,,,.00) 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,Cornegy MuslimCommunityNetwork,,753163555,5000,DYCD,,,.00 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,Levine MuslimConsultativeNetwork,,753163555,-5000,DYCD,,,.00) 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,Levine MuslimCommunityNetwork,,753163555,5000,DYCD,,,.00 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,MuslimConsultativeNetwork,,753163555,-25000,DYCD,,,.00) 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,MuslimCommunityNetwork,,753163555,25000,DYCD,,,.00 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Cumbo CaribbeanResearchCenteratMedgarEversCollege,The",,112631618,-7500,DYCD,,,.00) 260 005,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Cumbo CaribbeanResearchCenteratMedgarEversCollege,The",,112631618,7500,CUNY,,,.00 042 001,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Ulrich RajkumariCulturalCenter,Inc.,The",,113338875,-3500,DYCD,,,.00) 260 005 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,Ulrich ChurchoftheHolyChildJesus,,111639802,500,DYCD,,,.00 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Ulrich VietnamVeteransofAmerica,Inc.-QueensChapter#32",,112629339,2500,DYCD,,,.00 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,Ulrich St.Camillus-SaintVirgiliusRomanCatholicChurch,,111674392,500,DYCD,,,.00 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Ulrich HowardBeachLindenwoodCivi,,465145713,-5000,DYCD,,,.00) 260 005 *,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,BangladeshiAmericanCommunityDevelopmentandYouth Ulrich ServicesCorp,,452389573,-5000,DYCD,,,.00) 260 312 *,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,Ulrich QueensEconomicDevelopmentCorporation,,112436149,10000,DSBS,,,.00 801 002,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,UrbanJusticeCenter,,133442022,-50000,MOCJ,,,.00) 098 002,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,UrbanJusticeCenter,,133442022,50000,NYCHA,,,.00 098 002,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Palma WestchesterSquarePartnership,Inc.",,263124969,-5000,DYCD,,,.00) 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Palma SapnaNYC,Inc.",,263124969,5000,DYCD,,,.00 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Vacca WestchesterSquarePartnership,Inc.",,263124969,-5000,DYCD,,,.00) 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Vacca SapnaNYC,Inc.",,263124969,5000,DYCD,,,.00 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Mealy CityWideCouncilofPresidents,,454847192,-5000,DYCD,,,.00) 260 005 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Mealy ReshapingOurYouthandAdultLives,Inc.",,261470495,5000,DYCD,,,.00 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Mealy CentralBrooklynLegalServicesCorp,,465144468,-10000,DSS/HRA,,,.00) 069 103 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,Mealy SouthBrooklynLegalServices,,132605605,10000,DSS/HRA,,,.00 069 103,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Cornegy AlphaUpsilonUplift,Inc.",,133923344,-5500,DYCD,,,.00) 260 312 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Cornegy BodegaAssociationoftheUnitedStates,Inc.,The",,134060809,-15000,DYCD,,,.00) 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Cornegy MarcyTennisClub,Inc.",,273170420,13000,DYCD,,,.00 260 312 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Cornegy ChrisSOwensFoundationInc.,The",,271794499,7500,DYCD,,,.00 260 312 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Mealy CircuitProductions,Inc.",,132881858,-5000,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Mealy CircuitProductions,Inc.",,132881858,5000,DCLA,,,.00 126 003,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Mealy CircuitProductions,Inc.",,132881858,-3000,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Mealy CircuitProductions,Inc.",,132881858,3000,DCLA,,,.00 126 003,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Ferreras FlushingCouncilonCultureandtheArtsInc.,,112652182,-3500,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,Ferreras FlushingCouncilonCultureandtheArtsInc.,,112652182,3500,DCLA,,,.00 126 022,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Garodnick WildlifeConservationSociety-CentralParkZoo,,131740011,-3500,DCLA,,,.00) 126 007,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,Garodnick WildlifeConservationSociety-CentralParkZoo,,131740011,3500,DPR,,,.00 846 006,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,FiscalConduit/Sponsoring Fiscal Member Organization EINNumber Agency Amount Agy# U/A * Organization ConduitEIN Cumbo WildlifeConservationSociety-ProspectParkZoo,,131740011,-5700,DCLA,,,.00) 126 007,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,Cumbo WildlifeConservationSociety-ProspectParkZoo,,131740011,5700,DPR,,,.00 846 006,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,Ferreras WildlifeConservationSociety-QueensZoo,,131740011,-5000,DCLA,,,.00) 126 007,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,Ferreras WildlifeConservationSociety-QueensZoo,,131740011,5000,DPR,,,.00 846 006,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,"Manhattan ApolloTheaterFoundation,Inc. Delegation",,133630066,-100,DCLA,,,.00) 126 003,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,Levin JazzreachPerformingArt&EducationAssociation,,113179208,100,DCLA,,,.00 126 003,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,Gentile BrooklynInstituteofArtsandSciences,,111672743,-1000,DCLA,,,".00) 126 008 NIACommunityServicesNetwork,Inc. 11-2697931",
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,Gentile BrooklynMuseum,,111672743,1000,DCLA,,,.00 126 008,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,"Rosenthal FundfortheCityofNewYork,Inc.-AfroLatinJazzAlliance",,132612524,-3500,DCLA,,,.00) 126 003,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,"Rosenthal Afro-LatinJazzAlliance,Inc.",,260670214,3500,DCLA,,,.00 126 003 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,"Reynoso FundfortheCityofNewYork,Inc.-AfroLatinJazzAlliance",,132612524,-3500,DCLA,,,.00) 126 003,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,"Reynoso Afro-LatinJazzAlliance,Inc.",,260670214,3500,DCLA,,,.00 126 003 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,"Espinal HarvestLifeCenter,Inc.,The",,202735233,-3000,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,"Espinal Literacy,Inc.(LINC)",,133911331,-3000,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,Espinal ProgressHighSchool,,136400434,6000,DOE,,,.00 040 402,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,"Espinal FederationEmploymentandGuidanceService,Inc.",,131624000,-10000,DSBS,,,.00) 801 002 *,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,"Espinal BrooklynArtsCouncil,Inc.",,237072915,10000,DCLA,,,.00 126 003,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,"Lancman ShalomTaskForce,Inc.",,113207504,-10000,DFTA,,,.00) 125 003,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,"Lancman ShalomTaskForce,Inc.",,113207504,10000,MOCJ,,,.00 098 002,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,"Lancman AmericanBangaliHinduFoundation,Inc",,260741506,-2500,DYCD,,,.00) 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,Lancman FirstPresbyterianChurchinJamaica,,111666813,2500,DYCD,,,.00 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"FederationEmploymentandGuidanceService,Inc.",,131624000,-35000,DSBS,,,.00) 801 002 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"EastHarlemCouncilforCommunityImprovement,Inc.",,132969933,35000,DSBS,,,.00 801 002,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Matteo ChildAbusePreventionProgram,Inc.",,112864750,-3000,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Matteo Children'sAidSociety,The",,135562191,-1000,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"JewishCommunityCenterofStaten Matteo CrossroadsCommunityChurch** Island,Inc.",,320020680,-2000,DYCD,,,.00) 260 312 13-5562256,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Matteo EnrichmentThroughtheArts,,113051230,-1500,DYCD,,,".00) 260 312 UnitedActivitiesUnlimited,Inc. 13-2921483",**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Matteo MakingBooksSing,Inc.",,134201577,-1500,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Matteo Seaman'sSocietyforChildrenandFamilies,,135563010,-1500,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"JewishCommunityCenterofStaten Matteo StatenIslandBaseballOld-timersAssociation** Island,Inc.",,134033266,-2500,DYCD,,,.00) 260 312 13-5562256,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Matteo StatenIslandBoysFootballLeague,Inc.",,237167904,-2500,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,Matteo StatenIslandSaintsFastpitchSoftballClubInc.,,272525251,-2500,DYCD,,,".00) 260 312 UnitedActivitiesUnlimited,Inc. 13-2921483",**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"JewishCommunityCenterofStaten Matteo StatenIslandUnitedFederationBaseball,Inc.** Island,Inc.",,200007086,-3000,DYCD,,,.00) 260 312 13-5562256,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,Speaker,"Matteo StatenIslandYouthSoccerLeague,Inc.",,320048308,-3000,DYCD,,,.00) 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Matteo DOE-District31,Region7",,136400434,14000,DOE,,,.00 040 402,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,"Matteo StatenIslandChamberofCommerceFoundation,Inc.",,134069282,5000,DSBS,,,.00 801 002,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,Speaker,Matteo WestBrightonCommunityLocalDevelopmentCorporation,,133046424,5000,DSBS,,,.00 801 002,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,"FiscalConduit/Sponsoring Fiscal Member Organization EINNumber Agency Amount Agy# U/A * Organization ConduitEIN Gibson 1332FultonAvenueDayCareCenter,Inc.",,132690309,-30000,ACS,,,.00) 068 004,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,"Gibson 1332FultonAvenueDayCareCenter,Inc.",,132690309,30000,DYCD,,,.00 260 312,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,Eugene DepartmentofYouthandCommunityDevelopment,,136400434,-4000,DYCD,,,.00) 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,Eugene FlatbushDevelopmentCorporation,,510188251,4000,DYCD,,,.00 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,Mendez AssociationofLatinoBusinessOwnersandResidents,,463338649,-3500,HPD,,,.00) 806 009 *,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,"Mendez NazarethHousing,Inc.",,133176952,3500,HPD,,,.00 806 009,
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,rescind,,,"Eugene FriendsofBrooklynCommunityBoard9,Inc.",,453110977,-5000,DSBS,,,.00) 801 002,**
+11,2015-02-26,LocalInitiatives-Fiscal2015,2015,designate,,,"Eugene CrownHeightsJewishCommunityCouncil,Inc.",,237390996,5000,DYCD,,,.00 260 005,**
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,rescind,,,"FiscalConduit/Sponsoring Fiscal Member Organization EINNumber Agency Amount Agy# U/A * Organization ConduitEIN Espinal 83rdPrecinctYouthCouncil,Inc.",,263865791,-6000,DYCD,,,.00) 260 312 *,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,"Espinal HarvestLifeCenter,Inc.,The",,202735233,3000,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,"Espinal Literacy,Inc.(LINC)",,133911331,3000,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,rescind,,,Lancman ChazaqOrganization,,263598999,-2500,DYCD,,,.00) 260 312 *,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,"Lancman AmericanBangaliHinduFoundation,Inc",,260741506,2500,DYCD,,,.00 260 312 *,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,rescind,,,"Matteo UnitedActivitiesUnlimited,Inc.",,132921483,-49000,DYCD,,,.00) 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,"Matteo ChildAbusePreventionProgram,Inc.",,112864750,3000,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,"Matteo Children'sAidSociety,The",,135562191,1000,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,Matteo EnrichmentThroughtheArts,,113051230,1500,DYCD,,,".00 260 312 UnitedActivitiesUnlimited,Inc. 13-2921483",
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,"Matteo MakingBooksSing,Inc.",,134201577,1500,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,Matteo Seaman'sSocietyforChildrenandFamilies,,135563010,1500,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,"JewishCommunityCenterofStaten Matteo StatenIslandBaseballOld-timersAssociation Island,Inc.",,134033266,2500,DYCD,,,.00 260 312 13-5562256,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,Matteo StatenIslandSaintsFastpitchSoftballClubInc.,,272525251,4500,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,"Matteo StatenIslandUnitedFederationBaseball,Inc.",,200007086,3500,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,"Matteo StatenIslandYouthSoccerLeague,Inc.",,320048308,3000,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,Matteo CrossroadsCommunityChurch,,320020680,4000,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,Matteo RichardWillisMemorialFund,,133949376,5000,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,Matteo WestShoreLittleLeague,,133425081,4000,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,Matteo EastShoreLittleLeague,,510237392,4000,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,Matteo StatenIslandLittleLeague,,136162802,4000,DYCD,,,.00 260 312 *,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,"Matteo Mid-IslandLittleLeague,Inc.",,237032781,4000,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,Matteo StatenIslandAtlanticCollegiateBaseballLeague,,271229660,2000,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,rescind,,,Matteo RichardWillisMemorialFund,,133949376,-2000,DYCD,,,".00) 260 312 UnitedActivitiesUnlimited,Inc. 13-2921483",
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,Matteo RichardWillisMemorialFund,,133949376,2000,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2015,2015,designate,,,"Rose ZimmerClubYouthConservationProgramofStatenIsland,Inc.",,352262561,8000,DYCD,,,.00 260 312,
+11,2015-02-26,Anti-PovertyInitiative-Fiscal2015,2015,rescind,,,"FiscalConduit/Sponsoring Fiscal Member Organization-Program EINNumber Agency Amount Agy# U/A * Organization ConduitEIN Ignizio StatenIslandNFPAssociation,Inc.",,203560375,-4500,DYCD,,,.00) 260 005,**
+11,2015-02-26,Anti-PovertyInitiative-Fiscal2015,2015,designate,,,"Ignizio StatenIslandNFPAssociation,Inc.",,203560375,4500,DSBS,,,.00 801 002,**
+11,2015-02-26,BoroughwideNeedsInitiative-Fiscal2015,2015,rescind,,,"FiscalConduit/Sponsoring Fiscal Member Organization-Program EINNumber Agency Amount Agy# U/A * Organization ConduitEIN Brooklyn City-WideCouncilOfPresidents,Inc. Delegation",,454847192,-38750,DYCD,,,.00) 260 005 *,
+11,2015-02-26,BoroughwideNeedsInitiative-Fiscal2015,2015,designate,,,"Brooklyn ReshapingOurYouthandAdultLives,Inc. Delegation",,261470495,38750,DYCD,,,.00 260 005,
+11,2015-02-26,HousingPreservationInitiative(HPI) -Fiscal2015,2015,rescind,,,"Member Organization EINNumber Agency Amount Agy# U/A * Mealy MHANYManagement,Inc.",,721303737,-50000,HPD,,,.00) 806 009 *,
+11,2015-02-26,HousingPreservationInitiative(HPI) -Fiscal2015,2015,designate,,,"Mealy BrooklynHousingandFamilyServices,Inc.",,112412584,50000,HPD,,,.00 806 009,
+11,2015-02-26,HousingPreservationInitiative(HPI) -Fiscal2015,2015,rescind,,,"Barron MHANYManagement,Inc.",,721303737,-50000,HPD,,,.00) 806 009 *,
+11,2015-02-26,HousingPreservationInitiative(HPI) -Fiscal2015,2015,designate,,,Barron NeighborhoodHousingServicesofEastFlatbush,,133098397,50000,HPD,,,.00 806 009,
+11,2015-02-26,CulturalImmigrantIntiative-Fiscal2015,2015,rescind,,,Member Organization EINNumber Agency Amount Agy# U/A * Treyger ConeyIslandHostoryProject,,030541772,-14700,DCLA,,,.00) 126 003 *,
+11,2015-02-26,CulturalImmigrantIntiative-Fiscal2015,2015,designate,,,"Treyger ArtsHouseSchools,Inc.",,870790139,14700,DCLA,,,.00 126 003,
+11,2015-02-26,CulturalImmigrantIntiative-Fiscal2015,2015,rescind,,,DepartmentofCulturalAffairs,,136400434,-29400,DCLA,,,.00) 126 003,
+11,2015-02-26,CulturalImmigrantIntiative-Fiscal2015,2015,designate,,,"Garodnick SpanishTheatreRepertoryCompany,Ltd.",,132672755,14700,DCLA,,,.00 126 003,
+11,2015-02-26,CulturalImmigrantIntiative-Fiscal2015,2015,designate,,,"Garodnick SpanishDanceArtsCompany,Inc.",,133286419,14700,DCLA,,,.00 126 003,
+11,2015-02-26,MWBE Leadership Associations Initiative - Fiscal 2015,2015,rescind,,,"Organization EINNumber Agency Amount Agy# U/A * WomenBuildersCouncil,Inc.",,270111010,-43950,DSBS,,,.00) 801 005 *,
+11,2015-02-26,MWBE Leadership Associations Initiative - Fiscal 2015,2015,designate,,,"ACCIONEast,Inc.",,113317234,14650,DSBS,,,.00 801 005,
+11,2015-02-26,MWBE Leadership Associations Initiative - Fiscal 2015,2015,designate,,,WestBrightonCommunityLocalDevelopmentCorporation,,133046424,14650,DSBS,,,.00 801 005,
+11,2015-02-26,MWBE Leadership Associations Initiative - Fiscal 2015,2015,designate,,,SouthBronxOverallEconomicDevelopmentCorporation,,132736022,14650,DSBS,,,.00 801 005,
+11,2015-02-26,Infant MortalityReduction Initiative - Fiscal 2015,2015,rescind,,,Organization EINNumber Agency Amount Agy# U/A * NorthernManhattanPerinatalPartnership,,133782555,-167872,DOHMH,,,.00) 816 113,
+11,2015-02-26,Infant MortalityReduction Initiative - Fiscal 2015,2015,designate,,,BronxHealthLink,,134045022,40480,DOHMH,,,.00 816 113,
+11,2015-02-26,Infant MortalityReduction Initiative - Fiscal 2015,2015,designate,,,BrooklynPerinatalNetwork,,133428222,26272,DOHMH,,,.00 816 113,
+11,2015-02-26,Infant MortalityReduction Initiative - Fiscal 2015,2015,designate,,,CaribbeanWomen'sHealthAssociation,,133323168,9600,DOHMH,,,.00 816 113,
+11,2015-02-26,Infant MortalityReduction Initiative - Fiscal 2015,2015,designate,,,ChoicesinChildbirth,,202015286,20480,DOHMH,,,.00 816 113,
+11,2015-02-26,Infant MortalityReduction Initiative - Fiscal 2015,2015,designate,,,CommunityHealthCenterofRichmond,,510567466,11360,DOHMH,,,.00 816 113,
+11,2015-02-26,Infant MortalityReduction Initiative - Fiscal 2015,2015,designate,,,PlannedParenthoodofNYC,,132621497,19200,DOHMH,,,.00 816 113,
+11,2015-02-26,Infant MortalityReduction Initiative - Fiscal 2015,2015,designate,,,QueensComprehensivePerinatalCouncil,,112870422,40480,DOHMH,,,.00 816 113,
+11,2015-02-26,WorkerCooperativeBusinessDevelopmentInitiative-Fiscal2015,2015,rescind,,,Fiscal Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization * ConduitEIN FederationofProtestantWelfareAgencies BronxCooperativeDevelopmentInitiative(BCDI) (FPWA),,452201993,-60800,DSBS,,,.00) 801 002 13-5562220,
+11,2015-02-26,WorkerCooperativeBusinessDevelopmentInitiative-Fiscal2015,2015,designate,,,FederationofProtestantWelfareAgencies CommonwiseEducationInc. (FPWA),,452201993,60800,DSBS,,,.00 801 002 13-5562220,
+11,2015-02-26,WorkerCooperativeBusinessDevelopmentInitiative-Fiscal2015,2015,rescind,,,FederationofProtestantWelfareAgencies NYCNetworkofWorkerCooperatives(NYCNOWC) (FPWA),,465245034,-94250,DSBS,,,.00) 801 002 13-5562220,
+11,2015-02-26,WorkerCooperativeBusinessDevelopmentInitiative-Fiscal2015,2015,designate,,,FederationofProtestantWelfareAgencies ICAGroup (FPWA),,042628399,94250,DSBS,,,.00 801 002 13-5562220,
+11,2015-02-26,LocalInitiatives-Fiscal2014,2014,rescind,,,Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization * ConduitEIN Miller AfricanAmericanWomenInCinema,,134151020,-3500,DYCD,,,.00) 260 005 *,
+11,2015-02-26,LocalInitiatives-Fiscal2014,2014,designate,,,Miller EasternQueensAlliance,,201723492,3500,DYCD,,,.00 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2014,2014,rescind,,,"Miller CaribbeanCulturalTheatre,Inc.",,830508237,-3500,DYCD,,,.00) 260 005 *,
+11,2015-02-26,LocalInitiatives-Fiscal2014,2014,designate,,,Miller St.AlbansCongregationalChurch,,112077266,3500,DYCD,,,.00 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2014,2014,rescind,,,"Miller RajkumariCulturalCenter,Inc.,The",,113338875,-3500,DYCD,,,.00) 260 312 *,
+11,2015-02-26,LocalInitiatives-Fiscal2014,2014,designate,,,"Miller EagleAcademyFoundation,Inc.",,201532382,3500,DYCD,,,.00 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2014,2014,rescind,,,"Miller SEVAImmigrantCommunityAdvocacyProject,Inc.",,208013346,-3500,DYCD,,,.00) 260 005 *,
+11,2015-02-26,LocalInitiatives-Fiscal2014,2014,designate,,,"Miller SouthernQueensParkAssociation,Inc.",,112432846,3500,DYCD,,,.00 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2014,2014,rescind,,,Miller RecreationalInner-CitySportsandRecreation(RISE),,113168473,-3500,DYCD,,,.00) 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2014,2014,designate,,,Miller St.AlbansCongregationalChurch,,112077266,3500,DYCD,,,.00 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2014,2014,rescind,,,"Rose DaughtersofAfrica,Inc.",,134175519,-5000,DYCD,,,.00) 260 312,
+11,2015-02-26,LocalInitiatives-Fiscal2014,2014,designate,,,"Rose CouncilofJewishOrganizationsofStatenIsland,Inc.",,133525474,2000,DYCD,,,.00 260 005,
+11,2015-02-26,LocalInitiatives-Fiscal2014,2014,designate,,,Rose UniversityofNotreDameAlumniClubofStatenIsland,,311344537,3000,DYCD,,,.00 260 005,
+11,2015-02-26,YouthDiscretionary-Fiscal2014,2014,rescind,,,Fiscal Member Organization EINNumber Agency Amount Agy# U/A FiscalConduit/SponsoringOrganization * ConduitEIN Rose StatenIslandRisingStars,,651321528,-3500,DYCD,,,.00) 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2014,2014,designate,,,Rose EmpowermentZone,,142009368,1500,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2014,2014,designate,,,Rose WestShoreLittleLeague,,133425081,1000,DYCD,,,.00 260 312,
+11,2015-02-26,YouthDiscretionary-Fiscal2014,2014,designate,,,"Rose StatenIslandBoysFootballLeague,Inc.",,237167904,1000,DYCD,,,.00 260 312,
+11,2015-02-26,DYCDFoodPantriesIntiative-Fiscal2014,2014,designate,,,Member Organization EINNumber Agency Amount Agy# U/A * Queens St.Theresas,,111731859,5000,DYCD,,,.00 260 005 *,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,rescind,,,"Source Member Organization EINNumber Agency Amount NewPurposeofFunds * Local Ulrich GatewayBikeandBoathouse,Inc.",,262745119,-5000,DYCD,,,.00)Fundswillbeusedtoconstructaboathouseandtopurchaseequipment,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,designate,,,"Fundswillbeusedtopurchaseequipmentincludingbutnotlimitedtokayaks, Local Ulrich GatewayBikeandBoathouse,Inc.",,262745119,5000,DYCD,,,.00 paddlesandPersonalFlotationDevices(PFDs).,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,rescind,,,Boro SIDelegation CollegeofStatenIsland,,136400434,-10000,CUNY,,,.00)SoftSiteStudy *,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,designate,,,Fundingwillbeusedtooffsetthecostsofconductingasite-studyregarding Boro SIDelegation CollegeofStatenIsland surroundingcommunities.,,136400434,10000,CUNY,,,.00 vacantorunder-utilizedlandinStatenIslandandtheimpactitmayhaveonthe,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,rescind,,,NeighborhoodInitiativesDevelopment Local Torres Corporation(NIDC),,133110811,-20000,HPD,,,.00)Fundswillsupportthecleaningandremovalofgraffitithroughoutthedistrict,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,designate,,,NeighborhoodInitiativesDevelopment Tosupporthousingorganizingandtenantresourcestolow-incomeresidentsin Local Torres Corporation(NIDC) theBronx.,,133110811,20000,HPD,,,.00,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,rescind,,,"Fundingtoprovidingimmigrantcounseling,afoodpantryandmanyservices Anti-Poverty Mark-Viverito LittleSistersoftheAssumptionFamilyHealth Service,Inc. visitsforpregnantandpostpartumwomenandtheirbabies,earlychildhood",,132867881,-15000,DYCD,,,".00) designedtohelppoorandimmigrantfamilies(manyundocumented),including",
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,designate,,,"educationtheirparents,andyouthservicesforimmigrantchildren. LittleSistersoftheAssumptionFamilyHealth Anti-Poverty Mark-Viverito Service,Inc.",,132867881,15000,DYCD,,,.00 Toprovidefundingforyouthmentoringandafter-schoolprograms.,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,rescind,,,"Anti-Poverty Lancman EducationalCenterforNewAmericans,Inc.",,113173201,-25000,DYCD,,,.00)Youthandfooddistributionprograms *,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,designate,,,"Supportforayouthprogram,whereyouthcometoasafeenvironment,asan Anti-Poverty Lancman EducationalCenterforNewAmericans,Inc. chess,andselfdefense.Theyouthhavesomeoutingsandtripsaswell.",,113173201,25000,DYCD,,,".00 alternativetothestreet.Theyparticipateindiscussionsforums,andinclubslike",
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,rescind,,,"Fundingtoprovideweekendgatherings,barbecues,winterandspringsports Youth Lancman YoungIsraelofHillcrest",,112017868,-10000,DYCD,,,".00) programsandtripstosportingevents,amusementparksandmuseums. *",
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,designate,,,"Fundingtosupportyouthprogrammingincludingsoccer,baseballandtrips Youth Lancman YoungIsraelofHillcrest communities.",,112017868,10000,DYCD,,,".00 availabletoallchildrenintheHillcrest,FreshMeadowsandFlushing",
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,rescind,,,Local Lancman Masbia,,201923521,-10000,DYCD,,,.00)Congregateandtake-homemeals.,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,designate,,,"Local Lancman Masbia payrent,utilities,food,papergoodsandstaff.",,201923521,10000,DYCD,,,.00 TooperatesoupkitchensthroughoutNewYorkCity.Themoneywillbeusedto,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,rescind,,,"Local Lancman SamaritanVillage,Inc. FundingtoestablisharesourcecenterattheVanWyckResidentialTreatment",,112635374,-5000,DOHMH,,,.00) *,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2015,2015,designate,,,"Programtohousealibrarycontainingresources(includingbooks,DVDs,etc.)for familiesofclientsintreatment.Fundswouldalsopayforpaintandtheinstallation Local Lancman SamaritanVillage,Inc. ofbookshelvesandfurnishingsinthespace.Resourceswouldbeprovidedon howfamilymemberscansupportapersonworkingtowardsrecoveryfrom addictionbyusingthefamily'sstrengths.",,112635374,5000,DOHMH,,,.00,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2014,2014,rescind,,,"Source Member Organization EINNumber Agency Amount NewPurposeofFunds * Local Treyger AllianceforConeyIsland,Inc. Island.",,460802042,-20000,DYCD,,,.00) FundswillbeusedtodefraythecostoftheNewYear’sEveeventinConey,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2014,2014,designate,,,"FundingwillbeusedtoprovidefreeandpublicprogrammingforConeyIsland Local Treyger AllianceforConeyIsland,Inc. andFlicksontheBeach.",,460802042,20000,DYCD,,,.00 residentsandvisitorsduringtheSummerSeasonincludingeventslikefireworks,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2014,2014,rescind,,,"Aging Lancman KewGardensHillsCommunityFoundation,Inc.",,510506762,-3000,DFTA,,,.00)Fundingwillprovideseniorservicesandtripsforisolatedolderadults. *,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2014,2014,designate,,,"Fundingwillprovideseniorservicesandtripsforisolatedolderadultsto Aging Lancman KewGardensHillsCommunityFoundation,Inc. museums,performancesandotherculturalinstitutions.",,510506762,3000,DFTA,,,.00 *,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2014,2014,rescind,,,FundswillbeusedtopaythecostofthenumerouseventsthatourYouth Youth Lancman YoungIsraelofKewGardensHills,,111948880,-10000,DYCD,,,.00) Programrunsthroughouttheyyear. *,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2014,2014,designate,,,"Fundingtosupportyouthprogrammingandeventsincludingsoccer,baseball, Youth Lancman YoungIsraelofKewGardensHills holidaycelebrations,andartsandcrafts.",,111948880,10000,DYCD,,,.00 *,
+11,2015-02-26,PurposeofFundsChanges-Fiscal2014,2014,rescind,,,"Fundsusedtosupportagroupthatmeetstwiceamonthtosocialize,sharea ChurchoftheImmaculateConceptionJamaica Aging Lancman NewYork pointsofinterestthroughouttheyear.",,111752022,-4000,DFTA,,,".00)meal,andplayavarietyofgames.Thegrouptravelsbybusfordaytripsto *",
+11,2015-02-26,PurposeofFundsChanges-Fiscal2014,2014,designate,,,"TheImmaculateConceptionFriendlyClubisasocialgroupforSeniorCitizensof ChurchoftheImmaculateConceptionJamaica thecommunitytogatherandenjoysupportandfellowshipwithoneanother.The Aging Lancman NewYork groupmeetstwiceamonthtosocialize,shareamealandplayavarietyof games.Thegrouptravelsbybustopointsofinterestthroughouttheyear.",,111752022,4000,DFTA,,,.00 *,

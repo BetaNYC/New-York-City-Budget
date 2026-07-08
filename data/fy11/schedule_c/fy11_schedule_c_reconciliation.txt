@@ -1,0 +1,30 @@
+SCHEDULE C RECONCILIATION  (fy11)  [parser: parse_schedule_c_legacy.py, early-era]
+source: fy2011-C2011.pdf  (291 pages)
+
+Early-era Schedule C: initiatives-summary reconciliation only. These documents carry NO
+award-level EIN tables (post-adoption designations live in the Transparency Resolutions),
+so no awards/appendix files are emitted.
+
+CATEGORY                                                initiatives        printed  status
+MOCS.                                                    37,438,000     37,438,000  OK
+CULTURAL ORGANZIATIONS                                   30,713,000     30,713,000  OK
+DOMESTIC VIOLENCE                                         3,595,000      3,595,000  OK
+EDUCATION                                                21,205,000     20,955,000  DIFF +250,000
+ELECTED OFFICIALS                                         9,835,133      9,835,133  OK
+FIRE AND CRIMINAL JUSTICE SERVICES                       41,786,289     41,786,289  OK
+HEALTH SERVICES AND PREVENTION                           20,092,600     20,092,600  OK
+HIGHER EDUCATION                                         30,900,000     30,900,000  OK
+HOMELESS SERVICES                                         1,850,000      1,850,000  OK
+HOUSING                                                   5,315,000      5,315,000  OK
+IMMIGRANT SERVICES                                        4,500,000      4,500,000  OK
+JOB DEVELOPMENT                                           5,250,000      5,250,000  OK
+LEGAL SERVICES                                           11,185,000     11,185,000  OK
+LIBRARIES                                                36,114,000     36,114,000  OK
+MENTAL HEALTH SERVICES                                    7,132,150      7,132,150  OK
+PARKS AND RECREATION                                      7,820,500      7,820,500  OK
+SENIOR SERVICES                                           1,800,000      1,800,000  OK
+SOCIAL SERVICES                                          11,005,000     11,005,000  OK
+YOUTH AND COMMUNITY DEVELOPMENT                          30,390,000     30,390,000  OK
+GRAND TOTAL                                             317,926,672    317,676,672  18/19 categories exact
+
+initiatives rows: 110
