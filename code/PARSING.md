@@ -128,8 +128,12 @@ found on council.nyc.gov) → N/A.
   reconciled; see the early-era table above). **FY2008** remains deferred: a distinct earliest-era
   format with none of the FY09+ markers. NOTE: the main `parse_schedule_c.py` still raises on
   FY2008/FY2014-shaped input (0 categories) — those years route to the legacy parser instead.
-- **Schedule C FY2015** — 21/28; three categories (Children's −500k, Food −100k, Senior −2.1M)
-  genuinely undercount (dropped line items), beyond in-source arithmetic. Best-effort.
+- **Schedule C FY2015** — **NOT committed** (open). Root cause: the ToC lists 28 categories but
+  only 24 have a Council-Initiatives summary block, which breaks parse_schedule_c.py's positional
+  block→category mapping (block N gets mislabeled once a middle category has no block), and 3
+  blocks also undercount their printed TOTAL. Fixing the mapping means changing the shared parser
+  (risk to the committed FY16-FY27 years), so FY15 is deferred rather than shipped mislabeled.
+  The FY15 Transparency Resolutions and Terms & Conditions ARE committed (they parse cleanly).
 - ~~Schedule C FY2018~~ — **RESOLVED**: its contents page is headed 'Contents' not
   'Table of Contents'; the ToC-detection regex now matches both. Reconciles 24/27.
 
@@ -222,7 +226,7 @@ NOT_RECONCILED · BLOCKED · N/A (no such document that year).
 | FY12 | RECONCILED 16/16 (init)| N/A | BLOCKED (JBIG2 scan) | EXTRACTED 7 (org-text LOW) |
 | FY13 | RECONCILED 17/17 (init)| N/A | pending | EXTRACTED 9 (3 .doc BLOCKED) |
 | FY14 | RECONCILED 17/17 (init)| N/A | N/A (not published) | EXTRACTED 3 |
-| FY15 | PARTIAL (21/28) | EXTRACTED (17) | pending | EXTRACTED 12 |
+| FY15 | OPEN (21/28, not committed) | EXTRACTED (17) | pending | EXTRACTED 12 |
 | FY16 | RECONCILED (24/26) | EXTRACTED (30) | pending | EXTRACTED 13 |
 | FY17 | RECONCILED (24/27) | EXTRACTED (30) | EXTRACTED (ResoA) | EXTRACTED 13 |
 | FY18 | RECONCILED (24/27) | EXTRACTED (33) | pending (ResoA 0 blocks) | EXTRACTED 12 |
