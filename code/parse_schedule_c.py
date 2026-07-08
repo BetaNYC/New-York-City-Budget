@@ -58,6 +58,20 @@ def derive_categories(pages):
         # FY25-FY27 head the contents page 'Table of Contents'; some earlier years (e.g. FY2018)
         # head it just 'Contents'. Match either as a standalone heading line.
         if re.search(r'(?im)^\s*(?:table of )?contents\s*$', pages[pn]): toc_pg=pn; break
+    # Fallback (DATA-ANOMALIES sec.15): some years' contents page carries no standalone
+    # "Contents"/"Table of Contents" heading line in the text layer -- e.g. FY2026, whose ToC
+    # sits on p.3 with the dotted category rows but no heading -- so the probe above finds nothing
+    # and the whole year would silently yield 0 categories. ONLY when the heading probe returned
+    # None, locate the ToC by dotted-entry density: the front-matter page (same <=8 window) with
+    # the most "Name .... page" rows. This never runs for a year whose heading probe already
+    # succeeded, so every heading-detected year is byte-identical.
+    if toc_pg is None:
+        best_pn, best_n = None, 0
+        for pn in sorted(pages):
+            if pn>8: break
+            n=sum(1 for ln in pages[pn].split("\n") if TOC_LINE.match(ln.strip()))
+            if n>best_n: best_pn, best_n = pn, n
+        if best_n>=5: toc_pg=best_pn
     cats=[]
     if toc_pg:
         for pn in range(toc_pg, toc_pg+3):

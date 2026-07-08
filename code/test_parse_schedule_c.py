@@ -151,6 +151,25 @@ def test_fund_org_name_vs_purpose_prose():
         assert purpose_re.match(p), f"purpose prose not detected: {p!r}"
 
 
+def test_fy26_toc_density_fallback():
+    """FY26's contents page (source p.3) carries the dotted category rows but NO standalone
+    'Contents'/'Table of Contents' heading line in the text layer, so the heading probe finds
+    nothing and derive_categories() used to return 0 -> the whole year silently lost every
+    category label and reconciliation collapsed to 0/0. The dotted-entry-density fallback must
+    recover FY26's ToC, and it must engage ONLY because no heading line exists. See sec.15."""
+    import re
+    import parse_schedule_c as P
+    src = os.path.join(REPO, "source/FY26/Fiscal-2026-Schedule-C-4.pdf")
+    if not os.path.exists(src):
+        pytest.skip("FY26 source PDF missing")
+    pages = P.load_pages(src)
+    # Precondition: FY26 genuinely has no standalone heading line (else this guards nothing).
+    assert not any(re.search(r'(?im)^\s*(?:table of )?contents\s*$', pages[pn])
+                   for pn in pages if pn <= 8), "FY26 unexpectedly has a Contents heading line"
+    cats = P.derive_categories(pages)
+    assert len(cats) >= 24, f"FY26 ToC density fallback recovered only {len(cats)} categories"
+
+
 def test_fy18_toc_contents_heading():
     """FY18's contents page is headed 'Contents' (not 'Table of Contents'). The ToC-detection
     regex must find it, or the whole year silently yields 0 categories."""
