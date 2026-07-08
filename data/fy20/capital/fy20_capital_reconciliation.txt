@@ -1,0 +1,31 @@
+CAPITAL (§254) RECONCILIATION (fy20)
+source: Supporting-Detail-for-the-FY-2020-Changes-to-the-Executive-Capital-Budget-Adopted-by-the-City-Council-Pursuant-to-Section-254-2.pdf (80 pages)  [parser: parse_capital_detail.py]
+projects parsed: 1663 | agency subtotals: 23
+total FY1 (all projects): $701,210,000
+
+PART/AGENCY                                                   proj$       printed$    n   pn  status
+I AGING                                                   1,832,000      1,832,000   10   10  OK
+I CHILDREN SERVICES                                       1,610,000      1,610,000    2    2  OK
+I EDUCATION                                             166,110,000    166,110,000  984  984  OK
+I ECONOMIC DEVELOPMENT                                   12,995,000     12,995,000   13   13  OK
+I FIRE DEPARTMENT                                         1,133,000      1,133,000    9    9  OK
+I HOUSING AUTHORITY                                      29,035,000     29,035,000   50   50  OK
+I HOUSING PRESERVATION & DEVELOPMENT                     48,099,000     48,099,000   67   67  OK
+I HOMELESS SERVICES                                         719,000        719,000    1    1  OK
+I HEALTH                                                 22,701,000     22,701,000   36   36  OK
+I CITY UNIVERSITY OF NEW YORK                            65,058,000     65,058,000   59   59  OK
+I HEALTH AND HOSPITALS CORPORATION                       17,571,000     17,571,000   26   26  OK
+I HUMAN RESOURCES                                         3,351,000      3,351,000    8    8  OK
+I HIGHWAYS                                               16,300,000     16,300,000   18   18  OK
+I BROOKLYN PUBLIC LIBRARY                                 6,860,000      6,860,000    7    7  OK
+I NEW YORK PUBLIC LIBRARY                                12,808,000     12,808,000   14   14  OK
+I QUEENS PUBLIC LIBRARY                                  16,241,000     16,241,000   16   16  OK
+I PARKS AND RECREATION                                  137,461,000    137,461,000  136  136  OK
+I POLICE                                                  5,755,000      5,755,000   28   28  OK
+I CULTURAL AFFAIRS                                      107,777,000    107,777,000  126  126  OK
+I PUBLIC BUILDINGS                                       21,693,000     21,693,000   35   35  OK
+I SEWERS                                                  1,500,000      1,500,000    1    1  OK
+I TRANSIT AUTHORITY                                       1,250,000      1,250,000    2    2  OK
+I TRAFFIC                                                 3,351,000      3,351,000   15   15  OK
+
+23/23 agency subtotals reconcile (amount + project count)

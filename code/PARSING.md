@@ -74,4 +74,104 @@ correctly maps to no block and shows 0/0.
 - **Schedule C FY2018** — body parses (25 summary blocks) but ToC detection returns 0
   categories, so blocks can't be labeled. A ToC-detection fix should recover it.
 
-_Detailed status table lives at the end of this file and is kept current as work proceeds._
+---
+
+## Transparency Resolutions — per year (FY10–FY24 + FY26)
+
+Post-adoption discretionary designations. **NOT RECONCILABLE** in every year — these documents
+print no per-chart or grand totals (the only internal check is the transfer net-out). The
+`batch` mode derives each resolution's sequence number and adoption date from the filename
+(`Transparency-Reso-NN-YYYY-MM-DD.pdf`), so it works for any year and any count (the old
+hardcoded FY26 table and `!= 10` count assertion are gone). `-dup` files are skipped; non-PDF
+resolutions (FY2013's three `.doc` files) are skipped and reported as blocked.
+
+Invocation (union all parsed Schedule C rosters for member detection):
+```bash
+ROSTER=$(ls data/fy*/schedule_c/*_schedule_c_awards.csv)
+.venv/bin/python code/parse_transparency_reso.py \
+    --batch source/FYnn/transparency-resolutions \
+    --outdir data/fyNN/transparency-resolutions --prefix fyNN --roster-csv $ROSTER
+```
+
+**Financial columns (EIN, amount, agency, date, action) are deterministic and reliable in every
+year** — they come from the EIN+$ anchor. The organization / council_member / program **text**
+degrades in the older years, whose PDF text layer glues adjacent words together
+("ChristChurchofNewBrighton") and bleeds the column header into the first data row. Each year's
+`*_reconciliation.txt` prints an **org-text confidence** band (HIGH / MODERATE / LOW) quantifying
+this so the caveat travels with the data.
+
+| FY | resolutions parsed | org-text confidence | Notes |
+|---|---|---|---|
+| FY10 | 12 | LOW | glued-word + header-bleed artifacts (~22%); join on EIN |
+| FY11 | 10 | LOW | ~25% |
+| FY12 | 7 (of 8; 1 `-dup` skipped) | LOW | ~19% |
+| FY13 | 9 (of 12; **3 `.doc` BLOCKED**: resos 07/10/11) | LOW | ~25% |
+| FY14 | 3 | MODERATE | small doc, minor header bleed |
+| FY15 | 12 | HIGH | clean |
+| FY16 | 13 | MODERATE | ~2–3% artifacts |
+| FY17 | 13 | HIGH | clean |
+| FY18 | 12 | HIGH | clean |
+| FY19 | 11 | HIGH | 3 orphaned org names of 7090 |
+| FY20 | 8 | HIGH | clean |
+| FY21 | 8 | HIGH | clean |
+| FY22 | 14 | HIGH | clean (matches brief's viBe/DCLA spot-check) |
+| FY23 | 14 | HIGH | clean |
+| FY24 | 9 | HIGH | clean |
+| FY09 | — | — | **BLOCKED**: all 8 PDFs are scanned images with no text layer |
+
+---
+
+## Capital (§254) — per year
+
+Two document types, two schemas (see the README's "The data files" section):
+
+**A. Capital Project Detail ("Supporting Detail Book")** — reconcilable against
+`TOTALS FOR <agency> (N PROJECTS)`. Use `parse_capital_detail.py`:
+```bash
+ROSTER=$(ls data/fy*/schedule_c/*_schedule_c_awards.csv)
+.venv/bin/python code/parse_capital_detail.py <SupportingDetailBook.pdf> \
+    --outdir data/fyNN/capital --prefix fyNN --roster $ROSTER
+```
+
+| FY | Source PDF | Reconciliation |
+|---|---|---|
+| FY20 | `Supporting-Detail-for-the-FY-2020-Changes-...-Section-254-2.pdf` | **23/23 exact** |
+| FY22 | `FY22-Sec254-Capital-Supporting-Detail-Book.pdf` | **32/32 exact** |
+| FY23 | `FY23-Sec254-Capital-Supporting-Detail-Book.pdf` | **30/30 exact** |
+| FY24 | `FY2024-Sec254-Supporting-Detail-Book_7.10.2023pwp-2.pdf` | **30/30 exact** |
+
+**B. Resolution A / Appropriation Changes** — NOT RECONCILABLE (no printed subtotals; same as
+FY25). Use `parse_capital_fy25.py`. Applies to FY17/FY21/FY23/FY24 (each of those years also has
+a type-A book except FY17/FY21, which have only this type). Status recorded in the table below.
+
+**FY19** is a third, older Capital-Project-Detail sub-format (extra community-district column, no
+SPONSOR column, `-` for zero, and **no `TOTALS FOR` subtotals**) — deferred / NOT RECONCILABLE.
+
+---
+
+## Full status table (kept current)
+
+Legend: RECONCILED (ratio) · EXTRACTED (parsed, not reconcilable by nature) · PARTIAL ·
+NOT_RECONCILED · BLOCKED · N/A (no such document that year).
+
+| FY | Schedule C | Terms & Conditions | Capital | Transparency Resolutions |
+|---|---|---|---|---|
+| FY08 | NOT_RECONCILED (older era) | N/A | BLOCKED (.doc only) | N/A (via Legistar only) |
+| FY09 | NOT_RECONCILED (0/22) | N/A | pending | BLOCKED (scanned, no text) |
+| FY10 | NOT_RECONCILED (older era) | N/A | pending | EXTRACTED 12 (org-text LOW) |
+| FY11 | NOT_RECONCILED (older era) | N/A | pending | EXTRACTED 10 (org-text LOW) |
+| FY12 | NOT_RECONCILED (older era) | N/A | BLOCKED (JBIG2 scan) | EXTRACTED 7 (org-text LOW) |
+| FY13 | NOT_RECONCILED (older era) | N/A | pending | EXTRACTED 9 (3 .doc BLOCKED) |
+| FY14 | NOT_RECONCILED (crash guarded) | N/A | N/A (not published) | EXTRACTED 3 |
+| FY15 | PARTIAL (21/28) | pending (legacy variant) | pending | EXTRACTED 12 |
+| FY16 | RECONCILED (24/26) | pending (legacy variant) | pending | EXTRACTED 13 |
+| FY17 | RECONCILED (24/27) | pending (legacy variant) | EXTRACTED (ResoA) | EXTRACTED 13 |
+| FY18 | NOT_RECONCILED (ToC) | pending (legacy variant) | pending (ResoA 0 blocks) | EXTRACTED 12 |
+| FY19 | RECONCILED (27/28) | N/A | pending (FY19 sub-format) | EXTRACTED 11 |
+| FY20 | RECONCILED (27/28) | N/A | **RECONCILED 23/23** | EXTRACTED 8 |
+| FY21 | RECONCILED (25/26) | pending | EXTRACTED (ResoA) | EXTRACTED 8 |
+| FY22 | RECONCILED (24/26) | pending (legacy variant) | **RECONCILED 32/32** | EXTRACTED 14 |
+| FY23 | RECONCILED (26/26) | pending (legacy variant) | **RECONCILED 30/30** | EXTRACTED 14 |
+| FY24 | RECONCILED (24/26) | pending (legacy variant) | **RECONCILED 30/30** | EXTRACTED 9 |
+
+_"pending" = not yet processed in this pass; updated as work proceeds._

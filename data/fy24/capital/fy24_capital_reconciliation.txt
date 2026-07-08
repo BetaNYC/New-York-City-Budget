@@ -1,0 +1,38 @@
+CAPITAL (§254) RECONCILIATION (fy24)
+source: FY2024-Sec254-Supporting-Detail-Book_7.10.2023pwp-2.pdf (78 pages)  [parser: parse_capital_detail.py]
+projects parsed: 1364 | agency subtotals: 30
+total FY1 (all projects): $998,811,000
+
+PART/AGENCY                                                   proj$       printed$    n   pn  status
+I AGING                                                   3,734,000      3,734,000    5    5  OK
+I CHILDREN'S SERVICES                                     3,732,000      3,732,000    3    3  OK
+I EDUCATION                                             238,698,000    238,698,000  812  812  OK
+I ECONOMIC DEVELOPMENT                                   31,843,000     31,843,000   16   16  OK
+I FIRE DEPARTMENT                                         8,669,000      8,669,000   23   23  OK
+I HOUSING AUTHORITY                                       2,381,000      2,381,000    8    8  OK
+I HOUSING PRESERVATION & DEVELOPMENT                     37,164,000     37,164,000   40   40  OK
+I HEALTH                                                 15,174,000     15,174,000   27   27  OK
+I CITY UNIVERSITY OF NEW YORK                            28,260,000     28,260,000   18   18  OK
+I HEALTH AND HOSPITALS CORPORATION                       59,602,000     59,602,000   34   34  OK
+I HUMAN RESOURCES                                         7,120,000      7,120,000    5    5  OK
+I HIGHWAYS                                                8,855,000      8,855,000   19   19  OK
+I BROOKLYN PUBLIC LIBRARY                                 9,550,000      9,550,000    6    6  OK
+I NEW YORK PUBLIC LIBRARY                                 9,896,000      9,896,000   14   14  OK
+I QUEENS PUBLIC LIBRARY                                   7,800,000      7,800,000    2    2  OK
+I PARKS AND RECREATION                                  267,948,000    267,948,000  124  124  OK
+I POLICE                                                  6,882,000      6,882,000   14   14  OK
+I CULTURAL AFFAIRS                                       79,280,000     79,280,000   48   48  OK
+I PUBLIC BUILDINGS                                        9,793,000      9,793,000   15   15  OK
+I SANITATION                                                153,000        153,000    2    2  OK
+I TRAFFIC                                                 3,085,000      3,085,000    5    5  OK
+I WATER POLLUTION CONTROL                                   350,000        350,000    1    1  OK
+II AGING                                                  3,498,000      3,498,000    4    4  OK
+II CHILDREN'S SERVICES                                    3,732,000      3,732,000    3    3  OK
+II ECONOMIC DEVELOPMENT                                  11,643,000     11,643,000   10   10  OK
+II HEALTH                                                15,134,000     15,134,000   28   28  OK
+II HUMAN RESOURCES                                        7,120,000      7,120,000    5    5  OK
+II PARKS AND RECREATION                                   1,543,000      1,543,000    1    1  OK
+II CULTURAL AFFAIRS                                     107,829,000    107,829,000   59   59  OK
+II PUBLIC BUILDINGS                                       8,343,000      8,343,000   13   13  OK
+
+30/30 agency subtotals reconcile (amount + project count)
