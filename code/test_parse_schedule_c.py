@@ -60,6 +60,53 @@ def test_reconciliation_ratio(prefix, src, exact, total):
     assert got_exact >= exact, f"{prefix}: {got_exact} categories reconcile exact (expected >= {exact})"
 
 
+def test_fy27_west_side_work_coalition_survives(tmp_path):
+    """Regression: a real FCNY Schedule C award -- Speaker's Initiative ->
+    'Fund for the City of New York, Inc. - West Side Work Coalition', $125,000, DYCD
+    (source PDF p.274, EIN 13-2612524) -- was silently dropped from the FY27 CSV.
+
+    Root cause: a repeated page-break column header ('Sponsor Legal Name of Organization -
+    Program Name Tax ID Amount Agency Purpose of Funds') bled into the award's organization
+    buffer, and the header-junk filter in main() then deleted the ENTIRE row rather than
+    stripping the header fragment. The parser must retain the award. See DATA-ANOMALIES.md.
+
+    Driven end-to-end via subprocess so the header-junk filter and per-EIN backfill in main()
+    are exercised (not just parse_awards)."""
+    import csv, subprocess
+    src = os.path.join(REPO, "source/FY27/Fiscal-2027-Schedule-C-Final-3.pdf")
+    if not os.path.exists(src):
+        pytest.skip("FY27 source PDF missing")
+    subprocess.run(
+        [sys.executable, os.path.join(HERE, "parse_schedule_c.py"), src,
+         "--outdir", str(tmp_path), "--prefix", "fy27"],
+        check=True, capture_output=True, cwd=REPO,
+    )
+    with open(os.path.join(tmp_path, "fy27_schedule_c_awards.csv")) as f:
+        rows = list(csv.DictReader(f))
+
+    # The dropped award is back, with correct EIN / amount / agency / program / category.
+    west = [r for r in rows
+            if r["ein"] == "132612524" and "West Side Work Coalition" in r["program"]]
+    assert len(west) == 1, "West Side Work Coalition FCNY award missing from parsed awards"
+    w = west[0]
+    assert w["amount"] == "125000"
+    assert w["agency"] == "DYCD"
+    assert "Speaker" in w["category"]
+
+    # FCNY (EIN 13-2612524) Schedule C main-body passthrough: 37 awards totaling $3,357,714
+    # (was 36 / $3,232,714 before the fix dropped the $125,000 West Side row).
+    fcny = [r for r in rows if r["ein"] == "132612524"]
+    assert len(fcny) == 37, f"expected 37 FCNY awards, got {len(fcny)}"
+    assert sum(int(r["amount"]) for r in fcny) == 3357714
+
+    # No surviving award may carry repeated column-header text in its organization -- that was the
+    # signature of the bled-in header the filter used to delete whole rows.
+    junk = [r for r in rows
+            if "legal name of organization" in r["organization"].lower()
+            or "sponsor legal" in r["organization"].lower()]
+    assert not junk, f"{len(junk)} awards still carry header-junk organizations"
+
+
 def test_fy18_toc_contents_heading():
     """FY18's contents page is headed 'Contents' (not 'Table of Contents'). The ToC-detection
     regex must find it, or the whole year silently yields 0 categories."""

@@ -189,6 +189,17 @@ def parse_awards(pages, lo, hi, cats, roster):
             flush(); mode="MI"; buf=[]; member_hold=""; continue
         if low.startswith("legal name of organization"):
             flush(); mode="IP"; ip_purpose=("purpose" in low); buf=[]; member_hold=""; continue
+        # Repeated page-break column-header rows in the wide "with-purpose" tables carry a leading
+        # sponsor-column word -- "Sponsor" on Speaker's Initiative pages, "Delegation" on Boroughwide
+        # Needs pages -- instead of "Council Member"/"Legal Name...", so they miss the mode triggers
+        # above. Left unhandled they get buffered and bleed into the *next* award's org (e.g. p.274
+        # "Sponsor Legal Name of Organization ..." glued onto the West Side Work Coalition award),
+        # which the header-junk filter in main() then deletes as a whole row -- silently dropping a
+        # real award. Treat them as header noise: flush the prior record, clear the buffer, leave
+        # mode unchanged. Signature = the full column header (org + program + tax-id + amount).
+        if ("legal name of organization" in low and "program name" in low
+                and "amount" in low and re.search(r"tax id|ein", low)):
+            flush(); buf=[]; member_hold=""; continue
         if any(s.startswith(b) for b in BOUNDARY):
             flush(); buf=[]; member_hold=""; continue
         m=ANCHOR.search(s)
