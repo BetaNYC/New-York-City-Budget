@@ -148,6 +148,23 @@ If you build something with this project, we'd love to hear about it. We can hel
   newsletter](https://www.beta.nyc/newsletter-inbox/) and we'll consider it for
   an upcoming issue.
 
+## Related BetaNYC MCP servers
+
+BetaNYC maintains a suite of open-source MCP servers for NYC and NYS civic data.
+See the full directory, with install details for each, at
+**[beta.nyc/ai-tools](https://beta.nyc/ai-tools)**.
+
+This server pairs directly with:
+
+- **[nyc-checkbook-mcp](https://github.com/BetaNYC/nyc-checkbook-mcp)**: follow a Council discretionary award from the budget's Schedule C through to the agency's actual contracts, payments, and spending in Checkbook.
+- **[nyc-council-mcp](https://github.com/BetaNYC/nyc-council-mcp)**: connect Transparency Resolutions and the Legistar crosswalk back to the underlying Council legislation, sponsors, and votes.
+
+> **Working with the wider NYC Open Data portal?** NYC Open Data hosts a related
+> (now-frozen) Council Discretionary Funding dataset this repo supersedes. To search
+> the full catalog or run ad-hoc SoQL queries across other datasets, pair it with
+> [socrata-mcp-server](https://github.com/npstorey/socrata-mcp-server)
+> (`socrata-mcp-server` on npm), a third-party MCP by [Nathan Storey](https://github.com/npstorey).
+
 ## Provenance & licensing
 
 This server reads the repo's own derived data. Provenance, reconciliation status, and licensing are covered by the [repository README](../README.md) and [`LICENSE`](../LICENSE): derived data and code are MIT; the underlying budget documents are © The City of New York.
