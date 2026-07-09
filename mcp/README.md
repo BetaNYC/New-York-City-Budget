@@ -122,6 +122,32 @@ the BetaNYC MCP fleet, adapted for this monorepo (the package lives in `mcp/`, n
 - **CI** — `.github/workflows/ci.yml` builds and tests `mcp/` on a Node 20/22 matrix for every
   PR that touches the `mcp/` tree.
 
+## About BetaNYC
+
+This project is built and maintained by [BetaNYC](https://beta.nyc), New York's
+civic technology and open-data community. We work to improve lives in New York
+through civic design, technology, data, and public-interest technology.
+
+**Come do civic tech with us.** We run public events, meetups, and hands-on
+data classes throughout the year — including [NYC School of Data](https://www.schoolofdata.nyc/)
+and [CityCamp NYC](https://citycamp.nyc), and we host frequent civic-tech gatherings. See what's coming up on our
+[events calendar](https://www.beta.nyc/events/).
+
+**Sustain this work.** These MCP servers are free and open source. To help keep this work going and find BetaNYC's
+tools, please consider [donating and becoming a Beta
+Builder](https://beta.nyc/donate).
+
+## Building on this? Tell us!
+
+If you build something with this project, we'd love to hear about it. We can help other New Yorkers find it. BetaNYC publishes a weekly newsletter,
+*This Week in NYC's Civic Technology and Open Data*.
+
+- **[Subscribe to the newsletter](https://beta.nyc/newsletter)** to keep up with
+  NYC civic tech, open data, and public-interest technology.
+- **Built something, or found a story worth sharing?** [Submit a link for the
+  newsletter](https://www.beta.nyc/newsletter-inbox/) and we'll consider it for
+  an upcoming issue.
+
 ## Provenance & licensing
 
 This server reads the repo's own derived data. Provenance, reconciliation status, and licensing are covered by the [repository README](../README.md) and [`LICENSE`](../LICENSE): derived data and code are MIT; the underlying budget documents are © The City of New York.
