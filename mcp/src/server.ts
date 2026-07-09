@@ -68,7 +68,7 @@ export const server = new Server(
 const TOOLS = [
   {
     name: "search_awards",
-    description: `Search NYC Council discretionary (Schedule C) awards across FY2015–FY2027 (the EIN-level years). Filter by any combination of EIN, organization name, program name, council member (surname), fiscal year, category, and initiative. NOTE: a single EIN can be a fiscal sponsor covering many programs — e.g. EIN 13-2612524 ("Delegation Fund for the City of New York, Inc.") is a passthrough for dozens of programs, so to isolate one grantee (e.g. BetaNYC) filter by \`program\` as well as \`ein\`. FY2009–FY2014 have no award/EIN data (initiatives-only) and are not searchable here. ${SCOPE_NOTE}`,
+    description: `Search NYC Council discretionary (Schedule C) awards across FY2015–FY2027 (the EIN-level years). Filter by any combination of EIN, organization name, program name, council member (surname), fiscal year, category, and initiative. NOTE: a single EIN can be a fiscal sponsor covering many programs — e.g. EIN 13-2612524 ("Fund for the City of New York, Inc.") is a passthrough for dozens of programs, so to isolate one grantee (e.g. BetaNYC) filter by \`program\` as well as \`ein\`. FY2009–FY2014 have no award/EIN data (initiatives-only) and are not searchable here. ${SCOPE_NOTE}`,
     inputSchema: {
       type: "object",
       properties: {
