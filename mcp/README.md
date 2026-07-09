@@ -50,7 +50,7 @@ The tools do **not** pretend data exists where it doesn't: FY2009–FY2014 award
 
 ### The fiscal-sponsor caveat (important for correct EIN use)
 
-EIN is the only reliable cross-system join key, **but a single EIN can be a fiscal sponsor** covering dozens of programs. EIN `13-2612524` ("Delegation Fund for the City of New York, Inc.") is a passthrough — to isolate one grantee (e.g. BetaNYC) filter by `program` as well as `ein`. `get_awards_by_ein` honestly returns the whole pool; `search_awards(ein, program)` narrows it. (A maintained fiscal-sponsor alias table is future work — see the user-journeys doc.)
+EIN is the only reliable cross-system join key, **but a single EIN can be a fiscal sponsor** covering dozens of programs. EIN `13-2612524` ("Fund for the City of New York, Inc.") is a passthrough — to isolate one grantee (e.g. BetaNYC) filter by `program` as well as `ein`. `get_awards_by_ein` honestly returns the whole pool; `search_awards(ein, program)` narrows it. (A maintained fiscal-sponsor alias table is future work — see the user-journeys doc.)
 
 ## Architecture
 

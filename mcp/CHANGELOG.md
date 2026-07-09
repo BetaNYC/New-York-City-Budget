@@ -4,6 +4,21 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.0.1 — 2026-07-08
+
+Bug fix. No tool, schema, or data-coverage changes — a stale organization name in
+user-facing description text only.
+
+### Fixed
+- `search_awards` tool description (and the matching README caveat) referred to EIN
+  13-2612524 as **"Delegation Fund for the City of New York, Inc."** — a name that no
+  longer exists in the data. The "Delegation" prefix was a Transparency-Resolution
+  header-bleed parsing artifact corrected in the data by PR #10; the description string
+  was left stale (flagged but deliberately out-of-scope in PR #11's test-only fix). The
+  correct organization name for that EIN is **"Fund for the City of New York, Inc."**,
+  verified against the built index (EIN 132612524: 205 award rows across 78 distinct
+  programs — the fiscal-sponsor caveat the description illustrates still holds).
+
 ## 1.0.0 — 2026-07-08
 
 First public release. Published to npm as `@betanyc/nyc-budget-mcp`; consumable via
