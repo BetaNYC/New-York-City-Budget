@@ -102,6 +102,34 @@ This is a working v1. Outstanding items:
 - `Short Title`, `Link to Website`, and `Department Description` are empty; they could be
   populated from an agency reference table.
 
+## About BetaNYC
+
+This project is built and maintained by [BetaNYC](https://beta.nyc), New York's
+civic technology and open-data community. We work to improve lives in New York
+through civic design, technology, data, and public-interest technology.
+
+**Come do civic tech with us.** We run public events, meetups, and hands-on
+data classes throughout the year — including [NYC School of Data](https://www.schoolofdata.nyc/)
+and [CityCamp NYC](https://citycamp.nyc), and we host frequent civic-tech gatherings. See what's coming up on our
+[events calendar](https://www.beta.nyc/events/).
+
+**Sustain this work.** This project is free and open source. To help keep this work going and find BetaNYC's tools, please consider [donating and becoming a Beta Builder](https://beta.nyc/donate).
+
+## Building on this? Tell us!
+
+If you build something with this project, we'd love to hear about it. We can help other New Yorkers find it. BetaNYC publishes a weekly newsletter, *This Week in NYC's Civic Technology and Open Data*.
+
+- **[Subscribe to the newsletter](https://beta.nyc/newsletter)** to keep up with NYC civic tech, open data, and public-interest technology.
+- **Built something, or found a story worth sharing?** [Submit a link for the newsletter](https://www.beta.nyc/newsletter-inbox/) and we'll consider it for an upcoming issue.
+
+## Related BetaNYC projects
+
+BetaNYC maintains a growing suite of open-source tools for NYC and NYS civic data — see the full directory at **[beta.nyc/ai-tools](https://beta.nyc/ai-tools)**.
+
+This visualization is a companion to **[New York City Budget](https://github.com/BetaNYC/New-York-City-Budget)** — machine-readable, reconciled NYC Council *discretionary* funding (Schedule C), Terms & Conditions, and Section 254 capital data, extracted line-by-line from the Council's adopted-budget PDFs. That repo also ships the [`@betanyc/nyc-budget-mcp`](https://github.com/BetaNYC/New-York-City-Budget/tree/main/mcp) server and a companion **Schedule C funding visualization** (`viz/`) built on this same [Look at Cook](https://github.com/datamade/look-at-cook) toolkit.
+
+Where this repo shows the **citywide expense budget** (~$114B, every agency), the Schedule C visualization shows **Council discretionary funding** (~$656M) — different datasets, same toolkit.
+
 ## Attribution
 
 Adapted from **[Look at Cook](https://github.com/datamade/look-at-cook)** by DataMade, Derek
