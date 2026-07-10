@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Customize meta description -->
+    <meta name="description" content="Explore NYC Council discretionary (Schedule C) funding, FY2015–FY2027, reconciled from the Council's own adopted-budget documents by BetaNYC.">
+    <!-- Customize meta author -->
+    <meta name="author" content="BetaNYC — built on look-at-cook by DataMade / Open City">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Facebook metadata -->
+    <meta content="" property="og:site_name">
+    <meta content="NYC Council Discretionary Funding (Schedule C)" property="og:title">
+    <meta content="article" property="og:type">
+    <meta content="Explore NYC Council discretionary (Schedule C) funding, FY2015–FY2027, reconciled from the Council's own adopted-budget documents by BetaNYC." property="og:description">
+
+
+    <!-- Customize page title -->
+    <title>NYC Council Discretionary Funding (Schedule C) — BetaNYC</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="lib/html5shiv.js"></script>
+      <script src="lib/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <a href="#content" class="sr-only">Skip to content</a>
+
+    <div id="readme" style="display: none;"><img src="" alt="Click points to see annual budgets below"></div>
+    <div class="container">
+      <div id='header'>
+        <div class='row'>
+          <div class='col-md-9'>
+            <div id='logo'>
+              <!-- Customize logo -->
+              <a href='./'>NYC Council Discretionary Funding</a>
+            </div>
+            <!-- Customize page text below logo -->
+            <p>Explore New York City Council discretionary (Schedule C) funding, FY2015&ndash;FY2027, reconciled line-by-line from the Council's own adopted-budget documents. FY2027 totals <strong>$655,764,999</strong>. <a onclick="window.scrollTo(0, document.body.scrollHeight);">Read more</a> &raquo;</p>
+          </div>
+        </div>
+      </div>
+      <div class='well'>
+        <div id='main-chart'></div>
+        <table id="breakdown" class='table table-condensed table-bordered'>
+            <thead>
+              <tr>
+                <th id='breakdown-item-title'><span id="secondary-title">Category</span></th>
+                <th class="num"><span>Adopted</span></th>
+                <th class="num"><span>Itemized</span></th>
+                <th class="charts sorting_disabled"><span>Adopted vs. Itemized</span></th>
+              </tr>
+            </thead>
+            <tbody id="breakdown-table-body"></tbody>
+        </table>
+
+        <div id="footnotes">
+          <!-- <ul>
+            <li id="f-officers">* These budgets are controlled by the officers and offices listed even though not all expenses are incurred by the respective control officer.</li>
+          </ul> -->
+        </div>
+      </div>
+
+      <div class='well about'>
+        <h2>About</h2>
+        <div class='row'>
+          <div class='col-md-12'>
+            <!-- Customize about -->
+            <h2>Where's the discretionary money going?</h2>
+            <p>Each year the New York City Council designates hundreds of millions of dollars in <strong>discretionary funding</strong> &mdash; the "Schedule C" of the adopted budget &mdash; to community organizations, cultural institutions, senior centers, anti-violence programs, and more. In FY2027 that total is <strong>$655,764,999</strong>. This tool lets you explore it two ways: <strong>by category</strong> (what the money is for) and <strong>by administering agency</strong> (which City agency routes it), drilling down to the individual initiative.</p>
+            <p>Two lines are shown for each slice. <strong>Adopted</strong> is the discretionary total from the Council's adopted budget &mdash; the authoritative figure, reconciled to the dollar against the source document's printed totals. <strong>Itemized</strong> is the portion designated to a <em>named</em> recipient organization in the same document. The gap between them is money that flows through lump-sum or citywide initiatives (such as the Speaker's Initiative) with no organization-level breakout in the adopted schedule. <em>Prototype note:</em> the Itemized line depends on matching award records to initiative names and is materially complete only for recent years (roughly FY2023 onward); earlier years understate it. Always read the <strong>Adopted</strong> line as the reconciled truth.</p>
+
+            <p class="mute">Data: <a href="https://github.com/BetaNYC/New-York-City-Budget">BetaNYC/New-York-City-Budget</a>, extracted deterministically from NYC Council adopted-budget PDFs (© City of New York) and released under the MIT License. This visualization is built on <a href="https://github.com/datamade/look-at-cook">look-at-cook</a> by <a href="http://datamade.us">DataMade</a> (Derek Eder, Nick Rougeux) and Open City, also MIT-licensed. Built by <a href="https://beta.nyc">BetaNYC</a>.</p>
+
+          </div>
+        </div>
+      </div>
+
+      <div id='footer'>
+        <p class='pull-left'>
+          <!-- Customize download link -->
+          <a id="download-button" class="btn btn-warning" href="">View &amp; download data</a>
+          The full dataset (this CSV, and the reconciled source CSVs it is built from) is freely available in the
+          <a href="https://github.com/BetaNYC/New-York-City-Budget">BetaNYC/New-York-City-Budget</a> repository.
+          <br />
+          <br />
+          Built by <a href="https://beta.nyc">BetaNYC</a> on <a href="https://github.com/datamade/look-at-cook">look-at-cook</a> by <a href="http://datamade.us">DataMade</a> &amp; Open City.
+        </p>
+      </div>
+    </div>
+    <!-- loading javascript at the bottom of the page for performance -->
+    <!-- HTML templates for Backbone views -->
+    <!-- javascript libraries -->
+    <script src="lib/jquery.min.js" type="text/javascript"></script>
+    <script src="lib/spin.min.js" type="text/javascript"></script>
+    <script src="lib/jquery.spin.js" type="text/javascript"></script>
+    <script src="lib/accounting.min.js" type="text/javascript"></script>
+    <script src="lib/fuse.min.js" type="text/javascript"></script>
+    <script src="lib/reduce.js" type="text/javascript"></script>
+    <script src="lib/range.js" type="text/javascript"></script>
+    <script src="lib/array_indexof.js" type="text/javascript"></script>
+    <script src="lib/array_getunique.js" type="text/javascript"></script>
+    <script src="lib/jquery.csv.min.js" type="text/javascript"></script>
+    <script src="lib/bootstrap.min.js" type="text/javascript"></script>
+    <script src="lib/highcharts.js" type="text/javascript"></script>
+    <script src="lib/jquery.dataTables.js" type="text/javascript"></script>
+    <script src="lib/jquery.cookie.js" type="text/javascript"></script>
+    <script src="lib/underscore.min.js" type="text/javascript"></script>
+    <script src="lib/backbone.min.js" type="text/javascript"></script>
+    <script src="lib/Backbone.ModelBinder.min.js" type="text/javascript"></script>
+
+    <!-- custom javascript -->
+    <script src="js/dataTables.sorting.js" type="text/javascript"></script>
+    <script src="js/budget_helpers.js" type="text/javascript"></script>
+    <script src="js/budget_highcharts.js" type="text/javascript"></script>
+
+    <script src="js/app.js" type="text/javascript"></script>
+
+  </body>
+</html>
