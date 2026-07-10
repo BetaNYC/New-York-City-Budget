@@ -12,7 +12,7 @@
     expendTitle = 'Modified';   // label for second chart line
 
     // CSV data source for budget data
-    dataSource  = '/data/nyc_budget.csv';
+    dataSource  = 'data/nyc_budget.csv';
     
     app.GlobalChartOpts = {
         apropColor:   '#264870',
@@ -384,7 +384,7 @@
             });
         },
         updateCrumbs: function(){
-            var links = ['<a href="/">'+municipalityName+'</a>'];
+            var links = ['<a href="./">'+municipalityName+'</a>'];
             if(Backbone.history.fragment){
                 var parts = Backbone.history.fragment;
                 if (parts.indexOf('?') >= 0){
