@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Frequently asked questions about the NYC Budget Explorer — data source, adopted vs. modified budgets, and methodology.">
+    <meta name="author" content="BetaNYC">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>FAQ — NYC Budget Explorer</title>
+
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+      <script src="/lib/html5shiv.js"></script>
+      <script src="/lib/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <a href="#content" class="sr-only">Skip to content</a>
+    <div id="readme" style="display: none;"><img src="" alt="Click points to see annual budgets below"></div>
+    <div class="container">
+      <div id='header'>
+        <div class='row'>
+          <div class='col-md-9'>
+            <div id='logo'>
+              <a href='/'>NYC Budget Explorer</a>
+            </div>
+            <p>Explore New York City's expense budget from Fiscal Year 2017 to 2027 and see how the money is adopted and modified across city agencies.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class='well about'>
+        <a href='/'>&laquo; Back to the budget</a>
+
+        <h1>Frequently asked questions</h1>
+
+      <ul id="faq">
+        <li><a href="#q1">Where does this data come from?</a></li>
+        <li><a href="#q2">What's the difference between "Adopted" and "Modified"?</a></li>
+        <li><a href="#q3">Why Fiscal Years 2017 through 2027?</a></li>
+        <li><a href="#q4">What are "Fund" and "Department" in this tool?</a></li>
+        <li><a href="#q5">How is the citywide total calculated?</a></li>
+      </ul>
+
+      <h2 id="q1">Where does this data come from?</h2>
+      <p>Every dollar shown here comes from <a href="https://data.cityofnewyork.us/City-Government/Expense-Budget/mwzb-yiwb">NYC Open Data's Expense Budget dataset</a> (dataset id <code>mwzb-yiwb</code>), published by the City. It is public, and this tool reads it directly. New York City's fiscal year runs from July 1 to June 30, and the budget for each fiscal year is published several times as it moves through the year: a Preliminary budget (January), an Executive budget (April/May), and the Adopted budget (June). For each fiscal year, this tool uses the <strong>Adopted (June) snapshot</strong>.</p>
+
+      <h2 id="q2">What's the difference between "Adopted" and "Modified"?</h2>
+      <p>The dataset carries two dollar amounts for each budget line. <strong>Adopted</strong> is the amount adopted for that fiscal year (the dataset's <code>adopted_budget_amount</code> field). <strong>Modified</strong> is the current modified budget amount recorded at that same snapshot (the dataset's <code>current_modified_budget_amount</code> field), which reflects changes made to the budget after adoption. The two chart lines let you compare the two. For Fiscal Year 2026, for example, the city's adopted total was $114.4 billion while the modified total was $123.8 billion.</p>
+
+      <h2 id="q3">Why Fiscal Years 2017 through 2027?</h2>
+      <p>That is the range of fiscal years currently available in the published Expense Budget dataset. As the City publishes new fiscal years, the underlying data file can be regenerated and the range extended.</p>
+
+      <h2 id="q4">What are "Fund" and "Department" in this tool?</h2>
+      <p>This tool reuses DataMade's Look at Cook front-end, which organizes a budget into a top-level grouping ("Fund") and a sub-grouping ("Department"). Here, <strong>Fund</strong> is the city <strong>agency</strong> (for example, the Department of Education or the Police Department), and <strong>Department</strong> is the agency's <strong>unit of appropriation</strong> — the line-item grouping the City uses to break an agency's budget into parts. In this first version the secondary "control officer" view mirrors the agency view; a richer second dimension may be added later.</p>
+
+      <h2 id="q5">How is the citywide total calculated?</h2>
+      <p>Because each fiscal year is published multiple times and each publication restates the entire budget, simply adding every row would count the same money more than once. To avoid that, this tool keeps only the Adopted (latest) snapshot for each fiscal year, then sums the budget lines within it. As a check, the Fiscal Year 2026 adopted total comes to $114,384,991,832 — matching the City's published adopted expense budget for that year.</p>
+
+      </div>
+
+      <div id='footer'>
+        <p class='pull-left'>
+          <a id="download-button" class="btn btn-primary" href="">View &amp; download data</a>
+          All the data for this project is freely available to download or explore.
+          <br />
+          <br />
+          A <a href="https://beta.nyc">BetaNYC</a> project, adapted from DataMade's <a href="https://github.com/datamade/look-at-cook">Look at Cook</a> (MIT-licensed). Built by <a href="http://datamade.us">DataMade</a>.
+        </p>
+      </div>
+    </div>
+    <!-- loading javascript at the bottom of the page for performance -->
+    <!-- javascript libraries -->
+    <script src="lib/jquery.min.js" type="text/javascript"></script>
+    <script src="lib/spin.min.js" type="text/javascript"></script>
+    <script src="lib/jquery.spin.js" type="text/javascript"></script>
+    <script src="lib/accounting.min.js" type="text/javascript"></script>
+    <script src="lib/fuse.min.js" type="text/javascript"></script>
+    <script src="lib/reduce.js" type="text/javascript"></script>
+    <script src="lib/range.js" type="text/javascript"></script>
+    <script src="lib/array_indexof.js" type="text/javascript"></script>
+    <script src="lib/array_getunique.js" type="text/javascript"></script>
+    <script src="lib/jquery.csv.min.js" type="text/javascript"></script>
+    <script src="lib/bootstrap.min.js" type="text/javascript"></script>
+    <script src="lib/highcharts.js" type="text/javascript"></script>
+    <script src="lib/jquery.dataTables.js" type="text/javascript"></script>
+    <script src="lib/jquery.cookie.js" type="text/javascript"></script>
+    <script src="lib/underscore.min.js" type="text/javascript"></script>
+    <script src="lib/backbone.min.js" type="text/javascript"></script>
+    <script src="lib/Backbone.ModelBinder.min.js" type="text/javascript"></script>
+
+    <!-- custom javascript -->
+    <script src="js/dataTables.sorting.js" type="text/javascript"></script>
+    <script src="js/budget_helpers.js" type="text/javascript"></script>
+    <script src="js/budget_highcharts.js" type="text/javascript"></script>
+
+    <script src="js/app.js" type="text/javascript"></script>
+  </body>
+</html>
