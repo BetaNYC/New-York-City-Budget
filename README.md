@@ -50,7 +50,8 @@ New-York-City-Budget/
 │   │   └── capital/     Section 254 capital changes
 │   └── combined/        all-years roll-ups (built by code/build_combined.py)
 ├── code/                ← parser scripts + variants + validate_data.py (QA) + tests + PARSING.md + requirements.txt
-└── mcp/                 ← prototype MCP server (see below)
+├── mcp/                 ← prototype MCP server (see below)
+└── viz/                 ← Schedule C funding visualization (see viz/README.md)
 ```
 
 ### `mcp/` — prototype MCP server
@@ -168,6 +169,8 @@ This repository is one piece of a larger NYC budget-data ecosystem. It is delibe
 | **[NYC Council Finance Division](https://council.nyc.gov/budget/) / OMB** | The primary source documents this repo parses | This repo is the structured, reconciled extraction of those documents. |
 
 In short: **IBO tells you what the City spends, raises, and owes in aggregate over decades; this repo tells you which organizations the Council funded, and how much, in the adopted budget.** Neither IBO nor NYC Open Data (after FY2021) publishes the second thing as machine-readable data. That is the gap this repository fills. A detailed source-by-source crosswalk (including how this data can be joined to IBO's agency-level fiscal tables) is in [`research/2026-07-08-ibo-data-center-crosswalk.md`](research/2026-07-08-ibo-data-center-crosswalk.md).
+
+**A companion BetaNYC visualization** turns this repo's Schedule C data into an interactive explorer — see [`viz/`](viz/). It shares its toolkit (DataMade's [Look at Cook](https://github.com/datamade/look-at-cook)) with BetaNYC's **[citywide expense-budget explorer](https://github.com/BetaNYC/nyc-budget-viz)**, which visualizes the full ~$114B adopted/modified budget across all agencies — the aggregate fiscal side this repo deliberately does not cover.
 
 ## Future work
 

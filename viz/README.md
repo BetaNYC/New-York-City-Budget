@@ -42,6 +42,32 @@ blank numeric cells, and the Itemized ≤ Adopted invariant.
 | `PLAN.md` | Design, mapping, risks, semantic mismatches. |
 | `LICENSE.md` | DataMade's MIT license for the look-at-cook toolkit (retained verbatim). |
 
+## About BetaNYC
+
+This project is built and maintained by [BetaNYC](https://beta.nyc), New York's
+civic technology and open-data community. We work to improve lives in New York
+through civic design, technology, data, and public-interest technology.
+
+**Come do civic tech with us.** We run public events, meetups, and hands-on
+data classes throughout the year — including [NYC School of Data](https://www.schoolofdata.nyc/)
+and [CityCamp NYC](https://citycamp.nyc), and we host frequent civic-tech gatherings. See what's coming up on our
+[events calendar](https://www.beta.nyc/events/).
+
+**Sustain this work.** This project is free and open source. To help keep this work going and find BetaNYC's tools, please consider [donating and becoming a Beta Builder](https://beta.nyc/donate).
+
+## Building on this? Tell us!
+
+If you build something with this project, we'd love to hear about it. We can help other New Yorkers find it. BetaNYC publishes a weekly newsletter, *This Week in NYC's Civic Technology and Open Data*.
+
+- **[Subscribe to the newsletter](https://beta.nyc/newsletter)** to keep up with NYC civic tech, open data, and public-interest technology.
+- **Built something, or found a story worth sharing?** [Submit a link for the newsletter](https://www.beta.nyc/newsletter-inbox/) and we'll consider it for an upcoming issue.
+
+## Related BetaNYC projects
+
+See the full suite of BetaNYC's civic-data tools at **[beta.nyc/ai-tools](https://beta.nyc/ai-tools)**.
+
+This Schedule C visualization shares its toolkit (DataMade's [Look at Cook](https://github.com/datamade/look-at-cook)) with BetaNYC's citywide budget explorer, **[nyc-budget-viz](https://github.com/BetaNYC/nyc-budget-viz)** — a multi-year visualization of NYC's full **expense budget** (~$114B, every agency, adopted vs. modified), FY2017–FY2027, from NYC Open Data. This repo's `viz/` covers **Council discretionary** funding (~$656M); that one covers the citywide total.
+
 ## Attribution
 
 This visualization is built on **[look-at-cook](https://github.com/datamade/look-at-cook)**
