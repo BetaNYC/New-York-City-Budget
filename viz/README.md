@@ -37,7 +37,7 @@ blank numeric cells, and the Itemized ≤ Adopted invariant.
 |---|---|
 | `schedulec_cleanup.py` | Transforms `data/{year}/schedule_c/*.csv` → `data/schedule_c.csv` (the look-at-cook cleaned-CSV format). Stdlib only. |
 | `test_schedulec_cleanup.py` | Regression tests (dual-mode: standalone or pytest). |
-| `data/schedule_c.csv` | Generated wide CSV the site loads (1,278 leaf rows). |
+| `data/schedule_c.csv` | Generated wide CSV the site loads (1,273 leaf rows). |
 | `index.html`, `js/`, `css/`, `lib/`, `fonts/`, `images/` | The look-at-cook static site (config + labels adapted for Schedule C). |
 | `PLAN.md` | Design, mapping, risks, semantic mismatches. |
 | `LICENSE.md` | DataMade's MIT license for the look-at-cook toolkit (retained verbatim). |
