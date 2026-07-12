@@ -60,6 +60,7 @@ from __future__ import annotations
 import argparse
 import csv
 import os
+import re
 import sys
 from collections import defaultdict
 
@@ -73,6 +74,41 @@ DATA = os.path.join(REPO, "data")
 DEFAULT_START = 2015          # first FY with the modern reconciled Schedule C schedule
 DEFAULT_END = 2027            # last FY currently in the repo
 DEFAULT_OUT = os.path.join(HERE, "data", "schedule_c.csv")
+
+# Initiative-name canonicalization (DATA-ANOMALIES #17). The leaf key is
+# (category, initiative); the City spells one initiative differently across years, so the
+# raw name splits a single program into multiple short-lived leaves and the funding line
+# breaks. We canonicalize the initiative before it becomes a leaf key so those spellings
+# merge into one continuous series. Kept deliberately in sync with code/build_combined.py
+# (the single source of truth for the house style); stdlib-only to preserve this script's
+# standalone, no-deps contract.
+CROSSWALK = os.path.join(DATA, "combined", "initiative_name_crosswalk.csv")
+
+
+def house_style(s: str) -> str:
+    """Strip a leading '*' marker, straight-quote curly apostrophes, spell '&' as 'and',
+    collapse whitespace. Source casing preserved (acronyms intact)."""
+    s = (s or "").strip()
+    s = re.sub(r"^\*+\s*", "", s)
+    s = s.replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
+    s = re.sub(r"\s*&\s*", " and ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+
+def load_crosswalk(path: str = CROSSWALK) -> dict:
+    """raw_initiative -> initiative_canonical. Missing file is not fatal (house_style fallback)."""
+    m = {}
+    if os.path.exists(path):
+        with open(path, newline="", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                m[r["raw_initiative"]] = r["initiative_canonical"]
+    return m
+
+
+def canonical_initiative(raw: str, xwalk: dict) -> str:
+    """Explicit crosswalk mapping wins; otherwise mechanical house_style normalization."""
+    return xwalk.get(raw) or house_style(raw)
 
 # The FY2027 discretionary grand total the repo reconciles to, to the dollar
 # (README.md, DATA-DICTIONARY.md). This is the build's validation gate.
@@ -143,6 +179,7 @@ def build_rows(start: int = DEFAULT_START, end: int = DEFAULT_END):
     per-year totals and match stats used by the reconciliation gate and reporting.
     """
     years = list(range(start, end + 1))
+    xwalk = load_crosswalk()
 
     # leaf key = (category, initiative)
     # per leaf: adopted[year], itemized[year], agency bucket (latest year), meta
@@ -168,9 +205,12 @@ def build_rows(start: int = DEFAULT_START, end: int = DEFAULT_END):
         leaf_keys_this_year = set()
         for r in init_rows:
             cat = (r.get("category") or "").strip()
-            initiative = (r.get("initiative") or "").strip()
-            if not cat or not initiative:
+            raw_initiative = (r.get("initiative") or "").strip()
+            if not cat or not raw_initiative:
                 continue
+            # Canonicalize before the name becomes a leaf key, so spellings of one program
+            # (e.g. '&' vs 'and' across years) merge into a single continuous series.
+            initiative = canonical_initiative(raw_initiative, xwalk)
             key = (cat, initiative)
             amt = _to_amount(r.get("amount"))
             adopted[key][year] += amt
@@ -184,7 +224,8 @@ def build_rows(start: int = DEFAULT_START, end: int = DEFAULT_END):
         if os.path.exists(apath):
             awd_by_key: dict[tuple, float] = defaultdict(float)
             for a in _read_csv(apath):
-                akey = ((a.get("category") or "").strip(), (a.get("initiative") or "").strip())
+                akey = ((a.get("category") or "").strip(),
+                        canonical_initiative((a.get("initiative") or "").strip(), xwalk))
                 awd_by_key[akey] += _to_amount(a.get("amount"))
             matched_total = 0.0
             all_awards_total = sum(awd_by_key.values())
