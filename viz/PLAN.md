@@ -97,12 +97,16 @@ detail is relegated to the (imperfect) second line. This is inherent to the data
 toolkit limitation.
 
 - **Risk A — the Itemized line is unreliable in older years.** The award→initiative match
-  is by initiative-name string, which drifts across the independently-parsed years. Match
-  rate by year (awards $ matched to an initiative row): FY2015 65%, **FY2016–FY2019
-  ~0%**, FY2020 7%, FY2021 17%, FY2022 2%, FY2023 56%, FY2024 44%, FY2025 46%, FY2026 47%,
-  **FY2027 82%**. The Itemized line therefore **understates** true itemization before
-  ~FY2023 and should be read as a lower bound. The **Adopted** line is clean for all 13
-  years and is the figure to trust. *(Disclosed on-page in the About section.)*
+  is by initiative-name string, which drifts across the independently-parsed years. Both
+  sides are now matched on the **canonical** initiative name (DATA-ANOMALIES #17,
+  `initiative_name_crosswalk.csv`), which removes the spelling-drift component of the miss
+  (`&`/`and`, curly apostrophes, a leading `*`); the residual gap is genuine lump-sum /
+  citywide money with no named recipient. Match rate by year (awards $ matched to an
+  initiative row): FY2015 66%, **FY2016–FY2019 ~0%**, FY2020 7%, FY2021 17%, FY2022 2%,
+  FY2023 56%, FY2024 44%, FY2025 46%, FY2026 48%, **FY2027 82%**. The Itemized line still
+  **understates** true itemization before ~FY2023 and should be read as a lower bound. The
+  **Adopted** line is clean for all 13 years and is the figure to trust. *(Disclosed on-page
+  in the About section.)*
 - **Risk B — the name join also *over*-attributes in ~13 leaf-years** (two source
   initiatives colliding on one name key), producing raw Itemized > Adopted. We **clamp**
   Itemized to Adopted per leaf-year so the chart is never nonsensical; this is why Itemized
@@ -117,11 +121,14 @@ toolkit limitation.
 - **Risk D — category vocabulary drifts across years.** FY2015 categories are UPPERCASE
   and some names differ (README: "Libraries" later folds into "Cultural Organizations").
   Because `Fund` = the raw category string, a renamed category appears as a *separate* axis
-  value across years, fragmenting some cross-year lines. Normalizing categories is
-  **domain/editorial judgment** (metrics-insights / archivist), not viz code, and is left
-  out of this prototype.
-- **Risk E — leaf count.** 1,278 leaf rows (13 years of initiatives). look-at-cook handles
-  this (the reference NYC config carried ~1,300 rows); performance is fine.
+  value across years, fragmenting some cross-year lines. **Initiative** names are now
+  canonicalized (the leaf axis — DATA-ANOMALIES #17), which is what kept a program's line
+  continuous across a spelling change; **category** normalization is the remaining drift and
+  is **domain/editorial judgment** (metrics-insights / archivist), not viz code, left out of
+  this prototype.
+- **Risk E — leaf count.** 1,273 leaf rows (13 years of initiatives, after canonical-name
+  merging). look-at-cook handles this (the reference NYC config carried ~1,300 rows);
+  performance is fine.
 - **Known cosmetic item:** the header title wraps and overlaps the subtitle at narrow
   (~800px) widths — the DataMade theme was sized for the short "Look at Cook" title. Purely
   visual; does not affect data, chart, or interaction. Left for a polish pass.

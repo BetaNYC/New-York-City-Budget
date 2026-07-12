@@ -94,3 +94,70 @@ def test_roll_up_faithful_to_per_year_sources_real_tree():
     # purpose fix this was 149 vs 142, the 7-instance regression.)
     combined_full_dupes = _full_row_dupes([tuple(r) for r in combined])
     assert combined_full_dupes == per_year_full_dupes, (combined_full_dupes, per_year_full_dupes)
+
+
+# --------------------------------------------------------------- initiative_canonical (DATA-ANOMALIES #17)
+def test_house_style_and_canonical_for_units():
+    """house_style() is the deterministic mechanical normalizer; canonical_for() prefers an
+    explicit crosswalk mapping and falls back to house_style()."""
+    assert B.house_style("*Cancer Initiatives") == "Cancer Initiatives"            # leading * marker
+    assert B.house_style("Dropout Prevention & Intervention") == "Dropout Prevention and Intervention"
+    assert B.house_style("City’s First Readers") == "City's First Readers"      # curly -> straight
+    assert B.house_style("Legal  Services   for Veterans") == "Legal Services for Veterans"  # collapse ws
+    # hyphen and source casing (acronyms) preserved — house_style does not touch them
+    assert B.house_style("Cultural After-School Adventure (CASA)") == "Cultural After-School Adventure (CASA)"
+    # crosswalk wins (handles dropped-word merges house_style can't); unmapped falls back to identity
+    xw = {"Coalition of Theaters of Color": "Coalition Theaters of Color"}
+    assert B.canonical_for("Coalition of Theaters of Color", xw) == "Coalition Theaters of Color"
+    assert B.canonical_for("Brand New Initiative", xw) == "Brand New Initiative"
+
+
+def test_initiative_canonical_column(tmp_path):
+    """build() adds `initiative_canonical` immediately after `initiative`, and two source
+    spellings of one program (& vs. and, split across years) collapse to a single canonical —
+    the longitudinal-join fix. Raw `initiative` is preserved verbatim."""
+    data = tmp_path / "data"
+    _write(str(data / "fy17" / "schedule_c" / "fy17_schedule_c_initiatives.csv"),
+           "category,agencies,initiative,amount\n"
+           "HEALTH,DOHMH,Reproductive & Sexual Health Services,1000\n")
+    _write(str(data / "fy27" / "schedule_c" / "fy27_schedule_c_initiatives.csv"),
+           "category,agencies,initiative,amount\n"
+           "HEALTH,DOHMH,Reproductive and Sexual Health Services,2000\n")
+    xwalk = {
+        "Reproductive & Sexual Health Services": "Reproductive and Sexual Health Services",
+        "Reproductive and Sexual Health Services": "Reproductive and Sexual Health Services",
+    }
+    B.build("initiatives", B.INIT_COLS, data_dir=str(data), xwalk=xwalk)
+    recs = list(csv.DictReader(open(os.path.join(str(data), "combined", "all_years_initiatives.csv"))))
+    hdr = list(recs[0].keys())
+    assert hdr.index("initiative_canonical") == hdr.index("initiative") + 1, hdr
+    assert {r["initiative_canonical"] for r in recs} == {"Reproductive and Sexual Health Services"}
+    assert {r["initiative"] for r in recs} == {
+        "Reproductive & Sexual Health Services", "Reproductive and Sexual Health Services"}
+
+
+def test_initiative_canonical_in_awards_rollup(tmp_path):
+    """The awards roll-up gets the same derived column, positioned right after `initiative`."""
+    data = tmp_path / "data"
+    _write(str(data / "fy16" / "schedule_c" / "fy16_schedule_c_awards.csv"),
+           AWARD_HDR + "\n"
+           "CULTURE,City’s First Readers,member_item,,Org,,13-2612524,100,DCLA,\n")
+    B.build("awards", B.AWARD_COLS, data_dir=str(data), xwalk={})
+    recs = list(csv.DictReader(open(os.path.join(str(data), "combined", "all_years_awards.csv"))))
+    hdr = list(recs[0].keys())
+    assert hdr.index("initiative_canonical") == hdr.index("initiative") + 1, hdr
+    assert recs[0]["initiative_canonical"] == "City's First Readers"  # curly -> straight via fallback
+
+
+def test_canonical_house_style_fallback(tmp_path):
+    """A raw label absent from the crosswalk is still normalized (leading *, curly apostrophe)."""
+    data = tmp_path / "data"
+    _write(str(data / "fy26" / "schedule_c" / "fy26_schedule_c_initiatives.csv"),
+           "category,agencies,initiative,amount\n"
+           "HEALTH,DOHMH,*Asthma Control Program,500\n"
+           "CULTURE,DCLA,City’s First Readers,600\n")
+    B.build("initiatives", B.INIT_COLS, data_dir=str(data), xwalk={})
+    recs = list(csv.DictReader(open(os.path.join(str(data), "combined", "all_years_initiatives.csv"))))
+    m = {r["initiative"]: r["initiative_canonical"] for r in recs}
+    assert m["*Asthma Control Program"] == "Asthma Control Program"
+    assert m["City’s First Readers"] == "City's First Readers"
