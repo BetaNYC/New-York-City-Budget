@@ -1,4 +1,14 @@
 raw_initiative,initiative_canonical,tier,confidence,note
+Access Health Initiative,Access Health,editorial,approved,round2:suffix-initiative
+Access Health NYC,Access Health,editorial,approved,round2:nyc-prefix
+Access to Crisis and Emergency Services,Access to Crisis and Emergency Services (ACES),editorial,approved,round2:paren-acronym
+Access to Critical Services for Older Adults (formerly Access to Critical Services for Seniors),Access to Critical Services for Older Adults,editorial,approved,round2:formerly-annotation
+Adult Literacy Services,Adult Literacy Services Initiative,editorial,approved,round2:suffix-initiative
+The After-Three Corporation (TASC),After -Three Corporation,editorial,approved,round2:wording
+Alternatives to Incarceration (ATI) Programs,Alternatives to Incarceration (ATI),editorial,approved,round2:ati-acronym
+Alternatives to Incarceration (ATIs),Alternatives to Incarceration (ATI),editorial,approved,round2:ati-acronym
+Alternatives to Incarceration (ATI’s),Alternatives to Incarceration (ATI),editorial,approved,round2:ati-acronym
+"Alternatives to Incarceration and Reentry Programs (Formerly Alternatives to Incarceration, Discharge Planning, and Diversion Programs)",Alternatives to Incarceration and Reentry Programs,editorial,approved,round2:formerly-annotation
 Anti Eviction and SRO Legal Services,Anti-Eviction and SRO Legal Services,review,review,ampersand-vs-and
 Anti-Eviction & SRO Legal Services,Anti-Eviction and SRO Legal Services,review,review,ampersand-vs-and
 Anti-Gun Violence - Community Based Programs,Anti-Gun Violence - Community Based Programs,review,review,hyphenation
@@ -18,6 +28,7 @@ Chess in the Schools,Chess in the Schools,review,review,hyphenation
 "Chess-in-the-Schools, Inc.",Chess in the Schools,review,review,hyphenation
 *Child Health Clinics,Child Health Clinics,mechanical,high,leading-asterisk
 Child Health Clinics,Child Health Clinics,mechanical,high,leading-asterisk
+Children Under Five Initiative,Children Under Five,editorial,approved,round2:suffix-initiative
 City's First Readers,City's First Readers,mechanical,high,curly-apostrophe
 City’s First Readers,City's First Readers,mechanical,high,curly-apostrophe
 CityMeals on Wheels,CityMeals on Wheels,mechanical,high,casing
@@ -26,47 +37,79 @@ Coalition Theaters of Color,Coalition Theaters of Color,review,review,wording
 Coalition of Theaters of Color,Coalition Theaters of Color,review,review,wording
 "*CONNECT, Inc. Community Empowerment Program","CONNECT, Inc. Community Empowerment Program",mechanical,high,leading-asterisk
 "CONNECT, Inc. Community Empowerment Program","CONNECT, Inc. Community Empowerment Program",mechanical,high,leading-asterisk
+Court-Involved Youth Mental Health Initiative,Court-Involved Youth Mental Health,editorial,approved,round2:suffix-initiative
+Creative Arts Team (CUNY CAT),Creative Arts Team,editorial,approved,round2:paren-acronym
 Cultural After School Adventure (CASA),Cultural After-School Adventure (CASA),review,review,hyphenation
+Cultural After-School Adventure,Cultural After-School Adventure (CASA),editorial,approved,round2:paren-acronym
 Cultural After-School Adventure (CASA),Cultural After-School Adventure (CASA),review,review,hyphenation
+Culturally Specific Gender Based Violence Initiative (Formerly Initiative for Immigrant Survivors of Domestic Violence),Culturally Specific Gender Based Violence Initiative,editorial,approved,round2:formerly-annotation
+CUNY Nursing Initiative,CUNY Nursing Program,editorial,approved,round2:suffix-initiative
+CUNY School of Labor and Urban Studies,CUNY School of Labor and Urban Studies (SLU),editorial,approved,round2:paren-acronym
 "Developmental, Psychological & Behavioral Health Services","Developmental, Psychological and Behavioral Health Services",mechanical,high,ampersand-vs-and
 "Developmental, Psychological and Behavioral Health Services","Developmental, Psychological and Behavioral Health Services",mechanical,high,ampersand-vs-and
+NYC Digital Inclusion and Literacy Initiative,Digital Inclusion and Literacy Initiative,editorial,approved,round2:nyc-prefix
 Diversity in Media Program,Diversity in Media Program,review,review,wording
 Diversity in the Media Program,Diversity in Media Program,review,review,wording
 "Diversity, Inclusion & Equity in Tech Initiative","Diversity, Inclusion and Equity in Tech Initiative",mechanical,high,ampersand-vs-and
 "Diversity, Inclusion and Equity in Tech Initiative","Diversity, Inclusion and Equity in Tech Initiative",mechanical,high,ampersand-vs-and
+Domestic Worker and Employer Empowerment Initiative,Domestic Worker and Employer Empowerment,editorial,approved,round2:suffix-initiative
 Dominican Studies Institute,Dominican Studies Institute,mechanical,high,casing
 Dominican Studies institute,Dominican Studies Institute,mechanical,high,casing
 Dropout Prevention & Intervention,Dropout Prevention and Intervention,mechanical,high,ampersand-vs-and
 Dropout Prevention and Intervention,Dropout Prevention and Intervention,mechanical,high,ampersand-vs-and
+Dropout Prevention and Intervention Initiative,Dropout Prevention and Intervention,editorial,approved,round2:suffix-initiative
 EBTs at Food Markets (GrowNYC),EBTs at Food Markets (GrowNYC),review,review,wording
 EBTs at Food Markets/GrowNYC,EBTs at Food Markets (GrowNYC),review,review,wording
+Elie Wiesel Holocaust Survivors Initiative,Elie Wiesel Holocaust Survivors,editorial,approved,round2:suffix-initiative
+Estate Planning and Resolution,Estate Planning and Resolution Initiative (EPAR),editorial,approved,round2:wording
+Executive Leadership Institute (CSA),Executive Leadership Institute,editorial,approved,round2:paren-acronym
 *Family Planning,Family Planning,mechanical,high,leading-asterisk
 Family Planning,Family Planning,mechanical,high,leading-asterisk
+Financial Empowerment for NYC's Renters,Financial Empowerment for NYC Renters,editorial,approved,round2:wording
 Food Retail Workforce Training and Placement Program,Food Retail and Workforce Training and Placement Program,review,review,wording
 Food Retail and Workforce Training and Placement Program,Food Retail and Workforce Training and Placement Program,review,review,wording
+Hate Crimes Prevention Initiative,Hate Crimes Prevention,editorial,approved,round2:suffix-initiative
+Healthy Beginnings (Formerly Child Health and Wellness and Maternal and Child Health Services),Healthy Beginnings,editorial,approved,round2:formerly-annotation
 *HIV AIDS -Communities of Color (Prevention & Education),HIV AIDS -Communities of Color (Prevention and Education),review,review,leading-asterisk
 *HIV/AIDS-Communities of Color (Prevention & Education),HIV AIDS -Communities of Color (Prevention and Education),review,review,leading-asterisk
 HIV AIDS-Communities of Color (Prevention & Education),HIV AIDS -Communities of Color (Prevention and Education),review,review,leading-asterisk
 *HIV Prevention and Health Literacy for Seniors,HIV Prevention and Health Literacy for Seniors,mechanical,high,leading-asterisk
 HIV Prevention and Health Literacy for Seniors,HIV Prevention and Health Literacy for Seniors,mechanical,high,leading-asterisk
+HIV/AIDS Faith Based Initiative,HIV/AIDS Faith Based,editorial,approved,round2:suffix-initiative
+HIV/AIDS Pathways to Care (Formerly Ending the Epidemic and HIV/AIDS Faith Community Based Initiative),HIV/AIDS Pathways to Care,editorial,approved,round2:formerly-annotation
 *HIV/AIDS-Faith Based Initiative,HIV/AIDS-Faith Based Initiative,mechanical,high,leading-asterisk
 HIV/AIDS-Faith Based Initiative,HIV/AIDS-Faith Based Initiative,mechanical,high,leading-asterisk
 Household Composting Program (GrowNYC),Household Composting Program (GrowNYC),review,review,wording
 Household Composting Program/GrowNYC,Household Composting Program (GrowNYC),review,review,wording
-Immigrant Opportunities Initiative (IOI – CUNY Citizenship NOW! Expansion,Immigrant Opportunities Initiative (IOI – CUNY Citizenship NOW! Expansion),review,review,wording
-Immigrant Opportunities Initiative (IOI – CUNY Citizenship NOW! Expansion),Immigrant Opportunities Initiative (IOI – CUNY Citizenship NOW! Expansion),review,review,wording
+Housing Preservation,Housing Preservation Initiative,editorial,approved,round2:suffix-initiative
+Immigrant Opportunities Initiative (IOI – CUNY Citizenship NOW! Expansion,Immigrant Opportunities Initiative,review,review,wording|round2:paren-acronym
+Immigrant Opportunities Initiative (IOI – CUNY Citizenship NOW! Expansion),Immigrant Opportunities Initiative,review,review,wording|round2:paren-acronym
+Immigrant Opportunities Initiative (IOI),Immigrant Opportunities Initiative,editorial,approved,round2:paren-acronym
 *Infant Mortality,Infant Mortality,mechanical,high,leading-asterisk
 Infant Mortality,Infant Mortality,mechanical,high,leading-asterisk
 *Injection Drug Users Health Alliance (IDUHA),Injection Drug Users Health Alliance (IDUHA),mechanical,high,leading-asterisk
 Injection Drug Users Health Alliance (IDUHA),Injection Drug Users Health Alliance (IDUHA),mechanical,high,leading-asterisk
+Justice Involved Supportive Housing (JISH) (Formerly Discharge Planning),Justice Involved Supportive Housing (JISH),editorial,approved,round2:formerly-annotation
+Legal Services for Low-Income and Working-Class New Yorkers (Formerly Legal Services for Low-Income New Yorkers and Legal Services for the Working Poor),Legal Services for Low-Income and Working-Class New Yorkers,editorial,approved,round2:formerly-annotation
+Legal Services for Low-Income Immigrants (Formerly Legal Services for Low-Income Immigrants and Protect NYC),Legal Services for Low-Income Immigrants,editorial,approved,round2:formerly-annotation
+LGBTQ Youth All-Borough Mental Health Initiative,LGBTQ Youth All-Borough Mental Health,editorial,approved,round2:suffix-initiative
+LGBTQIA+ Inclusive Curriculum (Formerly Known as LGBTQ Inclusive Curriculum),LGBTQIA+ Inclusive Curriculum,editorial,approved,round2:formerly-annotation
+LGBTQIA+ Older Adult Services in Every Borough (formerly LGBTQ Senior Services in Every Borough),LGBTQIA+ Older Adult Services in Every Borough,editorial,approved,round2:formerly-annotation
+Mental Health Workforce Retention and Development Initiative,Mental Health Workforce Retention and Development,editorial,approved,round2:suffix-initiative
+NYC Cleanup Initiative,NYC Cleanup,editorial,approved,round2:suffix-initiative
 *NYC Managed Care Consumer Assistance Program,NYC Managed Care Consumer Assistance Program,mechanical,high,leading-asterisk
 NYC Managed Care Consumer Assistance Program,NYC Managed Care Consumer Assistance Program,mechanical,high,leading-asterisk
 *NYU Dental Van,NYU Dental Van,mechanical,high,leading-asterisk
 NYU Dental Van,NYU Dental Van,mechanical,high,leading-asterisk
 *Obesity Intervention Programs,Obesity Intervention Programs,mechanical,high,leading-asterisk
 Obesity Intervention Programs,Obesity Intervention Programs,mechanical,high,leading-asterisk
-Older Adults Mental Health (Formerly Geriatric Older Adults),Older Adults Mental Health (formerly Geriatric Older Adults),mechanical,high,casing
-Older Adults Mental Health (formerly Geriatric Older Adults),Older Adults Mental Health (formerly Geriatric Older Adults),mechanical,high,casing
+"Older Adult Centers, Programs, and Services (Formerly Access to Critical Services for Older Adults, Information and Referral Services, and Older Adult Clubs, Programs, and Enhancements)","Older Adult Centers, Programs, and Services",editorial,approved,round2:formerly-annotation
+Older Adult Clubs for Immigrant Populations (formerly Senior Centers for Immigrant Populations),Older Adult Clubs for Immigrant Populations,editorial,approved,round2:formerly-annotation
+"Older Adult Clubs, Programs, and Enhancements (formerly Senior Centers, Programs, and Enhancements)","Older Adult Clubs, Programs, and Enhancements",editorial,approved,round2:formerly-annotation
+Older Adults Across the Boroughs (Formerly Borough Presidents’ Discretionary Funding Restoration),Older Adults Across the Boroughs,editorial,approved,round2:formerly-annotation
+Older Adults Mental Health (Formerly Geriatric Older Adults),Older Adults Mental Health,mechanical,high,casing|round2:formerly-annotation
+Older Adults Mental Health (formerly Geriatric Older Adults),Older Adults Mental Health,mechanical,high,casing|round2:formerly-annotation
+Paul A. Vallone Veteran Resource Centers (Formerly Veteran Resource Centers),Paul A. Vallone Veteran Resource Centers,editorial,approved,round2:formerly-annotation
 PEG Restoration – Cultural Institution Group,PEG Restoration –Cultural Institution Group,review,review,wording
 PEG Restoration –Cultural Institution Group,PEG Restoration –Cultural Institution Group,review,review,wording
 Peter Vallone Scholarship – FIT,Peter Vallone Scholarship –FIT,review,review,wording
@@ -79,21 +122,29 @@ Prisoners' Rights Project,Prisoners' Rights Project,mechanical,high,curly-apostr
 Prisoners’ Rights Project,Prisoners' Rights Project,mechanical,high,curly-apostrophe
 *Rapid HIV Testing,Rapid HIV Testing,mechanical,high,leading-asterisk
 Rapid HIV Testing,Rapid HIV Testing,mechanical,high,leading-asterisk
+Rapid Response Legal Collaborative (Formerly Legal Services for Low-Income Immigrants),Rapid Response Legal Collaborative,editorial,approved,round2:formerly-annotation
 Reproductive & Sexual Health Services,Reproductive and Sexual Health Services,mechanical,high,ampersand-vs-and
 Reproductive and Sexual Health Services,Reproductive and Sexual Health Services,mechanical,high,ampersand-vs-and
 Small Business and Job Development / Financial Literacy,Small Business and Job Development / Financial Literacy,review,review,wording
 Small Business/Job Development / Financial Literacy,Small Business and Job Development / Financial Literacy,review,review,wording
 Small Business/Job Development/Financial Literacy,Small Business and Job Development / Financial Literacy,review,review,wording
+Social Adult Day Care Programs,Social Adult Day Care,editorial,approved,round2:suffix-initiative
+Social Justice Postgraduate Fellowship Program,Social Justice Postgraduate Fellowship,editorial,approved,round2:suffix-initiative
+Sports Training and Rolemodels for Success (STARS) Initiative,Sports Training and Rolemodels for Success Initiative (STARS),editorial,approved,round2:paren-acronym
+Sports Training and Rolemodels for Success Initiative,Sports Training and Rolemodels for Success Initiative (STARS),editorial,approved,round2:paren-acronym
+Support Our Older Adults (formerly Support Our Seniors),Support Our Older Adults,editorial,approved,round2:formerly-annotation
 Teacher's Choice,Teacher's Choice,mechanical,high,curly-apostrophe
 Teacher’s Choice,Teacher's Choice,mechanical,high,curly-apostrophe
 Teen Relationship Abuse Prevention Program (RAPP) – PEG Restoration,Teen Relationship Abuse Prevention Program (RAPP) – PEG Restoration,review,review,wording
 Teen Relationship Abuse Prevention Program (RAPP) –PEG Restoration,Teen Relationship Abuse Prevention Program (RAPP) – PEG Restoration,review,review,wording
 Transportation - Operating Costs,Transportation - Operating Costs,review,review,wording
 Transportation Operating Costs,Transportation - Operating Costs,review,review,wording
+Welcome NYC (Formerly Key to the City and Welcome NYC),Welcome NYC,editorial,approved,round2:formerly-annotation
 Women's Housing and Economic Development Corporation (WHEDCO),Women's Housing and Economic Development Corporation (WHEDCO),mechanical,high,casing|curly-apostrophe
 Women’s Housing and Economic Development Corporation (WHEDco),Women's Housing and Economic Development Corporation (WHEDCO),mechanical,high,casing|curly-apostrophe
 Workforce Development - Queens Tech Education,Workforce Development - Queens Tech Education,review,review,wording
 Workforce Development-Queens Tech Education,Workforce Development - Queens Tech Education,review,review,wording
+Year-Round Employment Program,"Year-Round Employment Program (Work, Learn, Grow)",editorial,approved,round2:paren-acronym
 YMCA After School Program,YMCA After School Program,review,review,hyphenation
 YMCA After-School Program,YMCA After School Program,review,review,hyphenation
 Young Adult Institute & Workshop,"Young Adult Institute and Workshop, Inc.",review,review,ampersand-vs-and
