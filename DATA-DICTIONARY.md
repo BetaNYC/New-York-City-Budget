@@ -130,12 +130,25 @@ Post-adoption discretionary designations, rescissions, and purpose changes. **No
 
 ## `data/combined/`
 
-Cross-year roll-ups built by [`code/build_combined.py`](code/build_combined.py). Same columns as the per-year files with a leading `year` column, plus a derived `initiative_canonical` column (see below).
+Cross-year roll-ups built by [`code/build_combined.py`](code/build_combined.py). Same columns as the per-year files with a leading `year` column, plus derived `category_canonical` and `initiative_canonical` columns (see below).
 
-- `all_years_awards.csv` — `year, category, initiative, initiative_canonical, award_type, member, organization, program, ein, amount, agency, purpose` (FY2015–FY2027; `purpose` is carried through so source-distinct rows are not collapsed into false duplicates — see DATA-ANOMALIES #10)
-- `all_years_initiatives.csv` — `year, category, agencies, initiative, initiative_canonical, amount`
+- `all_years_awards.csv` — `year, category, category_canonical, initiative, initiative_canonical, award_type, member, organization, program, ein, amount, agency, purpose` (FY2015–FY2027; `purpose` is carried through so source-distinct rows are not collapsed into false duplicates — see DATA-ANOMALIES #10)
+- `all_years_initiatives.csv` — `year, category, category_canonical, agencies, initiative, initiative_canonical, amount`
 
 **`initiative_canonical`** is a **derived** field, not from source: it is the stable longitudinal key for an initiative across years. `initiative` still preserves the exact source spelling; `initiative_canonical` unifies the spellings the City used for the *same* program (e.g. `&`/`and`, curly vs. straight apostrophe, a leading `*` marker). Join on `initiative_canonical` for year-over-year analysis; cite `initiative` when quoting a specific document. Derivation: `initiative_canonical = initiative_name_crosswalk[initiative]` if the raw spelling is mapped, else a deterministic house-style normalization of `initiative`. See DATA-ANOMALIES #17.
+
+**`category_canonical`** is likewise a **derived, editorial** field: the stable key for a category (the viz "Fund" axis) across years. `category` preserves the exact source label; `category_canonical` unifies the labels the City used for the *same* program area — an ALL-CAPS era vs Title Case, a `Services`/`Initiative` suffix drift, plurality, and the *Senior Services → Older Adult Services* rename. Derivation: a split override on `(category, initiative)` if present (a few early compound categories are split at the initiative level), else `category_name_crosswalk[category]`, else the raw category verbatim (retired categories are left as-is). Unlike `initiative_canonical`, these merges reflect **human editorial judgment** (confirmed against the organizations funded under each name), not just mechanical normalization. See DATA-ANOMALIES #18.
+
+## `data/combined/category_name_crosswalk.csv`
+
+Maps collision-prone raw category labels to a canonical program-area name. One row per non-identity mapping; categories left as-is are not listed.
+
+| Column | Type | Meaning |
+|--------|------|---------|
+| `raw_category` | text | A verbatim `category` label as it appears in a source-year CSV. |
+| `initiative` | text | Blank = the rule applies to the whole category. A specific initiative = a **split override** (a compound category whose lines route to different modern homes); it takes precedence over any category-level rule. |
+| `category_canonical` | text | The canonical program-area name this maps to. |
+| `basis` | text | `casing` (ALL-CAPS→Title Case), `editorial` (confirmed name merge / rename), or `split-crossref` (compound category resolved at the initiative level). |
 
 ## `data/combined/initiative_name_crosswalk.csv`
 
@@ -170,6 +183,7 @@ Links each budget **source document** to its NYC Council **Legistar** legislativ
 
 - **`ein`** — the primary cross-system key (award ↔ transparency ↔ external IRS 990 / Checkbook). 9 digits, no hyphens. Watch the fiscal-sponsor pooling caveat above.
 - **`initiative_canonical`** — the stable key for tracking one initiative across years in the combined roll-ups. Join on this, not the raw `initiative`, for longitudinal analysis (the City's spelling of an initiative drifts year to year — see DATA-ANOMALIES #17).
+- **`category_canonical`** — the stable key for tracking one category (Fund/program area) across years. Join on this, not the raw `category`, for longitudinal Fund-axis analysis (an editorial consolidation — see DATA-ANOMALIES #18).
 - **`member` / `council_member` / `sponsor`** — surname only; join to a Council roster for district/full name.
 - **`fiscal_year` / folder year** — align on the *column*, not the filename, for transparency files.
 - **`legistar_matter_number`** — the crosswalk is the bridge from a document to its legislative record; no budget CSV carries the matter number inline.

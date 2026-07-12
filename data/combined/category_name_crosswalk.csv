@@ -1,0 +1,60 @@
+raw_category,initiative,category_canonical,basis
+ANTI-POVERTY,,Anti-Poverty,casing
+ANTI-POVERTY INITIATIVE,,Anti-Poverty,editorial
+BOROUGHWIDE NEEDS,,Boroughwide Needs,casing
+CHILDREN’S SERVICES,,Children's Services,casing
+COMMUNITY DEVELOPMENT,,Community Development,casing
+COMMUNITY SAFETY AND VICTIM SERVICES,,Community Safety and Victim Services,casing
+CRIMINAL JUSTICE SERVICES,,Criminal Justice Services,casing
+CULTURAL ORGANIZATION,,Cultural Organizations,editorial
+CULTURAL ORGANIZATIONS,,Cultural Organizations,casing
+CULTURAL ORGANZIATIONS,,Cultural Organizations,casing
+Children’s Services,,Children's Services,casing
+DOMESTIC VIOLENCE,,Domestic Violence Services,editorial
+DOMESTIC VIOLENCE SERVICES,,Domestic Violence Services,casing
+EDUCATION,,Education,casing
+ENVIRONMENTAL INITIATIVES,,Environmental Initiatives,casing
+FOOD INITIATIVES,,Food Initiatives,casing
+GOVERNMENT OFFICIALS,,Government Officials,casing
+HEALTH SERVICES,,Health Services,casing
+HIGHER EDUCATION,,Higher Education,casing
+HIGHER EDUCATION INITIATIVES,,Higher Education,editorial
+HOMELESS SERVICES,,Homeless Services,casing
+HOUSING,,Housing,casing
+HOUSING INITIATIVE,,Housing,editorial
+Higher Education Initiatives,,Higher Education,editorial
+IMMIGRANT SERVICES,,Immigrant Services,casing
+INTRODUCTION,,Introduction,casing
+LEGAL SERVICES,,Legal Services,casing
+LIBRARIES,,Libraries,casing
+MENTAL HEALTH,,Mental Health Services,editorial
+MENTAL HEALTH SERVICES,,Mental Health Services,casing
+OLDER ADULT SERVICES,,Older Adult Services,casing
+OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),,Older Adult Services,editorial
+PARKS AND RECREATION SERVICES,,Parks and Recreation Services,casing
+PUBLIC SAFETY,,Public Safety,casing
+SENIOR SERVICES,,Older Adult Services,editorial
+SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,Small Business Services and Workforce Development,casing
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,Speaker's Initiative to Address Citywide Needs,casing
+Senior Services,,Older Adult Services,editorial
+Senior Services Initiatives,,Older Adult Services,editorial
+Speaker’s Initiative to Address Citywide Needs,,Speaker's Initiative to Address Citywide Needs,casing
+VETERAN SERVICES,,Veteran Services,casing
+VETERANS SERVICES,,Veteran Services,editorial
+Veterans Services,,Veteran Services,editorial
+YOUNG WOMEN’S INITIATIVE,,Young Women's Initiative,casing
+YOUTH SERVICES,,Youth Services,casing
+Young Women’s Initiative,,Young Women's Initiative,casing
+CULTURAL ORGANZIATIONS AND LIBRARIES,Coalition of Theaters of Color,Cultural Organizations,split-crossref
+CULTURAL ORGANZIATIONS AND LIBRARIES,Cultural After-School Adventure,Cultural Organizations,split-crossref
+YOUTH AND COMMUNITY DEVELOPMENT,Adult Literacy Initiative,Community Development,split-crossref
+YOUTH AND COMMUNITY DEVELOPMENT,Adult Literacy PEG Restoration,Community Development,split-crossref
+YOUTH AND COMMUNITY DEVELOPMENT,Adult Literacy Services,Community Development,split-crossref
+YOUTH AND COMMUNITY DEVELOPMENT,Adult Literacy Services Initiative,Community Development,split-crossref
+YOUTH AND COMMUNITY DEVELOPMENT,Big Brothers Big Sisters of New York City,Youth Services,split-crossref
+YOUTH AND COMMUNITY DEVELOPMENT,Communities of Color Non-Profit Stabilization Fund,Community Development,split-crossref
+YOUTH AND COMMUNITY DEVELOPMENT,Cultural After School Adventure (CASA),Cultural Organizations,split-crossref
+YOUTH AND COMMUNITY DEVELOPMENT,Immigrant Opportunities Initiative (IOI – CUNY Citizenship NOW! Expansion,Immigrant Services,split-crossref
+YOUTH AND COMMUNITY DEVELOPMENT,Immigrant Opportunities Initiative (IOI),Immigrant Services,split-crossref
+YOUTH AND COMMUNITY DEVELOPMENT,NYC Digital Inclusion and Literacy Initiative,Community Development,split-crossref
+YOUTH AND COMMUNITY DEVELOPMENT,Sports Training and Rolemodels for Success (STARS) Initiative,Youth Services,split-crossref
