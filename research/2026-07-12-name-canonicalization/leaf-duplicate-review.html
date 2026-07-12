@@ -1,0 +1,326 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Duplicate leaf review</title><style>
+:root{--blue:#2359a8;--ink:#414141;--line:#949494;--bg:#fff;--muted:#6b6b6b;--zebra:#f6f8fb;--green:#1a7f43;--amber:#b4341c;--gray:#8a8a8a;}
+*{box-sizing:border-box}body{margin:0;font-family:'Roboto',-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);padding:24px;line-height:1.4}
+h1{font-family:'Poppins',sans-serif;color:var(--blue);font-size:21px;margin:0 0 2px}
+.sub{color:var(--muted);font-size:13px;margin:0 0 14px;max-width:900px}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 14px}.kpi{border:1px solid var(--line);border-radius:6px;padding:6px 11px;font-size:12px;color:var(--muted)}.kpi b{font-size:16px;color:var(--blue);font-family:'Poppins',sans-serif}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:8px 10px;border-bottom:1px solid #e8e8e8;text-align:left;vertical-align:top}
+thead th{font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg)}
+td.fund{font-size:11px;color:var(--muted);white-space:nowrap;max-width:150px}
+.v{margin-bottom:3px}.v code{font-size:11.5px;background:#f2f2f2;padding:1px 5px;border-radius:3px}.v .m{font-size:11px;color:var(--muted);margin-left:6px}
+td.canon{font-family:'Poppins',sans-serif;font-weight:600;color:var(--blue);max-width:250px}
+.badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap;border:1px solid}
+.badge.green{color:var(--green);border-color:var(--green);background:#eaf6ee}.badge.amber{color:var(--amber);border-color:var(--amber);background:#fdece9}.badge.gray{color:var(--gray);border-color:var(--line);background:#f2f2f2}
+.why{font-size:11px;color:var(--muted);margin-top:3px;max-width:230px}
+tr.t-safe td{background:transparent}tr.t-review td{background:#fffaf5}tr.t-keep-separate td{background:#fafafa}
+@media (prefers-color-scheme:dark){:root{--ink:#e6e6e6;--bg:#161616;--zebra:#1e1e1e;--line:#4a4a4a;--muted:#a0a0a0;--blue:#7ea9e8;--green:#6ac48a;--amber:#e78a72;}
+ body{background:var(--bg)}.v code{background:#2a2a2a}thead th{background:#161616}.badge.green{background:#173026}.badge.amber{background:#331c17}.badge.gray{background:#262626}
+ tr.t-review td{background:#241b12}tr.t-keep-separate td{background:#1c1c1c}}
+</style></head><body>
+<h1>Duplicate initiative leaves — review list</h1>
+<p class="sub">Same program appearing as multiple leaves in the viz (drill into a category to see them). These are misses from the initiative canonicalization — it fixed spelling but not these pattern classes. Dollars = total Adopted across FY2015–FY2027. Pulled live from the site.</p>
+<div class="kpis"><div class="kpi"><b>46</b> safe to merge</div><div class="kpi"><b>2</b> your call</div><div class="kpi"><b>2</b> keep separate</div></div>
+<table><thead><tr><th>Category (Fund)</th><th>Variants (same program)</th><th>Proposed canonical</th><th>Verdict</th></tr></thead>
+<tbody><tr class="t-safe">
+      <td class="fund">Environmental Initiatives</td>
+      <td class="vars"><div class='v'><code>NYC Cleanup</code><span class='m'>$71,400,000</span></div><div class='v'><code>NYC Cleanup Initiative</code><span class='m'>$3,500,000</span></div></td>
+      <td class="canon">NYC Cleanup</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Criminal Justice Services</td>
+      <td class="vars"><div class='v'><code>Alternatives to Incarceration (ATI)</code><span class='m'>$55,339,800</span></div><div class='v'><code>Alternatives to Incarceration (ATI) Programs</code><span class='m'>$4,100,000</span></div></td>
+      <td class="canon">Alternatives to Incarceration (ATI)</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">ATI acronym / Alternatives to Incarceration variants</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Community Development</td>
+      <td class="vars"><div class='v'><code>Alternatives to Incarceration (ATI)</code><span class='m'>$27,974,000</span></div><div class='v'><code>Alternatives to Incarceration (ATI&#x27;s)</code><span class='m'>$14,514,000</span></div><div class='v'><code>Alternatives to Incarceration (ATIs)</code><span class='m'>$5,632,000</span></div></td>
+      <td class="canon">Alternatives to Incarceration (ATI)</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">ATI acronym / Alternatives to Incarceration variants</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Immigrant Services</td>
+      <td class="vars"><div class='v'><code>Legal Services for Low-Income Immigrants (Formerly Legal Services for Low-Income Immigrants and Protect NYC)</code><span class='m'>$33,255,000</span></div><div class='v'><code>Legal Services for Low-Income Immigrants</code><span class='m'>$11,224,901</span></div></td>
+      <td class="canon">Legal Services for Low-Income Immigrants</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Criminal Justice Services</td>
+      <td class="vars"><div class='v'><code>Alternatives to Incarceration and Reentry Programs</code><span class='m'>$19,962,000</span></div><div class='v'><code>Alternatives to Incarceration and Reentry Programs (Formerly Alternatives to Incarceration, Discharge Planning, and Diversion Programs)</code><span class='m'>$19,962,000</span></div></td>
+      <td class="canon">Alternatives to Incarceration and Reentry Programs</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Older Adult Services</td>
+      <td class="vars"><div class='v'><code>Support Our Older Adults</code><span class='m'>$22,949,999</span></div><div class='v'><code>Support Our Older Adults (formerly Support Our Seniors)</code><span class='m'>$7,650,000</span></div></td>
+      <td class="canon">Support Our Older Adults</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Community Development</td>
+      <td class="vars"><div class='v'><code>Digital Inclusion and Literacy Initiative</code><span class='m'>$24,480,000</span></div><div class='v'><code>NYC Digital Inclusion and Literacy Initiative</code><span class='m'>$750,000</span></div></td>
+      <td class="canon">Digital Inclusion and Literacy Initiative</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">NYC prefix on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Health Services</td>
+      <td class="vars"><div class='v'><code>HIV/AIDS Pathways to Care</code><span class='m'>$11,339,653</span></div><div class='v'><code>HIV/AIDS Pathways to Care (Formerly Ending the Epidemic and HIV/AIDS Faith Community Based Initiative)</code><span class='m'>$11,339,653</span></div></td>
+      <td class="canon">HIV/AIDS Pathways to Care</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Speaker&#x27;s Initiative to Address Citywide Needs</td>
+      <td class="vars"><div class='v'><code>Year-Round Employment Program (Work, Learn, Grow)</code><span class='m'>$11,000,000</span></div><div class='v'><code>Year-Round Employment Program</code><span class='m'>$8,000,000</span></div></td>
+      <td class="canon">Year-Round Employment Program (Work, Learn, Grow)</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">parenthetical acronym on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Legal Services</td>
+      <td class="vars"><div class='v'><code>Legal Services for Low-Income and Working-Class New Yorkers</code><span class='m'>$9,255,000</span></div><div class='v'><code>Legal Services for Low-Income and Working-Class New Yorkers (Formerly Legal Services for Low-Income New Yorkers and Legal Services for the Working Poor)</code><span class='m'>$9,255,000</span></div></td>
+      <td class="canon">Legal Services for Low-Income and Working-Class New Yorkers</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Health Services</td>
+      <td class="vars"><div class='v'><code>Access Health Initiative</code><span class='m'>$10,860,630</span></div><div class='v'><code>Access Health</code><span class='m'>$7,319,389</span></div></td>
+      <td class="canon">Access Health Initiative</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Mental Health Services</td>
+      <td class="vars"><div class='v'><code>Court-Involved Youth Mental Health</code><span class='m'>$13,700,000</span></div><div class='v'><code>Court-Involved Youth Mental Health Initiative</code><span class='m'>$4,425,000</span></div></td>
+      <td class="canon">Court-Involved Youth Mental Health</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Immigrant Services</td>
+      <td class="vars"><div class='v'><code>Immigrant Opportunities Initiative</code><span class='m'>$16,889,132</span></div><div class='v'><code>Immigrant Opportunities Initiative (IOI)</code><span class='m'>$1,000,000</span></div></td>
+      <td class="canon">Immigrant Opportunities Initiative</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">parenthetical acronym on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Public Safety</td>
+      <td class="vars"><div class='v'><code>Elie Wiesel Holocaust Survivors Initiative</code><span class='m'>$11,500,000</span></div><div class='v'><code>Elie Wiesel Holocaust Survivors</code><span class='m'>$4,250,000</span></div></td>
+      <td class="canon">Elie Wiesel Holocaust Survivors Initiative</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Libraries</td>
+      <td class="vars"><div class='v'><code>Court-Involved Youth Mental Health</code><span class='m'>$12,540,000</span></div><div class='v'><code>Court-Involved Youth Mental Health Initiative</code><span class='m'>$1,900,000</span></div></td>
+      <td class="canon">Court-Involved Youth Mental Health</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Mental Health Services</td>
+      <td class="vars"><div class='v'><code>Older Adults Mental Health (formerly Geriatric Older Adults)</code><span class='m'>$6,755,060</span></div><div class='v'><code>Older Adults Mental Health</code><span class='m'>$3,474,520</span></div></td>
+      <td class="canon">Older Adults Mental Health</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Health Services</td>
+      <td class="vars"><div class='v'><code>Healthy Beginnings</code><span class='m'>$4,593,244</span></div><div class='v'><code>Healthy Beginnings (Formerly Child Health and Wellness and Maternal and Child Health Services)</code><span class='m'>$4,393,244</span></div></td>
+      <td class="canon">Healthy Beginnings</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Education</td>
+      <td class="vars"><div class='v'><code>LGBTQIA+ Inclusive Curriculum</code><span class='m'>$5,600,000</span></div><div class='v'><code>LGBTQIA+ Inclusive Curriculum (Formerly Known as LGBTQ Inclusive Curriculum)</code><span class='m'>$2,800,000</span></div></td>
+      <td class="canon">LGBTQIA+ Inclusive Curriculum</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Young Women&#x27;s Initiative</td>
+      <td class="vars"><div class='v'><code>Sports Training and Rolemodels for Success Initiative (STARS)</code><span class='m'>$4,416,000</span></div><div class='v'><code>Sports Training and Rolemodels for Success Initiative</code><span class='m'>$2,701,200</span></div><div class='v'><code>Sports Training and Rolemodels for Success (STARS) Initiative</code><span class='m'>$1,200,000</span></div></td>
+      <td class="canon">Sports Training and Rolemodels for Success Initiative (STARS)</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">parenthetical acronym on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Mental Health Services</td>
+      <td class="vars"><div class='v'><code>Children Under Five</code><span class='m'>$8,011,924</span></div><div class='v'><code>Children Under Five Initiative</code><span class='m'>$200,000</span></div></td>
+      <td class="canon">Children Under Five</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Older Adult Services</td>
+      <td class="vars"><div class='v'><code>Older Adult Centers, Programs, and Services</code><span class='m'>$3,733,226</span></div><div class='v'><code>Older Adult Centers, Programs, and Services (Formerly Access to Critical Services for Older Adults, Information and Referral Services, and Older Adult Clubs, Programs, and Enhancements)</code><span class='m'>$3,733,226</span></div></td>
+      <td class="canon">Older Adult Centers, Programs, and Services</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Older Adult Services</td>
+      <td class="vars"><div class='v'><code>LGBTQIA+ Older Adult Services in Every Borough</code><span class='m'>$5,265,000</span></div><div class='v'><code>LGBTQIA+ Older Adult Services in Every Borough (formerly LGBTQ Senior Services in Every Borough)</code><span class='m'>$1,755,000</span></div></td>
+      <td class="canon">LGBTQIA+ Older Adult Services in Every Borough</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Government Officials</td>
+      <td class="vars"><div class='v'><code>Access Health</code><span class='m'>$5,500,000</span></div><div class='v'><code>Access Health NYC</code><span class='m'>$1,000,000</span></div></td>
+      <td class="canon">Access Health</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">NYC prefix on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Immigrant Services</td>
+      <td class="vars"><div class='v'><code>Welcome NYC</code><span class='m'>$4,550,000</span></div><div class='v'><code>Welcome NYC (Formerly Key to the City and Welcome NYC)</code><span class='m'>$1,875,000</span></div></td>
+      <td class="canon">Welcome NYC</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Food Initiatives</td>
+      <td class="vars"><div class='v'><code>HIV/AIDS Faith Based</code><span class='m'>$4,452,350</span></div><div class='v'><code>HIV/AIDS Faith Based Initiative</code><span class='m'>$1,560,000</span></div></td>
+      <td class="canon">HIV/AIDS Faith Based</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Higher Education</td>
+      <td class="vars"><div class='v'><code>CUNY School of Labor and Urban Studies (SLU)</code><span class='m'>$4,800,000</span></div><div class='v'><code>CUNY School of Labor and Urban Studies</code><span class='m'>$1,200,000</span></div></td>
+      <td class="canon">CUNY School of Labor and Urban Studies (SLU)</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">parenthetical acronym on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Older Adult Services</td>
+      <td class="vars"><div class='v'><code>Older Adult Clubs for Immigrant Populations</code><span class='m'>$4,500,000</span></div><div class='v'><code>Older Adult Clubs for Immigrant Populations (formerly Senior Centers for Immigrant Populations)</code><span class='m'>$1,500,000</span></div></td>
+      <td class="canon">Older Adult Clubs for Immigrant Populations</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Young Women&#x27;s Initiative</td>
+      <td class="vars"><div class='v'><code>Culturally Specific Gender Based Violence Initiative</code><span class='m'>$3,000,000</span></div><div class='v'><code>Culturally Specific Gender Based Violence Initiative (Formerly Initiative for Immigrant Survivors of Domestic Violence)</code><span class='m'>$3,000,000</span></div></td>
+      <td class="canon">Culturally Specific Gender Based Violence Initiative</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Youth Services</td>
+      <td class="vars"><div class='v'><code>Sports Training and Rolemodels for Success Initiative (STARS)</code><span class='m'>$2,944,000</span></div><div class='v'><code>Sports Training and Rolemodels for Success (STARS) Initiative</code><span class='m'>$2,472,000</span></div></td>
+      <td class="canon">Sports Training and Rolemodels for Success Initiative (STARS)</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">parenthetical acronym on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Parks and Recreation Services</td>
+      <td class="vars"><div class='v'><code>Hate Crimes Prevention Initiative</code><span class='m'>$2,450,000</span></div><div class='v'><code>Hate Crimes Prevention</code><span class='m'>$2,000,000</span></div></td>
+      <td class="canon">Hate Crimes Prevention Initiative</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Older Adult Services</td>
+      <td class="vars"><div class='v'><code>Older Adult Clubs, Programs, and Enhancements</code><span class='m'>$2,145,415</span></div><div class='v'><code>Older Adult Clubs, Programs, and Enhancements (formerly Senior Centers, Programs, and Enhancements)</code><span class='m'>$2,145,415</span></div></td>
+      <td class="canon">Older Adult Clubs, Programs, and Enhancements</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Criminal Justice Services</td>
+      <td class="vars"><div class='v'><code>Justice Involved Supportive Housing (JISH)</code><span class='m'>$2,158,508</span></div><div class='v'><code>Justice Involved Supportive Housing (JISH) (Formerly Discharge Planning)</code><span class='m'>$2,095,639</span></div></td>
+      <td class="canon">Justice Involved Supportive Housing (JISH)</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Immigrant Services</td>
+      <td class="vars"><div class='v'><code>Rapid Response Legal Collaborative</code><span class='m'>$3,000,000</span></div><div class='v'><code>Rapid Response Legal Collaborative (Formerly Legal Services for Low-Income Immigrants)</code><span class='m'>$1,200,000</span></div></td>
+      <td class="canon">Rapid Response Legal Collaborative</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Domestic Violence Services</td>
+      <td class="vars"><div class='v'><code>Dropout Prevention and Intervention</code><span class='m'>$2,485,000</span></div><div class='v'><code>Dropout Prevention and Intervention Initiative</code><span class='m'>$1,595,000</span></div></td>
+      <td class="canon">Dropout Prevention and Intervention</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Immigrant Services</td>
+      <td class="vars"><div class='v'><code>Court-Involved Youth Mental Health</code><span class='m'>$2,050,000</span></div><div class='v'><code>Court-Involved Youth Mental Health Initiative</code><span class='m'>$1,900,000</span></div></td>
+      <td class="canon">Court-Involved Youth Mental Health</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Government Officials</td>
+      <td class="vars"><div class='v'><code>HIV/AIDS Faith Based</code><span class='m'>$2,262,000</span></div><div class='v'><code>HIV/AIDS Faith Based Initiative</code><span class='m'>$1,500,000</span></div></td>
+      <td class="canon">HIV/AIDS Faith Based</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Libraries</td>
+      <td class="vars"><div class='v'><code>LGBTQ Youth All-Borough Mental Health</code><span class='m'>$2,220,000</span></div><div class='v'><code>LGBTQ Youth All-Borough Mental Health Initiative</code><span class='m'>$1,000,000</span></div></td>
+      <td class="canon">LGBTQ Youth All-Borough Mental Health</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Older Adult Services</td>
+      <td class="vars"><div class='v'><code>Access to Critical Services for Older Adults</code><span class='m'>$1,180,000</span></div><div class='v'><code>Access to Critical Services for Older Adults (formerly Access to Critical Services for Seniors)</code><span class='m'>$1,180,000</span></div></td>
+      <td class="canon">Access to Critical Services for Older Adults</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Older Adult Services</td>
+      <td class="vars"><div class='v'><code>Older Adults Across the Boroughs</code><span class='m'>$1,129,774</span></div><div class='v'><code>Older Adults Across the Boroughs (Formerly Borough Presidents&#x27; Discretionary Funding Restoration)</code><span class='m'>$1,129,774</span></div></td>
+      <td class="canon">Older Adults Across the Boroughs</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Immigrant Services</td>
+      <td class="vars"><div class='v'><code>LGBTQ Youth All-Borough Mental Health</code><span class='m'>$1,200,000</span></div><div class='v'><code>LGBTQ Youth All-Borough Mental Health Initiative</code><span class='m'>$1,000,000</span></div></td>
+      <td class="canon">LGBTQ Youth All-Borough Mental Health</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Higher Education</td>
+      <td class="vars"><div class='v'><code>Creative Arts Team (CUNY CAT)</code><span class='m'>$1,600,000</span></div><div class='v'><code>Creative Arts Team</code><span class='m'>$400,000</span></div></td>
+      <td class="canon">Creative Arts Team (CUNY CAT)</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">parenthetical acronym on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Health Services</td>
+      <td class="vars"><div class='v'><code>Creative Arts Team (CUNY CAT)</code><span class='m'>$1,140,000</span></div><div class='v'><code>Creative Arts Team</code><span class='m'>$772,000</span></div></td>
+      <td class="canon">Creative Arts Team (CUNY CAT)</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">parenthetical acronym on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Children&#x27;s Services</td>
+      <td class="vars"><div class='v'><code>Social Justice Postgraduate Fellowship</code><span class='m'>$900,000</span></div><div class='v'><code>Social Justice Postgraduate Fellowship Program</code><span class='m'>$600,000</span></div></td>
+      <td class="canon">Social Justice Postgraduate Fellowship</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Mental Health Services</td>
+      <td class="vars"><div class='v'><code>Mental Health Workforce Retention and Development</code><span class='m'>$850,000</span></div><div class='v'><code>Mental Health Workforce Retention and Development Initiative</code><span class='m'>$300,000</span></div></td>
+      <td class="canon">Mental Health Workforce Retention and Development</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Veteran Services</td>
+      <td class="vars"><div class='v'><code>Paul A. Vallone Veteran Resource Centers</code><span class='m'>$540,000</span></div><div class='v'><code>Paul A. Vallone Veteran Resource Centers (Formerly Veteran Resource Centers)</code><span class='m'>$540,000</span></div></td>
+      <td class="canon">Paul A. Vallone Veteran Resource Centers</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">(Formerly …) annotation left in the name</div></td>
+    </tr>
+<tr class="t-safe">
+      <td class="fund">Small Business Services and Workforce Development</td>
+      <td class="vars"><div class='v'><code>Domestic Worker and Employer Empowerment</code><span class='m'>$300,000</span></div><div class='v'><code>Domestic Worker and Employer Empowerment Initiative</code><span class='m'>$300,000</span></div></td>
+      <td class="canon">Domestic Worker and Employer Empowerment</td>
+      <td><span class="badge green">SAFE — merge</span><div class="why">trailing Initiative/Program on/off</div></td>
+    </tr>
+<tr class="t-review">
+      <td class="fund">Housing</td>
+      <td class="vars"><div class='v'><code>Estate Planning and Resolution Initiative (EPAR)</code><span class='m'>$2,000,000</span></div><div class='v'><code>Estate Planning and Resolution</code><span class='m'>$1,000,000</span></div></td>
+      <td class="canon">Estate Planning and Resolution Initiative (EPAR)</td>
+      <td><span class="badge amber">REVIEW — your call</span><div class="why">other wording difference</div></td>
+    </tr>
+<tr class="t-review">
+      <td class="fund">Housing</td>
+      <td class="vars"><div class='v'><code>Financial Empowerment for NYC Renters</code><span class='m'>$1,800,000</span></div><div class='v'><code>Financial Empowerment for NYC&#x27;s Renters</code><span class='m'>$450,000</span></div></td>
+      <td class="canon">Financial Empowerment for NYC Renters</td>
+      <td><span class="badge amber">REVIEW — your call</span><div class="why">other wording difference</div></td>
+    </tr>
+<tr class="t-keep-separate">
+      <td class="fund">Legal Services</td>
+      <td class="vars"><div class='v'><code>Public Library (Branches) Fiscal 2016 Subsidy</code><span class='m'>$7,770,000</span></div><div class='v'><code>Public Library (Research) Fiscal 2016 Subsidy</code><span class='m'>$1,470,000</span></div></td>
+      <td class="canon">—</td>
+      <td><span class="badge gray">KEEP SEPARATE</span><div class="why">different library systems (Branches vs Research)</div></td>
+    </tr>
+<tr class="t-keep-separate">
+      <td class="fund">Libraries</td>
+      <td class="vars"><div class='v'><code>Public Library (Branches) Fiscal 2015 Subsidy</code><span class='m'>$1,850,000</span></div><div class='v'><code>Public Library (Research) Fiscal 2015 Subsidy</code><span class='m'>$350,000</span></div></td>
+      <td class="canon">—</td>
+      <td><span class="badge gray">KEEP SEPARATE</span><div class="why">different library systems (Branches vs Research)</div></td>
+    </tr></tbody></table>
+<p class="sub" style="margin-top:12px">🟢 SAFE = clear same program (Formerly-clause, ATI acronym, NYC prefix, trailing Initiative/Program, parenthetical acronym). 🟥 REVIEW = your judgment (year-in-name line items, Cancer). ⬜ KEEP SEPARATE = my dedup over-reached; genuinely distinct. Generated 2026-07-12.</p>
+</body></html>

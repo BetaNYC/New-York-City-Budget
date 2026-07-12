@@ -1,0 +1,477 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Exhaustive category map</title><style>
+:root{--blue:#2359a8;--ink:#414141;--line:#949494;--bg:#fff;--muted:#6b6b6b;--zebra:#f6f8fb;
+--green:#1a7f43;--lime:#5a8f1a;--amber:#b4341c;--gray:#8a8a8a;--bl:#2359a8;}
+*{box-sizing:border-box} body{margin:0;font-family:'Roboto',-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);padding:24px;line-height:1.4}
+h1{font-family:'Poppins',sans-serif;color:var(--blue);font-size:21px;margin:0 0 2px}
+h2{font-family:'Poppins',sans-serif;font-size:15px;color:var(--ink);margin:22px 0 6px}
+.sub{color:var(--muted);font-size:13px;margin:0 0 8px;max-width:860px}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 4px}
+.kpi{border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-size:12px;color:var(--muted)}
+.kpi b{display:block;font-size:19px;color:var(--blue);font-family:'Poppins',sans-serif}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:7px 9px;border-bottom:1px solid #e8e8e8;text-align:left;vertical-align:top}
+thead th{font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);border-bottom:1px solid var(--line)}
+td.src code{font-size:11.5px;background:#f2f2f2;padding:1px 5px;border-radius:3px}
+td.src .yr{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+td.arr{color:var(--muted);text-align:center}
+td.canon{font-family:'Poppins',sans-serif;font-weight:600;color:var(--blue)}
+td.ov{min-width:110px} .bar{height:8px;border-radius:4px;background:#e6e6e6;overflow:hidden;margin-bottom:3px}
+.fill{display:block;height:100%} .fill.green{background:var(--green)}.fill.lime{background:var(--lime)}.fill.amber{background:var(--amber)}.fill.blue{background:var(--bl)}.fill.gray{background:var(--gray)}
+.pct{font-size:12px;font-weight:600} .pct.green{color:var(--green)}.pct.lime{color:var(--lime)}.pct.amber{color:var(--amber)}.pct.blue{color:var(--bl)}.pct.gray{color:var(--muted)}
+.badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap;border:1px solid}
+.badge.green{color:var(--green);border-color:var(--green);background:#eaf6ee}.badge.lime{color:var(--lime);border-color:var(--lime);background:#f1f6e8}
+.badge.amber{color:var(--amber);border-color:var(--amber);background:#fdece9}.badge.blue{color:var(--bl);border-color:var(--bl);background:#eaf0f9}.badge.gray{color:var(--muted);border-color:var(--line);background:#f2f2f2}
+tr.t-anchor td.canon{color:var(--muted)}
+@media (prefers-color-scheme:dark){:root{--ink:#e6e6e6;--bg:#161616;--zebra:#1e1e1e;--line:#4a4a4a;--muted:#a0a0a0;--blue:#7ea9e8;--bl:#7ea9e8;--green:#6ac48a;--lime:#a6cf5f;--amber:#e78a72;}
+ body{background:var(--bg)} td.src code{background:#2a2a2a} .bar{background:#333}
+ .badge.green{background:#173026}.badge.lime{background:#242e14}.badge.amber{background:#331c17}.badge.blue{background:#16233a}.badge.gray{background:#262626}}
+</style></head><body>
+<h1>Exhaustive Schedule C category map — every label, routed to a modern home</h1>
+<p class="sub">All 62 category name-keys (after collapsing casing/typo/apostrophe from 96 raw labels). Older names are routed <b>backward</b> into the FY27 anchor set using the share of the same funded organizations (by tax ID). Green = orgs confirm it's the same category; amber = needs your eye.</p>
+<div class="kpis">
+<div class="kpi"><b>96</b>raw labels</div><div class="kpi"><b>62</b>name-keys</div>
+<div class="kpi"><b>25</b>modern anchors (FY27)</div>
+<div class="kpi"><b>9</b>merge on org overlap</div>
+<div class="kpi"><b>23</b>need review</div>
+</div>
+<h2>Older labels → modern home (37)</h2>
+<table><thead><tr><th>Older label (name-key)</th><th></th><th>Proposed modern home</th><th>Org overlap</th><th>Basis</th></tr></thead>
+<tbody><tr class="t-retired">
+      <td class="src"><code>libraries</code><span class="yr">FY11–FY25 · 23 orgs · $270,605,361</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-same">
+      <td class="src"><code>senior services</code><span class="yr">FY09–FY23 · 238 orgs · $261,918,200</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Older Adult Services</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:41%"></span></div><span class="pct green">41%</span></td>
+      <td><span class="badge green">rename (formerly)</span></td>
+    </tr>
+<tr class="t-review">
+      <td class="src"><code>youth and community development</code><span class="yr">FY09–FY15 · 59 orgs · $230,034,100</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Community Development</td>
+      <td class="ov"><div class="bar"><span class="fill lime" style="width:9%"></span></div><span class="pct lime">9%</span></td>
+      <td><span class="badge lime">name matches, orgs weak — review</span></td>
+    </tr>
+<tr class="t-same">
+      <td class="src"><code>higher education initiatives</code><span class="yr">FY16–FY26 · 12 orgs · $139,173,976</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Higher Education</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:25%"></span></div><span class="pct green">25%</span></td>
+      <td><span class="badge green">name + orgs agree</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>fire services</code><span class="yr">FY12–FY14 · 0 orgs · $128,168,342</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>social services</code><span class="yr">FY09–FY14 · 0 orgs · $122,284,104</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>children&#x27;s services</code><span class="yr">FY15–FY21 · 52 orgs · $107,953,756</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-review">
+      <td class="src"><code>government officials</code><span class="yr">FY13–FY20 · 118 orgs · $100,751,409</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Health Services</td>
+      <td class="ov"><div class="bar"><span class="fill lime" style="width:53%"></span></div><span class="pct lime">53%</span></td>
+      <td><span class="badge lime">org-suggested (name differs) — review</span></td>
+    </tr>
+<tr class="t-byname">
+      <td class="src"><code>cultural organizations and libraries</code><span class="yr">FY09–FY10 · 0 orgs · $93,698,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Cultural Organizations</td>
+      <td class="ov"><span class="pct blue">—</span></td>
+      <td><span class="badge blue">name (no org data)</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>mocs</code><span class="yr">FY11–FY12 · 0 orgs · $84,328,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>cuny</code><span class="yr">FY14–FY15 · 0 orgs · $80,490,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>anti-gun violence initiative</code><span class="yr">FY13–FY15 · 9 orgs · $77,675,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-review">
+      <td class="src"><code>health services and prevention</code><span class="yr">FY09–FY11 · 25 orgs · $72,404,600</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Health Services</td>
+      <td class="ov"><div class="bar"><span class="fill lime" style="width:9%"></span></div><span class="pct lime">9%</span></td>
+      <td><span class="badge lime">name matches, orgs weak — review</span></td>
+    </tr>
+<tr class="t-same">
+      <td class="src"><code>veterans services</code><span class="yr">FY15–FY23 · 26 orgs · $66,180,794</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Veteran Services</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:48%"></span></div><span class="pct green">48%</span></td>
+      <td><span class="badge green">name + orgs agree</span></td>
+    </tr>
+<tr class="t-review">
+      <td class="src"><code>parks and recreation</code><span class="yr">FY09–FY16 · 1 orgs · $65,788,800</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Parks and Recreation Services</td>
+      <td class="ov"><div class="bar"><span class="fill lime" style="width:1%"></span></div><span class="pct lime">1%</span></td>
+      <td><span class="badge lime">name matches, orgs weak — review</span></td>
+    </tr>
+<tr class="t-same">
+      <td class="src"><code>domestic violence</code><span class="yr">FY09–FY26 · 192 orgs · $60,375,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Domestic Violence Services</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:72%"></span></div><span class="pct green">72%</span></td>
+      <td><span class="badge green">name + orgs agree</span></td>
+    </tr>
+<tr class="t-byname">
+      <td class="src"><code>fire and criminal justice services</code><span class="yr">FY11–FY11 · 0 orgs · $41,786,289</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Criminal Justice Services</td>
+      <td class="ov"><span class="pct blue">—</span></td>
+      <td><span class="badge blue">name (no org data)</span></td>
+    </tr>
+<tr class="t-same">
+      <td class="src"><code>cultural organization</code><span class="yr">FY25–FY25 · 383 orgs · $34,350,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Cultural Organizations</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:62%"></span></div><span class="pct green">62%</span></td>
+      <td><span class="badge green">name + orgs agree</span></td>
+    </tr>
+<tr class="t-same">
+      <td class="src"><code>mental health</code><span class="yr">FY25–FY25 · 121 orgs · $29,142,110</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Mental Health Services</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:66%"></span></div><span class="pct green">66%</span></td>
+      <td><span class="badge green">name + orgs agree</span></td>
+    </tr>
+<tr class="t-byname">
+      <td class="src"><code>public safety / criminal justice services</code><span class="yr">FY09–FY10 · 0 orgs · $29,077,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Criminal Justice Services</td>
+      <td class="ov"><span class="pct blue">—</span></td>
+      <td><span class="badge blue">name (no org data)</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>elected officials</code><span class="yr">FY09–FY12 · 0 orgs · $29,070,323</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-same">
+      <td class="src"><code>older adult services (formerly senior services)</code><span class="yr">FY24–FY24 · 234 orgs · $28,990,324</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Older Adult Services</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:64%"></span></div><span class="pct green">64%</span></td>
+      <td><span class="badge green">rename (formerly)</span></td>
+    </tr>
+<tr class="t-same">
+      <td class="src"><code>senior services initiatives</code><span class="yr">FY22–FY22 · 27 orgs · $25,787,063</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Older Adult Services</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:9%"></span></div><span class="pct green">9%</span></td>
+      <td><span class="badge green">rename (formerly)</span></td>
+    </tr>
+<tr class="t-review">
+      <td class="src"><code>public safety initiative</code><span class="yr">FY16–FY16 · 25 orgs · $24,165,585</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Public Safety</td>
+      <td class="ov"><div class="bar"><span class="fill lime" style="width:15%"></span></div><span class="pct lime">15%</span></td>
+      <td><span class="badge lime">name matches, orgs weak — review</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>job development</code><span class="yr">FY09–FY11 · 0 orgs · $21,318,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>children services</code><span class="yr">FY09–FY10 · 0 orgs · $21,100,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>introduction</code><span class="yr">FY16–FY22 · 0 orgs · $16,800,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-same">
+      <td class="src"><code>housing initiative</code><span class="yr">FY16–FY16 · 30 orgs · $12,400,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Housing</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:29%"></span></div><span class="pct green">29%</span></td>
+      <td><span class="badge green">name + orgs agree</span></td>
+    </tr>
+<tr class="t-byname">
+      <td class="src"><code>civil legal services</code><span class="yr">FY12–FY14 · 0 orgs · $12,105,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Legal Services</td>
+      <td class="ov"><span class="pct blue">—</span></td>
+      <td><span class="badge blue">name (no org data)</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>cultural affairs</code><span class="yr">FY15–FY15 · 0 orgs · $9,600,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-byname">
+      <td class="src"><code>small business services</code><span class="yr">FY09–FY10 · 0 orgs · $4,770,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Small Business Services and Workforce Development</td>
+      <td class="ov"><span class="pct blue">—</span></td>
+      <td><span class="badge blue">name (no org data)</span></td>
+    </tr>
+<tr class="t-review">
+      <td class="src"><code>anti-poverty initiative</code><span class="yr">FY15–FY15 · 201 orgs · $2,800,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Anti-Poverty</td>
+      <td class="ov"><div class="bar"><span class="fill lime" style="width:15%"></span></div><span class="pct lime">15%</span></td>
+      <td><span class="badge lime">name matches, orgs weak — review</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>civilian complaint review board</code><span class="yr">FY13–FY13 · 0 orgs · $1,499,254</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>sanitation</code><span class="yr">FY09–FY09 · 0 orgs · $1,400,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>discharge planning and aftercare services</code><span class="yr">FY09–FY10 · 0 orgs · $1,280,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>sexual assault services</code><span class="yr">FY09–FY10 · 0 orgs · $665,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr>
+<tr class="t-retired">
+      <td class="src"><code>tax commission</code><span class="yr">FY15–FY15 · 0 orgs · $424,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">— retired / no modern home —</td>
+      <td class="ov"><span class="pct amber">—</span></td>
+      <td><span class="badge amber">retired — review</span></td>
+    </tr></tbody></table>
+<h2>The 25 modern anchor categories (FY27)</h2>
+<table><thead><tr><th>Anchor</th><th></th><th>Canonical name</th><th>Orgs</th><th></th></tr></thead>
+<tbody><tr class="t-anchor">
+      <td class="src"><code>education</code><span class="yr">FY09–FY27 · 86 orgs · $544,773,500</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Education</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>immigrant services</code><span class="yr">FY09–FY27 · 147 orgs · $381,760,757</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Immigrant Services</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>cultural organizations</code><span class="yr">FY11–FY27 · 566 orgs · $364,300,790</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Cultural Organizations</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>criminal justice services</code><span class="yr">FY12–FY27 · 107 orgs · $333,601,369</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Criminal Justice Services</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>community development</code><span class="yr">FY17–FY27 · 298 orgs · $304,265,270</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Community Development</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>speaker&#x27;s initiative to address citywide needs</code><span class="yr">FY16–FY27 · 797 orgs · $292,775,458</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Speaker&#x27;s Initiative to Address Citywide Needs</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>small business services and workforce development</code><span class="yr">FY15–FY27 · 237 orgs · $290,095,408</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Small Business Services and Workforce Development</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>housing</code><span class="yr">FY09–FY27 · 100 orgs · $264,749,400</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Housing</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>health services</code><span class="yr">FY16–FY27 · 223 orgs · $237,296,748</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Health Services</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>legal services</code><span class="yr">FY09–FY27 · 48 orgs · $237,086,910</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Legal Services</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>public safety</code><span class="yr">FY15–FY27 · 104 orgs · $223,355,230</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Public Safety</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>mental health services</code><span class="yr">FY09–FY27 · 182 orgs · $207,968,442</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Mental Health Services</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>domestic violence services</code><span class="yr">FY16–FY27 · 199 orgs · $204,742,434</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Domestic Violence Services</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>environmental initiatives</code><span class="yr">FY15–FY27 · 227 orgs · $171,430,250</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Environmental Initiatives</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>food initiatives</code><span class="yr">FY15–FY27 · 52 orgs · $170,427,232</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Food Initiatives</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>higher education</code><span class="yr">FY09–FY27 · 3 orgs · $131,723,006</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Higher Education</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>homeless services</code><span class="yr">FY09–FY27 · 23 orgs · $125,581,350</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Homeless Services</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>young women&#x27;s initiative</code><span class="yr">FY19–FY27 · 105 orgs · $116,100,930</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Young Women&#x27;s Initiative</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>boroughwide needs</code><span class="yr">FY16–FY27 · 501 orgs · $107,907,179</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Boroughwide Needs</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>older adult services</code><span class="yr">FY25–FY27 · 294 orgs · $92,970,971</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Older Adult Services</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>parks and recreation services</code><span class="yr">FY17–FY27 · 154 orgs · $91,433,476</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Parks and Recreation Services</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>youth services</code><span class="yr">FY23–FY27 · 89 orgs · $60,876,144</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Youth Services</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>veteran services</code><span class="yr">FY17–FY27 · 48 orgs · $43,120,778</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Veteran Services</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>anti-poverty</code><span class="yr">FY16–FY27 · 527 orgs · $28,800,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Anti-Poverty</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr>
+<tr class="t-anchor">
+      <td class="src"><code>community safety and victim services</code><span class="yr">FY23–FY27 · 383 orgs · $25,500,000</span></td>
+      <td class="arr">→</td>
+      <td class="canon">Community Safety and Victim Services</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="badge gray">anchor (FY27)</span></td>
+    </tr></tbody></table>
+<p class="sub" style="margin-top:14px">🟢 same (org overlap ≥50%) · 🟩 likely (30–49%, review) · 🟦 matched by name (little/no org data) · 🟥 split or retired (review). Reference: unrelated categories share ~17%. Generated 2026-07-11.</p>
+</body></html>
