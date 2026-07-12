@@ -161,3 +161,53 @@ def test_canonical_house_style_fallback(tmp_path):
     m = {r["initiative"]: r["initiative_canonical"] for r in recs}
     assert m["*Asthma Control Program"] == "Asthma Control Program"
     assert m["City’s First Readers"] == "City's First Readers"
+
+
+# --------------------------------------------------------------- category_canonical (DATA-ANOMALIES #18)
+def test_category_canonical_for_units():
+    """A split override on (category, initiative) beats a category-level rule; a category
+    with no rule passes through verbatim (retired / left-as-is)."""
+    cx = ({"HOUSING INITIATIVE": "Housing"},
+          {("YOUTH AND COMMUNITY DEVELOPMENT", "Adult Literacy Services"): "Community Development"})
+    assert B.category_canonical_for("HOUSING INITIATIVE", "anything", cx) == "Housing"          # rule
+    assert B.category_canonical_for("YOUTH AND COMMUNITY DEVELOPMENT",
+                                    "Adult Literacy Services", cx) == "Community Development"     # split wins
+    assert B.category_canonical_for("YOUTH AND COMMUNITY DEVELOPMENT", "SYEP", cx) == \
+        "YOUTH AND COMMUNITY DEVELOPMENT"                                                        # retired -> verbatim
+    assert B.category_canonical_for("SANITATION", "x", cx) == "SANITATION"                       # no rule -> verbatim
+
+
+def test_category_canonical_column(tmp_path):
+    """build() adds `category_canonical` right after `category`; an ALL-CAPS/Title-Case pair
+    collapses to one canonical while the raw `category` is preserved verbatim."""
+    data = tmp_path / "data"
+    _write(str(data / "fy09" / "schedule_c" / "fy09_schedule_c_initiatives.csv"),
+           "category,agencies,initiative,amount\nEDUCATION,DOE,Creative Arts,100\n")
+    _write(str(data / "fy27" / "schedule_c" / "fy27_schedule_c_initiatives.csv"),
+           "category,agencies,initiative,amount\nEducation,DOE,Creative Arts,200\n")
+    cat_xwalk = ({"EDUCATION": "Education"}, {})
+    B.build("initiatives", B.INIT_COLS, data_dir=str(data), xwalk={}, cat_xwalk=cat_xwalk)
+    recs = list(csv.DictReader(open(os.path.join(str(data), "combined", "all_years_initiatives.csv"))))
+    hdr = list(recs[0].keys())
+    assert hdr.index("category_canonical") == hdr.index("category") + 1, hdr
+    assert {r["category_canonical"] for r in recs} == {"Education"}
+    assert {r["category"] for r in recs} == {"EDUCATION", "Education"}  # raw preserved
+
+
+def test_category_split_override(tmp_path):
+    """Two initiatives in one compound category route to different canonicals; an unlisted
+    line in the same category stays as-is (retired)."""
+    data = tmp_path / "data"
+    _write(str(data / "fy10" / "schedule_c" / "fy10_schedule_c_initiatives.csv"),
+           "category,agencies,initiative,amount\n"
+           "COMPOUND,X,Public Library Branches,500\n"
+           "COMPOUND,X,Coalition of Theaters,300\n"
+           "COMPOUND,X,Beacon Program,200\n")
+    cat_xwalk = ({}, {("COMPOUND", "Public Library Branches"): "Libraries",
+                      ("COMPOUND", "Coalition of Theaters"): "Cultural Organizations"})
+    B.build("initiatives", B.INIT_COLS, data_dir=str(data), xwalk={}, cat_xwalk=cat_xwalk)
+    recs = list(csv.DictReader(open(os.path.join(str(data), "combined", "all_years_initiatives.csv"))))
+    m = {r["initiative"]: r["category_canonical"] for r in recs}
+    assert m["Public Library Branches"] == "Libraries"
+    assert m["Coalition of Theaters"] == "Cultural Organizations"
+    assert m["Beacon Program"] == "COMPOUND"  # unlisted -> left as-is

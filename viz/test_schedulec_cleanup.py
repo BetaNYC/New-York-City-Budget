@@ -68,14 +68,19 @@ def test_both_axes_sum_to_same_grand_total_each_year():
 
 def test_per_category_fy2027_matches_source_initiatives():
     """Every FY2027 category's Adopted total must equal the sum in the source
-    *_initiatives.csv — no reallocation across categories."""
+    *_initiatives.csv — no reallocation across categories. Compared at the CANONICAL
+    category level (DATA-ANOMALIES #18): canonicalization only relabels/merges the Fund
+    axis, it never moves dollars between distinct programs, so grouping the source by the
+    same canonical category must still reconcile exactly."""
     fields, rows, _ = _build()
-    # source truth
+    cat_xwalk = C.load_category_crosswalk()
+    # source truth, grouped by canonical category (the Fund axis the build emits)
     src = {}
     ipath = C._initiatives_path(2027)
     with open(ipath, newline="", encoding="utf-8") as f:
         for r in csv.DictReader(f):
-            cat = (r.get("category") or "").strip()
+            cat = C.canonical_category((r.get("category") or "").strip(),
+                                       (r.get("initiative") or "").strip(), cat_xwalk)
             src[cat] = src.get(cat, 0.0) + C._to_amount(r.get("amount"))
     # built
     built = {}

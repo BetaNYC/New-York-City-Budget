@@ -16,6 +16,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 DATA = os.path.join(REPO, "data")
 CROSSWALK = os.path.join(DATA, "combined", "initiative_name_crosswalk.csv")
+CAT_CROSSWALK = os.path.join(DATA, "combined", "category_name_crosswalk.csv")
 
 INIT_COLS = ["category", "agencies", "initiative", "amount"]
 # `purpose` MUST be included: it is a distinguishing field in the per-year award files.
@@ -52,6 +53,28 @@ def canonical_for(raw, xwalk):
     house_style can't make — dropped words, hyphenation); otherwise mechanical normalization."""
     return xwalk.get(raw) or house_style(raw)
 
+def load_category_crosswalk(path=CAT_CROSSWALK):
+    """Load the editorial category map (DATA-ANOMALIES #18). Returns (rules, splits):
+      rules  — {raw_category: canonical} applied to every row of that category
+      splits — {(raw_category, initiative): canonical} initiative-level override (splits)
+    Missing file is not fatal: every category then falls back to its raw value."""
+    rules, splits = {}, {}
+    if os.path.exists(path):
+        with open(path, newline="") as f:
+            for r in csv.DictReader(f):
+                if r.get("initiative"):
+                    splits[(r["raw_category"], r["initiative"])] = r["category_canonical"]
+                else:
+                    rules[r["raw_category"]] = r["category_canonical"]
+    return rules, splits
+
+def category_canonical_for(category, initiative, cat_xwalk):
+    """Stable category key. A split override on (category, initiative) wins (a compound
+    early category whose lines route to different modern homes); else the category-level
+    rule; else the raw category verbatim (retired / left-as-is categories)."""
+    rules, splits = cat_xwalk
+    return splits.get((category, initiative)) or rules.get(category) or category
+
 def year_of(path):
     m = re.search(r'/fy(\d\d)/', path)
     return f"FY{m.group(1)}" if m else "FY??"
@@ -68,26 +91,40 @@ def collect(kind, cols, data_dir=DATA):
                 rows.append([yr] + [r.get(c, "") for c in cols])
     return rows
 
-def build(kind, cols, data_dir=DATA, xwalk=None):
+def build(kind, cols, data_dir=DATA, xwalk=None, cat_xwalk=None):
     if xwalk is None:
         xwalk = load_crosswalk()
+    if cat_xwalk is None:
+        cat_xwalk = load_category_crosswalk()
     rows = collect(kind, cols, data_dir)
     out = os.path.join(data_dir, "combined", f"all_years_{kind}.csv")
     os.makedirs(os.path.dirname(out), exist_ok=True)
-    # Insert a derived `initiative_canonical` immediately after the raw `initiative` column.
-    # Non-destructive: `initiative` stays verbatim from source. See DATA-ANOMALIES #17.
-    out_cols = list(cols)
-    ipos = None
-    if "initiative" in cols:
-        ci = cols.index("initiative")
-        out_cols = cols[:ci + 1] + ["initiative_canonical"] + cols[ci + 1:]
-        ipos = 1 + ci  # +1 for the leading `year` column prepended in collect()
+    # Insert derived canonical columns immediately after their source columns:
+    #   `category` -> + `category_canonical`   (DATA-ANOMALIES #18)
+    #   `initiative` -> + `initiative_canonical` (DATA-ANOMALIES #17)
+    # Non-destructive: the raw `category` / `initiative` stay verbatim from source.
+    out_cols = []
+    for c in cols:
+        out_cols.append(c)
+        if c == "category":
+            out_cols.append("category_canonical")
+        if c == "initiative":
+            out_cols.append("initiative_canonical")
+    ci_cat = cols.index("category") if "category" in cols else None
+    ci_init = cols.index("initiative") if "initiative" in cols else None
     with open(out, "w", newline="") as f:
         w = csv.writer(f); w.writerow(["year"] + out_cols)
         for r in rows:
-            if ipos is not None:
-                r = r[:ipos + 1] + [canonical_for(r[ipos], xwalk)] + r[ipos + 1:]
-            w.writerow(r)
+            cat_val = r[1 + ci_cat] if ci_cat is not None else ""
+            init_val = r[1 + ci_init] if ci_init is not None else ""
+            new = [r[0]]  # leading year
+            for idx, c in enumerate(cols):
+                new.append(r[1 + idx])
+                if c == "category":
+                    new.append(category_canonical_for(cat_val, init_val, cat_xwalk))
+                if c == "initiative":
+                    new.append(canonical_for(init_val, xwalk))
+            w.writerow(new)
     years = sorted({r[0] for r in rows})
     print(f"{os.path.relpath(out, REPO)}: {len(rows)} rows across {len(years)} years "
           f"({years[0]}..{years[-1]})")
@@ -95,8 +132,9 @@ def build(kind, cols, data_dir=DATA, xwalk=None):
 def main():
     os.makedirs(os.path.join(DATA, "combined"), exist_ok=True)
     xwalk = load_crosswalk()
-    build("initiatives", INIT_COLS, xwalk=xwalk)
-    build("awards", AWARD_COLS, xwalk=xwalk)
+    cat_xwalk = load_category_crosswalk()
+    build("initiatives", INIT_COLS, xwalk=xwalk, cat_xwalk=cat_xwalk)
+    build("awards", AWARD_COLS, xwalk=xwalk, cat_xwalk=cat_xwalk)
 
 if __name__ == "__main__":
     main()
