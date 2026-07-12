@@ -84,6 +84,15 @@ DEFAULT_OUT = os.path.join(HERE, "data", "schedule_c.csv")
 # standalone, no-deps contract.
 CROSSWALK = os.path.join(DATA, "combined", "initiative_name_crosswalk.csv")
 
+# Category-name canonicalization (DATA-ANOMALIES #18) — the Fund axis. The City relabels
+# a category across years (an ALL-CAPS era vs Title Case, a Services/Initiative suffix, the
+# Senior Services -> Older Adult Services rename), which fragments the Fund axis the same way
+# initiative names fragment the leaf. We canonicalize the category too, so the Fund axis is
+# continuous. A few early compound categories are split at the initiative level (their
+# surviving lines route to a modern category; retired lines stay as-is). Kept in sync with
+# code/build_combined.py; stdlib-only.
+CAT_CROSSWALK = os.path.join(DATA, "combined", "category_name_crosswalk.csv")
+
 
 def house_style(s: str) -> str:
     """Strip a leading '*' marker, straight-quote curly apostrophes, spell '&' as 'and',
@@ -109,6 +118,26 @@ def load_crosswalk(path: str = CROSSWALK) -> dict:
 def canonical_initiative(raw: str, xwalk: dict) -> str:
     """Explicit crosswalk mapping wins; otherwise mechanical house_style normalization."""
     return xwalk.get(raw) or house_style(raw)
+
+
+def load_category_crosswalk(path: str = CAT_CROSSWALK):
+    """Returns (rules, splits): {raw_category: canonical} and {(raw_category, initiative):
+    canonical}. Missing file is not fatal (categories then pass through verbatim)."""
+    rules, splits = {}, {}
+    if os.path.exists(path):
+        with open(path, newline="", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                if r.get("initiative"):
+                    splits[(r["raw_category"], r["initiative"])] = r["category_canonical"]
+                else:
+                    rules[r["raw_category"]] = r["category_canonical"]
+    return rules, splits
+
+
+def canonical_category(raw_cat: str, raw_initiative: str, cat_xwalk) -> str:
+    """Split override on (category, initiative) wins; else category-level rule; else verbatim."""
+    rules, splits = cat_xwalk
+    return splits.get((raw_cat, raw_initiative)) or rules.get(raw_cat) or raw_cat
 
 # The FY2027 discretionary grand total the repo reconciles to, to the dollar
 # (README.md, DATA-DICTIONARY.md). This is the build's validation gate.
@@ -180,6 +209,7 @@ def build_rows(start: int = DEFAULT_START, end: int = DEFAULT_END):
     """
     years = list(range(start, end + 1))
     xwalk = load_crosswalk()
+    cat_xwalk = load_category_crosswalk()
 
     # leaf key = (category, initiative)
     # per leaf: adopted[year], itemized[year], agency bucket (latest year), meta
@@ -204,12 +234,13 @@ def build_rows(start: int = DEFAULT_START, end: int = DEFAULT_END):
         year_total = 0.0
         leaf_keys_this_year = set()
         for r in init_rows:
-            cat = (r.get("category") or "").strip()
+            raw_cat = (r.get("category") or "").strip()
             raw_initiative = (r.get("initiative") or "").strip()
-            if not cat or not raw_initiative:
+            if not raw_cat or not raw_initiative:
                 continue
-            # Canonicalize before the name becomes a leaf key, so spellings of one program
-            # (e.g. '&' vs 'and' across years) merge into a single continuous series.
+            # Canonicalize category (Fund axis) and initiative (leaf) before they become the
+            # leaf key, so a program stays one continuous series across renames/respellings.
+            cat = canonical_category(raw_cat, raw_initiative, cat_xwalk)
             initiative = canonical_initiative(raw_initiative, xwalk)
             key = (cat, initiative)
             amt = _to_amount(r.get("amount"))
@@ -224,8 +255,10 @@ def build_rows(start: int = DEFAULT_START, end: int = DEFAULT_END):
         if os.path.exists(apath):
             awd_by_key: dict[tuple, float] = defaultdict(float)
             for a in _read_csv(apath):
-                akey = ((a.get("category") or "").strip(),
-                        canonical_initiative((a.get("initiative") or "").strip(), xwalk))
+                a_cat = (a.get("category") or "").strip()
+                a_init = (a.get("initiative") or "").strip()
+                akey = (canonical_category(a_cat, a_init, cat_xwalk),
+                        canonical_initiative(a_init, xwalk))
                 awd_by_key[akey] += _to_amount(a.get("amount"))
             matched_total = 0.0
             all_awards_total = sum(awd_by_key.values())
