@@ -1,0 +1,57 @@
+# Auto-deploy the viz/ dashboard to GitHub Pages.
+#
+# Pages for this repo is configured as "deploy from a branch" (source: gh-pages, /).
+# The dashboard, however, lives in the viz/ SUBDIRECTORY — and Pages cannot point at
+# a subfolder of a branch. The fix is a gh-pages branch that holds the contents of
+# viz/ at its ROOT; this workflow (re)builds that branch on every change to viz/, so
+# the live site stays in sync with main without the previous manual step.
+#
+# Mechanism: `git subtree split --prefix viz` produces a commit whose tree IS the
+# viz/ directory at root; we force-push it to gh-pages, which Pages then serves.
+# This is exactly the manual `subtree split` + force-push that was run by hand when
+# the site was first published — now automated. Uses only first-party actions/checkout
+# plus plain git (no third-party deploy action).
+#
+# Scope: fires only when viz/ changes (including its regenerated viz/data/schedule_c.csv,
+# so a crosswalk/data refresh that rebuilds the viz also redeploys). workflow_dispatch is
+# kept so the very PR that introduces this file — which a path-scoped push won't trigger —
+# can be run on demand, and for manual redeploys.
+#
+# Safety: force-push targets only the generated gh-pages deploy branch (never main). If a
+# run fails, the last good gh-pages stays live — the site does not go down.
+
+name: Deploy viz to Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "viz/**"
+      - ".github/workflows/deploy-viz.yml"
+  workflow_dispatch:
+
+# Serialize deploys; a newer push supersedes an in-flight one.
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: write   # needed to force-push the generated gh-pages branch
+
+jobs:
+  deploy:
+    name: Publish viz/ to gh-pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history — subtree split needs it)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Split viz/ to gh-pages root and publish
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git subtree split --prefix viz -b gh-pages-deploy
+          git push --force origin gh-pages-deploy:gh-pages
