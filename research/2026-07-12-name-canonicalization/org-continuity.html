@@ -1,0 +1,149 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Category org-continuity</title><style>
+:root{--blue:#2359a8;--ink:#414141;--line:#949494;--bg:#fff;--muted:#6b6b6b;--zebra:#f6f8fb;
+--green:#1a7f43;--lime:#5a8f1a;--amber:#b4341c;--gray:#8a8a8a;}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Roboto',-apple-system,Segoe UI,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);padding:24px;line-height:1.4}
+h1{font-family:'Poppins',sans-serif;color:var(--blue);font-size:21px;margin:0 0 2px}
+.sub{color:var(--muted);font-size:13px;margin:0 0 16px;max-width:820px}
+.ctrl{font-size:12.5px;color:var(--muted);margin:0 0 14px;padding:8px 12px;border-left:3px solid var(--gray);background:var(--zebra)}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:8px 10px;border-bottom:1px solid #e8e8e8;text-align:left;vertical-align:top}
+thead th{font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);border-bottom:1px solid var(--line)}
+tr.headline td{background:var(--zebra)}
+td.cat{font-family:'Poppins',sans-serif;font-weight:600;color:var(--blue);max-width:230px}
+td.v code{display:block;font-size:11.5px;background:#f2f2f2;padding:1px 5px;border-radius:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}
+td.v .yr{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+td.ov{min-width:120px}
+.bar{height:8px;border-radius:4px;background:#e6e6e6;overflow:hidden;margin-bottom:3px}
+.fill{display:block;height:100%}
+.fill.green{background:var(--green)}.fill.lime{background:var(--lime)}.fill.amber{background:var(--amber)}
+.pct{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.pct.green{color:var(--green)}.pct.lime{color:var(--lime)}.pct.amber{color:var(--amber)}.pct.gray{color:var(--gray)}
+.verdict{font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:20px;white-space:nowrap;border:1px solid}
+.verdict.green{color:var(--green);border-color:var(--green);background:#eaf6ee}
+.verdict.lime{color:var(--lime);border-color:var(--lime);background:#f1f6e8}
+.verdict.amber{color:var(--amber);border-color:var(--amber);background:#fdece9}
+.verdict.gray{color:var(--gray);border-color:var(--line);background:#f2f2f2}
+.legend{font-size:12px;color:var(--muted);margin-top:14px}
+@media (prefers-color-scheme:dark){:root{--ink:#e6e6e6;--bg:#161616;--zebra:#1e1e1e;--line:#4a4a4a;--muted:#a0a0a0;
+ --green:#6ac48a;--lime:#a6cf5f;--amber:#e78a72;}
+ body{background:var(--bg)} td.v code{background:#2a2a2a} .bar{background:#333}
+ tr.headline td{background:#1e1e1e}
+ .verdict.green{background:#173026}.verdict.lime{background:#242e14}.verdict.amber{background:#331c17}.verdict.gray{background:#262626}}
+</style></head><body>
+<h1>Do the same organizations carry across a category rename?</h1>
+<p class="sub">For each category that changed names, I matched the actual nonprofits funded (by tax ID / EIN) under the old name vs. the new name. High overlap = same category wearing a new label. Org detail exists FY2016 onward, so pre-FY2016 eras can't be tested this way. Overlap = share of the smaller side's orgs that also appear on the larger side.</p>
+<p class="ctrl"><b>Reference point:</b> two genuinely different categories (Youth Services vs. Older Adult Services) share only <b>17%</b> of orgs. So the high numbers below are meaningful, not just "everyone gets a bit of everything."</p>
+<table><thead><tr>
+<th>Category (recent name)</th><th>Name A (more orgs)</th><th>Name B (fewer orgs)</th><th>Shared</th><th>Org overlap</th><th>Read</th>
+</tr></thead><tbody>
+<tr class="headline">
+      <td class="cat">Older Adult Services  ⟵  Senior Services (rename)</td>
+      <td class="v"><code>Senior Services (all forms)</code><span class="yr">FY15–FY23 · 238 orgs</span></td>
+      <td class="v"><code>Older Adult Services (all forms)</code><span class="yr">FY24–FY27 · 322 orgs</span></td>
+      <td class="num">159</td>
+      <td class="ov"><div class="bar"><span class="fill lime" style="width:67%"></span></div><span class="pct lime">67%</span></td>
+      <td><span class="verdict lime">probably same</span></td>
+    </tr>
+<tr class="">
+      <td class="cat">Senior Services</td>
+      <td class="v"><code>SENIOR SERVICES (+1)</code><span class="yr">FY15–FY23 · 238 orgs</span></td>
+      <td class="v"><code>Senior Services Initiatives</code><span class="yr">FY22–FY22 · 27 orgs</span></td>
+      <td class="num">27</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:100%"></span></div><span class="pct green">100%</span></td>
+      <td><span class="verdict green">same category</span></td>
+    </tr>
+<tr class="">
+      <td class="cat">Higher Education</td>
+      <td class="v"><code>HIGHER EDUCATION INITIATIVES (+1)</code><span class="yr">FY19–FY26 · 12 orgs</span></td>
+      <td class="v"><code>HIGHER EDUCATION (+1)</code><span class="yr">FY27–FY27 · 3 orgs</span></td>
+      <td class="num">3</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:100%"></span></div><span class="pct green">100%</span></td>
+      <td><span class="verdict green">same category</span></td>
+    </tr>
+<tr class="">
+      <td class="cat">Mental Health Services</td>
+      <td class="v"><code>MENTAL HEALTH SERVICES (+1)</code><span class="yr">FY15–FY27 · 182 orgs</span></td>
+      <td class="v"><code>MENTAL HEALTH</code><span class="yr">FY25–FY25 · 121 orgs</span></td>
+      <td class="num">121</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:100%"></span></div><span class="pct green">100%</span></td>
+      <td><span class="verdict green">same category</span></td>
+    </tr>
+<tr class="">
+      <td class="cat">Parks and Recreation Services</td>
+      <td class="v"><code>PARKS AND RECREATION SERVICES (+1)</code><span class="yr">FY19–FY27 · 154 orgs</span></td>
+      <td class="v"><code>PARKS AND RECREATION</code><span class="yr">FY15–FY15 · 1 orgs</span></td>
+      <td class="num">1</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:100%"></span></div><span class="pct green">100%</span></td>
+      <td><span class="verdict green">same category</span></td>
+    </tr>
+<tr class="">
+      <td class="cat">Housing</td>
+      <td class="v"><code>HOUSING (+1)</code><span class="yr">FY15–FY27 · 100 orgs</span></td>
+      <td class="v"><code>HOUSING INITIATIVE</code><span class="yr">FY16–FY16 · 30 orgs</span></td>
+      <td class="num">29</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:97%"></span></div><span class="pct green">97%</span></td>
+      <td><span class="verdict green">same category</span></td>
+    </tr>
+<tr class="">
+      <td class="cat">Cultural Organizations</td>
+      <td class="v"><code>CULTURAL ORGANIZATIONS (+2)</code><span class="yr">FY16–FY27 · 566 orgs</span></td>
+      <td class="v"><code>CULTURAL ORGANIZATION</code><span class="yr">FY25–FY25 · 383 orgs</span></td>
+      <td class="num">364</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:95%"></span></div><span class="pct green">95%</span></td>
+      <td><span class="verdict green">same category</span></td>
+    </tr>
+<tr class="">
+      <td class="cat">Veteran Services</td>
+      <td class="v"><code>VETERAN SERVICES (+1)</code><span class="yr">FY17–FY27 · 48 orgs</span></td>
+      <td class="v"><code>VETERANS SERVICES (+1)</code><span class="yr">FY15–FY23 · 26 orgs</span></td>
+      <td class="num">24</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:92%"></span></div><span class="pct green">92%</span></td>
+      <td><span class="verdict green">same category</span></td>
+    </tr>
+<tr class="">
+      <td class="cat">Older Adult Services</td>
+      <td class="v"><code>OLDER ADULT SERVICES (+1)</code><span class="yr">FY25–FY27 · 294 orgs</span></td>
+      <td class="v"><code>OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES)</code><span class="yr">FY24–FY24 · 234 orgs</span></td>
+      <td class="num">206</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:88%"></span></div><span class="pct green">88%</span></td>
+      <td><span class="verdict green">same category</span></td>
+    </tr>
+<tr class="">
+      <td class="cat">Domestic Violence Services</td>
+      <td class="v"><code>Domestic Violence Services (+1)</code><span class="yr">FY16–FY27 · 199 orgs</span></td>
+      <td class="v"><code>DOMESTIC VIOLENCE</code><span class="yr">FY15–FY26 · 192 orgs</span></td>
+      <td class="num">164</td>
+      <td class="ov"><div class="bar"><span class="fill green" style="width:85%"></span></div><span class="pct green">85%</span></td>
+      <td><span class="verdict green">same category</span></td>
+    </tr>
+<tr class="">
+      <td class="cat">Public Safety</td>
+      <td class="v"><code>PUBLIC SAFETY (+1)</code><span class="yr">FY18–FY27 · 104 orgs</span></td>
+      <td class="v"><code>PUBLIC SAFETY INITIATIVE</code><span class="yr">FY16–FY16 · 25 orgs</span></td>
+      <td class="num">17</td>
+      <td class="ov"><div class="bar"><span class="fill lime" style="width:68%"></span></div><span class="pct lime">68%</span></td>
+      <td><span class="verdict lime">probably same</span></td>
+    </tr>
+<tr class="">
+      <td class="cat">Anti-Poverty</td>
+      <td class="v"><code>ANTI-POVERTY (+1)</code><span class="yr">FY21–FY27 · 527 orgs</span></td>
+      <td class="v"><code>ANTI-POVERTY INITIATIVE</code><span class="yr">FY15–FY15 · 201 orgs</span></td>
+      <td class="num">96</td>
+      <td class="ov"><div class="bar"><span class="fill amber" style="width:48%"></span></div><span class="pct amber">48%</span></td>
+      <td><span class="verdict amber">less clear — review</span></td>
+    </tr>
+<tr class="">
+      <td class="cat">Children&#x27;s Services</td>
+      <td class="v"><code>Children’s Services (+1)</code><span class="yr">FY15–FY21 · 52 orgs</span></td>
+      <td class="v"><code>CHILDREN SERVICES</code><span class="yr">— · 0 orgs</span></td>
+      <td class="num">—</td>
+      <td class="ov"><span class="pct gray">—</span></td>
+      <td><span class="verdict gray">decide by name</span></td>
+    </tr>
+</tbody></table>
+<p class="legend">🟢 same category (≥85%) &nbsp; 🟩 probably same (60–84%) &nbsp; 🟥 less clear, review (&lt;60%) &nbsp; ⬜ can't test by orgs — decide by name. Generated 2026-07-11 from <code>all_years_awards.csv</code>.</p>
+</body></html>
