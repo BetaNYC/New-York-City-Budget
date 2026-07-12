@@ -19,7 +19,7 @@ FY09,EDUCATION,Education,CUNY,Creative Arts Team,Creative Arts Team,400000
 FY09,EDUCATION,Education,DOE,Computers for Youth,Computers for Youth,250000
 FY09,EDUCATION,Education,DOE,Dropout Prevention & Intervention,Dropout Prevention and Intervention,2000000
 FY09,EDUCATION,Education,DOE,ELL Incentive Grants,ELL Incentive Grants,2000000
-FY09,EDUCATION,Education,DOE,Executive Leadership Institute (CSA),Executive Leadership Institute (CSA),300000
+FY09,EDUCATION,Education,DOE,Executive Leadership Institute (CSA),Executive Leadership Institute,300000
 FY09,EDUCATION,Education,DOE,Jill Chaifitz Helpline - Advocates for Children,Jill Chaifitz Helpline - Advocates for Children,200000
 FY09,EDUCATION,Education,DOE,Middle School Reform Incentive Grants,Middle School Reform Incentive Grants,3000000
 FY09,EDUCATION,Education,DOE,National Foundation for Teaching Entrepreneurship,National Foundation for Teaching Entrepreneurship,110000
@@ -63,7 +63,7 @@ FY09,HOMELESS SERVICES,Homeless Services,DHS,Citywide Homeless Prevention Fund,C
 FY09,HOUSING,Housing,HPD,Anti-Predatory Lending,Anti-Predatory Lending,360000
 FY09,HOUSING,Housing,HPD,Citywide Task Force on Housing Court,Citywide Task Force on Housing Court,500000
 FY09,HOUSING,Housing,HPD,Community Consultants,Community Consultants,830000
-FY09,HOUSING,Housing,HPD,Housing Preservation,Housing Preservation,1500000
+FY09,HOUSING,Housing,HPD,Housing Preservation,Housing Preservation Initiative,1500000
 FY09,HOUSING,Housing,HPD,Mortgage Foreclosure Prevention Program,Mortgage Foreclosure Prevention Program,1250000
 FY09,HOUSING,Housing,HPD,Neighborhood Preservation Consultants,Neighborhood Preservation Consultants,410000
 FY09,IMMIGRANT SERVICES,Immigrant Services,DYCD,Immigrant Opportunity Initiative,Immigrant Opportunity Initiative,5000000
@@ -81,7 +81,7 @@ FY09,LEGAL SERVICES,Legal Services,CJC,SSI/UI Advocacy Program,SSI/UI Advocacy P
 FY09,LEGAL SERVICES,Legal Services,HPD,Anti Eviction and SRO Legal Services,Anti-Eviction and SRO Legal Services,2250000
 FY09,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,Alcoholism/Substance Ab use -Voluntary Sector,Alcoholism/Substance Ab use -Voluntary Sector,572000
 FY09,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,Autism Awareness,Autism Awareness,1575000
-FY09,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,Children Under Five Initiative,Children Under Five Initiative,1637000
+FY09,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,Children Under Five Initiative,Children Under Five,1637000
 FY09,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,Geriatric Mental Health Services,Geriatric Mental Health Services,2400000
 FY09,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,Mental Health Contracts,Mental Health Contracts,986749
 FY09,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,"Young Adult Institut e and Workshop, Inc.","Young Adult Institut e and Workshop, Inc.",400000
@@ -111,7 +111,7 @@ FY09,SMALL BUSINESS SERVICES,SMALL BUSINESS SERVICES,SBS,Small Business and Job 
 FY09,SOCIAL SERVICES,SOCIAL SERVICES,DYCD,EBTs at Food Markets/Council on the Environment,EBTs at Food Markets/Council on the Environment,270000
 FY09,SOCIAL SERVICES,SOCIAL SERVICES,DYCD,Food Pantries,Food Pantries,505000
 FY09,SOCIAL SERVICES,SOCIAL SERVICES,HRA,Food Pantries,Food Pantries,1500000
-FY09,YOUTH AND COMMUNITY DEVELOPMENT,Community Development,DYCD,Adult Literacy Services,Adult Literacy Services,1000000
+FY09,YOUTH AND COMMUNITY DEVELOPMENT,Community Development,DYCD,Adult Literacy Services,Adult Literacy Services Initiative,1000000
 FY09,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,After -Three Corporation,After -Three Corporation,3800000
 FY09,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,Beacon Opening Fees,Beacon Opening Fees,3000000
 FY09,YOUTH AND COMMUNITY DEVELOPMENT,Cultural Organizations,DYCD,Cultural After School Adventure (CASA),Cultural After-School Adventure (CASA),2850000
@@ -127,7 +127,7 @@ FY10,CHILDREN SERVICES,CHILDREN SERVICES,ACS,Child Safety Initiative,Child Safet
 FY10,CHILDREN SERVICES,CHILDREN SERVICES,ACS,Child Welfare Personnel PEG Restoration,Child Welfare Personnel PEG Restoration,3000000
 FY10,CHILDREN SERVICES,CHILDREN SERVICES,ACS,Provider's Choice,Provider's Choice,1200000
 FY10,CULTURAL ORGANZIATIONS AND LIBRARIES,Cultural Organizations,DCA,Coalition of Theaters of Color,Coalition Theaters of Color,800000
-FY10,CULTURAL ORGANZIATIONS AND LIBRARIES,Cultural Organizations,DCA,Cultural After-School Adventure,Cultural After-School Adventure,5100000
+FY10,CULTURAL ORGANZIATIONS AND LIBRARIES,Cultural Organizations,DCA,Cultural After-School Adventure,Cultural After-School Adventure (CASA),5100000
 FY10,CULTURAL ORGANZIATIONS AND LIBRARIES,CULTURAL ORGANZIATIONS AND LIBRARIES,DCA,Fiscal 2010 Partial PEG Restoration - Programs,Fiscal 2010 Partial PEG Restoration - Programs,3500000
 FY10,CULTURAL ORGANZIATIONS AND LIBRARIES,CULTURAL ORGANZIATIONS AND LIBRARIES,DCA,Fiscal 2010 Partial PEG Restoration - Cultural Institutions Group,Fiscal 2010 Partial PEG Restoration - Cultural Institutions Group,16000000
 FY10,CULTURAL ORGANZIATIONS AND LIBRARIES,CULTURAL ORGANZIATIONS AND LIBRARIES,NY,Public Library (Research) Fiscal 2010 Partial PEG Restoration,Public Library (Research) Fiscal 2010 Partial PEG Restoration,6924000
@@ -143,7 +143,7 @@ FY10,DOMESTIC VIOLENCE,Domestic Violence Services,CJC,Sanctuary for Families - I
 FY10,DOMESTIC VIOLENCE,Domestic Violence Services,HRA,Sanctuary for Families - Economic Stability Project,Sanctuary for Families - Economic Stability Project,150000
 FY10,EDUCATION,Education,CUNY,Creative Arts Team,Creative Arts Team,400000
 FY10,EDUCATION,Education,DOE,Dropout Prevention & Intervention,Dropout Prevention and Intervention,2000000
-FY10,EDUCATION,Education,DOE,Executive Leadership Institute (CSA),Executive Leadership Institute (CSA),300000
+FY10,EDUCATION,Education,DOE,Executive Leadership Institute (CSA),Executive Leadership Institute,300000
 FY10,EDUCATION,Education,DYCD,Jill Chaifitz Helpline,Jill Chaifitz Helpline,200000
 FY10,EDUCATION,Education,DOE,National Foundation for Teaching Entrepreneurship,National Foundation for Teaching Entrepreneurship,110000
 FY10,EDUCATION,Education,DOE,Teacher's Choice,Teacher's Choice,13000000
@@ -185,7 +185,7 @@ FY10,HOMELESS SERVICES,Homeless Services,DHS,Citywide Homeless Prevention Fund,C
 FY10,HOUSING,Housing,HPD,Anti-Predatory Lending,Anti-Predatory Lending,360000
 FY10,HOUSING,Housing,HPD,Citywide Task Force on Housing Court,Citywide Task Force on Housing Court,500000
 FY10,HOUSING,Housing,HPD,Community Consultants,Community Consultants,830000
-FY10,HOUSING,Housing,HPD,Housing Preservation,Housing Preservation,1500000
+FY10,HOUSING,Housing,HPD,Housing Preservation,Housing Preservation Initiative,1500000
 FY10,HOUSING,Housing,HPD,Mortgage Foreclosure Prevention Program,Mortgage Foreclosure Prevention Program,500000
 FY10,IMMIGRANT SERVICES,Immigrant Services,DYCD,Immigrant Opportunity Initiative,Immigrant Opportunity Initiative,5000000
 FY10,JOB DEVELOPMENT,JOB DEVELOPMENT,CUNY,Jobs to Build On,Jobs to Build On,5000000
@@ -201,13 +201,13 @@ FY10,LEGAL SERVICES,Legal Services,CJC,Unemployment/SSI Program,Unemployment/SSI
 FY10,LEGAL SERVICES,Legal Services,HPD,Legal Services /Anti Eviction,Legal Services /Anti Eviction,2250000
 FY10,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,Alcoholism/Substance Abuse - Voluntary Sector,Alcoholism/Substance Abuse - Voluntary Sector,550000
 FY10,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,Autism Awareness,Autism Awareness,1500000
-FY10,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,Children Under Five Initiative,Children Under Five Initiative,1600000
+FY10,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,Children Under Five Initiative,Children Under Five,1600000
 FY10,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,Geriatric Mental Health Services,Geriatric Mental Health Services,2400000
 FY10,MENTAL HEALTH SERVICES,Mental Health Services,HHC,HHC Mental Heath Funding PEG Restoration,HHC Mental Heath Funding PEG Restoration,800000
 FY10,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,Mental Health Contracts,Mental Health Contracts,975000
 FY10,MENTAL HEALTH SERVICES,Mental Health Services,DOH/MH,"Young Adult Institute and Workshop, Inc.","Young Adult Institute and Workshop, Inc.",400000
 FY10,PARKS AND RECREATION,PARKS AND RECREATION,DPR,Playground Associates,Playground Associates,1000000
-FY10,PUBLIC SAFETY / CRIMINAL JUSTICE SERVICES,PUBLIC SAFETY / CRIMINAL JUSTICE SERVICES,CJC,Alternatives to Incarceration (ATIs),Alternatives to Incarceration (ATIs),4500000
+FY10,PUBLIC SAFETY / CRIMINAL JUSTICE SERVICES,PUBLIC SAFETY / CRIMINAL JUSTICE SERVICES,CJC,Alternatives to Incarceration (ATIs),Alternatives to Incarceration (ATI),4500000
 FY10,PUBLIC SAFETY / CRIMINAL JUSTICE SERVICES,PUBLIC SAFETY / CRIMINAL JUSTICE SERVICES,CJC,Center for Court Innovation,Center for Court Innovation,500000
 FY10,PUBLIC SAFETY / CRIMINAL JUSTICE SERVICES,PUBLIC SAFETY / CRIMINAL JUSTICE SERVICES,CJC,Child Advocacy Centers (Safe Horizon),Child Advocacy Centers (Safe Horizon),500000
 FY10,PUBLIC SAFETY / CRIMINAL JUSTICE SERVICES,PUBLIC SAFETY / CRIMINAL JUSTICE SERVICES,OEM,Emergency Preparedness (Red Cross),Emergency Preparedness (Red Cross),1000000
@@ -236,7 +236,7 @@ FY10,SOCIAL SERVICES,SOCIAL SERVICES,DYCD,Food Pantries,Food Pantries,505000
 FY10,SOCIAL SERVICES,SOCIAL SERVICES,HRA,Food Pantries,Food Pantries,1500000
 FY10,SOCIAL SERVICES,SOCIAL SERVICES,HRA,HIV/AIDS Contracted Cases PEG Restoration,HIV/AIDS Contracted Cases PEG Restoration,1876000
 FY10,SOCIAL SERVICES,SOCIAL SERVICES,HRA,Nutrition Program Administration PEG Restoration,Nutrition Program Administration PEG Restoration,491000
-FY10,YOUTH AND COMMUNITY DEVELOPMENT,Community Development,DYCD,Adult Literacy Services,Adult Literacy Services,1500000
+FY10,YOUTH AND COMMUNITY DEVELOPMENT,Community Development,DYCD,Adult Literacy Services,Adult Literacy Services Initiative,1500000
 FY10,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,After -Three Corporation,After -Three Corporation,3800000
 FY10,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,Beacon Programs,Beacon Programs,3500000
 FY10,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,Neighborhood Youth Alliance/Street Outreach,Neighborhood Youth Alliance/Street Outreach,1000000
@@ -274,7 +274,7 @@ FY11,ELECTED OFFICIALS,ELECTED OFFICIALS,DAs/OSNP,DAs & Office of the Special Na
 FY11,ELECTED OFFICIALS,ELECTED OFFICIALS,Pub.Admin.,Public Administrator,Public Administrator,408629
 FY11,ELECTED OFFICIALS,ELECTED OFFICIALS,Pub,Adv. Public Advocate,Adv. Public Advocate,600000
 FY11,FIRE AND CRIMINAL JUSTICE SERVICES,FIRE AND CRIMINAL JUSTICE SERVICES,FDNY,Fire Company Restoration,Fire Company Restoration,37386289
-FY11,FIRE AND CRIMINAL JUSTICE SERVICES,FIRE AND CRIMINAL JUSTICE SERVICES,CJC,Alternatives to Incarceration (ATIs),Alternatives to Incarceration (ATIs),3500000
+FY11,FIRE AND CRIMINAL JUSTICE SERVICES,FIRE AND CRIMINAL JUSTICE SERVICES,CJC,Alternatives to Incarceration (ATIs),Alternatives to Incarceration (ATI),3500000
 FY11,FIRE AND CRIMINAL JUSTICE SERVICES,FIRE AND CRIMINAL JUSTICE SERVICES,CJC,Center for Court Innovation,Center for Court Innovation,400000
 FY11,FIRE AND CRIMINAL JUSTICE SERVICES,FIRE AND CRIMINAL JUSTICE SERVICES,CJC,Child Advocacy Centers (Safe Horizon),Child Advocacy Centers (Safe Horizon),500000
 FY11,HEALTH SERVICES AND PREVENTION,HEALTH SERVICES AND PREVENTION,DOH,*Asthma Control Program,Asthma Control Program,500000
@@ -303,7 +303,7 @@ FY11,HOMELESS SERVICES,Homeless Services,DHS,Medical Service Reduction in Adult 
 FY11,HOMELESS SERVICES,Homeless Services,DHS,Furnish A Future Contract PEG Restoration,Furnish A Future Contract PEG Restoration,400000
 FY11,HOUSING,Housing,HPD,Citywide Task Force on Housing Court,Citywide Task Force on Housing Court,500000
 FY11,HOUSING,Housing,HPD,Community Consultants,Community Consultants,415000
-FY11,HOUSING,Housing,HPD,Housing Preservation,Housing Preservation,1500000
+FY11,HOUSING,Housing,HPD,Housing Preservation,Housing Preservation Initiative,1500000
 FY11,HOUSING,Housing,HPD,Mortgage Foreclosure Prevention Program,Mortgage Foreclosure Prevention Program,500000
 FY11,HOUSING,Housing,HPD,Anti-Eviction & SRO Legal Services,Anti-Eviction and SRO Legal Services,2000000
 FY11,HOUSING,Housing,HPD,PRATT Block by Block,PRATT Block by Block,400000
@@ -346,7 +346,7 @@ FY11,SOCIAL SERVICES,SOCIAL SERVICES,HRA,HIV/AIDS Case Management PEG Restoratio
 FY11,SOCIAL SERVICES,SOCIAL SERVICES,DYCD,Household Composting Program/GrowNYC,Household Composting Program (GrowNYC),45000
 FY11,SOCIAL SERVICES,SOCIAL SERVICES,HRA,Nutrition Program Administration PEG Restoration,Nutrition Program Administration PEG Restoration,477000
 FY11,SOCIAL SERVICES,SOCIAL SERVICES,HRA,Teen RAPP,Teen RAPP,2500000
-FY11,YOUTH AND COMMUNITY DEVELOPMENT,Community Development,DYCD,Adult Literacy Services,Adult Literacy Services,1500000
+FY11,YOUTH AND COMMUNITY DEVELOPMENT,Community Development,DYCD,Adult Literacy Services,Adult Literacy Services Initiative,1500000
 FY11,YOUTH AND COMMUNITY DEVELOPMENT,Community Development,DYCD,Adult Literacy PEG Restoration,Adult Literacy PEG Restoration,3500000
 FY11,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,After -Three Corporation,After -Three Corporation,3800000
 FY11,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,Beacon PEG Restoration,Beacon PEG Restoration,4100000
@@ -367,7 +367,7 @@ FY12,CIVIL LEGAL SERVICES,CIVIL LEGAL SERVICES,CJC,Citywide Civil Legal Services
 FY12,CIVIL LEGAL SERVICES,CIVIL LEGAL SERVICES,CJC,Unemployment/SSI Program,Unemployment/SSI Program,1000000
 FY12,CIVIL LEGAL SERVICES,CIVIL LEGAL SERVICES,CJC,Legal Services for the Working Poor,Legal Services for the Working Poor,1050000
 FY12,CIVIL LEGAL SERVICES,CIVIL LEGAL SERVICES,CJC,Legal Information for Families (LIFT),Legal Information for Families (LIFT),485000
-FY12,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Alternatives to Incarceration (ATIs),Alternatives to Incarceration (ATIs),3350000
+FY12,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Alternatives to Incarceration (ATIs),Alternatives to Incarceration (ATI),3350000
 FY12,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Center for Court Innovation,Center for Court Innovation,400000
 FY12,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Child Advocacy Centers (Safe Horizon),Child Advocacy Centers (Safe Horizon),500000
 FY12,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Sexual Assault Initiative,Sexual Assault Initiative,150000
@@ -452,7 +452,7 @@ FY12,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,After 
 FY12,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,Runaway and Homeless Youth Services PEG Restoration,Runaway and Homeless Youth Services PEG Restoration,7170000
 FY12,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,OST Option I PEG Restoration,OST Option I PEG Restoration,9950000
 FY12,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,New York Immigration Coalition,New York Immigration Coalition,100000
-FY12,YOUTH AND COMMUNITY DEVELOPMENT,Immigrant Services,DYCD,Immigrant Opportunities Initiative (IOI),Immigrant Opportunities Initiative (IOI),4000000
+FY12,YOUTH AND COMMUNITY DEVELOPMENT,Immigrant Services,DYCD,Immigrant Opportunities Initiative (IOI),Immigrant Opportunities Initiative,4000000
 FY13,ANTI-GUN VIOLENCE INITIATIVE,ANTI-GUN VIOLENCE INITIATIVE,DOHMH,Anti-Gun Violence – CeaseFire and Preparedness Programs,Anti-Gun Violence – CeaseFire and Preparedness Programs,1693000
 FY13,ANTI-GUN VIOLENCE INITIATIVE,ANTI-GUN VIOLENCE INITIATIVE,DOHMH,Anti-Gun Violence – Therapeutic Services,Anti-Gun Violence – Therapeutic Services,580000
 FY13,ANTI-GUN VIOLENCE INITIATIVE,ANTI-GUN VIOLENCE INITIATIVE,DOE,"Anti-Gun Violence - Violence Prevention, Conflict Mediation, and Youth Development","Anti-Gun Violence - Violence Prevention, Conflict Mediation, and Youth Development",750000
@@ -469,7 +469,7 @@ FY13,CIVIL LEGAL SERVICES,CIVIL LEGAL SERVICES,CJC,Unemployment Insurance/SSI Ad
 FY13,CIVIL LEGAL SERVICES,CIVIL LEGAL SERVICES,CJC,Legal Services for the Working Poor,Legal Services for the Working Poor,1050000
 FY13,CIVIL LEGAL SERVICES,CIVIL LEGAL SERVICES,CJC,Legal Information for Families (LIFT),Legal Information for Families (LIFT),485000
 FY13,CIVILIAN COMPLAINT REVIEW BOARD,CIVILIAN COMPLAINT REVIEW BOARD,CCRB,Administrative Prosecution Unit,Administrative Prosecution Unit,1499254
-FY13,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Alternatives to Incarceration (ATIs),Alternatives to Incarceration (ATIs),3350000
+FY13,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Alternatives to Incarceration (ATIs),Alternatives to Incarceration (ATI),3350000
 FY13,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Center for Court Innovation,Center for Court Innovation,400000
 FY13,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Child Advocacy Centers (Safe Horizon),Child Advocacy Centers (Safe Horizon),500000
 FY13,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Sexual Assault Initiative,Sexual Assault Initiative,150000
@@ -502,7 +502,7 @@ FY13,GOVERNMENT OFFICIALS,Government Officials,BP,Manhattan Borough President,Ma
 FY13,GOVERNMENT OFFICIALS,Government Officials,PAs,Public Administrators,Public Administrators,383606
 FY13,HIGHER EDUCATION,Higher Education,CUNY,Center for Puerto Rican Studies,Center for Puerto Rican Studies,250000
 FY13,HIGHER EDUCATION,Higher Education,CUNY,CUNY Advanced Certificate Program,CUNY Advanced Certificate Program,101137
-FY13,HIGHER EDUCATION,Higher Education,CUNY,CUNY Nursing Initiative,CUNY Nursing Initiative,45000
+FY13,HIGHER EDUCATION,Higher Education,CUNY,CUNY Nursing Initiative,CUNY Nursing Program,45000
 FY13,HIGHER EDUCATION,Higher Education,CUNY,Diversity in the Media Program,Diversity in Media Program,100000
 FY13,HIGHER EDUCATION,Higher Education,CUNY,Dominican Studies Institute,Dominican Studies Institute,250000
 FY13,HIGHER EDUCATION,Higher Education,CUNY,Hunter College Food Policy Center,Hunter College Food Policy Center,200000
@@ -533,7 +533,7 @@ FY13,SENIOR SERVICES,Older Adult Services,DFTA,Senior Centers and Programs Resto
 FY13,SENIOR SERVICES,Older Adult Services,DFTA,Senior Services – Borough Presidents’ Discretionary Funding -- Restoration,Senior Services – Borough Presidents' Discretionary Funding -- Restoration,4100000
 FY13,SENIOR SERVICES,Older Adult Services,DFTA,Space Costs for Senior Centers,Space Costs for Senior Centers,1500000
 FY13,SENIOR SERVICES,Older Adult Services,DFTA,Transportation Operating Costs,Transportation - Operating Costs,2000000
-FY13,SENIOR SERVICES,Older Adult Services,DFTA,Social Adult Day Care Programs,Social Adult Day Care Programs,400000
+FY13,SENIOR SERVICES,Older Adult Services,DFTA,Social Adult Day Care Programs,Social Adult Day Care,400000
 FY13,SENIOR SERVICES,Older Adult Services,SBS,IBZ Restoration,IBZ Restoration,160000
 FY13,SENIOR SERVICES,Older Adult Services,SBS,MWBE Capacity Building and Mentoring Programs Restoration,MWBE Capacity Building and Mentoring Programs Restoration,54000
 FY13,SENIOR SERVICES,Older Adult Services,SBS,MWBE Leadership Associations,MWBE Leadership Associations,600000
@@ -572,8 +572,8 @@ FY13,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,New Yo
 FY13,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,Runaway and Homeless Youth Services PEG Restoration,Runaway and Homeless Youth Services PEG Restoration,7170000
 FY13,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,Sports & Arts in Schools (SASF),Sports and Arts in Schools (SASF),1000000
 FY13,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,YMCA After School Program,YMCA After School Program,350000
-FY13,YOUTH AND COMMUNITY DEVELOPMENT,Immigrant Services,DYCD,Immigrant Opportunities Initiative (IOI),Immigrant Opportunities Initiative (IOI),4000000
-FY13,YOUTH AND COMMUNITY DEVELOPMENT,Immigrant Services,CUNY,Immigrant Opportunities Initiative (IOI – CUNY Citizenship NOW! Expansion,Immigrant Opportunities Initiative (IOI – CUNY Citizenship NOW! Expansion),600000
+FY13,YOUTH AND COMMUNITY DEVELOPMENT,Immigrant Services,DYCD,Immigrant Opportunities Initiative (IOI),Immigrant Opportunities Initiative,4000000
+FY13,YOUTH AND COMMUNITY DEVELOPMENT,Immigrant Services,CUNY,Immigrant Opportunities Initiative (IOI – CUNY Citizenship NOW! Expansion,Immigrant Opportunities Initiative,600000
 FY14,ANTI-GUN VIOLENCE INITIATIVE,ANTI-GUN VIOLENCE INITIATIVE,NYPD,Anti-Gun Violence – Gun Buy-Back Program,Anti-Gun Violence – Gun Buy-Back Program,150000
 FY14,ANTI-GUN VIOLENCE INITIATIVE,ANTI-GUN VIOLENCE INITIATIVE,DOHMH,Anti-Gun Violence – Cease Fire and Preparedness Programs,Anti-Gun Violence – Cease Fire and Preparedness Programs,1670000
 FY14,ANTI-GUN VIOLENCE INITIATIVE,ANTI-GUN VIOLENCE INITIATIVE,DOHMH,Anti-Gun Violence – Therapeutic Services,Anti-Gun Violence – Therapeutic Services,615000
@@ -590,7 +590,7 @@ FY14,CIVIL LEGAL SERVICES,CIVIL LEGAL SERVICES,CJC,Unemployment Insurance/SSI Ad
 FY14,CIVIL LEGAL SERVICES,CIVIL LEGAL SERVICES,CJC,Legal Services for the Working Poor,Legal Services for the Working Poor,1050000
 FY14,CIVIL LEGAL SERVICES,CIVIL LEGAL SERVICES,CJC,Legal Information for Families Today (LIFT),Legal Information for Families Today (LIFT),485000
 FY14,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,DOP,Adolescent Portable Therapy Program,Adolescent Portable Therapy Program,250000
-FY14,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Alternatives to Incarceration (ATIs),Alternatives to Incarceration (ATIs),3350000
+FY14,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Alternatives to Incarceration (ATIs),Alternatives to Incarceration (ATI),3350000
 FY14,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Center for Court Innovation,Center for Court Innovation,400000
 FY14,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Child Advocacy Centers (Safe Horizon),Child Advocacy Centers (Safe Horizon),500000
 FY14,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,CJC,Initiative to Address Sexual Assault,Initiative to Address Sexual Assault,200000
@@ -637,8 +637,8 @@ FY14,HOUSING,Housing,HPD,Mortgage Foreclosure Prevention Program,Mortgage Forecl
 FY14,HOUSING,Housing,HPD,Anti-Eviction & SRO Legal Services,Anti-Eviction and SRO Legal Services,2000000
 FY14,HOUSING,Housing,HPD,Subsidized Housing Information Project (SHIP),Subsidized Housing Information Project (SHIP),45000
 FY14,HOUSING,Housing,HPD,Association for Neighborhood and Housing Development,Association for Neighborhood and Housing Development,100000
-FY14,IMMIGRANT SERVICES,Immigrant Services,DYCD,Immigrant Opportunities Initiative (IOI),Immigrant Opportunities Initiative (IOI),4300000
-FY14,IMMIGRANT SERVICES,Immigrant Services,CUNY,Immigrant Opportunities Initiative (IOI – CUNY Citizenship NOW! Expansion),Immigrant Opportunities Initiative (IOI – CUNY Citizenship NOW! Expansion),800000
+FY14,IMMIGRANT SERVICES,Immigrant Services,DYCD,Immigrant Opportunities Initiative (IOI),Immigrant Opportunities Initiative,4300000
+FY14,IMMIGRANT SERVICES,Immigrant Services,CUNY,Immigrant Opportunities Initiative (IOI – CUNY Citizenship NOW! Expansion),Immigrant Opportunities Initiative,800000
 FY14,LIBRARIES,Libraries,NY,Public Library (Research) Fiscal 2014 Subsidy Restoration,Public Library (Research) Fiscal 2014 Subsidy Restoration,906000
 FY14,LIBRARIES,Libraries,NY,Public Library (Branches) Fiscal 2014 Subsidy Restoration,Public Library (Branches) Fiscal 2014 Subsidy Restoration,4742000
 FY14,LIBRARIES,Libraries,Brooklyn,Public Library Fiscal 2014 Subsidy Restoration,Public Library Fiscal 2014 Subsidy Restoration,3556000
@@ -648,7 +648,7 @@ FY14,PARKS AND RECREATION,PARKS AND RECREATION,DPR,Playground Associates Restora
 FY14,PARKS AND RECREATION,PARKS AND RECREATION,DPR,Pools- Restoration of Pools Closures,Pools- Restoration of Pools Closures,546000
 FY14,PARKS AND RECREATION,PARKS AND RECREATION,DPR,Pools- Maintenance of Pool Season,Pools- Maintenance of Pool Season,891000
 FY14,PARKS AND RECREATION,PARKS AND RECREATION,DPR,Tree Stump Removal,Tree Stump Removal,2000000
-FY14,SENIOR SERVICES,Older Adult Services,DFTA,Access to Crisis and Emergency Services,Access to Crisis and Emergency Services,600000
+FY14,SENIOR SERVICES,Older Adult Services,DFTA,Access to Crisis and Emergency Services,Access to Crisis and Emergency Services (ACES),600000
 FY14,SENIOR SERVICES,Older Adult Services,DFTA,Case Management Restoration,Case Management Restoration,5500000
 FY14,SENIOR SERVICES,Older Adult Services,DFTA,CityMeals on Wheels,CityMeals on Wheels,1000000
 FY14,SENIOR SERVICES,Older Adult Services,DFTA,Elder Abuse Programs Restoration,Elder Abuse Programs Restoration,800000
@@ -659,7 +659,7 @@ FY14,SENIOR SERVICES,Older Adult Services,DFTA,Senior Centers and Programs Resto
 FY14,SENIOR SERVICES,Older Adult Services,DFTA,Senior Services – Borough Presidents’ Discretionary Funding -- Restoration,Senior Services – Borough Presidents' Discretionary Funding -- Restoration,4100000
 FY14,SENIOR SERVICES,Older Adult Services,DFTA,Space Costs for Senior Centers,Space Costs for Senior Centers,1500000
 FY14,SENIOR SERVICES,Older Adult Services,DFTA,Transportation Operating Costs,Transportation - Operating Costs,2000000
-FY14,SENIOR SERVICES,Older Adult Services,DFTA,Social Adult Day Care Programs,Social Adult Day Care Programs,400000
+FY14,SENIOR SERVICES,Older Adult Services,DFTA,Social Adult Day Care Programs,Social Adult Day Care,400000
 FY14,SENIOR SERVICES,Older Adult Services,SBS,Industrial Business Solutions Providers (IBSP) Restoration,Industrial Business Solutions Providers (IBSP) Restoration,1156405
 FY14,SENIOR SERVICES,Older Adult Services,SBS,MWBE Leadership Associations,MWBE Leadership Associations,600000
 FY14,SENIOR SERVICES,Older Adult Services,SBS,Small Business and Job Development / Financial Literacy,Small Business and Job Development / Financial Literacy,600000
@@ -687,7 +687,7 @@ FY14,SOCIAL SERVICES,SOCIAL SERVICES,DYCD,Adult Literacy PEG Restoration,Adult L
 FY14,SOCIAL SERVICES,SOCIAL SERVICES,DYCD,Adult Literacy Services Initiative,Adult Literacy Services Initiative,1500000
 FY14,SOCIAL SERVICES,SOCIAL SERVICES,DYCD,New York Immigration Coalition,New York Immigration Coalition,200000
 FY14,SOCIAL SERVICES,SOCIAL SERVICES,DYCD,Out of School Time Restoration,Out of School Time Restoration,51376104
-FY14,SOCIAL SERVICES,SOCIAL SERVICES,DYCD,The After-Three Corporation (TASC),The After-Three Corporation (TASC),3000000
+FY14,SOCIAL SERVICES,SOCIAL SERVICES,DYCD,The After-Three Corporation (TASC),After -Three Corporation,3000000
 FY14,SOCIAL SERVICES,SOCIAL SERVICES,DYCD,Beacon Program Elimination PEG Restoration,Beacon Program Elimination PEG Restoration,2146000
 FY14,SOCIAL SERVICES,SOCIAL SERVICES,DYCD,Beacon Program PEG Restoration,Beacon Program PEG Restoration,2300000
 FY14,SOCIAL SERVICES,SOCIAL SERVICES,DYCD,Cornerstone Program PEG Restoration,Cornerstone Program PEG Restoration,926000
@@ -710,7 +710,7 @@ FY15,CHILDREN’S SERVICES,Children's Services,DYCD,Early Childhood Literacy Ini
 FY15,CHILDREN’S SERVICES,Children's Services,ACS,Priority 5 Vouchers,Priority 5 Vouchers,10000000
 FY15,CHILDREN’S SERVICES,Children's Services,CUNY,Technical Assistance for Child Care Providers (CUNY PDI),Technical Assistance for Child Care Providers (CUNY PDI),1500000
 FY15,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,DOP,Adolescent Portable Therapy Program,Adolescent Portable Therapy Program,250000
-FY15,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,MOCJ,Alternatives to Incarceration (ATI) Programs,Alternatives to Incarceration (ATI) Programs,4100000
+FY15,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,MOCJ,Alternatives to Incarceration (ATI) Programs,Alternatives to Incarceration (ATI),4100000
 FY15,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,MOCJ,Center for Court Innovation,Center for Court Innovation,400000
 FY15,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,MOCJ,Child Advocacy Centers (Safe Horizon),Child Advocacy Centers (Safe Horizon),500000
 FY15,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,MOCJ,Initiative to Address Sexual Assault,Initiative to Address Sexual Assault,300000
@@ -737,7 +737,7 @@ FY15,EDUCATION,Education,DOE,CHAMPS,CHAMPS,125000
 FY15,EDUCATION,Education,DOE,"Chess in the Schools, Inc.",Chess in the Schools,400000
 FY15,EDUCATION,Education,DOE,Child Mind Institute,Child Mind Institute,250000
 FY15,EDUCATION,Education,DOE,Community Schools,Community Schools,250000
-FY15,EDUCATION,Education,DOE,Dropout Prevention and Intervention Initiative,Dropout Prevention and Intervention Initiative,1000000
+FY15,EDUCATION,Education,DOE,Dropout Prevention and Intervention Initiative,Dropout Prevention and Intervention,1000000
 FY15,EDUCATION,Education,DOE,Executive Leadership Institute,Executive Leadership Institute,450000
 FY15,EDUCATION,Education,DOE,Free Lunch in Middle Schools,Free Lunch in Middle Schools,6250000
 FY15,EDUCATION,Education,DYCD,Jill Chaifetz Helpline,Jill Chaifetz Helpline,200000
@@ -747,7 +747,7 @@ FY15,EDUCATION,Education,DOE,Small Schools Athletic League,Small Schools Athleti
 FY15,EDUCATION,Education,DOE,Teacher's Choice,Teacher's Choice,6085000
 FY15,EDUCATION,Education,DOE,Urban Advantage,Urban Advantage,3500000
 FY15,ENVIRONMENTAL INITIATIVES,Environmental Initiatives,DYCD,A Greener NYC,A Greener NYC,750000
-FY15,ENVIRONMENTAL INITIATIVES,Environmental Initiatives,DYCD,NYC Cleanup Initiative,NYC Cleanup Initiative,3500000
+FY15,ENVIRONMENTAL INITIATIVES,Environmental Initiatives,DYCD,NYC Cleanup Initiative,NYC Cleanup,3500000
 FY15,FOOD INITIATIVES,Food Initiatives,DYCD,Amida Care Initiative,Amida Care Initiative,100000
 FY15,FOOD INITIATIVES,Food Initiatives,HRA,Earned Income Tax Credit Assistance (Food Bank),Earned Income Tax Credit Assistance (Food Bank),250000
 FY15,FOOD INITIATIVES,Food Initiatives,DYCD,Electronic Benefits Transfers at Food Markets,Electronic Benefits Transfers at Food Markets,335000
@@ -769,7 +769,7 @@ FY15,HOUSING,Housing,HPD,Stabilizing NYC,Stabilizing NYC,1000000
 FY15,HOUSING,Housing,HPD,Ease Transition in Downsizing in Housing,Ease Transition in Downsizing in Housing,250000
 FY15,HOUSING,Housing,NYCHA,NYCHA Community and Senior Centers,NYCHA Community and Senior Centers,17100000
 FY15,IMMIGRANT SERVICES,Immigrant Services,CUNY,CUNY Citizenship NOW! Expansion,CUNY Citizenship NOW! Expansion,1000000
-FY15,IMMIGRANT SERVICES,Immigrant Services,HRA,Immigrant Opportunities Initiative (IOI),Immigrant Opportunities Initiative (IOI),1000000
+FY15,IMMIGRANT SERVICES,Immigrant Services,HRA,Immigrant Opportunities Initiative (IOI),Immigrant Opportunities Initiative,1000000
 FY15,IMMIGRANT SERVICES,Immigrant Services,HRA,New York Immigrant Family Unity Project,New York Immigrant Family Unity Project,4900000
 FY15,IMMIGRANT SERVICES,Immigrant Services,DYCD,New York Immigration Coalition,New York Immigration Coalition,200000
 FY15,LEGAL SERVICES,Legal Services,HRA,Anti-Eviction Legal Services and Single Room Occupancy,Anti-Eviction Legal Services and Single Room Occupancy,5000000
@@ -782,8 +782,8 @@ FY15,LIBRARIES,Libraries,NY,Public Library (Branches) Fiscal 2015 Subsidy,Public
 FY15,LIBRARIES,Libraries,,Brooklyn Public Library Fiscal 2015 Subsidy,Brooklyn Public Library Fiscal 2015 Subsidy,1400000
 FY15,LIBRARIES,Libraries,,Queens Borough Public Library Fiscal 2015 Subsidy,Queens Borough Public Library Fiscal 2015 Subsidy,1400000
 FY15,MENTAL HEALTH SERVICES,Mental Health Services,DOHMH,Autism Awareness,Autism Awareness,690000
-FY15,MENTAL HEALTH SERVICES,Mental Health Services,DOHMH,Children Under Five Initiative,Children Under Five Initiative,200000
-FY15,MENTAL HEALTH SERVICES,Mental Health Services,DOHMH,Court-Involved Youth Mental Health Initiative,Court-Involved Youth Mental Health Initiative,1000000
+FY15,MENTAL HEALTH SERVICES,Mental Health Services,DOHMH,Children Under Five Initiative,Children Under Five,200000
+FY15,MENTAL HEALTH SERVICES,Mental Health Services,DOHMH,Court-Involved Youth Mental Health Initiative,Court-Involved Youth Mental Health,1000000
 FY15,MENTAL HEALTH SERVICES,Mental Health Services,DOHMH,"Samaritan’s of New York, Inc.","Samaritan's of New York, Inc.",50000
 FY15,MENTAL HEALTH SERVICES,Mental Health Services,DOHMH,Young Adult Institute,Young Adult Institute,50000
 FY15,PARKS AND RECREATION,PARKS AND RECREATION,DPR,Parks Maintenance,Parks Maintenance,3650000
@@ -829,11 +829,11 @@ FY15,YOUTH AND COMMUNITY DEVELOPMENT,Youth Services,DYCD,Big Brothers Big Sister
 FY15,YOUTH AND COMMUNITY DEVELOPMENT,Community Development,DYCD,Communities of Color Non-Profit Stabilization Fund,Communities of Color Non-Profit Stabilization Fund,2500000
 FY15,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,Summer Youth Employment Program (SYEP),Summer Youth Employment Program (SYEP),15200000
 FY15,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,New York Junior Tennis League,New York Junior Tennis League,800000
-FY15,YOUTH AND COMMUNITY DEVELOPMENT,Community Development,DYCD,NYC Digital Inclusion and Literacy Initiative,NYC Digital Inclusion and Literacy Initiative,750000
+FY15,YOUTH AND COMMUNITY DEVELOPMENT,Community Development,DYCD,NYC Digital Inclusion and Literacy Initiative,Digital Inclusion and Literacy Initiative,750000
 FY15,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,Sports and Arts in Schools Foundation (SASF),Sports and Arts in Schools Foundation (SASF),1000000
-FY15,YOUTH AND COMMUNITY DEVELOPMENT,Youth Services,DYCD,Sports Training and Rolemodels for Success (STARS) Initiative,Sports Training and Rolemodels for Success (STARS) Initiative,1000000
+FY15,YOUTH AND COMMUNITY DEVELOPMENT,Youth Services,DYCD,Sports Training and Rolemodels for Success (STARS) Initiative,Sports Training and Rolemodels for Success Initiative (STARS),1000000
 FY15,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,Summer Out of School Time (OST),Summer Out of School Time (OST),17500000
-FY15,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,The After-Three Corporation (TASC),The After-Three Corporation (TASC),3000000
+FY15,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,The After-Three Corporation (TASC),After -Three Corporation,3000000
 FY15,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,WHEDCo,WHEDCo,210000
 FY15,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,YMCA After-School Program,YMCA After School Program,350000
 FY15,YOUTH AND COMMUNITY DEVELOPMENT,YOUTH AND COMMUNITY DEVELOPMENT,DYCD,Youth Action Build Initiative,Youth Action Build Initiative,2100000
@@ -844,7 +844,7 @@ FY16,BOROUGHWIDE NEEDS,Boroughwide Needs,DYCD,City’s First Readers,City's Firs
 FY16,BOROUGHWIDE NEEDS,Boroughwide Needs,ACS,Priority 5 Vouchers,Priority 5 Vouchers,4400000
 FY16,BOROUGHWIDE NEEDS,Boroughwide Needs,CUNY,Technical Assistance for Child Care Providers (CUNY PDI),Technical Assistance for Child Care Providers (CUNY PDI),500000
 FY16,CHILDREN’S SERVICES,Children's Services,DOP,Adolescent Portable Therapy Program,Adolescent Portable Therapy Program,250000
-FY16,CHILDREN’S SERVICES,Children's Services,MOCJ,Alternatives to Incarceration (ATI) Programs,Alternatives to Incarceration (ATI) Programs,4432000
+FY16,CHILDREN’S SERVICES,Children's Services,MOCJ,Alternatives to Incarceration (ATI) Programs,Alternatives to Incarceration (ATI),4432000
 FY16,CHILDREN’S SERVICES,Children's Services,MOCJ,Bail Fund,Bail Fund,1400000
 FY16,CHILDREN’S SERVICES,Children's Services,MOCJ,Center for Court Innovation,Center for Court Innovation,500000
 FY16,CHILDREN’S SERVICES,Children's Services,MOCJ,Child Advocacy Centers (Safe Horizon),Child Advocacy Centers (Safe Horizon),748000
@@ -865,7 +865,7 @@ FY16,DOMESTIC VIOLENCE SERVICES,Domestic Violence Services,DOE,CHAMPS,CHAMPS,125
 FY16,DOMESTIC VIOLENCE SERVICES,Domestic Violence Services,DOE,Chess in the Schools,Chess in the Schools,400000
 FY16,DOMESTIC VIOLENCE SERVICES,Domestic Violence Services,DOE,Child Mind Institute,Child Mind Institute,500000
 FY16,DOMESTIC VIOLENCE SERVICES,Domestic Violence Services,DOE,Community Schools,Community Schools,475000
-FY16,DOMESTIC VIOLENCE SERVICES,Domestic Violence Services,DOE,Dropout Prevention and Intervention Initiative,Dropout Prevention and Intervention Initiative,1595000
+FY16,DOMESTIC VIOLENCE SERVICES,Domestic Violence Services,DOE,Dropout Prevention and Intervention Initiative,Dropout Prevention and Intervention,1595000
 FY16,DOMESTIC VIOLENCE SERVICES,Domestic Violence Services,DOE,Executive Leadership Institute,Executive Leadership Institute,450000
 FY16,DOMESTIC VIOLENCE SERVICES,Domestic Violence Services,DYCD,Jill Chaifetz Helpline,Jill Chaifetz Helpline,245000
 FY16,DOMESTIC VIOLENCE SERVICES,Domestic Violence Services,DOE,LGBT Students’ Liaison,LGBT Students' Liaison,200000
@@ -887,7 +887,7 @@ FY16,ENVIRONMENTAL INITIATIVES,Environmental Initiatives,HRA,Food Pantries and T
 FY16,ENVIRONMENTAL INITIATIVES,Environmental Initiatives,DYCD,Food Pantries,Food Pantries,1932000
 FY16,FOOD INITIATIVES,Food Initiatives,,Clerk City Clerk PS Enhancement,Clerk City Clerk PS Enhancement,150000
 FY16,FOOD INITIATIVES,Food Initiatives,,BP- Brooklyn Brooklyn Borough President PS Enhancement,BP- Brooklyn Brooklyn Borough President PS Enhancement,100000
-FY16,GOVERNMENT OFFICIALS,Government Officials,DOHMH,Access Health NYC,Access Health NYC,1000000
+FY16,GOVERNMENT OFFICIALS,Government Officials,DOHMH,Access Health NYC,Access Health,1000000
 FY16,GOVERNMENT OFFICIALS,Government Officials,DYCD,Amida Care Initiative,Amida Care Initiative,100000
 FY16,GOVERNMENT OFFICIALS,Government Officials,DOHMH,Asthma Control Program,Asthma Control Program,500000
 FY16,GOVERNMENT OFFICIALS,Government Officials,DOHMH,Beating Hearts,Beating Hearts,350000
@@ -900,7 +900,7 @@ FY16,GOVERNMENT OFFICIALS,Government Officials,DOHMH,Hepatitis B/C,Hepatitis B/C
 FY16,GOVERNMENT OFFICIALS,Government Officials,DOHMH,HIV Prevention - Behavioral Interventions,HIV Prevention - Behavioral Interventions,2716000
 FY16,GOVERNMENT OFFICIALS,Government Officials,DOHMH,HIV Prevention & Literacy - Seniors,HIV Prevention and Literacy - Seniors,400000
 FY16,GOVERNMENT OFFICIALS,Government Officials,DOHMH,HIV/AIDS Communities of Color,HIV/AIDS Communities of Color,1225000
-FY16,GOVERNMENT OFFICIALS,Government Officials,DOHMH,HIV/AIDS Faith Based Initiative,HIV/AIDS Faith Based Initiative,1500000
+FY16,GOVERNMENT OFFICIALS,Government Officials,DOHMH,HIV/AIDS Faith Based Initiative,HIV/AIDS Faith Based,1500000
 FY16,GOVERNMENT OFFICIALS,Government Officials,DOHMH,Infant Mortality Reduction,Infant Mortality Reduction,2500000
 FY16,GOVERNMENT OFFICIALS,Government Officials,DOHMH,Injection Drug Users Health Alliance (IDUHA),Injection Drug Users Health Alliance (IDUHA),1000000
 FY16,GOVERNMENT OFFICIALS,Government Officials,DOHMH,NYU – Mobile Dental Van,NYU – Mobile Dental Van,268000
@@ -949,9 +949,9 @@ FY16,LEGAL SERVICES,Legal Services,,Queens Borough Public Library Fiscal 2016 Su
 FY16,LIBRARIES,Libraries,DOHMH,Autism Awareness,Autism Awareness,2000000
 FY16,LIBRARIES,Libraries,DOHMH,Bailey House,Bailey House,125000
 FY16,LIBRARIES,Libraries,DOHMH,Children Under Five,Children Under Five,1450000
-FY16,LIBRARIES,Libraries,DOHMH,Court-Involved Youth Mental Health Initiative,Court-Involved Youth Mental Health Initiative,1900000
+FY16,LIBRARIES,Libraries,DOHMH,Court-Involved Youth Mental Health Initiative,Court-Involved Youth Mental Health,1900000
 FY16,LIBRARIES,Libraries,DOHMH,Geriatric Mental Health,Geriatric Mental Health,2000000
-FY16,LIBRARIES,Libraries,DOHMH,LGBTQ Youth All-Borough Mental Health Initiative,LGBTQ Youth All-Borough Mental Health Initiative,1000000
+FY16,LIBRARIES,Libraries,DOHMH,LGBTQ Youth All-Borough Mental Health Initiative,LGBTQ Youth All-Borough Mental Health,1000000
 FY16,LIBRARIES,Libraries,DOHMH,Mental Health Contracts,Mental Health Contracts,621000
 FY16,LIBRARIES,Libraries,DOHMH,Mental Health Services – Enhancement,Mental Health Services – Enhancement,500000
 FY16,LIBRARIES,Libraries,DOHMH,Mental Hygiene Services – Chemical Dependency (CD),Mental Hygiene Services – Chemical Dependency (CD),525000
@@ -1019,11 +1019,11 @@ FY16,VETERANS SERVICES,Veteran Services,DYCD,Big Brothers Big Sisters of New Yor
 FY16,VETERANS SERVICES,Veteran Services,DYCD,Communities of Color Nonprofit Stabilization Fund,Communities of Color Nonprofit Stabilization Fund,2500000
 FY16,VETERANS SERVICES,Veteran Services,DYCD,COMPASS Slot Restoration,COMPASS Slot Restoration,9886800
 FY16,VETERANS SERVICES,Veteran Services,DYCD,New York Junior Tennis League,New York Junior Tennis League,800000
-FY16,VETERANS SERVICES,Veteran Services,DYCD,NYC Digital Inclusion and Literacy Initiative,NYC Digital Inclusion and Literacy Initiative,1020000
+FY16,VETERANS SERVICES,Veteran Services,DYCD,NYC Digital Inclusion and Literacy Initiative,Digital Inclusion and Literacy Initiative,1020000
 FY16,VETERANS SERVICES,Veteran Services,DYCD,NYC Youth Build,NYC Youth Build,2100000
 FY16,VETERANS SERVICES,Veteran Services,DYCD,NYC Youth Council,NYC Youth Council,349654
 FY16,VETERANS SERVICES,Veteran Services,DYCD,Sports & Arts in Schools Foundation,Sports and Arts in Schools Foundation,1000000
-FY16,VETERANS SERVICES,Veteran Services,DYCD,Sports Training and Rolemodels for Success Initiative,Sports Training and Rolemodels for Success Initiative,1000000
+FY16,VETERANS SERVICES,Veteran Services,DYCD,Sports Training and Rolemodels for Success Initiative,Sports Training and Rolemodels for Success Initiative (STARS),1000000
 FY16,VETERANS SERVICES,Veteran Services,DYCD,Student Voter Registration Day,Student Voter Registration Day,343840
 FY16,VETERANS SERVICES,Veteran Services,DYCD,Summer Youth Employment Program (SYEP),Summer Youth Employment Program (SYEP),21000000
 FY16,VETERANS SERVICES,Veteran Services,DYCD,TASC After-Three Initiative,TASC After-Three Initiative,3000000
@@ -1038,8 +1038,8 @@ FY17,BOROUGHWIDE NEEDS,Boroughwide Needs,ACS,Child Care Vouchers,Child Care Vouc
 FY17,CHILDREN’S SERVICES,Children's Services,DYCD,Adult Literacy Initiative,Adult Literacy Initiative,6000000
 FY17,CHILDREN’S SERVICES,Children's Services,DYCD,Communities of Color Nonprofit Stabilization Fund,Communities of Color Nonprofit Stabilization Fund,2500000
 FY17,CHILDREN’S SERVICES,Children's Services,DYCD,Digital Inclusion and Literacy Initiative,Digital Inclusion and Literacy Initiative,2040000
-FY17,CHILDREN’S SERVICES,Children's Services,DCAS,Social Justice Postgraduate Fellowship Program,Social Justice Postgraduate Fellowship Program,600000
-FY17,COMMUNITY DEVELOPMENT,Community Development,MOCJ,Alternatives to Incarceration (ATIs),Alternatives to Incarceration (ATIs),5632000
+FY17,CHILDREN’S SERVICES,Children's Services,DCAS,Social Justice Postgraduate Fellowship Program,Social Justice Postgraduate Fellowship,600000
+FY17,COMMUNITY DEVELOPMENT,Community Development,MOCJ,Alternatives to Incarceration (ATIs),Alternatives to Incarceration (ATI),5632000
 FY17,COMMUNITY DEVELOPMENT,Community Development,MOCJ,Bail Fund,Bail Fund,1400000
 FY17,COMMUNITY DEVELOPMENT,Community Development,MOCJ,Center for Court Innovation,Center for Court Innovation,500000
 FY17,COMMUNITY DEVELOPMENT,Community Development,MOCJ,Initiative to Combat Sexual Assault,Initiative to Combat Sexual Assault,1348000
@@ -1049,7 +1049,7 @@ FY17,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,"ACS, HRA, MOCJ",Suppor
 FY17,CULTURAL ORGANIZATIONS,Cultural Organizations,DOE,Bridge to Tomorrow,Bridge to Tomorrow,1150000
 FY17,CULTURAL ORGANIZATIONS,Cultural Organizations,DOE,Child Mind Institute,Child Mind Institute,500000
 FY17,CULTURAL ORGANIZATIONS,Cultural Organizations,DOE,Community Schools,Community Schools,1225000
-FY17,CULTURAL ORGANIZATIONS,Cultural Organizations,DOE,Dropout Prevention and Intervention Initiative,Dropout Prevention and Intervention Initiative,1595000
+FY17,CULTURAL ORGANIZATIONS,Cultural Organizations,DOE,Dropout Prevention and Intervention Initiative,Dropout Prevention and Intervention,1595000
 FY17,CULTURAL ORGANIZATIONS,Cultural Organizations,DOE,Educational Programs for Students,Educational Programs for Students,2975000
 FY17,CULTURAL ORGANIZATIONS,Cultural Organizations,DYCD,Jill Chaifetz Helpline,Jill Chaifetz Helpline,245000
 FY17,CULTURAL ORGANIZATIONS,Cultural Organizations,DOE,LGBTQ Inclusive Curriculum,LGBTQ Inclusive Curriculum,155000
@@ -1069,7 +1069,7 @@ FY17,FOOD INITIATIVES,Food Initiatives,DOHMH,Beating Hearts,Beating Hearts,35000
 FY17,FOOD INITIATIVES,Food Initiatives,DOHMH,Cancer Services,Cancer Services,790500
 FY17,FOOD INITIATIVES,Food Initiatives,DOHMH,Child Health and Wellness,Child Health and Wellness,646000
 FY17,FOOD INITIATIVES,Food Initiatives,DOHMH,Ending the Epidemic,Ending the Epidemic,5595000
-FY17,FOOD INITIATIVES,Food Initiatives,DOHMH,HIV/AIDS Faith Based Initiative,HIV/AIDS Faith Based Initiative,1560000
+FY17,FOOD INITIATIVES,Food Initiatives,DOHMH,HIV/AIDS Faith Based Initiative,HIV/AIDS Faith Based,1560000
 FY17,FOOD INITIATIVES,Food Initiatives,DOHMH,Maternal Health Services,Maternal Health Services,1430000
 FY17,FOOD INITIATIVES,Food Initiatives,DOHMH,Nurse Family Partnership,Nurse Family Partnership,2000000
 FY17,FOOD INITIATIVES,Food Initiatives,DOHMH,Reproductive and Sexual Health Services,Reproductive and Sexual Health Services,260000
@@ -1083,7 +1083,7 @@ FY17,HEALTH SERVICES,Health Services,DHS,Children and Families in NYC Homeless S
 FY17,HEALTH SERVICES,Health Services,HRA,Homeless Prevention Fund,Homeless Prevention Fund,820000
 FY17,HIGHER EDUCATION INITIATIVES,Higher Education,HPD/HRA,Anti-Eviction and Housing Court Resources,Anti-Eviction and Housing Court Resources,5650000
 FY17,HIGHER EDUCATION INITIATIVES,Higher Education,HPD,Community Housing Preservation Strategies,Community Housing Preservation Strategies,3651000
-FY17,HIGHER EDUCATION INITIATIVES,Higher Education,HPD/DCA,Financial Empowerment for NYC's Renters,Financial Empowerment for NYC's Renters,450000
+FY17,HIGHER EDUCATION INITIATIVES,Higher Education,HPD/DCA,Financial Empowerment for NYC's Renters,Financial Empowerment for NYC Renters,450000
 FY17,HIGHER EDUCATION INITIATIVES,Higher Education,HPD,Foreclosure Buyback Initiative,Foreclosure Buyback Initiative,1000000
 FY17,HIGHER EDUCATION INITIATIVES,Higher Education,HPD,Housing Information Project,Housing Information Project,300000
 FY17,HIGHER EDUCATION INITIATIVES,Higher Education,HPD,HPD Alternative Enforcement Program (AEP),HPD Alternative Enforcement Program (AEP),750000
@@ -1102,10 +1102,10 @@ FY17,HOUSING,Housing,HRA,Legal Services for the Working Poor,Legal Services for 
 FY17,HOUSING,Housing,MOCJ,Prisoners’ Rights Project,Prisoners' Rights Project,750000
 FY17,IMMIGRANT SERVICES,Immigrant Services,DOHMH,Autism Awareness,Autism Awareness,3315386
 FY17,IMMIGRANT SERVICES,Immigrant Services,DOHMH,Children Under Five,Children Under Five,1002000
-FY17,IMMIGRANT SERVICES,Immigrant Services,DOHMH,Court-Involved Youth Mental Health Initiative,Court-Involved Youth Mental Health Initiative,1900000
+FY17,IMMIGRANT SERVICES,Immigrant Services,DOHMH,Court-Involved Youth Mental Health Initiative,Court-Involved Youth Mental Health,1900000
 FY17,IMMIGRANT SERVICES,Immigrant Services,DOHMH,"Developmental, Psychological & Behavioral Health Services","Developmental, Psychological and Behavioral Health Services",2139390
 FY17,IMMIGRANT SERVICES,Immigrant Services,DOHMH,Geriatric Mental Health,Geriatric Mental Health,1827000
-FY17,IMMIGRANT SERVICES,Immigrant Services,DOHMH,LGBTQ Youth All-Borough Mental Health Initiative,LGBTQ Youth All-Borough Mental Health Initiative,1000000
+FY17,IMMIGRANT SERVICES,Immigrant Services,DOHMH,LGBTQ Youth All-Borough Mental Health Initiative,LGBTQ Youth All-Borough Mental Health,1000000
 FY17,IMMIGRANT SERVICES,Immigrant Services,DOHMH,Medicaid Redesign Transition,Medicaid Redesign Transition,500000
 FY17,IMMIGRANT SERVICES,Immigrant Services,DOHMH,Mental Health Services for Vulnerable Populations,Mental Health Services for Vulnerable Populations,1093000
 FY17,LEGAL SERVICES,Legal Services,DPR,Parks Equity Initiative,Parks Equity Initiative,2540000
@@ -1146,7 +1146,7 @@ FY17,SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,Speaker's Initiative to Ad
 FY17,SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,Speaker's Initiative to Address Citywide Needs,DYCD,Big Brothers Big Sisters of New York City,Big Brothers Big Sisters of New York City,1200000
 FY17,SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,Speaker's Initiative to Address Citywide Needs,DYCD,Civic Education in New York City Schools,Civic Education in New York City Schools,500000
 FY17,SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,Speaker's Initiative to Address Citywide Needs,DYCD,COMPASS,COMPASS,8000000
-FY17,SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,Speaker's Initiative to Address Citywide Needs,DYCD,Sports Training and Rolemodels for Success Initiative,Sports Training and Rolemodels for Success Initiative,1200000
+FY17,SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,Speaker's Initiative to Address Citywide Needs,DYCD,Sports Training and Rolemodels for Success Initiative,Sports Training and Rolemodels for Success Initiative (STARS),1200000
 FY17,SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,Speaker's Initiative to Address Citywide Needs,DYCD,Student Voter Registration Day,Student Voter Registration Day,400000
 FY17,SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,Speaker's Initiative to Address Citywide Needs,DYCD,"Year-Round Employment Program (Work, Learn, Grow)","Year-Round Employment Program (Work, Learn, Grow)",11000000
 FY17,SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,Speaker's Initiative to Address Citywide Needs,DYCD,YouthBuild Project Initiative,YouthBuild Project Initiative,2100000
@@ -1172,7 +1172,7 @@ FY18,Children’s Services,Children's Services,DYCD,Communities of Color Nonprof
 FY18,Children’s Services,Children's Services,DYCD,Digital Inclusion and Literacy Initiative,Digital Inclusion and Literacy Initiative,3060000
 FY18,Children’s Services,Children's Services,"DYCD, NYCHA","Diversity, Inclusion and Equity in Tech Initiative","Diversity, Inclusion and Equity in Tech Initiative",700000
 FY18,Children’s Services,Children's Services,DCAS,Social Justice Postgraduate Fellowship,Social Justice Postgraduate Fellowship,900000
-FY18,Community Development,Community Development,MOCJ,Alternatives to Incarceration (ATI’s),Alternatives to Incarceration (ATI's),6407000
+FY18,Community Development,Community Development,MOCJ,Alternatives to Incarceration (ATI’s),Alternatives to Incarceration (ATI),6407000
 FY18,Community Development,Community Development,MOCJ,Bail Fund,Bail Fund,1400000
 FY18,Community Development,Community Development,MOCJ,Center for Court Innovation,Center for Court Innovation,1710000
 FY18,Community Development,Community Development,MOCJ,Initiative to Combat Sexual Assault,Initiative to Combat Sexual Assault,1348000
@@ -1182,7 +1182,7 @@ FY18,Criminal Justice Services,Criminal Justice Services,"ACS, HRA, MOCJ",Suppor
 FY18,Criminal Justice Services,Criminal Justice Services,MOCJ,Domestic Violence and Empowerment (DoVE) Initiative,Domestic Violence and Empowerment (DoVE) Initiative,7805000
 FY18,Cultural Organizations,Cultural Organizations,DOE,Child Mind Institute,Child Mind Institute,500000
 FY18,Cultural Organizations,Cultural Organizations,DOE,Community Schools,Community Schools,2250000
-FY18,Cultural Organizations,Cultural Organizations,DOE,Dropout Prevention and Intervention Initiative,Dropout Prevention and Intervention Initiative,1585000
+FY18,Cultural Organizations,Cultural Organizations,DOE,Dropout Prevention and Intervention Initiative,Dropout Prevention and Intervention,1585000
 FY18,Cultural Organizations,Cultural Organizations,DOE,Educational Programs for Students,Educational Programs for Students,3890000
 FY18,Cultural Organizations,Cultural Organizations,DYCD,Jill Chaifetz Helpline,Jill Chaifetz Helpline,245000
 FY18,Cultural Organizations,Cultural Organizations,DOE,LGBTQ Inclusive Curriculum,LGBTQ Inclusive Curriculum,200000
@@ -1248,7 +1248,7 @@ FY18,Mental Health Services,Mental Health Services,,Various Crisis Management Sy
 FY18,Parks and Recreation Services,Parks and Recreation Services,DFTA,Access to Critical Services for Seniors,Access to Critical Services for Seniors,1180000
 FY18,Parks and Recreation Services,Parks and Recreation Services,DFTA,Borough Presidents’ Discretionary Funding Restoration,Borough Presidents' Discretionary Funding Restoration,1129774
 FY18,Parks and Recreation Services,Parks and Recreation Services,DFTA,Elder Abuse Enhancement,Elder Abuse Enhancement,335000
-FY18,Parks and Recreation Services,Parks and Recreation Services,DFTA,Elie Wiesel Holocaust Survivors Initiative,Elie Wiesel Holocaust Survivors Initiative,3000000
+FY18,Parks and Recreation Services,Parks and Recreation Services,DFTA,Elie Wiesel Holocaust Survivors Initiative,Elie Wiesel Holocaust Survivors,3000000
 FY18,Parks and Recreation Services,Parks and Recreation Services,DFTA,Healthy Aging Initiative,Healthy Aging Initiative,1810000
 FY18,Parks and Recreation Services,Parks and Recreation Services,DFTA,Information and Referral Services,Information and Referral Services,407811
 FY18,Parks and Recreation Services,Parks and Recreation Services,DFTA,LGBT Senior Services in Every Borough,LGBT Senior Services in Every Borough,1500000
@@ -1277,8 +1277,8 @@ FY18,Speaker’s Initiative to Address Citywide Needs,Speaker's Initiative to Ad
 FY18,Speaker’s Initiative to Address Citywide Needs,Speaker's Initiative to Address Citywide Needs,DYCD,Big Brothers Big Sisters of New York City,Big Brothers Big Sisters of New York City,1200000
 FY18,Speaker’s Initiative to Address Citywide Needs,Speaker's Initiative to Address Citywide Needs,DYCD,Civic Education in New York City Schools,Civic Education in New York City Schools,500000
 FY18,Speaker’s Initiative to Address Citywide Needs,Speaker's Initiative to Address Citywide Needs,DYCD,COMPASS,COMPASS,1813600
-FY18,Speaker’s Initiative to Address Citywide Needs,Speaker's Initiative to Address Citywide Needs,DYCD,Sports Training and Rolemodels for Success Initiative,Sports Training and Rolemodels for Success Initiative,1200000
-FY18,Speaker’s Initiative to Address Citywide Needs,Speaker's Initiative to Address Citywide Needs,DYCD,Year-Round Employment Program,Year-Round Employment Program,8000000
+FY18,Speaker’s Initiative to Address Citywide Needs,Speaker's Initiative to Address Citywide Needs,DYCD,Sports Training and Rolemodels for Success Initiative,Sports Training and Rolemodels for Success Initiative (STARS),1200000
+FY18,Speaker’s Initiative to Address Citywide Needs,Speaker's Initiative to Address Citywide Needs,DYCD,Year-Round Employment Program,"Year-Round Employment Program (Work, Learn, Grow)",8000000
 FY18,Speaker’s Initiative to Address Citywide Needs,Speaker's Initiative to Address Citywide Needs,DYCD,YouthBuild Project Initiative,YouthBuild Project Initiative,2100000
 FY18,Veteran Services,Veteran Services,ACS,ACS Youth Health Initiative,ACS Youth Health Initiative,500000
 FY18,Veteran Services,Veteran Services,DOHMH,Dedicated Contraceptive Fund,Dedicated Contraceptive Fund,400000
@@ -1301,7 +1301,7 @@ FY19,CHILDREN’S SERVICES,Children's Services,DYCD,Digital Inclusion and Litera
 FY19,CHILDREN’S SERVICES,Children's Services,"DYCD, NYCHA","Diversity, Inclusion and Equity in Tech Initiative","Diversity, Inclusion and Equity in Tech Initiative",700000
 FY19,CHILDREN’S SERVICES,Children's Services,DYCD,LGBT Community Services,LGBT Community Services,2000000
 FY19,CHILDREN’S SERVICES,Children's Services,"DYCD, DOHMH",Trans Equity Programs,Trans Equity Programs,1775000
-FY19,COMMUNITY DEVELOPMENT,Community Development,MOCJ,Alternatives to Incarceration (ATI’s),Alternatives to Incarceration (ATI's),8107000
+FY19,COMMUNITY DEVELOPMENT,Community Development,MOCJ,Alternatives to Incarceration (ATI’s),Alternatives to Incarceration (ATI),8107000
 FY19,COMMUNITY DEVELOPMENT,Community Development,MOCJ,Bail Fund,Bail Fund,1555000
 FY19,COMMUNITY DEVELOPMENT,Community Development,MOCJ,Center for Court Innovation,Center for Court Innovation,1710000
 FY19,COMMUNITY DEVELOPMENT,Community Development,MOCJ,Initiative to Combat Sexual Assault,Initiative to Combat Sexual Assault,2810000
@@ -1385,7 +1385,7 @@ FY19,PUBLIC SAFETY,Public Safety,DFTA,Access to Critical Services for Seniors,Ac
 FY19,PUBLIC SAFETY,Public Safety,DFTA,Borough Presidents’ Discretionary Funding Restoration,Borough Presidents' Discretionary Funding Restoration,1129774
 FY19,PUBLIC SAFETY,Public Safety,DFTA,Case Management,Case Management,1000000
 FY19,PUBLIC SAFETY,Public Safety,DFTA,Elder Abuse Enhancement,Elder Abuse Enhancement,335000
-FY19,PUBLIC SAFETY,Public Safety,DFTA,Elie Wiesel Holocaust Survivors Initiative,Elie Wiesel Holocaust Survivors Initiative,3500000
+FY19,PUBLIC SAFETY,Public Safety,DFTA,Elie Wiesel Holocaust Survivors Initiative,Elie Wiesel Holocaust Survivors,3500000
 FY19,PUBLIC SAFETY,Public Safety,DFTA,Healthy Aging Initiative,Healthy Aging Initiative,2040000
 FY19,PUBLIC SAFETY,Public Safety,DFTA,Information and Referral Services,Information and Referral Services,407811
 FY19,PUBLIC SAFETY,Public Safety,DFTA,LGBT Senior Services in Every Borough,LGBT Senior Services in Every Borough,1500000
@@ -1422,7 +1422,7 @@ FY19,YOUNG WOMEN’S INITIATIVE,Young Women's Initiative,DYCD,Afterschool Enrich
 FY19,YOUNG WOMEN’S INITIATIVE,Young Women's Initiative,DYCD,Big Brothers and Big Sisters of New York City,Big Brothers Big Sisters of New York City,1200000
 FY19,YOUNG WOMEN’S INITIATIVE,Young Women's Initiative,DYCD,Civic Education in New York City Schools,Civic Education in New York City Schools,550000
 FY19,YOUNG WOMEN’S INITIATIVE,Young Women's Initiative,DYCD,COMPASS,COMPASS,1813600
-FY19,YOUNG WOMEN’S INITIATIVE,Young Women's Initiative,DYCD,Sports Training and Rolemodels for Success (STARS) Initiative,Sports Training and Rolemodels for Success (STARS) Initiative,1200000
+FY19,YOUNG WOMEN’S INITIATIVE,Young Women's Initiative,DYCD,Sports Training and Rolemodels for Success (STARS) Initiative,Sports Training and Rolemodels for Success Initiative (STARS),1200000
 FY19,YOUNG WOMEN’S INITIATIVE,Young Women's Initiative,DYCD,YouthBuild Project Initiative,YouthBuild Project Initiative,2100000
 FY20,Introduction,Introduction,,Multiple Anti-Poverty Initiative,Multiple Anti-Poverty Initiative,2800000
 FY20,Anti-Poverty,Anti-Poverty,,Multiple Boroughwide Needs Initiative,Multiple Boroughwide Needs Initiative,2000000
@@ -1473,7 +1473,7 @@ FY20,Government Officials,Government Officials,DHMH,Maternal and Child Health Se
 FY20,Government Officials,Government Officials,DHMH,Public Health Funding Backfill,Public Health Funding Backfill,6000000
 FY20,Government Officials,Government Officials,DHMH,Reproductive and Sexual Health Services,Reproductive and Sexual Health Services,594788
 FY20,Government Officials,Government Officials,DHMH,Viral Hepatitis Prevention,Viral Hepatitis Prevention,1923658
-FY20,Health Services,Health Services,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team (CUNY CAT),400000
+FY20,Health Services,Health Services,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team,400000
 FY20,Health Services,Health Services,CUNY,CUNY Child Care Expansion,CUNY Child Care Expansion,600000
 FY20,Health Services,Health Services,CUNY,CUNY Diversity Incubator,CUNY Diversity Incubator,500000
 FY20,Health Services,Health Services,CUNY,CUNY Research Institutes,CUNY Research Institutes,3170000
@@ -1522,7 +1522,7 @@ FY20,Public Safety,Public Safety,DFTA,Access to Critical Services for Seniors,Ac
 FY20,Public Safety,Public Safety,DFTA,Borough Presidents’ Discretionary Funding Restoration,Borough Presidents' Discretionary Funding Restoration,1129774
 FY20,Public Safety,Public Safety,DFTA,Case Management,Case Management,1000000
 FY20,Public Safety,Public Safety,DFTA,Elder Abuse Prevention Programs,Elder Abuse Prevention Programs,335000
-FY20,Public Safety,Public Safety,DFTA,Elie Wiesel Holocaust Survivors Initiative,Elie Wiesel Holocaust Survivors Initiative,4000000
+FY20,Public Safety,Public Safety,DFTA,Elie Wiesel Holocaust Survivors Initiative,Elie Wiesel Holocaust Survivors,4000000
 FY20,Public Safety,Public Safety,DFTA,Healthy Aging Initiative,Healthy Aging Initiative,2040000
 FY20,Public Safety,Public Safety,DFTA,Information and Referral Services,Information and Referral Services,407811
 FY20,Public Safety,Public Safety,DFTA,LGBT Senior Services in Every Borough,LGBT Senior Services in Every Borough,1500000
@@ -1559,7 +1559,7 @@ FY20,Young Women’s Initiative,Young Women's Initiative,"DYCD, DCLA",Afterschoo
 FY20,Young Women’s Initiative,Young Women's Initiative,DYCD,Big Brothers Big Sisters of New York City,Big Brothers Big Sisters of New York City,1200000
 FY20,Young Women’s Initiative,Young Women's Initiative,DYCD,Civic Education in New York City Schools,Civic Education in New York City Schools,550000
 FY20,Young Women’s Initiative,Young Women's Initiative,DYCD,COMPASS,COMPASS,2051600
-FY20,Young Women’s Initiative,Young Women's Initiative,DYCD,Sports Training and Rolemodels for Success Initiative,Sports Training and Rolemodels for Success Initiative,1450000
+FY20,Young Women’s Initiative,Young Women's Initiative,DYCD,Sports Training and Rolemodels for Success Initiative,Sports Training and Rolemodels for Success Initiative (STARS),1450000
 FY20,Young Women’s Initiative,Young Women's Initiative,DYCD,YouthBuild Project Initiative,YouthBuild Project Initiative,2100000
 FY21,Anti-Poverty,Anti-Poverty,,Multiple Anti-Poverty Initiative,Multiple Anti-Poverty Initiative,2800000
 FY21,Boroughwide Needs,Boroughwide Needs,,Multiple Boroughwide Needs Initiative,Multiple Boroughwide Needs Initiative,2000000
@@ -1604,7 +1604,7 @@ FY21,Health Services,Health Services,"CUNY, DOE",Peter F. Vallone Academic Schol
 FY21,Health Services,Health Services,CUNY,CUNY Research Institutes,CUNY Research Institutes,2344250
 FY21,Health Services,Health Services,CUNY,CUNY School of Labor and Urban Studies (SLU),CUNY School of Labor and Urban Studies (SLU),1020000
 FY21,Health Services,Health Services,CUNY,CUNY Child Care Expansion,CUNY Child Care Expansion,510000
-FY21,Health Services,Health Services,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team (CUNY CAT),340000
+FY21,Health Services,Health Services,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team,340000
 FY21,Health Services,Health Services,CUNY,CUNY Diversity Incubator,CUNY Diversity Incubator,425000
 FY21,Higher Education Initiatives,Higher Education,DHS,Children and Families in NYC Homeless System,Children and Families in NYC Homeless System,1147500
 FY21,Higher Education Initiatives,Higher Education,HRA,Citywide Homeless Prevention Fund,Citywide Homeless Prevention Fund,697000
@@ -1646,7 +1646,7 @@ FY21,Parks and Recreation Services,Parks and Recreation Services,MOCJ,Cure Hate,
 FY21,Public Safety,Public Safety,DFTA,Access to Critical Services for Seniors,Access to Critical Services for Seniors,800000
 FY21,Public Safety,Public Safety,DFTA,Case Management,Case Management,1000000
 FY21,Public Safety,Public Safety,DFTA,Elder Abuse Prevention Programs,Elder Abuse Prevention Programs,335000
-FY21,Public Safety,Public Safety,DFTA,Elie Wiesel Holocaust Survivors Initiative,Elie Wiesel Holocaust Survivors Initiative,4000000
+FY21,Public Safety,Public Safety,DFTA,Elie Wiesel Holocaust Survivors Initiative,Elie Wiesel Holocaust Survivors,4000000
 FY21,Public Safety,Public Safety,DFTA,Information and Referral Services,Information and Referral Services,407811
 FY21,Public Safety,Public Safety,DFTA,LGBT Senior Services in Every Borough,LGBT Senior Services in Every Borough,1400000
 FY21,Public Safety,Public Safety,DFTA,Naturally Occurring Retirement Communities (NORCs),Naturally Occurring Retirement Communities (NORCs),5400325
@@ -1683,7 +1683,7 @@ FY21,Young Women’s Initiative,Young Women's Initiative,"CUNY, DYCD, DCLA",Afte
 FY21,Young Women’s Initiative,Young Women's Initiative,DYCD,Big Brothers Big Sisters of New York City,Big Brothers Big Sisters of New York City,1020000
 FY21,Young Women’s Initiative,Young Women's Initiative,"CUNY, DYCD",Civic Education in New York City Schools,Civic Education in New York City Schools,467500
 FY21,Young Women’s Initiative,Young Women's Initiative,DYCD,COMPASS,COMPASS,1870048
-FY21,Young Women’s Initiative,Young Women's Initiative,DYCD,Sports Training and Rolemodels for Success Initiative,Sports Training and Rolemodels for Success Initiative,1251200
+FY21,Young Women’s Initiative,Young Women's Initiative,DYCD,Sports Training and Rolemodels for Success Initiative,Sports Training and Rolemodels for Success Initiative (STARS),1251200
 FY21,Young Women’s Initiative,Young Women's Initiative,DYCD,YouthBuild Project Initiative,YouthBuild Project Initiative,1715000
 FY22,Introduction,Introduction,,Multiple Anti-Poverty Initiative,Multiple Anti-Poverty Initiative,2800000
 FY22,Anti-Poverty,Anti-Poverty,,Multiple Boroughwide Needs Initiative,Multiple Boroughwide Needs Initiative,2000000
@@ -1738,7 +1738,7 @@ FY22,Health Services,Health Services,"CUNY, DOE",Peter F. Vallone Academic Schol
 FY22,Health Services,Health Services,CUNY,CUNY Research Institutes,CUNY Research Institutes,4500000
 FY22,Health Services,Health Services,CUNY,CUNY School of Labor and Urban Studies (SLU),CUNY School of Labor and Urban Studies (SLU),1200000
 FY22,Health Services,Health Services,CUNY,CUNY Child Care Expansion,CUNY Child Care Expansion,600000
-FY22,Health Services,Health Services,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team (CUNY CAT),400000
+FY22,Health Services,Health Services,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team,400000
 FY22,Health Services,Health Services,CUNY,CUNY Diversity Incubator,CUNY Diversity Incubator,500000
 FY22,Higher Education Initiatives,Higher Education,DHS,Children and Families in NYC Homeless System,Children and Families in NYC Homeless System,1350000
 FY22,Higher Education Initiatives,Higher Education,HRA,Citywide Homeless Prevention Fund,Citywide Homeless Prevention Fund,820000
@@ -1879,7 +1879,7 @@ FY23,HIGHER EDUCATION INITIATIVES,Higher Education,"CUNY, DOE",Peter F. Vallone 
 FY23,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY Research Institutes,CUNY Research Institutes,4500000
 FY23,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY School of Labor and Urban Studies (SLU),CUNY School of Labor and Urban Studies (SLU),1200000
 FY23,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY Childcare Expansion,CUNY Childcare Expansion,600000
-FY23,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team (CUNY CAT),400000
+FY23,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team,400000
 FY23,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY Diversity Incubator,CUNY Diversity Incubator,500000
 FY23,HOMELESS SERVICES,Homeless Services,DHS,Children and Families in NYC Homeless System,Children and Families in NYC Homeless System,1350000
 FY23,HOMELESS SERVICES,Homeless Services,HRA,Citywide Homeless Prevention Fund,Citywide Homeless Prevention Fund,820000
@@ -1997,7 +1997,7 @@ FY24,EDUCATION,Education,DOE,Community Schools,Community Schools,3750000
 FY24,EDUCATION,Education,DOE,Education Equity Action Plan,Education Equity Action Plan,5000000
 FY24,EDUCATION,Education,DOE/DYCD,Educational Programs for Students,Educational Programs for Students,7143133
 FY24,EDUCATION,Education,DYCD,Jill Chaifetz Helpline,Jill Chaifetz Helpline,500000
-FY24,EDUCATION,Education,DOE/DYCD,LGBTQIA+ Inclusive Curriculum (Formerly Known as LGBTQ Inclusive Curriculum),LGBTQIA+ Inclusive Curriculum (Formerly Known as LGBTQ Inclusive Curriculum),2800000
+FY24,EDUCATION,Education,DOE/DYCD,LGBTQIA+ Inclusive Curriculum (Formerly Known as LGBTQ Inclusive Curriculum),LGBTQIA+ Inclusive Curriculum,2800000
 FY24,EDUCATION,Education,DOE/DYCD,Physical Education and Fitness,Physical Education and Fitness,925000
 FY24,EDUCATION,Education,DOE,Social and Emotional Supports for Students,Social and Emotional Supports for Students,2016500
 FY24,EDUCATION,Education,DOE,Support for Arts Instruction,Support for Arts Instruction,4000000
@@ -2018,7 +2018,7 @@ FY24,HEALTH SERVICES,Health Services,DOHMH,Managed Care Consumer Assistance Prog
 FY24,HEALTH SERVICES,Health Services,DOHMH,Reproductive & Sexual Health Services,Reproductive and Sexual Health Services,554423
 FY24,HEALTH SERVICES,Health Services,DOHMH,Viral Hepatitis Prevention,Viral Hepatitis Prevention,2247454
 FY24,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,Care Workers for Our Future,Care Workers for Our Future,400000
-FY24,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team (CUNY CAT),400000
+FY24,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team,400000
 FY24,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY Childcare Expansion,CUNY Childcare Expansion,600000
 FY24,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY Diversity Incubator,CUNY Diversity Incubator,500000
 FY24,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY Research Institutes,CUNY Research Institutes,4500000
@@ -2061,22 +2061,22 @@ FY24,MENTAL HEALTH SERVICES,Mental Health Services,DOHMH,Mental Health Services 
 FY24,MENTAL HEALTH SERVICES,Mental Health Services,CUNY,Mental Health Workforce Retention and Development,Mental Health Workforce Retention and Development,250000
 FY24,MENTAL HEALTH SERVICES,Mental Health Services,DOHMH,Opioid Prevention and Treatment,Opioid Prevention and Treatment,3075000
 FY24,MENTAL HEALTH SERVICES,Mental Health Services,DOHMH,Trauma Recovery Centers,Trauma Recovery Centers,2400000
-FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,Access to Critical Services for Older Adults (formerly Access to Critical Services for Seniors),Access to Critical Services for Older Adults (formerly Access to Critical Services for Seniors),1180000
+FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,Access to Critical Services for Older Adults (formerly Access to Critical Services for Seniors),Access to Critical Services for Older Adults,1180000
 FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,Borough Presidents’ Discretionary Funding Restoration,Borough Presidents' Discretionary Funding Restoration,1129774
 FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,Case Management,Case Management,2000000
 FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,Elder Abuse Prevention Programs,Elder Abuse Prevention Programs,335000
 FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,Elie Wiesel Holocaust Survivors,Elie Wiesel Holocaust Survivors,4200000
 FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,Information and Referral Services,Information and Referral Services,407811
-FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,LGBTQIA+ Older Adult Services in Every Borough (formerly LGBTQ Senior Services in Every Borough),LGBTQIA+ Older Adult Services in Every Borough (formerly LGBTQ Senior Services in Every Borough),1755000
+FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,LGBTQIA+ Older Adult Services in Every Borough (formerly LGBTQ Senior Services in Every Borough),LGBTQIA+ Older Adult Services in Every Borough,1755000
 FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,Naturally Occurring Retirement Communities (NORCs),Naturally Occurring Retirement Communities (NORCs),5181768
-FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,Older Adult Clubs for Immigrant Populations (formerly Senior Centers for Immigrant Populations),Older Adult Clubs for Immigrant Populations (formerly Senior Centers for Immigrant Populations),1500000
-FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,"Older Adult Clubs, Programs, and Enhancements (formerly Senior Centers, Programs, and Enhancements)","Older Adult Clubs, Programs, and Enhancements (formerly Senior Centers, Programs, and Enhancements)",2145415
+FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,Older Adult Clubs for Immigrant Populations (formerly Senior Centers for Immigrant Populations),Older Adult Clubs for Immigrant Populations,1500000
+FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,"Older Adult Clubs, Programs, and Enhancements (formerly Senior Centers, Programs, and Enhancements)","Older Adult Clubs, Programs, and Enhancements",2145415
 FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,DFTA,Social Adult Day Care,Social Adult Day Care,1505556
-FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,"CUNY, DFTA, DCLA",Support Our Older Adults (formerly Support Our Seniors),Support Our Older Adults (formerly Support Our Seniors),7650000
+FY24,OLDER ADULT SERVICES (FORMERLY SENIOR SERVICES),Older Adult Services,"CUNY, DFTA, DCLA",Support Our Older Adults (formerly Support Our Seniors),Support Our Older Adults,7650000
 FY24,PARKS AND RECREATION SERVICES,Parks and Recreation Services,"DCLA, DYCD",Art a Catalyst for Change,Art a Catalyst for Change,720000
 FY24,PARKS AND RECREATION SERVICES,Parks and Recreation Services,"DOE, DOP, DYCD, HHC",Crisis Management System,Crisis Management System,3770600
 FY24,PARKS AND RECREATION SERVICES,Parks and Recreation Services,DYCD,Cure Hate,Cure Hate,125000
-FY24,PARKS AND RECREATION SERVICES,Parks and Recreation Services,"CUNY, DYCD",Hate Crimes Prevention Initiative,Hate Crimes Prevention Initiative,1225000
+FY24,PARKS AND RECREATION SERVICES,Parks and Recreation Services,"CUNY, DYCD",Hate Crimes Prevention Initiative,Hate Crimes Prevention,1225000
 FY24,PUBLIC SAFETY,Public Safety,SBS,Chamber on the Go and Small Business Assistance,Chamber on the Go and Small Business Assistance,2252267
 FY24,PUBLIC SAFETY,Public Safety,SBS,Construction Site Safety Training,Construction Site Safety Training,1100000
 FY24,PUBLIC SAFETY,Public Safety,CUNY,Create New Technology Incubators,Create New Technology Incubators,1400000
@@ -2158,7 +2158,7 @@ FY25,FOOD INITIATIVES,Food Initiatives,"CUNY, DYCD",Access to Healthy Food and N
 FY25,FOOD INITIATIVES,Food Initiatives,DSS/HRA,Food Access and Benefits,Food Access and Benefits,1500000
 FY25,FOOD INITIATIVES,Food Initiatives,DYCD,Food Pantries,Food Pantries,8260000
 FY25,HEALTH SERVICES,Health Services,DHMH,Abortion Access Fund,Abortion Access Fund,850000
-FY25,HEALTH SERVICES,Health Services,DHMH,Access Health Initiative,Access Health Initiative,3620210
+FY25,HEALTH SERVICES,Health Services,DHMH,Access Health Initiative,Access Health,3620210
 FY25,HEALTH SERVICES,Health Services,DHMH,Cancer Services,Cancer Services,743908
 FY25,HEALTH SERVICES,Health Services,DHMH,Child Health and Wellness,Child Health and Wellness,664719
 FY25,HEALTH SERVICES,Health Services,,"DHMH, DSS/HRA, CUNY, H+H Ending the Epidemic","DHMH, DSS/HRA, CUNY, H+H Ending the Epidemic",9373342
@@ -2169,10 +2169,10 @@ FY25,HEALTH SERVICES,Health Services,DHMH,Reproductive & Sexual Health Services,
 FY25,HEALTH SERVICES,Health Services,DHMH,Viral Hepatitis Prevention,Viral Hepatitis Prevention,2247454
 FY25,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,Care Workers for Our Future,Care Workers for Our Future,400000
 FY25,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,Confronting Religious and Ethnic Discrimination,Confronting Religious and Ethnic Discrimination,500000
-FY25,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team (CUNY CAT),400000
+FY25,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team,400000
 FY25,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY Childcare Expansion,CUNY Childcare Expansion,600000
 FY25,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY Research Institute,CUNY Research Institute,4500000
-FY25,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY School of Labor and Urban Studies,CUNY School of Labor and Urban Studies,1200000
+FY25,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY School of Labor and Urban Studies,CUNY School of Labor and Urban Studies (SLU),1200000
 FY25,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY Social Work Fellows,CUNY Social Work Fellows,500000
 FY25,HIGHER EDUCATION INITIATIVES,Higher Education,"CUNY, DOE",Peter F. Vallone Academic Scholarship,Peter F. Vallone Academic Scholarship,16411869
 FY25,HOMELESS SERVICES,Homeless Services,DHS,Children and Families in NYC Homeless System,Children and Families in NYC Homeless System,1350000
@@ -2180,7 +2180,7 @@ FY25,HOMELESS SERVICES,Homeless Services,DSS/HRA,Citywide Homeless Prevention Fu
 FY25,HOMELESS SERVICES,Homeless Services,DSS/HRA,Guaranteed Income Pilot Program,Guaranteed Income Pilot Program,1500000
 FY25,HOUSING,Housing,HPD,Community Housing Preservation Strategies,Community Housing Preservation Strategies,3651000
 FY25,HOUSING,Housing,HPD,Community Land Trust,Community Land Trust,1500000
-FY25,HOUSING,Housing,HPD,Estate Planning and Resolution,Estate Planning and Resolution,1000000
+FY25,HOUSING,Housing,HPD,Estate Planning and Resolution,Estate Planning and Resolution Initiative (EPAR),1000000
 FY25,HOUSING,Housing,"HPD, DCWP",Financial Empowerment for NYC Renters,Financial Empowerment for NYC Renters,450000
 FY25,HOUSING,Housing,HPD,Foreclosure Prevention Programs,Foreclosure Prevention Programs,4150000
 FY25,HOUSING,Housing,HPD,Home Loan Program,Home Loan Program,1800000
@@ -2213,7 +2213,7 @@ FY25,MENTAL HEALTH,Mental Health Services,DHMH,LGBTQIA+ Youth Mental Health,LGBT
 FY25,MENTAL HEALTH,Mental Health Services,DHMH,Mental Health Clubhouses,Mental Health Clubhouses,2000000
 FY25,MENTAL HEALTH,Mental Health Services,DHMH,Mental Health Services for Vulnerable Populations,Mental Health Services for Vulnerable Populations,3613000
 FY25,MENTAL HEALTH,Mental Health Services,CUNY,Mental Health Workforce Retention and Development,Mental Health Workforce Retention and Development,300000
-FY25,MENTAL HEALTH,Mental Health Services,"DHMH, DCLA",Older Adults Mental Health (formerly Geriatric Older Adults),Older Adults Mental Health (formerly Geriatric Older Adults),3405540
+FY25,MENTAL HEALTH,Mental Health Services,"DHMH, DCLA",Older Adults Mental Health (formerly Geriatric Older Adults),Older Adults Mental Health,3405540
 FY25,MENTAL HEALTH,Mental Health Services,DHMH,Opioid Prevention and Treatment,Opioid Prevention and Treatment,3075000
 FY25,MENTAL HEALTH,Mental Health Services,DHMH,Trauma Recovery Centers,Trauma Recovery Centers,4800000
 FY25,MENTAL HEALTH,Mental Health Services,DHMH,Youth Peer Support Pilot,Youth Peer Support Pilot,250000
@@ -2232,7 +2232,7 @@ FY25,OLDER ADULT SERVICES,Older Adult Services,"CUNY, DCLA, DFTA, DVS",Support O
 FY25,PARKS AND RECREATION SERVICES,Parks and Recreation Services,"DCLA, DYCD",Art a Catalyst for Change,Art a Catalyst for Change,720000
 FY25,PARKS AND RECREATION SERVICES,Parks and Recreation Services,"DOE, DOP, DYCD, HHC",Crisis Management System,Crisis Management System,3770600
 FY25,PARKS AND RECREATION SERVICES,Parks and Recreation Services,DYCD,Cure Hate,Cure Hate,125000
-FY25,PARKS AND RECREATION SERVICES,Parks and Recreation Services,"CUNY, DABK, DYCD",Hate Crimes Prevention Initiative,Hate Crimes Prevention Initiative,1225000
+FY25,PARKS AND RECREATION SERVICES,Parks and Recreation Services,"CUNY, DABK, DYCD",Hate Crimes Prevention Initiative,Hate Crimes Prevention,1225000
 FY25,PUBLIC SAFETY,Public Safety,SBS,Chamber on the Go and Small Business Assistance,Chamber on the Go and Small Business Assistance,2252267
 FY25,PUBLIC SAFETY,Public Safety,SBS,Community Development Financial Institutions,Community Development Financial Institutions,1000000
 FY25,PUBLIC SAFETY,Public Safety,SBS,Construction Site Safety Training,Construction Site Safety Training,1100000
@@ -2283,10 +2283,10 @@ FY26,COMMUNITY DEVELOPMENT,Community Development,DYCD,Language Services Worker C
 FY26,COMMUNITY DEVELOPMENT,Community Development,"CUNY, DCLA, DYCD",LGBTQIA+ Community Services,LGBTQIA+ Community Services,5200000
 FY26,COMMUNITY DEVELOPMENT,Community Development,"DHMH, DYCD",Trans Equity Programs,Trans Equity Programs,6450000
 FY26,COMMUNITY SAFETY AND VICTIM SERVICES,Community Safety and Victim Services,,Multiple Community Safety and Victim Services Initiative,Multiple Community Safety and Victim Services Initiative,5100000
-FY26,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,"DYCD, MOCJ","Alternatives to Incarceration and Reentry Programs (Formerly Alternatives to Incarceration, Discharge Planning, and Diversion Programs)","Alternatives to Incarceration and Reentry Programs (Formerly Alternatives to Incarceration, Discharge Planning, and Diversion Programs)",19962000
+FY26,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,"DYCD, MOCJ","Alternatives to Incarceration and Reentry Programs (Formerly Alternatives to Incarceration, Discharge Planning, and Diversion Programs)",Alternatives to Incarceration and Reentry Programs,19962000
 FY26,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,"ACS, DYCD",Initiative to Combat Sexual Assault,Initiative to Combat Sexual Assault,4160000
 FY26,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,"DCLA, DYCD, DABK",Innovative Criminal Justice Programs,Innovative Criminal Justice Programs,2637948
-FY26,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,DHMH,Justice Involved Supportive Housing (JISH) (Formerly Discharge Planning),Justice Involved Supportive Housing (JISH) (Formerly Discharge Planning),2095639
+FY26,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,DHMH,Justice Involved Supportive Housing (JISH) (Formerly Discharge Planning),Justice Involved Supportive Housing (JISH),2095639
 FY26,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,DYCD,Support for Victims of Human Trafficking,Support for Victims of Human Trafficking,1075000
 FY26,CRIMINAL JUSTICE SERVICES,Criminal Justice Services,"DYCD, HHC",Supports for Persons Involved in the Sex Trade,Supports for Persons Involved in the Sex Trade,3476697
 FY26,CULTURAL ORGANIZATIONS,Cultural Organizations,"DCLA, DYCD, QBPL",Coalition Theaters of Color,Coalition Theaters of Color,5715000
@@ -2316,16 +2316,16 @@ FY26,FOOD INITIATIVES,Food Initiatives,DYCD,Feeding Our Communities,Feeding Our 
 FY26,FOOD INITIATIVES,Food Initiatives,DSS/HRA,Food Access and Benefits,Food Access and Benefits,1418000
 FY26,FOOD INITIATIVES,Food Initiatives,DYCD,Food Pantries,Food Pantries,8467000
 FY26,HEALTH SERVICES,Health Services,DHMH,Abortion Access Fund,Abortion Access Fund,850000
-FY26,HEALTH SERVICES,Health Services,DHMH,Access Health Initiative,Access Health Initiative,3620210
+FY26,HEALTH SERVICES,Health Services,DHMH,Access Health Initiative,Access Health,3620210
 FY26,HEALTH SERVICES,Health Services,DHMH,Cancer Services,Cancer Services,743908
-FY26,HEALTH SERVICES,Health Services,DHMH,Healthy Beginnings (Formerly Child Health and Wellness and Maternal and Child Health Services),Healthy Beginnings (Formerly Child Health and Wellness and Maternal and Child Health Services),4393244
-FY26,HEALTH SERVICES,Health Services,"DHMH, CUNY, HHC",HIV/AIDS Pathways to Care (Formerly Ending the Epidemic and HIV/AIDS Faith Community Based Initiative),HIV/AIDS Pathways to Care (Formerly Ending the Epidemic and HIV/AIDS Faith Community Based Initiative),11339653
+FY26,HEALTH SERVICES,Health Services,DHMH,Healthy Beginnings (Formerly Child Health and Wellness and Maternal and Child Health Services),Healthy Beginnings,4393244
+FY26,HEALTH SERVICES,Health Services,"DHMH, CUNY, HHC",HIV/AIDS Pathways to Care (Formerly Ending the Epidemic and HIV/AIDS Faith Community Based Initiative),HIV/AIDS Pathways to Care,11339653
 FY26,HEALTH SERVICES,Health Services,DHMH,MCCAP Initiative,MCCAP Initiative,2014114
 FY26,HEALTH SERVICES,Health Services,DHMH,Reproductive & Sexual Health Services,Reproductive and Sexual Health Services,654423
 FY26,HEALTH SERVICES,Health Services,DHMH,Viral Hepatitis Prevention,Viral Hepatitis Prevention,2247454
 FY26,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,Care Workers for Our Future,Care Workers for Our Future,400000
 FY26,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,Confronting Religious and Ethnic Discrimination at CUNY,Confronting Religious and Ethnic Discrimination at CUNY,500000
-FY26,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team (CUNY CAT),400000
+FY26,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,Creative Arts Team (CUNY CAT),Creative Arts Team,400000
 FY26,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY Childcare Expansion,CUNY Childcare Expansion,600000
 FY26,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY Public Service Training Corps,CUNY Public Service Training Corps,2400000
 FY26,HIGHER EDUCATION INITIATIVES,Higher Education,CUNY,CUNY Research Institute,CUNY Research Institute,5500000
@@ -2347,13 +2347,13 @@ FY26,HOUSING,Housing,HPD,Stabilizing NYC,Stabilizing NYC,3700000
 FY26,IMMIGRANT SERVICES,Immigrant Services,"CUNY, DYCD",CUNY Citizenship NOW! Program,CUNY Citizenship NOW! Program,3350000
 FY26,IMMIGRANT SERVICES,Immigrant Services,"DHMH, HHC",Immigrant Health Initiative,Immigrant Health Initiative,2430341
 FY26,IMMIGRANT SERVICES,Immigrant Services,"DSS/HRA, CUNY",Immigrant Opportunities Initiative,Immigrant Opportunities Initiative,2600000
-FY26,IMMIGRANT SERVICES,Immigrant Services,DSS/HRA,Legal Services for Low-Income Immigrants (Formerly Legal Services for Low-Income Immigrants and Protect NYC),Legal Services for Low-Income Immigrants (Formerly Legal Services for Low-Income Immigrants and Protect NYC),33255000
+FY26,IMMIGRANT SERVICES,Immigrant Services,DSS/HRA,Legal Services for Low-Income Immigrants (Formerly Legal Services for Low-Income Immigrants and Protect NYC),Legal Services for Low-Income Immigrants,33255000
 FY26,IMMIGRANT SERVICES,Immigrant Services,DSS/HRA,New York Immigrant Family Unity Project,New York Immigrant Family Unity Project,24900000
-FY26,IMMIGRANT SERVICES,Immigrant Services,DSS/HRA,Rapid Response Legal Collaborative (Formerly Legal Services for Low-Income Immigrants),Rapid Response Legal Collaborative (Formerly Legal Services for Low-Income Immigrants),1200000
+FY26,IMMIGRANT SERVICES,Immigrant Services,DSS/HRA,Rapid Response Legal Collaborative (Formerly Legal Services for Low-Income Immigrants),Rapid Response Legal Collaborative,1200000
 FY26,IMMIGRANT SERVICES,Immigrant Services,DSS/HRA,Unaccompanied Minors and Families,Unaccompanied Minors and Families,16481800
-FY26,IMMIGRANT SERVICES,Immigrant Services,DYCD,Welcome NYC (Formerly Key to the City and Welcome NYC),Welcome NYC (Formerly Key to the City and Welcome NYC),1875000
+FY26,IMMIGRANT SERVICES,Immigrant Services,DYCD,Welcome NYC (Formerly Key to the City and Welcome NYC),Welcome NYC,1875000
 FY26,LEGAL SERVICES,Legal Services,DYCD/MOCJ,Legal Services for Family Advocacy and Guardianship Support (Formerly Family Advocacy and Guardianship Support and Legal Information and Support for Families),Legal Services for Family Advocacy and Guardianship Support (Formerly Family Advocacy and Guardianship Support and Legal Information and Support for Families),3485000
-FY26,LEGAL SERVICES,Legal Services,DSS/HRA,Legal Services for Low-Income and Working-Class New Yorkers (Formerly Legal Services for Low-Income New Yorkers and Legal Services for the Working Poor),Legal Services for Low-Income and Working-Class New Yorkers (Formerly Legal Services for Low-Income New Yorkers and Legal Services for the Working Poor),9255000
+FY26,LEGAL SERVICES,Legal Services,DSS/HRA,Legal Services for Low-Income and Working-Class New Yorkers (Formerly Legal Services for Low-Income New Yorkers and Legal Services for the Working Poor),Legal Services for Low-Income and Working-Class New Yorkers,9255000
 FY26,LEGAL SERVICES,Legal Services,DSS/HRA,Low Wage Worker Support,Low Wage Worker Support,2173000
 FY26,LEGAL SERVICES,Legal Services,DYCD,Prisoners’ Rights Project,Prisoners' Rights Project,1000000
 FY26,MENTAL HEALTH SERVICES,Mental Health Services,"DHMH, DCLA",Autism Awareness,Autism Awareness,3261846
@@ -2366,7 +2366,7 @@ FY26,MENTAL HEALTH SERVICES,Mental Health Services,DHMH,Mental Health Clubhouses
 FY26,MENTAL HEALTH SERVICES,Mental Health Services,DHMH,Mental Health Services for Vulnerable Populations,Mental Health Services for Vulnerable Populations,3669020
 FY26,MENTAL HEALTH SERVICES,Mental Health Services,CUNY,Mental Health Workforce Retention and Development,Mental Health Workforce Retention and Development,300000
 FY26,MENTAL HEALTH SERVICES,Mental Health Services,DHMH,NYC 988 Crisis Intervention and Suicide Prevention Hotline,NYC 988 Crisis Intervention and Suicide Prevention Hotline,5000000
-FY26,MENTAL HEALTH SERVICES,Mental Health Services,"DHMH, DCLA",Older Adults Mental Health (Formerly Geriatric Older Adults),Older Adults Mental Health (formerly Geriatric Older Adults),3349520
+FY26,MENTAL HEALTH SERVICES,Mental Health Services,"DHMH, DCLA",Older Adults Mental Health (Formerly Geriatric Older Adults),Older Adults Mental Health,3349520
 FY26,MENTAL HEALTH SERVICES,Mental Health Services,DHMH,Opioid Prevention and Treatment,Opioid Prevention and Treatment,3075000
 FY26,MENTAL HEALTH SERVICES,Mental Health Services,DHMH,Peer Specialists Support,Peer Specialists Support,4500000
 FY26,MENTAL HEALTH SERVICES,Mental Health Services,DHMH,Trauma Recovery Centers,Trauma Recovery Centers,4800000
@@ -2376,9 +2376,9 @@ FY26,OLDER ADULT SERVICES,Older Adult Services,DFTA,Elie Wiesel Holocaust Surviv
 FY26,OLDER ADULT SERVICES,Older Adult Services,DFTA,LGBTQIA+ Older Adult Services in Every Borough,LGBTQIA+ Older Adult Services in Every Borough,1755000
 FY26,OLDER ADULT SERVICES,Older Adult Services,DFTA,Naturally Occurring Retirement Communities (NORCs),Naturally Occurring Retirement Communities (NORCs),5181768
 FY26,OLDER ADULT SERVICES,Older Adult Services,DFTA,Older Adult Center Improvements,Older Adult Center Improvements,5000000
-FY26,OLDER ADULT SERVICES,Older Adult Services,DFTA,"Older Adult Centers, Programs, and Services (Formerly Access to Critical Services for Older Adults, Information and Referral Services, and Older Adult Clubs, Programs, and Enhancements)","Older Adult Centers, Programs, and Services (Formerly Access to Critical Services for Older Adults, Information and Referral Services, and Older Adult Clubs, Programs, and Enhancements)",3733226
+FY26,OLDER ADULT SERVICES,Older Adult Services,DFTA,"Older Adult Centers, Programs, and Services (Formerly Access to Critical Services for Older Adults, Information and Referral Services, and Older Adult Clubs, Programs, and Enhancements)","Older Adult Centers, Programs, and Services",3733226
 FY26,OLDER ADULT SERVICES,Older Adult Services,DFTA,Older Adult Clubs for Immigrant Populations,Older Adult Clubs for Immigrant Populations,1500000
-FY26,OLDER ADULT SERVICES,Older Adult Services,DFTA,Older Adults Across the Boroughs (Formerly Borough Presidents’ Discretionary Funding Restoration),Older Adults Across the Boroughs (Formerly Borough Presidents' Discretionary Funding Restoration),1129774
+FY26,OLDER ADULT SERVICES,Older Adult Services,DFTA,Older Adults Across the Boroughs (Formerly Borough Presidents’ Discretionary Funding Restoration),Older Adults Across the Boroughs,1129774
 FY26,OLDER ADULT SERVICES,Older Adult Services,DFTA,Social Adult Day Care,Social Adult Day Care,1505556
 FY26,OLDER ADULT SERVICES,Older Adult Services,"CUNY, DCLA, DFTA, DHMH, DPR",Support Our Older Adults,Support Our Older Adults,7650000
 FY26,PARKS AND RECREATION SERVICES,Parks and Recreation Services,"CUNY, DPR, DYCD, DCLA",Parks Equity Initiative,Parks Equity Initiative,5368500
@@ -2406,9 +2406,9 @@ FY26,VETERAN SERVICES,Veteran Services,DSS/HRA,Homeless Prevention Services for 
 FY26,VETERAN SERVICES,Veteran Services,SBS,Job Placement for Veterans,Job Placement for Veterans,200000
 FY26,VETERAN SERVICES,Veteran Services,DSS/HRA,Legal Services for Veterans,Legal Services for Veterans,600000
 FY26,VETERAN SERVICES,Veteran Services,DHMH,Mental Health Services for Veterans,Mental Health Services for Veterans,420000
-FY26,VETERAN SERVICES,Veteran Services,DVS,Paul A. Vallone Veteran Resource Centers (Formerly Veteran Resource Centers),Paul A. Vallone Veteran Resource Centers (Formerly Veteran Resource Centers),540000
+FY26,VETERAN SERVICES,Veteran Services,DVS,Paul A. Vallone Veteran Resource Centers (Formerly Veteran Resource Centers),Paul A. Vallone Veteran Resource Centers,540000
 FY26,VETERAN SERVICES,Veteran Services,"CUNY, DCLA, DYCD",Veterans Community Development,Veterans Community Development,1270000
-FY26,YOUNG WOMEN’S INITIATIVE,Young Women's Initiative,DYCD,Culturally Specific Gender Based Violence Initiative (Formerly Initiative for Immigrant Survivors of Domestic Violence),Culturally Specific Gender Based Violence Initiative (Formerly Initiative for Immigrant Survivors of Domestic Violence),3000000
+FY26,YOUNG WOMEN’S INITIATIVE,Young Women's Initiative,DYCD,Culturally Specific Gender Based Violence Initiative (Formerly Initiative for Immigrant Survivors of Domestic Violence),Culturally Specific Gender Based Violence Initiative,3000000
 FY26,YOUNG WOMEN’S INITIATIVE,Young Women's Initiative,DHMH,Dedicated Contraceptive Fund,Dedicated Contraceptive Fund,973126
 FY26,YOUNG WOMEN’S INITIATIVE,Young Women's Initiative,DHMH,Gender-Affirming Care for TGNCNBI Youth,Gender-Affirming Care for TGNCNBI Youth,3500000
 FY26,YOUNG WOMEN’S INITIATIVE,Young Women's Initiative,DSS/HRA,HRA Teen RAPP,HRA Teen RAPP,250000
@@ -2475,7 +2475,7 @@ FY27,Food Initiatives,Food Initiatives,"DSS/HRA, DYCD",Feeding Our Communities,F
 FY27,Food Initiatives,Food Initiatives,DSS/HRA,Food Access and Benefits,Food Access and Benefits,1418000
 FY27,Food Initiatives,Food Initiatives,DYCD,Food Pantries,Food Pantries,10467000
 FY27,Health Services,Health Services,DHMH,Abortion Access Fund,Abortion Access Fund,850000
-FY27,Health Services,Health Services,DHMH,Access Health Initiative,Access Health Initiative,3620210
+FY27,Health Services,Health Services,DHMH,Access Health Initiative,Access Health,3620210
 FY27,Health Services,Health Services,DHMH,Cancer Services,Cancer Services,743908
 FY27,Health Services,Health Services,DHMH,Healthy Beginnings,Healthy Beginnings,4593244
 FY27,Health Services,Health Services,"CUNY, DHMH, HHC",HIV/AIDS Pathways to Care,HIV/AIDS Pathways to Care,11339653
@@ -2496,7 +2496,7 @@ FY27,Homeless Services,Homeless Services,DHS,Children and Families in NYC Homele
 FY27,Homeless Services,Homeless Services,DSS/HRA,Citywide Homeless Prevention Fund,Citywide Homeless Prevention Fund,820000
 FY27,Housing,Housing,HPD,Community Housing Preservation Strategies,Community Housing Preservation Strategies,3651000
 FY27,Housing,Housing,HPD,Community Land Trust,Community Land Trust,1500000
-FY27,Housing,Housing,"DCWP, HPD",Financial Empowerment for NYC's Renters,Financial Empowerment for NYC's Renters,450000
+FY27,Housing,Housing,"DCWP, HPD",Financial Empowerment for NYC's Renters,Financial Empowerment for NYC Renters,450000
 FY27,Housing,Housing,HPD,Home Loan Program,Home Loan Program,1800000
 FY27,Housing,Housing,HPD,Homeowner Stabilization Services (Formerly Estate Planning and Resolution Initiative and Foreclosure Prevention Programs),Homeowner Stabilization Services (Formerly Estate Planning and Resolution Initiative and Foreclosure Prevention Programs),5150000
 FY27,Housing,Housing,DSS/HRA,Housing Court Answers,Housing Court Answers,650000
@@ -2528,13 +2528,13 @@ FY27,Legal Services,Legal Services,DSS/HRA,Low Wage Worker Support,Low Wage Work
 FY27,Legal Services,Legal Services,DYCD,Prisoners' Rights Project,Prisoners' Rights Project,1000000
 FY27,Mental Health Services,Mental Health Services,"DCLA, DHMH",Autism Awareness,Autism Awareness,3261846
 FY27,Mental Health Services,Mental Health Services,DHMH,Children Under Five,Children Under Five,1556231
-FY27,Mental Health Services,Mental Health Services,DHMH,Court-Involved Youth Mental Health Initiative,Court-Involved Youth Mental Health Initiative,3425000
+FY27,Mental Health Services,Mental Health Services,DHMH,Court-Involved Youth Mental Health Initiative,Court-Involved Youth Mental Health,3425000
 FY27,Mental Health Services,Mental Health Services,DHMH,"Developmental, Psychological and Behavioral Health Services","Developmental, Psychological and Behavioral Health Services",2255493
 FY27,Mental Health Services,Mental Health Services,DHMH,Emergency Medical Services Mental Health and Wellness,Emergency Medical Services Mental Health and Wellness,1000000
 FY27,Mental Health Services,Mental Health Services,DHMH,LGBTQIA+ Youth Mental Health,LGBTQIA+ Youth Mental Health,1200000
 FY27,Mental Health Services,Mental Health Services,DHMH,Mental Health Clubhouses,Mental Health Clubhouses,3000000
 FY27,Mental Health Services,Mental Health Services,DHMH,Mental Health Services for Vulnerable Populations,Mental Health Services for Vulnerable Populations,3669020
-FY27,Mental Health Services,Mental Health Services,CUNY,Mental Health Workforce Retention and Development Initiative,Mental Health Workforce Retention and Development Initiative,300000
+FY27,Mental Health Services,Mental Health Services,CUNY,Mental Health Workforce Retention and Development Initiative,Mental Health Workforce Retention and Development,300000
 FY27,Mental Health Services,Mental Health Services,DHMH,NYC 988 Crisis Intervention and Suicide Prevention Hotline,NYC 988 Crisis Intervention and Suicide Prevention Hotline,5000000
 FY27,Mental Health Services,Mental Health Services,"DCLA, DFTA, DHMH",Older Adults Mental Health,Older Adults Mental Health,3474520
 FY27,Mental Health Services,Mental Health Services,DHMH,Opioid Prevention and Treatment,Opioid Prevention and Treatment,3075000
@@ -2561,7 +2561,7 @@ FY27,Small Business Services and Workforce Development,Small Business Services a
 FY27,Small Business Services and Workforce Development,Small Business Services and Workforce Development,SBS,Construction Site Safety Training,Construction Site Safety Training,1375000
 FY27,Small Business Services and Workforce Development,Small Business Services and Workforce Development,CUNY,Create New Technology Incubators,Create New Technology Incubators,1400000
 FY27,Small Business Services and Workforce Development,Small Business Services and Workforce Development,SBS,Day Laborer Workforce Initiative,Day Laborer Workforce Initiative,4070000
-FY27,Small Business Services and Workforce Development,Small Business Services and Workforce Development,SBS,Domestic Worker and Employer Empowerment Initiative,Domestic Worker and Employer Empowerment Initiative,300000
+FY27,Small Business Services and Workforce Development,Small Business Services and Workforce Development,SBS,Domestic Worker and Employer Empowerment Initiative,Domestic Worker and Employer Empowerment,300000
 FY27,Small Business Services and Workforce Development,Small Business Services and Workforce Development,SBS,Five Borough Chamber Alliance,Five Borough Chamber Alliance,500000
 FY27,Small Business Services and Workforce Development,Small Business Services and Workforce Development,DYCD,Green Jobs Corps Program,Green Jobs Corps Program,120000
 FY27,Small Business Services and Workforce Development,Small Business Services and Workforce Development,"DYCD, SBS",Job Training and Placement Initiative,Job Training and Placement Initiative,8450000
@@ -2595,5 +2595,5 @@ FY27,Youth Services,Youth Services,"DYCD, SBS",Citywide Young Adult Entrepreneur
 FY27,Youth Services,Youth Services,DYCD,Civic Education in New York City Schools,Civic Education in New York City Schools,500000
 FY27,Youth Services,Youth Services,DYCD,Empowering Black Communities,Empowering Black Communities,1000000
 FY27,Youth Services,Youth Services,DYCD,LGBTQIA+ Youth Support and Services,LGBTQIA+ Youth Support and Services,5000000
-FY27,Youth Services,Youth Services,DYCD,Sports Training and Rolemodels for Success (STARS) Initiative,Sports Training and Rolemodels for Success (STARS) Initiative,1472000
+FY27,Youth Services,Youth Services,DYCD,Sports Training and Rolemodels for Success (STARS) Initiative,Sports Training and Rolemodels for Success Initiative (STARS),1472000
 FY27,Youth Services,Youth Services,DYCD,YouthBuild Project Initiative,YouthBuild Project Initiative,1490000

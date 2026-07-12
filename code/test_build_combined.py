@@ -149,6 +149,23 @@ def test_initiative_canonical_in_awards_rollup(tmp_path):
     assert recs[0]["initiative_canonical"] == "City's First Readers"  # curly -> straight via fallback
 
 
+def test_round2_pattern_merges_real_crosswalk():
+    """Round-2 (DATA-ANOMALIES #17) extended the crosswalk to collapse duplicate leaves the
+    first pass missed: a trailing (Formerly …) clause, an Initiative/Program suffix, the NYC
+    prefix, an acronym parenthetical, and the ATI spellings. Guards those decisions against
+    the committed crosswalk so a future regen can't silently drop them."""
+    xw = B.load_crosswalk()  # the real committed initiative_name_crosswalk.csv
+    cases = {
+        "Older Adults Mental Health (formerly Geriatric Older Adults)": "Older Adults Mental Health",
+        "Access Health Initiative": "Access Health",
+        "NYC Digital Inclusion and Literacy Initiative": "Digital Inclusion and Literacy Initiative",
+        "Alternatives to Incarceration (ATIs)": "Alternatives to Incarceration (ATI)",
+        "Creative Arts Team (CUNY CAT)": "Creative Arts Team",
+    }
+    for raw, expected in cases.items():
+        assert B.canonical_for(raw, xw) == expected, (raw, B.canonical_for(raw, xw))
+
+
 def test_canonical_house_style_fallback(tmp_path):
     """A raw label absent from the crosswalk is still normalized (leading *, curly apostrophe)."""
     data = tmp_path / "data"
