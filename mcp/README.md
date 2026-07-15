@@ -30,7 +30,7 @@ server has its data on first run.
 |---|---|---|
 | Schedule C awards | **FY2015–FY2027** | FY2015 is the earliest EIN-level year. FY2009–FY2014 are initiatives-only (no EIN) and are **excluded** from the award tools; FY2008 is unparsed |
 | Terms & Conditions | **FY2015–FY2018 + FY2021–FY2027** | No standalone T&C document exists for FY2019/FY2020 |
-| Capital (§254) | **FY2020 + FY2022–FY2027** | No FY2021 detail book. FY2025 is the "Appropriation Changes" type (different schema, non-reconcilable) |
+| Capital (§254) | **FY2020 + FY2022–FY2027** | No FY2021 detail book. Every parsed year is the "Supporting Detail Book" (Council-additions Capital Project Detail), shares the full schema (borough/sub-id/sponsor), and reconciles against printed subtotals + grand totals (FY2027 partially). FY2025 was reparsed from its Supporting Detail Book in [PR #21](https://github.com/BetaNYC/New-York-City-Budget/pull/21) and is now directly comparable to the other years |
 | Transparency Resolutions | **FY2010–FY2024 + FY2026** | Filtered by resolution document year (`source_fy`). **FY2010–FY2013 org/program TEXT is low-confidence** — financial columns reliable, join on EIN. FY2009 + FY2025/FY2027 not parsed |
 | Legistar crosswalk | **FY2008–FY2027** | Provenance index; covers years not parsed to CSV |
 

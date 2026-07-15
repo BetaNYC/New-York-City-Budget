@@ -4,6 +4,41 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.1.0 — 2026-07-15
+
+FY2025 §254 capital is now reconciled and directly comparable to the other years. No tool,
+argument, or table-schema changes — this is a data-coverage/quality improvement plus the
+user-facing description corrections it requires. Minor bump (mirrors the 0.2.0 coverage-expansion
+precedent), not a patch.
+
+### Changed
+- **FY2025 capital reparsed to the Supporting Detail Book.** Upstream PRs #20/#21 replaced the old
+  non-reconcilable FY2025 "Appropriation Changes" data with the FY2025 "Supporting Detail Book"
+  (Council-additions Capital Project Detail), parsed into the **same 13-column schema as
+  FY2026/FY2027** (`part, agency, budget_line, sub_id, boro, fy1..fy4, sponsor, title,
+  building_code, school_code`) and reconciled exactly: 30/30 agency subtotals; Part I
+  $775,000,000 / 1327 projects; Part II non-city $158,992,000 / 181. `search_capital_projects`
+  with `fiscal_year: 2025` now returns rows with `boro` and `sponsor` populated, directly
+  comparable to the other years.
+- **Description corrections.** `search_capital_projects` and `list_available_fiscal_years` no
+  longer describe FY2025 capital as the non-reconcilable "Appropriation Changes" type / different
+  schema. The README data-scope table and the `build-index.mjs` capital comment were updated to
+  match.
+
+### Loader
+- No loader change was required: `build-index.mjs` already loads capital by the explicit per-year
+  filename `${key}_capital_projects.csv`, so FY2025 picks up the new canonical reconciled file and
+  **not** the renamed provenance file (`fy25_capital_changes_appropriation.csv`) or the Part III
+  sidecar (`fy25_capital_noncity_by_entity.csv`). Verified by the new regression test. The legacy
+  `action` column is retained in the schema for back-compat but is empty for every loaded row.
+
+### Tests
+- `test/coverage.test.js`: added an FY2025-capital regression test asserting the new schema is
+  what's served — 1508 rows (Part I 1327 + Part II 181), `boro` populated on every row, `sponsor`
+  populated on all Part I rows, and that `search_capital_projects(fiscal_year: 2025)` returns rows
+  carrying `boro:` and `sponsor:`. This would fail if the loader ever indexed the old
+  appropriation file (empty boro/sponsor) instead of the canonical detail.
+
 ## 1.0.1 — 2026-07-08
 
 Bug fix. No tool, schema, or data-coverage changes — a stale organization name in

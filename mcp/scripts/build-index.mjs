@@ -206,7 +206,15 @@ function main() {
     return n;
   })();
 
-  // --- capital (§254; FY25 carries an extra `action` column, others don't) ---
+  // --- capital (§254; every year loads its `${key}_capital_projects.csv`) ---
+  // Each year's file is the reconciled Council-additions Capital Project Detail in the shared
+  // 13-column schema (part, agency, budget_line, sub_id, boro, fy1..fy4, sponsor, title,
+  // building_code, school_code). FY2025 was reparsed from the FY2025 Supporting Detail Book
+  // (PR #21) into this same schema, so it loads exactly like FY2026/FY2027. Loading is by
+  // explicit filename — the renamed provenance file (fy25_capital_changes_appropriation.csv,
+  // which carries the legacy `action` column) and the Part III sidecar
+  // (fy25_capital_noncity_by_entity.csv) are intentionally NOT indexed. The `action` column is
+  // retained in the schema for back-compat but is empty for every currently-loaded row.
   const insCap = db.prepare(
     `INSERT INTO capital (fiscal_year, part, agency, budget_line, sub_id, boro,
        fy1, fy2, fy3, fy4, sponsor, title, building_code, school_code, action)
