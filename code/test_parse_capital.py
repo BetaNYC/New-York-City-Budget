@@ -21,11 +21,21 @@ import pytest
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 FY26_CSV = os.path.join(REPO, "data", "fy26", "capital", "fy26_capital_projects.csv")
+# FY25 canonical capital is now the Council-additions supporting-detail book (Parts I+II),
+# directly comparable to FY26/FY27. The old broad appropriation-changes extract was renamed to
+# fy25_capital_changes_appropriation.csv (kept for provenance).
 FY25_CSV = os.path.join(REPO, "data", "fy25", "capital", "fy25_capital_projects.csv")
+FY25_NONCITY_CSV = os.path.join(REPO, "data", "fy25", "capital",
+                                "fy25_capital_noncity_by_entity.csv")
+FY25_APPROP_CSV = os.path.join(REPO, "data", "fy25", "capital",
+                               "fy25_capital_changes_appropriation.csv")
 FY27_CSV = os.path.join(REPO, "data", "fy27", "capital", "fy27_capital_projects.csv")
-# FY27 source PDF is committed in-repo (unlike FY25/FY26, whose sources live in the iCloud tree).
+# FY27 + FY25-detail source PDFs are committed in-repo (unlike FY26, whose source lives in the
+# iCloud tree), so their re-parse layers always run here.
 FY27_PDF = os.path.join(REPO, "source", "FY27",
     "Supporting-Detail-for-FY2027-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254.V4.pdf")
+FY25_DETAIL_PDF = os.path.join(REPO, "source", "FY25",
+    "Supporting-Detail-for-FY2025-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254-Council-Version-24.07.17.pdf")
 
 FY27_COLS = ["part", "agency", "budget_line", "sub_id", "boro", "fy1", "fy2", "fy3", "fy4",
              "sponsor", "title", "building_code", "school_code"]
@@ -82,16 +92,51 @@ def test_fy26_negative_adjustment_present():
 
 
 @pytest.mark.skipif(not os.path.exists(FY25_CSV), reason="fy25 output not generated")
-def test_fy25_shape():
-    import re
+def test_fy25_detail_schema_and_columns():
+    """FY25 canonical capital is now the Council-additions detail — same 13-col schema as
+    FY26/FY27, Parts I+II, clean columns (no boro/amount bleed)."""
     rows = _rows(FY25_CSV)
-    assert rows and "action" in rows[0]          # FY25-only extra column
-    code = re.compile(r"^[A-Z]{1,3}-D[A-Z0-9]+$")
+    assert rows and list(rows[0].keys()) == FY27_COLS   # exact FY26/FY27 schema, no 'action'
+    for r in rows:
+        assert r["part"] in ("I", "II")
+        assert r["agency"] and r["title"]
+        assert r["boro"] in BORO
+        assert len(r["budget_line"].split()) == 2        # e.g. 'ED NC128'
+        assert len(r["sub_id"].split()) == 2             # e.g. 'AG DN06Y'
+        for tok in r["title"].split():                   # no wide amount bled into title
+            assert not tok.lstrip("-").replace(",", "").isdigit() or len(tok) < 7
+
+
+@pytest.mark.skipif(not os.path.exists(FY25_CSV), reason="fy25 output not generated")
+def test_fy25_detail_grand_totals_tie_exactly():
+    rows = _rows(FY25_CSV)
+    def part(p):
+        rs = [r for r in rows if r["part"] == p]
+        return sum(int(r["fy1"]) for r in rs), len(rs)
+    assert part("I") == (775_000_000, 1327)     # printed 'TOTALS FOR ALL (1327 PROJECTS)' — $775M
+    assert part("II") == (158_992_000, 181)     # printed 'TOTALS FOR ALL (181 PROJECTS)'
+
+
+@pytest.mark.skipif(not os.path.exists(FY25_NONCITY_CSV), reason="fy25 non-city sidecar not generated")
+def test_fy25_noncity_sidecar_reconciles():
+    """Part III (by non-city entity) is a cross-tab of Part II: budget-line rows sum to the same
+    $158,992,000 grand total."""
+    rows = _rows(FY25_NONCITY_CSV)
+    assert rows and list(rows[0].keys()) == ["organization", "budget_line", "fy1", "fy2", "fy3", "fy4"]
+    assert sum(int(r["fy1"]) for r in rows) == 158_992_000
+    for r in rows:
+        assert r["organization"] and r["budget_line"]
+
+
+@pytest.mark.skipif(not os.path.exists(FY25_APPROP_CSV), reason="fy25 appropriation book not present")
+def test_fy25_appropriation_book_preserved():
+    """The old broad appropriation-changes extract must survive the rename (provenance), keeping
+    its FY25-only 'action' column and empty boro/sub_id/sponsor."""
+    rows = _rows(FY25_APPROP_CSV)
+    assert rows and "action" in rows[0]
     for r in rows:
         assert r["part"] == "I"
-        assert code.match(r["budget_line"])
-        assert r["agency"] and r["title"]
-        assert r["boro"] == "" and r["sub_id"] == "" and r["sponsor"] == ""  # not in this doc
+        assert r["boro"] == "" and r["sub_id"] == "" and r["sponsor"] == ""
 
 
 # ---------- layer 2: re-parse from source PDF (skipped without the PDFs) ----------
@@ -113,12 +158,41 @@ def test_fy26_reparse_reconciles_31_of_31(tmp_path):
     assert (ok, len(subtotals)) == (31, 31)
 
 
-@pytest.mark.skipif(not os.path.exists(FY25_PDF), reason="FY25 source PDF not available")
-def test_fy25_reparse_block_count():
+@pytest.mark.skipif(not os.path.exists(FY25_PDF), reason="FY25 appropriation-book PDF not available")
+def test_fy25_appropriation_reparse_block_count():
     import parse_capital_fy25 as P
     projects = P.parse(FY25_PDF)
     assert len(projects) == 149
     assert all(p["part"] == "I" for p in projects)
+
+
+@pytest.mark.skipif(not os.path.exists(FY25_DETAIL_PDF), reason="FY25 detail source PDF not available")
+def test_fy25_detail_reparse_reconciles(tmp_path):
+    """Re-parse the committed FY25 Council-additions detail book: 30/30 agency subtotals tie,
+    both grand totals tie ($775M/1327 for Part I; $158,992,000/181 for Part II), and Part III's
+    non-city entity cross-tab reconciles to the same $158,992,000 as Part II."""
+    import parse_capital_fy25_detail as P
+    import pdfplumber
+    roster = P.load_roster(AWARDS)
+    with pdfplumber.open(FY25_DETAIL_PDF) as pdf:
+        projects, subtotals, grand = P.parse_detail(pdf, roster)
+        p3_rows, p3_entities, p3_grand = P.parse_part3(pdf)
+    from collections import defaultdict
+    got = defaultdict(int); cnt = defaultdict(int)
+    for p in projects:
+        got[(p["part"], p["agency"])] += p["fy1"]; cnt[(p["part"], p["agency"])] += 1
+    ok = sum(1 for st in subtotals
+             if got[(st["part"], st["agency"])] == st["fy1"]
+             and cnt[(st["part"], st["agency"])] == st["projects"])
+    assert (ok, len(subtotals)) == (30, 30)
+    assert grand["I"] == {"fy1": 775_000_000, "projects": 1327}
+    assert grand["II"] == {"fy1": 158_992_000, "projects": 181}
+    # Part I grand total == printed; summed projects match per part
+    assert sum(p["fy1"] for p in projects if p["part"] == "I") == 775_000_000
+    assert sum(p["fy1"] for p in projects if p["part"] == "II") == 158_992_000
+    # Part III cross-tab: every entity reconciles, and the grand total matches Part II
+    assert p3_entities and all(e["got"] == e["total_fy1"] for e in p3_entities)
+    assert sum(r["fy1"] for r in p3_rows) == 158_992_000 == p3_grand["fy1"] == grand["II"]["fy1"]
 
 
 # ---------- FY27 (parse_capital.py) — non-city column-bleed regression ----------
