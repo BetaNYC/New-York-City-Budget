@@ -165,6 +165,35 @@ This server pairs directly with:
 > [socrata-mcp-server](https://github.com/npstorey/socrata-mcp-server)
 > (`socrata-mcp-server` on npm), a third-party MCP by [Nathan Storey](https://github.com/npstorey).
 
+## Cross-MCP example journeys
+
+This server is most useful chained with BetaNYC's other NYC-data MCPs. Each journey below starts from a Schedule C award or the Council's award-level **expense-funding disclosure** — which adds a **MOCS ID#** and grantee **EIN** (see [`../source/expense-funding-disclosure/README.md`](../source/expense-funding-disclosure/README.md)) — and follows it into another system. The caveats are findings from real cross-MCP testing, not hypotheticals.
+
+**Join keys, ordered by reliability:** **MOCS ID#** (award → registered contract, exact, FY2024+) › **EIN** (org-level, exact, but pools fiscal-sponsor programs) › **Legistar matter #** (award → legislation, but only via omnibus Finance resolutions) › **organization name** (display only — aliasing and fiscal sponsorship corrupt it; never join on it).
+
+### 1. Did this exact award become a registered contract? — MOCS ID# → `nyc-checkbook-mcp`
+- **Goal:** confirm a specific designation was registered and paid, not just that the org received money in that category.
+- **Chain:** expense-disclosure `mocs_id` (award-level, FY2024+) → `nyc-checkbook-mcp` `search_contracts` / `get_contract`.
+- **Why it's new:** before the disclosure's MOCS ID#, the only budget → spending key was the org's EIN/name — and Checkbook aggregates by contract, so you could confirm "this org kept receiving CASA money" but never "this $20,000 designation was registered." The MOCS registration ID is award-specific, so it pinpoints the contract.
+- **Caveat to verify first:** the disclosure's `mocs_id` is a **MOCS registration** identifier; Checkbook keys contracts by its own **FMS `contract_id`** (e.g. `CT185820201424467`) and exposes a `mocs_registered` column. Confirm the MOCS ID# ↔ FMS `contract_id` crosswalk (via `mocs_registered`) on a known example before treating them as one key — that mapping is the concrete step this journey turns on.
+
+### 2. Follow an organization's money and check its health — EIN → `nyc-checkbook-mcp` + IRS 990
+- **Goal:** every City dollar an org receives, plus its financial standing.
+- **Chain:** `get_awards_by_ein` (this server; all Schedule C years) → `nyc-checkbook-mcp` `search_spending` (actual payments) → IRS Form 990 / [ProPublica Nonprofit Explorer](https://projects.propublica.org/nonprofits/) by EIN (revenue, assets, other funding). *(990 data is external — no BetaNYC MCP; the EIN is the join.)*
+- **Caveat:** filter fiscal-sponsor EINs by `program` — EIN `13-2612524` (Fund for the City of New York) pools dozens of grantees. In Checkbook, search the **registered payee name**, which may be the sponsor's rather than the program's.
+
+### 3. From an award back to the vote that adopted it — Legistar crosswalk → `nyc-council-mcp`
+- **Goal:** the legislation, sponsors, and vote behind a designation or transfer.
+- **Chain:** `get_legistar_link` (this server → matter #, URL, adoption date) → `nyc-council-mcp` `get_bill` / `get_votes` / `get_committee`.
+- **Caveat:** individual initiatives have **no standalone Legistar matter** — they adopt/modify via the Committee on Finance's periodic **omnibus** resolutions ("MODIFICATION (MN-N)…"). Search `nyc-council-mcp` by `committee=Finance` + `modification`, not by the initiative's name; matter titles are terse and legalistic, so name/semantic queries reliably miss.
+
+### 4. Was a designation competitively bid or directly negotiated? — org/EIN → `nyc-record-mcp`
+- **Goal:** the procurement path behind a discretionary award.
+- **Chain:** award org (from EIN) → `nyc-record-mcp` `search_notices` / `get_procurement_notices` / `get_open_solicitations`.
+- **Caveat:** a hit in a **negotiated-acquisition public-review** notice *confirms* a direct/negotiated designation (the required PPB public-review step for a non-competed award) — it does **not** show competitive bidding. The absence of an RFP/IFB solicitation for the org is the stronger "no open bid" signal.
+
+> These journeys were validated end-to-end against the live MCPs in the BetaNYC workspace (`people/noel/work/2026-07-07-mcp-budget-user-journeys.md`); the caveats above are that session's real findings. Journey 1 is the new path the FY2024+ expense disclosure's MOCS ID# unlocks.
+
 ## Provenance & licensing
 
 This server reads the repo's own derived data. Provenance, reconciliation status, and licensing are covered by the [repository README](../README.md) and [`LICENSE`](../LICENSE): derived data and code are MIT; the underlying budget documents are © The City of New York.
