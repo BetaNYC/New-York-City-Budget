@@ -4,6 +4,8 @@ Machine-readable, reconciled structured data extracted from the **New York City 
 
 Every dollar figure here was extracted **deterministically** from the Council's own PDFs and checked line by line against the documents' printed totals. The FY2027 discretionary schedule reconciles to the exact dollar: **$655,764,999**.
 
+> **▶ Explore it live:** the interactive **[NYC Council Discretionary Funding explorer](https://betanyc.github.io/New-York-City-Budget/)** (Schedule C, FY2015–FY2027) is published on GitHub Pages — no setup required. Source and build steps are in [`viz/`](viz/).
+
 **Per-year processing manifest:** [`code/PARSING.md`](code/PARSING.md) records, for every fiscal year and document type, exactly which parser + invocation produces its CSVs and the reconciliation status. It is the authoritative "how do I regenerate FY_N_?" reference.
 
 ---
@@ -191,7 +193,7 @@ This repository is one piece of a larger NYC budget-data ecosystem. It is delibe
 
 In short: **IBO tells you what the City spends, raises, and owes in aggregate over decades; this repo tells you which organizations the Council funded, and how much, in the adopted budget.** Neither IBO nor NYC Open Data (after FY2021) publishes the second thing as machine-readable data. That is the gap this repository fills. A detailed source-by-source crosswalk (including how this data can be joined to IBO's agency-level fiscal tables) is in [`research/2026-07-08-ibo-data-center-crosswalk.md`](research/2026-07-08-ibo-data-center-crosswalk.md).
 
-**A companion BetaNYC visualization** turns this repo's Schedule C data into an interactive explorer — see [`viz/`](viz/). It shares its toolkit (DataMade's [Look at Cook](https://github.com/datamade/look-at-cook)) with BetaNYC's **[citywide expense-budget explorer](https://github.com/BetaNYC/nyc-budget-viz)**, which visualizes the full ~$114B adopted/modified budget across all agencies — the aggregate fiscal side this repo deliberately does not cover.
+**A companion BetaNYC visualization** turns this repo's Schedule C data into an interactive explorer — **[explore it live](https://betanyc.github.io/New-York-City-Budget/)** (source and build steps in [`viz/`](viz/)). It shares its toolkit (DataMade's [Look at Cook](https://github.com/datamade/look-at-cook)) with BetaNYC's **[citywide expense-budget explorer](https://github.com/BetaNYC/nyc-budget-viz)**, which visualizes the full ~$114B adopted/modified budget across all agencies — the aggregate fiscal side this repo deliberately does not cover.
 
 ## Future work
 
