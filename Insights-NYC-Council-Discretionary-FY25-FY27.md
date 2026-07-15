@@ -1,7 +1,7 @@
 ---
 title: "NYC Council Discretionary & Budget Analysis, FY2025–FY2027"
 created: 2026-07-06
-updated: 2026-07-06
+updated: 2026-07-15
 type: analysis
 status: draft
 area: civic-tech
@@ -13,7 +13,8 @@ tags: [nyc-budget, schedule-c, discretionary-funding, open-data, city-council]
 
 **Report generated:** 2026-07-06
 **Data current as of:** 2026-07-06 (source PDFs downloaded from council.nyc.gov and supplied locally)
-**Scope:** Three adopted-budget document types across three fiscal years — Schedule C (discretionary expense funding), Terms & Conditions (reporting mandates), and the Section 254 Capital changes (FY2027 only). All figures are extracted directly from the Council's own PDFs and reconciled against the documents' printed totals.
+**Last revised:** 2026-07-15 (FY2025 and FY2026 Section 254 capital now parsed and reconciled; capital section and extraction-limitation notes updated accordingly)
+**Scope:** Three adopted-budget document types across three fiscal years — Schedule C (discretionary expense funding), Terms & Conditions (reporting mandates), and the Section 254 Capital changes (FY2025–FY2027). All figures are extracted directly from the Council's own PDFs and reconciled against the documents' printed totals.
 
 > **How to trust these numbers.** Every dollar figure below comes from a deterministic parse of the source PDF, not a hand transcription or a language-model reading. The Schedule C category totals were checked line by line against each document's own printed `TOTAL` and match to the dollar in all but two cases, both of which are arithmetic errors inside the official PDFs (documented at the end). Where a figure is best-effort, it is labeled.
 
@@ -166,14 +167,16 @@ The **Department of Education is the most-conditioned agency every year** (16–
 
 ---
 
-## Capital (FY2027 only)
+## Capital (Section 254)
 
-The FY2027 Section 254 capital changes contain **1,358 project lines** totaling roughly **$992.5M** across the three detail parts (city, non-city, and by non-city entity). Distribution of the adoption-year amounts:
+All three years of Section 254 capital changes are now parsed and reconciled, so cross-year capital comparison is available. The FY2027 detail is broken out below; FY2025 and FY2026 per-year figures are in the README's capital summary and each `*_reconciliation.txt`.
+
+The **FY2027** Section 254 capital changes contain **1,358 project lines** totaling roughly **$992.5M** across the three detail parts (city, non-city, and by non-city entity). Distribution of the adoption-year amounts:
 
 - **By borough:** Queens $262.3M, Manhattan $251.2M, Brooklyn $229.7M, Bronx $172.7M, Staten Island $76.3M.
 - **By agency:** Education $225.5M, Parks $182.1M, Cultural Institutions $110.4M, Public Buildings $62.7M, Housing & Development $53.5M.
 
-*Caveat:* the capital parse reconciles 23 of 26 agency subtotals exactly; three agencies (Housing Preservation & Development, Human Resources, and one other) have minor unreconciled differences from source-text formatting. FY2025 and FY2026 capital files were **not** parsed — the FY2025 file is encrypted and the FY2026 file has a scrambled text layer, both of which need layout-aware extraction. Capital cross-year comparison is therefore not yet available.
+*Reconciliation status:* **FY2025** reconciles **30/30** agency subtotals plus both grand totals exactly — Part I (Council capital additions, directly comparable to FY2026/FY2027) **$775,000,000 / 1,327 projects**, Part II (non-city) **$158,992,000 / 181 projects**, Part III (non-city-by-entity cross-tab) 106/106 entities. **FY2026** reconciles **31/31**. **FY2027** reconciles **24 of 26** agency subtotals exactly; two agencies (Housing & Development and Human Resources) carry minor in-source formatting differences (see `data/fy27/capital/fy27_capital_reconciliation.txt`). The FY2025 canonical detail is parsed from the Council-version supporting-detail book; the broader FY2025 appropriation-changes book (~$5.2B of all executive-capital changes) is a different document type, retained for provenance only and labeled `NOT RECONCILABLE`.
 
 ---
 
@@ -186,7 +189,7 @@ Deterministic parsing catches things a manual read would miss. Two are arithmeti
 
 In both cases the extraction faithfully captured both the line items and the printed total; they simply disagree in the source. Every other category in all three years reconciles to the dollar.
 
-Known extraction limitations (do not affect reconciled totals): a minority of citywide-initiative award rows have imperfect organization *names* (the EIN and amount are correct); borough delegations appear alongside individual members in the member list; FY2025/FY2026 capital is not yet parsed.
+Known extraction limitations (do not affect reconciled totals): a minority of citywide-initiative award rows have imperfect organization *names* (the EIN and amount are correct); borough delegations appear alongside individual members in the member list.
 
 ---
 

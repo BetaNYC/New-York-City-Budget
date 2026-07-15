@@ -4,14 +4,9 @@
 **Data current as of:** 2026-07-15 (files under `data/`)  
 **Tool:** `code/validate_data.py`
 
-**Verdict:** FAIL — 272 files, 2 hard failure(s), 412 soft advisory(ies).
+**Verdict:** PASS — 272 files, 0 hard failure(s), 412 soft advisory(ies).
 
 Severity: HARD (exit 1) = schema drift, malformed row, non-numeric amount, or malformed EIN. SOFT (exit 0) = zeros, sign anomalies, outliers, duplicates, column-bleed residuals, coverage notes. See the module docstring for the full check list and rationale.
-
-## Hard failures
-
-- **[schema]** `combined/all_years_awards.csv` — unexpected columns: ['category_canonical', 'initiative_canonical']
-- **[schema]** `combined/all_years_initiatives.csv` — unexpected columns: ['category_canonical', 'initiative_canonical']
 
 ## EIN coverage (feeds the MCP award-tool decision)
 
@@ -116,8 +111,8 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 
 | file | rows | EIN cov | hard | soft findings |
 |---|---|---|---|---|
-| `combined/all_years_awards.csv` | 33638 | 100% | 1 | duplicate: 143 duplicate row instance(s); e.g. x2: ['FY17', 'HOUSING', 'Housing', 'Community Housing Preservation Strategies']...; column_bleed: 106 suspected surname-in-organization residual(s); e.g. line 489: 'Hudson Guild' |
-| `combined/all_years_initiatives.csv` | 2598 | — | 1 | — |
+| `combined/all_years_awards.csv` | 33638 | 100% | 0 | duplicate: 143 duplicate row instance(s); e.g. x2: ['FY17', 'HOUSING', 'Housing', 'Community Housing Preservation Strategies']...; column_bleed: 106 suspected surname-in-organization residual(s); e.g. line 489: 'Hudson Guild' |
+| `combined/all_years_initiatives.csv` | 2598 | — | 0 | — |
 | `fy09/schedule_c/fy09_schedule_c_initiatives.csv` | 123 | — | 0 | — |
 | `fy10/schedule_c/fy10_schedule_c_initiatives.csv` | 124 | — | 0 | — |
 | `fy10/transparency-resolutions/fy10_transparency_all.csv` | 1788 | 100% | 0 | fiscal_year: 58 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 1730 row(s) with empty fiscal_year; duplicate: 1 duplicate row instance(s); e.g. x2: ['10', '2010-04-29', 'LocalInitiatives', '']... |

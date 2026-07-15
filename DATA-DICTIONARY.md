@@ -103,7 +103,7 @@ Section 254 changes to the adopted capital budget.
 | `building_code` | text | Building code, where applicable. |
 | `school_code` | text | School code (DOE/SCA projects). |
 
-**Document-type variance:** FY2026/FY2027 (and the backfilled FY2020/FY2022/FY2023/FY2024) use the "Capital Project Detail" schedule and reconcile against printed `TOTALS FOR <agency> (N PROJECTS)` subtotals. FY2025 is the "Appropriation Changes" resolution — a different schema (no borough/sub_id/sponsor, adds an `action` column) with no subtotals; labeled `NOT RECONCILABLE`.
+**Document-type variance:** FY2025/FY2026/FY2027 (and the backfilled FY2020/FY2022/FY2023/FY2024) use the "Capital Project Detail" schedule and reconcile against printed `TOTALS FOR <agency> (N PROJECTS)` subtotals. **FY2025's canonical capital detail** is parsed from the Council-version supporting-detail book (`fy25_capital_projects.csv`) and reconciles **30/30** agency subtotals plus both grand totals — Part I $775M / 1,327 projects, Part II $158,992,000 / 181 projects, Part III cross-tab 106/106 entities — making it directly comparable to FY2026/FY2027. A separate FY2025 "Appropriation Changes" resolution book (all executive-capital changes, ~$5.2B) is a *different* document type — a different schema (no borough/sub_id/sponsor, adds an `action` column) with no subtotals — retained for provenance as `fy25_capital_changes_appropriation.csv` and labeled `NOT RECONCILABLE`.
 
 ## `data/{year}/transparency-resolutions/` — `resoNN_*.csv` + `{year}_transparency_all.csv`
 

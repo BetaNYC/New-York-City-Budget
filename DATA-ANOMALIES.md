@@ -197,3 +197,24 @@ The largest single collision is review-tier: one hyphen (`After School` vs `Afte
 **Editorial decisions recorded (operator, 2026-07-11).** Confirmed merges: Mental Health, Housing, Higher Education, Domestic Violence, Veteran(s), Anti-Poverty, Cultural Organization(s), and **Senior Services → Older Adult Services** (rename). Splits resolved at the initiative level — surviving lines routed to their FY2027 home (e.g. *Digital Inclusion & Literacy → Community Development*, *Immigrant Opportunities Initiative → Immigrant Services*, *CASA → Cultural Organizations*), retired lines left as-is. **Left as-is (not merged):** the ~17 early categories with no clear modern home (MOCS, CUNY, Sanitation, Libraries, etc.), plus a few unconfirmed name-matches (Public Safety Initiative, Government Officials, Parks-without-Services) — flip these in the crosswalk if a later review decides to merge them.
 
 **Outcome.** The viz Fund axis and any longitudinal category rollup can join on `category_canonical`; the raw `category` still shows exactly what each document printed. This is an **editorial** consolidation (disclosed in `README.md` and the viz About panel), not a mechanical one — it reflects human judgment about which differently-named budget codes are the same program area. Regression tests: `test_build_combined.py::test_category_canonical_column`, `::test_category_split_override`, `::test_category_canonical_for_units`.
+
+## 19. Schedule C appendix totals are flat ~$49.8M across FY2021–FY2027 — CONFIRMED real fixed pots, not an extraction artifact
+
+**The concern.** The aging / local / youth Schedule C appendices (`*_appendix_a_aging.csv`, `*_appendix_b_local.csv`, `*_appendix_c_youth.csv`) sum to ~$49.79–49.80M for **seven straight years** (FY2021–FY2027). A flat multi-year total can look like an extraction artifact — the parser carrying a near-identical set forward from a cached or duplicated source rather than re-reading each year. Flagged as outlier **O6** in the 2026-07-15 expense-disclosure-vs-BetaNYC evaluation for the data owner to confirm.
+
+**Verification (2026-07-15).** The totals are a **real, fixed programmatic pot**, confirmed by two independent signals an extraction artifact could not produce:
+
+| FY | appendix total | rows | aging | local | youth |
+|---|---|---|---|---|---|
+| FY2021 | $49,799,000 | 4,310 | $5,610,000 | $36,539,000 | $7,650,000 |
+| FY2022 | $49,799,000 | 4,182 | $5,610,000 | $36,539,000 | $7,650,000 |
+| FY2023 | $49,789,000 | 4,056 | $5,610,000 | $36,529,000 | $7,650,000 |
+| FY2024 | $49,799,000 | 3,911 | $5,610,000 | $36,539,000 | $7,650,000 |
+| FY2025 | $49,799,000 | 3,920 | $5,610,000 | $36,539,000 | $7,650,000 |
+| FY2026 | $49,794,000 | 3,914 | $5,610,000 | $36,534,000 | $7,650,000 |
+| FY2027 | $49,799,000 | 3,860 | $5,610,000 | $36,539,000 | $7,650,000 |
+
+1. **Row counts vary year to year (4,310 → 3,860)** while the total stays fixed. A duplicated/cached parse would reproduce identical row counts; a churning recipient list under a fixed pot is exactly what real equal-allocation programs look like.
+2. **The aging ($5,610,000) and youth ($7,650,000) sub-pots are *exactly* constant every year**, and the local sub-pot varies by ≤ $10,000 (a seat vacancy / rounding). These are the Council's standing **equal-per-district** aging, local, and youth initiatives — a fixed citywide aggregate distributed across a recipient set that changes annually. The flatness is the *point* of these programs, not a parsing defect.
+
+**Conclusion.** O6 resolved — the flat appendix totals are the genuine value of fixed Council allocation pots, not an extraction artifact. No code or data change required; recorded here so future readers don't re-flag the pattern.

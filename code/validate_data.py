@@ -93,13 +93,19 @@ TYPES = {
         optional=["action"], ein=None, amounts=["fy1", "fy2", "fy3", "fy4"],
         rule="nonneg", year_col=None),
     "combined_initiatives": dict(
-        cols=["year", "category", "agencies", "initiative", "amount"],
+        # `category_canonical` / `initiative_canonical` are derived columns build_combined.py inserts
+        # right after their raw source columns during crosswalk curation (DATA-ANOMALIES #17/#18).
+        cols=["year", "category", "category_canonical", "agencies", "initiative",
+              "initiative_canonical", "amount"],
         ein=None, amounts=["amount"], rule="positive", year_col="year"),
     "combined_awards": dict(
         # `purpose` mirrors the per-year schedule_c_awards schema — build_combined.py carries it
         # through so source-distinct rows are not collapsed into false duplicates (DATA-ANOMALIES #8).
-        cols=["year", "category", "initiative", "award_type", "member", "organization",
-              "program", "ein", "amount", "agency", "purpose"],
+        # `category_canonical` / `initiative_canonical` are derived, inserted right after their raw
+        # source columns during crosswalk curation (DATA-ANOMALIES #17/#18).
+        cols=["year", "category", "category_canonical", "initiative", "initiative_canonical",
+              "award_type", "member", "organization", "program", "ein", "amount", "agency",
+              "purpose"],
         ein="ein", amounts=["amount"], rule="positive", year_col="year",
         text_cols=["organization", "program"]),
 }
