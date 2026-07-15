@@ -163,6 +163,46 @@ def test_detect_type_and_skips():
     assert V.detect_type("data/fy20/schedule_c/fy20_schedule_c_awards.csv") == "schedule_c_awards"
     assert V.detect_type("data/fy20/capital/fy20_capital_projects.csv") == "capital"
     assert V.detect_type("data/combined/legistar_crosswalk.csv") is None  # skipped
+    assert V.detect_type("data/combined/all_years_awards.csv") == "combined_awards"
+    assert V.detect_type("data/combined/all_years_initiatives.csv") == "combined_initiatives"
+
+
+# --------------------------------------------------- combined-schema drift guard (canonical cols)
+# build_combined.py inserts `category_canonical` / `initiative_canonical` right after their raw
+# source columns. These are the EXACT committed headers of data/combined/*.csv. The validator specs
+# must include them, or the schema check flags them as "unexpected columns" -> HARD failure (the
+# code/schema drift this test exists to catch). Mirrors build_combined.py's insertion order.
+COMBINED_AWARDS_HDR = ("year,category,category_canonical,initiative,initiative_canonical,"
+                       "award_type,member,organization,program,ein,amount,agency,purpose")
+COMBINED_INITIATIVES_HDR = ("year,category,category_canonical,agencies,initiative,"
+                            "initiative_canonical,amount")
+
+
+def test_combined_files_validate_clean_with_canonical_columns(tmp_path):
+    root = tmp_path / "data"
+    _write(str(root / "combined" / "all_years_awards.csv"),
+           COMBINED_AWARDS_HDR + "\n"
+           "2020,EDUCATION,Education,Init A,Init A,initiative_provider,,Acme Org Inc.,,"
+           "13-2612524,50000,DOE,\n")
+    _write(str(root / "combined" / "all_years_initiatives.csv"),
+           COMBINED_INITIATIVES_HDR + "\n"
+           "2020,EDUCATION,Education,DOE,Init A,Init A,50000\n")
+    results, _recon, _s = V.validate_tree(str(root))
+    by_type = {V.detect_type(r.path): r for r in results}
+    assert set(by_type) == {"combined_awards", "combined_initiatives"}
+    for kind, r in by_type.items():
+        schema_hard = [m for c, m in r.hard if c == "schema"]
+        assert schema_hard == [], f"{kind} schema findings: {schema_hard}"
+        assert r.hard == [], f"{kind} hard findings: {r.hard}"
+
+
+def test_combined_specs_require_canonical_columns():
+    """Negative control: dropping a canonical column MUST trip the schema check, proving the specs
+    now depend on them (guards against the columns being silently removed from the spec again)."""
+    for kind in ("combined_awards", "combined_initiatives"):
+        cols = set(V.TYPES[kind]["cols"])
+        assert "category_canonical" in cols, kind
+        assert "initiative_canonical" in cols, kind
 
 
 if __name__ == "__main__":

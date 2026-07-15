@@ -207,6 +207,14 @@ See `research/` for active and lodged scoping plans, including closing the
 FY2022–FY2024 gap between this repo's PDF-extracted years and NYC Open Data's
 FY2009–FY2021 historical archive.
 
+## Acknowledgments
+
+- A member of the **NYC City Council Finance Division staff** supplied the FY2025 Council-version
+  §254 Supporting Detail Book and flagged the expense-disclosure spreadsheets, which made the
+  reconciled FY2025 capital detail and the award-level expense data in this repo possible.
+  <!-- CREDIT PENDING: attribution requested 2026-07-15; fill in the staffer's name/credit line
+       here once they reply on how they wish to be acknowledged. -->
+
 ---
 
 *Source: NYC Council Finance Division, adopted budget Schedule C, Terms & Conditions, and Section 254 capital changes, FY2025–FY2027, [council.nyc.gov](https://council.nyc.gov/budget/). Structured and analyzed by [BetaNYC](https://beta.nyc).*
