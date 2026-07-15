@@ -24,17 +24,29 @@ that the packages in `code/requirements.txt` are installed (`pypdf`, `pdfplumber
 | `parse_terms_legacy.py` | Terms & Conditions, **unnumbered-header** format (FY15–FY24) | pypdf text layer |
 | `parse_capital.py` | §254 Capital Project Detail — **FY27** clean-pypdf (city `CC/DN` **and** non-city `MA/0N` rows) | pypdf text layer |
 | `parse_capital_fy26.py` | §254 Capital Project Detail — **FY26** (pypdf-scrambled) | pdfplumber word coordinates |
+| `parse_capital_fy25_detail.py` | §254 Capital Project Detail — **FY25 Council-additions detail book** (Parts I+II+III) | pdfplumber word coordinates |
 | `parse_capital_detail.py` | §254 Capital Project Detail — **FY20/FY22/FY23/FY24** ("Supporting Detail Book") | pdfplumber `extract_text()` (clean reading order) |
-| `parse_capital_fy25.py` | §254 Resolution-A / Appropriation-Changes (FY25 + FY17/FY21/FY23/FY24) | pdfplumber word coordinates |
+| `parse_capital_fy25.py` | §254 Resolution-A / Appropriation-Changes (FY25 appropriation book + FY17/FY21/FY23/FY24) | pdfplumber word coordinates |
 | `parse_transparency_reso.py` | Post-adoption Transparency Resolutions | pdfplumber word coordinates |
 
-**Why three Capital-Project-Detail parsers exist:** the same logical document is emitted with
+**Why four Capital-Project-Detail parsers exist:** the same logical document is emitted with
 different PDF text layers across years. `parse_capital.py` (pypdf) works only where pypdf
 happens to preserve column order; on FY20/FY22/FY23/FY24 pypdf *scrambles* the columns
 (amount/budget-line/sponsor interleave), so those years use `parse_capital_detail.py`, which
-reads pdfplumber's clean `extract_text()` output. FY26 scrambles under both and needs the
-coordinate-clustering `parse_capital_fy26.py`. All three emit the identical FY27 schema and
-reconcile against the printed `TOTALS FOR <agency> (N PROJECTS)` subtotal lines.
+reads pdfplumber's clean `extract_text()` output. FY26 and FY25 scramble under both and need
+coordinate clustering (`parse_capital_fy26.py`, `parse_capital_fy25_detail.py`). All four emit
+the identical FY27 schema and reconcile against the printed `TOTALS FOR <agency> (N PROJECTS)`
+subtotal lines.
+
+**Two different FY2025 §254 books — do not confuse them.** `parse_capital_fy25.py` parses the
+broad *Appropriation-Changes* book (`Fiscal-2025-Capital-Changes.pdf`, ~$5.2B of all executive-
+capital changes, no printed subtotals → NOT RECONCILABLE), whose output is now
+`fy25_capital_changes_appropriation.csv`. `parse_capital_fy25_detail.py` parses the *Council-
+additions supporting-detail book* (`Supporting-Detail-for-FY2025-...-Council-Version-24.07.17.pdf`),
+the FY26/FY27 counterpart, whose output is the canonical `fy25_capital_projects.csv` and
+reconciles **exactly** ($775M / 1327 projects). The Council-additions total for each agency is
+≤ that agency's line in the appropriation book; 8 agencies (Aging, ACS, Health, Human Resources,
+Sanitation, GSA/Resiliency-Tech, DEP, Children's Services) match to the dollar.
 
 ---
 
@@ -231,9 +243,12 @@ ROSTER=$(ls data/fy*/schedule_c/*_schedule_c_awards.csv)
 | FY23 | `FY23-Sec254-Capital-Supporting-Detail-Book.pdf` | **30/30 exact** |
 | FY24 | `FY2024-Sec254-Supporting-Detail-Book_7.10.2023pwp-2.pdf` | **30/30 exact** |
 
-**B. Resolution A / Appropriation Changes** — NOT RECONCILABLE (no printed subtotals; same as
-FY25). Use `parse_capital_fy25.py`. Applies to FY17/FY21/FY23/FY24 (each of those years also has
-a type-A book except FY17/FY21, which have only this type). Status recorded in the table below.
+**B. Resolution A / Appropriation Changes** — NOT RECONCILABLE (no printed subtotals). Use
+`parse_capital_fy25.py`. Applies to FY17/FY21/FY23/FY24 and the broad FY25 appropriation book
+(each of those years also has a type-A book except FY17/FY21, which have only this type). Status
+recorded in the table below. **Note:** the FY25 appropriation output is now
+`fy25_capital_changes_appropriation.csv` — it is no longer the canonical FY25 capital dataset (see
+the FY25 Council-additions detail block below).
 
 **FY19** is a third, older Capital-Project-Detail sub-format (extra community-district column, no
 SPONSOR column, `-` for zero, and **no `TOTALS FOR` subtotals**) — deferred / NOT RECONCILABLE.
@@ -259,6 +274,28 @@ branch, were dropped as projects, and leaked a whole row's text into the `agency
 CITY rows that followed (52 polluted rows; the entire Part II `CULTURAL INSTITUTIONS` block was
 lost). `validate_data.py` now surfaces this class as an `agency_pollution` advisory (a digit in a
 capital `agency` name). See DATA-ANOMALIES.md #12.
+
+**FY25 (Council-additions detail book)** is the FY26/FY27 counterpart — the "Supporting Detail For
+Fiscal Year 2025, Changes to the Executive Capital Budget Adopted by the City Council Pursuant to
+Section 254" book (Council version). It uses `parse_capital_fy25_detail.py` (coordinate clustering;
+the text layer is scrambled like FY26). Invocation:
+```bash
+.venv/bin/python code/parse_capital_fy25_detail.py \
+    "source/FY25/Supporting-Detail-for-FY2025-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254-Council-Version-24.07.17.pdf" \
+    --outdir data/fy25/capital --prefix fy25 --roster data/fy*/schedule_c/*_schedule_c_awards.csv
+```
+Reconciliation: **30/30 agency subtotals exact**, and both `TOTALS FOR ALL` grand totals tie
+exactly — Part I **$775,000,000 / 1327 projects**, Part II (non-city) **$158,992,000 / 181
+projects**. The book has **three** parts (FY26 had two): I. Capital Project Detail (city), II.
+Non-City Capital Project Detail (a non-city subset re-listed), and III. Capital Project Detail by
+Non-City Entity — an entity-grouped cross-tab of Part II with a different schema (no boro/sponsor,
+per-entity `$` totals). Parts I+II go to the canonical `fy25_capital_projects.csv` (FY26/FY27
+schema, directly comparable); Part III goes to the sidecar `fy25_capital_noncity_by_entity.csv`
+(`organization, budget_line, fy1..fy4`) and reconciles independently — 106/106 entities to their
+printed totals, summing to $158,992,000 = the Part II grand total. Two FY25 header quirks the
+parser handles vs. FY26: the left code column header is `PROJECT ID` (not FY26's `SUB ID`), and the
+header row therefore carries two `PROJECT` tokens (`PROJECT ID` and `PROJECT TITLE`), disambiguated
+by x-position.
 
 ---
 

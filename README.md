@@ -78,8 +78,8 @@ Detail breakouts with a `purpose` field: `_a_aging` (Aging Discretionary), `_b_l
 
 ### `data/{year}/capital/{year}_capital_projects.csv`
 Section 254 capital changes. `part, agency, budget_line, sub_id, boro, fy1, fy2, fy3, fy4, sponsor, title, building_code, school_code` — `fy1` is the adoption year; `fy2..fy4` are out-years; `boro`: M/X/K/Q/R.
-- **FY2027 and FY2026** use the "Capital Project Detail" schedule and reconcile against printed agency subtotals.
-- **FY2025** is a different document type (the "Appropriation Changes" resolution) — no borough/sub-id/sponsor columns, no subtotals to reconcile; it adds an `action` column (ELIMINATE/SUBSTITUTE/NEW PROJECT) and is labeled `NOT RECONCILABLE`.
+- **FY2025, FY2026, and FY2027** use the "Capital Project Detail" (Council-additions) schedule, share this schema, and reconcile against printed agency subtotals and both `TOTALS FOR ALL` grand totals. FY2025 is now directly comparable to FY2026/FY2027 (parsed from the Council-version supporting-detail book; Part I **$775M / 1327 projects**, Part II non-city **$158,992,000 / 181 projects**). Part III (the non-city-by-entity cross-tab of Part II) is emitted to the sidecar `fy25_capital_noncity_by_entity.csv`.
+- The broader FY2025 **"Appropriation Changes"** resolution book (all executive-capital changes, ~$5.2B, `NOT RECONCILABLE`, adds an `action` column) is a *different document type* and is retained for provenance as `fy25_capital_changes_appropriation.csv`.
 
 ### `data/fy26/transparency-resolutions/`
 Post-adoption discretionary designations from the 10 FY2026 Transparency Resolutions (per-resolution `resoNN_transparency_designations.csv` files + a combined `fy26_transparency_all.csv`). Columns: `resolution, date, chart, fiscal_year, action, source, council_member, organization, program, ein, amount, agency, agy_num, ua, purpose, flags` — `action` ∈ designate / rescind / purpose_change; rescissions carry negative amounts. These record money the adopted budget left "to be designated post-adoption" (e.g. the FY2026 AI Community Engagement $1M). **No printed totals exist**, so they are labeled `NOT RECONCILABLE`; the only internal check is that transfers (rescind + re-designate) net to zero.
@@ -123,7 +123,7 @@ per-document-type detail (and the parser/invocation for each) is in [`code/PARSI
   low-confidence in the older glued-text-layer years (FY2010–FY2013), flagged per-year in each
   `*_reconciliation.txt`. FY2009 (scanned, no text layer) and FY2013 resolutions 07/10/11 (`.doc`) are blocked.
 
-**Capital (Section 254):** FY2026 reconciles **31/31** agency subtotals (amount + project count); FY2027 reconciles **24/26**; FY2025 is a different document type with no subtotals (`NOT RECONCILABLE`). **Transparency Resolutions:** no printed totals (`NOT RECONCILABLE`); transfers net to zero as expected. See each `*_reconciliation.txt` for details.
+**Capital (Section 254):** FY2025 reconciles **30/30** agency subtotals plus both grand totals exactly (Part I $775M / 1327; Part II $158,992,000 / 181; Part III cross-tab 106/106 entities); FY2026 reconciles **31/31**; FY2027 reconciles **24/26**. (The separate FY2025 appropriation-changes book remains `NOT RECONCILABLE` by nature.) **Transparency Resolutions:** no printed totals (`NOT RECONCILABLE`); transfers net to zero as expected. See each `*_reconciliation.txt` for details.
 
 **Data QA:** beyond per-file reconciliation, `code/validate_data.py` runs row-level and cross-file
 integrity checks (schema, EIN validity + per-year coverage, amount/sign sanity, fiscal-year
@@ -135,7 +135,7 @@ on every EIN-bearing file. Details in [`code/PARSING.md`](code/PARSING.md).
 
 - Some `initiative_provider` award rows have imperfect organization *names* (EIN + amount are correct).
 - Borough delegations ("Brooklyn", "Queens", …) appear in the `member` column as collective sponsors.
-- **FY2025 capital is not row-comparable to FY2026/FY2027** — it is the "Appropriation Changes" resolution (a different document type), lacking borough/sub-id/sponsor columns and per-agency subtotals. FY2026 and FY2027 capital share a schema and reconcile.
+- **FY2025 capital is now row-comparable to FY2026/FY2027** — parsed from the FY2025 Council-additions "Capital Project Detail" book (the counterpart to the FY2026/FY2027 books), it shares their schema and reconciles. (Earlier releases used the different "Appropriation Changes" resolution book, now retained separately as `fy25_capital_changes_appropriation.csv`; that book alone is not row-comparable.) Note Part II re-lists the non-city subset, so summing `fy1` across both parts double-counts non-city projects — filter by `part` when aggregating, exactly as for FY2026/FY2027.
 - **Transparency Resolutions have no printed totals** to reconcile against (only the transfer net-out check); ~0.2% of rows have an imperfect organization name (EIN + amount are recoverable).
 - Category names differ across years (FY2025 has a standalone "Libraries" that later folds into "Cultural Organizations"). Normalize before comparing.
 
