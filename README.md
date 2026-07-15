@@ -40,8 +40,9 @@ New-York-City-Budget/
 ├── README.md                                       ← you are here
 ├── Insights-NYC-Council-Discretionary-FY25-FY27.md ← narrative analysis
 ├── LICENSE                                         ← MIT, for the code + derived data
-├── source/              ← official NYC Council PDFs, © City of New York
-│   ├── FY08/ … FY27/    (Schedule C, Terms, Capital, transparency-resolutions/ per year)
+├── source/              ← official NYC Council documents, © City of New York
+│   ├── FY08/ … FY27/    (Schedule C, Terms, Capital, transparency-resolutions/ per year — PDFs)
+│   └── expense-funding-disclosure/  (Council RnD award-level expense spreadsheets, FY2013–FY2027)
 ├── data/                ← extracted, reconciled CSVs
 │   ├── fy09/ … fy27/    (per year: schedule_c/, terms/, capital/, transparency-resolutions/
 │   │   │                 — whichever document types exist and parse for that year)
@@ -53,6 +54,24 @@ New-York-City-Budget/
 ├── mcp/                 ← prototype MCP server (see below)
 └── viz/                 ← Schedule C funding visualization (see viz/README.md)
 ```
+
+### `source/expense-funding-disclosure/` — Council RnD award-level expense data
+
+Alongside the adopted-budget PDFs, the repo includes the NYC Council Research & Data division's
+**expense funding disclosure** spreadsheets — the Council's own machine-readable, award-level
+discretionary **expense** files, **FY2013–FY2027**, as published at
+[rnd.council.nyc.gov/expense_funding](https://rnd.council.nyc.gov/expense_funding/) (retrieved
+2026-07-15). Because they are already tabular, they need no PDF text extraction.
+
+They complement the parsed Schedule C data in two ways: they reach **two years further back**
+(FY2013–FY2014) and they carry fields the PDFs do not expose cleanly — a **MOCS ID#** (the
+Mayor's Office of Contract Services key, present FY2024+, joins to registered contracts and
+Checkbook spending), the grantee **EIN** and full **mailing address** (geocodable to council
+district), and a **Cleared/Pending** clearance status. In effect they are the live continuation of
+NYC Open Data's **City Council Discretionary Funding** dataset (`4d7f-74pe`), which stopped updating
+in April 2021. Provenance, per-file manifest, schema (16/17/18-column evolution), and data-quality
+notes are documented in
+[`source/expense-funding-disclosure/README.md`](source/expense-funding-disclosure/README.md).
 
 ### `mcp/` — prototype MCP server
 
