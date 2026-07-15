@@ -124,7 +124,7 @@ const TOOLS = [
   },
   {
     name: "search_capital_projects",
-    description: `Search §254 capital changes across FY2020 + FY2022–FY2027 (no FY2021 detail book exists). Filter by agency, fiscal year, sponsor (council member surname; co-sponsored rows list multiple), or project title. \`fy1\` is the adoption-year allocation. NOTE: FY2025 is the "Appropriation Changes" document — different schema (no borough/sub-id/sponsor, adds an action column) and NOT reconcilable; FY2020/FY2022/FY2023/FY2024/FY2026 are "Supporting Detail Book" and reconcile against printed subtotals (FY2027 partially). ${SCOPE_NOTE}`,
+    description: `Search §254 capital changes across FY2020 + FY2022–FY2027 (no FY2021 detail book exists). Filter by agency, fiscal year, sponsor (council member surname; co-sponsored rows list multiple), or project title. \`fy1\` is the adoption-year allocation. All parsed years — FY2020, FY2022, FY2023, FY2024, FY2025, FY2026 — come from the "Supporting Detail Book" (Council-additions Capital Project Detail), share the full schema (borough, sub-id, sponsor), and reconcile against the printed agency subtotals and both \`TOTALS FOR ALL\` grand totals (FY2027 partially). FY2025 was reparsed from the FY2025 Supporting Detail Book (PR #21) and is now directly comparable to the other years. ${SCOPE_NOTE}`,
     inputSchema: {
       type: "object",
       properties: {
@@ -352,7 +352,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           `NYC Budget MCP — dataset coverage (exact per-dataset parsed years):\n\n` +
           `Schedule C awards:        ${fmt(r.awards)} (EIN-level)\n` +
           `Terms & Conditions:       ${fmt(r.terms)}\n` +
-          `Capital (§254):           ${fmt(r.capital)} (FY2025 is the non-reconcilable "Appropriation Changes" type)\n` +
+          `Capital (§254):           ${fmt(r.capital)} (all from the "Supporting Detail Book"; full schema; reconcile against printed subtotals — FY2027 partially)\n` +
           `Transparency Resolutions: ${fmt(r.transparency)} (by resolution document year; FY2010–FY2013 org/program text is LOW-confidence — join on EIN)\n` +
           `Legistar crosswalk:       FY${r.crosswalk.min}–FY${r.crosswalk.max} (provenance index; covers years not parsed to CSV)\n\n` +
           `HONESTY GUARD:\n` +

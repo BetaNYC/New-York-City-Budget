@@ -119,6 +119,48 @@ test("non-award datasets cover exactly the expected parsed years", () => {
   );
 });
 
+test("FY2025 capital is the reconciled Supporting-Detail-Book detail (full schema), not the old Appropriation Changes file", async () => {
+  // Regression guard for the loader picking the right FY2025 capital CSV. The old
+  // fy25_capital_changes_appropriation.csv has no borough/sub-id/sponsor (and an `action`
+  // column); the canonical fy25_capital_projects.csv is the reconciled Council-additions
+  // Capital Project Detail in the shared 13-column schema. If the loader ever indexed the
+  // wrong file, boro/sponsor would be empty and these assertions would fail.
+  const agg = db
+    .prepare(
+      `SELECT
+         COUNT(*) n,
+         SUM(CASE WHEN part = 'I' THEN 1 ELSE 0 END) part1,
+         SUM(CASE WHEN part = 'II' THEN 1 ELSE 0 END) part2,
+         SUM(CASE WHEN TRIM(COALESCE(boro,'')) <> '' THEN 1 ELSE 0 END) boro_pop,
+         SUM(CASE WHEN part = 'I' AND TRIM(COALESCE(sponsor,'')) <> '' THEN 1 ELSE 0 END) part1_sponsor_pop,
+         COALESCE(SUM(CASE WHEN part = 'I' THEN fy1 ELSE 0 END), 0) part1_fy1,
+         COALESCE(SUM(CASE WHEN part = 'II' THEN fy1 ELSE 0 END), 0) part2_fy1
+       FROM capital WHERE fiscal_year = 2025`
+    )
+    .get();
+  assert.equal(agg.n, 1508, "FY2025 capital row count (1327 Part I + 181 Part II)");
+  assert.equal(agg.part1, 1327, "FY2025 Part I project count");
+  assert.equal(agg.part2, 181, "FY2025 Part II non-city project count");
+  assert.equal(agg.boro_pop, 1508, "every FY2025 capital row must carry a borough (proves the full schema)");
+  assert.equal(agg.part1_sponsor_pop, 1327, "every FY2025 Part I row must carry a sponsor");
+  assert.equal(agg.part1_fy1, 775000000, "FY2025 Part I fy1 grand total reconciles to $775,000,000");
+  assert.equal(agg.part2_fy1, 158992000, "FY2025 Part II non-city fy1 total reconciles to $158,992,000");
+
+  // No FY2025 row should carry the legacy `action` value — that column belongs to the retired
+  // Appropriation Changes file, which is no longer indexed.
+  const withAction = db
+    .prepare(`SELECT COUNT(*) n FROM capital WHERE fiscal_year = 2025 AND TRIM(COALESCE(action,'')) <> ''`)
+    .get().n;
+  assert.equal(withAction, 0, "FY2025 capital must not carry the legacy `action` column");
+
+  // And the full schema reaches the caller through the tool: rows show boro + sponsor.
+  const out = await callText("search_capital_projects", { fiscal_year: 2025, limit: 50 });
+  assert.doesNotMatch(out, /No matching capital projects/, "FY2025 search_capital_projects returned nothing");
+  assert.match(out, /FY2025 · /, "FY2025 rows not present in output");
+  assert.match(out, /boro:/, "FY2025 output must surface a borough (proves reconciled detail, not old schema)");
+  assert.match(out, /sponsor:/, "FY2025 output must surface a sponsor");
+});
+
 test("FY2010–FY2013 transparency is flagged low-confidence and surfaces the caveat", async () => {
   // The four low-confidence years are marked in the index.
   const flagged = db
