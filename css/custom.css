@@ -162,3 +162,33 @@ a:hover { text-decoration: underline; }
 }
 
 .about { font-size: 16px;}
+
+/* ---------------------------------------------------------------------------
+   Mobile responsiveness (phones, ≤ 640px).
+   The look-at-cook toolkit is desktop-first: on a phone the data tables were
+   wider than the viewport and pushed the whole page sideways. These rules keep
+   the tables inside the phone screen instead of overflowing it.
+   --------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  /* Safety net: any residual table width scrolls inside its own white card,
+     so the page body itself never scrolls horizontally. */
+  .well { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* Scorecard summary: stack the three cells (title + the two dollar figures)
+     vertically so each big number gets full width instead of being clipped. */
+  #scorecard, #scorecard tbody, #scorecard tr, #scorecard td { display: block; }
+  #scorecard td,
+  #scorecard td#scorecard-desc { width: auto; padding: 0.6em 10px; border-bottom: 1px solid #ddd; }
+  #scorecard tr td:last-child { border-bottom: 0; }
+  #scorecard h2 { font-size: 18px; }
+
+  /* Breakdown table: hide the redundant "Adopted vs. Itemized" bar column
+     (the two dollar columns already carry those numbers) and tighten the cells
+     so Category + Adopted + Itemized fit a phone width. */
+  #breakdown thead th:nth-child(4),
+  #breakdown tbody > tr > td:nth-child(4),
+  #breakdown th.charts { display: none; }
+  #breakdown td, #breakdown th { font-size: 12px; padding: 0.3em 6px; }
+
+  #breadcrumbs { font-size: 16px; }
+}
