@@ -209,6 +209,23 @@ See `research/` for active and lodged scoping plans, including closing the
 FY2022–FY2024 gap between this repo's PDF-extracted years and NYC Open Data's
 FY2009–FY2021 historical archive.
 
+## AI use in this project
+
+BetaNYC uses AI tools openly and with human accountability. The extraction, reconciliation, and analysis tooling in this repository was built by AI agents (Anthropic's Claude) working under the direction and review of BetaNYC staff.
+
+One commitment about the data: **the figures here are not AI-generated.** Every dollar amount is extracted **deterministically** from the Council's own adopted-budget PDFs and checked line by line against the documents' printed totals — never inferred, never estimated by a model. The FY2027 discretionary schedule reconciles to the exact dollar (`$655,764,999`); where a year does not yet reconcile, that status is recorded honestly in [`code/PARSING.md`](code/PARSING.md) and [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) rather than papered over.
+
+Questions about our approach: hello@beta.nyc.
+
+## License
+
+Two licenses, split by what the file is:
+
+- **Code** (`code/`, `mcp/`, `viz/`): [MIT](LICENSE) © 2026 BetaNYC — use and modify freely with attribution preserved. The `mcp/` package is published to npm as [`@betanyc/nyc-budget-mcp`](https://www.npmjs.com/package/@betanyc/nyc-budget-mcp) under its own MIT license (`mcp/package.json`).
+- **Data and documentation** (`data/`, `source/`, `research/`, and the top-level `*.md` data references): [Creative Commons Attribution-ShareAlike 4.0](LICENSE-DATA) — reuse and adapt with credit to BetaNYC, and share adaptations under the same license.
+
+The underlying budget documents are public records of the City of New York; these licenses cover this compilation, its reconciliation, and its tooling.
+
 ## Acknowledgments
 
 - A member of the **NYC City Council Finance Division staff** supplied the FY2025 Council-version
