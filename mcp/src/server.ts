@@ -19,6 +19,7 @@ import {
   getTerms,
   getLegistarLink,
   listFiscalYears,
+  buildMeetingUrl,
   type AwardRow,
 } from "./db.js";
 
@@ -33,7 +34,7 @@ const SCOPE_NOTE =
 
 const FOOTER = `
 ---
-NYC budget data structured by BetaNYC (https://beta.nyc) from the NYC Council's adopted-budget documents (Schedule C, Terms & Conditions, §254 capital, Transparency Resolutions). Dollar figures were extracted deterministically and reconciled against printed totals in the source repo. PROTOTYPE — local snapshot, not a published package. ${SCOPE_NOTE}`.trim();
+NYC budget data structured by BetaNYC (https://beta.nyc) from the NYC Council's adopted-budget documents (Schedule C, Terms & Conditions, §254 capital, Transparency Resolutions). Dollar figures were extracted deterministically and reconciled against printed totals in the source repo. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION} (https://github.com/BetaNYC/New-York-City-Budget). ${SCOPE_NOTE}`.trim();
 
 function withFooter(text: string): string {
   return `${text}\n\n${FOOTER}`;
@@ -112,7 +113,7 @@ const TOOLS = [
   },
   {
     name: "get_legistar_link",
-    description: `Look up the NYC Council Legistar legislative record (matter number, adoption date, detail-page URL) for a budget source document via the FY2008–FY2027 crosswalk. Filter by fiscal_year and/or document_type (schedule_c, terms_conditions, capital_a, capital_b, transparency_reso, transparency_reso_NN) or by local_file. Always surfaces the crosswalk \`status\`: 'confirmed' (matter verified), 'candidate' (anchor/exhibit not upgraded to confirmed), or 'not_located' (no matter found). Do not treat a candidate/not_located row as an authoritative citation.`,
+    description: `Look up the NYC Council Legistar legislative record (matter number, adoption date, adopting-session link) for a budget source document via the FY2008–FY2027 crosswalk. Filter by fiscal_year and/or document_type (schedule_c, terms_conditions, capital_a, capital_b, transparency_reso, transparency_reso_NN) or by local_file. For confirmed rows, returns a WORKING link to the City Council meeting where the matter was adopted (Legistar MeetingDetail); the older bill-detail URL is not surfaced because NYC's two Legistar backends use different ids and it resolves to "Invalid parameters!". Always surfaces the crosswalk \`status\`: 'confirmed' (matter verified), 'candidate' (anchor/exhibit not upgraded to confirmed), or 'not_located' (no matter found). Do not treat a candidate/not_located row as an authoritative citation.`,
     inputSchema: {
       type: "object",
       properties: {
@@ -278,13 +279,25 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (rows.length === 0)
           return { content: [{ type: "text", text: withFooter("No crosswalk rows matched.") }] };
         const body = rows
-          .map(
-            (r) =>
+          .map((r) => {
+            // The adopting City Council session carries a WORKING Legistar link
+            // (MeetingDetail.aspx accepts the OData EventId). The row's stored
+            // legistar_url is a LegislationDetail.aspx link keyed on OData ids the
+            // public site does not recognize ("Invalid parameters!"), so it is NOT
+            // surfaced as an authoritative citation — see issue #31.
+            const meetingUrl = buildMeetingUrl(r.adopting_event_id);
+            return (
               `FY${r.fiscal_year} · ${r.document_type} · [${r.status}] ${r.legistar_matter_number || "(no matter)"}` +
               (r.adoption_date ? ` · adopted ${r.adoption_date}` : "") +
-              (r.legistar_url ? `\n    ${r.legistar_url}` : "") +
+              (meetingUrl
+                ? `\n    adopting session: ${r.adopting_body}` +
+                  (r.adopting_action ? ` — ${r.adopting_action}` : "") +
+                  (r.adopting_datetime ? ` — ${r.adopting_datetime}` : "") +
+                  `\n    ${meetingUrl}`
+                : `\n    (no verified Legistar link — matter number + adoption date are the citation)`) +
               (r.notes ? `\n    notes: ${r.notes}` : "")
-          )
+            );
+          })
           .join("\n\n");
         return { content: [{ type: "text", text: withFooter(`${rows.length} crosswalk row(s):\n\n${body}`) }] };
       }

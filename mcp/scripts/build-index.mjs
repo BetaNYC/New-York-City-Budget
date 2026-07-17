@@ -136,7 +136,9 @@ function main() {
     CREATE TABLE crosswalk (
       fiscal_year INTEGER, document_type TEXT, local_file TEXT,
       legistar_matter_number TEXT, legistar_url TEXT, adoption_date TEXT,
-      status TEXT, notes TEXT
+      status TEXT, notes TEXT,
+      adopting_event_id TEXT, adopting_body TEXT, adopting_action TEXT,
+      adopting_datetime TEXT
     );
     CREATE INDEX idx_cw_fy ON crosswalk(fiscal_year);
     CREATE INDEX idx_cw_type ON crosswalk(document_type);
@@ -298,9 +300,11 @@ function main() {
   // --- legistar crosswalk (FY2008–FY2027; provenance index, not parsed data) ---
   const insCw = db.prepare(
     `INSERT INTO crosswalk (fiscal_year, document_type, local_file,
-       legistar_matter_number, legistar_url, adoption_date, status, notes)
+       legistar_matter_number, legistar_url, adoption_date, status, notes,
+       adopting_event_id, adopting_body, adopting_action, adopting_datetime)
      VALUES (@fiscal_year, @document_type, @local_file,
-       @legistar_matter_number, @legistar_url, @adoption_date, @status, @notes)`
+       @legistar_matter_number, @legistar_url, @adoption_date, @status, @notes,
+       @adopting_event_id, @adopting_body, @adopting_action, @adopting_datetime)`
   );
   counts.crosswalk = db.transaction(() => {
     let n = 0;
@@ -316,6 +320,10 @@ function main() {
         adoption_date: r.adoption_date ?? "",
         status: r.status ?? "",
         notes: r.notes ?? "",
+        adopting_event_id: r.adopting_event_id ?? "",
+        adopting_body: r.adopting_body ?? "",
+        adopting_action: r.adopting_action ?? "",
+        adopting_datetime: r.adopting_datetime ?? "",
       });
       n++;
     }
