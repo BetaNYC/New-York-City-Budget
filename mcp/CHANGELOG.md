@@ -4,6 +4,43 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.2.0 — 2026-07-16
+
+`get_legistar_link` now returns a **working** Legistar link. It points at the City Council
+**meeting where the matter was adopted**, replacing the previously-emitted `LegislationDetail.aspx`
+bill link that resolved to "Invalid parameters!". New feature (adopting-session output + four new
+crosswalk columns), so a minor bump. See issue #31.
+
+### Fixed
+- **The bill-detail link was broken for every crosswalk row.** NYC runs two independent Legistar
+  backends with different ids: the OData WebAPI exposes `MatterId`/`MatterGuid`, but the public
+  `LegislationDetail.aspx` page keys on a *separate* ID/GUID that appears nowhere in the OData
+  record, so `LegislationDetail.aspx?ID={MatterId}&GUID={MatterGuid}` returns "Invalid parameters!"
+  — there is no formula between the two. The stored `legistar_url` column (that broken scheme) is
+  **no longer surfaced** as a citation.
+
+### Added
+- **Adopting-session link (works).** The public *meeting* URL scheme accepts the OData `EventId`:
+  `https://legistar.council.nyc.gov/MeetingDetail.aspx?LEGID={EventId}&GID=61` (`GID=61` is a
+  verified term-stable constant, resolves meetings 2007–2026). `get_legistar_link` builds this at
+  query time for confirmed rows and surfaces the adopting body, action, and datetime. A row with no
+  confirmed City Council adoption event gets **no link** (never a wrong one); its matter number +
+  adoption date remain the citation.
+- **Four crosswalk columns** — `adopting_event_id`, `adopting_body`, `adopting_action`,
+  `adopting_datetime` — precomputed per confirmed row.
+
+### Data / tooling
+- **`scripts/enrich-crosswalk.mjs`** (new) resolves each confirmed crosswalk row's adopting `EventId`
+  from Legistar OData (matter file → `MatterId` → histories → the `Approved, by Council` / City
+  Council / passed history row's `MatterHistoryEventId`). Idempotent and resumable (skips
+  already-enriched rows; rewrites the CSV after each row), throttled ~1 req/sec with 429 backoff.
+  Endpoints/fields reuse the production `nyc-council-mcp` Legistar client.
+- **Enrichment coverage (2026-07-16):** 231 of 232 confirmed rows enriched. The one exception,
+  Res 0849-2025 (FY2025 transparency_reso_11), has no full-Council adoption in its Legistar history
+  (introduced → referred to Committee on Finance → P-C item approved by committee only) → null link,
+  correctly. `candidate` (10) and `not_located` (13) rows are not enriched by design.
+- `build-index.mjs` loads the four new columns into the `crosswalk` table.
+
 ## 1.1.0 — 2026-07-15
 
 FY2025 §254 capital is now reconciled and directly comparable to the other years. No tool,

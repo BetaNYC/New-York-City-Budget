@@ -123,6 +123,30 @@ export interface CrosswalkRow {
   adoption_date: string;
   status: string;
   notes: string;
+  // Adopting City Council session — precomputed by scripts/enrich-crosswalk.mjs.
+  // adopting_event_id is the OData EventId of the meeting where the matter was
+  // adopted; it builds a WORKING Legistar link (see buildMeetingUrl). Empty when
+  // no confirmed City Council adoption event exists for the row.
+  adopting_event_id: string;
+  adopting_body: string;
+  adopting_action: string;
+  adopting_datetime: string;
+}
+
+/**
+ * Build a WORKING public Legistar link for an adopting meeting from its OData
+ * EventId. Returns null for an empty/absent id (no link is better than a wrong one).
+ *
+ * The *meeting* URL scheme accepts the OData EventId; the *legislation* scheme
+ * does NOT accept the OData MatterId (LegislationDetail.aspx?ID={MatterId}
+ * resolves to "Invalid parameters!" — NYC runs two Legistar backends with
+ * different ids and no formula between them). GID=61 is a verified term-stable
+ * constant (resolves meetings 2007–2026). See issue #31.
+ */
+export function buildMeetingUrl(eventId: string | number | null | undefined): string | null {
+  const id = eventId == null ? "" : String(eventId).trim();
+  if (!id) return null;
+  return `https://legistar.council.nyc.gov/MeetingDetail.aspx?LEGID=${id}&GID=61`;
 }
 
 // ---------------------------------------------------------------------------

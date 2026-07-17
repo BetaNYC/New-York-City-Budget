@@ -43,7 +43,7 @@ The tools do **not** pretend data exists where it doesn't: FY2009–FY2014 award
 | `search_awards` | Schedule C awards by EIN / organization / program / council member / fiscal year / category / initiative |
 | `get_awards_by_ein` | Every award for an EIN across FY2015–FY2027, with per-year totals |
 | `search_transparency_resolutions` | FY2010–FY2024 + FY2026 post-adoption designations / rescissions / purpose changes (FY2010–FY2013 text low-confidence) |
-| `get_legistar_link` | Legistar matter/URL/adoption date for a source document (surfaces `status`) |
+| `get_legistar_link` | Legistar matter #, adoption date, and a working link to the adopting City Council session for a source document (surfaces `status`) |
 | `search_capital_projects` | §254 capital by agency / fiscal year / sponsor / title |
 | `get_terms_conditions` | Reporting mandates by fiscal year / agency |
 | `list_available_fiscal_years` | What each dataset actually covers (the parse-gap guard) |
@@ -184,8 +184,16 @@ This server is most useful chained with BetaNYC's other NYC-data MCPs. Each jour
 
 ### 3. From an award back to the vote that adopted it — Legistar crosswalk → `nyc-council-mcp`
 - **Goal:** the legislation, sponsors, and vote behind a designation or transfer.
-- **Chain:** `get_legistar_link` (this server → matter #, URL, adoption date) → `nyc-council-mcp` `get_bill` / `get_votes` / `get_committee`.
+- **Chain:** `get_legistar_link` (this server → matter #, adoption date, adopting-session link) → `nyc-council-mcp` `get_bill` / `get_votes` / `get_committee`.
 - **Caveat:** individual initiatives have **no standalone Legistar matter** — they adopt/modify via the Committee on Finance's periodic **omnibus** resolutions ("MODIFICATION (MN-N)…"). Search `nyc-council-mcp` by `committee=Finance` + `modification`, not by the initiative's name; matter titles are terse and legalistic, so name/semantic queries reliably miss.
+
+#### Why the link points at the *meeting*, not the bill (the two-Legistar-backends trap)
+
+`get_legistar_link` returns a link to the **City Council meeting where the matter was adopted**, e.g. `https://legistar.council.nyc.gov/MeetingDetail.aspx?LEGID=22592&GID=61`, not a bill-detail page. This is deliberate:
+
+- NYC runs **two independent Legistar backends with different ids.** The OData WebAPI (what the crosswalk and `nyc-council-mcp` read) exposes `MatterId`/`MatterGuid`; the public `LegislationDetail.aspx` page keys on a *separate* ID/GUID that appears nowhere in the OData record. So `LegislationDetail.aspx?ID={MatterId}&GUID={MatterGuid}` resolves to **"Invalid parameters!"** — there is no formula from the OData id to the website id. The crosswalk's stored `legistar_url` column is that broken scheme and is **no longer surfaced** as a citation.
+- The public **meeting** page, by contrast, *does* accept the OData `EventId`: `MeetingDetail.aspx?LEGID={EventId}&GID=61` works. `GID=61` is a verified term-stable constant (resolves meetings 2007–2026).
+- Per confirmed crosswalk row we precompute the adopting `EventId` from the matter's Legistar history — the row whose action is the final City Council adoption (`Approved, by Council` / `City Council` / passed) — via `scripts/enrich-crosswalk.mjs`, and store it in the crosswalk (`adopting_event_id`, `adopting_body`, `adopting_action`, `adopting_datetime`). A row with no such adoption event (or an unconfirmed status) gets **no link** rather than a wrong one; its matter number + adoption date remain the citation.
 
 ### 4. Was a designation competitively bid or directly negotiated? — org/EIN → `nyc-record-mcp`
 - **Goal:** the procurement path behind a discretionary award.
