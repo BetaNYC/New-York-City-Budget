@@ -34,7 +34,7 @@ const SCOPE_NOTE =
 
 const FOOTER = `
 ---
-NYC budget data structured by BetaNYC (https://beta.nyc) from the NYC Council's adopted-budget documents (Schedule C, Terms & Conditions, §254 capital, Transparency Resolutions). Dollar figures were extracted deterministically and reconciled against printed totals in the source repo. PROTOTYPE — local snapshot, not a published package. ${SCOPE_NOTE}`.trim();
+NYC budget data structured by BetaNYC (https://beta.nyc) from the NYC Council's adopted-budget documents (Schedule C, Terms & Conditions, §254 capital, Transparency Resolutions). Dollar figures were extracted deterministically and reconciled against printed totals in the source repo. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION} (https://github.com/BetaNYC/New-York-City-Budget). ${SCOPE_NOTE}`.trim();
 
 function withFooter(text: string): string {
   return `${text}\n\n${FOOTER}`;

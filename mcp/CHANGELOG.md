@@ -18,6 +18,9 @@ crosswalk columns), so a minor bump. See issue #31.
   record, so `LegislationDetail.aspx?ID={MatterId}&GUID={MatterGuid}` returns "Invalid parameters!"
   — there is no formula between the two. The stored `legistar_url` column (that broken scheme) is
   **no longer surfaced** as a citation.
+- **Stale "PROTOTYPE — local snapshot, not a published package" footer.** The disclaimer appended
+  to every tool response predated the npm release and contradicted reality (published since
+  v1.0.0). It now identifies the package and self-reports its version.
 
 ### Added
 - **Adopting-session link (works).** The public *meeting* URL scheme accepts the OData `EventId`:
