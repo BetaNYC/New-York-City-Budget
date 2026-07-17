@@ -298,3 +298,5 @@ export function listFiscalYears(): FiscalYearReport {
     crosswalk: cwRange,
   };
 }
+
+// version-guard fail-case proof: touches a shipped file with no version bump (throwaway branch, do not merge)
