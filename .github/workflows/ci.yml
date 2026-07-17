@@ -74,3 +74,55 @@ jobs:
 
       - name: Test
         run: npm test
+
+  # Merged ≠ shipped guard. Consumers run `npx -y @betanyc/nyc-budget-mcp`, so
+  # the npm registry — not main — is what ships. A PR that changes shipped code
+  # but leaves mcp/package.json at a version already on the registry would merge
+  # "green" yet publish nothing. This job fails such a PR with a bump reminder.
+  # PR-only. Runs at repo root (no working-directory default) because it diffs
+  # the whole tree and reads mcp/package.json + data/combined by path.
+  # Docs/CI-only PRs and PRs outside the shipped paths skip untouched.
+  # See platform/system/engineering-standards.md "Release protocol" in the
+  # BetaNYC workspace, and BetaNYC/New-York-City-Budget#33.
+  version-guard:
+    name: Version guard (merged ≠ shipped)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      # fetch-depth: 0 so the PR base SHA is present locally for the diff.
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fail if shipped code changed without a version bump
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          echo "PR base SHA: $BASE_SHA"
+          # Three-dot diff (merge-base..HEAD) restricted to what ships in the
+          # npm package: the MCP source/scripts/manifest plus the crosswalk CSVs
+          # in data/combined that are baked into the shipped SQLite index. The
+          # repo's wider budget-data pipeline outside these paths is excluded.
+          CHANGED=$(git diff --name-only "$BASE_SHA...HEAD" -- mcp/src mcp/scripts mcp/package.json data/combined)
+          if [ -z "$CHANGED" ]; then
+            echo "No shipped files changed (mcp/src, mcp/scripts, mcp/package.json, data/combined) — version guard not applicable. Passing."
+            exit 0
+          fi
+          echo "Shipped files changed in this PR:"
+          echo "$CHANGED"
+          NAME=$(node -p "require('./mcp/package.json').name")
+          CURRENT=$(node -p "require('./mcp/package.json').version")
+          echo "Package $NAME, local version $CURRENT"
+          # Exact, unauthenticated registry probe. On a hit npm prints the bare
+          # version and exits 0; on a miss it errors (E404) with nothing on
+          # stdout. Matching the printed string is robust to both — we never
+          # rely on the exit code.
+          PUBLISHED=$(npm view "$NAME@$CURRENT" version 2>/dev/null || true)
+          if [ "$PUBLISHED" = "$CURRENT" ]; then
+            echo "::error::$NAME@$CURRENT is already published to npm, but this PR changes shipped code (mcp/src, mcp/scripts, mcp/package.json, or data/combined). Bump the version in mcp/package.json (fix=patch, feature=minor, breaking=major) and add a mcp/CHANGELOG.md entry in the same PR — consumers run 'npx -y', so merging without a bump ships nothing. After merge, push the matching mcp-v<new-version> tag to fire the release workflow."
+            exit 1
+          fi
+          echo "$NAME@$CURRENT is not on the registry yet — version bump present. Guard passes."
