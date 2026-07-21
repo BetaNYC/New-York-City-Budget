@@ -4,7 +4,11 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 1.3.0 — 2026-07-21
+
+Unknown tool parameters are now rejected instead of silently dropped (issue #37). Minor rather
+than patch: tool-call behavior visibly changes for callers who were passing undeclared
+parameters, and `TOOLS` becomes a public export. No declared parameter was renamed or removed.
 
 ### Fixed
 - **Unknown tool parameters were silently dropped instead of rejected (issue #37).** Every tool
