@@ -48,6 +48,12 @@ The tools do **not** pretend data exists where it doesn't: FY2009–FY2014 award
 | `get_terms_conditions` | Reporting mandates by fiscal year / agency |
 | `list_available_fiscal_years` | What each dataset actually covers (the parse-gap guard) |
 
+### Unknown parameters are rejected, not ignored
+
+Every tool declares `additionalProperties: false` and validates its arguments against a strict schema. A parameter that is not in the tool's schema raises an error naming the accepted parameters, rather than being silently dropped.
+
+This matters because the natural question here is district-shaped ("what discretionary funding went to District 10?") and **there is no district filter** — Schedule C awards and §254 capital both key on the *sponsoring member's surname* (`council_member` / `sponsor`). Before this guard, `search_awards(council_district=10, fiscal_year=2026)` returned $47.5M of citywide awards, correctly formatted and correctly sourced, answering a different question with nothing to signal that a filter had been dropped. See issue #37.
+
 ### The fiscal-sponsor caveat (important for correct EIN use)
 
 EIN is the only reliable cross-system join key, **but a single EIN can be a fiscal sponsor** covering dozens of programs. EIN `13-2612524` ("Fund for the City of New York, Inc.") is a passthrough — to isolate one grantee (e.g. BetaNYC) filter by `program` as well as `ein`. `get_awards_by_ein` honestly returns the whole pool; `search_awards(ein, program)` narrows it. (A maintained fiscal-sponsor alias table is future work — see the user-journeys doc.)
@@ -99,7 +105,9 @@ To run a local, in-development build instead of the published package — e.g. a
 
 `test/journeys.test.js` re-runs all 8 user journeys from `people/noel/work/2026-07-07-mcp-budget-user-journeys.md` (in the BetaNYC workspace) against the real MCP tools, driven in-process through the MCP protocol via `InMemoryTransport`, asserting the same real answers found by hand: BetaNYC EIN `13-2612524` (FY25 $115k / FY26 $115k / FY27 $95k), Council District 33 / Restler capital ($18,750,000 across 12 FY2026 projects), and the FY2026 Transparency Resolution 1 Noel Pointer → El Puente CASA transfer. Journey 8 asserts the MCP honestly reports its coverage and the FY2009–FY2014 no-EIN boundary.
 
-`test/coverage.test.js` is the per-fiscal-year gate: for **every award year FY2015–FY2027** it asserts the year is queryable through the tools, its award count and dollar total match the QA-cleared committed data exactly, and every award row carries a valid 9-digit EIN. It also asserts the honesty boundary (FY2009–FY2014 have no award rows), the exact per-dataset year coverage, and that the FY2010–FY2013 transparency low-confidence caveat is flagged and surfaced. Full suite: **27 tests, all passing** (13 per-year award checks + 4 coverage/honesty checks + 10 journeys).
+`test/coverage.test.js` is the per-fiscal-year gate: for **every award year FY2015–FY2027** it asserts the year is queryable through the tools, its award count and dollar total match the QA-cleared committed data exactly, and every award row carries a valid 9-digit EIN. It also asserts the honesty boundary (FY2009–FY2014 have no award rows), the exact per-dataset year coverage, and that the FY2010–FY2013 transparency low-confidence caveat is flagged and surfaced. `test/strict-schema.test.js` guards issue #37: every tool advertises `additionalProperties: false` (a loop over the exported `TOOLS`, so it covers tools added later), the district-shaped guess `search_awards(council_district=10)` raises instead of returning citywide awards, the error names `council_member`, alias hints stay per-tool (`sponsor` is real on `search_capital_projects` and not on `search_awards`), and valid calls are still accepted.
+
+Full suite: **43 tests, all passing** (18 coverage + 10 journeys + 7 Legistar-link + 8 strict-schema).
 
 ## Releases
 

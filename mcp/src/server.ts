@@ -66,7 +66,7 @@ export const server = new Server(
   { capabilities: { tools: {} } }
 );
 
-const TOOLS = [
+export const TOOLS = [
   {
     name: "search_awards",
     description: `Search NYC Council discretionary (Schedule C) awards across FY2015–FY2027 (the EIN-level years). Filter by any combination of EIN, organization name, program name, council member (surname), fiscal year, category, and initiative. NOTE: a single EIN can be a fiscal sponsor covering many programs — e.g. EIN 13-2612524 ("Fund for the City of New York, Inc.") is a passthrough for dozens of programs, so to isolate one grantee (e.g. BetaNYC) filter by \`program\` as well as \`ein\`. FY2009–FY2014 have no award/EIN data (initiatives-only) and are not searchable here. ${SCOPE_NOTE}`,
@@ -82,6 +82,7 @@ const TOOLS = [
         initiative: { type: "string", description: "Council initiative name (substring)" },
         limit: { type: "number", description: "Max rows (default 50, max 500)" },
       },
+      additionalProperties: false,
     },
   },
   {
@@ -94,6 +95,7 @@ const TOOLS = [
         fiscal_year: { type: "number", description: "Optional: restrict to a year FY2015–FY2027" },
       },
       required: ["ein"],
+      additionalProperties: false,
     },
   },
   {
@@ -109,6 +111,7 @@ const TOOLS = [
         organization: { type: "string", description: "Organization name (substring); unreliable for FY2010–FY2013" },
         limit: { type: "number", description: "Max rows (default 50, max 500)" },
       },
+      additionalProperties: false,
     },
   },
   {
@@ -121,6 +124,7 @@ const TOOLS = [
         document_type: { type: "string", description: "schedule_c, terms_conditions, capital_a, capital_b, transparency_reso, or transparency_reso_NN (substring)" },
         local_file: { type: "string", description: "Repo-relative source PDF path (substring)" },
       },
+      additionalProperties: false,
     },
   },
   {
@@ -135,6 +139,7 @@ const TOOLS = [
         title: { type: "string", description: "Project title (substring)" },
         limit: { type: "number", description: "Max rows (default 50, max 500)" },
       },
+      additionalProperties: false,
     },
   },
   {
@@ -147,24 +152,79 @@ const TOOLS = [
         agency: { type: "string", description: "Agency name (substring)" },
         limit: { type: "number", description: "Max rows (default 50, max 500)" },
       },
+      additionalProperties: false,
     },
   },
   {
     name: "list_available_fiscal_years",
     description: `Report exactly which fiscal years each dataset actually covers, so callers are never misled about what exists. Returns the parsed years for awards/terms/capital/transparency and the full crosswalk range, plus the honesty caveats (FY2009–FY2014 initiatives-only/no-EIN and excluded from award tools; FY2010–FY2013 transparency text low-confidence).`,
-    inputSchema: { type: "object", properties: {} },
+    inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
 ];
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOLS }));
+
+/**
+ * Unknown-parameter guesses we have actually seen, mapped to the real parameter
+ * they should have been (issue #37). Kept PER-TOOL by filtering targets against
+ * that tool's own schema: `council_member` is real on search_awards but not on
+ * search_capital_projects, and `sponsor` is the reverse — a global alias table
+ * would point callers at parameters the tool does not have.
+ */
+const ALIAS_HINTS: Record<string, { targets: string[]; why: string }> = {
+  council_district: {
+    targets: ["council_member", "sponsor"],
+    why: "no district filter exists, because Schedule C awards and §254 capital both key on the sponsoring member's surname",
+  },
+  district: {
+    targets: ["council_member", "sponsor"],
+    why: "no district filter exists, because Schedule C awards and §254 capital both key on the sponsoring member's surname",
+  },
+  query: { targets: ["organization", "program"], why: "there is no free-text search parameter" },
+};
+
+/**
+ * Parse tool arguments against a `.strict()` schema, converting zod's
+ * unrecognized-key error into a message that names the accepted parameters for
+ * THIS tool. Silently dropping an unknown filter returns real, correctly
+ * sourced data answering a different question — a hard error is far safer.
+ */
+function parseArgs<S extends z.ZodObject<z.ZodRawShape, "strict">>(
+  tool: string,
+  schema: S,
+  args: unknown
+): z.infer<S> {
+  const parsed = schema.safeParse(args ?? {});
+  if (parsed.success) return parsed.data as z.infer<S>;
+  const accepted = Object.keys(schema.shape);
+  const unknown = parsed.error.issues.flatMap((i) =>
+    i.code === "unrecognized_keys" ? i.keys : []
+  );
+  if (unknown.length === 0) throw parsed.error;
+  const hints = unknown.flatMap((key) => {
+    const hint = ALIAS_HINTS[key];
+    const targets = hint?.targets.filter((t) => accepted.includes(t)) ?? [];
+    return targets.length
+      ? [`Use \`${targets.join("` or `")}\` instead of \`${key}\` — ${hint.why}.`]
+      : [];
+  });
+  throw new Error(
+    [
+      `${tool} does not accept ${unknown.map((k) => `\`${k}\``).join(", ")}.`,
+      accepted.length
+        ? `Accepted parameters: ${accepted.join(", ")}.`
+        : `${tool} takes no parameters.`,
+      ...hints,
+    ].join(" ")
+  );
+}
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
   try {
     switch (name) {
       case "search_awards": {
-        const a = z
-          .object({
+        const a = parseArgs("search_awards", z.object({
             ein: z.string().optional(),
             organization: z.string().optional(),
             program: z.string().optional(),
@@ -173,8 +233,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             category: z.string().optional(),
             initiative: z.string().optional(),
             limit: z.number().int().optional(),
-          })
-          .parse(args ?? {});
+          }).strict(), args);
         const rows = searchAwards(a);
         if (rows.length === 0)
           return { content: [{ type: "text", text: withFooter("No matching Schedule C awards.") }] };
@@ -201,9 +260,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case "get_awards_by_ein": {
-        const a = z
-          .object({ ein: z.string(), fiscal_year: z.number().int().optional() })
-          .parse(args ?? {});
+        const a = parseArgs("get_awards_by_ein", z.object({ ein: z.string(), fiscal_year: z.number().int().optional() }).strict(), args);
         const rows = getAwardsByEin(a.ein, a.fiscal_year);
         if (rows.length === 0)
           return { content: [{ type: "text", text: withFooter(`No Schedule C awards for EIN ${a.ein}.`) }] };
@@ -232,16 +289,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case "search_transparency_resolutions": {
-        const a = z
-          .object({
+        const a = parseArgs("search_transparency_resolutions", z.object({
             ein: z.string().optional(),
             council_member: z.string().optional(),
             fiscal_year: z.number().int().optional(),
             action: z.enum(["designate", "rescind", "purpose_change"]).optional(),
             organization: z.string().optional(),
             limit: z.number().int().optional(),
-          })
-          .parse(args ?? {});
+          }).strict(), args);
         const rows = searchTransparency(a);
         if (rows.length === 0)
           return { content: [{ type: "text", text: withFooter("No matching transparency-resolution rows.") }] };
@@ -263,13 +318,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case "get_legistar_link": {
-        const a = z
-          .object({
+        const a = parseArgs("get_legistar_link", z.object({
             fiscal_year: z.number().int().optional(),
             document_type: z.string().optional(),
             local_file: z.string().optional(),
-          })
-          .parse(args ?? {});
+          }).strict(), args);
         if (a.fiscal_year == null && !a.document_type && !a.local_file)
           return {
             content: [{ type: "text", text: withFooter("Provide at least one of: fiscal_year, document_type, local_file.") }],
@@ -303,15 +356,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case "search_capital_projects": {
-        const a = z
-          .object({
+        const a = parseArgs("search_capital_projects", z.object({
             agency: z.string().optional(),
             fiscal_year: z.number().int().optional(),
             sponsor: z.string().optional(),
             title: z.string().optional(),
             limit: z.number().int().optional(),
-          })
-          .parse(args ?? {});
+          }).strict(), args);
         const rows = searchCapital(a);
         if (rows.length === 0)
           return { content: [{ type: "text", text: withFooter("No matching capital projects.") }] };
@@ -336,13 +387,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case "get_terms_conditions": {
-        const a = z
-          .object({
+        const a = parseArgs("get_terms_conditions", z.object({
             fiscal_year: z.number().int().optional(),
             agency: z.string().optional(),
             limit: z.number().int().optional(),
-          })
-          .parse(args ?? {});
+          }).strict(), args);
         const rows = getTerms(a);
         if (rows.length === 0)
           return { content: [{ type: "text", text: withFooter("No matching terms & conditions.") }] };
@@ -359,6 +408,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case "list_available_fiscal_years": {
+        parseArgs("list_available_fiscal_years", z.object({}).strict(), args);
         const r = listFiscalYears();
         const fmt = (ys: number[]) => (ys.length ? ys.map((y) => `FY${y}`).join(", ") : "(none)");
         const text =
