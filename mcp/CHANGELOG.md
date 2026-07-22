@@ -4,6 +4,36 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.3.0 — 2026-07-21
+
+Unknown tool parameters are now rejected instead of silently dropped (issue #37). Minor rather
+than patch: tool-call behavior visibly changes for callers who were passing undeclared
+parameters, and `TOOLS` becomes a public export. No declared parameter was renamed or removed.
+
+### Fixed
+- **Unknown tool parameters were silently dropped instead of rejected (issue #37).** Every tool
+  accepted parameters that were not in its schema, stripped them (zod's default), and returned
+  UNFILTERED results with no error and no warning. `search_awards(council_district=10,
+  fiscal_year=2026, limit=15)` returned $47,500,647 of **citywide** awards — real, correctly
+  formatted, correctly sourced data answering a different question. There is no district filter
+  because Schedule C keys on the sponsoring member's surname (`council_member`), so that guess is
+  the natural one and its failure was invisible to the caller.
+
+  Two layers now close it: every tool's advertised `inputSchema` sets `additionalProperties: false`
+  (so a calling model knows the parameter is invalid before it calls), and every handler parses
+  arguments through a `.strict()` zod schema (so anything slipping through raises). The error names
+  the unknown key *and* that tool's accepted parameters, with per-tool alias hints for the guesses
+  actually seen in the wild — `council_district`/`district` point at `council_member` or `sponsor`,
+  `query` points at `organization`/`program`. Hints are filtered against each tool's own schema, so
+  `search_capital_projects` is never told about `council_member` and `search_awards` is never told
+  about `sponsor`.
+
+  No parameter was renamed or removed, and valid calls are unaffected.
+
+### Added
+- `TOOLS` is now exported from `src/server.ts`, and `test/strict-schema.test.js` loops over it to
+  assert `additionalProperties: false` on every tool — a check that covers tools added later.
+
 ## 1.2.0 — 2026-07-16
 
 `get_legistar_link` now returns a **working** Legistar link. It points at the City Council
