@@ -33,7 +33,7 @@ If you use the derived data, please attribute BetaNYC and link back to this repo
 
 ## How this was made
 
-Three Python parsers (in `code/`) read the PDF text layer and emit structured rows using regular expressions, with **no hand transcription and no language-model reading of the numbers**. Each Schedule C category total is reconciled against the document's own printed `TOTAL` line, so the data can be trusted or challenged against the source. The Schedule C parser derives its category list and council-member roster from each document, so it adapts to a new fiscal year automatically.
+Three Python parsers (in `code/`) read the PDF text layer and emit structured rows using regular expressions, with **no hand transcription and no language-model reading of the numbers**. (One documented exception: the FY2009 Transparency Resolutions are scans with no text layer, so they are OCR'd — see "AI use" below.) Each Schedule C category total is reconciled against the document's own printed `TOTAL` line, so the data can be trusted or challenged against the source. The Schedule C parser derives its category list and council-member roster from each document, so it adapts to a new fiscal year automatically.
 
 ## Repository layout
 
@@ -142,7 +142,11 @@ per-document-type detail (and the parser/invocation for each) is in [`code/PARSI
 - **Transparency Resolutions** — extracted for **FY2010–FY2024** (no printed totals). Financial columns
   (EIN/amount/agency/date/action) are reliable in every year; organization/member/program *text* is
   low-confidence in the older glued-text-layer years (FY2010–FY2013), flagged per-year in each
-  `*_reconciliation.txt`. FY2009 (scanned, no text layer) and FY2013 resolutions 07/10/11 (`.doc`) are blocked.
+  `*_reconciliation.txt`. **FY2009** has no text layer (all 8 PDFs are scans), so it is handled by a
+  separate OCR pipeline — `code/parse_transparency_reso_fy09.py` + `code/ocr/`, documented in
+  [`code/PARSING.md`](code/PARSING.md#ocr-pipeline--fy2009-transparency-resolutions); its figures are
+  model-read rather than text-layer-extracted, and flagged where uncertain. FY2013 resolutions
+  07/10/11 (`.doc`) remain blocked.
 
 **Capital (Section 254):** FY2025 reconciles **30/30** agency subtotals plus both grand totals exactly (Part I $775M / 1327; Part II $158,992,000 / 181; Part III cross-tab 106/106 entities); FY2026 reconciles **31/31**; FY2027 reconciles **24/26**. (The separate FY2025 appropriation-changes book remains `NOT RECONCILABLE` by nature.) **Transparency Resolutions:** no printed totals (`NOT RECONCILABLE`); transfers net to zero as expected. See each `*_reconciliation.txt` for details.
 
@@ -214,6 +218,8 @@ FY2009–FY2021 historical archive.
 BetaNYC uses AI tools openly and with human accountability. The extraction, reconciliation, and analysis tooling in this repository was built by AI agents (Anthropic's Claude) working under the direction and review of BetaNYC staff.
 
 One commitment about the data: **the figures here are not AI-generated.** Every dollar amount is extracted **deterministically** from the Council's own adopted-budget PDFs and checked line by line against the documents' printed totals — never inferred, never estimated by a model. The FY2027 discretionary schedule reconciles to the exact dollar (`$655,764,999`); where a year does not yet reconcile, that status is recorded honestly in [`code/PARSING.md`](code/PARSING.md) and [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) rather than papered over.
+
+**The one exception, stated plainly: the FY2009 Transparency Resolutions.** Those eight documents are scanned images with no text layer, so there is nothing to extract deterministically — they are read by OCR (docTR), which *is* a model reading numbers. We ship them anyway because the alternative is leaving a year of public designations unreadable, but they are treated differently from every other year: each value is checked against a shape rule and an agency-code dictionary built from the years that *do* have text layers; where a chart prints its own total, the OCR'd rows must sum to it exactly; ambiguous character readings (`O` vs `0`, `S` vs `$`) are **never** guessed but flagged in the `flags` column and queued in `fy09_transparency_needs_review.csv` alongside a crop of the original pixels. Any FY2009 figure you rely on can be traced back to those pixels. See [`code/PARSING.md`](code/PARSING.md#ocr-pipeline--fy2009-transparency-resolutions).
 
 Questions about our approach: hello@beta.nyc.
 

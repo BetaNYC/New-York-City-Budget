@@ -218,3 +218,25 @@ The largest single collision is review-tier: one hyphen (`After School` vs `Afte
 2. **The aging ($5,610,000) and youth ($7,650,000) sub-pots are *exactly* constant every year**, and the local sub-pot varies by ≤ $10,000 (a seat vacancy / rounding). These are the Council's standing **equal-per-district** aging, local, and youth initiatives — a fixed citywide aggregate distributed across a recipient set that changes annually. The flatness is the *point* of these programs, not a parsing defect.
 
 **Conclusion.** O6 resolved — the flat appendix totals are the genuine value of fixed Council allocation pots, not an extraction artifact. No code or data change required; recorded here so future readers don't re-flag the pattern.
+
+---
+
+## 20. FY2009 Transparency Resolutions are OCR-derived — the one year whose numbers are model-read
+
+**What it is.** All eight FY2009 Transparency Resolution PDFs (`source/FY09/transparency-resolutions/`, 332 pages) are 300-dpi bitonal Xerox scans with **no text layer whatsoever** — `pdftotext` returns nothing. Every other fiscal year in this repo is extracted deterministically from the document's own text layer. FY2009 has no text layer to extract, so it is read by OCR (docTR) via `code/parse_transparency_reso_fy09.py` and the staged pipeline in `code/ocr/`.
+
+**Why this is called out rather than buried.** The repo's standing claim is that its figures are never model-read. That claim holds for FY2010–FY2027 and does **not** hold verbatim for FY2009. Rather than quietly relax the claim, FY2009 is labelled as the exception in `README.md`, `code/PARSING.md`, and in the year's own `fy09_transparency_reconciliation.txt`.
+
+**What is checked instead.** Four things stand in for the missing text layer:
+
+1. **Printed chart totals.** FY2009 is the *only* Transparency-Resolution year whose charts print totals at all (e.g. `$500,000.00` on the Veterans Resource Center chart; `$0.00` on a net-zero transfer chart). Where a total is printed, the OCR'd rows must sum to it **exactly**. Charts with no printed total stay `NOT RECONCILABLE`, as in every other year.
+2. **Shape checks** on EIN (`##-#######`), amount (`$#,###.##`; parenthesised = rescission), and the 3-digit `Agy #` / `U/A` codes.
+3. **An agency-code dictionary** harvested from the already-parsed FY2010–FY2027 transparency CSVs, so a plausible OCR slip (`DYGD` for `DYCD`) fails where a generic uppercase-letters regex would pass.
+4. **No quiet repair.** Only characters that cannot occur in the target grammar and have exactly one reading (bracket variants, whitespace) are normalized. Letter/digit confusions (`O`/`0`, `S`/`$`) are never guessed — the value is left unparsed, flagged with an `ocr:*` code in the `flags` column, and queued in `fy09_transparency_needs_review.csv` with a crop of the original pixels.
+
+**Two structural quirks of the FY2009 documents worth knowing.**
+
+- **Rotation varies page to page within a single file.** The chart pages are landscape tables printed onto portrait sheets, and the direction is not constant — Transparency-Reso-01's Chart 1 page reads top-down on the left edge, Transparency-Reso-07's Chart 3 page reads bottom-up. Orientation is therefore detected per page, and the decision for every page is persisted to `build/ocr/<stem>/orient.json` so a bad call can be corrected by hand and the downstream stages re-run.
+- **FY2009 charts carry columns no other year has** — `Fiscal Conduit/Sponsoring Organization`, `Fiscal Conduit EIN`, and `Status (Council, MOC, etc)`. The shared 16-column schema cannot hold them (`validate_data.py` treats an extra column as a hard failure), so they are emitted to the sidecar `fy09_transparency_fiscal_conduits.csv`, joined back on `(resolution, chart, ein)` — the same pattern as `fy25_capital_noncity_by_entity.csv`. The `Status` column has no analogue in any other year; it records the Council's own pre-qualification review state at the time of the resolution.
+
+**One upside.** Because the tables are fully ruled, column identity comes from the printed grid rather than from regex-guessing at a reflowed text line. The FY2010–FY2013 text layers glue adjacent words together and bleed the header into the first data row (see #11 and the `org-text confidence: LOW` bands in those years' reconciliation files). FY2009's organization and member *text* should therefore come out **cleaner than the years that "worked"** — the opposite of what one would expect from a scan.
