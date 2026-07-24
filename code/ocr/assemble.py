@@ -252,7 +252,13 @@ class Assembler:
         org_raw = tr.clean(rc.get("organization", Cell()).text)
         org_raw, star = tr.strip_flags(org_raw)
         sponsor, org_raw = tr.peel_delegation(org_raw)
-        organization, program = tr.split_org_program(org_raw)
+        # A dedicated "Program Name" column (charts that split Sponsor/Program) is authoritative;
+        # otherwise the program is split off the combined "Org - Program" organization cell.
+        prog_cell = tr.clean(rc.get("program", Cell()).text)
+        if prog_cell:
+            organization, program = org_raw, prog_cell
+        else:
+            organization, program = tr.split_org_program(org_raw)
 
         member = tr.clean(rc.get("member", Cell()).text) or sponsor
         if member:

@@ -23,7 +23,11 @@ from difflib import SequenceMatcher
 # canonical field -> header spellings seen in the source documents
 ALIASES = {
     "member": ["member", "council member", "borough", "borough/member", "boro"],
-    "organization": ["organization", "organization name", "organizaton"],
+    # Some charts (e.g. "Space Costs for Senior Centers") label the org column "Sponsor Name"
+    # and carry a separate "Program Name" column, rather than one combined "Organization".
+    "organization": ["organization", "organization name", "organizaton",
+                     "sponsor name", "sponsor"],
+    "program": ["program name", "program"],
     "ein": ["ein number", "ein", "ein #", "ein no"],
     "agency": ["agency"],
     "amount": ["amount", "amount ($)"],
@@ -109,6 +113,39 @@ class HeaderMapping:
     def __repr__(self):
         cols = ", ".join(f"{k}={v}" for k, v in sorted(self.columns.items(), key=lambda kv: kv[1]))
         return f"<HeaderMapping {cols}{' MISSING=' + ','.join(self.missing) if self.missing else ''}>"
+
+
+# --- continuation-page mapping reuse ---------------------------------------------------
+# Some continuation pages repeat NO header at all, so their column mapping has to be borrowed
+# from an earlier page of the same chart. Reuse is deliberately restricted to that case only:
+#
+#   * ONLY headerless pages borrow. A page whose header we *did* read but that fails to map is
+#     a red flag -- a different chart, or OCR we can't trust -- so it is skipped, never given a
+#     borrowed mapping. (Borrowing there is how the old cache silently mis-mapped p47.)
+#   * Even a headerless page borrows only when its column GEOMETRY matches the cached chart's
+#     (compatible_layout), never on the OCR'd chart title (unreliable, carries stale).
+LAYOUT_TOL = 0.02        # per-boundary tolerance, as a fraction of page width (~2%)
+HEADERLESS_MAX_CELLS = 1  # a page with more than this many real header labels is NOT headerless
+
+
+def compatible_layout(cached_xs_norm, page_xs_norm, tol=LAYOUT_TOL):
+    """True if two column layouts match: same column count and every separator aligned within
+    `tol` (fraction of page width). `*_xs_norm` are grid separator x-positions divided by page
+    width. Two charts printed from the same template share a layout; different tables do not."""
+    if len(cached_xs_norm) != len(page_xs_norm):
+        return False
+    return all(abs(a - b) <= tol for a, b in zip(cached_xs_norm, page_xs_norm))
+
+
+def is_headerless(header_texts, max_cells=HEADERLESS_MAX_CELLS):
+    """True if the band above the grid yielded essentially no header labels -- the genuine
+    'continuation page repeats no header' case, the only case allowed to borrow a mapping.
+
+    A page that pulled real header text which simply failed to map is NOT headerless: a
+    present-but-unmatched header means a different chart or untrustworthy OCR, so it must be
+    skipped, not silently given a borrowed mapping. Single stray characters (OCR speckle) are
+    not counted as labels."""
+    return sum(1 for t in header_texts if len(t.strip()) >= 2) <= max_cells
 
 
 def map_header(texts, widths=None, page_width=None, threshold=MATCH_THRESHOLD):

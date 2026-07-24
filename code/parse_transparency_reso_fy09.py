@@ -135,7 +135,10 @@ def process_pdf(pdf, cache_dir, outdir, prefix, roster, agency_vocab, engine,
     records = orient.load_records(orient_path)
     page_kinds, confidences = {}, []
     captions = {}                       # page_no -> (chart_no, chart_title)
-    chart_title, chart_mappings = "", {}
+    chart_title = ""
+    # The last page that mapped its OWN header, for continuation pages that repeat no header.
+    # Structural reuse only (layout + consistency) -- never keyed on the OCR'd chart title.
+    current_chart = None                # {'mapping': HeaderMapping, 'xs_norm': [float, ...]}
 
     for page_no, raw_path in rendered:
         upright_path = render.page_png(cache_dir, stem, page_no, "upright")
@@ -160,6 +163,11 @@ def process_pdf(pdf, cache_dir, outdir, prefix, roster, agency_vocab, engine,
 
         # Stage 3 -- extract the exact cell lattice, only on the chart pages stage 2 flagged.
         g = gridmod.detect_grid(up)
+        if debug:
+            # Rule-mask component spans (with fractions), BEFORE the separator cut -- the
+            # place to see why a printed rule failed to become a separator. Emitted even when
+            # detect_grid returns None, which is exactly when it matters most.
+            _dump_spans(cache_dir, stem, page_no, up)
         if g is None:
             # Classified chart, but no lattice recovered: a real disagreement worth seeing,
             # not something to hide by reclassifying the page.
@@ -188,12 +196,32 @@ def process_pdf(pdf, cache_dir, outdir, prefix, roster, agency_vocab, engine,
         # -- row 0 is the first data row. Reconstruct the header from the band above the grid.
         header_texts = recognize.header_row_texts(page_words, g)
         widths = [g.xs[c + 1] - g.xs[c] for c in range(g.ncols)]
+        xs_norm = [x / up.shape[1] for x in g.xs]
         mapping = headers.map_header(header_texts, widths, up.shape[1])
-        if not mapping.ok:
-            cached = chart_mappings.get(chart_title)
-            if cached is not None and cached.ok:
-                mapping = cached
+        if mapping.ok:
+            # A page that maps its own header defines (or refreshes) the current chart, and is
+            # the only thing continuation pages may borrow from.
+            current_chart = {"mapping": mapping, "xs_norm": xs_norm}
+        else:
+            # The header did not map. Borrow the current chart's mapping ONLY for a genuinely
+            # HEADERLESS page (a continuation page that repeats no header) whose column geometry
+            # matches the cached chart. A page that DID pull a header which failed to map is a
+            # red flag -- different chart or untrustworthy OCR -- and is skipped, never borrowed
+            # (that borrow is how the old title-keyed cache silently mis-mapped p47).
+            headerless = headers.is_headerless(header_texts)
+            layout_ok = (current_chart is not None
+                         and headers.compatible_layout(current_chart["xs_norm"], xs_norm))
+            if headerless and layout_ok:
+                mapping = current_chart["mapping"]
+                print(f"  ~ reso {resolution:02d} p{page_no}: no header on page "
+                      f"-- reused prior chart's mapping (same {g.ncols}-col layout)")
             else:
+                if not headerless:
+                    why = "header present but unmatched"
+                elif current_chart is None:
+                    why = "no prior chart to borrow"
+                else:
+                    why = "layout differs from prior chart"
                 asm.reviews.append({
                     "resolution": resolution, "page": page_no, "row": 0,
                     "column": "header", "raw_text": " | ".join(header_texts),
@@ -202,9 +230,8 @@ def process_pdf(pdf, cache_dir, outdir, prefix, roster, agency_vocab, engine,
                 })
                 _dump_cells(cache_dir, stem, page_no, chart_title, None, cells, g, orphans)
                 print(f"  ! reso {resolution:02d} p{page_no}: header unmapped "
-                      f"(missing {mapping.missing}) -- page skipped, queued for review")
+                      f"(missing {mapping.missing}) -- {why}; skipped, queued for review")
                 continue
-        chart_mappings.setdefault(chart_title, mapping)
 
         _reread_failing_numerics(engine, up, cells, mapping, g)
         # Persist the recognized cells so stage 4 can be inspected without re-running OCR.
@@ -251,6 +278,21 @@ def _dump_cells(cache_dir, stem, page_no, chart_title, mapping, cells, grid, orp
         json.dump(payload, f, indent=1)
 
 
+def _dump_spans(cache_dir, stem, page_no, gray):
+    """--debug artifact for stage 3: every rule-mask component with its span as a fraction of
+    the table, so a printed rule that failed to become a separator is diagnosable. Emits a
+    JSON of the fractions (both axes) and a PNG of the vertical-rule mask with each component
+    boxed pass(green)/fail(red) and labelled with its fraction. A curved/slanted border eroded
+    by the straight opening kernel shows up as sub-threshold fragments at the border's x."""
+    import json
+    diag = gridmod.span_diagnostics(gray)
+    jpath = _ensure(os.path.join(cache_dir, stem, "debug", f"page-{page_no:03d}-spans.json"))
+    with open(jpath, "w") as f:
+        json.dump(diag, f, indent=1)
+    _imwrite(os.path.join(cache_dir, stem, "debug", f"page-{page_no:03d}-spans.png"),
+             gridmod.draw_span_overlay(gray, diag))
+
+
 def _dump_pages_csv(cache_dir, stem, page_kinds, captions, records):
     """The per-PDF page ledger: kind, detected 90deg turn + skew, and the chart caption.
     Small enough to eyeball, and the first place to look when a chart page went missing."""
@@ -271,6 +313,37 @@ def _ensure(path):
     return path
 
 
+def clean_state(pdfs, cache_dir, outdir):
+    """Delete regenerable state for a completely clean run: the cache stem directory
+    (`<cache-dir>/<stem>/`) of each in-scope PDF, and the entire output directory. Nothing
+    else runs. Everything removed is regenerated by a normal run.
+
+    This exists because `--force` is NOT a clean reset -- it re-renders and re-OCRs but
+    reloads orient.json and re-applies the saved rotation/skew as an override, so cached
+    orientation survives it. Removing the cache is the only way to force fresh orientation.
+    """
+    import shutil
+
+    def rm(path, label):
+        ap = os.path.abspath(path) if path else ""
+        # Guard against nuking a root/home/repo-root by a misconfigured flag.
+        if not ap or ap == os.path.abspath(os.sep) or ap == os.path.expanduser("~") \
+                or ap == os.path.abspath("."):
+            print(f"  refusing to remove unsafe path ({label}): {path!r}")
+            return
+        if os.path.isdir(ap):
+            shutil.rmtree(ap)
+            print(f"  removed  {label:16s} {path}")
+        else:
+            print(f"  (absent) {label:16s} {path}")
+
+    print(f"clean: removing cache stems under {cache_dir!r} and output dir {outdir!r}")
+    for pdf in pdfs:
+        stem = os.path.splitext(os.path.basename(pdf))[0]
+        rm(os.path.join(cache_dir, stem), f"cache[{stem[:20]}]")
+    rm(outdir, "outdir")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -288,27 +361,49 @@ def main():
     ap.add_argument("--pages", help="restrict to page numbers, e.g. 9-12,20")
     ap.add_argument("--only", help="substring filter on the PDF filename")
     ap.add_argument("--min-conf", type=float, default=assemble.DEFAULT_MIN_CONF)
-    ap.add_argument("--debug", action="store_true", help="write grid-overlay PNGs")
-    ap.add_argument("--force", action="store_true", help="ignore cached page images")
+    ap.add_argument("--debug", action="store_true",
+                    help="write grid-overlay PNGs plus per-page rule-span diagnostics "
+                         "(page-NNN-spans.json/.png: every rule component's span fraction)")
+    ap.add_argument("--force", action="store_true",
+                    help="clean first (like --clean), then rebuild everything from scratch -- "
+                         "the intuitive 'nuke and redo'. Respects --only/--batch scope.")
     ap.add_argument("--no-engine", action="store_true",
                     help="skip docTR entirely (stages 0-3 only; orientation is axis-only)")
     ap.add_argument("--no-dewarp", action="store_true",
                     help="skip the dewarp step in orient (for A/B against warped output)")
+    ap.add_argument("--clean", action="store_true",
+                    help="delete the cache stems (under --cache-dir) for the in-scope PDF(s) "
+                         "and the entire --outdir, then exit WITHOUT running anything else. "
+                         "Use for a completely clean run (--force alone reuses cached "
+                         "orientation). Respects --only/--batch for which stems to remove.")
     args = ap.parse_args()
 
     if not args.batch and not args.pdf:
         ap.error("give a PDF or --batch SRCDIR")
-
-    stages = _upto(args.stage)
-    os.makedirs(args.outdir, exist_ok=True)
 
     pdfs = ([args.pdf] if args.pdf else
             [os.path.join(args.batch, f) for f in sorted(os.listdir(args.batch))
              if f.lower().endswith(".pdf") and "-dup" not in f.lower()])
     if args.only:
         pdfs = [p for p in pdfs if args.only in os.path.basename(p)]
+
+    if args.clean:
+        clean_state(pdfs, args.cache_dir, args.outdir)
+        print("clean: done -- nothing else run (re-run without --clean for a fresh build)")
+        return
+
     if not pdfs:
         raise SystemExit("no PDFs to process")
+
+    # --force is a clean-then-rebuild: wipe the cache/output for the in-scope PDFs, then run
+    # from scratch. Deleting the cache is what makes it a TRUE reset (a plain re-run reuses
+    # cached page images and the saved orientation records).
+    if args.force:
+        clean_state(pdfs, args.cache_dir, args.outdir)
+        print("force: rebuilding from scratch")
+
+    stages = _upto(args.stage)
+    os.makedirs(args.outdir, exist_ok=True)
 
     # The engine is needed from stage 1 onward (orientation's 180deg tiebreak), not just
     # for stage 4, so build it unless the caller explicitly opted out.

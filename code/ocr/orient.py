@@ -23,7 +23,11 @@ import json
 import os
 
 MAX_SKEW_DEG = 5.0        # beyond this it is not skew, it is a mis-detected 90deg turn
-AXIS_MARGIN = 1.15        # projection variance ratio needed to call the text axis outright
+AXIS_MARGIN = 2.0         # projection-variance ratio below which the text-axis call is treated
+                          # as AMBIGUOUS: detect_rotate90 then lets docTR arbitrate all four
+                          # rotations instead of trusting the axis. Dense ruled tables tie near
+                          # ~1.2 (Reso-02 p10/p12/p13); a decisive page sits well above (p11 ~4).
+                          # Worth recalibrating against the corpus ratio distribution.
 
 
 def _cv2():
@@ -36,9 +40,16 @@ def text_axis(gray):
     ratio behind the call.
 
     Lines of text alternate ink rows with blank leading, so the ink profile ACROSS the text
-    direction has far more variance than the profile ALONG it. Blur the glyphs together
-    first so the measurement is about lines, not letters. This settles the axis (0/180 vs
-    90/270) cheaply and very reliably; it says nothing about which way is up.
+    direction has far more variance than the profile ALONG it. Blur the glyphs together first
+    so the measurement is about lines, not letters. This settles the axis (0/180 vs 90/270)
+    cheaply; it says nothing about which way is up.
+
+    The ratio alone is UNRELIABLE on these dense sideways tables: the 8 columns become 8
+    horizontal bands of very different ink density, which inflates the along-baseline variance
+    and ties the call near ~1.2 (Reso-02 p10/p12). The printed rules are what nudge it the right
+    way -- do NOT strip them (an earlier attempt to, treating rules as noise, collapsed the
+    column-direction variance and flipped correctly-oriented pages). When the ratio is not
+    decisive, detect_rotate90 hands the call to docTR (see AXIS_MARGIN) rather than trusting it.
     """
     import numpy as np
     cv2 = _cv2()
@@ -65,16 +76,28 @@ def detect_rotate90(gray, engine=None):
     low-confidence fragments, upright type as many high-confidence words, so
     mean_confidence * word_count separates the two decisively.
 
+    When the axis ratio is AMBIGUOUS (< AXIS_MARGIN -- a dense ruled table can tie it), the
+    heuristic is not trusted: docTR scores ALL FOUR rotations and the upright one wins on the
+    same conf*word_count measure. This is what keeps a mis-called axis from being locked in
+    before docTR ever sees the other two orientations -- the failure mode on Reso-02 p12/p13,
+    where a wrong 'horizontal' call handed docTR only the two sideways rotations to choose from.
+
     Without an engine, returns the axis-correcting turn and reports 'axis-only' -- enough
     to inspect stage-0/1 output, not enough to trust downstream.
     """
     axis, ratio = text_axis(gray)
-    # A page whose type runs vertically is a landscape table turned onto a portrait sheet.
-    # Turning it one quarter turn counter-clockwise puts the type back on the horizontal;
-    # the other possibility is three turns, and that is the 180deg question below.
-    candidates = (0, 2) if axis == "horizontal" else (1, 3)
+    # A page whose type runs along the image's vertical is a landscape table turned onto a
+    # portrait sheet: a quarter turn puts the baselines back on the horizontal (the other
+    # possibility is three turns -- the 180deg question docTR settles below). Horizontal type
+    # needs no turn (0 or 2).
+    axis_candidates = (0, 2) if axis == "horizontal" else (1, 3)
     if engine is None:
-        return candidates[0], "axis-only", ratio
+        return axis_candidates[0], "axis-only", ratio
+
+    if ratio < AXIS_MARGIN:
+        candidates, method = (0, 1, 2, 3), "ocr-4way"   # axis undecided -> judge all four
+    else:
+        candidates, method = axis_candidates, "projection+ocr"
 
     best_k, best_score, scores = candidates[0], -1.0, {}
     for k in candidates:
@@ -85,7 +108,7 @@ def detect_rotate90(gray, engine=None):
             best_k, best_score = k, score
     runner_up = max((s for k, s in scores.items() if k != best_k), default=0.0)
     margin = best_score / max(1e-6, runner_up)
-    return best_k, "projection+ocr", margin
+    return best_k, method, margin
 
 
 def _downscale_center(gray, max_side=1400):

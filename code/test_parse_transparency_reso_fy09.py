@@ -257,6 +257,26 @@ def test_map_header_refuses_to_guess_when_a_required_column_is_missing():
     assert m.unmapped
 
 
+def test_compatible_layout_matches_same_chart_geometry_only():
+    base = [0.05, 0.30, 0.45, 0.60, 0.75, 0.90]           # normalized column separators
+    assert headers.compatible_layout(base, list(base))               # identical -> same chart
+    assert headers.compatible_layout(base, [x + 0.01 for x in base]) # ~1% drift -> still same
+    assert not headers.compatible_layout(base, [x + 0.05 for x in base])  # 5% shift -> different
+    assert not headers.compatible_layout(base, base[:-1])            # different column count
+
+
+def test_is_headerless_only_true_when_no_labels_were_read():
+    # a genuine no-header continuation page: band above the grid is empty
+    assert headers.is_headerless(["", "", "", "", "", "", ""])
+    # OCR speckle (single stray chars) is not a header
+    assert headers.is_headerless(["", ".", "", "'", "", "", ""])
+    # a page that DID pull real header labels is NOT headerless -> must not borrow a mapping,
+    # even if those labels fail to map the required columns (the "Sponsor Name" red-flag case)
+    assert not headers.is_headerless(
+        ["Sponsor Name", "Program Name", "EIN Number", "Agency", "Amount", "Agy #", "UIA"])
+    assert not headers.is_headerless(["", "Organization", "EIN Number", "", "", "", ""])
+
+
 def _word(text, x0, y0, x1, y1):
     return {"text": text, "conf": 0.99, "bbox": (x0, y0, x1, y1)}
 
