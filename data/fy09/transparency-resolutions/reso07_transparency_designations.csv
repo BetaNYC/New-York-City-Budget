@@ -31,7 +31,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 7,2009-04-22,,2009,designate,,Fidier,Flatbush Park Jewish Center,,111969900,3000,DFTA,125,003,,ocr:lowconf
 7,2009-04-22,,2009,designate,,Fidler,Flatbush Park Jewish Center,,111969900,3500,DYCD,260,312,,ocr:lowconf
 7,2009-04-22,,2009,rescind,,McMahon,Staten Island Liberian Community Association,,383685524,-10000,DYCD,260,005,,ocr:lowconf
-7,2009-04-22,,2009,designate,,McMahon,Staten Island Liberian Community Association,,133936101,10000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,McMahon,Staten Island Liberian Community Association,,133936101,10000,DYCD,260,005,,ocr:lowconf;ocr:cellspan
 7,2009-04-22,,2009,rescind,,"Vallone, Jr",Trinity Lutheran Church,,111666773,-5000,DYCD,260,1005,,ocr:code;ocr:lowconf
 7,2009-04-22,,2009,designate,,"Vallone, Jr",Trinity Lutheran Church,,111667773,5000,DYCD,260,005,,
 7,2009-04-22,,2009,rescind,,Foster,Highbridge Community Neighborhood Council,,800113136,-500,DYCD,260,005,,ocr:lowconf
@@ -161,7 +161,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 7,2009-04-22,,2009,rescind,,Avella,St. Andrew Avellino School,,112203300,-5000,DYCD,260,312,,ocr:lowconf
 7,2009-04-22,,2009,designate,,Avella,Think Quest NYC,,134064247,5000,DYCD,260,312,,ocr:lowconf
 7,2009-04-22,,2009,rescind,,Gennaro,Kehilat Sephardim of Ahavat Achim,,113101774,-7500,DYCD,260,312,,ocr:lowconf
-7,2009-04-22,,2009,designate,,Gennaro,"Child Center of New York, Inc., The",,111733454,7500,DYCD -,260,312,,ocr:agency
+7,2009-04-22,,2009,designate,,Gennaro,"Child Center of New York, Inc., The",,111733454,7500,DYCD,260,312,,ocr:cellspan
 7,2009-04-22,,2009,rescind,,Brooklyn,Church of God of East Flatbush,,112939346,-25000,DYCD,260,005,,*
 7,2009-04-22,,2009,designate,,Brooklyn,Friends of Crown Heights Educational Center,,112305641,25000,DYCD,260,005,,ocr:lowconf
 7,2009-04-22,,2009,rescind,,Queens,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,-7500,DYCD,260,005,,ocr:lowconf
@@ -263,7 +263,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Harlem Hospital Center,Hip Hop Stroke Program,133092676,250000,HHC,819,001,,
 7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Lincoln Medical and Mental Health Center,,133040671,50000,HHC,819,001,,ocr:lowconf
 7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Queens Hospital Center,,132655001,50000,HHC,819,001,,ocr:lowconf
-7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,Upper Manhattan Council Assisting Neighbors,,134042093,-11637,HPD,806,009,,I *;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,Upper Manhattan Council Assisting Neighbors,,134042093,-11637,HPD,806,009,,*;ocr:lowconf;ocr:cellspan
 7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Bronx Heights Neighborhood Community Corporation,,132883903,,HPD,806,009,,ocr:amt;ocr:lowconf
 7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Community League of the Heights, Inc.",,132564241,11637,HPD,806,009,,ocr:lowconf
 7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Belmont Arthur Avenue Local Development Organization,,133020589,,HPD,806,009,,ocr:amt;ocr:lowconf

@@ -1276,7 +1276,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 4,2008-12-18,Youth Discretionary MOC.etc) EIN UIA EIN Status Member Organization Number Agencv Amount Aav# FiscalConduit/Sponsoring Organization Fiscal Conduit (Council. *,2009,rescind,,Gennaro,Young Israel of Queens Valley,,133613262,-4000,DYCD,260,312,,
 4,2008-12-18,Youth Discretionary MOC.etc) EIN UIA EIN Status Member Organization Number Agencv Amount Aav# FiscalConduit/Sponsoring Organization Fiscal Conduit (Council. *,2009,designate,,Gennaro,Young Israel of Queens Valley,,133613262,4000,DYCD,260,312,,ocr:lowconf
 4,2008-12-18,Youth Discretionary MOC.etc) EIN UIA EIN Status Member Organization Number Agencv Amount Aav# FiscalConduit/Sponsoring Organization Fiscal Conduit (Council. *,2009,rescind,,Viverito,"Friends ofP.S. 163, Inc.",,201670261,-6000,DYCD,260,312,,ocr:lowconf
-4,2008-12-18,Youth Discretionary MOC.etc) EIN UIA EIN Status Member Organization Number Agencv Amount Aav# FiscalConduit/Sponsoring Organization Fiscal Conduit (Council. *,2009,designate,,Viverito,"Young Audiences New York, Inc.",,131997754,6000,DYCD,260,312,,ocr:lowconf
+4,2008-12-18,Youth Discretionary MOC.etc) EIN UIA EIN Status Member Organization Number Agencv Amount Aav# FiscalConduit/Sponsoring Organization Fiscal Conduit (Council. *,2009,designate,,Viverito,"Young Audiences New York, Inc.",,131997754,6000,DYCD,260,312,,ocr:lowconf;ocr:cellspan
 4,2008-12-18,Youth Discretionary MOC.etc) EIN UIA EIN Status Member Organization Number Agencv Amount Aav# FiscalConduit/Sponsoring Organization Fiscal Conduit (Council. *,2009,rescind,,Monserrate,BigApple Youth Soccer League,,113376770,-4000,DYCD,260,312,,ocr:lowconf
 4,2008-12-18,Youth Discretionary MOC.etc) EIN UIA EIN Status Member Organization Number Agencv Amount Aav# FiscalConduit/Sponsoring Organization Fiscal Conduit (Council. *,2009,rescind,,Monserrate,Corona Basketball League,,260276417,-3500,DYCD,260,312,,ocr:lowconf
 4,2008-12-18,Youth Discretionary MOC.etc) EIN UIA EIN Status Member Organization Number Agencv Amount Aav# FiscalConduit/Sponsoring Organization Fiscal Conduit (Council. *,2009,rescind,,Monserrate,Queens Parents Little League,,,-3500,DYCD,260,312,,ocr:ein;ocr:lowconf
@@ -1957,7 +1957,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2009-04-02,,2009,designate,,Mitchell,Island Voice,,208287369,2000,DYCD,260,312,,
 6,2009-04-02,,2009,designate,,Mitchell,"Serving Those Who Serve, Inc.",,200069773,4000,DYCD,260,005,,ocr:lowconf
 6,2009-04-02,,2009,designate,,Mitchell,St. Stanislaus Kostka Church,,135564133,10000,DYCD,260,312,,ocr:lowconf
-6,2009-04-02,,2009,designate,,Mitchell,"United Activities Unlimited, Inc.",,132921483,7000,DYCD,260,312,,ocr:lowconf
+6,2009-04-02,,2009,designate,,Mitchell,"United Activities Unlimited, Inc.",,132921483,,DYCD,260,312,,ocr:amt;ocr:lowconf;ocr:cellspan
 6,2009-04-02,,2009,designate,,Mitchell,Dr. Theodore A. Atlas Foundation,,134012789,10000,DYCD,260,005,,*;ocr:lowconf
 6,2009-04-02,,2009,rescind,,"CC, Koppell",Fordham University Biological Science Research Laboratory,,131740451,-40000,DOHMH,816,113,,ocr:lowconf
 6,2009-04-02,,2009,designate,,"CC, BLAC, Dickens, Viverito",Harlem United Community AIDS Center,,133461695,20000,DOHMH,816,112,,ocr:lowconf
@@ -1985,7 +1985,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2009-04-02,"Discretionary Aav# UIA FiscalConduit/SponsoringOrganization EIN Status (Council, MOC, etc) Member Organization EINI Number Agency Amount FiscalConduit! *",2009,designate,,Katz,"Queens Jewish Community Council, Inc.",,237172152,2500,DFTA,125,003,,ocr:lowconf
 6,2009-04-02,"Discretionary Aav# UIA FiscalConduit/SponsoringOrganization EIN Status (Council, MOC, etc) Member Organization EINI Number Agency Amount FiscalConduit! *",2009,rescind,,Mitchell,Centrai Family Life Center,,133626127,-4000,DFTA,125,003,,ocr:lowconf
 6,2009-04-02,"Discretionary Aav# UIA FiscalConduit/SponsoringOrganization EIN Status (Council, MOC, etc) Member Organization EINI Number Agency Amount FiscalConduit! *",2009,designate,,Mitchell,"Community Agency for Senior Citizens, Inc.",,133263537,4000,DFTA,125,003,,ocr:lowconf
-6,2009-04-02,"Youth (continued) Discretionary Number UIA FiscalConduit/SponsoringOrganization Status (Council, MOC, etc) Member Organization EINI Agencv Amount Aav # Fiscal Conduit EIN *",2009,rescind,,"Sanders, Jr","Independent Learners, Inc. Ready,Set, GoToo!",,B30473957_DYCD,-5000,,260,312,,:;ocr:ein;ocr:lowconf
+6,2009-04-02,"Youth (continued) Discretionary Number UIA FiscalConduit/SponsoringOrganization Status (Council, MOC, etc) Member Organization EINI Agencv Amount Aav # Fiscal Conduit EIN *",2009,rescind,,"Sanders, Jr","Independent Learners, Inc. Ready,Set, GoToo!",,830473957,-5000,DYCD,260,312,,:;ocr:lowconf;ocr:cellspan
 6,2009-04-02,"Youth (continued) Discretionary Number UIA FiscalConduit/SponsoringOrganization Status (Council, MOC, etc) Member Organization EINI Agencv Amount Aav # Fiscal Conduit EIN *",2009,designate,,"Sanders, Jr","Jewish Community Council of the Rockaway Peninsula, Inc.",,112425813,5000,DYCD,260,312,,ocr:lowconf
 6,2009-04-02,"Youth (continued) Discretionary Number UIA FiscalConduit/SponsoringOrganization Status (Council, MOC, etc) Member Organization EINI Agencv Amount Aav # Fiscal Conduit EIN *",2009,rescind,,Comrie,Cambria Heights Sports Association,,237316051,-12500,DYCD,260,312,,ocr:lowconf
 6,2009-04-02,"Youth (continued) Discretionary Number UIA FiscalConduit/SponsoringOrganization Status (Council, MOC, etc) Member Organization EINI Agencv Amount Aav # Fiscal Conduit EIN *",2009,rescind,,Comrie,Jazz Knights,,112394796,-6000,DYCD,260,312,,*;ocr:lowconf
@@ -2226,7 +2226,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 7,2009-04-22,,2009,designate,,Fidier,Flatbush Park Jewish Center,,111969900,3000,DFTA,125,003,,ocr:lowconf
 7,2009-04-22,,2009,designate,,Fidler,Flatbush Park Jewish Center,,111969900,3500,DYCD,260,312,,ocr:lowconf
 7,2009-04-22,,2009,rescind,,McMahon,Staten Island Liberian Community Association,,383685524,-10000,DYCD,260,005,,ocr:lowconf
-7,2009-04-22,,2009,designate,,McMahon,Staten Island Liberian Community Association,,133936101,10000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,McMahon,Staten Island Liberian Community Association,,133936101,10000,DYCD,260,005,,ocr:lowconf;ocr:cellspan
 7,2009-04-22,,2009,rescind,,"Vallone, Jr",Trinity Lutheran Church,,111666773,-5000,DYCD,260,1005,,ocr:code;ocr:lowconf
 7,2009-04-22,,2009,designate,,"Vallone, Jr",Trinity Lutheran Church,,111667773,5000,DYCD,260,005,,
 7,2009-04-22,,2009,rescind,,Foster,Highbridge Community Neighborhood Council,,800113136,-500,DYCD,260,005,,ocr:lowconf
@@ -2356,7 +2356,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 7,2009-04-22,,2009,rescind,,Avella,St. Andrew Avellino School,,112203300,-5000,DYCD,260,312,,ocr:lowconf
 7,2009-04-22,,2009,designate,,Avella,Think Quest NYC,,134064247,5000,DYCD,260,312,,ocr:lowconf
 7,2009-04-22,,2009,rescind,,Gennaro,Kehilat Sephardim of Ahavat Achim,,113101774,-7500,DYCD,260,312,,ocr:lowconf
-7,2009-04-22,,2009,designate,,Gennaro,"Child Center of New York, Inc., The",,111733454,7500,DYCD -,260,312,,ocr:agency
+7,2009-04-22,,2009,designate,,Gennaro,"Child Center of New York, Inc., The",,111733454,7500,DYCD,260,312,,ocr:cellspan
 7,2009-04-22,,2009,rescind,,Brooklyn,Church of God of East Flatbush,,112939346,-25000,DYCD,260,005,,*
 7,2009-04-22,,2009,designate,,Brooklyn,Friends of Crown Heights Educational Center,,112305641,25000,DYCD,260,005,,ocr:lowconf
 7,2009-04-22,,2009,rescind,,Queens,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,-7500,DYCD,260,005,,ocr:lowconf
@@ -2458,7 +2458,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Harlem Hospital Center,Hip Hop Stroke Program,133092676,250000,HHC,819,001,,
 7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Lincoln Medical and Mental Health Center,,133040671,50000,HHC,819,001,,ocr:lowconf
 7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Queens Hospital Center,,132655001,50000,HHC,819,001,,ocr:lowconf
-7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,Upper Manhattan Council Assisting Neighbors,,134042093,-11637,HPD,806,009,,I *;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,Upper Manhattan Council Assisting Neighbors,,134042093,-11637,HPD,806,009,,*;ocr:lowconf;ocr:cellspan
 7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Bronx Heights Neighborhood Community Corporation,,132883903,,HPD,806,009,,ocr:amt;ocr:lowconf
 7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Community League of the Heights, Inc.",,132564241,11637,HPD,806,009,,ocr:lowconf
 7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Belmont Arthur Avenue Local Development Organization,,133020589,,HPD,806,009,,ocr:amt;ocr:lowconf
@@ -2590,7 +2590,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Brewer,NAACP New York City ACT-SO,,131998814,-3500,DYCD,260,312,,
 8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Eugene,NAACP New York City ACT-SO,,131998814,-20000,DYCD,260,312,,ocr:lowconf
 8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Mealy,NAACP New York City ACT-SO,,131998814,-5000,DYCD,260,312,,
-8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Brewer,NAACP New York City ACT-SO,,202538102,3500,- DYCD,260,312,,ocr:agency;ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Brewer,NAACP New York City ACT-SO,,202538102,3500,DYCD,260,312,,ocr:lowconf;ocr:cellspan
 8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Eugene,NAACP New York City ACT-SO,,202538102,20000,DYCD,260,312,,
 8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Mealy,NAACP New York City ACT-SO,,202538102,5000,DYCD,260,312,,
 8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,McMahon,Tabernacle Community Leaming and Resource Center,,237214095,-3714,DYCD,260,312,,

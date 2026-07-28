@@ -82,7 +82,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2009-04-02,,2009,designate,,Mitchell,Island Voice,,208287369,2000,DYCD,260,312,,
 6,2009-04-02,,2009,designate,,Mitchell,"Serving Those Who Serve, Inc.",,200069773,4000,DYCD,260,005,,ocr:lowconf
 6,2009-04-02,,2009,designate,,Mitchell,St. Stanislaus Kostka Church,,135564133,10000,DYCD,260,312,,ocr:lowconf
-6,2009-04-02,,2009,designate,,Mitchell,"United Activities Unlimited, Inc.",,132921483,7000,DYCD,260,312,,ocr:lowconf
+6,2009-04-02,,2009,designate,,Mitchell,"United Activities Unlimited, Inc.",,132921483,,DYCD,260,312,,ocr:amt;ocr:lowconf;ocr:cellspan
 6,2009-04-02,,2009,designate,,Mitchell,Dr. Theodore A. Atlas Foundation,,134012789,10000,DYCD,260,005,,*;ocr:lowconf
 6,2009-04-02,,2009,rescind,,"CC, Koppell",Fordham University Biological Science Research Laboratory,,131740451,-40000,DOHMH,816,113,,ocr:lowconf
 6,2009-04-02,,2009,designate,,"CC, BLAC, Dickens, Viverito",Harlem United Community AIDS Center,,133461695,20000,DOHMH,816,112,,ocr:lowconf
@@ -110,7 +110,7 @@ resolution,date,chart,fiscal_year,action,source,council_member,organization,prog
 6,2009-04-02,"Discretionary Aav# UIA FiscalConduit/SponsoringOrganization EIN Status (Council, MOC, etc) Member Organization EINI Number Agency Amount FiscalConduit! *",2009,designate,,Katz,"Queens Jewish Community Council, Inc.",,237172152,2500,DFTA,125,003,,ocr:lowconf
 6,2009-04-02,"Discretionary Aav# UIA FiscalConduit/SponsoringOrganization EIN Status (Council, MOC, etc) Member Organization EINI Number Agency Amount FiscalConduit! *",2009,rescind,,Mitchell,Centrai Family Life Center,,133626127,-4000,DFTA,125,003,,ocr:lowconf
 6,2009-04-02,"Discretionary Aav# UIA FiscalConduit/SponsoringOrganization EIN Status (Council, MOC, etc) Member Organization EINI Number Agency Amount FiscalConduit! *",2009,designate,,Mitchell,"Community Agency for Senior Citizens, Inc.",,133263537,4000,DFTA,125,003,,ocr:lowconf
-6,2009-04-02,"Youth (continued) Discretionary Number UIA FiscalConduit/SponsoringOrganization Status (Council, MOC, etc) Member Organization EINI Agencv Amount Aav # Fiscal Conduit EIN *",2009,rescind,,"Sanders, Jr","Independent Learners, Inc. Ready,Set, GoToo!",,B30473957_DYCD,-5000,,260,312,,:;ocr:ein;ocr:lowconf
+6,2009-04-02,"Youth (continued) Discretionary Number UIA FiscalConduit/SponsoringOrganization Status (Council, MOC, etc) Member Organization EINI Agencv Amount Aav # Fiscal Conduit EIN *",2009,rescind,,"Sanders, Jr","Independent Learners, Inc. Ready,Set, GoToo!",,830473957,-5000,DYCD,260,312,,:;ocr:lowconf;ocr:cellspan
 6,2009-04-02,"Youth (continued) Discretionary Number UIA FiscalConduit/SponsoringOrganization Status (Council, MOC, etc) Member Organization EINI Agencv Amount Aav # Fiscal Conduit EIN *",2009,designate,,"Sanders, Jr","Jewish Community Council of the Rockaway Peninsula, Inc.",,112425813,5000,DYCD,260,312,,ocr:lowconf
 6,2009-04-02,"Youth (continued) Discretionary Number UIA FiscalConduit/SponsoringOrganization Status (Council, MOC, etc) Member Organization EINI Agencv Amount Aav # Fiscal Conduit EIN *",2009,rescind,,Comrie,Cambria Heights Sports Association,,237316051,-12500,DYCD,260,312,,ocr:lowconf
 6,2009-04-02,"Youth (continued) Discretionary Number UIA FiscalConduit/SponsoringOrganization Status (Council, MOC, etc) Member Organization EINI Agencv Amount Aav # Fiscal Conduit EIN *",2009,rescind,,Comrie,Jazz Knights,,112394796,-6000,DYCD,260,312,,*;ocr:lowconf

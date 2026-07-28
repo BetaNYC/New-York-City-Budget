@@ -1954,6 +1954,7 @@ resolution,page,row,column,raw_text,confidence,flag,crop
 4,13,9,ein,20-1670261,0.518,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r04-p013-row09-ein.png
 4,13,9,status,S10K- PQL Not Required,0.562,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r04-p013-row09-status.png
 4,13,10,member,Viverito,0.608,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r04-p013-row10-member.png
+4,13,10,ein,13-1997754,0.982,ocr:cellspan,data/fy09/transparency-resolutions/review-crops/r04-p013-row10-ein.png
 4,13,11,organization,BigApple Youth Soccer League,0.747,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r04-p013-row11-organization.png
 4,13,11,conduit_org,"YMS Management Associates, Inc.",0.749,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r04-p013-row11-conduit_org.png
 4,13,11,status,S10K-F PQL Not Required,0.61,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r04-p013-row11-status.png
@@ -2947,8 +2948,10 @@ resolution,page,row,column,raw_text,confidence,flag,crop
 6,11,13,organization,"Serving Those Who Serve, Inc.",0.8,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p011-row13-organization.png
 6,11,14,organization,St. Stanislaus Kostka Church,0.508,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p011-row14-organization.png
 6,11,14,agency,DYCD,0.536,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p011-row14-agency.png
+6,11,15,amount,"$,000.00",0.803,ocr:amt,data/fy09/transparency-resolutions/review-crops/r06-p011-row15-amount.png
 6,11,15,organization,"United Activities Unlimited, Inc.",0.778,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p011-row15-organization.png
 6,11,15,status,Approved,0.641,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p011-row15-status.png
+6,11,15,amount,"$,000.00",0.803,ocr:cellspan,data/fy09/transparency-resolutions/review-crops/r06-p011-row15-amount.png
 6,11,16,organization,Dr. Theodore A. Atlas Foundation,0.624,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p011-row16-organization.png
 6,11,16,status,Application Pending,0.503,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p011-row16-status.png
 6,11,17,member,"CC, Koppell",0.452,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p011-row17-member.png
@@ -2985,10 +2988,9 @@ resolution,page,row,column,raw_text,confidence,flag,crop
 6,13,9,organization,Centrai Family Life Center,0.676,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p013-row09-organization.png
 6,13,9,status,Application Incompiete at Deadline,0.67,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p013-row09-status.png
 6,13,10,organization,"Community Agency for Senior Citizens, Inc.",0.745,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p013-row10-organization.png
-6,15,0,ein,B3-0473957_DYCD,0.713,ocr:ein,data/fy09/transparency-resolutions/review-crops/r06-p015-row00-ein.png
 6,15,0,organization,"Independent Learners, Inc. Ready,Set, GoToo!",0.529,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p015-row00-organization.png
-6,15,0,ein,B3-0473957_DYCD,0.713,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p015-row00-ein.png
 6,15,0,star,:,0.344,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p015-row00-star.png
+6,15,0,ein,83-0473957,0.995,ocr:cellspan,data/fy09/transparency-resolutions/review-crops/r06-p015-row00-ein.png
 6,15,1,organization,"Jewish Community Council of the Rockaway Peninsula, Inc.",0.574,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p015-row01-organization.png
 6,15,2,organization,Cambria Heights Sports Association,0.584,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p015-row02-organization.png
 6,15,2,amount,"($12,500.00)",0.717,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r06-p015-row02-amount.png
@@ -3323,6 +3325,7 @@ resolution,page,row,column,raw_text,confidence,flag,crop
 7,13,30,organization,Flatbush Park Jewish Center,0.699,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p013-row30-organization.png
 7,13,31,amount,"($10,000.00)",0.566,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p013-row31-amount.png
 7,13,32,organization,Staten Island Liberian Community Association,0.522,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p013-row32-organization.png
+7,13,32,agy_num,260,1.0,ocr:cellspan,data/fy09/transparency-resolutions/review-crops/r07-p013-row32-agy_num.png
 7,14,0,ua,1005,0.737,ocr:code,data/fy09/transparency-resolutions/review-crops/r07-p014-row00-ua.png
 7,14,0,organization,Trinity Lutheran Church,0.573,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p014-row00-organization.png
 7,14,0,amount,"($5,000.00)",0.518,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p014-row00-amount.png
@@ -3475,7 +3478,7 @@ resolution,page,row,column,raw_text,confidence,flag,crop
 7,21,19,ein,11-3101774,0.784,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p021-row19-ein.png
 7,21,19,conduit_org,"Samuel Fieid YM & YWHA, Inc.",0.523,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p021-row19-conduit_org.png
 7,21,19,status,Application Incomplete at Deadine,0.662,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p021-row19-status.png
-7,21,20,agency,DYCD -,0.967,ocr:agency,data/fy09/transparency-resolutions/review-crops/r07-p021-row20-agency.png
+7,21,20,agency,DYCD,0.842,ocr:cellspan,data/fy09/transparency-resolutions/review-crops/r07-p021-row20-agency.png
 7,25,1,organization,Friends of Crown Heights Educational Center,0.689,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p025-row01-organization.png
 7,25,2,member,Queens,0.631,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p025-row02-member.png
 7,25,2,organization,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",0.797,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p025-row02-organization.png
@@ -3624,7 +3627,7 @@ resolution,page,row,column,raw_text,confidence,flag,crop
 7,53,5,ein,13-2655001,0.638,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p053-row05-ein.png
 7,59,0,organization,Upper Manhattan Council Assisting Neighbors,0.523,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p059-row00-organization.png
 7,59,0,amount,"($11,637.00)",0.498,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p059-row00-amount.png
-7,59,0,star,I *,0.523,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p059-row00-star.png
+7,59,0,ua,009,1.0,ocr:cellspan,data/fy09/transparency-resolutions/review-crops/r07-p059-row00-ua.png
 7,59,1,amount,"($19,200.28)",0.999,ocr:amt,data/fy09/transparency-resolutions/review-crops/r07-p059-row01-amount.png
 7,59,1,organization,Bronx Heights Neighborhood Community Corporation,0.717,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p059-row01-organization.png
 7,59,1,ein,13-2883903,0.692,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r07-p059-row01-ein.png
@@ -3819,9 +3822,9 @@ resolution,page,row,column,raw_text,confidence,flag,crop
 8,14,2,organization,"Zimmer Club Youth Conservation Program of Staten Island, Inc.",0.708,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r08-p014-row02-organization.png
 8,14,3,organization,"Zimmer Club Youth Conservation Program of Staten Island, inc.",0.672,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r08-p014-row03-organization.png
 8,14,5,amount,"($20,000.00)",0.539,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r08-p014-row05-amount.png
-8,14,7,agency,- DYCD,0.929,ocr:agency,data/fy09/transparency-resolutions/review-crops/r08-p014-row07-agency.png
 8,14,7,organization,NAACP New York City ACT-SO,0.766,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r08-p014-row07-organization.png
 8,14,7,status,Approved,0.747,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r08-p014-row07-status.png
+8,14,7,ein,20-2538102,0.999,ocr:cellspan,data/fy09/transparency-resolutions/review-crops/r08-p014-row07-ein.png
 8,14,12,status,Approved,0.689,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r08-p014-row12-status.png
 8,14,13,amount,"($10,000.00)",0.643,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r08-p014-row13-amount.png
 8,14,15,member,Weprin,0.659,ocr:lowconf,data/fy09/transparency-resolutions/review-crops/r08-p014-row15-member.png

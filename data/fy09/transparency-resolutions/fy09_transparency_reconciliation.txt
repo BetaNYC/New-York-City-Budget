@@ -40,7 +40,7 @@ RECONCILIATION -- PRINTED CHART TOTALS
   Charts that print no total remain NOT RECONCILABLE, as in every other
   Transparency-Resolution year. The only internal check available for them is that
   a transfer's rescind and re-designate net out:
-    net of all designations across FY09 = $56,763,635 (informational)
+    net of all designations across FY09 = $56,756,635 (informational)
 
 OCR QUALITY
 ------------------------------------------------------------------------
@@ -49,15 +49,16 @@ OCR QUALITY
   p05 / p25 / median    0.581 / 0.930 / 0.996
   confidence threshold     0.80
 
-  ocr:ein            56  ( 2.14% of rows)  EIN failed its ##-####### shape check
-  ocr:amt           896  (34.20% of rows)  amount failed its $#,###.## shape check
+  ocr:ein            55  ( 2.10% of rows)  EIN failed its ##-####### shape check
+  ocr:amt           897  (34.24% of rows)  amount failed its $#,###.## shape check
   ocr:code            1  ( 0.04% of rows)  Agy #/U/A not a 3-digit code
-  ocr:agency         31  ( 1.18% of rows)  agency code not in the FY10-FY27 agency vocabulary
+  ocr:agency         29  ( 1.11% of rows)  agency code not in the FY10-FY27 agency vocabulary
   ocr:member          3  ( 0.11% of rows)  member cell is not name-shaped
   ocr:lowconf      1903  (72.63% of rows)  a cell fell below the confidence threshold
+  ocr:cellspan        7  ( 0.27% of rows)  cell text came from a cross-cell bbox disambiguation re-read
 
   rows with at least one flag   2194 / 2620 (83.74%)
-  cells queued for human review 3855
+  cells queued for human review 3858
   member cells matching a Schedule C roster name: 257/1339 (19.2%) -- informational; the FY2015+ rosters do not
     cover every member of the 2008-09 Council, so a miss is not an error.
 
