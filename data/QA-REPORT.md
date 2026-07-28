@@ -4,28 +4,16 @@
 **Data current as of:** 2026-07-28 (files under `data/`)  
 **Tool:** `code/validate_data.py`
 
-**Verdict:** FAIL — 281 files, 5 hard failure(s), 532 soft advisory(ies).
+**Verdict:** FAIL — 281 files, 4 hard failure(s), 532 soft advisory(ies).
 
 Severity: HARD (exit 1) = schema drift, malformed row, non-numeric amount, or malformed EIN. SOFT (exit 0) = zeros, sign anomalies, outliers, duplicates, column-bleed residuals, coverage notes. See the module docstring for the full check list and rationale.
 
-> **Known, expected exception — all 5 hard failures below are FY09 OCR artifacts, not parser bugs.**
-> FY2009 Transparency Resolutions are OCR'd off scans with no text layer (see
-> [`code/PARSING.md`](../code/PARSING.md#ocr-pipeline--fy2009-transparency-resolutions)); every
-> EIN cell that fails its `##-#######` shape check is *already* flagged `ocr:ein` in that row's
-> `flags` column and queued in `fy09_transparency_needs_review.csv` for human review — this is
-> the pipeline working as documented, not a silent failure. `validate_data.py`'s EIN check
-> doesn't currently special-case that flag (a deliberate choice — see PARSING.md), so it still
-> reports these as HARD the same way it would for a genuine extraction bug in a deterministic
-> (non-OCR) year. Treat this FAIL verdict as expected whenever FY09 transparency data is present;
-> a FAIL from any *other* file is not covered by this exception and should be investigated.
-
 ## Hard failures
 
-- **[ein]** `fy09/transparency-resolutions/fy09_transparency_all.csv` — 5+ malformed EIN(s), e.g. line 8: '95369596' (FY09 OCR, `ocr:ein`-flagged — see note above)
-- **[ein]** `fy09/transparency-resolutions/reso01_transparency_designations.csv` — 4+ malformed EIN(s), e.g. line 8: '95369596' (FY09 OCR, `ocr:ein`-flagged — see note above)
-- **[ein]** `fy09/transparency-resolutions/reso05_transparency_designations.csv` — 5+ malformed EIN(s), e.g. line 53: 'EX124290' (FY09 OCR, `ocr:ein`-flagged — see note above)
-- **[ein]** `fy09/transparency-resolutions/reso06_transparency_designations.csv` — 1+ malformed EIN(s), e.g. line 113: 'B30473957_DYCD' (FY09 OCR, `ocr:ein`-flagged — see note above)
-- **[ein]** `fy09/transparency-resolutions/reso07_transparency_designations.csv` — 2+ malformed EIN(s), e.g. line 72: 'EX212023' (FY09 OCR, `ocr:ein`-flagged — see note above)
+- **[ein]** `fy09/transparency-resolutions/fy09_transparency_all.csv` — 5+ malformed EIN(s), e.g. line 8: '95369596'
+- **[ein]** `fy09/transparency-resolutions/reso01_transparency_designations.csv` — 4+ malformed EIN(s), e.g. line 8: '95369596'
+- **[ein]** `fy09/transparency-resolutions/reso05_transparency_designations.csv` — 5+ malformed EIN(s), e.g. line 53: 'EX124290'
+- **[ein]** `fy09/transparency-resolutions/reso07_transparency_designations.csv` — 2+ malformed EIN(s), e.g. line 72: 'EX212023'
 
 ## EIN coverage (feeds the MCP award-tool decision)
 
@@ -33,7 +21,7 @@ Valid 9-digit EINs / total rows, per year and EIN-bearing doctype. Initiatives, 
 
 | FY | doctype | valid EIN / rows | coverage |
 |---|---|---|---|
-| FY2009 | transparency | 2564/2620 | 97.9% |
+| FY2009 | transparency | 2565/2620 | 97.9% |
 | FY2010 | transparency | 1788/1788 | 100.0% |
 | FY2011 | transparency | 1545/1545 | 100.0% |
 | FY2012 | transparency | 932/932 | 100.0% |
@@ -141,7 +129,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy09/transparency-resolutions/reso03_transparency_designations.csv` | 553 | 100% | 0 | duplicate: 122 duplicate row instance(s); e.g. x2: ['3', '2008-11-19', '', '2009']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 135: 'Hudson Guild' |
 | `fy09/transparency-resolutions/reso04_transparency_designations.csv` | 417 | 96% | 0 | duplicate: 7 duplicate row instance(s); e.g. x2: ['4', '2008-12-18', '(IOI) Immigrant Opportunities Initiative EIN Agy # UIA MOC, etc) Borough Agency (Council, Organization Number Amount * Status', '2009']...; column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 16: 'Joseph S. Murphy Institute Center for Worker Education' |
 | `fy09/transparency-resolutions/reso05_transparency_designations.csv` | 259 | 97% | 1 | — |
-| `fy09/transparency-resolutions/reso06_transparency_designations.csv` | 320 | 98% | 1 | column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 100: 'Hudson Guild' |
+| `fy09/transparency-resolutions/reso06_transparency_designations.csv` | 320 | 98% | 0 | column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 100: 'Hudson Guild' |
 | `fy09/transparency-resolutions/reso07_transparency_designations.csv` | 348 | 97% | 1 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 149: 'Jackson Heights Early Learning Center' |
 | `fy09/transparency-resolutions/reso08_transparency_designations.csv` | 77 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 35: 'Jackson Heights-Elmhurst Kehillah, Inc.' |
 | `fy10/schedule_c/fy10_schedule_c_initiatives.csv` | 124 | — | 0 | — |

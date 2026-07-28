@@ -362,18 +362,19 @@ not a clean categorical, unless you first normalize it.
 Row count: 1907 (one row per FY09 long-form chart line that carries a conduit/status cell; short-
 form charts 4+ have neither column and are absent from this file).
 
-**Status: pipeline run.** All 8 resolutions (332 pages: 124 chart, 86 divider, 121 narrative,
-1 blank) produced 2620 rows (204/399/534/361/194/138/231/42 designate and 29/14/19/56/65/182/
-117/35 rescind across resos 01–08). Of the single printed chart total in the corpus, reso 07
-does **not** reconcile exactly (printed $30,000 vs. parsed $86,714, diff $116,714) — the only
-other check available, the FY09-wide net of all designations/rescissions, is $56,763,635
-(informational, not a check against a printed figure). OCR quality: 19,532 cells recognized,
-mean confidence 0.927 (p05/p25/median 0.581/0.930/0.996) against an 0.80 threshold; 2194/2620
-rows (83.74%) carry at least one flag and 3855 cells are queued in
-`fy09_transparency_needs_review.csv` for human review. Breakdown by flag: `ocr:lowconf` 1903
-(72.63%), `ocr:amt` 896 (34.20%), `ocr:ein` 56 (2.14%), `ocr:agency` 31 (1.18%), `ocr:member` 3
-(0.11%), `ocr:code` 1 (0.04%). Member-cell/roster matching: 257/1339 (19.2%) — informational,
-since the FY2015+ rosters used for matching don't cover every member of the 2008–09 Council.
+**Status: pipeline run (post cross-bbox-disambiguation fix, `c53c71d`).** All 8 resolutions (332
+pages: 124 chart, 86 divider, 121 narrative, 1 blank) produced 2620 rows (204/399/534/361/194/
+138/231/42 designate and 29/14/19/56/65/182/117/35 rescind across resos 01–08). Of the single
+printed chart total in the corpus, reso 07 does **not** reconcile exactly (printed $30,000 vs.
+parsed $86,714, diff $116,714) — the only other check available, the FY09-wide net of all
+designations/rescissions, is $56,756,635 (informational, not a check against a printed figure).
+OCR quality: 19,532 cells recognized, mean confidence 0.927 (p05/p25/median 0.581/0.930/0.996)
+against an 0.80 threshold; 2194/2620 rows (83.74%) carry at least one flag and 3858 cells are
+queued in `fy09_transparency_needs_review.csv` for human review. Breakdown by flag: `ocr:lowconf`
+1903 (72.63%), `ocr:amt` 897 (34.24%), `ocr:ein` 55 (2.10%), `ocr:agency` 29 (1.11%), `ocr:member`
+3 (0.11%), `ocr:code` 1 (0.04%), `ocr:cellspan` 7 (0.27%, the cross-cell bbox disambiguation
+re-read added in `c53c71d`). Member-cell/roster matching: 257/1339 (19.2%) — informational, since
+the FY2015+ rosters used for matching don't cover every member of the 2008–09 Council.
 **OCR CONFIDENCE BAND: LOW.** Overall status: NOT RECONCILABLE (no document-wide printed
 total), consistent with every other Transparency-Resolution year.
 
@@ -503,12 +504,13 @@ coverage notes) do not gate. It writes a dated report to `data/QA-REPORT.md` and
 .venv/bin/python code/validate_data.py --no-report        # stdout only
 ```
 
-Current run (2026-07-28): 281 files, **5 hard failures**, EIN coverage 100% on every
-EIN-bearing file except FY09 transparency (97.9%, 2564/2620). Tests: `code/test_validate_data.py`.
+Current run (2026-07-28, post OCR re-run `c53c71d`): 281 files, **4 hard failures**, EIN coverage
+100% on every EIN-bearing file except FY09 transparency (97.9%, 2565/2620).
+Tests: `code/test_validate_data.py`.
 
-**The 5 hard failures are a known, expected FY09-only exception, not parser bugs.** They are all
+**The 4 hard failures are a known, expected FY09-only exception, not parser bugs.** They are all
 `[ein]` findings in FY09 transparency-resolutions files — malformed EIN cells (e.g. `EX124290`,
-`B30473957_DYCD`, an 8-digit `95369596`) from the OCR pipeline (see "OCR pipeline — FY2009
+`EX212023`, an 8-digit `95369596`) from the OCR pipeline (see "OCR pipeline — FY2009
 Transparency Resolutions" above). Every one of these cells is already flagged `ocr:ein` in its
 row's `flags` column and queued in `fy09_transparency_needs_review.csv`; the pipeline is working
 as documented (trust-model rule 4: no quiet repair of letter/digit confusions). `validate_data.py`

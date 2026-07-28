@@ -165,8 +165,9 @@ per-document-type detail (and the parser/invocation for each) is in [`code/PARSI
 **Data QA:** beyond per-file reconciliation, `code/validate_data.py` runs row-level and cross-file
 integrity checks (schema, EIN validity + per-year coverage, amount/sign sanity, fiscal-year
 integrity, duplicate detection, column-bleed heuristic, and a reconciliation roll-up) over the whole
-`data/` tree and writes a dated `data/QA-REPORT.md`. Latest run: 0 hard failures, 100% EIN coverage
-on every EIN-bearing file. Details in [`code/PARSING.md`](code/PARSING.md).
+`data/` tree and writes a dated `data/QA-REPORT.md`. Latest run: 4 hard failures (all known FY09
+OCR artifacts — see below), 100% EIN coverage on every EIN-bearing file except FY09 transparency
+(97.9%). Details in [`code/PARSING.md`](code/PARSING.md).
 
 ## Known limitations
 
