@@ -1,0 +1,67 @@
+FY09 TRANSPARENCY RESOLUTIONS -- OCR EXTRACTION REPORT
+========================================================================
+
+SOURCE: 300-dpi bitonal scans with no text layer (source/FY09/transparency-resolutions/).
+METHOD: docTR OCR over ruled-grid cells -- see code/PARSING.md, 'OCR pipeline'.
+
+*** These figures are MODEL-READ, not extracted from a PDF text layer. Every other
+*** fiscal year in this repo is read deterministically from the document's own text
+*** layer; FY2009 has no text layer to read. Values are validated by shape checks,
+*** an agency-code dictionary, and -- where the document prints one -- an exact
+*** total. Anything that failed is flagged in the `flags` column and listed in
+*** fy09_transparency_needs_review.csv with a crop of the original pixels.
+
+PAGE ACCOUNTING
+------------------------------------------------------------------------
+  blank            1
+  chart          124
+  divider         86
+  narrative      121
+  TOTAL          332
+
+ROWS BY RESOLUTION
+------------------------------------------------------------------------
+  reso 01  2008-08-14    233 rows (204 designate / 29 rescind)
+  reso 02  2008-09-24    413 rows (399 designate / 14 rescind)
+  reso 03  2008-11-19    553 rows (534 designate / 19 rescind)
+  reso 04  2008-12-18    417 rows (361 designate / 56 rescind)
+  reso 05  2009-02-11    259 rows (194 designate / 65 rescind)
+  reso 06  2009-04-02    320 rows (138 designate / 182 rescind)
+  reso 07  2009-04-22    348 rows (231 designate / 117 rescind)
+  reso 08  2009-05-20     77 rows (42 designate / 35 rescind)
+  TOTAL                 2620 rows
+
+RECONCILIATION -- PRINTED CHART TOTALS
+------------------------------------------------------------------------
+  reso 07                                            MISMATCH  printed ($30,000) vs parsed $86,714 (diff $116,714)
+
+  0/1 printed chart totals reconcile exactly.
+
+  Charts that print no total remain NOT RECONCILABLE, as in every other
+  Transparency-Resolution year. The only internal check available for them is that
+  a transfer's rescind and re-designate net out:
+    net of all designations across FY09 = $56,763,635 (informational)
+
+OCR QUALITY
+------------------------------------------------------------------------
+  cells recognized        19532
+  mean cell confidence    0.927
+  p05 / p25 / median    0.581 / 0.930 / 0.996
+  confidence threshold     0.80
+
+  ocr:ein            56  ( 2.14% of rows)  EIN failed its ##-####### shape check
+  ocr:amt           896  (34.20% of rows)  amount failed its $#,###.## shape check
+  ocr:code            1  ( 0.04% of rows)  Agy #/U/A not a 3-digit code
+  ocr:agency         31  ( 1.18% of rows)  agency code not in the FY10-FY27 agency vocabulary
+  ocr:member          3  ( 0.11% of rows)  member cell is not name-shaped
+  ocr:lowconf      1903  (72.63% of rows)  a cell fell below the confidence threshold
+
+  rows with at least one flag   2194 / 2620 (83.74%)
+  cells queued for human review 3855
+  member cells matching a Schedule C roster name: 257/1339 (19.2%) -- informational; the FY2015+ rosters do not
+    cover every member of the 2008-09 Council, so a miss is not an error.
+
+  OCR CONFIDENCE BAND: LOW
+
+STATUS: NOT RECONCILABLE overall (no document-wide printed total), with the
+        per-chart printed totals above checked exactly where they exist.
