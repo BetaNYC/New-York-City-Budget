@@ -308,6 +308,16 @@ FY2009 is the only year whose numbers are model-read, so it carries extra checks
    (`O`/`0`, `S`/`$`) are **never** guessed: the cell is left unparsed, flagged in the
    `flags` column with an `ocr:*` code, and queued in
    `fy09_transparency_needs_review.csv` with a crop of the original pixels.
+5. **Cross-cell bbox disambiguation.** Full-page word detection occasionally draws one
+   bounding box that unambiguously covers ink in two adjacent ruled cells (a value straddling
+   a column or row rule), and the naive centroid-based cell assignment would silently hand
+   the whole box's text to just one of them. `recognize.find_cell_span_conflicts` catches
+   this geometrically (a word with ≥30% of its own area inside each of two-or-more cells,
+   checked only against its centroid-cell's neighbours) and, for every cell it implicates,
+   re-reads that cell independently from its own cropped rectangle — the same crop-and-
+   upscale fallback used for failing numeric cells, just triggered by geometry instead of a
+   validator failure. The corrected cell is flagged `ocr:cellspan` so the correction stays
+   visible in `flags` and in the review queue rather than silently overwriting the row.
 
 ### Outputs
 

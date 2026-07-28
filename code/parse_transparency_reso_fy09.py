@@ -78,6 +78,30 @@ def _cells_from_words(word_cells, grid):
     return out
 
 
+def _reread_span_conflicts(engine, gray, cells, conflicts):
+    """Cells implicated in a cross-cell bbox conflict (recognize.find_cell_span_conflicts):
+    the full-page word assignment put a word's whole text into one cell by centroid alone,
+    but the word's box also substantially overlaps a neighbour, so that assignment can't be
+    trusted for either cell. Re-read each implicated cell independently, cropped to its own
+    ruled rectangle -- which is bounded by the grid, not by wherever docTR drew the word's
+    box -- and adopt that reading unconditionally (an empty result is a legitimate outcome:
+    it means the word actually belonged entirely to the other cell). Tag the result so the
+    correction stays visible downstream instead of silently overwriting the row.
+    """
+    from ocr import recognize
+    fixed = 0
+    for (r, c) in conflicts:
+        cell = cells.get((r, c))
+        if cell is None:
+            continue
+        got = recognize.reread_cell(engine, gray, cell.rect)
+        if got is None:
+            continue
+        cells[(r, c)] = assemble.Cell(got[0], got[1], cell.rect, flag=assemble.FLAG_CELLSPAN)
+        fixed += 1
+    return fixed
+
+
 def _reread_failing_numerics(engine, gray, cells, mapping, grid):
     """Targeted second look at numeric cells that failed their validator.
 
@@ -103,7 +127,7 @@ def _reread_failing_numerics(engine, gray, cells, mapping, grid):
                 continue
             got = recognize.reread_cell(engine, gray, cell.rect)
             if got and ok(got[0]):
-                cells[(r, col)] = assemble.Cell(got[0], got[1], cell.rect)
+                cells[(r, col)] = assemble.Cell(got[0], got[1], cell.rect, flag=cell.flag)
                 fixed += 1
     return fixed
 
@@ -189,6 +213,7 @@ def process_pdf(pdf, cache_dir, outdir, prefix, roster, agency_vocab, engine,
 
         page_words = engine.words(up)
         word_cells, orphans = recognize.assign_words(page_words, g)
+        span_conflicts = recognize.find_cell_span_conflicts(page_words, g)
         cells = _cells_from_words(word_cells, g)
         confidences.extend(c.conf for c in cells.values() if c.text.strip())
 
@@ -233,6 +258,7 @@ def process_pdf(pdf, cache_dir, outdir, prefix, roster, agency_vocab, engine,
                       f"(missing {mapping.missing}) -- {why}; skipped, queued for review")
                 continue
 
+        _reread_span_conflicts(engine, up, cells, span_conflicts)
         _reread_failing_numerics(engine, up, cells, mapping, g)
         # Persist the recognized cells so stage 4 can be inspected without re-running OCR.
         _dump_cells(cache_dir, stem, page_no, chart_title, mapping, cells, g, orphans)

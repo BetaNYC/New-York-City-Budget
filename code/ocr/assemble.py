@@ -48,6 +48,7 @@ FLAG_CODE = "ocr:code"
 FLAG_AGENCY = "ocr:agency"
 FLAG_MEMBER = "ocr:member"
 FLAG_LOWCONF = "ocr:lowconf"
+FLAG_CELLSPAN = "ocr:cellspan"
 
 
 def normalize_numeric(text):
@@ -119,14 +120,17 @@ def discover_agency_sources(data_root):
 
 
 class Cell:
-    """One recognized grid cell: its text, its confidence, and where it is on the page."""
+    """One recognized grid cell: its text, its confidence, where it is on the page, and an
+    optional carried-forward flag recording how it got its value (e.g. FLAG_CELLSPAN, when
+    the text came from a disambiguation re-read rather than ordinary word assignment)."""
 
-    __slots__ = ("text", "conf", "rect")
+    __slots__ = ("text", "conf", "rect", "flag")
 
-    def __init__(self, text="", conf=1.0, rect=None):
+    def __init__(self, text="", conf=1.0, rect=None, flag=""):
         self.text = text
         self.conf = conf
         self.rect = rect
+        self.flag = flag
 
     def __bool__(self):
         return bool(self.text.strip())
@@ -284,6 +288,16 @@ class Assembler:
             flags.append(FLAG_LOWCONF)
             for k in low:
                 self._queue(page, r, k, rc[k], FLAG_LOWCONF)
+
+        # A cell can carry its own provenance flag forward (currently only FLAG_CELLSPAN, set
+        # when the OCR stage had to re-read it independently because its source word's box
+        # unambiguously straddled two grid cells). Surface that the same way every other flag
+        # here is surfaced -- in the row's flags and in the review queue -- regardless of
+        # whether the corrected value itself is otherwise well-formed.
+        for k, c in rc.items():
+            if c and c.flag and c.flag not in flags:
+                flags.append(c.flag)
+                self._queue(page, r, k, c, c.flag)
 
         # The prequalification marker reaches us two ways: as trailing asterisks on the
         # organization name (older charts) or as its own unlabelled narrow column.

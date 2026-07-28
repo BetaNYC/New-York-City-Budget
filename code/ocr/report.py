@@ -17,8 +17,8 @@ Two things are being reported, and they must not be confused with each other.
 """
 from collections import Counter
 
-from .assemble import (FLAG_AGENCY, FLAG_AMOUNT, FLAG_CODE, FLAG_EIN, FLAG_LOWCONF,
-                       FLAG_MEMBER)
+from .assemble import (FLAG_AGENCY, FLAG_AMOUNT, FLAG_CELLSPAN, FLAG_CODE, FLAG_EIN,
+                       FLAG_LOWCONF, FLAG_MEMBER)
 
 FLAG_LABELS = [
     (FLAG_EIN, "EIN failed its ##-####### shape check"),
@@ -27,6 +27,7 @@ FLAG_LABELS = [
     (FLAG_AGENCY, "agency code not in the FY10-FY27 agency vocabulary"),
     (FLAG_MEMBER, "member cell is not name-shaped"),
     (FLAG_LOWCONF, "a cell fell below the confidence threshold"),
+    (FLAG_CELLSPAN, "cell text came from a cross-cell bbox disambiguation re-read"),
 ]
 
 

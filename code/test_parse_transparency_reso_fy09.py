@@ -21,6 +21,7 @@ cv2 = pytest.importorskip("cv2", reason="opencv (requirements-ocr.txt) not insta
 np = pytest.importorskip("numpy")
 
 from ocr import classify, grid as gridmod, recognize  # noqa: E402
+import parse_transparency_reso_fy09 as fy09           # noqa: E402
 
 
 # --------------------------------------------------------------------------- fixtures
@@ -446,6 +447,30 @@ def test_fiscal_conduit_columns_go_to_the_sidecar_not_the_main_schema():
     assert set(asm.conduits[0]) == set(assemble.CONDUIT_COLS)
 
 
+def test_assembler_surfaces_a_cell_span_carried_flag():
+    """A cell whose text came from the OCR stage's cross-cell disambiguation re-read (see
+    recognize.find_cell_span_conflicts) carries assemble.FLAG_CELLSPAN forward -- it must show
+    up in the row's flags and be queued for review, the same as every other flag here, even
+    though the value itself is otherwise well-formed."""
+    asm = assemble.Assembler(6, "2009-04-02", set(), {"DYCD"})
+    rect = (0, 0, 10, 10)
+    cells = {
+        (1, 0): assemble.Cell("Sanders, Jr", 0.9, rect),
+        (1, 1): assemble.Cell("82nd Street Academics", 0.85, rect, flag=assemble.FLAG_CELLSPAN),
+        (1, 2): assemble.Cell("20-0788352", 0.9, rect),
+        (1, 3): assemble.Cell("DYCD", 0.9, rect),
+        (1, 4): assemble.Cell("$10,000.00", 0.9, rect),
+        (1, 5): assemble.Cell("260", 0.9, rect),
+        (1, 6): assemble.Cell("312", 0.9, rect),
+    }
+    asm.add_page(9, "Youth Discretionary", cells, _mapping(ORDER), _FakeGrid(2, 7))
+
+    row = asm.rows[0]
+    assert assemble.FLAG_CELLSPAN in row["flags"]
+    queued = {(q["column"], q["flag"]) for q in asm.reviews}
+    assert ("organization", assemble.FLAG_CELLSPAN) in queued
+
+
 # ------------------------------------------------------------------- cell assignment
 
 def test_words_are_binned_into_cells_by_centroid():
@@ -461,6 +486,31 @@ def test_words_are_binned_into_cells_by_centroid():
     assert cells[(1, 0)][0]["text"] == "Baez"
     assert cells[(2, 2)][0]["text"] == "$15,000.00"
     assert [o["text"] for o in orphans] == ["stray"]
+
+
+def test_find_cell_span_conflicts_catches_an_unambiguous_straddle():
+    img, xs, ys = synthetic_table(rows=3, cols=3)
+    g = gridmod.detect_grid(img)
+    # A word box centered close to the column rule between col 0 and col 1, split roughly
+    # 40/60 between them -- a real straddle, not edge bleed.
+    rule_x = xs[1]
+    straddler = {"text": "82nd Street", "conf": 0.9,
+                "bbox": (rule_x - 30, ys[1] + 8, rule_x + 45, ys[1] + 30)}
+    conflicts = recognize.find_cell_span_conflicts([straddler], g)
+    assert set(conflicts) == {(1, 0), (1, 1)}
+    assert conflicts[(1, 0)] == [straddler]
+    assert conflicts[(1, 1)] == [straddler]
+
+
+def test_find_cell_span_conflicts_ignores_small_edge_bleed():
+    img, xs, ys = synthetic_table(rows=3, cols=3)
+    g = gridmod.detect_grid(img)
+    # Almost entirely inside col 1; only a ~8% sliver (antialiasing/descender bleed) crosses
+    # the rule into col 0 -- well under SPAN_MIN_FRAC, so this must NOT be reported.
+    rule_x = xs[1]
+    grazer = {"text": "Baez", "conf": 0.9,
+             "bbox": (rule_x - 5, ys[1] + 8, rule_x + 55, ys[1] + 30)}
+    assert recognize.find_cell_span_conflicts([grazer], g) == {}
 
 
 def test_cell_text_reads_a_wrapped_organization_name_in_order():
@@ -490,6 +540,58 @@ def test_debug_overlays_render_without_error():
 
     ocr = recognize.draw_ocr_overlay(img, g, {(1, 0): "Baez"}, {(1, 0): 0.4}, low_conf=0.80)
     assert ocr.shape == (img.shape[0], img.shape[1], 3)
+
+
+# ---------------------------------------------------- targeted re-OCR (fake engine, no docTR)
+
+class _FakeRecoEngine:
+    """Stub for recognize.Engine: reread_cell only ever calls .read_crop(upscaled_image)."""
+
+    def __init__(self, result):
+        self.result = result
+        self.calls = 0
+
+    def read_crop(self, img):
+        self.calls += 1
+        return self.result
+
+
+def test_reread_span_conflicts_rereads_the_cells_own_rect_and_tags_the_flag():
+    gray = np.full((100, 100), 255, np.uint8)
+    rect_a, rect_b = (0, 0, 40, 40), (40, 0, 80, 40)
+    cells = {
+        (0, 0): assemble.Cell("82n", 0.4, rect_a),
+        (0, 1): assemble.Cell("d Street", 0.4, rect_b),
+    }
+    conflicts = {(0, 0): ["word"], (0, 1): ["word"]}
+    engine = _FakeRecoEngine(("FIXED", 0.97))
+
+    fixed = fy09._reread_span_conflicts(engine, gray, cells, conflicts)
+
+    assert fixed == 2
+    assert engine.calls == 2               # once per implicated cell, not once per word
+    assert cells[(0, 0)].text == "FIXED" and cells[(0, 0)].conf == 0.97
+    assert cells[(0, 0)].flag == assemble.FLAG_CELLSPAN
+    assert cells[(0, 1)].text == "FIXED" and cells[(0, 1)].flag == assemble.FLAG_CELLSPAN
+    # each cell keeps ITS OWN rect, not the word's -- the whole point of this fallback
+    assert cells[(0, 0)].rect == rect_a
+    assert cells[(0, 1)].rect == rect_b
+
+
+def test_reread_failing_numerics_preserves_a_pre_existing_carried_flag():
+    """A cell already corrected by the span-conflict pass, then also re-read by the numeric-
+    shape pass, must not lose its ocr:cellspan provenance to the second overwrite."""
+    gray = np.full((100, 100), 255, np.uint8)
+    rect = (0, 0, 40, 40)
+    cells = {(1, 0): assemble.Cell("13-36l9036", 0.5, rect, flag=assemble.FLAG_CELLSPAN)}
+    mapping = _mapping(["ein"])
+    grid = _FakeGrid(2, 1)
+    engine = _FakeRecoEngine(("133619036", 0.95))
+
+    fy09._reread_failing_numerics(engine, gray, cells, mapping, grid)
+
+    assert cells[(1, 0)].text == "133619036"
+    assert cells[(1, 0)].flag == assemble.FLAG_CELLSPAN
 
 
 # ---------------------------------------------------------------- docTR end-to-end

@@ -22,6 +22,12 @@ NUMERIC_COLUMNS = ("ein", "amount", "agy_num", "ua", "conduit_ein")
 RE_OCR_SCALE = 3          # upscale factor for the targeted re-read of a failing cell
 CROP_PAD_PX = 4           # padding inside the cell rectangle, to clear the printed rules
 
+# A word must hold at least this fraction of its own area inside EACH of two-or-more cells
+# before we call it a genuine cross-cell straddle (see find_cell_span_conflicts). A descender
+# dipping under a rule, or slant/antialiasing bleed at a cell edge, lands well under this and
+# must not trigger the fallback -- only an unambiguous split should.
+SPAN_MIN_FRAC = 0.30
+
 
 class Engine:
     """Lazily-constructed docTR predictors. Build one and reuse it for the whole batch --
@@ -139,6 +145,38 @@ def assign_words(words, grid):
             rc = best
         cells.setdefault(rc, []).append(w)
     return cells, orphans
+
+
+def find_cell_span_conflicts(words, grid, min_frac=SPAN_MIN_FRAC):
+    """Words whose box unambiguously straddles two or more grid cells.
+
+    `assign_words` above places a word wholesale into whichever single cell its centroid
+    lands in -- correct almost always, but silently wrong when a word's detection box
+    actually covers real ink in a second cell too (a value that visually crosses a column or
+    row rule). This looks for that case directly: for each word, check its centroid-cell's
+    3x3 neighbourhood (a word cannot geometrically overlap a cell it isn't adjacent to) and
+    reuse `_iou`, which is already "fraction of the word's own area inside this cell." If
+    `min_frac` or more of the word's area lands in each of two-or-more cells, that's a
+    genuine split, not edge bleed -- report every cell implicated.
+
+    Returns {(row, col): [word, ...]}, one entry per implicated cell, so the caller can
+    re-read each of those cells independently rather than trust this word's assignment.
+    """
+    conflicts = {}
+    for w in words:
+        cx, cy = _centroid(w["bbox"])
+        primary = grid.locate(cx, cy)
+        if primary is None:
+            continue  # outside the lattice -- assign_words' own orphan path handles this
+        pr, pc = primary
+        hits = [(r, c)
+                for r in range(max(0, pr - 1), min(grid.nrows, pr + 2))
+                for c in range(max(0, pc - 1), min(grid.ncols, pc + 2))
+                if _iou(w["bbox"], grid.cell(r, c)) >= min_frac]
+        if len(hits) >= 2:
+            for rc in hits:
+                conflicts.setdefault(rc, []).append(w)
+    return conflicts
 
 
 def cell_text(words, line_tol=None):
