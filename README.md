@@ -105,6 +105,18 @@ Section 254 capital changes. `part, agency, budget_line, sub_id, boro, fy1, fy2,
 ### `data/fy26/transparency-resolutions/`
 Post-adoption discretionary designations from the 10 FY2026 Transparency Resolutions (per-resolution `resoNN_transparency_designations.csv` files + a combined `fy26_transparency_all.csv`). Columns: `resolution, date, chart, fiscal_year, action, source, council_member, organization, program, ein, amount, agency, agy_num, ua, purpose, flags` — `action` ∈ designate / rescind / purpose_change; rescissions carry negative amounts. These record money the adopted budget left "to be designated post-adoption" (e.g. the FY2026 AI Community Engagement $1M). **No printed totals exist**, so they are labeled `NOT RECONCILABLE`; the only internal check is that transfers (rescind + re-designate) net to zero.
 
+**FY2009 only — `fy09_transparency_fiscal_conduits.csv`.** FY09's long-form charts (1–3) print two
+columns no other year has: a Fiscal Conduit/Sponsoring Organization (+ its EIN), used when a
+designation is paid through an intermediary fiscal sponsor rather than directly to the recipient,
+and a per-row PQL clearance `status` (`Cleared`, `Approved`, `Application Pending`, `Denied`,
+`Government Entity`, etc.). They can't go in the standard 16-column schema, so they live in this
+sidecar (`resolution, chart, ein, conduit_organization, conduit_ein, status`), joined back to
+`resoNN_transparency_designations.csv` on `(resolution, chart, ein)`. Most rows have no fiscal
+conduit — the money went straight to the named org. Since FY09 is OCR'd off scans (see
+[`code/PARSING.md`](code/PARSING.md#ocr-pipeline--fy2009-transparency-resolutions)), `status` has
+many spelling variants of the same value and should be treated as informational, not a clean
+categorical.
+
 ### `data/combined/`
 `all_years_initiatives.csv` and `all_years_awards.csv` — the per-year files stacked with a leading `year` column for cross-year analysis. Each also carries two derived `*_canonical` columns (see the editorial note below).
 

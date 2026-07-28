@@ -221,7 +221,7 @@ this so the caveat travels with the data.
 | FY22 | 14 | HIGH | clean (matches brief's viBe/DCLA spot-check) |
 | FY23 | 14 | HIGH | clean |
 | FY24 | 9 | HIGH | clean |
-| FY09 | see below | see below | Scans, no text layer → **OCR pipeline**, `parse_transparency_reso_fy09.py` |
+| FY09 | 8 | LOW | Scans, no text layer → **OCR pipeline**, `parse_transparency_reso_fy09.py`; 2620 rows, 0/1 printed chart totals exact (reso 07 mismatch) |
 
 ---
 
@@ -325,9 +325,47 @@ The `Fiscal Conduit` and `Status` columns are FY09-only and cannot go in the sha
 joined back on `(resolution, chart, ein)` — the same pattern as
 `fy25_capital_noncity_by_entity.csv`.
 
-**Status: pipeline implemented; not yet run.** Fill in the row counts, the printed-total
-reconciliation result and the OCR confidence band in the table above and in the full status
-table once `fy09_transparency_reconciliation.txt` exists.
+### `fy09_transparency_fiscal_conduits.csv` — what it captures
+
+Columns: `resolution, chart, ein, conduit_organization, conduit_ein, status`.
+
+Only the FY09 long-form charts (Charts 1–3) print these two extra fields per row:
+
+- **Fiscal Conduit/Sponsoring Organization** (+ its EIN) — filled in when a designation is paid
+  through an intermediary fiscal sponsor rather than directly to the recipient organization (e.g.
+  a small or unincorporated group that can't receive funds itself, routed through a 501(c)(3)
+  fiscal conduit). Most rows (1746/1907, ~92%) have no conduit — the award went straight to the
+  named organization; the remaining ~161 name a conduit.
+- **Status** — a per-award PQL (pre-qualification) clearance state as printed on the chart:
+  `Cleared`, `Approved`, `Application Pending`, `Missing PQL Application`, `Application Incomplete
+  at Deadline`, `Denied`, `Redesignated`, `Government Entity` (city agencies are exempt from PQL),
+  `S10K- PQL Not Required` (awards under the $10K PQL threshold), etc. This is the same status
+  concept documented for the RnD expense-funding-disclosure spreadsheets in the README, but here
+  it's read directly off FY09's printed table rather than sourced from a modern clearance system.
+
+Because `status` is OCR'd off a 300-dpi scan like every other FY09 field, it carries the same
+character-level noise as the rest of the pipeline — dozens of near-duplicate spellings of the same
+value (`Cleared`/`Cieared`/`Çleared`, `Government Entity`/`Govemment Entity`/`Governmental Entity`,
+several `S10K...PQL Not Required` variants). Treat `status` as informational / exploratory text,
+not a clean categorical, unless you first normalize it.
+
+Row count: 1907 (one row per FY09 long-form chart line that carries a conduit/status cell; short-
+form charts 4+ have neither column and are absent from this file).
+
+**Status: pipeline run.** All 8 resolutions (332 pages: 124 chart, 86 divider, 121 narrative,
+1 blank) produced 2620 rows (204/399/534/361/194/138/231/42 designate and 29/14/19/56/65/182/
+117/35 rescind across resos 01–08). Of the single printed chart total in the corpus, reso 07
+does **not** reconcile exactly (printed $30,000 vs. parsed $86,714, diff $116,714) — the only
+other check available, the FY09-wide net of all designations/rescissions, is $56,763,635
+(informational, not a check against a printed figure). OCR quality: 19,532 cells recognized,
+mean confidence 0.927 (p05/p25/median 0.581/0.930/0.996) against an 0.80 threshold; 2194/2620
+rows (83.74%) carry at least one flag and 3855 cells are queued in
+`fy09_transparency_needs_review.csv` for human review. Breakdown by flag: `ocr:lowconf` 1903
+(72.63%), `ocr:amt` 896 (34.20%), `ocr:ein` 56 (2.14%), `ocr:agency` 31 (1.18%), `ocr:member` 3
+(0.11%), `ocr:code` 1 (0.04%). Member-cell/roster matching: 257/1339 (19.2%) — informational,
+since the FY2015+ rosters used for matching don't cover every member of the 2008–09 Council.
+**OCR CONFIDENCE BAND: LOW.** Overall status: NOT RECONCILABLE (no document-wide printed
+total), consistent with every other Transparency-Resolution year.
 
 ---
 
@@ -414,7 +452,7 @@ NOT_RECONCILED · BLOCKED · N/A (no such document that year).
 | FY | Schedule C | Terms & Conditions | Capital | Transparency Resolutions |
 |---|---|---|---|---|
 | FY08 | NOT_RECONCILED (older era) | N/A | BLOCKED (.doc only) | N/A (via Legistar only) |
-| FY09 | RECONCILED 21/22 (init)| N/A | pending | OCR pipeline built, not yet run (scanned) |
+| FY09 | RECONCILED 21/22 (init)| N/A | pending | EXTRACTED 2620 (OCR, LOW confidence, scanned) |
 | FY10 | RECONCILED 21/21 (init)| N/A | pending | EXTRACTED 12 (org-text LOW) |
 | FY11 | RECONCILED 18/19 (init)| N/A | pending | EXTRACTED 10 (org-text LOW) |
 | FY12 | RECONCILED 16/16 (init)| N/A | BLOCKED (JBIG2 scan) | EXTRACTED 7 (org-text LOW) |
@@ -455,5 +493,18 @@ coverage notes) do not gate. It writes a dated report to `data/QA-REPORT.md` and
 .venv/bin/python code/validate_data.py --no-report        # stdout only
 ```
 
-Current run (2026-07-07): 272 files, **0 hard failures**, EIN coverage **100%** on every
-EIN-bearing file. Tests: `code/test_validate_data.py`.
+Current run (2026-07-28): 281 files, **5 hard failures**, EIN coverage 100% on every
+EIN-bearing file except FY09 transparency (97.9%, 2564/2620). Tests: `code/test_validate_data.py`.
+
+**The 5 hard failures are a known, expected FY09-only exception, not parser bugs.** They are all
+`[ein]` findings in FY09 transparency-resolutions files — malformed EIN cells (e.g. `EX124290`,
+`B30473957_DYCD`, an 8-digit `95369596`) from the OCR pipeline (see "OCR pipeline — FY2009
+Transparency Resolutions" above). Every one of these cells is already flagged `ocr:ein` in its
+row's `flags` column and queued in `fy09_transparency_needs_review.csv`; the pipeline is working
+as documented (trust-model rule 4: no quiet repair of letter/digit confusions). `validate_data.py`
+treats a malformed EIN as HARD unconditionally — the right behavior for every other, deterministic
+year, where a malformed EIN would mean a real extraction bug — and deliberately does not
+special-case the `ocr:ein` flag, to keep the hard-fail guarantee simple and year-agnostic. So a
+`FAIL` verdict from `validate_data.py` is *expected* whenever FY09 transparency data is included
+in the run; a hard failure in any other file is not covered by this exception and should be
+treated as a real bug.
