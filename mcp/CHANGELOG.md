@@ -4,6 +4,21 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.3.1 — 2026-07-22
+
+`search_awards` now applies limits after ordering each fiscal year's matches by award amount,
+so organization-filtered searches no longer hide the largest awards behind sponsor-name order.
+Patch release: no tool arguments, schemas, or data coverage changed.
+
+### Fixed
+- **Filtered award limits could return a lower-value sponsor-ordered slice (issue #39).**
+  `search_awards(organization="Association of Community Employment", fiscal_year=2026, limit=4)`
+  returned `$67,000`, `$15,000`, `$40,000`, and `$250,000`, omitting awards of `$280,000`,
+  `$280,000`, and `$260,000`. Award searches now order by fiscal year, amount descending,
+  then sponsor before applying the limit.
+- `test/award-ordering.test.js` pins the real FY2026 reproduction and verifies the limited
+  result equals the four highest-value rows from the full filtered set.
+
 ## 1.3.0 — 2026-07-21
 
 Unknown tool parameters are now rejected instead of silently dropped (issue #37). Minor rather

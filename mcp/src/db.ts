@@ -174,7 +174,7 @@ export function searchAwards(f: AwardFilters): AwardRow[] {
     eqClause("fiscal_year", p, f.fiscal_year),
     likeClause("category", p, f.category),
     likeClause("initiative", p, f.initiative),
-  ])} ORDER BY fiscal_year, member, amount DESC LIMIT ${cap(f.limit)}`;
+  ])} ORDER BY fiscal_year, amount DESC, member LIMIT ${cap(f.limit)}`;
   return getDb().prepare(sql).all(...p) as AwardRow[];
 }
 
