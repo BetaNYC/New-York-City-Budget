@@ -218,3 +218,73 @@ The largest single collision is review-tier: one hyphen (`After School` vs `Afte
 2. **The aging ($5,610,000) and youth ($7,650,000) sub-pots are *exactly* constant every year**, and the local sub-pot varies by ≤ $10,000 (a seat vacancy / rounding). These are the Council's standing **equal-per-district** aging, local, and youth initiatives — a fixed citywide aggregate distributed across a recipient set that changes annually. The flatness is the *point* of these programs, not a parsing defect.
 
 **Conclusion.** O6 resolved — the flat appendix totals are the genuine value of fixed Council allocation pots, not an extraction artifact. No code or data change required; recorded here so future readers don't re-flag the pattern.
+
+---
+
+## 20. Schedule C awards — lost row boundaries put another organization's amount on a named row — OPEN
+
+**Found 2026-08-11** while reviewing community PR #41. Recorded here because it falsifies a claim
+this repo published, and because the shape of the error is the dangerous kind: the affected rows
+are individually well-formed, carry a valid EIN and a real dollar amount, and pass every existing
+check.
+
+**The defect.** The Schedule C parser identifies an award by finding an EIN followed by a dollar
+amount. The Council's PDFs do not always print it that way — sometimes an asterisk sits between
+them (a compliance marker), sometimes a program or school name. When the pattern does not match,
+the parser does not error. It absorbs that award's text into the *next* row it does recognize. The
+result is a single row naming one organization while carrying a different organization's amount:
+
+```
+FY2017  amount $2,076,666  ein 113305406
+organization: "Bronx Defenders 13-3931074 * $2,076,667 Brooklyn Defenders Services"
+```
+
+Two organizations, two EINs, two amounts, one row. A second variant appears in FY2024–FY2026,
+where the *purpose* prose lands in the `organization` field instead.
+
+**Scope.** 276 rows corpus-wide, detected by `code/validate_data.py` as the `org_merged` advisory:
+
+| FY | rows | FY | rows |
+|---|---:|---|---:|
+| FY2016 | 21 | FY2020 | 1 |
+| FY2017 | 118 | FY2024 | 1 |
+| FY2018 | 94 | FY2025 | 1 |
+| FY2019 | 39 | FY2026 | 1 |
+
+**What was published and is now corrected.** `README.md` stated, of award rows with imperfect
+organization names, that "EIN + amount are correct" and that "the EIN and amount are exact." For
+these 276 rows that is false — the amount can belong to a different organization than the name.
+Both lines were corrected on 2026-08-12. This is a documentation correction, not a data
+retraction: the dollars present in the dataset are real dollars from the source documents, and no
+figure was invented. What was wrong was the caveat telling readers which fields they could trust.
+
+**Why nothing caught it.** Three gaps, each independently sufficient:
+
+1. **The award stream is reconciled against nothing.** Each year's `*_reconciliation.txt` reconciles
+   the *category summary* against the document's printed `TOTAL` lines. The award table is reported
+   as a bare tally — `awards: 364 rows $89,901,487` — with no printed total beside it and no
+   pass/fail. Award-level completeness has never been established by reconciliation in any year.
+2. **`validate_data.py` had the detector, gated off.** The "a digit where a digit does not belong"
+   idiom already existed for capital `agency` fields and is described there as a zero-false-positive
+   signal. It ran only for `typ == "capital"`.
+3. **`data/QA-REPORT.md` affirmatively cleared the worst file.** It graded
+   `fy17_schedule_c_awards.csv` as `364 rows | 100% EIN coverage | 0 hard failures`, and named two
+   of the merged rows in its own notes as *known false positives*. The artifact was inspected,
+   misdiagnosed, and passed.
+
+**Fixed in this change (2026-08-12).** The `org_merged` check now runs for every award-bearing
+type — `schedule_c_awards`, `combined_awards`, and the three appendices. It is a **soft** advisory,
+not a hard failure: the rows are real data that should surface with a warning rather than break the
+build. `QA-REPORT.md` is regenerated and no longer grades the affected files as clean.
+
+**Not fixed.** The extraction itself. Re-parsing to recover the absorbed awards is tracked in the
+BetaNYC workspace plan `2026-08-11-schedule-c-award-coverage-remediation.md`, alongside a larger
+finding: the Council publishes this same data as clean tabular spreadsheets
+(`source/expense-funding-disclosure/`, FY2013–FY2027), and a source-comparability study confirmed
+they describe the same universe of awards. Recovering the lost rows from that source is likely
+cheaper and more reliable than repairing the PDF parser.
+
+**Caution for anyone quoting a completeness figure.** Row-level capture against the Council's own
+disclosure files is materially below 100% in **every** fiscal year, not only the years above, and
+row capture and dollar capture differ by up to a factor of five because the awards that go missing
+are the small ones. Always publish both numbers and name what each measures.

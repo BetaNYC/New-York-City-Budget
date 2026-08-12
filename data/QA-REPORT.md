@@ -1,10 +1,10 @@
 # NYC Budget — Data QA Report
 
-**Report generated:** 2026-07-15  
-**Data current as of:** 2026-07-15 (files under `data/`)  
+**Report generated:** 2026-08-12  
+**Data current as of:** 2026-08-12 (files under `data/`)  
 **Tool:** `code/validate_data.py`
 
-**Verdict:** PASS — 272 files, 0 hard failure(s), 412 soft advisory(ies).
+**Verdict:** PASS — 272 files, 0 hard failure(s), 422 soft advisory(ies).
 
 Severity: HARD (exit 1) = schema drift, malformed row, non-numeric amount, or malformed EIN. SOFT (exit 0) = zeros, sign anomalies, outliers, duplicates, column-bleed residuals, coverage notes. See the module docstring for the full check list and rationale.
 
@@ -111,7 +111,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 
 | file | rows | EIN cov | hard | soft findings |
 |---|---|---|---|---|
-| `combined/all_years_awards.csv` | 33638 | 100% | 0 | duplicate: 143 duplicate row instance(s); e.g. x2: ['FY17', 'HOUSING', 'Housing', 'Community Housing Preservation Strategies']...; column_bleed: 106 suspected surname-in-organization residual(s); e.g. line 489: 'Hudson Guild' |
+| `combined/all_years_awards.csv` | 33638 | 100% | 0 | duplicate: 143 duplicate row instance(s); e.g. x2: ['FY17', 'HOUSING', 'Housing', 'Community Housing Preservation Strategies']...; column_bleed: 106 suspected surname-in-organization residual(s); e.g. line 489: 'Hudson Guild'; org_merged: 276 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 672: "Center for Community Alternatives' Crossroads Program 16-139" |
 | `combined/all_years_initiatives.csv` | 2598 | — | 0 | — |
 | `fy09/schedule_c/fy09_schedule_c_initiatives.csv` | 123 | — | 0 | — |
 | `fy10/schedule_c/fy10_schedule_c_initiatives.csv` | 124 | — | 0 | — |
@@ -187,7 +187,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy16/schedule_c/fy16_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy16/schedule_c/fy16_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy16/schedule_c/fy16_appendix_c_youth.csv` | 0 | 0% | 0 | — |
-| `fy16/schedule_c/fy16_schedule_c_awards.csv` | 335 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 80: 'Hudson Guild 13-5562989 * $29,730 Lenox Hill Neighborhood Ho' |
+| `fy16/schedule_c/fy16_schedule_c_awards.csv` | 335 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 80: 'Hudson Guild 13-5562989 * $29,730 Lenox Hill Neighborhood Ho'; org_merged: 21 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 20: "Center for Community Alternatives' Crossroads Program 16-139" |
 | `fy16/schedule_c/fy16_schedule_c_initiatives.csv` | 193 | — | 0 | — |
 | `fy16/terms/fy16_terms_and_conditions.csv` | 30 | — | 0 | — |
 | `fy16/transparency-resolutions/fy16_transparency_all.csv` | 4156 | 100% | 0 | fiscal_year: 92 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 9 row(s) with empty fiscal_year; duplicate: 28 duplicate row instance(s); e.g. x2: ['2', '2015-08-13', 'Local Initiatives - Fiscal 2016', '2016']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 729: 'Hudson Guild' |
@@ -207,7 +207,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy17/schedule_c/fy17_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy17/schedule_c/fy17_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy17/schedule_c/fy17_appendix_c_youth.csv` | 0 | 0% | 0 | — |
-| `fy17/schedule_c/fy17_schedule_c_awards.csv` | 364 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider', '']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 42: 'Williams East Flatbush Village, Inc.' |
+| `fy17/schedule_c/fy17_schedule_c_awards.csv` | 364 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider', '']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 42: 'Williams East Flatbush Village, Inc.'; org_merged: 118 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 2: 'A&G Early Child Care Community Network Inc. 47-2375867 * $2,' |
 | `fy17/schedule_c/fy17_schedule_c_initiatives.csv` | 133 | — | 0 | — |
 | `fy17/terms/fy17_terms_and_conditions.csv` | 30 | — | 0 | — |
 | `fy17/transparency-resolutions/fy17_transparency_all.csv` | 4656 | 100% | 0 | fiscal_year: 213 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 2 row(s) with empty fiscal_year; duplicate: 50 duplicate row instance(s); e.g. x2: ['1', '2016-07-14', 'Cultural After-School Adventure (CASA) - Fiscal 2017', '2017']...; column_bleed: 4 suspected surname-in-organization residual(s); e.g. line 876: 'Mealy Reel Works Teen Film Making, Inc.' |
@@ -224,10 +224,10 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy17/transparency-resolutions/reso11_transparency_designations.csv` | 129 | 100% | 0 | fiscal_year: 2 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 4 duplicate row instance(s); e.g. x2: ['11', '2017-03-16', 'Parks Equity Initiative - Fiscal 2017', '2017']... |
 | `fy17/transparency-resolutions/reso12_transparency_designations.csv` | 130 | 100% | 0 | fiscal_year: 41 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy17/transparency-resolutions/reso13_transparency_designations.csv` | 181 | 100% | 0 | fiscal_year: 34 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 4 duplicate row instance(s); e.g. x2: ['13', '2017-06-06', 'Youth Discretionary - Fiscal 2017', '2017']... |
-| `fy18/schedule_c/fy18_appendix_a_aging.csv` | 422 | 100% | 0 | — |
+| `fy18/schedule_c/fy18_appendix_a_aging.csv` | 422 | 100% | 0 | org_merged: 27 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 11: ".00 Funds will support AAFE's senior care center in District" |
 | `fy18/schedule_c/fy18_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy18/schedule_c/fy18_appendix_c_youth.csv` | 0 | 0% | 0 | — |
-| `fy18/schedule_c/fy18_schedule_c_awards.csv` | 480 | 100% | 0 | duplicate: 5 duplicate row instance(s); e.g. x2: ['Housing', 'Community Housing Preservation Strategies', 'initiative_provider', '']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 123: 'Joseph P. Addabbo Family Health Center, Inc., The 06-1181226' |
+| `fy18/schedule_c/fy18_schedule_c_awards.csv` | 480 | 100% | 0 | duplicate: 5 duplicate row instance(s); e.g. x2: ['Housing', 'Community Housing Preservation Strategies', 'initiative_provider', '']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 123: 'Joseph P. Addabbo Family Health Center, Inc., The 06-1181226'; org_merged: 94 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 2: 'A&G Early Child Care Community Network Inc. 47-2375867 * $2,' |
 | `fy18/schedule_c/fy18_schedule_c_initiatives.csv` | 128 | — | 0 | — |
 | `fy18/terms/fy18_terms_and_conditions.csv` | 33 | — | 0 | — |
 | `fy18/transparency-resolutions/fy18_transparency_all.csv` | 5366 | 100% | 0 | fiscal_year: 345 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 1 row(s) with empty fiscal_year; duplicate: 51 duplicate row instance(s); e.g. x2: ['1', '2017-06-21', 'Local Initiatives - Fiscal 2018', '2018']...; column_bleed: 4 suspected surname-in-organization residual(s); e.g. line 3262: 'Hudson Guild' |
@@ -246,7 +246,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy19/schedule_c/fy19_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy19/schedule_c/fy19_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy19/schedule_c/fy19_appendix_c_youth.csv` | 0 | 0% | 0 | — |
-| `fy19/schedule_c/fy19_schedule_c_awards.csv` | 846 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider', '']...; column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 318: 'Joseph P. Addabbo Family Health Center, Inc., The' |
+| `fy19/schedule_c/fy19_schedule_c_awards.csv` | 846 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider', '']...; column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 318: 'Joseph P. Addabbo Family Health Center, Inc., The'; org_merged: 39 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 36: 'Haitian Americans United for Progress, Inc. 11-2423857 * $70' |
 | `fy19/schedule_c/fy19_schedule_c_initiatives.csv` | 133 | — | 0 | — |
 | `fy19/transparency-resolutions/fy19_transparency_all.csv` | 7090 | 100% | 0 | fiscal_year: 713 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 74 duplicate row instance(s); e.g. x3: ['1', '2018-07-18', 'Local Initiatives - Fiscal 2019', '2019']...; column_bleed: 18 suspected surname-in-organization residual(s); e.g. line 1419: 'Hudson Guild' |
 | `fy19/transparency-resolutions/reso01_transparency_designations.csv` | 1702 | 100% | 0 | fiscal_year: 78 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 21 duplicate row instance(s); e.g. x3: ['1', '2018-07-18', 'Local Initiatives - Fiscal 2019', '2019']...; column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 1419: 'Hudson Guild' |
@@ -264,7 +264,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy20/schedule_c/fy20_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy20/schedule_c/fy20_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy20/schedule_c/fy20_appendix_c_youth.csv` | 0 | 0% | 0 | — |
-| `fy20/schedule_c/fy20_schedule_c_awards.csv` | 2841 | 100% | 0 | duplicate: 29 duplicate row instance(s); e.g. x2: ['Community Development', 'Digital Inclusion and Literacy Initiative', 'member_item', 'Ayala']...; column_bleed: 12 suspected surname-in-organization residual(s); e.g. line 107: 'Hudson Guild' |
+| `fy20/schedule_c/fy20_schedule_c_awards.csv` | 2841 | 100% | 0 | duplicate: 29 duplicate row instance(s); e.g. x2: ['Community Development', 'Digital Inclusion and Literacy Initiative', 'member_item', 'Ayala']...; column_bleed: 12 suspected surname-in-organization residual(s); e.g. line 107: 'Hudson Guild'; org_merged: 1 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 2665: 'Urban Health Plan, Inc. 15-24042810 $88,855 NYC MWBE Allianc' |
 | `fy20/schedule_c/fy20_schedule_c_initiatives.csv` | 137 | — | 0 | — |
 | `fy20/transparency-resolutions/fy20_transparency_all.csv` | 5319 | 100% | 0 | fiscal_year: 207 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 41 duplicate row instance(s); e.g. x2: ['1', '2019-07-23', 'Local Initiatives - Fiscal 2020', '2020']...; column_bleed: 11 suspected surname-in-program residual(s); e.g. line 57: 'Louis Armstrong Tenant Association' |
 | `fy20/transparency-resolutions/reso01_transparency_designations.csv` | 1361 | 100% | 0 | fiscal_year: 28 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 8 duplicate row instance(s); e.g. x2: ['1', '2019-07-23', 'Local Initiatives - Fiscal 2020', '2020']...; column_bleed: 1 suspected surname-in-program residual(s); e.g. line 57: 'Louis Armstrong Tenant Association' |
@@ -338,7 +338,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy24/schedule_c/fy24_appendix_a_aging.csv` | 477 | 100% | 0 | — |
 | `fy24/schedule_c/fy24_appendix_b_local.csv` | 2616 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Restler', 'Department of Education', 'Urban Assembly Institute of Math and Science for Young Women (K527)', '136400434']...; column_bleed: 89 suspected surname-in-organization residual(s); e.g. line 101: 'Brewer Aperture Foundation, Inc.' |
 | `fy24/schedule_c/fy24_appendix_c_youth.csv` | 818 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 408: 'Hudson Guild' |
-| `fy24/schedule_c/fy24_schedule_c_awards.csv` | 5368 | 100% | 0 | duplicate: 28 duplicate row instance(s); e.g. x2: ['CULTURAL ORGANIZATIONS', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 22 suspected surname-in-organization residual(s); e.g. line 394: 'Hudson Guild' |
+| `fy24/schedule_c/fy24_schedule_c_awards.csv` | 5368 | 100% | 0 | duplicate: 28 duplicate row instance(s); e.g. x2: ['CULTURAL ORGANIZATIONS', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 22 suspected surname-in-organization residual(s); e.g. line 394: 'Hudson Guild'; org_merged: 1 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 4850: 'The funds requested will subsidize the delivery of farm shar' |
 | `fy24/schedule_c/fy24_schedule_c_initiatives.csv` | 146 | — | 0 | — |
 | `fy24/terms/fy24_terms_and_conditions.csv` | 59 | — | 0 | — |
 | `fy24/transparency-resolutions/fy24_transparency_all.csv` | 3294 | 100% | 0 | fiscal_year: 215 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 28 duplicate row instance(s); e.g. x2: ['1', '2023-08-03', 'Community Safety and Victim Services Initiative - Fiscal 2024', '2024']...; column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 212: 'Rivera Outstanding Renewal Enterprises, Inc.' |
@@ -355,14 +355,14 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy25/schedule_c/fy25_appendix_a_aging.csv` | 470 | 100% | 0 | — |
 | `fy25/schedule_c/fy25_appendix_b_local.csv` | 2616 | 100% | 0 | column_bleed: 85 suspected surname-in-organization residual(s); e.g. line 163: 'Holden Association of Community Employment Programs for the ' |
 | `fy25/schedule_c/fy25_appendix_c_youth.csv` | 834 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Salaam', 'Figure Skating in Harlem, Inc.', '', '133945168']...; column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 407: 'Hudson Guild' |
-| `fy25/schedule_c/fy25_schedule_c_awards.csv` | 5646 | 100% | 0 | duplicate: 18 duplicate row instance(s); e.g. x3: ['CULTURAL ORGANIZATION', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 14 suspected surname-in-program residual(s); e.g. line 212: 'Louis Pink Houses TA Programming' |
+| `fy25/schedule_c/fy25_schedule_c_awards.csv` | 5646 | 100% | 0 | duplicate: 18 duplicate row instance(s); e.g. x3: ['CULTURAL ORGANIZATION', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 14 suspected surname-in-program residual(s); e.g. line 212: 'Louis Pink Houses TA Programming'; org_merged: 1 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 5074: 'The funds requested will subsidize the delivery of farm shar' |
 | `fy25/schedule_c/fy25_schedule_c_initiatives.csv` | 158 | — | 0 | — |
 | `fy25/terms/fy25_terms_and_conditions.csv` | 65 | — | 0 | — |
 | `fy26/capital/fy26_capital_projects.csv` | 1456 | — | 0 | amount: line 1336: fy1 negative -183,000 (capital expected >= 0) |
 | `fy26/schedule_c/fy26_appendix_a_aging.csv` | 473 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Salaam', 'Catholic Managed Long Term Care, Inc.', '', '208180809']... |
 | `fy26/schedule_c/fy26_appendix_b_local.csv` | 2618 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Salaam', 'New York Interfaith Commission for Housing Equality, Inc.', '', '993367298']...; column_bleed: 139 suspected surname-in-organization residual(s); e.g. line 26: 'Rivera Ackerman Institute for the Family' |
 | `fy26/schedule_c/fy26_appendix_c_youth.csv` | 823 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 415: 'Hudson Guild' |
-| `fy26/schedule_c/fy26_schedule_c_awards.csv` | 5838 | 100% | 0 | duplicate: 15 duplicate row instance(s); e.g. x2: ['CULTURAL ORGANIZATIONS', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 16 suspected surname-in-program residual(s); e.g. line 200: 'Louis Armstrong Houses TA Association' |
+| `fy26/schedule_c/fy26_schedule_c_awards.csv` | 5838 | 100% | 0 | duplicate: 15 duplicate row instance(s); e.g. x2: ['CULTURAL ORGANIZATIONS', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 16 suspected surname-in-program residual(s); e.g. line 200: 'Louis Armstrong Houses TA Association'; org_merged: 1 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 5204: 'The funds requested will subsidize the delivery of farm shar' |
 | `fy26/schedule_c/fy26_schedule_c_initiatives.csv` | 157 | — | 0 | — |
 | `fy26/terms/fy26_terms_and_conditions.csv` | 68 | — | 0 | — |
 | `fy26/transparency-resolutions/fy26_transparency_all.csv` | 4755 | 100% | 0 | fiscal_year: 326 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 1 row(s) with empty fiscal_year; duplicate: 36 duplicate row instance(s); e.g. x2: ['1', '2025-08-14', 'Local Initiatives - Fiscal 2026', '2026']...; column_bleed: 9 suspected surname-in-organization residual(s); e.g. line 533: 'Brannan Edith and Carl Marks Jewish Community House of Benso' |

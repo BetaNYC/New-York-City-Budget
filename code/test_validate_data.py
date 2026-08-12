@@ -208,3 +208,39 @@ def test_combined_specs_require_canonical_columns():
 if __name__ == "__main__":
     import pytest
     raise SystemExit(pytest.main([__file__, "-v"]))
+
+
+# ------------------------------------------------- org_merged: lost row boundary (DATA-ANOMALIES §20)
+def test_org_merged_flags_absorbed_award_row(tmp_path):
+    """An EIN inside `organization` means a following award was absorbed into this row, so the
+    row's `amount` may belong to a different org than the one named. Real FY2017 shape."""
+    root = tmp_path / "data"
+    _write(str(root / "fy17" / "schedule_c" / "fy17_schedule_c_awards.csv"), AWARD_HDR + "\n"
+           "LEGAL SERVICES,Init A,initiative_provider,,"
+           "Bronx Defenders 13-3931074 * $2076667 Brooklyn Defenders Services,,"
+           "11-3305406,2076666,MOCJ,\n")
+    results, _, _ = V.validate_tree(str(root))
+    (r,) = results
+    assert not r.hard, "must stay SOFT — the row is real data, not a build breaker"
+    assert any(k == "org_merged" for k, _ in r.soft), [k for k, _ in r.soft]
+
+
+def test_org_merged_flags_purpose_prose_in_org(tmp_path):
+    """FY2024-FY2026 variant: purpose prose lands in `organization`, detected by the `$`."""
+    root = tmp_path / "data"
+    _write(str(root / "fy25" / "schedule_c" / "fy25_schedule_c_awards.csv"), AWARD_HDR + "\n"
+           "FOOD,Init A,initiative_provider,,"
+           "The funds requested will subsidize farm shares to $12 per share,,"
+           "11-2880221,50000,DOHMH,\n")
+    results, _, _ = V.validate_tree(str(root))
+    (r,) = results
+    assert any(k == "org_merged" for k, _ in r.soft), [k for k, _ in r.soft]
+
+
+def test_org_merged_does_not_fire_on_clean_rows(tmp_path):
+    """Zero false positives on well-formed organization names — the whole basis for shipping it."""
+    root = tmp_path / "data"
+    _clean_award_file(str(root / "fy20" / "schedule_c" / "fy20_schedule_c_awards.csv"))
+    results, _, _ = V.validate_tree(str(root))
+    (r,) = results
+    assert not any(k == "org_merged" for k, _ in r.soft), [k for k, _ in r.soft]
