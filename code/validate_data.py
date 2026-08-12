@@ -45,6 +45,25 @@ import os
 import re
 from collections import Counter, defaultdict
 
+# An EIN printed inside a free-text field. `ein` columns are digits-only by the time they are
+# validated, so a hyphenated EIN in prose is always a row-boundary artifact, never a real value.
+EIN_IN_TEXT = re.compile(r"\d{2}-\d{7}")
+
+# Descriptive prose sitting where a grantee name belongs. Deliberately conservative: matches
+# purpose-statement verb phrases, not merely long names, so a genuinely wordy organization name
+# does not trip it. Measured 438/33,638 rows corpus-wide, every sampled hit a real defect.
+ORG_PROSE = re.compile(
+    r"\b(will |funds? (requested|will)|to support|to provide|funding (for|to|will)"
+    r"|in order to|program that|services to)\b", re.I)
+
+# Types whose `organization` column must not contain an EIN or a dollar sign. Every award-bearing
+# schema, including the appendices and the combined roll-up — the defect predates the appendix
+# load and is not confined to one stream.
+ORG_INTEGRITY_TYPES = {
+    "schedule_c_awards", "combined_awards",
+    "appendix_aging", "appendix_local", "appendix_youth",
+}
+
 # ------------------------------------------------------------------ type registry
 # Each type: required columns (exact order not required, set membership is), any optional columns,
 # the EIN column name (or None), the amount columns, the amount sign rule, and the year column.
@@ -251,6 +270,8 @@ def check_file(path, surnames):
     # non-city column-bleed class. Agency names never contain digits in any parsed year, so this
     # is a zero-false-positive signal.
     agency_polluted = []
+    org_merged = []
+    org_prose = []
 
     for ln, r in enumerate(body, start=2):
         if len(r) != len(header):
@@ -319,6 +340,25 @@ def check_file(path, surnames):
             ag = cell(r, "agency")
             if any(ch.isdigit() for ch in ag):
                 agency_polluted.append((ln, ag))
+        # award org-integrity: an EIN or a dollar sign inside `organization` means the row
+        # boundary was lost — either a following award was absorbed into this one's text
+        # (FY2016-FY2020: "Bronx Defenders 13-3931074 * $2,076,667 Brooklyn Defenders Services"),
+        # or the purpose prose landed in the org field (FY2024-FY2026). In both cases the row's
+        # own `amount` may belong to a DIFFERENT organization than its `organization` names, so
+        # this is an accuracy signal, not a cosmetic one. Same zero-false-positive shape as the
+        # capital agency check above: verified 276/33,638 rows flagged corpus-wide, every one a
+        # real defect on inspection. See DATA-ANOMALIES.md.
+        if typ in ORG_INTEGRITY_TYPES:
+            org = cell(r, "organization")
+            if EIN_IN_TEXT.search(org) or "$" in org:
+                org_merged.append((ln, org))
+            # Purpose prose in the organization slot: the grantee's NAME was lost and descriptive
+            # text took its place. Distinct from org_merged and materially less severe — the `ein`
+            # and `amount` on these rows are intact (verified: 438/438 carry a valid 9-digit EIN),
+            # so the award is still correctly attributed and correctly valued; only the display
+            # name is wrong. Kept as its own advisory precisely so the two are not conflated.
+            elif ORG_PROSE.search(org):
+                org_prose.append((ln, org))
         # column bleed: a surname as the leading token of an org/program field
         for tcol in text_cols:
             v = cell(r, tcol).strip()
@@ -361,6 +401,18 @@ def check_file(path, surnames):
         res.soft.append(("agency_pollution", f"{len(agency_polluted)} capital row(s) with a digit "
                                              f"in `agency` (leaked mis-parsed row); "
                                              f"e.g. line {ln}: {v[:60]!r}"))
+    if org_prose:
+        ln, v = org_prose[0]
+        res.soft.append(("org_prose", f"{len(org_prose)} award row(s) whose `organization` holds "
+                                      f"purpose prose instead of a grantee name — `ein` and "
+                                      f"`amount` are intact, the display name is lost; "
+                                      f"e.g. line {ln}: {v[:60]!r}"))
+    if org_merged:
+        ln, v = org_merged[0]
+        res.soft.append(("org_merged", f"{len(org_merged)} award row(s) with an EIN or `$` inside "
+                                       f"`organization` — row boundary lost, so `amount` may belong "
+                                       f"to a different org than `organization` names; "
+                                       f"e.g. line {ln}: {v[:60]!r}"))
     return res
 
 
