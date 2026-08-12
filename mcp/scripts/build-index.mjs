@@ -39,6 +39,21 @@ const DB_PATH = join(MCP_ROOT, "data", "budget.db");
 // FY2014 are initiatives-only (no EIN) and are DELIBERATELY excluded from the award tools.
 const yr = (n) => ({ key: `fy${n}`, year: 2000 + n });
 const AWARD_YEARS = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27].map(yr);
+
+// Schedule C APPENDIX files (Phase 0.5). Each award year carries three appendix CSVs alongside
+// its awards CSV; they are the Council's aging / local / youth designation streams, broken out
+// per recipient. `stream` is read off the FILENAME — the only place the aging/local/youth
+// distinction survives once the three files are merged into one table. It is NOT inferred from
+// row content. Verified against the Council's own published disclosure spreadsheet
+// (source/expense-funding-disclosure/funded_disclosure_FY2027.xlsx): its `Source` column counts
+// are Aging 467 / Local 2558 / Youth 835, matching these three files row for row.
+// FY2015–FY2017 and FY2019–FY2020 appendix CSVs are header-only (0 rows) — they load as empty,
+// which is why the loop is driven by AWARD_YEARS rather than a hand-maintained year list.
+const APPENDIX_FILES = [
+  { suffix: "appendix_a_aging", stream: "aging" },
+  { suffix: "appendix_b_local", stream: "local" }, // the only one carrying an `agency` column
+  { suffix: "appendix_c_youth", stream: "youth" },
+];
 const TERMS_YEARS = [15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27].map(yr); // no FY19/FY20 T&C doc
 const CAPITAL_YEARS = [20, 22, 23, 24, 25, 26, 27].map(yr); // no FY21 detail book
 // Transparency: every parsed resolution-document year. FY2010–FY2013 are LOW org/program text
@@ -99,11 +114,13 @@ function main() {
     CREATE TABLE awards (
       fiscal_year INTEGER, category TEXT, initiative TEXT, award_type TEXT,
       member TEXT, organization TEXT, program TEXT, ein TEXT,
-      amount INTEGER, agency TEXT, purpose TEXT
+      amount INTEGER, agency TEXT, purpose TEXT,
+      source_table TEXT, appendix_stream TEXT
     );
     CREATE INDEX idx_awards_ein ON awards(ein);
     CREATE INDEX idx_awards_member ON awards(member);
     CREATE INDEX idx_awards_fy ON awards(fiscal_year);
+    CREATE INDEX idx_awards_source ON awards(source_table);
 
     CREATE TABLE transparency (
       source_fy INTEGER, resolution TEXT, date TEXT, chart TEXT, fiscal_year INTEGER, action TEXT,
@@ -151,9 +168,9 @@ function main() {
   // --- awards (per-year Schedule C; fiscal_year injected from the folder) ---
   const insAward = db.prepare(
     `INSERT INTO awards (fiscal_year, category, initiative, award_type, member,
-       organization, program, ein, amount, agency, purpose)
+       organization, program, ein, amount, agency, purpose, source_table, appendix_stream)
      VALUES (@fiscal_year, @category, @initiative, @award_type, @member,
-       @organization, @program, @ein, @amount, @agency, @purpose)`
+       @organization, @program, @ein, @amount, @agency, @purpose, @source_table, @appendix_stream)`
   );
   counts.awards = db.transaction(() => {
     let n = 0;
@@ -172,8 +189,51 @@ function main() {
           amount: parseAmount(r.amount),
           agency: r.agency ?? "",
           purpose: r.purpose ?? "",
+          source_table: "schedule_c",
+          appendix_stream: "",
         });
         n++;
+      }
+    }
+    return n;
+  })();
+
+  // --- Schedule C APPENDIX rows (Phase 0.5) ---
+  // These land in the SAME `awards` table, discriminated by source_table='appendix'. Before this,
+  // 28,575 parsed appendix rows sat in data/ and reached NO consumer: build-index read only
+  // *_schedule_c_awards.csv. Bard College (EIN 141713034) had three FY2023 designations on disk
+  // and zero FY2023 rows in the index.
+  //
+  // FOUR FIELDS ARE ABSENT FROM THE APPENDIX CSVs and are stored EMPTY, not guessed:
+  //   category, initiative, award_type  — absent from all three appendix files
+  //   agency                            — absent from _a_aging and _c_youth (present in _b_local)
+  // Filling `agency` with DFTA-for-aging / DYCD-for-youth would be inference, and appendix B
+  // proves the value is not constant per stream (Bard's FY2023 local rows read MOCJ). An empty
+  // string is a fact; a plausible guess is not. See mcp/CHANGELOG.md and
+  // research/phase1-source-comparability/PHASE-0.5-IMPACT.md.
+  counts.awards_appendix = db.transaction(() => {
+    let n = 0;
+    for (const { key, year } of AWARD_YEARS) {
+      for (const { suffix, stream } of APPENDIX_FILES) {
+        const rows = readCsv(join(SRC, key, "schedule_c", `${key}_${suffix}.csv`));
+        for (const r of rows) {
+          insAward.run({
+            fiscal_year: year,
+            category: "",
+            initiative: "",
+            award_type: "",
+            member: r.member ?? "",
+            organization: r.organization ?? "",
+            program: r.program ?? "",
+            ein: normEin(r.ein),
+            amount: parseAmount(r.amount),
+            agency: r.agency ?? "", // "" for aging/youth — the column does not exist there
+            purpose: r.purpose ?? "",
+            source_table: "appendix",
+            appendix_stream: stream,
+          });
+          n++;
+        }
       }
     }
     return n;

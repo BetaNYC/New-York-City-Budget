@@ -28,7 +28,8 @@ server has its data on first run.
 
 | Dataset | Coverage | Notes |
 |---|---|---|
-| Schedule C awards | **FY2015–FY2027** | FY2015 is the earliest EIN-level year. FY2009–FY2014 are initiatives-only (no EIN) and are **excluded** from the award tools; FY2008 is unparsed |
+| Schedule C awards (main body) | **FY2015–FY2027** | FY2015 is the earliest EIN-level year. FY2009–FY2014 are initiatives-only (no EIN) and are **excluded** from the award tools; FY2008 is unparsed |
+| Schedule C **appendix** (aging / local / youth) | **FY2018 + FY2021–FY2027** | New in v1.4.0. Per-recipient designations from Appendices A/B/C, returned by the award tools **alongside** main-body rows and tagged `[appendix: …]`. A subset of the award years, not new ones — FY2015–FY2017 and FY2019–FY2020 appendix CSVs are header-only upstream, and FY2018 has aging only. These rows carry **no `category`, `initiative`, or `award_type`** (those columns do not exist in the appendix), and aging/youth rows carry no `agency`; the fields are left empty rather than inferred. Filter with `source_table` |
 | Terms & Conditions | **FY2015–FY2018 + FY2021–FY2027** | No standalone T&C document exists for FY2019/FY2020 |
 | Capital (§254) | **FY2020 + FY2022–FY2027** | No FY2021 detail book. Every parsed year is the "Supporting Detail Book" (Council-additions Capital Project Detail), shares the full schema (borough/sub-id/sponsor), and reconciles against printed subtotals + grand totals (FY2027 partially). FY2025 was reparsed from its Supporting Detail Book in [PR #21](https://github.com/BetaNYC/New-York-City-Budget/pull/21) and is now directly comparable to the other years |
 | Transparency Resolutions | **FY2010–FY2024 + FY2026** | Filtered by resolution document year (`source_fy`). **FY2010–FY2013 org/program TEXT is low-confidence** — financial columns reliable, join on EIN. FY2009 + FY2025/FY2027 not parsed |
@@ -36,12 +37,19 @@ server has its data on first run.
 
 The tools do **not** pretend data exists where it doesn't: FY2009–FY2014 award data (there is none — initiatives-only) and the unparsed years are reported honestly by `list_available_fiscal_years`, which states exact per-dataset coverage and the FY2009–FY2014 no-EIN boundary.
 
+> **⚠ Award totals changed in v1.4.0.** The award tools now return main-body **and** appendix rows
+> by default, so counts and dollar totals for FY2018 and FY2021–FY2027 are **higher** than anything
+> published from v1.3.x or earlier (33,638 rows / $3,388,618,294 → 62,213 rows / $3,741,615,569
+> across FY2015–FY2027). This is added coverage, not restated figures: no main-body row changed.
+> Pass **`source_table: "schedule_c"`** to reproduce the pre-1.4.0 result set exactly. Full
+> before/after table and the design rationale: [`research/phase1-source-comparability/PHASE-0.5-IMPACT.md`](../research/phase1-source-comparability/PHASE-0.5-IMPACT.md).
+
 ## Tools
 
 | Tool | Purpose |
 |---|---|
-| `search_awards` | Schedule C awards by EIN / organization / program / council member / fiscal year / category / initiative |
-| `get_awards_by_ein` | Every award for an EIN across FY2015–FY2027, with per-year totals |
+| `search_awards` | Schedule C awards by EIN / organization / program / council member / fiscal year / category / initiative / `source_table` |
+| `get_awards_by_ein` | Every award for an EIN across FY2015–FY2027, with per-year totals (optional `source_table`) |
 | `search_transparency_resolutions` | FY2010–FY2024 + FY2026 post-adoption designations / rescissions / purpose changes (FY2010–FY2013 text low-confidence) |
 | `get_legistar_link` | Legistar matter #, adoption date, and a working link to the adopting City Council session for a source document (surfaces `status`) |
 | `search_capital_projects` | §254 capital by agency / fiscal year / sponsor / title |

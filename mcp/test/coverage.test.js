@@ -31,6 +31,12 @@ const DB_PATH = join(dirname(fileURLToPath(import.meta.url)), "..", "data", "bud
 // Expected per-year award facts, from the QA-cleared committed data (data/QA-REPORT.md EIN table
 // + reconciled Schedule C). count = award rows; total = sum(amount). If a legitimate reparse
 // changes a year, update this table (and confirm it against a fresh data/QA-REPORT.md).
+//
+// SCOPE (v1.4.0): these are the MAIN-BODY (source_table='schedule_c') figures, and they are
+// deliberately unchanged from v1.3.x. They are the numbers already published from this MCP, so
+// the regression guard on them has to survive the appendix ingest — every assertion below filters
+// on source_table='schedule_c'. Appendix expectations are a separate table (EXPECTED_APPENDIX),
+// which is what makes the delta auditable instead of absorbed.
 const EXPECTED_AWARDS = {
   2015: { count: 652, total: 73199837 },
   2016: { count: 335, total: 89917012 },
@@ -45,6 +51,26 @@ const EXPECTED_AWARDS = {
   2025: { count: 5646, total: 412985110 },
   2026: { count: 5838, total: 487287245 },
   2027: { count: 6118, total: 605111412 },
+};
+
+// Appendix A/B/C rows, loaded into `awards` under source_table='appendix' in v1.4.0.
+// Counts/totals are the committed CSVs' own; the per-year totals also match the table recorded
+// independently in DATA-ANOMALIES.md #19 (the fixed aging/local/youth pots). Years absent from
+// this table have header-only appendix CSVs (FY2015–FY2017, FY2019–FY2020) — a known upstream
+// parse gap, NOT something this release addresses.
+// `streams` is asserted per year rather than assumed uniform: FY2018 has an aging appendix ONLY
+// (its local and youth CSVs are header-only upstream), so a blanket "all three streams" check
+// would be a false expectation dressed as a guard.
+const ALL_STREAMS = ["aging", "local", "youth"];
+const EXPECTED_APPENDIX = {
+  2018: { count: 422, total: 4419275, streams: ["aging"] },
+  2021: { count: 4310, total: 49799000, streams: ALL_STREAMS },
+  2022: { count: 4182, total: 49799000, streams: ALL_STREAMS },
+  2023: { count: 4056, total: 49789000, streams: ALL_STREAMS },
+  2024: { count: 3911, total: 49799000, streams: ALL_STREAMS },
+  2025: { count: 3920, total: 49799000, streams: ALL_STREAMS },
+  2026: { count: 3914, total: 49794000, streams: ALL_STREAMS },
+  2027: { count: 3860, total: 49799000, streams: ALL_STREAMS },
 };
 
 let client;
@@ -74,13 +100,20 @@ for (const [fyStr, exp] of Object.entries(EXPECTED_AWARDS)) {
   const fy = Number(fyStr);
   test(`FY${fy} awards — queryable, ${exp.count} rows, sane total, 100% valid EIN`, async () => {
     // --- data facts, checked against the index the server serves ---
+    // Scoped to the main body: this is the published-figure regression guard and must NOT move
+    // when appendix rows land. The appendix delta is asserted separately, below.
     const agg = db
-      .prepare(`SELECT COUNT(*) n, COALESCE(SUM(amount),0) total FROM awards WHERE fiscal_year = ?`)
+      .prepare(
+        `SELECT COUNT(*) n, COALESCE(SUM(amount),0) total FROM awards
+         WHERE fiscal_year = ? AND source_table = 'schedule_c'`
+      )
       .get(fy);
-    assert.equal(agg.n, exp.count, `FY${fy} award count`);
-    assert.equal(agg.total, exp.total, `FY${fy} award dollar total`);
+    assert.equal(agg.n, exp.count, `FY${fy} main-body award count`);
+    assert.equal(agg.total, exp.total, `FY${fy} main-body award dollar total`);
     assert.ok(agg.total > 1_000_000, `FY${fy} total should be a plausible (>$1M) figure`);
 
+    // Deliberately NOT scoped by source: 100% valid-EIN coverage is asserted over the whole
+    // expanded corpus, appendix rows included. That property is what makes EIN the safe join key.
     const badEin = db
       .prepare(`SELECT COUNT(*) n FROM awards WHERE fiscal_year = ? AND ein NOT GLOB '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'`)
       .get(fy).n;
@@ -99,6 +132,56 @@ for (const [fyStr, exp] of Object.entries(EXPECTED_AWARDS)) {
     assert.match(byEin, new RegExp(`FY${fy}: `), `get_awards_by_ein failed to return FY${fy} for EIN ${topEin}`);
   });
 }
+
+// Per-year appendix facts — the other half of every award year, loaded in v1.4.0.
+for (const [fyStr, exp] of Object.entries(EXPECTED_APPENDIX)) {
+  const fy = Number(fyStr);
+  test(`FY${fy} appendix — ${exp.count} rows, ${exp.total} total, reachable via source_table`, async () => {
+    const agg = db
+      .prepare(
+        `SELECT COUNT(*) n, COALESCE(SUM(amount),0) total FROM awards
+         WHERE fiscal_year = ? AND source_table = 'appendix'`
+      )
+      .get(fy);
+    assert.equal(agg.n, exp.count, `FY${fy} appendix row count`);
+    assert.equal(agg.total, exp.total, `FY${fy} appendix dollar total`);
+
+    // Every appendix row carries a stream read off its filename — never blank, never anything else.
+    const streams = db
+      .prepare(
+        `SELECT DISTINCT appendix_stream s FROM awards
+         WHERE fiscal_year = ? AND source_table = 'appendix' ORDER BY s`
+      )
+      .all(fy)
+      .map((r) => r.s);
+    assert.deepEqual(streams, exp.streams, `FY${fy} appendix streams`);
+
+    // And the rows reach a caller through the real tool.
+    const out = await callText("search_awards", { fiscal_year: fy, source_table: "appendix", limit: 5 });
+    assert.match(out, /\[appendix: (aging|local|youth)\]/, `FY${fy} appendix rows must be tagged in output`);
+  });
+}
+
+test("years with header-only appendix CSVs contribute no appendix rows (a known upstream gap, stated not hidden)", () => {
+  for (const fy of [2015, 2016, 2017, 2019, 2020]) {
+    const n = db
+      .prepare(`SELECT COUNT(*) n FROM awards WHERE fiscal_year = ? AND source_table = 'appendix'`)
+      .get(fy).n;
+    assert.equal(n, 0, `FY${fy} appendix CSVs are header-only upstream; the loader must not invent rows`);
+  }
+});
+
+test("every awards row carries exactly one of the two known source_table values", () => {
+  const bad = db
+    .prepare(`SELECT COUNT(*) n FROM awards WHERE source_table NOT IN ('schedule_c','appendix')`)
+    .get().n;
+  assert.equal(bad, 0, "no award row may carry an unknown or NULL source_table");
+  // Main-body rows must never carry a stream — that column belongs to the appendix alone.
+  const leaked = db
+    .prepare(`SELECT COUNT(*) n FROM awards WHERE source_table = 'schedule_c' AND appendix_stream <> ''`)
+    .get().n;
+  assert.equal(leaked, 0, "appendix_stream must be empty on main-body rows");
+});
 
 test("honesty boundary — FY2009–FY2014 have NO award data in the award tools", () => {
   for (const fy of [2009, 2010, 2011, 2012, 2013, 2014]) {

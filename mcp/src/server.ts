@@ -30,7 +30,7 @@ const PACKAGE_VERSION = (
 ).version;
 
 const SCOPE_NOTE =
-  "Coverage: Schedule C awards FY2015–FY2027; Terms & Conditions FY2015–FY2018 + FY2021–FY2027; §254 capital FY2020 + FY2022–FY2027; Transparency Resolutions FY2010–FY2024 + FY2026 (org/program TEXT is low-confidence for FY2010–FY2013 — financial columns reliable; join on EIN). FY2009–FY2014 Schedule C is initiatives-only (no EIN) and is EXCLUDED from the award tools. FY2008 and the FY2009 transparency resolutions are unparsed (source blocked). The Legistar crosswalk covers FY2008–FY2027. Run list_available_fiscal_years for exact per-dataset coverage.";
+  "Coverage: Schedule C awards FY2015–FY2027 — main-body award tables PLUS (new in v1.4.0) the Appendix A/B/C aging, local, and youth per-recipient designations for FY2018 + FY2021–FY2027; award results mix both and each row is tagged, filter with source_table; Terms & Conditions FY2015–FY2018 + FY2021–FY2027; §254 capital FY2020 + FY2022–FY2027; Transparency Resolutions FY2010–FY2024 + FY2026 (org/program TEXT is low-confidence for FY2010–FY2013 — financial columns reliable; join on EIN). FY2009–FY2014 Schedule C is initiatives-only (no EIN) and is EXCLUDED from the award tools. FY2008 and the FY2009 transparency resolutions are unparsed (source blocked). The Legistar crosswalk covers FY2008–FY2027. Run list_available_fiscal_years for exact per-dataset coverage.";
 
 const FOOTER = `
 ---
@@ -61,6 +61,37 @@ function summarizeAwardsByYear(rows: AwardRow[]): string {
     .join("\n");
 }
 
+/** Per-row provenance tag. Main-body rows stay unmarked so existing output is unchanged. */
+function sourceTag(r: AwardRow): string {
+  return r.source_table === "appendix"
+    ? ` · [appendix${r.appendix_stream ? `: ${r.appendix_stream}` : ""}]`
+    : "";
+}
+
+/**
+ * Split a result set by source and, when it mixes the two, say so.
+ *
+ * A caller comparing one of these totals against a figure published from v1.3.x or earlier
+ * needs to see the split to understand why the numbers differ — the appendix rows were absent
+ * from every prior release. Silently returning a larger total is exactly how a reconciliation
+ * turns into a phantom discrepancy.
+ */
+function sourceBreakdown(rows: AwardRow[]): string {
+  const apx = rows.filter((r) => r.source_table === "appendix");
+  if (apx.length === 0 || apx.length === rows.length) return "";
+  const sum = (rs: AwardRow[]) => rs.reduce((s, r) => s + (r.amount ?? 0), 0);
+  const main = rows.filter((r) => r.source_table !== "appendix");
+  return (
+    `\n\nBy source: main-body Schedule C ${main.length} row(s), ${money(sum(main))}` +
+    ` · appendix (aging/local/youth) ${apx.length} row(s), ${money(sum(apx))}.` +
+    `\nAppendix rows are per-recipient designations from Schedule C Appendices A/B/C. They carry` +
+    ` no category/initiative/award_type (those columns do not exist in the appendix), and` +
+    ` aging/youth rows carry no agency. They were NOT returned by @betanyc/nyc-budget-mcp before` +
+    ` v1.4.0, so a total here can legitimately exceed a previously published one. Pass` +
+    ` source_table:"schedule_c" for the pre-1.4.0 result set.`
+  );
+}
+
 export const server = new Server(
   { name: "nyc-budget-mcp", version: PACKAGE_VERSION },
   { capabilities: { tools: {} } }
@@ -80,6 +111,12 @@ export const TOOLS = [
         fiscal_year: { type: "number", description: "Any year FY2015–FY2027" },
         category: { type: "string", description: "Schedule C category (substring)" },
         initiative: { type: "string", description: "Council initiative name (substring)" },
+        source_table: {
+          type: "string",
+          enum: ["schedule_c", "appendix"],
+          description:
+            "Restrict to one Schedule C source. Omit for both (the default). 'schedule_c' = main-body award tables, and reproduces the pre-v1.4.0 result set exactly — use it to reconcile against a total published before v1.4.0. 'appendix' = the Appendix A/B/C aging/local/youth per-recipient designations only. NOTE: category, initiative and award_type do not exist in the appendix, so filtering on any of them excludes appendix rows.",
+        },
         limit: { type: "number", description: "Max rows (default 50, max 500)" },
       },
       additionalProperties: false,
@@ -93,6 +130,12 @@ export const TOOLS = [
       properties: {
         ein: { type: "string", description: "Tax ID; hyphens optional" },
         fiscal_year: { type: "number", description: "Optional: restrict to a year FY2015–FY2027" },
+        source_table: {
+          type: "string",
+          enum: ["schedule_c", "appendix"],
+          description:
+            "Optional. Omit for both (the default). 'schedule_c' reproduces the pre-v1.4.0 result set exactly; 'appendix' returns only the Appendix A/B/C aging/local/youth designations.",
+        },
       },
       required: ["ein"],
       additionalProperties: false,
@@ -232,6 +275,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             fiscal_year: z.number().int().optional(),
             category: z.string().optional(),
             initiative: z.string().optional(),
+            source_table: z.enum(["schedule_c", "appendix"]).optional(),
             limit: z.number().int().optional(),
           }).strict(), args);
         const rows = searchAwards(a);
@@ -243,6 +287,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             (r) =>
               `FY${r.fiscal_year} · ${money(r.amount)} · ${r.member || "(collective)"} → ${r.organization}` +
               (r.program ? ` [${r.program}]` : "") +
+              sourceTag(r) +
               (r.initiative ? `\n    initiative: ${r.initiative}` : "") +
               (r.agency ? ` · agency: ${r.agency}` : "")
           )
@@ -252,7 +297,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             {
               type: "text",
               text: withFooter(
-                `${rows.length} award(s), total ${money(total)}:\n\n${body}\n\nBy fiscal year:\n${summarizeAwardsByYear(rows)}`
+                `${rows.length} award(s), total ${money(total)}:\n\n${body}\n\nBy fiscal year:\n${summarizeAwardsByYear(rows)}${sourceBreakdown(rows)}`
               ),
             },
           ],
@@ -260,8 +305,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
 
       case "get_awards_by_ein": {
-        const a = parseArgs("get_awards_by_ein", z.object({ ein: z.string(), fiscal_year: z.number().int().optional() }).strict(), args);
-        const rows = getAwardsByEin(a.ein, a.fiscal_year);
+        const a = parseArgs("get_awards_by_ein", z.object({
+            ein: z.string(),
+            fiscal_year: z.number().int().optional(),
+            source_table: z.enum(["schedule_c", "appendix"]).optional(),
+          }).strict(), args);
+        const rows = getAwardsByEin(a.ein, a.fiscal_year, a.source_table);
         if (rows.length === 0)
           return { content: [{ type: "text", text: withFooter(`No Schedule C awards for EIN ${a.ein}.`) }] };
         const orgs = [...new Set(rows.map((r) => r.organization).filter(Boolean))];
@@ -271,7 +320,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             (r) =>
               `FY${r.fiscal_year} · ${money(r.amount)} · ${r.member || "(collective)"}` +
               (r.program ? ` · ${r.program}` : "") +
-              (r.initiative ? ` · ${r.initiative}` : "")
+              (r.initiative ? ` · ${r.initiative}` : "") +
+              sourceTag(r)
           )
           .join("\n");
         return {
@@ -281,7 +331,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
               text: withFooter(
                 `EIN ${a.ein}: ${rows.length} award(s) across FY2015–FY2027, total ${money(total)}.\n` +
                   `Organization name(s) on file: ${orgs.join("; ") || "(none)"}\n\n` +
-                  `Per fiscal year:\n${summarizeAwardsByYear(rows)}\n\nRows:\n${body}`
+                  `Per fiscal year:\n${summarizeAwardsByYear(rows)}${sourceBreakdown(rows)}\n\nRows:\n${body}`
               ),
             },
           ],
@@ -413,13 +463,15 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const fmt = (ys: number[]) => (ys.length ? ys.map((y) => `FY${y}`).join(", ") : "(none)");
         const text =
           `NYC Budget MCP — dataset coverage (exact per-dataset parsed years):\n\n` +
-          `Schedule C awards:        ${fmt(r.awards)} (EIN-level)\n` +
+          `Schedule C awards:        ${fmt(r.awards)} (EIN-level, main body)\n` +
+          `  └ appendix rows:        ${fmt(r.awards_appendix)} (Appendix A/B/C aging/local/youth; a SUBSET of the award years, returned by the award tools since v1.4.0 — filter with source_table)\n` +
           `Terms & Conditions:       ${fmt(r.terms)}\n` +
           `Capital (§254):           ${fmt(r.capital)} (all from the "Supporting Detail Book"; full schema; reconcile against printed subtotals — FY2027 partially)\n` +
           `Transparency Resolutions: ${fmt(r.transparency)} (by resolution document year; FY2010–FY2013 org/program text is LOW-confidence — join on EIN)\n` +
           `Legistar crosswalk:       FY${r.crosswalk.min}–FY${r.crosswalk.max} (provenance index; covers years not parsed to CSV)\n\n` +
           `HONESTY GUARD:\n` +
           `• Award tools (search_awards / get_awards_by_ein) serve FY2015–FY2027 only.\n` +
+          `• Since v1.4.0 the award tools return main-body AND appendix rows by default. Appendix rows carry no category/initiative/award_type (absent from the source), and aging/youth rows carry no agency. Counts and totals therefore EXCEED those published from v1.3.x; pass source_table:"schedule_c" to reproduce the older figures exactly.\n` +
           `• FY2009–FY2014 Schedule C is INITIATIVES-ONLY (no per-organization rows, no EINs) and is deliberately NOT in the award tools. Its category/initiative totals live in the source repo, not here.\n` +
           `• FY2008 Schedule C and the FY2009 Transparency Resolutions are unparsed (blocked source documents).\n` +
           `• The crosswalk still links every FY2008–FY2027 document to Legistar even where no CSV is parsed.`;

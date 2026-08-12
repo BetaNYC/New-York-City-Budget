@@ -4,6 +4,77 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.4.0 — 2026-08-12
+
+The award tools now return the Schedule C **appendix** designations — 28,575 rows that were
+parsed, committed, and reaching no consumer. Minor rather than patch: award counts and dollar
+totals returned by `search_awards` and `get_awards_by_ein` **increase** for FY2018 and
+FY2021–FY2027, so figures published from v1.3.x and earlier will not reproduce against this
+version unless the new `source_table` filter is used. No parameter was renamed or removed, and no
+main-body row changed.
+
+### Fixed
+- **28,575 appendix rows were invisible to every tool.** `scripts/build-index.mjs` read exactly
+  one file per fiscal year, `{fy}_schedule_c_awards.csv`, and nothing else — `grep -c appendix
+  scripts/build-index.mjs` returned 0. The three per-year appendix CSVs (Appendix A aging,
+  B local, C youth) were parsed, QA'd, committed, and documented in the repo README, and no query
+  path could see them.
+
+  The canonical case is **Bard College, EIN 14-1713034**. Three FY2023 designations — Abreu
+  $5,000, Brooks-Powers $10,000, Powers $5,000, $20,000 across three members — sat in
+  `data/fy23/schedule_c/fy23_appendix_b_local.csv` while `get_awards_by_ein("14-1713034",
+  fiscal_year: 2023)` returned *No Schedule C awards for EIN 14-1713034*. Not an incomplete
+  answer: a confident, well-formatted, footnoted zero for an organization the Council had in fact
+  funded. FY2024–FY2027 were the quieter version of the same bug — main-body rows present,
+  appendix designations missing, so the answer looked right and was short.
+
+  The rows are real, and this was checked against a source outside this repo before any of them
+  was loaded. The Council's own published disclosure spreadsheet
+  (`source/expense-funding-disclosure/funded_disclosure_FY2023.xlsx`) carries all three Bard
+  designations with `Source` = "Local", matching member, amount, and purpose text. At the
+  aggregate level FY2027 agrees exactly: the disclosure's `Source` counts are Aging 467, Local
+  2558, Youth 835, which are the FY2027 appendix files' row counts, file for file.
+
+### Added
+- **`source_table` on every award row**, `'schedule_c'` (main-body award tables) or `'appendix'`.
+  Both are returned by default. `search_awards` and `get_awards_by_ein` accept it as an optional
+  filter; **`source_table: "schedule_c"` reproduces the pre-1.4.0 result set exactly**, which is
+  the intended escape hatch for reconciling against an already-published number, and the intended
+  cheap reversal if returning both by default proves to be the wrong call.
+- **`appendix_stream`** — `aging` / `local` / `youth`, read off the source filename. It is the
+  only thing distinguishing the three appendix files once they are merged into one table, so
+  dropping it would have destroyed information that exists on disk.
+- Appendix rows are **tagged in tool output** (`· [appendix: local]`), and any result set mixing
+  the two sources prints a `By source:` split naming both totals and the `source_table` escape
+  hatch. A caller reconciling against a v1.3.x figure has to be able to see why the number moved;
+  silently returning a larger total is how a reconciliation becomes a phantom discrepancy.
+- `list_available_fiscal_years` reports appendix coverage as an explicit **subset** of the award
+  years (FY2018 + FY2021–FY2027 — no new fiscal year is introduced) and states the totals change.
+- `test/appendix-ingest.test.js` pins the Bard FY2023 case in both directions: the three
+  designations are now returned, **and** `source_table: "schedule_c"` still returns nothing for
+  FY2023 — which is what proves these are new rows rather than a main-body figure that shifted.
+  `test/coverage.test.js` keeps its per-year main-body counts and totals unchanged (now scoped to
+  `source_table = 'schedule_c'`) and adds a parallel per-year appendix table.
+
+### Known limits — stated, not papered over
+- **Four fields do not exist in the appendix CSVs and are stored EMPTY, not inferred:**
+  `category`, `initiative`, `award_type` (absent from all three files) and `agency` (absent from
+  aging and youth; present in local). Reading A/B/C as the missing `initiative`, or filling agency
+  with DFTA-for-aging and DYCD-for-youth, is plausible and unverified — and demonstrably not a
+  constant per stream, since Bard's FY2023 *local* rows record `MOCJ`. Consequence for callers:
+  filtering `search_awards` on `category` or `initiative` excludes appendix rows entirely, because
+  they have no such value to match.
+- **FY2015–FY2017 and FY2019–FY2020 appendix CSVs are header-only upstream**, so those years gain
+  nothing here. FY2018 has an aging appendix only. That is a parser gap in `data/`, out of scope
+  for this release; the loader indexes what exists and invents nothing.
+- **The repo README describes these files as "subsets of the main body ... do not add them to the
+  Schedule C total."** That warning is correct about the printed *category* totals and does not
+  hold for the awards table: matching FY2015–FY2027 appendix rows against their own year's awards
+  CSV on (member, EIN, amount) leaves **27,874 of 28,575 unmatched**, and against the Council
+  disclosure only 14 rows across FY2023 + FY2027 exceed the disclosure's own multiplicity. The
+  overlap is real but marginal; treating it as a full duplicate set would have kept the Bard rows
+  invisible. Reconciling that README sentence with this finding is Phase 1 work, not this release.
+
 ## 1.3.1 — 2026-07-22
 
 `search_awards` now applies limits after ordering each fiscal year's matches by award amount,
