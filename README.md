@@ -92,7 +92,7 @@ One row per designation to a named organization.
 - `ein` is the tax ID (digits only) — the reliable join key to IRS 990 / nonprofit data. Organization *names* are best-effort; a minority are imperfect. **For 64 remaining rows the name is not merely imperfect: the row boundary was lost during extraction, so the row's `amount` may belong to a different organization than the one `organization` names.** A further 140 rows carry purpose prose instead of a name. Both are flagged by `code/validate_data.py` (`org_merged` / `org_prose`) and listed per file in [`data/QA-REPORT.md`](data/QA-REPORT.md). 5,450 cells were repaired on 2026-08-12/13 from the Council's own disclosure — see [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) §20 and §21.
 
 ### `data/{year}/schedule_c/{year}_appendix_*.csv`
-Detail breakouts with a `purpose` field: `_a_aging` (Aging Discretionary), `_b_local` (Local Initiatives, includes an `agency` column), `_c_youth` (Youth Discretionary). These are subsets of the main body re-sorted by funding stream — **do not add them to the Schedule C total.**
+Member-designated awards with a `purpose` field: `_a_aging` (Aging Discretionary), `_b_local` (Local Initiatives, includes an `agency` column), `_c_youth` (Youth Discretionary). These are **additional to the main body, and adding them to the Schedule C total is correct** — corrected 2026-08-13, having previously said the opposite. Evidence, four independent tests: `code/audit_appendix_overlap.py`, written up in [`DATA-DICTIONARY.md`](DATA-DICTIONARY.md#datayearschedule_cyear_appendix_csv).
 
 ### `data/{year}/terms/{year}_terms_and_conditions.csv`
 `item_number, agency_name, agency_code, units_of_appropriation, num_units, report_deadlines, coverage_period, condition_text`

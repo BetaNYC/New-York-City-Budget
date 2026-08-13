@@ -3,6 +3,11 @@ __pycache__/
 *.pyc
 .venv/
 
+# poppler text cache for verify_amounts_against_pdf.py — derived from source/, regenerates in ~8s.
+# Scoped to this one path rather than all of build/, which #43's OCR pipeline also writes to and
+# which holds hand-correctable orientation state.
+build/pdftext/
+
 # mcp/ prototype (Node MCP server that reads this repo's data/ tree)
 mcp/node_modules/
 mcp/dist/

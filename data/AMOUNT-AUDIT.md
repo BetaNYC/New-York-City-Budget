@@ -9,12 +9,15 @@ tags: [nyc-budget, data-quality, audit, schedule-c]
 # Amount Audit
 
 **Report generated:** 2026-08-12  
+**Last revised:** 2026-08-13 — added [Settled against the adopted PDF](#settled-against-the-adopted-pdf); withdrew the three `neighbour_bleed` findings  
 **Data current as of:** 2026-08-12 (corpus at `data/fy*/schedule_c/`, disclosure at `source/expense-funding-disclosure/`)  
-**Produced by:** `code/audit_amounts.py` — read-only, changes nothing
+**Produced by:** `code/audit_amounts.py` and `code/verify_amounts_against_pdf.py` — both read-only, neither changes anything
 
 ## Verdict, up front
 
-**Report, do not touch. None of this is safely auto-correctable, and the script has no `--apply` path.** The reasoning is in [Is any of this auto-correctable?](#is-any-of-this-auto-correctable) below. Nothing was written to `data/combined/org_name_recovery_crosswalk.csv`: that file records substitutions *applied to the data*, and this pass applied none.
+**Report, do not touch. None of this is safely auto-correctable, and neither script has an `--apply` path.** The reasoning is in [Is any of this auto-correctable?](#is-any-of-this-auto-correctable) below. Nothing was written to `data/combined/org_name_recovery_crosswalk.csv`: that file records substitutions *applied to the data*, and these passes applied none.
+
+**The 440 rows this audit left unresolved are now settled** against the adopted Schedule C PDF — 0 contradicted, 0 missing, all 440 with their (EIN, amount) pair printed on one line. See [Settled against the adopted PDF](#settled-against-the-adopted-pdf). The one finding that reversed is this audit's own: its three `neighbour_bleed` rows are false positives.
 
 Of **62,213 award rows** carrying **$3,741,615,569**, **60,665 (97.51%)** have their amount corroborated by the Council's own same-year disclosure, covering **$3,551,858,231 (94.93% of dollars)**.
 
@@ -127,6 +130,58 @@ The disclosure records $2,076,667 for EIN 113305406. A tolerant fixer would see 
 | `fy25_schedule_c_awards.csv` | 3465 | Community Service Society of New Y | $164,000 | EIN 133824852 |
 
 These are the same boundary loss as §20 — the Schedule C parser absorbing one award into the next when an asterisk or a program name sits between the EIN and the dollar figure — reached here from the opposite direction, by noticing that the Council attributes the figure to a neighbour. The count is small because the test is strict on purpose: the amount must be *uniquely* held. Rows where the swallowed award happened to be an even split of the same pot land in the rounding table above instead, which is where the more dangerous cases turn out to be.
+
+> **Withdrawn, 2026-08-13.** All three are false positives. The adopted PDF prints each of these rows intact — organization, EIN and amount on one line — so no figure has landed on the wrong row. See the next section. What the disclosure records is a *different* EIN holding the same amount, which is what a fiscal-conduit arrangement looks like, not what a bled row looks like. The heuristic was sound in shape and wrong in this instance: proximity plus uniqueness is suggestive, and it is not evidence.
+
+## Settled against the adopted PDF
+
+**Report generated:** 2026-08-13 · **Produced by:** `code/verify_amounts_against_pdf.py` — read-only, no `--apply` path
+
+The 440 rows the disclosure could not corroborate — 419 `ein_absent`, 18 `rounding`, 3 `neighbour_bleed` — were treated as a release blocker needing hand inspection ([#57](https://github.com/BetaNYC/New-York-City-Budget/issues/57)). They did not need it. **The disclosure is not the only witness, and it is not the authoritative one.** Our amounts come from the adopted Schedule C PDF, which this repo ships in `source/` and cites as its source; the disclosure is a later administrative snapshot — the very reason, argued at length below, for never copying a figure from it. A row the disclosure cannot speak to is not unverifiable. It is verifiable against the document it came from.
+
+| verdict | rows | dollars | meaning |
+|---|---:|---:|---|
+| `pdf_confirms` | 399 | $22,481,361 | the amount is printed against this EIN on a line that also names this organization, or on the only line that EIN has all year |
+| `pdf_confirms_weak` | 41 | $2,834,626 | the amount is printed against this EIN, but among several lines and none names our organization |
+| `pdf_contradicts` | **0** | — | |
+| `pdf_ein_absent` | **0** | — | |
+
+**Every one of the 440 has its (EIN, amount) pair printed together on one line of the adopted PDF. Nothing was contradicted and no EIN was missing.** Full row detail: `data/AMOUNT-PDF-VERIFICATION.csv`.
+
+This is corroboration and not a re-run of the parser: `parse_schedule_c.py` reads the PDF with **pypdf**, this check reads it with **pdftotext -layout** (poppler). Two engines, two text models, same bytes.
+
+### The three `neighbour_bleed` rows, resolved
+
+| file:line | our EIN | the PDF prints |
+|---|---|---|
+| `fy15_schedule_c_awards.csv`:646 | 13-3682471 | `Coalition for Asian American Children and Families 13-3682471 $833,333` |
+| `fy23_schedule_c_awards.csv`:585 | 13-6400434 | `Mayor's Office of Criminal Justice 13-6400434 $325,000` |
+| `fy25_schedule_c_awards.csv`:3465 | 13-5562202 | `Community Service Society of New York 13-5562202 $164,000` |
+
+Name, EIN and amount agree with our row in all three. Nothing bled.
+
+### The 18 `rounding` rows: the PDF backs our figure, not the disclosure's
+
+All 18. `fy17_schedule_c_awards.csv`:209 is the one that matters, because §20 uses it as its worked example and this audit warned that a tolerant fixer would close its $1 gap. The PDF prints `Brooklyn Defenders Services 11-3305406 $2,076,666` — **our value**, not the disclosure's $2,076,667. The decision not to auto-correct is no longer an argument from caution; it is confirmed, and closing that gap would have introduced an error into a correct row.
+
+### What a confirmation does *not* establish
+
+It says the figure is real and correctly attached to that EIN in that year. It does not say **which** printed line a given CSV row corresponds to when an organization holds several awards — the multiset limit already noted below. That ambiguity affects **43 of the 440**, and is the whole content of the 41 `pdf_confirms_weak`: their `(EIN, amount)` pair is printed, but the row's `organization` text is separately known-defective (`org_merged`, §20/§21) or the EIN carries the same amount on more than one line. **None is an amount defect.**
+
+### The check was measured against controls, because a check that confirms everything is worse than none
+
+A first version accepted any line under the EIN and returned 440 of 440 — which is how it was caught. Four controls:
+
+| control | result |
+|---|---|
+| every amount corrupted by +$7 | 440/440 `pdf_contradicts` |
+| amount planted that appears on **no** line of that EIN | 440/440 `pdf_contradicts` — the mechanism test |
+| amounts rotated within the fiscal year | 11.0% still confirmed |
+| a *different* EIN's real amount planted on each row | 5.0% still confirmed |
+
+The last two are not false confirmations of an amount. Rotation lands a sibling award's figure on an organization that genuinely holds it — FY2021 Helen Keller International carries $24,000, $2,500 and $25,000 under one EIN, FY2020 JSPOA carries both $20,000 and $10,000 — so the "wrong" number is one the PDF really does print for that org. That is the row-identity limit again, measured rather than asserted. The residual after tightening was small enough to leave: an EIN printed on **483 separate lines** of one year makes "the number is in there somewhere" nearly free, which is why a confirmation must name us or stand alone.
+
+Tests: `code/test_verify_amounts_against_pdf.py`.
 
 ## Is any of this auto-correctable?
 

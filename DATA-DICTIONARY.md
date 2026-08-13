@@ -58,7 +58,18 @@ Authoritative category/initiative totals. **One row per initiative; sums exactly
 
 ## `data/{year}/schedule_c/{year}_appendix_*.csv`
 
-Detail breakouts re-sorted by funding stream: `_a_aging` (Aging Discretionary), `_b_local` (Local Initiatives — adds an `agency` column), `_c_youth` (Youth Discretionary). **These are subsets of the award body — do not add them to the Schedule C total.**
+Member-designated awards by funding stream: `_a_aging` (Aging Discretionary), `_b_local` (Local Initiatives — adds an `agency` column), `_c_youth` (Youth Discretionary).
+
+**These are ADDITIONAL to the award body, not a subset of it. Adding them to the Schedule C total is correct.**
+
+> **Corrected 2026-08-13.** This line previously read *"These are subsets of the award body — do not add them to the Schedule C total."* That was wrong, and it contradicted the published headline for as long as both existed. Established by `code/audit_appendix_overlap.py` on four independent tests:
+>
+> - **The document separates them.** From FY2019 the table of contents gives each appendix its own page numbering, restarting at page 1 (`APPENDIX A: AGING DISCRETIONARY….PAGE 1 - 26`). A re-sorted view of the body would not get its own pagination.
+> - **The streams are absent from the body.** "Aging Discretionary", "Local Initiatives" and "Youth Discretionary" appear **zero** times across the body pages of all 13 years. (One FY2026 hit is the phrase "local initiatives" inside a purpose sentence, checked by hand.) A detail breakout must detail a line item that exists.
+> - **The arithmetic never overshoots.** If the appendices were already counted in the awards, awards alone would reach the Council's printed GRAND TOTAL and adding the appendices would exceed it. **That happens in 0 of 13 years.** In FY2027 — the one year the parser reconciles 25/25 categories exactly — the awards fall $50,653,587 short and the appendices supply $49,799,000 of it, **98%**, leaving a 0.1% residual.
+> - **The apparent duplicates are round-number coincidences.** 75–100% of appendix rows have no `(EIN, amount, organization)` twin among the awards at all. Of those that do, nearly all are round thousands — $5,000 is designated hundreds of times a year — and a member may fund the same organization from a citywide initiative *and* their local pot. Restricting to distinctive (non-round-thousand) amounts puts the **upper bound on double-counting across all 13 years at $447,500**, or 0.012% of the headline.
+>
+> **The real caveat is the opposite of double-counting.** The award rows plus appendices come to $3,741,615,569 against the Council's own printed grand totals of $5,476,070,836 — **68.3%**. The corpus under-captures award detail; it does not inflate it. Category-level totals are complete: `*_schedule_c_initiatives.csv` sums to $5,474,660,271, within 0.026% of the printed figure. See `DATA-ANOMALIES.md` on row capture.
 
 | Column | Type | Meaning |
 |--------|------|---------|

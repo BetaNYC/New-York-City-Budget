@@ -386,6 +386,28 @@ Every repair is recorded in `data/combined/org_name_recovery_crosswalk.csv` with
 touched, the original value and the replacement, so any edit can be audited or reversed without
 reading a diff. Rationale, method and the keys that are *not* safe: `DATA-ANOMALIES.md` §20 and §21.
 
+**Two read-only audits sit alongside the repairs. Neither has an `--apply` path and neither should
+ever get one:**
+
+```bash
+python3 code/audit_amounts.py                # amounts vs the disclosure workbooks -> data/AMOUNT-AUDIT.md
+python3 code/verify_amounts_against_pdf.py   # the residue vs the adopted PDF -> data/AMOUNT-PDF-VERIFICATION.csv
+python3 code/audit_appendix_overlap.py       # are the appendices additive or a subset? -> stdout
+```
+
+The second answers what the first cannot. `audit_amounts.py` leaves 440 rows the disclosure has no
+opinion on; `verify_amounts_against_pdf.py` checks those against the adopted Schedule C PDF itself,
+reading it with **poppler `pdftotext -layout`** where the parser uses **pypdf** — a second engine
+over the same bytes, so agreement is corroboration rather than a re-run. It caches page text under
+`build/pdftext/` (gitignored, ~8s to rebuild). All 440 are confirmed; details and the controls the
+check was measured against are in `data/AMOUNT-AUDIT.md`.
+
+The third settles whether the appendices double-count the body. **They do not — they are additive**,
+on four independent tests (ToC pagination, stream names absent from the body, the printed GRAND
+TOTAL never being overshot in any of 13 years, and apparent duplicates being round-number
+coincidences worth at most $447,500 corpus-wide). `DATA-DICTIONARY.md` said the opposite until
+2026-08-13 and has been corrected.
+
 **Two sidecars are additive and are NOT produced by any parser** — they hold awards the extraction
 lost entirely, recovered from the disclosure workbooks and never merged into the per-year files:
 `data/recovered/schedule_c_appendix_recovered.csv` (26,127) and
