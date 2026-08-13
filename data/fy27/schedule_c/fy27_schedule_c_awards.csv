@@ -99,7 +99,7 @@ Anti-Poverty,Anti-Poverty Initiative,member_item,Abreu,Department of Youth and C
 Anti-Poverty,Anti-Poverty Initiative,member_item,Stevens,Department of Youth and Community Development -,,136400434,20000,DYCD,Funds will support programming and services.
 Anti-Poverty,Anti-Poverty Initiative,member_item,J. Sanchez,"Destination Tomorrow, Inc.",Events & Community Food Distributions - Council District 17,800259180,7000,DYCD,Funds will be used for food pantry program and other community events in Council District 17.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Abreu,"Dominican Community Center NYC, Inc.",Council District 7,134188781,5000,DYCD,Funding will be used to provide ESL classes.
-Anti-Poverty,Anti-Poverty Initiative,member_item,J. Sanchez,Door,"A Center of Alternatives, Inc., The - Events & Community Food Distributions - Council District 17",136127348,7000,DYCD,Funds will be used for food pantry program and other community events in Council District 17.
+Anti-Poverty,Anti-Poverty Initiative,member_item,J. Sanchez,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The - Events & Community Food Distributions - Council District 17",136127348,7000,DYCD,Funds will be used for food pantry program and other community events in Council District 17.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Hanks,"Dr. Theodore A. Atlas Foundation, Inc.",Food Distribution - Council District 49,134012789,30000,DYCD,Funding will support food distribution and turkey giveaways services in Council District 49.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Nurse,"East River Development Alliance, Inc.",Financial Services - Council District 37,861096987,5000,DYCD,Funds will support financial programs for Council District 37.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Gennaro,"East River Development Alliance, Inc.",Financial Support Seminars & Tax Prep - Council District 24,861096987,10000,DYCD,Funds will support a range of services for the free tax preparation program at Pomonok Housing in Council District 24.
@@ -513,7 +513,7 @@ Community Development,Artificial Intelligence Community Engagement,initiative_pr
 Community Development,Artificial Intelligence Community Engagement,initiative_provider,,"Bronx Tech Hub, Inc.",,934959273,36000,,
 Community Development,Artificial Intelligence Community Engagement,initiative_provider,,"Center for Family Life in Sunset Park, Inc.",,851058164,36000,,
 Community Development,Artificial Intelligence Community Engagement,initiative_provider,,"Chinese American Planning Council, Inc.",,136202692,36000,,
-Community Development,Artificial Intelligence Community Engagement,initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,36000,,
+Community Development,Artificial Intelligence Community Engagement,initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,36000,,
 Community Development,Artificial Intelligence Community Engagement,initiative_provider,,"East River Development Alliance, Inc.",,861096987,36000,,
 Community Development,Artificial Intelligence Community Engagement,initiative_provider,,"Educational Video Center, Inc.",,133378456,36000,,
 Community Development,Artificial Intelligence Community Engagement,initiative_provider,,"El Puente de Williamsburg, Inc.",,112614265,36000,,
@@ -767,7 +767,7 @@ Community Development,LGBTQIA+ Community Services,initiative_provider,,City Univ
 Community Development,LGBTQIA+ Community Services,initiative_provider,,City University of New York,LGBTQ Public History Project - LaGuardia Community College,136400434,850000,,
 Community Development,LGBTQIA+ Community Services,initiative_provider,,"Destination Tomorrow, Inc.",,800259180,300000,,
 Community Development,LGBTQIA+ Community Services,initiative_provider,,"Dominican Women's Development Center, Inc.",La Sala LGBTQ Drop-In Center,133593885,50000,,
-Community Development,LGBTQIA+ Community Services,initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,275000,,
+Community Development,LGBTQIA+ Community Services,initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,275000,,
 Community Development,LGBTQIA+ Community Services,initiative_provider,,"Fund for the City of New York, Inc.",The American LGBTQ+ Museum,132612524,100000,,
 Community Development,LGBTQIA+ Community Services,initiative_provider,,"GLAAD, Inc.",,133384027,250000,,
 Community Development,LGBTQIA+ Community Services,initiative_provider,,"Harlem Pride, Incorporated",,272191962,20000,,
@@ -804,7 +804,7 @@ Community Development,Initiative and Adult Literacy Forward),initiative_provider
 Community Development,Initiative and Adult Literacy Forward),initiative_provider,,City University of New York,La Guardia Community College,133893536,322903,,
 Community Development,Initiative and Adult Literacy Forward),initiative_provider,,City University of New York,Medgar Evers,133893536,75000,,
 Community Development,Initiative and Adult Literacy Forward),initiative_provider,,"Commonpoint NY, Inc.",,113071518,147000,,
-Community Development,Initiative and Adult Literacy Forward),initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,100000,,
+Community Development,Initiative and Adult Literacy Forward),initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,100000,,
 Community Development,Initiative and Adult Literacy Forward),initiative_provider,,"East Side House, Inc.",,131623989,290000,,
 Community Development,Initiative and Adult Literacy Forward),initiative_provider,,"Edith and Carl Marks Jewish Community House of Bensonhurst, Inc.",,111633484,455508,,
 Community Development,Initiative and Adult Literacy Forward),initiative_provider,,"Fifth Avenue Committee, Inc.",,112475743,329900,,
@@ -2996,7 +2996,7 @@ Education,LGBTQIA+ Inclusive Supports for Students,member_item,,"Queens Communit
 Education,LGBTQIA+ Inclusive Supports for Students,initiative_provider,,"Treehouse Shakers, Inc.",,571194398,37500,,
 Education,LGBTQIA+ Inclusive Supports for Students,initiative_provider,,"Trevor Project, Inc., The",,954681287,37500,,
 Education,LGBTQIA+ Inclusive Supports for Students,initiative_provider,,"viBe Theater Experience, Inc.",,200482372,37500,,
-Education,Operation Backpack,initiative_provider,,Volunteers of America,"Greater New York, Inc.",581959781,250000,,
+Education,Operation Backpack,initiative_provider,,"Volunteers of America - Greater New York, Inc.","Greater New York, Inc.",581959781,250000,,
 Education,Physical Education and Fitness,initiative_provider,,Department of Education,CHAMPS,136400434,125000,,
 Education,Physical Education and Fitness,initiative_provider,,"New York Junior Tennis League, Inc.",,237442256,800000,,
 Education,Social and Emotional Supports for Students,initiative_provider,,Bank Street College of Education,,135562167,59000,,
@@ -3971,7 +3971,7 @@ Immigrant Services,School-Based Immigrant Rapid Response Legal Access,initiative
 Immigrant Services,School-Based Immigrant Rapid Response Legal Access,initiative_provider,,Safe Passage Project Corporation,,462946211,550000,,
 Immigrant Services,Special Immigration Juvenile Status (SIJS),initiative_provider,,"Catholic Charities Community Services, Archdiocese of New York",,135562185,300000,,
 Immigrant Services,Special Immigration Juvenile Status (SIJS),initiative_provider,,"Children's Law Center, Inc., The",,113392591,300000,,
-Immigrant Services,Special Immigration Juvenile Status (SIJS),initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,300000,,
+Immigrant Services,Special Immigration Juvenile Status (SIJS),initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,300000,,
 Immigrant Services,Special Immigration Juvenile Status (SIJS),initiative_provider,,"Lawyers For Children, Inc.",,133203204,300000,,
 Immigrant Services,Special Immigration Juvenile Status (SIJS),initiative_provider,,"Lutheran Social Services of Metropolitan New York, Inc.",,132658548,300000,,
 Immigrant Services,Special Immigration Juvenile Status (SIJS),initiative_provider,,"New York Justice For Our Neighbors, Inc.",,842948798,271989,,
@@ -3979,7 +3979,7 @@ Immigrant Services,Special Immigration Juvenile Status (SIJS),initiative_provide
 Immigrant Services,Special Immigration Juvenile Status (SIJS),initiative_provider,,Safe Passage Project Corporation,,462946211,300000,,
 Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,"Catholic Charities Community Services, Archdiocese of New York",,135562185,3538256,,
 Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,Central American Legal Assistance,,112859151,440000,,
-Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,2345571,,
+Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,2345571,,
 Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,"Fund for the City of New York, Inc.",ICARE's Coordination and Technical Assistance,132612524,407910,,
 Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,Human Rights First,,133116646,808426,,
 Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,"KIND, Inc.",,262763038,1373998,,
@@ -3996,7 +3996,7 @@ Immigrant Services,Welcome NYC,initiative_provider,,"BHALO, Inc.",,863048818,200
 Immigrant Services,Welcome NYC,initiative_provider,,"Churches United for Fair Housing, Inc.",,264698161,25000,,
 Immigrant Services,Welcome NYC,initiative_provider,,"Diaspora Community Services, Inc.",,113122295,30000,,
 Immigrant Services,Welcome NYC,initiative_provider,,"Dibra Community Organization, Inc.",,274684048,25000,,
-Immigrant Services,Welcome NYC,initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,40000,,
+Immigrant Services,Welcome NYC,initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,40000,,
 Immigrant Services,Welcome NYC,initiative_provider,,"East Side House, Inc.",,131623989,50000,,
 Immigrant Services,Welcome NYC,initiative_provider,,"Haitian Americans United for Progress, Inc.",,112423857,25000,,
 Immigrant Services,Welcome NYC,initiative_provider,,Halal Food Connections,,331875142,20000,,
@@ -4079,7 +4079,7 @@ Mental Health Services,Autism Awareness,initiative_provider,,"Pesach Tikvah Hope
 Mental Health Services,Autism Awareness,initiative_provider,,"QSAC, Inc.",,112482974,199970,,
 Mental Health Services,Autism Awareness,initiative_provider,,"Ramapo for Children, Inc.",,135600422,124187,,
 Mental Health Services,Autism Awareness,initiative_provider,,"Resources for Children with Special Needs, Inc.",,112594790,200938,,
-Mental Health Services,Autism Awareness,initiative_provider,,Shema Kolainu,Hear Our Voices,113503085,104916,,
+Mental Health Services,Autism Awareness,initiative_provider,,Shema Kolainu - Hear Our Voices,Hear Our Voices,113503085,104916,,
 Mental Health Services,Autism Awareness,initiative_provider,,"Shield of David, Inc.",,131740041,113136,,
 Mental Health Services,Autism Awareness,initiative_provider,,"Shorefront YM-YWHA of Brighton-Manhattan Beach, Inc.",,113070228,105046,,
 Mental Health Services,Autism Awareness,initiative_provider,,"Sinergia, Inc.",,133183344,115465,,
@@ -4220,7 +4220,7 @@ Mental Health Services,Older Adults Mental Health,initiative_provider,,"SBH Comm
 Mental Health Services,Older Adults Mental Health,initiative_provider,,"Service Program for Older People (SPOP), Inc.",,132947616,100000,,
 Mental Health Services,Older Adults Mental Health,initiative_provider,,"Services And Advocacy For Gay, Lesbian, Bisexual And Transgender Elders, Inc.",,132947657,100000,,
 Mental Health Services,Older Adults Mental Health,initiative_provider,,South Asian Council for Social Services,,113632920,100000,,
-Mental Health Services,Older Adults Mental Health,initiative_provider,,Spanish Speaking Elderly Council,RAICES,112730462,100000,,
+Mental Health Services,Older Adults Mental Health,initiative_provider,,Spanish Speaking Elderly Council - RAICES,RAICES,112730462,100000,,
 Mental Health Services,Older Adults Mental Health,initiative_provider,,"Sunnyside Community Services, Inc.",,510189327,100000,,
 Mental Health Services,Older Adults Mental Health,initiative_provider,,"Union Settlement Association, Inc.",,131632530,80384,,
 Mental Health Services,Older Adults Mental Health,initiative_provider,,University Settlement Society of New York,,135562374,80384,,
@@ -5373,7 +5373,7 @@ Small Business Services and Workforce Development,Worker Cooperative Business De
 Small Business Services and Workforce Development,Worker Cooperative Business Development Initiative,initiative_provider,,"NYC NOWC, Inc.",,465245034,381775,,
 Small Business Services and Workforce Development,Worker Cooperative Business Development Initiative,initiative_provider,,Third Sector New England,,042261109,95000,,
 Small Business Services and Workforce Development,Worker Cooperative Business Development Initiative,initiative_provider,,"Working World, Inc.",,202264584,402170,,
-Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"""I Have A Dream"" Foundation",New York,133370648,15000,DYCD,To provide funding support for the Expanding Positive Futures program.
+Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"""I Have A Dream"" Foundation - New York",New York,133370648,15000,DYCD,To provide funding support for the Expanding Positive Futures program.
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"A Better Jamaica, Inc.",,113804421,20000,DCLA,To provide funding support for cultural events in Jamaica.
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,member_item,Aviles,Academy of Medical and Public Health Services,Immigrant Mental Health Clinic,272206293,50000,DHMH,
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,Adhikaar for Human Rights and Social Justice,,203384725,50000,DYCD,
@@ -5576,7 +5576,7 @@ Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Addre
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"Dibra Community Organization, Inc.",,274684048,25000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,member_item,Abreu,"Dominican Women's Development Center, Inc.",La Sala LGBTQ Youth Drop In Center,133593885,140000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"Dominicanos USA, Inc.",Civic Engagement,463738190,100000,DYCD,
-Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,Door,"A Center of Alternatives, Inc., The - Food and Nutrition Program",136127348,20000,DYCD,To provide funding support for Food and Nutrition programs.
+Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The - Food and Nutrition Program",136127348,20000,DYCD,To provide funding support for Food and Nutrition programs.
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"Doula Program to Accompany and Comfort, Inc.",Serious Illness and End of Life Care,461117388,50000,DFTA,
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"Dr. Theodore A. Atlas Foundation, Inc.",,134012789,30000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"Drag Queen Story Hour NYC, Ltd.",Security Measures,822613408,25000,DYCD,Funding for enhanced security measures at public-facing events.
@@ -5938,7 +5938,7 @@ Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Addre
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"Vets, Inc.",,272280570,5000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"Vision Urbana, Inc.",Food Security,133848575,10000,DYCD,Funding to support Vision Urbana's Food Security Program.
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,VISIONS/Services for the Blind and Visually Impaired,,131624210,50000,DFTA,To provide funding support for the Blindline Information and Referral system.
-Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,Volunteers of America,"Greater New York, Inc. - Economic and Housing Stability for Veterans",581959781,100000,DYCD,
+Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"Volunteers of America - Greater New York, Inc.","Greater New York, Inc. - Economic and Housing Stability for Veterans",581959781,100000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"Waterfront Alliance, Inc.",,134355067,25000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"Waterfront Alliance, Inc.",Climate Informed Communities,134355067,25000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,Wave Hill Incorporated,SCI Network NYC,136178903,143725,DCLA,Funding to support the SCI Network NYC internship partnership across multiple CIGs.
@@ -6005,7 +6005,7 @@ Veteran Services,Veterans Community Development,initiative_provider,,New York Un
 Veteran Services,Veterans Community Development,initiative_provider,,"Row New York, Inc.",,113632924,64000,,
 Veteran Services,Veterans Community Development,initiative_provider,,"Theatre Development Fund, Inc.",,136216919,88000,,
 Veteran Services,Veterans Community Development,initiative_provider,,Visiting Nurse Service of New York Home Care II,,131624211,170000,,
-Veteran Services,Veterans Community Development,initiative_provider,,Volunteers of America,"Greater New York, Inc.",581959781,74000,,
+Veteran Services,Veterans Community Development,initiative_provider,,"Volunteers of America - Greater New York, Inc.","Greater New York, Inc.",581959781,74000,,
 Young Women's Initiative,Culturally Specific Gender Based Violence Initiative,initiative_provider,,"Arab-American Family Support Center, Inc., The",,113167245,200000,,
 Young Women's Initiative,Culturally Specific Gender Based Violence Initiative,initiative_provider,,"Asiyah Women's Center, Inc.",,832104070,75000,,
 Young Women's Initiative,Culturally Specific Gender Based Violence Initiative,initiative_provider,,"Dominican Women's Development Center, Inc.",,133593885,90000,,
@@ -6039,7 +6039,7 @@ Young Women's Initiative,Gender-Affirming Care for TGNCNBI Youth,initiative_prov
 Young Women's Initiative,Gender-Affirming Care for TGNCNBI Youth,initiative_provider,,"New York LGBT Network, Inc.",,208512786,200000,,
 Young Women's Initiative,HRA Teen RAPP,initiative_provider,,"Rising Ground, Inc.",,131860451,250000,,
 Young Women's Initiative,Prevent Sexual Assault (PSA) Initiative for Young Adults,initiative_provider,,"Center for Anti-Violence Education (CAE), Inc., The",,112444676,75000,,
-Young Women's Initiative,Prevent Sexual Assault (PSA) Initiative for Young Adults,initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,75000,,
+Young Women's Initiative,Prevent Sexual Assault (PSA) Initiative for Young Adults,initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,75000,,
 Young Women's Initiative,Prevent Sexual Assault (PSA) Initiative for Young Adults,initiative_provider,,Legal Momentum,,237085442,200000,,
 Young Women's Initiative,Step In and Stop It Initiative to Address Bystander Intervention,initiative_provider,,"Grand Street Settlement, Inc.",,135562230,99000,,
 Young Women's Initiative,Step In and Stop It Initiative to Address Bystander Intervention,initiative_provider,,Young Women's Christian Association of the City of New York,,131624230,75000,,
@@ -6090,7 +6090,7 @@ Youth Services,LGBTQIA+ Youth Support and Services,initiative_provider,,Ackerman
 Youth Services,LGBTQIA+ Youth Support and Services,initiative_provider,,Ali Forney Center,,300104507,1405000,,
 Youth Services,LGBTQIA+ Youth Support and Services,member_item,,"Brooklyn Community Pride Center, Inc.",,262214534,150000,,
 Youth Services,LGBTQIA+ Youth Support and Services,initiative_provider,,"CAMBA, Inc.",,112480339,250000,,
-Youth Services,LGBTQIA+ Youth Support and Services,initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,150000,,
+Youth Services,LGBTQIA+ Youth Support and Services,initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,150000,,
 Youth Services,LGBTQIA+ Youth Support and Services,initiative_provider,,"Hetrick-Martin Institute, Inc.",,133104537,150000,,
 Youth Services,LGBTQIA+ Youth Support and Services,initiative_provider,,"Hetrick-Martin Institute, Inc.",National Queer Theater,133104537,50000,,
 Youth Services,LGBTQIA+ Youth Support and Services,initiative_provider,,"Housing Works, Inc.",,133584089,200000,,

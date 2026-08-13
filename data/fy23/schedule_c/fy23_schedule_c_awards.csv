@@ -15,7 +15,7 @@ ANTI-POVERTY,,member_item,Hanif,"Asian Americans For Equality, Inc.",Council Dis
 ANTI-POVERTY,,member_item,Marte,"Asian Americans For Equality, Inc.",Manhattan Based Community Service - Council District 1,133187792,5000,DYCD,To support programming an operational expenses of AAFE in Council District 1.
 ANTI-POVERTY,,member_item,Brannan,Asiyah Women's Center,,832104070,10000,DYCD,To fund social work and supportive services.
 ANTI-POVERTY,,member_item,Kagan,"Avigdors Helping Hand, Inc.",Council District 47,593829893,5000,DYCD,"Funds will be used for Mental Health Services for Vulnerable Populations, Case Management, Child Health, Wellness, Food Access and Benefit."
-ANTI-POVERTY,,member_item,Farias,BAFA,"Bangladesh Academy of Fine Arts, Inc.",454788710,7500,DYCD,Funds will be used for General Operating Expenses in Council District 18.
+ANTI-POVERTY,,member_item,Farias,"BAFA - Bangladesh Academy of Fine Arts, Inc.","Bangladesh Academy of Fine Arts, Inc.",454788710,7500,DYCD,Funds will be used for General Operating Expenses in Council District 18.
 ANTI-POVERTY,,member_item,Ayala,"Bailey House, Inc.",Schafer Hall Support,133165181,5500,DHMH,To support on and off-site services and recreational activities for the Family Support Program at Schafer Hall.
 ANTI-POVERTY,,member_item,Adams,"Bangladeshi American Society, Inc.",,852723489,6000,DYCD,Funds will support community outreach efforts in civic and social needs.
 ANTI-POVERTY,,member_item,Brooks-Powers,"Battalion Pentecostal Assembly, Inc.","Royal Rangers, Daughters of Purpose & Youth Ignition",364391337,10000,DYCD,"Funds are to be used for program support in Council District 31, regarding STEM education and financial literacy."
@@ -545,7 +545,7 @@ COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,City Universi
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,City University of New York,,136400434,850000,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,"Destination Tomorrow, Inc.",,800259180,300000,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,"Dominican Women's Development Center, Inc.",,133593885,50000,,
-COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,275000,,
+COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,275000,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,"Fund for the City of New York, Inc.",The American LGBTQ+ Museum,132612524,100000,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,"GLAAD, Inc.",,133384027,250000,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,"Harlem Pride, Incorporated",,272191962,20000,,
@@ -1052,7 +1052,7 @@ IMMIGRANT SERVICES,Immigrant Opportunities Initiative,initiative_provider,,"Yout
 IMMIGRANT SERVICES,New York Immigrant Family Unity Project,member_item,,Brooklyn Defender Services,,113305406,5533333,,
 IMMIGRANT SERVICES,New York Immigrant Family Unity Project,initiative_provider,,Legal Aid Society,,135562265,5533334,,
 IMMIGRANT SERVICES,Unaccompanied Minors and Families,initiative_provider,,Central American Legal Assistance,,112859151,420000,,
-IMMIGRANT SERVICES,Unaccompanied Minors and Families,initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,540000,,
+IMMIGRANT SERVICES,Unaccompanied Minors and Families,initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,540000,,
 IMMIGRANT SERVICES,Unaccompanied Minors and Families,initiative_provider,,Human Rights First,,133116646,290000,,
 IMMIGRANT SERVICES,Unaccompanied Minors and Families,initiative_provider,,"KIND, Inc.",,262763038,175000,,
 IMMIGRANT SERVICES,Unaccompanied Minors and Families,initiative_provider,,Legal Aid Society,,135562265,885000,,
@@ -1113,7 +1113,7 @@ MENTAL HEALTH SERVICES,,initiative_provider,,"QSAC, Inc.",,112482974,199970,,
 MENTAL HEALTH SERVICES,,initiative_provider,,"Ramapo for Children, Inc.",,135600422,124187,,
 MENTAL HEALTH SERVICES,,initiative_provider,,"Resources for Children with Special Needs, Inc.",,112594790,200938,,
 MENTAL HEALTH SERVICES,,initiative_provider,,"Samuel Field YM & YWHA, Inc.",,113071518,138442,,
-MENTAL HEALTH SERVICES,,initiative_provider,,Shema Kolainu,Hear Our Voices,113503085,104916,,
+MENTAL HEALTH SERVICES,,initiative_provider,,Shema Kolainu - Hear Our Voices,Hear Our Voices,113503085,104916,,
 MENTAL HEALTH SERVICES,,initiative_provider,,"Shield of David, Inc.",,131740041,113136,,
 MENTAL HEALTH SERVICES,,initiative_provider,,"Shorefront YM-YWHA of Brighton-Manhattan Beach, Inc.",,113070228,105046,,
 MENTAL HEALTH SERVICES,,initiative_provider,,"Sinergia, Inc.",,133183344,115465,,
@@ -1208,7 +1208,7 @@ HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"SBH Community Serv
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Service Program for Older People (SPOP), Inc.",,132947616,100000,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Services And Advocacy For Gay, Lesbian, Bisexual And Transgender Elders, Inc.",,132947657,100000,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,South Asian Council for Social Services,,113632920,100000,,
-HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,Spanish Speaking Elderly Council,RAICES,112730462,100000,,
+HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,Spanish Speaking Elderly Council - RAICES,RAICES,112730462,100000,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Sunnyside Community Services, Inc.",,510189327,100000,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Union Settlement Association, Inc.",,131632530,80384,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"University Settlement Society of New York, Inc.",,135562374,80384,,
@@ -1236,7 +1236,7 @@ PUBLIC SAFETY,Hate Crimes Prevention,initiative_provider,,"Arab American Associa
 PUBLIC SAFETY,Hate Crimes Prevention,initiative_provider,,"Asian American Federation, Inc.",,133572287,50000,,
 PUBLIC SAFETY,Hate Crimes Prevention,initiative_provider,,"Bridge Multicultural and Advocacy Project, Inc., The",,454634142,50000,,
 PUBLIC SAFETY,Hate Crimes Prevention,initiative_provider,,"Center for Anti-Violence Education (CAE), Inc., The",,112444676,50000,,
-PUBLIC SAFETY,Hate Crimes Prevention,initiative_provider,,DRUM,"Desis Rising Up and Moving, Inc.",383652741,50000,,
+PUBLIC SAFETY,Hate Crimes Prevention,initiative_provider,,"DRUM - Desis Rising Up and Moving, Inc.","Desis Rising Up and Moving, Inc.",383652741,50000,,
 PUBLIC SAFETY,,initiative_provider,,"Haitian Americans United for Progress, Inc.",,112423857,50000,,
 PUBLIC SAFETY,,initiative_provider,,"Hollaback, Inc.",,273199988,50000,,
 PUBLIC SAFETY,,initiative_provider,,Jewish Children's Museum,,133798344,50000,,
@@ -1685,7 +1685,7 @@ SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Sophie Ge
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Summer camp for students who are in the year-round program, and tennis instruction for students during both terms of the school year. BLAC, Ung South Asian Council for Social Services",,113632920,45000,DFTA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"To fund comprehensive social services in over 19 languages for seniors in immigrant communities, including food pantry, senior services, health care navigators. South Beach Civic Association, Inc.",,710916558,15000,DYCD,Funds will be used for general operating expenses.
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,Gutierrez,Southside United Housing Development Fund Corporation,Los Sures,112268359,150000,DSS/HRA,
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Spanish Speaking Elderly Council,RAICES - Raices Casa BienEstar,112730462,50000,DFTA,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Spanish Speaking Elderly Council - RAICES,RAICES - Raices Casa BienEstar,112730462,50000,DFTA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Spanish Theatre Repertory Company, Ltd.",,132672755,75000,DCLA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Springboard Collaborative,NYC Reads,453719806,22500,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"St. John's Bread and Life Program, Inc.",,113174514,75000,DYCD,Funds will be used to provide emergency meals in the soup kitchen.
@@ -1782,7 +1782,7 @@ YOUNG WOMEN’S INITIATIVE,,initiative_provider,,Turning Point for Women and Fam
 YOUNG WOMEN’S INITIATIVE,,initiative_provider,,Violence Intervention Program,,133540337,35000,,
 YOUNG WOMEN’S INITIATIVE,,initiative_provider,,Women for Afghan Women,,020539734,55000,,
 YOUNG WOMEN’S INITIATIVE,Prevent Sexual Assault (PSA) Initiative for Young Adults,initiative_provider,,"Center for Anti-Violence Education (CAE), Inc., The",,112444676,75000,,
-YOUNG WOMEN’S INITIATIVE,Prevent Sexual Assault (PSA) Initiative for Young Adults,initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,75000,,
+YOUNG WOMEN’S INITIATIVE,Prevent Sexual Assault (PSA) Initiative for Young Adults,initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,75000,,
 YOUNG WOMEN’S INITIATIVE,Step In and Stop It Initiative to Address Bystander Intervention,initiative_provider,,"Grand Street Settlement, Inc.",,135562230,99000,,
 YOUNG WOMEN’S INITIATIVE,Step In and Stop It Initiative to Address Bystander Intervention,initiative_provider,,Young Women’s Christian Association of the City of New York,,131624230,75000,,
 YOUNG WOMEN’S INITIATIVE,Wrap-Around Support for Transitional-Aged Foster Youth,initiative_provider,,"Children's Aid Society, The",,135562191,151585,,

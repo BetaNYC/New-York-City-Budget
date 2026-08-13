@@ -5,7 +5,7 @@ Anti-Poverty,Anti-Poverty Initiative,member_item,Levine,"African Services Commit
 Anti-Poverty,Anti-Poverty Initiative,member_item,Ulrich,"Agudath Israel of America Community Services, Inc.",,133975090,5000,DYCD,"Funds will be used for educational programming, job training and career counseling services to unemployed and low income families."
 Anti-Poverty,Anti-Poverty Initiative,member_item,Yeger,"Agudath Israel of America Community Services, Inc.",,133975090,15000,DYCD,Funds will be used for COPE Workforce Development.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Ulrich,Alliance Of Bukharian Americans,,820806280,2500,DYCD,"Funds will be used for the free resource hotline and education, youth and health programs."
-Anti-Poverty,Anti-Poverty Initiative,member_item,Brannan,Alzheimers Disease and Related Disorders Association,"New York City, Inc.",133277408,2500,DFTA,"Funding to support CaringKind's Medic Alert, NYC Wanderer's Safety Program and Community Outreach in Council District 43."
+Anti-Poverty,Anti-Poverty Initiative,member_item,Brannan,"Alzheimers Disease and Related Disorders Association - New York City, Inc.","New York City, Inc.",133277408,2500,DFTA,"Funding to support CaringKind's Medic Alert, NYC Wanderer's Safety Program and Community Outreach in Council District 43."
 Anti-Poverty,Anti-Poverty Initiative,member_item,Vallone,American-Italian Cancer Foundation,Breast Cancer Outreach & Patient Navigation Program,133035711,5000,DHMH,"Funding will support AICF's Breast Cancer Outreach, Education and Navigation program."
 Anti-Poverty,Anti-Poverty Initiative,member_item,Holden,American-Italian Cancer Foundation,Free Mobile Mammography Services,133035711,5000,DHMH,Funds to be used for free mobile mammography services in Council District 30.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Gibson,"Amida Care, Inc.",Live Your Life Wellness Program - Council District 16,134154068,5000,DHMH,"Funding to support The Live Your Life Wellness program consisting of services that improve access to benefits and treatment for chronic, life-threatening illnesses, including HIV in Council District 16."
@@ -203,7 +203,7 @@ Anti-Poverty,Anti-Poverty Initiative,member_item,Koslowitz,Masbia of Queens,Soup
 Anti-Poverty,Anti-Poverty Initiative,member_item,Johnson,"MCCNY Charities, Inc.",,275282132,5000,DYCD,Funds will be used to support the position of client services assistant who runs drop-in program.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Adams,"Medicare Rights Center, Inc.",Medicare Enrollment and Education Program - Council District 28,133505372,5000,DFTA,Funds will support Virtual Town Hall and Enrollment session in Council District 28.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Ayala,"Mercy Center, Inc.",Family Skills,133865634,10000,DSS/HRA,"To provide funding to support operating expenses associated with the Family Skills program, including staff support. CD48 Metropolitan New York Coordinating Council on Jewish Poverty,"
-Anti-Poverty,Anti-Poverty Initiative,initiative_provider,,Inc.,,132738818,7500,DSS/HRA,"Funding to support social services and case management, emergency services for the needy."
+Anti-Poverty,Anti-Poverty Initiative,initiative_provider,,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,7500,DSS/HRA,"Funding to support social services and case management, emergency services for the needy."
 Anti-Poverty,Anti-Poverty Initiative,member_item,Riley,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,10000,DYCD,"Funding for our kosher food system supports emergency food packages at client choice pantries, preserves critical staffing levels and ensures clients do not have to choose between buying food and paying rent or other necessary expenses."
 Anti-Poverty,Anti-Poverty Initiative,member_item,Maisel,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",Anti-Poverty Services - Council District 46,132738818,5000,DYCD,To provide emergency food packages and other essentials to the residents of Council District 46.
 Anti-Poverty,Anti-Poverty Initiative,member_item,Koo,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",Food Program,132738818,5000,DYCD,"To support the kosher food system, including emergency food packages for residents in Council District 20."
@@ -473,7 +473,7 @@ Community Development,LGBT Community Services,member_item,,"Brooklyn Community P
 Community Development,LGBT Community Services,initiative_provider,,City University of New York,,133893536,50000,,
 Community Development,LGBT Community Services,initiative_provider,,"Department of Youth and Community Development, The",,136400434,1100000,,
 Community Development,LGBT Community Services,initiative_provider,,"Destination Tomorrow, Inc.",,800259180,250000,,
-Community Development,LGBT Community Services,initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,250000,,
+Community Development,LGBT Community Services,initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,250000,,
 Community Development,LGBT Community Services,initiative_provider,,"GLAAD, Inc.",,133384027,250000,,
 Community Development,LGBT Community Services,initiative_provider,,"Harlem Pride, Incorporated",,272191962,20000,,
 Community Development,LGBT Community Services,initiative_provider,,"Heights Hill Mental Health Service, SBPC, Community Advisory Board, Inc.",,112785605,40000,,
@@ -918,7 +918,7 @@ Immigrant Services,New York Immigrant Family Unity Project,member_item,,Brooklyn
 Immigrant Services,New York Immigrant Family Unity Project,initiative_provider,,Legal Aid Society,,135562265,5533334,,
 Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,Central American Legal Assistance,,112859151,380000,,
 Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,Department of Social Services,,136400434,250000,,
-Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,510000,,
+Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,510000,,
 Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,Human Rights First,,133116646,250000,,
 Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,"KIND, Inc.",,262763038,125000,,
 Immigrant Services,Unaccompanied Minors and Families,initiative_provider,,Legal Aid Society,,135562265,855000,,
@@ -937,7 +937,7 @@ Legal Services,Legal Services for the Working Poor,initiative_provider,,Northern
 Legal Services,Legal Services for the Working Poor,initiative_provider,,Make the Road New York,,113344389,47500,,
 Legal Services,Legal Services for the Working Poor,initiative_provider,,Southside United Housing Development Fund Corporation,,112268359,260000,,
 Legal Services,Legal Services for the Working Poor,initiative_provider,,"Community Development Project, Inc.",,831441257,455000,,
-Legal Services,Legal Services for the Working Poor,initiative_provider,,"CAMBA, Inc.",,113153831,455000,,
+Legal Services,Legal Services for the Working Poor,initiative_provider,,"CAMBA Legal Services, Inc.",,113153831,455000,,
 Legal Services,Low Wage Worker Support,initiative_provider,,New Immigrant Community Empowerment (NICE),,113560625,40000,,
 Legal Services,Low Wage Worker Support,initiative_provider,,New York Committee for Occupational Safety and Health,,132935028,80000,,
 Legal Services,Prisoners’ Rights Project,initiative_provider,,Legal Aid Society,,135562265,1000000,,
@@ -1027,7 +1027,7 @@ Health Services,Geriatric Mental Health,initiative_provider,,"SBH Community Serv
 Health Services,Geriatric Mental Health,initiative_provider,,"Service Program for Older People (SPOP), Inc.",,132947616,78540,,
 Health Services,Geriatric Mental Health,initiative_provider,,"Services And Advocacy For Gay, Lesbian, Bisexual And Transgender Elders, Inc.",,132947657,86000,,
 Health Services,Geriatric Mental Health,initiative_provider,,South Asian Council for Social Services,,113632920,51500,,
-Health Services,Geriatric Mental Health,initiative_provider,,Spanish Speaking Elderly Council,RAICES,112730462,83000,,
+Health Services,Geriatric Mental Health,initiative_provider,,Spanish Speaking Elderly Council - RAICES,RAICES,112730462,83000,,
 Health Services,"Sunnyside Community Services, Inc. 51-189327",initiative_provider,,Visiting Nurse Service of New York Home Care II,,131624211,162000,,
 Health Services,LGBTQ Youth All-Borough Mental Health,initiative_provider,,"Hetrick-Martin Institute, Inc.",,133104537,1200000,,
 Health Services,Mental Health Services for Vulnerable Populations,initiative_provider,,Association to Benefit Children,,133303089,59500,,
@@ -1091,7 +1091,7 @@ Public Safety,Crisis Management System,initiative_provider,,Research Foundation 
 Public Safety,Crisis Management System,initiative_provider,,"Rising Ground, Inc.",,131860451,80000,,
 Public Safety,Crisis Management System,initiative_provider,,"SCAN-New York Volunteer Parent-Aides Association, Inc.",,132912963,80000,,
 Public Safety,Crisis Management System,initiative_provider,,"Sheltering Arms Children and Family Services, Inc.",,133709095,80000,,
-Public Safety,Crisis Management System,initiative_provider,,"Union Settlement, Inc.",,131632530,35000,,
+Public Safety,Crisis Management System,initiative_provider,,"Union Settlement Association, Inc.",,131632530,35000,,
 Public Safety,Cure Hate,initiative_provider,,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,125000,,
 Senior Services Initiatives,Access to Critical Services for Seniors,initiative_provider,,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,1180000,,
 Senior Services Initiatives,Borough Presidents’ Discretionary Funding Restoration,initiative_provider,,Department for the Aging,,136400434,1129774,,
@@ -1121,7 +1121,7 @@ Senior Services Initiatives,Social Adult Day Care,initiative_provider,,"Riverdal
 Senior Services Initiatives,Social Adult Day Care,initiative_provider,,"Selfhelp Community Services, Inc.",,131624178,167284,,
 Senior Services Initiatives,Social Adult Day Care,initiative_provider,,"Sunnyside Community Services, Inc.",,510189327,167284,,
 Senior Services Initiatives,Social Adult Day Care,initiative_provider,,"Sunset Park Health Council, Inc.",,202508411,167284,,
-Small Business Services and Workforce Development,Construction Site Safety Training,initiative_provider,,East River Development All,,861096987,125000,,
+Small Business Services and Workforce Development,Construction Site Safety Training,initiative_provider,,"East River Development Alliance, Inc.",,861096987,125000,,
 Small Business Services and Workforce Development,Construction Site Safety Training,initiative_provider,,"Man Up, Inc.",,030553092,125000,,
 Small Business Services and Workforce Development,Construction Site Safety Training,initiative_provider,,Northern Manhattan Coalition for Immigrant Rights,,133255591,125000,,
 Small Business Services and Workforce Development,Construction Site Safety Training,member_item,,"Staten Island Community Job Center, Inc.",,472787706,125000,,
@@ -1291,7 +1291,7 @@ Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Addre
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,member_item,Gibson,Montefiore Medical Center,The BOLD (Bronx Oncology Living Daily) Community Cancer Navigation Program,131740114,25000,DHMH,
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,Mount Sinai Hospital,Adolescent Health,131624096,100000,DHMH,
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"Museum of Contemporary African Diasporian Arts, Inc.",,113526774,75000,DYCD,
-Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,member_item,D. Diaz,Museum of Jewish Heritage,A Living Memorial to the Holocaust,133376265,200000,DCLA,Funds will be used to support educational programming of the Holocaust.
+Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,member_item,D. Diaz,Museum of Jewish Heritage - A Living Memorial to the Holocaust,A Living Memorial to the Holocaust,133376265,200000,DCLA,Funds will be used to support educational programming of the Holocaust.
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,Muslim Community Network,MY NYC,753163555,20000,DYCD,
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,initiative_provider,,"National Association on Drug Abuse Problems (New York State), Inc.",,133185808,25000,MOCJ,
 Speaker’s Initiative to Address Citywide Needs,Speaker’s Initiative to Address Citywide Needs,member_item,Rosenthal,"National Institute for Reproductive Health, Inc.",Teen Outreach Reproductive Challenge (TORCH),133030257,175000,DHMH,
@@ -1428,7 +1428,7 @@ Young Women’s Initiative,Initiative for Immigrant Survivors of Domestic Violen
 Young Women’s Initiative,Initiative for Immigrant Survivors of Domestic Violence,initiative_provider,,Violence Intervention Program,,133540337,35000,,
 Young Women’s Initiative,Initiative for Immigrant Survivors of Domestic Violence,initiative_provider,,Women for Afghan Women,,020539734,55000,,
 Young Women’s Initiative,Prevent Sexual Assault (PSA) Initiative for Young Adults,initiative_provider,,"Center for Anti-Violence Education (CAE), Inc., The",,112444676,75000,,
-Young Women’s Initiative,Prevent Sexual Assault (PSA) Initiative for Young Adults,initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,75000,,
+Young Women’s Initiative,Prevent Sexual Assault (PSA) Initiative for Young Adults,initiative_provider,,"Door - A Center of Alternatives, Inc., The","A Center of Alternatives, Inc., The",136127348,75000,,
 Young Women’s Initiative,Step In and Stop It Initiative to Address Bystander Intervention,initiative_provider,,"Grand Street Settlement, Inc.",,135562230,99000,,
 Young Women’s Initiative,Step In and Stop It Initiative to Address Bystander Intervention,initiative_provider,,Young Women’s Christian Association of the City of New York,,131624230,75000,,
 Young Women’s Initiative,Step In and Stop It Initiative to Address Bystander Intervention,initiative_provider,,Arab-American Family Support Center,,113167245,60000,,
@@ -1450,7 +1450,7 @@ Young Women’s Initiative,Young Women’s Leadership Development,initiative_pro
 Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,"Guyanese Girls Rock Foundation, Inc.",,474548559,12000,,
 Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,Junior Achievement of New York,,133031828,25000,,
 Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,"Korean American Family Services Center, Inc. The",,133609811,55000,,
-Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,Latinas on the Verge of Excellence,,463732667,29375,,
+Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,"Latinas On The Verge of Excellence Love, Inc.",,463732667,29375,,
 Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,Ladies Who Hoop,,815365775,10000,,
 Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,Non-Traditional Employment for Women,,133272001,135000,,
 Young Women’s Initiative,Young Women’s Leadership Development,initiative_provider,,Notre Dame School of Manhattan,,131782481,10000,,
