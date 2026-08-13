@@ -14,6 +14,25 @@ version unless the new `source_table` filter is used. No parameter was renamed o
 main-body row changed.
 
 ### Fixed
+- **1,271 award rows had lost their grantee name.** Extraction put purpose prose where the
+  organization belonged (1,060 rows), or absorbed a neighbouring award's text into the field
+  (211 rows), so a query returned a sentence — or another organization's name — where a grantee
+  should be. `get_awards_by_ein("13-4051235")` showed *"For a Community Education Summit to focus
+  on the opioid crisis…"* instead of **Film Fleadh Foundation, Inc.**
+
+  Names were restored deterministically from the Council's own published expense disclosure files
+  (`source/expense-funding-disclosure/`, FY2013–FY2027), joined on **(EIN, amount)**. EIN alone is
+  not a usable key: fiscal sponsors pass funds through for many grantees, and EIN 13-2612524 (Fund
+  for the City of New York) carries 229 distinct names in this corpus — joining on it would have
+  stamped the sponsor's name onto awards that went elsewhere. `(EIN, amount)` identifies the
+  individual award and resolves uniquely for 96% of affected rows.
+
+  Nothing was inferred and no model read a value. Every substitution is recorded in
+  `data/combined/org_name_recovery_crosswalk.csv` with the original text, the replacement, the EIN
+  and the amount, so each edit is auditable and reversible. **473 rows the method could not resolve
+  to a single candidate were left untouched** and remain flagged by `code/validate_data.py` rather
+  than filled in with a guess.
+
 - **28,575 appendix rows were invisible to every tool.** `scripts/build-index.mjs` read exactly
   one file per fiscal year, `{fy}_schedule_c_awards.csv`, and nothing else — `grep -c appendix
   scripts/build-index.mjs` returned 0. The three per-year appendix CSVs (Appendix A aging,
