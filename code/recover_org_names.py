@@ -34,6 +34,17 @@ NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
 CROSSWALK = "data/combined/org_name_recovery_crosswalk.csv"
 
 
+def pick(row, needles):
+    """First value whose HEADER contains one of `needles` (case-insensitive). Tolerates the
+    header drift across FY2013-FY2027 rather than requiring an exact string match."""
+    for k, v in row.items():
+        kl = (k or "").strip().lower()
+        if any(n in kl for n in needles):
+            if v not in (None, ""):
+                return v
+    return ""
+
+
 def norm_ein(v):
     return re.sub(r"\D", "", v or "")
 
@@ -99,10 +110,15 @@ def read_workbook(path):
                     hdr = vals
                 else:
                     d = dict(zip(hdr, vals))
-                    ein = norm_ein(d.get("Tax ID") or d.get("EIN"))
-                    name = (d.get("Legal Name") or d.get("Legal Name of Organization") or "").strip()
+                    # Headers drift across the 15-year series and exact lookups silently miss:
+                    # FY2016 heads the name column "Legal Name of Organization Requesting Funding"
+                    # and FY2014 heads the amount column "Amount ($". Both returned None under the
+                    # first version of this script, so FY2016 recovered 10 rows instead of its real
+                    # share and FY2014 was skipped outright. Match on a prefix/substring instead.
+                    ein = norm_ein(pick(d, ("tax id", "ein")))
+                    name = (pick(d, ("legal name",)) or "").strip()
                     try:
-                        amt = int(float(d.get("Amount") or 0))
+                        amt = int(float(pick(d, ("amount",)) or 0))
                     except (TypeError, ValueError):
                         el.clear(); continue
                     if ein and name:
@@ -197,6 +213,7 @@ def main():
         with open(CROSSWALK, newline="", encoding="utf-8") as fh:
             prior = list(csv.DictReader(fh))
     seen = {(r["file"], r["line"]) for r in rows}
+    new_count = len(rows)          # this run only — the cumulative total is reported separately
     rows = [r for r in prior if (r["file"], r["line"]) not in seen] + rows
     rows.sort(key=lambda r: (r["file"], int(r["line"])))
     with open(CROSSWALK, "w", newline="", encoding="utf-8") as fh:
@@ -206,7 +223,8 @@ def main():
         w.writeheader()
         w.writerows(rows)
 
-    print(f"\nrecovered (unique ein+amount match): {len(rows):,}")
+    print(f"\nrecovered THIS RUN (unique ein+amount): {new_count:,}")
+    print(f"crosswalk total, all runs             : {len(rows):,}")
     print(f"ambiguous  (>1 candidate, NOT applied): {len(ambiguous):,}")
     print(f"unresolved (no match, NOT applied)    : {len(unresolved):,}")
     print(f"crosswalk -> {CROSSWALK}")
