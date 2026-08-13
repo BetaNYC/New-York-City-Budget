@@ -13,6 +13,36 @@ refuters. **124 findings raised, 71 survived refutation, 16 blockers. 154 claims
 recomputed as correct.** The final synthesis agent never ran (spend limit), so this is the raw
 record rather than a ranked verdict.
 
+## ⚠️ Verification status — this file lists ALL 124 raised, verified or not
+
+The run hit the monthly subagent spend cap. **All 12 audit dimensions completed**, but 69 of ~372
+refuters died, and the completeness critic and publication verdict never ran at all.
+
+**Findings below are NOT marked with their verdict.** 305 refuter verdicts did land, and 79 of them
+returned `not-a-defect` — so a meaningful share of what is written here was refuted and is reported
+anyway. Treat every entry as a lead, not a conclusion.
+
+The failures were concentrated in three dimensions, whose findings are the least trustworthy in
+both directions:
+
+| dimension | what it audited | refuter losses |
+|---|---|---|
+| `script1-logic` | `verify_amounts_against_pdf.py` internals | heavy |
+| `refute-440` | the adversarial attack on "440 of 440 confirmed" | heavy |
+| `numbers-dictionary-readme` | figures in DATA-DICTIONARY / README / PARSING | 4 |
+
+**The error runs both ways, and not symmetrically.** The workflow scored a finding as surviving only
+if at least one refuter returned; a finding whose three refuters *all* died was dropped. So the
+71-survivor set **under**-reports — real defects from those three dimensions were silently
+discarded — while this raw file **over**-reports, since it includes findings that were refuted or
+never tested.
+
+Independently re-verified by hand since (these hold): the absent `GRAND TOTAL`, the
+`comparison-2027.md` contradiction, the disclosure stream arithmetic, and the `pdf_line`
+`splitlines()` drift (18,023 newlines vs 18,315 `splitlines()` — exactly the 292 form feeds).
+
+Re-run plan: `README.md` in this folder, and the handoff journal in the workspace.
+
 Retraction posted to issue #57: https://github.com/BetaNYC/New-York-City-Budget/issues/57#issuecomment-5282646717
 
 Severity: {'major': 49, 'minor': 36, 'nit': 23, 'blocker': 16}
