@@ -119,39 +119,39 @@ Advisory, never a gate. Three known structural causes live in this residual: awa
 
 | FY | joined | balanced | short | over | printed | award rows | residual | recovered | residual after | balanced after | unjoined $ |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| FY2015 | 54 | 47 | 7 | 0 | 72,846,000 | 48,788,999 | 24,057,001 | 0 | 24,057,001 | 47 | 24,410,838 |
+| FY2015 | 56 | 49 | 7 | 0 | 73,646,000 | 49,588,999 | 24,057,001 | 0 | 24,057,001 | 49 | 23,610,838 |
 | FY2016 | 65 | 50 | 15 | 0 | 86,474,645 | 73,550,272 | 12,924,373 | 9,503,585 | 3,420,788 | 55 | 16,366,740 |
-| FY2017 | 62 | 15 | 46 | 1 | 137,820,597 | 84,169,476 | 53,651,121 | 22,966,793 | 30,684,328 | 28 | 5,732,011 |
-| FY2018 | 52 | 23 | 29 | 0 | 109,707,645 | 76,182,556 | 33,525,089 | 16,268,804 | 17,256,285 | 31 | 26,534,400 |
-| FY2019 | 78 | 33 | 39 | 6 | 179,903,641 | 158,781,023 | 21,122,618 | 3,573,279 | 17,549,339 | 39 | 22,245,908 |
-| FY2020 | 82 | 41 | 39 | 2 | 214,474,020 | 174,711,180 | 39,762,840 | 0 | 39,762,840 | 41 | 84,051,205 |
-| FY2021 | 74 | 43 | 30 | 1 | 154,055,180 | 120,286,489 | 33,768,691 | 0 | 33,768,691 | 43 | 81,783,699 |
-| FY2022 | 74 | 33 | 38 | 3 | 188,358,720 | 142,087,611 | 46,271,109 | 0 | 46,271,109 | 33 | 80,469,332 |
-| FY2023 | 86 | 43 | 42 | 1 | 234,402,951 | 179,962,789 | 54,440,162 | 0 | 54,440,162 | 43 | 82,456,425 |
-| FY2024 | 102 | 61 | 39 | 2 | 288,174,916 | 232,265,374 | 55,909,542 | 0 | 55,909,542 | 61 | 168,398,200 |
-| FY2025 | 104 | 69 | 33 | 2 | 305,027,167 | 244,365,464 | 60,661,703 | 0 | 60,661,703 | 69 | 168,619,646 |
-| FY2026 | 98 | 57 | 37 | 4 | 330,237,279 | 255,775,861 | 74,461,418 | 0 | 74,461,418 | 57 | 231,511,384 |
+| FY2017 | 62 | 15 | 46 | 1 | 137,820,597 | 84,537,586 | 53,283,011 | 22,966,793 | 30,316,218 | 28 | 5,363,901 |
+| FY2018 | 53 | 23 | 30 | 0 | 113,407,645 | 77,800,804 | 35,606,841 | 16,268,804 | 19,338,037 | 31 | 24,916,152 |
+| FY2019 | 78 | 33 | 38 | 7 | 179,903,641 | 160,483,245 | 19,420,396 | 3,573,279 | 15,847,117 | 39 | 20,543,686 |
+| FY2020 | 89 | 42 | 45 | 2 | 237,351,206 | 190,972,466 | 46,378,740 | 0 | 46,378,740 | 42 | 67,789,919 |
+| FY2021 | 81 | 44 | 36 | 1 | 188,373,880 | 129,725,478 | 58,648,402 | 0 | 58,648,402 | 44 | 72,344,710 |
+| FY2022 | 75 | 34 | 38 | 3 | 189,078,720 | 146,571,825 | 42,506,895 | 0 | 42,506,895 | 34 | 75,985,118 |
+| FY2023 | 103 | 44 | 54 | 5 | 327,479,451 | 204,549,003 | 122,930,448 | 0 | 122,930,448 | 44 | 57,870,211 |
+| FY2024 | 110 | 56 | 45 | 9 | 320,889,916 | 262,519,338 | 58,370,578 | 0 | 58,370,578 | 56 | 138,144,236 |
+| FY2025 | 114 | 65 | 40 | 9 | 340,243,739 | 279,689,734 | 60,554,005 | 0 | 60,554,005 | 65 | 133,295,376 |
+| FY2026 | 110 | 48 | 45 | 17 | 429,390,495 | 302,124,637 | 127,265,858 | 0 | 127,265,858 | 48 | 185,162,608 |
 | FY2027 | 152 | 113 | 34 | 5 | 507,368,128 | 493,824,363 | 13,543,765 | 0 | 13,543,765 | 113 | 111,287,049 |
 
 Unjoined detail — dollars this check cannot test, per year:
 
 | FY | award labels with no printed counterpart | $ | award rows with no initiative label | $ | recovered $ not joinable |
 |---|---:|---:|---:|---:|---:|
-| FY2015 | 22 | 23,610,838 | 2 | 800,000 | 0 |
+| FY2015 | 22 | 23,610,838 | 0 | 0 | 0 |
 | FY2016 | 15 | 16,366,740 | 0 | 0 | 1,555,980 |
-| FY2017 | 8 | 5,174,171 | 24 | 557,840 | 4,883,980 |
-| FY2018 | 20 | 22,400,501 | 49 | 4,133,899 | 7,036,150 |
-| FY2019 | 15 | 16,525,806 | 70 | 5,720,102 | 684,421 |
-| FY2020 | 18 | 42,846,440 | 562 | 41,204,765 | 0 |
-| FY2021 | 30 | 59,425,430 | 442 | 22,358,269 | 0 |
-| FY2022 | 20 | 72,699,191 | 63 | 7,770,141 | 0 |
-| FY2023 | 3 | 3,519,423 | 1098 | 78,937,002 | 0 |
-| FY2024 | 16 | 38,239,051 | 2479 | 130,159,149 | 0 |
-| FY2025 | 10 | 36,869,548 | 2501 | 131,750,098 | 0 |
-| FY2026 | 16 | 59,289,174 | 2410 | 172,222,210 | 0 |
+| FY2017 | 8 | 5,174,171 | 9 | 189,730 | 4,883,980 |
+| FY2018 | 20 | 22,400,501 | 29 | 2,515,651 | 7,036,150 |
+| FY2019 | 15 | 18,052,836 | 31 | 2,490,850 | 684,421 |
+| FY2020 | 18 | 42,846,440 | 436 | 24,943,479 | 0 |
+| FY2021 | 30 | 59,425,430 | 326 | 12,919,280 | 0 |
+| FY2022 | 20 | 72,699,191 | 42 | 3,285,927 | 0 |
+| FY2023 | 3 | 3,519,423 | 879 | 54,350,788 | 0 |
+| FY2024 | 16 | 39,177,551 | 2233 | 98,966,685 | 0 |
+| FY2025 | 10 | 37,908,048 | 2166 | 95,387,328 | 0 |
+| FY2026 | 16 | 59,289,174 | 2035 | 125,873,434 | 0 |
 | FY2027 | 6 | 111,287,049 | 0 | 0 | 0 |
 
-### Initiatives that do not balance (455)
+### Initiatives that do not balance (532)
 
 Balanced initiatives are omitted — their residual is $0 by definition. Sorted by fiscal year, then by the size of the residual.
 
@@ -185,9 +185,9 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | FY2017 | Naturally Occurring Retirement Communities (NORCs) | short | 3,850,000 | 1,285,000 | 8 | 2,565,000 | 0 | 2,565,000 |
 | FY2017 | Autism Awareness | short | 3,315,386 | 861,383 | 15 | 2,454,003 | 424,003 | 2,030,000 |
 | FY2017 | New York Immigrant Family Unity Project | short | 6,230,000 | 4,153,332 | 2 | 2,076,668 | 2,076,667 | 1 |
-| FY2017 | Community Housing Preservation Strategies | short | 3,651,000 | 1,640,295 | 33 | 2,010,705 | 837,106 | 1,173,599 |
 | FY2017 | City’s First Readers | short | 2,792,000 | 894,000 | 8 | 1,898,000 | 898,000 | 1,000,000 |
-| FY2017 | Digital Inclusion and Literacy Initiative | short | 2,040,000 | 180,000 | 9 | 1,860,000 | 0 | 1,860,000 |
+| FY2017 | Community Housing Preservation Strategies | short | 3,651,000 | 1,848,405 | 40 | 1,802,595 | 837,106 | 965,489 |
+| FY2017 | Digital Inclusion and Literacy Initiative | short | 2,040,000 | 340,000 | 17 | 1,700,000 | 0 | 1,700,000 |
 | FY2017 | Stabilizing NYC | short | 2,000,000 | 575,000 | 6 | 1,425,000 | 325,000 | 1,100,000 |
 | FY2017 | Afterschool Enrichment Initiative | short | 5,425,000 | 4,075,000 | 2 | 1,350,000 | 0 | 1,350,000 |
 | FY2017 | Supportive Alternatives to Violent Encounters (SAVE) | short | 1,950,000 | 600,000 | 1 | 1,350,000 | 0 | 1,350,000 |
@@ -229,9 +229,10 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | FY2018 | Domestic Violence and Empowerment (DoVE) Initiative | short | 7,805,000 | 562,500 | 1 | 7,242,500 | 0 | 7,242,500 |
 | FY2018 | Discretionary Child Care | short | 9,855,190 | 3,537,041 | 5 | 6,318,149 | 6,318,149 | 0 |
 | FY2018 | Afterschool Enrichment Initiative | short | 5,725,000 | 1,675,000 | 3 | 4,050,000 | 4,000,000 | 50,000 |
-| FY2018 | Autism Awareness | short | 3,236,846 | 264,903 | 4 | 2,971,943 | 0 | 2,971,943 |
+| FY2018 | Communities of Color Nonprofit Stabilization Fund | short | 3,700,000 | 55,000 | 1 | 3,645,000 | 0 | 3,645,000 |
 | FY2018 | Job Training and Placement Initiative | short | 7,906,000 | 5,015,300 | 31 | 2,890,700 | 0 | 2,890,700 |
 | FY2018 | Alternatives to Incarceration (ATI’s) | short | 6,407,000 | 4,678,660 | 14 | 1,728,340 | 1,328,340 | 400,000 |
+| FY2018 | Autism Awareness | short | 3,236,846 | 1,828,151 | 23 | 1,408,695 | 0 | 1,408,695 |
 | FY2018 | Bail Fund | short | 1,400,000 | 150,000 | 1 | 1,250,000 | 109,000 | 1,141,000 |
 | FY2018 | COMPASS | short | 1,813,600 | 963,200 | 4 | 850,400 | 704,400 | 146,000 |
 | FY2018 | Post-Arrest Diversion Program | short | 1,025,000 | 330,000 | 1 | 695,000 | 0 | 695,000 |
@@ -273,9 +274,9 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | FY2019 | Discretionary Child Care | short | 5,355,190 | 4,242,000 | 15 | 1,113,190 | 0 | 1,113,190 |
 | FY2019 | YouthBuild Project Initiative | short | 2,100,000 | 989,700 | 4 | 1,110,300 | 370,100 | 740,200 |
 | FY2019 | Senior Centers for Immigrant Populations | short | 2,000,000 | 900,000 | 9 | 1,100,000 | 100,000 | 1,000,000 |
-| FY2019 | Mental Health Services for Vulnerable Populations | short | 1,718,000 | 979,000 | 7 | 739,000 | 0 | 739,000 |
-| FY2019 | Viral Hepatitis Prevention | short | 1,923,658 | 1,198,121 | 22 | 725,537 | 27,000 | 698,537 |
+| FY2019 | Children Under Five | over | 1,002,000 | 1,759,000 | 10 | -757,000 | 0 | -757,000 |
 | FY2019 | Cancer Services | over | 599,500 | 1,245,500 | 11 | -646,000 | 0 | -646,000 |
+| FY2019 | Viral Hepatitis Prevention | short | 1,923,658 | 1,354,343 | 28 | 569,315 | 27,000 | 542,315 |
 | FY2019 | Wrap-Around Support for Transitional-Aged Foster Youth | short | 1,100,000 | 550,000 | 7 | 550,000 | 0 | 550,000 |
 | FY2019 | Day Laborer Workforce Initiative | short | 1,970,000 | 1,470,000 | 6 | 500,000 | 0 | 500,000 |
 | FY2019 | COMPASS | short | 1,813,600 | 1,319,200 | 5 | 494,400 | 494,400 | 0 |
@@ -284,8 +285,8 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | FY2019 | Support for Educators | short | 20,804,500 | 20,354,500 | 1 | 450,000 | 450,000 | 0 |
 | FY2019 | Young Women's Leadership Development | short | 1,096,000 | 718,500 | 11 | 377,500 | 0 | 377,500 |
 | FY2019 | Trans Equity Programs | short | 1,775,000 | 1,525,000 | 7 | 250,000 | 0 | 250,000 |
-| FY2019 | Children Under Five | short | 1,002,000 | 757,000 | 6 | 245,000 | 0 | 245,000 |
 | FY2019 | Mental Health Services for Veterans | short | 420,000 | 225,000 | 2 | 195,000 | 0 | 195,000 |
+| FY2019 | Mental Health Services for Vulnerable Populations | short | 1,718,000 | 1,523,000 | 12 | 195,000 | 0 | 195,000 |
 | FY2019 | Immigrant Health Initiative | short | 2,000,000 | 1,835,000 | 19 | 165,000 | 165,000 | 0 |
 | FY2019 | Autism Awareness | short | 3,236,846 | 3,076,298 | 35 | 160,548 | 60,548 | 100,000 |
 | FY2019 | Homeless Prevention Services for Veterans | short | 300,000 | 150,000 | 1 | 150,000 | 0 | 150,000 |
@@ -300,27 +301,33 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | FY2019 | Support for Victims of Human Trafficking | short | 1,200,000 | 1,140,000 | 9 | 60,000 | 60,000 | 0 |
 | FY2019 | Job Placement for Veterans | short | 200,000 | 150,000 | 1 | 50,000 | 0 | 50,000 |
 | FY2019 | HIV/AIDS Faith Based | short | 1,131,000 | 1,105,318 | 13 | 25,682 | 61,701 | -36,019 |
-| FY2020 | Domestic Violence and Empowerment (DoVE) Initiative | short | 9,805,000 | 620,000 | 13 | 9,185,000 | 0 | 9,185,000 |
+| FY2020 | Domestic Violence and Empowerment (DoVE) Initiative | short | 9,805,000 | 1,927,500 | 25 | 7,877,500 | 0 | 7,877,500 |
 | FY2020 | Community Schools | over | 3,750,000 | 11,153,800 | 12 | -7,403,800 | 0 | -7,403,800 |
 | FY2020 | New York Immigrant Family Unity Project | short | 16,600,000 | 11,066,667 | 2 | 5,533,333 | 0 | 5,533,333 |
 | FY2020 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 12,540,000 | 627 | 4,800,000 | 0 | 4,800,000 |
 | FY2020 | NYC Cleanup | short | 13,260,000 | 8,478,200 | 117 | 4,781,800 | 0 | 4,781,800 |
 | FY2020 | Food Pantries | short | 5,659,000 | 1,000,000 | 1 | 4,659,000 | 0 | 4,659,000 |
-| FY2020 | Coalition Theaters of Color | short | 3,740,000 | 350,400 | 6 | 3,389,600 | 0 | 3,389,600 |
+| FY2020 | Parks Equity Initiative | short | 5,113,500 | 778,500 | 1 | 4,335,000 | 0 | 4,335,000 |
+| FY2020 | Crisis Management System | short | 2,875,600 | 520,000 | 9 | 2,355,600 | 0 | 2,355,600 |
 | FY2020 | Cultural Immigrant Initiative | short | 7,395,000 | 5,074,000 | 259 | 2,321,000 | 0 | 2,321,000 |
 | FY2020 | Support Our Seniors | short | 5,100,000 | 3,208,000 | 181 | 1,892,000 | 0 | 1,892,000 |
+| FY2020 | Coalition Theaters of Color | short | 3,740,000 | 1,920,600 | 42 | 1,819,400 | 0 | 1,819,400 |
 | FY2020 | Diversion Programs | short | 2,525,000 | 930,000 | 1 | 1,595,000 | 0 | 1,595,000 |
 | FY2020 | Wrap-Around Support for Transitional-Aged Foster Youth | over | 1,230,000 | 2,696,125 | 32 | -1,466,125 | 0 | -1,466,125 |
 | FY2020 | Borough Presidents’ Discretionary Funding Restoration | short | 1,129,774 | 100,000 | 2 | 1,029,774 | 0 | 1,029,774 |
+| FY2020 | Family Advocacy and Guardianship Support | short | 1,500,000 | 525,000 | 2 | 975,000 | 0 | 975,000 |
 | FY2020 | Unaccompanied Minors and Families | short | 3,981,800 | 3,016,800 | 5 | 965,000 | 0 | 965,000 |
 | FY2020 | Digital Inclusion and Literacy Initiative | short | 3,060,000 | 2,340,000 | 103 | 720,000 | 0 | 720,000 |
+| FY2020 | Chamber on the Go and Small Business Assistance | short | 1,888,855 | 1,208,855 | 12 | 680,000 | 0 | 680,000 |
 | FY2020 | Discretionary Child Care | short | 5,405,190 | 4,731,108 | 6 | 674,082 | 0 | 674,082 |
 | FY2020 | Neighborhood Development Grant Initiative | short | 2,040,000 | 1,368,000 | 65 | 672,000 | 0 | 672,000 |
+| FY2020 | Art a Catalyst for Change | short | 720,000 | 72,000 | 4 | 648,000 | 0 | 648,000 |
 | FY2020 | Naturally Occurring Retirement Communities (NORCs) | short | 5,325,325 | 4,741,294 | 37 | 584,031 | 0 | 584,031 |
 | FY2020 | Ending the Epidemic | short | 7,735,000 | 7,161,200 | 67 | 573,800 | 0 | 573,800 |
 | FY2020 | Maternal and Child Health Services | short | 2,192,818 | 1,631,117 | 13 | 561,701 | 0 | 561,701 |
 | FY2020 | Worker Cooperative Business Development Initiative | short | 3,609,000 | 3,096,711 | 12 | 512,289 | 0 | 512,289 |
 | FY2020 | Access Health | short | 3,000,000 | 2,500,000 | 36 | 500,000 | 0 | 500,000 |
+| FY2020 | Adult Literacy Initiative | short | 4,000,000 | 3,500,000 | 40 | 500,000 | 0 | 500,000 |
 | FY2020 | Legal Services for Low-Income New Yorkers | short | 5,800,000 | 5,300,000 | 5 | 500,000 | 0 | 500,000 |
 | FY2020 | Healthy Aging Initiative | short | 2,040,000 | 1,589,000 | 108 | 451,000 | 0 | 451,000 |
 | FY2020 | Legal Services for the Working Poor | short | 3,205,000 | 2,897,500 | 10 | 307,500 | 0 | 307,500 |
@@ -341,21 +348,23 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | FY2020 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,535,000 | 32 | 65,000 | 0 | 65,000 |
 | FY2020 | Dedicated Contraceptive Fund | short | 781,000 | 718,000 | 3 | 63,000 | 0 | 63,000 |
 | FY2020 | Legal Services for Veterans | short | 600,000 | 550,000 | 5 | 50,000 | 0 | 50,000 |
-| FY2021 | Domestic Violence and Empowerment (DoVE) Initiative | short | 9,805,000 | 1,672,500 | 20 | 8,132,500 | 0 | 8,132,500 |
+| FY2021 | Cultural After-School Adventure (CASA) | short | 14,280,000 | 40,000 | 2 | 14,240,000 | 0 | 14,240,000 |
+| FY2021 | NYC Cleanup | short | 8,160,000 | 50,000 | 1 | 8,110,000 | 0 | 8,110,000 |
+| FY2021 | Domestic Violence and Empowerment (DoVE) Initiative | short | 9,805,000 | 1,982,500 | 26 | 7,822,500 | 0 | 7,822,500 |
+| FY2021 | Cultural Immigrant Initiative | short | 6,375,000 | 65,000 | 2 | 6,310,000 | 0 | 6,310,000 |
 | FY2021 | New York Immigrant Family Unity Project | short | 16,600,000 | 11,066,667 | 2 | 5,533,333 | 0 | 5,533,333 |
-| FY2021 | Food Pantries | short | 5,659,000 | 1,000,000 | 1 | 4,659,000 | 0 | 4,659,000 |
-| FY2021 | Coalition Theaters of Color | short | 3,740,000 | 1,389,000 | 21 | 2,351,000 | 0 | 2,351,000 |
-| FY2021 | Adult Literacy Initiative | short | 3,400,000 | 1,196,124 | 15 | 2,203,876 | 0 | 2,203,876 |
-| FY2021 | Autism Awareness | short | 3,246,846 | 1,361,483 | 15 | 1,885,363 | 0 | 1,885,363 |
+| FY2021 | Food Pantries | short | 5,659,000 | 1,050,000 | 2 | 4,609,000 | 0 | 4,609,000 |
+| FY2021 | A Greener NYC | short | 2,040,000 | 10,000 | 1 | 2,030,000 | 0 | 2,030,000 |
 | FY2021 | Access Health | short | 2,550,000 | 685,169 | 10 | 1,864,831 | 0 | 1,864,831 |
 | FY2021 | Public Health Funding Backfill | short | 3,967,743 | 2,294,255 | 73 | 1,673,488 | 0 | 1,673,488 |
 | FY2021 | Court-Involved Youth Mental Health | short | 2,890,000 | 1,241,850 | 10 | 1,648,150 | 0 | 1,648,150 |
 | FY2021 | Parks Equity Initiative | short | 1,798,500 | 778,500 | 1 | 1,020,000 | 0 | 1,020,000 |
 | FY2021 | Diversion Programs | over | 2,162,000 | 3,150,000 | 13 | -988,000 | 0 | -988,000 |
 | FY2021 | Unaccompanied Minors and Families | short | 3,981,800 | 3,391,800 | 7 | 590,000 | 0 | 590,000 |
+| FY2021 | Art a Catalyst for Change | short | 612,000 | 61,200 | 4 | 550,800 | 0 | 550,800 |
 | FY2021 | Initiative for Immigrant Survivors of Domestic Violence | short | 477,000 | 112,500 | 3 | 364,500 | 0 | 364,500 |
+| FY2021 | Immigrant Health Initiative | short | 2,000,000 | 1,640,000 | 16 | 360,000 | 0 | 360,000 |
 | FY2021 | Innovative Criminal Justice Programs | short | 1,833,000 | 1,508,000 | 6 | 325,000 | 0 | 325,000 |
-| FY2021 | Chamber on the Go and Small Business Assistance | short | 1,605,527 | 1,314,827 | 13 | 290,700 | 0 | 290,700 |
 | FY2021 | LGBT Community Services | short | 3,166,250 | 2,902,750 | 14 | 263,500 | 0 | 263,500 |
 | FY2021 | Veterans Community Development | short | 1,206,500 | 965,000 | 8 | 241,500 | 0 | 241,500 |
 | FY2021 | Support for Victims of Human Trafficking | short | 1,200,000 | 975,000 | 8 | 225,000 | 0 | 225,000 |
@@ -365,11 +374,15 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | FY2021 | Maternal and Child Health Services | short | 1,863,895 | 1,702,395 | 15 | 161,500 | 0 | 161,500 |
 | FY2021 | Senior Centers, Programs, and Enhancements | short | 3,376,670 | 3,246,670 | 55 | 130,000 | 0 | 130,000 |
 | FY2021 | City’s First Readers | short | 3,904,900 | 3,777,400 | 16 | 127,500 | 0 | 127,500 |
+| FY2021 | Chamber on the Go and Small Business Assistance | short | 1,605,527 | 1,485,677 | 16 | 119,850 | 0 | 119,850 |
+| FY2021 | Autism Awareness | short | 3,246,846 | 3,131,846 | 33 | 115,000 | 0 | 115,000 |
 | FY2021 | CUNY Citizenship NOW! Program | short | 3,250,000 | 3,150,000 | 2 | 100,000 | 0 | 100,000 |
+| FY2021 | Adult Literacy Initiative | short | 3,400,000 | 3,315,000 | 45 | 85,000 | 0 | 85,000 |
 | FY2021 | Legal Services for Low-Income New Yorkers | short | 4,930,000 | 4,845,000 | 5 | 85,000 | 0 | 85,000 |
 | FY2021 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,520,000 | 32 | 80,000 | 0 | 80,000 |
 | FY2021 | Mental Health Services for Veterans | short | 475,000 | 395,000 | 3 | 80,000 | 0 | 80,000 |
 | FY2021 | Young Women's Leadership Development | short | 1,444,950 | 1,386,450 | 26 | 58,500 | 0 | 58,500 |
+| FY2021 | Coalition Theaters of Color | short | 3,740,000 | 3,690,000 | 49 | 50,000 | 0 | 50,000 |
 | FY2021 | Civic Education in New York City Schools | short | 467,500 | 425,000 | 1 | 42,500 | 0 | 42,500 |
 | FY2021 | HIV/AIDS Faith Based | short | 961,350 | 951,150 | 24 | 10,200 | 0 | 10,200 |
 | FY2022 | Food Pantries | short | 19,159,000 | 1,000,000 | 1 | 18,159,000 | 0 | 18,159,000 |
@@ -377,21 +390,21 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | FY2022 | Parks Equity Initiative | short | 5,113,500 | 778,500 | 1 | 4,335,000 | 0 | 4,335,000 |
 | FY2022 | City’s First Readers | over | 5,564,000 | 9,314,000 | 19 | -3,750,000 | 0 | -3,750,000 |
 | FY2022 | Access Health | short | 4,000,000 | 680,888 | 8 | 3,319,112 | 0 | 3,319,112 |
-| FY2022 | CUNY Research Institutes | short | 4,500,000 | 2,250,000 | 3 | 2,250,000 | 0 | 2,250,000 |
 | FY2022 | LGBTQ Inclusive Curriculum | short | 2,800,000 | 700,000 | 7 | 2,100,000 | 0 | 2,100,000 |
 | FY2022 | Geriatric Mental Health | short | 3,405,540 | 1,495,540 | 18 | 1,910,000 | 0 | 1,910,000 |
-| FY2022 | Autism Awareness | short | 3,246,846 | 1,767,466 | 21 | 1,479,380 | 0 | 1,479,380 |
-| FY2022 | Children Under Five | short | 2,502,000 | 1,114,350 | 10 | 1,387,650 | 0 | 1,387,650 |
 | FY2022 | LGBTQ Senior Services in Every Borough | short | 1,500,000 | 280,000 | 1 | 1,220,000 | 0 | 1,220,000 |
 | FY2022 | Communities of Color Nonprofit Stabilization Fund | short | 3,700,000 | 2,500,000 | 15 | 1,200,000 | 0 | 1,200,000 |
 | FY2022 | Physical Education and Fitness | short | 2,175,000 | 1,050,000 | 2 | 1,125,000 | 0 | 1,125,000 |
 | FY2022 | Innovative Criminal Justice Programs | short | 2,637,948 | 1,683,000 | 6 | 954,948 | 0 | 954,948 |
 | FY2022 | Legal Services for the Working Poor | short | 3,205,000 | 2,327,500 | 8 | 877,500 | 0 | 877,500 |
+| FY2022 | Art a Catalyst for Change | short | 720,000 | 55,000 | 3 | 665,000 | 0 | 665,000 |
 | FY2022 | Young Women's Leadership Development | short | 1,805,500 | 1,165,125 | 21 | 640,375 | 0 | 640,375 |
 | FY2022 | Unaccompanied Minors and Families | short | 3,981,800 | 3,391,800 | 7 | 590,000 | 0 | 590,000 |
 | FY2022 | Mental Health Services for Vulnerable Populations | short | 2,338,000 | 1,800,300 | 20 | 537,700 | 0 | 537,700 |
+| FY2022 | Children Under Five | short | 2,502,000 | 2,116,350 | 14 | 385,650 | 0 | 385,650 |
 | FY2022 | College and Career Readiness | short | 1,578,000 | 1,198,000 | 8 | 380,000 | 0 | 380,000 |
 | FY2022 | Ending the Epidemic | over | 7,735,000 | 8,087,600 | 65 | -352,600 | 0 | -352,600 |
+| FY2022 | Autism Awareness | short | 3,246,846 | 2,944,680 | 32 | 302,166 | 0 | 302,166 |
 | FY2022 | Veterans Community Development | short | 1,270,000 | 970,000 | 8 | 300,000 | 0 | 300,000 |
 | FY2022 | Support for Victims of Human Trafficking | short | 1,200,000 | 925,000 | 8 | 275,000 | 0 | 275,000 |
 | FY2022 | HIV/AIDS Faith Based | short | 2,131,000 | 1,880,000 | 15 | 251,000 | 0 | 251,000 |
@@ -413,166 +426,230 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | FY2022 | Legal Services for Veterans | short | 600,000 | 570,000 | 6 | 30,000 | 0 | 30,000 |
 | FY2022 | Mental Health Services for Veterans | short | 500,000 | 470,000 | 4 | 30,000 | 0 | 30,000 |
 | FY2022 | Dedicated Contraceptive Fund | short | 781,000 | 777,850 | 4 | 3,150 | 0 | 3,150 |
+| FY2023 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 20,000 | 1 | 17,320,000 | 0 | 17,320,000 |
+| FY2023 | NYC Cleanup | short | 14,280,000 | 155,000 | 2 | 14,125,000 | 0 | 14,125,000 |
+| FY2023 | Domestic Violence and Empowerment (DoVE) Initiative | short | 11,500,000 | 155,000 | 5 | 11,345,000 | 0 | 11,345,000 |
+| FY2023 | Afterschool Enrichment Initiative | short | 8,300,000 | 250,000 | 3 | 8,050,000 | 0 | 8,050,000 |
+| FY2023 | Cultural Immigrant Initiative | short | 7,395,000 | 40,000 | 2 | 7,355,000 | 0 | 7,355,000 |
 | FY2023 | Food Pantries | short | 7,630,203 | 1,000,000 | 1 | 6,630,203 | 0 | 6,630,203 |
 | FY2023 | New York Immigrant Family Unity Project | short | 16,600,000 | 11,066,667 | 2 | 5,533,333 | 0 | 5,533,333 |
+| FY2023 | Parks Equity Initiative | short | 5,113,500 | 30,000 | 1 | 5,083,500 | 0 | 5,083,500 |
+| FY2023 | A Greener NYC | short | 5,100,000 | 100,000 | 2 | 5,000,000 | 0 | 5,000,000 |
 | FY2023 | Naturally Occurring Retirement Communities (NORCs) | short | 6,091,026 | 1,810,026 | 1 | 4,281,000 | 0 | 4,281,000 |
-| FY2023 | Coalition Theaters of Color | short | 5,770,000 | 1,595,000 | 23 | 4,175,000 | 0 | 4,175,000 |
 | FY2023 | Senior Centers, Programs, and Enhancements | short | 4,376,670 | 500,000 | 1 | 3,876,670 | 0 | 3,876,670 |
+| FY2023 | Mental Health Services for Vulnerable Populations | short | 3,933,000 | 200,000 | 2 | 3,733,000 | 0 | 3,733,000 |
+| FY2023 | AAPI Community Support | short | 5,000,000 | 1,325,000 | 13 | 3,675,000 | 0 | 3,675,000 |
 | FY2023 | Initiative to Combat Sexual Assault | short | 4,210,000 | 549,750 | 3 | 3,660,250 | 0 | 3,660,250 |
 | FY2023 | City’s First Readers | short | 5,449,667 | 1,828,018 | 7 | 3,621,649 | 0 | 3,621,649 |
-| FY2023 | Adult Literacy Initiative | short | 4,000,000 | 667,000 | 3 | 3,333,000 | 0 | 3,333,000 |
-| FY2023 | Community Housing Preservation Strategies | short | 3,651,000 | 672,296 | 12 | 2,978,704 | 0 | 2,978,704 |
-| FY2023 | Immigrant Health Initiative | short | 2,430,341 | 79,255 | 1 | 2,351,086 | 0 | 2,351,086 |
+| FY2023 | SU-CASA | short | 3,315,000 | 30,000 | 2 | 3,285,000 | 0 | 3,285,000 |
+| FY2023 | Adult Literacy Initiative | short | 4,000,000 | 742,000 | 4 | 3,258,000 | 0 | 3,258,000 |
 | FY2023 | Access Health | short | 3,699,179 | 1,491,583 | 15 | 2,207,596 | 0 | 2,207,596 |
-| FY2023 | Autism Awareness | short | 3,316,846 | 1,301,483 | 15 | 2,015,363 | 0 | 2,015,363 |
 | FY2023 | Low Wage Worker Support | short | 2,000,000 | 120,000 | 2 | 1,880,000 | 0 | 1,880,000 |
 | FY2023 | Diversion Programs | short | 2,525,000 | 930,000 | 1 | 1,595,000 | 0 | 1,595,000 |
 | FY2023 | Wrap-Around Support for Transitional-Aged Foster Youth | over | 1,230,000 | 2,619,500 | 33 | -1,389,500 | 0 | -1,389,500 |
-| FY2023 | Supportive Alternatives to Violent Encounters (SAVE) | short | 2,450,000 | 1,600,000 | 2 | 850,000 | 0 | 850,000 |
+| FY2023 | Day Laborer Workforce Initiative | short | 3,970,000 | 2,645,000 | 3 | 1,325,000 | 0 | 1,325,000 |
 | FY2023 | Physical Education and Fitness | short | 1,175,000 | 375,000 | 2 | 800,000 | 0 | 800,000 |
 | FY2023 | Hate Crimes Prevention | short | 1,000,000 | 250,000 | 5 | 750,000 | 0 | 750,000 |
 | FY2023 | Unaccompanied Minors and Families | short | 3,981,800 | 3,361,800 | 6 | 620,000 | 0 | 620,000 |
 | FY2023 | Worker Cooperative Business Development Initiative | short | 3,768,208 | 3,255,919 | 12 | 512,289 | 0 | 512,289 |
-| FY2023 | Chamber on the Go and Small Business Assistance | short | 2,388,855 | 1,904,274 | 12 | 484,581 | 0 | 484,581 |
 | FY2023 | Ending the Epidemic | short | 9,553,030 | 9,098,092 | 46 | 454,938 | 0 | 454,938 |
-| FY2023 | Opioid Prevention and Treatment | short | 3,500,000 | 3,100,000 | 17 | 400,000 | 0 | 400,000 |
-| FY2023 | Food Access and Benefits | short | 1,500,000 | 1,116,000 | 6 | 384,000 | 0 | 384,000 |
+| FY2023 | CUNY Childcare Expansion | short | 600,000 | 150,000 | 1 | 450,000 | 0 | 450,000 |
+| FY2023 | Community Housing Preservation Strategies | short | 3,651,000 | 3,265,093 | 60 | 385,907 | 0 | 385,907 |
+| FY2023 | Construction Site Safety Training | short | 1,100,000 | 750,000 | 6 | 350,000 | 0 | 350,000 |
+| FY2023 | Opioid Prevention and Treatment | short | 3,500,000 | 3,150,000 | 18 | 350,000 | 0 | 350,000 |
 | FY2023 | Community Land Trust | short | 1,500,000 | 1,228,500 | 14 | 271,500 | 0 | 271,500 |
-| FY2023 | Children Under Five | short | 1,787,000 | 1,517,000 | 9 | 270,000 | 0 | 270,000 |
+| FY2023 | Chamber on the Go and Small Business Assistance | short | 2,388,855 | 2,122,002 | 15 | 266,853 | 0 | 266,853 |
 | FY2023 | Veterans Community Development | short | 1,270,000 | 1,016,000 | 9 | 254,000 | 0 | 254,000 |
+| FY2023 | CUNY Research Institutes | short | 4,500,000 | 4,250,000 | 5 | 250,000 | 0 | 250,000 |
+| FY2023 | Support for Educators | over | 4,400,000 | 4,650,000 | 4 | -250,000 | 0 | -250,000 |
+| FY2023 | Legal Services for Veterans | short | 600,000 | 380,000 | 5 | 220,000 | 0 | 220,000 |
 | FY2023 | Job Training and Placement Initiative | short | 8,250,000 | 8,040,000 | 7 | 210,000 | 0 | 210,000 |
-| FY2023 | Home Loan Program | short | 2,000,000 | 1,800,000 | 5 | 200,000 | 0 | 200,000 |
 | FY2023 | Prevent Sexual Assault (PSA) Initiative for Young Adults | short | 350,000 | 150,000 | 2 | 200,000 | 0 | 200,000 |
 | FY2023 | Senior Centers for Immigrant Populations | short | 1,500,000 | 1,350,000 | 9 | 150,000 | 0 | 150,000 |
+| FY2023 | Coalition Theaters of Color | short | 5,770,000 | 5,625,000 | 65 | 145,000 | 0 | 145,000 |
+| FY2023 | Immigrant Health Initiative | short | 2,430,341 | 2,290,581 | 20 | 139,760 | 0 | 139,760 |
 | FY2023 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,496,000 | 31 | 104,000 | 0 | 104,000 |
 | FY2023 | CUNY Citizenship NOW! Program | short | 3,250,000 | 3,150,000 | 2 | 100,000 | 0 | 100,000 |
 | FY2023 | Foreclosure Prevention Programs | short | 4,250,000 | 4,150,000 | 19 | 100,000 | 0 | 100,000 |
 | FY2023 | Geriatric Mental Health | short | 3,405,540 | 3,305,540 | 34 | 100,000 | 0 | 100,000 |
+| FY2023 | Home Loan Program | short | 2,000,000 | 1,900,000 | 6 | 100,000 | 0 | 100,000 |
 | FY2023 | Innovative Criminal Justice Programs | short | 2,637,948 | 2,537,948 | 9 | 100,000 | 0 | 100,000 |
 | FY2023 | Mental Health Services for Veterans | short | 500,000 | 400,000 | 4 | 100,000 | 0 | 100,000 |
+| FY2023 | Autism Awareness | short | 3,316,846 | 3,236,846 | 38 | 80,000 | 0 | 80,000 |
+| FY2023 | Food Access and Benefits | short | 1,500,000 | 1,425,000 | 12 | 75,000 | 0 | 75,000 |
 | FY2023 | Trans Equity Programs | short | 3,275,000 | 3,200,000 | 14 | 75,000 | 0 | 75,000 |
 | FY2023 | Homeless Prevention Services for Veterans | short | 300,000 | 240,000 | 1 | 60,000 | 0 | 60,000 |
-| FY2023 | Educational Programs for Students | short | 7,143,133 | 7,093,133 | 10 | 50,000 | 0 | 50,000 |
-| FY2023 | LGBT Community Services | short | 5,225,000 | 5,175,000 | 23 | 50,000 | 0 | 50,000 |
+| FY2023 | Elder Abuse Prevention Programs | over | 335,000 | 385,000 | 8 | -50,000 | 0 | -50,000 |
 | FY2023 | Job Placement for Veterans | short | 200,000 | 160,000 | 1 | 40,000 | 0 | 40,000 |
+| FY2023 | Children Under Five | over | 1,787,000 | 1,822,000 | 13 | -35,000 | 0 | -35,000 |
+| FY2023 | Initiative for Immigrant Survivors of Domestic Violence | short | 530,000 | 505,000 | 9 | 25,000 | 0 | 25,000 |
+| FY2023 | LGBT Community Services | over | 5,225,000 | 5,250,000 | 25 | -25,000 | 0 | -25,000 |
 | FY2023 | Social and Emotional Supports for Students | short | 1,916,500 | 1,916,000 | 5 | 500 | 0 | 500 |
-| FY2024 | Domestic Violence and Empowerment (DoVE) Initiative | short | 12,010,000 | 816,923 | 14 | 11,193,077 | 0 | 11,193,077 |
-| FY2024 | Afterschool Enrichment Initiative | short | 8,235,000 | 715,300 | 16 | 7,519,700 | 0 | 7,519,700 |
+| FY2024 | NYC Cleanup | short | 14,280,000 | 280,000 | 4 | 14,000,000 | 0 | 14,000,000 |
+| FY2024 | Domestic Violence and Empowerment (DoVE) Initiative | short | 12,010,000 | 2,771,307 | 35 | 9,238,693 | 0 | 9,238,693 |
 | FY2024 | Food Pantries | short | 7,260,000 | 1,059,000 | 3 | 6,201,000 | 0 | 6,201,000 |
-| FY2024 | Coalition Theaters of Color | short | 5,715,000 | 1,510,000 | 21 | 4,205,000 | 0 | 4,205,000 |
-| FY2024 | AAPI Community Support | short | 5,060,000 | 1,550,000 | 14 | 3,510,000 | 0 | 3,510,000 |
-| FY2024 | Community Housing Preservation Strategies | short | 3,651,000 | 643,310 | 11 | 3,007,690 | 0 | 3,007,690 |
-| FY2024 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 14,860,000 | 742 | 2,480,000 | 0 | 2,480,000 |
-| FY2024 | Autism Awareness | short | 3,261,846 | 812,054 | 11 | 2,449,792 | 0 | 2,449,792 |
+| FY2024 | A Greener NYC | short | 5,100,000 | 135,000 | 4 | 4,965,000 | 0 | 4,965,000 |
+| FY2024 | AAPI Community Support | short | 5,060,000 | 1,700,000 | 15 | 3,360,000 | 0 | 3,360,000 |
+| FY2024 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 14,920,000 | 745 | 2,420,000 | 0 | 2,420,000 |
 | FY2024 | City’s First Readers | short | 5,449,667 | 3,300,650 | 10 | 2,149,017 | 0 | 2,149,017 |
-| FY2024 | Mental Health Services for Vulnerable Populations | short | 3,663,000 | 1,899,000 | 27 | 1,764,000 | 0 | 1,764,000 |
+| FY2024 | Foreclosure Prevention Programs | short | 4,150,000 | 2,357,500 | 13 | 1,792,500 | 0 | 1,792,500 |
+| FY2024 | Mental Health Services for Vulnerable Populations | short | 3,663,000 | 1,949,000 | 28 | 1,714,000 | 0 | 1,714,000 |
 | FY2024 | Support Our Older Adults (formerly Support Our Seniors) | short | 7,650,000 | 6,325,000 | 329 | 1,325,000 | 0 | 1,325,000 |
+| FY2024 | Family Advocacy and Guardianship Support | short | 3,000,000 | 1,700,000 | 4 | 1,300,000 | 0 | 1,300,000 |
 | FY2024 | Worker Cooperative Business Development Initiative | short | 3,768,208 | 2,612,598 | 9 | 1,155,610 | 0 | 1,155,610 |
 | FY2024 | Crisis Management System | short | 3,770,600 | 2,725,600 | 39 | 1,045,000 | 0 | 1,045,000 |
-| FY2024 | Cultural Immigrant Initiative | short | 7,395,000 | 6,525,000 | 348 | 870,000 | 0 | 870,000 |
+| FY2024 | Cultural Immigrant Initiative | short | 7,395,000 | 6,580,000 | 350 | 815,000 | 0 | 815,000 |
 | FY2024 | Naturally Occurring Retirement Communities (NORCs) | short | 5,181,768 | 4,385,654 | 30 | 796,114 | 0 | 796,114 |
 | FY2024 | Chamber on the Go and Small Business Assistance | short | 2,252,267 | 1,484,897 | 11 | 767,370 | 0 | 767,370 |
 | FY2024 | Trauma Recovery Centers | short | 2,400,000 | 1,783,415 | 4 | 616,585 | 0 | 616,585 |
 | FY2024 | Digital Inclusion and Literacy Initiative | short | 4,590,000 | 3,990,000 | 180 | 600,000 | 0 | 600,000 |
 | FY2024 | Viral Hepatitis Prevention | short | 2,247,454 | 1,688,726 | 24 | 558,728 | 0 | 558,728 |
 | FY2024 | Education Equity Action Plan | short | 5,000,000 | 4,500,000 | 4 | 500,000 | 0 | 500,000 |
-| FY2024 | Art a Catalyst for Change | short | 720,000 | 301,000 | 15 | 419,000 | 0 | 419,000 |
+| FY2024 | Autism Awareness | short | 3,261,846 | 2,943,404 | 32 | 318,442 | 0 | 318,442 |
 | FY2024 | Child Health and Wellness | short | 664,719 | 364,719 | 2 | 300,000 | 0 | 300,000 |
+| FY2024 | Elder Abuse Prevention Programs | short | 335,000 | 35,000 | 1 | 300,000 | 0 | 300,000 |
 | FY2024 | Unaccompanied Minors and Families | short | 3,981,800 | 3,691,800 | 6 | 290,000 | 0 | 290,000 |
 | FY2024 | YouthBuild Project Initiative | short | 1,750,000 | 1,472,000 | 10 | 278,000 | 0 | 278,000 |
 | FY2024 | Young Women’s Leadership Development | short | 1,740,500 | 1,465,805 | 23 | 274,695 | 0 | 274,695 |
+| FY2024 | Abortion Access Fund | over | 850,000 | 1,100,000 | 4 | -250,000 | 0 | -250,000 |
 | FY2024 | Court-Involved Youth Mental Health | short | 3,425,000 | 3,175,000 | 20 | 250,000 | 0 | 250,000 |
+| FY2024 | Coalition Theaters of Color | short | 5,715,000 | 5,475,000 | 65 | 240,000 | 0 | 240,000 |
+| FY2024 | Adult Literacy Initiative | over | 4,000,000 | 4,225,000 | 49 | -225,000 | 0 | -225,000 |
 | FY2024 | Geriatric Mental Health | short | 3,405,540 | 3,205,540 | 32 | 200,000 | 0 | 200,000 |
-| FY2024 | Welcome NYC | short | 1,175,000 | 995,000 | 23 | 180,000 | 0 | 180,000 |
 | FY2024 | Support for Victims of Human Trafficking | short | 1,075,000 | 900,000 | 8 | 175,000 | 0 | 175,000 |
-| FY2024 | Elie Wiesel Holocaust Survivors | short | 4,200,000 | 4,031,000 | 25 | 169,000 | 0 | 169,000 |
 | FY2024 | HIV/AIDS Faith Based | short | 1,966,311 | 1,827,147 | 29 | 139,164 | 0 | 139,164 |
+| FY2024 | Community Housing Preservation Strategies | short | 3,651,000 | 3,513,040 | 62 | 137,960 | 0 | 137,960 |
 | FY2024 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,463,000 | 31 | 137,000 | 0 | 137,000 |
+| FY2024 | Physical Education and Fitness | over | 925,000 | 1,050,000 | 3 | -125,000 | 0 | -125,000 |
+| FY2024 | Afterschool Enrichment Initiative | short | 8,235,000 | 8,115,300 | 38 | 119,700 | 0 | 119,700 |
+| FY2024 | Elie Wiesel Holocaust Survivors | short | 4,200,000 | 4,081,000 | 26 | 119,000 | 0 | 119,000 |
 | FY2024 | Neighborhood Development Grant Initiative | over | 2,550,000 | 2,661,000 | 118 | -111,000 | 0 | -111,000 |
-| FY2024 | Construction Site Safety Training | short | 1,100,000 | 1,000,000 | 8 | 100,000 | 0 | 100,000 |
+| FY2024 | Art a Catalyst for Change | short | 720,000 | 612,000 | 33 | 108,000 | 0 | 108,000 |
+| FY2024 | Home Loan Program | over | 1,800,000 | 1,900,000 | 6 | -100,000 | 0 | -100,000 |
 | FY2024 | Innovative Criminal Justice Programs | short | 2,637,948 | 2,537,948 | 10 | 100,000 | 0 | 100,000 |
-| FY2024 | Opioid Prevention and Treatment | short | 3,075,000 | 2,975,000 | 16 | 100,000 | 0 | 100,000 |
+| FY2024 | Legal Services for Veterans | short | 600,000 | 500,000 | 6 | 100,000 | 0 | 100,000 |
+| FY2024 | Welcome NYC | short | 1,175,000 | 1,095,000 | 24 | 80,000 | 0 | 80,000 |
+| FY2024 | Food Access and Benefits | short | 1,500,000 | 1,425,000 | 12 | 75,000 | 0 | 75,000 |
 | FY2024 | Job Training and Placement Initiative | short | 8,450,000 | 8,375,000 | 8 | 75,000 | 0 | 75,000 |
 | FY2024 | Trans Equity Programs | short | 3,225,000 | 3,150,000 | 13 | 75,000 | 0 | 75,000 |
 | FY2024 | Initiative to Combat Sexual Assault | short | 4,160,000 | 4,091,000 | 16 | 69,000 | 0 | 69,000 |
 | FY2024 | Pride at Work | over | 501,000 | 560,000 | 11 | -59,000 | 0 | -59,000 |
+| FY2024 | Initiative for Immigrant Survivors of Domestic Violence | over | 530,000 | 580,000 | 11 | -50,000 | 0 | -50,000 |
+| FY2024 | LGBTQIA+ Community Services | over | 4,405,625 | 4,455,625 | 24 | -50,000 | 0 | -50,000 |
+| FY2024 | Opioid Prevention and Treatment | short | 3,075,000 | 3,025,000 | 17 | 50,000 | 0 | 50,000 |
 | FY2024 | Children Under Five | short | 1,556,231 | 1,521,231 | 11 | 35,000 | 0 | 35,000 |
-| FY2025 | Domestic Violence and Empowerment (DoVE) Initiative | short | 12,010,000 | 297,693 | 6 | 11,712,307 | 0 | 11,712,307 |
+| FY2024 | Construction Site Safety Training | over | 1,100,000 | 1,125,000 | 9 | -25,000 | 0 | -25,000 |
+| FY2025 | Adult Literacy Initiative | short | 14,000,000 | 225,000 | 3 | 13,775,000 | 0 | 13,775,000 |
+| FY2025 | Domestic Violence and Empowerment (DoVE) Initiative | short | 12,010,000 | 2,731,307 | 35 | 9,278,693 | 0 | 9,278,693 |
 | FY2025 | Discharge Planning | short | 9,450,000 | 350,000 | 1 | 9,100,000 | 0 | 9,100,000 |
 | FY2025 | Food Pantries | short | 8,260,000 | 1,059,000 | 3 | 7,201,000 | 0 | 7,201,000 |
 | FY2025 | New York Immigrant Family Unity Project | short | 16,600,000 | 11,066,667 | 2 | 5,533,333 | 0 | 5,533,333 |
 | FY2025 | Information and Referral Services | over | 407,811 | 5,589,579 | 39 | -5,181,768 | 0 | -5,181,768 |
-| FY2025 | Coalition Theaters of Color | short | 5,715,000 | 1,925,576 | 25 | 3,789,424 | 0 | 3,789,424 |
-| FY2025 | Afterschool Enrichment Initiative | short | 8,235,000 | 4,880,000 | 21 | 3,355,000 | 0 | 3,355,000 |
-| FY2025 | Access Health Initiative | short | 3,620,210 | 407,032 | 3 | 3,213,178 | 0 | 3,213,178 |
-| FY2025 | AAPI Community Support | short | 5,060,000 | 2,140,000 | 20 | 2,920,000 | 0 | 2,920,000 |
-| FY2025 | Community Housing Preservation Strategies | short | 3,651,000 | 801,352 | 15 | 2,849,648 | 0 | 2,849,648 |
-| FY2025 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 14,680,000 | 734 | 2,660,000 | 0 | 2,660,000 |
+| FY2025 | A Greener NYC | short | 5,100,000 | 55,000 | 3 | 5,045,000 | 0 | 5,045,000 |
+| FY2025 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 14,740,000 | 737 | 2,600,000 | 0 | 2,600,000 |
 | FY2025 | Trauma Recovery Centers | short | 4,800,000 | 2,290,473 | 3 | 2,509,527 | 0 | 2,509,527 |
-| FY2025 | Autism Awareness | short | 3,261,846 | 1,511,483 | 19 | 1,750,363 | 0 | 1,750,363 |
+| FY2025 | Adult Literacy Pilot Project | short | 2,500,000 | 25,000 | 1 | 2,475,000 | 0 | 2,475,000 |
 | FY2025 | Maternal and Child Health Services | over | 3,728,525 | 5,370,662 | 45 | -1,642,137 | 0 | -1,642,137 |
-| FY2025 | NYC Cleanup | short | 14,280,000 | 12,700,000 | 196 | 1,580,000 | 0 | 1,580,000 |
-| FY2025 | Community Composting | short | 6,245,000 | 4,745,000 | 13 | 1,500,000 | 0 | 1,500,000 |
-| FY2025 | Crisis Management System | short | 3,770,600 | 2,685,000 | 29 | 1,085,600 | 0 | 1,085,600 |
-| FY2025 | Mental Health Services for Vulnerable Populations | short | 3,613,000 | 2,744,000 | 35 | 869,000 | 0 | 869,000 |
+| FY2025 | Community Composting | short | 6,245,000 | 4,845,000 | 14 | 1,400,000 | 0 | 1,400,000 |
+| FY2025 | NYC Cleanup | short | 14,280,000 | 12,925,000 | 200 | 1,355,000 | 0 | 1,355,000 |
+| FY2025 | Mental Health Services for Vulnerable Populations | short | 3,613,000 | 2,844,000 | 37 | 769,000 | 0 | 769,000 |
 | FY2025 | Cultural Immigrant Initiative | short | 7,395,000 | 6,640,000 | 380 | 755,000 | 0 | 755,000 |
-| FY2025 | Support Our Older Adults | short | 7,650,000 | 6,900,000 | 376 | 750,000 | 0 | 750,000 |
 | FY2025 | City’s First Readers | short | 5,449,667 | 4,699,992 | 14 | 749,675 | 0 | 749,675 |
+| FY2025 | Crisis Management System | short | 3,770,600 | 3,090,600 | 36 | 680,000 | 0 | 680,000 |
 | FY2025 | Unaccompanied Minors and Families | short | 3,981,800 | 3,361,800 | 6 | 620,000 | 0 | 620,000 |
+| FY2025 | Support Our Older Adults | short | 7,650,000 | 7,040,000 | 380 | 610,000 | 0 | 610,000 |
 | FY2025 | Worker Cooperative Business Development Initiative | short | 3,768,208 | 3,255,919 | 13 | 512,289 | 0 | 512,289 |
-| FY2025 | LGBTQIA+ Inclusive Curriculum | short | 2,800,000 | 2,295,000 | 16 | 505,000 | 0 | 505,000 |
-| FY2025 | Digital Inclusion and Literacy Initiative | short | 4,590,000 | 4,100,000 | 192 | 490,000 | 0 | 490,000 |
-| FY2025 | Art a Catalyst for Change | short | 720,000 | 408,000 | 21 | 312,000 | 0 | 312,000 |
+| FY2025 | Digital Inclusion and Literacy Initiative | short | 4,590,000 | 4,125,000 | 193 | 465,000 | 0 | 465,000 |
+| FY2025 | LGBTQIA+ Inclusive Curriculum | short | 2,800,000 | 2,395,000 | 18 | 405,000 | 0 | 405,000 |
+| FY2025 | Abortion Access Fund | over | 850,000 | 1,200,000 | 5 | -350,000 | 0 | -350,000 |
+| FY2025 | AAPI Community Support | short | 5,060,000 | 4,760,000 | 50 | 300,000 | 0 | 300,000 |
 | FY2025 | Children and Families in NYC Homeless System | short | 1,350,000 | 1,095,000 | 5 | 255,000 | 0 | 255,000 |
 | FY2025 | Neighborhood Development Grant Initiative | short | 2,550,000 | 2,300,000 | 124 | 250,000 | 0 | 250,000 |
 | FY2025 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,430,000 | 29 | 170,000 | 0 | 170,000 |
-| FY2025 | Welcome NYC | short | 1,175,000 | 1,070,000 | 23 | 105,000 | 0 | 105,000 |
+| FY2025 | Immigrant Health Initiative | short | 2,430,341 | 2,276,086 | 20 | 154,255 | 0 | 154,255 |
+| FY2025 | Construction Site Safety Training | over | 1,100,000 | 1,225,000 | 10 | -125,000 | 0 | -125,000 |
+| FY2025 | Afterschool Enrichment Initiative | short | 8,235,000 | 8,125,000 | 37 | 110,000 | 0 | 110,000 |
+| FY2025 | Community Housing Preservation Strategies | short | 3,651,000 | 3,542,027 | 63 | 108,973 | 0 | 108,973 |
 | FY2025 | CUNY Citizenship NOW! Program | short | 3,350,000 | 3,250,000 | 2 | 100,000 | 0 | 100,000 |
+| FY2025 | Home Loan Program | over | 1,800,000 | 1,900,000 | 6 | -100,000 | 0 | -100,000 |
+| FY2025 | Legal Services for Low-Income New Yorkers | short | 5,800,000 | 5,700,000 | 5 | 100,000 | 0 | 100,000 |
+| FY2025 | Legal Services for Veterans | short | 600,000 | 500,000 | 6 | 100,000 | 0 | 100,000 |
+| FY2025 | Art a Catalyst for Change | short | 720,000 | 630,000 | 34 | 90,000 | 0 | 90,000 |
 | FY2025 | Viral Hepatitis Prevention | short | 2,247,454 | 2,158,190 | 28 | 89,264 | 0 | 89,264 |
+| FY2025 | Coalition Theaters of Color | short | 5,715,000 | 5,637,099 | 64 | 77,901 | 0 | 77,901 |
+| FY2025 | Autism Awareness | short | 3,261,846 | 3,186,846 | 36 | 75,000 | 0 | 75,000 |
+| FY2025 | Prevent Sexual Assault (PSA) Initiative for Young Adults | over | 350,000 | 425,000 | 4 | -75,000 | 0 | -75,000 |
 | FY2025 | Support for Victims of Human Trafficking | short | 1,075,000 | 1,000,000 | 8 | 75,000 | 0 | 75,000 |
 | FY2025 | Initiative to Combat Sexual Assault | short | 4,160,000 | 4,091,000 | 16 | 69,000 | 0 | 69,000 |
+| FY2025 | Children Under Five | short | 1,556,231 | 1,491,231 | 10 | 65,000 | 0 | 65,000 |
+| FY2025 | Welcome NYC | short | 1,175,000 | 1,120,000 | 24 | 55,000 | 0 | 55,000 |
+| FY2025 | Foreclosure Prevention Programs | over | 4,150,000 | 4,200,000 | 20 | -50,000 | 0 | -50,000 |
+| FY2025 | Opioid Prevention and Treatment | over | 3,075,000 | 3,125,000 | 18 | -50,000 | 0 | -50,000 |
 | FY2025 | Pride at Work | short | 501,000 | 451,000 | 5 | 50,000 | 0 | 50,000 |
+| FY2025 | Initiative for Immigrant Survivors of Domestic Violence | over | 530,000 | 555,000 | 10 | -25,000 | 0 | -25,000 |
+| FY2025 | Access Health Initiative | short | 3,620,210 | 3,600,210 | 36 | 20,000 | 0 | 20,000 |
+| FY2026 | Legal Services for Low-Income Immigrants (Formerly Legal Services for Low-Income Immigrants and Protect NYC) | short | 33,255,000 | 2,500,000 | 5 | 30,755,000 | 0 | 30,755,000 |
+| FY2026 | Alternatives to Incarceration and Reentry Programs (Formerly Alternatives to Incarceration, Discharge Planning, and Diversion Programs) | short | 19,962,000 | 4,837,274 | 11 | 15,124,726 | 0 | 15,124,726 |
 | FY2026 | New York Immigrant Family Unity Project | short | 24,900,000 | 11,066,667 | 2 | 13,833,333 | 0 | 13,833,333 |
 | FY2026 | Unaccompanied Minors and Families | short | 16,481,800 | 3,361,800 | 6 | 13,120,000 | 0 | 13,120,000 |
-| FY2026 | Domestic Violence and Empowerment (DoVE) Initiative | short | 12,010,000 | 549,693 | 10 | 11,460,307 | 0 | 11,460,307 |
-| FY2026 | Food Pantries | short | 8,467,000 | 1,266,000 | 5 | 7,201,000 | 0 | 7,201,000 |
-| FY2026 | Adult Literacy Forward (Formerly Adult Literacy Pilot Project) | over | 8,245,148 | 13,824,412 | 71 | -5,579,264 | 0 | -5,579,264 |
-| FY2026 | NYC Cleanup | over | 14,280,000 | 19,575,000 | 211 | -5,295,000 | 0 | -5,295,000 |
-| FY2026 | A Greener NYC | short | 5,100,000 | 108,085 | 4 | 4,991,915 | 0 | 4,991,915 |
+| FY2026 | HIV/AIDS Pathways to Care (Formerly Ending the Epidemic and HIV/AIDS Faith Community Based Initiative) | short | 11,339,653 | 1,833,297 | 8 | 9,506,356 | 0 | 9,506,356 |
+| FY2026 | Domestic Violence and Empowerment (DoVE) Initiative | short | 12,010,000 | 3,099,769 | 40 | 8,910,231 | 0 | 8,910,231 |
+| FY2026 | Food Pantries | short | 8,467,000 | 1,451,000 | 9 | 7,016,000 | 0 | 7,016,000 |
+| FY2026 | Adult Literacy Initiative | short | 6,254,852 | 375,000 | 4 | 5,879,852 | 0 | 5,879,852 |
+| FY2026 | Community Composting | short | 6,245,000 | 500,000 | 1 | 5,745,000 | 0 | 5,745,000 |
+| FY2026 | Adult Literacy Forward (Formerly Adult Literacy Pilot Project) | over | 8,245,148 | 13,874,412 | 72 | -5,629,264 | 0 | -5,629,264 |
+| FY2026 | NYC Cleanup | over | 14,280,000 | 19,770,000 | 214 | -5,490,000 | 0 | -5,490,000 |
+| FY2026 | A Greener NYC | short | 5,100,000 | 123,085 | 5 | 4,976,915 | 0 | 4,976,915 |
+| FY2026 | Older Adult Center Improvements | short | 5,000,000 | 300,000 | 3 | 4,700,000 | 0 | 4,700,000 |
 | FY2026 | Substance Abuse Prevention and Intervention Specialists | over | 2,000,000 | 6,650,000 | 4 | -4,650,000 | 0 | -4,650,000 |
-| FY2026 | Parks Equity Initiative | short | 5,368,500 | 1,067,300 | 12 | 4,301,200 | 0 | 4,301,200 |
-| FY2026 | Coalition Theaters of Color | short | 5,715,000 | 1,874,530 | 25 | 3,840,470 | 0 | 3,840,470 |
-| FY2026 | Afterschool Enrichment Initiative | short | 8,235,000 | 4,772,650 | 18 | 3,462,350 | 0 | 3,462,350 |
+| FY2026 | Peer Specialists Support | short | 4,500,000 | 100,000 | 1 | 4,400,000 | 0 | 4,400,000 |
+| FY2026 | Parks Equity Initiative | short | 5,368,500 | 1,077,300 | 13 | 4,291,200 | 0 | 4,291,200 |
 | FY2026 | Trans Equity Programs | short | 6,450,000 | 3,225,000 | 15 | 3,225,000 | 0 | 3,225,000 |
-| FY2026 | Access Health Initiative | short | 3,620,210 | 515,866 | 4 | 3,104,344 | 0 | 3,104,344 |
-| FY2026 | AAPI Community Support | short | 5,060,000 | 2,040,000 | 19 | 3,020,000 | 0 | 3,020,000 |
-| FY2026 | Community Housing Preservation Strategies | short | 3,651,000 | 864,118 | 16 | 2,786,882 | 0 | 2,786,882 |
-| FY2026 | Education Equity Action Plan | short | 7,500,000 | 4,750,000 | 5 | 2,750,000 | 0 | 2,750,000 |
-| FY2026 | Autism Awareness | short | 3,261,846 | 1,142,746 | 14 | 2,119,100 | 0 | 2,119,100 |
+| FY2026 | Education Equity Action Plan | short | 7,500,000 | 5,000,000 | 6 | 2,500,000 | 0 | 2,500,000 |
 | FY2026 | Chamber on the Go and Small Business Assistance | short | 2,252,267 | 258,506 | 2 | 1,993,761 | 0 | 1,993,761 |
 | FY2026 | City’s First Readers | short | 5,449,667 | 4,114,932 | 13 | 1,334,735 | 0 | 1,334,735 |
-| FY2026 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 16,060,000 | 803 | 1,280,000 | 0 | 1,280,000 |
-| FY2026 | Children Under Five | short | 1,556,231 | 450,769 | 3 | 1,105,462 | 0 | 1,105,462 |
+| FY2026 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 16,120,000 | 806 | 1,220,000 | 0 | 1,220,000 |
 | FY2026 | Estate Planning and Resolution Initiative (EPAR) | short | 2,000,000 | 965,000 | 16 | 1,035,000 | 0 | 1,035,000 |
 | FY2026 | MCCAP Initiative | short | 2,014,114 | 1,014,114 | 13 | 1,000,000 | 0 | 1,000,000 |
-| FY2026 | MWBE Leadership Associations | over | 600,000 | 1,450,000 | 8 | -850,000 | 0 | -850,000 |
-| FY2026 | Cultural Immigrant Initiative | short | 7,395,000 | 6,783,000 | 383 | 612,000 | 0 | 612,000 |
+| FY2026 | MWBE Leadership Associations | over | 600,000 | 1,550,000 | 9 | -950,000 | 0 | -950,000 |
+| FY2026 | Cultural Immigrant Initiative | short | 7,395,000 | 6,813,000 | 384 | 582,000 | 0 | 582,000 |
+| FY2026 | Community Housing Preservation Strategies | short | 3,651,000 | 3,111,081 | 56 | 539,919 | 0 | 539,919 |
 | FY2026 | Worker Cooperative Business Development Initiative | short | 3,768,208 | 3,255,919 | 13 | 512,289 | 0 | 512,289 |
-| FY2026 | LGBTQIA+ Inclusive Curriculum | short | 2,800,000 | 2,295,000 | 16 | 505,000 | 0 | 505,000 |
-| FY2026 | Support Our Older Adults | short | 7,650,000 | 7,175,000 | 391 | 475,000 | 0 | 475,000 |
 | FY2026 | Digital Inclusion and Literacy Initiative | short | 4,590,000 | 4,120,000 | 188 | 470,000 | 0 | 470,000 |
+| FY2026 | Construction Site Safety Training | over | 1,100,000 | 1,500,000 | 11 | -400,000 | 0 | -400,000 |
+| FY2026 | Support Our Older Adults | short | 7,650,000 | 7,270,000 | 397 | 380,000 | 0 | 380,000 |
+| FY2026 | Community Interpreter Bank | over | 1,400,000 | 1,775,000 | 7 | -375,000 | 0 | -375,000 |
+| FY2026 | LGBTQIA+ Inclusive Curriculum | short | 2,800,000 | 2,445,000 | 19 | 355,000 | 0 | 355,000 |
+| FY2026 | Abortion Access Fund | over | 850,000 | 1,200,000 | 5 | -350,000 | 0 | -350,000 |
+| FY2026 | AAPI Community Support | short | 5,060,000 | 4,760,000 | 51 | 300,000 | 0 | 300,000 |
+| FY2026 | Coalition Theaters of Color | short | 5,715,000 | 5,446,053 | 62 | 268,947 | 0 | 268,947 |
+| FY2026 | Immigrant Health Initiative | short | 2,430,341 | 2,201,086 | 19 | 229,255 | 0 | 229,255 |
 | FY2026 | Court-Involved Youth Mental Health | short | 3,425,000 | 3,225,000 | 20 | 200,000 | 0 | 200,000 |
+| FY2026 | Welcome NYC (Formerly Key to the City and Welcome NYC) | over | 1,875,000 | 2,075,000 | 28 | -200,000 | 0 | -200,000 |
+| FY2026 | Healthy Beginnings (Formerly Child Health and Wellness and Maternal and Child Health Services) | short | 4,393,244 | 4,196,525 | 22 | 196,719 | 0 | 196,719 |
 | FY2026 | Neighborhood Development Grant Initiative | short | 2,550,000 | 2,360,000 | 125 | 190,000 | 0 | 190,000 |
 | FY2026 | Social Adult Day Care | short | 1,505,556 | 1,338,272 | 8 | 167,284 | 0 | 167,284 |
 | FY2026 | Stabilizing NYC | short | 3,700,000 | 3,540,000 | 19 | 160,000 | 0 | 160,000 |
+| FY2026 | Supports for Persons Involved in the Sex Trade | over | 3,476,697 | 3,636,697 | 12 | -160,000 | 0 | -160,000 |
+| FY2026 | Elie Wiesel Holocaust Survivors | short | 4,200,000 | 4,045,000 | 26 | 155,000 | 0 | 155,000 |
 | FY2026 | Pride at Work | short | 501,000 | 390,000 | 4 | 111,000 | 0 | 111,000 |
 | FY2026 | CUNY Citizenship NOW! Program | short | 3,350,000 | 3,250,000 | 2 | 100,000 | 0 | 100,000 |
+| FY2026 | Home Loan Program | over | 1,800,000 | 1,900,000 | 6 | -100,000 | 0 | -100,000 |
+| FY2026 | Initiative to Combat Sexual Assault | over | 4,160,000 | 4,260,000 | 18 | -100,000 | 0 | -100,000 |
+| FY2026 | Legal Services for Veterans | short | 600,000 | 500,000 | 6 | 100,000 | 0 | 100,000 |
+| FY2026 | Opioid Prevention and Treatment | over | 3,075,000 | 3,175,000 | 19 | -100,000 | 0 | -100,000 |
 | FY2026 | Community Land Trust | short | 1,500,000 | 1,401,750 | 17 | 98,250 | 0 | 98,250 |
+| FY2026 | Autism Awareness | short | 3,261,846 | 3,186,846 | 36 | 75,000 | 0 | 75,000 |
+| FY2026 | Innovative Criminal Justice Programs | over | 2,637,948 | 2,712,948 | 12 | -75,000 | 0 | -75,000 |
 | FY2026 | Older Adult Clubs for Immigrant Populations | short | 1,500,000 | 1,425,000 | 10 | 75,000 | 0 | 75,000 |
-| FY2026 | Welcome NYC (Formerly Key to the City and Welcome NYC) | short | 1,875,000 | 1,800,000 | 26 | 75,000 | 0 | 75,000 |
+| FY2026 | Prevent Sexual Assault (PSA) Initiative for Young Adults | over | 350,000 | 425,000 | 4 | -75,000 | 0 | -75,000 |
+| FY2026 | Children Under Five | short | 1,556,231 | 1,491,231 | 10 | 65,000 | 0 | 65,000 |
 | FY2026 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,535,000 | 31 | 65,000 | 0 | 65,000 |
-| FY2026 | Mental Health Services for Vulnerable Populations | short | 3,669,020 | 3,639,020 | 41 | 30,000 | 0 | 30,000 |
+| FY2026 | Foreclosure Prevention Programs | over | 4,150,000 | 4,200,000 | 20 | -50,000 | 0 | -50,000 |
 | FY2026 | LGBTQIA+ Community Services | short | 5,200,000 | 5,175,000 | 23 | 25,000 | 0 | 25,000 |
+| FY2026 | Access Health Initiative | short | 3,620,210 | 3,600,210 | 36 | 20,000 | 0 | 20,000 |
+| FY2026 | Mental Health Services for Vulnerable Populations | over | 3,669,020 | 3,689,020 | 42 | -20,000 | 0 | -20,000 |
+| FY2026 | Afterschool Enrichment Initiative | over | 8,235,000 | 8,252,650 | 40 | -17,650 | 0 | -17,650 |
 | FY2027 | Food Pantries | short | 10,467,000 | 1,266,000 | 5 | 9,201,000 | 0 | 9,201,000 |
 | FY2027 | Creative Arts Team | over | 400,000 | 5,650,000 | 7 | -5,250,000 | 0 | -5,250,000 |
 | FY2027 | Peer Specialists Support | short | 4,500,000 | 200,000 | 2 | 4,300,000 | 0 | 4,300,000 |

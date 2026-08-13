@@ -59,7 +59,10 @@ def accounted(baseline):
             continue
         for i, (o, n) in enumerate(zip(old, new)):
             line = i + 2
-            for col in ("organization", "ein", "member", "amount", "purpose"):
+            # EVERY column, not a hardcoded list. A fixed list silently stopped watching the
+            # moment a repair touched a new field: `initiative` was invisible here until 1,514
+            # rows had already been changed, and the gate reported 0 unexplained changes.
+            for col in (n.keys() | o.keys()):
                 if (o.get(col) or "") == (n.get(col) or ""):
                     continue
                 e = known.get((f, line))
