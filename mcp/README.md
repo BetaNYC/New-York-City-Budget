@@ -28,7 +28,8 @@ server has its data on first run.
 
 | Dataset | Coverage | Notes |
 |---|---|---|
-| Schedule C awards | **FY2015–FY2027** | FY2015 is the earliest EIN-level year. FY2009–FY2014 are initiatives-only (no EIN) and are **excluded** from the award tools; FY2008 is unparsed |
+| Schedule C awards (main body) | **FY2015–FY2027** | FY2015 is the earliest EIN-level year. FY2009–FY2014 are initiatives-only (no EIN) and are **excluded** from the award tools; FY2008 is unparsed |
+| Schedule C **appendix** (aging / local / youth) | **FY2018 + FY2021–FY2027** | New in v1.4.0. Per-recipient designations from Appendices A/B/C, returned by the award tools **alongside** main-body rows and tagged `[appendix: …]`. A subset of the award years, not new ones — FY2015–FY2017 and FY2019–FY2020 appendix CSVs are header-only upstream, and FY2018 has aging only. These rows carry **no `category`, `initiative`, or `award_type`** (those columns do not exist in the appendix), and aging/youth rows carry no `agency`; the fields are left empty rather than inferred. Filter with `source_table` |
 | Terms & Conditions | **FY2015–FY2018 + FY2021–FY2027** | No standalone T&C document exists for FY2019/FY2020 |
 | Capital (§254) | **FY2020 + FY2022–FY2027** | No FY2021 detail book. Every parsed year is the "Supporting Detail Book" (Council-additions Capital Project Detail), shares the full schema (borough/sub-id/sponsor), and reconciles against printed subtotals + grand totals (FY2027 partially). FY2025 was reparsed from its Supporting Detail Book in [PR #21](https://github.com/BetaNYC/New-York-City-Budget/pull/21) and is now directly comparable to the other years |
 | Transparency Resolutions | **FY2010–FY2024 + FY2026** | Filtered by resolution document year (`source_fy`). **FY2010–FY2013 org/program TEXT is low-confidence** — financial columns reliable, join on EIN. FY2009 + FY2025/FY2027 not parsed |
@@ -36,17 +37,30 @@ server has its data on first run.
 
 The tools do **not** pretend data exists where it doesn't: FY2009–FY2014 award data (there is none — initiatives-only) and the unparsed years are reported honestly by `list_available_fiscal_years`, which states exact per-dataset coverage and the FY2009–FY2014 no-EIN boundary.
 
+> **⚠ Award totals changed in v1.4.0.** The award tools now return main-body **and** appendix rows
+> by default, so counts and dollar totals for FY2018 and FY2021–FY2027 are **higher** than anything
+> published from v1.3.x or earlier (33,638 rows / $3,388,618,294 → 62,213 rows / $3,741,615,569
+> across FY2015–FY2027). This is added coverage, not restated figures: no main-body row changed.
+> Pass **`source_table: "schedule_c"`** to reproduce the pre-1.4.0 result set exactly. Full
+> before/after table and the design rationale: [`research/phase1-source-comparability/PHASE-0.5-IMPACT.md`](../research/phase1-source-comparability/PHASE-0.5-IMPACT.md).
+
 ## Tools
 
 | Tool | Purpose |
 |---|---|
-| `search_awards` | Schedule C awards by EIN / organization / program / council member / fiscal year / category / initiative |
-| `get_awards_by_ein` | Every award for an EIN across FY2015–FY2027, with per-year totals |
+| `search_awards` | Schedule C awards by EIN / organization / program / council member / fiscal year / category / initiative / `source_table` |
+| `get_awards_by_ein` | Every award for an EIN across FY2015–FY2027, with per-year totals (optional `source_table`) |
 | `search_transparency_resolutions` | FY2010–FY2024 + FY2026 post-adoption designations / rescissions / purpose changes (FY2010–FY2013 text low-confidence) |
 | `get_legistar_link` | Legistar matter #, adoption date, and a working link to the adopting City Council session for a source document (surfaces `status`) |
 | `search_capital_projects` | §254 capital by agency / fiscal year / sponsor / title |
 | `get_terms_conditions` | Reporting mandates by fiscal year / agency |
 | `list_available_fiscal_years` | What each dataset actually covers (the parse-gap guard) |
+
+### Unknown parameters are rejected, not ignored
+
+Every tool declares `additionalProperties: false` and validates its arguments against a strict schema. A parameter that is not in the tool's schema raises an error naming the accepted parameters, rather than being silently dropped.
+
+This matters because the natural question here is district-shaped ("what discretionary funding went to District 10?") and **there is no district filter** — Schedule C awards and §254 capital both key on the *sponsoring member's surname* (`council_member` / `sponsor`). Before this guard, `search_awards(council_district=10, fiscal_year=2026)` returned $47.5M of citywide awards, correctly formatted and correctly sourced, answering a different question with nothing to signal that a filter had been dropped. See issue #37.
 
 ### The fiscal-sponsor caveat (important for correct EIN use)
 
@@ -99,7 +113,9 @@ To run a local, in-development build instead of the published package — e.g. a
 
 `test/journeys.test.js` re-runs all 8 user journeys from `people/noel/work/2026-07-07-mcp-budget-user-journeys.md` (in the BetaNYC workspace) against the real MCP tools, driven in-process through the MCP protocol via `InMemoryTransport`, asserting the same real answers found by hand: BetaNYC EIN `13-2612524` (FY25 $115k / FY26 $115k / FY27 $95k), Council District 33 / Restler capital ($18,750,000 across 12 FY2026 projects), and the FY2026 Transparency Resolution 1 Noel Pointer → El Puente CASA transfer. Journey 8 asserts the MCP honestly reports its coverage and the FY2009–FY2014 no-EIN boundary.
 
-`test/coverage.test.js` is the per-fiscal-year gate: for **every award year FY2015–FY2027** it asserts the year is queryable through the tools, its award count and dollar total match the QA-cleared committed data exactly, and every award row carries a valid 9-digit EIN. It also asserts the honesty boundary (FY2009–FY2014 have no award rows), the exact per-dataset year coverage, and that the FY2010–FY2013 transparency low-confidence caveat is flagged and surfaced. Full suite: **27 tests, all passing** (13 per-year award checks + 4 coverage/honesty checks + 10 journeys).
+`test/coverage.test.js` is the per-fiscal-year gate: for **every award year FY2015–FY2027** it asserts the year is queryable through the tools, its award count and dollar total match the QA-cleared committed data exactly, and every award row carries a valid 9-digit EIN. It also asserts the honesty boundary (FY2009–FY2014 have no award rows), the exact per-dataset year coverage, and that the FY2010–FY2013 transparency low-confidence caveat is flagged and surfaced. `test/strict-schema.test.js` guards issue #37: every tool advertises `additionalProperties: false` (a loop over the exported `TOOLS`, so it covers tools added later), the district-shaped guess `search_awards(council_district=10)` raises instead of returning citywide awards, the error names `council_member`, alias hints stay per-tool (`sponsor` is real on `search_capital_projects` and not on `search_awards`), and valid calls are still accepted.
+
+Full suite: **43 tests, all passing** (18 coverage + 10 journeys + 7 Legistar-link + 8 strict-schema).
 
 ## Releases
 

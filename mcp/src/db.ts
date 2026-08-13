@@ -72,6 +72,15 @@ export interface AwardRow {
   amount: number | null;
   agency: string;
   purpose: string;
+  /**
+   * Which Schedule C source the row came from — 'schedule_c' (the main-body award
+   * tables) or 'appendix' (the aging/local/youth per-recipient breakouts). Added in
+   * 1.4.0; before that the table held main-body rows only, so every published total
+   * from an earlier version is the 'schedule_c' slice of what these tools now return.
+   */
+  source_table: string;
+  /** 'aging' | 'local' | 'youth' for appendix rows; '' for main-body rows. */
+  appendix_stream: string;
 }
 
 export interface TransparencyRow {
@@ -161,7 +170,27 @@ export interface AwardFilters {
   fiscal_year?: number;
   category?: string;
   initiative?: string;
+  /** 'schedule_c' | 'appendix'. Omitted = BOTH (see the note on sourceClause). */
+  source_table?: string;
   limit?: number;
+}
+
+/**
+ * The 1.4.0 behavior switch, in one place.
+ *
+ * Omitting `source_table` returns main-body AND appendix rows. That is a deliberate
+ * default: the appendix rows are real designations (independently confirmed against the
+ * Council's own published disclosure spreadsheet), and defaulting them off would have kept
+ * 28,575 of them invisible — the bug this release fixes. The cost is that award counts and
+ * dollar totals from these tools no longer match figures published from v1.3.x and earlier.
+ *
+ * Passing source_table='schedule_c' reproduces the pre-1.4.0 result set EXACTLY, which is the
+ * cheap escape hatch if the default turns out to be the wrong call.
+ */
+function sourceClause(params: unknown[], value?: string): string | null {
+  if (value == null || value.trim() === "") return null;
+  params.push(value.trim());
+  return `source_table = ?`;
 }
 
 export function searchAwards(f: AwardFilters): AwardRow[] {
@@ -174,14 +203,19 @@ export function searchAwards(f: AwardFilters): AwardRow[] {
     eqClause("fiscal_year", p, f.fiscal_year),
     likeClause("category", p, f.category),
     likeClause("initiative", p, f.initiative),
-  ])} ORDER BY fiscal_year, member, amount DESC LIMIT ${cap(f.limit)}`;
+    sourceClause(p, f.source_table),
+  ])} ORDER BY fiscal_year, amount DESC, member LIMIT ${cap(f.limit)}`;
   return getDb().prepare(sql).all(...p) as AwardRow[];
 }
 
-export function getAwardsByEin(ein: string, fiscalYear?: number): AwardRow[] {
+export function getAwardsByEin(ein: string, fiscalYear?: number, sourceTable?: string): AwardRow[] {
   const p: unknown[] = [normEin(ein)];
-  const sql = `SELECT * FROM awards WHERE ein = ? ${
-    fiscalYear != null ? (p.push(fiscalYear), "AND fiscal_year = ?") : ""
+  const extra = [
+    fiscalYear != null ? (p.push(fiscalYear), "fiscal_year = ?") : null,
+    sourceClause(p, sourceTable),
+  ].filter((c): c is string => c !== null);
+  const sql = `SELECT * FROM awards WHERE ein = ?${
+    extra.length ? ` AND ${extra.join(" AND ")}` : ""
   } ORDER BY fiscal_year, member, amount DESC`;
   return getDb().prepare(sql).all(...p) as AwardRow[];
 }
@@ -269,6 +303,8 @@ export function getLegistarLink(f: LegistarFilters): CrosswalkRow[] {
 
 export interface FiscalYearReport {
   awards: number[];
+  /** Years that actually have appendix rows — a SUBSET of `awards`, not extra years. */
+  awards_appendix: number[];
   terms: number[];
   capital: number[];
   transparency: number[];
@@ -290,8 +326,12 @@ export function listFiscalYears(): FiscalYearReport {
   const transparency = (db
     .prepare(`SELECT DISTINCT source_fy AS fiscal_year FROM transparency WHERE source_fy IS NOT NULL ORDER BY source_fy`)
     .all() as { fiscal_year: number }[]).map((r) => r.fiscal_year);
+  const awardsAppendix = (db
+    .prepare(`SELECT DISTINCT fiscal_year FROM awards WHERE source_table = 'appendix' ORDER BY fiscal_year`)
+    .all() as { fiscal_year: number }[]).map((r) => r.fiscal_year);
   return {
     awards: distinct("awards"),
+    awards_appendix: awardsAppendix,
     terms: distinct("terms"),
     capital: distinct("capital"),
     transparency,

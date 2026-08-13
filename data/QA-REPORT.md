@@ -1,10 +1,10 @@
 # NYC Budget — Data QA Report
 
-**Report generated:** 2026-07-28  
-**Data current as of:** 2026-07-28 (files under `data/`)  
+**Report generated:** 2026-08-13  
+**Data current as of:** 2026-08-13 (files under `data/`)  
 **Tool:** `code/validate_data.py`
 
-**Verdict:** FAIL — 281 files, 4 hard failure(s), 532 soft advisory(ies).
+**Verdict:** FAIL — 283 files, 4 hard failure(s), 561 soft advisory(ies).
 
 Severity: HARD (exit 1) = schema drift, malformed row, non-numeric amount, or malformed EIN. SOFT (exit 0) = zeros, sign anomalies, outliers, duplicates, column-bleed residuals, coverage notes. See the module docstring for the full check list and rationale.
 
@@ -64,6 +64,8 @@ Valid 9-digit EINs / total rows, per year and EIN-bearing doctype. Initiatives, 
 | FY2026 | transparency | 4755/4755 | 100.0% |
 | FY2027 | appendix | 3860/3860 | 100.0% |
 | FY2027 | awards | 6118/6118 | 100.0% |
+| FYNone | recovered_appendix | 26127/26127 | 100.0% |
+| FYNone | recovered_awards | 437/437 | 100.0% |
 
 ## Reconciliation roll-up
 
@@ -116,11 +118,592 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | FY2027 | capital | 24/26 | PARTIAL (2 in-source diff) |
 | FY2027 | schedule_c | 25/25 | PASS |
 
+## Initiative-level award reconciliation (SOFT advisory)
+
+Award rows summed per initiative vs that initiative's own **printed** amount in `*_schedule_c_initiatives.csv`, joined exactly on a punctuation-folded initiative name within one fiscal year. `residual = printed - award rows`: positive is **short**, negative is **over**. This is the award stream's first pass/fail target — the per-year `*_reconciliation.txt` reconciles only the category summary and reports award rows as a bare tally with no target at all.
+
+Advisory, never a gate. Three known structural causes live in this residual: award rows carrying no initiative label at all, initiative labels the parser mis-assigns to a neighbouring block, and provider tables the source PDF's text layer never yielded. `unjoined $` is award dollars under a label with no printed counterpart plus dollars on rows with no label — counted here so the joined columns are not mistaken for full coverage.
+
+`recovered` is the optional sidecar `recovered/schedule_c_absorbed_awards.csv` (awards the parser absorbed into a neighbouring row and lost), included so the gap is legible with and without it. It is present.
+
+| FY | joined | balanced | short | over | printed | award rows | residual | recovered | residual after | balanced after | unjoined $ |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| FY2015 | 56 | 49 | 7 | 0 | 73,646,000 | 49,588,999 | 24,057,001 | 0 | 24,057,001 | 49 | 23,610,838 |
+| FY2016 | 65 | 50 | 15 | 0 | 86,474,645 | 73,550,272 | 12,924,373 | 9,503,585 | 3,420,788 | 55 | 16,366,740 |
+| FY2017 | 62 | 15 | 46 | 1 | 137,820,597 | 84,537,586 | 53,283,011 | 22,966,522 | 30,316,489 | 28 | 5,363,901 |
+| FY2018 | 53 | 23 | 30 | 0 | 113,407,645 | 77,800,804 | 35,606,841 | 16,268,804 | 19,338,037 | 31 | 24,916,152 |
+| FY2019 | 78 | 33 | 38 | 7 | 179,903,641 | 160,483,245 | 19,420,396 | 3,548,279 | 15,872,117 | 39 | 20,543,686 |
+| FY2020 | 89 | 42 | 45 | 2 | 237,351,206 | 190,972,466 | 46,378,740 | 0 | 46,378,740 | 42 | 67,789,919 |
+| FY2021 | 81 | 44 | 36 | 1 | 188,373,880 | 129,725,478 | 58,648,402 | 0 | 58,648,402 | 44 | 72,344,710 |
+| FY2022 | 75 | 34 | 38 | 3 | 189,078,720 | 146,571,825 | 42,506,895 | 0 | 42,506,895 | 34 | 75,985,118 |
+| FY2023 | 103 | 44 | 54 | 5 | 327,479,451 | 204,549,003 | 122,930,448 | 0 | 122,930,448 | 44 | 57,870,211 |
+| FY2024 | 110 | 56 | 45 | 9 | 320,889,916 | 262,519,338 | 58,370,578 | 0 | 58,370,578 | 56 | 138,144,236 |
+| FY2025 | 114 | 65 | 40 | 9 | 340,243,739 | 279,689,734 | 60,554,005 | 0 | 60,554,005 | 65 | 133,295,376 |
+| FY2026 | 110 | 48 | 45 | 17 | 429,390,495 | 302,124,637 | 127,265,858 | 0 | 127,265,858 | 48 | 185,162,608 |
+| FY2027 | 152 | 113 | 34 | 5 | 507,368,128 | 493,824,363 | 13,543,765 | 0 | 13,543,765 | 113 | 111,287,049 |
+
+Unjoined detail — dollars this check cannot test, per year:
+
+| FY | award labels with no printed counterpart | $ | award rows with no initiative label | $ | recovered $ not joinable |
+|---|---:|---:|---:|---:|---:|
+| FY2015 | 22 | 23,610,838 | 0 | 0 | 0 |
+| FY2016 | 15 | 16,366,740 | 0 | 0 | 1,555,980 |
+| FY2017 | 8 | 5,174,171 | 9 | 189,730 | 4,883,980 |
+| FY2018 | 20 | 22,400,501 | 29 | 2,515,651 | 7,004,150 |
+| FY2019 | 15 | 18,052,836 | 31 | 2,490,850 | 684,421 |
+| FY2020 | 18 | 42,846,440 | 436 | 24,943,479 | 0 |
+| FY2021 | 30 | 59,425,430 | 326 | 12,919,280 | 0 |
+| FY2022 | 20 | 72,699,191 | 42 | 3,285,927 | 0 |
+| FY2023 | 3 | 3,519,423 | 879 | 54,350,788 | 0 |
+| FY2024 | 16 | 39,177,551 | 2233 | 98,966,685 | 0 |
+| FY2025 | 10 | 37,908,048 | 2166 | 95,387,328 | 0 |
+| FY2026 | 16 | 59,289,174 | 2035 | 125,873,434 | 0 |
+| FY2027 | 6 | 111,287,049 | 0 | 0 | 0 |
+
+### Initiatives that do not balance (532)
+
+Balanced initiatives are omitted — their residual is $0 by definition. Sorted by fiscal year, then by the size of the residual.
+
+| FY | initiative | status | printed | award rows | rows | residual | recovered | residual after |
+|---|---|---|---:|---:|---:|---:|---:|---:|
+| FY2015 | Summer Out of School Time (OST) | short | 17,500,000 | 3,000,000 | 1 | 14,500,000 | 0 | 14,500,000 |
+| FY2015 | Domestic Violence and Empowerment (DoVE) Initiative | short | 4,000,000 | 600,000 | 1 | 3,400,000 | 0 | 3,400,000 |
+| FY2015 | Senior Centers, Programs, and Services Enhancement | short | 3,005,000 | 641,000 | 5 | 2,364,000 | 0 | 2,364,000 |
+| FY2015 | Citywide Civil Legal Services | short | 3,750,000 | 1,500,000 | 2 | 2,250,000 | 0 | 2,250,000 |
+| FY2015 | Elder Abuse Enhancement | short | 1,000,000 | 107,000 | 2 | 893,000 | 0 | 893,000 |
+| FY2015 | A Greener NYC | short | 750,000 | 100,000 | 2 | 650,000 | 0 | 650,000 |
+| FY2015 | Communities of Color Non-Profit Stabilization Fund | short | 2,500,000 | 2,499,999 | 3 | 1 | 0 | 1 |
+| FY2016 | Jobs to Build On | short | 5,636,000 | 281,800 | 1 | 5,354,200 | 5,354,200 | 0 |
+| FY2016 | Alternatives to Incarceration (ATI) Programs | short | 4,432,000 | 1,703,525 | 4 | 2,728,475 | 1,871,275 | 857,200 |
+| FY2016 | Worker Cooperative Business Development Initiative | short | 2,100,000 | 1,095,000 | 10 | 1,005,000 | 1,005,000 | 0 |
+| FY2016 | Unaccompanied Minors and Families | short | 1,500,000 | 590,000 | 3 | 910,000 | 0 | 910,000 |
+| FY2016 | Anti-Gun Violence - Community-Based Programs | short | 1,590,000 | 750,000 | 3 | 840,000 | 0 | 840,000 |
+| FY2016 | Obesity Prevention | short | 1,300,000 | 550,000 | 2 | 750,000 | 750,000 | 0 |
+| FY2016 | Initiative to Address Sexual Assault | short | 600,000 | 300,000 | 2 | 300,000 | 150,000 | 150,000 |
+| FY2016 | Legal Services for Domestic Violence Victims | short | 350,000 | 125,000 | 1 | 225,000 | 100,000 | 125,000 |
+| FY2016 | Community Consultant Contracts (CCC) | short | 1,100,000 | 891,902 | 30 | 208,098 | 208,110 | -12 |
+| FY2016 | Legal Services for the Working Poor | short | 1,725,000 | 1,525,000 | 5 | 200,000 | 0 | 200,000 |
+| FY2016 | Anti-Gun Violence - Mental Health/Therapeutic Services | short | 520,000 | 385,000 | 6 | 135,000 | 0 | 135,000 |
+| FY2016 | COMPASS Slot Restoration | short | 9,886,800 | 9,783,200 | 50 | 103,600 | 0 | 103,600 |
+| FY2016 | LGBT Students’ Liaison | short | 200,000 | 100,000 | 1 | 100,000 | 0 | 100,000 |
+| FY2016 | Elder Abuse Enhancement | short | 335,000 | 285,000 | 4 | 50,000 | 50,000 | 0 |
+| FY2016 | Day Laborer Workforce Initiative | short | 500,000 | 485,000 | 4 | 15,000 | 15,000 | 0 |
+| FY2017 | Job Training and Placement Initiative | short | 8,106,000 | 551,800 | 3 | 7,554,200 | 0 | 7,554,200 |
+| FY2017 | Discretionary Child Care | short | 9,355,069 | 3,148,737 | 5 | 6,206,332 | 6,206,332 | 0 |
+| FY2017 | Alternatives to Incarceration (ATIs) | short | 5,632,000 | 1,456,100 | 6 | 4,175,900 | 0 | 4,175,900 |
+| FY2017 | Naturally Occurring Retirement Communities (NORCs) | short | 3,850,000 | 1,285,000 | 8 | 2,565,000 | 0 | 2,565,000 |
+| FY2017 | Autism Awareness | short | 3,315,386 | 861,383 | 15 | 2,454,003 | 424,003 | 2,030,000 |
+| FY2017 | New York Immigrant Family Unity Project | short | 6,230,000 | 4,153,332 | 2 | 2,076,668 | 2,076,667 | 1 |
+| FY2017 | City’s First Readers | short | 2,792,000 | 894,000 | 8 | 1,898,000 | 898,000 | 1,000,000 |
+| FY2017 | Community Housing Preservation Strategies | short | 3,651,000 | 1,848,405 | 40 | 1,802,595 | 866,835 | 935,760 |
+| FY2017 | Digital Inclusion and Literacy Initiative | short | 2,040,000 | 340,000 | 17 | 1,700,000 | 0 | 1,700,000 |
+| FY2017 | Stabilizing NYC | short | 2,000,000 | 575,000 | 6 | 1,425,000 | 325,000 | 1,100,000 |
+| FY2017 | Afterschool Enrichment Initiative | short | 5,425,000 | 4,075,000 | 2 | 1,350,000 | 0 | 1,350,000 |
+| FY2017 | Supportive Alternatives to Violent Encounters (SAVE) | short | 1,950,000 | 600,000 | 1 | 1,350,000 | 0 | 1,350,000 |
+| FY2017 | Immigrant Opportunities Initiative | short | 2,600,000 | 1,382,000 | 18 | 1,218,000 | 1,038,000 | 180,000 |
+| FY2017 | Court-Involved Youth Mental Health Initiative | short | 1,900,000 | 692,000 | 7 | 1,208,000 | 908,000 | 300,000 |
+| FY2017 | LGBTQ Senior Services in Every Borough | short | 1,500,000 | 300,000 | 1 | 1,200,000 | 1,200,000 | 0 |
+| FY2017 | Legal Services for Low-Income New Yorkers | short | 5,000,000 | 4,000,000 | 2 | 1,000,000 | 250,000 | 750,000 |
+| FY2017 | Legal Services for the Working Poor | short | 2,405,000 | 1,420,000 | 6 | 985,000 | 305,000 | 680,000 |
+| FY2017 | Viral Hepatitis Prevention | short | 1,186,476 | 214,290 | 3 | 972,186 | 0 | 972,186 |
+| FY2017 | Anti-Eviction and Housing Court Resources | short | 5,650,000 | 4,744,500 | 12 | 905,500 | 650,000 | 255,500 |
+| FY2017 | COMPASS | short | 8,000,000 | 7,116,400 | 4 | 883,600 | 883,600 | 0 |
+| FY2017 | Physical Education and Fitness | short | 1,925,000 | 1,125,000 | 1 | 800,000 | 0 | 800,000 |
+| FY2017 | Access to Food and Nutritional Education | short | 930,000 | 250,000 | 2 | 680,000 | 680,000 | 0 |
+| FY2017 | Educational Programs for Students | short | 2,975,000 | 2,300,000 | 2 | 675,000 | 675,000 | 0 |
+| FY2017 | Children Under Five | short | 1,002,000 | 346,154 | 2 | 655,846 | 0 | 655,846 |
+| FY2017 | Immigrant Health Initiative | short | 1,500,000 | 850,000 | 7 | 650,000 | 600,000 | 50,000 |
+| FY2017 | Small Business Outreach and Assistance Program | short | 1,288,855 | 666,250 | 5 | 622,605 | 522,605 | 100,000 |
+| FY2017 | Initiative to Combat Sexual Assault | short | 1,348,000 | 748,000 | 1 | 600,000 | 450,000 | 150,000 |
+| FY2017 | Geriatric Mental Health | short | 1,827,000 | 1,229,000 | 14 | 598,000 | 434,000 | 164,000 |
+| FY2017 | Dropout Prevention and Intervention Initiative | short | 1,595,000 | 1,015,000 | 8 | 580,000 | 270,000 | 310,000 |
+| FY2017 | Support for Educators | short | 12,744,500 | 12,294,500 | 1 | 450,000 | 450,000 | 0 |
+| FY2017 | Mental Health Services for Vulnerable Populations | short | 1,093,000 | 663,295 | 6 | 429,705 | 280,000 | 149,705 |
+| FY2017 | Support for Victims of Human Trafficking | short | 750,000 | 325,000 | 3 | 425,000 | 375,000 | 50,000 |
+| FY2017 | Access Health | short | 1,070,000 | 701,156 | 10 | 368,844 | 210,768 | 158,076 |
+| FY2017 | YouthBuild Project Initiative | short | 2,100,000 | 1,742,200 | 4 | 357,800 | 357,800 | 0 |
+| FY2017 | Child Health and Wellness | short | 646,000 | 300,000 | 1 | 346,000 | 346,000 | 0 |
+| FY2017 | MWBE Leadership Associations | short | 600,000 | 283,905 | 4 | 316,095 | 119,780 | 196,315 |
+| FY2017 | Medicaid Redesign Transition | short | 500,000 | 200,000 | 3 | 300,000 | 150,000 | 150,000 |
+| FY2017 | Social Adult Day Care Enhancement | short | 950,000 | 665,000 | 7 | 285,000 | 190,000 | 95,000 |
+| FY2017 | Cancer Services | short | 790,500 | 540,500 | 6 | 250,000 | 250,000 | 0 |
+| FY2017 | Restorative Justice Program | short | 1,300,000 | 1,050,000 | 2 | 250,000 | 0 | 250,000 |
+| FY2017 | Day Laborer Workforce Initiative | short | 570,000 | 350,000 | 4 | 220,000 | 220,000 | 0 |
+| FY2017 | Legal Services for Veterans | short | 350,000 | 150,000 | 1 | 200,000 | 200,000 | 0 |
+| FY2017 | Homeless Prevention Fund | short | 820,000 | 656,000 | 2 | 164,000 | 0 | 164,000 |
+| FY2017 | Elder Abuse Enhancement | short | 335,000 | 235,000 | 3 | 100,000 | 50,000 | 50,000 |
+| FY2017 | Information and Referral Services | short | 407,811 | 351,679 | 2 | 56,132 | 56,132 | 0 |
+| FY2017 | Homeless Prevention Services for Veterans | over | 300,000 | 350,000 | 2 | -50,000 | 25,000 | -75,000 |
+| FY2017 | Children and Families in NYC Homeless System | short | 1,000,000 | 977,000 | 5 | 23,000 | 23,000 | 0 |
+| FY2018 | Domestic Violence and Empowerment (DoVE) Initiative | short | 7,805,000 | 562,500 | 1 | 7,242,500 | 0 | 7,242,500 |
+| FY2018 | Discretionary Child Care | short | 9,855,190 | 3,537,041 | 5 | 6,318,149 | 6,318,149 | 0 |
+| FY2018 | Afterschool Enrichment Initiative | short | 5,725,000 | 1,675,000 | 3 | 4,050,000 | 4,000,000 | 50,000 |
+| FY2018 | Communities of Color Nonprofit Stabilization Fund | short | 3,700,000 | 55,000 | 1 | 3,645,000 | 0 | 3,645,000 |
+| FY2018 | Job Training and Placement Initiative | short | 7,906,000 | 5,015,300 | 31 | 2,890,700 | 0 | 2,890,700 |
+| FY2018 | Alternatives to Incarceration (ATI’s) | short | 6,407,000 | 4,678,660 | 14 | 1,728,340 | 1,328,340 | 400,000 |
+| FY2018 | Autism Awareness | short | 3,236,846 | 1,828,151 | 23 | 1,408,695 | 0 | 1,408,695 |
+| FY2018 | Bail Fund | short | 1,400,000 | 150,000 | 1 | 1,250,000 | 109,000 | 1,141,000 |
+| FY2018 | COMPASS | short | 1,813,600 | 963,200 | 4 | 850,400 | 704,400 | 146,000 |
+| FY2018 | Post-Arrest Diversion Program | short | 1,025,000 | 330,000 | 1 | 695,000 | 0 | 695,000 |
+| FY2018 | Immigrant Opportunities Initiative | short | 2,600,000 | 1,928,000 | 20 | 672,000 | 455,000 | 217,000 |
+| FY2018 | Support for Victims of Human Trafficking | short | 1,000,000 | 375,000 | 4 | 625,000 | 375,000 | 250,000 |
+| FY2018 | Restorative Justice Program | short | 1,300,000 | 800,000 | 2 | 500,000 | 0 | 500,000 |
+| FY2018 | Support for Educators | short | 20,804,500 | 20,354,000 | 1 | 450,500 | 450,000 | 500 |
+| FY2018 | Initiative to Combat Sexual Assault | short | 1,348,000 | 898,000 | 2 | 450,000 | 300,000 | 150,000 |
+| FY2018 | Children Under Five | short | 1,002,000 | 576,923 | 3 | 425,077 | 425,077 | 0 |
+| FY2018 | Court-Involved Youth Mental Health | short | 2,050,000 | 1,672,000 | 14 | 378,000 | 145,000 | 233,000 |
+| FY2018 | MWBE Leadership Associations | short | 600,000 | 245,975 | 4 | 354,025 | 265,170 | 88,855 |
+| FY2018 | Information and Referral Services | short | 407,811 | 56,132 | 1 | 351,679 | 103,914 | 247,765 |
+| FY2018 | Mental Health Services for Vulnerable Populations | short | 1,218,000 | 883,000 | 10 | 335,000 | 250,000 | 85,000 |
+| FY2018 | Geriatric Mental Health | short | 1,905,540 | 1,618,540 | 19 | 287,000 | 63,000 | 224,000 |
+| FY2018 | Cancer Services | short | 790,500 | 640,500 | 8 | 150,000 | 150,000 | 0 |
+| FY2018 | Veterans Community Development | short | 515,000 | 395,000 | 6 | 120,000 | 120,000 | 0 |
+| FY2018 | Food Access and Benefits | short | 725,000 | 625,000 | 1 | 100,000 | 0 | 100,000 |
+| FY2018 | Supportive Alternatives to Violent Encounters (SAVE) | short | 1,950,000 | 1,850,000 | 4 | 100,000 | 100,000 | 0 |
+| FY2018 | Access to Healthy Food and Nutritional Education | short | 930,000 | 835,000 | 5 | 95,000 | 95,000 | 0 |
+| FY2018 | Dedicated Contraceptive Fund | short | 400,000 | 337,000 | 3 | 63,000 | 63,000 | 0 |
+| FY2018 | Naturally Occurring Retirement Communities (NORCs) | short | 3,850,000 | 3,805,000 | 12 | 45,000 | 45,000 | 0 |
+| FY2018 | Initiative for Immigrant Survivors of Domestic Violence | short | 250,000 | 230,000 | 6 | 20,000 | 0 | 20,000 |
+| FY2018 | Viral Hepatitis Prevention | short | 1,423,658 | 1,416,882 | 26 | 6,776 | 403,754 | -396,978 |
+| FY2019 | Domestic Violence and Empowerment (DoVE) Initiative | short | 9,305,000 | 1,582,500 | 18 | 7,722,500 | 45,000 | 7,677,500 |
+| FY2019 | Child Health and Wellness | over | 646,000 | 6,175,370 | 67 | -5,529,370 | 308,630 | -5,838,000 |
+| FY2019 | Job Training and Placement Initiative | over | 8,106,000 | 12,287,700 | 33 | -4,181,700 | 0 | -4,181,700 |
+| FY2019 | Parks Equity Initiative | short | 4,603,500 | 600,000 | 1 | 4,003,500 | 0 | 4,003,500 |
+| FY2019 | Communities of Color Nonprofit Stabilization Fund | over | 3,700,000 | 7,380,000 | 47 | -3,680,000 | 70,000 | -3,750,000 |
+| FY2019 | Food Pantries | short | 4,600,000 | 1,000,000 | 1 | 3,600,000 | 0 | 3,600,000 |
+| FY2019 | Crisis Management System | short | 2,590,000 | 810,000 | 3 | 1,780,000 | 0 | 1,780,000 |
+| FY2019 | Alternatives to Incarceration (ATI’s) | short | 8,107,000 | 6,357,000 | 17 | 1,750,000 | 0 | 1,750,000 |
+| FY2019 | Court-Involved Youth Mental Health | short | 2,850,000 | 1,193,000 | 9 | 1,657,000 | 0 | 1,657,000 |
+| FY2019 | Borough Presidents’ Discretionary Funding Restoration | over | 1,129,774 | 2,732,000 | 22 | -1,602,226 | 0 | -1,602,226 |
+| FY2019 | Access Health | short | 2,500,000 | 1,187,000 | 17 | 1,313,000 | 0 | 1,313,000 |
+| FY2019 | Dropout Prevention and Intervention | short | 2,485,000 | 1,180,000 | 4 | 1,305,000 | 0 | 1,305,000 |
+| FY2019 | Initiative to Combat Sexual Assault | short | 2,810,000 | 1,548,000 | 5 | 1,262,000 | 200,000 | 1,062,000 |
+| FY2019 | Opioid Prevention and Treatment | short | 2,000,000 | 750,000 | 3 | 1,250,000 | 250,000 | 1,000,000 |
+| FY2019 | Worker Cooperative Business Development Initiative | short | 3,499,000 | 2,380,600 | 11 | 1,118,400 | 562,400 | 556,000 |
+| FY2019 | Discretionary Child Care | short | 5,355,190 | 4,242,000 | 15 | 1,113,190 | 0 | 1,113,190 |
+| FY2019 | YouthBuild Project Initiative | short | 2,100,000 | 989,700 | 4 | 1,110,300 | 370,100 | 740,200 |
+| FY2019 | Senior Centers for Immigrant Populations | short | 2,000,000 | 900,000 | 9 | 1,100,000 | 100,000 | 1,000,000 |
+| FY2019 | Children Under Five | over | 1,002,000 | 1,759,000 | 10 | -757,000 | 0 | -757,000 |
+| FY2019 | Cancer Services | over | 599,500 | 1,245,500 | 11 | -646,000 | 0 | -646,000 |
+| FY2019 | Viral Hepatitis Prevention | short | 1,923,658 | 1,354,343 | 28 | 569,315 | 27,000 | 542,315 |
+| FY2019 | Wrap-Around Support for Transitional-Aged Foster Youth | short | 1,100,000 | 550,000 | 7 | 550,000 | 0 | 550,000 |
+| FY2019 | Day Laborer Workforce Initiative | short | 1,970,000 | 1,470,000 | 6 | 500,000 | 0 | 500,000 |
+| FY2019 | COMPASS | short | 1,813,600 | 1,319,200 | 5 | 494,400 | 494,400 | 0 |
+| FY2019 | Chamber on the Go and Small Business Assistance | short | 1,888,855 | 1,404,855 | 12 | 484,000 | 88,500 | 395,500 |
+| FY2019 | Veterans Community Development | short | 970,000 | 515,000 | 7 | 455,000 | 0 | 455,000 |
+| FY2019 | Support for Educators | short | 20,804,500 | 20,354,500 | 1 | 450,000 | 450,000 | 0 |
+| FY2019 | Young Women's Leadership Development | short | 1,096,000 | 718,500 | 11 | 377,500 | 0 | 377,500 |
+| FY2019 | Trans Equity Programs | short | 1,775,000 | 1,525,000 | 7 | 250,000 | 0 | 250,000 |
+| FY2019 | Mental Health Services for Veterans | short | 420,000 | 225,000 | 2 | 195,000 | 0 | 195,000 |
+| FY2019 | Mental Health Services for Vulnerable Populations | short | 1,718,000 | 1,523,000 | 12 | 195,000 | 0 | 195,000 |
+| FY2019 | Immigrant Health Initiative | short | 2,000,000 | 1,835,000 | 19 | 165,000 | 165,000 | 0 |
+| FY2019 | Autism Awareness | short | 3,236,846 | 3,076,298 | 35 | 160,548 | 60,548 | 100,000 |
+| FY2019 | Homeless Prevention Services for Veterans | short | 300,000 | 150,000 | 1 | 150,000 | 0 | 150,000 |
+| FY2019 | Legal Services for Veterans | short | 450,000 | 300,000 | 2 | 150,000 | 0 | 150,000 |
+| FY2019 | Initiative for Immigrant Survivors of Domestic Violence | over | 350,000 | 485,000 | 9 | -135,000 | 0 | -135,000 |
+| FY2019 | Construction Site Safety Training | short | 1,100,000 | 975,000 | 8 | 125,000 | 125,000 | 0 |
+| FY2019 | MWBE Leadership Associations | short | 600,000 | 478,550 | 7 | 121,450 | 0 | 121,450 |
+| FY2019 | LGBTQ Inclusive Curriculum | short | 600,000 | 500,000 | 7 | 100,000 | 100,000 | 0 |
+| FY2019 | Made in NYC | short | 850,000 | 750,000 | 1 | 100,000 | 0 | 100,000 |
+| FY2019 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,530,000 | 32 | 70,000 | 10,000 | 60,000 |
+| FY2019 | Afterschool Enrichment Initiative | short | 6,303,907 | 6,235,000 | 8 | 68,907 | 0 | 68,907 |
+| FY2019 | Support for Victims of Human Trafficking | short | 1,200,000 | 1,140,000 | 9 | 60,000 | 60,000 | 0 |
+| FY2019 | Job Placement for Veterans | short | 200,000 | 150,000 | 1 | 50,000 | 0 | 50,000 |
+| FY2019 | HIV/AIDS Faith Based | short | 1,131,000 | 1,105,318 | 13 | 25,682 | 61,701 | -36,019 |
+| FY2020 | Domestic Violence and Empowerment (DoVE) Initiative | short | 9,805,000 | 1,927,500 | 25 | 7,877,500 | 0 | 7,877,500 |
+| FY2020 | Community Schools | over | 3,750,000 | 11,153,800 | 12 | -7,403,800 | 0 | -7,403,800 |
+| FY2020 | New York Immigrant Family Unity Project | short | 16,600,000 | 11,066,667 | 2 | 5,533,333 | 0 | 5,533,333 |
+| FY2020 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 12,540,000 | 627 | 4,800,000 | 0 | 4,800,000 |
+| FY2020 | NYC Cleanup | short | 13,260,000 | 8,478,200 | 117 | 4,781,800 | 0 | 4,781,800 |
+| FY2020 | Food Pantries | short | 5,659,000 | 1,000,000 | 1 | 4,659,000 | 0 | 4,659,000 |
+| FY2020 | Parks Equity Initiative | short | 5,113,500 | 778,500 | 1 | 4,335,000 | 0 | 4,335,000 |
+| FY2020 | Crisis Management System | short | 2,875,600 | 520,000 | 9 | 2,355,600 | 0 | 2,355,600 |
+| FY2020 | Cultural Immigrant Initiative | short | 7,395,000 | 5,074,000 | 259 | 2,321,000 | 0 | 2,321,000 |
+| FY2020 | Support Our Seniors | short | 5,100,000 | 3,208,000 | 181 | 1,892,000 | 0 | 1,892,000 |
+| FY2020 | Coalition Theaters of Color | short | 3,740,000 | 1,920,600 | 42 | 1,819,400 | 0 | 1,819,400 |
+| FY2020 | Diversion Programs | short | 2,525,000 | 930,000 | 1 | 1,595,000 | 0 | 1,595,000 |
+| FY2020 | Wrap-Around Support for Transitional-Aged Foster Youth | over | 1,230,000 | 2,696,125 | 32 | -1,466,125 | 0 | -1,466,125 |
+| FY2020 | Borough Presidents’ Discretionary Funding Restoration | short | 1,129,774 | 100,000 | 2 | 1,029,774 | 0 | 1,029,774 |
+| FY2020 | Family Advocacy and Guardianship Support | short | 1,500,000 | 525,000 | 2 | 975,000 | 0 | 975,000 |
+| FY2020 | Unaccompanied Minors and Families | short | 3,981,800 | 3,016,800 | 5 | 965,000 | 0 | 965,000 |
+| FY2020 | Digital Inclusion and Literacy Initiative | short | 3,060,000 | 2,340,000 | 103 | 720,000 | 0 | 720,000 |
+| FY2020 | Chamber on the Go and Small Business Assistance | short | 1,888,855 | 1,208,855 | 12 | 680,000 | 0 | 680,000 |
+| FY2020 | Discretionary Child Care | short | 5,405,190 | 4,731,108 | 6 | 674,082 | 0 | 674,082 |
+| FY2020 | Neighborhood Development Grant Initiative | short | 2,040,000 | 1,368,000 | 65 | 672,000 | 0 | 672,000 |
+| FY2020 | Art a Catalyst for Change | short | 720,000 | 72,000 | 4 | 648,000 | 0 | 648,000 |
+| FY2020 | Naturally Occurring Retirement Communities (NORCs) | short | 5,325,325 | 4,741,294 | 37 | 584,031 | 0 | 584,031 |
+| FY2020 | Ending the Epidemic | short | 7,735,000 | 7,161,200 | 67 | 573,800 | 0 | 573,800 |
+| FY2020 | Maternal and Child Health Services | short | 2,192,818 | 1,631,117 | 13 | 561,701 | 0 | 561,701 |
+| FY2020 | Worker Cooperative Business Development Initiative | short | 3,609,000 | 3,096,711 | 12 | 512,289 | 0 | 512,289 |
+| FY2020 | Access Health | short | 3,000,000 | 2,500,000 | 36 | 500,000 | 0 | 500,000 |
+| FY2020 | Adult Literacy Initiative | short | 4,000,000 | 3,500,000 | 40 | 500,000 | 0 | 500,000 |
+| FY2020 | Legal Services for Low-Income New Yorkers | short | 5,800,000 | 5,300,000 | 5 | 500,000 | 0 | 500,000 |
+| FY2020 | Healthy Aging Initiative | short | 2,040,000 | 1,589,000 | 108 | 451,000 | 0 | 451,000 |
+| FY2020 | Legal Services for the Working Poor | short | 3,205,000 | 2,897,500 | 10 | 307,500 | 0 | 307,500 |
+| FY2020 | Veterans Community Development | short | 1,270,000 | 970,000 | 9 | 300,000 | 0 | 300,000 |
+| FY2020 | Discharge Planning | short | 800,000 | 550,000 | 2 | 250,000 | 0 | 250,000 |
+| FY2020 | Reproductive and Sexual Health Services | short | 594,788 | 344,788 | 2 | 250,000 | 0 | 250,000 |
+| FY2020 | College and Career Readiness | short | 1,778,000 | 1,578,000 | 8 | 200,000 | 0 | 200,000 |
+| FY2020 | Prevent Sexual Assault (PSA) Initiative for Young Adults | short | 350,000 | 150,000 | 2 | 200,000 | 0 | 200,000 |
+| FY2020 | Support for Victims of Human Trafficking | short | 1,200,000 | 1,025,000 | 9 | 175,000 | 0 | 175,000 |
+| FY2020 | Citywide Homeless Prevention Fund | short | 820,000 | 656,000 | 2 | 164,000 | 0 | 164,000 |
+| FY2020 | HIV/AIDS Faith Based | short | 1,131,000 | 999,000 | 24 | 132,000 | 0 | 132,000 |
+| FY2020 | Initiative for Immigrant Survivors of Domestic Violence | short | 530,000 | 420,000 | 9 | 110,000 | 0 | 110,000 |
+| FY2020 | Elder Abuse Prevention Programs | short | 335,000 | 235,000 | 3 | 100,000 | 0 | 100,000 |
+| FY2020 | Mental Health Services for Vulnerable Populations | short | 2,318,000 | 2,219,000 | 20 | 99,000 | 0 | 99,000 |
+| FY2020 | Initiative to Combat Sexual Assault | short | 3,210,000 | 3,112,000 | 13 | 98,000 | 0 | 98,000 |
+| FY2020 | MWBE Leadership Associations | short | 600,000 | 511,145 | 8 | 88,855 | 0 | 88,855 |
+| FY2020 | Mental Health Services for Veterans | short | 500,000 | 420,000 | 4 | 80,000 | 0 | 80,000 |
+| FY2020 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,535,000 | 32 | 65,000 | 0 | 65,000 |
+| FY2020 | Dedicated Contraceptive Fund | short | 781,000 | 718,000 | 3 | 63,000 | 0 | 63,000 |
+| FY2020 | Legal Services for Veterans | short | 600,000 | 550,000 | 5 | 50,000 | 0 | 50,000 |
+| FY2021 | Cultural After-School Adventure (CASA) | short | 14,280,000 | 40,000 | 2 | 14,240,000 | 0 | 14,240,000 |
+| FY2021 | NYC Cleanup | short | 8,160,000 | 50,000 | 1 | 8,110,000 | 0 | 8,110,000 |
+| FY2021 | Domestic Violence and Empowerment (DoVE) Initiative | short | 9,805,000 | 1,982,500 | 26 | 7,822,500 | 0 | 7,822,500 |
+| FY2021 | Cultural Immigrant Initiative | short | 6,375,000 | 65,000 | 2 | 6,310,000 | 0 | 6,310,000 |
+| FY2021 | New York Immigrant Family Unity Project | short | 16,600,000 | 11,066,667 | 2 | 5,533,333 | 0 | 5,533,333 |
+| FY2021 | Food Pantries | short | 5,659,000 | 1,050,000 | 2 | 4,609,000 | 0 | 4,609,000 |
+| FY2021 | A Greener NYC | short | 2,040,000 | 10,000 | 1 | 2,030,000 | 0 | 2,030,000 |
+| FY2021 | Access Health | short | 2,550,000 | 685,169 | 10 | 1,864,831 | 0 | 1,864,831 |
+| FY2021 | Public Health Funding Backfill | short | 3,967,743 | 2,294,255 | 73 | 1,673,488 | 0 | 1,673,488 |
+| FY2021 | Court-Involved Youth Mental Health | short | 2,890,000 | 1,241,850 | 10 | 1,648,150 | 0 | 1,648,150 |
+| FY2021 | Parks Equity Initiative | short | 1,798,500 | 778,500 | 1 | 1,020,000 | 0 | 1,020,000 |
+| FY2021 | Diversion Programs | over | 2,162,000 | 3,150,000 | 13 | -988,000 | 0 | -988,000 |
+| FY2021 | Unaccompanied Minors and Families | short | 3,981,800 | 3,391,800 | 7 | 590,000 | 0 | 590,000 |
+| FY2021 | Art a Catalyst for Change | short | 612,000 | 61,200 | 4 | 550,800 | 0 | 550,800 |
+| FY2021 | Initiative for Immigrant Survivors of Domestic Violence | short | 477,000 | 112,500 | 3 | 364,500 | 0 | 364,500 |
+| FY2021 | Immigrant Health Initiative | short | 2,000,000 | 1,640,000 | 16 | 360,000 | 0 | 360,000 |
+| FY2021 | Innovative Criminal Justice Programs | short | 1,833,000 | 1,508,000 | 6 | 325,000 | 0 | 325,000 |
+| FY2021 | LGBT Community Services | short | 3,166,250 | 2,902,750 | 14 | 263,500 | 0 | 263,500 |
+| FY2021 | Veterans Community Development | short | 1,206,500 | 965,000 | 8 | 241,500 | 0 | 241,500 |
+| FY2021 | Support for Victims of Human Trafficking | short | 1,200,000 | 975,000 | 8 | 225,000 | 0 | 225,000 |
+| FY2021 | Legal Services for the Working Poor | short | 2,724,250 | 2,505,300 | 11 | 218,950 | 0 | 218,950 |
+| FY2021 | Geriatric Mental Health | short | 1,619,709 | 1,408,909 | 20 | 210,800 | 0 | 210,800 |
+| FY2021 | Prevent Sexual Assault (PSA) Initiative for Young Adults | short | 315,000 | 135,000 | 2 | 180,000 | 0 | 180,000 |
+| FY2021 | Maternal and Child Health Services | short | 1,863,895 | 1,702,395 | 15 | 161,500 | 0 | 161,500 |
+| FY2021 | Senior Centers, Programs, and Enhancements | short | 3,376,670 | 3,246,670 | 55 | 130,000 | 0 | 130,000 |
+| FY2021 | City’s First Readers | short | 3,904,900 | 3,777,400 | 16 | 127,500 | 0 | 127,500 |
+| FY2021 | Chamber on the Go and Small Business Assistance | short | 1,605,527 | 1,485,677 | 16 | 119,850 | 0 | 119,850 |
+| FY2021 | Autism Awareness | short | 3,246,846 | 3,131,846 | 33 | 115,000 | 0 | 115,000 |
+| FY2021 | CUNY Citizenship NOW! Program | short | 3,250,000 | 3,150,000 | 2 | 100,000 | 0 | 100,000 |
+| FY2021 | Adult Literacy Initiative | short | 3,400,000 | 3,315,000 | 45 | 85,000 | 0 | 85,000 |
+| FY2021 | Legal Services for Low-Income New Yorkers | short | 4,930,000 | 4,845,000 | 5 | 85,000 | 0 | 85,000 |
+| FY2021 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,520,000 | 32 | 80,000 | 0 | 80,000 |
+| FY2021 | Mental Health Services for Veterans | short | 475,000 | 395,000 | 3 | 80,000 | 0 | 80,000 |
+| FY2021 | Young Women's Leadership Development | short | 1,444,950 | 1,386,450 | 26 | 58,500 | 0 | 58,500 |
+| FY2021 | Coalition Theaters of Color | short | 3,740,000 | 3,690,000 | 49 | 50,000 | 0 | 50,000 |
+| FY2021 | Civic Education in New York City Schools | short | 467,500 | 425,000 | 1 | 42,500 | 0 | 42,500 |
+| FY2021 | HIV/AIDS Faith Based | short | 961,350 | 951,150 | 24 | 10,200 | 0 | 10,200 |
+| FY2022 | Food Pantries | short | 19,159,000 | 1,000,000 | 1 | 18,159,000 | 0 | 18,159,000 |
+| FY2022 | New York Immigrant Family Unity Project | short | 16,600,000 | 11,066,667 | 2 | 5,533,333 | 0 | 5,533,333 |
+| FY2022 | Parks Equity Initiative | short | 5,113,500 | 778,500 | 1 | 4,335,000 | 0 | 4,335,000 |
+| FY2022 | City’s First Readers | over | 5,564,000 | 9,314,000 | 19 | -3,750,000 | 0 | -3,750,000 |
+| FY2022 | Access Health | short | 4,000,000 | 680,888 | 8 | 3,319,112 | 0 | 3,319,112 |
+| FY2022 | LGBTQ Inclusive Curriculum | short | 2,800,000 | 700,000 | 7 | 2,100,000 | 0 | 2,100,000 |
+| FY2022 | Geriatric Mental Health | short | 3,405,540 | 1,495,540 | 18 | 1,910,000 | 0 | 1,910,000 |
+| FY2022 | LGBTQ Senior Services in Every Borough | short | 1,500,000 | 280,000 | 1 | 1,220,000 | 0 | 1,220,000 |
+| FY2022 | Communities of Color Nonprofit Stabilization Fund | short | 3,700,000 | 2,500,000 | 15 | 1,200,000 | 0 | 1,200,000 |
+| FY2022 | Physical Education and Fitness | short | 2,175,000 | 1,050,000 | 2 | 1,125,000 | 0 | 1,125,000 |
+| FY2022 | Innovative Criminal Justice Programs | short | 2,637,948 | 1,683,000 | 6 | 954,948 | 0 | 954,948 |
+| FY2022 | Legal Services for the Working Poor | short | 3,205,000 | 2,327,500 | 8 | 877,500 | 0 | 877,500 |
+| FY2022 | Art a Catalyst for Change | short | 720,000 | 55,000 | 3 | 665,000 | 0 | 665,000 |
+| FY2022 | Young Women's Leadership Development | short | 1,805,500 | 1,165,125 | 21 | 640,375 | 0 | 640,375 |
+| FY2022 | Unaccompanied Minors and Families | short | 3,981,800 | 3,391,800 | 7 | 590,000 | 0 | 590,000 |
+| FY2022 | Mental Health Services for Vulnerable Populations | short | 2,338,000 | 1,800,300 | 20 | 537,700 | 0 | 537,700 |
+| FY2022 | Children Under Five | short | 2,502,000 | 2,116,350 | 14 | 385,650 | 0 | 385,650 |
+| FY2022 | College and Career Readiness | short | 1,578,000 | 1,198,000 | 8 | 380,000 | 0 | 380,000 |
+| FY2022 | Ending the Epidemic | over | 7,735,000 | 8,087,600 | 65 | -352,600 | 0 | -352,600 |
+| FY2022 | Autism Awareness | short | 3,246,846 | 2,944,680 | 32 | 302,166 | 0 | 302,166 |
+| FY2022 | Veterans Community Development | short | 1,270,000 | 970,000 | 8 | 300,000 | 0 | 300,000 |
+| FY2022 | Support for Victims of Human Trafficking | short | 1,200,000 | 925,000 | 8 | 275,000 | 0 | 275,000 |
+| FY2022 | HIV/AIDS Faith Based | short | 2,131,000 | 1,880,000 | 15 | 251,000 | 0 | 251,000 |
+| FY2022 | Support for Educators | short | 4,400,000 | 4,150,000 | 2 | 250,000 | 0 | 250,000 |
+| FY2022 | Step In and Stop It Initiative to Address Bystander Intervention | over | 174,000 | 398,375 | 5 | -224,375 | 0 | -224,375 |
+| FY2022 | Viral Hepatitis Prevention | short | 1,923,658 | 1,717,447 | 30 | 206,211 | 0 | 206,211 |
+| FY2022 | Prevent Sexual Assault (PSA) Initiative for Young Adults | short | 350,000 | 150,000 | 2 | 200,000 | 0 | 200,000 |
+| FY2022 | Social and Emotional Supports for Students | short | 1,906,500 | 1,721,500 | 4 | 185,000 | 0 | 185,000 |
+| FY2022 | Immigrant Health Initiative | short | 2,000,000 | 1,845,000 | 19 | 155,000 | 0 | 155,000 |
+| FY2022 | Construction Site Safety Training | short | 1,100,000 | 975,000 | 8 | 125,000 | 0 | 125,000 |
+| FY2022 | Job Training and Placement Initiative | short | 8,000,000 | 7,899,200 | 6 | 100,800 | 0 | 100,800 |
+| FY2022 | CUNY Citizenship NOW! Program | short | 3,250,000 | 3,150,000 | 2 | 100,000 | 0 | 100,000 |
+| FY2022 | Job Placement for Veterans | short | 200,000 | 100,000 | 1 | 100,000 | 0 | 100,000 |
+| FY2022 | Initiative for Immigrant Survivors of Domestic Violence | short | 530,000 | 440,000 | 9 | 90,000 | 0 | 90,000 |
+| FY2022 | MWBE Leadership Associations | short | 600,000 | 549,075 | 7 | 50,925 | 0 | 50,925 |
+| FY2022 | Cancer Services | short | 599,500 | 549,500 | 6 | 50,000 | 0 | 50,000 |
+| FY2022 | Civic Education in New York City Schools | short | 550,000 | 500,000 | 1 | 50,000 | 0 | 50,000 |
+| FY2022 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,553,000 | 31 | 47,000 | 0 | 47,000 |
+| FY2022 | Legal Services for Veterans | short | 600,000 | 570,000 | 6 | 30,000 | 0 | 30,000 |
+| FY2022 | Mental Health Services for Veterans | short | 500,000 | 470,000 | 4 | 30,000 | 0 | 30,000 |
+| FY2022 | Dedicated Contraceptive Fund | short | 781,000 | 777,850 | 4 | 3,150 | 0 | 3,150 |
+| FY2023 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 20,000 | 1 | 17,320,000 | 0 | 17,320,000 |
+| FY2023 | NYC Cleanup | short | 14,280,000 | 155,000 | 2 | 14,125,000 | 0 | 14,125,000 |
+| FY2023 | Domestic Violence and Empowerment (DoVE) Initiative | short | 11,500,000 | 155,000 | 5 | 11,345,000 | 0 | 11,345,000 |
+| FY2023 | Afterschool Enrichment Initiative | short | 8,300,000 | 250,000 | 3 | 8,050,000 | 0 | 8,050,000 |
+| FY2023 | Cultural Immigrant Initiative | short | 7,395,000 | 40,000 | 2 | 7,355,000 | 0 | 7,355,000 |
+| FY2023 | Food Pantries | short | 7,630,203 | 1,000,000 | 1 | 6,630,203 | 0 | 6,630,203 |
+| FY2023 | New York Immigrant Family Unity Project | short | 16,600,000 | 11,066,667 | 2 | 5,533,333 | 0 | 5,533,333 |
+| FY2023 | Parks Equity Initiative | short | 5,113,500 | 30,000 | 1 | 5,083,500 | 0 | 5,083,500 |
+| FY2023 | A Greener NYC | short | 5,100,000 | 100,000 | 2 | 5,000,000 | 0 | 5,000,000 |
+| FY2023 | Naturally Occurring Retirement Communities (NORCs) | short | 6,091,026 | 1,810,026 | 1 | 4,281,000 | 0 | 4,281,000 |
+| FY2023 | Senior Centers, Programs, and Enhancements | short | 4,376,670 | 500,000 | 1 | 3,876,670 | 0 | 3,876,670 |
+| FY2023 | Mental Health Services for Vulnerable Populations | short | 3,933,000 | 200,000 | 2 | 3,733,000 | 0 | 3,733,000 |
+| FY2023 | AAPI Community Support | short | 5,000,000 | 1,325,000 | 13 | 3,675,000 | 0 | 3,675,000 |
+| FY2023 | Initiative to Combat Sexual Assault | short | 4,210,000 | 549,750 | 3 | 3,660,250 | 0 | 3,660,250 |
+| FY2023 | City’s First Readers | short | 5,449,667 | 1,828,018 | 7 | 3,621,649 | 0 | 3,621,649 |
+| FY2023 | SU-CASA | short | 3,315,000 | 30,000 | 2 | 3,285,000 | 0 | 3,285,000 |
+| FY2023 | Adult Literacy Initiative | short | 4,000,000 | 742,000 | 4 | 3,258,000 | 0 | 3,258,000 |
+| FY2023 | Access Health | short | 3,699,179 | 1,491,583 | 15 | 2,207,596 | 0 | 2,207,596 |
+| FY2023 | Low Wage Worker Support | short | 2,000,000 | 120,000 | 2 | 1,880,000 | 0 | 1,880,000 |
+| FY2023 | Diversion Programs | short | 2,525,000 | 930,000 | 1 | 1,595,000 | 0 | 1,595,000 |
+| FY2023 | Wrap-Around Support for Transitional-Aged Foster Youth | over | 1,230,000 | 2,619,500 | 33 | -1,389,500 | 0 | -1,389,500 |
+| FY2023 | Day Laborer Workforce Initiative | short | 3,970,000 | 2,645,000 | 3 | 1,325,000 | 0 | 1,325,000 |
+| FY2023 | Physical Education and Fitness | short | 1,175,000 | 375,000 | 2 | 800,000 | 0 | 800,000 |
+| FY2023 | Hate Crimes Prevention | short | 1,000,000 | 250,000 | 5 | 750,000 | 0 | 750,000 |
+| FY2023 | Unaccompanied Minors and Families | short | 3,981,800 | 3,361,800 | 6 | 620,000 | 0 | 620,000 |
+| FY2023 | Worker Cooperative Business Development Initiative | short | 3,768,208 | 3,255,919 | 12 | 512,289 | 0 | 512,289 |
+| FY2023 | Ending the Epidemic | short | 9,553,030 | 9,098,092 | 46 | 454,938 | 0 | 454,938 |
+| FY2023 | CUNY Childcare Expansion | short | 600,000 | 150,000 | 1 | 450,000 | 0 | 450,000 |
+| FY2023 | Community Housing Preservation Strategies | short | 3,651,000 | 3,265,093 | 60 | 385,907 | 0 | 385,907 |
+| FY2023 | Construction Site Safety Training | short | 1,100,000 | 750,000 | 6 | 350,000 | 0 | 350,000 |
+| FY2023 | Opioid Prevention and Treatment | short | 3,500,000 | 3,150,000 | 18 | 350,000 | 0 | 350,000 |
+| FY2023 | Community Land Trust | short | 1,500,000 | 1,228,500 | 14 | 271,500 | 0 | 271,500 |
+| FY2023 | Chamber on the Go and Small Business Assistance | short | 2,388,855 | 2,122,002 | 15 | 266,853 | 0 | 266,853 |
+| FY2023 | Veterans Community Development | short | 1,270,000 | 1,016,000 | 9 | 254,000 | 0 | 254,000 |
+| FY2023 | CUNY Research Institutes | short | 4,500,000 | 4,250,000 | 5 | 250,000 | 0 | 250,000 |
+| FY2023 | Support for Educators | over | 4,400,000 | 4,650,000 | 4 | -250,000 | 0 | -250,000 |
+| FY2023 | Legal Services for Veterans | short | 600,000 | 380,000 | 5 | 220,000 | 0 | 220,000 |
+| FY2023 | Job Training and Placement Initiative | short | 8,250,000 | 8,040,000 | 7 | 210,000 | 0 | 210,000 |
+| FY2023 | Prevent Sexual Assault (PSA) Initiative for Young Adults | short | 350,000 | 150,000 | 2 | 200,000 | 0 | 200,000 |
+| FY2023 | Senior Centers for Immigrant Populations | short | 1,500,000 | 1,350,000 | 9 | 150,000 | 0 | 150,000 |
+| FY2023 | Coalition Theaters of Color | short | 5,770,000 | 5,625,000 | 65 | 145,000 | 0 | 145,000 |
+| FY2023 | Immigrant Health Initiative | short | 2,430,341 | 2,290,581 | 20 | 139,760 | 0 | 139,760 |
+| FY2023 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,496,000 | 31 | 104,000 | 0 | 104,000 |
+| FY2023 | CUNY Citizenship NOW! Program | short | 3,250,000 | 3,150,000 | 2 | 100,000 | 0 | 100,000 |
+| FY2023 | Foreclosure Prevention Programs | short | 4,250,000 | 4,150,000 | 19 | 100,000 | 0 | 100,000 |
+| FY2023 | Geriatric Mental Health | short | 3,405,540 | 3,305,540 | 34 | 100,000 | 0 | 100,000 |
+| FY2023 | Home Loan Program | short | 2,000,000 | 1,900,000 | 6 | 100,000 | 0 | 100,000 |
+| FY2023 | Innovative Criminal Justice Programs | short | 2,637,948 | 2,537,948 | 9 | 100,000 | 0 | 100,000 |
+| FY2023 | Mental Health Services for Veterans | short | 500,000 | 400,000 | 4 | 100,000 | 0 | 100,000 |
+| FY2023 | Autism Awareness | short | 3,316,846 | 3,236,846 | 38 | 80,000 | 0 | 80,000 |
+| FY2023 | Food Access and Benefits | short | 1,500,000 | 1,425,000 | 12 | 75,000 | 0 | 75,000 |
+| FY2023 | Trans Equity Programs | short | 3,275,000 | 3,200,000 | 14 | 75,000 | 0 | 75,000 |
+| FY2023 | Homeless Prevention Services for Veterans | short | 300,000 | 240,000 | 1 | 60,000 | 0 | 60,000 |
+| FY2023 | Elder Abuse Prevention Programs | over | 335,000 | 385,000 | 8 | -50,000 | 0 | -50,000 |
+| FY2023 | Job Placement for Veterans | short | 200,000 | 160,000 | 1 | 40,000 | 0 | 40,000 |
+| FY2023 | Children Under Five | over | 1,787,000 | 1,822,000 | 13 | -35,000 | 0 | -35,000 |
+| FY2023 | Initiative for Immigrant Survivors of Domestic Violence | short | 530,000 | 505,000 | 9 | 25,000 | 0 | 25,000 |
+| FY2023 | LGBT Community Services | over | 5,225,000 | 5,250,000 | 25 | -25,000 | 0 | -25,000 |
+| FY2023 | Social and Emotional Supports for Students | short | 1,916,500 | 1,916,000 | 5 | 500 | 0 | 500 |
+| FY2024 | NYC Cleanup | short | 14,280,000 | 280,000 | 4 | 14,000,000 | 0 | 14,000,000 |
+| FY2024 | Domestic Violence and Empowerment (DoVE) Initiative | short | 12,010,000 | 2,771,307 | 35 | 9,238,693 | 0 | 9,238,693 |
+| FY2024 | Food Pantries | short | 7,260,000 | 1,059,000 | 3 | 6,201,000 | 0 | 6,201,000 |
+| FY2024 | A Greener NYC | short | 5,100,000 | 135,000 | 4 | 4,965,000 | 0 | 4,965,000 |
+| FY2024 | AAPI Community Support | short | 5,060,000 | 1,700,000 | 15 | 3,360,000 | 0 | 3,360,000 |
+| FY2024 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 14,920,000 | 745 | 2,420,000 | 0 | 2,420,000 |
+| FY2024 | City’s First Readers | short | 5,449,667 | 3,300,650 | 10 | 2,149,017 | 0 | 2,149,017 |
+| FY2024 | Foreclosure Prevention Programs | short | 4,150,000 | 2,357,500 | 13 | 1,792,500 | 0 | 1,792,500 |
+| FY2024 | Mental Health Services for Vulnerable Populations | short | 3,663,000 | 1,949,000 | 28 | 1,714,000 | 0 | 1,714,000 |
+| FY2024 | Support Our Older Adults (formerly Support Our Seniors) | short | 7,650,000 | 6,325,000 | 329 | 1,325,000 | 0 | 1,325,000 |
+| FY2024 | Family Advocacy and Guardianship Support | short | 3,000,000 | 1,700,000 | 4 | 1,300,000 | 0 | 1,300,000 |
+| FY2024 | Worker Cooperative Business Development Initiative | short | 3,768,208 | 2,612,598 | 9 | 1,155,610 | 0 | 1,155,610 |
+| FY2024 | Crisis Management System | short | 3,770,600 | 2,725,600 | 39 | 1,045,000 | 0 | 1,045,000 |
+| FY2024 | Cultural Immigrant Initiative | short | 7,395,000 | 6,580,000 | 350 | 815,000 | 0 | 815,000 |
+| FY2024 | Naturally Occurring Retirement Communities (NORCs) | short | 5,181,768 | 4,385,654 | 30 | 796,114 | 0 | 796,114 |
+| FY2024 | Chamber on the Go and Small Business Assistance | short | 2,252,267 | 1,484,897 | 11 | 767,370 | 0 | 767,370 |
+| FY2024 | Trauma Recovery Centers | short | 2,400,000 | 1,783,415 | 4 | 616,585 | 0 | 616,585 |
+| FY2024 | Digital Inclusion and Literacy Initiative | short | 4,590,000 | 3,990,000 | 180 | 600,000 | 0 | 600,000 |
+| FY2024 | Viral Hepatitis Prevention | short | 2,247,454 | 1,688,726 | 24 | 558,728 | 0 | 558,728 |
+| FY2024 | Education Equity Action Plan | short | 5,000,000 | 4,500,000 | 4 | 500,000 | 0 | 500,000 |
+| FY2024 | Autism Awareness | short | 3,261,846 | 2,943,404 | 32 | 318,442 | 0 | 318,442 |
+| FY2024 | Child Health and Wellness | short | 664,719 | 364,719 | 2 | 300,000 | 0 | 300,000 |
+| FY2024 | Elder Abuse Prevention Programs | short | 335,000 | 35,000 | 1 | 300,000 | 0 | 300,000 |
+| FY2024 | Unaccompanied Minors and Families | short | 3,981,800 | 3,691,800 | 6 | 290,000 | 0 | 290,000 |
+| FY2024 | YouthBuild Project Initiative | short | 1,750,000 | 1,472,000 | 10 | 278,000 | 0 | 278,000 |
+| FY2024 | Young Women’s Leadership Development | short | 1,740,500 | 1,465,805 | 23 | 274,695 | 0 | 274,695 |
+| FY2024 | Abortion Access Fund | over | 850,000 | 1,100,000 | 4 | -250,000 | 0 | -250,000 |
+| FY2024 | Court-Involved Youth Mental Health | short | 3,425,000 | 3,175,000 | 20 | 250,000 | 0 | 250,000 |
+| FY2024 | Coalition Theaters of Color | short | 5,715,000 | 5,475,000 | 65 | 240,000 | 0 | 240,000 |
+| FY2024 | Adult Literacy Initiative | over | 4,000,000 | 4,225,000 | 49 | -225,000 | 0 | -225,000 |
+| FY2024 | Geriatric Mental Health | short | 3,405,540 | 3,205,540 | 32 | 200,000 | 0 | 200,000 |
+| FY2024 | Support for Victims of Human Trafficking | short | 1,075,000 | 900,000 | 8 | 175,000 | 0 | 175,000 |
+| FY2024 | HIV/AIDS Faith Based | short | 1,966,311 | 1,827,147 | 29 | 139,164 | 0 | 139,164 |
+| FY2024 | Community Housing Preservation Strategies | short | 3,651,000 | 3,513,040 | 62 | 137,960 | 0 | 137,960 |
+| FY2024 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,463,000 | 31 | 137,000 | 0 | 137,000 |
+| FY2024 | Physical Education and Fitness | over | 925,000 | 1,050,000 | 3 | -125,000 | 0 | -125,000 |
+| FY2024 | Afterschool Enrichment Initiative | short | 8,235,000 | 8,115,300 | 38 | 119,700 | 0 | 119,700 |
+| FY2024 | Elie Wiesel Holocaust Survivors | short | 4,200,000 | 4,081,000 | 26 | 119,000 | 0 | 119,000 |
+| FY2024 | Neighborhood Development Grant Initiative | over | 2,550,000 | 2,661,000 | 118 | -111,000 | 0 | -111,000 |
+| FY2024 | Art a Catalyst for Change | short | 720,000 | 612,000 | 33 | 108,000 | 0 | 108,000 |
+| FY2024 | Home Loan Program | over | 1,800,000 | 1,900,000 | 6 | -100,000 | 0 | -100,000 |
+| FY2024 | Innovative Criminal Justice Programs | short | 2,637,948 | 2,537,948 | 10 | 100,000 | 0 | 100,000 |
+| FY2024 | Legal Services for Veterans | short | 600,000 | 500,000 | 6 | 100,000 | 0 | 100,000 |
+| FY2024 | Welcome NYC | short | 1,175,000 | 1,095,000 | 24 | 80,000 | 0 | 80,000 |
+| FY2024 | Food Access and Benefits | short | 1,500,000 | 1,425,000 | 12 | 75,000 | 0 | 75,000 |
+| FY2024 | Job Training and Placement Initiative | short | 8,450,000 | 8,375,000 | 8 | 75,000 | 0 | 75,000 |
+| FY2024 | Trans Equity Programs | short | 3,225,000 | 3,150,000 | 13 | 75,000 | 0 | 75,000 |
+| FY2024 | Initiative to Combat Sexual Assault | short | 4,160,000 | 4,091,000 | 16 | 69,000 | 0 | 69,000 |
+| FY2024 | Pride at Work | over | 501,000 | 560,000 | 11 | -59,000 | 0 | -59,000 |
+| FY2024 | Initiative for Immigrant Survivors of Domestic Violence | over | 530,000 | 580,000 | 11 | -50,000 | 0 | -50,000 |
+| FY2024 | LGBTQIA+ Community Services | over | 4,405,625 | 4,455,625 | 24 | -50,000 | 0 | -50,000 |
+| FY2024 | Opioid Prevention and Treatment | short | 3,075,000 | 3,025,000 | 17 | 50,000 | 0 | 50,000 |
+| FY2024 | Children Under Five | short | 1,556,231 | 1,521,231 | 11 | 35,000 | 0 | 35,000 |
+| FY2024 | Construction Site Safety Training | over | 1,100,000 | 1,125,000 | 9 | -25,000 | 0 | -25,000 |
+| FY2025 | Adult Literacy Initiative | short | 14,000,000 | 225,000 | 3 | 13,775,000 | 0 | 13,775,000 |
+| FY2025 | Domestic Violence and Empowerment (DoVE) Initiative | short | 12,010,000 | 2,731,307 | 35 | 9,278,693 | 0 | 9,278,693 |
+| FY2025 | Discharge Planning | short | 9,450,000 | 350,000 | 1 | 9,100,000 | 0 | 9,100,000 |
+| FY2025 | Food Pantries | short | 8,260,000 | 1,059,000 | 3 | 7,201,000 | 0 | 7,201,000 |
+| FY2025 | New York Immigrant Family Unity Project | short | 16,600,000 | 11,066,667 | 2 | 5,533,333 | 0 | 5,533,333 |
+| FY2025 | Information and Referral Services | over | 407,811 | 5,589,579 | 39 | -5,181,768 | 0 | -5,181,768 |
+| FY2025 | A Greener NYC | short | 5,100,000 | 55,000 | 3 | 5,045,000 | 0 | 5,045,000 |
+| FY2025 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 14,740,000 | 737 | 2,600,000 | 0 | 2,600,000 |
+| FY2025 | Trauma Recovery Centers | short | 4,800,000 | 2,290,473 | 3 | 2,509,527 | 0 | 2,509,527 |
+| FY2025 | Adult Literacy Pilot Project | short | 2,500,000 | 25,000 | 1 | 2,475,000 | 0 | 2,475,000 |
+| FY2025 | Maternal and Child Health Services | over | 3,728,525 | 5,370,662 | 45 | -1,642,137 | 0 | -1,642,137 |
+| FY2025 | Community Composting | short | 6,245,000 | 4,845,000 | 14 | 1,400,000 | 0 | 1,400,000 |
+| FY2025 | NYC Cleanup | short | 14,280,000 | 12,925,000 | 200 | 1,355,000 | 0 | 1,355,000 |
+| FY2025 | Mental Health Services for Vulnerable Populations | short | 3,613,000 | 2,844,000 | 37 | 769,000 | 0 | 769,000 |
+| FY2025 | Cultural Immigrant Initiative | short | 7,395,000 | 6,640,000 | 380 | 755,000 | 0 | 755,000 |
+| FY2025 | City’s First Readers | short | 5,449,667 | 4,699,992 | 14 | 749,675 | 0 | 749,675 |
+| FY2025 | Crisis Management System | short | 3,770,600 | 3,090,600 | 36 | 680,000 | 0 | 680,000 |
+| FY2025 | Unaccompanied Minors and Families | short | 3,981,800 | 3,361,800 | 6 | 620,000 | 0 | 620,000 |
+| FY2025 | Support Our Older Adults | short | 7,650,000 | 7,040,000 | 380 | 610,000 | 0 | 610,000 |
+| FY2025 | Worker Cooperative Business Development Initiative | short | 3,768,208 | 3,255,919 | 13 | 512,289 | 0 | 512,289 |
+| FY2025 | Digital Inclusion and Literacy Initiative | short | 4,590,000 | 4,125,000 | 193 | 465,000 | 0 | 465,000 |
+| FY2025 | LGBTQIA+ Inclusive Curriculum | short | 2,800,000 | 2,395,000 | 18 | 405,000 | 0 | 405,000 |
+| FY2025 | Abortion Access Fund | over | 850,000 | 1,200,000 | 5 | -350,000 | 0 | -350,000 |
+| FY2025 | AAPI Community Support | short | 5,060,000 | 4,760,000 | 50 | 300,000 | 0 | 300,000 |
+| FY2025 | Children and Families in NYC Homeless System | short | 1,350,000 | 1,095,000 | 5 | 255,000 | 0 | 255,000 |
+| FY2025 | Neighborhood Development Grant Initiative | short | 2,550,000 | 2,300,000 | 124 | 250,000 | 0 | 250,000 |
+| FY2025 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,430,000 | 29 | 170,000 | 0 | 170,000 |
+| FY2025 | Immigrant Health Initiative | short | 2,430,341 | 2,276,086 | 20 | 154,255 | 0 | 154,255 |
+| FY2025 | Construction Site Safety Training | over | 1,100,000 | 1,225,000 | 10 | -125,000 | 0 | -125,000 |
+| FY2025 | Afterschool Enrichment Initiative | short | 8,235,000 | 8,125,000 | 37 | 110,000 | 0 | 110,000 |
+| FY2025 | Community Housing Preservation Strategies | short | 3,651,000 | 3,542,027 | 63 | 108,973 | 0 | 108,973 |
+| FY2025 | CUNY Citizenship NOW! Program | short | 3,350,000 | 3,250,000 | 2 | 100,000 | 0 | 100,000 |
+| FY2025 | Home Loan Program | over | 1,800,000 | 1,900,000 | 6 | -100,000 | 0 | -100,000 |
+| FY2025 | Legal Services for Low-Income New Yorkers | short | 5,800,000 | 5,700,000 | 5 | 100,000 | 0 | 100,000 |
+| FY2025 | Legal Services for Veterans | short | 600,000 | 500,000 | 6 | 100,000 | 0 | 100,000 |
+| FY2025 | Art a Catalyst for Change | short | 720,000 | 630,000 | 34 | 90,000 | 0 | 90,000 |
+| FY2025 | Viral Hepatitis Prevention | short | 2,247,454 | 2,158,190 | 28 | 89,264 | 0 | 89,264 |
+| FY2025 | Coalition Theaters of Color | short | 5,715,000 | 5,637,099 | 64 | 77,901 | 0 | 77,901 |
+| FY2025 | Autism Awareness | short | 3,261,846 | 3,186,846 | 36 | 75,000 | 0 | 75,000 |
+| FY2025 | Prevent Sexual Assault (PSA) Initiative for Young Adults | over | 350,000 | 425,000 | 4 | -75,000 | 0 | -75,000 |
+| FY2025 | Support for Victims of Human Trafficking | short | 1,075,000 | 1,000,000 | 8 | 75,000 | 0 | 75,000 |
+| FY2025 | Initiative to Combat Sexual Assault | short | 4,160,000 | 4,091,000 | 16 | 69,000 | 0 | 69,000 |
+| FY2025 | Children Under Five | short | 1,556,231 | 1,491,231 | 10 | 65,000 | 0 | 65,000 |
+| FY2025 | Welcome NYC | short | 1,175,000 | 1,120,000 | 24 | 55,000 | 0 | 55,000 |
+| FY2025 | Foreclosure Prevention Programs | over | 4,150,000 | 4,200,000 | 20 | -50,000 | 0 | -50,000 |
+| FY2025 | Opioid Prevention and Treatment | over | 3,075,000 | 3,125,000 | 18 | -50,000 | 0 | -50,000 |
+| FY2025 | Pride at Work | short | 501,000 | 451,000 | 5 | 50,000 | 0 | 50,000 |
+| FY2025 | Initiative for Immigrant Survivors of Domestic Violence | over | 530,000 | 555,000 | 10 | -25,000 | 0 | -25,000 |
+| FY2025 | Access Health Initiative | short | 3,620,210 | 3,600,210 | 36 | 20,000 | 0 | 20,000 |
+| FY2026 | Legal Services for Low-Income Immigrants (Formerly Legal Services for Low-Income Immigrants and Protect NYC) | short | 33,255,000 | 2,500,000 | 5 | 30,755,000 | 0 | 30,755,000 |
+| FY2026 | Alternatives to Incarceration and Reentry Programs (Formerly Alternatives to Incarceration, Discharge Planning, and Diversion Programs) | short | 19,962,000 | 4,837,274 | 11 | 15,124,726 | 0 | 15,124,726 |
+| FY2026 | New York Immigrant Family Unity Project | short | 24,900,000 | 11,066,667 | 2 | 13,833,333 | 0 | 13,833,333 |
+| FY2026 | Unaccompanied Minors and Families | short | 16,481,800 | 3,361,800 | 6 | 13,120,000 | 0 | 13,120,000 |
+| FY2026 | HIV/AIDS Pathways to Care (Formerly Ending the Epidemic and HIV/AIDS Faith Community Based Initiative) | short | 11,339,653 | 1,833,297 | 8 | 9,506,356 | 0 | 9,506,356 |
+| FY2026 | Domestic Violence and Empowerment (DoVE) Initiative | short | 12,010,000 | 3,099,769 | 40 | 8,910,231 | 0 | 8,910,231 |
+| FY2026 | Food Pantries | short | 8,467,000 | 1,451,000 | 9 | 7,016,000 | 0 | 7,016,000 |
+| FY2026 | Adult Literacy Initiative | short | 6,254,852 | 375,000 | 4 | 5,879,852 | 0 | 5,879,852 |
+| FY2026 | Community Composting | short | 6,245,000 | 500,000 | 1 | 5,745,000 | 0 | 5,745,000 |
+| FY2026 | Adult Literacy Forward (Formerly Adult Literacy Pilot Project) | over | 8,245,148 | 13,874,412 | 72 | -5,629,264 | 0 | -5,629,264 |
+| FY2026 | NYC Cleanup | over | 14,280,000 | 19,770,000 | 214 | -5,490,000 | 0 | -5,490,000 |
+| FY2026 | A Greener NYC | short | 5,100,000 | 123,085 | 5 | 4,976,915 | 0 | 4,976,915 |
+| FY2026 | Older Adult Center Improvements | short | 5,000,000 | 300,000 | 3 | 4,700,000 | 0 | 4,700,000 |
+| FY2026 | Substance Abuse Prevention and Intervention Specialists | over | 2,000,000 | 6,650,000 | 4 | -4,650,000 | 0 | -4,650,000 |
+| FY2026 | Peer Specialists Support | short | 4,500,000 | 100,000 | 1 | 4,400,000 | 0 | 4,400,000 |
+| FY2026 | Parks Equity Initiative | short | 5,368,500 | 1,077,300 | 13 | 4,291,200 | 0 | 4,291,200 |
+| FY2026 | Trans Equity Programs | short | 6,450,000 | 3,225,000 | 15 | 3,225,000 | 0 | 3,225,000 |
+| FY2026 | Education Equity Action Plan | short | 7,500,000 | 5,000,000 | 6 | 2,500,000 | 0 | 2,500,000 |
+| FY2026 | Chamber on the Go and Small Business Assistance | short | 2,252,267 | 258,506 | 2 | 1,993,761 | 0 | 1,993,761 |
+| FY2026 | City’s First Readers | short | 5,449,667 | 4,114,932 | 13 | 1,334,735 | 0 | 1,334,735 |
+| FY2026 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 16,120,000 | 806 | 1,220,000 | 0 | 1,220,000 |
+| FY2026 | Estate Planning and Resolution Initiative (EPAR) | short | 2,000,000 | 965,000 | 16 | 1,035,000 | 0 | 1,035,000 |
+| FY2026 | MCCAP Initiative | short | 2,014,114 | 1,014,114 | 13 | 1,000,000 | 0 | 1,000,000 |
+| FY2026 | MWBE Leadership Associations | over | 600,000 | 1,550,000 | 9 | -950,000 | 0 | -950,000 |
+| FY2026 | Cultural Immigrant Initiative | short | 7,395,000 | 6,813,000 | 384 | 582,000 | 0 | 582,000 |
+| FY2026 | Community Housing Preservation Strategies | short | 3,651,000 | 3,111,081 | 56 | 539,919 | 0 | 539,919 |
+| FY2026 | Worker Cooperative Business Development Initiative | short | 3,768,208 | 3,255,919 | 13 | 512,289 | 0 | 512,289 |
+| FY2026 | Digital Inclusion and Literacy Initiative | short | 4,590,000 | 4,120,000 | 188 | 470,000 | 0 | 470,000 |
+| FY2026 | Construction Site Safety Training | over | 1,100,000 | 1,500,000 | 11 | -400,000 | 0 | -400,000 |
+| FY2026 | Support Our Older Adults | short | 7,650,000 | 7,270,000 | 397 | 380,000 | 0 | 380,000 |
+| FY2026 | Community Interpreter Bank | over | 1,400,000 | 1,775,000 | 7 | -375,000 | 0 | -375,000 |
+| FY2026 | LGBTQIA+ Inclusive Curriculum | short | 2,800,000 | 2,445,000 | 19 | 355,000 | 0 | 355,000 |
+| FY2026 | Abortion Access Fund | over | 850,000 | 1,200,000 | 5 | -350,000 | 0 | -350,000 |
+| FY2026 | AAPI Community Support | short | 5,060,000 | 4,760,000 | 51 | 300,000 | 0 | 300,000 |
+| FY2026 | Coalition Theaters of Color | short | 5,715,000 | 5,446,053 | 62 | 268,947 | 0 | 268,947 |
+| FY2026 | Immigrant Health Initiative | short | 2,430,341 | 2,201,086 | 19 | 229,255 | 0 | 229,255 |
+| FY2026 | Court-Involved Youth Mental Health | short | 3,425,000 | 3,225,000 | 20 | 200,000 | 0 | 200,000 |
+| FY2026 | Welcome NYC (Formerly Key to the City and Welcome NYC) | over | 1,875,000 | 2,075,000 | 28 | -200,000 | 0 | -200,000 |
+| FY2026 | Healthy Beginnings (Formerly Child Health and Wellness and Maternal and Child Health Services) | short | 4,393,244 | 4,196,525 | 22 | 196,719 | 0 | 196,719 |
+| FY2026 | Neighborhood Development Grant Initiative | short | 2,550,000 | 2,360,000 | 125 | 190,000 | 0 | 190,000 |
+| FY2026 | Social Adult Day Care | short | 1,505,556 | 1,338,272 | 8 | 167,284 | 0 | 167,284 |
+| FY2026 | Stabilizing NYC | short | 3,700,000 | 3,540,000 | 19 | 160,000 | 0 | 160,000 |
+| FY2026 | Supports for Persons Involved in the Sex Trade | over | 3,476,697 | 3,636,697 | 12 | -160,000 | 0 | -160,000 |
+| FY2026 | Elie Wiesel Holocaust Survivors | short | 4,200,000 | 4,045,000 | 26 | 155,000 | 0 | 155,000 |
+| FY2026 | Pride at Work | short | 501,000 | 390,000 | 4 | 111,000 | 0 | 111,000 |
+| FY2026 | CUNY Citizenship NOW! Program | short | 3,350,000 | 3,250,000 | 2 | 100,000 | 0 | 100,000 |
+| FY2026 | Home Loan Program | over | 1,800,000 | 1,900,000 | 6 | -100,000 | 0 | -100,000 |
+| FY2026 | Initiative to Combat Sexual Assault | over | 4,160,000 | 4,260,000 | 18 | -100,000 | 0 | -100,000 |
+| FY2026 | Legal Services for Veterans | short | 600,000 | 500,000 | 6 | 100,000 | 0 | 100,000 |
+| FY2026 | Opioid Prevention and Treatment | over | 3,075,000 | 3,175,000 | 19 | -100,000 | 0 | -100,000 |
+| FY2026 | Community Land Trust | short | 1,500,000 | 1,401,750 | 17 | 98,250 | 0 | 98,250 |
+| FY2026 | Autism Awareness | short | 3,261,846 | 3,186,846 | 36 | 75,000 | 0 | 75,000 |
+| FY2026 | Innovative Criminal Justice Programs | over | 2,637,948 | 2,712,948 | 12 | -75,000 | 0 | -75,000 |
+| FY2026 | Older Adult Clubs for Immigrant Populations | short | 1,500,000 | 1,425,000 | 10 | 75,000 | 0 | 75,000 |
+| FY2026 | Prevent Sexual Assault (PSA) Initiative for Young Adults | over | 350,000 | 425,000 | 4 | -75,000 | 0 | -75,000 |
+| FY2026 | Children Under Five | short | 1,556,231 | 1,491,231 | 10 | 65,000 | 0 | 65,000 |
+| FY2026 | Immigrant Opportunities Initiative | short | 2,600,000 | 2,535,000 | 31 | 65,000 | 0 | 65,000 |
+| FY2026 | Foreclosure Prevention Programs | over | 4,150,000 | 4,200,000 | 20 | -50,000 | 0 | -50,000 |
+| FY2026 | LGBTQIA+ Community Services | short | 5,200,000 | 5,175,000 | 23 | 25,000 | 0 | 25,000 |
+| FY2026 | Access Health Initiative | short | 3,620,210 | 3,600,210 | 36 | 20,000 | 0 | 20,000 |
+| FY2026 | Mental Health Services for Vulnerable Populations | over | 3,669,020 | 3,689,020 | 42 | -20,000 | 0 | -20,000 |
+| FY2026 | Afterschool Enrichment Initiative | over | 8,235,000 | 8,252,650 | 40 | -17,650 | 0 | -17,650 |
+| FY2027 | Food Pantries | short | 10,467,000 | 1,266,000 | 5 | 9,201,000 | 0 | 9,201,000 |
+| FY2027 | Creative Arts Team | over | 400,000 | 5,650,000 | 7 | -5,250,000 | 0 | -5,250,000 |
+| FY2027 | Peer Specialists Support | short | 4,500,000 | 200,000 | 2 | 4,300,000 | 0 | 4,300,000 |
+| FY2027 | Older Adults Mental Health | over | 3,474,520 | 6,549,520 | 52 | -3,075,000 | 0 | -3,075,000 |
+| FY2027 | Cultural After-School Adventure (CASA) | short | 17,340,000 | 15,620,000 | 781 | 1,720,000 | 0 | 1,720,000 |
+| FY2027 | Developmental, Psychological and Behavioral Health Services | over | 2,255,493 | 3,255,493 | 20 | -1,000,000 | 0 | -1,000,000 |
+| FY2027 | Educational Programs for Students | short | 8,943,133 | 7,943,133 | 20 | 1,000,000 | 0 | 1,000,000 |
+| FY2027 | Opioid Prevention and Treatment | over | 3,075,000 | 4,025,000 | 29 | -950,000 | 0 | -950,000 |
+| FY2027 | NYC Cleanup | short | 14,280,000 | 13,401,000 | 197 | 879,000 | 0 | 879,000 |
+| FY2027 | Domestic Violence and Empowerment (DoVE) Initiative | short | 12,010,000 | 11,160,000 | 413 | 850,000 | 0 | 850,000 |
+| FY2027 | Gender-Affirming Care for TGNCNBI Youth | short | 3,500,000 | 2,833,333 | 5 | 666,667 | 0 | 666,667 |
+| FY2027 | A Greener NYC | short | 5,100,000 | 4,545,000 | 245 | 555,000 | 0 | 555,000 |
+| FY2027 | Healthy Beginnings | short | 4,593,244 | 4,118,003 | 22 | 475,241 | 0 | 475,241 |
+| FY2027 | HIV/AIDS Pathways to Care | short | 11,339,653 | 10,911,934 | 56 | 427,719 | 0 | 427,719 |
+| FY2027 | Support Our Older Adults | short | 7,649,999 | 7,229,998 | 394 | 420,001 | 0 | 420,001 |
+| FY2027 | Confronting Religious and Ethnic Discrimination at CUNY | over | 500,000 | 900,000 | 2 | -400,000 | 0 | -400,000 |
+| FY2027 | Digital Inclusion and Literacy Initiative | short | 4,590,000 | 4,195,000 | 200 | 395,000 | 0 | 395,000 |
+| FY2027 | Cultural Immigrant Initiative | short | 7,395,000 | 7,010,000 | 397 | 385,000 | 0 | 385,000 |
+| FY2027 | Chamber on the Go and Small Business Assistance | short | 2,140,972 | 1,850,721 | 11 | 290,251 | 0 | 290,251 |
+| FY2027 | BID Containerization | short | 1,987,721 | 1,702,768 | 19 | 284,953 | 0 | 284,953 |
+| FY2027 | Parks Equity Initiative | short | 5,368,500 | 5,108,500 | 228 | 260,000 | 0 | 260,000 |
+| FY2027 | Wrap-Around Support for Transitional-Aged Foster Youth | short | 1,096,788 | 871,708 | 7 | 225,080 | 0 | 225,080 |
+| FY2027 | Neighborhood Development Grant Initiative | short | 2,550,000 | 2,335,000 | 131 | 215,000 | 0 | 215,000 |
+| FY2027 | Court-Involved Youth Mental Health Initiative | short | 3,425,000 | 3,250,000 | 19 | 175,000 | 0 | 175,000 |
+| FY2027 | Coalition Theaters of Color | short | 5,715,000 | 5,551,000 | 64 | 164,000 | 0 | 164,000 |
+| FY2027 | City's First Readers | short | 5,449,667 | 5,296,553 | 17 | 153,114 | 0 | 153,114 |
+| FY2027 | Naturally Occurring Retirement Communities (NORCs) | short | 5,181,768 | 5,033,124 | 35 | 148,644 | 0 | 148,644 |
+| FY2027 | MWBE Leadership Associations | short | 700,000 | 553,155 | 6 | 146,845 | 0 | 146,845 |
+| FY2027 | Violence Prevention and Intervention for Youth and Young Adults | short | 4,560,600 | 4,422,600 | 83 | 138,000 | 0 | 138,000 |
+| FY2027 | Alternatives to Incarceration and Reentry Programs | short | 19,962,000 | 19,834,000 | 30 | 128,000 | 0 | 128,000 |
+| FY2027 | Culturally Specific Gender Based Violence Initiative | short | 3,000,000 | 2,900,000 | 22 | 100,000 | 0 | 100,000 |
+| FY2027 | LGBTQIA+ Youth Support and Services | short | 5,000,000 | 4,900,000 | 21 | 100,000 | 0 | 100,000 |
+| FY2027 | Community Land Trust | short | 1,500,000 | 1,401,750 | 15 | 98,250 | 0 | 98,250 |
+| FY2027 | Veterans Community Development | short | 1,270,000 | 1,178,000 | 10 | 92,000 | 0 | 92,000 |
+| FY2027 | Immigrant Opportunities Initiative | short | 6,489,132 | 6,429,132 | 51 | 60,000 | 0 | 60,000 |
+| FY2027 | Elder Abuse Prevention Programs | short | 335,000 | 285,000 | 6 | 50,000 | 0 | 50,000 |
+| FY2027 | Mental Health Services for Vulnerable Populations | short | 3,669,020 | 3,619,020 | 43 | 50,000 | 0 | 50,000 |
+| FY2027 | Mental Health Services for Veterans | short | 420,000 | 385,000 | 3 | 35,000 | 0 | 35,000 |
+| FY2027 | Older Adult Centers, Programs, and Services | short | 3,733,226 | 3,703,226 | 34 | 30,000 | 0 | 30,000 |
+
 ## Per-file findings
 
 | file | rows | EIN cov | hard | soft findings |
 |---|---|---|---|---|
-| `combined/all_years_awards.csv` | 33638 | 100% | 0 | duplicate: 143 duplicate row instance(s); e.g. x2: ['FY17', 'HOUSING', 'Housing', 'Community Housing Preservation Strategies']...; column_bleed: 159 suspected surname-in-organization residual(s); e.g. line 11: 'Eugene 71st Precinct Community Council, Inc.' |
+| `combined/all_years_awards.csv` | 33638 | 100% | 0 | duplicate: 148 duplicate row instance(s); e.g. x2: ['FY17', 'HOUSING', 'Housing', 'Community Housing Preservation Strategies']...; column_bleed: 139 suspected surname-in-organization residual(s); e.g. line 15: 'Arroyo 2020 Vision for Schools, Inc.'; org_prose: 22 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 7148: 'Funding to support a theater production for children of peop'; org_merged: 59 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 697: 'Charles B. Wang Community Health Center, Inc. 13-2739694 * $' |
 | `combined/all_years_initiatives.csv` | 2598 | — | 0 | — |
 | `fy09/schedule_c/fy09_schedule_c_initiatives.csv` | 123 | — | 0 | — |
 | `fy09/transparency-resolutions/fy09_transparency_all.csv` | 2620 | 98% | 1 | amount: line 208: designate amount 0 (expected > 0); amount: line 212: designate amount 0 (expected > 0); amount: line 530: designate amount 0 (expected > 0); amount: line 540: designate amount 0 (expected > 0); duplicate: 171 duplicate row instance(s); e.g. x2: ['2', '2008-09-24', '', '2009']...; column_bleed: 10 suspected surname-in-organization residual(s); e.g. line 177: 'Joseph P. Addabbo Family Health Center' |
@@ -186,7 +769,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy15/schedule_c/fy15_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy15/schedule_c/fy15_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy15/schedule_c/fy15_appendix_c_youth.csv` | 0 | 0% | 0 | — |
-| `fy15/schedule_c/fy15_schedule_c_awards.csv` | 652 | 100% | 0 | column_bleed: 28 suspected surname-in-organization residual(s); e.g. line 11: 'Eugene 71st Precinct Community Council, Inc.' |
+| `fy15/schedule_c/fy15_schedule_c_awards.csv` | 652 | 100% | 0 | column_bleed: 20 suspected surname-in-organization residual(s); e.g. line 15: 'Arroyo 2020 Vision for Schools, Inc.' |
 | `fy15/schedule_c/fy15_schedule_c_initiatives.csv` | 140 | — | 0 | — |
 | `fy15/terms/fy15_terms_and_conditions.csv` | 17 | — | 0 | — |
 | `fy15/transparency-resolutions/fy15_transparency_all.csv` | 3047 | 100% | 0 | fiscal_year: 160 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 23 duplicate row instance(s); e.g. x2: ['1', '2014-07-24', 'Local Initiatives - Fiscal 2015', '2015']...; column_bleed: 485 suspected surname-in-organization residual(s); e.g. line 2: 'Barron Fort Greene Council, Inc.' |
@@ -205,7 +788,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy16/schedule_c/fy16_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy16/schedule_c/fy16_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy16/schedule_c/fy16_appendix_c_youth.csv` | 0 | 0% | 0 | — |
-| `fy16/schedule_c/fy16_schedule_c_awards.csv` | 335 | 100% | 0 | column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 80: 'Hudson Guild 13-5562989 * $29,730 Lenox Hill Neighborhood Ho' |
+| `fy16/schedule_c/fy16_schedule_c_awards.csv` | 335 | 100% | 0 | column_bleed: 2 suspected surname-in-program residual(s); e.g. line 202: 'Mitchell House Neighborhood Center'; org_merged: 8 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 45: 'Charles B. Wang Community Health Center, Inc. 13-2739694 * $' |
 | `fy16/schedule_c/fy16_schedule_c_initiatives.csv` | 193 | — | 0 | — |
 | `fy16/terms/fy16_terms_and_conditions.csv` | 30 | — | 0 | — |
 | `fy16/transparency-resolutions/fy16_transparency_all.csv` | 4156 | 100% | 0 | fiscal_year: 92 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 9 row(s) with empty fiscal_year; duplicate: 28 duplicate row instance(s); e.g. x2: ['2', '2015-08-13', 'Local Initiatives - Fiscal 2016', '2016']...; column_bleed: 468 suspected surname-in-organization residual(s); e.g. line 4: 'Gentile Department of Sanitation' |
@@ -225,7 +808,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy17/schedule_c/fy17_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy17/schedule_c/fy17_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy17/schedule_c/fy17_appendix_c_youth.csv` | 0 | 0% | 0 | — |
-| `fy17/schedule_c/fy17_schedule_c_awards.csv` | 364 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider', '']...; column_bleed: 6 suspected surname-in-organization residual(s); e.g. line 18: 'Barron BRIC Arts | Media | Bklyn, Inc.' |
+| `fy17/schedule_c/fy17_schedule_c_awards.csv` | 364 | 100% | 0 | duplicate: 4 duplicate row instance(s); e.g. x2: ['HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider', '']...; column_bleed: 5 suspected surname-in-organization residual(s); e.g. line 26: 'Crowley Coalition for Queens, Inc.'; org_merged: 20 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 10: 'Jumpstart for Children 04-3263046 * $175,000 Literacy Inc. (' |
 | `fy17/schedule_c/fy17_schedule_c_initiatives.csv` | 133 | — | 0 | — |
 | `fy17/terms/fy17_terms_and_conditions.csv` | 30 | — | 0 | — |
 | `fy17/transparency-resolutions/fy17_transparency_all.csv` | 4656 | 100% | 0 | fiscal_year: 213 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 2 row(s) with empty fiscal_year; duplicate: 50 duplicate row instance(s); e.g. x2: ['1', '2016-07-14', 'Cultural After-School Adventure (CASA) - Fiscal 2017', '2017']...; column_bleed: 520 suspected surname-in-organization residual(s); e.g. line 36: 'Crowley St. Stanislaus Athletic Association Coptic Othdox Pa' |
@@ -242,10 +825,10 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy17/transparency-resolutions/reso11_transparency_designations.csv` | 129 | 100% | 0 | fiscal_year: 2 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 4 duplicate row instance(s); e.g. x2: ['11', '2017-03-16', 'Parks Equity Initiative - Fiscal 2017', '2017']...; column_bleed: 7 suspected surname-in-organization residual(s); e.g. line 9: 'Garodnick Four Freedoms Park Conservancy, Inc.' |
 | `fy17/transparency-resolutions/reso12_transparency_designations.csv` | 130 | 100% | 0 | fiscal_year: 41 prior-year row(s) embedded (EXPECTED for transparency; not an error); column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 3: 'Ulrich Sports and Arts in Schools Foundation, Inc.' |
 | `fy17/transparency-resolutions/reso13_transparency_designations.csv` | 181 | 100% | 0 | fiscal_year: 34 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 4 duplicate row instance(s); e.g. x2: ['13', '2017-06-06', 'Youth Discretionary - Fiscal 2017', '2017']...; column_bleed: 25 suspected surname-in-organization residual(s); e.g. line 8: 'Barron Bedford Stuyvesant Volunteer Ambulance Corps' |
-| `fy18/schedule_c/fy18_appendix_a_aging.csv` | 422 | 100% | 0 | column_bleed: 1 suspected surname-in-program residual(s); e.g. line 170: 'James Monroe Senior Center' |
+| `fy18/schedule_c/fy18_appendix_a_aging.csv` | 422 | 100% | 0 | column_bleed: 2 suspected surname-in-program residual(s); e.g. line 170: 'James Monroe Senior Center'; org_prose: 40 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 10: '.00 Funding will support the purchase of equipment and suppl'; org_merged: 5 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 31: '.00 To provide funding for the Senior Healthy Eating and Wel' |
 | `fy18/schedule_c/fy18_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy18/schedule_c/fy18_appendix_c_youth.csv` | 0 | 0% | 0 | — |
-| `fy18/schedule_c/fy18_schedule_c_awards.csv` | 480 | 100% | 0 | duplicate: 5 duplicate row instance(s); e.g. x2: ['Housing', 'Community Housing Preservation Strategies', 'initiative_provider', '']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 123: 'Joseph P. Addabbo Family Health Center, Inc., The 06-1181226' |
+| `fy18/schedule_c/fy18_schedule_c_awards.csv` | 480 | 100% | 0 | duplicate: 7 duplicate row instance(s); e.g. x2: ['Housing', 'Community Housing Preservation Strategies', 'initiative_provider', '']...; column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 181: 'Hudson Guild'; org_merged: 21 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 2: 'A&G Early Child Care Community Network Inc. 47-2375867 * $2,' |
 | `fy18/schedule_c/fy18_schedule_c_initiatives.csv` | 128 | — | 0 | — |
 | `fy18/terms/fy18_terms_and_conditions.csv` | 33 | — | 0 | — |
 | `fy18/transparency-resolutions/fy18_transparency_all.csv` | 5366 | 100% | 0 | fiscal_year: 345 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 1 row(s) with empty fiscal_year; duplicate: 51 duplicate row instance(s); e.g. x2: ['1', '2017-06-21', 'Local Initiatives - Fiscal 2018', '2018']...; column_bleed: 532 suspected surname-in-organization residual(s); e.g. line 7: 'Palma Kips Bay Boys & Girls Club' |
@@ -264,7 +847,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy19/schedule_c/fy19_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy19/schedule_c/fy19_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy19/schedule_c/fy19_appendix_c_youth.csv` | 0 | 0% | 0 | — |
-| `fy19/schedule_c/fy19_schedule_c_awards.csv` | 846 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider', '']...; column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 318: 'Joseph P. Addabbo Family Health Center, Inc., The' |
+| `fy19/schedule_c/fy19_schedule_c_awards.csv` | 846 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider', '']...; column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 318: 'Joseph P. Addabbo Family Health Center, Inc., The'; org_merged: 10 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 110: "LifeWay Network, Inc. 20-8645579 * $60,000 Mayor's Office of" |
 | `fy19/schedule_c/fy19_schedule_c_initiatives.csv` | 133 | — | 0 | — |
 | `fy19/transparency-resolutions/fy19_transparency_all.csv` | 7090 | 100% | 0 | fiscal_year: 713 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 74 duplicate row instance(s); e.g. x3: ['1', '2018-07-18', 'Local Initiatives - Fiscal 2019', '2019']...; column_bleed: 350 suspected surname-in-organization residual(s); e.g. line 34: 'Vallone Vietnam Veterans of America, Inc.' |
 | `fy19/transparency-resolutions/reso01_transparency_designations.csv` | 1702 | 100% | 0 | fiscal_year: 78 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 21 duplicate row instance(s); e.g. x3: ['1', '2018-07-18', 'Local Initiatives - Fiscal 2019', '2019']...; column_bleed: 108 suspected surname-in-organization residual(s); e.g. line 34: 'Vallone Vietnam Veterans of America, Inc.' |
@@ -293,10 +876,10 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy20/transparency-resolutions/reso06_transparency_designations.csv` | 176 | 100% | 0 | fiscal_year: 6 prior-year row(s) embedded (EXPECTED for transparency; not an error); column_bleed: 5 suspected surname-in-program residual(s); e.g. line 10: 'Williams Plaza Tenant Association' |
 | `fy20/transparency-resolutions/reso07_transparency_designations.csv` | 233 | 100% | 0 | fiscal_year: 10 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 4 duplicate row instance(s); e.g. x2: ['7', '2020-02-27', 'Digital Inclusion and Literacy Initiative - Fiscal 2020', '2020']...; column_bleed: 9 suspected surname-in-organization residual(s); e.g. line 16: 'Hudson River Park Trust' |
 | `fy20/transparency-resolutions/reso08_transparency_designations.csv` | 123 | 100% | 0 | column_bleed: 6 suspected surname-in-organization residual(s); e.g. line 57: 'Ulrich Fund for the City of New York, Inc.' |
-| `fy21/schedule_c/fy21_appendix_a_aging.csv` | 514 | 100% | 0 | column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 221: 'James Lenox House Association, Inc. -Geriatric Nurse' |
-| `fy21/schedule_c/fy21_appendix_b_local.csv` | 2902 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Richards', 'Queens Borough Public Library', 'Arverne Library', '136400434']...; column_bleed: 64 suspected surname-in-organization residual(s); e.g. line 24: 'Adams Street Foundation, Inc.' |
-| `fy21/schedule_c/fy21_appendix_c_youth.csv` | 894 | 100% | 0 | column_bleed: 4 suspected surname-in-organization residual(s); e.g. line 321: 'Foster Park Sports -Council District 45' |
-| `fy21/schedule_c/fy21_schedule_c_awards.csv` | 1810 | 100% | 0 | duplicate: 4 duplicate row instance(s); e.g. x2: ['Boroughwide Needs', '', 'member_item', 'Brooklyn']...; column_bleed: 4 suspected surname-in-organization residual(s); e.g. line 1031: 'Hudson Guild' |
+| `fy21/schedule_c/fy21_appendix_a_aging.csv` | 514 | 100% | 0 | column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 221: 'James Lenox House Association, Inc. -Geriatric Nurse'; org_prose: 2 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 382: 'To support programming for seniors at the RiseBoro Breevort ' |
+| `fy21/schedule_c/fy21_appendix_b_local.csv` | 2902 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Richards', 'Queens Borough Public Library', 'Arverne Library', '136400434']...; column_bleed: 18 suspected surname-in-organization residual(s); e.g. line 24: 'Adams Street Foundation, Inc.'; org_prose: 4 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 716: 'Funds will be used to promote Cypriot folk arts radio progra' |
+| `fy21/schedule_c/fy21_appendix_c_youth.csv` | 894 | 100% | 0 | column_bleed: 4 suspected surname-in-organization residual(s); e.g. line 321: 'Foster Park Sports -Council District 45'; org_prose: 5 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 101: 'To provide funding to support the teen interns participating' |
+| `fy21/schedule_c/fy21_schedule_c_awards.csv` | 1810 | 100% | 0 | duplicate: 4 duplicate row instance(s); e.g. x2: ['Boroughwide Needs', '', 'member_item', 'Brooklyn']...; column_bleed: 5 suspected surname-in-organization residual(s); e.g. line 1031: 'Hudson Guild'; org_prose: 3 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 1630: 'Funding to support a theater production for children of peop' |
 | `fy21/schedule_c/fy21_schedule_c_initiatives.csv` | 124 | — | 0 | — |
 | `fy21/terms/fy21_terms_and_conditions.csv` | 46 | — | 0 | — |
 | `fy21/transparency-resolutions/fy21_transparency_all.csv` | 4463 | 100% | 0 | fiscal_year: 126 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 18 duplicate row instance(s); e.g. x2: ['1', '2020-08-27', 'Local Initiatives - Fiscal 2021', '2021']...; column_bleed: 209 suspected surname-in-organization residual(s); e.g. line 2: 'Ulrich Department of Parks and Recreation' |
@@ -309,10 +892,10 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy21/transparency-resolutions/reso07_transparency_designations.csv` | 312 | 100% | 0 | fiscal_year: 10 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['7', '2021-04-22', 'Aging Discretionary - Fiscal 2021', '2021']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 114: 'Gennaro Department of Parks and Recreation' |
 | `fy21/transparency-resolutions/reso08_transparency_designations.csv` | 155 | 100% | 0 | fiscal_year: 10 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['8', '2021-06-30', 'Local Initiatives - Fiscal 2021', '2021']... |
 | `fy22/capital/fy22_capital_projects.csv` | 1641 | — | 0 | amount: line 1635: fy1 negative -72,000 (capital expected >= 0) |
-| `fy22/schedule_c/fy22_appendix_a_aging.csv` | 510 | 100% | 0 | column_bleed: 3 suspected surname-in-program residual(s); e.g. line 222: 'James Monroe Senior Center' |
-| `fy22/schedule_c/fy22_appendix_b_local.csv` | 2790 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Eugene', 'Prospect Lefferts Gardens Neighborhood Association, Inc.', '', '237064386']...; column_bleed: 71 suspected surname-in-organization residual(s); e.g. line 12: 'Ayala 2020 Vision for Schools, Inc.' |
-| `fy22/schedule_c/fy22_appendix_c_youth.csv` | 882 | 100% | 0 | column_bleed: 5 suspected surname-in-program residual(s); e.g. line 186: 'Foster Youth Shadow Day' |
-| `fy22/schedule_c/fy22_schedule_c_awards.csv` | 1492 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Speaker’s Initiative to Address Citywide Needs', 'Speaker’s Initiative to Address Citywide Needs', 'initiative_provider', '']...; column_bleed: 6 suspected surname-in-program residual(s); e.g. line 144: 'James Walker Hood Learning Center' |
+| `fy22/schedule_c/fy22_appendix_a_aging.csv` | 510 | 100% | 0 | column_bleed: 3 suspected surname-in-program residual(s); e.g. line 222: 'James Monroe Senior Center'; org_prose: 4 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 75: 'Funds will be used to support educational and health promoti' |
+| `fy22/schedule_c/fy22_appendix_b_local.csv` | 2790 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Eugene', 'Prospect Lefferts Gardens Neighborhood Association, Inc.', '', '237064386']...; column_bleed: 17 suspected surname-in-organization residual(s); e.g. line 1211: 'Gennaro, Jewish Hatzoloh Incorporated'; org_prose: 20 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 67: 'To provide for the enrollment of individuals in Council Dist' |
+| `fy22/schedule_c/fy22_appendix_c_youth.csv` | 882 | 100% | 0 | column_bleed: 5 suspected surname-in-program residual(s); e.g. line 186: 'Foster Youth Shadow Day'; org_prose: 12 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 38: 'funding will support a basketball program and ELA Test Prepa' |
+| `fy22/schedule_c/fy22_schedule_c_awards.csv` | 1492 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Speaker’s Initiative to Address Citywide Needs', 'Speaker’s Initiative to Address Citywide Needs', 'initiative_provider', '']...; column_bleed: 4 suspected surname-in-program residual(s); e.g. line 144: 'James Walker Hood Learning Center'; org_prose: 6 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 1201: 'Support new permanent installations in four family shelters ' |
 | `fy22/schedule_c/fy22_schedule_c_initiatives.csv` | 138 | — | 0 | — |
 | `fy22/terms/fy22_terms_and_conditions.csv` | 50 | — | 0 | — |
 | `fy22/transparency-resolutions/fy22_transparency_all.csv` | 7768 | 100% | 0 | fiscal_year: 134 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 40 duplicate row instance(s); e.g. x3: ['1', '2021-07-29', 'Local Initiatives - Fiscal 2022', '2022']...; column_bleed: 258 suspected surname-in-organization residual(s); e.g. line 168: 'Holden Outstanding Renewal Enterprises, Inc.' |
@@ -331,10 +914,10 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy22/transparency-resolutions/reso13_transparency_designations.csv` | 66 | 100% | 0 | fiscal_year: 4 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy22/transparency-resolutions/reso14_transparency_designations.csv` | 34 | 100% | 0 | fiscal_year: 6 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['14', '2022-06-13', 'SU-CASA - Fiscal 2022', '2022']... |
 | `fy23/capital/fy23_capital_projects.csv` | 1547 | — | 0 | — |
-| `fy23/schedule_c/fy23_appendix_a_aging.csv` | 489 | 100% | 0 | column_bleed: 3 suspected surname-in-program residual(s); e.g. line 214: 'James Monroe Older Adult Center' |
-| `fy23/schedule_c/fy23_appendix_b_local.csv` | 2726 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Brooks-Powers', 'Queens Borough Public Library', 'Laurelton Library', '136400434']...; column_bleed: 123 suspected surname-in-organization residual(s); e.g. line 29: 'Krishnan, Won Adhikaar for Human Rights and Social Justice' |
-| `fy23/schedule_c/fy23_appendix_c_youth.csv` | 841 | 100% | 0 | column_bleed: 4 suspected surname-in-organization residual(s); e.g. line 310: 'Foster Park Sports' |
-| `fy23/schedule_c/fy23_schedule_c_awards.csv` | 1848 | 100% | 0 | duplicate: 6 duplicate row instance(s); e.g. x3: ['BOROUGHWIDE NEEDS', '', 'member_item', 'Manhattan']...; column_bleed: 8 suspected surname-in-organization residual(s); e.g. line 1394: 'Marte, Schulman Association of Community Employment Programs' |
+| `fy23/schedule_c/fy23_appendix_a_aging.csv` | 489 | 100% | 0 | column_bleed: 3 suspected surname-in-program residual(s); e.g. line 214: 'James Monroe Older Adult Center'; org_prose: 2 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 377: 'Funds will be used to enhance educational and health promoti' |
+| `fy23/schedule_c/fy23_appendix_b_local.csv` | 2726 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Brooks-Powers', 'Queens Borough Public Library', 'Laurelton Library', '136400434']...; column_bleed: 18 suspected surname-in-organization residual(s); e.g. line 158: "Brannan, Brooklyn, Hanif Asiyah Women's Center"; org_prose: 22 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 124: 'Funds will be used to create Programs for Holocaust Survivor' |
+| `fy23/schedule_c/fy23_appendix_c_youth.csv` | 841 | 100% | 0 | column_bleed: 4 suspected surname-in-organization residual(s); e.g. line 310: 'Foster Park Sports'; org_prose: 6 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 353: 'Funds will support High School Based Programs at the Monroe ' |
+| `fy23/schedule_c/fy23_schedule_c_awards.csv` | 1848 | 100% | 0 | duplicate: 6 duplicate row instance(s); e.g. x3: ['BOROUGHWIDE NEEDS', '', 'member_item', 'Manhattan']...; column_bleed: 7 suspected surname-in-organization residual(s); e.g. line 925: 'Hudson Guild'; org_prose: 2 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 1502: 'To provide funding to support virtual community that provide' |
 | `fy23/schedule_c/fy23_schedule_c_initiatives.csv` | 143 | — | 0 | — |
 | `fy23/terms/fy23_terms_and_conditions.csv` | 60 | — | 0 | — |
 | `fy23/transparency-resolutions/fy23_transparency_all.csv` | 8354 | 100% | 0 | amount: line 6896: designate amount 0 (expected > 0); amount: line 6897: designate amount 0 (expected > 0); fiscal_year: 544 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 11 row(s) with empty fiscal_year; duplicate: 43 duplicate row instance(s); e.g. x2: ['1', '2022-07-14', 'Youth Discretionary - Fiscal 2023', '2023']...; column_bleed: 68 suspected surname-in-organization residual(s); e.g. line 375: 'Barron East New York Restoration Local Development Corporati' |
@@ -354,9 +937,9 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy23/transparency-resolutions/reso14_transparency_designations.csv` | 110 | 100% | 0 | fiscal_year: 6 prior-year row(s) embedded (EXPECTED for transparency; not an error); column_bleed: 6 suspected surname-in-organization residual(s); e.g. line 24: 'Barron Spring Creek Senior Partners, Inc.' |
 | `fy24/capital/fy24_capital_projects.csv` | 1364 | — | 0 | amount: line 1287: fy1 negative -40,000 (capital expected >= 0) |
 | `fy24/schedule_c/fy24_appendix_a_aging.csv` | 477 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 213: 'James Lenox House Association, Inc.' |
-| `fy24/schedule_c/fy24_appendix_b_local.csv` | 2616 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Restler', 'Department of Education', 'Urban Assembly Institute of Math and Science for Young Women (K527)', '136400434']...; column_bleed: 94 suspected surname-in-organization residual(s); e.g. line 101: 'Brewer Aperture Foundation, Inc.' |
+| `fy24/schedule_c/fy24_appendix_b_local.csv` | 2616 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Restler', 'Department of Education', 'Urban Assembly Institute of Math and Science for Young Women (K527)', '136400434']...; column_bleed: 14 suspected surname-in-organization residual(s); e.g. line 381: "Sanchez, Women's Brooklyn Legal Services Corporation A"; org_prose: 1 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 568: 'at CCNY. It will support public events focuses on LGBTQ+ the' |
 | `fy24/schedule_c/fy24_appendix_c_youth.csv` | 818 | 100% | 0 | column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 317: 'Foster Park Sports' |
-| `fy24/schedule_c/fy24_schedule_c_awards.csv` | 5368 | 100% | 0 | duplicate: 28 duplicate row instance(s); e.g. x2: ['CULTURAL ORGANIZATIONS', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 24 suspected surname-in-organization residual(s); e.g. line 394: 'Hudson Guild' |
+| `fy24/schedule_c/fy24_schedule_c_awards.csv` | 5368 | 100% | 0 | duplicate: 28 duplicate row instance(s); e.g. x2: ['CULTURAL ORGANIZATIONS', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 17 suspected surname-in-organization residual(s); e.g. line 394: 'Hudson Guild'; org_prose: 4 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 4845: 'Funds will be used for referrals from the family courts, sch' |
 | `fy24/schedule_c/fy24_schedule_c_initiatives.csv` | 146 | — | 0 | — |
 | `fy24/terms/fy24_terms_and_conditions.csv` | 59 | — | 0 | — |
 | `fy24/transparency-resolutions/fy24_transparency_all.csv` | 3294 | 100% | 0 | fiscal_year: 215 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 28 duplicate row instance(s); e.g. x2: ['1', '2023-08-03', 'Community Safety and Victim Services Initiative - Fiscal 2024', '2024']...; column_bleed: 12 suspected surname-in-organization residual(s); e.g. line 212: 'Rivera Outstanding Renewal Enterprises, Inc.' |
@@ -371,16 +954,16 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy24/transparency-resolutions/reso09_transparency_designations.csv` | 76 | 100% | 0 | fiscal_year: 14 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy25/capital/fy25_capital_projects.csv` | 1508 | — | 0 | — |
 | `fy25/schedule_c/fy25_appendix_a_aging.csv` | 470 | 100% | 0 | column_bleed: 3 suspected surname-in-program residual(s); e.g. line 205: 'James Monroe Houses - Council District 18' |
-| `fy25/schedule_c/fy25_appendix_b_local.csv` | 2616 | 100% | 0 | column_bleed: 90 suspected surname-in-organization residual(s); e.g. line 163: 'Holden Association of Community Employment Programs for the ' |
+| `fy25/schedule_c/fy25_appendix_b_local.csv` | 2616 | 100% | 0 | column_bleed: 11 suspected surname-in-organization residual(s); e.g. line 650: 'Abreu, BLAC Community League of the Heights, Inc.' |
 | `fy25/schedule_c/fy25_appendix_c_youth.csv` | 834 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Salaam', 'Figure Skating in Harlem, Inc.', '', '133945168']...; column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 407: 'Hudson Guild' |
-| `fy25/schedule_c/fy25_schedule_c_awards.csv` | 5646 | 100% | 0 | duplicate: 18 duplicate row instance(s); e.g. x3: ['CULTURAL ORGANIZATION', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 17 suspected surname-in-program residual(s); e.g. line 212: 'Louis Pink Houses TA Programming' |
+| `fy25/schedule_c/fy25_schedule_c_awards.csv` | 5646 | 100% | 0 | duplicate: 18 duplicate row instance(s); e.g. x3: ['CULTURAL ORGANIZATION', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 19 suspected surname-in-program residual(s); e.g. line 212: 'Louis Pink Houses TA Programming'; org_prose: 3 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 5134: 'Funding will be used to support operation of The Bronx Night' |
 | `fy25/schedule_c/fy25_schedule_c_initiatives.csv` | 158 | — | 0 | — |
 | `fy25/terms/fy25_terms_and_conditions.csv` | 65 | — | 0 | — |
 | `fy26/capital/fy26_capital_projects.csv` | 1456 | — | 0 | amount: line 1336: fy1 negative -183,000 (capital expected >= 0) |
 | `fy26/schedule_c/fy26_appendix_a_aging.csv` | 473 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Salaam', 'Catholic Managed Long Term Care, Inc.', '', '208180809']...; column_bleed: 3 suspected surname-in-program residual(s); e.g. line 210: 'James Monroe Houses - Council District 18' |
-| `fy26/schedule_c/fy26_appendix_b_local.csv` | 2618 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Salaam', 'New York Interfaith Commission for Housing Equality, Inc.', '', '993367298']...; column_bleed: 144 suspected surname-in-organization residual(s); e.g. line 26: 'Rivera Ackerman Institute for the Family' |
+| `fy26/schedule_c/fy26_appendix_b_local.csv` | 2618 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Salaam', 'New York Interfaith Commission for Housing Equality, Inc.', '', '993367298']...; column_bleed: 19 suspected surname-in-organization residual(s); e.g. line 52: 'Carr, Hanks Albanian-American Association of Ulqin, Inc.' |
 | `fy26/schedule_c/fy26_appendix_c_youth.csv` | 823 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 415: 'Hudson Guild' |
-| `fy26/schedule_c/fy26_schedule_c_awards.csv` | 5838 | 100% | 0 | duplicate: 15 duplicate row instance(s); e.g. x2: ['CULTURAL ORGANIZATIONS', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 20 suspected surname-in-program residual(s); e.g. line 200: 'Louis Armstrong Houses TA Association' |
+| `fy26/schedule_c/fy26_schedule_c_awards.csv` | 5838 | 100% | 0 | duplicate: 15 duplicate row instance(s); e.g. x2: ['CULTURAL ORGANIZATIONS', 'Cultural After-School Adventure (CASA)', 'member_item', 'Williams']...; column_bleed: 19 suspected surname-in-program residual(s); e.g. line 200: 'Louis Armstrong Houses TA Association'; org_prose: 3 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 5076: "Funding to support Bridge Street Development's Tenant and Ho" |
 | `fy26/schedule_c/fy26_schedule_c_initiatives.csv` | 157 | — | 0 | — |
 | `fy26/terms/fy26_terms_and_conditions.csv` | 68 | — | 0 | — |
 | `fy26/transparency-resolutions/fy26_transparency_all.csv` | 4755 | 100% | 0 | fiscal_year: 326 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 1 row(s) with empty fiscal_year; duplicate: 36 duplicate row instance(s); e.g. x2: ['1', '2025-08-14', 'Local Initiatives - Fiscal 2026', '2026']...; column_bleed: 9 suspected surname-in-organization residual(s); e.g. line 533: 'Brannan Edith and Carl Marks Jewish Community House of Benso' |
@@ -396,11 +979,13 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy26/transparency-resolutions/reso10_transparency_designations.csv` | 151 | 100% | 0 | fiscal_year: 27 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 2 duplicate row instance(s); e.g. x2: ['10', '2026-06-30', 'Local Initiatives - Fiscal 2023', '2023']...; column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 87: "Hudson Yards Hell's Kitchen Business Improvement District, I" |
 | `fy27/capital/fy27_capital_projects.csv` | 1388 | — | 0 | — |
 | `fy27/schedule_c/fy27_appendix_a_aging.csv` | 467 | 100% | 0 | column_bleed: 1 suspected surname-in-program residual(s); e.g. line 217: 'James Monroe Houses - Council District 18' |
-| `fy27/schedule_c/fy27_appendix_b_local.csv` | 2558 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['Hanks', 'Grace Foundation of New York', 'Council District 49', '134131863']...; column_bleed: 90 suspected surname-in-organization residual(s); e.g. line 22: 'Salaam Abyssinian Baptist Church' |
+| `fy27/schedule_c/fy27_appendix_b_local.csv` | 2558 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['Hanks', 'Grace Foundation of New York', 'Council District 49', '134131863']...; column_bleed: 16 suspected surname-in-organization residual(s); e.g. line 70: 'Brewer, Caban, LGBTQIA+ American Museum of Lesbian Gay Bisex' |
 | `fy27/schedule_c/fy27_appendix_c_youth.csv` | 835 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Paladino', 'New York Sun Works, Inc.', 'Hydroponic Classrooms - Public School 094Q David D. Porter (26Q094)', '200670312']...; column_bleed: 3 suspected surname-in-program residual(s); e.g. line 361: 'Joseph Miccio Community Center Cornerstone Programs - Counci' |
-| `fy27/schedule_c/fy27_schedule_c_awards.csv` | 6118 | 100% | 0 | duplicate: 33 duplicate row instance(s); e.g. x2: ['Cultural Organizations', 'Cultural After-School Adventure (CASA)', 'member_item', 'Abreu']...; column_bleed: 22 suspected surname-in-program residual(s); e.g. line 89: 'Mitchell Lama Preservation Project' |
+| `fy27/schedule_c/fy27_schedule_c_awards.csv` | 6118 | 100% | 0 | duplicate: 34 duplicate row instance(s); e.g. x2: ['Cultural Organizations', 'Cultural After-School Adventure (CASA)', 'member_item', 'Abreu']...; column_bleed: 21 suspected surname-in-program residual(s); e.g. line 89: 'Mitchell Lama Preservation Project'; org_prose: 1 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 5925: 'Funding to assist low-income individuals and families in Cou' |
 | `fy27/schedule_c/fy27_schedule_c_initiatives.csv` | 170 | — | 0 | — |
 | `fy27/terms/fy27_terms_and_conditions.csv` | 75 | — | 0 | — |
+| `recovered/schedule_c_absorbed_awards.csv` | 437 | 100% | 0 | duplicate: 6 duplicate row instance(s); e.g. x2: ['2017', 'HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 18: 'Hudson Guild' |
+| `recovered/schedule_c_appendix_recovered.csv` | 26127 | 100% | 0 | duplicate: 65 duplicate row instance(s); e.g. x3: ['2015', 'appendix_a_aging', 'Ulrich', 'Catholic Charities Neighborhood Services, Inc.']...; column_bleed: 92 suspected surname-in-organization residual(s); e.g. line 1894: 'Hudson Guild' |
 
 ### Notes on the soft heuristics
 

@@ -520,3 +520,47 @@ special-case the `ocr:ein` flag, to keep the hard-fail guarantee simple and year
 `FAIL` verdict from `validate_data.py` is *expected* whenever FY09 transparency data is included
 in the run; a hard failure in any other file is not covered by this exception and should be
 treated as a real bug.
+
+Current run (2026-07-07): 272 files, **0 hard failures**, EIN coverage **100%** on every
+EIN-bearing file. Tests: `code/test_validate_data.py`.
+
+---
+
+## Post-extraction repairs (2026-08-12/13)
+
+**The CSVs under `data/fy*/schedule_c/` are no longer purely the parser's output.** 5,450 cells
+were repaired after extraction from the Council's own expense disclosure workbooks
+(`source/expense-funding-disclosure/`), joined on `(EIN, amount)`. Regenerating a year from its PDF
+will therefore NOT reproduce the committed CSV, and that is expected.
+
+Repairs touch `organization` (3,494), `initiative` (1,514), `purpose` (422) and `ein` (20). **No
+amount was ever changed** — `code/verify_no_dollars_moved.py` asserts all thirteen fiscal years are
+identical to their pre-repair totals.
+
+To regenerate a year faithfully:
+
+```bash
+# 1. re-run the parser for that year, per the per-year table above
+# 2. re-apply the repairs, each idempotent and each with a --dry-run:
+python3 code/recover_org_names.py          # names lost to prose / absorbed text
+python3 code/fix_wrong_eins.py             # a neighbour's EIN on the right row
+python3 code/fix_member_bleed.py           # sponsor surname prefixed to a name
+python3 code/fix_split_org_names.py        # a name split across member and organization
+python3 code/fix_truncated_org_names.py    # a name dropped at its first " - "
+python3 code/fill_blank_initiatives.py     # initiative_provider rows with no initiative
+python3 code/fix_fy18_aging_shift.py       # FY2018 aging appendix column shift
+# 3. verify:
+python3 code/verify_crosswalk.py           # audit trail exact — hard fail otherwise
+python3 code/verify_no_dollars_moved.py    # no fiscal year's dollars moved
+python3 code/validate_data.py              # row-level QA + initiative reconciliation
+```
+
+Every repair is recorded in `data/combined/org_name_recovery_crosswalk.csv` with the column it
+touched, the original value and the replacement, so any edit can be audited or reversed without
+reading a diff. Rationale, method and the keys that are *not* safe: `DATA-ANOMALIES.md` §20 and §21.
+
+**Two sidecars are additive and are NOT produced by any parser** — they hold awards the extraction
+lost entirely, recovered from the disclosure workbooks and never merged into the per-year files:
+`data/recovered/schedule_c_appendix_recovered.csv` (26,127) and
+`data/recovered/schedule_c_absorbed_awards.csv` (442), built by
+`code/build_appendix_from_disclosure.py` and `code/build_recovered_awards.py`.
