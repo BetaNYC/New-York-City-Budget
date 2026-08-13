@@ -22,20 +22,26 @@ Checks
 6. Column-bleed        — a council-member surname leaking into an organization/program text field
                           (the transparency-parser bug class); reported with counts + samples.
 7. Reconciliation      — every *_reconciliation.txt is parsed into one pass/partial/N-A ratio table.
+8. Initiative recon    — award rows summed per initiative vs that initiative's PRINTED amount in
+                          *_schedule_c_initiatives.csv, per fiscal year: balanced / short / over
+                          with the residual. The first pass/fail target the award stream has ever
+                          had. SOFT advisory. See `initiative_reconciliation()` for why.
 
 Severity + exit code
 --------------------
 HARD failures (exit 1): missing/extra schema column, malformed row (wrong field count),
 non-numeric amount, malformed EIN (non-empty, not 9 digits). These mean the data is structurally
 wrong. SOFT advisories (exit 0 if nothing hard): zeros, sign anomalies, outliers, duplicates,
-column-bleed residuals, low EIN coverage. Advisories are surfaced, not gated — some (e.g. the ~21
-legitimate-name FY26 bleed residuals) are known and acceptable.
+column-bleed residuals, low EIN coverage, initiative-reconciliation residuals. Advisories are
+surfaced, not gated — some (e.g. the ~21 legitimate-name FY26 bleed residuals) are known and
+acceptable.
 
 Usage
 -----
   .venv/bin/python code/validate_data.py                 # validate ./data, write data/QA-REPORT.md
   .venv/bin/python code/validate_data.py --data-dir data --report data/QA-REPORT.md
   .venv/bin/python code/validate_data.py --no-report     # stdout only
+  .venv/bin/python code/validate_data.py --dry-run       # stdout only; writes nothing at all
 """
 import argparse
 import csv
@@ -489,6 +495,157 @@ def parse_reconciliations(data_dir):
     return out
 
 
+# --------------------------------------------- initiative-level award reconciliation (check 8)
+# The per-year *_reconciliation.txt reconciles the CATEGORY summary against printed category
+# TOTALs and reports award rows as a bare tally with NO target ("awards: 335 rows $89,917,012").
+# The printed INITIATIVE amount is a target: where the Schedule C itemizes an initiative at all,
+# the itemization is exhaustive, so the award rows under an initiative should sum to that
+# initiative's own printed amount. 24%-87% of joined initiatives already balance to the dollar
+# with no repair, which is what makes a residual on the rest a real signal rather than noise.
+#
+# The printed CATEGORY total is NOT a usable target for award rows and cannot be made into one:
+# most initiatives are lump appropriations with no per-grantee table in the PDF at all, so award
+# rows cover 27%-92% of printed category dollars by design. Measured and rejected — do not
+# re-derive it. (research/missing-absorbed-awards/RECONCILIATION.md §2-§3, branch
+# research/missing-absorbed-awards.)
+#
+# Deliberately SOFT, never a hard failure. Three known structural gaps live in this residual and
+# a gate would only break the build on them: award rows carrying no initiative label at all
+# ($172M in FY2026), initiative labels the parser mis-assigns to a neighbouring block, and
+# provider tables the PDF text layer never yielded. Surfacing them is the point.
+
+
+def canon_initiative(s):
+    """Fold an initiative name into a join key: lowercase, drop every non-alphanumeric.
+
+    The summary table and the body headers punctuate the same initiative inconsistently — curly
+    vs. straight apostrophes, en-dash vs. hyphen ("Alternatives to Incarceration (ATI's)") — so
+    punctuation is folded out entirely rather than enumerated.
+
+    EXACT match only. A prefix or fuzzy join was measured and rejected: FY2018 alone has six
+    "Crisis Management System - <sub-program>" award labels whose parent is a single initiative
+    line, and a prefix join would pool them and manufacture a fake balance.
+    """
+    return re.sub(r"[^a-z0-9]+", "", (s or "").lower())
+
+
+def _cents(s):
+    """Amount as integer cents, so residuals compare exactly. Unparseable/empty -> 0 (the amount
+    checks above already flag those as HARD; this pass must not double-report them)."""
+    val, ok = parse_amount(s)
+    return int(round(val * 100)) if (ok and val is not None) else 0
+
+
+def load_recovered_awards(data_dir):
+    """(year:int -> Counter(join key -> cents), sidecar_present:bool) for the absorbed-award
+    sidecar `recovered/schedule_c_absorbed_awards.csv`.
+
+    Optional by design. The sidecar is a separate build artifact (code/build_recovered_awards.py)
+    holding awards the parser absorbed into a neighbouring row and lost; it is deliberately NOT
+    merged into the per-year CSVs. When it is absent the check still runs and the "after recovery"
+    columns simply equal the base ones.
+    """
+    path = os.path.join(data_dir, "recovered", "schedule_c_absorbed_awards.csv")
+    out = defaultdict(Counter)
+    if not os.path.exists(path):
+        return out, False
+    with open(path, newline="", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            y = (r.get("fiscal_year") or "").strip()
+            if y.isdigit():
+                # a blank initiative folds to key "" and is counted as unjoinable below, never
+                # silently attributed to some initiative it might belong to
+                out[int(y)][canon_initiative(r.get("initiative"))] += _cents(r.get("amount"))
+    return out, True
+
+
+def initiative_reconciliation(data_dir):
+    """Per fiscal year, join award rows to their initiative and compare against the printed amount.
+
+    Returns (years, sidecar_present) where `years` is a list of per-year dicts, oldest first. All
+    money is integer cents. `rows` holds one record per JOINED initiative:
+        initiative, printed, awarded, residual (= printed - awarded), status, n_awards,
+        recovered, residual_after (= residual - recovered)
+    status is 'balanced' (residual 0) / 'short' (> 0) / 'over' (< 0).
+
+    Everything that could not be joined is carried out as an explicit tally rather than dropped,
+    because the unjoined dollars are large and a reader who saw only the joined side would badly
+    overestimate coverage.
+    """
+    recovered, sidecar_present = load_recovered_awards(data_dir)
+    years = []
+    pattern = os.path.join(data_dir, "fy*", "schedule_c", "*_schedule_c_initiatives.csv")
+    for ipath in sorted(glob.glob(pattern)):
+        apath = ipath.replace("_initiatives.csv", "_awards.csv")
+        if not os.path.exists(apath):
+            continue  # FY2009-FY2014 are initiatives-only by nature, not a gap (DATA-ANOMALIES §1)
+        year = year_of(ipath)
+        if year is None:
+            continue  # not under a data/fyNN/ folder — nothing to key the sidecar or the row on
+
+        printed, label = Counter(), {}
+        with open(ipath, newline="", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                k = canon_initiative(r.get("initiative"))
+                if not k:
+                    continue
+                # one initiative printed on two summary lines (different agencies) sums — the join
+                # is by name, so the target for that name is the total printed under it
+                printed[k] += _cents(r.get("amount"))
+                label.setdefault(k, (r.get("initiative") or "").strip())
+
+        awarded, n_awards = Counter(), Counter()
+        unlabeled_rows = unlabeled_amount = 0
+        with open(apath, newline="", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                k = canon_initiative(r.get("initiative"))
+                amt = _cents(r.get("amount"))
+                if not k:
+                    unlabeled_rows += 1
+                    unlabeled_amount += amt
+                    continue
+                awarded[k] += amt
+                n_awards[k] += 1
+
+        rec = recovered.get(year, Counter())
+        rows, counts, counts_after = [], Counter(), Counter()
+        for k in sorted(awarded, key=lambda k: label.get(k, k).lower()):
+            if k not in printed:
+                continue
+            residual = printed[k] - awarded[k]
+            after = residual - rec.get(k, 0)
+            status = "balanced" if residual == 0 else ("short" if residual > 0 else "over")
+            counts[status] += 1
+            counts_after["balanced" if after == 0 else ("short" if after > 0 else "over")] += 1
+            rows.append(dict(initiative=label[k], printed=printed[k], awarded=awarded[k],
+                             residual=residual, status=status, n_awards=n_awards[k],
+                             recovered=rec.get(k, 0), residual_after=after))
+
+        unjoined = [k for k in awarded if k not in printed]
+        years.append(dict(
+            year=year,
+            rows=rows,
+            balanced=counts["balanced"], short=counts["short"], over=counts["over"],
+            balanced_after=counts_after["balanced"], short_after=counts_after["short"],
+            over_after=counts_after["over"],
+            printed=sum(r["printed"] for r in rows),
+            awarded=sum(r["awarded"] for r in rows),
+            recovered=sum(r["recovered"] for r in rows),
+            unjoined_labels=len(unjoined),
+            unjoined_amount=sum(awarded[k] for k in unjoined),
+            unlabeled_rows=unlabeled_rows,
+            unlabeled_amount=unlabeled_amount,
+            recovered_unjoined=sum(v for k, v in rec.items() if k not in printed),
+        ))
+    return years, sidecar_present
+
+
+def _usd(cents):
+    """Whole-dollar display; the corpus carries no sub-dollar amounts, but cents are preserved
+    internally so a future one cannot silently round into a false balance."""
+    return f"{cents / 100:,.0f}" if cents % 100 == 0 else f"{cents / 100:,.2f}"
+
+
 # ------------------------------------------------------------------ orchestration
 def validate_tree(data_dir):
     files = sorted(glob.glob(os.path.join(data_dir, "**", "*.csv"), recursive=True))
@@ -522,6 +679,30 @@ def coverage_by_year(results):
     return agg
 
 
+def print_initiative_recon(years, sidecar_present):
+    """Per-year roll-up on stdout. The per-initiative residuals go to the markdown report — 455
+    unbalanced initiatives corpus-wide is a review queue, not terminal output."""
+    print("\nInitiative-level award reconciliation (SOFT — award rows vs printed initiative "
+          "amount):")
+    if not years:
+        print("  (no year has both a *_schedule_c_initiatives.csv and a *_schedule_c_awards.csv)")
+        return
+    if not sidecar_present:
+        print("  note: recovered/schedule_c_absorbed_awards.csv absent — 'after' columns "
+              "equal the base columns")
+    print(f"  {'FY':<7}{'joined':>7}{'bal':>5}{'short':>6}{'over':>5}"
+          f"{'residual':>16}{'recovered':>14}{'resid after':>14}{'bal after':>10}"
+          f"{'unjoined $':>16}")
+    for y in years:
+        resid = y["printed"] - y["awarded"]
+        print(f"  FY{y['year']:<5}{len(y['rows']):>7}{y['balanced']:>5}{y['short']:>6}"
+              f"{y['over']:>5}{_usd(resid):>16}{_usd(y['recovered']):>14}"
+              f"{_usd(resid - y['recovered']):>14}{y['balanced_after']:>10}"
+              f"{_usd(y['unjoined_amount'] + y['unlabeled_amount']):>16}")
+    unbal = sum(y["short"] + y["over"] for y in years)
+    print(f"  {unbal} initiative(s) do not balance; per-initiative residuals are in the report.")
+
+
 def print_summary(results, recon):
     hard = sum(len(r.hard) for r in results)
     soft = sum(len(r.soft) for r in results)
@@ -543,7 +724,72 @@ def print_summary(results, recon):
     return hard
 
 
-def write_report(results, recon, surnames, md_path, data_dir):
+def _initiative_recon_section(years, sidecar_present):
+    """Markdown for check 8: a per-year roll-up, then every initiative that does not balance."""
+    L = ["## Initiative-level award reconciliation (SOFT advisory)", ""]
+    L.append("Award rows summed per initiative vs that initiative's own **printed** amount in "
+             "`*_schedule_c_initiatives.csv`, joined exactly on a punctuation-folded initiative "
+             "name within one fiscal year. `residual = printed - award rows`: positive is "
+             "**short**, negative is **over**. This is the award stream's first pass/fail target — "
+             "the per-year `*_reconciliation.txt` reconciles only the category summary and reports "
+             "award rows as a bare tally with no target at all.")
+    L.append("")
+    L.append("Advisory, never a gate. Three known structural causes live in this residual: award "
+             "rows carrying no initiative label at all, initiative labels the parser mis-assigns "
+             "to a neighbouring block, and provider tables the source PDF's text layer never "
+             "yielded. `unjoined $` is award dollars under a label with no printed counterpart "
+             "plus dollars on rows with no label — counted here so the joined columns are not "
+             "mistaken for full coverage.")
+    L.append("")
+    if not years:
+        L.append("_No fiscal year has both an initiatives and an awards CSV._")
+        L.append("")
+        return L
+    L.append("`recovered` is the optional sidecar `recovered/schedule_c_absorbed_awards.csv` "
+             "(awards the parser absorbed into a neighbouring row and lost), included so the gap "
+             "is legible with and without it. "
+             + ("It is present." if sidecar_present else
+                "**It is absent, so the `after` columns equal the base columns.**"))
+    L.append("")
+    L.append("| FY | joined | balanced | short | over | printed | award rows | residual | "
+             "recovered | residual after | balanced after | unjoined $ |")
+    L.append("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
+    for y in years:
+        resid = y["printed"] - y["awarded"]
+        L.append(f"| FY{y['year']} | {len(y['rows'])} | {y['balanced']} | {y['short']} | "
+                 f"{y['over']} | {_usd(y['printed'])} | {_usd(y['awarded'])} | {_usd(resid)} | "
+                 f"{_usd(y['recovered'])} | {_usd(resid - y['recovered'])} | "
+                 f"{y['balanced_after']} | "
+                 f"{_usd(y['unjoined_amount'] + y['unlabeled_amount'])} |")
+    L.append("")
+    L.append("Unjoined detail — dollars this check cannot test, per year:")
+    L.append("")
+    L.append("| FY | award labels with no printed counterpart | $ | award rows with no initiative "
+             "label | $ | recovered $ not joinable |")
+    L.append("|---|---:|---:|---:|---:|---:|")
+    for y in years:
+        L.append(f"| FY{y['year']} | {y['unjoined_labels']} | {_usd(y['unjoined_amount'])} | "
+                 f"{y['unlabeled_rows']} | {_usd(y['unlabeled_amount'])} | "
+                 f"{_usd(y['recovered_unjoined'])} |")
+    L.append("")
+    unbal = [(y["year"], r) for y in years for r in y["rows"] if r["status"] != "balanced"]
+    L.append(f"### Initiatives that do not balance ({len(unbal)})")
+    L.append("")
+    L.append("Balanced initiatives are omitted — their residual is $0 by definition. Sorted by "
+             "fiscal year, then by the size of the residual.")
+    L.append("")
+    L.append("| FY | initiative | status | printed | award rows | rows | residual | recovered | "
+             "residual after |")
+    L.append("|---|---|---|---:|---:|---:|---:|---:|---:|")
+    for year, r in sorted(unbal, key=lambda t: (t[0], -abs(t[1]["residual"]))):
+        L.append(f"| FY{year} | {r['initiative']} | {r['status']} | {_usd(r['printed'])} | "
+                 f"{_usd(r['awarded'])} | {r['n_awards']} | {_usd(r['residual'])} | "
+                 f"{_usd(r['recovered'])} | {_usd(r['residual_after'])} |")
+    L.append("")
+    return L
+
+
+def write_report(results, recon, surnames, md_path, data_dir, initrecon=None):
     today = datetime.date.today().isoformat()
     hard = sum(len(r.hard) for r in results)
     soft = sum(len(r.soft) for r in results)
@@ -596,6 +842,9 @@ def write_report(results, recon, surnames, md_path, data_dir):
         L.append(f"| FY{year} | {doctype} | {ratio} | {status} |")
     L.append("")
 
+    if initrecon is not None:
+        L.extend(_initiative_recon_section(*initrecon))
+
     L.append("## Per-file findings")
     L.append("")
     L.append("| file | rows | EIN cov | hard | soft findings |")
@@ -635,12 +884,16 @@ def main():
     ap.add_argument("--report", default=None,
                     help="path for the markdown report (default: <data-dir>/QA-REPORT.md)")
     ap.add_argument("--no-report", action="store_true", help="stdout only; do not write the report")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="stdout only; write nothing at all (synonym of --no-report)")
     a = ap.parse_args()
     results, recon, surnames = validate_tree(a.data_dir)
+    initrecon = initiative_reconciliation(a.data_dir)
     hard = print_summary(results, recon)
-    if not a.no_report:
+    print_initiative_recon(*initrecon)
+    if not (a.no_report or a.dry_run):
         md_path = a.report or os.path.join(a.data_dir, "QA-REPORT.md")
-        write_report(results, recon, surnames, md_path, a.data_dir)
+        write_report(results, recon, surnames, md_path, a.data_dir, initrecon)
         print(f"\nWROTE -> {md_path}")
     raise SystemExit(1 if hard else 0)
 
