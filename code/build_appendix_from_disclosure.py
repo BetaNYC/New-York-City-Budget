@@ -107,17 +107,25 @@ def main():
     args = ap.parse_args()
 
     rows, skipped = [], 0
-    for fy in (2015, 2016, 2017, 2019, 2020):
-        # Only act where the appendix files really are empty; if a year ever gets parsed properly
-        # this script must not start shadowing it.
-        files = glob.glob(f"data/fy{str(fy)[2:]}/schedule_c/*appendix*.csv")
-        if not files or any(sum(1 for _ in open(f, encoding="utf-8")) > 1 for f in files):
-            print(f"  FY{fy}: appendix files are populated — skipping")
+    for fy in (2015, 2016, 2017, 2018, 2019, 2020):
+        # Empty is judged PER STREAM, not per year. FY2018 is the case that forces this: its aging
+        # appendix parsed (422 rows) while local and youth came out empty. A per-year test skipped
+        # the whole year and left ~$45M of local/youth designations unrecovered.
+        empty_streams = set()
+        for src, stem in STREAMS.items():
+            f = f"data/fy{str(fy)[2:]}/schedule_c/fy{str(fy)[2:]}_{stem}.csv"
+            if os.path.exists(f) and sum(1 for _ in open(f, encoding="utf-8")) <= 1:
+                empty_streams.add(src)
+        if not empty_streams:
+            print(f"  FY{fy}: all appendix streams populated — skipping")
             continue
+        if len(empty_streams) < len(STREAMS):
+            print(f"  FY{fy}: recovering only {sorted(empty_streams)} "
+                  f"(others already parsed)")
         present = corpus_keys(fy)
         for d in read_disclosure(fy):
             src = (pick(d, ("source",)) or "").strip()
-            if src not in STREAMS:
+            if src not in empty_streams:
                 continue
             ein = re.sub(r"\D", "", pick(d, ("tax id", "ein")) or "")
             name = (pick(d, ("legal name",)) or "").strip()

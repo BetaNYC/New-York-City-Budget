@@ -59,7 +59,7 @@ def accounted(baseline):
             continue
         for i, (o, n) in enumerate(zip(old, new)):
             line = i + 2
-            for col in ("organization", "ein", "member", "amount"):
+            for col in ("organization", "ein", "member", "amount", "purpose"):
                 if (o.get(col) or "") == (n.get(col) or ""):
                     continue
                 e = known.get((f, line))
@@ -71,10 +71,14 @@ def accounted(baseline):
                 # `original_organization` does not match what the baseline actually held is a
                 # fabricated provenance record — it explains a change that did not happen and
                 # conceals the one that did.
-                if col == "organization":
-                    claimed = e.get("original_organization", "")
-                    # wrong_ein entries prefix the ein, e.g. "[ein 112412584] Name"
-                    claimed = re.sub(r"^\[ein \d+\] ", "", claimed)
+                if col == (e.get("column") or "organization"):
+                    raw = e.get("original_organization", "")
+                    if col == "ein":
+                        # wrong_ein entries encode the replaced EIN as "[ein 112412584] Name"
+                        m = re.match(r"^\[ein (\d+)\]", raw)
+                        claimed = m.group(1) if m else raw
+                    else:
+                        claimed = re.sub(r"^\[ein \d+\] ", "", raw)
                     if claimed != (o.get(col) or ""):
                         unexplained.append((f, line, "fabricated original",
                                             (o.get(col) or "")[:40], claimed[:40]))
@@ -101,11 +105,13 @@ def main():
         if idx < 0 or idx >= len(cache[f]):
             mismatched.append((r, "<line out of range>")); continue
         row = cache[f][idx]
-        # wrong_ein entries repair the `ein` column; everything else repairs `organization`.
-        if r["defect"] == "wrong_ein":
-            expected, actual = r["ein"], row.get("ein", "")
-        else:
-            expected, actual = r["recovered_organization"], row.get("organization", "")
+        # Each entry states which column it repaired. `column` defaults to organization for
+        # entries written before the field existed; wrong_ein repairs `ein`, and the FY2018 aging
+        # shift repairs `purpose` — a repair that claims the wrong column is a false provenance
+        # record, so this is checked rather than inferred.
+        col = (r.get("column") or ("ein" if r["defect"] == "wrong_ein" else "organization"))
+        expected = r["ein"] if col == "ein" else r["recovered_organization"]
+        actual = row.get(col, "")
         if actual != expected:
             mismatched.append((r, actual))
         if r.get("original_organization", "") == r.get("recovered_organization", ""):

@@ -56,7 +56,7 @@ Valid 9-digit EINs / total rows, per year and EIN-bearing doctype. Initiatives, 
 | FY2026 | transparency | 4755/4755 | 100.0% |
 | FY2027 | appendix | 3860/3860 | 100.0% |
 | FY2027 | awards | 6118/6118 | 100.0% |
-| FYNone | recovered_appendix | 22234/22234 | 100.0% |
+| FYNone | recovered_appendix | 26127/26127 | 100.0% |
 | FYNone | recovered_awards | 442/442 | 100.0% |
 
 ## Reconciliation roll-up
@@ -890,7 +890,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy27/schedule_c/fy27_schedule_c_initiatives.csv` | 170 | — | 0 | — |
 | `fy27/terms/fy27_terms_and_conditions.csv` | 75 | — | 0 | — |
 | `recovered/schedule_c_absorbed_awards.csv` | 442 | 100% | 0 | duplicate: 6 duplicate row instance(s); e.g. x2: ['2017', 'HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 18: 'Hudson Guild' |
-| `recovered/schedule_c_appendix_recovered.csv` | 22234 | 100% | 0 | duplicate: 60 duplicate row instance(s); e.g. x3: ['2015', 'appendix_a_aging', 'Ulrich', 'Catholic Charities Neighborhood Services, Inc.']...; column_bleed: 32 suspected surname-in-organization residual(s); e.g. line 1894: 'Hudson Guild' |
+| `recovered/schedule_c_appendix_recovered.csv` | 26127 | 100% | 0 | duplicate: 65 duplicate row instance(s); e.g. x3: ['2015', 'appendix_a_aging', 'Ulrich', 'Catholic Charities Neighborhood Services, Inc.']...; column_bleed: 37 suspected surname-in-organization residual(s); e.g. line 1894: 'Hudson Guild' |
 
 ### Notes on the soft heuristics
 
