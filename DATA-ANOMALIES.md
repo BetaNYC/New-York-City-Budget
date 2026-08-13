@@ -288,3 +288,88 @@ cheaper and more reliable than repairing the PDF parser.
 disclosure files is materially below 100% in **every** fiscal year, not only the years above, and
 row capture and dollar capture differ by up to a factor of five because the awards that go missing
 are the small ones. Always publish both numbers and name what each measures.
+
+---
+
+## 21. Schedule C awards — the extraction defects repaired 2026-08-12/13, and what remains — PARTIALLY RESOLVED
+
+A community PR review surfaced a family of related extraction defects in the award stream. All
+share one cause: the parser identifies an award by an EIN followed by an amount, and where the
+source PDF prints anything between them — an asterisk, a program name, a hyphenated sub-name — the
+row boundary is lost. This entry records what was repaired, how, and what deliberately was not.
+
+### Repaired — 5,450 cells across 8 classes
+
+| class | rows | column | what was wrong |
+|---|---:|---|---|
+| `blank_initiative` | 1,514 | `initiative` | an `initiative_provider` row with no initiative |
+| `member_bleed` | 1,083 | `organization` | sponsoring member's surname prefixed to the name |
+| `org_prose` | 1,076 | `organization` | purpose prose where the grantee name belongs |
+| `split_org_name` | 673 | `organization` | a name beginning with a borough/surname split across `member` and `organization` |
+| `truncated_org_name` | 423 | `organization` | the name dropped at its first " - " |
+| `fy18_aging_shift` | 422 | `purpose` | the amount's decimal tail prefixed to every purpose |
+| `org_merged` | 239 | `organization` | a neighbouring award's text absorbed into the field |
+| `wrong_ein` | 20 | `ein` | right name and amount, a neighbour's EIN |
+
+**Every change is recorded in `data/combined/org_name_recovery_crosswalk.csv`** with the column it
+repaired, the original value, the replacement, the EIN, the amount and the defect class.
+
+### Two guards, both hard-failing
+
+- **`code/verify_crosswalk.py`** asserts the trail is COMPLETE (every entry matches the data),
+  GROUNDED (no entry claims a no-op), UNIQUE (no duplicate keys) and **ACCOUNTED** — every cell
+  differing from the baseline has an entry, that entry's recorded original matches what the
+  baseline actually held, and no amount ever changes. It diffs *every* column, not a fixed list.
+- **`code/verify_no_dollars_moved.py`** compares award dollars per fiscal year against a git ref.
+  All thirteen years are identical before and after: **$3,741,615,569, delta $0**.
+
+Both caught real errors in the repairs themselves, four times in one session — including a draft
+that would have deleted a row carrying a real $20,000 designation hidden under a PDF heading, and a
+version of ACCOUNTED whose hardcoded column list did not include `initiative`, so it reported "0
+unexplained changes" while 1,514 initiative cells were rewritten.
+
+### Method, and the keys that are NOT safe
+
+- **The join key is (EIN, amount)**, never EIN alone. Fiscal sponsors pass funds through for many
+  grantees: EIN 13-2612524 (Fund for the City of New York) carries **229 distinct names** here.
+- **Council member is never a key component.** The disclosure workbooks are republished with the
+  roster current at snapshot time, not the one that adopted the budget; including `member` drops
+  the unique-match rate from 96% to 24%.
+- **Disclosure headers are matched by case-insensitive substring.** They drift across the series —
+  FY2016 heads the name column `Legal Name of Organization Requesting Funding`, FY2014 the amount
+  `Amount ($`, FY2024+ `Legal Name`/`Tax ID`. Exact matching silently skipped two whole years.
+- **Nothing is applied on a non-unique match.** A row left flagged is a correct outcome.
+
+### Three published numbers that were wrong
+
+- **"3,893 member-bleed rows"** was a leading-token scan and mostly false positives. Of 4,779 rows
+  beginning with a surname or borough, **3,425 are correct as printed** — Brooklyn Book Bodega,
+  Queens Borough Public Library, Louis Armstrong House Museum, Hudson Guild.
+- **"9,700 blank initiatives, $595M"** counted `member_item` rows as defective. A member item is an
+  individual Member's local designation and is *not* under a citywide initiative, so a blank there
+  is correct. 5,887 of the 9,700 are member items.
+- **"337 truncated fragments"** — a pattern scan for short names returned 1,382 rows, almost all
+  legitimate. IlluminArt Productions, FAN4Kids, Mekimi and BOOM!Health are real organizations.
+  Only the Council's own data distinguishes a short name from a truncated one.
+
+### Not repaired, deliberately
+
+- **1,993 recoverable initiatives left blank** because the disclosure names funding streams the
+  Schedule C initiative axis does not use — `Speaker's Initiative` alone is 1,554 rows. Filling
+  them would fragment the initiative axis exactly as §17 describes. A gap is recoverable later; a
+  polluted vocabulary is not.
+- **~200 rows** could not be resolved to a single candidate and remain flagged rather than guessed.
+- **Amounts were audited and not touched.** 60,665 of 62,213 rows (97.51%) are corroborated by the
+  Council's same-year disclosure, covering 94.93% of dollars. 18 differ by ≤$5 and 3 look like a
+  neighbour's amount. `code/audit_amounts.py` reports and has no `--apply` path, deliberately.
+- **The parser.** Nothing here stops the defect recurring; FY2027 produced 80 fresh `org_prose`
+  rows. That is the open half of GitHub issue #52.
+
+### Recovered data lives in `data/recovered/`, never merged into the per-year extracts
+
+| file | rows | dollars |
+|---|---:|---:|
+| `schedule_c_appendix_recovered.csv` | 26,127 | $283,588,100 |
+| `schedule_c_absorbed_awards.csv` | 442 | $66,472,992 |
+
+Both carry confidence and provenance columns. Nothing already published moved.
