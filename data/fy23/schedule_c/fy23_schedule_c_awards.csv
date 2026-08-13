@@ -32,12 +32,12 @@ ANTI-POVERTY,,member_item,Hudson,"BRIC Arts Media Brooklyn, Inc.",Community Adul
 ANTI-POVERTY,,member_item,Adams,"Bridging The Gap Queens, Inc.",,833015257,7500,DYCD,"Funds will support Afterschool youth programming, Sports Activity & Events and Health & Hygiene educational classes as well as Workforce Readiness assistance."
 ANTI-POVERTY,,member_item,De La Rosa,"Broadway Housing Communities, Inc.",Housing & Tenant Services,133212867,5000,HPD,Funds will be used to support Broadway Housing's administration and programming.
 ANTI-POVERTY,,member_item,Ayala,"BronxWorks, Inc.",Healthy & Livable Mott Haven Program,133254484,5000,DHMH,To provide funding for programs related to fostering food security in the Mott Haven neighborhood.
-ANTI-POVERTY,,member_item,Brooklyn,"Bar Association Volunteer Lawyers Project, Inc.",Council District 40,113155182,5000,DSS/HRA,Funding will support lawyer costs for assisting constituents of Council District 40 in need.
+ANTI-POVERTY,,member_item,,"Brooklyn Bar Association Volunteer Lawyers Project, Inc.",Council District 40,113155182,5000,DSS/HRA,Funding will support lawyer costs for assisting constituents of Council District 40 in need.
 ANTI-POVERTY,,initiative_provider,,"Ossé Brooklyn Combine for Progressive Action, Inc.",,813719832,5000,DYCD,"Funding for youth programming such as sports, STEAM courses, & anti-gun seminars."
 ANTI-POVERTY,,member_item,Hanif,Brooklyn Defender Services,Council District 39,113305406,3500,DSS/HRA,Funding to support Civil Justice program.
 ANTI-POVERTY,,member_item,Williams,Brooklyn Legal Services Corporation A,,132605599,10000,DSS/HRA,"Funding will provide senior homeowners facing foreclosure with representation, advice, and appropriate referrals."
 ANTI-POVERTY,,member_item,Barron,Brooklyn Legal Services Corporation A,Council District 42,132605599,5000,DSS/HRA,Funding to support operating expense costs for community legal assistance programming.
-ANTI-POVERTY,,member_item,Brooklyn,Legal Services Corporation A,Small Business Legal Services,132605599,5000,DSS/HRA,Funds will be used to support legal services for struggling small businesses in Council District 20.
+ANTI-POVERTY,,member_item,,Brooklyn Legal Services Corporation A,Small Business Legal Services,132605599,5000,DSS/HRA,Funds will be used to support legal services for struggling small businesses in Council District 20.
 ANTI-POVERTY,,member_item,Louis,"Brooklyn Legal Services, Inc.",Council District 45,132605605,4000,DSS/HRA,Funds to be used to provide legal services in Council District 45.
 ANTI-POVERTY,,member_item,Ung,Buddhist Tzu Chi Medical Foundation,Tzu Chi Mobile - Vision Mobile Project,954457939,5000,DYCD,"To support the Tzu Chi vision mobile clinic to provide services like vision care, optic disease screenings, and free eyeglasses to low-income individuals in Council District 20."
 ANTI-POVERTY,,member_item,Nurse,Bushwick Housing Independence Project,Bushwick Housing Independence Project,201518304,25000,HPD,"Funds will support general operating expenses including bilingual tenant outreach, legal support, housing counseling."
@@ -281,8 +281,8 @@ ANTI-POVERTY,,member_item,Restler,"Southside Community Mission, Inc.",,112306447
 ANTI-POVERTY,,initiative_provider,,"Ossé St. John's Bread and Life Program, Inc.",,113174514,2500,DYCD,Funding for food distribution programs.
 ANTI-POVERTY,,member_item,Menin,"Stanley M. Isaacs Neighborhood Center, Inc.",Youth Services,132572034,3500,DYCD,Funding will support youth services at the Stanley Isaacs Neighborhood Center.
 ANTI-POVERTY,,member_item,Borelli,Staten Island Children's Museum,,237379930,5000,DCLA,Funding to support additional teaching artist programming for South Shore in Council District 51.
-ANTI-POVERTY,,member_item,Staten Island,"Community Job Center, Inc.",Food Distribution - La Colmena,472787706,5000,DYCD,Funds will help with reducing food insecurity within Council District 49.
-ANTI-POVERTY,,member_item,Staten Island,Historical Society,Richmond Town Tours & Programming,131985514,3000,DCLA,Funds will be used to support youth programming and community support programs in Council District 51.
+ANTI-POVERTY,,member_item,,"Staten Island Community Job Center, Inc.",Food Distribution - La Colmena,472787706,5000,DYCD,Funds will help with reducing food insecurity within Council District 49.
+ANTI-POVERTY,,member_item,,Staten Island Historical Society,Richmond Town Tours & Programming,131985514,3000,DCLA,Funds will be used to support youth programming and community support programs in Council District 51.
 ANTI-POVERTY,,member_item,Carr,"Staten Island Zoological Society, Inc.",,135680691,20000,DCLA,Funds will be used to support and supplement exhibits and educational programming.
 ANTI-POVERTY,,member_item,Feliz,"Student Leadership Network, Inc.",College Bound Initiative,061517218,20000,DOE,Funds will be used to support the College Bound Initiative in CD15.
 ANTI-POVERTY,,member_item,Stevens,Summer Search,Summer Search Program - Council District 16,680200138,10000,DYCD,"Funds will support the summer search program, a program focused on preparing low income students for success in college in Council District 16."
@@ -424,8 +424,8 @@ BOROUGHWIDE NEEDS,,initiative_provider,,Pathways To Apprenticeship,Construction 
 BOROUGHWIDE NEEDS,,member_item,Bronx Delegation,"Per Scholas, Inc.",New York Tech Training Program,043252955,7777,DYCD,Funding will help support expenses associated with New York Tech Training Program.
 BOROUGHWIDE NEEDS,,member_item,Bronx Delegation,"Planned Parenthood of Greater New York, Inc.",Age-Appropriate Health Education,132621497,37777,DHMH,Funds will be used to support the Youth Health Promoters (YHP).
 BOROUGHWIDE NEEDS,,member_item,Manhattan,"Positive Influence, Inc.",,562519776,19000,DYCD,For services and operating expenses around basketball programming.
-BOROUGHWIDE NEEDS,,member_item,Queens,"Botanical Garden Society, Inc.",STEM & Environmental Education,111635083,35000,DCLA,Funds will be used to support environmental education programming for children and adults.
-BOROUGHWIDE NEEDS,,member_item,Queens,Museum of Art,Young Leaders Art & Social Justice Institute,112278998,30000,DCLA,Funding for Queens youth participation in the Young Leaders Art and Social Justice Institute (ASJI).
+BOROUGHWIDE NEEDS,,member_item,,"Queens Botanical Garden Society, Inc.",STEM & Environmental Education,111635083,35000,DCLA,Funds will be used to support environmental education programming for children and adults.
+BOROUGHWIDE NEEDS,,member_item,,Queens Museum of Art,Young Leaders Art & Social Justice Institute,112278998,30000,DCLA,Funding for Queens youth participation in the Young Leaders Art and Social Justice Institute (ASJI).
 BOROUGHWIDE NEEDS,,member_item,Bronx Delegation,Renaissance Youth Center,General Programming,134122438,10000,DCLA,Funds will support the existing work of the Renaissance Youth Council in Council District 16.
 BOROUGHWIDE NEEDS,,member_item,Brooklyn,Research Foundation of the City University of New York,,131988190,19375,DYCD,
 BOROUGHWIDE NEEDS,,member_item,Staten Island,Richmond Engine Company No. 1,,132943389,15000,FDNY,
@@ -461,7 +461,7 @@ BOROUGHWIDE NEEDS,,initiative_provider,,Asian American Arts Alliance,,133480189,
 BOROUGHWIDE NEEDS,,initiative_provider,,"Asian American Federation, Inc.",,133572287,250000,,
 BOROUGHWIDE NEEDS,,initiative_provider,,"Asian Americans For Equality, Inc.",,133187792,130000,,
 BOROUGHWIDE NEEDS,,initiative_provider,,"Asian-American Coalition for Children and Families, Inc.",,133682471,80000,,
-BOROUGHWIDE NEEDS,,member_item,Brooklyn,"Chinese-American Association, Inc.",,113065859,80000,,
+BOROUGHWIDE NEEDS,,member_item,,"Brooklyn Chinese-American Association, Inc.",,113065859,80000,,
 BOROUGHWIDE NEEDS,,initiative_provider,,"Caribbean Equality Project, Inc., The",,472806715,40000,,
 BOROUGHWIDE NEEDS,,initiative_provider,,"Charles B. Wang Community Health Center, Inc.",,132739694,130000,,
 BOROUGHWIDE NEEDS,,initiative_provider,,"Chinatown Manpower Project, Inc.",,132755214,40000,,
@@ -497,7 +497,7 @@ COMMUNITY DEVELOPMENT,"DOHMH, DYCD Trans Equity Programs",initiative_provider,,Y
 COMMUNITY DEVELOPMENT,"DOHMH, DYCD Trans Equity Programs",initiative_provider,,Young Men's Christian Association of Greater New York,,131624228,120000,,
 COMMUNITY DEVELOPMENT,"DOHMH, DYCD Trans Equity Programs",initiative_provider,,Young Women's Christian Association of Queens,,200351906,150000,,
 COMMUNITY DEVELOPMENT,Adult Literacy Initiative,initiative_provider,,City University of New York,,133893536,465000,,
-COMMUNITY DEVELOPMENT,Adult Literacy Initiative,member_item,Queens,Borough Public Library,,136400434,100000,,
+COMMUNITY DEVELOPMENT,Adult Literacy Initiative,member_item,,Queens Borough Public Library,,136400434,100000,,
 COMMUNITY DEVELOPMENT,Adult Literacy Initiative,initiative_provider,,New York Public Library,,136400434,102000,,
 COMMUNITY DEVELOPMENT,Adult Literacy Pilot Project,initiative_provider,,Academy of Medical and Public Health Services,,272206293,100000,,
 COMMUNITY DEVELOPMENT,Adult Literacy Pilot Project,initiative_provider,,Adhikaar for Human Rights and Social Justice,,203384725,150000,,
@@ -539,8 +539,8 @@ COMMUNITY DEVELOPMENT,"Diversity, Inclusion and Equity in Tech",initiative_provi
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,"AIDS Center of Queens County, Inc.",,112837894,207500,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,"Big Apple Performing Arts, Inc.",,133082072,25000,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,BOOM! Health,,133599121,200000,,
-COMMUNITY DEVELOPMENT,LGBT Community Services,member_item,Brooklyn,Academy of Music,,112201344,25000,,
-COMMUNITY DEVELOPMENT,LGBT Community Services,member_item,Brooklyn,"Community Pride Center, Inc.",,262214534,544375,,
+COMMUNITY DEVELOPMENT,LGBT Community Services,member_item,,Brooklyn Academy of Music,,112201344,25000,,
+COMMUNITY DEVELOPMENT,LGBT Community Services,member_item,,"Brooklyn Community Pride Center, Inc.",,262214534,544375,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,City University of New York,,133893536,50000,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,City University of New York,,136400434,850000,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,"Destination Tomorrow, Inc.",,800259180,300000,,
@@ -556,7 +556,7 @@ COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,"Leslie-Lohma
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,LGBT Network,,208512786,794375,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,LGBT Youth Out Loud,,841628418,120000,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,"Pride Center of Staten Island, Inc.",,463358895,444375,,
-COMMUNITY DEVELOPMENT,LGBT Community Services,member_item,Queens,"Community House, Inc.",,112375583,165000,,
+COMMUNITY DEVELOPMENT,LGBT Community Services,member_item,,"Queens Community House, Inc.",,112375583,165000,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,South Bronx Overall Economic Development Corporation,,132736022,25000,,
 COMMUNITY DEVELOPMENT,LGBT Community Services,initiative_provider,,"Trevor Project, Inc., The",,954681287,100000,,
 COMMUNITY DEVELOPMENT,Trans Equity Programs,initiative_provider,,Ackerman Institute for the Family,,131923959,305000,,
@@ -640,7 +640,7 @@ CULTURAL ORGANIZATIONS,,initiative_provider,,Pan Asian Repertory Theatre,,132894
 CULTURAL ORGANIZATIONS,,initiative_provider,,"People's Theatre Project, Inc.",,264705999,85000,,
 CULTURAL ORGANIZATIONS,,initiative_provider,,"Point Community Development Corporation, The",,133765140,109000,,
 CULTURAL ORGANIZATIONS,,initiative_provider,,"Pregones Touring Puerto Rican Theatre Collection, Inc.",,133266893,115000,,
-CULTURAL ORGANIZATIONS,,member_item,Queens,Borough Public Library,The Langston Hughes Community Library & Cultural Center,136400434,30000,,
+CULTURAL ORGANIZATIONS,,member_item,,Queens Borough Public Library,The Langston Hughes Community Library & Cultural Center,136400434,30000,,
 CULTURAL ORGANIZATIONS,,initiative_provider,,"Second Generation Productions, Inc.",,133929841,55000,,
 CULTURAL ORGANIZATIONS,,initiative_provider,,Society for the Preservation of Weeksville and Bedford Stuyvesant History,,237330454,115000,,
 CULTURAL ORGANIZATIONS,,initiative_provider,,"Society of the Educational Arts, Inc.",,113210593,180000,,
@@ -661,7 +661,7 @@ DOMESTIC VIOLENCE SERVICES,,initiative_provider,,"Safe Horizon, Inc.",,132946970
 DOMESTIC VIOLENCE SERVICES,,initiative_provider,,"Sanctuary for Families, Inc.",,133193119,275000,,
 DOMESTIC VIOLENCE SERVICES,Supportive Alternatives to Violent Encounters (SAVE),initiative_provider,,"Sanctuary for Families, Inc.",,133193119,1000000,,
 DOMESTIC VIOLENCE SERVICES,City’s First Readers,initiative_provider,,"Arab-American Family Support Center, Inc., The",,113167245,50000,,
-DOMESTIC VIOLENCE SERVICES,City’s First Readers,member_item,Brooklyn,Public Library,,111904261,438114,,
+DOMESTIC VIOLENCE SERVICES,City’s First Readers,member_item,,Brooklyn Public Library,,111904261,438114,,
 DOMESTIC VIOLENCE SERVICES,City’s First Readers,initiative_provider,,"Child Center of NY, Inc.",,111733454,208448,,
 DOMESTIC VIOLENCE SERVICES,City’s First Readers,initiative_provider,,Committee for Hispanic Children and Families,,112622003,379114,,
 DOMESTIC VIOLENCE SERVICES,City’s First Readers,initiative_provider,,Hunts Point Alliance for Children,,208503907,101114,,
@@ -673,7 +673,7 @@ EDUCATION,,initiative_provider,,New Alternatives for Children,,133149298,101114,
 EDUCATION,,initiative_provider,,New York Public Library,,136400434,438114,,
 EDUCATION,,initiative_provider,,New York University,,135562308,499114,,
 EDUCATION,,initiative_provider,,"Parent-Child Home Program, Inc., The",,112495601,24000,,
-EDUCATION,,member_item,Queens,Borough Public Library,,136400434,438114,,
+EDUCATION,,member_item,,Queens Borough Public Library,,136400434,438114,,
 EDUCATION,,initiative_provider,,"Reach Out and Read of Greater New York, Inc.",,134080045,438114,,
 EDUCATION,,initiative_provider,,SCO Family of Services,,112777066,153114,,
 EDUCATION,,initiative_provider,,"Sunset Park Health Council, Inc.",,202508411,158447,,
@@ -922,7 +922,7 @@ HOUSING,,initiative_provider,,"Housing and Family Services of Greater New York, 
 HOUSING,,initiative_provider,,"Housing Conservation Coordinators, Inc.",,510141489,34420,,
 HOUSING,,initiative_provider,,"Housing Conservation Coordinators, Inc.",,510141489,55566,,
 HOUSING,,initiative_provider,,"Housing Court Answers, Inc.",,133317188,28986,,
-HOUSING,,member_item,Hudson,Guild,,135562989,28986,,
+HOUSING,,member_item,,Hudson Guild,,135562989,28986,,
 HOUSING,,initiative_provider,,"Jewish Community Council of Greater Coney Island, Inc.",,112665181,51000,,
 HOUSING,,initiative_provider,,Legal Services NYC,,132600199,28986,,
 HOUSING,,initiative_provider,,Legal Services NYC,,132600199,61000,,
@@ -942,8 +942,8 @@ HOUSING,,initiative_provider,,Northern Manhattan Improvement Corporation,,132972
 HOUSING,,initiative_provider,,"Northfield Community LDC of Staten Island, Inc.",,132974137,54257,,
 HOUSING,,initiative_provider,,"Northfield Community LDC of Staten Island, Inc.",,132974137,61000,,
 HOUSING,,initiative_provider,,"Pratt Area Community Council, Inc.",,112451752,61000,,
-HOUSING,,member_item,Queens,"Community House, Inc.",,112375583,28987,,
-HOUSING,,member_item,Queens,"Community House, Inc.",,112375583,51000,,
+HOUSING,,member_item,,"Queens Community House, Inc.",,112375583,28987,,
+HOUSING,,member_item,,"Queens Community House, Inc.",,112375583,51000,,
 HOUSING,,initiative_provider,,"Queensboro Council for Social Welfare, Inc.",,111817497,28987,,
 HOUSING,,initiative_provider,,"Riseboro Community Partnership, Inc.",,112453853,61000,,
 HOUSING,,initiative_provider,,Southside United Housing Development Fund Corporation,,112268359,28987,,
@@ -973,8 +973,8 @@ HOUSING,Community Land Trust,initiative_provider,,"We Stay-Nos Quedamos, Inc.",,
 HOUSING,Community Land Trust,initiative_provider,,"Woodside on the Move, Inc.",,112435565,48250,,
 HOUSING,Foreclosure Prevention Programs,initiative_provider,,"Association of the Bar of the City of New York Fund, Inc. d/b/a City Bar Justice Center",,136003018,120000,,
 HOUSING,Foreclosure Prevention Programs,initiative_provider,,"Bronx Neighborhood Housing Services CDC, Inc., The",,471006046,20000,,
-HOUSING,Foreclosure Prevention Programs,member_item,Brooklyn,Legal Services Corporation A,,132605599,25000,,
-HOUSING,Foreclosure Prevention Programs,member_item,Brooklyn,"Legal Services, Inc.",,132605605,80000,,
+HOUSING,Foreclosure Prevention Programs,member_item,,Brooklyn Legal Services Corporation A,,132605599,25000,,
+HOUSING,Foreclosure Prevention Programs,member_item,,"Brooklyn Legal Services, Inc.",,132605605,80000,,
 HOUSING,Foreclosure Prevention Programs,initiative_provider,,"CAMBA, Inc.",,112480339,50000,,
 HOUSING,Foreclosure Prevention Programs,initiative_provider,,"Center for NYC Neighborhoods, Inc.",,830506416,1427500,,
 HOUSING,Foreclosure Prevention Programs,initiative_provider,,Chhaya Community Development Corporation,,113580935,145000,,
@@ -989,7 +989,7 @@ HOUSING,Foreclosure Prevention Programs,initiative_provider,,Neighborhood Restor
 HOUSING,Foreclosure Prevention Programs,initiative_provider,,"Neighbors Helping Neighbors, Inc.",,113059958,60000,,
 HOUSING,Foreclosure Prevention Programs,initiative_provider,,"New York Legal Assistance Group, Inc.",,133505428,40000,,
 HOUSING,Foreclosure Prevention Programs,initiative_provider,,"Northfield Community LDC of Staten Island, Inc.",,132974137,110000,,
-HOUSING,Foreclosure Prevention Programs,member_item,Queens,Legal Services Corporation,,132605604,100000,,
+HOUSING,Foreclosure Prevention Programs,member_item,,Queens Legal Services Corporation,,132605604,100000,,
 HOUSING,Home Loan Program,initiative_provider,,"Bronx Neighborhood Housing Services CDC, Inc., The",,471006046,200000,,
 HOUSING,Home Loan Program,initiative_provider,,"Center for NYC Neighborhoods, Inc.",,830506416,1200000,,
 HOUSING,Home Loan Program,initiative_provider,,"Neighborhood Housing Services of Brooklyn (Bedford-Stuyvesant) CDC, Inc.",,471717438,100000,,
@@ -1022,8 +1022,8 @@ IMMIGRANT SERVICES,Immigrant Opportunities Initiative,initiative_provider,,"Anso
 IMMIGRANT SERVICES,Immigrant Opportunities Initiative,initiative_provider,,"Association of the Bar of the City of New York Fund, Inc. d/b/a City Bar Justice Center",,136003018,45000,,
 IMMIGRANT SERVICES,Immigrant Opportunities Initiative,initiative_provider,,Boro Park Jewish Community Council,,113475993,35000,,
 IMMIGRANT SERVICES,Immigrant Opportunities Initiative,initiative_provider,,"Boys & Girls Club of Metro Queens, Inc.",,111966067,45000,,
-IMMIGRANT SERVICES,Immigrant Opportunities Initiative,member_item,Brooklyn,"Chinese-American Association, Inc.",,113065859,25000,,
-IMMIGRANT SERVICES,Immigrant Opportunities Initiative,member_item,Brooklyn,Defender Services,,113305406,20000,,
+IMMIGRANT SERVICES,Immigrant Opportunities Initiative,member_item,,"Brooklyn Chinese-American Association, Inc.",,113065859,25000,,
+IMMIGRANT SERVICES,Immigrant Opportunities Initiative,member_item,,Brooklyn Defender Services,,113305406,20000,,
 IMMIGRANT SERVICES,Immigrant Opportunities Initiative,initiative_provider,,"CAMBA, Inc.",,112480339,20000,,
 IMMIGRANT SERVICES,Immigrant Opportunities Initiative,initiative_provider,,"Caribbean Women's Health Association, Inc.",,133323168,25000,,
 IMMIGRANT SERVICES,Immigrant Opportunities Initiative,initiative_provider,,Central American Legal Assistance,,112859151,84000,,
@@ -1049,7 +1049,7 @@ IMMIGRANT SERVICES,Immigrant Opportunities Initiative,initiative_provider,,"Unit
 IMMIGRANT SERVICES,Immigrant Opportunities Initiative,initiative_provider,,Urban Justice Center,,133442022,30000,,
 IMMIGRANT SERVICES,Immigrant Opportunities Initiative,initiative_provider,,"West Bronx Housing and Neighborhood Resource Center, Inc.",,132941841,25000,,
 IMMIGRANT SERVICES,Immigrant Opportunities Initiative,initiative_provider,,"Youth Ministries for Peace and Justice, Inc.",,134006535,60000,,
-IMMIGRANT SERVICES,New York Immigrant Family Unity Project,member_item,Brooklyn,Defender Services,,113305406,5533333,,
+IMMIGRANT SERVICES,New York Immigrant Family Unity Project,member_item,,Brooklyn Defender Services,,113305406,5533333,,
 IMMIGRANT SERVICES,New York Immigrant Family Unity Project,initiative_provider,,Legal Aid Society,,135562265,5533334,,
 IMMIGRANT SERVICES,Unaccompanied Minors and Families,initiative_provider,,Central American Legal Assistance,,112859151,420000,,
 IMMIGRANT SERVICES,Unaccompanied Minors and Families,initiative_provider,,Door,"A Center of Alternatives, Inc., The",136127348,540000,,
@@ -1058,7 +1058,7 @@ IMMIGRANT SERVICES,Unaccompanied Minors and Families,initiative_provider,,"KIND,
 IMMIGRANT SERVICES,Unaccompanied Minors and Families,initiative_provider,,Legal Aid Society,,135562265,885000,,
 IMMIGRANT SERVICES,Unaccompanied Minors and Families,initiative_provider,,Safe Passage Project Corporation,,462946211,1051800,,
 IMMIGRANT SERVICES,Family Advocacy and Guardianship Support,initiative_provider,,"Bronx Defenders, The",,133931074,650000,,
-IMMIGRANT SERVICES,Family Advocacy and Guardianship Support,member_item,Brooklyn,Defender Services,,113305406,650000,,
+IMMIGRANT SERVICES,Family Advocacy and Guardianship Support,member_item,,Brooklyn Defender Services,,113305406,650000,,
 IMMIGRANT SERVICES,Family Advocacy and Guardianship Support,initiative_provider,,Center for Family Representation,,510419496,650000,,
 IMMIGRANT SERVICES,Family Advocacy and Guardianship Support,initiative_provider,,Legal Information for Families Today (LIFT),,133910567,100000,,
 IMMIGRANT SERVICES,Family Advocacy and Guardianship Support,initiative_provider,,"Mobilization for Justice, Inc.",,132622748,300000,,
@@ -1077,7 +1077,7 @@ LEGAL SERVICES,Legal Services for the Working Poor,initiative_provider,,"Catholi
 LEGAL SERVICES,Legal Services for the Working Poor,initiative_provider,,"Community Development Project, Inc.",,831441257,455000,,
 LEGAL SERVICES,Legal Services for the Working Poor,initiative_provider,,"Housing Conservation Coordinators, Inc.",,510141489,455000,,
 LEGAL SERVICES,Legal Services for the Working Poor,initiative_provider,,Make the Road New York,,113344389,47500,,
-LEGAL SERVICES,Legal Services for the Working Poor,member_item,Manhattan,Legal Services,,132613958,150000,,
+LEGAL SERVICES,Legal Services for the Working Poor,member_item,,Manhattan Legal Services,,132613958,150000,,
 LEGAL SERVICES,Legal Services for the Working Poor,initiative_provider,,"Mobilization for Justice, Inc.",,132622748,455000,,
 LEGAL SERVICES,Legal Services for the Working Poor,initiative_provider,,"New York City Gay and Lesbian Anti-Violence Project, Inc.",,133149200,47500,,
 LEGAL SERVICES,Legal Services for the Working Poor,initiative_provider,,Northern Manhattan Improvement Corporation,,132972415,455000,,
@@ -1124,7 +1124,7 @@ MENTAL HEALTH SERVICES,,initiative_provider,,"University Settlement Society of N
 MENTAL HEALTH SERVICES,,initiative_provider,,"Yaldeinu School, Inc.",,263373908,55000,,
 MENTAL HEALTH SERVICES,,initiative_provider,,"Young Adult Institute, Inc.",,112030172,145000,,
 MENTAL HEALTH SERVICES,,initiative_provider,,Young Men's and Young Women's Hebrew Association of Washington Heights and Inwood,,131635308,50000,,
-MENTAL HEALTH SERVICES,,member_item,Brooklyn,Queens Conservatory of Music,,111532426,65000,,
+MENTAL HEALTH SERVICES,,member_item,,Brooklyn Queens Conservatory of Music,,111532426,65000,,
 MENTAL HEALTH SERVICES,,initiative_provider,,"Dominican Women's Development Center, Inc.",,133593885,35000,,
 MENTAL HEALTH SERVICES,,initiative_provider,,Good Shepherd Services,,135598710,85000,,
 MENTAL HEALTH SERVICES,,initiative_provider,,"Greenwich House, Inc.",,135562204,85000,,
@@ -1193,13 +1193,13 @@ HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Grand Street Settl
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Greenwich House, Inc.",,135562204,80384,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Hamilton-Madison House, Inc.",,135562412,80384,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,Henry Street Settlement,,131562242,80384,,
-HEALTH SERVICES,Geriatric Mental Health,member_item,Hudson,Guild,,135562989,100000,,
+HEALTH SERVICES,Geriatric Mental Health,member_item,,Hudson Guild,,135562989,100000,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"India Home, Inc.",,208747291,80384,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Korean Community Services of Metropolitan New York, Inc.",,237348989,80384,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Lenox Hill Neighborhood House, Inc.",,131628180,100000,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Lincoln Center for the Performing Arts, Inc.",,131847137,100000,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Mosholu-Montefiore Community Center, Inc.",,133622107,80384,,
-HEALTH SERVICES,Geriatric Mental Health,member_item,Queens,"Community House, Inc.",,112375583,80384,,
+HEALTH SERVICES,Geriatric Mental Health,member_item,,"Queens Community House, Inc.",,112375583,80384,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Riverdale Mental Health Association, Inc.",,131930700,131636,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Riverdale Senior Services, Inc.",,237357997,135638,,
 HEALTH SERVICES,Geriatric Mental Health,initiative_provider,,"Riverstone Senior Life Services, Inc.",,133355074,100000,,
@@ -1278,7 +1278,7 @@ SENIOR SERVICES,Elie Wiesel Holocaust Survivors,initiative_provider,,"Ohel Child
 SENIOR SERVICES,Elie Wiesel Holocaust Survivors,initiative_provider,,"Pesach Tikvah Hope Development, Inc.",,112642641,194100,,
 SENIOR SERVICES,Elie Wiesel Holocaust Survivors,initiative_provider,,"Project Lead, Inc.",,133761446,55000,,
 SENIOR SERVICES,Elie Wiesel Holocaust Survivors,initiative_provider,,Project Witness,,113456787,50000,,
-SENIOR SERVICES,Elie Wiesel Holocaust Survivors,member_item,Queens,"Jewish Community Council, Inc.",,237172152,134000,,
+SENIOR SERVICES,Elie Wiesel Holocaust Survivors,member_item,,"Queens Jewish Community Council, Inc.",,237172152,134000,,
 SENIOR SERVICES,Elie Wiesel Holocaust Survivors,initiative_provider,,"Samuel Field YM & YWHA, Inc.",,113071518,134000,,
 SENIOR SERVICES,Elie Wiesel Holocaust Survivors,initiative_provider,,"Selfhelp Community Services, Inc.",,131624178,275000,,
 SENIOR SERVICES,Elie Wiesel Holocaust Survivors,initiative_provider,,"Shorefront Jewish Community Council, Inc.",,112986161,250100,,
@@ -1292,7 +1292,7 @@ SENIOR SERVICES,Information and Referral Services,initiative_provider,,"Council 
 SENIOR SERVICES,Information and Referral Services,initiative_provider,,Emerald Isle Immigration Center,,112932528,56132,,
 SENIOR SERVICES,Information and Referral Services,initiative_provider,,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,247765,,
 SENIOR SERVICES,Naturally Occurring Retirement Communities (NORCs),initiative_provider,,"New Partners, Inc.",,133885148,1810026,,
-SENIOR SERVICES,Senior Centers for Immigrant Populations,member_item,Brooklyn,"Chinese-American Association, Inc.",,113065859,150000,,
+SENIOR SERVICES,Senior Centers for Immigrant Populations,member_item,,"Brooklyn Chinese-American Association, Inc.",,113065859,150000,,
 SENIOR SERVICES,Senior Centers for Immigrant Populations,initiative_provider,,"Chinese American Planning Council, Inc.",,136202692,150000,,
 SENIOR SERVICES,Senior Centers for Immigrant Populations,initiative_provider,,"Council of Peoples Organization, Inc.",,753046891,150000,,
 SENIOR SERVICES,Senior Centers for Immigrant Populations,initiative_provider,,"Homecrest Community Services, Inc.",,113373115,150000,,
@@ -1315,15 +1315,15 @@ SENIOR SERVICES,Chamber on the Go and Small Business Assistance,initiative_provi
 SENIOR SERVICES,Chamber on the Go and Small Business Assistance,initiative_provider,,"Asian Americans For Equality, Inc.",,133187792,159859,,
 SENIOR SERVICES,Chamber on the Go and Small Business Assistance,initiative_provider,,Bedford Stuyvesant Restoration Corporation,,116083182,111295,,
 SENIOR SERVICES,Chamber on the Go and Small Business Assistance,initiative_provider,,Bronx Overall Economic Development Corporation,,133079387,86000,,
-SENIOR SERVICES,Chamber on the Go and Small Business Assistance,member_item,Brooklyn,"Alliance, Inc.",,112145956,351590,,
+SENIOR SERVICES,Chamber on the Go and Small Business Assistance,member_item,,"Brooklyn Alliance, Inc.",,112145956,351590,,
 SENIOR SERVICES,Chamber on the Go and Small Business Assistance,initiative_provider,,"Business Outreach Center Network, Inc.",,113306111,142912,,
 SENIOR SERVICES,Chamber on the Go and Small Business Assistance,initiative_provider,,"Caribbean American Chamber of Commerce and Industry, Inc.",,112903423,111927,,
 SENIOR SERVICES,Chamber on the Go and Small Business Assistance,initiative_provider,,"Chamber of Commerce Borough of Queens, Inc.",,110559220,304669,,
 SENIOR SERVICES,Chamber on the Go and Small Business Assistance,initiative_provider,,"Harlem Business Alliance, Inc.",,133591350,92324,,
-SENIOR SERVICES,Chamber on the Go and Small Business Assistance,member_item,Manhattan,Chamber of Commerce Foundation,,134016593,155559,,
+SENIOR SERVICES,Chamber on the Go and Small Business Assistance,member_item,,Manhattan Chamber of Commerce Foundation,,134016593,155559,,
 SENIOR SERVICES,Chamber on the Go and Small Business Assistance,initiative_provider,,"New Bronx Chamber of Commerce, The",,371443165,171874,,
 SENIOR SERVICES,Chamber on the Go and Small Business Assistance,initiative_provider,,"New York Women's Chamber of Commerce, Inc.",,141845651,117618,,
-SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,member_item,Queens,Economic Development Corporation,,112436149,86000,,
+SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,member_item,,Queens Economic Development Corporation,,112436149,86000,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,initiative_provider,,St. Nick's Alliance Corporation,,510192170,47933,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,initiative_provider,,"Urban Health Plan, Inc.",,237360305,47933,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,initiative_provider,,Urban Justice Center,,133442022,121862,,
@@ -1331,7 +1331,7 @@ SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,initiative_provider,,"East Ri
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,initiative_provider,,"Man Up, Inc.",,030553092,125000,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,initiative_provider,,New Immigrant Community Empowerment (NICE),,113560625,125000,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,initiative_provider,,Northern Manhattan Coalition for Immigrant Rights,,133255591,125000,,
-SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,member_item,Staten Island,"Community Job Center, Inc.",,472787706,125000,,
+SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,member_item,,"Staten Island Community Job Center, Inc.",,472787706,125000,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,initiative_provider,,Third Sector New England,,042261109,125000,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,initiative_provider,,"Renaissance Technical Institute, Inc.",,472048750,125000,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,,initiative_provider,,New Immigrant Community Empowerment (NICE),,113560625,1015000,,
@@ -1351,7 +1351,7 @@ SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,MWBE Leadership Associations,i
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,MWBE Leadership Associations,initiative_provider,,"Harlem Business Alliance, Inc.",,133591350,66450,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,MWBE Leadership Associations,initiative_provider,,"New Bronx Chamber of Commerce, The",,371443165,102375,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,MWBE Leadership Associations,initiative_provider,,"New York Women's Chamber of Commerce, Inc.",,141845651,100000,,
-SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,MWBE Leadership Associations,member_item,Queens,Economic Development Corporation,,112436149,80395,,
+SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,MWBE Leadership Associations,member_item,,Queens Economic Development Corporation,,112436149,80395,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,MWBE Leadership Associations,initiative_provider,,"Urban Health Plan, Inc.",,237360305,88855,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,MWBE Leadership Associations,initiative_provider,,West Brighton Community Local Development Corporation,,133046424,73070,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Worker Cooperative Business Development Initiative,initiative_provider,,City University of New York,,133893536,172470,,
@@ -1366,11 +1366,11 @@ SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Worker Cooperative Business De
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Worker Cooperative Business Development Initiative,initiative_provider,,"NYC NOWC, Inc.",,465245034,381775,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Worker Cooperative Business Development Initiative,initiative_provider,,Third Sector New England,,042261109,95000,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Worker Cooperative Business Development Initiative,initiative_provider,,"Working World, Inc.",,202264584,492170,,
-SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Five Borough Chamber Alliance,member_item,Brooklyn,"Alliance, Inc.",,112145956,125000,,
+SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Five Borough Chamber Alliance,member_item,,"Brooklyn Alliance, Inc.",,112145956,125000,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Five Borough Chamber Alliance,initiative_provider,,"Chamber of Commerce Borough of Queens, Inc.",,110559220,125000,,
-SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Five Borough Chamber Alliance,member_item,Manhattan,Chamber of Commerce Foundation,,134016593,125000,,
+SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Five Borough Chamber Alliance,member_item,,Manhattan Chamber of Commerce Foundation,,134016593,125000,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Five Borough Chamber Alliance,initiative_provider,,"New Bronx Chamber of Commerce, The",,371443165,62500,,
-SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Five Borough Chamber Alliance,member_item,Staten Island,"Chamber of Commerce Foundation, Inc.",,134069282,62500,,
+SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Five Borough Chamber Alliance,member_item,,"Staten Island Chamber of Commerce Foundation, Inc.",,134069282,62500,,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Bridge Program for Workforce Development,initiative_provider,,"Goodwill Industries of Greater New York and Northern New Jersey, Inc.",,131641068,1000000,,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Rivera,Ackerman Institute for the Family,Gender Conference NYC,131923959,50000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Adaptive Design Association, Inc.",,134170232,15000,DHMH,
@@ -1408,14 +1408,14 @@ SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"BRIC Art
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Bronx Arts Ensemble, Inc.",,510186869,30000,DCLA,To provide funding for Arts Education and Music Concerts in Council District 11.
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Stevens,"Bronx Health Link, Inc., The",,134045022,25000,DHMH,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Bronx River Alliance, Inc.",,753001587,75000,DPR,To support expenses and programming associated with the Bronx River House.
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Brooklyn,"Book Festival, Inc.",,465328190,30000,DCLA,
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Brooklyn,Botanic Garden Corporation,,112417338,89840,DCLA,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,,"Brooklyn Book Festival, Inc.",,465328190,30000,DCLA,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,,Brooklyn Botanic Garden Corporation,,112417338,89840,DCLA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Botanic Garden Corporation,,112417338,100000,DCLA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Brooklyn Center for the Arts, Inc.",,474160811,75000,DYCD,Funding to support arts programs for Pre-K to teens in Council District 35.
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"LGBT Brooklyn Community Pride Center, Inc.",,262214534,50000,DYCD,"Funding to support Trans Equity Programs, which provide social services to TGNC youth."
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Brooklyn,Kindergarten Society,The Sensory Gym,111631820,100000,DYCD,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,,Brooklyn Kindergarten Society,The Sensory Gym,111631820,100000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Legal Services Corporation A,,132605599,125000,DSS/HRA,
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Brooklyn,"Perinatal Network, Inc.",Infant Mortality Reduction Project,133428222,100000,DHMH,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,,"Brooklyn Perinatal Network, Inc.",Infant Mortality Reduction Project,133428222,100000,DHMH,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Public Library,NYC Reads,111904261,6750,BPL,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Brooklyn Youth Chorus Academy, Inc.",,113129249,20000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Brotherhood Sister Sol, Inc.",,133857387,150000,DYCD,Funding to support operations of a six-week Summer Day Camp for youth ages 8 to 12.
@@ -1573,9 +1573,9 @@ SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Literacy
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Literacy Partners, Inc.",,510180665,25000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Little Haiti BK, Inc.",,824710754,600000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Purpose of funds is for the development and operations of cultural and commercial programs such as: Public Art Projects; Arts presentation and cultural engagement events. Loisaida, Inc.",,133023183,100000,DYCD,To support Loisaida's media and arts programming and operations.
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Louis,Armstrong House Museum,Armstrong NOW!,264178283,200000,DCLA,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,,Louis Armstrong House Museum,Armstrong NOW!,264178283,200000,DCLA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,LSNY Bronx Corporation,Bronx Immigration Partnership,161759590,25000,DSS/HRA,
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Manhattan,College,"Holocaust, Genocide and Interfaith Education Center",131740468,50000,DYCD,"To provide funding support for the Holocaust, Genocide and Interfaith Education Center."
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,,Manhattan College,"Holocaust, Genocide and Interfaith Education Center",131740468,50000,DYCD,"To provide funding support for the Holocaust, Genocide and Interfaith Education Center."
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Ayala,"MASA-MexEd, Inc. d/b/a Masa",Community Education Workshops,113640210,50000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Masbia,,201923521,100000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Masbia of Queens,,270363356,50000,DYCD,
@@ -1648,10 +1648,10 @@ SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Project 
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,New York City Housing Authority,NYC Reads,136400434,6750,QBPL,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Botanical Garden Society, Inc.",,111635083,101256,DCLA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Botanical Garden Society, Inc.",,111635083,100000,DCLA,
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Queens,Economic Development Corporation,Financial Literacy for Small Business Growth,112436149,75000,SBS,
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Queens,Economic Development Corporation,Queens Together,112436149,15000,SBS,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,,Queens Economic Development Corporation,Financial Literacy for Small Business Growth,112436149,75000,SBS,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,,Queens Economic Development Corporation,Queens Together,112436149,15000,SBS,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Jewish Community Council, Inc.",,237172152,100000,DYCD,
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Queens,Law Associates Not-For-Profit Corporation,Queens Defenders Youth Mentoring Program,270364845,100000,DYCD,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,,Queens Law Associates Not-For-Profit Corporation,Queens Defenders Youth Mentoring Program,270364845,100000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Reach Out and Read of Greater New York, Inc.",NYC Reads,134080045,9000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Brannan,"Reaching Out Community Services, Inc.",,113615625,40000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Read Alliance, Inc.",NYC Reads,134091062,22500,DYCD,
@@ -1696,7 +1696,7 @@ SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Staten Is
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Staten Island Economic Development Corporation,,133706442,200000,SBS,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Staten Island Heart Society, The",,200269367,50000,DHMH,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Historical Society,,131985514,15000,DCLA,To provide funding support to beautify the grounds and programming.
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Staten Island,"Zoological Society, Inc.",,135680691,79500,DCLA,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,,"Staten Island Zoological Society, Inc.",,135680691,79500,DCLA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Staten Island Zoological Society, Inc.",,135680691,250000,DCLA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"STPCV Tenants Association Foundation, Inc.",,274554330,50000,HPD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"STRIVE International, Inc.",Strive Career Pathways Program,133255679,100000,SBS,To provide funding to support STRIVE's workforce development services.
