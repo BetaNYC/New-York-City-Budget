@@ -204,6 +204,13 @@ def main():
                 else:
                     unresolved.append((f, ln, ein, org))
 
+    if args.dry_run:
+        # Exit BEFORE writing the crosswalk. The crosswalk is the record of substitutions that
+        # were APPLIED; a dry run that wrote to it left phantom entries claiming edits the data
+        # never received, which broke the one guarantee the file exists to provide.
+        print("\n--dry-run: no CSV modified, crosswalk untouched")
+        return 0
+
     os.makedirs("data/combined", exist_ok=True)
     # The crosswalk is the audit trail for every substitution ever applied, so it must ACCUMULATE.
     # Re-running after an earlier pass would otherwise drop the earlier entries and leave those
@@ -233,9 +240,7 @@ def main():
         for f, ln, ein, amt, cands in ambiguous[:5]:
             print(f"  {ein} ${amt:,} -> {cands[:3]}")
 
-    if args.dry_run:
-        print("\n--dry-run: no CSV modified")
-        return 0
+
 
     by_file = {}
     for r in rows:

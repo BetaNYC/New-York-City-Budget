@@ -4,7 +4,7 @@
 **Data current as of:** 2026-08-12 (files under `data/`)  
 **Tool:** `code/validate_data.py`
 
-**Verdict:** PASS — 272 files, 0 hard failure(s), 438 soft advisory(ies).
+**Verdict:** PASS — 273 files, 0 hard failure(s), 440 soft advisory(ies).
 
 Severity: HARD (exit 1) = schema drift, malformed row, non-numeric amount, or malformed EIN. SOFT (exit 0) = zeros, sign anomalies, outliers, duplicates, column-bleed residuals, coverage notes. See the module docstring for the full check list and rationale.
 
@@ -56,6 +56,7 @@ Valid 9-digit EINs / total rows, per year and EIN-bearing doctype. Initiatives, 
 | FY2026 | transparency | 4755/4755 | 100.0% |
 | FY2027 | appendix | 3860/3860 | 100.0% |
 | FY2027 | awards | 6118/6118 | 100.0% |
+| FYNone | recovered_awards | 443/443 | 100.0% |
 
 ## Reconciliation roll-up
 
@@ -383,6 +384,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | `fy27/schedule_c/fy27_schedule_c_awards.csv` | 6118 | 100% | 0 | duplicate: 33 duplicate row instance(s); e.g. x2: ['Cultural Organizations', 'Cultural After-School Adventure (CASA)', 'member_item', 'Abreu']...; column_bleed: 16 suspected surname-in-program residual(s); e.g. line 203: 'Louis Armstrong Houses TA Association'; org_prose: 2 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 5651: 'The funds will support operational costs, and activities/pro' |
 | `fy27/schedule_c/fy27_schedule_c_initiatives.csv` | 170 | — | 0 | — |
 | `fy27/terms/fy27_terms_and_conditions.csv` | 75 | — | 0 | — |
+| `recovered/schedule_c_absorbed_awards.csv` | 443 | 100% | 0 | duplicate: 6 duplicate row instance(s); e.g. x2: ['2017', 'HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 18: 'Hudson Guild' |
 
 ### Notes on the soft heuristics
 

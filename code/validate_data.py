@@ -106,6 +106,17 @@ TYPES = {
         ein="ein", amounts=["amount"], rule="transparency", year_col="fiscal_year",
         text_cols=["organization", "program"], member_col="council_member",
         embeds_prior_years=True),
+    "recovered_awards": dict(
+        # Sidecar: awards the Schedule C parser absorbed into a neighbouring row and lost
+        # (DATA-ANOMALIES.md §20). Deliberately NOT merged into the per-year CSVs — these carry
+        # provenance columns the per-year schema has no place for, and nothing already published
+        # should move. Built by code/build_recovered_awards.py.
+        cols=["fiscal_year", "category", "initiative", "award_type", "member", "organization",
+              "program", "ein", "amount", "agency", "purpose", "confidence", "name_source",
+              "absorbed_from_file", "absorbed_from_line", "absorbed_from_ein",
+              "disclosure_confirmed"],
+        ein="ein", amounts=["amount"], rule="positive", year_col="fiscal_year",
+        text_cols=["organization", "program"]),
     "capital": dict(
         cols=["part", "agency", "budget_line", "sub_id", "boro", "fy1", "fy2", "fy3",
               "fy4", "sponsor", "title", "building_code", "school_code"],
@@ -162,6 +173,8 @@ def detect_type(path):
         return "transparency"
     if re.match(r"reso\d+_transparency_designations\.csv$", b):
         return "transparency_reso"
+    if b == "schedule_c_absorbed_awards.csv":
+        return "recovered_awards"
     if b.endswith("_capital_projects.csv"):
         return "capital"
     return None
