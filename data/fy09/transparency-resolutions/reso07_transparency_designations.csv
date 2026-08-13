@@ -1,0 +1,349 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+7,2009-04-22,,2009,rescind,,BX-Baez,"Alliance for Community Services, Inc.",,133995154,-11500,DYCD,260,312,,*
+7,2009-04-22,,2009,designate,,BX-Baez,Bronx Community Board #4,,136400434,3500,BXCB,384,002,,ocr:lowconf
+7,2009-04-22,,2009,designate,,BX-Baez,Bronx Community Board #5,,136400434,4500,BXCB,385,002,,ocr:lowconf
+7,2009-04-22,,2009,designate,,BX-Baez,Bronx Community Board #8,,136400434,3500,BXCB,388,002,,
+7,2009-04-22,,2009,rescind,,Baez,46th Precinct Community Council,,,-15000,DYCD,260,312,,ocr:ein;ocr:lowconf
+7,2009-04-22,,2009,rescind,,Baez,"Enact, Inc.",,133422660,-5000,DCA,126,003,,
+7,2009-04-22,,2009,rescind,,Baez,"Little Sheppard's Community Center, Inc.",,133608977,-10000,DYCD,260,312,,*;ocr:lowconf
+7,2009-04-22,,2009,rescind,,Baez,Love Gospel Assembly,,133062521,-10000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Baez,"Brain Tumor Foundation, The",,134009829,5000,DOHMH,816,113,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Baez,"Citizens Advice Bureau, Inc., The East Concourse Senior Center",,133254484,5000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Baez,"Citizens Advice Bureau, Inc., The Morris Senior Center",,133254484,5500,DFTA,125,003,,
+7,2009-04-22,,2009,designate,,Baez,"Midtown Management Group, inc., The Inside Broadway",,133192793,10000,DCA,126,003,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Baez,"Positive Workforce, Inc.",,133459199,9500,DSBS,801,002,,*
+7,2009-04-22,,2009,designate,,Baez,"Regional Aid for Interim Needs, Inc.",Bailey Senior Center,136213586,5000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Gerson,"Battery Park City Community Emergency Response Team, Inc.",,562473707,-3000,OEM,017,002,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Gerson,Chinatown Community Emergency Response Team,,841718656,1500,OEM,017,002,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Gerson,Tribeca Community Emergency Response Team,,260260476,1500,OEM,017,002,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Recchia,S.P.A.R.E. Inc.,,680546091,-10000,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Recchia,St. Rosalia- Regina Pacis Neighborhood Improvement Association,,112697931,10000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Lappin,Roosevelt Island Historical Society,,131038935,-5000,DYCD,260,005,,
+7,2009-04-22,,2009,designate,,Lappin,Roosevelt Island Historical Society,,133018935,5000,DYCD,260,005,,
+7,2009-04-22,,2009,rescind,,Viverito,Connecting to Advantages,,,-5000,DSS,069,105,,ocr:ein;ocr:lowconf
+7,2009-04-22,,2009,designate,,Viverito,"Cooper Square Community Development Committee and Businessmen's Association, Inc.",,132666211,5000,DSS,069,105,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,"CC-Felder, Weprin",Otsar Family Services,,112061112,-10000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,"CC-Felder, Weprin",Otsar Family Services,,112601112,10000,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,Barron,Latin Souls Little League Basebali,,112862821,-6500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Barron,Latin Souls Littie League Baseball,,112862824,6500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Fidler,Flatbush Park. Jewish Center,,119169900,-3000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Fidler,Flatbush Park Jewish Center,,119169900,-3500,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Fidier,Flatbush Park Jewish Center,,111969900,3000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Fidler,Flatbush Park Jewish Center,,111969900,3500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,McMahon,Staten Island Liberian Community Association,,383685524,-10000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,McMahon,Staten Island Liberian Community Association,,133936101,10000,DYCD,260,005,,ocr:lowconf;ocr:cellspan
+7,2009-04-22,,2009,rescind,,"Vallone, Jr",Trinity Lutheran Church,,111666773,-5000,DYCD,260,1005,,ocr:code;ocr:lowconf
+7,2009-04-22,,2009,designate,,"Vallone, Jr",Trinity Lutheran Church,,111667773,5000,DYCD,260,005,,
+7,2009-04-22,,2009,rescind,,Foster,Highbridge Community Neighborhood Council,,800113136,-500,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Foster,More Garden! Fund,,522415900,-1000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Foster,Morrisania Concerned Citizens Jackson Forest Garden,,342011905,-2500,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Foster,Truth In Action Coalition,,450559697,-500,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Foster,"Alianza Dominicana, Inc.",,133402057,4500,DYCD,260,005,,
+7,2009-04-22,,2009,rescind,,"Sanders, Jr",Bnois Bais Yaakov,,113320788,-4000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,"Sanders, Jr",Bnois Bais Yaakov,,113220788,4000,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,Comrie,Grace Church Group,,111639812,-5000,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Comrie,Grace Episcopal Church,,111639811,5000,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,"Sanders, Jr",Springfield Gardens United Methodist Church,,112113170,-7500,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,"Sanders, Jr",Springfield Gardens United Methodist Church,,112161877,7500,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,McMahon,Preservation League of Staten Island,,130300486,-5000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,McMahon,Preservation League of Staten Island,,133000468,5000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Arroyo,St. Jerome's HANDS Community Center,,131740204,-10000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Arroyo,St. Jerome's HANDS Community Center,,800247898,10000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,James,"Lincoln Civic Block Association, Inc",,116268175,-3500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,James,"Lincoln Civic Block Association, Inc",,116268107,3500,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,McMahon,New Lane Shores Tenant Association,,136400434,-2500,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,designate,,McMahon,New Lane Shores Tenant Association,,331169339,2500,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Oddo,"Staten Isiand Supports Our Soldiers, Inc.",,870759987,-1000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Oddo,St. Finbar's Golden Age Club,,111631812,-3500,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Oddo,Central Family Life Center,,133626127,-11500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Oddo,Lady Tigers Fast Pitch Softball,,260211482,-1000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Oddo,"Meals on Wheels of Staten Island, Inc.",,132894978,3500,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Oddo,Grace Foundation of New York,,134131863,8500,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Oddo,Boy Scouts of America,Greater New York Council,131624015,5000,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,Barron,"Hudsonic Showstopper Production, Org.",,113196374,-4000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Barron,"Code Foundation, Inc., The",,113301309,4000,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,Recchia,St. Finbar's Golden Age Club,,111631812,-5000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Recchia,"BrooklynArts Counci, Inc.",,237072915,5000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,McMahon,Stapleton Union American Methodist Episcopal Church,,133870800,-3500,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,McMahon,Stapleton,Union American Methodist Episcopal Church,133870800,-7500,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Mitchell,Community Health Action of Staten Island (formerly SI Aids Taskforce),,133556132,3500,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Mitchell,"BrooklynArts Council, Inc.",,237072915,2500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Mitchell,Staten Island Children's Museum,,237379930,5000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Monserrate,Etemal Love Baptist Church,,EX212023,-10000,DYCD,260,005,,*;ocr:ein;ocr:lowconf
+7,2009-04-22,,2009,designate,,Ferraras,82nd Street Academics,,200788352,10000,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,Seabrook,"Bridgefield Civic League, Inc.",,237410608,-15000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Seabrook,"Unity Neighborhood Center, Inc.",,134085654,15000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Oddo,"American-litalian Coalition of Organizations, Inc. (AMICO)",,112488439,-3500,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Recchia,"American-Italian Coalition of Organizations, Inc. (AMICO) Extended Services Program",,112488439,-20000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Oddo,"American-Italian Coalition of Organizations, Inc. (AMICO)",,112649513,3500,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Recchia,"American-lItalian Coalition of Organizations, Inc. (AMICO)- Extended Services Program",,112649513,20000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Comrie,Bruce Bishop's Developmental Basketball Camp,,820559599,-5000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Comrie,Jamaica Maroons Soccer League,,113541665,-5000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Comrie,Black Spectrum Theatre,,510135262,5000,DCA,126,003,,
+7,2009-04-22,,2009,designate,,Comrie,York College Performing. Arts Center,,112982841,5000,CUNY,042,001,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Dickens,Kings' Court 139th Street Block Association,,133686769,-20000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Dickens,Committee for a Better Harlem,,200237779,-5000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Dickens,Westsiders For Responsible Development,,203046724,-3500,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Dickens,131 Saint Nicholas Avenue Tenant's League,,133513113,2000,MISC,098,002,,
+7,2009-04-22,,2009,designate,,Dickens,Abraham Lincoin Development Corp,,753260950,2500,MISC,098,002,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Dickens,"Colonial Park Senior Citizens, Inc.",,421740315,2000,MISC,098,002,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Dickens,"Jackie Robinson Tenant's Association, Inc.",,133420375,6000,MISC,098,002,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Dickens,Polo Grounds Tenants,,136400434,6000,MISC,098,002,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Dickens,Rev. Dr. Martin Luther King Towers,,133948597,2000,MISC,098,002,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Dickens,St. Nicholas Houses Residents Association,,134207136,6000,MISC,098,002,,
+7,2009-04-22,,2009,designate,,Dickens,"Taft Tenants Organization, Inc.",,133123843,2000,MISC,098,002,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Addabbo,"Rockaway Music and Arts Council, Inc.",,237082566,-4500,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Ulrich,Bobbie and the Strays,,112444285,4500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Gennaro,"75th Avenue Playground Volunteer Group, Inc.",,113243561,-5000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Gennaro,"Child Center of New York, Inc., The",,111733454,5000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Brooklyn Del.,Ark of Christ Mission,,113211580,-16875,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Brooklyn Del.,"National Black Leadership Commission on AIDS, Inc.",,133530740,16875,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,"CC- DeBlasio, Stewart, Fidler, Eugene",Brooklyn Center for the Urban Environment,,112698671,-35000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,CC-Comrie,"Police Athletic League, Inc. Foster Laurie Senior Center",,135596811,15000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,,2009,designate,,CC-Arroyo,"Little League Raiders Baseball, Inc.",,421610657,5000,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,CC-Recchia,City Parks Foundation,,133561657,15000,DPR,846,006,,
+7,2009-04-22,,2009,rescind,,"Sanders, Jr- QN",Metropolitan Eagles Sports Club,,113110973,-4850,DYCD,260,312,,*;ocr:lowconf
+7,2009-04-22,,2009,designate,,"Sanders, Jr- QN","Southern Queens Park Association, Inc.",,112432846,4850,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,"Sanders, Jr",Mount Carmel Baptist Church,,012400734,-3500,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,"Sanders, Jr","Samaritans Outreach Ministries, Inc.",,113283859,3500,DYCD,260,312,,*;ocr:lowconf
+7,2009-04-22,,2009,rescind,,Baez,"Little Sheppard's Community Center, Inc.",,133608977,-20000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Baez,Love Gospel Assembly,,133062521,-20000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Baez,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,15000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Baez,"Enact, Inc.",,133422660,9500,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Baez,"Common Cents New York, Inc.",,133613229,5000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Baez,"Committee for Hispanic Children and Families, Inc.,",,112622003,7214,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Baez,"Chess-in- -the-Schools, Inc.",,136119036,5000,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Baez,"Tolentine-Zeiser Community Life Center, inc.",,133131888,10000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Baez,"Real World Foundation, Inc.",,571147217,5000,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Baez,"Midori Foundation, Inc., The (d/bla Midori and Friends)",,133682472,10000,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Baez,"Rocking the Boat, Inc.",,134177814,10000,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Baez,"Kingsbridge Heights Community Center, Inc.",,132813809,5000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Baez,"Mount Hope Housing Company, inc., The",,133419970,10000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Como,"Middle Village Baseball/Softball Camp, Inc.",,760818061,-3500,DYCD,260,312,,*;ocr:lowconf
+7,2009-04-22,,2009,designate,,Crowley,"Maspeth Town Hall, Inc.",,237259702,3500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Lappin,"Lenox Hil Neighborhood House, Inc.",,131628180,-13000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Lappin,New York Center for Children,,954502444,13000,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,Nelson,"Mercaz Gan Yisroel Center, Inc. of Flatbush",,200222173,-5000,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Nelson,"Mercaz Gan Yisroel Center, Inc. of Flatbush",,200222703,5000,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,Nelson,Masores Bais Yaakov,,132902382,-10000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Nelson,Masores Bais Yaakov,,112902382,10000,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,DeBlasio,East Brooklyn Day Care Center,,112266621,-5000,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,DeBlasio,East Brooklyn Day Care Center,,112266221,5000,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,Monserrate,East Elmhurst Day Care,,112258437,-3500,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Monserrate,East Elmhurst Day Care,,112250437,3500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,"Sanders, Jr","Ralph's Educational and Recreational Computer Services, Inc.",,743178604,-3500,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,"Sanders, Jr","Ralph's Educational and Recreational Computer Services, Inc.",,743178406,3500,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,DeBlasio,Bais Kav Tziporah,,113394116,-5000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,DeBlasio,Bais Kav Tziporah,,133044171,5000,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,"Sanders, Jr",Battalion Pentecostal,,113548121,-10000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,"Sanders, Jr","Battalion Pentecostal, Assembly",,364391337,10000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Dickens,African Diaspora Film Festival,,243058513,-3500,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Dickens,African Diaspora Film Festival,,743058513,3500,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,Gerson,Myanmar Chinese Association of New York,,133733064,-4000,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Gerson,Myanmar Chinese Association of New York,,133933064,4000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Barron,"Unity int the Community Sports Foundation, Inc.",,582532536,-40000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Barron,"East New York Kidspower, Inc.",,113308030,10000,DYCD,260,312,,
+7,2009-04-22,,2009,designate,,Barron,"Code Foundation, Inc., The",,113301309,30000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Monserrate,Eternal Love Baptist Church,,EX212023,-10000,DYCD,260,312,,ocr:ein;ocr:lowconf
+7,2009-04-22,,2009,designate,,Ferraras,"First Baptist Church of Corona NY, Inc.",,311767167,10000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Monserrate,Jackson Heights Early Learning Center,,270141264,-3500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Ferraras,"Centro Comunal Hermanos Unidos De Queens, Inc",,262484175,3500,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,Monserrate,La Javilla Little League,,202726950,-3500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Ferraras,Reconstruct/ Art,,204617044,3500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Seabrook,Bronx Renaissance Community Theater,,134180117,-15000,DYCD,260,312,,*;ocr:lowconf
+7,2009-04-22,,2009,designate,,Seabrook,"Unity Neighborhood Center, Inc.",,134085654,15000,DYCD,260,312,,
+7,2009-04-22,,2009,rescind,,Gentile,Fourth Avenue Presbyterian Church/The Children's Community Chorus,,112693994,-3500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Gentile,Fourth Avenue Presbyterian Church/The Children's Community Chorus,,112693994,3500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Monserrate,"Garden School, Inc.",,111631783,-5000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Monserrate,"Garden School, Inc. Jackson Heights Poetry Festival",,111631783,-3500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Ferraras,"Helping Our Guys and Giris Succeed, Inc.",,112202969,5000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Ferraras,"Learning Tree Mulit-Cultural Center, The",,113381237,3500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Avella,St. Andrew Avellino School,,112203300,-5000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Avella,Think Quest NYC,,134064247,5000,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Gennaro,Kehilat Sephardim of Ahavat Achim,,113101774,-7500,DYCD,260,312,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Gennaro,"Child Center of New York, Inc., The",,111733454,7500,DYCD,260,312,,ocr:cellspan
+7,2009-04-22,,2009,rescind,,Brooklyn,Church of God of East Flatbush,,112939346,-25000,DYCD,260,005,,*
+7,2009-04-22,,2009,designate,,Brooklyn,Friends of Crown Heights Educational Center,,112305641,25000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Queens,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,-7500,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Brooklyn,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,-21000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Queens,Flushing Jewish Community Council,,112669559,7500,DYCD,260,005,,**;ocr:lowconf
+7,2009-04-22,,2009,designate,,Brooklyn,"Edith and Carl Marks Jewish Community. House of Bensonhurst""",,111633484,15000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,Brooklyn,United Jewish Organizations (UJO) of Williamsburg,,112728233,6000,DYCD,260,005,,**;ocr:lowconf
+7,2009-04-22,,2009,designate,,Brooklyn,Church Avenue Merchants Block Association (CAMBA),,112480339,30000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Staten Island,Central Family Life Center,,133626127,-25000,DYCD,260,005,,*
+7,2009-04-22,,2009,designate,,Staten Island,St. Stanislaus Kostka Church,,135564133,25000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Dilan,St. Rita's Roman Catholic Church,,111711002,-75000,MISC,098,002,,*;ocr:lowconf
+7,2009-04-22,,2009,designate,,Dilan,District Attorney-Brooklyn,,136400434,75000,MISC,098,002,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Mealy,Brownsville Community Development Corporation (d/bla BMS Family Health Center) (BMSFHC),,112544630,-18750,MISC,098,002,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Mealy,"Jericho Road, Inc.",,113463615,-18750,MISC,098,002,,*;ocr:lowconf
+7,2009-04-22,,2009,designate,,Mealy,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,37500,MISC,098,002,,
+7,2009-04-22,,2009,rescind,,McMahon,El Centro de Hospitalidad,,133234441,-26250,MISC,098,002,,ocr:lowconf
+7,2009-04-22,,2009,designate,,McMahon,El Centro de Hospitalidad,,134178608,26250,MISC,098,002,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,Brooklyn,"Flatbush Haitian Center, Inc.",,112758014,-10000,DYCD,260,005,,**;ocr:lowconf
+7,2009-04-22,,2009,designate,,Brooklyn,"Council of Peoples Organization""",,753046891,10000,DYCD,260,005,,*;ocr:lowconf
+7,2009-04-22,,2009,designate,,Queens,"Centro Hispano Cuzcatlan, Inc.",,113559496,,DYCD,260,005,,*;ocr:amt;ocr:lowconf
+7,2009-04-22,,2009,designate,,Queens,"Central Queens YM & YWHA, Inc.",,111633509,,DYCD,260,005,,ocr:amt;ocr:lowconf
+7,2009-04-22,,2009,designate,,Queens,"Jacob A. Riis Neighborhood Settiement House, Inc.",,111729398,,DYCD,260,005,,ocr:amt;ocr:lowconf
+7,2009-04-22,,2009,designate,,Queens,New Immigrant Community Empowerment (NICE),,113560625,,DYCD,260,005,,ocr:amt;ocr:lowconf
+7,2009-04-22,,2009,designate,,Queens,"Southern Queens Park Association, Inc.",,112432846,,DYCD,260,005,,ocr:amt;ocr:lowconf
+7,2009-04-22,,2009,designate,,,Advent Lutheran Church,,,,DYCD,260,005,,ocr:ein;ocr:amt;ocr:lowconf
+7,2009-04-22,,2009,designate,,,Evangelical Lutheran Church of the Advent,,131635264,5000,DYCD,260,005,,
+7,2009-04-22,,2009,rescind,,,Bethel SHARING Ministries,,112500161,-10000,DYCD,260,005,,
+7,2009-04-22,,2009,designate,,,Bethel Seventh Day Adventist Church,,112500161,10000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,Eben-Ezer Haitian Baptist Church,,,-10000,DYCD,260,005,,ocr:ein
+7,2009-04-22,,2009,designate,,,Eben-Ezer Haitian Baptist Church,,112811215,10000,DYCD,260,005,,
+7,2009-04-22,,2009,rescind,,,Iglesia Pentecostal Arca De Salvation,,,-10000,DYCD,260,005,,ocr:ein;ocr:lowconf
+7,2009-04-22,,2009,designate,,,Iglesia Pentecostal Arca De Salvation,,113260467,10000,DYCD,260,005,,
+7,2009-04-22,,2009,rescind,,,Mariners' Temple Baptist Church,,132694850,-5000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,,Mariners' Temple Baptist Church,,112694850,5000,DYCD,260,005,,
+7,2009-04-22,,2009,rescind,,,Price Memorial Baptist Church,,,-5000,DYCD,260,005,,ocr:ein;ocr:lowconf
+7,2009-04-22,,2009,designate,,,Price Memorial Baptist Church,,311762555,5000,DYCD,260,005,,
+7,2009-04-22,,2009,rescind,,,Project ORE,,,-5000,DYCD,260,005,,ocr:ein
+7,2009-04-22,,2009,designate,,,Educational Alliance,,135562210,5000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,Queen of All Saints Church/Fort Greene Food Pantry,,,-10000,DYCD,260,005,,ocr:ein;ocr:lowconf
+7,2009-04-22,,2009,designate,,,Queen of All Saints Church/Fort Greene Food Pantry,,111657620,10000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,St. Mary's Episcopal Church,,111672802,-10000,DYCD,260,005,,
+7,2009-04-22,,2009,designate,,,St. Mary's Episcopal Church,,760424498,10000,DYCD,260,005,,
+7,2009-04-22,,2009,rescind,,,St. Theresa of Avila,,113596619,-10000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,,St. Theresa of Avila Human Services,,111667624,10000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,Stratford Arms Community Council,,133923013,-5000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,,Stafford Arms Meals Program,,900140023,5000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,Zion Shiloh Baptist Church,,,-10000,DYCD,260,005,,ocr:ein
+7,2009-04-22,,2009,designate,,,Zion Shiloh Baptist Church,,112419185,10000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,Zion Temple Apostolic Faith for all People,,112911165,-5000,DYCD,260,005,,
+7,2009-04-22,,2009,designate,,,New Day Christian Fellowship Church of Apolistic Faith,,112383972,5000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,Hanson Place Seventh Day Adventist Church,Community Service Pantry,113260387,-10000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,Hanson Place Seventh Day Adventist Church,Community Service Food Kitchen,113260387,-10000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,New Life Tabernacle Church,,113168615,-10000,DYCD,260,005,,ocr:lowconf
+7,2009-04-22,,2009,designate,,,Child Development Support Corporation,,112395258,30000,DYCD,260,005,,
+7,2009-04-22,,2009,rescind,,,"National Black Leadership Commission on AIDS, Inc. AIDS Center of Queens County, Inc.",,133530740,-12944,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,"National Black Leadership Commission on AIDS, Inc. Staten Island HIVIAIDS Care Network",,133530740,-6472,"DOHMH,",816,112,,ocr:agency;ocr:lowconf
+7,2009-04-22,,2009,rescind,,,"National Black Leadership Commission on AIDS, Inc.",Young Women of Color HIVIAIDS Coalition,133530740,-32360,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,designate,,,"National Black Leadership Commission on AIDS, Inc. Caribbean Women's Health Association",,133530740,3236,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,designate,,,"National Black Leadership Commission on AIDS, Inc.",JAFASI,133530740,3236,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,designate,,,Womens HIV Collaborative of New York,,203115379,45304,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,"Latino Commision on AIDS, Inc.",Beulah Baptist Church,133629446,-6472,DOHMHI,816,112,,ocr:agency;ocr:lowconf
+7,2009-04-22,,2009,rescind,,,"Latino Commision on AIDS, Inc. Coney Island Cathedral",,133629446,-6472,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,"Latino Commision on AIDS, Inc. First Calvary Baptist",,133629446,-6472,DOHMHI,816,112,,ocr:agency;ocr:lowconf
+7,2009-04-22,,2009,rescind,,,"Latino Commision on AIDS, Inc. Grace Baptist Church",,133629446,-6472,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,"Latino Commision on AIDS, Inc. Mosque of Islam Brotherhood",,133629446,-6472,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,"Latino Commision on AIDS, Inc.",Pilgrim Cathedral of Harlem/500,133629446,-6472,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,"Latino Commision on AIDS, Inc. St. Albans Congregational Church",,133629446,-6472,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,rescind,,,"Latino Commision on AIDS, Inc.",United Community Baptist Church,133629446,-6472,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,designate,,,"National Black Leadership Commision on AIDS, Inc.",Beulah Baptist Church,133629446,6472,DOHMH,816,112,,
+7,2009-04-22,,2009,designate,,,"National Black Leadership Commision on AIDS, Inc.",First Calvary Baptist,133629446,6472,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,designate,,,"National Black Leadership Commision on AIDS, Inc. Grace Baptist Church",,133629446,6472,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,designate,,,"National Black Leadership Commision on AIDS, Inc. Mosque of Islam Brotherhood",,133629446,1472,DOHMH!,816,112,,ocr:agency;ocr:lowconf
+7,2009-04-22,,2009,designate,,,"National Black Leadership Commision on AIDS, Inc.",Pilgrim Cathedral of Harlem/50D,133629446,6472,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,designate,,,"National Black Leadership Commision on AIDS, Inc. St. Albans Congregational Church",,133629446,6472,DOHMHI,816,112,,ocr:agency;ocr:lowconf
+7,2009-04-22,,2009,designate,,,"National Black Leadership Commision on AIDS, Inc. United Community Baptist Church",,133629446,6472,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,,2009,designate,,,"National Black Leadership Commission on AIDS, Inc.",,133629446,11472,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,"Infant Mortality Reduction UIA Number Agency # Status (Council, MOC, etc.) EIN Amount Agy Organization *",2009,designate,,,Visiting Nurse Service of New York,,133189926,,DOHMH,816,113,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Infant Mortality Reduction UIA Number Agency # Status (Council, MOC, etc.) EIN Amount Agy Organization *",2009,designate,,,"Visiting Nurse Service of New York Home Care, Inc.",,131624211,,DOHMH,816,113,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Infant Mortality Reduction UIA Number Agency # Status (Council, MOC, etc.) EIN Amount Agy Organization *",2009,designate,,,New Dimensions in Care,,113387105,,DOHMH,816,113,,ocr:amt
+7,2009-04-22,"Infant Mortality Reduction UIA Number Agency # Status (Council, MOC, etc.) EIN Amount Agy Organization *",2009,designate,,,Bronx Health Link,,134045022,,DOHMH,816,113,,ocr:amt
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Visiting Nurse Service of New York,,133189926,,DOHMHI,816,120,,ocr:amt;ocr:agency;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Visiting Nurse Service of New York Home Care, Inc.",,131624211,95000,DOHMH,816,120,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,Fordham-Tremont Community Mental Health Center,,131740122,-95000,DOHMH,816,120,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,St. Barnabas Hospital,,131740122,95000,DOHMH,816,120,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,"Manhattan Valley Golden Age Senior Center, Inc.",,132751935,-27000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,"Sephardic Multi Service Senior Citizens Center, Inc.",,112301220,-4000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Institute for the Puerto Rican/Hispanic Elderly, Inc.",Corona Senior Center,132987263,31000,DFTA,125,003,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,Southeast Queens Multiservice Senior Center,Howard Beach,237187548,-4202,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Southeast Queens Multiservice Senior Citizens Center, inc.",Howard Beach,237287548,4202,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Police Athletic League, Inc. Foster Laurie Senior Center",,135596811,,DFTA,125,003,,ocr:amt
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Police Athletic League, Inc.",Foster Laurie Senior Center,135596811,,DFTA,125,003,,ocr:amt
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,Southeast Queens Multiservice Senior Center,Howard Beach Senior Center,237187548,-30000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Southeast Queens Multiservice Senior Citizens Center, Inc.",Howard Beach Senior Center,237287548,30000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,"American-ltalian Coalition of Organizations, Inc. (AMICO)",,112488439,-30000,DFTA,125,003,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"American-ltalian Coalition of Organizations, Inc. (AMICO)",,112649513,30000,DFTA,125,003,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,Harlem Hospital Center,Hip Hop Stroke Program,133092676,-250000,DOHMH,816,113,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,Lincoln Medical and Mental Health Center,,133040671,-50000,DOHMH,816,113,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,Queens Hospital Center,,132655001,-50000,DOHMH,816,113,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Harlem Hospital Center,Hip Hop Stroke Program,133092676,250000,HHC,819,001,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Lincoln Medical and Mental Health Center,,133040671,50000,HHC,819,001,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Queens Hospital Center,,132655001,50000,HHC,819,001,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,rescind,,,Upper Manhattan Council Assisting Neighbors,,134042093,-11637,HPD,806,009,,*;ocr:lowconf;ocr:cellspan
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Bronx Heights Neighborhood Community Corporation,,132883903,,HPD,806,009,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Community League of the Heights, Inc.",,132564241,11637,HPD,806,009,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Belmont Arthur Avenue Local Development Organization,,133020589,,HPD,806,009,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Bronx,"Bronx Community Pride Center, Inc.",,061552851,48540,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Bronx,"New York Harm Reduction Educators, inc.",,133678499,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Bronx,"Vocational Instruction Project Community Services, Inc.",,133224700,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Bronx,"Bronx Addiction Services Integrated Concepts Systems, Inc. (BASICS)",,133244626,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Bronx,"Osborne Association, Inc., The",,135563028,,DOHMH,816,112,,ocr:amt
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Bronx,"Health People, Inc.",,510418243,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,"Bedford Stuyvesant Family Health Center, Inc.",,112412205,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,Make the Road New York,,113344389,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,"Amethyst Women's Project, Inc.",,113505513,,DOHMH,816,112,,ocr:amt
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,Housing Works Health Services II,,133818122,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,"After Hours Project, Inc.",,331007278,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,"Brooklyn AIDS Task Force, Inc.",,113031208,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,"Discipleship Outreach Ministries, Inc. (Turning Point)",,112838138,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,"Caribbean Women's Health Association, Inc.",,133323168,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,"Life Force: Women Fighting AIDS, Inc.",,113060772,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,"Haitian Centers Council, Inc.",,112648501,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,Covenant House New York/Under 21 Inc.,,133076376,48540,DOHMH,816,112,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,Ali Forney Center,,300104507,48540,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,"Gay Men's Health Crisis, Inc.",,133130146,48540,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,"AIDS Service Center of Lower Manhattan, Inc.",,133562071,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,"Bailey House, Inc.",,133165181,,DOHMH,816,112,,ocr:amt
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,"HELP/PSI, Inc.",,133464470,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,African Services Committee,,133749744,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,"Community Healthcare Network, Inc.",,133083068,,DOHMH!,816,112,,ocr:amt;ocr:agency;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,"Asian & Pacific Islander Coalition on HIVIAIDS, Inc.",,133706365,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,"Latino Commision on AIDS, Inc.",,133629466,,DOHMHI,816,112,,ocr:amt;ocr:agency;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,"Momentum Project, Inc., The",,133556768,,DOHMH:,816,112,,ocr:amt;ocr:agency;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,"Community Research Initiative on AIDS, Inc. (d/bla AIDS Community Research Initiative of America)",,133632234,,DOHMH,816,112,,ocr:amt
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,"FACES NY, Inc.",,133449087,,DOHMH:,816,112,,ocr:amt;ocr:agency;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Queens,"AIDS Center of Queens County, Inc.",,112837894,42068,DOHMH,816,112,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Queens,"Clergy United for Community Empowerment, Inc.",,113030795,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Bronx,"Bronx AIDS Services, Inc.",,133599121,,DOHMH,816,112,,ocr:amt
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Bronx,"Citiwide Harm Reduction Program, Inc.",,134009817,,DOHMH,816,112,,ocr:amt
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Bronx,St. Ann's Corner of Harm Reduction,,133724008,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,"United Community Centers, Inc.",,111950787,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,Black Veterans for Social Justice,,112608983,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,Arthur Ashe Institute for Urban Health,,113185372,,DOHMH!,816,112,,ocr:amt;ocr:agency;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Brooklyn,"La Nueva Esperanza, Inc.",,204393724,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,Iris House,"A Center For Women Living with HIVIAIDS, Inc.",133699201,,DOHMHI,816,112,,ocr:amt;ocr:agency;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,Gay Men of African Descent (GMAD),,133597820,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,"Exponents, Inc.",,133572677,,DOHMH,816,112,,ocr:amt
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Manhattan,Love Heals,,133693776,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Queens,Voces Latina Corp.,,202312651,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Staten Island,Community Health Action of Staten Island (formerly SI Aids Taskforce),,133556132,,DOHMH,816,112,,ocr:amt;ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Citywide,"Community Resource Exchange, Inc. (CRE)",,133048638,161800,DOHMH,816,112,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,Administrative,Public Health Solutions,,135669201,124800,DOHMH,816,112,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Bridge Street Development Corporation,,113250772,30700,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Bronx Heritage Society, Inc.",,134006621,15179,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Brooklyn Ballers Sports Youth and Education Corp.,,651209020,13544,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Brooklyn Chinese-American Association, Inc.",,113065859,29797,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Casita Maria, Inc.",,131623994,19400,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Centro Hispano Cuzcatlan, Inc.",,113559496,24243,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Council for Unity, Inc.",,112880221,21428,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"East Harlem Employment Services, Inc.",,133255679,,MISC,098,002,,ocr:amt
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"East River Development Alliance, Inc.",,861096987,49957,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Family Justice, Inc.",,134164404,22550,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Fordham Bedford,Children's Services,133805049,35000,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Global Kids, Inc.",,133629485,17959,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Grand Street Settlement, Inc.",,135562230,25000,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Greater Ridgewood Youth Council, Inc.",,112518141,25413,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Greenhope Services for Women,,132813350,17025,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Junior High School 265,Beacon Program,136400434,4000,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Kingsbridge Heights Community Center, Inc.",,132813809,26250,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Life Camp, Inc.",,200814999,47224,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Lincoln Square Business Improvement District,,133922300,25000,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Mary Mitchell Youth and Family Center, Inc.",,133385032,30000,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Maspeth Town Hall, Inc.",,237259702,25594,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Project Hospitality, Inc.",,133234441,25000,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Ridgewood Bushwick Senior Citizens Council, Inc.-Hope Gardens Multi-Service Center",,112453853,59417,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Samuel Field YM & YWHA, Inc.",,113071518,25594,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"South Queens Boys and Girls Club, Inc.",,111966067,33935,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"Stepping Stones Ministries, Inc.",,,18746,MISC,098,002,,ocr:ein
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Supportive Childrens Advocacy Network (SCAN),,132912963,30000,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"United Coalition Association, Inc.",,202268752,15435,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,"United Puerto Rican Organizations of Sunset Park (UPROSE), Inc.",,112490531,19112,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Young Men's Christian Association of Greater New York,Cross Island YMCA,131624228,17272,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Young Men's Christian Association of Greater New York,Staten Island YMCA,131624228,75753,MISC,098,002,,
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Young Men's Christian Association of Greater New York,West Side YMCA,131624228,789,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Youth Ministries For Peace and Justice,,134006535,25000,MISC,098,002,,ocr:lowconf
+7,2009-04-22,"Geriatric Mental Health Initiative EIN Agy # UIA etc.) Status Organization Number Agency Amount (Council, MOC, *",2009,designate,,,Yusef Iman Memorial Institute,,550837964,23751,MISC,098,002,,ocr:lowconf

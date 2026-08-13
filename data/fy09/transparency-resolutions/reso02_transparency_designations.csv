@@ -1,0 +1,414 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+2,2008-09-24,,2009,designate,,Baez,46th Precinct,,136400434,40000,NYPD,056,100,,
+2,2008-09-24,,2009,rescind,,Baez,Alliance for Community Services,,133995154,-135000,DYCD,260,312,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Baez,American Museum of Natural History,,136162659,30000,DCA,126,006,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Baez,"Davidson Community Center, Inc",,237010206,25000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Baez,Middle School 15X,,136400434,20000,DOE,040,402,,
+2,2008-09-24,,2009,designate,,Baez,Public School 310X,,136400434,20000,DOE,040,402,,ocr:lowconf
+2,2008-09-24,,2009,rescind,,BX-Baez,Alliance for Community Services,,133995154,-11500,DYCD,260,312,,
+2,2008-09-24,,2009,designate,,BX- -Baez,Intermediate School 117X,,136400434,11500,DOE,040,402,,
+2,2008-09-24,,2009,rescind,,Dickens,City College of New York Center for the Study of Harlem,,133893536,-15000,CUNY,042,001,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Dickens,Harlem Mother's SAVE,,521285097,8000,DYCD,260,312,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Dickens,Harlem Arts Alliance,,470873119,3500,DCA,126,003,,
+2,2008-09-24,,2009,designate,,Dickens,"National Jazz Museum in Harlem, The",,133853627,3500,DCA,126,003,,ocr:lowconf
+2,2008-09-24,,2009,rescind,,Katz,Queens Community Board #3,,136400434,-5000,QNCB,433,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Katz,Queens Community Board #6,,136400434,5000,QNCB,436,002,,ocr:lowconf
+2,2008-09-24,,2009,rescind,,Nelson,Bergen Basin Community Development Corporation d/bla Miliennium Development,,113199040,-3000,DYCD,260,005,,ocr:lowconf
+2,2008-09-24,,2009,rescind,,Nelson,"Brooklyn Housing and Family Services, Inc.",,112412584,-25000,HPD,806,009,,
+2,2008-09-24,,2009,designate,,Nelson,"Council of Jewish Organizations of Flatbush, Inc.",,112864728,20000,DYCD,260,005,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Nelson,"Council of Jewish Organizations of Flatbush, Inc.",,112864728,8000,DYCD,260,005,,ocr:lowconf
+2,2008-09-24,,2009,rescind,,Yassky,"Town Square, Inc.",,562489014,-10000,DYCD,260,312,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Yassky,"HOPE Program, Inc., The",,133268539,10000,DYCD,260,312,,
+2,2008-09-24,,2009,designate,,Martinez,"Alianza Dominicana, Inc.",,133402057,131250,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Barron,Battered Women's Resource Center,,113302911,37500,MISC,098,002,,*;ocr:lowconf
+2,2008-09-24,,2009,designate,,James,Battered Women's Resource Center,,113302911,,MISC,098,002,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Viverito,Battered Women's Resource Center,,113302911,7500,MISC,098,002,,*;ocr:lowconf
+2,2008-09-24,,2009,designate,,Mealy,Bedford Stuyvesant Family Health Center,,112412205,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Vann,Bedford Stuyvesant Family Health Center,,112412205,37500,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Baez,Bronx District Attorney's Office,,136400434,75000,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Eugene,Church Avenue Merchants Block Association (CAMBA),,112480339,37500,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Barron,"Citizens Against Recidivism, Inc.",,113332491,18750,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Oddo,"Community Agency for Senior Citizens, Inc.",,133263537,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Monserrate,"Community Prevention Alternatives for Families in Crisis Nature Nurture Counseling Center, Inc.",,204275448,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Palma,"Connect, Inc.",,020694269,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Eugene,Council of Peoples Organization,,753046891,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Monserrate,Domestic Violence Project oft the Urban Justice Center,,133442022,37500,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Palma,Domestic Violence Project of the Urban Justice Center,,133442022,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Martinez,Dominican Women's Development Center,,133593885,131250,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,DeBlasio,DWA Fanm,,431952083,18750,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Mealy,DWA Fanm,,431952083,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,McMahon,EI Centro de Hospitalidad,,133234441,,MISC,098,002,,*;ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Eugene,"Family Renaissance, Inc.",,112777066,18750,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Mendez,"Good Old Lower East Side, Inc.",,132915659,18750,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Dickens,Greenhope Services for Women,,132813350,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Comrie,"Haitian Americans United for Progress, Inc.",,112423857,56250,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Mendez,Henry Street Settlement,,131562242,18750,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Quinn,Housing Conservation Coordinators,,510141489,37500,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Eugene,"Ifetayo Cultural Arts Facility, Inc.",,113027538,18750,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Liu,Korean American Family Service Center (KAFSC),,133609811,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Arroyo,Legal Services for New York Bronx,,161759590,75000,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Jackson,Legal Services for NYC for Harlem Legal Services,,132600199,37500,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,McMahon,Legal Services of NY/SI,,132600199,11250,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Dickens,Legal Services/Harlem Legal Services for NYC,,132600199,37500,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Gonzalez,Lutheran Family Health Center's Family Support Center,,111839567,26250,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Katz,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,37500,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Sears,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",,132738818,75000,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Mealy,Mount Moriah Bpatist Church,,112622069,18750,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Comrie,"National Council of Negro Women of Greater New York, Inc.",,133247858,56250,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Reyna,North Brooklyn Coalition Against Family Violence,,113431280,,MISC,098,002,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Jackson,Northern Manhattan Improvement Corporation,,132972415,37500,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Martinez,Northern Manhattan improvement Corporation,,132972415,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Comrie,Queens Comprehensive Perinatal Council,,112870422,56250,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Vallone,Queensborough Council on Social Welfare,,111817497,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Vacca,"Regional Aid for Interim Needs, Inc.",,136213586,22500,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Stewart,Rugby Family Services,,113223904,56250,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Liu,SAKHI for South Asian Women,,133593806,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Recchia,Salt & Sea Mission,,113012147,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Foster,Sanctuary for Families,,133193119,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Foster,SCAN-NY,,132912963,75000,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Ignizio,Seaman's Society for Families and Children,,135563010,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Fidler,Shalom Task Force,,113207504,18750,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Mealy,South Brooklyn Legal Services,,132605605,75000,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Comrie,"Southeast Queens Clergy for Community Empowerment, Inc.",,113030795,56250,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Dilan,St. Rita's Roman Catholic Church,,111711002,75000,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Viverito,Steps to End Family Violence,,,5000,MISC,098,002,,ocr:ein
+2,2008-09-24,,2009,designate,,James,"Center Against Domestic Violence, The",,112415837,18750,MISC,098,002,,
+2,2008-09-24,,2009,designate,,"Lappin, Koppell/Citywid e",Hebrew Home for the Aged at Riverdale,,131739971,75000,MISC,098,002,,ocr:member;ocr:lowconf
+2,2008-09-24,,2009,designate,,Arroyo,Research Foundation of CUNY (on Behalf of Nancy Reveron Domestic Violence Center at Hostos Community College),,136400434,75000,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Rivera,Thorpe Family Residence,,133502934,75000,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Stewart,TOP Development Center,,113409359,56250,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Sanders,Transition Center,,135564937,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Gonzalez,Trinity Healing Center,,203235905,26250,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Mealy,UJCare,,262057862,37500,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Foster,Violence Intervention Program,,133540337,37500,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Viverito,Violence Intervention Program,,133540337,20000,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Viverito,Violence Intervention Program for Brides March,,133540337,5000,MISC,098,002,,
+2,2008-09-24,,2009,designate,,Sanders,"Afrikan Poetry Theatre, Inc.",,112515828,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Sanders,"Afrikan Poetry Theatre, Inc.",,112515828,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Martinez,"Alianza Dominicana, Inc.",,133402057,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Martinez,"Alianza Dominicana, inc.",,133402057,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Baez,American Museum of Natural History,,136162659,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Gerson,American Museum of Natural History,,136162659,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Gonzalez,American Museum of the Moving Image,,112730714,,DYCD,260,312,,*;ocr:amt
+2,2008-09-24,,2009,designate,,Sears,American Museum of the Moving Image,,112730714,,DYCD,260,312,,*;ocr:amt
+2,2008-09-24,,2009,designate,,Vallone,American Museum of the Moving Image,,112730714,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,McMahon,Art Lab Inc. at The Art School at Snug Harbor,,132977495,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Lappin,Arts Connection,,132953240,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Mendez,Arts Connection,,132953240,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Vallone,"Astoria Performing Arts Center, Inc.",,651209580,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Arroyo,"Ballet Hispanico of New York, Inc.",,132685755,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Martinez,"Ballet Hispanico of New York, Inc.",,132685755,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Gennaro,"Big Apple Circus, Ltd.",,132906037,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Viverito,"Big Apple Circus, Ltd.",,132906037,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Koppell,"Bronx Arts Ensemble, 'Inc.",,510186869,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Rivera,"Bronx Arts Ensemble, Inc.",,510186869,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Vacca,"Bronx Arts Ensemble, Inc.",,510186869,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Viverito,"Bronx Arts Ensemble, Inc.",,510186869,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Palma,"Bronx Dance Theatre, Inc.",,132999528,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Vacca,"Bronx Dance Theatre, Inc.",,132999528,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Rivera,"Bronx River Art Center, Inc.",,133261148,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,DeBlasio,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Dilan,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Eugene,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Felder,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Felder,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Felder,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Felder,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Fidler,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Gentile,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Gonzalez,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Mealy,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Mealy,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Mealy,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Mealy,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Nelson,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Neison,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Neison,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Nelson,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Recchia,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Recchia,"BrooklynArts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Stewart,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Yassky,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Yassky,"Brooklyn Arts Council, Inc.",,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Gonzalez,Brooklyn Children's Museum,,112495664,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Eugene,"Brooklyn Historical Society, The",,111630813,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Recchia,"Brooklyn Historical Society, The",,111630813,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Stewart,"Brooklyn Historical Society, The",,111630813,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Fidler,"Brooklyn Philharmonic Symphony Orchestra, Inc.",,111773636,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Foster,Carnegie Hall Corporation,,131923626,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Katz,Carnegie Hall Corporation,,131923626,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Comrie,"Community Works, Inc.",,133580813,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Dickens,"Community Works, Inc.",,133580813,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Dickens,"Community Works, Inc.",,133580813,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Dickens,"Community Works, Inc.",,133580813,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Jackson,"Community Works, Inc.",,133580813,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Seabrook,"Community Works, Inc.",,133580813,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Seabrook,"Community Works, Inc.",,133580813,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Stewart,"Community Works, Inc.",,133580813,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,White,"Community Works, Inc.",,133580813,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Oddo,Council on the Arts and Humanities for Staten Island,,133713211,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Barron,Creative Outlet Dance Theatre of Brooklyn,,113307754,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Eugene,Creative Outlet Dance Theatre of Brooklyn,,113307754,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Eugene,Creative Outlet Dance Theatre of Brooklyn,,113307754,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Jackson,"Dance Theater of Harlem, Inc.",,132642091,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Foster,"DreamYard Project, Inc.",,133759661,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Koppell,"DreamYard Project, Inc.",,133759661,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Barron,Errol Grimes Dance Company,,522123171,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Liu,Flushing Town Hall,,112652182,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,McMahon,"Friends of Alice Austen House, Inc. (Alice Austen House Museum)",,133248928,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,James,Groundswell Community Mural Project,,113427213,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Garodnick,Guggenheim Museum,,135562233,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Katz,Guggenheim Museum,,135562233,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Gerson,"H.T. Dance Company, Inc. /Chen Dance Center",,132968079,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Jackson,Harlem Stage,,133166308,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Jackson,Harlem Stage,,133166308,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Mendez,Henry Street Settlement,,131562242,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Gentile,Intrepid Sea Air Space Museum,,133062419,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Gioia,Intrepid Sea Air Space Museum,,133062419,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Ignizio,Intrepid Sea Air Space Museum,,133062419,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Ignizio,Intrepid Sea Air Space Museum,,133062419,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Ignizio,Intrepid Sea Air Space Museum,,133062419,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Ignizio,Intrepid Sea Air Space Museum,,133062419,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Quinn,Intrepid Sea Air Space Museum,,133062419,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Quinn,Intrepid Sea Air Space Museum,,133062419,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Seabrook,Intrepid Sea Air Space Museum,,133062419,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Sears,intrepid Sea Air Space Museum,,133062419,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Comrie,Jamaica Center for Arts and Learning,,112478709,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,White,Jamaica Center for Arts and Learning,,112478709,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,DeBlasio,"Jewish Museum, The",,136146854,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Weprin,"Jewish Museum, The",,136146854,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Sanders,Kerri Edge Chidirens Dance Ensemble,,113264549,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Sanders,Kerri Edge Chidirens Dance Ensemble,,113264549,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Brewer,"Lincoln Center for the Performing Arts, Inc.",,131847137,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Lincoln Center for the Performing Arts, Inc.",,131847137,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Lincoln Center for the Performing Arts, Inc.",,131847137,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,Malik Yoba Fatherhood Project,,134153599,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,Manhattan New Music Project,,133565438,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,Manhattan New Music Project,,133565438,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,Marquis Studios,,133047206,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,Marquis Studios,,133047206,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,Metropolitan Opera Guild,,131681983,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Midori Foundation, Inc., The (d/bla Midori and Friends)",,133682472,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Midori Foundation, Inc., The (d/b/a Midori and Friends)",,133682472,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Midori Foundation, Inc., The (d/b/a Midori and Friends)",,133682472,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Midori Foundation, Inc., The (d/b/a Midori and Friends)",,133682472,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Midori Foundation, Inc., The (d/bla Midori and Friends)",,133682472,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Midori Foundation, Inc., The (d/b/a Midori and Friends)",,133682472,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Midori Foundation, Inc., The (d/bla Midori and Friends)",,133682472,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Midori Foundation, Inc., The (d/b/a Midori and Friends)",,133682472,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Midori Foundation, Inc., The (d/bla Midori and Friends)",,133682472,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Midori Foundation, Inc., The (d/bla Midori and Friends)",,133682472,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Midtown Management Group, Inc., The",Inside Broadway,133192793,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Midtown Management Group, Inc., The",Inside Broadway,133192793,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Midtown Management Group, Inc., The",Inside Broadway,133192793,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Midtown Management Group. Inc., The",Inside Broadway,133192793,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Midtown Management Group, Inc. The",Inside Broadway,133192793,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Midtown Management Group, Inc., The Inside Broadway",,133192793,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Midtown Management Group, Inc., The Inside Broadway",,133192793,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Midtown Management Group. Inc., The Inside Broadway",,133192793,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Midtown Management Group, Inc., The Inside Broadway",,133192793,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Midtown Management Group, Inc., The Inside Broadway",,133192793,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Midtown Management Group, Inc.. The Inside Broadway",,133192793,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Midtown Management Group, Inc., The Inside Broadway",,133192793,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Midtown Management Group, Inc., The Inside Broadway",,133192793,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,Mudbone Theatre Company,,134192780,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,Multicultural Music Group. Inc.,,133894314,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,Museum of Contemporary African Diasporian Arts,,113526774,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,Museum of Contemporary African Diasporian Arts,,113526774,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,Museum of Contemporary African Diasporian Arts,,113526774,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,Museum of Modern Art,,131624100,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Music Outreach Leaming Through Music, Inc.",,136219997,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Music Outreach Learning Through Music, inc.",,136219997,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"National Dance institute, Inc.",,132890779,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,"New York City Center, Inc.",,132867442,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,New York Hall of Science,,112104059,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,New York Hall of Science,,112104059,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,New York Hall of Science,,112104059,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,"Noble Maritime Collection, The",,133351673,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,Noel Pointer Foundation,,113271742,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,Noel Pointer Foundation,,113271472,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,,Noel Pointer Foundation,,113271472,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,,Noel Pointer Foundation,,113271472,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Comrie,"Queens Council on the Arts, Inc.",,112219193,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Gioia,Queens Museum of Art,,112278998,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Weprin,Queens Museum of Art,,112278998,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Addabbo,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Addabbo,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Avella,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Avella,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Como,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Como,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Como,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Comrie,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Gennaro,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Gennaro,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Gioia,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Katz,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Liu,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Monserrate,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Monserrate,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Monserrate,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Recchia,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Sears,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Sears,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Vallone,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Weprin,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Weprin,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,White,"Queens Theatre in the Park, Inc.",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Arroyo,Renaissance EMS,,134122438,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Koppell,Renaissance,EMS,134122438,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Koppell,Renaissance,EMS,134122438,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Rivera,"Riverside Symphony, Inc.",,133168350,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,James,School News Nationwide,,113293868,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Gerson,South Street Seaport Museum,Young Sailors Program,132596500,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Gerson,South Street Seaport Museum,Young Sailors Program,132596500,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Garodnick,"Stages of Learning, Inc.",,113203321,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,McMahon,Staten Island Children's Museum,,237379930,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Oddo,Staten Island Institute of Arts and Sciences Staten Island Museum,,135564127,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Reyna,"Striking Viking Story Pirates, Inc.",,020720786,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Reyna,"Striking Viking Story Pirates, Inc.",,020720786,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Reyna,"Striking Viking Story Pirates, Inc.",,020720786,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Reyna,"Striking Viking Story Pirates, Inc.",,020720786,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Brewer,Studio in a School,,133003112,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Lappin,"Symphony Space, Inc.",,132941455,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Avella,"TADA! Theater and Dance Alliance, Inc.",,133311294,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Mendez,"TADA! Theater and Dance Alliance, Inc.",,133311294,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Quinn,"TADA! Theater and Dance Alliance, Inc.",,133311294,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Quinn,"TADA! Theater and Dance Alliance, Inc.",,133311294,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Monserrate,"Thalia Spanish Theater, Inc.",,237448611,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Lappin,Turtie Bay Music School,,131775772,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,DeBlasio,Urban Bush Women,,133645651,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Foster,Walker Memorial Baptist Church,,203289164,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Palma,Wildlife Conservation Society Bronx Zoo,,131740011,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Fidler,Wildlife Conservation Society New York Aquarium,,131740011,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Fidler,Wildlife Conservation Society,New York Aquarium,131740011,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Brewer,"Wingspan Arts, Inc.",,134189808,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Foster,"Woodycrest Center for Human Development, Inc.",,133184179,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Liu,"Young Audiences New York, Inc.",,131997754,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Viverito,"Young Audiences New York, Inc.",,131997754,,DYCD,260,312,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Stewart,"Young People's Chorus of New York City, Inc.",,113372980,,DYCD,260,312,,ocr:amt
+2,2008-09-24,,2009,designate,,Seabrook,"Aging in America Community Services, Inc.",Bay Eden Senior Center,134099045,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Felder,"American-ltalian Coalition of Organizations, Inc. (AMICO)",,112488439,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Avella,"Catholic Charities Neighborhood Services, Inc.",,112047151,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Weprin,"Catholic Charities Neighborhood Services, Inc.",Bayside Senior Center,112047151,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Sears,"Catholic Charities Neighborhood Services, Inc.",Catherine M. Sheridan Senior Center,112047151,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Dickens,"Central Harlem Senior Citizens Coalition, Inc.",,132754783,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Gerson,"Chinese American Planning Council, Inc.",,136202692,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Jackson,Church on the Hill Luncheon Club Wison Major Morris Senior Center,,133608860,0,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Baez,"Citizens Advice Bureau, Inc., The Morris Senior Center",,133254484,20000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,McMahon,"Community Agency for Senior Citizens, Inc.",Cassidy Coles Senior Center,133263537,,DFTA,125,003,,ocr:amt
+2,2008-09-24,,2009,designate,,Rivera,"Council of Belmont Organizations, Inc.",,132755323,20000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Arroyo,"East Side House, Inc.",,131623989,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Mendez,"Educational Alliance, Inc., The",,135562210,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Brewer,"Find Aid for the Aged, Inc.",Project Find Hamilton House,132666921,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,James,"Fort Greene Senior Citizens Council, inc.",Grace Agard-Harewood Senior Center,112300840,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Vann,"Fort Greene Senior Citizens Council, Inc.",Albany Senior Center,112300840,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Stewart,"Fort Greene Senior Citizens Council, Inc.",Remsen Senior Center,112300840,20000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Monserrate,"Institute for Puerto Rican and Hispanic Elderly, Inc.",,132987263,0,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Comrie,"Jamaica Service Program for Older Adults, Inc. (JSPOA)- Robert Couche Senior Center",,510204121,20000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Fidler,Jewish Association for Services for the Aged (JASA),,132620896,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Vacca,Jewish Association for Services for the Aged (JASA)- Throgs Neck Senior Center,,132620896,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Nelson,"Jewish Community Council of Greater Coney Island, Inc.",,112665181,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Recchia,"Jewish Community Council of Greater Coney Island, Inc.",,112665181,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Liu,"Korean Community Services of Metropolitan New York, Inc.",,237348989,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Lappin,"Lenox Hill Neighborhood House, Inc.",,131628180,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Sanders,Margert Community Corporation (St. Gertrude' 's 50's Plus Club),,112534700,20000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Como,"Middle Village Senior Citizens Center, Inc.",,112336725,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Quinn,"Penn South Social Services, Inc.",,133413349,20000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Foster,Presbyterian Senior Services Highbridge Senior Center,,131981482,20000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Gennaro,"Queens Community House, Inc. Pomonok Senior Center",,112375583,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Dilan,"Ridgewood Bushwick Senior Citizens Council, Inc. Senior Center",,112453853,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Koppell,Riverdale Senior Services Inc.,,237357997,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,White,"Rochdale Village Social Services, Inc.",,113397470,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Gentile,Saint Rosalia-Regina Pacis Neighborhood Improvement Association,,112697931,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Gioia,"Samaritan Village, Inc. Woodside Senior Center",,112635374,,DFTA,125,003,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Katz,"Self Help Community Services, Inc.",,131624178,30000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,"Vallone, Jr.","Self Help Community Services, inc. Queensview/Norht Queensview NORC",,131624178,20000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Addabbo,Southeast Queens Multiservice Senior Center Howard Beach Senior Center,,237187548,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Reyna,"Southside United Housing Development Fund Corp.- Los Sures ""David Santiago"" Senior Center",,112268359,20000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Yassky,Spanish Speaking Elderly Counci-RAICES,,112730462,20000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,DeBlasio,St. John-St. Matthew Emanuel Lutheran Church Prospect Hill Senior Service Center,,112252582,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Eugene,St. Mark's United Methodist Church,,111642727,20000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Garodnick,"Staniey M. Isaacs Neighborhood Center, Inc.",,132572034,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Ignizio,"Staten Island Community Services Friendship Clubs, Inc.",,132778244,20000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Oddo,"Staten Island Community Services Friendship Clubs, Inc.",,132778244,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Mark- Viverito,"Union Settlement Association, Inc.",,131632530,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Gonzalez,"United Senior Citizen Center of Sunset Park, Inc.",,112358277,,DFTA,125,003,,ocr:amt;ocr:lowconf
+2,2008-09-24,,2009,designate,,Martinez,"Washington Heights Community Services, Inc.",STAR Senior Center,132792876,20000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Barron,"Wayside Out-Reach Development, Inc.",,113528680,30000,DFTA,125,003,,ocr:lowconf
+2,2008-09-24,,2009,designate,,Mealy,"Wayside Out-Reach Development, Inc.",Brevoort Senior Center,113528680,20000,DFTA,125,003,,
+2,2008-09-24,,2009,designate,,Palma,Young Men's Christian Association of Greater New York Bronx Branch,,131624228,30000,DFTA,125,003,,
+2,2008-09-24,,2009,rescind,,,"Center for Alternative Sentencing and Employment Services (CASES), Inc.",,132668080,-83097,MISC,098,002,,
+2,2008-09-24,,2009,rescind,,,Center for Community Alternatives (CCA),,161395992,-41249,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Center for Employment Opportunities (CEO), Inc.",,133843322,126341,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,rescind,,,Educational Assistance Corporation (EAC),,237175609,-4926,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,rescind,,,Educational Assistance Corporation (EAC),TASC,237175609,-116456,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,,Fortune Society,,132645436,240410,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,rescind,,,"Legal Action Center of the City of New York, Inc.",,132756320,-13750,MISC,098,002,,
+2,2008-09-24,,2009,rescind,,,Osborne Association,,135563028,-50814,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,rescind,,,"Women's Prison Association's Hopper Home, Inc.",,135596836,-56459,MISC,098,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Institute for Student Achievement, Inc.",,112995109,275000,DOE,040,454,,ocr:lowconf
+2,2008-09-24,,2009,designate,,,"United Way of New York City, Inc.",,132617681,350000,DOE,040,454,,
+2,2008-09-24,,2009,designate,,,"Enact, Inc.",,133422660,500000,DOE,040,454,,ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Vocational Foundation, Inc.",,131878246,100000,DOE,040,454,,
+2,2008-09-24,,2009,designate,,,Asociacion Tepeyac De New York,,134009930,75000,DOE,040,454,,
+2,2008-09-24,,2009,designate,,,Good Shepherd Services,,135598710,300000,DOE,040,454,,ocr:lowconf
+2,2008-09-24,,2009,designate,,,Turnaround for Children,,061495529,400000,DOE,040,454,,
+2,2008-09-24,,2009,designate,,,Jamaica Business Resource Center,,113306944,60000,DSBS,801,002,,
+2,2008-09-24,,2009,designate,,,Upper Manhattan Council Assisting Neighbors,,134042093,60000,DSBS,801,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Harlem Business Alliance, Inc.",,133591350,30000,DSBS,801,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,,St. Nicholas Neighborhood Preservation Corporation,,510192170,30000,DSBS,801,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,,"United Jewish Organizations of Williamsburg, Inc.",,112728233,15000,DSBS,801,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,,"Caribbean American Chamber of Commerce & Industry, Inc.",,112903423,30000,DSBS,801,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,,Davidson Community Center,,237010206,30000,DSBS,801,002,,ocr:lowconf
+2,2008-09-24,,2009,designate,,,New York Urban League,,131671035,15000,DSBS,801,002,,
+2,2008-09-24,,2009,designate,,,"Staten Island Chamber of Commerce, Inc.",,134069282,30000,DSBS,801,002,,ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Belmont Arthur Avenue Local Development Organization,,133020589,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Bensonhurst Council of Jewish Organizations,,112568013,,HPD,806,009,,ocr:amt
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Brighton Neighborhood Association, Inc.",,112435523,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Bronx Heights Neighborhood Community Corporation,,132883903,,HPD,806,009,,ocr:amt
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Brooklyn Housing and Family Services, Inc.",,112412584,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Central Astoria Local Development Coalition, Inc.",,112652331,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Chelsea Housing Group, Inc.",,133542784,5000,HPD,806,009,,ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"City-Wide Task Force on Housing Court, Inc.",,133317188,16201,HPD,806,009,,ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Clinton Housing Development Company, Inc.",,132851988,10000,HPD,806,009,,ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Community League of the Heights, Inc.",,132564241,11955,HPD,806,009,,
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"El Barrio Operation Fight Back, Inc.",,133248777,14196,HPD,806,009,,ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Erasmus Neighborhood Federation,,112490986,,HPD,806,009,,ocr:amt
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Eviction Intervention Services Homelessness Prevention, Inc.",,133311582,10924,HPD,806,009,,
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Good Old Lower East Side, Inc.",,132915659,28728,HPD,806,009,,ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Gowanus Canal Community Development Corporation,,112498292,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Greater Ridgewood Restoration Corporation,,112382250,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Greater Sheepshead Bay Development Corporation,,112527097,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Harlem Congregations for Community Improvement, Inc.",,133516262,10000,HPD,806,009,,
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Harlem Congregations for Community Improvement, Inc.",,133516262,10000,HPD,806,009,,ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Housing Conservation Coordinators, Inc.",,510141489,15509,HPD,806,009,,
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Lenox Hill Neighborhood House, Inc.",,131628180,9314,HPD,806,009,,ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"MFY Legal Services, Inc.",,132622748,14935,HPD,806,009,,
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Mount Hope Housing Company, Inc., The",,133419970,17894,HPD,806,009,,ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Neighborhood Housing Services of Bedford- Stuyvesant,,133098397,,HPD,806,009,,ocr:amt
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Neighborhood Housing Services of East Flatbush,,133098397,,HPD,806,009,,ocr:amt
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Neighborhood Housing Services of Jamaica, Inc.",,237398279,,HPD,806,009,,ocr:amt
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Neighborhood Housing Services WOW,,133098397,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Neighborhood Initiatives Development Corporation (NIDC),,133110811,13144,HPD,806,009,,ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,North Brooklyn Development Corporation,,112555446,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Northfield Community LDC of Staten Island, Inc.",,132974137,36815,HPD,806,009,,ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Northwest Bronx Community and Clergy Coalition for Sistas and Brothas United,,132806160,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,People's Firehouse,,112470566,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Polonians Organized to Minister Our Community (POMOC),,112594500,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Pratt Area Community Council, Inc.",,112451752,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Pueblo En Marcha, Inc.",,134010925,23211,HPD,806,009,,
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,Queens Community Civic Corporation,,222183327,8105,HPD,806,009,,
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Queens Community House, Inc.",,112375583,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Queens Community House, Inc.",,112375583,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Queensboro Council for Social Welfare, Inc.",,111817497,,HPD,806,009,,ocr:amt
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Ridgewood Bushwick Senior Citizens Council, Inc.",,112453853,33943,HPD,806,009,,
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Staten Island Center for Independent Living, Inc.",,133266398,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community Consultants Agy# Agency UIA Organization EIN Number Amount,2009,designate,,,"Strycker's Bay Neighborhood Council, Inc.",,131943516,10976,HPD,806,009,,ocr:lowconf
+2,2008-09-24,Community (continued) Consultants Agency UIA Organization EIN Number Amount Agy #,2009,designate,,,"United Jewish Council of the East Side, Inc.",,132735378,12531,HPD,806,009,,
+2,2008-09-24,Community (continued) Consultants Agency UIA Organization EIN Number Amount Agy #,2009,designate,,,Upper Manhattan Council Assiting Neighbors,,134042093,11637,HPD,806,009,,ocr:lowconf
+2,2008-09-24,Community (continued) Consultants Agency UIA Organization EIN Number Amount Agy #,2009,designate,,,"Urban Strategies, Inc.",,112484364,,HPD,806,009,,ocr:amt
+2,2008-09-24,Community (continued) Consultants Agency UIA Organization EIN Number Amount Agy #,2009,designate,,,Vanguard Urban Improvement Association,,112442042,,HPD,806,009,,ocr:amt;ocr:lowconf
+2,2008-09-24,Community (continued) Consultants Agency UIA Organization EIN Number Amount Agy #,2009,designate,,,"West Bronx Housing and Neighborhood Resource Center, Inc.",,132941841,,HPD,806,009,,ocr:amt
+2,2008-09-24,Community (continued) Consultants Agency UIA Organization EIN Number Amount Agy #,2009,designate,,,"West Side Federation for Supportive Senior Housing, Inc.",,132926433,5000,HPD,806,009,,
+2,2008-09-24,Community (continued) Consultants Agency UIA Organization EIN Number Amount Agy #,2009,designate,,,"Woodside on the Move, Inc.",,112435565,,HPD,806,009,,ocr:amt

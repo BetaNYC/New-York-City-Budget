@@ -28,6 +28,7 @@ that the packages in `code/requirements.txt` are installed (`pypdf`, `pdfplumber
 | `parse_capital_detail.py` | §254 Capital Project Detail — **FY20/FY22/FY23/FY24** ("Supporting Detail Book") | pdfplumber `extract_text()` (clean reading order) |
 | `parse_capital_fy25.py` | §254 Resolution-A / Appropriation-Changes (FY25 appropriation book + FY17/FY21/FY23/FY24) | pdfplumber word coordinates |
 | `parse_transparency_reso.py` | Post-adoption Transparency Resolutions | pdfplumber word coordinates |
+| `parse_transparency_reso_fy09.py` | Transparency Resolutions — **FY09 only** (scans, no text layer) | docTR OCR over ruled-grid cells (`code/ocr/`) |
 
 **Why four Capital-Project-Detail parsers exist:** the same logical document is emitted with
 different PDF text layers across years. `parse_capital.py` (pypdf) works only where pypdf
@@ -220,7 +221,162 @@ this so the caveat travels with the data.
 | FY22 | 14 | HIGH | clean (matches brief's viBe/DCLA spot-check) |
 | FY23 | 14 | HIGH | clean |
 | FY24 | 9 | HIGH | clean |
-| FY09 | — | — | **BLOCKED**: all 8 PDFs are scanned images with no text layer |
+| FY09 | 8 | LOW | Scans, no text layer → **OCR pipeline**, `parse_transparency_reso_fy09.py`; 2620 rows, 0/1 printed chart totals exact (reso 07 mismatch) |
+
+---
+
+## OCR pipeline — FY2009 Transparency Resolutions
+
+The eight FY2009 documents (`source/FY09/transparency-resolutions/`, 332 pages) are 300-dpi
+bitonal Xerox scans with **no text layer at all**, so `parse_transparency_reso.py` cannot
+touch them. They are handled by `parse_transparency_reso_fy09.py`, which drives the staged
+OCR pipeline in `code/ocr/`.
+
+**⚠ FY2009 figures are MODEL-READ.** Every other fiscal year in this repo is extracted
+deterministically from the document's own text layer; FY2009 has no text layer to extract.
+See "Trust model" below for what is checked and how uncertainty is surfaced.
+
+### Why the documents need a pipeline, not a parser
+
+- **Rotation varies page to page.** The chart pages are landscape tables printed onto
+  portrait sheets, and the direction is not constant *within a single file* —
+  Transparency-Reso-01's Chart 1 page reads top-down on the left edge, Transparency-Reso-07's
+  Chart 3 page reads bottom-up. A per-file constant would be wrong.
+- **The tables are fully ruled.** Every cell has a printed border, so cell boundaries are
+  read off the ink by morphology and column identity comes from *geometry*. This is why the
+  FY09 output should be cleaner than FY10–FY13, whose text layer glues words together and
+  bleeds the header into the first data row.
+- **Column layout varies by chart.** Long form (Charts 1–3): `Member | Organization |
+  EIN Number | Agency | Amount | Agy # | U/A | Fiscal Conduit/Sponsoring Organization |
+  Fiscal Conduit EIN | * | Status`. Short form (Charts 4+, per-initiative): `Organization |
+  EIN Number | Agency | Amount | Agy # | U/A | *`. Columns are resolved by fuzzy-matching
+  the header row; **an unmapped required column skips the page for review rather than
+  assigning values positionally.**
+
+### Environment (separate from the other parsers)
+
+The OCR stack pulls in torch (~1–2 GB) and is deliberately not in `requirements.txt`:
+
+```bash
+python3 -m venv .venv-ocr
+.venv-ocr/bin/pip install -r code/requirements.txt -r code/requirements-ocr.txt
+```
+
+### Stages
+
+| stage | module | does |
+|---|---|---|
+| `render` | `ocr/render.py` | PDF page → 300-dpi grayscale PNG (1:1 with the scan) |
+| `orient` | `ocr/orient.py` | 90° multiple (projection axis + docTR confidence tiebreak) then deskew off the printed rules |
+| `classify` | `ocr/classify.py` | narrative / EXHIBIT divider / chart, plus the `CHART n: Title` caption |
+| `grid` | `ocr/grid.py` | ruled lines → cell rectangles (OpenCV morphology, no ML) |
+| `ocr` | `ocr/recognize.py` | docTR words → per-cell text + confidence; targeted re-OCR of failing numeric cells |
+| `assemble` | `ocr/assemble.py` | cells → the standard 16-column schema, validators, review queue |
+| `report` | `ocr/report.py` | printed-total reconciliation + OCR quality band |
+
+Artifacts are cached under `build/ocr/<pdf-stem>/` (gitignored): `raw/`, `upright/`,
+`orient.json`, `grid/`, `debug/`, `pages.csv`. Any stage can be re-run in isolation.
+
+### Invocation
+
+```bash
+ROSTER=$(ls data/fy*/schedule_c/*_schedule_c_awards.csv)
+.venv-ocr/bin/python code/parse_transparency_reso_fy09.py \
+    --batch source/FY09/transparency-resolutions \
+    --outdir data/fy09/transparency-resolutions --prefix fy09 --roster-csv $ROSTER
+```
+
+Iteration flags: `--stage <name>` (run up to and including a stage), `--only
+Transparency-Reso-01`, `--pages 9-12`, `--debug` (writes grid-overlay PNGs — the fastest way
+to see a grid-detection failure), `--force`, `--min-conf`, `--no-engine` (stages 0–3 with no
+docTR at all).
+
+### Trust model
+
+FY2009 is the only year whose numbers are model-read, so it carries extra checks:
+
+1. **Printed chart totals.** Unlike FY10–FY24, several FY09 charts print a total (e.g.
+   `$500,000.00` on the Veterans Resource Center chart, `$0.00` on a net-zero transfer
+   chart). Those are checked **exactly**, and are the strongest evidence the OCR read the
+   dollar figures correctly. Charts with no printed total remain `NOT RECONCILABLE`.
+2. **Shape checks** on every EIN (`##-#######`), amount (`$#,###.##`, parenthesised =
+   rescission), and `Agy #` / `U/A` (3 digits).
+3. **An agency-code dictionary** built from the already-parsed FY10–FY27 transparency CSVs —
+   so an OCR'd `DYGD` fails where a regex over uppercase letters would pass.
+4. **No quiet repair.** Only characters that cannot occur in the target grammar and have a
+   single reading (bracket variants, whitespace) are folded. Letter/digit confusions
+   (`O`/`0`, `S`/`$`) are **never** guessed: the cell is left unparsed, flagged in the
+   `flags` column with an `ocr:*` code, and queued in
+   `fy09_transparency_needs_review.csv` with a crop of the original pixels.
+5. **Cross-cell bbox disambiguation.** Full-page word detection occasionally draws one
+   bounding box that unambiguously covers ink in two adjacent ruled cells (a value straddling
+   a column or row rule), and the naive centroid-based cell assignment would silently hand
+   the whole box's text to just one of them. `recognize.find_cell_span_conflicts` catches
+   this geometrically (a word with ≥30% of its own area inside each of two-or-more cells,
+   checked only against its centroid-cell's neighbours) and, for every cell it implicates,
+   re-reads that cell independently from its own cropped rectangle — the same crop-and-
+   upscale fallback used for failing numeric cells, just triggered by geometry instead of a
+   validator failure. The corrected cell is flagged `ocr:cellspan` so the correction stays
+   visible in `flags` and in the review queue rather than silently overwriting the row.
+
+### Outputs
+
+```
+data/fy09/transparency-resolutions/
+  resoNN_transparency_designations.csv     standard 16-column schema
+  fy09_transparency_all.csv                combined
+  fy09_transparency_fiscal_conduits.csv    FY09-only Fiscal Conduit / Status columns (sidecar)
+  fy09_transparency_needs_review.csv       human-review queue + review-crops/
+  fy09_transparency_reconciliation.txt     printed-total checks + OCR quality band
+```
+
+The `Fiscal Conduit` and `Status` columns are FY09-only and cannot go in the shared schema
+(`validate_data.py` treats an extra column as a hard failure), so they live in the sidecar,
+joined back on `(resolution, chart, ein)` — the same pattern as
+`fy25_capital_noncity_by_entity.csv`.
+
+### `fy09_transparency_fiscal_conduits.csv` — what it captures
+
+Columns: `resolution, chart, ein, conduit_organization, conduit_ein, status`.
+
+Only the FY09 long-form charts (Charts 1–3) print these two extra fields per row:
+
+- **Fiscal Conduit/Sponsoring Organization** (+ its EIN) — filled in when a designation is paid
+  through an intermediary fiscal sponsor rather than directly to the recipient organization (e.g.
+  a small or unincorporated group that can't receive funds itself, routed through a 501(c)(3)
+  fiscal conduit). Most rows (1746/1907, ~92%) have no conduit — the award went straight to the
+  named organization; the remaining ~161 name a conduit.
+- **Status** — a per-award PQL (pre-qualification) clearance state as printed on the chart:
+  `Cleared`, `Approved`, `Application Pending`, `Missing PQL Application`, `Application Incomplete
+  at Deadline`, `Denied`, `Redesignated`, `Government Entity` (city agencies are exempt from PQL),
+  `S10K- PQL Not Required` (awards under the $10K PQL threshold), etc. This is the same status
+  concept documented for the RnD expense-funding-disclosure spreadsheets in the README, but here
+  it's read directly off FY09's printed table rather than sourced from a modern clearance system.
+
+Because `status` is OCR'd off a 300-dpi scan like every other FY09 field, it carries the same
+character-level noise as the rest of the pipeline — dozens of near-duplicate spellings of the same
+value (`Cleared`/`Cieared`/`Çleared`, `Government Entity`/`Govemment Entity`/`Governmental Entity`,
+several `S10K...PQL Not Required` variants). Treat `status` as informational / exploratory text,
+not a clean categorical, unless you first normalize it.
+
+Row count: 1907 (one row per FY09 long-form chart line that carries a conduit/status cell; short-
+form charts 4+ have neither column and are absent from this file).
+
+**Status: pipeline run (post cross-bbox-disambiguation fix, `c53c71d`).** All 8 resolutions (332
+pages: 124 chart, 86 divider, 121 narrative, 1 blank) produced 2620 rows (204/399/534/361/194/
+138/231/42 designate and 29/14/19/56/65/182/117/35 rescind across resos 01–08). Of the single
+printed chart total in the corpus, reso 07 does **not** reconcile exactly (printed $30,000 vs.
+parsed $86,714, diff $116,714) — the only other check available, the FY09-wide net of all
+designations/rescissions, is $56,756,635 (informational, not a check against a printed figure).
+OCR quality: 19,532 cells recognized, mean confidence 0.927 (p05/p25/median 0.581/0.930/0.996)
+against an 0.80 threshold; 2194/2620 rows (83.74%) carry at least one flag and 3858 cells are
+queued in `fy09_transparency_needs_review.csv` for human review. Breakdown by flag: `ocr:lowconf`
+1903 (72.63%), `ocr:amt` 897 (34.24%), `ocr:ein` 55 (2.10%), `ocr:agency` 29 (1.11%), `ocr:member`
+3 (0.11%), `ocr:code` 1 (0.04%), `ocr:cellspan` 7 (0.27%, the cross-cell bbox disambiguation
+re-read added in `c53c71d`). Member-cell/roster matching: 257/1339 (19.2%) — informational, since
+the FY2015+ rosters used for matching don't cover every member of the 2008–09 Council.
+**OCR CONFIDENCE BAND: LOW.** Overall status: NOT RECONCILABLE (no document-wide printed
+total), consistent with every other Transparency-Resolution year.
 
 ---
 
@@ -307,7 +463,7 @@ NOT_RECONCILED · BLOCKED · N/A (no such document that year).
 | FY | Schedule C | Terms & Conditions | Capital | Transparency Resolutions |
 |---|---|---|---|---|
 | FY08 | NOT_RECONCILED (older era) | N/A | BLOCKED (.doc only) | N/A (via Legistar only) |
-| FY09 | RECONCILED 21/22 (init)| N/A | pending | BLOCKED (scanned, no text) |
+| FY09 | RECONCILED 21/22 (init)| N/A | pending | EXTRACTED 2620 (OCR, LOW confidence, scanned) |
 | FY10 | RECONCILED 21/21 (init)| N/A | pending | EXTRACTED 12 (org-text LOW) |
 | FY11 | RECONCILED 18/19 (init)| N/A | pending | EXTRACTED 10 (org-text LOW) |
 | FY12 | RECONCILED 16/16 (init)| N/A | BLOCKED (JBIG2 scan) | EXTRACTED 7 (org-text LOW) |
@@ -347,6 +503,23 @@ coverage notes) do not gate. It writes a dated report to `data/QA-REPORT.md` and
 .venv/bin/python code/validate_data.py --data-dir data --report data/QA-REPORT.md
 .venv/bin/python code/validate_data.py --no-report        # stdout only
 ```
+
+Current run (2026-07-28, post OCR re-run `c53c71d`): 281 files, **4 hard failures**, EIN coverage
+100% on every EIN-bearing file except FY09 transparency (97.9%, 2565/2620).
+Tests: `code/test_validate_data.py`.
+
+**The 4 hard failures are a known, expected FY09-only exception, not parser bugs.** They are all
+`[ein]` findings in FY09 transparency-resolutions files — malformed EIN cells (e.g. `EX124290`,
+`EX212023`, an 8-digit `95369596`) from the OCR pipeline (see "OCR pipeline — FY2009
+Transparency Resolutions" above). Every one of these cells is already flagged `ocr:ein` in its
+row's `flags` column and queued in `fy09_transparency_needs_review.csv`; the pipeline is working
+as documented (trust-model rule 4: no quiet repair of letter/digit confusions). `validate_data.py`
+treats a malformed EIN as HARD unconditionally — the right behavior for every other, deterministic
+year, where a malformed EIN would mean a real extraction bug — and deliberately does not
+special-case the `ocr:ein` flag, to keep the hard-fail guarantee simple and year-agnostic. So a
+`FAIL` verdict from `validate_data.py` is *expected* whenever FY09 transparency data is included
+in the run; a hard failure in any other file is not covered by this exception and should be
+treated as a real bug.
 
 Current run (2026-07-07): 272 files, **0 hard failures**, EIN coverage **100%** on every
 EIN-bearing file. Tests: `code/test_validate_data.py`.

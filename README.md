@@ -33,7 +33,7 @@ If you use the derived data, please attribute BetaNYC and link back to this repo
 
 ## How this was made
 
-Three Python parsers (in `code/`) read the PDF text layer and emit structured rows using regular expressions, with **no hand transcription and no language-model reading of the numbers**. Each Schedule C category total is reconciled against the document's own printed `TOTAL` line, so the data can be trusted or challenged against the source. The Schedule C parser derives its category list and council-member roster from each document, so it adapts to a new fiscal year automatically.
+Three Python parsers (in `code/`) read the PDF text layer and emit structured rows using regular expressions, with **no hand transcription and no language-model reading of the numbers**. (One documented exception: the FY2009 Transparency Resolutions are scans with no text layer, so they are OCR'd — see "AI use" below.) Each Schedule C category total is reconciled against the document's own printed `TOTAL` line, so the data can be trusted or challenged against the source. The Schedule C parser derives its category list and council-member roster from each document, so it adapts to a new fiscal year automatically.
 
 ## Repository layout
 
@@ -105,6 +105,18 @@ Section 254 capital changes. `part, agency, budget_line, sub_id, boro, fy1, fy2,
 ### `data/fy26/transparency-resolutions/`
 Post-adoption discretionary designations from the 10 FY2026 Transparency Resolutions (per-resolution `resoNN_transparency_designations.csv` files + a combined `fy26_transparency_all.csv`). Columns: `resolution, date, chart, fiscal_year, action, source, council_member, organization, program, ein, amount, agency, agy_num, ua, purpose, flags` — `action` ∈ designate / rescind / purpose_change; rescissions carry negative amounts. These record money the adopted budget left "to be designated post-adoption" (e.g. the FY2026 AI Community Engagement $1M). **No printed totals exist**, so they are labeled `NOT RECONCILABLE`; the only internal check is that transfers (rescind + re-designate) net to zero.
 
+**FY2009 only — `fy09_transparency_fiscal_conduits.csv`.** FY09's long-form charts (1–3) print two
+columns no other year has: a Fiscal Conduit/Sponsoring Organization (+ its EIN), used when a
+designation is paid through an intermediary fiscal sponsor rather than directly to the recipient,
+and a per-row PQL clearance `status` (`Cleared`, `Approved`, `Application Pending`, `Denied`,
+`Government Entity`, etc.). They can't go in the standard 16-column schema, so they live in this
+sidecar (`resolution, chart, ein, conduit_organization, conduit_ein, status`), joined back to
+`resoNN_transparency_designations.csv` on `(resolution, chart, ein)`. Most rows have no fiscal
+conduit — the money went straight to the named org. Since FY09 is OCR'd off scans (see
+[`code/PARSING.md`](code/PARSING.md#ocr-pipeline--fy2009-transparency-resolutions)), `status` has
+many spelling variants of the same value and should be treated as informational, not a clean
+categorical.
+
 ### `data/combined/`
 `all_years_initiatives.csv` and `all_years_awards.csv` — the per-year files stacked with a leading `year` column for cross-year analysis. Each also carries two derived `*_canonical` columns (see the editorial note below).
 
@@ -142,15 +154,20 @@ per-document-type detail (and the parser/invocation for each) is in [`code/PARSI
 - **Transparency Resolutions** — extracted for **FY2010–FY2024** (no printed totals). Financial columns
   (EIN/amount/agency/date/action) are reliable in every year; organization/member/program *text* is
   low-confidence in the older glued-text-layer years (FY2010–FY2013), flagged per-year in each
-  `*_reconciliation.txt`. FY2009 (scanned, no text layer) and FY2013 resolutions 07/10/11 (`.doc`) are blocked.
+  `*_reconciliation.txt`. **FY2009** has no text layer (all 8 PDFs are scans), so it is handled by a
+  separate OCR pipeline — `code/parse_transparency_reso_fy09.py` + `code/ocr/`, documented in
+  [`code/PARSING.md`](code/PARSING.md#ocr-pipeline--fy2009-transparency-resolutions); its figures are
+  model-read rather than text-layer-extracted, and flagged where uncertain. FY2013 resolutions
+  07/10/11 (`.doc`) remain blocked.
 
 **Capital (Section 254):** FY2025 reconciles **30/30** agency subtotals plus both grand totals exactly (Part I $775M / 1327; Part II $158,992,000 / 181; Part III cross-tab 106/106 entities); FY2026 reconciles **31/31**; FY2027 reconciles **24/26**. (The separate FY2025 appropriation-changes book remains `NOT RECONCILABLE` by nature.) **Transparency Resolutions:** no printed totals (`NOT RECONCILABLE`); transfers net to zero as expected. See each `*_reconciliation.txt` for details.
 
 **Data QA:** beyond per-file reconciliation, `code/validate_data.py` runs row-level and cross-file
 integrity checks (schema, EIN validity + per-year coverage, amount/sign sanity, fiscal-year
 integrity, duplicate detection, column-bleed heuristic, and a reconciliation roll-up) over the whole
-`data/` tree and writes a dated `data/QA-REPORT.md`. Latest run: 0 hard failures, 100% EIN coverage
-on every EIN-bearing file. Details in [`code/PARSING.md`](code/PARSING.md).
+`data/` tree and writes a dated `data/QA-REPORT.md`. Latest run: 4 hard failures (all known FY09
+OCR artifacts — see below), 100% EIN coverage on every EIN-bearing file except FY09 transparency
+(97.9%). Details in [`code/PARSING.md`](code/PARSING.md).
 
 ## Known limitations
 
@@ -218,6 +235,8 @@ FY2009–FY2021 historical archive.
 BetaNYC uses AI tools openly and with human accountability. The extraction, reconciliation, and analysis tooling in this repository was built by AI agents (Anthropic's Claude) working under the direction and review of BetaNYC staff.
 
 One commitment about the data: **the figures here are not AI-generated.** Every dollar amount is extracted **deterministically** from the Council's own adopted-budget PDFs and checked line by line against the documents' printed totals — never inferred, never estimated by a model. The FY2027 discretionary schedule reconciles to the exact dollar (`$655,764,999`); where a year does not yet reconcile, that status is recorded honestly in [`code/PARSING.md`](code/PARSING.md) and [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) rather than papered over.
+
+**The one exception, stated plainly: the FY2009 Transparency Resolutions.** Those eight documents are scanned images with no text layer, so there is nothing to extract deterministically — they are read by OCR (docTR), which *is* a model reading numbers. We ship them anyway because the alternative is leaving a year of public designations unreadable, but they are treated differently from every other year: each value is checked against a shape rule and an agency-code dictionary built from the years that *do* have text layers; where a chart prints its own total, the OCR'd rows must sum to it exactly; ambiguous character readings (`O` vs `0`, `S` vs `$`) are **never** guessed but flagged in the `flags` column and queued in `fy09_transparency_needs_review.csv` alongside a crop of the original pixels. Any FY2009 figure you rely on can be traced back to those pixels. See [`code/PARSING.md`](code/PARSING.md#ocr-pipeline--fy2009-transparency-resolutions).
 
 Questions about our approach: hello@beta.nyc.
 
