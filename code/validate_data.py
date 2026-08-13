@@ -123,6 +123,15 @@ TYPES = {
               "disclosure_confirmed"],
         ein="ein", amounts=["amount"], rule="positive", year_col="fiscal_year",
         text_cols=["organization", "program"]),
+    "recovered_appendix": dict(
+        # Sidecar: appendix designations for FY2015-17, FY2019-20, whose own appendix CSVs are
+        # empty (header row only) while FY2021+ hold ~4,000 rows each. Recovered from the
+        # Council's disclosure workbooks. Sidecar for the same reason as recovered_awards:
+        # nothing already published moves. Built by code/build_appendix_from_disclosure.py.
+        cols=["fiscal_year", "stream", "member", "organization", "program", "ein", "amount",
+              "agency", "purpose", "status", "confidence", "source_file"],
+        ein="ein", amounts=["amount"], rule="positive", year_col="fiscal_year",
+        text_cols=["organization", "program"]),
     "capital": dict(
         cols=["part", "agency", "budget_line", "sub_id", "boro", "fy1", "fy2", "fy3",
               "fy4", "sponsor", "title", "building_code", "school_code"],
@@ -179,6 +188,8 @@ def detect_type(path):
         return "transparency"
     if re.match(r"reso\d+_transparency_designations\.csv$", b):
         return "transparency_reso"
+    if b == "schedule_c_appendix_recovered.csv":
+        return "recovered_appendix"
     if b == "schedule_c_absorbed_awards.csv":
         return "recovered_awards"
     if b.endswith("_capital_projects.csv"):
