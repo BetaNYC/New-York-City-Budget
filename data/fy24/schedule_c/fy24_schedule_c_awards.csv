@@ -1250,7 +1250,7 @@ CULTURAL ORGANIZATIONS,Cultural After-School Adventure (CASA),member_item,Marte,
 CULTURAL ORGANIZATIONS,Cultural After-School Adventure (CASA),member_item,Brewer,"2020 Vision for Schools, Inc.",Frank McCourt High School - Brandeis Campus (03M417),453023036,20000,DCLA,
 CULTURAL ORGANIZATIONS,Cultural After-School Adventure (CASA),member_item,Narcisse,"2020 Vision for Schools, Inc.",Public School 272K Curtis Estabrook (18K272),453023036,20000,DCLA,
 CULTURAL ORGANIZATIONS,Cultural After-School Adventure (CASA),member_item,Powers,"2020 Vision for Schools, Inc.",Public School/M.S 042Q R. Vernam (27Q042),453023036,20000,DCLA,
-CULTURAL ORGANIZATIONS,Cultural After-School Adventure (CASA),member_item,Brooks-,"Powers 2020 Vision for Schools, Inc.",Queens Preparatory Academy (29Q248),453023036,20000,DCLA,
+CULTURAL ORGANIZATIONS,Cultural After-School Adventure (CASA),member_item,Brooks-,"2020 Vision for Schools, Inc.",Queens Preparatory Academy (29Q248),453023036,20000,DCLA,
 CULTURAL ORGANIZATIONS,Cultural After-School Adventure (CASA),member_item,Williams,"A Better Jamaica, Inc.",,113804421,20000,DCLA,
 CULTURAL ORGANIZATIONS,Cultural After-School Adventure (CASA),member_item,Williams,"A Better Jamaica, Inc.",,113804421,20000,DCLA,
 CULTURAL ORGANIZATIONS,Cultural After-School Adventure (CASA),member_item,Moya,"Afro-Latin Jazz Alliance of New York, Inc.",Intermediate School 061Q Leonardo Da Vinci (24Q061),453665976,20000,DCLA,
@@ -3032,7 +3032,7 @@ ENVIRONMENTAL INITIATIVES,,member_item,Moya,Department of Transportation,Helmet 
 ENVIRONMENTAL INITIATIVES,,initiative_provider,,Department of Youth and Community Development,,136400434,535000,DYCD,
 ENVIRONMENTAL INITIATIVES,,member_item,Barron,East New York Restoration Local Development Corporation,42nd Council District - A Greener NYC,461763706,100000,DYCD,
 ENVIRONMENTAL INITIATIVES,,member_item,Williams,"Eastern Queens Alliance, Inc.",,201723492,20000,DYCD,
-ENVIRONMENTAL INITIATIVES,,member_item,Brooks-,"Powers Eastern Queens Alliance, Inc.",Council District 31,201723492,45000,DYCD,
+ENVIRONMENTAL INITIATIVES,,member_item,Brooks-,"Eastern Queens Alliance, Inc.",Council District 31,201723492,45000,DYCD,
 ENVIRONMENTAL INITIATIVES,,member_item,Nurse,Edible Schoolyard New York,Edible Education - Evergreen Middle School for Urban Exploration (32K562),271237249,10000,DYCD,
 ENVIRONMENTAL INITIATIVES,,member_item,Restler,"El Puente de Williamsburg, Inc.",Council District 33,112614265,55000,DYCD,
 ENVIRONMENTAL INITIATIVES,,member_item,Louis,"Elite Learners, Inc.",Council District 45,814482839,20000,DYCD,
@@ -3142,7 +3142,7 @@ ENVIRONMENTAL INITIATIVES,,member_item,Ung,"Queens Botanical Garden Society, Inc
 ENVIRONMENTAL INITIATIVES,,member_item,Lee,"Queens Botanical Garden Society, Inc.",Council District 23,111635083,10000,DCLA,
 ENVIRONMENTAL INITIATIVES,,member_item,Ariola,"Queens Botanical Garden Society, Inc.",Council District 32,111635083,15000,DCLA,
 ENVIRONMENTAL INITIATIVES,,member_item,De La Rosa,"Renaissance Technical Institute, Inc.",,472048750,10000,DYCD,
-ENVIRONMENTAL INITIATIVES,,member_item,Brooks-,"Powers Rockaway Waterfront Alliance, Inc.",Council District 31,113783397,20000,DCLA,
+ENVIRONMENTAL INITIATIVES,,member_item,Brooks-,"Rockaway Waterfront Alliance, Inc.",Council District 31,113783397,20000,DCLA,
 ENVIRONMENTAL INITIATIVES,,member_item,Salamanca,"Rocking the Boat, Inc.",Green Programming & Services - Council District 17,134177814,40000,DCLA,
 ENVIRONMENTAL INITIATIVES,,member_item,De La Rosa,"Row New York, Inc.",Council District 10,113632924,10000,DYCD,
 ENVIRONMENTAL INITIATIVES,,member_item,Joseph,Seeds in the Middle,Council District 40,271847142,10000,DYCD,
@@ -4600,7 +4600,7 @@ SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Neighborhood Development Grant
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Neighborhood Development Grant Initiative,member_item,Brannan,"Brooklyn Alliance, Inc.",Merchants of Third Ave Support,112145956,40000,SBS,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Neighborhood Development Grant Initiative,member_item,Nurse,"Brooklyn Alliance, Inc.",Neighborhood Vitality - Council District 37,112145956,50000,SBS,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Neighborhood Development Grant Initiative,member_item,Gennaro,Brooklyn Legal Services Corporation A,,132605599,20000,SBS,
-SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Neighborhood Development Grant Initiative,member_item,Brooks-,Powers Brooklyn Legal Services Corporation A,Far Rockaway Small Business Clinic,132605599,10000,SBS,
+SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Neighborhood Development Grant Initiative,member_item,Brooks-,Brooklyn Legal Services Corporation A,Far Rockaway Small Business Clinic,132605599,10000,SBS,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Neighborhood Development Grant Initiative,member_item,Aviles,Buddhist Tzu Chi Medical Foundation,Vision Services - Council District 38,954457939,10000,DYCD,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Neighborhood Development Grant Initiative,member_item,Narcisse,"Business Outreach Center Network, Inc.",Women's Business Center - Council District 46,113306111,10000,SBS,
 SMALL BUSINESS SERVICES AND WORKFORCE DEVELOPMENT,Neighborhood Development Grant Initiative,member_item,Mealy,"CAMBA, Inc.",BIVO - Cure Violence Safer Streets,112480339,20000,SBS,
@@ -4748,7 +4748,7 @@ SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Arab Ame
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"ARC XVI Fort Washington, Inc.",,132745426,50000,DFTA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Asian American Federation, Inc.",,133572287,200000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Asian-American Coalition for Children and Families, Inc.",,133682471,25000,DYCD,Funding will support the Asian American Student Advocacy Project (ASAP).
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Menin, Powers Asphalt Green, Inc.",,136533158,175000,DPR,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Asphalt Green, Inc.",,136533158,175000,DPR,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Association of Dominican Classical Artists, Inc.",The Washington Heights Community Conservatory of Fine Arts,133843597,35000,DCLA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Astor Services for Children & Families,,141397918,50000,DHMH,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Ballet Hispanico of New York, Inc.",,132685755,50000,DCLA,
@@ -4793,7 +4793,7 @@ SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Stevens,"Capitol D
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Care for the Homeless,,133666994,50000,DHS,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Careers through Culinary Arts Program,August Martin High School,133662917,10000,DYCD,To provide funding support for food programs at August Martin High School.
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Caribbean Equality Project, Inc., The",Immigration Justice,472806715,15000,DYCD,
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Brewer, Powers Carnegie Hall Corporation, The",The B Side,131923626,25000,DCLA,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Carnegie Hall Corporation, The",The B Side,131923626,25000,DCLA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Carnegie Hill Neighbors, Inc.",Clean Streets Initiative,133300409,65000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Carroll Gardens Association Incorporated,,112573432,20000,SBS,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Carter Burden Center for the Aging, Inc., The",,237129499,50000,DFTA,
@@ -4919,7 +4919,7 @@ SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Goodwill
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Grace Foundation of New York,,134131863,50000,DHMH,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Greater Bethel Community Development Corporation,Agape Outreach Program,320000557,150000,DFTA,"To provide funding support for food, clothing and household items for those in need."
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Greater Jamaica Development Corporation,,237021273,50000,SBS,
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Holden, Greater Ridgewood Youth Council, Inc., The",,112518141,75000,DYCD,Funds to be used for after-school and summer programming at PS 305 and PS 239.
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,Holden,"Greater Ridgewood Youth Council, Inc., The",,112518141,75000,DYCD,Funds to be used for after-school and summer programming at PS 305 and PS 239.
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Hudson,"GRIOT Circle, Inc.",,113364328,30000,DFTA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Guild for Exceptional Children, Inc.",,116037766,120000,DHMH,Provides services to 200 adults with diagnosed intellectual and other disabilities.
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Brannan,"Guild for Exceptional Children, Inc.",,116037766,80000,DHMH,
@@ -5075,7 +5075,7 @@ SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Women's 
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Velazquez,"Planned Parenthood of Greater New York, Inc.",Project Street Beat,132621497,200000,DHMH,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Playwrights Horizons, Inc.",Arts Access,132805131,125000,DCLA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Police Athletic League, Inc.",Edward Byrne Teen Center,135596811,30000,DYCD,"To provide funding support for teen center activities to community youth, ages 13-19."
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Ayala, Manhattan Positive Workforce, Inc.",,133459199,275000,SBS,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Positive Workforce, Inc.",,133459199,275000,SBS,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Pratt Institute,,111630822,150000,SBS,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Project Guardianship, Inc.",,845004265,95000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Project Hope Charities, Inc.",Food Pantry,260897746,100000,DYCD,"Funds will support storage, staff, utilities, van and driver for food pantry."
@@ -5134,7 +5134,7 @@ SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Rivera,"Society of
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Manhattan,Society of the Third Street Music School Settlement,Third Street Partners,135596825,35000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Sophie Gerson Healthy Youth,,462977659,35000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Summer camp for students who are in the year-round program, and tennis instruction for students during both terms of the school year. South Asian Council for Social Services",,113632920,10000,DFTA,To provide funding support for Senior Social services in Southeast Queens.
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Queens, Ung South Asian Council for Social Services",,113632920,60000,DFTA,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,South Asian Council for Social Services,,113632920,60000,DFTA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"South Asian Youth Action, Inc.",,133943630,50000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Funding supports year-round program of academic success, leadership, college access and success, and enrichment activities. South Beach Civic Association, Inc.",,710916558,15000,DYCD,Funds will be used for general operating expenses.
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Spanish Speaking Elderly Council,RAICES - Red Hook Senior Center,112730462,50000,DFTA,
@@ -5197,7 +5197,7 @@ SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Brewer,"West End R
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"West Indian American Day Carnival Association, Inc.",,237176396,500000,DYCD,To provide funding support for cultural programs.
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Bottcher,Westbeth Artists Residents Council,,133154253,25000,DFTA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Westchester Square District Management Association, Inc.",,383873130,50000,SBS,
-SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,"Ariola, Holden Wildcat Service Corporation",,132725423,50000,DYCD,
+SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Wildcat Service Corporation,,132725423,50000,DYCD,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,member_item,Salamanca,Wildlife Conservation Society,Bronx Zoo Community Programming,131740011,125000,DCLA,Funds will be used for environmental access education and community programming.
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Wildlife Conservation Society,SCI Network NYC,131740011,350000,DCLA,
 SPEAKER’S INITIATIVE TO ADDRESS CITYWIDE NEEDS,,initiative_provider,,Wildlife Conservation Society,STEM Career Pipeline,131740011,150000,DCLA,
