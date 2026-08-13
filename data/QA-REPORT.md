@@ -1,7 +1,7 @@
 # NYC Budget — Data QA Report
 
-**Report generated:** 2026-08-12  
-**Data current as of:** 2026-08-12 (files under `data/`)  
+**Report generated:** 2026-08-13  
+**Data current as of:** 2026-08-13 (files under `data/`)  
 **Tool:** `code/validate_data.py`
 
 **Verdict:** PASS — 274 files, 0 hard failure(s), 441 soft advisory(ies).
@@ -57,7 +57,7 @@ Valid 9-digit EINs / total rows, per year and EIN-bearing doctype. Initiatives, 
 | FY2027 | appendix | 3860/3860 | 100.0% |
 | FY2027 | awards | 6118/6118 | 100.0% |
 | FYNone | recovered_appendix | 22234/22234 | 100.0% |
-| FYNone | recovered_awards | 443/443 | 100.0% |
+| FYNone | recovered_awards | 442/442 | 100.0% |
 
 ## Reconciliation roll-up
 
@@ -121,7 +121,7 @@ Advisory, never a gate. Three known structural causes live in this residual: awa
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | FY2015 | 54 | 47 | 7 | 0 | 72,846,000 | 48,788,999 | 24,057,001 | 0 | 24,057,001 | 47 | 24,410,838 |
 | FY2016 | 65 | 50 | 15 | 0 | 86,474,645 | 73,550,272 | 12,924,373 | 9,503,585 | 3,420,788 | 55 | 16,366,740 |
-| FY2017 | 62 | 15 | 46 | 1 | 137,820,597 | 84,169,476 | 53,651,121 | 22,996,522 | 30,654,599 | 28 | 5,732,011 |
+| FY2017 | 62 | 15 | 46 | 1 | 137,820,597 | 84,169,476 | 53,651,121 | 22,966,793 | 30,684,328 | 28 | 5,732,011 |
 | FY2018 | 52 | 23 | 29 | 0 | 109,707,645 | 76,182,556 | 33,525,089 | 16,268,804 | 17,256,285 | 31 | 26,534,400 |
 | FY2019 | 78 | 33 | 39 | 6 | 179,903,641 | 158,781,023 | 21,122,618 | 3,573,279 | 17,549,339 | 39 | 22,245,908 |
 | FY2020 | 82 | 41 | 39 | 2 | 214,474,020 | 174,711,180 | 39,762,840 | 0 | 39,762,840 | 41 | 84,051,205 |
@@ -185,7 +185,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | FY2017 | Naturally Occurring Retirement Communities (NORCs) | short | 3,850,000 | 1,285,000 | 8 | 2,565,000 | 0 | 2,565,000 |
 | FY2017 | Autism Awareness | short | 3,315,386 | 861,383 | 15 | 2,454,003 | 424,003 | 2,030,000 |
 | FY2017 | New York Immigrant Family Unity Project | short | 6,230,000 | 4,153,332 | 2 | 2,076,668 | 2,076,667 | 1 |
-| FY2017 | Community Housing Preservation Strategies | short | 3,651,000 | 1,640,295 | 33 | 2,010,705 | 866,835 | 1,143,870 |
+| FY2017 | Community Housing Preservation Strategies | short | 3,651,000 | 1,640,295 | 33 | 2,010,705 | 837,106 | 1,173,599 |
 | FY2017 | City’s First Readers | short | 2,792,000 | 894,000 | 8 | 1,898,000 | 898,000 | 1,000,000 |
 | FY2017 | Digital Inclusion and Literacy Initiative | short | 2,040,000 | 180,000 | 9 | 1,860,000 | 0 | 1,860,000 |
 | FY2017 | Stabilizing NYC | short | 2,000,000 | 575,000 | 6 | 1,425,000 | 325,000 | 1,100,000 |
@@ -889,7 +889,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy27/schedule_c/fy27_schedule_c_awards.csv` | 6118 | 100% | 0 | duplicate: 34 duplicate row instance(s); e.g. x2: ['Cultural Organizations', 'Cultural After-School Adventure (CASA)', 'member_item', 'Abreu']...; column_bleed: 12 suspected surname-in-program residual(s); e.g. line 203: 'Louis Armstrong Houses TA Association'; org_prose: 1 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 5925: 'Funding to assist low-income individuals and families in Cou' |
 | `fy27/schedule_c/fy27_schedule_c_initiatives.csv` | 170 | — | 0 | — |
 | `fy27/terms/fy27_terms_and_conditions.csv` | 75 | — | 0 | — |
-| `recovered/schedule_c_absorbed_awards.csv` | 443 | 100% | 0 | duplicate: 6 duplicate row instance(s); e.g. x2: ['2017', 'HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 18: 'Hudson Guild' |
+| `recovered/schedule_c_absorbed_awards.csv` | 442 | 100% | 0 | duplicate: 6 duplicate row instance(s); e.g. x2: ['2017', 'HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 18: 'Hudson Guild' |
 | `recovered/schedule_c_appendix_recovered.csv` | 22234 | 100% | 0 | duplicate: 60 duplicate row instance(s); e.g. x3: ['2015', 'appendix_a_aging', 'Ulrich', 'Catholic Charities Neighborhood Services, Inc.']...; column_bleed: 32 suspected surname-in-organization residual(s); e.g. line 1894: 'Hudson Guild' |
 
 ### Notes on the soft heuristics

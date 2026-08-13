@@ -98,3 +98,50 @@ def test_wrong_ein_entries_check_the_ein_column(tmp_path):
                              recovered_organization="[ein 112652331] Acme Org Inc.")])
     r = _run(root)
     assert r.returncode == 0, r.stdout
+
+
+def test_accounted_catches_an_unrecorded_edit(tmp_path, monkeypatch):
+    """The corruption the first three checks all missed: data silently changed with no entry.
+
+    Uses a real throwaway git repo, because ACCOUNTED compares against a ref rather than a file.
+    """
+    import subprocess
+    root = _tree(tmp_path)
+    _crosswalk(root, [_entry()])
+    run = lambda *a: subprocess.run(["git", *a], cwd=root, capture_output=True, text=True)
+    run("init", "-q"); run("config", "user.email", "t@t"); run("config", "user.name", "t")
+    run("add", "-A"); run("commit", "-qm", "base")
+    run("branch", "-M", "main")
+
+    # silently rewrite an organization with no crosswalk entry for it
+    p = root / "data" / "fy20" / "schedule_c" / "fy20_schedule_c_awards.csv"
+    p.write_text(p.read_text(encoding="utf-8").replace("Acme Org Inc.", "Totally Different Org"),
+                 encoding="utf-8")
+    # and point the crosswalk's single entry at the new value so COMPLETE still passes
+    _crosswalk(root, [_entry(recovered_organization="Totally Different Org")])
+
+    r = subprocess.run([sys.executable, os.path.join(HERE, "verify_crosswalk.py")],
+                       cwd=root, capture_output=True, text=True,
+                       env={**os.environ, "CROSSWALK_BASELINE": "main"})
+    assert "COMPLETE  1/1" in r.stdout, r.stdout          # the old checks are fooled
+    assert r.returncode == 1, r.stdout                     # ACCOUNTED is not
+    assert "unexplained" in r.stdout
+
+
+def test_accounted_never_permits_an_amount_change(tmp_path):
+    """No repair may move money, even with a crosswalk entry present for that line."""
+    import subprocess
+    root = _tree(tmp_path)
+    _crosswalk(root, [_entry()])
+    run = lambda *a: subprocess.run(["git", *a], cwd=root, capture_output=True, text=True)
+    run("init", "-q"); run("config", "user.email", "t@t"); run("config", "user.name", "t")
+    run("add", "-A"); run("commit", "-qm", "base"); run("branch", "-M", "main")
+
+    p = root / "data" / "fy20" / "schedule_c" / "fy20_schedule_c_awards.csv"
+    p.write_text(p.read_text(encoding="utf-8").replace(",50000,", ",99999,"), encoding="utf-8")
+
+    r = subprocess.run([sys.executable, os.path.join(HERE, "verify_crosswalk.py")],
+                       cwd=root, capture_output=True, text=True,
+                       env={**os.environ, "CROSSWALK_BASELINE": "main"})
+    assert r.returncode == 1, r.stdout
+    assert "amount" in r.stdout
