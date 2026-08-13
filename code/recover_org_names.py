@@ -39,11 +39,27 @@ def norm_ein(v):
 
 
 def is_prose(org):
-    """A row needing recovery: prose in the name slot, and NOT the merged-boundary defect
-    (org_merged rows have a wrong amount too, so a name swap would make them look trustworthy)."""
+    """Prose in the name slot (the org_prose defect)."""
     if not org or EIN_IN_TEXT.search(org) or "$" in org:
         return False
     return bool(PROSE.search(org))
+
+
+def is_merged(org):
+    """The org_merged defect: a following award's text absorbed into this row, betrayed by an
+    embedded EIN or dollar sign.
+
+    These were initially excluded from recovery on the theory that their `amount` is unreliable,
+    so a clean name would make an untrustworthy figure look sound. Measured against the Council's
+    disclosure that theory holds for only a minority: 248 of 303 have their own (EIN, amount)
+    confirmed present, meaning the row IS correctly valued and correctly attributed and only its
+    organization TEXT is polluted. Those are recoverable on exactly the same key as org_prose.
+
+    The remaining 55 (all FY2016) have no disclosure row for their (EIN, amount). They are left
+    untouched by the unique-match rule below — no confirmation, no substitution — and keep firing
+    the advisory. The absorbed neighbours these rows swallowed are a separate problem: those are
+    MISSING rows, not broken ones, and adding them is not this script's job."""
+    return bool(org) and bool(EIN_IN_TEXT.search(org) or "$" in org)
 
 
 def read_workbook(path):
@@ -146,8 +162,9 @@ def main():
         with open(f, newline="", encoding="utf-8") as fh:
             for ln, r in enumerate(csv.DictReader(fh), start=2):
                 org = (r.get("organization") or "").strip()
-                if not is_prose(org):
+                if not (is_prose(org) or is_merged(org)):
                     continue
+                defect = "org_prose" if is_prose(org) else "org_merged"
                 ein = norm_ein(r.get("ein"))
                 try:
                     amt = int(float(r.get("amount") or 0))
@@ -164,16 +181,28 @@ def main():
                     rows.append(dict(file=f, line=ln, ein=ein, amount=amt,
                                      original_organization=org,
                                      recovered_organization=next(iter(cand)),
-                                     source="council_disclosure", match_key="ein+amount"))
+                                     source="council_disclosure", match_key="ein+amount",
+                                     defect=defect))
                 elif len(cand) > 1:
                     ambiguous.append((f, ln, ein, amt, sorted(cand)))
                 else:
                     unresolved.append((f, ln, ein, org))
 
     os.makedirs("data/combined", exist_ok=True)
+    # The crosswalk is the audit trail for every substitution ever applied, so it must ACCUMULATE.
+    # Re-running after an earlier pass would otherwise drop the earlier entries and leave those
+    # edits undocumented — the file is the thing a reader checks our work against.
+    prior = []
+    if os.path.exists(CROSSWALK):
+        with open(CROSSWALK, newline="", encoding="utf-8") as fh:
+            prior = list(csv.DictReader(fh))
+    seen = {(r["file"], r["line"]) for r in rows}
+    rows = [r for r in prior if (r["file"], r["line"]) not in seen] + rows
+    rows.sort(key=lambda r: (r["file"], int(r["line"])))
     with open(CROSSWALK, "w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=["file", "line", "ein", "amount", "source", "match_key",
-                                           "original_organization", "recovered_organization"])
+        w = csv.DictWriter(fh, fieldnames=["file", "line", "ein", "amount", "defect", "source",
+                                           "match_key", "original_organization",
+                                           "recovered_organization"])
         w.writeheader()
         w.writerows(rows)
 
