@@ -57,7 +57,7 @@ Valid 9-digit EINs / total rows, per year and EIN-bearing doctype. Initiatives, 
 | FY2027 | appendix | 3860/3860 | 100.0% |
 | FY2027 | awards | 6118/6118 | 100.0% |
 | FYNone | recovered_appendix | 26127/26127 | 100.0% |
-| FYNone | recovered_awards | 442/442 | 100.0% |
+| FYNone | recovered_awards | 437/437 | 100.0% |
 
 ## Reconciliation roll-up
 
@@ -121,9 +121,9 @@ Advisory, never a gate. Three known structural causes live in this residual: awa
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | FY2015 | 56 | 49 | 7 | 0 | 73,646,000 | 49,588,999 | 24,057,001 | 0 | 24,057,001 | 49 | 23,610,838 |
 | FY2016 | 65 | 50 | 15 | 0 | 86,474,645 | 73,550,272 | 12,924,373 | 9,503,585 | 3,420,788 | 55 | 16,366,740 |
-| FY2017 | 62 | 15 | 46 | 1 | 137,820,597 | 84,537,586 | 53,283,011 | 22,966,793 | 30,316,218 | 28 | 5,363,901 |
+| FY2017 | 62 | 15 | 46 | 1 | 137,820,597 | 84,537,586 | 53,283,011 | 22,966,522 | 30,316,489 | 28 | 5,363,901 |
 | FY2018 | 53 | 23 | 30 | 0 | 113,407,645 | 77,800,804 | 35,606,841 | 16,268,804 | 19,338,037 | 31 | 24,916,152 |
-| FY2019 | 78 | 33 | 38 | 7 | 179,903,641 | 160,483,245 | 19,420,396 | 3,573,279 | 15,847,117 | 39 | 20,543,686 |
+| FY2019 | 78 | 33 | 38 | 7 | 179,903,641 | 160,483,245 | 19,420,396 | 3,548,279 | 15,872,117 | 39 | 20,543,686 |
 | FY2020 | 89 | 42 | 45 | 2 | 237,351,206 | 190,972,466 | 46,378,740 | 0 | 46,378,740 | 42 | 67,789,919 |
 | FY2021 | 81 | 44 | 36 | 1 | 188,373,880 | 129,725,478 | 58,648,402 | 0 | 58,648,402 | 44 | 72,344,710 |
 | FY2022 | 75 | 34 | 38 | 3 | 189,078,720 | 146,571,825 | 42,506,895 | 0 | 42,506,895 | 34 | 75,985,118 |
@@ -140,7 +140,7 @@ Unjoined detail — dollars this check cannot test, per year:
 | FY2015 | 22 | 23,610,838 | 0 | 0 | 0 |
 | FY2016 | 15 | 16,366,740 | 0 | 0 | 1,555,980 |
 | FY2017 | 8 | 5,174,171 | 9 | 189,730 | 4,883,980 |
-| FY2018 | 20 | 22,400,501 | 29 | 2,515,651 | 7,036,150 |
+| FY2018 | 20 | 22,400,501 | 29 | 2,515,651 | 7,004,150 |
 | FY2019 | 15 | 18,052,836 | 31 | 2,490,850 | 684,421 |
 | FY2020 | 18 | 42,846,440 | 436 | 24,943,479 | 0 |
 | FY2021 | 30 | 59,425,430 | 326 | 12,919,280 | 0 |
@@ -186,7 +186,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | FY2017 | Autism Awareness | short | 3,315,386 | 861,383 | 15 | 2,454,003 | 424,003 | 2,030,000 |
 | FY2017 | New York Immigrant Family Unity Project | short | 6,230,000 | 4,153,332 | 2 | 2,076,668 | 2,076,667 | 1 |
 | FY2017 | City’s First Readers | short | 2,792,000 | 894,000 | 8 | 1,898,000 | 898,000 | 1,000,000 |
-| FY2017 | Community Housing Preservation Strategies | short | 3,651,000 | 1,848,405 | 40 | 1,802,595 | 837,106 | 965,489 |
+| FY2017 | Community Housing Preservation Strategies | short | 3,651,000 | 1,848,405 | 40 | 1,802,595 | 866,835 | 935,760 |
 | FY2017 | Digital Inclusion and Literacy Initiative | short | 2,040,000 | 340,000 | 17 | 1,700,000 | 0 | 1,700,000 |
 | FY2017 | Stabilizing NYC | short | 2,000,000 | 575,000 | 6 | 1,425,000 | 325,000 | 1,100,000 |
 | FY2017 | Afterschool Enrichment Initiative | short | 5,425,000 | 4,075,000 | 2 | 1,350,000 | 0 | 1,350,000 |
@@ -207,7 +207,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | FY2017 | Small Business Outreach and Assistance Program | short | 1,288,855 | 666,250 | 5 | 622,605 | 522,605 | 100,000 |
 | FY2017 | Initiative to Combat Sexual Assault | short | 1,348,000 | 748,000 | 1 | 600,000 | 450,000 | 150,000 |
 | FY2017 | Geriatric Mental Health | short | 1,827,000 | 1,229,000 | 14 | 598,000 | 434,000 | 164,000 |
-| FY2017 | Dropout Prevention and Intervention Initiative | short | 1,595,000 | 1,015,000 | 8 | 580,000 | 300,000 | 280,000 |
+| FY2017 | Dropout Prevention and Intervention Initiative | short | 1,595,000 | 1,015,000 | 8 | 580,000 | 270,000 | 310,000 |
 | FY2017 | Support for Educators | short | 12,744,500 | 12,294,500 | 1 | 450,000 | 450,000 | 0 |
 | FY2017 | Mental Health Services for Vulnerable Populations | short | 1,093,000 | 663,295 | 6 | 429,705 | 280,000 | 149,705 |
 | FY2017 | Support for Victims of Human Trafficking | short | 750,000 | 325,000 | 3 | 425,000 | 375,000 | 50,000 |
@@ -265,7 +265,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | FY2019 | Crisis Management System | short | 2,590,000 | 810,000 | 3 | 1,780,000 | 0 | 1,780,000 |
 | FY2019 | Alternatives to Incarceration (ATI’s) | short | 8,107,000 | 6,357,000 | 17 | 1,750,000 | 0 | 1,750,000 |
 | FY2019 | Court-Involved Youth Mental Health | short | 2,850,000 | 1,193,000 | 9 | 1,657,000 | 0 | 1,657,000 |
-| FY2019 | Borough Presidents’ Discretionary Funding Restoration | over | 1,129,774 | 2,732,000 | 22 | -1,602,226 | 25,000 | -1,627,226 |
+| FY2019 | Borough Presidents’ Discretionary Funding Restoration | over | 1,129,774 | 2,732,000 | 22 | -1,602,226 | 0 | -1,602,226 |
 | FY2019 | Access Health | short | 2,500,000 | 1,187,000 | 17 | 1,313,000 | 0 | 1,313,000 |
 | FY2019 | Dropout Prevention and Intervention | short | 2,485,000 | 1,180,000 | 4 | 1,305,000 | 0 | 1,305,000 |
 | FY2019 | Initiative to Combat Sexual Assault | short | 2,810,000 | 1,548,000 | 5 | 1,262,000 | 200,000 | 1,062,000 |
@@ -966,7 +966,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy27/schedule_c/fy27_schedule_c_awards.csv` | 6118 | 100% | 0 | duplicate: 34 duplicate row instance(s); e.g. x2: ['Cultural Organizations', 'Cultural After-School Adventure (CASA)', 'member_item', 'Abreu']...; column_bleed: 15 suspected surname-in-program residual(s); e.g. line 203: 'Louis Armstrong Houses TA Association'; org_prose: 1 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 5925: 'Funding to assist low-income individuals and families in Cou' |
 | `fy27/schedule_c/fy27_schedule_c_initiatives.csv` | 170 | — | 0 | — |
 | `fy27/terms/fy27_terms_and_conditions.csv` | 75 | — | 0 | — |
-| `recovered/schedule_c_absorbed_awards.csv` | 442 | 100% | 0 | duplicate: 6 duplicate row instance(s); e.g. x2: ['2017', 'HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 18: 'Hudson Guild' |
+| `recovered/schedule_c_absorbed_awards.csv` | 437 | 100% | 0 | duplicate: 6 duplicate row instance(s); e.g. x2: ['2017', 'HOUSING', 'Community Housing Preservation Strategies', 'initiative_provider']...; column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 18: 'Hudson Guild' |
 | `recovered/schedule_c_appendix_recovered.csv` | 26127 | 100% | 0 | duplicate: 65 duplicate row instance(s); e.g. x3: ['2015', 'appendix_a_aging', 'Ulrich', 'Catholic Charities Neighborhood Services, Inc.']...; column_bleed: 37 suspected surname-in-organization residual(s); e.g. line 1894: 'Hudson Guild' |
 
 ### Notes on the soft heuristics

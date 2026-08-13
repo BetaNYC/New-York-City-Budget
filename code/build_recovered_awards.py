@@ -86,6 +86,23 @@ def main():
             "disclosure_confirmed": "yes" if c.get("d_organization") else "no",
         })
 
+    # CROSS-SIDECAR DEDUP. The appendix recovery emits the same award when a designation belongs
+    # to an appendix stream, so an award could be published twice across the two files — 6 were,
+    # worth $87,000, all of them medium-confidence name matches here. The appendix sidecar is
+    # authoritative for appendix streams, so drop ours.
+    appendix = "data/recovered/schedule_c_appendix_recovered.csv"
+    if os.path.exists(appendix):
+        import re as _re
+        with open(appendix, newline="", encoding="utf-8") as fh:
+            other = {(r["fiscal_year"], _re.sub(r"\D", "", r["ein"]), int(float(r["amount"])))
+                     for r in csv.DictReader(fh)}
+        before = len(rows)
+        rows = [r for r in rows
+                if (str(r["fiscal_year"]), _re.sub(r"\D", "", r["ein"]), int(float(r["amount"])))
+                not in other]
+        if before != len(rows):
+            print(f"  dropped {before - len(rows)} award(s) already in the appendix sidecar")
+
     rows.sort(key=lambda r: (r["fiscal_year"], r["organization"], int(r["amount"])))
     with open(OUT, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=FIELDS)
