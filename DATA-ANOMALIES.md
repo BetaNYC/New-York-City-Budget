@@ -288,3 +288,61 @@ cheaper and more reliable than repairing the PDF parser.
 disclosure files is materially below 100% in **every** fiscal year, not only the years above, and
 row capture and dollar capture differ by up to a factor of five because the awards that go missing
 are the small ones. Always publish both numbers and name what each measures.
+
+---
+
+## 21. Schedule C awards — the extraction defects repaired 2026-08-12, and what remains — PARTIALLY RESOLVED
+
+A single community PR review surfaced a family of related extraction defects in the award stream.
+All share one cause: the parser identifies an award by an EIN followed by an amount, and where the
+source PDF prints anything between them, the row boundary is lost. This entry records what was
+repaired, how, and what deliberately was not.
+
+### Repaired
+
+| class | rows | what was wrong | how it was fixed |
+|---|---:|---|---|
+| `org_prose` | 1,060 | purpose prose sat where the grantee name belongs | recovered on (EIN, amount) from the Council's disclosure |
+| `org_merged` | 211 | a neighbouring award's text absorbed into the field | same key, unique matches only |
+| `wrong_ein` | 20 | right name and amount, a neighbour's EIN | corrected on (name, amount) |
+| `member_bleed` | 1,083 | sponsoring member's surname prefixed to the org name | peeled only where disclosure confirms the remainder |
+| residual | 44 | unresolvable on one source | applied only where two independent sources agree |
+
+**All 2,418 substitutions are recorded in `data/combined/org_name_recovery_crosswalk.csv`** with the
+original value, the replacement, the EIN, the amount and the defect class. `code/verify_crosswalk.py`
+asserts the trail is COMPLETE, GROUNDED and UNIQUE, and fails hard otherwise — a wrong audit trail
+is worse than none, because it asserts provenance that does not hold.
+
+**No amount was altered.** `code/verify_no_dollars_moved.py` confirms all thirteen fiscal years
+carry an identical dollar total before and after: $3,741,615,569, delta $0.
+
+### Method, and the two keys that are NOT safe
+
+- **The join key is (EIN, amount)**, never EIN alone. Fiscal sponsors pass funds through for many
+  grantees: EIN 13-2612524 (Fund for the City of New York) carries **229 distinct names** in this
+  corpus. Keying on EIN would stamp the sponsor's name onto awards that went elsewhere.
+- **Council member is never a key component.** The disclosure workbooks are republished with the
+  roster current at snapshot time, not the one that adopted the budget. Including `member` drops
+  the unique-match rate from 96% to 24%.
+- **Disclosure headers are matched by case-insensitive substring.** They drift across the series —
+  FY2016 heads the name column `Legal Name of Organization Requesting Funding`, FY2014 heads the
+  amount `Amount ($`, FY2024+ use `Legal Name`/`Tax ID`. Exact matching silently skipped two whole
+  years before this was caught.
+- **Nothing is applied on a non-unique match.** A row left flagged is a correct outcome.
+
+### A number that was published and is wrong
+
+An early scan reported **3,893 member-bleed rows**. That was a leading-token count and it is mostly
+false positives: of 4,779 rows beginning with a surname or borough, **3,425 are correct as printed**
+— Brooklyn Book Bodega, Queens Borough Public Library, Louis Armstrong House Museum, Hudson Guild.
+The real class is ~1,354. Anyone quoting 3,893 is quoting a pattern match, not a defect count.
+
+### Not repaired, deliberately
+
+- **140 `org_prose` and 64 `org_merged` rows** could not be resolved to a single candidate. They
+  remain flagged rather than filled with a plausible guess.
+- **4 rows have an entirely empty organization.**
+- **The absorbed awards themselves** — the awards those merged rows swallowed — are published as a
+  sidecar rather than added to the per-year files. See §20 and `data/recovered/`.
+- **The parser.** Nothing here stops the defect recurring; FY2027 produced 80 fresh `org_prose`
+  rows. That is the open half of GitHub issue #52.
