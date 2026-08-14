@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Schedule C extraction review</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Schedule C <span>extraction review</span></h1>
+    <select id="year" aria-label="Fiscal year"></select>
+    <div id="summary" class="summary"></div>
+    <nav id="tabs" class="tabs">
+      <button data-tab="page" class="on">Page review</button>
+      <button data-tab="qa">QA metrics</button>
+      <button data-tab="pipeline">Pipeline</button>
+      <button data-tab="unplaced">Unplaced rows</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- PAGE REVIEW: the source page beside the rows it produced -->
+    <section id="tab-page" class="tab on">
+      <div class="split">
+        <div class="pane pdf-pane">
+          <div class="pane-head">
+            <button id="prev">‹</button>
+            <span id="pageLabel">page —</span>
+            <button id="next">›</button>
+            <input id="pageJump" type="number" min="1" placeholder="go to" />
+            <label class="chk"><input type="checkbox" id="onlyRows" /> only pages with rows</label>
+            <label class="chk"><input type="checkbox" id="onlyFlagged" /> only pages with defects</label>
+          </div>
+          <div id="pdfWrap" class="pdf-wrap"><canvas id="pdf"></canvas></div>
+          <details class="raw">
+            <summary>Text layer the parser read (pypdf)</summary>
+            <pre id="pageText"></pre>
+          </details>
+        </div>
+
+        <div class="pane rows-pane">
+          <div class="pane-head">
+            <span id="rowsLabel">rows from this page</span>
+            <span id="anchorLabel" class="muted"></span>
+          </div>
+          <div id="rows" class="rows"></div>
+        </div>
+      </div>
+      <aside id="detail" class="detail" hidden></aside>
+    </section>
+
+    <!-- QA METRICS -->
+    <section id="tab-qa" class="tab">
+      <div id="qa"></div>
+    </section>
+
+    <!-- PIPELINE: what each stage did, in order -->
+    <section id="tab-pipeline" class="tab">
+      <div id="pipeline"></div>
+    </section>
+
+    <!-- ROWS THAT COULD NOT BE PLACED ON A PAGE -->
+    <section id="tab-unplaced" class="tab">
+      <p class="note">
+        Rows whose <code>(EIN, amount)</code> pair is printed on <strong>no</strong> page of this
+        PDF. Each is either a row whose amount was altered after extraction, or evidence that the
+        page attribution itself is wrong. Both are worth knowing; neither is assumed here.
+      </p>
+      <div id="unplaced" class="rows"></div>
+    </section>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

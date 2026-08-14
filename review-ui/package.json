@@ -1,0 +1,19 @@
+{
+  "name": "schedule-c-review-ui",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Side-by-side review of the Schedule C extraction: source PDF page, the rows it produced, and the QA state of each.",
+  "scripts": {
+    "index": "python3 build_index.py",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10"
+  },
+  "dependencies": {
+    "pdfjs-dist": "^4.7.76"
+  }
+}
