@@ -7,3 +7,7 @@ __pycache__/
 mcp/node_modules/
 mcp/dist/
 mcp/**/budget.db*
+
+# Derived PDF text cache (build_index.py, verify_amounts_against_pdf.py). ~62MB, and it
+# regenerates from source/ in minutes -- there is no reason for it to reach the repo.
+build/
