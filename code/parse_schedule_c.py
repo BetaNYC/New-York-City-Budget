@@ -19,7 +19,16 @@ council-member names are derived from the document itself so the parser isn't pi
 import re, csv, os, argparse
 
 RUNHDR  = re.compile(r'(?i)^fiscal year \d{4} adopted expense budget adjustment summary')
-ANCHOR  = re.compile(r'(\d{2}-?\d{7})\s+\$([\d,]+)((?:\s+[A-Z]{2,6}(?:/[A-Z]{2,6})?)?)')
+# The `$` is OPTIONAL and the `*` column is tolerated, because FY2015-FY2020 print neither the way
+# FY2021+ does. Those years print a bare `10,000`, sometimes preceded by a `*` marker column that
+# sits between EIN and Amount ("112444676 * 3,500"), and FY2018 prints cents ("$10,000.00").
+# Requiring the `$` cost ~29,000 award rows across FY2015-FY2020 -- in the BODY as well as the
+# appendices -- because a document that prints no dollar sign anchored nothing. See issue #59.
+#
+# The cents group matters twice: it recovers FY2018, and it is the root cause of the "FY2018 aging
+# shift" that code/fix_fy18_aging_shift.py patches after the fact. Stopping at the decimal point
+# left `.00 ` at the front of 422 purpose strings. Capture it here and the defect never exists.
+ANCHOR  = re.compile(r'(\d{2}-?\d{7})\s+\*?\s*\$?([\d,]+(?:\.\d{2})?)((?:\s+[A-Z]{2,6}(?:/[A-Z]{2,6})?)?)')
 AMT_END = re.compile(r'\$([\d,]+)\s*$')
 NAME_LINE = re.compile(r"^[A-Z][A-Za-z.'\-]+(?: [A-Z][A-Za-z.'\-]+){0,2}$")
 TOC_LINE  = re.compile(r'^(.+?)\s*\.{3,}\s*\d+\s*$')
@@ -42,7 +51,13 @@ _PURPVERB = (r"will|would|to|are|is|was|be|been|shall|may|can|could|used|go|goin
              r"purchase|pay|allow|expand|create|fund|make|reimburse")
 _FUNDLEAD = r"funds|funding|finds|(?:fund|find)\s+(?:" + _PURPVERB + r")\b"
 
-def money(s): return int(str(s).replace(",","").replace("$","").strip())
+def money(s):
+    # float() then int() because FY2018 prints cents ("$10,000.00"). Every observed value is a whole
+    # number of dollars; a fractional cent would be a source defect worth failing on, not rounding.
+    v = float(str(s).replace(",", "").replace("$", "").strip())
+    if v != int(v):
+        raise ValueError(f"non-integral amount in source: {s!r}")
+    return int(v)
 def norm(s):  return re.sub(r'\s+',' ',s).strip().upper()
 def eind(e):  return e.replace("-","")   # digits-only EIN for stable aggregation
 
