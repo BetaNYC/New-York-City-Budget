@@ -11,7 +11,8 @@ that need a variant parser and the ones that are blocked at the source.
 
 All commands assume you are at the repo root with the venv active (`.venv/bin/python`), and
 that the packages in `code/requirements.txt` are installed (`pypdf`, `pdfplumber`,
-`cryptography`, and `xlrd` for the FY2013 expense disclosure only).
+`cryptography`, `xlrd` for the FY2013 expense disclosure only, and `openpyxl` for
+`audit_disclosure.py` only).
 
 ## Parsers and which document type each one handles
 
@@ -388,6 +389,18 @@ FY2013 numeric ZIP and address cells as `10002.0` (3,673 cells; here `10002`), d
 FY2016 fiscal-conduit EIN cells (`DID NOT APPLY IN FY16` → `16`; here kept as published),
 rendered one date-formatted FY2016 `address2` cell as `2015-02-02 00:00:00` (here the stored value
 `42037`), and kept zero-width characters in four cells (here deleted).
+
+**Independent audit (`code/audit_disclosure.py` → `data/DISCLOSURE-AUDIT.md`).** A second reader
+(openpyxl and raw sheet XML, headers mapped by its own keyword rules, never this parser) re-reads
+every workbook and asks 53 questions of the dataset: the Schedule C defect classes (member bleed,
+prose and truncation in names, cents in purpose, merged rows, wrong EINs, duplicates, subtotal
+rows, positional shift, headers that hide a year, circular checks) plus spreadsheet hazards
+(hidden rows/sheets, merged cells, date/number coercion, error cells, formula amounts, appended
+rows). Its headline: every one of the 2,372,452 cell-sourced values in the CSVs equals the
+workbook cell, and the per-year × status sums agree to the cent. Since 2026-10-12, invisible
+format characters (Unicode category Cf, including 213 soft hyphens and 2 left-to-right marks) are
+deleted, not just zero-width spaces. FY2013 is only partly independent (xlrd is both readers'
+library).
 
 ---
 

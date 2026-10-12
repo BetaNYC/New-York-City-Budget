@@ -68,8 +68,10 @@ refresh-cadence signal.
 `MOCS ID#, Fiscal Year, Source, Council Member, Legal Name, Tax ID, Status, Amount, Agency,
 Program Name, Grantee Street Address, Grantee Street Address (2), City, State, Zip, …`
 
-- **`MOCS ID#`** (e.g. `FY25 00001`) — Mayor's Office of Contract Services identifier; a stable
-  per-award key and the join to registered contracts / Checkbook spending. **Present FY2024+ only.**
+- **`MOCS ID#`** (e.g. `FY25 00001`) — Mayor's Office of Contract Services identifier, one per
+  row. **Present FY2024+ only.** Not stable across snapshots (131 FY2026 IDs re-prefixed
+  `FY26GP`, FY2027 re-issues, an ID whose EIN changed; IDs ascend with sheet order), and its
+  join to registered contracts / Checkbook is **unverified** (see `DATA-ANOMALIES.md` §22).
 - **`Tax ID`** — grantee EIN; the reliable join to IRS 990 / nonprofit data.
 - **`Status`** — `Cleared` or `Pending` (clearance state of the designation).
 - **`Source`** — funding stream: `Local`, `Youth`, `Aging`, `Speaker's Initiative`, or one of
@@ -107,8 +109,10 @@ as a source record only.
 2. **`Status` (Cleared vs Pending) must be handled deliberately.** The upcoming budget year is
    heavily Pending at publication (FY2027 was ~50% Pending on 2026-07-15 and 16% Pending by
    dollars on 2026-10-12).
-3. **Organization names have minor inconsistencies** (leading spaces, quoting). `Tax ID` (EIN) and
-   `MOCS ID#` are the reliable keys.
+3. **Organization names have minor inconsistencies** (leading spaces, quoting). `Tax ID` (EIN) is
+   the reliable key within a year (it pools fiscal-sponsor programs, and the City's own EIN
+   `136400434` covers hundreds of City bodies). `MOCS ID#` identifies a row within one snapshot
+   only; see above.
 
 ## Re-pulling a snapshot (and diffing it against the one committed here)
 
