@@ -22,6 +22,7 @@ import {
   buildMeetingUrl,
   searchDisclosure,
   listDisclosureSnapshots,
+  normEin,
   DISCLOSURE_STATUSES,
   type AwardRow,
   type DisclosureResult,
@@ -108,6 +109,22 @@ function disclosureText(res: DisclosureResult): string {
       );
     }
   }
+  const label = { council_member: "council_member", source: "source", agency: "agency" } as const;
+  for (const col of ["council_member", "source", "agency"] as const) {
+    const vals = res.matched_values[col];
+    if (!vals || vals.length < 2) continue;
+    const shown = vals.slice(0, 15).map((v) => `${v.value || "(blank)"} (${n(v.rows)} row(s), ${usd(v.amount)})`);
+    L.push(
+      "",
+      `Note: the ${label[col]} filter is a substring match and matched ${n(vals.length)} different values; the totals above combine them: ` +
+        shown.join("; ") + (vals.length > 15 ? `; and ${n(vals.length - 15)} more` : "") + "."
+    );
+  }
+  if (res.ein_legal_names != null && res.ein_legal_names > 1)
+    L.push(
+      "",
+      `Note: ${n(res.ein_legal_names)} different legal names carry this EIN in the match. One EIN can pool many bodies: a fiscal sponsor's projects, or, for 136400434 (the City of New York), hundreds of City agencies, schools and programs. Read the names, not just the EIN.`
+    );
   L.push("", "Snapshot (which download each year comes from):");
   for (const s of res.snapshots) {
     L.push(`  FY${s.fiscal_year}: ${s.file}, sheet "${s.sheet}", retrieved ${s.retrieved} (sha256 ${s.sha256.slice(0, 12)})`);
@@ -281,15 +298,15 @@ export const TOOLS = [
       type: "object",
       properties: {
         fiscal_year: { type: "number", description: "Any year FY2013–FY2027" },
-        ein: { type: "string", description: "Grantee tax ID; hyphens optional. Matches the grantee EIN only, not the fiscal conduit's." },
+        ein: { type: "string", description: "Grantee tax ID: exactly 9 digits, hyphens optional (anything else is an error, never padded). Matches the grantee EIN only, not the fiscal conduit's. One EIN can cover many bodies (136400434 is the City of New York); the answer says how many legal names it matched." },
         legal_name: { type: "string", description: "Grantee legal name (substring, case-insensitive)" },
         council_member: {
           type: "string",
-          description: "Council member as the workbook names them (substring) — the roster at export time, e.g. 'Speaker' for Speaker's designations",
+          description: "Council member as the workbook names them (case-insensitive substring; 'Levin' also matches 'Levine', and the answer lists every value matched) — the roster at export time, e.g. 'Speaker' for Speaker's designations",
         },
         source: {
           type: "string",
-          description: "Funding stream as the workbook names it (substring): Local, Youth, Aging, Speaker's Initiative, or a citywide initiative name",
+          description: "Funding stream as the workbook names it (case-insensitive substring; 'Youth' also matches initiatives such as 'Summer Youth Employment Program', and the answer lists every value matched): Local, Youth, Aging, Speaker's Initiative, or a citywide initiative name",
         },
         agency: { type: "string", description: "City agency (substring), e.g. DYCD" },
         program_name: { type: "string", description: "Program name (substring)" },
@@ -300,7 +317,7 @@ export const TOOLS = [
         },
         min_amount: { type: "number", description: "Minimum designation amount, dollars (inclusive)" },
         max_amount: { type: "number", description: "Maximum designation amount, dollars (inclusive)" },
-        limit: { type: "number", description: "Max rows shown (default 50, max 500). Totals always cover every match." },
+        limit: { type: "number", description: "Max rows shown, 1–500 (default 50; above 500 is capped at 500, below 1 is an error). Totals always cover every match." },
       },
       additionalProperties: false,
     },
@@ -591,6 +608,26 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             max_amount: z.number().optional(),
             limit: z.number().int().optional(),
           }).strict(), args);
+        // An EIN is 9 digits. A value with no digits ("N/A") used to normalize to "" and match
+        // the 6 blank-EIN rows; an 8-digit value (a leading zero lost in a spreadsheet) matched
+        // nothing while its 9-digit form has rows. Both are refused, never guessed at.
+        if (a.ein != null) {
+          const digits = normEin(a.ein);
+          if (digits.length !== 9)
+            return {
+              content: [{
+                type: "text",
+                text: `Error: ein must be 9 digits (hyphens optional); got ${JSON.stringify(a.ein)}, which has ${digits.length}.` +
+                  (digits.length === 8 ? ` If a spreadsheet dropped a leading zero, try "0${digits}".` : ""),
+              }],
+              isError: true,
+            };
+        }
+        if (a.limit != null && a.limit < 1)
+          return {
+            content: [{ type: "text", text: `Error: limit must be at least 1 (got ${a.limit}); totals always cover every match, so a small limit is enough to see them.` }],
+            isError: true,
+          };
         if (a.min_amount != null && a.max_amount != null && a.min_amount > a.max_amount)
           return {
             content: [{ type: "text", text: `Error: min_amount (${a.min_amount}) is greater than max_amount (${a.max_amount}); nothing can match.` }],

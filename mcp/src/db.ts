@@ -398,6 +398,13 @@ export interface DisclosureTotal {
   amount: number;
 }
 
+/** One distinct value a substring filter matched, with its share of the match. */
+export interface DisclosureValueCount {
+  value: string;
+  rows: number;
+  amount: number;
+}
+
 export interface DisclosureResult {
   /** The page: at most `limit` rows, highest amount first. */
   rows: DisclosureRow[];
@@ -409,6 +416,25 @@ export interface DisclosureResult {
   by_year: { fiscal_year: number; totals: Record<DisclosureStatus, DisclosureTotal> }[];
   /** Snapshot provenance for every year in the match (or the filtered year, if nothing matched). */
   snapshots: DisclosureSnapshot[];
+  /**
+   * For each substring filter given (council_member, source, agency), the distinct values it
+   * matched -- so 'Levin' matching Levin AND Levine, or 'Youth' matching the Youth stream AND
+   * 'Summer Youth Employment Program', is visible instead of silently summed (#51).
+   */
+  matched_values: Partial<Record<"council_member" | "source" | "agency", DisclosureValueCount[]>>;
+  /** Distinct grantee legal names among the matches, when an EIN was given. */
+  ein_legal_names?: number;
+}
+
+/**
+ * Case-insensitive substring match with LIKE's wildcards taken literally: a filter of "_" or
+ * "100%" means those characters, not "any one character" / "anything" (legal_name "_" used to
+ * match all 139,556 rows).
+ */
+function likeLiteral(column: string, params: unknown[], value?: string): string | null {
+  if (value == null || value.trim() === "") return null;
+  params.push(`%${value.trim().replace(/[\\%_]/g, (c) => "\\" + c)}%`);
+  return `${column} LIKE ? ESCAPE '\\' COLLATE NOCASE`;
 }
 
 const emptyTotals = (): Record<DisclosureStatus, DisclosureTotal> => ({
@@ -427,11 +453,11 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
   const w = where([
     eqClause("fiscal_year", p, f.fiscal_year),
     f.ein ? (p.push(normEin(f.ein)), "ein = ?") : null,
-    likeClause("legal_name", p, f.legal_name),
-    likeClause("council_member", p, f.council_member),
-    likeClause("source", p, f.source),
-    likeClause("agency", p, f.agency),
-    likeClause("program_name", p, f.program_name),
+    likeLiteral("legal_name", p, f.legal_name),
+    likeLiteral("council_member", p, f.council_member),
+    likeLiteral("source", p, f.source),
+    likeLiteral("agency", p, f.agency),
+    likeLiteral("program_name", p, f.program_name),
     f.status ? (p.push(f.status), "status_norm = ?") : null,
     f.min_amount != null ? (p.push(f.min_amount), "amount >= ?") : null,
     f.max_amount != null ? (p.push(f.max_amount), "amount <= ?") : null,
@@ -480,12 +506,28 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
         .all(...snapYears) as DisclosureSnapshot[])
     : [];
 
+  const matched_values: DisclosureResult["matched_values"] = {};
+  for (const col of ["council_member", "source", "agency"] as const) {
+    if (f[col] == null || f[col]!.trim() === "") continue;
+    matched_values[col] = db
+      .prepare(
+        `SELECT ${col} AS value, COUNT(*) AS rows, SUM(amount) AS amount FROM disclosure ${w}
+         GROUP BY ${col} ORDER BY rows DESC, value`
+      )
+      .all(...p) as DisclosureValueCount[];
+  }
+  const ein_legal_names = f.ein
+    ? (db.prepare(`SELECT COUNT(DISTINCT legal_name) AS n FROM disclosure ${w}`).get(...p) as { n: number }).n
+    : undefined;
+
   return {
     rows,
     matched,
     totals,
     by_year: [...years.entries()].map(([fiscal_year, t]) => ({ fiscal_year, totals: t })),
     snapshots,
+    matched_values,
+    ein_legal_names,
   };
 }
 

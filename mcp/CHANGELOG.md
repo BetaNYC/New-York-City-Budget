@@ -44,6 +44,28 @@ below before comparing a figure with one published from 1.3.x.
   and `MANIFEST.csv`, never from the index under test. Mutation-checked: computing totals from
   the page, hiding truncation, stripping unknown parameters, folding Pending into Cleared and
   limiting before ordering each fail at least one test.
+- `test/disclosure-audit.test.js` (14 tests): the Schedule C audit questions asked of this tool
+  (M1–M12 in `data/DISCLOSURE-AUDIT.md`). Totals are checked against the CSVs summed **exactly**
+  (BigInt) for every fiscal year × status, so a one-cent float residue would fail. Mutation-
+  checked: OR-ing the fiscal-conduit EIN into the `ein` filter, unescaping LIKE, a
+  fiscal-year-first sort, removing the limit, EIN and multi-value guards, and truncating amounts
+  in the SQL sum each fail at least one test.
+
+### Fixed (found by the disclosure audit before release)
+- **`ein` must be 9 digits.** `ein: "N/A"` normalized to `""` and matched the 6 rows with a blank
+  EIN; an 8-digit EIN (a leading zero lost in a spreadsheet) silently matched nothing while its
+  9-digit form has rows. Both are now an error; the 8-digit case names the zero-padded form to
+  try. Nothing is padded or guessed.
+- **`limit` below 1 is an error.** `0` and negatives silently returned one row.
+- **LIKE wildcards are literal.** `legal_name: "_"` matched all 139,556 rows; `%`, `_` and `\`
+  in a text filter are now escaped. (This tool only; the older tools' shared `likeClause` is
+  unchanged in this release.)
+- **A substring filter that matches several values says so.** `council_member: "Levin"` summed
+  Levin and Levine; `source: "Youth"` summed the Youth stream and initiatives such as Summer
+  Youth Employment Program. The answer now lists every distinct `council_member`, `source` or
+  `agency` value the filter matched, with rows and dollars, when there is more than one.
+- **An EIN that pools many names says how many.** `ein: "136400434"` (the City of New York) covers
+  hundreds of City bodies; the answer now counts the distinct legal names in the match.
 
 ### Changed
 - `npm pack`: **9.3 MB → 15.6 MB** packed, 36.1 MB → 59.4 MB unpacked (`data/budget.db`). The
