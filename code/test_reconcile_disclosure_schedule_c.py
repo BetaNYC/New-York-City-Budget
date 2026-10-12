@@ -179,3 +179,20 @@ def test_committed_outputs_are_current():
     for path, text in files.items():
         with open(path, encoding="utf-8", newline="") as f:
             assert f.read() == text, path
+
+
+def test_report_states_the_manifest_retrieval_date_not_a_typed_one(tmp_path):
+    """FAILS if the coverage report's provenance line is typed rather than read from
+    MANIFEST.csv (it said 'retrieved 2026-07-15' for tables built from the 2026-10-12 files), or
+    if the committed report names a date the manifest does not hold."""
+    import csv as _csv
+    import re as _re
+    fake = tmp_path / "MANIFEST.csv"
+    fake.write_text("file,retrieved\nfunded_disclosure_FY2099.xlsx,2099-01-02\nOther.xlsx,1999-01-01\n")
+    assert "retrieved 2099-01-02" in R.retrieved_phrase(str(fake))
+    assert "1999" not in R.retrieved_phrase(str(fake))
+    with open(R.MANIFEST, newline="", encoding="utf-8") as f:
+        dates = {r["retrieved"] for r in _csv.DictReader(f) if r["file"].startswith("funded")}
+    committed = open(R.OUT_MD, encoding="utf-8").read().split("\n\n")[1]
+    found = set(_re.findall(r"retrieved (\d{4}-\d{2}-\d{2})", committed))
+    assert found and found <= dates, (found, dates)
