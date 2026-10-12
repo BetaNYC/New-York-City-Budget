@@ -359,8 +359,10 @@ unexplained changes" while 1,514 initiative cells were rewritten.
   them would fragment the initiative axis exactly as §17 describes. A gap is recoverable later; a
   polluted vocabulary is not.
 - **~200 rows** could not be resolved to a single candidate and remain flagged rather than guessed.
-- **Amounts were audited and not touched.** 60,665 of 62,213 rows (97.51%) are corroborated by the
-  Council's same-year disclosure, covering 94.93% of dollars. 18 differ by ≤$5 and 3 look like a
+- **Amounts were audited and not touched.** 60,578 of 62,213 rows (97.37%) are corroborated by the
+  Council's same-year disclosure as retrieved 2026-10-12, covering 94.68% of dollars (against the
+  2026-07-15 snapshot: 60,667, 97.51%, 94.93%; the difference is all in the three workbooks the
+  re-pull replaced: FY2025 −5, FY2026 −16, FY2027 −68). 18 differ by ≤$5 and 3 look like a
   neighbour's amount. `code/audit_amounts.py` reports and has no `--apply` path, deliberately.
 - **The parser.** Nothing here stops the defect recurring; FY2027 produced 80 fresh `org_prose`
   rows. That is the open half of GitHub issue #52.
@@ -378,27 +380,37 @@ Both carry confidence and provenance columns. Nothing already published moved.
 
 ## 22. Expense disclosure dataset — what the Council's workbooks settle, and what they do not
 
-`data/{year}/expense_disclosure/` (FY2013–FY2027, 139,186 rows) is built from the Council's own
+`data/{year}/expense_disclosure/` (FY2013–FY2027, 139,556 rows as retrieved 2026-10-12) is built from the Council's own
 disclosure workbooks by `code/parse_expense_disclosure.py`. It is a **parallel** dataset; nothing
 in the Schedule C files moved. What a reader needs to know before using it:
 
-- **Only two years carry a Council total, and both reconcile to the dollar.** FY2024 prints
-  `New Total` $527,971,414 (as `SUM(H2:H10818)` and as `Adoption Total` + `Admin New Add`);
-  FY2026 prints `Master List Total` = `Updated Total` = $716,213,155. The other thirteen
-  workbooks print no total. Their sums are this repo's arithmetic, labeled as such in every
-  report, never the Council's.
-- **FY2026 also prints `Schedule C Total:` $714,879,821**, $1,333,334 below its Master List.
+- **Only one year carries a Council total, and it reconciles to the dollar.** FY2024 prints
+  `New Total` $527,971,414 (as `SUM(H2:H10818)` and as `Adoption Total` + `Admin New Add`).
+  The 2026-07-15 FY2026 workbook printed `Master List Total` = `Updated Total` = $716,213,155;
+  the 2026-10-12 one has no footer rows at all, and its rows still sum to $716,213,155 (shown
+  in its report as the earlier snapshot's figure, never as a verdict). The other workbooks print
+  no total. Their sums are this repo's arithmetic, labeled as such in every report, never the
+  Council's.
+- **The 2026-07-15 FY2026 workbook also printed `Schedule C Total:` $714,879,821**, $1,333,334 below its Master List.
   The workbook's own `Difference:` row compares Master List with Updated Total (0), not with this
   figure, and the file says nothing about what it measures. It is reported, not reconciled
   against.
 - **FY2024 row 10829 holds an unlabeled typed value, $454,755**, below the footer. It matches no
   row, no status, source, agency or member subtotal of FY2024. It is stripped and listed; its
   meaning is unknown.
-- **Status is a moment, not a fact about the award.** FY2027 was half Pending when retrieved
-  (5,003 of 10,040 rows; $562,529,278 of $705,564,000), and the FY2013 file is 95% Pending by
-  dollars. Every row is kept; headline figures are Cleared only and labeled.
+- **Status is a moment, not a fact about the award.** FY2027 was half Pending on 2026-07-15
+  (5,003 of 10,040 rows; $562,529,278 of $705,564,000) and 16% Pending by dollars on 2026-10-12
+  (1,537 of 10,407 rows; $115,450,046 of $705,704,000); between the two, 3,608 rows went Pending
+  → Cleared and 84 went back (`data/disclosure-snapshots/2026-10-12/FY2027-diff.md`). The FY2013
+  file is 95% Pending by dollars. Every row is kept; headline figures are Cleared only and labeled.
 - **`council_member` is the roster when the workbook was exported**, not at adoption (§21). Do
-  not join on it.
+  not join on it. The 2026-10-12 re-pull shows it moving on rows whose MOCS ID did not: 149
+  FY2025 rows changed from `Holden` to `Wong` and 159 FY2026 rows from `Bottcher` to `Wilson`.
+- **A MOCS ID can change for the same designation.** In the 2026-10-12 FY2026 workbook, 129 rows
+  carry `FY26GP NNNNN` where the 2026-07-15 one had `FY26 NNNNN` (same number, every other field
+  identical); the workbook does not say what `GP` means. One FY2027 row was re-issued under a new
+  number (`FY27 06029` → `FY27 10413`), and two FY2027 IDs (`FY27 06102`, `FY27 06103`, Green
+  Beetz) now carry a different EIN. Key across snapshots on MOCS ID with care.
 - **One FY2016 `address2` cell (row 640) is a number formatted as a date** (`42037`, which Excel
   shows as 2015-02-02). The stored value is kept; what was meant is not knowable from the file.
 
@@ -433,24 +445,29 @@ circular; the absorbed-awards sidecar is reported separately in the full output.
 | FY2022 | 11,336 | 5,519 | 252,340,025 of 536,959,144 (47.0%) | 460,124 of 1,590,683 (28.9%) | 4,087 / 4,182 | additive, with exceptions |
 | FY2023 | 11,027 | 5,713 | 294,143,159 of 537,910,110 (54.7%) | 1,599,500 of 3,516,885 (45.5%) | 3,930 / 4,056 | additive, with exceptions |
 | FY2024 | 10,811 | 9,029 | 439,808,260 of 526,907,681 (83.5%) | 604,800 of 1,063,733 (56.9%) | 3,791 / 3,911 | additive, with exceptions |
-| FY2025 | 11,280 | 9,378 | 455,301,615 of 592,960,495 (76.8%) | 682,500 of 2,220,687 (30.7%) | 3,816 / 3,920 | additive, with exceptions |
-| FY2026 | 11,757 | 9,536 | 518,500,746 of 707,372,205 (73.3%) | 1,560,375 of 8,840,950 (17.6%) | 3,810 / 3,914 | additive, with exceptions |
-| FY2027 | 10,040 | 9,976 | 142,899,722 of 143,034,722 (99.9%) | 511,950,692 of 562,529,278 (91.0%) | 3,860 / 3,860 | **additive, exactly** |
+| FY2025 | 11,276 | 9,373 | 455,231,615 of 592,800,281 (76.8%) | 677,000 of 2,380,901 (28.4%) | 3,813 / 3,920 | additive, with exceptions |
+| FY2026 | 11,764 | 9,519 | 515,964,746 of 708,776,879 (72.8%) | 1,132,375 of 7,436,276 (15.2%) | 3,802 / 3,914 | additive, with exceptions |
+| FY2027 | 10,407 | 9,858 | 548,163,294 of 590,253,954 (92.9%) | 98,302,659 of 115,450,046 (85.1%) | 3,796 / 3,860 | additive, with exceptions |
+
+The table is the disclosure as retrieved 2026-10-12. Against the 2026-07-15 snapshot, FY2027 read
+10,040 rows, 9,976 matched, 142,899,722 of 143,034,722 Cleared (99.9%), and 3,860 / 3,860
+appendix rows, **additive, exactly**; FY2025 and FY2026 moved by under one percentage point.
 
 **Blocker 2 — verdict: the appendices are additive in every year that has appendix rows.** The
 test: match the body to the disclosure first, then see whether each appendix row still finds a
 designation of its own. A re-sorted subset of the body would find almost none. Instead 96.2% to
-100% do. In FY2027 all 3,860 appendix rows do, and the appendix dollars ($49,799,000) equal the
-disclosure's Local + Aging + Youth dollars to the dollar. In the other years the exceptions are
-a handful against thousands (0–14 body rows the disclosure files only under Local/Aging/Youth;
-0–33 rows on keys printed in both body and appendix beyond what the disclosure holds), each
+98.8% do. In FY2027 the appendix dollars ($49,799,000) equal the disclosure's Local + Aging +
+Youth dollars to the dollar in both snapshots; all 3,860 appendix rows found their own
+designation against the 2026-07-15 snapshot and 3,796 do against the 2026-10-12 one. The
+exceptions are a handful against thousands (0–14 body rows the disclosure files only under
+Local/Aging/Youth; 0–33 keys printed in both body and appendix beyond what the disclosure holds), each
 listed key by key in `data/DISCLOSURE-COVERAGE.md` §4b as a candidate extraction or filing error.
 The five years with empty appendix CSVs (FY2015–2017, 2019–2020) have nothing to add or
 double-count; the PDFs do print those appendices, with bare amounts the parser's `$` anchor
 misses (#59 — verified for FY2016 and FY2019 by reading the page text). This settles the award
 rows only: it says nothing about whether the printed category `TOTAL`s include the appendix pots.
 
-**The FY2027 gap, checked rather than assumed.** 64 disclosure rows have no published Schedule C
+**The FY2027 gap, checked rather than assumed — against the 2026-07-15 snapshot.** 64 disclosure rows had no published Schedule C
 counterpart. (The raw row-count difference is 62: 10,040 disclosure rows against 9,978 Schedule
 C rows, two of which also lack a disclosure counterpart.) 60 of the 64 carry the City's own EIN `136400434`, all Pending, $50,508,586, each naming a
 City agency or office as the grantee (DYCD, Cultural Affairs, Aging, Parks, CUNY, a District
@@ -459,8 +476,16 @@ Schedule C prints Osborne Association $14,999 and Selfhelp Community Services $4
 disclosure has $15,000 and $45,000 (the two unmatched Schedule C rows) — plus Medicare Rights
 Center $135,000 (Speaker's Initiative, Cleared) and CUNY $10,000 (Parks Equity, Pending).
 
+**The same gap against the 2026-10-12 snapshot is 549 rows, $59,238,047** (385 Cleared, 164
+Pending); 95 of them carry the City EIN ($33,977,899: 68 Pending, 27 Cleared), and 56 Schedule C
+body rows now lack a disclosure counterpart (2 in July). Between the snapshots the FY2027
+workbook gained 495 rows, lost 128 and changed the amount on 72
+(`data/disclosure-snapshots/2026-10-12/FY2027-diff.md`). That widening is the later snapshot
+moving away from the adopted Schedule C, which is why this is coverage and not a capture rate;
+the full list is in `data/DISCLOSURE-COVERAGE.md` §5.
+
 **Ambiguity, counted.** Where a key's disclosure rows differ in stream or status and Schedule C
 has fewer rows than the disclosure, which disclosure rows matched is a deterministic choice, not a
-fact; those rows are counted per year in `data/DISCLOSURE-COVERAGE.md` §1 (182 in FY2027, up to
-1,176 in FY2026). A year's matched rows and dollars across all statuses do not depend on the
+fact; those rows are counted per year in `data/DISCLOSURE-COVERAGE.md` §1 (767 in FY2027, up to
+1,228 in FY2026, as retrieved 2026-10-12). A year's matched rows and dollars across all statuses do not depend on the
 choice; the Cleared / Pending columns and the stream split do, within those counts.

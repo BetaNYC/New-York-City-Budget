@@ -21,7 +21,10 @@ Run it:
   python3 code/parse_expense_disclosure.py --write    write data/fyNN/expense_disclosure/*
   python3 code/parse_expense_disclosure.py --check    exit 1 if anything committed is stale
   python3 code/parse_expense_disclosure.py --manifest [--retrieved YYYY-MM-DD]
-                                                       write source/.../MANIFEST.csv
+                                                [--verified YYYY-MM-DD]
+                                                       write source/.../MANIFEST.csv, and append
+                                                       every superseded row to
+                                                       source/.../MANIFEST-HISTORY.csv
 
 Outputs (one folder per fiscal year, matching data/fyNN/<doctype>/fyNN_<name>.csv):
   data/fyNN/expense_disclosure/fyNN_expense_awards.csv          one row per designation
@@ -46,6 +49,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC_DIR = os.path.join(ROOT, "source", "expense-funding-disclosure")
 DATA_DIR = os.path.join(ROOT, "data")
 MANIFEST = os.path.join(SRC_DIR, "MANIFEST.csv")
+MANIFEST_HISTORY = os.path.join(SRC_DIR, "MANIFEST-HISTORY.csv")
+# Files in the source folder that are about the workbooks, not workbooks.
+NOT_SOURCE = ("README.md", "MANIFEST.csv", "MANIFEST-HISTORY.csv")
 
 # The Council rewords headers most years. Eight distinct header layouts exist across
 # FY2013-FY2027, not two. Mapping by normalized header TEXT (not column position, not a
@@ -116,16 +122,23 @@ _SUMMARY_WORDS = re.compile(r"total|difference|new add|master list", re.I)
 KNOWN_STATUS = ("cleared", "pending")
 
 # Printed totals each workbook carries about itself, and which of them the kept rows must
-# equal. Only FY2024 and FY2026 print any total at all; every other year prints none, and the
-# reconciliation report says so rather than attributing our own sum to the Council.
+# equal. In the snapshot committed here only FY2024 prints any total; every other year prints
+# none, and the reconciliation report says so rather than attributing our own sum to the Council.
 #   FY2024  "New Total" = SUM(H2:H10818) in the Amount column, and = Adoption Total + Admin
 #           New Add in column J. Both cells print 527,971,414.
-#   FY2026  "Master List Total" = SUM(H2:H11762); "Updated Total" is a typed constant.
-#           "Schedule C Total:" (714,879,821) is printed but is a different figure, and the
-#           workbook's own "Difference:" row compares Master List to Updated, not to it.
 RECONCILE_TO = {
     2024: ("New Total",),
-    2026: ("Master List Total", "Updated Total"),
+}
+
+# Totals an EARLIER snapshot printed and the current one no longer does. Reported beside our
+# sum, labeled with the snapshot date, never as the current workbook's own figure and never as
+# the verdict. Values are copied from that snapshot's committed reconciliation report.
+#   FY2026  The 2026-07-15 workbook (sheet "FY26 (06-08-26)") printed "Master List Total" =
+#           SUM(H2:H11762) and a typed "Updated Total", both 716,213,155, in four footer rows.
+#           The 2026-10-12 workbook (sheet "FY26 (09-14-26)") has no footer rows at all.
+PRIOR_PRINTED = {
+    2026: [("2026-07-15", "Master List Total", Decimal(716213155)),
+           ("2026-07-15", "Updated Total", Decimal(716213155))],
 }
 
 OUT_FIELDS = [
@@ -646,6 +659,15 @@ def reconciliation_text(awards, rep):
     if verdict == "NO PRINTED TOTAL":
         L.append("This workbook prints no total of its own. The sums above are computed by this")
         L.append("parser from the rows; they are not a figure published by the Council.")
+        prior = PRIOR_PRINTED.get(rep.fiscal_year, [])
+        if prior:
+            L.append("")
+            L.append("An earlier snapshot of this workbook did print totals. They are NOT this")
+            L.append("workbook's figures; they are shown so a change in the year's total is seen:")
+            ours = total_decimal(awards)
+            for when, label, val in prior:
+                L.append(f"  snapshot {when} {label!r}: {_usd(val)} vs kept rows {_usd(ours)}  "
+                         f"{'SAME' if val == ours else 'DIFFERENT'}")
     else:
         L.append("Printed totals (the workbook's own numbers):")
         for p in rep.printed:
@@ -719,23 +741,25 @@ def read_manifest(path=MANIFEST):
         return list(csv.DictReader(f))
 
 
-def manifest_rows(results, src_dir=SRC_DIR, retrieved=None, previous=None):
-    """One row per file in the source folder (README.md and MANIFEST.csv excluded).
+def manifest_rows(results, src_dir=SRC_DIR, retrieved=None, previous=None, verified=None):
+    """One row per file in the source folder (NOT_SOURCE excluded).
 
-    `retrieved` is carried over from the previous manifest when a file's sha256 is unchanged;
-    a new or changed file needs `retrieved` passed explicitly -- the date a file was pulled is
-    a fact about the pull, and is never inferred from the file."""
+    `retrieved` is the date of the most recent download that produced this exact file. A new or
+    changed file needs `retrieved` passed explicitly -- the date a file was pulled is a fact
+    about the pull, and is never inferred from the file. An unchanged file keeps its previous
+    date, unless `verified` is passed: the date it was downloaded again and came back
+    byte-identical (same sha256), which then becomes its `retrieved` date."""
     prev = {r["file"]: r for r in (previous or [])}
     by_file = {r.source_file: (aw, r) for aw, r in results}
     rows = []
     for fname in sorted(os.listdir(src_dir)):
-        if fname in ("README.md", "MANIFEST.csv") or fname.startswith("."):
+        if fname in NOT_SOURCE or fname.startswith("."):
             continue
         p = os.path.join(src_dir, fname)
         digest = sha256(p)
         old = prev.get(fname)
         if old and old["sha256"] == digest:
-            when = old["retrieved"]
+            when = verified or old["retrieved"]
         elif retrieved:
             when = retrieved
         else:
@@ -767,6 +791,34 @@ def manifest_text(rows):
     w.writeheader()
     w.writerows(rows)
     return buf.getvalue()
+
+
+HISTORY_FIELDS = MANIFEST_FIELDS + ["superseded_on"]
+
+
+def superseded_rows(previous, rows):
+    """Previous manifest rows that the new manifest no longer carries verbatim, each stamped
+    with `superseded_on` = the retrieved date of the row that replaced it ('removed' if the
+    file is gone). Appended to MANIFEST-HISTORY.csv, so an old hash stays traceable after the
+    workbook it describes has been overwritten."""
+    new = {r["file"]: {k: str(v) for k, v in r.items()} for r in rows}
+    out = []
+    for old in previous or []:
+        cur = new.get(old["file"])
+        if cur is not None and all(cur[k] == old.get(k, "") for k in MANIFEST_FIELDS):
+            continue
+        out.append(dict(old, superseded_on=cur["retrieved"] if cur else "removed"))
+    return out
+
+
+def history_text(existing_text, superseded):
+    """MANIFEST-HISTORY.csv is append-only: existing lines are kept byte for byte."""
+    buf = io.StringIO()
+    w = csv.DictWriter(buf, fieldnames=HISTORY_FIELDS, lineterminator="\n")
+    if not existing_text:
+        w.writeheader()
+    w.writerows(superseded)
+    return (existing_text or "") + buf.getvalue()
 
 
 def write_files(files):
@@ -810,13 +862,12 @@ def demo():
 
     # The strongest check available: each year that publishes its own total must agree with
     # the total we compute from the rows we kept. Their arithmetic, not a number we hardcoded.
+    # FY2026 printed its own total until the 2026-10-12 re-pull dropped the footer rows; its
+    # rows must still equal what the earlier snapshot printed (PRIOR_PRINTED).
     aw26, rep26 = by_fy[2026]
-    assert rep26.n_stripped == 4, rep26.stripped
-    assert all(s["kind"] == "labeled_summary" for s in rep26.stripped)
-    printed26 = _labeled_total(rep26, "Master List Total")
-    assert printed26 is not None and abs(rep26.total_amount - printed26) < 0.01, \
-        (rep26.total_amount, printed26)
-    assert reconcile(aw26, rep26)[0] == "RECONCILED"
+    assert rep26.n_stripped == 0, rep26.stripped
+    assert reconcile(aw26, rep26)[0] == "NO PRINTED TOTAL"
+    assert all(total_decimal(aw26) == v for _, _, v in PRIOR_PRINTED[2026])
 
     # FY2024's summary rows carry DIFFERENT words in DIFFERENT columns than FY2026's.
     # Matching on the Status column for "Schedule C Total:" misses every one of them; their
@@ -830,7 +881,7 @@ def demo():
     assert reconcile(aw24, rep24)[0] == "RECONCILED"
 
     # Nothing else strips anything. A regression that widened the predicate shows up here.
-    assert sum(r.n_stripped for _, r in results) == 9, [
+    assert sum(r.n_stripped for _, r in results) == 5, [
         (r.fiscal_year, r.n_stripped) for _, r in results]
 
     # Status is kept verbatim AND normalized. FY2018 publishes it uppercase.
@@ -893,6 +944,8 @@ def main(argv=None):
                     help="exit 1 if any committed output or the manifest is stale")
     ap.add_argument("--manifest", action="store_true", help="write source/.../MANIFEST.csv")
     ap.add_argument("--retrieved", help="YYYY-MM-DD download date for new/changed files")
+    ap.add_argument("--verified", help="YYYY-MM-DD date unchanged files were downloaded again "
+                    "and found byte-identical; becomes their retrieved date")
     a = ap.parse_args(argv)
 
     if not (a.write or a.check or a.manifest):
@@ -903,9 +956,14 @@ def main(argv=None):
 
     results = parse_all()
     files = outputs(results)
+    for d in (a.retrieved, a.verified):
+        if d and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", d):
+            raise SystemExit(f"not a YYYY-MM-DD date: {d!r}")
     if a.manifest or a.check:
-        files[MANIFEST] = manifest_text(manifest_rows(results, retrieved=a.retrieved,
-                                                      previous=read_manifest()))
+        previous = read_manifest()
+        rows = manifest_rows(results, retrieved=a.retrieved, previous=previous,
+                             verified=a.verified)
+        files[MANIFEST] = manifest_text(rows)
     if a.check:
         bad = stale(files)
         for path, why in bad:
@@ -914,6 +972,13 @@ def main(argv=None):
         return 1 if bad else 0
     if not a.write:
         files = {MANIFEST: files[MANIFEST]}
+    gone = superseded_rows(previous, rows) if a.manifest else []
+    if gone:
+        existing = ""
+        if os.path.exists(MANIFEST_HISTORY):
+            with open(MANIFEST_HISTORY, encoding="utf-8", newline="") as f:
+                existing = f.read()
+        files[MANIFEST_HISTORY] = history_text(existing, gone)
     write_files(files)
     for path in sorted(files):
         print(f"wrote {os.path.relpath(path, ROOT)}")

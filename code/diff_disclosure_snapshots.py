@@ -20,8 +20,10 @@ How rows are paired:
   * FY2024+ (mocs_id present): rows whose MOCS ID appears once in each snapshot pair by it. A
     MOCS ID that is blank or repeated inside either snapshot cannot key a row; those rows, and
     rows whose ID is on one side only, go to the composite key below. A row the Council merely
-    re-numbered is therefore paired (and counted as a `mocs_id` change), not reported as one
-    removal plus one addition.
+    re-numbered is therefore paired, not reported as one removal plus one addition. It is
+    listed in its own RE-NUMBERED section (with a count per old-prefix -> new-prefix; the
+    2026-10-12 re-pull moved 129 FY2026 rows from "FY26 NNNNN" to "FY26GP NNNNN"), never as a
+    field change "on a MOCS-ID pair" -- a pair keyed on the MOCS ID cannot have a changed one.
   * Earlier years: composite key (ein, amount, agency, program_name, council_member, source),
     matched as a MULTISET -- a key printed twice is two rows. Because amount is part of the key,
     an amount change in these years is not detectable as such: it shows as one removed row and
@@ -81,7 +83,9 @@ def load(path):
             rows.append(d)
     for r in rows:
         r["amount"] = Decimal(r["amount"])
-    return fy, rows, os.path.basename(path)
+    # The file name alone cannot tell two snapshots of one year apart; the hash can, and it is
+    # the key into source/.../MANIFEST.csv and MANIFEST-HISTORY.csv.
+    return fy, rows, f"{os.path.basename(path)} (sha256 {P.sha256(path)[:12]})"
 
 
 def _key(r, fields=COMPOSITE):
@@ -155,7 +159,8 @@ def diff(old_rows, new_rows):
             ambiguous_rows += len(go.get(k, [])) + len(gn.get(k, []))
 
     transitions = Counter()
-    amount_changes, field_changes = [], Counter()
+    amount_changes, field_changes, renumbered = [], Counter(), []
+    composite_field_changes = Counter()
     for o, n, how in pairs:
         if o["status_norm"] != n["status_norm"]:
             transitions[(o["status_norm"], n["status_norm"])] += 1
@@ -165,8 +170,14 @@ def diff(old_rows, new_rows):
             for f in OTHER_FIELDS:
                 if o[f] != n[f]:
                     field_changes[f] += 1
-        elif o["mocs_id"] != n["mocs_id"] and o["mocs_id"] and n["mocs_id"]:
-            field_changes["mocs_id"] += 1
+        else:
+            # Composite pairs agree on every COMPOSITE field by construction; only the fields
+            # outside the key can differ.
+            for f in OTHER_FIELDS:
+                if f not in COMPOSITE and o[f] != n[f]:
+                    composite_field_changes[f] += 1
+            if o["mocs_id"] != n["mocs_id"] and o["mocs_id"] and n["mocs_id"]:
+                renumbered.append((o, n))
 
     # Candidate amount changes among composite-keyed leftovers: unique on both sides once the
     # amount is dropped from the key. A nomination, never counted.
@@ -189,7 +200,8 @@ def diff(old_rows, new_rows):
 
     return dict(pairs=len(pairs), paired_by_mocs=sum(1 for p in pairs if p[2] == "mocs_id"),
                 transitions=transitions, amount_changes=amount_changes,
-                field_changes=field_changes, added=added, removed=removed,
+                field_changes=field_changes, renumbered=renumbered,
+                composite_field_changes=composite_field_changes, added=added, removed=removed,
                 candidates=candidates, ambiguous_groups=ambiguous_groups,
                 ambiguous_rows=ambiguous_rows, old_totals=totals(old_rows),
                 new_totals=totals(new_rows),
@@ -198,6 +210,11 @@ def diff(old_rows, new_rows):
 
 def _usd(d):
     return P._usd(d)
+
+
+def _prefix(mocs_id):
+    """'FY26GP 00038' -> 'FY26GP'. Descriptive only: groups re-numberings in the report."""
+    return mocs_id.split(" ", 1)[0] if " " in mocs_id else mocs_id
 
 
 def _row(r):
@@ -245,6 +262,27 @@ def report(fy, old_label, new_label, d, limit=200):
     if d["field_changes"]:
         L += ["", "Other fields changed on MOCS-ID pairs: "
               + ", ".join(f"`{f}` {n:,}" for f, n in sorted(d["field_changes"].items()))]
+    L += ["", (f"## Re-numbered (paired by the composite key; MOCS ID differs) — "
+               f"{len(d['renumbered']):,}"), "",
+          ("The same designation under a different MOCS ID: every composite-key field "
+           "(EIN, amount, agency, program, council member, source) agrees. Paired, not counted "
+           "as a removal plus an addition."), ""]
+    if d["renumbered"]:
+        pfx = Counter((_prefix(o["mocs_id"]), _prefix(n["mocs_id"])) for o, n in d["renumbered"])
+        L += ["| old prefix | new prefix | rows |", "|---|---|---:|"]
+        for (a, b), k in sorted(pfx.items()):
+            L.append(f"| `{a}` | `{b}` | {k:,} |")
+        L += ["", "| old MOCS ID | new MOCS ID | EIN | legal name | status (old → new) | amount |",
+              "|---|---|---|---|---|---:|"]
+        for o, n in sorted(d["renumbered"], key=lambda p: p[0]["mocs_id"])[:limit]:
+            L.append(f"| {o['mocs_id']} | {n['mocs_id']} | {n['ein']} | {n['legal_name']} | "
+                     f"{o['status_norm']} → {n['status_norm']} | {_usd(n['amount'])} |")
+        if len(d["renumbered"]) > limit:
+            L.append(f"| … {len(d['renumbered']) - limit:,} more | | | | | |")
+    if d["composite_field_changes"]:
+        L += ["", "Fields outside the key changed on composite-key pairs: "
+              + ", ".join(f"`{f}` {n:,}"
+                          for f, n in sorted(d["composite_field_changes"].items()))]
     L += ["", f"## Candidate amount changes (composite-keyed rows) — {len(d['candidates']):,}", "",
           "One removed and one added row that agree on every key field except amount. A "
           "nomination to check in the workbooks; **not** counted as an amount change.", ""]

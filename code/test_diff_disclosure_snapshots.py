@@ -58,7 +58,7 @@ def _flip(r, to):
 def test_workbook_and_its_csv_are_the_same_snapshot():
     """FAILS if loading a workbook and loading the CSV written from it disagree on anything."""
     d = _run(XLSX27, CSV27)
-    assert d["pairs"] == d["paired_by_mocs"] == 10040
+    assert d["pairs"] == d["paired_by_mocs"] == len(_read(CSV27))
     assert not (d["transitions"] or d["amount_changes"] or d["added"] or d["removed"]
                 or d["field_changes"])
 
@@ -108,7 +108,36 @@ def test_a_repeated_mocs_id_falls_back_and_is_counted(tmp_path):
     # old: row 0 cannot key (its ID repeats in new); row 1 keeps a usable ID that new lacks.
     assert d["mocs_fallback"] == (1, 2)
     assert not (d["added"] or d["removed"] or d["transitions"])
-    assert d["field_changes"] == {"mocs_id": 1}   # row 1 was re-numbered, and is paired
+    # row 1 was re-numbered: paired, and listed as such -- not as a field change
+    assert [(o["source_row"], n["source_row"]) for o, n in d["renumbered"]] == \
+        [(rows[1]["source_row"], rows[1]["source_row"])]
+    assert d["field_changes"] == {}
+
+
+def test_a_reprefixed_mocs_id_is_reported_as_renumbered_not_as_a_mocs_pair_change(tmp_path):
+    """The 2026-10-12 shape: the Council moved 129 FY2026 IDs from 'FY26 NNNNN' to
+    'FY26GP NNNNN'. FAILS if a re-numbered row is reported under 'Other fields changed on
+    MOCS-ID pairs' (a pair keyed on the MOCS ID cannot have a different one -- the pre-fix
+    report said `mocs_id` 129 there), if it is reported as a removal plus an addition, or if a
+    change outside the composite key on such a pair goes unreported."""
+    rows = _read(CSV27)
+    new = [dict(r) for r in rows]
+    num = new[0]["mocs_id"].split(" ", 1)[1]
+    new[0]["mocs_id"] = f"FY27GP {num}"
+    new[0]["purpose"] = new[0]["purpose"] + " (revised)"
+    d = _run(CSV27, _write(tmp_path / "new.csv", new))
+    assert d["pairs"] == len(rows) and d["paired_by_mocs"] == len(rows) - 1
+    assert not (d["added"] or d["removed"] or d["transitions"] or d["amount_changes"])
+    assert "mocs_id" not in d["field_changes"] and d["field_changes"] == {}
+    assert [(o["mocs_id"], n["mocs_id"]) for o, n in d["renumbered"]] == \
+        [(rows[0]["mocs_id"], f"FY27GP {num}")]
+    assert d["composite_field_changes"] == {"purpose": 1}
+    text = D.report(2027, "old", "new", d)
+    assert "Other fields changed on MOCS-ID pairs" not in text
+    assert "## Re-numbered (paired by the composite key; MOCS ID differs) — 1" in text
+    assert "| `FY27` | `FY27GP` | 1 |" in text
+    assert f"| {rows[0]['mocs_id']} | FY27GP {num} |" in text
+    assert "Fields outside the key changed on composite-key pairs: `purpose` 1" in text
 
 
 def test_workbook_amount_edit_is_found(tmp_path):
@@ -199,6 +228,19 @@ def test_different_years_are_refused(tmp_path):
     """FAILS if two different fiscal years are compared."""
     with pytest.raises(SystemExit, match="refusing"):
         D.main([CSV20, CSV27, "--out", str(tmp_path / "x.md")])
+
+
+def test_report_names_each_snapshot_by_hash(tmp_path):
+    """Two snapshots of one year share a file name. FAILS if the report header cannot tell
+    them apart (it must carry each file's sha256 prefix, the key into the manifests)."""
+    rows = _read(CSV27)
+    new = [dict(r) for r in rows]
+    new[0]["amount"] = str(Decimal(new[0]["amount"]) + 1)
+    other = _write(tmp_path / "fy27_expense_awards.csv", new)
+    _, _, lo = D.load(CSV27)
+    _, _, ln = D.load(other)
+    assert lo == f"fy27_expense_awards.csv (sha256 {P.sha256(CSV27)[:12]})"
+    assert ln != lo and P.sha256(other)[:12] in ln
 
 
 def test_report_labels_itself_as_a_file_comparison(tmp_path):

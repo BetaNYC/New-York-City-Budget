@@ -196,15 +196,29 @@ def corpus():
     return {r.fiscal_year: (aw, r) for aw, r in P.parse_all()}
 
 
-def test_fy2026_equals_its_master_list_total(corpus):
-    """FAILS if any summary row is summed in or any award dropped: the kept rows must equal the
-    workbook's own Master List Total (=SUM(H2:H11762)) and its typed Updated Total."""
+def test_fy2026_no_longer_prints_a_total_but_still_equals_the_one_it_printed(corpus):
+    """The 2026-07-15 FY2026 workbook printed Master List Total (=SUM(H2:H11762)) and a typed
+    Updated Total, both 716,213,155; the 2026-10-12 one has no footer rows. FAILS if the
+    current workbook's verdict claims a printed total it does not have, if the kept rows no
+    longer equal the earlier printed figure, or if the report drops the earlier figure or
+    presents it as this workbook's own."""
     aw, rep = corpus[2026]
-    verdict, checks = P.reconcile(aw, rep)
-    assert verdict == "RECONCILED"
-    assert {(c[0], c[2]) for c in checks} == {("Master List Total", Decimal(716213155)),
-                                              ("Updated Total", Decimal(716213155))}
+    assert not rep.printed and not rep.stripped
+    assert P.reconcile(aw, rep) == ("NO PRINTED TOTAL", [])
     assert P.total_decimal(aw) == Decimal(716213155)
+    assert [v for _, _, v in P.PRIOR_PRINTED[2026]] == [Decimal(716213155)] * 2
+    text = P.reconciliation_text(aw, rep)
+    assert "printed total: NO PRINTED TOTAL" in text
+    assert "snapshot 2026-07-15 'Master List Total': 716,213,155 vs kept rows 716,213,155  SAME" \
+        in text
+    assert "They are NOT this" in text
+
+
+def test_prior_printed_total_says_different_when_it_is(corpus):
+    """FAILS if a changed year total would still be reported as SAME as the earlier snapshot."""
+    aw, rep = corpus[2026]
+    text = P.reconciliation_text(aw[1:], rep)
+    assert "SAME" not in text and text.count("DIFFERENT") == 2
 
 
 def test_fy2024_equals_its_new_total_and_lists_the_orphan(corpus):
@@ -220,8 +234,7 @@ def test_fy2024_equals_its_new_total_and_lists_the_orphan(corpus):
 def test_exactly_these_rows_are_stripped(corpus):
     """FAILS if the strip predicate widens or narrows by a single row anywhere in 15 years."""
     got = {fy: [s["row"] for s in r.stripped] for fy, (_, r) in corpus.items() if r.stripped}
-    assert got == {2024: [10818, 10819, 10820, 10821, 10829],
-                   2026: [11763, 11764, 11765, 11766]}
+    assert got == {2024: [10818, 10819, 10820, 10821, 10829]}
 
 
 def test_every_row_is_accounted_for(corpus):
@@ -233,14 +246,14 @@ def test_every_row_is_accounted_for(corpus):
         assert r.sheet_rows == r.n_rows_present + 1, fy
 
 
-def test_only_fy2024_and_fy2026_print_a_total(corpus):
+def test_only_fy2024_prints_a_total(corpus):
     """FAILS if a computed sum is ever presented as the Council's: every other year must say
     NO PRINTED TOTAL and that its sums are not a Council figure."""
     for fy, (aw, r) in corpus.items():
         if r.skipped:
             continue
         verdict = P.reconcile(aw, r)[0]
-        if fy in (2024, 2026):
+        if fy == 2024:
             assert verdict == "RECONCILED", fy
         else:
             assert verdict == "NO PRINTED TOTAL", fy
@@ -257,12 +270,13 @@ def test_status_buckets_partition_each_year(corpus):
         assert sum(r.amount_by_status.values()) == P.total_decimal(aw), fy
 
 
-def test_fy2027_is_half_pending_and_cleared_is_the_headline(corpus):
-    """Pins the figures the docs quote for FY2027. FAILS if status is mis-bucketed."""
+def test_fy2027_figures_and_cleared_is_the_headline(corpus):
+    """Pins the figures the docs quote for FY2027 (2026-10-12 snapshot; the 2026-07-15 one was
+    5,037 cleared / 5,003 pending). FAILS if status is mis-bucketed."""
     aw, r = corpus[2027]
-    assert r.by_status == {"cleared": 5037, "pending": 5003}
-    assert r.amount_by_status["cleared"] == Decimal(143034722)
-    assert r.amount_by_status["pending"] == Decimal(562529278)
+    assert r.by_status == {"cleared": 8870, "pending": 1537}
+    assert r.amount_by_status["cleared"] == Decimal(590253954)
+    assert r.amount_by_status["pending"] == Decimal(115450046)
 
 
 def test_nonintegral_amount_count(corpus):
@@ -328,13 +342,13 @@ def test_manifest_hashes_are_the_files_on_disk():
     """The snapshot baseline. FAILS if a workbook is replaced without the manifest moving, or
     if a file in the folder is missing from the manifest."""
     rows = P.read_manifest()
-    files = sorted(f for f in os.listdir(SRC) if f not in ("README.md", "MANIFEST.csv")
+    files = sorted(f for f in os.listdir(SRC) if f not in P.NOT_SOURCE
                    and not f.startswith("."))
     assert [r["file"] for r in rows] == files
     for r in rows:
         assert P.sha256(os.path.join(SRC, r["file"])) == r["sha256"], r["file"]
         assert int(r["bytes"]) == os.path.getsize(os.path.join(SRC, r["file"]))
-        assert r["retrieved"] == "2026-07-15"
+        assert r["retrieved"] == "2026-10-12"
 
 
 def test_manifest_never_infers_a_retrieval_date(tmp_path):
@@ -354,3 +368,75 @@ def test_csv_keeps_ein_as_text_with_leading_zeros():
         rows = {r["source_row"]: r for r in csv.DictReader(f)}
     assert rows["15"]["ein"].startswith("0") and len(rows["15"]["ein"]) == 9
     assert list(rows["2"].keys()) == P.OUT_FIELDS
+
+
+# ---------------------------------------------------------------- re-pulls: --verified, history
+
+JULY_SHA = {  # the 2026-07-15 snapshot of the four files the 2026-10-12 re-pull replaced
+    "Capital-Database.xlsx":
+        "8c63ed6739b5bb0a68952036af6853a4cd6e9a3fec34fb5ce435fa297d84cf28",
+    "funded_disclosure_FY2025.xlsx":
+        "b3c646dd4e2c387b8d74e86763921c5e417d58288005a9d86381cd2bf2fe1a51",
+    "funded_disclosure_FY2026.xlsx":
+        "4691c42bd3e74846c84ffeba942ab914cdecac4b8b967e8a32116530df47fb59",
+    "funded_disclosure_FY2027.xlsx":
+        "d15f058a38ea24163b42678dc1e411af90398c7e54762e50f617953bafb67777",
+}
+
+
+def test_history_keeps_the_hashes_of_overwritten_workbooks():
+    """FAILS if a superseded snapshot's hash is no longer traceable once its workbook has been
+    overwritten in place, or if the history claims a file that is still current was replaced
+    by different bytes."""
+    with open(P.MANIFEST_HISTORY, newline="", encoding="utf-8") as f:
+        hist = list(csv.DictReader(f))
+    assert list(hist[0].keys()) == P.HISTORY_FIELDS
+    current = {r["file"]: r["sha256"] for r in P.read_manifest()}
+    july = {r["file"]: r for r in hist if r["retrieved"] == "2026-07-15"}
+    assert set(july) == set(current)                       # all 16 July rows kept
+    for fname, sha in JULY_SHA.items():
+        assert july[fname]["sha256"] == sha and current[fname] != sha, fname
+        assert july[fname]["superseded_on"] == "2026-10-12"
+    for fname in set(current) - set(JULY_SHA):            # re-verified, byte-identical
+        assert july[fname]["sha256"] == current[fname], fname
+
+
+def _one_file_src(tmp_path, payload=b"bytes"):
+    src = tmp_path / "src"
+    src.mkdir()
+    (src / "Capital-Database.xlsx").write_bytes(payload)  # not a zip: no sheet is read
+    return str(src)
+
+
+def test_verified_restamps_unchanged_files_only(tmp_path):
+    """FAILS if --verified moves the date of an unchanged file anywhere but to the verified
+    date, or if it is accepted as the download date of a CHANGED file."""
+    src = _one_file_src(tmp_path)
+    digest = P.sha256(os.path.join(src, "Capital-Database.xlsx"))
+    prev = [{"file": "Capital-Database.xlsx", "sha256": digest, "retrieved": "2026-07-15"}]
+    assert P.manifest_rows([], src_dir=src, previous=prev)[0]["retrieved"] == "2026-07-15"
+    assert P.manifest_rows([], src_dir=src, previous=prev,
+                           verified="2026-10-12")[0]["retrieved"] == "2026-10-12"
+    changed = [dict(prev[0], sha256="0" * 64)]
+    with pytest.raises(SystemExit, match="--retrieved"):
+        P.manifest_rows([], src_dir=src, previous=changed, verified="2026-10-12")
+
+
+def test_history_is_append_only_and_skips_unchanged_rows(tmp_path):
+    """FAILS if an unchanged manifest row is written to the history, if a changed one is not,
+    or if appending rewrites any existing history line."""
+    src = _one_file_src(tmp_path)
+    digest = P.sha256(os.path.join(src, "Capital-Database.xlsx"))
+    row = P.manifest_rows([], src_dir=src, previous=[
+        {"file": "Capital-Database.xlsx", "sha256": digest, "retrieved": "2026-07-15"}])[0]
+    same = {k: str(v) for k, v in row.items()}
+    assert P.superseded_rows([same], [row]) == []
+    old = dict(same, sha256="a" * 64, retrieved="2026-01-01")
+    gone = dict(same, file="Gone.xlsx")
+    out = P.superseded_rows([old, gone], [row])
+    assert [(r["file"], r["superseded_on"]) for r in out] == [
+        ("Capital-Database.xlsx", row["retrieved"]), ("Gone.xlsx", "removed")]
+    first = P.history_text("", out[:1])
+    second = P.history_text(first, out[1:])
+    assert second.startswith(first) and second.count("\n") == 3
+    assert first.splitlines()[0] == ",".join(P.HISTORY_FIELDS)
