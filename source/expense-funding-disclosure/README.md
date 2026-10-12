@@ -95,6 +95,41 @@ expense files provide.
 3. **Organization names have minor inconsistencies** (leading spaces, quoting). `Tax ID` (EIN) and
    `MOCS ID#` are the reliable keys.
 
+## Re-pulling a snapshot (and diffing it against the one committed here)
+
+The Council republishes these workbooks: the sheet name carries its "last updated" date, and
+Pending rows clear over time. A re-pull is how that movement becomes visible. **Every download
+needs Noel's explicit OK, each time** — this repo makes no automated or scheduled calls to the
+Council site, and neither should anyone working in it.
+
+1. **Get the OK first.** Name the years and the URLs (above) you intend to fetch.
+2. **Download into a new, empty folder outside the repo**, one per pull, named for the date
+   (e.g. `~/Downloads/council-disclosure-YYYY-MM-DD/`). Treat the files as untrusted input until
+   checked: run any Python that reads them with `python3 -I`, scripts from the repo, paths as
+   arguments.
+3. **Hash before anything else.** Compare `shasum -a 256 <file>` with the `sha256` column of
+   [`MANIFEST.csv`](MANIFEST.csv). Identical hash: nothing changed, stop there for that file.
+4. **Diff each changed year against the committed snapshot**:
+   ```bash
+   python3 -I code/diff_disclosure_snapshots.py \
+       source/expense-funding-disclosure/funded_disclosure_FY2027.xlsx \
+       ~/Downloads/council-disclosure-YYYY-MM-DD/funded_disclosure_FY2027.xlsx \
+       --out ~/Downloads/council-disclosure-YYYY-MM-DD/FY2027-diff.md
+   ```
+   The report gives status transitions (pending → cleared and back), amount changes, added and
+   removed rows, and totals by status, old vs new. FY2024+ rows pair by MOCS ID; earlier years
+   pair on a composite key, where an amount change can only appear as a removal plus an addition
+   (listed as a *candidate*, never counted). Ambiguous pairings are counted, not resolved.
+   Read it before replacing anything: a removal or an amount change is a finding to report, not
+   noise to overwrite.
+5. **Then update the repo, on a branch:** copy the new file over the old one in this folder,
+   record it with `python3 code/parse_expense_disclosure.py --manifest --retrieved YYYY-MM-DD`
+   (the date of the download; the script refuses to guess it), regenerate with `--write`, rerun
+   `python3 code/reconcile_disclosure_schedule_c.py` and the tests, and commit the diff report's
+   headline numbers in the PR description. Update the retrieval date and table above.
+
+The git history of this folder plus `MANIFEST.csv` is the record of what each snapshot was.
+
 ## Relationship to this repo's Schedule C data
 
 The parsed Schedule C data under `data/{year}/schedule_c/` is extracted from the adopted-budget
