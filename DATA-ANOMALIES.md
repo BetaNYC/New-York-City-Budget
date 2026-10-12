@@ -373,3 +373,31 @@ unexplained changes" while 1,514 initiative cells were rewritten.
 | `schedule_c_absorbed_awards.csv` | 442 | $66,472,992 |
 
 Both carry confidence and provenance columns. Nothing already published moved.
+
+---
+
+## 22. Expense disclosure dataset — what the Council's workbooks settle, and what they do not
+
+`data/{year}/expense_disclosure/` (FY2013–FY2027, 139,186 rows) is built from the Council's own
+disclosure workbooks by `code/parse_expense_disclosure.py`. It is a **parallel** dataset; nothing
+in the Schedule C files moved. What a reader needs to know before using it:
+
+- **Only two years carry a Council total, and both reconcile to the dollar.** FY2024 prints
+  `New Total` $527,971,414 (as `SUM(H2:H10818)` and as `Adoption Total` + `Admin New Add`);
+  FY2026 prints `Master List Total` = `Updated Total` = $716,213,155. The other thirteen
+  workbooks print no total. Their sums are this repo's arithmetic, labeled as such in every
+  report, never the Council's.
+- **FY2026 also prints `Schedule C Total:` $714,879,821**, $1,333,334 below its Master List.
+  The workbook's own `Difference:` row compares Master List with Updated Total (0), not with this
+  figure, and the file says nothing about what it measures. It is reported, not reconciled
+  against.
+- **FY2024 row 10829 holds an unlabeled typed value, $454,755**, below the footer. It matches no
+  row, no status, source, agency or member subtotal of FY2024. It is stripped and listed; its
+  meaning is unknown.
+- **Status is a moment, not a fact about the award.** FY2027 was half Pending when retrieved
+  (5,003 of 10,040 rows; $562,529,278 of $705,564,000), and the FY2013 file is 95% Pending by
+  dollars. Every row is kept; headline figures are Cleared only and labeled.
+- **`council_member` is the roster when the workbook was exported**, not at adoption (§21). Do
+  not join on it.
+- **One FY2016 `address2` cell (row 640) is a number formatted as a date** (`42037`, which Excel
+  shows as 2015-02-02). The stored value is kept; what was meant is not knowable from the file.

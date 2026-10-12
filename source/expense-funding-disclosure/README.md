@@ -24,9 +24,15 @@ as the basis for an award-level expense dataset that is richer than what the PDF
 
 ## Files & manifest (as retrieved 2026-07-15)
 
+**[`MANIFEST.csv`](MANIFEST.csv)** is the machine-readable baseline: per file its SHA-256, byte
+size, retrieval date, sheet name, sheet rows, and (for the expense files) award rows, stripped
+footer rows and total. It is written by `code/parse_expense_disclosure.py --manifest`, and
+`code/test_parse_expense_disclosure.py` fails if any file here stops matching its hash. A later
+re-pull is compared against it.
+
 | File | Sheet | Rows (incl. header) | Cols |
 |---|---|---|---|
-| `funded_disclosure_FY2013.xls` | (legacy `.xls`) | — | — |
+| `funded_disclosure_FY2013.xls` | MASTER (legacy `.xls`; Sheet2/Sheet3 are empty) | 4,988 | 16 |
 | `funded_disclosure_FY2014.xlsx` | FY14 | 6,612 | 16 |
 | `funded_disclosure_FY2015.xlsx` | FY15 | 6,651 | 17 |
 | `funded_disclosure_FY2016.xlsx` | FY16 | 7,798 | 16 |
@@ -63,8 +69,11 @@ Program Name, Grantee Street Address, Grantee Street Address (2), City, State, Z
 **Expense, FY2015–FY2023 (17 columns):** as above minus `MOCS ID#`; earlier files use
 `Council Members` / `Legal Name of Organization` / `EIN` header wording.
 
-**Expense, FY2014 (16 columns)** and **FY2013 (`.xls`)** are the earliest; verify columns
-empirically before relying on them.
+**Expense, FY2014 (16 columns)** and **FY2013 (`.xls`, 16 columns)** are the earliest. FY2013,
+verified 2026-10-12: `Source, Council Member, Legal Name of Organization, EIN, Status, Amount ($,
+Agency, Program Name, Street Address 1, Address 2, City, State, Zip Code, Purpose of Funds, Fiscal
+Conduit Name, FC EIN`. It stores EINs and ZIPs partly as numbers and partly as text, and prints
+175 EINs with a hyphen.
 
 **Capital (11 columns):** `PROJECT, BORO, BUDLINE, CD, SPONSOR, TITLE, DESC, FY26, FY27, FY28, FY29`.
 The RnD capital workbook held only an FY26 sheet when retrieved (despite an on-site download button
@@ -75,7 +84,12 @@ expense files provide.
 
 1. **FY2026 carries embedded summary/footer rows** mixed into the data — rows whose `Status`
    column reads `Schedule C Total:`, `Updated Total:`, `Difference:`, or `Master List Total:`.
-   These must be stripped before summing (a naive total is inflated). Check every year.
+   These must be stripped before summing (a naive total is inflated). **Checked every year
+   (2026-10-12):** only FY2024 also has them — four with a blank `Status` and their labels
+   (`New Total`, `Adoption Total`, `Admin New Add`, `Difference`) in the address column, plus one
+   unlabeled typed value, `454,755`, in the Amount column of row 10829, whose meaning the file
+   does not state. Every stripped row is listed in
+   `data/fy24/expense_disclosure/fy24_expense_reconciliation.txt` and its FY2026 counterpart.
 2. **`Status` (Cleared vs Pending) must be handled deliberately.** The upcoming budget year is
    heavily Pending at publication (FY2027 was ~50% Pending as retrieved).
 3. **Organization names have minor inconsistencies** (leading spaces, quoting). `Tax ID` (EIN) and

@@ -1,0 +1,27 @@
+EXPENSE DISCLOSURE RECONCILIATION  (fy13)  [parser: parse_expense_disclosure.py]
+source: funded_disclosure_FY2013.xls  (sheet 'MASTER', xls, 4988 rows incl. header)
+printed total: NO PRINTED TOTAL
+
+Every non-blank row after the header is either an award or a stripped row. A row is
+decided by its Status cell: Cleared/Pending (any case) is an award; anything else is
+stripped unless it still names an organization and an amount (then it is kept with
+status_norm 'other'). Every stripped row is listed below with its cells.
+
+rows after header: 4987   blank: 0   awards: 4987   stripped: 0
+
+status_norm       rows              amount
+cleared           2343       18,201,784.75
+pending           2644      380,680,617.43
+other                0                   0
+ALL               4987      398,882,402.18
+
+Headline figure = cleared only. 'ALL' adds pending (and other) and is labeled so.
+
+This workbook prints no total of its own. The sums above are computed by this
+parser from the rows; they are not a figure published by the Council.
+
+Stripped rows (0):
+  none
+
+EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (3): [15, 1449, 1644]
+notes: no MOCS ID#; no Fiscal Year column (year taken from filename)

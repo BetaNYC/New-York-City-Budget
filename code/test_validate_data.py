@@ -464,3 +464,66 @@ def test_dry_run_writes_no_file(tmp_path):
     assert "Initiative-level award reconciliation" in proc.stdout
     assert "WROTE" not in proc.stdout
     assert sorted(str(p.relative_to(tmp_path)) for p in tmp_path.rglob("*")) == before
+
+
+# --------------------------------------------------- expense-disclosure dataset (check 9)
+DISC_HDR = ("fiscal_year,mocs_id,source,council_member,legal_name,ein,status,status_norm,amount,"
+            "agency,program_name,address1,address2,city,state,postal_code,purpose,"
+            "fiscal_conduit,fiscal_conduit_ein,source_file,source_row")
+
+
+def _disc_row(fy="2026", status="Cleared", norm="cleared", src_row="2", ein="136400434"):
+    return (f"{fy},FY26 00001,Local,Doe,Acme Inc.,{ein},{status},{norm},5000,DYCD,,,,,,,,,,"
+            f"funded_disclosure_FY2026.xlsx,{src_row}\n")
+
+
+def _disc_file(root, body):
+    p = str(root / "fy26" / "expense_disclosure" / "fy26_expense_awards.csv")
+    _write(p, DISC_HDR + "\n" + body)
+    return p
+
+
+def test_disclosure_clean_file_has_no_hard_findings(tmp_path):
+    """FAILS if a well-formed disclosure CSV (raw status in any case, an 'other' status) is
+    flagged, or if the file type is not recognized at all."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row() + _disc_row(status="PENDING", norm="pending", src_row="3")
+               + _disc_row(status="Withdrawn", norm="other", src_row="4"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.typ == "expense_disclosure"
+    assert r.hard == [], r.hard
+    assert r.ein_valid == 3
+
+
+def test_disclosure_status_norm_must_match_status(tmp_path):
+    """FAILS if a status_norm that disagrees with the raw status passes: every cleared/pending
+    total is a filter on status_norm."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row(status="Pending", norm="cleared"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert [c for c, _m in r.hard] == ["status"]
+
+
+def test_disclosure_year_and_provenance_are_hard(tmp_path):
+    """FAILS if a row filed under the wrong fiscal year, a duplicate source_row or a blank one
+    passes."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row(fy="2025") + _disc_row(src_row="3") + _disc_row(src_row="3")
+               + _disc_row(src_row=""))
+    (r,) = V.validate_tree(str(root))[0]
+    kinds = sorted(c for c, _m in r.hard)
+    assert kinds == ["fiscal_year", "provenance", "provenance"], r.hard
+
+
+def test_disclosure_reconciliation_rollup_distinguishes_na_from_pass(tmp_path):
+    """FAILS if a year with no printed total is reported as PASS (that would attribute our own
+    sum to the Council), or if a mismatch is not FAIL."""
+    root = tmp_path / "data"
+    for yy, verdict in (("24", "RECONCILED"), ("25", "NO PRINTED TOTAL"), ("26", "MISMATCH")):
+        _write(str(root / f"fy{yy}" / "expense_disclosure" / f"fy{yy}_expense_reconciliation.txt"),
+               f"EXPENSE DISCLOSURE RECONCILIATION  (fy{yy})\nsource: x\n"
+               f"printed total: {verdict}\n")
+    d = {(y, dt): (ratio, status) for y, dt, ratio, status in V.parse_reconciliations(str(root))}
+    assert d[(2024, "disclosure")] == ("1/1", "PASS")
+    assert d[(2025, "disclosure")] == ("—", "N/A (no printed total)")
+    assert d[(2026, "disclosure")][1].startswith("FAIL")

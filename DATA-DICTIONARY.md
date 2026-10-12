@@ -22,6 +22,8 @@ Not every document type exists (or is machine-readable) for every year. This mat
 | 2022–2024 | **awards + initiatives** | ✔ | ✔ | ✔ |
 | 2025–2027 | **awards + initiatives** | ✔ | ✔ | 2026 only |
 
+**Separately, the Council's expense funding disclosure workbooks give an EIN-level award list for every year FY2013–FY2027** (`data/{year}/expense_disclosure/`, below). It is a parallel dataset from a different source and a later moment, not a fill for the Schedule C gaps in this table.
+
 "awards" = the `_awards.csv` file with per-organization EINs. **EIN-keyed analysis (and the budget MCP's award tools) is valid FY2015–FY2027.** FY2009–FY2014 are initiatives-only (no EIN) and are excluded from EIN-keyed tooling. See [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) for the full gap list.
 
 ---
@@ -69,6 +71,44 @@ Detail breakouts re-sorted by funding stream: `_a_aging` (Aging Discretionary), 
 | `amount` | number | Dollars. |
 | `agency` | text | Implementing agency (`_b_local` only). |
 | `purpose` | text | Free-text use description. |
+
+## `data/{year}/expense_disclosure/{year}_expense_awards.csv`
+
+The NYC Council's own **expense funding disclosure** workbooks
+(`source/expense-funding-disclosure/`), one row per designation, **FY2013–FY2027**. A **parallel
+award-level dataset**: it is not derived from the adopted-budget PDFs, it does not feed the
+Schedule C files above, and its totals are not the adopted Schedule C totals. Built by
+`code/parse_expense_disclosure.py --write`; per-year counts, totals and printed-total
+reconciliation are in `code/PARSING.md` and each year's `{year}_expense_reconciliation.txt`.
+
+Column names follow the disclosure's own fields, not the Schedule C vocabulary (`legal_name`, not
+`organization`; `council_member`, not `member`).
+
+| Column | Type | Meaning |
+|--------|------|---------|
+| `fiscal_year` | int | From the workbook's **file name**. FY2013, FY2014 and FY2016 have no Fiscal Year column; where one exists it agrees in every row. |
+| `mocs_id` | text | Mayor's Office of Contract Services ID (`FY25 00001`). **FY2024+ only**, blank before. The join to registered contracts / Checkbook. |
+| `source` | text | Funding stream as the Council names it: `Local`, `Youth`, `Aging`, `Speaker's Initiative`, or a named citywide initiative. |
+| `council_member` | text | Sponsor as printed. **The roster at the time the workbook was exported, not at adoption** — never a join key (see DATA-ANOMALIES §21). |
+| `legal_name` | text | Grantee legal name. |
+| `ein` | text | Grantee EIN, **9 digits, no hyphen, leading zeros kept**. Blank on 6 rows where the Council left it blank (FY2013 2, FY2014 3, FY2015 1). The FY2013 file prints 175 EINs as `NN-NNNNNNN` (hyphen removed here) and stores some as numbers, three of which lost a leading zero (re-padded; rows listed in the FY2013 report). Fiscal-sponsor caveat as above: filter on `ein` **and** `amount` or `program_name`, never `ein` alone. |
+| `status` | text | Clearance status **exactly as published**: `Cleared` / `Pending`, or `CLEARED` / `PENDING` (FY2018). |
+| `status_norm` | text | `cleared`, `pending`, or `other` (any status that is neither — none today). **Filter on this.** A year's headline figure is the `cleared` rows; adding `pending` makes a different, larger claim and should be labeled so. |
+| `amount` | number | Dollars. Integral amounts print with no decimal point. 281 rows carry fractions as published (e.g. `13881.76`), written as the shortest decimal that is the same stored value. |
+| `agency` | text | Implementing agency (DYCD, DFTA, …). |
+| `program_name` | text | Program/site, where given. |
+| `address1`, `address2`, `city`, `state`, `postal_code` | text | Grantee mailing address as printed. Not validated: ZIPs appear as 5 digits, ZIP+4, or malformed. |
+| `purpose` | text | Purpose of funds (the header varies: "Purpose of Funds", "CM Purpose of Funds", "Purpose to be listed in Schedule C"). |
+| `fiscal_conduit`, `fiscal_conduit_ein` | text | Fiscal conduit, where named (FY2013–FY2018, plus one row each in FY2022 and FY2023). Kept as printed apart from the same hyphen/leading-zero EIN rules. |
+| `source_file` | text | Provenance: the workbook. |
+| `source_row` | int | Provenance: the 1-based sheet row, so any record can be found in the workbook. |
+
+All text cells are trimmed, with internal runs of whitespace (including line breaks and no-break
+spaces) collapsed to one space and zero-width characters removed. Nothing else is rewritten.
+
+**Not the same universe as the adopted Schedule C totals.** The workbook is a later snapshot of the
+same year, republished with in-year additions; FY2024 prints its own `Adoption Total`
+($527,096,000) beside its `New Total` ($527,971,414). Compare like with like.
 
 ## `data/{year}/terms/{year}_terms_and_conditions.csv`
 
@@ -182,6 +222,8 @@ Links each budget **source document** to its NYC Council **Legistar** legislativ
 ## How the files join
 
 - **`ein`** — the primary cross-system key (award ↔ transparency ↔ external IRS 990 / Checkbook). 9 digits, no hyphens. Watch the fiscal-sponsor pooling caveat above.
+- **`(ein, amount)`** — the join between the expense-disclosure dataset and the Schedule C award files, as a multiset within one fiscal year. Never `ein` alone (fiscal sponsors), never the sponsoring member (the disclosure's roster is export-time).
+- **`mocs_id`** — expense disclosure, FY2024+ only: the key to registered contracts and Checkbook spending.
 - **`initiative_canonical`** — the stable key for tracking one initiative across years in the combined roll-ups. Join on this, not the raw `initiative`, for longitudinal analysis (the City's spelling of an initiative drifts year to year — see DATA-ANOMALIES #17).
 - **`category_canonical`** — the stable key for tracking one category (Fund/program area) across years. Join on this, not the raw `category`, for longitudinal Fund-axis analysis (an editorial consolidation — see DATA-ANOMALIES #18).
 - **`member` / `council_member` / `sponsor`** — surname only; join to a Council roster for district/full name.
