@@ -8,7 +8,8 @@
  *
  * Data source: this MCP lives inside the New-York-City-Budget repo (mcp/) and
  * reads the repo's real data/ tree directly (../data, one level up from mcp/) —
- * data/{fy25,fy26,fy27}/… + data/combined/legistar_crosswalk.csv. There is no
+ * data/{fy25,fy26,fy27}/… + data/combined/legistar_crosswalk.csv, plus (v1.5.0) the
+ * expense disclosure CSVs and source/expense-funding-disclosure/MANIFEST.csv. There is no
  * copied snapshot to keep in sync: data and query layer move together. Every
  * dollar figure was extracted deterministically from the NYC Council's
  * adopted-budget PDFs and reconciled against printed totals in this repo — this
@@ -60,6 +61,17 @@ const CAPITAL_YEARS = [20, 22, 23, 24, 25, 26, 27].map(yr); // no FY21 detail bo
 // confidence (financial columns reliable); surfaced downstream so callers join on EIN.
 const TRANSPARENCY_YEARS = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26].map(yr);
 const TRANSPARENCY_LOW_TEXT_CONFIDENCE = new Set([2010, 2011, 2012, 2013]);
+
+// Council expense funding DISCLOSURE (v1.5.0): the Council's own award-level workbooks, parsed by
+// code/parse_expense_disclosure.py into data/fyNN/expense_disclosure/fyNN_expense_awards.csv,
+// FY2013–FY2027. A SEPARATE table from `awards` (adopted Schedule C) — the two are different
+// sources and are never merged. Snapshot provenance (which download each year comes from) is read
+// from source/expense-funding-disclosure/MANIFEST.csv.
+const DISCLOSURE_YEARS = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27].map(yr);
+const DISCLOSURE_MANIFEST = join(MCP_ROOT, "..", "source", "expense-funding-disclosure", "MANIFEST.csv");
+// Columns indexed. Deliberately NOT indexed, to keep the npm package small: purpose (~26 MB of
+// the CSVs' 52 MB), the grantee street address, and source_file (implied by fiscal_year).
+// source_row points every result back to the full row in the committed CSV.
 
 function log(event, detail) {
   console.error(
@@ -159,6 +171,19 @@ function main() {
     );
     CREATE INDEX idx_cw_fy ON crosswalk(fiscal_year);
     CREATE INDEX idx_cw_type ON crosswalk(document_type);
+
+    CREATE TABLE disclosure (
+      fiscal_year INTEGER, mocs_id TEXT, source TEXT, council_member TEXT, legal_name TEXT,
+      ein TEXT, status TEXT, status_norm TEXT, amount REAL, agency TEXT, program_name TEXT,
+      fiscal_conduit TEXT, fiscal_conduit_ein TEXT, source_row INTEGER
+    );
+    CREATE INDEX idx_disc_ein ON disclosure(ein);
+    CREATE INDEX idx_disc_fy ON disclosure(fiscal_year);
+
+    CREATE TABLE disclosure_snapshots (
+      fiscal_year INTEGER PRIMARY KEY, file TEXT, sheet TEXT, retrieved TEXT, sha256 TEXT,
+      award_rows INTEGER
+    );
 
     CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT);
   `);
@@ -390,6 +415,76 @@ function main() {
     return n;
   })();
 
+  // --- Council expense funding disclosure (FY2013–FY2027), its own table ---
+  // Amounts are the workbook's own values and can be fractional (281 rows), so they are REAL,
+  // not parseAmount()'s integer. An amount that is not a finite number is a hard stop, never a
+  // silent null: every disclosure row carries one (the parser refuses a row without it).
+  // Each year's loaded row count must equal MANIFEST.csv's award_rows for that workbook, so the
+  // index can never serve a year from a different snapshot than the one it claims.
+  const manifest = readCsv(DISCLOSURE_MANIFEST);
+  const snapByYear = new Map();
+  for (const m of manifest) {
+    const hit = /^funded_disclosure_FY(\d{4})\.xlsx?$/.exec(m.file ?? "");
+    if (hit) snapByYear.set(Number(hit[1]), m);
+  }
+  const insDisc = db.prepare(
+    `INSERT INTO disclosure (fiscal_year, mocs_id, source, council_member, legal_name, ein, status,
+       status_norm, amount, agency, program_name, fiscal_conduit, fiscal_conduit_ein, source_row)
+     VALUES (@fiscal_year, @mocs_id, @source, @council_member, @legal_name, @ein, @status,
+       @status_norm, @amount, @agency, @program_name, @fiscal_conduit, @fiscal_conduit_ein,
+       @source_row)`
+  );
+  const insSnap = db.prepare(
+    `INSERT INTO disclosure_snapshots (fiscal_year, file, sheet, retrieved, sha256, award_rows)
+     VALUES (@fiscal_year, @file, @sheet, @retrieved, @sha256, @award_rows)`
+  );
+  counts.disclosure = db.transaction(() => {
+    let n = 0;
+    for (const { key, year } of DISCLOSURE_YEARS) {
+      const snap = snapByYear.get(year);
+      if (!snap) throw new Error(`MANIFEST.csv has no disclosure workbook for FY${year}`);
+      const rows = readCsv(join(SRC, key, "expense_disclosure", `${key}_expense_awards.csv`));
+      if (rows.length !== Number(snap.award_rows)) {
+        throw new Error(
+          `FY${year}: ${rows.length} disclosure rows on disk but MANIFEST.csv says ${snap.award_rows} ` +
+            `for ${snap.file} — regenerate with code/parse_expense_disclosure.py --write --manifest`
+        );
+      }
+      for (const r of rows) {
+        const amount = Number(r.amount);
+        if (r.amount === "" || !Number.isFinite(amount)) {
+          throw new Error(`FY${year} row ${r.source_row}: amount ${JSON.stringify(r.amount)} is not a number`);
+        }
+        insDisc.run({
+          fiscal_year: year,
+          mocs_id: r.mocs_id ?? "",
+          source: r.source ?? "",
+          council_member: r.council_member ?? "",
+          legal_name: r.legal_name ?? "",
+          ein: normEin(r.ein),
+          status: r.status ?? "",
+          status_norm: r.status_norm ?? "",
+          amount,
+          agency: r.agency ?? "",
+          program_name: r.program_name ?? "",
+          fiscal_conduit: r.fiscal_conduit ?? "",
+          fiscal_conduit_ein: normEin(r.fiscal_conduit_ein),
+          source_row: Number.parseInt(r.source_row, 10),
+        });
+        n++;
+      }
+      insSnap.run({
+        fiscal_year: year,
+        file: snap.file,
+        sheet: snap.sheet ?? "",
+        retrieved: snap.retrieved ?? "",
+        sha256: snap.sha256 ?? "",
+        award_rows: rows.length,
+      });
+    }
+    return n;
+  })();
+
   const setMeta = db.prepare("INSERT INTO meta (key, value) VALUES (?, ?)");
   setMeta.run("built_at", new Date().toISOString());
   setMeta.run("source", "BetaNYC/New-York-City-Budget (committed snapshot)");
@@ -400,6 +495,7 @@ function main() {
       terms: TERMS_YEARS.map((y) => y.year),
       capital: CAPITAL_YEARS.map((y) => y.year),
       transparency: TRANSPARENCY_YEARS.map((y) => y.year),
+      disclosure: DISCLOSURE_YEARS.map((y) => y.year),
     })
   );
   setMeta.run("counts", JSON.stringify(counts));

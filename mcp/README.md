@@ -1,6 +1,6 @@
 # @betanyc/nyc-budget-mcp — NYC Budget MCP server
 
-A Model Context Protocol (MCP) server that wraps this repository's data — NYC Council discretionary funding (Schedule C), Terms & Conditions, Section 254 capital changes, the Transparency Resolutions, and the FY2008–FY2027 Legistar crosswalk — and exposes it to MCP-capable AI clients as structured query tools.
+A Model Context Protocol (MCP) server that wraps this repository's data — NYC Council discretionary funding (Schedule C), Terms & Conditions, Section 254 capital changes, the Transparency Resolutions, the FY2008–FY2027 Legistar crosswalk, and (since v1.5.0) the Council's own expense funding disclosure, FY2013–FY2027 — and exposes it to MCP-capable AI clients as structured query tools.
 
 Published on npm as [`@betanyc/nyc-budget-mcp`](https://www.npmjs.com/package/@betanyc/nyc-budget-mcp) and run via `npx` (see [Quick start](#quick-start-npx)). The published package ships a prebuilt SQLite index, so no local clone, build, or data checkout is needed to run it.
 
@@ -19,7 +19,7 @@ Add this to your MCP client config (Claude Desktop, Claude Code, etc.):
 }
 ```
 
-Restart the client — the 7 `nyc-budget` tools become available. `npx -y` resolves the
+Restart the client — the 8 `nyc-budget` tools become available. `npx -y` resolves the
 package from npm per machine (no clone, build, or absolute path required — the BetaNYC-fleet
 portability convention), and the prebuilt budget index ships inside the package, so the
 server has its data on first run.
@@ -34,6 +34,7 @@ server has its data on first run.
 | Capital (§254) | **FY2020 + FY2022–FY2027** | No FY2021 detail book. Every parsed year is the "Supporting Detail Book" (Council-additions Capital Project Detail), shares the full schema (borough/sub-id/sponsor), and reconciles against printed subtotals + grand totals (FY2027 partially). FY2025 was reparsed from its Supporting Detail Book in [PR #21](https://github.com/BetaNYC/New-York-City-Budget/pull/21) and is now directly comparable to the other years |
 | Transparency Resolutions | **FY2010–FY2024 + FY2026** | Filtered by resolution document year (`source_fy`). **FY2010–FY2013 org/program TEXT is low-confidence** — financial columns reliable, join on EIN. FY2009 + FY2025/FY2027 not parsed |
 | Legistar crosswalk | **FY2008–FY2027** | Provenance index; covers years not parsed to CSV |
+| Expense funding **disclosure** | **FY2013–FY2027** | New in v1.5.0, served **only** by `search_disclosure_awards`, never mixed into the award tools. The Council's own award-level workbooks ([`../source/expense-funding-disclosure/`](../source/expense-funding-disclosure/README.md)), one row per designation, Cleared and Pending alike, with MOCS ID from FY2024. A later snapshot than the adopted Schedule C: it includes post-adoption designations, and `council_member` is the roster when the workbook was exported. Each answer names the download date of every year it draws on (currently all 2026-10-12). Purpose text and grantee addresses are not in the index (package size); each row gives its workbook row number |
 
 The tools do **not** pretend data exists where it doesn't: FY2009–FY2014 award data (there is none — initiatives-only) and the unparsed years are reported honestly by `list_available_fiscal_years`, which states exact per-dataset coverage and the FY2009–FY2014 no-EIN boundary.
 
@@ -54,13 +55,43 @@ The tools do **not** pretend data exists where it doesn't: FY2009–FY2014 award
 | `get_legistar_link` | Legistar matter #, adoption date, and a working link to the adopting City Council session for a source document (surfaces `status`) |
 | `search_capital_projects` | §254 capital by agency / fiscal year / sponsor / title |
 | `get_terms_conditions` | Reporting mandates by fiscal year / agency |
-| `list_available_fiscal_years` | What each dataset actually covers (the parse-gap guard) |
+| `search_disclosure_awards` | The Council's expense funding disclosure, FY2013–FY2027, by fiscal year / EIN / legal name / council member / source / agency / program / status / amount range. Reports the true match count, Cleared (headline) and Pending totals over **all** matches, and each year's snapshot date |
+| `list_available_fiscal_years` | What each dataset actually covers (the parse-gap guard). Unchanged in v1.5.0: it does not list the disclosure, whose coverage `search_disclosure_awards` states itself |
 
 ### Unknown parameters are rejected, not ignored
 
 Every tool declares `additionalProperties: false` and validates its arguments against a strict schema. A parameter that is not in the tool's schema raises an error naming the accepted parameters, rather than being silently dropped.
 
 This matters because the natural question here is district-shaped ("what discretionary funding went to District 10?") and **there is no district filter** — Schedule C awards and §254 capital both key on the *sponsoring member's surname* (`council_member` / `sponsor`). Before this guard, `search_awards(council_district=10, fiscal_year=2026)` returned $47.5M of citywide awards, correctly formatted and correctly sourced, answering a different question with nothing to signal that a filter had been dropped. See issue #37.
+
+### The expense funding disclosure is a separate source (`search_disclosure_awards`, v1.5.0)
+
+The award tools serve the **adopted** Schedule C. The disclosure is the Council's own, later, award-level list, and the two disagree for real reasons — designations made after adoption, amounts revised, rows re-attributed to whoever holds a seat at export time (the 2026-10-12 re-pull moved 159 FY2026 rows from `Bottcher` to `Wilson`). So it is a **new tool**, not a new `source_table`: no existing tool's output changed. Every response carries:
+
+- the **true number of matching rows** and the totals over all of them, whatever `limit` shows (default 50, max 500, highest amount first) — a short page always says "Showing N of M";
+- **Cleared** (the headline) and **Pending** totals separately, plus an all-statuses line labeled as not a headline figure; every status is returned unless you pass `status`;
+- the **snapshot** of each fiscal year it draws on: file, sheet (the Council stamps its own "last updated" date there, e.g. `FY26 (09-14-26)`), retrieval date and sha256 prefix, from `source/expense-funding-disclosure/MANIFEST.csv`;
+- a one-line **caveat** and its own source footer.
+
+Example — `search_disclosure_awards({ ein: "13-3179546", fiscal_year: 2026, limit: 2 })` (Food Bank For New York City):
+
+```text
+254 matching designation(s) in the Council's expense funding disclosure. Showing 2 of 254, highest amount first — the totals below cover all 254. …
+
+Totals over all 254 match(es):
+  Cleared (headline): 254 row(s), $5,298,821
+  Pending:            0 row(s), $0
+  All statuses (not a headline figure): 254 row(s), $5,298,821
+
+Snapshot (which download each year comes from):
+  FY2026: funded_disclosure_FY2026.xlsx, sheet "FY26 (09-14-26)", retrieved 2026-10-12 (sha256 81651e599ad6)
+
+Rows:
+FY2026 · FY26 08060 · $1,000,000 · Cleared · (no member) → Food Bank For New York City (EIN 133179546) · source: Food Pantries · agency: DYCD
+    program: School Pantries
+    workbook row 7688
+…
+```
 
 ### The fiscal-sponsor caveat (important for correct EIN use)
 
@@ -113,9 +144,9 @@ To run a local, in-development build instead of the published package — e.g. a
 
 `test/journeys.test.js` re-runs all 8 user journeys from `people/noel/work/2026-07-07-mcp-budget-user-journeys.md` (in the BetaNYC workspace) against the real MCP tools, driven in-process through the MCP protocol via `InMemoryTransport`, asserting the same real answers found by hand: BetaNYC EIN `13-2612524` (FY25 $115k / FY26 $115k / FY27 $95k), Council District 33 / Restler capital ($18,750,000 across 12 FY2026 projects), and the FY2026 Transparency Resolution 1 Noel Pointer → El Puente CASA transfer. Journey 8 asserts the MCP honestly reports its coverage and the FY2009–FY2014 no-EIN boundary.
 
-`test/coverage.test.js` is the per-fiscal-year gate: for **every award year FY2015–FY2027** it asserts the year is queryable through the tools, its award count and dollar total match the QA-cleared committed data exactly, and every award row carries a valid 9-digit EIN. It also asserts the honesty boundary (FY2009–FY2014 have no award rows), the exact per-dataset year coverage, and that the FY2010–FY2013 transparency low-confidence caveat is flagged and surfaced. `test/strict-schema.test.js` guards issue #37: every tool advertises `additionalProperties: false` (a loop over the exported `TOOLS`, so it covers tools added later), the district-shaped guess `search_awards(council_district=10)` raises instead of returning citywide awards, the error names `council_member`, alias hints stay per-tool (`sponsor` is real on `search_capital_projects` and not on `search_awards`), and valid calls are still accepted.
+`test/coverage.test.js` is the per-fiscal-year gate: for **every award year FY2015–FY2027** it asserts the year is queryable through the tools, its award count and dollar total match the QA-cleared committed data exactly, and every award row carries a valid 9-digit EIN. It also asserts the honesty boundary (FY2009–FY2014 have no award rows), the exact per-dataset year coverage, and that the FY2010–FY2013 transparency low-confidence caveat is flagged and surfaced. `test/strict-schema.test.js` guards issue #37: every tool advertises `additionalProperties: false` (a loop over the exported `TOOLS`, so it covers tools added later), the district-shaped guess `search_awards(council_district=10)` raises instead of returning citywide awards, the error names `council_member`, alias hints stay per-tool (`sponsor` is real on `search_capital_projects` and not on `search_awards`), and valid calls are still accepted. `test/disclosure.test.js` covers `search_disclosure_awards` against figures computed from the committed CSVs and `MANIFEST.csv` (never from the index it tests): every row of every year is indexed with its snapshot, the true match count and the Cleared / Pending totals survive any `limit`, rows are the highest amounts, the 500-row cap is disclosed, the status filter, amount bounds, the caveat and footer, and unknown-parameter rejection with disclosure-specific hints.
 
-Full suite: **43 tests, all passing** (18 coverage + 10 journeys + 7 Legistar-link + 8 strict-schema).
+Full suite: **75 tests, all passing** (28 coverage + 13 disclosure + 10 journeys + 8 appendix-ingest + 8 strict-schema + 7 Legistar-link + 1 award-ordering).
 
 ## Releases
 
@@ -189,9 +220,9 @@ This server is most useful chained with BetaNYC's other NYC-data MCPs. Each jour
 
 ### 1. Did this exact award become a registered contract? — MOCS ID# → `nyc-checkbook-mcp`
 - **Goal:** confirm a specific designation was registered and paid, not just that the org received money in that category.
-- **Chain:** expense-disclosure `mocs_id` (award-level, FY2024+) → `nyc-checkbook-mcp` `search_contracts` / `get_contract`.
+- **Chain:** `search_disclosure_awards` (this server, v1.5.0; `mocs_id` is award-level, FY2024+) → `nyc-checkbook-mcp` `search_contracts` / `get_contract`.
 - **Why it's new:** before the disclosure's MOCS ID#, the only budget → spending key was the org's EIN/name — and Checkbook aggregates by contract, so you could confirm "this org kept receiving CASA money" but never "this $20,000 designation was registered." The MOCS registration ID is award-specific, so it pinpoints the contract.
-- **Caveat to verify first:** the disclosure's `mocs_id` is a **MOCS registration** identifier; Checkbook keys contracts by its own **FMS `contract_id`** (e.g. `CT185820201424467`) and exposes a `mocs_registered` column. Confirm the MOCS ID# ↔ FMS `contract_id` crosswalk (via `mocs_registered`) on a known example before treating them as one key — that mapping is the concrete step this journey turns on.
+- **Caveat to verify first:** the disclosure's `mocs_id` is a **MOCS registration** identifier; Checkbook keys contracts by its own **FMS `contract_id`** (e.g. `CT185820201424467`) and exposes a `mocs_registered` column. Confirm the MOCS ID# ↔ FMS `contract_id` crosswalk (via `mocs_registered`) on a known example before treating them as one key — that mapping is the concrete step this journey turns on. And a MOCS ID# is not fixed across snapshots of the disclosure: the 2026-10-12 FY2026 workbook carries 129 designations as `FY26GP NNNNN` that read `FY26 NNNNN` in July (same number, every other field identical).
 
 ### 2. Follow an organization's money and check its health — EIN → `nyc-checkbook-mcp` + IRS 990
 - **Goal:** every City dollar an org receives, plus its financial standing.

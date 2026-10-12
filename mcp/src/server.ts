@@ -20,7 +20,12 @@ import {
   getLegistarLink,
   listFiscalYears,
   buildMeetingUrl,
+  searchDisclosure,
+  listDisclosureSnapshots,
+  DISCLOSURE_STATUSES,
   type AwardRow,
+  type DisclosureResult,
+  type DisclosureRow,
 } from "./db.js";
 
 const PACKAGE_VERSION = (
@@ -38,6 +43,77 @@ NYC budget data structured by BetaNYC (https://beta.nyc) from the NYC Council's 
 
 function withFooter(text: string): string {
   return `${text}\n\n${FOOTER}`;
+}
+
+/**
+ * search_disclosure_awards has its own footer: FOOTER describes the adopted-budget documents,
+ * and the disclosure is a different source that must never be presented as one of them.
+ */
+const DISCLOSURE_FOOTER = `
+---
+Source: the NYC Council Research & Data division's expense funding disclosure workbooks (https://rnd.council.nyc.gov/expense_funding/), FY2013–FY2027, as downloaded on the retrieval date shown per year; parsed by BetaNYC (code/parse_expense_disclosure.py in https://github.com/BetaNYC/New-York-City-Budget). Amounts are the workbook's own. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`.trim();
+
+/** One line, always present: the three ways this source is commonly misread. */
+const DISCLOSURE_CAVEAT =
+  "Caveat: council_member is the Council's roster when the workbook was exported, not necessarily the member who sponsored the designation; the disclosure includes designations made after adoption, so it is not the adopted Schedule C (use search_awards for that); status is a moment — Pending rows clear over time, so the Cleared figure is the headline.";
+
+/** Dollars, rounded to cents for display (disclosure amounts and their sums can be fractional). */
+const usd = (n: number): string => {
+  const c = Math.round(n * 100) / 100;
+  const s = Math.abs(c).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  return c < 0 ? `-$${s}` : `$${s}`;
+};
+
+function disclosureRowLine(r: DisclosureRow): string {
+  return (
+    `FY${r.fiscal_year}` +
+    (r.mocs_id ? ` · ${r.mocs_id}` : "") +
+    ` · ${usd(r.amount)} · ${r.status || r.status_norm}` +
+    ` · ${r.council_member || "(no member)"} → ${r.legal_name} (EIN ${r.ein || "—"})` +
+    (r.source ? ` · source: ${r.source}` : "") +
+    (r.agency ? ` · agency: ${r.agency}` : "") +
+    (r.program_name ? `\n    program: ${r.program_name}` : "") +
+    (r.fiscal_conduit
+      ? `\n    fiscal conduit: ${r.fiscal_conduit}${r.fiscal_conduit_ein ? ` (EIN ${r.fiscal_conduit_ein})` : ""}`
+      : "") +
+    `\n    workbook row ${r.source_row}`
+  );
+}
+
+function disclosureText(res: DisclosureResult): string {
+  const t = res.totals;
+  const all = t.cleared.rows + t.pending.rows + t.other.rows;
+  const allAmt = t.cleared.amount + t.pending.amount + t.other.amount;
+  const shown = res.rows.length;
+  const n = (x: number) => x.toLocaleString("en-US");
+  const L: string[] = [
+    `${n(res.matched)} matching designation(s) in the Council's expense funding disclosure. ` +
+      (shown < res.matched
+        ? `Showing ${shown} of ${n(res.matched)}, highest amount first — the totals below cover all ${n(res.matched)}. Narrow the filters or raise limit (max 500) to see more rows.`
+        : `Showing all ${shown}, highest amount first.`),
+    "",
+    `Totals over all ${n(res.matched)} match(es):`,
+    `  Cleared (headline): ${n(t.cleared.rows)} row(s), ${usd(t.cleared.amount)}`,
+    `  Pending:            ${n(t.pending.rows)} row(s), ${usd(t.pending.amount)}`,
+  ];
+  if (t.other.rows) L.push(`  Other status:       ${n(t.other.rows)} row(s), ${usd(t.other.amount)}`);
+  L.push(`  All statuses (not a headline figure): ${n(all)} row(s), ${usd(allAmt)}`);
+  if (res.by_year.length > 1) {
+    L.push("", "By fiscal year (cleared / pending):");
+    for (const y of res.by_year) {
+      L.push(
+        `  FY${y.fiscal_year}: cleared ${n(y.totals.cleared.rows)} row(s) ${usd(y.totals.cleared.amount)} · ` +
+          `pending ${n(y.totals.pending.rows)} row(s) ${usd(y.totals.pending.amount)}` +
+          (y.totals.other.rows ? ` · other ${n(y.totals.other.rows)} row(s) ${usd(y.totals.other.amount)}` : "")
+      );
+    }
+  }
+  L.push("", "Snapshot (which download each year comes from):");
+  for (const s of res.snapshots) {
+    L.push(`  FY${s.fiscal_year}: ${s.file}, sheet "${s.sheet}", retrieved ${s.retrieved} (sha256 ${s.sha256.slice(0, 12)})`);
+  }
+  L.push("", "Rows:", ...res.rows.map(disclosureRowLine), "", DISCLOSURE_CAVEAT);
+  return L.join("\n");
 }
 
 const money = (n: number | null): string =>
@@ -199,6 +275,37 @@ export const TOOLS = [
     },
   },
   {
+    name: "search_disclosure_awards",
+    description: `Search the NYC Council's expense funding disclosure — the Council's own award-level list of discretionary expense designations, FY2013–FY2027 (one row per designation, with clearance status, funding stream, agency and, from FY2024, a MOCS ID). A DIFFERENT source from search_awards / get_awards_by_ein: those serve the ADOPTED Schedule C; this is a later snapshot that includes designations made after adoption, and its council_member is the roster when the workbook was exported. Every row is returned whatever its status unless you filter on status; the response gives the TRUE number of matching rows and totals over all of them (Cleared — the headline — and Pending separately), even when the rows shown are limited, plus the date each year's workbook was downloaded. Filter by any combination of fiscal_year, ein, legal_name, council_member, source, agency, program_name, status, min_amount, max_amount. Rows come highest amount first. Purpose text and grantee addresses are not served; each row gives its workbook row number in the source repo.`,
+    inputSchema: {
+      type: "object",
+      properties: {
+        fiscal_year: { type: "number", description: "Any year FY2013–FY2027" },
+        ein: { type: "string", description: "Grantee tax ID; hyphens optional. Matches the grantee EIN only, not the fiscal conduit's." },
+        legal_name: { type: "string", description: "Grantee legal name (substring, case-insensitive)" },
+        council_member: {
+          type: "string",
+          description: "Council member as the workbook names them (substring) — the roster at export time, e.g. 'Speaker' for Speaker's designations",
+        },
+        source: {
+          type: "string",
+          description: "Funding stream as the workbook names it (substring): Local, Youth, Aging, Speaker's Initiative, or a citywide initiative name",
+        },
+        agency: { type: "string", description: "City agency (substring), e.g. DYCD" },
+        program_name: { type: "string", description: "Program name (substring)" },
+        status: {
+          type: "string",
+          enum: [...DISCLOSURE_STATUSES],
+          description: "Restrict to one clearance status. Omit for all (the default; totals are still reported per status).",
+        },
+        min_amount: { type: "number", description: "Minimum designation amount, dollars (inclusive)" },
+        max_amount: { type: "number", description: "Maximum designation amount, dollars (inclusive)" },
+        limit: { type: "number", description: "Max rows shown (default 50, max 500). Totals always cover every match." },
+      },
+      additionalProperties: false,
+    },
+  },
+  {
     name: "list_available_fiscal_years",
     description: `Report exactly which fiscal years each dataset actually covers, so callers are never misled about what exists. Returns the parsed years for awards/terms/capital/transparency and the full crosswalk range, plus the honesty caveats (FY2009–FY2014 initiatives-only/no-EIN and excluded from award tools; FY2010–FY2013 transparency text low-confidence).`,
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
@@ -207,6 +314,9 @@ export const TOOLS = [
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOLS }));
 
+const DISTRICT_WHY_DISCLOSURE =
+  "no district filter exists: the disclosure names a council member (as of the workbook's export), not a district";
+
 /**
  * Unknown-parameter guesses we have actually seen, mapped to the real parameter
  * they should have been (issue #37). Kept PER-TOOL by filtering targets against
@@ -214,16 +324,26 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOLS }))
  * search_capital_projects, and `sponsor` is the reverse — a global alias table
  * would point callers at parameters the tool does not have.
  */
-const ALIAS_HINTS: Record<string, { targets: string[]; why: string }> = {
+const ALIAS_HINTS: Record<string, { targets: string[]; why: string; whyByTool?: Record<string, string> }> = {
   council_district: {
     targets: ["council_member", "sponsor"],
     why: "no district filter exists, because Schedule C awards and §254 capital both key on the sponsoring member's surname",
+    whyByTool: { search_disclosure_awards: DISTRICT_WHY_DISCLOSURE },
   },
   district: {
     targets: ["council_member", "sponsor"],
     why: "no district filter exists, because Schedule C awards and §254 capital both key on the sponsoring member's surname",
+    whyByTool: { search_disclosure_awards: DISTRICT_WHY_DISCLOSURE },
   },
-  query: { targets: ["organization", "program"], why: "there is no free-text search parameter" },
+  query: {
+    targets: ["organization", "program", "legal_name", "program_name"],
+    why: "there is no free-text search parameter",
+  },
+  // Real parameter names on search_awards that the disclosure tool names differently. Targets are
+  // filtered per tool, so these change nothing for a tool that lacks legal_name / program_name.
+  organization: { targets: ["legal_name"], why: "the disclosure names the grantee field legal_name" },
+  program: { targets: ["program_name"], why: "the disclosure names the program field program_name" },
+  status_norm: { targets: ["status"], why: "status takes the normalized value (cleared / pending / other)" },
 };
 
 /**
@@ -248,7 +368,7 @@ function parseArgs<S extends z.ZodObject<z.ZodRawShape, "strict">>(
     const hint = ALIAS_HINTS[key];
     const targets = hint?.targets.filter((t) => accepted.includes(t)) ?? [];
     return targets.length
-      ? [`Use \`${targets.join("` or `")}\` instead of \`${key}\` — ${hint.why}.`]
+      ? [`Use \`${targets.join("` or `")}\` instead of \`${key}\` — ${hint.whyByTool?.[tool] ?? hint.why}.`]
       : [];
   });
   throw new Error(
@@ -455,6 +575,44 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           )
           .join("\n");
         return { content: [{ type: "text", text: withFooter(`${rows.length} term(s):\n\n${body}`) }] };
+      }
+
+      case "search_disclosure_awards": {
+        const a = parseArgs("search_disclosure_awards", z.object({
+            fiscal_year: z.number().int().optional(),
+            ein: z.string().optional(),
+            legal_name: z.string().optional(),
+            council_member: z.string().optional(),
+            source: z.string().optional(),
+            agency: z.string().optional(),
+            program_name: z.string().optional(),
+            status: z.enum(DISCLOSURE_STATUSES).optional(),
+            min_amount: z.number().optional(),
+            max_amount: z.number().optional(),
+            limit: z.number().int().optional(),
+          }).strict(), args);
+        if (a.min_amount != null && a.max_amount != null && a.min_amount > a.max_amount)
+          return {
+            content: [{ type: "text", text: `Error: min_amount (${a.min_amount}) is greater than max_amount (${a.max_amount}); nothing can match.` }],
+            isError: true,
+          };
+        const res = searchDisclosure(a);
+        if (res.matched === 0) {
+          const years = listDisclosureSnapshots().map((s) => s.fiscal_year);
+          const span = years.length ? `FY${years[0]}–FY${years[years.length - 1]}` : "(index empty)";
+          const snap = res.snapshots
+            .map((s) => ` FY${s.fiscal_year} is from ${s.file}, sheet "${s.sheet}", retrieved ${s.retrieved}.`)
+            .join("");
+          return {
+            content: [
+              {
+                type: "text",
+                text: `No matching designations in the Council's expense funding disclosure (covers ${span}).${snap}\n\n${DISCLOSURE_CAVEAT}\n\n${DISCLOSURE_FOOTER}`,
+              },
+            ],
+          };
+        }
+        return { content: [{ type: "text", text: `${disclosureText(res)}\n\n${DISCLOSURE_FOOTER}` }] };
       }
 
       case "list_available_fiscal_years": {
