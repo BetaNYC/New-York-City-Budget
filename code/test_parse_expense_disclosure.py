@@ -133,14 +133,48 @@ def test_clean_keeps_no_break_space_as_a_separator():
     assert P._clean("Line one\nline  two ") == "Line one line two"
 
 
-def test_clean_deletes_every_invisible_format_character():
-    """FAILS if a soft hyphen (U+00AD, 213 cells: FY2018 row 2796 '12<SHY>11 40th Avenue'), a
-    left-to-right mark (U+200E, FY2015 row 3174 purpose) or a BOM survives into the CSV, or if a
-    visible hyphen is touched."""
-    assert P._clean("12\xad11 40th Avenue") == "1211 40th Avenue"
-    assert P._clean("after\xadschool") == "afterschool"
+def test_clean_deletes_every_invisible_format_character_but_the_soft_hyphen():
+    """FAILS if a left-to-right mark (U+200E, FY2015 row 3174 purpose), a zero-width space or a
+    BOM survives into the CSV, or if a visible hyphen is touched."""
     assert P._clean("\u200eProgram\ufeff") == "Program"
+    assert P._clean("13\u200b1234567") == "131234567"
     assert P._clean("12-11 40th Avenue") == "12-11 40th Avenue"
+
+
+def test_soft_hyphen_in_an_address_is_a_hyphen_issue_68():
+    """Issue #68. FAILS if the Queens house number '12<SHY>11 40th Avenue' (FY2018 row 2796)
+    comes out as anything but '12-11 40th Avenue' -- the earlier parser deleted the soft hyphen
+    and published '1211 40th Avenue', a different address -- or if a soft hyphen next to a
+    visible '-' (169 address cells read '12-<SHY>11') doubles it into '12--11'."""
+    assert P._clean("12\xad11 40th Avenue") == "12-11 40th Avenue"
+    assert P._clean("12-\xad11 40th Avenue") == "12-11 40th Avenue"
+    assert P._clean("12\xad-11 40th Avenue") == "12-11 40th Avenue"
+    assert P._clean("12\xad\xad11") == "12-11"
+
+
+def test_soft_hyphen_in_purpose_follows_the_same_rule():
+    """The 25 purpose cells holding a soft hyphen, decided case by case (DATA-DICTIONARY):
+    every one is a hyphenated word or a range, so '-' is right; next to '/' or '-' it is
+    deleted. FAILS if 'after<SHY>school' loses its hyphen, 'ages 12<SHY>19' becomes '1219',
+    or 'disposal/<SHY>destruction' gains a '-' after the slash."""
+    assert P._clean("an after\xadschool college access program") == \
+        "an after-school college access program"
+    assert P._clean("students ages 12\xad19") == "students ages 12-19"
+    assert P._clean("girls ages 8-\xad18") == "girls ages 8-18"
+    assert P._clean("recycling E\xad-waste.") == "recycling E-waste."
+    assert P._clean("document disposal/\xaddestruction") == "document disposal/destruction"
+
+
+def test_committed_address_keeps_the_queens_hyphen():
+    """Corpus pin, read from the committed CSV. FAILS if FY2018 rows 2796-2811 lose the hyphen
+    of '12-11 40th Avenue'. (The workbook-vs-CSV hyphen count for every address is audit
+    question D13.)"""
+    import csv as _csv
+    path = os.path.join(P.DATA_DIR, "fy18", "expense_disclosure", "fy18_expense_awards.csv")
+    with open(path, newline="", encoding="utf-8") as fh:
+        rows = {int(r["source_row"]): r for r in _csv.DictReader(fh)}
+    for rn in range(2796, 2812):
+        assert rows[rn]["address1"] == "12-11 40th Avenue", (rn, rows[rn]["address1"])
 
 
 def test_committed_csvs_hold_no_invisible_format_character():

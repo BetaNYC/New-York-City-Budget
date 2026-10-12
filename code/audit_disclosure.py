@@ -231,8 +231,9 @@ class Sheet:
 
 
 def text_of(cell):
-    """The audit's own rendering of a cell to the dataset's text convention: invisible
-    format characters (category Cf) deleted, whitespace runs to one space, integral numbers without '.0'."""
+    """The audit's own rendering of a cell to the dataset's text convention: a soft hyphen is a
+    hyphen (dropped beside a '-' or '/'), other invisible format characters (category Cf)
+    deleted, whitespace runs to one space, integral numbers without '.0'."""
     if cell is None:
         return ""
     v = cell.value
@@ -241,8 +242,12 @@ def text_of(cell):
     if isinstance(v, float) and v.is_integer():
         v = int(v)
     s = str(v)
-    # The dataset's documented convention (DATA-DICTIONARY): invisible format characters,
-    # Unicode category Cf (zero-width space, soft hyphen, LRM, BOM), are deleted.
+    # The dataset's documented convention (DATA-DICTIONARY): a soft hyphen (U+00AD) is a hyphen,
+    # unless a '-' or '/' already stands next to it (then it adds nothing); every other
+    # invisible format character, Unicode category Cf (zero-width space, LRM, BOM), is deleted.
+    # Written here from the documented rule, not imported from the parser (issue #68).
+    s = re.sub("[-/]\u00ad+|\u00ad+(?=[-/])", lambda m: m.group(0).replace("\u00ad", ""), s)
+    s = re.sub("\u00ad+", "-", s)
     s = "".join(ch for ch in s if unicodedata.category(ch) != "Cf")
     return " ".join(s.split())
 
@@ -1268,6 +1273,38 @@ def q_char_variants(ctx):
                   f"apostrophe does not find them.")
 
 
+@question("D13", "Does any address lose a hyphen between the workbook and the CSV, or gain one "
+          "(a Queens house number '12-11 40th Avenue' published as '1211', or a soft hyphen "
+          "beside a printed '-' doubled into '12--11')?",
+          "invisible character deleted with meaning (issue #68)", "new", "yes")
+def q_address_hyphens(ctx):
+    """For every CSV row, counts the hyphen joins in its workbook address1/address2 cell (two
+    word characters separated by any run of '-' and soft hyphens U+00AD) and the joins in the
+    CSV cell (two word characters separated by '-'); any row where they differ is a
+    finding, as is any '--' in the CSV that the workbook cell does not print. Date-typed cells
+    (A8) are skipped."""
+    raw_join = re.compile("\\w[-\u00ad]+\\w")
+    csv_join = re.compile("\\w-+\\w")
+    hits, shy_cells, joins = [], 0, 0
+    for r in ctx["csv"]:
+        s = ctx["sheets"][int(r["fiscal_year"])]
+        for f in ("address1", "address2"):
+            c = s.get(int(r["source_row"]), f)
+            if c is not None and c.kind == "d":
+                continue  # a date-typed cell carries a serial, not text (A8 lists it)
+            raw = "" if c is None else str(c.value)
+            if "\u00ad" in raw:
+                shy_cells += 1
+            n_raw = len(raw_join.findall(raw))
+            n_csv = len(csv_join.findall(r[f]))
+            joins += n_raw
+            if n_raw != n_csv or (r[f].count("--") > raw.count("--")):
+                hits.append(f"{ref(r)} {f}: workbook {short(repr(raw), 40)} vs CSV {short(r[f], 40)!r}")
+    return result("finding" if hits else "pass", len(hits), hits,
+                  f"{shy_cells} workbook address cells hold a soft hyphen; {joins:,} hyphen joins "
+                  f"in the workbook address cells, compared one for one with the CSV.")
+
+
 @question("G6", "Which funding-stream labels does each year use (Local / Youth / Aging and "
           "their older names), so a stream filter is not searching for a word the year never "
           "printed?", "label vocabulary drifts by year (FR blocker, SA10)", "harvested", "yes")
@@ -1466,7 +1503,7 @@ RED_TEAM = [
     ("3. MCP ein 'N/A' matched the 6 blank-EIN rows; an 8-digit EIN silently matched nothing.",
      "M6", "FIXED: a non-9-digit EIN is an error naming the zero-padded form; never padded."),
     ("4. 211 soft hyphens and 2 left-to-right marks survived, though the docs say invisible characters are removed.",
-     "D8, A6", "FIXED: every Unicode Cf character is deleted (213 rows). Mojibake such as 'EspaÃ±ol' is in the source cell and kept, flagged by D8."),
+     "D8, A6", "FIXED: every Unicode Cf character is deleted, except that a soft hyphen is a hyphen (issue #68: deleting it turned the Queens address 12-11 40th Avenue into 1211; D13). Mojibake such as 'EspaÃ±ol' is in the source cell and kept, flagged by D8."),
     ("5. Docs called the MOCS ID a stable per-award key and the join to registered contracts.",
      "H2, C6", "FIXED: reworded as not stable across snapshots and an unverified contract join."),
     ("6. 64 amounts carry sub-cent precision; 7 are float residue of in-cell formulas. (Checked: 7 are float residue, but only FY2014 row 109 is still a live formula; the other 6 are stored values.)",
