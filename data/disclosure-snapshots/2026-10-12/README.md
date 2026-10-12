@@ -24,9 +24,11 @@ Headlines:
 - **FY2025:** 11,280 → 11,276 rows (+8 / −12), one amount change (MOCS ID `FY25 11126`,
   $250,000 → $150,000), no status transitions; total unchanged at $595,181,182. 149 rows changed
   `council_member` from `Holden` to `Wong`.
-- **FY2026:** 11,757 → 11,764 rows (+64 / −57), 19 Pending → Cleared, 29 amount changes; total
-  unchanged at $716,213,155. 129 rows were re-numbered from `FY26 NNNNN` to `FY26GP NNNNN`;
-  159 rows changed `council_member` from `Bottcher` to `Wilson`. The workbook no longer carries
+- **FY2026:** 11,757 → 11,764 rows (+62 / −55), 19 Pending → Cleared, 29 amount changes; total
+  unchanged at $716,213,155. 131 rows were re-numbered from `FY26 NNNNN` to `FY26GP NNNNN`;
+  161 rows changed `council_member` from `Bottcher` to `Wilson` (2 of them also re-numbered).
+  An earlier version of these reports keyed composite pairs on `council_member` too and showed
+  those 2 as one removal plus one addition each (+64 / −57, 129); the member is never a key now. The workbook no longer carries
   its footer rows (`Master List Total` etc.).
 - **FY2027:** 10,040 → 10,407 rows (+495 / −128), 3,608 Pending → Cleared and 84 Cleared →
   Pending, 72 amount changes; total $705,564,000 → $705,704,000. Cleared went from $143,034,722

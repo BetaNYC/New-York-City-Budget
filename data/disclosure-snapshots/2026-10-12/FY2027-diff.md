@@ -105,7 +105,7 @@ Other fields changed on MOCS-ID pairs: `agency` 1, `ein` 2, `legal_name` 6, `pro
 
 ## Re-numbered (paired by the composite key; MOCS ID differs) — 1
 
-The same designation under a different MOCS ID: every composite-key field (EIN, amount, agency, program, council member, source) agrees. Paired, not counted as a removal plus an addition.
+The same designation under a different MOCS ID: every composite-key field (EIN, amount, agency, program, source) agrees. Paired, not counted as a removal plus an addition. The council member is not part of the key; a member change on such a pair is counted below the table.
 
 | old prefix | new prefix | rows |
 |---|---|---:|
@@ -119,6 +119,37 @@ The same designation under a different MOCS ID: every composite-key field (EIN, 
 
 One removed and one added row that agree on every key field except amount. A nomination to check in the workbooks; **not** counted as an amount change.
 
+
+## Likely re-issued (removed and added rows sharing EIN, amount and legal name) — 24
+
+A removed row and an added row with the same EIN, amount and legal name, matched one to one: probably the same grant re-filed under a new MOCS ID with a different agency, stream or member. A nomination only; both rows are still counted in Added and Removed.
+
+| old row | old MOCS ID | new row | new MOCS ID | EIN | legal name | amount | fields that differ |
+|---|---|---|---|---|---|---:|---|
+| 2153 | FY27 02152 | 10250 | FY27 10385 | 043697166 | Girls for Gender Equity, Inc. | 5,000 | mocs_id, source, status_norm |
+| 998 | FY27 00997 | 10045 | FY27 10177 | 110559220 | Chamber of Commerce Borough of Queens, Inc. | 20,000 | mocs_id, source |
+| 4562 | FY27 04561 | 10245 | FY27 10380 | 112268359 | Southside United Housing Development Fund Corporation | 15,000 | mocs_id, agency, program_name, source |
+| 1864 | FY27 01863 | 10286 | FY27 10421 | 112614265 | El Puente de Williamsburg, Inc. | 20,000 | mocs_id, agency, source, status_norm |
+| 238 | FY27 00237 | 10306 | FY27 10441 | 113167245 | Arab-American Family Support Center, Inc., The | 5,000 | mocs_id, agency, source |
+| 4994 | FY27 04993 | 9991 | FY27 10123 | 131624210 | VISIONS/Services for the Blind and Visually Impaired | 5,000 | mocs_id, source |
+| 6585 | FY27 06584 | 10130 | FY27 10263 | 131624229 | Young Men's and Young Women's Hebrew Association | 20,000 | mocs_id, agency, program_name, status_norm |
+| 3331 | FY27 03330 | 10294 | FY27 10429 | 133110811 | Neighborhood Initiatives Development Corporation (NIDC) | 10,000 | mocs_id, agency, program_name, source, status_norm |
+| 9823 | FY27 09822 | 10295 | FY27 10430 | 133110811 | Neighborhood Initiatives Development Corporation (NIDC) | 30,000 | mocs_id, agency, status_norm |
+| 1436 | FY27 01435 | 10275 | FY27 10410 | 133172387 | Court Appointed Special Advocates, Inc. | 15,000 | mocs_id, agency |
+| 2718 | FY27 02717 | 9953 | FY27 10084 | 134085631 | JLSC Educational Tour Bus, Inc. | 29,000 | mocs_id, agency |
+| 1701 | FY27 01700 | 10231 | FY27 10366 | 136400434 | Department of Youth and Community Development | 1,000 | mocs_id, program_name, source, council_member |
+| 1501 | FY27 01500 | 9942 | FY27 10072 | 136400434 | Department of Education | 5,000 | mocs_id, program_name, status_norm |
+| 1693 | FY27 01692 | 9922 | FY27 10052 | 136400434 | Department of Youth and Community Development | 5,000 | mocs_id, source, council_member |
+| 7602 | FY27 07601 | 9936 | FY27 10066 | 136400434 | Department of Parks and Recreation | 20,000 | mocs_id, source, council_member |
+| 7836 | FY27 07835 | 10296 | FY27 10431 | 136400434 | Department of Sanitation | 20,000 | mocs_id, program_name |
+| 9384 | FY27 09383 | 10049 | FY27 10181 | 136400434 | Department of Parks and Recreation | 25,000 | mocs_id, program_name |
+| 4247 | FY27 04246 | 9975 | FY27 10107 | 261746074 | Rethink Autism, Inc. | 25,000 | mocs_id, agency |
+| 6068 | FY27 06067 | 10175 | FY27 10309 | 432115174 | Entertainers for Education Alliance, Inc. | 20,000 | mocs_id, agency, program_name, council_member, status_norm |
+| 6069 | FY27 06068 | 10176 | FY27 10310 | 432115174 | Entertainers for Education Alliance, Inc. | 20,000 | mocs_id, agency, program_name, council_member |
+| 6070 | FY27 06069 | 10281 | FY27 10416 | 432115174 | Entertainers for Education Alliance, Inc. | 20,000 | mocs_id, program_name, council_member, status_norm |
+| 4878 | FY27 04877 | 9954 | FY27 10085 | 465278190 | Universal Hip Hop Museum | 50,000 | mocs_id, agency |
+| 3896 | FY27 03895 | 10001 | FY27 10133 | 473679850 | Partners Uplifting our Daughters and Sons | 15,000 | mocs_id, program_name, source |
+| 71 | FY27 00070 | 9952 | FY27 10083 | 932592894 | Afrikana Corporation | 20,000 | mocs_id, agency |
 
 ## Added — 495
 

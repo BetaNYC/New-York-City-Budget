@@ -31,12 +31,17 @@ Other fields changed on MOCS-ID pairs: `council_member` 149, `purpose` 1
 
 ## Re-numbered (paired by the composite key; MOCS ID differs) — 0
 
-The same designation under a different MOCS ID: every composite-key field (EIN, amount, agency, program, council member, source) agrees. Paired, not counted as a removal plus an addition.
+The same designation under a different MOCS ID: every composite-key field (EIN, amount, agency, program, source) agrees. Paired, not counted as a removal plus an addition. The council member is not part of the key; a member change on such a pair is counted below the table.
 
 
 ## Candidate amount changes (composite-keyed rows) — 0
 
 One removed and one added row that agree on every key field except amount. A nomination to check in the workbooks; **not** counted as an amount change.
+
+
+## Likely re-issued (removed and added rows sharing EIN, amount and legal name) — 0
+
+A removed row and an added row with the same EIN, amount and legal name, matched one to one: probably the same grant re-filed under a new MOCS ID with a different agency, stream or member. A nomination only; both rows are still counted in Added and Removed.
 
 
 ## Added — 8

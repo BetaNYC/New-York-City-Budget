@@ -2,7 +2,7 @@
 
 - old: `funded_disclosure_FY2026.xlsx (sha256 4691c42bd3e7)`
 - new: `funded_disclosure_FY2026.xlsx (sha256 81651e599ad6)`
-- paired rows: 11,700 (11,571 by MOCS ID, the rest by the composite key); added 64; removed 57
+- paired rows: 11,702 (11,571 by MOCS ID, the rest by the composite key); added 62; removed 55
 - rows that could not use a MOCS ID (blank or repeated within a snapshot): old 0, new 0
 - ambiguous composite groups: 0 (0 rows) — the pairing inside these is a choice; their transitions are counts, not row-to-row facts
 
@@ -59,13 +59,13 @@ This compares two files. It is not a statement by the Council about what changed
 
 Other fields changed on MOCS-ID pairs: `agency` 3, `council_member` 159, `program_name` 4, `purpose` 5, `source` 2
 
-## Re-numbered (paired by the composite key; MOCS ID differs) — 129
+## Re-numbered (paired by the composite key; MOCS ID differs) — 131
 
-The same designation under a different MOCS ID: every composite-key field (EIN, amount, agency, program, council member, source) agrees. Paired, not counted as a removal plus an addition.
+The same designation under a different MOCS ID: every composite-key field (EIN, amount, agency, program, source) agrees. Paired, not counted as a removal plus an addition. The council member is not part of the key; a member change on such a pair is counted below the table.
 
 | old prefix | new prefix | rows |
 |---|---|---:|
-| `FY26` | `FY26GP` | 129 |
+| `FY26` | `FY26GP` | 131 |
 
 | old MOCS ID | new MOCS ID | EIN | legal name | status (old → new) | amount |
 |---|---|---|---|---|---:|
@@ -73,6 +73,7 @@ The same designation under a different MOCS ID: every composite-key field (EIN, 
 | FY26 00082 | FY26GP 00082 | 833055037 | Aid for Life International, Inc. | cleared → cleared | 5,000 |
 | FY26 00116 | FY26GP 00116 | 934601552 | Allerton Allies Community Fridge, Inc. | cleared → cleared | 10,000 |
 | FY26 00134 | FY26GP 00134 | 823132682 | Alopecian Beauty Co | cleared → cleared | 5,000 |
+| FY26 00144 | FY26GP 00144 | 911792864 | Alzheimer's Foundation of America | cleared → cleared | 5,000 |
 | FY26 00162 | FY26GP 00162 | 136272129 | American Legion Post 398 Colonel Charles Young, Inc. | cleared → cleared | 7,000 |
 | FY26 00205 | FY26GP 00205 | 882634587 | Angellyh Yambo Foundation, Inc. | cleared → cleared | 5,000 |
 | FY26 00367 | FY26GP 00367 | 464377279 | Barbershop Books, Inc. | cleared → cleared | 5,000 |
@@ -183,6 +184,7 @@ The same designation under a different MOCS ID: every composite-key field (EIN, 
 | FY26 05154 | FY26GP 05154 | 872925731 | West Harlem Arts Alliance, Inc. | cleared → cleared | 10,000 |
 | FY26 05175 | FY26GP 05175 | 133585152 | White Bird Productions, Inc. | cleared → cleared | 10,000 |
 | FY26 05222 | FY26GP 05222 | 131484145 | Women's City Club of New York, Inc. | cleared → cleared | 5,000 |
+| FY26 06277 | FY26GP 06277 | 872065261 | Living Arts Collaborative, Inc. | cleared → cleared | 20,000 |
 | FY26 06472 | FY26GP 06472 | 131972960 | Paper Bag Players, Inc., The | cleared → cleared | 20,000 |
 | FY26 07034 | FY26GP 07034 | 133718885 | Throggs Neck Benevolent Association, Inc. | cleared → cleared | 15,000 |
 | FY26 07607 | FY26GP 07607 | 861557595 | Blacklining Foundation, Inc. | cleared → cleared | 10,000 |
@@ -199,12 +201,23 @@ The same designation under a different MOCS ID: every composite-key field (EIN, 
 | FY26 10627 | FY26GP 10627 | 116019293 | First Baptist Church of Sheepshead Bay | cleared → cleared | 5,000 |
 | FY26 11239 | FY26GP 11239 | 823676844 | Lou's Helping Hand Foundation | cleared → cleared | 5,945 |
 
+Fields outside the key changed on composite-key pairs: `council_member` 2
+
 ## Candidate amount changes (composite-keyed rows) — 0
 
 One removed and one added row that agree on every key field except amount. A nomination to check in the workbooks; **not** counted as an amount change.
 
 
-## Added — 64
+## Likely re-issued (removed and added rows sharing EIN, amount and legal name) — 2
+
+A removed row and an added row with the same EIN, amount and legal name, matched one to one: probably the same grant re-filed under a new MOCS ID with a different agency, stream or member. A nomination only; both rows are still counted in Added and Removed.
+
+| old row | old MOCS ID | new row | new MOCS ID | EIN | legal name | amount | fields that differ |
+|---|---|---|---|---|---|---:|---|
+| 3746 | FY26 01703 | 11588 | FY26 12219 | 136400434 | Department of Transportation | 6,000 | mocs_id, program_name, council_member, status_norm |
+| 11164 | FY26 10572 | 11634 | FY26 12266 | 472167056 | Victory Music and Dance Company, Inc. | 30,000 | mocs_id, source, council_member |
+
+## Added — 62
 
 | row | MOCS ID | EIN | legal name | source | status | amount |
 |---|---|---|---|---|---|---:|
@@ -270,15 +283,12 @@ One removed and one added row that agree on every key field except amount. A nom
 | row 11632 | FY26 12264 | 112608645 | Jewish Community Council of Canarsie, Inc. | Anti-Poverty | Cleared | 5,000 |
 | row 11633 | FY26 12265 | 136400434 | Department of Cultural Affairs | Support Our Older Adults | Cleared | 30,000 |
 | row 11634 | FY26 12266 | 472167056 | Victory Music and Dance Company, Inc. | Older Adult Center Improvements | Cleared | 30,000 |
-| row 11639 | FY26GP 00144 | 911792864 | Alzheimer's Foundation of America | Aging | Cleared | 5,000 |
-| row 11750 | FY26GP 06277 | 872065261 | Living Arts Collaborative, Inc. | Cultural After-School Adventure (CASA) | Cleared | 20,000 |
 
-## Removed — 57
+## Removed — 55
 
 | row | MOCS ID | EIN | legal name | source | status | amount |
 |---|---|---|---|---|---|---:|
 | row 63 | FY26 11662 | 113619986 | 86th Street Bay Ridge District Management Association, Inc. | BID Containerization | Cleared | 19,953 |
-| row 330 | FY26 00144 | 911792864 | Alzheimer's Foundation of America | Aging | Cleared | 5,000 |
 | row 977 | FY26 00403 | 116083182 | Bedford Stuyvesant Restoration Corporation | Speaker's Initiative | Cleared | 100,000 |
 | row 978 | FY26 00404 | 116083182 | Bedford Stuyvesant Restoration Corporation | Speaker's Initiative | Cleared | 2,500,000 |
 | row 1003 | FY26 00421 | 112568013 | Bensonhurst Council of Jewish Organizations | Local | Pending | 5,000 |
@@ -314,7 +324,6 @@ One removed and one added row that agree on every key field except amount. A nom
 | row 6593 | FY26 11688 | 133466792 | Lenape Bloemendael District Management Association | BID Containerization | Cleared | 55,493 |
 | row 6667 | FY26 02960 | 853008532 | Lights Out Performance, Inc. | Local | Pending | 5,000 |
 | row 6678 | FY26 02967 | 043672661 | Lincoln Terrace Tennis Association, Inc. | Local | Cleared | 15,000 |
-| row 6730 | FY26 06277 | 872065261 | Living Arts Collaborative, Inc. | Cultural After-School Adventure (CASA) | Cleared | 20,000 |
 | row 7361 | FY26 11694 | 133877808 | Mosholu-Jerome East Gun Hill Road District Management Association | BID Containerization | Cleared | 57,672 |
 | row 7609 | FY26 08396 | 237398279 | Neighborhood Housing Services of Jamaica, Inc. | Foreclosure Prevention Programs | Cleared | 55,000 |
 | row 7656 | FY26 03366 | 263564521 | Network of Angels, Inc. | Local | Cleared | 7,500 |

@@ -22,9 +22,9 @@ How rows are paired:
     rows whose ID is on one side only, go to the composite key below. A row the Council merely
     re-numbered is therefore paired, not reported as one removal plus one addition. It is
     listed in its own RE-NUMBERED section (with a count per old-prefix -> new-prefix; the
-    2026-10-12 re-pull moved 129 FY2026 rows from "FY26 NNNNN" to "FY26GP NNNNN"), never as a
+    2026-10-12 re-pull moved 131 FY2026 rows from "FY26 NNNNN" to "FY26GP NNNNN"), never as a
     field change "on a MOCS-ID pair" -- a pair keyed on the MOCS ID cannot have a changed one.
-  * Earlier years: composite key (ein, amount, agency, program_name, council_member, source),
+  * Earlier years: composite key (ein, amount, agency, program_name, source),
     matched as a MULTISET -- a key printed twice is two rows. Because amount is part of the key,
     an amount change in these years is not detectable as such: it shows as one removed row and
     one added row. Where exactly one removed and one added row agree on every key field except
@@ -34,6 +34,15 @@ How rows are paired:
     left on both sides still has more than one distinct status, which old row became which new
     row is not knowable; the group is counted as ambiguous and its transitions are reported as
     counts, not as row-to-row facts.
+  * council_member is NEVER part of the key (the repo-wide rule: the workbook's member is the
+    roster at export, so it changes when a seat changes hands). Keying on it reported two
+    re-numbered FY2026 rows whose member alone changed (FY26 00144 and FY26 06277, Bottcher ->
+    Wilson) as one removal plus one addition each. A member change on a pair is counted under
+    "Fields outside the key changed".
+  * LIKELY RE-ISSUED: after pairing, a removed and an added row that share EIN, amount and
+    legal name (matched one-to-one) are listed as a nomination -- the same grant probably
+    re-filed under a new MOCS ID with a different agency, stream or member. Never paired, never
+    counted as a change; they stay in Added and Removed.
 
 Stdlib only (plus xlrd if an .xls is given). No network: this compares files already on disk.
 """
@@ -49,7 +58,8 @@ sys.path.insert(0, HERE)
 
 import parse_expense_disclosure as P  # noqa: E402
 
-COMPOSITE = ("ein", "amount", "agency", "program_name", "council_member", "source")
+COMPOSITE = ("ein", "amount", "agency", "program_name", "source")
+REISSUE_KEY = ("ein", "amount", "legal_name")
 STATUSES = ("cleared", "pending", "other")
 # Fields compared on a MOCS-ID pair besides status and amount; a change there is reported as a
 # count per field, since a re-filed grantee name or EIN is worth knowing about.
@@ -191,6 +201,15 @@ def diff(old_rows, new_rows):
     candidates = [(ro[k][0], an[k][0]) for k in sorted(set(ro) & set(an))
                   if len(ro[k]) == 1 and len(an[k]) == 1]
 
+    # Likely re-issued: removed/added rows agreeing on (ein, amount, legal_name), one-to-one in
+    # sheet order. A nomination; the rows stay in Added and Removed.
+    rr, aa = defaultdict(list), defaultdict(list)
+    for r in sorted(removed, key=lambda r: int(r["source_row"])):
+        rr[_key(r, REISSUE_KEY)].append(r)
+    for r in sorted(added, key=lambda r: int(r["source_row"])):
+        aa[_key(r, REISSUE_KEY)].append(r)
+    reissued = [p for k in sorted(set(rr) & set(aa)) for p in zip(rr[k], aa[k])]
+
     def totals(rows):
         t = {s: [0, Decimal(0)] for s in STATUSES}
         for r in rows:
@@ -202,7 +221,7 @@ def diff(old_rows, new_rows):
                 transitions=transitions, amount_changes=amount_changes,
                 field_changes=field_changes, renumbered=renumbered,
                 composite_field_changes=composite_field_changes, added=added, removed=removed,
-                candidates=candidates, ambiguous_groups=ambiguous_groups,
+                candidates=candidates, reissued=reissued, ambiguous_groups=ambiguous_groups,
                 ambiguous_rows=ambiguous_rows, old_totals=totals(old_rows),
                 new_totals=totals(new_rows),
                 mocs_fallback=(len(fallback_old), len(fallback_new)))
@@ -265,8 +284,9 @@ def report(fy, old_label, new_label, d, limit=200):
     L += ["", (f"## Re-numbered (paired by the composite key; MOCS ID differs) — "
                f"{len(d['renumbered']):,}"), "",
           ("The same designation under a different MOCS ID: every composite-key field "
-           "(EIN, amount, agency, program, council member, source) agrees. Paired, not counted "
-           "as a removal plus an addition."), ""]
+           "(EIN, amount, agency, program, source) agrees. Paired, not counted "
+           "as a removal plus an addition. The council member is not part of the key; a "
+           "member change on such a pair is counted below the table."), ""]
     if d["renumbered"]:
         pfx = Counter((_prefix(o["mocs_id"]), _prefix(n["mocs_id"])) for o, n in d["renumbered"])
         L += ["| old prefix | new prefix | rows |", "|---|---|---:|"]
@@ -288,6 +308,21 @@ def report(fy, old_label, new_label, d, limit=200):
           "nomination to check in the workbooks; **not** counted as an amount change.", ""]
     for o, n in d["candidates"][:limit]:
         L.append(f"- {_row(o)} → {_usd(n['amount'])} (new row {n['source_row']})")
+    L += ["", f"## Likely re-issued (removed and added rows sharing EIN, amount and legal name) — "
+               f"{len(d['reissued']):,}", "",
+          "A removed row and an added row with the same EIN, amount and legal name, matched one "
+          "to one: probably the same grant re-filed under a new MOCS ID with a different agency, "
+          "stream or member. A nomination only; both rows are still counted in Added and "
+          "Removed.", ""]
+    if d["reissued"]:
+        L += ["| old row | old MOCS ID | new row | new MOCS ID | EIN | legal name | amount | fields that differ |",
+              "|---|---|---|---|---|---|---:|---|"]
+        for o, n in d["reissued"][:limit]:
+            diffs = [f for f in ("mocs_id", "agency", "program_name", "source", "council_member",
+                                 "status_norm") if o[f] != n[f]]
+            L.append(f"| {o['source_row']} | {o['mocs_id'] or '—'} | {n['source_row']} | "
+                     f"{n['mocs_id'] or '—'} | {n['ein']} | {n['legal_name']} | "
+                     f"{_usd(n['amount'])} | {', '.join(diffs) or 'none'} |")
     for title, rows in (("Added", d["added"]), ("Removed", d["removed"])):
         L += ["", f"## {title} — {len(rows):,}", ""]
         if rows:
