@@ -39,6 +39,7 @@ import io
 import os
 import re
 import sys
+import unicodedata
 import zipfile
 import xml.etree.ElementTree as ET
 from decimal import Decimal
@@ -107,10 +108,13 @@ HEADER_MAP = {
     "fiscal conduit ein": "fiscal_conduit_ein",
 }
 
-# Zero-width space turned up inside one FY2015 EIN: invisibles are deleted. A no-break space
-# is a real word separator ("Youth Design Center,<NBSP>Inc." in FY2026/FY2027), so it becomes
-# a space; deleting it, as an earlier version did, glued two words together.
-_ZERO_WIDTH = "\u200b\u200c\u200d\ufeff"
+# Invisible FORMAT characters (Unicode category Cf) are deleted: a zero-width space inside one
+# FY2015 EIN, 213 soft hyphens (U+00AD; 185 in address1, e.g. FY2018 row 2796 "12<SHY>11 40th
+# Avenue"), two left-to-right marks (U+200E), BOMs. None renders as a visible character, and a
+# soft hyphen mid-line renders as nothing, so deleting it gives the text a reader sees. (In a
+# Queens house number the Council probably meant "12-11"; this parser does not guess that.)
+# A no-break space is a real word separator ("Youth Design Center,<NBSP>Inc." in FY2026/FY2027),
+# so it becomes a space; deleting it, as an earlier version did, glued two words together.
 _WS = re.compile(r"\s+")
 
 # Descriptive only: used to NAME the kind of a stripped row in the report. It never decides
@@ -311,14 +315,14 @@ def _xls_sheet_name(path):
 
 
 def _clean(v):
-    """Text cell -> one line. Zero-width characters deleted; every run of whitespace (line
+    """Text cell -> one line. Invisible format characters (category Cf: zero-width space,
+    soft hyphen, left-to-right mark, BOM) deleted; every run of whitespace (line
     breaks, tabs, no-break spaces, doubled spaces -- 368 cells across the corpus hold a line
     break) collapsed to one space; ends trimmed. Cosmetic only: no character that carries
     meaning is removed, and amounts/EINs contain no whitespace to begin with."""
     if v is None:
         return ""
-    for ch in _ZERO_WIDTH:
-        v = v.replace(ch, "")
+    v = "".join(ch for ch in v if unicodedata.category(ch) != "Cf")
     return _WS.sub(" ", v).strip()
 
 
