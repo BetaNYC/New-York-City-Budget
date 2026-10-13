@@ -281,3 +281,34 @@ test("rows carrying an Excel '#N/A' cell are indexed and served like any other r
   assert.equal(res.isError, false);
   assert.match(res.text, new RegExp(`workbook row ${r.source_row}\\b`));
 });
+
+test("exact-copy rows are flagged and counted inside the totals (#69)", async () => {
+  // FAILS if the index loses duplicate_group, if the answer's exact-copy count or the dollars
+  // beyond the first copy differ from the committed CSVs, if a copy row is not marked, or if the
+  // note appears on an answer with no flagged rows.
+  const fy = 2016;
+  const rows = disclosureCsv(fy);
+  const flagged = rows.filter((r) => r.duplicate_group !== "");
+  const extra = flagged.filter((r) => r.duplicate_group !== r.source_row);
+  const groups = new Set(flagged.map((r) => r.duplicate_group)).size;
+  assert.ok(flagged.length > 0, "FY2016 has exact copies in the committed CSV");
+  const res = await call({ fiscal_year: fy, limit: 1 });
+  assert.ok(
+    res.text.includes(`Note: ${flagged.length.toLocaleString("en-US")} of the matched rows are exact copies (${groups} group(s)`),
+    res.text
+  );
+  assert.ok(res.text.includes(`${extra.length.toLocaleString("en-US")} row(s), ${usd(sum(extra))}, are copies beyond the first`), res.text);
+
+  // One group, shown in full: every copy is marked, the first as the group's first.
+  const g = extra[0];
+  const members = rows.filter((r) => r.duplicate_group === g.duplicate_group);
+  const one = await call({ fiscal_year: fy, legal_name: g.legal_name, min_amount: Number(g.amount), max_amount: Number(g.amount), limit: 500 });
+  assert.match(one.text, new RegExp(`workbook row ${g.duplicate_group} · exact-copy group: first`));
+  for (const m of members.filter((r) => r.source_row !== g.duplicate_group))
+    assert.match(one.text, new RegExp(`workbook row ${m.source_row} · exact copy of workbook row ${g.duplicate_group}`));
+
+  // FY2024+ carries none (distinct MOCS IDs): no note.
+  const none = await call({ fiscal_year: 2025, limit: 1 });
+  assert.equal(disclosureCsv(2025).filter((r) => r.duplicate_group !== "").length, 0);
+  assert.doesNotMatch(none.text, /exact copies/);
+});

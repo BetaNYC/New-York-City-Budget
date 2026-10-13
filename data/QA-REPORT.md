@@ -4,7 +4,7 @@
 **Data current as of:** 2026-10-12 (files under `data/`)  
 **Tool:** `code/validate_data.py`
 
-**Verdict:** PASS — 289 files, 0 hard failure(s), 443 soft advisory(ies).
+**Verdict:** PASS — 289 files, 0 hard failure(s), 454 soft advisory(ies).
 
 Severity: HARD (exit 1) = schema drift, malformed row, non-numeric amount, or malformed EIN. SOFT (exit 0) = zeros, sign anomalies, outliers, duplicates, column-bleed residuals, coverage notes. See the module docstring for the full check list and rationale.
 
@@ -762,7 +762,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy12/transparency-resolutions/reso05_transparency_designations.csv` | 42 | 100% | 0 | fiscal_year: 18 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 2 row(s) with empty fiscal_year |
 | `fy12/transparency-resolutions/reso06_transparency_designations.csv` | 200 | 100% | 0 | column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 156: 'Gennaro 11-2267876 Young Israel of Queens Valley' |
 | `fy12/transparency-resolutions/reso07_transparency_designations.csv` | 130 | 100% | 0 | fiscal_year: 9 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
-| `fy13/expense_disclosure/fy13_expense_awards.csv` | 4987 | 100% | 0 | — |
+| `fy13/expense_disclosure/fy13_expense_awards.csv` | 4987 | 100% | 0 | duplicate_group: 20 row(s) in 9 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
 | `fy13/schedule_c/fy13_schedule_c_initiatives.csv` | 121 | — | 0 | — |
 | `fy13/transparency-resolutions/fy13_transparency_all.csv` | 1857 | 100% | 0 | fiscal_year: 70 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 426 row(s) with empty fiscal_year; duplicate: 10 duplicate row instance(s); e.g. x2: ['2', '2012-08-22', 'YouthDiscretionary-Fiscal2013', '2013']...; column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 547: 'Gennaro CatholicCharitiesNeighborhoodServices -Colin-NewellE' |
 | `fy13/transparency-resolutions/reso01_transparency_designations.csv` | 587 | 100% | 0 | fiscal_year: 3 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 244 row(s) with empty fiscal_year; column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 547: 'Gennaro CatholicCharitiesNeighborhoodServices -Colin-NewellE' |
@@ -774,13 +774,13 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy13/transparency-resolutions/reso08_transparency_designations.csv` | 55 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['8', '2013-01-23', 'LocalInitiatives-Fiscal2013', '2013']... |
 | `fy13/transparency-resolutions/reso09_transparency_designations.csv` | 0 | 0% | 0 | — |
 | `fy13/transparency-resolutions/reso12_transparency_designations.csv` | 166 | 100% | 0 | fiscal_year: 48 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 5 row(s) with empty fiscal_year |
-| `fy14/expense_disclosure/fy14_expense_awards.csv` | 6611 | 100% | 0 | excel_error: 19 cell(s) hold an Excel error value, kept as published text (DATA-ANOMALIES §22): postal_code=#N/A x19 |
+| `fy14/expense_disclosure/fy14_expense_awards.csv` | 6611 | 100% | 0 | duplicate_group: 36 row(s) in 18 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); excel_error: 19 cell(s) hold an Excel error value, kept as published text (DATA-ANOMALIES §22): postal_code=#N/A x19 |
 | `fy14/schedule_c/fy14_schedule_c_initiatives.csv` | 123 | — | 0 | — |
 | `fy14/transparency-resolutions/fy14_transparency_all.csv` | 166 | 100% | 0 | fiscal_year: 10 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['1', '2014-04-29', 'CulturalAfterSchoolAdventure-Fiscal2014', '2014']... |
 | `fy14/transparency-resolutions/reso01_transparency_designations.csv` | 36 | 100% | 0 | fiscal_year: 6 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['1', '2014-04-29', 'CulturalAfterSchoolAdventure-Fiscal2014', '2014']... |
 | `fy14/transparency-resolutions/reso02_transparency_designations.csv` | 80 | 100% | 0 | fiscal_year: 4 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy14/transparency-resolutions/reso03_transparency_designations.csv` | 50 | 100% | 0 | — |
-| `fy15/expense_disclosure/fy15_expense_awards.csv` | 6650 | 100% | 0 | — |
+| `fy15/expense_disclosure/fy15_expense_awards.csv` | 6650 | 100% | 0 | duplicate_group: 35 row(s) in 17 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
 | `fy15/schedule_c/fy15_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy15/schedule_c/fy15_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy15/schedule_c/fy15_appendix_c_youth.csv` | 0 | 0% | 0 | — |
@@ -800,7 +800,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy15/transparency-resolutions/reso10_transparency_designations.csv` | 68 | 100% | 0 | fiscal_year: 10 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy15/transparency-resolutions/reso11_transparency_designations.csv` | 178 | 100% | 0 | fiscal_year: 26 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['11', '2015-02-26', 'LocalInitiatives-Fiscal2014', '2014']... |
 | `fy15/transparency-resolutions/reso12_transparency_designations.csv` | 80 | 100% | 0 | fiscal_year: 4 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 2 duplicate row instance(s); e.g. x2: ['12', '2015-03-31', 'Local Initiatives - Fiscal 2015', '2015']... |
-| `fy16/expense_disclosure/fy16_expense_awards.csv` | 7797 | 100% | 0 | — |
+| `fy16/expense_disclosure/fy16_expense_awards.csv` | 7797 | 100% | 0 | duplicate_group: 43 row(s) in 19 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
 | `fy16/schedule_c/fy16_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy16/schedule_c/fy16_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy16/schedule_c/fy16_appendix_c_youth.csv` | 0 | 0% | 0 | — |
@@ -821,7 +821,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy16/transparency-resolutions/reso11_transparency_designations.csv` | 88 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['11', '2016-03-22', 'NYC Digital Inclusion and Literacy Initiative - Fiscal 2016', '2016']... |
 | `fy16/transparency-resolutions/reso12_transparency_designations.csv` | 115 | 100% | 0 | fiscal_year: 12 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy16/transparency-resolutions/reso13_transparency_designations.csv` | 160 | 100% | 0 | fiscal_year: 4 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
-| `fy17/expense_disclosure/fy17_expense_awards.csv` | 8671 | 100% | 0 | excel_error: 18 cell(s) hold an Excel error value, kept as published text (DATA-ANOMALIES §22): address1=#N/A x6, city=#N/A x6, postal_code=#N/A x6 |
+| `fy17/expense_disclosure/fy17_expense_awards.csv` | 8671 | 100% | 0 | duplicate_group: 54 row(s) in 27 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); excel_error: 18 cell(s) hold an Excel error value, kept as published text (DATA-ANOMALIES §22): address1=#N/A x6, city=#N/A x6, postal_code=#N/A x6 |
 | `fy17/schedule_c/fy17_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy17/schedule_c/fy17_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy17/schedule_c/fy17_appendix_c_youth.csv` | 0 | 0% | 0 | — |
@@ -842,7 +842,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy17/transparency-resolutions/reso11_transparency_designations.csv` | 129 | 100% | 0 | fiscal_year: 2 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 4 duplicate row instance(s); e.g. x2: ['11', '2017-03-16', 'Parks Equity Initiative - Fiscal 2017', '2017']... |
 | `fy17/transparency-resolutions/reso12_transparency_designations.csv` | 130 | 100% | 0 | fiscal_year: 41 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy17/transparency-resolutions/reso13_transparency_designations.csv` | 181 | 100% | 0 | fiscal_year: 34 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 4 duplicate row instance(s); e.g. x2: ['13', '2017-06-06', 'Youth Discretionary - Fiscal 2017', '2017']... |
-| `fy18/expense_disclosure/fy18_expense_awards.csv` | 8894 | 100% | 0 | — |
+| `fy18/expense_disclosure/fy18_expense_awards.csv` | 8894 | 100% | 0 | duplicate_group: 53 row(s) in 26 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
 | `fy18/schedule_c/fy18_appendix_a_aging.csv` | 422 | 100% | 0 | org_prose: 40 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 10: '.00 Funding will support the purchase of equipment and suppl'; org_merged: 5 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 31: '.00 To provide funding for the Senior Healthy Eating and Wel' |
 | `fy18/schedule_c/fy18_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy18/schedule_c/fy18_appendix_c_youth.csv` | 0 | 0% | 0 | — |
@@ -862,7 +862,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy18/transparency-resolutions/reso10_transparency_designations.csv` | 88 | 100% | 0 | — |
 | `fy18/transparency-resolutions/reso11_transparency_designations.csv` | 83 | 100% | 0 | fiscal_year: 18 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy18/transparency-resolutions/reso12_transparency_designations.csv` | 248 | 100% | 0 | fiscal_year: 16 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 4 duplicate row instance(s); e.g. x2: ['12', '2018-06-14', 'Local Initiatives - Fiscal 2018', '2018']... |
-| `fy19/expense_disclosure/fy19_expense_awards.csv` | 9655 | 100% | 0 | — |
+| `fy19/expense_disclosure/fy19_expense_awards.csv` | 9655 | 100% | 0 | duplicate_group: 58 row(s) in 28 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
 | `fy19/schedule_c/fy19_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy19/schedule_c/fy19_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy19/schedule_c/fy19_appendix_c_youth.csv` | 0 | 0% | 0 | — |
@@ -881,7 +881,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy19/transparency-resolutions/reso10_transparency_designations.csv` | 131 | 100% | 0 | fiscal_year: 20 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 2 duplicate row instance(s); e.g. x2: ['10', '2019-04-18', 'Local Initiatives - Fiscal 2019', '2019']... |
 | `fy19/transparency-resolutions/reso11_transparency_designations.csv` | 67 | 100% | 0 | fiscal_year: 4 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy20/capital/fy20_capital_projects.csv` | 1663 | — | 0 | — |
-| `fy20/expense_disclosure/fy20_expense_awards.csv` | 10616 | 100% | 0 | — |
+| `fy20/expense_disclosure/fy20_expense_awards.csv` | 10616 | 100% | 0 | duplicate_group: 154 row(s) in 75 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
 | `fy20/schedule_c/fy20_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy20/schedule_c/fy20_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy20/schedule_c/fy20_appendix_c_youth.csv` | 0 | 0% | 0 | — |
@@ -896,7 +896,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy20/transparency-resolutions/reso06_transparency_designations.csv` | 176 | 100% | 0 | fiscal_year: 6 prior-year row(s) embedded (EXPECTED for transparency; not an error); column_bleed: 1 suspected surname-in-program residual(s); e.g. line 10: 'Williams Plaza Tenant Association' |
 | `fy20/transparency-resolutions/reso07_transparency_designations.csv` | 233 | 100% | 0 | fiscal_year: 10 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 4 duplicate row instance(s); e.g. x2: ['7', '2020-02-27', 'Digital Inclusion and Literacy Initiative - Fiscal 2020', '2020']...; column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 16: 'Hudson River Park Trust' |
 | `fy20/transparency-resolutions/reso08_transparency_designations.csv` | 123 | 100% | 0 | — |
-| `fy21/expense_disclosure/fy21_expense_awards.csv` | 9054 | 100% | 0 | — |
+| `fy21/expense_disclosure/fy21_expense_awards.csv` | 9054 | 100% | 0 | duplicate_group: 42 row(s) in 19 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
 | `fy21/schedule_c/fy21_appendix_a_aging.csv` | 514 | 100% | 0 | org_prose: 2 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 382: 'To support programming for seniors at the RiseBoro Breevort ' |
 | `fy21/schedule_c/fy21_appendix_b_local.csv` | 2902 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Richards', 'Queens Borough Public Library', 'Arverne Library', '136400434']...; column_bleed: 9 suspected surname-in-organization residual(s); e.g. line 24: 'Adams Street Foundation, Inc.'; org_prose: 4 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 716: 'Funds will be used to promote Cypriot folk arts radio progra' |
 | `fy21/schedule_c/fy21_appendix_c_youth.csv` | 894 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 416: 'Hudson Guild'; org_prose: 5 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 101: 'To provide funding to support the teen interns participating' |
@@ -913,7 +913,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy21/transparency-resolutions/reso07_transparency_designations.csv` | 312 | 100% | 0 | fiscal_year: 10 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['7', '2021-04-22', 'Aging Discretionary - Fiscal 2021', '2021']...; column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 114: 'Gennaro Department of Parks and Recreation' |
 | `fy21/transparency-resolutions/reso08_transparency_designations.csv` | 155 | 100% | 0 | fiscal_year: 10 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['8', '2021-06-30', 'Local Initiatives - Fiscal 2021', '2021']... |
 | `fy22/capital/fy22_capital_projects.csv` | 1641 | — | 0 | amount: line 1635: fy1 negative -72,000 (capital expected >= 0) |
-| `fy22/expense_disclosure/fy22_expense_awards.csv` | 11336 | 100% | 0 | — |
+| `fy22/expense_disclosure/fy22_expense_awards.csv` | 11336 | 100% | 0 | duplicate_group: 80 row(s) in 40 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
 | `fy22/schedule_c/fy22_appendix_a_aging.csv` | 510 | 100% | 0 | org_prose: 4 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 75: 'Funds will be used to support educational and health promoti' |
 | `fy22/schedule_c/fy22_appendix_b_local.csv` | 2790 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Eugene', 'Prospect Lefferts Gardens Neighborhood Association, Inc.', '', '237064386']...; column_bleed: 8 suspected surname-in-organization residual(s); e.g. line 1211: 'Gennaro, Jewish Hatzoloh Incorporated'; org_prose: 20 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 67: 'To provide for the enrollment of individuals in Council Dist' |
 | `fy22/schedule_c/fy22_appendix_c_youth.csv` | 882 | 100% | 0 | column_bleed: 3 suspected surname-in-organization residual(s); e.g. line 411: 'Hudson Guild'; org_prose: 12 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 38: 'funding will support a basketball program and ELA Test Prepa' |
@@ -936,7 +936,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy22/transparency-resolutions/reso13_transparency_designations.csv` | 66 | 100% | 0 | fiscal_year: 4 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy22/transparency-resolutions/reso14_transparency_designations.csv` | 34 | 100% | 0 | fiscal_year: 6 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['14', '2022-06-13', 'SU-CASA - Fiscal 2022', '2022']... |
 | `fy23/capital/fy23_capital_projects.csv` | 1547 | — | 0 | — |
-| `fy23/expense_disclosure/fy23_expense_awards.csv` | 11027 | 100% | 0 | — |
+| `fy23/expense_disclosure/fy23_expense_awards.csv` | 11027 | 100% | 0 | duplicate_group: 87 row(s) in 43 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
 | `fy23/schedule_c/fy23_appendix_a_aging.csv` | 489 | 100% | 0 | org_prose: 2 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 377: 'Funds will be used to enhance educational and health promoti' |
 | `fy23/schedule_c/fy23_appendix_b_local.csv` | 2726 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Brooks-Powers', 'Queens Borough Public Library', 'Laurelton Library', '136400434']...; column_bleed: 13 suspected surname-in-organization residual(s); e.g. line 158: "Brannan, Brooklyn, Hanif Asiyah Women's Center"; org_prose: 22 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 124: 'Funds will be used to create Programs for Holocaust Survivor' |
 | `fy23/schedule_c/fy23_appendix_c_youth.csv` | 841 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 410: 'Hudson Guild'; org_prose: 6 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 353: 'Funds will support High School Based Programs at the Monroe ' |

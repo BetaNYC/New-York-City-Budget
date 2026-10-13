@@ -418,13 +418,33 @@ in the Schedule C files moved. What a reader needs to know before using it:
   (listed as "Likely re-issued" in `data/disclosure-snapshots/2026-10-12/FY2027-diff.md`; 2 in
   FY2026). IDs ascend with sheet order, which reads as a per-workbook sequence. Whether a MOCS ID
   joins to a registered contract is **unverified**. Key across snapshots on it with care.
-- **321 groups of rows (341 surplus rows, $8,549,772) are identical in every published field
-  except `source_row`**, FY2013–FY2023, verbatim in the workbooks (`data/DISCLOSURE-AUDIT.md`
-  F1). The dataset says "one row per designation", which these may or may not be: a member can
-  designate the same amount to the same grantee twice. From FY2024, 142 more groups (147 rows)
-  are identical except for a distinct MOCS ID, which suggests the Council does issue separate
-  designations that look alike. Every row is kept; whether the pre-FY2024 repeats are real is
-  an open question for a human, not settled here.
+- **321 groups of rows (662 rows; 341 beyond the first copy of each group, $8,549,772) are
+  identical in every published field except `source_row`**, FY2013–FY2023, verbatim in the
+  workbooks (`data/DISCLOSURE-AUDIT.md` F1). A member can designate the same amount to the same
+  grantee twice, and from FY2024 the Council numbers look-alike rows as separate designations
+  (142 more groups, 147 rows, identical except for a distinct MOCS ID), so the file cannot say
+  which earlier repeats are real. **Decision (maintainer, GitHub #69): keep every row as
+  published, and flag it.** `duplicate_group` names the first row of each group (blank when
+  unique); audit question F3 checks the flag against F1's own grouping; the MCP tool says how many
+  flagged rows, and how many dollars beyond each group's first copy, a result's totals include.
+
+  | FY | groups | rows flagged | beyond the first copy | dollars beyond the first copy |
+  |---|---:|---:|---:|---:|
+  | 2013 | 9 | 20 | 11 | $178,875 |
+  | 2014 | 18 | 36 | 18 | $138,000 |
+  | 2015 | 17 | 35 | 18 | $1,775,350 |
+  | 2016 | 19 | 43 | 24 | $565,382 |
+  | 2017 | 27 | 54 | 27 | $758,995 |
+  | 2018 | 26 | 53 | 27 | $1,212,646 |
+  | 2019 | 28 | 58 | 30 | $724,480 |
+  | 2020 | 75 | 154 | 79 | $919,480 |
+  | 2021 | 19 | 42 | 23 | $337,186 |
+  | 2022 | 40 | 80 | 40 | $1,373,189 |
+  | 2023 | 43 | 87 | 44 | $566,189 |
+  | **all** | **321** | **662** | **341** | **$8,549,772** |
+
+  FY2024–FY2027: none. These are this repo's counts of the committed rows (each year's
+  reconciliation report states them too), not Council figures.
 - **64 amounts carry fractional cents** (FY2013 27, FY2014 30, FY2015 7), e.g. FY2013
   `22320.421`; 7 are binary float residue (e.g. FY2014 row 4255 `16279.539999999994`), of which
   one is still a live formula (FY2014 row 109 `=72743.46-7274.46` → `65469.00000000001`) and six

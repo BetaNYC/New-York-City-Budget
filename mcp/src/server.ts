@@ -77,7 +77,12 @@ function disclosureRowLine(r: DisclosureRow): string {
     (r.fiscal_conduit
       ? `\n    fiscal conduit: ${r.fiscal_conduit}${r.fiscal_conduit_ein ? ` (EIN ${r.fiscal_conduit_ein})` : ""}`
       : "") +
-    `\n    workbook row ${r.source_row}`
+    `\n    workbook row ${r.source_row}` +
+    (r.duplicate_group != null
+      ? r.duplicate_group === r.source_row
+        ? " · exact-copy group: first of the rows printed identically (duplicate_group " + r.duplicate_group + ")"
+        : ` · exact copy of workbook row ${r.duplicate_group} (duplicate_group ${r.duplicate_group})`
+      : "")
   );
 }
 
@@ -124,6 +129,13 @@ function disclosureText(res: DisclosureResult): string {
     L.push(
       "",
       `Note: ${n(res.ein_legal_names)} different legal names carry this EIN in the match. One EIN can pool many bodies: a fiscal sponsor's projects, or, for 136400434 (the City of New York), hundreds of City agencies, schools and programs. Read the names, not just the EIN.`
+    );
+  if (res.duplicates.rows > 0)
+    L.push(
+      "",
+      `Note: ${n(res.duplicates.rows)} of the matched rows are exact copies (${n(res.duplicates.groups)} group(s) of rows identical in every published field but their workbook row; marked "exact copy" below). ` +
+        `The workbooks print every copy and the totals above include them all. ${n(res.duplicates.extra_rows)} row(s), ${usd(res.duplicates.extra_amount)}, are copies beyond the first of their group; ` +
+        `whether each is a real second designation or a filing error cannot be told from the workbook.`
     );
   L.push("", "Snapshot (which download each year comes from):");
   for (const s of res.snapshots) {
@@ -293,7 +305,7 @@ export const TOOLS = [
   },
   {
     name: "search_disclosure_awards",
-    description: `Search the NYC Council's expense funding disclosure — the Council's own award-level list of discretionary expense designations, FY2013–FY2027 (one row per designation, with clearance status, funding stream, agency and, from FY2024, a MOCS ID). A DIFFERENT source from search_awards / get_awards_by_ein: those serve the ADOPTED Schedule C; this is a later snapshot that includes designations made after adoption, and its council_member is the roster when the workbook was exported. Every row is returned whatever its status unless you filter on status; the response gives the TRUE number of matching rows and totals over all of them (Cleared — the headline — and Pending separately), even when the rows shown are limited, plus the date each year's workbook was downloaded. Filter by any combination of fiscal_year, ein, legal_name, council_member, source, agency, program_name, status, min_amount, max_amount. Rows come highest amount first. Purpose text and grantee addresses are not served; each row gives its workbook row number in the source repo.`,
+    description: `Search the NYC Council's expense funding disclosure — the Council's own award-level list of discretionary expense designations, FY2013–FY2027 (one row per published row — exact copies are kept and flagged — with clearance status, funding stream, agency and, from FY2024, a MOCS ID). A DIFFERENT source from search_awards / get_awards_by_ein: those serve the ADOPTED Schedule C; this is a later snapshot that includes designations made after adoption, and its council_member is the roster when the workbook was exported. Every row is returned whatever its status unless you filter on status; the response gives the TRUE number of matching rows and totals over all of them (Cleared — the headline — and Pending separately), even when the rows shown are limited, plus the date each year's workbook was downloaded. Filter by any combination of fiscal_year, ein, legal_name, council_member, source, agency, program_name, status, min_amount, max_amount. Rows come highest amount first. Purpose text and grantee addresses are not served; each row gives its workbook row number in the source repo.`,
     inputSchema: {
       type: "object",
       properties: {

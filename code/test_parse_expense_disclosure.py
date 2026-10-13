@@ -16,6 +16,7 @@ its tests skip, loudly, when xlrd is not installed (pip install -r code/requirem
 Run: pytest code/test_parse_expense_disclosure.py
 """
 import csv
+import io
 import os
 import subprocess
 import sys
@@ -247,6 +248,55 @@ def test_error_cell_is_published_as_its_text(tmp_path):
     p = _xlsx(tmp_path / "funded_disclosure_FY2099.xlsx", [HDR, row])
     awards, rep = P.parse_year(str(p))
     assert rep.n_awards == 1 and awards[0].postal_code == "#N/A", awards
+
+
+def test_exact_copies_share_a_duplicate_group_issue_69(tmp_path):
+    """Issue #69. Two rows identical in every published field get the same duplicate_group (the
+    first row's number); a third row differing only in amount, and a unique row, stay blank.
+    FAILS if a copy is dropped, if the group is not the first copy's row number, if a row that
+    differs in one field is flagged, or if the flag is computed across workbooks."""
+    a = _row("Acme Inc.", "136400434", "Cleared", 5000)
+    b = _row("Acme Inc.", "136400434", "Cleared", 5001)
+    c = _row("Beta Org", "010596502", "Pending", 100)
+    p = _xlsx(tmp_path / "funded_disclosure_FY2099.xlsx", [HDR, a, list(a), b, c, list(a)])
+    awards, rep = P.parse_year(str(p))
+    assert rep.n_awards == 5
+    assert P.duplicate_groups(awards) == {2: 2, 3: 2, 6: 2}
+    import csv as _csv
+    rows = list(_csv.DictReader(io.StringIO(P.csv_text(awards))))
+    assert [r["duplicate_group"] for r in rows] == ["2", "2", "", "", "2"]
+    text = P.reconciliation_text(awards, rep)
+    assert "1 group(s), 3 row(s); 2 beyond the first of each group, $10,000" in text
+
+
+def test_committed_duplicate_flags_issue_69():
+    """Corpus pin, from the committed CSVs. FAILS if the exact-copy count moves from 321 groups /
+    662 rows (341 beyond the first, $8,549,772), if any year from FY2024 on is flagged (those
+    repeats carry distinct MOCS IDs), or if a flagged row is not identical to its group's first
+    row in every field but source_row and duplicate_group."""
+    import csv as _csv
+    import glob
+    from decimal import Decimal
+    groups, flagged, extra, money, years = set(), 0, 0, Decimal(0), set()
+    for f in sorted(glob.glob(os.path.join(P.DATA_DIR, "fy*", "expense_disclosure", "*_awards.csv"))):
+        with open(f, newline="", encoding="utf-8") as fh:
+            rows = list(_csv.DictReader(fh))
+        by_rn = {r["source_row"]: r for r in rows}
+        for r in rows:
+            g = r["duplicate_group"]
+            if not g:
+                continue
+            first = by_rn[g]
+            same = [k for k in r if k not in ("source_row", "duplicate_group")]
+            assert all(r[k] == first[k] for k in same), (f, r["source_row"])
+            groups.add((r["fiscal_year"], g))
+            years.add(int(r["fiscal_year"]))
+            flagged += 1
+            if g != r["source_row"]:
+                extra += 1
+                money += Decimal(r["amount"])
+    assert (len(groups), flagged, extra, money) == (321, 662, 341, Decimal(8549772))
+    assert max(years) == 2023 and min(years) == 2013
 
 
 def test_unregistered_printed_total_is_a_stop(tmp_path):

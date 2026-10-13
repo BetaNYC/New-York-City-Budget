@@ -367,6 +367,12 @@ export interface DisclosureRow {
   fiscal_conduit_ein: string;
   /** Row number in the workbook (and in data/fyNN/expense_disclosure/fyNN_expense_awards.csv). */
   source_row: number;
+  /**
+   * #69: when this row is identical in every published field to another row of the same
+   * workbook, the source_row of the first of them; null when the row is unique. The workbook
+   * prints every copy; whether each is a real repeat designation cannot be told from the file.
+   */
+  duplicate_group: number | null;
 }
 
 export interface DisclosureFilters {
@@ -424,6 +430,12 @@ export interface DisclosureResult {
   matched_values: Partial<Record<"council_member" | "source" | "agency", DisclosureValueCount[]>>;
   /** Distinct grantee legal names among the matches, when an EIN was given. */
   ein_legal_names?: number;
+  /**
+   * #69: matched rows that belong to a group of exact copies (all of them, first copy included),
+   * and the rows/dollars beyond the first copy of each group — what the totals would lose if every
+   * group were one designation. Over ALL matches, like the totals.
+   */
+  duplicates: { rows: number; groups: number; extra_rows: number; extra_amount: number };
 }
 
 /**
@@ -468,7 +480,7 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
   const rows = db
     .prepare(
       `SELECT fiscal_year, mocs_id, source, council_member, legal_name, ein, status, status_norm,
-         amount, agency, program_name, fiscal_conduit, fiscal_conduit_ein, source_row
+         amount, agency, program_name, fiscal_conduit, fiscal_conduit_ein, source_row, duplicate_group
        FROM disclosure ${w}
        ORDER BY amount DESC, fiscal_year, source_row LIMIT ${cap(f.limit)}`
     )
@@ -520,6 +532,17 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
     ? (db.prepare(`SELECT COUNT(DISTINCT legal_name) AS n FROM disclosure ${w}`).get(...p) as { n: number }).n
     : undefined;
 
+  // A group is (fiscal_year, duplicate_group). "Extra" = every flagged row that is not its
+  // group's first row (source_row <> duplicate_group), among the MATCHED rows only.
+  const d = db
+    .prepare(
+      `SELECT COUNT(*) AS rows, COUNT(DISTINCT fiscal_year || ':' || duplicate_group) AS groups,
+         COALESCE(SUM(source_row <> duplicate_group), 0) AS extra_rows,
+         COALESCE(SUM(CASE WHEN source_row <> duplicate_group THEN amount ELSE 0 END), 0) AS extra_amount
+       FROM disclosure ${w ? `${w} AND` : "WHERE"} duplicate_group IS NOT NULL`
+    )
+    .get(...p) as { rows: number; groups: number; extra_rows: number; extra_amount: number };
+
   return {
     rows,
     matched,
@@ -528,6 +551,7 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
     snapshots,
     matched_values,
     ein_legal_names,
+    duplicates: d,
   };
 }
 
