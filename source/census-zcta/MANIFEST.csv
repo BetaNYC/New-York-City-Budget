@@ -1,0 +1,2 @@
+file,url,retrieved,bytes,sha256,last_modified,records,zcta_records,derived,derived_rows
+tab20_zcta520_county20_natl.txt,https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_county20_natl.txt,2026-10-12,6821287,3ed41278d637dc249e0323306f68be8a6c234e3090f4de88ef328dee71aeaaaf,"Thu, 09 Dec 2021 16:27:40 GMT",47863,46960,data/reference/zcta2020_states.csv,33791

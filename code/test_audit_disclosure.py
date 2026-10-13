@@ -278,6 +278,22 @@ def test_duplicate_flag_question_checks_the_csv_flag_issue_69():
         assert r["status"] == "finding" and r["count"] >= 1, flags
 
 
+def test_zip_question_catches_a_blind_pad_issue_70():
+    """Issue #70, audit question G7, against the committed Census table. FAILS if a correctly
+    padded Brookline ZIP ('2446', MA -> 02446) is reported, or if padding the Bronx '7083' to
+    New Jersey's 07083, calling '#N/A' valid, or calling a non-ZCTA ZIP valid passes."""
+    def row(raw, state, z, st):
+        r = _csv_row(2, "Acme", "136400434", "Cleared", 5000, zip=raw)
+        r.update(state=state, zip=z, zip_status=st)
+        return r
+    good = [row("2446", "MA", "02446", "padded"), row("10008", "NY", "10008", "not_a_zcta"),
+            row("#N/A", "", "", "invalid"), row("10001", "NY", "10001", "valid")]
+    assert A.q_zip({"csv": good})["status"] == "pass"
+    for bad in (row("7083", "NY", "07083", "padded"), row("#N/A", "", "", "valid"),
+                row("10008", "NY", "10008", "valid")):
+        assert A.q_zip({"csv": [bad]})["count"] == 1, bad
+
+
 def test_member_bleed_requires_corroboration():
     """FAILS if 'Levin Brooklyn Youth Fund' is not flagged when the same EIN is published as
     'Brooklyn Youth Fund' elsewhere, or if it is flagged without that corroboration."""
@@ -358,6 +374,8 @@ def test_corpus_pins(real):
     assert by["D13"]["status"] == "pass" and "186 workbook address cells" in by["D13"]["note"]
     # Issue #69: the CSV flag marks exactly F1's groups.
     assert by["F3"]["status"] == "pass" and "FY2020 75 groups / 154 rows / 79 surplus" in by["F3"]["note"]
+    # Issue #70: every ZIP status agrees with the Census table.
+    assert by["G7"]["status"] == "pass" and "'padded': 13" in by["G7"]["note"]
 
 
 def test_every_question_names_its_class_origin_and_independence():

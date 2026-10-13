@@ -1184,6 +1184,52 @@ def q_shapes(ctx):
                   f"{len(av)} agency variant groups, {sum(st.values())} odd states, {len(zips)} odd ZIPs.")
 
 
+@question("G7", "Is every ZIP the dataset pads or calls valid a real 2020 ZCTA (Census), is a "
+          "4-digit ZIP padded only into a ZCTA of the row's own state, and is every '#N/A' or '0' "
+          "ZIP invalid?", "leading-zero loss padded blindly / ZIP not checked (issue #70)", "new",
+          "partial")
+def q_zip(ctx):
+    """Reads the committed Census table data/reference/zcta2020_states.csv itself (not through
+    the parser) and checks each row: zip_status valid / state_mismatch / not_a_zcta must agree
+    with whether the 5-digit zip is a ZCTA; padded must be '0' + a 4-digit postal_code, a ZCTA,
+    and in the state the row's two-letter (or spelled-out) state names; '#N/A' and '0' must be
+    invalid with no zip. Partial: the Census table is derived by this repo's code/zcta_states.py
+    (its source file's sha256 is in source/census-zcta/MANIFEST.csv). Reports counts by status."""
+    path = os.path.join(ROOT, "data", "reference", "zcta2020_states.csv")
+    with open(path, newline="", encoding="utf-8") as fh:
+        zctas = {r["zcta"]: set(r["states"].split(";")) for r in csv.DictReader(fh)}
+    names = {"new york": "NY", "massachusetts": "MA", "vermont": "VT", "new jersey": "NJ",
+             "connecticut": "CT"}  # every spelled-out state the padded rows carry
+    known = {x for v in zctas.values() for x in v}
+    bad, counts = [], collections.Counter()
+    for r in ctx["csv"]:
+        st, z, raw = r.get("zip_status"), r.get("zip", ""), r["postal_code"]
+        counts[st] += 1
+        state = r["state"].strip()
+        tail = state[-2:].upper()
+        if tail in known and (len(state) == 2 or names.get(state[:-2].strip().lower()) == tail):
+            state = tail
+        else:
+            state = names.get(state.lower(), "")
+        ok = {
+            "valid": z in zctas and (not state or state in zctas[z]),
+            "state_mismatch": z in zctas,
+            "not_a_zcta": bool(re.fullmatch(r"\d{5}", z)) and z not in zctas,
+            "padded": re.fullmatch(r"\d{4}", raw) is not None and z == "0" + raw and z in zctas
+            and state in zctas[z],
+            "invalid": z == "",
+            "blank": raw == "" and z == "",
+        }.get(st, False)
+        if raw in ("#N/A", "0") and st != "invalid":
+            ok = False
+        if not ok:
+            bad.append(f"{ref(r)} postal_code={raw!r} state={r['state']!r} -> {z!r} {st!r}")
+    return result("finding" if bad else "pass", len(bad), bad,
+                  f"{len(zctas):,} ZCTAs in the Census table. ZIP status counts: "
+                  f"{dict(sorted(counts.items()))}. not_a_zcta means not verified (PO-box ZIPs "
+                  f"have no ZCTA), not fake.")
+
+
 # ---------------------------------------------------------------- H. more harvested + provenance
 
 @question("A15", "Is the header row repeated anywhere below the top (a page break or pasted "

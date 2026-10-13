@@ -144,8 +144,9 @@ TYPES = {
         # and source_row is a unique positive integer (it is the provenance pointer).
         cols=["fiscal_year", "mocs_id", "source", "council_member", "legal_name", "ein",
               "status", "status_norm", "amount", "agency", "program_name", "address1",
-              "address2", "city", "state", "postal_code", "purpose", "fiscal_conduit",
-              "fiscal_conduit_ein", "source_file", "source_row", "duplicate_group"],
+              "address2", "city", "state", "postal_code", "zip", "zip_status", "purpose",
+              "fiscal_conduit", "fiscal_conduit_ein", "source_file", "source_row",
+              "duplicate_group"],
         ein="ein", amounts=["amount"], rule="positive", year_col="fiscal_year"),
     "capital": dict(
         cols=["part", "agency", "budget_line", "sub_id", "boro", "fy1", "fy2", "fy3",
@@ -471,6 +472,11 @@ DISCLOSURE_STATUS = {"cleared", "pending", "other"}
 # "#N/A" (FY2014 postal_code 19; FY2017 address1, city, postal_code 6 each). They are counted
 # here, never parsed as a number or a ZIP, never blanked. In a column that must hold a value
 # (ein, amount) they already fail the EIN / amount checks above.
+# GitHub #70: zip / zip_status are derived from postal_code + state (code/zcta_states.py). A
+# status with a value carries a 5-digit zip taken from the published postal_code (or, padded,
+# '0' + it); the others carry none.
+ZIP_STATUS = {"valid", "padded", "not_a_zcta", "state_mismatch", "invalid", "blank"}
+ZIP_HAS_VALUE = {"valid", "padded", "not_a_zcta", "state_mismatch"}
 EXCEL_ERROR = re.compile(r"#(?:N/A|REF!|VALUE!|DIV/0!|NAME\?|NUM!|NULL!|SPILL!|CALC!|GETTING_DATA)")
 
 
@@ -483,10 +489,11 @@ def _check_disclosure(res, body, header, idx):
       - source_row is a unique positive integer -- it is how a reader finds the row in the
         workbook, so a duplicate or a blank breaks provenance."""
     if not all(c in idx for c in ("status", "status_norm", "fiscal_year", "source_row",
-                                  "duplicate_group")):
+                                  "duplicate_group", "zip", "zip_status")):
         return  # schema check already failed hard; value checks would be noise
     bad_norm, bad_year, bad_row, seen, dup_rows = [], [], [], set(), []
     groups, row_group = Counter(), {}
+    bad_zip = []
     errors = Counter()
     for ln, r in enumerate(body, start=2):
         if len(r) != len(header):
@@ -501,6 +508,10 @@ def _check_disclosure(res, body, header, idx):
             bad_norm.append((ln, r[idx["status"]], norm))
         if res.year and r[idx["fiscal_year"]] != str(res.year):
             bad_year.append((ln, r[idx["fiscal_year"]]))
+        zs, zv = r[idx["zip_status"]], r[idx["zip"]]
+        if zs not in ZIP_STATUS or bool(re.fullmatch(r"\d{5}", zv)) != (zs in ZIP_HAS_VALUE) \
+                or (zv and zs != "padded" and not r[idx["postal_code"]].startswith(zv)):
+            bad_zip.append((ln, r[idx["postal_code"]], zv, zs))
         if r[idx["duplicate_group"]]:
             groups[r[idx["duplicate_group"]]] += 1
             row_group[r[idx["source_row"]]] = r[idx["duplicate_group"]]
@@ -538,6 +549,10 @@ def _check_disclosure(res, body, header, idx):
         res.soft.append(("duplicate_group", (f"{sum(groups.values())} row(s) in {len(groups)} "
                                              f"group(s) of exact copies, kept as published "
                                              f"(DATA-ANOMALIES §22)")))
+    if bad_zip:
+        ln, raw, zv, zs = bad_zip[0]
+        res.hard.append(("zip", (f"{len(bad_zip)} row(s) whose zip/zip_status are inconsistent, "
+                                 f"e.g. line {ln}: postal_code {raw!r} -> {zv!r} {zs!r}")))
     if errors:
         res.soft.append(("excel_error", f"{sum(errors.values())} cell(s) hold an Excel error value, "
                                         f"kept as published text (DATA-ANOMALIES §22): "

@@ -455,7 +455,8 @@ in the Schedule C files moved. What a reader needs to know before using it:
   error `#N/A` (FY2014 `postal_code` 19; FY2017 `address1`, `city`, `postal_code` 6 each, on 6
   rows), published as the text `#N/A` by decision (GitHub #71; never blanked, never read as a
   value; pinned by `test_committed_na_cells_are_kept_as_published_issue_71`); 27 ZIPs stored as 4-digit numbers, some a
-  lost leading zero (MA/VT/NJ), some not (`7083` on a Bronx address), and 72 ZIPs are `0`; 5,656
+  lost leading zero (MA/VT/NJ), some not (`7083` on a Bronx address), and 72 ZIPs are `0` (all
+  kept in `postal_code`; checked in `zip_status`, below); 5,656
   `state` cells read `New YorkNY` (FY2015–FY2017, as typed); one `state` holds a ZIP
   (FY2015 row 1235); fiscal-conduit cells hold `003`, `260`, `005`, a name and a sentence in the
   EIN/name columns. Invisible format characters are deleted (left-to-right marks,
@@ -464,6 +465,40 @@ in the Schedule C files moved. What a reader needs to know before using it:
   An earlier version deleted it and published FY2018 rows 2796–2811 as `1211 40th Avenue` for
   the Queens address `12-11 40th Avenue` (GitHub #68; 17 address and 17 purpose cells regained
   their hyphen; audit question D13). Mojibake such as `EspaÃ±ol` is in the source cell and is kept.
+- **ZIP codes checked against the Census 2020 ZCTA list (GitHub #70).** `postal_code` stays as
+  published; `zip` / `zip_status` are derived (rules in DATA-DICTIONARY; the Census file's URL,
+  date and sha256 in `source/census-zcta/MANIFEST.csv`). Of 46 four-digit ZIPs, 13 are padded
+  (Brookline and Boston MA, Colchester VT, North Bergen NJ: the padded value is a ZCTA in the
+  row's own state) and 33 are not: `1001`/`1002`/`1144` on New York rows pad to Massachusetts
+  ZCTAs, `7052`/`7083` to New Jersey ones, `6108` to Connecticut (city Hartford, state cell
+  `New York`), and `1004`/`1121`/`1123`/`1126` to no ZCTA at all; each looks like a typo of a NYC
+  ZIP, and none is guessed. `not_a_zcta` is **not verified, not fake**: PO-box and
+  single-building ZIPs have no ZCTA. Counts (this repo's, of the committed rows):
+
+  | FY | valid | padded | not_a_zcta | state_mismatch | invalid | blank |
+  |---|---:|---:|---:|---:|---:|---:|
+  | 2013 | 4,561 | 0 | 50 | 3 | 6 | 367 |
+  | 2014 | 5,557 | 0 | 44 | 1 | 34 | 975 |
+  | 2015 | 5,946 | 6 | 63 | 2 | 7 | 626 |
+  | 2016 | 6,885 | 2 | 50 | 1 | 13 | 846 |
+  | 2017 | 7,688 | 5 | 69 | 7 | 12 | 890 |
+  | 2018 | 8,092 | 0 | 80 | 2 | 25 | 695 |
+  | 2019 | 8,773 | 0 | 87 | 0 | 8 | 787 |
+  | 2020 | 9,658 | 0 | 72 | 0 | 9 | 877 |
+  | 2021 | 8,511 | 0 | 80 | 3 | 9 | 451 |
+  | 2022 | 10,587 | 0 | 83 | 2 | 23 | 641 |
+  | 2023 | 10,120 | 0 | 74 | 5 | 7 | 821 |
+  | 2024 | 9,904 | 0 | 71 | 0 | 11 | 825 |
+  | 2025 | 10,523 | 0 | 82 | 1 | 9 | 661 |
+  | 2026 | 11,006 | 0 | 87 | 1 | 9 | 661 |
+  | 2027 | 9,532 | 0 | 81 | 1 | 82 | 711 |
+  | **all** | **127,343** | **13** | **1,073** | **29** | **264** | **10,834** |
+
+  FY2027's 82 `invalid` are mostly the `0` ZIPs (69). The 29 `state_mismatch` rows are mostly a
+  NYC ZIP on a row whose state cell names another state (`NC`, `NE`, `LA`, `MI`, `New JerseyNJ`
+  on Staten Island addresses), plus a few out-of-state ZIPs on rows marked New York
+  (`07087`, `08701`, `15050`, `19454`, `94110`). Street addresses are not checked; NYC Planning's GeoSearch would
+  be the next step and needs its own approval (about 140,000 lookups).
 - **One FY2016 `address2` cell (row 640) is a number formatted as a date** (`42037`, which Excel
   shows as 2015-02-02). The stored value is kept; what was meant is not knowable from the file.
 

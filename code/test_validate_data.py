@@ -468,12 +468,14 @@ def test_dry_run_writes_no_file(tmp_path):
 
 # --------------------------------------------------- expense-disclosure dataset (check 9)
 DISC_HDR = ("fiscal_year,mocs_id,source,council_member,legal_name,ein,status,status_norm,amount,"
-            "agency,program_name,address1,address2,city,state,postal_code,purpose,"
+            "agency,program_name,address1,address2,city,state,postal_code,zip,zip_status,purpose,"
             "fiscal_conduit,fiscal_conduit_ein,source_file,source_row,duplicate_group")
 
 
-def _disc_row(fy="2026", status="Cleared", norm="cleared", src_row="2", ein="136400434", dup=""):
-    return (f"{fy},FY26 00001,Local,Doe,Acme Inc.,{ein},{status},{norm},5000,DYCD,,,,,,,,,,"
+def _disc_row(fy="2026", status="Cleared", norm="cleared", src_row="2", ein="136400434", dup="",
+              postal="", zip_="", zip_status="blank"):
+    return (f"{fy},FY26 00001,Local,Doe,Acme Inc.,{ein},{status},{norm},5000,DYCD,,,,,,"
+            f"{postal},{zip_},{zip_status},,,,"
             f"funded_disclosure_FY2026.xlsx,{src_row},{dup}\n")
 
 
@@ -520,9 +522,7 @@ def test_disclosure_excel_error_cells_are_text_issue_71(tmp_path):
     43 holds one) raises a hard finding or is not counted as an Excel error kept as text, or if
     a '#N/A' in the EIN column passes (an EIN must be 9 digits; an error value is not one)."""
     root = tmp_path / "data"
-    row = _disc_row().split(",")
-    row[DISC_HDR.split(",").index("postal_code")] = "#N/A"
-    _disc_file(root, ",".join(row))
+    _disc_file(root, _disc_row(postal="#N/A", zip_status="invalid"))
     (r,) = V.validate_tree(str(root))[0]
     assert r.hard == [], r.hard
     notes = [m for c, m in r.soft if c == "excel_error"]
@@ -550,6 +550,26 @@ def test_disclosure_duplicate_group_must_name_a_real_group_issue_69(tmp_path):
         _disc_file(root2, body)
         (r2,) = V.validate_tree(str(root2))[0]
         assert [c for c, _m in r2.hard] == ["duplicate_group"], r2.hard
+
+
+def test_disclosure_zip_fields_must_agree_issue_70(tmp_path):
+    """Issue #70. FAILS if consistent zip/zip_status pairs raise a finding, or if an unknown
+    status, a 'valid' row with no zip, an 'invalid' row with one, or a zip that is not taken from
+    the published postal_code passes."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row(postal="10001-1234", zip_="10001", zip_status="valid")
+               + _disc_row(src_row="3", postal="2446", zip_="02446", zip_status="padded")
+               + _disc_row(src_row="4", postal="0", zip_status="invalid"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.hard == [], r.hard
+    for i, kw in enumerate([{"postal": "10001", "zip_": "10001", "zip_status": "ok"},
+                            {"postal": "10001", "zip_status": "valid"},
+                            {"postal": "0", "zip_": "00000", "zip_status": "invalid"},
+                            {"postal": "10001", "zip_": "10002", "zip_status": "valid"}]):
+        root2 = tmp_path / f"bad{i}"
+        _disc_file(root2, _disc_row(**kw))
+        (r2,) = V.validate_tree(str(root2))[0]
+        assert [c for c, _m in r2.hard] == ["zip"], (kw, r2.hard)
 
 
 def test_disclosure_reconciliation_rollup_distinguishes_na_from_pass(tmp_path):

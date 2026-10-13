@@ -158,8 +158,8 @@ PRIOR_PRINTED = {
 OUT_FIELDS = [
     "fiscal_year", "mocs_id", "source", "council_member", "legal_name", "ein", "status",
     "status_norm", "amount", "agency", "program_name", "address1", "address2", "city", "state",
-    "postal_code", "purpose", "fiscal_conduit", "fiscal_conduit_ein", "source_file", "source_row",
-    "duplicate_group",
+    "postal_code", "zip", "zip_status", "purpose", "fiscal_conduit", "fiscal_conduit_ein",
+    "source_file", "source_row", "duplicate_group",
 ]
 
 # Fields that identify a designation for the exact-copy flag (GitHub #69): every published field
@@ -767,15 +767,34 @@ def duplicate_groups(awards):
     return out
 
 
+_ZCTAS = None
+
+
+def _zctas():
+    """The committed ZCTA -> state(s) table (code/zcta_states.py, GitHub #70), loaded once."""
+    global _ZCTAS
+    if _ZCTAS is None:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import zcta_states  # sibling module, needed only when writing CSVs
+        _ZCTAS = zcta_states
+        _ZCTAS.TABLE_DATA = zcta_states.load_table()
+    return _ZCTAS
+
+
 def csv_text(awards):
+    """The per-year CSV. `postal_code` is the cell as published; `zip` and `zip_status` are
+    derived from it and the row's `state` against the Census 2020 ZCTA list (GitHub #70; rules
+    in zcta_states.classify_zip). Nothing published is rewritten."""
     buf = io.StringIO()
     w = csv.writer(buf, lineterminator="\n")
     w.writerow(OUT_FIELDS)
     dup = duplicate_groups(awards)
+    z = _zctas()
     for a in awards:
         d = a._asdict()
         d["amount"] = a.amount_text
         d["duplicate_group"] = dup.get(a.source_row, "")
+        d["zip"], d["zip_status"] = z.classify_zip(a.postal_code, a.state, z.TABLE_DATA)
         w.writerow([d[f] for f in OUT_FIELDS])
     return buf.getvalue()
 
