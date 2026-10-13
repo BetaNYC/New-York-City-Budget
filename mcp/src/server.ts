@@ -65,12 +65,30 @@ const usd = (n: number): string => {
   return c < 0 ? `-$${s}` : `$${s}`;
 };
 
+/** #72: how the printed council_member resolved, in brackets after the name. */
+function memberTag(r: DisclosureRow): string {
+  switch (r.council_member_type) {
+    case "member":
+      return ` [Legistar person ${r.council_member_id}]`;
+    case "member_outside_fy":
+      return ` [Legistar person ${r.council_member_id}; no recorded vote in FY${r.fiscal_year}: the export-time roster]`;
+    case "ambiguous":
+      return " [ambiguous: more than one member of that name served this year; not resolved]";
+    case "unresolved":
+      return " [not a Legistar member name; not resolved]";
+    case "district_label":
+      return " [a district label, not a person]";
+    default:
+      return ""; // speaker, delegation, citywide, blank: the printed value says what it is
+  }
+}
+
 function disclosureRowLine(r: DisclosureRow): string {
   return (
     `FY${r.fiscal_year}` +
     (r.mocs_id ? ` · ${r.mocs_id}` : "") +
     ` · ${usd(r.amount)} · ${r.status || r.status_norm}` +
-    ` · ${r.council_member || "(no member)"} → ${r.legal_name} (EIN ${r.ein || "—"})` +
+    ` · ${r.council_member || "(no member)"}${memberTag(r)} → ${r.legal_name} (EIN ${r.ein || "—"})` +
     (r.source ? ` · source: ${r.source}` : "") +
     (r.agency ? ` · agency: ${r.agency}` : "") +
     (r.program_name ? `\n    program: ${r.program_name}` : "") +
@@ -118,11 +136,17 @@ function disclosureText(res: DisclosureResult): string {
   for (const col of ["council_member", "source", "agency"] as const) {
     const vals = res.matched_values[col];
     if (!vals || vals.length < 2) continue;
-    const shown = vals.slice(0, 15).map((v) => `${v.value || "(blank)"} (${n(v.rows)} row(s), ${usd(v.amount)})`);
+    const shown = vals
+      .slice(0, 15)
+      .map(
+        (v) =>
+          `${v.value || "(blank)"}${v.council_member_id ? ` [Legistar person ${v.council_member_id}]` : ""} (${n(v.rows)} row(s), ${usd(v.amount)})`
+      );
     L.push(
       "",
-      `Note: the ${label[col]} filter is a substring match and matched ${n(vals.length)} different values; the totals above combine them: ` +
-        shown.join("; ") + (vals.length > 15 ? `; and ${n(vals.length - 15)} more` : "") + "."
+      `Note: the ${label[col]} filter is a substring match and matched ${n(vals.length)} different ${col === "council_member" ? "name/person pairs" : "values"}; the totals above combine them: ` +
+        shown.join("; ") + (vals.length > 15 ? `; and ${n(vals.length - 15)} more` : "") +
+        (col === "council_member" ? ". For one person exactly, use council_member_id." : col === "source" ? ". For one stream exactly, use source_exact." : ".")
     );
   }
   if (res.ein_legal_names != null && res.ein_legal_names > 1)
@@ -305,7 +329,7 @@ export const TOOLS = [
   },
   {
     name: "search_disclosure_awards",
-    description: `Search the NYC Council's expense funding disclosure — the Council's own award-level list of discretionary expense designations, FY2013–FY2027 (one row per published row — exact copies are kept and flagged — with clearance status, funding stream, agency and, from FY2024, a MOCS ID). A DIFFERENT source from search_awards / get_awards_by_ein: those serve the ADOPTED Schedule C; this is a later snapshot that includes designations made after adoption, and its council_member is the roster when the workbook was exported. Every row is returned whatever its status unless you filter on status; the response gives the TRUE number of matching rows and totals over all of them (Cleared — the headline — and Pending separately), even when the rows shown are limited, plus the date each year's workbook was downloaded. Filter by any combination of fiscal_year, ein, legal_name, council_member, source, agency, program_name, status, min_amount, max_amount. Rows come highest amount first. Purpose text and grantee addresses are not served; each row gives its workbook row number in the source repo.`,
+    description: `Search the NYC Council's expense funding disclosure — the Council's own award-level list of discretionary expense designations, FY2013–FY2027 (one row per published row — exact copies are kept and flagged — with clearance status, funding stream, agency and, from FY2024, a MOCS ID). A DIFFERENT source from search_awards / get_awards_by_ein: those serve the ADOPTED Schedule C; this is a later snapshot that includes designations made after adoption, and its council_member is the roster when the workbook was exported. Every row is returned whatever its status unless you filter on status; the response gives the TRUE number of matching rows and totals over all of them (Cleared — the headline — and Pending separately), even when the rows shown are limited, plus the date each year's workbook was downloaded. Filter by any combination of fiscal_year, ein, legal_name, council_member (substring) or council_member_id (exact Legistar person ID — 'Levin' and 'Levine' are different people), source (substring) or source_exact, agency, program_name, status, min_amount, max_amount. Rows come highest amount first. Purpose text and grantee addresses are not served; each row gives its workbook row number in the source repo.`,
     inputSchema: {
       type: "object",
       properties: {
@@ -314,11 +338,19 @@ export const TOOLS = [
         legal_name: { type: "string", description: "Grantee legal name (substring, case-insensitive)" },
         council_member: {
           type: "string",
-          description: "Council member as the workbook names them (case-insensitive substring; 'Levin' also matches 'Levine', and the answer lists every value matched) — the roster at export time, e.g. 'Speaker' for Speaker's designations",
+          description: "Council member as the workbook names them (case-insensitive substring; 'Levin' also matches 'Levine', and the answer lists every value matched with its Legistar person ID) — the roster at export time, e.g. 'Speaker' for Speaker's designations. For one person, use council_member_id.",
+        },
+        council_member_id: {
+          type: "string",
+          description: "Exact Legistar person ID of the council member (e.g. '7567' Stephen T. Levin, '7634' Mark Levine), as resolved per fiscal year by the repo's member crosswalk from the Council MCP's Legistar index. Rows whose printed name is ambiguous, unresolved, a delegation, 'Speaker' or blank carry no ID and never match. Digits only.",
         },
         source: {
           type: "string",
-          description: "Funding stream as the workbook names it (case-insensitive substring; 'Youth' also matches initiatives such as 'Summer Youth Employment Program', and the answer lists every value matched): Local, Youth, Aging, Speaker's Initiative, or a citywide initiative name",
+          description: "Funding stream as the workbook names it (case-insensitive substring; 'Youth' also matches initiatives such as 'Summer Youth Employment Program', and the answer lists every value matched): Local, Youth, Aging, Speaker's Initiative, or a citywide initiative name. For one stream exactly, use source_exact.",
+        },
+        source_exact: {
+          type: "string",
+          description: "Funding stream, exact: equal to the workbook's value ignoring case and surrounding whitespace ('Youth' matches the Youth stream only, not 'Summer Youth Employment Program').",
         },
         agency: { type: "string", description: "City agency (substring), e.g. DYCD" },
         program_name: { type: "string", description: "Program name (substring)" },
@@ -612,7 +644,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             ein: z.string().optional(),
             legal_name: z.string().optional(),
             council_member: z.string().optional(),
+            council_member_id: z.union([z.string(), z.number().int()]).optional(),
             source: z.string().optional(),
+            source_exact: z.string().optional(),
             agency: z.string().optional(),
             program_name: z.string().optional(),
             status: z.enum(DISCLOSURE_STATUSES).optional(),
@@ -635,6 +669,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
               isError: true,
             };
         }
+        // #72: a person ID is digits. Anything else is refused, never matched as text.
+        if (a.council_member_id != null && !/^\d+$/.test(String(a.council_member_id).trim()))
+          return {
+            content: [{ type: "text", text: `Error: council_member_id must be a Legistar person ID (digits only); got ${JSON.stringify(a.council_member_id)}. To search by name, use council_member.` }],
+            isError: true,
+          };
+        if (a.source_exact != null && a.source_exact.trim() === "")
+          return {
+            content: [{ type: "text", text: "Error: source_exact is empty; omit it, or give the stream's name." }],
+            isError: true,
+          };
         if (a.limit != null && a.limit < 1)
           return {
             content: [{ type: "text", text: `Error: limit must be at least 1 (got ${a.limit}); totals always cover every match, so a small limit is enough to see them.` }],
@@ -645,7 +690,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             content: [{ type: "text", text: `Error: min_amount (${a.min_amount}) is greater than max_amount (${a.max_amount}); nothing can match.` }],
             isError: true,
           };
-        const res = searchDisclosure(a);
+        const res = searchDisclosure({
+          ...a,
+          council_member_id: a.council_member_id == null ? undefined : String(a.council_member_id).trim(),
+        });
         if (res.matched === 0) {
           const years = listDisclosureSnapshots().map((s) => s.fiscal_year);
           const span = years.length ? `FY${years[0]}–FY${years[years.length - 1]}` : "(index empty)";

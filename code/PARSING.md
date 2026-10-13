@@ -306,8 +306,23 @@ by x-position.
 **Source:** the Council's own award-level disclosure workbooks in
 `source/expense-funding-disclosure/` (retrieved 2026-10-12; hashes in that folder's
 `MANIFEST.csv`, superseded hashes in `MANIFEST-HISTORY.csv`). **Output:** `data/fyNN/expense_disclosure/fyNN_expense_awards.csv` (one row per
-designation) and `fyNN_expense_reconciliation.txt`, for FY2013–FY2027. This is a **parallel**
-dataset: it never feeds or changes the Schedule C CSVs above. Schema: `DATA-DICTIONARY.md`.
+row the workbook prints; exact copies flagged in `duplicate_group`) and
+`fyNN_expense_reconciliation.txt`, for FY2013–FY2027. This is a **parallel** dataset: it never
+feeds or changes the Schedule C CSVs above. Schema: `DATA-DICTIONARY.md`.
+
+Three columns are **derived from committed reference tables**, never from the network, and the
+`--write` step reads them: `zip` / `zip_status` from `data/reference/zcta2020_states.csv`
+(`code/zcta_states.py`, GitHub #70), and `council_member_id` / `council_member_type` from
+`data/disclosure_council_member_crosswalk.csv` (`code/build_member_crosswalk.py`, GitHub #72),
+which in turn reads the roster extract `data/reference/council_members_legistar.csv`
+(`code/extract_council_roster.py`, the only script that touches the local Legistar database).
+After a re-pull that brings a new member name, `--write` stops and names the fix:
+
+```bash
+python3 code/extract_council_roster.py --db PATH   # only if the roster changed (needs the DB)
+python3 code/build_member_crosswalk.py --write      # then --check in CI
+python3 code/parse_expense_disclosure.py --write
+```
 
 ```bash
 python3 code/parse_expense_disclosure.py              # self-check against the corpus + summary

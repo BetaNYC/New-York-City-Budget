@@ -90,7 +90,9 @@ Column names follow the disclosure's own fields, not the Schedule C vocabulary (
 | `fiscal_year` | int | From the workbook's **file name**. FY2013, FY2014 and FY2016 have no Fiscal Year column; where one exists it agrees in every row. |
 | `mocs_id` | text | Mayor's Office of Contract Services ID (`FY25 00001`). **FY2024+ only**, blank before. Identifies a row within one snapshot; not stable across snapshots (DATA-ANOMALIES §22). Its join to registered contracts / Checkbook is unverified. |
 | `source` | text | Funding stream as the Council names it: `Local`, `Youth`, `Aging`, `Speaker's Initiative`, or a named citywide initiative. |
-| `council_member` | text | Sponsor as printed. **The roster at the time the workbook was exported, not at adoption** — never a join key (see DATA-ANOMALIES §21). |
+| `council_member` | text | Sponsor as printed. **The roster at the time the workbook was exported, not at adoption** — never a join key (see DATA-ANOMALIES §21). A substring of it blends people: `Levin` is in `Levine`, `Won` in `Wong`. |
+| `council_member_id` | text | **Derived** (GitHub #72): the Legistar person ID the printed name resolves to **for that fiscal year**, from `data/disclosure_council_member_crosswalk.csv`; blank unless `council_member_type` is `member` or `member_outside_fy`. `Levin` is 7567 (Stephen T. Levin), `Levine` 7634 (Mark Levine). Filter on this, not on the name, to mean one person. |
+| `council_member_type` | text | **Derived** (GitHub #72). `member` — exactly one Legistar person has the printed surname (and initial, if printed) and a recorded vote in that fiscal year. `member_outside_fy` — exactly one person has the name, but no vote that year: the export-time roster naming someone not yet or no longer in office (FY2025 `Wong`, FY2021 `Aviles`, FY2020 `D. Diaz`); the ID is given, the type says it is not that year's member. `ambiguous` — two people of that name voted that year (FY2014 and FY2022 `Barron`, FY2014 `Vallone`, FY2021 `Diaz`); no ID, never guessed. `unresolved` — no Legistar member has the name (`CC`, `NA`). `speaker`, `delegation` (borough delegations, bare borough names, `Brooklyn / Queens`), `citywide`, `district_label` (`CD19`, `CD28`), `blank`: not a person, no ID. |
 | `legal_name` | text | Grantee legal name. |
 | `ein` | text | Grantee EIN, **9 digits, no hyphen, leading zeros kept**. Blank on 6 rows where the Council left it blank (FY2013 2, FY2014 3, FY2015 1). The FY2013 file prints 175 EINs as `NN-NNNNNNN` (hyphen removed here) and stores some as numbers, three of which lost a leading zero (re-padded; rows listed in the FY2013 report). Fiscal-sponsor caveat as above: filter on `ein` **and** `amount` or `program_name`, never `ein` alone. |
 | `status` | text | Clearance status **exactly as published**: `Cleared` / `Pending`, or `CLEARED` / `PENDING` (FY2018). |
@@ -131,6 +133,34 @@ addresses and ZIPs, three FY2014 `council_member` cells): also kept as published
 **Not the same universe as the adopted Schedule C totals.** The workbook is a later snapshot of the
 same year, republished with in-year additions; FY2024 prints its own `Adoption Total`
 ($527,096,000) beside its `New Total` ($527,971,414). Compare like with like.
+
+## `data/disclosure_council_member_crosswalk.csv` (GitHub #72)
+
+One row per (fiscal year, printed `council_member` value) in the expense disclosure: `fiscal_year,
+council_member, rows, council_member_type, council_member_id, legistar_full_name, method,
+evidence`. Built by `code/build_member_crosswalk.py` from the committed roster extract
+`data/reference/council_members_legistar.csv` (every Legistar person, with the fiscal years in
+which Legistar records a vote by them; provenance in `council_members_legistar_meta.csv`),
+itself extracted by `code/extract_council_roster.py` from the local Legistar index that BetaNYC's
+Council MCP (`@betanyc/nyc-council-mcp`) reads. No Legistar web API or Council website call.
+
+**Method.** Accent-, case- and space-insensitive surname match (an exact surname before a
+component of a hyphenated one, so `Viverito` reaches Mark-Viverito but `Powers` is not
+Brooks-Powers); a printed initial (`D. Diaz`, `Sanchez, J`) must match the first-name initial or
+Legistar's own initial prefix (`D. Diaz`); a person counts for a fiscal year only if Legistar
+records a vote by them in it. **Service is a set of years, not a span**: Charles Barron voted
+FY2004–FY2014 and FY2022–FY2024 and Inez Barron held the seat between.
+
+**Limits.** A fiscal year counts only if a vote was recorded in it, so a member sworn in or out
+within days of 1 July with no vote on one side is not counted there. People with no recorded
+vote (pre-2001 members, Public Advocates) are never candidates and are named in `evidence` when
+excluded. Votes run 2001 to the index's last indexing date; the unfinished part of FY2027 is not
+covered. The crosswalk says who a printed name **is**; the printed name is still the export-time
+roster, not proof of who made the designation.
+
+**Outcome (2026-10-12):** 757 (year, name) pairs / 100,946 rows `member`; 3 / 341
+`member_outside_fy`; 4 / 312 `ambiguous`; 2 / 243 `unresolved`; non-member labels: `speaker`
+6,190 rows, `delegation` 7,098, `citywide` 431, `district_label` 384, `blank` 23,611.
 
 ## `data/{year}/terms/{year}_terms_and_conditions.csv`
 

@@ -250,7 +250,7 @@ def test_error_cell_is_published_as_its_text(tmp_path):
     assert rep.n_awards == 1 and awards[0].postal_code == "#N/A", awards
 
 
-def test_exact_copies_share_a_duplicate_group_issue_69(tmp_path):
+def test_exact_copies_share_a_duplicate_group_issue_69(tmp_path, monkeypatch):
     """Issue #69. Two rows identical in every published field get the same duplicate_group (the
     first row's number); a third row differing only in amount, and a unique row, stay blank.
     FAILS if a copy is dropped, if the group is not the first copy's row number, if a row that
@@ -260,6 +260,7 @@ def test_exact_copies_share_a_duplicate_group_issue_69(tmp_path):
     c = _row("Beta Org", "010596502", "Pending", 100)
     p = _xlsx(tmp_path / "funded_disclosure_FY2099.xlsx", [HDR, a, list(a), b, c, list(a)])
     awards, rep = P.parse_year(str(p))
+    monkeypatch.setattr(P, "_MEMBERS", {(2099, "Doe"): ("member", "42")})  # synthetic year
     assert rep.n_awards == 5
     assert P.duplicate_groups(awards) == {2: 2, 3: 2, 6: 2}
     import csv as _csv
@@ -297,6 +298,39 @@ def test_committed_duplicate_flags_issue_69():
                 money += Decimal(r["amount"])
     assert (len(groups), flagged, extra, money) == (321, 662, 341, Decimal(8549772))
     assert max(years) == 2023 and min(years) == 2013
+
+
+def test_a_member_name_missing_from_the_crosswalk_is_a_stop(tmp_path, monkeypatch):
+    """Issue #72. FAILS if a (year, council_member) pair the crosswalk does not hold is written
+    with a blank or guessed ID instead of stopping with the command that fixes it."""
+    p = _xlsx(tmp_path / "funded_disclosure_FY2099.xlsx",
+              [HDR, _row("Acme Inc.", "136400434", "Cleared", 5000)])
+    awards, _ = P.parse_year(str(p))
+    monkeypatch.setattr(P, "_MEMBERS", {})
+    with pytest.raises(ValueError, match="build_member_crosswalk.py --write"):
+        P.csv_text(awards)
+    monkeypatch.setattr(P, "_MEMBERS", {(2099, "Doe"): ("member", "42")})
+    import csv as _csv
+    (row,) = list(_csv.DictReader(io.StringIO(P.csv_text(awards))))
+    assert (row["council_member_id"], row["council_member_type"]) == ("42", "member")
+
+
+def test_committed_member_ids_keep_levin_and_levine_apart_issue_72():
+    """Corpus pin, from the committed CSVs. FAILS if any 'Levin' row carries Mark Levine's ID
+    (7634) or any 'Levine' row Stephen Levin's (7567), or if a row's ID disagrees with the
+    committed crosswalk for its (year, council_member)."""
+    import csv as _csv
+    import glob
+    xw = P._members()
+    seen = {}
+    for f in glob.glob(os.path.join(P.DATA_DIR, "fy*", "expense_disclosure", "*_awards.csv")):
+        with open(f, newline="", encoding="utf-8") as fh:
+            for r in _csv.DictReader(fh):
+                typ, pid = xw[(int(r["fiscal_year"]), r["council_member"])]
+                assert (r["council_member_type"], r["council_member_id"]) == (typ, pid), r
+                if r["council_member"] in ("Levin", "Levine"):
+                    seen.setdefault(r["council_member"], set()).add(r["council_member_id"])
+    assert seen == {"Levin": {"7567"}, "Levine": {"7634"}}, seen
 
 
 def test_unregistered_printed_total_is_a_stop(tmp_path):

@@ -1140,8 +1140,8 @@ def q_source_variants(ctx):
           "names in one cell)?", "member identity ambiguity (#51)", "harvested", "partial")
 def q_member_values(ctx):
     """Variant groups of council_member (case/punctuation), and values shaped like a district
-    ('CD28'), with digits, '/', '&' or ' and '. No Council roster by year exists in this repo, so
-    whether a surname was a sitting member that year cannot be checked here (partial)."""
+    ('CD28'), with digits, '/', '&' or ' and '. Whether a surname was a sitting member that year
+    is G8's question, asked of the resolved person IDs (partial here)."""
     vals = {r["council_member"] for r in ctx["csv"] if r["council_member"]}
     v = [" | ".join(g) for g in _variants(vals)]
     odd = sorted(x for x in vals if re.search(r"\d|/|&|\band\b|,", x))
@@ -1228,6 +1228,90 @@ def q_zip(ctx):
                   f"{len(zctas):,} ZCTAs in the Census table. ZIP status counts: "
                   f"{dict(sorted(counts.items()))}. not_a_zcta means not verified (PO-box ZIPs "
                   f"have no ZCTA), not fake.")
+
+
+def _roster_years():
+    """{person_id: set(fiscal years with a recorded vote)} from the committed roster extract."""
+    path = os.path.join(ROOT, "data", "reference", "council_members_legistar.csv")
+    with open(path, newline="", encoding="utf-8") as fh:
+        return {r["person_id"]: {int(y) for y in r["vote_fiscal_years"].split(";") if y}
+                for r in csv.DictReader(fh)}
+
+
+@question("G8", "Does every row whose council_member resolves to a person name someone who was in "
+          "office (voted) in that row's fiscal year?", "member identity / export-time roster "
+          "(issue #72, #51)", "new", "partial")
+def q_member_in_office(ctx):
+    """For every CSV row with a council_member_id, looks the person up in the committed roster
+    extract (data/reference/council_members_legistar.csv, from the Council MCP's local Legistar
+    index) and checks that a vote is recorded in the row's fiscal year. A row typed `member` that
+    fails is a defect; a row typed `member_outside_fy` is the workbook's export-time roster naming
+    someone not in office that year, listed as the finding it is. Partial: the evidence is this
+    repo's extract of Legistar, not the Council's own roster by year."""
+    years = _roster_years()
+    out, wrong = collections.Counter(), []
+    unres = collections.Counter()
+    for r in ctx["csv"]:
+        pid, typ = r.get("council_member_id", ""), r.get("council_member_type", "")
+        if typ in ("ambiguous", "unresolved"):
+            unres[(typ, r["fiscal_year"], r["council_member"])] += 1
+        if not pid:
+            continue
+        if int(r["fiscal_year"]) not in years.get(pid, set()):
+            out[(r["fiscal_year"], r["council_member"], pid, typ)] += 1
+            if typ != "member_outside_fy":
+                wrong.append(f"{ref(r)} {r['council_member']!r} -> {pid} typed {typ!r}")
+    hits = wrong + [f"FY{fy} {v!r} -> {pid} ({typ}): {n} rows" for (fy, v, pid, typ), n in sorted(out.items())
+                    if typ == "member_outside_fy"]
+    return result("finding" if hits else "pass", sum(out.values()), hits,
+                  f"{len(wrong)} rows typed member fail the check. Not resolved, so not checked: "
+                  + "; ".join(f"FY{fy} {v!r} {t} ({n} rows)" for (t, fy, v), n in sorted(unres.items()))
+                  + ".")
+
+
+@question("G9", "Is any council_member_id shared by two different names in one fiscal year, or by "
+          "two different people (no ID may stand for two people)?", "member identity ambiguity "
+          "(issue #72)", "new", "yes")
+def q_member_id_shared(ctx):
+    """Per fiscal year, the distinct council_member values (case-folded) carrying each ID; more
+    than one is a finding. Across years, an ID's names are listed when they differ (a legitimate
+    name change, e.g. Ferreras / Ferreras-Copeland, is shown for a human, not counted)."""
+    per_year = collections.defaultdict(set)
+    across = collections.defaultdict(set)
+    for r in ctx["csv"]:
+        pid = r.get("council_member_id", "")
+        if pid:
+            per_year[(r["fiscal_year"], pid)].add(r["council_member"].lower())
+            across[pid].add(r["council_member"])
+    hits = [f"FY{fy} ID {pid}: {sorted(v)}" for (fy, pid), v in sorted(per_year.items()) if len(v) > 1]
+    renamed = [f"{pid}: {' / '.join(sorted(v))}" for pid, v in sorted(across.items())
+               if len({x.lower() for x in v}) > 1]
+    return result("finding" if hits else "pass", len(hits), hits,
+                  f"{len(across)} person IDs. Printed under more than one name across years: "
+                  f"{'; '.join(renamed) or 'none'}.")
+
+
+@question("G10", "Do the member names a substring filter blends (G4: 'Levin' in 'Levine', 'Won' "
+          "in 'Wong') resolve to different people?", "member identity ambiguity (#51, #72)",
+          "harvested", "yes")
+def q_member_substring_ids(ctx):
+    """For every pair of council_member values in one fiscal year where one contains the other
+    (case-insensitive, as G4 finds them), compares their council_member_id; the same ID on two
+    values that differ beyond case is a finding."""
+    ids = collections.defaultdict(dict)
+    for r in ctx["csv"]:
+        if r["council_member"]:
+            ids[r["fiscal_year"]][r["council_member"]] = r.get("council_member_id", "")
+    hits, pairs = [], 0
+    for fy, m in sorted(ids.items()):
+        for a in m:
+            for b in m:
+                if a != b and a.lower() != b.lower() and a.lower() in b.lower():
+                    pairs += 1
+                    if m[a] and m[a] == m[b]:
+                        hits.append(f"FY{fy} {a!r} and {b!r} both -> {m[a]}")
+    return result("finding" if hits else "pass", len(hits), hits,
+                  f"{pairs} nested name pairs checked, e.g. Levin (7567) / Levine (7634).")
 
 
 # ---------------------------------------------------------------- H. more harvested + provenance

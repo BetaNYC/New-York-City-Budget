@@ -66,6 +66,16 @@ below before comparing a figure with one published from 1.3.x.
   `agency` value the filter matched, with rows and dollars, when there is more than one.
 - **An EIN that pools many names says how many.** `ein: "136400434"` (the City of New York) covers
   hundreds of City bodies; the answer now counts the distinct legal names in the match.
+- **Council members are people, not substrings (#72).** New exact filter `council_member_id`
+  (a Legistar person ID, digits only; a string or a number) and new `source_exact` (one funding
+  stream, case- and surrounding-whitespace-insensitive equality: `Youth` no longer means
+  `Summer Youth Employment Program` too). Each row shows the person its printed name resolves to
+  for that fiscal year (`Levin [Legistar person 7567]`), or why it does not (ambiguous,
+  unresolved, a district label), and flags a name from the export-time roster whose person had no
+  recorded vote that year. A substring `council_member` filter lists each name/person pair it
+  blended and points to `council_member_id`. IDs come from the repo's committed member crosswalk
+  (`data/disclosure_council_member_crosswalk.csv`); the index build stops on a row whose ID and
+  type disagree. `council_member` and `source` keep their substring behavior.
 - **Exact copies are flagged (#69).** 662 disclosure rows in 321 groups (FY2013–FY2023) are
   identical in every published field but their workbook row. All are kept, as published. Each
   such row is now marked in the answer ("exact copy of workbook row N", or the group's first), and

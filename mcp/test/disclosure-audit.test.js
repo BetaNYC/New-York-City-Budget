@@ -263,10 +263,11 @@ test("M9: a member filter that matches several members lists each, with its rows
   const vals = [...new Set(rows.map((r) => r.council_member))].sort();
   assert.deepEqual(vals, ["Levin", "Levine"], "fixture premise");
   const { text } = await call({ council_member: "Levin", fiscal_year: 2016, limit: 1 });
-  assert.match(text, /Note: the council_member filter is a substring match and matched 2 different values/);
+  assert.match(text, /Note: the council_member filter is a substring match and matched 2 different name\/person pairs/);
   for (const v of vals) {
     const g = rows.filter((r) => r.council_member === v);
-    assert.ok(text.includes(`${v} (${fmt(g.length)} row(s), ${exactUsd(g)})`), v);
+    const id = g[0].council_member_id; // #72: each value is shown with the person it resolves to
+    assert.ok(text.includes(`${v} [Legistar person ${id}] (${fmt(g.length)} row(s), ${exactUsd(g)})`), v);
   }
 });
 

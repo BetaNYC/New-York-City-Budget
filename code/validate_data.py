@@ -142,8 +142,8 @@ TYPES = {
         # it never feeds the Schedule C files above. Extra checks in check_file(): status_norm
         # is one of three values and agrees with the raw status, fiscal_year is the folder year,
         # and source_row is a unique positive integer (it is the provenance pointer).
-        cols=["fiscal_year", "mocs_id", "source", "council_member", "legal_name", "ein",
-              "status", "status_norm", "amount", "agency", "program_name", "address1",
+        cols=["fiscal_year", "mocs_id", "source", "council_member", "council_member_id",
+              "council_member_type", "legal_name", "ein", "status", "status_norm", "amount", "agency", "program_name", "address1",
               "address2", "city", "state", "postal_code", "zip", "zip_status", "purpose",
               "fiscal_conduit", "fiscal_conduit_ein", "source_file", "source_row",
               "duplicate_group"],
@@ -472,6 +472,11 @@ DISCLOSURE_STATUS = {"cleared", "pending", "other"}
 # "#N/A" (FY2014 postal_code 19; FY2017 address1, city, postal_code 6 each). They are counted
 # here, never parsed as a number or a ZIP, never blanked. In a column that must hold a value
 # (ein, amount) they already fail the EIN / amount checks above.
+# GitHub #72: council_member_type from code/build_member_crosswalk.py. Exactly the two member
+# types carry a Legistar person ID; 'blank' is exactly an empty council_member.
+MEMBER_TYPES = {"member", "member_outside_fy", "ambiguous", "unresolved", "speaker", "delegation",
+                "citywide", "district_label", "blank"}
+MEMBER_ID_TYPES = {"member", "member_outside_fy"}
 # GitHub #70: zip / zip_status are derived from postal_code + state (code/zcta_states.py). A
 # status with a value carries a 5-digit zip taken from the published postal_code (or, padded,
 # '0' + it); the others carry none.
@@ -489,11 +494,12 @@ def _check_disclosure(res, body, header, idx):
       - source_row is a unique positive integer -- it is how a reader finds the row in the
         workbook, so a duplicate or a blank breaks provenance."""
     if not all(c in idx for c in ("status", "status_norm", "fiscal_year", "source_row",
-                                  "duplicate_group", "zip", "zip_status")):
+                                  "duplicate_group", "zip", "zip_status", "council_member_id",
+                                  "council_member_type")):
         return  # schema check already failed hard; value checks would be noise
     bad_norm, bad_year, bad_row, seen, dup_rows = [], [], [], set(), []
     groups, row_group = Counter(), {}
-    bad_zip = []
+    bad_zip, bad_member = [], []
     errors = Counter()
     for ln, r in enumerate(body, start=2):
         if len(r) != len(header):
@@ -508,6 +514,10 @@ def _check_disclosure(res, body, header, idx):
             bad_norm.append((ln, r[idx["status"]], norm))
         if res.year and r[idx["fiscal_year"]] != str(res.year):
             bad_year.append((ln, r[idx["fiscal_year"]]))
+        mt, mid = r[idx["council_member_type"]], r[idx["council_member_id"]]
+        if mt not in MEMBER_TYPES or (mt in MEMBER_ID_TYPES) != mid.isdigit() \
+                or (mt == "blank") != (r[idx["council_member"]].strip() == ""):
+            bad_member.append((ln, r[idx["council_member"]], mid, mt))
         zs, zv = r[idx["zip_status"]], r[idx["zip"]]
         if zs not in ZIP_STATUS or bool(re.fullmatch(r"\d{5}", zv)) != (zs in ZIP_HAS_VALUE) \
                 or (zv and zs != "padded" and not r[idx["postal_code"]].startswith(zv)):
@@ -549,6 +559,11 @@ def _check_disclosure(res, body, header, idx):
         res.soft.append(("duplicate_group", (f"{sum(groups.values())} row(s) in {len(groups)} "
                                              f"group(s) of exact copies, kept as published "
                                              f"(DATA-ANOMALIES §22)")))
+    if bad_member:
+        ln, v, mid, mt = bad_member[0]
+        res.hard.append(("council_member", (f"{len(bad_member)} row(s) whose council_member_id / "
+                                            f"council_member_type are inconsistent, e.g. line "
+                                            f"{ln}: {v!r} -> {mid!r} {mt!r}")))
     if bad_zip:
         ln, raw, zv, zs = bad_zip[0]
         res.hard.append(("zip", (f"{len(bad_zip)} row(s) whose zip/zip_status are inconsistent, "

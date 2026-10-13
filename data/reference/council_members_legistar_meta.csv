@@ -1,0 +1,7 @@
+key,value
+source,local Legistar index read by @betanyc/nyc-council-mcp
+db_last_indexed_at,2026-10-12T10:30:07.696Z
+db_schema_version,5
+people,254
+vote_dates_min,2001-04-03
+vote_dates_max,2026-10-08
