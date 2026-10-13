@@ -68,6 +68,8 @@ const TRANSPARENCY_LOW_TEXT_CONFIDENCE = new Set([2010, 2011, 2012, 2013]);
 // sources and are never merged. Snapshot provenance (which download each year comes from) is read
 // from source/expense-funding-disclosure/MANIFEST.csv.
 const DISCLOSURE_YEARS = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27].map(yr);
+// Excel error values, as the disclosure CSVs carry them verbatim (code/validate_data.py EXCEL_ERROR).
+const EXCEL_ERROR = /^#(?:N\/A|REF!|VALUE!|DIV\/0!|NAME\?|NUM!|NULL!|SPILL!|CALC!|GETTING_DATA)$/;
 const DISCLOSURE_MANIFEST = join(MCP_ROOT, "..", "source", "expense-funding-disclosure", "MANIFEST.csv");
 // Columns indexed. Deliberately NOT indexed, to keep the npm package small: purpose (~26 MB of
 // the CSVs' 52 MB), the grantee street address, and source_file (implied by fiscal_year).
@@ -451,6 +453,14 @@ function main() {
         );
       }
       for (const r of rows) {
+        // Excel error values ('#N/A') are published as TEXT (#71) and stay text in the index.
+        // In an EIN column, normEin() would turn one into "" -- a silent blank -- so that is a
+        // stop instead (none today; the 37 '#N/A' cells are ZIPs, addresses and cities).
+        for (const col of ["ein", "fiscal_conduit_ein"]) {
+          if (EXCEL_ERROR.test(r[col] ?? "")) {
+            throw new Error(`FY${year} row ${r.source_row}: ${col} is the Excel error ${r[col]}, not an EIN`);
+          }
+        }
         const amount = Number(r.amount);
         if (r.amount === "" || !Number.isFinite(amount)) {
           throw new Error(`FY${year} row ${r.source_row}: amount ${JSON.stringify(r.amount)} is not a number`);

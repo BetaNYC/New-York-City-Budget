@@ -587,7 +587,8 @@ def q_error_cells(ctx):
     err = re.compile(r"^#(N/A|REF!|VALUE!|DIV/0!|NAME\?|NUM!|NULL!)$")
     csv_hits = sum(1 for r in ctx["csv"] for f in CELL_FIELDS if err.match(r[f]))
     return result("finding" if hits else "pass", len(hits), hits,
-                  f"{csv_hits} CSV cells carry an Excel error literal verbatim.")
+                  f"{csv_hits} CSV cells carry an Excel error literal verbatim: kept as published "
+                  f"text by decision (issue #71), counted by the validator, never read as a value.")
 
 
 @question("A10", "Is any amount computed by an in-cell formula, and does the CSV carry the "

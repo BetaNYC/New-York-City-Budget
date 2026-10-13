@@ -432,7 +432,9 @@ in the Schedule C files moved. What a reader needs to know before using it:
   rounding moves no year's total by more than 1.2 cents, and keeping the stored value is what
   lets every CSV cell be checked against the workbook cell (`DISCLOSURE-AUDIT.md` A6).
 - **Spreadsheet artifacts kept as published** (`DISCLOSURE-AUDIT.md`): 37 cells hold the Excel
-  error `#N/A` (FY2014 ZIPs, FY2017 address/city/ZIP); 27 ZIPs stored as 4-digit numbers, some a
+  error `#N/A` (FY2014 `postal_code` 19; FY2017 `address1`, `city`, `postal_code` 6 each, on 6
+  rows), published as the text `#N/A` by decision (GitHub #71; never blanked, never read as a
+  value; pinned by `test_committed_na_cells_are_kept_as_published_issue_71`); 27 ZIPs stored as 4-digit numbers, some a
   lost leading zero (MA/VT/NJ), some not (`7083` on a Bronx address), and 72 ZIPs are `0`; 5,656
   `state` cells read `New YorkNY` (FY2015–FY2017, as typed); one `state` holds a ZIP
   (FY2015 row 1235); fiscal-conduit cells hold `003`, `260`, `005`, a name and a sentence in the

@@ -251,3 +251,33 @@ test("the existing tools' alias hints are unchanged by the new entries", async (
   const qt = q.content.map((c) => c.text).join("\n");
   assert.match(qt, /Use `organization` or `program` instead of `query`/);
 });
+
+test("rows carrying an Excel '#N/A' cell are indexed and served like any other row (#71)", async () => {
+  // FAILS if a row whose ZIP, address or city is the Excel error '#N/A' (published as text,
+  // 25 rows: FY2014 19, FY2017 6) is dropped from the index, has its amount or name altered,
+  // or cannot be found by its grantee name.
+  const hits = [];
+  for (const fy of YEARS) {
+    for (const r of disclosureCsv(fy)) {
+      if (Object.values(r).some((v) => v === "#N/A")) hits.push(r);
+    }
+  }
+  assert.equal(hits.length, 25);
+  const db = new Database(DB_PATH, { readonly: true });
+  try {
+    const get = db.prepare("SELECT legal_name, amount, ein FROM disclosure WHERE fiscal_year = ? AND source_row = ?");
+    for (const r of hits) {
+      const got = get.get(Number(r.fiscal_year), Number(r.source_row));
+      assert.ok(got, `FY${r.fiscal_year} row ${r.source_row} missing from the index`);
+      assert.equal(got.legal_name, r.legal_name);
+      assert.equal(got.amount, Number(r.amount));
+      assert.equal(got.ein, r.ein);
+    }
+  } finally {
+    db.close();
+  }
+  const r = hits[0];
+  const res = await call({ fiscal_year: Number(r.fiscal_year), legal_name: r.legal_name, limit: 500 });
+  assert.equal(res.isError, false);
+  assert.match(res.text, new RegExp(`workbook row ${r.source_row}\\b`));
+});
