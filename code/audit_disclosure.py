@@ -1184,7 +1184,18 @@ def q_shapes(ctx):
                   f"{len(av)} agency variant groups, {sum(st.values())} odd states, {len(zips)} odd ZIPs.")
 
 
-_AUDIT_RAGGED = re.compile(r"\d{5}\s*-\s*\d*")   # 5 digits + hyphen; ZIP+4 itself excluded below
+# 5 digits + a ZIP+4 separator the workbooks print (hyphen, '=', 'ZipCode2:') + digits; the
+# plain hyphenated ZIP+4 itself is excluded where this is used.
+_AUDIT_RAGGED = re.compile(r"\d{5}\s*(?:-|=|ZipCode2:)\s*\d*")
+
+
+def _audit_deletions(raw, state, zctas):
+    """For a 6-digit raw: the distinct one-digit deletions that are a ZCTA in `state`, sorted
+    (no state -> none). Written here from the definition, not imported from the parser."""
+    if not re.fullmatch(r"\d{6}", raw) or not state:
+        return []
+    return sorted({d for d in (raw[:i] + raw[i + 1:] for i in range(6))
+                   if d in zctas and state in zctas[d]})
 _AUDIT_STATE_NAMES = {"new york": "NY", "massachusetts": "MA", "vermont": "VT", "new jersey": "NJ",
                       "connecticut": "CT"}  # every spelled-out state the padded/trimmed rows carry
 
@@ -1207,15 +1218,18 @@ def _audit_state(cell, known):
 
 
 @question("G7", "Is every ZIP the dataset pads, trims or calls valid a real 2020 ZCTA (Census), "
-          "is a 4-digit ZIP padded (or a ragged ZIP+4 trimmed) only into a ZCTA of the row's own "
-          "state, and is every '#N/A' or '0' ZIP invalid?", "leading-zero loss padded blindly / ZIP not checked (issue #70)", "new",
+          "is a 4-digit ZIP padded (or a ragged ZIP+4 trimmed, or a 6-digit ZIP repaired) only "
+          "into a ZCTA of the row's own state, and is every '#N/A' or '0' ZIP invalid?", "leading-zero loss padded blindly / ZIP not checked (issue #70)", "new",
           "partial")
 def q_zip(ctx):
     """Reads the committed Census table data/reference/zcta2020_states.csv itself (not through
     the parser) and checks each row: zip_status valid / state_mismatch / not_a_zcta must agree
     with whether the 5-digit zip is a ZCTA; padded must be '0' + a 4-digit postal_code, a ZCTA,
     and in the state the row's two-letter (or spelled-out) state names; trimmed must be the first
-    five digits of a hyphenated ragged ZIP+4, a ZCTA, in that state; '#N/A' and '0' must be
+    five digits of a ragged ZIP+4 (hyphen, '=' or 'ZipCode2:'), a ZCTA, in that state;
+    repaired_extra_digit must be the only one-digit deletion of a 6-digit postal_code that is a
+    ZCTA in that state, ambiguous_extra_digit must have no zip and list every such deletion (two
+    or more) in zip_candidates; '#N/A' and '0' must be
     invalid with no zip. Partial: the Census table is derived by this repo's code/zcta_states.py
     (its source file's sha256 is in source/census-zcta/MANIFEST.csv). Reports counts by status."""
     zctas = _census_zctas()
@@ -1233,6 +1247,9 @@ def q_zip(ctx):
             and state in zctas[z],
             "trimmed": _AUDIT_RAGGED.fullmatch(raw) is not None and z == raw[:5] and z in zctas
             and state in zctas[z],
+            "repaired_extra_digit": _audit_deletions(raw, state, zctas) == [z],
+            "ambiguous_extra_digit": z == "" and len(_audit_deletions(raw, state, zctas)) > 1
+            and r.get("zip_candidates", "") == ";".join(_audit_deletions(raw, state, zctas)),
             "invalid": z == "",
             "blank": raw == "" and z == "",
         }.get(st, False)
@@ -1329,17 +1346,17 @@ def q_member_substring_ids(ctx):
     return result("finding" if hits else "pass", len(hits), hits,
                   f"{pairs} nested name pairs checked, e.g. Levin (7567) / Levine (7634).")
 
-@question("G11", "Is a ragged ZIP+4 ('11203-', '11217-11217', '10027-000') trimmed to its first five "
-          "digits only when they are a 2020 ZCTA in the row's own state, every other one left "
-          "invalid, and nothing else trimmed?", "ZIP+4 truncation guessed / ZIP lost (issue #70)",
+@question("G11", "Is a ragged ZIP+4 ('11203-', '11217-11217', '10027-000', '11231=1020', "
+          "'11413 ZipCode2: 3929') trimmed to its first five digits only when they are a 2020 ZCTA "
+          "in the row's own state, every other one left invalid, and nothing else trimmed?", "ZIP+4 truncation guessed / ZIP lost (issue #70)",
           "new", "partial")
 def q_zip_trim(ctx):
     """For every postal_code that begins with five digits and is not a plain 5-digit ZIP or a
-    ZIP+4, reads its own verdict from the committed Census table: a hyphenated ragged ZIP+4 whose
-    first five are a ZCTA in the row's state must be `trimmed` (else it is a ZIP the dataset
-    lost); any other must not be. Lists, apart, the five-digit-led values that are left invalid
-    because they are not the hyphenated form ('11231=1020', '11413 ZipCode2: 3929', six-digit
-    typos), for a human. Partial: same Census table as G7."""
+    ZIP+4, reads its own verdict from the committed Census table: a ragged ZIP+4 (hyphen, '=' or
+    'ZipCode2:') whose first five are a ZCTA in the row's state must be `trimmed` (else it is a
+    ZIP the dataset lost); any other must not be. Lists, apart, the five-digit-led values that
+    are not trimmed, with their status (six-digit values are G12's), for a human. Partial: same
+    Census table as G7."""
     zctas = _census_zctas()
     known = set().union(*zctas.values())
     bad, trimmed, kept = [], collections.Counter(), collections.Counter()
@@ -1351,12 +1368,51 @@ def q_zip_trim(ctx):
         should = bool(_AUDIT_RAGGED.fullmatch(raw)) and z in zctas and state in zctas[z]
         if should != (st == "trimmed"):
             bad.append(f"{ref(r)} postal_code={raw!r} state={r['state']!r} -> {st!r}")
-        (trimmed if st == "trimmed" else kept)[raw] += 1
+        if st == "trimmed":
+            trimmed[raw] += 1
+        elif not re.fullmatch(r"\d{6}", raw):
+            kept[f"{raw!r} {st}"] += 1
     return result("finding" if bad else "pass", len(bad), bad,
                   f"{sum(trimmed.values())} rows trimmed ({len(trimmed)} values: "
                   + ", ".join(f"{k!r} {n}" for k, n in sorted(trimmed.items(), key=lambda kv: (-kv[1], kv[0])))
-                  + f"); {sum(kept.values())} five-digit-led rows left invalid, not the hyphenated "
-                  f"form: " + ", ".join(f"{k!r} {n}" for k, n in sorted(kept.items(), key=lambda kv: (-kv[1], kv[0])))
+                  + f"); {sum(kept.values())} other five-digit-led rows, not trimmed: "
+                  + ", ".join(f"{k} x{n}" for k, n in sorted(kept.items(), key=lambda kv: (-kv[1], kv[0])))
+                  + ".")
+
+
+@question("G12", "Is a 6-digit ZIP ('111691') repaired only when exactly one one-digit deletion is "
+          "a 2020 ZCTA in the row's own state, left without a zip (candidates listed) when more "
+          "than one is, and invalid when none is?", "extra-digit typo guessed / ZIP lost "
+          "(issue #70)", "new", "partial")
+def q_zip_extra_digit(ctx):
+    """For every 6-digit postal_code, computes from the committed Census table every distinct
+    value made by deleting one digit (any position; the extra digit is leading in '111691',
+    trailing in '115300', inside in '100665') that is a ZCTA in the row's state: one ->
+    `repaired_extra_digit` with that zip; two or more -> `ambiguous_extra_digit`, no zip, all of
+    them in zip_candidates, never one picked; none, or no state -> `invalid`. Reports each
+    value's outcome. Partial: same Census table as G7."""
+    zctas = _census_zctas()
+    known = set().union(*zctas.values())
+    bad, seen = [], collections.Counter()
+    for r in ctx["csv"]:
+        raw, st, z = r["postal_code"], r.get("zip_status"), r.get("zip", "")
+        if not re.fullmatch(r"\d{6}", raw):
+            continue
+        d = _audit_deletions(raw, _audit_state(r["state"], known), zctas)
+        cands = r.get("zip_candidates", "")
+        want = (("repaired_extra_digit", d[0], "") if len(d) == 1 else
+                ("ambiguous_extra_digit", "", ";".join(d)) if d else ("invalid", "", ""))
+        if (st, z, cands) != want:
+            bad.append(f"{ref(r)} postal_code={raw!r} state={r['state']!r} -> {st!r} {z!r} "
+                       f"{cands!r}, expected {want}")
+        seen[(raw, st, z or cands)] += 1
+    out = collections.Counter()
+    for (_, st, _), n in seen.items():
+        out[st] += n
+    return result("finding" if bad else "pass", len(bad), bad,
+                  f"{sum(seen.values())} six-digit rows ({len(seen)} values): {dict(sorted(out.items()))}; "
+                  + ", ".join(f"{raw!r} -> {st} {v} x{n}" for (raw, st, v), n in
+                              sorted(seen.items(), key=lambda kv: (kv[0][1], -kv[1], kv[0][0])))
                   + ".")
 
 

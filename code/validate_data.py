@@ -144,8 +144,8 @@ TYPES = {
         # and source_row is a unique positive integer (it is the provenance pointer).
         cols=["fiscal_year", "mocs_id", "source", "council_member", "council_member_id",
               "council_member_type", "legal_name", "ein", "status", "status_norm", "amount", "agency", "program_name", "address1",
-              "address2", "city", "state", "postal_code", "zip", "zip_status", "purpose",
-              "fiscal_conduit", "fiscal_conduit_ein", "source_file", "source_row",
+              "address2", "city", "state", "postal_code", "zip", "zip_status", "zip_candidates",
+              "purpose", "fiscal_conduit", "fiscal_conduit_ein", "source_file", "source_row",
               "duplicate_group"],
         ein="ein", amounts=["amount"], rule="positive", year_col="fiscal_year"),
     "capital": dict(
@@ -479,11 +479,38 @@ MEMBER_TYPES = {"member", "member_outside_fy", "ambiguous", "unresolved", "speak
 MEMBER_ID_TYPES = {"member", "member_outside_fy"}
 # GitHub #70: zip / zip_status are derived from postal_code + state (code/zcta_states.py). A
 # status with a value carries a 5-digit zip taken from the published postal_code (or, padded,
-# '0' + it; trimmed, the first five digits of a ragged ZIP+4 such as '11203-'); the others
-# carry none.
-ZIP_STATUS = {"valid", "padded", "trimmed", "not_a_zcta", "state_mismatch", "invalid", "blank"}
-ZIP_HAS_VALUE = {"valid", "padded", "trimmed", "not_a_zcta", "state_mismatch"}
-RAGGED_ZIP4 = re.compile(r"\d{5}\s*-\s*(?!\d{4}$)\d*")
+# '0' + it; trimmed, the first five digits of a ragged ZIP+4 such as '11203-' or '11231=1020';
+# repaired_extra_digit, a 6-digit value with one digit deleted); the others carry none.
+# ambiguous_extra_digit carries no zip but two or more such deletions in zip_candidates, and
+# zip_candidates is blank on every other row.
+ZIP_STATUS = {"valid", "padded", "trimmed", "repaired_extra_digit", "ambiguous_extra_digit",
+              "not_a_zcta", "state_mismatch", "invalid", "blank"}
+ZIP_HAS_VALUE = {"valid", "padded", "trimmed", "repaired_extra_digit", "not_a_zcta",
+                 "state_mismatch"}
+RAGGED_ZIP4 = re.compile(r"\d{5}(?:\s*-\s*(?!\d{4}$)\d*|\s*=\s*\d*|\s*ZipCode2:\s*\d*)")
+
+
+def _one_digit_deletions(raw):
+    """Every value made by deleting one digit of a 6-digit `raw` (empty set otherwise)."""
+    if not re.fullmatch(r"\d{6}", raw):
+        return set()
+    return {raw[:i] + raw[i + 1:] for i in range(6)}
+
+
+def _zip_fits(postal, zv, zs, cands):
+    """True when a row's zip / zip_status / zip_candidates agree with its postal_code."""
+    if zs not in ZIP_STATUS or bool(re.fullmatch(r"\d{5}", zv)) != (zs in ZIP_HAS_VALUE):
+        return False
+    if zs == "ambiguous_extra_digit":
+        c = cands.split(";")
+        return len(c) >= 2 and c == sorted(set(c)) and set(c) <= _one_digit_deletions(postal)
+    if cands:
+        return False
+    if zs == "repaired_extra_digit":
+        return zv in _one_digit_deletions(postal)
+    if zv and zs != "padded" and not postal.startswith(zv):
+        return False
+    return not (zs == "trimmed" and not RAGGED_ZIP4.fullmatch(postal))
 EXCEL_ERROR = re.compile(r"#(?:N/A|REF!|VALUE!|DIV/0!|NAME\?|NUM!|NULL!|SPILL!|CALC!|GETTING_DATA)")
 
 
@@ -496,7 +523,8 @@ def _check_disclosure(res, body, header, idx):
       - source_row is a unique positive integer -- it is how a reader finds the row in the
         workbook, so a duplicate or a blank breaks provenance."""
     if not all(c in idx for c in ("status", "status_norm", "fiscal_year", "source_row",
-                                  "duplicate_group", "zip", "zip_status", "council_member_id",
+                                  "duplicate_group", "zip", "zip_status", "zip_candidates",
+                                  "council_member_id",
                                   "council_member_type")):
         return  # schema check already failed hard; value checks would be noise
     bad_norm, bad_year, bad_row, seen, dup_rows = [], [], [], set(), []
@@ -521,9 +549,7 @@ def _check_disclosure(res, body, header, idx):
                 or (mt == "blank") != (r[idx["council_member"]].strip() == ""):
             bad_member.append((ln, r[idx["council_member"]], mid, mt))
         zs, zv = r[idx["zip_status"]], r[idx["zip"]]
-        if zs not in ZIP_STATUS or bool(re.fullmatch(r"\d{5}", zv)) != (zs in ZIP_HAS_VALUE) \
-                or (zv and zs != "padded" and not r[idx["postal_code"]].startswith(zv)) \
-                or (zs == "trimmed" and not RAGGED_ZIP4.fullmatch(r[idx["postal_code"]])):
+        if not _zip_fits(r[idx["postal_code"]], zv, zs, r[idx["zip_candidates"]]):
             bad_zip.append((ln, r[idx["postal_code"]], zv, zs))
         if r[idx["duplicate_group"]]:
             groups[r[idx["duplicate_group"]]] += 1

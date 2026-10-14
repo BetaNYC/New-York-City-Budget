@@ -64,6 +64,8 @@ const ZIP_STATUS_NOTE: Record<string, string> = {
   valid: "a 2020 Census ZCTA",
   padded: "leading zero restored; in-state 2020 ZCTA",
   trimmed: "first five digits of a ragged ZIP+4; in-state 2020 ZCTA",
+  repaired_extra_digit: "six digits printed; the only one-digit deletion that is an in-state 2020 ZCTA",
+  ambiguous_extra_digit: "six digits printed; more than one one-digit deletion is an in-state 2020 ZCTA, none picked",
   not_a_zcta: "not a 2020 ZCTA: not verified, not fake (PO-box ZIPs have none)",
   state_mismatch: "a 2020 ZCTA in another state than the row's",
   invalid: "no ZIP could be read from the cell",
@@ -77,7 +79,8 @@ function addressLine(r: DisclosureRow): string {
   const printed = [street, tail].filter((x) => x !== "").join(", ") || "(none printed)";
   return (
     `\n    grantee mailing address: ${printed}` +
-    ` · zip ${r.zip || "—"} (${r.zip_status}: ${ZIP_STATUS_NOTE[r.zip_status] ?? "unknown status"})`
+    ` · zip ${r.zip || "—"} (${r.zip_status}: ${ZIP_STATUS_NOTE[r.zip_status] ?? "unknown status"})` +
+    (r.zip_candidates ? ` · candidates ${r.zip_candidates.split(";").join(", ")}` : "")
   );
 }
 
@@ -380,12 +383,12 @@ export const TOOLS = [
         program_name: { type: "string", description: "Program name (substring)" },
         zip: {
           type: "string",
-          description: "Grantee mailing ZIP, exactly 5 digits (anything else is an error). Matches the 5-digit zip derived from the published postal_code (ZIP+4 read to its first five; a 4-digit ZIP padded, or a ragged ZIP+4 trimmed, only into a 2020 ZCTA of the row's own state). Rows whose zip_status is invalid or blank have no zip and never match. A mailing address, not where services were delivered.",
+          description: "Grantee mailing ZIP, exactly 5 digits (anything else is an error). Matches the 5-digit zip derived from the published postal_code (ZIP+4 read to its first five; a 4-digit ZIP padded, a ragged ZIP+4 trimmed, or a 6-digit ZIP repaired, only into a 2020 ZCTA of the row's own state). Rows whose zip_status is ambiguous_extra_digit, invalid or blank have no zip and never match. A mailing address, not where services were delivered.",
         },
         zip_status: {
           type: "string",
           enum: [...ZIP_STATUSES],
-          description: "How the zip was read, checked against the Census 2020 ZCTAs: valid, padded (leading zero restored), trimmed (ragged ZIP+4 such as '11203-'), not_a_zcta (not verified, not fake: PO-box ZIPs have no ZCTA), state_mismatch, invalid (no ZIP readable), blank (none printed).",
+          description: "How the zip was read, checked against the Census 2020 ZCTAs: valid, padded (leading zero restored), trimmed (ragged ZIP+4 such as '11203-', '11231=1020' or '11413 ZipCode2: 3929'), repaired_extra_digit (6 digits printed; exactly one one-digit deletion is an in-state ZCTA, e.g. '111691' -> 11691), ambiguous_extra_digit (6 digits; two or more deletions are, e.g. '114345' -> 11434 or 11435; no zip, candidates shown on the row), not_a_zcta (not verified, not fake: PO-box ZIPs have no ZCTA), state_mismatch, invalid (no ZIP readable), blank (none printed).",
         },
         city: {
           type: "string",

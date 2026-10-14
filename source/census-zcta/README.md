@@ -8,7 +8,7 @@ tags: [nyc-budget, expense-disclosure, census, zcta]
 # Census 2020 ZCTA-to-County relationship file
 
 Used for one thing: checking the ZIP codes in the expense disclosure
-(`data/fyNN/expense_disclosure/`, columns `zip` and `zip_status`; GitHub #70).
+(`data/fyNN/expense_disclosure/`, columns `zip`, `zip_status` and `zip_candidates`; GitHub #70).
 
 ## What was downloaded, once
 

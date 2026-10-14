@@ -149,13 +149,18 @@ def read_manifest(path=MANIFEST):
 
 # ---------------------------------------------------------------- ZIP status (GitHub #70)
 
-ZIP_STATUSES = ("valid", "padded", "trimmed", "not_a_zcta", "state_mismatch", "invalid", "blank")
+ZIP_STATUSES = ("valid", "padded", "trimmed", "repaired_extra_digit", "ambiguous_extra_digit",
+                "not_a_zcta", "state_mismatch", "invalid", "blank")
 _ZIP5 = re.compile(r"(\d{5})")
 _ZIP9 = re.compile(r"(\d{5})(?:\s*-\s*\d{4}|\d{4})")
-# A ragged ZIP+4: five digits, a hyphen, then digits that are not exactly four ('11203-',
-# '10027-000', '11217-11217', '11102-20'). Only the hyphenated form counts; '11231=1020',
-# '11413 ZipCode2: 3929' and six-digit typos ('111691') are not read as one.
-_RAGGED = re.compile(r"(\d{5})\s*-\s*(?!\d{4}$)\d*")
+# A ragged ZIP+4: five digits, a ZIP+4 separator, then digits. The separators are the three the
+# workbooks print, FY2013-FY2027 (2026-10-12 re-pull): a hyphen ('11203-', '10027-000',
+# '11217-11217', '11102-20'; a hyphen and exactly four digits is an ordinary ZIP+4, _ZIP9), an
+# equals sign ('11231=1020', FY2018) and the label 'ZipCode2:' ('11413 ZipCode2: 3929',
+# '11233 ZipCode2: 150', FY2015). Nothing else is read as a separator: '10310`', '10465ww',
+# '10448448' and six-digit typos ('111691') are not ZIP+4.
+_RAGGED = re.compile(r"(\d{5})(?:\s*-\s*(?!\d{4}$)\d*|\s*=\s*\d*|\s*ZipCode2:\s*\d*)")
+_ZIP6 = re.compile(r"\d{6}")
 
 
 def row_state(state):
@@ -176,7 +181,21 @@ def row_state(state):
 
 
 def classify_zip(postal_code, state, zctas):
-    """(zip, zip_status) for one row. `postal_code` is kept as published, elsewhere; this only
+    """(zip, zip_status) for one row: derive_zip without the candidates."""
+    return derive_zip(postal_code, state, zctas)[:2]
+
+
+def extra_digit_candidates(digits, st, zctas):
+    """Every distinct 5-digit value made by deleting one digit of a 6-digit `digits` that is a
+    2020 ZCTA in state `st`, sorted. Position is not assumed: the extra digit is leading in
+    '111691', trailing in '115300', inside in '100665'."""
+    out = {digits[:i] + digits[i + 1:] for i in range(len(digits))}
+    return sorted(z for z in out if z in zctas and st in zctas[z])
+
+
+def derive_zip(postal_code, state, zctas):
+    """(zip, zip_status, zip_candidates) for one row; zip_candidates is ';'-joined and set only
+    for ambiguous_extra_digit. `postal_code` is kept as published, elsewhere; this only
     derives. Rules (DATA-DICTIONARY):
       blank           the cell is empty
       valid           5 digits, or ZIP+4 ('10001-1234', '10001 - 1234', '100011234'), whose
@@ -188,34 +207,49 @@ def classify_zip(postal_code, state, zctas):
                       zip = the five digits
       padded          4 digits, and '0' + those digits is a 2020 ZCTA in the row's state (an
                       Excel number that lost its leading zero); zip = the padded value
-      trimmed         a ragged ZIP+4 (_RAGGED: '11203-', '11217-11217', '10027-000') whose first
-                      five digits are a 2020 ZCTA in the row's state; zip = those five digits.
-                      Not trimmed when the row names no state or the ZCTA is elsewhere.
+      trimmed         a ragged ZIP+4 (_RAGGED: '11203-', '11217-11217', '10027-000',
+                      '11231=1020', '11413 ZipCode2: 3929') whose first five digits are a 2020
+                      ZCTA in the row's state; zip = those five digits. Not trimmed when the row
+                      names no state or the ZCTA is elsewhere.
+      repaired_extra_digit
+                      6 digits, and exactly one of the values made by deleting one digit (any
+                      position: '111691' -> 11691, '115300' -> 11530, '100665' -> 10065) is a
+                      2020 ZCTA in the row's state; zip = that value
+      ambiguous_extra_digit
+                      6 digits, and more than one deletion is such a ZCTA ('114345' -> 11434 or
+                      11435); zip = '', the candidates go to zip_candidates. Never picked.
       invalid         anything else: 4 digits that do not pad to an in-state ZCTA (or whose row
-                      names no state), a ragged ZIP+4 that does not trim to one, '0', '#N/A', a
-                      name, a URL; zip = ''"""
+                      names no state), a ragged ZIP+4 that does not trim to one, 6 digits with
+                      no in-state deletion (or whose row names no state), '0', '#N/A', a name,
+                      a URL; zip = ''"""
     raw = (postal_code or "").strip()
     if raw == "":
-        return "", "blank"
+        return "", "blank", ""
     st = row_state(state)
     m = _ZIP5.fullmatch(raw) or _ZIP9.fullmatch(raw)
     if m:
         z = m.group(1)
         if z not in zctas:
-            return z, "not_a_zcta"
+            return z, "not_a_zcta", ""
         if st and st not in zctas[z]:
-            return z, "state_mismatch"
-        return z, "valid"
+            return z, "state_mismatch", ""
+        return z, "valid", ""
     if re.fullmatch(r"\d{4}", raw):
         z = "0" + raw
         if st and z in zctas and st in zctas[z]:
-            return z, "padded"
+            return z, "padded", ""
     m = _RAGGED.fullmatch(raw)
     if m:
         z = m.group(1)
         if st and z in zctas and st in zctas[z]:
-            return z, "trimmed"
-    return "", "invalid"
+            return z, "trimmed", ""
+    if st and _ZIP6.fullmatch(raw):
+        cands = extra_digit_candidates(raw, st, zctas)
+        if len(cands) == 1:
+            return cands[0], "repaired_extra_digit", ""
+        if len(cands) > 1:
+            return "", "ambiguous_extra_digit", ";".join(cands)
+    return "", "invalid", ""
 
 
 # ---------------------------------------------------------------- CLI

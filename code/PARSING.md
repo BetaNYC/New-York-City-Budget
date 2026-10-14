@@ -311,7 +311,7 @@ row the workbook prints; exact copies flagged in `duplicate_group`) and
 feeds or changes the Schedule C CSVs above. Schema: `DATA-DICTIONARY.md`.
 
 Three columns are **derived from committed reference tables**, never from the network, and the
-`--write` step reads them: `zip` / `zip_status` from `data/reference/zcta2020_states.csv`
+`--write` step reads them: `zip` / `zip_status` / `zip_candidates` from `data/reference/zcta2020_states.csv`
 (`code/zcta_states.py`, GitHub #70), and `council_member_id` / `council_member_type` from
 `data/disclosure_council_member_crosswalk.csv` (`code/build_member_crosswalk.py`, GitHub #72),
 which in turn reads the roster extract `data/reference/council_members_legistar.csv`

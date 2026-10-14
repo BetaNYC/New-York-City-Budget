@@ -14,6 +14,45 @@ never released. Anyone upgrading from the published package gets 1.4.0's change,
 that **rise** because appendix rows are returned, together with this one. Read the 1.4.0 entry
 below before comparing a figure with one published from 1.3.x.
 
+### What the disclosure data means (read before citing a figure)
+- **One snapshot.** Every disclosure row comes from the Council workbooks retrieved on
+  2026-10-12. No row from an earlier pull is mixed in. Each answer names the file, sheet,
+  retrieval date and sha256 prefix it used.
+- **Addresses are grantee mailing addresses**, as the Council printed them. They are not where
+  services were delivered. `zip`, `city` and `zip_status` describe the mailing address only.
+- **`council_member` is the roster when the workbook was exported**, not necessarily the member
+  who made the designation. `council_member_id` is the Legistar person that printed name
+  resolves to for that fiscal year; `council_member_type` says why a row has no ID (`ambiguous`,
+  `unresolved`, a delegation, a district label) or that the person had no recorded vote that
+  year (`member_outside_fy`). A name two members carried in the same year is never guessed.
+- **FY2021 bare `Diaz` is Ruben Diaz, Sr. (Legistar 7744)**, by a recorded file convention
+  (decision 2026-10-13), not by the general rule. Both Diazes voted in FY2021, but the same
+  workbook prints Darma V. Diaz as `D. Diaz`, so bare `Diaz` (123 rows) is read as the other one.
+  The grantee addresses point the same way (of `Diaz`'s 46 Local rows, 18 have city Bronx; of
+  `D. Diaz`'s 24, 14 are Brooklyn and none Bronx). Those are mailing addresses, so they support
+  the reading; they do not prove it. The index build stops if that evidence changes.
+- **`duplicate_group`** marks rows that are exact copies of another row in every published field
+  (662 rows in 321 groups, FY2013 to FY2023). All copies are kept and counted in totals; the
+  answer says how many matched rows are copies and how much lies beyond the first of each group.
+- **A soft hyphen is published as `-`.** 211 cells held an invisible soft hyphen that had lost
+  its glyph. It now reads as a hyphen, so Queens house numbers such as `12-11 40th Avenue` keep
+  it (earlier builds printed `1211 40th Avenue`).
+- **`#N/A` is kept as text.** 37 cells hold the Excel error `#N/A`. They are shown as printed,
+  never blanked and never read as a ZIP or a number.
+- **`zip` and `zip_status`.** `postal_code` is the cell as printed and is never changed. `zip` is
+  a 5-digit ZIP read from it and checked against the Census Bureau's 2020 ZIP Code Tabulation
+  Areas (ZCTAs), from the 2020 ZCTA-to-County relationship file (URL, date and sha256 in
+  `source/census-zcta/MANIFEST.csv`). `zip_status` says how: `valid` (a ZCTA, in the row's
+  state when one is named); `padded` (4 digits that lost a leading zero, padded only into an
+  in-state ZCTA); `trimmed` (a ragged ZIP+4 such as `11203-`, `11231=1020` or
+  `11413 ZipCode2: 3929`, cut to its first five digits only when they are an in-state ZCTA);
+  `repaired_extra_digit` (6 digits where exactly one one-digit deletion is an in-state ZCTA,
+  such as `111691` to 11691); `ambiguous_extra_digit` (6 digits where two or more are, such as
+  `114345` to 11434 or 11435; no zip, the candidates shown, none picked); `not_a_zcta` (a
+  well-formed ZIP with no ZCTA, such as a PO-box ZIP: not verified, not fake); `state_mismatch`
+  (a ZCTA in another state than the row's); `invalid` (nothing readable); `blank` (nothing
+  printed).
+
 ### Added
 - **`search_disclosure_awards`** — the NYC Council's expense funding disclosure, FY2013–FY2027:
   the Council's own award-level workbooks (`source/expense-funding-disclosure/`), parsed by
@@ -54,20 +93,25 @@ below before comparing a figure with one published from 1.3.x.
 - **Grantee addresses, and filters on them** (2026-10-13). Each `search_disclosure_awards` row
   now shows the grantee's mailing address as printed (`address1`, `address2`, `city`, `state`,
   `postal_code`) with the derived 5-digit `zip` and its `zip_status` (`valid`, `padded`,
-  `trimmed`, `not_a_zcta`, `state_mismatch`, `invalid`, `blank`; rules in DATA-DICTIONARY). New
+  `trimmed`, `repaired_extra_digit`, `ambiguous_extra_digit`, `not_a_zcta`, `state_mismatch`,
+  `invalid`, `blank`; rules in DATA-DICTIONARY), plus the candidate ZIPs on an
+  `ambiguous_extra_digit` row. New
   filters: `zip` (exactly 5 digits, on the derived zip; a ZIP+4 or 4-digit value is an error
   that names the five digits to use, never trimmed or padded by the tool), `zip_status` (one of
-  the seven), and `city` (exact, case- and surrounding-whitespace-insensitive; not a substring,
+  the nine), and `city` (exact, case- and surrounding-whitespace-insensitive; not a substring,
   so `Brooklyn,` and `Brooklyn NY` as printed are different values). Alias hints:
   `postal_code` and `zip_code` → `zip`. The caveat line now says the address is a mailing
   address, not where services were delivered. The index build stops on a `zip_status` outside
-  the seven or a `zip` that does not fit its status.
-- `test/disclosure.test.js` +5 tests (every row's address, zip and zip_status indexed exactly as
+  the nine, a `zip` that does not fit its status, or `zip_candidates` on any status but
+  `ambiguous_extra_digit` (or missing from it).
+- `test/disclosure.test.js` +6 tests (every row's address, zip, zip_status and zip_candidates indexed exactly as
   the CSV has them; zip / zip_status / city filters; the row's address line). Audit question M13
   in `test/disclosure-audit.test.js` (zip totals exact to the cent; every zip_status count).
   Mutation-checked: filtering `postal_code` instead of `zip`, a substring or case-sensitive
   `city`, dropping the `zip_status` filter or the 5-digit guard, dropping the address line,
-  rewriting `postal_code` in the index, and blanking trimmed zips each fail at least one test.
+  rewriting `postal_code` in the index, blanking trimmed zips, giving an ambiguous row one of
+  its candidates as its zip, and dropping the candidates from the row each fail at least one
+  test.
 
 ### Fixed (found by the disclosure audit before release)
 - **`ein` must be 9 digits.** `ein: "N/A"` normalized to `""` and matched the 6 rows with a blank
