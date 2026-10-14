@@ -18,6 +18,7 @@ retired with the rest of Schedule C, and 1.5.0's `search_disclosure_awards` ship
 notes are folded in below and kept, as written, in the 1.5.0 entry).
 
 ### Breaking changes
+- **Node 22 or newer is required** (`engines` was `>=18`). Node 18 and Node 20 are past end of life. CI now tests Node 22 and 24.
 - **Six tools removed.** Calling one returns an error that names its replacement.
 
   | 1.x tool | In 2.0.0 |

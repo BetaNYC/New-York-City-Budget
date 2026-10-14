@@ -236,7 +236,7 @@ Published to npm by CI, never from a laptop:
   `npm publish --provenance --access public` from `mcp/`, then cuts a GitHub Release.
 - **To release** after the version-bump PR merges: `git tag mcp-v<version>` and
   `git push origin mcp-v<version>`.
-- **CI**: `.github/workflows/ci.yml` builds and tests `mcp/` on Node 20 and 22 for every PR into
+- **CI**: `.github/workflows/ci.yml` builds and tests `mcp/` on Node 22 and 24 for every PR into
   `main` that touches `mcp/` or the data the index is built from.
 
 ## About BetaNYC
