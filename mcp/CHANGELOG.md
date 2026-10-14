@@ -111,6 +111,14 @@ notes are folded in below and kept, as written, in the 1.5.0 entry).
 - `package.json`: version 2.0.0, description and keywords; the `enrich-crosswalk` script is
   gone. The 1.x tests and `scripts/enrich-crosswalk.mjs` are parked in `retired-1.x/` (not run,
   not shipped).
+- **The index build fails loud and installs atomically.** `build-index.mjs` builds into a temp
+  file, checks it with `scripts/verify-index.mjs` (a dataset with 0 rows, a loaded
+  `data/disclosure_years.csv` year missing or short, or a published capital report year missing,
+  is a stop), and only then renames it over `data/budget.db`. A failed build leaves the previous
+  index in place. Found on Node 20 CI: npm 10 runs `prepare` even on `npm pack --ignore-scripts`,
+  so the tarball test rebuilt the index (delete, then refill in place) while other test files
+  read it, and they answered "The Council capital list covers (none)". `prepare` is now
+  `scripts/prepare.mjs`, which honors `--ignore-scripts`.
 
 ### Data sources
 - NYC Council expense funding disclosure workbooks, FY2013–FY2027, from

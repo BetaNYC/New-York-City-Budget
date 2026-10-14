@@ -18,20 +18,28 @@
  * Every file read is recorded in meta.inputs, and test/no-pdf-data.test.js fails if one of them
  * is not on the structured allowlist.
  *
- * Idempotent: the .db (and its WAL sidecars) is deleted and rebuilt on every run.
+ * Idempotent and atomic: the index is built into a sibling temp file, checked by
+ * scripts/verify-index.mjs (a dataset with 0 rows, or a declared year that is missing, is a stop),
+ * and only then renamed over data/budget.db. A failed build leaves the previous index in place,
+ * and a reader that opens data/budget.db during a rebuild sees the old file or the new one, never
+ * a half-built or empty one (#95: on npm 10, `npm pack --ignore-scripts` still runs `prepare`, and
+ * the test suite's rebuild emptied the index under the test files reading it in parallel).
  * CSV parsing uses csv-parse (RFC 4180): names contain quoted commas.
  */
 import { parse } from "csv-parse/sync";
 import Database from "better-sqlite3";
 import { createHash } from "crypto";
-import { readFileSync, existsSync, rmSync, mkdirSync } from "fs";
+import { readFileSync, existsSync, rmSync, mkdirSync, renameSync } from "fs";
 import { join, dirname, basename } from "path";
 import { fileURLToPath } from "url";
+import { verifyIndex } from "./verify-index.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MCP_ROOT = join(__dirname, "..");
 const REPO = join(MCP_ROOT, "..");
 const DB_PATH = join(MCP_ROOT, "data", "budget.db");
+/** Built here, verified, then renamed over DB_PATH. Same directory, so the rename is atomic. */
+const TMP_PATH = `${DB_PATH}.building-${process.pid}`;
 
 /** Every repo-relative file this build reads, in order (meta.inputs). */
 const INPUTS = [];
@@ -176,14 +184,26 @@ function manifestFor(rel, manifests) {
 
 function main() {
   mkdirSync(dirname(DB_PATH), { recursive: true });
-  // Idempotent rebuild: drop the db AND its WAL sidecars (a stale -wal makes the next open fail
-  // with SQLITE_IOERR_SHORT_READ on network volumes).
+  removeDb(TMP_PATH);
+  try {
+    build();
+  } catch (err) {
+    removeDb(TMP_PATH);
+    throw err;
+  }
+}
+
+/** A db file AND its WAL sidecars (a stale -wal makes the next open fail with
+ * SQLITE_IOERR_SHORT_READ on network volumes). */
+function removeDb(path) {
   for (const suffix of ["", "-wal", "-shm"]) {
-    const f = DB_PATH + suffix;
+    const f = path + suffix;
     if (existsSync(f)) rmSync(f);
   }
+}
 
-  const db = new Database(DB_PATH);
+function build() {
+  const db = new Database(TMP_PATH);
   db.pragma("journal_mode = WAL");
   db.exec(`
     CREATE TABLE disclosure (
@@ -432,7 +452,20 @@ function main() {
 
   // Rewrite the file without the free and part-filled pages row-by-row inserts leave behind.
   db.exec("VACUUM");
+
+  // Fail loud before the index can ship: 0 rows, or a declared year missing, is a stop.
+  const capitalRowsByYear = new Map();
+  for (const r of cap) capitalRowsByYear.set(Number(r.report_year), (capitalRowsByYear.get(Number(r.report_year)) ?? 0) + 1);
+  const problems = verifyIndex(db, { disclosureYears: years, capitalRowsByYear });
   db.close();
+  if (problems.length) {
+    log("verify_failed", { problems });
+    throw new Error(`build-index: the built index failed verification; data/budget.db was not replaced:\n  - ${problems.join("\n  - ")}`);
+  }
+
+  // Install: drop the old file's sidecars, then atomically replace it.
+  for (const suffix of ["-wal", "-shm"]) if (existsSync(DB_PATH + suffix)) rmSync(DB_PATH + suffix);
+  renameSync(TMP_PATH, DB_PATH);
   log("built", { db: DB_PATH, counts, inputs: INPUTS.length });
 }
 

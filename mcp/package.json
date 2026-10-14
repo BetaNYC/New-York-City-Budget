@@ -40,7 +40,7 @@
     "build-index": "node scripts/build-index.mjs",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
-    "prepare": "npm run build && npm run build-index",
+    "prepare": "node scripts/prepare.mjs",
     "pretest": "npm run build && npm run build-index",
     "test": "node --test test/*.test.js"
   },

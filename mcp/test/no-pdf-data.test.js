@@ -9,7 +9,7 @@
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import Database from "better-sqlite3";
@@ -66,8 +66,13 @@ test("every file the index build read is a structured source, and none is PDF-de
 
 test("the npm tarball ships the code and the structured index only", () => {
   // FAILS if `npm pack` would ship a CSV, a retired script or test, a PDF, or anything beyond
-  // the six expected files. --ignore-scripts: the index was already built by pretest.
-  const out = execFileSync("npm", ["pack", "--dry-run", "--json", "--ignore-scripts"], { cwd: MCP, encoding: "utf8" });
+  // the six expected files. --ignore-scripts: the index was already built by pretest, and a
+  // rebuild here would race the other test files reading it (#95: npm 10 runs `prepare` on
+  // `pack --ignore-scripts`; scripts/prepare.mjs now honors the flag).
+  const r = spawnSync("npm", ["pack", "--dry-run", "--json", "--ignore-scripts"], { cwd: MCP, encoding: "utf8", shell: process.platform === "win32" });
+  assert.equal(r.status, 0, r.stderr);
+  assert.doesNotMatch(r.stderr, /"script":"build-index"|> tsc/, "npm pack --ignore-scripts must not rebuild");
+  const out = r.stdout;
   const files = JSON.parse(out)[0].files.map((f) => f.path).sort();
   assert.deepEqual(files, ["README.md", "data/budget.db", "dist/db.js", "dist/index.js", "dist/server.js", "package.json"]);
   for (const f of files) assert.ok(!PDF_DERIVED.some((re) => re.test(f)), f);
