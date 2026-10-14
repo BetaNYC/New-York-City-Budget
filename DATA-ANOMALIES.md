@@ -380,7 +380,8 @@ Both carry confidence and provenance columns. Nothing already published moved.
 
 ## 22. Expense disclosure dataset — what the Council's workbooks settle, and what they do not
 
-`data/{year}/expense_disclosure/` (FY2013–FY2027, 139,556 rows as retrieved 2026-10-12) is built from the Council's own
+`data/{year}/expense_disclosure/` (FY2013–FY2027, 139,556 rows as retrieved 2026-10-12; plus FY2009,
+FY2011 and FY2012, 16,988 rows from Internet Archive captures, §25) is built from the Council's own
 disclosure workbooks by `code/parse_expense_disclosure.py`. It is a **parallel** dataset; nothing
 in the Schedule C files moved. What a reader needs to know before using it:
 
@@ -438,6 +439,9 @@ in the Schedule C files moved. What a reader needs to know before using it:
 
   | FY | groups | rows flagged | beyond the first copy | dollars beyond the first copy |
   |---|---:|---:|---:|---:|
+  | 2009 | 97 | 373 | 276 | $2,512,897.68 |
+  | 2011 | 11 | 23 | 12 | $110,452.38 |
+  | 2012 | 11 | 22 | 11 | $89,000 |
   | 2013 | 9 | 20 | 11 | $178,875 |
   | 2014 | 18 | 36 | 18 | $138,000 |
   | 2015 | 17 | 35 | 18 | $1,775,350 |
@@ -449,7 +453,7 @@ in the Schedule C files moved. What a reader needs to know before using it:
   | 2021 | 19 | 42 | 23 | $337,186 |
   | 2022 | 40 | 80 | 40 | $1,373,189 |
   | 2023 | 43 | 87 | 44 | $566,189 |
-  | **all** | **321** | **662** | **341** | **$8,549,772** |
+  | **all** | **440** | **1,080** | **640** | **$11,262,122.06** |
 
   FY2024–FY2027: none. These are this repo's counts of the committed rows (each year's
   reconciliation report states them too), not Council figures.
@@ -504,6 +508,9 @@ in the Schedule C files moved. What a reader needs to know before using it:
 
   | FY | valid | padded | trimmed | repaired_extra_digit | ambiguous_extra_digit | not_a_zcta | state_mismatch | invalid | blank |
   |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+  | 2009 | 4,773 | 0 | 0 | 1 | 0 | 56 | 0 | 0 | 915 |
+  | 2011 | 5,221 | 0 | 0 | 0 | 0 | 62 | 0 | 1 | 136 |
+  | 2012 | 5,330 | 0 | 6 | 1 | 2 | 58 | 2 | 4 | 420 |
   | 2013 | 4,561 | 0 | 1 | 0 | 0 | 50 | 3 | 5 | 367 |
   | 2014 | 5,557 | 0 | 2 | 0 | 0 | 44 | 1 | 32 | 975 |
   | 2015 | 5,946 | 6 | 2 | 1 | 0 | 63 | 2 | 4 | 626 |
@@ -519,9 +526,14 @@ in the Schedule C files moved. What a reader needs to know before using it:
   | 2025 | 10,523 | 0 | 4 | 5 | 0 | 82 | 1 | 0 | 661 |
   | 2026 | 11,006 | 0 | 3 | 4 | 0 | 87 | 1 | 2 | 661 |
   | 2027 | 9,532 | 0 | 3 | 4 | 0 | 81 | 1 | 75 | 711 |
-  | **all** | **127,343** | **13** | **35** | **35** | **30** | **1,073** | **29** | **164** | **10,834** |
+  | **all** | **142,667** | **13** | **41** | **37** | **32** | **1,249** | **31** | **169** | **12,305** |
 
-  FY2027's 75 `invalid` are mostly the `0` ZIPs (69). The 29 `state_mismatch` rows are mostly a
+  The counts in the prose above this table are FY2013–FY2027. The archived FY2009–FY2012 rows
+  (§25) add 6 `trimmed` (`10009-10009`, `11205-11205`, `11238-11226`, and more of `11217-11217`
+  and `10033-10033`), 2 `repaired_extra_digit`, 2 `ambiguous_extra_digit` (`100215` → 10021 or
+  10025) and 2 `state_mismatch`, all under the same rules; audit questions G7, G11 and G12 list
+  every one.
+  FY2027's 75 `invalid` are mostly the `0` ZIPs (69). The 29 `state_mismatch` rows (FY2013–FY2027) are mostly a
   NYC ZIP on a row whose state cell names another state (`NC`, `NE`, `LA`, `MI`, `New JerseyNJ`
   on Staten Island addresses), plus a few out-of-state ZIPs on rows marked New York
   (`07087`, `08701`, `15050`, `19454`, `94110`). Street addresses are not checked; NYC Planning's GeoSearch would
@@ -632,7 +644,8 @@ number is this repo's arithmetic on committed or manifest-pinned files, not a Co
   $1,200,000 (ACS), both to the City's EIN with no address; Open Data carries the same two under
   MOCS ID `FY09 Not an Award`, the only rows with that ID. Decision (Noel Hidalgo, 2026-10-14):
   keep both, flag them `row_flag = not_an_award` (DATA-DICTIONARY). The rule is in
-  `code/parse_expense_disclosure.py` (`ROW_FLAGS`); the rows enter when FY2009 is added.
+  `code/parse_expense_disclosure.py` (`ROW_FLAGS`): FY2009 rows 523 and 4092, $1,733,000 in all,
+  still in every total. Audit question I3 checks the flag against Open Data's own rows.
 - **Open Data BBL `0`** (15 rows: FY2019 14, FY2010 1) is read as blank wherever this repo
   carries or profiles Open Data geocodes. No other geocode column holds an all-zero value.
 - **Open Data calls these rows "applications".** They are designations. The Council's actual
@@ -640,3 +653,56 @@ number is this repo's arithmetic on committed or manifest-pinned files, not a Co
   (`research/2026-10-14-wayback-council-files.md`), not in this dataset.
 - **The 2026-07-07 scoping note said Open Data's member names already match ours.** They do not;
   the note now says so (`research/2026-07-07-fy09-fy21-legacy-import-scoping.md`).
+
+---
+
+## 25. Expense disclosure FY2009, FY2011, FY2012 from the Internet Archive; FY2010 left out (GitHub #86, #89 A2, A3, A5)
+
+The RnD site serves FY2013 onward only. The Council's own workbooks for FY2009–FY2012 survive as
+Internet Archive captures (`source/wayback-council/`, `research/2026-10-14-wayback-council-files.md`).
+Three of the four are now in the dataset, parsed by the same parser with the same rules; each
+year's file, original URL, capture timestamp and sha256 are in `data/disclosure_years.csv`, and
+the build stops if a file's sha256 differs from `source/wayback-council/MANIFEST.csv`. Every
+number here is this repo's arithmetic on those files.
+
+- **FY2010 is not loaded.** The workbook has 2,592 rows ($111,558,052.58); NYC Open Data
+  `4d7f-74pe` has 5,981 rows ($357,820,611) for the year: 1,864 Local, 817 Youth and 561 Aging
+  rows the workbook lacks, and 180 matched rows whose address the workbook leaves blank. Both
+  archived copies (2016-12 and 2025-02) are identical, so this is what the Council published.
+  Mixing the two would make a year neither source published. **OPEN** until it is known which
+  is complete (decision #89 A3). The workbook stays in `source/wayback-council/files/` and its
+  counts are in `data/disclosure_years.csv` (`loaded = no`).
+- **FY2009 is an early snapshot** (as FY2013 is, §22): 1,389 of 5,745 rows are Pending
+  ($7,263,353.01 of $414,226,176.88, 1.8% of dollars), where Open Data, a later state of the same
+  rows, shows 24 Pending. The Council never revised the workbook. By dollars the gap is small,
+  but its statuses are not the year's outcome; `early_snapshot = yes`, and its Cleared total is
+  not a headline. Every FY2009–FY2012 pair of captures (2014–2016 and 2025) is content-identical.
+- **Statuses the later years do not use**, all `status_norm = other`, raw value kept: FY2011
+  `Government` 136 rows ($2.6M) and `Pending FC Clearance` 3; FY2012 `Government` 49 rows
+  ($235,206,318: City agencies as recipients; Open Data calls the same rows Cleared) and
+  `CBO Defunded` 155 rows, all $0 (Open Data dropped them). Neither file defines them. FY2012's
+  Cleared total ($150.7M) is therefore far below its rows' total ($386.8M); report `Government`
+  as its own line (#89 B4).
+- **Four EINs are not 9 digits, kept as published:** FY2009 `EX130314` (row 3075, Lynvets
+  Football), `EX123557` (4366, Regina Young at Heart), `11-31735A` (4912, St. Albans Presbyterian
+  Church); FY2011 `NA` (679, CBO Training). Which digits were meant is not in the file. The
+  validator lets exactly these four through (`PUBLISHED_ODD_EINS`). 46 EINs are blank (FY2009 25,
+  FY2011 13, FY2012 8). FY2011 and FY2012 store 150 EINs as numbers that lost a leading zero
+  (3 and 147), re-padded as in FY2013.
+- **Sub-cent amounts:** FY2009 carries 858 amounts with fractions (e.g. `7481.296758`), FY2011
+  205, FY2012 85; 483, 30 and 28 of them past the cent (audit E2). Kept as stored; Open Data
+  rounds them (to cents through FY2011, to dollars from FY2012), which is what `od_match` records.
+- **Council member values** (`council_member_type`, crosswalk): two rules were extended, both
+  generic and tested, never a per-name decision. A printed generational suffix must match
+  Legistar's (`Vallone, Jr` is Peter F. Vallone, Jr., 5271, never Paul A. Vallone); a surname
+  matches with spaces ignored when no exact surname exists (`DeBlasio` → Legistar's `de Blasio`,
+  5286). FY2009 prints Thomas White, Jr. both as `White` and `White, Jr` (both 6273). Still
+  `unresolved`, deliberately: `CC` (FY2009 240, FY2011 271, FY2012 252 rows; also FY2013 240),
+  the two-letter borough codes `BK` 18, `BX` 19, `MN` 54, `QN` 46 (FY2009), and three multi-member
+  values (`Barron & Eugene`, `Lappin, Koppell/Citywide`, and a nine-member FY2011 list, 51 rows).
+  Open Data spells `CC` as `Speaker` and `QN` as `Queens Delegation`; per #89 B6 that is
+  evidence, not the answer, so the reading is a question for the maintainer.
+- **Exact copies** are many more in FY2009 (97 groups, 373 rows; §22 table) than in any later
+  year. Kept and flagged as in every year.
+- **Duplicate Open Data MOCS IDs.** `od_mocs_id` repeats on two FY2009 pairs because Open Data
+  repeats the ID: `FY09 Not an Award` (§24) and `FY09 2039`.

@@ -271,14 +271,18 @@ def test_exact_copies_share_a_duplicate_group_issue_69(tmp_path, monkeypatch):
 
 
 def test_committed_duplicate_flags_issue_69():
-    """Corpus pin, from the committed CSVs. FAILS if the exact-copy count moves from 321 groups /
-    662 rows (341 beyond the first, $8,549,772), if any year from FY2024 on is flagged (those
-    repeats carry distinct MOCS IDs), or if a flagged row is not identical to its group's first
-    row in every field but source_row and duplicate_group."""
+    """Corpus pin, from the committed CSVs. FAILS if the FY2013-FY2027 exact-copy count moves
+    from 321 groups / 662 rows (341 beyond the first, $8,549,772), if the archived FY2009/2011/
+    2012 counts move from 119 groups / 418 rows (299 beyond the first, $2,712,350.056532), if any
+    year from FY2024 on is flagged (those repeats carry distinct MOCS IDs), or if a flagged row
+    is not identical to its group's first row in every field but source_row, duplicate_group
+    and the Open Data cross-reference (od_mocs_id / od_match: one Open Data row can pair with
+    at most one Council row, so copies differ there by construction)."""
     import csv as _csv
     import glob
     from decimal import Decimal
-    groups, flagged, extra, money, years = set(), 0, 0, Decimal(0), set()
+    tally = {"rnd": [set(), 0, 0, Decimal(0)], "archived": [set(), 0, 0, Decimal(0)]}
+    years = set()
     for f in sorted(glob.glob(os.path.join(P.DATA_DIR, "fy*", "expense_disclosure", "*_awards.csv"))):
         with open(f, newline="", encoding="utf-8") as fh:
             rows = list(_csv.DictReader(fh))
@@ -288,16 +292,21 @@ def test_committed_duplicate_flags_issue_69():
             if not g:
                 continue
             first = by_rn[g]
-            same = [k for k in r if k not in ("source_row", "duplicate_group")]
+            same = [k for k in r if k not in ("source_row", "duplicate_group", "od_mocs_id",
+                                              "od_match")]
             assert all(r[k] == first[k] for k in same), (f, r["source_row"])
-            groups.add((r["fiscal_year"], g))
+            t = tally["archived" if int(r["fiscal_year"]) in P.ARCHIVED else "rnd"]
+            t[0].add((r["fiscal_year"], g))
             years.add(int(r["fiscal_year"]))
-            flagged += 1
+            t[1] += 1
             if g != r["source_row"]:
-                extra += 1
-                money += Decimal(r["amount"])
-    assert (len(groups), flagged, extra, money) == (321, 662, 341, Decimal(8549772))
-    assert max(years) == 2023 and min(years) == 2013
+                t[2] += 1
+                t[3] += Decimal(r["amount"])
+    rnd, arch = tally["rnd"], tally["archived"]
+    assert (len(rnd[0]), rnd[1], rnd[2], rnd[3]) == (321, 662, 341, Decimal(8549772))
+    assert (len(arch[0]), arch[1], arch[2], arch[3]) == (119, 418, 299,
+                                                         Decimal("2712350.056532"))
+    assert max(years) == 2023 and min(years) == 2009
 
 
 def test_a_member_name_missing_from_the_crosswalk_is_a_stop(tmp_path, monkeypatch):
@@ -458,10 +467,13 @@ def test_fy2027_figures_and_cleared_is_the_headline(corpus):
 
 def test_nonintegral_amount_count(corpus):
     """Pins the docstring figure in parse_amount_text. FAILS if amounts are rounded."""
-    n = sum(1 for aw, r in corpus.values() for a in aw if "." in a.amount_text)
     if corpus[2013][1].skipped:
         pytest.skip("FY2013 needs xlrd")
+    n = sum(1 for fy, (aw, r) in corpus.items() if fy >= 2013 for a in aw if "." in a.amount_text)
     assert n == 281
+    # The archived years carry many more (FY2009 858, e.g. 7481.296758), kept as published.
+    old = {fy: sum(1 for a in corpus[fy][0] if "." in a.amount_text) for fy in P.ARCHIVED}
+    assert old == {2009: 858, 2011: 205, 2012: 85}
 
 
 def test_fy2013_reads_through_xlrd(corpus):
@@ -490,9 +502,10 @@ def test_module_imports_and_degrades_without_xlrd():
         f"sys.path.insert(0, {HERE!r})\n"
         "import parse_expense_disclosure as P\n"
         "res = P.parse_all()\n"
-        "r13 = [r for _, r in res if r.fiscal_year == 2013][0]\n"
-        "assert r13.skipped and 'xlrd' in r13.skipped, r13\n"
-        "assert all(r.n_awards > 0 for _, r in res if r.fiscal_year != 2013)\n"
+        "xls = [r for _, r in res if r.format == 'xls']\n"
+        "assert sorted(r.fiscal_year for r in xls) == [2009, 2011, 2012, 2013], xls\n"
+        "assert all(r.skipped and 'xlrd' in r.skipped for r in xls), xls\n"
+        "assert all(r.n_awards > 0 for _, r in res if r.format != 'xls')\n"
         "try:\n"
         "    P.outputs(res)\n"
         "except SystemExit as e:\n"
@@ -759,3 +772,136 @@ def test_row_flag_for_a_workbook_not_built_is_a_stop(monkeypatch):
     monkeypatch.setattr(P, "ROW_FLAGS", {(2001, "funded_disclosure_FY2001.xls", 5): _FLAG})
     with pytest.raises(SystemExit, match="does not read"):
         P.outputs([])
+
+
+# ---------------------------------------------------------------- FY2009, FY2011, FY2012 (#89 A2)
+
+def test_archived_years_are_loaded_and_fy2010_is_not(corpus):
+    """#89 A2/A3. FAILS if FY2009, FY2011 or FY2012 is missing or comes from a file other than
+    its pinned Internet Archive capture, if their rows or totals move from the figures
+    research/2026-10-14-wayback-council-files.md reports, or if FY2010 is loaded."""
+    pytest.importorskip("xlrd")
+    assert 2010 not in corpus
+    # Exact sums of the published cells (FY2009-FY2011 carry sub-cent amounts such as
+    # 7481.296758); to the cent: $414,226,176.88, $395,907,487.50, $386,832,781.80.
+    want = {2009: (5745, "414226176.883541690169"), 2011: (5420, "395907487.49980000769734339"),
+            2012: (5823, "386832781.797826875017")}
+    for fy, (n, total) in want.items():
+        aw, r = corpus[fy]
+        assert (r.n_awards, r.n_stripped, r.format) == (n, 0, "xls"), r
+        assert P.total_decimal(aw) == Decimal(total), (fy, P.total_decimal(aw))
+        assert r.source_file == f"funded_disclosure_FY{fy}.xls"
+    assert corpus[2012][1].by_status == {"cleared": 5482, "pending": 137, "other": 204}
+
+
+def test_archived_file_must_match_the_wayback_manifest(tmp_path):
+    """FAILS if an archived workbook whose bytes differ from source/wayback-council/MANIFEST.csv,
+    or one the manifest does not list, is parsed instead of stopping."""
+    rel = P.ARCHIVED[2011]
+    man = P.wayback_manifest()
+    assert P.archived_path(rel, man).endswith("funded_disclosure_FY2011.xls")
+    bad = {rel: dict(man[rel], sha256="0" * 64)}
+    with pytest.raises(ValueError, match="sha256 differs"):
+        P.archived_path(rel, bad)
+    with pytest.raises(ValueError, match="is not in"):
+        P.archived_path(rel, {})
+
+
+def test_a_year_with_two_workbooks_is_a_stop(tmp_path):
+    """FAILS if a year present both in the source folder and in ARCHIVED is parsed twice."""
+    _xlsx(tmp_path / "funded_disclosure_FY2011.xlsx", [HDR, _row("A", "136400434", "Cleared", 1)])
+    with pytest.raises(ValueError, match="two workbooks"):
+        P.parse_all(str(tmp_path), archived={2011: P.ARCHIVED[2011]})
+
+
+def test_committed_fy2009_not_an_award_rows_are_flagged():
+    """#89 B13. FAILS if the two FY2009 rows are not flagged not_an_award, if any other row is,
+    if they leave the totals, or if Open Data's cross-reference on them is not its
+    'FY09 Not an Award' ID (the evidence the decision rests on)."""
+    with open(os.path.join(P.DATA_DIR, "fy09", "expense_disclosure", "fy09_expense_awards.csv"),
+              newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    flagged = [(r["source_row"], r["legal_name"], r["amount"], r["od_mocs_id"])
+               for r in rows if r["row_flag"]]
+    assert flagged == [("523", "Borough President Discretionary Funding", "533000",
+                        "FY09 Not an Award"),
+                       ("4092", "Provider's Choice", "1200000", "FY09 Not an Award")]
+    assert sum(Decimal(r["amount"]) for r in rows) == Decimal("414226176.883541690169")
+
+
+# ---------------------------------------------------------------- Open Data MOCS IDs (#89 A4)
+
+def _aw(rn, ein, amount, fy=2012):
+    return P.Award(fy, "", "Local", "Doe", "Org", ein, "Cleared", "cleared", float(amount),
+                   "DYCD", "", "", "", "", "", "", "", "", "", "f.xls", rn, str(amount))
+
+
+def test_od_match_pairs_only_unambiguous_buckets():
+    """#89 A4. FAILS if a pair is made when either side has two rows in the (EIN, dollars)
+    bucket, if a blank EIN pairs, if the tier is wrong (exact / rounded_cents / rounded_dollars),
+    or if amounts that merely share a bucket (5000.40 vs 5000.30) are paired."""
+    aw = [_aw(2, "131111111", "5000"), _aw(3, "132222222", "6333.33"),
+          _aw(4, "133333333", "7481.296758"), _aw(5, "134444444", "100"),
+          _aw(6, "134444444", "100"), _aw(7, "", "50"), _aw(8, "135555555", "5000.40"),
+          _aw(9, "136666666", "900")]
+    od = [("131111111", Decimal(5000), "FY12 1"), ("132222222", Decimal(6333), "FY12 2"),
+          ("133333333", Decimal("7481.30"), "FY12 3"), ("134444444", Decimal(100), "FY12 4"),
+          ("", Decimal(50), "FY12 5"), ("135555555", Decimal("5000.30"), "FY12 6"),
+          ("136666666", Decimal(900), "FY12 7"), ("136666666", Decimal(900), "FY12 8")]
+    assert P.od_matches(aw, od) == {2: ("FY12 1", "exact"), 3: ("FY12 2", "rounded_dollars"),
+                                    4: ("FY12 3", "rounded_cents")}
+
+
+def test_od_ein_pads_only_eight_digits():
+    """FAILS if Open Data's 8-digit EIN (a lost leading zero) is not padded, or anything else
+    is."""
+    assert P._od_ein("61629188") == "061629188"
+    assert P._od_ein("136400434") == "136400434"
+    assert P._od_ein("1234567") == "1234567"
+
+
+def test_od_keys_file_is_pinned_by_its_manifest(tmp_path, monkeypatch):
+    """FAILS if a keys file whose sha256 is not its MANIFEST.csv row is read."""
+    import gzip
+    p = tmp_path / "4d7f-74pe-keys.csv.gz"
+    p.write_bytes(gzip.compress(b":id,fiscal_year,mocs_id,ein,amount\nr,2009,FY09 1,1,5\n"))
+    with pytest.raises(ValueError, match="sha256 differs"):
+        P.load_od_keys(str(p))
+
+
+def test_committed_od_mocs_counts():
+    """Corpus pin. FAILS if the number of rows carrying an Open Data MOCS ID moves, per tier,
+    or if any row outside FY2009-FY2021 carries one."""
+    import glob
+    from collections import Counter
+    c = Counter()
+    for f in glob.glob(os.path.join(P.DATA_DIR, "fy*", "expense_disclosure", "*_awards.csv")):
+        with open(f, newline="", encoding="utf-8") as fh:
+            for r in csv.DictReader(fh):
+                if r["od_match"]:
+                    assert 2009 <= int(r["fiscal_year"]) <= 2021, r
+                    c[r["od_match"]] += 1
+    assert dict(c) == {"exact": 54_477, "rounded_cents": 158, "rounded_dollars": 335}
+
+
+# ---------------------------------------------------------------- data/disclosure_years.csv
+
+def test_years_table_covers_every_year_and_says_why_fy2010_is_out():
+    """FAILS if a loaded year is missing, if FY2010 is not listed as not loaded with its own
+    counts and Open Data's, if FY2009 and FY2013 are not marked early snapshots, or if an
+    archived year's URL / timestamp / sha256 differ from the Wayback manifest."""
+    with open(P.YEARS_CSV, newline="", encoding="utf-8") as f:
+        rows = {int(r["fiscal_year"]): r for r in csv.DictReader(f)}
+    assert sorted(rows) == list(range(2009, 2028))
+    assert rows[2010]["loaded"] == "no" and rows[2010]["award_rows"] == "2592"
+    assert "2,592 rows, $111,558,052.58" in rows[2010]["note"]
+    assert "5,981 rows, $357,820,611" in rows[2010]["note"]
+    assert {fy for fy, r in rows.items() if r["early_snapshot"] == "yes"} == {2009, 2013}
+    assert "1,389 of 5,745 rows Pending" in rows[2009]["note"]
+    assert rows[2009]["row_flagged"] == "2"
+    man = P.wayback_manifest()
+    for fy in (2009, 2010, 2011, 2012):
+        m = man[rows[fy]["source_path"].removeprefix("source/wayback-council/")]
+        assert (rows[fy]["url"], rows[fy]["wayback_timestamp"], rows[fy]["sha256"]) == \
+            (m["url"], m["wayback_timestamp"], m["sha256"])
+    assert rows[2027]["source_kind"] == "council_rnd"

@@ -4,6 +4,11 @@ publish them as a parallel award-level dataset.
 
 Source: source/expense-funding-disclosure/funded_disclosure_FY{YYYY}.xlsx  (FY2014-FY2027)
         source/expense-funding-disclosure/funded_disclosure_FY2013.xls   (legacy BIFF)
+        source/wayback-council/files/<timestamp>/funded_disclosure_FY{2009,2011,2012}.xls
+            the Council's own workbooks for years the RnD site no longer serves, recovered from
+            the Internet Archive (GitHub #86, #89 A2). ARCHIVED names the exact capture per year;
+            its sha256 must equal source/wayback-council/MANIFEST.csv. FY2010 is NOT loaded
+            (EXCLUDED): the Council's workbook is incomplete against Open Data.
 
 FY2014-FY2027 are read with the Python standard library only. An .xlsx is a zip of XML, so
 zipfile + xml.etree is all that is needed. Shared strings are streamed with iterparse -- these
@@ -32,10 +37,16 @@ Outputs (one folder per fiscal year, matching data/fyNN/<doctype>/fyNN_<name>.cs
                                                                  in duplicate_group)
   data/fyNN/expense_disclosure/fyNN_expense_reconciliation.txt  totals, printed totals,
                                                                  every stripped row
+  data/disclosure_years.csv                                     one row per fiscal year:
+                                                                 source file, URL, capture,
+                                                                 sha256, rows, totals by
+                                                                 status, early-snapshot flag,
+                                                                 and the excluded FY2010
 """
 
 import argparse
 import csv
+import gzip
 import hashlib
 import io
 import os
@@ -44,7 +55,7 @@ import sys
 import unicodedata
 import zipfile
 import xml.etree.ElementTree as ET
-from decimal import Decimal
+from decimal import ROUND_HALF_UP, Decimal
 from typing import NamedTuple
 
 NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
@@ -55,6 +66,57 @@ MANIFEST = os.path.join(SRC_DIR, "MANIFEST.csv")
 MANIFEST_HISTORY = os.path.join(SRC_DIR, "MANIFEST-HISTORY.csv")
 # Files in the source folder that are about the workbooks, not workbooks.
 NOT_SOURCE = ("README.md", "MANIFEST.csv", "MANIFEST-HISTORY.csv")
+
+# Years the RnD site no longer serves, from the Council's own workbooks as archived by the
+# Internet Archive (GitHub #86; decision #89 A2, Noel Hidalgo 2026-10-14). One capture per year,
+# by path; source/wayback-council/MANIFEST.csv carries its original URL, Wayback timestamp,
+# retrieval time and sha256, and the build stops if the file's sha256 differs. Each year's
+# 2014-2016 capture is content-identical, row for row (research/2026-10-14-wayback-council-files.md).
+WAYBACK_DIR = os.path.join(ROOT, "source", "wayback-council")
+WAYBACK_MANIFEST = os.path.join(WAYBACK_DIR, "MANIFEST.csv")
+ARCHIVED = {
+    2009: "files/20250212200136/funded_disclosure_FY2009.xls",
+    2011: "files/20250212200134/funded_disclosure_FY2011.xls",
+    2012: "files/20250212200132/funded_disclosure_FY2012.xls",
+}
+# Years with a Council workbook that is deliberately NOT loaded (#89 A3). The workbook is parsed
+# only to state its own row count and total in data/disclosure_years.csv; the Open Data figures
+# are from research/2026-10-14-open-data-vs-disclosure-diff.md (summary.csv), not recomputed.
+EXCLUDED = {
+    2010: ("files/20250212200137/funded_disclosure_FY2010.xls",
+           ("not loaded: the Council's workbook ({rows:,} rows, ${total}) is incomplete against "
+            "NYC Open Data 4d7f-74pe (5,981 rows, $357,820,611); both archived copies (2016-12, "
+            "2025-02) are identical. Never mixed with Open Data; revisit when it is known which "
+            "is complete (#89 A3).")),
+}
+# Years whose workbook is an early snapshot: frozen while much of it was still Pending, so its
+# cleared total is not a year's outcome and is not a headline (#89 A5).
+EARLY_SNAPSHOT = {
+    2009: "early snapshot: {pending:,} of {rows:,} rows Pending (${pending_amt}); NYC Open Data "
+          "shows 24 Pending for FY2009. The Council never revised this workbook. Do not headline "
+          "its cleared total (#89 A5).",
+    2013: "early snapshot: {pending:,} of {rows:,} rows Pending (${pending_amt}), and 18 citywide "
+          "initiatives printed as one lump row each that NYC Open Data itemizes into 1,168 rows. "
+          "The Council never revised this workbook. Do not headline its cleared total (#89 A5).",
+}
+RND_URL = "https://rnd.council.nyc.gov/src/assets/excelFund/{file}"
+YEARS_CSV = os.path.join(DATA_DIR, "disclosure_years.csv")
+YEARS_FIELDS = ["fiscal_year", "loaded", "source_kind", "source_path", "url", "wayback_timestamp",
+                "retrieved", "sha256", "sheet", "award_rows", "cleared_rows", "pending_rows",
+                "other_rows", "cleared_amount", "pending_amount", "other_amount", "total_amount",
+                "row_flagged", "early_snapshot", "note"]
+
+# NYC Open Data 4d7f-74pe (FY2009-FY2021) carries a MOCS ID on every row; the Council's workbooks
+# carry none before FY2024. Open Data's ID is attached to a row as `od_mocs_id` ONLY on an
+# unambiguous pair (#89 A4): within one fiscal year, the row is the only Council row and the
+# Open Data row the only Open Data row in its bucket (EIN, amount rounded half-up to whole
+# dollars). `od_match` says how close the amounts are: exact, rounded_cents (Open Data rounded
+# FY2009-FY2011 to cents) or rounded_dollars (FY2012 on). A blank EIN never matches. It is
+# Open Data's assertion, a cross-reference, never a source of any field (#89 A4).
+OD_KEYS = os.path.join(ROOT, "source", "open-data-4d7f-74pe", "4d7f-74pe-keys.csv.gz")
+OD_MANIFEST = os.path.join(ROOT, "source", "open-data-4d7f-74pe", "MANIFEST.csv")
+OD_YEARS = range(2009, 2022)
+OD_MATCH_VALUES = ("exact", "rounded_cents", "rounded_dollars")
 
 # The Council rewords headers most years. Eight distinct header layouts exist across
 # FY2013-FY2027, not two. Mapping by normalized header TEXT (not column position, not a
@@ -163,7 +225,8 @@ PRIOR_PRINTED = {
 }
 
 OUT_FIELDS = [
-    "fiscal_year", "mocs_id", "source", "council_member", "council_member_id",
+    "fiscal_year", "mocs_id", "od_mocs_id", "od_match", "source", "council_member",
+    "council_member_id",
     "council_member_type", "legal_name", "ein", "status",
     "status_norm", "amount", "agency", "program_name", "address1", "address2", "city", "state",
     "postal_code", "zip", "zip_status", "zip_candidates", "purpose", "fiscal_conduit", "fiscal_conduit_ein",
@@ -179,10 +242,15 @@ OUT_FIELDS = [
 #   not_an_award  The Council's FY2009 workbook prints two lump allocations to the City's own
 #                 EIN with no address, and NYC Open Data 4d7f-74pe carries the same two rows
 #                 under the MOCS ID "FY09 Not an Award" (the only rows with that ID). Decided:
-#                 flag, never drop (Noel Hidalgo, 2026-10-14, #89 B13). FY2009 is not yet in
-#                 this dataset, so ROW_FLAGS is empty until it is; the rule is in place.
+#                 flag, never drop (Noel Hidalgo, 2026-10-14, #89 B13).
 ROW_FLAG_VALUES = ("not_an_award",)
-ROW_FLAGS = {}
+ROW_FLAGS = {
+    (2009, "funded_disclosure_FY2009.xls", 523): {
+        "flag": "not_an_award", "legal_name": "Borough President Discretionary Funding",
+        "amount": "533000"},
+    (2009, "funded_disclosure_FY2009.xls", 4092): {
+        "flag": "not_an_award", "legal_name": "Provider's Choice", "amount": "1200000"},
+}
 
 # Fields that identify a designation for the exact-copy flag (GitHub #69): every published field
 # except where the row sits (source_row) and what the parser derives from the others.
@@ -680,13 +748,43 @@ def _printed_values(stripped, formulas):
     return out
 
 
-def parse_all(src_dir=SRC_DIR):
-    """Parse every funded_disclosure_FY*. Returns [(awards, YearReport)] ordered by year."""
+def wayback_manifest(path=WAYBACK_MANIFEST):
+    """{relative file path: manifest row} from source/wayback-council/MANIFEST.csv."""
+    with open(path, newline="", encoding="utf-8") as f:
+        return {r["file"]: r for r in csv.DictReader(f)}
+
+
+def archived_path(rel, manifest=None):
+    """Absolute path of an archived workbook, after checking its sha256 against the Wayback
+    manifest. A missing row or a different hash is a stop: the file is not the capture the
+    dataset documents."""
+    manifest = wayback_manifest() if manifest is None else manifest
+    p = os.path.join(WAYBACK_DIR, rel)
+    row = manifest.get(rel)
+    if row is None:
+        raise ValueError(f"{rel} is not in {os.path.relpath(WAYBACK_MANIFEST, ROOT)}")
+    if sha256(p) != row["sha256"]:
+        raise ValueError(f"{rel}: sha256 differs from {os.path.relpath(WAYBACK_MANIFEST, ROOT)}")
+    return p
+
+
+def parse_all(src_dir=SRC_DIR, archived=None):
+    """Parse every funded_disclosure_FY* in src_dir, plus the ARCHIVED years (only when
+    src_dir is the real source folder, unless `archived` is passed). Returns
+    [(awards, YearReport)] ordered by year. A year present in both is a stop."""
+    if archived is None:
+        archived = ARCHIVED if os.path.abspath(src_dir) == os.path.abspath(SRC_DIR) else {}
     paths = sorted(
         p for p in (os.path.join(src_dir, f) for f in os.listdir(src_dir))
         if re.search(r"funded_disclosure_FY\d{4}\.(xlsx|xls)$", p)
     )
-    return [parse_year(p) for p in paths]
+    if archived:
+        man = wayback_manifest()
+        paths += [archived_path(rel, man) for rel in archived.values()]
+    years = [int(re.search(r"FY(\d{4})", os.path.basename(p)).group(1)) for p in paths]
+    if len(set(years)) != len(years):
+        raise ValueError(f"a fiscal year has two workbooks: {sorted(paths)}")
+    return [parse_year(p) for _, p in sorted(zip(years, paths))]
 
 
 def _labeled_total(rep, *words):
@@ -738,15 +836,28 @@ def _usd(d):
     return f"{d:,.0f}" if d == d.to_integral_value() else f"{d:,.2f}"
 
 
+def early_snapshot_note(awards, rep):
+    """EARLY_SNAPSHOT's sentence for the year, its counts filled in from the rows."""
+    return EARLY_SNAPSHOT[rep.fiscal_year].format(
+        pending=rep.by_status.get("pending", 0), rows=rep.n_awards,
+        pending_amt=_usd(rep.amount_by_status.get("pending", 0)))
+
+
 def reconciliation_text(awards, rep):
     """The per-year report. Deterministic: same inputs, byte-identical output."""
     verdict, checks = reconcile(awards, rep)
     yy = f"fy{rep.fiscal_year % 100:02d}"
     L = [f"EXPENSE DISCLOSURE RECONCILIATION  ({yy})  [parser: parse_expense_disclosure.py]",
          f"source: {rep.source_file}  (sheet {rep.sheet_name!r}, {rep.format}, "
-         f"{rep.sheet_rows} rows incl. header)",
-         f"printed total: {verdict}",
-         "",
+         f"{rep.sheet_rows} rows incl. header)"]
+    if rep.fiscal_year in ARCHIVED:
+        L.append(f"archived: source/wayback-council/{ARCHIVED[rep.fiscal_year]} (Internet Archive "
+                 f"capture; URL, timestamp and sha256 in data/disclosure_years.csv)")
+    L += [f"printed total: {verdict}",
+          ""]
+    if rep.fiscal_year in EARLY_SNAPSHOT:
+        L += [early_snapshot_note(awards, rep), ""]
+    L += [
          "Every non-blank row after the header is either an award or a stripped row. A row is",
          "decided by its Status cell: Cleared/Pending (any case) is an award; anything else is",
          "stripped unless it still names an organization and an amount (then it is kept with",
@@ -801,6 +912,12 @@ def reconciliation_text(awards, rep):
              f"duplicate_group: {len(set(dup.values()))} group(s), {len(dup)} row(s); "
              f"{len(extra)} beyond the first of each group, "
              f"${_usd(sum((Decimal(by_rn[rn].amount_text) for rn in extra), Decimal(0)))}")
+    if rep.fiscal_year in OD_YEARS:
+        od = od_matches_for(awards)
+        tiers = {t: sum(1 for _, x in od.values() if x == t) for t in OD_MATCH_VALUES}
+        L.append(f"NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: "
+                 f"{len(od)} of {len(awards)} rows (exact {tiers['exact']}, rounded_cents "
+                 f"{tiers['rounded_cents']}, rounded_dollars {tiers['rounded_dollars']})")
     flagged = row_flags(awards)
     L.append(f"Rows kept but flagged in row_flag ({len(flagged)}), included in every total above"
              + (":" if flagged else ": none"))
@@ -881,6 +998,91 @@ def member_of(a):
     return hit[1], hit[0]
 
 
+_OD = None
+
+
+def od_manifest_sha(name, path=OD_MANIFEST):
+    with open(path, newline="", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            if r["file"] == name:
+                return r["sha256"]
+    raise ValueError(f"{path}: no row for {name}")
+
+
+def _od_ein(raw):
+    """Open Data EIN -> 9 digits. Open Data typed EIN as an integer and lost the leading zero
+    on 1,600 FY2009-FY2018 rows: an 8-digit all-digit value is padded (as in the #85 diff)."""
+    e, _ = clean_ein(raw, False)
+    return e.zfill(9) if e.isdigit() and len(e) == 8 else e
+
+
+def load_od_keys(path=OD_KEYS):
+    """{fiscal_year: [(ein, Decimal amount, mocs_id)]} from the committed Open Data key extract
+    (code/extract_open_data_keys.py). Its sha256 must equal its MANIFEST.csv row."""
+    with open(path, "rb") as f:
+        raw = f.read()
+    if hashlib.sha256(raw).hexdigest() != od_manifest_sha(os.path.basename(path)):
+        raise ValueError(f"{path}: sha256 differs from {os.path.relpath(OD_MANIFEST, ROOT)}")
+    out = {}
+    for r in csv.DictReader(io.StringIO(gzip.decompress(raw).decode("utf-8"))):
+        amt = parse_amount_text(r["amount"])
+        if amt is None:
+            raise ValueError(f"Open Data {r[':id']}: amount {r['amount']!r} is not a number")
+        out.setdefault(int(r["fiscal_year"]), []).append((_od_ein(r["ein"]), amt, r["mocs_id"]))
+    return out
+
+
+def _od_keys():
+    global _OD
+    if _OD is None:
+        _OD = load_od_keys()
+    return _OD
+
+
+def _dollars(d):
+    return d.quantize(Decimal(1), rounding=ROUND_HALF_UP)
+
+
+def od_matches(awards, od_rows):
+    """{source_row: (od_mocs_id, od_match)} for one workbook's awards against that year's Open
+    Data rows [(ein, amount, mocs_id)]. A pair is made only when the Council row and the Open
+    Data row are each the ONLY row of their side in the bucket (EIN, amount rounded half-up to
+    whole dollars), and the amounts agree exactly, after Open Data's rounding to cents, or after
+    its rounding to dollars. Anything else -- a repeated bucket, a blank EIN, amounts that only
+    share a bucket -- is left blank. Never a guess between two candidates."""
+    ours, theirs = {}, {}
+    for a in awards:
+        if a.ein:
+            ours.setdefault((a.ein, _dollars(Decimal(a.amount_text))), []).append(a)
+    for ein, amt, mocs in od_rows:
+        if ein:
+            theirs.setdefault((ein, _dollars(amt)), []).append((amt, mocs))
+    out = {}
+    for k, mine in ours.items():
+        other = theirs.get(k, [])
+        if len(mine) != 1 or len(other) != 1:
+            continue
+        a, (amt, mocs) = mine[0], other[0]
+        d = Decimal(a.amount_text)
+        if d == amt:
+            tier = "exact"
+        elif d.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP) == amt:
+            tier = "rounded_cents"
+        elif _dollars(d) == amt:
+            tier = "rounded_dollars"
+        else:
+            continue
+        out[a.source_row] = (mocs, tier)
+    return out
+
+
+def od_matches_for(awards):
+    """od_matches() against the committed Open Data keys, for a year Open Data covers."""
+    if not awards or awards[0].fiscal_year not in OD_YEARS:
+        return {}
+    return od_matches(awards, _od_keys().get(awards[0].fiscal_year, []))
+
+
 def row_flags(awards, flags=None):
     """{source_row: flag} for one workbook's awards, from ROW_FLAGS (or `flags`). An entry for
     this workbook whose row is missing, or whose row no longer carries the recorded legal_name
@@ -916,10 +1118,12 @@ def csv_text(awards):
     w.writerow(OUT_FIELDS)
     dup = duplicate_groups(awards)
     flagged = row_flags(awards)
+    od = od_matches_for(awards)
     z = _zctas()
     for a in awards:
         d = a._asdict()
         d["amount"] = a.amount_text
+        d["od_mocs_id"], d["od_match"] = od.get(a.source_row, ("", ""))
         d["duplicate_group"] = dup.get(a.source_row, "")
         d["row_flag"] = flagged.get(a.source_row, "")
         d["zip"], d["zip_status"], d["zip_candidates"] = z.derive_zip(a.postal_code, a.state,
@@ -946,6 +1150,8 @@ def outputs(results, data_dir=DATA_DIR):
         out[os.path.join(d, f"{yy}_expense_awards.csv")] = csv_text(awards)
         out[os.path.join(d, f"{yy}_expense_reconciliation.txt")] = reconciliation_text(awards,
                                                                                       rep)
+    if results and os.path.abspath(data_dir) == os.path.abspath(DATA_DIR):
+        out[YEARS_CSV] = years_text(years_rows(results))
     return out
 
 
@@ -1044,6 +1250,59 @@ def history_text(existing_text, superseded):
     return (existing_text or "") + buf.getvalue()
 
 
+def years_rows(results, manifest=None, wb_manifest=None):
+    """data/disclosure_years.csv: one row per loaded year and per EXCLUDED year. Where each
+    year's workbook came from (RnD site or an Internet Archive capture), its sha256, rows and
+    totals by status, how many rows carry a row_flag, and the early-snapshot / exclusion note.
+    Sums are this repo's arithmetic on the rows, never a Council figure."""
+    manifest = {r["file"]: r for r in (read_manifest() if manifest is None else manifest)}
+    wb = wayback_manifest() if wb_manifest is None else wb_manifest
+    out = []
+
+    def base(fy, rel_wayback, fname):
+        if rel_wayback:
+            m = wb[rel_wayback]
+            return {"source_kind": "internet_archive",
+                    "source_path": f"source/wayback-council/{rel_wayback}", "url": m["url"],
+                    "wayback_timestamp": m["wayback_timestamp"],
+                    "retrieved": m["retrieved_at"][:10], "sha256": m["sha256"]}
+        m = manifest[fname]
+        return {"source_kind": "council_rnd",
+                "source_path": f"source/expense-funding-disclosure/{fname}",
+                "url": RND_URL.format(file=fname), "wayback_timestamp": "",
+                "retrieved": m["retrieved"], "sha256": m["sha256"]}
+
+    def counts(awards, rep):
+        return {"sheet": rep.sheet_name, "award_rows": rep.n_awards,
+                **{f"{k}_rows": rep.by_status.get(k, 0) for k in KNOWN_STATUS + ("other",)},
+                **{f"{k}_amount": format_amount(rep.amount_by_status.get(k, Decimal(0)))
+                   for k in KNOWN_STATUS + ("other",)},
+                "total_amount": format_amount(total_decimal(awards))}
+
+    for awards, rep in results:
+        fy = rep.fiscal_year
+        row = {"fiscal_year": fy, "loaded": "yes", **base(fy, ARCHIVED.get(fy), rep.source_file),
+               **counts(awards, rep), "row_flagged": len(row_flags(awards)),
+               "early_snapshot": "yes" if fy in EARLY_SNAPSHOT else "",
+               "note": early_snapshot_note(awards, rep) if fy in EARLY_SNAPSHOT else ""}
+        out.append(row)
+    for fy, (rel, why) in EXCLUDED.items():
+        awards, rep = parse_year(archived_path(rel, wb))
+        out.append({"fiscal_year": fy, "loaded": "no", **base(fy, rel, rep.source_file),
+                    **counts(awards, rep), "row_flagged": "", "early_snapshot": "",
+                    "note": why.format(rows=rep.n_awards, total=_usd(total_decimal(awards)))})
+    out.sort(key=lambda r: r["fiscal_year"])
+    return out
+
+
+def years_text(rows):
+    buf = io.StringIO()
+    w = csv.DictWriter(buf, fieldnames=YEARS_FIELDS, lineterminator="\n")
+    w.writeheader()
+    w.writerows(rows)
+    return buf.getvalue()
+
+
 def write_files(files):
     for path, text in files.items():
         os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -1071,7 +1330,8 @@ def demo():
     results = parse_all()
     by_fy = {rep.fiscal_year: (aw, rep) for aw, rep in results}
 
-    assert set(by_fy) == set(range(2013, 2028)), sorted(by_fy)
+    assert set(by_fy) == set(ARCHIVED) | set(range(2013, 2028)), sorted(by_fy)
+    assert not set(by_fy) & set(EXCLUDED), sorted(by_fy)
     for fy in range(2014, 2028):
         assert by_fy[fy][1].skipped == "", by_fy[fy][1]
 
@@ -1122,9 +1382,15 @@ def demo():
 
     # Dirty keys: EINs keep leading zeros, and the one FY2015 EIN with an embedded
     # zero-width space comes out clean.
-    eins = [a.ein for _, (aw, _) in sorted(by_fy.items()) for a in aw]
+    eins = [a.ein for fy, (aw, _) in sorted(by_fy.items()) for a in aw if fy >= 2013]
     assert all(len(e) == 9 for e in eins if e), \
         sorted({e for e in eins if e and len(e) != 9})[:5]
+    # The archived FY2009-FY2012 workbooks print four EINs that are not 9 digits; they are kept
+    # as published (DATA-ANOMALIES §25), never repaired.
+    odd = sorted((a.fiscal_year, a.source_row, a.ein) for fy in ARCHIVED for a in by_fy[fy][0]
+                 if a.ein and not (len(a.ein) == 9 and a.ein.isdigit()))
+    assert odd == [(2009, 3075, "EX130314"), (2009, 4366, "EX123557"), (2009, 4912, "11-31735A"),
+                   (2011, 679, "NA")], odd
     assert any(e.startswith("0") for e in eins)
 
     # Org names arrive with leading spaces in the source; they must not.

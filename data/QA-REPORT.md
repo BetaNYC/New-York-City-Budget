@@ -1,10 +1,10 @@
 # NYC Budget — Data QA Report
 
-**Report generated:** 2026-10-12  
-**Data current as of:** 2026-10-12 (files under `data/`)  
+**Report generated:** 2026-10-14  
+**Data current as of:** 2026-10-14 (files under `data/`)  
 **Tool:** `code/validate_data.py`
 
-**Verdict:** PASS — 289 files, 0 hard failure(s), 454 soft advisory(ies).
+**Verdict:** PASS — 292 files, 0 hard failure(s), 473 soft advisory(ies).
 
 Severity: HARD (exit 1) = schema drift, malformed row, non-numeric amount, or malformed EIN. SOFT (exit 0) = zeros, sign anomalies, outliers, duplicates, column-bleed residuals, coverage notes. See the module docstring for the full check list and rationale.
 
@@ -14,8 +14,11 @@ Valid 9-digit EINs / total rows, per year and EIN-bearing doctype. Initiatives, 
 
 | FY | doctype | valid EIN / rows | coverage |
 |---|---|---|---|
+| FY2009 | disclosure | 5717/5745 | 99.5% |
 | FY2010 | transparency | 1788/1788 | 100.0% |
+| FY2011 | disclosure | 5406/5420 | 99.7% |
 | FY2011 | transparency | 1545/1545 | 100.0% |
+| FY2012 | disclosure | 5815/5823 | 99.9% |
 | FY2012 | transparency | 932/932 | 100.0% |
 | FY2013 | disclosure | 4985/4987 | 100.0% |
 | FY2013 | transparency | 1857/1857 | 100.0% |
@@ -80,11 +83,14 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 
 | FY | doctype | ratio | status |
 |---|---|---|---|
+| FY2009 | disclosure | — | N/A (no printed total) |
 | FY2009 | schedule_c | 21/22 | PARTIAL (1 in-source diff) |
 | FY2010 | schedule_c | 21/21 | PASS |
 | FY2010 | transparency | — | N/A (no printed totals) |
+| FY2011 | disclosure | — | N/A (no printed total) |
 | FY2011 | schedule_c | 18/19 | PARTIAL (1 in-source diff) |
 | FY2011 | transparency | — | N/A (no printed totals) |
+| FY2012 | disclosure | — | N/A (no printed total) |
 | FY2012 | schedule_c | 16/16 | PASS |
 | FY2012 | transparency | — | N/A (no printed totals) |
 | FY2013 | disclosure | — | N/A (no printed total) |
@@ -726,6 +732,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 |---|---|---|---|---|
 | `combined/all_years_awards.csv` | 33638 | 100% | 0 | duplicate: 148 duplicate row instance(s); e.g. x2: ['FY17', 'HOUSING', 'Housing', 'Community Housing Preservation Strategies']...; column_bleed: 95 suspected surname-in-organization residual(s); e.g. line 489: 'Hudson Guild'; org_prose: 22 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 7148: 'Funding to support a theater production for children of peop'; org_merged: 59 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 697: 'Charles B. Wang Community Health Center, Inc. 13-2739694 * $' |
 | `combined/all_years_initiatives.csv` | 2598 | — | 0 | — |
+| `fy09/expense_disclosure/fy09_expense_awards.csv` | 5745 | 100% | 0 | duplicate_group: 373 row(s) in 97 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); od_mocs_id: 4081 row(s) carry NYC Open Data's MOCS ID (unambiguous pairs only); row_flag: rows kept as published but flagged: not_an_award x2; ein: 3 EIN(s) not 9 digits, kept as the Council published them (DATA-ANOMALIES §25): line 3075 'EX130314', line 4366 'EX123557', line 4912 '11-31735A' |
 | `fy09/schedule_c/fy09_schedule_c_initiatives.csv` | 123 | — | 0 | — |
 | `fy10/schedule_c/fy10_schedule_c_initiatives.csv` | 124 | — | 0 | — |
 | `fy10/transparency-resolutions/fy10_transparency_all.csv` | 1788 | 100% | 0 | fiscal_year: 58 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 1730 row(s) with empty fiscal_year; duplicate: 1 duplicate row instance(s); e.g. x2: ['10', '2010-04-29', 'LocalInitiatives', '']... |
@@ -741,6 +748,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy10/transparency-resolutions/reso10_transparency_designations.csv` | 309 | 100% | 0 | fiscal_year: 58 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 251 row(s) with empty fiscal_year; duplicate: 1 duplicate row instance(s); e.g. x2: ['10', '2010-04-29', 'LocalInitiatives', '']... |
 | `fy10/transparency-resolutions/reso11_transparency_designations.csv` | 95 | 100% | 0 | fiscal_year: 95 row(s) with empty fiscal_year |
 | `fy10/transparency-resolutions/reso12_transparency_designations.csv` | 71 | 100% | 0 | fiscal_year: 71 row(s) with empty fiscal_year |
+| `fy11/expense_disclosure/fy11_expense_awards.csv` | 5420 | 100% | 0 | duplicate_group: 23 row(s) in 11 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); od_mocs_id: 3914 row(s) carry NYC Open Data's MOCS ID (unambiguous pairs only); ein: 1 EIN(s) not 9 digits, kept as the Council published them (DATA-ANOMALIES §25): line 679 'NA' |
 | `fy11/schedule_c/fy11_schedule_c_initiatives.csv` | 110 | — | 0 | — |
 | `fy11/transparency-resolutions/fy11_transparency_all.csv` | 1545 | 100% | 0 | fiscal_year: 26 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 1519 row(s) with empty fiscal_year; duplicate: 2 duplicate row instance(s); e.g. x2: ['3', '2010-09-29', 'Food Pantries', '']... |
 | `fy11/transparency-resolutions/reso01_transparency_designations.csv` | 262 | 100% | 0 | fiscal_year: 262 row(s) with empty fiscal_year |
@@ -753,6 +761,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy11/transparency-resolutions/reso08_transparency_designations.csv` | 0 | 0% | 0 | — |
 | `fy11/transparency-resolutions/reso09_transparency_designations.csv` | 0 | 0% | 0 | — |
 | `fy11/transparency-resolutions/reso10_transparency_designations.csv` | 0 | 0% | 0 | — |
+| `fy12/expense_disclosure/fy12_expense_awards.csv` | 5823 | 100% | 0 | duplicate_group: 22 row(s) in 11 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); od_mocs_id: 4008 row(s) carry NYC Open Data's MOCS ID (unambiguous pairs only); amount: 155 row(s) with amount == 0 |
 | `fy12/schedule_c/fy12_schedule_c_initiatives.csv` | 97 | — | 0 | — |
 | `fy12/transparency-resolutions/fy12_transparency_all.csv` | 932 | 100% | 0 | fiscal_year: 40 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 549 row(s) with empty fiscal_year; duplicate: 1 duplicate row instance(s); e.g. x2: ['4', '2011-11-03', 'HIV/AIDS Faith Based Initiative (cont.)', '']...; column_bleed: 4 suspected surname-in-organization residual(s); e.g. line 118: 'Hudson Guild' |
 | `fy12/transparency-resolutions/reso01_transparency_designations.csv` | 134 | 100% | 0 | fiscal_year: 134 row(s) with empty fiscal_year; column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 118: 'Hudson Guild' |
@@ -762,7 +771,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy12/transparency-resolutions/reso05_transparency_designations.csv` | 42 | 100% | 0 | fiscal_year: 18 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 2 row(s) with empty fiscal_year |
 | `fy12/transparency-resolutions/reso06_transparency_designations.csv` | 200 | 100% | 0 | column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 156: 'Gennaro 11-2267876 Young Israel of Queens Valley' |
 | `fy12/transparency-resolutions/reso07_transparency_designations.csv` | 130 | 100% | 0 | fiscal_year: 9 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
-| `fy13/expense_disclosure/fy13_expense_awards.csv` | 4987 | 100% | 0 | duplicate_group: 20 row(s) in 9 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
+| `fy13/expense_disclosure/fy13_expense_awards.csv` | 4987 | 100% | 0 | duplicate_group: 20 row(s) in 9 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); od_mocs_id: 3249 row(s) carry NYC Open Data's MOCS ID (unambiguous pairs only) |
 | `fy13/schedule_c/fy13_schedule_c_initiatives.csv` | 121 | — | 0 | — |
 | `fy13/transparency-resolutions/fy13_transparency_all.csv` | 1857 | 100% | 0 | fiscal_year: 70 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 426 row(s) with empty fiscal_year; duplicate: 10 duplicate row instance(s); e.g. x2: ['2', '2012-08-22', 'YouthDiscretionary-Fiscal2013', '2013']...; column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 547: 'Gennaro CatholicCharitiesNeighborhoodServices -Colin-NewellE' |
 | `fy13/transparency-resolutions/reso01_transparency_designations.csv` | 587 | 100% | 0 | fiscal_year: 3 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 244 row(s) with empty fiscal_year; column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 547: 'Gennaro CatholicCharitiesNeighborhoodServices -Colin-NewellE' |
@@ -774,13 +783,13 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy13/transparency-resolutions/reso08_transparency_designations.csv` | 55 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['8', '2013-01-23', 'LocalInitiatives-Fiscal2013', '2013']... |
 | `fy13/transparency-resolutions/reso09_transparency_designations.csv` | 0 | 0% | 0 | — |
 | `fy13/transparency-resolutions/reso12_transparency_designations.csv` | 166 | 100% | 0 | fiscal_year: 48 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 5 row(s) with empty fiscal_year |
-| `fy14/expense_disclosure/fy14_expense_awards.csv` | 6611 | 100% | 0 | duplicate_group: 36 row(s) in 18 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); excel_error: 19 cell(s) hold an Excel error value, kept as published text (DATA-ANOMALIES §22): postal_code=#N/A x19 |
+| `fy14/expense_disclosure/fy14_expense_awards.csv` | 6611 | 100% | 0 | duplicate_group: 36 row(s) in 18 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); od_mocs_id: 4534 row(s) carry NYC Open Data's MOCS ID (unambiguous pairs only); excel_error: 19 cell(s) hold an Excel error value, kept as published text (DATA-ANOMALIES §22): postal_code=#N/A x19 |
 | `fy14/schedule_c/fy14_schedule_c_initiatives.csv` | 123 | — | 0 | — |
 | `fy14/transparency-resolutions/fy14_transparency_all.csv` | 166 | 100% | 0 | fiscal_year: 10 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['1', '2014-04-29', 'CulturalAfterSchoolAdventure-Fiscal2014', '2014']... |
 | `fy14/transparency-resolutions/reso01_transparency_designations.csv` | 36 | 100% | 0 | fiscal_year: 6 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['1', '2014-04-29', 'CulturalAfterSchoolAdventure-Fiscal2014', '2014']... |
 | `fy14/transparency-resolutions/reso02_transparency_designations.csv` | 80 | 100% | 0 | fiscal_year: 4 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy14/transparency-resolutions/reso03_transparency_designations.csv` | 50 | 100% | 0 | — |
-| `fy15/expense_disclosure/fy15_expense_awards.csv` | 6650 | 100% | 0 | duplicate_group: 35 row(s) in 17 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
+| `fy15/expense_disclosure/fy15_expense_awards.csv` | 6650 | 100% | 0 | duplicate_group: 35 row(s) in 17 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); od_mocs_id: 4155 row(s) carry NYC Open Data's MOCS ID (unambiguous pairs only) |
 | `fy15/schedule_c/fy15_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy15/schedule_c/fy15_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy15/schedule_c/fy15_appendix_c_youth.csv` | 0 | 0% | 0 | — |
@@ -800,7 +809,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy15/transparency-resolutions/reso10_transparency_designations.csv` | 68 | 100% | 0 | fiscal_year: 10 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy15/transparency-resolutions/reso11_transparency_designations.csv` | 178 | 100% | 0 | fiscal_year: 26 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['11', '2015-02-26', 'LocalInitiatives-Fiscal2014', '2014']... |
 | `fy15/transparency-resolutions/reso12_transparency_designations.csv` | 80 | 100% | 0 | fiscal_year: 4 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 2 duplicate row instance(s); e.g. x2: ['12', '2015-03-31', 'Local Initiatives - Fiscal 2015', '2015']... |
-| `fy16/expense_disclosure/fy16_expense_awards.csv` | 7797 | 100% | 0 | duplicate_group: 43 row(s) in 19 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
+| `fy16/expense_disclosure/fy16_expense_awards.csv` | 7797 | 100% | 0 | duplicate_group: 43 row(s) in 19 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); od_mocs_id: 5035 row(s) carry NYC Open Data's MOCS ID (unambiguous pairs only) |
 | `fy16/schedule_c/fy16_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy16/schedule_c/fy16_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy16/schedule_c/fy16_appendix_c_youth.csv` | 0 | 0% | 0 | — |
@@ -821,7 +830,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy16/transparency-resolutions/reso11_transparency_designations.csv` | 88 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['11', '2016-03-22', 'NYC Digital Inclusion and Literacy Initiative - Fiscal 2016', '2016']... |
 | `fy16/transparency-resolutions/reso12_transparency_designations.csv` | 115 | 100% | 0 | fiscal_year: 12 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy16/transparency-resolutions/reso13_transparency_designations.csv` | 160 | 100% | 0 | fiscal_year: 4 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
-| `fy17/expense_disclosure/fy17_expense_awards.csv` | 8671 | 100% | 0 | duplicate_group: 54 row(s) in 27 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); excel_error: 18 cell(s) hold an Excel error value, kept as published text (DATA-ANOMALIES §22): address1=#N/A x6, city=#N/A x6, postal_code=#N/A x6 |
+| `fy17/expense_disclosure/fy17_expense_awards.csv` | 8671 | 100% | 0 | duplicate_group: 54 row(s) in 27 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); od_mocs_id: 5068 row(s) carry NYC Open Data's MOCS ID (unambiguous pairs only); excel_error: 18 cell(s) hold an Excel error value, kept as published text (DATA-ANOMALIES §22): address1=#N/A x6, city=#N/A x6, postal_code=#N/A x6 |
 | `fy17/schedule_c/fy17_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy17/schedule_c/fy17_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy17/schedule_c/fy17_appendix_c_youth.csv` | 0 | 0% | 0 | — |
@@ -842,7 +851,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy17/transparency-resolutions/reso11_transparency_designations.csv` | 129 | 100% | 0 | fiscal_year: 2 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 4 duplicate row instance(s); e.g. x2: ['11', '2017-03-16', 'Parks Equity Initiative - Fiscal 2017', '2017']... |
 | `fy17/transparency-resolutions/reso12_transparency_designations.csv` | 130 | 100% | 0 | fiscal_year: 41 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy17/transparency-resolutions/reso13_transparency_designations.csv` | 181 | 100% | 0 | fiscal_year: 34 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 4 duplicate row instance(s); e.g. x2: ['13', '2017-06-06', 'Youth Discretionary - Fiscal 2017', '2017']... |
-| `fy18/expense_disclosure/fy18_expense_awards.csv` | 8894 | 100% | 0 | duplicate_group: 53 row(s) in 26 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
+| `fy18/expense_disclosure/fy18_expense_awards.csv` | 8894 | 100% | 0 | duplicate_group: 53 row(s) in 26 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); od_mocs_id: 5144 row(s) carry NYC Open Data's MOCS ID (unambiguous pairs only) |
 | `fy18/schedule_c/fy18_appendix_a_aging.csv` | 422 | 100% | 0 | org_prose: 40 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 10: '.00 Funding will support the purchase of equipment and suppl'; org_merged: 5 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 31: '.00 To provide funding for the Senior Healthy Eating and Wel' |
 | `fy18/schedule_c/fy18_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy18/schedule_c/fy18_appendix_c_youth.csv` | 0 | 0% | 0 | — |
@@ -862,7 +871,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy18/transparency-resolutions/reso10_transparency_designations.csv` | 88 | 100% | 0 | — |
 | `fy18/transparency-resolutions/reso11_transparency_designations.csv` | 83 | 100% | 0 | fiscal_year: 18 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy18/transparency-resolutions/reso12_transparency_designations.csv` | 248 | 100% | 0 | fiscal_year: 16 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 4 duplicate row instance(s); e.g. x2: ['12', '2018-06-14', 'Local Initiatives - Fiscal 2018', '2018']... |
-| `fy19/expense_disclosure/fy19_expense_awards.csv` | 9655 | 100% | 0 | duplicate_group: 58 row(s) in 28 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
+| `fy19/expense_disclosure/fy19_expense_awards.csv` | 9655 | 100% | 0 | duplicate_group: 58 row(s) in 28 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); od_mocs_id: 5226 row(s) carry NYC Open Data's MOCS ID (unambiguous pairs only) |
 | `fy19/schedule_c/fy19_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy19/schedule_c/fy19_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy19/schedule_c/fy19_appendix_c_youth.csv` | 0 | 0% | 0 | — |
@@ -881,7 +890,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy19/transparency-resolutions/reso10_transparency_designations.csv` | 131 | 100% | 0 | fiscal_year: 20 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 2 duplicate row instance(s); e.g. x2: ['10', '2019-04-18', 'Local Initiatives - Fiscal 2019', '2019']... |
 | `fy19/transparency-resolutions/reso11_transparency_designations.csv` | 67 | 100% | 0 | fiscal_year: 4 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy20/capital/fy20_capital_projects.csv` | 1663 | — | 0 | — |
-| `fy20/expense_disclosure/fy20_expense_awards.csv` | 10616 | 100% | 0 | duplicate_group: 154 row(s) in 75 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
+| `fy20/expense_disclosure/fy20_expense_awards.csv` | 10616 | 100% | 0 | duplicate_group: 154 row(s) in 75 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); od_mocs_id: 5616 row(s) carry NYC Open Data's MOCS ID (unambiguous pairs only) |
 | `fy20/schedule_c/fy20_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy20/schedule_c/fy20_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy20/schedule_c/fy20_appendix_c_youth.csv` | 0 | 0% | 0 | — |
@@ -896,7 +905,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy20/transparency-resolutions/reso06_transparency_designations.csv` | 176 | 100% | 0 | fiscal_year: 6 prior-year row(s) embedded (EXPECTED for transparency; not an error); column_bleed: 1 suspected surname-in-program residual(s); e.g. line 10: 'Williams Plaza Tenant Association' |
 | `fy20/transparency-resolutions/reso07_transparency_designations.csv` | 233 | 100% | 0 | fiscal_year: 10 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 4 duplicate row instance(s); e.g. x2: ['7', '2020-02-27', 'Digital Inclusion and Literacy Initiative - Fiscal 2020', '2020']...; column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 16: 'Hudson River Park Trust' |
 | `fy20/transparency-resolutions/reso08_transparency_designations.csv` | 123 | 100% | 0 | — |
-| `fy21/expense_disclosure/fy21_expense_awards.csv` | 9054 | 100% | 0 | duplicate_group: 42 row(s) in 19 group(s) of exact copies, kept as published (DATA-ANOMALIES §22) |
+| `fy21/expense_disclosure/fy21_expense_awards.csv` | 9054 | 100% | 0 | duplicate_group: 42 row(s) in 19 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); od_mocs_id: 4940 row(s) carry NYC Open Data's MOCS ID (unambiguous pairs only) |
 | `fy21/schedule_c/fy21_appendix_a_aging.csv` | 514 | 100% | 0 | org_prose: 2 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 382: 'To support programming for seniors at the RiseBoro Breevort ' |
 | `fy21/schedule_c/fy21_appendix_b_local.csv` | 2902 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Richards', 'Queens Borough Public Library', 'Arverne Library', '136400434']...; column_bleed: 9 suspected surname-in-organization residual(s); e.g. line 24: 'Adams Street Foundation, Inc.'; org_prose: 4 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 716: 'Funds will be used to promote Cypriot folk arts radio progra' |
 | `fy21/schedule_c/fy21_appendix_c_youth.csv` | 894 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 416: 'Hudson Guild'; org_prose: 5 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 101: 'To provide funding to support the teen interns participating' |

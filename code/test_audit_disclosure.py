@@ -413,6 +413,99 @@ def test_mocs_claim_check_catches_a_stable_key_claim(tmp_path):
 
 # ---------------------------------------------------------------- the committed report
 
+# ---------------------------------------------------------------- I. archived years, Open Data
+
+def _odrow(rn, ein, amount, fy="2009", od_id="", od_match="", flag="", addr=""):
+    r = _csv_row(rn, "Org", ein, "Cleared", amount)
+    r.update(fiscal_year=fy, od_mocs_id=od_id, od_match=od_match, row_flag=flag, address1=addr,
+             source_file=f"funded_disclosure_FY{fy}.xls")
+    return r
+
+
+def _by_fy(rows):
+    out = {}
+    for r in rows:
+        out.setdefault(int(r["fiscal_year"]), []).append(r)
+    return out
+
+
+def test_od_mocs_question_rederives_every_pair_issue_89(monkeypatch):
+    """Audit question I2. FAILS if a CSV that carries exactly the unambiguous pairs is reported,
+    or if any of these passes: a wrong tier, an ID on a row whose bucket is shared, a pair the
+    CSV left out, an ID outside FY2009-FY2021."""
+    from decimal import Decimal as D
+    monkeypatch.setattr(A, "_od_rows", lambda: {2009: [
+        ("131111111", D(5000), "FY09 1"), ("132222222", D("7481.30"), "FY09 2"),
+        ("133333333", D(100), "FY09 3"), ("133333333", D(100), "FY09 4")]})
+
+    def ctx(rows):
+        return {"csv": rows, "csv_by_fy": _by_fy(rows)}
+    good = [_odrow(2, "131111111", "5000", od_id="FY09 1", od_match="exact"),
+            _odrow(3, "132222222", "7481.296758", od_id="FY09 2", od_match="rounded_cents"),
+            _odrow(4, "133333333", "100")]
+    assert A.q_od_mocs(ctx(good))["status"] == "pass"
+    bad_sets = [
+        [dict(good[0], od_match="rounded_dollars")] + good[1:],
+        good[:2] + [dict(good[2], od_mocs_id="FY09 3", od_match="exact")],
+        [dict(good[0], od_mocs_id="", od_match="")] + good[1:],
+        good + [_odrow(2, "131111111", "5000", fy="2026", od_id="FY26 1", od_match="exact")],
+    ]
+    for rows in bad_sets:
+        assert A.q_od_mocs(ctx(rows))["count"] >= 1, rows
+
+
+def test_not_an_award_question_issue_89(monkeypatch):
+    """Audit question I3. FAILS if the two rows Open Data files as 'FY09 Not an Award', flagged
+    and address-less on the City EIN, are reported, or if a missing flag, a flag on another row,
+    or a flagged row with an address passes."""
+    from decimal import Decimal as D
+    monkeypatch.setattr(A, "_od_rows", lambda: {2009: [
+        ("136400434", D(533000), "FY09 Not an Award"), ("131111111", D(5), "FY09 9")]})
+
+    def ctx(rows):
+        return {"csv": rows, "csv_by_fy": _by_fy(rows)}
+    good = [_odrow(523, "136400434", "533000", flag="not_an_award"), _odrow(9, "131111111", "5")]
+    assert A.q_not_an_award(ctx(good))["status"] == "pass"
+    for rows in ([dict(good[0], row_flag=""), good[1]],
+                 [good[0], dict(good[1], row_flag="not_an_award")],
+                 [dict(good[0], address1="1 Centre St"), good[1]]):
+        assert A.q_not_an_award(ctx(rows))["count"] >= 1, rows
+
+
+def test_archived_capture_question_issue_89(tmp_path, monkeypatch):
+    """Audit question I1. FAILS if a capture whose bytes, URL and timestamp agree with the
+    Wayback manifest is reported, or if any of these passes: changed bytes, a loaded year with
+    the wrong row count, an excluded year with rows, a CSV year the table does not list."""
+    import hashlib
+    wb = tmp_path / "wayback"
+    (wb / "files" / "1").mkdir(parents=True)
+    f = wb / "files" / "1" / "funded_disclosure_FY2009.xls"
+    f.write_bytes(b"abc")
+    sha = hashlib.sha256(b"abc").hexdigest()
+    (wb / "MANIFEST.csv").write_text("file,url,wayback_timestamp,sha256\n"
+                                     f"files/1/funded_disclosure_FY2009.xls,http://x/9.xls,1,{sha}\n")
+    monkeypatch.setattr(A, "WAYBACK_DIR", str(wb))
+    monkeypatch.setattr(A, "WAYBACK_MANIFEST", str(wb / "MANIFEST.csv"))
+    data = tmp_path / "data"
+    data.mkdir()
+
+    def run(rows, years_extra="", sha_in_table=sha):
+        (data / "disclosure_years.csv").write_text(
+            "fiscal_year,loaded,source_kind,source_path,url,wayback_timestamp,sha256,award_rows\n"
+            f"2009,yes,internet_archive,source/wayback-council/files/1/funded_disclosure_FY2009.xls,"
+            f"http://x/9.xls,1,{sha_in_table},2\n" + years_extra)
+        return A.q_archived_capture({"csv_by_fy": _by_fy(rows), "data_dir": str(data)})
+    two = [_odrow(2, "131111111", "5"), _odrow(3, "131111111", "6")]
+    assert run(two)["status"] == "pass"
+    assert run(two[:1])["count"] == 1
+    assert run(two, sha_in_table="0" * 64)["count"] == 1
+    assert run(two + [_odrow(2, "1", "5", fy="2010")],
+               "2010,no,council_rnd,x,,,,5\n")["count"] >= 1
+    assert run(two + [_odrow(2, "1", "5", fy="2011")])["count"] == 1
+    f.write_bytes(b"abd")
+    assert run(two)["count"] == 1
+
+
 @pytest.fixture(scope="module")
 def real():
     ctx = A.build_context()
@@ -436,13 +529,19 @@ def test_corpus_pins(real):
     _, results = real
     by = {r["id"]: r for r in results}
     for qid in ("A1", "A2", "A3", "A4", "A5", "A6", "A10", "A13", "A14", "A15", "B1", "B2",
-                "B4", "C3", "C6", "D1", "D2", "D6", "D7", "D9", "D13", "E1", "G1", "H1", "H2", "H3"):
+                "B4", "C3", "C6", "D1", "D2", "D6", "D7", "D9", "D13", "G1", "H1", "H2", "H3",
+                "I1", "I2", "I3"):
         assert by[qid]["status"] == "pass", (qid, by[qid]["examples"][:3])
-    assert "2,372,452 cells compared" in by["A6"]["note"]
-    assert by["F1"]["count"] == 321 and "341 surplus rows, $8,549,772" in by["F1"]["note"]
-    assert by["E2"]["count"] == 64
-    assert "7 are binary float residue" in by["E2"]["note"] and "1 of those is still a live formula" in by["E2"]["note"]
-    assert by["C1"]["count"] == 6
+    # FY2009, FY2011, FY2012 added (#89 A2): the counts below include them.
+    assert "2,661,248 cells compared" in by["A6"]["note"]
+    assert by["F1"]["count"] == 440 and "640 surplus rows, $11,262,122.056532" in by["F1"]["note"]
+    assert by["E2"]["count"] == 605
+    assert "11 are binary float residue" in by["E2"]["note"] and "1 of those is still a live formula" in by["E2"]["note"]
+    assert by["C1"]["count"] == 56
+    # E1: the only zero amounts are FY2012's 155 'CBO Defunded' rows, as published.
+    assert by["E1"]["count"] == 155 and all("FY2012.xls" in e for e in by["E1"]["examples"])
+    assert "54,970 rows carry an Open Data MOCS ID" in by["I2"]["note"]
+    assert "not loaded: [2010]" in by["I1"]["note"]
     assert by["A9"]["count"] == 37
     assert not any("\\xad" in e for e in by["D8"]["examples"])
     # Issue #68: 186 workbook address cells hold a soft hyphen; none loses or doubles a hyphen.
@@ -451,10 +550,10 @@ def test_corpus_pins(real):
     assert by["F3"]["status"] == "pass" and "FY2020 75 groups / 154 rows / 79 surplus" in by["F3"]["note"]
     # Issue #70: every ZIP status agrees with the Census table.
     assert by["G7"]["status"] == "pass" and "'padded': 13" in by["G7"]["note"]
-    assert "'trimmed': 35" in by["G7"]["note"] and "'invalid': 164" in by["G7"]["note"]
-    assert by["G11"]["status"] == "pass" and "35 rows trimmed (10 values" in by["G11"]["note"]
-    assert by["G12"]["status"] == "pass" and "65 six-digit rows (10 values)" in by["G12"]["note"]
-    assert "'ambiguous_extra_digit': 30, 'repaired_extra_digit': 35" in by["G12"]["note"]
+    assert "'trimmed': 41" in by["G7"]["note"] and "'invalid': 169" in by["G7"]["note"]
+    assert by["G11"]["status"] == "pass" and "41 rows trimmed (13 values" in by["G11"]["note"]
+    assert by["G12"]["status"] == "pass" and "69 six-digit rows (13 values)" in by["G12"]["note"]
+    assert "'ambiguous_extra_digit': 32, 'repaired_extra_digit': 37" in by["G12"]["note"]
     # Issue #72: only the 3 export-time names (341 rows) fall outside their year; no shared IDs;
     # Levin != Levine.
     assert by["G8"]["count"] == 341 and "0 rows typed member fail" in by["G8"]["note"]

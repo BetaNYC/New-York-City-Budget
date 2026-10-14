@@ -34,6 +34,14 @@ repository carries or profiles Open Data's BBL it is read as blank
   the metadata are the files' modification times.
 - **Code:** `code/fetch_open_data_4d7f74pe.py`, `code/polite_http.py`.
 
+## Committed: the MOCS ID key extract
+
+`4d7f-74pe-keys.csv.gz` (1.9 MB): every row's `:id`, `fiscal_year`, `mocs_id`, `ein` and
+`amount`, exactly as served, written by `code/extract_open_data_keys.py` from the cached
+`4d7f-74pe.csv` (whose sha256 it checks first). It is what the disclosure dataset reads to attach
+Open Data's MOCS ID (`od_mocs_id`) on unambiguous pairs (#89 A4), so the build never needs the
+cache. Its sha256 is its own row in `MANIFEST.csv`.
+
 ## Not committed
 
 The rows themselves (20 JSON pages, 76 MB; assembled `4d7f-74pe.csv`, 47 MB, 13 MB gzipped)

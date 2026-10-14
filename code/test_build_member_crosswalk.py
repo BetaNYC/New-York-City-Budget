@@ -186,6 +186,42 @@ def test_accents_components_and_exact_surname_priority():
     assert cls("Brooks-Powers", 2022)["council_member_id"] == "7809"
 
 
+SUFFIX_ROSTER = [
+    _p(26, "Peter F. Vallone", "Peter F.", "Vallone", (2001,)),
+    _p(5271, "Peter F. Vallone, Jr.", "Peter F.", "Vallone, Jr.", range(2004, 2014)),
+    _p(7642, "Paul A. Vallone", "Paul A.", "Vallone", range(2014, 2023)),
+    _p(5280, "James Sanders, Jr.", "James", "Sanders, Jr.", range(2004, 2013)),
+    _p(5286, "Bill De Blasio", "Bill", "de Blasio", range(2004, 2011)),
+    _p(7556, "The Public Advocate (Mr. de Blasio)", "Bill", "Mr. de Blasio", ()),
+]
+
+
+def test_printed_generational_suffix_must_match_legistar_issue_89():
+    """FY2009-FY2011 print 'Vallone, Jr', 'Sanders, Jr'. FAILS if a suffixed value stays
+    unresolved, resolves to a person whose Legistar name carries no suffix (Peter F. Vallone,
+    Paul A. Vallone), or if the suffix is ignored and 'Vallone, Jr' in FY2014 (Peter Jr. out of
+    office, Paul in) resolves to Paul."""
+    r = B.classify("Vallone, Jr", 2009, SUFFIX_ROSTER)
+    assert (r["council_member_type"], r["council_member_id"]) == ("member", "5271")
+    assert "suffix Jr" in r["method"]
+    assert B.classify("Sanders Jr.", 2009, SUFFIX_ROSTER)["council_member_id"] == "5280"
+    r14 = B.classify("Vallone, Jr", 2014, SUFFIX_ROSTER)
+    assert (r14["council_member_type"], r14["council_member_id"]) == ("member_outside_fy", "5271")
+    assert B.classify("Vallone", 2014, SUFFIX_ROSTER)["council_member_id"] == "7642"
+    nosuf = [_p(1, "Joe Doe", "Joe", "Doe", (2009,))]
+    assert B.classify("Doe, Jr", 2009, nosuf)["council_member_type"] == "unresolved"
+
+
+def test_surname_with_spaces_ignored_issue_89():
+    """FY2009 prints 'DeBlasio'; Legistar has 'de Blasio'. FAILS if it stays unresolved, if the
+    Public Advocate record (no recorded vote, 'Mr. de Blasio') is a candidate, or if an exact
+    surname stops winning over the spaces-ignored form."""
+    r = B.classify("DeBlasio", 2009, SUFFIX_ROSTER)
+    assert (r["council_member_type"], r["council_member_id"]) == ("member", "5286")
+    assert "spaces ignored" in r["method"]
+    assert B.classify("de Blasio", 2009, SUFFIX_ROSTER)["method"].startswith("exact surname;")
+
+
 @pytest.mark.parametrize("value,typ", [
     ("", "blank"), ("Speaker", "speaker"), ("Bronx Delegation", "delegation"),
     ("Brooklyn", "delegation"), ("SI Delegation", "delegation"),
@@ -216,23 +252,34 @@ def test_committed_crosswalk_is_current():
 
 def test_committed_crosswalk_pins(committed):
     """Pins the outcome. FAILS if the counts by type move, if Levin and Levine ever share an
-    ID, or if one ID is reached by two names in a year that differ beyond case."""
+    ID, or if one ID is reached by two names in a year that differ beyond case and a
+    generational suffix."""
     by = collections.Counter(r["council_member_type"] for r in committed)
     rows = collections.Counter()
     for r in committed:
         rows[r["council_member_type"]] += int(r["rows"])
-    assert dict(by) == {"member": 758, "member_outside_fy": 3, "ambiguous": 3, "unresolved": 2,
-                        "speaker": 14, "delegation": 75, "citywide": 5, "district_label": 5,
-                        "blank": 15}
-    assert rows["member"] == 101069 and rows["member_outside_fy"] == 341
-    assert rows["ambiguous"] == 189 and rows["unresolved"] == 243
+    # FY2009, FY2011, FY2012 (#89 A2) added 154 member pairs (12,478 rows) and 10 unresolved
+    # pairs (953 rows: CC, the two-letter borough codes BK/BX/MN/QN, and multi-member values).
+    assert dict(by) == {"member": 912, "member_outside_fy": 3, "ambiguous": 3, "unresolved": 12,
+                        "speaker": 14, "delegation": 93, "citywide": 8, "district_label": 5,
+                        "blank": 18}
+    assert rows["member"] == 113547 and rows["member_outside_fy"] == 341
+    assert rows["ambiguous"] == 189 and rows["unresolved"] == 1196
+    unresolved = {(r["fiscal_year"], r["council_member"]) for r in committed
+                  if r["council_member_type"] == "unresolved"}
+    assert {v for _, v in unresolved} >= {"CC", "BK", "BX", "MN", "QN", "NA"}
+    old = {r["council_member"]: r["council_member_id"] for r in committed
+           if r["fiscal_year"] == "2009"}
+    assert (old["Vallone, Jr"], old["DeBlasio"], old["Addabbo, Jr"]) == ("5271", "5286", "5281")
     ids = {r["council_member"]: r["council_member_id"] for r in committed
            if r["council_member"] in ("Levin", "Levine")}
     assert ids == {"Levin": "7567", "Levine": "7634"}
     names = collections.defaultdict(set)
     for r in committed:
         if r["council_member_id"]:
-            names[(r["fiscal_year"], r["council_member_id"])].add(r["council_member"].lower())
+            # FY2009 prints Thomas White, Jr. both as 'White' and 'White, Jr': one person.
+            names[(r["fiscal_year"], r["council_member_id"])].add(
+                B.split_suffix(B.fold(r["council_member"]))[0])
     assert all(len(v) == 1 for v in names.values()), {k: v for k, v in names.items() if len(v) > 1}
 
 

@@ -101,15 +101,25 @@ def fy_window(fy):
     return datetime.date(fy - 1, 7, 1), datetime.date(fy, 6, 30)
 
 
+_SUFFIX = re.compile(r"(.+?),?\s+(jr|sr)\.?")
+
+
+def split_suffix(v):
+    """'vallone, jr' / 'sanders jr.' -> ('vallone', 'jr'); anything else -> (v, '')."""
+    m = _SUFFIX.fullmatch(v)
+    return (m.group(1), m.group(2)) if m else (v, "")
+
+
 class Person:
-    __slots__ = ("core", "first", "first_vote", "full", "hint", "id", "last_vote", "years")
+    __slots__ = ("core", "first", "first_vote", "full", "hint", "id", "last_vote", "suffix",
+                 "years")
 
     def __init__(self, row):
         self.id = row["person_id"]
         self.full = row["full_name"]
         self.first = fold(row["first_name"])
         last = fold(row["last_name"])
-        last = re.sub(r",?\s+(?:jr|sr)\.?$", "", last)      # "salamanca, jr." -> "salamanca"
+        last, self.suffix = split_suffix(last)               # "salamanca, jr." -> "salamanca"
         m = re.fullmatch(r"([a-z])\.\s*(.+)", last)          # Legistar's own "d. diaz"
         self.hint = m.group(1) if m else ""
         self.core = m.group(2) if m else last
@@ -157,17 +167,28 @@ def parse_printed(value):
 
 
 def name_candidates(value, roster):
-    """People whose surname is the printed surname. An exact surname match wins; only if there
-    is none does a component of a hyphenated or two-word surname count ('Viverito' ->
-    Mark-Viverito, 'Ferreras' -> Ferreras-Copeland). A printed initial must match the person's
-    first-name initial or Legistar's own initial prefix ('D. Diaz')."""
-    surname, initial = parse_printed(value)
+    """People whose surname is the printed surname. An exact surname match wins; then the same
+    surname with spaces ignored ('DeBlasio' -> Legistar's 'de Blasio'); only if neither exists
+    does a component of a hyphenated or two-word surname count ('Viverito' -> Mark-Viverito,
+    'Ferreras' -> Ferreras-Copeland). A printed initial must match the person's first-name
+    initial or Legistar's own initial prefix ('D. Diaz'). A printed generational suffix
+    ('Vallone, Jr', FY2009-FY2011) must be the suffix Legistar records for the person: 'Vallone,
+    Jr' is Peter F. Vallone, Jr., never Peter F. Vallone or Paul A. Vallone, and a person whose
+    Legistar name carries no suffix is not a candidate for a suffixed value."""
+    base, suffix = split_suffix(fold(value))
+    surname, initial = parse_printed(base)
     exact = [p for p in roster if p.core == surname]
-    cands = exact or [p for p in roster if surname in re.split(r"[-\s]+", p.core)]
+    spaced = [] if exact else [p for p in roster
+                               if p.core.replace(" ", "") == surname.replace(" ", "")]
+    cands = exact or spaced or [p for p in roster if surname in re.split(r"[-\s]+", p.core)]
     if initial:
         cands = [p for p in cands if initial in p.initials()]
-    return cands, ("exact surname" if exact else "surname component") + \
-        (f" + initial {initial.upper()}" if initial else "")
+    if suffix:
+        cands = [p for p in cands if p.suffix == suffix]
+    how = "exact surname" if exact else ("exact surname, spaces ignored" if spaced
+                                         else "surname component")
+    return cands, how + (f" + initial {initial.upper()}" if initial else "") + \
+        (f" + suffix {suffix.capitalize()}" if suffix else "")
 
 
 def classify(value, fy, roster):

@@ -13,8 +13,9 @@ for .xlsx, xlrd for FY2013's .xls). Re-using that parser would audit nothing, so
 imports it. Workbooks are re-read a second way:
   * .xlsx: openpyxl (a separate OOXML implementation), twice -- cached values and formulas -- plus
     regex over the raw sheet XML for sheet-level facts (hidden rows, merged cells, autofilter);
-  * FY2013 .xls: xlrd with formatting_info=True and its row-level API. The parser also uses xlrd,
-    so FY2013 is only PARTLY independent (same library, different code path). Said in the report.
+  * the .xls years (FY2013, and FY2009/FY2011/FY2012 from the Internet Archive): xlrd with
+    formatting_info=True and its row-level API. The parser also uses xlrd, so these years are only
+    PARTLY independent (same library, different code path). Said in the report.
 Headers are mapped here by this script's own keyword rules, not the parser's HEADER_MAP.
 
 Each question in QUESTIONS names the earlier defect class it re-asks, whether it was harvested from
@@ -50,6 +51,14 @@ SRC_DIR = os.path.join(ROOT, "source", "expense-funding-disclosure")
 DATA_DIR = os.path.join(ROOT, "data")
 REPORT = os.path.join(DATA_DIR, "DISCLOSURE-AUDIT.md")
 MANIFEST = os.path.join(SRC_DIR, "MANIFEST.csv")
+# FY2009, FY2011, FY2012 come from Internet Archive captures (#89 A2). Which capture is read from
+# data/disclosure_years.csv; whether it is the documented capture is checked against the Wayback
+# manifest by question I1, with this script's own hashing.
+YEARS_CSV = os.path.join(DATA_DIR, "disclosure_years.csv")
+WAYBACK_DIR = os.path.join(ROOT, "source", "wayback-council")
+WAYBACK_MANIFEST = os.path.join(WAYBACK_DIR, "MANIFEST.csv")
+OD_KEYS = os.path.join(ROOT, "source", "open-data-4d7f-74pe", "4d7f-74pe-keys.csv.gz")
+OD_MANIFEST = os.path.join(ROOT, "source", "open-data-4d7f-74pe", "MANIFEST.csv")
 
 CITY_EIN = "136400434"
 MAX_EXAMPLES = 6
@@ -290,8 +299,21 @@ def load_csv_rows(data_dir=DATA_DIR):
     return rows
 
 
-def load_sheets(src_dir=SRC_DIR):
+def read_years(path=YEARS_CSV):
+    if not os.path.exists(path):
+        return []
+    with open(path, newline="", encoding="utf-8") as fh:
+        return list(csv.DictReader(fh))
+
+
+def load_sheets(src_dir=SRC_DIR, years=None):
+    """Every workbook in the source folder, plus each LOADED Internet Archive year named in
+    data/disclosure_years.csv (only for the real source folder)."""
     paths = sorted(glob.glob(os.path.join(src_dir, "funded_disclosure_FY*.xls*")))
+    if os.path.abspath(src_dir) == os.path.abspath(SRC_DIR):
+        years = read_years() if years is None else years
+        paths += [os.path.join(ROOT, y["source_path"]) for y in years
+                  if y["loaded"] == "yes" and y["source_kind"] == "internet_archive"]
     return {s.fy: s for s in (Sheet(p) for p in paths)}
 
 
@@ -419,7 +441,8 @@ def q_sheets(ctx):
         data = [x for x in s.sheets if x[2] > 0]
         if len(data) != 1 or data[0][1] != "visible" or s.sheets[0] != data[0]:
             bad.append(f"{s.file}: {s.sheets}")
-    note = "FY2013 .xls has Sheet2/Sheet3 at 0x0; every .xlsx has one sheet."
+    note = ("The .xls workbooks (FY2009, FY2011-FY2013) carry empty Sheet2/Sheet3 at 0x0; every "
+            ".xlsx has one sheet.")
     return result("finding" if bad else "pass", len(bad), bad, note)
 
 
@@ -1302,26 +1325,39 @@ def q_member_in_office(ctx):
                   + ".")
 
 
+def _no_suffix(name):
+    """'White, Jr' / 'Sanders Jr.' -> 'white' / 'sanders': the audit's own reading of a printed
+    generational suffix, so one person printed with and without it is one name."""
+    return re.sub(r",?\s+(?:jr|sr)\.?$", "", name.lower().strip())
+
+
 @question("G9", "Is any council_member_id shared by two different names in one fiscal year, or by "
           "two different people (no ID may stand for two people)?", "member identity ambiguity "
           "(issue #72)", "new", "yes")
 def q_member_id_shared(ctx):
-    """Per fiscal year, the distinct council_member values (case-folded) carrying each ID; more
-    than one is a finding. Across years, an ID's names are listed when they differ (a legitimate
-    name change, e.g. Ferreras / Ferreras-Copeland, is shown for a human, not counted)."""
+    """Per fiscal year, the distinct council_member values (case-folded, a trailing Jr/Sr
+    dropped) carrying each ID; more than one is a finding. Values that differ only by the suffix
+    are listed in the note. Across years, an ID's names are listed when they differ (a
+    legitimate name change, e.g. Ferreras / Ferreras-Copeland, is shown for a human, not
+    counted)."""
     per_year = collections.defaultdict(set)
+    printed = collections.defaultdict(set)
     across = collections.defaultdict(set)
     for r in ctx["csv"]:
         pid = r.get("council_member_id", "")
         if pid:
-            per_year[(r["fiscal_year"], pid)].add(r["council_member"].lower())
+            per_year[(r["fiscal_year"], pid)].add(_no_suffix(r["council_member"]))
+            printed[(r["fiscal_year"], pid)].add(r["council_member"].lower())
             across[pid].add(r["council_member"])
     hits = [f"FY{fy} ID {pid}: {sorted(v)}" for (fy, pid), v in sorted(per_year.items()) if len(v) > 1]
+    suffix_only = [f"FY{fy} {pid}: {' / '.join(sorted(v))}" for (fy, pid), v in sorted(printed.items())
+                   if len(v) > 1 and len(per_year[(fy, pid)]) == 1]
     renamed = [f"{pid}: {' / '.join(sorted(v))}" for pid, v in sorted(across.items())
                if len({x.lower() for x in v}) > 1]
     return result("finding" if hits else "pass", len(hits), hits,
-                  f"{len(across)} person IDs. Printed under more than one name across years: "
-                  f"{'; '.join(renamed) or 'none'}.")
+                  f"{len(across)} person IDs. Printed with and without a Jr/Sr suffix in one "
+                  f"year (one person, not counted): {'; '.join(suffix_only) or 'none'}. Printed "
+                  f"under more than one name across years: {'; '.join(renamed) or 'none'}.")
 
 
 @question("G10", "Do the member names a substring filter blends (G4: 'Levin' in 'Levine', 'Won' "
@@ -1330,7 +1366,8 @@ def q_member_id_shared(ctx):
 def q_member_substring_ids(ctx):
     """For every pair of council_member values in one fiscal year where one contains the other
     (case-insensitive, as G4 finds them), compares their council_member_id; the same ID on two
-    values that differ beyond case is a finding."""
+    values that differ beyond case and a trailing Jr/Sr (FY2009 'White' / 'White, Jr', one
+    person: G9's note) is a finding."""
     ids = collections.defaultdict(dict)
     for r in ctx["csv"]:
         if r["council_member"]:
@@ -1339,7 +1376,8 @@ def q_member_substring_ids(ctx):
     for fy, m in sorted(ids.items()):
         for a in m:
             for b in m:
-                if a != b and a.lower() != b.lower() and a.lower() in b.lower():
+                if a != b and a.lower() != b.lower() and a.lower() in b.lower() \
+                        and _no_suffix(a) != _no_suffix(b):
                     pairs += 1
                     if m[a] and m[a] == m[b]:
                         hits.append(f"FY{fy} {a!r} and {b!r} both -> {m[a]}")
@@ -1644,6 +1682,142 @@ def q_diff_key(ctx):
                   f"COMPOSITE = {mod.COMPOSITE}.")
 
 
+# ---------------------------------------------------------------- I. archived years, Open Data (#89)
+
+def _sha256(path):
+    import hashlib
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+@question("I1", "Is each Internet Archive year read from the capture the docs name (bytes = the "
+          "Wayback manifest's sha256, same URL and timestamp), does every loaded year have "
+          "exactly its rows in the dataset, and is the excluded FY2010 absent?",
+          "wrong or silently replaced source file; excluded year leaking in", "new", "yes")
+def q_archived_capture(ctx):
+    """Hashes each internet_archive workbook named in data/disclosure_years.csv with this
+    script's own sha256 and compares it, the URL and the Wayback timestamp with
+    source/wayback-council/MANIFEST.csv; compares each year's CSV row count with award_rows
+    (loaded) or zero (not loaded); every CSV year must be a loaded year."""
+    with open(WAYBACK_MANIFEST, newline="", encoding="utf-8") as fh:
+        man = {r["file"]: r for r in csv.DictReader(fh)}
+    years = read_years(os.path.join(ctx["data_dir"], "disclosure_years.csv"))
+    bad = []
+    for y in years:
+        fy = int(y["fiscal_year"])
+        n = len(ctx["csv_by_fy"].get(fy, []))
+        if y["source_kind"] == "internet_archive":
+            rel = y["source_path"].removeprefix("source/wayback-council/")
+            m = man.get(rel)
+            if m is None:
+                bad.append(f"FY{fy}: {rel} not in the Wayback manifest")
+                continue
+            got = _sha256(os.path.join(WAYBACK_DIR, rel))
+            if not (got == m["sha256"] == y["sha256"] and y["url"] == m["url"]
+                    and y["wayback_timestamp"] == m["wayback_timestamp"]):
+                bad.append(f"FY{fy}: {rel} sha256 {got[:12]} / manifest {m['sha256'][:12]} / "
+                           f"table {y['sha256'][:12]}")
+        want = int(y["award_rows"]) if y["loaded"] == "yes" else 0
+        if n != want:
+            bad.append(f"FY{fy} ({'loaded' if want else 'not loaded'}): {n} CSV rows, expected {want}")
+    loaded = {int(y["fiscal_year"]) for y in years if y["loaded"] == "yes"}
+    bad += [f"FY{fy}: CSV rows but no loaded row in disclosure_years.csv"
+            for fy in sorted(set(ctx["csv_by_fy"]) - loaded)]
+    arch = sorted(int(y["fiscal_year"]) for y in years if y["source_kind"] == "internet_archive")
+    return result("finding" if bad else "pass", len(bad), bad,
+                  f"Internet Archive years in the table: {arch}; not loaded: "
+                  f"{sorted(int(y['fiscal_year']) for y in years if y['loaded'] != 'yes')}.")
+
+
+def _od_rows():
+    """{fiscal_year: [(ein, Decimal amount, mocs_id)]} read from the committed Open Data key
+    extract by this script (gzip + csv), after checking its sha256 against its manifest row."""
+    import gzip
+    with open(OD_MANIFEST, newline="", encoding="utf-8") as fh:
+        want = next(r["sha256"] for r in csv.DictReader(fh) if r["file"] == os.path.basename(OD_KEYS))
+    if _sha256(OD_KEYS) != want:
+        raise SystemExit(f"{OD_KEYS}: sha256 differs from its manifest row")
+    out = collections.defaultdict(list)
+    with gzip.open(OD_KEYS, "rt", encoding="utf-8", newline="") as fh:
+        for r in csv.DictReader(fh):
+            e = r["ein"].strip().replace("-", "")
+            if len(e) == 8 and e.isdigit():
+                e = "0" + e
+            out[int(r["fiscal_year"])].append((e, Decimal(r["amount"]), r["mocs_id"]))
+    return out
+
+
+@question("I2", "Does every od_mocs_id / od_match re-derive from the committed Open Data keys by "
+          "the documented rule (one Council row and one Open Data row in an (EIN, whole-dollar) "
+          "bucket, amounts equal exactly, after rounding to cents, or to dollars), and is every "
+          "such pair carried?", "a cross-reference guessed between candidates, or dropped",
+          "new", "yes")
+def q_od_mocs(ctx):
+    """Rebuilds the expected (od_mocs_id, od_match) for every FY2009-FY2021 CSV row from
+    source/open-data-4d7f-74pe/4d7f-74pe-keys.csv.gz with this script's own reader, padding and
+    rounding (ROUND_HALF_UP), and compares it with the CSV, row by row. Rows outside
+    FY2009-FY2021 must carry none."""
+    from decimal import ROUND_HALF_UP
+    od = _od_rows()
+
+    def dollars(d):
+        return d.quantize(Decimal(1), rounding=ROUND_HALF_UP)
+    bad, n = [], 0
+    for fy, rows in sorted(ctx["csv_by_fy"].items()):
+        expect = {}
+        if 2009 <= fy <= 2021:
+            mine, theirs = collections.defaultdict(list), collections.defaultdict(list)
+            for r in rows:
+                if r["ein"]:
+                    mine[(r["ein"], dollars(Decimal(r["amount"])))].append(r)
+            for e, a, m in od.get(fy, []):
+                if e:
+                    theirs[(e, dollars(a))].append((a, m))
+            for k, rs in mine.items():
+                if len(rs) == 1 and len(theirs.get(k, [])) == 1:
+                    a, m = theirs[k][0]
+                    d = Decimal(rs[0]["amount"])
+                    tier = ("exact" if d == a else
+                            "rounded_cents" if d.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP) == a
+                            else "rounded_dollars" if dollars(d) == a else None)
+                    if tier:
+                        expect[rs[0]["source_row"]] = (m, tier)
+        for r in rows:
+            got = (r.get("od_mocs_id", ""), r.get("od_match", ""))
+            want = expect.get(r["source_row"], ("", ""))
+            n += bool(want[0])
+            if got != want:
+                bad.append(f"{ref(r)}: CSV {got}, expected {want}")
+    return result("finding" if bad else "pass", len(bad), bad,
+                  f"{n:,} rows carry an Open Data MOCS ID, all re-derived independently.")
+
+
+@question("I3", "Are the rows flagged not_an_award exactly the Council rows Open Data files "
+          "under MOCS ID 'FY09 Not an Award', each a City-EIN row with no address?",
+          "a decided flag drifting onto another row", "new", "yes")
+def q_not_an_award(ctx):
+    """Takes Open Data's 'Not an Award' rows from the committed keys file and finds the CSV rows
+    of the same year, EIN and amount; that set must equal the set of rows whose row_flag is
+    not_an_award, and each must carry the City's EIN and a blank address1."""
+    od = _od_rows()
+    want = set()
+    for fy, rows in od.items():
+        for e, a, m in rows:
+            if m.lower().endswith("not an award"):
+                want |= {ref(r) for r in ctx["csv_by_fy"].get(fy, [])
+                         if r["ein"] == e and Decimal(r["amount"]) == a}
+    got = {ref(r) for r in ctx["csv"] if r.get("row_flag") == "not_an_award"}
+    bad = [f"flagged, not Open Data's: {x}" for x in sorted(got - want)] + \
+          [f"Open Data's, not flagged: {x}" for x in sorted(want - got)]
+    bad += [f"{ref(r)}: EIN {r['ein']} address {r['address1']!r}" for r in ctx["csv"]
+            if r.get("row_flag") and (r["ein"] != CITY_EIN or r["address1"])]
+    return result("finding" if bad else "pass", len(bad), bad,
+                  f"{len(got)} row(s) flagged: {sorted(got)}.")
+
+
 # =============================================================== run + report
 
 def build_context(src_dir=SRC_DIR, data_dir=DATA_DIR, manifest=MANIFEST):
@@ -1684,7 +1858,8 @@ def report_text(results, ctx, mcp_results=None):
         "",
         f"**Generated by:** `code/audit_disclosure.py` from committed files only "
         f"(`source/expense-funding-disclosure/*.xls*`, retrieved {', '.join(retrieved)} per "
-        f"`MANIFEST.csv`; `data/fyNN/expense_disclosure/`). No network. Re-running it on the same "
+        f"`MANIFEST.csv`; the FY2009, FY2011 and FY2012 Internet Archive captures named in "
+        f"`data/disclosure_years.csv`; `data/fyNN/expense_disclosure/`). No network. Re-running it on the same "
         f"files reproduces this report byte for byte; `code/test_audit_disclosure.py` fails if it "
         f"is stale.",
         "",
@@ -1694,8 +1869,8 @@ def report_text(results, ctx, mcp_results=None):
         "",
         "**Independence.** The workbooks are re-read with openpyxl and raw XML, not with "
         "`parse_expense_disclosure.py`, and headers are mapped by this script's own rules. "
-        "FY2013 (`.xls`) is read with xlrd's row API: the same library as the parser, so FY2013 "
-        "is *partly* independent. A check whose only evidence is the parser's own output is "
+        "The `.xls` years (FY2009, FY2011–FY2013) are read with xlrd's row API: the same library "
+        "as the parser, so they are *partly* independent. A check whose only evidence is the parser's own output is "
         "labeled `circular` and is not counted as verification.",
         "",
         "**Result key.** `pass` = the question was asked and nothing was found. `finding` = the "

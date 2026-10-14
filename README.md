@@ -47,8 +47,8 @@ New-York-City-Budget/
 │   ├── expense-funding-disclosure/  (Council RnD award-level expense spreadsheets, FY2013–FY2027)
 │   ├── wayback-council/ (Council files recovered from the Internet Archive: FY2009–FY2012 disclosure
 │   │                     workbooks, FY15–FY17 + FY26 capital databases; manifests for every capture)
-│   ├── open-data-4d7f-74pe/  (manifest, metadata and data dictionary of the NYC Open Data pull;
-│   │                     the rows themselves stay out of git)
+│   ├── open-data-4d7f-74pe/  (manifest, metadata and data dictionary of the NYC Open Data pull,
+│   │                     and a 5-column key extract used for od_mocs_id; the full rows stay out of git)
 │   └── census-zcta/     (provenance of the Census 2020 ZCTA file used to check disclosure ZIPs)
 ├── data/                ← extracted, reconciled CSVs
 │   ├── fy09/ … fy27/    (per year: schedule_c/, terms/, capital/, transparency-resolutions/
@@ -56,7 +56,7 @@ New-York-City-Budget/
 │   │   ├── schedule_c/  discretionary expense funding
 │   │   ├── terms/       Terms & Conditions (reporting mandates)
 │   │   ├── capital/     Section 254 capital changes
-│   │   └── expense_disclosure/  the Council's award-level disclosure workbooks, FY2013–FY2027
+│   │   └── expense_disclosure/  the Council's award-level disclosure workbooks, FY2009, FY2011–FY2027
 │   ├── reference/       lookup tables derived from outside sources (Census ZCTA → state; Legistar roster extract)
 │   └── combined/        all-years roll-ups (built by code/build_combined.py)
 ├── code/                ← parser scripts + variants + validate_data.py (QA) + tests + PARSING.md + requirements.txt
@@ -87,7 +87,7 @@ They are published as data in `data/{year}/expense_disclosure/` (see below).
 
 ### `mcp/` — prototype MCP server
 
-`mcp/` holds a **prototype** [Model Context Protocol](https://modelcontextprotocol.io) server (TypeScript + SQLite) that exposes this repo's data to MCP-capable AI clients as structured query tools — Schedule C awards (FY2015–FY2027), Terms & Conditions, §254 capital, the Transparency Resolutions (FY2010–FY2024 + FY2026), the Legistar crosswalk, and (as its own tool, `search_disclosure_awards`, v1.5.0) the Council's expense funding disclosure FY2013–FY2027 with each year's snapshot date. It reads the repo's own `data/` tree directly (no copied snapshot) and builds a local, git-ignored SQLite index from it, so the query layer and the data always move together. Still a prototype — see [`mcp/README.md`](mcp/README.md) for tools, scope, and how to build and run it.
+`mcp/` holds a **prototype** [Model Context Protocol](https://modelcontextprotocol.io) server (TypeScript + SQLite) that exposes this repo's data to MCP-capable AI clients as structured query tools — Schedule C awards (FY2015–FY2027), Terms & Conditions, §254 capital, the Transparency Resolutions (FY2010–FY2024 + FY2026), the Legistar crosswalk, and (as its own tool, `search_disclosure_awards`, v1.5.0) the Council's expense funding disclosure FY2013–FY2027 with each year's snapshot date (the FY2009, FY2011 and FY2012 rows added to `data/` since 1.5.0 are not served yet; that is the 2.0 step). It reads the repo's own `data/` tree directly (no copied snapshot) and builds a local, git-ignored SQLite index from it, so the query layer and the data always move together. Still a prototype — see [`mcp/README.md`](mcp/README.md) for tools, scope, and how to build and run it.
 
 ## The data files
 
@@ -105,17 +105,46 @@ One row per designation to a named organization.
 Detail breakouts with a `purpose` field: `_a_aging` (Aging Discretionary), `_b_local` (Local Initiatives, includes an `agency` column), `_c_youth` (Youth Discretionary). **These are separate designations, not a re-sort of the main body: adding appendix rows to the body's award rows double-counts nothing.** Settled for every year from the Council's own disclosure, which files each designation under its stream: matching the body first, at least 96% of appendix rows still find a designation of their own in every year that has appendix rows (FY2027: 3,796 of 3,860 against the 2026-10-12 snapshot; all 3,860 against the 2026-07-15 one); the exceptions are listed key by key in [`data/DISCLOSURE-COVERAGE.md`](data/DISCLOSURE-COVERAGE.md) §4. (This is about award rows. The printed category `TOTAL`s, such as FY2027's $655,764,999, are the category summary and are not a sum of award rows.) FY2015–FY2017 and FY2019–FY2020 appendix CSVs are header-only because the parser missed them (the PDFs do print them, with bare amounts; GitHub #59); `data/recovered/schedule_c_appendix_recovered.csv` holds those years from the disclosure.
 
 ### `data/{year}/expense_disclosure/{year}_expense_awards.csv` — the Council's own award list (parallel dataset)
-One row per row the workbook prints, **FY2013–FY2027**, from the Council's expense funding disclosure workbooks rather than the adopted-budget PDFs. 139,556 rows (snapshot retrieved 2026-10-12). Usually that is one row per designation, but 662 rows in 321 groups (FY2013–FY2023) are exact copies of another row; all are kept and flagged in `duplicate_group` (GitHub #69).
-`fiscal_year, mocs_id, source, council_member, council_member_id, council_member_type, legal_name, ein, status, status_norm, amount, agency, program_name, address1, address2, city, state, postal_code, zip, zip_status, zip_candidates, purpose, fiscal_conduit, fiscal_conduit_ein, source_file, source_row, duplicate_group`
+One row per row the workbook prints, **FY2009 and FY2011–FY2027**, from the Council's expense funding disclosure workbooks rather than the adopted-budget PDFs. 156,544 rows: FY2013–FY2027 as retrieved from the RnD site 2026-10-12 (139,556), plus FY2009, FY2011 and FY2012 from the Council's own workbooks as archived by the Internet Archive (16,988; GitHub #86, #89). Usually that is one row per designation, but 1,080 rows in 440 groups (FY2009–FY2023) are exact copies of another row; all are kept and flagged in `duplicate_group` (GitHub #69).
+`fiscal_year, mocs_id, od_mocs_id, od_match, source, council_member, council_member_id, council_member_type, legal_name, ein, status, status_norm, amount, agency, program_name, address1, address2, city, state, postal_code, zip, zip_status, zip_candidates, purpose, fiscal_conduit, fiscal_conduit_ein, source_file, source_row, duplicate_group, row_flag`
+
+Per-year coverage (from [`data/disclosure_years.csv`](data/disclosure_years.csv), which also carries each file's URL, Wayback timestamp, retrieval date and sha256; sums are this repo's arithmetic, never a Council figure):
+
+| FY | source | rows | Cleared $ | Pending $ | other $ | note |
+|---|---|---:|---:|---:|---:|---|
+| 2009 | Internet Archive | 5,745 | 406,962,824 | 7,263,353 | 0 | early snapshot; 2 rows flagged not_an_award |
+| 2010 | Internet Archive | 2,592 | 54,432,283 | 57,125,769 | 0 | **not loaded** (workbook incomplete vs Open Data) |
+| 2011 | Internet Archive | 5,420 | 383,347,147 | 9,893,296 | 2,667,045 | |
+| 2012 | Internet Archive | 5,823 | 150,740,107 | 886,357 | 235,206,318 | `other` is `Government` ($235.2M, City agencies) and 155 `CBO Defunded` $0 rows |
+| 2013 | RnD site | 4,987 | 18,201,785 | 380,680,617 | 0 | early snapshot |
+| 2014 | RnD site | 6,611 | 392,655,572 | 1,077,905 | 0 | |
+| 2015 | RnD site | 6,650 | 285,921,454 | 810,402 | 0 | |
+| 2016 | RnD site | 7,797 | 380,361,130 | 1,015,496 | 0 | |
+| 2017 | RnD site | 8,671 | 352,787,056 | 714,830 | 0 | |
+| 2018 | RnD site | 8,894 | 381,385,171 | 514,829 | 0 | |
+| 2019 | RnD site | 9,655 | 392,443,522 | 501,478 | 0 | |
+| 2020 | RnD site | 10,616 | 456,580,952 | 635,750 | 0 | |
+| 2021 | RnD site | 9,054 | 391,770,561 | 1,479,945 | 0 | |
+| 2022 | RnD site | 11,336 | 536,959,144 | 1,590,683 | 0 | |
+| 2023 | RnD site | 11,027 | 537,910,110 | 3,516,885 | 0 | |
+| 2024 | RnD site | 10,811 | 526,907,681 | 1,063,733 | 0 | |
+| 2025 | RnD site | 11,276 | 592,800,281 | 2,380,901 | 0 | |
+| 2026 | RnD site | 11,764 | 708,776,879 | 7,436,276 | 0 | |
+| 2027 | RnD site | 10,407 | 590,253,954 | 115,450,046 | 0 | |
+
+- **FY2010 is not in the dataset.** The Council's archived FY2010 workbook has 2,592 rows ($111.6M); NYC Open Data has 5,981 ($357.8M) for the same year, and both archived copies of the workbook are identical. The two are never mixed; FY2010 waits until it is known which is complete (DATA-ANOMALIES §25).
+- **Early snapshots: FY2009 and FY2013.** The Council froze these workbooks while many rows were still Pending and never revised them, so their Cleared totals are not the year's outcome (DATA-ANOMALIES §25).
+- **NYC Open Data's MOCS ID as a cross-reference** (`od_mocs_id`, `od_match`; #89 A4): the Council's workbooks have no MOCS ID before FY2024, and Open Data `4d7f-74pe` has one on every FY2009–FY2021 row. It is attached only where one Council row and one Open Data row share an (EIN, whole-dollar amount) bucket in the year: 54,970 rows. It is Open Data's assertion, never the source of any field.
 - **Council members resolve to Legistar person IDs, per year** (GitHub #72): `council_member_id` / `council_member_type`, from [`data/disclosure_council_member_crosswalk.csv`](data/disclosure_council_member_crosswalk.csv) (built by `code/build_member_crosswalk.py` from the committed roster extract `data/reference/council_members_legistar.csv`, itself extracted by `code/extract_council_roster.py` from the Council MCP's local Legistar index). `Levin` (7567) and `Levine` (7634) are two people; names that two members carried in the same year are `ambiguous`, never guessed (one, FY2021 bare `Diaz`, is resolved by a recorded, re-checked file convention: the workbook prints the other Diaz as `D. Diaz`); `Speaker`, delegations and district labels get their own types.
-- **ZIP codes are checked, never silently rewritten** (GitHub #70). `postal_code` is the cell as published; `zip`, `zip_status` (`valid` / `padded` / `trimmed` / `repaired_extra_digit` / `ambiguous_extra_digit` / `not_a_zcta` / `state_mismatch` / `invalid` / `blank`) and `zip_candidates` are derived against the Census Bureau's 2020 ZCTA list ([`source/census-zcta/`](source/census-zcta/README.md), table built by `code/zcta_states.py`). A 4-digit ZIP gets its leading zero back only when the result is a real ZCTA in the row's own state (13 rows); a ragged ZIP+4 such as `11203-` or `11231=1020` keeps its first five digits on the same condition (`trimmed`, 35 rows); a 6-digit ZIP is repaired only when exactly one one-digit deletion is an in-state ZCTA (`repaired_extra_digit`, 35 rows, e.g. `111691` → 11691) and otherwise gets no zip, its candidates listed (`ambiguous_extra_digit`, 30 rows). `not_a_zcta` means *not verified* — PO-box ZIPs have no ZCTA — not fake.
+- **ZIP codes are checked, never silently rewritten** (GitHub #70). `postal_code` is the cell as published; `zip`, `zip_status` (`valid` / `padded` / `trimmed` / `repaired_extra_digit` / `ambiguous_extra_digit` / `not_a_zcta` / `state_mismatch` / `invalid` / `blank`) and `zip_candidates` are derived against the Census Bureau's 2020 ZCTA list ([`source/census-zcta/`](source/census-zcta/README.md), table built by `code/zcta_states.py`). A 4-digit ZIP gets its leading zero back only when the result is a real ZCTA in the row's own state (13 rows); a ragged ZIP+4 such as `11203-` or `11231=1020` keeps its first five digits on the same condition (`trimmed`, 41 rows); a 6-digit ZIP is repaired only when exactly one one-digit deletion is an in-state ZCTA (`repaired_extra_digit`, 37 rows, e.g. `111691` → 11691) and otherwise gets no zip, its candidates listed (`ambiguous_extra_digit`, 32 rows). `not_a_zcta` means *not verified* — PO-box ZIPs have no ZCTA — not fake.
 - **Every row is kept, Cleared and Pending alike.** `status` is the raw value; filter on `status_norm` (`cleared` / `pending` / `other`). A year's headline figure is the **Cleared** total, labeled as such; FY2027 was half Pending on 2026-07-15 ($143,034,722 Cleared of $705,564,000) and is $590,253,954 Cleared of $705,704,000 on 2026-10-12.
-- **Only FY2024 prints a total of its own, and it reconciles to the dollar** ($527,971,414). FY2026 printed one ($716,213,155) in the 2026-07-15 snapshot; the 2026-10-12 workbook dropped those footer rows, and its rows still sum to $716,213,155, which its reconciliation report shows as an earlier-snapshot figure, not as the workbook's own. No other workbook prints a total, so no other year's sum is a Council figure. Each year's `{year}_expense_reconciliation.txt` lists every footer row that was stripped (5 across 15 years).
+- **Only FY2024 prints a total of its own, and it reconciles to the dollar** ($527,971,414). FY2026 printed one ($716,213,155) in the 2026-07-15 snapshot; the 2026-10-12 workbook dropped those footer rows, and its rows still sum to $716,213,155, which its reconciliation report shows as an earlier-snapshot figure, not as the workbook's own. No other workbook prints a total, so no other year's sum is a Council figure. Each year's `{year}_expense_reconciliation.txt` lists every footer row that was stripped (5 across 18 years).
 - **It is not the adopted Schedule C.** It is a later snapshot of the same year, with in-year additions, and its `council_member` is the roster at export time. Join it to the Schedule C award files on `(ein, amount)` within a year, never on `ein` alone and never on the member.
 - **How much of it the Schedule C award files cover**, per year, stream and status, joined on `(ein, amount)`: [`data/DISCLOSURE-COVERAGE.md`](data/DISCLOSURE-COVERAGE.md) and `data/disclosure_schedule_c_coverage.csv` (built by `code/reconcile_disclosure_schedule_c.py`).
 - **Audited against the questions the Schedule C audits asked**, plus spreadsheet-specific ones, by an independent second reader of the workbooks (openpyxl, not the parser): [`data/DISCLOSURE-AUDIT.md`](data/DISCLOSURE-AUDIT.md), built by `code/audit_disclosure.py` (`--write` / `--check`), with `code/test_audit_disclosure.py`. Every CSV cell equals its workbook cell; what the Council published oddly (repeated rows, `#N/A` cells, 4-digit ZIPs, truncated stream names) is listed there, not silently fixed.
 - **When the Council republishes a workbook**, `code/diff_disclosure_snapshots.py` reports what moved (Pending → Cleared, amount changes, re-numbered MOCS IDs, added/removed rows, totals by status). The reports for each re-pull are committed under `data/disclosure-snapshots/<retrieval date>/`; the first is [`2026-10-12`](data/disclosure-snapshots/2026-10-12/). Re-pulling needs explicit approval each time; the procedure is in [`source/expense-funding-disclosure/README.md`](source/expense-funding-disclosure/README.md).
-- `source_file` + `source_row` point at the exact workbook row. Built by `code/parse_expense_disclosure.py --write`; the FY2013 `.xls` needs `xlrd`. Details: [`DATA-DICTIONARY.md`](DATA-DICTIONARY.md), [`code/PARSING.md`](code/PARSING.md).
+- **Rows a person decided are not grants to an organization are flagged, not dropped** (`row_flag = not_an_award`; #89 B13): FY2009's `Borough President Discretionary Funding` $533,000 and `Provider's Choice` $1,200,000, both on the City's EIN, which Open Data files under MOCS ID `FY09 Not an Award`. They stay in every total.
+- `source_file` + `source_row` point at the exact workbook row. Built by `code/parse_expense_disclosure.py --write`; the `.xls` years (FY2009, FY2011–FY2013) need `xlrd`. Details: [`DATA-DICTIONARY.md`](DATA-DICTIONARY.md), [`code/PARSING.md`](code/PARSING.md).
 
 ### `data/{year}/terms/{year}_terms_and_conditions.csv`
 `item_number, agency_name, agency_code, units_of_appropriation, num_units, report_deadlines, coverage_period, condition_text`
@@ -189,7 +218,7 @@ on every EIN-bearing file. Details in [`code/PARSING.md`](code/PARSING.md).
 
 ## Reproduce or extend to a new year
 
-Requires Python 3 with the packages in `code/requirements.txt` (`pypdf`, `cryptography`, `pdfplumber`; `xlrd` only for the FY2013 expense disclosure):
+Requires Python 3 with the packages in `code/requirements.txt` (`pypdf`, `cryptography`, `pdfplumber`; `xlrd` only for the `.xls` expense disclosure years, FY2009 and FY2011–FY2013):
 
 ```bash
 python code/parse_schedule_c.py <ScheduleC.pdf> --outdir data/fy28/schedule_c --prefix fy28

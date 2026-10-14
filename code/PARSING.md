@@ -29,7 +29,7 @@ that the packages in `code/requirements.txt` are installed (`pypdf`, `pdfplumber
 | `parse_capital_detail.py` | §254 Capital Project Detail — **FY20/FY22/FY23/FY24** ("Supporting Detail Book") | pdfplumber `extract_text()` (clean reading order) |
 | `parse_capital_fy25.py` | §254 Resolution-A / Appropriation-Changes (FY25 appropriation book + FY17/FY21/FY23/FY24) | pdfplumber word coordinates |
 | `parse_transparency_reso.py` | Post-adoption Transparency Resolutions | pdfplumber word coordinates |
-| `parse_expense_disclosure.py` | Council **expense funding disclosure** workbooks, FY2013–FY2027 (a parallel award-level dataset, not a PDF) | stdlib zip+XML for `.xlsx`; `xlrd` for the FY2013 `.xls` |
+| `parse_expense_disclosure.py` | Council **expense funding disclosure** workbooks, FY2009, FY2011–FY2027 (a parallel award-level dataset, not a PDF) | stdlib zip+XML for `.xlsx`; `xlrd` for the `.xls` years (FY2009, FY2011–FY2013) |
 
 **Why four Capital-Project-Detail parsers exist:** the same logical document is emitted with
 different PDF text layers across years. `parse_capital.py` (pypdf) works only where pypdf
@@ -308,7 +308,9 @@ by x-position.
 `MANIFEST.csv`, superseded hashes in `MANIFEST-HISTORY.csv`). **Output:** `data/fyNN/expense_disclosure/fyNN_expense_awards.csv` (one row per
 row the workbook prints; exact copies flagged in `duplicate_group`; rows a person decided are
 not grants to an organization flagged in `row_flag`, kept and counted) and
-`fyNN_expense_reconciliation.txt`, for FY2013–FY2027. This is a **parallel** dataset: it never
+`fyNN_expense_reconciliation.txt`, for FY2009 and FY2011–FY2027, plus `data/disclosure_years.csv`
+(one row per year: file, URL, capture, sha256, totals by status, early-snapshot flag, and the
+excluded FY2010). This is a **parallel** dataset: it never
 feeds or changes the Schedule C CSVs above. Schema: `DATA-DICTIONARY.md`.
 
 Three columns are **derived from committed reference tables**, never from the network, and the
@@ -334,9 +336,24 @@ python3 code/parse_expense_disclosure.py --manifest --retrieved YYYY-MM-DD --ver
                                        # --verified re-dates files that came back byte-identical
 ```
 
-FY2014–FY2027 need only the standard library. **FY2013 is a legacy `.xls` and needs `xlrd`**
+**FY2009, FY2011 and FY2012 come from the Internet Archive** (`ARCHIVED` in the parser names one
+capture per year under `source/wayback-council/files/`; GitHub #86, #89 A2). Each file's sha256
+must equal `source/wayback-council/MANIFEST.csv`, or the build stops. They pass through exactly
+the same row rules; no header synonym was added for them. **FY2010 is not loaded** (`EXCLUDED`):
+its workbook is incomplete against Open Data (DATA-ANOMALIES §25); it is parsed only to report
+its own counts in `data/disclosure_years.csv`. FY2009 and FY2013 are marked early snapshots
+(`EARLY_SNAPSHOT`), and their reports say so above the totals.
+
+**Open Data cross-reference (`od_mocs_id`, `od_match`).** Read from the committed key extract
+`source/open-data-4d7f-74pe/4d7f-74pe-keys.csv.gz` (built from the cached Open Data pull by
+`code/extract_open_data_keys.py`, pinned by sha256 in that folder's `MANIFEST.csv`). For
+FY2009–FY2021, a row gets Open Data's MOCS ID only when it and one Open Data row are alone in
+their (EIN, whole-dollar amount) bucket for the year; each report states how many rows got one,
+by tier. Audit question I2 re-derives every pair independently.
+
+FY2014–FY2027 need only the standard library. **The `.xls` years (FY2009, FY2011–FY2013) need `xlrd`**
 (`pip install -r code/requirements.txt`). The parser imports `xlrd` only when it meets the `.xls`,
-so it stays importable without it; FY2013 is then reported as skipped, and `--write` / `--check`
+so it stays importable without it; the `.xls` years are then reported as skipped, and `--write` / `--check`
 refuse to run rather than publish a partial dataset. The output is deterministic: running
 `--write` twice produces byte-identical files, and `code/test_parse_expense_disclosure.py`
 fails if a committed file differs from a fresh run.
@@ -346,7 +363,7 @@ case) is an award. Anything else, blank included, is a summary/footer row and is
 *unless* the row still names an organization and an amount; then it is kept with
 `status_norm = other` so a new status the Council introduces is surfaced, not lost (none exists
 today). Every stripped row is listed, with its cells, in that year's reconciliation report.
-Only 5 rows are stripped across 15 years: FY2024 rows 10818–10821 and 10829. (The 2026-07-15
+Only 5 rows are stripped across 18 years: FY2024 rows 10818–10821 and 10829. (The 2026-07-15
 FY2026 workbook also had four footer rows, 11763–11766; the 2026-10-12 one has none.)
 
 **Printed totals.** Only one workbook prints a total of its own, and it reconciles to the
@@ -360,6 +377,9 @@ the Council's.
 
 | FY | sheet | awards | all statuses $ | cleared rows / $ | pending rows / $ | other | stripped | blank | printed total |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| FY2009 † | `MASTER` | 5,745 | 414,226,176.88 | 4,356 / 406,962,823.87 | 1,389 / 7,263,353.01 | 0 | 0 | 0 | none printed |
+| FY2011 † | `MASTER` | 5,420 | 395,907,487.50 | 4,894 / 383,347,147.06 | 387 / 9,893,295.82 | 139 / 2,667,044.62 | 0 | 0 | none printed |
+| FY2012 † | `MASTER` | 5,823 | 386,832,781.80 | 5,482 / 150,740,106.80 | 137 / 886,357 | 204 / 235,206,318 | 0 | 0 | none printed |
 | FY2013 | `MASTER` | 4,987 | 398,882,402.18 | 2,343 / 18,201,784.75 | 2,644 / 380,680,617.43 | 0 | 0 | 0 | none printed |
 | FY2014 | `FY14` | 6,611 | 393,733,476.85 | 6,460 / 392,655,571.85 | 151 / 1,077,905 | 0 | 0 | 0 | none printed |
 | FY2015 | `FY15` | 6,650 | 286,731,856.46 | 6,596 / 285,921,454.46 | 54 / 810,402 | 0 | 0 | 0 | none printed |
@@ -375,6 +395,10 @@ the Council's.
 | FY2025 | `FY25 (09-14-26)` | 11,276 | 595,181,182 | 11,222 / 592,800,281 | 54 / 2,380,901 | 0 | 0 | 0 | none printed |
 | FY2026 | `FY26 (09-14-26)` | 11,764 | 716,213,155 | 11,658 / 708,776,879 | 106 / 7,436,276 | 0 | 0 | 0 | none printed (2026-07-15: 716,213,155, same) |
 | FY2027 | `FY27 (09-14-26)` | 10,407 | 705,704,000 | 8,870 / 590,253,954 | 1,537 / 115,450,046 | 0 | 0 | 0 | none printed |
+
+† From the Internet Archive capture named in `data/disclosure_years.csv`. FY2010 (2,592 rows,
+$111,558,052.58) is not loaded. FY2011 `other` = `Government` 136 + `Pending FC Clearance` 3;
+FY2012 `other` = `Government` 49 ($235,206,318) + `CBO Defunded` 155 ($0).
 
 **The headline figure for any year is the Cleared column, labeled as such.** "All statuses" adds
 Pending and is a different, larger claim; FY2027 (half Pending on 2026-07-15, when the year had
