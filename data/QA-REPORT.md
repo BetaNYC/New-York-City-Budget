@@ -4,7 +4,7 @@
 **Data current as of:** 2026-10-14 (files under `data/`)  
 **Tool:** `code/validate_data.py`
 
-**Verdict:** PASS — 292 files, 0 hard failure(s), 473 soft advisory(ies).
+**Verdict:** PASS — 293 files, 0 hard failure(s), 473 soft advisory(ies).
 
 Severity: HARD (exit 1) = schema drift, malformed row, non-numeric amount, or malformed EIN. SOFT (exit 0) = zeros, sign anomalies, outliers, duplicates, column-bleed residuals, coverage notes. See the module docstring for the full check list and rationale.
 
@@ -730,6 +730,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 
 | file | rows | EIN cov | hard | soft findings |
 |---|---|---|---|---|
+| `capital/council_capital_awards.csv` | 16916 | — | 0 | — |
 | `combined/all_years_awards.csv` | 33638 | 100% | 0 | duplicate: 148 duplicate row instance(s); e.g. x2: ['FY17', 'HOUSING', 'Housing', 'Community Housing Preservation Strategies']...; column_bleed: 95 suspected surname-in-organization residual(s); e.g. line 489: 'Hudson Guild'; org_prose: 22 award row(s) whose `organization` holds purpose prose instead of a grantee name — `ein` and `amount` are intact, the display name is lost; e.g. line 7148: 'Funding to support a theater production for children of peop'; org_merged: 59 award row(s) with an EIN or `$` inside `organization` — row boundary lost, so `amount` may belong to a different org than `organization` names; e.g. line 697: 'Charles B. Wang Community Health Center, Inc. 13-2739694 * $' |
 | `combined/all_years_initiatives.csv` | 2598 | — | 0 | — |
 | `fy09/expense_disclosure/fy09_expense_awards.csv` | 5745 | 100% | 0 | duplicate_group: 373 row(s) in 97 group(s) of exact copies, kept as published (DATA-ANOMALIES §22); od_mocs_id: 4081 row(s) carry NYC Open Data's MOCS ID (unambiguous pairs only); row_flag: rows kept as published but flagged: not_an_award x2; ein: 3 EIN(s) not 9 digits, kept as the Council published them (DATA-ANOMALIES §25): line 3075 'EX130314', line 4366 'EX123557', line 4912 '11-31735A' |

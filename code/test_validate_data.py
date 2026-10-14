@@ -683,3 +683,40 @@ def test_disclosure_reconciliation_rollup_distinguishes_na_from_pass(tmp_path):
     assert d[(2024, "disclosure")] == ("1/1", "PASS")
     assert d[(2025, "disclosure")] == ("—", "N/A (no printed total)")
     assert d[(2026, "disclosure")][1].startswith("FAIL")
+
+
+# --------------------------------------------------- council capital (#89 A6)
+CAP_HDR = ("report_year,amount_fy,project_id,borough,budget_line,budget_line_norm,"
+           "council_district,sponsor,title,description,amount,source_kind,source_file,"
+           "source_row,row_flag")
+
+
+def _cap_row(ry="2027", fy="2027", line="P  D018", norm="P D018", amt="1000",
+             kind="council_workbook", flag=""):
+    return f"{ry},{fy},CC0001,M,{line},{norm},01,Marte,T,D,{amt},{kind},f.xlsx,2,{flag}\n"
+
+
+def _cap_file(root, body):
+    p = str(root / "capital" / "council_capital_awards.csv")
+    _write(p, CAP_HDR + "\n" + body)
+    return p
+
+
+def test_council_capital_rules_issue_89(tmp_path):
+    """FAILS if well-formed rows (a negative technical adjustment, an out-year, a flagged split
+    record with no amount) raise a hard finding, or if any of these passes: a blank amount on
+    an unflagged row, an amount on a flagged one, an out-year before the report year, a
+    budget_line_norm that is not the published line re-spelled, an unknown source_kind."""
+    root = tmp_path / "data"
+    _cap_file(root, _cap_row() + _cap_row(amt="-2000000") + _cap_row(fy="2028")
+              + _cap_row(fy="", amt="", kind="open_data_t474", flag="split_record_amount_unknown")
+              + _cap_row(line="PW-DN846", norm="PW DN846") + _cap_row(line="", norm=""))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.typ == "council_capital" and r.hard == [], r.hard
+    for i, row in enumerate([_cap_row(amt=""), _cap_row(flag="split_record_amount_unknown"),
+                             _cap_row(fy="2026"), _cap_row(norm="PD018"),
+                             _cap_row(kind="pdf")]):
+        root2 = tmp_path / f"bad{i}"
+        _cap_file(root2, row)
+        (r2,) = V.validate_tree(str(root2))[0]
+        assert [c for c, _m in r2.hard] == ["council_capital"], (row, r2.hard)

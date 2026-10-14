@@ -324,3 +324,45 @@ on the rows, never a Council figure.
 | `row_flagged` | Rows with a `row_flag`. |
 | `early_snapshot` | `yes` for a workbook frozen while much of it was Pending and never revised (FY2009, FY2013): do not headline its Cleared total. |
 | `note` | Why a year is an early snapshot or not loaded, with its counts. |
+
+## `data/capital/` (Council capital, structured sources only)
+
+Built by `code/build_capital_council.py`; overview, sources per year and code meanings in
+[`data/capital/README.md`](data/capital/README.md). A separate dataset from the PDF-derived
+`data/{year}/capital/` files above.
+
+### `council_capital_awards.csv`
+
+| Column | Meaning |
+|--------|---------|
+| `report_year` | The Council's capital list the row comes from (the workbook's year, or t474's `Reported`). |
+| `amount_fy` | The fiscal year the amount is for: the report year, or an out-year. Blank only on a `split_record_amount_unknown` row. |
+| `project_id` | The Council's ID as printed (`E  CN459`, `E CN0001`, `CC0001`): unique within a year only, internal to budget negotiations, **not** an FMS project ID. Blank in FY2015 (none printed). |
+| `borough` | As printed: `K M Q R X`, `C` citywide; `A` and lower-case values are kept, meaning unconfirmed. |
+| `budget_line` | As printed (`P  D018`, `PW-DN846`). Blank in FY2016 (none printed). FY2015's comes from its "Project" column, which holds budget lines. |
+| `budget_line_norm` | **Derived:** agency code, one space, line (`P D018`); blank when `budget_line` has no budget-line shape. The join key to OMB. |
+| `council_district` | As printed: a comma list of district numbers and codes (00 Speaker, 88–99; `data/capital/README.md`). **Unusable for t474 years**: Open Data collapsed the lists into one number. |
+| `sponsor` | As printed: member surnames, delegations, caucuses, "Technical Adjustments", "Admin". |
+| `title`, `description` | As printed. t474's FY2019 `title` often names the organization. |
+| `amount` | Dollars, as printed; negative on some technical adjustments; blank only on a flagged split record. |
+| `source_kind` | `council_workbook` or `open_data_t474`. |
+| `source_file`, `source_row` | The workbook and its 1-based sheet row, or the t474 file and the row's SODA `:id`. |
+| `row_flag` | `split_record_amount_unknown`: a t474 record broken across rows whose amount the Council's own files cannot prove (data/capital/RECONCILIATION.md §2). Blank otherwise. |
+
+### `omb_capital_budget_council_lines.csv` and `omb_commitment_plan_council_lines.csv`
+
+OMB's rows on Council-series budget lines (the line part starts with `D`), every release, values
+as served. Capital Budget (`46m8-77gv`): `pub_date`, `release` (`adopted` for the last release of
+each first fiscal year, published in July every year 2018–2026), `proj_type`, `budget_line`,
+`budget_line_norm`, `budget_line_title`, `funding` (C City non-exempt, E City exempt, F federal,
+S state, P private), `yr1_fy`, `year1_amt`…`year4_amt` (**dollars**; year N is `yr1_fy` + N − 1,
+per OMB's data dictionary), `source_row` (`:id`). Commitment Plan (`2cmn-uidm`): the same idea
+with `funding` CITY / NON CITY, `num_yrs_prsnt`, and `year1_amt_k`…`year5_amt_k` in
+**thousands of dollars**.
+
+### `council_vs_omb_by_budget_line.csv`
+
+`report_year`, `budget_line_norm`, `omb_pub_date` (the adopted release used), `council_rows`,
+`council_y1` / `omb_y1` (the report year), `council_y2` / `omb_y2` (the next year), `verdict`:
+`match` (both years equal to the dollar), `differ`, `council_only`, `omb_only`. OMB amounts are
+summed over funding sources. This repo's arithmetic, not a Council or OMB figure.

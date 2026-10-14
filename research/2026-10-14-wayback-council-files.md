@@ -129,7 +129,8 @@ in the cache only (36 MB).
 
 Notes for #87:
 - **Grain differs by era.** FY15 has about 250 distinct project IDs over 1,341 rows, one row per
-  sponsor per project. FY16, FY26 and FY27 have one row per project ID (FY17: 1,437 IDs over
+  sponsor per project. *(Corrected 2026-10-14: FY15's "Project" column holds budget lines such as
+  `AG D001`, not project IDs; FY15 has no project ID. See `data/capital/README.md`.)* FY16, FY26 and FY27 have one row per project ID (FY17: 1,437 IDs over
   1,469 rows).
 - **FY15 and FY16 end in a totals row.** Its amounts equal the column totals, so naive sums
   double-count it.

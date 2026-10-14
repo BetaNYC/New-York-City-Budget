@@ -49,6 +49,8 @@ New-York-City-Budget/
 │   │                     workbooks, FY15–FY17 + FY26 capital databases; manifests for every capture)
 │   ├── open-data-4d7f-74pe/  (manifest, metadata and data dictionary of the NYC Open Data pull,
 │   │                     and a 5-column key extract used for od_mocs_id; the full rows stay out of git)
+│   ├── open-data-t474-a92g/, open-data-46m8-77gv/, open-data-2cmn-uidm/  (Council capital,
+│   │                     OMB capital budget and commitment plan: rows as gzip CSV + manifests)
 │   └── census-zcta/     (provenance of the Census 2020 ZCTA file used to check disclosure ZIPs)
 ├── data/                ← extracted, reconciled CSVs
 │   ├── fy09/ … fy27/    (per year: schedule_c/, terms/, capital/, transparency-resolutions/
@@ -57,6 +59,8 @@ New-York-City-Budget/
 │   │   ├── terms/       Terms & Conditions (reporting mandates)
 │   │   ├── capital/     Section 254 capital changes
 │   │   └── expense_disclosure/  the Council's award-level disclosure workbooks, FY2009, FY2011–FY2027
+│   ├── capital/         Council capital designations FY2015–FY2017, FY2019–FY2027 from structured sources,
+│   │                     OMB reference tables, reconciliation by budget line (no PDF data)
 │   ├── reference/       lookup tables derived from outside sources (Census ZCTA → state; Legistar roster extract)
 │   └── combined/        all-years roll-ups (built by code/build_combined.py)
 ├── code/                ← parser scripts + variants + validate_data.py (QA) + tests + PARSING.md + requirements.txt
@@ -178,6 +182,19 @@ Post-adoption discretionary designations from the 10 FY2026 Transparency Resolut
 | **FY2025** | 24 / 26 exact | Education: the source PDF's own line items exceed its printed total by **$50,000** |
 
 The two "misses" are arithmetic inconsistencies **inside the official PDFs**, not extraction errors — the parser faithfully captured both the line items and the printed total, and they disagree in the source.
+
+### `data/capital/` — Council capital, from structured sources only
+
+The Council's own capital lists, one row per designation and fiscal year: FY2015–FY2017 from the
+Council's archived workbooks, FY2019–FY2025 from NYC Open Data `t474-a92g` (which the Council
+publishes), FY2026–FY2027 from the RnD site's workbook. FY2018 is in no source found. Beside it,
+OMB's adopted Capital Budget (`46m8-77gv`) and Capital Commitment Plan (`2cmn-uidm`) on the
+Council's budget lines, and a reconciliation **by budget line**: in FY2027, 146 of the Council's
+153 lines match OMB's adopted budget to the dollar. Project IDs do not link to OMB or to
+contracts, so nothing here is claimed below the budget line. Built by
+`code/build_capital_council.py`, audited by `code/audit_capital.py`; details, codes and known
+problems in [`data/capital/README.md`](data/capital/README.md). These are not the PDF-derived
+Section 254 files in `data/{year}/capital/`.
 
 ### Historical coverage (FY2009–FY2024)
 

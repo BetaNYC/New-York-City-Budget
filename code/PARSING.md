@@ -29,6 +29,7 @@ that the packages in `code/requirements.txt` are installed (`pypdf`, `pdfplumber
 | `parse_capital_detail.py` | §254 Capital Project Detail — **FY20/FY22/FY23/FY24** ("Supporting Detail Book") | pdfplumber `extract_text()` (clean reading order) |
 | `parse_capital_fy25.py` | §254 Resolution-A / Appropriation-Changes (FY25 appropriation book + FY17/FY21/FY23/FY24) | pdfplumber word coordinates |
 | `parse_transparency_reso.py` | Post-adoption Transparency Resolutions | pdfplumber word coordinates |
+| `build_capital_council.py` | Council capital workbooks (FY2015–FY2017, FY2026–FY2027) + NYC Open Data `t474-a92g` (FY2019–FY2025), `46m8-77gv`, `2cmn-uidm` → `data/capital/` | stdlib zip+XML (the disclosure parser's reader); `audit_capital.py` re-reads with openpyxl |
 | `parse_expense_disclosure.py` | Council **expense funding disclosure** workbooks, FY2009, FY2011–FY2027 (a parallel award-level dataset, not a PDF) | stdlib zip+XML for `.xlsx`; `xlrd` for the `.xls` years (FY2009, FY2011–FY2013) |
 
 **Why four Capital-Project-Detail parsers exist:** the same logical document is emitted with

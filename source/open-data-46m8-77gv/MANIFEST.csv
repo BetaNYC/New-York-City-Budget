@@ -1,0 +1,9 @@
+file,url,wayback_timestamp,retrieved_at,http_status,bytes,sha256,rows,note
+46m8-77gv.csv.gz,(assembled from pages/*.json by code/fetch_open_data_capital.py; not a download),,2026-10-14T10:05:19-04:00,,843270,5efbc2739d9b46d31538e995fcecfc06f2098338c42f7c578cee43422596b4d5,16491,rowsUpdatedAt 1783965522 (metadata read 2026-10-14); csv sha256 0f25e5d1493d7ac3ddc8c200713e0fd02b08b0e64e0ffa8d6f29454a0f410055; gzip mtime 0
+Capital_Budget_Data_Dictionary.xlsx,https://data.cityofnewyork.us/api/views/46m8-77gv/files/5864545c-db73-4a37-9a90-796087f4b4bd?download=true&filename=Capital_Budget_Data_Dictionary.xlsx,,2026-10-14T10:05:22-04:00,200,11956,dbaaf5ee64b550a096b1272255b7c1681569d37338b64aac913c4f9e152c033b,,
+count.json,https://data.cityofnewyork.us/resource/46m8-77gv.json?$select=count(*),,2026-10-14T10:04:54-04:00,200,20,6c657ce0774a52f0d2e4fc056cc7a1d03c27821a62ce361332389910e07ebc79,1,"[{""count"":""16491""}]
+"
+pages/offset-000000.json,"https://data.cityofnewyork.us/resource/46m8-77gv.json?$select=:*,*&$order=:id&$limit=5000&$offset=0",,2026-10-14T10:05:01-04:00,200,2021830,fa9d7f3682332c35449cfbc06f099af5289352fcaf6ab77c98b65c746f49213c,5000,
+pages/offset-005000.json,"https://data.cityofnewyork.us/resource/46m8-77gv.json?$select=:*,*&$order=:id&$limit=5000&$offset=5000",,2026-10-14T10:05:05-04:00,200,2019576,73677d7955cc53bccd427d8f7ec804d8880db6edecf645c1a688026e9768fa1a,5000,
+pages/offset-010000.json,"https://data.cityofnewyork.us/resource/46m8-77gv.json?$select=:*,*&$order=:id&$limit=5000&$offset=10000",,2026-10-14T10:05:15-04:00,200,2026389,c2d40e79b122e569e8c085f79c2cf1211b47ad6989cf92ef787bcfd59e3078fd,5000,
+pages/offset-015000.json,"https://data.cityofnewyork.us/resource/46m8-77gv.json?$select=:*,*&$order=:id&$limit=5000&$offset=15000",,2026-10-14T10:05:19-04:00,200,604778,39928a077fcbd3100e0cf0f600643548da2efdb45ba8add2affe7d89bff4abf7,1491,

@@ -706,3 +706,32 @@ number here is this repo's arithmetic on those files.
   year. Kept and flagged as in every year.
 - **Duplicate Open Data MOCS IDs.** `od_mocs_id` repeats on two FY2009 pairs because Open Data
   repeats the ID: `FY09 Not an Award` (§24) and `FY09 2039`.
+
+---
+
+## 26. Council capital from structured sources (GitHub #89 A6, A7, B8–B10)
+
+`data/capital/` (README there). Every number is this repo's arithmetic on committed files.
+
+- **FY2018 is missing.** No Council workbook was found for it, and `t474-a92g` starts at FY2019.
+- **The Council's list and OMB's adopted budget agree by budget line in most lines, not all**
+  (`data/capital/RECONCILIATION.md` §3). FY2027: 146 of 153 Council lines match OMB's July 2026
+  release to the dollar in both years; 7 differ (`P D017` $579,000 lower at OMB and `P D020`
+  $579,000 higher look like one project booked in another borough: interpretation), and 8 OMB
+  `D`-series lines have no Council row; OMB is $25,789,000 higher in total. FY2021 and FY2024
+  match on every line. **OPEN:** why they differ (#89 C1; Council Finance or OMB).
+- **t474-a92g problems.** 5 records broken across 12 rows (§ RECONCILIATION 2): the FY2026 one
+  is proven by the Council's workbook; the FY2020 (2), FY2022 and FY2023 ones are kept with a
+  blank amount and flagged, and their spilled amounts ($170,000, $300,000, $55,000, $150,000
+  on fragments that cannot be tied to a record from the Council's own files) are not counted.
+  `council_district` collapsed comma lists into single numbers. FY2019 `title` often names the
+  organization. Against the Council's FY2026 workbook, t474's FY2026 differs only by that broken
+  record ($2,000,000).
+- **Codes:** the Council's t474 dictionary defines CD 00 and 88–99 (99 = Technical
+  Adjustments) and ID types CN, NC, TA, RR. Borough `A`, CD `80` ("Admin"), the FY2027 `CC`
+  prefix and FY2016 `PN` are **meaning unconfirmed** (#89 B9).
+- **Totals rows:** FY2015 and FY2016 end in a totals row; stripped; the kept rows equal it.
+- **2cmn-uidm** has one row with no release, line or year and grand-total-sized amounts
+  (`row-qxu3-pz44.fhei`); stripped from the reference table.
+- **No project-level or contract-level claim** is made: Council project IDs do not appear in any
+  OMB dataset (A7, C2, C9).
