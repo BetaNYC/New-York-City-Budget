@@ -87,16 +87,26 @@ ZCTAS = {"10001": frozenset({"NY"}), "02446": frozenset({"MA"}), "07083": frozen
     ("#N/A", "", ("", "invalid")),                      # issue #71: an Excel error is no ZIP
     ("N/A", "NY", ("", "invalid")),
     ("0", "NY", ("", "invalid")),
-    ("10001-", "NY", ("", "invalid")),
-    ("11217-11217", "NY", ("", "invalid")),
+    ("10001-", "NY", ("10001", "trimmed")),             # a ragged ZIP+4, in-state ZCTA
+    ("11217-11217", "NY", ("11217", "trimmed")),
+    ("10001-000", "New YorkNY", ("10001", "trimmed")),
+    ("11217 - 20", "NY", ("11217", "trimmed")),
+    ("11217-", "NC", ("", "invalid")),                  # ZCTA in another state: not trimmed
+    ("10001-", "", ("", "invalid")),                    # no state to check against
+    ("10001-", "Brooklyn", ("", "invalid")),            # state unreadable: not trimmed
+    ("10008-", "NY", ("", "invalid")),                  # first five are no ZCTA
+    ("11217=1020", "NY", ("", "invalid")),              # not the hyphenated form
+    ("11217 ZipCode2: 3929", "NY", ("", "invalid")),
+    ("112171", "NY", ("", "invalid")),                  # six digits: a typo, not ZIP+4
     ("www.mind-builders.org", "NY", ("", "invalid")),
     ("", "NY", ("", "blank")),
 ])
 def test_classify_zip(raw, state, expected):
     """Issue #70. FAILS if a 4-digit ZIP is padded when the padded ZCTA does not exist or is in
     another state (or the row names no state), if '#N/A' or '0' gets a status other than
-    invalid, if a non-ZCTA ZIP is called invalid rather than not_a_zcta, or if a ZIP+4 loses
-    its five digits."""
+    invalid, if a non-ZCTA ZIP is called invalid rather than not_a_zcta, if a ZIP+4 loses
+    its five digits, or if a ragged ZIP+4 is trimmed when its five digits are not a ZCTA in the
+    row's own state (or the row names no state), or is not trimmed when they are."""
     assert Z.classify_zip(raw, state, ZCTAS) == expected
 
 
@@ -122,8 +132,9 @@ def test_committed_table_is_well_formed_and_matches_the_manifest():
 def test_committed_zip_statuses_issue_70():
     """Corpus pin, from the committed disclosure CSVs. FAILS if the ZIP status counts move, if a
     published postal_code was rewritten (zip must be derivable from it), or if any '#N/A' ZIP
-    is not invalid."""
-    c = collections.Counter()
+    is not invalid, or if the ragged ZIP+4 values trimmed (issue #70 follow-up) are not exactly
+    the seven hyphenated forms below."""
+    c, trimmed = collections.Counter(), collections.Counter()
     for f in glob.glob(os.path.join(os.path.dirname(HERE), "data", "fy*", "expense_disclosure",
                                     "*_awards.csv")):
         with open(f, newline="", encoding="utf-8") as fh:
@@ -135,5 +146,10 @@ def test_committed_zip_statuses_issue_70():
                     assert r["zip"] == "0" + r["postal_code"], r
                 elif r["zip"]:
                     assert r["postal_code"].startswith(r["zip"]), r
-    assert dict(c) == {"valid": 127343, "blank": 10834, "not_a_zcta": 1073, "invalid": 264,
-                       "state_mismatch": 29, "padded": 13}
+                if r["zip_status"] == "trimmed":
+                    assert Z._RAGGED.fullmatch(r["postal_code"]), r
+                    trimmed[r["postal_code"]] += 1
+    assert dict(c) == {"valid": 127343, "blank": 10834, "not_a_zcta": 1073, "invalid": 232,
+                       "state_mismatch": 29, "padded": 13, "trimmed": 32}
+    assert dict(trimmed) == {"11203-": 24, "10027-000": 2, "10037-999": 2, "11217-11217": 1,
+                             "11204-11204": 1, "10033-10033": 1, "11102-20": 1}

@@ -294,6 +294,28 @@ def test_zip_question_catches_a_blind_pad_issue_70():
         assert A.q_zip({"csv": [bad]})["count"] == 1, bad
 
 
+def test_zip_trim_question_issue_70():
+    """Audit question G11 and G7's trimmed rule, against the committed Census table. FAILS if a
+    correct trim ('11203-' in NY -> 11203) is reported, or if trimming into another state's ZCTA,
+    trimming a non-hyphenated value ('11231=1020'), trimming with no state, or leaving a
+    trimmable ragged ZIP+4 invalid passes."""
+    def row(raw, state, z, st):
+        r = _csv_row(2, "Acme", "136400434", "Cleared", 5000, zip=raw)
+        r.update(state=state, zip=z, zip_status=st)
+        return r
+    good = [row("11203-", "NY", "11203", "trimmed"), row("11217-11217", "New YorkNY", "11217", "trimmed"),
+            row("11231=1020", "NY", "", "invalid"), row("11203-", "NC", "", "invalid"),
+            row("10001-1234", "NY", "10001", "valid")]
+    assert A.q_zip_trim({"csv": good})["status"] == "pass"
+    assert A.q_zip({"csv": good})["status"] == "pass"
+    for bad in (row("11203-", "NC", "11203", "trimmed"), row("11231=1020", "NY", "11231", "trimmed"),
+                row("11203-", "", "11203", "trimmed"), row("11203-", "NY", "", "invalid")):
+        assert A.q_zip_trim({"csv": [bad]})["count"] == 1, bad
+    for bad in good[:1]:
+        wrong = dict(bad, zip="11204")
+        assert A.q_zip({"csv": [wrong]})["count"] == 1
+
+
 def test_member_id_questions_issue_72():
     """Issue #72, audit questions G8-G10, against the committed roster extract. FAILS if Levin
     (7567) in FY2016 is reported, or if Levin carrying Levine's ID (7634) passes G10, if one ID
@@ -399,6 +421,8 @@ def test_corpus_pins(real):
     assert by["F3"]["status"] == "pass" and "FY2020 75 groups / 154 rows / 79 surplus" in by["F3"]["note"]
     # Issue #70: every ZIP status agrees with the Census table.
     assert by["G7"]["status"] == "pass" and "'padded': 13" in by["G7"]["note"]
+    assert "'trimmed': 32" in by["G7"]["note"] and "'invalid': 232" in by["G7"]["note"]
+    assert by["G11"]["status"] == "pass" and "32 rows trimmed (7 values" in by["G11"]["note"]
     # Issue #72: only the 3 export-time names (341 rows) fall outside their year; no shared IDs;
     # Levin != Levine.
     assert by["G8"]["count"] == 341 and "0 rows typed member fail" in by["G8"]["note"]

@@ -31,7 +31,8 @@ council_member_type, decided in this order:
                     no longer) in office that year (e.g. FY2025 "Wong", rows re-attributed from
                     Holden). The ID is given; the type says it is not that year's member.
   ambiguous         more than one such person voted inside the fiscal year; no ID, the
-                    candidates are listed. Never guessed.
+                    candidates are listed. Never guessed -- except where a person has decided a
+                    file convention for that one (fiscal year, value); see FILE_CONVENTIONS.
   unresolved        no Legistar person carries the name ("CC", "NA"); no ID.
 
 Service evidence and its limits: the fiscal years in which the Legistar index records at least
@@ -42,6 +43,18 @@ vote on that side of it, is not counted there. A person with no recorded vote (p
 Public Advocates) has no years and is never a candidate. The index's vote records run from 2001
 to its last indexing date (data/reference/council_members_legistar_meta.csv), which covers every
 fiscal year here except the unfinished part of FY2027.
+
+File conventions (FILE_CONVENTIONS below): a value the rules above leave ambiguous may be
+resolved by a decision a person made and recorded here, never by this script on its own. One
+exists: FY2021 bare "Diaz". Ruben Diaz, Sr. and Darma V. Diaz both voted in FY2021; the workbook
+prints Darma Diaz as "D. Diaz" in the same year, so bare "Diaz" is read as the other one, Ruben
+Diaz, Sr. (Noel Hidalgo, 2026-10-13). The row is typed `member` and its method begins
+"file_convention". The evidence is computed from the parsed workbook on every build, never typed
+in: the Local-stream rows of each value, by the grantee's city and ZIP prefix. Those are grantee
+MAILING addresses, not where services were delivered, so they support the reading; they do not
+prove it. The build stops if the generic rule stops calling the value ambiguous, if the sibling
+value is gone or resolves to someone else, or if the addresses stop pointing the stated way. A
+rule names one fiscal year and one printed value and applies nowhere else.
 
 Run:
   python3 code/build_member_crosswalk.py           print a summary
@@ -206,25 +219,126 @@ def classify(value, fy, roster):
                 evidence=ev)
 
 
-def build(pairs, roster):
-    """pairs: {(fiscal_year, printed value): row count} -> crosswalk rows, sorted."""
+# ---------------------------------------------------------------- file conventions
+
+# Decisions a person made for one (fiscal year, printed value) the rules leave ambiguous. Each
+# names the sibling value the workbook prints for the other candidate in the same year, the
+# person the bare value is read as, and each candidate's district (borough + the ZIP prefix of
+# that borough, for the address evidence). build() re-derives the evidence and stops if any
+# premise fails. Keyed by (fiscal_year, value): a rule never applies to another year.
+FILE_CONVENTIONS = {
+    (2021, "Diaz"): {
+        "sibling": "D. Diaz",
+        "person_id": "7744",
+        "districts": {"7744": ("District 18", "Bronx", "104"),
+                      "7793": ("District 37", "Brooklyn", "112")},
+        "decided": "Noel Hidalgo, 2026-10-13",
+    },
+}
+EVIDENCE_STREAM = "Local"   # a member's own Local designations; citywide initiatives say less
+
+
+def address_evidence(rows, boroughs):
+    """rows: [(source, city, zip)] for one (year, value) -> (n Local rows, {borough: (rows whose
+    city is the borough, rows whose zip starts with its prefix)})."""
+    local = [(fold(c), z) for s, c, z in rows if s == EVIDENCE_STREAM]
+    return len(local), {b: (sum(c == fold(b) for c, _ in local),
+                            sum(z.startswith(pre) for _, z in local)) for b, pre in boroughs}
+
+
+def apply_convention(fy, value, rule, roster, addresses):
+    """The crosswalk fields for a FILE_CONVENTIONS value, or ValueError naming the premise that
+    no longer holds."""
+    where = f"file convention FY{fy} {value!r}"
+    generic = classify(value, fy, roster)
+    if generic["council_member_type"] != "ambiguous":
+        raise ValueError(f"{where}: the rules now type it {generic['council_member_type']!r}; "
+                         f"the convention is no longer needed -- remove it")
+    cands, _how = name_candidates(value, roster)
+    in_fy = {p.id: p for p in cands if p.voted_in(fy)}
+    if set(in_fy) != set(rule["districts"]) or rule["person_id"] not in in_fy:
+        raise ValueError(f"{where}: in-office candidates are {sorted(in_fy)}, the rule names "
+                         f"{sorted(rule['districts'])}")
+    sib = classify(rule["sibling"], fy, roster)
+    other = next(i for i in in_fy if i != rule["person_id"])
+    if (fy, rule["sibling"]) not in addresses or sib["council_member_id"] != other \
+            or sib["council_member_type"] != "member":
+        raise ValueError(f"{where}: the sibling {rule['sibling']!r} is not printed in FY{fy} as "
+                         f"member {other} (got {sib['council_member_type']!r} "
+                         f"{sib['council_member_id']!r})")
+    boroughs = [(rule["districts"][i][1], rule["districts"][i][2]) for i in (rule["person_id"], other)]
+    (mine_b, _), (other_b, _) = boroughs
+    ev = {}
+    for v in (value, rule["sibling"]):
+        n, by = address_evidence(addresses.get((fy, v), []), boroughs)
+        ev[v] = (n, by)
+    _, bare = ev[value]
+    _, sibl = ev[rule["sibling"]]
+    if not (bare[mine_b][1] > bare[other_b][1] and sibl[other_b][1] > sibl[mine_b][1]):
+        raise ValueError(f"{where}: the Local-stream ZIP prefixes no longer point the stated way: "
+                         f"{value!r} {bare}, {rule['sibling']!r} {sibl}")
+    p, q = in_fy[rule["person_id"]], in_fy[other]
+
+    def said(v):
+        n, by = ev[v]
+        return (f"{v!r} {n} {EVIDENCE_STREAM}-stream rows: city "
+                + " / ".join(f"{b} {by[b][0]}" for b, _ in boroughs) + ", ZIP "
+                + " / ".join(f"{pre}xx {by[b][1]}" for b, pre in boroughs))
+
+    dist = "; ".join(f"{x.full} ({x.id}) = {rule['districts'][x.id][0]} ({rule['districts'][x.id][1]})"
+                     for x in (p, q))
+    return dict(generic, council_member_type="member", council_member_id=p.id,
+                legistar_full_name=p.full,
+                method=(f"file_convention: both {p.full} and {q.full} voted in FY{fy}; the workbook "
+                        f"prints {q.full} as {rule['sibling']!r} in the same year, so {value!r} is "
+                        f"read as {p.full} (decided by {rule['decided']})"),
+                evidence=(f"{generic['evidence']}; {dist}; grantee mailing addresses, not where "
+                          f"services were delivered: {said(value)}; {said(rule['sibling'])}"))
+
+
+def build(pairs, roster, addresses=None, conventions=None):
+    """pairs: {(fiscal_year, printed value): row count} -> crosswalk rows, sorted. addresses:
+    {(fiscal_year, value): [(source, city, zip)]}, needed for any value in `conventions`
+    (default FILE_CONVENTIONS) that `pairs` holds, and for its sibling."""
+    conventions = FILE_CONVENTIONS if conventions is None else conventions
     rows = []
     for (fy, v), n in sorted(pairs.items(), key=lambda kv: (kv[0][0], kv[0][1].lower(), kv[0][1])):
-        rows.append({"fiscal_year": fy, "council_member": v, "rows": n, **classify(v, fy, roster)})
+        rule = conventions.get((fy, v))
+        if rule is not None:
+            if addresses is None or (fy, v) not in addresses:
+                raise ValueError(f"file convention FY{fy} {v!r}: no address evidence passed")
+            fields = apply_convention(fy, v, rule, roster, addresses)
+        else:
+            fields = classify(v, fy, roster)
+        rows.append({"fiscal_year": fy, "council_member": v, "rows": n, **fields})
     return rows
 
 
-def disclosure_pairs():
-    """{(fiscal_year, council_member): rows} from the workbooks, through the parser."""
+def disclosure_inputs(conventions=None):
+    """({(fiscal_year, council_member): rows}, {(fiscal_year, value): [(source, city, zip)]})
+    from the workbooks, through the parser. Addresses are kept only for the file-convention
+    values and their siblings; zip is the dataset's own derived zip (code/zcta_states.py)."""
+    conventions = FILE_CONVENTIONS if conventions is None else conventions
     sys.path.insert(0, HERE)
     import parse_expense_disclosure as P  # sibling module, imported on use
-    pairs = collections.Counter()
+    import zcta_states as Z
+    zctas = Z.load_table()
+    want = set(conventions) | {(fy, r["sibling"]) for (fy, _v), r in conventions.items()}
+    pairs, addresses = collections.Counter(), collections.defaultdict(list)
     for awards, rep in P.parse_all():
         if rep.skipped:
             raise SystemExit(f"FY{rep.fiscal_year} skipped ({rep.skipped}); cannot build the crosswalk")
         for a in awards:
-            pairs[(a.fiscal_year, a.council_member)] += 1
-    return pairs
+            key = (a.fiscal_year, a.council_member)
+            pairs[key] += 1
+            if key in want:
+                addresses[key].append((a.source, a.city, Z.classify_zip(a.postal_code, a.state, zctas)[0]))
+    return pairs, dict(addresses)
+
+
+def disclosure_pairs():
+    """{(fiscal_year, council_member): rows} from the workbooks, through the parser."""
+    return disclosure_inputs()[0]
 
 
 def text(rows):
@@ -256,7 +370,12 @@ def main(argv=None):
     g.add_argument("--write", action="store_true", help="write the crosswalk CSV")
     g.add_argument("--check", action="store_true", help="exit 1 if the committed crosswalk is stale")
     a = ap.parse_args(argv)
-    rows = build(disclosure_pairs(), load_roster())
+    pairs, addresses = disclosure_inputs()
+    try:
+        rows = build(pairs, load_roster(), addresses)
+    except ValueError as e:
+        print(f"STOP: {e}")
+        return 1
     t = text(rows)
     if a.check:
         cur = ""
@@ -273,6 +392,10 @@ def main(argv=None):
         print(f"wrote {os.path.relpath(OUT, ROOT)}")
     for typ, (values, n) in summary(rows).items():
         print(f"{typ:<18} {values:>5} (year, value) pairs {n:>8,} rows")
+    for r in rows:
+        if r["method"].startswith("file_convention"):
+            print(f"file_convention    FY{r['fiscal_year']} {r['council_member']!r} -> "
+                  f"{r['council_member_id']} {r['legistar_full_name']} ({r['rows']} rows)")
     return 0
 
 

@@ -101,6 +101,82 @@ def test_initials_and_legistar_prefixes():
     assert cls("Sanchez", 2026)["council_member_type"] == "ambiguous"
 
 
+# ---------------------------------------------------------------- file conventions
+
+def _addr(local_bronx=0, local_brooklyn=0, other=0):
+    """Synthetic (source, city, zip) rows: Local-stream Bronx / Brooklyn grantees, plus rows from
+    other streams (which the evidence must ignore)."""
+    return ([("Local", "Bronx", "10451")] * local_bronx + [("Local", "Brooklyn", "11201")] * local_brooklyn
+            + [("Youth", "Brooklyn", "11201")] * other)
+
+
+def _diaz_inputs(**over):
+    pairs = {(2019, "Diaz"): 5, (2021, "Diaz"): 10, (2021, "D. Diaz"): 8, (2022, "Diaz"): 3}
+    addresses = {(2021, "Diaz"): _addr(local_bronx=6, local_brooklyn=1, other=9),
+                 (2021, "D. Diaz"): _addr(local_brooklyn=5)}
+    addresses.update(over)
+    return pairs, addresses
+
+
+def _by(rows):
+    return {(r["fiscal_year"], r["council_member"]): r for r in rows}
+
+
+def test_fy2021_bare_diaz_is_ruben_diaz_sr_by_file_convention():
+    """Noel's 2026-10-13 decision. FAILS if FY2021 bare 'Diaz' maps to Darma Diaz (7793), stays
+    ambiguous, maps to the no-vote 5267 record, or is not labeled file_convention; if 'D. Diaz'
+    stops being Darma; or if the evidence is not the computed Local-stream address counts with
+    the mailing-address caveat."""
+    pairs, addresses = _diaz_inputs()
+    r = _by(B.build(pairs, ROSTER, addresses))
+    d = r[(2021, "Diaz")]
+    assert (d["council_member_type"], d["council_member_id"]) == ("member", "7744")
+    assert d["method"].startswith("file_convention")
+    assert "Bronx 6 / Brooklyn 1" in d["evidence"] and "104xx 6 / 112xx 1" in d["evidence"]
+    assert "not where services were delivered" in d["evidence"]
+    assert r[(2021, "D. Diaz")]["council_member_id"] == "7793"
+
+
+def test_file_convention_does_not_leak_to_other_years_or_values():
+    """FAILS if the FY2021 rule reaches FY2022 'Diaz' (both Diazes voted in FY2022: still
+    ambiguous), changes FY2019 'Diaz' from the generic rule, or labels any other row
+    file_convention."""
+    pairs, addresses = _diaz_inputs()
+    r = _by(B.build(pairs, ROSTER, addresses))
+    assert r[(2022, "Diaz")]["council_member_type"] == "ambiguous"
+    assert r[(2022, "Diaz")]["council_member_id"] == ""
+    assert r[(2019, "Diaz")] == {"fiscal_year": 2019, "council_member": "Diaz", "rows": 5,
+                                 **B.classify("Diaz", 2019, ROSTER)}
+    assert [k for k, v in r.items() if v["method"].startswith("file_convention")] == [(2021, "Diaz")]
+
+
+@pytest.mark.parametrize("breaks", [
+    "addresses_flip", "sibling_missing", "sibling_elsewhere", "no_addresses", "no_longer_ambiguous",
+])
+def test_file_convention_stops_when_its_premise_fails(breaks):
+    """FAILS if the build applies the convention when the bare value's Local addresses stop
+    pointing to the Bronx (or the sibling's to Brooklyn), when 'D. Diaz' is not printed that
+    year, when 'D. Diaz' resolves to someone else, when no address evidence is passed, or when
+    the generic rule no longer calls the value ambiguous."""
+    pairs, addresses = _diaz_inputs()
+    roster = ROSTER
+    conventions = B.FILE_CONVENTIONS
+    if breaks == "addresses_flip":
+        addresses[(2021, "Diaz")] = _addr(local_bronx=1, local_brooklyn=6)
+    elif breaks == "sibling_missing":
+        del addresses[(2021, "D. Diaz")]
+    elif breaks == "sibling_elsewhere":
+        rule = dict(B.FILE_CONVENTIONS[(2021, "Diaz")], sibling="R. Diaz")
+        conventions = {(2021, "Diaz"): rule}
+        addresses[(2021, "R. Diaz")] = _addr(local_brooklyn=5)
+    elif breaks == "no_addresses":
+        addresses = None
+    elif breaks == "no_longer_ambiguous":
+        roster = [p for p in ROSTER if p.id != "7793"]
+    with pytest.raises(ValueError):
+        B.build(pairs, roster, addresses, conventions)
+
+
 def test_accents_components_and_exact_surname_priority():
     """FAILS if 'Velazquez' misses 'Velázquez', if 'Viverito' misses Mark-Viverito, or if
     'Powers' is diluted by Brooks-Powers (an exact surname wins over a component)."""
@@ -133,8 +209,9 @@ def committed():
 def test_committed_crosswalk_is_current():
     """FAILS if the committed crosswalk is not what the committed roster extract and workbooks
     produce today (a re-pull or a rule change without --write)."""
+    pairs, addresses = B.disclosure_inputs()
     with open(B.OUT, encoding="utf-8") as f:
-        assert B.text(B.build(B.disclosure_pairs(), B.load_roster())) == f.read()
+        assert B.text(B.build(pairs, B.load_roster(), addresses)) == f.read()
 
 
 def test_committed_crosswalk_pins(committed):
@@ -144,11 +221,11 @@ def test_committed_crosswalk_pins(committed):
     rows = collections.Counter()
     for r in committed:
         rows[r["council_member_type"]] += int(r["rows"])
-    assert dict(by) == {"member": 757, "member_outside_fy": 3, "ambiguous": 4, "unresolved": 2,
+    assert dict(by) == {"member": 758, "member_outside_fy": 3, "ambiguous": 3, "unresolved": 2,
                         "speaker": 14, "delegation": 75, "citywide": 5, "district_label": 5,
                         "blank": 15}
-    assert rows["member"] == 100946 and rows["member_outside_fy"] == 341
-    assert rows["ambiguous"] == 312 and rows["unresolved"] == 243
+    assert rows["member"] == 101069 and rows["member_outside_fy"] == 341
+    assert rows["ambiguous"] == 189 and rows["unresolved"] == 243
     ids = {r["council_member"]: r["council_member_id"] for r in committed
            if r["council_member"] in ("Levin", "Levine")}
     assert ids == {"Levin": "7567", "Levine": "7634"}
@@ -157,3 +234,19 @@ def test_committed_crosswalk_pins(committed):
         if r["council_member_id"]:
             names[(r["fiscal_year"], r["council_member_id"])].add(r["council_member"].lower())
     assert all(len(v) == 1 for v in names.values()), {k: v for k, v in names.items() if len(v) > 1}
+
+
+def test_committed_fy2021_diaz_file_convention(committed):
+    """The committed crosswalk. FAILS if FY2021 'Diaz' (123 rows) is not Ruben Diaz, Sr. (7744)
+    by file_convention, if 'D. Diaz' that year is not Darma (7793), if any other row is labeled
+    file_convention, or if the evidence drifts from the counts the 2026-10-13 QA read from the
+    committed FY2021 CSV (46 Local rows: Bronx 18, 104xx 17; D. Diaz 24 Local rows: Brooklyn 14,
+    112xx 14)."""
+    conv = [r for r in committed if r["method"].startswith("file_convention")]
+    assert [(r["fiscal_year"], r["council_member"]) for r in conv] == [("2021", "Diaz")]
+    d = conv[0]
+    assert (d["council_member_type"], d["council_member_id"], d["rows"]) == ("member", "7744", "123")
+    assert "'Diaz' 46 Local-stream rows: city Bronx 18 / Brooklyn 2, ZIP 104xx 17 / 112xx 2" in d["evidence"]
+    assert "'D. Diaz' 24 Local-stream rows: city Bronx 0 / Brooklyn 14, ZIP 104xx 0 / 112xx 14" in d["evidence"]
+    dd = [r for r in committed if (r["fiscal_year"], r["council_member"]) == ("2021", "D. Diaz")]
+    assert [(r["council_member_type"], r["council_member_id"]) for r in dd] == [("member", "7793")]
