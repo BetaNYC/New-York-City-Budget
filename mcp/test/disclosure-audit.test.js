@@ -23,7 +23,10 @@ import * as budgetServer from "../dist/server.js";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = join(HERE, "..", "..");
 const TOOL = "search_disclosure_awards";
-const YEARS = Array.from({ length: 15 }, (_, i) => 2013 + i);
+const yearsCsv = parse(readFileSync(join(REPO, "data", "disclosure_years.csv"), "utf8"), { columns: true, bom: true });
+// 2.0.0: every loaded year (FY2009, FY2011–FY2027); FY2009 and FY2013 are early snapshots.
+const YEARS = yearsCsv.filter((r) => r.loaded === "yes").map((r) => Number(r.fiscal_year));
+const EARLY = new Set(yearsCsv.filter((r) => r.early_snapshot === "yes").map((r) => Number(r.fiscal_year)));
 const STATUSES = ["cleared", "pending", "other"];
 const yy = (fy) => String(fy % 100).padStart(2, "0");
 const CSV = Object.fromEntries(
@@ -93,7 +96,8 @@ test("M1/M11: totals equal the exact CSV sum, to the cent, for every fiscal_year
         assert.doesNotMatch(text, /Other status:/, `FY${fy}`);
         continue;
       }
-      const line = `${LABEL[s]} ${fmt(rows.length)} row(s), ${exactUsd(rows)}`;
+      const label = s === "cleared" && EARLY.has(fy) ? "Cleared (early snapshot, not a headline):" : LABEL[s];
+      const line = `${label} ${fmt(rows.length)} row(s), ${exactUsd(rows)}`;
       assert.ok(text.includes(line), `FY${fy} ${s}: expected "${line}"`);
       checked++;
     }
@@ -123,7 +127,8 @@ test("M2: matched is the true count however small the page (limit 1, 50, 500)", 
 test("M3: an unfiltered page is the top amounts of ALL years, sorted before the limit", async () => {
   // FAILS if the limit is applied before ordering (#41/#48: a fiscal_year-first sort shows only
   // the earliest year), or if the page is not in descending order.
-  const top = ALL.map((r) => Number(r.amount)).sort((a, b) => b - a).slice(0, 500);
+  // Shown amounts are rounded to cents (the display rule); FY2009–FY2012 carry fractional amounts.
+  const top = ALL.map((r) => Number(r.amount)).sort((a, b) => b - a).slice(0, 500).map((a) => Math.round(a * 100) / 100);
   const { text } = await call({ limit: 500 });
   assert.deepEqual(shownAmounts(text), top);
   const years = new Set([...text.matchAll(/^FY(\d{4}) · /gm)].map((m) => m[1]));
@@ -291,22 +296,31 @@ test("M10: an empty result is not an error and names the coverage and snapshot",
   // with no statement of what was searched.
   const r = await call({ legal_name: "zz-no-such-grantee-zz", fiscal_year: 2025 });
   assert.equal(r.isError, false);
-  assert.match(r.text, /^No matching designations .*\(covers FY2013–FY2027\)/);
+  assert.match(r.text, /^No matching designations .*\(covers FY2009, FY2011–FY2027\)/);
   assert.match(r.text, /FY2025 is from funded_disclosure_FY2025\.xlsx/);
 });
 
 // ---------------------------------------------------------------- M12 top rows are not defects
 
-test("M12: the rows at the top of an unfiltered answer are clean designations", async () => {
-  // FAILS if a mangled row (merged name, blank EIN, a name that is prose or an amount) reaches
-  // the first page, the #48 CSSA shape.
+test("M12: the rows at the top of an unfiltered answer are published designations, and EIN-less rows are counted out loud", async () => {
+  // FAILS if a mangled row (merged name, a name that is prose or an amount, a malformed EIN)
+  // reaches the first page, the #48 CSSA shape; or if the EIN-less rows that FY2009 prints at the
+  // very top (School Budget Restoration, $120,000,000) are not counted in a note, exactly as the
+  // CSVs have them. 2.0.0: before FY2009 was added, every top-20 row had a 9-digit EIN.
   const { text } = await call({ limit: 20 });
   const names = [...text.matchAll(/→ (.+) \(EIN ([^)]*)\)/g)];
   assert.equal(names.length, 20);
   for (const [, name, ein] of names) {
-    assert.match(ein, /^\d{9}$/, name);
+    assert.match(ein, /^(\d{9}|—)$/, name);
     assert.doesNotMatch(name, /\b(to provide|will be used|funds will)\b|^\$?[\d,.]+$/i, name);
   }
+  // "No EIN" = no digits in the cell: 52 blank cells plus FY2011's printed "NA".
+  const blank = ALL.filter((r) => r.ein.replace(/\D/g, "") === "");
+  assert.ok(blank.some((r) => r.ein === "NA"), "fixture premise: one EIN cell prints NA");
+  assert.ok(blank.length > 0, "fixture premise");
+  assert.ok(text.includes(`Note: ${fmt(blank.length)} matched row(s), ${exactUsd(blank)}, print no grantee EIN`), "EIN-less note");
+  const one = await call({ ein: "133179546", fiscal_year: 2026, limit: 1 });
+  assert.doesNotMatch(one.text, /print no grantee EIN/, "no note when every matched row has an EIN");
 });
 
 // ---------------------------------------------------------------- M13 address filters

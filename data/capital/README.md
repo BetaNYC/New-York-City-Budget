@@ -7,7 +7,7 @@ FY2027 2026-10-12); NYC Open Data pulled 2026-10-14 (t474-a92g rows last updated
 
 Built by `code/build_capital_council.py` (`--write`, `--check`); audited by
 `code/audit_capital.py` ([`CAPITAL-AUDIT.md`](CAPITAL-AUDIT.md)). No PDF-derived data: the
-older `data/fyNN/capital/` files come from the Section 254 PDFs and are a separate dataset.
+older `data/fyNN/capital/` files come from the Section 254 PDFs, are a separate dataset, and are retired in 2.0 (kept for history, not served). This dataset is served by `@betanyc/nyc-budget-mcp` 2.0 (`search_council_capital`, `compare_capital_to_omb`).
 Column definitions: [`DATA-DICTIONARY.md`](../../DATA-DICTIONARY.md) § `data/capital/`.
 
 ## Files

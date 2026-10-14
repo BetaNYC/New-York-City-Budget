@@ -20,17 +20,32 @@
 
 name: CI
 
+# 2.0.0: the index is built from the structured datasets below, so a change to any of them
+# re-runs the MCP tests (before 2.0 a data-only PR skipped CI). Keep this list, the
+# version-guard SHIPPED list and mcp/scripts/build-index.mjs in step.
 on:
   pull_request:
     branches: [main]
     paths:
       - "mcp/**"
       - ".github/workflows/**"
+      - "data/disclosure_years.csv"
+      - "data/fy*/expense_disclosure/**"
+      - "data/capital/**"
+      - "source/wayback-council/**"
+      - "source/expense-funding-disclosure/**"
+      - "source/open-data-t474-a92g/**"
   push:
     branches: [main]
     paths:
       - "mcp/**"
       - ".github/workflows/**"
+      - "data/disclosure_years.csv"
+      - "data/fy*/expense_disclosure/**"
+      - "data/capital/**"
+      - "source/wayback-council/**"
+      - "source/expense-funding-disclosure/**"
+      - "source/open-data-t474-a92g/**"
   # Manual trigger — lets us fire a run on any branch. A path-scoped
   # pull_request/push event does not fire on the very PR that introduces the
   # workflow, so this dispatch is retained as a low-cost on-demand affordance.
@@ -80,7 +95,7 @@ jobs:
   # but leaves mcp/package.json at a version already on the registry would merge
   # "green" yet publish nothing. This job fails such a PR with a bump reminder.
   # PR-only. Runs at repo root (no working-directory default) because it diffs
-  # the whole tree and reads mcp/package.json + data/combined by path.
+  # the whole tree and reads mcp/package.json by path.
   # Docs/CI-only PRs and PRs outside the shipped paths skip untouched.
   # See platform/system/engineering-standards.md "Release protocol" in the
   # BetaNYC workspace, and BetaNYC/New-York-City-Budget#33.
@@ -103,12 +118,19 @@ jobs:
           set -euo pipefail
           echo "PR base SHA: $BASE_SHA"
           # Three-dot diff (merge-base..HEAD) restricted to what ships in the
-          # npm package: the MCP source/scripts/manifest plus the crosswalk CSVs
-          # in data/combined that are baked into the shipped SQLite index. The
-          # repo's wider budget-data pipeline outside these paths is excluded.
-          CHANGED=$(git diff --name-only "$BASE_SHA...HEAD" -- mcp/src mcp/scripts mcp/package.json data/combined)
+          # npm package: the MCP source/scripts/manifest plus the structured
+          # datasets build-index.mjs bakes into the shipped SQLite index (2.0.0;
+          # before 2.0 this was data/combined, which no longer ships). The repo's
+          # wider budget-data pipeline outside these paths is excluded.
+          SHIPPED="mcp/src mcp/scripts mcp/package.json data/disclosure_years.csv :(glob)data/fy*/expense_disclosure/** data/capital source/wayback-council source/expense-funding-disclosure source/open-data-t474-a92g"
+          # Word-split SHIPPED into pathspecs, with shell globbing off so git (not
+          # bash) expands the :(glob) pathspec.
+          set -f
+          # shellcheck disable=SC2086
+          CHANGED=$(git diff --name-only "$BASE_SHA...HEAD" -- $SHIPPED)
+          set +f
           if [ -z "$CHANGED" ]; then
-            echo "No shipped files changed (mcp/src, mcp/scripts, mcp/package.json, data/combined) — version guard not applicable. Passing."
+            echo "No shipped files changed ($SHIPPED) — version guard not applicable. Passing."
             exit 0
           fi
           echo "Shipped files changed in this PR:"
@@ -122,7 +144,7 @@ jobs:
           # rely on the exit code.
           PUBLISHED=$(npm view "$NAME@$CURRENT" version 2>/dev/null || true)
           if [ "$PUBLISHED" = "$CURRENT" ]; then
-            echo "::error::$NAME@$CURRENT is already published to npm, but this PR changes shipped code (mcp/src, mcp/scripts, mcp/package.json, or data/combined). Bump the version in mcp/package.json (fix=patch, feature=minor, breaking=major) and add a mcp/CHANGELOG.md entry in the same PR — consumers run 'npx -y', so merging without a bump ships nothing. After merge, push the matching mcp-v<new-version> tag to fire the release workflow."
+            echo "::error::$NAME@$CURRENT is already published to npm, but this PR changes shipped code or the data baked into the index ($SHIPPED). Bump the version in mcp/package.json (fix=patch, feature=minor, breaking=major) and add a mcp/CHANGELOG.md entry in the same PR — consumers run 'npx -y', so merging without a bump ships nothing. After merge, push the matching mcp-v<new-version> tag to fire the release workflow."
             exit 1
           fi
           echo "$NAME@$CURRENT is not on the registry yet — version bump present. Guard passes."

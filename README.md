@@ -1,10 +1,20 @@
 # New York City Budget
 
+> **What changed in 2.0**
+>
+> BetaNYC's budget MCP ([`@betanyc/nyc-budget-mcp`](mcp/README.md) 2.0.0) and its GitHub Pages site now use **structured sources only**: the NYC Council's own expense funding disclosure spreadsheets (FY2009 and FY2011–FY2027) and its capital designations from the Council's capital workbooks and NYC Open Data (FY2015–FY2017, FY2019–FY2027). Every answer cites the file, sheet and retrieval date it came from.
+>
+> - **New tools:** `search_council_capital`, `compare_capital_to_omb`; `search_disclosure_awards` now covers FY2009, FY2011 and FY2012.
+> - **Removed:** `search_awards`, `get_awards_by_ein`, `search_transparency_resolutions`, `search_capital_projects`, `get_terms_conditions`, `get_legistar_link`. See the [migration table](mcp/README.md#migrating-from-1x).
+> - **Retired, kept for history, not shipped:** everything extracted from the adopted-budget PDFs (Schedule C and its appendices, Terms & Conditions, §254 capital, transparency resolutions, `data/combined/`, `data/recovered/`). The sections below that describe those files describe that historical record.
+> - **Not included:** FY2010 disclosure (the Council's archived workbook is incomplete against NYC Open Data) and FY2018 capital (no source found).
+> - **On 1.x?** Use `npx -y @betanyc/nyc-budget-mcp@2` and re-check any figure you published from 1.x. Full notes: [`mcp/CHANGELOG.md`](mcp/CHANGELOG.md).
+
 Machine-readable, reconciled structured data extracted from the **New York City Council's adopted budget documents** — discretionary funding (Schedule C), reporting mandates (Terms & Conditions), capital changes (Section 254), and post-adoption Transparency Resolutions — for **Fiscal Years 2025, 2026, and 2027**, plus a **historical backfill to FY2009** (see coverage note below).
 
 Every dollar figure here was extracted **deterministically** from the Council's own PDFs and checked line by line against the documents' printed totals. The FY2027 discretionary schedule reconciles to the exact dollar: **$655,764,999**.
 
-> **▶ Explore it live:** the interactive **[NYC Council Discretionary Funding explorer](https://betanyc.github.io/New-York-City-Budget/)** (Schedule C, FY2015–FY2027) is published on GitHub Pages — no setup required. Source and build steps are in [`viz/`](viz/).
+> **GitHub Pages:** the Schedule C explorer at [betanyc.github.io/New-York-City-Budget](https://betanyc.github.io/New-York-City-Budget/) is **retired** in 2.0: the site root is now a notice pointing to the structured data, and the old PDF-derived explorer is kept, marked retired, at `legacy.html`. See [`viz/README.md`](viz/README.md).
 
 **Per-year processing manifest:** [`code/PARSING.md`](code/PARSING.md) records, for every fiscal year and document type, exactly which parser + invocation produces its CSVs and the reconciliation status. It is the authoritative "how do I regenerate FY_N_?" reference.
 
@@ -55,17 +65,17 @@ New-York-City-Budget/
 ├── data/                ← extracted, reconciled CSVs
 │   ├── fy09/ … fy27/    (per year: schedule_c/, terms/, capital/, transparency-resolutions/
 │   │   │                 — whichever document types exist and parse for that year)
-│   │   ├── schedule_c/  discretionary expense funding
-│   │   ├── terms/       Terms & Conditions (reporting mandates)
-│   │   ├── capital/     Section 254 capital changes
-│   │   └── expense_disclosure/  the Council's award-level disclosure workbooks, FY2009, FY2011–FY2027
+│   │   ├── schedule_c/  discretionary expense funding        [PDF-derived: retired in 2.0, not shipped]
+│   │   ├── terms/       Terms & Conditions (reporting mandates) [PDF-derived: retired]
+│   │   ├── capital/     Section 254 capital changes            [PDF-derived: retired]
+│   │   └── expense_disclosure/  the Council's award-level disclosure workbooks, FY2009, FY2011–FY2027 (served by the MCP)
 │   ├── capital/         Council capital designations FY2015–FY2017, FY2019–FY2027 from structured sources,
-│   │                     OMB reference tables, reconciliation by budget line (no PDF data)
+│   │                     OMB reference tables, reconciliation by budget line (no PDF data; served by the MCP)
 │   ├── reference/       lookup tables derived from outside sources (Census ZCTA → state; Legistar roster extract)
-│   └── combined/        all-years roll-ups (built by code/build_combined.py)
+│   └── combined/        all-years roll-ups (built by code/build_combined.py) [PDF-derived: retired]
 ├── code/                ← parser scripts + variants + validate_data.py (QA) + tests + PARSING.md + requirements.txt
-├── mcp/                 ← prototype MCP server (see below)
-└── viz/                 ← Schedule C funding visualization (see viz/README.md)
+├── mcp/                 ← MCP server, 2.0: structured sources only (see below)
+└── viz/                 ← GitHub Pages site: retirement notice + the retired Schedule C explorer (viz/README.md)
 ```
 
 ### `source/expense-funding-disclosure/` — Council RnD award-level expense data
@@ -89,11 +99,13 @@ notes are documented in
 every file's SHA-256 is in its [`MANIFEST.csv`](source/expense-funding-disclosure/MANIFEST.csv).
 They are published as data in `data/{year}/expense_disclosure/` (see below).
 
-### `mcp/` — prototype MCP server
+### `mcp/` — MCP server (2.0: structured sources only)
 
-`mcp/` holds a **prototype** [Model Context Protocol](https://modelcontextprotocol.io) server (TypeScript + SQLite) that exposes this repo's data to MCP-capable AI clients as structured query tools — Schedule C awards (FY2015–FY2027), Terms & Conditions, §254 capital, the Transparency Resolutions (FY2010–FY2024 + FY2026), the Legistar crosswalk, and (as its own tool, `search_disclosure_awards`, v1.5.0) the Council's expense funding disclosure FY2013–FY2027 with each year's snapshot date (the FY2009, FY2011 and FY2012 rows added to `data/` since 1.5.0 are not served yet; that is the 2.0 step). It reads the repo's own `data/` tree directly (no copied snapshot) and builds a local, git-ignored SQLite index from it, so the query layer and the data always move together. Still a prototype — see [`mcp/README.md`](mcp/README.md) for tools, scope, and how to build and run it.
+`mcp/` holds a [Model Context Protocol](https://modelcontextprotocol.io) server (TypeScript + SQLite), published as [`@betanyc/nyc-budget-mcp`](https://www.npmjs.com/package/@betanyc/nyc-budget-mcp). Since 2.0.0 it serves only structured data: `search_disclosure_awards` (the Council's expense funding disclosure, FY2009 and FY2011–FY2027, with each year's source and retrieval date, the early-snapshot years and FY2010's exclusion stated), `search_council_capital` (`data/capital/`, FY2015–FY2017 and FY2019–FY2027), `compare_capital_to_omb` (the by-budget-line comparison with OMB's adopted capital budget) and `list_available_fiscal_years`. The PDF-derived tools were removed; a test fails if any PDF-derived file is read by the index build or shipped in the package. It builds a local, git-ignored SQLite index from this repo's own files, so the query layer and the data move together. See [`mcp/README.md`](mcp/README.md).
 
 ## The data files
+
+> **Retired in 2.0 (PDF-derived):** the `schedule_c/`, `terms/`, `capital/` (per-year §254), `transparency-resolutions/`, `data/combined/` and `data/recovered/` files described below were extracted from the adopted-budget PDFs. They stay in the repository as a historical record, are no longer served by the MCP or shown on the Pages site, and should not be cited as current. The structured datasets are `data/{year}/expense_disclosure/`, `data/disclosure_years.csv` and `data/capital/`.
 
 ### `data/{year}/schedule_c/{year}_schedule_c_initiatives.csv` — authoritative totals
 One row per Council initiative; sums exactly to each category's printed `TOTAL`.
@@ -270,7 +282,7 @@ This repository is one piece of a larger NYC budget-data ecosystem. It is delibe
 
 In short: **IBO tells you what the City spends, raises, and owes in aggregate over decades; this repo tells you which organizations the Council funded, and how much, in the adopted budget.** Neither IBO nor NYC Open Data (after FY2021) publishes the second thing as machine-readable data. That is the gap this repository fills. A detailed source-by-source crosswalk (including how this data can be joined to IBO's agency-level fiscal tables) is in [`research/2026-07-08-ibo-data-center-crosswalk.md`](research/2026-07-08-ibo-data-center-crosswalk.md).
 
-**A companion BetaNYC visualization** turns this repo's Schedule C data into an interactive explorer — **[explore it live](https://betanyc.github.io/New-York-City-Budget/)** (source and build steps in [`viz/`](viz/)). It shares its toolkit (DataMade's [Look at Cook](https://github.com/datamade/look-at-cook)) with BetaNYC's **[citywide expense-budget explorer](https://github.com/BetaNYC/nyc-budget-viz)**, which visualizes the full ~$114B adopted/modified budget across all agencies — the aggregate fiscal side this repo deliberately does not cover.
+**The companion Schedule C explorer is retired (2.0):** it was built on this repo's PDF-derived Schedule C data. Its GitHub Pages address now shows a notice pointing to the structured data, and the explorer itself is kept, marked retired, at `legacy.html` (see [`viz/`](viz/)). It shares its toolkit (DataMade's [Look at Cook](https://github.com/datamade/look-at-cook)) with BetaNYC's **[citywide expense-budget explorer](https://github.com/BetaNYC/nyc-budget-viz)**, which visualizes the full ~$114B adopted/modified budget across all agencies — the aggregate fiscal side this repo deliberately does not cover.
 
 ## Future work
 

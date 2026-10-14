@@ -4,6 +4,15 @@ Every column in every CSV this repository produces, what it means, and how the f
 
 **Generated:** 2026-07-08. Covers FY2009–FY2027.
 
+> **2.0 (2026-10-14): PDF-derived files are retired.** The Schedule C (awards, initiatives,
+> appendices), Terms & Conditions, per-year §254 capital, transparency-resolution,
+> `data/combined/` and `data/recovered/` files below were extracted from the adopted-budget PDFs.
+> Their definitions stay here because the files stay in the repository as a historical record;
+> they are not served by `@betanyc/nyc-budget-mcp` 2.0 or shown on the Pages site, and should not
+> be cited as current. The MCP serves only `data/{year}/expense_disclosure/`,
+> `data/disclosure_years.csv` and `data/capital/` (`council_capital_awards.csv`,
+> `council_vs_omb_by_budget_line.csv`).
+
 ---
 
 ## Coverage at a glance
@@ -24,7 +33,7 @@ Not every document type exists (or is machine-readable) for every year. This mat
 
 **Separately, the Council's expense funding disclosure workbooks give an EIN-level award list for FY2009 and every year FY2011–FY2027** (`data/{year}/expense_disclosure/`, below). It is a parallel dataset from a different source and a later moment, not a fill for the Schedule C gaps in this table.
 
-"awards" = the `_awards.csv` file with per-organization EINs. **EIN-keyed analysis (and the budget MCP's award tools) is valid FY2015–FY2027.** FY2009–FY2014 are initiatives-only (no EIN) and are excluded from EIN-keyed tooling. See [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) for the full gap list.
+"awards" = the `_awards.csv` file with per-organization EINs. **EIN-keyed analysis of the Schedule C files is valid FY2015–FY2027.** FY2009–FY2014 are initiatives-only (no EIN). (The budget MCP's 1.x award tools served these files; 2.0 removed them and serves the disclosure instead.) See [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) for the full gap list.
 
 ---
 

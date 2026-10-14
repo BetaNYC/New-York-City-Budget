@@ -1,11 +1,15 @@
 /**
- * SQLite-backed query layer for the NYC budget MCP.
+ * SQLite-backed query layer for the NYC budget MCP (2.0: structured sources only).
  *
- * The database (data/budget.db) is built by scripts/build-index.mjs from the
- * committed CSV snapshot. This module opens it read-only and exposes one
- * function per tool. All text filters use case-insensitive substring (LIKE)
- * matching; EIN filters are normalized to digits-only so "13-2612524" and
- * "132612524" both match.
+ * The database (data/budget.db) is built by scripts/build-index.mjs from the repo's
+ * structured datasets: the Council's expense funding disclosure workbooks
+ * (data/fyNN/expense_disclosure/, provenance in data/disclosure_years.csv) and the Council
+ * capital dataset (data/capital/, from Council workbooks and NYC Open Data). Nothing extracted
+ * from a PDF is indexed; test/no-pdf-data.test.js fails if any of it comes back.
+ *
+ * This module opens the index read-only and exposes one function per tool. Text filters are
+ * case-insensitive substrings with LIKE wildcards taken literally; every search returns the
+ * true match count and totals computed in SQL over every match, never over the page.
  */
 import Database from "better-sqlite3";
 import type { Database as DB } from "better-sqlite3";
@@ -21,9 +25,7 @@ let _db: DB | null = null;
 export function getDb(): DB {
   if (_db) return _db;
   if (!existsSync(DB_PATH)) {
-    throw new Error(
-      `Budget index not found at ${DB_PATH}. Run: npm run build-index`
-    );
+    throw new Error(`Budget index not found at ${DB_PATH}. Run: npm run build-index`);
   }
   _db = new Database(DB_PATH, { readonly: true, fileMustExist: true });
   return _db;
@@ -32,12 +34,6 @@ export function getDb(): DB {
 /** Digits-only EIN so "13-2612524" and "132612524" match. */
 export function normEin(v: string): string {
   return (v ?? "").replace(/\D/g, "");
-}
-
-function likeClause(column: string, params: unknown[], value?: string): string | null {
-  if (value == null || value.trim() === "") return null;
-  params.push(`%${value.trim()}%`);
-  return `${column} LIKE ? COLLATE NOCASE`;
 }
 
 function eqClause(column: string, params: unknown[], value?: number): string | null {
@@ -56,292 +52,27 @@ function cap(limit?: number, def = 50, max = 500): number {
   return Math.min(Math.max(1, Math.trunc(limit)), max);
 }
 
-// ---------------------------------------------------------------------------
-// Row shapes
-// ---------------------------------------------------------------------------
-
-export interface AwardRow {
-  fiscal_year: number;
-  category: string;
-  initiative: string;
-  award_type: string;
-  member: string;
-  organization: string;
-  program: string;
-  ein: string;
-  amount: number | null;
-  agency: string;
-  purpose: string;
-  /**
-   * Which Schedule C source the row came from — 'schedule_c' (the main-body award
-   * tables) or 'appendix' (the aging/local/youth per-recipient breakouts). Added in
-   * 1.4.0; before that the table held main-body rows only, so every published total
-   * from an earlier version is the 'schedule_c' slice of what these tools now return.
-   */
-  source_table: string;
-  /** 'aging' | 'local' | 'youth' for appendix rows; '' for main-body rows. */
-  appendix_stream: string;
-}
-
-export interface TransparencyRow {
-  source_fy: number;
-  resolution: string;
-  date: string;
-  chart: string;
-  fiscal_year: number | null;
-  action: string;
-  council_member: string;
-  organization: string;
-  program: string;
-  ein: string;
-  amount: number | null;
-  agency: string;
-  purpose: string;
-  low_text_confidence: number;
-}
-
-export interface CapitalRow {
-  fiscal_year: number;
-  agency: string;
-  budget_line: string;
-  sub_id: string;
-  boro: string;
-  fy1: number | null;
-  sponsor: string;
-  title: string;
-  action: string;
-}
-
-export interface TermRow {
-  fiscal_year: number;
-  item_number: string;
-  agency_name: string;
-  agency_code: string;
-  units_of_appropriation: string;
-  report_deadlines: string;
-  coverage_period: string;
-  condition_text: string;
-}
-
-export interface CrosswalkRow {
-  fiscal_year: number | null;
-  document_type: string;
-  local_file: string;
-  legistar_matter_number: string;
-  legistar_url: string;
-  adoption_date: string;
-  status: string;
-  notes: string;
-  // Adopting City Council session — precomputed by scripts/enrich-crosswalk.mjs.
-  // adopting_event_id is the OData EventId of the meeting where the matter was
-  // adopted; it builds a WORKING Legistar link (see buildMeetingUrl). Empty when
-  // no confirmed City Council adoption event exists for the row.
-  adopting_event_id: string;
-  adopting_body: string;
-  adopting_action: string;
-  adopting_datetime: string;
-}
-
 /**
- * Build a WORKING public Legistar link for an adopting meeting from its OData
- * EventId. Returns null for an empty/absent id (no link is better than a wrong one).
- *
- * The *meeting* URL scheme accepts the OData EventId; the *legislation* scheme
- * does NOT accept the OData MatterId (LegislationDetail.aspx?ID={MatterId}
- * resolves to "Invalid parameters!" — NYC runs two Legistar backends with
- * different ids and no formula between them). GID=61 is a verified term-stable
- * constant (resolves meetings 2007–2026). See issue #31.
+ * Case-insensitive substring match with LIKE's wildcards taken literally: a filter of "_" or
+ * "100%" means those characters, not "any one character" / "anything" (legal_name "_" used to
+ * match every row).
  */
-export function buildMeetingUrl(eventId: string | number | null | undefined): string | null {
-  const id = eventId == null ? "" : String(eventId).trim();
-  if (!id) return null;
-  return `https://legistar.council.nyc.gov/MeetingDetail.aspx?LEGID=${id}&GID=61`;
-}
-
-// ---------------------------------------------------------------------------
-// Tool query functions
-// ---------------------------------------------------------------------------
-
-export interface AwardFilters {
-  ein?: string;
-  organization?: string;
-  program?: string;
-  council_member?: string;
-  fiscal_year?: number;
-  category?: string;
-  initiative?: string;
-  /** 'schedule_c' | 'appendix'. Omitted = BOTH (see the note on sourceClause). */
-  source_table?: string;
-  limit?: number;
-}
-
-/**
- * The 1.4.0 behavior switch, in one place.
- *
- * Omitting `source_table` returns main-body AND appendix rows. That is a deliberate
- * default: the appendix rows are real designations (independently confirmed against the
- * Council's own published disclosure spreadsheet), and defaulting them off would have kept
- * 28,575 of them invisible — the bug this release fixes. The cost is that award counts and
- * dollar totals from these tools no longer match figures published from v1.3.x and earlier.
- *
- * Passing source_table='schedule_c' reproduces the pre-1.4.0 result set EXACTLY, which is the
- * cheap escape hatch if the default turns out to be the wrong call.
- */
-function sourceClause(params: unknown[], value?: string): string | null {
+function likeLiteral(column: string, params: unknown[], value?: string): string | null {
   if (value == null || value.trim() === "") return null;
+  params.push(`%${value.trim().replace(/[\\%_]/g, (c) => "\\" + c)}%`);
+  return `${column} LIKE ? ESCAPE '\\' COLLATE NOCASE`;
+}
+
+/** Exact match ignoring case and surrounding whitespace. */
+function eqNoCase(column: string, params: unknown[], value?: string): string | null {
+  if (value == null) return null;
   params.push(value.trim());
-  return `source_table = ?`;
+  return `${column} = ? COLLATE NOCASE`;
 }
 
-export function searchAwards(f: AwardFilters): AwardRow[] {
-  const p: unknown[] = [];
-  const sql = `SELECT * FROM awards ${where([
-    f.ein ? (p.push(normEin(f.ein)), "ein = ?") : null,
-    likeClause("organization", p, f.organization),
-    likeClause("program", p, f.program),
-    likeClause("member", p, f.council_member),
-    eqClause("fiscal_year", p, f.fiscal_year),
-    likeClause("category", p, f.category),
-    likeClause("initiative", p, f.initiative),
-    sourceClause(p, f.source_table),
-  ])} ORDER BY fiscal_year, amount DESC, member LIMIT ${cap(f.limit)}`;
-  return getDb().prepare(sql).all(...p) as AwardRow[];
-}
-
-export function getAwardsByEin(ein: string, fiscalYear?: number, sourceTable?: string): AwardRow[] {
-  const p: unknown[] = [normEin(ein)];
-  const extra = [
-    fiscalYear != null ? (p.push(fiscalYear), "fiscal_year = ?") : null,
-    sourceClause(p, sourceTable),
-  ].filter((c): c is string => c !== null);
-  const sql = `SELECT * FROM awards WHERE ein = ?${
-    extra.length ? ` AND ${extra.join(" AND ")}` : ""
-  } ORDER BY fiscal_year, member, amount DESC`;
-  return getDb().prepare(sql).all(...p) as AwardRow[];
-}
-
-export interface TransparencyFilters {
-  ein?: string;
-  council_member?: string;
-  fiscal_year?: number;
-  action?: string;
-  organization?: string;
-  limit?: number;
-}
-
-export function searchTransparency(f: TransparencyFilters): TransparencyRow[] {
-  const p: unknown[] = [];
-  // `fiscal_year` filters `source_fy` — the resolution document's fiscal year (the reliable,
-  // always-present axis). The embedded row-level `fiscal_year` (designation year) is returned in
-  // every row but is often blank in FY2010–FY2013, so it is not the filter key. See DATA-ANOMALIES #11.
-  const sql = `SELECT source_fy, resolution, date, chart, fiscal_year, action, council_member,
-      organization, program, ein, amount, agency, purpose, low_text_confidence
-    FROM transparency ${where([
-      f.ein ? (p.push(normEin(f.ein)), "ein = ?") : null,
-      likeClause("council_member", p, f.council_member),
-      eqClause("source_fy", p, f.fiscal_year),
-      f.action ? (p.push(f.action), "action = ? COLLATE NOCASE") : null,
-      likeClause("organization", p, f.organization),
-    ])} ORDER BY source_fy, resolution, chart LIMIT ${cap(f.limit)}`;
-  return getDb().prepare(sql).all(...p) as TransparencyRow[];
-}
-
-export interface CapitalFilters {
-  agency?: string;
-  fiscal_year?: number;
-  sponsor?: string;
-  title?: string;
-  limit?: number;
-}
-
-export function searchCapital(f: CapitalFilters): CapitalRow[] {
-  const p: unknown[] = [];
-  const sql = `SELECT fiscal_year, agency, budget_line, sub_id, boro, fy1, sponsor, title, action
-    FROM capital ${where([
-      likeClause("agency", p, f.agency),
-      eqClause("fiscal_year", p, f.fiscal_year),
-      likeClause("sponsor", p, f.sponsor),
-      likeClause("title", p, f.title),
-    ])} ORDER BY fiscal_year, agency, fy1 DESC LIMIT ${cap(f.limit)}`;
-  return getDb().prepare(sql).all(...p) as CapitalRow[];
-}
-
-export interface TermFilters {
-  fiscal_year?: number;
-  agency?: string;
-  limit?: number;
-}
-
-export function getTerms(f: TermFilters): TermRow[] {
-  const p: unknown[] = [];
-  const sql = `SELECT fiscal_year, item_number, agency_name, agency_code,
-      units_of_appropriation, report_deadlines, coverage_period, condition_text
-    FROM terms ${where([
-      eqClause("fiscal_year", p, f.fiscal_year),
-      likeClause("agency_name", p, f.agency),
-    ])} ORDER BY fiscal_year, agency_name, item_number LIMIT ${cap(f.limit)}`;
-  return getDb().prepare(sql).all(...p) as TermRow[];
-}
-
-export interface LegistarFilters {
-  fiscal_year?: number;
-  document_type?: string;
-  local_file?: string;
-}
-
-export function getLegistarLink(f: LegistarFilters): CrosswalkRow[] {
-  const p: unknown[] = [];
-  const sql = `SELECT * FROM crosswalk ${where([
-    eqClause("fiscal_year", p, f.fiscal_year),
-    // document_type match is a prefix-ish LIKE so "transparency_reso" catches the
-    // per-resolution rows (transparency_reso_01 …) as well as the umbrella row.
-    likeClause("document_type", p, f.document_type),
-    likeClause("local_file", p, f.local_file),
-  ])} ORDER BY fiscal_year DESC, document_type`;
-  return getDb().prepare(sql).all(...p) as CrosswalkRow[];
-}
-
-export interface FiscalYearReport {
-  awards: number[];
-  /** Years that actually have appendix rows — a SUBSET of `awards`, not extra years. */
-  awards_appendix: number[];
-  terms: number[];
-  capital: number[];
-  transparency: number[];
-  crosswalk: { min: number; max: number };
-}
-
-export function listFiscalYears(): FiscalYearReport {
-  const db = getDb();
-  const distinct = (table: string): number[] =>
-    (db
-      .prepare(`SELECT DISTINCT fiscal_year FROM ${table} WHERE fiscal_year IS NOT NULL ORDER BY fiscal_year`)
-      .all() as { fiscal_year: number }[]).map((r) => r.fiscal_year);
-  const cwRange = db
-    .prepare(`SELECT MIN(fiscal_year) AS min, MAX(fiscal_year) AS max FROM crosswalk WHERE fiscal_year IS NOT NULL`)
-    .get() as { min: number; max: number };
-  // Transparency coverage is reported by source_fy (the resolution document year) — the reliable
-  // per-year axis. The embedded row-level fiscal_year is blank for most FY2010–FY2013 rows, so
-  // DISTINCT on it would misreport coverage (DATA-ANOMALIES #11).
-  const transparency = (db
-    .prepare(`SELECT DISTINCT source_fy AS fiscal_year FROM transparency WHERE source_fy IS NOT NULL ORDER BY source_fy`)
-    .all() as { fiscal_year: number }[]).map((r) => r.fiscal_year);
-  const awardsAppendix = (db
-    .prepare(`SELECT DISTINCT fiscal_year FROM awards WHERE source_table = 'appendix' ORDER BY fiscal_year`)
-    .all() as { fiscal_year: number }[]).map((r) => r.fiscal_year);
-  return {
-    awards: distinct("awards"),
-    awards_appendix: awardsAppendix,
-    terms: distinct("terms"),
-    capital: distinct("capital"),
-    transparency,
-    crosswalk: cwRange,
-  };
-}
-
-// ---------------------------------------------------------------------------
-// Council expense funding disclosure (v1.5.0) — a separate source from `awards`
-// ---------------------------------------------------------------------------
+// ===========================================================================
+// Council expense funding disclosure
+// ===========================================================================
 
 export const DISCLOSURE_STATUSES = ["cleared", "pending", "other"] as const;
 export type DisclosureStatus = (typeof DISCLOSURE_STATUSES)[number];
@@ -360,22 +91,21 @@ export type ZipStatus = (typeof ZIP_STATUSES)[number];
 
 export interface DisclosureRow {
   fiscal_year: number;
-  /** MOCS ID# — FY2024+ only; "" before. Can change between snapshots for the same designation. */
+  /** MOCS ID# as the Council's workbook prints it — FY2024+ only; "" before. */
   mocs_id: string;
+  /**
+   * #89 A4: the MOCS ID NYC Open Data 4d7f-74pe gives the same designation, FY2009–FY2021 only,
+   * set only on an unambiguous (EIN, whole-dollar amount) pair. A cross-reference, not a source.
+   */
+  od_mocs_id: string;
+  /** How the od_mocs_id pair's amounts agree: exact / rounded_cents / rounded_dollars; "" when no od_mocs_id. */
+  od_match: string;
   /** Funding stream as the workbook names it: Local, Youth, Aging, Speaker's Initiative, or a citywide initiative. */
   source: string;
   /** The Council's roster when the workbook was exported — not the sponsoring member at adoption. */
   council_member: string;
-  /**
-   * #72: the Legistar person ID the printed name resolves to for that fiscal year
-   * (data/disclosure_council_member_crosswalk.csv); "" when not a person or not resolved.
-   */
+  /** #72: the Legistar person ID the printed name resolves to for that fiscal year; "" when none. */
   council_member_id: string;
-  /**
-   * member | member_outside_fy (resolved, but the person had no recorded vote that fiscal year:
-   * the export-time roster) | ambiguous | unresolved | speaker | delegation | citywide |
-   * district_label | blank.
-   */
   council_member_type: string;
   legal_name: string;
   ein: string;
@@ -391,23 +121,16 @@ export interface DisclosureRow {
   address2: string;
   city: string;
   state: string;
-  /** The ZIP cell as published (may be ZIP+4, 4 digits, '0', '#N/A', text). */
   postal_code: string;
-  /** #70: the 5-digit ZIP derived from postal_code; "" when zip_status is ambiguous_extra_digit, invalid or blank. */
   zip: string;
   zip_status: ZipStatus;
-  /** #70: for ambiguous_extra_digit only, the in-state 2020 ZCTAs a one-digit deletion gives, ';'-separated; else "". */
   zip_candidates: string;
   fiscal_conduit: string;
   fiscal_conduit_ein: string;
-  /** Row number in the workbook (and in data/fyNN/expense_disclosure/fyNN_expense_awards.csv). */
   source_row: number;
-  /**
-   * #69: when this row is identical in every published field to another row of the same
-   * workbook, the source_row of the first of them; null when the row is unique. The workbook
-   * prints every copy; whether each is a real repeat designation cannot be told from the file.
-   */
   duplicate_group: number | null;
+  /** #89 B13: a person's recorded decision about the row (`not_an_award`); "" for nearly every row. Counted in totals. */
+  row_flag: string;
 }
 
 export interface DisclosureFilters {
@@ -415,32 +138,43 @@ export interface DisclosureFilters {
   ein?: string;
   legal_name?: string;
   council_member?: string;
-  /** #72: exact Legistar person ID. */
   council_member_id?: string;
   source?: string;
-  /** #72: exact funding stream (case- and surrounding-whitespace-insensitive equality). */
   source_exact?: string;
   agency?: string;
   program_name?: string;
-  /** Exact 5-digit derived ZIP (rows whose zip_status is ambiguous_extra_digit, invalid or blank have none). */
   zip?: string;
   zip_status?: ZipStatus;
-  /** Exact city, case-insensitive (surrounding whitespace ignored); 'Bronx' is not 'The Bronx'. */
   city?: string;
   status?: DisclosureStatus;
+  /** Exact, case- and whitespace-insensitive: the workbook's own MOCS ID (FY2024+). */
+  mocs_id?: string;
+  /** Exact, case- and whitespace-insensitive: NYC Open Data's MOCS ID (FY2009–FY2021). */
+  od_mocs_id?: string;
   min_amount?: number;
   max_amount?: number;
   limit?: number;
 }
 
-export interface DisclosureSnapshot {
+/** One row of data/disclosure_years.csv: where a fiscal year's workbook came from. */
+export interface DisclosureYear {
   fiscal_year: number;
+  /** 1 = in the dataset; 0 = a workbook exists but is deliberately not loaded (FY2010). */
+  loaded: number;
+  /** council_rnd (rnd.council.nyc.gov) or internet_archive (a Wayback capture). */
+  source_kind: string;
   file: string;
-  /** Sheet name; the Council stamps its own "last updated" date into it, e.g. "FY26 (09-14-26)". */
+  source_path: string;
+  url: string;
+  wayback_timestamp: string;
   sheet: string;
-  /** Date BetaNYC downloaded this exact file (MANIFEST.csv). */
+  /** Date BetaNYC downloaded this exact file. */
   retrieved: string;
   sha256: string;
+  award_rows: number;
+  /** 1 = a workbook frozen while much of it was Pending and never revised: do not headline its Cleared total. */
+  early_snapshot: number;
+  note: string;
 }
 
 export interface DisclosureTotal {
@@ -448,51 +182,27 @@ export interface DisclosureTotal {
   amount: number;
 }
 
-/** One distinct value a substring filter matched, with its share of the match. */
 export interface DisclosureValueCount {
   value: string;
-  /** council_member only (#72): the Legistar person ID that value resolves to ("" if none). */
   council_member_id?: string;
   rows: number;
   amount: number;
 }
 
 export interface DisclosureResult {
-  /** The page: at most `limit` rows, highest amount first. */
   rows: DisclosureRow[];
-  /** Every row matching the filters — the page may be shorter. */
   matched: number;
-  /** Totals over ALL matches (never over the page), per status. */
   totals: Record<DisclosureStatus, DisclosureTotal>;
-  /** Totals over ALL matches, per fiscal year and status. */
   by_year: { fiscal_year: number; totals: Record<DisclosureStatus, DisclosureTotal> }[];
-  /** Snapshot provenance for every year in the match (or the filtered year, if nothing matched). */
-  snapshots: DisclosureSnapshot[];
-  /**
-   * For each substring filter given (council_member, source, agency), the distinct values it
-   * matched -- so 'Levin' matching Levin AND Levine, or 'Youth' matching the Youth stream AND
-   * 'Summer Youth Employment Program', is visible instead of silently summed (#51).
-   */
+  /** Provenance for every year in the match (or the filtered year, if nothing matched). */
+  snapshots: DisclosureYear[];
   matched_values: Partial<Record<"council_member" | "source" | "agency", DisclosureValueCount[]>>;
-  /** Distinct grantee legal names among the matches, when an EIN was given. */
   ein_legal_names?: number;
-  /**
-   * #69: matched rows that belong to a group of exact copies (all of them, first copy included),
-   * and the rows/dollars beyond the first copy of each group — what the totals would lose if every
-   * group were one designation. Over ALL matches, like the totals.
-   */
   duplicates: { rows: number; groups: number; extra_rows: number; extra_amount: number };
-}
-
-/**
- * Case-insensitive substring match with LIKE's wildcards taken literally: a filter of "_" or
- * "100%" means those characters, not "any one character" / "anything" (legal_name "_" used to
- * match all 139,556 rows).
- */
-function likeLiteral(column: string, params: unknown[], value?: string): string | null {
-  if (value == null || value.trim() === "") return null;
-  params.push(`%${value.trim().replace(/[\\%_]/g, (c) => "\\" + c)}%`);
-  return `${column} LIKE ? ESCAPE '\\' COLLATE NOCASE`;
+  /** Matched rows carrying a row_flag, per flag (all counted in the totals). */
+  flagged: { row_flag: string; rows: number; amount: number }[];
+  /** Matched rows that print no grantee EIN (counted in the totals). */
+  no_ein: { rows: number; amount: number };
 }
 
 const emptyTotals = (): Record<DisclosureStatus, DisclosureTotal> => ({
@@ -502,9 +212,9 @@ const emptyTotals = (): Record<DisclosureStatus, DisclosureTotal> => ({
 });
 
 /**
- * Search the disclosure. The WHERE clause is built once and used three times — for the page,
- * for the totals and for the per-year split — so the totals always describe exactly the rows the
- * filters select, however many of them the page leaves out (issues #42, #49).
+ * Search the disclosure. The WHERE clause is built once and used for the page, the totals and
+ * every breakdown, so the totals always describe exactly the rows the filters select, however
+ * many of them the page leaves out (issues #42, #49).
  */
 export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
   const p: unknown[] = [];
@@ -515,25 +225,26 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
     likeLiteral("council_member", p, f.council_member),
     f.council_member_id != null ? (p.push(f.council_member_id), "council_member_id = ?") : null,
     likeLiteral("source", p, f.source),
-    f.source_exact != null ? (p.push(f.source_exact.trim()), "source = ? COLLATE NOCASE") : null,
+    eqNoCase("source", p, f.source_exact),
     likeLiteral("agency", p, f.agency),
     likeLiteral("program_name", p, f.program_name),
     f.zip != null ? (p.push(f.zip.trim()), "zip = ?") : null,
     f.zip_status != null ? (p.push(f.zip_status), "zip_status = ?") : null,
-    f.city != null ? (p.push(f.city.trim()), "city = ? COLLATE NOCASE") : null,
+    eqNoCase("city", p, f.city),
     f.status ? (p.push(f.status), "status_norm = ?") : null,
+    eqNoCase("mocs_id", p, f.mocs_id),
+    eqNoCase("od_mocs_id", p, f.od_mocs_id),
     f.min_amount != null ? (p.push(f.min_amount), "amount >= ?") : null,
     f.max_amount != null ? (p.push(f.max_amount), "amount <= ?") : null,
   ]);
   const db = getDb();
-  // Highest amount first BEFORE the limit (as in #41); the remaining keys only make ties
-  // deterministic.
+  // Highest amount first BEFORE the limit (#41); the remaining keys only make ties deterministic.
   const rows = db
     .prepare(
-      `SELECT fiscal_year, mocs_id, source, council_member, council_member_id, council_member_type,
-         legal_name, ein, status, status_norm,
+      `SELECT fiscal_year, mocs_id, od_mocs_id, od_match, source, council_member, council_member_id,
+         council_member_type, legal_name, ein, status, status_norm,
          amount, agency, program_name, address1, address2, city, state, postal_code, zip, zip_status,
-         zip_candidates, fiscal_conduit, fiscal_conduit_ein, source_row, duplicate_group
+         zip_candidates, fiscal_conduit, fiscal_conduit_ein, source_row, duplicate_group, row_flag
        FROM disclosure ${w}
        ORDER BY amount DESC, fiscal_year, source_row LIMIT ${cap(f.limit)}`
     )
@@ -565,10 +276,10 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
   const snapshots = snapYears.length
     ? (db
         .prepare(
-          `SELECT fiscal_year, file, sheet, retrieved, sha256 FROM disclosure_snapshots
-           WHERE fiscal_year IN (${snapYears.map(() => "?").join(",")}) ORDER BY fiscal_year`
+          `SELECT * FROM disclosure_years WHERE fiscal_year IN (${snapYears.map(() => "?").join(",")})
+           ORDER BY fiscal_year`
         )
-        .all(...snapYears) as DisclosureSnapshot[])
+        .all(...snapYears) as DisclosureYear[])
     : [];
 
   const matched_values: DisclosureResult["matched_values"] = {};
@@ -588,16 +299,25 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
     ? (db.prepare(`SELECT COUNT(DISTINCT legal_name) AS n FROM disclosure ${w}`).get(...p) as { n: number }).n
     : undefined;
 
-  // A group is (fiscal_year, duplicate_group). "Extra" = every flagged row that is not its
-  // group's first row (source_row <> duplicate_group), among the MATCHED rows only.
+  const and = w ? `${w} AND` : "WHERE";
   const d = db
     .prepare(
       `SELECT COUNT(*) AS rows, COUNT(DISTINCT fiscal_year || ':' || duplicate_group) AS groups,
          COALESCE(SUM(source_row <> duplicate_group), 0) AS extra_rows,
          COALESCE(SUM(CASE WHEN source_row <> duplicate_group THEN amount ELSE 0 END), 0) AS extra_amount
-       FROM disclosure ${w ? `${w} AND` : "WHERE"} duplicate_group IS NOT NULL`
+       FROM disclosure ${and} duplicate_group IS NOT NULL`
     )
     .get(...p) as { rows: number; groups: number; extra_rows: number; extra_amount: number };
+  const flagged = db
+    .prepare(
+      `SELECT row_flag, COUNT(*) AS rows, SUM(amount) AS amount FROM disclosure ${and} row_flag <> ''
+       GROUP BY row_flag ORDER BY row_flag`
+    )
+    .all(...p) as { row_flag: string; rows: number; amount: number }[];
+
+  const no_ein = db
+    .prepare(`SELECT COUNT(*) AS rows, COALESCE(SUM(amount), 0) AS amount FROM disclosure ${and} ein = ''`)
+    .get(...p) as { rows: number; amount: number };
 
   return {
     rows,
@@ -608,14 +328,306 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
     matched_values,
     ein_legal_names,
     duplicates: d,
+    flagged,
+    no_ein,
   };
 }
 
-/** Years the disclosure index covers, with their snapshot provenance. */
-export function listDisclosureSnapshots(): DisclosureSnapshot[] {
+/** Every row of data/disclosure_years.csv, loaded or not. */
+export function listDisclosureYears(): DisclosureYear[] {
   return getDb()
+    .prepare(`SELECT * FROM disclosure_years ORDER BY fiscal_year`)
+    .all() as DisclosureYear[];
+}
+
+// ===========================================================================
+// Council capital (data/capital/)
+// ===========================================================================
+
+export interface CapitalRow {
+  /** The Council's capital list the row comes from (workbook year, or t474's `Reported`). */
+  report_year: number;
+  /** The fiscal year the amount is for: the report year or an out-year; null only on a flagged split record. */
+  amount_fy: number | null;
+  project_id: string;
+  borough: string;
+  budget_line: string;
+  budget_line_norm: string;
+  council_district: string;
+  sponsor: string;
+  title: string;
+  description: string;
+  /** Dollars as printed; null only on a `split_record_amount_unknown` row. */
+  amount: number | null;
+  source_kind: string;
+  source_file: string;
+  source_row: string;
+  row_flag: string;
+}
+
+/** Where one report year's Council capital list came from. */
+export interface CapitalSource {
+  report_year: number;
+  source_kind: string;
+  source_file: string;
+  url: string;
+  wayback_timestamp: string;
+  /** Date BetaNYC retrieved the file (ISO date). */
+  retrieved: string;
+  /** sha256 of the committed file, computed at index build and checked against its manifest. */
+  sha256: string;
+  rows: number;
+  note: string;
+}
+
+export interface CapitalFilters {
+  /** report_year */
+  fiscal_year?: number;
+  amount_fy?: number;
+  /** Normal form "AGENCY LINE" (normBudgetLine). */
+  budget_line?: string;
+  /** Normal form: whitespace collapsed, upper case (normProjectId). */
+  project_id?: string;
+  sponsor?: string;
+  sponsor_exact?: string;
+  borough?: string;
+  council_district?: number;
+  title?: string;
+  description?: string;
+  min_amount?: number;
+  max_amount?: number;
+  limit?: number;
+}
+
+const BUDGET_LINE = /^([A-Z]{1,2})[\s-]+([A-Z0-9]+)$/;
+
+/**
+ * A budget line in the dataset's normal form, "AGENCY LINE" ("P D018", "PW DN846"), the same rule
+ * as code/build_capital_council.py norm_line: upper case, agency code of one or two letters, then
+ * whitespace or '-', then the line. Null when the value has no such shape (e.g. "PD018": where the
+ * agency code ends cannot be told, so it is refused, never guessed).
+ */
+export function normBudgetLine(v: string): string | null {
+  const m = BUDGET_LINE.exec(v.trim().toUpperCase().replace(/\s+/g, " "));
+  return m ? `${m[1]} ${m[2]}` : null;
+}
+
+/** A Council project ID compared as printed, ignoring case and runs of whitespace ("E  CN459" = "e cn459"). */
+export function normProjectId(v: string): string {
+  return v.trim().replace(/\s+/g, " ").toUpperCase();
+}
+
+export interface CapitalTotal {
+  rows: number;
+  amount: number;
+}
+
+export interface CapitalResult {
+  rows: CapitalRow[];
+  matched: number;
+  /** Rows whose amount is for the report year itself (amount_fy = report_year). */
+  report_year_amounts: CapitalTotal;
+  /** Rows whose amount is for a later year, per amount_fy. */
+  out_years: { amount_fy: number; rows: number; amount: number }[];
+  /** Rows with no amount (split_record_amount_unknown). */
+  amount_unknown: number;
+  by_report_year: { report_year: number; report_year_amounts: CapitalTotal; out_year_amounts: CapitalTotal; amount_unknown: number }[];
+  sources: CapitalSource[];
+  /** Distinct sponsor values a substring sponsor filter matched. */
+  matched_sponsors?: { value: string; rows: number; amount: number }[];
+  /** Report years whose rows cannot match a council_district filter (t474: lists collapsed). */
+  district_unusable_years: number[];
+}
+
+export function searchCapital(f: CapitalFilters): CapitalResult {
+  const p: unknown[] = [];
+  const w = where([
+    eqClause("report_year", p, f.fiscal_year),
+    eqClause("amount_fy", p, f.amount_fy),
+    f.budget_line != null ? (p.push(f.budget_line), "budget_line_norm = ?") : null,
+    f.project_id != null ? (p.push(f.project_id), "project_id_norm = ?") : null,
+    likeLiteral("sponsor", p, f.sponsor),
+    eqNoCase("sponsor", p, f.sponsor_exact),
+    f.borough != null ? (p.push(f.borough), "borough = ?") : null,
+    // District tokens are stored as ",N," with numbers unpadded (",8,22,"), workbook years only.
+    f.council_district != null ? (p.push(`%,${f.council_district},%`), "district_tokens LIKE ?") : null,
+    likeLiteral("title", p, f.title),
+    likeLiteral("description", p, f.description),
+    f.min_amount != null ? (p.push(f.min_amount), "amount >= ?") : null,
+    f.max_amount != null ? (p.push(f.max_amount), "amount <= ?") : null,
+  ]);
+  const db = getDb();
+  const rows = db
     .prepare(
-      `SELECT fiscal_year, file, sheet, retrieved, sha256 FROM disclosure_snapshots ORDER BY fiscal_year`
+      `SELECT report_year, amount_fy, project_id, borough, budget_line, budget_line_norm,
+         council_district, sponsor, title, description, amount, source_kind, source_file, source_row,
+         row_flag
+       FROM capital_council ${w}
+       ORDER BY amount IS NULL, amount DESC, report_year, source_file, seq LIMIT ${cap(f.limit)}`
     )
-    .all() as DisclosureSnapshot[];
+    .all(...p) as CapitalRow[];
+  const grouped = db
+    .prepare(
+      `SELECT report_year,
+         CASE WHEN amount IS NULL THEN 'unknown' WHEN amount_fy = report_year THEN 'report' ELSE 'out' END AS kind,
+         COUNT(*) AS n, COALESCE(SUM(amount), 0) AS amount
+       FROM capital_council ${w} GROUP BY report_year, kind ORDER BY report_year`
+    )
+    .all(...p) as { report_year: number; kind: string; n: number; amount: number }[];
+  const out_years = db
+    .prepare(
+      `SELECT amount_fy, COUNT(*) AS rows, SUM(amount) AS amount FROM capital_council
+       ${w ? `${w} AND` : "WHERE"} amount IS NOT NULL AND amount_fy <> report_year
+       GROUP BY amount_fy ORDER BY amount_fy`
+    )
+    .all(...p) as { amount_fy: number; rows: number; amount: number }[];
+
+  const byYear = new Map<number, CapitalResult["by_report_year"][number]>();
+  const report_year_amounts = { rows: 0, amount: 0 };
+  let amount_unknown = 0;
+  let matched = 0;
+  for (const g of grouped) {
+    const y = byYear.get(g.report_year) ?? {
+      report_year: g.report_year,
+      report_year_amounts: { rows: 0, amount: 0 },
+      out_year_amounts: { rows: 0, amount: 0 },
+      amount_unknown: 0,
+    };
+    if (g.kind === "report") {
+      y.report_year_amounts = { rows: g.n, amount: g.amount };
+      report_year_amounts.rows += g.n;
+      report_year_amounts.amount += g.amount;
+    } else if (g.kind === "out") {
+      y.out_year_amounts = { rows: g.n, amount: g.amount };
+    } else {
+      y.amount_unknown = g.n;
+      amount_unknown += g.n;
+    }
+    byYear.set(g.report_year, y);
+    matched += g.n;
+  }
+
+  const srcYears = byYear.size ? [...byYear.keys()] : f.fiscal_year != null ? [f.fiscal_year] : [];
+  const sources = srcYears.length
+    ? (db
+        .prepare(
+          `SELECT * FROM capital_sources WHERE report_year IN (${srcYears.map(() => "?").join(",")})
+           ORDER BY report_year`
+        )
+        .all(...srcYears) as CapitalSource[])
+    : [];
+  const matched_sponsors =
+    f.sponsor != null && f.sponsor.trim() !== ""
+      ? (db
+          .prepare(
+            `SELECT sponsor AS value, COUNT(*) AS rows, COALESCE(SUM(amount), 0) AS amount FROM capital_council ${w}
+             GROUP BY sponsor ORDER BY rows DESC, value`
+          )
+          .all(...p) as { value: string; rows: number; amount: number }[])
+      : undefined;
+  const district_unusable_years = (db
+    .prepare(`SELECT DISTINCT report_year FROM capital_council WHERE district_tokens IS NULL ORDER BY report_year`)
+    .all() as { report_year: number }[]).map((r) => r.report_year);
+
+  return {
+    rows,
+    matched,
+    report_year_amounts,
+    out_years,
+    amount_unknown,
+    by_report_year: [...byYear.values()],
+    sources,
+    matched_sponsors,
+    district_unusable_years,
+  };
+}
+
+/** Every capital report year's provenance. */
+export function listCapitalSources(): CapitalSource[] {
+  return getDb().prepare(`SELECT * FROM capital_sources ORDER BY report_year`).all() as CapitalSource[];
+}
+
+// ---------------------------------------------------------------------------
+// Council capital vs OMB's adopted capital budget, by budget line (this repo's arithmetic)
+// ---------------------------------------------------------------------------
+
+export const OMB_VERDICTS = ["match", "differ", "council_only", "omb_only"] as const;
+export type OmbVerdict = (typeof OMB_VERDICTS)[number];
+
+export interface OmbComparisonRow {
+  report_year: number;
+  budget_line_norm: string;
+  /** OMB 46m8-77gv release used: the last release of that first fiscal year (July), YYYYMMDD. */
+  omb_pub_date: string;
+  council_rows: number;
+  /** null when the line is not on the Council side (omb_only). */
+  council_y1: number | null;
+  /** null when the line is not in OMB's release (council_only). */
+  omb_y1: number | null;
+  council_y2: number | null;
+  omb_y2: number | null;
+  verdict: OmbVerdict;
+}
+
+export interface OmbComparisonFilters {
+  report_year?: number;
+  budget_line?: string;
+  verdict?: OmbVerdict;
+  limit?: number;
+}
+
+export interface OmbComparisonResult {
+  rows: OmbComparisonRow[];
+  matched: number;
+  verdicts: Record<OmbVerdict, number>;
+  by_year: { report_year: number; omb_pub_date: string; verdicts: Record<OmbVerdict, number> }[];
+}
+
+export function compareCapitalToOmb(f: OmbComparisonFilters): OmbComparisonResult {
+  const p: unknown[] = [];
+  const w = where([
+    eqClause("report_year", p, f.report_year),
+    f.budget_line != null ? (p.push(f.budget_line), "budget_line_norm = ?") : null,
+    f.verdict != null ? (p.push(f.verdict), "verdict = ?") : null,
+  ]);
+  const db = getDb();
+  // Lines that disagree first, then the largest absolute first-year difference.
+  const rows = db
+    .prepare(
+      `SELECT * FROM capital_vs_omb ${w}
+       ORDER BY verdict = 'match', ABS(COALESCE(council_y1, 0) - COALESCE(omb_y1, 0)) DESC, report_year, budget_line_norm
+       LIMIT ${cap(f.limit)}`
+    )
+    .all(...p) as OmbComparisonRow[];
+  const g = db
+    .prepare(
+      `SELECT report_year, omb_pub_date, verdict, COUNT(*) AS n FROM capital_vs_omb ${w}
+       GROUP BY report_year, omb_pub_date, verdict ORDER BY report_year`
+    )
+    .all(...p) as { report_year: number; omb_pub_date: string; verdict: OmbVerdict; n: number }[];
+  const zero = (): Record<OmbVerdict, number> => ({ match: 0, differ: 0, council_only: 0, omb_only: 0 });
+  const verdicts = zero();
+  const years = new Map<number, { report_year: number; omb_pub_date: string; verdicts: Record<OmbVerdict, number> }>();
+  let matched = 0;
+  for (const r of g) {
+    const y = years.get(r.report_year) ?? { report_year: r.report_year, omb_pub_date: r.omb_pub_date, verdicts: zero() };
+    y.verdicts[r.verdict] += r.n;
+    years.set(r.report_year, y);
+    verdicts[r.verdict] += r.n;
+    matched += r.n;
+  }
+  return { rows, matched, verdicts, by_year: [...years.values()] };
+}
+
+/** Report years present in the comparison. */
+export function listOmbComparisonYears(): number[] {
+  return (getDb()
+    .prepare(`SELECT DISTINCT report_year FROM capital_vs_omb ORDER BY report_year`)
+    .all() as { report_year: number }[]).map((r) => r.report_year);
+}
+
+/** Build metadata (built_at, inputs, counts). */
+export function getMeta(key: string): string | null {
+  const r = getDb().prepare(`SELECT value FROM meta WHERE key = ?`).get(key) as { value: string } | undefined;
+  return r ? r.value : null;
 }

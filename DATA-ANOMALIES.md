@@ -2,6 +2,13 @@
 
 Honest catalog of every known gap, quirk, and caveat in this dataset. Nothing here is a secret failure — each item is either an intrinsic property of the source documents, a documented deferral, or a tracked open task. If you're about to draw a conclusion from this data, read the relevant entry first.
 
+> **2.0 (2026-10-14): PDF-derived data is retired.** Entries about Schedule C, Terms &
+> Conditions, §254 capital, transparency resolutions, `data/combined/` and `data/recovered/`
+> describe files kept in the repository as a historical record. They are not served by
+> `@betanyc/nyc-budget-mcp` 2.0 or shown on the Pages site (`viz/legacy.html` keeps the old
+> explorer, marked retired). Where an entry says "the MCP" serves or indexes those files, it
+> describes 1.x. The structured datasets are covered by §22–§26.
+
 **Generated:** 2026-07-08. See also [`DATA-DICTIONARY.md`](DATA-DICTIONARY.md) (schemas) and [`code/PARSING.md`](code/PARSING.md) (per-year parse status).
 
 ---
@@ -20,7 +27,7 @@ These sources cannot be parsed by the repo's deterministic text-layer extractors
 
 Schedule C for **FY2009–FY2014 is initiatives-level only** (category/initiative totals). There are **no per-organization award rows and no EINs**. This is intrinsic: pre-FY2016, designations were largely made *after* adoption, so organization detail lives in the Transparency Resolutions, not the adopted Schedule C. FY2016 is the first year the adopted Schedule C carries award/EIN tables.
 
-**Consequence:** EIN-keyed analysis — and the budget MCP's award tools — are valid **FY2016 onward only**. Reconstructing the earlier years from Transparency Resolutions + NYC Open Data is **open GitHub task [#5](https://github.com/BetaNYC/New-York-City-Budget/issues/5)**.
+**Consequence:** EIN-keyed analysis of the Schedule C files — and the budget MCP's 1.x award tools, removed in 2.0 — are valid **FY2016 onward only**. Reconstructing the earlier years from Transparency Resolutions + NYC Open Data is **open GitHub task [#5](https://github.com/BetaNYC/New-York-City-Budget/issues/5)**.
 
 ## 3. Low text-confidence for FY2010–FY2013 organization/program names
 
@@ -555,7 +562,7 @@ below is that script's arithmetic on committed files, pinned by
 **This is coverage, not a capture rate.** The disclosure is a later snapshot than the adopted
 Schedule C and includes post-adoption designations, so it is not the adopted-budget universe
 (see #58 item 3 on why the earlier 68.3% was retracted). "Published set" = body + the three
-appendix CSVs (what the MCP indexes). The disclosure-built appendix sidecar is excluded as
+appendix CSVs (what the MCP indexed through 1.x). The disclosure-built appendix sidecar is excluded as
 circular; the absorbed-awards sidecar is reported separately in the full output.
 
 | FY | disclosure rows | matched | Cleared $ matched (headline) | Pending $ matched | appendix rows matched after the body | appendices vs body |
@@ -735,3 +742,25 @@ number here is this repo's arithmetic on those files.
   (`row-qxu3-pz44.fhei`); stripped from the reference table.
 - **No project-level or contract-level claim** is made: Council project IDs do not appear in any
   OMB dataset (A7, C2, C9).
+
+---
+
+## 27. PDF-derived data retired in 2.0 (2026-10-14)
+
+Noel Hidalgo's decision of 2026-10-14: version 2.0 of `@betanyc/nyc-budget-mcp` and the GitHub
+Pages site use structured sources only. Retired and no longer served or shown: Schedule C
+(awards, initiatives, appendices), Terms & Conditions, per-year §254 capital, transparency
+resolutions, `data/combined/` (including the Legistar crosswalk of those documents) and
+`data/recovered/`. The files stay in the repository as a historical record; nothing was deleted.
+`mcp/test/no-pdf-data.test.js` fails if the MCP's index build reads one of them or the npm
+package ships one. Two things about the structured data that the 2.0 MCP now states on its
+answers, because they surfaced when FY2009 entered the served set:
+
+- **53 disclosure rows print no grantee EIN** (52 blank, plus one FY2011 cell printed `NA`),
+  $159,951,020.83 in all, most of it FY2009 rows that name an initiative or program rather than an
+  organization ("School Budget Restoration", $120,000,000; "NYCHA Community Services",
+  $18,000,000). They are published rows and stay in every total; only two FY2009 rows carry a
+  recorded `row_flag` (`not_an_award`). **OPEN:** whether the other FY2009 lump rows should be
+  flagged too is a data decision, not made here.
+- **Fractional amounts.** FY2009–FY2012 carry amounts such as `7481.296758`; the MCP shows them
+  rounded to cents and totals the exact values.

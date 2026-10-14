@@ -3,7 +3,7 @@
  * own tool next to (never merged into) the adopted-Schedule-C award tools.
  *
  * Every expected figure is computed here from the committed source files — the per-year
- * data/fyNN/expense_disclosure/fyNN_expense_awards.csv and
+ * data/fyNN/expense_disclosure/fyNN_expense_awards.csv, data/disclosure_years.csv and
  * source/expense-funding-disclosure/MANIFEST.csv — read with csv-parse, independently of the
  * SQLite index the server queries. A test that compared the tool with its own index would pass
  * on a loading bug; these do not.
@@ -25,9 +25,12 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = join(HERE, "..", "..");
 const DB_PATH = join(HERE, "..", "data", "budget.db");
 const TOOL = "search_disclosure_awards";
-const YEARS = Array.from({ length: 15 }, (_, i) => 2013 + i);
-
 const readCsv = (p) => parse(readFileSync(p, "utf8"), { columns: true, skip_empty_lines: true, bom: true });
+// 2.0.0: the years served are the loaded rows of data/disclosure_years.csv (FY2009, FY2011–FY2027).
+const YEARS_CSV = readCsv(join(REPO, "data", "disclosure_years.csv"));
+const YEARS = YEARS_CSV.filter((r) => r.loaded === "yes").map((r) => Number(r.fiscal_year));
+const yearRow = (fy) => YEARS_CSV.find((r) => Number(r.fiscal_year) === fy);
+const fileOf = (fy) => yearRow(fy).source_path.split("/").pop();
 const yy = (fy) => String(fy % 100).padStart(2, "0");
 const disclosureCsv = (fy) =>
   readCsv(join(REPO, "data", `fy${yy(fy)}`, "expense_disclosure", `fy${yy(fy)}_expense_awards.csv`));
@@ -66,9 +69,11 @@ const shownAmounts = (text) =>
 
 // ---------------------------------------------------------------- the index
 
-test("the index holds every committed disclosure row, per year, with the manifest's provenance", () => {
-  // FAILS if a year is skipped, a row is dropped or duplicated, an amount is mis-parsed, or a
-  // year's snapshot row does not name the file and retrieval date MANIFEST.csv records.
+test("the index holds every committed disclosure row, per year, with data/disclosure_years.csv's provenance", () => {
+  // FAILS if a year is skipped, a row is dropped or duplicated, an amount is mis-parsed, a year's
+  // provenance row does not carry the file, sheet, retrieval date and sha256 that
+  // data/disclosure_years.csv records, or (for Council RnD years) disagrees with MANIFEST.csv.
+  assert.deepEqual(YEARS, [2009, ...Array.from({ length: 17 }, (_, i) => 2011 + i)], "fixture premise: FY2009, FY2011–FY2027");
   const db = new Database(DB_PATH, { readonly: true });
   try {
     for (const fy of YEARS) {
@@ -78,26 +83,34 @@ test("the index holds every committed disclosure row, per year, with the manifes
         .get(fy);
       assert.equal(got.n, rows.length, `FY${fy} row count`);
       assert.equal(usd(got.amt), usd(sum(rows)), `FY${fy} total`);
-      const m = MANIFEST.find((r) => new RegExp(`^funded_disclosure_FY${fy}\\.xlsx?$`).test(r.file));
-      const snap = db.prepare("SELECT * FROM disclosure_snapshots WHERE fiscal_year = ?").get(fy);
+      const y = yearRow(fy);
+      const snap = db.prepare("SELECT * FROM disclosure_years WHERE fiscal_year = ?").get(fy);
       assert.deepEqual(
-        [snap.file, snap.sheet, snap.retrieved, snap.sha256, snap.award_rows],
-        [m.file, m.sheet, m.retrieved, m.sha256, Number(m.award_rows)],
-        `FY${fy} snapshot`
+        [snap.file, snap.sheet, snap.retrieved, snap.sha256, snap.award_rows, snap.loaded, snap.early_snapshot, snap.source_kind],
+        [fileOf(fy), y.sheet, y.retrieved, y.sha256, Number(y.award_rows), 1, y.early_snapshot === "yes" ? 1 : 0, y.source_kind],
+        `FY${fy} provenance`
       );
-      assert.equal(usd(Number(m.total_amount)), usd(sum(rows)), `FY${fy} manifest total`);
+      assert.equal(usd(Number(y.total_amount)), usd(sum(rows)), `FY${fy} disclosure_years total`);
+      if (y.source_kind === "council_rnd") {
+        const m = MANIFEST.find((r) => r.file === fileOf(fy));
+        assert.deepEqual([m.sha256, m.retrieved, Number(m.award_rows)], [y.sha256, y.retrieved, rows.length], `FY${fy} MANIFEST`);
+      }
     }
   } finally {
     db.close();
   }
 });
 
-test("the disclosure is a separate table: the adopted-Schedule-C awards table is untouched", () => {
-  // FAILS if disclosure rows leak into `awards` (whose counts the existing tools publish).
+test("FY2010 is recorded as not loaded and contributes no row", () => {
+  // FAILS if FY2010's incomplete workbook leaks into the served data, or if its provenance row
+  // (and the reason it is left out) is dropped from the index.
   const db = new Database(DB_PATH, { readonly: true });
   try {
-    const n = db.prepare("SELECT COUNT(*) AS n FROM awards").get().n;
-    assert.equal(n, 33638 + 28575); // main body + appendix, exactly as in v1.4.0
+    assert.equal(db.prepare("SELECT COUNT(*) AS n FROM disclosure WHERE fiscal_year = 2010").get().n, 0);
+    const y = db.prepare("SELECT loaded, note FROM disclosure_years WHERE fiscal_year = 2010").get();
+    assert.equal(y.loaded, 0);
+    assert.equal(y.note, yearRow(2010).note);
+    assert.match(y.note, /incomplete/);
   } finally {
     db.close();
   }
@@ -122,7 +135,7 @@ test("EIN 133179546 FY2026: true match count, status totals over ALL matches, sn
     "cleared total over every match"
   );
   assert.ok(text.includes(`Pending:            ${pending.length} row(s), ${usd(sum(pending))}`));
-  const m = MANIFEST.find((r) => r.file === "funded_disclosure_FY2026.xlsx");
+  const m = yearRow(2026);
   assert.ok(text.includes(`sheet "${m.sheet}", retrieved ${m.retrieved}`), "snapshot provenance");
   assert.equal(shownAmounts(text).length, 50);
 });
@@ -197,8 +210,8 @@ test("multi-year results carry a per-year split and every year's snapshot", asyn
   assert.ok(years.length > 1, "fixture premise");
   assert.match(text, /By fiscal year \(cleared \/ pending\):/);
   for (const fy of years) {
-    const m = MANIFEST.find((r) => new RegExp(`^funded_disclosure_FY${fy}\\.xlsx?$`).test(r.file));
-    assert.ok(text.includes(`FY${fy}: ${m.file}, sheet "${m.sheet}", retrieved ${m.retrieved}`), `FY${fy}`);
+    const m = yearRow(fy);
+    assert.ok(text.includes(`FY${fy}: ${fileOf(fy)}, sheet "${m.sheet}", retrieved ${m.retrieved}`), `FY${fy}`);
   }
 });
 
@@ -210,7 +223,7 @@ test("every answer carries the caveat and its own source footer, not the adopted
   for (const args of [{ ein: "133179546", fiscal_year: 2026, limit: 1 }, { fiscal_year: 2031 }]) {
     const { text } = await call(args);
     assert.match(text, /roster when the workbook was exported/);
-    assert.match(text, /designations made after adoption, so it is not the adopted Schedule C/);
+    assert.match(text, /designations made after adoption, so it is not the adopted budget's Schedule C/);
     assert.match(text, /expense funding disclosure workbooks/);
     assert.doesNotMatch(text, /from the NYC Council's adopted-budget documents/);
   }
@@ -220,7 +233,7 @@ test("no match names the covered years", async () => {
   // FAILS if an out-of-range year reads as a confident empty answer with no coverage statement.
   const { isError, text } = await call({ fiscal_year: 2031 });
   assert.ok(!isError);
-  assert.match(text, /^No matching designations .*\(covers FY2013–FY2027\)/);
+  assert.match(text, /^No matching designations .*\(covers FY2009, FY2011–FY2027\)/);
 });
 
 // ---------------------------------------------------------------- strict schema
@@ -234,22 +247,27 @@ test("unknown parameters are rejected, with the disclosure's own parameter named
   assert.match(res.text, /Use `legal_name` instead of `organization`/);
   const d = await call({ council_district: 3 });
   assert.equal(d.isError, true);
-  assert.match(d.text, /Use `council_member` instead of `council_district`/);
+  assert.match(d.text, /Use `council_member` or `council_member_id` instead of `council_district`/);
   assert.match(d.text, /disclosure names a council member/);
   assert.doesNotMatch(d.text, /sponsor/);
   const s = await call({ status: "Cleared" });
   assert.equal(s.isError, true, "status is the normalized lower-case value");
 });
 
-test("the existing tools' alias hints are unchanged by the new entries", async () => {
-  // FAILS if the disclosure-specific hints leak into a tool that lacks legal_name/program_name.
-  const res = await client.callTool({ name: "search_capital_projects", arguments: { organization: "x" } });
+test("alias hints stay per tool: capital never suggests the disclosure's fields, and vice versa", async () => {
+  // FAILS if a hint names a parameter the tool lacks (legal_name on search_council_capital, or
+  // sponsor on search_disclosure_awards), or if query stops pointing at the real text filters.
+  const res = await client.callTool({ name: "search_council_capital", arguments: { organization: "x" } });
   const text = res.content.map((c) => c.text).join("\n");
   assert.equal(res.isError, true);
   assert.doesNotMatch(text, /legal_name/);
-  const q = await client.callTool({ name: "search_awards", arguments: { query: "x" } });
-  const qt = q.content.map((c) => c.text).join("\n");
-  assert.match(qt, /Use `organization` or `program` instead of `query`/);
+  assert.match(text, /Use `title` instead of `organization`/);
+  const q = await call({ query: "x" });
+  assert.equal(q.isError, true);
+  assert.match(q.text, /Use `legal_name` or `program_name` instead of `query`/);
+  const m = await call({ sponsor: "Levin" });
+  assert.equal(m.isError, true);
+  assert.doesNotMatch(m.text, /Use `sponsor/);
 });
 
 test("rows carrying an Excel '#N/A' cell are indexed and served like any other row (#71)", async () => {
@@ -448,7 +466,7 @@ test("zip is an exact 5-digit filter on the derived zip, trimmed rows included",
   assert.match(alias.text, /Use `zip` instead of `postal_code`/);
 });
 
-test("zip_status filters one status; 35 trimmed, 35 repaired, 30 ambiguous six-digit rows", async () => {
+test("zip_status filters one status; 41 trimmed, 37 repaired, 32 ambiguous six-digit rows (FY2009, FY2011–FY2027)", async () => {
   // FAILS if zip_status is not an exact filter, if the trimmed / extra-digit counts are not the
   // CSV's, or if a status outside the documented nine is accepted.
   const rows = allRows();
@@ -457,9 +475,10 @@ test("zip_status filters one status; 35 trimmed, 35 repaired, 30 ambiguous six-d
     const res = await call({ zip_status: st, limit: 1 });
     assert.ok(res.text.startsWith(`${mine.length.toLocaleString("en-US")} matching designation(s)`), `${st}: ${res.text.slice(0, 80)}`);
   }
-  assert.equal(rows.filter((r) => r.zip_status === "trimmed").length, 35);
-  assert.equal(rows.filter((r) => r.zip_status === "repaired_extra_digit").length, 35);
-  assert.equal(rows.filter((r) => r.zip_status === "ambiguous_extra_digit").length, 30);
+  // 2.0.0 adds FY2009, FY2011, FY2012: 35/35/30 over FY2013–FY2027 became 41/37/32.
+  assert.equal(rows.filter((r) => r.zip_status === "trimmed").length, 41);
+  assert.equal(rows.filter((r) => r.zip_status === "repaired_extra_digit").length, 37);
+  assert.equal(rows.filter((r) => r.zip_status === "ambiguous_extra_digit").length, 32);
   const bad = await call({ zip_status: "ok" });
   assert.equal(bad.isError, true);
 });
