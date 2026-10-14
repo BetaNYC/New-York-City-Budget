@@ -1,6 +1,6 @@
 /**
  * search_disclosure_awards, audited with the questions the Schedule C audits asked
- * (data/DISCLOSURE-AUDIT.md, "The MCP tool" section; ids M1–M12 there).
+ * (data/DISCLOSURE-AUDIT.md, "The MCP tool" section; ids M1–M13 there).
  *
  * Every expected value is computed here from the committed CSVs
  * (data/fyNN/expense_disclosure/fyNN_expense_awards.csv) with csv-parse, never from the SQLite
@@ -306,5 +306,36 @@ test("M12: the rows at the top of an unfiltered answer are clean designations", 
   for (const [, name, ein] of names) {
     assert.match(ein, /^\d{9}$/, name);
     assert.doesNotMatch(name, /\b(to provide|will be used|funds will)\b|^\$?[\d,.]+$/i, name);
+  }
+});
+
+// ---------------------------------------------------------------- M13 address filters
+
+test("M13: zip, zip_status and city are exact filters with exact totals", async () => {
+  // FAILS if zip matches a substring of postal_code or misses the padded / trimmed rows filed
+  // under their 5-digit ZIP, if a zip's totals differ from the CSV by a row or a cent, if a
+  // ZIP+4 or 4-digit value is accepted (or silently trimmed/padded by the tool), or if
+  // zip_status or city match anything but their exact value.
+  const padded = ALL.find((r) => r.zip_status === "padded");
+  const trimmed = ALL.find((r) => r.zip_status === "trimmed");
+  for (const z of [padded.zip, trimmed.zip, "10001"]) {
+    const rows = ALL.filter((r) => r.zip === z);
+    const { text } = await call({ zip: z, limit: 1 });
+    assert.equal(matchedOf(text), rows.length, z);
+    const cl = rows.filter((r) => r.status_norm === "cleared");
+    assert.ok(text.includes(`${LABEL.cleared} ${fmt(cl.length)} row(s), ${exactUsd(cl)}`), z);
+    assert.ok(rows.some((r) => r.postal_code !== z) || z === "10001", `${z}: premise, a row filed under it whose cell differs`);
+  }
+  for (const bad of [padded.postal_code, trimmed.postal_code, "10001-1234", "1000"]) {
+    const res = await call({ zip: bad });
+    assert.equal(res.isError, true, bad);
+  }
+  for (const st of ["valid", "padded", "trimmed", "not_a_zcta", "state_mismatch", "invalid", "blank"]) {
+    const { text } = await call({ zip_status: st, limit: 1 });
+    assert.equal(matchedOf(text), ALL.filter((r) => r.zip_status === st).length, st);
+  }
+  for (const v of ["BRONX", " bronx "]) {
+    const { text } = await call({ city: v, limit: 1 });
+    assert.equal(matchedOf(text), ALL.filter((r) => r.city.trim().toLowerCase() === "bronx").length, v);
   }
 });

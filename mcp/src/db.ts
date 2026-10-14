@@ -346,6 +346,14 @@ export function listFiscalYears(): FiscalYearReport {
 export const DISCLOSURE_STATUSES = ["cleared", "pending", "other"] as const;
 export type DisclosureStatus = (typeof DISCLOSURE_STATUSES)[number];
 
+/**
+ * #70: how the 5-digit `zip` was read from the published `postal_code`, checked against the
+ * Census Bureau's 2020 ZCTAs (code/zcta_states.py; DATA-DICTIONARY.md). valid / padded /
+ * trimmed / not_a_zcta / state_mismatch carry a zip; invalid and blank do not.
+ */
+export const ZIP_STATUSES = ["valid", "padded", "trimmed", "not_a_zcta", "state_mismatch", "invalid", "blank"] as const;
+export type ZipStatus = (typeof ZIP_STATUSES)[number];
+
 export interface DisclosureRow {
   fiscal_year: number;
   /** MOCS ID# — FY2024+ only; "" before. Can change between snapshots for the same designation. */
@@ -374,6 +382,16 @@ export interface DisclosureRow {
   amount: number;
   agency: string;
   program_name: string;
+  /** Grantee MAILING address as printed — not where services were delivered. Never rewritten. */
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  /** The ZIP cell as published (may be ZIP+4, 4 digits, '0', '#N/A', text). */
+  postal_code: string;
+  /** #70: the 5-digit ZIP derived from postal_code; "" when zip_status is invalid or blank. */
+  zip: string;
+  zip_status: ZipStatus;
   fiscal_conduit: string;
   fiscal_conduit_ein: string;
   /** Row number in the workbook (and in data/fyNN/expense_disclosure/fyNN_expense_awards.csv). */
@@ -398,6 +416,11 @@ export interface DisclosureFilters {
   source_exact?: string;
   agency?: string;
   program_name?: string;
+  /** Exact 5-digit derived ZIP (rows whose zip_status is invalid or blank have none). */
+  zip?: string;
+  zip_status?: ZipStatus;
+  /** Exact city, case-insensitive (surrounding whitespace ignored); 'Bronx' is not 'The Bronx'. */
+  city?: string;
   status?: DisclosureStatus;
   min_amount?: number;
   max_amount?: number;
@@ -489,6 +512,9 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
     f.source_exact != null ? (p.push(f.source_exact.trim()), "source = ? COLLATE NOCASE") : null,
     likeLiteral("agency", p, f.agency),
     likeLiteral("program_name", p, f.program_name),
+    f.zip != null ? (p.push(f.zip.trim()), "zip = ?") : null,
+    f.zip_status != null ? (p.push(f.zip_status), "zip_status = ?") : null,
+    f.city != null ? (p.push(f.city.trim()), "city = ? COLLATE NOCASE") : null,
     f.status ? (p.push(f.status), "status_norm = ?") : null,
     f.min_amount != null ? (p.push(f.min_amount), "amount >= ?") : null,
     f.max_amount != null ? (p.push(f.max_amount), "amount <= ?") : null,
@@ -500,7 +526,8 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
     .prepare(
       `SELECT fiscal_year, mocs_id, source, council_member, council_member_id, council_member_type,
          legal_name, ein, status, status_norm,
-         amount, agency, program_name, fiscal_conduit, fiscal_conduit_ein, source_row, duplicate_group
+         amount, agency, program_name, address1, address2, city, state, postal_code, zip, zip_status,
+         fiscal_conduit, fiscal_conduit_ein, source_row, duplicate_group
        FROM disclosure ${w}
        ORDER BY amount DESC, fiscal_year, source_row LIMIT ${cap(f.limit)}`
     )

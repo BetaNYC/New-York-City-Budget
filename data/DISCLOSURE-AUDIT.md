@@ -96,6 +96,7 @@ The same questions, asked of the served tool, live in `mcp/test/disclosure-audit
 - **M10** An empty result is not an error, names the covered years and the snapshot? *(re-asks: absence claims (#53); harvested)*
 - **M11** Do fractional FY2013-FY2015 amounts sum without float residue in the displayed totals? *(re-asks: float rounding on cents; harvested)*
 - **M12** Are the rows at the top of an unfiltered answer clean (9-digit EIN, no prose or amount as a name)? *(re-asks: mangled row at position 1 (#48 CSSA); harvested)*
+- **M13** Does the zip filter match the derived 5-digit zip exactly (padded and trimmed rows under their ZIP, never a substring of postal_code), with totals exact to the cent, refuse anything but 5 digits, and are zip_status and city exact (city case-insensitive)? *(re-asks: address filter over/under-match; ZIP+4 guessed (#70); new)*
 
 ## Independent red-team review, 2026-10-12
 
