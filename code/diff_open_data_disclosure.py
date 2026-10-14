@@ -31,6 +31,14 @@ Normalization, applied to BOTH sides where it applies, raw values kept:
     Open Data's extra values (Government, Revoked, Pending-Council, Designated) and the
     workbooks' (CBO Defunded, Pending FC Clearance) all fall in "other".
   * amount: Decimal of the shortest round-trip repr (parse_amount_text) on both sides.
+  * geocodes (Open Data only): a BBL of all zeros is not a lot, it is "no BBL". 15 rows carry
+    BBL `0` (FY2019 14, FY2010 1); od_geo() reads them as blank and counts them in bbl_zero.
+    No other geocode column holds an all-zero value (checked 2026-10-14). We do not adopt Open
+    Data's geocodes (#89 B7); this rule applies wherever they are carried or profiled.
+
+Open Data describes 4d7f-74pe's rows as "applications for discretionary funding". They are
+designations (awards), the same rows as the Council's disclosure workbooks; the Council's real
+application files are a different data class (research/2026-10-14-wayback-council-files.md).
 
 Stdlib only (plus xlrd for an .xls workbook). No network.
 """
@@ -78,6 +86,15 @@ def od_ein(raw):
     return e, False
 
 
+def od_geo(column, value):
+    """One Open Data geocode cell -> (value, zeroed). A BBL made only of zeros is blank (#89
+    B13): BBL 0 names no tax lot. Every other value, and every other column, is kept as
+    served."""
+    if column == "bbl" and value and set(value) == {"0"}:
+        return "", True
+    return value, False
+
+
 def amount(s):
     d = P.parse_amount_text(s)
     if d is None:
@@ -96,8 +113,10 @@ def norm_od(r):
         "fiscal_conduit_ein": od_ein(r.get("fc_ein", ""))[0],
         "ref": r.get(":id", ""),
     })
+    out["bbl_zero"] = False
     for g in GEO:
-        out[g] = r.get(g, "")
+        out[g], zeroed = od_geo(g, r.get(g, ""))
+        out["bbl_zero"] = out["bbl_zero"] or zeroed
     return out
 
 
@@ -329,6 +348,7 @@ def profile(rows):
     filled = {f: sum(1 for r in rows if r.get(f)) for f, _, _ in FIELD_PAIRS}
     filled.update({g: sum(1 for r in rows if r.get(g)) for g in GEO})
     filled["mocs_id"] = sum(1 for r in rows if r["mocs_id"])
+    filled["bbl_zero_blanked"] = sum(1 for r in rows if r.get("bbl_zero"))
     return {"rows": n, "status": Counter(r["status"] for r in rows),
             "amount_by_status": {s: sum((r["amount"] for r in rows if r["status"] == s),
                                         Decimal(0)) for s in {r["status"] for r in rows}},
@@ -336,7 +356,8 @@ def profile(rows):
 
 
 PROFILE_FIELDS = ["fiscal_year", "rows", "statuses", "amount_by_status"] + \
-    [f"filled_{f}" for f, _, _ in FIELD_PAIRS] + ["filled_mocs_id"] + [f"filled_{g}" for g in GEO]
+    [f"filled_{f}" for f, _, _ in FIELD_PAIRS] + ["filled_mocs_id"] + \
+    [f"filled_{g}" for g in GEO] + ["filled_bbl_zero_blanked"]
 
 
 def profile_csv(by_fy):

@@ -471,16 +471,16 @@ DISC_HDR = ("fiscal_year,mocs_id,source,council_member,council_member_id,council
             "legal_name,ein,status,status_norm,amount,"
             "agency,program_name,address1,address2,city,state,postal_code,zip,zip_status,zip_candidates,"
             "purpose,"
-            "fiscal_conduit,fiscal_conduit_ein,source_file,source_row,duplicate_group")
+            "fiscal_conduit,fiscal_conduit_ein,source_file,source_row,duplicate_group,row_flag")
 
 
 def _disc_row(fy="2026", status="Cleared", norm="cleared", src_row="2", ein="136400434", dup="",
               postal="", zip_="", zip_status="blank", member="Doe", mid="42", mtype="member",
-              cands=""):
+              cands="", flag=""):
     return (f"{fy},FY26 00001,Local,{member},{mid},{mtype},Acme Inc.,{ein},{status},{norm},5000,"
             f"DYCD,,,,,,"
             f"{postal},{zip_},{zip_status},{cands},,,,"
-            f"funded_disclosure_FY2026.xlsx,{src_row},{dup}\n")
+            f"funded_disclosure_FY2026.xlsx,{src_row},{dup},{flag}\n")
 
 
 def _disc_file(root, body):
@@ -554,6 +554,20 @@ def test_disclosure_duplicate_group_must_name_a_real_group_issue_69(tmp_path):
         _disc_file(root2, body)
         (r2,) = V.validate_tree(str(root2))[0]
         assert [c for c, _m in r2.hard] == ["duplicate_group"], r2.hard
+
+
+def test_disclosure_row_flag_is_a_closed_set_issue_89_b13(tmp_path):
+    """#89 B13. FAILS if a 'not_an_award' row raises a hard finding or is not counted, or if a
+    row_flag outside the closed set ('not an award', a typo) passes."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row(flag="not_an_award") + _disc_row(src_row="3"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.hard == [], r.hard
+    assert any(c == "row_flag" and "not_an_award x1" in m for c, m in r.soft), r.soft
+    root2 = tmp_path / "data2"
+    _disc_file(root2, _disc_row(flag="not an award"))
+    (r2,) = V.validate_tree(str(root2))[0]
+    assert [c for c, _m in r2.hard] == ["row_flag"], r2.hard
 
 
 def test_disclosure_zip_fields_must_agree_issue_70(tmp_path):

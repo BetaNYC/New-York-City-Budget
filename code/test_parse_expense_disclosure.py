@@ -708,3 +708,54 @@ def test_uppercase_note_ignores_acronyms_in_mixed_case(tmp_path):
                   [HDR, _row("Org A", "131111111", "CLEARED", 5000)])
     assert "UPPERCASE" not in P.parse_year(mixed)[1].header_note
     assert "UPPERCASE" in P.parse_year(upper)[1].header_note
+
+
+# ---------------------------------------------------------------- row_flag (#89 B13)
+
+_FLAG = {"flag": "not_an_award", "legal_name": "Provider's Choice", "amount": "1200000"}
+
+
+def test_row_flag_marks_the_recorded_row_and_keeps_it(tmp_path, monkeypatch):
+    """#89 B13. FAILS if a ROW_FLAGS entry does not land on its row, if the row is dropped or its
+    amount leaves the totals, if any other row is flagged, or if the reconciliation report does
+    not list the flagged row."""
+    p = _xlsx(tmp_path / "funded_disclosure_FY2099.xlsx",
+              [HDR, _row("Acme Inc.", "136400434", "Cleared", 5000),
+               _row("Provider's Choice", "136400434", "Cleared", 1200000)])
+    awards, rep = P.parse_year(str(p))
+    monkeypatch.setattr(P, "_MEMBERS", {(2099, "Doe"): ("member", "42")})
+    monkeypatch.setattr(P, "ROW_FLAGS", {(2099, "funded_disclosure_FY2099.xlsx", 3): _FLAG})
+    rows = list(csv.DictReader(io.StringIO(P.csv_text(awards))))
+    assert [r["row_flag"] for r in rows] == ["", "not_an_award"]
+    assert P.total_decimal(awards) == Decimal(1205000)
+    text = P.reconciliation_text(awards, rep)
+    assert "Rows kept but flagged in row_flag (1)" in text
+    assert "row      3  not_an_award   \"Provider's Choice\" $1,200,000" in text
+
+
+def test_row_flag_on_a_moved_row_is_a_stop(tmp_path, monkeypatch):
+    """#89 B13. FAILS if an entry whose row now holds another name or amount (a re-pull moved
+    it), or names a row that is not an award, is applied or skipped instead of stopping."""
+    p = _xlsx(tmp_path / "funded_disclosure_FY2099.xlsx",
+              [HDR, _row("Acme Inc.", "136400434", "Cleared", 5000),
+               _row("Provider's Choice", "136400434", "Cleared", 1200001)])
+    awards, _ = P.parse_year(str(p))
+    for rn in (3, 2, 9):
+        with pytest.raises(ValueError, match="ROW_FLAGS expects"):
+            P.row_flags(awards, {(2099, "funded_disclosure_FY2099.xlsx", rn): _FLAG})
+    # Right amount, wrong name: still a stop.
+    with pytest.raises(ValueError, match="ROW_FLAGS expects"):
+        P.row_flags(awards, {(2099, "funded_disclosure_FY2099.xlsx", 2): dict(_FLAG, amount="5000")})
+    with pytest.raises(ValueError, match="is not one of"):
+        P.row_flags(awards, {(2099, "funded_disclosure_FY2099.xlsx", 3):
+                             dict(_FLAG, flag="maybe", amount="1200001")})
+    # An entry for another workbook is not this one's business.
+    assert P.row_flags(awards, {(2098, "funded_disclosure_FY2098.xlsx", 3): _FLAG}) == {}
+
+
+def test_row_flag_for_a_workbook_not_built_is_a_stop(monkeypatch):
+    """#89 B13. FAILS if outputs() publishes while a ROW_FLAGS entry names a workbook the build
+    does not read (the decision would silently apply to nothing)."""
+    monkeypatch.setattr(P, "ROW_FLAGS", {(2001, "funded_disclosure_FY2001.xls", 5): _FLAG})
+    with pytest.raises(SystemExit, match="does not read"):
+        P.outputs([])

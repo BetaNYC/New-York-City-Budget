@@ -37,7 +37,7 @@ treat it as a green light to start the import itself without a fresh go-ahead.
 
 | Repo column | Open Data column | Note |
 |---|---|---|
-| `member` | `Council Member` | last-name format already matches |
+| `member` | `Council Member` | ~~last-name format already matches~~ **Corrected 2026-10-14:** it does not. Open Data spells out what the Council's files abbreviate (`CC` → `Speaker`, `QN` → `Queens Delegation`, `Viverito` → `Mark-Viverito`, `Vallone` → `Vallone, Jr`) and keeps the member at the time where the Council's later exports show the current roster (FY2021 `Richards` → `Brooks-Powers`). See `research/2026-10-14-open-data-vs-disclosure-diff.md` § Field differences. |
 | `organization` | `Legal Name of Organization` | direct |
 | `ein` | `EIN` | direct |
 | `amount` | `Amount ($)` | direct |

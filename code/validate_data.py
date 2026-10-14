@@ -146,7 +146,7 @@ TYPES = {
               "council_member_type", "legal_name", "ein", "status", "status_norm", "amount", "agency", "program_name", "address1",
               "address2", "city", "state", "postal_code", "zip", "zip_status", "zip_candidates",
               "purpose", "fiscal_conduit", "fiscal_conduit_ein", "source_file", "source_row",
-              "duplicate_group"],
+              "duplicate_group", "row_flag"],
         ein="ein", amounts=["amount"], rule="positive", year_col="fiscal_year"),
     "capital": dict(
         cols=["part", "agency", "budget_line", "sub_id", "boro", "fy1", "fy2", "fy3",
@@ -477,6 +477,9 @@ DISCLOSURE_STATUS = {"cleared", "pending", "other"}
 MEMBER_TYPES = {"member", "member_outside_fy", "ambiguous", "unresolved", "speaker", "delegation",
                 "citywide", "district_label", "blank"}
 MEMBER_ID_TYPES = {"member", "member_outside_fy"}
+# GitHub #89 B13: row_flag marks a row kept as published that a person decided is not a grant
+# to an organization (parse_expense_disclosure.ROW_FLAGS). Blank, or one of these values.
+ROW_FLAG_VALUES = {"not_an_award"}
 # GitHub #70: zip / zip_status are derived from postal_code + state (code/zcta_states.py). A
 # status with a value carries a 5-digit zip taken from the published postal_code (or, padded,
 # '0' + it; trimmed, the first five digits of a ragged ZIP+4 such as '11203-' or '11231=1020';
@@ -525,11 +528,12 @@ def _check_disclosure(res, body, header, idx):
     if not all(c in idx for c in ("status", "status_norm", "fiscal_year", "source_row",
                                   "duplicate_group", "zip", "zip_status", "zip_candidates",
                                   "council_member_id",
-                                  "council_member_type")):
+                                  "council_member_type", "row_flag")):
         return  # schema check already failed hard; value checks would be noise
     bad_norm, bad_year, bad_row, seen, dup_rows = [], [], [], set(), []
     groups, row_group = Counter(), {}
-    bad_zip, bad_member = [], []
+    bad_zip, bad_member, bad_flag = [], [], []
+    flags = Counter()
     errors = Counter()
     for ln, r in enumerate(body, start=2):
         if len(r) != len(header):
@@ -548,6 +552,11 @@ def _check_disclosure(res, body, header, idx):
         if mt not in MEMBER_TYPES or (mt in MEMBER_ID_TYPES) != mid.isdigit() \
                 or (mt == "blank") != (r[idx["council_member"]].strip() == ""):
             bad_member.append((ln, r[idx["council_member"]], mid, mt))
+        fl = r[idx["row_flag"]]
+        if fl:
+            flags[fl] += 1
+            if fl not in ROW_FLAG_VALUES:
+                bad_flag.append((ln, fl))
         zs, zv = r[idx["zip_status"]], r[idx["zip"]]
         if not _zip_fits(r[idx["postal_code"]], zv, zs, r[idx["zip_candidates"]]):
             bad_zip.append((ln, r[idx["postal_code"]], zv, zs))
@@ -597,6 +606,13 @@ def _check_disclosure(res, body, header, idx):
         ln, raw, zv, zs = bad_zip[0]
         res.hard.append(("zip", (f"{len(bad_zip)} row(s) whose zip/zip_status are inconsistent, "
                                  f"e.g. line {ln}: postal_code {raw!r} -> {zv!r} {zs!r}")))
+    if bad_flag:
+        ln, v = bad_flag[0]
+        res.hard.append(("row_flag", (f"{len(bad_flag)} row(s) with an unknown row_flag, e.g. "
+                                      f"line {ln}: {v!r} (allowed: {sorted(ROW_FLAG_VALUES)})")))
+    if flags:
+        res.soft.append(("row_flag", "rows kept as published but flagged: "
+                                     + ", ".join(f"{k} x{n}" for k, n in sorted(flags.items()))))
     if errors:
         res.soft.append(("excel_error", f"{sum(errors.values())} cell(s) hold an Excel error value, "
                                         f"kept as published text (DATA-ANOMALIES §22): "

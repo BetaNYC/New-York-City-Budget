@@ -25,4 +25,5 @@ Stripped rows (0):
 
 EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (0): none
 Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 19 group(s), 43 row(s); 24 beyond the first of each group, $565,382
+Rows kept but flagged in row_flag (0), included in every total above: none
 notes: no MOCS ID#; no Fiscal Year column (year taken from filename)
