@@ -226,12 +226,61 @@ def test_surname_with_spaces_ignored_issue_89():
     ("", "blank"), ("Speaker", "speaker"), ("Bronx Delegation", "delegation"),
     ("Brooklyn", "delegation"), ("SI Delegation", "delegation"),
     ("Brooklyn / Queens", "delegation"), ("Citywide", "citywide"), ("CD28", "district_label"),
-    ("CD19", "district_label"), ("CC", "unresolved"), ("NA", "unresolved"),
+    ("CD19", "district_label"), ("CC", "speaker"), ("BK", "delegation"), ("BX", "delegation"),
+    ("MN", "delegation"), ("QN", "delegation"), ("NA", "unresolved"),
+    ("Barron & Eugene", "unresolved"),
 ])
 def test_non_member_values_get_explicit_types_and_no_id(value, typ):
     """FAILS if a label that is not a person gets a person ID, or a type other than its own."""
     r = cls(value, 2014)
     assert (r["council_member_type"], r["council_member_id"]) == (typ, "")
+
+
+def test_label_convention_keeps_the_printed_value_and_names_its_method():
+    """2026-10-16. FAILS if 'CC' is not typed speaker with method file_convention:CC=Speaker, if
+    the rule catches a lower-case or longer value (a surname), or if it carries a person ID."""
+    r = cls("CC", 2011)
+    assert (r["council_member_type"], r["council_member_id"], r["method"]) == \
+        ("speaker", "", "file_convention:CC=Speaker")
+    assert cls("QN", 2009)["method"] == "file_convention:QN=Queens_Delegation"
+    assert cls("cc", 2011)["council_member_type"] == "unresolved"
+    assert cls("CCX", 2011)["council_member_type"] == "unresolved"
+    rows = B.build({(2011, "CC"): 3, (2014, "Speaker"): 2}, ROSTER)
+    assert [(x["council_member"], x["council_member_type"]) for x in rows] == \
+        [("CC", "speaker"), ("Speaker", "speaker")]
+
+
+@pytest.mark.parametrize("pairs", [
+    {(2012, "CC"): 3, (2012, "Speaker"): 2},
+    {(2009, "QN"): 3, (2009, "Queens Delegation"): 1},
+])
+def test_label_convention_stops_when_a_year_prints_both(pairs):
+    """2026-10-16. FAILS if a year printing both an abbreviation and the value it is read as
+    (the premise of the convention broken) builds instead of stopping."""
+    with pytest.raises(ValueError, match="prints both"):
+        B.build(pairs, ROSTER)
+
+
+def test_label_convention_allows_the_bare_borough_name_beside_its_code():
+    """2026-10-17 (review S3). FY2009 prints 'BK' 18 and 'Brooklyn' 50 in the same year, as it
+    prints 'SI' and 'Staten Island'. FAILS if the guard stops on the bare name (only the
+    '... Delegation' spelling is a rival) or if either is not typed delegation."""
+    rows = B.build({(2009, "BK"): 18, (2009, "Brooklyn"): 50, (2009, "SI"): 29,
+                    (2009, "Staten Island"): 14}, ROSTER)
+    assert {r["council_member"]: r["council_member_type"] for r in rows} == {
+        "BK": "delegation", "Brooklyn": "delegation", "SI": "delegation",
+        "Staten Island": "delegation"}
+
+
+def test_label_convention_evidence_states_the_open_data_pairing():
+    """2026-10-17 (review B1). FAILS if the evidence again claims the FY2010 workbook prints
+    'Speaker' (it prints 'CC' 50 times), or drops the verified Open Data counts."""
+    cc = cls("CC", 2012)["evidence"]
+    assert "895 of 895" in cc and "FY2010 Internet Archive workbook also prints 'CC' (50 rows)" in cc
+    assert "prints \"Speaker\"" not in cc and "workbook prints 'Speaker'" not in cc
+    assert "18 of 18" in cls("BK", 2009)["evidence"]
+    assert "13 of 13" in cls("BX", 2009)["evidence"]
+    assert "FY2010 Internet Archive workbook prints \"Speaker\"" not in B.__doc__
 
 
 # ---------------------------------------------------------------- the committed crosswalk
@@ -258,16 +307,32 @@ def test_committed_crosswalk_pins(committed):
     rows = collections.Counter()
     for r in committed:
         rows[r["council_member_type"]] += int(r["rows"])
-    # FY2009, FY2011, FY2012 (#89 A2) added 154 member pairs (12,478 rows) and 10 unresolved
-    # pairs (953 rows: CC, the two-letter borough codes BK/BX/MN/QN, and multi-member values).
-    assert dict(by) == {"member": 912, "member_outside_fy": 3, "ambiguous": 3, "unresolved": 12,
-                        "speaker": 14, "delegation": 93, "citywide": 8, "district_label": 5,
+    # FY2009, FY2011, FY2012 (#89 A2) added 154 member pairs (12,478 rows). Since 2026-10-16 the
+    # label conventions type CC (FY2009-FY2013, 4 pairs, 1,003 rows) as speaker and BK/BX/MN/QN
+    # (FY2009, 4 pairs, 137 rows) as delegation; only the multi-member values and FY2014 'NA'
+    # stay unresolved (4 pairs, 56 rows).
+    assert dict(by) == {"member": 912, "member_outside_fy": 3, "ambiguous": 3, "unresolved": 4,
+                        "speaker": 18, "delegation": 97, "citywide": 8, "district_label": 5,
                         "blank": 18}
     assert rows["member"] == 113547 and rows["member_outside_fy"] == 341
-    assert rows["ambiguous"] == 189 and rows["unresolved"] == 1196
+    assert rows["ambiguous"] == 189 and rows["unresolved"] == 56
+    assert rows["speaker"] == 7193 and rows["delegation"] == 7870
     unresolved = {(r["fiscal_year"], r["council_member"]) for r in committed
                   if r["council_member_type"] == "unresolved"}
-    assert {v for _, v in unresolved} >= {"CC", "BK", "BX", "MN", "QN", "NA"}
+    assert {v for _, v in unresolved} == {
+        "Barron & Eugene", "Lappin, Koppell/Citywide", "NA",
+        "Chin, Mendez, Garodnick, Lappin, Brewer, Jackson, Viverito, Dickens, Rodriguez"}
+    labels = {(r["fiscal_year"], r["council_member"]): (r["council_member_type"], r["method"])
+              for r in committed
+              if r["method"].startswith("file_convention:") and not r["council_member_id"]}
+    assert labels == {
+        **{(fy, "CC"): ("speaker", "file_convention:CC=Speaker")
+           for fy in ("2009", "2011", "2012", "2013")},
+        ("2009", "BK"): ("delegation", "file_convention:BK=Brooklyn_Delegation"),
+        ("2009", "BX"): ("delegation", "file_convention:BX=Bronx_Delegation"),
+        ("2009", "MN"): ("delegation", "file_convention:MN=Manhattan_Delegation"),
+        ("2009", "QN"): ("delegation", "file_convention:QN=Queens_Delegation"),
+    }
     old = {r["council_member"]: r["council_member_id"] for r in committed
            if r["fiscal_year"] == "2009"}
     assert (old["Vallone, Jr"], old["DeBlasio"], old["Addabbo, Jr"]) == ("5271", "5286", "5281")
@@ -289,7 +354,7 @@ def test_committed_fy2021_diaz_file_convention(committed):
     file_convention, or if the evidence drifts from the counts the 2026-10-13 QA read from the
     committed FY2021 CSV (46 Local rows: Bronx 18, 104xx 17; D. Diaz 24 Local rows: Brooklyn 14,
     112xx 14)."""
-    conv = [r for r in committed if r["method"].startswith("file_convention")]
+    conv = [r for r in committed if r["method"].startswith("file_convention: ")]
     assert [(r["fiscal_year"], r["council_member"]) for r in conv] == [("2021", "Diaz")]
     d = conv[0]
     assert (d["council_member_type"], d["council_member_id"], d["rows"]) == ("member", "7744", "123")

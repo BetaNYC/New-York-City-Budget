@@ -12,8 +12,8 @@
 # the site was first published — now automated. Uses only first-party actions/checkout
 # plus plain git (no third-party deploy action).
 #
-# Scope: fires only when viz/ changes (including its regenerated viz/data/schedule_c.csv,
-# so a crosswalk/data refresh that rebuilds the viz also redeploys). workflow_dispatch is
+# Scope: fires only when viz/ changes. Since 2026-10-16 legacy.html and its
+# viz/data/schedule_c.csv are frozen: nothing regenerates them (viz/README.md). workflow_dispatch is
 # kept so the very PR that introduces this file — which a path-scoped push won't trigger —
 # can be run on demand, and for manual redeploys.
 #

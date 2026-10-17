@@ -61,6 +61,12 @@ OMB `46m8-77gv`, the adopted release for each first fiscal year (the last releas
 
 Per line: `council_vs_omb_by_budget_line.csv`. The Council side for FY2019–FY2025 is t474-a92g; for FY2026 and FY2027 the Council's workbook.
 
+1,425 line-year comparisons (515 distinct budget lines).
+
+**Not compared:** 1 Council row(s) in these years sit on a budget line outside the Council series, so no line above includes them:
+
+- FY2021 `PW MN02A` Constantinides, 'BIOBUS, INC.-NEW BIOBUS MOBILE SCIENCE LAB', $304,000 for FY2021 (open_data_t474 row-av96-acjb-43k4)
+
 **FY2027:** 146 of 153 Council budget lines match OMB's July 2026 adopted release in both FY2027 and FY2028. Lines that differ:
 
 - `F D175` Council 22,306,000 / 0, OMB 22,556,000 / 0

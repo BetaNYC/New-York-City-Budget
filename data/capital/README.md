@@ -7,14 +7,14 @@ FY2027 2026-10-12); NYC Open Data pulled 2026-10-14 (t474-a92g rows last updated
 
 Built by `code/build_capital_council.py` (`--write`, `--check`); audited by
 `code/audit_capital.py` ([`CAPITAL-AUDIT.md`](CAPITAL-AUDIT.md)). No PDF-derived data: the
-older `data/fyNN/capital/` files come from the Section 254 PDFs and are a separate dataset.
+older `data/fyNN/capital/` files come from the Section 254 PDFs, are a separate dataset, and are retired in 2.0 (kept for history, not served). This dataset is served by `@betanyc/nyc-budget-mcp` 2.0 (`search_council_capital`, `compare_capital_to_omb`).
 Column definitions: [`DATA-DICTIONARY.md`](../../DATA-DICTIONARY.md) § `data/capital/`.
 
 ## Files
 
 | File | What it is |
 |---|---|
-| `council_capital_awards.csv` | The Council's capital designations: one row per (record, fiscal-year column) with a non-zero amount. FY2015–FY2017, FY2019–FY2027. |
+| `council_capital_awards.csv` | The Council's capital designations: one row per (record, fiscal-year column) with a non-zero amount, except that a record whose amounts are all zero is kept as one $0 row (FY2016 rows 573, `E CN679`, and 715, `E CN845`; CAPITAL-AUDIT K1). FY2015–FY2017, FY2019–FY2027. |
 | `omb_capital_budget_council_lines.csv` | OMB's Capital Budget (`46m8-77gv`), every release FY2019–FY2027, Council-series budget lines only, whole dollars. |
 | `omb_commitment_plan_council_lines.csv` | OMB's Capital Commitment Plan (`2cmn-uidm`), every release April 2016–September 2026, Council-series lines only, **thousands of dollars**. |
 | `council_vs_omb_by_budget_line.csv` | Per report year and budget line: the Council table vs OMB's adopted release, first and second year. |

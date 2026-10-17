@@ -2,6 +2,13 @@
 
 Honest catalog of every known gap, quirk, and caveat in this dataset. Nothing here is a secret failure — each item is either an intrinsic property of the source documents, a documented deferral, or a tracked open task. If you're about to draw a conclusion from this data, read the relevant entry first.
 
+> **2.0 (2026-10-14): PDF-derived data is retired.** Entries about Schedule C, Terms &
+> Conditions, §254 capital, transparency resolutions, `data/combined/` and `data/recovered/`
+> describe files kept in the repository as a historical record. They are not served by
+> `@betanyc/nyc-budget-mcp` 2.0 or shown on the Pages site's front page (`viz/legacy.html` keeps
+> the old explorer online, frozen as of 2026-10-16, under a "do not cite" banner). Where an entry says "the MCP" serves or indexes those files, it
+> describes 1.x. The structured datasets are covered by §22–§26.
+
 **Generated:** 2026-07-08. See also [`DATA-DICTIONARY.md`](DATA-DICTIONARY.md) (schemas) and [`code/PARSING.md`](code/PARSING.md) (per-year parse status).
 
 ---
@@ -20,7 +27,7 @@ These sources cannot be parsed by the repo's deterministic text-layer extractors
 
 Schedule C for **FY2009–FY2014 is initiatives-level only** (category/initiative totals). There are **no per-organization award rows and no EINs**. This is intrinsic: pre-FY2016, designations were largely made *after* adoption, so organization detail lives in the Transparency Resolutions, not the adopted Schedule C. FY2016 is the first year the adopted Schedule C carries award/EIN tables.
 
-**Consequence:** EIN-keyed analysis — and the budget MCP's award tools — are valid **FY2016 onward only**. Reconstructing the earlier years from Transparency Resolutions + NYC Open Data is **open GitHub task [#5](https://github.com/BetaNYC/New-York-City-Budget/issues/5)**.
+**Consequence:** EIN-keyed analysis of the Schedule C files — and the budget MCP's 1.x award tools, removed in 2.0 — are valid **FY2016 onward only**. Reconstructing the earlier years from Transparency Resolutions + NYC Open Data is **open GitHub task [#5](https://github.com/BetaNYC/New-York-City-Budget/issues/5)**.
 
 ## 3. Low text-confidence for FY2010–FY2013 organization/program names
 
@@ -555,7 +562,7 @@ below is that script's arithmetic on committed files, pinned by
 **This is coverage, not a capture rate.** The disclosure is a later snapshot than the adopted
 Schedule C and includes post-adoption designations, so it is not the adopted-budget universe
 (see #58 item 3 on why the earlier 68.3% was retracted). "Published set" = body + the three
-appendix CSVs (what the MCP indexes). The disclosure-built appendix sidecar is excluded as
+appendix CSVs (what the MCP indexed through 1.x). The disclosure-built appendix sidecar is excluded as
 circular; the absorbed-awards sidecar is reported separately in the full output.
 
 | FY | disclosure rows | matched | Cleared $ matched (headline) | Pending $ matched | appendix rows matched after the body | appendices vs body |
@@ -668,7 +675,7 @@ number here is this repo's arithmetic on those files.
 - **FY2010 is not loaded.** The workbook has 2,592 rows ($111,558,052.58); NYC Open Data
   `4d7f-74pe` has 5,981 rows ($357,820,611) for the year: 1,864 Local, 817 Youth and 561 Aging
   rows the workbook lacks, and 180 matched rows whose address the workbook leaves blank. Both
-  archived copies (2016-12 and 2025-02) are identical, so this is what the Council published.
+  archived copies (2016-12 and 2025-02) are content-identical (different files and sha256, same rows), so this is what the Council published.
   Mixing the two would make a year neither source published. **OPEN** until it is known which
   is complete (decision #89 A3). The workbook stays in `source/wayback-council/files/` and its
   counts are in `data/disclosure_years.csv` (`loaded = no`).
@@ -687,8 +694,20 @@ number here is this repo's arithmetic on those files.
   Football), `EX123557` (4366, Regina Young at Heart), `11-31735A` (4912, St. Albans Presbyterian
   Church); FY2011 `NA` (679, CBO Training). Which digits were meant is not in the file. The
   validator lets exactly these four through (`PUBLISHED_ODD_EINS`). 46 EINs are blank (FY2009 25,
-  FY2011 13, FY2012 8). FY2011 and FY2012 store 150 EINs as numbers that lost a leading zero
-  (3 and 147), re-padded as in FY2013.
+  FY2011 13, FY2012 8); with FY2011 `NA` they carry `row_flag` `no_grantee_ein` (next
+  bullet). FY2011 and FY2012 store 150 EINs as numbers that lost a leading zero (3 and 147),
+  re-padded as in FY2013.
+- **53 disclosure rows print no grantee EIN** (52 blank, plus one FY2011 cell printed `NA`),
+  $159,951,020.83 in all, most of it FY2009 rows that name an initiative or program rather than an
+  organization ("School Budget Restoration", $120,000,000; "NYCHA Community Services",
+  $18,000,000). They are published rows and stay in every total. **Flagged 2026-10-16:** each
+  carries `row_flag` `no_grantee_ein`, a rule (a blank or `NA` EIN), not a judgment about the row:
+  FY2009 25 ($154.6M), FY2011 14, FY2012 8, FY2013 2, FY2014 3, FY2015 1. No other year prints an
+  EIN for these names, so none is inferred, and they are not sorted into City program vs. unknown
+  by hand. The MCP says on each row and in its no-EIN note: "No grantee EIN printed by the
+  Council. Often a city program rather than a nonprofit." `code/test_parse_expense_disclosure.py`
+  locks the count at 53 and the validator requires the flag on exactly the blank/`NA` rows. Two
+  other FY2009 rows carry the decided flag `not_an_award` (§24); none carries both.
 - **Sub-cent amounts:** FY2009 carries 858 amounts with fractions (e.g. `7481.296758`), FY2011
   205, FY2012 85; 483, 30 and 28 of them past the cent (audit E2). Kept as stored; Open Data
   rounds them (to cents through FY2011, to dollars from FY2012), which is what `od_match` records.
@@ -696,12 +715,25 @@ number here is this repo's arithmetic on those files.
   generic and tested, never a per-name decision. A printed generational suffix must match
   Legistar's (`Vallone, Jr` is Peter F. Vallone, Jr., 5271, never Paul A. Vallone); a surname
   matches with spaces ignored when no exact surname exists (`DeBlasio` → Legistar's `de Blasio`,
-  5286). FY2009 prints Thomas White, Jr. both as `White` and `White, Jr` (both 6273). Still
-  `unresolved`, deliberately: `CC` (FY2009 240, FY2011 271, FY2012 252 rows; also FY2013 240),
-  the two-letter borough codes `BK` 18, `BX` 19, `MN` 54, `QN` 46 (FY2009), and three multi-member
-  values (`Barron & Eugene`, `Lappin, Koppell/Citywide`, and a nine-member FY2011 list, 51 rows).
-  Open Data spells `CC` as `Speaker` and `QN` as `Queens Delegation`; per #89 B6 that is
-  evidence, not the answer, so the reading is a question for the maintainer.
+  5286). FY2009 prints Thomas White, Jr. both as `White` and `White, Jr` (both 6273).
+  **RESOLVED 2026-10-16: `CC` is the Speaker, and `BK`/`BX`/`MN`/`QN` are borough delegations**
+  (decided by Marvin on the evidence; Noel Hidalgo delegated the call). The evidence, from the
+  full NYC Open Data `4d7f-74pe` copy joined on `od_mocs_id` = `mocs_id` and re-verified
+  2026-10-17: every `CC` row with an Open Data pair is `Speaker` there, 895 of 895 (FY2009 224,
+  FY2011 245, FY2012 219, FY2013 207; the rest have no pair), and FY2009 `QN` → Queens
+  Delegation 37/37, `MN` → Manhattan 35/35, `SI` → Staten Island 23/23, `BK` → Brooklyn 18/18,
+  `BX` → Bronx 13/13. No paired row disagrees. FY2009–FY2013 print `CC` (240 / 271 / 252 / 240
+  rows) where FY2014–FY2027 print `Speaker`, and no year prints both; the FY2010 Internet Archive
+  workbook (not loaded) also prints `CC` (50 rows, never `Speaker`). The same FY2013 award is
+  `CC` in the Council workbook and `Speaker` in Open Data (review-sheet R10, R12). FY2009 prints
+  each borough code beside the bare borough name (`BK` 18 and `Brooklyn` 50), as it does `SI` and
+  `Staten Island`; both are typed `delegation`. Implemented as a generic rule (`LABEL_CONVENTIONS` in
+  `code/build_member_crosswalk.py`), not per-row edits: `council_member` keeps the printed value,
+  `council_member_type` becomes `speaker` / `delegation`, and the crosswalk `method` reads
+  `file_convention:CC=Speaker` (and so on). The build stops if a year ever prints both `CC` and
+  `Speaker`, or a code and that borough's `… Delegation` spelling (no year does). Still
+  `unresolved`: three multi-member values (`Barron & Eugene`, `Lappin, Koppell/Citywide`, and a
+  nine-member FY2011 list, 51 rows) and FY2014 `NA` (3 rows); 56 rows, down from 1,196.
 - **Exact copies** are many more in FY2009 (97 groups, 373 rows; §22 table) than in any later
   year. Kept and flagged as in every year.
 - **Duplicate Open Data MOCS IDs.** `od_mocs_id` repeats on two FY2009 pairs because Open Data
@@ -719,7 +751,21 @@ number here is this repo's arithmetic on those files.
   release to the dollar in both years; 7 differ (`P D017` $579,000 lower at OMB and `P D020`
   $579,000 higher look like one project booked in another borough: interpretation), and 8 OMB
   `D`-series lines have no Council row; OMB is $25,789,000 higher in total. FY2021 and FY2024
-  match on every line. **OPEN:** why they differ (#89 C1; Council Finance or OMB).
+  match on every Council-series (`D`) line. One Council row is on no such line and so is not
+  compared: FY2021 `PW MN02A` (Constantinides, BioBus mobile science lab, $304,000); RECONCILIATION
+  §3 and the tool's answer list it. 1,425 line-year comparisons in all, over 515 distinct lines.
+  **OPEN:** why they differ (#89 C1; Council Finance or OMB).
+- **Garbled accented names in `t474-a92g` (FY2019–FY2025), kept as published.** NYC Open Data's
+  rows carry accented letters decoded with the wrong character set, and the committed source
+  (`source/open-data-t474-a92g/t474-a92g.csv.gz`) has them byte for byte, so this repo did not
+  introduce them and does not repair them. Sponsors: FY2023–FY2024 `Oss├⌐` (20 rows),
+  `Avil├⌐s` (44), `Cab├ín` (26), `Vel├ízquez` (40), plus co-sponsor lists such as
+  `Speaker, Avil├⌐s`; FY2025 `OssΘ` (16), `AvilΘs` (20), `Cabßn` (13). The Council's own
+  workbooks spell the same members `Ossé`, `Avilés`, `Cabán` (FY2026, FY2027). Titles and
+  descriptions show the same thing (`FA├çADE`, `CAF├ë`, a stray `├ü`), and one FY2017 workbook
+  description prints a Greek `Τ` in `FAΤADE`. Consequences: a search for `Ossé` does not find
+  `OssΘ` or `Oss├⌐`; search by the printed value, or by `budget_line`. Since 2026-10-17 a
+  printed value pasted back exactly always finds its rows (`mcp/test/fold-roundtrip.test.js`).
 - **t474-a92g problems.** 5 records broken across 12 rows (§ RECONCILIATION 2): the FY2026 one
   is proven by the Council's workbook; the FY2020 (2), FY2022 and FY2023 ones are kept with a
   blank amount and flagged, and their spilled amounts ($170,000, $300,000, $55,000, $150,000
@@ -735,3 +781,20 @@ number here is this repo's arithmetic on those files.
   (`row-qxu3-pz44.fhei`); stripped from the reference table.
 - **No project-level or contract-level claim** is made: Council project IDs do not appear in any
   OMB dataset (A7, C2, C9).
+
+---
+
+## 27. PDF-derived data retired in 2.0 (2026-10-14)
+
+Noel Hidalgo's decision of 2026-10-14: version 2.0 of `@betanyc/nyc-budget-mcp` and the GitHub
+Pages site use structured sources only. Retired and no longer served or shown: Schedule C
+(awards, initiatives, appendices), Terms & Conditions, per-year §254 capital, transparency
+resolutions, `data/combined/` (including the Legistar crosswalk of those documents) and
+`data/recovered/`. The files stay in the repository as a historical record; nothing was deleted.
+`mcp/test/no-pdf-data.test.js` fails if the MCP's index build reads one of them or the npm
+package ships one. Two things about the structured data that the 2.0 MCP now states on its
+answers surfaced when FY2009 entered the served set: the 53 rows with no grantee EIN (now in
+§25) and:
+
+- **Fractional amounts.** FY2009–FY2012 carry amounts such as `7481.296758`; the MCP shows them
+  rounded to cents and totals the exact values.

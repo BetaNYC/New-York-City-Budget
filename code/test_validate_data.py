@@ -570,6 +570,28 @@ def test_disclosure_row_flag_is_a_closed_set_issue_89_b13(tmp_path):
     assert [c for c, _m in r2.hard] == ["row_flag"], r2.hard
 
 
+def test_disclosure_no_grantee_ein_flag_matches_the_ein(tmp_path):
+    """2026-10-16. FAILS if a blank-EIN or 'NA' row flagged no_grantee_ein (alone, or after a
+    decided flag) raises a hard finding, or if any of these passes: a blank EIN with no flag, a
+    flag on a row that prints an EIN, a flag repeated in one cell."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row(ein="", flag="no_grantee_ein")
+               + _disc_row(src_row="3", ein="NA", flag="no_grantee_ein")
+               + _disc_row(src_row="4", ein="", flag="not_an_award;no_grantee_ein")
+               + _disc_row(src_row="5"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert [c for c, _m in r.hard if c == "row_flag"] == [], r.hard
+    assert any(c == "row_flag" and "no_grantee_ein x3" in m for c, m in r.soft), r.soft
+    for i, row in enumerate((_disc_row(ein=""),
+                             _disc_row(flag="no_grantee_ein"),
+                             _disc_row(ein="", flag="no_grantee_ein;no_grantee_ein"),
+                             _disc_row(ein="", flag="no_grantee_ein;not_an_award"))):
+        root2 = tmp_path / f"bad{i}"
+        _disc_file(root2, row)
+        (r2,) = V.validate_tree(str(root2))[0]
+        assert "row_flag" in [c for c, _m in r2.hard], (i, r2.hard)
+
+
 def test_disclosure_open_data_mocs_columns_issue_89_a4(tmp_path):
     """#89 A4. FAILS if a well-formed Open Data cross-reference raises a hard finding or is not
     counted, or if any of these passes: an od_match outside the closed set, an ID with no tier
@@ -598,7 +620,8 @@ def test_published_odd_eins_pass_only_where_listed(tmp_path):
     def run(fy, row, ein):
         root = tmp_path / f"r{fy}{row}{ein}"
         p = str(root / f"fy{fy[-2:]}" / "expense_disclosure" / f"fy{fy[-2:]}_expense_awards.csv")
-        _write(p, DISC_HDR + "\n" + _disc_row(fy=fy, src_row=row, ein=ein))
+        flag = "no_grantee_ein" if ein in ("", "NA") else ""  # the rule flag the parser adds
+        _write(p, DISC_HDR + "\n" + _disc_row(fy=fy, src_row=row, ein=ein, flag=flag))
         (r,) = V.validate_tree(str(root))[0]
         return [c for c, _m in r.hard]
     assert run("2009", "3075", "EX130314") == []

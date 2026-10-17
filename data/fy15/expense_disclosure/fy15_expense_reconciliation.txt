@@ -26,5 +26,6 @@ Stripped rows (0):
 EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (0): none
 Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 17 group(s), 35 row(s); 18 beyond the first of each group, $1,775,350
 NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: 4155 of 6650 rows (exact 4037, rounded_cents 0, rounded_dollars 118)
-Rows kept but flagged in row_flag (0), included in every total above: none
+Rows kept but flagged in row_flag (1), included in every total above:
+  row   6651  no_grantee_ein 'Helping Hands, East NY Brooklyn' $5,437.50
 notes: no MOCS ID#

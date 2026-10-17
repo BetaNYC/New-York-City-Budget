@@ -15,6 +15,7 @@ its tests skip, loudly, when xlrd is not installed (pip install -r code/requirem
 
 Run: pytest code/test_parse_expense_disclosure.py
 """
+import collections
 import csv
 import io
 import os
@@ -822,11 +823,41 @@ def test_committed_fy2009_not_an_award_rows_are_flagged():
               newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
     flagged = [(r["source_row"], r["legal_name"], r["amount"], r["od_mocs_id"])
-               for r in rows if r["row_flag"]]
+               for r in rows if "not_an_award" in r["row_flag"].split(";")]
     assert flagged == [("523", "Borough President Discretionary Funding", "533000",
                         "FY09 Not an Award"),
                        ("4092", "Provider's Choice", "1200000", "FY09 Not an Award")]
     assert sum(Decimal(r["amount"]) for r in rows) == Decimal("414226176.883541690169")
+
+
+def test_rule_flag_no_grantee_ein_appends_and_never_clobbers(monkeypatch):
+    """2026-10-16. FAILS if a blank or 'NA' EIN row is not flagged no_grantee_ein, if a row with
+    an EIN is, or if a decided flag on the same row is replaced instead of kept first."""
+    aws = [_aw(2, "", 5), _aw(3, "NA", 5), _aw(4, "131111111", 5), _aw(5, "", 7)]
+    flags = {(2012, "f.xls", 5): {"flag": "not_an_award", "legal_name": "Org", "amount": "7"}}
+    got = P.all_row_flags(aws, flags)
+    assert got == {2: "no_grantee_ein", 3: "no_grantee_ein", 5: "not_an_award;no_grantee_ein"}
+
+
+def test_committed_no_grantee_ein_rows_are_exactly_53():
+    """2026-10-16. Locks the count. FAILS if the committed CSVs carry other than 53 rows flagged
+    no_grantee_ein (52 blank + 1 FY2011 'NA', FY2009-FY2015), if any flagged row prints an EIN,
+    or if any blank/'NA' row is not flagged. A re-pull that changes the count must change this
+    test and DATA-ANOMALIES.md together."""
+    import glob
+    by_fy, mismatch = collections.Counter(), []
+    for path in sorted(glob.glob(os.path.join(P.DATA_DIR, "fy*", "expense_disclosure",
+                                              "fy*_expense_awards.csv"))):
+        with open(path, newline="", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                flagged = "no_grantee_ein" in r["row_flag"].split(";")
+                if flagged:
+                    by_fy[int(r["fiscal_year"])] += 1
+                if flagged != (r["ein"].strip().upper() in ("", "NA")):
+                    mismatch.append((r["fiscal_year"], r["source_row"], r["ein"]))
+    assert not mismatch, mismatch[:5]
+    assert sum(by_fy.values()) == 53
+    assert dict(by_fy) == {2009: 25, 2011: 14, 2012: 8, 2013: 2, 2014: 3, 2015: 1}
 
 
 # ---------------------------------------------------------------- Open Data MOCS IDs (#89 A4)
@@ -898,7 +929,8 @@ def test_years_table_covers_every_year_and_says_why_fy2010_is_out():
     assert "5,981 rows, $357,820,611" in rows[2010]["note"]
     assert {fy for fy, r in rows.items() if r["early_snapshot"] == "yes"} == {2009, 2013}
     assert "1,389 of 5,745 rows Pending" in rows[2009]["note"]
-    assert rows[2009]["row_flagged"] == "2"
+    # 2 not_an_award + 25 no_grantee_ein (no row carries both).
+    assert rows[2009]["row_flagged"] == "27"
     man = P.wayback_manifest()
     for fy in (2009, 2010, 2011, 2012):
         m = man[rows[fy]["source_path"].removeprefix("source/wayback-council/")]

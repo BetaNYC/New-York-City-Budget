@@ -4,7 +4,183 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.5.0 — 2026-10-12 (unreleased: not tagged, not published)
+## 2.0.0 — unreleased (built 2026-10-14; not tagged, not published)
+
+2.0 rebuilds the server on **structured sources only**: the NYC Council's expense funding
+disclosure spreadsheets and its capital designations (the Council's capital workbooks and NYC
+Open Data), with a by-budget-line comparison to OMB's adopted capital budget. Everything
+extracted from the adopted-budget PDFs, and every tool built on it, is retired. The retired data
+stays in the repository for history; none of it is in the package.
+
+**What upgrading means.** The last published version is 1.3.1. 1.4.0 and 1.5.0 were never tagged
+or published, so 2.0.0 follows 1.3.1 directly and supersedes both: 1.4.0's appendix rows are
+retired with the rest of Schedule C, and 1.5.0's `search_disclosure_awards` ships here (its
+notes are folded in below and kept, as written, in the 1.5.0 entry).
+
+### Breaking changes
+- **Node 22 or newer is required** (`engines` was `>=18`). Node 18 and Node 20 are past end of life. CI now tests Node 22 and 24.
+- **Six tools removed.** Calling one returns an error that names its replacement, or, for the
+  three with none, says so and points to where to look instead.
+
+  | 1.x tool | In 2.0.0 |
+  |---|---|
+  | `search_awards` | `search_disclosure_awards` |
+  | `get_awards_by_ein` | `search_disclosure_awards` with `ein` |
+  | `search_capital_projects` | `search_council_capital` |
+  | `search_transparency_resolutions` | No replacement tool yet; the error points to `nyc-council-mcp` (Finance `modification` items), the disclosure rows and the PDFs |
+  | `get_terms_conditions` | No replacement tool yet; the error points to the Terms and Conditions PDFs in `source/FYNN/` |
+  | `get_legistar_link` | Removed; use `nyc-council-mcp` for Legistar records |
+  | `list_available_fiscal_years` | Kept, rebuilt on the structured datasets |
+
+- **`get_legistar_link` is removed, not rewired**, because it depends on the PDF documents: its
+  crosswalk (`data/combined/legistar_crosswalk.csv`) is keyed on the adopted-budget PDFs
+  (`document_type` schedule_c / capital_a / capital_b / terms_conditions / transparency_reso,
+  `local_file` a PDF path), which 2.0 no longer serves, and 10 of its 255 rows are researchers'
+  `candidate` anchors (FY2009–FY2014 Schedule C, FY2015–FY2018 Terms & Conditions) rather than
+  verified links. A Legistar index keyed on structured data could return later.
+- **Figures from 1.x do not reproduce.** 1.x served the adopted Schedule C and §254 capital as
+  extracted from PDFs; 2.0 serves the Council's disclosure (a later snapshot that includes
+  post-adoption designations) and its capital lists. They are different sources.
+- **The package no longer ships** Schedule C awards, initiatives or appendix rows, recovered
+  sidecars, Terms & Conditions, §254 capital, transparency resolutions or the Legistar crosswalk.
+  `test/no-pdf-data.test.js` fails if any of them, or any file the index build reads from a
+  PDF-derived path, comes back.
+
+### Added
+- **`search_council_capital`** — the Council's capital designations, FY2015–FY2017 and
+  FY2019–FY2027 (16,916 rows; FY2018 is in no source found). Filters: `fiscal_year` (the
+  Council list's year), `amount_fy`, `budget_line` (exact, normalized to `AGENCY LINE`;
+  `PD018` refused), `project_id` (exact, case and spacing ignored), `sponsor` (literal
+  substring, lists every value matched) or `sponsor_exact`, `borough` (exact, case-sensitive),
+  `council_district` (a district inside the workbook's printed list; never a t474 row, whose
+  lists Open Data collapsed into one number), `title` and `description` (literal substrings),
+  `min_amount`, `max_amount`, `limit`. True match count; the list's own-year amounts and
+  out-year amounts totaled separately over every match; rows with no amount (split t474
+  records) counted and kept out of totals; highest amount first, ordered before the limit; each
+  year's source file, URL or Internet Archive capture, retrieval date and sha256 (computed at
+  build from the committed file and checked against its manifest); a caveat on every answer
+  (FY2018 missing; codes A, 80, CC, PN unconfirmed; links below the budget line would be by line
+  and title only and are not made; no contract-level data).
+- **`compare_capital_to_omb`** — `data/capital/council_vs_omb_by_budget_line.csv` (1,425 line-year
+  comparisons over 515 distinct budget lines, FY2019–FY2027): per report year and Council-series budget line, the Council total vs OMB's
+  adopted release for that year and the next, with a verdict. Labeled as this repo's arithmetic,
+  not a Council or OMB reconciliation; an absent side shows `—`, never `$0`; lines that disagree
+  first.
+- **`search_disclosure_awards` now covers FY2009, FY2011 and FY2012** from the Council's archived
+  workbooks (Internet Archive captures, retrieved 2026-10-14): 156,544 rows in all. New on each
+  row where present: `od_mocs_id` and `od_match` (the MOCS ID NYC Open Data `4d7f-74pe` gives the
+  same designation, FY2009–FY2021, only on an unambiguous pair; a cross-reference, not a source)
+  and `row_flag`. New exact filters `mocs_id` and `od_mocs_id`.
+- **Every disclosure answer states the coverage**: FY2009, FY2011–FY2027; FY2010 not included;
+  FY2009 and FY2013 early snapshots. `fiscal_year: 2010` returns the recorded reason instead of an
+  empty search. When every matched year is an early snapshot, the Cleared line reads "early
+  snapshot, not a headline"; a total that mixes early and ordinary years says so and marks them
+  in the per-year split.
+- Disclosure notes for rows with a `row_flag` (`not_an_award`: two FY2009 lump allocations on the
+  City's EIN, kept and counted as published) and for rows that print no grantee EIN (53 rows,
+  $159,951,020.83, most of it FY2009 initiative-level rows such as "School Budget Restoration",
+  $120,000,000). Both stay in the totals; the note says how much. Those 53 rows carry
+  `row_flag` `no_grantee_ein` (a rule: blank or `NA` EIN), and each row says "No grantee EIN
+  printed by the Council. Often a city program rather than a nonprofit." `row_flag` can join
+  flags with `;`.
+- FY2009–FY2013 `CC` is typed `council_member_type = speaker` and the FY2009 borough codes
+  `BK`/`BX`/`MN`/`QN` `delegation` (they were `unresolved`); `council_member` still shows the
+  printed value. `unresolved` drops from 1,196 rows to 56.
+- Per-year disclosure provenance now comes from `data/disclosure_years.csv` (Council RnD URL or
+  Internet Archive capture, retrieval date, sha256, early-snapshot flag, note) into a
+  `disclosure_years` table; the build stops if a year's row count disagrees with it.
+- `meta.inputs` in the index: every repo file the build read.
+- Tests: `test/no-pdf-data.test.js` (tables allowlisted; every build input on a structured
+  allowlist; the `npm pack` file list is exactly eight files), `test/tools.test.js`,
+  `test/disclosure-v2.test.js`, `test/capital.test.js`. Mutation-checked: folding out-years into
+  the own-year total, a year-first sort, prefix or substring matches on `budget_line`,
+  `project_id`, `council_district`, `sponsor_exact` and `od_mocs_id`, case-folding `borough`,
+  live LIKE wildcards in `title`, tokenizing t474 districts, an invented `0` for a split record or
+  an absent OMB side, a capital sha256 that is not the file's, an `awards` table or a crosswalk
+  read coming back, shipping `retired-1.x/`, dropping the early-snapshot label, the coverage
+  line, FY2010's reason, the mixed-years warning, the `row_flag` or EIN-less note, the per-year
+  capital sources or the removed-tool notes each fail at least one test. One mutant survives as
+  equivalent: SQLite already sorts NULL amounts last in a descending sort.
+
+### Changed
+- `list_available_fiscal_years` reports, per fiscal year, the disclosure (rows, Council RnD or
+  Internet Archive, retrieval date, early-snapshot flag, or NOT LOADED), the capital list (rows,
+  Council workbook or NYC Open Data t474-a92g, or MISSING) and whether the year is in the OMB
+  comparison, then states the gaps.
+- The disclosure caveat no longer points to `search_awards`; it says the disclosure is not the
+  adopted budget's Schedule C. The disclosure footer names the Internet Archive source of
+  FY2009, FY2011 and FY2012.
+- Strict-schema alias hints rebuilt for the 2.0 tools (`council_member` on capital → `sponsor`,
+  `district` on capital → `council_district`, `query` → the tool's text filters, `organization`
+  → `legal_name` or, on capital, `title`).
+- Shown disclosure amounts are rounded to cents; FY2009–FY2012 carry fractional amounts such as
+  `7481.296758`. Totals are computed on the exact values.
+- **Red-team fixes (2026-10-16).** FY2012's Cleared total is no longer labeled "(headline)":
+  any matched year that is an early snapshot or prints statuses other than Cleared/Pending
+  (FY2011, FY2012) drops the label, multi-year totals that include one say they mix years, and a
+  note explains each such status (`Government`: City agencies as recipient; Open Data calls the
+  FY2012 rows Cleared). Text filters match on folded text (NFKD, accents, curly quotes, dashes,
+  case), so `Women's` finds `Women’s`. A blank text filter is an error, not "no filter"; filters
+  are capped at 500 characters. `compare_capital_to_omb` says "line-year comparisons" (1,425 over
+  515 distinct lines) and lists Council rows on lines outside the Council series that it does not
+  compare (FY2021 `PW MN02A`, $304,000). An EIN error points to `legal_name` for the three odd
+  published EINs. The package now ships `LICENSE` and `dist/fold.js`.
+- **Review fixes (2026-10-17).** The "(headline)" label is decided per fiscal year, whatever the
+  filter: any FY2011 or FY2012 match drops it, and the note gives the year's whole-year other
+  statuses. A printed value pasted back exactly always finds its rows, including the garbled
+  t474 sponsors (`OssΘ`, `AvilΘs`, `Avil├⌐s`): the folded twin is now skipped only where folding
+  changes nothing but ASCII case. Folding also handles `ẞ`, dotless `ı`, zero-width characters,
+  the okina and guillemets. The removed tools without a replacement now say where to look
+  instead. The no-EIN note no longer repeats itself.
+- **One license.** The README's licensing section now says BetaNYC's code, derived data and
+  documentation are all MIT. It previously pointed the data at a separate CC BY-SA 4.0 file,
+  which contradicted the repository's `LICENSE`; that second license is withdrawn. The Council's
+  source documents remain public records, not covered by BetaNYC's license.
+- Package size: 14.9 MB packed / 67.7 MB unpacked (1.5.0 build) → 8.9 MB / 41.3 MB (8 files: the index, `dist/`, README, LICENSE, package.json).
+- `package.json`: version 2.0.0, description and keywords; the `enrich-crosswalk` script is
+  gone. The 1.x tests and `scripts/enrich-crosswalk.mjs` are parked in `retired-1.x/` (not run,
+  not shipped).
+- **The index build fails loud and installs atomically.** `build-index.mjs` builds into a temp
+  file, checks it with `scripts/verify-index.mjs` (a dataset with 0 rows, a loaded
+  `data/disclosure_years.csv` year missing or short, or a published capital report year missing,
+  is a stop), and only then renames it over `data/budget.db`. A failed build leaves the previous
+  index in place. Found on Node 20 CI: npm 10 runs `prepare` even on `npm pack --ignore-scripts`,
+  so the tarball test rebuilt the index (delete, then refill in place) while other test files
+  read it, and they answered "The Council capital list covers (none)". `prepare` is now
+  `scripts/prepare.mjs`, which honors `--ignore-scripts`.
+
+### Data sources
+- NYC Council expense funding disclosure workbooks, FY2013–FY2027, from
+  `rnd.council.nyc.gov`, downloaded 2026-10-12 (`source/expense-funding-disclosure/`).
+- FY2009, FY2011, FY2012: the Council's own workbooks, Internet Archive captures of 2025-02-12,
+  retrieved 2026-10-14 (`source/wayback-council/`). FY2010's archived workbook is kept there but
+  not loaded.
+- Council capital workbooks: FY2015, FY2016, FY2017 and FY2026 from Internet Archive captures,
+  FY2027 from `rnd.council.nyc.gov` (2026-10-12). NYC Open Data `t474-a92g` (Council capital,
+  FY2019–FY2025), `46m8-77gv` (OMB Capital Budget), pulled 2026-10-14.
+- Unchanged from 1.5.0: the Council-member crosswalk to Legistar person IDs, and the Census 2020
+  ZCTA file behind `zip` / `zip_status`.
+
+### What the data means (read before citing a figure)
+- The **disclosure** notes in the 1.5.0 entry below all still hold: `council_member` is the
+  export-time roster; addresses are mailing addresses; `duplicate_group`, soft hyphens, `#N/A`,
+  `zip` / `zip_status`, FY2021 bare `Diaz` = Legistar 7744.
+- **Early snapshots.** FY2009 (1,389 of 5,745 rows Pending) and FY2013 (2,644 of 4,987) were
+  frozen and never revised by the Council; FY2013 also prints 18 citywide initiatives as one row
+  each. Do not headline their Cleared totals.
+- **`od_mocs_id` is a cross-reference, not a source.** Open Data's statuses, names and amounts
+  are never copied in; blank where the pairing is ambiguous.
+- **Capital `report_year` vs `amount_fy`.** A list's designations are its rows with `amount_fy`
+  equal to the list's year; out-year rows are plans for later years.
+- **Capital sums are this repo's arithmetic.** Only FY2015 and FY2016 print totals, and the rows
+  equal them. t474's `council_district` is unusable (lists collapsed); its FY2019 `title` often
+  names the organization.
+
+## 1.5.0 — 2026-10-12 (never released; folded into 2.0.0)
+
+> Kept as written. Its references to `search_awards`, `get_awards_by_ein` and
+> `source/expense-funding-disclosure/MANIFEST.csv` as the provenance table describe 1.5.0; in
+> 2.0.0 those tools are removed and provenance comes from `data/disclosure_years.csv`.
 
 A new tool over a new source. **No existing tool's parameters, output or figures changed**;
 `search_awards` and `get_awards_by_ein` still serve the adopted Schedule C exactly as in 1.4.0.

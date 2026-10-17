@@ -2,13 +2,18 @@ MIT License
 
 Copyright (c) 2026 BetaNYC
 
-The MIT License below applies to the software code (in `code/`) and the derived
-data and analysis (in `data/` and `docs/`) contained in this repository.
+The MIT License below applies to everything BetaNYC made in this repository:
+the software code (in `code/`, `mcp/`, and `viz/`), the derived data (in
+`data/`), and BetaNYC's documentation and research (the Markdown files,
+including `research/`). Third-party components bundled in `viz/` keep their own
+licenses, as noted in their files and in `viz/LICENSE.md`.
 
 The source documents in `source/` are NOT covered by this license. They are
-official publications of the New York City Council and are © The City of New
-York, reproduced here as public records. All rights to those documents remain
-with the City of New York.
+public records published by others: the New York City Council's budget
+documents and spreadsheets (© The City of New York), NYC Open Data and OMB
+extracts (City of New York), and a U.S. Census Bureau file. Rights in them
+remain with their publishers. The README and MANIFEST files BetaNYC wrote
+inside `source/` are BetaNYC documentation and are covered by this license.
 
 ---
 

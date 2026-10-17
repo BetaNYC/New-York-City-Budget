@@ -1,10 +1,17 @@
 # @betanyc/nyc-budget-mcp — NYC Budget MCP server
 
-A Model Context Protocol (MCP) server that wraps this repository's data — NYC Council discretionary funding (Schedule C), Terms & Conditions, Section 254 capital changes, the Transparency Resolutions, the FY2008–FY2027 Legistar crosswalk, and (since v1.5.0) the Council's own expense funding disclosure, FY2013–FY2027 — and exposes it to MCP-capable AI clients as structured query tools.
+A Model Context Protocol (MCP) server for NYC Council budget data, **built only from structured
+sources**: the Council's own expense funding disclosure spreadsheets and its capital
+designations (the Council's capital workbooks and NYC Open Data), plus a by-budget-line
+comparison with OMB's adopted capital budget. Nothing in it was extracted from a PDF.
 
-Published on npm as [`@betanyc/nyc-budget-mcp`](https://www.npmjs.com/package/@betanyc/nyc-budget-mcp) and run via `npx` (see [Quick start](#quick-start-npx)). The published package ships a prebuilt SQLite index, so no local clone, build, or data checkout is needed to run it.
+> **2.0.0 is a breaking release.** The five tools built on data extracted from the
+> adopted-budget PDFs (Schedule C, Terms & Conditions, §254 capital, transparency resolutions)
+> and `get_legistar_link` are removed. See [Migrating from 1.x](#migrating-from-1x) and
+> [`CHANGELOG.md`](CHANGELOG.md). The retired data stays in the repository for history; it is
+> not in the package.
 
-At build time it reads the parent repo's own `../data/` tree directly — there is no copied CSV snapshot to keep in sync. Data and query layer live in one repo and move together.
+Published on npm as [`@betanyc/nyc-budget-mcp`](https://www.npmjs.com/package/@betanyc/nyc-budget-mcp) and run via `npx`. The package ships a prebuilt SQLite index, so no clone, build or data checkout is needed to run it.
 
 ## Quick start (npx)
 
@@ -14,72 +21,84 @@ Add this to your MCP client config (Claude Desktop, Claude Code, etc.):
 "mcpServers": {
   "nyc-budget": {
     "command": "npx",
-    "args": ["-y", "@betanyc/nyc-budget-mcp"]
+    "args": ["-y", "@betanyc/nyc-budget-mcp@2"]
   }
 }
 ```
 
-Restart the client — the 8 `nyc-budget` tools become available. `npx -y` resolves the
-package from npm per machine (no clone, build, or absolute path required — the BetaNYC-fleet
-portability convention), and the prebuilt budget index ships inside the package, so the
-server has its data on first run.
+Restart the client; the four `nyc-budget` tools become available. `@2` keeps you on 2.x. A
+config that names no version follows npm's `latest` tag; one pinned to `@1` stays on the retired
+PDF-derived data.
 
 ## Data scope (read this first)
 
-| Dataset | Coverage | Notes |
-|---|---|---|
-| Schedule C awards (main body) | **FY2015–FY2027** | FY2015 is the earliest EIN-level year. FY2009–FY2014 are initiatives-only (no EIN) and are **excluded** from the award tools; FY2008 is unparsed |
-| Schedule C **appendix** (aging / local / youth) | **FY2018 + FY2021–FY2027** | New in v1.4.0. Per-recipient designations from Appendices A/B/C, returned by the award tools **alongside** main-body rows and tagged `[appendix: …]`. A subset of the award years, not new ones — FY2015–FY2017 and FY2019–FY2020 appendix CSVs are header-only because the PDF parser missed them (the PDFs do print those appendices; [#59](https://github.com/BetaNYC/New-York-City-Budget/issues/59)), and FY2018 has aging only. Appendix rows are separate designations from main-body rows, not a re-sort of them, so returning both does not double-count ([`DATA-ANOMALIES.md`](../DATA-ANOMALIES.md) §23). These rows carry **no `category`, `initiative`, or `award_type`** (those columns do not exist in the appendix), and aging/youth rows carry no `agency`; the fields are left empty rather than inferred. Filter with `source_table` |
-| Terms & Conditions | **FY2015–FY2018 + FY2021–FY2027** | No standalone T&C document exists for FY2019/FY2020 |
-| Capital (§254) | **FY2020 + FY2022–FY2027** | No FY2021 detail book. Every parsed year is the "Supporting Detail Book" (Council-additions Capital Project Detail), shares the full schema (borough/sub-id/sponsor), and reconciles against printed subtotals + grand totals (FY2027 partially). FY2025 was reparsed from its Supporting Detail Book in [PR #21](https://github.com/BetaNYC/New-York-City-Budget/pull/21) and is now directly comparable to the other years |
-| Transparency Resolutions | **FY2010–FY2024 + FY2026** | Filtered by resolution document year (`source_fy`). **FY2010–FY2013 org/program TEXT is low-confidence** — financial columns reliable, join on EIN. FY2009 + FY2025/FY2027 not parsed |
-| Legistar crosswalk | **FY2008–FY2027** | Provenance index; covers years not parsed to CSV |
-| Expense funding **disclosure** | **FY2013–FY2027** | New in v1.5.0, served **only** by `search_disclosure_awards`, never mixed into the award tools. The Council's own award-level workbooks ([`../source/expense-funding-disclosure/`](../source/expense-funding-disclosure/README.md)), one row per row the workbook prints (exact copies, 662 rows in 321 groups FY2013–FY2023, are kept and flagged: each copy says so, and the answer counts how many flagged rows and dollars its totals include), Cleared and Pending alike, with MOCS ID from FY2024. A later snapshot than the adopted Schedule C: it includes post-adoption designations, and `council_member` is the roster when the workbook was exported. Each answer names the download date of every year it draws on (currently all 2026-10-12). Purpose text and grantee addresses are not in the index (package size); each row gives its workbook row number |
+| Dataset | Years | Source | Notes |
+|---|---|---|---|
+| Expense funding **disclosure** | **FY2009, FY2011–FY2027** (156,544 rows) | The Council's own award-level workbooks: FY2013–FY2027 downloaded from the Council RnD site on 2026-10-12, FY2009, FY2011 and FY2012 from the Council's archived workbooks via the Internet Archive (retrieved 2026-10-14) | **FY2010 is not included**: the Council's workbook (2,592 rows) is incomplete against NYC Open Data's (5,981 rows), and the two are never mixed. **FY2009 and FY2013 are early snapshots**, frozen while much was Pending and never revised: their Cleared totals are not headline figures. Per-year provenance: [`../data/disclosure_years.csv`](../data/disclosure_years.csv) |
+| Council **capital** designations | **FY2015–FY2017, FY2019–FY2027** (16,916 rows) | The Council's capital workbooks (FY2015–FY2017 and FY2026 via the Internet Archive, FY2027 from the RnD site) and NYC Open Data `t474-a92g`, which the Council publishes (FY2019–FY2025) | **FY2018 is missing** from every source found. Exact by budget line only: Council project IDs do not link to OMB, FMS or Checkbook, and there is no contract-level data. Overview: [`../data/capital/README.md`](../data/capital/README.md) |
+| Council vs **OMB** adopted capital budget | **FY2019–FY2027** (1,425 line-year comparisons, 515 distinct budget lines) | This repo's arithmetic on the capital table and OMB's `46m8-77gv` adopted release | Not a Council or OMB reconciliation. [`../data/capital/RECONCILIATION.md`](../data/capital/RECONCILIATION.md) §3 |
 
-The tools do **not** pretend data exists where it doesn't: FY2009–FY2014 award data (there is none — initiatives-only) and the unparsed years are reported honestly by `list_available_fiscal_years`, which states exact per-dataset coverage and the FY2009–FY2014 no-EIN boundary.
-
-> **⚠ Award totals changed in v1.4.0.** The award tools now return main-body **and** appendix rows
-> by default, so counts and dollar totals for FY2018 and FY2021–FY2027 are **higher** than anything
-> published from v1.3.x or earlier (33,638 rows / $3,388,618,294 → 62,213 rows / $3,741,615,569
-> across FY2015–FY2027). This is added coverage, not restated figures: no main-body row changed.
-> Pass **`source_table: "schedule_c"`** to reproduce the pre-1.4.0 result set exactly. Full
-> before/after table and the design rationale: [`research/phase1-source-comparability/PHASE-0.5-IMPACT.md`](../research/phase1-source-comparability/PHASE-0.5-IMPACT.md).
+`list_available_fiscal_years` reports this per year, with every gap stated.
 
 ## Tools
 
 | Tool | Purpose |
 |---|---|
-| `search_awards` | Schedule C awards by EIN / organization / program / council member / fiscal year / category / initiative / `source_table` |
-| `get_awards_by_ein` | Every award for an EIN across FY2015–FY2027, with per-year totals (optional `source_table`) |
-| `search_transparency_resolutions` | FY2010–FY2024 + FY2026 post-adoption designations / rescissions / purpose changes (FY2010–FY2013 text low-confidence) |
-| `get_legistar_link` | Legistar matter #, adoption date, and a working link to the adopting City Council session for a source document (surfaces `status`) |
-| `search_capital_projects` | §254 capital by agency / fiscal year / sponsor / title |
-| `get_terms_conditions` | Reporting mandates by fiscal year / agency |
-| `search_disclosure_awards` | The Council's expense funding disclosure, FY2013–FY2027, by fiscal year / EIN / legal name / council member (substring) or **`council_member_id`** (exact Legistar person ID: `Levin` 7567 and `Levine` 7634 never blend) / source (substring) or **`source_exact`** / agency / program / grantee **`zip`** (exact 5-digit) / **`zip_status`** / **`city`** (exact) / status / amount range. Each row shows the grantee's mailing address as printed, its derived zip and zip_status. Reports the true match count, Cleared (headline) and Pending totals over **all** matches, and each year's snapshot date |
-| `list_available_fiscal_years` | What each dataset actually covers (the parse-gap guard). Unchanged in v1.5.0: it does not list the disclosure, whose coverage `search_disclosure_awards` states itself |
+| `search_disclosure_awards` | The Council's expense funding disclosure by fiscal year / EIN / legal name / council member (substring) or **`council_member_id`** (exact Legistar person ID: `Levin` 7567 and `Levine` 7634 never blend) / source (substring) or **`source_exact`** / agency / program / grantee **`zip`** (exact 5-digit) / **`zip_status`** / **`city`** (exact) / status / **`mocs_id`** / **`od_mocs_id`** / amount range. Each row shows the grantee's mailing address as printed, its derived zip and zip_status, and, FY2009–FY2021, the MOCS ID NYC Open Data gives the same designation where the pairing is unambiguous. Reports the true match count, Cleared and Pending totals over **all** matches, the source and retrieval date of each year, the early-snapshot years and FY2010's exclusion |
+| `search_council_capital` | The Council's capital designations by fiscal year (the list's year) / `amount_fy` / **`budget_line`** (exact, `P D018`) / **`project_id`** (exact) / sponsor (substring) or `sponsor_exact` / `borough` (exact code) / `council_district` (workbook years only) / title / description / amount range. Totals the list's own year separately from out-year amounts; names the file, retrieval date and sha256 of every year it draws on |
+| `compare_capital_to_omb` | For each report year and Council-series budget line, the Council table's total vs OMB's adopted release, this year and next, with a verdict (`match`, `differ`, `council_only`, `omb_only`). Lines that disagree first |
+| `list_available_fiscal_years` | What each fiscal year holds in each dataset and where it came from; FY2010 (disclosure) and FY2018 (capital) stated as gaps |
 
 ### Unknown parameters are rejected, not ignored
 
-Every tool declares `additionalProperties: false` and validates its arguments against a strict schema. A parameter that is not in the tool's schema raises an error naming the accepted parameters, rather than being silently dropped.
+Every tool declares `additionalProperties: false` and validates its arguments against a strict
+schema. A parameter that is not in the tool's schema raises an error naming the accepted
+parameters, with a hint where the guess is a common one (`council_district` on the disclosure
+points at `council_member` / `council_member_id`; `council_member` on capital points at
+`sponsor`). Silently dropping an unknown filter returns real data answering a different
+question (issue #37).
 
-This matters because the natural question here is district-shaped ("what discretionary funding went to District 10?") and **there is no district filter** — Schedule C awards and §254 capital both key on the *sponsoring member's surname* (`council_member` / `sponsor`). Before this guard, `search_awards(council_district=10, fiscal_year=2026)` returned $47.5M of citywide awards, correctly formatted and correctly sourced, answering a different question with nothing to signal that a filter had been dropped. See issue #37.
+### `search_disclosure_awards`
 
-### The expense funding disclosure is a separate source (`search_disclosure_awards`, v1.5.0)
+The disclosure is the Council's own, later, award-level list: it includes designations made
+after adoption, and `council_member` is the roster when the workbook was exported. Every
+response carries:
 
-The award tools serve the **adopted** Schedule C. The disclosure is the Council's own, later, award-level list, and the two disagree for real reasons — designations made after adoption, amounts revised, rows re-attributed to whoever holds a seat at export time (the 2026-10-12 re-pull moved 161 FY2026 rows from `Bottcher` to `Wilson`). So it is a **new tool**, not a new `source_table`: no existing tool's output changed. Every response carries:
+- the **true number of matching rows** and the totals over all of them, whatever `limit` shows
+  (default 50, max 500, highest amount first); a short page says "Showing N of M";
+- **Cleared** and **Pending** totals separately, plus an all-statuses line labeled as not a
+  headline figure. Cleared is the headline, except when every matched year is an **early
+  snapshot** (FY2009, FY2013): then it is labeled "early snapshot, not a headline", and a total
+  that mixes early and ordinary years says so and marks them in the per-year split;
+- the **source of each fiscal year** it draws on: file, sheet (the Council stamps its own
+  "last updated" date there), retrieval date, sha256 prefix, and the Council RnD URL or the
+  Internet Archive capture it came from;
+- a **coverage line**: the years served, that FY2010 is not included, and which years are early
+  snapshots. Asking for `fiscal_year: 2010` returns the recorded reason, not an empty search;
+- notes when the match includes **exact copies** (`duplicate_group`), rows with a recorded
+  **`row_flag`**: `not_an_award` (two FY2009 lump allocations on the City's own EIN, kept and
+  counted as published) or `no_grantee_ein` (the 53 rows that print no grantee EIN, each shown
+  with "No grantee EIN printed by the Council. Often a city program rather than a nonprofit.",
+  plus a note with their matched count and dollars);
+- each row's grantee **mailing address** as printed, with the 5-digit `zip` derived from it and
+  its `zip_status` (rules in [`../DATA-DICTIONARY.md`](../DATA-DICTIONARY.md)). It is where the
+  grantee gets mail, **not where services were delivered**.
 
-- the **true number of matching rows** and the totals over all of them, whatever `limit` shows (default 50, max 500, highest amount first) — a short page always says "Showing N of M";
-- **Cleared** (the headline) and **Pending** totals separately, plus an all-statuses line labeled as not a headline figure; every status is returned unless you pass `status`;
-- the **snapshot** of each fiscal year it draws on: file, sheet (the Council stamps its own "last updated" date there, e.g. `FY26 (09-14-26)`), retrieval date and sha256 prefix, from `source/expense-funding-disclosure/MANIFEST.csv`;
-- each row's grantee **mailing address** as printed (`address1`, `address2`, `city`, `state`, `postal_code`, never rewritten) with the 5-digit `zip` derived from it and its `zip_status` (`valid` / `padded` / `trimmed` / `repaired_extra_digit` / `ambiguous_extra_digit` / `not_a_zcta` / `state_mismatch` / `invalid` / `blank`, checked against the Census 2020 ZCTAs; an `ambiguous_extra_digit` row lists its candidate ZIPs; rules in [`../DATA-DICTIONARY.md`](../DATA-DICTIONARY.md)). It is where the grantee gets mail, **not where services were delivered**;
-- a one-line **caveat** and its own source footer.
+**Address filters.** `zip` is exact and 5 digits only: it matches the derived zip, so the
+`11203-` rows (zip `11203`, `trimmed`) and a Brookline `2446` (zip `02446`, `padded`) are found
+under their ZIP; a ZIP+4 or a 4-digit value is an error, never trimmed or padded by the tool.
+Rows whose `zip_status` is `ambiguous_extra_digit`, `invalid` or `blank` have no zip and never
+match. `city` is exact, ignoring case and surrounding whitespace; it is not a borough filter.
 
-**Address filters.** `zip` is exact and 5 digits only: it matches the derived zip, so the `11203-` rows (zip `11203`, `trimmed`) and a Brookline `2446` (zip `02446`, `padded`) are found under their ZIP; a ZIP+4 or a 4-digit value is an error, never trimmed or padded by the tool. A 6-digit ZIP repaired to one in-state ZCTA (`111691` → `11691`, `repaired_extra_digit`) is found under that ZIP. Rows whose `zip_status` is `ambiguous_extra_digit`, `invalid` or `blank` have no zip and never match: `114345` is shown with its candidates 11434 and 11435 and is found under neither. `zip_status` takes one of the nine values. `city` is exact, ignoring case and surrounding whitespace: `brooklyn` matches `Brooklyn` and `BROOKLYN`, not the cells printed `Brooklyn,` or `Brooklyn NY`; it is not a borough or district filter.
+**The fiscal-sponsor caveat.** One EIN can pool many bodies: `13-2612524` (Fund for the City of
+New York) is a fiscal sponsor for dozens of programs, and `136400434` (the City of New York)
+covers hundreds of City agencies, schools and programs. The answer counts the distinct legal
+names an EIN matched; narrow with `legal_name` or `program_name`.
 
-Example — `search_disclosure_awards({ ein: "13-3179546", fiscal_year: 2026, limit: 2 })` (Food Bank For New York City):
+Example — `search_disclosure_awards({ ein: "13-3179546", fiscal_year: 2026, limit: 1 })` (Food Bank For New York City), abridged:
 
 ```text
-254 matching designation(s) in the Council's expense funding disclosure. Showing 2 of 254, highest amount first — the totals below cover all 254. …
+254 matching designation(s) in the Council's expense funding disclosure. Showing 1 of 254, highest amount first — the totals below cover all 254. …
 
 Totals over all 254 match(es):
   Cleared (headline): 254 row(s), $5,298,821
@@ -87,7 +106,9 @@ Totals over all 254 match(es):
   All statuses (not a headline figure): 254 row(s), $5,298,821
 
 Snapshot (which download each year comes from):
-  FY2026: funded_disclosure_FY2026.xlsx, sheet "FY26 (09-14-26)", retrieved 2026-10-12 (sha256 81651e599ad6)
+  FY2026: funded_disclosure_FY2026.xlsx, sheet "FY26 (09-14-26)", retrieved 2026-10-12 (sha256 81651e599ad6), from the Council RnD site, https://rnd.council.nyc.gov/src/assets/excelFund/funded_disclosure_FY2026.xlsx
+
+Coverage: FY2009, FY2011–FY2027. FY2010 is NOT included (…). Early snapshots, whose Cleared totals are not headline figures: FY2009, FY2013.
 
 Rows:
 FY2026 · FY26 08060 · $1,000,000 · Cleared · (no member) → Food Bank For New York City (EIN 133179546) · source: Food Pantries · agency: DYCD
@@ -97,20 +118,80 @@ FY2026 · FY26 08060 · $1,000,000 · Cleared · (no member) → Food Bank For N
 …
 ```
 
-### The fiscal-sponsor caveat (important for correct EIN use)
+### `search_council_capital`
 
-EIN is the only reliable cross-system join key, **but a single EIN can be a fiscal sponsor** covering dozens of programs. EIN `13-2612524` ("Fund for the City of New York, Inc.") is a passthrough — to isolate one grantee (e.g. BetaNYC) filter by `program` as well as `ein`. `get_awards_by_ein` honestly returns the whole pool; `search_awards(ein, program)` narrows it. (A maintained fiscal-sponsor alias table is future work — see the user-journeys doc.)
+One row per (record, fiscal-year amount): a workbook lists the report year and out-years in
+columns and t474 lists out-years as rows; both become one row per amount, with the year it is
+for in `amount_fy`. `fiscal_year` selects the Council's list for that year; totals report the
+list's own year (`amount_fy` = the list's year) and **out-year amounts separately**, never
+added together. Rows with no amount (five t474 records broken across rows, four of them in the
+served years, `split_record_amount_unknown`) are counted and kept out of every total.
+
+- **`budget_line`** is exact, in the form agency code, space or `-`, line (`P D018`,
+  `PW-DN846`); `PD018` is refused because where the agency code ends cannot be told. It is the
+  only key shared with OMB.
+- **`project_id`** is the Council's own ID, unique within one year only, and not an FMS or
+  Checkbook project ID. FY2015 prints none; FY2016 prints no budget lines.
+- **`sponsor`** is the surname or body as printed, with no Legistar ID attached; one surname
+  can be different members in different years. A substring filter lists every value it matched
+  (co-sponsored rows such as `Speaker, Rivera` included); `sponsor_exact` takes one value.
+- **`council_district`** matches a district inside the Council workbook's printed list
+  (FY2015–FY2017, FY2026, FY2027). It never matches a t474 row: NYC Open Data stored that column
+  as a number, collapsing lists such as "22, 25, 29" into one integer.
+- **`borough`** is the printed code, case-sensitive: FY2016's lower-case `k` and `x` are not
+  folded into `K` and `X`, and `A` is kept. Their meaning is unconfirmed.
+- Every answer names each year's source file, its retrieval date and sha256 (hashed at index
+  build and checked against the source folder's manifest), and states the caveats: FY2018
+  missing, codes `A`, `80`, `CC` and `PN` unconfirmed, no project- or contract-level links.
+
+### `compare_capital_to_omb`
+
+BetaNYC's arithmetic, not a Council or OMB reconciliation: for each report year it sums the
+Council table by budget line for that year and the next, and compares OMB's adopted release for
+that first fiscal year (the last release of the year, published in July), summed over funding
+sources, Council-series lines only. `match` means the line's totals are equal to the dollar in
+both years; it does not show that the projects under the line are the same. A line absent from
+one side shows `—` there, never `$0`. Counts are line-year comparisons (1,425 over 515 distinct
+budget lines, FY2019–FY2027). A Council row on a line outside the Council series is not compared
+and the answer lists it (one today: FY2021 `PW MN02A`, $304,000).
+
+### Behavior common to the searches
+
+- **Text filters fold before they match**, on the query and on the data: case, accents, curly
+  quotes and dashes do not matter (`Women's` finds `Women’s`; `Jewish Emigre` and `Jewish
+  Émigré` find the same 6 rows). `%` and `_` are literal.
+- **A blank text filter is an error**, never "no filter": `legal_name: ""` is refused with a
+  message instead of returning all 156,544 rows. Filters are capped at 500 characters.
+- **"(headline)" is earned per year, whatever the filter.** A Cleared total is labeled a headline
+  only when every matched year is ordinary: not an early snapshot (FY2009, FY2013) and not a
+  year that prints statuses other than Cleared/Pending anywhere in it (FY2011, and FY2012, whose
+  `Government` rows hold $235,206,318). A narrow FY2011 search with no such rows is still not a
+  headline. Otherwise the label says why, and a note gives the year's other statuses.
+
+## Migrating from 1.x
+
+| 1.x tool | In 2.0.0 |
+|---|---|
+| `search_awards` | `search_disclosure_awards` (`legal_name`, `program_name`, `council_member` / `council_member_id`, `fiscal_year`, `ein`) |
+| `get_awards_by_ein` | `search_disclosure_awards` with `ein`; its totals and per-year split cover every match |
+| `search_capital_projects` | `search_council_capital` |
+| `search_transparency_resolutions` | No replacement tool yet. The resolutions: Committee on Finance items in [`nyc-council-mcp`](https://github.com/BetaNYC/nyc-council-mcp) (search `modification`). The designations they make: rows in `search_disclosure_awards`, without a resolution number. The PDFs: `source/FYNN/transparency-resolutions/` |
+| `get_terms_conditions` | No replacement tool yet. The Council's Terms and Conditions PDF for each year is in `source/FYNN/` |
+| `get_legistar_link` | Removed. Its crosswalk indexed the PDF documents 2.0 no longer serves, and several rows were researchers' candidates rather than verified links. For a resolution's Legistar record, use [`nyc-council-mcp`](https://github.com/BetaNYC/nyc-council-mcp) |
+| `list_available_fiscal_years` | Kept, rebuilt: per year, which structured datasets exist and where they came from |
+
+Calling a removed tool returns an error that names its replacement, or, for the three with none,
+says so and points to where to look instead. Figures published from 1.x
+(adopted Schedule C, §254) are a different source and will not reproduce against 2.0.
 
 ## Architecture
 
-Modeled on [`@betanyc/nyc-charter-laws-rules`](https://github.com/BetaNYC/nyc-charter-laws-rules) — a local/offline corpus with no live upstream API. TypeScript + the MCP SDK + zod, served over stdio.
+TypeScript + the MCP SDK + zod over stdio, on a local SQLite index (no live upstream API).
 
-- **`../data/`** — the parent repo's real CSVs (the single source of truth). This server reads them directly; there is no vendored snapshot inside `mcp/`.
-- **`scripts/build-index.mjs`** — reads those CSVs and builds a local **SQLite** index (`mcp/data/budget.db`, git-ignored) via `better-sqlite3`. Idempotent: the `.db` is dropped and rebuilt each run. SQLite (not DuckDB) was chosen to match `nyc-council-mcp`'s established BetaNYC pattern and its synchronous query style.
-- **`src/db.ts`** — opens the `.db` read-only and exposes one query function per tool.
-- **`src/server.ts` / `src/index.ts`** — MCP tool definitions, zod-validated routing, stdio transport.
-
-CSV parsing uses `csv-parse` because organization names contain quoted commas (`"El Puente de Williamsburg, Inc."`) that a naive split corrupts.
+- **The parent repo's structured datasets** are the single source of truth: `../data/disclosure_years.csv`, `../data/fyNN/expense_disclosure/`, `../data/capital/`, and the `MANIFEST.csv` of each source folder whose files they cite.
+- **`scripts/build-index.mjs`** reads only those files and builds `mcp/data/budget.db` (git-ignored) with `better-sqlite3`. It records every file it read in the index's `meta.inputs`, stops on any value outside a documented vocabulary (a status, a flag, a row count that disagrees with `disclosure_years.csv`, a capital source whose sha256 differs from its manifest), and is idempotent: the `.db` is dropped and rebuilt each run.
+- **`src/db.ts`** opens the index read-only and runs one query per tool; totals come from SQL over every match, never from the page.
+- **`src/server.ts`** holds the tool definitions, strict zod validation, the migration notes for removed tools, and the response text.
 
 ## Build & run
 
@@ -119,18 +200,17 @@ From inside `mcp/`:
 ```bash
 npm install          # runs prepare → build + build-index
 npm start            # launch the MCP server over stdio
-npm run build-index  # rebuild mcp/data/budget.db from ../data/
-npm test             # build + build-index + run the journey tests
+npm run build-index  # rebuild mcp/data/budget.db from the repo's datasets
+npm test             # build + build-index + run the tests
 ```
 
-`mcp/data/budget.db` is a build artifact (git-ignored); `npm install` regenerates it from `../data/`. It is **not** committed to git — the npm `files` allowlist ships it into the published tarball, freshly built by `prepare` at publish time (see [Releases](#releases)).
+`mcp/data/budget.db` is a build artifact (git-ignored); the npm `files` allowlist ships it,
+freshly built by `prepare` at publish time.
 
 ## Run from source (development)
 
-To run a local, in-development build instead of the published package — e.g. after editing `src/` or the underlying `../data/` CSVs — point your client at the built entry with an **absolute path**:
-
-1. Build + index once: `npm install` (or `npm run build && npm run build-index`) inside `mcp/`.
-2. Add a project-scoped entry to `~/.claude.json` (Claude Desktop: its equivalent config):
+1. Build and index once: `npm install` (or `npm run build && npm run build-index`) inside `mcp/`.
+2. Point your client at the built entry with an absolute path:
    ```json
    "mcpServers": {
      "nyc-budget": {
@@ -139,39 +219,44 @@ To run a local, in-development build instead of the published package — e.g. a
      }
    }
    ```
-   The server resolves `budget.db` from its own `__dirname`, so it works regardless of the launch cwd — no `cwd` key needed.
-3. **Restart the client.** MCP servers load at startup; a running session will not hot-load a newly-added server.
-
-**After any data or code change, re-run `npm run build && npm run build-index`** — the server serves the built `dist/` + `budget.db`, not the TypeScript source or the CSVs directly. For everyday use prefer the [npx quick start](#quick-start-npx) above.
+   The server finds `budget.db` from its own location, so no `cwd` is needed.
+3. Restart the client. After any data or code change, re-run `npm run build && npm run build-index`.
 
 ## Tests
 
-`test/journeys.test.js` re-runs all 8 user journeys from `people/noel/work/2026-07-07-mcp-budget-user-journeys.md` (in the BetaNYC workspace) against the real MCP tools, driven in-process through the MCP protocol via `InMemoryTransport`, asserting the same real answers found by hand: BetaNYC EIN `13-2612524` (FY25 $115k / FY26 $115k / FY27 $95k), Council District 33 / Restler capital ($18,750,000 across 12 FY2026 projects), and the FY2026 Transparency Resolution 1 Noel Pointer → El Puente CASA transfer. Journey 8 asserts the MCP honestly reports its coverage and the FY2009–FY2014 no-EIN boundary.
+Every expected value is computed from the committed CSVs, manifests and source files, never
+from the index under test, and each test states what result would make it fail. The 2.0.0
+tests were mutation-checked (see `CHANGELOG.md`).
 
-`test/coverage.test.js` is the per-fiscal-year gate: for **every award year FY2015–FY2027** it asserts the year is queryable through the tools, its award count and dollar total match the QA-cleared committed data exactly, and every award row carries a valid 9-digit EIN. It also asserts the honesty boundary (FY2009–FY2014 have no award rows), the exact per-dataset year coverage, and that the FY2010–FY2013 transparency low-confidence caveat is flagged and surfaced. `test/strict-schema.test.js` guards issue #37: every tool advertises `additionalProperties: false` (a loop over the exported `TOOLS`, so it covers tools added later), the district-shaped guess `search_awards(council_district=10)` raises instead of returning citywide awards, the error names `council_member`, alias hints stay per-tool (`sponsor` is real on `search_capital_projects` and not on `search_awards`), and valid calls are still accepted. `test/disclosure-audit.test.js` asks the tool the questions the Schedule C audits asked (`data/DISCLOSURE-AUDIT.md`, M1–M12): exact-to-the-cent totals for every year × status, truncation, sort-before-limit, limit edges, EIN shape and leading zeros, grantee-not-conduit EIN matching, literal LIKE wildcards, and the multi-value notice for a substring filter. `test/disclosure.test.js` covers `search_disclosure_awards` against figures computed from the committed CSVs and `MANIFEST.csv` (never from the index it tests): every row of every year is indexed with its snapshot, the true match count and the Cleared / Pending totals survive any `limit`, rows are the highest amounts, the 500-row cap is disclosed, the status filter, amount bounds, the caveat and footer, and unknown-parameter rejection with disclosure-specific hints.
+| File | What it holds the server to |
+|---|---|
+| `test/no-pdf-data.test.js` | The index has only the structured tables; every file the build read is on a structured allowlist and none is PDF-derived; `npm pack` would ship exactly eight files (`dist/` code, README, LICENSE, package.json, the index) |
+| `test/tools.test.js` | Exactly four tools listed; every removed 1.x tool answers with its migration note; `list_available_fiscal_years` matches the datasets year by year |
+| `test/disclosure.test.js` | Every row of every year indexed with its provenance; FY2010 not loaded; true counts and Cleared / Pending totals under any `limit`; ordering; status, amount, address and member filters; caveat and footer; strict-schema hints |
+| `test/disclosure-audit.test.js` | The audit questions (`../data/DISCLOSURE-AUDIT.md`, M1–M13): exact-to-the-cent totals for every year × status, truncation, sort before limit, limit edges, EIN rules, literal wildcards, multi-value notices, address filters, and the EIN-less note |
+| `test/disclosure-v2.test.js` | FY2009, FY2011, FY2012 with `od_mocs_id`, `od_match`, `row_flag`; early-snapshot labeling; the coverage line; FY2010's reason; exact `mocs_id` / `od_mocs_id`; the `row_flag` note |
+| `test/capital.test.js` | Every capital row and its provenance (sha256 recomputed from the committed file); own-year vs out-year totals; ordering; split records; every filter's exactness; FY2018; caveats; and `compare_capital_to_omb` verdict counts, figures and ordering |
+| `test/license.test.js` | One license: the license statements name no second license; `LICENSE` names code, data and docs and excludes `source/`; `mcp/LICENSE` equals the repository's. |
+| `test/cleared-label.mjs` | Helper, not a test: the Cleared-line label expected for a set of CSV rows. |
+| `test/strict-schema.test.js` | Issue #37: every tool advertises and enforces `additionalProperties: false`, with per-tool hints |
 
-Full suite: **97 tests, all passing** (28 coverage + 20 disclosure + 15 disclosure-audit + 10 journeys + 8 appendix-ingest + 8 strict-schema + 7 Legistar-link + 1 award-ordering).
+The 1.x tests and the Legistar enrichment script are parked in `retired-1.x/` (not run, not
+shipped) until a maintainer deletes them.
 
 ## Releases
 
-This package is published to npm by CI, never from a laptop. The release pipeline mirrors
-the BetaNYC MCP fleet, adapted for this monorepo (the package lives in `mcp/`, not the repo root):
+Published to npm by CI, never from a laptop:
 
-- **Version bump lands in a PR** — a semver bump in `mcp/package.json` (fix = patch, feature =
-  minor, breaking = major) plus a `CHANGELOG.md` entry, reviewed and merged to `main`.
-- **Publishing is tag-triggered.** `.github/workflows/release.yml` (repo root) fires on a pushed
-  **`mcp-v*`** tag whose version matches `mcp/package.json`. It installs, tests, and runs
-  `npm publish --provenance --access public` from `mcp/`, then cuts a GitHub Release. The
-  `mcp-v` prefix (not the fleet's bare `v*`) scopes releases to this MCP so a tag can't be
-  confused with a release of the repo's budget-data pipeline.
-- **To release** after the version-bump PR merges:
-  ```bash
-  git tag mcp-v<version>          # e.g. mcp-v1.0.0 — must match mcp/package.json
-  git push origin mcp-v<version>
-  ```
-  Watch the Release workflow in the Actions tab; it publishes on green.
-- **CI** — `.github/workflows/ci.yml` builds and tests `mcp/` on a Node 20/22 matrix for every
-  PR that touches the `mcp/` tree.
+- **Version bump lands in a PR**: a semver bump in `mcp/package.json` plus a `CHANGELOG.md`
+  entry, reviewed and merged to `main`. The CI `version-guard` job fails a PR that changes
+  shipped code or shipped data without a version that is new to npm.
+- **Publishing is tag-triggered.** `.github/workflows/release.yml` fires on a pushed
+  **`mcp-v*`** tag whose version matches `mcp/package.json`; it installs, tests, and runs
+  `npm publish --provenance --access public` from `mcp/`, then cuts a GitHub Release.
+- **To release** after the version-bump PR merges: `git tag mcp-v<version>` and
+  `git push origin mcp-v<version>`.
+- **CI**: `.github/workflows/ci.yml` builds and tests `mcp/` on Node 22 and 24 for every PR into
+  `main` that touches `mcp/` or the data the index is built from.
 
 ## About BetaNYC
 
@@ -207,8 +292,8 @@ See the full directory, with install details for each, at
 
 This server pairs directly with:
 
-- **[nyc-checkbook-mcp](https://github.com/BetaNYC/nyc-checkbook-mcp)**: follow a Council discretionary award from the budget's Schedule C through to the agency's actual contracts, payments, and spending in Checkbook.
-- **[nyc-council-mcp](https://github.com/BetaNYC/nyc-council-mcp)**: connect Transparency Resolutions and the Legistar crosswalk back to the underlying Council legislation, sponsors, and votes.
+- **[nyc-checkbook-mcp](https://github.com/BetaNYC/nyc-checkbook-mcp)**: look up an organization's contracts, payments and spending in Checkbook by EIN or name, alongside its Council designations here.
+- **[nyc-council-mcp](https://github.com/BetaNYC/nyc-council-mcp)**: the Council's legislation, sponsors and votes from Legistar, including the resolutions that adopt and modify the budget. (This server's 1.x `get_legistar_link` is retired; see the migration table.)
 
 > **Working with the wider NYC Open Data portal?** NYC Open Data hosts a related
 > (now-frozen) Council Discretionary Funding dataset this repo supersedes. To search
@@ -218,41 +303,30 @@ This server pairs directly with:
 
 ## Cross-MCP example journeys
 
-This server is most useful chained with BetaNYC's other NYC-data MCPs. Each journey below starts from a Schedule C award or the Council's award-level **expense-funding disclosure** — which adds a **MOCS ID#** and grantee **EIN** (see [`../source/expense-funding-disclosure/README.md`](../source/expense-funding-disclosure/README.md)) — and follows it into another system. The caveats are findings from real cross-MCP testing, not hypotheticals.
+Join keys, ordered by reliability: **EIN** (org-level, exact, but pools fiscal-sponsor
+programs) › **MOCS ID** (FY2024+ in the Council's workbook; FY2009–FY2021 from NYC Open Data as
+`od_mocs_id`; *unverified as a contract key and not stable across disclosure snapshots*) ›
+**budget line** (capital, shared with OMB) › **organization name** (display only; never join on it).
 
-**Join keys, ordered by reliability:** **MOCS ID#** (award → registered contract, FY2024+, *unverified as a contract key and not stable across disclosure snapshots*) › **EIN** (org-level, exact, but pools fiscal-sponsor programs) › **Legistar matter #** (award → legislation, but only via omnibus Finance resolutions) › **organization name** (display only — aliasing and fiscal sponsorship corrupt it; never join on it).
+### 1. Follow an organization's money — EIN → `nyc-checkbook-mcp` + IRS 990
+- **Chain:** `search_disclosure_awards({ ein })` → `nyc-checkbook-mcp` `search_spending` / `search_contracts` → IRS Form 990 by EIN ([ProPublica Nonprofit Explorer](https://projects.propublica.org/nonprofits/)).
+- **Caveat:** narrow fiscal-sponsor EINs by `legal_name` or `program_name`; in Checkbook, search the registered payee name, which may be the sponsor's.
 
-### 1. Did this exact award become a registered contract? — MOCS ID# → `nyc-checkbook-mcp`
-- **Goal:** confirm a specific designation was registered and paid, not just that the org received money in that category.
-- **Chain:** `search_disclosure_awards` (this server, v1.5.0; `mocs_id` is award-level, FY2024+) → `nyc-checkbook-mcp` `search_contracts` / `get_contract`.
-- **Why it's new:** before the disclosure's MOCS ID#, the only budget → spending key was the org's EIN/name — and Checkbook aggregates by contract, so you could confirm "this org kept receiving CASA money" but never "this $20,000 designation was registered." The MOCS registration ID is award-specific, so it pinpoints the contract.
-- **Caveat to verify first:** the disclosure's `mocs_id` is a **MOCS registration** identifier; Checkbook keys contracts by its own **FMS `contract_id`** (e.g. `CT185820201424467`) and exposes a `mocs_registered` column. Confirm the MOCS ID# ↔ FMS `contract_id` crosswalk (via `mocs_registered`) on a known example before treating them as one key — that mapping is the concrete step this journey turns on. And a MOCS ID# is not fixed across snapshots of the disclosure: the 2026-10-12 FY2026 workbook carries 131 designations as `FY26GP NNNNN` that read `FY26 NNNNN` in July (same number; on 2 the council member changed too), and 24 FY2027 designations look re-issued under new IDs. That the MOCS ID# joins to a registered contract is so far unverified.
+### 2. Did this designation become a registered contract? — MOCS ID → `nyc-checkbook-mcp`
+- **Chain:** `search_disclosure_awards({ mocs_id })` → `nyc-checkbook-mcp` `search_contracts` / `get_contract`.
+- **Caveat to verify first:** the disclosure's MOCS ID is a MOCS registration identifier; Checkbook keys contracts by its own FMS `contract_id`. Confirm the mapping on a known example before treating them as one key. A MOCS ID is not fixed across snapshots: the 2026-10-12 FY2026 workbook carries 131 designations as `FY26GP NNNNN` that read `FY26 NNNNN` in July.
 
-### 2. Follow an organization's money and check its health — EIN → `nyc-checkbook-mcp` + IRS 990
-- **Goal:** every City dollar an org receives, plus its financial standing.
-- **Chain:** `get_awards_by_ein` (this server; all Schedule C years) → `nyc-checkbook-mcp` `search_spending` (actual payments) → IRS Form 990 / [ProPublica Nonprofit Explorer](https://projects.propublica.org/nonprofits/) by EIN (revenue, assets, other funding). *(990 data is external — no BetaNYC MCP; the EIN is the join.)*
-- **Caveat:** filter fiscal-sponsor EINs by `program` — EIN `13-2612524` (Fund for the City of New York) pools dozens of grantees. In Checkbook, search the **registered payee name**, which may be the sponsor's rather than the program's.
+### 3. From a capital budget line to OMB and Checkbook
+- **Chain:** `search_council_capital({ budget_line })` → `compare_capital_to_omb({ budget_line })` → `nyc-checkbook-mcp` by budget line or agency.
+- **Caveat:** a Council project ID links to nothing outside the Council's list. Only the budget line is shared, so anything below the line is a match by line and title, not a join.
 
-### 3. From an award back to the vote that adopted it — Legistar crosswalk → `nyc-council-mcp`
-- **Goal:** the legislation, sponsors, and vote behind a designation or transfer.
-- **Chain:** `get_legistar_link` (this server → matter #, adoption date, adopting-session link) → `nyc-council-mcp` `get_bill` / `get_votes` / `get_committee`.
-- **Caveat:** individual initiatives have **no standalone Legistar matter** — they adopt/modify via the Committee on Finance's periodic **omnibus** resolutions ("MODIFICATION (MN-N)…"). Search `nyc-council-mcp` by `committee=Finance` + `modification`, not by the initiative's name; matter titles are terse and legalistic, so name/semantic queries reliably miss.
-
-#### Why the link points at the *meeting*, not the bill (the two-Legistar-backends trap)
-
-`get_legistar_link` returns a link to the **City Council meeting where the matter was adopted**, e.g. `https://legistar.council.nyc.gov/MeetingDetail.aspx?LEGID=22592&GID=61`, not a bill-detail page. This is deliberate:
-
-- NYC runs **two independent Legistar backends with different ids.** The OData WebAPI (what the crosswalk and `nyc-council-mcp` read) exposes `MatterId`/`MatterGuid`; the public `LegislationDetail.aspx` page keys on a *separate* ID/GUID that appears nowhere in the OData record. So `LegislationDetail.aspx?ID={MatterId}&GUID={MatterGuid}` resolves to **"Invalid parameters!"** — there is no formula from the OData id to the website id. The crosswalk's stored `legistar_url` column is that broken scheme and is **no longer surfaced** as a citation.
-- The public **meeting** page, by contrast, *does* accept the OData `EventId`: `MeetingDetail.aspx?LEGID={EventId}&GID=61` works. `GID=61` is a verified term-stable constant (resolves meetings 2007–2026).
-- Per confirmed crosswalk row we precompute the adopting `EventId` from the matter's Legistar history — the row whose action is the final City Council adoption (`Approved, by Council` / `City Council` / passed) — via `scripts/enrich-crosswalk.mjs`, and store it in the crosswalk (`adopting_event_id`, `adopting_body`, `adopting_action`, `adopting_datetime`). A row with no such adoption event (or an unconfirmed status) gets **no link** rather than a wrong one; its matter number + adoption date remain the citation.
-
-### 4. Was a designation competitively bid or directly negotiated? — org/EIN → `nyc-record-mcp`
-- **Goal:** the procurement path behind a discretionary award.
-- **Chain:** award org (from EIN) → `nyc-record-mcp` `search_notices` / `get_procurement_notices` / `get_open_solicitations`.
-- **Caveat:** a hit in a **negotiated-acquisition public-review** notice *confirms* a direct/negotiated designation (the required PPB public-review step for a non-competed award) — it does **not** show competitive bidding. The absence of an RFP/IFB solicitation for the org is the stronger "no open bid" signal.
-
-> These journeys were validated end-to-end against the live MCPs in the BetaNYC workspace (`people/noel/work/2026-07-07-mcp-budget-user-journeys.md`); the caveats above are that session's real findings. Journey 1 is the new path the FY2024+ expense disclosure's MOCS ID# unlocks.
+### 4. The resolution behind a designation — `nyc-council-mcp`
+- Initiatives adopt and change through the Committee on Finance's periodic omnibus resolutions ("MODIFICATION (MN-N)…"). Search `nyc-council-mcp` by `committee=Finance` and `modification`, not by an initiative's name.
 
 ## Provenance & licensing
 
-This server reads the repo's own derived data. Provenance, reconciliation status, and licensing are covered by the [repository README](../README.md) and [`LICENSE`](../LICENSE): derived data and code are MIT; the underlying budget documents are © The City of New York.
+This server reads the repo's own structured datasets. Provenance and licensing are covered by
+the [repository README](../README.md#license): BetaNYC's code, derived data and documentation
+are all MIT ([`LICENSE`](../LICENSE)). The Council's workbooks are © The City of New York,
+reproduced as public records and not covered by BetaNYC's license; NYC Open Data rows are
+covered by the [NYC Open Data Terms of Use](https://opendata.cityofnewyork.us/overview/#termsofuse).

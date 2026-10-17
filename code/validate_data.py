@@ -508,8 +508,11 @@ MEMBER_TYPES = {"member", "member_outside_fy", "ambiguous", "unresolved", "speak
                 "citywide", "district_label", "blank"}
 MEMBER_ID_TYPES = {"member", "member_outside_fy"}
 # GitHub #89 B13: row_flag marks a row kept as published that a person decided is not a grant
-# to an organization (parse_expense_disclosure.ROW_FLAGS). Blank, or one of these values.
-ROW_FLAG_VALUES = {"not_an_award"}
+# to an organization (parse_expense_disclosure.ROW_FLAGS). no_grantee_ein (2026-10-16) is a rule:
+# exactly the rows whose ein is blank or "NA". Blank, or one or more of these joined by ";".
+ROW_FLAG_VALUES = {"not_an_award", "no_grantee_ein"}
+ROW_FLAG_ORDER = ["not_an_award", "no_grantee_ein"]  # decided flags first, then rule flags
+NO_GRANTEE_EIN_VALUES = {"", "NA"}
 # GitHub #70: zip / zip_status are derived from postal_code + state (code/zcta_states.py). A
 # status with a value carries a 5-digit zip taken from the published postal_code (or, padded,
 # '0' + it; trimmed, the first five digits of a ragged ZIP+4 such as '11203-' or '11231=1020';
@@ -607,7 +610,7 @@ def _check_disclosure(res, body, header, idx):
         return  # schema check already failed hard; value checks would be noise
     bad_norm, bad_year, bad_row, seen, dup_rows = [], [], [], set(), []
     groups, row_group = Counter(), {}
-    bad_zip, bad_member, bad_flag, bad_od = [], [], [], []
+    bad_zip, bad_member, bad_flag, bad_od, bad_noein = [], [], [], [], []
     od_rows = 0
     flags = Counter()
     errors = Counter()
@@ -637,10 +640,16 @@ def _check_disclosure(res, body, header, idx):
                     or not (fy.isdigit() and 2009 <= int(fy) <= 2021):
                 bad_od.append((ln, oid, om))
         fl = r[idx["row_flag"]]
-        if fl:
-            flags[fl] += 1
-            if fl not in ROW_FLAG_VALUES:
-                bad_flag.append((ln, fl))
+        parts = fl.split(";") if fl else []
+        for part in parts:
+            flags[part] += 1
+        # Known flags only, none repeated, decided flags (not_an_award) before rule flags.
+        if fl and (any(x not in ROW_FLAG_VALUES for x in parts) or len(set(parts)) != len(parts)
+                   or parts != sorted(parts, key=ROW_FLAG_ORDER.index)):
+            bad_flag.append((ln, fl))
+        if "ein" in idx and (("no_grantee_ein" in parts)
+                             != (r[idx["ein"]].strip().upper() in NO_GRANTEE_EIN_VALUES)):
+            bad_noein.append((ln, r[idx["ein"]], fl))
         zs, zv = r[idx["zip_status"]], r[idx["zip"]]
         if not _zip_fits(r[idx["postal_code"]], zv, zs, r[idx["zip_candidates"]]):
             bad_zip.append((ln, r[idx["postal_code"]], zv, zs))
@@ -701,6 +710,11 @@ def _check_disclosure(res, body, header, idx):
         ln, v = bad_flag[0]
         res.hard.append(("row_flag", (f"{len(bad_flag)} row(s) with an unknown row_flag, e.g. "
                                       f"line {ln}: {v!r} (allowed: {sorted(ROW_FLAG_VALUES)})")))
+    if bad_noein:
+        ln, e, fl = bad_noein[0]
+        res.hard.append(("row_flag", (f"{len(bad_noein)} row(s) where no_grantee_ein does not match "
+                                      f"a blank or 'NA' ein, e.g. line {ln}: ein {e!r}, "
+                                      f"row_flag {fl!r}")))
     if flags:
         res.soft.append(("row_flag", "rows kept as published but flagged: "
                                      + ", ".join(f"{k} x{n}" for k, n in sorted(flags.items()))))
