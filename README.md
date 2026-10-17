@@ -44,7 +44,8 @@ New-York-City-Budget/
 ├── LICENSE                                         ← MIT, for the code + derived data
 ├── source/              ← official NYC Council documents, © City of New York
 │   ├── FY08/ … FY27/    (Schedule C, Terms, Capital, transparency-resolutions/ per year — PDFs)
-│   └── expense-funding-disclosure/  (Council RnD award-level expense spreadsheets, FY2013–FY2027)
+│   ├── expense-funding-disclosure/  (Council RnD award-level expense spreadsheets, FY2013–FY2027)
+│   └── census-zcta/     (provenance of the Census 2020 ZCTA file used to check disclosure ZIPs)
 ├── data/                ← extracted, reconciled CSVs
 │   ├── fy09/ … fy27/    (per year: schedule_c/, terms/, capital/, transparency-resolutions/
 │   │   │                 — whichever document types exist and parse for that year)
@@ -52,6 +53,7 @@ New-York-City-Budget/
 │   │   ├── terms/       Terms & Conditions (reporting mandates)
 │   │   ├── capital/     Section 254 capital changes
 │   │   └── expense_disclosure/  the Council's award-level disclosure workbooks, FY2013–FY2027
+│   ├── reference/       lookup tables derived from outside sources (Census ZCTA → state)
 │   └── combined/        all-years roll-ups (built by code/build_combined.py)
 ├── code/                ← parser scripts + variants + validate_data.py (QA) + tests + PARSING.md + requirements.txt
 ├── mcp/                 ← prototype MCP server (see below)
@@ -100,7 +102,8 @@ Detail breakouts with a `purpose` field: `_a_aging` (Aging Discretionary), `_b_l
 
 ### `data/{year}/expense_disclosure/{year}_expense_awards.csv` — the Council's own award list (parallel dataset)
 One row per row the workbook prints, **FY2013–FY2027**, from the Council's expense funding disclosure workbooks rather than the adopted-budget PDFs. 139,556 rows (snapshot retrieved 2026-10-12). Usually that is one row per designation, but 662 rows in 321 groups (FY2013–FY2023) are exact copies of another row; all are kept and flagged in `duplicate_group` (GitHub #69).
-`fiscal_year, mocs_id, source, council_member, legal_name, ein, status, status_norm, amount, agency, program_name, address1, address2, city, state, postal_code, purpose, fiscal_conduit, fiscal_conduit_ein, source_file, source_row, duplicate_group`
+`fiscal_year, mocs_id, source, council_member, legal_name, ein, status, status_norm, amount, agency, program_name, address1, address2, city, state, postal_code, zip, zip_status, purpose, fiscal_conduit, fiscal_conduit_ein, source_file, source_row, duplicate_group`
+- **ZIP codes are checked, never silently rewritten** (GitHub #70). `postal_code` is the cell as published; `zip` and `zip_status` (`valid` / `padded` / `not_a_zcta` / `state_mismatch` / `invalid` / `blank`) are derived against the Census Bureau's 2020 ZCTA list ([`source/census-zcta/`](source/census-zcta/README.md), table built by `code/zcta_states.py`). A 4-digit ZIP gets its leading zero back only when the result is a real ZCTA in the row's own state (13 rows). `not_a_zcta` means *not verified* — PO-box ZIPs have no ZCTA — not fake.
 - **Every row is kept, Cleared and Pending alike.** `status` is the raw value; filter on `status_norm` (`cleared` / `pending` / `other`). A year's headline figure is the **Cleared** total, labeled as such; FY2027 was half Pending on 2026-07-15 ($143,034,722 Cleared of $705,564,000) and is $590,253,954 Cleared of $705,704,000 on 2026-10-12.
 - **Only FY2024 prints a total of its own, and it reconciles to the dollar** ($527,971,414). FY2026 printed one ($716,213,155) in the 2026-07-15 snapshot; the 2026-10-12 workbook dropped those footer rows, and its rows still sum to $716,213,155, which its reconciliation report shows as an earlier-snapshot figure, not as the workbook's own. No other workbook prints a total, so no other year's sum is a Council figure. Each year's `{year}_expense_reconciliation.txt` lists every footer row that was stripped (5 across 15 years).
 - **It is not the adopted Schedule C.** It is a later snapshot of the same year, with in-year additions, and its `council_member` is the roster at export time. Join it to the Schedule C award files on `(ein, amount)` within a year, never on `ein` alone and never on the member.
