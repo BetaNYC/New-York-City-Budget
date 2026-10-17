@@ -4,7 +4,55 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.4.0 — 2026-08-12
+## 1.5.0 — 2026-10-12 (unreleased: not tagged, not published)
+
+A new tool over a new source. **No existing tool's parameters, output or figures changed**;
+`search_awards` and `get_awards_by_ein` still serve the adopted Schedule C exactly as in 1.4.0.
+
+**1.4.0 was never tagged** (there is no `mcp-v1.4.0` tag; the last is `mcp-v1.3.1`), so it was
+never released. Anyone upgrading from the published package gets 1.4.0's change, award totals
+that **rise** because appendix rows are returned, together with this one. Read the 1.4.0 entry
+below before comparing a figure with one published from 1.3.x.
+
+### Added
+- **`search_disclosure_awards`** — the NYC Council's expense funding disclosure, FY2013–FY2027:
+  the Council's own award-level workbooks (`source/expense-funding-disclosure/`), parsed by
+  `code/parse_expense_disclosure.py` into `data/fyNN/expense_disclosure/` — 139,556
+  designations, Cleared and Pending, with MOCS ID from FY2024. Filters: `fiscal_year`, `ein`,
+  `legal_name`, `council_member`, `source` (funding stream), `agency`, `program_name`,
+  `status` (`cleared` / `pending` / `other`; default all), `min_amount`, `max_amount`,
+  `limit`. A separate tool, not a new `source_table` on the award tools, because the disclosure
+  is a later snapshot than the adopted budget: it includes post-adoption designations and its
+  `council_member` is the roster when the workbook was exported.
+- Every response states the **true match count** and computes the **totals over every match**
+  in SQL, never over the rows shown; a short page says "Showing N of M" (issues #42, #49). Rows
+  come highest amount first, ordered before the limit (as in #41). **Cleared** (the headline) and
+  **Pending** totals are separate, with an all-statuses line labeled as not a headline figure,
+  plus a per-year split for multi-year answers.
+- Every response names the **snapshot** of each fiscal year it draws on — file, sheet (which
+  carries the Council's own "last updated" date), retrieval date, sha256 prefix — read from
+  `source/expense-funding-disclosure/MANIFEST.csv` into a `disclosure_snapshots` table. The
+  index build fails if a year's row count disagrees with the manifest, so the index cannot claim
+  one snapshot while serving another.
+- A one-line caveat and the tool's own source footer on every response (the shared footer
+  describes the adopted-budget documents and would misattribute this source).
+- Strict schema as for every tool (#40): unknown parameters raise. New per-tool alias hints:
+  `organization` → `legal_name`, `program` → `program_name`, `status_norm` → `status`, and
+  a disclosure-specific reason for `council_district` / `district`. Hints stay per-tool, so the
+  existing tools' messages are unchanged.
+- `test/disclosure.test.js` (13 tests). Expected values are computed from the committed CSVs
+  and `MANIFEST.csv`, never from the index under test. Mutation-checked: computing totals from
+  the page, hiding truncation, stripping unknown parameters, folding Pending into Cleared and
+  limiting before ordering each fail at least one test.
+
+### Changed
+- `npm pack`: **9.3 MB → 15.6 MB** packed, 36.1 MB → 59.4 MB unpacked (`data/budget.db`). The
+  disclosure table is 18.7 MB plus 4.5 MB of indexes. To hold it there, `purpose` (26 MB of the
+  CSVs' 52 MB), grantee addresses and `source_file` are **not indexed**; each row gives its
+  workbook row number in the repo CSV instead.
+- `package-lock.json` synced to 1.5.0 (it was missed on 1.3.0 and 1.3.1).
+
+
 
 The award tools now return the Schedule C **appendix** designations — 28,575 rows that were
 parsed, committed, and reaching no consumer. Minor rather than patch: award counts and dollar

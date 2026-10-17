@@ -338,3 +338,162 @@ export function listFiscalYears(): FiscalYearReport {
     crosswalk: cwRange,
   };
 }
+
+// ---------------------------------------------------------------------------
+// Council expense funding disclosure (v1.5.0) — a separate source from `awards`
+// ---------------------------------------------------------------------------
+
+export const DISCLOSURE_STATUSES = ["cleared", "pending", "other"] as const;
+export type DisclosureStatus = (typeof DISCLOSURE_STATUSES)[number];
+
+export interface DisclosureRow {
+  fiscal_year: number;
+  /** MOCS ID# — FY2024+ only; "" before. Can change between snapshots for the same designation. */
+  mocs_id: string;
+  /** Funding stream as the workbook names it: Local, Youth, Aging, Speaker's Initiative, or a citywide initiative. */
+  source: string;
+  /** The Council's roster when the workbook was exported — not the sponsoring member at adoption. */
+  council_member: string;
+  legal_name: string;
+  ein: string;
+  /** Raw Status cell, verbatim (case varies by year). */
+  status: string;
+  status_norm: DisclosureStatus;
+  /** The workbook's own value; can be fractional. */
+  amount: number;
+  agency: string;
+  program_name: string;
+  fiscal_conduit: string;
+  fiscal_conduit_ein: string;
+  /** Row number in the workbook (and in data/fyNN/expense_disclosure/fyNN_expense_awards.csv). */
+  source_row: number;
+}
+
+export interface DisclosureFilters {
+  fiscal_year?: number;
+  ein?: string;
+  legal_name?: string;
+  council_member?: string;
+  source?: string;
+  agency?: string;
+  program_name?: string;
+  status?: DisclosureStatus;
+  min_amount?: number;
+  max_amount?: number;
+  limit?: number;
+}
+
+export interface DisclosureSnapshot {
+  fiscal_year: number;
+  file: string;
+  /** Sheet name; the Council stamps its own "last updated" date into it, e.g. "FY26 (09-14-26)". */
+  sheet: string;
+  /** Date BetaNYC downloaded this exact file (MANIFEST.csv). */
+  retrieved: string;
+  sha256: string;
+}
+
+export interface DisclosureTotal {
+  rows: number;
+  amount: number;
+}
+
+export interface DisclosureResult {
+  /** The page: at most `limit` rows, highest amount first. */
+  rows: DisclosureRow[];
+  /** Every row matching the filters — the page may be shorter. */
+  matched: number;
+  /** Totals over ALL matches (never over the page), per status. */
+  totals: Record<DisclosureStatus, DisclosureTotal>;
+  /** Totals over ALL matches, per fiscal year and status. */
+  by_year: { fiscal_year: number; totals: Record<DisclosureStatus, DisclosureTotal> }[];
+  /** Snapshot provenance for every year in the match (or the filtered year, if nothing matched). */
+  snapshots: DisclosureSnapshot[];
+}
+
+const emptyTotals = (): Record<DisclosureStatus, DisclosureTotal> => ({
+  cleared: { rows: 0, amount: 0 },
+  pending: { rows: 0, amount: 0 },
+  other: { rows: 0, amount: 0 },
+});
+
+/**
+ * Search the disclosure. The WHERE clause is built once and used three times — for the page,
+ * for the totals and for the per-year split — so the totals always describe exactly the rows the
+ * filters select, however many of them the page leaves out (issues #42, #49).
+ */
+export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
+  const p: unknown[] = [];
+  const w = where([
+    eqClause("fiscal_year", p, f.fiscal_year),
+    f.ein ? (p.push(normEin(f.ein)), "ein = ?") : null,
+    likeClause("legal_name", p, f.legal_name),
+    likeClause("council_member", p, f.council_member),
+    likeClause("source", p, f.source),
+    likeClause("agency", p, f.agency),
+    likeClause("program_name", p, f.program_name),
+    f.status ? (p.push(f.status), "status_norm = ?") : null,
+    f.min_amount != null ? (p.push(f.min_amount), "amount >= ?") : null,
+    f.max_amount != null ? (p.push(f.max_amount), "amount <= ?") : null,
+  ]);
+  const db = getDb();
+  // Highest amount first BEFORE the limit (as in #41); the remaining keys only make ties
+  // deterministic.
+  const rows = db
+    .prepare(
+      `SELECT fiscal_year, mocs_id, source, council_member, legal_name, ein, status, status_norm,
+         amount, agency, program_name, fiscal_conduit, fiscal_conduit_ein, source_row
+       FROM disclosure ${w}
+       ORDER BY amount DESC, fiscal_year, source_row LIMIT ${cap(f.limit)}`
+    )
+    .all(...p) as DisclosureRow[];
+  const grouped = db
+    .prepare(
+      `SELECT fiscal_year, status_norm, COUNT(*) AS n, SUM(amount) AS amount
+       FROM disclosure ${w} GROUP BY fiscal_year, status_norm ORDER BY fiscal_year`
+    )
+    .all(...p) as { fiscal_year: number; status_norm: string; n: number; amount: number }[];
+
+  const totals = emptyTotals();
+  const years = new Map<number, Record<DisclosureStatus, DisclosureTotal>>();
+  let matched = 0;
+  for (const g of grouped) {
+    const s = (DISCLOSURE_STATUSES as readonly string[]).includes(g.status_norm)
+      ? (g.status_norm as DisclosureStatus)
+      : "other";
+    const y = years.get(g.fiscal_year) ?? emptyTotals();
+    y[s].rows += g.n;
+    y[s].amount += g.amount;
+    years.set(g.fiscal_year, y);
+    totals[s].rows += g.n;
+    totals[s].amount += g.amount;
+    matched += g.n;
+  }
+
+  const snapYears = years.size ? [...years.keys()] : f.fiscal_year != null ? [f.fiscal_year] : [];
+  const snapshots = snapYears.length
+    ? (db
+        .prepare(
+          `SELECT fiscal_year, file, sheet, retrieved, sha256 FROM disclosure_snapshots
+           WHERE fiscal_year IN (${snapYears.map(() => "?").join(",")}) ORDER BY fiscal_year`
+        )
+        .all(...snapYears) as DisclosureSnapshot[])
+    : [];
+
+  return {
+    rows,
+    matched,
+    totals,
+    by_year: [...years.entries()].map(([fiscal_year, t]) => ({ fiscal_year, totals: t })),
+    snapshots,
+  };
+}
+
+/** Years the disclosure index covers, with their snapshot provenance. */
+export function listDisclosureSnapshots(): DisclosureSnapshot[] {
+  return getDb()
+    .prepare(
+      `SELECT fiscal_year, file, sheet, retrieved, sha256 FROM disclosure_snapshots ORDER BY fiscal_year`
+    )
+    .all() as DisclosureSnapshot[];
+}
