@@ -66,6 +66,12 @@ below before comparing a figure with one published from 1.3.x.
   `agency` value the filter matched, with rows and dollars, when there is more than one.
 - **An EIN that pools many names says how many.** `ein: "136400434"` (the City of New York) covers
   hundreds of City bodies; the answer now counts the distinct legal names in the match.
+- **Exact copies are flagged (#69).** 662 disclosure rows in 321 groups (FY2013–FY2023) are
+  identical in every published field but their workbook row. All are kept, as published. Each
+  such row is now marked in the answer ("exact copy of workbook row N", or the group's first), and
+  every answer with flagged rows says how many of its matched rows are copies and how many rows
+  and dollars lie beyond the first copy of each group. The tool description no longer says "one
+  row per designation".
 - **Excel error values stay text (#71).** 37 disclosure cells hold `#N/A` (ZIPs, addresses,
   cities); their 25 rows are indexed and served like any other. The index build now stops if an
   EIN column ever holds an Excel error value, which `normEin` would otherwise have turned into a

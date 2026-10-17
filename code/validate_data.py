@@ -145,7 +145,7 @@ TYPES = {
         cols=["fiscal_year", "mocs_id", "source", "council_member", "legal_name", "ein",
               "status", "status_norm", "amount", "agency", "program_name", "address1",
               "address2", "city", "state", "postal_code", "purpose", "fiscal_conduit",
-              "fiscal_conduit_ein", "source_file", "source_row"],
+              "fiscal_conduit_ein", "source_file", "source_row", "duplicate_group"],
         ein="ein", amounts=["amount"], rule="positive", year_col="fiscal_year"),
     "capital": dict(
         cols=["part", "agency", "budget_line", "sub_id", "boro", "fy1", "fy2", "fy3",
@@ -482,9 +482,11 @@ def _check_disclosure(res, body, header, idx):
       - fiscal_year equals the folder year -- the per-year joins key on it;
       - source_row is a unique positive integer -- it is how a reader finds the row in the
         workbook, so a duplicate or a blank breaks provenance."""
-    if not all(c in idx for c in ("status", "status_norm", "fiscal_year", "source_row")):
+    if not all(c in idx for c in ("status", "status_norm", "fiscal_year", "source_row",
+                                  "duplicate_group")):
         return  # schema check already failed hard; value checks would be noise
     bad_norm, bad_year, bad_row, seen, dup_rows = [], [], [], set(), []
+    groups, row_group = Counter(), {}
     errors = Counter()
     for ln, r in enumerate(body, start=2):
         if len(r) != len(header):
@@ -499,6 +501,9 @@ def _check_disclosure(res, body, header, idx):
             bad_norm.append((ln, r[idx["status"]], norm))
         if res.year and r[idx["fiscal_year"]] != str(res.year):
             bad_year.append((ln, r[idx["fiscal_year"]]))
+        if r[idx["duplicate_group"]]:
+            groups[r[idx["duplicate_group"]]] += 1
+            row_group[r[idx["source_row"]]] = r[idx["duplicate_group"]]
         sr = r[idx["source_row"]]
         if not (sr.isdigit() and int(sr) > 0):
             bad_row.append((ln, sr))
@@ -522,6 +527,17 @@ def _check_disclosure(res, body, header, idx):
         ln, v = dup_rows[0]
         res.hard.append(("provenance", f"{len(dup_rows)} duplicate source_row value(s), "
                                        f"e.g. line {ln}: {v!r}"))
+    # duplicate_group (GitHub #69) names the first row of a group of exact copies: it must be a
+    # source_row of this file, carried by at least two rows, the named row among them.
+    bad_groups = sorted(g for g, n in groups.items() if n < 2 or row_group.get(g) != g)
+    if bad_groups:
+        res.hard.append(("duplicate_group", (f"{len(bad_groups)} duplicate_group value(s) that do "
+                                             f"not name a row of a 2+ row group, e.g. "
+                                             f"{bad_groups[0]!r}")))
+    if groups:
+        res.soft.append(("duplicate_group", (f"{sum(groups.values())} row(s) in {len(groups)} "
+                                             f"group(s) of exact copies, kept as published "
+                                             f"(DATA-ANOMALIES §22)")))
     if errors:
         res.soft.append(("excel_error", f"{sum(errors.values())} cell(s) hold an Excel error value, "
                                         f"kept as published text (DATA-ANOMALIES §22): "

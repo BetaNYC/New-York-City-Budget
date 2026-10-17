@@ -1077,6 +1077,34 @@ def q_soft_dups(ctx):
                   [f"{' & '.join(ref(r) for r in g[:3])} {short(g[0]['legal_name'], 30)!r} ${g[0]['amount']}" for g in soft])
 
 
+@question("F3", "Does the duplicate_group flag mark exactly the rows F1 finds identical, each group "
+          "named by its first row (and no other row)?",
+          "duplicate rows kept but unflagged (issue #69)", "new", "yes")
+def q_dup_flag(ctx):
+    """Re-groups the CSV rows on every published field except source_row (this script's own
+    FIELDS list, which does not include duplicate_group) and compares, row by row, the expected
+    group (the smallest source_row of its group, blank when unique) with the CSV's
+    duplicate_group. Reports the groups, rows and surplus per year."""
+    key = [f for f in FIELDS if f != "source_row"]
+    groups = collections.defaultdict(list)
+    for r in ctx["csv"]:
+        groups[tuple(r[f] for f in key)].append(r)
+    bad, per_year = [], collections.defaultdict(lambda: [0, 0, 0])
+    for g in groups.values():
+        first = str(min(int(r["source_row"]) for r in g)) if len(g) > 1 else ""
+        if first:
+            y = per_year[g[0]["fiscal_year"]]
+            y[0] += 1
+            y[1] += len(g)
+            y[2] += len(g) - 1
+        for r in g:
+            if r.get("duplicate_group", None) != first:
+                bad.append(f"{ref(r)} duplicate_group={r.get('duplicate_group')!r}, expected {first!r}")
+    years = "; ".join(f"FY{y} {v[0]} groups / {v[1]} rows / {v[2]} surplus"
+                      for y, v in sorted(per_year.items()))
+    return result("finding" if bad else "pass", len(bad), bad, f"By year: {years}.")
+
+
 # ---------------------------------------------------------------- G. controlled vocabularies
 
 def _variants(values):
@@ -1510,7 +1538,7 @@ RED_TEAM = [
     ("6. 64 amounts carry sub-cent precision; 7 are float residue of in-cell formulas. (Checked: 7 are float residue, but only FY2014 row 109 is still a live formula; the other 6 are stored values.)",
      "E2, A10", "DOCUMENTED, not rounded: rounding moves no year's total by more than 1.2 cents and would break cell-for-cell identity with the workbook (A6)."),
     ("7. 321 groups / 341 rows identical in every field but source_row, FY2013-FY2023.",
-     "F1", "DOCUMENTED in DATA-ANOMALIES §22; whether they are real repeat designations is a QUESTION FOR NOEL."),
+     "F1, F3", "KEPT AND FLAGGED (issue #69, maintainer decision): every copy stays as published; a duplicate_group column names each group's first row, the counts per year are in DATA-ANOMALIES §22, and the MCP tool reports how many flagged rows a result's totals include."),
     ("8. MCP limit 0/negative returned 1 row; LIKE wildcards unescaped (legal_name '_' matched every row).",
      "M4, M8", "FIXED, with tests."),
     ("9. No test pinned 'ein matches the grantee EIN only'; no test checked the committed snapshot reports were current.",

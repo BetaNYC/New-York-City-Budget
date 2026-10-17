@@ -68,6 +68,18 @@ const TRANSPARENCY_LOW_TEXT_CONFIDENCE = new Set([2010, 2011, 2012, 2013]);
 // sources and are never merged. Snapshot provenance (which download each year comes from) is read
 // from source/expense-funding-disclosure/MANIFEST.csv.
 const DISCLOSURE_YEARS = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27].map(yr);
+// #69: duplicate_group is blank for a unique row, else a positive row number. Anything else
+// (a missing column from an old CSV, text) is a stop, never a silent NULL.
+function dupGroup(r, year) {
+  if (!("duplicate_group" in r)) throw new Error(`FY${year}: disclosure CSV has no duplicate_group column`);
+  if (r.duplicate_group === "") return null;
+  const g = Number(r.duplicate_group);
+  if (!Number.isInteger(g) || g < 1) {
+    throw new Error(`FY${year} row ${r.source_row}: duplicate_group ${JSON.stringify(r.duplicate_group)} is not a row number`);
+  }
+  return g;
+}
+
 // Excel error values, as the disclosure CSVs carry them verbatim (code/validate_data.py EXCEL_ERROR).
 const EXCEL_ERROR = /^#(?:N\/A|REF!|VALUE!|DIV\/0!|NAME\?|NUM!|NULL!|SPILL!|CALC!|GETTING_DATA)$/;
 const DISCLOSURE_MANIFEST = join(MCP_ROOT, "..", "source", "expense-funding-disclosure", "MANIFEST.csv");
@@ -177,7 +189,8 @@ function main() {
     CREATE TABLE disclosure (
       fiscal_year INTEGER, mocs_id TEXT, source TEXT, council_member TEXT, legal_name TEXT,
       ein TEXT, status TEXT, status_norm TEXT, amount REAL, agency TEXT, program_name TEXT,
-      fiscal_conduit TEXT, fiscal_conduit_ein TEXT, source_row INTEGER
+      fiscal_conduit TEXT, fiscal_conduit_ein TEXT, source_row INTEGER,
+      duplicate_group INTEGER
     );
     CREATE INDEX idx_disc_ein ON disclosure(ein);
     CREATE INDEX idx_disc_fy ON disclosure(fiscal_year);
@@ -431,10 +444,11 @@ function main() {
   }
   const insDisc = db.prepare(
     `INSERT INTO disclosure (fiscal_year, mocs_id, source, council_member, legal_name, ein, status,
-       status_norm, amount, agency, program_name, fiscal_conduit, fiscal_conduit_ein, source_row)
+       status_norm, amount, agency, program_name, fiscal_conduit, fiscal_conduit_ein, source_row,
+       duplicate_group)
      VALUES (@fiscal_year, @mocs_id, @source, @council_member, @legal_name, @ein, @status,
        @status_norm, @amount, @agency, @program_name, @fiscal_conduit, @fiscal_conduit_ein,
-       @source_row)`
+       @source_row, @duplicate_group)`
   );
   const insSnap = db.prepare(
     `INSERT INTO disclosure_snapshots (fiscal_year, file, sheet, retrieved, sha256, award_rows)
@@ -480,6 +494,8 @@ function main() {
           fiscal_conduit: r.fiscal_conduit ?? "",
           fiscal_conduit_ein: normEin(r.fiscal_conduit_ein),
           source_row: Number.parseInt(r.source_row, 10),
+          // #69: the source_row of the first of a group of exact copies; NULL when unique.
+          duplicate_group: dupGroup(r, year),
         });
         n++;
       }

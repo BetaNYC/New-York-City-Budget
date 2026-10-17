@@ -75,7 +75,8 @@ Detail breakouts by funding stream: `_a_aging` (Aging Discretionary), `_b_local`
 ## `data/{year}/expense_disclosure/{year}_expense_awards.csv`
 
 The NYC Council's own **expense funding disclosure** workbooks
-(`source/expense-funding-disclosure/`), one row per designation, **FY2013–FY2027**. A **parallel
+(`source/expense-funding-disclosure/`), one row per row the workbook prints (normally one per
+designation; exact copies are kept and flagged, see `duplicate_group`), **FY2013–FY2027**. A **parallel
 award-level dataset**: it is not derived from the adopted-budget PDFs, it does not feed the
 Schedule C files above, and its totals are not the adopted Schedule C totals. Built by
 `code/parse_expense_disclosure.py --write`; per-year counts, totals and printed-total
@@ -102,6 +103,7 @@ Column names follow the disclosure's own fields, not the Schedule C vocabulary (
 | `fiscal_conduit`, `fiscal_conduit_ein` | text | Fiscal conduit, where named (FY2013–FY2018, plus one row each in FY2022 and FY2023). Kept as printed apart from the same hyphen/leading-zero EIN rules. |
 | `source_file` | text | Provenance: the workbook. |
 | `source_row` | int | Provenance: the 1-based sheet row, so any record can be found in the workbook. |
+| `duplicate_group` | int or blank | **Exact copies (GitHub #69).** Blank for a unique row. When the row is identical to another row of the same workbook in every published field (everything but `source_row`), the `source_row` of the first of them: a group's rows all carry the same number, and the first row carries its own. 662 rows in 321 groups, FY2013–FY2023 (per year in DATA-ANOMALIES §22 and each `{year}_expense_reconciliation.txt`). **Every copy is kept** and counted in every total: the workbooks print them, and whether each is a second designation or a filing error cannot be told from the file. To count each group once, keep rows where `duplicate_group` is blank or equals `source_row`. |
 
 All text cells are trimmed, with internal runs of whitespace (including line breaks and no-break
 spaces) collapsed to one space and invisible format characters (Unicode category Cf: zero-width

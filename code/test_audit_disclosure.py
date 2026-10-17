@@ -261,6 +261,23 @@ def test_address_hyphen_question_catches_a_lost_or_doubled_hyphen(tmp_path):
     assert doubled["count"] == 1 and ":3 address1" in doubled["examples"][0]
 
 
+def test_duplicate_flag_question_checks_the_csv_flag_issue_69():
+    """Issue #69, audit question F3. FAILS if a correctly flagged pair (both rows naming row 2)
+    is reported, or if a copy left unflagged, a unique row flagged, or a group named by a row
+    other than its first passes."""
+    def rows(flags):
+        out = [_csv_row(2, "Acme", "136400434", "Cleared", 5000),
+               _csv_row(3, "Acme", "136400434", "Cleared", 5000),
+               _csv_row(4, "Beta", "136400434", "Cleared", 10)]
+        for r, f in zip(out, flags):
+            r["duplicate_group"] = f
+        return {"csv": out}
+    assert A.q_dup_flag(rows(["2", "2", ""]))["status"] == "pass"
+    for flags in (["2", "", ""], ["2", "2", "4"], ["3", "3", ""]):
+        r = A.q_dup_flag(rows(flags))
+        assert r["status"] == "finding" and r["count"] >= 1, flags
+
+
 def test_member_bleed_requires_corroboration():
     """FAILS if 'Levin Brooklyn Youth Fund' is not flagged when the same EIN is published as
     'Brooklyn Youth Fund' elsewhere, or if it is flagged without that corroboration."""
@@ -339,6 +356,8 @@ def test_corpus_pins(real):
     assert not any("\\xad" in e for e in by["D8"]["examples"])
     # Issue #68: 186 workbook address cells hold a soft hyphen; none loses or doubles a hyphen.
     assert by["D13"]["status"] == "pass" and "186 workbook address cells" in by["D13"]["note"]
+    # Issue #69: the CSV flag marks exactly F1's groups.
+    assert by["F3"]["status"] == "pass" and "FY2020 75 groups / 154 rows / 79 surplus" in by["F3"]["note"]
 
 
 def test_every_question_names_its_class_origin_and_independence():

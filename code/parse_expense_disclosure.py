@@ -27,7 +27,9 @@ Run it:
                                                        source/.../MANIFEST-HISTORY.csv
 
 Outputs (one folder per fiscal year, matching data/fyNN/<doctype>/fyNN_<name>.csv):
-  data/fyNN/expense_disclosure/fyNN_expense_awards.csv          one row per designation
+  data/fyNN/expense_disclosure/fyNN_expense_awards.csv          one row per published row
+                                                                 (exact copies kept, flagged
+                                                                 in duplicate_group)
   data/fyNN/expense_disclosure/fyNN_expense_reconciliation.txt  totals, printed totals,
                                                                  every stripped row
 """
@@ -157,7 +159,14 @@ OUT_FIELDS = [
     "fiscal_year", "mocs_id", "source", "council_member", "legal_name", "ein", "status",
     "status_norm", "amount", "agency", "program_name", "address1", "address2", "city", "state",
     "postal_code", "purpose", "fiscal_conduit", "fiscal_conduit_ein", "source_file", "source_row",
+    "duplicate_group",
 ]
+
+# Fields that identify a designation for the exact-copy flag (GitHub #69): every published field
+# except where the row sits (source_row) and what the parser derives from the others.
+DUPLICATE_KEY = ["mocs_id", "source", "council_member", "legal_name", "ein", "status",
+                 "amount", "agency", "program_name", "address1", "address2", "city", "state",
+                 "postal_code", "purpose", "fiscal_conduit", "fiscal_conduit_ein"]
 
 MANIFEST_FIELDS = ["file", "sha256", "bytes", "retrieved", "format", "sheet", "sheet_rows",
                    "award_rows", "stripped_rows", "total_amount"]
@@ -719,6 +728,13 @@ def reconciliation_text(awards, rep):
     L.append("")
     L.append(f"EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits "
              f"({len(rep.ein_padded)}): {list(rep.ein_padded) or 'none'}")
+    dup = duplicate_groups(awards)
+    by_rn = {a.source_row: a for a in awards}
+    extra = [rn for rn, g in dup.items() if rn != g]
+    L.append(f"Rows identical to another row in every field but source_row, kept and flagged in "
+             f"duplicate_group: {len(set(dup.values()))} group(s), {len(dup)} row(s); "
+             f"{len(extra)} beyond the first of each group, "
+             f"${_usd(sum((Decimal(by_rn[rn].amount_text) for rn in extra), Decimal(0)))}")
     if rep.header_note:
         L.append(f"notes: {rep.header_note}")
     return "\n".join(L) + "\n"
@@ -730,13 +746,36 @@ def out_dir(fy, data_dir=DATA_DIR):
     return os.path.join(data_dir, f"fy{fy % 100:02d}", "expense_disclosure")
 
 
+def duplicate_groups(awards):
+    """{source_row: group} for rows identical to another row of the SAME workbook in every
+    DUPLICATE_KEY field (GitHub #69). The group is the source_row of the group's first row, so
+    it reads as "same as row N" and is stable for a given workbook. Unique rows are absent.
+
+    Every row is kept: the workbooks print these repeats verbatim, and whether each is a real
+    second designation or a filing error cannot be told from the file. The flag lets a reader
+    see them and choose."""
+    groups = {}
+    for a in awards:
+        d = a._asdict()
+        d["amount"] = a.amount_text
+        groups.setdefault(tuple(d[f] for f in DUPLICATE_KEY), []).append(a.source_row)
+    out = {}
+    for rows in groups.values():
+        if len(rows) > 1:
+            for rn in rows:
+                out[rn] = min(rows)
+    return out
+
+
 def csv_text(awards):
     buf = io.StringIO()
     w = csv.writer(buf, lineterminator="\n")
     w.writerow(OUT_FIELDS)
+    dup = duplicate_groups(awards)
     for a in awards:
         d = a._asdict()
         d["amount"] = a.amount_text
+        d["duplicate_group"] = dup.get(a.source_row, "")
         w.writerow([d[f] for f in OUT_FIELDS])
     return buf.getvalue()
 

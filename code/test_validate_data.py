@@ -469,12 +469,12 @@ def test_dry_run_writes_no_file(tmp_path):
 # --------------------------------------------------- expense-disclosure dataset (check 9)
 DISC_HDR = ("fiscal_year,mocs_id,source,council_member,legal_name,ein,status,status_norm,amount,"
             "agency,program_name,address1,address2,city,state,postal_code,purpose,"
-            "fiscal_conduit,fiscal_conduit_ein,source_file,source_row")
+            "fiscal_conduit,fiscal_conduit_ein,source_file,source_row,duplicate_group")
 
 
-def _disc_row(fy="2026", status="Cleared", norm="cleared", src_row="2", ein="136400434"):
+def _disc_row(fy="2026", status="Cleared", norm="cleared", src_row="2", ein="136400434", dup=""):
     return (f"{fy},FY26 00001,Local,Doe,Acme Inc.,{ein},{status},{norm},5000,DYCD,,,,,,,,,,"
-            f"funded_disclosure_FY2026.xlsx,{src_row}\n")
+            f"funded_disclosure_FY2026.xlsx,{src_row},{dup}\n")
 
 
 def _disc_file(root, body):
@@ -531,6 +531,25 @@ def test_disclosure_excel_error_cells_are_text_issue_71(tmp_path):
     _disc_file(root2, _disc_row(ein="#N/A"))
     (r2,) = V.validate_tree(str(root2))[0]
     assert [c for c, _m in r2.hard] == ["ein"], r2.hard
+
+
+def test_disclosure_duplicate_group_must_name_a_real_group_issue_69(tmp_path):
+    """Issue #69. FAILS if a well-formed group (rows 2 and 3 both naming row 2) raises a hard
+    finding or is not counted, or if a group of one row, or a group naming a row that is not
+    itself in the group, passes."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row(src_row="2", dup="2") + _disc_row(src_row="3", dup="2")
+               + _disc_row(src_row="4"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.hard == [], r.hard
+    assert any(c == "duplicate_group" and "2 row(s) in 1 group(s)" in m for c, m in r.soft)
+    for body in (_disc_row(src_row="2", dup="2") + _disc_row(src_row="3"),
+                 _disc_row(src_row="2") + _disc_row(src_row="3", dup="2")
+                 + _disc_row(src_row="4", dup="2")):
+        root2 = tmp_path / f"bad{len(body)}"
+        _disc_file(root2, body)
+        (r2,) = V.validate_tree(str(root2))[0]
+        assert [c for c, _m in r2.hard] == ["duplicate_group"], r2.hard
 
 
 def test_disclosure_reconciliation_rollup_distinguishes_na_from_pass(tmp_path):
