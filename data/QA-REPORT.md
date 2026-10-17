@@ -4,7 +4,7 @@
 **Data current as of:** 2026-10-12 (files under `data/`)  
 **Tool:** `code/validate_data.py`
 
-**Verdict:** PASS — 289 files, 0 hard failure(s), 441 soft advisory(ies).
+**Verdict:** PASS — 289 files, 0 hard failure(s), 443 soft advisory(ies).
 
 Severity: HARD (exit 1) = schema drift, malformed row, non-numeric amount, or malformed EIN. SOFT (exit 0) = zeros, sign anomalies, outliers, duplicates, column-bleed residuals, coverage notes. See the module docstring for the full check list and rationale.
 
@@ -774,7 +774,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy13/transparency-resolutions/reso08_transparency_designations.csv` | 55 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['8', '2013-01-23', 'LocalInitiatives-Fiscal2013', '2013']... |
 | `fy13/transparency-resolutions/reso09_transparency_designations.csv` | 0 | 0% | 0 | — |
 | `fy13/transparency-resolutions/reso12_transparency_designations.csv` | 166 | 100% | 0 | fiscal_year: 48 prior-year row(s) embedded (EXPECTED for transparency; not an error); fiscal_year: 5 row(s) with empty fiscal_year |
-| `fy14/expense_disclosure/fy14_expense_awards.csv` | 6611 | 100% | 0 | — |
+| `fy14/expense_disclosure/fy14_expense_awards.csv` | 6611 | 100% | 0 | excel_error: 19 cell(s) hold an Excel error value, kept as published text (DATA-ANOMALIES §22): postal_code=#N/A x19 |
 | `fy14/schedule_c/fy14_schedule_c_initiatives.csv` | 123 | — | 0 | — |
 | `fy14/transparency-resolutions/fy14_transparency_all.csv` | 166 | 100% | 0 | fiscal_year: 10 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['1', '2014-04-29', 'CulturalAfterSchoolAdventure-Fiscal2014', '2014']... |
 | `fy14/transparency-resolutions/reso01_transparency_designations.csv` | 36 | 100% | 0 | fiscal_year: 6 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 1 duplicate row instance(s); e.g. x2: ['1', '2014-04-29', 'CulturalAfterSchoolAdventure-Fiscal2014', '2014']... |
@@ -821,7 +821,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy16/transparency-resolutions/reso11_transparency_designations.csv` | 88 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['11', '2016-03-22', 'NYC Digital Inclusion and Literacy Initiative - Fiscal 2016', '2016']... |
 | `fy16/transparency-resolutions/reso12_transparency_designations.csv` | 115 | 100% | 0 | fiscal_year: 12 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy16/transparency-resolutions/reso13_transparency_designations.csv` | 160 | 100% | 0 | fiscal_year: 4 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
-| `fy17/expense_disclosure/fy17_expense_awards.csv` | 8671 | 100% | 0 | — |
+| `fy17/expense_disclosure/fy17_expense_awards.csv` | 8671 | 100% | 0 | excel_error: 18 cell(s) hold an Excel error value, kept as published text (DATA-ANOMALIES §22): address1=#N/A x6, city=#N/A x6, postal_code=#N/A x6 |
 | `fy17/schedule_c/fy17_appendix_a_aging.csv` | 0 | 0% | 0 | — |
 | `fy17/schedule_c/fy17_appendix_b_local.csv` | 0 | 0% | 0 | — |
 | `fy17/schedule_c/fy17_appendix_c_youth.csv` | 0 | 0% | 0 | — |

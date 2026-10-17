@@ -515,6 +515,24 @@ def test_disclosure_year_and_provenance_are_hard(tmp_path):
     assert kinds == ["fiscal_year", "provenance", "provenance"], r.hard
 
 
+def test_disclosure_excel_error_cells_are_text_issue_71(tmp_path):
+    """Issue #71: '#N/A' cells are kept as published. FAILS if a '#N/A' postal_code (FY2014 row
+    43 holds one) raises a hard finding or is not counted as an Excel error kept as text, or if
+    a '#N/A' in the EIN column passes (an EIN must be 9 digits; an error value is not one)."""
+    root = tmp_path / "data"
+    row = _disc_row().split(",")
+    row[DISC_HDR.split(",").index("postal_code")] = "#N/A"
+    _disc_file(root, ",".join(row))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.hard == [], r.hard
+    notes = [m for c, m in r.soft if c == "excel_error"]
+    assert notes and "postal_code=#N/A x1" in notes[0], r.soft
+    root2 = tmp_path / "data2"
+    _disc_file(root2, _disc_row(ein="#N/A"))
+    (r2,) = V.validate_tree(str(root2))[0]
+    assert [c for c, _m in r2.hard] == ["ein"], r2.hard
+
+
 def test_disclosure_reconciliation_rollup_distinguishes_na_from_pass(tmp_path):
     """FAILS if a year with no printed total is reported as PASS (that would attribute our own
     sum to the Council), or if a mismatch is not FAIL."""

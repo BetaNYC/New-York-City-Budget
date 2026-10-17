@@ -113,9 +113,16 @@ hyphenated word or range, including the Queens house number `12-11 40th Avenue` 
 a `-` or `/` right beside the soft hyphen (`12-<SHY>11`, 169 address cells; `E<SHY>-waste`;
 `disposal/<SHY>destruction`) the soft hyphen is dropped instead, so no `--` is invented. One
 consequence of reading it literally: FY2018 row 6448 `purpose` reads `(e- waste)`, as the cell
-has it. Nothing else is rewritten: `#N/A` error
-cells, `New YorkNY`, 4-digit ZIPs and mojibake are kept as the workbook holds them
-(`data/DISCLOSURE-AUDIT.md`).
+has it. Nothing else is rewritten: `New YorkNY`, 4-digit ZIPs and mojibake are kept as the workbook
+holds them (`data/DISCLOSURE-AUDIT.md`).
+
+**Excel error cells are published as text (GitHub #71).** 37 cells hold the spreadsheet error
+value `#N/A` (FY2014 `postal_code` 19; FY2017 `address1`, `city` and `postal_code` 6 each, on the
+same 6 rows). The CSV carries the four characters `#N/A`, exactly as the workbook displays them:
+it is not a blank, not a ZIP and not a number, and nothing reads it as one (the validator counts
+such cells as `excel_error`; the MCP index keeps them as text and refuses one in an EIN column).
+Distinct from these, some cells hold the typed **text** `N/A`, `NA` or `na` (e.g. FY2013–FY2014
+addresses and ZIPs, three FY2014 `council_member` cells): also kept as published.
 
 **Not the same universe as the adopted Schedule C totals.** The workbook is a later snapshot of the
 same year, republished with in-year additions; FY2024 prints its own `Adoption Total`

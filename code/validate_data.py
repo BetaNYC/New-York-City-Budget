@@ -467,6 +467,11 @@ def check_file(path, surnames):
 
 
 DISCLOSURE_STATUS = {"cleared", "pending", "other"}
+# Excel error values. The disclosure keeps them as published TEXT (GitHub #71): 37 cells read
+# "#N/A" (FY2014 postal_code 19; FY2017 address1, city, postal_code 6 each). They are counted
+# here, never parsed as a number or a ZIP, never blanked. In a column that must hold a value
+# (ein, amount) they already fail the EIN / amount checks above.
+EXCEL_ERROR = re.compile(r"#(?:N/A|REF!|VALUE!|DIV/0!|NAME\?|NUM!|NULL!|SPILL!|CALC!|GETTING_DATA)")
 
 
 def _check_disclosure(res, body, header, idx):
@@ -480,9 +485,13 @@ def _check_disclosure(res, body, header, idx):
     if not all(c in idx for c in ("status", "status_norm", "fiscal_year", "source_row")):
         return  # schema check already failed hard; value checks would be noise
     bad_norm, bad_year, bad_row, seen, dup_rows = [], [], [], set(), []
+    errors = Counter()
     for ln, r in enumerate(body, start=2):
         if len(r) != len(header):
             continue
+        for col, v in zip(header, r):
+            if EXCEL_ERROR.fullmatch(v):
+                errors[(col, v)] += 1
         raw = r[idx["status"]].strip().lower()
         norm = r[idx["status_norm"]]
         expected = raw if raw in ("cleared", "pending") else "other"
@@ -513,6 +522,11 @@ def _check_disclosure(res, body, header, idx):
         ln, v = dup_rows[0]
         res.hard.append(("provenance", f"{len(dup_rows)} duplicate source_row value(s), "
                                        f"e.g. line {ln}: {v!r}"))
+    if errors:
+        res.soft.append(("excel_error", f"{sum(errors.values())} cell(s) hold an Excel error value, "
+                                        f"kept as published text (DATA-ANOMALIES §22): "
+                                        + ", ".join(f"{c}={v} x{n}" for (c, v), n in
+                                                    sorted(errors.items()))))
 
 
 def build_surname_set(files):

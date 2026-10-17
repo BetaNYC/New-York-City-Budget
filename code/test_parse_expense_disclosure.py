@@ -33,11 +33,18 @@ import parse_expense_disclosure as P  # noqa: E402
 SRC = P.SRC_DIR
 
 
+class XlError(str):
+    """A cell written as an Excel ERROR value (cell type t="e" in SpreadsheetML), e.g. #N/A."""
+
+
 def _xlsx(path, rows, sheet="FY99 (01-01-99)"):
-    """Write a minimal single-sheet .xlsx. Strings go inline, ints/floats as numeric cells."""
+    """Write a minimal single-sheet .xlsx. Strings go inline, ints/floats as numeric cells,
+    XlError values as error-typed cells."""
     def cell(ref, v):
         if v is None:
             return ""
+        if isinstance(v, XlError):
+            return f'<c r="{ref}" t="e"><v>{escape(v)}</v></c>'
         if isinstance(v, (int, float)):
             return f'<c r="{ref}"><v>{v}</v></c>'
         return f'<c r="{ref}" t="inlineStr"><is><t>{escape(v)}</t></is></c>'
@@ -191,6 +198,24 @@ def test_committed_csvs_hold_no_invisible_format_character():
     assert not bad, bad[:10]
 
 
+def test_committed_na_cells_are_kept_as_published_issue_71():
+    """Issue #71. Corpus pin, from the committed CSVs. FAILS if any of the 37 Excel '#N/A' error
+    cells is blanked, rewritten or dropped (FY2014 postal_code 19; FY2017 address1, city and
+    postal_code 6 each), or if '#N/A' appears in any other column."""
+    import collections
+    import csv as _csv
+    import glob
+    got = collections.Counter()
+    for f in glob.glob(os.path.join(P.DATA_DIR, "fy*", "expense_disclosure", "*_awards.csv")):
+        with open(f, newline="", encoding="utf-8") as fh:
+            for r in _csv.DictReader(fh):
+                for k, v in r.items():
+                    if v == "#N/A":
+                        got[(r["fiscal_year"], k)] += 1
+    assert dict(got) == {("2014", "postal_code"): 19, ("2017", "address1"): 6,
+                         ("2017", "city"): 6, ("2017", "postal_code"): 6}, dict(got)
+
+
 # ---------------------------------------------------------------- synthetic workbooks
 
 def test_synthetic_footer_is_stripped_and_listed(tmp_path):
@@ -212,6 +237,16 @@ def test_synthetic_footer_is_stripped_and_listed(tmp_path):
     assert rep.amount_by_status["cleared"] == 5000 and rep.amount_by_status["pending"] == \
         Decimal("2500.5")
     assert aw[1].ein == "010596502"        # text cell: leading zero kept, never re-padded
+
+
+def test_error_cell_is_published_as_its_text(tmp_path):
+    """Issue #71. FAILS if an error-typed cell (t="e", '#N/A') is blanked, read as a number, or
+    makes the row disappear: the row must be an award whose postal_code is the text '#N/A'."""
+    row = _row("Acme Inc.", "136400434", "Cleared", 5000)
+    row[HDR.index("Postal Code")] = XlError("#N/A")
+    p = _xlsx(tmp_path / "funded_disclosure_FY2099.xlsx", [HDR, row])
+    awards, rep = P.parse_year(str(p))
+    assert rep.n_awards == 1 and awards[0].postal_code == "#N/A", awards
 
 
 def test_unregistered_printed_total_is_a_stop(tmp_path):
