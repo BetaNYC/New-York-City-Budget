@@ -139,8 +139,8 @@ toolkit limitation.
   from absolute (`/data/...`, `/js/views`) to **relative** (`data/...`, `js/views`) on
   purpose: this viz lives in a `/viz` subfolder of a repo that *also* has a top-level
   `/data` tree, so an absolute `/data/` would collide with the repo's source CSVs.
-- **Regenerate the data:** `python3 viz/schedulec_cleanup.py` (writes
-  `viz/data/schedule_c.csv`). `--check` reconciles without writing; `--start/--end` change
+- **Regenerate the data (historical; the page is frozen as of 2026-10-16, so do not rerun
+  this):** `python3 viz/schedulec_cleanup.py` (writes `viz/data/schedule_c.csv`). `--check` reconciles without writing; `--start/--end` change
   the year range. Stdlib-only, no third-party deps.
 - **Tests:** `python3 viz/test_schedulec_cleanup.py` (dual-mode; also `pytest`-collectable).
 
