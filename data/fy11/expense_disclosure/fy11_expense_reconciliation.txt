@@ -27,5 +27,19 @@ Stripped rows (0):
 EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (3): [4554, 5044, 5117]
 Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 11 group(s), 23 row(s); 12 beyond the first of each group, $110,452.38
 NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: 3914 of 5420 rows (exact 3885, rounded_cents 29, rounded_dollars 0)
-Rows kept but flagged in row_flag (0), included in every total above: none
+Rows kept but flagged in row_flag (14), included in every total above:
+  row    679  no_grantee_ein 'CBO Training' $80,000
+  row   1776  no_grantee_ein 'Historic Harlem Parks Coalition' $5,000
+  row   4188  no_grantee_ein 'GED Training Program' $1,255,000
+  row   4313  no_grantee_ein 'Respect for All Anti-Bias Curriculum' $300,000
+  row   4349  no_grantee_ein 'Space Costs for Senior Centers' $1,500,000
+  row   4359  no_grantee_ein 'Transportation - Operating Costs' $2,000,000
+  row   4989  no_grantee_ein '1600 Sedgwick Avenue Tenant Association' $5,000
+  row   4994  no_grantee_ein 'Brownsville Community Baptist Church' $6,333.33
+  row   5026  no_grantee_ein 'End Times Pentecostal Church' $9,500
+  row   5032  no_grantee_ein 'Heavenly Vision Christian Center' $5,000
+  row   5055  no_grantee_ein "St. Margaret's Episcopal Church" $5,000
+  row   5058  no_grantee_ein 'St. Theresas' $5,000
+  row   5062  no_grantee_ein 'Voices of Hagar (St. Marks AME)' $5,000
+  row   5149  no_grantee_ein 'Marcus Garvey Senior Center' $28,500
 notes: no MOCS ID#; no Fiscal Year column (year taken from filename)

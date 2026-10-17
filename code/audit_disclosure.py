@@ -1809,11 +1809,13 @@ def q_not_an_award(ctx):
             if m.lower().endswith("not an award"):
                 want |= {ref(r) for r in ctx["csv_by_fy"].get(fy, [])
                          if r["ein"] == e and Decimal(r["amount"]) == a}
-    got = {ref(r) for r in ctx["csv"] if r.get("row_flag") == "not_an_award"}
+    def naa(r):  # row_flag can join several flags with ";" (no_grantee_ein, 2026-10-16)
+        return "not_an_award" in (r.get("row_flag") or "").split(";")
+    got = {ref(r) for r in ctx["csv"] if naa(r)}
     bad = [f"flagged, not Open Data's: {x}" for x in sorted(got - want)] + \
           [f"Open Data's, not flagged: {x}" for x in sorted(want - got)]
     bad += [f"{ref(r)}: EIN {r['ein']} address {r['address1']!r}" for r in ctx["csv"]
-            if r.get("row_flag") and (r["ein"] != CITY_EIN or r["address1"])]
+            if naa(r) and (r["ein"] != CITY_EIN or r["address1"])]
     return result("finding" if bad else "pass", len(bad), bad,
                   f"{len(got)} row(s) flagged: {sorted(got)}.")
 

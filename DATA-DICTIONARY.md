@@ -4,6 +4,15 @@ Every column in every CSV this repository produces, what it means, and how the f
 
 **Generated:** 2026-07-08. Covers FY2009–FY2027.
 
+> **2.0 (2026-10-14): PDF-derived files are retired.** The Schedule C (awards, initiatives,
+> appendices), Terms & Conditions, per-year §254 capital, transparency-resolution,
+> `data/combined/` and `data/recovered/` files below were extracted from the adopted-budget PDFs.
+> Their definitions stay here because the files stay in the repository as a historical record;
+> they are not served by `@betanyc/nyc-budget-mcp` 2.0 or shown on the Pages site, and should not
+> be cited as current. The MCP serves only `data/{year}/expense_disclosure/`,
+> `data/disclosure_years.csv` and `data/capital/` (`council_capital_awards.csv`,
+> `council_vs_omb_by_budget_line.csv`).
+
 ---
 
 ## Coverage at a glance
@@ -24,7 +33,7 @@ Not every document type exists (or is machine-readable) for every year. This mat
 
 **Separately, the Council's expense funding disclosure workbooks give an EIN-level award list for FY2009 and every year FY2011–FY2027** (`data/{year}/expense_disclosure/`, below). It is a parallel dataset from a different source and a later moment, not a fill for the Schedule C gaps in this table.
 
-"awards" = the `_awards.csv` file with per-organization EINs. **EIN-keyed analysis (and the budget MCP's award tools) is valid FY2015–FY2027.** FY2009–FY2014 are initiatives-only (no EIN) and are excluded from EIN-keyed tooling. See [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) for the full gap list.
+"awards" = the `_awards.csv` file with per-organization EINs. **EIN-keyed analysis of the Schedule C files is valid FY2015–FY2027.** FY2009–FY2014 are initiatives-only (no EIN). (The budget MCP's 1.x award tools served these files; 2.0 removed them and serves the disclosure instead.) See [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) for the full gap list.
 
 ---
 
@@ -99,73 +108,23 @@ Column names follow the disclosure's own fields, not the Schedule C vocabulary (
 | `source` | text | Funding stream as the Council names it: `Local`, `Youth`, `Aging`, `Speaker's Initiative`, or a named citywide initiative. |
 | `council_member` | text | Sponsor as printed. **The roster at the time the workbook was exported, not at adoption** — never a join key (see DATA-ANOMALIES §21). A substring of it blends people: `Levin` is in `Levine`, `Won` in `Wong`. |
 | `council_member_id` | text | **Derived** (GitHub #72): the Legistar person ID the printed name resolves to **for that fiscal year**, from `data/disclosure_council_member_crosswalk.csv`; blank unless `council_member_type` is `member` or `member_outside_fy`. `Levin` is 7567 (Stephen T. Levin), `Levine` 7634 (Mark Levine). Filter on this, not on the name, to mean one person. |
-| `council_member_type` | text | **Derived** (GitHub #72). `member` — exactly one Legistar person has the printed surname (and initial, if printed) and a recorded vote in that fiscal year. `member_outside_fy` — exactly one person has the name, but no vote that year: the export-time roster naming someone not yet or no longer in office (FY2025 `Wong`, FY2021 `Aviles`, FY2020 `D. Diaz`); the ID is given, the type says it is not that year's member. `ambiguous` — two people of that name voted that year (FY2014 and FY2022 `Barron`, FY2014 `Vallone`); no ID, never guessed. One such value is typed `member` by a recorded **file convention** instead: FY2021 bare `Diaz` is Ruben Diaz, Sr. (7744), because the same workbook prints Darma V. Diaz as `D. Diaz` (crosswalk `method` begins `file_convention`; see below). `unresolved` — no Legistar member has the name (`CC`, `NA`). `speaker`, `delegation` (borough delegations, bare borough names, `Brooklyn / Queens`), `citywide`, `district_label` (`CD19`, `CD28`), `blank`: not a person, no ID. |
-| `legal_name` | text | Grantee legal name. |
-| `ein` | text | Grantee EIN, **9 digits, no hyphen, leading zeros kept**. Blank on 52 rows where the Council left it blank (FY2009 25, FY2011 13, FY2012 8, FY2013 2, FY2014 3, FY2015 1). Four archived-year EINs are not 9 digits and are **kept as published**, never repaired: FY2009 `EX130314` (row 3075), `EX123557` (4366), `11-31735A` (4912), FY2011 `NA` (679); the validator lets exactly these four through. FY2011 and FY2012 numeric EIN cells that lost a leading zero are re-padded like FY2013's (3 and 147 rows, listed in each year's report). The FY2013 file prints 175 EINs as `NN-NNNNNNN` (hyphen removed here) and stores some as numbers, three of which lost a leading zero (re-padded; rows listed in the FY2013 report). Fiscal-sponsor caveat as above: filter on `ein` **and** `amount` or `program_name`, never `ein` alone. |
-| `status` | text | Clearance status **exactly as published**: `Cleared` / `Pending`, or `CLEARED` / `PENDING` (FY2018). |
-| `status_norm` | text | `cleared`, `pending`, or `other` (any status that is neither — none today). **Filter on this.** A year's headline figure is the `cleared` rows; adding `pending` makes a different, larger claim and should be labeled so. |
-| `amount` | number | Dollars. Integral amounts print with no decimal point. 281 rows carry fractions as published (e.g. `13881.76`), written as the shortest decimal that is the same stored value. |
-| `agency` | text | Implementing agency (DYCD, DFTA, …). |
-| `program_name` | text | Program/site, where given. |
-| `address1`, `address2`, `city`, `state`, `postal_code` | text | Grantee mailing address **as printed**. `postal_code` is never rewritten: it appears as 5 digits, ZIP+4, 4 digits (an Excel number that lost its leading zero, or a typo), `0`, `#N/A`, or text. Street addresses are not validated. |
-| `zip` | text | **Derived** (GitHub #70): the 5-digit ZIP read from `postal_code`, or blank. From `12345`, `12345-6789`, `12345 - 6789` or `123456789`, the first five digits; from a 4-digit value, `0` + it, **only** when `zip_status` is `padded`; from a ragged ZIP+4 (`11203-`, `11217-11217`, `11231=1020`, `11413 ZipCode2: 3929`), the first five digits, **only** when `zip_status` is `trimmed`; from a 6-digit value, the one 5-digit value a one-digit deletion gives, **only** when `zip_status` is `repaired_extra_digit`. Nothing else is guessed. |
-| `zip_status` | text | **Derived** (GitHub #70), checked against the Census Bureau's 2020 ZIP Code Tabulation Areas (`data/reference/zcta2020_states.csv`, from the file in `source/census-zcta/`): `valid` — a ZCTA, and in the row's state when the `state` cell names one (a USPS code in any case, a state name, or the `New YorkNY` run-together; boroughs, `N/A` and the like are not read, so 869 `valid` rows are checked for existence only); `state_mismatch` — a ZCTA lying wholly in other states (e.g. FY2013 rows 404–406, `11217` with state `NC`); `not_a_zcta` — a well-formed 5-digit ZIP that is not a 2020 ZCTA. **This means not verified, not fake:** ZCTAs are not every USPS ZIP, and PO-box-only or single-building ZIPs such as `10008` have no ZCTA; `padded` — 4 digits whose `0`-padded form is a ZCTA in the row's own state (Brookline MA `2446` → `02446`); `trimmed` — a ragged ZIP+4 whose first five digits are a ZCTA in the row's own state: five digits, then a separator, then digits. The separators are the three the workbooks print in any year: a hyphen followed by anything but exactly four digits (`11203-`, `10027-000`, `11217-11217`, `11102-20`), an equals sign (`11231=1020`), and the label `ZipCode2:` (`11413 ZipCode2: 3929`, `11233 ZipCode2: 150`); a row whose state cell names no state is not trimmed; `repaired_extra_digit` — 6 digits, and exactly one of the distinct values made by deleting one digit, at any position, is a ZCTA in the row's own state (`111691` → 11691, `115300` → 11530, `100665` → 10065); `ambiguous_extra_digit` — 6 digits, and two or more such deletions are in-state ZCTAs (`114345` → 11434 or 11435): no `zip`, the candidates in `zip_candidates`, none picked; a 6-digit value on a row that names no state is `invalid`; `invalid` — anything else: 4 digits that do not pad into an in-state ZCTA (Bronx `7083`: 07083 is in New Jersey; Hartford `6108` on a row whose state says New York), a ragged ZIP+4 that does not trim into an in-state ZCTA, 6 digits with no in-state deletion, a five-digit-led value with no ZIP+4 separator (`10310\``, `10465ww`, `10448448`), `0`, `#N/A`, `N/A`, a name or URL; `blank` — the cell is empty. `blank` stays its own value, apart from `invalid`: an empty cell is not a malformed ZIP. |
-| `zip_candidates` | text | **Derived** (GitHub #70), set only when `zip_status` is `ambiguous_extra_digit`: every in-state 2020 ZCTA a one-digit deletion of the 6-digit `postal_code` gives, sorted, `;`-separated (`11434;11435`). Blank on every other row. An address lookup (NYC Planning GeoSearch) could settle the New York ones later; not done (tracker #75). |
-| `purpose` | text | Purpose of funds (the header varies: "Purpose of Funds", "CM Purpose of Funds", "Purpose to be listed in Schedule C"). |
-| `fiscal_conduit`, `fiscal_conduit_ein` | text | Fiscal conduit, where named (FY2013–FY2018, plus one row each in FY2022 and FY2023). Kept as printed apart from the same hyphen/leading-zero EIN rules. |
-| `source_file` | text | Provenance: the workbook. |
-| `source_row` | int | Provenance: the 1-based sheet row, so any record can be found in the workbook. |
-| `duplicate_group` | int or blank | **Exact copies (GitHub #69).** Blank for a unique row. When the row is identical to another row of the same workbook in every published field (everything but `source_row`), the `source_row` of the first of them: a group's rows all carry the same number, and the first row carries its own. 662 rows in 321 groups, FY2013–FY2023 (per year in DATA-ANOMALIES §22 and each `{year}_expense_reconciliation.txt`). **Every copy is kept** and counted in every total: the workbooks print them, and whether each is a second designation or a filing error cannot be told from the file. To count each group once, keep rows where `duplicate_group` is blank or equals `source_row`. |
-| `row_flag` | text | **Decided by a person, recorded in code** (`ROW_FLAGS` in `code/parse_expense_disclosure.py`, GitHub #89 B13). Blank for nearly every row. `not_an_award`: the row is printed as a designation but is not a grant to an organization (a lump allocation to the City's own EIN with no address). **The row is kept and counted in every total**, as published; exclude it yourself when you mean "money to organizations". Each entry names the row's legal name and amount, and the build stops if the workbook no longer carries them. Two rows carry one: FY2009 rows 523 (`Borough President Discretionary Funding`, $533,000, DFTA) and 4092 (`Provider's Choice`, $1,200,000, ACS), both on the City's EIN with no address, which Open Data files under MOCS ID `FY09 Not an Award`. |
-
-All text cells are trimmed, with internal runs of whitespace (including line breaks and no-break
-spaces) collapsed to one space and invisible format characters (Unicode category Cf: zero-width
-space, left-to-right mark, BOM) removed, **except the soft hyphen (U+00AD), which becomes `-`**.
-In these workbooks a soft hyphen is a hyphen that lost its glyph, not a line-break hint: all 211
-cells holding one (185 `address1`, 1 `address2`, 25 `purpose`, no other field) read as a
-hyphenated word or range, including the Queens house number `12-11 40th Avenue` (FY2018 rows
-2796–2811), `after-school`, `ages 12-19`, `multi-media` (GitHub #68). Where the cell already prints
-a `-` or `/` right beside the soft hyphen (`12-<SHY>11`, 169 address cells; `E<SHY>-waste`;
-`disposal/<SHY>destruction`) the soft hyphen is dropped instead, so no `--` is invented. One
-consequence of reading it literally: FY2018 row 6448 `purpose` reads `(e- waste)`, as the cell
-has it. Nothing else is rewritten: `New YorkNY`, 4-digit ZIPs and mojibake are kept as the workbook
-holds them (`data/DISCLOSURE-AUDIT.md`).
-
-**Excel error cells are published as text (GitHub #71).** 37 cells hold the spreadsheet error
-value `#N/A` (FY2014 `postal_code` 19; FY2017 `address1`, `city` and `postal_code` 6 each, on the
-same 6 rows). The CSV carries the four characters `#N/A`, exactly as the workbook displays them:
-it is not a blank, not a ZIP and not a number, and nothing reads it as one (the validator counts
-such cells as `excel_error`; the MCP index keeps them as text and refuses one in an EIN column).
-Distinct from these, some cells hold the typed **text** `N/A`, `NA` or `na` (e.g. FY2013–FY2014
-addresses and ZIPs, three FY2014 `council_member` cells): also kept as published.
-
-**Not the same universe as the adopted Schedule C totals.** The workbook is a later snapshot of the
-same year, republished with in-year additions; FY2024 prints its own `Adoption Total`
-($527,096,000) beside its `New Total` ($527,971,414). Compare like with like.
-
-## `data/disclosure_council_member_crosswalk.csv` (GitHub #72)
-
-One row per (fiscal year, printed `council_member` value) in the expense disclosure: `fiscal_year,
-council_member, rows, council_member_type, council_member_id, legistar_full_name, method,
-evidence`. Built by `code/build_member_crosswalk.py` from the committed roster extract
-`data/reference/council_members_legistar.csv` (every Legistar person, with the fiscal years in
-which Legistar records a vote by them; provenance in `council_members_legistar_meta.csv`),
-itself extracted by `code/extract_council_roster.py` from the local Legistar index that BetaNYC's
-Council MCP (`@betanyc/nyc-council-mcp`) reads. No Legistar web API or Council website call.
-
-**Method.** Accent-, case- and space-insensitive surname match (an exact surname before a
-component of a hyphenated one, so `Viverito` reaches Mark-Viverito but `Powers` is not
-Brooks-Powers); a printed initial (`D. Diaz`, `Sanchez, J`) must match the first-name initial or
-Legistar's own initial prefix (`D. Diaz`); a person counts for a fiscal year only if Legistar
-records a vote by them in it. **Service is a set of years, not a span**: Charles Barron voted
-FY2004–FY2014 and FY2022–FY2024 and Inez Barron held the seat between.
-
-**Limits.** A fiscal year counts only if a vote was recorded in it, so a member sworn in or out
-within days of 1 July with no vote on one side is not counted there. People with no recorded
-vote (pre-2001 members, Public Advocates) are never candidates and are named in `evidence` when
-excluded. Votes run 2001 to the index's last indexing date; the unfinished part of FY2027 is not
-covered. The crosswalk says who a printed name **is**; the printed name is still the export-time
-roster, not proof of who made the designation.
+| `council_member_type` | text | **Derived** (GitHub #72). `member` — exactly one Legistar person has the printed surname (and initial, if printed) and a recorded vote in that fiscal year. `member_outside_fy` — exactly one person has the name, but no vote that year: the export-time roster naming someone not yet or no longer in office (FY2025 `Wong`, FY2021 `Aviles`, FY2020 `D. Diaz`); the ID is given, the type says it is not that year's member. `ambiguous` — two people of that name voted that year (FY2014 and FY2022 `Barron`, FY2014 `Vallone`); no ID, never guessed. One such value is typed `member` by a recorded **file convention** instead: FY2021 bare `Diaz` is Ruben Diaz, Sr. (7744), because the same workbook prints Darma V. Diaz as `D. Diaz` (crosswalk `method` begins `file_convention`; see below). `unresolved` — no Legistar member has the name: FY2014 `NA` and three multi-member values (`Barron & Eugene`, `Lappin, Koppell/Citywide`, a nine-member FY2011 list); 4 values, 56 rows. **Printed abbreviations** (`LABEL_CONVENTIONS`, 2026-10-16, decided by Marvin on the evidence,
+delegated by Noel Hidalgo). FY2009–FY2013 print `CC` where FY2014–FY2027 print `Speaker`, and no
+year prints both. The evidence is NYC Open Data `4d7f-74pe` (the full copy), joined to these rows
+on `od_mocs_id` = `mocs_id` and re-verified 2026-10-17: every `CC` row that pairs with an Open
+Data row is `Speaker` there, 895 of 895 (FY2009 224, FY2011 245, FY2012 219, FY2013 207; the
+other `CC` rows have no Open Data pair). The FY2010 Internet Archive workbook, which is not
+loaded, also prints `CC` (50 rows, never `Speaker`), consistent with FY2009–FY2013. So `CC` is
+typed `speaker`. FY2009 also prints the borough codes `BK`, `BX`, `MN`, `QN` beside `SI`
+(already read as Staten Island). Paired with Open Data they are `… Delegation` every time: `QN`
+37/37, `MN` 35/35, `SI` 23/23, `BK` 18/18, `BX` 13/13, with no paired row disagreeing. They are
+typed `delegation`. FY2009 prints both a code and the bare borough name in the same year (`BK`
+18 and `Brooklyn` 50), as it already did for `SI` / `Staten Island`; both are typed
+`delegation`. The printed value stays in `council_member`; `method` is
+`file_convention:CC=Speaker`, `file_convention:QN=Queens_Delegation`, and so on, and `evidence`
+carries the counts. The rule applies to the value in any year. The build stops if a year ever
+prints both `CC` and `Speaker`, or a code and that borough's spelled-out `… Delegation` (no year
+does; the bare name does not trip it). Multi-member values stay `unresolved`.
 
 **File conventions.** A value the method leaves `ambiguous` may be resolved only by a decision a
 person made and recorded in `FILE_CONVENTIONS` (`code/build_member_crosswalk.py`), applied to that
@@ -182,10 +141,12 @@ gone or resolves to someone else, or if the addresses stop pointing that way. (L
 holds a second `Ruben Diaz` record, 5267, with 2002 sponsorships and no recorded vote; it is
 never a candidate, and the FY2018-FY2022 record 7744 is the one used for FY2019-FY2021.)
 
-**Outcome (2026-10-12 data, conventions as of 2026-10-13):** 758 (year, name) pairs / 101,069
-rows `member` (one by file convention, 123 rows); 3 / 341 `member_outside_fy`; 3 / 189
-`ambiguous`; 2 / 243 `unresolved`; non-member labels: `speaker`
-6,190 rows, `delegation` 7,098, `citywide` 431, `district_label` 384, `blank` 23,611.
+**Outcome, all loaded years FY2009 and FY2011–FY2027 (conventions as of 2026-10-16), as
+(year, value) pairs / rows:** `member` 912 / 113,547 (one by file convention, 123 rows);
+`member_outside_fy` 3 / 341; `ambiguous` 3 / 189; `unresolved` 4 / 56 (was 12 / 1,196 before
+the printed-abbreviation rule); `speaker` 18 / 7,193; `delegation` 97 / 7,870; `citywide` 8 / 434;
+`district_label` 5 / 384; `blank` 18 / 26,530. 156,544 rows in all, the disclosure table's count.
+`python3 code/build_member_crosswalk.py` prints these.
 
 ## `data/{year}/terms/{year}_terms_and_conditions.csv`
 
@@ -324,3 +285,45 @@ on the rows, never a Council figure.
 | `row_flagged` | Rows with a `row_flag`. |
 | `early_snapshot` | `yes` for a workbook frozen while much of it was Pending and never revised (FY2009, FY2013): do not headline its Cleared total. |
 | `note` | Why a year is an early snapshot or not loaded, with its counts. |
+
+## `data/capital/` (Council capital, structured sources only)
+
+Built by `code/build_capital_council.py`; overview, sources per year and code meanings in
+[`data/capital/README.md`](data/capital/README.md). A separate dataset from the PDF-derived
+`data/{year}/capital/` files above.
+
+### `council_capital_awards.csv`
+
+| Column | Meaning |
+|--------|---------|
+| `report_year` | The Council's capital list the row comes from (the workbook's year, or t474's `Reported`). |
+| `amount_fy` | The fiscal year the amount is for: the report year, or an out-year. Blank only on a `split_record_amount_unknown` row. |
+| `project_id` | The Council's ID as printed (`E  CN459`, `E CN0001`, `CC0001`): unique within a year only, internal to budget negotiations, **not** an FMS project ID. Blank in FY2015 (none printed). |
+| `borough` | As printed: `K M Q R X`, `C` citywide; `A` and lower-case values are kept, meaning unconfirmed. |
+| `budget_line` | As printed (`P  D018`, `PW-DN846`). Blank in FY2016 (none printed). FY2015's comes from its "Project" column, which holds budget lines. |
+| `budget_line_norm` | **Derived:** agency code, one space, line (`P D018`); blank when `budget_line` has no budget-line shape. The join key to OMB. |
+| `council_district` | As printed: a comma list of district numbers and codes (00 Speaker, 88–99; `data/capital/README.md`). **Unusable for t474 years**: Open Data collapsed the lists into one number. |
+| `sponsor` | As printed: member surnames, delegations, caucuses, "Technical Adjustments", "Admin". |
+| `title`, `description` | As printed. t474's FY2019 `title` often names the organization. |
+| `amount` | Dollars, as printed; negative on some technical adjustments; blank only on a flagged split record. |
+| `source_kind` | `council_workbook` or `open_data_t474`. |
+| `source_file`, `source_row` | The workbook and its 1-based sheet row, or the t474 file and the row's SODA `:id`. |
+| `row_flag` | `split_record_amount_unknown`: a t474 record broken across rows whose amount the Council's own files cannot prove (data/capital/RECONCILIATION.md §2). Blank otherwise. |
+
+### `omb_capital_budget_council_lines.csv` and `omb_commitment_plan_council_lines.csv`
+
+OMB's rows on Council-series budget lines (the line part starts with `D`), every release, values
+as served. Capital Budget (`46m8-77gv`): `pub_date`, `release` (`adopted` for the last release of
+each first fiscal year, published in July every year 2018–2026), `proj_type`, `budget_line`,
+`budget_line_norm`, `budget_line_title`, `funding` (C City non-exempt, E City exempt, F federal,
+S state, P private), `yr1_fy`, `year1_amt`…`year4_amt` (**dollars**; year N is `yr1_fy` + N − 1,
+per OMB's data dictionary), `source_row` (`:id`). Commitment Plan (`2cmn-uidm`): the same idea
+with `funding` CITY / NON CITY, `num_yrs_prsnt`, and `year1_amt_k`…`year5_amt_k` in
+**thousands of dollars**.
+
+### `council_vs_omb_by_budget_line.csv`
+
+`report_year`, `budget_line_norm`, `omb_pub_date` (the adopted release used), `council_rows`,
+`council_y1` / `omb_y1` (the report year), `council_y2` / `omb_y2` (the next year), `verdict`:
+`match` (both years equal to the dollar), `differ`, `council_only`, `omb_only`. OMB amounts are
+summed over funding sources. This repo's arithmetic, not a Council or OMB figure.

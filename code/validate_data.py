@@ -149,6 +149,14 @@ TYPES = {
               "purpose", "fiscal_conduit", "fiscal_conduit_ein", "source_file", "source_row",
               "duplicate_group", "row_flag"],
         ein="ein", amounts=["amount"], rule="positive", year_col="fiscal_year"),
+    "council_capital": dict(
+        # data/capital/council_capital_awards.csv (#89 A6), built by
+        # code/build_capital_council.py. Amounts are checked in _check_capital(): they may be
+        # negative (technical adjustments) and are blank only on a flagged split record.
+        cols=["report_year", "amount_fy", "project_id", "borough", "budget_line",
+              "budget_line_norm", "council_district", "sponsor", "title", "description",
+              "amount", "source_kind", "source_file", "source_row", "row_flag"],
+        ein=None, amounts=[], rule=None, year_col=None),
     "capital": dict(
         cols=["part", "agency", "budget_line", "sub_id", "boro", "fy1", "fy2", "fy3",
               "fy4", "sponsor", "title", "building_code", "school_code"],
@@ -209,6 +217,8 @@ def detect_type(path):
         return "recovered_appendix"
     if b == "schedule_c_absorbed_awards.csv":
         return "recovered_awards"
+    if b == "council_capital_awards.csv":
+        return "council_capital"
     if b.endswith("_capital_projects.csv"):
         return "capital"
     if b.endswith("_expense_awards.csv"):
@@ -425,6 +435,8 @@ def check_file(path, surnames):
 
     if typ == "expense_disclosure":
         _check_disclosure(res, body, header, idx)
+    if typ == "council_capital":
+        _check_capital(res, body, header, idx)
 
     # roll per-row tallies into findings
     if bad_eins:
@@ -496,8 +508,11 @@ MEMBER_TYPES = {"member", "member_outside_fy", "ambiguous", "unresolved", "speak
                 "citywide", "district_label", "blank"}
 MEMBER_ID_TYPES = {"member", "member_outside_fy"}
 # GitHub #89 B13: row_flag marks a row kept as published that a person decided is not a grant
-# to an organization (parse_expense_disclosure.ROW_FLAGS). Blank, or one of these values.
-ROW_FLAG_VALUES = {"not_an_award"}
+# to an organization (parse_expense_disclosure.ROW_FLAGS). no_grantee_ein (2026-10-16) is a rule:
+# exactly the rows whose ein is blank or "NA". Blank, or one or more of these joined by ";".
+ROW_FLAG_VALUES = {"not_an_award", "no_grantee_ein"}
+ROW_FLAG_ORDER = ["not_an_award", "no_grantee_ein"]  # decided flags first, then rule flags
+NO_GRANTEE_EIN_VALUES = {"", "NA"}
 # GitHub #70: zip / zip_status are derived from postal_code + state (code/zcta_states.py). A
 # status with a value carries a 5-digit zip taken from the published postal_code (or, padded,
 # '0' + it; trimmed, the first five digits of a ragged ZIP+4 such as '11203-' or '11231=1020';
@@ -535,6 +550,50 @@ def _zip_fits(postal, zv, zs, cands):
 EXCEL_ERROR = re.compile(r"#(?:N/A|REF!|VALUE!|DIV/0!|NAME\?|NUM!|NULL!|SPILL!|CALC!|GETTING_DATA)")
 
 
+CAPITAL_SOURCES = {"council_workbook", "open_data_t474"}
+CAPITAL_FLAGS = {"split_record_amount_unknown"}
+_CAP_LINE = re.compile(r"([A-Z]{1,2})[\s-]+([A-Z0-9]+)")
+
+
+def _check_capital(res, body, header, idx):
+    """HARD checks for data/capital/council_capital_awards.csv (#89 A6):
+      - report_year and amount_fy are 4-digit years, amount_fy >= report_year (out-years only
+        look forward), except that a flagged split record has neither amount nor amount_fy;
+      - amount is a number, blank exactly on a split_record_amount_unknown row;
+      - source_kind and row_flag are from their closed sets;
+      - budget_line_norm is the published budget_line re-spelled ('P  D018' -> 'P D018'), or
+        blank when the line has no recognizable shape, written here from the documented rule."""
+    if not all(c in idx for c in ("report_year", "amount_fy", "amount", "source_kind", "row_flag",
+                                  "budget_line", "budget_line_norm")):
+        return
+    bad = Counter()
+    first = {}
+    for ln, r in enumerate(body, start=2):
+        if len(r) != len(header):
+            continue
+        ry, fy, amt = r[idx["report_year"]], r[idx["amount_fy"]], r[idx["amount"]]
+        flag, kind = r[idx["row_flag"]], r[idx["source_kind"]]
+        if flag not in CAPITAL_FLAGS | {""} or kind not in CAPITAL_SOURCES:
+            bad["vocabulary"] += 1
+            first.setdefault("vocabulary", ln)
+        if flag == "split_record_amount_unknown":
+            if amt or fy:
+                bad["split_record"] += 1
+                first.setdefault("split_record", ln)
+        else:
+            ok = re.fullmatch(r"20\d\d", ry) and re.fullmatch(r"20\d\d", fy) and int(fy) >= int(ry)
+            if not ok or amt == "" or parse_amount(amt)[1] is False:
+                bad["years_or_amount"] += 1
+                first.setdefault("years_or_amount", ln)
+        m = _CAP_LINE.fullmatch(" ".join(r[idx["budget_line"]].upper().split()))
+        want = f"{m.group(1)} {m.group(2)}" if m else ""
+        if r[idx["budget_line_norm"]] != want:
+            bad["budget_line_norm"] += 1
+            first.setdefault("budget_line_norm", ln)
+    for k, n in sorted(bad.items()):
+        res.hard.append(("council_capital", f"{n} row(s) fail the {k} rule, e.g. line {first[k]}"))
+
+
 def _check_disclosure(res, body, header, idx):
     """HARD checks specific to the expense-disclosure CSVs. Each guards a property the rest of
     the pipeline relies on without re-checking it:
@@ -551,7 +610,7 @@ def _check_disclosure(res, body, header, idx):
         return  # schema check already failed hard; value checks would be noise
     bad_norm, bad_year, bad_row, seen, dup_rows = [], [], [], set(), []
     groups, row_group = Counter(), {}
-    bad_zip, bad_member, bad_flag, bad_od = [], [], [], []
+    bad_zip, bad_member, bad_flag, bad_od, bad_noein = [], [], [], [], []
     od_rows = 0
     flags = Counter()
     errors = Counter()
@@ -581,10 +640,16 @@ def _check_disclosure(res, body, header, idx):
                     or not (fy.isdigit() and 2009 <= int(fy) <= 2021):
                 bad_od.append((ln, oid, om))
         fl = r[idx["row_flag"]]
-        if fl:
-            flags[fl] += 1
-            if fl not in ROW_FLAG_VALUES:
-                bad_flag.append((ln, fl))
+        parts = fl.split(";") if fl else []
+        for part in parts:
+            flags[part] += 1
+        # Known flags only, none repeated, decided flags (not_an_award) before rule flags.
+        if fl and (any(x not in ROW_FLAG_VALUES for x in parts) or len(set(parts)) != len(parts)
+                   or parts != sorted(parts, key=ROW_FLAG_ORDER.index)):
+            bad_flag.append((ln, fl))
+        if "ein" in idx and (("no_grantee_ein" in parts)
+                             != (r[idx["ein"]].strip().upper() in NO_GRANTEE_EIN_VALUES)):
+            bad_noein.append((ln, r[idx["ein"]], fl))
         zs, zv = r[idx["zip_status"]], r[idx["zip"]]
         if not _zip_fits(r[idx["postal_code"]], zv, zs, r[idx["zip_candidates"]]):
             bad_zip.append((ln, r[idx["postal_code"]], zv, zs))
@@ -645,6 +710,11 @@ def _check_disclosure(res, body, header, idx):
         ln, v = bad_flag[0]
         res.hard.append(("row_flag", (f"{len(bad_flag)} row(s) with an unknown row_flag, e.g. "
                                       f"line {ln}: {v!r} (allowed: {sorted(ROW_FLAG_VALUES)})")))
+    if bad_noein:
+        ln, e, fl = bad_noein[0]
+        res.hard.append(("row_flag", (f"{len(bad_noein)} row(s) where no_grantee_ein does not match "
+                                      f"a blank or 'NA' ein, e.g. line {ln}: ein {e!r}, "
+                                      f"row_flag {fl!r}")))
     if flags:
         res.soft.append(("row_flag", "rows kept as published but flagged: "
                                      + ", ".join(f"{k} x{n}" for k, n in sorted(flags.items()))))

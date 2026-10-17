@@ -86,7 +86,7 @@ EXCLUDED = {
     2010: ("files/20250212200137/funded_disclosure_FY2010.xls",
            ("not loaded: the Council's workbook ({rows:,} rows, ${total}) is incomplete against "
             "NYC Open Data 4d7f-74pe (5,981 rows, $357,820,611); both archived copies (2016-12, "
-            "2025-02) are identical. Never mixed with Open Data; revisit when it is known which "
+            "2025-02) are content-identical (different files, same rows). Never mixed with Open Data; revisit when it is known which "
             "is complete (#89 A3).")),
 }
 # Years whose workbook is an early snapshot: frozen while much of it was still Pending, so its
@@ -243,7 +243,17 @@ OUT_FIELDS = [
 #                 EIN with no address, and NYC Open Data 4d7f-74pe carries the same two rows
 #                 under the MOCS ID "FY09 Not an Award" (the only rows with that ID). Decided:
 #                 flag, never drop (Noel Hidalgo, 2026-10-14, #89 B13).
-ROW_FLAG_VALUES = ("not_an_award",)
+#   no_grantee_ein  A RULE, not a per-row decision: the row prints no grantee EIN (a blank cell,
+#                 or the text "NA"). 53 rows, FY2009-FY2015. The largest by dollars name a City
+#                 program ("School Budget Restoration", "NYCHA Community Services", SYEP), so City
+#                 programs are most of the money; most of the rows by count are small community
+#                 organizations.
+#                 No other year carries an EIN for these names, so none is ever inferred, and the
+#                 rows are not sorted into program vs. unknown by hand (#89 B, 2026-10-16).
+# A row can carry more than one flag; row_flag joins them with ";" (decided flags first).
+ROW_FLAG_VALUES = ("not_an_award", "no_grantee_ein")
+ROW_FLAG_SEP = ";"
+NO_GRANTEE_EIN_VALUES = ("", "NA")
 ROW_FLAGS = {
     (2009, "funded_disclosure_FY2009.xls", 523): {
         "flag": "not_an_award", "legal_name": "Borough President Discretionary Funding",
@@ -918,7 +928,7 @@ def reconciliation_text(awards, rep):
         L.append(f"NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: "
                  f"{len(od)} of {len(awards)} rows (exact {tiers['exact']}, rounded_cents "
                  f"{tiers['rounded_cents']}, rounded_dollars {tiers['rounded_dollars']})")
-    flagged = row_flags(awards)
+    flagged = all_row_flags(awards)
     L.append(f"Rows kept but flagged in row_flag ({len(flagged)}), included in every total above"
              + (":" if flagged else ": none"))
     for rn, flag in sorted(flagged.items()):
@@ -1109,6 +1119,24 @@ def row_flags(awards, flags=None):
     return out
 
 
+def rule_flags(a):
+    """Flags that follow from a row's own printed values, applied to every row (see
+    ROW_FLAG_VALUES): today only no_grantee_ein."""
+    return ["no_grantee_ein"] if (a.ein or "").strip().upper() in NO_GRANTEE_EIN_VALUES else []
+
+
+def all_row_flags(awards, flags=None):
+    """{source_row: 'flag[;flag]'}: the decided ROW_FLAGS for this workbook, then the rule flags,
+    appended, never replacing a decided flag."""
+    decided = row_flags(awards, flags)
+    out = {}
+    for a in awards:
+        fl = ([decided[a.source_row]] if a.source_row in decided else []) + rule_flags(a)
+        if fl:
+            out[a.source_row] = ROW_FLAG_SEP.join(fl)
+    return out
+
+
 def csv_text(awards):
     """The per-year CSV. `postal_code` is the cell as published; `zip`, `zip_status` and
     `zip_candidates` are derived from it and the row's `state` against the Census 2020 ZCTA list
@@ -1117,7 +1145,7 @@ def csv_text(awards):
     w = csv.writer(buf, lineterminator="\n")
     w.writerow(OUT_FIELDS)
     dup = duplicate_groups(awards)
-    flagged = row_flags(awards)
+    flagged = all_row_flags(awards)
     od = od_matches_for(awards)
     z = _zctas()
     for a in awards:
@@ -1282,7 +1310,7 @@ def years_rows(results, manifest=None, wb_manifest=None):
     for awards, rep in results:
         fy = rep.fiscal_year
         row = {"fiscal_year": fy, "loaded": "yes", **base(fy, ARCHIVED.get(fy), rep.source_file),
-               **counts(awards, rep), "row_flagged": len(row_flags(awards)),
+               **counts(awards, rep), "row_flagged": len(all_row_flags(awards)),
                "early_snapshot": "yes" if fy in EARLY_SNAPSHOT else "",
                "note": early_snapshot_note(awards, rep) if fy in EARLY_SNAPSHOT else ""}
         out.append(row)

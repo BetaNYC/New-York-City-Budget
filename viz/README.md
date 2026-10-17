@@ -1,46 +1,53 @@
-# `viz/` — NYC Council Discretionary (Schedule C) Funding visualization
+# `viz/` — the GitHub Pages site (Schedule C explorer frozen in 2.0)
 
-An interactive, static visualization of NYC Council discretionary (Schedule C) funding,
-**FY2015–FY2027**, built directly on the reconciled CSVs in this repo's `data/` tree — no
-live API, no re-parsing of PDFs. FY2027 reconciles to **$655,764,999**.
+**Since 2.0.0 the site root is a retirement notice.** The interactive Schedule C explorer that
+used to be the root is built on figures extracted from the Council's adopted-budget PDFs, and
+BetaNYC no longer stands behind that extraction. It stays online, unchanged apart from a
+"frozen, do not cite" banner, at `legacy.html`, so existing links still resolve; `index.html` explains the
+retirement, states the 2.0 coverage gaps, points to the structured datasets and the MCP, and
+offers a link into the retired copy when someone arrives with an old `#…` deep link.
 
-**Prototype.** See [`PLAN.md`](PLAN.md) for the full design, the two-axis mapping, the
-reconciliation gate, and an honest account of where the data does and does not fit the
-model.
+**`legacy.html` is frozen as of 2026-10-16.** It stays published, but its data
+(`data/schedule_c.csv`) gets no further updates and no build step regenerates it. Do not rerun
+`schedulec_cleanup.py` to refresh it.
 
-## Run it locally
+**Why retire rather than rebuild.** A rebuild on the structured data (the Council's disclosure
+spreadsheets and capital lists) means deciding what the site should show, which totals are
+headlines, how to present early-snapshot years and FY2010, and that is an editorial decision
+for a separate change. Retiring the PDF-derived view is the smallest change that stops the site
+presenting those figures as current.
 
-```bash
-# 1. (Re)generate the cleaned CSV the site consumes
-python3 viz/schedulec_cleanup.py          # writes viz/data/schedule_c.csv
-python3 viz/schedulec_cleanup.py --check   # reconcile only, don't write
-
-# 2. Serve from inside viz/ (paths are relative; see PLAN.md §6)
-cd viz && python3 -m http.server 8802
-# open http://localhost:8802/
-```
-
-## Tests
-
-```bash
-python3 viz/test_schedulec_cleanup.py     # standalone, no deps
-# or: pytest viz/test_schedulec_cleanup.py
-```
-
-Guards: the FY2027 = $655,764,999 reconciliation gate, both-axes-sum-to-the-same-total,
-per-category totals matching the source, the CSV column contract the JS depends on, no
-blank numeric cells, and the Itemized ≤ Adopted invariant.
+Deployed by `.github/workflows/deploy-viz.yml` on a push to `main` that touches `viz/**`.
 
 ## Files
 
 | Path | What |
 |---|---|
-| `schedulec_cleanup.py` | Transforms `data/{year}/schedule_c/*.csv` → `data/schedule_c.csv` (the look-at-cook cleaned-CSV format). Stdlib only. |
-| `test_schedulec_cleanup.py` | Regression tests (dual-mode: standalone or pytest). |
-| `data/schedule_c.csv` | Generated wide CSV the site loads (1,273 leaf rows). |
-| `index.html`, `js/`, `css/`, `lib/`, `fonts/`, `images/` | The look-at-cook static site (config + labels adapted for Schedule C). |
-| `PLAN.md` | Design, mapping, risks, semantic mismatches. |
-| `LICENSE.md` | DataMade's MIT license for the look-at-cook toolkit (retained verbatim). |
+| `index.html` | The retirement notice. Self-contained: no stylesheet or script file, one inline script that only fills the deep link. |
+| `legacy.html` | The retired look-at-cook explorer (was `index.html`), frozen 2026-10-16, with a "frozen, do not cite" banner, `noindex`, and a breadcrumb that points at itself. |
+| `test_pages_site.py` | Tests for both pages (stdlib only; `python3 viz/test_pages_site.py` or pytest). |
+| `schedulec_cleanup.py` | Builds `data/schedule_c.csv`, the retired explorer's data, from the PDF-derived `data/{year}/schedule_c/*.csv`. Kept so the legacy page's data stays reproducible; not rerun, since the page is frozen. |
+| `test_schedulec_cleanup.py` | Its regression tests: still meaningful for the legacy page (the reconciliation gate, axis totals, the column contract the JS reads). |
+| `data/schedule_c.csv` | The retired explorer's data (PDF-derived). |
+| `js/`, `css/`, `lib/`, `fonts/`, `images/` | The look-at-cook toolkit the legacy page uses. |
+| `PLAN.md` | The original design notes for the explorer (historical). |
+| `LICENSE.md` | DataMade's MIT license for look-at-cook (retained verbatim). |
+
+## Run it locally
+
+```bash
+cd viz && python3 -m http.server 8802
+# http://localhost:8802/            the notice
+# http://localhost:8802/legacy.html the retired explorer
+```
+
+## Tests
+
+```bash
+python3 viz/test_pages_site.py
+python3 viz/test_schedulec_cleanup.py
+python3 viz/schedulec_cleanup.py --check
+```
 
 ## About BetaNYC
 
@@ -66,14 +73,14 @@ If you build something with this project, we'd love to hear about it. We can hel
 
 See the full suite of BetaNYC's civic-data tools at **[beta.nyc/ai-tools](https://beta.nyc/ai-tools)**.
 
-This Schedule C visualization shares its toolkit (DataMade's [Look at Cook](https://github.com/datamade/look-at-cook)) with BetaNYC's citywide budget explorer, **[nyc-budget-viz](https://github.com/BetaNYC/nyc-budget-viz)** — a multi-year visualization of NYC's full **expense budget** (~$114B, every agency, adopted vs. modified), FY2017–FY2027, from NYC Open Data. This repo's `viz/` covers **Council discretionary** funding (~$656M); that one covers the citywide total.
+The retired Schedule C explorer shares its toolkit (DataMade's [Look at Cook](https://github.com/datamade/look-at-cook)) with BetaNYC's citywide budget explorer, **[nyc-budget-viz](https://github.com/BetaNYC/nyc-budget-viz)** — a multi-year visualization of NYC's full **expense budget** (~$114B, every agency, adopted vs. modified), FY2017–FY2027, from NYC Open Data. That one covers the citywide total.
 
 ## Attribution
 
-This visualization is built on **[look-at-cook](https://github.com/datamade/look-at-cook)**
+The retired explorer (`legacy.html`) is built on **[look-at-cook](https://github.com/datamade/look-at-cook)**
 by **[DataMade](https://datamade.us)** (Derek Eder, Nick Rougeux) and **Open City**,
 released under the MIT License (see `LICENSE.md`, retained verbatim). Adapted for NYC
 Council Schedule C funding by **[BetaNYC](https://beta.nyc)**.
 
-The visualized data is the reconciled derived data in this repository (MIT, repo `LICENSE`);
-the underlying source documents are © the City of New York.
+Its data is the PDF-derived Schedule C data in this repository, retired in 2.0.0; the
+underlying source documents are © the City of New York.

@@ -28,5 +28,7 @@ Stripped rows (0):
 EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (3): [15, 1449, 1644]
 Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 9 group(s), 20 row(s); 11 beyond the first of each group, $178,875
 NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: 3249 of 4987 rows (exact 3195, rounded_cents 0, rounded_dollars 54)
-Rows kept but flagged in row_flag (0), included in every total above: none
+Rows kept but flagged in row_flag (2), included in every total above:
+  row   2077  no_grantee_ein 'Friends of Vesuvio Playground' $3,500
+  row   4806  no_grantee_ein 'Harlem River Houses' $3,500
 notes: no MOCS ID#; no Fiscal Year column (year taken from filename)

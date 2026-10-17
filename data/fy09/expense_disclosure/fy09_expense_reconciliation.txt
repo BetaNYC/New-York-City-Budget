@@ -29,7 +29,32 @@ Stripped rows (0):
 EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (0): none
 Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 97 group(s), 373 row(s); 276 beyond the first of each group, $2,512,897.68
 NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: 4081 of 5745 rows (exact 3953, rounded_cents 128, rounded_dollars 0)
-Rows kept but flagged in row_flag (2), included in every total above:
+Rows kept but flagged in row_flag (27), included in every total above:
+  row     41  no_grantee_ein '115th Precinct Explorers Post 2115' $2,000
+  row    401  no_grantee_ein 'Beacon Opening Fees' $3,000,000
+  row    474  no_grantee_ein 'Bethlehem SDA French Church' $5,000
   row    523  not_an_award   'Borough President Discretionary Funding' $533,000
+  row   1440  no_grantee_ein 'Connolley Dance Studio' $5,000
+  row   1482  no_grantee_ein 'Cortelyou Road Merchants Association' $6,000
+  row   1790  no_grantee_ein 'ELL Incentive Grants' $2,000,000
+  row   1846  no_grantee_ein 'Executive Leadership Institute (CSA)' $300,000
+  row   2056  no_grantee_ein 'Friends of the Narrows Senior Center' $1,000
+  row   2409  no_grantee_ein 'Hillcrest Senior Center' $4,000
+  row   2418  no_grantee_ein 'Historic Harlem Parks Coalition' $6,000
+  row   2792  no_grantee_ein 'Joint Public Affairs Committee for Older Adults (JPAC)' $3,500
+  row   2931  no_grantee_ein 'Learning Life, Law Enforcement Explorer Post 2061' $4,000
+  row   3256  no_grantee_ein 'Middle School Reform Incentive Grants' $3,000,000
+  row   3760  no_grantee_ein 'Newkirk Area Merchants Association' $4,000
+  row   3840  no_grantee_ein 'NYCHA Community Services' $18,000,000
   row   4092  not_an_award   "Provider's Choice" $1,200,000
+  row   4228  no_grantee_ein 'Queens Educational Opportunity Center - SUNY' $65,000
+  row   4670  no_grantee_ein 'School Budget Restoration' $120,000,000
+  row   4735  no_grantee_ein 'Senior Olympics of Staten Island' $3,500
+  row   4736  no_grantee_ein 'Senior Olympics of Staten Island' $5,000
+  row   4902  no_grantee_ein 'Spotlight Players' $5,000
+  row   4951  no_grantee_ein 'St. George Episcopal Senior Program' $3,000
+  row   5019  no_grantee_ein 'St. Nicholas Preservation Corporation' $160,000
+  row   5168  no_grantee_ein 'Summer Youth Employment Program' $6,600,000
+  row   5173  no_grantee_ein 'Sunday and Holiday Collection' $1,400,000
+  row   5504  no_grantee_ein 'Warren Jacques Memorial Committee' $3,000
 notes: no MOCS ID#; no Fiscal Year column (year taken from filename)
