@@ -24,6 +24,7 @@ import {
   listDisclosureSnapshots,
   normEin,
   DISCLOSURE_STATUSES,
+  ZIP_STATUSES,
   type AwardRow,
   type DisclosureResult,
   type DisclosureRow,
@@ -54,9 +55,31 @@ const DISCLOSURE_FOOTER = `
 ---
 Source: the NYC Council Research & Data division's expense funding disclosure workbooks (https://rnd.council.nyc.gov/expense_funding/), FY2013–FY2027, as downloaded on the retrieval date shown per year; parsed by BetaNYC (code/parse_expense_disclosure.py in https://github.com/BetaNYC/New-York-City-Budget). Amounts are the workbook's own. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`.trim();
 
-/** One line, always present: the three ways this source is commonly misread. */
+/** One line, always present: the ways this source is commonly misread. */
 const DISCLOSURE_CAVEAT =
-  "Caveat: council_member is the Council's roster when the workbook was exported, not necessarily the member who sponsored the designation; the disclosure includes designations made after adoption, so it is not the adopted Schedule C (use search_awards for that); status is a moment — Pending rows clear over time, so the Cleared figure is the headline.";
+  "Caveat: council_member is the Council's roster when the workbook was exported, not necessarily the member who sponsored the designation; the disclosure includes designations made after adoption, so it is not the adopted Schedule C (use search_awards for that); status is a moment — Pending rows clear over time, so the Cleared figure is the headline; the address is the grantee's mailing address as printed, not where services were delivered.";
+
+/** #70: what each zip_status says about the derived zip, shown after it on every row. */
+const ZIP_STATUS_NOTE: Record<string, string> = {
+  valid: "a 2020 Census ZCTA",
+  padded: "leading zero restored; in-state 2020 ZCTA",
+  trimmed: "first five digits of a ragged ZIP+4; in-state 2020 ZCTA",
+  not_a_zcta: "not a 2020 ZCTA: not verified, not fake (PO-box ZIPs have none)",
+  state_mismatch: "a 2020 ZCTA in another state than the row's",
+  invalid: "no ZIP could be read from the cell",
+  blank: "no ZIP printed",
+};
+
+/** The grantee mailing address as printed, then the derived zip and its status. */
+function addressLine(r: DisclosureRow): string {
+  const street = [r.address1, r.address2, r.city].filter((x) => x && x.trim() !== "").join(", ");
+  const tail = [r.state, r.postal_code].filter((x) => x && x.trim() !== "").join(" ");
+  const printed = [street, tail].filter((x) => x !== "").join(", ") || "(none printed)";
+  return (
+    `\n    grantee mailing address: ${printed}` +
+    ` · zip ${r.zip || "—"} (${r.zip_status}: ${ZIP_STATUS_NOTE[r.zip_status] ?? "unknown status"})`
+  );
+}
 
 /** Dollars, rounded to cents for display (disclosure amounts and their sums can be fractional). */
 const usd = (n: number): string => {
@@ -92,6 +115,7 @@ function disclosureRowLine(r: DisclosureRow): string {
     (r.source ? ` · source: ${r.source}` : "") +
     (r.agency ? ` · agency: ${r.agency}` : "") +
     (r.program_name ? `\n    program: ${r.program_name}` : "") +
+    addressLine(r) +
     (r.fiscal_conduit
       ? `\n    fiscal conduit: ${r.fiscal_conduit}${r.fiscal_conduit_ein ? ` (EIN ${r.fiscal_conduit_ein})` : ""}`
       : "") +
@@ -329,7 +353,7 @@ export const TOOLS = [
   },
   {
     name: "search_disclosure_awards",
-    description: `Search the NYC Council's expense funding disclosure — the Council's own award-level list of discretionary expense designations, FY2013–FY2027 (one row per published row — exact copies are kept and flagged — with clearance status, funding stream, agency and, from FY2024, a MOCS ID). A DIFFERENT source from search_awards / get_awards_by_ein: those serve the ADOPTED Schedule C; this is a later snapshot that includes designations made after adoption, and its council_member is the roster when the workbook was exported. Every row is returned whatever its status unless you filter on status; the response gives the TRUE number of matching rows and totals over all of them (Cleared — the headline — and Pending separately), even when the rows shown are limited, plus the date each year's workbook was downloaded. Filter by any combination of fiscal_year, ein, legal_name, council_member (substring) or council_member_id (exact Legistar person ID — 'Levin' and 'Levine' are different people), source (substring) or source_exact, agency, program_name, status, min_amount, max_amount. Rows come highest amount first. Purpose text and grantee addresses are not served; each row gives its workbook row number in the source repo.`,
+    description: `Search the NYC Council's expense funding disclosure — the Council's own award-level list of discretionary expense designations, FY2013–FY2027 (one row per published row — exact copies are kept and flagged — with clearance status, funding stream, agency and, from FY2024, a MOCS ID). A DIFFERENT source from search_awards / get_awards_by_ein: those serve the ADOPTED Schedule C; this is a later snapshot that includes designations made after adoption, and its council_member is the roster when the workbook was exported. Every row is returned whatever its status unless you filter on status; the response gives the TRUE number of matching rows and totals over all of them (Cleared — the headline — and Pending separately), even when the rows shown are limited, plus the date each year's workbook was downloaded. Filter by any combination of fiscal_year, ein, legal_name, council_member (substring) or council_member_id (exact Legistar person ID — 'Levin' and 'Levine' are different people), source (substring) or source_exact, agency, program_name, zip (exact 5-digit ZIP), zip_status, city (exact), status, min_amount, max_amount. Rows come highest amount first. Each row shows the grantee's MAILING address as printed (not where services were delivered) with the 5-digit zip derived from it and its zip_status. Purpose text is not served; each row gives its workbook row number in the source repo.`,
     inputSchema: {
       type: "object",
       properties: {
@@ -354,6 +378,19 @@ export const TOOLS = [
         },
         agency: { type: "string", description: "City agency (substring), e.g. DYCD" },
         program_name: { type: "string", description: "Program name (substring)" },
+        zip: {
+          type: "string",
+          description: "Grantee mailing ZIP, exactly 5 digits (anything else is an error). Matches the 5-digit zip derived from the published postal_code (ZIP+4 read to its first five; a 4-digit ZIP padded, or a ragged ZIP+4 trimmed, only into a 2020 ZCTA of the row's own state). Rows whose zip_status is invalid or blank have no zip and never match. A mailing address, not where services were delivered.",
+        },
+        zip_status: {
+          type: "string",
+          enum: [...ZIP_STATUSES],
+          description: "How the zip was read, checked against the Census 2020 ZCTAs: valid, padded (leading zero restored), trimmed (ragged ZIP+4 such as '11203-'), not_a_zcta (not verified, not fake: PO-box ZIPs have no ZCTA), state_mismatch, invalid (no ZIP readable), blank (none printed).",
+        },
+        city: {
+          type: "string",
+          description: "Grantee mailing city, exact match ignoring case and surrounding whitespace, as printed: 'brooklyn' matches 'Brooklyn' and 'BROOKLYN', but not the cells printed 'Brooklyn,' or 'Brooklyn NY', and 'Bronx' does not match 'The Bronx'; 'New York' is how most Manhattan rows print. Not a borough or district filter.",
+        },
         status: {
           type: "string",
           enum: [...DISCLOSURE_STATUSES],
@@ -405,6 +442,8 @@ const ALIAS_HINTS: Record<string, { targets: string[]; why: string; whyByTool?: 
   organization: { targets: ["legal_name"], why: "the disclosure names the grantee field legal_name" },
   program: { targets: ["program_name"], why: "the disclosure names the program field program_name" },
   status_norm: { targets: ["status"], why: "status takes the normalized value (cleared / pending / other)" },
+  postal_code: { targets: ["zip"], why: "zip is the 5-digit ZIP derived from the published postal_code" },
+  zip_code: { targets: ["zip"], why: "the ZIP filter is named zip" },
 };
 
 /**
@@ -649,11 +688,26 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             source_exact: z.string().optional(),
             agency: z.string().optional(),
             program_name: z.string().optional(),
+            zip: z.string().optional(),
+            zip_status: z.enum(ZIP_STATUSES).optional(),
+            city: z.string().optional(),
             status: z.enum(DISCLOSURE_STATUSES).optional(),
             min_amount: z.number().optional(),
             max_amount: z.number().optional(),
             limit: z.number().int().optional(),
           }).strict(), args);
+        // #70: a ZIP is 5 digits. A ZIP+4 or a 4-digit value is refused, never trimmed or padded
+        // here: the dataset's own zip already did that where the Census table allowed it.
+        if (a.zip != null && !/^\d{5}$/.test(a.zip.trim()))
+          return {
+            content: [{ type: "text", text: `Error: zip must be exactly 5 digits; got ${JSON.stringify(a.zip)}.` + (/^\d{5}\D/.test(a.zip.trim()) ? ` For a ZIP+4, give its first five digits ("${a.zip.trim().slice(0, 5)}").` : "") }],
+            isError: true,
+          };
+        if (a.city != null && a.city.trim() === "")
+          return {
+            content: [{ type: "text", text: "Error: city is empty; omit it, or give the city as printed (e.g. 'Brooklyn')." }],
+            isError: true,
+          };
         // An EIN is 9 digits. A value with no digits ("N/A") used to normalize to "" and match
         // the 6 blank-EIN rows; an 8-digit value (a leading zero lost in a spreadsheet) matched
         // nothing while its 9-digit form has rows. Both are refused, never guessed at.

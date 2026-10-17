@@ -51,6 +51,24 @@ below before comparing a figure with one published from 1.3.x.
   fiscal-year-first sort, removing the limit, EIN and multi-value guards, and truncating amounts
   in the SQL sum each fail at least one test.
 
+- **Grantee addresses, and filters on them** (2026-10-13). Each `search_disclosure_awards` row
+  now shows the grantee's mailing address as printed (`address1`, `address2`, `city`, `state`,
+  `postal_code`) with the derived 5-digit `zip` and its `zip_status` (`valid`, `padded`,
+  `trimmed`, `not_a_zcta`, `state_mismatch`, `invalid`, `blank`; rules in DATA-DICTIONARY). New
+  filters: `zip` (exactly 5 digits, on the derived zip; a ZIP+4 or 4-digit value is an error
+  that names the five digits to use, never trimmed or padded by the tool), `zip_status` (one of
+  the seven), and `city` (exact, case- and surrounding-whitespace-insensitive; not a substring,
+  so `Brooklyn,` and `Brooklyn NY` as printed are different values). Alias hints:
+  `postal_code` and `zip_code` → `zip`. The caveat line now says the address is a mailing
+  address, not where services were delivered. The index build stops on a `zip_status` outside
+  the seven or a `zip` that does not fit its status.
+- `test/disclosure.test.js` +5 tests (every row's address, zip and zip_status indexed exactly as
+  the CSV has them; zip / zip_status / city filters; the row's address line). Audit question M13
+  in `test/disclosure-audit.test.js` (zip totals exact to the cent; every zip_status count).
+  Mutation-checked: filtering `postal_code` instead of `zip`, a substring or case-sensitive
+  `city`, dropping the `zip_status` filter or the 5-digit guard, dropping the address line,
+  rewriting `postal_code` in the index, and blanking trimmed zips each fail at least one test.
+
 ### Fixed (found by the disclosure audit before release)
 - **`ein` must be 9 digits.** `ein: "N/A"` normalized to `""` and matched the 6 rows with a blank
   EIN; an 8-digit EIN (a leading zero lost in a spreadsheet) silently matched nothing while its
@@ -88,10 +106,12 @@ below before comparing a figure with one published from 1.3.x.
   silent blank.
 
 ### Changed
-- `npm pack`: **9.3 MB → 15.6 MB** packed, 36.1 MB → 59.4 MB unpacked (`data/budget.db`). The
-  disclosure table is 18.7 MB plus 4.5 MB of indexes. To hold it there, `purpose` (26 MB of the
-  CSVs' 52 MB), grantee addresses and `source_file` are **not indexed**; each row gives its
-  workbook row number in the repo CSV instead.
+- `npm pack`: **9.3 MB → 14.9 MB** packed, 36.1 MB → 67.6 MB unpacked (`data/budget.db`).
+  `purpose` (26 MB of the CSVs' 52 MB) and `source_file` are **not indexed**; each row gives its
+  workbook row number in the repo CSV instead. Grantee addresses were left out at first (15.7 MB
+  packed, 61.2 MB unpacked); adding them cost 1.4 MB packed (17.1 MB), and the index build now
+  ends with `VACUUM`, which removes the free and part-filled pages that row-by-row inserts
+  leave, for 14.9 MB packed with the addresses. Same rows, same answers.
 - `package-lock.json` synced to 1.5.0 (it was missed on 1.3.0 and 1.3.1).
 
 

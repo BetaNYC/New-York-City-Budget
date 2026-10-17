@@ -438,7 +438,7 @@ def test_every_question_names_its_class_origin_and_independence():
         assert q["defect_class"] and q["method"], q["id"]
         assert q["origin"] in ("harvested", "new"), q["id"]
         assert q["independent"] in ("yes", "partial", "circular"), q["id"]
-    assert {m[0] for m in A.MCP_QUESTIONS} == {f"M{i}" for i in range(1, 13)}
+    assert {m[0] for m in A.MCP_QUESTIONS} == {f"M{i}" for i in range(1, 14)}
     # FAILS on the 3.11/3.14 split: 3.13+ dedents docstrings, 3.11 keeps the indentation, and
     # the committed report must be byte-identical on both ends of the range.
     assert all("  " not in q["method"] for q in A.QUESTIONS)

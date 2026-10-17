@@ -55,7 +55,7 @@ The tools do **not** pretend data exists where it doesn't: FY2009–FY2014 award
 | `get_legistar_link` | Legistar matter #, adoption date, and a working link to the adopting City Council session for a source document (surfaces `status`) |
 | `search_capital_projects` | §254 capital by agency / fiscal year / sponsor / title |
 | `get_terms_conditions` | Reporting mandates by fiscal year / agency |
-| `search_disclosure_awards` | The Council's expense funding disclosure, FY2013–FY2027, by fiscal year / EIN / legal name / council member (substring) or **`council_member_id`** (exact Legistar person ID: `Levin` 7567 and `Levine` 7634 never blend) / source (substring) or **`source_exact`** / agency / program / status / amount range. Reports the true match count, Cleared (headline) and Pending totals over **all** matches, and each year's snapshot date |
+| `search_disclosure_awards` | The Council's expense funding disclosure, FY2013–FY2027, by fiscal year / EIN / legal name / council member (substring) or **`council_member_id`** (exact Legistar person ID: `Levin` 7567 and `Levine` 7634 never blend) / source (substring) or **`source_exact`** / agency / program / grantee **`zip`** (exact 5-digit) / **`zip_status`** / **`city`** (exact) / status / amount range. Each row shows the grantee's mailing address as printed, its derived zip and zip_status. Reports the true match count, Cleared (headline) and Pending totals over **all** matches, and each year's snapshot date |
 | `list_available_fiscal_years` | What each dataset actually covers (the parse-gap guard). Unchanged in v1.5.0: it does not list the disclosure, whose coverage `search_disclosure_awards` states itself |
 
 ### Unknown parameters are rejected, not ignored
@@ -71,7 +71,10 @@ The award tools serve the **adopted** Schedule C. The disclosure is the Council'
 - the **true number of matching rows** and the totals over all of them, whatever `limit` shows (default 50, max 500, highest amount first) — a short page always says "Showing N of M";
 - **Cleared** (the headline) and **Pending** totals separately, plus an all-statuses line labeled as not a headline figure; every status is returned unless you pass `status`;
 - the **snapshot** of each fiscal year it draws on: file, sheet (the Council stamps its own "last updated" date there, e.g. `FY26 (09-14-26)`), retrieval date and sha256 prefix, from `source/expense-funding-disclosure/MANIFEST.csv`;
+- each row's grantee **mailing address** as printed (`address1`, `address2`, `city`, `state`, `postal_code`, never rewritten) with the 5-digit `zip` derived from it and its `zip_status` (`valid` / `padded` / `trimmed` / `not_a_zcta` / `state_mismatch` / `invalid` / `blank`, checked against the Census 2020 ZCTAs; rules in [`../DATA-DICTIONARY.md`](../DATA-DICTIONARY.md)). It is where the grantee gets mail, **not where services were delivered**;
 - a one-line **caveat** and its own source footer.
+
+**Address filters.** `zip` is exact and 5 digits only: it matches the derived zip, so the `11203-` rows (zip `11203`, `trimmed`) and a Brookline `2446` (zip `02446`, `padded`) are found under their ZIP; a ZIP+4 or a 4-digit value is an error, never trimmed or padded by the tool. Rows whose `zip_status` is `invalid` or `blank` have no zip and never match. `zip_status` takes one of the seven values. `city` is exact, ignoring case and surrounding whitespace: `brooklyn` matches `Brooklyn` and `BROOKLYN`, not the cells printed `Brooklyn,` or `Brooklyn NY`; it is not a borough or district filter.
 
 Example — `search_disclosure_awards({ ein: "13-3179546", fiscal_year: 2026, limit: 2 })` (Food Bank For New York City):
 
@@ -89,6 +92,7 @@ Snapshot (which download each year comes from):
 Rows:
 FY2026 · FY26 08060 · $1,000,000 · Cleared · (no member) → Food Bank For New York City (EIN 133179546) · source: Food Pantries · agency: DYCD
     program: School Pantries
+    grantee mailing address: 39 Broadway, 10th Flr, New York, NY 10006 · zip 10006 (valid: a 2020 Census ZCTA)
     workbook row 7688
 …
 ```

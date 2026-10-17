@@ -396,3 +396,98 @@ test("source_exact matches one stream; source still matches by substring (#72)",
   const empty = await call({ source_exact: " " });
   assert.equal(empty.isError, true);
 });
+
+// ---------------------------------------------------------------- grantee addresses, zip (1.5.0)
+
+test("every row's address, postal_code, zip and zip_status are indexed exactly as the CSV has them", () => {
+  // FAILS if the index drops, trims or alters any address field, the published postal_code, the
+  // derived zip or its status, for any of the 139,556 rows.
+  const db = new Database(DB_PATH, { readonly: true });
+  try {
+    const got = new Map(
+      db
+        .prepare(
+          `SELECT fiscal_year, source_row, address1, address2, city, state, postal_code, zip, zip_status FROM disclosure`
+        )
+        .all()
+        .map((g) => [`${g.fiscal_year}:${g.source_row}`, g])
+    );
+    const rows = allRows();
+    assert.equal(got.size, rows.length);
+    for (const r of rows) {
+      const g = got.get(`${r.fiscal_year}:${r.source_row}`);
+      assert.ok(g, `FY${r.fiscal_year} row ${r.source_row} missing`);
+      for (const k of ["address1", "address2", "city", "state", "postal_code", "zip", "zip_status"])
+        assert.equal(g[k], r[k], `FY${r.fiscal_year} row ${r.source_row} ${k}`);
+    }
+  } finally {
+    db.close();
+  }
+});
+
+test("zip is an exact 5-digit filter on the derived zip, trimmed rows included", async () => {
+  // FAILS if zip matches by substring or on postal_code instead of the derived zip (the 24
+  // '11203-' rows have postal_code '11203-' and zip 11203), if its count or Cleared total differs
+  // from the CSV rows carrying that zip, or if a ZIP+4 / 4-digit / text value is accepted.
+  const rows = allRows();
+  const mine = rows.filter((r) => r.zip === "11203");
+  assert.ok(mine.some((r) => r.zip_status === "trimmed" && r.postal_code === "11203-"));
+  const res = await call({ zip: " 11203 ", limit: 1 });
+  assert.equal(res.isError, false);
+  assert.ok(res.text.startsWith(`${mine.length.toLocaleString("en-US")} matching designation(s)`), res.text.slice(0, 80));
+  assert.ok(res.text.includes(`Cleared (headline): ${byStatus(mine, "cleared").length.toLocaleString("en-US")} row(s), ${usd(sum(byStatus(mine, "cleared")))}`));
+  const plus4 = await call({ zip: "11203-1234" });
+  assert.equal(plus4.isError, true);
+  assert.match(plus4.text, /exactly 5 digits.*give its first five digits \("11203"\)/s);
+  for (const bad of ["1120", "112030", "Brooklyn", ""]) {
+    const r = await call({ zip: bad });
+    assert.equal(r.isError, true, bad);
+  }
+  const alias = await call({ postal_code: "11203" });
+  assert.equal(alias.isError, true);
+  assert.match(alias.text, /Use `zip` instead of `postal_code`/);
+});
+
+test("zip_status filters one status; the trimmed rows are the 32 ragged ZIP+4s", async () => {
+  // FAILS if zip_status is not an exact filter, if the trimmed count is not the CSV's, or if a
+  // status outside the documented seven is accepted.
+  const rows = allRows();
+  for (const st of ["trimmed", "invalid", "blank"]) {
+    const mine = rows.filter((r) => r.zip_status === st);
+    const res = await call({ zip_status: st, limit: 1 });
+    assert.ok(res.text.startsWith(`${mine.length.toLocaleString("en-US")} matching designation(s)`), `${st}: ${res.text.slice(0, 80)}`);
+  }
+  assert.equal(rows.filter((r) => r.zip_status === "trimmed").length, 32);
+  const bad = await call({ zip_status: "ok" });
+  assert.equal(bad.isError, true);
+});
+
+test("city is exact and case-insensitive, never a substring", async () => {
+  // FAILS if city matches by substring ('Brooklyn' would then include 'Brooklyn,' and 'Brooklyn
+  // NY'), is case-sensitive, or its count differs from the CSV; or if an empty city is accepted.
+  const rows = allRows();
+  const exact = rows.filter((r) => r.city.trim().toLowerCase() === "brooklyn");
+  const loose = rows.filter((r) => r.city.toLowerCase().includes("brooklyn"));
+  assert.ok(loose.length > exact.length && exact.some((r) => r.city === "BROOKLYN"));
+  const res = await call({ city: " brooklyn ", limit: 1 });
+  assert.ok(res.text.startsWith(`${exact.length.toLocaleString("en-US")} matching designation(s)`), res.text.slice(0, 80));
+  const empty = await call({ city: "  " });
+  assert.equal(empty.isError, true);
+});
+
+test("each row shows the grantee mailing address as printed, its zip and zip_status", async () => {
+  // FAILS if a row's address line is missing, if the published postal_code is replaced by the
+  // derived zip, if the zip_status is not named, or if the caveat stops saying the address is a
+  // mailing address, not where services were delivered.
+  const r = allRows().find((x) => x.zip_status === "trimmed" && x.address1 && x.city);
+  const res = await call({ fiscal_year: Number(r.fiscal_year), legal_name: r.legal_name, limit: 500 });
+  const want =
+    `grantee mailing address: ${[r.address1, r.address2, r.city].filter(Boolean).join(", ")}, ${r.state} ${r.postal_code}` +
+    ` · zip ${r.zip} (trimmed: first five digits of a ragged ZIP+4`;
+  assert.ok(res.text.includes(want), `${want}\n---\n${res.text}`);
+  assert.match(res.text, /mailing address as printed, not where services were delivered/);
+  const blank = allRows().find((x) => x.zip_status === "blank" && !x.address1 && !x.address2 && !x.city && !x.state);
+  assert.ok(blank, "the CSVs hold rows with no address at all");
+  const b = await call({ fiscal_year: Number(blank.fiscal_year), legal_name: blank.legal_name, zip_status: "blank", limit: 500 });
+  assert.match(b.text, /grantee mailing address: \(none printed\) · zip — \(blank: no ZIP printed\)/);
+});
