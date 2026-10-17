@@ -69,8 +69,8 @@ workbook had changed). Because they are already tabular, they need no PDF text e
 
 They complement the parsed Schedule C data in two ways: they reach **two years further back**
 (FY2013–FY2014) and they carry fields the PDFs do not expose cleanly — a **MOCS ID#** (the
-Mayor's Office of Contract Services key, present FY2024+, joins to registered contracts and
-Checkbook spending), the grantee **EIN** and full **mailing address** (geocodable to council
+Mayor's Office of Contract Services identifier, present FY2024+; not stable across snapshots, and
+its join to registered contracts and Checkbook spending is unverified), the grantee **EIN** and full **mailing address** (geocodable to council
 district), and a **Cleared/Pending** clearance status. In effect they are the live continuation of
 NYC Open Data's **City Council Discretionary Funding** dataset (`4d7f-74pe`), which stopped updating
 in April 2021. Provenance, per-file manifest, schema (16/17/18-column evolution), and data-quality
@@ -105,6 +105,7 @@ One row per designation, **FY2013–FY2027**, from the Council's expense funding
 - **Only FY2024 prints a total of its own, and it reconciles to the dollar** ($527,971,414). FY2026 printed one ($716,213,155) in the 2026-07-15 snapshot; the 2026-10-12 workbook dropped those footer rows, and its rows still sum to $716,213,155, which its reconciliation report shows as an earlier-snapshot figure, not as the workbook's own. No other workbook prints a total, so no other year's sum is a Council figure. Each year's `{year}_expense_reconciliation.txt` lists every footer row that was stripped (5 across 15 years).
 - **It is not the adopted Schedule C.** It is a later snapshot of the same year, with in-year additions, and its `council_member` is the roster at export time. Join it to the Schedule C award files on `(ein, amount)` within a year, never on `ein` alone and never on the member.
 - **How much of it the Schedule C award files cover**, per year, stream and status, joined on `(ein, amount)`: [`data/DISCLOSURE-COVERAGE.md`](data/DISCLOSURE-COVERAGE.md) and `data/disclosure_schedule_c_coverage.csv` (built by `code/reconcile_disclosure_schedule_c.py`).
+- **Audited against the questions the Schedule C audits asked**, plus spreadsheet-specific ones, by an independent second reader of the workbooks (openpyxl, not the parser): [`data/DISCLOSURE-AUDIT.md`](data/DISCLOSURE-AUDIT.md), built by `code/audit_disclosure.py` (`--write` / `--check`), with `code/test_audit_disclosure.py`. Every CSV cell equals its workbook cell; what the Council published oddly (repeated rows, `#N/A` cells, 4-digit ZIPs, truncated stream names) is listed there, not silently fixed.
 - **When the Council republishes a workbook**, `code/diff_disclosure_snapshots.py` reports what moved (Pending → Cleared, amount changes, re-numbered MOCS IDs, added/removed rows, totals by status). The reports for each re-pull are committed under `data/disclosure-snapshots/<retrieval date>/`; the first is [`2026-10-12`](data/disclosure-snapshots/2026-10-12/). Re-pulling needs explicit approval each time; the procedure is in [`source/expense-funding-disclosure/README.md`](source/expense-funding-disclosure/README.md).
 - `source_file` + `source_row` point at the exact workbook row. Built by `code/parse_expense_disclosure.py --write`; the FY2013 `.xls` needs `xlrd`. Details: [`DATA-DICTIONARY.md`](DATA-DICTIONARY.md), [`code/PARSING.md`](code/PARSING.md).
 

@@ -133,6 +133,30 @@ def test_clean_keeps_no_break_space_as_a_separator():
     assert P._clean("Line one\nline  two ") == "Line one line two"
 
 
+def test_clean_deletes_every_invisible_format_character():
+    """FAILS if a soft hyphen (U+00AD, 213 cells: FY2018 row 2796 '12<SHY>11 40th Avenue'), a
+    left-to-right mark (U+200E, FY2015 row 3174 purpose) or a BOM survives into the CSV, or if a
+    visible hyphen is touched."""
+    assert P._clean("12\xad11 40th Avenue") == "1211 40th Avenue"
+    assert P._clean("after\xadschool") == "afterschool"
+    assert P._clean("\u200eProgram\ufeff") == "Program"
+    assert P._clean("12-11 40th Avenue") == "12-11 40th Avenue"
+
+
+def test_committed_csvs_hold_no_invisible_format_character():
+    """Corpus pin. FAILS if any committed disclosure CSV cell holds a Unicode Cf character
+    (the 2026-10-12 red-team found 213 soft hyphens and 2 LRMs the docs said were removed)."""
+    import glob
+    import unicodedata
+    bad = []
+    for f in glob.glob(os.path.join(P.DATA_DIR, "fy*", "expense_disclosure", "*_awards.csv")):
+        with open(f, encoding="utf-8") as fh:
+            for i, line in enumerate(fh, 1):
+                if any(unicodedata.category(ch) == "Cf" for ch in line):
+                    bad.append(f"{os.path.basename(f)}:{i}")
+    assert not bad, bad[:10]
+
+
 # ---------------------------------------------------------------- synthetic workbooks
 
 def test_synthetic_footer_is_stripped_and_listed(tmp_path):

@@ -404,13 +404,40 @@ in the Schedule C files moved. What a reader needs to know before using it:
   → Cleared and 84 went back (`data/disclosure-snapshots/2026-10-12/FY2027-diff.md`). The FY2013
   file is 95% Pending by dollars. Every row is kept; headline figures are Cleared only and labeled.
 - **`council_member` is the roster when the workbook was exported**, not at adoption (§21). Do
-  not join on it. The 2026-10-12 re-pull shows it moving on rows whose MOCS ID did not: 149
-  FY2025 rows changed from `Holden` to `Wong` and 159 FY2026 rows from `Bottcher` to `Wilson`.
-- **A MOCS ID can change for the same designation.** In the 2026-10-12 FY2026 workbook, 129 rows
-  carry `FY26GP NNNNN` where the 2026-07-15 one had `FY26 NNNNN` (same number, every other field
-  identical); the workbook does not say what `GP` means. One FY2027 row was re-issued under a new
-  number (`FY27 06029` → `FY27 10413`), and two FY2027 IDs (`FY27 06102`, `FY27 06103`, Green
-  Beetz) now carry a different EIN. Key across snapshots on MOCS ID with care.
+  not join on it. The 2026-10-12 re-pull shows it moving: 149 FY2025 rows changed from `Holden`
+  to `Wong`, and 161 FY2026 rows from `Bottcher` to `Wilson` (159 whose MOCS ID did not change,
+  plus 2 that were also re-numbered, below). The snapshot diff never keys on it.
+- **A MOCS ID is not a stable key across snapshots, and nothing published says it is one.** In
+  the 2026-10-12 FY2026 workbook, 131 rows carry `FY26GP NNNNN` where the 2026-07-15 one had
+  `FY26 NNNNN` (same number; on 129 every other field is identical, on 2 -- `FY26 00144`
+  Alzheimer's Foundation $5,000 and `FY26 06277` Living Arts Collaborative $20,000 -- the member
+  also moved `Bottcher` → `Wilson`); the workbook does not say what `GP` means. One FY2027 row
+  was re-issued under a new number (`FY27 06029` → `FY27 10413`), two FY2027 IDs (`FY27 06102`,
+  `FY27 06103`, Green Beetz) now carry a different EIN, and 24 FY2027 removed/added pairs share
+  EIN, amount and legal name under a new MOCS ID with a different agency, stream or member
+  (listed as "Likely re-issued" in `data/disclosure-snapshots/2026-10-12/FY2027-diff.md`; 2 in
+  FY2026). IDs ascend with sheet order, which reads as a per-workbook sequence. Whether a MOCS ID
+  joins to a registered contract is **unverified**. Key across snapshots on it with care.
+- **321 groups of rows (341 surplus rows, $8,549,772) are identical in every published field
+  except `source_row`**, FY2013–FY2023, verbatim in the workbooks (`data/DISCLOSURE-AUDIT.md`
+  F1). The dataset says "one row per designation", which these may or may not be: a member can
+  designate the same amount to the same grantee twice. From FY2024, 142 more groups (147 rows)
+  are identical except for a distinct MOCS ID, which suggests the Council does issue separate
+  designations that look alike. Every row is kept; whether the pre-FY2024 repeats are real is
+  an open question for a human, not settled here.
+- **64 amounts carry fractional cents** (FY2013 27, FY2014 30, FY2015 7), e.g. FY2013
+  `22320.421`; 7 are binary float residue (e.g. FY2014 row 4255 `16279.539999999994`), of which
+  one is still a live formula (FY2014 row 109 `=72743.46-7274.46` → `65469.00000000001`) and six
+  are stored values, probably formulas pasted as values. They are published as the workbook stores them, not rounded:
+  rounding moves no year's total by more than 1.2 cents, and keeping the stored value is what
+  lets every CSV cell be checked against the workbook cell (`DISCLOSURE-AUDIT.md` A6).
+- **Spreadsheet artifacts kept as published** (`DISCLOSURE-AUDIT.md`): 37 cells hold the Excel
+  error `#N/A` (FY2014 ZIPs, FY2017 address/city/ZIP); 27 ZIPs stored as 4-digit numbers, some a
+  lost leading zero (MA/VT/NJ), some not (`7083` on a Bronx address), and 72 ZIPs are `0`; 5,656
+  `state` cells read `New YorkNY` (FY2015–FY2017, as typed); one `state` holds a ZIP
+  (FY2015 row 1235); fiscal-conduit cells hold `003`, `260`, `005`, a name and a sentence in the
+  EIN/name columns. Invisible format characters (213 soft hyphens, 2 left-to-right marks) are
+  deleted; mojibake such as `EspaÃ±ol` is in the source cell and is kept.
 - **One FY2016 `address2` cell (row 640) is a number formatted as a date** (`42037`, which Excel
   shows as 2015-02-02). The stored value is kept; what was meant is not knowable from the file.
 

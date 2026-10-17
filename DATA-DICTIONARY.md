@@ -87,7 +87,7 @@ Column names follow the disclosure's own fields, not the Schedule C vocabulary (
 | Column | Type | Meaning |
 |--------|------|---------|
 | `fiscal_year` | int | From the workbook's **file name**. FY2013, FY2014 and FY2016 have no Fiscal Year column; where one exists it agrees in every row. |
-| `mocs_id` | text | Mayor's Office of Contract Services ID (`FY25 00001`). **FY2024+ only**, blank before. The join to registered contracts / Checkbook. |
+| `mocs_id` | text | Mayor's Office of Contract Services ID (`FY25 00001`). **FY2024+ only**, blank before. Identifies a row within one snapshot; not stable across snapshots (DATA-ANOMALIES §22). Its join to registered contracts / Checkbook is unverified. |
 | `source` | text | Funding stream as the Council names it: `Local`, `Youth`, `Aging`, `Speaker's Initiative`, or a named citywide initiative. |
 | `council_member` | text | Sponsor as printed. **The roster at the time the workbook was exported, not at adoption** — never a join key (see DATA-ANOMALIES §21). |
 | `legal_name` | text | Grantee legal name. |
@@ -104,7 +104,10 @@ Column names follow the disclosure's own fields, not the Schedule C vocabulary (
 | `source_row` | int | Provenance: the 1-based sheet row, so any record can be found in the workbook. |
 
 All text cells are trimmed, with internal runs of whitespace (including line breaks and no-break
-spaces) collapsed to one space and zero-width characters removed. Nothing else is rewritten.
+spaces) collapsed to one space and invisible format characters (Unicode category Cf: zero-width
+space, soft hyphen, left-to-right mark, BOM) removed. Nothing else is rewritten: `#N/A` error
+cells, `New YorkNY`, 4-digit ZIPs and mojibake are kept as the workbook holds them
+(`data/DISCLOSURE-AUDIT.md`).
 
 **Not the same universe as the adopted Schedule C totals.** The workbook is a later snapshot of the
 same year, republished with in-year additions; FY2024 prints its own `Adoption Total`
@@ -223,7 +226,7 @@ Links each budget **source document** to its NYC Council **Legistar** legislativ
 
 - **`ein`** — the primary cross-system key (award ↔ transparency ↔ external IRS 990 / Checkbook). 9 digits, no hyphens. Watch the fiscal-sponsor pooling caveat above.
 - **`(ein, amount)`** — the join between the expense-disclosure dataset and the Schedule C award files, as a multiset within one fiscal year. Never `ein` alone (fiscal sponsors), never the sponsoring member (the disclosure's roster is export-time).
-- **`mocs_id`** — expense disclosure, FY2024+ only: the key to registered contracts and Checkbook spending.
+- **`mocs_id`** — expense disclosure, FY2024+ only: a per-row identifier within one snapshot. Not stable across snapshots; a join to registered contracts / Checkbook is unverified.
 - **`initiative_canonical`** — the stable key for tracking one initiative across years in the combined roll-ups. Join on this, not the raw `initiative`, for longitudinal analysis (the City's spelling of an initiative drifts year to year — see DATA-ANOMALIES #17).
 - **`category_canonical`** — the stable key for tracking one category (Fund/program area) across years. Join on this, not the raw `category`, for longitudinal Fund-axis analysis (an editorial consolidation — see DATA-ANOMALIES #18).
 - **`member` / `council_member` / `sponsor`** — surname only; join to a Council roster for district/full name.

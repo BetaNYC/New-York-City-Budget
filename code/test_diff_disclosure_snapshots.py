@@ -140,6 +140,40 @@ def test_a_reprefixed_mocs_id_is_reported_as_renumbered_not_as_a_mocs_pair_chang
     assert "Fields outside the key changed on composite-key pairs: `purpose` 1" in text
 
 
+def test_a_renumbered_row_whose_member_alone_changed_is_still_paired(tmp_path):
+    """The FY26 00144 / FY26 06277 shape (2026-10-12): re-prefixed MOCS ID AND council_member
+    Bottcher -> Wilson, every other field identical. FAILS if council_member is part of the
+    composite key (the pair then shows as one removal plus one addition), or if the member
+    change is not counted."""
+    rows = _read(CSV27)
+    new = [dict(r) for r in rows]
+    num = new[0]["mocs_id"].split(" ", 1)[1]
+    new[0]["mocs_id"] = f"FY27GP {num}"
+    new[0]["council_member"] = new[0]["council_member"] + "-Successor"
+    d = _run(CSV27, _write(tmp_path / "new.csv", new))
+    assert "council_member" not in D.COMPOSITE
+    assert not (d["added"] or d["removed"])
+    assert len(d["renumbered"]) == 1
+    assert d["composite_field_changes"] == {"council_member": 1}
+
+
+def test_likely_reissued_pairs_are_nominated_not_paired(tmp_path):
+    """A row removed and a row added with the same EIN, amount and legal name but a new MOCS ID
+    and a different source (the ~24 FY2027 re-issues). FAILS if they are paired away (they must
+    stay in Added and Removed), or if the nomination is not listed."""
+    rows = _read(CSV27)
+    new = [dict(r) for r in rows]
+    new[0]["mocs_id"] = "FY27 99999"
+    new[0]["source"] = new[0]["source"] + " (re-filed)"
+    d = _run(CSV27, _write(tmp_path / "new.csv", new))
+    assert len(d["removed"]) == 1 and len(d["added"]) == 1
+    assert len(d["reissued"]) == 1
+    o, n = d["reissued"][0]
+    assert (o["ein"], o["amount"], o["legal_name"]) == (n["ein"], n["amount"], n["legal_name"])
+    text = D.report(2027, "old", "new", d)
+    assert "## Likely re-issued (removed and added rows sharing EIN, amount and legal name) — 1" in text
+
+
 def test_workbook_amount_edit_is_found(tmp_path):
     """A copy of the real FY2027 workbook with one Amount cell rewritten in the sheet XML.
     FAILS if the workbook path through the diff misses it or reports anything else."""
@@ -251,3 +285,47 @@ def test_report_labels_itself_as_a_file_comparison(tmp_path):
     text = out.read_text(encoding="utf-8")
     assert "not a statement by the Council" in text
     assert "| cleared |" in text and "| pending |" in text and "| other |" in text
+
+
+# ---------------------------------------------------------------- committed reports are current
+
+def _old_workbook_from_history(fname, sha, tmp_path):
+    """Find the superseded workbook in git history by its MANIFEST-HISTORY sha256 (never by a
+    hardcoded commit) and write it to tmp_path. None if git or the history is unavailable."""
+    import hashlib
+    import subprocess
+    rel = f"source/expense-funding-disclosure/{fname}"
+    try:
+        revs = subprocess.run(["git", "-C", P.ROOT, "log", "--format=%H", "--", rel],
+                              capture_output=True, text=True, check=True).stdout.split()
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    for rev in revs:
+        for ref in (rev, rev + "^"):
+            blob = subprocess.run(["git", "-C", P.ROOT, "show", f"{ref}:{rel}"],
+                                  capture_output=True, check=False)
+            if blob.returncode == 0 and hashlib.sha256(blob.stdout).hexdigest() == sha:
+                out = tmp_path / fname
+                out.write_bytes(blob.stdout)
+                return str(out)
+    return None
+
+
+@pytest.mark.parametrize("fy", [2025, 2026, 2027])
+def test_committed_snapshot_reports_are_current(fy, tmp_path):
+    """FAILS if data/disclosure-snapshots/2026-10-12/FY{fy}-diff.md is not what
+    diff_disclosure_snapshots.py produces today from the superseded workbook (located in git
+    history by its MANIFEST-HISTORY hash) and the current one -- e.g. after a change to the
+    pairing key, as when council_member was dropped from it. Skips, loudly, without git
+    history (a shallow clone)."""
+    fname = f"funded_disclosure_FY{fy}.xlsx"
+    with open(os.path.join(P.SRC_DIR, "MANIFEST-HISTORY.csv"), newline="", encoding="utf-8") as f:
+        hist = [r for r in csv.DictReader(f) if r["file"] == fname and r["superseded_on"] == "2026-10-12"]
+    assert len(hist) == 1, hist
+    old = _old_workbook_from_history(fname, hist[0]["sha256"], tmp_path)
+    if old is None:
+        pytest.skip(f"superseded {fname} not reachable in git history (shallow clone?)")
+    report_path = os.path.join(P.DATA_DIR, "disclosure-snapshots", "2026-10-12", f"FY{fy}-diff.md")
+    _, ro, lo = D.load(old)
+    _, rn, ln = D.load(os.path.join(P.SRC_DIR, fname))
+    assert D.report(fy, lo, ln, D.diff(ro, rn)) == open(report_path, encoding="utf-8").read()
