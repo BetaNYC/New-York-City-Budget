@@ -617,3 +617,94 @@ def test_history_is_append_only_and_skips_unchanged_rows(tmp_path):
     second = P.history_text(first, out[1:])
     assert second.startswith(first) and second.count("\n") == 3
     assert first.splitlines()[0] == ",".join(P.HISTORY_FIELDS)
+
+
+# ---------------------------------------------------------------- Internet Archive copies (#86)
+
+def _xlsx_sheets(path, sheets):
+    """Write an .xlsx with several worksheets, wired through workbook.xml.rels as Excel does.
+    `sheets` is [(name, rows)]; rows=[] writes an EMPTY sheet (no cells). The XML file order
+    is deliberately the reverse of the workbook order, so a reader that maps by position
+    instead of by r:id gets the name wrong."""
+    ns = 'xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"'
+    rns = 'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"'
+    pns = 'xmlns="http://schemas.openxmlformats.org/package/2006/relationships"'
+    n = len(sheets)
+    entries, rels = [], []
+    with zipfile.ZipFile(path, "w") as z:
+        for i, (name, rows) in enumerate(sheets, start=1):
+            target = f"worksheets/sheet{n + 1 - i}.xml"
+            entries.append(f'<sheet name="{name}" sheetId="{i}" r:id="rId{i}"/>')
+            rels.append(f'<Relationship Id="rId{i}" Type="worksheet" Target="{target}"/>')
+            body = []
+            for ri, row in enumerate(rows, start=1):
+                cells = "".join(
+                    f'<c r="{P._col_letter(j)}{ri}"><v>{v}</v></c>' if isinstance(v, (int, float))
+                    else f'<c r="{P._col_letter(j)}{ri}" t="inlineStr"><is><t>{escape(v)}</t></is></c>'
+                    for j, v in enumerate(row) if v is not None)
+                body.append(f'<row r="{ri}">{cells}</row>')
+            z.writestr("xl/" + target,
+                       f'<worksheet {ns}><sheetData>{"".join(body)}</sheetData></worksheet>')
+        z.writestr("xl/workbook.xml",
+                   f'<workbook {ns} {rns}><sheets>{"".join(entries)}</sheets></workbook>')
+        z.writestr("xl/_rels/workbook.xml.rels",
+                   f'<Relationships {pns}>{"".join(rels)}</Relationships>')
+    return path
+
+
+def test_empty_extra_sheets_are_ignored_and_the_data_sheet_named(tmp_path):
+    """FAILS if a workbook with empty Sheet2/Sheet3 is refused (the 2014-2015 FY2015 copies),
+    or if the sheet name is taken by position rather than through the rels."""
+    p = _xlsx_sheets(str(tmp_path / "funded_disclosure_FY2099.xlsx"),
+                     [("FY99", [HDR, _row("Org A", "131111111", "Cleared", 5000)]),
+                      ("Sheet2", []), ("Sheet3", [])])
+    awards, rep = P.parse_year(p)
+    assert rep.sheet_name == "FY99" and len(awards) == 1
+
+
+def test_two_sheets_with_data_is_still_a_stop(tmp_path):
+    """FAILS if the reader silently picks one of two populated sheets."""
+    p = _xlsx_sheets(str(tmp_path / "funded_disclosure_FY2099.xlsx"),
+                     [("A", [HDR, _row("Org A", "131111111", "Cleared", 5000)]),
+                      ("B", [HDR, _row("Org B", "132222222", "Cleared", 6000)])])
+    with pytest.raises(ValueError, match="exactly one worksheet with data"):
+        P.parse_year(p)
+
+
+def test_contact_columns_are_dropped_by_name_and_noted(tmp_path):
+    """FAILS if contact columns stop the parse, or if their values reach any output field."""
+    hdr = HDR + ["Contact Person", "Contact Phone #", "Contact Email"]
+    row = _row("Org A", "131111111", "Cleared", 5000) + ["Jane Roe", "212-555-0100", "j@x.org"]
+    p = _xlsx(str(tmp_path / "funded_disclosure_FY2099.xlsx"), [hdr, row])
+    awards, rep = P.parse_year(p)
+    assert "personal contact data" in rep.header_note
+    flat = " ".join(str(v) for v in awards[0])
+    assert "Jane Roe" not in flat and "555-0100" not in flat and "j@x.org" not in flat
+
+
+def test_unknown_header_still_stops(tmp_path):
+    """FAILS if IGNORED_HEADERS turned into a catch-all."""
+    p = _xlsx(str(tmp_path / "funded_disclosure_FY2099.xlsx"),
+              [HDR + ["Contact Fax"], _row("Org A", "131111111", "Cleared", 5000) + ["x"]])
+    with pytest.raises(ValueError, match="unmapped header"):
+        P.parse_year(p)
+
+
+def test_space_as_thousands_separator():
+    """'30 000' (one cell, the 2016-05-23 FY2014 .xls) is 30000. Loose spacing is not a number."""
+    assert P.parse_amount_text("30 000") == Decimal(30000)
+    assert P.parse_amount_text("1 234 567.5") == Decimal("1234567.5")
+    assert P.parse_amount_text("30 00") is None
+    assert P.parse_amount_text("1 2") is None
+
+
+def test_uppercase_note_ignores_acronyms_in_mixed_case(tmp_path):
+    """FAILS if 'CBO Defunded' (FY2012) is reported as an UPPERCASE status column, or if a
+    real all-caps column (FY2018 'CLEARED') stops being reported."""
+    mixed = _xlsx(str(tmp_path / "funded_disclosure_FY2098.xlsx"),
+                  [HDR, _row("Org A", "131111111", "CBO Defunded", 0),
+                   _row("Org B", "132222222", "Cleared", 5000)])
+    upper = _xlsx(str(tmp_path / "funded_disclosure_FY2099.xlsx"),
+                  [HDR, _row("Org A", "131111111", "CLEARED", 5000)])
+    assert "UPPERCASE" not in P.parse_year(mixed)[1].header_note
+    assert "UPPERCASE" in P.parse_year(upper)[1].header_note

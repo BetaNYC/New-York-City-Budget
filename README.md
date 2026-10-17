@@ -45,6 +45,10 @@ New-York-City-Budget/
 ├── source/              ← official NYC Council documents, © City of New York
 │   ├── FY08/ … FY27/    (Schedule C, Terms, Capital, transparency-resolutions/ per year — PDFs)
 │   ├── expense-funding-disclosure/  (Council RnD award-level expense spreadsheets, FY2013–FY2027)
+│   ├── wayback-council/ (Council files recovered from the Internet Archive: FY2009–FY2012 disclosure
+│   │                     workbooks, FY15–FY17 + FY26 capital databases; manifests for every capture)
+│   ├── open-data-4d7f-74pe/  (manifest, metadata and data dictionary of the NYC Open Data pull;
+│   │                     the rows themselves stay out of git)
 │   └── census-zcta/     (provenance of the Census 2020 ZCTA file used to check disclosure ZIPs)
 ├── data/                ← extracted, reconciled CSVs
 │   ├── fy09/ … fy27/    (per year: schedule_c/, terms/, capital/, transparency-resolutions/
@@ -214,7 +218,7 @@ This repository is one piece of a larger NYC budget-data ecosystem. It is delibe
 |---|---|---|
 | **This repo** | Council discretionary (Schedule C) awards, Terms & Conditions, Section 254 capital changes, Transparency Resolutions, and a Legistar crosswalk, at the organization/EIN level | — |
 | **[NYC Independent Budget Office — Data Center](https://www.ibo.nyc.gov/content/data-center)** | The aggregate fiscal picture: citywide and agency-level expenditures and revenue (FY1980+), capital expenditures (since 1985), debt, headcount, education spending, tax data; plus IBO's fiscal analyses and budget-option reports | **None at the award level.** IBO has no discretionary/Schedule C/member-item data. It is the fiscal *context* this repo's who-got-what data sits inside. Most of the Data Center is also on NYC Open Data under agency "NYC Independent Budget Office (IBO)." |
-| **[NYC Open Data — City Council Discretionary Funding](https://data.cityofnewyork.us/dataset/4d7f-74pe) (`4d7f-74pe`)** | Award-level Council discretionary funding, FY2009–FY2021, Council-published | **Directly overlaps FY2015–FY2021.** It stopped updating April 2021, so this repo is the machine-readable source for **FY2022–FY2027** and adds source-reconciled totals plus Terms, Capital, Transparency, and Legistar provenance. |
+| **[NYC Open Data — City Council Discretionary Funding](https://data.cityofnewyork.us/dataset/4d7f-74pe) (`4d7f-74pe`)** | Award-level Council discretionary funding, FY2009–FY2021, Council-published | **Directly overlaps FY2013–FY2021** with the disclosure dataset: the same Council data at an April 2021 clearance state, with amounts rounded and some EINs missing a leading zero; it itemizes initiatives the Council's FY2013 file lumps, and is the only complete FY2010 source found. Row-by-row diff: [`research/2026-10-14-open-data-vs-disclosure-diff.md`](research/2026-10-14-open-data-vs-disclosure-diff.md). It stopped updating April 2021, so this repo is the machine-readable source for **FY2022–FY2027** and adds source-reconciled totals plus Terms, Capital, Transparency, and Legistar provenance. |
 | **[NYC Checkbook](https://www.checkbooknyc.com) (Comptroller)** | Actual spending and registered contracts | Complements this repo: join on EIN to ask whether a designation became a paid contract. |
 | **[NYC Council Finance Division](https://council.nyc.gov/budget/) / OMB** | The primary source documents this repo parses | This repo is the structured, reconciled extraction of those documents. |
 

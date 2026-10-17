@@ -1,0 +1,2839 @@
+{
+ "id": "4d7f-74pe",
+ "name": "City Council Discretionary Funding",
+ "assetType": "dataset",
+ "averageRating": 0,
+ "category": "City Government",
+ "createdAt": 1515711306,
+ "description": "The dataset reflects applications for discretionary funding to be allocated by the New York City Council",
+ "diciBackend": false,
+ "displayType": "table",
+ "downloadCount": 31563,
+ "hideFromCatalog": false,
+ "hideFromDataJson": false,
+ "locale": "en_US",
+ "locked": false,
+ "newBackend": true,
+ "numberOfComments": 0,
+ "oid": 36973031,
+ "provenance": "official",
+ "publicationAppendEnabled": false,
+ "publicationDate": 1617995153,
+ "publicationGroup": 14787749,
+ "publicationStage": "published",
+ "rowsUpdatedAt": 1618932382,
+ "tableId": 18208933,
+ "totalTimesRated": 0,
+ "viewCount": 38386,
+ "viewLastModified": 1767109048,
+ "viewType": "tabular",
+ "approvals": [
+  {
+   "reviewedAt": 1524759592,
+   "reviewedAutomatically": true,
+   "state": "approved",
+   "submissionId": 3504947,
+   "submissionObject": "public_audience_request",
+   "submissionOutcome": "change_audience",
+   "submittedAt": 1524759592,
+   "targetAudience": "public",
+   "workflowId": 2285,
+   "submissionDetails": {
+    "permissionType": "READ"
+   },
+   "submissionOutcomeApplication": {
+    "failureCount": 0,
+    "status": "success"
+   },
+   "submitter": {
+    "id": "5fuc-pqz2",
+    "displayName": "NYC OpenData"
+   }
+  }
+ ],
+ "clientContext": {
+  "clientContextVariables": [],
+  "inheritedVariables": {}
+ },
+ "columns": [
+  {
+   "id": 535476964,
+   "name": "MOCS ID",
+   "dataTypeName": "text",
+   "description": "Mayor's Office of Contract Services unique id number for each contract with fiscal year",
+   "fieldName": "mocs_id",
+   "position": 1,
+   "renderTypeName": "text",
+   "tableColumnId": 135180607,
+   "cachedContents": {
+    "non_null": "97002",
+    "largest": "FY21 09204",
+    "null": "0",
+    "top": [
+     {
+      "item": "FY09 Not an Award",
+      "count": "2"
+     },
+     {
+      "item": "FY09 2039",
+      "count": "2"
+     },
+     {
+      "item": "FY12 5450",
+      "count": "1"
+     },
+     {
+      "item": "FY18 5785",
+      "count": "1"
+     },
+     {
+      "item": "FY09 4389",
+      "count": "1"
+     },
+     {
+      "item": "FY18 3733",
+      "count": "1"
+     },
+     {
+      "item": "FY21 07308",
+      "count": "1"
+     },
+     {
+      "item": "FY20 04650",
+      "count": "1"
+     },
+     {
+      "item": "FY20 04927",
+      "count": "1"
+     },
+     {
+      "item": "FY10 6224",
+      "count": "1"
+     },
+     {
+      "item": "FY18 7870",
+      "count": "1"
+     },
+     {
+      "item": "FY17 6550",
+      "count": "1"
+     },
+     {
+      "item": "FY17 0760",
+      "count": "1"
+     },
+     {
+      "item": "FY15 1362",
+      "count": "1"
+     },
+     {
+      "item": "FY20 05167",
+      "count": "1"
+     },
+     {
+      "item": "FY10 6201",
+      "count": "1"
+     },
+     {
+      "item": "FY21 08661",
+      "count": "1"
+     },
+     {
+      "item": "FY18 3645",
+      "count": "1"
+     },
+     {
+      "item": "FY21 02653",
+      "count": "1"
+     },
+     {
+      "item": "FY16 7197",
+      "count": "1"
+     }
+    ],
+    "smallest": "FY09 0001",
+    "count": "97002",
+    "cardinality": "97000"
+   },
+   "format": {}
+  },
+  {
+   "id": 535476938,
+   "name": "Fiscal Year",
+   "dataTypeName": "number",
+   "description": "Fiscal Year",
+   "fieldName": "fiscal_year",
+   "position": 2,
+   "renderTypeName": "number",
+   "tableColumnId": 59693115,
+   "width": 232,
+   "cachedContents": {
+    "non_null": "97002",
+    "largest": "2021",
+    "null": "0",
+    "top": [
+     {
+      "item": "2020",
+      "count": "10616"
+     },
+     {
+      "item": "2019",
+      "count": "9655"
+     },
+     {
+      "item": "2021",
+      "count": "9013"
+     },
+     {
+      "item": "2018",
+      "count": "8893"
+     },
+     {
+      "item": "2017",
+      "count": "8670"
+     },
+     {
+      "item": "2016",
+      "count": "7797"
+     },
+     {
+      "item": "2015",
+      "count": "6650"
+     },
+     {
+      "item": "2014",
+      "count": "6611"
+     },
+     {
+      "item": "2013",
+      "count": "6281"
+     },
+     {
+      "item": "2010",
+      "count": "5981"
+     },
+     {
+      "item": "2009",
+      "count": "5745"
+     },
+     {
+      "item": "2012",
+      "count": "5671"
+     },
+     {
+      "item": "2011",
+      "count": "5419"
+     }
+    ],
+    "smallest": "2009",
+    "count": "97002",
+    "cardinality": "13"
+   },
+   "format": {
+    "precisionStyle": "standard",
+    "noCommas": "true",
+    "align": "right"
+   }
+  },
+  {
+   "id": 535476939,
+   "name": "Source",
+   "dataTypeName": "text",
+   "description": "Type of Council Initiative the funding will go towards\n",
+   "fieldName": "source",
+   "position": 3,
+   "renderTypeName": "text",
+   "tableColumnId": 59693116,
+   "width": 172,
+   "cachedContents": {
+    "non_null": "97002",
+    "largest": "Youth Violence Initiative",
+    "null": "0",
+    "top": [
+     {
+      "item": "Local",
+      "count": "37270"
+     },
+     {
+      "item": "Youth",
+      "count": "12377"
+     },
+     {
+      "item": "Aging",
+      "count": "7437"
+     },
+     {
+      "item": "Cultural After-School Adventure (CASA)",
+      "count": "5602"
+     },
+     {
+      "item": "Anti-Poverty",
+      "count": "2153"
+     },
+     {
+      "item": "Food Pantries",
+      "count": "2133"
+     },
+     {
+      "item": "Cultural Immigrant Initiative",
+      "count": "1787"
+     },
+     {
+      "item": "Domestic Violence and Empowerment (DoVE) Initiative",
+      "count": "1723"
+     },
+     {
+      "item": "Boro",
+      "count": "1582"
+     },
+     {
+      "item": "Support Our Seniors",
+      "count": "1146"
+     },
+     {
+      "item": "Parks Equity Initiative",
+      "count": "1123"
+     },
+     {
+      "item": "HIV/AIDS Faith Based Initiative",
+      "count": "1072"
+     },
+     {
+      "item": "NYC Cleanup",
+      "count": "1055"
+     },
+     {
+      "item": "A Greener NYC",
+      "count": "888"
+     },
+     {
+      "item": "Transportation - Operating Costs",
+      "count": "817"
+     },
+     {
+      "item": "Speaker's Initiative",
+      "count": "781"
+     },
+     {
+      "item": "Digital Inclusion and Literacy Initiative",
+      "count": "618"
+     },
+     {
+      "item": "Healthy Aging Initiative",
+      "count": "587"
+     },
+     {
+      "item": "SU-CASA",
+      "count": "580"
+     },
+     {
+      "item": "Public Health Funding Backfill",
+      "count": "455"
+     }
+    ],
+    "smallest": "6th Congregate Weekend Meal",
+    "count": "97002",
+    "cardinality": "690"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476940,
+   "name": "Council Member",
+   "dataTypeName": "text",
+   "description": "Name of Council Member or Borough Delegation pledging funds from what they are allotted\n",
+   "fieldName": "council_member",
+   "position": 4,
+   "renderTypeName": "text",
+   "tableColumnId": 59693117,
+   "width": 268,
+   "cachedContents": {
+    "non_null": "81031",
+    "largest": "Yeger",
+    "null": "15971",
+    "top": [
+     {
+      "item": "Speaker",
+      "count": "3290"
+     },
+     {
+      "item": "Levin",
+      "count": "2075"
+     },
+     {
+      "item": "Brooklyn Delegation",
+      "count": "1758"
+     },
+     {
+      "item": "Chin",
+      "count": "1721"
+     },
+     {
+      "item": "Rose",
+      "count": "1715"
+     },
+     {
+      "item": "Dickens",
+      "count": "1575"
+     },
+     {
+      "item": "Lander",
+      "count": "1457"
+     },
+     {
+      "item": "Eugene",
+      "count": "1421"
+     },
+     {
+      "item": "Rodriguez",
+      "count": "1332"
+     },
+     {
+      "item": "Levine",
+      "count": "1305"
+     },
+     {
+      "item": "Dromm",
+      "count": "1251"
+     },
+     {
+      "item": "Koo",
+      "count": "1247"
+     },
+     {
+      "item": "Gentile",
+      "count": "1206"
+     },
+     {
+      "item": "Cumbo",
+      "count": "1178"
+     },
+     {
+      "item": "Manhattan Delegation",
+      "count": "1177"
+     },
+     {
+      "item": "Ulrich",
+      "count": "1168"
+     },
+     {
+      "item": "Mark-Viverito",
+      "count": "1153"
+     },
+     {
+      "item": "Garodnick",
+      "count": "1151"
+     },
+     {
+      "item": "Rosenthal",
+      "count": "1126"
+     },
+     {
+      "item": "Mendez",
+      "count": "1122"
+     }
+    ],
+    "smallest": "Adams",
+    "count": "97002",
+    "cardinality": "127"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476941,
+   "name": "Legal Name of Organization",
+   "dataTypeName": "text",
+   "description": "Name of the Organization being funded\n",
+   "fieldName": "legal_name_of_organization",
+   "position": 5,
+   "renderTypeName": "text",
+   "tableColumnId": 59693118,
+   "width": 412,
+   "cachedContents": {
+    "non_null": "97002",
+    "largest": "Zodiacs Track and Field Organization, Inc.",
+    "null": "0",
+    "top": [
+     {
+      "item": "New York City Housing Authority",
+      "count": "1367"
+     },
+     {
+      "item": "Food Bank For New York City",
+      "count": "843"
+     },
+     {
+      "item": "Jewish Association for Services for the Aged (JASA)",
+      "count": "692"
+     },
+     {
+      "item": "Department of Parks and Recreation",
+      "count": "653"
+     },
+     {
+      "item": "Department of Education",
+      "count": "644"
+     },
+     {
+      "item": "Fund for the City of New York, Inc.",
+      "count": "519"
+     },
+     {
+      "item": "Catholic Charities Neighborhood Services, Inc.",
+      "count": "507"
+     },
+     {
+      "item": "Brooklyn Arts Council, Inc.",
+      "count": "496"
+     },
+     {
+      "item": "Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",
+      "count": "476"
+     },
+     {
+      "item": "Department of Sanitation",
+      "count": "439"
+     },
+     {
+      "item": "Midtown Management Group, Inc.",
+      "count": "438"
+     },
+     {
+      "item": "Older Adults Technology Services (OATS), Inc.",
+      "count": "389"
+     },
+     {
+      "item": "City Parks Foundation",
+      "count": "370"
+     },
+     {
+      "item": "City University of New York",
+      "count": "370"
+     },
+     {
+      "item": "Jewish Community Council of Greater Coney Island, Inc.",
+      "count": "363"
+     },
+     {
+      "item": "Urban Justice Center",
+      "count": "363"
+     },
+     {
+      "item": "Selfhelp Community Services, Inc.",
+      "count": "343"
+     },
+     {
+      "item": "New York Junior Tennis League, Inc.",
+      "count": "314"
+     },
+     {
+      "item": "Young Men's Christian Association of Greater New York",
+      "count": "306"
+     },
+     {
+      "item": "Regional Aid for Interim Needs, Inc.",
+      "count": "305"
+     }
+    ],
+    "smallest": "100 Suits for 100 Men, Inc.",
+    "count": "97002",
+    "cardinality": "8854"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476942,
+   "name": "EIN",
+   "dataTypeName": "text",
+   "description": "Tax ID number of the Organization being funded\n",
+   "fieldName": "ein",
+   "position": 6,
+   "renderTypeName": "text",
+   "tableColumnId": 135174604,
+   "width": 280,
+   "cachedContents": {
+    "non_null": "96915",
+    "largest": "990375362",
+    "null": "87",
+    "top": [
+     {
+      "item": "136400434",
+      "count": "6543"
+     },
+     {
+      "item": "133179546",
+      "count": "1055"
+     },
+     {
+      "item": "132620896",
+      "count": "726"
+     },
+     {
+      "item": "133192793",
+      "count": "558"
+     },
+     {
+      "item": "132612524",
+      "count": "537"
+     },
+     {
+      "item": "237072915",
+      "count": "527"
+     },
+     {
+      "item": "112047151",
+      "count": "513"
+     },
+     {
+      "item": "132738818",
+      "count": "477"
+     },
+     {
+      "item": "131624228",
+      "count": "445"
+     },
+     {
+      "item": "550882599",
+      "count": "435"
+     },
+     {
+      "item": "237442256",
+      "count": "386"
+     },
+     {
+      "item": "133682472",
+      "count": "384"
+     },
+     {
+      "item": "133561657",
+      "count": "370"
+     },
+     {
+      "item": "112665181",
+      "count": "367"
+     },
+     {
+      "item": "133442022",
+      "count": "363"
+     },
+     {
+      "item": "131624178",
+      "count": "345"
+     },
+     {
+      "item": "131988190",
+      "count": "333"
+     },
+     {
+      "item": "135562265",
+      "count": "319"
+     },
+     {
+      "item": "136213586",
+      "count": "307"
+     },
+     {
+      "item": "136202692",
+      "count": "304"
+     }
+    ],
+    "smallest": "010611469",
+    "count": "97002",
+    "cardinality": "5262"
+   },
+   "format": {
+    "precisionStyle": "standard",
+    "noCommas": "true",
+    "align": "right"
+   }
+  },
+  {
+   "id": 535476943,
+   "name": "Status",
+   "dataTypeName": "text",
+   "description": "Determines whether the organization has been cleared, or pending clearance from the City Council\n",
+   "fieldName": "status",
+   "position": 7,
+   "renderTypeName": "text",
+   "tableColumnId": 59693120,
+   "width": 172,
+   "cachedContents": {
+    "non_null": "97002",
+    "largest": "Revoked",
+    "null": "0",
+    "top": [
+     {
+      "item": "Cleared",
+      "count": "95072"
+     },
+     {
+      "item": "Pending",
+      "count": "1609"
+     },
+     {
+      "item": "Government",
+      "count": "311"
+     },
+     {
+      "item": "Revoked",
+      "count": "7"
+     },
+     {
+      "item": "Pending-Council",
+      "count": "2"
+     },
+     {
+      "item": "Designated",
+      "count": "1"
+     }
+    ],
+    "smallest": "Cleared",
+    "count": "97002",
+    "cardinality": "6"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476944,
+   "name": "Amount ($)",
+   "dataTypeName": "number",
+   "description": "The funding amount the organization will or has received for specific program and Fiscal Year\n",
+   "fieldName": "amount",
+   "position": 8,
+   "renderTypeName": "number",
+   "tableColumnId": 59693121,
+   "width": 208,
+   "cachedContents": {
+    "non_null": "97002",
+    "largest": "120000000",
+    "null": "0",
+    "top": [
+     {
+      "item": "5000",
+      "count": "18888"
+     },
+     {
+      "item": "10000",
+      "count": "9229"
+     },
+     {
+      "item": "20000",
+      "count": "9127"
+     },
+     {
+      "item": "3500",
+      "count": "8086"
+     },
+     {
+      "item": "15000",
+      "count": "3232"
+     },
+     {
+      "item": "3000",
+      "count": "2135"
+     },
+     {
+      "item": "4000",
+      "count": "2088"
+     },
+     {
+      "item": "25000",
+      "count": "1971"
+     },
+     {
+      "item": "50000",
+      "count": "1887"
+     },
+     {
+      "item": "6000",
+      "count": "1599"
+     },
+     {
+      "item": "7500",
+      "count": "1478"
+     },
+     {
+      "item": "2000",
+      "count": "1373"
+     },
+     {
+      "item": "2500",
+      "count": "1249"
+     },
+     {
+      "item": "7000",
+      "count": "1211"
+     },
+     {
+      "item": "1000",
+      "count": "1201"
+     },
+     {
+      "item": "8000",
+      "count": "1142"
+     },
+     {
+      "item": "30000",
+      "count": "1101"
+     },
+     {
+      "item": "40000",
+      "count": "909"
+     },
+     {
+      "item": "100000",
+      "count": "907"
+     },
+     {
+      "item": "6400",
+      "count": "624"
+     }
+    ],
+    "smallest": "1",
+    "count": "97002",
+    "cardinality": "4200"
+   },
+   "format": {
+    "precisionStyle": "currency",
+    "humane": "false",
+    "currencyStyle": "CAD",
+    "precision": "2",
+    "align": "right"
+   }
+  },
+  {
+   "id": 535476945,
+   "name": "Agency",
+   "dataTypeName": "text",
+   "description": "The City Agency which implements use of the funds with the organization\n",
+   "fieldName": "agency",
+   "position": 9,
+   "renderTypeName": "text",
+   "tableColumnId": 59693122,
+   "width": 172,
+   "cachedContents": {
+    "non_null": "97002",
+    "largest": "SIDA",
+    "null": "0",
+    "top": [
+     {
+      "item": "DYCD",
+      "count": "37106"
+     },
+     {
+      "item": "DFTA",
+      "count": "14569"
+     },
+     {
+      "item": "DCLA",
+      "count": "13058"
+     },
+     {
+      "item": "DOHMH",
+      "count": "5099"
+     },
+     {
+      "item": "DHMH",
+      "count": "3281"
+     },
+     {
+      "item": "HPD",
+      "count": "3082"
+     },
+     {
+      "item": "DOE",
+      "count": "2795"
+     },
+     {
+      "item": "DCA",
+      "count": "2426"
+     },
+     {
+      "item": "MOCJ",
+      "count": "2423"
+     },
+     {
+      "item": "DPR",
+      "count": "2314"
+     },
+     {
+      "item": "DSBS",
+      "count": "1646"
+     },
+     {
+      "item": "DSS/HRA",
+      "count": "1386"
+     },
+     {
+      "item": "CUNY",
+      "count": "1171"
+     },
+     {
+      "item": "SBS",
+      "count": "1144"
+     },
+     {
+      "item": "NYCHA",
+      "count": "984"
+     },
+     {
+      "item": "MISC",
+      "count": "591"
+     },
+     {
+      "item": "DSNY",
+      "count": "530"
+     },
+     {
+      "item": "ACS",
+      "count": "528"
+     },
+     {
+      "item": "FDNY",
+      "count": "455"
+     },
+     {
+      "item": "DHS",
+      "count": "333"
+     }
+    ],
+    "smallest": "ACS",
+    "count": "97002",
+    "cardinality": "74"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476946,
+   "name": "Program Name",
+   "dataTypeName": "text",
+   "description": "Specific project the funds will be used for\n",
+   "fieldName": "program_name",
+   "position": 10,
+   "renderTypeName": "text",
+   "tableColumnId": 59693123,
+   "width": 244,
+   "cachedContents": {
+    "non_null": "28967",
+    "largest": "Zoo visits",
+    "null": "68035",
+    "top": [
+     {
+      "item": "Food Pantry",
+      "count": "249"
+     },
+     {
+      "item": "Council District 45",
+      "count": "103"
+     },
+     {
+      "item": "Senior Center",
+      "count": "77"
+     },
+     {
+      "item": "Home Delivered Meals",
+      "count": "75"
+     },
+     {
+      "item": "Council District 42",
+      "count": "66"
+     },
+     {
+      "item": "Food Pantry Initiative",
+      "count": "57"
+     },
+     {
+      "item": "Senior Program",
+      "count": "54"
+     },
+     {
+      "item": "Cultural Immigrant Initiative",
+      "count": "51"
+     },
+     {
+      "item": "Youth Program",
+      "count": "49"
+     },
+     {
+      "item": "Senior Services",
+      "count": "48"
+     },
+     {
+      "item": "Council District 16",
+      "count": "46"
+     },
+     {
+      "item": "Golden Age Club",
+      "count": "45"
+     },
+     {
+      "item": "HPI",
+      "count": "44"
+     },
+     {
+      "item": "Home Delivered Meals Program",
+      "count": "44"
+     },
+     {
+      "item": "Senior Programming",
+      "count": "40"
+     },
+     {
+      "item": "Council District 28",
+      "count": "38"
+     },
+     {
+      "item": "Center for Court Innovation",
+      "count": "37"
+     },
+     {
+      "item": "CCC",
+      "count": "34"
+     },
+     {
+      "item": "Bayside Senior Center",
+      "count": "34"
+     },
+     {
+      "item": "After-School Program",
+      "count": "33"
+     }
+    ],
+    "smallest": "01M361",
+    "count": "97002",
+    "cardinality": "15716"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476947,
+   "name": "Address",
+   "dataTypeName": "text",
+   "description": "Line 1 of the Address for the funded organization\n",
+   "fieldName": "address",
+   "position": 11,
+   "renderTypeName": "text",
+   "tableColumnId": 59693124,
+   "width": 184,
+   "cachedContents": {
+    "non_null": "88516",
+    "largest": "Youth and Tennis Inc.",
+    "null": "8486",
+    "top": [
+     {
+      "item": "39 Broadway, 10th Floor",
+      "count": "431"
+     },
+     {
+      "item": "630 Ninth Avenue",
+      "count": "402"
+     },
+     {
+      "item": "191 Joralemon Street",
+      "count": "365"
+     },
+     {
+      "item": "168 7th Street",
+      "count": "345"
+     },
+     {
+      "item": "3001 West 37th Street",
+      "count": "324"
+     },
+     {
+      "item": "520 8th Avenue",
+      "count": "311"
+     },
+     {
+      "item": "811 Morris Park Avenue",
+      "count": "262"
+     },
+     {
+      "item": "39 Broadway - 10th Floor",
+      "count": "243"
+     },
+     {
+      "item": "647 Fulton Street",
+      "count": "224"
+     },
+     {
+      "item": "247 West 37th Street",
+      "count": "223"
+     },
+     {
+      "item": "121 Avenue of the Americas",
+      "count": "223"
+     },
+     {
+      "item": "966 Fulton Street",
+      "count": "222"
+     },
+     {
+      "item": "352 Seventh Avenue",
+      "count": "206"
+     },
+     {
+      "item": "24-02 49TH AVENUE",
+      "count": "202"
+     },
+     {
+      "item": "150 Elizabeth Street",
+      "count": "199"
+     },
+     {
+      "item": "121 Avenue of the Americas, 6th Floor",
+      "count": "198"
+     },
+     {
+      "item": "108-25 62nd Drive",
+      "count": "188"
+     },
+     {
+      "item": "830 Fifth Avenue",
+      "count": "184"
+     },
+     {
+      "item": "6614 11th Avenue",
+      "count": "184"
+     },
+     {
+      "item": "1466 Manor Road",
+      "count": "179"
+     }
+    ],
+    "smallest": "1",
+    "count": "97002",
+    "cardinality": "13724"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476948,
+   "name": "Address 2 (optional)",
+   "dataTypeName": "text",
+   "description": "Line 2 of the Address for the funded organization\n",
+   "fieldName": "address_2_optional",
+   "position": 12,
+   "renderTypeName": "text",
+   "tableColumnId": 59693125,
+   "width": 328,
+   "cachedContents": {
+    "non_null": "15389",
+    "largest": "www.newheritagetheatre.org",
+    "null": "81613",
+    "top": [
+     {
+      "item": "3rd Floor",
+      "count": "522"
+     },
+     {
+      "item": "6th Floor",
+      "count": "511"
+     },
+     {
+      "item": "2nd Floor",
+      "count": "464"
+     },
+     {
+      "item": "Suite 802",
+      "count": "377"
+     },
+     {
+      "item": "Suite 3A",
+      "count": "345"
+     },
+     {
+      "item": "Suite 301",
+      "count": "278"
+     },
+     {
+      "item": "4th Floor",
+      "count": "249"
+     },
+     {
+      "item": "5th floor",
+      "count": "220"
+     },
+     {
+      "item": "5th Floor",
+      "count": "204"
+     },
+     {
+      "item": "Flushing Meadows Corona Park",
+      "count": "183"
+     },
+     {
+      "item": "9th Floor",
+      "count": "166"
+     },
+     {
+      "item": "Suite 202",
+      "count": "165"
+     },
+     {
+      "item": "13th Floor",
+      "count": "159"
+     },
+     {
+      "item": "9th floor",
+      "count": "155"
+     },
+     {
+      "item": "Suite 1",
+      "count": "139"
+     },
+     {
+      "item": "14th Floor",
+      "count": "114"
+     },
+     {
+      "item": "Ground Floor",
+      "count": "112"
+     },
+     {
+      "item": "16th Floor",
+      "count": "112"
+     },
+     {
+      "item": "Suite B100",
+      "count": "102"
+     },
+     {
+      "item": "Suite 402",
+      "count": "100"
+     }
+    ],
+    "smallest": "----",
+    "count": "97002",
+    "cardinality": "2235"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476949,
+   "name": "City",
+   "dataTypeName": "text",
+   "description": "City of the funded organization\n",
+   "fieldName": "city",
+   "position": 13,
+   "renderTypeName": "text",
+   "tableColumnId": 59693126,
+   "width": 148,
+   "cachedContents": {
+    "non_null": "90314",
+    "largest": "Yonkers",
+    "null": "6688",
+    "top": [
+     {
+      "item": "New York",
+      "count": "37053"
+     },
+     {
+      "item": "Brooklyn",
+      "count": "22232"
+     },
+     {
+      "item": "Bronx",
+      "count": "6961"
+     },
+     {
+      "item": "Staten Island",
+      "count": "4775"
+     },
+     {
+      "item": "Flushing",
+      "count": "1948"
+     },
+     {
+      "item": "Jamaica",
+      "count": "1663"
+     },
+     {
+      "item": "Woodside",
+      "count": "994"
+     },
+     {
+      "item": "Long Island City",
+      "count": "981"
+     },
+     {
+      "item": "Astoria",
+      "count": "753"
+     },
+     {
+      "item": "BROOKLYN",
+      "count": "717"
+     },
+     {
+      "item": "Forest Hills",
+      "count": "682"
+     },
+     {
+      "item": "NY",
+      "count": "657"
+     },
+     {
+      "item": "Queens",
+      "count": "624"
+     },
+     {
+      "item": "Jackson Heights",
+      "count": "546"
+     },
+     {
+      "item": "New York City",
+      "count": "407"
+     },
+     {
+      "item": "Ridgewood",
+      "count": "401"
+     },
+     {
+      "item": "Bayside",
+      "count": "364"
+     },
+     {
+      "item": "NEW YORK",
+      "count": "341"
+     },
+     {
+      "item": "Kew Gardens",
+      "count": "340"
+     },
+     {
+      "item": "Far Rockaway",
+      "count": "315"
+     }
+    ],
+    "smallest": "572 Warren Street",
+    "count": "97002",
+    "cardinality": "436"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476950,
+   "name": "State",
+   "dataTypeName": "text",
+   "description": "State of the funded organization\n",
+   "fieldName": "state",
+   "position": 14,
+   "renderTypeName": "text",
+   "tableColumnId": 59693127,
+   "width": 160,
+   "cachedContents": {
+    "non_null": "89921",
+    "largest": "Washington",
+    "null": "7081",
+    "top": [
+     {
+      "item": "NY",
+      "count": "77514"
+     },
+     {
+      "item": "New York",
+      "count": "6599"
+     },
+     {
+      "item": "New YorkNY",
+      "count": "5656"
+     },
+     {
+      "item": "MA",
+      "count": "35"
+     },
+     {
+      "item": "NJ",
+      "count": "10"
+     },
+     {
+      "item": "CA",
+      "count": "10"
+     },
+     {
+      "item": "Brooklyn",
+      "count": "8"
+     },
+     {
+      "item": "New Jersey",
+      "count": "7"
+     },
+     {
+      "item": "New JerseyNJ",
+      "count": "5"
+     },
+     {
+      "item": "GA",
+      "count": "5"
+     },
+     {
+      "item": "Ny",
+      "count": "5"
+     },
+     {
+      "item": "RI",
+      "count": "5"
+     },
+     {
+      "item": "NC",
+      "count": "5"
+     },
+     {
+      "item": "DC",
+      "count": "4"
+     },
+     {
+      "item": "Staten Island",
+      "count": "4"
+     },
+     {
+      "item": "Manhattan",
+      "count": "4"
+     },
+     {
+      "item": "Massachusetts",
+      "count": "4"
+     },
+     {
+      "item": "ny",
+      "count": "4"
+     },
+     {
+      "item": "MassachusettsMA",
+      "count": "3"
+     },
+     {
+      "item": "PA",
+      "count": "3"
+     }
+    ],
+    "smallest": "11236",
+    "count": "97002",
+    "cardinality": "41"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476951,
+   "name": "Postcode",
+   "dataTypeName": "text",
+   "description": "Zip Code of the funded organization\n",
+   "fieldName": "postcode",
+   "position": 15,
+   "renderTypeName": "text",
+   "tableColumnId": 59693128,
+   "width": 196,
+   "cachedContents": {
+    "non_null": "88148",
+    "largest": "www.mind-builders.org",
+    "null": "8854",
+    "top": [
+     {
+      "item": "10001",
+      "count": "3085"
+     },
+     {
+      "item": "11201",
+      "count": "2875"
+     },
+     {
+      "item": "10018",
+      "count": "2760"
+     },
+     {
+      "item": "11217",
+      "count": "1755"
+     },
+     {
+      "item": "10013",
+      "count": "1532"
+     },
+     {
+      "item": "10036",
+      "count": "1506"
+     },
+     {
+      "item": "10004",
+      "count": "1455"
+     },
+     {
+      "item": "10006",
+      "count": "1403"
+     },
+     {
+      "item": "10038",
+      "count": "1402"
+     },
+     {
+      "item": "10002",
+      "count": "1370"
+     },
+     {
+      "item": "10301",
+      "count": "1297"
+     },
+     {
+      "item": "10023",
+      "count": "1276"
+     },
+     {
+      "item": "11215",
+      "count": "1222"
+     },
+     {
+      "item": "10027",
+      "count": "1196"
+     },
+     {
+      "item": "11101",
+      "count": "983"
+     },
+     {
+      "item": "11219",
+      "count": "970"
+     },
+     {
+      "item": "11377",
+      "count": "949"
+     },
+     {
+      "item": "10010",
+      "count": "915"
+     },
+     {
+      "item": "10029",
+      "count": "904"
+     },
+     {
+      "item": "10003",
+      "count": "884"
+     }
+    ],
+    "smallest": "0",
+    "count": "97002",
+    "cardinality": "1799"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476952,
+   "name": "Purpose of Funds",
+   "dataTypeName": "text",
+   "description": "Description of the use of the funds\n",
+   "fieldName": "purpose_of_funds",
+   "position": 16,
+   "renderTypeName": "text",
+   "tableColumnId": 59693129,
+   "width": 292,
+   "cachedContents": {
+    "non_null": "89621",
+    "largest": "YSOP serves two needs: providing service learning experiences to young people while helping homeless and hungry people. Our programs allow students to learn about a serious problem and serve their community. Student volunteers range from middle school to college students who serve at over 40 sites in all five boroughs in New York City.  We work closely with Food and Finance High School, and for years with their predecessor Park West High School.  YSOP regularly sends teams of student volunteers to The Holy Apostle Soup Kitchen and that is an organization we are proud to support.",
+    "null": "7381",
+    "top": [
+     {
+      "item": "This funding engages cultural programs and institutions to provide arts enrichment to students through after-school programs.",
+      "count": "1568"
+     },
+     {
+      "item": "This funding supports cultural programs and institutions that provide arts enrichment to students through after-school programs.",
+      "count": "1219"
+     },
+     {
+      "item": "The funds will be used to support cultural organizations to provide programming focused on the cultural history or traditions of an immigrant community in New York City. This initiative will help increase access to unique cultural offerings that focus on immigrant heritages.",
+      "count": "1002"
+     },
+     {
+      "item": "The DoVE Initiative supports a range of services that include case management, crisis intervention, referrals, counseling, empowerment workshops, legal advocacy and referrals. Safe Horizon, the administrator for this program, serves as a liaison between the City and the community based organizations to resolve complex administrative issues, and provides training, technical assistance, and direct services.",
+      "count": "869"
+     },
+     {
+      "item": "This funding will support district based senior services.",
+      "count": "850"
+     },
+     {
+      "item": "To support arts enrichment offered to students through after-school programs.",
+      "count": "765"
+     },
+     {
+      "item": "This allocation is designated as reimbursement for funding for six core services areas: Community Health Assessment, Family Health, Communicable Disease Control, Chronic Disease Prevention, Environmental Health, and Emergency Preparedness and Response.",
+      "count": "454"
+     },
+     {
+      "item": "Senior Center transportation costs",
+      "count": "413"
+     },
+     {
+      "item": "This funding supports after-school programs that are in partnership with cultural programs and institutions to provide arts enrichment citywide.",
+      "count": "406"
+     },
+     {
+      "item": "This funding supports food and hygiene product purchases and operational expenses for food pantries and soup kitchens, and supplies school-based pantries with food and personal hygiene products, for distribution to needy New Yorkers.",
+      "count": "393"
+     },
+     {
+      "item": "This initiative provides food to over 275 pantries and soup kitchens citywide.",
+      "count": "385"
+     },
+     {
+      "item": "Funds will be used to support community programming in smaller neighborhood parks, and the work of park and garden volunteer groups.",
+      "count": "358"
+     },
+     {
+      "item": "This funding supports after-school programs that are in partnership with cultural programs and institutions to provide arts enrichment citywide. (Designations to be determinded post Budget Adoption).",
+      "count": "357"
+     },
+     {
+      "item": "To support senior centers in each Council District with arts programming.",
+      "count": "317"
+     },
+     {
+      "item": "This initiative supports programming focused on the cultural history or traditions of an immigrant community in New York City, and helps increase access to unique cultural offerings that focus on immigrant heritages.",
+      "count": "314"
+     },
+     {
+      "item": "This funding is allocated to purchase food supplies for food pantries and soup kitchens citywide. Funding can also be used to support storage, refrigeration and other operational needs. This initiative also supports food and hygiene pantries in DOE schools.",
+      "count": "302"
+     },
+     {
+      "item": "Immigrant Related Legal Services",
+      "count": "275"
+     },
+     {
+      "item": "This funding will support senior services citywide.",
+      "count": "275"
+     },
+     {
+      "item": "This initiative supports district based programs: 1) promote healthy behaviors such as physical activity, smoking cessation, nutrition and infectious disease prevention; 2) detect the onset of chronic disease such as diabetes and hypertension; 3) prevent falls and other injuries through education or exercise such as strength training; and 4) programs to teach older adults practical skills to manage the pain of arthritis or deal with fatigue and stress.",
+      "count": "261"
+     },
+     {
+      "item": "This funding is allocated to purchase food supplies for food pantries and soup kitchens citywide. This initiative also supports food and hygiene pantries in DOE schools.",
+      "count": "260"
+     }
+    ],
+    "smallest": "$10,000 for ESL/CIVIC  Services in Staten Island.",
+    "count": "97002",
+    "cardinality": "45406"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476953,
+   "name": "Fiscal Conduit Name",
+   "dataTypeName": "text",
+   "description": "Organization providing technical and administrative support to the organization being funded\n",
+   "fieldName": "fiscal_conduit_name",
+   "position": 17,
+   "renderTypeName": "text",
+   "tableColumnId": 59693130,
+   "width": 328,
+   "cachedContents": {
+    "non_null": "1594",
+    "largest": "Youth Ministries For Peace and Justice",
+    "null": "95408",
+    "top": [
+     {
+      "item": "United Activities Unlimited, Inc.",
+      "count": "167"
+     },
+     {
+      "item": "St. Rosalia-Regina Pacis Neighborhood Improvement Association, Inc.",
+      "count": "150"
+     },
+     {
+      "item": "Maspeth Town Hall, Inc.",
+      "count": "147"
+     },
+     {
+      "item": "Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",
+      "count": "97"
+     },
+     {
+      "item": "Bergen Basin Community Development Corporation d/b/a Millennium Development",
+      "count": "64"
+     },
+     {
+      "item": "Safe Horizon, Inc.",
+      "count": "63"
+     },
+     {
+      "item": "Greater Ridgewood Youth Council, Inc.",
+      "count": "61"
+     },
+     {
+      "item": "Neighborhood Initiatives Development Corporation (NIDC)",
+      "count": "56"
+     },
+     {
+      "item": "GALAXY",
+      "count": "53"
+     },
+     {
+      "item": "Jewish Community Center of Staten Island, Inc.",
+      "count": "46"
+     },
+     {
+      "item": "Child Center of New York, Inc., The",
+      "count": "35"
+     },
+     {
+      "item": "Bay Ridge Bensonhurst Beautification and Preservation Alliance, Inc.",
+      "count": "32"
+     },
+     {
+      "item": "Samuel Field YM & YWHA, Inc.",
+      "count": "31"
+     },
+     {
+      "item": "Greater Woodhaven Development Corporation",
+      "count": "30"
+     },
+     {
+      "item": "Council of Jewish Organizations of Flatbush, Inc.",
+      "count": "29"
+     },
+     {
+      "item": "Jewish Community Council of Greater Coney Island, Inc.",
+      "count": "26"
+     },
+     {
+      "item": "Bay Ridge Bensonhurst Beautification and Preservation Alliance",
+      "count": "19"
+     },
+     {
+      "item": "Grace Gravesend Athletic Association",
+      "count": "18"
+     },
+     {
+      "item": "East New York Kidspower, Inc.",
+      "count": "16"
+     },
+     {
+      "item": "Maspeth Town Hall",
+      "count": "15"
+     }
+    ],
+    "smallest": "Addie Mae Collins Community Service",
+    "count": "97002",
+    "cardinality": "141"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476954,
+   "name": "FC EIN",
+   "dataTypeName": "text",
+   "description": "Tax ID number of the organization providing technical and administrative support\n",
+   "fieldName": "fc_ein",
+   "position": 18,
+   "renderTypeName": "text",
+   "tableColumnId": 135174605,
+   "width": 172,
+   "cachedContents": {
+    "non_null": "1563",
+    "largest": "651278807",
+    "null": "95439",
+    "top": [
+     {
+      "item": "112697931",
+      "count": "187"
+     },
+     {
+      "item": "132921483",
+      "count": "179"
+     },
+     {
+      "item": "237259702",
+      "count": "162"
+     },
+     {
+      "item": "113199040",
+      "count": "98"
+     },
+     {
+      "item": "132738818",
+      "count": "97"
+     },
+     {
+      "item": "112518141",
+      "count": "80"
+     },
+     {
+      "item": "113233233",
+      "count": "65"
+     },
+     {
+      "item": "132946970",
+      "count": "62"
+     },
+     {
+      "item": "133110811",
+      "count": "57"
+     },
+     {
+      "item": "135562256",
+      "count": "53"
+     },
+     {
+      "item": "136400434",
+      "count": "37"
+     },
+     {
+      "item": "111733454",
+      "count": "35"
+     },
+     {
+      "item": "113071518",
+      "count": "32"
+     },
+     {
+      "item": "112508190",
+      "count": "31"
+     },
+     {
+      "item": "112864728",
+      "count": "30"
+     },
+     {
+      "item": "112665181",
+      "count": "26"
+     },
+     {
+      "item": "113019763",
+      "count": "24"
+     },
+     {
+      "item": "113308030",
+      "count": "16"
+     },
+     {
+      "item": "237172152",
+      "count": "14"
+     },
+     {
+      "item": "237072915",
+      "count": "12"
+     }
+    ],
+    "smallest": "111630780",
+    "count": "97002",
+    "cardinality": "107"
+   },
+   "format": {
+    "precisionStyle": "standard",
+    "noCommas": "true",
+    "align": "right"
+   }
+  },
+  {
+   "id": 535476955,
+   "name": "Borough",
+   "dataTypeName": "text",
+   "description": "Borough of the funded organization\n",
+   "fieldName": "borough",
+   "position": 19,
+   "renderTypeName": "text",
+   "tableColumnId": 59693132,
+   "width": 184,
+   "cachedContents": {
+    "non_null": "75388",
+    "largest": "STATEN IS",
+    "null": "21614",
+    "top": [
+     {
+      "item": "MANHATTAN",
+      "count": "32129"
+     },
+     {
+      "item": "BROOKLYN",
+      "count": "20008"
+     },
+     {
+      "item": "QUEENS",
+      "count": "12697"
+     },
+     {
+      "item": "BRONX",
+      "count": "6107"
+     },
+     {
+      "item": "STATEN IS",
+      "count": "4447"
+     }
+    ],
+    "smallest": "BRONX",
+    "count": "97002",
+    "cardinality": "5"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  },
+  {
+   "id": 535476956,
+   "name": "Latitude",
+   "dataTypeName": "number",
+   "description": "Latitude of the building's location. \n",
+   "fieldName": "latitude",
+   "position": 20,
+   "renderTypeName": "number",
+   "tableColumnId": 59693133,
+   "width": 196,
+   "cachedContents": {
+    "non_null": "75385",
+    "largest": "40.912828",
+    "null": "21617",
+    "top": [
+     {
+      "item": "40.753612",
+      "count": "1077"
+     },
+     {
+      "item": "40.706251",
+      "count": "774"
+     },
+     {
+      "item": "40.760038",
+      "count": "549"
+     },
+     {
+      "item": "40.753475",
+      "count": "514"
+     },
+     {
+      "item": "40.741828",
+      "count": "455"
+     },
+     {
+      "item": "40.704313",
+      "count": "454"
+     },
+     {
+      "item": "40.723903",
+      "count": "448"
+     },
+     {
+      "item": "40.746817",
+      "count": "417"
+     },
+     {
+      "item": "40.748208",
+      "count": "378"
+     },
+     {
+      "item": "40.770689",
+      "count": "355"
+     },
+     {
+      "item": "40.673221",
+      "count": "352"
+     },
+     {
+      "item": "40.767711",
+      "count": "334"
+     },
+     {
+      "item": "40.692671",
+      "count": "324"
+     },
+     {
+      "item": "40.708356",
+      "count": "306"
+     },
+     {
+      "item": "40.70273",
+      "count": "303"
+     },
+     {
+      "item": "40.718943",
+      "count": "278"
+     },
+     {
+      "item": "40.573177",
+      "count": "275"
+     },
+     {
+      "item": "40.704275",
+      "count": "274"
+     },
+     {
+      "item": "40.707116",
+      "count": "273"
+     },
+     {
+      "item": "40.846052",
+      "count": "262"
+     }
+    ],
+    "smallest": "40.501897",
+    "count": "97002",
+    "cardinality": "6017"
+   },
+   "format": {
+    "precisionStyle": "standard",
+    "noCommas": "false",
+    "align": "right"
+   }
+  },
+  {
+   "id": 535476957,
+   "name": "Longitude",
+   "dataTypeName": "number",
+   "description": "Longitude of the building's location. \n",
+   "fieldName": "longitude",
+   "position": 21,
+   "renderTypeName": "number",
+   "tableColumnId": 59693134,
+   "width": 208,
+   "cachedContents": {
+    "non_null": "75385",
+    "largest": "-73.707813",
+    "null": "21617",
+    "top": [
+     {
+      "item": "-73.992417",
+      "count": "1077"
+     },
+     {
+      "item": "-74.012952",
+      "count": "774"
+     },
+     {
+      "item": "-73.991449",
+      "count": "544"
+     },
+     {
+      "item": "-73.990594",
+      "count": "515"
+     },
+     {
+      "item": "-73.907281",
+      "count": "455"
+     },
+     {
+      "item": "-73.986587",
+      "count": "454"
+     },
+     {
+      "item": "-74.00469",
+      "count": "448"
+     },
+     {
+      "item": "-73.993655",
+      "count": "421"
+     },
+     {
+      "item": "-73.992663",
+      "count": "378"
+     },
+     {
+      "item": "-73.980465",
+      "count": "355"
+     },
+     {
+      "item": "-73.991168",
+      "count": "352"
+     },
+     {
+      "item": "-73.970516",
+      "count": "334"
+     },
+     {
+      "item": "-73.991785",
+      "count": "324"
+     },
+     {
+      "item": "-74.014814",
+      "count": "306"
+     },
+     {
+      "item": "-73.989602",
+      "count": "303"
+     },
+     {
+      "item": "-73.986122",
+      "count": "278"
+     },
+     {
+      "item": "-74.002509",
+      "count": "275"
+     },
+     {
+      "item": "-74.008681",
+      "count": "274"
+     },
+     {
+      "item": "-74.007329",
+      "count": "273"
+     },
+     {
+      "item": "-73.862177",
+      "count": "262"
+     }
+    ],
+    "smallest": "-74.251548",
+    "count": "97002",
+    "cardinality": "5994"
+   },
+   "format": {
+    "precisionStyle": "standard",
+    "noCommas": "false",
+    "align": "right"
+   }
+  },
+  {
+   "id": 535476958,
+   "name": "Community Board",
+   "dataTypeName": "number",
+   "description": "The Community Board field indicates the New York City Community District where the building is located.\n",
+   "fieldName": "community_board",
+   "position": 22,
+   "renderTypeName": "number",
+   "tableColumnId": 59693135,
+   "width": 280,
+   "cachedContents": {
+    "non_null": "75385",
+    "largest": "503",
+    "null": "21617",
+    "top": [
+     {
+      "item": "1",
+      "count": "7718"
+     },
+     {
+      "item": "5",
+      "count": "6886"
+     },
+     {
+      "item": "2",
+      "count": "6656"
+     },
+     {
+      "item": "3",
+      "count": "3787"
+     },
+     {
+      "item": "7",
+      "count": "3400"
+     },
+     {
+      "item": "12",
+      "count": "3289"
+     },
+     {
+      "item": "6",
+      "count": "2978"
+     },
+     {
+      "item": "11",
+      "count": "2739"
+     },
+     {
+      "item": "4",
+      "count": "2614"
+     },
+     {
+      "item": "105",
+      "count": "2558"
+     },
+     {
+      "item": "101",
+      "count": "2535"
+     },
+     {
+      "item": "8",
+      "count": "2190"
+     },
+     {
+      "item": "10",
+      "count": "1927"
+     },
+     {
+      "item": "9",
+      "count": "1870"
+     },
+     {
+      "item": "302",
+      "count": "1573"
+     },
+     {
+      "item": "13",
+      "count": "1277"
+     },
+     {
+      "item": "14",
+      "count": "1196"
+     },
+     {
+      "item": "103",
+      "count": "862"
+     },
+     {
+      "item": "102",
+      "count": "861"
+     },
+     {
+      "item": "501",
+      "count": "748"
+     }
+    ],
+    "smallest": "1",
+    "count": "97002",
+    "cardinality": "90"
+   },
+   "format": {
+    "precisionStyle": "standard",
+    "noCommas": "false",
+    "align": "right"
+   }
+  },
+  {
+   "id": 535476959,
+   "name": "Council District",
+   "dataTypeName": "number",
+   "description": "The Council District field indicates the New York City Council District where the building is located.\n",
+   "fieldName": "council_district",
+   "position": 23,
+   "renderTypeName": "number",
+   "tableColumnId": 59693136,
+   "width": 292,
+   "cachedContents": {
+    "non_null": "75385",
+    "largest": "51",
+    "null": "21617",
+    "top": [
+     {
+      "item": "3",
+      "count": "8836"
+     },
+     {
+      "item": "1",
+      "count": "8472"
+     },
+     {
+      "item": "33",
+      "count": "4073"
+     },
+     {
+      "item": "4",
+      "count": "3086"
+     },
+     {
+      "item": "2",
+      "count": "2522"
+     },
+     {
+      "item": "49",
+      "count": "2469"
+     },
+     {
+      "item": "6",
+      "count": "2411"
+     },
+     {
+      "item": "26",
+      "count": "2241"
+     },
+     {
+      "item": "35",
+      "count": "2180"
+     },
+     {
+      "item": "9",
+      "count": "2120"
+     },
+     {
+      "item": "39",
+      "count": "2048"
+     },
+     {
+      "item": "8",
+      "count": "1615"
+     },
+     {
+      "item": "50",
+      "count": "1341"
+     },
+     {
+      "item": "27",
+      "count": "1327"
+     },
+     {
+      "item": "7",
+      "count": "1291"
+     },
+     {
+      "item": "44",
+      "count": "1286"
+     },
+     {
+      "item": "5",
+      "count": "1269"
+     },
+     {
+      "item": "29",
+      "count": "1267"
+     },
+     {
+      "item": "36",
+      "count": "1211"
+     },
+     {
+      "item": "10",
+      "count": "1177"
+     }
+    ],
+    "smallest": "1",
+    "count": "97002",
+    "cardinality": "51"
+   },
+   "format": {
+    "precisionStyle": "standard",
+    "noCommas": "false",
+    "align": "right"
+   }
+  },
+  {
+   "id": 535476960,
+   "name": "Census Tract",
+   "dataTypeName": "number",
+   "description": "The Census Tract field indicates the U.S. Census Tract where the building is located.\n",
+   "fieldName": "census_tract",
+   "position": 24,
+   "renderTypeName": "number",
+   "tableColumnId": 59693137,
+   "width": 244,
+   "cachedContents": {
+    "non_null": "75385",
+    "largest": "157902",
+    "null": "21617",
+    "top": [
+     {
+      "item": "109",
+      "count": "2370"
+     },
+     {
+      "item": "9",
+      "count": "1822"
+     },
+     {
+      "item": "21",
+      "count": "1570"
+     },
+     {
+      "item": "95",
+      "count": "1436"
+     },
+     {
+      "item": "13",
+      "count": "1417"
+     },
+     {
+      "item": "7",
+      "count": "1318"
+     },
+     {
+      "item": "37",
+      "count": "1125"
+     },
+     {
+      "item": "121",
+      "count": "1046"
+     },
+     {
+      "item": "33",
+      "count": "870"
+     },
+     {
+      "item": "101",
+      "count": "867"
+     },
+     {
+      "item": "245",
+      "count": "743"
+     },
+     {
+      "item": "119",
+      "count": "599"
+     },
+     {
+      "item": "1502",
+      "count": "595"
+     },
+     {
+      "item": "3",
+      "count": "580"
+     },
+     {
+      "item": "149",
+      "count": "572"
+     },
+     {
+      "item": "31",
+      "count": "543"
+     },
+     {
+      "item": "181",
+      "count": "503"
+     },
+     {
+      "item": "143",
+      "count": "492"
+     },
+     {
+      "item": "232",
+      "count": "486"
+     },
+     {
+      "item": "41",
+      "count": "460"
+     }
+    ],
+    "smallest": "1",
+    "count": "97002",
+    "cardinality": "1129"
+   },
+   "format": {
+    "precisionStyle": "standard",
+    "noCommas": "false",
+    "align": "right"
+   }
+  },
+  {
+   "id": 535476961,
+   "name": "BIN",
+   "dataTypeName": "number",
+   "description": "The BIN (Building Identification Number) is a unique identifier for each building in the City.\n",
+   "fieldName": "bin",
+   "position": 25,
+   "renderTypeName": "number",
+   "tableColumnId": 59693138,
+   "width": 136,
+   "cachedContents": {
+    "non_null": "74820",
+    "largest": "5170591",
+    "null": "22182",
+    "top": [
+     {
+      "item": "1083624",
+      "count": "1182"
+     },
+     {
+      "item": "1000803",
+      "count": "774"
+     },
+     {
+      "item": "1024982",
+      "count": "544"
+     },
+     {
+      "item": "1014454",
+      "count": "514"
+     },
+     {
+      "item": "4454475",
+      "count": "456"
+     },
+     {
+      "item": "3000010",
+      "count": "455"
+     },
+     {
+      "item": "1083493",
+      "count": "448"
+     },
+     {
+      "item": "1015060",
+      "count": "417"
+     },
+     {
+      "item": "1014291",
+      "count": "378"
+     },
+     {
+      "item": "1027468",
+      "count": "355"
+     },
+     {
+      "item": "3021771",
+      "count": "352"
+     },
+     {
+      "item": "1083811",
+      "count": "342"
+     },
+     {
+      "item": "3002244",
+      "count": "324"
+     },
+     {
+      "item": "3000000",
+      "count": "315"
+     },
+     {
+      "item": "1088750",
+      "count": "306"
+     },
+     {
+      "item": "3000088",
+      "count": "305"
+     },
+     {
+      "item": "1004301",
+      "count": "278"
+     },
+     {
+      "item": "5000000",
+      "count": "278"
+     },
+     {
+      "item": "3189617",
+      "count": "275"
+     },
+     {
+      "item": "1000863",
+      "count": "274"
+     }
+    ],
+    "smallest": "1000000",
+    "count": "97002",
+    "cardinality": "5685"
+   },
+   "format": {
+    "precisionStyle": "standard",
+    "noCommas": "true",
+    "align": "right"
+   }
+  },
+  {
+   "id": 535476962,
+   "name": "BBL",
+   "dataTypeName": "number",
+   "description": "The BBL (Borough, Block, and Lot) is a unique identifier for each tax lot in the City.\n",
+   "fieldName": "bbl",
+   "position": 26,
+   "renderTypeName": "number",
+   "tableColumnId": 59693139,
+   "width": 136,
+   "cachedContents": {
+    "non_null": "74820",
+    "largest": "5080470080",
+    "null": "22182",
+    "top": [
+     {
+      "item": "1007860001",
+      "count": "1182"
+     },
+     {
+      "item": "1000200004",
+      "count": "774"
+     },
+     {
+      "item": "1010350001",
+      "count": "544"
+     },
+     {
+      "item": "1007870011",
+      "count": "514"
+     },
+     {
+      "item": "4023137501",
+      "count": "456"
+     },
+     {
+      "item": "3000190001",
+      "count": "455"
+     },
+     {
+      "item": "1004777501",
+      "count": "448"
+     },
+     {
+      "item": "1008037502",
+      "count": "417"
+     },
+     {
+      "item": "1007790041",
+      "count": "378"
+     },
+     {
+      "item": "1011160024",
+      "count": "355"
+     },
+     {
+      "item": "3009960021",
+      "count": "352"
+     },
+     {
+      "item": "1011110001",
+      "count": "348"
+     },
+     {
+      "item": "3002550008",
+      "count": "324"
+     },
+     {
+      "item": "1000557501",
+      "count": "306"
+     },
+     {
+      "item": "3000380001",
+      "count": "305"
+     },
+     {
+      "item": "1003530054",
+      "count": "278"
+     },
+     {
+      "item": "3070650001",
+      "count": "275"
+     },
+     {
+      "item": "1000330001",
+      "count": "274"
+     },
+     {
+      "item": "1000420031",
+      "count": "273"
+     },
+     {
+      "item": "3084701350",
+      "count": "267"
+     }
+    ],
+    "smallest": "0",
+    "count": "97002",
+    "cardinality": "5550"
+   },
+   "format": {
+    "precisionStyle": "standard",
+    "noCommas": "true",
+    "align": "right"
+   }
+  },
+  {
+   "id": 535476963,
+   "name": "NTA",
+   "dataTypeName": "text",
+   "description": "The Neighborhood Tabulation Area field indicates the New York City Neighborhood area where the building is located.\n",
+   "fieldName": "nta",
+   "position": 27,
+   "renderTypeName": "text",
+   "tableColumnId": 59693140,
+   "width": 136,
+   "cachedContents": {
+    "non_null": "75385",
+    "largest": "Yorkville",
+    "null": "21617",
+    "top": [
+     {
+      "item": "Midtown-Midtown South",
+      "count": "6665"
+     },
+     {
+      "item": "Battery Park City-Lower Manhattan",
+      "count": "4886"
+     },
+     {
+      "item": "SoHo-TriBeCa-Civic Center-Little Italy",
+      "count": "2730"
+     },
+     {
+      "item": "DUMBO-Vinegar Hill-Downtown Brooklyn-Boerum Hill",
+      "count": "2289"
+     },
+     {
+      "item": "Hudson Yards-Chelsea-Flatiron-Union Square",
+      "count": "1593"
+     },
+     {
+      "item": "Park Slope-Gowanus",
+      "count": "1353"
+     },
+     {
+      "item": "Clinton",
+      "count": "1317"
+     },
+     {
+      "item": "Lower East Side",
+      "count": "1277"
+     },
+     {
+      "item": "Lincoln Square",
+      "count": "1151"
+     },
+     {
+      "item": "West New Brighton-New Brighton-St. George",
+      "count": "1145"
+     },
+     {
+      "item": "Upper West Side",
+      "count": "1129"
+     },
+     {
+      "item": "Fort Greene",
+      "count": "1043"
+     },
+     {
+      "item": "Borough Park",
+      "count": "993"
+     },
+     {
+      "item": "Hunters Point-Sunnyside-West Maspeth",
+      "count": "925"
+     },
+     {
+      "item": "West Village",
+      "count": "915"
+     },
+     {
+      "item": "Central Harlem North-Polo Grounds",
+      "count": "878"
+     },
+     {
+      "item": "Turtle Bay-East Midtown",
+      "count": "845"
+     },
+     {
+      "item": "Crown Heights North",
+      "count": "834"
+     },
+     {
+      "item": "Brooklyn Heights-Cobble Hill",
+      "count": "817"
+     },
+     {
+      "item": "Flatbush",
+      "count": "810"
+     }
+    ],
+    "smallest": "Airport",
+    "count": "97002",
+    "cardinality": "193"
+   },
+   "format": {
+    "displayStyle": "plain",
+    "align": "left"
+   }
+  }
+ ],
+ "grants": [
+  {
+   "inherited": false,
+   "type": "viewer",
+   "flags": [
+    "public"
+   ]
+  }
+ ],
+ "metadata": {
+  "rdfSubject": "0",
+  "attachments": [
+   {
+    "filename": "City_Council_Discretionary_Funding_Data_Dictionary.xlsx",
+    "assetId": "86859620-fbe6-4225-b852-45b7401f3cc9",
+    "name": "City_Council_Discretionary_Funding_Data_Dictionary.xlsx"
+   }
+  ],
+  "custom_fields": {
+   "Update": {
+    "Automation": "No",
+    "Date Made Public": "01/19/2018",
+    "Update Frequency": "As needed"
+   },
+   "Legislative Compliance": {
+    "Geo-coding Attached?": ""
+   },
+   "Dataset Information": {
+    "Agency": "City Council (NYCC)"
+   }
+  },
+  "rowLabel": "Discretionary Funding Application",
+  "availableDisplayTypes": [
+   "table",
+   "fatrow",
+   "page"
+  ],
+  "renderTypeConfig": {
+   "visible": {
+    "table": true
+   }
+  }
+ },
+ "owner": {
+  "id": "5fuc-pqz2",
+  "displayName": "NYC OpenData",
+  "profileImageUrlLarge": "/api/users/5fuc-pqz2/profile_images/LARGE",
+  "profileImageUrlMedium": "/api/users/5fuc-pqz2/profile_images/THUMB",
+  "profileImageUrlSmall": "/api/users/5fuc-pqz2/profile_images/TINY",
+  "screenName": "NYC OpenData",
+  "type": "interactive",
+  "flags": [
+   "acceptedEula",
+   "mayBeStoriesCoOwner"
+  ]
+ },
+ "query": {},
+ "rights": [
+  "read"
+ ],
+ "tableAuthor": {
+  "id": "5fuc-pqz2",
+  "displayName": "NYC OpenData",
+  "profileImageUrlLarge": "/api/users/5fuc-pqz2/profile_images/LARGE",
+  "profileImageUrlMedium": "/api/users/5fuc-pqz2/profile_images/THUMB",
+  "profileImageUrlSmall": "/api/users/5fuc-pqz2/profile_images/TINY",
+  "screenName": "NYC OpenData",
+  "type": "interactive",
+  "flags": [
+   "acceptedEula",
+   "mayBeStoriesCoOwner"
+  ]
+ },
+ "flags": [
+  "default",
+  "ownerMayBeContacted",
+  "restorable",
+  "restorePossibleForType"
+ ]
+}

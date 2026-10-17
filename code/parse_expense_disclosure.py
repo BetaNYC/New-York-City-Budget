@@ -110,6 +110,13 @@ HEADER_MAP = {
     "fiscal conduit ein": "fiscal_conduit_ein",
 }
 
+# Columns that are deliberately NOT carried into the dataset. Only one known file has them: the
+# Internet Archive's 2014-10-16 capture of funded_disclosure_FY2015.xlsx (GitHub #86), the one
+# snapshot where the Council published grantee contact people, phone numbers and emails. They
+# are personal contact data and add nothing to an award record, so they are skipped by name --
+# never by position -- and the year's header_note says they were present.
+IGNORED_HEADERS = {"contact person", "contact phone #", "contact email"}
+
 # Invisible FORMAT characters (Unicode category Cf) are deleted -- a zero-width space inside one
 # FY2015 EIN, two left-to-right marks (U+200E), BOMs -- with ONE exception, the soft hyphen
 # (U+00AD). In these workbooks a soft hyphen is a HYPHEN that lost its glyph (text pasted from a
@@ -363,14 +370,42 @@ def _clean(v):
     return _WS.sub(" ", v).strip()
 
 
+_REL_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
+_PKG_REL_NS = "{http://schemas.openxmlformats.org/package/2006/relationships}"
+
+
+def _sheet_has_cells(z, path):
+    """True if the worksheet XML holds at least one cell (<c>). Streamed; stops at the first."""
+    with z.open(path) as f:
+        for _, el in ET.iterparse(f, events=("start",)):
+            if el.tag == NS + "c":
+                return True
+    return False
+
+
 def _sheet_and_name(z):
-    """Locate the single worksheet. Every one of these workbooks has exactly one."""
-    wb = ET.fromstring(z.read("xl/workbook.xml"))
-    names = [s.get("name") for s in wb.iter(NS + "sheet")]
+    """Locate the one worksheet that holds data.
+
+    Every workbook the RnD site serves has exactly one worksheet. Older copies kept by the
+    Internet Archive (FY2015 snapshots of 2014-10 to 2015-10, GitHub #86) carry three: the data
+    sheet plus two EMPTY ones ("Sheet2", "Sheet3", no cells). Empty sheets are ignored; more
+    than one sheet WITH cells is still a stop -- which one is the disclosure is not ours to
+    guess. The sheet's name is resolved through xl/_rels/workbook.xml.rels (r:id -> target),
+    not by position."""
     paths = sorted(n for n in z.namelist() if re.fullmatch(r"xl/worksheets/sheet\d+\.xml", n))
-    if len(paths) != 1:
-        raise ValueError(f"expected exactly one worksheet, found {paths}")
-    return paths[0], (names[0] if names else "")
+    wb = ET.fromstring(z.read("xl/workbook.xml"))
+    sheets = list(wb.iter(NS + "sheet"))
+    if len(paths) == 1:
+        return paths[0], (sheets[0].get("name") if sheets else "")
+    with_cells = [p for p in paths if _sheet_has_cells(z, p)]
+    if len(with_cells) != 1:
+        raise ValueError(f"expected exactly one worksheet with data, found {with_cells or paths}")
+    rels = ET.fromstring(z.read("xl/_rels/workbook.xml.rels"))
+    target = {r.get("Id"): "xl/" + r.get("Target").lstrip("/").removeprefix("xl/")
+              for r in rels.iter(_PKG_REL_NS + "Relationship")}
+    name = next((sh.get("name") for sh in sheets
+                 if target.get(sh.get(_REL_NS + "id")) == with_cells[0]), "")
+    return with_cells[0], name
 
 
 # ---------------------------------------------------------------- row classification
@@ -381,6 +416,9 @@ def norm_status(raw):
     return s if s in KNOWN_STATUS else "other"
 
 
+_SPACE_GROUPED = re.compile(r"\d{1,3}(?: \d{3})+(?:\.\d+)?")
+
+
 def parse_amount_text(s):
     """Decimal of a cell's amount, or None if it is not a number.
 
@@ -389,8 +427,14 @@ def parse_amount_text(s):
     here as the SHORTEST decimal that round-trips to that same double ("22320.421"). Same
     value, one spelling, whichever reader produced it -- and integral amounts, which are all
     but 281 of 139,186 rows, are exact either way."""
+    t = _clean(s)
+    # A space used as a thousands separator ("30 000": one cell, in the Internet Archive's
+    # 2016-05-23 funded_disclosure_FY2014.xls, GitHub #86) reads as the number its groups spell.
+    # Only strict 3-digit groups qualify, so "30 00" or "1 2" stays not-a-number.
+    if _SPACE_GROUPED.fullmatch(t):
+        t = t.replace(" ", "")
     try:
-        f = float(_clean(s).replace(",", "").replace("$", ""))
+        f = float(t.replace(",", "").replace("$", ""))
     except (TypeError, ValueError):
         return None
     if f != f or f in (float("inf"), float("-inf")):
@@ -481,10 +525,13 @@ def parse_year(path):
         it = _xls_rows(path, numeric=numeric)
 
     header_rn, header_cells = next(it)
-    col_field = {}
+    col_field, ignored = {}, []
     for col, raw in header_cells.items():
         h = re.sub(r"\s+", " ", _clean(raw)).lower()
         if not h:
+            continue
+        if h in IGNORED_HEADERS:
+            ignored.append(_clean(raw))
             continue
         if h not in HEADER_MAP:
             # A column we do not recognize means the published schema moved. Silently
@@ -499,6 +546,8 @@ def parse_year(path):
             raise ValueError(f"{fname}: no column maps to {required}")
 
     notes = []
+    if ignored:
+        notes.append("columns not carried (personal contact data): " + ", ".join(ignored))
     if "mocs_id" not in field_col:
         notes.append("no MOCS ID#")
     if "fiscal_year_col" not in field_col:
@@ -574,7 +623,9 @@ def parse_year(path):
 
     if fy_col_mismatch:
         notes.append(f"{fy_col_mismatch} rows whose Fiscal Year cell != {fy}")
-    if any(a.status != a.status.title() for a in awards):
+    # isupper(), not "!= title()": an acronym in a mixed-case status ("CBO Defunded", FY2012)
+    # is not an all-caps column.
+    if any(a.status.isupper() for a in awards):
         notes.append("Status published in UPPERCASE")
 
     by_status, amount_by_status = {}, {s: Decimal(0) for s in KNOWN_STATUS + ("other",)}
