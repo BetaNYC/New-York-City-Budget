@@ -169,10 +169,15 @@ def test_committed_zip_statuses_issue_70():
     the ten below (hyphen, '=' and 'ZipCode2:' forms), or if the six-digit repairs and
     ambiguities (2026-10-13) are not exactly the ten values below."""
     c, trimmed, six = collections.Counter(), collections.Counter(), collections.Counter()
+    old = collections.Counter()
     for f in glob.glob(os.path.join(os.path.dirname(HERE), "data", "fy*", "expense_disclosure",
                                     "*_awards.csv")):
         with open(f, newline="", encoding="utf-8") as fh:
             for r in csv.DictReader(fh):
+                if int(r["fiscal_year"]) < 2013:
+                    # FY2009/2011/2012 from the Internet Archive (#89): pinned separately below.
+                    old[r["zip_status"]] += 1
+                    continue
                 c[r["zip_status"]] += 1
                 if r["postal_code"] == "#N/A":
                     assert r["zip_status"] == "invalid" and r["zip"] == "", r
@@ -192,6 +197,9 @@ def test_committed_zip_statuses_issue_70():
     assert dict(c) == {"valid": 127343, "blank": 10834, "not_a_zcta": 1073, "invalid": 164,
                        "state_mismatch": 29, "padded": 13, "trimmed": 35,
                        "repaired_extra_digit": 35, "ambiguous_extra_digit": 30}
+    assert dict(old) == {"valid": 15324, "blank": 1471, "not_a_zcta": 176, "invalid": 5,
+                         "state_mismatch": 2, "trimmed": 6, "repaired_extra_digit": 2,
+                         "ambiguous_extra_digit": 2}
     assert dict(trimmed) == {"11203-": 24, "10027-000": 2, "10037-999": 2, "11217-11217": 1,
                              "11204-11204": 1, "10033-10033": 1, "11102-20": 1,
                              "11231=1020": 1, "11413 ZipCode2: 3929": 1, "11233 ZipCode2: 150": 1}

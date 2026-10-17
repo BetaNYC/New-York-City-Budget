@@ -1,0 +1,31 @@
+EXPENSE DISCLOSURE RECONCILIATION  (fy12)  [parser: parse_expense_disclosure.py]
+source: funded_disclosure_FY2012.xls  (sheet 'MASTER', xls, 5824 rows incl. header)
+archived: source/wayback-council/files/20250212200132/funded_disclosure_FY2012.xls (Internet Archive capture; URL, timestamp and sha256 in data/disclosure_years.csv)
+printed total: NO PRINTED TOTAL
+
+Every non-blank row after the header is either an award or a stripped row. A row is
+decided by its Status cell: Cleared/Pending (any case) is an award; anything else is
+stripped unless it still names an organization and an amount (then it is kept with
+status_norm 'other'). Every stripped row is listed below with its cells.
+
+rows after header: 5823   blank: 0   awards: 5823   stripped: 0
+
+status_norm       rows              amount
+cleared           5482      150,740,106.80
+pending            137             886,357
+other              204         235,206,318
+ALL               5823      386,832,781.80
+
+Headline figure = cleared only. 'ALL' adds pending (and other) and is labeled so.
+
+This workbook prints no total of its own. The sums above are computed by this
+parser from the rows; they are not a figure published by the Council.
+
+Stripped rows (0):
+  none
+
+EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (147): [3, 10, 11, 12, 13, 73, 74, 83, 95, 98, 139, 158, 159, 389, 390, 429, 438, 491, 514, 548, 635, 636, 637, 638, 639, 640, 737, 738, 739, 905, 1179, 1188, 1302, 1320, 1364, 1439, 1450, 1451, 1452, 1453, 1454, 1455, 1622, 1623, 1625, 1692, 1693, 1721, 1722, 1723, 1724, 1725, 1738, 1739, 1771, 1772, 1774, 1993, 1994, 2108, 2124, 2125, 2132, 2133, 2134, 2135, 2136, 2201, 2202, 2225, 2226, 2227, 2244, 2292, 2466, 2469, 2942, 2959, 2960, 3139, 3207, 3208, 3209, 3210, 3475, 3572, 3845, 3873, 3897, 3903, 3904, 3905, 3915, 3940, 3941, 3975, 3976, 3977, 3978, 3979, 4046, 4072, 4073, 4083, 4084, 4085, 4086, 4087, 4088, 4089, 4090, 4091, 4092, 4093, 4094, 4123, 4165, 4201, 4557, 4590, 4591, 4592, 4593, 4594, 4600, 4682, 4683, 4684, 4775, 4968, 4969, 4970, 5082, 5239, 5240, 5241, 5242, 5243, 5254, 5285, 5360, 5382, 5608, 5686, 5687, 5805, 5806]
+Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 11 group(s), 22 row(s); 11 beyond the first of each group, $89,000
+NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: 4008 of 5823 rows (exact 3923, rounded_cents 0, rounded_dollars 85)
+Rows kept but flagged in row_flag (0), included in every total above: none
+notes: no MOCS ID#; no Fiscal Year column (year taken from filename)

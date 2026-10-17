@@ -467,7 +467,7 @@ def test_dry_run_writes_no_file(tmp_path):
 
 
 # --------------------------------------------------- expense-disclosure dataset (check 9)
-DISC_HDR = ("fiscal_year,mocs_id,source,council_member,council_member_id,council_member_type,"
+DISC_HDR = ("fiscal_year,mocs_id,od_mocs_id,od_match,source,council_member,council_member_id,council_member_type,"
             "legal_name,ein,status,status_norm,amount,"
             "agency,program_name,address1,address2,city,state,postal_code,zip,zip_status,zip_candidates,"
             "purpose,"
@@ -476,8 +476,8 @@ DISC_HDR = ("fiscal_year,mocs_id,source,council_member,council_member_id,council
 
 def _disc_row(fy="2026", status="Cleared", norm="cleared", src_row="2", ein="136400434", dup="",
               postal="", zip_="", zip_status="blank", member="Doe", mid="42", mtype="member",
-              cands="", flag=""):
-    return (f"{fy},FY26 00001,Local,{member},{mid},{mtype},Acme Inc.,{ein},{status},{norm},5000,"
+              cands="", flag="", od_id="", od_match=""):
+    return (f"{fy},FY26 00001,{od_id},{od_match},Local,{member},{mid},{mtype},Acme Inc.,{ein},{status},{norm},5000,"
             f"DYCD,,,,,,"
             f"{postal},{zip_},{zip_status},{cands},,,,"
             f"funded_disclosure_FY2026.xlsx,{src_row},{dup},{flag}\n")
@@ -568,6 +568,43 @@ def test_disclosure_row_flag_is_a_closed_set_issue_89_b13(tmp_path):
     _disc_file(root2, _disc_row(flag="not an award"))
     (r2,) = V.validate_tree(str(root2))[0]
     assert [c for c, _m in r2.hard] == ["row_flag"], r2.hard
+
+
+def test_disclosure_open_data_mocs_columns_issue_89_a4(tmp_path):
+    """#89 A4. FAILS if a well-formed Open Data cross-reference raises a hard finding or is not
+    counted, or if any of these passes: an od_match outside the closed set, an ID with no tier
+    (or a tier with no ID), an ID from another year, a year Open Data does not cover."""
+    root = tmp_path / "data"
+    p = str(root / "fy21" / "expense_disclosure" / "fy21_expense_awards.csv")
+    _write(p, DISC_HDR + "\n" + _disc_row(fy="2021", od_id="FY21 00042", od_match="exact")
+           + _disc_row(fy="2021", src_row="3", od_id="FY21 7", od_match="rounded_dollars"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.hard == [], r.hard
+    assert any(c == "od_mocs_id" and "2 row(s)" in m for c, m in r.soft), r.soft
+    for fy, oid, om in (("2021", "FY21 1", "close"), ("2021", "FY21 1", ""),
+                        ("2021", "", "exact"), ("2021", "FY20 1", "exact"),
+                        ("2026", "FY26 1", "exact")):
+        root2 = tmp_path / f"bad{fy}{oid}{om}".replace(" ", "_")
+        p2 = str(root2 / f"fy{fy[-2:]}" / "expense_disclosure" / f"fy{fy[-2:]}_expense_awards.csv")
+        _write(p2, DISC_HDR + "\n" + _disc_row(fy=fy, od_id=oid, od_match=om))
+        (r2,) = V.validate_tree(str(root2))[0]
+        assert [c for c, _m in r2.hard] == ["od_mocs_id"], (fy, oid, om, r2.hard)
+
+
+def test_published_odd_eins_pass_only_where_listed(tmp_path):
+    """DATA-ANOMALIES §25. FAILS if the four EINs the archived workbooks print (e.g. FY2009 row
+    3075 'EX130314') raise a hard finding, or if the same value on any other row, or another
+    value on that row, passes."""
+    def run(fy, row, ein):
+        root = tmp_path / f"r{fy}{row}{ein}"
+        p = str(root / f"fy{fy[-2:]}" / "expense_disclosure" / f"fy{fy[-2:]}_expense_awards.csv")
+        _write(p, DISC_HDR + "\n" + _disc_row(fy=fy, src_row=row, ein=ein))
+        (r,) = V.validate_tree(str(root))[0]
+        return [c for c, _m in r.hard]
+    assert run("2009", "3075", "EX130314") == []
+    assert run("2011", "679", "NA") == []
+    assert run("2009", "3076", "EX130314") == ["ein"]
+    assert run("2009", "3075", "EX130315") == ["ein"]
 
 
 def test_disclosure_zip_fields_must_agree_issue_70(tmp_path):

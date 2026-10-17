@@ -21,6 +21,14 @@ Recovered for GitHub #86 on 2026-10-14. Analysis:
 - **Rights:** © The City of New York; official Council publications reproduced as public
   records, same terms as the rest of `source/`.
 
+## Used by the dataset
+
+`funded_disclosure_FY2009.xls`, `FY2011.xls` and `FY2012.xls` (the 2025-02-12 captures) are the
+source of `data/fy09|fy11|fy12/expense_disclosure/` (#89 A2), read by
+`code/parse_expense_disclosure.py`, which stops if a file's sha256 differs from `MANIFEST.csv`.
+`funded_disclosure_FY2010.xls` is **not** loaded (incomplete against NYC Open Data; DATA-ANOMALIES
+§25). Each year's URL, capture timestamp and sha256 are repeated in `data/disclosure_years.csv`.
+
 ## What is committed here, and what is not
 
 Committed (`files/<timestamp>/<name>`, 9.3 MB):

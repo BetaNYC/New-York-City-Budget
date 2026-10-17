@@ -22,7 +22,7 @@ Not every document type exists (or is machine-readable) for every year. This mat
 | 2022–2024 | **awards + initiatives** | ✔ | ✔ | ✔ |
 | 2025–2027 | **awards + initiatives** | ✔ | ✔ | 2026 only |
 
-**Separately, the Council's expense funding disclosure workbooks give an EIN-level award list for every year FY2013–FY2027** (`data/{year}/expense_disclosure/`, below). It is a parallel dataset from a different source and a later moment, not a fill for the Schedule C gaps in this table.
+**Separately, the Council's expense funding disclosure workbooks give an EIN-level award list for FY2009 and every year FY2011–FY2027** (`data/{year}/expense_disclosure/`, below). It is a parallel dataset from a different source and a later moment, not a fill for the Schedule C gaps in this table.
 
 "awards" = the `_awards.csv` file with per-organization EINs. **EIN-keyed analysis (and the budget MCP's award tools) is valid FY2015–FY2027.** FY2009–FY2014 are initiatives-only (no EIN) and are excluded from EIN-keyed tooling. See [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) for the full gap list.
 
@@ -76,11 +76,16 @@ Detail breakouts by funding stream: `_a_aging` (Aging Discretionary), `_b_local`
 
 The NYC Council's own **expense funding disclosure** workbooks
 (`source/expense-funding-disclosure/`), one row per row the workbook prints (normally one per
-designation; exact copies are kept and flagged, see `duplicate_group`), **FY2013–FY2027**. A **parallel
+designation; exact copies are kept and flagged, see `duplicate_group`), **FY2009 and FY2011–FY2027**
+(FY2013–FY2027 from the RnD site; FY2009, FY2011, FY2012 from the Council's own workbooks as
+archived by the Internet Archive; FY2010 deliberately not loaded, see `data/disclosure_years.csv`
+below). A **parallel
 award-level dataset**: it is not derived from the adopted-budget PDFs, it does not feed the
 Schedule C files above, and its totals are not the adopted Schedule C totals. Built by
 `code/parse_expense_disclosure.py --write`; per-year counts, totals and printed-total
 reconciliation are in `code/PARSING.md` and each year's `{year}_expense_reconciliation.txt`.
+
+Status values beyond Cleared/Pending, all `status_norm = other`, raw value kept: `Government` (FY2011 136 rows, $2.6M; FY2012 49 rows, $235.2M: a City agency is the recipient), `Pending FC Clearance` (FY2011, 3), `CBO Defunded` (FY2012, 155 rows, all $0). None is defined by the Council; report `Government` as its own line, never as cleared (#89 B3, B4).
 
 Column names follow the disclosure's own fields, not the Schedule C vocabulary (`legal_name`, not
 `organization`; `council_member`, not `member`).
@@ -89,12 +94,14 @@ Column names follow the disclosure's own fields, not the Schedule C vocabulary (
 |--------|------|---------|
 | `fiscal_year` | int | From the workbook's **file name**. FY2013, FY2014 and FY2016 have no Fiscal Year column; where one exists it agrees in every row. |
 | `mocs_id` | text | Mayor's Office of Contract Services ID (`FY25 00001`). **FY2024+ only**, blank before. Identifies a row within one snapshot; not stable across snapshots (DATA-ANOMALIES §22). Its join to registered contracts / Checkbook is unverified. |
+| `od_mocs_id` | text | **Cross-reference, not a source** (#89 A4): the MOCS ID NYC Open Data `4d7f-74pe` gives the same designation (`FY09 5052`), FY2009–FY2021 only, the only MOCS IDs that exist for those years. Set only on an **unambiguous pair**: within the fiscal year, this is the only Council row and the Open Data row the only Open Data row in their (EIN, amount rounded half-up to whole dollars) bucket, and the amounts agree per `od_match`. Blank otherwise (a shared bucket, a blank EIN, no Open Data row, or FY2022+): 54,970 of the 89,923 FY2009–FY2021 rows carry one. Open Data's 8-digit EINs (a lost leading zero) are padded before matching. Read from the committed extract `source/open-data-4d7f-74pe/4d7f-74pe-keys.csv.gz`. Two FY2009 values repeat because Open Data repeats them (`FY09 Not an Award` ×2, `FY09 2039` ×2). Open Data's statuses, names and addresses are never copied in. |
+| `od_match` | text | How the amounts of an `od_mocs_id` pair agree: `exact`, `rounded_cents` (Open Data rounded FY2009–FY2011 amounts to cents: our `7481.296758`, theirs `7481.30`) or `rounded_dollars` (FY2012 on: `6333.33` vs `6333`). Blank exactly when `od_mocs_id` is. |
 | `source` | text | Funding stream as the Council names it: `Local`, `Youth`, `Aging`, `Speaker's Initiative`, or a named citywide initiative. |
 | `council_member` | text | Sponsor as printed. **The roster at the time the workbook was exported, not at adoption** — never a join key (see DATA-ANOMALIES §21). A substring of it blends people: `Levin` is in `Levine`, `Won` in `Wong`. |
 | `council_member_id` | text | **Derived** (GitHub #72): the Legistar person ID the printed name resolves to **for that fiscal year**, from `data/disclosure_council_member_crosswalk.csv`; blank unless `council_member_type` is `member` or `member_outside_fy`. `Levin` is 7567 (Stephen T. Levin), `Levine` 7634 (Mark Levine). Filter on this, not on the name, to mean one person. |
 | `council_member_type` | text | **Derived** (GitHub #72). `member` — exactly one Legistar person has the printed surname (and initial, if printed) and a recorded vote in that fiscal year. `member_outside_fy` — exactly one person has the name, but no vote that year: the export-time roster naming someone not yet or no longer in office (FY2025 `Wong`, FY2021 `Aviles`, FY2020 `D. Diaz`); the ID is given, the type says it is not that year's member. `ambiguous` — two people of that name voted that year (FY2014 and FY2022 `Barron`, FY2014 `Vallone`); no ID, never guessed. One such value is typed `member` by a recorded **file convention** instead: FY2021 bare `Diaz` is Ruben Diaz, Sr. (7744), because the same workbook prints Darma V. Diaz as `D. Diaz` (crosswalk `method` begins `file_convention`; see below). `unresolved` — no Legistar member has the name (`CC`, `NA`). `speaker`, `delegation` (borough delegations, bare borough names, `Brooklyn / Queens`), `citywide`, `district_label` (`CD19`, `CD28`), `blank`: not a person, no ID. |
 | `legal_name` | text | Grantee legal name. |
-| `ein` | text | Grantee EIN, **9 digits, no hyphen, leading zeros kept**. Blank on 6 rows where the Council left it blank (FY2013 2, FY2014 3, FY2015 1). The FY2013 file prints 175 EINs as `NN-NNNNNNN` (hyphen removed here) and stores some as numbers, three of which lost a leading zero (re-padded; rows listed in the FY2013 report). Fiscal-sponsor caveat as above: filter on `ein` **and** `amount` or `program_name`, never `ein` alone. |
+| `ein` | text | Grantee EIN, **9 digits, no hyphen, leading zeros kept**. Blank on 52 rows where the Council left it blank (FY2009 25, FY2011 13, FY2012 8, FY2013 2, FY2014 3, FY2015 1). Four archived-year EINs are not 9 digits and are **kept as published**, never repaired: FY2009 `EX130314` (row 3075), `EX123557` (4366), `11-31735A` (4912), FY2011 `NA` (679); the validator lets exactly these four through. FY2011 and FY2012 numeric EIN cells that lost a leading zero are re-padded like FY2013's (3 and 147 rows, listed in each year's report). The FY2013 file prints 175 EINs as `NN-NNNNNNN` (hyphen removed here) and stores some as numbers, three of which lost a leading zero (re-padded; rows listed in the FY2013 report). Fiscal-sponsor caveat as above: filter on `ein` **and** `amount` or `program_name`, never `ein` alone. |
 | `status` | text | Clearance status **exactly as published**: `Cleared` / `Pending`, or `CLEARED` / `PENDING` (FY2018). |
 | `status_norm` | text | `cleared`, `pending`, or `other` (any status that is neither — none today). **Filter on this.** A year's headline figure is the `cleared` rows; adding `pending` makes a different, larger claim and should be labeled so. |
 | `amount` | number | Dollars. Integral amounts print with no decimal point. 281 rows carry fractions as published (e.g. `13881.76`), written as the shortest decimal that is the same stored value. |
@@ -109,7 +116,7 @@ Column names follow the disclosure's own fields, not the Schedule C vocabulary (
 | `source_file` | text | Provenance: the workbook. |
 | `source_row` | int | Provenance: the 1-based sheet row, so any record can be found in the workbook. |
 | `duplicate_group` | int or blank | **Exact copies (GitHub #69).** Blank for a unique row. When the row is identical to another row of the same workbook in every published field (everything but `source_row`), the `source_row` of the first of them: a group's rows all carry the same number, and the first row carries its own. 662 rows in 321 groups, FY2013–FY2023 (per year in DATA-ANOMALIES §22 and each `{year}_expense_reconciliation.txt`). **Every copy is kept** and counted in every total: the workbooks print them, and whether each is a second designation or a filing error cannot be told from the file. To count each group once, keep rows where `duplicate_group` is blank or equals `source_row`. |
-| `row_flag` | text | **Decided by a person, recorded in code** (`ROW_FLAGS` in `code/parse_expense_disclosure.py`, GitHub #89 B13). Blank for nearly every row. `not_an_award`: the row is printed as a designation but is not a grant to an organization (a lump allocation to the City's own EIN with no address). **The row is kept and counted in every total**, as published; exclude it yourself when you mean "money to organizations". Each entry names the row's legal name and amount, and the build stops if the workbook no longer carries them. No year in the dataset carries a flag yet; the first are FY2009's two rows, when that year is added. |
+| `row_flag` | text | **Decided by a person, recorded in code** (`ROW_FLAGS` in `code/parse_expense_disclosure.py`, GitHub #89 B13). Blank for nearly every row. `not_an_award`: the row is printed as a designation but is not a grant to an organization (a lump allocation to the City's own EIN with no address). **The row is kept and counted in every total**, as published; exclude it yourself when you mean "money to organizations". Each entry names the row's legal name and amount, and the build stops if the workbook no longer carries them. Two rows carry one: FY2009 rows 523 (`Borough President Discretionary Funding`, $533,000, DFTA) and 4092 (`Provider's Choice`, $1,200,000, ACS), both on the City's EIN with no address, which Open Data files under MOCS ID `FY09 Not an Award`. |
 
 All text cells are trimmed, with internal runs of whitespace (including line breaks and no-break
 spaces) collapsed to one space and invisible format characters (Unicode category Cf: zero-width
@@ -299,3 +306,21 @@ Links each budget **source document** to its NYC Council **Legistar** legislativ
 - **`member` / `council_member` / `sponsor`** — surname only; join to a Council roster for district/full name.
 - **`fiscal_year` / folder year** — align on the *column*, not the filename, for transparency files.
 - **`legistar_matter_number`** — the crosswalk is the bridge from a document to its legislative record; no budget CSV carries the matter number inline.
+
+## `data/disclosure_years.csv`
+
+One row per fiscal year of the expense disclosure, loaded or not. Written by
+`code/parse_expense_disclosure.py --write` (checked by `--check`). Sums are this repo's arithmetic
+on the rows, never a Council figure.
+
+| Column | Meaning |
+|--------|---------|
+| `fiscal_year` | The year. |
+| `loaded` | `yes`, or `no` for a year whose workbook exists but is deliberately not in the dataset (FY2010). |
+| `source_kind` | `council_rnd` (rnd.council.nyc.gov, `source/expense-funding-disclosure/`) or `internet_archive` (a Wayback capture in `source/wayback-council/files/`). |
+| `source_path`, `url`, `wayback_timestamp`, `retrieved`, `sha256` | Where the workbook is in the repo, its original URL, the capture timestamp (Internet Archive only), the date we downloaded it, and its sha256 (equal to the folder's `MANIFEST.csv`; the build stops if the file differs). |
+| `sheet`, `award_rows` | The sheet read, and the rows kept. |
+| `cleared_rows` … `other_amount`, `total_amount` | Rows and dollars by `status_norm`, and the total. |
+| `row_flagged` | Rows with a `row_flag`. |
+| `early_snapshot` | `yes` for a workbook frozen while much of it was Pending and never revised (FY2009, FY2013): do not headline its Cleared total. |
+| `note` | Why a year is an early snapshot or not loaded, with its counts. |

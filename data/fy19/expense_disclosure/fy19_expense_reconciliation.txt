@@ -25,5 +25,6 @@ Stripped rows (0):
 
 EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (0): none
 Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 28 group(s), 58 row(s); 30 beyond the first of each group, $724,480
+NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: 5226 of 9655 rows (exact 5224, rounded_cents 0, rounded_dollars 2)
 Rows kept but flagged in row_flag (0), included in every total above: none
 notes: no MOCS ID#

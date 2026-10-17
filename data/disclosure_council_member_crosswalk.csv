@@ -1,4 +1,192 @@
 fiscal_year,council_member,rows,council_member_type,council_member_id,legistar_full_name,method,evidence
+2009,,1334,blank,,,empty cell,
+2009,"Addabbo, Jr",78,member,5281,"Joseph P. Addabbo, Jr.",exact surname + suffix Jr; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Joseph P. Addabbo, Jr. (5281) voted in FY2004, FY2006-FY2009"
+2009,Arroyo,79,member,5911,Maria Del Carmen Arroyo,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Maria Del Carmen Arroyo (5911) voted in FY2006-FY2016
+2009,Avella,36,member,5268,Tony Avella,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Tony Avella (5268) voted in FY2004, FY2006-FY2010"
+2009,Baez,43,member,5264,Maria Baez,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Maria Baez (5264) voted in FY2004, FY2006-FY2010"
+2009,Barron,63,member,5288,Charles Barron,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Charles Barron (5288) voted in FY2004, FY2006-FY2014, FY2022-FY2024; Inez D. Barron (7623) voted in FY2014-FY2022"
+2009,Barron & Eugene,1,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2009,BK,18,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2009,Brewer,97,member,5259,Gale A. Brewer,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Gale A. Brewer (5259) voted in FY2004, FY2006-FY2014, FY2022-FY2027"
+2009,Bronx,33,delegation,,,borough delegation label,
+2009,Brooklyn,50,delegation,,,borough delegation label,
+2009,BX,19,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2009,CC,240,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2009,Citywide,1,citywide,,,citywide label,
+2009,Como,77,member,7490,Anthony Como,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Anthony Como (7490) voted in FY2008-FY2009
+2009,Comrie,138,member,5276,"Leroy G. Comrie, Jr.",exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Leroy G. Comrie, Jr. (5276) voted in FY2004, FY2006-FY2014"
+2009,DeBlasio,93,member,5286,Bill De Blasio,"exact surname, spaces ignored; the only match with a recorded vote in FY2009","FY2009 = 2008-07-01..2009-06-30; Bill De Blasio (5286) voted in FY2004, FY2006-FY2010"
+2009,Dickens,162,member,6270,Inez E. Dickens,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Inez E. Dickens (6270) voted in FY2006-FY2017
+2009,Dilan,33,member,5285,Erik Martin Dilan,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Erik Martin Dilan (5285) voted in FY2004, FY2006-FY2014"
+2009,Eugene,50,member,7113,Mathieu Eugene,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Mathieu Eugene (7113) voted in FY2007-FY2022
+2009,Felder,48,member,5289,Simcha Felder,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Simcha Felder (5289) voted in FY2004, FY2006-FY2010, FY2025-FY2027"
+2009,Fidler,89,member,5291,Lewis A. Fidler,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Lewis A. Fidler (5291) voted in FY2004, FY2006-FY2014"
+2009,Foster,67,member,5265,Helen D. Foster,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Wendell Foster (15) voted in FY2001; Helen D. Foster (5265) voted in FY2004, FY2006-FY2014"
+2009,Garodnick,82,member,6267,Daniel R. Garodnick,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Daniel R. Garodnick (6267) voted in FY2006-FY2018
+2009,Gennaro,66,member,5273,James F. Gennaro,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; James F. Gennaro (5273) voted in FY2004, FY2006-FY2014, FY2021-FY2027"
+2009,Gentile,120,member,5390,Vincent J. Gentile,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Vincent J. Gentile (5390) voted in FY2004, FY2006-FY2018"
+2009,Gerson,52,member,5258,Alan J. Gerson,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Alan J. Gerson (5258) voted in FY2004, FY2006-FY2010"
+2009,Gioia,41,member,5275,Eric N. Gioia,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Eric N. Gioia (5275) voted in FY2004, FY2006-FY2010"
+2009,Gonzalez,54,member,5376,Sara M. Gonzalez,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Sara M. Gonzalez (5376) voted in FY2004, FY2006-FY2014"
+2009,Ignizio,73,member,7112,Vincent Ignizio,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Vincent Ignizio (7112) voted in FY2007-FY2015
+2009,Jackson,122,member,5260,Robert Jackson,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Robert Jackson (5260) voted in FY2004, FY2006-FY2014"
+2009,James,88,member,5417,Letitia James,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Letitia James (5417) voted in FY2006-FY2014
+2009,Katz,81,member,5278,Melinda R. Katz,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Melinda R. Katz (5278) voted in FY2004, FY2006-FY2010"
+2009,Koppell,47,member,5262,G. Oliver Koppell,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; G. Oliver Koppell (5262) voted in FY2004, FY2006-FY2014"
+2009,Lappin,56,member,6268,Jessica S. Lappin,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Jessica S. Lappin (6268) voted in FY2006-FY2014
+2009,"Lappin, Koppell/Citywide",1,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2009,Liu,57,member,5269,John C. Liu,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; John C. Liu (5269) voted in FY2004, FY2006-FY2010"
+2009,Manhattan,47,delegation,,,borough delegation label,
+2009,Martinez,40,member,5261,Miguel Martinez,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Miguel Martinez (5261) voted in FY2004, FY2006-FY2009"
+2009,McMahon,154,member,5293,Michael E. McMahon,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Michael E. McMahon (5293) voted in FY2004, FY2006-FY2009"
+2009,Mealy,61,member,6272,Darlene Mealy,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Darlene Mealy (6272) voted in FY2006-FY2018, FY2022-FY2027"
+2009,Mendez,106,member,6274,Rosie Mendez,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Rosie Mendez (6274) voted in FY2006-FY2018
+2009,MN,54,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2009,Monserrate,52,member,5270,Hiram Monserrate,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Hiram Monserrate (5270) voted in FY2004, FY2006-FY2009"
+2009,Nelson,74,member,435,Michael C. Nelson,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Michael C. Nelson (435) voted in FY2001, FY2004, FY2006-FY2014"
+2009,Oddo,131,member,436,James S. Oddo,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; James S. Oddo (436) voted in FY2001, FY2004, FY2006-FY2014"
+2009,Palma,62,member,5416,Annabel Palma,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Annabel Palma (5416) voted in FY2006-FY2018
+2009,QN,46,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2009,Queens,28,delegation,,,borough delegation label,
+2009,Quinn,113,member,434,Christine C. Quinn,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Christine C. Quinn (434) voted in FY2001, FY2004, FY2006-FY2014"
+2009,Recchia,115,member,5292,"Domenic M. Recchia, Jr.",exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Domenic M. Recchia, Jr. (5292) voted in FY2004, FY2006-FY2014"
+2009,Reyna,31,member,5256,Diana Reyna,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Diana Reyna (5256) voted in FY2004, FY2006-FY2014"
+2009,Rivera,60,member,5244,Joel Rivera,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Joel Rivera (5244) voted in FY2001, FY2004, FY2006-FY2014; Carlina Rivera (7740) voted in FY2018-FY2026; excluded Jose Rivera (19): no recorded vote"
+2009,"Sanders, Jr",57,member,5280,"James Sanders, Jr.",exact surname + suffix Jr; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; James Sanders, Jr. (5280) voted in FY2004, FY2006-FY2013"
+2009,Seabrook,30,member,5263,Larry B. Seabrook,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Larry B. Seabrook (5263) voted in FY2004, FY2006-FY2013"
+2009,Sears,78,member,5274,Helen Sears,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Helen Sears (5274) voted in FY2004, FY2006-FY2010"
+2009,SI,29,delegation,,,borough delegation label,
+2009,Staten Island,14,delegation,,,borough delegation label,
+2009,Stewart,55,member,5290,Kendall Stewart,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Kendall Stewart (5290) voted in FY2004, FY2006-FY2010"
+2009,Vacca,77,member,6271,James Vacca,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; James Vacca (6271) voted in FY2006-FY2018
+2009,"Vallone, Jr",100,member,5271,"Peter F. Vallone, Jr.",exact surname + suffix Jr; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Peter F. Vallone, Jr. (5271) voted in FY2004, FY2006-FY2014"
+2009,Vann,70,member,5284,Albert Vann,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Albert Vann (5284) voted in FY2004, FY2006-FY2014"
+2009,Viverito,66,member,6269,Melissa Mark-Viverito,surname component; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Melissa Mark-Viverito (6269) voted in FY2006-FY2018
+2009,Weprin,93,member,5272,David I. Weprin,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; David I. Weprin (5272) voted in FY2004, FY2006-FY2010; Mark S. Weprin (7570) voted in FY2010-FY2015"
+2009,White,4,member,6273,"Thomas White, Jr.",exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Thomas White (404) voted in FY2001; Thomas White, Jr. (6273) voted in FY2006-FY2011"
+2009,"White, Jr",43,member,6273,"Thomas White, Jr.",exact surname + suffix Jr; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Thomas White, Jr. (6273) voted in FY2006-FY2011"
+2009,Yassky,66,member,5282,David Yassky,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; David Yassky (5282) voted in FY2004, FY2006-FY2010"
+2011,,771,blank,,,empty cell,
+2011,Arroyo,80,member,5911,Maria Del Carmen Arroyo,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Maria Del Carmen Arroyo (5911) voted in FY2006-FY2016
+2011,Barron,52,member,5288,Charles Barron,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Charles Barron (5288) voted in FY2004, FY2006-FY2014, FY2022-FY2024; Inez D. Barron (7623) voted in FY2014-FY2022"
+2011,Brewer,101,member,5259,Gale A. Brewer,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Gale A. Brewer (5259) voted in FY2004, FY2006-FY2014, FY2022-FY2027"
+2011,Bronx,34,delegation,,,borough delegation label,
+2011,Brooklyn,52,delegation,,,borough delegation label,
+2011,Cabrera,42,member,7561,Fernando Cabrera,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Fernando Cabrera (7561) voted in FY2010-FY2022
+2011,CC,271,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2011,Chin,94,member,7562,Margaret S. Chin,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Margaret S. Chin (7562) voted in FY2010-FY2022
+2011,"Chin, Mendez, Garodnick, Lappin, Brewer, Jackson, Viverito, Dickens, Rodriguez",51,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2011,Citywide,1,citywide,,,citywide label,
+2011,Comrie,139,member,5276,"Leroy G. Comrie, Jr.",exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Leroy G. Comrie, Jr. (5276) voted in FY2004, FY2006-FY2014"
+2011,Crowley,65,member,7502,Elizabeth S. Crowley,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Elizabeth S. Crowley (7502) voted in FY2009-FY2018
+2011,Dickens,180,member,6270,Inez E. Dickens,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Inez E. Dickens (6270) voted in FY2006-FY2017
+2011,Dilan,41,member,5285,Erik Martin Dilan,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Erik Martin Dilan (5285) voted in FY2004, FY2006-FY2014"
+2011,Dromm,70,member,7563,Daniel Dromm,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Daniel Dromm (7563) voted in FY2010-FY2022
+2011,Eugene,56,member,7113,Mathieu Eugene,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Mathieu Eugene (7113) voted in FY2007-FY2022
+2011,Ferreras,69,member,7509,Julissa Ferreras-Copeland,surname component; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Julissa Ferreras-Copeland (7509) voted in FY2009-FY2018
+2011,Fidler,92,member,5291,Lewis A. Fidler,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Lewis A. Fidler (5291) voted in FY2004, FY2006-FY2014"
+2011,Foster,49,member,5265,Helen D. Foster,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Wendell Foster (15) voted in FY2001; Helen D. Foster (5265) voted in FY2004, FY2006-FY2014"
+2011,Garodnick,96,member,6267,Daniel R. Garodnick,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Daniel R. Garodnick (6267) voted in FY2006-FY2018
+2011,Gennaro,59,member,5273,James F. Gennaro,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; James F. Gennaro (5273) voted in FY2004, FY2006-FY2014, FY2021-FY2027"
+2011,Gentile,99,member,5390,Vincent J. Gentile,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Vincent J. Gentile (5390) voted in FY2004, FY2006-FY2018"
+2011,Gonzalez,64,member,5376,Sara M. Gonzalez,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Sara M. Gonzalez (5376) voted in FY2004, FY2006-FY2014"
+2011,Greenfield,58,member,7577,David G. Greenfield,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; David G. Greenfield (7577) voted in FY2010-FY2018
+2011,Halloran,64,member,7564,Daniel J. Halloran III,surname component; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Daniel J. Halloran III (7564) voted in FY2010-FY2014
+2011,Ignizio,81,member,7112,Vincent Ignizio,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Vincent Ignizio (7112) voted in FY2007-FY2015
+2011,Jackson,158,member,5260,Robert Jackson,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Robert Jackson (5260) voted in FY2004, FY2006-FY2014"
+2011,James,91,member,5417,Letitia James,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Letitia James (5417) voted in FY2006-FY2014
+2011,Koo,63,member,7565,Peter A. Koo,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Peter A. Koo (7565) voted in FY2010-FY2022
+2011,Koppell,51,member,5262,G. Oliver Koppell,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; G. Oliver Koppell (5262) voted in FY2004, FY2006-FY2014"
+2011,Koslowitz,69,member,386,Karen Koslowitz,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Karen Koslowitz (386) voted in FY2001, FY2010-FY2022"
+2011,Lander,79,member,7566,Brad S. Lander,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Brad S. Lander (7566) voted in FY2010-FY2022
+2011,Lappin,71,member,6268,Jessica S. Lappin,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Jessica S. Lappin (6268) voted in FY2006-FY2014
+2011,Levin,92,member,7567,Stephen T. Levin,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Stephen T. Levin (7567) voted in FY2010-FY2022
+2011,Manhattan,33,delegation,,,borough delegation label,
+2011,Mealy,67,member,6272,Darlene Mealy,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Darlene Mealy (6272) voted in FY2006-FY2018, FY2022-FY2027"
+2011,Mendez,104,member,6274,Rosie Mendez,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Rosie Mendez (6274) voted in FY2006-FY2018
+2011,Nelson,66,member,435,Michael C. Nelson,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Michael C. Nelson (435) voted in FY2001, FY2004, FY2006-FY2014"
+2011,Oddo,156,member,436,James S. Oddo,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; James S. Oddo (436) voted in FY2001, FY2004, FY2006-FY2014"
+2011,Palma,107,member,5416,Annabel Palma,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Annabel Palma (5416) voted in FY2006-FY2018
+2011,Queens,43,delegation,,,borough delegation label,
+2011,Quinn,144,member,434,Christine C. Quinn,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Christine C. Quinn (434) voted in FY2001, FY2004, FY2006-FY2014"
+2011,Recchia,131,member,5292,"Domenic M. Recchia, Jr.",exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Domenic M. Recchia, Jr. (5292) voted in FY2004, FY2006-FY2014"
+2011,Reyna,51,member,5256,Diana Reyna,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Diana Reyna (5256) voted in FY2004, FY2006-FY2014"
+2011,Rivera,67,member,5244,Joel Rivera,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Joel Rivera (5244) voted in FY2001, FY2004, FY2006-FY2014; Carlina Rivera (7740) voted in FY2018-FY2026; excluded Jose Rivera (19): no recorded vote"
+2011,Rodriguez,54,member,7541,Ydanis A. Rodriguez,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Angel Rodriguez (433) voted in FY2001; Ydanis A. Rodriguez (7541) voted in FY2010-FY2022
+2011,Rose,120,member,7568,Deborah L. Rose,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Deborah L. Rose (7568) voted in FY2010-FY2022
+2011,"Sanders, Jr",57,member,5280,"James Sanders, Jr.",exact surname + suffix Jr; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; James Sanders, Jr. (5280) voted in FY2004, FY2006-FY2013"
+2011,Seabrook,29,member,5263,Larry B. Seabrook,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Larry B. Seabrook (5263) voted in FY2004, FY2006-FY2013"
+2011,Staten Island,10,delegation,,,borough delegation label,
+2011,Ulrich,70,member,7510,Eric A. Ulrich,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Eric A. Ulrich (7510) voted in FY2009-FY2022
+2011,Vacca,63,member,6271,James Vacca,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; James Vacca (6271) voted in FY2006-FY2018
+2011,"Vallone, Jr",99,member,5271,"Peter F. Vallone, Jr.",exact surname + suffix Jr; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Peter F. Vallone, Jr. (5271) voted in FY2004, FY2006-FY2014"
+2011,Van Bramer,63,member,7569,James G. Van Bramer,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; James G. Van Bramer (7569) voted in FY2010-FY2022
+2011,Vann,87,member,5284,Albert Vann,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Albert Vann (5284) voted in FY2004, FY2006-FY2014"
+2011,Viverito,100,member,6269,Melissa Mark-Viverito,surname component; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Melissa Mark-Viverito (6269) voted in FY2006-FY2018
+2011,Weprin,55,member,7570,Mark S. Weprin,exact surname; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; David I. Weprin (5272) voted in FY2004, FY2006-FY2010; Mark S. Weprin (7570) voted in FY2010-FY2015"
+2011,"White, Jr",68,member,6273,"Thomas White, Jr.",exact surname + suffix Jr; the only match with a recorded vote in FY2011,"FY2011 = 2010-07-01..2011-06-30; Thomas White, Jr. (6273) voted in FY2006-FY2011"
+2011,Williams,71,member,7571,Jumaane D. Williams,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Jumaane D. Williams (7571) voted in FY2010-FY2019; Nantasha M. Williams (7817) voted in FY2022-FY2027; excluded Enoch H. Williams (33): no recorded vote
+2012,,814,blank,,,empty cell,
+2012,Arroyo,76,member,5911,Maria Del Carmen Arroyo,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Maria Del Carmen Arroyo (5911) voted in FY2006-FY2016
+2012,Barron,44,member,5288,Charles Barron,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Charles Barron (5288) voted in FY2004, FY2006-FY2014, FY2022-FY2024; Inez D. Barron (7623) voted in FY2014-FY2022"
+2012,Brewer,115,member,5259,Gale A. Brewer,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Gale A. Brewer (5259) voted in FY2004, FY2006-FY2014, FY2022-FY2027"
+2012,Bronx,34,delegation,,,borough delegation label,
+2012,Brooklyn,59,delegation,,,borough delegation label,
+2012,Brooklyn Delegation,26,delegation,,,borough delegation label,
+2012,Cabrera,82,member,7561,Fernando Cabrera,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Fernando Cabrera (7561) voted in FY2010-FY2022
+2012,CC,252,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2012,Chin,100,member,7562,Margaret S. Chin,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Margaret S. Chin (7562) voted in FY2010-FY2022
+2012,Citywide,1,citywide,,,citywide label,
+2012,Comrie,157,member,5276,"Leroy G. Comrie, Jr.",exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Leroy G. Comrie, Jr. (5276) voted in FY2004, FY2006-FY2014"
+2012,Crowley,96,member,7502,Elizabeth S. Crowley,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Elizabeth S. Crowley (7502) voted in FY2009-FY2018
+2012,Dickens,170,member,6270,Inez E. Dickens,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Inez E. Dickens (6270) voted in FY2006-FY2017
+2012,Dilan,38,member,5285,Erik Martin Dilan,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Erik Martin Dilan (5285) voted in FY2004, FY2006-FY2014"
+2012,Dromm,72,member,7563,Daniel Dromm,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Daniel Dromm (7563) voted in FY2010-FY2022
+2012,Eugene,81,member,7113,Mathieu Eugene,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Mathieu Eugene (7113) voted in FY2007-FY2022
+2012,Ferreras,71,member,7509,Julissa Ferreras-Copeland,surname component; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Julissa Ferreras-Copeland (7509) voted in FY2009-FY2018
+2012,Fidler,110,member,5291,Lewis A. Fidler,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Lewis A. Fidler (5291) voted in FY2004, FY2006-FY2014"
+2012,Foster,45,member,5265,Helen D. Foster,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Wendell Foster (15) voted in FY2001; Helen D. Foster (5265) voted in FY2004, FY2006-FY2014"
+2012,Garodnick,96,member,6267,Daniel R. Garodnick,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Daniel R. Garodnick (6267) voted in FY2006-FY2018
+2012,Gennaro,72,member,5273,James F. Gennaro,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; James F. Gennaro (5273) voted in FY2004, FY2006-FY2014, FY2021-FY2027"
+2012,Gentile,119,member,5390,Vincent J. Gentile,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Vincent J. Gentile (5390) voted in FY2004, FY2006-FY2018"
+2012,Gonzalez,57,member,5376,Sara M. Gonzalez,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Sara M. Gonzalez (5376) voted in FY2004, FY2006-FY2014"
+2012,Greenfield,71,member,7577,David G. Greenfield,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; David G. Greenfield (7577) voted in FY2010-FY2018
+2012,Halloran,70,member,7564,Daniel J. Halloran III,surname component; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Daniel J. Halloran III (7564) voted in FY2010-FY2014
+2012,Ignizio,72,member,7112,Vincent Ignizio,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Vincent Ignizio (7112) voted in FY2007-FY2015
+2012,Jackson,158,member,5260,Robert Jackson,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Robert Jackson (5260) voted in FY2004, FY2006-FY2014"
+2012,James,115,member,5417,Letitia James,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Letitia James (5417) voted in FY2006-FY2014
+2012,Koo,67,member,7565,Peter A. Koo,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Peter A. Koo (7565) voted in FY2010-FY2022
+2012,Koppell,57,member,5262,G. Oliver Koppell,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; G. Oliver Koppell (5262) voted in FY2004, FY2006-FY2014"
+2012,Koslowitz,72,member,386,Karen Koslowitz,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Karen Koslowitz (386) voted in FY2001, FY2010-FY2022"
+2012,Lander,94,member,7566,Brad S. Lander,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Brad S. Lander (7566) voted in FY2010-FY2022
+2012,Lappin,75,member,6268,Jessica S. Lappin,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Jessica S. Lappin (6268) voted in FY2006-FY2014
+2012,Levin,120,member,7567,Stephen T. Levin,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Stephen T. Levin (7567) voted in FY2010-FY2022
+2012,Manhattan,33,delegation,,,borough delegation label,
+2012,Manhattan Delegation,53,delegation,,,borough delegation label,
+2012,Mark-Viverito,110,member,6269,Melissa Mark-Viverito,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Melissa Mark-Viverito (6269) voted in FY2006-FY2018
+2012,Mealy,56,member,6272,Darlene Mealy,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Darlene Mealy (6272) voted in FY2006-FY2018, FY2022-FY2027"
+2012,Mendez,97,member,6274,Rosie Mendez,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Rosie Mendez (6274) voted in FY2006-FY2018
+2012,Nelson,74,member,435,Michael C. Nelson,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Michael C. Nelson (435) voted in FY2001, FY2004, FY2006-FY2014"
+2012,Oddo,163,member,436,James S. Oddo,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; James S. Oddo (436) voted in FY2001, FY2004, FY2006-FY2014"
+2012,Palma,102,member,5416,Annabel Palma,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Annabel Palma (5416) voted in FY2006-FY2018
+2012,Queens,45,delegation,,,borough delegation label,
+2012,Quinn,139,member,434,Christine C. Quinn,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Christine C. Quinn (434) voted in FY2001, FY2004, FY2006-FY2014"
+2012,Recchia,148,member,5292,"Domenic M. Recchia, Jr.",exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Domenic M. Recchia, Jr. (5292) voted in FY2004, FY2006-FY2014"
+2012,Reyna,59,member,5256,Diana Reyna,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Diana Reyna (5256) voted in FY2004, FY2006-FY2014"
+2012,Rivera,65,member,5244,Joel Rivera,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Joel Rivera (5244) voted in FY2001, FY2004, FY2006-FY2014; Carlina Rivera (7740) voted in FY2018-FY2026; excluded Jose Rivera (19): no recorded vote"
+2012,Rodriguez,68,member,7541,Ydanis A. Rodriguez,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Angel Rodriguez (433) voted in FY2001; Ydanis A. Rodriguez (7541) voted in FY2010-FY2022
+2012,Rose,121,member,7568,Deborah L. Rose,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Deborah L. Rose (7568) voted in FY2010-FY2022
+2012,Sanders,56,member,5280,"James Sanders, Jr.",exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; James Sanders, Jr. (5280) voted in FY2004, FY2006-FY2013"
+2012,Seabrook,24,member,5263,Larry B. Seabrook,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Larry B. Seabrook (5263) voted in FY2004, FY2006-FY2013"
+2012,Staten Island,12,delegation,,,borough delegation label,
+2012,Ulrich,83,member,7510,Eric A. Ulrich,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Eric A. Ulrich (7510) voted in FY2009-FY2022
+2012,Vacca,58,member,6271,James Vacca,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; James Vacca (6271) voted in FY2006-FY2018
+2012,Vallone,84,member,5271,"Peter F. Vallone, Jr.",exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Peter F. Vallone (26) voted in FY2001; Peter F. Vallone, Jr. (5271) voted in FY2004, FY2006-FY2014; Paul A. Vallone (7642) voted in FY2014-FY2022"
+2012,Van Bramer,55,member,7569,James G. Van Bramer,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; James G. Van Bramer (7569) voted in FY2010-FY2022
+2012,Vann,87,member,5284,Albert Vann,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Albert Vann (5284) voted in FY2004, FY2006-FY2014"
+2012,Weprin,74,member,7570,Mark S. Weprin,exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; David I. Weprin (5272) voted in FY2004, FY2006-FY2010; Mark S. Weprin (7570) voted in FY2010-FY2015"
+2012,Williams,102,member,7571,Jumaane D. Williams,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Jumaane D. Williams (7571) voted in FY2010-FY2019; Nantasha M. Williams (7817) voted in FY2022-FY2027; excluded Enoch H. Williams (33): no recorded vote
+2012,Wills,97,member,7586,Ruben Wills,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Ruben Wills (7586) voted in FY2011-FY2018
 2013,,432,blank,,,empty cell,
 2013,Arroyo,65,member,5911,Maria Del Carmen Arroyo,exact surname; the only match with a recorded vote in FY2013,FY2013 = 2012-07-01..2013-06-30; Maria Del Carmen Arroyo (5911) voted in FY2006-FY2016
 2013,Barron,37,member,5288,Charles Barron,exact surname; the only match with a recorded vote in FY2013,"FY2013 = 2012-07-01..2013-06-30; Charles Barron (5288) voted in FY2004, FY2006-FY2014, FY2022-FY2024; Inez D. Barron (7623) voted in FY2014-FY2022"

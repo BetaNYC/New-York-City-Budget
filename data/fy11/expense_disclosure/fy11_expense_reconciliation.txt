@@ -1,0 +1,31 @@
+EXPENSE DISCLOSURE RECONCILIATION  (fy11)  [parser: parse_expense_disclosure.py]
+source: funded_disclosure_FY2011.xls  (sheet 'MASTER', xls, 5421 rows incl. header)
+archived: source/wayback-council/files/20250212200134/funded_disclosure_FY2011.xls (Internet Archive capture; URL, timestamp and sha256 in data/disclosure_years.csv)
+printed total: NO PRINTED TOTAL
+
+Every non-blank row after the header is either an award or a stripped row. A row is
+decided by its Status cell: Cleared/Pending (any case) is an award; anything else is
+stripped unless it still names an organization and an amount (then it is kept with
+status_norm 'other'). Every stripped row is listed below with its cells.
+
+rows after header: 5420   blank: 0   awards: 5420   stripped: 0
+
+status_norm       rows              amount
+cleared           4894      383,347,147.06
+pending            387        9,893,295.82
+other              139        2,667,044.62
+ALL               5420      395,907,487.50
+
+Headline figure = cleared only. 'ALL' adds pending (and other) and is labeled so.
+
+This workbook prints no total of its own. The sums above are computed by this
+parser from the rows; they are not a figure published by the Council.
+
+Stripped rows (0):
+  none
+
+EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (3): [4554, 5044, 5117]
+Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 11 group(s), 23 row(s); 12 beyond the first of each group, $110,452.38
+NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: 3914 of 5420 rows (exact 3885, rounded_cents 29, rounded_dollars 0)
+Rows kept but flagged in row_flag (0), included in every total above: none
+notes: no MOCS ID#; no Fiscal Year column (year taken from filename)

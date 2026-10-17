@@ -142,7 +142,8 @@ TYPES = {
         # it never feeds the Schedule C files above. Extra checks in check_file(): status_norm
         # is one of three values and agrees with the raw status, fiscal_year is the folder year,
         # and source_row is a unique positive integer (it is the provenance pointer).
-        cols=["fiscal_year", "mocs_id", "source", "council_member", "council_member_id",
+        cols=["fiscal_year", "mocs_id", "od_mocs_id", "od_match", "source", "council_member",
+              "council_member_id",
               "council_member_type", "legal_name", "ein", "status", "status_norm", "amount", "agency", "program_name", "address1",
               "address2", "city", "state", "postal_code", "zip", "zip_status", "zip_candidates",
               "purpose", "fiscal_conduit", "fiscal_conduit_ein", "source_file", "source_row",
@@ -304,7 +305,7 @@ def check_file(path, surnames):
     # --- 2/3/4/6 per-row value checks
     ein_col = spec.get("ein")
     action_col = "action" if typ in ("transparency", "transparency_reso") else None
-    bad_eins = []
+    bad_eins, published_odd = [], []
     zero_amts = 0
     sign_bad = []
     outliers = []
@@ -333,6 +334,9 @@ def check_file(path, surnames):
                 digits = raw.replace("-", "")
                 if digits.isdigit() and len(digits) == 9:
                     res.ein_valid += 1
+                elif typ == "expense_disclosure" and \
+                        PUBLISHED_ODD_EINS.get((year, cell(r, "source_row"))) == raw:
+                    published_odd.append((ln, raw))
                 else:
                     if len(bad_eins) < 5:
                         bad_eins.append((ln, raw))
@@ -426,6 +430,10 @@ def check_file(path, surnames):
     if bad_eins:
         res.hard.append(("ein", f"{len(bad_eins)}+ malformed EIN(s), e.g. line {bad_eins[0][0]}: "
                                 f"{bad_eins[0][1]!r}"))
+    if published_odd:
+        res.soft.append(("ein", f"{len(published_odd)} EIN(s) not 9 digits, kept as the Council "
+                                f"published them (DATA-ANOMALIES §25): "
+                                + ", ".join(f"line {ln} {v!r}" for ln, v in published_odd)))
     if zero_amts:
         res.soft.append(("amount", f"{zero_amts} row(s) with amount == 0"))
     for ln, msg in sign_bad:
@@ -468,6 +476,16 @@ def check_file(path, surnames):
 
 
 DISCLOSURE_STATUS = {"cleared", "pending", "other"}
+# EINs the Council's archived FY2009/FY2011 workbooks print that are not 9 digits. Kept as
+# published (never repaired: which digits were meant is not in the file), listed here by
+# (fiscal_year, source_row) so ONLY these pass; any other malformed EIN is still HARD.
+PUBLISHED_ODD_EINS = {
+    (2009, "3075"): "EX130314", (2009, "4366"): "EX123557", (2009, "4912"): "11-31735A",
+    (2011, "679"): "NA",
+}
+# NYC Open Data cross-reference columns (#89 A4): od_match is one of these, or blank with a
+# blank od_mocs_id; od_mocs_id reads "FY<yy> ..." for the row's own year; only FY2009-FY2021.
+OD_MATCH_VALUES = {"exact", "rounded_cents", "rounded_dollars"}
 # Excel error values. The disclosure keeps them as published TEXT (GitHub #71): 37 cells read
 # "#N/A" (FY2014 postal_code 19; FY2017 address1, city, postal_code 6 each). They are counted
 # here, never parsed as a number or a ZIP, never blanked. In a column that must hold a value
@@ -528,11 +546,13 @@ def _check_disclosure(res, body, header, idx):
     if not all(c in idx for c in ("status", "status_norm", "fiscal_year", "source_row",
                                   "duplicate_group", "zip", "zip_status", "zip_candidates",
                                   "council_member_id",
-                                  "council_member_type", "row_flag")):
+                                  "council_member_type", "row_flag", "od_mocs_id",
+                                  "od_match")):
         return  # schema check already failed hard; value checks would be noise
     bad_norm, bad_year, bad_row, seen, dup_rows = [], [], [], set(), []
     groups, row_group = Counter(), {}
-    bad_zip, bad_member, bad_flag = [], [], []
+    bad_zip, bad_member, bad_flag, bad_od = [], [], [], []
+    od_rows = 0
     flags = Counter()
     errors = Counter()
     for ln, r in enumerate(body, start=2):
@@ -552,6 +572,14 @@ def _check_disclosure(res, body, header, idx):
         if mt not in MEMBER_TYPES or (mt in MEMBER_ID_TYPES) != mid.isdigit() \
                 or (mt == "blank") != (r[idx["council_member"]].strip() == ""):
             bad_member.append((ln, r[idx["council_member"]], mid, mt))
+        om, oid = r[idx["od_match"]], r[idx["od_mocs_id"]]
+        if om or oid:
+            od_rows += 1
+            fy = r[idx["fiscal_year"]]
+            yy = fy[-2:] if fy.isdigit() else "??"
+            if om not in OD_MATCH_VALUES or not oid.startswith(f"FY{yy} ") \
+                    or not (fy.isdigit() and 2009 <= int(fy) <= 2021):
+                bad_od.append((ln, oid, om))
         fl = r[idx["row_flag"]]
         if fl:
             flags[fl] += 1
@@ -606,6 +634,13 @@ def _check_disclosure(res, body, header, idx):
         ln, raw, zv, zs = bad_zip[0]
         res.hard.append(("zip", (f"{len(bad_zip)} row(s) whose zip/zip_status are inconsistent, "
                                  f"e.g. line {ln}: postal_code {raw!r} -> {zv!r} {zs!r}")))
+    if bad_od:
+        ln, oid, om = bad_od[0]
+        res.hard.append(("od_mocs_id", (f"{len(bad_od)} row(s) whose od_mocs_id / od_match are "
+                                        f"inconsistent, e.g. line {ln}: {oid!r} {om!r}")))
+    if od_rows:
+        res.soft.append(("od_mocs_id", (f"{od_rows} row(s) carry NYC Open Data's MOCS ID "
+                                        f"(unambiguous pairs only)")))
     if bad_flag:
         ln, v = bad_flag[0]
         res.hard.append(("row_flag", (f"{len(bad_flag)} row(s) with an unknown row_flag, e.g. "
