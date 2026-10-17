@@ -469,15 +469,17 @@ def test_dry_run_writes_no_file(tmp_path):
 # --------------------------------------------------- expense-disclosure dataset (check 9)
 DISC_HDR = ("fiscal_year,mocs_id,source,council_member,council_member_id,council_member_type,"
             "legal_name,ein,status,status_norm,amount,"
-            "agency,program_name,address1,address2,city,state,postal_code,zip,zip_status,purpose,"
+            "agency,program_name,address1,address2,city,state,postal_code,zip,zip_status,zip_candidates,"
+            "purpose,"
             "fiscal_conduit,fiscal_conduit_ein,source_file,source_row,duplicate_group")
 
 
 def _disc_row(fy="2026", status="Cleared", norm="cleared", src_row="2", ein="136400434", dup="",
-              postal="", zip_="", zip_status="blank", member="Doe", mid="42", mtype="member"):
+              postal="", zip_="", zip_status="blank", member="Doe", mid="42", mtype="member",
+              cands=""):
     return (f"{fy},FY26 00001,Local,{member},{mid},{mtype},Acme Inc.,{ein},{status},{norm},5000,"
             f"DYCD,,,,,,"
-            f"{postal},{zip_},{zip_status},,,,"
+            f"{postal},{zip_},{zip_status},{cands},,,,"
             f"funded_disclosure_FY2026.xlsx,{src_row},{dup}\n")
 
 
@@ -557,18 +559,40 @@ def test_disclosure_duplicate_group_must_name_a_real_group_issue_69(tmp_path):
 def test_disclosure_zip_fields_must_agree_issue_70(tmp_path):
     """Issue #70. FAILS if consistent zip/zip_status pairs raise a finding, or if an unknown
     status, a 'valid' row with no zip, an 'invalid' row with one, a zip that is not taken from
-    the published postal_code, or a 'trimmed' row whose postal_code is not a ragged ZIP+4 (or
-    that carries no zip) passes."""
+    the published postal_code, a 'trimmed' row whose postal_code is not a ragged ZIP+4 (or
+    that carries no zip), a 'repaired_extra_digit' zip that is not a one-digit deletion of a
+    6-digit postal_code, an 'ambiguous_extra_digit' row with a zip or with fewer than two,
+    unsorted or non-deletion candidates, or candidates on any other status passes."""
     root = tmp_path / "data"
     _disc_file(root, _disc_row(postal="10001-1234", zip_="10001", zip_status="valid")
                + _disc_row(src_row="3", postal="2446", zip_="02446", zip_status="padded")
                + _disc_row(src_row="4", postal="0", zip_status="invalid")
-               + _disc_row(src_row="5", postal="11203-", zip_="11203", zip_status="trimmed"))
+               + _disc_row(src_row="5", postal="11203-", zip_="11203", zip_status="trimmed")
+               + _disc_row(src_row="6", postal="11231=1020", zip_="11231", zip_status="trimmed")
+               + _disc_row(src_row="7", postal="11413 ZipCode2: 3929", zip_="11413",
+                           zip_status="trimmed")
+               + _disc_row(src_row="8", postal="111691", zip_="11691",
+                           zip_status="repaired_extra_digit")
+               + _disc_row(src_row="9", postal="114345", zip_status="ambiguous_extra_digit",
+                           cands="11434;11435"))
     (r,) = V.validate_tree(str(root))[0]
     assert r.hard == [], r.hard
     for i, kw in enumerate([{"postal": "10001", "zip_": "10001", "zip_status": "ok"},
                             {"postal": "10001", "zip_": "10001", "zip_status": "trimmed"},
                             {"postal": "11203-", "zip_status": "trimmed"},
+                            {"postal": "10310`", "zip_": "10310", "zip_status": "trimmed"},
+                            {"postal": "111691", "zip_": "11234", "zip_status": "repaired_extra_digit"},
+                            {"postal": "1116911", "zip_": "11691", "zip_status": "repaired_extra_digit"},
+                            {"postal": "111691", "zip_status": "repaired_extra_digit"},
+                            {"postal": "114345", "zip_": "11434", "zip_status": "ambiguous_extra_digit",
+                             "cands": "11434;11435"},
+                            {"postal": "114345", "zip_status": "ambiguous_extra_digit",
+                             "cands": "11434"},
+                            {"postal": "114345", "zip_status": "ambiguous_extra_digit",
+                             "cands": "11435;11434"},
+                            {"postal": "114345", "zip_status": "ambiguous_extra_digit",
+                             "cands": "11434;99999"},
+                            {"postal": "114345", "zip_status": "invalid", "cands": "11434;11435"},
                             {"postal": "10001", "zip_status": "valid"},
                             {"postal": "0", "zip_": "00000", "zip_status": "invalid"},
                             {"postal": "10001", "zip_": "10002", "zip_status": "valid"}]):

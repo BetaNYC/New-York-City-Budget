@@ -480,34 +480,48 @@ in the Schedule C files moved. What a reader needs to know before using it:
   row's own state) and 33 are not: `1001`/`1002`/`1144` on New York rows pad to Massachusetts
   ZCTAs, `7052`/`7083` to New Jersey ones, `6108` to Connecticut (city Hartford, state cell
   `New York`), and `1004`/`1121`/`1123`/`1126` to no ZCTA at all; each looks like a typo of a NYC
-  ZIP, and none is guessed. A ragged ZIP+4 (32 rows: `11203-` 24, `10027-000` 2, `10037-999` 2,
-  `11217-11217`, `11204-11204`, `10033-10033`, `11102-20`) is `trimmed` to its first five digits,
-  because each is a ZCTA in the row's own state; `postal_code` keeps the cell as published. The
-  five-digit-led values that are not the hyphenated form stay `invalid` (`111691` 30, `104658` 11,
-  `100037` 10, `11231=1020`, `11413 ZipCode2: 3929`, ...: audit G11 lists them all). `blank` (an
-  empty cell) is kept apart from `invalid`. `not_a_zcta` is **not verified, not fake**: PO-box and
-  single-building ZIPs have no ZCTA. Counts (this repo's, of the committed rows):
+  ZIP, and none is guessed. A ragged ZIP+4 (35 rows: `11203-` 24, `10027-000` 2, `10037-999` 2,
+  `11217-11217`, `11204-11204`, `10033-10033`, `11102-20`, and the three printed with another
+  separator: `11231=1020` FY2018 row 8527, `11413 ZipCode2: 3929` FY2015 row 1593,
+  `11233 ZipCode2: 150` FY2015 row 6003) is `trimmed` to its first five digits, because each is
+  a ZCTA in the row's own state; `postal_code` keeps the cell as published. The hyphen, `=` and
+  `ZipCode2:` are the only ZIP+4 separators in any year; the other five-digit-led values stay
+  `invalid` (`10310\``, `10465ww`, `10448448`, `1030410016`: audit G11 lists them).
+  **Six-digit ZIPs** (65 rows, 10 values; decision 2026-10-13) are read by deleting one digit at
+  every position, since the extra digit is not always in one place (leading in `111691`,
+  trailing in `115300`, inside in `100665`). When exactly one result is a ZCTA in the row's own
+  state the row is `repaired_extra_digit` (35 rows: `111691` → 11691 Far Rockaway 30,
+  FY2019–FY2027; `100665` → 10065 2; `115300` → 11530; `111234` → 11234; `110027` → 10027).
+  When more than one is, the row is `ambiguous_extra_digit` with no `zip` and every candidate in
+  `zip_candidates` (30 rows: `104658` → 10458/10465/10468 11; `100037` → 10003/10007/10037 10;
+  `900069` → 90006/90069 5; `114345` → 11434/11435 3; `100115` → 10011/10115 1). None is picked,
+  by a doubled digit or by knowing the street: that would be a guess. The four ambiguous New
+  York values could later be settled from the street address with NYC Planning's GeoSearch
+  (tracker #75, a future item that needs the maintainer's approval; no lookup is done now). No
+  county narrowing is applied: the committed Census table carries states, not counties (audit
+  G12 checks every six-digit row). `blank` (an empty cell) is kept apart from `invalid`.
+  `not_a_zcta` is **not verified, not fake**: PO-box and single-building ZIPs have no ZCTA. Counts (this repo's, of the committed rows):
 
-  | FY | valid | padded | trimmed | not_a_zcta | state_mismatch | invalid | blank |
-  |---|---:|---:|---:|---:|---:|---:|---:|
-  | 2013 | 4,561 | 0 | 1 | 50 | 3 | 5 | 367 |
-  | 2014 | 5,557 | 0 | 2 | 44 | 1 | 32 | 975 |
-  | 2015 | 5,946 | 6 | 0 | 63 | 2 | 7 | 626 |
-  | 2016 | 6,885 | 2 | 1 | 50 | 1 | 12 | 846 |
-  | 2017 | 7,688 | 5 | 2 | 69 | 7 | 10 | 890 |
-  | 2018 | 8,092 | 0 | 0 | 80 | 2 | 25 | 695 |
-  | 2019 | 8,773 | 0 | 0 | 87 | 0 | 8 | 787 |
-  | 2020 | 9,658 | 0 | 3 | 72 | 0 | 6 | 877 |
-  | 2021 | 8,511 | 0 | 3 | 80 | 3 | 6 | 451 |
-  | 2022 | 10,587 | 0 | 4 | 83 | 2 | 19 | 641 |
-  | 2023 | 10,120 | 0 | 3 | 74 | 5 | 4 | 821 |
-  | 2024 | 9,904 | 0 | 3 | 71 | 0 | 8 | 825 |
-  | 2025 | 10,523 | 0 | 4 | 82 | 1 | 5 | 661 |
-  | 2026 | 11,006 | 0 | 3 | 87 | 1 | 6 | 661 |
-  | 2027 | 9,532 | 0 | 3 | 81 | 1 | 79 | 711 |
-  | **all** | **127,343** | **13** | **32** | **1,073** | **29** | **232** | **10,834** |
+  | FY | valid | padded | trimmed | repaired_extra_digit | ambiguous_extra_digit | not_a_zcta | state_mismatch | invalid | blank |
+  |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+  | 2013 | 4,561 | 0 | 1 | 0 | 0 | 50 | 3 | 5 | 367 |
+  | 2014 | 5,557 | 0 | 2 | 0 | 0 | 44 | 1 | 32 | 975 |
+  | 2015 | 5,946 | 6 | 2 | 1 | 0 | 63 | 2 | 4 | 626 |
+  | 2016 | 6,885 | 2 | 1 | 0 | 1 | 50 | 1 | 11 | 846 |
+  | 2017 | 7,688 | 5 | 2 | 0 | 0 | 69 | 7 | 10 | 890 |
+  | 2018 | 8,092 | 0 | 1 | 1 | 13 | 80 | 2 | 10 | 695 |
+  | 2019 | 8,773 | 0 | 0 | 4 | 0 | 87 | 0 | 4 | 787 |
+  | 2020 | 9,658 | 0 | 3 | 2 | 0 | 72 | 0 | 4 | 877 |
+  | 2021 | 8,511 | 0 | 3 | 3 | 0 | 80 | 3 | 3 | 451 |
+  | 2022 | 10,587 | 0 | 4 | 4 | 11 | 83 | 2 | 4 | 641 |
+  | 2023 | 10,120 | 0 | 3 | 3 | 1 | 74 | 5 | 0 | 821 |
+  | 2024 | 9,904 | 0 | 3 | 4 | 4 | 71 | 0 | 0 | 825 |
+  | 2025 | 10,523 | 0 | 4 | 5 | 0 | 82 | 1 | 0 | 661 |
+  | 2026 | 11,006 | 0 | 3 | 4 | 0 | 87 | 1 | 2 | 661 |
+  | 2027 | 9,532 | 0 | 3 | 4 | 0 | 81 | 1 | 75 | 711 |
+  | **all** | **127,343** | **13** | **35** | **35** | **30** | **1,073** | **29** | **164** | **10,834** |
 
-  FY2027's 79 `invalid` are mostly the `0` ZIPs (69). The 29 `state_mismatch` rows are mostly a
+  FY2027's 75 `invalid` are mostly the `0` ZIPs (69). The 29 `state_mismatch` rows are mostly a
   NYC ZIP on a row whose state cell names another state (`NC`, `NE`, `LA`, `MI`, `New JerseyNJ`
   on Staten Island addresses), plus a few out-of-state ZIPs on rows marked New York
   (`07087`, `08701`, `15050`, `19454`, `94110`). Street addresses are not checked; NYC Planning's GeoSearch would

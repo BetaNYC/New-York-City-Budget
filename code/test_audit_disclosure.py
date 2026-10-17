@@ -297,23 +297,53 @@ def test_zip_question_catches_a_blind_pad_issue_70():
 def test_zip_trim_question_issue_70():
     """Audit question G11 and G7's trimmed rule, against the committed Census table. FAILS if a
     correct trim ('11203-' in NY -> 11203) is reported, or if trimming into another state's ZCTA,
-    trimming a non-hyphenated value ('11231=1020'), trimming with no state, or leaving a
-    trimmable ragged ZIP+4 invalid passes."""
+    trimming a value with no ZIP+4 separator ('10310`'), trimming with no state, or leaving a
+    trimmable ragged ZIP+4 (hyphen, '=' or 'ZipCode2:') invalid passes."""
     def row(raw, state, z, st):
         r = _csv_row(2, "Acme", "136400434", "Cleared", 5000, zip=raw)
         r.update(state=state, zip=z, zip_status=st)
         return r
     good = [row("11203-", "NY", "11203", "trimmed"), row("11217-11217", "New YorkNY", "11217", "trimmed"),
-            row("11231=1020", "NY", "", "invalid"), row("11203-", "NC", "", "invalid"),
+            row("11231=1020", "NY", "11231", "trimmed"),
+            row("11413 ZipCode2: 3929", "NY", "11413", "trimmed"),
+            row("10310`", "NY", "", "invalid"), row("11203-", "NC", "", "invalid"),
             row("10001-1234", "NY", "10001", "valid")]
     assert A.q_zip_trim({"csv": good})["status"] == "pass"
     assert A.q_zip({"csv": good})["status"] == "pass"
-    for bad in (row("11203-", "NC", "11203", "trimmed"), row("11231=1020", "NY", "11231", "trimmed"),
-                row("11203-", "", "11203", "trimmed"), row("11203-", "NY", "", "invalid")):
+    for bad in (row("11203-", "NC", "11203", "trimmed"), row("10310`", "NY", "10310", "trimmed"),
+                row("11203-", "", "11203", "trimmed"), row("11203-", "NY", "", "invalid"),
+                row("11231=1020", "NY", "", "invalid"), row("11233 ZipCode2: 150", "NY", "", "invalid")):
         assert A.q_zip_trim({"csv": [bad]})["count"] == 1, bad
     for bad in good[:1]:
         wrong = dict(bad, zip="11204")
         assert A.q_zip({"csv": [wrong]})["count"] == 1
+
+
+def test_zip_extra_digit_question_issue_70():
+    """Audit question G12 and G7's extra-digit rules, against the committed Census table. FAILS
+    if a correct repair ('111691' NY -> 11691, extra digit leading; '115300' -> 11530, trailing)
+    or a correct ambiguity ('114345' NY -> 11434;11435, no zip) is reported, or if picking one
+    of two candidates, repairing to a non-candidate, repairing with no state, listing too few
+    candidates, repairing into another state's ZCTA, or leaving a single-candidate value invalid
+    passes."""
+    def row(raw, state, z, st, cands=""):
+        r = _csv_row(2, "Acme", "136400434", "Cleared", 5000, zip=raw)
+        r.update(state=state, zip=z, zip_status=st, zip_candidates=cands)
+        return r
+    R, M = "repaired_extra_digit", "ambiguous_extra_digit"
+    good = [row("111691", "NY", "11691", R), row("115300", "NY", "11530", R),
+            row("114345", "NY", "", M, "11434;11435"), row("111691", "", "", "invalid"),
+            row("111691", "NJ", "", "invalid"),  # 11691 is a NY ZCTA: never repaired for NJ
+            row("999999", "NY", "", "invalid")]
+    assert A.q_zip_extra_digit({"csv": good})["status"] == "pass"
+    assert A.q_zip({"csv": good})["status"] == "pass"
+    for bad in (row("114345", "NY", "11434", R), row("114345", "NY", "", M, "11434"),
+                row("111691", "NY", "11169", R), row("111691", "", "11691", R),
+                row("111691", "NY", "", "invalid"), row("114345", "NY", "", "invalid")):
+        assert A.q_zip_extra_digit({"csv": [bad]})["count"] == 1, bad
+    for bad in (row("114345", "NY", "11434", R), row("114345", "NY", "", M, "11434"),
+                row("111691", "NY", "11169", R), row("111691", "", "11691", R)):
+        assert A.q_zip({"csv": [bad]})["count"] == 1, bad
 
 
 def test_member_id_questions_issue_72():
@@ -421,8 +451,10 @@ def test_corpus_pins(real):
     assert by["F3"]["status"] == "pass" and "FY2020 75 groups / 154 rows / 79 surplus" in by["F3"]["note"]
     # Issue #70: every ZIP status agrees with the Census table.
     assert by["G7"]["status"] == "pass" and "'padded': 13" in by["G7"]["note"]
-    assert "'trimmed': 32" in by["G7"]["note"] and "'invalid': 232" in by["G7"]["note"]
-    assert by["G11"]["status"] == "pass" and "32 rows trimmed (7 values" in by["G11"]["note"]
+    assert "'trimmed': 35" in by["G7"]["note"] and "'invalid': 164" in by["G7"]["note"]
+    assert by["G11"]["status"] == "pass" and "35 rows trimmed (10 values" in by["G11"]["note"]
+    assert by["G12"]["status"] == "pass" and "65 six-digit rows (10 values)" in by["G12"]["note"]
+    assert "'ambiguous_extra_digit': 30, 'repaired_extra_digit': 35" in by["G12"]["note"]
     # Issue #72: only the 3 export-time names (341 rows) fall outside their year; no shared IDs;
     # Levin != Levine.
     assert by["G8"]["count"] == 341 and "0 rows typed member fail" in by["G8"]["note"]

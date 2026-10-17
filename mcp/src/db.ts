@@ -349,9 +349,13 @@ export type DisclosureStatus = (typeof DISCLOSURE_STATUSES)[number];
 /**
  * #70: how the 5-digit `zip` was read from the published `postal_code`, checked against the
  * Census Bureau's 2020 ZCTAs (code/zcta_states.py; DATA-DICTIONARY.md). valid / padded /
- * trimmed / not_a_zcta / state_mismatch carry a zip; invalid and blank do not.
+ * trimmed / repaired_extra_digit / not_a_zcta / state_mismatch carry a zip; ambiguous_extra_digit,
+ * invalid and blank do not (ambiguous_extra_digit lists its candidates in zip_candidates).
  */
-export const ZIP_STATUSES = ["valid", "padded", "trimmed", "not_a_zcta", "state_mismatch", "invalid", "blank"] as const;
+export const ZIP_STATUSES = [
+  "valid", "padded", "trimmed", "repaired_extra_digit", "ambiguous_extra_digit",
+  "not_a_zcta", "state_mismatch", "invalid", "blank",
+] as const;
 export type ZipStatus = (typeof ZIP_STATUSES)[number];
 
 export interface DisclosureRow {
@@ -389,9 +393,11 @@ export interface DisclosureRow {
   state: string;
   /** The ZIP cell as published (may be ZIP+4, 4 digits, '0', '#N/A', text). */
   postal_code: string;
-  /** #70: the 5-digit ZIP derived from postal_code; "" when zip_status is invalid or blank. */
+  /** #70: the 5-digit ZIP derived from postal_code; "" when zip_status is ambiguous_extra_digit, invalid or blank. */
   zip: string;
   zip_status: ZipStatus;
+  /** #70: for ambiguous_extra_digit only, the in-state 2020 ZCTAs a one-digit deletion gives, ';'-separated; else "". */
+  zip_candidates: string;
   fiscal_conduit: string;
   fiscal_conduit_ein: string;
   /** Row number in the workbook (and in data/fyNN/expense_disclosure/fyNN_expense_awards.csv). */
@@ -416,7 +422,7 @@ export interface DisclosureFilters {
   source_exact?: string;
   agency?: string;
   program_name?: string;
-  /** Exact 5-digit derived ZIP (rows whose zip_status is invalid or blank have none). */
+  /** Exact 5-digit derived ZIP (rows whose zip_status is ambiguous_extra_digit, invalid or blank have none). */
   zip?: string;
   zip_status?: ZipStatus;
   /** Exact city, case-insensitive (surrounding whitespace ignored); 'Bronx' is not 'The Bronx'. */
@@ -527,7 +533,7 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
       `SELECT fiscal_year, mocs_id, source, council_member, council_member_id, council_member_type,
          legal_name, ein, status, status_norm,
          amount, agency, program_name, address1, address2, city, state, postal_code, zip, zip_status,
-         fiscal_conduit, fiscal_conduit_ein, source_row, duplicate_group
+         zip_candidates, fiscal_conduit, fiscal_conduit_ein, source_row, duplicate_group
        FROM disclosure ${w}
        ORDER BY amount DESC, fiscal_year, source_row LIMIT ${cap(f.limit)}`
     )

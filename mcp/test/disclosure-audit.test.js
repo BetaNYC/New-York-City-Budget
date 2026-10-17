@@ -312,13 +312,14 @@ test("M12: the rows at the top of an unfiltered answer are clean designations", 
 // ---------------------------------------------------------------- M13 address filters
 
 test("M13: zip, zip_status and city are exact filters with exact totals", async () => {
-  // FAILS if zip matches a substring of postal_code or misses the padded / trimmed rows filed
-  // under their 5-digit ZIP, if a zip's totals differ from the CSV by a row or a cent, if a
+  // FAILS if zip matches a substring of postal_code or misses the padded / trimmed / repaired
+  // rows filed under their 5-digit ZIP, if a zip's totals differ from the CSV by a row or a cent, if a
   // ZIP+4 or 4-digit value is accepted (or silently trimmed/padded by the tool), or if
   // zip_status or city match anything but their exact value.
   const padded = ALL.find((r) => r.zip_status === "padded");
   const trimmed = ALL.find((r) => r.zip_status === "trimmed");
-  for (const z of [padded.zip, trimmed.zip, "10001"]) {
+  const repaired = ALL.find((r) => r.zip_status === "repaired_extra_digit");
+  for (const z of [padded.zip, trimmed.zip, repaired.zip, "10001"]) {
     const rows = ALL.filter((r) => r.zip === z);
     const { text } = await call({ zip: z, limit: 1 });
     assert.equal(matchedOf(text), rows.length, z);
@@ -326,11 +327,12 @@ test("M13: zip, zip_status and city are exact filters with exact totals", async 
     assert.ok(text.includes(`${LABEL.cleared} ${fmt(cl.length)} row(s), ${exactUsd(cl)}`), z);
     assert.ok(rows.some((r) => r.postal_code !== z) || z === "10001", `${z}: premise, a row filed under it whose cell differs`);
   }
-  for (const bad of [padded.postal_code, trimmed.postal_code, "10001-1234", "1000"]) {
+  for (const bad of [padded.postal_code, trimmed.postal_code, repaired.postal_code, "10001-1234", "1000"]) {
     const res = await call({ zip: bad });
     assert.equal(res.isError, true, bad);
   }
-  for (const st of ["valid", "padded", "trimmed", "not_a_zcta", "state_mismatch", "invalid", "blank"]) {
+  for (const st of ["valid", "padded", "trimmed", "repaired_extra_digit", "ambiguous_extra_digit",
+    "not_a_zcta", "state_mismatch", "invalid", "blank"]) {
     const { text } = await call({ zip_status: st, limit: 1 });
     assert.equal(matchedOf(text), ALL.filter((r) => r.zip_status === st).length, st);
   }

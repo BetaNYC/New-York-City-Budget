@@ -101,20 +101,28 @@ const DISCLOSURE_MANIFEST = join(MCP_ROOT, "..", "source", "expense-funding-disc
 // the CSVs' 52 MB) and source_file (implied by fiscal_year). source_row points every result back
 // to the full row in the committed CSV. The grantee mailing address IS indexed (1.5.0, after the
 // 2026-10-13 decision): address1, address2, city, state and postal_code as printed, plus the
-// derived zip / zip_status (code/zcta_states.py, GitHub #70).
+// derived zip / zip_status / zip_candidates (code/zcta_states.py, GitHub #70).
 
 // #70: zip_status vocabulary, and which statuses carry a 5-digit zip (code/validate_data.py
 // ZIP_STATUS / ZIP_HAS_VALUE). An unknown status, or a zip that does not fit its status, is a
 // stop, never a silent NULL.
-const ZIP_STATUSES = new Set(["valid", "padded", "trimmed", "not_a_zcta", "state_mismatch", "invalid", "blank"]);
-const ZIP_HAS_VALUE = new Set(["valid", "padded", "trimmed", "not_a_zcta", "state_mismatch"]);
+const ZIP_STATUSES = new Set(["valid", "padded", "trimmed", "repaired_extra_digit", "ambiguous_extra_digit",
+  "not_a_zcta", "state_mismatch", "invalid", "blank"]);
+const ZIP_HAS_VALUE = new Set(["valid", "padded", "trimmed", "repaired_extra_digit", "not_a_zcta", "state_mismatch"]);
 function zipOf(r, year) {
-  if (!("zip" in r) || !("zip_status" in r)) throw new Error(`FY${year}: disclosure CSV has no zip/zip_status columns`);
+  if (!("zip" in r) || !("zip_status" in r) || !("zip_candidates" in r)) {
+    throw new Error(`FY${year}: disclosure CSV has no zip/zip_status/zip_candidates columns`);
+  }
   if (!ZIP_STATUSES.has(r.zip_status)) {
     throw new Error(`FY${year} row ${r.source_row}: zip_status ${JSON.stringify(r.zip_status)}`);
   }
   if (/^\d{5}$/.test(r.zip) !== ZIP_HAS_VALUE.has(r.zip_status)) {
     throw new Error(`FY${year} row ${r.source_row}: zip ${JSON.stringify(r.zip)} does not fit zip_status ${r.zip_status}`);
+  }
+  // ambiguous_extra_digit, and only it, lists two or more 5-digit candidates, ';'-separated.
+  const ambiguous = r.zip_status === "ambiguous_extra_digit";
+  if (ambiguous !== /^\d{5}(;\d{5})+$/.test(r.zip_candidates) || (!ambiguous && r.zip_candidates !== "")) {
+    throw new Error(`FY${year} row ${r.source_row}: zip_candidates ${JSON.stringify(r.zip_candidates)} does not fit zip_status ${r.zip_status}`);
   }
   return r.zip;
 }
@@ -223,7 +231,7 @@ function main() {
       council_member_id TEXT, council_member_type TEXT, legal_name TEXT,
       ein TEXT, status TEXT, status_norm TEXT, amount REAL, agency TEXT, program_name TEXT,
       address1 TEXT, address2 TEXT, city TEXT, state TEXT, postal_code TEXT, zip TEXT,
-      zip_status TEXT,
+      zip_status TEXT, zip_candidates TEXT,
       fiscal_conduit TEXT, fiscal_conduit_ein TEXT, source_row INTEGER,
       duplicate_group INTEGER
     );
@@ -481,11 +489,12 @@ function main() {
     `INSERT INTO disclosure (fiscal_year, mocs_id, source, council_member, council_member_id,
        council_member_type, legal_name, ein, status,
        status_norm, amount, agency, program_name, address1, address2, city, state, postal_code,
-       zip, zip_status, fiscal_conduit, fiscal_conduit_ein, source_row, duplicate_group)
+       zip, zip_status, zip_candidates, fiscal_conduit, fiscal_conduit_ein, source_row,
+       duplicate_group)
      VALUES (@fiscal_year, @mocs_id, @source, @council_member, @council_member_id,
        @council_member_type, @legal_name, @ein, @status,
        @status_norm, @amount, @agency, @program_name, @address1, @address2, @city, @state,
-       @postal_code, @zip, @zip_status, @fiscal_conduit, @fiscal_conduit_ein,
+       @postal_code, @zip, @zip_status, @zip_candidates, @fiscal_conduit, @fiscal_conduit_ein,
        @source_row, @duplicate_group)`
   );
   const insSnap = db.prepare(
@@ -540,6 +549,7 @@ function main() {
           postal_code: r.postal_code ?? "",
           zip: zipOf(r, year),
           zip_status: r.zip_status,
+          zip_candidates: r.zip_candidates,
           fiscal_conduit: r.fiscal_conduit ?? "",
           fiscal_conduit_ein: normEin(r.fiscal_conduit_ein),
           source_row: Number.parseInt(r.source_row, 10),

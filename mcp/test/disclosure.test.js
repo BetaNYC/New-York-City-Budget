@@ -399,15 +399,15 @@ test("source_exact matches one stream; source still matches by substring (#72)",
 
 // ---------------------------------------------------------------- grantee addresses, zip (1.5.0)
 
-test("every row's address, postal_code, zip and zip_status are indexed exactly as the CSV has them", () => {
+test("every row's address, postal_code, zip, zip_status and zip_candidates are indexed exactly as the CSV has them", () => {
   // FAILS if the index drops, trims or alters any address field, the published postal_code, the
-  // derived zip or its status, for any of the 139,556 rows.
+  // derived zip, its status or its candidates, for any of the 139,556 rows.
   const db = new Database(DB_PATH, { readonly: true });
   try {
     const got = new Map(
       db
         .prepare(
-          `SELECT fiscal_year, source_row, address1, address2, city, state, postal_code, zip, zip_status FROM disclosure`
+          `SELECT fiscal_year, source_row, address1, address2, city, state, postal_code, zip, zip_status, zip_candidates FROM disclosure`
         )
         .all()
         .map((g) => [`${g.fiscal_year}:${g.source_row}`, g])
@@ -417,7 +417,7 @@ test("every row's address, postal_code, zip and zip_status are indexed exactly a
     for (const r of rows) {
       const g = got.get(`${r.fiscal_year}:${r.source_row}`);
       assert.ok(g, `FY${r.fiscal_year} row ${r.source_row} missing`);
-      for (const k of ["address1", "address2", "city", "state", "postal_code", "zip", "zip_status"])
+      for (const k of ["address1", "address2", "city", "state", "postal_code", "zip", "zip_status", "zip_candidates"])
         assert.equal(g[k], r[k], `FY${r.fiscal_year} row ${r.source_row} ${k}`);
     }
   } finally {
@@ -448,16 +448,18 @@ test("zip is an exact 5-digit filter on the derived zip, trimmed rows included",
   assert.match(alias.text, /Use `zip` instead of `postal_code`/);
 });
 
-test("zip_status filters one status; the trimmed rows are the 32 ragged ZIP+4s", async () => {
-  // FAILS if zip_status is not an exact filter, if the trimmed count is not the CSV's, or if a
-  // status outside the documented seven is accepted.
+test("zip_status filters one status; 35 trimmed, 35 repaired, 30 ambiguous six-digit rows", async () => {
+  // FAILS if zip_status is not an exact filter, if the trimmed / extra-digit counts are not the
+  // CSV's, or if a status outside the documented nine is accepted.
   const rows = allRows();
-  for (const st of ["trimmed", "invalid", "blank"]) {
+  for (const st of ["trimmed", "repaired_extra_digit", "ambiguous_extra_digit", "invalid", "blank"]) {
     const mine = rows.filter((r) => r.zip_status === st);
     const res = await call({ zip_status: st, limit: 1 });
     assert.ok(res.text.startsWith(`${mine.length.toLocaleString("en-US")} matching designation(s)`), `${st}: ${res.text.slice(0, 80)}`);
   }
-  assert.equal(rows.filter((r) => r.zip_status === "trimmed").length, 32);
+  assert.equal(rows.filter((r) => r.zip_status === "trimmed").length, 35);
+  assert.equal(rows.filter((r) => r.zip_status === "repaired_extra_digit").length, 35);
+  assert.equal(rows.filter((r) => r.zip_status === "ambiguous_extra_digit").length, 30);
   const bad = await call({ zip_status: "ok" });
   assert.equal(bad.isError, true);
 });
@@ -490,4 +492,27 @@ test("each row shows the grantee mailing address as printed, its zip and zip_sta
   assert.ok(blank, "the CSVs hold rows with no address at all");
   const b = await call({ fiscal_year: Number(blank.fiscal_year), legal_name: blank.legal_name, zip_status: "blank", limit: 500 });
   assert.match(b.text, /grantee mailing address: \(none printed\) · zip — \(blank: no ZIP printed\)/);
+});
+
+test("a six-digit ZIP: repaired rows file under their zip; ambiguous rows show every candidate, no zip", async () => {
+  // FAILS if a repaired_extra_digit row ('111691', Far Rockaway) is not found under its
+  // repaired zip 11691, if an ambiguous_extra_digit row ('114345') is found under either
+  // candidate, if its row does not list both candidates, or if a candidate is shown on a row of
+  // any other status.
+  const rows = allRows();
+  const rep = rows.filter((r) => r.zip_status === "repaired_extra_digit" && r.postal_code === "111691");
+  assert.ok(rep.length > 0 && rep.every((r) => r.zip === "11691"));
+  const under = await call({ zip: "11691", zip_status: "repaired_extra_digit", limit: 1 });
+  assert.ok(under.text.startsWith(`${rows.filter((r) => r.zip === "11691" && r.zip_status === "repaired_extra_digit").length.toLocaleString("en-US")} matching designation(s)`), under.text.slice(0, 80));
+  const amb = rows.find((r) => r.zip_status === "ambiguous_extra_digit" && r.postal_code === "114345");
+  assert.equal(amb.zip, "");
+  assert.equal(amb.zip_candidates, "11434;11435");
+  for (const z of ["11434", "11435"]) {
+    const res = await call({ zip: z, zip_status: "ambiguous_extra_digit" });
+    assert.match(res.text, /^No matching designations/, z);
+  }
+  const res = await call({ fiscal_year: Number(amb.fiscal_year), legal_name: amb.legal_name, zip_status: "ambiguous_extra_digit", limit: 500 });
+  assert.ok(res.text.includes(" · zip — (ambiguous_extra_digit: six digits printed; more than one one-digit deletion is an in-state 2020 ZCTA, none picked) · candidates 11434, 11435"), res.text);
+  const other = await call({ zip: "11691", zip_status: "repaired_extra_digit", limit: 500 });
+  assert.doesNotMatch(other.text, /candidates/);
 });

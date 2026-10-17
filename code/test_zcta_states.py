@@ -95,9 +95,21 @@ ZCTAS = {"10001": frozenset({"NY"}), "02446": frozenset({"MA"}), "07083": frozen
     ("10001-", "", ("", "invalid")),                    # no state to check against
     ("10001-", "Brooklyn", ("", "invalid")),            # state unreadable: not trimmed
     ("10008-", "NY", ("", "invalid")),                  # first five are no ZCTA
-    ("11217=1020", "NY", ("", "invalid")),              # not the hyphenated form
-    ("11217 ZipCode2: 3929", "NY", ("", "invalid")),
-    ("112171", "NY", ("", "invalid")),                  # six digits: a typo, not ZIP+4
+    ("11217=1020", "NY", ("11217", "trimmed")),         # '=' separator (FY2018 row 8527)
+    ("11217 ZipCode2: 3929", "NY", ("11217", "trimmed")),  # label separator (FY2015)
+    ("11217 ZipCode2: 150", "NY", ("11217", "trimmed")),
+    ("11217=1020", "NC", ("", "invalid")),              # same state rule as the hyphen
+    ("11217 ZipCode2: 3929", "", ("", "invalid")),
+    ("11217`", "NY", ("", "invalid")),                  # a stray character is no separator
+    ("10001ww", "NY", ("", "invalid")),
+    ("10001 1234", "NY", ("", "invalid")),              # a bare space is not read as one
+    ("112171", "NY", ("11217", "repaired_extra_digit")),  # trailing extra digit
+    ("110001", "NY", ("10001", "repaired_extra_digit")),  # leading; '1' deleted twice -> one value
+    ("100801", "NY", ("10001", "repaired_extra_digit")),  # inside
+    ("112171", "NC", ("", "invalid")),                  # the only deletion is out of state
+    ("112171", "", ("", "invalid")),                    # no state: never repaired
+    ("999999", "NY", ("", "invalid")),                  # no deletion is a ZCTA
+    ("1121717", "NY", ("", "invalid")),                 # seven digits: not this rule
     ("www.mind-builders.org", "NY", ("", "invalid")),
     ("", "NY", ("", "blank")),
 ])
@@ -106,8 +118,29 @@ def test_classify_zip(raw, state, expected):
     another state (or the row names no state), if '#N/A' or '0' gets a status other than
     invalid, if a non-ZCTA ZIP is called invalid rather than not_a_zcta, if a ZIP+4 loses
     its five digits, or if a ragged ZIP+4 is trimmed when its five digits are not a ZCTA in the
-    row's own state (or the row names no state), or is not trimmed when they are."""
+    row's own state (or the row names no state), or is not trimmed when they are (hyphen, '='
+    or 'ZipCode2:' alike), or if a 6-digit ZIP is repaired without exactly one in-state
+    one-digit deletion."""
     assert Z.classify_zip(raw, state, ZCTAS) == expected
+    assert Z.derive_zip(raw, state, ZCTAS) == expected + ("",)
+
+
+# Two in-state deletions of '100171' (10017, 10011) and one out-of-state (10071 put in NJ).
+AMBIG = dict(ZCTAS, **{"10017": frozenset({"NY"}), "10011": frozenset({"NY"}),
+                       "10071": frozenset({"NJ"})})
+
+
+def test_six_digit_zip_with_two_candidates_is_never_picked_issue_70():
+    """FAILS if a 6-digit ZIP with two in-state one-digit deletions gets a zip (any pick: first,
+    last, doubled digit), if its candidates are not exactly the in-state ones, sorted, or if an
+    out-of-state deletion turns a would-be ambiguous value into a repair or counts as one."""
+    assert Z.derive_zip("100171", "NY", AMBIG) == ("", "ambiguous_extra_digit", "10011;10017")
+    assert Z.classify_zip("100171", "NY", AMBIG) == ("", "ambiguous_extra_digit")
+    # With 10011 out of play, only 10017 remains in NY: 10071 (NJ) must not count.
+    one = dict(AMBIG, **{"10011": frozenset({"CT"})})
+    assert Z.derive_zip("100171", "NY", one) == ("10017", "repaired_extra_digit", "")
+    assert Z.derive_zip("100171", "NJ", AMBIG) == ("10071", "repaired_extra_digit", "")
+    assert Z.extra_digit_candidates("100171", "NY", AMBIG) == ["10011", "10017"]
 
 
 def test_row_state_reads_only_what_it_can_name():
@@ -132,9 +165,10 @@ def test_committed_table_is_well_formed_and_matches_the_manifest():
 def test_committed_zip_statuses_issue_70():
     """Corpus pin, from the committed disclosure CSVs. FAILS if the ZIP status counts move, if a
     published postal_code was rewritten (zip must be derivable from it), or if any '#N/A' ZIP
-    is not invalid, or if the ragged ZIP+4 values trimmed (issue #70 follow-up) are not exactly
-    the seven hyphenated forms below."""
-    c, trimmed = collections.Counter(), collections.Counter()
+    is not invalid, if the ragged ZIP+4 values trimmed (issue #70 follow-up) are not exactly
+    the ten below (hyphen, '=' and 'ZipCode2:' forms), or if the six-digit repairs and
+    ambiguities (2026-10-13) are not exactly the ten values below."""
+    c, trimmed, six = collections.Counter(), collections.Counter(), collections.Counter()
     for f in glob.glob(os.path.join(os.path.dirname(HERE), "data", "fy*", "expense_disclosure",
                                     "*_awards.csv")):
         with open(f, newline="", encoding="utf-8") as fh:
@@ -144,12 +178,27 @@ def test_committed_zip_statuses_issue_70():
                     assert r["zip_status"] == "invalid" and r["zip"] == "", r
                 if r["zip_status"] == "padded":
                     assert r["zip"] == "0" + r["postal_code"], r
+                elif r["zip_status"] == "repaired_extra_digit":
+                    p = r["postal_code"]
+                    assert len(p) == 6 and r["zip"] in {p[:i] + p[i + 1:] for i in range(6)}, r
                 elif r["zip"]:
                     assert r["postal_code"].startswith(r["zip"]), r
+                assert bool(r["zip_candidates"]) == (r["zip_status"] == "ambiguous_extra_digit"), r
                 if r["zip_status"] == "trimmed":
                     assert Z._RAGGED.fullmatch(r["postal_code"]), r
                     trimmed[r["postal_code"]] += 1
-    assert dict(c) == {"valid": 127343, "blank": 10834, "not_a_zcta": 1073, "invalid": 232,
-                       "state_mismatch": 29, "padded": 13, "trimmed": 32}
+                if r["zip_status"].endswith("_extra_digit"):
+                    six[(r["postal_code"], r["zip_status"], r["zip"] or r["zip_candidates"])] += 1
+    assert dict(c) == {"valid": 127343, "blank": 10834, "not_a_zcta": 1073, "invalid": 164,
+                       "state_mismatch": 29, "padded": 13, "trimmed": 35,
+                       "repaired_extra_digit": 35, "ambiguous_extra_digit": 30}
     assert dict(trimmed) == {"11203-": 24, "10027-000": 2, "10037-999": 2, "11217-11217": 1,
-                             "11204-11204": 1, "10033-10033": 1, "11102-20": 1}
+                             "11204-11204": 1, "10033-10033": 1, "11102-20": 1,
+                             "11231=1020": 1, "11413 ZipCode2: 3929": 1, "11233 ZipCode2: 150": 1}
+    R, A = "repaired_extra_digit", "ambiguous_extra_digit"
+    assert dict(six) == {("111691", R, "11691"): 30, ("100665", R, "10065"): 2,
+                         ("115300", R, "11530"): 1, ("111234", R, "11234"): 1,
+                         ("110027", R, "10027"): 1,
+                         ("104658", A, "10458;10465;10468"): 11, ("100037", A, "10003;10007;10037"): 10,
+                         ("900069", A, "90006;90069"): 5, ("114345", A, "11434;11435"): 3,
+                         ("100115", A, "10011;10115"): 1}
