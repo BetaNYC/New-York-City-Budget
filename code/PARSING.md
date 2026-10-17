@@ -368,6 +368,11 @@ verify) joins each year to the Schedule C award files on `(EIN, amount)` as a mu
 stream × status, the #57 blocker-2 verdict (appendices additive), and the unmatched rows. Read
 DATA-ANOMALIES §23 before quoting any of it.
 
+**Comparing snapshots.** `python3 code/diff_disclosure_snapshots.py OLD NEW` compares two
+snapshots of one year (workbooks or the CSVs above, mixed freely): status transitions, amount
+changes, added/removed rows, totals by status, ambiguity counted. The re-pull procedure — which
+needs Noel's OK for every download — is in `source/expense-funding-disclosure/README.md`.
+
 **Cross-check against the 2026-07-15 normalizer** (`normalize_expense_disclosure.py`, openpyxl +
 xlrd, kept outside this repo): identical row counts and identical dollar totals in all 15 years,
 139,186 rows. The field-level differences are all rendering, each explained: that normalizer wrote
