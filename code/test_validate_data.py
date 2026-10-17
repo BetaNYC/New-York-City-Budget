@@ -556,15 +556,19 @@ def test_disclosure_duplicate_group_must_name_a_real_group_issue_69(tmp_path):
 
 def test_disclosure_zip_fields_must_agree_issue_70(tmp_path):
     """Issue #70. FAILS if consistent zip/zip_status pairs raise a finding, or if an unknown
-    status, a 'valid' row with no zip, an 'invalid' row with one, or a zip that is not taken from
-    the published postal_code passes."""
+    status, a 'valid' row with no zip, an 'invalid' row with one, a zip that is not taken from
+    the published postal_code, or a 'trimmed' row whose postal_code is not a ragged ZIP+4 (or
+    that carries no zip) passes."""
     root = tmp_path / "data"
     _disc_file(root, _disc_row(postal="10001-1234", zip_="10001", zip_status="valid")
                + _disc_row(src_row="3", postal="2446", zip_="02446", zip_status="padded")
-               + _disc_row(src_row="4", postal="0", zip_status="invalid"))
+               + _disc_row(src_row="4", postal="0", zip_status="invalid")
+               + _disc_row(src_row="5", postal="11203-", zip_="11203", zip_status="trimmed"))
     (r,) = V.validate_tree(str(root))[0]
     assert r.hard == [], r.hard
     for i, kw in enumerate([{"postal": "10001", "zip_": "10001", "zip_status": "ok"},
+                            {"postal": "10001", "zip_": "10001", "zip_status": "trimmed"},
+                            {"postal": "11203-", "zip_status": "trimmed"},
                             {"postal": "10001", "zip_status": "valid"},
                             {"postal": "0", "zip_": "00000", "zip_status": "invalid"},
                             {"postal": "10001", "zip_": "10002", "zip_status": "valid"}]):

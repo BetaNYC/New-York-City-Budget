@@ -1184,38 +1184,54 @@ def q_shapes(ctx):
                   f"{len(av)} agency variant groups, {sum(st.values())} odd states, {len(zips)} odd ZIPs.")
 
 
-@question("G7", "Is every ZIP the dataset pads or calls valid a real 2020 ZCTA (Census), is a "
-          "4-digit ZIP padded only into a ZCTA of the row's own state, and is every '#N/A' or '0' "
-          "ZIP invalid?", "leading-zero loss padded blindly / ZIP not checked (issue #70)", "new",
+_AUDIT_RAGGED = re.compile(r"\d{5}\s*-\s*\d*")   # 5 digits + hyphen; ZIP+4 itself excluded below
+_AUDIT_STATE_NAMES = {"new york": "NY", "massachusetts": "MA", "vermont": "VT", "new jersey": "NJ",
+                      "connecticut": "CT"}  # every spelled-out state the padded/trimmed rows carry
+
+
+def _census_zctas():
+    """{zcta: set(USPS)} read straight from the committed Census-derived table, not the parser."""
+    path = os.path.join(ROOT, "data", "reference", "zcta2020_states.csv")
+    with open(path, newline="", encoding="utf-8") as fh:
+        return {r["zcta"]: set(r["states"].split(";")) for r in csv.DictReader(fh)}
+
+
+def _audit_state(cell, known):
+    """A two-letter code (one of `known`), a spelled-out state, or the 'New YorkNY' run-together
+    -> USPS, else ''."""
+    state = cell.strip()
+    tail = state[-2:].upper()
+    if tail in known and (len(state) == 2 or _AUDIT_STATE_NAMES.get(state[:-2].strip().lower()) == tail):
+        return tail
+    return _AUDIT_STATE_NAMES.get(state.lower(), "")
+
+
+@question("G7", "Is every ZIP the dataset pads, trims or calls valid a real 2020 ZCTA (Census), "
+          "is a 4-digit ZIP padded (or a ragged ZIP+4 trimmed) only into a ZCTA of the row's own "
+          "state, and is every '#N/A' or '0' ZIP invalid?", "leading-zero loss padded blindly / ZIP not checked (issue #70)", "new",
           "partial")
 def q_zip(ctx):
     """Reads the committed Census table data/reference/zcta2020_states.csv itself (not through
     the parser) and checks each row: zip_status valid / state_mismatch / not_a_zcta must agree
     with whether the 5-digit zip is a ZCTA; padded must be '0' + a 4-digit postal_code, a ZCTA,
-    and in the state the row's two-letter (or spelled-out) state names; '#N/A' and '0' must be
+    and in the state the row's two-letter (or spelled-out) state names; trimmed must be the first
+    five digits of a hyphenated ragged ZIP+4, a ZCTA, in that state; '#N/A' and '0' must be
     invalid with no zip. Partial: the Census table is derived by this repo's code/zcta_states.py
     (its source file's sha256 is in source/census-zcta/MANIFEST.csv). Reports counts by status."""
-    path = os.path.join(ROOT, "data", "reference", "zcta2020_states.csv")
-    with open(path, newline="", encoding="utf-8") as fh:
-        zctas = {r["zcta"]: set(r["states"].split(";")) for r in csv.DictReader(fh)}
-    names = {"new york": "NY", "massachusetts": "MA", "vermont": "VT", "new jersey": "NJ",
-             "connecticut": "CT"}  # every spelled-out state the padded rows carry
-    known = {x for v in zctas.values() for x in v}
+    zctas = _census_zctas()
+    known = set().union(*zctas.values())
     bad, counts = [], collections.Counter()
     for r in ctx["csv"]:
         st, z, raw = r.get("zip_status"), r.get("zip", ""), r["postal_code"]
         counts[st] += 1
-        state = r["state"].strip()
-        tail = state[-2:].upper()
-        if tail in known and (len(state) == 2 or names.get(state[:-2].strip().lower()) == tail):
-            state = tail
-        else:
-            state = names.get(state.lower(), "")
+        state = _audit_state(r["state"], known)
         ok = {
             "valid": z in zctas and (not state or state in zctas[z]),
             "state_mismatch": z in zctas,
             "not_a_zcta": bool(re.fullmatch(r"\d{5}", z)) and z not in zctas,
             "padded": re.fullmatch(r"\d{4}", raw) is not None and z == "0" + raw and z in zctas
+            and state in zctas[z],
+            "trimmed": _AUDIT_RAGGED.fullmatch(raw) is not None and z == raw[:5] and z in zctas
             and state in zctas[z],
             "invalid": z == "",
             "blank": raw == "" and z == "",
@@ -1312,6 +1328,36 @@ def q_member_substring_ids(ctx):
                         hits.append(f"FY{fy} {a!r} and {b!r} both -> {m[a]}")
     return result("finding" if hits else "pass", len(hits), hits,
                   f"{pairs} nested name pairs checked, e.g. Levin (7567) / Levine (7634).")
+
+@question("G11", "Is a ragged ZIP+4 ('11203-', '11217-11217', '10027-000') trimmed to its first five "
+          "digits only when they are a 2020 ZCTA in the row's own state, every other one left "
+          "invalid, and nothing else trimmed?", "ZIP+4 truncation guessed / ZIP lost (issue #70)",
+          "new", "partial")
+def q_zip_trim(ctx):
+    """For every postal_code that begins with five digits and is not a plain 5-digit ZIP or a
+    ZIP+4, reads its own verdict from the committed Census table: a hyphenated ragged ZIP+4 whose
+    first five are a ZCTA in the row's state must be `trimmed` (else it is a ZIP the dataset
+    lost); any other must not be. Lists, apart, the five-digit-led values that are left invalid
+    because they are not the hyphenated form ('11231=1020', '11413 ZipCode2: 3929', six-digit
+    typos), for a human. Partial: same Census table as G7."""
+    zctas = _census_zctas()
+    known = set().union(*zctas.values())
+    bad, trimmed, kept = [], collections.Counter(), collections.Counter()
+    for r in ctx["csv"]:
+        raw, st = r["postal_code"], r.get("zip_status")
+        if not re.match(r"\d{5}", raw) or re.fullmatch(r"\d{5}(?:\s*-\s*\d{4}|\d{4})?", raw):
+            continue
+        z, state = raw[:5], _audit_state(r["state"], known)
+        should = bool(_AUDIT_RAGGED.fullmatch(raw)) and z in zctas and state in zctas[z]
+        if should != (st == "trimmed"):
+            bad.append(f"{ref(r)} postal_code={raw!r} state={r['state']!r} -> {st!r}")
+        (trimmed if st == "trimmed" else kept)[raw] += 1
+    return result("finding" if bad else "pass", len(bad), bad,
+                  f"{sum(trimmed.values())} rows trimmed ({len(trimmed)} values: "
+                  + ", ".join(f"{k!r} {n}" for k, n in sorted(trimmed.items(), key=lambda kv: (-kv[1], kv[0])))
+                  + f"); {sum(kept.values())} five-digit-led rows left invalid, not the hyphenated "
+                  f"form: " + ", ".join(f"{k!r} {n}" for k, n in sorted(kept.items(), key=lambda kv: (-kv[1], kv[0])))
+                  + ".")
 
 
 # ---------------------------------------------------------------- H. more harvested + provenance

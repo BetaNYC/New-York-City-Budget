@@ -407,9 +407,12 @@ in the Schedule C files moved. What a reader needs to know before using it:
   not join on it. Since GitHub #72 each printed name carries the Legistar person it resolves to
   for that year (`council_member_id`, `council_member_type`; DATA-DICTIONARY), and the export-time
   effect is measurable: 341 rows name someone with no recorded vote in that fiscal year (FY2025
-  `Wong` 150, FY2021 `Aviles` 84, FY2020 `D. Diaz` 107; audit G8), and 312 rows are `ambiguous`
+  `Wong` 150, FY2021 `Aviles` 84, FY2020 `D. Diaz` 107; audit G8), and 189 rows are `ambiguous`
   because two members of the name served that year (seat hand-overs: FY2014 and FY2022 `Barron`,
-  FY2014 `Vallone`; FY2021 `Diaz`, Ruben Diaz Sr. and Darma Diaz). The 2026-10-12 re-pull shows it moving: 149 FY2025 rows changed from `Holden`
+  FY2014 `Vallone`). FY2021 bare `Diaz` (123 rows; Ruben Diaz Sr. and Darma Diaz both served) is
+  resolved to Ruben Diaz, Sr. by a recorded file convention, not by the evidence alone: the
+  workbook prints Darma as `D. Diaz` that year, and the grantee mailing addresses agree (Bronx
+  vs Brooklyn; DATA-DICTIONARY, crosswalk `method` = `file_convention`). The 2026-10-12 re-pull shows it moving: 149 FY2025 rows changed from `Holden`
   to `Wong`, and 161 FY2026 rows from `Bottcher` to `Wilson` (159 whose MOCS ID did not change,
   plus 2 that were also re-numbered, below). The snapshot diff never keys on it.
 - **A MOCS ID is not a stable key across snapshots, and nothing published says it is one.** In
@@ -477,29 +480,34 @@ in the Schedule C files moved. What a reader needs to know before using it:
   row's own state) and 33 are not: `1001`/`1002`/`1144` on New York rows pad to Massachusetts
   ZCTAs, `7052`/`7083` to New Jersey ones, `6108` to Connecticut (city Hartford, state cell
   `New York`), and `1004`/`1121`/`1123`/`1126` to no ZCTA at all; each looks like a typo of a NYC
-  ZIP, and none is guessed. `not_a_zcta` is **not verified, not fake**: PO-box and
+  ZIP, and none is guessed. A ragged ZIP+4 (32 rows: `11203-` 24, `10027-000` 2, `10037-999` 2,
+  `11217-11217`, `11204-11204`, `10033-10033`, `11102-20`) is `trimmed` to its first five digits,
+  because each is a ZCTA in the row's own state; `postal_code` keeps the cell as published. The
+  five-digit-led values that are not the hyphenated form stay `invalid` (`111691` 30, `104658` 11,
+  `100037` 10, `11231=1020`, `11413 ZipCode2: 3929`, ...: audit G11 lists them all). `blank` (an
+  empty cell) is kept apart from `invalid`. `not_a_zcta` is **not verified, not fake**: PO-box and
   single-building ZIPs have no ZCTA. Counts (this repo's, of the committed rows):
 
-  | FY | valid | padded | not_a_zcta | state_mismatch | invalid | blank |
-  |---|---:|---:|---:|---:|---:|---:|
-  | 2013 | 4,561 | 0 | 50 | 3 | 6 | 367 |
-  | 2014 | 5,557 | 0 | 44 | 1 | 34 | 975 |
-  | 2015 | 5,946 | 6 | 63 | 2 | 7 | 626 |
-  | 2016 | 6,885 | 2 | 50 | 1 | 13 | 846 |
-  | 2017 | 7,688 | 5 | 69 | 7 | 12 | 890 |
-  | 2018 | 8,092 | 0 | 80 | 2 | 25 | 695 |
-  | 2019 | 8,773 | 0 | 87 | 0 | 8 | 787 |
-  | 2020 | 9,658 | 0 | 72 | 0 | 9 | 877 |
-  | 2021 | 8,511 | 0 | 80 | 3 | 9 | 451 |
-  | 2022 | 10,587 | 0 | 83 | 2 | 23 | 641 |
-  | 2023 | 10,120 | 0 | 74 | 5 | 7 | 821 |
-  | 2024 | 9,904 | 0 | 71 | 0 | 11 | 825 |
-  | 2025 | 10,523 | 0 | 82 | 1 | 9 | 661 |
-  | 2026 | 11,006 | 0 | 87 | 1 | 9 | 661 |
-  | 2027 | 9,532 | 0 | 81 | 1 | 82 | 711 |
-  | **all** | **127,343** | **13** | **1,073** | **29** | **264** | **10,834** |
+  | FY | valid | padded | trimmed | not_a_zcta | state_mismatch | invalid | blank |
+  |---|---:|---:|---:|---:|---:|---:|---:|
+  | 2013 | 4,561 | 0 | 1 | 50 | 3 | 5 | 367 |
+  | 2014 | 5,557 | 0 | 2 | 44 | 1 | 32 | 975 |
+  | 2015 | 5,946 | 6 | 0 | 63 | 2 | 7 | 626 |
+  | 2016 | 6,885 | 2 | 1 | 50 | 1 | 12 | 846 |
+  | 2017 | 7,688 | 5 | 2 | 69 | 7 | 10 | 890 |
+  | 2018 | 8,092 | 0 | 0 | 80 | 2 | 25 | 695 |
+  | 2019 | 8,773 | 0 | 0 | 87 | 0 | 8 | 787 |
+  | 2020 | 9,658 | 0 | 3 | 72 | 0 | 6 | 877 |
+  | 2021 | 8,511 | 0 | 3 | 80 | 3 | 6 | 451 |
+  | 2022 | 10,587 | 0 | 4 | 83 | 2 | 19 | 641 |
+  | 2023 | 10,120 | 0 | 3 | 74 | 5 | 4 | 821 |
+  | 2024 | 9,904 | 0 | 3 | 71 | 0 | 8 | 825 |
+  | 2025 | 10,523 | 0 | 4 | 82 | 1 | 5 | 661 |
+  | 2026 | 11,006 | 0 | 3 | 87 | 1 | 6 | 661 |
+  | 2027 | 9,532 | 0 | 3 | 81 | 1 | 79 | 711 |
+  | **all** | **127,343** | **13** | **32** | **1,073** | **29** | **232** | **10,834** |
 
-  FY2027's 82 `invalid` are mostly the `0` ZIPs (69). The 29 `state_mismatch` rows are mostly a
+  FY2027's 79 `invalid` are mostly the `0` ZIPs (69). The 29 `state_mismatch` rows are mostly a
   NYC ZIP on a row whose state cell names another state (`NC`, `NE`, `LA`, `MI`, `New JerseyNJ`
   on Staten Island addresses), plus a few out-of-state ZIPs on rows marked New York
   (`07087`, `08701`, `15050`, `19454`, `94110`). Street addresses are not checked; NYC Planning's GeoSearch would

@@ -149,9 +149,13 @@ def read_manifest(path=MANIFEST):
 
 # ---------------------------------------------------------------- ZIP status (GitHub #70)
 
-ZIP_STATUSES = ("valid", "padded", "not_a_zcta", "state_mismatch", "invalid", "blank")
+ZIP_STATUSES = ("valid", "padded", "trimmed", "not_a_zcta", "state_mismatch", "invalid", "blank")
 _ZIP5 = re.compile(r"(\d{5})")
 _ZIP9 = re.compile(r"(\d{5})(?:\s*-\s*\d{4}|\d{4})")
+# A ragged ZIP+4: five digits, a hyphen, then digits that are not exactly four ('11203-',
+# '10027-000', '11217-11217', '11102-20'). Only the hyphenated form counts; '11231=1020',
+# '11413 ZipCode2: 3929' and six-digit typos ('111691') are not read as one.
+_RAGGED = re.compile(r"(\d{5})\s*-\s*(?!\d{4}$)\d*")
 
 
 def row_state(state):
@@ -184,8 +188,12 @@ def classify_zip(postal_code, state, zctas):
                       zip = the five digits
       padded          4 digits, and '0' + those digits is a 2020 ZCTA in the row's state (an
                       Excel number that lost its leading zero); zip = the padded value
+      trimmed         a ragged ZIP+4 (_RAGGED: '11203-', '11217-11217', '10027-000') whose first
+                      five digits are a 2020 ZCTA in the row's state; zip = those five digits.
+                      Not trimmed when the row names no state or the ZCTA is elsewhere.
       invalid         anything else: 4 digits that do not pad to an in-state ZCTA (or whose row
-                      names no state), '0', '#N/A', a name, a URL, a ragged ZIP+4; zip = ''"""
+                      names no state), a ragged ZIP+4 that does not trim to one, '0', '#N/A', a
+                      name, a URL; zip = ''"""
     raw = (postal_code or "").strip()
     if raw == "":
         return "", "blank"
@@ -202,6 +210,11 @@ def classify_zip(postal_code, state, zctas):
         z = "0" + raw
         if st and z in zctas and st in zctas[z]:
             return z, "padded"
+    m = _RAGGED.fullmatch(raw)
+    if m:
+        z = m.group(1)
+        if st and z in zctas and st in zctas[z]:
+            return z, "trimmed"
     return "", "invalid"
 
 

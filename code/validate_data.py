@@ -479,9 +479,11 @@ MEMBER_TYPES = {"member", "member_outside_fy", "ambiguous", "unresolved", "speak
 MEMBER_ID_TYPES = {"member", "member_outside_fy"}
 # GitHub #70: zip / zip_status are derived from postal_code + state (code/zcta_states.py). A
 # status with a value carries a 5-digit zip taken from the published postal_code (or, padded,
-# '0' + it); the others carry none.
-ZIP_STATUS = {"valid", "padded", "not_a_zcta", "state_mismatch", "invalid", "blank"}
-ZIP_HAS_VALUE = {"valid", "padded", "not_a_zcta", "state_mismatch"}
+# '0' + it; trimmed, the first five digits of a ragged ZIP+4 such as '11203-'); the others
+# carry none.
+ZIP_STATUS = {"valid", "padded", "trimmed", "not_a_zcta", "state_mismatch", "invalid", "blank"}
+ZIP_HAS_VALUE = {"valid", "padded", "trimmed", "not_a_zcta", "state_mismatch"}
+RAGGED_ZIP4 = re.compile(r"\d{5}\s*-\s*(?!\d{4}$)\d*")
 EXCEL_ERROR = re.compile(r"#(?:N/A|REF!|VALUE!|DIV/0!|NAME\?|NUM!|NULL!|SPILL!|CALC!|GETTING_DATA)")
 
 
@@ -520,7 +522,8 @@ def _check_disclosure(res, body, header, idx):
             bad_member.append((ln, r[idx["council_member"]], mid, mt))
         zs, zv = r[idx["zip_status"]], r[idx["zip"]]
         if zs not in ZIP_STATUS or bool(re.fullmatch(r"\d{5}", zv)) != (zs in ZIP_HAS_VALUE) \
-                or (zv and zs != "padded" and not r[idx["postal_code"]].startswith(zv)):
+                or (zv and zs != "padded" and not r[idx["postal_code"]].startswith(zv)) \
+                or (zs == "trimmed" and not RAGGED_ZIP4.fullmatch(r[idx["postal_code"]])):
             bad_zip.append((ln, r[idx["postal_code"]], zv, zs))
         if r[idx["duplicate_group"]]:
             groups[r[idx["duplicate_group"]]] += 1
