@@ -33,7 +33,26 @@ council_member_type, decided in this order:
   ambiguous         more than one such person voted inside the fiscal year; no ID, the
                     candidates are listed. Never guessed -- except where a person has decided a
                     file convention for that one (fiscal year, value); see FILE_CONVENTIONS.
-  unresolved        no Legistar person carries the name ("CC", "NA"); no ID.
+  unresolved        no Legistar person carries the name ("NA", "Barron & Eugene"); no ID.
+
+Printed abbreviations (LABEL_CONVENTIONS below), checked before the name rules: FY2009-FY2013
+print "CC" where FY2014-FY2027 print "Speaker", and FY2009 prints the two-letter borough codes
+"BK" / "BX" / "MN" / "QN" beside "SI", which the delegation pattern already reads as Staten
+Island. "CC" is typed `speaker` and the codes `delegation`; the printed value is kept as is and
+the method says `file_convention:CC=Speaker` (and so on). The evidence, from the full NYC Open
+Data 4d7f-74pe copy joined to these rows on od_mocs_id = mocs_id (re-verified 2026-10-17):
+  - "CC" rows that pair with an Open Data row are "Speaker" there on 895 of 895 (FY2009 224,
+    FY2011 245, FY2012 219, FY2013 207); the other "CC" rows have no Open Data pair.
+  - FY2009 "QN" -> "Queens Delegation" 37/37, "MN" -> "Manhattan Delegation" 35/35, "SI" ->
+    "Staten Island Delegation" 23/23, "BK" -> "Brooklyn Delegation" 18/18, "BX" -> "Bronx
+    Delegation" 13/13. No paired row disagrees.
+  - No fiscal year prints both "CC" and "Speaker", and the FY2010 Internet Archive workbook (not
+    loaded) also prints "CC" (50 rows, never "Speaker"), consistent with FY2009-FY2013.
+FY2009 prints BOTH a borough code and the bare borough name ("BK" 18 and "Brooklyn" 50), as it
+already did for "SI" / "Staten Island"; both are typed `delegation`. build() stops if a fiscal
+year ever prints both "CC" and "Speaker", or both a borough code and that borough's spelled-out
+"... Delegation" (no year does; the bare name does not trip it). Decided by Marvin on that
+evidence (delegated by Noel Hidalgo, 2026-10-16).
 
 Service evidence and its limits: the fiscal years in which the Legistar index records at least
 one vote by the person (any body), as a set -- members leave and return (Charles Barron: FY2004-
@@ -191,6 +210,43 @@ def name_candidates(value, roster):
         (f" + suffix {suffix.capitalize()}" if suffix else "")
 
 
+# Printed abbreviations read as a file convention (see the module docstring). Keyed by the
+# printed value exactly as the workbook has it (case-sensitive, so a surname is never caught):
+# value -> (council_member_type, what it stands for, the spelled-out value whose presence in the
+# same fiscal year would stop the build, the Open Data evidence written to `evidence`).
+_OD = "NYC Open Data 4d7f-74pe, joined on od_mocs_id = mocs_id"
+LABEL_CONVENTIONS = {
+    "CC": ("speaker", "Speaker", "Speaker",
+           f"{_OD}: 'Speaker' on 895 of 895 paired FY2009-FY2013 rows (FY2009 224, FY2011 245, "
+           "FY2012 219, FY2013 207), none disagreeing; no fiscal year prints both 'CC' and "
+           "'Speaker'; the FY2010 Internet Archive workbook also prints 'CC' (50 rows)"),
+    "BK": ("delegation", "Brooklyn Delegation", "Brooklyn Delegation",
+           f"{_OD}: 'Brooklyn Delegation' on 18 of 18 paired FY2009 rows"),
+    "BX": ("delegation", "Bronx Delegation", "Bronx Delegation",
+           f"{_OD}: 'Bronx Delegation' on 13 of 13 paired FY2009 rows"),
+    "MN": ("delegation", "Manhattan Delegation", "Manhattan Delegation",
+           f"{_OD}: 'Manhattan Delegation' on 35 of 35 paired FY2009 rows"),
+    "QN": ("delegation", "Queens Delegation", "Queens Delegation",
+           f"{_OD}: 'Queens Delegation' on 37 of 37 paired FY2009 rows"),
+}
+LABEL_DECIDED = "Marvin on the evidence, delegated by Noel Hidalgo, 2026-10-16"
+
+
+def check_label_conventions(pairs, conventions=None):
+    """ValueError if a fiscal year prints both an abbreviation and its rival value ('CC' and
+    'Speaker'; 'BK' and 'Brooklyn Delegation'). The bare borough name is not a rival: FY2009
+    prints 'BK' beside 'Brooklyn', as it prints 'SI' beside 'Staten Island'."""
+    conventions = LABEL_CONVENTIONS if conventions is None else conventions
+    printed = collections.defaultdict(set)
+    for fy, v in pairs:
+        printed[fy].add(" ".join((v or "").split()))
+    for fy, values in sorted(printed.items()):
+        for abbr, (_typ, _means, rival, *_ev) in conventions.items():
+            if abbr in values and rival in values:
+                raise ValueError(f"label convention {abbr!r}={rival!r}: FY{fy} prints both, so "
+                                 f"{abbr!r} may not mean {rival!r} there -- review the convention")
+
+
 def classify(value, fy, roster):
     """-> dict with council_member_type, council_member_id, legistar_full_name, method, evidence."""
     v = " ".join((value or "").split())
@@ -200,6 +256,11 @@ def classify(value, fy, roster):
         return dict(out, council_member_type="blank", method="empty cell")
     if fold(v) == "speaker":
         return dict(out, council_member_type="speaker", method="the role 'Speaker', not a named member")
+    if v in LABEL_CONVENTIONS:
+        typ, means, _rival, ev = LABEL_CONVENTIONS[v]
+        return dict(out, council_member_type=typ,
+                    method=f"file_convention:{v}={means.replace(' ', '_')}",
+                    evidence=f"printed {v!r} kept; read as {means!r} (decided by {LABEL_DECIDED}): {ev}")
     if _DELEGATION.fullmatch(v):
         return dict(out, council_member_type="delegation", method="borough delegation label")
     if fold(v) == "citywide":
@@ -322,6 +383,7 @@ def build(pairs, roster, addresses=None, conventions=None):
     {(fiscal_year, value): [(source, city, zip)]}, needed for any value in `conventions`
     (default FILE_CONVENTIONS) that `pairs` holds, and for its sibling."""
     conventions = FILE_CONVENTIONS if conventions is None else conventions
+    check_label_conventions(pairs)
     rows = []
     for (fy, v), n in sorted(pairs.items(), key=lambda kv: (kv[0][0], kv[0][1].lower(), kv[0][1])):
         rule = conventions.get((fy, v))
@@ -414,7 +476,7 @@ def main(argv=None):
     for typ, (values, n) in summary(rows).items():
         print(f"{typ:<18} {values:>5} (year, value) pairs {n:>8,} rows")
     for r in rows:
-        if r["method"].startswith("file_convention"):
+        if r["method"].startswith("file_convention") and r["council_member_id"]:
             print(f"file_convention    FY{r['fiscal_year']} {r['council_member']!r} -> "
                   f"{r['council_member_id']} {r['legistar_full_name']} ({r['rows']} rows)")
     return 0

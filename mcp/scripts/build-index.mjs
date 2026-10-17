@@ -33,6 +33,8 @@ import { readFileSync, existsSync, rmSync, mkdirSync, renameSync } from "fs";
 import { join, dirname, basename } from "path";
 import { fileURLToPath } from "url";
 import { verifyIndex } from "./verify-index.mjs";
+// The folding rule db.ts applies to queries (src/fold.ts); `npm run build` always runs first.
+import { fold } from "../dist/fold.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MCP_ROOT = join(__dirname, "..");
@@ -128,7 +130,28 @@ function zipOf(r, year) {
 
 // #89 A4 / B13: the cross-reference and flag vocabularies. Anything else is a stop.
 const OD_MATCH = new Set(["", "exact", "rounded_cents", "rounded_dollars"]);
-const DISCLOSURE_ROW_FLAGS = new Set(["", "not_an_award"]);
+// row_flag joins one or more flags with ";" (no_grantee_ein is a rule: a blank or "NA" EIN).
+const DISCLOSURE_ROW_FLAG_VALUES = new Set(["not_an_award", "no_grantee_ein"]);
+const DISCLOSURE_ROW_FLAGS = {
+  has: (v) => v === "" || v.split(";").every((x) => DISCLOSURE_ROW_FLAG_VALUES.has(x)),
+};
+
+// Substring-filtered text columns get a folded twin (<column>_fold) that queries match against
+// as COALESCE(<column>_fold, <column>) ... COLLATE NOCASE. The twin is NULL only where folding
+// changes nothing but ASCII letter case, which NOCASE already covers; that keeps the index from
+// carrying a second copy of every name (a full copy added 15 MB to the package). The comparison
+// is against an ASCII-only lower-casing on purpose: a full toLowerCase() would call "OssΘ"
+// (t474 mojibake) unchanged by folding, store no twin, and the folded query "ossθ" would then
+// miss the raw "OssΘ" under NOCASE, which folds ASCII only (review S2, 2026-10-17).
+const DISCLOSURE_FOLD = ["legal_name", "council_member", "source", "agency", "program_name"];
+const CAPITAL_FOLD = ["sponsor", "title", "description"];
+const asciiLower = (s) => s.replace(/[A-Z]/g, (c) => c.toLowerCase());
+const folded = (r, cols) =>
+  Object.fromEntries(cols.map((c) => {
+    const v = r[c] ?? "";
+    const f = fold(v);
+    return [`${c}_fold`, f === asciiLower(v) ? null : f];
+  }));
 
 const DISCLOSURE_COLUMNS = ["fiscal_year", "mocs_id", "od_mocs_id", "od_match", "source", "council_member",
   "council_member_id", "council_member_type", "legal_name", "ein", "status", "status_norm", "amount",
@@ -213,7 +236,9 @@ function build() {
       address1 TEXT, address2 TEXT, city TEXT, state TEXT, postal_code TEXT, zip TEXT,
       zip_status TEXT, zip_candidates TEXT,
       fiscal_conduit TEXT, fiscal_conduit_ein TEXT, source_row INTEGER,
-      duplicate_group INTEGER, row_flag TEXT
+      duplicate_group INTEGER, row_flag TEXT,
+      legal_name_fold TEXT, council_member_fold TEXT, source_fold TEXT, agency_fold TEXT,
+      program_name_fold TEXT
     );
     CREATE INDEX idx_disc_ein ON disclosure(ein);
 
@@ -227,7 +252,8 @@ function build() {
       seq INTEGER, report_year INTEGER, amount_fy INTEGER, project_id TEXT, project_id_norm TEXT,
       borough TEXT, budget_line TEXT, budget_line_norm TEXT, council_district TEXT,
       district_tokens TEXT, sponsor TEXT, title TEXT, description TEXT, amount REAL,
-      source_kind TEXT, source_file TEXT, source_row TEXT, row_flag TEXT
+      source_kind TEXT, source_file TEXT, source_row TEXT, row_flag TEXT,
+      sponsor_fold TEXT, title_fold TEXT, description_fold TEXT
     );
     CREATE INDEX idx_cap_line ON capital_council(budget_line_norm);
 
@@ -257,8 +283,8 @@ function build() {
        @wayback_timestamp, @sheet, @retrieved, @sha256, @award_rows, @early_snapshot, @note)`
   );
   const insDisc = db.prepare(
-    `INSERT INTO disclosure (${DISCLOSURE_COLUMNS.join(", ")})
-     VALUES (${DISCLOSURE_COLUMNS.map((c) => "@" + c).join(", ")})`
+    `INSERT INTO disclosure (${[...DISCLOSURE_COLUMNS, ...DISCLOSURE_FOLD.map((c) => c + "_fold")].join(", ")})
+     VALUES (${[...DISCLOSURE_COLUMNS, ...DISCLOSURE_FOLD.map((c) => c + "_fold")].map((c) => "@" + c).join(", ")})`
   );
   counts.disclosure = db.transaction(() => {
     let n = 0;
@@ -309,6 +335,7 @@ function build() {
         }
         insDisc.run({
           ...Object.fromEntries(DISCLOSURE_COLUMNS.map((c) => [c, r[c] ?? ""])),
+          ...folded(r, DISCLOSURE_FOLD),
           fiscal_year: year,
           council_member_id: memberId(r, year),
           ein: normEin(r.ein),
@@ -331,7 +358,8 @@ function build() {
   const insCap = db.prepare(
     `INSERT INTO capital_council VALUES (@seq, @report_year, @amount_fy, @project_id, @project_id_norm,
        @borough, @budget_line, @budget_line_norm, @council_district, @district_tokens, @sponsor, @title,
-       @description, @amount, @source_kind, @source_file, @source_row, @row_flag)`
+       @description, @amount, @source_kind, @source_file, @source_row, @row_flag,
+       @sponsor_fold, @title_fold, @description_fold)`
   );
   const filesByYear = new Map();
   counts.capital = db.transaction(() => {
@@ -365,6 +393,7 @@ function build() {
         project_id_norm: r.project_id.replace(/\s+/g, " ").toUpperCase(),
         district_tokens: districtTokens(r),
         amount,
+        ...folded(r, CAPITAL_FOLD),
       });
     }
     return seq;

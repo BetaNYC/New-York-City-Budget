@@ -26,5 +26,8 @@ Stripped rows (0):
 EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (0): none
 Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 18 group(s), 36 row(s); 18 beyond the first of each group, $138,000
 NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: 4534 of 6611 rows (exact 4462, rounded_cents 1, rounded_dollars 71)
-Rows kept but flagged in row_flag (0), included in every total above: none
+Rows kept but flagged in row_flag (3), included in every total above:
+  row     45  no_grantee_ein '88th Precinct' $5,000
+  row   5828  no_grantee_ein 'St. Rita’s Roman Catholic Church' $11,250
+  row   5829  no_grantee_ein "St. Rita's Roman Catholic Church" $25,000
 notes: no MOCS ID#; no Fiscal Year column (year taken from filename)

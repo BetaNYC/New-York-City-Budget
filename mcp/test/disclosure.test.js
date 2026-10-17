@@ -12,6 +12,7 @@
  */
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
+import { clearedLabel } from "./cleared-label.mjs";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -363,7 +364,7 @@ test("council_member_id is exact: Levin (7567) and Levine (7634) never blend (#7
     const res = await call({ council_member_id: id, limit: 1 });
     assert.equal(res.isError, false);
     assert.ok(res.text.startsWith(`${mine.length.toLocaleString("en-US")} matching designation(s)`), res.text.slice(0, 80));
-    assert.ok(res.text.includes(`Cleared (headline): ${byStatus(mine, "cleared").length.toLocaleString("en-US")} row(s), ${usd(sum(byStatus(mine, "cleared")))}`));
+    assert.ok(res.text.includes(`${clearedLabel(mine)} ${byStatus(mine, "cleared").length.toLocaleString("en-US")} row(s), ${usd(sum(byStatus(mine, "cleared")))}`));
     assert.match(res.text, new RegExp(`${name} \\[Legistar person ${id}\\]`));
   }
   // A number is accepted as well as a string.
@@ -453,7 +454,7 @@ test("zip is an exact 5-digit filter on the derived zip, trimmed rows included",
   const res = await call({ zip: " 11203 ", limit: 1 });
   assert.equal(res.isError, false);
   assert.ok(res.text.startsWith(`${mine.length.toLocaleString("en-US")} matching designation(s)`), res.text.slice(0, 80));
-  assert.ok(res.text.includes(`Cleared (headline): ${byStatus(mine, "cleared").length.toLocaleString("en-US")} row(s), ${usd(sum(byStatus(mine, "cleared")))}`));
+  assert.ok(res.text.includes(`${clearedLabel(mine)} ${byStatus(mine, "cleared").length.toLocaleString("en-US")} row(s), ${usd(sum(byStatus(mine, "cleared")))}`));
   const plus4 = await call({ zip: "11203-1234" });
   assert.equal(plus4.isError, true);
   assert.match(plus4.text, /exactly 5 digits.*give its first five digits \("11203"\)/s);

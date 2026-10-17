@@ -24,9 +24,9 @@ const TOOLS_2 = ["search_disclosure_awards", "search_council_capital", "compare_
 const REMOVED = {
   search_awards: "search_disclosure_awards",
   get_awards_by_ein: "search_disclosure_awards",
-  search_transparency_resolutions: "Retired with no replacement yet",
+  search_transparency_resolutions: "nyc-council-mcp",
   search_capital_projects: "search_council_capital",
-  get_terms_conditions: "Retired with no replacement yet",
+  get_terms_conditions: "source/FY27/FY27-FINAL-Terms-and-Conditions-6.30.26.pdf",
   get_legistar_link: "nyc-council-mcp",
 };
 

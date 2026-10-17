@@ -19,15 +19,16 @@ notes are folded in below and kept, as written, in the 1.5.0 entry).
 
 ### Breaking changes
 - **Node 22 or newer is required** (`engines` was `>=18`). Node 18 and Node 20 are past end of life. CI now tests Node 22 and 24.
-- **Six tools removed.** Calling one returns an error that names its replacement.
+- **Six tools removed.** Calling one returns an error that names its replacement, or, for the
+  three with none, says so and points to where to look instead.
 
   | 1.x tool | In 2.0.0 |
   |---|---|
   | `search_awards` | `search_disclosure_awards` |
   | `get_awards_by_ein` | `search_disclosure_awards` with `ein` |
   | `search_capital_projects` | `search_council_capital` |
-  | `search_transparency_resolutions` | Removed, no replacement yet |
-  | `get_terms_conditions` | Removed, no replacement yet |
+  | `search_transparency_resolutions` | No replacement tool yet; the error points to `nyc-council-mcp` (Finance `modification` items), the disclosure rows and the PDFs |
+  | `get_terms_conditions` | No replacement tool yet; the error points to the Terms and Conditions PDFs in `source/FYNN/` |
   | `get_legistar_link` | Removed; use `nyc-council-mcp` for Legistar records |
   | `list_available_fiscal_years` | Kept, rebuilt on the structured datasets |
 
@@ -60,8 +61,8 @@ notes are folded in below and kept, as written, in the 1.5.0 entry).
   build from the committed file and checked against its manifest); a caveat on every answer
   (FY2018 missing; codes A, 80, CC, PN unconfirmed; links below the budget line would be by line
   and title only and are not made; no contract-level data).
-- **`compare_capital_to_omb`** — `data/capital/council_vs_omb_by_budget_line.csv` (1,425 lines,
-  FY2019–FY2027): per report year and Council-series budget line, the Council total vs OMB's
+- **`compare_capital_to_omb`** — `data/capital/council_vs_omb_by_budget_line.csv` (1,425 line-year
+  comparisons over 515 distinct budget lines, FY2019–FY2027): per report year and Council-series budget line, the Council total vs OMB's
   adopted release for that year and the next, with a verdict. Labeled as this repo's arithmetic,
   not a Council or OMB reconciliation; an absent side shows `—`, never `$0`; lines that disagree
   first.
@@ -78,13 +79,19 @@ notes are folded in below and kept, as written, in the 1.5.0 entry).
 - Disclosure notes for rows with a `row_flag` (`not_an_award`: two FY2009 lump allocations on the
   City's EIN, kept and counted as published) and for rows that print no grantee EIN (53 rows,
   $159,951,020.83, most of it FY2009 initiative-level rows such as "School Budget Restoration",
-  $120,000,000). Both stay in the totals; the note says how much.
+  $120,000,000). Both stay in the totals; the note says how much. Those 53 rows carry
+  `row_flag` `no_grantee_ein` (a rule: blank or `NA` EIN), and each row says "No grantee EIN
+  printed by the Council. Often a city program rather than a nonprofit." `row_flag` can join
+  flags with `;`.
+- FY2009–FY2013 `CC` is typed `council_member_type = speaker` and the FY2009 borough codes
+  `BK`/`BX`/`MN`/`QN` `delegation` (they were `unresolved`); `council_member` still shows the
+  printed value. `unresolved` drops from 1,196 rows to 56.
 - Per-year disclosure provenance now comes from `data/disclosure_years.csv` (Council RnD URL or
   Internet Archive capture, retrieval date, sha256, early-snapshot flag, note) into a
   `disclosure_years` table; the build stops if a year's row count disagrees with it.
 - `meta.inputs` in the index: every repo file the build read.
 - Tests: `test/no-pdf-data.test.js` (tables allowlisted; every build input on a structured
-  allowlist; the `npm pack` file list is exactly six files), `test/tools.test.js`,
+  allowlist; the `npm pack` file list is exactly eight files), `test/tools.test.js`,
   `test/disclosure-v2.test.js`, `test/capital.test.js`. Mutation-checked: folding out-years into
   the own-year total, a year-first sort, prefix or substring matches on `budget_line`,
   `project_id`, `council_district`, `sponsor_exact` and `od_mocs_id`, case-folding `borough`,
@@ -108,7 +115,28 @@ notes are folded in below and kept, as written, in the 1.5.0 entry).
   → `legal_name` or, on capital, `title`).
 - Shown disclosure amounts are rounded to cents; FY2009–FY2012 carry fractional amounts such as
   `7481.296758`. Totals are computed on the exact values.
-- Package size: 14.9 MB packed / 67.7 MB unpacked (1.5.0 build) → 8.9 MB / 40.3 MB.
+- **Red-team fixes (2026-10-16).** FY2012's Cleared total is no longer labeled "(headline)":
+  any matched year that is an early snapshot or prints statuses other than Cleared/Pending
+  (FY2011, FY2012) drops the label, multi-year totals that include one say they mix years, and a
+  note explains each such status (`Government`: City agencies as recipient; Open Data calls the
+  FY2012 rows Cleared). Text filters match on folded text (NFKD, accents, curly quotes, dashes,
+  case), so `Women's` finds `Women’s`. A blank text filter is an error, not "no filter"; filters
+  are capped at 500 characters. `compare_capital_to_omb` says "line-year comparisons" (1,425 over
+  515 distinct lines) and lists Council rows on lines outside the Council series that it does not
+  compare (FY2021 `PW MN02A`, $304,000). An EIN error points to `legal_name` for the three odd
+  published EINs. The package now ships `LICENSE` and `dist/fold.js`.
+- **Review fixes (2026-10-17).** The "(headline)" label is decided per fiscal year, whatever the
+  filter: any FY2011 or FY2012 match drops it, and the note gives the year's whole-year other
+  statuses. A printed value pasted back exactly always finds its rows, including the garbled
+  t474 sponsors (`OssΘ`, `AvilΘs`, `Avil├⌐s`): the folded twin is now skipped only where folding
+  changes nothing but ASCII case. Folding also handles `ẞ`, dotless `ı`, zero-width characters,
+  the okina and guillemets. The removed tools without a replacement now say where to look
+  instead. The no-EIN note no longer repeats itself.
+- **One license.** The README's licensing section now says BetaNYC's code, derived data and
+  documentation are all MIT. It previously pointed the data at a separate CC BY-SA 4.0 file,
+  which contradicted the repository's `LICENSE`; that second license is withdrawn. The Council's
+  source documents remain public records, not covered by BetaNYC's license.
+- Package size: 14.9 MB packed / 67.7 MB unpacked (1.5.0 build) → 8.9 MB / 41.3 MB (8 files: the index, `dist/`, README, LICENSE, package.json).
 - `package.json`: version 2.0.0, description and keywords; the `enrich-crosswalk` script is
   gone. The 1.x tests and `scripts/enrich-crosswalk.mjs` are parked in `retired-1.x/` (not run,
   not shipped).

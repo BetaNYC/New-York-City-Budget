@@ -19,6 +19,7 @@ import {
   compareCapitalToOmb,
   listOmbComparisonYears,
   normEin,
+  fold,
   normBudgetLine,
   normProjectId,
   DISCLOSURE_STATUSES,
@@ -90,7 +91,16 @@ const ZIP_STATUS_NOTE: Record<string, string> = {
 
 const ROW_FLAG_NOTE: Record<string, string> = {
   not_an_award: "not_an_award: printed as a designation but not a grant to an organization (a lump allocation on the City's own EIN with no address); kept and counted in totals, as published",
+  no_grantee_ein: "no_grantee_ein: No grantee EIN printed by the Council. Often a city program rather than a nonprofit.",
 };
+
+/** row_flag can join several flags with ";". */
+function rowFlagNotes(flag: string): string {
+  return flag
+    .split(";")
+    .map((f) => ROW_FLAG_NOTE[f] ?? f)
+    .join("; ");
+}
 
 /** The grantee mailing address as printed, then the derived zip and its status. */
 function addressLine(r: DisclosureRow): string {
@@ -136,7 +146,7 @@ function disclosureRowLine(r: DisclosureRow): string {
       ? `\n    fiscal conduit: ${r.fiscal_conduit}${r.fiscal_conduit_ein ? ` (EIN ${r.fiscal_conduit_ein})` : ""}`
       : "") +
     (r.od_mocs_id ? `\n    NYC Open Data 4d7f-74pe MOCS ID ${r.od_mocs_id} (cross-reference; amounts agree: ${r.od_match})` : "") +
-    (r.row_flag ? `\n    row_flag ${ROW_FLAG_NOTE[r.row_flag] ?? r.row_flag}` : "") +
+    (r.row_flag ? `\n    row_flag ${rowFlagNotes(r.row_flag)}` : "") +
     `\n    workbook row ${r.source_row}` +
     (r.duplicate_group != null
       ? r.duplicate_group === r.source_row
@@ -173,13 +183,38 @@ function disclosureCoverage(years: DisclosureYear[]): string {
   );
 }
 
+/**
+ * Raw statuses outside Cleared/Pending (status_norm = other), as DATA-ANOMALIES.md §25 records
+ * them. Neither workbook defines them; this says only what the files and Open Data show.
+ */
+const OTHER_STATUS_NOTE: Record<string, string> = {
+  Government:
+    "City agencies as the recipient; for FY2012 NYC Open Data calls the same rows Cleared, while FY2011 prints most comparable City restorations as Cleared",
+  "CBO Defunded": "all $0 in the workbook; NYC Open Data dropped them",
+};
+
+/**
+ * The label on the Cleared line. A Cleared total is a headline only when every matched year is
+ * an ordinary year: not an early snapshot (FY2009, FY2013) and printing no other statuses
+ * (FY2011, FY2012's `Government`). Red team B1 (FY2012 read as a 61% drop) and S4.
+ */
+function clearedLabel(years: number[], early: Set<number>, other: Set<number>): string {
+  const bad = years.filter((y) => early.has(y) || other.has(y));
+  if (bad.length === 0) return "(headline)";
+  if (years.length > 1) return "(mixes years that are not headline figures; see the per-year split)";
+  if (early.has(years[0])) return "(early snapshot, not a headline)";
+  return "(not a headline: this year prints other statuses; see the note below)";
+}
+
 function disclosureText(res: DisclosureResult, coverage: string): string {
   const t = res.totals;
   const all = t.cleared.rows + t.pending.rows + t.other.rows;
   const allAmt = t.cleared.amount + t.pending.amount + t.other.amount;
   const shown = res.rows.length;
   const early = res.snapshots.filter((s) => s.early_snapshot && res.by_year.some((y) => y.fiscal_year === s.fiscal_year));
-  const allEarly = early.length > 0 && early.length === res.by_year.length;
+  const earlySet = new Set(early.map((s) => s.fiscal_year));
+  const otherSet = new Set(res.other_statuses.map((o) => o.fiscal_year));
+  const matchedYears = res.by_year.map((y) => y.fiscal_year);
   const L: string[] = [
     `${n(res.matched)} matching designation(s) in the Council's expense funding disclosure. ` +
       (shown < res.matched
@@ -187,25 +222,37 @@ function disclosureText(res: DisclosureResult, coverage: string): string {
         : `Showing all ${shown}, highest amount first.`),
     "",
     `Totals over all ${n(res.matched)} match(es):`,
-    `  Cleared${allEarly ? " (early snapshot, not a headline)" : " (headline)"}: ${n(t.cleared.rows)} row(s), ${usd(t.cleared.amount)}`,
+    `  Cleared ${clearedLabel(matchedYears, earlySet, otherSet)}: ${n(t.cleared.rows)} row(s), ${usd(t.cleared.amount)}`,
     `  Pending:            ${n(t.pending.rows)} row(s), ${usd(t.pending.amount)}`,
   ];
   if (t.other.rows) L.push(`  Other status:       ${n(t.other.rows)} row(s), ${usd(t.other.amount)}`);
   L.push(`  All statuses (not a headline figure): ${n(all)} row(s), ${usd(allAmt)}`);
-  if (early.length && !allEarly)
+  if (early.length && early.length < res.by_year.length)
     L.push(
       `  Includes early-snapshot year(s) ${early.map((s) => `FY${s.fiscal_year}`).join(", ")}: the Cleared figure above mixes them in; read the per-year split.`
     );
   if (res.by_year.length > 1) {
     L.push("", "By fiscal year (cleared / pending):");
     for (const y of res.by_year) {
-      const isEarly = early.some((s) => s.fiscal_year === y.fiscal_year);
+      const isEarly = earlySet.has(y.fiscal_year);
+      const isOther = otherSet.has(y.fiscal_year);
       L.push(
-        `  FY${y.fiscal_year}${isEarly ? " (early snapshot)" : ""}: cleared ${n(y.totals.cleared.rows)} row(s) ${usd(y.totals.cleared.amount)} · ` +
+        `  FY${y.fiscal_year}${isEarly ? " (early snapshot)" : ""}${isOther ? " (prints other statuses; Cleared not comparable)" : ""}: cleared ${n(y.totals.cleared.rows)} row(s) ${usd(y.totals.cleared.amount)} · ` +
           `pending ${n(y.totals.pending.rows)} row(s) ${usd(y.totals.pending.amount)}` +
           (y.totals.other.rows ? ` · other ${n(y.totals.other.rows)} row(s) ${usd(y.totals.other.amount)}` : "")
       );
     }
+  }
+  for (const fy of [...otherSet].sort((a, b) => a - b)) {
+    const os = res.other_statuses.filter((o) => o.fiscal_year === fy);
+    const rows = os.reduce((s, o) => s + o.rows, 0);
+    const amt = os.reduce((s, o) => s + o.amount, 0);
+    L.push(
+      "",
+      `Note: across the whole year, FY${fy} prints ${n(rows)} row(s), ${usd(amt)}, with statuses other than Cleared or Pending: ` +
+        os.map((o) => `${o.status} ${n(o.rows)} row(s) ${usd(o.amount)} (${OTHER_STATUS_NOTE[o.status] ?? "not defined in the workbook"})`).join("; ") +
+        `. Matched rows with those statuses are under "Other status" above, not in Cleared. Because the year sorts some money this way, FY${fy}'s Cleared figures are not headlines and are not comparable with other years' Cleared totals, for any filter (DATA-ANOMALIES.md §25).`
+    );
   }
   for (const col of ["council_member", "source", "agency"] as const) {
     const vals = res.matched_values[col];
@@ -235,15 +282,16 @@ function disclosureText(res: DisclosureResult, coverage: string): string {
         `The workbooks print every copy and the totals above include them all. ${n(res.duplicates.extra_rows)} row(s), ${usd(res.duplicates.extra_amount)}, are copies beyond the first of their group; ` +
         `whether each is a real second designation or a filing error cannot be told from the workbook.`
     );
-  for (const fl of res.flagged)
+  // no_grantee_ein alone is covered by the no-EIN note below; any other flag gets its own note.
+  for (const fl of res.flagged.filter((f) => f.row_flag.split(";").some((x) => x !== "no_grantee_ein")))
     L.push(
       "",
-      `Note: ${n(fl.rows)} matched row(s), ${usd(fl.amount)}, carry row_flag ${fl.row_flag} (${ROW_FLAG_NOTE[fl.row_flag] ?? "see DATA-DICTIONARY.md"}). Subtract them yourself when you mean money to organizations.`
+      `Note: ${n(fl.rows)} matched row(s), ${usd(fl.amount)}, carry row_flag ${fl.row_flag} (${fl.row_flag.split(";").map((f) => ROW_FLAG_NOTE[f] ?? "see DATA-DICTIONARY.md").join("; ")}). Subtract them yourself when you mean money to organizations.`
     );
   if (res.no_ein.rows > 0)
     L.push(
       "",
-      `Note: ${n(res.no_ein.rows)} matched row(s), ${usd(res.no_ein.amount)}, print no grantee EIN (blank, or text with no digits such as "NA"; shown as "EIN —"). They are counted in the totals above. Some name an initiative or program rather than an organization (FY2009's largest is "School Budget Restoration", $120,000,000); read their legal_name before counting them as money to an organization.`
+      `Note: ${n(res.no_ein.rows)} matched row(s), ${usd(res.no_ein.amount)}, print no grantee EIN (blank, or text with no digits such as "NA"; shown as "EIN —"; row_flag no_grantee_ein). No grantee EIN printed by the Council. Often a city program rather than a nonprofit. They are counted in the totals above${matchedYears.includes(2009) ? ' (FY2009\'s largest is "School Budget Restoration", $120,000,000)' : ""}; read their legal_name before counting them as money to an organization.`
     );
   L.push("", "Snapshot (which download each year comes from):", ...res.snapshots.map(snapshotLine));
   L.push("", coverage);
@@ -365,11 +413,23 @@ const VERDICT_LABEL: Record<string, string> = {
   omb_only: "OMB only (no Council row)",
 };
 
+/** Council rows the comparison leaves out because their line is not in the Council series. */
+function notComparedText(res: OmbComparisonResult): string {
+  if (!res.not_compared.length) return "";
+  return (
+    `Not compared: ${n(res.not_compared.length)} Council capital row(s) in these years sit on a budget line outside the Council series (D, DN), so no comparison above includes them: ` +
+    res.not_compared
+      .map((r) => `FY${r.report_year} ${r.budget_line_norm}, ${r.sponsor || "(no sponsor)"}, "${r.title}", ${r.amount == null ? "amount unknown" : usd(r.amount)}${r.amount_fy != null ? ` for FY${r.amount_fy}` : ""}`)
+      .join("; ") +
+    ". They are in search_council_capital."
+  );
+}
+
 function ombText(res: OmbComparisonResult): string {
   const money = (v: number | null) => (v == null ? "—" : usd(v));
   const shown = res.rows.length;
   const L: string[] = [
-    `${n(res.matched)} budget line(s) compared. ` +
+    `${n(res.matched)} line-year comparison(s) (report year, budget line) over ${n(res.distinct_lines)} distinct budget line(s). ` +
       (shown < res.matched
         ? `Showing ${shown} of ${n(res.matched)}: lines that disagree first, then the largest first-year difference. Counts below cover all ${n(res.matched)}.`
         : `Showing all ${shown}: lines that disagree first.`),
@@ -390,6 +450,7 @@ function ombText(res: OmbComparisonResult): string {
           `\n    FY${r.report_year}: Council ${money(r.council_y1)} / OMB ${money(r.omb_y1)} · FY${r.report_year + 1}: Council ${money(r.council_y2)} / OMB ${money(r.omb_y2)} · Council rows ${r.council_rows}`
     ),
     "",
+    ...(res.not_compared.length ? [notComparedText(res), ""] : []),
     OMB_CAVEAT
   );
   return L.join("\n");
@@ -514,9 +575,9 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOLS }))
 export const REMOVED_TOOLS: Record<string, string> = {
   search_awards: "Use search_disclosure_awards (filters legal_name, program_name, council_member or council_member_id, fiscal_year, ein). The adopted-budget Schedule C it served was extracted from PDFs and is retired.",
   get_awards_by_ein: "Use search_disclosure_awards with ein (and fiscal_year if you need one year); its totals and per-year split cover every match.",
-  search_transparency_resolutions: "Retired with no replacement yet: the transparency resolutions were extracted from PDFs. Post-adoption designations appear in search_disclosure_awards as rows of the disclosure, without the resolution number.",
+  search_transparency_resolutions: "No replacement tool yet: the transparency resolutions were extracted from PDFs. Where to look instead: the resolutions themselves are Committee on Finance items in the NYC Council MCP (@betanyc/nyc-council-mcp; search committee Finance for 'modification'); the designations they make appear as rows in search_disclosure_awards, without the resolution number; the Council's resolution PDFs are kept in the source repo under source/FYNN/transparency-resolutions/ and source/FY27/.",
   search_capital_projects: "Use search_council_capital (the Council's capital designations from its own workbooks and NYC Open Data t474-a92g). The §254 capital tables it served were extracted from PDFs and are retired.",
-  get_terms_conditions: "Retired with no replacement yet: Terms & Conditions were extracted from PDFs.",
+  get_terms_conditions: "No replacement tool yet: Terms & Conditions were extracted from PDFs. Where to look instead: the Council's own Terms and Conditions PDF for each adopted budget, kept in the source repo under source/FYNN/ (e.g. source/FY27/FY27-FINAL-Terms-and-Conditions-6.30.26.pdf); the retired CSVs under data/fyNN/terms/ are historical and not checked.",
   get_legistar_link: "Retired: its crosswalk indexed the adopted-budget PDF documents (Schedule C, §254 capital, Terms & Conditions, transparency resolutions) that 2.0 no longer serves, and several rows were researchers' candidates rather than verified links. For a resolution's Legistar record, use the NYC Council MCP (@betanyc/nyc-council-mcp).",
 };
 
@@ -599,8 +660,11 @@ function rangeError(min?: number, max?: number): string | null {
     ? `min_amount (${min}) is greater than max_amount (${max}); nothing can match.`
     : null;
 }
+const MAX_FILTER_LENGTH = 500;
 function emptyError(name: string, v?: string): string | null {
-  return v != null && v.trim() === "" ? `${name} is empty; omit it, or give a value.` : null;
+  if (v == null) return null;
+  if (v.length > MAX_FILTER_LENGTH) return `${name} is ${n(v.length)} characters; the limit is ${MAX_FILTER_LENGTH}.`;
+  return fold(v) === "" ? `${name} is empty; omit it, or give a value.` : null;
 }
 
 function budgetLineArg(v: string | undefined): { value?: string; error?: string } {
@@ -650,14 +714,20 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           if (digits.length !== 9)
             return errorResult(
               `ein must be 9 digits (hyphens optional); got ${JSON.stringify(a.ein)}, which has ${digits.length}.` +
-                (digits.length === 8 ? ` If a spreadsheet dropped a leading zero, try "0${digits}".` : "")
+                (digits.length === 8 && /^[\d\s-]+$/.test(a.ein.trim()) ? ` If a spreadsheet dropped a leading zero, try "0${digits}".` : "") +
+                ` Three EINs the archived workbooks print are not 9 digits (FY2009 "EX130314", "EX123557", "11-31735A"); find those rows by legal_name.`
             );
         }
         if (a.council_member_id != null && !/^\d+$/.test(String(a.council_member_id).trim()))
           return errorResult(
             `council_member_id must be a Legistar person ID (digits only); got ${JSON.stringify(a.council_member_id)}. To search by name, use council_member.`
           );
+        // Red team S3: every text filter, not just the exact ones. A blank filter is refused, never
+        // read as "no filter" (that returned all 156,544 rows as if it answered the question).
         const guard =
+          emptyError("legal_name", a.legal_name) ?? emptyError("council_member", a.council_member) ??
+          emptyError("source", a.source) ?? emptyError("agency", a.agency) ??
+          emptyError("program_name", a.program_name) ??
           emptyError("city", a.city) ?? emptyError("source_exact", a.source_exact) ?? emptyError("mocs_id", a.mocs_id) ??
           emptyError("od_mocs_id", a.od_mocs_id) ?? limitError(a.limit) ?? rangeError(a.min_amount, a.max_amount);
         if (guard) return errorResult(guard);
@@ -710,6 +780,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (a.borough != null && !/^[A-Za-z]$/.test(a.borough.trim()))
           return errorResult(`borough must be one printed code letter (K, M, Q, R, X, C, or the unconfirmed A, k, x); got ${JSON.stringify(a.borough)}.`);
         const guard =
+          emptyError("sponsor", a.sponsor) ?? emptyError("title", a.title) ?? emptyError("description", a.description) ??
           emptyError("project_id", a.project_id) ?? emptyError("sponsor_exact", a.sponsor_exact) ??
           limitError(a.limit) ?? rangeError(a.min_amount, a.max_amount);
         if (guard) return errorResult(guard);
@@ -761,7 +832,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           );
         const res = compareCapitalToOmb({ ...a, budget_line: line.value });
         if (res.matched === 0)
-          return textResult(`No budget lines matched (the comparison covers ${yearSpan(years)}).\n\n${OMB_CAVEAT}\n\n${OMB_FOOTER}`);
+          return textResult(
+            `No budget lines matched (the comparison covers ${yearSpan(years)}).` +
+              (res.not_compared.length ? `\n\n${notComparedText(res)}` : "") +
+              `\n\n${OMB_CAVEAT}\n\n${OMB_FOOTER}`
+          );
         return textResult(`${ombText(res)}\n\n${OMB_FOOTER}`);
       }
 

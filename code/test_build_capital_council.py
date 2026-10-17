@@ -121,6 +121,24 @@ def test_reconcile_by_budget_line_uses_the_adopted_release():
                    "PV DN1": "council_only"}
 
 
+def test_rows_off_the_council_series_are_listed_not_dropped():
+    """Red team S2. FAILS if a Council row on a non-D budget line in a compared year is not
+    returned by not_compared(), if a D-series row or a row in an uncompared year is, or if the
+    committed RECONCILIATION.md stops naming FY2021 PW MN02A ($304,000)."""
+    recon = [{"report_year": 2021, "budget_line_norm": "P D018"}]
+    rows = [{"report_year": 2021, "budget_line_norm": "PW MN02A"},
+            {"report_year": 2021, "budget_line_norm": "P D018"},
+            {"report_year": 2016, "budget_line_norm": "PW MN02A"},
+            {"report_year": 2021, "budget_line_norm": ""}]
+    assert C.not_compared(rows, recon) == [rows[0]]
+    with open(os.path.join(C.ROOT, "data", "capital", "RECONCILIATION.md"), encoding="utf-8") as f:
+        text = f.read()
+    assert "**Not compared:** 1 Council row(s)" in text
+    assert "FY2021 `PW MN02A` Constantinides" in text and "$304,000 for FY2021" in text
+    assert "(open_data_t474 row-av96-acjb-43k4)" in text and "row row-" not in text
+    assert "1,425 line-year comparisons (515 distinct budget lines)." in text
+
+
 def test_plan_totals_row_is_stripped():
     """FAILS if 2cmn-uidm's row with no release and no line (grand-total-sized amounts) is kept."""
     row = {":id": "x", "pub_date": "", "projtype": "", "budline": "", "budline_desc": "",

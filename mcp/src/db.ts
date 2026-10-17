@@ -16,6 +16,9 @@ import type { Database as DB } from "better-sqlite3";
 import { existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { fold } from "./fold.js";
+
+export { fold };
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DB_PATH = join(__dirname, "..", "data", "budget.db");
@@ -53,14 +56,19 @@ function cap(limit?: number, def = 50, max = 500): number {
 }
 
 /**
- * Case-insensitive substring match with LIKE's wildcards taken literally: a filter of "_" or
- * "100%" means those characters, not "any one character" / "anything" (legal_name "_" used to
- * match every row).
+ * Substring match on the column's folded twin (`<column>_fold`, written by build-index.mjs with
+ * fold()), so case, accents, curly quotes and dashes do not matter: "Women's" finds "Women’s",
+ * "jewish emigre" finds "Jewish Émigré". LIKE's wildcards are taken literally: a filter of "_" or
+ * "100%" means those characters (legal_name "_" used to match every row). A blank value is
+ * refused by the tool before it gets here (red team S3); it is never a silent "no filter".
  */
 function likeLiteral(column: string, params: unknown[], value?: string): string | null {
-  if (value == null || value.trim() === "") return null;
-  params.push(`%${value.trim().replace(/[\\%_]/g, (c) => "\\" + c)}%`);
-  return `${column} LIKE ? ESCAPE '\\' COLLATE NOCASE`;
+  if (value == null) return null;
+  const q = fold(value);
+  if (q === "") throw new Error(`${column} is empty; omit it, or give a value.`);
+  params.push(`%${q.replace(/[\\%_]/g, (c) => "\\" + c)}%`);
+  // The twin is NULL where folding changes only ASCII case; NOCASE covers that case.
+  return `COALESCE(${column}_fold, ${column}) LIKE ? ESCAPE '\\' COLLATE NOCASE`;
 }
 
 /** Exact match ignoring case and surrounding whitespace. */
@@ -129,7 +137,7 @@ export interface DisclosureRow {
   fiscal_conduit_ein: string;
   source_row: number;
   duplicate_group: number | null;
-  /** #89 B13: a person's recorded decision about the row (`not_an_award`); "" for nearly every row. Counted in totals. */
+  /** "" for nearly every row; else flags joined by ";": `not_an_award` (#89 B13, decided) or `no_grantee_ein` (a rule). Counted in totals. */
   row_flag: string;
 }
 
@@ -203,6 +211,12 @@ export interface DisclosureResult {
   flagged: { row_flag: string; rows: number; amount: number }[];
   /** Matched rows that print no grantee EIN (counted in the totals). */
   no_ein: { rows: number; amount: number };
+  /**
+   * For each matched fiscal year that prints any status outside Cleared/Pending ANYWHERE in the
+   * year (FY2011, FY2012), that year's whole-year rows per raw status. Per year, not per match:
+   * the label is about comparing a year's Cleared total with other years' (review S7).
+   */
+  other_statuses: { fiscal_year: number; status: string; rows: number; amount: number }[];
 }
 
 const emptyTotals = (): Record<DisclosureStatus, DisclosureTotal> => ({
@@ -319,10 +333,22 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
     .prepare(`SELECT COUNT(*) AS rows, COALESCE(SUM(amount), 0) AS amount FROM disclosure ${and} ein = ''`)
     .get(...p) as { rows: number; amount: number };
 
+  const matchedYears = [...years.keys()];
+  const other_statuses = matchedYears.length
+    ? (db
+        .prepare(
+          `SELECT fiscal_year, status, COUNT(*) AS rows, COALESCE(SUM(amount), 0) AS amount FROM disclosure
+           WHERE status_norm = 'other' AND fiscal_year IN (${matchedYears.map(() => "?").join(",")})
+           GROUP BY fiscal_year, status ORDER BY fiscal_year, amount DESC, status`
+        )
+        .all(...matchedYears) as { fiscal_year: number; status: string; rows: number; amount: number }[])
+    : [];
+
   return {
     rows,
     matched,
     totals,
+    other_statuses,
     by_year: [...years.entries()].map(([fiscal_year, t]) => ({ fiscal_year, totals: t })),
     snapshots,
     matched_values,
@@ -581,6 +607,14 @@ export interface OmbComparisonResult {
   matched: number;
   verdicts: Record<OmbVerdict, number>;
   by_year: { report_year: number; omb_pub_date: string; verdicts: Record<OmbVerdict, number> }[];
+  /** Distinct budget lines among the matched (report year, line) pairs. */
+  distinct_lines: number;
+  /**
+   * Council rows in a compared report year on a budget line outside the Council series (D, DN):
+   * the comparison leaves them out, so the answer lists them (red team S2: FY2021 PW MN02A).
+   * Filtered by report_year and budget_line like the comparison; empty when a verdict is asked for.
+   */
+  not_compared: { report_year: number; budget_line_norm: string; sponsor: string; title: string; amount: number | null; amount_fy: number | null }[];
 }
 
 export function compareCapitalToOmb(f: OmbComparisonFilters): OmbComparisonResult {
@@ -616,7 +650,27 @@ export function compareCapitalToOmb(f: OmbComparisonFilters): OmbComparisonResul
     verdicts[r.verdict] += r.n;
     matched += r.n;
   }
-  return { rows, matched, verdicts, by_year: [...years.values()] };
+  const distinct_lines = (db
+    .prepare(`SELECT COUNT(DISTINCT budget_line_norm) AS n FROM capital_vs_omb ${w}`)
+    .get(...p) as { n: number }).n;
+  const q: unknown[] = [];
+  const wn = where([
+    "report_year IN (SELECT DISTINCT report_year FROM capital_vs_omb)",
+    "budget_line_norm <> ''",
+    "substr(budget_line_norm, instr(budget_line_norm, ' ') + 1) NOT LIKE 'D%'",
+    eqClause("report_year", q, f.report_year),
+    f.budget_line != null ? (q.push(f.budget_line), "budget_line_norm = ?") : null,
+  ]);
+  const not_compared =
+    f.verdict != null
+      ? []
+      : (db
+          .prepare(
+            `SELECT report_year, budget_line_norm, sponsor, title, amount, amount_fy FROM capital_council ${wn}
+             ORDER BY report_year, budget_line_norm, seq`
+          )
+          .all(...q) as OmbComparisonResult["not_compared"]);
+  return { rows, matched, verdicts, by_year: [...years.values()], distinct_lines, not_compared };
 }
 
 /** Report years present in the comparison. */

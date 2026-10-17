@@ -164,3 +164,103 @@ test("row_flag not_an_award rows stay in the totals and are counted in a note", 
   const clean = await call({ fiscal_year: 2026, limit: 1 });
   assert.doesNotMatch(clean.text, /carry row_flag/);
 });
+
+test("row_flag no_grantee_ein: 53 rows indexed, each explained in one plain sentence", async () => {
+  // FAILS if the index does not carry exactly the 53 no-EIN rows the CSVs flag, if a flagged row
+  // is shown without the sentence, or if the aggregate no-EIN note drops it.
+  const SENTENCE = "No grantee EIN printed by the Council. Often a city program rather than a nonprofit.";
+  const db = new Database(DB_PATH, { readonly: true });
+  const n = db.prepare("SELECT COUNT(*) AS n FROM disclosure WHERE ';' || row_flag || ';' LIKE '%;no_grantee_ein;%'").get().n;
+  const blank = db.prepare("SELECT COUNT(*) AS n FROM disclosure WHERE ein = ''").get().n;
+  db.close();
+  assert.equal(n, 53);
+  assert.equal(blank, 53, "every no-EIN row is flagged, and only those");
+  const one = await call({ fiscal_year: 2009, legal_name: "School Budget Restoration" });
+  assert.equal(one.isError, false);
+  assert.ok(one.text.includes(`row_flag no_grantee_ein: ${SENTENCE}`), one.text);
+  assert.ok(one.text.includes(`row_flag no_grantee_ein). ${SENTENCE}`));
+});
+
+// ---------------------------------------------------------------- red team 2026-10-16
+
+test("B1: FY2012's Cleared total is not a headline, and the answer says what 'Government' is", async () => {
+  // FAILS if FY2012 (or FY2011, which also prints other statuses) is labeled "(headline)", or if
+  // the answer does not explain the Government rows and that Cleared is not comparable across years.
+  const rows = disclosureCsv(2012);
+  const gov = rows.filter((r) => r.status === "Government");
+  assert.equal(gov.length, 49, "fixture premise");
+  const { text } = await call({ fiscal_year: 2012, limit: 1 });
+  assert.doesNotMatch(text, /Cleared \(headline\)/);
+  assert.match(text, /Cleared \(not a headline: this year prints other statuses; see the note below\):/);
+  assert.ok(text.includes(`Government 49 row(s) ${usd(sum(gov))} (City agencies as the recipient; for FY2012 NYC Open Data calls the same rows Cleared`), text.slice(0, 1500));
+  assert.match(text, /CBO Defunded 155 row\(s\) \$0 \(all \$0 in the workbook; NYC Open Data dropped them\)/);
+  assert.match(text, /FY2012's Cleared figures are not headlines and are not comparable with other years' Cleared totals, for any filter/);
+  const fy11 = await call({ fiscal_year: 2011, limit: 1 });
+  assert.doesNotMatch(fy11.text, /Cleared \(headline\)/);
+  // Per year, not per match (review S7): a FY2011 subset with no other-status rows is still
+  // FY2011, whose Cleared figures cannot be compared across years.
+  const sub = await call({ fiscal_year: 2011, legal_name: "Hetrick-Martin" });
+  assert.equal(sub.isError, false);
+  assert.doesNotMatch(sub.text, /Cleared \(headline\)/);
+  assert.match(sub.text, /across the whole year, FY2011 prints/);
+  const fy27 = await call({ fiscal_year: 2027, limit: 1 });
+  assert.match(fy27.text, /Cleared \(headline\):/);
+  assert.doesNotMatch(fy27.text, /statuses other than Cleared/);
+});
+
+test("S4: a multi-year total that includes FY2009, FY2012 or FY2013 is never labeled a headline", async () => {
+  // FAILS if a total mixing early-snapshot or other-status years with ordinary ones says "(headline)".
+  const all = await call({ limit: 1 });
+  assert.doesNotMatch(all.text, /Cleared \(headline\)/);
+  assert.match(all.text, /Cleared \(mixes years that are not headline figures; see the per-year split\):/);
+  assert.match(all.text, /FY2012 \(prints other statuses; Cleared not comparable\):/);
+  const fcny = await call({ ein: "13-2612524", limit: 1 });
+  assert.doesNotMatch(fcny.text, /Cleared \(headline\)/);
+  const clean = await call({ ein: "13-2612524", fiscal_year: 2026, limit: 1 });
+  assert.match(clean.text, /Cleared \(headline\):/);
+});
+
+test("S1: name filters ignore accents, curly quotes and case, on the query and the data", async () => {
+  // FAILS if "Women's" (straight) misses "Women’s" (curly), or if any spelling of Jewish
+  // Émigré / Emigre misses any of the organization's 6 rows.
+  for (const q of ["Global Chinese Women's", "Global Chinese Women’s", "GLOBAL CHINESE WOMEN'S"]) {
+    const r = await call({ legal_name: q });
+    assert.match(r.text, /^1 matching designation\(s\)/m, q);
+  }
+  for (const q of ["Jewish Emigre", "Jewish Émigré", "jewish émigré", "JEWISH EMIGRE"]) {
+    const r = await call({ legal_name: q });
+    assert.match(r.text, /^6 matching designation\(s\)/m, q);
+    assert.ok(r.text.includes("$74,000"), q);
+  }
+  const lit = await call({ legal_name: "100%" });
+  assert.equal(lit.isError, false, "LIKE wildcards stay literal after folding");
+});
+
+test("S3: an empty or blank text filter is refused, never read as 'no filter'", async () => {
+  // FAILS if legal_name "" (or any blank text filter) returns the whole dataset.
+  for (const [k, v] of [["legal_name", ""], ["legal_name", "   "], ["council_member", ""], ["source", " "],
+    ["agency", ""], ["program_name", ""]]) {
+    const r = await call({ [k]: v });
+    assert.equal(r.isError, true, `${k}=${JSON.stringify(v)}`);
+    assert.match(r.text, new RegExp(`${k} is empty; omit it, or give a value`));
+  }
+  for (const [k, v] of [["sponsor", ""], ["title", "  "], ["description", ""]]) {
+    const res = await client.callTool({ name: "search_council_capital", arguments: { [k]: v } });
+    assert.equal(res.isError, true, `${k}=${JSON.stringify(v)}`);
+    assert.match(res.content[0].text, new RegExp(`${k} is empty; omit it, or give a value`));
+  }
+});
+
+test("nits 4 and 5: odd published EINs are pointed to legal_name; an over-long filter gets a plain message", async () => {
+  // FAILS if '11-31735A' is told to prepend a zero, if the error does not name the three odd EINs,
+  // or if a 300,000-character filter surfaces SQLite's "pattern too complex" instead of a sentence.
+  const odd = await call({ ein: "11-31735A" });
+  assert.equal(odd.isError, true);
+  assert.doesNotMatch(odd.text, /try "0/);
+  assert.match(odd.text, /"EX130314", "EX123557", "11-31735A"\); find those rows by legal_name/);
+  const zero = await call({ ein: "12345678" });
+  assert.match(zero.text, /try "012345678"/);
+  const long = await call({ legal_name: "a".repeat(300000) });
+  assert.equal(long.isError, true);
+  assert.match(long.text, /legal_name is 300,000 characters; the limit is 500\./);
+});

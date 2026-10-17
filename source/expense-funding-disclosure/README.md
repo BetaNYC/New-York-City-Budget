@@ -107,8 +107,9 @@ as a source record only.
    does not state. Every stripped row is listed in
    `data/fy24/expense_disclosure/fy24_expense_reconciliation.txt` and its FY2026 counterpart.
 2. **`Status` (Cleared vs Pending) must be handled deliberately.** The upcoming budget year is
-   heavily Pending at publication (FY2027 was ~50% Pending on 2026-07-15 and 16% Pending by
-   dollars on 2026-10-12).
+   heavily Pending at publication. FY2027 on 2026-07-15: about 50% of rows and about 80% of
+   dollars Pending ($143,034,722 Cleared of $705,564,000). On 2026-10-12: about 16% of dollars
+   Pending ($590,253,954 Cleared of $705,704,000).
 3. **Organization names have minor inconsistencies** (leading spaces, quoting). `Tax ID` (EIN) is
    the reliable key within a year (it pools fiscal-sponsor programs, and the City's own EIN
    `136400434` covers hundreds of City bodies). `MOCS ID#` identifies a row within one snapshot

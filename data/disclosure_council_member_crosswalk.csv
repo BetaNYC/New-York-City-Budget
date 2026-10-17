@@ -6,12 +6,12 @@ fiscal_year,council_member,rows,council_member_type,council_member_id,legistar_f
 2009,Baez,43,member,5264,Maria Baez,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Maria Baez (5264) voted in FY2004, FY2006-FY2010"
 2009,Barron,63,member,5288,Charles Barron,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Charles Barron (5288) voted in FY2004, FY2006-FY2014, FY2022-FY2024; Inez D. Barron (7623) voted in FY2014-FY2022"
 2009,Barron & Eugene,1,unresolved,,,no Legistar person with a recorded vote matches (surname component),
-2009,BK,18,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2009,BK,18,delegation,,,file_convention:BK=Brooklyn_Delegation,"printed 'BK' kept; read as 'Brooklyn Delegation' (decided by Marvin on the evidence, delegated by Noel Hidalgo, 2026-10-16): NYC Open Data 4d7f-74pe, joined on od_mocs_id = mocs_id: 'Brooklyn Delegation' on 18 of 18 paired FY2009 rows"
 2009,Brewer,97,member,5259,Gale A. Brewer,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Gale A. Brewer (5259) voted in FY2004, FY2006-FY2014, FY2022-FY2027"
 2009,Bronx,33,delegation,,,borough delegation label,
 2009,Brooklyn,50,delegation,,,borough delegation label,
-2009,BX,19,unresolved,,,no Legistar person with a recorded vote matches (surname component),
-2009,CC,240,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2009,BX,19,delegation,,,file_convention:BX=Bronx_Delegation,"printed 'BX' kept; read as 'Bronx Delegation' (decided by Marvin on the evidence, delegated by Noel Hidalgo, 2026-10-16): NYC Open Data 4d7f-74pe, joined on od_mocs_id = mocs_id: 'Bronx Delegation' on 13 of 13 paired FY2009 rows"
+2009,CC,240,speaker,,,file_convention:CC=Speaker,"printed 'CC' kept; read as 'Speaker' (decided by Marvin on the evidence, delegated by Noel Hidalgo, 2026-10-16): NYC Open Data 4d7f-74pe, joined on od_mocs_id = mocs_id: 'Speaker' on 895 of 895 paired FY2009-FY2013 rows (FY2009 224, FY2011 245, FY2012 219, FY2013 207), none disagreeing; no fiscal year prints both 'CC' and 'Speaker'; the FY2010 Internet Archive workbook also prints 'CC' (50 rows)"
 2009,Citywide,1,citywide,,,citywide label,
 2009,Como,77,member,7490,Anthony Como,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Anthony Como (7490) voted in FY2008-FY2009
 2009,Comrie,138,member,5276,"Leroy G. Comrie, Jr.",exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Leroy G. Comrie, Jr. (5276) voted in FY2004, FY2006-FY2014"
@@ -41,12 +41,12 @@ fiscal_year,council_member,rows,council_member_type,council_member_id,legistar_f
 2009,McMahon,154,member,5293,Michael E. McMahon,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Michael E. McMahon (5293) voted in FY2004, FY2006-FY2009"
 2009,Mealy,61,member,6272,Darlene Mealy,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Darlene Mealy (6272) voted in FY2006-FY2018, FY2022-FY2027"
 2009,Mendez,106,member,6274,Rosie Mendez,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Rosie Mendez (6274) voted in FY2006-FY2018
-2009,MN,54,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2009,MN,54,delegation,,,file_convention:MN=Manhattan_Delegation,"printed 'MN' kept; read as 'Manhattan Delegation' (decided by Marvin on the evidence, delegated by Noel Hidalgo, 2026-10-16): NYC Open Data 4d7f-74pe, joined on od_mocs_id = mocs_id: 'Manhattan Delegation' on 35 of 35 paired FY2009 rows"
 2009,Monserrate,52,member,5270,Hiram Monserrate,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Hiram Monserrate (5270) voted in FY2004, FY2006-FY2009"
 2009,Nelson,74,member,435,Michael C. Nelson,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Michael C. Nelson (435) voted in FY2001, FY2004, FY2006-FY2014"
 2009,Oddo,131,member,436,James S. Oddo,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; James S. Oddo (436) voted in FY2001, FY2004, FY2006-FY2014"
 2009,Palma,62,member,5416,Annabel Palma,exact surname; the only match with a recorded vote in FY2009,FY2009 = 2008-07-01..2009-06-30; Annabel Palma (5416) voted in FY2006-FY2018
-2009,QN,46,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2009,QN,46,delegation,,,file_convention:QN=Queens_Delegation,"printed 'QN' kept; read as 'Queens Delegation' (decided by Marvin on the evidence, delegated by Noel Hidalgo, 2026-10-16): NYC Open Data 4d7f-74pe, joined on od_mocs_id = mocs_id: 'Queens Delegation' on 37 of 37 paired FY2009 rows"
 2009,Queens,28,delegation,,,borough delegation label,
 2009,Quinn,113,member,434,Christine C. Quinn,exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Christine C. Quinn (434) voted in FY2001, FY2004, FY2006-FY2014"
 2009,Recchia,115,member,5292,"Domenic M. Recchia, Jr.",exact surname; the only match with a recorded vote in FY2009,"FY2009 = 2008-07-01..2009-06-30; Domenic M. Recchia, Jr. (5292) voted in FY2004, FY2006-FY2014"
@@ -73,7 +73,7 @@ fiscal_year,council_member,rows,council_member_type,council_member_id,legistar_f
 2011,Bronx,34,delegation,,,borough delegation label,
 2011,Brooklyn,52,delegation,,,borough delegation label,
 2011,Cabrera,42,member,7561,Fernando Cabrera,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Fernando Cabrera (7561) voted in FY2010-FY2022
-2011,CC,271,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2011,CC,271,speaker,,,file_convention:CC=Speaker,"printed 'CC' kept; read as 'Speaker' (decided by Marvin on the evidence, delegated by Noel Hidalgo, 2026-10-16): NYC Open Data 4d7f-74pe, joined on od_mocs_id = mocs_id: 'Speaker' on 895 of 895 paired FY2009-FY2013 rows (FY2009 224, FY2011 245, FY2012 219, FY2013 207), none disagreeing; no fiscal year prints both 'CC' and 'Speaker'; the FY2010 Internet Archive workbook also prints 'CC' (50 rows)"
 2011,Chin,94,member,7562,Margaret S. Chin,exact surname; the only match with a recorded vote in FY2011,FY2011 = 2010-07-01..2011-06-30; Margaret S. Chin (7562) voted in FY2010-FY2022
 2011,"Chin, Mendez, Garodnick, Lappin, Brewer, Jackson, Viverito, Dickens, Rodriguez",51,unresolved,,,no Legistar person with a recorded vote matches (surname component),
 2011,Citywide,1,citywide,,,citywide label,
@@ -134,7 +134,7 @@ fiscal_year,council_member,rows,council_member_type,council_member_id,legistar_f
 2012,Brooklyn,59,delegation,,,borough delegation label,
 2012,Brooklyn Delegation,26,delegation,,,borough delegation label,
 2012,Cabrera,82,member,7561,Fernando Cabrera,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Fernando Cabrera (7561) voted in FY2010-FY2022
-2012,CC,252,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2012,CC,252,speaker,,,file_convention:CC=Speaker,"printed 'CC' kept; read as 'Speaker' (decided by Marvin on the evidence, delegated by Noel Hidalgo, 2026-10-16): NYC Open Data 4d7f-74pe, joined on od_mocs_id = mocs_id: 'Speaker' on 895 of 895 paired FY2009-FY2013 rows (FY2009 224, FY2011 245, FY2012 219, FY2013 207), none disagreeing; no fiscal year prints both 'CC' and 'Speaker'; the FY2010 Internet Archive workbook also prints 'CC' (50 rows)"
 2012,Chin,100,member,7562,Margaret S. Chin,exact surname; the only match with a recorded vote in FY2012,FY2012 = 2011-07-01..2012-06-30; Margaret S. Chin (7562) voted in FY2010-FY2022
 2012,Citywide,1,citywide,,,citywide label,
 2012,Comrie,157,member,5276,"Leroy G. Comrie, Jr.",exact surname; the only match with a recorded vote in FY2012,"FY2012 = 2011-07-01..2012-06-30; Leroy G. Comrie, Jr. (5276) voted in FY2004, FY2006-FY2014"
@@ -193,7 +193,7 @@ fiscal_year,council_member,rows,council_member_type,council_member_id,legistar_f
 2013,Brewer,115,member,5259,Gale A. Brewer,exact surname; the only match with a recorded vote in FY2013,"FY2013 = 2012-07-01..2013-06-30; Gale A. Brewer (5259) voted in FY2004, FY2006-FY2014, FY2022-FY2027"
 2013,Brooklyn Delegation,34,delegation,,,borough delegation label,
 2013,Cabrera,55,member,7561,Fernando Cabrera,exact surname; the only match with a recorded vote in FY2013,FY2013 = 2012-07-01..2013-06-30; Fernando Cabrera (7561) voted in FY2010-FY2022
-2013,CC,240,unresolved,,,no Legistar person with a recorded vote matches (surname component),
+2013,CC,240,speaker,,,file_convention:CC=Speaker,"printed 'CC' kept; read as 'Speaker' (decided by Marvin on the evidence, delegated by Noel Hidalgo, 2026-10-16): NYC Open Data 4d7f-74pe, joined on od_mocs_id = mocs_id: 'Speaker' on 895 of 895 paired FY2009-FY2013 rows (FY2009 224, FY2011 245, FY2012 219, FY2013 207), none disagreeing; no fiscal year prints both 'CC' and 'Speaker'; the FY2010 Internet Archive workbook also prints 'CC' (50 rows)"
 2013,Chin,106,member,7562,Margaret S. Chin,exact surname; the only match with a recorded vote in FY2013,FY2013 = 2012-07-01..2013-06-30; Margaret S. Chin (7562) voted in FY2010-FY2022
 2013,Comrie,155,member,5276,"Leroy G. Comrie, Jr.",exact surname; the only match with a recorded vote in FY2013,"FY2013 = 2012-07-01..2013-06-30; Leroy G. Comrie, Jr. (5276) voted in FY2004, FY2006-FY2014"
 2013,Crowley,46,member,7502,Elizabeth S. Crowley,exact surname; the only match with a recorded vote in FY2013,FY2013 = 2012-07-01..2013-06-30; Elizabeth S. Crowley (7502) voted in FY2009-FY2018

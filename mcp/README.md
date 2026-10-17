@@ -36,7 +36,7 @@ PDF-derived data.
 |---|---|---|---|
 | Expense funding **disclosure** | **FY2009, FY2011–FY2027** (156,544 rows) | The Council's own award-level workbooks: FY2013–FY2027 downloaded from the Council RnD site on 2026-10-12, FY2009, FY2011 and FY2012 from the Council's archived workbooks via the Internet Archive (retrieved 2026-10-14) | **FY2010 is not included**: the Council's workbook (2,592 rows) is incomplete against NYC Open Data's (5,981 rows), and the two are never mixed. **FY2009 and FY2013 are early snapshots**, frozen while much was Pending and never revised: their Cleared totals are not headline figures. Per-year provenance: [`../data/disclosure_years.csv`](../data/disclosure_years.csv) |
 | Council **capital** designations | **FY2015–FY2017, FY2019–FY2027** (16,916 rows) | The Council's capital workbooks (FY2015–FY2017 and FY2026 via the Internet Archive, FY2027 from the RnD site) and NYC Open Data `t474-a92g`, which the Council publishes (FY2019–FY2025) | **FY2018 is missing** from every source found. Exact by budget line only: Council project IDs do not link to OMB, FMS or Checkbook, and there is no contract-level data. Overview: [`../data/capital/README.md`](../data/capital/README.md) |
-| Council vs **OMB** adopted capital budget | **FY2019–FY2027** (1,425 budget lines) | This repo's arithmetic on the capital table and OMB's `46m8-77gv` adopted release | Not a Council or OMB reconciliation. [`../data/capital/RECONCILIATION.md`](../data/capital/RECONCILIATION.md) §3 |
+| Council vs **OMB** adopted capital budget | **FY2019–FY2027** (1,425 line-year comparisons, 515 distinct budget lines) | This repo's arithmetic on the capital table and OMB's `46m8-77gv` adopted release | Not a Council or OMB reconciliation. [`../data/capital/RECONCILIATION.md`](../data/capital/RECONCILIATION.md) §3 |
 
 `list_available_fiscal_years` reports this per year, with every gap stated.
 
@@ -76,9 +76,10 @@ response carries:
 - a **coverage line**: the years served, that FY2010 is not included, and which years are early
   snapshots. Asking for `fiscal_year: 2010` returns the recorded reason, not an empty search;
 - notes when the match includes **exact copies** (`duplicate_group`), rows with a recorded
-  **`row_flag`** (`not_an_award`: two FY2009 lump allocations on the City's own EIN, kept and
-  counted as published), or rows that **print no grantee EIN** (FY2009's largest is "School
-  Budget Restoration", $120,000,000);
+  **`row_flag`**: `not_an_award` (two FY2009 lump allocations on the City's own EIN, kept and
+  counted as published) or `no_grantee_ein` (the 53 rows that print no grantee EIN, each shown
+  with "No grantee EIN printed by the Council. Often a city program rather than a nonprofit.",
+  plus a note with their matched count and dollars);
 - each row's grantee **mailing address** as printed, with the 5-digit `zip` derived from it and
   its `zip_status` (rules in [`../DATA-DICTIONARY.md`](../DATA-DICTIONARY.md)). It is where the
   grantee gets mail, **not where services were delivered**.
@@ -150,7 +151,22 @@ Council table by budget line for that year and the next, and compares OMB's adop
 that first fiscal year (the last release of the year, published in July), summed over funding
 sources, Council-series lines only. `match` means the line's totals are equal to the dollar in
 both years; it does not show that the projects under the line are the same. A line absent from
-one side shows `—` there, never `$0`.
+one side shows `—` there, never `$0`. Counts are line-year comparisons (1,425 over 515 distinct
+budget lines, FY2019–FY2027). A Council row on a line outside the Council series is not compared
+and the answer lists it (one today: FY2021 `PW MN02A`, $304,000).
+
+### Behavior common to the searches
+
+- **Text filters fold before they match**, on the query and on the data: case, accents, curly
+  quotes and dashes do not matter (`Women's` finds `Women’s`; `Jewish Emigre` and `Jewish
+  Émigré` find the same 6 rows). `%` and `_` are literal.
+- **A blank text filter is an error**, never "no filter": `legal_name: ""` is refused with a
+  message instead of returning all 156,544 rows. Filters are capped at 500 characters.
+- **"(headline)" is earned per year, whatever the filter.** A Cleared total is labeled a headline
+  only when every matched year is ordinary: not an early snapshot (FY2009, FY2013) and not a
+  year that prints statuses other than Cleared/Pending anywhere in it (FY2011, and FY2012, whose
+  `Government` rows hold $235,206,318). A narrow FY2011 search with no such rows is still not a
+  headline. Otherwise the label says why, and a note gives the year's other statuses.
 
 ## Migrating from 1.x
 
@@ -159,12 +175,13 @@ one side shows `—` there, never `$0`.
 | `search_awards` | `search_disclosure_awards` (`legal_name`, `program_name`, `council_member` / `council_member_id`, `fiscal_year`, `ein`) |
 | `get_awards_by_ein` | `search_disclosure_awards` with `ein`; its totals and per-year split cover every match |
 | `search_capital_projects` | `search_council_capital` |
-| `search_transparency_resolutions` | Removed, no replacement yet. Post-adoption designations appear in the disclosure as rows, without a resolution number |
-| `get_terms_conditions` | Removed, no replacement yet |
+| `search_transparency_resolutions` | No replacement tool yet. The resolutions: Committee on Finance items in [`nyc-council-mcp`](https://github.com/BetaNYC/nyc-council-mcp) (search `modification`). The designations they make: rows in `search_disclosure_awards`, without a resolution number. The PDFs: `source/FYNN/transparency-resolutions/` |
+| `get_terms_conditions` | No replacement tool yet. The Council's Terms and Conditions PDF for each year is in `source/FYNN/` |
 | `get_legistar_link` | Removed. Its crosswalk indexed the PDF documents 2.0 no longer serves, and several rows were researchers' candidates rather than verified links. For a resolution's Legistar record, use [`nyc-council-mcp`](https://github.com/BetaNYC/nyc-council-mcp) |
 | `list_available_fiscal_years` | Kept, rebuilt: per year, which structured datasets exist and where they came from |
 
-Calling a removed tool returns an error naming its replacement. Figures published from 1.x
+Calling a removed tool returns an error that names its replacement, or, for the three with none,
+says so and points to where to look instead. Figures published from 1.x
 (adopted Schedule C, §254) are a different source and will not reproduce against 2.0.
 
 ## Architecture
@@ -213,12 +230,14 @@ tests were mutation-checked (see `CHANGELOG.md`).
 
 | File | What it holds the server to |
 |---|---|
-| `test/no-pdf-data.test.js` | The index has only the structured tables; every file the build read is on a structured allowlist and none is PDF-derived; `npm pack` would ship exactly six files (code, README, package.json, the index) |
+| `test/no-pdf-data.test.js` | The index has only the structured tables; every file the build read is on a structured allowlist and none is PDF-derived; `npm pack` would ship exactly eight files (`dist/` code, README, LICENSE, package.json, the index) |
 | `test/tools.test.js` | Exactly four tools listed; every removed 1.x tool answers with its migration note; `list_available_fiscal_years` matches the datasets year by year |
 | `test/disclosure.test.js` | Every row of every year indexed with its provenance; FY2010 not loaded; true counts and Cleared / Pending totals under any `limit`; ordering; status, amount, address and member filters; caveat and footer; strict-schema hints |
 | `test/disclosure-audit.test.js` | The audit questions (`../data/DISCLOSURE-AUDIT.md`, M1–M13): exact-to-the-cent totals for every year × status, truncation, sort before limit, limit edges, EIN rules, literal wildcards, multi-value notices, address filters, and the EIN-less note |
 | `test/disclosure-v2.test.js` | FY2009, FY2011, FY2012 with `od_mocs_id`, `od_match`, `row_flag`; early-snapshot labeling; the coverage line; FY2010's reason; exact `mocs_id` / `od_mocs_id`; the `row_flag` note |
 | `test/capital.test.js` | Every capital row and its provenance (sha256 recomputed from the committed file); own-year vs out-year totals; ordering; split records; every filter's exactness; FY2018; caveats; and `compare_capital_to_omb` verdict counts, figures and ordering |
+| `test/license.test.js` | One license: the license statements name no second license; `LICENSE` names code, data and docs and excludes `source/`; `mcp/LICENSE` equals the repository's. |
+| `test/cleared-label.mjs` | Helper, not a test: the Cleared-line label expected for a set of CSV rows. |
 | `test/strict-schema.test.js` | Issue #37: every tool advertises and enforces `additionalProperties: false`, with per-tool hints |
 
 The 1.x tests and the Legistar enrichment script are parked in `retired-1.x/` (not run, not
@@ -307,7 +326,7 @@ programs) › **MOCS ID** (FY2024+ in the Council's workbook; FY2009–FY2021 fr
 ## Provenance & licensing
 
 This server reads the repo's own structured datasets. Provenance and licensing are covered by
-the [repository README](../README.md#license): the code is MIT ([`LICENSE`](../LICENSE)); the
-data is under the terms that section and [`LICENSE-DATA`](../LICENSE-DATA) give. The Council's
-workbooks are © The City of New York, reproduced as public records; NYC Open Data rows are
+the [repository README](../README.md#license): BetaNYC's code, derived data and documentation
+are all MIT ([`LICENSE`](../LICENSE)). The Council's workbooks are © The City of New York,
+reproduced as public records and not covered by BetaNYC's license; NYC Open Data rows are
 covered by the [NYC Open Data Terms of Use](https://opendata.cityofnewyork.us/overview/#termsofuse).

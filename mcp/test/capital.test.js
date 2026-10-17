@@ -271,8 +271,32 @@ test("compare_capital_to_omb: verdict counts per report year equal the CSV's", a
       text.includes(`match (both years equal) ${c("match")} · differ ${c("differ")} · Council only (no OMB line) ${c("council_only")} · OMB only (no Council row) ${c("omb_only")}`),
       `FY${fy}`
     );
-    assert.match(text, new RegExp(`^${rows.length} budget line\\(s\\) compared`, "m"));
+    const lines = new Set(rows.map((r) => r.budget_line_norm)).size;
+    assert.match(text, new RegExp(`^${rows.length} line-year comparison\\(s\\) \\(report year, budget line\\) over ${lines} distinct budget line\\(s\\)`, "m"));
   }
+});
+
+test("compare_capital_to_omb: all years say 1,425 line-year comparisons over 515 budget lines", async () => {
+  // Red team S5. FAILS if the tool calls 1,425 (report year, line) pairs "budget lines".
+  const { text } = await omb({ limit: 1 });
+  assert.equal(CMP.length, 1425, "fixture premise");
+  assert.match(text, /^1,425 line-year comparison\(s\) \(report year, budget line\) over 515 distinct budget line\(s\)/m);
+});
+
+test("compare_capital_to_omb: a Council row off the Council series is reported, never silently dropped", async () => {
+  // Red team S2. FAILS if FY2021 PW MN02A ($304,000, Constantinides) is not named as not compared
+  // on an FY2021 answer and on a direct query for its line, or appears on a verdict-filtered one.
+  const off = CAP.filter((r) => Number(r.report_year) >= 2019 && r.budget_line_norm && !r.budget_line_norm.split(" ")[1].startsWith("D"));
+  assert.deepEqual(off.map((r) => [r.report_year, r.budget_line_norm, r.amount]), [["2021", "PW MN02A", "304000"]], "fixture premise");
+  const y = await omb({ report_year: 2021, limit: 1 });
+  assert.match(y.text, /Not compared: 1 Council capital row\(s\).*FY2021 PW MN02A, Constantinides, "BIOBUS, INC\.-NEW BIOBUS MOBILE SCIENCE LAB", \$304,000 for FY2021/);
+  const line = await omb({ budget_line: "PW MN02A" });
+  assert.match(line.text, /No budget lines matched/);
+  assert.match(line.text, /Not compared: 1 Council capital row\(s\)/);
+  const v = await omb({ report_year: 2021, verdict: "match", limit: 1 });
+  assert.doesNotMatch(v.text, /Not compared/);
+  const y24 = await omb({ report_year: 2024, limit: 1 });
+  assert.doesNotMatch(y24.text, /Not compared/);
 });
 
 test("compare_capital_to_omb: one line's figures, a missing side shown as absent, disagreements first", async () => {

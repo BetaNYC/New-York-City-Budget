@@ -12,6 +12,7 @@
  */
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
+import { clearedLabel } from "./cleared-label.mjs";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -96,7 +97,7 @@ test("M1/M11: totals equal the exact CSV sum, to the cent, for every fiscal_year
         assert.doesNotMatch(text, /Other status:/, `FY${fy}`);
         continue;
       }
-      const label = s === "cleared" && EARLY.has(fy) ? "Cleared (early snapshot, not a headline):" : LABEL[s];
+      const label = s === "cleared" ? clearedLabel(CSV[fy]) : LABEL[s];
       const line = `${label} ${fmt(rows.length)} row(s), ${exactUsd(rows)}`;
       assert.ok(text.includes(line), `FY${fy} ${s}: expected "${line}"`);
       checked++;
@@ -338,7 +339,7 @@ test("M13: zip, zip_status and city are exact filters with exact totals", async 
     const { text } = await call({ zip: z, limit: 1 });
     assert.equal(matchedOf(text), rows.length, z);
     const cl = rows.filter((r) => r.status_norm === "cleared");
-    assert.ok(text.includes(`${LABEL.cleared} ${fmt(cl.length)} row(s), ${exactUsd(cl)}`), z);
+    assert.ok(text.includes(`${clearedLabel(rows)} ${fmt(cl.length)} row(s), ${exactUsd(cl)}`), z);
     assert.ok(rows.some((r) => r.postal_code !== z) || z === "10001", `${z}: premise, a row filed under it whose cell differs`);
   }
   for (const bad of [padded.postal_code, trimmed.postal_code, repaired.postal_code, "10001-1234", "1000"]) {

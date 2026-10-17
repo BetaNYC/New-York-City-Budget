@@ -1,11 +1,15 @@
-# `viz/` — the GitHub Pages site (Schedule C explorer retired in 2.0)
+# `viz/` — the GitHub Pages site (Schedule C explorer frozen in 2.0)
 
 **Since 2.0.0 the site root is a retirement notice.** The interactive Schedule C explorer that
 used to be the root is built on figures extracted from the Council's adopted-budget PDFs, and
-BetaNYC no longer stands behind that extraction. It is kept, unchanged apart from a retired
-banner, at `legacy.html`, so existing links still resolve; `index.html` explains the
+BetaNYC no longer stands behind that extraction. It stays online, unchanged apart from a
+"frozen, do not cite" banner, at `legacy.html`, so existing links still resolve; `index.html` explains the
 retirement, states the 2.0 coverage gaps, points to the structured datasets and the MCP, and
 offers a link into the retired copy when someone arrives with an old `#…` deep link.
+
+**`legacy.html` is frozen as of 2026-10-16.** It stays published, but its data
+(`data/schedule_c.csv`) gets no further updates and no build step regenerates it. Do not rerun
+`schedulec_cleanup.py` to refresh it.
 
 **Why retire rather than rebuild.** A rebuild on the structured data (the Council's disclosure
 spreadsheets and capital lists) means deciding what the site should show, which totals are
@@ -20,9 +24,9 @@ Deployed by `.github/workflows/deploy-viz.yml` on a push to `main` that touches 
 | Path | What |
 |---|---|
 | `index.html` | The retirement notice. Self-contained: no stylesheet or script file, one inline script that only fills the deep link. |
-| `legacy.html` | The retired look-at-cook explorer (was `index.html`), with a retired banner, `noindex`, and a breadcrumb that points at itself. |
+| `legacy.html` | The retired look-at-cook explorer (was `index.html`), frozen 2026-10-16, with a "frozen, do not cite" banner, `noindex`, and a breadcrumb that points at itself. |
 | `test_pages_site.py` | Tests for both pages (stdlib only; `python3 viz/test_pages_site.py` or pytest). |
-| `schedulec_cleanup.py` | Builds `data/schedule_c.csv`, the retired explorer's data, from the PDF-derived `data/{year}/schedule_c/*.csv`. Kept so the legacy page's data stays reproducible. |
+| `schedulec_cleanup.py` | Builds `data/schedule_c.csv`, the retired explorer's data, from the PDF-derived `data/{year}/schedule_c/*.csv`. Kept so the legacy page's data stays reproducible; not rerun, since the page is frozen. |
 | `test_schedulec_cleanup.py` | Its regression tests: still meaningful for the legacy page (the reconciliation gate, axis totals, the column contract the JS reads). |
 | `data/schedule_c.csv` | The retired explorer's data (PDF-derived). |
 | `js/`, `css/`, `lib/`, `fonts/`, `images/` | The look-at-cook toolkit the legacy page uses. |

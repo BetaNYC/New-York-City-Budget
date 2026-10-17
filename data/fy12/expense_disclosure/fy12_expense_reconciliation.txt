@@ -27,5 +27,13 @@ Stripped rows (0):
 EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (147): [3, 10, 11, 12, 13, 73, 74, 83, 95, 98, 139, 158, 159, 389, 390, 429, 438, 491, 514, 548, 635, 636, 637, 638, 639, 640, 737, 738, 739, 905, 1179, 1188, 1302, 1320, 1364, 1439, 1450, 1451, 1452, 1453, 1454, 1455, 1622, 1623, 1625, 1692, 1693, 1721, 1722, 1723, 1724, 1725, 1738, 1739, 1771, 1772, 1774, 1993, 1994, 2108, 2124, 2125, 2132, 2133, 2134, 2135, 2136, 2201, 2202, 2225, 2226, 2227, 2244, 2292, 2466, 2469, 2942, 2959, 2960, 3139, 3207, 3208, 3209, 3210, 3475, 3572, 3845, 3873, 3897, 3903, 3904, 3905, 3915, 3940, 3941, 3975, 3976, 3977, 3978, 3979, 4046, 4072, 4073, 4083, 4084, 4085, 4086, 4087, 4088, 4089, 4090, 4091, 4092, 4093, 4094, 4123, 4165, 4201, 4557, 4590, 4591, 4592, 4593, 4594, 4600, 4682, 4683, 4684, 4775, 4968, 4969, 4970, 5082, 5239, 5240, 5241, 5242, 5243, 5254, 5285, 5360, 5382, 5608, 5686, 5687, 5805, 5806]
 Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 11 group(s), 22 row(s); 11 beyond the first of each group, $89,000
 NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: 4008 of 5823 rows (exact 3923, rounded_cents 0, rounded_dollars 85)
-Rows kept but flagged in row_flag (0), included in every total above: none
+Rows kept but flagged in row_flag (8), included in every total above:
+  row     40  no_grantee_ein '149th Street Block Association' $3,500
+  row    181  no_grantee_ein 'Alumni Network' $15,000
+  row    969  no_grantee_ein 'CBO Training' $50,000
+  row   1878  no_grantee_ein 'End Times Pentecostal Church' $9,500
+  row   4014  no_grantee_ein 'Our Lady of Perpetual Help Soccer League' $5,000
+  row   4954  no_grantee_ein 'South Bronx Classical Charter School' $10,000
+  row   5151  no_grantee_ein 'St. Theresas' $5,000
+  row   5475  no_grantee_ein 'Urban Advantage' $5,000
 notes: no MOCS ID#; no Fiscal Year column (year taken from filename)

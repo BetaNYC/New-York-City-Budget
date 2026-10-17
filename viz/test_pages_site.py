@@ -14,6 +14,8 @@ What these guard (each would have failed before the change that introduced it):
      marked noindex, and its title and logo say retired.
   4. Every local file legacy.html and the app load exists (the move from index.html broke
      nothing), and the breadcrumb no longer points at "/".
+  5. The banner says, in real text, that the page is frozen, why its figures are wrong, and not
+     to cite them; it has a heading, and it links to the new data (front page, repo, MCP).
 """
 from __future__ import annotations
 
@@ -94,6 +96,36 @@ def test_legacy_page_is_marked_retired():
     assert '<meta name="robots" content="noindex">' in html
     assert re.search(r"<title>RETIRED", html)
     assert "NYC Council Discretionary Funding (retired)" in html
+
+
+def _banner(html):
+    start = html.find('id="retired-banner"')
+    end = html.find("id='header'")
+    return html[start:end]
+
+
+def test_legacy_banner_says_frozen_do_not_cite_and_links_to_new_data():
+    banner = _banner(_read("legacy.html"))
+    text = re.sub(r"<[^>]+>", " ", banner)
+    text = re.sub(r"\s+", " ", text).lower()
+    assert re.search(r"<h2[^>]*>", banner), "the banner needs a real heading"
+    # A landmark, not a live region: the banner is static, so role="alert" would be announced
+    # assertively and often twice (review S6, 2026-10-17).
+    assert 'role="region"' in banner and 'aria-labelledby="retired-banner-heading"' in banner
+    assert 'role="alert"' not in banner
+    assert "frozen" in text and "no longer updated" in text
+    assert "do not cite" in text
+    assert "found errors" in text
+    assert "spreadsheets" in text and "nyc open data" in text
+    assert 'href="./"' in banner, "link to the front page"
+    assert "github.com/BetaNYC/New-York-City-Budget" in banner, "link to the repo data"
+    assert "@betanyc/nyc-budget-mcp" in banner, "link to the MCP"
+    assert "<img" not in banner, "the banner must be text, not an image"
+    assert html_count_banners(_read("legacy.html")) == 1, "one banner, not two"
+
+
+def html_count_banners(html):
+    return html.count('id="retired-banner"')
 
 
 def test_every_local_asset_legacy_loads_exists():

@@ -416,6 +416,21 @@ def reconcile(council, omb):
     return out
 
 
+def _row_ref(source_row):
+    """'row 12' for a workbook row; a t474 row ID already reads 'row-...', so it is printed as is."""
+    s = str(source_row)
+    return s if s.startswith("row-") else f"row {s}"
+
+
+def not_compared(council, recon):
+    """Council rows in a compared report year whose budget line is outside the Council series
+    (D, DN), so reconcile() leaves them out. Listed, never silently dropped (red team S2: FY2021
+    `PW MN02A`, $304,000)."""
+    years = {r["report_year"] for r in recon}
+    return [r for r in council if r["report_year"] in years and r["budget_line_norm"]
+            and not is_council_line(r["budget_line_norm"])]
+
+
 def recon_summary(recon):
     s = collections.defaultdict(collections.Counter)
     for r in recon:
@@ -520,6 +535,18 @@ def report_text(b):
                  f"{cnt['council_only']} | {cnt['omb_only']} |")
     L += ["", ("Per line: `council_vs_omb_by_budget_line.csv`. The Council side for FY2019–FY2025 "
           "is t474-a92g; for FY2026 and FY2027 the Council's workbook."), ""]
+    rows, lines = len(b["recon"]), len({r["budget_line_norm"] for r in b["recon"]})
+    L += [f"{rows:,} line-year comparisons ({lines:,} distinct budget lines).", ""]
+    nc = not_compared(b["council"], b["recon"])
+    L += [(f"**Not compared:** {len(nc)} Council row(s) in these years sit on a budget line "
+           f"outside the Council series, so no line above includes them"
+           + (":" if nc else ".")), ""]
+    for r in nc:
+        L.append(f"- FY{r['report_year']} `{r['budget_line_norm']}` {r['sponsor']}, "
+                 f"{r['title']!r}, ${_usd(Decimal(r['amount']))} for FY{r['amount_fy']} "
+                 f"({r['source_kind']} {_row_ref(r['source_row'])})")
+    if nc:
+        L.append("")
     y27 = [r for r in b["recon"] if r["report_year"] == 2027]
     if y27:
         cl = [r for r in y27 if r["verdict"] in ("match", "differ", "council_only")]
