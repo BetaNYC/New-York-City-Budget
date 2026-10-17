@@ -1,0 +1,36 @@
+EXPENSE DISCLOSURE RECONCILIATION  (fy26)  [parser: parse_expense_disclosure.py]
+source: funded_disclosure_FY2026.xlsx  (sheet 'FY26 (06-08-26)', xlsx, 11766 rows incl. header)
+printed total: RECONCILED
+
+Every non-blank row after the header is either an award or a stripped row. A row is
+decided by its Status cell: Cleared/Pending (any case) is an award; anything else is
+stripped unless it still names an organization and an amount (then it is kept with
+status_norm 'other'). Every stripped row is listed below with its cells.
+
+rows after header: 11765   blank: 4   awards: 11757   stripped: 4
+
+status_norm       rows              amount
+cleared          11612         707,372,205
+pending            145           8,840,950
+other                0                   0
+ALL              11757         716,213,155
+
+Headline figure = cleared only. 'ALL' adds pending (and other) and is labeled so.
+
+Printed totals (the workbook's own numbers):
+  row  11763 col H   'Schedule C Total'             714,879,821  (typed value)
+  row  11764 col H   'Updated Total'                716,213,155  (typed value)
+  row  11765 col H   'Difference'                             0  formula =H11766-H11764
+  row  11766 col H   'Master List Total'            716,213,155  formula =SUM(H2:H11762)
+
+Reconciled against:
+  'Master List Total' col H: 716,213,155 vs kept rows 716,213,155  OK
+  'Updated Total' col H: 716,213,155 vs kept rows 716,213,155  OK
+
+Stripped rows (4):
+  row  11763  labeled_summary  {'G': 'Schedule C Total:', 'H': '714879821'}
+  row  11764  labeled_summary  {'G': 'Updated Total:', 'H': '716213155'}
+  row  11765  labeled_summary  {'G': 'Difference:', 'H': '0'}
+  row  11766  labeled_summary  {'G': 'Master List Total:', 'H': '716213155'}
+
+EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (0): none

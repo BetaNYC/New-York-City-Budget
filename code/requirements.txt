@@ -1,3 +1,6 @@
 pypdf>=6.0,<7
 cryptography>=3.1,<48
 pdfplumber>=0.11,<0.12
+# FY2013 expense disclosure only (legacy .xls): code/parse_expense_disclosure.py imports it
+# lazily, so everything else runs without it.
+xlrd>=2.0.1,<3

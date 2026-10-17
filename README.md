@@ -50,7 +50,8 @@ New-York-City-Budget/
 │   │   │                 — whichever document types exist and parse for that year)
 │   │   ├── schedule_c/  discretionary expense funding
 │   │   ├── terms/       Terms & Conditions (reporting mandates)
-│   │   └── capital/     Section 254 capital changes
+│   │   ├── capital/     Section 254 capital changes
+│   │   └── expense_disclosure/  the Council's award-level disclosure workbooks, FY2013–FY2027
 │   └── combined/        all-years roll-ups (built by code/build_combined.py)
 ├── code/                ← parser scripts + variants + validate_data.py (QA) + tests + PARSING.md + requirements.txt
 ├── mcp/                 ← prototype MCP server (see below)
@@ -73,7 +74,9 @@ district), and a **Cleared/Pending** clearance status. In effect they are the li
 NYC Open Data's **City Council Discretionary Funding** dataset (`4d7f-74pe`), which stopped updating
 in April 2021. Provenance, per-file manifest, schema (16/17/18-column evolution), and data-quality
 notes are documented in
-[`source/expense-funding-disclosure/README.md`](source/expense-funding-disclosure/README.md).
+[`source/expense-funding-disclosure/README.md`](source/expense-funding-disclosure/README.md), and
+every file's SHA-256 is in its [`MANIFEST.csv`](source/expense-funding-disclosure/MANIFEST.csv).
+They are published as data in `data/{year}/expense_disclosure/` (see below).
 
 ### `mcp/` — prototype MCP server
 
@@ -93,6 +96,14 @@ One row per designation to a named organization.
 
 ### `data/{year}/schedule_c/{year}_appendix_*.csv`
 Detail breakouts with a `purpose` field: `_a_aging` (Aging Discretionary), `_b_local` (Local Initiatives, includes an `agency` column), `_c_youth` (Youth Discretionary). These are subsets of the main body re-sorted by funding stream — **do not add them to the Schedule C total.**
+
+### `data/{year}/expense_disclosure/{year}_expense_awards.csv` — the Council's own award list (parallel dataset)
+One row per designation, **FY2013–FY2027**, from the Council's expense funding disclosure workbooks rather than the adopted-budget PDFs. 139,186 rows.
+`fiscal_year, mocs_id, source, council_member, legal_name, ein, status, status_norm, amount, agency, program_name, address1, address2, city, state, postal_code, purpose, fiscal_conduit, fiscal_conduit_ein, source_file, source_row`
+- **Every row is kept, Cleared and Pending alike.** `status` is the raw value; filter on `status_norm` (`cleared` / `pending` / `other`). A year's headline figure is the **Cleared** total, labeled as such; FY2027 was half Pending when retrieved ($143,034,722 Cleared of $705,564,000).
+- **Only FY2024 and FY2026 print a total of their own, and both reconcile to the dollar** ($527,971,414 and $716,213,155). No other workbook prints a total, so no other year's sum is a Council figure. Each year's `{year}_expense_reconciliation.txt` lists every footer row that was stripped (9 across 15 years).
+- **It is not the adopted Schedule C.** It is a later snapshot of the same year, with in-year additions, and its `council_member` is the roster at export time. Join it to the Schedule C award files on `(ein, amount)` within a year, never on `ein` alone and never on the member.
+- `source_file` + `source_row` point at the exact workbook row. Built by `code/parse_expense_disclosure.py --write`; the FY2013 `.xls` needs `xlrd`. Details: [`DATA-DICTIONARY.md`](DATA-DICTIONARY.md), [`code/PARSING.md`](code/PARSING.md).
 
 ### `data/{year}/terms/{year}_terms_and_conditions.csv`
 `item_number, agency_name, agency_code, units_of_appropriation, num_units, report_deadlines, coverage_period, condition_text`
@@ -166,7 +177,7 @@ on every EIN-bearing file. Details in [`code/PARSING.md`](code/PARSING.md).
 
 ## Reproduce or extend to a new year
 
-Requires Python 3 with the packages in `code/requirements.txt` (`pypdf`, `cryptography`):
+Requires Python 3 with the packages in `code/requirements.txt` (`pypdf`, `cryptography`, `pdfplumber`; `xlrd` only for the FY2013 expense disclosure):
 
 ```bash
 python code/parse_schedule_c.py <ScheduleC.pdf> --outdir data/fy28/schedule_c --prefix fy28
@@ -176,6 +187,10 @@ python code/parse_capital.py     <Capital.pdf>   --outdir data/fy28/capital     
 ```
 
 Always read the generated `*_reconciliation.txt` to confirm a parse before trusting a new year.
+
+The expense-disclosure dataset is regenerated in one step, for every year at once:
+`python3 code/parse_expense_disclosure.py --write` (and `--check` to confirm the committed files
+are current).
 
 **Earlier years and other document types use variant parsers** (`parse_schedule_c_legacy.py`,
 `parse_terms_legacy.py`, `parse_capital_detail.py`, `parse_transparency_reso.py`) — the exact

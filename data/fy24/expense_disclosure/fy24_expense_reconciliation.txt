@@ -1,0 +1,39 @@
+EXPENSE DISCLOSURE RECONCILIATION  (fy24)  [parser: parse_expense_disclosure.py]
+source: funded_disclosure_FY2024.xlsx  (sheet 'FY24 (06-08-26)', xlsx, 10829 rows incl. header)
+printed total: RECONCILED
+
+Every non-blank row after the header is either an award or a stripped row. A row is
+decided by its Status cell: Cleared/Pending (any case) is an award; anything else is
+stripped unless it still names an organization and an amount (then it is kept with
+status_norm 'other'). Every stripped row is listed below with its cells.
+
+rows after header: 10828   blank: 12   awards: 10811   stripped: 5
+
+status_norm       rows              amount
+cleared          10731         526,907,681
+pending             80           1,063,733
+other                0                   0
+ALL              10811         527,971,414
+
+Headline figure = cleared only. 'ALL' adds pending (and other) and is labeled so.
+
+Printed totals (the workbook's own numbers):
+  row  10818 col J   'Difference'                             0  formula =J10819-H10819
+  row  10819 col H   'New Total'                    527,971,414  formula =SUM(H2:H10818)
+  row  10819 col J   'New Total'                    527,971,414  formula =J10821+J10820
+  row  10820 col J   'Admin New Add'                    875,414  formula =712+20000+794375+60327
+  row  10821 col J   'Adoption Total'               527,096,000  (typed value)
+  row  10829 col H   ''                                 454,755  (typed value)
+
+Reconciled against:
+  'New Total' col H: 527,971,414 vs kept rows 527,971,414  OK
+  'New Total' col J: 527,971,414 vs kept rows 527,971,414  OK
+
+Stripped rows (5):
+  row  10818  labeled_summary  {'J': '0', 'K': 'Difference'}
+  row  10819  labeled_summary  {'H': '527971414', 'J': '527971414', 'K': 'New Total'}
+  row  10820  labeled_summary  {'J': '875414', 'K': 'Admin New Add'}
+  row  10821  labeled_summary  {'J': '527096000', 'K': 'Adoption Total'}
+  row  10829  orphan_value     {'H': '454755'}
+
+EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (0): none

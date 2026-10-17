@@ -26,15 +26,19 @@ Checks
                           *_schedule_c_initiatives.csv, per fiscal year: balanced / short / over
                           with the residual. The first pass/fail target the award stream has ever
                           had. SOFT advisory. See `initiative_reconciliation()` for why.
+9. Disclosure          — the expense-disclosure CSVs (data/fyNN/expense_disclosure/): status_norm
+                          agrees with status, fiscal_year is the folder year, source_row is a
+                          unique positive integer (HARD); their reconciliation verdict joins the
+                          roll-up (PASS / FAIL / N/A where the workbook prints no total).
 
 Severity + exit code
 --------------------
 HARD failures (exit 1): missing/extra schema column, malformed row (wrong field count),
-non-numeric amount, malformed EIN (non-empty, not 9 digits). These mean the data is structurally
-wrong. SOFT advisories (exit 0 if nothing hard): zeros, sign anomalies, outliers, duplicates,
-column-bleed residuals, low EIN coverage, initiative-reconciliation residuals. Advisories are
-surfaced, not gated — some (e.g. the ~21 legitimate-name FY26 bleed residuals) are known and
-acceptable.
+non-numeric amount, malformed EIN (non-empty, not 9 digits), and the disclosure checks in 9.
+These mean the data is structurally wrong. SOFT advisories (exit 0 if nothing hard): zeros, sign
+anomalies, outliers, duplicates, column-bleed residuals, low EIN coverage,
+initiative-reconciliation residuals. Advisories are surfaced, not gated — some (e.g. the ~21
+legitimate-name FY26 bleed residuals) are known and acceptable.
 
 Usage
 -----
@@ -132,6 +136,17 @@ TYPES = {
               "agency", "purpose", "status", "confidence", "source_file"],
         ein="ein", amounts=["amount"], rule="positive", year_col="fiscal_year",
         text_cols=["organization", "program"]),
+    "expense_disclosure": dict(
+        # The Council's own award-level expense disclosure workbooks, one CSV per fiscal year
+        # (FY2013-FY2027), built by code/parse_expense_disclosure.py --write. A PARALLEL dataset:
+        # it never feeds the Schedule C files above. Extra checks in check_file(): status_norm
+        # is one of three values and agrees with the raw status, fiscal_year is the folder year,
+        # and source_row is a unique positive integer (it is the provenance pointer).
+        cols=["fiscal_year", "mocs_id", "source", "council_member", "legal_name", "ein",
+              "status", "status_norm", "amount", "agency", "program_name", "address1",
+              "address2", "city", "state", "postal_code", "purpose", "fiscal_conduit",
+              "fiscal_conduit_ein", "source_file", "source_row"],
+        ein="ein", amounts=["amount"], rule="positive", year_col="fiscal_year"),
     "capital": dict(
         cols=["part", "agency", "budget_line", "sub_id", "boro", "fy1", "fy2", "fy3",
               "fy4", "sponsor", "title", "building_code", "school_code"],
@@ -194,6 +209,8 @@ def detect_type(path):
         return "recovered_awards"
     if b.endswith("_capital_projects.csv"):
         return "capital"
+    if b.endswith("_expense_awards.csv"):
+        return "expense_disclosure"
     return None
 
 
@@ -401,6 +418,9 @@ def check_file(path, surnames):
                     res.bleed_samples.append((ln, tcol, v[:60]))
                 break
 
+    if typ == "expense_disclosure":
+        _check_disclosure(res, body, header, idx)
+
     # roll per-row tallies into findings
     if bad_eins:
         res.hard.append(("ein", f"{len(bad_eins)}+ malformed EIN(s), e.g. line {bad_eins[0][0]}: "
@@ -446,6 +466,55 @@ def check_file(path, surnames):
     return res
 
 
+DISCLOSURE_STATUS = {"cleared", "pending", "other"}
+
+
+def _check_disclosure(res, body, header, idx):
+    """HARD checks specific to the expense-disclosure CSVs. Each guards a property the rest of
+    the pipeline relies on without re-checking it:
+      - status_norm in {cleared, pending, other}, and equal to the folded raw `status` whenever
+        that is cleared/pending -- every cleared/pending/other total is a filter on this column;
+      - fiscal_year equals the folder year -- the per-year joins key on it;
+      - source_row is a unique positive integer -- it is how a reader finds the row in the
+        workbook, so a duplicate or a blank breaks provenance."""
+    if not all(c in idx for c in ("status", "status_norm", "fiscal_year", "source_row")):
+        return  # schema check already failed hard; value checks would be noise
+    bad_norm, bad_year, bad_row, seen, dup_rows = [], [], [], set(), []
+    for ln, r in enumerate(body, start=2):
+        if len(r) != len(header):
+            continue
+        raw = r[idx["status"]].strip().lower()
+        norm = r[idx["status_norm"]]
+        expected = raw if raw in ("cleared", "pending") else "other"
+        if norm not in DISCLOSURE_STATUS or norm != expected:
+            bad_norm.append((ln, r[idx["status"]], norm))
+        if res.year and r[idx["fiscal_year"]] != str(res.year):
+            bad_year.append((ln, r[idx["fiscal_year"]]))
+        sr = r[idx["source_row"]]
+        if not (sr.isdigit() and int(sr) > 0):
+            bad_row.append((ln, sr))
+        elif sr in seen:
+            dup_rows.append((ln, sr))
+        else:
+            seen.add(sr)
+    if bad_norm:
+        ln, raw, norm = bad_norm[0]
+        res.hard.append(("status", f"{len(bad_norm)} row(s) whose status_norm does not match "
+                                   f"status, e.g. line {ln}: {raw!r} -> {norm!r}"))
+    if bad_year:
+        ln, v = bad_year[0]
+        res.hard.append(("fiscal_year", f"{len(bad_year)} row(s) whose fiscal_year is not the "
+                                        f"folder year FY{res.year}, e.g. line {ln}: {v!r}"))
+    if bad_row:
+        ln, v = bad_row[0]
+        res.hard.append(("provenance", f"{len(bad_row)} row(s) with a non-integer source_row, "
+                                       f"e.g. line {ln}: {v!r}"))
+    if dup_rows:
+        ln, v = dup_rows[0]
+        res.hard.append(("provenance", f"{len(dup_rows)} duplicate source_row value(s), "
+                                       f"e.g. line {ln}: {v!r}"))
+
+
 def build_surname_set(files):
     """Council-member surnames drawn from the (cleaner) transparency `council_member` column,
     used only to spot member-name leakage into org/program fields. Conservative: single alpha
@@ -481,6 +550,16 @@ def parse_reconciliations(data_dir):
     for path in sorted(glob.glob(os.path.join(data_dir, "fy*", "*", "*reconciliation*.txt"))):
         text = open(path, encoding="utf-8").read()
         year = year_of(path)
+        if "expense_disclosure" in path:
+            # parse_expense_disclosure.py states one verdict line about the workbook's OWN
+            # printed total. Most years print none: that is N/A, never a pass.
+            m = re.search(r"^printed total: (RECONCILED|MISMATCH|NO PRINTED TOTAL)$", text, re.M)
+            verdict = m.group(1) if m else None
+            out.append((year, "disclosure", {"RECONCILED": "1/1", "MISMATCH": "0/1"}.get(
+                verdict, "—"), {"RECONCILED": "PASS", "MISMATCH": "FAIL (printed total differs)",
+                                "NO PRINTED TOTAL": "N/A (no printed total)"}.get(
+                verdict, "unparsed")))
+            continue
         if "schedule_c" in path:
             doctype = "schedule_c"
         elif "capital" in path:
@@ -683,7 +762,8 @@ def coverage_by_year(results):
             continue  # roll-ups of already-counted per-year data
         doctype = {"schedule_c_awards": "awards", "appendix_aging": "appendix",
                    "appendix_local": "appendix", "appendix_youth": "appendix",
-                   "transparency": "transparency"}.get(r.typ, r.typ)
+                   "transparency": "transparency",
+                   "expense_disclosure": "disclosure"}.get(r.typ, r.typ)
         key = (r.year, doctype)
         agg[key][0] += r.ein_valid
         agg[key][1] += r.nrows
