@@ -436,8 +436,12 @@ in the Schedule C files moved. What a reader needs to know before using it:
   lost leading zero (MA/VT/NJ), some not (`7083` on a Bronx address), and 72 ZIPs are `0`; 5,656
   `state` cells read `New YorkNY` (FY2015–FY2017, as typed); one `state` holds a ZIP
   (FY2015 row 1235); fiscal-conduit cells hold `003`, `260`, `005`, a name and a sentence in the
-  EIN/name columns. Invisible format characters (213 soft hyphens, 2 left-to-right marks) are
-  deleted; mojibake such as `EspaÃ±ol` is in the source cell and is kept.
+  EIN/name columns. Invisible format characters are deleted (left-to-right marks,
+  zero-width spaces, BOMs) except the soft hyphen: 211 cells hold one, and each reads as a hyphen that
+  lost its glyph, so it is published as `-` (dropped where a `-` or `/` already sits beside it).
+  An earlier version deleted it and published FY2018 rows 2796–2811 as `1211 40th Avenue` for
+  the Queens address `12-11 40th Avenue` (GitHub #68; 17 address and 17 purpose cells regained
+  their hyphen; audit question D13). Mojibake such as `EspaÃ±ol` is in the source cell and is kept.
 - **One FY2016 `address2` cell (row 640) is a number formatted as a date** (`42037`, which Excel
   shows as 2015-02-02). The stored value is kept; what was meant is not knowable from the file.
 

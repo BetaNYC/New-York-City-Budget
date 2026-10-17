@@ -105,7 +105,15 @@ Column names follow the disclosure's own fields, not the Schedule C vocabulary (
 
 All text cells are trimmed, with internal runs of whitespace (including line breaks and no-break
 spaces) collapsed to one space and invisible format characters (Unicode category Cf: zero-width
-space, soft hyphen, left-to-right mark, BOM) removed. Nothing else is rewritten: `#N/A` error
+space, left-to-right mark, BOM) removed, **except the soft hyphen (U+00AD), which becomes `-`**.
+In these workbooks a soft hyphen is a hyphen that lost its glyph, not a line-break hint: all 211
+cells holding one (185 `address1`, 1 `address2`, 25 `purpose`, no other field) read as a
+hyphenated word or range, including the Queens house number `12-11 40th Avenue` (FY2018 rows
+2796–2811), `after-school`, `ages 12-19`, `multi-media` (GitHub #68). Where the cell already prints
+a `-` or `/` right beside the soft hyphen (`12-<SHY>11`, 169 address cells; `E<SHY>-waste`;
+`disposal/<SHY>destruction`) the soft hyphen is dropped instead, so no `--` is invented. One
+consequence of reading it literally: FY2018 row 6448 `purpose` reads `(e- waste)`, as the cell
+has it. Nothing else is rewritten: `#N/A` error
 cells, `New YorkNY`, 4-digit ZIPs and mojibake are kept as the workbook holds them
 (`data/DISCLOSURE-AUDIT.md`).
 

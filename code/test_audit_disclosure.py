@@ -235,6 +235,32 @@ def test_duplicates_count_identical_rows_only(tmp_path):
     assert r["count"] == 1 and "funded_disclosure_FY2099.xlsx:2 & funded_disclosure_FY2099.xlsx:3" in r["examples"][0]
 
 
+def test_address_hyphen_question_catches_a_lost_or_doubled_hyphen(tmp_path):
+    """Issue #68, audit question D13. FAILS if a CSV address that dropped the soft hyphen of
+    '12<SHY>11 40th Avenue' (published '1211 40th Avenue') passes, if one that doubled
+    '12-<SHY>11' into '12--11' passes, or if the correct '12-11 40th Avenue' is flagged."""
+    ai = HDR.index("Grantee Street Address")
+
+    def wb_row(addr):
+        r = _row("Acme Inc.", "136400434", "Cleared", 5000)
+        r[ai] = addr
+        return r
+
+    wb_rows = [HDR, wb_row("12\xad11 40th Avenue"), wb_row("12-\xad11 40th Avenue")]
+
+    def run(a2, a3, sub):
+        rows = [_csv_row(2, "Acme Inc.", "136400434", "Cleared", 5000),
+                _csv_row(3, "Acme Inc.", "136400434", "Cleared", 5000)]
+        rows[0]["address1"], rows[1]["address1"] = a2, a3
+        return A.q_address_hyphens(_ctx_for(tmp_path / sub, wb_rows, rows))
+
+    assert run("12-11 40th Avenue", "12-11 40th Avenue", "ok")["status"] == "pass"
+    lost = run("1211 40th Avenue", "12-11 40th Avenue", "lost")
+    assert lost["count"] == 1 and ":2 address1" in lost["examples"][0]
+    doubled = run("12-11 40th Avenue", "12--11 40th Avenue", "doubled")
+    assert doubled["count"] == 1 and ":3 address1" in doubled["examples"][0]
+
+
 def test_member_bleed_requires_corroboration():
     """FAILS if 'Levin Brooklyn Youth Fund' is not flagged when the same EIN is published as
     'Brooklyn Youth Fund' elsewhere, or if it is flagged without that corroboration."""
@@ -302,7 +328,7 @@ def test_corpus_pins(real):
     _, results = real
     by = {r["id"]: r for r in results}
     for qid in ("A1", "A2", "A3", "A4", "A5", "A6", "A10", "A13", "A14", "A15", "B1", "B2",
-                "B4", "C3", "C6", "D1", "D2", "D6", "D7", "D9", "E1", "G1", "H1", "H2", "H3"):
+                "B4", "C3", "C6", "D1", "D2", "D6", "D7", "D9", "D13", "E1", "G1", "H1", "H2", "H3"):
         assert by[qid]["status"] == "pass", (qid, by[qid]["examples"][:3])
     assert "2,372,452 cells compared" in by["A6"]["note"]
     assert by["F1"]["count"] == 321 and "341 surplus rows, $8,549,772" in by["F1"]["note"]
@@ -311,6 +337,8 @@ def test_corpus_pins(real):
     assert by["C1"]["count"] == 6
     assert by["A9"]["count"] == 37
     assert not any("\\xad" in e for e in by["D8"]["examples"])
+    # Issue #68: 186 workbook address cells hold a soft hyphen; none loses or doubles a hyphen.
+    assert by["D13"]["status"] == "pass" and "186 workbook address cells" in by["D13"]["note"]
 
 
 def test_every_question_names_its_class_origin_and_independence():

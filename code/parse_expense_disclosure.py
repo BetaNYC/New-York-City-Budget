@@ -108,13 +108,21 @@ HEADER_MAP = {
     "fiscal conduit ein": "fiscal_conduit_ein",
 }
 
-# Invisible FORMAT characters (Unicode category Cf) are deleted: a zero-width space inside one
-# FY2015 EIN, 213 soft hyphens (U+00AD; 185 in address1, e.g. FY2018 row 2796 "12<SHY>11 40th
-# Avenue"), two left-to-right marks (U+200E), BOMs. None renders as a visible character, and a
-# soft hyphen mid-line renders as nothing, so deleting it gives the text a reader sees. (In a
-# Queens house number the Council probably meant "12-11"; this parser does not guess that.)
+# Invisible FORMAT characters (Unicode category Cf) are deleted -- a zero-width space inside one
+# FY2015 EIN, two left-to-right marks (U+200E), BOMs -- with ONE exception, the soft hyphen
+# (U+00AD). In these workbooks a soft hyphen is a HYPHEN that lost its glyph (text pasted from a
+# PDF), never a line-break hint: all 211 cells that hold one (185 address1, 1 address2, 25
+# purpose; no other field) read as hyphenated words or ranges -- the Queens house number
+# "12<SHY>11 40th Avenue" (FY2018 rows 2796-2811), "after<SHY>school", "ages 12<SHY>19",
+# "multi<SHY>media". Deleting it, as an earlier version did, turned "12-11 40th Avenue" into
+# "1211 40th Avenue", a different address. So a soft hyphen becomes "-", EXCEPT where the cell
+# already prints a "-" or "/" right beside it ("12-<SHY>11", 169 address cells; "E<SHY>-waste";
+# "disposal/<SHY>destruction"): there the visible character is already the separator, and a
+# second "-" would invent "12--11". See SHY_ADJACENT and _soft_hyphens().
 # A no-break space is a real word separator ("Youth Design Center,<NBSP>Inc." in FY2026/FY2027),
 # so it becomes a space; deleting it, as an earlier version did, glued two words together.
+SHY = "\u00ad"
+SHY_ADJACENT = "-/"
 _WS = re.compile(r"\s+")
 
 # Descriptive only: used to NAME the kind of a stripped row in the report. It never decides
@@ -314,15 +322,34 @@ def _xls_sheet_name(path):
     return xlrd.open_workbook(path, on_demand=True).sheet_names()[0]
 
 
+def _soft_hyphens(v):
+    """U+00AD -> '-', or deleted where a '-' or '/' already sits beside it (see SHY above)."""
+    if SHY not in v:
+        return v
+    out = []
+    for i, ch in enumerate(v):
+        if ch != SHY:
+            out.append(ch)
+            continue
+        prev = v[i - 1] if i else ""
+        nxt = v[i + 1] if i + 1 < len(v) else ""
+        # A run of soft hyphens is one hyphen; a visible '-' or '/' beside it is the separator.
+        if (prev and prev in SHY_ADJACENT + SHY) or (nxt and nxt in SHY_ADJACENT):
+            continue
+        out.append("-")
+    return "".join(out)
+
+
 def _clean(v):
-    """Text cell -> one line. Invisible format characters (category Cf: zero-width space,
-    soft hyphen, left-to-right mark, BOM) deleted; every run of whitespace (line
-    breaks, tabs, no-break spaces, doubled spaces -- 368 cells across the corpus hold a line
-    break) collapsed to one space; ends trimmed. Cosmetic only: no character that carries
-    meaning is removed, and amounts/EINs contain no whitespace to begin with."""
+    """Text cell -> one line. A soft hyphen becomes a hyphen (deleted only where a '-' or '/'
+    already sits beside it); every other invisible format character (category Cf: zero-width
+    space, left-to-right mark, BOM) is deleted; every run of whitespace (line breaks, tabs,
+    no-break spaces, doubled spaces -- 368 cells across the corpus hold a line break) collapsed
+    to one space; ends trimmed. No character that carries meaning is removed, and amounts/EINs
+    contain no whitespace to begin with."""
     if v is None:
         return ""
-    v = "".join(ch for ch in v if unicodedata.category(ch) != "Cf")
+    v = "".join(ch for ch in _soft_hyphens(v) if unicodedata.category(ch) != "Cf")
     return _WS.sub(" ", v).strip()
 
 
