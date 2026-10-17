@@ -604,3 +604,39 @@ has fewer rows than the disclosure, which disclosure rows matched is a determini
 fact; those rows are counted per year in `data/DISCLOSURE-COVERAGE.md` §1 (767 in FY2027, up to
 1,228 in FY2026, as retrieved 2026-10-12). A year's matched rows and dollars across all statuses do not depend on the
 choice; the Cleared / Pending columns and the stream split do, within those counts.
+
+---
+
+## 24. Disclosure vs NYC Open Data `4d7f-74pe` — small items recorded (GitHub #89 B13) — OPEN where marked
+
+From the Open Data comparison (`research/2026-10-14-open-data-vs-disclosure-diff.md`). Every
+number is this repo's arithmetic on committed or manifest-pinned files, not a Council figure.
+
+- **FY2018 row 2289, `$221` to the Department for the Aging.** `funded_disclosure_FY2018.xlsx`
+  row 2289: source `Senior Centers, Programs, and Enhancements`, legal name `Department for the
+  Aging`, the City's EIN `136400434`, `CLEARED`, $221, agency DFTA, no street address, purpose
+  "This allocation provides operational support for non-DFTA and DFTA senior centers." Open Data
+  has no row for it, and it is the net one-row difference between the two sources for FY2018
+  (8,894 vs 8,893 rows). An amount this small on a City-to-City line reads like a residual
+  adjustment, but nothing in the file says so. **Kept as published, not flagged.**
+- **FY2021: 18 `Food Pantries` rows, $16,011,884, are in our file and not in Open Data**
+  (all Cleared, DYCD; 17 with a blank council member, e.g. Metropolitan New York Coordinating
+  Council on Jewish Poverty $4,500,000, United Way of New York City $2,500,000). Our FY2021
+  workbook's sheet is dated 2023-06-23; Open Data's copy was last updated 2021-04-20.
+  **OPEN: when they were added is not established.** The planned check against the FY2021
+  Transparency Resolutions was not made, because this repo's Transparency Resolution files are
+  extracted from PDFs (`code/parse_transparency_reso.py`), and the 2.0 rule is structured data
+  only. It needs a structured source for post-adoption designations, or the Council's answer.
+- **FY2009: two rows that are not grants to an organization.** The Council's FY2009 workbook
+  prints `Borough President Discretionary Funding` $533,000 (DFTA) and `Provider's Choice`
+  $1,200,000 (ACS), both to the City's EIN with no address; Open Data carries the same two under
+  MOCS ID `FY09 Not an Award`, the only rows with that ID. Decision (Noel Hidalgo, 2026-10-14):
+  keep both, flag them `row_flag = not_an_award` (DATA-DICTIONARY). The rule is in
+  `code/parse_expense_disclosure.py` (`ROW_FLAGS`); the rows enter when FY2009 is added.
+- **Open Data BBL `0`** (15 rows: FY2019 14, FY2010 1) is read as blank wherever this repo
+  carries or profiles Open Data geocodes. No other geocode column holds an all-zero value.
+- **Open Data calls these rows "applications".** They are designations. The Council's actual
+  application files (every request, funded or not) are a separate data class
+  (`research/2026-10-14-wayback-council-files.md`), not in this dataset.
+- **The 2026-07-07 scoping note said Open Data's member names already match ours.** They do not;
+  the note now says so (`research/2026-07-07-fy09-fy21-legacy-import-scoping.md`).

@@ -306,7 +306,8 @@ by x-position.
 **Source:** the Council's own award-level disclosure workbooks in
 `source/expense-funding-disclosure/` (retrieved 2026-10-12; hashes in that folder's
 `MANIFEST.csv`, superseded hashes in `MANIFEST-HISTORY.csv`). **Output:** `data/fyNN/expense_disclosure/fyNN_expense_awards.csv` (one row per
-row the workbook prints; exact copies flagged in `duplicate_group`) and
+row the workbook prints; exact copies flagged in `duplicate_group`; rows a person decided are
+not grants to an organization flagged in `row_flag`, kept and counted) and
 `fyNN_expense_reconciliation.txt`, for FY2013–FY2027. This is a **parallel** dataset: it never
 feeds or changes the Schedule C CSVs above. Schema: `DATA-DICTIONARY.md`.
 

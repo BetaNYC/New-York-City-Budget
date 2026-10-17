@@ -167,8 +167,22 @@ OUT_FIELDS = [
     "council_member_type", "legal_name", "ein", "status",
     "status_norm", "amount", "agency", "program_name", "address1", "address2", "city", "state",
     "postal_code", "zip", "zip_status", "zip_candidates", "purpose", "fiscal_conduit", "fiscal_conduit_ein",
-    "source_file", "source_row", "duplicate_group",
+    "source_file", "source_row", "duplicate_group", "row_flag",
 ]
+
+# Rows that are published as designations but are not grants to an organization, decided by a
+# person and recorded here (GitHub #89 B13). Keyed by (fiscal_year, source_file, source_row);
+# each entry names the legal_name and amount the row must still carry, so a re-pull that moves
+# the row is a stop, never a flag silently landing on another row. The row is KEPT as published
+# (its amount stays in every total) and `row_flag` names the flag; the reconciliation report
+# lists every flagged row. ROW_FLAG_VALUES is the closed set the validator accepts.
+#   not_an_award  The Council's FY2009 workbook prints two lump allocations to the City's own
+#                 EIN with no address, and NYC Open Data 4d7f-74pe carries the same two rows
+#                 under the MOCS ID "FY09 Not an Award" (the only rows with that ID). Decided:
+#                 flag, never drop (Noel Hidalgo, 2026-10-14, #89 B13). FY2009 is not yet in
+#                 this dataset, so ROW_FLAGS is empty until it is; the rule is in place.
+ROW_FLAG_VALUES = ("not_an_award",)
+ROW_FLAGS = {}
 
 # Fields that identify a designation for the exact-copy flag (GitHub #69): every published field
 # except where the row sits (source_row) and what the parser derives from the others.
@@ -787,6 +801,12 @@ def reconciliation_text(awards, rep):
              f"duplicate_group: {len(set(dup.values()))} group(s), {len(dup)} row(s); "
              f"{len(extra)} beyond the first of each group, "
              f"${_usd(sum((Decimal(by_rn[rn].amount_text) for rn in extra), Decimal(0)))}")
+    flagged = row_flags(awards)
+    L.append(f"Rows kept but flagged in row_flag ({len(flagged)}), included in every total above"
+             + (":" if flagged else ": none"))
+    for rn, flag in sorted(flagged.items()):
+        L.append(f"  row {rn:>6}  {flag:<14} {by_rn[rn].legal_name!r} "
+                 f"${_usd(Decimal(by_rn[rn].amount_text))}")
     if rep.header_note:
         L.append(f"notes: {rep.header_note}")
     return "\n".join(L) + "\n"
@@ -861,6 +881,32 @@ def member_of(a):
     return hit[1], hit[0]
 
 
+def row_flags(awards, flags=None):
+    """{source_row: flag} for one workbook's awards, from ROW_FLAGS (or `flags`). An entry for
+    this workbook whose row is missing, or whose row no longer carries the recorded legal_name
+    and amount, is a stop (ValueError): the decision was about that row, not about whatever now
+    sits at its number. Entries for other workbooks are ignored here; outputs() checks that
+    every entry was used by some workbook."""
+    flags = ROW_FLAGS if flags is None else flags
+    if not awards:
+        return {}
+    fy, fname = awards[0].fiscal_year, awards[0].source_file
+    by_rn = {a.source_row: a for a in awards}
+    out = {}
+    for (efy, efile, rn), e in flags.items():
+        if (efy, efile) != (fy, fname):
+            continue
+        if e["flag"] not in ROW_FLAG_VALUES:
+            raise ValueError(f"row flag {e['flag']!r} is not one of {ROW_FLAG_VALUES}")
+        a = by_rn.get(rn)
+        if a is None or a.legal_name != e["legal_name"] or a.amount_text != e["amount"]:
+            got = (a.legal_name, a.amount_text) if a else "no award row"
+            raise ValueError(f"FY{fy} {fname} row {rn}: ROW_FLAGS expects "
+                             f"{(e['legal_name'], e['amount'])}, the workbook has {got}")
+        out[rn] = e["flag"]
+    return out
+
+
 def csv_text(awards):
     """The per-year CSV. `postal_code` is the cell as published; `zip`, `zip_status` and
     `zip_candidates` are derived from it and the row's `state` against the Census 2020 ZCTA list
@@ -869,11 +915,13 @@ def csv_text(awards):
     w = csv.writer(buf, lineterminator="\n")
     w.writerow(OUT_FIELDS)
     dup = duplicate_groups(awards)
+    flagged = row_flags(awards)
     z = _zctas()
     for a in awards:
         d = a._asdict()
         d["amount"] = a.amount_text
         d["duplicate_group"] = dup.get(a.source_row, "")
+        d["row_flag"] = flagged.get(a.source_row, "")
         d["zip"], d["zip_status"], d["zip_candidates"] = z.derive_zip(a.postal_code, a.state,
                                                                       z.TABLE_DATA)
         d["council_member_id"], d["council_member_type"] = member_of(a)
@@ -887,6 +935,10 @@ def outputs(results, data_dir=DATA_DIR):
     if skipped:
         raise SystemExit("refusing to write a partial dataset; skipped: "
                          + "; ".join(f"FY{r.fiscal_year}: {r.skipped}" for r in skipped))
+    used = {(rep.fiscal_year, rep.source_file) for _, rep in results}
+    unused = [k for k in ROW_FLAGS if (k[0], k[1]) not in used]
+    if unused:
+        raise SystemExit(f"ROW_FLAGS names rows in workbooks this build does not read: {unused}")
     out = {}
     for awards, rep in results:
         d = out_dir(rep.fiscal_year, data_dir)

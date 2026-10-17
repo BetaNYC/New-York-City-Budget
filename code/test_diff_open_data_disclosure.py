@@ -112,3 +112,18 @@ def test_summary_csv_has_one_row_per_year():
     res = D.compare([od()], [ours()])
     text = D.summary_csv([(2015, "x", res)])
     assert text.splitlines()[1].startswith("2015,x,1,1,0,1,")
+
+
+def test_bbl_zero_is_blank_and_counted_issue_89_b13():
+    """#89 B13. FAILS if a BBL of '0' (or '0000000000') is carried as a lot number, if a real
+    BBL or another column's zero is touched, or if the profile stops counting the blanked
+    ones."""
+    z = od(bbl="0", bin="1000000", council_district="0")
+    assert z["bbl"] == "" and z["bbl_zero"]
+    assert z["bin"] == "1000000" and z["council_district"] == "0"
+    assert od(bbl="0000000000")["bbl"] == ""
+    real = od(bbl="1000010010")
+    assert real["bbl"] == "1000010010" and not real["bbl_zero"]
+    assert D.od_geo("bin", "0") == ("0", False)
+    p = D.profile([z, real, od()])
+    assert p["filled"]["bbl"] == 1 and p["filled"]["bbl_zero_blanked"] == 1

@@ -4,6 +4,21 @@ Pulled whole on 2026-10-14 for GitHub #85: 97,002 rows, FY2009–FY2021, last up
 publisher 2021-04-20 (`rowsUpdatedAt` 1618932382). Analysis:
 [`research/2026-10-14-open-data-vs-disclosure-diff.md`](../../research/2026-10-14-open-data-vs-disclosure-diff.md).
 
+**Rows are designations, not applications.** The portal describes the dataset as
+"applications for discretionary funding". Its rows are the same designations (awards) as the
+Council's disclosure workbooks, row for row in most years. The Council's real application files
+(every request, funded or not) are a different data class, found in the Internet Archive
+(`source/wayback-council/README.md`). Count these rows as designations.
+
+**Terms of use.** Covered by the NYC Open Data Terms of Use
+(<https://opendata.cityofnewyork.us/overview/#termsofuse>). Use and redistribution in this
+repository confirmed by Noel Hidalgo, 2026-10-14. The metadata carries no dataset-specific
+license.
+
+**BBL `0`.** 15 rows carry BBL `0` (FY2019 14, FY2010 1). That names no tax lot; wherever this
+repository carries or profiles Open Data's BBL it is read as blank
+(`code/diff_open_data_disclosure.py`, `od_geo`). We do not adopt Open Data's geocodes (#89 B7).
+
 ## Provenance
 
 - **Rows:** SODA, `https://data.cityofnewyork.us/resource/4d7f-74pe.json?$select=:*,*&$order=:id&$limit=5000&$offset=N`,

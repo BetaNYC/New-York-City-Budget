@@ -25,3 +25,4 @@ Stripped rows (0):
 
 EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (0): none
 Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 0 group(s), 0 row(s); 0 beyond the first of each group, $0
+Rows kept but flagged in row_flag (0), included in every total above: none

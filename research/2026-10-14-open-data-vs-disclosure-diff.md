@@ -11,6 +11,12 @@ Code: `code/fetch_open_data_4d7f74pe.py`, `code/diff_open_data_disclosure.py` (t
 [`2026-10-14-open-data-diff/`](2026-10-14-open-data-diff/): `summary.csv`, `unmatched-rows.csv`
 (every row left unmatched, both sides), `field-differences.csv`, `open-data-profile.csv`.
 Follow-up questions: [`2026-10-14-follow-up-questions-85-86.md`](2026-10-14-follow-up-questions-85-86.md).
+A sample of 20 nominations for a person to check by eye (#89 B12):
+[`2026-10-14-open-data-diff/REVIEW-SHEET.md`](2026-10-14-open-data-diff/REVIEW-SHEET.md).
+
+**Terminology.** The portal calls these rows "applications for discretionary funding". They are
+designations, the same rows as the Council's disclosure workbooks. The Council's real
+application files are a different data class (`2026-10-14-wayback-council-files.md`).
 
 Reproduce:
 
@@ -150,7 +156,9 @@ differences are spelling conventions, not changed facts:
 ## Open Data completeness and geocoding
 
 From `open-data-profile.csv`. Geocoding covers 75,385 of 97,002 rows (77.7%), from 63.3% (FY2013)
-to 91.5% (FY2011). BIN/BBL cover 74,820 rows, and 15 BBLs are literally `0`. `council_district`
+to 91.5% (FY2011). BIN/BBL cover 74,820 rows, and 15 BBLs are literally `0` (FY2019 14,
+FY2010 1). Since 2026-10-14 the normalizer reads a BBL of `0` as blank (`od_geo`, #89 B13), so
+`open-data-profile.csv` counts them in `filled_bbl_zero_blanked`, not in `filled_bbl`. `council_district`
 holds 51 distinct districts. The geocode is of the **grantee's mailing address** (the dictionary:
 "the building's location"). It is not where services are delivered and not the sponsoring
 member's district, so a `council_district` here says where the organization's office is. The
