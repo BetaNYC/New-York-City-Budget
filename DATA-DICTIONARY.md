@@ -60,7 +60,7 @@ Authoritative category/initiative totals. **One row per initiative; sums exactly
 
 ## `data/{year}/schedule_c/{year}_appendix_*.csv`
 
-Detail breakouts re-sorted by funding stream: `_a_aging` (Aging Discretionary), `_b_local` (Local Initiatives — adds an `agency` column), `_c_youth` (Youth Discretionary). **These are subsets of the award body — do not add them to the Schedule C total.**
+Detail breakouts by funding stream: `_a_aging` (Aging Discretionary), `_b_local` (Local Initiatives — adds an `agency` column), `_c_youth` (Youth Discretionary). **These are separate designations from the award body, not a subset of it — adding appendix rows to body award rows double-counts nothing.** Evidence for every year, from the Council's disclosure `source` column: [`data/DISCLOSURE-COVERAGE.md`](data/DISCLOSURE-COVERAGE.md) §4 and DATA-ANOMALIES §23. (This is about award rows, not the printed category `TOTAL`s.) Header-only for FY2015–FY2017 and FY2019–FY2020 (an extraction gap, GitHub #59: the PDFs print them); FY2018 has aging only.
 
 | Column | Type | Meaning |
 |--------|------|---------|

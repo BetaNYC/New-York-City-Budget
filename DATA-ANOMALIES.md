@@ -401,3 +401,66 @@ in the Schedule C files moved. What a reader needs to know before using it:
   not join on it.
 - **One FY2016 `address2` cell (row 640) is a number formatted as a date** (`42037`, which Excel
   shows as 2015-02-02). The stored value is kept; what was meant is not knowable from the file.
+
+---
+
+## 23. Disclosure vs Schedule C — coverage, and the appendix question (GitHub #57 blocker 2) — SETTLED for blocker 2
+
+`code/reconcile_disclosure_schedule_c.py` joins each year's disclosure rows (§22) to the Schedule
+C award files on `(EIN, amount)` as a multiset — never EIN alone, never the member. Full output:
+[`data/DISCLOSURE-COVERAGE.md`](data/DISCLOSURE-COVERAGE.md) and
+`data/disclosure_schedule_c_coverage.csv` (year × stream × status, rows and dollars). Every number
+below is that script's arithmetic on committed files, pinned by
+`code/test_reconcile_disclosure_schedule_c.py`. **None is a Council figure.**
+
+**This is coverage, not a capture rate.** The disclosure is a later snapshot than the adopted
+Schedule C and includes post-adoption designations, so it is not the adopted-budget universe
+(see #58 item 3 on why the earlier 68.3% was retracted). "Published set" = body + the three
+appendix CSVs (what the MCP indexes). The disclosure-built appendix sidecar is excluded as
+circular; the absorbed-awards sidecar is reported separately in the full output.
+
+| FY | disclosure rows | matched | Cleared $ matched (headline) | Pending $ matched | appendix rows matched after the body | appendices vs body |
+|---|---:|---:|---:|---:|---:|---|
+| FY2013 | 4,987 | 0 | 0 of 18,201,784.75 (0.0%) | 0 of 380,680,617.43 (0.0%) | — | no Schedule C award files |
+| FY2014 | 6,611 | 0 | 0 of 392,655,571.85 (0.0%) | 0 of 1,077,905 (0.0%) | — | no Schedule C award files |
+| FY2015 | 6,650 | 535 | 61,279,634 of 285,921,454.46 (21.4%) | 450,000 of 810,402 (55.5%) | — | appendix CSVs empty |
+| FY2016 | 7,797 | 290 | 76,857,624 of 380,361,130 (20.2%) | 0 of 1,015,496 (0.0%) | — | appendix CSVs empty |
+| FY2017 | 8,671 | 329 | 73,268,111 of 352,787,056 (20.8%) | 0 of 714,830 (0.0%) | — | appendix CSVs empty |
+| FY2018 | 8,894 | 831 | 73,096,268 of 381,385,171 (19.2%) | 0 of 514,829 (0.0%) | 417 / 422 (aging only) | additive, 1 exception |
+| FY2019 | 9,655 | 756 | 161,144,404 of 392,443,522 (41.1%) | 15,000 of 501,478 (3.0%) | — | appendix CSVs empty |
+| FY2020 | 10,616 | 2,665 | 236,937,236 of 456,580,952 (51.9%) | 0 of 635,750 (0.0%) | — | appendix CSVs empty |
+| FY2021 | 9,054 | 5,841 | 235,798,936 of 391,770,561 (60.2%) | 630,000 of 1,479,945 (42.6%) | 4,148 / 4,310 | additive, with exceptions |
+| FY2022 | 11,336 | 5,519 | 252,340,025 of 536,959,144 (47.0%) | 460,124 of 1,590,683 (28.9%) | 4,087 / 4,182 | additive, with exceptions |
+| FY2023 | 11,027 | 5,713 | 294,143,159 of 537,910,110 (54.7%) | 1,599,500 of 3,516,885 (45.5%) | 3,930 / 4,056 | additive, with exceptions |
+| FY2024 | 10,811 | 9,029 | 439,808,260 of 526,907,681 (83.5%) | 604,800 of 1,063,733 (56.9%) | 3,791 / 3,911 | additive, with exceptions |
+| FY2025 | 11,280 | 9,378 | 455,301,615 of 592,960,495 (76.8%) | 682,500 of 2,220,687 (30.7%) | 3,816 / 3,920 | additive, with exceptions |
+| FY2026 | 11,757 | 9,536 | 518,500,746 of 707,372,205 (73.3%) | 1,560,375 of 8,840,950 (17.6%) | 3,810 / 3,914 | additive, with exceptions |
+| FY2027 | 10,040 | 9,976 | 142,899,722 of 143,034,722 (99.9%) | 511,950,692 of 562,529,278 (91.0%) | 3,860 / 3,860 | **additive, exactly** |
+
+**Blocker 2 — verdict: the appendices are additive in every year that has appendix rows.** The
+test: match the body to the disclosure first, then see whether each appendix row still finds a
+designation of its own. A re-sorted subset of the body would find almost none. Instead 96.2% to
+100% do. In FY2027 all 3,860 appendix rows do, and the appendix dollars ($49,799,000) equal the
+disclosure's Local + Aging + Youth dollars to the dollar. In the other years the exceptions are
+a handful against thousands (0–14 body rows the disclosure files only under Local/Aging/Youth;
+0–33 rows on keys printed in both body and appendix beyond what the disclosure holds), each
+listed key by key in `data/DISCLOSURE-COVERAGE.md` §4b as a candidate extraction or filing error.
+The five years with empty appendix CSVs (FY2015–2017, 2019–2020) have nothing to add or
+double-count; the PDFs do print those appendices, with bare amounts the parser's `$` anchor
+misses (#59 — verified for FY2016 and FY2019 by reading the page text). This settles the award
+rows only: it says nothing about whether the printed category `TOTAL`s include the appendix pots.
+
+**The FY2027 gap, checked rather than assumed.** 64 disclosure rows have no published Schedule C
+counterpart. (The raw row-count difference is 62: 10,040 disclosure rows against 9,978 Schedule
+C rows, two of which also lack a disclosure counterpart.) 60 of the 64 carry the City's own EIN `136400434`, all Pending, $50,508,586, each naming a
+City agency or office as the grantee (DYCD, Cultural Affairs, Aging, Parks, CUNY, a District
+Attorney, a Borough President, …). The other four: two are $1 near-misses —
+Schedule C prints Osborne Association $14,999 and Selfhelp Community Services $44,999 where the
+disclosure has $15,000 and $45,000 (the two unmatched Schedule C rows) — plus Medicare Rights
+Center $135,000 (Speaker's Initiative, Cleared) and CUNY $10,000 (Parks Equity, Pending).
+
+**Ambiguity, counted.** Where a key's disclosure rows differ in stream or status and Schedule C
+has fewer rows than the disclosure, which disclosure rows matched is a deterministic choice, not a
+fact; those rows are counted per year in `data/DISCLOSURE-COVERAGE.md` §1 (182 in FY2027, up to
+1,176 in FY2026). A year's matched rows and dollars across all statuses do not depend on the
+choice; the Cleared / Pending columns and the stream split do, within those counts.

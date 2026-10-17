@@ -362,6 +362,12 @@ large. "blank" counts empty rows and rows the `.xlsx` omits entirely. Every figu
 is in the committed `fyNN_expense_reconciliation.txt` and pinned by
 `code/test_parse_expense_disclosure.py`.
 
+**Join to Schedule C.** `python3 code/reconcile_disclosure_schedule_c.py` (stdlib; `--check` to
+verify) joins each year to the Schedule C award files on `(EIN, amount)` as a multiset and writes
+`data/DISCLOSURE-COVERAGE.md` + `data/disclosure_schedule_c_coverage.csv`: coverage by year ×
+stream × status, the #57 blocker-2 verdict (appendices additive), and the unmatched rows. Read
+DATA-ANOMALIES §23 before quoting any of it.
+
 **Cross-check against the 2026-07-15 normalizer** (`normalize_expense_disclosure.py`, openpyxl +
 xlrd, kept outside this repo): identical row counts and identical dollar totals in all 15 years,
 139,186 rows. The field-level differences are all rendering, each explained: that normalizer wrote
