@@ -68,6 +68,20 @@ const TRANSPARENCY_LOW_TEXT_CONFIDENCE = new Set([2010, 2011, 2012, 2013]);
 // sources and are never merged. Snapshot provenance (which download each year comes from) is read
 // from source/expense-funding-disclosure/MANIFEST.csv.
 const DISCLOSURE_YEARS = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27].map(yr);
+// #72: every disclosure row carries a council_member_type; exactly the two member types carry a
+// numeric Legistar person ID. A missing column or an inconsistent pair is a stop.
+const MEMBER_TYPES = new Set(["member", "member_outside_fy", "ambiguous", "unresolved", "speaker",
+  "delegation", "citywide", "district_label", "blank"]);
+function memberId(r, year) {
+  const t = r.council_member_type;
+  if (!MEMBER_TYPES.has(t)) throw new Error(`FY${year} row ${r.source_row}: council_member_type ${JSON.stringify(t)}`);
+  const id = r.council_member_id ?? "";
+  if ((t === "member" || t === "member_outside_fy") !== /^\d+$/.test(id)) {
+    throw new Error(`FY${year} row ${r.source_row}: council_member_id ${JSON.stringify(id)} does not fit type ${t}`);
+  }
+  return id;
+}
+
 // #69: duplicate_group is blank for a unique row, else a positive row number. Anything else
 // (a missing column from an old CSV, text) is a stop, never a silent NULL.
 function dupGroup(r, year) {
@@ -187,7 +201,8 @@ function main() {
     CREATE INDEX idx_cw_type ON crosswalk(document_type);
 
     CREATE TABLE disclosure (
-      fiscal_year INTEGER, mocs_id TEXT, source TEXT, council_member TEXT, legal_name TEXT,
+      fiscal_year INTEGER, mocs_id TEXT, source TEXT, council_member TEXT,
+      council_member_id TEXT, council_member_type TEXT, legal_name TEXT,
       ein TEXT, status TEXT, status_norm TEXT, amount REAL, agency TEXT, program_name TEXT,
       fiscal_conduit TEXT, fiscal_conduit_ein TEXT, source_row INTEGER,
       duplicate_group INTEGER
@@ -443,10 +458,12 @@ function main() {
     if (hit) snapByYear.set(Number(hit[1]), m);
   }
   const insDisc = db.prepare(
-    `INSERT INTO disclosure (fiscal_year, mocs_id, source, council_member, legal_name, ein, status,
+    `INSERT INTO disclosure (fiscal_year, mocs_id, source, council_member, council_member_id,
+       council_member_type, legal_name, ein, status,
        status_norm, amount, agency, program_name, fiscal_conduit, fiscal_conduit_ein, source_row,
        duplicate_group)
-     VALUES (@fiscal_year, @mocs_id, @source, @council_member, @legal_name, @ein, @status,
+     VALUES (@fiscal_year, @mocs_id, @source, @council_member, @council_member_id,
+       @council_member_type, @legal_name, @ein, @status,
        @status_norm, @amount, @agency, @program_name, @fiscal_conduit, @fiscal_conduit_ein,
        @source_row, @duplicate_group)`
   );
@@ -484,6 +501,9 @@ function main() {
           mocs_id: r.mocs_id ?? "",
           source: r.source ?? "",
           council_member: r.council_member ?? "",
+          // #72: Legistar person ID from data/disclosure_council_member_crosswalk.csv, and its type.
+          council_member_id: memberId(r, year),
+          council_member_type: r.council_member_type,
           legal_name: r.legal_name ?? "",
           ein: normEin(r.ein),
           status: r.status ?? "",

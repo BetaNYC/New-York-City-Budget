@@ -294,6 +294,29 @@ def test_zip_question_catches_a_blind_pad_issue_70():
         assert A.q_zip({"csv": [bad]})["count"] == 1, bad
 
 
+def test_member_id_questions_issue_72():
+    """Issue #72, audit questions G8-G10, against the committed roster extract. FAILS if Levin
+    (7567) in FY2016 is reported, or if Levin carrying Levine's ID (7634) passes G10, if one ID
+    on two names in a year passes G9, or if a row typed member whose person did not vote that
+    year (Wong, 7900, first voted FY2026) passes G8."""
+    def row(rn, member, pid, typ="member", fy="2016"):
+        r = _csv_row(rn, "Acme", "136400434", "Cleared", 5000, member=member)
+        r.update(fiscal_year=fy, council_member_id=pid, council_member_type=typ)
+        return r
+    ok = {"csv": [row(2, "Levin", "7567"), row(3, "Levine", "7634"),
+                  row(4, "Wong", "7900", "member_outside_fy", "2025")]}
+    assert A.q_member_substring_ids(ok)["status"] == "pass"
+    assert A.q_member_id_shared(ok)["status"] == "pass"
+    g8 = A.q_member_in_office(ok)
+    assert g8["count"] == 1 and "member_outside_fy" in g8["examples"][0]
+    assert "0 rows typed member fail" in g8["note"]
+    bad = {"csv": [row(2, "Levin", "7634"), row(3, "Levine", "7634")]}
+    assert A.q_member_substring_ids(bad)["count"] == 1
+    assert A.q_member_id_shared(bad)["count"] == 1
+    wrong = {"csv": [row(2, "Wong", "7900", "member", "2025")]}
+    assert "1 rows typed member fail" in A.q_member_in_office(wrong)["note"]
+
+
 def test_member_bleed_requires_corroboration():
     """FAILS if 'Levin Brooklyn Youth Fund' is not flagged when the same EIN is published as
     'Brooklyn Youth Fund' elsewhere, or if it is flagged without that corroboration."""
@@ -376,6 +399,10 @@ def test_corpus_pins(real):
     assert by["F3"]["status"] == "pass" and "FY2020 75 groups / 154 rows / 79 surplus" in by["F3"]["note"]
     # Issue #70: every ZIP status agrees with the Census table.
     assert by["G7"]["status"] == "pass" and "'padded': 13" in by["G7"]["note"]
+    # Issue #72: only the 3 export-time names (341 rows) fall outside their year; no shared IDs;
+    # Levin != Levine.
+    assert by["G8"]["count"] == 341 and "0 rows typed member fail" in by["G8"]["note"]
+    assert by["G9"]["status"] == "pass" and by["G10"]["status"] == "pass"
 
 
 def test_every_question_names_its_class_origin_and_independence():

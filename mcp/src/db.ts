@@ -354,6 +354,17 @@ export interface DisclosureRow {
   source: string;
   /** The Council's roster when the workbook was exported — not the sponsoring member at adoption. */
   council_member: string;
+  /**
+   * #72: the Legistar person ID the printed name resolves to for that fiscal year
+   * (data/disclosure_council_member_crosswalk.csv); "" when not a person or not resolved.
+   */
+  council_member_id: string;
+  /**
+   * member | member_outside_fy (resolved, but the person had no recorded vote that fiscal year:
+   * the export-time roster) | ambiguous | unresolved | speaker | delegation | citywide |
+   * district_label | blank.
+   */
+  council_member_type: string;
   legal_name: string;
   ein: string;
   /** Raw Status cell, verbatim (case varies by year). */
@@ -380,7 +391,11 @@ export interface DisclosureFilters {
   ein?: string;
   legal_name?: string;
   council_member?: string;
+  /** #72: exact Legistar person ID. */
+  council_member_id?: string;
   source?: string;
+  /** #72: exact funding stream (case- and surrounding-whitespace-insensitive equality). */
+  source_exact?: string;
   agency?: string;
   program_name?: string;
   status?: DisclosureStatus;
@@ -407,6 +422,8 @@ export interface DisclosureTotal {
 /** One distinct value a substring filter matched, with its share of the match. */
 export interface DisclosureValueCount {
   value: string;
+  /** council_member only (#72): the Legistar person ID that value resolves to ("" if none). */
+  council_member_id?: string;
   rows: number;
   amount: number;
 }
@@ -467,7 +484,9 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
     f.ein ? (p.push(normEin(f.ein)), "ein = ?") : null,
     likeLiteral("legal_name", p, f.legal_name),
     likeLiteral("council_member", p, f.council_member),
+    f.council_member_id != null ? (p.push(f.council_member_id), "council_member_id = ?") : null,
     likeLiteral("source", p, f.source),
+    f.source_exact != null ? (p.push(f.source_exact.trim()), "source = ? COLLATE NOCASE") : null,
     likeLiteral("agency", p, f.agency),
     likeLiteral("program_name", p, f.program_name),
     f.status ? (p.push(f.status), "status_norm = ?") : null,
@@ -479,7 +498,8 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
   // deterministic.
   const rows = db
     .prepare(
-      `SELECT fiscal_year, mocs_id, source, council_member, legal_name, ein, status, status_norm,
+      `SELECT fiscal_year, mocs_id, source, council_member, council_member_id, council_member_type,
+         legal_name, ein, status, status_norm,
          amount, agency, program_name, fiscal_conduit, fiscal_conduit_ein, source_row, duplicate_group
        FROM disclosure ${w}
        ORDER BY amount DESC, fiscal_year, source_row LIMIT ${cap(f.limit)}`
@@ -521,10 +541,13 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
   const matched_values: DisclosureResult["matched_values"] = {};
   for (const col of ["council_member", "source", "agency"] as const) {
     if (f[col] == null || f[col]!.trim() === "") continue;
+    // council_member is grouped with its person ID: one printed surname can be two people in
+    // different years ('Rivera' is Joel Rivera in FY2013 and Carlina Rivera from FY2019).
+    const idCol = col === "council_member" ? ", council_member_id" : "";
     matched_values[col] = db
       .prepare(
-        `SELECT ${col} AS value, COUNT(*) AS rows, SUM(amount) AS amount FROM disclosure ${w}
-         GROUP BY ${col} ORDER BY rows DESC, value`
+        `SELECT ${col} AS value${idCol}, COUNT(*) AS rows, SUM(amount) AS amount FROM disclosure ${w}
+         GROUP BY ${col}${idCol} ORDER BY rows DESC, value`
       )
       .all(...p) as DisclosureValueCount[];
   }

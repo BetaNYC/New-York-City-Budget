@@ -156,7 +156,8 @@ PRIOR_PRINTED = {
 }
 
 OUT_FIELDS = [
-    "fiscal_year", "mocs_id", "source", "council_member", "legal_name", "ein", "status",
+    "fiscal_year", "mocs_id", "source", "council_member", "council_member_id",
+    "council_member_type", "legal_name", "ein", "status",
     "status_norm", "amount", "agency", "program_name", "address1", "address2", "city", "state",
     "postal_code", "zip", "zip_status", "purpose", "fiscal_conduit", "fiscal_conduit_ein",
     "source_file", "source_row", "duplicate_group",
@@ -781,6 +782,34 @@ def _zctas():
     return _ZCTAS
 
 
+CROSSWALK = os.path.join(DATA_DIR, "disclosure_council_member_crosswalk.csv")
+_MEMBERS = None
+
+
+def _members():
+    """{(fiscal_year, council_member): (type, id)} from the committed member crosswalk
+    (code/build_member_crosswalk.py, GitHub #72), loaded once."""
+    global _MEMBERS
+    if _MEMBERS is None:
+        with open(CROSSWALK, newline="", encoding="utf-8") as f:
+            _MEMBERS = {(int(r["fiscal_year"]), r["council_member"]):
+                        (r["council_member_type"], r["council_member_id"])
+                        for r in csv.DictReader(f)}
+    return _MEMBERS
+
+
+def member_of(a):
+    """(council_member_id, council_member_type) for one award. A (year, printed value) the
+    crosswalk does not hold is a stop: a re-pull that brings a new name must re-run the
+    crosswalk, never publish a row with no type."""
+    hit = _members().get((a.fiscal_year, a.council_member))
+    if hit is None:
+        raise ValueError(f"FY{a.fiscal_year} council_member {a.council_member!r} is not in "
+                         f"{os.path.relpath(CROSSWALK, ROOT)}; run "
+                         f"code/build_member_crosswalk.py --write")
+    return hit[1], hit[0]
+
+
 def csv_text(awards):
     """The per-year CSV. `postal_code` is the cell as published; `zip` and `zip_status` are
     derived from it and the row's `state` against the Census 2020 ZCTA list (GitHub #70; rules
@@ -795,6 +824,7 @@ def csv_text(awards):
         d["amount"] = a.amount_text
         d["duplicate_group"] = dup.get(a.source_row, "")
         d["zip"], d["zip_status"] = z.classify_zip(a.postal_code, a.state, z.TABLE_DATA)
+        d["council_member_id"], d["council_member_type"] = member_of(a)
         w.writerow([d[f] for f in OUT_FIELDS])
     return buf.getvalue()
 

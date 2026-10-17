@@ -312,3 +312,87 @@ test("exact-copy rows are flagged and counted inside the totals (#69)", async ()
   assert.equal(disclosureCsv(2025).filter((r) => r.duplicate_group !== "").length, 0);
   assert.doesNotMatch(none.text, /exact copies/);
 });
+
+// ---------------------------------------------------------------- #72 member IDs, exact filters
+
+const allRows = () => YEARS.flatMap((fy) => disclosureCsv(fy));
+
+test("every row's council_member_id and type are indexed as the CSV has them (#72)", () => {
+  // FAILS if the index drops or alters a person ID or a type for any row.
+  const want = new Map();
+  for (const r of allRows()) {
+    const k = `${r.council_member_type}|${r.council_member_id}`;
+    want.set(k, (want.get(k) ?? 0) + 1);
+  }
+  const db = new Database(DB_PATH, { readonly: true });
+  try {
+    const got = db
+      .prepare("SELECT council_member_type AS t, council_member_id AS id, COUNT(*) AS n FROM disclosure GROUP BY 1, 2")
+      .all();
+    assert.deepEqual(new Map(got.map((g) => [`${g.t}|${g.id}`, g.n])), want);
+  } finally {
+    db.close();
+  }
+});
+
+test("council_member_id is exact: Levin (7567) and Levine (7634) never blend (#72)", async () => {
+  // FAILS if the ID filter matches by substring or by name, if its count or Cleared total
+  // differs from the CSV rows carrying that ID, or if a Levine row is counted under Levin.
+  const rows = allRows();
+  for (const [id, name] of [["7567", "Levin"], ["7634", "Levine"]]) {
+    const mine = rows.filter((r) => r.council_member_id === id);
+    assert.ok(mine.length > 0 && mine.every((r) => r.council_member === name), id);
+    const res = await call({ council_member_id: id, limit: 1 });
+    assert.equal(res.isError, false);
+    assert.ok(res.text.startsWith(`${mine.length.toLocaleString("en-US")} matching designation(s)`), res.text.slice(0, 80));
+    assert.ok(res.text.includes(`Cleared (headline): ${byStatus(mine, "cleared").length.toLocaleString("en-US")} row(s), ${usd(sum(byStatus(mine, "cleared")))}`));
+    assert.match(res.text, new RegExp(`${name} \\[Legistar person ${id}\\]`));
+  }
+  // A number is accepted as well as a string.
+  const asNumber = await call({ council_member_id: 7567, limit: 1 });
+  assert.equal(asNumber.text.split("\n")[0], (await call({ council_member_id: "7567", limit: 1 })).text.split("\n")[0]);
+  // The substring filter still blends them, and now says which person each value is.
+  const sub = await call({ council_member: "Levin", limit: 1 });
+  assert.match(sub.text, /Levin \[Legistar person 7567\]/);
+  assert.match(sub.text, /Levine \[Legistar person 7634\]/);
+  assert.match(sub.text, /use council_member_id/);
+});
+
+test("council_member_id refuses a non-ID and finds nothing for an unknown one (#72)", async () => {
+  // FAILS if 'Levin' or '75 67' is accepted as an ID (it would match nothing, silently), or if
+  // an unknown numeric ID is an error rather than an empty answer.
+  for (const bad of ["Levin", "75 67", "-1"]) {
+    const res = await call({ council_member_id: bad });
+    assert.equal(res.isError, true, bad);
+    assert.match(res.text, /digits only/);
+  }
+  const none = await call({ council_member_id: "1" });
+  assert.equal(none.isError, false);
+  assert.match(none.text, /No matching designations/);
+});
+
+test("a name from the export-time roster says its person had no vote that year (#72)", async () => {
+  // FAILS if FY2025 'Wong' rows (re-attributed from Holden by the 2026 roster; Phil Wong first
+  // voted in FY2026) are shown as an ordinary member, or lose the ID.
+  const res = await call({ fiscal_year: 2025, council_member_id: "7900", limit: 1 });
+  const want = disclosureCsv(2025).filter((r) => r.council_member_id === "7900");
+  assert.ok(want.length > 0 && want.every((r) => r.council_member_type === "member_outside_fy"));
+  assert.match(res.text, /Wong \[Legistar person 7900; no recorded vote in FY2025: the export-time roster\]/);
+});
+
+test("source_exact matches one stream; source still matches by substring (#72)", async () => {
+  // FAILS if source_exact 'youth' also matches 'Summer Youth Employment Program', is case-
+  // sensitive, or its count differs from the CSV rows whose source is exactly Youth.
+  const rows = allRows();
+  const exact = rows.filter((r) => r.source.trim().toLowerCase() === "youth");
+  const loose = rows.filter((r) => r.source.toLowerCase().includes("youth"));
+  assert.ok(loose.length > exact.length && exact.length > 0);
+  const res = await call({ source_exact: "  youth ", limit: 1 });
+  assert.ok(res.text.startsWith(`${exact.length.toLocaleString("en-US")} matching designation(s)`), res.text.slice(0, 80));
+  assert.doesNotMatch(res.text, /substring match/);
+  const sub = await call({ source: "Youth", limit: 1 });
+  assert.ok(sub.text.startsWith(`${loose.length.toLocaleString("en-US")} matching designation(s)`));
+  assert.match(sub.text, /use source_exact/);
+  const empty = await call({ source_exact: " " });
+  assert.equal(empty.isError, true);
+});

@@ -404,7 +404,12 @@ in the Schedule C files moved. What a reader needs to know before using it:
   → Cleared and 84 went back (`data/disclosure-snapshots/2026-10-12/FY2027-diff.md`). The FY2013
   file is 95% Pending by dollars. Every row is kept; headline figures are Cleared only and labeled.
 - **`council_member` is the roster when the workbook was exported**, not at adoption (§21). Do
-  not join on it. The 2026-10-12 re-pull shows it moving: 149 FY2025 rows changed from `Holden`
+  not join on it. Since GitHub #72 each printed name carries the Legistar person it resolves to
+  for that year (`council_member_id`, `council_member_type`; DATA-DICTIONARY), and the export-time
+  effect is measurable: 341 rows name someone with no recorded vote in that fiscal year (FY2025
+  `Wong` 150, FY2021 `Aviles` 84, FY2020 `D. Diaz` 107; audit G8), and 312 rows are `ambiguous`
+  because two members of the name served that year (seat hand-overs: FY2014 and FY2022 `Barron`,
+  FY2014 `Vallone`; FY2021 `Diaz`, Ruben Diaz Sr. and Darma Diaz). The 2026-10-12 re-pull shows it moving: 149 FY2025 rows changed from `Holden`
   to `Wong`, and 161 FY2026 rows from `Bottcher` to `Wilson` (159 whose MOCS ID did not change,
   plus 2 that were also re-numbered, below). The snapshot diff never keys on it.
 - **A MOCS ID is not a stable key across snapshots, and nothing published says it is one.** In

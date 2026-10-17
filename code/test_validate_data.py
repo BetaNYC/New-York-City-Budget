@@ -467,14 +467,16 @@ def test_dry_run_writes_no_file(tmp_path):
 
 
 # --------------------------------------------------- expense-disclosure dataset (check 9)
-DISC_HDR = ("fiscal_year,mocs_id,source,council_member,legal_name,ein,status,status_norm,amount,"
+DISC_HDR = ("fiscal_year,mocs_id,source,council_member,council_member_id,council_member_type,"
+            "legal_name,ein,status,status_norm,amount,"
             "agency,program_name,address1,address2,city,state,postal_code,zip,zip_status,purpose,"
             "fiscal_conduit,fiscal_conduit_ein,source_file,source_row,duplicate_group")
 
 
 def _disc_row(fy="2026", status="Cleared", norm="cleared", src_row="2", ein="136400434", dup="",
-              postal="", zip_="", zip_status="blank"):
-    return (f"{fy},FY26 00001,Local,Doe,Acme Inc.,{ein},{status},{norm},5000,DYCD,,,,,,"
+              postal="", zip_="", zip_status="blank", member="Doe", mid="42", mtype="member"):
+    return (f"{fy},FY26 00001,Local,{member},{mid},{mtype},Acme Inc.,{ein},{status},{norm},5000,"
+            f"DYCD,,,,,,"
             f"{postal},{zip_},{zip_status},,,,"
             f"funded_disclosure_FY2026.xlsx,{src_row},{dup}\n")
 
@@ -570,6 +572,24 @@ def test_disclosure_zip_fields_must_agree_issue_70(tmp_path):
         _disc_file(root2, _disc_row(**kw))
         (r2,) = V.validate_tree(str(root2))[0]
         assert [c for c, _m in r2.hard] == ["zip"], (kw, r2.hard)
+
+
+def test_disclosure_member_id_and_type_must_agree_issue_72(tmp_path):
+    """Issue #72. FAILS if well-formed rows (a member with an ID, a delegation and a blank
+    without) raise a finding, or if a member with no ID, an ambiguous name with one, an unknown
+    type, or a 'blank' type on a filled name passes."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row() + _disc_row(src_row="3", member="Bronx Delegation", mid="",
+                                             mtype="delegation")
+               + _disc_row(src_row="4", member="", mid="", mtype="blank"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.hard == [], r.hard
+    for i, kw in enumerate([{"mid": ""}, {"mid": "7", "mtype": "ambiguous"},
+                            {"mtype": "person"}, {"mid": "", "mtype": "blank"}]):
+        root2 = tmp_path / f"bad{i}"
+        _disc_file(root2, _disc_row(**kw))
+        (r2,) = V.validate_tree(str(root2))[0]
+        assert [c for c, _m in r2.hard] == ["council_member"], (kw, r2.hard)
 
 
 def test_disclosure_reconciliation_rollup_distinguishes_na_from_pass(tmp_path):
