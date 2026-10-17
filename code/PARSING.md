@@ -303,8 +303,8 @@ by x-position.
 ## Expense funding disclosure — per year (parallel dataset)
 
 **Source:** the Council's own award-level disclosure workbooks in
-`source/expense-funding-disclosure/` (retrieved 2026-07-15; hashes in that folder's
-`MANIFEST.csv`). **Output:** `data/fyNN/expense_disclosure/fyNN_expense_awards.csv` (one row per
+`source/expense-funding-disclosure/` (retrieved 2026-10-12; hashes in that folder's
+`MANIFEST.csv`, superseded hashes in `MANIFEST-HISTORY.csv`). **Output:** `data/fyNN/expense_disclosure/fyNN_expense_awards.csv` (one row per
 designation) and `fyNN_expense_reconciliation.txt`, for FY2013–FY2027. This is a **parallel**
 dataset: it never feeds or changes the Schedule C CSVs above. Schema: `DATA-DICTIONARY.md`.
 
@@ -312,7 +312,9 @@ dataset: it never feeds or changes the Schedule C CSVs above. Schema: `DATA-DICT
 python3 code/parse_expense_disclosure.py              # self-check against the corpus + summary
 python3 code/parse_expense_disclosure.py --write      # (re)write every data/fyNN/expense_disclosure/
 python3 code/parse_expense_disclosure.py --check      # exit 1 if a committed output or the manifest is stale
-python3 code/parse_expense_disclosure.py --manifest --retrieved YYYY-MM-DD   # after a re-pull only
+python3 code/parse_expense_disclosure.py --manifest --retrieved YYYY-MM-DD --verified YYYY-MM-DD
+                                       # after a re-pull only: --retrieved dates new/changed files,
+                                       # --verified re-dates files that came back byte-identical
 ```
 
 FY2014–FY2027 need only the standard library. **FY2013 is a legacy `.xls` and needs `xlrd`**
@@ -327,12 +329,14 @@ case) is an award. Anything else, blank included, is a summary/footer row and is
 *unless* the row still names an organization and an amount; then it is kept with
 `status_norm = other` so a new status the Council introduces is surfaced, not lost (none exists
 today). Every stripped row is listed, with its cells, in that year's reconciliation report.
-Only 9 rows are stripped across 15 years: FY2024 rows 10818–10821 and 10829, FY2026 rows
-11763–11766.
+Only 5 rows are stripped across 15 years: FY2024 rows 10818–10821 and 10829. (The 2026-07-15
+FY2026 workbook also had four footer rows, 11763–11766; the 2026-10-12 one has none.)
 
-**Printed totals.** Only two workbooks print a total of their own, and both reconcile to the
-dollar. FY2026: kept rows = `Master List Total` (a `SUM(H2:H11762)` formula) = `Updated Total`
-(a typed value) = **$716,213,155**. FY2024: kept rows = `New Total` = **$527,971,414**, printed
+**Printed totals.** Only one workbook prints a total of its own, and it reconciles to the
+dollar. FY2026 printed `Master List Total` (a `SUM(H2:H11762)` formula) = `Updated Total` (a
+typed value) = **$716,213,155** in the 2026-07-15 snapshot and nothing in the 2026-10-12 one; its
+kept rows still sum to $716,213,155, and its report shows that figure as the earlier snapshot's
+(`PRIOR_PRINTED` in the parser), never as a verdict. FY2024: kept rows = `New Total` = **$527,971,414**, printed
 twice — as `SUM(H2:H10818)` and as `Adoption Total` ($527,096,000) + `Admin New Add` ($875,414).
 Every other year prints no total; its report says so, and the sums there are this parser's, not
 the Council's.
@@ -351,12 +355,13 @@ the Council's.
 | FY2022 | `FY22 (07-11-2023)` | 11,336 | 538,549,827 | 11,222 / 536,959,144 | 114 / 1,590,683 | 0 | 0 | 0 | none printed |
 | FY2023 | `FY23 (07-11-2023)` | 11,027 | 541,426,995 | 10,908 / 537,910,110 | 119 / 3,516,885 | 0 | 0 | 0 | none printed |
 | FY2024 | `FY24 (06-08-26)` | 10,811 | 527,971,414 | 10,731 / 526,907,681 | 80 / 1,063,733 | 0 | 5 | 12 | **RECONCILED** |
-| FY2025 | `FY25 (06-08-26)` | 11,280 | 595,181,182 | 11,222 / 592,960,495 | 58 / 2,220,687 | 0 | 0 | 0 | none printed |
-| FY2026 | `FY26 (06-08-26)` | 11,757 | 716,213,155 | 11,612 / 707,372,205 | 145 / 8,840,950 | 0 | 4 | 4 | **RECONCILED** |
-| FY2027 | `FY27 (07-01-26)` | 10,040 | 705,564,000 | 5,037 / 143,034,722 | 5,003 / 562,529,278 | 0 | 0 | 0 | none printed |
+| FY2025 | `FY25 (09-14-26)` | 11,276 | 595,181,182 | 11,222 / 592,800,281 | 54 / 2,380,901 | 0 | 0 | 0 | none printed |
+| FY2026 | `FY26 (09-14-26)` | 11,764 | 716,213,155 | 11,658 / 708,776,879 | 106 / 7,436,276 | 0 | 0 | 0 | none printed (2026-07-15: 716,213,155, same) |
+| FY2027 | `FY27 (09-14-26)` | 10,407 | 705,704,000 | 8,870 / 590,253,954 | 1,537 / 115,450,046 | 0 | 0 | 0 | none printed |
 
 **The headline figure for any year is the Cleared column, labeled as such.** "All statuses" adds
-Pending and is a different, larger claim; FY2027 (half Pending, the year had just opened) and
+Pending and is a different, larger claim; FY2027 (half Pending on 2026-07-15, when the year had
+just opened; 16% of dollars Pending on 2026-10-12) and
 FY2013 (95% of its dollars Pending in the file as published) are where the difference is
 large. "blank" counts empty rows and rows the `.xlsx` omits entirely. Every figure in this table
 is in the committed `fyNN_expense_reconciliation.txt` and pinned by
@@ -370,12 +375,15 @@ DATA-ANOMALIES §23 before quoting any of it.
 
 **Comparing snapshots.** `python3 code/diff_disclosure_snapshots.py OLD NEW` compares two
 snapshots of one year (workbooks or the CSVs above, mixed freely): status transitions, amount
-changes, added/removed rows, totals by status, ambiguity counted. The re-pull procedure — which
+changes, re-numbered MOCS IDs (listed apart from MOCS-ID pairs, with a count per prefix
+change), added/removed rows, totals by status, ambiguity counted. Reports name each file by its
+sha256 prefix, the key into `MANIFEST.csv` / `MANIFEST-HISTORY.csv`. The 2026-10-12 reports are
+in `data/disclosure-snapshots/2026-10-12/`. The re-pull procedure — which
 needs Noel's OK for every download — is in `source/expense-funding-disclosure/README.md`.
 
 **Cross-check against the 2026-07-15 normalizer** (`normalize_expense_disclosure.py`, openpyxl +
-xlrd, kept outside this repo): identical row counts and identical dollar totals in all 15 years,
-139,186 rows. The field-level differences are all rendering, each explained: that normalizer wrote
+xlrd, kept outside this repo), run on the 2026-07-15 snapshot: identical row counts and identical
+dollar totals in all 15 years, 139,186 rows. The field-level differences are all rendering, each explained: that normalizer wrote
 FY2013 numeric ZIP and address cells as `10002.0` (3,673 cells; here `10002`), digit-stripped two
 FY2016 fiscal-conduit EIN cells (`DID NOT APPLY IN FY16` → `16`; here kept as published),
 rendered one date-formatted FY2016 `address2` cell as `2015-02-02 00:00:00` (here the stored value

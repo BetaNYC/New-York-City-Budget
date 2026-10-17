@@ -17,18 +17,28 @@ as the basis for an award-level expense dataset that is richer than what the PDF
 - **Expense file URLs:** `https://rnd.council.nyc.gov/src/assets/excelFund/funded_disclosure_FY{YYYY}.{ext}`
   (`ext` = `xls` for FY2013, `xlsx` for FY2014+).
 - **Capital file URL:** `https://rnd.council.nyc.gov/src/assets/Capital-Database.xlsx`.
-- **Retrieved:** 2026-07-15.
+- **Retrieved:** first 2026-07-15. **Re-pulled 2026-10-12** (all 16 files, with Noel's OK):
+  FY2013–FY2024 came back byte-identical; FY2025, FY2026, FY2027 and `Capital-Database.xlsx`
+  had changed and were replaced. What moved is in
+  [`data/disclosure-snapshots/2026-10-12/`](../../data/disclosure-snapshots/2026-10-12/).
 - **Rights:** © The City of New York. These are official NYC Council disclosure publications,
   reproduced here as public records for transparency and analysis. All rights to the documents
   remain with the City of New York. (Same terms as the PDFs under `source/`.)
 
-## Files & manifest (as retrieved 2026-07-15)
+## Files & manifest (as retrieved 2026-10-12)
 
 **[`MANIFEST.csv`](MANIFEST.csv)** is the machine-readable baseline: per file its SHA-256, byte
 size, retrieval date, sheet name, sheet rows, and (for the expense files) award rows, stripped
-footer rows and total. It is written by `code/parse_expense_disclosure.py --manifest`, and
-`code/test_parse_expense_disclosure.py` fails if any file here stops matching its hash. A later
-re-pull is compared against it.
+footer rows and total. `retrieved` is the date of the most recent download that produced exactly
+these bytes, including a re-pull that found the file unchanged. It is written by
+`code/parse_expense_disclosure.py --manifest`, and `code/test_parse_expense_disclosure.py` fails
+if any file here stops matching its hash. A later re-pull is compared against it.
+
+**[`MANIFEST-HISTORY.csv`](MANIFEST-HISTORY.csv)** is append-only: every manifest row a later
+`--manifest` run replaced, with a `superseded_on` column (the replacing row's `retrieved` date,
+or `removed`). The 2026-07-15 hashes of all 16 files are there, including the four workbooks
+overwritten on 2026-10-12, so an old hash stays traceable after its file is gone. The workbooks
+themselves stay in git history.
 
 | File | Sheet | Rows (incl. header) | Cols |
 |---|---|---|---|
@@ -44,10 +54,10 @@ re-pull is compared against it.
 | `funded_disclosure_FY2022.xlsx` | FY22 (07-11-2023) | 11,337 | 17 |
 | `funded_disclosure_FY2023.xlsx` | FY23 (07-11-2023) | 11,028 | 17 |
 | `funded_disclosure_FY2024.xlsx` | FY24 (06-08-26) | 10,829 | 18 |
-| `funded_disclosure_FY2025.xlsx` | FY25 (06-08-26) | 11,281 | 18 |
-| `funded_disclosure_FY2026.xlsx` | FY26 (06-08-26) | 11,766 | 18 |
-| `funded_disclosure_FY2027.xlsx` | FY27 (07-01-26) | 10,041 | 18 |
-| `Capital-Database.xlsx` | FY26 | 1,253 | 11 |
+| `funded_disclosure_FY2025.xlsx` | FY25 (09-14-26) | 11,277 | 18 |
+| `funded_disclosure_FY2026.xlsx` | FY26 (09-14-26) | 11,765 | 18 |
+| `funded_disclosure_FY2027.xlsx` | FY27 (09-14-26) | 10,408 | 18 |
+| `Capital-Database.xlsx` | FY27 CAPITAL | 1,214 | 9 |
 
 Sheet names embed the Council's own "last updated" date (e.g. `FY25 (06-08-26)`), a useful
 refresh-cadence signal.
@@ -75,23 +85,28 @@ Agency, Program Name, Street Address 1, Address 2, City, State, Zip Code, Purpos
 Conduit Name, FC EIN`. It stores EINs and ZIPs partly as numbers and partly as text, and prints
 175 EINs with a hyphen.
 
-**Capital (11 columns):** `PROJECT, BORO, BUDLINE, CD, SPONSOR, TITLE, DESC, FY26, FY27, FY28, FY29`.
-The RnD capital workbook held only an FY26 sheet when retrieved (despite an on-site download button
-labeled "FY 2025 Capital Discretionary Funding"); it is **not** the clean per-year series that the
-expense files provide.
+**Capital (9 columns, 2026-10-12):** `PROJECT ID, BORO, BUDGET LINE, CD, SPONSOR, TITLE, PROJECT
+DESCRIPTION, FY27, FY28`, one sheet, `FY27 CAPITAL`. The RnD site serves one capital workbook at one
+URL and replaces it: the 2026-07-15 copy held only an FY26 sheet (11 columns: `PROJECT, BORO,
+BUDLINE, CD, SPONSOR, TITLE, DESC, FY26, FY27, FY28, FY29`; 1,253 rows incl. header), despite an
+on-site download button labeled "FY 2025 Capital Discretionary Funding". That FY26 copy is now only
+in this repo's git history (and its hash in `MANIFEST-HISTORY.csv`). It is **not** the clean
+per-year series that the expense files provide, and **no code in this repo reads it**; it is kept
+as a source record only.
 
 ## Data-quality notes
 
-1. **FY2026 carries embedded summary/footer rows** mixed into the data — rows whose `Status`
-   column reads `Schedule C Total:`, `Updated Total:`, `Difference:`, or `Master List Total:`.
-   These must be stripped before summing (a naive total is inflated). **Checked every year
-   (2026-10-12):** only FY2024 also has them — four with a blank `Status` and their labels
+1. **The 2026-07-15 FY2026 workbook carried embedded summary/footer rows** mixed into the data —
+   rows whose `Status` column reads `Schedule C Total:`, `Updated Total:`, `Difference:`, or
+   `Master List Total:`. These must be stripped before summing (a naive total is inflated). The
+   2026-10-12 FY2026 workbook has none. **Checked every year (2026-10-12):** FY2024 has them too — four with a blank `Status` and their labels
    (`New Total`, `Adoption Total`, `Admin New Add`, `Difference`) in the address column, plus one
    unlabeled typed value, `454,755`, in the Amount column of row 10829, whose meaning the file
    does not state. Every stripped row is listed in
    `data/fy24/expense_disclosure/fy24_expense_reconciliation.txt` and its FY2026 counterpart.
 2. **`Status` (Cleared vs Pending) must be handled deliberately.** The upcoming budget year is
-   heavily Pending at publication (FY2027 was ~50% Pending as retrieved).
+   heavily Pending at publication (FY2027 was ~50% Pending on 2026-07-15 and 16% Pending by
+   dollars on 2026-10-12).
 3. **Organization names have minor inconsistencies** (leading spaces, quoting). `Tax ID` (EIN) and
    `MOCS ID#` are the reliable keys.
 
@@ -123,10 +138,17 @@ Council site, and neither should anyone working in it.
    Read it before replacing anything: a removal or an amount change is a finding to report, not
    noise to overwrite.
 5. **Then update the repo, on a branch:** copy the new file over the old one in this folder,
-   record it with `python3 code/parse_expense_disclosure.py --manifest --retrieved YYYY-MM-DD`
-   (the date of the download; the script refuses to guess it), regenerate with `--write`, rerun
-   `python3 code/reconcile_disclosure_schedule_c.py` and the tests, and commit the diff report's
-   headline numbers in the PR description. Update the retrieval date and table above.
+   record it with `python3 code/parse_expense_disclosure.py --write --manifest --retrieved
+   YYYY-MM-DD --verified YYYY-MM-DD` (`--retrieved`: the download date of changed files, which
+   the script refuses to guess; `--verified`: the same date, for the files that came back
+   byte-identical — omit it if you did not re-download those). Superseded manifest rows go to
+   `MANIFEST-HISTORY.csv` automatically. Rerun `python3 code/reconcile_disclosure_schedule_c.py`
+   and the tests, commit the diff reports under `data/disclosure-snapshots/YYYY-MM-DD/`, and put
+   their headline numbers in the PR description. Update the retrieval date and table above.
+   **Do not re-run the Schedule C repair scripts** (`fix_*.py`, `recover_*.py`,
+   `fill_blank_initiatives.py`, `build_appendix_from_disclosure.py`) against the new snapshot as
+   part of a re-pull: they repaired the adopted-budget data against the 2026-07-15 snapshot, and
+   re-running them would mix vintages (see `code/audit_amounts.py`). That is its own decision.
 
 The git history of this folder plus `MANIFEST.csv` is the record of what each snapshot was.
 

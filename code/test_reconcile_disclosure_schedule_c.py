@@ -10,6 +10,7 @@ Run: pytest code/test_reconcile_disclosure_schedule_c.py
 """
 import os
 import sys
+from collections import Counter
 from decimal import Decimal
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -120,14 +121,16 @@ def _years():
     return _years.cache
 
 
-def test_fy2027_appendices_are_additive_to_the_row():
-    """FAILS if any FY2027 appendix row only matches a designation the body already claimed,
-    or if the appendix dollars stop equalling the disclosure's Local/Aging/Youth dollars."""
+def test_fy2027_appendices_are_additive_with_listed_exceptions():
+    """Against the 2026-10-12 snapshot (the 2026-07-15 one gave 3,860 / 3,860, ADDITIVE with no
+    exception). FAILS if the appendix dollars stop equalling the disclosure's Local/Aging/Youth
+    dollars, or if the matched-after-body count or the exception counts move."""
     y = _years()[2027]
     b = y["blocker2"]
-    assert R.verdict(b) == "ADDITIVE"
-    assert y["app_matched_after_body"] == b["app_rows"] == 3860
+    assert R.verdict(b) == "ADDITIVE (with exceptions)"
+    assert b["app_rows"] == 3860 and y["app_matched_after_body"] == 3796
     assert b["app_amount"] == b["disc_app_all"] == Decimal(49799000)
+    assert (b["body_only_app"], b["double"], b["body_only_app_amount"]) == (2, 21, Decimal(40000))
 
 
 def test_no_year_is_a_subset():
@@ -141,17 +144,18 @@ def test_no_year_is_a_subset():
             assert y["app_matched_after_body"] >= 0.96 * b["app_rows"], fy  # README quotes 96%
 
 
-def test_fy2027_gap_is_city_ein_pool_money_checked_not_assumed():
-    """Pins the FY2027 gap DATA-ANOMALIES quotes. FAILS if the unmatched set changes: 64 rows,
-    60 of them on the City's own EIN, all 60 Pending."""
+def test_fy2027_gap_as_data_anomalies_quotes_it():
+    """Pins the 2026-10-12 FY2027 gap DATA-ANOMALIES §23 quotes (the 2026-07-15 snapshot gave 64
+    rows, 60 on the City EIN, all Pending, $50,508,586). FAILS if the unmatched set changes."""
     y = _years()[2027]
     u = y["unmatched_disc"]
     city = [d for d in u if d["ein"] == R.CITY_EIN]
-    assert len(u) == 64 and len(city) == 60
-    assert all(d["status"] == "pending" for d in city)
-    assert sum(d["amount"] for d in city) == Decimal(50508586)
-    assert sorted(r["_key"][1] for r in y["unmatched_sc_rows"]["body"]) == \
-        [Decimal(14999), Decimal(44999)]
+    assert len(u) == 549 and sum(d["amount"] for d in u) == Decimal(59238047)
+    assert Counter(d["status"] for d in u) == {"cleared": 385, "pending": 164}
+    assert len(city) == 95 and sum(d["amount"] for d in city) == Decimal(33977899)
+    assert Counter(d["status"] for d in city) == {"pending": 68, "cleared": 27}
+    body = sorted(r["_key"][1] for r in y["unmatched_sc_rows"]["body"])
+    assert len(body) == 56 and Decimal(14999) in body and Decimal(44999) in body
 
 
 def test_fy2013_fy2014_have_nothing_to_match():

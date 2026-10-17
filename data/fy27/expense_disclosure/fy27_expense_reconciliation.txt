@@ -1,5 +1,5 @@
 EXPENSE DISCLOSURE RECONCILIATION  (fy27)  [parser: parse_expense_disclosure.py]
-source: funded_disclosure_FY2027.xlsx  (sheet 'FY27 (07-01-26)', xlsx, 10041 rows incl. header)
+source: funded_disclosure_FY2027.xlsx  (sheet 'FY27 (09-14-26)', xlsx, 10408 rows incl. header)
 printed total: NO PRINTED TOTAL
 
 Every non-blank row after the header is either an award or a stripped row. A row is
@@ -7,13 +7,13 @@ decided by its Status cell: Cleared/Pending (any case) is an award; anything els
 stripped unless it still names an organization and an amount (then it is kept with
 status_norm 'other'). Every stripped row is listed below with its cells.
 
-rows after header: 10040   blank: 0   awards: 10040   stripped: 0
+rows after header: 10407   blank: 0   awards: 10407   stripped: 0
 
 status_norm       rows              amount
-cleared           5037         143,034,722
-pending           5003         562,529,278
+cleared           8870         590,253,954
+pending           1537         115,450,046
 other                0                   0
-ALL              10040         705,564,000
+ALL              10407         705,704,000
 
 Headline figure = cleared only. 'ALL' adds pending (and other) and is labeled so.
 

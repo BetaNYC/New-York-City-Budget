@@ -63,14 +63,14 @@ Valid 9-digit EINs / total rows, per year and EIN-bearing doctype. Initiatives, 
 | FY2024 | transparency | 3294/3294 | 100.0% |
 | FY2025 | appendix | 3920/3920 | 100.0% |
 | FY2025 | awards | 5646/5646 | 100.0% |
-| FY2025 | disclosure | 11280/11280 | 100.0% |
+| FY2025 | disclosure | 11276/11276 | 100.0% |
 | FY2026 | appendix | 3914/3914 | 100.0% |
 | FY2026 | awards | 5838/5838 | 100.0% |
-| FY2026 | disclosure | 11757/11757 | 100.0% |
+| FY2026 | disclosure | 11764/11764 | 100.0% |
 | FY2026 | transparency | 4755/4755 | 100.0% |
 | FY2027 | appendix | 3860/3860 | 100.0% |
 | FY2027 | awards | 6118/6118 | 100.0% |
-| FY2027 | disclosure | 10040/10040 | 100.0% |
+| FY2027 | disclosure | 10407/10407 | 100.0% |
 | FYNone | recovered_appendix | 26127/26127 | 100.0% |
 | FYNone | recovered_awards | 437/437 | 100.0% |
 
@@ -132,7 +132,7 @@ Parsed from every `*_reconciliation.txt`. Transparency prints no totals → N/A 
 | FY2025 | disclosure | — | N/A (no printed total) |
 | FY2025 | schedule_c | 24/26 | PARTIAL (2 in-source diff) |
 | FY2026 | capital | 31/31 | PASS |
-| FY2026 | disclosure | 1/1 | PASS |
+| FY2026 | disclosure | — | N/A (no printed total) |
 | FY2026 | schedule_c | 24/25 | PARTIAL (1 in-source diff) |
 | FY2026 | transparency | — | N/A (no printed totals) |
 | FY2027 | capital | 24/26 | PARTIAL (2 in-source diff) |
@@ -977,7 +977,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy24/transparency-resolutions/reso08_transparency_designations.csv` | 161 | 100% | 0 | fiscal_year: 42 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 2 duplicate row instance(s); e.g. x2: ['8', '2024-05-23', 'Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2023', '2023']... |
 | `fy24/transparency-resolutions/reso09_transparency_designations.csv` | 76 | 100% | 0 | fiscal_year: 14 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy25/capital/fy25_capital_projects.csv` | 1508 | — | 0 | — |
-| `fy25/expense_disclosure/fy25_expense_awards.csv` | 11280 | 100% | 0 | — |
+| `fy25/expense_disclosure/fy25_expense_awards.csv` | 11276 | 100% | 0 | — |
 | `fy25/schedule_c/fy25_appendix_a_aging.csv` | 470 | 100% | 0 | — |
 | `fy25/schedule_c/fy25_appendix_b_local.csv` | 2616 | 100% | 0 | column_bleed: 6 suspected surname-in-organization residual(s); e.g. line 650: 'Abreu, BLAC Community League of the Heights, Inc.' |
 | `fy25/schedule_c/fy25_appendix_c_youth.csv` | 834 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Salaam', 'Figure Skating in Harlem, Inc.', '', '133945168']...; column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 407: 'Hudson Guild' |
@@ -985,7 +985,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy25/schedule_c/fy25_schedule_c_initiatives.csv` | 158 | — | 0 | — |
 | `fy25/terms/fy25_terms_and_conditions.csv` | 65 | — | 0 | — |
 | `fy26/capital/fy26_capital_projects.csv` | 1456 | — | 0 | amount: line 1336: fy1 negative -183,000 (capital expected >= 0) |
-| `fy26/expense_disclosure/fy26_expense_awards.csv` | 11757 | 100% | 0 | — |
+| `fy26/expense_disclosure/fy26_expense_awards.csv` | 11764 | 100% | 0 | — |
 | `fy26/schedule_c/fy26_appendix_a_aging.csv` | 473 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Salaam', 'Catholic Managed Long Term Care, Inc.', '', '208180809']... |
 | `fy26/schedule_c/fy26_appendix_b_local.csv` | 2618 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Salaam', 'New York Interfaith Commission for Housing Equality, Inc.', '', '993367298']...; column_bleed: 14 suspected surname-in-organization residual(s); e.g. line 52: 'Carr, Hanks Albanian-American Association of Ulqin, Inc.' |
 | `fy26/schedule_c/fy26_appendix_c_youth.csv` | 823 | 100% | 0 | column_bleed: 2 suspected surname-in-organization residual(s); e.g. line 415: 'Hudson Guild' |
@@ -1004,7 +1004,7 @@ Balanced initiatives are omitted — their residual is $0 by definition. Sorted 
 | `fy26/transparency-resolutions/reso09_transparency_designations.csv` | 141 | 100% | 0 | fiscal_year: 12 prior-year row(s) embedded (EXPECTED for transparency; not an error) |
 | `fy26/transparency-resolutions/reso10_transparency_designations.csv` | 151 | 100% | 0 | fiscal_year: 27 prior-year row(s) embedded (EXPECTED for transparency; not an error); duplicate: 2 duplicate row instance(s); e.g. x2: ['10', '2026-06-30', 'Local Initiatives - Fiscal 2023', '2023']...; column_bleed: 1 suspected surname-in-organization residual(s); e.g. line 87: "Hudson Yards Hell's Kitchen Business Improvement District, I" |
 | `fy27/capital/fy27_capital_projects.csv` | 1388 | — | 0 | — |
-| `fy27/expense_disclosure/fy27_expense_awards.csv` | 10040 | 100% | 0 | — |
+| `fy27/expense_disclosure/fy27_expense_awards.csv` | 10407 | 100% | 0 | — |
 | `fy27/schedule_c/fy27_appendix_a_aging.csv` | 467 | 100% | 0 | — |
 | `fy27/schedule_c/fy27_appendix_b_local.csv` | 2558 | 100% | 0 | duplicate: 2 duplicate row instance(s); e.g. x2: ['Hanks', 'Grace Foundation of New York', 'Council District 49', '134131863']...; column_bleed: 11 suspected surname-in-organization residual(s); e.g. line 70: 'Brewer, Caban, LGBTQIA+ American Museum of Lesbian Gay Bisex' |
 | `fy27/schedule_c/fy27_appendix_c_youth.csv` | 835 | 100% | 0 | duplicate: 1 duplicate row instance(s); e.g. x2: ['Paladino', 'New York Sun Works, Inc.', 'Hydroponic Classrooms - Public School 094Q David D. Porter (26Q094)', '200670312']...; column_bleed: 3 suspected surname-in-program residual(s); e.g. line 361: 'Joseph Miccio Community Center Cornerstone Programs - Counci' |

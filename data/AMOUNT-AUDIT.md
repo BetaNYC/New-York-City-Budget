@@ -1,6 +1,6 @@
 ---
 title: Amount Audit — award amounts against the Council's expense disclosure
-created: 2026-08-12
+created: 2026-10-12
 type: data-audit
 status: active
 tags: [nyc-budget, data-quality, audit, schedule-c]
@@ -8,15 +8,15 @@ tags: [nyc-budget, data-quality, audit, schedule-c]
 
 # Amount Audit
 
-**Report generated:** 2026-08-12  
-**Data current as of:** 2026-08-12 (corpus at `data/fy*/schedule_c/`, disclosure at `source/expense-funding-disclosure/`)  
+**Report generated:** 2026-10-12  
+**Data current as of:** 2026-10-12 (corpus at `data/fy*/schedule_c/`, disclosure at `source/expense-funding-disclosure/`)  
 **Produced by:** `code/audit_amounts.py` — read-only, changes nothing
 
 ## Verdict, up front
 
 **Report, do not touch. None of this is safely auto-correctable, and the script has no `--apply` path.** The reasoning is in [Is any of this auto-correctable?](#is-any-of-this-auto-correctable) below. Nothing was written to `data/combined/org_name_recovery_crosswalk.csv`: that file records substitutions *applied to the data*, and this pass applied none.
 
-Of **62,213 award rows** carrying **$3,741,615,569**, **60,665 (97.51%)** have their amount corroborated by the Council's own same-year disclosure, covering **$3,551,858,231 (94.93% of dollars)**.
+Of **62,213 award rows** carrying **$3,741,615,569**, **60,578 (97.37%)** have their amount corroborated by the Council's own same-year disclosure, covering **$3,542,514,770 (94.68% of dollars)**.
 
 ## What was compared
 
@@ -38,13 +38,13 @@ Rows repaired in memory: **FY2016: 272**. The signature is a bare 9-digit number
 
 | Verdict | Rows | % | Dollars | Meaning |
 |---|---:|---:|---:|---|
-| `exact` | 57,243 | 92.01% | $3,217,129,556 | our amount is one of the amounts the disclosure records for this (EIN, organization) that year |
-| `name_variant` | 3,422 | 5.50% | $334,728,675 | amount corroborated under the same EIN that year; only the organization *text* differs from the disclosure's legal name. **Not an amount defect** |
+| `exact` | 58,231 | 93.60% | $3,368,923,865 | our amount is one of the amounts the disclosure records for this (EIN, organization) that year |
+| `name_variant` | 2,347 | 3.77% | $173,590,905 | amount corroborated under the same EIN that year; only the organization *text* differs from the disclosure's legal name. **Not an amount defect** |
 | `rounding` | 18 | 0.03% | $5,685,403 | nearest disclosure amount is within $5 but not equal |
 | `neighbour_bleed` | 3 | 0.00% | $1,322,333 | our amount is uniquely held, in the disclosure, by a *different* organization printed within 3 lines of ours |
-| `ein_absent` | 419 | 0.67% | $18,308,251 | this EIN does not appear anywhere in that year's disclosure, so the amount can be neither confirmed nor contradicted |
-| `unconfirmed` | 1,102 | 1.77% | $164,316,851 | the EIN is present that year, but not carrying this amount |
-| `no_key` | 6 | 0.01% | $124,500 | our row has no EIN or no organization name — nothing to join on |
+| `ein_absent` | 448 | 0.72% | $18,600,751 | this EIN does not appear anywhere in that year's disclosure, so the amount can be neither confirmed nor contradicted |
+| `unconfirmed` | 1,162 | 1.87% | $173,435,312 | the EIN is present that year, but not carrying this amount |
+| `no_key` | 4 | 0.01% | $57,000 | our row has no EIN or no organization name — nothing to join on |
 | **total** | **62,213** | | **$3,741,615,569** | |
 
 ### By fiscal year
@@ -58,12 +58,12 @@ Rows repaired in memory: **FY2016: 272**. The signature is a bare 9-digit number
 | FY2019 | 846 | 760 | 89.8% | 0 | 0 | 86 |
 | FY2020 | 2,841 | 2,682 | 94.4% | 0 | 0 | 159 |
 | FY2021 | 6,120 | 5,860 | 95.8% | 3 | 0 | 257 |
-| FY2022 | 5,674 | 5,533 | 97.5% | 1 | 0 | 138 |
+| FY2022 | 5,674 | 5,534 | 97.5% | 1 | 0 | 138 |
 | FY2023 | 5,904 | 5,742 | 97.3% | 0 | 1 | 161 |
 | FY2024 | 9,279 | 9,087 | 97.9% | 0 | 0 | 192 |
-| FY2025 | 9,566 | 9,444 | 98.7% | 0 | 1 | 121 |
-| FY2026 | 9,752 | 9,598 | 98.4% | 0 | 0 | 153 |
-| FY2027 | 9,978 | 9,976 | 100.0% | 2 | 0 | 0 |
+| FY2025 | 9,566 | 9,439 | 98.7% | 0 | 1 | 126 |
+| FY2026 | 9,752 | 9,583 | 98.3% | 0 | 0 | 169 |
+| FY2027 | 9,978 | 9,908 | 99.3% | 2 | 0 | 68 |
 
 ## Off by cents / rounding
 
@@ -76,8 +76,8 @@ The $5 threshold is not a guess. Measuring the distance from our amount to the n
 | exactly $1 | 18 |
 | $2–$5 | 0 |
 | $6–$99 | 3 |
-| $100–$999 | 108 |
-| $1,000+ | 994 |
+| $100–$999 | 111 |
+| $1,000+ | 1,051 |
 
 Every one of these is an initiative allocation split N ways and rounded independently on each side. FY2015 New York Urban League is the clearest: the disclosure carries both $166,666 and $833,334 for the same organization — a fifth and the whole — and we carry $833,333.
 
@@ -138,7 +138,7 @@ These are the same boundary loss as §20 — the Schedule C parser absorbing one
 
 **3. On the bleed rows, there is nothing to write.** §20's defect is a *missing* row: an award got absorbed into its neighbour. The surviving row has organization A's name against organization B's money, and the fix is to recover the lost row, not to overwrite a number. Substituting an amount would make the row look sound while the award it swallowed stayed missing — converting a visible defect into an invisible one. That is the single worst outcome available here.
 
-**4. `unconfirmed` and `ein_absent` (1,521 rows) are mostly not defects at all.** The repo's own source-comparability study found row capture against the disclosure is materially below 100% in every fiscal year. Absence from the disclosure is absence of evidence. Treating it as evidence of a wrong amount, and 'fixing' it, would fabricate figures for awards the disclosure simply does not list.
+**4. `unconfirmed` and `ein_absent` (1,610 rows) are mostly not defects at all.** The repo's own source-comparability study found row capture against the disclosure is materially below 100% in every fiscal year. Absence from the disclosure is absence of evidence. Treating it as evidence of a wrong amount, and 'fixing' it, would fabricate figures for awards the disclosure simply does not list.
 
 The bar this repo already set for a fix — a substitution resolvable to exactly ONE candidate from the Council's own record — is met by none of these classes. Not one.
 
@@ -148,9 +148,13 @@ Cross-referencing `data/combined/org_name_recovery_crosswalk.csv` against these 
 
 | earlier fix | rows | amount corroborated afterwards | remainder |
 |---|---:|---:|---|
-| `member_bleed` | 1,083 | 1,070 | 4 ein_absent, 9 unconfirmed |
+| `blank_initiative` | 1,514 | 1,514 | — |
+| `fy18_aging_shift` | 422 | 414 | 2 ein_absent, 3 no_key, 3 unconfirmed |
+| `member_bleed` | 1,083 | 1,069 | 4 ein_absent, 10 unconfirmed |
 | `org_merged` | 239 | 228 | 1 ein_absent, 10 unconfirmed |
-| `org_prose` | 1,076 | 1,062 | 4 ein_absent, 10 unconfirmed |
+| `org_prose` | 1,076 | 1,061 | 4 ein_absent, 11 unconfirmed |
+| `split_org_name` | 673 | 672 | 1 unconfirmed |
+| `truncated_org_name` | 423 | 423 | — |
 | `wrong_ein` | 20 | 20 | — |
 
 The `wrong_ein` result is the meaningful one: those 20 rows were re-keyed on (name, amount), and 20 of 20 now agree with the disclosure on a key that *includes the EIN the pass wrote*. That is confirmation arriving from a direction the fix itself did not use.
@@ -162,5 +166,5 @@ The `wrong_ein` result is the meaningful one: those 20 rows were re-keyed on (na
 - **`name_variant` is a floor, not a ceiling.** It corroborates the amount under the EIN without asserting the two names are the same organization. For a fiscally-sponsored award they may not be.
 - **Nothing here establishes completeness.** This audit asks whether the amounts we hold are right, never whether we hold all the awards. Those are different questions and the second one has a worse answer.
 
-Row-level detail for every non-corroborated award: `data/AMOUNT-AUDIT-findings.csv` (1,548 rows).
+Row-level detail for every non-corroborated award: `data/AMOUNT-AUDIT-findings.csv` (1,635 rows).
 
