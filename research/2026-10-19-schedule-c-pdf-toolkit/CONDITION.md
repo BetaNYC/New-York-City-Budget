@@ -1,6 +1,7 @@
 # PDF condition survey: every PDF in `source/`
 
-**Report generated:** 2026-10-19
+**Report generated:** 2026-10-19. Prepared by BetaNYC with AI assistance.
+**Last revised:** 2026-10-20 00:52 EDT — factual QA pass (5 fixes)
 **Data current as of:** 2026-10-19 (the 243 PDFs in `source/` at `origin/main` f5740c3)
 **Status:** draft. Stage 0 (triage) of the PDF-to-structured-data plan.
 
@@ -33,7 +34,7 @@ byte-identical CSVs.
    keeps per-page counts so that one image-only page inside a good document still shows up. His
    code runs on PyMuPDF (AGPL), so the shipped port runs on pypdfium2 (Apache-2.0/BSD-3)
    instead.
-2. **Validation of the port.** I ran his original module unmodified, through
+2. **Validation of the port.** We ran his original module unmodified, through
    `uv run --with 'pymupdf>=1.24,<2'` (PyMuPDF 1.28.2), on all 243 PDFs and compared the
    results with `research/2026-10-19-schedule-c-pdf-toolkit/validate_textlayer_port.py`.
    - **Classifications match on 243 of 243** (224 `text`, 19 `scanned`), and the
@@ -70,8 +71,8 @@ byte-identical CSVs.
 6. **Family.** Two independent rule sets, one on the filename and one on the first page's
    text. Agreement, or a single signal, decides the family. A conflict or no signal at all gives
    `unknown`. Every row records `family_by_filename`, `family_by_title` and `family_basis`.
-7. **Spot checks.** I rendered 24 pages with pypdfium2 to `/tmp/pdfsurvey/*.png` (not durable)
-   and looked at every one; see "Spot checks" below.
+7. **Spot checks.** We rendered 24 pages with pypdfium2 (not committed) and looked at every
+   one; see "Spot checks" below.
 
 Where the heuristics are unsure is stated in "Where the heuristic is unsure" at the end.
 
@@ -173,14 +174,15 @@ The tiers, as defined for this plan:
   Amount / Agency), FY2009 p.60 is a fully ruled grid, and FY2008 p.30 is narrative ("PS
   Enhancement $53,160"), correctly B.
 - **Path.** Vector cell grid as the primary read, with the image grid as a hard check. This is
-  the approach the FY2025–FY2027 plans already validated (99.7% row agreement on FY2027). The
+  the approach the FY2025–FY2027 prototypes already validated (99.7% row agreement on FY2027,
+  per the image-grid check summarized in `PLAN.md` §2.3). The
   unruled narrative pages, which hold initiative descriptions and amounts, need the tier B
   treatment.
 - **Watch out.**
   - **FY2009** has 188 rotated pages (57–167, 169–193, 195–246). They render upright, but a
     grid reader must use the rotation-applied page.
   - **Page sizes vary within a year** (FY2027 has five: 612×792, 1056×816, 932×720,
-    1003×775, 990×765), which marks inserted Excel pages, as the FY2025 plan found. Any
+    1003×775, 990×765), which marks inserted Excel pages. Any
     fixed-coordinate column scheme will break.
 
 ### transparency_resolution: mostly tier A (187 PDFs, 8,122 pages)
@@ -191,7 +193,7 @@ The tiers, as defined for this plan:
   - **FY2009** is entirely image-only scans (8 files, PDFlib+PDI wrappers). FY2010 has 3 more
     scans, FY2011 has 3 (Xerox WorkCentre 5675) and FY2012 has 1.
   - **FY2010–FY2011 ScanSoft files (12 of them)** are "mixed", but their image-only pages are
-    vector-drawn "EXHIBIT A…M" dividers. I looked at FY2010 Reso 05 p.10 and FY2011 Reso 03
+    vector-drawn "EXHIBIT A…M" dividers. We looked at FY2010 Reso 05 p.10 and FY2011 Reso 03
     p.47. All 150 such pages have 0 characters and no image. They carry no data and can be
     skipped, but only after an OCR or human look confirms each is a divider.
 - **Path.**
@@ -199,7 +201,7 @@ The tiers, as defined for this plan:
     header and the bottom (for example, FY2013 Reso 04 p.13 has 3 horizontal and 11 vertical
     rules), so columns come from the rules but rows come from text lines. Cross-check against
     the image grid.
-  - **The 15 tier D files (694 pages):** full OCR, with a human QA sample per chart.
+  - **The 15 tier D files (566 pages; see errata 1):** full OCR, with a human QA sample per chart.
 - **Watch out.**
   - **Near-duplicate.** `FY12/.../Transparency-Reso-07-2012-02-01-dup.pdf` is not
     byte-identical to `...-01.pdf`: 99,455 vs 99,456 bytes, differing from byte 48 on, with the
@@ -211,10 +213,10 @@ The tiers, as defined for this plan:
 ### capital_changes (§254 "Changes to the Executive Capital Budget", ResoA books): B or D
 
 - **Condition.**
-  - **FY2016–FY2025 are born-digital tier B:** a mainframe-style report (Budget Line / Title
-    / FY columns, "ELIMINATE/SUBSTITUTE" stacked values) with mostly horizontal separator
-    rules. 419 of the family's tier B text pages have 0 vertical rules; FY2025 p.20 (labeled
-    "PAGE: 17") is typical.
+  - **FY2016, FY2017 and FY2021–FY2025 are born-digital tier B (7 books):** a mainframe-style
+    report (Budget Line / Title / FY columns, "ELIMINATE/SUBSTITUTE" stacked values). 443 of
+    the family's 687 tier B pages have no vertical rule; FY2016 and FY2021 are the exceptions,
+    with column rules on most pages. FY2025 p.20 (labeled "PAGE: 17") is typical.
   - **FY2009–FY2012 are tier D scans:** FY2009 pages 3–279, FY2010 (98 pp), FY2011
     `fy11_changes_...` (108 pp) and FY2012 (124 pp).
   - **FY2011 `Section-254-Changes.pdf`** is a different, born-digital B listing ("AS400 ID /
@@ -283,7 +285,7 @@ Exact page lists for every file are in the `image_only_pages` column.
 
 ## Spot checks (rendered with pypdfium2, viewed)
 
-| PNG (`/tmp/pdfsurvey/`) | Survey said | What I saw |
+| Render (label) | Survey said | What we saw |
 |---|---|---|
 | `sc27_p100` FY2027 Schedule C p.100 | A | Fully ruled 5-column grid. Agrees. |
 | `sc09_p60` FY2009 Schedule C p.60 (rotated page) | A | Upright, fully ruled 10-column grid with wrapped purpose text. Agrees. |
@@ -337,7 +339,7 @@ duplicate. 11 capital books carry owner-password encryption.
 ## Where the heuristic is unsure
 
 - **Rule thresholds sit in no empty valley.** Unlike Christian's two gates, both of which are
-  bimodal, the ruled-page share is spread out: transparency resolutions run from 20% to 100%.
+  bimodal, the ruled-page share is spread out: transparency resolutions run from 0% to 99%.
   The thresholds (2 horizontal and 3 vertical rules, or 15 rects, per page; 10%/50% per
   document) are judgment calls. Section boxes trip them, which is the FY2020 supporting-detail
   false positive. A table ruled only by column lines with 0–1 horizontal rules is missed, as on
@@ -373,10 +375,11 @@ duplicate. 11 capital books carry owner-password encryption.
 The per-family assessments stacked on this survey read the documents themselves and correct
 four things above. The survey's CSVs are unchanged; read them with these in mind.
 
-1. **Transparency resolution scans are 566 pages, not 694.** The 694 counts every page the
-   survey tiered D in those files, including about 150 vector-drawn "EXHIBIT" divider pages in
-   FY2010–FY2011 that carry no text. The 15 scanned files hold 566 pages: FY2009 332, FY2010
-   131, FY2011 57, FY2012 46.
+1. **Transparency resolution scans are 566 pages, not 694.** The 694 is every page tiered D in
+   the family: 544 image-only pages in the 15 scanned files, plus the 150 vector-drawn
+   "EXHIBIT" divider pages in 12 born-digital FY2010–FY2011 files, which carry no text. The 15
+   scanned files hold 566 pages (544 image-only, 22 blank): FY2009 332, FY2010 131, FY2011 57,
+   FY2012 46.
 2. **FY2015 Terms and Conditions is mixed expense and capital,** not capital-only.
 3. **`FY18/FY18-Sec254-Capital-ResoA-M499-Res1534-Res1535.pdf` is the FY2018 capital
    supporting detail book** (title page: "Supporting Detail For Fiscal Year 2018"; p.70 "TOTALS

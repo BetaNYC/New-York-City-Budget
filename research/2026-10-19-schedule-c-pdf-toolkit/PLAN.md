@@ -1,16 +1,18 @@
 # Schedule C from the PDFs: a build plan on Christian Moscardi's toolkit
 
-**Report generated:** 2026-10-19 23:19 EDT (software-engineer agent; operator noel; machine office)
+**Report generated:** 2026-10-19 23:19 EDT. Prepared by BetaNYC with AI assistance.
+**Last revised:** 2026-10-20 00:52 EDT — factual QA pass (18 fixes)
 **Data current as of:** source PDFs at `main` @ `f5740c3`; disclosure workbooks retrieved
 2026-10-12; Christian's code at PR #43 head `2191833` (his commits through `f8afb27`,
 2026-07-28) and `BetaNYC/nyc-executive-orders` @ `84df8193`. PDF triage numbers in §2 were
-measured tonight (scratch scripts in `/tmp/schedc-toolkit-plan/`, not committed).
-**Status:** draft. Nothing here is built. Nothing in this repo was changed except this file.
+measured on 2026-10-19 (scratch scripts, not committed; the method is stated in §2.1 and §2.2).
+**Status:** draft. Nothing here is built. This PR adds only this file and
+`patches/grid-kernel-px.patch`.
 
-Every number below either comes from the 2026-10-19 prototype notes (BetaNYC working notes, not in
-this repo; their results are summarized in §2.3) or from
-a command run for this plan (marked "measured tonight"). Where a number is an estimate or an
-extrapolation, it says so.
+Every number below either comes from the 2026-10-19 prototype notes or from a command run for
+this plan (marked "measured 2026-10-19"). The prototype notes are BetaNYC working notes, not
+published in this repo; their results are summarized in §2.3. Where a number is an estimate or
+an extrapolation, it says so.
 
 ---
 
@@ -22,14 +24,14 @@ This plan reuses Christian Moscardi's work and says where, module by module.
   to 07-28): the staged OCR pipeline in `code/ocr/` (`render.py`, `orient.py`, `classify.py`,
   `grid.py`, `headers.py`, `recognize.py`, `assemble.py`, `report.py`), its driver
   `code/parse_transparency_reso_fy09.py`, its test file (35 test functions; 44 passed and 1
-  skipped in the FY27 run), `code/ocr/install-and-run.md` and `code/requirements-ocr.txt`. The ruled-lattice detector `grid.py` is the most reused
-  piece here.
+  skipped in the FY27 run), `code/ocr/install-and-run.md` and `code/requirements-ocr.txt`.
+  The ruled-lattice detector `grid.py` is the most reused piece here.
 - **`BetaNYC/nyc-executive-orders`:** Christian wrote `vlm_ocr.py` (dots.ocr runner, the
   `finish_reason`/logprob/`ink_coverage` QA signals), `vlm_pages.py` (page flags) and the
   `qa-ui/` review app. `textlayer.py` (born-digital vs scanned gate) was started by Noel
   (2026-07-13); Christian added the render-mode-3 split and per-page counts (2026-09-09,
   `b10b5a88`). `clean.py` (non-destructive raw vs clean) was started by Noel (2026-07-15) and
-  refined by Christian (four commits, 2026-09-09).
+  refined by Christian (four commits, 2026-08-11 to 09-09).
 
 His design rules carry over directly: geometry decides column identity, placement by
 centroid, per-stage artifacts on disk, overlays as the iteration surface, no quiet repair,
@@ -71,13 +73,13 @@ a starting point.
 
 ---
 
-## 2. What the PDFs are (measured tonight)
+## 2. What the PDFs are (measured 2026-10-19)
 
 ### 2.1 All 20 Schedule C PDFs are born-digital
 
 A pypdfium2 port of `textlayer.classify_pdf` (same rules: >100 chars/page, render-mode-3 share
 above 0.5 means "scanned with an OCR layer") ran over all 20 files in 48.6 s
-(`triage_pdfium.py`, measured tonight):
+(scratch script, not committed; measured 2026-10-19):
 
 | FY | File (`source/`) | Pages | Invisible chars | Pages with ≤100 chars | Page sizes (pt) |
 |---|---|---:|---:|---|---|
@@ -107,19 +109,22 @@ OCR as its primary path.** §3 still covers that path, because the gate must cat
 year that arrives scanned. Two small quirks: FY09 has pages with `/Rotate` 90, and FY11 pp.2–52
 draw their header rule as a 4224×4 px image, which the vector path will not see as a line.
 
-**Christian's `textlayer.py` crashes on these files in its own environment.** With PyMuPDF
-1.28.0 on Python 3.11.15 (the exec-orders venv), `classify_pdf` aborted the interpreter
-(`Fatal Python error: none_dealloc`) on 19 of the 20 Schedule C PDFs. On FY27 it died after 61
-pages of `page.get_texttrace()`. Only FY09 completed. That is a second reason, after AGPL
-licensing, to port the gate to pypdfium2 rather than import it (§8.3). The prototype notes
-report a successful textlayer run on FY25–27 earlier tonight. The environment for that run is
-not recorded, and this plan does not try to reconcile the two.
+**PyMuPDF 1.28.0 crashes on these files; 1.28.2 does not.** Under PyMuPDF 1.28.0 (Python
+3.11.15), `textlayer.classify_pdf` aborted the interpreter (`Fatal Python error: none_dealloc`,
+inside `page.get_texttrace()`) on 19 of the 20 Schedule C PDFs. Under 1.28.2 the same
+unmodified module classifies all 20, and all 243 PDFs in `source/` (CONDITION.md, "Validation
+of the port"). This is a bug in one PyMuPDF release, not in Christian's code. The reason to port
+the gate rather than import it is AGPL licensing (§8.3). The episode is also why every PDF
+library the gate depends on is pinned and locked (§8.2, §8.4).
 
 ### 2.2 FY2009–FY2014 do print organizations and EINs
 
-DATA-ANOMALIES §2 and `code/PARSING.md` say FY2009–FY2014 Schedule C is "initiatives-level only
-… no per-organization award rows and no EINs." The PDFs disagree. Measured tonight
-(`ruled.py`, words matching `NN-NNNNNNN` or 9 bare digits, after stripping `*` and `-`):
+DATA-ANOMALIES §2 says FY2009–FY2014 Schedule C is "initiatives-level only … no
+per-organization award rows and no EINs"; `code/PARSING.md` says those documents have "NO
+award-level EIN tables"; DATA-DICTIONARY says they are "initiatives-only (no EIN)". The PDFs
+disagree. Measured on 2026-10-19 (scratch script, not committed: pdfplumber `extract_words()`,
+words matching `NN-NNNNNNN` or 9 bare digits after stripping `*` and `-`, counted inside a table
+when the word's center lies in a `find_tables()` bbox):
 
 | FY | EIN-shaped words | inside a pdfplumber lines-strategy table | Example (page, text as extracted) |
 |---|---:|---:|---|
@@ -148,19 +153,20 @@ These are **EIN-shaped tokens, not award rows.** They include conduit and fiscal
 ("Tax ID# for Conduit/Administrator", FY09 p.4), and the 9-bare-digit pattern can match other
 numbers. They are an upper bound and a census anchor, nothing more. But the header on FY10
 p.61 and FY11 p.53 is an award table with member, sponsor, EIN, amount, agency, purpose and
-fiscal conduit columns. So FY2009–FY2014 are award-bearing years for this plan, and §2 owes a
-correction (open decision 3).
+fiscal conduit columns. So FY2009–FY2014 are award-bearing years for this plan, and DATA-ANOMALIES
+§2 owes a correction (open decision 3).
 
 Two more facts from this table:
 
-- **FY10–FY14 extract with glued words** (`AmericanPlaceTheatre,Inc.`), the "glued text layer"
-  of DATA-ANOMALIES §3. On FY12 p.100 the spaces come back from geometry: pdfplumber
-  `extract_text(x_tolerance=1)` gives `Local Quinn American Place Theatre, Inc. 13-1997644 *
-  $3,000 DCA`. The default tolerance of 3 does not. That is one line on one page, so
-  `x_tolerance` becomes a per-year configured, snapshot-tested value, not an assumption.
+- **FY10–FY14 extract with glued words** (`AmericanPlaceTheatre,Inc.`), the same glued text
+  layer DATA-ANOMALIES §3 describes for the FY2010–FY2013 transparency resolutions. On FY12
+  p.100 the spaces come back from geometry: pdfplumber `extract_text(x_tolerance=1)` gives
+  `Local Quinn American Place Theatre, Inc. 13-1997644 * $3,000 DCA`. The default tolerance of
+  3 does not. That is one line on one page, so `x_tolerance` becomes a per-year configured, snapshot-tested value, not an assumption.
 - **The years whose EIN tokens all sit in ruled tables** are FY21, FY25, FY26 and FY27. In
-  every other year some EIN pages have no table that pdfplumber's lines strategy finds (FY24:
-  33 pages; FY14: 50). Those pages need the image lattice, a text-strategy table, or both.
+  every other year some EIN tokens fall outside every table pdfplumber's lines strategy finds:
+  on 49 FY24 pages (33 with no EIN inside any table) and 67 FY14 pages (50 with none). Those
+  pages need the image lattice, a text-strategy table, or both.
   Finding out which is part of onboarding each year (§6).
 
 ### 2.3 What FY2025–FY2027 already proved (from the 2026-10-19 notes)
@@ -203,9 +209,10 @@ because importing is not viable. "New" is our code.
 
 ### Stage 0: triage gate
 
-Port, not import: `textlayer.py` imports `fitz` (PyMuPDF, AGPL) at module top, and it crashed
-on 19 of 20 files tonight (§2.1). The port keeps his three classes and thresholds and his
-per-page list, using pypdfium2 calls verified tonight on all 20 files: `PdfTextPage.count_chars()`,
+Port, not import: `textlayer.py` imports `fitz` (PyMuPDF, AGPL) at module top (§8.3).
+(Separately, PyMuPDF 1.28.0 aborts on these files and 1.28.2 does not, §2.1.) The port keeps his
+three classes and thresholds and his per-page list, using pypdfium2 calls verified on 2026-10-19
+on all 20 files: `PdfTextPage.count_chars()`,
 `PdfPage.get_objects()`, `raw.FPDFTextObj_GetTextRenderMode` compared against
 `raw.FPDF_TEXTRENDERMODE_INVISIBLE`, and `raw.FPDFTextObj_GetText`. Character totals differ by
 engine (FY27: pdfium `count_chars` 1,750,113; the notes' PyMuPDF figure 1,682,167), so the
@@ -233,7 +240,7 @@ single-EIN rows against 9,979 EIN tokens across 498 pages in 41.5 s. Then:
   (FY27: 2,269 such separators, e.g. p.33's 5.4 pt slivers) is dropped when the image lattice
   has no separator within 2 pt *and* no character lies in the sliver. Both conditions are
   logged.
-- **Pages with EINs but no lines-strategy table** (FY24 33 pages, FY14 50, §2.2) fall back to
+- **EIN tokens outside every lines-strategy table** (FY24 49 pages, FY14 67, §2.2) fall back to
   the image lattice for geometry. Text still comes from the PDF characters. If neither lattice
   holds the row, it is a critical flag. Never a line-based fallback like the one behind FY27's
   7 row-band flags.
@@ -285,9 +292,9 @@ something we emitted or by a drawn rule?**
 
 Acceptance before relying on it: on FY27, (i) the clean run reports zero regions, or each
 residual is explained; (ii) deleting the Medicare Rights row (p.279) from the emitted set makes
-the check fire on that row; (iii) deleting one emitted character (the p.486 hyphen class) makes
-it fire. If (i) cannot reach zero without thresholds that blind (ii) and (iii), it ships as
-**warn**, and the plan says so.
+the check fire on that row; (iii) deleting one emitted character (one stray-hyphen character,
+as on p.13) makes it fire. If (i) cannot reach zero without thresholds that blind (ii) and
+(iii), it ships as **warn**, and the plan says so.
 
 ### Stage 7: structure
 
@@ -351,7 +358,8 @@ from `text`:
    "two lattices agree" to "a second OCR pass agrees": full-page OCR at two DPIs, or docTR
    plus dots.ocr. Every disagreement goes to review.
 3. **`reread_cell` stays off as a replacement.** It may run as one more report-only read.
-4. **Christian's validators** (`parse_ein`, `parse_amount`) gate shape only. A value that
+4. **Christian's validators** (`parse_ein`, `parse_amount`, in `assemble.py`; the scanned path
+   imports it, or copies the two validators with credit) gate shape only. A value that
    validates is not thereby right (8 FY27 counterexamples).
 5. **Ink coverage moves closer to his original:** OCR word boxes are the "elements", and his
    `rule_pixels` handles rules, since a scan has no vector geometry.
@@ -490,9 +498,10 @@ snapshot green.
    before merge.
 
 Order: FY27, FY26, FY25 (planned). Then FY24 back to FY15, where DATA-ANOMALIES §20's 276
-merged rows sit (FY16–FY19 mostly). Then FY09–FY14 after a scoping PR (glued text, conduit
-columns, A4 pages). FY08 last: 0 EIN-shaped tokens, so likely initiatives only (unverified
-beyond the census).
+merged rows sit (272 of them in FY2016–FY2019). Then FY09–FY14 after a scoping PR (glued text,
+conduit columns, A4 pages). FY08 last: it prints 1,674 member-item award rows (Appendix E,
+pp.36–123) with no EIN column, so H5's EIN anchor needs a per-year alternative there (see
+`families/schedule-c-fy2008-fy2024.md`).
 
 ---
 
@@ -514,22 +523,32 @@ code/test_schedc_*.py         unit + golden-row + snapshot tests (repo conventio
 code/testdata/schedc/         small page fixtures (single-page PDFs cut with pypdfium2)
 config/schedule_c/fy2027.toml …
 tools/schedc-review-ui/       adapted qa-ui (Node; local only)
-code/requirements-cv.txt      new; requirements-ocr.txt reused as is
+code/requirements-cv.txt      new; requirements-ocr.txt reused (pypdfium2 ceiling, §8.2)
 ```
 
 Output location is open decision 2.
 
 ### 8.2 Dependencies and versions
 
-- Core stays on `code/requirements.txt` as is (`pdfplumber>=0.11,<0.12`, pypdf). pypdfium2
-  already arrives with pdfplumber; because the core imports it, declare it explicitly with a
-  ceiling (`pypdfium2>=4.30,<5`, the bound PR #43 already uses).
+- Core stays on `code/requirements.txt` (`pdfplumber>=0.11,<0.12`, pypdf). pypdfium2 already
+  arrives with pdfplumber; because the core imports it, it is declared explicitly with a
+  ceiling: `pypdfium2>=5,<6`, added by the PDF condition survey (`code/pdf_condition.py`). The
+  survey's committed CSVs were produced with pdfium 156.0.8076.0, and pypdfium2 4.30 changes
+  them.
+- **Known conflict with PR #43.** PR #43's `code/requirements-ocr.txt` pins
+  `pypdfium2>=4.30,<5`, and its `code/ocr/install-and-run.md` installs both requirements files
+  into one venv. With the survey's `>=5,<6`, that install has no solution. The fix is to raise
+  PR #43's ceiling to `<6` in the follow-up PR that carries the `grid.py` `kernel_px` patch
+  (PR 0, §10), with Christian's agreement because it is his file, and to re-run his suite
+  there. Until then the OCR extra and the survey need separate environments.
 - `requirements-cv.txt`: `opencv-python-headless>=4.9,<5`, `numpy>=1.26,<3` (PR #43's bounds),
   no torch. This is enough for stages 4 and 6.
-- `requirements-ocr.txt` from PR #43 unchanged (`python-doctr[torch]>=0.11,<0.13` …).
+- `requirements-ocr.txt` from PR #43, unchanged except the pypdfium2 ceiling above
+  (`python-doctr[torch]>=0.11,<0.13` …).
 - **Lock exact versions** with `uv pip compile` per requirements file, and run the snapshot
-  tests against the lock. Table detection and rendering are version-sensitive (§15 was a
-  toolchain change). The prototypes ran pdfplumber 0.11.9 and 0.11.10; PR 1 settles one.
+  tests against the lock. Text extraction, table detection and rendering are version-sensitive
+  (DATA-ANOMALIES §15 was a text-extraction change between pypdf versions, and the survey CSVs
+  change under pypdfium2 4.30). The prototypes ran pdfplumber 0.11.9 and 0.11.10; PR 1 settles one.
 - **Python range 3.11–3.14**, tested at both ends. This repo has no Python CI job today
   (`.github/workflows/ci.yml` runs Node only), so PR 1 adds one. docTR/torch wheel availability
   on 3.14 is not verified. Detect it in PR 7; if missing, the OCR extra declares a narrower
@@ -564,7 +583,7 @@ and cv on fixtures plus one full year, and OCR on fixtures only, behind a manual
 
 ## 9. Working with Christian, and PR #43
 
-**Where PR #43 stands (checked tonight):** open, not draft, `mergeable: CONFLICTING`. A
+**Where PR #43 stands (checked 2026-10-19):** open, not draft, `mergeable: CONFLICTING`. A
 `git merge-tree` of `pr43` onto `origin/main` conflicts only in `DATA-ANOMALIES.md`,
 `README.md`, `code/PARSING.md` and `data/QA-REPORT.md`. `code/ocr/` and its tests merge
 cleanly. `code/ocr/__init__.py` has no imports, and heavy libraries load lazily inside
@@ -602,8 +621,7 @@ authorship is preserved) as PR 0, not to a copy-paste vendor.
    replaces the cell.
 3. `classify_page`'s single bounding box misclassifies stacked-table pages (1,095 FY27 award
    rows on `narrative` pages), and the 60% span test drops rules under merged cells.
-4. To the exec-orders repo: the PyMuPDF crash in `textlayer.classify_pdf` (§2.1) and the
-   pypdfium2 port, in case he wants it there too.
+4. To the exec-orders repo: the pypdfium2 port, in case he wants it there too.
 
 **What to ask him:**
 
@@ -625,7 +643,7 @@ Sizes are estimates of changed lines excluding fixtures.
 
 | PR | Content | Size | Accept when |
 |---|---|---|---|
-| 0 | #43 lands (Christian's), then the `kernel_px` follow-up | his; ~10 | #43 merged; patch PR green on his suite |
+| 0 | #43 lands (Christian's), then the `kernel_px` follow-up, which also raises `requirements-ocr.txt`'s pypdfium2 ceiling to `<6` (§8.2) | his; ~10 | #43 merged; patch PR green on his suite; pypdfium2 ceiling at `<6`, with his agreement |
 | 1 | Python CI (3.11 + 3.14), lock files, `requirements-cv.txt`, license report | ~150 | CI runs the new tests and Christian's suite at both ends; `uv pip compile` locks committed; license report recorded |
 | 2 | Stage 0 gate + `pages` inventory for all 20 PDFs | ~350 | reproduces §2.1 table exactly; unit tests on a synthetic invisible-text PDF and a blank page; credits in docstring |
 | 3 | FY27 core: config, page map, vector lattice, cells, structure, emit | ~1,200 | 9,979 award rows; golden rows for FY27 pp.7, 13, 24, 179, 205, 274, 279, 335, 463, 486 match by reading the page; H1–H7, H14–H16 pass |
@@ -637,7 +655,7 @@ Sizes are estimates of changed lines excluding fixtures.
 | 9 | Review UI (adapted qa-ui) | ~800 JS | opens FY27, deep link to p.279 works, needs-review filter lists every critical row |
 | 10 | FY26 config + snapshot | ~300 + config | 9,765 rows; its 11 checks hold; known exceptions ($800, $15,000, two 8-digit EINs) named |
 | 11 | FY25 config + snapshot | ~300 + config | 9,579 rows; Bronx Defenders $5,533,333 (p.169) under the right initiative; Parks has no summary table, recorded |
-| 12 | DATA-ANOMALIES corrections | docs | §23 (Medicare Rights is in the PDF), §2 (FY09–14 print EINs), PARSING.md status |
+| 12 | DATA-ANOMALIES corrections | docs | §23 (Medicare Rights is in the PDF), §2 (FY09–14 print EINs), PARSING.md status, DATA-DICTIONARY (l.20, l.36: same claim as §2) |
 | 13+ | FY24 … FY15, one PR each; then an FY09–FY14 scoping PR | per year | §7 onboarding steps |
 
 ---
@@ -646,8 +664,10 @@ Sizes are estimates of changed lines excluding fixtures.
 
 ### Risks
 
-1. **Agreement is not truth.** Both lattices read the same text layer; p.486 passed both.
-   Mitigation: OCR sample, ink coverage, a person on every critical row.
+1. **Agreement is not truth.** In this design both lattices take text from the same pdfplumber
+   characters, so a text-layer error passes H8. p.486 would: pdfplumber reads `multi media`
+   where the page prints `multi-media`. The FY27 prototype caught it only because its vector
+   side used PyMuPDF. Mitigation: OCR sample, ink coverage, a person on every critical row.
 2. **Initiative attribution** relies on per-year formatting cues. H12 catches a shift unless
    shifted amounts happen to be equal. Golden rows on every wrapped-title and out-of-order page.
 3. **Ink coverage may be too noisy on some years** (anti-aliasing at glyph edges, fills). It
@@ -661,7 +681,7 @@ Sizes are estimates of changed lines excluding fixtures.
 7. **Heavy optional stack** (torch, ~165 MB of weights per the image-grid report). Kept out of
    the core.
 
-### Open decisions for Noel
+### Open decisions (maintainer)
 
 1. **PR #43 relationship.** Recommendation: land #43 first and import `code/ocr/` unchanged;
    offer the `kernel_px` patch and the re-read finding to Christian publicly; cherry-pick with
@@ -671,7 +691,8 @@ Sizes are estimates of changed lines excluding fixtures.
    for that year. The 2.0 guard test stays as is.
 3. **Corrections to the published record.** Recommendation: publish DATA-ANOMALIES entries
    correcting §23 (Medicare Rights $135,000 is in the FY27 PDF; the old parser lost it) and §2
-   (FY09–FY14 PDFs print organizations and EINs), with "flag, never fix" as the stated stance
+   (FY09–FY14 PDFs print organizations and EINs), with the same fix in `code/PARSING.md` and
+   `DATA-DICTIONARY.md`, with "flag, never fix" as the stated stance
    on PDF self-errors.
 4. **Which text is the record when pixels disagree with the text layer** (p.486; FY25's
    Excel-clipped purpose text, which is complete in the text layer but cut on screen).
