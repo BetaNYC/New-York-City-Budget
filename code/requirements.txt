@@ -7,3 +7,6 @@ xlrd>=2.0.1,<3
 # code/audit_disclosure.py and code/audit_capital.py only: the independent second reader of the
 # Council workbooks (deliberately NOT the builders' own zipfile reader). Nothing else imports it.
 openpyxl>=3.1,<4
+# code/pdf_condition.py only: the PDF condition survey (text-layer gate ported from PyMuPDF, which
+# is AGPL, to pdfium). Committed CSVs were produced with pypdfium2 5.14.0 / pdfium 156.0.8076.0.
+pypdfium2>=5,<6
