@@ -591,7 +591,7 @@ OK), merge it, then open the `kernel_px` patch as its own small PR with his test
 #43 is not landing within two weeks, fall back to cherry-picking his `code/ocr/` commits (so
 authorship is preserved) as PR 0, not to a copy-paste vendor.
 
-**What to offer him** (public, so Noel's OK first; open decision 1):
+**What to offer him** (public, so it waits for a maintainer decision; open decision 1):
 
 1. The `kernel_px` patch ([`patches/grid-kernel-px.patch`](patches/grid-kernel-px.patch), in this
    folder): absolute kernel length, int cast so a float
@@ -610,7 +610,8 @@ authorship is preserved) as PR 0, not to a copy-paste vendor.
 1. Is `detect_grid`/`Grid` stable enough to import from other code, or would he rather it move
    behind a small interface first?
 2. Would he review the image-lattice and ink-coverage PRs (5 and 6)?
-3. Noel recalls another tool of his that may tie this together. Which is it?
+3. Are there other tools of his, beyond `code/ocr/` and the nyc-executive-orders `textlayer`,
+   `vlm_ocr` and `qa-ui` modules this plan already uses, that he would point us to?
 4. Does he prefer the `ink_coverage` port as is, or a shared helper both repos import?
 5. Has he tried dots.ocr on ruled financial tables?
 6. Issue #44 (FY10–FY12 transparency via OCR) shares the glued-text problem with FY10–FY14
