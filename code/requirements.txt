@@ -1,3 +1,9 @@
 pypdf>=6.0,<7
 cryptography>=3.1,<48
 pdfplumber>=0.11,<0.12
+# FY2013 expense disclosure only (legacy .xls): code/parse_expense_disclosure.py imports it
+# lazily, so everything else runs without it.
+xlrd>=2.0.1,<3
+# code/audit_disclosure.py and code/audit_capital.py only: the independent second reader of the
+# Council workbooks (deliberately NOT the builders' own zipfile reader). Nothing else imports it.
+openpyxl>=3.1,<4

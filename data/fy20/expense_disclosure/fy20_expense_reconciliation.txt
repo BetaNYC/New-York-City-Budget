@@ -1,0 +1,30 @@
+EXPENSE DISCLOSURE RECONCILIATION  (fy20)  [parser: parse_expense_disclosure.py]
+source: funded_disclosure_FY2020.xlsx  (sheet 'FY20 (06-16-2022)', xlsx, 10617 rows incl. header)
+printed total: NO PRINTED TOTAL
+
+Every non-blank row after the header is either an award or a stripped row. A row is
+decided by its Status cell: Cleared/Pending (any case) is an award; anything else is
+stripped unless it still names an organization and an amount (then it is kept with
+status_norm 'other'). Every stripped row is listed below with its cells.
+
+rows after header: 10616   blank: 0   awards: 10616   stripped: 0
+
+status_norm       rows              amount
+cleared          10549         456,580,952
+pending             67             635,750
+other                0                   0
+ALL              10616         457,216,702
+
+Headline figure = cleared only. 'ALL' adds pending (and other) and is labeled so.
+
+This workbook prints no total of its own. The sums above are computed by this
+parser from the rows; they are not a figure published by the Council.
+
+Stripped rows (0):
+  none
+
+EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (0): none
+Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 75 group(s), 154 row(s); 79 beyond the first of each group, $919,480
+NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: 5616 of 10616 rows (exact 5616, rounded_cents 0, rounded_dollars 0)
+Rows kept but flagged in row_flag (0), included in every total above: none
+notes: no MOCS ID#

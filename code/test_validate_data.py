@@ -464,3 +464,282 @@ def test_dry_run_writes_no_file(tmp_path):
     assert "Initiative-level award reconciliation" in proc.stdout
     assert "WROTE" not in proc.stdout
     assert sorted(str(p.relative_to(tmp_path)) for p in tmp_path.rglob("*")) == before
+
+
+# --------------------------------------------------- expense-disclosure dataset (check 9)
+DISC_HDR = ("fiscal_year,mocs_id,od_mocs_id,od_match,source,council_member,council_member_id,council_member_type,"
+            "legal_name,ein,status,status_norm,amount,"
+            "agency,program_name,address1,address2,city,state,postal_code,zip,zip_status,zip_candidates,"
+            "purpose,"
+            "fiscal_conduit,fiscal_conduit_ein,source_file,source_row,duplicate_group,row_flag")
+
+
+def _disc_row(fy="2026", status="Cleared", norm="cleared", src_row="2", ein="136400434", dup="",
+              postal="", zip_="", zip_status="blank", member="Doe", mid="42", mtype="member",
+              cands="", flag="", od_id="", od_match=""):
+    return (f"{fy},FY26 00001,{od_id},{od_match},Local,{member},{mid},{mtype},Acme Inc.,{ein},{status},{norm},5000,"
+            f"DYCD,,,,,,"
+            f"{postal},{zip_},{zip_status},{cands},,,,"
+            f"funded_disclosure_FY2026.xlsx,{src_row},{dup},{flag}\n")
+
+
+def _disc_file(root, body):
+    p = str(root / "fy26" / "expense_disclosure" / "fy26_expense_awards.csv")
+    _write(p, DISC_HDR + "\n" + body)
+    return p
+
+
+def test_disclosure_clean_file_has_no_hard_findings(tmp_path):
+    """FAILS if a well-formed disclosure CSV (raw status in any case, an 'other' status) is
+    flagged, or if the file type is not recognized at all."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row() + _disc_row(status="PENDING", norm="pending", src_row="3")
+               + _disc_row(status="Withdrawn", norm="other", src_row="4"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.typ == "expense_disclosure"
+    assert r.hard == [], r.hard
+    assert r.ein_valid == 3
+
+
+def test_disclosure_status_norm_must_match_status(tmp_path):
+    """FAILS if a status_norm that disagrees with the raw status passes: every cleared/pending
+    total is a filter on status_norm."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row(status="Pending", norm="cleared"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert [c for c, _m in r.hard] == ["status"]
+
+
+def test_disclosure_year_and_provenance_are_hard(tmp_path):
+    """FAILS if a row filed under the wrong fiscal year, a duplicate source_row or a blank one
+    passes."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row(fy="2025") + _disc_row(src_row="3") + _disc_row(src_row="3")
+               + _disc_row(src_row=""))
+    (r,) = V.validate_tree(str(root))[0]
+    kinds = sorted(c for c, _m in r.hard)
+    assert kinds == ["fiscal_year", "provenance", "provenance"], r.hard
+
+
+def test_disclosure_excel_error_cells_are_text_issue_71(tmp_path):
+    """Issue #71: '#N/A' cells are kept as published. FAILS if a '#N/A' postal_code (FY2014 row
+    43 holds one) raises a hard finding or is not counted as an Excel error kept as text, or if
+    a '#N/A' in the EIN column passes (an EIN must be 9 digits; an error value is not one)."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row(postal="#N/A", zip_status="invalid"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.hard == [], r.hard
+    notes = [m for c, m in r.soft if c == "excel_error"]
+    assert notes and "postal_code=#N/A x1" in notes[0], r.soft
+    root2 = tmp_path / "data2"
+    _disc_file(root2, _disc_row(ein="#N/A"))
+    (r2,) = V.validate_tree(str(root2))[0]
+    assert [c for c, _m in r2.hard] == ["ein"], r2.hard
+
+
+def test_disclosure_duplicate_group_must_name_a_real_group_issue_69(tmp_path):
+    """Issue #69. FAILS if a well-formed group (rows 2 and 3 both naming row 2) raises a hard
+    finding or is not counted, or if a group of one row, or a group naming a row that is not
+    itself in the group, passes."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row(src_row="2", dup="2") + _disc_row(src_row="3", dup="2")
+               + _disc_row(src_row="4"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.hard == [], r.hard
+    assert any(c == "duplicate_group" and "2 row(s) in 1 group(s)" in m for c, m in r.soft)
+    for body in (_disc_row(src_row="2", dup="2") + _disc_row(src_row="3"),
+                 _disc_row(src_row="2") + _disc_row(src_row="3", dup="2")
+                 + _disc_row(src_row="4", dup="2")):
+        root2 = tmp_path / f"bad{len(body)}"
+        _disc_file(root2, body)
+        (r2,) = V.validate_tree(str(root2))[0]
+        assert [c for c, _m in r2.hard] == ["duplicate_group"], r2.hard
+
+
+def test_disclosure_row_flag_is_a_closed_set_issue_89_b13(tmp_path):
+    """#89 B13. FAILS if a 'not_an_award' row raises a hard finding or is not counted, or if a
+    row_flag outside the closed set ('not an award', a typo) passes."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row(flag="not_an_award") + _disc_row(src_row="3"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.hard == [], r.hard
+    assert any(c == "row_flag" and "not_an_award x1" in m for c, m in r.soft), r.soft
+    root2 = tmp_path / "data2"
+    _disc_file(root2, _disc_row(flag="not an award"))
+    (r2,) = V.validate_tree(str(root2))[0]
+    assert [c for c, _m in r2.hard] == ["row_flag"], r2.hard
+
+
+def test_disclosure_no_grantee_ein_flag_matches_the_ein(tmp_path):
+    """2026-10-16. FAILS if a blank-EIN or 'NA' row flagged no_grantee_ein (alone, or after a
+    decided flag) raises a hard finding, or if any of these passes: a blank EIN with no flag, a
+    flag on a row that prints an EIN, a flag repeated in one cell."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row(ein="", flag="no_grantee_ein")
+               + _disc_row(src_row="3", ein="NA", flag="no_grantee_ein")
+               + _disc_row(src_row="4", ein="", flag="not_an_award;no_grantee_ein")
+               + _disc_row(src_row="5"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert [c for c, _m in r.hard if c == "row_flag"] == [], r.hard
+    assert any(c == "row_flag" and "no_grantee_ein x3" in m for c, m in r.soft), r.soft
+    for i, row in enumerate((_disc_row(ein=""),
+                             _disc_row(flag="no_grantee_ein"),
+                             _disc_row(ein="", flag="no_grantee_ein;no_grantee_ein"),
+                             _disc_row(ein="", flag="no_grantee_ein;not_an_award"))):
+        root2 = tmp_path / f"bad{i}"
+        _disc_file(root2, row)
+        (r2,) = V.validate_tree(str(root2))[0]
+        assert "row_flag" in [c for c, _m in r2.hard], (i, r2.hard)
+
+
+def test_disclosure_open_data_mocs_columns_issue_89_a4(tmp_path):
+    """#89 A4. FAILS if a well-formed Open Data cross-reference raises a hard finding or is not
+    counted, or if any of these passes: an od_match outside the closed set, an ID with no tier
+    (or a tier with no ID), an ID from another year, a year Open Data does not cover."""
+    root = tmp_path / "data"
+    p = str(root / "fy21" / "expense_disclosure" / "fy21_expense_awards.csv")
+    _write(p, DISC_HDR + "\n" + _disc_row(fy="2021", od_id="FY21 00042", od_match="exact")
+           + _disc_row(fy="2021", src_row="3", od_id="FY21 7", od_match="rounded_dollars"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.hard == [], r.hard
+    assert any(c == "od_mocs_id" and "2 row(s)" in m for c, m in r.soft), r.soft
+    for fy, oid, om in (("2021", "FY21 1", "close"), ("2021", "FY21 1", ""),
+                        ("2021", "", "exact"), ("2021", "FY20 1", "exact"),
+                        ("2026", "FY26 1", "exact")):
+        root2 = tmp_path / f"bad{fy}{oid}{om}".replace(" ", "_")
+        p2 = str(root2 / f"fy{fy[-2:]}" / "expense_disclosure" / f"fy{fy[-2:]}_expense_awards.csv")
+        _write(p2, DISC_HDR + "\n" + _disc_row(fy=fy, od_id=oid, od_match=om))
+        (r2,) = V.validate_tree(str(root2))[0]
+        assert [c for c, _m in r2.hard] == ["od_mocs_id"], (fy, oid, om, r2.hard)
+
+
+def test_published_odd_eins_pass_only_where_listed(tmp_path):
+    """DATA-ANOMALIES §25. FAILS if the four EINs the archived workbooks print (e.g. FY2009 row
+    3075 'EX130314') raise a hard finding, or if the same value on any other row, or another
+    value on that row, passes."""
+    def run(fy, row, ein):
+        root = tmp_path / f"r{fy}{row}{ein}"
+        p = str(root / f"fy{fy[-2:]}" / "expense_disclosure" / f"fy{fy[-2:]}_expense_awards.csv")
+        flag = "no_grantee_ein" if ein in ("", "NA") else ""  # the rule flag the parser adds
+        _write(p, DISC_HDR + "\n" + _disc_row(fy=fy, src_row=row, ein=ein, flag=flag))
+        (r,) = V.validate_tree(str(root))[0]
+        return [c for c, _m in r.hard]
+    assert run("2009", "3075", "EX130314") == []
+    assert run("2011", "679", "NA") == []
+    assert run("2009", "3076", "EX130314") == ["ein"]
+    assert run("2009", "3075", "EX130315") == ["ein"]
+
+
+def test_disclosure_zip_fields_must_agree_issue_70(tmp_path):
+    """Issue #70. FAILS if consistent zip/zip_status pairs raise a finding, or if an unknown
+    status, a 'valid' row with no zip, an 'invalid' row with one, a zip that is not taken from
+    the published postal_code, a 'trimmed' row whose postal_code is not a ragged ZIP+4 (or
+    that carries no zip), a 'repaired_extra_digit' zip that is not a one-digit deletion of a
+    6-digit postal_code, an 'ambiguous_extra_digit' row with a zip or with fewer than two,
+    unsorted or non-deletion candidates, or candidates on any other status passes."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row(postal="10001-1234", zip_="10001", zip_status="valid")
+               + _disc_row(src_row="3", postal="2446", zip_="02446", zip_status="padded")
+               + _disc_row(src_row="4", postal="0", zip_status="invalid")
+               + _disc_row(src_row="5", postal="11203-", zip_="11203", zip_status="trimmed")
+               + _disc_row(src_row="6", postal="11231=1020", zip_="11231", zip_status="trimmed")
+               + _disc_row(src_row="7", postal="11413 ZipCode2: 3929", zip_="11413",
+                           zip_status="trimmed")
+               + _disc_row(src_row="8", postal="111691", zip_="11691",
+                           zip_status="repaired_extra_digit")
+               + _disc_row(src_row="9", postal="114345", zip_status="ambiguous_extra_digit",
+                           cands="11434;11435"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.hard == [], r.hard
+    for i, kw in enumerate([{"postal": "10001", "zip_": "10001", "zip_status": "ok"},
+                            {"postal": "10001", "zip_": "10001", "zip_status": "trimmed"},
+                            {"postal": "11203-", "zip_status": "trimmed"},
+                            {"postal": "10310`", "zip_": "10310", "zip_status": "trimmed"},
+                            {"postal": "111691", "zip_": "11234", "zip_status": "repaired_extra_digit"},
+                            {"postal": "1116911", "zip_": "11691", "zip_status": "repaired_extra_digit"},
+                            {"postal": "111691", "zip_status": "repaired_extra_digit"},
+                            {"postal": "114345", "zip_": "11434", "zip_status": "ambiguous_extra_digit",
+                             "cands": "11434;11435"},
+                            {"postal": "114345", "zip_status": "ambiguous_extra_digit",
+                             "cands": "11434"},
+                            {"postal": "114345", "zip_status": "ambiguous_extra_digit",
+                             "cands": "11435;11434"},
+                            {"postal": "114345", "zip_status": "ambiguous_extra_digit",
+                             "cands": "11434;99999"},
+                            {"postal": "114345", "zip_status": "invalid", "cands": "11434;11435"},
+                            {"postal": "10001", "zip_status": "valid"},
+                            {"postal": "0", "zip_": "00000", "zip_status": "invalid"},
+                            {"postal": "10001", "zip_": "10002", "zip_status": "valid"}]):
+        root2 = tmp_path / f"bad{i}"
+        _disc_file(root2, _disc_row(**kw))
+        (r2,) = V.validate_tree(str(root2))[0]
+        assert [c for c, _m in r2.hard] == ["zip"], (kw, r2.hard)
+
+
+def test_disclosure_member_id_and_type_must_agree_issue_72(tmp_path):
+    """Issue #72. FAILS if well-formed rows (a member with an ID, a delegation and a blank
+    without) raise a finding, or if a member with no ID, an ambiguous name with one, an unknown
+    type, or a 'blank' type on a filled name passes."""
+    root = tmp_path / "data"
+    _disc_file(root, _disc_row() + _disc_row(src_row="3", member="Bronx Delegation", mid="",
+                                             mtype="delegation")
+               + _disc_row(src_row="4", member="", mid="", mtype="blank"))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.hard == [], r.hard
+    for i, kw in enumerate([{"mid": ""}, {"mid": "7", "mtype": "ambiguous"},
+                            {"mtype": "person"}, {"mid": "", "mtype": "blank"}]):
+        root2 = tmp_path / f"bad{i}"
+        _disc_file(root2, _disc_row(**kw))
+        (r2,) = V.validate_tree(str(root2))[0]
+        assert [c for c, _m in r2.hard] == ["council_member"], (kw, r2.hard)
+
+
+def test_disclosure_reconciliation_rollup_distinguishes_na_from_pass(tmp_path):
+    """FAILS if a year with no printed total is reported as PASS (that would attribute our own
+    sum to the Council), or if a mismatch is not FAIL."""
+    root = tmp_path / "data"
+    for yy, verdict in (("24", "RECONCILED"), ("25", "NO PRINTED TOTAL"), ("26", "MISMATCH")):
+        _write(str(root / f"fy{yy}" / "expense_disclosure" / f"fy{yy}_expense_reconciliation.txt"),
+               f"EXPENSE DISCLOSURE RECONCILIATION  (fy{yy})\nsource: x\n"
+               f"printed total: {verdict}\n")
+    d = {(y, dt): (ratio, status) for y, dt, ratio, status in V.parse_reconciliations(str(root))}
+    assert d[(2024, "disclosure")] == ("1/1", "PASS")
+    assert d[(2025, "disclosure")] == ("—", "N/A (no printed total)")
+    assert d[(2026, "disclosure")][1].startswith("FAIL")
+
+
+# --------------------------------------------------- council capital (#89 A6)
+CAP_HDR = ("report_year,amount_fy,project_id,borough,budget_line,budget_line_norm,"
+           "council_district,sponsor,title,description,amount,source_kind,source_file,"
+           "source_row,row_flag")
+
+
+def _cap_row(ry="2027", fy="2027", line="P  D018", norm="P D018", amt="1000",
+             kind="council_workbook", flag=""):
+    return f"{ry},{fy},CC0001,M,{line},{norm},01,Marte,T,D,{amt},{kind},f.xlsx,2,{flag}\n"
+
+
+def _cap_file(root, body):
+    p = str(root / "capital" / "council_capital_awards.csv")
+    _write(p, CAP_HDR + "\n" + body)
+    return p
+
+
+def test_council_capital_rules_issue_89(tmp_path):
+    """FAILS if well-formed rows (a negative technical adjustment, an out-year, a flagged split
+    record with no amount) raise a hard finding, or if any of these passes: a blank amount on
+    an unflagged row, an amount on a flagged one, an out-year before the report year, a
+    budget_line_norm that is not the published line re-spelled, an unknown source_kind."""
+    root = tmp_path / "data"
+    _cap_file(root, _cap_row() + _cap_row(amt="-2000000") + _cap_row(fy="2028")
+              + _cap_row(fy="", amt="", kind="open_data_t474", flag="split_record_amount_unknown")
+              + _cap_row(line="PW-DN846", norm="PW DN846") + _cap_row(line="", norm=""))
+    (r,) = V.validate_tree(str(root))[0]
+    assert r.typ == "council_capital" and r.hard == [], r.hard
+    for i, row in enumerate([_cap_row(amt=""), _cap_row(flag="split_record_amount_unknown"),
+                             _cap_row(fy="2026"), _cap_row(norm="PD018"),
+                             _cap_row(kind="pdf")]):
+        root2 = tmp_path / f"bad{i}"
+        _cap_file(root2, row)
+        (r2,) = V.validate_tree(str(root2))[0]
+        assert [c for c, _m in r2.hard] == ["council_capital"], (row, r2.hard)

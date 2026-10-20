@@ -26,15 +26,19 @@ Checks
                           *_schedule_c_initiatives.csv, per fiscal year: balanced / short / over
                           with the residual. The first pass/fail target the award stream has ever
                           had. SOFT advisory. See `initiative_reconciliation()` for why.
+9. Disclosure          — the expense-disclosure CSVs (data/fyNN/expense_disclosure/): status_norm
+                          agrees with status, fiscal_year is the folder year, source_row is a
+                          unique positive integer (HARD); their reconciliation verdict joins the
+                          roll-up (PASS / FAIL / N/A where the workbook prints no total).
 
 Severity + exit code
 --------------------
 HARD failures (exit 1): missing/extra schema column, malformed row (wrong field count),
-non-numeric amount, malformed EIN (non-empty, not 9 digits). These mean the data is structurally
-wrong. SOFT advisories (exit 0 if nothing hard): zeros, sign anomalies, outliers, duplicates,
-column-bleed residuals, low EIN coverage, initiative-reconciliation residuals. Advisories are
-surfaced, not gated — some (e.g. the ~21 legitimate-name FY26 bleed residuals) are known and
-acceptable.
+non-numeric amount, malformed EIN (non-empty, not 9 digits), and the disclosure checks in 9.
+These mean the data is structurally wrong. SOFT advisories (exit 0 if nothing hard): zeros, sign
+anomalies, outliers, duplicates, column-bleed residuals, low EIN coverage,
+initiative-reconciliation residuals. Advisories are surfaced, not gated — some (e.g. the ~21
+legitimate-name FY26 bleed residuals) are known and acceptable.
 
 Usage
 -----
@@ -132,6 +136,27 @@ TYPES = {
               "agency", "purpose", "status", "confidence", "source_file"],
         ein="ein", amounts=["amount"], rule="positive", year_col="fiscal_year",
         text_cols=["organization", "program"]),
+    "expense_disclosure": dict(
+        # The Council's own award-level expense disclosure workbooks, one CSV per fiscal year
+        # (FY2013-FY2027), built by code/parse_expense_disclosure.py --write. A PARALLEL dataset:
+        # it never feeds the Schedule C files above. Extra checks in check_file(): status_norm
+        # is one of three values and agrees with the raw status, fiscal_year is the folder year,
+        # and source_row is a unique positive integer (it is the provenance pointer).
+        cols=["fiscal_year", "mocs_id", "od_mocs_id", "od_match", "source", "council_member",
+              "council_member_id",
+              "council_member_type", "legal_name", "ein", "status", "status_norm", "amount", "agency", "program_name", "address1",
+              "address2", "city", "state", "postal_code", "zip", "zip_status", "zip_candidates",
+              "purpose", "fiscal_conduit", "fiscal_conduit_ein", "source_file", "source_row",
+              "duplicate_group", "row_flag"],
+        ein="ein", amounts=["amount"], rule="positive", year_col="fiscal_year"),
+    "council_capital": dict(
+        # data/capital/council_capital_awards.csv (#89 A6), built by
+        # code/build_capital_council.py. Amounts are checked in _check_capital(): they may be
+        # negative (technical adjustments) and are blank only on a flagged split record.
+        cols=["report_year", "amount_fy", "project_id", "borough", "budget_line",
+              "budget_line_norm", "council_district", "sponsor", "title", "description",
+              "amount", "source_kind", "source_file", "source_row", "row_flag"],
+        ein=None, amounts=[], rule=None, year_col=None),
     "capital": dict(
         cols=["part", "agency", "budget_line", "sub_id", "boro", "fy1", "fy2", "fy3",
               "fy4", "sponsor", "title", "building_code", "school_code"],
@@ -192,8 +217,12 @@ def detect_type(path):
         return "recovered_appendix"
     if b == "schedule_c_absorbed_awards.csv":
         return "recovered_awards"
+    if b == "council_capital_awards.csv":
+        return "council_capital"
     if b.endswith("_capital_projects.csv"):
         return "capital"
+    if b.endswith("_expense_awards.csv"):
+        return "expense_disclosure"
     return None
 
 
@@ -286,7 +315,7 @@ def check_file(path, surnames):
     # --- 2/3/4/6 per-row value checks
     ein_col = spec.get("ein")
     action_col = "action" if typ in ("transparency", "transparency_reso") else None
-    bad_eins = []
+    bad_eins, published_odd = [], []
     zero_amts = 0
     sign_bad = []
     outliers = []
@@ -315,6 +344,9 @@ def check_file(path, surnames):
                 digits = raw.replace("-", "")
                 if digits.isdigit() and len(digits) == 9:
                     res.ein_valid += 1
+                elif typ == "expense_disclosure" and \
+                        PUBLISHED_ODD_EINS.get((year, cell(r, "source_row"))) == raw:
+                    published_odd.append((ln, raw))
                 else:
                     if len(bad_eins) < 5:
                         bad_eins.append((ln, raw))
@@ -401,10 +433,19 @@ def check_file(path, surnames):
                     res.bleed_samples.append((ln, tcol, v[:60]))
                 break
 
+    if typ == "expense_disclosure":
+        _check_disclosure(res, body, header, idx)
+    if typ == "council_capital":
+        _check_capital(res, body, header, idx)
+
     # roll per-row tallies into findings
     if bad_eins:
         res.hard.append(("ein", f"{len(bad_eins)}+ malformed EIN(s), e.g. line {bad_eins[0][0]}: "
                                 f"{bad_eins[0][1]!r}"))
+    if published_odd:
+        res.soft.append(("ein", f"{len(published_odd)} EIN(s) not 9 digits, kept as the Council "
+                                f"published them (DATA-ANOMALIES §25): "
+                                + ", ".join(f"line {ln} {v!r}" for ln, v in published_odd)))
     if zero_amts:
         res.soft.append(("amount", f"{zero_amts} row(s) with amount == 0"))
     for ln, msg in sign_bad:
@@ -446,6 +487,244 @@ def check_file(path, surnames):
     return res
 
 
+DISCLOSURE_STATUS = {"cleared", "pending", "other"}
+# EINs the Council's archived FY2009/FY2011 workbooks print that are not 9 digits. Kept as
+# published (never repaired: which digits were meant is not in the file), listed here by
+# (fiscal_year, source_row) so ONLY these pass; any other malformed EIN is still HARD.
+PUBLISHED_ODD_EINS = {
+    (2009, "3075"): "EX130314", (2009, "4366"): "EX123557", (2009, "4912"): "11-31735A",
+    (2011, "679"): "NA",
+}
+# NYC Open Data cross-reference columns (#89 A4): od_match is one of these, or blank with a
+# blank od_mocs_id; od_mocs_id reads "FY<yy> ..." for the row's own year; only FY2009-FY2021.
+OD_MATCH_VALUES = {"exact", "rounded_cents", "rounded_dollars"}
+# Excel error values. The disclosure keeps them as published TEXT (GitHub #71): 37 cells read
+# "#N/A" (FY2014 postal_code 19; FY2017 address1, city, postal_code 6 each). They are counted
+# here, never parsed as a number or a ZIP, never blanked. In a column that must hold a value
+# (ein, amount) they already fail the EIN / amount checks above.
+# GitHub #72: council_member_type from code/build_member_crosswalk.py. Exactly the two member
+# types carry a Legistar person ID; 'blank' is exactly an empty council_member.
+MEMBER_TYPES = {"member", "member_outside_fy", "ambiguous", "unresolved", "speaker", "delegation",
+                "citywide", "district_label", "blank"}
+MEMBER_ID_TYPES = {"member", "member_outside_fy"}
+# GitHub #89 B13: row_flag marks a row kept as published that a person decided is not a grant
+# to an organization (parse_expense_disclosure.ROW_FLAGS). no_grantee_ein (2026-10-16) is a rule:
+# exactly the rows whose ein is blank or "NA". Blank, or one or more of these joined by ";".
+ROW_FLAG_VALUES = {"not_an_award", "no_grantee_ein"}
+ROW_FLAG_ORDER = ["not_an_award", "no_grantee_ein"]  # decided flags first, then rule flags
+NO_GRANTEE_EIN_VALUES = {"", "NA"}
+# GitHub #70: zip / zip_status are derived from postal_code + state (code/zcta_states.py). A
+# status with a value carries a 5-digit zip taken from the published postal_code (or, padded,
+# '0' + it; trimmed, the first five digits of a ragged ZIP+4 such as '11203-' or '11231=1020';
+# repaired_extra_digit, a 6-digit value with one digit deleted); the others carry none.
+# ambiguous_extra_digit carries no zip but two or more such deletions in zip_candidates, and
+# zip_candidates is blank on every other row.
+ZIP_STATUS = {"valid", "padded", "trimmed", "repaired_extra_digit", "ambiguous_extra_digit",
+              "not_a_zcta", "state_mismatch", "invalid", "blank"}
+ZIP_HAS_VALUE = {"valid", "padded", "trimmed", "repaired_extra_digit", "not_a_zcta",
+                 "state_mismatch"}
+RAGGED_ZIP4 = re.compile(r"\d{5}(?:\s*-\s*(?!\d{4}$)\d*|\s*=\s*\d*|\s*ZipCode2:\s*\d*)")
+
+
+def _one_digit_deletions(raw):
+    """Every value made by deleting one digit of a 6-digit `raw` (empty set otherwise)."""
+    if not re.fullmatch(r"\d{6}", raw):
+        return set()
+    return {raw[:i] + raw[i + 1:] for i in range(6)}
+
+
+def _zip_fits(postal, zv, zs, cands):
+    """True when a row's zip / zip_status / zip_candidates agree with its postal_code."""
+    if zs not in ZIP_STATUS or bool(re.fullmatch(r"\d{5}", zv)) != (zs in ZIP_HAS_VALUE):
+        return False
+    if zs == "ambiguous_extra_digit":
+        c = cands.split(";")
+        return len(c) >= 2 and c == sorted(set(c)) and set(c) <= _one_digit_deletions(postal)
+    if cands:
+        return False
+    if zs == "repaired_extra_digit":
+        return zv in _one_digit_deletions(postal)
+    if zv and zs != "padded" and not postal.startswith(zv):
+        return False
+    return not (zs == "trimmed" and not RAGGED_ZIP4.fullmatch(postal))
+EXCEL_ERROR = re.compile(r"#(?:N/A|REF!|VALUE!|DIV/0!|NAME\?|NUM!|NULL!|SPILL!|CALC!|GETTING_DATA)")
+
+
+CAPITAL_SOURCES = {"council_workbook", "open_data_t474"}
+CAPITAL_FLAGS = {"split_record_amount_unknown"}
+_CAP_LINE = re.compile(r"([A-Z]{1,2})[\s-]+([A-Z0-9]+)")
+
+
+def _check_capital(res, body, header, idx):
+    """HARD checks for data/capital/council_capital_awards.csv (#89 A6):
+      - report_year and amount_fy are 4-digit years, amount_fy >= report_year (out-years only
+        look forward), except that a flagged split record has neither amount nor amount_fy;
+      - amount is a number, blank exactly on a split_record_amount_unknown row;
+      - source_kind and row_flag are from their closed sets;
+      - budget_line_norm is the published budget_line re-spelled ('P  D018' -> 'P D018'), or
+        blank when the line has no recognizable shape, written here from the documented rule."""
+    if not all(c in idx for c in ("report_year", "amount_fy", "amount", "source_kind", "row_flag",
+                                  "budget_line", "budget_line_norm")):
+        return
+    bad = Counter()
+    first = {}
+    for ln, r in enumerate(body, start=2):
+        if len(r) != len(header):
+            continue
+        ry, fy, amt = r[idx["report_year"]], r[idx["amount_fy"]], r[idx["amount"]]
+        flag, kind = r[idx["row_flag"]], r[idx["source_kind"]]
+        if flag not in CAPITAL_FLAGS | {""} or kind not in CAPITAL_SOURCES:
+            bad["vocabulary"] += 1
+            first.setdefault("vocabulary", ln)
+        if flag == "split_record_amount_unknown":
+            if amt or fy:
+                bad["split_record"] += 1
+                first.setdefault("split_record", ln)
+        else:
+            ok = re.fullmatch(r"20\d\d", ry) and re.fullmatch(r"20\d\d", fy) and int(fy) >= int(ry)
+            if not ok or amt == "" or parse_amount(amt)[1] is False:
+                bad["years_or_amount"] += 1
+                first.setdefault("years_or_amount", ln)
+        m = _CAP_LINE.fullmatch(" ".join(r[idx["budget_line"]].upper().split()))
+        want = f"{m.group(1)} {m.group(2)}" if m else ""
+        if r[idx["budget_line_norm"]] != want:
+            bad["budget_line_norm"] += 1
+            first.setdefault("budget_line_norm", ln)
+    for k, n in sorted(bad.items()):
+        res.hard.append(("council_capital", f"{n} row(s) fail the {k} rule, e.g. line {first[k]}"))
+
+
+def _check_disclosure(res, body, header, idx):
+    """HARD checks specific to the expense-disclosure CSVs. Each guards a property the rest of
+    the pipeline relies on without re-checking it:
+      - status_norm in {cleared, pending, other}, and equal to the folded raw `status` whenever
+        that is cleared/pending -- every cleared/pending/other total is a filter on this column;
+      - fiscal_year equals the folder year -- the per-year joins key on it;
+      - source_row is a unique positive integer -- it is how a reader finds the row in the
+        workbook, so a duplicate or a blank breaks provenance."""
+    if not all(c in idx for c in ("status", "status_norm", "fiscal_year", "source_row",
+                                  "duplicate_group", "zip", "zip_status", "zip_candidates",
+                                  "council_member_id",
+                                  "council_member_type", "row_flag", "od_mocs_id",
+                                  "od_match")):
+        return  # schema check already failed hard; value checks would be noise
+    bad_norm, bad_year, bad_row, seen, dup_rows = [], [], [], set(), []
+    groups, row_group = Counter(), {}
+    bad_zip, bad_member, bad_flag, bad_od, bad_noein = [], [], [], [], []
+    od_rows = 0
+    flags = Counter()
+    errors = Counter()
+    for ln, r in enumerate(body, start=2):
+        if len(r) != len(header):
+            continue
+        for col, v in zip(header, r):
+            if EXCEL_ERROR.fullmatch(v):
+                errors[(col, v)] += 1
+        raw = r[idx["status"]].strip().lower()
+        norm = r[idx["status_norm"]]
+        expected = raw if raw in ("cleared", "pending") else "other"
+        if norm not in DISCLOSURE_STATUS or norm != expected:
+            bad_norm.append((ln, r[idx["status"]], norm))
+        if res.year and r[idx["fiscal_year"]] != str(res.year):
+            bad_year.append((ln, r[idx["fiscal_year"]]))
+        mt, mid = r[idx["council_member_type"]], r[idx["council_member_id"]]
+        if mt not in MEMBER_TYPES or (mt in MEMBER_ID_TYPES) != mid.isdigit() \
+                or (mt == "blank") != (r[idx["council_member"]].strip() == ""):
+            bad_member.append((ln, r[idx["council_member"]], mid, mt))
+        om, oid = r[idx["od_match"]], r[idx["od_mocs_id"]]
+        if om or oid:
+            od_rows += 1
+            fy = r[idx["fiscal_year"]]
+            yy = fy[-2:] if fy.isdigit() else "??"
+            if om not in OD_MATCH_VALUES or not oid.startswith(f"FY{yy} ") \
+                    or not (fy.isdigit() and 2009 <= int(fy) <= 2021):
+                bad_od.append((ln, oid, om))
+        fl = r[idx["row_flag"]]
+        parts = fl.split(";") if fl else []
+        for part in parts:
+            flags[part] += 1
+        # Known flags only, none repeated, decided flags (not_an_award) before rule flags.
+        if fl and (any(x not in ROW_FLAG_VALUES for x in parts) or len(set(parts)) != len(parts)
+                   or parts != sorted(parts, key=ROW_FLAG_ORDER.index)):
+            bad_flag.append((ln, fl))
+        if "ein" in idx and (("no_grantee_ein" in parts)
+                             != (r[idx["ein"]].strip().upper() in NO_GRANTEE_EIN_VALUES)):
+            bad_noein.append((ln, r[idx["ein"]], fl))
+        zs, zv = r[idx["zip_status"]], r[idx["zip"]]
+        if not _zip_fits(r[idx["postal_code"]], zv, zs, r[idx["zip_candidates"]]):
+            bad_zip.append((ln, r[idx["postal_code"]], zv, zs))
+        if r[idx["duplicate_group"]]:
+            groups[r[idx["duplicate_group"]]] += 1
+            row_group[r[idx["source_row"]]] = r[idx["duplicate_group"]]
+        sr = r[idx["source_row"]]
+        if not (sr.isdigit() and int(sr) > 0):
+            bad_row.append((ln, sr))
+        elif sr in seen:
+            dup_rows.append((ln, sr))
+        else:
+            seen.add(sr)
+    if bad_norm:
+        ln, raw, norm = bad_norm[0]
+        res.hard.append(("status", f"{len(bad_norm)} row(s) whose status_norm does not match "
+                                   f"status, e.g. line {ln}: {raw!r} -> {norm!r}"))
+    if bad_year:
+        ln, v = bad_year[0]
+        res.hard.append(("fiscal_year", f"{len(bad_year)} row(s) whose fiscal_year is not the "
+                                        f"folder year FY{res.year}, e.g. line {ln}: {v!r}"))
+    if bad_row:
+        ln, v = bad_row[0]
+        res.hard.append(("provenance", f"{len(bad_row)} row(s) with a non-integer source_row, "
+                                       f"e.g. line {ln}: {v!r}"))
+    if dup_rows:
+        ln, v = dup_rows[0]
+        res.hard.append(("provenance", f"{len(dup_rows)} duplicate source_row value(s), "
+                                       f"e.g. line {ln}: {v!r}"))
+    # duplicate_group (GitHub #69) names the first row of a group of exact copies: it must be a
+    # source_row of this file, carried by at least two rows, the named row among them.
+    bad_groups = sorted(g for g, n in groups.items() if n < 2 or row_group.get(g) != g)
+    if bad_groups:
+        res.hard.append(("duplicate_group", (f"{len(bad_groups)} duplicate_group value(s) that do "
+                                             f"not name a row of a 2+ row group, e.g. "
+                                             f"{bad_groups[0]!r}")))
+    if groups:
+        res.soft.append(("duplicate_group", (f"{sum(groups.values())} row(s) in {len(groups)} "
+                                             f"group(s) of exact copies, kept as published "
+                                             f"(DATA-ANOMALIES §22)")))
+    if bad_member:
+        ln, v, mid, mt = bad_member[0]
+        res.hard.append(("council_member", (f"{len(bad_member)} row(s) whose council_member_id / "
+                                            f"council_member_type are inconsistent, e.g. line "
+                                            f"{ln}: {v!r} -> {mid!r} {mt!r}")))
+    if bad_zip:
+        ln, raw, zv, zs = bad_zip[0]
+        res.hard.append(("zip", (f"{len(bad_zip)} row(s) whose zip/zip_status are inconsistent, "
+                                 f"e.g. line {ln}: postal_code {raw!r} -> {zv!r} {zs!r}")))
+    if bad_od:
+        ln, oid, om = bad_od[0]
+        res.hard.append(("od_mocs_id", (f"{len(bad_od)} row(s) whose od_mocs_id / od_match are "
+                                        f"inconsistent, e.g. line {ln}: {oid!r} {om!r}")))
+    if od_rows:
+        res.soft.append(("od_mocs_id", (f"{od_rows} row(s) carry NYC Open Data's MOCS ID "
+                                        f"(unambiguous pairs only)")))
+    if bad_flag:
+        ln, v = bad_flag[0]
+        res.hard.append(("row_flag", (f"{len(bad_flag)} row(s) with an unknown row_flag, e.g. "
+                                      f"line {ln}: {v!r} (allowed: {sorted(ROW_FLAG_VALUES)})")))
+    if bad_noein:
+        ln, e, fl = bad_noein[0]
+        res.hard.append(("row_flag", (f"{len(bad_noein)} row(s) where no_grantee_ein does not match "
+                                      f"a blank or 'NA' ein, e.g. line {ln}: ein {e!r}, "
+                                      f"row_flag {fl!r}")))
+    if flags:
+        res.soft.append(("row_flag", "rows kept as published but flagged: "
+                                     + ", ".join(f"{k} x{n}" for k, n in sorted(flags.items()))))
+    if errors:
+        res.soft.append(("excel_error", f"{sum(errors.values())} cell(s) hold an Excel error value, "
+                                        f"kept as published text (DATA-ANOMALIES §22): "
+                                        + ", ".join(f"{c}={v} x{n}" for (c, v), n in
+                                                    sorted(errors.items()))))
+
+
 def build_surname_set(files):
     """Council-member surnames drawn from the (cleaner) transparency `council_member` column,
     used only to spot member-name leakage into org/program fields. Conservative: single alpha
@@ -481,6 +760,16 @@ def parse_reconciliations(data_dir):
     for path in sorted(glob.glob(os.path.join(data_dir, "fy*", "*", "*reconciliation*.txt"))):
         text = open(path, encoding="utf-8").read()
         year = year_of(path)
+        if "expense_disclosure" in path:
+            # parse_expense_disclosure.py states one verdict line about the workbook's OWN
+            # printed total. Most years print none: that is N/A, never a pass.
+            m = re.search(r"^printed total: (RECONCILED|MISMATCH|NO PRINTED TOTAL)$", text, re.M)
+            verdict = m.group(1) if m else None
+            out.append((year, "disclosure", {"RECONCILED": "1/1", "MISMATCH": "0/1"}.get(
+                verdict, "—"), {"RECONCILED": "PASS", "MISMATCH": "FAIL (printed total differs)",
+                                "NO PRINTED TOTAL": "N/A (no printed total)"}.get(
+                verdict, "unparsed")))
+            continue
         if "schedule_c" in path:
             doctype = "schedule_c"
         elif "capital" in path:
@@ -683,7 +972,8 @@ def coverage_by_year(results):
             continue  # roll-ups of already-counted per-year data
         doctype = {"schedule_c_awards": "awards", "appendix_aging": "appendix",
                    "appendix_local": "appendix", "appendix_youth": "appendix",
-                   "transparency": "transparency"}.get(r.typ, r.typ)
+                   "transparency": "transparency",
+                   "expense_disclosure": "disclosure"}.get(r.typ, r.typ)
         key = (r.year, doctype)
         agg[key][0] += r.ein_valid
         agg[key][1] += r.nrows

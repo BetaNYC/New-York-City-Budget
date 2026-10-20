@@ -1,0 +1,31 @@
+EXPENSE DISCLOSURE RECONCILIATION  (fy15)  [parser: parse_expense_disclosure.py]
+source: funded_disclosure_FY2015.xlsx  (sheet 'FY15', xlsx, 6651 rows incl. header)
+printed total: NO PRINTED TOTAL
+
+Every non-blank row after the header is either an award or a stripped row. A row is
+decided by its Status cell: Cleared/Pending (any case) is an award; anything else is
+stripped unless it still names an organization and an amount (then it is kept with
+status_norm 'other'). Every stripped row is listed below with its cells.
+
+rows after header: 6650   blank: 0   awards: 6650   stripped: 0
+
+status_norm       rows              amount
+cleared           6596      285,921,454.46
+pending             54             810,402
+other                0                   0
+ALL               6650      286,731,856.46
+
+Headline figure = cleared only. 'ALL' adds pending (and other) and is labeled so.
+
+This workbook prints no total of its own. The sums above are computed by this
+parser from the rows; they are not a figure published by the Council.
+
+Stripped rows (0):
+  none
+
+EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (0): none
+Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 17 group(s), 35 row(s); 18 beyond the first of each group, $1,775,350
+NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: 4155 of 6650 rows (exact 4037, rounded_cents 0, rounded_dollars 118)
+Rows kept but flagged in row_flag (1), included in every total above:
+  row   6651  no_grantee_ein 'Helping Hands, East NY Brooklyn' $5,437.50
+notes: no MOCS ID#

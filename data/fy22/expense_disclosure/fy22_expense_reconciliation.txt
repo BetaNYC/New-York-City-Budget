@@ -1,0 +1,29 @@
+EXPENSE DISCLOSURE RECONCILIATION  (fy22)  [parser: parse_expense_disclosure.py]
+source: funded_disclosure_FY2022.xlsx  (sheet 'FY22 (07-11-2023)', xlsx, 11337 rows incl. header)
+printed total: NO PRINTED TOTAL
+
+Every non-blank row after the header is either an award or a stripped row. A row is
+decided by its Status cell: Cleared/Pending (any case) is an award; anything else is
+stripped unless it still names an organization and an amount (then it is kept with
+status_norm 'other'). Every stripped row is listed below with its cells.
+
+rows after header: 11336   blank: 0   awards: 11336   stripped: 0
+
+status_norm       rows              amount
+cleared          11222         536,959,144
+pending            114           1,590,683
+other                0                   0
+ALL              11336         538,549,827
+
+Headline figure = cleared only. 'ALL' adds pending (and other) and is labeled so.
+
+This workbook prints no total of its own. The sums above are computed by this
+parser from the rows; they are not a figure published by the Council.
+
+Stripped rows (0):
+  none
+
+EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (0): none
+Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 40 group(s), 80 row(s); 40 beyond the first of each group, $1,373,189
+Rows kept but flagged in row_flag (0), included in every total above: none
+notes: no MOCS ID#

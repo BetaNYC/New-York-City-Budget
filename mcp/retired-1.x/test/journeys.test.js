@@ -40,7 +40,7 @@ async function callText(name, args = {}) {
   return res.content.map((c) => c.text).join("\n");
 }
 
-test("tools/list exposes the 7 budget tools", async () => {
+test("tools/list exposes the 8 budget tools", async () => {
   const { tools } = await client.listTools();
   const names = tools.map((t) => t.name).sort();
   assert.deepEqual(names, [
@@ -50,6 +50,7 @@ test("tools/list exposes the 7 budget tools", async () => {
     "list_available_fiscal_years",
     "search_awards",
     "search_capital_projects",
+    "search_disclosure_awards", // v1.5.0
     "search_transparency_resolutions",
   ]);
 });

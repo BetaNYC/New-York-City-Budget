@@ -1,0 +1,939 @@
+#!/usr/bin/env python3
+"""
+Tests for parse_expense_disclosure.py -- the Council expense-disclosure dataset
+(data/fyNN/expense_disclosure/).
+
+Two kinds of test:
+  * unit tests on the row classifier and the cell cleaners, using tiny synthetic workbooks
+    built here with zipfile (no network, no download);
+  * corpus tests against the real workbooks committed under source/expense-funding-disclosure/.
+    These pin the numbers the docs quote, so a figure in a doc always comes from committed code
+    run on fixed inputs.
+
+Each test's docstring says what result would FAIL it. FY2013 is a legacy .xls and needs xlrd;
+its tests skip, loudly, when xlrd is not installed (pip install -r code/requirements.txt).
+
+Run: pytest code/test_parse_expense_disclosure.py
+"""
+import collections
+import csv
+import io
+import os
+import subprocess
+import sys
+import zipfile
+from decimal import Decimal
+from xml.sax.saxutils import escape
+
+import pytest
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+
+import parse_expense_disclosure as P  # noqa: E402
+
+SRC = P.SRC_DIR
+
+
+class XlError(str):
+    """A cell written as an Excel ERROR value (cell type t="e" in SpreadsheetML), e.g. #N/A."""
+
+
+def _xlsx(path, rows, sheet="FY99 (01-01-99)"):
+    """Write a minimal single-sheet .xlsx. Strings go inline, ints/floats as numeric cells,
+    XlError values as error-typed cells."""
+    def cell(ref, v):
+        if v is None:
+            return ""
+        if isinstance(v, XlError):
+            return f'<c r="{ref}" t="e"><v>{escape(v)}</v></c>'
+        if isinstance(v, (int, float)):
+            return f'<c r="{ref}"><v>{v}</v></c>'
+        return f'<c r="{ref}" t="inlineStr"><is><t>{escape(v)}</t></is></c>'
+    body = []
+    for i, row in enumerate(rows, start=1):
+        cells = "".join(cell(f"{P._col_letter(j)}{i}", v) for j, v in enumerate(row))
+        body.append(f'<row r="{i}">{cells}</row>')
+    ns = 'xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"'
+    with zipfile.ZipFile(path, "w") as z:
+        z.writestr("xl/workbook.xml",
+                   f'<workbook {ns}><sheets><sheet name="{sheet}" sheetId="1"/></sheets>'
+                   f'</workbook>')
+        z.writestr("xl/worksheets/sheet1.xml",
+                   f'<worksheet {ns}><sheetData>{"".join(body)}</sheetData></worksheet>')
+    return path
+
+
+HDR = ["MOCS ID#", "Fiscal Year", "Source", "Council Member", "Legal Name", "Tax ID", "Status",
+       "Amount", "Agency", "Program Name", "Grantee Street Address 1",
+       "Grantee Street Address 2", "City", "State", "Postal Code", "Purpose of Funds",
+       "Fiscal Conduit", "Fiscal Conduit EIN"]
+
+
+def _row(name, ein, status, amount, mocs="FY99 00001"):
+    return [mocs, 2099, "Local", "Doe", name, ein, status, amount, "DYCD"] + [""] * 9
+
+
+# ---------------------------------------------------------------- the row classifier
+
+def test_classify_decides_on_status_not_on_label_wording():
+    """FAILS if a row is decided by its label text: a summary row with an unfamiliar label and
+    no organization must still be stripped, and a real award must not be stripped because its
+    purpose happens to contain the word 'total'."""
+    assert P.classify("Cleared", "Acme Inc.", "5000") == "award"
+    assert P.classify("PENDING ", "Acme Inc.", "5000") == "award"
+    assert P.classify("Grand Sum Of Everything:", "", "999") == "stripped"
+    assert P.classify("", "", "454755") == "stripped"          # FY2024 orphan shape
+    assert P.classify("", "", "") == "stripped"
+
+
+def test_classify_keeps_an_unknown_status_award_as_other():
+    """Decision 2 (keep every row). FAILS if a named, valued row with a status the Council has
+    never used is dropped instead of kept for the 'other' bucket."""
+    assert P.classify("Withdrawn", "Acme Inc.", "5000") == "award"
+    assert P.norm_status("Withdrawn") == "other"
+
+
+def test_classify_stops_on_a_clearance_row_with_no_name_or_amount():
+    """FAILS if a Cleared/Pending row missing its organization or amount is silently dropped
+    (that would mean the published schema moved under us)."""
+    with pytest.raises(ValueError):
+        P.classify("Cleared", "", "5000")
+    with pytest.raises(ValueError):
+        P.classify("Pending", "Acme Inc.", "n/a")
+
+
+def test_norm_status_folds_case_and_whitespace_only():
+    """FAILS if status_norm is anything but cleared/pending/other, or if case or padding
+    changes the bucket."""
+    assert [P.norm_status(s) for s in ("Cleared", "CLEARED", " cleared ", "Pending",
+                                       "PENDING", "", "Schedule C Total:")] == \
+        ["cleared", "cleared", "cleared", "pending", "pending", "other", "other"]
+
+
+# ---------------------------------------------------------------- cell cleaners
+
+def test_clean_ein_rules():
+    """FAILS if a hyphen survives, if a numeric 8-digit EIN is not padded, or if a TEXT
+    8-digit EIN is padded (that would invent a digit)."""
+    assert P.clean_ein("13-6400434", False) == ("136400434", False)
+    assert P.clean_ein("10596502", True) == ("010596502", True)
+    assert P.clean_ein("10596502", False) == ("10596502", False)
+    assert P.clean_ein("\u200b136400434", False) == ("136400434", False)
+    assert P.clean_ein(None, False) == ("", False)
+
+
+def test_amounts_take_the_shortest_spelling_of_the_same_double():
+    """FAILS if the xlsx 17-digit spelling leaks into the CSV, or if an integral amount gains
+    a decimal point."""
+    assert P.parse_amount_text("22320.420999999998") == Decimal("22320.421")
+    assert P.format_amount(P.parse_amount_text("5000")) == "5000"
+    assert P.format_amount(P.parse_amount_text("1864000.0")) == "1864000"
+    assert P.format_amount(P.parse_amount_text("13881.76")) == "13881.76"
+    assert P.parse_amount_text("Schedule C Total:") is None
+    assert P.parse_amount_text("") is None
+
+
+def test_clean_keeps_no_break_space_as_a_separator():
+    """FAILS if a no-break space is deleted (it glued 'Center,' to 'Inc.' in an earlier
+    version), if a zero-width space survives, or if a line break survives into the CSV."""
+    assert P._clean("Youth Design Center,\xa0Inc.") == "Youth Design Center, Inc."
+    assert P._clean("\u200b\u200bFunding will") == "Funding will"
+    assert P._clean("Line one\nline  two ") == "Line one line two"
+
+
+def test_clean_deletes_every_invisible_format_character_but_the_soft_hyphen():
+    """FAILS if a left-to-right mark (U+200E, FY2015 row 3174 purpose), a zero-width space or a
+    BOM survives into the CSV, or if a visible hyphen is touched."""
+    assert P._clean("\u200eProgram\ufeff") == "Program"
+    assert P._clean("13\u200b1234567") == "131234567"
+    assert P._clean("12-11 40th Avenue") == "12-11 40th Avenue"
+
+
+def test_soft_hyphen_in_an_address_is_a_hyphen_issue_68():
+    """Issue #68. FAILS if the Queens house number '12<SHY>11 40th Avenue' (FY2018 row 2796)
+    comes out as anything but '12-11 40th Avenue' -- the earlier parser deleted the soft hyphen
+    and published '1211 40th Avenue', a different address -- or if a soft hyphen next to a
+    visible '-' (169 address cells read '12-<SHY>11') doubles it into '12--11'."""
+    assert P._clean("12\xad11 40th Avenue") == "12-11 40th Avenue"
+    assert P._clean("12-\xad11 40th Avenue") == "12-11 40th Avenue"
+    assert P._clean("12\xad-11 40th Avenue") == "12-11 40th Avenue"
+    assert P._clean("12\xad\xad11") == "12-11"
+
+
+def test_soft_hyphen_in_purpose_follows_the_same_rule():
+    """The 25 purpose cells holding a soft hyphen, decided case by case (DATA-DICTIONARY):
+    every one is a hyphenated word or a range, so '-' is right; next to '/' or '-' it is
+    deleted. FAILS if 'after<SHY>school' loses its hyphen, 'ages 12<SHY>19' becomes '1219',
+    or 'disposal/<SHY>destruction' gains a '-' after the slash."""
+    assert P._clean("an after\xadschool college access program") == \
+        "an after-school college access program"
+    assert P._clean("students ages 12\xad19") == "students ages 12-19"
+    assert P._clean("girls ages 8-\xad18") == "girls ages 8-18"
+    assert P._clean("recycling E\xad-waste.") == "recycling E-waste."
+    assert P._clean("document disposal/\xaddestruction") == "document disposal/destruction"
+
+
+def test_committed_address_keeps_the_queens_hyphen():
+    """Corpus pin, read from the committed CSV. FAILS if FY2018 rows 2796-2811 lose the hyphen
+    of '12-11 40th Avenue'. (The workbook-vs-CSV hyphen count for every address is audit
+    question D13.)"""
+    import csv as _csv
+    path = os.path.join(P.DATA_DIR, "fy18", "expense_disclosure", "fy18_expense_awards.csv")
+    with open(path, newline="", encoding="utf-8") as fh:
+        rows = {int(r["source_row"]): r for r in _csv.DictReader(fh)}
+    for rn in range(2796, 2812):
+        assert rows[rn]["address1"] == "12-11 40th Avenue", (rn, rows[rn]["address1"])
+
+
+def test_committed_csvs_hold_no_invisible_format_character():
+    """Corpus pin. FAILS if any committed disclosure CSV cell holds a Unicode Cf character
+    (the 2026-10-12 red-team found 213 soft hyphens and 2 LRMs the docs said were removed)."""
+    import glob
+    import unicodedata
+    bad = []
+    for f in glob.glob(os.path.join(P.DATA_DIR, "fy*", "expense_disclosure", "*_awards.csv")):
+        with open(f, encoding="utf-8") as fh:
+            for i, line in enumerate(fh, 1):
+                if any(unicodedata.category(ch) == "Cf" for ch in line):
+                    bad.append(f"{os.path.basename(f)}:{i}")
+    assert not bad, bad[:10]
+
+
+def test_committed_na_cells_are_kept_as_published_issue_71():
+    """Issue #71. Corpus pin, from the committed CSVs. FAILS if any of the 37 Excel '#N/A' error
+    cells is blanked, rewritten or dropped (FY2014 postal_code 19; FY2017 address1, city and
+    postal_code 6 each), or if '#N/A' appears in any other column."""
+    import collections
+    import csv as _csv
+    import glob
+    got = collections.Counter()
+    for f in glob.glob(os.path.join(P.DATA_DIR, "fy*", "expense_disclosure", "*_awards.csv")):
+        with open(f, newline="", encoding="utf-8") as fh:
+            for r in _csv.DictReader(fh):
+                for k, v in r.items():
+                    if v == "#N/A":
+                        got[(r["fiscal_year"], k)] += 1
+    assert dict(got) == {("2014", "postal_code"): 19, ("2017", "address1"): 6,
+                         ("2017", "city"): 6, ("2017", "postal_code"): 6}, dict(got)
+
+
+# ---------------------------------------------------------------- synthetic workbooks
+
+def test_synthetic_footer_is_stripped_and_listed(tmp_path):
+    """A workbook shaped like FY2024: two awards, then a blank-Status footer whose label sits in
+    a different column. FAILS if the footer is summed in, or if it is dropped without being
+    listed with its cells."""
+    p = _xlsx(str(tmp_path / "funded_disclosure_FY2099.xlsx"), [
+        HDR,
+        _row("Acme Inc.", "136400434", "Cleared", 5000),
+        _row("Beta Org", "010596502", "Pending", 2500.5, mocs="FY99 00002"),
+        [None] * 18,
+        [None] * 7 + [7500.5, None, None, "New Total"],
+    ])
+    aw, rep = P.parse_year(p)
+    assert [a.legal_name for a in aw] == ["Acme Inc.", "Beta Org"]
+    assert rep.n_blank == 1 and rep.n_stripped == 1
+    assert rep.stripped[0]["row"] == 5 and rep.stripped[0]["letters"]["K"] == "New Total"
+    assert P.total_decimal(aw) == Decimal("7500.5")
+    assert rep.amount_by_status["cleared"] == 5000 and rep.amount_by_status["pending"] == \
+        Decimal("2500.5")
+    assert aw[1].ein == "010596502"        # text cell: leading zero kept, never re-padded
+
+
+def test_error_cell_is_published_as_its_text(tmp_path):
+    """Issue #71. FAILS if an error-typed cell (t="e", '#N/A') is blanked, read as a number, or
+    makes the row disappear: the row must be an award whose postal_code is the text '#N/A'."""
+    row = _row("Acme Inc.", "136400434", "Cleared", 5000)
+    row[HDR.index("Postal Code")] = XlError("#N/A")
+    p = _xlsx(tmp_path / "funded_disclosure_FY2099.xlsx", [HDR, row])
+    awards, rep = P.parse_year(str(p))
+    assert rep.n_awards == 1 and awards[0].postal_code == "#N/A", awards
+
+
+def test_exact_copies_share_a_duplicate_group_issue_69(tmp_path, monkeypatch):
+    """Issue #69. Two rows identical in every published field get the same duplicate_group (the
+    first row's number); a third row differing only in amount, and a unique row, stay blank.
+    FAILS if a copy is dropped, if the group is not the first copy's row number, if a row that
+    differs in one field is flagged, or if the flag is computed across workbooks."""
+    a = _row("Acme Inc.", "136400434", "Cleared", 5000)
+    b = _row("Acme Inc.", "136400434", "Cleared", 5001)
+    c = _row("Beta Org", "010596502", "Pending", 100)
+    p = _xlsx(tmp_path / "funded_disclosure_FY2099.xlsx", [HDR, a, list(a), b, c, list(a)])
+    awards, rep = P.parse_year(str(p))
+    monkeypatch.setattr(P, "_MEMBERS", {(2099, "Doe"): ("member", "42")})  # synthetic year
+    assert rep.n_awards == 5
+    assert P.duplicate_groups(awards) == {2: 2, 3: 2, 6: 2}
+    import csv as _csv
+    rows = list(_csv.DictReader(io.StringIO(P.csv_text(awards))))
+    assert [r["duplicate_group"] for r in rows] == ["2", "2", "", "", "2"]
+    text = P.reconciliation_text(awards, rep)
+    assert "1 group(s), 3 row(s); 2 beyond the first of each group, $10,000" in text
+
+
+def test_committed_duplicate_flags_issue_69():
+    """Corpus pin, from the committed CSVs. FAILS if the FY2013-FY2027 exact-copy count moves
+    from 321 groups / 662 rows (341 beyond the first, $8,549,772), if the archived FY2009/2011/
+    2012 counts move from 119 groups / 418 rows (299 beyond the first, $2,712,350.056532), if any
+    year from FY2024 on is flagged (those repeats carry distinct MOCS IDs), or if a flagged row
+    is not identical to its group's first row in every field but source_row, duplicate_group
+    and the Open Data cross-reference (od_mocs_id / od_match: one Open Data row can pair with
+    at most one Council row, so copies differ there by construction)."""
+    import csv as _csv
+    import glob
+    from decimal import Decimal
+    tally = {"rnd": [set(), 0, 0, Decimal(0)], "archived": [set(), 0, 0, Decimal(0)]}
+    years = set()
+    for f in sorted(glob.glob(os.path.join(P.DATA_DIR, "fy*", "expense_disclosure", "*_awards.csv"))):
+        with open(f, newline="", encoding="utf-8") as fh:
+            rows = list(_csv.DictReader(fh))
+        by_rn = {r["source_row"]: r for r in rows}
+        for r in rows:
+            g = r["duplicate_group"]
+            if not g:
+                continue
+            first = by_rn[g]
+            same = [k for k in r if k not in ("source_row", "duplicate_group", "od_mocs_id",
+                                              "od_match")]
+            assert all(r[k] == first[k] for k in same), (f, r["source_row"])
+            t = tally["archived" if int(r["fiscal_year"]) in P.ARCHIVED else "rnd"]
+            t[0].add((r["fiscal_year"], g))
+            years.add(int(r["fiscal_year"]))
+            t[1] += 1
+            if g != r["source_row"]:
+                t[2] += 1
+                t[3] += Decimal(r["amount"])
+    rnd, arch = tally["rnd"], tally["archived"]
+    assert (len(rnd[0]), rnd[1], rnd[2], rnd[3]) == (321, 662, 341, Decimal(8549772))
+    assert (len(arch[0]), arch[1], arch[2], arch[3]) == (119, 418, 299,
+                                                         Decimal("2712350.056532"))
+    assert max(years) == 2023 and min(years) == 2009
+
+
+def test_a_member_name_missing_from_the_crosswalk_is_a_stop(tmp_path, monkeypatch):
+    """Issue #72. FAILS if a (year, council_member) pair the crosswalk does not hold is written
+    with a blank or guessed ID instead of stopping with the command that fixes it."""
+    p = _xlsx(tmp_path / "funded_disclosure_FY2099.xlsx",
+              [HDR, _row("Acme Inc.", "136400434", "Cleared", 5000)])
+    awards, _ = P.parse_year(str(p))
+    monkeypatch.setattr(P, "_MEMBERS", {})
+    with pytest.raises(ValueError, match="build_member_crosswalk.py --write"):
+        P.csv_text(awards)
+    monkeypatch.setattr(P, "_MEMBERS", {(2099, "Doe"): ("member", "42")})
+    import csv as _csv
+    (row,) = list(_csv.DictReader(io.StringIO(P.csv_text(awards))))
+    assert (row["council_member_id"], row["council_member_type"]) == ("42", "member")
+
+
+def test_committed_member_ids_keep_levin_and_levine_apart_issue_72():
+    """Corpus pin, from the committed CSVs. FAILS if any 'Levin' row carries Mark Levine's ID
+    (7634) or any 'Levine' row Stephen Levin's (7567), or if a row's ID disagrees with the
+    committed crosswalk for its (year, council_member)."""
+    import csv as _csv
+    import glob
+    xw = P._members()
+    seen = {}
+    for f in glob.glob(os.path.join(P.DATA_DIR, "fy*", "expense_disclosure", "*_awards.csv")):
+        with open(f, newline="", encoding="utf-8") as fh:
+            for r in _csv.DictReader(fh):
+                typ, pid = xw[(int(r["fiscal_year"]), r["council_member"])]
+                assert (r["council_member_type"], r["council_member_id"]) == (typ, pid), r
+                if r["council_member"] in ("Levin", "Levine"):
+                    seen.setdefault(r["council_member"], set()).add(r["council_member_id"])
+    assert seen == {"Levin": {"7567"}, "Levine": {"7634"}}, seen
+
+
+def test_unregistered_printed_total_is_a_stop(tmp_path):
+    """FAILS if a year that starts printing a total is reported as 'NO PRINTED TOTAL' (that
+    would hide the Council's own number) instead of stopping until RECONCILE_TO names it."""
+    p = _xlsx(str(tmp_path / "funded_disclosure_FY2099.xlsx"), [
+        HDR, _row("Acme Inc.", "136400434", "Cleared", 5000),
+        [None] * 6 + ["Grand Total:", 5000],
+    ])
+    aw, rep = P.parse_year(p)
+    with pytest.raises(ValueError, match="RECONCILE_TO"):
+        P.reconcile(aw, rep)
+
+
+def test_unmapped_header_is_a_stop(tmp_path):
+    """FAILS if a column the parser does not recognize is silently ignored."""
+    p = _xlsx(str(tmp_path / "funded_disclosure_FY2099.xlsx"),
+              [HDR + ["Brand New Column"], _row("Acme Inc.", "136400434", "Cleared", 5000)])
+    with pytest.raises(ValueError, match="unmapped header"):
+        P.parse_year(p)
+
+
+def test_unknown_status_row_is_kept_and_counted_as_other(tmp_path):
+    """FAILS if a named, valued row with an unknown status is stripped, or if its dollars do
+    not appear in the 'other' bucket of the totals."""
+    p = _xlsx(str(tmp_path / "funded_disclosure_FY2099.xlsx"), [
+        HDR, _row("Acme Inc.", "136400434", "Cleared", 5000),
+        _row("Gamma Org", "111111111", "Withdrawn", 700, mocs="FY99 00003"),
+    ])
+    aw, rep = P.parse_year(p)
+    assert rep.n_stripped == 0 and rep.by_status == {"cleared": 1, "other": 1}
+    assert rep.amount_by_status["other"] == 700
+    assert aw[1].status == "Withdrawn" and aw[1].status_norm == "other"
+
+
+# ---------------------------------------------------------------- the real corpus
+
+@pytest.fixture(scope="module")
+def corpus():
+    return {r.fiscal_year: (aw, r) for aw, r in P.parse_all()}
+
+
+def test_fy2026_no_longer_prints_a_total_but_still_equals_the_one_it_printed(corpus):
+    """The 2026-07-15 FY2026 workbook printed Master List Total (=SUM(H2:H11762)) and a typed
+    Updated Total, both 716,213,155; the 2026-10-12 one has no footer rows. FAILS if the
+    current workbook's verdict claims a printed total it does not have, if the kept rows no
+    longer equal the earlier printed figure, or if the report drops the earlier figure or
+    presents it as this workbook's own."""
+    aw, rep = corpus[2026]
+    assert not rep.printed and not rep.stripped
+    assert P.reconcile(aw, rep) == ("NO PRINTED TOTAL", [])
+    assert P.total_decimal(aw) == Decimal(716213155)
+    assert [v for _, _, v in P.PRIOR_PRINTED[2026]] == [Decimal(716213155)] * 2
+    text = P.reconciliation_text(aw, rep)
+    assert "printed total: NO PRINTED TOTAL" in text
+    assert "snapshot 2026-07-15 'Master List Total': 716,213,155 vs kept rows 716,213,155  SAME" \
+        in text
+    assert "They are NOT this" in text
+
+
+def test_prior_printed_total_says_different_when_it_is(corpus):
+    """FAILS if a changed year total would still be reported as SAME as the earlier snapshot."""
+    aw, rep = corpus[2026]
+    text = P.reconciliation_text(aw[1:], rep)
+    assert "SAME" not in text and text.count("DIFFERENT") == 2
+
+
+def test_fy2024_equals_its_new_total_and_lists_the_orphan(corpus):
+    """FAILS if the kept rows differ from 'New Total' (=SUM(H2:H10818), and =Adoption Total +
+    Admin New Add), or if the unlabeled 454,755 cell is summed in or dropped unlisted."""
+    aw, rep = corpus[2024]
+    assert P.reconcile(aw, rep)[0] == "RECONCILED"
+    assert P.total_decimal(aw) == Decimal(527971414)
+    orphan = [p for p in rep.printed if p["value"] == 454755]
+    assert len(orphan) == 1 and orphan[0]["label"] == "" and orphan[0]["formula"] == ""
+
+
+def test_exactly_these_rows_are_stripped(corpus):
+    """FAILS if the strip predicate widens or narrows by a single row anywhere in 15 years."""
+    got = {fy: [s["row"] for s in r.stripped] for fy, (_, r) in corpus.items() if r.stripped}
+    assert got == {2024: [10818, 10819, 10820, 10821, 10829]}
+
+
+def test_every_row_is_accounted_for(corpus):
+    """FAILS if any row after the header is neither an award, a blank, nor a listed strip."""
+    for fy, (aw, r) in corpus.items():
+        if r.skipped:
+            continue
+        assert r.n_rows_present == r.n_awards + r.n_blank + r.n_stripped, fy
+        assert r.sheet_rows == r.n_rows_present + 1, fy
+
+
+def test_only_fy2024_prints_a_total(corpus):
+    """FAILS if a computed sum is ever presented as the Council's: every other year must say
+    NO PRINTED TOTAL and that its sums are not a Council figure."""
+    for fy, (aw, r) in corpus.items():
+        if r.skipped:
+            continue
+        verdict = P.reconcile(aw, r)[0]
+        if fy == 2024:
+            assert verdict == "RECONCILED", fy
+        else:
+            assert verdict == "NO PRINTED TOTAL", fy
+            assert "not a figure published by the Council" in P.reconciliation_text(aw, r)
+
+
+def test_status_buckets_partition_each_year(corpus):
+    """FAILS if cleared + pending + other does not add back to the year's total, in rows and in
+    dollars -- i.e. if a status bucket loses or double-counts a row."""
+    for fy, (aw, r) in corpus.items():
+        if r.skipped:
+            continue
+        assert sum(r.by_status.values()) == r.n_awards, fy
+        assert sum(r.amount_by_status.values()) == P.total_decimal(aw), fy
+
+
+def test_fy2027_figures_and_cleared_is_the_headline(corpus):
+    """Pins the figures the docs quote for FY2027 (2026-10-12 snapshot; the 2026-07-15 one was
+    5,037 cleared / 5,003 pending). FAILS if status is mis-bucketed."""
+    aw, r = corpus[2027]
+    assert r.by_status == {"cleared": 8870, "pending": 1537}
+    assert r.amount_by_status["cleared"] == Decimal(590253954)
+    assert r.amount_by_status["pending"] == Decimal(115450046)
+
+
+def test_nonintegral_amount_count(corpus):
+    """Pins the docstring figure in parse_amount_text. FAILS if amounts are rounded."""
+    if corpus[2013][1].skipped:
+        pytest.skip("FY2013 needs xlrd")
+    n = sum(1 for fy, (aw, r) in corpus.items() if fy >= 2013 for a in aw if "." in a.amount_text)
+    assert n == 281
+    # The archived years carry many more (FY2009 858, e.g. 7481.296758), kept as published.
+    old = {fy: sum(1 for a in corpus[fy][0] if "." in a.amount_text) for fy in P.ARCHIVED}
+    assert old == {2009: 858, 2011: 205, 2012: 85}
+
+
+def test_fy2013_reads_through_xlrd(corpus):
+    """FAILS if FY2013 is not parsed, if its numeric EIN cells lose their leading zero, or if
+    its hyphenated EINs keep the hyphen."""
+    pytest.importorskip("xlrd")
+    aw, r = corpus[2013]
+    assert r.skipped == "" and r.sheet_name == "MASTER" and r.format == "xls"
+    assert r.n_awards == 4987 and r.n_stripped == 0
+    assert r.by_status == {"cleared": 2343, "pending": 2644}
+    assert r.amount_by_status["cleared"] == Decimal("18201784.75")
+    assert list(r.ein_padded) == [15, 1449, 1644]
+    by_row = {a.source_row: a for a in aw}
+    assert all(by_row[n].ein.startswith("0") and len(by_row[n].ein) == 9 for n in r.ein_padded)
+    assert all(e == "" or (e.isdigit() and len(e) == 9) for e in (a.ein for a in aw))
+    assert sum(1 for a in aw if not a.ein) == 2
+    assert by_row[2].postal_code == "" and by_row[4987].postal_code == "10301"  # not "10301.0"
+
+
+def test_module_imports_and_degrades_without_xlrd():
+    """Decision 4: the parser stays importable without xlrd. FAILS if importing needs xlrd, if
+    FY2014+ stop parsing without it, if FY2013 is dropped without a reason, or if --write would
+    publish a partial dataset."""
+    code = (
+        "import sys; sys.modules['xlrd'] = None\n"
+        f"sys.path.insert(0, {HERE!r})\n"
+        "import parse_expense_disclosure as P\n"
+        "res = P.parse_all()\n"
+        "xls = [r for _, r in res if r.format == 'xls']\n"
+        "assert sorted(r.fiscal_year for r in xls) == [2009, 2011, 2012, 2013], xls\n"
+        "assert all(r.skipped and 'xlrd' in r.skipped for r in xls), xls\n"
+        "assert all(r.n_awards > 0 for _, r in res if r.format != 'xls')\n"
+        "try:\n"
+        "    P.outputs(res)\n"
+        "except SystemExit as e:\n"
+        "    assert 'partial' in str(e); print('REFUSED')\n"
+    )
+    out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True)
+    assert out.returncode == 0, out.stderr
+    assert out.stdout.strip() == "REFUSED"
+
+
+# ---------------------------------------------------------------- committed outputs
+
+def test_committed_outputs_and_manifest_are_current():
+    """FAILS if anyone hand-edits a committed disclosure CSV, reconciliation report or the
+    manifest, or changes the parser without re-running --write."""
+    pytest.importorskip("xlrd")
+    results = P.parse_all()
+    files = P.outputs(results)
+    files[P.MANIFEST] = P.manifest_text(P.manifest_rows(results, previous=P.read_manifest()))
+    assert P.stale(files) == []
+
+
+def test_manifest_hashes_are_the_files_on_disk():
+    """The snapshot baseline. FAILS if a workbook is replaced without the manifest moving, or
+    if a file in the folder is missing from the manifest."""
+    rows = P.read_manifest()
+    files = sorted(f for f in os.listdir(SRC) if f not in P.NOT_SOURCE
+                   and not f.startswith("."))
+    assert [r["file"] for r in rows] == files
+    for r in rows:
+        assert P.sha256(os.path.join(SRC, r["file"])) == r["sha256"], r["file"]
+        assert int(r["bytes"]) == os.path.getsize(os.path.join(SRC, r["file"]))
+        assert r["retrieved"] == "2026-10-12"
+
+
+def test_manifest_never_infers_a_retrieval_date(tmp_path):
+    """FAILS if a new or changed file gets a retrieved date nobody supplied."""
+    src = tmp_path / "src"
+    src.mkdir()
+    (src / "funded_disclosure_FY2099.xlsx").write_bytes(b"not really a workbook")
+    with pytest.raises(SystemExit, match="--retrieved"):
+        P.manifest_rows([], src_dir=str(src), retrieved=None, previous=[])
+
+
+def test_csv_keeps_ein_as_text_with_leading_zeros():
+    """FAILS if the published CSV drops a leading zero (spreadsheet-style number coercion)."""
+    pytest.importorskip("xlrd")
+    path = os.path.join(P.out_dir(2013), "fy13_expense_awards.csv")
+    with open(path, newline="", encoding="utf-8") as f:
+        rows = {r["source_row"]: r for r in csv.DictReader(f)}
+    assert rows["15"]["ein"].startswith("0") and len(rows["15"]["ein"]) == 9
+    assert list(rows["2"].keys()) == P.OUT_FIELDS
+
+
+# ---------------------------------------------------------------- re-pulls: --verified, history
+
+JULY_SHA = {  # the 2026-07-15 snapshot of the four files the 2026-10-12 re-pull replaced
+    "Capital-Database.xlsx":
+        "8c63ed6739b5bb0a68952036af6853a4cd6e9a3fec34fb5ce435fa297d84cf28",
+    "funded_disclosure_FY2025.xlsx":
+        "b3c646dd4e2c387b8d74e86763921c5e417d58288005a9d86381cd2bf2fe1a51",
+    "funded_disclosure_FY2026.xlsx":
+        "4691c42bd3e74846c84ffeba942ab914cdecac4b8b967e8a32116530df47fb59",
+    "funded_disclosure_FY2027.xlsx":
+        "d15f058a38ea24163b42678dc1e411af90398c7e54762e50f617953bafb67777",
+}
+
+
+def test_history_keeps_the_hashes_of_overwritten_workbooks():
+    """FAILS if a superseded snapshot's hash is no longer traceable once its workbook has been
+    overwritten in place, or if the history claims a file that is still current was replaced
+    by different bytes."""
+    with open(P.MANIFEST_HISTORY, newline="", encoding="utf-8") as f:
+        hist = list(csv.DictReader(f))
+    assert list(hist[0].keys()) == P.HISTORY_FIELDS
+    current = {r["file"]: r["sha256"] for r in P.read_manifest()}
+    july = {r["file"]: r for r in hist if r["retrieved"] == "2026-07-15"}
+    assert set(july) == set(current)                       # all 16 July rows kept
+    for fname, sha in JULY_SHA.items():
+        assert july[fname]["sha256"] == sha and current[fname] != sha, fname
+        assert july[fname]["superseded_on"] == "2026-10-12"
+    for fname in set(current) - set(JULY_SHA):            # re-verified, byte-identical
+        assert july[fname]["sha256"] == current[fname], fname
+
+
+def _one_file_src(tmp_path, payload=b"bytes"):
+    src = tmp_path / "src"
+    src.mkdir()
+    (src / "Capital-Database.xlsx").write_bytes(payload)  # not a zip: no sheet is read
+    return str(src)
+
+
+def test_verified_restamps_unchanged_files_only(tmp_path):
+    """FAILS if --verified moves the date of an unchanged file anywhere but to the verified
+    date, or if it is accepted as the download date of a CHANGED file."""
+    src = _one_file_src(tmp_path)
+    digest = P.sha256(os.path.join(src, "Capital-Database.xlsx"))
+    prev = [{"file": "Capital-Database.xlsx", "sha256": digest, "retrieved": "2026-07-15"}]
+    assert P.manifest_rows([], src_dir=src, previous=prev)[0]["retrieved"] == "2026-07-15"
+    assert P.manifest_rows([], src_dir=src, previous=prev,
+                           verified="2026-10-12")[0]["retrieved"] == "2026-10-12"
+    changed = [dict(prev[0], sha256="0" * 64)]
+    with pytest.raises(SystemExit, match="--retrieved"):
+        P.manifest_rows([], src_dir=src, previous=changed, verified="2026-10-12")
+
+
+def test_history_is_append_only_and_skips_unchanged_rows(tmp_path):
+    """FAILS if an unchanged manifest row is written to the history, if a changed one is not,
+    or if appending rewrites any existing history line."""
+    src = _one_file_src(tmp_path)
+    digest = P.sha256(os.path.join(src, "Capital-Database.xlsx"))
+    row = P.manifest_rows([], src_dir=src, previous=[
+        {"file": "Capital-Database.xlsx", "sha256": digest, "retrieved": "2026-07-15"}])[0]
+    same = {k: str(v) for k, v in row.items()}
+    assert P.superseded_rows([same], [row]) == []
+    old = dict(same, sha256="a" * 64, retrieved="2026-01-01")
+    gone = dict(same, file="Gone.xlsx")
+    out = P.superseded_rows([old, gone], [row])
+    assert [(r["file"], r["superseded_on"]) for r in out] == [
+        ("Capital-Database.xlsx", row["retrieved"]), ("Gone.xlsx", "removed")]
+    first = P.history_text("", out[:1])
+    second = P.history_text(first, out[1:])
+    assert second.startswith(first) and second.count("\n") == 3
+    assert first.splitlines()[0] == ",".join(P.HISTORY_FIELDS)
+
+
+# ---------------------------------------------------------------- Internet Archive copies (#86)
+
+def _xlsx_sheets(path, sheets):
+    """Write an .xlsx with several worksheets, wired through workbook.xml.rels as Excel does.
+    `sheets` is [(name, rows)]; rows=[] writes an EMPTY sheet (no cells). The XML file order
+    is deliberately the reverse of the workbook order, so a reader that maps by position
+    instead of by r:id gets the name wrong."""
+    ns = 'xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"'
+    rns = 'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"'
+    pns = 'xmlns="http://schemas.openxmlformats.org/package/2006/relationships"'
+    n = len(sheets)
+    entries, rels = [], []
+    with zipfile.ZipFile(path, "w") as z:
+        for i, (name, rows) in enumerate(sheets, start=1):
+            target = f"worksheets/sheet{n + 1 - i}.xml"
+            entries.append(f'<sheet name="{name}" sheetId="{i}" r:id="rId{i}"/>')
+            rels.append(f'<Relationship Id="rId{i}" Type="worksheet" Target="{target}"/>')
+            body = []
+            for ri, row in enumerate(rows, start=1):
+                cells = "".join(
+                    f'<c r="{P._col_letter(j)}{ri}"><v>{v}</v></c>' if isinstance(v, (int, float))
+                    else f'<c r="{P._col_letter(j)}{ri}" t="inlineStr"><is><t>{escape(v)}</t></is></c>'
+                    for j, v in enumerate(row) if v is not None)
+                body.append(f'<row r="{ri}">{cells}</row>')
+            z.writestr("xl/" + target,
+                       f'<worksheet {ns}><sheetData>{"".join(body)}</sheetData></worksheet>')
+        z.writestr("xl/workbook.xml",
+                   f'<workbook {ns} {rns}><sheets>{"".join(entries)}</sheets></workbook>')
+        z.writestr("xl/_rels/workbook.xml.rels",
+                   f'<Relationships {pns}>{"".join(rels)}</Relationships>')
+    return path
+
+
+def test_empty_extra_sheets_are_ignored_and_the_data_sheet_named(tmp_path):
+    """FAILS if a workbook with empty Sheet2/Sheet3 is refused (the 2014-2015 FY2015 copies),
+    or if the sheet name is taken by position rather than through the rels."""
+    p = _xlsx_sheets(str(tmp_path / "funded_disclosure_FY2099.xlsx"),
+                     [("FY99", [HDR, _row("Org A", "131111111", "Cleared", 5000)]),
+                      ("Sheet2", []), ("Sheet3", [])])
+    awards, rep = P.parse_year(p)
+    assert rep.sheet_name == "FY99" and len(awards) == 1
+
+
+def test_two_sheets_with_data_is_still_a_stop(tmp_path):
+    """FAILS if the reader silently picks one of two populated sheets."""
+    p = _xlsx_sheets(str(tmp_path / "funded_disclosure_FY2099.xlsx"),
+                     [("A", [HDR, _row("Org A", "131111111", "Cleared", 5000)]),
+                      ("B", [HDR, _row("Org B", "132222222", "Cleared", 6000)])])
+    with pytest.raises(ValueError, match="exactly one worksheet with data"):
+        P.parse_year(p)
+
+
+def test_contact_columns_are_dropped_by_name_and_noted(tmp_path):
+    """FAILS if contact columns stop the parse, or if their values reach any output field."""
+    hdr = HDR + ["Contact Person", "Contact Phone #", "Contact Email"]
+    row = _row("Org A", "131111111", "Cleared", 5000) + ["Jane Roe", "212-555-0100", "j@x.org"]
+    p = _xlsx(str(tmp_path / "funded_disclosure_FY2099.xlsx"), [hdr, row])
+    awards, rep = P.parse_year(p)
+    assert "personal contact data" in rep.header_note
+    flat = " ".join(str(v) for v in awards[0])
+    assert "Jane Roe" not in flat and "555-0100" not in flat and "j@x.org" not in flat
+
+
+def test_unknown_header_still_stops(tmp_path):
+    """FAILS if IGNORED_HEADERS turned into a catch-all."""
+    p = _xlsx(str(tmp_path / "funded_disclosure_FY2099.xlsx"),
+              [HDR + ["Contact Fax"], _row("Org A", "131111111", "Cleared", 5000) + ["x"]])
+    with pytest.raises(ValueError, match="unmapped header"):
+        P.parse_year(p)
+
+
+def test_space_as_thousands_separator():
+    """'30 000' (one cell, the 2016-05-23 FY2014 .xls) is 30000. Loose spacing is not a number."""
+    assert P.parse_amount_text("30 000") == Decimal(30000)
+    assert P.parse_amount_text("1 234 567.5") == Decimal("1234567.5")
+    assert P.parse_amount_text("30 00") is None
+    assert P.parse_amount_text("1 2") is None
+
+
+def test_uppercase_note_ignores_acronyms_in_mixed_case(tmp_path):
+    """FAILS if 'CBO Defunded' (FY2012) is reported as an UPPERCASE status column, or if a
+    real all-caps column (FY2018 'CLEARED') stops being reported."""
+    mixed = _xlsx(str(tmp_path / "funded_disclosure_FY2098.xlsx"),
+                  [HDR, _row("Org A", "131111111", "CBO Defunded", 0),
+                   _row("Org B", "132222222", "Cleared", 5000)])
+    upper = _xlsx(str(tmp_path / "funded_disclosure_FY2099.xlsx"),
+                  [HDR, _row("Org A", "131111111", "CLEARED", 5000)])
+    assert "UPPERCASE" not in P.parse_year(mixed)[1].header_note
+    assert "UPPERCASE" in P.parse_year(upper)[1].header_note
+
+
+# ---------------------------------------------------------------- row_flag (#89 B13)
+
+_FLAG = {"flag": "not_an_award", "legal_name": "Provider's Choice", "amount": "1200000"}
+
+
+def test_row_flag_marks_the_recorded_row_and_keeps_it(tmp_path, monkeypatch):
+    """#89 B13. FAILS if a ROW_FLAGS entry does not land on its row, if the row is dropped or its
+    amount leaves the totals, if any other row is flagged, or if the reconciliation report does
+    not list the flagged row."""
+    p = _xlsx(tmp_path / "funded_disclosure_FY2099.xlsx",
+              [HDR, _row("Acme Inc.", "136400434", "Cleared", 5000),
+               _row("Provider's Choice", "136400434", "Cleared", 1200000)])
+    awards, rep = P.parse_year(str(p))
+    monkeypatch.setattr(P, "_MEMBERS", {(2099, "Doe"): ("member", "42")})
+    monkeypatch.setattr(P, "ROW_FLAGS", {(2099, "funded_disclosure_FY2099.xlsx", 3): _FLAG})
+    rows = list(csv.DictReader(io.StringIO(P.csv_text(awards))))
+    assert [r["row_flag"] for r in rows] == ["", "not_an_award"]
+    assert P.total_decimal(awards) == Decimal(1205000)
+    text = P.reconciliation_text(awards, rep)
+    assert "Rows kept but flagged in row_flag (1)" in text
+    assert "row      3  not_an_award   \"Provider's Choice\" $1,200,000" in text
+
+
+def test_row_flag_on_a_moved_row_is_a_stop(tmp_path, monkeypatch):
+    """#89 B13. FAILS if an entry whose row now holds another name or amount (a re-pull moved
+    it), or names a row that is not an award, is applied or skipped instead of stopping."""
+    p = _xlsx(tmp_path / "funded_disclosure_FY2099.xlsx",
+              [HDR, _row("Acme Inc.", "136400434", "Cleared", 5000),
+               _row("Provider's Choice", "136400434", "Cleared", 1200001)])
+    awards, _ = P.parse_year(str(p))
+    for rn in (3, 2, 9):
+        with pytest.raises(ValueError, match="ROW_FLAGS expects"):
+            P.row_flags(awards, {(2099, "funded_disclosure_FY2099.xlsx", rn): _FLAG})
+    # Right amount, wrong name: still a stop.
+    with pytest.raises(ValueError, match="ROW_FLAGS expects"):
+        P.row_flags(awards, {(2099, "funded_disclosure_FY2099.xlsx", 2): dict(_FLAG, amount="5000")})
+    with pytest.raises(ValueError, match="is not one of"):
+        P.row_flags(awards, {(2099, "funded_disclosure_FY2099.xlsx", 3):
+                             dict(_FLAG, flag="maybe", amount="1200001")})
+    # An entry for another workbook is not this one's business.
+    assert P.row_flags(awards, {(2098, "funded_disclosure_FY2098.xlsx", 3): _FLAG}) == {}
+
+
+def test_row_flag_for_a_workbook_not_built_is_a_stop(monkeypatch):
+    """#89 B13. FAILS if outputs() publishes while a ROW_FLAGS entry names a workbook the build
+    does not read (the decision would silently apply to nothing)."""
+    monkeypatch.setattr(P, "ROW_FLAGS", {(2001, "funded_disclosure_FY2001.xls", 5): _FLAG})
+    with pytest.raises(SystemExit, match="does not read"):
+        P.outputs([])
+
+
+# ---------------------------------------------------------------- FY2009, FY2011, FY2012 (#89 A2)
+
+def test_archived_years_are_loaded_and_fy2010_is_not(corpus):
+    """#89 A2/A3. FAILS if FY2009, FY2011 or FY2012 is missing or comes from a file other than
+    its pinned Internet Archive capture, if their rows or totals move from the figures
+    research/2026-10-14-wayback-council-files.md reports, or if FY2010 is loaded."""
+    pytest.importorskip("xlrd")
+    assert 2010 not in corpus
+    # Exact sums of the published cells (FY2009-FY2011 carry sub-cent amounts such as
+    # 7481.296758); to the cent: $414,226,176.88, $395,907,487.50, $386,832,781.80.
+    want = {2009: (5745, "414226176.883541690169"), 2011: (5420, "395907487.49980000769734339"),
+            2012: (5823, "386832781.797826875017")}
+    for fy, (n, total) in want.items():
+        aw, r = corpus[fy]
+        assert (r.n_awards, r.n_stripped, r.format) == (n, 0, "xls"), r
+        assert P.total_decimal(aw) == Decimal(total), (fy, P.total_decimal(aw))
+        assert r.source_file == f"funded_disclosure_FY{fy}.xls"
+    assert corpus[2012][1].by_status == {"cleared": 5482, "pending": 137, "other": 204}
+
+
+def test_archived_file_must_match_the_wayback_manifest(tmp_path):
+    """FAILS if an archived workbook whose bytes differ from source/wayback-council/MANIFEST.csv,
+    or one the manifest does not list, is parsed instead of stopping."""
+    rel = P.ARCHIVED[2011]
+    man = P.wayback_manifest()
+    assert P.archived_path(rel, man).endswith("funded_disclosure_FY2011.xls")
+    bad = {rel: dict(man[rel], sha256="0" * 64)}
+    with pytest.raises(ValueError, match="sha256 differs"):
+        P.archived_path(rel, bad)
+    with pytest.raises(ValueError, match="is not in"):
+        P.archived_path(rel, {})
+
+
+def test_a_year_with_two_workbooks_is_a_stop(tmp_path):
+    """FAILS if a year present both in the source folder and in ARCHIVED is parsed twice."""
+    _xlsx(tmp_path / "funded_disclosure_FY2011.xlsx", [HDR, _row("A", "136400434", "Cleared", 1)])
+    with pytest.raises(ValueError, match="two workbooks"):
+        P.parse_all(str(tmp_path), archived={2011: P.ARCHIVED[2011]})
+
+
+def test_committed_fy2009_not_an_award_rows_are_flagged():
+    """#89 B13. FAILS if the two FY2009 rows are not flagged not_an_award, if any other row is,
+    if they leave the totals, or if Open Data's cross-reference on them is not its
+    'FY09 Not an Award' ID (the evidence the decision rests on)."""
+    with open(os.path.join(P.DATA_DIR, "fy09", "expense_disclosure", "fy09_expense_awards.csv"),
+              newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    flagged = [(r["source_row"], r["legal_name"], r["amount"], r["od_mocs_id"])
+               for r in rows if "not_an_award" in r["row_flag"].split(";")]
+    assert flagged == [("523", "Borough President Discretionary Funding", "533000",
+                        "FY09 Not an Award"),
+                       ("4092", "Provider's Choice", "1200000", "FY09 Not an Award")]
+    assert sum(Decimal(r["amount"]) for r in rows) == Decimal("414226176.883541690169")
+
+
+def test_rule_flag_no_grantee_ein_appends_and_never_clobbers(monkeypatch):
+    """2026-10-16. FAILS if a blank or 'NA' EIN row is not flagged no_grantee_ein, if a row with
+    an EIN is, or if a decided flag on the same row is replaced instead of kept first."""
+    aws = [_aw(2, "", 5), _aw(3, "NA", 5), _aw(4, "131111111", 5), _aw(5, "", 7)]
+    flags = {(2012, "f.xls", 5): {"flag": "not_an_award", "legal_name": "Org", "amount": "7"}}
+    got = P.all_row_flags(aws, flags)
+    assert got == {2: "no_grantee_ein", 3: "no_grantee_ein", 5: "not_an_award;no_grantee_ein"}
+
+
+def test_committed_no_grantee_ein_rows_are_exactly_53():
+    """2026-10-16. Locks the count. FAILS if the committed CSVs carry other than 53 rows flagged
+    no_grantee_ein (52 blank + 1 FY2011 'NA', FY2009-FY2015), if any flagged row prints an EIN,
+    or if any blank/'NA' row is not flagged. A re-pull that changes the count must change this
+    test and DATA-ANOMALIES.md together."""
+    import glob
+    by_fy, mismatch = collections.Counter(), []
+    for path in sorted(glob.glob(os.path.join(P.DATA_DIR, "fy*", "expense_disclosure",
+                                              "fy*_expense_awards.csv"))):
+        with open(path, newline="", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                flagged = "no_grantee_ein" in r["row_flag"].split(";")
+                if flagged:
+                    by_fy[int(r["fiscal_year"])] += 1
+                if flagged != (r["ein"].strip().upper() in ("", "NA")):
+                    mismatch.append((r["fiscal_year"], r["source_row"], r["ein"]))
+    assert not mismatch, mismatch[:5]
+    assert sum(by_fy.values()) == 53
+    assert dict(by_fy) == {2009: 25, 2011: 14, 2012: 8, 2013: 2, 2014: 3, 2015: 1}
+
+
+# ---------------------------------------------------------------- Open Data MOCS IDs (#89 A4)
+
+def _aw(rn, ein, amount, fy=2012):
+    return P.Award(fy, "", "Local", "Doe", "Org", ein, "Cleared", "cleared", float(amount),
+                   "DYCD", "", "", "", "", "", "", "", "", "", "f.xls", rn, str(amount))
+
+
+def test_od_match_pairs_only_unambiguous_buckets():
+    """#89 A4. FAILS if a pair is made when either side has two rows in the (EIN, dollars)
+    bucket, if a blank EIN pairs, if the tier is wrong (exact / rounded_cents / rounded_dollars),
+    or if amounts that merely share a bucket (5000.40 vs 5000.30) are paired."""
+    aw = [_aw(2, "131111111", "5000"), _aw(3, "132222222", "6333.33"),
+          _aw(4, "133333333", "7481.296758"), _aw(5, "134444444", "100"),
+          _aw(6, "134444444", "100"), _aw(7, "", "50"), _aw(8, "135555555", "5000.40"),
+          _aw(9, "136666666", "900")]
+    od = [("131111111", Decimal(5000), "FY12 1"), ("132222222", Decimal(6333), "FY12 2"),
+          ("133333333", Decimal("7481.30"), "FY12 3"), ("134444444", Decimal(100), "FY12 4"),
+          ("", Decimal(50), "FY12 5"), ("135555555", Decimal("5000.30"), "FY12 6"),
+          ("136666666", Decimal(900), "FY12 7"), ("136666666", Decimal(900), "FY12 8")]
+    assert P.od_matches(aw, od) == {2: ("FY12 1", "exact"), 3: ("FY12 2", "rounded_dollars"),
+                                    4: ("FY12 3", "rounded_cents")}
+
+
+def test_od_ein_pads_only_eight_digits():
+    """FAILS if Open Data's 8-digit EIN (a lost leading zero) is not padded, or anything else
+    is."""
+    assert P._od_ein("61629188") == "061629188"
+    assert P._od_ein("136400434") == "136400434"
+    assert P._od_ein("1234567") == "1234567"
+
+
+def test_od_keys_file_is_pinned_by_its_manifest(tmp_path, monkeypatch):
+    """FAILS if a keys file whose sha256 is not its MANIFEST.csv row is read."""
+    import gzip
+    p = tmp_path / "4d7f-74pe-keys.csv.gz"
+    p.write_bytes(gzip.compress(b":id,fiscal_year,mocs_id,ein,amount\nr,2009,FY09 1,1,5\n"))
+    with pytest.raises(ValueError, match="sha256 differs"):
+        P.load_od_keys(str(p))
+
+
+def test_committed_od_mocs_counts():
+    """Corpus pin. FAILS if the number of rows carrying an Open Data MOCS ID moves, per tier,
+    or if any row outside FY2009-FY2021 carries one."""
+    import glob
+    from collections import Counter
+    c = Counter()
+    for f in glob.glob(os.path.join(P.DATA_DIR, "fy*", "expense_disclosure", "*_awards.csv")):
+        with open(f, newline="", encoding="utf-8") as fh:
+            for r in csv.DictReader(fh):
+                if r["od_match"]:
+                    assert 2009 <= int(r["fiscal_year"]) <= 2021, r
+                    c[r["od_match"]] += 1
+    assert dict(c) == {"exact": 54_477, "rounded_cents": 158, "rounded_dollars": 335}
+
+
+# ---------------------------------------------------------------- data/disclosure_years.csv
+
+def test_years_table_covers_every_year_and_says_why_fy2010_is_out():
+    """FAILS if a loaded year is missing, if FY2010 is not listed as not loaded with its own
+    counts and Open Data's, if FY2009 and FY2013 are not marked early snapshots, or if an
+    archived year's URL / timestamp / sha256 differ from the Wayback manifest."""
+    with open(P.YEARS_CSV, newline="", encoding="utf-8") as f:
+        rows = {int(r["fiscal_year"]): r for r in csv.DictReader(f)}
+    assert sorted(rows) == list(range(2009, 2028))
+    assert rows[2010]["loaded"] == "no" and rows[2010]["award_rows"] == "2592"
+    assert "2,592 rows, $111,558,052.58" in rows[2010]["note"]
+    assert "5,981 rows, $357,820,611" in rows[2010]["note"]
+    assert {fy for fy, r in rows.items() if r["early_snapshot"] == "yes"} == {2009, 2013}
+    assert "1,389 of 5,745 rows Pending" in rows[2009]["note"]
+    # 2 not_an_award + 25 no_grantee_ein (no row carries both).
+    assert rows[2009]["row_flagged"] == "27"
+    man = P.wayback_manifest()
+    for fy in (2009, 2010, 2011, 2012):
+        m = man[rows[fy]["source_path"].removeprefix("source/wayback-council/")]
+        assert (rows[fy]["url"], rows[fy]["wayback_timestamp"], rows[fy]["sha256"]) == \
+            (m["url"], m["wayback_timestamp"], m["sha256"])
+    assert rows[2027]["source_kind"] == "council_rnd"

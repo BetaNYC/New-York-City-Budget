@@ -1,0 +1,34 @@
+EXPENSE DISCLOSURE RECONCILIATION  (fy13)  [parser: parse_expense_disclosure.py]
+source: funded_disclosure_FY2013.xls  (sheet 'MASTER', xls, 4988 rows incl. header)
+printed total: NO PRINTED TOTAL
+
+early snapshot: 2,644 of 4,987 rows Pending ($380,680,617.43), and 18 citywide initiatives printed as one lump row each that NYC Open Data itemizes into 1,168 rows. The Council never revised this workbook. Do not headline its cleared total (#89 A5).
+
+Every non-blank row after the header is either an award or a stripped row. A row is
+decided by its Status cell: Cleared/Pending (any case) is an award; anything else is
+stripped unless it still names an organization and an amount (then it is kept with
+status_norm 'other'). Every stripped row is listed below with its cells.
+
+rows after header: 4987   blank: 0   awards: 4987   stripped: 0
+
+status_norm       rows              amount
+cleared           2343       18,201,784.75
+pending           2644      380,680,617.43
+other                0                   0
+ALL               4987      398,882,402.18
+
+Headline figure = cleared only. 'ALL' adds pending (and other) and is labeled so.
+
+This workbook prints no total of its own. The sums above are computed by this
+parser from the rows; they are not a figure published by the Council.
+
+Stripped rows (0):
+  none
+
+EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (3): [15, 1449, 1644]
+Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 9 group(s), 20 row(s); 11 beyond the first of each group, $178,875
+NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: 3249 of 4987 rows (exact 3195, rounded_cents 0, rounded_dollars 54)
+Rows kept but flagged in row_flag (2), included in every total above:
+  row   2077  no_grantee_ein 'Friends of Vesuvio Playground' $3,500
+  row   4806  no_grantee_ein 'Harlem River Houses' $3,500
+notes: no MOCS ID#; no Fiscal Year column (year taken from filename)

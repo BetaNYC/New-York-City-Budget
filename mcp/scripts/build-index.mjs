@@ -1,91 +1,64 @@
 #!/usr/bin/env node
 /**
- * build-index.mjs — read the New-York-City-Budget repo's own CSVs (../data/**)
- * and build a local SQLite index (mcp/data/budget.db) that the MCP server queries.
+ * build-index.mjs — read the New-York-City-Budget repo's structured datasets and build the local
+ * SQLite index (mcp/data/budget.db) that the MCP server queries.
  *
- * Idempotent: the .db is deleted and rebuilt from scratch on every run, so
- * re-running never duplicates rows.
+ * 2.0.0: STRUCTURED SOURCES ONLY. Every input is a spreadsheet the NYC Council published, a
+ * dataset on NYC Open Data, or this repo's own manifest of those downloads:
  *
- * Data source: this MCP lives inside the New-York-City-Budget repo (mcp/) and
- * reads the repo's real data/ tree directly (../data, one level up from mcp/) —
- * data/{fy25,fy26,fy27}/… + data/combined/legistar_crosswalk.csv. There is no
- * copied snapshot to keep in sync: data and query layer move together. Every
- * dollar figure was extracted deterministically from the NYC Council's
- * adopted-budget PDFs and reconciled against printed totals in this repo — this
- * script only loads those CSVs verbatim; it does not re-interpret any number.
+ *   data/disclosure_years.csv                          per-year workbook provenance (disclosure)
+ *   data/fyNN/expense_disclosure/fyNN_expense_awards.csv   Council expense funding disclosure
+ *   data/capital/council_capital_awards.csv            Council capital designations
+ *   data/capital/council_vs_omb_by_budget_line.csv     the repo's Council-vs-OMB arithmetic
+ *   source/{wayback-council,expense-funding-disclosure,open-data-t474-a92g}/MANIFEST.csv
+ *   the capital source files themselves, read only to hash them
  *
- * CSV parsing uses csv-parse (RFC 4180 aware) — a naive comma split corrupts
- * rows because organization names contain quoted commas (e.g.
- * "El Puente de Williamsburg, Inc.").
+ * Nothing extracted from a PDF is read: not Schedule C, its appendices or recovered sidecars,
+ * Terms & Conditions, §254 capital, transparency resolutions, data/combined/ or data/recovered/.
+ * Every file read is recorded in meta.inputs, and test/no-pdf-data.test.js fails if one of them
+ * is not on the structured allowlist.
+ *
+ * Idempotent and atomic: the index is built into a sibling temp file, checked by
+ * scripts/verify-index.mjs (a dataset with 0 rows, or a declared year that is missing, is a stop),
+ * and only then renamed over data/budget.db. A failed build leaves the previous index in place,
+ * and a reader that opens data/budget.db during a rebuild sees the old file or the new one, never
+ * a half-built or empty one (#95: on npm 10, `npm pack --ignore-scripts` still runs `prepare`, and
+ * the test suite's rebuild emptied the index under the test files reading it in parallel).
+ * CSV parsing uses csv-parse (RFC 4180): names contain quoted commas.
  */
 import { parse } from "csv-parse/sync";
 import Database from "better-sqlite3";
-import { readFileSync, existsSync, rmSync, mkdirSync } from "fs";
-import { join, dirname } from "path";
+import { createHash } from "crypto";
+import { readFileSync, existsSync, rmSync, mkdirSync, renameSync } from "fs";
+import { join, dirname, basename } from "path";
 import { fileURLToPath } from "url";
+import { verifyIndex } from "./verify-index.mjs";
+// The folding rule db.ts applies to queries (src/fold.ts); `npm run build` always runs first.
+import { fold } from "../dist/fold.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const MCP_ROOT = join(__dirname, ".."); // .../New-York-City-Budget/mcp
-// Read the parent repo's real data/ tree directly — no vendored snapshot to drift.
-const SRC = join(MCP_ROOT, "..", "data");
-// Built index stays inside mcp/ (git-ignored), out of the repo's tracked data/.
+const MCP_ROOT = join(__dirname, "..");
+const REPO = join(MCP_ROOT, "..");
 const DB_PATH = join(MCP_ROOT, "data", "budget.db");
+/** Built here, verified, then renamed over DB_PATH. Same directory, so the rename is atomic. */
+const TMP_PATH = `${DB_PATH}.building-${process.pid}`;
 
-// Per-dataset year coverage. Each list is the set of fiscal years that actually have a parsed,
-// QA-cleared CSV of that document type in ../data/ (see code/PARSING.md + data/QA-REPORT.md).
-// These differ by dataset — e.g. Terms has no FY19/FY20 document, Capital has no FY21 detail
-// book — so each ingest loop is driven by its own list, and list_available_fiscal_years reports
-// exactly these back. Award-bearing years start at FY2015 (first EIN-level Schedule C); FY2009–
-// FY2014 are initiatives-only (no EIN) and are DELIBERATELY excluded from the award tools.
-const yr = (n) => ({ key: `fy${n}`, year: 2000 + n });
-const AWARD_YEARS = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27].map(yr);
-
-// Schedule C APPENDIX files (Phase 0.5). Each award year carries three appendix CSVs alongside
-// its awards CSV; they are the Council's aging / local / youth designation streams, broken out
-// per recipient. `stream` is read off the FILENAME — the only place the aging/local/youth
-// distinction survives once the three files are merged into one table. It is NOT inferred from
-// row content. Verified against the Council's own published disclosure spreadsheet
-// (source/expense-funding-disclosure/funded_disclosure_FY2027.xlsx): its `Source` column counts
-// are Aging 467 / Local 2558 / Youth 835, matching these three files row for row.
-// FY2015–FY2017 and FY2019–FY2020 appendix CSVs are header-only (0 rows) — they load as empty,
-// which is why the loop is driven by AWARD_YEARS rather than a hand-maintained year list.
-const APPENDIX_FILES = [
-  { suffix: "appendix_a_aging", stream: "aging" },
-  { suffix: "appendix_b_local", stream: "local" }, // the only one carrying an `agency` column
-  { suffix: "appendix_c_youth", stream: "youth" },
-];
-const TERMS_YEARS = [15, 16, 17, 18, 21, 22, 23, 24, 25, 26, 27].map(yr); // no FY19/FY20 T&C doc
-const CAPITAL_YEARS = [20, 22, 23, 24, 25, 26, 27].map(yr); // no FY21 detail book
-// Transparency: every parsed resolution-document year. FY2010–FY2013 are LOW org/program text
-// confidence (financial columns reliable); surfaced downstream so callers join on EIN.
-const TRANSPARENCY_YEARS = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26].map(yr);
-const TRANSPARENCY_LOW_TEXT_CONFIDENCE = new Set([2010, 2011, 2012, 2013]);
+/** Every repo-relative file this build reads, in order (meta.inputs). */
+const INPUTS = [];
 
 function log(event, detail) {
-  console.error(
-    JSON.stringify({ script: "build-index", event, ...detail, ts: new Date().toISOString() })
-  );
+  console.error(JSON.stringify({ script: "build-index", event, ...detail, ts: new Date().toISOString() }));
 }
 
-/** Digits-only EIN so "13-2612524" and "132612524" match. */
-function normEin(v) {
-  return (v ?? "").replace(/\D/g, "");
+function repoPath(rel) {
+  const p = join(REPO, rel);
+  if (!existsSync(p)) throw new Error(`Missing input (rebuild cannot proceed): ${rel}`);
+  INPUTS.push(rel);
+  return p;
 }
 
-/** Parse an integer dollar amount; tolerate commas/$/whitespace and leading "-". Empty → null. */
-function parseAmount(v) {
-  if (v == null) return null;
-  const s = String(v).replace(/[$,\s]/g, "");
-  if (s === "" || s === "-") return null;
-  const n = Number.parseInt(s, 10);
-  return Number.isNaN(n) ? null : n;
-}
-
-function readCsv(path) {
-  if (!existsSync(path)) {
-    throw new Error(`Missing source CSV (rebuild cannot proceed): ${path}`);
-  }
-  return parse(readFileSync(path, "utf8"), {
+function readCsv(rel) {
+  return parse(readFileSync(repoPath(rel), "utf8"), {
     columns: true,
     skip_empty_lines: true,
     bom: true,
@@ -93,319 +66,436 @@ function readCsv(path) {
   });
 }
 
-function main() {
-  if (!existsSync(SRC)) {
-    log("fatal", { reason: "repo data/ tree missing (expected ../data relative to mcp/)", path: SRC });
-    process.exit(1);
+function sha256Of(rel) {
+  return createHash("sha256").update(readFileSync(repoPath(rel))).digest("hex");
+}
+
+/** Digits-only EIN so "13-2612524" and "132612524" match. */
+function normEin(v) {
+  return (v ?? "").replace(/\D/g, "");
+}
+
+/** A required column; a CSV without it is a stop, never a silent blank. */
+function need(rows, cols, what) {
+  if (rows.length === 0) return;
+  for (const c of cols) if (!(c in rows[0])) throw new Error(`${what}: no column ${c}`);
+}
+
+// ---------------------------------------------------------------- disclosure
+
+// #72: every disclosure row carries a council_member_type; exactly the two member types carry a
+// numeric Legistar person ID. A missing column or an inconsistent pair is a stop.
+const MEMBER_TYPES = new Set(["member", "member_outside_fy", "ambiguous", "unresolved", "speaker",
+  "delegation", "citywide", "district_label", "blank"]);
+function memberId(r, year) {
+  const t = r.council_member_type;
+  if (!MEMBER_TYPES.has(t)) throw new Error(`FY${year} row ${r.source_row}: council_member_type ${JSON.stringify(t)}`);
+  const id = r.council_member_id ?? "";
+  if ((t === "member" || t === "member_outside_fy") !== /^\d+$/.test(id)) {
+    throw new Error(`FY${year} row ${r.source_row}: council_member_id ${JSON.stringify(id)} does not fit type ${t}`);
   }
+  return id;
+}
+
+// #69: duplicate_group is blank for a unique row, else a positive row number.
+function dupGroup(r, year) {
+  if (r.duplicate_group === "") return null;
+  const g = Number(r.duplicate_group);
+  if (!Number.isInteger(g) || g < 1) {
+    throw new Error(`FY${year} row ${r.source_row}: duplicate_group ${JSON.stringify(r.duplicate_group)} is not a row number`);
+  }
+  return g;
+}
+
+// Excel error values, as the disclosure CSVs carry them verbatim (code/validate_data.py EXCEL_ERROR).
+const EXCEL_ERROR = /^#(?:N\/A|REF!|VALUE!|DIV\/0!|NAME\?|NUM!|NULL!|SPILL!|CALC!|GETTING_DATA)$/;
+
+// #70: zip_status vocabulary, and which statuses carry a 5-digit zip.
+const ZIP_STATUSES = new Set(["valid", "padded", "trimmed", "repaired_extra_digit", "ambiguous_extra_digit",
+  "not_a_zcta", "state_mismatch", "invalid", "blank"]);
+const ZIP_HAS_VALUE = new Set(["valid", "padded", "trimmed", "repaired_extra_digit", "not_a_zcta", "state_mismatch"]);
+function zipOf(r, year) {
+  if (!ZIP_STATUSES.has(r.zip_status)) {
+    throw new Error(`FY${year} row ${r.source_row}: zip_status ${JSON.stringify(r.zip_status)}`);
+  }
+  if (/^\d{5}$/.test(r.zip) !== ZIP_HAS_VALUE.has(r.zip_status)) {
+    throw new Error(`FY${year} row ${r.source_row}: zip ${JSON.stringify(r.zip)} does not fit zip_status ${r.zip_status}`);
+  }
+  const ambiguous = r.zip_status === "ambiguous_extra_digit";
+  if (ambiguous !== /^\d{5}(;\d{5})+$/.test(r.zip_candidates) || (!ambiguous && r.zip_candidates !== "")) {
+    throw new Error(`FY${year} row ${r.source_row}: zip_candidates ${JSON.stringify(r.zip_candidates)} does not fit zip_status ${r.zip_status}`);
+  }
+  return r.zip;
+}
+
+// #89 A4 / B13: the cross-reference and flag vocabularies. Anything else is a stop.
+const OD_MATCH = new Set(["", "exact", "rounded_cents", "rounded_dollars"]);
+// row_flag joins one or more flags with ";" (no_grantee_ein is a rule: a blank or "NA" EIN).
+const DISCLOSURE_ROW_FLAG_VALUES = new Set(["not_an_award", "no_grantee_ein"]);
+const DISCLOSURE_ROW_FLAGS = {
+  has: (v) => v === "" || v.split(";").every((x) => DISCLOSURE_ROW_FLAG_VALUES.has(x)),
+};
+
+// Substring-filtered text columns get a folded twin (<column>_fold) that queries match against
+// as COALESCE(<column>_fold, <column>) ... COLLATE NOCASE. The twin is NULL only where folding
+// changes nothing but ASCII letter case, which NOCASE already covers; that keeps the index from
+// carrying a second copy of every name (a full copy added 15 MB to the package). The comparison
+// is against an ASCII-only lower-casing on purpose: a full toLowerCase() would call "OssΘ"
+// (t474 mojibake) unchanged by folding, store no twin, and the folded query "ossθ" would then
+// miss the raw "OssΘ" under NOCASE, which folds ASCII only (review S2, 2026-10-17).
+const DISCLOSURE_FOLD = ["legal_name", "council_member", "source", "agency", "program_name"];
+const CAPITAL_FOLD = ["sponsor", "title", "description"];
+const asciiLower = (s) => s.replace(/[A-Z]/g, (c) => c.toLowerCase());
+const folded = (r, cols) =>
+  Object.fromEntries(cols.map((c) => {
+    const v = r[c] ?? "";
+    const f = fold(v);
+    return [`${c}_fold`, f === asciiLower(v) ? null : f];
+  }));
+
+const DISCLOSURE_COLUMNS = ["fiscal_year", "mocs_id", "od_mocs_id", "od_match", "source", "council_member",
+  "council_member_id", "council_member_type", "legal_name", "ein", "status", "status_norm", "amount",
+  "agency", "program_name", "address1", "address2", "city", "state", "postal_code", "zip", "zip_status",
+  "zip_candidates", "fiscal_conduit", "fiscal_conduit_ein", "source_row", "duplicate_group", "row_flag"];
+
+// ---------------------------------------------------------------- capital
+
+const CAPITAL_COLUMNS = ["report_year", "amount_fy", "project_id", "borough", "budget_line", "budget_line_norm",
+  "council_district", "sponsor", "title", "description", "amount", "source_kind", "source_file", "source_row",
+  "row_flag"];
+const CAPITAL_SOURCE_KINDS = new Set(["council_workbook", "open_data_t474"]);
+const CAPITAL_ROW_FLAGS = new Set(["", "split_record_amount_unknown"]);
+const BUDGET_LINE_NORM = /^[A-Z]{1,2} [A-Z0-9]+$/;
+
+/**
+ * council_district as searchable tokens: ",8,22," (numbers unpadded) for a Council workbook row;
+ * NULL for a t474 row, because NYC Open Data typed that column as a number and collapsed every
+ * comma list into one integer ("22, 25, 29" became 222529), so no t474 value can be trusted to be
+ * one district. Tokens that are not one or two digits (FY2015 "1696") are kept as printed.
+ */
+function districtTokens(r) {
+  if (r.source_kind !== "council_workbook") return null;
+  const toks = r.council_district
+    .split(",")
+    .map((t) => t.trim())
+    .filter((t) => t !== "")
+    .map((t) => (/^\d{1,2}$/.test(t) ? String(Number(t)) : t));
+  return toks.length ? `,${toks.join(",")},` : "";
+}
+
+// The Council RnD manifest has no url column; the folder's README records the capital file's URL
+// ("Capital file URL", source/expense-funding-disclosure/README.md).
+const RND_URLS = {
+  "source/expense-funding-disclosure/Capital-Database.xlsx": "https://rnd.council.nyc.gov/src/assets/Capital-Database.xlsx",
+};
+
+/**
+ * The manifest row that records a capital source file: its URL, capture timestamp, retrieval
+ * time and sha256. A file with no manifest row is a stop.
+ */
+function manifestFor(rel, manifests) {
+  for (const [prefix, man, keyOf] of manifests) {
+    if (rel.startsWith(prefix)) {
+      const key = keyOf(rel.slice(prefix.length));
+      const row = man.find((m) => m.file === key);
+      if (!row) throw new Error(`${rel}: no row for ${key} in ${prefix}MANIFEST.csv`);
+      return row;
+    }
+  }
+  throw new Error(`${rel}: not under a known source folder`);
+}
+
+function main() {
   mkdirSync(dirname(DB_PATH), { recursive: true });
-  // Idempotent rebuild: drop the db AND its WAL sidecars. Removing only budget.db but leaving a
-  // stale budget.db-wal / -shm behind makes the next open fail with SQLITE_IOERR_SHORT_READ
-  // (observed on network volumes), so clear all three.
+  removeDb(TMP_PATH);
+  try {
+    build();
+  } catch (err) {
+    removeDb(TMP_PATH);
+    throw err;
+  }
+}
+
+/** A db file AND its WAL sidecars (a stale -wal makes the next open fail with
+ * SQLITE_IOERR_SHORT_READ on network volumes). */
+function removeDb(path) {
   for (const suffix of ["", "-wal", "-shm"]) {
-    const f = DB_PATH + suffix;
+    const f = path + suffix;
     if (existsSync(f)) rmSync(f);
   }
+}
 
-  const db = new Database(DB_PATH);
+function build() {
+  const db = new Database(TMP_PATH);
   db.pragma("journal_mode = WAL");
-
   db.exec(`
-    CREATE TABLE awards (
-      fiscal_year INTEGER, category TEXT, initiative TEXT, award_type TEXT,
-      member TEXT, organization TEXT, program TEXT, ein TEXT,
-      amount INTEGER, agency TEXT, purpose TEXT,
-      source_table TEXT, appendix_stream TEXT
+    CREATE TABLE disclosure (
+      fiscal_year INTEGER, mocs_id TEXT, od_mocs_id TEXT, od_match TEXT, source TEXT,
+      council_member TEXT, council_member_id TEXT, council_member_type TEXT, legal_name TEXT,
+      ein TEXT, status TEXT, status_norm TEXT, amount REAL, agency TEXT, program_name TEXT,
+      address1 TEXT, address2 TEXT, city TEXT, state TEXT, postal_code TEXT, zip TEXT,
+      zip_status TEXT, zip_candidates TEXT,
+      fiscal_conduit TEXT, fiscal_conduit_ein TEXT, source_row INTEGER,
+      duplicate_group INTEGER, row_flag TEXT,
+      legal_name_fold TEXT, council_member_fold TEXT, source_fold TEXT, agency_fold TEXT,
+      program_name_fold TEXT
     );
-    CREATE INDEX idx_awards_ein ON awards(ein);
-    CREATE INDEX idx_awards_member ON awards(member);
-    CREATE INDEX idx_awards_fy ON awards(fiscal_year);
-    CREATE INDEX idx_awards_source ON awards(source_table);
+    CREATE INDEX idx_disc_ein ON disclosure(ein);
 
-    CREATE TABLE transparency (
-      source_fy INTEGER, resolution TEXT, date TEXT, chart TEXT, fiscal_year INTEGER, action TEXT,
-      source TEXT, council_member TEXT, organization TEXT, program TEXT,
-      ein TEXT, amount INTEGER, agency TEXT, agy_num TEXT, ua TEXT,
-      purpose TEXT, flags TEXT, low_text_confidence INTEGER
+    CREATE TABLE disclosure_years (
+      fiscal_year INTEGER PRIMARY KEY, loaded INTEGER, source_kind TEXT, file TEXT, source_path TEXT,
+      url TEXT, wayback_timestamp TEXT, sheet TEXT, retrieved TEXT, sha256 TEXT, award_rows INTEGER,
+      early_snapshot INTEGER, note TEXT
     );
-    CREATE INDEX idx_tr_ein ON transparency(ein);
-    CREATE INDEX idx_tr_member ON transparency(council_member);
-    CREATE INDEX idx_tr_source_fy ON transparency(source_fy);
-    CREATE INDEX idx_tr_fy ON transparency(fiscal_year);
 
-    CREATE TABLE capital (
-      fiscal_year INTEGER, part TEXT, agency TEXT, budget_line TEXT, sub_id TEXT,
-      boro TEXT, fy1 INTEGER, fy2 INTEGER, fy3 INTEGER, fy4 INTEGER,
-      sponsor TEXT, title TEXT, building_code TEXT, school_code TEXT, action TEXT
+    CREATE TABLE capital_council (
+      seq INTEGER, report_year INTEGER, amount_fy INTEGER, project_id TEXT, project_id_norm TEXT,
+      borough TEXT, budget_line TEXT, budget_line_norm TEXT, council_district TEXT,
+      district_tokens TEXT, sponsor TEXT, title TEXT, description TEXT, amount REAL,
+      source_kind TEXT, source_file TEXT, source_row TEXT, row_flag TEXT,
+      sponsor_fold TEXT, title_fold TEXT, description_fold TEXT
     );
-    CREATE INDEX idx_cap_sponsor ON capital(sponsor);
-    CREATE INDEX idx_cap_agency ON capital(agency);
-    CREATE INDEX idx_cap_fy ON capital(fiscal_year);
+    CREATE INDEX idx_cap_line ON capital_council(budget_line_norm);
 
-    CREATE TABLE terms (
-      fiscal_year INTEGER, item_number TEXT, agency_name TEXT, agency_code TEXT,
-      units_of_appropriation TEXT, num_units TEXT, report_deadlines TEXT,
-      coverage_period TEXT, condition_text TEXT
+    CREATE TABLE capital_sources (
+      report_year INTEGER PRIMARY KEY, source_kind TEXT, source_file TEXT, url TEXT,
+      wayback_timestamp TEXT, retrieved TEXT, sha256 TEXT, rows INTEGER, note TEXT
     );
-    CREATE INDEX idx_terms_fy ON terms(fiscal_year);
-    CREATE INDEX idx_terms_agency ON terms(agency_name);
 
-    CREATE TABLE crosswalk (
-      fiscal_year INTEGER, document_type TEXT, local_file TEXT,
-      legistar_matter_number TEXT, legistar_url TEXT, adoption_date TEXT,
-      status TEXT, notes TEXT,
-      adopting_event_id TEXT, adopting_body TEXT, adopting_action TEXT,
-      adopting_datetime TEXT
+    CREATE TABLE capital_vs_omb (
+      report_year INTEGER, budget_line_norm TEXT, omb_pub_date TEXT, council_rows INTEGER,
+      council_y1 INTEGER, omb_y1 INTEGER, council_y2 INTEGER, omb_y2 INTEGER, verdict TEXT
     );
-    CREATE INDEX idx_cw_fy ON crosswalk(fiscal_year);
-    CREATE INDEX idx_cw_type ON crosswalk(document_type);
 
     CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT);
   `);
 
   const counts = {};
 
-  // --- awards (per-year Schedule C; fiscal_year injected from the folder) ---
-  const insAward = db.prepare(
-    `INSERT INTO awards (fiscal_year, category, initiative, award_type, member,
-       organization, program, ein, amount, agency, purpose, source_table, appendix_stream)
-     VALUES (@fiscal_year, @category, @initiative, @award_type, @member,
-       @organization, @program, @ein, @amount, @agency, @purpose, @source_table, @appendix_stream)`
+  // --- disclosure: data/disclosure_years.csv drives which years load and what each cites -------
+  // A loaded year's CSV row count must equal its award_rows, so the index can never serve a year
+  // from a different snapshot than the one it names. FY2010 (loaded=no) is recorded, not loaded.
+  const years = readCsv("data/disclosure_years.csv");
+  need(years, ["fiscal_year", "loaded", "source_kind", "source_path", "url", "wayback_timestamp", "retrieved",
+    "sha256", "sheet", "award_rows", "early_snapshot", "note"], "data/disclosure_years.csv");
+  const insYear = db.prepare(
+    `INSERT INTO disclosure_years VALUES (@fiscal_year, @loaded, @source_kind, @file, @source_path, @url,
+       @wayback_timestamp, @sheet, @retrieved, @sha256, @award_rows, @early_snapshot, @note)`
   );
-  counts.awards = db.transaction(() => {
-    let n = 0;
-    for (const { key, year } of AWARD_YEARS) {
-      const rows = readCsv(join(SRC, key, "schedule_c", `${key}_schedule_c_awards.csv`));
-      for (const r of rows) {
-        insAward.run({
-          fiscal_year: year,
-          category: r.category ?? "",
-          initiative: r.initiative ?? "",
-          award_type: r.award_type ?? "",
-          member: r.member ?? "",
-          organization: r.organization ?? "",
-          program: r.program ?? "",
-          ein: normEin(r.ein),
-          amount: parseAmount(r.amount),
-          agency: r.agency ?? "",
-          purpose: r.purpose ?? "",
-          source_table: "schedule_c",
-          appendix_stream: "",
-        });
-        n++;
-      }
-    }
-    return n;
-  })();
-
-  // --- Schedule C APPENDIX rows (Phase 0.5) ---
-  // These land in the SAME `awards` table, discriminated by source_table='appendix'. Before this,
-  // 28,575 parsed appendix rows sat in data/ and reached NO consumer: build-index read only
-  // *_schedule_c_awards.csv. Bard College (EIN 141713034) had three FY2023 designations on disk
-  // and zero FY2023 rows in the index.
-  //
-  // FOUR FIELDS ARE ABSENT FROM THE APPENDIX CSVs and are stored EMPTY, not guessed:
-  //   category, initiative, award_type  — absent from all three appendix files
-  //   agency                            — absent from _a_aging and _c_youth (present in _b_local)
-  // Filling `agency` with DFTA-for-aging / DYCD-for-youth would be inference, and appendix B
-  // proves the value is not constant per stream (Bard's FY2023 local rows read MOCJ). An empty
-  // string is a fact; a plausible guess is not. See mcp/CHANGELOG.md and
-  // research/phase1-source-comparability/PHASE-0.5-IMPACT.md.
-  counts.awards_appendix = db.transaction(() => {
-    let n = 0;
-    for (const { key, year } of AWARD_YEARS) {
-      for (const { suffix, stream } of APPENDIX_FILES) {
-        const rows = readCsv(join(SRC, key, "schedule_c", `${key}_${suffix}.csv`));
-        for (const r of rows) {
-          insAward.run({
-            fiscal_year: year,
-            category: "",
-            initiative: "",
-            award_type: "",
-            member: r.member ?? "",
-            organization: r.organization ?? "",
-            program: r.program ?? "",
-            ein: normEin(r.ein),
-            amount: parseAmount(r.amount),
-            agency: r.agency ?? "", // "" for aging/youth — the column does not exist there
-            purpose: r.purpose ?? "",
-            source_table: "appendix",
-            appendix_stream: stream,
-          });
-          n++;
-        }
-      }
-    }
-    return n;
-  })();
-
-  // --- terms & conditions (per-year) ---
-  const insTerm = db.prepare(
-    `INSERT INTO terms (fiscal_year, item_number, agency_name, agency_code,
-       units_of_appropriation, num_units, report_deadlines, coverage_period, condition_text)
-     VALUES (@fiscal_year, @item_number, @agency_name, @agency_code,
-       @units_of_appropriation, @num_units, @report_deadlines, @coverage_period, @condition_text)`
+  const insDisc = db.prepare(
+    `INSERT INTO disclosure (${[...DISCLOSURE_COLUMNS, ...DISCLOSURE_FOLD.map((c) => c + "_fold")].join(", ")})
+     VALUES (${[...DISCLOSURE_COLUMNS, ...DISCLOSURE_FOLD.map((c) => c + "_fold")].map((c) => "@" + c).join(", ")})`
   );
-  counts.terms = db.transaction(() => {
+  counts.disclosure = db.transaction(() => {
     let n = 0;
-    for (const { key, year } of TERMS_YEARS) {
-      const rows = readCsv(join(SRC, key, "terms", `${key}_terms_and_conditions.csv`));
-      for (const r of rows) {
-        insTerm.run({
-          fiscal_year: year,
-          item_number: r.item_number ?? "",
-          agency_name: r.agency_name ?? "",
-          agency_code: r.agency_code ?? "",
-          units_of_appropriation: r.units_of_appropriation ?? "",
-          num_units: r.num_units ?? "",
-          report_deadlines: r.report_deadlines ?? "",
-          coverage_period: r.coverage_period ?? "",
-          condition_text: r.condition_text ?? "",
-        });
-        n++;
-      }
-    }
-    return n;
-  })();
-
-  // --- capital (§254; every year loads its `${key}_capital_projects.csv`) ---
-  // Each year's file is the reconciled Council-additions Capital Project Detail in the shared
-  // 13-column schema (part, agency, budget_line, sub_id, boro, fy1..fy4, sponsor, title,
-  // building_code, school_code). FY2025 was reparsed from the FY2025 Supporting Detail Book
-  // (PR #21) into this same schema, so it loads exactly like FY2026/FY2027. Loading is by
-  // explicit filename — the renamed provenance file (fy25_capital_changes_appropriation.csv,
-  // which carries the legacy `action` column) and the Part III sidecar
-  // (fy25_capital_noncity_by_entity.csv) are intentionally NOT indexed. The `action` column is
-  // retained in the schema for back-compat but is empty for every currently-loaded row.
-  const insCap = db.prepare(
-    `INSERT INTO capital (fiscal_year, part, agency, budget_line, sub_id, boro,
-       fy1, fy2, fy3, fy4, sponsor, title, building_code, school_code, action)
-     VALUES (@fiscal_year, @part, @agency, @budget_line, @sub_id, @boro,
-       @fy1, @fy2, @fy3, @fy4, @sponsor, @title, @building_code, @school_code, @action)`
-  );
-  counts.capital = db.transaction(() => {
-    let n = 0;
-    for (const { key, year } of CAPITAL_YEARS) {
-      const rows = readCsv(join(SRC, key, "capital", `${key}_capital_projects.csv`));
-      for (const r of rows) {
-        insCap.run({
-          fiscal_year: year,
-          part: r.part ?? "",
-          agency: r.agency ?? "",
-          budget_line: r.budget_line ?? "",
-          sub_id: r.sub_id ?? "",
-          boro: r.boro ?? "",
-          fy1: parseAmount(r.fy1),
-          fy2: parseAmount(r.fy2),
-          fy3: parseAmount(r.fy3),
-          fy4: parseAmount(r.fy4),
-          sponsor: r.sponsor ?? "",
-          title: r.title ?? "",
-          building_code: r.building_code ?? "",
-          school_code: r.school_code ?? "",
-          action: r.action ?? "",
-        });
-        n++;
-      }
-    }
-    return n;
-  })();
-
-  // --- transparency resolutions (FY2010–FY2024 + FY2026) ---
-  // `source_fy` = the resolution document's fiscal year (the folder), which is the reliable,
-  // always-present per-year axis; the row-level `fiscal_year` is the embedded *designation* year,
-  // which is often blank in FY2010–FY2013 (DATA-ANOMALIES #11). `low_text_confidence` flags the
-  // FY2010–FY2013 years whose org/program TEXT is garbled (financials reliable; join on EIN).
-  const insTr = db.prepare(
-    `INSERT INTO transparency (source_fy, resolution, date, chart, fiscal_year, action, source,
-       council_member, organization, program, ein, amount, agency, agy_num, ua, purpose, flags,
-       low_text_confidence)
-     VALUES (@source_fy, @resolution, @date, @chart, @fiscal_year, @action, @source,
-       @council_member, @organization, @program, @ein, @amount, @agency, @agy_num, @ua, @purpose,
-       @flags, @low_text_confidence)`
-  );
-  counts.transparency = db.transaction(() => {
-    let n = 0;
-    for (const { key, year } of TRANSPARENCY_YEARS) {
-      const lowConf = TRANSPARENCY_LOW_TEXT_CONFIDENCE.has(year) ? 1 : 0;
-      const rows = readCsv(join(SRC, key, "transparency-resolutions", `${key}_transparency_all.csv`));
-      for (const r of rows) {
-        const fy = Number.parseInt(r.fiscal_year, 10);
-        insTr.run({
-          source_fy: year,
-          resolution: r.resolution ?? "",
-          date: r.date ?? "",
-          chart: r.chart ?? "",
-          fiscal_year: Number.isNaN(fy) ? null : fy,
-          action: r.action ?? "",
-          source: r.source ?? "",
-          council_member: r.council_member ?? "",
-          organization: r.organization ?? "",
-          program: r.program ?? "",
-          ein: normEin(r.ein),
-          amount: parseAmount(r.amount),
-          agency: r.agency ?? "",
-          agy_num: r.agy_num ?? "",
-          ua: r.ua ?? "",
-          purpose: r.purpose ?? "",
-          flags: r.flags ?? "",
-          low_text_confidence: lowConf,
-        });
-        n++;
-      }
-    }
-    return n;
-  })();
-
-  // --- legistar crosswalk (FY2008–FY2027; provenance index, not parsed data) ---
-  const insCw = db.prepare(
-    `INSERT INTO crosswalk (fiscal_year, document_type, local_file,
-       legistar_matter_number, legistar_url, adoption_date, status, notes,
-       adopting_event_id, adopting_body, adopting_action, adopting_datetime)
-     VALUES (@fiscal_year, @document_type, @local_file,
-       @legistar_matter_number, @legistar_url, @adoption_date, @status, @notes,
-       @adopting_event_id, @adopting_body, @adopting_action, @adopting_datetime)`
-  );
-  counts.crosswalk = db.transaction(() => {
-    let n = 0;
-    const rows = readCsv(join(SRC, "combined", "legistar_crosswalk.csv"));
-    for (const r of rows) {
-      const fy = Number.parseInt(r.fiscal_year, 10);
-      insCw.run({
-        fiscal_year: Number.isNaN(fy) ? null : fy,
-        document_type: r.document_type ?? "",
-        local_file: r.local_file ?? "",
-        legistar_matter_number: r.legistar_matter_number ?? "",
-        legistar_url: r.legistar_url ?? "",
-        adoption_date: r.adoption_date ?? "",
-        status: r.status ?? "",
-        notes: r.notes ?? "",
-        adopting_event_id: r.adopting_event_id ?? "",
-        adopting_body: r.adopting_body ?? "",
-        adopting_action: r.adopting_action ?? "",
-        adopting_datetime: r.adopting_datetime ?? "",
+    for (const y of years) {
+      const year = Number(y.fiscal_year);
+      if (!["yes", "no"].includes(y.loaded)) throw new Error(`FY${year}: loaded ${JSON.stringify(y.loaded)}`);
+      if (!["yes", ""].includes(y.early_snapshot)) throw new Error(`FY${year}: early_snapshot ${JSON.stringify(y.early_snapshot)}`);
+      if (y.loaded === "no" && y.note.trim() === "") throw new Error(`FY${year}: not loaded and no note says why`);
+      insYear.run({
+        fiscal_year: year,
+        loaded: y.loaded === "yes" ? 1 : 0,
+        source_kind: y.source_kind,
+        file: basename(y.source_path),
+        source_path: y.source_path,
+        url: y.url,
+        wayback_timestamp: y.wayback_timestamp,
+        sheet: y.sheet,
+        retrieved: y.retrieved,
+        sha256: y.sha256,
+        award_rows: Number(y.award_rows),
+        early_snapshot: y.early_snapshot === "yes" ? 1 : 0,
+        note: y.note,
       });
-      n++;
+      if (y.loaded !== "yes") continue;
+      const key = `fy${String(year % 100).padStart(2, "0")}`;
+      const rel = `data/${key}/expense_disclosure/${key}_expense_awards.csv`;
+      const rows = readCsv(rel);
+      need(rows, DISCLOSURE_COLUMNS, rel);
+      if (rows.length !== Number(y.award_rows)) {
+        throw new Error(`FY${year}: ${rows.length} rows in ${rel} but data/disclosure_years.csv says ${y.award_rows}`);
+      }
+      for (const r of rows) {
+        if (Number(r.fiscal_year) !== year) throw new Error(`${rel} row ${r.source_row}: fiscal_year ${r.fiscal_year}`);
+        for (const col of ["ein", "fiscal_conduit_ein"]) {
+          if (EXCEL_ERROR.test(r[col] ?? "")) {
+            throw new Error(`FY${year} row ${r.source_row}: ${col} is the Excel error ${r[col]}, not an EIN`);
+          }
+        }
+        const amount = Number(r.amount);
+        if (r.amount === "" || !Number.isFinite(amount)) {
+          throw new Error(`FY${year} row ${r.source_row}: amount ${JSON.stringify(r.amount)} is not a number`);
+        }
+        if (!OD_MATCH.has(r.od_match) || (r.od_match === "") !== (r.od_mocs_id === "")) {
+          throw new Error(`FY${year} row ${r.source_row}: od_mocs_id ${JSON.stringify(r.od_mocs_id)} / od_match ${JSON.stringify(r.od_match)}`);
+        }
+        if (!DISCLOSURE_ROW_FLAGS.has(r.row_flag)) {
+          throw new Error(`FY${year} row ${r.source_row}: row_flag ${JSON.stringify(r.row_flag)}`);
+        }
+        insDisc.run({
+          ...Object.fromEntries(DISCLOSURE_COLUMNS.map((c) => [c, r[c] ?? ""])),
+          ...folded(r, DISCLOSURE_FOLD),
+          fiscal_year: year,
+          council_member_id: memberId(r, year),
+          ein: normEin(r.ein),
+          fiscal_conduit_ein: normEin(r.fiscal_conduit_ein),
+          amount,
+          zip: zipOf(r, year),
+          source_row: Number.parseInt(r.source_row, 10),
+          duplicate_group: dupGroup(r, year),
+        });
+        n++;
+      }
     }
     return n;
+  })();
+
+  // --- capital: data/capital/council_capital_awards.csv ----------------------------------------
+  const capRel = "data/capital/council_capital_awards.csv";
+  const cap = readCsv(capRel);
+  need(cap, CAPITAL_COLUMNS, capRel);
+  const insCap = db.prepare(
+    `INSERT INTO capital_council VALUES (@seq, @report_year, @amount_fy, @project_id, @project_id_norm,
+       @borough, @budget_line, @budget_line_norm, @council_district, @district_tokens, @sponsor, @title,
+       @description, @amount, @source_kind, @source_file, @source_row, @row_flag,
+       @sponsor_fold, @title_fold, @description_fold)`
+  );
+  const filesByYear = new Map();
+  counts.capital = db.transaction(() => {
+    let seq = 0;
+    for (const r of cap) {
+      seq++;
+      const at = `${capRel} line ${seq + 1}`;
+      if (!CAPITAL_SOURCE_KINDS.has(r.source_kind)) throw new Error(`${at}: source_kind ${JSON.stringify(r.source_kind)}`);
+      if (!CAPITAL_ROW_FLAGS.has(r.row_flag)) throw new Error(`${at}: row_flag ${JSON.stringify(r.row_flag)}`);
+      if (r.budget_line_norm !== "" && !BUDGET_LINE_NORM.test(r.budget_line_norm)) {
+        throw new Error(`${at}: budget_line_norm ${JSON.stringify(r.budget_line_norm)}`);
+      }
+      // An amount is blank exactly on a split record whose amount the Council's files cannot prove.
+      const unknown = r.row_flag === "split_record_amount_unknown";
+      if ((r.amount === "") !== unknown || (r.amount_fy === "") !== unknown) {
+        throw new Error(`${at}: amount ${JSON.stringify(r.amount)} / amount_fy ${JSON.stringify(r.amount_fy)} vs row_flag ${JSON.stringify(r.row_flag)}`);
+      }
+      const amount = unknown ? null : Number(r.amount);
+      if (amount !== null && !Number.isFinite(amount)) throw new Error(`${at}: amount ${JSON.stringify(r.amount)}`);
+      const year = Number(r.report_year);
+      if (!Number.isInteger(year)) throw new Error(`${at}: report_year ${JSON.stringify(r.report_year)}`);
+      const seen = filesByYear.get(year) ?? new Map();
+      const k = `${r.source_kind}\t${r.source_file}`;
+      seen.set(k, (seen.get(k) ?? 0) + 1);
+      filesByYear.set(year, seen);
+      insCap.run({
+        ...r,
+        seq,
+        report_year: year,
+        amount_fy: unknown ? null : Number(r.amount_fy),
+        project_id_norm: r.project_id.replace(/\s+/g, " ").toUpperCase(),
+        district_tokens: districtTokens(r),
+        amount,
+        ...folded(r, CAPITAL_FOLD),
+      });
+    }
+    return seq;
+  })();
+
+  // --- capital provenance: one source per report year, hashed here and checked ---------------
+  const manifests = [
+    ["source/wayback-council/", readCsv("source/wayback-council/MANIFEST.csv"), (k) => k],
+    ["source/expense-funding-disclosure/", readCsv("source/expense-funding-disclosure/MANIFEST.csv"), (k) => k],
+    ["source/open-data-t474-a92g/", readCsv("source/open-data-t474-a92g/MANIFEST.csv"), (k) => k],
+  ];
+  const insSrc = db.prepare(
+    `INSERT INTO capital_sources VALUES (@report_year, @source_kind, @source_file, @url, @wayback_timestamp,
+       @retrieved, @sha256, @rows, @note)`
+  );
+  db.transaction(() => {
+    for (const [year, files] of [...filesByYear.entries()].sort((a, b) => a[0] - b[0])) {
+      if (files.size !== 1) throw new Error(`capital report year ${year}: ${files.size} source files; expected one`);
+      const [[k, rows]] = [...files.entries()];
+      const [source_kind, source_file] = k.split("\t");
+      const m = manifestFor(source_file, manifests);
+      const sha = sha256Of(source_file);
+      if (sha !== m.sha256) throw new Error(`${source_file}: sha256 ${sha} differs from its manifest (${m.sha256})`);
+      // retrieved: the manifest's date. The wayback and Open Data manifests carry an ISO
+      // timestamp (retrieved_at); the Council RnD manifest a date (retrieved).
+      const retrieved = (m.retrieved_at ?? m.retrieved ?? "").slice(0, 10);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(retrieved)) throw new Error(`${source_file}: no retrieval date in its manifest`);
+      insSrc.run({
+        report_year: year,
+        source_kind,
+        source_file,
+        url: m.url ?? RND_URLS[source_file] ?? "",
+        wayback_timestamp: m.wayback_timestamp ?? "",
+        retrieved,
+        sha256: sha,
+        rows,
+        note: m.note ?? "",
+      });
+    }
+  })();
+
+  // --- Council vs OMB by budget line (the repo's arithmetic, data/capital/RECONCILIATION.md §3) --
+  const cmpRel = "data/capital/council_vs_omb_by_budget_line.csv";
+  const cmp = readCsv(cmpRel);
+  need(cmp, ["report_year", "budget_line_norm", "omb_pub_date", "council_rows", "council_y1", "omb_y1",
+    "council_y2", "omb_y2", "verdict"], cmpRel);
+  const VERDICTS = new Set(["match", "differ", "council_only", "omb_only"]);
+  const insCmp = db.prepare(
+    `INSERT INTO capital_vs_omb VALUES (@report_year, @budget_line_norm, @omb_pub_date, @council_rows,
+       @council_y1, @omb_y1, @council_y2, @omb_y2, @verdict)`
+  );
+  counts.capital_vs_omb = db.transaction(() => {
+    for (const r of cmp) {
+      if (!VERDICTS.has(r.verdict)) throw new Error(`${cmpRel}: verdict ${JSON.stringify(r.verdict)}`);
+      // One side is blank exactly when the line is absent from it: council_y1/y2 on omb_only,
+      // omb_y1/y2 on council_only. Blank stays NULL (absent), never 0 (present with no money).
+      const blankOk = (c) =>
+        (r.verdict === "omb_only" && c.startsWith("council_y")) || (r.verdict === "council_only" && c.startsWith("omb_y"));
+      const int = (c) => {
+        if (r[c] === "" && blankOk(c)) return null;
+        const v = Number(r[c]);
+        if (r[c] === "" || !Number.isInteger(v)) throw new Error(`${cmpRel} ${r.report_year} ${r.budget_line_norm}: ${c} ${JSON.stringify(r[c])}`);
+        return v;
+      };
+      insCmp.run({
+        report_year: int("report_year"),
+        budget_line_norm: r.budget_line_norm,
+        omb_pub_date: r.omb_pub_date,
+        council_rows: int("council_rows"),
+        council_y1: int("council_y1"),
+        omb_y1: int("omb_y1"),
+        council_y2: int("council_y2"),
+        omb_y2: int("omb_y2"),
+        verdict: r.verdict,
+      });
+    }
+    return cmp.length;
   })();
 
   const setMeta = db.prepare("INSERT INTO meta (key, value) VALUES (?, ?)");
   setMeta.run("built_at", new Date().toISOString());
-  setMeta.run("source", "BetaNYC/New-York-City-Budget (committed snapshot)");
-  setMeta.run(
-    "parsed_fiscal_years",
-    JSON.stringify({
-      awards: AWARD_YEARS.map((y) => y.year),
-      terms: TERMS_YEARS.map((y) => y.year),
-      capital: CAPITAL_YEARS.map((y) => y.year),
-      transparency: TRANSPARENCY_YEARS.map((y) => y.year),
-    })
-  );
+  setMeta.run("source", "BetaNYC/New-York-City-Budget (committed structured datasets only)");
+  setMeta.run("inputs", JSON.stringify(INPUTS));
   setMeta.run("counts", JSON.stringify(counts));
 
+  // Rewrite the file without the free and part-filled pages row-by-row inserts leave behind.
+  db.exec("VACUUM");
+
+  // Fail loud before the index can ship: 0 rows, or a declared year missing, is a stop.
+  const capitalRowsByYear = new Map();
+  for (const r of cap) capitalRowsByYear.set(Number(r.report_year), (capitalRowsByYear.get(Number(r.report_year)) ?? 0) + 1);
+  const problems = verifyIndex(db, { disclosureYears: years, capitalRowsByYear });
   db.close();
-  log("built", { db: DB_PATH, counts });
+  if (problems.length) {
+    log("verify_failed", { problems });
+    throw new Error(`build-index: the built index failed verification; data/budget.db was not replaced:\n  - ${problems.join("\n  - ")}`);
+  }
+
+  // Install: drop the old file's sidecars, then atomically replace it.
+  for (const suffix of ["-wal", "-shm"]) if (existsSync(DB_PATH + suffix)) rmSync(DB_PATH + suffix);
+  renameSync(TMP_PATH, DB_PATH);
+  log("built", { db: DB_PATH, counts, inputs: INPUTS.length });
 }
 
 main();

@@ -11,7 +11,8 @@ that need a variant parser and the ones that are blocked at the source.
 
 All commands assume you are at the repo root with the venv active (`.venv/bin/python`), and
 that the packages in `code/requirements.txt` are installed (`pypdf`, `pdfplumber`,
-`cryptography`).
+`cryptography`, `xlrd` for the FY2013 expense disclosure only, and `openpyxl` for
+`audit_disclosure.py` only).
 
 ## Parsers and which document type each one handles
 
@@ -29,6 +30,8 @@ that the packages in `code/requirements.txt` are installed (`pypdf`, `pdfplumber
 | `parse_capital_fy25.py` | §254 Resolution-A / Appropriation-Changes (FY25 appropriation book + FY17/FY21/FY23/FY24) | pdfplumber word coordinates |
 | `parse_transparency_reso.py` | Post-adoption Transparency Resolutions | pdfplumber word coordinates |
 | `parse_transparency_reso_fy09.py` | Transparency Resolutions — **FY09 only** (scans, no text layer) | docTR OCR over ruled-grid cells (`code/ocr/`) |
+| `build_capital_council.py` | Council capital workbooks (FY2015–FY2017, FY2026–FY2027) + NYC Open Data `t474-a92g` (FY2019–FY2025), `46m8-77gv`, `2cmn-uidm` → `data/capital/` | stdlib zip+XML (the disclosure parser's reader); `audit_capital.py` re-reads with openpyxl |
+| `parse_expense_disclosure.py` | Council **expense funding disclosure** workbooks, FY2009, FY2011–FY2027 (a parallel award-level dataset, not a PDF) | stdlib zip+XML for `.xlsx`; `xlrd` for the `.xls` years (FY2009, FY2011–FY2013) |
 
 **Why four Capital-Project-Detail parsers exist:** the same logical document is emitted with
 different PDF text layers across years. `parse_capital.py` (pypdf) works only where pypdf
@@ -455,6 +458,149 @@ by x-position.
 
 ---
 
+## Expense funding disclosure — per year (parallel dataset)
+
+**Source:** the Council's own award-level disclosure workbooks in
+`source/expense-funding-disclosure/` (retrieved 2026-10-12; hashes in that folder's
+`MANIFEST.csv`, superseded hashes in `MANIFEST-HISTORY.csv`). **Output:** `data/fyNN/expense_disclosure/fyNN_expense_awards.csv` (one row per
+row the workbook prints; exact copies flagged in `duplicate_group`; rows a person decided are
+not grants to an organization flagged in `row_flag`, kept and counted) and
+`fyNN_expense_reconciliation.txt`, for FY2009 and FY2011–FY2027, plus `data/disclosure_years.csv`
+(one row per year: file, URL, capture, sha256, totals by status, early-snapshot flag, and the
+excluded FY2010). This is a **parallel** dataset: it never
+feeds or changes the Schedule C CSVs above. Schema: `DATA-DICTIONARY.md`.
+
+Three columns are **derived from committed reference tables**, never from the network, and the
+`--write` step reads them: `zip` / `zip_status` / `zip_candidates` from `data/reference/zcta2020_states.csv`
+(`code/zcta_states.py`, GitHub #70), and `council_member_id` / `council_member_type` from
+`data/disclosure_council_member_crosswalk.csv` (`code/build_member_crosswalk.py`, GitHub #72),
+which in turn reads the roster extract `data/reference/council_members_legistar.csv`
+(`code/extract_council_roster.py`, the only script that touches the local Legistar database).
+After a re-pull that brings a new member name, `--write` stops and names the fix:
+
+```bash
+python3 code/extract_council_roster.py --db PATH   # only if the roster changed (needs the DB)
+python3 code/build_member_crosswalk.py --write      # then --check in CI
+python3 code/parse_expense_disclosure.py --write
+```
+
+```bash
+python3 code/parse_expense_disclosure.py              # self-check against the corpus + summary
+python3 code/parse_expense_disclosure.py --write      # (re)write every data/fyNN/expense_disclosure/
+python3 code/parse_expense_disclosure.py --check      # exit 1 if a committed output or the manifest is stale
+python3 code/parse_expense_disclosure.py --manifest --retrieved YYYY-MM-DD --verified YYYY-MM-DD
+                                       # after a re-pull only: --retrieved dates new/changed files,
+                                       # --verified re-dates files that came back byte-identical
+```
+
+**FY2009, FY2011 and FY2012 come from the Internet Archive** (`ARCHIVED` in the parser names one
+capture per year under `source/wayback-council/files/`; GitHub #86, #89 A2). Each file's sha256
+must equal `source/wayback-council/MANIFEST.csv`, or the build stops. They pass through exactly
+the same row rules; no header synonym was added for them. **FY2010 is not loaded** (`EXCLUDED`):
+its workbook is incomplete against Open Data (DATA-ANOMALIES §25); it is parsed only to report
+its own counts in `data/disclosure_years.csv`. FY2009 and FY2013 are marked early snapshots
+(`EARLY_SNAPSHOT`), and their reports say so above the totals.
+
+**Open Data cross-reference (`od_mocs_id`, `od_match`).** Read from the committed key extract
+`source/open-data-4d7f-74pe/4d7f-74pe-keys.csv.gz` (built from the cached Open Data pull by
+`code/extract_open_data_keys.py`, pinned by sha256 in that folder's `MANIFEST.csv`). For
+FY2009–FY2021, a row gets Open Data's MOCS ID only when it and one Open Data row are alone in
+their (EIN, whole-dollar amount) bucket for the year; each report states how many rows got one,
+by tier. Audit question I2 re-derives every pair independently.
+
+FY2014–FY2027 need only the standard library. **The `.xls` years (FY2009, FY2011–FY2013) need `xlrd`**
+(`pip install -r code/requirements.txt`). The parser imports `xlrd` only when it meets the `.xls`,
+so it stays importable without it; the `.xls` years are then reported as skipped, and `--write` / `--check`
+refuse to run rather than publish a partial dataset. The output is deterministic: running
+`--write` twice produces byte-identical files, and `code/test_parse_expense_disclosure.py`
+fails if a committed file differs from a fresh run.
+
+**How a row is decided — by its Status cell, never by a label's wording.** Cleared/Pending (any
+case) is an award. Anything else, blank included, is a summary/footer row and is stripped,
+*unless* the row still names an organization and an amount; then it is kept with
+`status_norm = other` so a new status the Council introduces is surfaced, not lost (none exists
+today). Every stripped row is listed, with its cells, in that year's reconciliation report.
+Only 5 rows are stripped across 18 years: FY2024 rows 10818–10821 and 10829. (The 2026-07-15
+FY2026 workbook also had four footer rows, 11763–11766; the 2026-10-12 one has none.)
+
+**Printed totals.** Only one workbook prints a total of its own, and it reconciles to the
+dollar. FY2026 printed `Master List Total` (a `SUM(H2:H11762)` formula) = `Updated Total` (a
+typed value) = **$716,213,155** in the 2026-07-15 snapshot and nothing in the 2026-10-12 one; its
+kept rows still sum to $716,213,155, and its report shows that figure as the earlier snapshot's
+(`PRIOR_PRINTED` in the parser), never as a verdict. FY2024: kept rows = `New Total` = **$527,971,414**, printed
+twice — as `SUM(H2:H10818)` and as `Adoption Total` ($527,096,000) + `Admin New Add` ($875,414).
+Every other year prints no total; its report says so, and the sums there are this parser's, not
+the Council's.
+
+| FY | sheet | awards | all statuses $ | cleared rows / $ | pending rows / $ | other | stripped | blank | printed total |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---|
+| FY2009 † | `MASTER` | 5,745 | 414,226,176.88 | 4,356 / 406,962,823.87 | 1,389 / 7,263,353.01 | 0 | 0 | 0 | none printed |
+| FY2011 † | `MASTER` | 5,420 | 395,907,487.50 | 4,894 / 383,347,147.06 | 387 / 9,893,295.82 | 139 / 2,667,044.62 | 0 | 0 | none printed |
+| FY2012 † | `MASTER` | 5,823 | 386,832,781.80 | 5,482 / 150,740,106.80 | 137 / 886,357 | 204 / 235,206,318 | 0 | 0 | none printed |
+| FY2013 | `MASTER` | 4,987 | 398,882,402.18 | 2,343 / 18,201,784.75 | 2,644 / 380,680,617.43 | 0 | 0 | 0 | none printed |
+| FY2014 | `FY14` | 6,611 | 393,733,476.85 | 6,460 / 392,655,571.85 | 151 / 1,077,905 | 0 | 0 | 0 | none printed |
+| FY2015 | `FY15` | 6,650 | 286,731,856.46 | 6,596 / 285,921,454.46 | 54 / 810,402 | 0 | 0 | 0 | none printed |
+| FY2016 | `FY16` | 7,797 | 381,376,626 | 7,668 / 380,361,130 | 129 / 1,015,496 | 0 | 0 | 0 | none printed |
+| FY2017 | `FY17` | 8,671 | 353,501,886 | 8,621 / 352,787,056 | 50 / 714,830 | 0 | 0 | 3 | none printed |
+| FY2018 | `FY18` | 8,894 | 381,900,000 | 8,843 / 381,385,171 | 51 / 514,829 | 0 | 0 | 0 | none printed |
+| FY2019 | `FY19 (4-14-21)` | 9,655 | 392,945,000 | 9,602 / 392,443,522 | 53 / 501,478 | 0 | 0 | 0 | none printed |
+| FY2020 | `FY20 (06-16-2022)` | 10,616 | 457,216,702 | 10,549 / 456,580,952 | 67 / 635,750 | 0 | 0 | 0 | none printed |
+| FY2021 | `FY21 (06-23-2023)` | 9,054 | 393,250,506 | 8,934 / 391,770,561 | 120 / 1,479,945 | 0 | 0 | 0 | none printed |
+| FY2022 | `FY22 (07-11-2023)` | 11,336 | 538,549,827 | 11,222 / 536,959,144 | 114 / 1,590,683 | 0 | 0 | 0 | none printed |
+| FY2023 | `FY23 (07-11-2023)` | 11,027 | 541,426,995 | 10,908 / 537,910,110 | 119 / 3,516,885 | 0 | 0 | 0 | none printed |
+| FY2024 | `FY24 (06-08-26)` | 10,811 | 527,971,414 | 10,731 / 526,907,681 | 80 / 1,063,733 | 0 | 5 | 12 | **RECONCILED** |
+| FY2025 | `FY25 (09-14-26)` | 11,276 | 595,181,182 | 11,222 / 592,800,281 | 54 / 2,380,901 | 0 | 0 | 0 | none printed |
+| FY2026 | `FY26 (09-14-26)` | 11,764 | 716,213,155 | 11,658 / 708,776,879 | 106 / 7,436,276 | 0 | 0 | 0 | none printed (2026-07-15: 716,213,155, same) |
+| FY2027 | `FY27 (09-14-26)` | 10,407 | 705,704,000 | 8,870 / 590,253,954 | 1,537 / 115,450,046 | 0 | 0 | 0 | none printed |
+
+† From the Internet Archive capture named in `data/disclosure_years.csv`. FY2010 (2,592 rows,
+$111,558,052.58) is not loaded. FY2011 `other` = `Government` 136 + `Pending FC Clearance` 3;
+FY2012 `other` = `Government` 49 ($235,206,318) + `CBO Defunded` 155 ($0).
+
+**The headline figure for any year is the Cleared column, labeled as such.** "All statuses" adds
+Pending and is a different, larger claim; FY2027 (half Pending on 2026-07-15, when the year had
+just opened; 16% of dollars Pending on 2026-10-12) and
+FY2013 (95% of its dollars Pending in the file as published) are where the difference is
+large. "blank" counts empty rows and rows the `.xlsx` omits entirely. Every figure in this table
+is in the committed `fyNN_expense_reconciliation.txt` and pinned by
+`code/test_parse_expense_disclosure.py`.
+
+**Join to Schedule C.** `python3 code/reconcile_disclosure_schedule_c.py` (stdlib; `--check` to
+verify) joins each year to the Schedule C award files on `(EIN, amount)` as a multiset and writes
+`data/DISCLOSURE-COVERAGE.md` + `data/disclosure_schedule_c_coverage.csv`: coverage by year ×
+stream × status, the #57 blocker-2 verdict (appendices additive), and the unmatched rows. Read
+DATA-ANOMALIES §23 before quoting any of it.
+
+**Comparing snapshots.** `python3 code/diff_disclosure_snapshots.py OLD NEW` compares two
+snapshots of one year (workbooks or the CSVs above, mixed freely): status transitions, amount
+changes, re-numbered MOCS IDs (listed apart from MOCS-ID pairs, with a count per prefix
+change), added/removed rows, totals by status, ambiguity counted. Reports name each file by its
+sha256 prefix, the key into `MANIFEST.csv` / `MANIFEST-HISTORY.csv`. The 2026-10-12 reports are
+in `data/disclosure-snapshots/2026-10-12/`. The re-pull procedure — which
+needs Noel's OK for every download — is in `source/expense-funding-disclosure/README.md`.
+
+**Cross-check against the 2026-07-15 normalizer** (`normalize_expense_disclosure.py`, openpyxl +
+xlrd, kept outside this repo), run on the 2026-07-15 snapshot: identical row counts and identical
+dollar totals in all 15 years, 139,186 rows. The field-level differences are all rendering, each explained: that normalizer wrote
+FY2013 numeric ZIP and address cells as `10002.0` (3,673 cells; here `10002`), digit-stripped two
+FY2016 fiscal-conduit EIN cells (`DID NOT APPLY IN FY16` → `16`; here kept as published),
+rendered one date-formatted FY2016 `address2` cell as `2015-02-02 00:00:00` (here the stored value
+`42037`), and kept zero-width characters in four cells (here deleted).
+
+**Independent audit (`code/audit_disclosure.py` → `data/DISCLOSURE-AUDIT.md`).** A second reader
+(openpyxl and raw sheet XML, headers mapped by its own keyword rules, never this parser) re-reads
+every workbook and asks 53 questions of the dataset: the Schedule C defect classes (member bleed,
+prose and truncation in names, cents in purpose, merged rows, wrong EINs, duplicates, subtotal
+rows, positional shift, headers that hide a year, circular checks) plus spreadsheet hazards
+(hidden rows/sheets, merged cells, date/number coercion, error cells, formula amounts, appended
+rows). Its headline: every one of the 2,372,452 cell-sourced values in the CSVs equals the
+workbook cell, and the per-year × status sums agree to the cent. Since 2026-10-12, invisible
+format characters (Unicode category Cf, including 213 soft hyphens and 2 left-to-right marks) are
+deleted, not just zero-width spaces. FY2013 is only partly independent (xlrd is both readers'
+library).
+
+---
+
 ## Full status table (kept current)
 
 Legend: RECONCILED (ratio) · EXTRACTED (parsed, not reconcilable by nature) · PARTIAL ·
@@ -523,6 +669,12 @@ treated as a real bug.
 
 Current run (2026-07-07): 272 files, **0 hard failures**, EIN coverage **100%** on every
 EIN-bearing file. Tests: `code/test_validate_data.py`.
+
+Check 9 covers the expense-disclosure CSVs: `status_norm` agrees with `status`, `fiscal_year` is
+the folder year, and `source_row` is a unique positive integer (all HARD); each year's
+reconciliation verdict joins the roll-up as PASS (FY2024, FY2026) or N/A (no printed total).
+Run 2026-10-12: 289 files, 0 hard failures. EIN coverage is below 100% in three disclosure years
+because the Council left the EIN blank: FY2013 (2 rows), FY2014 (3), FY2015 (1).
 
 ---
 

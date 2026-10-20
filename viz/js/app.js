@@ -395,7 +395,9 @@
             });
         },
         updateCrumbs: function(){
-            var links = ['<a href="/">'+municipalityName+'</a>'];
+            // legacy.html, not "/": since 2.0.0 the site root is the retirement notice (and "/" was
+            // the github.io host root, not this project's page).
+            var links = ['<a href="legacy.html">'+municipalityName+'</a>'];
             if(Backbone.history.fragment){
                 var parts = Backbone.history.fragment;
                 if (parts.indexOf('?') >= 0){

@@ -1,0 +1,33 @@
+EXPENSE DISCLOSURE RECONCILIATION  (fy14)  [parser: parse_expense_disclosure.py]
+source: funded_disclosure_FY2014.xlsx  (sheet 'FY14', xlsx, 6612 rows incl. header)
+printed total: NO PRINTED TOTAL
+
+Every non-blank row after the header is either an award or a stripped row. A row is
+decided by its Status cell: Cleared/Pending (any case) is an award; anything else is
+stripped unless it still names an organization and an amount (then it is kept with
+status_norm 'other'). Every stripped row is listed below with its cells.
+
+rows after header: 6611   blank: 0   awards: 6611   stripped: 0
+
+status_norm       rows              amount
+cleared           6460      392,655,571.85
+pending            151           1,077,905
+other                0                   0
+ALL               6611      393,733,476.85
+
+Headline figure = cleared only. 'ALL' adds pending (and other) and is labeled so.
+
+This workbook prints no total of its own. The sums above are computed by this
+parser from the rows; they are not a figure published by the Council.
+
+Stripped rows (0):
+  none
+
+EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (0): none
+Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 18 group(s), 36 row(s); 18 beyond the first of each group, $138,000
+NYC Open Data 4d7f-74pe MOCS ID attached (od_mocs_id), unambiguous pairs only: 4534 of 6611 rows (exact 4462, rounded_cents 1, rounded_dollars 71)
+Rows kept but flagged in row_flag (3), included in every total above:
+  row     45  no_grantee_ein '88th Precinct' $5,000
+  row   5828  no_grantee_ein 'St. Rita’s Roman Catholic Church' $11,250
+  row   5829  no_grantee_ein "St. Rita's Roman Catholic Church" $25,000
+notes: no MOCS ID#; no Fiscal Year column (year taken from filename)

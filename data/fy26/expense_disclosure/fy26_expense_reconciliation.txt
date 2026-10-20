@@ -1,0 +1,33 @@
+EXPENSE DISCLOSURE RECONCILIATION  (fy26)  [parser: parse_expense_disclosure.py]
+source: funded_disclosure_FY2026.xlsx  (sheet 'FY26 (09-14-26)', xlsx, 11765 rows incl. header)
+printed total: NO PRINTED TOTAL
+
+Every non-blank row after the header is either an award or a stripped row. A row is
+decided by its Status cell: Cleared/Pending (any case) is an award; anything else is
+stripped unless it still names an organization and an amount (then it is kept with
+status_norm 'other'). Every stripped row is listed below with its cells.
+
+rows after header: 11764   blank: 0   awards: 11764   stripped: 0
+
+status_norm       rows              amount
+cleared          11658         708,776,879
+pending            106           7,436,276
+other                0                   0
+ALL              11764         716,213,155
+
+Headline figure = cleared only. 'ALL' adds pending (and other) and is labeled so.
+
+This workbook prints no total of its own. The sums above are computed by this
+parser from the rows; they are not a figure published by the Council.
+
+An earlier snapshot of this workbook did print totals. They are NOT this
+workbook's figures; they are shown so a change in the year's total is seen:
+  snapshot 2026-07-15 'Master List Total': 716,213,155 vs kept rows 716,213,155  SAME
+  snapshot 2026-07-15 'Updated Total': 716,213,155 vs kept rows 716,213,155  SAME
+
+Stripped rows (0):
+  none
+
+EIN cells stored as numbers that lost a leading zero, left-padded to 9 digits (0): none
+Rows identical to another row in every field but source_row, kept and flagged in duplicate_group: 0 group(s), 0 row(s); 0 beyond the first of each group, $0
+Rows kept but flagged in row_flag (0), included in every total above: none

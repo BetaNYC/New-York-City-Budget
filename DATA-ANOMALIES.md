@@ -2,6 +2,13 @@
 
 Honest catalog of every known gap, quirk, and caveat in this dataset. Nothing here is a secret failure — each item is either an intrinsic property of the source documents, a documented deferral, or a tracked open task. If you're about to draw a conclusion from this data, read the relevant entry first.
 
+> **2.0 (2026-10-14): PDF-derived data is retired.** Entries about Schedule C, Terms &
+> Conditions, §254 capital, transparency resolutions, `data/combined/` and `data/recovered/`
+> describe files kept in the repository as a historical record. They are not served by
+> `@betanyc/nyc-budget-mcp` 2.0 or shown on the Pages site's front page (`viz/legacy.html` keeps
+> the old explorer online, frozen as of 2026-10-16, under a "do not cite" banner). Where an entry says "the MCP" serves or indexes those files, it
+> describes 1.x. The structured datasets are covered by §22–§26.
+
 **Generated:** 2026-07-08. See also [`DATA-DICTIONARY.md`](DATA-DICTIONARY.md) (schemas) and [`code/PARSING.md`](code/PARSING.md) (per-year parse status).
 
 ---
@@ -20,7 +27,7 @@ These sources cannot be parsed by the repo's deterministic text-layer extractors
 
 Schedule C for **FY2009–FY2014 is initiatives-level only** (category/initiative totals). There are **no per-organization award rows and no EINs**. This is intrinsic: pre-FY2016, designations were largely made *after* adoption, so organization detail lives in the Transparency Resolutions, not the adopted Schedule C. FY2016 is the first year the adopted Schedule C carries award/EIN tables.
 
-**Consequence:** EIN-keyed analysis — and the budget MCP's award tools — are valid **FY2016 onward only**. Reconstructing the earlier years from Transparency Resolutions + NYC Open Data is **open GitHub task [#5](https://github.com/BetaNYC/New-York-City-Budget/issues/5)**.
+**Consequence:** EIN-keyed analysis of the Schedule C files — and the budget MCP's 1.x award tools, removed in 2.0 — are valid **FY2016 onward only**. Reconstructing the earlier years from Transparency Resolutions + NYC Open Data is **open GitHub task [#5](https://github.com/BetaNYC/New-York-City-Budget/issues/5)**.
 
 ## 3. Low text-confidence for FY2010–FY2013 organization/program names
 
@@ -359,8 +366,10 @@ unexplained changes" while 1,514 initiative cells were rewritten.
   them would fragment the initiative axis exactly as §17 describes. A gap is recoverable later; a
   polluted vocabulary is not.
 - **~200 rows** could not be resolved to a single candidate and remain flagged rather than guessed.
-- **Amounts were audited and not touched.** 60,665 of 62,213 rows (97.51%) are corroborated by the
-  Council's same-year disclosure, covering 94.93% of dollars. 18 differ by ≤$5 and 3 look like a
+- **Amounts were audited and not touched.** 60,578 of 62,213 rows (97.37%) are corroborated by the
+  Council's same-year disclosure as retrieved 2026-10-12, covering 94.68% of dollars (against the
+  2026-07-15 snapshot: 60,667, 97.51%, 94.93%; the difference is all in the three workbooks the
+  re-pull replaced: FY2025 −5, FY2026 −16, FY2027 −68). 18 differ by ≤$5 and 3 look like a
   neighbour's amount. `code/audit_amounts.py` reports and has no `--apply` path, deliberately.
 - **The parser.** Nothing here stops the defect recurring; FY2027 produced 80 fresh `org_prose`
   rows. That is the open half of GitHub issue #52.
@@ -376,7 +385,427 @@ Both carry confidence and provenance columns. Nothing already published moved.
 
 ---
 
-## 22. FY2009 Transparency Resolutions are OCR-derived — the one year whose numbers are model-read
+## 22. Expense disclosure dataset — what the Council's workbooks settle, and what they do not
+
+`data/{year}/expense_disclosure/` (FY2013–FY2027, 139,556 rows as retrieved 2026-10-12; plus FY2009,
+FY2011 and FY2012, 16,988 rows from Internet Archive captures, §25) is built from the Council's own
+disclosure workbooks by `code/parse_expense_disclosure.py`. It is a **parallel** dataset; nothing
+in the Schedule C files moved. What a reader needs to know before using it:
+
+- **Only one year carries a Council total, and it reconciles to the dollar.** FY2024 prints
+  `New Total` $527,971,414 (as `SUM(H2:H10818)` and as `Adoption Total` + `Admin New Add`).
+  The 2026-07-15 FY2026 workbook printed `Master List Total` = `Updated Total` = $716,213,155;
+  the 2026-10-12 one has no footer rows at all, and its rows still sum to $716,213,155 (shown
+  in its report as the earlier snapshot's figure, never as a verdict). The other workbooks print
+  no total. Their sums are this repo's arithmetic, labeled as such in every report, never the
+  Council's.
+- **The 2026-07-15 FY2026 workbook also printed `Schedule C Total:` $714,879,821**, $1,333,334 below its Master List.
+  The workbook's own `Difference:` row compares Master List with Updated Total (0), not with this
+  figure, and the file says nothing about what it measures. It is reported, not reconciled
+  against.
+- **FY2024 row 10829 holds an unlabeled typed value, $454,755**, below the footer. It matches no
+  row, no status, source, agency or member subtotal of FY2024. It is stripped and listed; its
+  meaning is unknown.
+- **Status is a moment, not a fact about the award.** FY2027 was half Pending on 2026-07-15
+  (5,003 of 10,040 rows; $562,529,278 of $705,564,000) and 16% Pending by dollars on 2026-10-12
+  (1,537 of 10,407 rows; $115,450,046 of $705,704,000); between the two, 3,608 rows went Pending
+  → Cleared and 84 went back (`data/disclosure-snapshots/2026-10-12/FY2027-diff.md`). The FY2013
+  file is 95% Pending by dollars. Every row is kept; headline figures are Cleared only and labeled.
+- **`council_member` is the roster when the workbook was exported**, not at adoption (§21). Do
+  not join on it. Since GitHub #72 each printed name carries the Legistar person it resolves to
+  for that year (`council_member_id`, `council_member_type`; DATA-DICTIONARY), and the export-time
+  effect is measurable: 341 rows name someone with no recorded vote in that fiscal year (FY2025
+  `Wong` 150, FY2021 `Aviles` 84, FY2020 `D. Diaz` 107; audit G8), and 189 rows are `ambiguous`
+  because two members of the name served that year (seat hand-overs: FY2014 and FY2022 `Barron`,
+  FY2014 `Vallone`). FY2021 bare `Diaz` (123 rows; Ruben Diaz Sr. and Darma Diaz both served) is
+  resolved to Ruben Diaz, Sr. by a recorded file convention, not by the evidence alone: the
+  workbook prints Darma as `D. Diaz` that year, and the grantee mailing addresses agree (Bronx
+  vs Brooklyn; DATA-DICTIONARY, crosswalk `method` = `file_convention`). The 2026-10-12 re-pull shows it moving: 149 FY2025 rows changed from `Holden`
+  to `Wong`, and 161 FY2026 rows from `Bottcher` to `Wilson` (159 whose MOCS ID did not change,
+  plus 2 that were also re-numbered, below). The snapshot diff never keys on it.
+- **A MOCS ID is not a stable key across snapshots, and nothing published says it is one.** In
+  the 2026-10-12 FY2026 workbook, 131 rows carry `FY26GP NNNNN` where the 2026-07-15 one had
+  `FY26 NNNNN` (same number; on 129 every other field is identical, on 2 -- `FY26 00144`
+  Alzheimer's Foundation $5,000 and `FY26 06277` Living Arts Collaborative $20,000 -- the member
+  also moved `Bottcher` → `Wilson`); the workbook does not say what `GP` means. One FY2027 row
+  was re-issued under a new number (`FY27 06029` → `FY27 10413`), two FY2027 IDs (`FY27 06102`,
+  `FY27 06103`, Green Beetz) now carry a different EIN, and 24 FY2027 removed/added pairs share
+  EIN, amount and legal name under a new MOCS ID with a different agency, stream or member
+  (listed as "Likely re-issued" in `data/disclosure-snapshots/2026-10-12/FY2027-diff.md`; 2 in
+  FY2026). IDs ascend with sheet order, which reads as a per-workbook sequence. Whether a MOCS ID
+  joins to a registered contract is **unverified**. Key across snapshots on it with care.
+- **321 groups of rows (662 rows; 341 beyond the first copy of each group, $8,549,772) are
+  identical in every published field except `source_row`**, FY2013–FY2023, verbatim in the
+  workbooks (`data/DISCLOSURE-AUDIT.md` F1). A member can designate the same amount to the same
+  grantee twice, and from FY2024 the Council numbers look-alike rows as separate designations
+  (142 more groups, 147 rows, identical except for a distinct MOCS ID), so the file cannot say
+  which earlier repeats are real. **Decision (maintainer, GitHub #69): keep every row as
+  published, and flag it.** `duplicate_group` names the first row of each group (blank when
+  unique); audit question F3 checks the flag against F1's own grouping; the MCP tool says how many
+  flagged rows, and how many dollars beyond each group's first copy, a result's totals include.
+
+  | FY | groups | rows flagged | beyond the first copy | dollars beyond the first copy |
+  |---|---:|---:|---:|---:|
+  | 2009 | 97 | 373 | 276 | $2,512,897.68 |
+  | 2011 | 11 | 23 | 12 | $110,452.38 |
+  | 2012 | 11 | 22 | 11 | $89,000 |
+  | 2013 | 9 | 20 | 11 | $178,875 |
+  | 2014 | 18 | 36 | 18 | $138,000 |
+  | 2015 | 17 | 35 | 18 | $1,775,350 |
+  | 2016 | 19 | 43 | 24 | $565,382 |
+  | 2017 | 27 | 54 | 27 | $758,995 |
+  | 2018 | 26 | 53 | 27 | $1,212,646 |
+  | 2019 | 28 | 58 | 30 | $724,480 |
+  | 2020 | 75 | 154 | 79 | $919,480 |
+  | 2021 | 19 | 42 | 23 | $337,186 |
+  | 2022 | 40 | 80 | 40 | $1,373,189 |
+  | 2023 | 43 | 87 | 44 | $566,189 |
+  | **all** | **440** | **1,080** | **640** | **$11,262,122.06** |
+
+  FY2024–FY2027: none. These are this repo's counts of the committed rows (each year's
+  reconciliation report states them too), not Council figures.
+- **64 amounts carry fractional cents** (FY2013 27, FY2014 30, FY2015 7), e.g. FY2013
+  `22320.421`; 7 are binary float residue (e.g. FY2014 row 4255 `16279.539999999994`), of which
+  one is still a live formula (FY2014 row 109 `=72743.46-7274.46` → `65469.00000000001`) and six
+  are stored values, probably formulas pasted as values. They are published as the workbook stores them, not rounded:
+  rounding moves no year's total by more than 1.2 cents, and keeping the stored value is what
+  lets every CSV cell be checked against the workbook cell (`DISCLOSURE-AUDIT.md` A6).
+- **Spreadsheet artifacts kept as published** (`DISCLOSURE-AUDIT.md`): 37 cells hold the Excel
+  error `#N/A` (FY2014 `postal_code` 19; FY2017 `address1`, `city`, `postal_code` 6 each, on 6
+  rows), published as the text `#N/A` by decision (GitHub #71; never blanked, never read as a
+  value; pinned by `test_committed_na_cells_are_kept_as_published_issue_71`); 27 ZIPs stored as 4-digit numbers, some a
+  lost leading zero (MA/VT/NJ), some not (`7083` on a Bronx address), and 72 ZIPs are `0` (all
+  kept in `postal_code`; checked in `zip_status`, below); 5,656
+  `state` cells read `New YorkNY` (FY2015–FY2017, as typed); one `state` holds a ZIP
+  (FY2015 row 1235); fiscal-conduit cells hold `003`, `260`, `005`, a name and a sentence in the
+  EIN/name columns. Invisible format characters are deleted (left-to-right marks,
+  zero-width spaces, BOMs) except the soft hyphen: 211 cells hold one, and each reads as a hyphen that
+  lost its glyph, so it is published as `-` (dropped where a `-` or `/` already sits beside it).
+  An earlier version deleted it and published FY2018 rows 2796–2811 as `1211 40th Avenue` for
+  the Queens address `12-11 40th Avenue` (GitHub #68; 17 address and 17 purpose cells regained
+  their hyphen; audit question D13). Mojibake such as `EspaÃ±ol` is in the source cell and is kept.
+- **ZIP codes checked against the Census 2020 ZCTA list (GitHub #70).** `postal_code` stays as
+  published; `zip` / `zip_status` are derived (rules in DATA-DICTIONARY; the Census file's URL,
+  date and sha256 in `source/census-zcta/MANIFEST.csv`). Of 46 four-digit ZIPs, 13 are padded
+  (Brookline and Boston MA, Colchester VT, North Bergen NJ: the padded value is a ZCTA in the
+  row's own state) and 33 are not: `1001`/`1002`/`1144` on New York rows pad to Massachusetts
+  ZCTAs, `7052`/`7083` to New Jersey ones, `6108` to Connecticut (city Hartford, state cell
+  `New York`), and `1004`/`1121`/`1123`/`1126` to no ZCTA at all; each looks like a typo of a NYC
+  ZIP, and none is guessed. A ragged ZIP+4 (35 rows: `11203-` 24, `10027-000` 2, `10037-999` 2,
+  `11217-11217`, `11204-11204`, `10033-10033`, `11102-20`, and the three printed with another
+  separator: `11231=1020` FY2018 row 8527, `11413 ZipCode2: 3929` FY2015 row 1593,
+  `11233 ZipCode2: 150` FY2015 row 6003) is `trimmed` to its first five digits, because each is
+  a ZCTA in the row's own state; `postal_code` keeps the cell as published. The hyphen, `=` and
+  `ZipCode2:` are the only ZIP+4 separators in any year; the other five-digit-led values stay
+  `invalid` (`10310\``, `10465ww`, `10448448`, `1030410016`: audit G11 lists them).
+  **Six-digit ZIPs** (65 rows, 10 values; decision 2026-10-13) are read by deleting one digit at
+  every position, since the extra digit is not always in one place (leading in `111691`,
+  trailing in `115300`, inside in `100665`). When exactly one result is a ZCTA in the row's own
+  state the row is `repaired_extra_digit` (35 rows: `111691` → 11691 Far Rockaway 30,
+  FY2019–FY2027; `100665` → 10065 2; `115300` → 11530; `111234` → 11234; `110027` → 10027).
+  When more than one is, the row is `ambiguous_extra_digit` with no `zip` and every candidate in
+  `zip_candidates` (30 rows: `104658` → 10458/10465/10468 11; `100037` → 10003/10007/10037 10;
+  `900069` → 90006/90069 5; `114345` → 11434/11435 3; `100115` → 10011/10115 1). None is picked,
+  by a doubled digit or by knowing the street: that would be a guess. The four ambiguous New
+  York values could later be settled from the street address with NYC Planning's GeoSearch
+  (tracker #75, a future item that needs the maintainer's approval; no lookup is done now). No
+  county narrowing is applied: the committed Census table carries states, not counties (audit
+  G12 checks every six-digit row). `blank` (an empty cell) is kept apart from `invalid`.
+  `not_a_zcta` is **not verified, not fake**: PO-box and single-building ZIPs have no ZCTA. Counts (this repo's, of the committed rows):
+
+  | FY | valid | padded | trimmed | repaired_extra_digit | ambiguous_extra_digit | not_a_zcta | state_mismatch | invalid | blank |
+  |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+  | 2009 | 4,773 | 0 | 0 | 1 | 0 | 56 | 0 | 0 | 915 |
+  | 2011 | 5,221 | 0 | 0 | 0 | 0 | 62 | 0 | 1 | 136 |
+  | 2012 | 5,330 | 0 | 6 | 1 | 2 | 58 | 2 | 4 | 420 |
+  | 2013 | 4,561 | 0 | 1 | 0 | 0 | 50 | 3 | 5 | 367 |
+  | 2014 | 5,557 | 0 | 2 | 0 | 0 | 44 | 1 | 32 | 975 |
+  | 2015 | 5,946 | 6 | 2 | 1 | 0 | 63 | 2 | 4 | 626 |
+  | 2016 | 6,885 | 2 | 1 | 0 | 1 | 50 | 1 | 11 | 846 |
+  | 2017 | 7,688 | 5 | 2 | 0 | 0 | 69 | 7 | 10 | 890 |
+  | 2018 | 8,092 | 0 | 1 | 1 | 13 | 80 | 2 | 10 | 695 |
+  | 2019 | 8,773 | 0 | 0 | 4 | 0 | 87 | 0 | 4 | 787 |
+  | 2020 | 9,658 | 0 | 3 | 2 | 0 | 72 | 0 | 4 | 877 |
+  | 2021 | 8,511 | 0 | 3 | 3 | 0 | 80 | 3 | 3 | 451 |
+  | 2022 | 10,587 | 0 | 4 | 4 | 11 | 83 | 2 | 4 | 641 |
+  | 2023 | 10,120 | 0 | 3 | 3 | 1 | 74 | 5 | 0 | 821 |
+  | 2024 | 9,904 | 0 | 3 | 4 | 4 | 71 | 0 | 0 | 825 |
+  | 2025 | 10,523 | 0 | 4 | 5 | 0 | 82 | 1 | 0 | 661 |
+  | 2026 | 11,006 | 0 | 3 | 4 | 0 | 87 | 1 | 2 | 661 |
+  | 2027 | 9,532 | 0 | 3 | 4 | 0 | 81 | 1 | 75 | 711 |
+  | **all** | **142,667** | **13** | **41** | **37** | **32** | **1,249** | **31** | **169** | **12,305** |
+
+  The counts in the prose above this table are FY2013–FY2027. The archived FY2009–FY2012 rows
+  (§25) add 6 `trimmed` (`10009-10009`, `11205-11205`, `11238-11226`, and more of `11217-11217`
+  and `10033-10033`), 2 `repaired_extra_digit`, 2 `ambiguous_extra_digit` (`100215` → 10021 or
+  10025) and 2 `state_mismatch`, all under the same rules; audit questions G7, G11 and G12 list
+  every one.
+  FY2027's 75 `invalid` are mostly the `0` ZIPs (69). The 29 `state_mismatch` rows (FY2013–FY2027) are mostly a
+  NYC ZIP on a row whose state cell names another state (`NC`, `NE`, `LA`, `MI`, `New JerseyNJ`
+  on Staten Island addresses), plus a few out-of-state ZIPs on rows marked New York
+  (`07087`, `08701`, `15050`, `19454`, `94110`). Street addresses are not checked; NYC Planning's GeoSearch would
+  be the next step and needs its own approval (about 140,000 lookups).
+- **One FY2016 `address2` cell (row 640) is a number formatted as a date** (`42037`, which Excel
+  shows as 2015-02-02). The stored value is kept; what was meant is not knowable from the file.
+
+---
+
+## 23. Disclosure vs Schedule C — coverage, and the appendix question (GitHub #57 blocker 2) — SETTLED for blocker 2
+
+`code/reconcile_disclosure_schedule_c.py` joins each year's disclosure rows (§22) to the Schedule
+C award files on `(EIN, amount)` as a multiset — never EIN alone, never the member. Full output:
+[`data/DISCLOSURE-COVERAGE.md`](data/DISCLOSURE-COVERAGE.md) and
+`data/disclosure_schedule_c_coverage.csv` (year × stream × status, rows and dollars). Every number
+below is that script's arithmetic on committed files, pinned by
+`code/test_reconcile_disclosure_schedule_c.py`. **None is a Council figure.**
+
+**This is coverage, not a capture rate.** The disclosure is a later snapshot than the adopted
+Schedule C and includes post-adoption designations, so it is not the adopted-budget universe
+(see #58 item 3 on why the earlier 68.3% was retracted). "Published set" = body + the three
+appendix CSVs (what the MCP indexed through 1.x). The disclosure-built appendix sidecar is excluded as
+circular; the absorbed-awards sidecar is reported separately in the full output.
+
+| FY | disclosure rows | matched | Cleared $ matched (headline) | Pending $ matched | appendix rows matched after the body | appendices vs body |
+|---|---:|---:|---:|---:|---:|---|
+| FY2013 | 4,987 | 0 | 0 of 18,201,784.75 (0.0%) | 0 of 380,680,617.43 (0.0%) | — | no Schedule C award files |
+| FY2014 | 6,611 | 0 | 0 of 392,655,571.85 (0.0%) | 0 of 1,077,905 (0.0%) | — | no Schedule C award files |
+| FY2015 | 6,650 | 535 | 61,279,634 of 285,921,454.46 (21.4%) | 450,000 of 810,402 (55.5%) | — | appendix CSVs empty |
+| FY2016 | 7,797 | 290 | 76,857,624 of 380,361,130 (20.2%) | 0 of 1,015,496 (0.0%) | — | appendix CSVs empty |
+| FY2017 | 8,671 | 329 | 73,268,111 of 352,787,056 (20.8%) | 0 of 714,830 (0.0%) | — | appendix CSVs empty |
+| FY2018 | 8,894 | 831 | 73,096,268 of 381,385,171 (19.2%) | 0 of 514,829 (0.0%) | 417 / 422 (aging only) | additive, 1 exception |
+| FY2019 | 9,655 | 756 | 161,144,404 of 392,443,522 (41.1%) | 15,000 of 501,478 (3.0%) | — | appendix CSVs empty |
+| FY2020 | 10,616 | 2,665 | 236,937,236 of 456,580,952 (51.9%) | 0 of 635,750 (0.0%) | — | appendix CSVs empty |
+| FY2021 | 9,054 | 5,841 | 235,798,936 of 391,770,561 (60.2%) | 630,000 of 1,479,945 (42.6%) | 4,148 / 4,310 | additive, with exceptions |
+| FY2022 | 11,336 | 5,519 | 252,340,025 of 536,959,144 (47.0%) | 460,124 of 1,590,683 (28.9%) | 4,087 / 4,182 | additive, with exceptions |
+| FY2023 | 11,027 | 5,713 | 294,143,159 of 537,910,110 (54.7%) | 1,599,500 of 3,516,885 (45.5%) | 3,930 / 4,056 | additive, with exceptions |
+| FY2024 | 10,811 | 9,029 | 439,808,260 of 526,907,681 (83.5%) | 604,800 of 1,063,733 (56.9%) | 3,791 / 3,911 | additive, with exceptions |
+| FY2025 | 11,276 | 9,373 | 455,231,615 of 592,800,281 (76.8%) | 677,000 of 2,380,901 (28.4%) | 3,813 / 3,920 | additive, with exceptions |
+| FY2026 | 11,764 | 9,519 | 515,964,746 of 708,776,879 (72.8%) | 1,132,375 of 7,436,276 (15.2%) | 3,802 / 3,914 | additive, with exceptions |
+| FY2027 | 10,407 | 9,858 | 548,163,294 of 590,253,954 (92.9%) | 98,302,659 of 115,450,046 (85.1%) | 3,796 / 3,860 | additive, with exceptions |
+
+The table is the disclosure as retrieved 2026-10-12. Against the 2026-07-15 snapshot, FY2027 read
+10,040 rows, 9,976 matched, 142,899,722 of 143,034,722 Cleared (99.9%), and 3,860 / 3,860
+appendix rows, **additive, exactly**; FY2025 and FY2026 moved by under one percentage point.
+
+**Blocker 2 — verdict: the appendices are additive in every year that has appendix rows.** The
+test: match the body to the disclosure first, then see whether each appendix row still finds a
+designation of its own. A re-sorted subset of the body would find almost none. Instead 96.2% to
+98.8% do. In FY2027 the appendix dollars ($49,799,000) equal the disclosure's Local + Aging +
+Youth dollars to the dollar in both snapshots; all 3,860 appendix rows found their own
+designation against the 2026-07-15 snapshot and 3,796 do against the 2026-10-12 one. The
+exceptions are a handful against thousands (0–14 body rows the disclosure files only under
+Local/Aging/Youth; 0–33 keys printed in both body and appendix beyond what the disclosure holds), each
+listed key by key in `data/DISCLOSURE-COVERAGE.md` §4b as a candidate extraction or filing error.
+The five years with empty appendix CSVs (FY2015–2017, 2019–2020) have nothing to add or
+double-count; the PDFs do print those appendices, with bare amounts the parser's `$` anchor
+misses (#59 — verified for FY2016 and FY2019 by reading the page text). This settles the award
+rows only: it says nothing about whether the printed category `TOTAL`s include the appendix pots.
+
+**The FY2027 gap, checked rather than assumed — against the 2026-07-15 snapshot.** 64 disclosure rows had no published Schedule C
+counterpart. (The raw row-count difference is 62: 10,040 disclosure rows against 9,978 Schedule
+C rows, two of which also lack a disclosure counterpart.) 60 of the 64 carry the City's own EIN `136400434`, all Pending, $50,508,586, each naming a
+City agency or office as the grantee (DYCD, Cultural Affairs, Aging, Parks, CUNY, a District
+Attorney, a Borough President, …). The other four: two are $1 near-misses —
+Schedule C prints Osborne Association $14,999 and Selfhelp Community Services $44,999 where the
+disclosure has $15,000 and $45,000 (the two unmatched Schedule C rows) — plus Medicare Rights
+Center $135,000 (Speaker's Initiative, Cleared) and CUNY $10,000 (Parks Equity, Pending).
+
+**The same gap against the 2026-10-12 snapshot is 549 rows, $59,238,047** (385 Cleared, 164
+Pending); 95 of them carry the City EIN ($33,977,899: 68 Pending, 27 Cleared), and 56 Schedule C
+body rows now lack a disclosure counterpart (2 in July). Between the snapshots the FY2027
+workbook gained 495 rows, lost 128 and changed the amount on 72
+(`data/disclosure-snapshots/2026-10-12/FY2027-diff.md`). That widening is the later snapshot
+moving away from the adopted Schedule C, which is why this is coverage and not a capture rate;
+the full list is in `data/DISCLOSURE-COVERAGE.md` §5.
+
+**Ambiguity, counted.** Where a key's disclosure rows differ in stream or status and Schedule C
+has fewer rows than the disclosure, which disclosure rows matched is a deterministic choice, not a
+fact; those rows are counted per year in `data/DISCLOSURE-COVERAGE.md` §1 (767 in FY2027, up to
+1,228 in FY2026, as retrieved 2026-10-12). A year's matched rows and dollars across all statuses do not depend on the
+choice; the Cleared / Pending columns and the stream split do, within those counts.
+
+---
+
+## 24. Disclosure vs NYC Open Data `4d7f-74pe` — small items recorded (GitHub #89 B13) — OPEN where marked
+
+From the Open Data comparison (`research/2026-10-14-open-data-vs-disclosure-diff.md`). Every
+number is this repo's arithmetic on committed or manifest-pinned files, not a Council figure.
+
+- **FY2018 row 2289, `$221` to the Department for the Aging.** `funded_disclosure_FY2018.xlsx`
+  row 2289: source `Senior Centers, Programs, and Enhancements`, legal name `Department for the
+  Aging`, the City's EIN `136400434`, `CLEARED`, $221, agency DFTA, no street address, purpose
+  "This allocation provides operational support for non-DFTA and DFTA senior centers." Open Data
+  has no row for it, and it is the net one-row difference between the two sources for FY2018
+  (8,894 vs 8,893 rows). An amount this small on a City-to-City line reads like a residual
+  adjustment, but nothing in the file says so. **Kept as published, not flagged.**
+- **FY2021: 18 `Food Pantries` rows, $16,011,884, are in our file and not in Open Data**
+  (all Cleared, DYCD; 17 with a blank council member, e.g. Metropolitan New York Coordinating
+  Council on Jewish Poverty $4,500,000, United Way of New York City $2,500,000). Our FY2021
+  workbook's sheet is dated 2023-06-23; Open Data's copy was last updated 2021-04-20.
+  **OPEN: when they were added is not established.** The planned check against the FY2021
+  Transparency Resolutions was not made, because this repo's Transparency Resolution files are
+  extracted from PDFs (`code/parse_transparency_reso.py`), and the 2.0 rule is structured data
+  only. It needs a structured source for post-adoption designations, or the Council's answer.
+- **FY2009: two rows that are not grants to an organization.** The Council's FY2009 workbook
+  prints `Borough President Discretionary Funding` $533,000 (DFTA) and `Provider's Choice`
+  $1,200,000 (ACS), both to the City's EIN with no address; Open Data carries the same two under
+  MOCS ID `FY09 Not an Award`, the only rows with that ID. Decision (Noel Hidalgo, 2026-10-14):
+  keep both, flag them `row_flag = not_an_award` (DATA-DICTIONARY). The rule is in
+  `code/parse_expense_disclosure.py` (`ROW_FLAGS`): FY2009 rows 523 and 4092, $1,733,000 in all,
+  still in every total. Audit question I3 checks the flag against Open Data's own rows.
+- **Open Data BBL `0`** (15 rows: FY2019 14, FY2010 1) is read as blank wherever this repo
+  carries or profiles Open Data geocodes. No other geocode column holds an all-zero value.
+- **Open Data calls these rows "applications".** They are designations. The Council's actual
+  application files (every request, funded or not) are a separate data class
+  (`research/2026-10-14-wayback-council-files.md`), not in this dataset.
+- **The 2026-07-07 scoping note said Open Data's member names already match ours.** They do not;
+  the note now says so (`research/2026-07-07-fy09-fy21-legacy-import-scoping.md`).
+
+---
+
+## 25. Expense disclosure FY2009, FY2011, FY2012 from the Internet Archive; FY2010 left out (GitHub #86, #89 A2, A3, A5)
+
+The RnD site serves FY2013 onward only. The Council's own workbooks for FY2009–FY2012 survive as
+Internet Archive captures (`source/wayback-council/`, `research/2026-10-14-wayback-council-files.md`).
+Three of the four are now in the dataset, parsed by the same parser with the same rules; each
+year's file, original URL, capture timestamp and sha256 are in `data/disclosure_years.csv`, and
+the build stops if a file's sha256 differs from `source/wayback-council/MANIFEST.csv`. Every
+number here is this repo's arithmetic on those files.
+
+- **FY2010 is not loaded.** The workbook has 2,592 rows ($111,558,052.58); NYC Open Data
+  `4d7f-74pe` has 5,981 rows ($357,820,611) for the year: 1,864 Local, 817 Youth and 561 Aging
+  rows the workbook lacks, and 180 matched rows whose address the workbook leaves blank. Both
+  archived copies (2016-12 and 2025-02) are content-identical (different files and sha256, same rows), so this is what the Council published.
+  Mixing the two would make a year neither source published. **OPEN** until it is known which
+  is complete (decision #89 A3). The workbook stays in `source/wayback-council/files/` and its
+  counts are in `data/disclosure_years.csv` (`loaded = no`).
+- **FY2009 is an early snapshot** (as FY2013 is, §22): 1,389 of 5,745 rows are Pending
+  ($7,263,353.01 of $414,226,176.88, 1.8% of dollars), where Open Data, a later state of the same
+  rows, shows 24 Pending. The Council never revised the workbook. By dollars the gap is small,
+  but its statuses are not the year's outcome; `early_snapshot = yes`, and its Cleared total is
+  not a headline. Every FY2009–FY2012 pair of captures (2014–2016 and 2025) is content-identical.
+- **Statuses the later years do not use**, all `status_norm = other`, raw value kept: FY2011
+  `Government` 136 rows ($2.6M) and `Pending FC Clearance` 3; FY2012 `Government` 49 rows
+  ($235,206,318: City agencies as recipients; Open Data calls the same rows Cleared) and
+  `CBO Defunded` 155 rows, all $0 (Open Data dropped them). Neither file defines them. FY2012's
+  Cleared total ($150.7M) is therefore far below its rows' total ($386.8M); report `Government`
+  as its own line (#89 B4).
+- **Four EINs are not 9 digits, kept as published:** FY2009 `EX130314` (row 3075, Lynvets
+  Football), `EX123557` (4366, Regina Young at Heart), `11-31735A` (4912, St. Albans Presbyterian
+  Church); FY2011 `NA` (679, CBO Training). Which digits were meant is not in the file. The
+  validator lets exactly these four through (`PUBLISHED_ODD_EINS`). 46 EINs are blank (FY2009 25,
+  FY2011 13, FY2012 8); with FY2011 `NA` they carry `row_flag` `no_grantee_ein` (next
+  bullet). FY2011 and FY2012 store 150 EINs as numbers that lost a leading zero (3 and 147),
+  re-padded as in FY2013.
+- **53 disclosure rows print no grantee EIN** (52 blank, plus one FY2011 cell printed `NA`),
+  $159,951,020.83 in all, most of it FY2009 rows that name an initiative or program rather than an
+  organization ("School Budget Restoration", $120,000,000; "NYCHA Community Services",
+  $18,000,000). They are published rows and stay in every total. **Flagged 2026-10-16:** each
+  carries `row_flag` `no_grantee_ein`, a rule (a blank or `NA` EIN), not a judgment about the row:
+  FY2009 25 ($154.6M), FY2011 14, FY2012 8, FY2013 2, FY2014 3, FY2015 1. No other year prints an
+  EIN for these names, so none is inferred, and they are not sorted into City program vs. unknown
+  by hand. The MCP says on each row and in its no-EIN note: "No grantee EIN printed by the
+  Council. Often a city program rather than a nonprofit." `code/test_parse_expense_disclosure.py`
+  locks the count at 53 and the validator requires the flag on exactly the blank/`NA` rows. Two
+  other FY2009 rows carry the decided flag `not_an_award` (§24); none carries both.
+- **Sub-cent amounts:** FY2009 carries 858 amounts with fractions (e.g. `7481.296758`), FY2011
+  205, FY2012 85; 483, 30 and 28 of them past the cent (audit E2). Kept as stored; Open Data
+  rounds them (to cents through FY2011, to dollars from FY2012), which is what `od_match` records.
+- **Council member values** (`council_member_type`, crosswalk): two rules were extended, both
+  generic and tested, never a per-name decision. A printed generational suffix must match
+  Legistar's (`Vallone, Jr` is Peter F. Vallone, Jr., 5271, never Paul A. Vallone); a surname
+  matches with spaces ignored when no exact surname exists (`DeBlasio` → Legistar's `de Blasio`,
+  5286). FY2009 prints Thomas White, Jr. both as `White` and `White, Jr` (both 6273).
+  **RESOLVED 2026-10-16: `CC` is the Speaker, and `BK`/`BX`/`MN`/`QN` are borough delegations**
+  (decided by Marvin on the evidence; Noel Hidalgo delegated the call). The evidence, from the
+  full NYC Open Data `4d7f-74pe` copy joined on `od_mocs_id` = `mocs_id` and re-verified
+  2026-10-17: every `CC` row with an Open Data pair is `Speaker` there, 895 of 895 (FY2009 224,
+  FY2011 245, FY2012 219, FY2013 207; the rest have no pair), and FY2009 `QN` → Queens
+  Delegation 37/37, `MN` → Manhattan 35/35, `SI` → Staten Island 23/23, `BK` → Brooklyn 18/18,
+  `BX` → Bronx 13/13. No paired row disagrees. FY2009–FY2013 print `CC` (240 / 271 / 252 / 240
+  rows) where FY2014–FY2027 print `Speaker`, and no year prints both; the FY2010 Internet Archive
+  workbook (not loaded) also prints `CC` (50 rows, never `Speaker`). The same FY2013 award is
+  `CC` in the Council workbook and `Speaker` in Open Data (review-sheet R10, R12). FY2009 prints
+  each borough code beside the bare borough name (`BK` 18 and `Brooklyn` 50), as it does `SI` and
+  `Staten Island`; both are typed `delegation`. Implemented as a generic rule (`LABEL_CONVENTIONS` in
+  `code/build_member_crosswalk.py`), not per-row edits: `council_member` keeps the printed value,
+  `council_member_type` becomes `speaker` / `delegation`, and the crosswalk `method` reads
+  `file_convention:CC=Speaker` (and so on). The build stops if a year ever prints both `CC` and
+  `Speaker`, or a code and that borough's `… Delegation` spelling (no year does). Still
+  `unresolved`: three multi-member values (`Barron & Eugene`, `Lappin, Koppell/Citywide`, and a
+  nine-member FY2011 list, 51 rows) and FY2014 `NA` (3 rows); 56 rows, down from 1,196.
+- **Exact copies** are many more in FY2009 (97 groups, 373 rows; §22 table) than in any later
+  year. Kept and flagged as in every year.
+- **Duplicate Open Data MOCS IDs.** `od_mocs_id` repeats on two FY2009 pairs because Open Data
+  repeats the ID: `FY09 Not an Award` (§24) and `FY09 2039`.
+
+---
+
+## 26. Council capital from structured sources (GitHub #89 A6, A7, B8–B10)
+
+`data/capital/` (README there). Every number is this repo's arithmetic on committed files.
+
+- **FY2018 is missing.** No Council workbook was found for it, and `t474-a92g` starts at FY2019.
+- **The Council's list and OMB's adopted budget agree by budget line in most lines, not all**
+  (`data/capital/RECONCILIATION.md` §3). FY2027: 146 of 153 Council lines match OMB's July 2026
+  release to the dollar in both years; 7 differ (`P D017` $579,000 lower at OMB and `P D020`
+  $579,000 higher look like one project booked in another borough: interpretation), and 8 OMB
+  `D`-series lines have no Council row; OMB is $25,789,000 higher in total. FY2021 and FY2024
+  match on every Council-series (`D`) line. One Council row is on no such line and so is not
+  compared: FY2021 `PW MN02A` (Constantinides, BioBus mobile science lab, $304,000); RECONCILIATION
+  §3 and the tool's answer list it. 1,425 line-year comparisons in all, over 515 distinct lines.
+  **OPEN:** why they differ (#89 C1; Council Finance or OMB).
+- **Garbled accented names in `t474-a92g` (FY2019–FY2025), kept as published.** NYC Open Data's
+  rows carry accented letters decoded with the wrong character set, and the committed source
+  (`source/open-data-t474-a92g/t474-a92g.csv.gz`) has them byte for byte, so this repo did not
+  introduce them and does not repair them. Sponsors: FY2023–FY2024 `Oss├⌐` (20 rows),
+  `Avil├⌐s` (44), `Cab├ín` (26), `Vel├ízquez` (40), plus co-sponsor lists such as
+  `Speaker, Avil├⌐s`; FY2025 `OssΘ` (16), `AvilΘs` (20), `Cabßn` (13). The Council's own
+  workbooks spell the same members `Ossé`, `Avilés`, `Cabán` (FY2026, FY2027). Titles and
+  descriptions show the same thing (`FA├çADE`, `CAF├ë`, a stray `├ü`), and one FY2017 workbook
+  description prints a Greek `Τ` in `FAΤADE`. Consequences: a search for `Ossé` does not find
+  `OssΘ` or `Oss├⌐`; search by the printed value, or by `budget_line`. Since 2026-10-17 a
+  printed value pasted back exactly always finds its rows (`mcp/test/fold-roundtrip.test.js`).
+- **t474-a92g problems.** 5 records broken across 12 rows (§ RECONCILIATION 2): the FY2026 one
+  is proven by the Council's workbook; the FY2020 (2), FY2022 and FY2023 ones are kept with a
+  blank amount and flagged, and their spilled amounts ($170,000, $300,000, $55,000, $150,000
+  on fragments that cannot be tied to a record from the Council's own files) are not counted.
+  `council_district` collapsed comma lists into single numbers. FY2019 `title` often names the
+  organization. Against the Council's FY2026 workbook, t474's FY2026 differs only by that broken
+  record ($2,000,000).
+- **Codes:** the Council's t474 dictionary defines CD 00 and 88–99 (99 = Technical
+  Adjustments) and ID types CN, NC, TA, RR. Borough `A`, CD `80` ("Admin"), the FY2027 `CC`
+  prefix and FY2016 `PN` are **meaning unconfirmed** (#89 B9).
+- **Totals rows:** FY2015 and FY2016 end in a totals row; stripped; the kept rows equal it.
+- **2cmn-uidm** has one row with no release, line or year and grand-total-sized amounts
+  (`row-qxu3-pz44.fhei`); stripped from the reference table.
+- **No project-level or contract-level claim** is made: Council project IDs do not appear in any
+  OMB dataset (A7, C2, C9).
+
+---
+
+## 27. PDF-derived data retired in 2.0 (2026-10-14)
+
+Noel Hidalgo's decision of 2026-10-14: version 2.0 of `@betanyc/nyc-budget-mcp` and the GitHub
+Pages site use structured sources only. Retired and no longer served or shown: Schedule C
+(awards, initiatives, appendices), Terms & Conditions, per-year §254 capital, transparency
+resolutions, `data/combined/` (including the Legistar crosswalk of those documents) and
+`data/recovered/`. The files stay in the repository as a historical record; nothing was deleted.
+`mcp/test/no-pdf-data.test.js` fails if the MCP's index build reads one of them or the npm
+package ships one. Two things about the structured data that the 2.0 MCP now states on its
+answers surfaced when FY2009 entered the served set: the 53 rows with no grantee EIN (now in
+§25) and:
+
+- **Fractional amounts.** FY2009–FY2012 carry amounts such as `7481.296758`; the MCP shows them
+  rounded to cents and totals the exact values.
+
+---
+
+## 28. FY2009 Transparency Resolutions are OCR-derived — the one year whose numbers are model-read
+
+> **Scope under 2.0.** This is a PDF-derived research dataset (`data/fy09/transparency-resolutions/`),
+> kept in the repository like the other transparency-resolution files (§27). It is not served by
+> `@betanyc/nyc-budget-mcp` 2.0. The served FY2009 data is the expense disclosure workbook (§25).
 
 **What it is.** All eight FY2009 Transparency Resolution PDFs (`source/FY09/transparency-resolutions/`, 332 pages) are 300-dpi bitonal Xerox scans with **no text layer whatsoever** — `pdftotext` returns nothing. Every other fiscal year in this repo is extracted deterministically from the document's own text layer. FY2009 has no text layer to extract, so it is read by OCR (docTR) via `code/parse_transparency_reso_fy09.py` and the staged pipeline in `code/ocr/`.
 
