@@ -217,7 +217,9 @@ The two "misses" are arithmetic inconsistencies **inside the official PDFs**, no
 
 The Council's own capital lists, one row per designation and fiscal year: FY2015–FY2017 from the
 Council's archived workbooks, FY2019–FY2025 from NYC Open Data `t474-a92g` (which the Council
-publishes), FY2026–FY2027 from the RnD site's workbook. FY2018 is in no source found. Beside it,
+publishes), FY2026–FY2027 from the RnD site's workbook. FY2018 has no structured source (its
+Section 254 supporting detail PDF is in `source/FY18/` but is not parsed; corrected 2026-10-20,
+DATA-ANOMALIES §26). Beside it,
 OMB's adopted Capital Budget (`46m8-77gv`) and Capital Commitment Plan (`2cmn-uidm`) on the
 Council's budget lines, and a reconciliation **by budget line**: in FY2027, 146 of the Council's
 153 lines match OMB's adopted budget to the dollar. Project IDs do not link to OMB or to
@@ -233,8 +235,10 @@ per-document-type detail (and the parser/invocation for each) is in [`code/PARSI
 
 - **Schedule C** — reconciled for **FY2015–FY2024** (**FY2015** via the dedicated `parse_schedule_c_fy15.py`,
   reconciled **24/24**; **FY2016–FY2024** via `parse_schedule_c.py`) and **FY2009–FY2014**
-  (initiatives-only, via `parse_schedule_c_legacy.py` — the early-era documents carry no award-level
-  EIN tables; FY2015 and later DO). FY2008 remains open (see PARSING.md).
+  (initiatives-only, via `parse_schedule_c_legacy.py`). The early-era PDFs do print award rows with
+  EINs; the parser does not extract them. FY2008 remains open; it prints 1,674 member-item rows
+  without EINs (see PARSING.md). **Corrected 2026-10-20:** this said the early-era documents
+  "carry no award-level EIN tables" (DATA-ANOMALIES §2).
 - **§254 Capital (Capital Project Detail)** — reconciled **23/23–32/32** for **FY2020, FY2022, FY2023, FY2024**
   (via `parse_capital_detail.py`).
 - **Terms & Conditions** — extracted for **FY2015–FY2024** (via `parse_terms_legacy.py`; T&C print no totals).
@@ -247,14 +251,18 @@ per-document-type detail (and the parser/invocation for each) is in [`code/PARSI
   model-read rather than text-layer-extracted, and flagged where uncertain. FY2013 resolutions
   07/10/11 (`.doc`) remain blocked.
 
-**Capital (Section 254):** FY2025 reconciles **30/30** agency subtotals plus both grand totals exactly (Part I $775M / 1327; Part II $158,992,000 / 181; Part III cross-tab 106/106 entities); FY2026 reconciles **31/31**; FY2027 reconciles **24/26**. (The separate FY2025 appropriation-changes book remains `NOT RECONCILABLE` by nature.) **Transparency Resolutions:** no printed totals (`NOT RECONCILABLE`); transfers net to zero as expected. See each `*_reconciliation.txt` for details.
+**Capital (Section 254):** FY2025 reconciles **30/30** agency subtotals plus both grand totals exactly (Part I $775M / 1327; Part II $158,992,000 / 181; Part III cross-tab 106/106 entities); FY2026 reconciles **31/31**; FY2027 reconciles **24/26** (the two misses are parser losses of three rows the PDF prints; see `code/PARSING.md`). (The separate FY2025 appropriation-changes book remains `NOT RECONCILABLE` by nature.) **Transparency Resolutions:** `NOT RECONCILABLE` as parsed; transfers net to zero as expected. FY2013 onward print no totals; FY2009–FY2012 charts do, and only FY2009 is checked against them. **Corrected 2026-10-20:** this said no year prints totals. See each `*_reconciliation.txt` for details.
 
 **Data QA:** beyond per-file reconciliation, `code/validate_data.py` runs row-level and cross-file
 integrity checks (schema, EIN validity + per-year coverage, amount/sign sanity, fiscal-year
 integrity, duplicate detection, column-bleed heuristic, and a reconciliation roll-up) over the whole
-`data/` tree and writes a dated `data/QA-REPORT.md`. Latest run: 4 hard failures (all known FY09
-OCR artifacts — see below), 100% EIN coverage on every EIN-bearing file except FY09 transparency
-(97.9%). Details in [`code/PARSING.md`](code/PARSING.md).
+`data/` tree and writes a dated `data/QA-REPORT.md`. Latest report (2026-10-20): 302 files, 4 hard
+failures (all known FY09 OCR artifacts — see below), 598 soft advisories. EIN coverage is below
+100% in FY09 transparency (97.9%, 2565/2620) and in the FY2009 and FY2011–FY2015 disclosure files
+(lowest FY2009, 99.5%); every other EIN-bearing file is 100%. Coverage counts rows a parser
+emitted, and the PDF parsers emit only rows with an EIN, so 100% does not mean every printed row
+is present (DATA-ANOMALIES §3). **Corrected 2026-10-20:** this said 100% everywhere except FY09
+transparency. Details in [`code/PARSING.md`](code/PARSING.md).
 
 ## Known limitations
 

@@ -26,7 +26,7 @@ Column definitions: [`DATA-DICTIONARY.md`](../../DATA-DICTIONARY.md) § `data/ca
 | Report year | Source | Why |
 |---|---|---|
 | FY2015, FY2016, FY2017 | Council workbook, Internet Archive capture (`source/wayback-council/`) | The Council's own file. |
-| FY2018 | **none** | No workbook was found, and t474-a92g starts at FY2019. A gap. |
+| FY2018 | **none** | No workbook was found, and t474-a92g starts at FY2019. A gap in this dataset. **Corrected 2026-10-20:** the year does have a source, a PDF: `source/FY18/FY18-Sec254-Capital-ResoA-M499-Res1534-Res1535.pdf` is, despite its name, the FY2018 supporting detail book (p.70: `TOTALS FOR ALL (1485 PROJECTS) 575,000,000`). It is not parsed, and as a PDF it is outside this structured dataset (DATA-ANOMALIES §26, §27). |
 | FY2019–FY2025 | NYC Open Data `t474-a92g` (published by the Council) | No workbook found for these years. |
 | FY2026 | Council workbook (RnD site, captured 2025-12-03) | Preferred over t474; the two are diffed (RECONCILIATION §4). |
 | FY2027 | Council workbook (RnD site, 2026-10-12) | t474 has no FY2027 yet. |
