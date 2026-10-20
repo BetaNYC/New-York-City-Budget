@@ -1,0 +1,17 @@
+# OCR pipeline dependencies (FY09 Transparency Resolutions -- see PARSING.md "OCR pipeline").
+#
+# These are DELIBERATELY separate from requirements.txt: they pull in torch (~1-2 GB) and
+# are needed only by code/parse_transparency_reso_fy09.py. The deterministic text-layer
+# parsers must stay installable without the ML stack.
+#
+#   python3 -m venv .venv-ocr
+#   .venv-ocr/bin/pip install -r code/requirements.txt -r code/requirements-ocr.txt
+
+python-doctr[torch]>=0.11,<0.13
+opencv-python-headless>=4.9,<5
+pypdfium2>=4.30,<5
+numpy>=1.26,<3
+pillow>=10,<12
+
+# for running code/test_parse_transparency_reso_fy09.py in this venv
+pytest>=8,<9

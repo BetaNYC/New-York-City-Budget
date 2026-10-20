@@ -1,0 +1,78 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+8,2009-05-20,,2009,designate,,Gerson,"Carnegie Council Fund, Inc.",,134185528,,DYCD,260,312,,ocr:amt
+8,2009-05-20,,2009,designate,,Gerson,"Carnegie Council for Ethics in International Affairs, Inc.",,131573954,3500,DYCD,260,005,,
+8,2009-05-20,,2009,rescind,,"CC, BLAC, Dickens",NAACP New York City ACT-SO,,131998814,-15000,DYCD,260,312,,
+8,2009-05-20,,2009,designate,,"Cc, BLAC, Dickens",NAACP New York City ACT-SO,,202538102,15000,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,,2009,rescind,,Dickens,"Studio Museum in Harlem, The",,132500805,-5000,DCA,126,021,,
+8,2009-05-20,,2009,designate,,Dickens,"Studio Museum in Harlem, The",,132590805,5000,DCA,126,021,,
+8,2009-05-20,,2009,rescind,,Arroyo,"Hunts Point Multi-Service Center, Inc.",,132612592,-60000,DFTA,125,003,,
+8,2009-05-20,,2009,rescind,,"CC, Arroyo","Hunts Point Multi- Service Center, Inc.",,132612592,-20000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Arroyo,"Hunts Point Mult-Service Center, inc.",,132612532,60000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,designate,,"CC, Arroyo","Hunts Point Multi- Service Center, Inc.",,132612532,20000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,rescind,,Ignizio,"Alliance of Guardian Angels, The",,112592739,-20000,DYCD,260,005,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Ignizio,"United Activities Unlimited, Inc.",,132921483,20000,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,,2009,rescind,,Neison,Chaim Meir Camp Fund,,117169040,-10000,DYCD,260,312,,
+8,2009-05-20,,2009,rescind,,Mitchell,St Stanislaus Kostka Church,,135564133,-70000,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Mitchell,St Stanislaus Kostka Church,,135564133,70000,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,,2009,rescind,,Jackson,"Parodneck Foundation for Self-Help Housing and Community Development, Inc.. The",,112229635,-4000,DYCD,260,005,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Jackson,"Community Assisted Tenant Controlled Housing, Inc.",,133706059,4000,DYCD,260,005,,ocr:lowconf
+8,2009-05-20,,2009,rescind,,Fidler,"Jewish Community Council of Canarsie, inc.",,112608645,-27500,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Fidier,"Jewish Community Council of Canarsie, Inc.",,112608645,27500,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,rescind,,Arroyo,"Hunts Point Multi-Service Center, Inc.","Borinquen Court, Maria Isabel",132612592,-7573,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Arroyo,"Hunts Point Multi-Service Center, Inc.","Borinquen Court, Maria Isabel",132612532,7573,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,rescind,,Palma,Temple Emmanuel at Parkchester,Sisterhood,131853772,-5000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Palma,Temple Emmanuel at Parkchester Sisterhood,,131853772,5000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,rescind,,Mitchell,"Community Agency for Senior Citizens, Inc.",,133263537,-4000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Mitchell,"Community Agency for Senior Citizens, Inc.",New Lane Senior Center,133263537,4000,DFTA,125,003,,
+8,2009-05-20,,2009,rescind,,Neison,Bikur Cholim Nefesh Chaya Tiferes Yosef of Flatbush,,112760065,-6000,DFTA,125,003,,
+8,2009-05-20,,2009,designate,,Nelson,"Bikur Cholim of Flatbush Nefesh Chaya Tiferes Yosef Yad L'Cholim, Inc.",,112760065,6000,DFTA,125,003,,
+8,2009-05-20,,2009,rescind,,Eugene,"Council of Jewish Organizations of Flatbush, Inc.",,112864728,-6000,DFTA,125,003,,
+8,2009-05-20,,2009,rescind,,Stewart,"Council of Jewish Organizations of Flatbush, inc.",,112864728,-10000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,rescind,,Yassky,"Council of Jewish Organizations of Flatbush, Inc.",,112864728,-10000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Eugene,"Counci of Jewish Organizations of Flatbush, Inc.",,112864728,6000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Stewart,"Council of Jewish Organizations of Flatbush, Inc.",,112864728,10000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Yassky,"Council of Jewish Organizations of Flatbush, Inc.",,112864728,10000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,rescind,,Monserrate,"Jackson Heights-Elmhurst Kehillah, Inc.",,112643410,-25250,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Ferraras,"Jackson Heights-E Elmhurst Kehillah, Inc.",,112643410,25250,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,rescind,,Nelson,"Jewish Community Council of Kings Bay, Inc.",,112714997,-6500,I DFTA,125,003,,ocr:agency;ocr:lowconf
+8,2009-05-20,,2009,designate,,Nelson,"Jewish Community Council of Kings Bay, Inc.",,112714997,6500,DFTA,125,003,,
+8,2009-05-20,,2009,rescind,,Jackson,Washington Heights-Inwood Preservation and Restoration Corporation,,132944830,-8000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,rescind,,Martinez,Washington Heights-Inwood Preservation and Restoration Corporation,,132944830,-5000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Jackson,Washington Heights-Inwood Preservation and Restoration Corporation,,132944830,8000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,,2009,designate,,Martinez,Washington Heights-Inwood Preservation and Restoration Corporation,,132944830,5000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Ignizio,"Zimmer Club Youth Conservation Program of Staten Island, Inc.",,352262561,-5000,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Oddo,"Zimmer Club Youth Conservation Program of Staten Island, Inc.",,352262561,-3500,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Ignizio,"Zimmer Club Youth Conservation Program of Staten Island, Inc.",,352262651,5000,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Oddo,"Zimmer Club Youth Conservation Program of Staten Island, inc.",,352262651,3500,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Brewer,NAACP New York City ACT-SO,,131998814,-3500,DYCD,260,312,,
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Eugene,NAACP New York City ACT-SO,,131998814,-20000,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Mealy,NAACP New York City ACT-SO,,131998814,-5000,DYCD,260,312,,
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Brewer,NAACP New York City ACT-SO,,202538102,3500,DYCD,260,312,,ocr:lowconf;ocr:cellspan
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Eugene,NAACP New York City ACT-SO,,202538102,20000,DYCD,260,312,,
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Mealy,NAACP New York City ACT-SO,,202538102,5000,DYCD,260,312,,
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,McMahon,Tabernacle Community Leaming and Resource Center,,237214095,-3714,DYCD,260,312,,
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Mitchell,"Children's Aid Society, The",,135562191,3714,DYCD,260,312,,
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Mealy,"Flatbush Youth Association, Inc.",,113287922,-2000,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Katz,"Project Lead, Inc.",,133761446,-10000,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Sears,"Project Lead, Inc.",,133761446,-8500,DYCD,260,312,,
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Weprin,"Project Lead, Inc.",,133761446,-7000,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Katz,"Project Lead, Inc.",,133761446,10000,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Sears,"Project Lead, Inc.",,133761446,8500,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Weprin,"Project Lead, Inc.",,133761446,7000,DYCD,260,312,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Fidler,Wildlife Conservation Society,Public School 277,131740011,,DYCD,260,312,,ocr:amt;ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Fidler,Wildlife Conservation Society,Public School 312,131740011,,DYCD,260,312,,ocr:amt;ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Fidler,"Brooklyn Arts Council, Inc.",Public School 277,237072915,,DYCD,260,312,,ocr:amt
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Fidler,"BrooklynArts Council, Inc.",Public School 312,237072915,,DYCD,260,312,,ocr:amt;ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Monserrate,"Thaila Spanish Theatre, Inc.",Public School 143,237448611,,DYCD,260,312,,ocr:amt;ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Ferraras,"Thaila Spanish Theatre, Inc.",Public School 192,237448611,,DYCD,260,312,,ocr:amt;ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Brooklyn,Church of God of East Flatbush,,112939346,-6000,DYCD,260,005,,*;ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Brooklyn,Friends of Crown Heights Educational Center,,112305641,6000,DYCD,260,005,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Staten island,St. Stanislaus Kostka Church,,135564133,-62500,DYCD,260,005,,**;ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Staten Island,"St. Stanislaus Kostka Church""*",ESL/Civic,135564133,23400,DYCD,260,005,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Staten Island,St. Stanislaus Kostka Church**,Immigrant Related Legal Services,135564133,39100,DYCD,260,005,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Bronx,New York State Defenders Association,Immigrant Defense Project,112461900,-25000,DYCD,260,005,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Bronx,"Fund for the City of New York, Inc. Immigrant Defense Project",,132612524,25000,DYCD,260,005,,
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Comrie,"Jamaica Service Program for Older Adults, Inc. (JSPOA)",Robert Couche Senior Center,510204121,-20000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Comrie,Merrill Park Civic Association of Springfield Gardens,Robert Couche Senior Center,112304928,20000,DFTA,125,003,,
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,rescind,,Barron,"Wayside Out-Reach Development, Inc.",,113528680,-30000,DFTA,125,003,,ocr:lowconf
+8,2009-05-20,"Youth Discretionary Status (Council, MOC, etc) Member Organization EINI Number Agencv Amount Aav# Fiscal Conduit/Sponsoring Organization Fiscal Conduit EIN UIA",2009,designate,,Barron,"Wayside Out-Reach Development, Inc. Rosetta Gaston Senior Center",,113528680,30000,DFTA,125,003,,ocr:lowconf

@@ -1,0 +1,260 @@
+resolution,date,chart,fiscal_year,action,source,council_member,organization,program,ein,amount,agency,agy_num,ua,purpose,flags
+5,2009-02-11,,2009,rescind,,"CC-Recchia, Gonzalez","Boricua Festival Committee, Inc",,841650571,-40000,DFTA,125,003,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,"CC- Reccha, Gonzalez","United Senior Citizen Center of Sunset Park, Inc",,112358277,40000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Stewart,Top Development Corp,,113409359,-5000,DYCD,260,312,,*
+5,2009-02-11,,2009,designate,,Stewart,Rugby Famly Services,,113223904,5000,DYCD,260,312,,
+5,2009-02-11,,2009,rescind,,Viverito,Dawning Vilage. Inc,,133214064,-5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Viverito,"Musica De Camara, Inc",,133253232,5000,DYCD,260,312,,
+5,2009-02-11,,2009,rescind,,Mendez,Village View Garden and Landscape Committee,,136122262,-3500,DPR,846,006,,
+5,2009-02-11,,2009,designate,,Mendez,"Village View Senior Services, Ltd.",,562314640,3500,DPR,846,006,,
+5,2009-02-11,,2009,rescind,,Gioia,Sunnyside Shorts,,262384342,-1000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Gioia,Sunnyside Shorts,,262384342,1000,DYCD,260,005,,*
+5,2009-02-11,,2009,rescind,,CC-Dickens,Abyssinan Development Center,,133552154,-40000,DYCD,260,005,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,CC-Dickens,Abyssinian Development Corporation,,133552154,40000,DYCD,260,005,,*
+5,2009-02-11,,2009,rescind,,Gennaro,"Hollis Bellare Queens Village Bellerose Athletic Association, Inc",,237204542,-5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Gennaro,"Samuel Field YM & YWHA, Inc.",,113071518,5000,DYCD,260,312,,
+5,2009-02-11,,2009,rescind,,Gennaro,India Home,,208747291,-10000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Gennaro,"Samuel Field YM & YWHA, inc",,113071518,10000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Ignizio,Department of Parks and Recreation,,136400434,-10000,DPR,846,006,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Ignizio,Yeshiva of Staten Island,,135600419,4000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Ignizio,"Emergency Chidren's Help Organization, Inc",,113828185,6000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Fidler,Jay Senior Citizens Center,,112297151,-4000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Fidler,"Jewish Community Counci of Greater Coney Island, Inc. Jay-Harama Senior Citizens Center",,112665181,4000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,McMahon,Lt. Lia Park Summer Program,,113108579,-3000,DPR,846,006,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,McMahon,It Lia Park Summer Program,,113108879,3000,DPR,846,006,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,James,Merkos L'inyoner Chinuch Inc.,,116001111,-3500,DOHMH,816,113,,ocr:lowconf
+5,2009-02-11,,2009,designate,,James,"Herghts Hill Mental Health Service, SBPC, Community Advisory Board, Inc",,112785605,3500,DOHMH,816,120,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Barron,"Approaching Storm Marching Band, Inc The",,204507213,-8900,DYCD,260,312,,
+5,2009-02-11,,2009,rescind,,Barron,Linden Plaza Associates,,542193223,-3000,MISC,098,002,,
+5,2009-02-11,,2009,rescind,,Barron,"Noble Drew Alt Plaza Tenants Association, Inc.",,900104348,-2000,MISC,098,002,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Barron,"Spring Creek Tenant Association, Inc.",,136400434,-3000,MISC,098,002,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Barron,"Approaching Storm Marchng Band, Inc The",,204507213,8900,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Barron,Linden Plaza Assocates,,542193223,3000,MISC,098,002,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Barron,"Noble Drew Al Plaza Tenants Association, Inc.",,900104348,2000,MISC,098,002,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Barron,"Spring Creek Tenant Assocation, Inc",,136400434,3000,MISC,098,002,,ocr:lowconf
+5,2009-02-11,,2009,designate,,CC. Seabrook,Junor High School 113X,,136400434,525000,DOE,040,402,,ocr:lowconf
+5,2009-02-11,,2009,designate,,CC- Seabrook,Young Scholars Academy of the Bronx (X289),,136400434,25000,DOE,040,402,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,James,Raizes do Brasi! Capoena Brooklyn,,208865066,-3500,DYCD,260,312,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,James,Emmanuel Baptist Church,,111665232,3500,DYCD,260,312,,*
+5,2009-02-11,,2009,rescind,,Comre,103rd Precinct Community Councit,,205484666,-6000,DYCD,260,312,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,Comrie,103rd Precinct Community Council,,205484666,6000,DYCD,260,312,,*;ocr:lowconf
+5,2009-02-11,,2009,rescind,,Comre,113th Precinct Community Counci,,113218377,-6000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Comre,113th Preginct Community Council,,113218377,,DYCD,260,312,,ocr:amt;ocr:lowconf
+5,2009-02-11,,2009,rescind,,Comrie,Brothers Aganst Klling Each Other (BAKE),,113314475,-15000,DYCD,260,312,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,Comne,Brothers Against Killing Each Other (BAKE),,113314475,15000,DYCD,260,312,,-;ocr:lowconf
+5,2009-02-11,,2009,rescind,,Comrie,Springfield Rifles and Riflettes,,113250488,-5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Comrie,Springfield Rifles and Riflettes,,113250488,5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Yassky,"ACCIO ON New York, Inc",,113317234,-10000,DSBS,801,002,,
+5,2009-02-11,,2009,designate,,Yassky,ACCION U SA Inc,,043219159,10000,DSBS,801,002,,
+5,2009-02-11,,2009,designate,,Mealy,368A 429 Decatur Street Block Association,,562677341,,DSBS,801,002,,ocr:amt;ocr:lowconf
+5,2009-02-11,,2009,designate,,Mealy,"368A-429 Decatur, Inc",,562677341,2500,DSBS,801,002,,
+5,2009-02-11,,2009,designate,,Comire,Maranatha Baptist Church Leadership Program (CW Mixon Senior Outreach Center),,562625535,,DFTA,125,003,,ocr:amt
+5,2009-02-11,,2009,designate,,Comne,"CW Mixon Sernor Outreach Center, inc.",,562625535,6000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,"Addabbo, Jr",St Thomas Moore-St Edmund,,EX124290,-3500,DFTA,125,003,,ocr:ein;ocr:lowconf
+5,2009-02-11,,2009,designate,,"Addabbo, Jr","Blessed Trinity Parish with the churches of St. Genevieve, St Thomas More and St Edmund",,262885471,3500,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,"Sanders, Jr",Association of Mnonty Enterprises of New York,,112418986,-150000,DSBS,801,002,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,"Sanders, Jr",Rockaway Deyelopment and Revitalization Corporation,,112575794,150000,DSBS,801,002,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,James,"Atlantic Terminal Tenants Association, Inc",,awaitingnewiFEIN,-5000,MISC,098,002,,ocr:ein;ocr:lowconf
+5,2009-02-11,,2009,designate,,James,Atlantic Terminal Tenants Association. Inc,,112905605,5000,MISC,098,002,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Vivento,East Harlem Preservation,,261523871,-5500,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Viverito,"Union Settlement. Association, Inc.",,131632530,5500,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Felder,National Society for Hebrew Day Schools,,135564128,-3500,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Fidier,"Crown Heights Jewish Community Council, Inc",,237390996,3500,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Nelson,Jay Senior Citizens Center,,112297151,,DFTA,125,003,,ocr:amt;ocr:lowconf
+5,2009-02-11,,2009,designate,,Nelson,"Jewish Community Council of Greater Coney island, Inc Jay- -Harama Senior Citizens Center",,112665181,10000,DFTA,125,003,,
+5,2009-02-11,,2009,rescind,,Dickens,FoodChange. Inc,,133036532,-5000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Mendez,FoodChange. Inc.,,133036532,,DFTA,125,003,,ocr:amt;ocr:lowconf
+5,2009-02-11,,2009,designate,,Dickens,"Food Bank for New York City, The",,133179546,5000,DFTA,125,003,,
+5,2009-02-11,,2009,designate,,Mendez,"Food Bank for New York City, The",,133179546,8000,DFTA,125,003,,
+5,2009-02-11,,2009,rescind,,Mealy,Mount Ararat Baptist Church,,116033456,-20000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Mealy,"Wayside Out Reach Development, Inc -Mount Ararat Presentation Semor Center",,113528680,5000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Mealy,"Wayside Out- Reach Development, Inc -Rosetta Gaston Senior Center",,113528680,5000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Mealy,"Clothed with Love, Inc.",,061621793,5250,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Mealy,Mt Sion Baptis! Church Eiders,,112471950,4750,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Mealy,"Brooklyn United for Innovative Local Development, Inc",,050597727,-10000,DFTA,125,003,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,Mealy,"Fort Greene Senior Citizens Counci, Inc. -Jazz 966",,112300840,5000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Mealy,New Life Evangelistic Church of Christ (d/bla New Life Cathedral),,112996487,5000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Recchia,Contello Towers Senior Citizen Club,,113442626,-3000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Recchia,"BrooH lyn Arts Counci, Inc",,237072915,3000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,DeBlasio,"Counci of Jewish Organzations of Flatbush, Inc.",,112864728,-5000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,designate,,DeBlasio,"Council of Jewish Organizations of Flatbush, Inc",,112864728,5000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Stewart,GEM Educational Program,,432038355,-10000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Stewart,lfetayo Cultural Arts Facility.Inc,,113027538,10000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Stewart,"Unted Relef Association, Inc",,112708452,,DYCD,260,312,,*;ocr:amt;ocr:lowconf
+5,2009-02-11,,2009,designate,,Stewart,Caribbean American Sports and Cuitural Youth Movement (CASYM). Inc.,,112778372,5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Stewart,St Augustine's Episcopal Church,,112602182,5000,DYCD,260,312,,*;ocr:lowconf
+5,2009-02-11,,2009,rescind,,Stewart,"Kids, Etcetera Daycare Center",,113295520,-10000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Stewart,"United States Steelband Association, Inc.",,113612068,6000,DYCD,260,312,,*
+5,2009-02-11,,2009,designate,,Stewart,New Life Tabernacle Church,,113168615,4000,DYCD,260,312,,*
+5,2009-02-11,,2009,rescind,,Viverto,Juice Jones Hoops 4 Kids,,223977490,-5000,DYCD,260,312,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,Viverito,Westside Crime Prevention Program,,133087186,5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Viverito,"Youth Action Programs and Homes, Inc.",,133203701,-5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Viverito,Dawning Village. Inc,,133214064,5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Dickens,"Dominican Sunday, Inc",,134188781,-3500,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Dickens,"National Foundation for Teaching Entrepreneurship to Handicapped and Disadvantaged Youth, Inc.",,133408731,3500,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,DeBlasio,Fast Brooklyn Day Care Center,,112226621,-5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,DeBlasio,East BrooklynDay Care Center,,112266221,5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Nelson,Lev Bais Yaakov,,113371981,-10000,DYCD,260,312,,*;ocr:lowconf
+5,2009-02-11,,2009,rescind,,Nelson,Yeshiva Rabbi Cham BernFund,,200635057,-5714,DYCD,260,312,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,Nelson,East Midwood Volunteer Ambulance Corps. Inc,,112655466,7714,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Nelson,"Brghton Nerghborhood Association, Inc",,112435523,8000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Barron,Gorman Youth Group,,061590185,-1000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Barron,"Linden Plaza Self -Defense Academy, The",,061833593,-3500,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Barron,Pine Street Block Association and Community Garden,,113805241,-3500,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Barron,"Sports Aganst Vioience Through Education, Inc",,364628696,-4000,DYCD,260,312,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,Barron,Gorman Youth Group,,061590185,1000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Barron,"Linden Plaza Self Defense Academy, The",,061833593,3500,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Barron,Pine Street Block Association and Community Garden,,113805241,3500,DYCD,260,312,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,Barron,"Sports Against Violence Through Education, Inc.",,364628696,4000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Sears,"Chian Federation, The",,510207719,-6000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Sears,"Dominico Amencan Society of Queens, Inc",,061389895,4000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Sears,"Latin Women in Action, Inc",,113093642,,DYCD,260,312,,ocr:amt;ocr:lowconf
+5,2009-02-11,,2009,rescind,,Comne,103d Precinct Community Council,,205484666,-7000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Comne,103rd Precinct Community Council,,205484666,7000,DYCD,260,312,,*;ocr:lowconf
+5,2009-02-11,,2009,rescind,,Comrie,113th Preuinct Community Council,,113218377,-6000,DYCD,260,312,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,Comrie,113th Preuinct Community Council,,113218377,6000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Lappin,"Association to Benefit Children, Inc",,133942646,-10000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Viverito,"Association to Benefit Children, Inc",,133942646,-5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Lappin,"Association to Benefit Chidren, Inc",,133303089,10000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Vivento,"Association to Benefit Children, Inc",,133303089,5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Dickens,American Legion Colonel Charles Young Post #398 Amencan Legion Colonel Charles Young Post #398,,134161655132933391,,DYCD DYCD,260,312,,ocr:ein;ocr:amt;ocr:agency;ocr:lowconf
+5,2009-02-11,,2009,rescind,,Monserrate,"First Baptist Church of Corona NY, Inc",,112009943,-10000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Monserrate,"First Baptist Church of Corona NY, Inc.",,311767167,10000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Mealy,"Family and Life Center of Mt Ararat, The",,582441703,-3500,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Mealy,"Famly and Life Center of Mt Ararat, The",,582441203,3500,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Nelson,Yeshuva Ohr Yitzchok,,204839379,-10000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,McMahon,Tabernacle Community Learning and Resource Center,,237214095,-3714,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,McMahon,Tabernacle Community Learning and Resource Center,,237214095,3714,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Mealy,Man Up'. Inc,,030553092,-40000,DYCD,260,312,,*;ocr:lowconf
+5,2009-02-11,,2009,designate,,Mealy,"Trucked Out, Inc",,201203603,5000,DYCD,260,312,,
+5,2009-02-11,,2009,designate,,Mealy,73rd Precinct Youth Council,,262552213,5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Mealy,Oasis Community Corporation,,113599459,5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Mealy,ScO Family of Services,,112777066,5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Mealy,"Building Blocs Foundation, Inc.",,421719612,10000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Mealy,"Flatbush Youth Association, Inc",,113287922,2000,DYCD,260,312,,
+5,2009-02-11,,2009,designate,,Mealy,"Episcopal Social Services of New York, Inc",,133709095,8000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,rescind,,Felder,Ohr Halmud The Multi- Sensory Learning Center,,050548204,-5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Fidler,"Crown Heights Jewish Community Counci., Inc",,237390996,5000,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Weprin,"Queens Theatre in the Park, Inc.-Public School 205Q",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+5,2009-02-11,,2009,designate,,Weprin,"Queens Theatre in the Park, Inc.-Public School 46Q",,113381629,,DYCD,260,312,,ocr:amt;ocr:lowconf
+5,2009-02-11,,2009,designate,,Arroyo,"Ballet Hsipanico of New York, Inc. South Bronx Charter School for International Cultures and the Arts",,132685755,,DYCD,260,312,,*;ocr:amt;ocr:lowconf
+5,2009-02-11,,2009,designate,,Arroyo,"Learning Through and Expanded Arts Program, Inc.",South Bronx Charter School for International Cultures and the Arts,132925233,1936274,DYCD,260,312,,ocr:lowconf
+5,2009-02-11,,2009,designate,,Arroyo,Mudbone Theatre Company-Bronx Charter School for the Arts,,134192780,,DYCD,260,312,,*;ocr:amt;ocr:lowconf
+5,2009-02-11,,2009,designate,,Arroyo,"Striking Viking Story Pirates, Inc.-Bronx Charter School for the Arts",,020720786,,DYCD,260,312,,ocr:amt
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,rescind,,Bronx,"City University of New York School of Law Foundation, Inc.",CUNY Citizenship and Immigration Project,113235349),-85000,DYCD,260,005,,ocr:ein;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,rescind,,Brooklyn,"City University of New York School of Law Foundation, Inc.",CUNY Citizenship and Immigration Project,113235349,-65000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,designate,,Manhattan,"City University of New York School of Law Foundation, Inc. CUNY Citizenship and Immigration Project",,113235349,,DYCD,260,005,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,designate,,Manhattan,"City University of New York School of Law Foundation, Inc.",CUNY Citizenship and Immigration Project,113235349,,DYCD,260,005,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,designate,,Bronx,Research Foundation of the City University of New York CUNY Citizenship and Immigration Project,,131988190,85000,DYCD,260,005,,
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,designate,,Brooklyn,Research Foundation of the City University of New York,CUNY Citizenship and Immigration Project,131988190,65000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,designate,,Manhattan,Research Foundation of the City University of New York,CUNY Citizenship and Immigration Project,131988190,25000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,designate,,Manhattan,Research Foundation of the City University of New York CUNY Citizenship and Immigration Project,,131988190,25000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,rescind,,Staten Island,"American-ltalian Coalition of Organizations, Inc. (AMICO)",,112488439,-35000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,designate,,Staten Island,"Jewish Community Center of Staten Island, Inc.",,135562256,20000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,designate,,Staten Island,Staten Island Employment Education Consortium,,133097367,15000,DYCD,260,005,,
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,rescind,,Staten Island,"Polonians Organized to Minister Our Community (POMOC), Inc.",St. Stanislaus Kostka Church,112594500,-37500,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,designate,,Staten Island,"Polonians Organized to Minister Our Community (POMOC), Inc. WILL ACT AS A FISCAL CONDUIT FOR: St. Stanislaus Kostka Church",,112594500,37500,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,rescind,,Queens,Community Legal Resource Network (CLRN),,113235349,-160000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,designate,,Queens,"City Univeristy of New York School of Law Foundation, Inc., The WILL ACT AS A FISCAL CONDUIT FOR: Community Legal Resource Network (CLRN)",,113235349,160000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,rescind,,Bronx,Legal Aid Society,,135562265,-80000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,rescind,,Bronx,Legal Services NYC,Bronx,132600199,-95000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,designate,,Brooklyn,Legal Aid Society I Civil Division- Brooklyn,,135562265,,DYCD,260,005,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,rescind,,Brooklyn,Legal Aid Society / Civil Division- Brooklyn,,135562265,-25000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,rescind,,Brooklyn,Legal Services NYC,Bedford Stuyvesant Community Legal Services Corporation,112149962,-61677,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,designate,,Manhattan,Legal Aid Society,,135562265,85000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,rescind,,Queens,Legal Services NYC,Queens Legal Services Corporation,132605604,-160000,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities Initiative EIN Borough Agency Agy # Status (Council, MOC, etc) Number Amount UIA Organization *",2009,designate,,Staten Island,Legal Services NYC,Staten Island Legal Services,132600199,140000,DYCD,260,005,,
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,Brooklyn,South Brooklyn Legai Services,,132605605,,DYCD,260,005,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,Bronx,Legal Aid Society,,135562265,87500,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,Manhattan,Legal Aid Society,,135562265,42500,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,Queens,Legal Aid Society,,135562265,,DYCD,260,005,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,Staten Island,Legal Aid Society,,135562265,70000,DYCD,260,005,,
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,Brooklyn,Legal Aid Society / Civil Division- Brooklyn,,135562265,55838,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,Brooklyn,Legal Services NYC,Bedford Stuyvesant Community Legal Services Corporation,112149962,,DYCD,260,005,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,Queens,Legal Services NYC,Queens Legal Services Corporation,132605604,,DYCD,260,005,,ocr:amt
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,Staten Island,Legal Services NYC,Staten Island Legal Services,132600199,70000,DYCD,260,005,,
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,Brooklyn,South Brooklyn Legal Services,,132605605,,DYCD,260,005,,ocr:amt
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,Bronx,Legal Services NYC,Bronx,132600199,87500,DYCD,260,005,,
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,Manhattan,Legal Services NYC,Manhattan,132600199,42500,DYCD,260,005,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Research and Evaluation Center, John Jay College/CUNY",,131988190),160317,DJJ,130,002,,ocr:ein;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Research and Evaluation Center, John Jay College/CUNY",,131988190,69100,DJJ,130,002,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,John Jay College/CUNY,,131988190,9660,DJJ,130,002,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Urban Dove, inc.",,133997718,41000,DJJ,130,002,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Afrikan Poetry Theatre,,112515828,45000,DJJ,130,002,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Hospital Audiences, Inc.",,136277895,39000,DJJ,130,002,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Rise Up and Walk Youth Outreach Center, Inc.",,043707153,60000,DJJ,130,002,,
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Correctional Association of New York,,135562324,7000,DJJ,130,002,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Community Counseling and Mediation,,112675243,47700,DJJ,130,002,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Violence Prevention for Boys in Secure Detention (VENDOR TO BE SELECTED BY DJJ),,,78000,DJJ,130,002,,ocr:ein;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Spirituality and Stress Reduction (VENDOR TO BE SELECTED BY DJJ),,,25000,DJJ,130,002,,ocr:ein
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Mentoring for Youth in Non-Secure Detention (VENDOR TO BE SELECTED BY DJJ),,,30000,DJJ,130,002,,ocr:ein;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Expressive Arts for Youth in Secure Detention and Group Homes (VENDOR TO BE SELECTED BY DJJ),,,28223,DJJ,130,002,,ocr:ein;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Agudath Israel of America Community Services, Inc",Boro Park Senior Citizens Center,133975090,14614,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Alpha Phi Alpha Senior Citizens Center, Inc.",Alpha Phi Alpha Senior Center,237436147,75000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,ARC XVI Fort Washington. Inc.,ARC FtWashington Senior Center,132745426,12000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Bedford Park Multi- Service Center for Senior Citizens, Inc..",Bedford Park/Sister Annunciata,132745303,,DFTA,125,003,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Caring Community. Inc., The",Caring Community 1st Presbyterian,132980755,,DFTA,125,003,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Caring Community, Inc. The",Center on the Square Senior Center,132980755,30600,DFTA,125,003,,
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Carter Burden Center for the Aging, Inc., The",Carter Burden Luncheon Club,237129499,25000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Catholic Charities Neighborhood Services, Inc.",CCNS Bayside,112047151,15000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Catholic Charities Neighborhood Services, Inc.",CCNS Hillcrest,112047151,17000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Catholic Charities Neighborhood Services, Inc",CCNS Northside Senior Center,112047151,28000,DFTA,125,003,,
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Catholic Charities Neighborhood Services, Inc.",CCNS St. Louis Senior Center,112047151,29000,DFTA,125,003,,
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Catholic Charities Neighborhood Services, Inc.",CCNS Steinway,112047151,13000,DFTA,125,003,,
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Centrai Harlem Senior Citizens Coalition, Inc",Kennedy Senior Center,132754783,36000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Church on the Hill Older Adult (COTHOA) Luncheon Club, Inc.",COTHOA Luncheon Club,133608860,21000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Council of Belmont Organizations, Inc.",COBO/Mt. Carmel,132755323,35000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Crown Heights Preservation Committee Corp.,Shalom Senior Center,112322490,3000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"East Side Community Group for Senior Services, Inc.",Stein Senior Center,237378342,17500,DFTA,125,003,,
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Eileen Dugan Senior Citizens Center,Eileen Dugan,112301785,19646,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Elmcor Youth and Adult Activities, Inc.",Elmcor Lefrak Senior Center,112224539,65000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Family Care Services,VNS,133213081,10000,DFTA,125,003,,
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Fort Greene Senior Citizens Council, Inc",Ft Greene Senior Action Center,112300840,99074,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Glenridge Senior Citizen Multi-Service & Advisory Center, Inc.",Glenridge Senior Citizens,112327136,40800,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Hope of Israel Senior Center, Inc.",Hope of israel Senior Citizens Center,132749857,15000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Italian Senior Citizens Center, Inc",Newtown Italian Senior Center,112308129,8000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Jamaica Service Program for Older Adults, Inc (JSPOA)",JSPOA Transportation,510204121,2436,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Jewish Association for Services for the Aged (JASA),JASA HES,132620896,4500,DFTA,125,003,,
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Jewish Association for Services for the Aged (JASA),JASA MANHATTAN Beach,132620896,1400,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Jewish Association for Services for the Aged (JASA),JASA Roy Reuther,132620896,62000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Jewish Association for Services for the Aged (JASA),JASA Starrett City,132620896,,DFTA,125,003,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Jewish Community Council of Greater Coney Island, Inc.",Jay Senior Center,112665181,15000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Korean Community Services of Metropolitan New York, Inc.",Korean American of Corona,237348989,,DFTA,125,003,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Korean Community Services of Metropolitan New York, Inc.",Korean American of Flushing,237348989,35000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"Lenox Hill Neighborhood House, Inc.",Lenox Hill Senior Center II,131628180,5000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Manhattan Valley Golden Age Senior Center. Inc,Manhattan Valley,132751935,,DFTA,125,003,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,Merrill Park Civic Association of Springfield Gardens,Robert Couche,112304928,46000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,"North East Bronx Senior Citizens Center, Inc.",Northeast Bronx Senior Citizens Center,132759045,74200,DFTA,125,003,,*
+5,2009-02-11,"Immigrant Opportunities (continued) Initiative UIA etc) # (Council, MOC, Organization EIN Number Amount Agy Status Borough Agency *",2009,designate,,,One Stop Senior Services,One-Stop,133174492,60000,DFTA,125,003,,
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,Park Slope Senior Citizens Center,Park Slope Senior Citizens Center,112334269,3500,DFTA,125,003,,
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Peter Cardella Senior Citizen Center, Inc.",Peter Cardella Senior Citizen Center,112328536,,DFTA,125,003,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,Rabbi Israei Meyer Hacohen Rabbinical Seminary of America,Middle Village,111752021,40000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Regional Aid for Interim Needs, Inc.",RAIN/Boston East Senior Center,136213586,29200,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,Regional Aid for Interim Needs. Inc.,RAIN/East Tremont Senior Center,136213586,21400,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Regional Aid for Interim Needs, Inc.",RAIN/Inwood Senior Center,136213586,6500,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Regional Aid for Interim Needs, Inc.",RAIN/Nereid Senior Center,136213586,45000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Ridgewood Bushwick Senior Citizens Council, Inc.",Atlantic Senior Center,112453853,85000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Ridgewood Older Adult Center and Services, Inc",Ridgewood Older Adult Center & Services,050607283,75000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Riverdale Senior Services, Inc.","Riverdale Senior Services, Inc.",237357997,24000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,Selfhelp Community Services. inc.,Selfhelp Austin Street Senior Center,131624178,7000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Selfhelp Community Services, Inc.",Selfhelp Clearview,131624178,11000,DFTA,125,003,,
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Selfhelp Community Services, Inc.",Selfhelp Maspeth Senior Center,131624178,25000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Senior Citizens League of Flatbush, Inc.",Midwood Senior League Sateilite,112347331,10000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Sephardic Multi Service Senior Citizens Center, Inc.",Sephardic Multi Service Senior Center,112301220,4000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Services Now for Adult Persons (SNAP), inc.",SNAP,112591783,21212,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,Southeast Queens Multiservice Senior Center,Howard Beach,237187548,4202,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,Southside United Housing Development Fund Corp,Los Sures,112268359,33500,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,Spanish Speaking Elderly Council- -RAICES,RAICES Corona (utilities-moving expenses),112730462,18000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,Spanish Speaking Elderly Council-RAICES,RAICES/Corona Senior Center,112730462,120000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,St. Gabriel's Episcopal Church Senior Center,St. Gabriels Senior Center,112463892,18000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,St. John-St. Matthew Emanuel Lutheran Church,Prospect Hill,112252582,58284,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,St. Matthew's and St. Timothy's Neighborhood Center,WEME Mainstream Nutrition,132587904,7200,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Staten Island Community Services Fnendship Clubs, Inc.",Arrochar Friendship Club Senior Center,132778244,5000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Staten Island Community Services Friendship Clubs, Inc.",Mt. Loretto Friendship Club Senior Center,132778244,,DFTA,125,003,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Sunnyside Community Services Center, inc.",Sunnyside Community Senior Center,510189327,,DFTA,125,003,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"Tolentine- Zeiser Community Life Center, Inc.",Tolentine Zeiser Nutrition Program,133131888,,DFTA,125,003,,ocr:amt;ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"United Hindu Cultural Council of USA, North America, Inc.",United Hindu,113451990,6000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,"United Senior Citizen Center of Sunset Park, Inc.",United Senior Citizens Center,112358277,10000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,Young israel Programs,Young Israel Forest Hills Senior League,112582218,20000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,Young Israel Programs,Young israel Queens Valley,133613262,6000,DFTA,125,003,,ocr:lowconf
+5,2009-02-11,"Space Costs for (continued) Senior Centers Sponsor Name Name Agy UIA Status (Councit, MOC. Program Number Agency Amount # EIN * etc)",2009,designate,,,Young Israel Programs,Young Israel Wavecreast Bayswater,112342565,8000,DFTA,125,003,,ocr:lowconf

@@ -50,7 +50,7 @@ If you use the derived data, please attribute BetaNYC and link back to this repo
 
 **2.0 (served):** `code/parse_expense_disclosure.py` reads each disclosure workbook (`.xlsx`, and `.xls` for the archived years) cell by cell, keeps every published value, and writes one record shape for every year; `code/build_capital_council.py` does the same for the capital workbooks and NYC Open Data. Both check each file's sha256 against its manifest and stop rather than publish a partial year. `code/validate_data.py` and the audits (`data/DISCLOSURE-AUDIT.md`, `data/capital/CAPITAL-AUDIT.md`) re-derive the outputs with separate scripts.
 
-**Retired (PDF, kept for history):** three Python parsers (in `code/`) read the PDF text layer and emit structured rows using regular expressions, with **no hand transcription and no language-model reading of the numbers**. Each Schedule C category total is reconciled against the document's own printed `TOTAL` line, so the data can be trusted or challenged against the source. The Schedule C parser derives its category list and council-member roster from each document, so it adapts to a new fiscal year automatically.
+**Retired (PDF, kept for history):** three Python parsers (in `code/`) read the PDF text layer and emit structured rows using regular expressions, with **no hand transcription and no language-model reading of the numbers**. (One documented exception: the FY2009 Transparency Resolutions are scans with no text layer, so they are OCR'd — see "AI use" below.) Each Schedule C category total is reconciled against the document's own printed `TOTAL` line, so the data can be trusted or challenged against the source. The Schedule C parser derives its category list and council-member roster from each document, so it adapts to a new fiscal year automatically.
 
 ## Repository layout
 
@@ -179,6 +179,18 @@ Section 254 capital changes. `part, agency, budget_line, sub_id, boro, fy1, fy2,
 ### `data/fy26/transparency-resolutions/`
 Post-adoption discretionary designations from the 10 FY2026 Transparency Resolutions (per-resolution `resoNN_transparency_designations.csv` files + a combined `fy26_transparency_all.csv`). Columns: `resolution, date, chart, fiscal_year, action, source, council_member, organization, program, ein, amount, agency, agy_num, ua, purpose, flags` — `action` ∈ designate / rescind / purpose_change; rescissions carry negative amounts. These record money the adopted budget left "to be designated post-adoption" (e.g. the FY2026 AI Community Engagement $1M). **No printed totals exist**, so they are labeled `NOT RECONCILABLE`; the only internal check is that transfers (rescind + re-designate) net to zero.
 
+**FY2009 only — `fy09_transparency_fiscal_conduits.csv`.** FY09's long-form charts (1–3) print two
+columns no other year has: a Fiscal Conduit/Sponsoring Organization (+ its EIN), used when a
+designation is paid through an intermediary fiscal sponsor rather than directly to the recipient,
+and a per-row PQL clearance `status` (`Cleared`, `Approved`, `Application Pending`, `Denied`,
+`Government Entity`, etc.). They can't go in the standard 16-column schema, so they live in this
+sidecar (`resolution, chart, ein, conduit_organization, conduit_ein, status`), joined back to
+`resoNN_transparency_designations.csv` on `(resolution, chart, ein)`. Most rows have no fiscal
+conduit — the money went straight to the named org. Since FY09 is OCR'd off scans (see
+[`code/PARSING.md`](code/PARSING.md#ocr-pipeline--fy2009-transparency-resolutions)), `status` has
+many spelling variants of the same value and should be treated as informational, not a clean
+categorical.
+
 ### `data/combined/`
 `all_years_initiatives.csv` and `all_years_awards.csv` — the per-year files stacked with a leading `year` column for cross-year analysis. Each also carries two derived `*_canonical` columns (see the editorial note below).
 
@@ -229,15 +241,20 @@ per-document-type detail (and the parser/invocation for each) is in [`code/PARSI
 - **Transparency Resolutions** — extracted for **FY2010–FY2024** (no printed totals). Financial columns
   (EIN/amount/agency/date/action) are reliable in every year; organization/member/program *text* is
   low-confidence in the older glued-text-layer years (FY2010–FY2013), flagged per-year in each
-  `*_reconciliation.txt`. FY2009 (scanned, no text layer) and FY2013 resolutions 07/10/11 (`.doc`) are blocked.
+  `*_reconciliation.txt`. **FY2009** has no text layer (all 8 PDFs are scans), so it is handled by a
+  separate OCR pipeline — `code/parse_transparency_reso_fy09.py` + `code/ocr/`, documented in
+  [`code/PARSING.md`](code/PARSING.md#ocr-pipeline--fy2009-transparency-resolutions); its figures are
+  model-read rather than text-layer-extracted, and flagged where uncertain. FY2013 resolutions
+  07/10/11 (`.doc`) remain blocked.
 
 **Capital (Section 254):** FY2025 reconciles **30/30** agency subtotals plus both grand totals exactly (Part I $775M / 1327; Part II $158,992,000 / 181; Part III cross-tab 106/106 entities); FY2026 reconciles **31/31**; FY2027 reconciles **24/26**. (The separate FY2025 appropriation-changes book remains `NOT RECONCILABLE` by nature.) **Transparency Resolutions:** no printed totals (`NOT RECONCILABLE`); transfers net to zero as expected. See each `*_reconciliation.txt` for details.
 
 **Data QA:** beyond per-file reconciliation, `code/validate_data.py` runs row-level and cross-file
 integrity checks (schema, EIN validity + per-year coverage, amount/sign sanity, fiscal-year
 integrity, duplicate detection, column-bleed heuristic, and a reconciliation roll-up) over the whole
-`data/` tree and writes a dated `data/QA-REPORT.md`. Latest run: 0 hard failures, 100% EIN coverage
-on every EIN-bearing file. Details in [`code/PARSING.md`](code/PARSING.md).
+`data/` tree and writes a dated `data/QA-REPORT.md`. Latest run: 4 hard failures (all known FY09
+OCR artifacts — see below), 100% EIN coverage on every EIN-bearing file except FY09 transparency
+(97.9%). Details in [`code/PARSING.md`](code/PARSING.md).
 
 ## Known limitations
 
@@ -309,6 +326,10 @@ disclosure workbooks, which cover FY2013–FY2027.)
 BetaNYC uses AI tools openly and with human accountability. The extraction, reconciliation, and analysis tooling in this repository was built by AI agents (Anthropic's Claude) working under the direction and review of BetaNYC staff.
 
 One commitment about the data: **the figures here are not AI-generated.** In 2.0 every dollar amount is read **deterministically**, cell by cell, from the Council's own spreadsheets (the expense funding disclosure workbooks and the capital workbooks) and from NYC Open Data, and every row keeps the file, sheet or Open Data row it came from — never inferred, never estimated by a model. The outputs are re-derived by separate audit scripts (`data/DISCLOSURE-AUDIT.md`, `data/capital/CAPITAL-AUDIT.md`) and checked by `code/validate_data.py`; where the sources disagree or leave a question open, that is recorded in [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) rather than papered over. The earlier PDF extraction, which we found errors in, is retired and kept only as a historical record.
+
+**The one exception, stated plainly: the FY2009 Transparency Resolutions.** Those eight documents are scanned images with no text layer, so there is nothing to extract deterministically — they are read by OCR (docTR), which *is* a model reading numbers. We ship them anyway because the alternative is leaving a year of public designations unreadable, but they are treated differently from every other year: each value is checked against a shape rule and an agency-code dictionary built from the years that *do* have text layers; where a chart prints its own total, the OCR'd rows must sum to it exactly; ambiguous character readings (`O` vs `0`, `S` vs `$`) are **never** guessed but flagged in the `flags` column and queued in `fy09_transparency_needs_review.csv` alongside a crop of the original pixels. Any FY2009 figure you rely on can be traced back to those pixels. See [`code/PARSING.md`](code/PARSING.md#ocr-pipeline--fy2009-transparency-resolutions).
+
+*Scope under 2.0:* the FY2009 OCR files belong to the PDF-derived record. They are published in this repository as a research dataset (`data/fy09/transparency-resolutions/`) and are not served by the 2.0 MCP or the Pages site; see [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) §27–§28.
 
 Questions about our approach: hello@beta.nyc.
 
