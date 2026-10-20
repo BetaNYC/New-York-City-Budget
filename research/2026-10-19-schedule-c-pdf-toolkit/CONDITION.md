@@ -367,3 +367,19 @@ duplicate. 11 capital books carry owner-password encryption.
   filename/title conflict). Every other PDF has a family, though 22 rest on the filename alone
   (15 of them scans whose first page has no text) and 1 on the title alone.
 - **Text class:** none. Every PDF opened and got a class.
+
+## Errata from the family assessments (added 2026-10-19)
+
+The per-family assessments stacked on this survey read the documents themselves and correct
+four things above. The survey's CSVs are unchanged; read them with these in mind.
+
+1. **Transparency resolution scans are 566 pages, not 694.** The 694 counts every page the
+   survey tiered D in those files, including about 150 vector-drawn "EXHIBIT" divider pages in
+   FY2010–FY2011 that carry no text. The 15 scanned files hold 566 pages: FY2009 332, FY2010
+   131, FY2011 57, FY2012 46.
+2. **FY2015 Terms and Conditions is mixed expense and capital,** not capital-only.
+3. **`FY18/FY18-Sec254-Capital-ResoA-M499-Res1534-Res1535.pdf` is the FY2018 capital
+   supporting detail book** (title page: "Supporting Detail For Fiscal Year 2018"; p.70 "TOTALS
+   FOR ALL (1485 PROJECTS) 575,000,000"). The survey's `unknown` family stands as a correct
+   refusal to guess from a conflicting filename.
+4. **`FY11/…Section-254-Changes.pdf` is project-level supporting detail,** not a changes book.
