@@ -121,7 +121,10 @@ extracts it and reconciles the row sum against the printed TOTAL. It emits only
 `*_schedule_c_initiatives.csv` + `*_schedule_c_reconciliation.txt`. The documents also print
 per-organization award rows with EINs, which this parser does not extract: FY10 p.61 carries the
 header `Member | Sponsor | Legal Name of Organization | EIN | * | Amount | Agency | Purpose of
-Funds | Fiscal Conduit Name | FC EIN`, and the six PDFs hold 4,345–5,473 EIN-shaped words each.
+Funds | Fiscal Conduit Name | FC EIN`. A prototype parse of the drawn tables counts about
+3,900–4,700 award rows with an EIN each year (EIN-shaped words in the award-EIN column: 3,859 /
+3,994 / 4,139 / 4,331 / 4,553 / 4,726, FY2009–FY2014; details: PR #98). These are prototype
+counts, not extracted rows; none is in the repo yet.
 
 **Corrected 2026-10-20:** earlier text said these documents have "NO award-level EIN tables"
 because designations "were made post-adoption", and that award data "isn't in these documents".
@@ -153,8 +156,9 @@ as one row keyed to the first (primary) agency, with every header's UA lines col
 numbers are synthesized in document order. T&C documents print no totals → **NOT RECONCILABLE**;
 correctness is checked by counts + regression tests (`test_parse_terms_legacy.py`).
 
-**Known defect (recorded 2026-10-20):** the committed `condition_text` carries 393 words split
-mid-word by the pypdf text layer (e.g. `appropriatio n`, `inci dents`, both in
+**Known defect (recorded 2026-10-20):** the committed `condition_text` carries about 393
+mid-word splits across FY2015–FY2027 by a heuristic count (169 in FY2027) from the pypdf text
+layer (e.g. `appropriatio n`, `inci dents`, both in
 `fy27_terms_and_conditions.csv`). The text needs a re-extraction with a check; the data is
 unchanged (details: PR #98).
 
@@ -219,8 +223,8 @@ ROSTER=$(ls data/fy*/schedule_c/*_schedule_c_awards.csv)
 **Financial columns (EIN, amount, agency, date, action) are deterministic** — they come from the
 EIN+$ anchor. **Corrected 2026-10-20:** this said "reliable in every year". The values on emitted
 rows are, but rows are missing: EINs printed without a hyphen are dropped (173 rows in FY2026,
-all 157 positive ones matching the disclosure on (EIN, amount)); rows with no printed EIN are
-dropped; FY2013 Reso 01 merges rows into their neighbor (77 of 587 rows carry a second EIN in
+157 positive and 16 rescissions, all 157 positive ones matching the disclosure on (EIN,
+amount)); rows with no printed EIN are dropped; FY2013 Reso 01 merges rows into their neighbor (77 of 587 rows carry a second EIN in
 `organization`); FY2010–FY2012 amounts lose their cents (337 rows; `$18,606.94` → `18606`). See
 DATA-ANOMALIES §1 and §3. The organization / council_member / program **text**
 degrades in the older years, whose PDF text layer glues adjacent words together
@@ -450,8 +454,8 @@ Reconciliation: **24/26**. The two open DIFFs — Part I `HOUSING & DEVELOPMENT`
 `HUMAN RESOURCES` 18/19 — are parser misses. **Corrected 2026-10-20:** earlier text called them
 "in-source line-item vs. printed-subtotal gaps, not parser errors". The PDF prints the missing
 rows: `HD CC0707` (THE DOE FUND INC. - 2031 EASTERN PARKWAY, 300,000) and `HD CC0863` (EARL
-W.JIMERSON BALCONY RAILINGS, 300,000) on p.40, and `HR CC0168` (ALI FORNEY CENTER EMERGENCY
-HOUSING SITE, 250,000) on p.47. In `fy27_capital_projects.csv` (1,388 rows) each lost row's text
+W.JIMERSON BALCONY RAILINGS RENOVATION, 300,000) on p.40, and `HR CC0168` (ALI FORNEY CENTER
+EMERGENCY HOUSING SITE CONSTRUCTION, 250,000) on p.47. In `fy27_capital_projects.csv` (1,388 rows) each lost row's text
 sits inside the title of the row before it (`HD CC0706`, `HD CC0862`, `HR CC1253`). With them both sections reconcile (65 projects, $54,135,000; 19
 projects, $19,483,000; details: PR #98). The parser's output is unchanged.
 
@@ -651,7 +655,7 @@ NOT_RECONCILED · BLOCKED · N/A (no such document that year).
 | FY15 | RECONCILED (24/24, fy15 parser) | EXTRACTED (17) | pending | EXTRACTED 12 |
 | FY16 | RECONCILED (24/26) | EXTRACTED (30) | pending | EXTRACTED 13 |
 | FY17 | RECONCILED (24/27) | EXTRACTED (30) | EXTRACTED (ResoA) | EXTRACTED 13 |
-| FY18 | RECONCILED (24/27) | EXTRACTED (33) | pending (the `ResoA` file is the supporting detail book, 1,485 projects; not parsed) | EXTRACTED 12 |
+| FY18 | RECONCILED (24/27) | EXTRACTED (33) | pending (the `ResoA` file is the FY2018 supporting detail book: Part I 1,485 city projects, $575,000,000, plus Parts II–III; not parsed) | EXTRACTED 12 |
 | FY19 | RECONCILED (27/28) | N/A | pending (FY19 sub-format) | EXTRACTED 11 |
 | FY20 | RECONCILED (27/28) | N/A | **RECONCILED 23/23** | EXTRACTED 8 |
 | FY21 | RECONCILED (25/26) | EXTRACTED (46) | EXTRACTED (ResoA) | EXTRACTED 8 |

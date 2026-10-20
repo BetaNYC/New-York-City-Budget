@@ -185,7 +185,7 @@ Section 254 changes to the adopted capital budget.
 
 ## `data/{year}/transparency-resolutions/` — `resoNN_*.csv` + `{year}_transparency_all.csv`
 
-Post-adoption discretionary designations, rescissions, and purpose changes. **No printed totals** (labeled `NOT RECONCILABLE`); the only internal check is that transfers (rescind + re-designate) net to zero.
+Post-adoption discretionary designations, rescissions, and purpose changes. **Not reconciled against printed totals** (labeled `NOT RECONCILABLE`). FY2013 onward print none; FY2009–FY2012 charts do, and only FY2009 is checked against them ([`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) §1, §28; [`code/PARSING.md`](code/PARSING.md)). For the other years the only internal check is that transfers (rescind + re-designate) net to zero. **Corrected 2026-10-20:** this said "No printed totals" for every year.
 
 | Column | Type | Meaning |
 |--------|------|---------|

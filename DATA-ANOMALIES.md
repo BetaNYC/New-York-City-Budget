@@ -9,19 +9,27 @@ Honest catalog of every known gap, quirk, and caveat in this dataset. Nothing he
 > the old explorer online, frozen as of 2026-10-16, under a "do not cite" banner). Where an entry says "the MCP" serves or indexes those files, it
 > describes 1.x. The structured datasets are covered by §22–§26.
 
-> **Corrections, 2026-10-20.** A re-read of the source PDFs (details: PR #98) found wrong
-> claims in this file, `code/PARSING.md`, `DATA-DICTIONARY.md`, `README.md` and
-> `data/capital/README.md`, most of them reading a parser's misses as gaps in what the City
-> printed. Corrected in place, each with a dated note: §1 (FY2009 and FY2010–FY2012
+> **Corrections, 2026-10-20.** A re-read of the source PDFs (details: PR #98, open; the §23
+> note carries its own evidence) found wrong claims in this file, `code/PARSING.md`,
+> `DATA-DICTIONARY.md`, `README.md` and `data/capital/README.md`, most of them reading a
+> parser's misses as gaps in what the City printed. The first four are corrected in place, each
+> with a dated note. `data/capital/README.md` is left unchanged on purpose, because any edit
+> under `data/capital/` triggers the release version guard; its FY2018 line is corrected in §26.
+> Corrected entries: §1 (FY2009 and FY2010–FY2012
 > transparency), §2 (FY2009–FY2014 Schedule C print award rows with EINs; FY2008 prints member
 > items), §3 (transparency rows dropped, merged and cents truncated), §5 (FY2008 Schedule C;
 > FY2017, FY2019 and FY2021 capital verify; FY2011 capital file), §19 (FY2023 Local is a parser
 > loss), §23 (FY2027 Medicare Rights Center is printed), §26 (an FY2018 capital PDF is in
 > `source/`), and in `code/PARSING.md` the FY2027 capital "in-source gaps", the transparency
-> totals and the Terms and Conditions text (393 words split mid-word). FY2010–FY2012
-> transparency charts also print totals, so §28's "the *only* Transparency-Resolution year whose
-> charts print totals" is too narrow; §28 is left as its author wrote it. No data or code
-> changed.
+> totals and the Terms and Conditions text (about 393 mid-word splits). FY2010–FY2012
+> transparency charts also print totals, so §28's "FY2009 is the *only* Transparency-Resolution
+> year whose charts print totals at all" is too narrow; §28 is left as its author wrote it. No
+> data or code changed, so some copies of the old claims remain until the parsers are revised
+> (issue #5) or the files are next regenerated: `data/capital/RECONCILIATION.md` ("FY2018 is in
+> no source found"); the docstrings and printed messages in `code/parse_schedule_c_legacy.py`
+> (no award-level EIN tables), `code/parse_transparency_reso.py` (no printed totals) and
+> `code/build_combined.py`; and the generated `data/QA-REPORT.md` and
+> `*_transparency_reconciliation.txt` files ("no printed totals" for FY2010–FY2012).
 
 **Generated:** 2026-07-08. See also [`DATA-DICTIONARY.md`](DATA-DICTIONARY.md) (schemas) and [`code/PARSING.md`](code/PARSING.md) (per-year parse status).
 
@@ -47,7 +55,7 @@ resolution. Evidence: page text and text-layer character counts of each file (de
 
 ## 2. FY2008–FY2014 Schedule C award rows were never extracted (the PDFs print them) → tracked in [#5](https://github.com/BetaNYC/New-York-City-Budget/issues/5)
 
-The repo's Schedule C files for **FY2009–FY2014 are initiatives-level only** (category/initiative totals, from `parse_schedule_c_legacy.py`). The PDFs print more than that. FY2009–FY2014 print per-organization award rows with EINs: the award table header on FY2010 p.61 reads `Member | Sponsor | Legal Name of Organization | EIN | * | Amount | Agency | Purpose of Funds | Fiscal Conduit Name | FC EIN`, and the six PDFs carry 4,535 / 4,345 / 4,516 / 4,547 / 5,069 / 5,473 EIN-shaped words (FY2009–FY2014; an upper bound on award rows, since conduit EINs count too). FY2008 (`source/FY08/schedule_c_rvs_2008.pdf`, Appendix E, pp.36–123) prints 1,674 member-item rows totaling $36,399,802, with no EIN column. The old parsers extracted none of these rows.
+The repo's Schedule C files for **FY2009–FY2014 are initiatives-level only** (category/initiative totals, from `parse_schedule_c_legacy.py`). The PDFs print more than that. FY2009–FY2014 print per-organization award rows with EINs: the award table header on FY2010 p.61 reads `Member | Sponsor | Legal Name of Organization | EIN | * | Amount | Agency | Purpose of Funds | Fiscal Conduit Name | FC EIN`, and each year prints about 3,900–4,700 award rows with an EIN. A prototype parse (details: PR #98) counts the EIN-shaped words in the award-EIN column, which match the drawn table rows that carry an EIN one for one: 3,859 / 3,994 / 4,139 / 4,331 / 4,553 / 4,726 (FY2009–FY2014; FY2014's figure includes 533 Aging rows on unruled pages, and FY2010's banded tables are counted by column only). These are counts from a prototype, not extracted data: none of these rows is in the repo yet, and rows printed without an EIN are not counted. FY2008 (`source/FY08/schedule_c_rvs_2008.pdf`, Appendix E, pp.36–123) prints 1,674 member-item rows totaling $36,399,802, with no EIN column. The old parsers extracted none of these rows.
 
 **Corrected 2026-10-20:** earlier text said FY2009–FY2014 have "no per-organization award rows and no EINs" because designations were "largely made *after* adoption", and that FY2016 is the first year the adopted Schedule C carries award/EIN tables. The PDFs show award rows with EINs in every one of those years (evidence above; details: PR #98). The old parser's output is unchanged.
 
@@ -58,9 +66,9 @@ The repo's Schedule C files for **FY2009–FY2014 are initiatives-level only** (
 For FY2010–FY2013 Transparency Resolutions, the **financial columns (EIN, amount, agency, date, action) are reliable**, but the **`organization` / `member` / `program` *text* is low-confidence** — that era's PDFs have a glued text layer that runs adjacent fields together. Each affected `*_reconciliation.txt` self-reports a HIGH / MODERATE / LOW org-text confidence band. Use the EIN, not the name, as the identity key for these years.
 
 **Corrected 2026-10-20:** "reliable" holds for the values on rows the parser emitted, not for completeness. Rows go missing in four ways (details: PR #98):
-- **EINs printed without a hyphen are dropped**, because the parser's anchor requires `NN-NNNNNNN`. FY2026 prints 173 such rows (e.g. FY2026 Reso 02 p.27, `131641068`, $20,000); all 157 positive designations among them match the FY2026 Council disclosure on (EIN, amount).
+- **EINs printed without a hyphen are dropped**, because the parser's anchor requires `NN-NNNNNNN`. FY2026 prints 173 such rows, 157 positive and 16 rescissions (e.g. FY2026 Reso 02 p.27, `131641068`, $20,000); all 157 positive designations match the FY2026 Council disclosure on (EIN, amount).
 - **Rows with no printed EIN are dropped** (e.g. FY2013 Reso 01 p.17, Friends of Vesuvio Playground, ($3,500.00)).
-- **Rows are merged into their neighbor** in FY2013 Reso 01: 77 of its 587 committed rows carry a second EIN inside `organization`, and that row's own amount is lost (e.g. p.20, Working Today Inc. `13-3858323` $100,000.00, survives only inside the Paraprofessional Healthcare Institute row).
+- **Rows are merged into their neighbor** in FY2013 Reso 01: 77 of its 587 committed rows carry a second EIN inside `organization`, and the absorbed row's own amount is lost (e.g. p.20, Working Today Inc. `13-3858323` $100,000.00, survives only inside the Paraprofessional Healthcare Institute row).
 - **Cents are truncated in FY2010–FY2012**: the PDFs print amounts with cents (FY2010 Reso 06 p.28, `$36,369.14`), and every committed amount in those years is a whole number (337 rows lose their cents; `$18,606.94` is committed as `18606`).
 
 Plus the zero-row files in §1. The old parser's output is unchanged.
@@ -126,7 +134,7 @@ The parser populates `fiscal_year` only when a resolution's chart header carries
 
 This is **genuinely unpopulated in the source, not a parse regression**: 0 empty-`fiscal_year` rows have an extractable "Fiscal YYYY" token in their chart header. Two sub-cases:
 - **FY2010–FY2011** chart headers carry **no** fiscal-year designation at all (e.g. `Adult Literacy`, `AgingDiscretionary`). Nothing to extract — filling the column would be fabrication, which the repo forbids.
-- **Some FY2012–FY2013** charts *do* carry an abbreviated `FY2011` / `FY 2013` token that the current "Fiscal YYYY" regex does not match. Widening the regex to the abbreviated form would populate those deterministically (not fabrication), but it touches all 15 committed transparency years and transparency has no printed totals to reconcile against, so it is left as a **bounded, regression-gated future improvement** rather than shipped in this QA pass.
+- **Some FY2012–FY2013** charts *do* carry an abbreviated `FY2011` / `FY 2013` token that the current "Fiscal YYYY" regex does not match. Widening the regex to the abbreviated form would populate those deterministically (not fabrication), but it touches all 15 committed transparency years and transparency is not reconciled against printed totals (FY2013 onward print none; FY2010–FY2012 print totals the parser does not check), so it is left as a **bounded, regression-gated future improvement** rather than shipped in this QA pass.
 
 **Consequence:** FY2010–FY2013 transparency data is **not safely filterable by the `fiscal_year` column**. Use the source-document (folder) fiscal year plus EIN. FY2014 onward the column is reliable. FY2010–FY2013 are also LOW org-text-confidence (#3) — join on EIN.
 
@@ -257,7 +265,7 @@ The largest single collision is review-tier: one hyphen (`After School` vs `Afte
 1. **Row counts vary year to year (4,310 → 3,860)** while the total stays fixed. A duplicated/cached parse would reproduce identical row counts; a churning recipient list under a fixed pot is exactly what real equal-allocation programs look like.
 2. **The aging ($5,610,000) and youth ($7,650,000) sub-pots are *exactly* constant every year**, and the local sub-pot varies by ≤ $10,000 in the parsed files. These are the Council's standing **equal-per-district** aging, local, and youth initiatives — a fixed citywide aggregate distributed across a recipient set that changes annually. The flatness is the *point* of these programs, not a parsing defect.
 
-**Corrected 2026-10-20:** earlier text put the FY2023 Local shortfall down to "a seat vacancy / rounding". It is a parser loss. The FY2023 PDF (`source/FY23/Fiscal-2023-Schedule-C-Merge-6.13.22-Final-1.pdf`) prints two $5,000 Local rows the parse dropped because their EIN text does not match `NN-NNNNNNN`: Elite Community Foundation, Inc. (p.213, printed `84 -2079676` with a space) and The Laundromat Project, Inc. (p.235, printed `87-0753479`; the text layer encodes the hyphen as a soft hyphen, U+00AD). With them the PDF's Local rows sum to $36,539,000, the same pot as the other years; `fy23_appendix_b_local.csv` has 2,726 rows, $36,529,000, and holds both only as text inside a neighboring row. The old parser's output is unchanged. FY2026's $36,534,000 has not been checked the same way.
+**Corrected 2026-10-20:** earlier text put the FY2023 Local shortfall down to "a seat vacancy / rounding". It is a parser loss. The FY2023 PDF (`source/FY23/Fiscal-2023-Schedule-C-Merge-6.13.22-Final-1.pdf`) prints two $5,000 Local rows the parse dropped because their EIN text does not match `NN-NNNNNNN`: Elite Community Foundation, Inc. (p.213, printed `84 -2079676` with a space) and The Laundromat Project, Inc. (p.235, printed `87-0753479`; pypdf, which the parser uses, reads the hyphen as a soft hyphen, U+00AD). With them the PDF's Local rows sum to $36,539,000, the same pot as the other years; `fy23_appendix_b_local.csv` has 2,726 rows, $36,529,000. It holds Laundromat Project only as text in a neighbor's purpose (the Latinas On The Verge row), and it misattributes Elite: the row named Elite Community Foundation, Inc. (sponsor Kagan) carries Elite Learners, Inc.'s EIN and amount (814482839, $27,500), with Elite Community Foundation's own EIN and $5,000 left as text in `program`. The old parser's output is unchanged. FY2026's $36,534,000 has not been checked the same way.
 
 **Conclusion.** O6 resolved — the flat appendix totals are the genuine value of fixed Council allocation pots, not an extraction artifact. No code or data change required; recorded here so future readers don't re-flag the pattern.
 
@@ -792,7 +800,8 @@ number here is this repo's arithmetic on those files.
   starts at FY2019. **Corrected 2026-10-20:** earlier text (and `data/capital/README.md`) read as
   if FY2018 had no source at all. `source/FY18/FY18-Sec254-Capital-ResoA-M499-Res1534-Res1535.pdf`
   is, despite its name, the FY2018 Section 254 **supporting detail** book (title page "Supporting
-  Detail For Fiscal Year 2018"; p.70 `TOTALS FOR ALL (1485 PROJECTS) 575,000,000`). It is a PDF,
+  Detail For Fiscal Year 2018"; Part I: 1,485 projects, $575,000,000, p.70 `TOTALS FOR ALL (1485
+  PROJECTS) 575,000,000`; the 96-page book also has Parts II and III). It is a PDF,
   so under §27 it is not part of this structured dataset, and it has not been parsed. The FY2018
   Resolution A book is not in `source/`.
 - **The Council's list and OMB's adopted budget agree by budget line in most lines, not all**

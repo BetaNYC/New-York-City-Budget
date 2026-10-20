@@ -242,8 +242,11 @@ per-document-type detail (and the parser/invocation for each) is in [`code/PARSI
 - **§254 Capital (Capital Project Detail)** — reconciled **23/23–32/32** for **FY2020, FY2022, FY2023, FY2024**
   (via `parse_capital_detail.py`).
 - **Terms & Conditions** — extracted for **FY2015–FY2024** (via `parse_terms_legacy.py`; T&C print no totals).
-- **Transparency Resolutions** — extracted for **FY2010–FY2024** (no printed totals). Financial columns
-  (EIN/amount/agency/date/action) are reliable in every year; organization/member/program *text* is
+- **Transparency Resolutions** — extracted for **FY2010–FY2024** (FY2013 onward print no totals;
+  FY2010–FY2012 charts do, and the parser does not check them). Financial columns
+  (EIN/amount/agency/date/action) are deterministic on the rows emitted, but rows are missing:
+  hyphenless EINs, rows with no EIN, merged rows and truncated cents (DATA-ANOMALIES §3).
+  Organization/member/program *text* is
   low-confidence in the older glued-text-layer years (FY2010–FY2013), flagged per-year in each
   `*_reconciliation.txt`. **FY2009** has no text layer (all 8 PDFs are scans), so it is handled by a
   separate OCR pipeline — `code/parse_transparency_reso_fy09.py` + `code/ocr/`, documented in
@@ -259,7 +262,8 @@ integrity, duplicate detection, column-bleed heuristic, and a reconciliation rol
 `data/` tree and writes a dated `data/QA-REPORT.md`. Latest report (2026-10-20): 302 files, 4 hard
 failures (all known FY09 OCR artifacts — see below), 598 soft advisories. EIN coverage is below
 100% in FY09 transparency (97.9%, 2565/2620) and in the FY2009 and FY2011–FY2015 disclosure files
-(lowest FY2009, 99.5%); every other EIN-bearing file is 100%. Coverage counts rows a parser
+(lowest FY2009, 99.5%; FY2013–FY2015 are short by 2, 3 and 1 rows and display as 100.0% by
+rounding); every other EIN-bearing file with rows is 100%. Coverage counts rows a parser
 emitted, and the PDF parsers emit only rows with an EIN, so 100% does not mean every printed row
 is present (DATA-ANOMALIES §3). **Corrected 2026-10-20:** this said 100% everywhere except FY09
 transparency. Details in [`code/PARSING.md`](code/PARSING.md).
@@ -273,7 +277,7 @@ transparency. Details in [`code/PARSING.md`](code/PARSING.md).
 - **Award rows are not reconciled against a printed total.** The per-year `*_reconciliation.txt` files reconcile the *category summary* stream against the documents' printed `TOTAL` lines. The award table — the per-organization, per-EIN rows — is reported as a bare tally with no printed total to check it against, in every year. Award-level completeness is therefore **not** established by the reconciliation status shown above.
 - Borough delegations ("Brooklyn", "Queens", …) appear in the `member` column as collective sponsors.
 - **FY2025 capital is now row-comparable to FY2026/FY2027** — parsed from the FY2025 Council-additions "Capital Project Detail" book (the counterpart to the FY2026/FY2027 books), it shares their schema and reconciles. (Earlier releases used the different "Appropriation Changes" resolution book, now retained separately as `fy25_capital_changes_appropriation.csv`; that book alone is not row-comparable.) Note Part II re-lists the non-city subset, so summing `fy1` across both parts double-counts non-city projects — filter by `part` when aggregating, exactly as for FY2026/FY2027.
-- **Transparency Resolutions have no printed totals** to reconcile against (only the transfer net-out check); ~0.2% of rows have an imperfect organization name (EIN + amount are recoverable).
+- **Transparency Resolutions are not reconciled against printed totals.** FY2013 onward print none; FY2010–FY2012 do, unchecked (only the transfer net-out check runs); ~0.2% of rows have an imperfect organization name (EIN + amount are recoverable).
 - Category names differ across years (FY2025 has a standalone "Libraries" that later folds into "Cultural Organizations"). Normalize before comparing.
 
 ## Reproduce or extend to a new year
