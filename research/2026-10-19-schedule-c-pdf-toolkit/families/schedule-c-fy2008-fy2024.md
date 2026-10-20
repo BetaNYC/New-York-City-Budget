@@ -1,7 +1,6 @@
 # Schedule C, FY2008–FY2024: condition of each PDF and the QA path to clean data
 
-**Report generated:** 2026-10-19 23:52 EDT. Prepared by BetaNYC (Noel Hidalgo), with AI
-assistance.
+**Report generated:** 2026-10-19 23:52 EDT. Prepared by BetaNYC with AI assistance.
 **Last revised:** 2026-10-20 00:18 EDT — factual QA pass (10 fixes)
 **Data current as of:** source PDFs at `main` @ `f5740c3` (this branch adds docs only); disclosure
 CSVs as committed (workbooks retrieved 2026-10-12, FY2009/FY2011/FY2012 from the Internet

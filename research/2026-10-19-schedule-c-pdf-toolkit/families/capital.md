@@ -1,7 +1,6 @@
 # Capital §254 PDFs: condition, prototype parses, and whether to parse them at all
 
-**Report generated:** 2026-10-19 23:50 EDT. Prepared by BetaNYC (Noel Hidalgo), with AI
-assistance.
+**Report generated:** 2026-10-19 23:50 EDT. Prepared by BetaNYC with AI assistance.
 **Last revised:** 2026-10-20 00:18 EDT — factual QA pass (8 fixes)
 **Data current as of:** the PDFs in `source/` at branch head `30fc9f3`; `data/capital/` as
 committed there (Council workbooks, NYC Open Data `t474-a92g`, `46m8-77gv`, `2cmn-uidm`, pulled

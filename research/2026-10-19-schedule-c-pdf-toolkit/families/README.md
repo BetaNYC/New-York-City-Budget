@@ -1,7 +1,6 @@
 # Every PDF in `source/`: condition and the QA path to structured data
 
-**Report generated:** 2026-10-20 00:00 EDT. Prepared by BetaNYC (Noel Hidalgo), with AI
-assistance.
+**Report generated:** 2026-10-20 00:00 EDT. Prepared by BetaNYC with AI assistance.
 **Last revised:** 2026-10-20 00:18 EDT — factual QA pass (10 fixes)
 **Data current as of:** `source/` PDFs at `main` @ `f5740c3`; the condition survey
 ([`../CONDITION.md`](../CONDITION.md), `data/pdf_condition*.csv`); the three family assessments

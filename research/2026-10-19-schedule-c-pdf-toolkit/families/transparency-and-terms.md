@@ -8,8 +8,7 @@ tags: [schedule-c, pdf, qa, transparency-resolutions, terms-and-conditions]
 
 # PDF family assessment: transparency resolutions and Terms & Conditions
 
-**Report generated:** 2026-10-19 23:46 EDT. Prepared by BetaNYC (Noel Hidalgo), with AI
-assistance.
+**Report generated:** 2026-10-19 23:46 EDT. Prepared by BetaNYC with AI assistance.
 **Last revised:** 2026-10-20 00:18 EDT — factual QA pass (11 fixes)
 **Data current as of:** source PDFs and committed CSVs at this branch's base (`main` @ `f5740c3`
 plus the condition survey, `30fc9f3`); Council disclosure CSVs as committed under
