@@ -908,6 +908,7 @@ terms_unit,2026|22|040|454,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 2
 terms_unit,2026|23|826|002,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 826, unit 002",,26908602,50 rows; ENVIRONMENTAL MANAGEMENT,20250630
 terms_unit,2026|23|826|005,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 826, unit 005",,42101851,171 rows; ENVIRONMENTAL MANAGEMENT -OTPS,20250630
 terms_unit,2026|24|836|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 836, unit 001",,49682533,81 rows; ADMINISTRATION & PLANNING,20250630
+terms_unit,2026|25|836|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 836, unit 001",,49682533,81 rows; ADMINISTRATION & PLANNING,20250630
 terms_unit,2026|26|836|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 836, unit 001",,49682533,81 rows; ADMINISTRATION & PLANNING,20250630
 terms_unit,2026|26|836|011,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 836, unit 011",,90022726,199 rows; ADMINISTRATION-OTPS,20250630
 terms_unit,2026|27|816|102,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 816, unit 102",,117207321,259 rows; DISEASE CONTROL - PS,20250630
@@ -984,30 +985,82 @@ terms_unit,2026|58|056|010,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 2
 terms_unit,2026|58|056|016,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 016",,123681098,9 rows; COMMUNICATIONS - PS,20250630
 terms_unit,2026|58|056|020,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 020",,251702855,37 rows; INTELLIGENCE AND COUNTERTERRORISM - PS,20250630
 terms_unit,2026|58|056|024,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 024",,57157205,7 rows; COMMUNITY AFFAIRS BUREAU,20250630
+terms_unit,2026|59|069|101,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 069, unit 101",,320751549,248 rows; ADMINISTRATION-OTPS,20250630
+terms_unit,2026|59|069|201,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 069, unit 201",,332326623,229 rows; ADMINISTRATION,20250630
+terms_unit,2026|59|071|100,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 071, unit 100",,127444555,248 rows; SHELTER INTAKE AND PROGRAM - PS,20250630
+terms_unit,2026|59|071|101,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 071, unit 101",,35717151,27 rows; ADMINISTRATION - PS,20250630
+terms_unit,2026|59|071|200,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 071, unit 200",,3421750490,346 rows; SHELTER INTAKE AND PROGRAM - OTPS,20250630
+terms_unit,2026|59|806|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 806, unit 001",,61613680,183 rows; OFFICE OF ADMINISTRATION,20250630
+terms_unit,2026|59|816|102,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 816, unit 102",,117207321,259 rows; DISEASE CONTROL - PS,20250630
+terms_unit,2026|59|816|103,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 816, unit 103",,140167745,92 rows; FAMILY & CHILD HEALTH - PS,20250630
+terms_unit,2026|59|816|104,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 816, unit 104",,79006095,173 rows; ENVIRONMENTAL HEALTH - PS,20250630
+terms_unit,2026|59|816|107,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 816, unit 107",,26711675,80 rows; CENTER FOR HLTH EQUITY& COMM WELLNESS-PS,20250630
+terms_unit,2026|59|816|108,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 816, unit 108",,59339630,83 rows; MENTAL HYGIENE MANAGEMENT SERVICES - PS,20250630
+terms_unit,2026|59|816|112,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 816, unit 112",,236077000,882 rows; DISEASE CONTROL - OTPS,20250630
+terms_unit,2026|59|819|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 819, unit 001",,3155936837,69 rows; LUMP SUM,20250630
 terms_unit,2026|59|856|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 856, unit 001",,28843485,70 rows; HUMAN CAPITAL,20250630
 terms_unit,2026|59|856|200,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 856, unit 200",,15369599,43 rows; DIV OF ADMINISTRATION AND SECURITY - PS,20250630
 terms_unit,2026|59|856|400,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 856, unit 400",,11712603,50 rows; OFFICE OF CITYWIDE PURCHASING,20250630
 terms_unit,2026|59|856|490,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 856, unit 490",,487403796,117 rows; OFFICE OF CITYWIDE PURCHASING - OTPS,20250630
 terms_unit,2026|59|856|500,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 856, unit 500",,15079680,24 rows; DIV OF REAL ESTATE SERVICES,20250630
+terms_unit,2026|59|858|002,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 858, unit 002",,341099274,565 rows; TECHNOLOGY SERVICES - OTPS,20250630
+terms_unit,2026|5|030|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 030, unit 001",,31677618,85 rows; PERSONAL SERVICES,20250630
+terms_unit,2026|60|806|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 806, unit 001",,61613680,183 rows; OFFICE OF ADMINISTRATION,20250630
 terms_unit,2026|60|826|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 826, unit 001",,64015732,177 rows; EXECUTIVE AND SUPPORT,20250630
+terms_unit,2026|60|836|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 836, unit 001",,49682533,81 rows; ADMINISTRATION & PLANNING,20250630
 terms_unit,2026|61|816|103,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 816, unit 103",,140167745,92 rows; FAMILY & CHILD HEALTH - PS,20250630
 terms_unit,2026|61|816|113,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 816, unit 113",,63896520,337 rows; FAMILY & CHILD HEALTH - OTPS,20250630
+terms_unit,2026|61|819|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 819, unit 001",,3155936837,69 rows; LUMP SUM,20250630
 terms_unit,2026|62|040|472,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 040, unit 472",,1009926966,18 rows; CONTRACT SCHOOLS/FOSTER/CH 683 PMTS,20250630
 terms_unit,2026|63|040|423,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 040, unit 423",,446571152,25 rows; SE INSTRUCTIONAL SUPPORT - PS,20250630
 terms_unit,2026|63|040|424,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 040, unit 424",,334847294,55 rows; SE INSTRUCTIONAL SUPPORT -  OTPS,20250630
+terms_unit,2026|63|816|103,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 816, unit 103",,140167745,92 rows; FAMILY & CHILD HEALTH - PS,20250630
+terms_unit,2026|63|816|113,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 816, unit 113",,63896520,337 rows; FAMILY & CHILD HEALTH - OTPS,20250630
+terms_unit,2026|63|819|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 819, unit 001",,3155936837,69 rows; LUMP SUM,20250630
+terms_unit,2026|64|040|401,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 040, unit 401",,7770941390,124 rows; GE INSTR & SCH LEADERSHIP - PS,20250630
+terms_unit,2026|64|040|402,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 040, unit 402",,1059923978,263 rows; GE INSTR & SCH LEADERSHIP - OTPS,20250630
 terms_unit,2026|64|068|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 068, unit 001",,394126896,260 rows; PERSONAL SERVICES,20250630
 terms_unit,2026|64|068|002,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 068, unit 002",,147095953,186 rows; OTHER THAN PERSONAL SERVICES,20250630
 terms_unit,2026|64|068|007,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 068, unit 007",,77743754,38 rows; JUVENILE JUSTICE - PS,20250630
 terms_unit,2026|64|068|008,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 068, unit 008",,162216601,137 rows; JUVENILE JUSTICE - OTPS,20250630
+terms_unit,2026|65|056|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 001",,1506991264,281 rows; OPERATIONS,20250630
+terms_unit,2026|65|056|004,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 004",,293906025,138 rows; ADMINISTRATION-PERSONNEL,20250630
+terms_unit,2026|65|056|016,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 016",,123681098,9 rows; COMMUNICATIONS - PS,20250630
 terms_unit,2026|65|057|009,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 057, unit 009",,372666297,108 rows; EMERGENCY MEDICAL SERVICES-PS,20250630
 terms_unit,2026|65|057|010,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 057, unit 010",,46039242,48 rows; EMERGENCY MEDICAL SERV-OTPS,20250630
 terms_unit,2026|66|072|003,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 072, unit 003",,77998399,171 rows; OPERATIONS - OTPS,20250630
+terms_unit,2026|67|056|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 001",,1506991264,281 rows; OPERATIONS,20250630
 terms_unit,2026|67|260|311,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 260, unit 311",,19664005,47 rows; PROGRAM SERVICES - PS,20250630
 terms_unit,2026|67|260|312,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 260, unit 312",,662543748,265 rows; OTHER THAN PERSONAL SERVICES,20250630
+terms_unit,2026|68|056|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 001",,1506991264,281 rows; OPERATIONS,20250630
+terms_unit,2026|68|056|002,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 002",,360865805,108 rows; EXECUTIVE MANAGEMENT,20250630
+terms_unit,2026|68|056|003,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 003",,269501073,18 rows; SCHOOL SAFETY- P.S.,20250630
+terms_unit,2026|68|056|004,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 004",,293906025,138 rows; ADMINISTRATION-PERSONNEL,20250630
+terms_unit,2026|68|056|006,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 006",,69268457,16 rows; CRIMINAL JUSTICE,20250630
+terms_unit,2026|68|056|007,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 007",,185412130,75 rows; TRAFFIC ENFORCEMENT,20250630
+terms_unit,2026|68|056|008,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 008",,300893207,11 rows; TRANSIT POLICE-PS,20250630
+terms_unit,2026|68|056|009,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 009",,248465728,7 rows; HOUSING POLICE-PS,20250630
+terms_unit,2026|68|056|010,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 010",,1718840419,609 rows; PATROL - PS,20250630
+terms_unit,2026|68|056|016,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 016",,123681098,9 rows; COMMUNICATIONS - PS,20250630
+terms_unit,2026|68|056|020,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 056, unit 020",,251702855,37 rows; INTELLIGENCE AND COUNTERTERRORISM - PS,20250630
+terms_unit,2026|68|057|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 057, unit 001",,120234533,317 rows; EXECUTIVE ADMINISTRATIVE,20250630
+terms_unit,2026|68|057|002,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 057, unit 002",,1749843401,200 rows; FIRE EXTING AND EMERG RESP,20250630
+terms_unit,2026|68|057|003,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 057, unit 003",,25810432,22 rows; FIRE INVESTIGATION,20250630
+terms_unit,2026|68|057|004,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 057, unit 004",,43062955,143 rows; FIRE PREVENTION,20250630
+terms_unit,2026|68|057|005,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 057, unit 005",,169941648,451 rows; EXECUTIVE ADMIN-OTPS,20250630
+terms_unit,2026|68|057|006,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 057, unit 006",,41503031,82 rows; FIRE EXTING & RESP-OTPS,20250630
+terms_unit,2026|68|057|007,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 057, unit 007",,277847,7 rows; FIRE INVESTIGATION-OTPS,20250630
+terms_unit,2026|68|057|008,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 057, unit 008",,1983944,25 rows; FIRE PREVENTION-OTPS,20250630
 terms_unit,2026|68|072|001,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 072, unit 001",,85805000,43 rows; ADMINISTRATION,20250630
 terms_unit,2026|68|072|002,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 072, unit 002",,414043228,36 rows; OPERATIONS,20250630
 terms_unit,2026|68|072|005,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 072, unit 005",,333916167,103 rows; NYC DOC JAIL OPERATIONS - PS,20250630
 terms_unit,2026|68|072|006,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 072, unit 006",,21282883,21 rows; NYC DOC HEALTH AND PROGRAMS - PS,20250630
+terms_unit,2026|68|827|101,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 827, unit 101",,62359729,157 rows; EXECUTIVE ADMINISTRATIVE,20250630
+terms_unit,2026|68|827|102,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 827, unit 102",,926980097,432 rows; CLEANING & COLLECTION,20250630
+terms_unit,2026|68|827|103,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 827, unit 103",,37709562,67 rows; WASTE DISPOSAL,20250630
+terms_unit,2026|68|827|104,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 827, unit 104",,26872603,18 rows; BUILDING MANAGEMENT,20250630
+terms_unit,2026|68|827|105,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 827, unit 105",,77209587,27 rows; BUREAU OF MOTOR EQUIP,20250630
+terms_unit,2026|68|827|107,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 827, unit 107",,46690749,7 rows; SNOW BUDGET-PS,20250630
 terms_unit,2026|6|856|100,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 856, unit 100",,33472682,54 rows; EXECUTIVE AND OPERATIONS SUPPORT,20250630
 terms_unit,2026|6|856|290,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 856, unit 290",,28927518,97 rows; DIV OF ADMINISTRATION AND SECURITY- OTPS,20250630
 terms_unit,2026|7|072|002,2026,mwzb-yiwb,2026-10-21,,context,"adopted release 20250630: agency 072, unit 002",,414043228,36 rows; OPERATIONS,20250630
@@ -1181,36 +1234,87 @@ terms_unit,2027|63|056|010,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 2
 terms_unit,2027|63|056|016,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 016",,128430020,8 rows; COMMUNICATIONS - PS,20260630
 terms_unit,2027|63|056|020,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 020",,257115360,37 rows; INTELLIGENCE AND COUNTERTERRORISM - PS,20260630
 terms_unit,2027|63|056|024,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 024",,57553615,7 rows; COMMUNITY AFFAIRS BUREAU,20260630
+terms_unit,2027|64|069|101,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 069, unit 101",,305642597,143 rows; ADMINISTRATION-OTPS,20260630
+terms_unit,2027|64|069|201,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 069, unit 201",,362117660,231 rows; ADMINISTRATION,20260630
 terms_unit,2027|64|071|100,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 071, unit 100",,125766345,246 rows; SHELTER INTAKE AND PROGRAM - PS,20260630
 terms_unit,2027|64|071|101,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 071, unit 101",,37598275,26 rows; ADMINISTRATION - PS,20260630
 terms_unit,2027|64|071|200,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 071, unit 200",,2942605304,264 rows; SHELTER INTAKE AND PROGRAM - OTPS,20260630
+terms_unit,2027|64|806|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 806, unit 001",,65419173,174 rows; OFFICE OF ADMINISTRATION,20260630
+terms_unit,2027|64|858|002,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 858, unit 002",,337428047,310 rows; TECHNOLOGY SERVICES - OTPS,20260630
+terms_unit,2027|64|858|010,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 858, unit 010",,13807632,124 rows; MAYOR'S OFFICE OF MEDIA & ENTERTAINMENT,20260630
+terms_unit,2027|65|806|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 806, unit 001",,65419173,174 rows; OFFICE OF ADMINISTRATION,20260630
 terms_unit,2027|65|826|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 826, unit 001",,66949900,176 rows; EXECUTIVE AND SUPPORT,20260630
+terms_unit,2027|65|836|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 836, unit 001",,51689065,79 rows; ADMINISTRATION & PLANNING,20260630
 terms_unit,2027|66|816|103,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 816, unit 103",,143843967,97 rows; FAMILY & CHILD HEALTH - PS,20260630
 terms_unit,2027|66|816|113,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 816, unit 113",,125948433,183 rows; FAMILY & CHILD HEALTH - OTPS,20260630
+terms_unit,2027|66|819|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 819, unit 001",,1672894540,41 rows; LUMP SUM,20260630
 terms_unit,2027|67|040|472,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 040, unit 472",,1298926966,18 rows; CONTRACT SCHOOLS/FOSTER/CH 683 PMTS,20260630
 terms_unit,2027|68|816|103,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 816, unit 103",,143843967,97 rows; FAMILY & CHILD HEALTH - PS,20260630
 terms_unit,2027|68|816|113,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 816, unit 113",,125948433,183 rows; FAMILY & CHILD HEALTH - OTPS,20260630
+terms_unit,2027|68|819|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 819, unit 001",,1672894540,41 rows; LUMP SUM,20260630
+terms_unit,2027|69|040|401,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 040, unit 401",,8287745549,122 rows; GE INSTR & SCH LEADERSHIP - PS,20260630
+terms_unit,2027|69|040|402,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 040, unit 402",,947060061,219 rows; GE INSTR & SCH LEADERSHIP - OTPS,20260630
 terms_unit,2027|69|068|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 068, unit 001",,404266705,257 rows; PERSONAL SERVICES,20260630
 terms_unit,2027|69|068|002,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 068, unit 002",,149157912,133 rows; OTHER THAN PERSONAL SERVICES,20260630
 terms_unit,2027|69|068|007,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 068, unit 007",,79831113,41 rows; JUVENILE JUSTICE - PS,20260630
 terms_unit,2027|69|068|008,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 068, unit 008",,167533293,107 rows; JUVENILE JUSTICE - OTPS,20260630
 terms_unit,2027|69|068|011,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 068, unit 011",,13302011,1 rows; JUVENILE JUSTICE - OCFS PAYMENTS,20260630
 terms_unit,2027|6|030|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 030, unit 001",,33349991,82 rows; PERSONAL SERVICES,20260630
+terms_unit,2027|70|056|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 001",,270725018,128 rows; SPECIAL OPERATIONS & SUPPORT SERVICES,20260630
+terms_unit,2027|70|056|004,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 004",,300735623,136 rows; ADMINISTRATION-PERSONNEL,20260630
+terms_unit,2027|70|056|016,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 016",,128430020,8 rows; COMMUNICATIONS - PS,20260630
 terms_unit,2027|70|057|009,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 057, unit 009",,373525375,112 rows; EMERGENCY MEDICAL SERVICES-PS,20260630
 terms_unit,2027|70|057|010,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 057, unit 010",,46207080,50 rows; EMERGENCY MEDICAL SERV-OTPS,20260630
 terms_unit,2027|71|072|003,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 072, unit 003",,92899871,118 rows; OPERATIONS - OTPS,20260630
+terms_unit,2027|72|056|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 001",,270725018,128 rows; SPECIAL OPERATIONS & SUPPORT SERVICES,20260630
 terms_unit,2027|72|260|311,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 260, unit 311",,20125791,47 rows; PROGRAM SERVICES - PS,20260630
 terms_unit,2027|72|260|312,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 260, unit 312",,713327818,194 rows; OTHER THAN PERSONAL SERVICES,20260630
+terms_unit,2027|73|056|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 001",,270725018,128 rows; SPECIAL OPERATIONS & SUPPORT SERVICES,20260630
+terms_unit,2027|73|056|002,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 002",,367421058,106 rows; EXECUTIVE MANAGEMENT,20260630
+terms_unit,2027|73|056|003,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 003",,300711381,18 rows; SCHOOL SAFETY- P.S.,20260630
+terms_unit,2027|73|056|004,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 004",,300735623,136 rows; ADMINISTRATION-PERSONNEL,20260630
+terms_unit,2027|73|056|006,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 006",,70208837,16 rows; CRIMINAL JUSTICE,20260630
+terms_unit,2027|73|056|007,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 007",,191922460,67 rows; TRAFFIC ENFORCEMENT,20260630
+terms_unit,2027|73|056|008,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 008",,303934349,11 rows; TRANSIT POLICE-PS,20260630
+terms_unit,2027|73|056|009,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 009",,250694146,7 rows; HOUSING POLICE-PS,20260630
+terms_unit,2027|73|056|010,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 010",,1863405550,616 rows; PATROL - PS,20260630
+terms_unit,2027|73|056|016,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 016",,128430020,8 rows; COMMUNICATIONS - PS,20260630
+terms_unit,2027|73|056|020,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 056, unit 020",,257115360,37 rows; INTELLIGENCE AND COUNTERTERRORISM - PS,20260630
+terms_unit,2027|73|057|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 057, unit 001",,128481156,312 rows; EXECUTIVE ADMINISTRATIVE,20260630
+terms_unit,2027|73|057|002,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 057, unit 002",,1782494793,201 rows; FIRE EXTING AND EMERG RESP,20260630
+terms_unit,2027|73|057|003,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 057, unit 003",,26357139,23 rows; FIRE INVESTIGATION,20260630
+terms_unit,2027|73|057|004,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 057, unit 004",,47732785,135 rows; FIRE PREVENTION,20260630
+terms_unit,2027|73|057|005,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 057, unit 005",,174345815,360 rows; EXECUTIVE ADMIN-OTPS,20260630
+terms_unit,2027|73|057|006,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 057, unit 006",,39710826,85 rows; FIRE EXTING & RESP-OTPS,20260630
+terms_unit,2027|73|057|007,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 057, unit 007",,277847,10 rows; FIRE INVESTIGATION-OTPS,20260630
+terms_unit,2027|73|057|008,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 057, unit 008",,2083141,25 rows; FIRE PREVENTION-OTPS,20260630
 terms_unit,2027|73|072|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 072, unit 001",,87164858,42 rows; ADMINISTRATION,20260630
 terms_unit,2027|73|072|002,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 072, unit 002",,455079924,35 rows; OPERATIONS,20260630
 terms_unit,2027|73|072|005,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 072, unit 005",,414026270,75 rows; NYC DOC JAIL OPERATIONS - PS,20260630
 terms_unit,2027|73|072|006,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 072, unit 006",,20574659,15 rows; NYC DOC HEALTH AND PROGRAMS - PS,20260630
+terms_unit,2027|73|827|101,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 827, unit 101",,64327919,157 rows; EXECUTIVE ADMINISTRATIVE,20260630
+terms_unit,2027|73|827|102,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 827, unit 102",,962066013,418 rows; CLEANING & COLLECTION,20260630
+terms_unit,2027|73|827|103,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 827, unit 103",,39305852,62 rows; WASTE DISPOSAL,20260630
+terms_unit,2027|73|827|104,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 827, unit 104",,27890452,19 rows; BUILDING MANAGEMENT,20260630
+terms_unit,2027|73|827|105,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 827, unit 105",,79437402,27 rows; BUREAU OF MOTOR EQUIP,20260630
+terms_unit,2027|73|827|107,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 827, unit 107",,46668002,7 rows; SNOW BUDGET-PS,20260630
 terms_unit,2027|74|068|004,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 068, unit 004",,812544162,18 rows; HEADSTART/DAYCARE-OTPS,20260630
+terms_unit,2027|74|069|103,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 069, unit 103",,2923612099,159 rows; PUBLIC ASSISTANCE - OTPS,20260630
+terms_unit,2027|75|002|020,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 002, unit 020",,40515979,34 rows; OFFICE OF THE MAYOR-PS,20260630
+terms_unit,2027|75|040|407,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 040, unit 407",,887733963,48 rows; UNIVERSAL PRE-K - PS,20260630
+terms_unit,2027|75|040|408,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 040, unit 408",,826957446,47 rows; UNIVERSAL PRE-K - OTPS,20260630
+terms_unit,2027|75|040|409,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 040, unit 409",,25915165,12 rows; EARLY CHILDHOOD PROGRAMS- PS,20260630
+terms_unit,2027|75|040|410,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 040, unit 410",,468602630,36 rows; EARLY CHILDHOOD PROGRAMS - OTPS,20260630
+terms_unit,2027|75|040|453,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 040, unit 453",,113464247,176 rows; CENTRAL ADMINISTRATION - PS,20260630
+terms_unit,2027|75|040|454,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 040, unit 454",,62487137,286 rows; CENTRAL ADMINISTRATION - OTPS,20260630
+terms_unit,2027|75|040|470,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 040, unit 470",,922706411,5 rows; SE PRE-K CONTRACT PMTS - OTPS,20260630
 terms_unit,2027|75|042|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 042, unit 001",,460247565,589 rows; COMMUNITY COLLEGE-OTPS,20260630
 terms_unit,2027|75|042|002,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 042, unit 002",,1035781451,165 rows; COMMUNITY COLLEGE PS,20260630
 terms_unit,2027|75|042|003,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 042, unit 003",,1463801,15 rows; HUNTER SCHOOLS-OTPS,20260630
 terms_unit,2027|75|042|004,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 042, unit 004",,21844088,15 rows; HUNTER SCHOOLS-PS,20260630
 terms_unit,2027|75|042|012,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 042, unit 012",,35000000,1 rows; SENIOR COLLEGE OTPS,20260630
+terms_unit,2027|75|816|104,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 816, unit 104",,84819938,160 rows; ENVIRONMENTAL HEALTH - PS,20260630
+terms_unit,2027|75|816|114,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 816, unit 114",,58226239,314 rows; ENVIRONMENTAL HEALTH - OTPS,20260630
 terms_unit,2027|7|856|100,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 856, unit 100",,35132379,54 rows; EXECUTIVE AND OPERATIONS SUPPORT,20260630
 terms_unit,2027|7|856|290,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 856, unit 290",,21007893,74 rows; DIV OF ADMINISTRATION AND SECURITY- OTPS,20260630
 terms_unit,2027|8|072|001,2027,mwzb-yiwb,2026-10-21,,context,"adopted release 20260630: agency 072, unit 001",,87164858,42 rows; ADMINISTRATION,20260630
