@@ -1,0 +1,6 @@
+file,url,wayback_timestamp,retrieved_at,http_status,bytes,sha256,rows,note
+City_Council_Members_Data_Dictionary.xlsx,https://data.cityofnewyork.us/api/views/uvw5-9znb/files/1952f7f0-94a1-4c1c-aed3-5377b64cb7f1?download=true&filename=City_Council_Members_Data_Dictionary.xlsx,,2026-10-21T05:52:58-04:00,200,94871,788b1c03d88571ad7a16edfdf3c8d695b7548ad4d7f0c08205df0641448f18ad,,
+count.json,https://data.cityofnewyork.us/resource/uvw5-9znb.json?$select=count(*),,2026-10-21T05:52:49-04:00,200,18,be03328f6bc2073905cdec77d1fdbb7bde04cc05a6075ddd2cf602b2d5f08b39,1,"[{""count"":""558""}]"
+metadata.json,https://data.cityofnewyork.us/api/views/uvw5-9znb.json,,2026-10-21T05:52:46-04:00,200,14839,85fc3dd707b557cafd243b012c2db3643b8356557817efa31d5a74b39926847c,,rowsUpdatedAt 1775844029
+pages/offset-000000.json,"https://data.cityofnewyork.us/resource/uvw5-9znb.json?$select=:*,*&$order=:id&$limit=5000&$offset=0",,2026-10-21T05:52:51-04:00,200,169914,c570978e3a190a1b9ca070187b0f3e09291bba91eed410b15b8c628db89b9a0c,558,
+uvw5-9znb.csv.gz,(assembled from pages/*.json by code/fetch_open_data_snapshots.py; not a download),,2026-10-21T05:52:51-04:00,,20855,2a2d3c10940261c1cbfd9f8cd8843706f2b42a3436bdaab57553fde463e0f582,558,rowsUpdatedAt 1775844029; csv sha256 52e7ab256b4e68ec1c337311d9957b947077b897a197094a422cfe40e4925c49; gzip mtime 0; app token none
