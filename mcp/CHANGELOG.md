@@ -4,6 +4,20 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Related, not in the package
+- **Budget explorer (2026-10-20).** `viz/explorer/` is an in-browser explorer (DuckDB-WASM over
+  Parquet) for exactly this server's data, published at
+  `betanyc.github.io/New-York-City-Budget/explorer/` and linked from the Pages notice. Its data
+  build runs `scripts/build-index.mjs` and exports `data/budget.db` to Parquet; it never parses a
+  CSV. A new CI job runs a parity test: per fiscal year, row counts and dollar totals (by status
+  for the disclosure, by year for capital), every row and column, and the explorer's queries
+  against `searchDisclosure`, `searchCapital` and `compareCapitalToOmb` must all agree with this
+  index. `deploy-viz.yml` now builds the site (index, data, tests, app) instead of publishing
+  `viz/` as-is, and also runs on `data/**`, `mcp/scripts/**` and `mcp/src/fold.ts` changes.
+  Nothing in the package changes.
+
 ## 2.0.0 — unreleased (built 2026-10-14; not tagged, not published)
 
 2.0 rebuilds the server on **structured sources only**: the NYC Council's expense funding

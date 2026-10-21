@@ -16,6 +16,8 @@ What these guard (each would have failed before the change that introduced it):
      nothing), and the breadcrumb no longer points at "/".
   5. The banner says, in real text, that the page is frozen, why its figures are wrong, and not
      to cite them; it has a heading, and it links to the new data (front page, repo, MCP).
+  6. The notice links once to the in-browser explorer (explorer/), whose source and site
+     assembly script exist in viz/explorer/.
 """
 from __future__ import annotations
 
@@ -85,6 +87,15 @@ def test_index_states_the_gaps_and_links_to_the_retired_copy():
     assert "FY2018 is missing" in html
     assert 'href="legacy.html"' in html
     assert "@betanyc/nyc-budget-mcp" in html
+
+
+def test_index_links_to_the_explorer():
+    html = _read("index.html")
+    assert html.count('href="explorer/"') == 1, "one link from the notice to the explorer"
+    # The explorer's source lives in viz/explorer/; the deploy builds it into explorer/ beside
+    # this page (.github/workflows/deploy-viz.yml, viz/explorer/scripts/assemble-site.mjs).
+    assert os.path.exists(os.path.join(HERE, "explorer", "index.html"))
+    assert os.path.exists(os.path.join(HERE, "explorer", "scripts", "assemble-site.mjs"))
 
 
 def test_legacy_page_is_marked_retired():

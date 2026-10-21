@@ -1,0 +1,73 @@
+:root {
+  --ink: #1d2b3a;
+  --muted: #4a5a6a;
+  --navy: #0b3059;
+  --accent: #b33a00;
+  --line: #d8dee4;
+  --paper: #ffffff;
+  --bg: #f4f6f8;
+  --warn-bg: #fff3cd;
+  --warn-ink: #5c4400;
+  --warn-line: #b38600;
+  --err-bg: #fde8e8;
+  --err-ink: #7a1414;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.5;
+}
+body { margin: 0; }
+a { color: var(--accent); }
+code { background: #eef1f4; padding: 0.05rem 0.3rem; border-radius: 3px; font-size: 0.9em; }
+.wrap { max-width: 78rem; margin: 0 auto; padding: 0 1.25rem; }
+header.site { background: var(--navy); color: #fff; padding: 1rem 0 0; }
+header.site a { color: #fff; }
+header.site h1 { margin: 0.1rem 0 0.75rem; font-size: 1.6rem; }
+.kicker { margin: 0; font-size: 0.85rem; opacity: 0.85; }
+.tabs { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.tabs a { padding: 0.5rem 0.9rem; text-decoration: none; border-radius: 4px 4px 0 0; }
+.tabs a.active { background: var(--bg); color: var(--navy); font-weight: 600; }
+main.wrap { background: var(--paper); padding-top: 1rem; padding-bottom: 3rem; min-height: 60vh; }
+footer.site { font-size: 0.85rem; color: var(--muted); padding: 1.5rem 0; }
+h2 { color: var(--navy); margin: 0.5rem 0; }
+h3 { color: var(--navy); margin: 1.5rem 0 0.4rem; }
+.lede { max-width: 60rem; color: var(--muted); }
+.muted { color: var(--muted); }
+.small { font-size: 0.85em; }
+.big { font-size: 1.3rem; margin: 0.25rem 0 0.75rem; }
+.filters { display: flex; flex-wrap: wrap; gap: 0.6rem 0.9rem; align-items: flex-end; margin: 1rem 0; padding: 0.75rem; background: var(--bg); border-radius: 6px; }
+.field { display: flex; flex-direction: column; font-size: 0.85rem; min-width: 7rem; }
+.field span { font-weight: 600; margin-bottom: 0.2rem; }
+.field input, .field select { font: inherit; padding: 0.35rem 0.45rem; border: 1px solid #9aa7b4; border-radius: 4px; background: #fff; }
+.notice { border-radius: 4px; padding: 0.6rem 0.9rem; margin: 0.75rem 0; border: 1px solid var(--line); background: #eef3f8; }
+.notice-warn { background: var(--warn-bg); color: var(--warn-ink); border-color: var(--warn-line); }
+.notice-error { background: var(--err-bg); color: var(--err-ink); border-color: #c33; }
+.nodata { margin: 1rem 0; padding: 1rem; border: 2px dashed var(--warn-line); background: var(--warn-bg); color: var(--warn-ink); border-radius: 6px; }
+.matched { font-weight: 600; }
+table { border-collapse: collapse; }
+.totals { margin: 0.5rem 0 1rem; }
+.totals caption { text-align: left; font-size: 0.85rem; color: var(--muted); padding-bottom: 0.25rem; }
+.totals th, .totals td { padding: 0.25rem 1rem 0.25rem 0; text-align: left; }
+.table-wrap { overflow-x: auto; }
+.rows { width: 100%; font-size: 0.9rem; }
+.rows th, .rows td { border-bottom: 1px solid var(--line); padding: 0.4rem 0.5rem; text-align: left; vertical-align: top; }
+.rows thead th { background: var(--bg); position: sticky; top: 0; }
+.num { text-align: right !important; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.gap { background: repeating-linear-gradient(135deg, #fffaf0, #fffaf0 6px, #fff3cd 6px, #fff3cd 12px); color: var(--warn-ink); }
+.tag { font-size: 0.8rem; color: var(--warn-ink); margin-top: 0.2rem; }
+.amount-cell { display: flex; align-items: center; gap: 0.5rem; }
+.amount-cell span:first-child { min-width: 9rem; font-variant-numeric: tabular-nums; }
+.bar { display: inline-block; height: 0.7rem; background: var(--navy); border-radius: 2px; max-width: 14rem; }
+.years .amount-cell .bar { max-width: none; flex: 0 0 auto; }
+.pager { display: flex; gap: 1rem; align-items: center; margin: 1rem 0; }
+.pager button, .linkish { font: inherit; }
+.linkish { background: none; border: none; color: var(--accent); text-decoration: underline; cursor: pointer; padding: 0; }
+.linkish:disabled { color: var(--muted); text-decoration: none; cursor: default; }
+.flags { font-size: 0.9rem; }
+.fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 0.75rem 1.5rem; }
+.fields dt { font-weight: 600; font-size: 0.85rem; }
+.fields dd { margin: 0.1rem 0 0; overflow-wrap: anywhere; }
+.loading { padding: 2rem 0; }
+.loading progress { width: 20rem; max-width: 100%; }
+.prose { max-width: 50rem; }
+.updating > :not(p:first-child) { opacity: 0.55; }

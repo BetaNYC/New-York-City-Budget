@@ -1,4 +1,4 @@
-# `viz/` — the GitHub Pages site (Schedule C explorer frozen in 2.0)
+# `viz/` — the GitHub Pages site (Schedule C explorer frozen in 2.0; budget explorer added)
 
 **Since 2.0.0 the site root is a retirement notice.** The interactive Schedule C explorer that
 used to be the root is built on figures extracted from the Council's adopted-budget PDFs, and
@@ -17,13 +17,27 @@ headlines, how to present early-snapshot years and FY2010, and that is an editor
 for a separate change. Retiring the PDF-derived view is the smallest change that stops the site
 presenting those figures as current.
 
-Deployed by `.github/workflows/deploy-viz.yml` on a push to `main` that touches `viz/**`.
+**The budget explorer (`explorer/`, added 2026-10-20).** An in-browser explorer for the
+structured data the MCP serves: the Council's expense funding disclosure (FY2009, FY2011–FY2027)
+and Council capital (FY2015–FY2017, FY2019–FY2027), with the Council-vs-OMB comparison. Its data
+build runs the MCP's own index build and exports that index to Parquet, and a parity test in CI
+checks, year by year, that the two hold the same rows and the same totals. Years with no data
+show "no data for this year" and the recorded reason, never $0. Every row links to the source
+spreadsheet in `source/`, pinned to the build's commit. Nothing PDF-derived is in it. Source,
+build and tests: [`explorer/README.md`](explorer/README.md).
+
+Deployed by `.github/workflows/deploy-viz.yml` on a push to `main` that touches `data/**`,
+`mcp/scripts/**`, `mcp/src/fold.ts` or `viz/**`. Since the explorer, the deploy builds the site
+rather than publishing `viz/` as-is: it builds the MCP index, the explorer's data and app, runs
+the Pages tests and the parity test, assembles everything in `viz/` except `viz/explorer/` plus
+the built explorer at `explorer/`, and force-pushes that to `gh-pages`. The notice and the legacy
+page are published exactly as before.
 
 ## Files
 
 | Path | What |
 |---|---|
-| `index.html` | The retirement notice. Self-contained: no stylesheet or script file, one inline script that only fills the deep link. |
+| `index.html` | The retirement notice. Self-contained: no stylesheet or script file, one inline script that only fills the deep link. Links to the explorer. |
 | `legacy.html` | The retired look-at-cook explorer (was `index.html`), frozen 2026-10-16, with a "frozen, do not cite" banner, `noindex`, and a breadcrumb that points at itself. |
 | `test_pages_site.py` | Tests for both pages (stdlib only; `python3 viz/test_pages_site.py` or pytest). |
 | `schedulec_cleanup.py` | Builds `data/schedule_c.csv`, the retired explorer's data, from the PDF-derived `data/{year}/schedule_c/*.csv`. Kept so the legacy page's data stays reproducible; not rerun, since the page is frozen. |
@@ -31,6 +45,8 @@ Deployed by `.github/workflows/deploy-viz.yml` on a push to `main` that touches 
 | `data/schedule_c.csv` | The retired explorer's data (PDF-derived). |
 | `js/`, `css/`, `lib/`, `fonts/`, `images/` | The look-at-cook toolkit the legacy page uses. |
 | `PLAN.md` | The original design notes for the explorer (historical). |
+| `explorer/` | The budget explorer's source (Vite + React + DuckDB-WASM): data build, app, unit and parity tests. Built into `explorer/` on the published site. See [`explorer/README.md`](explorer/README.md). |
+| `explorer/PLAN.md` | The explorer's plan. |
 | `LICENSE.md` | DataMade's MIT license for look-at-cook (retained verbatim). |
 
 ## Run it locally
@@ -41,12 +57,16 @@ cd viz && python3 -m http.server 8802
 # http://localhost:8802/legacy.html the retired explorer
 ```
 
+The budget explorer needs a build; see [`explorer/README.md`](explorer/README.md) (`npm run dev`,
+or `scripts/assemble-site.mjs` for the whole site as deployed).
+
 ## Tests
 
 ```bash
 python3 viz/test_pages_site.py
 python3 viz/test_schedulec_cleanup.py
 python3 viz/schedulec_cleanup.py --check
+(cd viz/explorer && npm test)    # explorer unit + parity tests (after npm run data)
 ```
 
 ## About BetaNYC

@@ -1,0 +1,235 @@
+/**
+ * Parity: the explorer's Parquet files hold exactly what the MCP's budget.db holds, and the
+ * explorer's queries answer exactly what the MCP's tools answer.
+ *
+ *   node --test test/parity.test.mjs        (after `npm run data`)
+ *
+ * Three layers, each of which would catch a different break:
+ *   1. Per fiscal year: row counts and dollar totals by status (disclosure), by report year and
+ *      amount kind (capital), verdict counts and dollar sums (Council vs OMB) — the figures the
+ *      site shows. A year dropped, duplicated or mis-summed fails here with the year named.
+ *   2. Every row, every column, in order: a value changed in the copy (a type coerced, a NULL
+ *      turned into "" or 0, text re-encoded) fails here with the table, row and column named.
+ *   3. The same filters through the MCP (mcp/dist/db.js) and through src/query/sql.js on the
+ *      Parquet: matched count, totals by status/kind and the first page of rows must agree.
+ *
+ * Reads budget.db with better-sqlite3 (read-only) and the Parquet with @duckdb/node-api.
+ * Amounts are compared to within half a cent: the two engines may add the same doubles in a
+ * different order. Integers and text are compared exactly.
+ */
+import assert from "node:assert/strict";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
+import { after, before, describe, test } from "node:test";
+import { fileURLToPath } from "node:url";
+
+import Database from "better-sqlite3";
+import { DuckDBInstance } from "@duckdb/node-api";
+
+import * as Q from "../src/query/sql.js";
+
+const HERE = dirname(fileURLToPath(import.meta.url));
+const APP = resolve(HERE, "..");
+const REPO = resolve(APP, "..", "..");
+const DB_PATH = join(REPO, "mcp", "data", "budget.db");
+const DATA = join(APP, "public", "data");
+const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta"];
+const CENT = 0.005;
+
+for (const f of [DB_PATH, ...TABLES.map((t) => join(DATA, `${t}.parquet`)), join(DATA, "manifest.json")]) {
+  if (!existsSync(f)) throw new Error(`parity: ${f} is missing. Run \`npm run data\` first.`);
+}
+
+let sqlite;
+let instance;
+let conn;
+let mcp;
+
+/** Plain JS rows from DuckDB, with BIGINT returned as Number (all values here are safe integers). */
+async function duck(sql, params = []) {
+  const reader = await conn.runAndReadAll(sql, params);
+  return reader.getRowObjectsJS().map((r) =>
+    Object.fromEntries(
+      Object.entries(r).map(([k, v]) => {
+        if (typeof v === "bigint") {
+          assert.ok(v <= BigInt(Number.MAX_SAFE_INTEGER) && v >= BigInt(Number.MIN_SAFE_INTEGER), `${k}: ${v} unsafe`);
+          return [k, Number(v)];
+        }
+        return [k, v];
+      })
+    )
+  );
+}
+
+const near = (a, b, msg) => assert.ok(Math.abs(Number(a) - Number(b)) < CENT, `${msg}: ${a} vs ${b}`);
+
+before(async () => {
+  sqlite = new Database(DB_PATH, { readonly: true, fileMustExist: true });
+  instance = await DuckDBInstance.create(":memory:");
+  conn = await instance.connect();
+  for (const t of TABLES) {
+    const p = join(DATA, `${t}.parquet`).replace(/'/g, "''");
+    await conn.run(`CREATE TABLE "${t}" AS SELECT * FROM read_parquet('${p}')`);
+  }
+  mcp = await import("../../../mcp/dist/db.js");
+});
+
+after(() => {
+  conn?.closeSync();
+  instance?.closeSync();
+  sqlite?.close();
+});
+
+describe("1. per-year counts and dollar totals", () => {
+  test("disclosure: rows and amount per fiscal year and status_norm", async () => {
+    const q = "SELECT fiscal_year, status_norm, COUNT(*) AS n, SUM(amount) AS amount FROM disclosure GROUP BY 1, 2 ORDER BY 1, 2";
+    const a = sqlite.prepare(q).all();
+    const b = await duck(q);
+    assert.equal(b.length, a.length, "same (year, status) groups");
+    a.forEach((r, i) => {
+      const at = `FY${r.fiscal_year} ${r.status_norm}`;
+      assert.equal(b[i].fiscal_year, r.fiscal_year, at);
+      assert.equal(b[i].status_norm, r.status_norm, at);
+      assert.equal(b[i].n, r.n, `${at} rows`);
+      near(b[i].amount, r.amount, `${at} amount`);
+    });
+  });
+
+  test("disclosure: every loaded year of disclosure_years has exactly award_rows rows", async () => {
+    const years = await duck("SELECT fiscal_year, loaded, award_rows FROM disclosure_years ORDER BY 1");
+    const counts = new Map((await duck("SELECT fiscal_year, COUNT(*) AS n FROM disclosure GROUP BY 1")).map((r) => [r.fiscal_year, r.n]));
+    for (const y of years) {
+      if (y.loaded) assert.equal(counts.get(y.fiscal_year), y.award_rows, `FY${y.fiscal_year}`);
+      else assert.equal(counts.get(y.fiscal_year), undefined, `FY${y.fiscal_year} is not loaded and must have no rows`);
+    }
+  });
+
+  test("capital: rows and amount per report year and amount kind", async () => {
+    const q = `SELECT report_year,
+                 CASE WHEN amount IS NULL THEN 'unknown' WHEN amount_fy = report_year THEN 'report' ELSE 'out' END AS kind,
+                 COUNT(*) AS n, COALESCE(SUM(amount), 0) AS amount
+               FROM capital_council GROUP BY 1, 2 ORDER BY 1, 2`;
+    const a = sqlite.prepare(q).all();
+    const b = await duck(q);
+    assert.equal(b.length, a.length);
+    a.forEach((r, i) => {
+      const at = `FY${r.report_year} ${r.kind}`;
+      assert.deepEqual([b[i].report_year, b[i].kind, b[i].n], [r.report_year, r.kind, r.n], at);
+      near(b[i].amount, r.amount, `${at} amount`);
+    });
+  });
+
+  test("Council vs OMB: verdict counts and dollar sums per report year", async () => {
+    const q = `SELECT report_year, verdict, COUNT(*) AS n, SUM(council_y1) AS c1, SUM(omb_y1) AS o1,
+                 SUM(council_y2) AS c2, SUM(omb_y2) AS o2 FROM capital_vs_omb GROUP BY 1, 2 ORDER BY 1, 2`;
+    assert.deepEqual(await duck(q), sqlite.prepare(q).all());
+  });
+
+  test("the manifest's counts are the index's", () => {
+    const m = JSON.parse(readFileSync(join(DATA, "manifest.json"), "utf8"));
+    const counts = JSON.parse(sqlite.prepare("SELECT value FROM meta WHERE key = 'counts'").get().value);
+    assert.deepEqual(m.index_counts, counts);
+    for (const t of TABLES) {
+      const n = sqlite.prepare(`SELECT COUNT(*) AS n FROM ${t}`).get().n;
+      assert.equal(m.files[`${t}.parquet`].rows, n, t);
+    }
+  });
+});
+
+describe("2. every row, every column", () => {
+  for (const table of TABLES) {
+    test(table, async () => {
+      const cols = sqlite.prepare(`PRAGMA table_info(${table})`).all();
+      const pcols = (await duck(`DESCRIBE "${table}"`)).map((r) => r.column_name);
+      assert.deepEqual(pcols, cols.map((c) => c.name), "same columns, same order");
+      const a = sqlite.prepare(`SELECT * FROM ${table} ORDER BY rowid`).all();
+      const b = await duck(`SELECT * FROM "${table}"`);
+      assert.equal(b.length, a.length, "row count");
+      for (let i = 0; i < a.length; i++) {
+        for (const { name } of cols) {
+          if (a[i][name] !== b[i][name]) assert.fail(`${table} row ${i + 1} ${name}: ${JSON.stringify(a[i][name])} vs ${JSON.stringify(b[i][name])}`);
+        }
+      }
+    });
+  }
+});
+
+describe("3. the explorer's queries answer what the MCP answers", () => {
+  const rowKey = (r) => `${r.fiscal_year}:${r.source_row}`;
+  // The MCP's tool layer (src/server.ts budgetLineArg) normalizes budget_line before db.ts sees it.
+  const asTool = (f) => (f.budget_line == null ? f : { ...f, budget_line: mcp.normBudgetLine(f.budget_line) });
+
+  const disclosureCases = [
+    {},
+    { fiscal_year: 2027 },
+    { fiscal_year: 2027, status: "pending" },
+    { legal_name: "jewish emigre" },
+    { legal_name: "Women's" },
+    { council_member: "rivera" },
+    { agency: "youth", fiscal_year: 2024, min_amount: 10000, max_amount: 50000 },
+    { ein: "13-2612524" },
+    { program_name: "senior", source: "local" },
+    { fiscal_year: 2012, status: "other" },
+    { legal_name: "zzzz-no-such-grantee" },
+  ];
+  for (const f of disclosureCases) {
+    test(`disclosure ${JSON.stringify(f)}`, async () => {
+      const m = mcp.searchDisclosure({ ...f, limit: Q.PAGE_SIZE });
+      const t = Q.disclosureTotalsQuery(f);
+      const mine = Q.rollupDisclosure(await duck(t.sql, t.params));
+      assert.equal(mine.matched, m.matched, "matched");
+      for (const s of Q.DISCLOSURE_STATUSES) {
+        assert.equal(mine.totals[s].rows, m.totals[s].rows, `${s} rows`);
+        near(mine.totals[s].amount, m.totals[s].amount, `${s} amount`);
+      }
+      assert.deepEqual(mine.by_year.map((y) => y.fiscal_year), m.by_year.map((y) => y.fiscal_year), "years");
+      const r = Q.disclosureRowsQuery(f, 0);
+      assert.deepEqual((await duck(r.sql, r.params)).map(rowKey), m.rows.map(rowKey), "first page, in order");
+    });
+  }
+
+  const capitalCases = [
+    {},
+    { fiscal_year: 2027 },
+    { fiscal_year: 2020 },
+    { sponsor: "avilés" },
+    { council_district: 8 },
+    { budget_line: "p-d018" },
+    { borough: "X", min_amount: 1000000 },
+    { title: "library", description: "renovat" },
+    { amount_fy: 2028 },
+  ];
+  for (const f of capitalCases) {
+    test(`capital ${JSON.stringify(f)}`, async () => {
+      const m = mcp.searchCapital({ ...asTool(f), limit: Q.PAGE_SIZE });
+      const t = Q.capitalTotalsQuery(f);
+      const mine = Q.rollupCapital(await duck(t.sql, t.params));
+      assert.equal(mine.matched, m.matched, "matched");
+      assert.equal(mine.amount_unknown, m.amount_unknown, "amount unknown");
+      assert.equal(mine.report_year_amounts.rows, m.report_year_amounts.rows, "report-year rows");
+      near(mine.report_year_amounts.amount, m.report_year_amounts.amount, "report-year amount");
+      const r = Q.capitalRowsQuery(f, 0);
+      const key = (x) => `${x.report_year}:${x.source_file}:${x.source_row}:${x.amount_fy}:${x.amount}`;
+      assert.deepEqual((await duck(r.sql, r.params)).map(key), m.rows.map(key), "first page, in order");
+    });
+  }
+
+  const ombCases = [{}, { report_year: 2024 }, { verdict: "differ" }, { budget_line: "hl-dn164" }];
+  for (const f of ombCases) {
+    test(`Council vs OMB ${JSON.stringify(f)}`, async () => {
+      const m = mcp.compareCapitalToOmb({ ...asTool(f), limit: Q.PAGE_SIZE });
+      const c = Q.ombCountsQuery(f);
+      const counts = await duck(c.sql, c.params);
+      assert.equal(counts.reduce((s, r) => s + r.n, 0), m.matched, "matched");
+      const r = Q.ombRowsQuery(f, 0);
+      const key = (x) => `${x.report_year}:${x.budget_line_norm}:${x.verdict}`;
+      assert.deepEqual((await duck(r.sql, r.params)).map(key), m.rows.map(key), "first page, in order");
+    });
+  }
+
+  test("normBudgetLine is the MCP's rule", () => {
+    for (const v of ["P D018", "p-d018", "  pw   dn846 ", "PD018", "", "HL DN164", "AG-D001", "X"]) {
+      assert.equal(Q.normBudgetLine(v), mcp.normBudgetLine(v), JSON.stringify(v));
+    }
+  });
+});

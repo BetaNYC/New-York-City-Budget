@@ -40,6 +40,11 @@ PDF-derived data.
 
 `list_available_fiscal_years` reports this per year, with every gap stated.
 
+**In a browser:** the [budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/)
+([`../viz/explorer/`](../viz/explorer/README.md)) is built from this server's own index
+(`scripts/build-index.mjs` → `data/budget.db` → Parquet), and a parity test in CI checks that the
+two agree year by year. A change to the index build reaches the explorer on its next deploy.
+
 ## Tools
 
 | Tool | Purpose |
