@@ -8,6 +8,7 @@ import About from "./views/About.jsx";
 import Award from "./views/Award.jsx";
 import Awards from "./views/Awards.jsx";
 import Capital, { CapitalRow } from "./views/Capital.jsx";
+import Compare from "./views/Compare.jsx";
 import Omb from "./views/Omb.jsx";
 import Orgs from "./views/Orgs.jsx";
 import Review from "./views/Review.jsx";
@@ -19,6 +20,7 @@ import Years from "./views/Years.jsx";
 const TABS = [
   ["awards", "Expense awards"],
   ["years", "Years"],
+  ["compare", "Compare years"],
   ["capital", "Capital"],
   ["omb", "Capital vs OMB"],
   // Shown only when a PDF family is loaded (data/pdf_years.csv; closed, or reviewed in a
@@ -190,6 +192,8 @@ function Ready({ state, set, go, back, manifest }) {
       return <Source {...props} />;
     case "review":
       return <Review {...props} />;
+    case "compare":
+      return <Compare {...props} />;
     case "about":
       return <About manifest={manifest} />;
     default:

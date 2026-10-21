@@ -7,7 +7,7 @@
  * passed through.
  */
 
-export const VIEWS = ["awards", "award", "years", "capital", "capital-row", "omb", "orgs", "terms", "source", "review", "about"];
+export const VIEWS = ["awards", "award", "years", "capital", "capital-row", "omb", "orgs", "terms", "source", "review", "compare", "about"];
 
 export const DEFAULT_STATE = {
   view: "awards",
@@ -61,13 +61,21 @@ export const DEFAULT_STATE = {
   rsev: "",
   rstate: "",
   rid: "",
+  cmpa: null, // compare two years: year A (default FY2026), year B (default FY2027), section,
+  cmpb: null, //   source, status filter, and the drill-down: source dimension, year, key
+  csec: "",
+  csrc: "",
+  cstat: "",
+  cdim: "",
+  cfyd: null,
+  ckey: "",
   spdf: "", // source viewer: repo path of the PDF, page, row box (x0,top,x1,bottom), label
   spage: null,
   sbox: "",
   slabel: "",
 };
 
-const INT_KEYS = ["fy", "page", "ay", "row", "cfy", "afy", "district", "cpage", "seq", "ofy", "opage", "gfy", "gpage", "tfy", "tpage", "spage", "rfy"];
+const INT_KEYS = ["fy", "page", "ay", "row", "cfy", "afy", "district", "cpage", "seq", "ofy", "opage", "gfy", "gpage", "tfy", "tpage", "spage", "rfy", "cmpa", "cmpb", "cfyd"];
 const NUM_KEYS = ["min", "max", "cmin", "cmax"];
 
 export function readHash(hash = typeof window === "undefined" ? "" : window.location.hash) {

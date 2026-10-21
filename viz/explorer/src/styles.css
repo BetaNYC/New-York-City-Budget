@@ -148,3 +148,19 @@ ol.conditions { padding-left: 2.2rem; }
 @media (max-width: 900px) { .review-layout, .review-columns { grid-template-columns: 1fr; } }
 .flagbadge.flag-decided > summary { background: #e3f4e5; color: #1d5e2a; border-color: #9fd2a8; }
 .decision-line { margin-top: 0.15rem; color: #1d5e2a; }
+
+/* Compare two years */
+.subtabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.75rem 0; }
+.subtabs a { display: inline-block; padding: 0.35rem 0.8rem; border: 1px solid #7a8a9a; border-radius: 6px; color: var(--navy); background: #fff; text-decoration: none; }
+.subtabs a:hover { background: #eef3f8; text-decoration: underline; }
+.subtabs a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.subtabs a[aria-current="page"] { background: var(--navy); color: #fff; border-color: var(--navy); font-weight: 700; }
+.gap { display: inline-block; color: var(--warn-ink); background: var(--warn-bg); border: 1px dashed var(--warn-line); border-radius: 4px; padding: 0.1rem 0.35rem; text-align: left; max-width: 22rem; white-space: normal; }
+.cmp { font-size: 0.78rem; padding: 0.05rem 0.4rem; border-radius: 3px; background: #eef1f4; white-space: nowrap; }
+.cmp-new, .cmp-added { background: #e3f4e5; color: #1d5e2a; }
+.cmp-dropped, .cmp-removed { background: #fde2e1; color: #8a1c14; }
+.cmp-increased { background: #e7f0fb; color: #0b3059; }
+.cmp-decreased { background: #fff3cd; color: #5c4400; }
+.cmp-changed { background: #f1e8fb; color: #4b2a7a; }
+table.compare td.num { white-space: nowrap; }
+.drill { border-top: 2px solid var(--navy); margin-top: 1.25rem; padding-top: 0.5rem; }
