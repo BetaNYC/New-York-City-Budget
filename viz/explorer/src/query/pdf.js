@@ -260,7 +260,7 @@ export function reviewNotesQuery(reviewIds) {
   const ids = [...new Set(String(reviewIds ?? "").split(";").map((s) => s.trim()).filter(Boolean))];
   if (!ids.length) return null;
   return {
-    sql: `SELECT review_id, family, check_id, severity, pdf_page, note FROM pdf_review WHERE review_id IN (${ids.map(() => "?").join(", ")}) ORDER BY severity, review_id`,
+    sql: `SELECT review_id, family, check_id, severity, pdf_page, note, decision, decision_note FROM pdf_review WHERE review_id IN (${ids.map(() => "?").join(", ")}) ORDER BY severity, review_id`,
     params: ids,
   };
 }
@@ -270,7 +270,7 @@ export function reviewNotesQuery(reviewIds) {
 /** Every review row of every loaded family, with its suggested decision. */
 export const reviewQueueQuery = () => ({
   sql: `SELECT r.fiscal_year, r.family, r.status, r.review_id, r.check_id, r.severity, r.pdf_page, r.field, r.dollars,
-          r.expected, r.observed, r.note, r.detail, r.source_pdf,
+          r.expected, r.observed, r.note, r.detail, r.source_pdf, r.decision, r.decision_note,
           s.suggested_decision, s.suggested_note, s.source AS suggestion_source
         FROM pdf_review r LEFT JOIN pdf_review_suggestions s
           ON s.fiscal_year = r.fiscal_year AND s.family = r.family AND s.review_id = r.review_id`,
@@ -282,6 +282,22 @@ export const reviewRowQuery = (table, fy, reviewId) => ({
   sql: `SELECT * FROM "${table}" WHERE fiscal_year = ? AND contains(';' || COALESCE(review_id, '') || ';', ?) LIMIT 1`,
   params: [Number(fy), `;${reviewId};`],
 });
+/** A recorded decision in plain words (PLAN.md §5.3 vocabulary). */
+export const DECISION_WORDS = {
+  accepted_as_printed: "kept as printed",
+  source_error: "the PDF's own error",
+  parser_bug: "our reading is wrong",
+  needs_info: "needs more information",
+};
+
+/** One badge state for a row's review entries: "decided" when every entry has a decision. */
+export function flagState(notes) {
+  if (!notes?.length) return { state: "unknown" };
+  const open = notes.filter((n) => !n.decision);
+  if (open.length) return { state: "open", open: open.length };
+  const kinds = [...new Set(notes.map((n) => n.decision))];
+  return { state: "decided", decisions: kinds };
+}
 
 // ---------------------------------------------------------------- the source viewer
 

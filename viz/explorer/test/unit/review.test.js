@@ -22,7 +22,7 @@ describe("the queue", () => {
     expect(R.filterQueue(items, { state: "decided" }, dec).map((i) => i.review_id)).toEqual(["a"]);
     expect(R.filterQueue(items, { state: "open" }, dec)).toHaveLength(3);
     expect(R.filterQueue(items, { fiscal_year: 2026 })).toHaveLength(0);
-    expect(R.progress(items, dec)).toEqual({ total: 4, decided: 1, open: 3, needs_info: 0 });
+    expect(R.progress(items, dec)).toEqual({ total: 4, decided: 1, committed: 0, open: 3, needs_info: 0 });
   });
 });
 
@@ -42,6 +42,22 @@ describe("decision buttons", () => {
   });
   test("a name is required", () => {
     expect(() => R.decide("keep", items[0], { now: NOW })).toThrow(/name/);
+  });
+});
+
+describe("rows decided in the repository are closed", () => {
+  const committed = { ...items[1], decision: "source_error", decision_note: "PDF self-error" };
+  const all = [items[0], committed, items[2], items[3]];
+  test("they count as decided and show their decision", () => {
+    expect(R.isCommitted(committed)).toBe(true);
+    expect(R.decisionOf(committed, {})).toEqual({ decision: "source_error", note: "PDF self-error", committed: true });
+    expect(R.filterQueue(all, { state: "open" }).map((i) => i.review_id)).toEqual(["a", "c", "d"]);
+    expect(R.progress(all, {})).toMatchObject({ decided: 1, committed: 1, open: 3 });
+  });
+  test("a browser decision never overrides or re-exports them", () => {
+    const dec = { [R.itemKey(committed)]: R.decide("keep", committed, { by: "X", now: NOW }) };
+    expect(R.decisionOf(committed, dec).decision).toBe("source_error");
+    expect(R.toDecisionsCsv(all, dec, "schedule_c", 2027)).toBe("review_id,decision,note,decided_by,decided_at\n");
   });
 });
 

@@ -87,3 +87,23 @@ def test_suggestions_cover_every_review_row_and_are_committed():
     by = {r["review_id"]: r for r in rows}
     assert by["d68b985e6c58"]["suggested_decision"] == "source_error"
     assert by["01375b88b4c3"]["suggested_decision"] == "accepted_as_printed"
+
+
+def test_merge_adds_new_and_never_overwrites(tmp_path):
+    rv = tmp_path / "review.csv"
+    with open(rv, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["review_id", "check_id", "pdf_page"])
+        w.writeheader()
+        w.writerows(REVIEW)
+    committed = tmp_path / "decisions.csv"
+    committed.write_text(vrd.to_csv([dec("aaa", "source_error")]))
+    export = tmp_path / "export.csv"
+    export.write_text(vrd.to_csv([dec("aaa", "source_error"), dec("bbb")]))
+    assert vrd.main(["--review", str(rv), "--decisions", str(committed), "--add", str(export), "--write"]) == 0
+    _, rows = vrd.read(str(committed))
+    assert [(r["review_id"], r["decision"]) for r in rows] == [("aaa", "source_error"), ("bbb", "accepted_as_printed")]
+    # A conflicting decision is a problem and nothing is written.
+    export.write_text(vrd.to_csv([dec("aaa", "accepted_as_printed"), dec("ccc")]))
+    before = committed.read_text()
+    assert vrd.main(["--review", str(rv), "--decisions", str(committed), "--add", str(export), "--write"]) == 1
+    assert committed.read_text() == before

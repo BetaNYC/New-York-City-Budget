@@ -21,6 +21,17 @@ const SEVERITY_RANK = { critical: 0, warn: 1 };
 
 export const itemKey = (it) => `${it.family}|${it.fiscal_year}|${it.review_id}`;
 
+/**
+ * Decided in the repository: the family's committed decisions file already answers this row (its
+ * review CSV carries the decision, so pdf_review.decision is set). Such a row is closed: the
+ * screen shows the recorded decision and takes no new one.
+ */
+export const isCommitted = (it) => DECISIONS.includes(it.decision);
+
+/** The decision that stands for a row: the committed one, else this browser's. */
+export const decisionOf = (it, decisions) =>
+  isCommitted(it) ? { decision: it.decision, note: it.decision_note ?? "", committed: true } : decisions[itemKey(it)] ?? null;
+
 /** Severity (critical first), then dollar impact (largest first), then family, page, id. */
 export function sortQueue(items) {
   return [...items].sort(
@@ -41,7 +52,7 @@ export function filterQueue(items, f, decisions = {}) {
       (f.fiscal_year == null || f.fiscal_year === "" || Number(it.fiscal_year) === Number(f.fiscal_year)) &&
       (!f.check_id || it.check_id === f.check_id) &&
       (!f.severity || it.severity === f.severity) &&
-      (!f.state || (f.state === "decided") === Boolean(decisions[itemKey(it)]))
+      (!f.state || (f.state === "decided") === Boolean(decisionOf(it, decisions)))
   );
 }
 
@@ -85,11 +96,15 @@ const quote = (v) => {
   return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 };
 
-/** The decisions of one family and year as a decisions CSV, in queue order. */
+/**
+ * This browser's decisions for one family and year as a decisions CSV, in queue order. Rows
+ * already decided in the repository are left out: their committed lines stay as they are, and
+ * code/validate_review_decisions.py --add merges this file into the committed one.
+ */
 export function toDecisionsCsv(items, decisions, family, fiscalYear) {
   const lines = [DECISIONS_HEADER.join(",")];
   for (const it of sortQueue(items)) {
-    if (it.family !== family || Number(it.fiscal_year) !== Number(fiscalYear)) continue;
+    if (it.family !== family || Number(it.fiscal_year) !== Number(fiscalYear) || isCommitted(it)) continue;
     const d = decisions[itemKey(it)];
     if (!d) continue;
     lines.push(DECISIONS_HEADER.map((c) => quote(d[c])).join(","));
@@ -175,13 +190,14 @@ export function saveStore(storage, decisions) {
   storage?.setItem(STORE_KEY, JSON.stringify(decisions));
 }
 
-/** Counts for the header: total, decided, open, needs_info. */
+/** Counts for the header: total, decided (committed + this browser), open, needs_info. */
 export function progress(items, decisions) {
-  const decided = items.filter((it) => decisions[itemKey(it)]);
+  const decided = items.filter((it) => decisionOf(it, decisions));
   return {
     total: items.length,
     decided: decided.length,
+    committed: items.filter(isCommitted).length,
     open: items.length - decided.length,
-    needs_info: decided.filter((it) => decisions[itemKey(it)].decision === "needs_info").length,
+    needs_info: decided.filter((it) => decisionOf(it, decisions).decision === "needs_info").length,
   };
 }

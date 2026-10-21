@@ -125,3 +125,5 @@ ol.conditions { padding-left: 2.2rem; }
 .howto { border: 1px solid var(--line); border-radius: 6px; padding: 0.6rem 0.9rem; }
 .howto pre { background: #f3f4f6; padding: 0.5rem; overflow: auto; }
 @media (max-width: 900px) { .review-layout, .review-columns { grid-template-columns: 1fr; } }
+.flagbadge.flag-decided > summary { background: #e3f4e5; color: #1d5e2a; border-color: #9fd2a8; }
+.decision-line { margin-top: 0.15rem; color: #1d5e2a; }

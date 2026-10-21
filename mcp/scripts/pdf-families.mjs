@@ -49,6 +49,9 @@ export const REVIEW_TABLE = {
     ["fiscal_year", I], ["family", T], ["source_pdf", T], ["pdf_sha256", T], ["review_id", T],
     ["check_id", T], ["severity", T], ["pdf_page", I], ["field", T], ["dollars", I], ["expected", T],
     ["observed", T], ["note", T], ["detail", T],
+    // A person's recorded decision, where the family's review CSV carries one (Schedule C's is
+    // seeded from its committed decisions file); blank while the row is open.
+    ["decision", T], ["decision_note", T],
   ],
 };
 
@@ -57,6 +60,7 @@ const REVIEW_PY = {
   file: "review",
   map: Object.fromEntries(["fiscal_year", "family", "source_pdf", "pdf_sha256", "review_id", "check_id", "severity",
     "pdf_page", "field", "dollars", "expected", "observed", "note"].map((c) => [c, c])),
+  // No decision column in these CSVs yet: decision and decision_note load blank.
   detail: ["part", "sub_id", "budget_line"],
 };
 
@@ -153,9 +157,9 @@ PDF_FAMILIES.schedule_c = {
       fiscal_year: "fiscal_year", family: "family", source_pdf: "source_pdf", pdf_sha256: "pdf_sha256",
       review_id: "review_id", check_id: "check_id", severity: "severity", pdf_page: "pdf_page", field: "field",
       dollars: "dollar_impact", expected: "expected", observed: "observed", note: "what_to_check",
+      decision: "decision", decision_note: "note",
     },
-    detail: ["table_index", "row_index", "award_id", "value_vector", "value_image", "value_other", "overlay",
-      "decision", "note"],
+    detail: ["table_index", "row_index", "award_id", "value_vector", "value_image", "value_other", "overlay"],
   },
   tables: [
     {
@@ -376,6 +380,7 @@ function loadReview(db, io, rel, cfg, y) {
       const detail = Object.fromEntries(cfg.detail.filter((c) => r[c] !== "").map((c) => [c, r[c]]));
       const vals = REVIEW_TABLE.columns.map(([n, ty]) => {
         if (n === "detail") return Object.keys(detail).length ? JSON.stringify(detail) : "";
+        if (!cfg.map[n]) return ty === I ? null : ""; // a column this family's CSV does not have
         const v = r[cfg.map[n]];
         return ty === I ? intOf(v, `${rel} row ${i + 2} ${cfg.map[n]}`) : v ?? "";
       });

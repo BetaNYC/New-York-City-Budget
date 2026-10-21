@@ -21,9 +21,18 @@ counts as decided but is listed separately (it still needs an answer).
         --decisions research/2026-10-20-fy27-schedule-c-review/data/fy27_sc_review_decisions.csv
 
 --complete also exits 2 when anything is open. Exit 0: valid.
+
+Merging an export from the explorer's review screen into the committed file:
+
+    ... --decisions <committed file> --add ~/Downloads/<exported file> [--write]
+
+adds the exported rows whose review_id the committed file does not decide yet; a row that would
+change a committed decision is a problem (nothing is overwritten). The merged result is validated;
+--write saves it over the committed file only if it is valid.
 """
 import argparse
 import csv
+import io
 import re
 import sys
 
@@ -68,15 +77,50 @@ def validate(review_rows, header, decisions):
     return dict(errors=errors, decided=decided, open=open_, needs_info=needs, total=len(known))
 
 
+def merge(committed, added):
+    """Committed rows, plus added rows for review_ids not yet decided. Returns (rows, problems)."""
+    have = {d.get("review_id", "").strip(): d for d in committed}
+    out, problems = list(committed), []
+    for d in added:
+        rid = d.get("review_id", "").strip()
+        if rid in have:
+            if have[rid].get("decision") != d.get("decision"):
+                problems.append(f"{rid}: already decided as {have[rid].get('decision')!r} in the committed file; "
+                                f"the export says {d.get('decision')!r}; not changed")
+            continue
+        have[rid] = d
+        out.append(d)
+    return out, problems
+
+
+def to_csv(rows):
+    buf = io.StringIO()
+    w = csv.DictWriter(buf, fieldnames=HEADER, lineterminator="\n", extrasaction="ignore")
+    w.writeheader()
+    w.writerows(rows)
+    return buf.getvalue()
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     ap.add_argument("--review", required=True, help="the family's review CSV")
     ap.add_argument("--decisions", required=True, help="the decisions CSV to check")
     ap.add_argument("--complete", action="store_true", help="exit 2 if any review row is still open")
+    ap.add_argument("--add", help="an exported decisions CSV to merge into --decisions")
+    ap.add_argument("--write", action="store_true", help="with --add: save the merged file over --decisions if valid")
     a = ap.parse_args(argv)
     _, review_rows = read(a.review)
     header, decisions = read(a.decisions)
+    merge_problems = []
+    if a.add:
+        add_header, added = read(a.add)
+        if add_header != HEADER:
+            merge_problems.append(f"{a.add}: header is {','.join(add_header)}; expected {','.join(HEADER)}")
+        decisions, more = merge(decisions, added)
+        merge_problems += more
+        print(f"{a.add}: {len(added)} rows; merged into {a.decisions}")
     res = validate(review_rows, header, decisions)
+    res["errors"] = merge_problems + res["errors"]
     print(f"{a.decisions}: {len(res['decided'])}/{res['total']} decided, {len(res['open'])} open, "
           f"{len(res['needs_info'])} needs_info, {len(res['errors'])} problems")
     for e in res["errors"]:
@@ -86,7 +130,13 @@ def main(argv=None):
     for rid in res["needs_info"]:
         print(f"  needs_info {rid}")
     if res["errors"]:
+        if a.add and a.write:
+            print("  not written: fix the problems above")
         return 1
+    if a.add and a.write:
+        with open(a.decisions, "w", newline="", encoding="utf-8") as f:
+            f.write(to_csv(decisions))
+        print(f"  wrote {a.decisions}")
     if a.complete and res["open"]:
         return 2
     return 0

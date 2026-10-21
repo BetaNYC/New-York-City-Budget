@@ -76,7 +76,7 @@ export default function Review({ state, set, manifest, pdfYears }) {
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Noel Hidalgo" />
         </label>
         <p className="review-progress">
-          <strong>{prog.decided}</strong> of {prog.total} decided · {prog.open} open · {prog.needs_info} need more information
+          <strong>{prog.decided}</strong> of {prog.total} decided ({prog.committed} already in the repository) · {prog.open} open · {prog.needs_info} need more information
         </p>
       </div>
       <form className="filters" onSubmit={(e) => e.preventDefault()}>
@@ -90,14 +90,14 @@ export default function Review({ state, set, manifest, pdfYears }) {
       <div className="review-layout">
         <ol className="review-list" aria-label="Queue">
           {shown.map((it) => {
-            const d = decisions[R.itemKey(it)];
+            const d = R.decisionOf(it, decisions);
             return (
               <li key={R.itemKey(it)} className={it === current ? "selected" : undefined}>
                 <button type="button" className="review-item" onClick={() => set({ rid: it.review_id }, { keepPage: true })}>
                   <span className={`sev sev-${it.severity}`}>{it.severity}</span> <strong>{money(it.dollars)}</strong> <span className="muted small">{families[it.family]?.label ?? it.family}</span>
                   <br />
                   <code className="small">{it.check_id}</code> <span className="muted small">p.{it.pdf_page || "—"}</span>{" "}
-                  {d ? <span className="decided">{R.DECISION_LABEL[d.decision]}</span> : <span className="muted small">open</span>}
+                  {d ? <span className="decided">{d.committed ? "closed: " : ""}{R.DECISION_LABEL[d.decision]}</span> : <span className="muted small">open</span>}
                 </button>
               </li>
             );
@@ -122,8 +122,9 @@ export default function Review({ state, set, manifest, pdfYears }) {
       )}
       <div className="howto">
         <p>
-          This site cannot write to the repository. Your decisions are kept in this browser only (clearing site data loses them), so export them, put each file at
-          the path below, check it, and commit:
+          This site cannot write to the repository. Your decisions are kept in this browser only (clearing site data loses them). Rows already decided in the
+          repository are closed and are not exported again. Export your new decisions, merge each file into the committed file below (the merge refuses to
+          change a decision already there), and commit:
         </p>
         <table className="rows small">
           <thead>
@@ -160,10 +161,11 @@ export default function Review({ state, set, manifest, pdfYears }) {
           </tbody>
         </table>
         <pre className="small">
-          {`# from the repository root, for each file:
+          {`# from the repository root, for each exported file:
 .venv/bin/python code/validate_review_decisions.py \\
     --review data/fyNN/pdf/<family>/<the family's>_review.csv \\
-    --decisions <the path above>
+    --decisions <the path above> \\
+    --add ~/Downloads/<the exported file> --write
 git add <the path above> && git commit -m "Review decisions (#102)"`}
         </pre>
         <p>
@@ -221,7 +223,12 @@ function Item({ it, manifest, families, decided, name, onDecide, onClear }) {
           <strong>Suggested:</strong> {it.suggested_decision ? <code>{it.suggested_decision}</code> : <span className="muted">no suggestion</span>}{" "}
           {it.suggested_note ? <span>{it.suggested_note}</span> : null} <span className="muted small">({it.suggestion_source})</span>
         </p>
-        {decided ? (
+        {R.isCommitted(it) ? (
+          <Notice>
+            <strong>Closed.</strong> Decided in the repository: <code>{it.decision}</code> ({R.DECISION_LABEL[it.decision]})
+            {it.decision_note ? <> · {it.decision_note}</> : null}. To change it, edit the family's committed decisions file.
+          </Notice>
+        ) : decided ? (
           <Notice>
             Decided: <code>{decided.decision}</code> ({R.DECISION_LABEL[decided.decision]}) by {decided.decided_by}, {decided.decided_at.slice(0, 16).replace("T", " ")}
             {decided.note ? <> · {decided.note}</> : null}{" "}
@@ -230,6 +237,8 @@ function Item({ it, manifest, families, decided, name, onDecide, onClear }) {
             </button>
           </Notice>
         ) : null}
+        {R.isCommitted(it) ? null : (
+        <>
         <label className="field wide">
           <span>Note (optional)</span>
           <input value={note} onChange={(e) => setNote(e.target.value)} placeholder="why" />
@@ -252,6 +261,8 @@ function Item({ it, manifest, families, decided, name, onDecide, onClear }) {
           </span>
         </div>
         {err ? <Notice tone="warn">{err}</Notice> : null}
+        </>
+        )}
       </div>
       <div className="review-columns">
         <div>
