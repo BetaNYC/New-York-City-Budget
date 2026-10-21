@@ -268,3 +268,27 @@ fiscal_year,family,review_id,check_id,suggested_decision,suggested_note,source
 2026,terms,9c0d3f68b2e6,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
 2026,terms,91a3cb591106,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
 2026,terms,5c927311bf0d,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,transparency,487d846b5a5b,T5.anchors,source_error,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Critical #1
+2026,transparency,01cb3c5559d1,T12.fiscal_year,source_error,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Critical #2
+2026,transparency,a47ff8c5407b,W.unpaired_purpose,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #3
+2026,transparency,58100791ada4,W.unpaired_purpose,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #4
+2026,transparency,71b3b170be30,W.unpaired_purpose,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #5
+2026,transparency,3524a4050de3,W.unpaired_purpose,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #6
+2026,transparency,4b38509307b7,W.unpaired_purpose,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #7
+2026,transparency,e00249abeff9,W.unpaired_purpose,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #8
+2026,transparency,030dc2c1c5fc,W.unpaired_purpose,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #9
+2026,transparency,ae93444880d9,W.clipped_text,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #10
+2026,transparency,b37d94a2bf90,W.clipped_text,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #11
+2026,transparency,5446d05f734c,W.clipped_text,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #12
+2026,transparency,ea9ee205da67,W.clipped_text,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #13
+2026,transparency,fd74d258bf10,W.made_cell,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #14
+2026,transparency,d9a313796d9a,W5.wrap_hyphen,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #15
+2026,transparency,7866664b23b6,W.clipped_text,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #16
+2026,transparency,d9074007ab74,W.clipped_text,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #17
+2026,transparency,ff0c9432d996,W.clipped_text,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #18
+2026,transparency,977106b18980,W.clipped_text,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #19
+2026,transparency,1216bfc3e536,W.clipped_text,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #20
+2026,transparency,66242e01ad39,W.prequal_star_in_org,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #21
+2026,transparency,bf7f09c1f8e1,W.clipped_text,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #22
+2026,transparency,ebdf1f207c90,W.clipped_text,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #23
+2026,transparency,b58a6462dcf7,K.no_fiscal_year,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #24

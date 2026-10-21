@@ -44,15 +44,20 @@ def test_row_contract(built):
         assert rs, path
         for col in bp.CONTRACT if not path.endswith("_review.csv") else ["fiscal_year", "source_pdf", "pdf_sha256"]:
             assert col in rs[0], (path, col)
-        fy = "20" + path.split("/")[1][2:]                  # data/fy26/pdf/... -> 2026
+        fy = "20" + path.split("/")[1][2:]
         for r in rs:
-            assert r["fiscal_year"] == fy
+            assert r["fiscal_year"] == fy, path
             assert os.path.exists(os.path.join(REPO, r["source_pdf"]))
 
 
 def test_pdf_years(built):
     all_years = rows(built["data/pdf_years.csv"])
     assert {y["status"] for y in all_years} == {"reviewed"}
+    tr = [y for y in all_years if y["fiscal_year"] == "2026" and y["family"] == "transparency"]
+    assert len(tr) == 1
+    assert tr[0]["issue"] == "103" and tr[0]["status"] == "reviewed" and tr[0]["rows"] == "4952"
+    assert tr[0]["printed_totals_tied"] == "8/8"
+    assert tr[0]["source_pdf"] == "source/FY26/transparency-resolutions/"
     ys = {y["family"]: y for y in all_years if y["fiscal_year"] == "2027"}
     assert set(ys) == {"capital_sd", "schedule_c", "terms"}
     assert ys["capital_sd"]["rows"] == "1391" and ys["capital_sd"]["printed_totals_tied"] == "28/28"
@@ -78,6 +83,23 @@ def test_counts(built):
     assert all(t["status"] == "OK" for t in totals if t["status"])
     assert sum(t["kind"] == "summary" for t in totals) == 3 and \
         {t["pdf_page"] for t in totals if t["kind"] == "summary"} == {"65"}
+
+
+def test_transparency_rows_carry_resolution(built):
+    rs = rows(built["data/fy26/pdf/transparency/fy26_tr_rows.csv"])
+    assert len(rs) == 4952
+    dates = {r["resolution_seq"]: r["resolution_date"] for r in rs}
+    assert dates["1"] == "2025-08-14" and dates["10"] == "2026-06-30"
+    assert all(r["resolution_number"].startswith("Res ") for r in rs)
+    rev = {r["review_id"]: r for r in rows(built["data/fy26/pdf/transparency/fy26_tr_review.csv"])}
+    for r in rs:
+        if r["review_id"]:
+            assert r["review_id"] in rev and rev[r["review_id"]]["check_id"] in r["flags"].split(";")
+    # The clipped Pilsudski row (Reso 08 p.19): what shows is kept, the rest is in hidden_text.
+    r = next(r for r in rs if r["row_id"] == "fy26-tr08-p019-r002")
+    assert r["org"].endswith("Modern History of Polan") and r["hidden_text"] == "org: d, Inc. - Stories of Greenpoint"
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "23-7164776" in t and "Restler" in t and "Banks" not in t
 
 
 def test_unrotate():

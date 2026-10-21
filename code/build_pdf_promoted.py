@@ -9,7 +9,8 @@ review_id, flags`, with values as printed. `bbox_pt` is `x0,top,x1,bottom` in PD
 This script re-runs the review parsers (code/review_capital_sd.py, code/review_terms.py) into a
 scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
 Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
-`capital_sd` and `terms` (GitHub #103), from config/capital_sd/ and config/terms/.
+`capital_sd` and `terms` (GitHub #103), from config/capital_sd/ and config/terms/; FY2026
+`transparency` (GitHub #103, via code/parse_transparency_v2.py).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -303,11 +304,82 @@ def build_schedule_c(scratch):
     return files, year
 
 
+# ------------------------------------------------------------------------------------------
+# FY2026 transparency resolutions
+# ------------------------------------------------------------------------------------------
+
+def build_transparency(scratch):
+    """Re-run code/parse_transparency_v2.py (all checks, image lattice and ink included) into the
+    scratch folder and promote its row, chart, resolution and review tables (GitHub #103).
+
+    One family row in data/pdf_years.csv covers the 10 resolution PDFs: `source_pdf` is their
+    folder and `pdf_sha256` the sha256 of the sorted "<sha256>  <path>" lines, so any change to
+    any of the 10 changes it. Every data row carries its own PDF and that PDF's hash. No page
+    has a /Rotate, so bbox_pt needs no unrotate."""
+    import contextlib
+    import hashlib
+    import parse_transparency_v2 as tr
+    decisions = os.path.join(REPO, "research", "2026-10-21-fy26-transparency-review", "data",
+                             "fy26_tr_review_decisions.csv")
+    os.makedirs(scratch, exist_ok=True)
+    if os.path.exists(decisions):
+        shutil.copy(decisions, os.path.join(scratch, "fy26_tr_review_decisions.csv"))
+    with contextlib.redirect_stdout(io.StringIO()):
+        if tr.main(["--fy", "2026", "--out", scratch]) != 0:
+            raise RuntimeError("parse_transparency_v2 failed")
+    checks_txt = open(os.path.join(scratch, "fy26_tr_checks.txt"), encoding="utf-8").read()
+    if "FAIL" in checks_txt.replace("(FAIL)", ""):
+        raise RuntimeError("a transparency check failed; not promoting")
+    cfg = tr.load_config(2026)
+    pdfs = {r["seq"]: r for r in cfg["resolutions"]}
+    shas = {r["seq"]: r["sha256"] for r in cfg["resolutions"]}
+    order = lambda cols: CONTRACT + [c for c in cols if c not in CONTRACT]
+    rows_ = read(os.path.join(scratch, "fy26_tr_rows.csv"))
+    charts = read(os.path.join(scratch, "fy26_tr_charts.csv"))
+    resos = read(os.path.join(scratch, "fy26_tr_resolutions.csv"))
+    for r in rows_ + charts:
+        seq = int(r["resolution_seq"])
+        assert r["source_pdf"] == pdfs[seq]["pdf"] and r["pdf_sha256"] == shas[seq], r["source_pdf"]
+    for r in resos:
+        r.update(fiscal_year=2026, pdf_page=1, bbox_pt="", review_id="", flags="")
+    review = []
+    for r in read(os.path.join(scratch, "fy26_tr_review.csv")):
+        seq = int(r["resolution_seq"]) if r["resolution_seq"] else None
+        review.append(dict(fiscal_year=2026, family="transparency",
+                           source_pdf=pdfs[seq]["pdf"] if seq else "",
+                           pdf_sha256=shas[seq] if seq else "", **r))
+    files = {
+        "fy26_tr_rows.csv": to_csv(rows_, order(list(rows_[0]))),
+        "fy26_tr_charts.csv": to_csv(charts, order(list(charts[0]))),
+        "fy26_tr_resolutions.csv": to_csv(resos, order(list(resos[0]))),
+        "fy26_tr_review.csv": to_csv(review, list(review[0])),
+    }
+    folder = os.path.dirname(pdfs[1]["pdf"]) + "/"
+    manifest = "".join(f"{shas[k]}  {pdfs[k]['pdf']}\n" for k in sorted(pdfs))
+    n_printed = sum(1 for r in cfg["resolutions"] if r["charts_printed"])
+    tied = sum(1 for r in resos if r["charts_printed"] and int(r["charts_printed"]) == int(r["charts"]))
+    year = dict(fiscal_year=2026, family="transparency", source_pdf=folder,
+                pdf_sha256=hashlib.sha256(manifest.encode()).hexdigest(), issue=103,
+                status="reviewed", rows=len(rows_), flagged=sum(1 for r in rows_ if r["flags"]),
+                printed_totals_tied=f"{tied}/{n_printed}",
+                note=(f"10 resolutions (Res 1013-2025 .. Res 0529-2026, 2025-08-14 .. 2026-06-30), "
+                      f"{len(rows_)} rows, {len(charts)} charts; each row has resolution_number and "
+                      "resolution_date. The charts print no money totals: printed_totals_tied is "
+                      "'Charts 1 through N' vs charts found (Reso 03-10 print it). Of the flagged "
+                      f"rows, {sum(1 for r in rows_ if r['review_id'])} are in the review file; the "
+                      "rest carry routine flags only (no-border cells, hyphenless EINs, compound "
+                      "words at a line end). pdf_sha256 = "
+                      "sha256 of the sorted '<sha256>  <path>' lines of the 10 PDFs. "
+                      "Review: research/2026-10-21-fy26-transparency-review/REVIEW.md"))
+    return files, year
+
+
 FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy27", "schedule_c", build_schedule_c),
             ("fy27", "terms", lambda d: build_terms(d, 2027)),
             ("fy26", "capital_sd", lambda d: build_capital_sd(d, 2026)),
-            ("fy26", "terms", lambda d: build_terms(d, 2026))]
+            ("fy26", "terms", lambda d: build_terms(d, 2026)),
+            ("fy26", "transparency", build_transparency)]
 
 
 def build_all():

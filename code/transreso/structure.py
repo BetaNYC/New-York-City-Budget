@@ -1,0 +1,230 @@
+"""
+Structure: chart captions, header roles and designation rows, by page position.
+
+A chart page is: a caption above the table (`CHART #n: <title> - Fiscal YYYY`, with
+"(continued)" on later pages), the table (header row, then one designation change per row),
+then footnotes and a `Page n` label below it. Fiscal year and initiative are chart-level, so
+every row carries its chart's. Values are kept as printed (`*_raw`); the clean value only joins
+lines (schedc.structure.clean_text) and, for the organization, takes the trailing `**` / `***`
+marker into its own column.
+
+Nothing on a row says "transfer": a rescission prints in parentheses (and red), a designation
+without. A row with a blank member cell is the agency side of a transfer (DESIGN: family
+assessment §1.2 E4); it is never filled from the row above.
+"""
+import re
+
+from schedc.structure import clean_text
+
+# Printed header label -> role. A label not listed here is a T4 flag.
+LABELS = {
+    "Member": "member", "Borough": "member", "Borough/Member": "member", "Source": "source",
+    "Organization - Program": "org", "Organization": "org", "EIN Number": "ein",
+    "Agency": "agency", "Amount": "amount", "Agy #": "agy", "U/A": "ua", "*": "prequal",
+    "Purpose of Funds": "purpose", "New Purpose of Funds": "purpose",
+}
+REQUIRED = {"org", "ein", "agency", "amount"}
+# "- Fiscal YYYY" closes the caption; Reso 07 p.12 prints "Assistance- Fiscal 2026" (no space).
+CAPTION = re.compile(r"^CHART #(\d+):\s*(.*?)(?:\s*-\s+Fiscal (\d{4}))?(\s*\(continued\))?$")
+PAGE_LABEL = re.compile(r"^Page (\d+)$")
+AMOUNT = re.compile(r"^(\()?\$(\d{1,3}(?:,\d{3})*)(\))?$")
+EIN_HYPHEN = re.compile(r"^\d{2}-\d{7}$")
+EIN_PLAIN = re.compile(r"^\d{9}$")
+MARKER = re.compile(r"\s*(\*{1,3})$")
+FOOTNOTES = {
+    "*": "* Indicates pending completion of pre-qualification review.",
+    "**": "** Requires a budget modification for the changes to take effect",
+    "***": "*** Correction to designation listed in Schedule C and/or subsequent T",
+}
+CITY_EIN = "136400434"
+
+
+def parse_amount(s):
+    """'$5,000' -> 5000, '($5,000)' -> -5000; anything else -> None."""
+    m = AMOUNT.match(s.strip())
+    if not m or bool(m.group(1)) != bool(m.group(3)):
+        return None
+    v = int(m.group(2).replace(",", ""))
+    return -v if m.group(1) else v
+
+
+def parse_ein(s):
+    """Printed EIN -> (9 digits or '', format). Formats: hyphen, no_hyphen, blank, odd."""
+    t = s.strip()
+    if not t:
+        return "", "blank"
+    if EIN_HYPHEN.match(t):
+        return t.replace("-", ""), "hyphen"
+    if EIN_PLAIN.match(t):
+        return t, "no_hyphen"
+    return "", "odd"
+
+
+def caption_of(page, table):
+    """Caption lines above the table, joined; and footer lines below it."""
+    top = table["bbox"][1]
+    above = [ln for ln in page["lines"] if ln["bottom"] <= top]
+    below = [ln for ln in page["lines"] if ln["top"] >= table["bbox"][3]]
+    return " ".join(ln["text"] for ln in above).strip(), below
+
+
+def build(res, pages, x_tolerance):
+    """One resolution's pages -> dict(rows, charts, flags, page_info)."""
+    rows, charts, flags, info = [], {}, [], []
+    seq = res["seq"]
+
+    def flag(check, page, msg, severity="critical", **kw):
+        flags.append(dict(check_id=check, severity=severity, resolution_seq=seq, pdf_page=page,
+                          message=msg, **kw))
+
+    prev_chart = None
+    for p in pages:
+        pi = dict(resolution_seq=seq, pdf_page=p["page"], tables=len(p["tables"]), caption="",
+                  chart_number="", continued="", page_label="", footnotes="", rows=0,
+                  width=p["width"], height=p["height"], rotation=p["rotation"])
+        info.append(pi)
+        if not p["tables"]:
+            continue
+        if len(p["tables"]) != 1:
+            flag("T3.charts", p["page"], f"{len(p['tables'])} tables on one chart page")
+        t = p["tables"][0]
+        cap, below = caption_of(p, t)
+        m = CAPTION.match(cap)
+        pi["caption"] = cap
+        if not m:
+            flag("T3.charts", p["page"], f"no chart caption above the table: {cap[:80]!r}")
+            continue
+        num, title, fy, cont = int(m.group(1)), m.group(2), m.group(3), bool(m.group(4))
+        pi.update(chart_number=num, continued=int(cont))
+        labels = [ln["text"] for ln in below]
+        pl = [int(PAGE_LABEL.match(x).group(1)) for x in labels if PAGE_LABEL.match(x)]
+        pi["page_label"] = pl[0] if len(pl) == 1 else ""
+        notes = sorted(k for k, v in FOOTNOTES.items() if any(x.startswith(v) for x in labels))
+        pi["footnotes"] = " ".join(notes)
+        other = [x for x in labels if not PAGE_LABEL.match(x) and
+                 not any(x.startswith(v) for v in FOOTNOTES.values())]
+        # Footnote 3 wraps onto a second line ("…Transparency Resolution(s)"); anything else
+        # below a table is unexpected text and goes to review.
+        other = [x for x in other if not ("***" in notes and x.startswith("Resolution"))]
+        for x in other:
+            flag("T6.furniture", p["page"], f"unexpected text below the table: {x[:100]!r}")
+
+        if cont:
+            if not prev_chart or prev_chart["chart_number"] != num or prev_chart["title"] != title \
+                    or prev_chart["fy_printed"] != (fy or ""):
+                flag("T3.charts", p["page"], f"'(continued)' caption does not continue the "
+                     f"previous page's chart: {cap[:80]!r}")
+            ch = charts.get(num)
+        else:
+            if num in charts:
+                flag("T3.charts", p["page"], f"chart #{num} starts twice")
+            ch = charts[num] = dict(resolution_seq=seq, chart_number=num, title=title,
+                                    fy_printed=fy or "", first_page=p["page"], last_page=p["page"],
+                                    pages=0, header="", kind="")
+            if not fy:
+                flag("T12.fiscal_year", p["page"], f"chart #{num} {title!r} prints no fiscal year",
+                     severity="warn", chart_number=num)
+        if ch is None:
+            continue
+        ch["last_page"] = p["page"]
+        ch["pages"] += 1
+        prev_chart = ch
+
+        header = [h["label"] for h in t["header"]]
+        roles = {j: LABELS.get(lb) for j, lb in enumerate(header)}
+        # Some pages leave the last header cell blank where others print "*" (Reso 01 p.48,
+        # Reso 04 p.3); the column is the same narrow pre-qualification column.
+        if header and header[-1] == "" and roles.get(len(header) - 2) == "ua":
+            roles[len(header) - 1] = "prequal"
+        unknown = [header[j] for j, r in roles.items() if r is None]
+        if unknown or not REQUIRED <= set(roles.values()):
+            flag("T4.headers", p["page"], f"header not recognised: {header}")
+        kind = "purpose_of_funds" if "purpose" in roles.values() else "designation"
+        hdr_s = " | ".join(header)
+        if ch["header"] and ch["header"] != hdr_s:
+            ch.setdefault("header_variants", set()).add(hdr_s)
+        ch["header"] = ch["header"] or hdr_s
+        ch["kind"] = kind
+
+        for r in t["rows"]:
+            raw = {roles[int(j)]: c["text_raw"] for j, c in r["cols"].items() if roles.get(int(j))}
+            red = {roles[int(j)]: c["red"] for j, c in r["cols"].items() if roles.get(int(j))}
+            nchars = {roles[int(j)]: c["nchars"] for j, c in r["cols"].items() if roles.get(int(j))}
+            how = {roles[int(j)]: c["how"] for j, c in r["cols"].items() if roles.get(int(j))}
+            hidden = {roles[int(j)]: c["hidden"] for j, c in r["cols"].items()
+                      if roles.get(int(j)) and c["hidden"]}
+            row_flags = list(r["flags"])
+            rec = dict(row_id=f"fy26-tr{seq:02d}-p{p['page']:03d}-r{r['row_index']:03d}",
+                       resolution_seq=seq, pdf_page=p["page"], table_index=t["table_index"],
+                       row_index=r["row_index"], bbox_pt=r["bbox"], chart_number=num,
+                       chart_title=title, budget_fiscal_year=int(fy) if fy else "",
+                       chart_kind=kind, member_header=next(
+                           (header[j] for j, ro in roles.items() if ro == "member"), ""),
+                       purpose_header=next(
+                           (header[j] for j, ro in roles.items() if ro == "purpose"), ""),
+                       _raw=raw, _char_boxes=[b for c in r["cols"].values() for b in c["char_boxes"]],
+                       _how=how, _hidden=hidden)
+            rec["hidden_text"] = "; ".join(f"{k}: {v}" for k, v in sorted(hidden.items()))
+            if hidden:
+                row_flags.append("clipped_text:" + "+".join(sorted(hidden)))
+            rules = []
+            for f in ("source", "member", "org", "agency", "purpose"):
+                v, ru = clean_text(raw.get(f, ""))
+                rec[f + "_raw"] = raw.get(f, "")
+                rec[f] = v
+                rules += [f"{x}:{f}" for x in ru]
+            mk = MARKER.search(rec["org"])
+            rec["org_marker"] = mk.group(1) if mk else ""
+            if mk:
+                rec["org"] = rec["org"][:mk.start()].rstrip()
+            rec["budget_modification"] = int(rec["org_marker"] == "**")
+            rec["correction"] = int(rec["org_marker"] == "***")
+            # The "*" may sit in its own column or at the end of the organization text (Reso 03
+            # p.2 row 18); either way the footnote says it marks pending pre-qualification.
+            rec["prequal_pending"] = int(raw.get("prequal", "").strip() == "*" or
+                                         rec["org_marker"] == "*")
+            rec["prequal_printed"] = raw.get("prequal", "")
+            rec["ein_printed"] = raw.get("ein", "")
+            rec["ein"], rec["ein_format"] = parse_ein(rec["ein_printed"])
+            rec["amount_printed"] = raw.get("amount", "")
+            rec["amount"] = parse_amount(rec["amount_printed"])
+            rec["agy_num"] = raw.get("agy", "").strip()
+            rec["ua"] = raw.get("ua", "").strip()
+            a = rec["amount"]
+            if kind == "purpose_of_funds":
+                rec["action"] = "purpose_from" if (a or 0) < 0 else "purpose_to"
+            else:
+                rec["action"] = "rescind" if (a or 0) < 0 else "designate"
+            # The City's own EIN with no member: the agency side of a transfer (money parked in,
+            # or taken from, an agency pool), not an award to an organization.
+            rec["agency_side"] = int(rec["ein"] == CITY_EIN and not rec["member"])
+            rec["clean_rules_applied"] = ";".join(sorted(set(rules)))
+            for ru in rules:
+                if ru.startswith("wrap_hyphen"):
+                    row_flags.append(ru)
+            # Row-level checks recorded as flags.
+            if not any(raw.values()):
+                row_flags.append("empty_row")
+            if rec["ein_format"] == "no_hyphen":
+                row_flags.append("ein_no_hyphen")
+            elif rec["ein_format"] in ("blank", "odd"):
+                row_flags.append("ein_" + rec["ein_format"])
+            if a is None:
+                row_flags.append("amount_unreadable")
+            elif a == 0:
+                row_flags.append("amount_zero")
+            # Sign vs colour: a rescission prints red, a designation black (T10).
+            n_amt, n_red = nchars.get("amount", 0), red.get("amount", 0)
+            if a is not None and ((a < 0) != (n_red == n_amt and n_amt > 0) or 0 < n_red < n_amt):
+                row_flags.append("sign_colour")
+            if rec["prequal_printed"].strip() not in ("", "*"):
+                row_flags.append("prequal_odd")
+            if rec["org_marker"] == "*":
+                row_flags.append("prequal_star_in_org")
+            if rec["org_marker"] and rec["org_marker"] not in notes:
+                row_flags.append("marker_without_footnote")
+            rec["row_flags"] = row_flags
+            rows.append(rec)
+            pi["rows"] += 1
+
+    return dict(rows=rows, charts=list(charts.values()), flags=flags, page_info=info)

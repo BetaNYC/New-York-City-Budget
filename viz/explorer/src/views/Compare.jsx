@@ -93,6 +93,7 @@ function Totals({ fyA, fyB, ctx, state, go }) {
   const rows = [
     ["disclosure", "Expense disclosure (Council spreadsheet)"],
     ["schedule_c", "Schedule C (adopted budget PDF)"],
+    ["transparency", "Transparency resolutions (PDF), to organizations, net"],
     ["capital", "Council capital, the list's own year"],
     ["capital_sd", "Capital §254 book, Part I (PDF)"],
     ["terms", "Terms and Conditions (conditions)"],
@@ -141,6 +142,7 @@ function Totals({ fyA, fyB, ctx, state, go }) {
                       )}
                       {src !== "terms" ? <div className="muted small">{plural(c.r.n, "row")}</div> : null}
                       {src === "disclosure" ? <div className="muted small">cleared {money(c.r.cleared)} · pending {money(c.r.pending)}</div> : null}
+                      {src === "transparency" ? <div className="muted small">{plural(c.r.resolutions, "resolution")}; rescissions netted</div> : null}
                       {c.note ? <div className="muted small">early snapshot</div> : null} <ReviewedLabel status={c.status} />
                     </>
                   );
@@ -160,7 +162,8 @@ function Totals({ fyA, fyB, ctx, state, go }) {
       )}
       <p className="muted small">
         The disclosure and Schedule C are two records of the same kind of award: Schedule C is printed at adoption, the disclosure is the Council's later
-        spreadsheet. Their totals are not meant to agree. Capital compares the amounts each year's list gives for its own year.
+        spreadsheet. Their totals are not meant to agree. Transparency resolutions are the year's later designations and rescissions, by resolution year; some
+        of their rows designate another budget year. Capital compares the amounts each year's list gives for its own year.
       </p>
     </Status>
   );

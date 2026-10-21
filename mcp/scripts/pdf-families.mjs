@@ -25,6 +25,8 @@
  * To add a family: one entry in PDF_FAMILIES, one row in data/pdf_years.csv.
  */
 
+import { createHash } from "node:crypto";
+
 const T = "TEXT";
 const I = "INTEGER";
 
@@ -204,6 +206,73 @@ PDF_FAMILIES.schedule_c = {
   derive: deriveScDisclosure,
 };
 
+/**
+ * Transparency resolutions (code/parse_transparency_v2.py; GitHub #103). One family row in
+ * data/pdf_years.csv covers a year's resolution PDFs: its source_pdf is their folder and its
+ * pdf_sha256 the sha256 of the "<sha256>  <path>" lines in resolution order (as
+ * code/build_pdf_promoted.py writes it). Every data row carries its own PDF and that PDF's hash.
+ * resolution_date is each row's resolution's date; budget_fiscal_year is the budget year a row's
+ * chart designates (DATA-ANOMALIES §6: a year's resolutions can designate other years).
+ */
+PDF_FAMILIES.transparency = {
+  label: "Transparency resolutions",
+  main: "pdf_transparency",
+  prefix: "tr",
+  multiPdf: { file: "resolutions", seq: "resolution_seq" },
+  decisions: { 2026: "research/2026-10-21-fy26-transparency-review/data/fy26_tr_review_decisions.csv" },
+  review: {
+    file: "review",
+    map: {
+      fiscal_year: "fiscal_year", family: "family", source_pdf: "source_pdf", pdf_sha256: "pdf_sha256",
+      review_id: "review_id", check_id: "check_id", severity: "severity", pdf_page: "pdf_page", field: "field",
+      dollars: "dollar_impact", expected: "expected", observed: "observed", note: "what_to_check",
+      decision: "decision", decision_note: "note",
+    },
+    detail: ["resolution_seq", "row_index", "row_id", "value_vector", "value_image", "overlay"],
+  },
+  tables: [
+    {
+      table: "pdf_transparency",
+      file: "rows",
+      columns: [
+        ...CONTRACT,
+        ["row_id", T], ["resolution_seq", I], ["resolution_number", T], ["resolution_date", T],
+        ["resolution_date_source", T], ["chart_number", I], ["chart_title", T], ["budget_fiscal_year", I],
+        ["chart_kind", T], ["action", T], ["agency_side", I], ["source", T], ["member", T], ["member_header", T],
+        ["org", T], ["org_marker", T], ["budget_modification", I], ["correction", I], ["prequal_pending", I],
+        ["ein", T], ["ein_format", T], ["agency", T], ["amount", I], ["agy_num", T], ["ua", T], ["purpose", T],
+        ["purpose_header", T], ["source_raw", T], ["member_raw", T], ["org_raw", T], ["ein_printed", T],
+        ["agency_raw", T], ["amount_printed", T], ["prequal_printed", T], ["purpose_raw", T], ["hidden_text", T],
+        ["clean_rules_applied", T], ["row_flags", T], ["image_check", T], ["lattice", T], ["disclosure_status", T],
+        ["disclosure_reason", T], ["disclosure_row", I], ["table_index", I], ["row_index", I],
+      ],
+    },
+    {
+      table: "pdf_transparency_charts",
+      file: "charts",
+      columns: [
+        ...CONTRACT,
+        ["resolution_seq", I], ["resolution_number", T], ["resolution_date", T], ["chart_number", I], ["chart_title", T],
+        ["budget_fiscal_year", I], ["chart_kind", T], ["header", T], ["header_variants", T], ["first_page", I],
+        ["last_page", I], ["pages", I], ["rows", I], ["positive_rows", I], ["positive_sum", I], ["negative_rows", I],
+        ["negative_sum", I], ["net", I],
+      ],
+    },
+    {
+      table: "pdf_transparency_resolutions",
+      file: "resolutions",
+      columns: [
+        ...CONTRACT,
+        ["resolution_seq", I], ["resolution_number", T], ["resolution_date", T], ["printed_date", T], ["legistar_id", T],
+        ["pages", I], ["chart_pages", I], ["charts", I], ["charts_printed", I], ["budget_years", T], ["rows", I],
+        ["designation_rows", I], ["org_designations", I], ["org_designations_sum", I], ["org_rescissions", I],
+        ["org_rescissions_sum", I], ["agency_side_rows", I], ["agency_side_net", I], ["net_all_rows", I],
+        ["purpose_rows", I], ["speaker_rows", I], ["flagged_rows", I], ["review_items", I],
+      ],
+    },
+  ],
+};
+
 /** Tables a family derives (not read from a CSV): name -> CREATE columns. */
 /**
  * The suggested decision for each review row (data/pdf_review_suggestions.csv, written by
@@ -311,12 +380,28 @@ export function loadPdfFamilies(db, io, includeReviewed) {
     const load = y.status === "closed" || (y.status === "reviewed" && includeReviewed);
     if (!load) continue;
 
-    // The PDF the rows cite must be the bytes pdf_years.csv names.
-    const sha = io.sha256Of(y.source_pdf);
-    if (sha !== y.pdf_sha256) throw new Error(`${at}: ${y.source_pdf} sha256 ${sha} differs from pdf_years.csv (${y.pdf_sha256})`);
-
     const yy = String(fy).slice(2);
     const dir = `data/fy${yy}/pdf/${y.family}`;
+    // The PDFs the rows may cite, each one's bytes checked against its sha256 here.
+    const pdfs = new Map();
+    if (fam.multiPdf) {
+      // Several PDFs under one family row: the manifest hash first, then each PDF's own.
+      const rel = `${dir}/fy${yy}_${fam.prefix ?? y.family}_${fam.multiPdf.file}.csv`;
+      const list = io.readCsv(rel).sort((a, b) => Number(a[fam.multiPdf.seq]) - Number(b[fam.multiPdf.seq]));
+      const manifest = list.map((r) => `${r.pdf_sha256}  ${r.source_pdf}\n`).join("");
+      const msha = createHash("sha256").update(manifest).digest("hex");
+      if (msha !== y.pdf_sha256) throw new Error(`${at}: the sha256 of its PDFs' manifest is ${msha}; pdf_years.csv says ${y.pdf_sha256}`);
+      for (const r of list) {
+        if (!r.source_pdf.startsWith(y.source_pdf)) throw new Error(`${rel}: ${r.source_pdf} is not under ${y.source_pdf}`);
+        pdfs.set(r.source_pdf, r.pdf_sha256);
+      }
+    } else {
+      pdfs.set(y.source_pdf, y.pdf_sha256);
+    }
+    for (const [pdf, want] of pdfs) {
+      const sha = io.sha256Of(pdf);
+      if (sha !== want) throw new Error(`${at}: ${pdf} sha256 ${sha} differs from ${want}`);
+    }
     const extra = { family: y.family, status: y.status };
     let mainRows = null;
     const prefix = fam.prefix ?? y.family;
@@ -330,14 +415,14 @@ export function loadPdfFamilies(db, io, includeReviewed) {
       }
       for (const [i, r] of rows.entries()) {
         if (Number(r.fiscal_year) !== fy) throw new Error(`${rel} row ${i + 2}: fiscal_year ${r.fiscal_year}`);
-        if (r.pdf_sha256 !== y.pdf_sha256 || r.source_pdf !== y.source_pdf) throw new Error(`${rel} row ${i + 2}: source_pdf/pdf_sha256 differ from pdf_years.csv`);
+        if (pdfs.get(r.source_pdf) !== r.pdf_sha256) throw new Error(`${rel} row ${i + 2}: source_pdf/pdf_sha256 is not one of the year's PDFs`);
       }
       const cols = t.columns.map(([n, ty, src]) => [n, ty, csvName(src ?? n, fy)]);
       insertAll(db, t.table, cols, rows, extra, rel);
       counts[t.table] += rows.length;
       if (t.table === fam.main) mainRows = rows.length;
     }
-    counts[REVIEW_TABLE.table] += loadReview(db, io, `${dir}/fy${yy}_${prefix}_${fam.review.file}.csv`, fam.review, y);
+    counts[REVIEW_TABLE.table] += loadReview(db, io, `${dir}/fy${yy}_${prefix}_${fam.review.file}.csv`, fam.review, y, pdfs);
     for (const [t, n] of Object.entries(fam.derive ? fam.derive(db, fy, y) : {})) counts[t] += n;
     if (mainRows !== intOf(y.rows, `${at} rows`)) throw new Error(`${at}: rows ${y.rows}, but ${fam.main} has ${mainRows}`);
     db.prepare(`INSERT INTO pdf_years VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).run(
@@ -371,7 +456,7 @@ function loadSuggestions(db, io, loaded) {
 }
 
 /** One family's review CSV into pdf_review: mapped columns, the rest as JSON in `detail`. */
-function loadReview(db, io, rel, cfg, y) {
+function loadReview(db, io, rel, cfg, y, pdfs) {
   const rows = io.readCsv(rel);
   const want = new Set([...Object.values(cfg.map), ...cfg.detail]);
   const have = rows.length ? Object.keys(rows[0]) : [...want];
@@ -382,7 +467,9 @@ function loadReview(db, io, rel, cfg, y) {
   const stmt = db.prepare(`INSERT INTO ${REVIEW_TABLE.table} (${[...names, "status"].map(ident).join(", ")}) VALUES (${[...names, "status"].map(() => "?").join(", ")})`);
   db.transaction(() => {
     rows.forEach((r, i) => {
-      if (r.family !== y.family || r.pdf_sha256 !== y.pdf_sha256) throw new Error(`${rel} row ${i + 2}: family or pdf_sha256 differs from pdf_years.csv`);
+      // A review row names one of the year's PDFs, or none (a flag about the year as a whole).
+      const okPdf = (r.source_pdf === "" && r.pdf_sha256 === "") || pdfs.get(r.source_pdf) === r.pdf_sha256;
+      if (r.family !== y.family || !okPdf) throw new Error(`${rel} row ${i + 2}: family or source_pdf/pdf_sha256 is not this family-year's`);
       const detail = Object.fromEntries(cfg.detail.filter((c) => r[c] !== "").map((c) => [c, r[c]]));
       const vals = REVIEW_TABLE.columns.map(([n, ty]) => {
         if (n === "detail") return Object.keys(detail).length ? JSON.stringify(detail) : "";

@@ -71,6 +71,8 @@ describe("queries", () => {
     expect(q.params).toEqual([2027]);
     expect(Q.groupQuery("capital", "line", 2026).sql).toContain("amount_fy = report_year");
     expect(Q.groupQuery("capital_sd", "line", 2027).sql).toContain("part = 'I'");
+    expect(Q.groupQuery("transparency", "org", 2026).sql).toContain("agency_side = 0");
+    expect(Q.groupQuery("transparency", "org", 2026).sql).toContain("mode(org)");
     expect(() => Q.groupQuery("capital", "org", 2027)).toThrow();
   });
   test("a drill-down filters on the same key expression the sum used", () => {

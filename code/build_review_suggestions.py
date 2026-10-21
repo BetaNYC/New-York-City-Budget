@@ -41,6 +41,37 @@ REVIEW_FILES = {
     ("2027", "schedule_c"): "data/fy27/pdf/schedule_c/fy27_sc_review.csv",
     ("2026", "capital_sd"): "data/fy26/pdf/capital_sd/fy26_capital_sd_review.csv",
     ("2026", "terms"): "data/fy26/pdf/terms/fy26_terms_review.csv",
+    ("2026", "transparency"): "data/fy26/pdf/transparency/fy26_tr_review.csv",
+}
+
+# FY2026 transparency (research/2026-10-21-fy26-transparency-review/REVIEW.md): its "Suggest"
+# column, by review_id; the two rows it gives none stay blank.
+TR26_REVIEW = "research/2026-10-21-fy26-transparency-review/REVIEW.md"
+TR26_BY_ID = {
+    "487d846b5a5b": ("source_error", "As the transparency REVIEW.md suggests; see its item.", "Critical #1"),
+    "01cb3c5559d1": ("source_error", "As the transparency REVIEW.md suggests; see its item.", "Critical #2"),
+    "a47ff8c5407b": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #3"),
+    "58100791ada4": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #4"),
+    "71b3b170be30": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #5"),
+    "3524a4050de3": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #6"),
+    "4b38509307b7": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #7"),
+    "e00249abeff9": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #8"),
+    "030dc2c1c5fc": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #9"),
+    "ae93444880d9": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #10"),
+    "b37d94a2bf90": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #11"),
+    "5446d05f734c": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #12"),
+    "ea9ee205da67": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #13"),
+    "fd74d258bf10": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #14"),
+    "d9a313796d9a": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #15"),
+    "7866664b23b6": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #16"),
+    "d9074007ab74": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #17"),
+    "ff0c9432d996": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #18"),
+    "977106b18980": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #19"),
+    "1216bfc3e536": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #20"),
+    "66242e01ad39": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #21"),
+    "bf7f09c1f8e1": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #22"),
+    "ebdf1f207c90": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #23"),
+    "b58a6462dcf7": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #24"),
 }
 
 # FY2026 (research/2026-10-21-fy26-capital-terms-review/REVIEW.md, tables A, B, C).
@@ -99,6 +130,12 @@ SC_BY_ID = {
 
 
 def suggest(fy, family, r):
+    if family == "transparency":
+        hit = TR26_BY_ID.get(r["review_id"]) if fy == "2026" else None
+        if hit is None:
+            return ("", "No suggestion in the transparency REVIEW.md.", TR26_REVIEW)
+        decision, note, item = hit
+        return decision, note, f"{TR26_REVIEW} {item}"
     if family == "capital_sd" and fy == "2026":
         hit = CAPITAL26_BY_SUB.get((r["check_id"], r["sub_id"])) or CAPITAL26_BY_CHECK.get(r["check_id"])
         src = CAP26_REVIEW

@@ -54,13 +54,27 @@ export const SOURCES = {
     dims: { line: "budget_line", member: "sponsor", agency: "agency" },
     pdf: true,
   },
+  transparency: {
+    label: "Transparency resolutions (PDF), to organizations, net",
+    table: "pdf_transparency",
+    family: "transparency",
+    // A year's resolutions (fiscal_year), organization rows only: agency-side offset rows are
+    // left out, and rescissions (negative amounts) are netted in. Some rows designate another
+    // budget year (budget_fiscal_year; DATA-ANOMALIES §6).
+    fy: "fiscal_year",
+    where: "agency_side = 0",
+    amount: "amount",
+    dims: { agency: "agency", member: "member", org: "ein" },
+    orgLabel: "org",
+    pdf: true,
+  },
 };
 
 /** Which sources each comparison dimension can use, in order. */
 export const DIM_SOURCES = {
-  agency: ["disclosure", "schedule_c", "capital_sd"],
-  member: ["disclosure", "schedule_c", "capital", "capital_sd"],
-  org: ["disclosure", "schedule_c"],
+  agency: ["disclosure", "schedule_c", "transparency", "capital_sd"],
+  member: ["disclosure", "schedule_c", "transparency", "capital", "capital_sd"],
+  org: ["disclosure", "schedule_c", "transparency"],
   line: ["capital", "capital_sd"],
 };
 export const DIM_LABEL = {
@@ -104,6 +118,7 @@ export function drillQuery(sourceId, dim, fy, key, limit = 200) {
     schedule_c: "fiscal_year, award_id, org AS name, ein, member, agency, section AS stream, status, amount, pdf_page, bbox_pt, source_pdf, flags, review_id",
     capital: "report_year AS fiscal_year, seq, title AS name, budget_line_norm AS line, sponsor AS member, borough, amount",
     capital_sd: "fiscal_year, sub_id, title AS name, budget_line AS line, sponsor AS member, agency, status, amount_y1 AS amount, pdf_page, bbox_pt, source_pdf, flags, review_id",
+    transparency: "fiscal_year, row_id, org AS name, ein, member, agency, resolution_number || ' (' || resolution_date || ')' AS stream, status, amount, pdf_page, bbox_pt, source_pdf, flags, review_id",
   }[sourceId];
   return {
     sql: `SELECT ${cols} FROM ${s.table}${whereOf(s, extra)} ORDER BY amount DESC NULLS LAST LIMIT ${limit}`,
@@ -136,6 +151,12 @@ export function totalsQueries(fyA, fyB) {
     capital_sd: {
       sql: `SELECT fiscal_year AS fy, COUNT(*) AS n, COALESCE(SUM(amount_y1), 0) AS amount, string_agg(DISTINCT status, ';') AS status
             FROM pdf_capital_sd WHERE fiscal_year IN (?, ?) AND part = 'I' GROUP BY 1`,
+      params: ys,
+    },
+    transparency: {
+      sql: `SELECT fiscal_year AS fy, COUNT(*) AS n, COALESCE(SUM(amount), 0) AS amount, string_agg(DISTINCT status, ';') AS status,
+              COUNT(DISTINCT resolution_number) AS resolutions
+            FROM pdf_transparency WHERE fiscal_year IN (?, ?) AND agency_side = 0 GROUP BY 1`,
       params: ys,
     },
     terms: {

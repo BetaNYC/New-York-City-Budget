@@ -85,7 +85,7 @@ def test_suggestions_cover_every_review_row_and_are_committed():
     assert len(rows) == n
     assert {r["suggested_decision"] for r in rows} <= set(brs.DECISIONS) | {""}
     # Only Schedule C rows may be blank, and only where its REVIEW.md suggests nothing.
-    assert {r["family"] for r in rows if not r["suggested_decision"]} <= {"schedule_c"}
+    assert {r["family"] for r in rows if not r["suggested_decision"]} <= {"schedule_c", "transparency"}
     by = {r["review_id"]: r for r in rows}
     assert by["d68b985e6c58"]["suggested_decision"] == "source_error"
     assert by["01375b88b4c3"]["suggested_decision"] == "accepted_as_printed"
