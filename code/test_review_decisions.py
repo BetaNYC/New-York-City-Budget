@@ -67,6 +67,8 @@ def test_committed_decision_files_are_valid():
         ("data/fy27/pdf/schedule_c/fy27_sc_review.csv", "research/2026-10-20-fy27-schedule-c-review/data/fy27_sc_review_decisions.csv"),
         ("data/fy27/pdf/capital_sd/fy27_capital_sd_review.csv", "research/2026-10-20-fy27-capital-terms-review/data/fy27_capital_sd_review_decisions.csv"),
         ("data/fy27/pdf/terms/fy27_terms_review.csv", "research/2026-10-20-fy27-capital-terms-review/data/fy27_terms_review_decisions.csv"),
+        ("data/fy26/pdf/capital_sd/fy26_capital_sd_review.csv", "research/2026-10-21-fy26-capital-terms-review/data/fy26_capital_sd_review_decisions.csv"),
+        ("data/fy26/pdf/terms/fy26_terms_review.csv", "research/2026-10-21-fy26-capital-terms-review/data/fy26_terms_review_decisions.csv"),
     ]
     for review, decisions in pairs:
         assert vrd.main(["--review", os.path.join(REPO, review), "--decisions", os.path.join(REPO, decisions)]) == 0, decisions

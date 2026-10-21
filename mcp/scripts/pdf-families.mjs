@@ -68,7 +68,10 @@ export const PDF_FAMILIES = {
   capital_sd: {
     label: "Capital §254 supporting detail",
     main: "pdf_capital_sd",
-    decisions: { 2027: "research/2026-10-20-fy27-capital-terms-review/data/fy27_capital_sd_review_decisions.csv" },
+    decisions: {
+      2026: "research/2026-10-21-fy26-capital-terms-review/data/fy26_capital_sd_review_decisions.csv",
+      2027: "research/2026-10-20-fy27-capital-terms-review/data/fy27_capital_sd_review_decisions.csv",
+    },
     review: REVIEW_PY,
     tables: [
       {
@@ -110,7 +113,10 @@ export const PDF_FAMILIES = {
   terms: {
     label: "Terms and Conditions",
     main: "pdf_terms",
-    decisions: { 2027: "research/2026-10-20-fy27-capital-terms-review/data/fy27_terms_review_decisions.csv" },
+    decisions: {
+      2026: "research/2026-10-21-fy26-capital-terms-review/data/fy26_terms_review_decisions.csv",
+      2027: "research/2026-10-20-fy27-capital-terms-review/data/fy27_terms_review_decisions.csv",
+    },
     review: REVIEW_PY,
     tables: [
       {

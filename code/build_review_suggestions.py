@@ -10,6 +10,8 @@ left blank: the reviewer decides with no default.
 
   FY2027 capital §254 and T&C: research/2026-10-20-fy27-capital-terms-review/REVIEW.md
   FY2027 Schedule C:           research/2026-10-20-fy27-schedule-c-review/REVIEW.md
+  FY2026 capital §254 and T&C: research/2026-10-21-fy26-capital-terms-review/REVIEW.md
+Items that say "ask Council Finance" become needs_info (they stay open until answered), as for FY2027.
 
 Every review_id in the families' review CSVs (data/fyNN/pdf/<family>/*_review.csv) gets exactly
 one row; a review_id the rules do not cover is a stop.
@@ -31,11 +33,37 @@ DECISIONS = ("source_error", "parser_bug", "accepted_as_printed", "needs_info")
 
 CAP_REVIEW = "research/2026-10-20-fy27-capital-terms-review/REVIEW.md"
 SC_REVIEW = "research/2026-10-20-fy27-schedule-c-review/REVIEW.md"
+CAP26_REVIEW = "research/2026-10-21-fy26-capital-terms-review/REVIEW.md"
 
 REVIEW_FILES = {
     ("2027", "capital_sd"): "data/fy27/pdf/capital_sd/fy27_capital_sd_review.csv",
     ("2027", "terms"): "data/fy27/pdf/terms/fy27_terms_review.csv",
     ("2027", "schedule_c"): "data/fy27/pdf/schedule_c/fy27_sc_review.csv",
+    ("2026", "capital_sd"): "data/fy26/pdf/capital_sd/fy26_capital_sd_review.csv",
+    ("2026", "terms"): "data/fy26/pdf/terms/fy26_terms_review.csv",
+}
+
+# FY2026 (research/2026-10-21-fy26-capital-terms-review/REVIEW.md, tables A, B, C).
+CAPITAL26_BY_SUB = {
+    ("C3.part2_only", "PV MA0022"): ("needs_info", "Part II only (MA ID on a 0N line); accept as printed and include in the Council Finance question.", "A3"),
+    ("C3.part2_only", "PV MA0007"): ("needs_info", "Part II only, on a DN line; accept as printed and include in the Council Finance question.", "A7"),
+    ("C3.part2_only", "PV MA0005"): ("accepted_as_printed", "A negative row (-183,000), Part II only; a reduction, accept as printed.", "A8"),
+}
+CAPITAL26_BY_CHECK = {
+    "C3.ma_series": ("needs_info", "Accept as printed; ask Council Finance what MM / MA / 0N mean.", "A1"),
+    "C2.rescindments": ("accepted_as_printed", "One printed number; only the subtraction can be checked here.", "A2"),
+    "W.edited_after_export": ("accepted_as_printed", "Typed into the PDF after export; accept the later edit as printed.", "A4"),
+    "C9.workbook_sponsor": ("accepted_as_printed", "Keep the PDF's sponsor (later edits, or the workbook's merged HN CN1451).", "A4, A5"),
+    "C3.part2_vs_part1": ("accepted_as_printed", "Part II prints the name without its accent; accept both as printed.", "A9"),
+    "C9.workbook": ("accepted_as_printed", "Keep the PDF: ADMIN out-year rows not in the workbook, and the workbook's two projects under HN CN1451.", "A5, A6"),
+    "C9.workbook_title": ("accepted_as_printed", "Keep the PDF's title (the workbook's differ or carry stray characters).", "A10-A15"),
+    "C5.geom_vs_stream": ("accepted_as_printed", "Checked: the page-position read stands.", "B"),
+    "W.geom_near": ("accepted_as_printed", "Checked: joined to the nearest row; values match the other Part and the workbook.", "B"),
+}
+TERMS26_BY_CHECK = {
+    "T7.old_csv_text": ("accepted_as_printed", "The retired CSV is wrong here; use the new text, as printed.", "C1, C2"),
+    "T7.old_csv_units": ("accepted_as_printed", "The retired CSV lost these units; the new list is as printed.", "C1"),
+    "T3.body_vs_heading": ("accepted_as_printed", "#67's body says 'appropriations 311 and 312'; the heading is right, the typo is the PDF's.", "C3"),
 }
 
 # Capital: rows whose suggestion depends on the row, not only the check (REVIEW.md table A).
@@ -71,7 +99,13 @@ SC_BY_ID = {
 
 
 def suggest(fy, family, r):
-    if family == "capital_sd":
+    if family == "capital_sd" and fy == "2026":
+        hit = CAPITAL26_BY_SUB.get((r["check_id"], r["sub_id"])) or CAPITAL26_BY_CHECK.get(r["check_id"])
+        src = CAP26_REVIEW
+    elif family == "terms" and fy == "2026":
+        hit = TERMS26_BY_CHECK.get(r["check_id"])
+        src = CAP26_REVIEW
+    elif family == "capital_sd":
         hit = CAPITAL_BY_SUB.get((r["check_id"], r["sub_id"])) or CAPITAL_BY_CHECK.get(r["check_id"])
         src = CAP_REVIEW
     elif family == "terms":

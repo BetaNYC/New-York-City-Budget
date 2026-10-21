@@ -158,3 +158,113 @@ fiscal_year,family,review_id,check_id,suggested_decision,suggested_note,source
 2027,schedule_c,7253bd6cce3a,H13.rollup,source_error,The same $1 in the roll-up (item 4).,research/2026-10-20-fy27-schedule-c-review/REVIEW.md item 5
 2027,schedule_c,d68b985e6c58,H12.designated_sum,source_error,"The PDF disagrees with itself by $1 (statement $7,229,999, rows $7,229,998).",research/2026-10-20-fy27-schedule-c-review/REVIEW.md item 4
 2027,schedule_c,173122c5ffd8,K.text_layer,,No suggestion in the Schedule C REVIEW.md.,research/2026-10-20-fy27-schedule-c-review/REVIEW.md
+2026,capital_sd,0a4bc5e267ec,C3.part2_only,needs_info,Part II only (MA ID on a 0N line); accept as printed and include in the Council Finance question.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A3
+2026,capital_sd,138c84722a95,C3.part2_only,needs_info,"Part II only, on a DN line; accept as printed and include in the Council Finance question.",research/2026-10-21-fy26-capital-terms-review/REVIEW.md A7
+2026,capital_sd,80b21af34f06,C3.part2_only,accepted_as_printed,"A negative row (-183,000), Part II only; a reduction, accept as printed.",research/2026-10-21-fy26-capital-terms-review/REVIEW.md A8
+2026,capital_sd,5f578772c9b9,C3.ma_series,needs_info,Accept as printed; ask Council Finance what MM / MA / 0N mean.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A1
+2026,capital_sd,86537ccd27ce,C2.rescindments,accepted_as_printed,One printed number; only the subtraction can be checked here.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A2
+2026,capital_sd,86f817dea27b,W.edited_after_export,accepted_as_printed,Typed into the PDF after export; accept the later edit as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A4
+2026,capital_sd,a425f228b878,C9.workbook_sponsor,accepted_as_printed,"Keep the PDF's sponsor (later edits, or the workbook's merged HN CN1451).","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A4, A5"
+2026,capital_sd,6f3f55d53ed0,W.edited_after_export,accepted_as_printed,Typed into the PDF after export; accept the later edit as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A4
+2026,capital_sd,63afc3012684,C9.workbook_sponsor,accepted_as_printed,"Keep the PDF's sponsor (later edits, or the workbook's merged HN CN1451).","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A4, A5"
+2026,capital_sd,580295f754e3,W.edited_after_export,accepted_as_printed,Typed into the PDF after export; accept the later edit as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A4
+2026,capital_sd,8353753e471a,C3.part2_vs_part1,accepted_as_printed,Part II prints the name without its accent; accept both as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A9
+2026,capital_sd,c8b3c959c3ee,C9.workbook,accepted_as_printed,"Keep the PDF: ADMIN out-year rows not in the workbook, and the workbook's two projects under HN CN1451.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A5, A6"
+2026,capital_sd,2abc3a32df31,W.edited_after_export,accepted_as_printed,Typed into the PDF after export; accept the later edit as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A4
+2026,capital_sd,806da2d877c8,C9.workbook_sponsor,accepted_as_printed,"Keep the PDF's sponsor (later edits, or the workbook's merged HN CN1451).","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A4, A5"
+2026,capital_sd,dd9e387e9e1c,C3.part2_vs_part1,accepted_as_printed,Part II prints the name without its accent; accept both as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A9
+2026,capital_sd,d5bccb1bf0ee,C3.part2_vs_part1,accepted_as_printed,Part II prints the name without its accent; accept both as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A9
+2026,capital_sd,6c2d1844d262,C9.workbook,accepted_as_printed,"Keep the PDF: ADMIN out-year rows not in the workbook, and the workbook's two projects under HN CN1451.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A5, A6"
+2026,capital_sd,7def40089a2d,C9.workbook_title,accepted_as_printed,Keep the PDF's title (the workbook's differ or carry stray characters).,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A10-A15
+2026,capital_sd,745b809ac3f5,C9.workbook,accepted_as_printed,"Keep the PDF: ADMIN out-year rows not in the workbook, and the workbook's two projects under HN CN1451.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A5, A6"
+2026,capital_sd,68b27bcc5912,C3.part2_vs_part1,accepted_as_printed,Part II prints the name without its accent; accept both as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A9
+2026,capital_sd,50945a34d771,C9.workbook,accepted_as_printed,"Keep the PDF: ADMIN out-year rows not in the workbook, and the workbook's two projects under HN CN1451.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A5, A6"
+2026,capital_sd,2d4df24f309f,C9.workbook_title,accepted_as_printed,Keep the PDF's title (the workbook's differ or carry stray characters).,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A10-A15
+2026,capital_sd,a95f781b6b26,C9.workbook_title,accepted_as_printed,Keep the PDF's title (the workbook's differ or carry stray characters).,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A10-A15
+2026,capital_sd,68ddff5912b0,C9.workbook_sponsor,accepted_as_printed,"Keep the PDF's sponsor (later edits, or the workbook's merged HN CN1451).","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A4, A5"
+2026,capital_sd,0d1667d9b005,C9.workbook_title,accepted_as_printed,Keep the PDF's title (the workbook's differ or carry stray characters).,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A10-A15
+2026,capital_sd,9bcb2c22a765,C9.workbook_title,accepted_as_printed,Keep the PDF's title (the workbook's differ or carry stray characters).,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A10-A15
+2026,capital_sd,a2e7081fe716,C3.part2_vs_part1,accepted_as_printed,Part II prints the name without its accent; accept both as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A9
+2026,capital_sd,f5c21ed0d34f,C9.workbook_title,accepted_as_printed,Keep the PDF's title (the workbook's differ or carry stray characters).,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A10-A15
+2026,capital_sd,425ba382058f,C9.workbook,accepted_as_printed,"Keep the PDF: ADMIN out-year rows not in the workbook, and the workbook's two projects under HN CN1451.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A5, A6"
+2026,capital_sd,e59bc9530f65,C9.workbook,accepted_as_printed,"Keep the PDF: ADMIN out-year rows not in the workbook, and the workbook's two projects under HN CN1451.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A5, A6"
+2026,capital_sd,ae51ba108e68,C9.workbook,accepted_as_printed,"Keep the PDF: ADMIN out-year rows not in the workbook, and the workbook's two projects under HN CN1451.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A5, A6"
+2026,capital_sd,fa86110f995d,C9.workbook_title,accepted_as_printed,Keep the PDF's title (the workbook's differ or carry stray characters).,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A10-A15
+2026,capital_sd,e937e0ebaef2,C9.workbook,accepted_as_printed,"Keep the PDF: ADMIN out-year rows not in the workbook, and the workbook's two projects under HN CN1451.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A5, A6"
+2026,capital_sd,c8d5d82b7346,C9.workbook,accepted_as_printed,"Keep the PDF: ADMIN out-year rows not in the workbook, and the workbook's two projects under HN CN1451.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A5, A6"
+2026,capital_sd,607270230462,C9.workbook_title,accepted_as_printed,Keep the PDF's title (the workbook's differ or carry stray characters).,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A10-A15
+2026,capital_sd,1a09ea335c59,C9.workbook_title,accepted_as_printed,Keep the PDF's title (the workbook's differ or carry stray characters).,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A10-A15
+2026,capital_sd,2c15dc1254c9,C9.workbook_title,accepted_as_printed,Keep the PDF's title (the workbook's differ or carry stray characters).,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A10-A15
+2026,capital_sd,3301a706dcbb,C9.workbook_title,accepted_as_printed,Keep the PDF's title (the workbook's differ or carry stray characters).,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A10-A15
+2026,capital_sd,874e32b7ae8a,C9.workbook_title,accepted_as_printed,Keep the PDF's title (the workbook's differ or carry stray characters).,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A10-A15
+2026,capital_sd,95e4f5198a23,C5.geom_vs_stream,accepted_as_printed,Checked: the page-position read stands.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md B
+2026,capital_sd,9cbedaea6447,C5.geom_vs_stream,accepted_as_printed,Checked: the page-position read stands.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md B
+2026,capital_sd,e21fd8027d90,C5.geom_vs_stream,accepted_as_printed,Checked: the page-position read stands.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md B
+2026,capital_sd,66b81eb346c2,C5.geom_vs_stream,accepted_as_printed,Checked: the page-position read stands.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md B
+2026,capital_sd,1f57f325bc11,C5.geom_vs_stream,accepted_as_printed,Checked: the page-position read stands.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md B
+2026,capital_sd,1a429b49b622,C5.geom_vs_stream,accepted_as_printed,Checked: the page-position read stands.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md B
+2026,capital_sd,489ef76d9e39,W.geom_near,accepted_as_printed,Checked: joined to the nearest row; values match the other Part and the workbook.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md B
+2026,capital_sd,cfa72bdf855f,W.geom_near,accepted_as_printed,Checked: joined to the nearest row; values match the other Part and the workbook.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md B
+2026,capital_sd,5109f80f4e97,C5.geom_vs_stream,accepted_as_printed,Checked: the page-position read stands.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md B
+2026,capital_sd,56d13d303f0b,C5.geom_vs_stream,accepted_as_printed,Checked: the page-position read stands.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md B
+2026,capital_sd,1b8ac9aec77b,W.geom_near,accepted_as_printed,Checked: joined to the nearest row; values match the other Part and the workbook.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md B
+2026,terms,e2c1920d3d2a,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,c6fdb9e2360d,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,1c9e4f89ab93,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,e0845b7e4a97,T7.old_csv_units,accepted_as_printed,The retired CSV lost these units; the new list is as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1
+2026,terms,a9dda0b5dc92,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,2f2c89d14931,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,9fc2ca8ca2e6,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,7c0ce39bda12,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,f274975e1013,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,a9873a2902b5,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,c2905ce8b076,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,1b9f72b9deac,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,d3fb1e730a47,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,14d7bfcdc434,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,27abedae498f,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,c481eaae4d46,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,7651cef8fa84,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,b3806c21af69,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,6eb59b6a2b1c,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,e7fa2afff06c,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,e670a12aa8e8,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,688f316b2b80,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,b9e48d39784c,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,579bf0ef21a7,T7.old_csv_units,accepted_as_printed,The retired CSV lost these units; the new list is as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1
+2026,terms,902d314793fe,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,7eee8e139c45,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,4932c0f53919,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,8cc6a7eb535a,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,ded0ba32283c,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,a38b149b6bc3,T7.old_csv_units,accepted_as_printed,The retired CSV lost these units; the new list is as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1
+2026,terms,eaddcc5b644b,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,cb985f4b4317,T7.old_csv_units,accepted_as_printed,The retired CSV lost these units; the new list is as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1
+2026,terms,5a76184e2f25,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,e5467aae735e,T7.old_csv_units,accepted_as_printed,The retired CSV lost these units; the new list is as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1
+2026,terms,cd5df8c10b88,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,71a74f894444,T7.old_csv_units,accepted_as_printed,The retired CSV lost these units; the new list is as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1
+2026,terms,1222e9e3e125,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,c1bb38f0bad9,T7.old_csv_units,accepted_as_printed,The retired CSV lost these units; the new list is as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1
+2026,terms,b4fca810572b,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,3c00927d33e4,T7.old_csv_units,accepted_as_printed,The retired CSV lost these units; the new list is as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1
+2026,terms,699185cae680,T3.body_vs_heading,accepted_as_printed,"#67's body says 'appropriations 311 and 312'; the heading is right, the typo is the PDF's.",research/2026-10-21-fy26-capital-terms-review/REVIEW.md C3
+2026,terms,8cfb3dac8284,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,3b2d2312bef2,T7.old_csv_units,accepted_as_printed,The retired CSV lost these units; the new list is as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1
+2026,terms,5f1d0ffc3da4,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,5e0cb641c794,T7.old_csv_units,accepted_as_printed,The retired CSV lost these units; the new list is as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1
+2026,terms,eb9a3ba52435,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,324879c4ae2f,T7.old_csv_units,accepted_as_printed,The retired CSV lost these units; the new list is as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1
+2026,terms,32f696d40476,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,edd3547c5de5,T7.old_csv_units,accepted_as_printed,The retired CSV lost these units; the new list is as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1
+2026,terms,aa9e81a07a8d,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,bf4fdf683fc9,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,5af9e2a2a969,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,60dde5333d22,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,ac628f6bae99,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,825c2a3d43e8,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,87237f969b94,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,f776a7f58094,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,9c0d3f68b2e6,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,91a3cb591106,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
+2026,terms,5c927311bf0d,T7.old_csv_text,accepted_as_printed,"The retired CSV is wrong here; use the new text, as printed.","research/2026-10-21-fy26-capital-terms-review/REVIEW.md C1, C2"
