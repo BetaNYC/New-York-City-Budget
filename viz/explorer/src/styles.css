@@ -164,3 +164,13 @@ ol.conditions { padding-left: 2.2rem; }
 .cmp-changed { background: #f1e8fb; color: #4b2a7a; }
 table.compare td.num { white-space: nowrap; }
 .drill { border-top: 2px solid var(--navy); margin-top: 1.25rem; padding-top: 0.5rem; }
+@media (max-width: 600px) {
+  /* Compare tables as stacked cards on a phone: each cell names its column. */
+  table.compare thead { display: none; }
+  table.compare, table.compare tbody, table.compare tr, table.compare th, table.compare td { display: block; width: auto; }
+  table.compare tr { border: 1px solid var(--line); border-radius: 6px; margin: 0 0 0.6rem; padding: 0.4rem 0.6rem; }
+  table.compare td, table.compare th { border: 0; padding: 0.15rem 0; text-align: left; white-space: normal; }
+  table.compare td.num { white-space: normal; }
+  table.compare td[data-label]:not([data-label=""])::before { content: attr(data-label); display: block; font-size: 0.75rem; color: var(--muted); font-weight: 600; }
+  .gap { max-width: none; }
+}

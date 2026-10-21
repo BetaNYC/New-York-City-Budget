@@ -148,9 +148,9 @@ function Totals({ fyA, fyB, ctx, state, go }) {
                 return (
                   <tr key={src}>
                     <th scope="row">{label}</th>
-                    <td className="num">{show(a, fyA)}</td>
-                    <td className="num">{show(b, fyB)}</td>
-                    <td className="num">{both ? (src === "terms" ? `${Number(b.r.n) - Number(a.r.n) >= 0 ? "+" : ""}${Number(b.r.n) - Number(a.r.n)}` : signed(Number(b.r.amount) - Number(a.r.amount))) : <span className="muted">—</span>}</td>
+                    <td className="num" data-label={`FY${fyA}`}>{show(a, fyA)}</td>
+                    <td className="num" data-label={`FY${fyB}`}>{show(b, fyB)}</td>
+                    <td className="num" data-label="Change">{both ? (src === "terms" ? `${Number(b.r.n) - Number(a.r.n) >= 0 ? "+" : ""}${Number(b.r.n) - Number(a.r.n)}` : signed(Number(b.r.amount) - Number(a.r.amount))) : <span className="muted">—</span>}</td>
                   </tr>
                 );
               })}
@@ -256,11 +256,11 @@ function Dimension({ dim, fyA, fyB, ctx, state, set, go }) {
                   <tbody>
                     {shown.slice(0, TOP).map((r) => (
                       <tr key={r.key}>
-                        <td>
+                        <td data-label="">
                           {keyLabel(r.key, r.label, dim)}
                           {dim === "org" && r.key !== Q.BLANK ? <div className="muted small">EIN {r.key}</div> : null}
                         </td>
-                        <td className="num">
+                        <td className="num" data-label={`FY${fyA}`}>
                           {r.a === null ? (
                             <span className="muted">not listed</span>
                           ) : (
@@ -270,7 +270,7 @@ function Dimension({ dim, fyA, fyB, ctx, state, set, go }) {
                           )}
                           {r.a_n ? <div className="muted small">{plural(r.a_n, "row")}</div> : null}
                         </td>
-                        <td className="num">
+                        <td className="num" data-label={`FY${fyB}`}>
                           {r.b === null ? (
                             <span className="muted">not listed</span>
                           ) : (
@@ -280,8 +280,8 @@ function Dimension({ dim, fyA, fyB, ctx, state, set, go }) {
                           )}
                           {r.b_n ? <div className="muted small">{plural(r.b_n, "row")}</div> : null}
                         </td>
-                        <td className="num">{signed(r.delta)}</td>
-                        <td>
+                        <td className="num" data-label="Change">{signed(r.delta)}</td>
+                        <td data-label="Status">
                           <span className={`cmp cmp-${r.status}`}>{D.STATUS_LABEL[r.status]}</span>
                         </td>
                       </tr>
@@ -339,8 +339,8 @@ function Terms({ fyA, fyB, ctx, state, go }) {
                   <td>
                     <span className={`cmp cmp-${o.status}`}>{o.status}</span>
                   </td>
-                  <td className="small">{o.a ? <>{link(o.a)} {o.a.agency_name}: {o.a.condition_text.slice(0, 220)}{o.a.condition_text.length > 220 ? "…" : ""}</> : <span className="muted">—</span>}</td>
-                  <td className="small">{o.b ? <>{link(o.b)} {o.b.agency_name}: {o.b.condition_text.slice(0, 220)}{o.b.condition_text.length > 220 ? "…" : ""}</> : <span className="muted">—</span>}</td>
+                  <td className="small" data-label={`FY${fyA}`}>{o.a ? <>{link(o.a)} {o.a.agency_name}: {o.a.condition_text.slice(0, 220)}{o.a.condition_text.length > 220 ? "…" : ""}</> : <span className="muted">—</span>}</td>
+                  <td className="small" data-label={`FY${fyB}`}>{o.b ? <>{link(o.b)} {o.b.agency_name}: {o.b.condition_text.slice(0, 220)}{o.b.condition_text.length > 220 ? "…" : ""}</> : <span className="muted">—</span>}</td>
                 </tr>
               ))}
           </tbody>
