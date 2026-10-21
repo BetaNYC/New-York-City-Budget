@@ -1,6 +1,6 @@
 # FY2025 PDF review: capital §254 supporting detail and Terms & Conditions
 
-**Report generated:** 2026-10-21 19:40 EDT. Prepared by BetaNYC with AI assistance (Claude Code).
+**Report generated:** 2026-10-21 19:05 EDT. Prepared by BetaNYC with AI assistance (Claude Code).
 **Data current as of:** the PDFs in `source/FY25/` (sha256 below) and `data/capital/council_capital_awards.csv`
 at `2aecf90` (its FY2025 rows come from NYC Open Data `t474-a92g`, published by the Council; no Council
 workbook was found for FY2025, `data/capital/README.md`).
