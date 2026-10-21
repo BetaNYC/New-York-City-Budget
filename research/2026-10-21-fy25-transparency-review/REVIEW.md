@@ -1,6 +1,6 @@
 # FY2025 transparency resolutions: what a person needs to check
 
-**Report generated:** 2026-10-21 19:15 EDT. Source: `data/fy25_tr_review.csv` (40 rows), sorted
+**Report generated:** 2026-10-21 19:00 EDT. Source: `data/fy25_tr_review.csv` (40 rows), sorted
 the same way: the 7 critical items first, then by how much money each could touch. Write each
 decision into `data/fy25_tr_review_decisions.csv` by `review_id` (columns `review_id, decision,
 note, decided_by, decided_at`; decisions `source_error`, `parser_bug`, `accepted_as_printed` or

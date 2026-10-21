@@ -1,6 +1,6 @@
 # FY2025 transparency resolutions, checked from the PDFs (#104)
 
-**Report generated:** 2026-10-21 19:10 EDT. Prepared by BetaNYC with AI assistance.
+**Report generated:** 2026-10-21 19:00 EDT. Prepared by BetaNYC with AI assistance.
 **Data current as of:** the 13 PDFs in `source/FY25/transparency-resolutions/` (395 pages; hashes
 in `config/transparency/fy2025.toml`); expense disclosure as committed in
 `data/fyNN/expense_disclosure/` (FY2025 workbook sheet "FY25 (09-14-26)", FY2024 "FY24 (06-08-26)",
