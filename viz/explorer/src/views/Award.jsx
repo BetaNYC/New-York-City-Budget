@@ -3,6 +3,7 @@ import { DISCLOSURE_FLAG_NOTE, STATUS_LABEL, flagNotes, money } from "../format.
 import { sourceLinks } from "../paths.js";
 import * as Q from "../query/sql.js";
 import { Notice, Status } from "../components/ui.jsx";
+import { ScForAward, scYearsOf } from "./ScheduleC.jsx";
 
 /** Columns in the order shown, with a label and, where the data needs one, a short explanation. */
 const FIELDS = [
@@ -35,7 +36,7 @@ const FIELDS = [
   ["row_flag", "Row flag"],
 ];
 
-export default function Award({ state, back, manifest }) {
+export default function Award({ state, go, back, manifest, pdfYears }) {
   const q = useQueries(true, `${state.ay}:${state.row}`, () =>
     state.ay != null && state.row != null ? { award: Q.awardQuery(state.ay, state.row) } : null
   );
@@ -52,14 +53,14 @@ export default function Award({ state, back, manifest }) {
             No award at FY{state.ay ?? "?"} row {state.row ?? "?"}. The link may predate a data update.
           </Notice>
         ) : (
-          <Detail a={q.data.award[0]} manifest={manifest} />
+          <Detail a={q.data.award[0]} manifest={manifest} state={state} go={go} scYears={scYearsOf(pdfYears)} />
         )}
       </Status>
     </section>
   );
 }
 
-function Detail({ a, manifest }) {
+function Detail({ a, manifest, state, go, scYears }) {
   const links = sourceLinks(manifest.source_commit, a.source_path);
   const flags = flagNotes(a.row_flag, DISCLOSURE_FLAG_NOTE);
   return (
@@ -103,6 +104,7 @@ function Detail({ a, manifest }) {
         </li>
       </ul>
 
+      <ScForAward a={a} scYears={scYears} state={state} go={go} />
       <h3>Every column</h3>
       <dl className="fields">
         {FIELDS.map(([k, label, note]) => (

@@ -81,6 +81,14 @@ export function disclosureWhere(f = {}) {
   for (const c of DISCLOSURE_TEXT) w.text(c, f[c]);
   if (num(f.min_amount) !== null) w.add("amount >= ?", num(f.min_amount));
   if (num(f.max_amount) !== null) w.add("amount <= ?", num(f.max_amount));
+  // Explorer only, with Schedule C loaded (pdf_sc_disclosure; never set by the parity cases, and
+  // the MCP has no such filter): the spreadsheet rows Schedule C matches, or does not.
+  if (f.sc_side === "matched" || f.sc_side === "disclosure_only") {
+    w.add(
+      `EXISTS (SELECT 1 FROM pdf_sc_disclosure m WHERE m.fiscal_year = disclosure.fiscal_year AND m.disclosure_row = disclosure.source_row AND m.side = ?)`,
+      f.sc_side
+    );
+  }
   return w;
 }
 

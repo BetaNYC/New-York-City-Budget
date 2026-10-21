@@ -173,6 +173,86 @@ export const termsFsrQuery = (fy) => ({
   params: [fy],
 });
 
+// ---------------------------------------------------------------- Schedule C beside the disclosure
+
+/** "matched" / "pdf_only" / "disclosure_only" in plain words. */
+export const SC_SIDE_LABEL = { matched: "In both", disclosure_only: "Spreadsheet only", pdf_only: "Schedule C only" };
+
+/**
+ * Why a row has no partner (code/schedc/disclosure.py waterfall reasons, as the Schedule C review
+ * words them).
+ */
+export const SC_REASON = {
+  matched: "Same EIN and amount in both.",
+  key_already_claimed: "The spreadsheet has this EIN and amount, but every such row is already paired with another Schedule C row.",
+  amount_differs: "The spreadsheet has this EIN, but not at this amount.",
+  ein_fully_claimed: "The spreadsheet's rows for this EIN are all paired with other Schedule C rows.",
+  ein_not_in_disclosure: "This EIN is not in the spreadsheet for the year.",
+  city_ein_name_mismatch: "The City's own EIN (13-6400434): pairs only when the spreadsheet's name starts the PDF's organization text, and none does.",
+  pdf_value_unreadable: "The PDF's EIN or amount could not be read.",
+  amount_or_count_differs: "Schedule C has this EIN, but not at this amount, or not as many times.",
+  city_ein_pending: "A Pending row on the City's own EIN: usually post-adoption money not printed in Schedule C.",
+  ein_not_in_pdf: "This EIN is not in Schedule C for the year.",
+};
+
+/** Whole-year counts and dollars by side (amount: Schedule C's for matched and PDF-only rows). */
+export const scSummaryQuery = (fy) => ({
+  sql: `SELECT m.fiscal_year, m.status, m.side, COUNT(*) AS n,
+          COALESCE(SUM(CASE WHEN m.side = 'disclosure_only' THEN m.disclosure_amount ELSE m.amount END), 0) AS amount,
+          SUM(m.ambiguous) AS ambiguous
+        FROM pdf_sc_disclosure m${fy == null ? "" : " WHERE m.fiscal_year = ?"}
+        GROUP BY 1, 2, 3 ORDER BY 1 DESC, 3`,
+  params: fy == null ? [] : [fy],
+});
+
+/** The Schedule C side of the spreadsheet rows on screen: [{fiscal_year, source_row}]. */
+export function scForDisclosureRowsQuery(rows) {
+  const keys = rows.map((r) => [Number(r.fiscal_year), Number(r.source_row)]);
+  if (!keys.length) return null;
+  return {
+    sql: `SELECT m.fiscal_year, m.disclosure_row, m.side, m.reason, m.ambiguous, a.award_id, a.pdf_page, a.bbox_pt,
+            a.org, a.amount, a.section, a.member, a.flags, a.review_id, a.status, a.source_pdf
+          FROM pdf_sc_disclosure m LEFT JOIN pdf_schedule_c a ON a.fiscal_year = m.fiscal_year AND a.award_id = m.award_id
+          WHERE (m.fiscal_year, m.disclosure_row) IN (${keys.map(() => "(?, ?)").join(", ")})`,
+    params: keys.flat(),
+  };
+}
+
+export const scKey = (fy, row) => `${Number(fy)}|${Number(row)}`;
+
+/** Schedule C rows with no spreadsheet partner, filtered like the Awards view where the fields map. */
+function scOnlyWhere(f) {
+  const w = new Where();
+  w.add("m.side = 'pdf_only'");
+  w.eq("a.fiscal_year", f.fiscal_year == null || f.fiscal_year === "" ? null : Number(f.fiscal_year));
+  w.text(["a.org"], f.legal_name);
+  w.text(["a.member", "a.sponsor"], f.council_member);
+  w.text(["a.agency"], f.agency);
+  w.text(["a.purpose"], f.program_name);
+  if (!blank(f.ein)) w.eq("a.ein", String(f.ein).replace(/\D/g, ""));
+  if (!blank(f.min_amount) && Number.isFinite(Number(f.min_amount))) w.add("a.amount >= ?", Number(f.min_amount));
+  if (!blank(f.max_amount) && Number.isFinite(Number(f.max_amount))) w.add("a.amount <= ?", Number(f.max_amount));
+  return w;
+}
+
+const SC_FROM = "pdf_schedule_c a JOIN pdf_sc_disclosure m ON m.fiscal_year = a.fiscal_year AND m.award_id = a.award_id";
+
+export function scOnlyQuery(f, page) {
+  const w = scOnlyWhere(f);
+  return {
+    sql: `SELECT a.fiscal_year, a.status, a.award_id, a.section, a.category, a.initiative, a.org, a.ein, a.amount, a.member,
+            a.pdf_page, a.bbox_pt, a.source_pdf, a.flags, a.review_id, m.reason, m.disclosure_amount AS nearest_amount
+          FROM ${SC_FROM}${w.sql()} ORDER BY a.amount DESC, a.award_id
+          LIMIT ${PAGE_SIZE} OFFSET ${Math.max(0, Number(page) || 0) * PAGE_SIZE}`,
+    params: w.params,
+  };
+}
+
+export function scOnlyTotalsQuery(f) {
+  const w = scOnlyWhere(f);
+  return { sql: `SELECT COUNT(*) AS n, COALESCE(SUM(a.amount), 0) AS amount FROM ${SC_FROM}${w.sql()}`, params: w.params };
+}
+
 // ---------------------------------------------------------------- review notes
 
 /** The review entries behind a row's `review_id` (`;`-joined ids). */

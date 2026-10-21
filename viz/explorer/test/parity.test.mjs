@@ -155,13 +155,30 @@ describe("4. reviewed PDF tables, per family, year and status", () => {
   for (const t of PDF_TABLES) {
     test(t, async () => {
       const cols = sqlite.prepare(`PRAGMA table_info(${t})`).all().map((c) => c.name);
-      const sums = cols.filter((c) => /^(amount|org_printed|printed|sum)_y\d$/.test(c) || c === "dollars");
+      const sums = cols.filter((c) => /^(amount|org_printed|printed|sum)_y\d$/.test(c) || ["dollars", "amount", "disclosure_amount", "rows_sum", "designated", "reserve"].includes(c));
       const keys = ["status", ...(cols.includes("family") ? ["family"] : []), ...(cols.includes("fiscal_year") ? ["fiscal_year"] : [])];
       const q = `SELECT ${keys.join(", ")}, COUNT(*) AS n${sums.map((c) => `, COALESCE(SUM(${c}), 0) AS ${c}`).join("")}
                  FROM ${t} GROUP BY ${keys.join(", ")} ORDER BY ${keys.join(", ")}`;
       assert.deepEqual(await duck(q), sqlite.prepare(q).all());
     });
   }
+  test("Schedule C beside the disclosure: rows and dollars per side, from both engines", async () => {
+    const q = `SELECT fiscal_year, status, side, reason, COUNT(*) AS n, COALESCE(SUM(amount), 0) AS amount,
+                 COALESCE(SUM(disclosure_amount), 0) AS d FROM pdf_sc_disclosure GROUP BY ALL ORDER BY ALL`;
+    const a = sqlite.prepare(q.replace("GROUP BY ALL ORDER BY ALL", "GROUP BY 1, 2, 3, 4 ORDER BY 1, 2, 3, 4")).all();
+    const b = await duck(q);
+    assert.equal(b.length, a.length);
+    a.forEach((r, i) => {
+      assert.deepEqual([b[i].fiscal_year, b[i].status, b[i].side, b[i].reason, b[i].n, b[i].amount], [r.fiscal_year, r.status, r.side, r.reason, r.n, r.amount]);
+      near(b[i].d, r.d, `${r.side} ${r.reason} disclosure amount`);
+    });
+    // Every matched pair points at a real disclosure row with the same EIN.
+    if (a.length) {
+      const [{ n }] = await duck(`SELECT COUNT(*) AS n FROM pdf_sc_disclosure m LEFT JOIN disclosure d ON d.fiscal_year = m.fiscal_year AND d.source_row = m.disclosure_row
+                                  WHERE m.side <> 'pdf_only' AND (d.source_row IS NULL OR d.ein <> m.ein)`);
+      assert.equal(n, 0);
+    }
+  });
   test("each loaded family's main table has pdf_years.rows rows", async () => {
     for (const y of await duck("SELECT fiscal_year, family, status, rows FROM pdf_years")) {
       const main = PDF_FAMILIES[y.family].main;

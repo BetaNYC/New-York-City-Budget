@@ -23,6 +23,7 @@ export const DEFAULT_STATE = {
   min: null,
   max: null,
   page: 0,
+  scside: "", // Schedule C as a second source: "" | matched | disclosure_only | pdf_only
   ay: null, // award detail: fiscal year
   row: null, // award detail: source_row within that year
   // Council capital
@@ -135,6 +136,7 @@ export const disclosureFilters = (s) => ({
   ein: s.ein,
   min_amount: s.min,
   max_amount: s.max,
+  sc_side: s.scside,
 });
 
 export const capitalFilters = (s) => ({
@@ -154,7 +156,7 @@ export const ombFilters = (s) => ({ report_year: s.ofy, budget_line: s.oline, ve
 
 /** The keys of each view's filters, for "clear filters" and for resetting the page on a change. */
 export const FILTER_KEYS = {
-  awards: ["fy", "status", "legal_name", "council_member", "agency", "program_name", "source", "ein", "min", "max"],
+  awards: ["fy", "status", "legal_name", "council_member", "agency", "program_name", "source", "ein", "min", "max", "scside"],
   capital: ["cfy", "afy", "sponsor", "borough", "district", "line", "title", "description", "cmin", "cmax"],
   omb: ["ofy", "oline", "verdict"],
   orgs: ["gfy", "org", "gline"],

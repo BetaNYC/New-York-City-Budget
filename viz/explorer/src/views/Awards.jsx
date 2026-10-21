@@ -5,18 +5,22 @@ import { DISCLOSURE_FLAG_NOTE, OTHER_STATUS_NOTE, STATUS_LABEL, count, money, pl
 import * as Q from "../query/sql.js";
 import { disclosureFilters, writeHash } from "../state/hash.js";
 import { HashLink, Matched, NoData, Notice, Pager, SelectFilter, Status, TextFilter } from "../components/ui.jsx";
+import { SC_SIDE_LABEL } from "../query/pdf.js";
+import { ScCell, ScOnlyResults, ScPanel, scYearsOf, useScForRows } from "./ScheduleC.jsx";
 
 /**
  * Browse and search the Council's expense funding disclosure. Totals cover every matching row;
  * the table shows one page, highest amount first (the MCP's order).
  */
-export default function Awards({ state, set, go, years }) {
+export default function Awards({ state, set, go, years, pdfYears }) {
   const f = disclosureFilters(state);
+  const scYears = scYearsOf(pdfYears);
+  const scOnly = state.scside === "pdf_only" && scYears.length > 0;
   const yearRow = state.fy != null ? years.find((y) => y.fiscal_year === state.fy) : null;
   const notLoaded = yearRow && !yearRow.loaded;
   const key = JSON.stringify([f, state.page]);
   const q = useQueries(true, key, () =>
-    notLoaded
+    notLoaded || scOnly
       ? null
       : {
           totals: Q.disclosureTotalsQuery(f),
@@ -53,20 +57,32 @@ export default function Awards({ state, set, go, years }) {
         <TextFilter label="Funding source" value={state.source} onApply={(v) => set({ source: v })} placeholder="Local, Youth, …" />
         <TextFilter label="Min $" type="number" value={state.min ?? ""} onApply={(v) => set({ min: v === "" ? null : Number(v) })} width="7rem" />
         <TextFilter label="Max $" type="number" value={state.max ?? ""} onApply={(v) => set({ max: v === "" ? null : Number(v) })} width="7rem" />
+        {scYears.length > 0 && (
+          <SelectFilter
+            label="Schedule C (PDF)"
+            value={state.scside}
+            options={[["", "Any"], ...["matched", "disclosure_only", "pdf_only"].map((k) => [k, SC_SIDE_LABEL[k]])]}
+            onApply={(v) => set({ scside: v })}
+          />
+        )}
       </form>
+      <ScPanel fy={state.fy} scYears={scYears} set={set} />
 
-      {notLoaded ? (
+      {scOnly ? (
+        <ScOnlyResults f={f} state={state} set={set} go={go} />
+      ) : notLoaded ? (
         <NoData year={state.fy} what="expense award" reason={yearRow.note} />
       ) : (
         <Status loading={q.loading && !q.data} updating={q.loading && Boolean(q.data)} error={q.error}>
-          {q.data && <Results data={q.data} state={state} set={set} go={go} years={years} />}
+          {q.data && <Results data={q.data} state={state} set={set} go={go} years={years} scYears={scYears} />}
         </Status>
       )}
     </section>
   );
 }
 
-function Results({ data, state, set, go, years }) {
+function Results({ data, state, set, go, years, scYears }) {
+  const sc = useScForRows(data.rows, scYears);
   const r = Q.rollupDisclosure(data.totals);
   const matchedYears = r.by_year.map((y) => y.fiscal_year);
   const early = years.filter((y) => y.early_snapshot && matchedYears.includes(y.fiscal_year));
@@ -137,6 +153,7 @@ function Results({ data, state, set, go, years }) {
                   <th scope="col" className="num">
                     Amount
                   </th>
+                  {sc ? <th scope="col">Schedule C (PDF)</th> : null}
                 </tr>
               </thead>
               <tbody>
@@ -157,6 +174,14 @@ function Results({ data, state, set, go, years }) {
                       <td>{row.agency}</td>
                       <td>{row.status}</td>
                       <td className="num">{money(row.amount)}</td>
+                      {sc ? (
+                        <ScCell
+                          m={sc.get(`${Number(row.fiscal_year)}|${Number(row.source_row)}`)}
+                          state={state}
+                          go={go}
+                          inYear={scYears.some((y) => y.fiscal_year === Number(row.fiscal_year))}
+                        />
+                      ) : null}
                     </tr>
                   );
                 })}

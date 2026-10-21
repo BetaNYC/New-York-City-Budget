@@ -51,10 +51,31 @@ describe("filters", () => {
   });
 });
 
+describe("Schedule C beside the disclosure", () => {
+  test("the rows on screen, by (year, source row)", () => {
+    expect(P.scForDisclosureRowsQuery([])).toBeNull();
+    const q = P.scForDisclosureRowsQuery([{ fiscal_year: 2027, source_row: 53 }, { fiscal_year: "2027", source_row: "54" }]);
+    expect(q.params).toEqual([2027, 53, 2027, 54]);
+    expect(q.sql).toContain("(m.fiscal_year, m.disclosure_row) IN ((?, ?), (?, ?))");
+  });
+  test("Schedule C-only rows take the Awards filters that map to PDF columns", () => {
+    const q = P.scOnlyQuery({ fiscal_year: 2027, legal_name: "Medicare", ein: "13-3500000", min_amount: 100 }, 0);
+    expect(q.sql).toContain("m.side = 'pdf_only'");
+    expect(q.params).toEqual([2027, "medicare", "133500000", 100]);
+  });
+  test("every waterfall reason has words", () => {
+    for (const r of ["key_already_claimed", "amount_differs", "ein_fully_claimed", "ein_not_in_disclosure", "city_ein_name_mismatch", "amount_or_count_differs", "city_ein_pending", "ein_not_in_pdf"]) {
+      expect(P.SC_REASON[r]).toBeTruthy();
+    }
+  });
+});
+
 describe("hash state for the new views", () => {
   test("round trip", () => {
     const s = { ...readHash(""), view: "source", spdf: "source/FY27/x.pdf", spage: 47, sbox: "1,2,3,4", slabel: "HR CC0168" };
     expect(readHash(writeHash(s))).toEqual(s);
+    const a = { ...readHash(""), view: "awards", fy: 2027, scside: "pdf_only" };
+    expect(readHash(writeHash(a))).toEqual(a);
     const t = { ...readHash(""), view: "terms", tfy: 2027, tagency: "education", tunit: "001", tpage: 1 };
     expect(readHash(writeHash(t))).toEqual(t);
   });
