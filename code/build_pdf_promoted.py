@@ -8,8 +8,7 @@ review_id, flags`, with values as printed. `bbox_pt` is `x0,top,x1,bottom` in PD
 
 This script re-runs the review parsers (code/review_capital_sd.py, code/review_terms.py) into a
 scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
-Families promoted here: FY2027 `capital_sd` and `terms` (GitHub #102). Schedule C adds its own
-entry to FAMILIES and a row to data/pdf_years.csv the same way.
+Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -236,7 +235,59 @@ def build_terms(scratch):
     return files, year
 
 
-FAMILIES = [("fy27", "capital_sd", build_capital_sd), ("fy27", "terms", build_terms)]
+# ------------------------------------------------------------------------------------------
+# FY2027 Schedule C
+# ------------------------------------------------------------------------------------------
+
+def build_schedule_c(scratch):
+    """Re-run code/parse_schedule_c_v2.py (all checks, image lattice and ink included) into the
+    scratch folder and promote its award, initiative, category and review tables. Its rows
+    already carry the row contract; the PDF has no /Rotate pages, so bbox_pt needs no unrotate."""
+    import contextlib
+    import parse_schedule_c_v2 as sc
+    from schedc import config as sc_config
+    with contextlib.redirect_stdout(io.StringIO()):
+        if sc.main(["--fy", "2027", "--out", scratch]) != 0:
+            raise RuntimeError("parse_schedule_c_v2 failed")
+    cfg = sc_config.load(2027)
+    checks_txt = open(os.path.join(scratch, "fy27_sc_checks.txt"), encoding="utf-8").read()
+    if "FAIL" in checks_txt.replace("(FAIL)", ""):
+        raise RuntimeError("a Schedule C check failed; not promoting")
+    base = {"fiscal_year": 2027, "source_pdf": cfg["pdf"], "pdf_sha256": cfg["sha256"]}
+    awards = read(os.path.join(scratch, "fy27_sc_awards.csv"))
+    inits = read(os.path.join(scratch, "fy27_sc_initiatives.csv"))
+    cats = read(os.path.join(scratch, "fy27_sc_categories.csv"))
+    review = [dict(base, family="schedule_c", **r)
+              for r in read(os.path.join(scratch, "fy27_sc_review.csv"))]
+    for rs in (awards, inits, cats):
+        for r in rs:
+            assert r["source_pdf"] == base["source_pdf"] and r["pdf_sha256"] == base["pdf_sha256"]
+    order = lambda cols: CONTRACT + [c for c in cols if c not in CONTRACT]
+    files = {
+        "fy27_sc_awards.csv": to_csv(awards, order(list(awards[0]))),
+        "fy27_sc_initiatives.csv": to_csv(inits, order(list(inits[0]))),
+        "fy27_sc_categories.csv": to_csv(cats, order(list(cats[0]))),
+        "fy27_sc_review.csv": to_csv(review, ["fiscal_year", "family", "source_pdf", "pdf_sha256"]
+                                     + [c for c in review[0] if c not in base and c != "family"]),
+    }
+    tot = {r["category"]: int(r["amount"]) for r in cats if r["line"] == "TOTAL"}
+    lines = {}
+    for r in cats:
+        if r["line"] != "TOTAL":
+            lines[r["category"]] = lines.get(r["category"], 0) + int(r["amount"])
+    tied = sum(1 for c in tot if lines.get(c) == tot[c])
+    year = dict(base, family="schedule_c", issue=102, status="reviewed", rows=len(awards),
+                flagged=sum(1 for r in awards if r["flags"]),
+                printed_totals_tied=f"{tied}/{len(tot)}",
+                note=(f"{len(awards)} award rows, ${sum(int(r['amount']) for r in awards):,} "
+                      "(body + appendices A/B/C); 25 category TOTALs tie; one $1 PDF self-error "
+                      "(p.214, initiative statement vs its rows) flagged. "
+                      "Review: research/2026-10-20-fy27-schedule-c-review/REVIEW.md"))
+    return files, year
+
+
+FAMILIES = [("fy27", "capital_sd", build_capital_sd), ("fy27", "schedule_c", build_schedule_c),
+            ("fy27", "terms", build_terms)]
 
 
 def build_all():

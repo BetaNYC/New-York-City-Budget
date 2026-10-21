@@ -51,10 +51,11 @@ def test_row_contract(built):
 
 def test_pdf_years(built):
     ys = {y["family"]: y for y in rows(built["data/pdf_years.csv"])}
-    assert set(ys) == {"capital_sd", "terms"}
+    assert set(ys) == {"capital_sd", "schedule_c", "terms"}
     assert {y["status"] for y in ys.values()} == {"reviewed"}
     assert ys["capital_sd"]["rows"] == "1391" and ys["capital_sd"]["printed_totals_tied"] == "28/28"
     assert ys["terms"]["rows"] == "75"
+    assert ys["schedule_c"]["rows"] == "9979" and ys["schedule_c"]["printed_totals_tied"] == "25/25"
     for y in ys.values():
         assert y["issue"] == "102"
 
