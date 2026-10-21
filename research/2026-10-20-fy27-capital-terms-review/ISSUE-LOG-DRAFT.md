@@ -80,6 +80,12 @@ the stray `0` kept in `sponsor_raw`. No dollar effect (FY2030 is 0 everywhere).
 **Tried:** — (families/DATA-ANOMALIES §12 had called the `0N` lines a code form; they are a series)
 **Fix:** none. They are in the Part II total ($210,677,000) and Part III, not in Part I, the p.61
 additions, or the Council workbook. Meaning of `MA` / `0N` unconfirmed.
+**Evidence (added 2026-10-20, not a conclusion):** in the repo's OMB Capital Budget extract
+(`source/open-data-46m8-77gv/46m8-77gv.csv.gz`, NYC Open Data 46m8-77gv), all 29 `PV 0N…` budget
+lines behind the 30 `PV MA…` rows appear in the Adopted release (pub_date 20260713) with City funds
+(`C`) in yr1 FY2027 at exactly the PDF amounts (total $70,987,000), and none appears in the
+Preliminary (20260217) or Executive (20260512) release. So they were added at adoption; what `MA`
+stands for is still unconfirmed.
 **Status:** open: question for Council Finance
 
 ---
