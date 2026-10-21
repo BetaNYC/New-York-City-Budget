@@ -201,7 +201,7 @@ describe("6. NYC Open Data: crosswalk and coverage", () => {
     assert.deepEqual(await duck(q), sqlite.prepare(q).all());
   });
   test("the coverage strip's numbers, from both engines", async () => {
-    const q = `SELECT family, dataset_id, fiscal_year, covered, records, same, differs, ambiguous, absent, context,
+    const q = `SELECT family, dataset_id, fiscal_year, covered, records, same, differs, ambiguous, ambiguous_present, absent, context,
                  not_covered, portal_rows, portal_only FROM open_data_coverage ORDER BY 1, 2, 3`;
     assert.deepEqual(await duck(q), sqlite.prepare(q).all());
   });

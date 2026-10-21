@@ -11,6 +11,8 @@ export const OD_STATUS = {
   same: { label: "On NYC Open Data", tone: "ok" },
   differs: { label: "On NYC Open Data, with differences", tone: "warn" },
   ambiguous: { label: "On NYC Open Data, row not identifiable", tone: "info" },
+  // Shown for an ambiguous row whose bucket holds more of ours than the portal's (QA 2026-10-21).
+  possible: { label: "Possibly on NYC Open Data", tone: "warn" },
   absent: { label: "Not on NYC Open Data", tone: "bad" },
   context: { label: "Line on NYC Open Data", tone: "info" },
   not_covered: { label: "No NYC Open Data dataset covers this", tone: "none" },
@@ -18,7 +20,16 @@ export const OD_STATUS = {
 
 /** An ambiguous row whose bucket holds as many of ours as the portal's, with the same key values,
  * is on the portal; only which portal row is unknown. Otherwise the counts differ. */
-export const equalBucket = (x) => /equal counts/.test(x.match_rule ?? "");
+export const equalBucket = (x) => /presence certain/.test(x.match_rule ?? "");
+
+/** [ours, portal] in an ambiguous row's bucket, from its rule text, or null. */
+export const bucketCounts = (x) => {
+  const m = /holds (\d+) of ours and (\d+) on the portal/.exec(x.match_rule ?? "");
+  return m ? [Number(m[1]), Number(m[2])] : null;
+};
+
+/** The status a badge shows: an ambiguous row only claims presence when it is certain. */
+export const shownStatus = (x) => (x.match_status === "ambiguous" && !equalBucket(x) ? "possible" : x.match_status);
 
 /** The portal page for a dataset, and (one row) the SODA URL that returns exactly that row. */
 export const datasetUrl = (id) => `https://data.cityofnewyork.us/d/${id}`;

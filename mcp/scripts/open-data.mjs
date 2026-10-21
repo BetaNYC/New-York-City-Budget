@@ -36,7 +36,7 @@ export const OPEN_DATA_DATASETS = {
 const XW_CSV = ["family", "record_key", "fiscal_year", "dataset_id", "snapshot_date", "portal_row_id",
   "match_status", "match_rule", "differing_fields", "portal_value", "portal_status", "portal_as_of"];
 const COV_CSV = ["family", "dataset_id", "fiscal_year", "snapshot_date", "covered", "records", "same",
-  "differs", "ambiguous", "absent", "context", "not_covered", "portal_rows", "portal_only", "note"];
+  "differs", "ambiguous", "ambiguous_present", "absent", "context", "not_covered", "portal_rows", "portal_only", "note"];
 
 export const OPEN_DATA_SCHEMA = {
   open_data_crosswalk: [
@@ -53,7 +53,9 @@ export const OPEN_DATA_SCHEMA = {
   open_data_rules: [["rule_id", I], ["match_rule", T]],
   open_data_coverage: [
     ["family", T], ["dataset_id", T], ["fiscal_year", I], ["snapshot_date", T], ["covered", I],
-    ["records", I], ["same", I], ["differs", I], ["ambiguous", I], ["absent", I], ["context", I],
+    // ambiguous_present: the ambiguous rows whose presence is certain (no more of ours than
+    // portal rows in the bucket); the rest are only possibly on the portal.
+    ["records", I], ["same", I], ["differs", I], ["ambiguous", I], ["ambiguous_present", I], ["absent", I], ["context", I],
     ["not_covered", I], ["portal_rows", I], ["portal_only", I], ["note", T],
   ],
   open_data_datasets: [
@@ -171,7 +173,7 @@ export function loadOpenData(db, io, loadedPdf) {
       const sum = OPEN_DATA_STATUSES.reduce((s, c) => s + n(c), 0);
       if (sum !== n("records")) throw new Error(`${at}: statuses add to ${sum}, records ${r.records}`);
       insC.run(r.family, r.dataset_id, fy, r.snapshot_date, r.covered === "yes" ? 1 : 0, n("records"), n("same"),
-        n("differs"), n("ambiguous"), n("absent"), n("context"), n("not_covered"), n("portal_rows"), n("portal_only"), r.note);
+        n("differs"), n("ambiguous"), n("ambiguous_present"), n("absent"), n("context"), n("not_covered"), n("portal_rows"), n("portal_only"), r.note);
       counts.open_data_coverage++;
     });
   })();

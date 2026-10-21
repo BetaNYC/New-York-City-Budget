@@ -29,7 +29,7 @@ export function useOdForRows(family, rows, keyOf, opts = {}) {
   return q.data?.x ? OD.indexByRecord(q.data.x, withFy) : null;
 }
 
-const RANK = ["same", "differs", "ambiguous", "context", "absent"];
+const RANK = ["same", "differs", "ambiguous", "context", "possible", "absent"];
 
 function Badge({ status, children, title }) {
   const s = OD.OD_STATUS[status] ?? OD.OD_STATUS.not_covered;
@@ -42,8 +42,11 @@ function Badge({ status, children, title }) {
 
 function label(x) {
   if (x.match_status === "ambiguous") {
-    return OD.equalBucket(x) ? `On NYC Open Data (one of ${count(x.candidates)} identical rows)` : `Ambiguous: ${count(x.candidates)} portal candidates`;
+    const b = OD.bucketCounts(x);
+    if (OD.equalBucket(x)) return `On NYC Open Data (one of ${count(x.candidates)} identical rows)`;
+    return b ? `Possibly on NYC Open Data: ${count(b[0])} of ours, ${count(b[1])} on the portal` : "Possibly on NYC Open Data";
   }
+  if (x.match_status === "absent") return `Not on NYC Open Data as of ${x.snapshot_date}`;
   return OD.OD_STATUS[x.match_status]?.label;
 }
 
@@ -59,12 +62,18 @@ export function OdCell({ xs, coverage, fy }) {
     if (coverage && !covering.length) return <td className="small"><Badge status="not_covered">No Open Data dataset</Badge></td>;
     return <td className="muted small">…</td>;
   }
-  const best = [...xs].sort((a, b) => RANK.indexOf(a.match_status) - RANK.indexOf(b.match_status))[0];
+  const best = [...xs].sort((a, b) => RANK.indexOf(OD.shownStatus(a)) - RANK.indexOf(OD.shownStatus(b)))[0];
   const all = xs.map((x) => `${x.dataset_id}: ${label(x)}`).join("\n");
   return (
     <td className="small">
-      <Badge status={best.match_status} title={all}>
-        {best.match_status === "ambiguous" && OD.equalBucket(best) ? "On Open Data (row not identifiable)" : OD.OD_STATUS[best.match_status].label.replace("NYC ", "")}
+      <Badge status={OD.shownStatus(best)} title={all}>
+        {OD.shownStatus(best) === "ambiguous"
+          ? "On Open Data (row not identifiable)"
+          : OD.shownStatus(best) === "possible"
+            ? label(best).replace("NYC ", "")
+            : best.match_status === "absent"
+              ? `Not on Open Data as of ${best.snapshot_date}`
+              : OD.OD_STATUS[best.match_status].label.replace("NYC ", "")}
       </Badge>{" "}
       <PortalLink x={best}>{best.dataset_id}</PortalLink>
       {xs.length > 1 ? <div className="muted">+{xs.length - 1} more dataset{xs.length > 2 ? "s" : ""}</div> : null}
@@ -94,7 +103,7 @@ export function OdPanel({ xs, coverage, fy, what = "record" }) {
                   <span className="muted">…</span>
                 ) : (
                   <>
-                    <Badge status={x.match_status}>{label(x)}</Badge>{" "}
+                    <Badge status={OD.shownStatus(x)}>{label(x)}</Badge>{" "}
                     {x.portal_row_id && !x.portal_row_id.includes(";") ? (
                       <>
                         · <PortalLink x={x}>row {x.portal_row_id}</PortalLink>
@@ -122,7 +131,8 @@ export function OdPanel({ xs, coverage, fy, what = "record" }) {
 
 /**
  * The per-year coverage strip: for each dataset, each year, the share of our records found on the
- * portal (same, differs, identical-bucket ambiguous, context), the ones not found, and the portal's
+ * portal for certain (same, differs, context, and ambiguous rows whose presence is certain: no more of
+ * ours than portal rows in the bucket), the ones not found, and the portal's
  * own count of rows with no record of ours (PLAN Q5: counted, not listed).
  */
 export function CoverageStrip({ family, coverage, title = "On NYC Open Data, by year" }) {
@@ -144,14 +154,14 @@ export function CoverageStrip({ family, coverage, title = "On NYC Open Data, by 
           <ol className="od-years" aria-label={`${ds} by fiscal year`}>
             {cs.map((c) => {
               const covered = Number(c.covered) === 1;
-              const found = Number(c.same) + Number(c.differs) + Number(c.context) + Number(c.ambiguous);
+              const found = Number(c.same) + Number(c.differs) + Number(c.context) + Number(c.ambiguous_present);
               const rec = Number(c.records);
               const pct = rec ? Math.round((100 * found) / rec) : 0;
               const tip = covered
-                ? `FY${c.fiscal_year}: ${count(rec)} records; same ${count(c.same)}, differs ${count(c.differs)}, ambiguous ${count(c.ambiguous)}, context ${count(c.context)}, not on the portal ${count(c.absent)}${Number(c.not_covered) ? `, not covered ${count(c.not_covered)}` : ""}; portal rows ${count(c.portal_rows ?? 0)}, portal-only ${count(c.portal_only ?? 0)}`
+                ? `FY${c.fiscal_year}: ${count(rec)} records; same ${count(c.same)}, differs ${count(c.differs)}, ambiguous ${count(c.ambiguous)} (certain ${count(c.ambiguous_present)}, possible ${count(Number(c.ambiguous) - Number(c.ambiguous_present))}), context ${count(c.context)}, not on the portal ${count(c.absent)}${Number(c.not_covered) ? `, not covered ${count(c.not_covered)}` : ""}; portal rows ${count(c.portal_rows ?? 0)}, portal-only ${count(c.portal_only ?? 0)}`
                 : `FY${c.fiscal_year}: no dataset covers this year`;
               return (
-                <li key={c.fiscal_year} className={covered ? (Number(c.absent) ? "od-y od-y-part" : "od-y od-y-all") : "od-y od-y-none"} title={tip}>
+                <li key={c.fiscal_year} className={covered ? (found < rec ? "od-y od-y-part" : "od-y od-y-all") : "od-y od-y-none"} title={tip}>
                   <span className="od-y-fy">FY{String(c.fiscal_year).slice(2)}</span>
                   <span className="od-y-pct">{covered ? `${pct}%` : "—"}</span>
                   {covered && Number(c.portal_only) ? <span className="od-y-only">+{count(c.portal_only)} portal-only</span> : null}
@@ -162,7 +172,7 @@ export function CoverageStrip({ family, coverage, title = "On NYC Open Data, by 
         </div>
       ))}
       <p className="muted small">
-        Share of our {family === "capital_line" ? "budget lines" : family === "terms_unit" ? "units" : "records"} found on the portal in each year (hover a year
+        Share of our {family === "capital_line" ? "budget lines" : family === "terms_unit" ? "units" : "records"} found on the portal for certain in each year (hover a year
         for the counts). "—": no tracked dataset covers that year. Portal-only rows are counted, not listed.
       </p>
     </details>
