@@ -81,7 +81,7 @@ export default function App() {
           <h1>NYC Council budget explorer</h1>
           <nav className="tabs" aria-label="Views">
             {TABS.filter(([, , fam]) => !fam || (db.manifest?.files?.[`${db.manifest?.pdf_families?.[fam]?.main}.parquet`]?.rows ?? 0) > 0).map(([v, label]) => (
-              <HashLink key={v} href={writeHash({ ...state, view: v })} onGo={() => go({ view: v })} className={tab === v ? "active" : undefined}>
+              <HashLink key={v} href={writeHash({ ...state, view: v })} onGo={() => go({ view: v })} className={tab === v ? "active" : undefined} current={tab === v}>
                 {label}
               </HashLink>
             ))}
