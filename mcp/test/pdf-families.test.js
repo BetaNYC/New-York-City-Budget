@@ -19,7 +19,7 @@ import { dirname, join } from "node:path";
 import Database from "better-sqlite3";
 import { parse } from "csv-parse/sync";
 
-import { PDF_FAMILIES, PDF_TABLES } from "../scripts/pdf-families.mjs";
+import { DERIVED, PDF_FAMILIES, PDF_TABLES } from "../scripts/pdf-families.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const MCP = join(HERE, "..");
@@ -72,7 +72,7 @@ test("a reviewed build loads exactly the families data/pdf_years.csv lists", () 
       const n = count(db, `SELECT COUNT(*) AS n FROM ${main} WHERE fiscal_year = ${Number(y.fiscal_year)} AND family = '${y.family}' AND status = '${y.status}'`);
       assert.equal(n, Number(y.rows), `${y.fiscal_year} ${y.family}`);
     }
-    for (const t of PDF_TABLES.filter((t) => t !== "pdf_years" && t !== "pdf_review")) {
+    for (const t of PDF_TABLES.filter((t) => t !== "pdf_years" && t !== "pdf_review" && !(t in DERIVED))) {
       assert.equal(count(db, `SELECT COUNT(*) AS n FROM ${t} WHERE source_pdf NOT LIKE 'source/%.pdf' OR length(pdf_sha256) <> 64 OR pdf_page IS NULL`), 0, t);
     }
   } finally {
@@ -99,6 +99,10 @@ function answers(serverPath) {
       ["search_council_capital", { budget_line: "PV 0N042" }],
       ["compare_capital_to_omb", { report_year: 2027 }],
       ["search_disclosure_awards", { fiscal_year: 2027, legal_name: "ali forney" }],
+      // Schedule C (pdf_schedule_c, pdf_sc_disclosure): p.279 Medicare Rights $135,000, the City's EIN
+      ["search_disclosure_awards", { fiscal_year: 2027, legal_name: "medicare rights" }],
+      ["search_disclosure_awards", { fiscal_year: 2027, ein: "13-6400434" }],
+      ["search_disclosure_awards", { fiscal_year: 2027, min_amount: 135000, max_amount: 135000 }],
     ];
     const out = [(await client.listTools()).tools.map((t) => t.name)];
     for (const [name, args] of calls) out.push(await client.callTool({ name, arguments: args }));
@@ -110,6 +114,22 @@ function answers(serverPath) {
   // The index's build time is the one thing two builds may differ in.
   return r.stdout.replace(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z/g, "<built_at>");
 }
+
+test("Schedule C's disclosure alignment is the Schedule C session's own (code/schedc/disclosure.py)", () => {
+  // FAILS if the port in scripts/pdf-families.mjs drifts from the promoted file (the build also
+  // stops on that), or the FY2027 counts move: 9,850 matched (City-EIN name rule on), 129 PDF only,
+  // 557 spreadsheet only, 994 ambiguous (research/2026-10-20-fy27-schedule-c-review/README.md).
+  const db = new Database(REVIEWED_DB, { readonly: true });
+  try {
+    const n = (side) => count(db, `SELECT COUNT(*) AS n FROM pdf_sc_disclosure WHERE fiscal_year = 2027 AND side = '${side}'`);
+    assert.deepEqual([n("matched"), n("pdf_only"), n("disclosure_only")], [9850, 129, 557]);
+    assert.equal(count(db, "SELECT SUM(ambiguous) AS n FROM pdf_sc_disclosure WHERE side <> 'pdf_only'"), 994);
+    const mr = db.prepare("SELECT pdf_page, amount, ein, bbox_pt FROM pdf_schedule_c WHERE org LIKE 'Medicare Rights%' AND amount = 135000").all();
+    assert.deepEqual(mr.map((r) => [r.pdf_page, r.amount]), [[279, 135000]], "p.279 Medicare Rights $135,000 (dropped by the old parser)");
+  } finally {
+    db.close();
+  }
+});
 
 test("every MCP tool answers the same from a reviewed index as from the default one", () => {
   // FAILS if any tool's answer changes when reviewed PDF rows are in the index.
