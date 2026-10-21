@@ -10,7 +10,7 @@ This script re-runs the review parsers (code/review_capital_sd.py, code/review_t
 scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
 Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
 `capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
-(via code/parse_transparency_v2.py), all GitHub #103.
+(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `schedule_c` (GitHub #104).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -257,15 +257,20 @@ SC_NOTE = {
     2026: ("24/25 category TOTALs tie; two PDF self-errors flagged (p.173 TOTAL $800 under its "
            "lines; p.98 rows $15,000 under the statement); 2 eight-digit EINs. "
            "Review: research/2026-10-21-fy26-schedule-c-review/REVIEW.md"),
+    2025: ("24/25 category TOTALs tie (Parks prints no summary table, p.202); PDF self-errors "
+           "flagged (p.115 TOTAL $50,000 under its lines; p.64 statement $594,000 short of its "
+           "box; p.167 rows $27,000 under the statement; p.222 '$3.2 million' for a $501,000 "
+           "box); 1 malformed EIN (p.181). "
+           "Review: research/2026-10-21-fy25-schedule-c-review/REVIEW.md"),
 }
-SC_ISSUE = {2027: 102, 2026: 103}
+SC_ISSUE = {2027: 102, 2026: 103, 2025: 104}
 
 
 def build_schedule_c(scratch, fy=2027):
     """Re-run code/parse_schedule_c_v2.py (all checks, image lattice and ink included) into the
     scratch folder and promote its award, initiative, category and review tables. Its rows
-    already carry the row contract; neither PDF has /Rotate pages (FY2026's landscape pages
-    are 792x612 media boxes), so bbox_pt needs no unrotate."""
+    already carry the row contract; no Schedule C PDF has /Rotate pages (FY2026's and FY2025's
+    landscape pages are 792x612 media boxes), so bbox_pt needs no unrotate."""
     import contextlib
     import parse_schedule_c_v2 as sc
     from schedc import config as sc_config
@@ -390,7 +395,8 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy26", "capital_sd", lambda d: build_capital_sd(d, 2026)),
             ("fy26", "terms", lambda d: build_terms(d, 2026)),
             ("fy26", "transparency", build_transparency),
-            ("fy26", "schedule_c", lambda d: build_schedule_c(d, fy=2026))]
+            ("fy26", "schedule_c", lambda d: build_schedule_c(d, fy=2026)),
+            ("fy25", "schedule_c", lambda d: build_schedule_c(d, fy=2025))]
 
 
 def build_all():

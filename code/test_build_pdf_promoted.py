@@ -159,3 +159,15 @@ def test_flags_link_to_review(built):
             ids = r["review_id"].split(";")
             assert all(i in rev for i in ids)
             assert set(r["flags"].split(";")) == {rev[i]["check_id"] for i in ids}
+
+
+def test_fy25_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2025" and y["family"] == "schedule_c")
+    assert y["issue"] == "104" and y["status"] == "reviewed" and y["rows"] == "9579"
+    assert y["printed_totals_tied"] == "24/25"
+    aw = rows(built["data/fy25/pdf/schedule_c/fy25_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 471876698
+    r = next(r for r in aw if r["award_id"] == "fy25-p169-t01-r001")   # Bronx Defenders
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "Bronx Defenders" in t and "13-3931074" in t and "Brooklyn Defender" not in t
