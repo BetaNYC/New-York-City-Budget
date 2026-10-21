@@ -10,7 +10,8 @@ This script re-runs the review parsers (code/review_capital_sd.py, code/review_t
 scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
 Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
 `capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
-(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `transparency` (GitHub #104).
+(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `transparency` (GitHub #104);
+FY2024 `transparency` (GitHub #105).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -318,7 +319,7 @@ def build_schedule_c(scratch, fy=2027):
 # Transparency resolutions (FY2026, FY2025)
 # ------------------------------------------------------------------------------------------
 
-TR_ISSUE = {2026: 103, 2025: 104}
+TR_ISSUE = {2026: 103, 2025: 104, 2024: 105}
 
 
 def tr_note(fy, cfg, rows_, charts):
@@ -338,6 +339,9 @@ def tr_note(fy, cfg, rows_, charts):
     numbered = [r for r in res if r["number"]]
     unnumbered = [r for r in res if not r["number"]]
     printing = [r["seq"] for r in res if r["charts_printed"]]
+    tied_how = (f"printed_totals_tied is 'Charts 1 through N' vs charts found (Reso "
+                f"{printing[0]:02d}-{printing[-1]:02d} print it)" if printing else
+                "printed_totals_tied is n/a (no resolution prints a chart count either)")
     n_unnum = sum(1 for r in rows_ if not r["resolution_number"])
     return (f"{len(res)} resolutions ({numbered[0]['number']} .. {numbered[-1]['number']}, "
             f"{res[0]['date']} .. {res[-1]['date']}), {len(rows_)} rows, {len(charts)} charts; "
@@ -345,8 +349,7 @@ def tr_note(fy, cfg, rows_, charts):
             + (f", except the {n_unnum} rows of Reso "
                + ", ".join(f"{r['seq']:02d} ({r['date']})" for r in unnumbered)
                + ", whose number is not on record (review item)" if unnumbered else "")
-            + ". The charts print no money totals: printed_totals_tied is 'Charts 1 through N' "
-            f"vs charts found (Reso {printing[0]:02d}-{printing[-1]:02d} print it). Of the flagged "
+            + f". The charts print no money totals: {tied_how}. Of the flagged "
             f"rows, {reviewed} are in the review file; the rest carry routine flags only. "
             f"pdf_sha256 = sha256 of the sorted '<sha256>  <path>' lines of the {len(res)} PDFs. "
             f"Review: {cfg['review_dir']}/REVIEW.md")
@@ -359,8 +362,9 @@ def build_transparency(scratch, fy=2026):
 
     One family row in data/pdf_years.csv covers a year's resolution PDFs: `source_pdf` is their
     folder and `pdf_sha256` the sha256 of the sorted "<sha256>  <path>" lines, so any change to
-    any of them changes it. Every data row carries its own PDF and that PDF's hash. No FY2025 or
-    FY2026 page has a /Rotate, so bbox_pt needs no unrotate."""
+    any of them changes it. Every data row carries its own PDF and that PDF's hash. FY2024 Reso 01
+    pp.3-61 carry /Rotate 90: the parser's bbox_pt is in display coordinates, so it is unrotated
+    here (no FY2025 or FY2026 page has a /Rotate)."""
     import contextlib
     import hashlib
     import parse_transparency_v2 as tr
@@ -385,6 +389,11 @@ def build_transparency(scratch, fy=2026):
     for r in rows_ + charts:
         seq = int(r["resolution_seq"])
         assert r["source_pdf"] == pdfs[seq]["pdf"] and r["pdf_sha256"] == shas[seq], r["source_pdf"]
+    pages = {(p["resolution_seq"], p["pdf_page"]): p for p in read(os.path.join(scratch, f"{yy}_tr_pages.csv"))}
+    for r in rows_:
+        p = pages[(r["resolution_seq"], r["pdf_page"])]
+        if int(p["rotation"]):
+            r["bbox_pt"] = unrotate(r["bbox_pt"], int(p["rotation"]), float(p["width"]), float(p["height"]))
     for r in resos:
         r.update(fiscal_year=fy, pdf_page=1, bbox_pt="", review_id="", flags="")
     review = []
@@ -406,7 +415,8 @@ def build_transparency(scratch, fy=2026):
     year = dict(fiscal_year=fy, family="transparency", source_pdf=folder,
                 pdf_sha256=hashlib.sha256(manifest.encode()).hexdigest(), issue=TR_ISSUE[fy],
                 status="reviewed", rows=len(rows_), flagged=sum(1 for r in rows_ if r["flags"]),
-                printed_totals_tied=f"{tied}/{n_printed}", note=tr_note(fy, cfg, rows_, charts))
+                printed_totals_tied=f"{tied}/{n_printed}" if n_printed else "n/a",
+                note=tr_note(fy, cfg, rows_, charts))
     return files, year
 
 
@@ -417,6 +427,7 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy26", "terms", lambda d: build_terms(d, 2026)),
             ("fy26", "transparency", build_transparency),
             ("fy25", "transparency", lambda d: build_transparency(d, 2025)),
+            ("fy24", "transparency", lambda d: build_transparency(d, 2024)),
             ("fy26", "schedule_c", lambda d: build_schedule_c(d, fy=2026))]
 
 

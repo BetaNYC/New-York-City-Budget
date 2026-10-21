@@ -132,6 +132,29 @@ def test_fy25_transparency(built):
     assert "13-3682472" in t and "Midori" in t
 
 
+def test_fy24_transparency(built):
+    ys = [y for y in rows(built["data/pdf_years.csv"])
+          if y["fiscal_year"] == "2024" and y["family"] == "transparency"]
+    assert len(ys) == 1
+    y = ys[0]
+    assert y["issue"] == "105" and y["status"] == "reviewed" and y["rows"] == "3303"
+    assert y["printed_totals_tied"] == "n/a"
+    assert y["source_pdf"] == "source/FY24/transparency-resolutions/"
+    rs = rows(built["data/fy24/pdf/transparency/fy24_tr_rows.csv"])
+    assert len(rs) == 3303
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rs)
+    # Reso 01 p.3 is /Rotate 90: the promoted box is on the unrotated page and holds its row.
+    r = next(r for r in rs if r["row_id"] == "fy24-tr01-p003-r001")
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert t == ("Marte Society of the Third Street Music School Settlement - Third Street Partners "
+                 "13-5596825 DCLA ($5,000) 126 003")
+    # An upright page needs no turn: Reso 02 p.11, the clipped "Staten Island Delegatio".
+    r = next(r for r in rs if r["row_id"] == "fy24-tr02-p011-r001")
+    assert r["member"] == "Staten Island Delegatio" and r["hidden_text"] == "member: n"
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "81-0728516" in t and "South Shore" in t
+
+
 def test_unrotate():
     # p.40 'H' at display (206.41, 38.68, 214.72, 50.20) on a /Rotate 90 page shown 792 x 612;
     # pdfium's unrotated glyph box is x 39.5-47.8, y-from-top 578.2-584.8.
