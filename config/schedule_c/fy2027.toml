@@ -1,0 +1,136 @@
+# FY2027 Schedule C: every year-specific fact the pipeline needs, and nothing else (PLAN §7).
+# Each value cites the page it was read from. Shared code lives in code/schedc/.
+
+fiscal_year = 2027
+pdf = "source/FY27/Fiscal-2027-Schedule-C-Final-3.pdf"
+sha256 = "63c03739d3ac5e4f53f8e869dff829e7d832634419067bbdc5699bced6eed955"
+pages = 498
+x_tolerance = 3.0
+review_dir = "research/2026-10-20-fy27-schedule-c-review"   # outputs land in <review_dir>/data          # pdfplumber default; FY2027 text has real space glyphs (PLAN §2.2)
+
+# The 25 categories, as printed in the Table of Contents (p.3) and on each category banner.
+categories = [
+  "Anti-Poverty", "Boroughwide Needs", "Community Development",
+  "Community Safety and Victim Services", "Criminal Justice Services", "Cultural Organizations",
+  "Domestic Violence Services", "Education", "Environmental Initiatives", "Food Initiatives",
+  "Health Services", "Higher Education", "Homeless Services", "Housing", "Immigrant Services",
+  "Legal Services", "Mental Health Services", "Older Adult Services",
+  "Parks and Recreation Services", "Public Safety",
+  "Small Business Services and Workforce Development",
+  "Speaker’s Initiative to Address Citywide Needs", "Veteran Services",
+  "Young Women's Initiative", "Youth Services",
+]
+
+# Section page ranges, read from the pages (titles on pp.306, 332, 455; ToC on p.3).
+[[page_ranges]]
+name = "front"
+first = 1
+last = 5
+[[page_ranges]]
+name = "body"
+first = 6
+last = 305
+[[page_ranges]]
+name = "appendix_a"
+first = 306
+last = 331
+[[page_ranges]]
+name = "appendix_b"
+first = 332
+last = 454
+[[page_ranges]]
+name = "appendix_c"
+first = 455
+last = 498
+
+# Section titles (printed above every appendix page's table).
+[[sections]]
+name = "appendix_a"
+title_re = "Appendix A: Aging Discretionary"
+[[sections]]
+name = "appendix_b"
+title_re = "Appendix B: Local Initiatives"
+[[sections]]
+name = "appendix_c"
+title_re = "Appendix C: Youth Discretionary"
+
+[structure]
+# A table is an award table when its first row names an EIN column and an amount column.
+award_header_re = "(Tax ID|EIN).*Amount"
+summary_title = "Fiscal 2027 Council Initiatives"
+banner_min_size = 17.0     # category banners are 18 pt bold (e.g. p.64 "Criminal Justice Services")
+statement_prefix = "Designation Method:"
+page_furniture_re = "(\\d+|Page \\d+|Fiscal Year 2027 Adopted Expense Budget Adjustment Summary)"
+# Header label -> field. Every award table header in FY2027 uses only these (H4).
+header_labels = [
+  ["Council Member", "member"],
+  ["Sponsor", "sponsor"],
+  ["Borough Delegation", "delegation"],
+  ["Legal Name of Organization [-–] Program Name", "org"],
+  ["Tax ID", "ein"],
+  ["EIN", "ein"],
+  ["Amount", "amount"],
+  ["Agency", "agency"],
+  ["Purpose of Funds", "purpose"],
+]
+
+# Designation statements (text after "Designation Method:"). Checked in order.
+[[statements]]
+kind = "partial"
+re = "^The Council will designate \\$(?P<reserve>[\\d,]+) post-adoption and has designated \\$(?P<designated>[\\d,]+) to the following providers for Fiscal 2027:$"
+[[statements]]
+kind = "reserve_only"
+re = "^The Council will designate \\$(?P<reserve>[\\d,]+) post-adoption for Fiscal 2027\\.$"
+[[statements]]
+kind = "full"
+re = "^The Council has designated the following providers for Fiscal 2027:$"
+
+# Image lattice (stage 4). 60 px at 300 dpi = 14.4 pt, longer than an 11 pt glyph stem (~33 px),
+# shorter than the shortest FY2027 cell rule; measured in the 2026-10-19 prototype (PLAN §3).
+[image]
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+# Ink coverage (stage 6). Pads measured on FY2027 pp.7, 13, 33, 66, 205, 279, 463, 486: at 0 px
+# the rules on p.205 leave 14,802 px uncovered; at 1 px every sample page is clean (<= 30 px
+# loose antialias, below the region floor). Region floor: the smallest glyph on p.279 (a
+# letter 'i', 99 px) must still be reported, so cells of 16 px and a 64 px floor.
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 64
+# Acceptance: withholding this row (Medicare Rights Center, $135,000, the row the old parser
+# lost), or one character of it, must make the check fire.
+ink_acceptance_page = 279
+ink_acceptance_award_id = "fy27-p279-t00-r012"
+
+# Named exceptions: places where the PDF disagrees with itself. Each must match exactly
+# (page, expected, observed) or the check still fails. Filled in from the reconcile run.
+# Support Our Older Adults (p.214): the statement says "has designated $7,229,999"; the 394
+# rows printed under it sum to $7,229,998. The same $1 is the only gap in the roll-up. Not
+# corrected; listed in the review file for a person to confirm.
+[[exceptions]]
+check = "H12.designated_sum"
+page = 214
+expected = 7229999
+observed = 7229998
+note = "PDF self-error: statement $7,229,999, rows sum $7,229,998 (pending review)"
+[[exceptions]]
+check = "H13.rollup"
+page = 0
+expected = 655764999
+observed = 655764998
+note = "the same $1 as p.214 Support Our Older Adults (pending review)"
+
+# Issues our checks cannot see (both lattices read the same text layer), carried from the
+# 2026-10-19 prototype's pixel/OCR comparison so a person looks at them.
+[[known_issues]]
+check_id = "K.text_layer"
+pdf_page = 486
+field = "purpose"
+award_id = "fy27-p486-t00-r013"
+table_index = 0
+row_index = 13
+dollar_impact = 0
+what_to_check = "text layer reads 'multi media'; the pixels show 'multi-media' (2026-10-19 prototype: docTR 0.983). Text layer kept as the record (PLAN open decision 4)."

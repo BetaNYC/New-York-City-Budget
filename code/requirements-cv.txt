@@ -1,0 +1,8 @@
+# Image-side checks for the Schedule C toolkit (code/schedc_cv/: image lattice, ink coverage).
+# No torch. Bounds are PR #43's (code/requirements-ocr.txt). Verified 2026-10-20 with
+# opencv-python-headless 4.14.0.94, numpy 2.5.4 (Python 3.12).
+#
+#   python3 -m venv .venv
+#   .venv/bin/pip install -r code/requirements.txt -r code/requirements-cv.txt
+opencv-python-headless>=4.9,<5
+numpy>=1.26,<3
