@@ -1,11 +1,15 @@
 """
-FY2027 Section 254 capital supporting detail: parse, tie out and review (GitHub #102, epic #101).
+Section 254 capital supporting detail: parse, tie out and review (epic #101; FY2027 #102,
+FY2026 #103).
 
-Source: source/FY27/Supporting-Detail-for-FY2027-Changes-To-the-Executive-Capital-Budget-
-Pursuant-to-Section-254.V4.pdf (80 pages, tier B, 71 pages rotated /Rotate 90).
+One parser, one config per year: config/capital_sd/fyNNNN.toml holds the PDF, its sha256, the
+page map, the FY columns and the other year-specific facts. FY2027 (the default) is
+source/FY27/Supporting-Detail-for-FY2027-...-Section-254.V4.pdf (80 pages, Parts I and II
+rotated /Rotate 90); FY2026 is source/FY26/Fiscal-2026-Capital-Budget-Supporting-Details-1.pdf
+(86 pages, Part III rotated instead).
 
 This is a review build, not a served dataset (DATA-ANOMALIES §27: PDF data is not served in
-2.0). It writes to research/2026-10-20-fy27-capital-terms-review/ and never touches data/.
+2.0). It writes to the config's research/ folder and never touches data/.
 
 Why it is not the Schedule C pipeline: the book has no cell borders. Parts I and II are a Word
 table printed without rules, so there is no vector lattice and no image lattice to read
@@ -22,7 +26,8 @@ The two reads must agree on every word. A title printed above its own SUB ID lin
 
 Checks (each prints its numbers to checks.txt; failures go to review.csv):
   C1 every `TOTALS FOR` line: project count and all four FY sums, rows since the last total
-  C2 `TOTALS FOR ALL` per Part; p.61 additions = Part I FY2027; additions - rescindments = net
+  C2 `TOTALS FOR ALL` per Part; summary-page additions = Part I first FY; additions -
+     rescindments = net
   C3 Part II rows are Part I rows (every field)
   C4 Part III: each organization's $ line = its budget-line rows; the grand total; Part III by
      budget line = Part II by budget line
@@ -32,7 +37,7 @@ Checks (each prints its numbers to checks.txt; failures go to review.csv):
   C8 ink coverage: rendered ink not under an emitted character or a vector rule
   C9 alignment with data/capital/council_capital_awards.csv (report only, never fills a value)
 
-Run:  .venv/bin/python code/review_capital_sd.py [--out DIR] [--no-ink] [--selftest-ink]
+Run:  .venv/bin/python code/review_capital_sd.py [--fy 2027|2026] [--out DIR] [--no-ink] [--selftest-ink]
 """
 import argparse
 import collections
@@ -42,6 +47,7 @@ import json
 import os
 import re
 import sys
+import tomllib
 import unicodedata
 
 import pdfplumber
@@ -50,19 +56,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 
-PDF = os.path.join(REPO, "source/FY27/Supporting-Detail-for-FY2027-Changes-To-the-Executive-"
-                         "Capital-Budget-Pursuant-to-Section-254.V4.pdf")
-PDF_SHA256 = "4c48252ec0d0a7b6795456feaa53f303193e6a8dcf608b2984758000139d5b90"
 AWARDS = os.path.join(REPO, "data/capital/council_capital_awards.csv")
-OUT = os.path.join(REPO, "research/2026-10-20-fy27-capital-terms-review")
-
-# Page map, checked against the page furniture in triage() (a page that disagrees fails).
-PAGE_MAP = {1: "cover", 2: "contents", 3: "divider", 61: "summary", 62: "divider",
-            72: "divider"}
-PAGE_MAP.update({p: "part1" for p in range(4, 61)})
-PAGE_MAP.update({p: "part2" for p in range(63, 72)})
-PAGE_MAP.update({p: "part3" for p in range(73, 81)})
-FYS = ("fy2027", "fy2028", "fy2029", "fy2030")
+CONFIG_DIR = os.path.join(REPO, "config", "capital_sd")
 
 X_TOL = 1.5               # pdfplumber x_tolerance; the prototype's value (families/capital.md §3.1)
 LINE_TOL = 1.5            # words whose tops differ by less than this are one printed line
@@ -70,13 +65,39 @@ BLOCK_GAP = 12.0          # pt between line tops: below = same cell (leading ~9.
                           # cell (>= 14.4 measured). Re-measured in checks.txt every run.
 AMOUNT_X1_TOL = 3.0       # an amount is right-aligned to its FY header's right edge
 NEAR_TOL = 6.0            # a word outside every row band may join the nearest band within this
-AMOUNT_RE = re.compile(r"^-?\$?[\d,]+$")
+AMOUNT_RE = re.compile(r"^-?\$?[\d,]+$|^\$?\([\d,]+\)$")   # FY2026 Part III: "(183,000)"
 SUB_CODE_RE = re.compile(r"^[A-Z]{1,3}$")
 SUB_ID_RE = re.compile(r"^[A-Z]{2}\d{3,5}$")
+CID_TAB = "(cid:9)"
 CODE_RE = re.compile(r"\b([BS]):(?:[BS]:)?\s?([A-Z]\d{3}[A-Z]?)\b")   # "B:B:Q156" printed too
-# The Word export's two font subsets on detail pages. Text in any other subset was typed in
-# later (Acrobat edits after export: pp.40, 45, 46, 47, 55, 56, 58).
-EXPORT_FONTS = ("FPJADB+", "FPJABP+")
+
+
+def configure(fy):
+    """Load config/capital_sd/fy<fy>.toml and set the module's per-year globals.
+
+    PAGE_MAP is checked against the page furniture in triage() (a page that disagrees fails).
+    EXPORT_FONTS: the Word export's fonts on detail pages; text in any other font was typed in
+    later. Every other year-specific value is read from CFG where it is used."""
+    global CFG, FY, TAG, PREFIX, PDF, PDF_SHA256, OUT, PAGE_MAP, FYS, EXPORT_FONTS
+    with open(os.path.join(CONFIG_DIR, f"fy{fy}.toml"), "rb") as f:
+        CFG = tomllib.load(f)
+    FY = CFG["fiscal_year"]
+    TAG = f"fy{FY}"
+    PREFIX = CFG["prefix"]
+    PDF = os.path.join(REPO, CFG["pdf"])
+    PDF_SHA256 = CFG["sha256"]
+    OUT = os.path.join(REPO, CFG["review_dir"])
+    PAGE_MAP = {p: kind for kind, ranges in CFG["pages"].items()
+                for a, b in ranges for p in range(a, b + 1)}
+    FYS = tuple(CFG["fys"])
+    EXPORT_FONTS = tuple(CFG["export_fonts"])
+
+
+def pages_of(kind):
+    return sorted(p for p, k in PAGE_MAP.items() if k == kind)
+
+
+configure(2027)
 
 
 def sha256(path):
@@ -88,8 +109,10 @@ def sha256(path):
 
 
 def money(s):
-    """Printed amount -> int. `$` and thousands commas only; a leading minus is kept."""
-    return int(s.replace("$", "").replace(",", ""))
+    """Printed amount -> int. `$` and thousands commas only; a leading minus or accounting
+    parentheses (`$(183,000)`) make it negative."""
+    v = s.replace("$", "").replace(",", "")
+    return -int(v[1:-1]) if v.startswith("(") else int(v)
 
 
 def page_words(page):
@@ -138,12 +161,13 @@ class Review:
     COLS = ["review_id", "check_id", "severity", "pdf_page", "part", "sub_id", "budget_line",
             "field", "dollars", "expected", "observed", "note"]
 
-    def __init__(self):
+    def __init__(self, tag=None):
         self.rows = []
+        self.tag = tag            # review_id salt; default: this module's configured year
 
     def add(self, check_id, severity, page, note, part="", sub_id="", budget_line="",
             field="", dollars=0, expected="", observed=""):
-        self.rows.append({"review_id": rid("fy2027", check_id, page, sub_id, field, note),
+        self.rows.append({"review_id": rid(self.tag or TAG, check_id, page, sub_id, field, note),
                           "check_id": check_id, "severity": severity, "pdf_page": page,
                           "part": part, "sub_id": sub_id, "budget_line": budget_line,
                           "field": field, "dollars": dollars, "expected": expected,
@@ -178,10 +202,10 @@ def check_page_map(pages, review):
         if k == "UNMAPPED":
             ok = False
         elif k in ("part1", "part2"):
-            ok = pg["first_line"] == expect_first[k] and pg["rotate"] == 90 and \
+            ok = pg["first_line"] == expect_first[k] and pg["rotate"] == CFG["rotate"][k] and \
                 pg["printed_label"] != ""
         elif k == "part3":
-            ok = pg["rotate"] == 0 and pg["printed_label"] != ""
+            ok = pg["rotate"] == CFG["rotate"][k] and pg["printed_label"] != ""
         if not ok:
             bad += 1
             review.add("H3.page_map", "critical", pg["pdf_page"],
@@ -453,9 +477,12 @@ def finish_row(row, wmap, pno, part, review):
     codes = CODE_RE.findall(row["title_raw"])
     row["building_code"] = ";".join(v for k, v in codes if k == "B")
     row["school_code"] = ";".join(v for k, v in codes if k == "S")
-    row["title"] = re.sub(r"\s+", " ", CODE_RE.sub("", row["title_raw"].replace("\n", " "))).strip()
+    # FY2026 has a tab glyph with no Unicode mapping between the B: and S: codes (pp.35-41):
+    # pdfplumber gives it as "(cid:9)". It is kept in title_raw and read as a space in title.
+    row["title"] = re.sub(r"\s+", " ", CODE_RE.sub("", row["title_raw"].replace("\n", " ")
+                                                   .replace(CID_TAB, " "))).strip()
     # Clean rules (listed, counted): line breaks -> space; whitespace collapsed; a space before
-    # a comma removed (the post-export edits print "BANKS , LOUIS").
+    # a comma removed (the post-export edits print "BANKS , LOUIS"); "(cid:9)" -> space.
     sp = re.sub(r"\s+", " ", row["sponsor_raw"].replace("\n", " ")).strip()
     row["sponsor"] = re.sub(r" ,", ",", sp)
     rules = []
@@ -465,6 +492,8 @@ def finish_row(row, wmap, pno, part, review):
         rules.append("space_before_comma")
     if codes:
         rules.append("bs_codes_split")
+    if CID_TAB in row["title_raw"]:
+        rules.append("cid_tab")
     row["clean_rules_applied"] = ";".join(rules)
     fonts = collections.Counter(wmap[w]["fontname"] for w in row["words"])
     row["fonts"] = ";".join(sorted(fonts))
@@ -710,8 +739,8 @@ def reconcile(rows, totals, review, report):
             status = "OK" if (n == t["printed_count"] and not diffs) else "FAIL"
             t.update({"rows": n, **{f"sum_{fy}": got[fy] for fy in FYS}, "status": status})
             report.append(f"  {part:>2} p.{t['pdf_page']:<3} {t['name'][:40]:<40} "
-                          f"{n:>5}/{t['printed_count']:<5} {got['fy2027']:>13,}/"
-                          f"{t['printed_fy2027']:<13,} {status}")
+                          f"{n:>5}/{t['printed_count']:<5} {got[FYS[0]]:>13,}/"
+                          f"{t['printed_' + FYS[0]]:<13,} {status}")
             if status == "OK":
                 ok += 1
             else:
@@ -719,15 +748,15 @@ def reconcile(rows, totals, review, report):
                            f"TOTALS FOR {t['name']}: rows {n} vs {t['printed_count']}; "
                            + ", ".join(f"{fy} {got[fy]:,} vs {t[f'printed_{fy}']:,}" for fy in diffs),
                            part=part, dollars=max([abs(got[fy] - t[f"printed_{fy}"]) for fy in FYS]),
-                           expected=t["printed_fy2027"], observed=got["fy2027"])
+                           expected=t["printed_" + FYS[0]], observed=got[FYS[0]])
             if t["name"] != "ALL":
                 since = []
     return ok
 
 
 def summary_page(pdf, review):
-    """p.61: City Council Additions / Less Rescindments / Net Change."""
-    text = pdf.pages[60].extract_text()
+    """The summary page (FY2027 p.61): City Council Additions / Less Rescindments / Net Change."""
+    text = pdf.pages[pages_of("summary")[0] - 1].extract_text()
     def grab(label):
         m = re.search(label + r"\s+\(?\$([\d,]+)\)?", text)
         return money(m.group(1)) if m else None
@@ -736,15 +765,21 @@ def summary_page(pdf, review):
             "net": grab("Net Change")}
 
 
-def awards_fy2027():
+def wb_id(a):
+    """The workbook's project ID without its agency prefix: FY2027 prints `CC0001`, FY2026
+    `E CN0001`. The PDF's SUB ID is compared the same way (`sub_id.split(" ")[-1]`)."""
+    return a["project_id"].split(" ")[-1]
+
+
+def awards_for_year():
     with open(AWARDS, newline="", encoding="utf-8") as f:
-        return [r for r in csv.DictReader(f) if r["report_year"] == "2027"]
+        return [r for r in csv.DictReader(f) if r["report_year"] == str(FY)]
 
 
 def align_workbook(rows, review, report):
     """C9. The workbook drops the agency prefix from the ID (`CC0001`); compare on
     (ID number, budget line, FY, amount) for every non-zero amount, then explain the rest."""
-    aw = awards_fy2027()
+    aw = awards_for_year()
     pdf_keys = collections.Counter()
     pdf_by = collections.defaultdict(list)
     for r in rows:
@@ -760,13 +795,13 @@ def align_workbook(rows, review, report):
     wb_keys = collections.Counter()
     wb_by = collections.defaultdict(list)
     for a in aw:
-        k = (a["project_id"], a["budget_line"], a["amount_fy"], int(a["amount"]))
+        k = (wb_id(a), a["budget_line"], a["amount_fy"], int(a["amount"]))
         wb_keys[k] += 1
         wb_by[k].append(a)
     matched = sum((pdf_keys & wb_keys).values())
     pdf_only = pdf_keys - wb_keys
     wb_only = wb_keys - pdf_keys
-    report.append(f"  PDF Part I non-zero amounts: {sum(pdf_keys.values())}; workbook FY2027 rows: "
+    report.append(f"  PDF Part I non-zero amounts: {sum(pdf_keys.values())}; workbook FY{FY} rows: "
                   f"{sum(wb_keys.values())}; matched on (ID, budget line, FY, amount): {matched}; "
                   f"PDF only: {sum(pdf_only.values())}; workbook only: {sum(wb_only.values())}")
     for k, n in sorted(pdf_only.items()):
@@ -782,7 +817,7 @@ def align_workbook(rows, review, report):
     # workbook has title + description).
     wb_by_id = collections.defaultdict(list)
     for a in aw:
-        wb_by_id[(a["project_id"], a["budget_line"])].append(a)
+        wb_by_id[(wb_id(a), a["budget_line"])].append(a)
     boro_diff = 0
     for r in rows:
         if r["part"] != "I":
@@ -794,14 +829,14 @@ def align_workbook(rows, review, report):
                        f"borough PDF {r['boro']} vs workbook "
                        f"{'/'.join(sorted({c['borough'] for c in cands}))}",
                        part="I", sub_id=r["sub_id"], budget_line=r["budget_line"], field="boro",
-                       dollars=r["fy2027"] or 0)
+                       dollars=r[FYS[0]] or 0)
     report.append(f"  borough differs from the workbook on {boro_diff} Part I rows")
 
     # Title and sponsor, as an independent check of which row each wrapped line went to.
     # The workbook title carries the B:/S: codes, as the PDF prints them.
     def norm(s):
         # Accents folded: the post-export edits print FARIAS where the workbook has Farías.
-        return re.sub(r"[^A-Z0-9]", "", unicodedata.normalize("NFKD", s).upper())
+        return re.sub(r"[^A-Z0-9]", "", unicodedata.normalize("NFKD", s.replace(CID_TAB, " ")).upper())
 
     def people(s):
         return sorted(p for p in (norm(x) for x in s.split(",")) if p)
@@ -821,14 +856,14 @@ def align_workbook(rows, review, report):
             review.add("C9.workbook_title", "warn", r["pdf_page"],
                        f"title PDF '{r['title_raw'].replace(chr(10), ' / ')}' vs workbook "
                        f"'{a['title']}'", part="I", sub_id=r["sub_id"],
-                       budget_line=r["budget_line"], field="title", dollars=r["fy2027"] or 0)
+                       budget_line=r["budget_line"], field="title", dollars=r[FYS[0]] or 0)
         if people(r["sponsor"]) == people(a["sponsor"]):
             s_eq += 1
         else:
             review.add("C9.workbook_sponsor", "warn", r["pdf_page"],
                        f"sponsor PDF '{r['sponsor']}' vs workbook '{a['sponsor']}'",
                        part="I", sub_id=r["sub_id"], budget_line=r["budget_line"],
-                       field="sponsor", dollars=r["fy2027"] or 0)
+                       field="sponsor", dollars=r[FYS[0]] or 0)
     report.append(f"  title equal (letters and digits only) on {t_eq}/{n}; sponsor list equal on "
                   f"{s_eq}/{n}")
     return matched, pdf_only, wb_only
@@ -838,17 +873,22 @@ def align_workbook(rows, review, report):
 # Main
 # --------------------------------------------------------------------------------------------
 
-ROW_COLS = ["part", "agency", "pdf_page", "row_in_page", "sub_id", "budget_line", "boro", "title",
-            "building_code", "school_code", "fy2027", "fy2028", "fy2029", "fy2030", "sponsor",
-            "title_raw", "sponsor_raw", "fy2027_printed", "fy2028_printed", "fy2029_printed",
-            "fy2030_printed", "flags", "bbox_pt", "pdf_sha256"]
+def row_cols():
+    return (["part", "agency", "pdf_page", "row_in_page", "sub_id", "budget_line", "boro", "title",
+             "building_code", "school_code", *FYS, "sponsor", "title_raw", "sponsor_raw"]
+            + [f"{fy}_printed" for fy in FYS] + ["flags", "bbox_pt", "pdf_sha256"])
 
 
-def run(out_dir, do_ink=True, ink_selftest=False):
+def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
+    if fy is not None:
+        configure(fy)
+    out_dir = out_dir or OUT
     assert sha256(PDF) == PDF_SHA256, "H1: the PDF is not the one this config was written for"
     os.makedirs(os.path.join(out_dir, "data"), exist_ok=True)
     review = Review()
-    report = ["FY2027 capital supporting detail: checks", f"pdf: {os.path.relpath(PDF, REPO)}",
+    selftest = CFG["ink_selftest"]
+    summary_pno = pages_of("summary")[0]
+    report = [f"FY{FY} capital supporting detail: checks", f"pdf: {os.path.relpath(PDF, REPO)}",
               f"sha256: {PDF_SHA256}", ""]
     rows, totals = [], []
     part3_state = {"org": None, "orgs": []}
@@ -865,7 +905,7 @@ def run(out_dir, do_ink=True, ink_selftest=False):
             page = pdf.pages[n - 1]
             if kind in ("part1", "part2"):
                 part = "I" if kind == "part1" else "II"
-                if kind == "part2" and n == 63:
+                if kind == "part2" and n == pages_of("part2")[0]:
                     state["agency"] = None
                 r, t, used, words = parse_detail_page(page, n, part, state, review, gaps)
                 for i, row in enumerate(r):
@@ -913,9 +953,10 @@ def run(out_dir, do_ink=True, ink_selftest=False):
                 for y in ionly:
                     review.add("C7.rules", "critical", n, f"rule in pixels at y={y} not in vector")
                 used = consumed_by_page[n]
-                if ink_selftest and n == 40:
-                    # Drop HD CC1047's words from the emitted set: the check must fire.
-                    drop = {wid for r in rows if r["sub_id"] == "HD CC1047" for wid in r["words"]}
+                if ink_selftest and n == selftest["page"]:
+                    # Drop one row's words from the emitted set: the check must fire.
+                    drop = {wid for r in rows if r["sub_id"] == selftest["sub_id"] and
+                            r["pdf_page"] == n for wid in r["words"]}
                     used = used - drop
                 regs, total_ink = ink_regions(gray, words_by_page[n], used, page)
                 c8["pages"] += 1
@@ -928,33 +969,33 @@ def run(out_dir, do_ink=True, ink_selftest=False):
                           f"{c7['matched']} matched, {c7['vector_only']} vector only, "
                           f"{c7['image_only']} image only")
             report.append(f"C8 ink coverage: {c8['pages']} pages, {c8['regions']} uncovered "
-                          f"regions" + ("  [SELF-TEST: HD CC1047 removed on p.40]"
-                                        if ink_selftest else ""))
+                          f"regions" + (f"  [SELF-TEST: {selftest['sub_id']} removed on "
+                                        f"p.{selftest['page']}]" if ink_selftest else ""))
         else:
             report.append("C7, C8: not run (--no-ink)")
 
     report.append("")
     report.append(f"Rows parsed: Part I {sum(r['part'] == 'I' for r in rows)}, "
                   f"Part II {sum(r['part'] == 'II' for r in rows)}")
-    report.append("C1/C2 TOTALS FOR lines (rows/printed, FY2027 sum/printed):")
+    report.append(f"C1/C2 TOTALS FOR lines (rows/printed, FY{FY} sum/printed):")
     ok = reconcile(rows, totals, review, report)
     report.append(f"  {ok}/{len(totals)} totals lines tie on count and all four FYs")
 
-    # C2: the p.61 summary.
+    # C2: the summary page.
     p1_all = next((t for t in totals if t["part"] == "I" and t["name"] == "ALL"), None)
-    report.append(f"C2 p.61: additions {summ['additions']:,}, rescindments "
+    report.append(f"C2 p.{summary_pno}: additions {summ['additions']:,}, rescindments "
                   f"{summ['rescindments']:,}, net {summ['net']:,}")
-    if p1_all and summ["additions"] == p1_all["printed_fy2027"] == p1_all.get("sum_fy2027"):
-        report.append("  additions = Part I TOTALS FOR ALL FY2027 = sum of Part I rows: OK")
+    if p1_all and summ["additions"] == p1_all["printed_" + FYS[0]] == p1_all.get("sum_" + FYS[0]):
+        report.append(f"  additions = Part I TOTALS FOR ALL FY{FY} = sum of Part I rows: OK")
     else:
         report.append("  additions vs Part I: FAIL")
-        review.add("C2.summary", "critical", 61, "additions do not equal Part I FY2027",
-                   dollars=abs((summ["additions"] or 0) - (p1_all or {}).get("sum_fy2027", 0)))
+        review.add("C2.summary", "critical", summary_pno, f"additions do not equal Part I FY{FY}",
+                   dollars=abs((summ["additions"] or 0) - (p1_all or {}).get("sum_" + FYS[0], 0)))
     if summ["additions"] - summ["rescindments"] == summ["net"]:
         report.append("  additions - rescindments = net: OK")
     else:
-        review.add("C2.summary", "critical", 61, "additions - rescindments != net")
-    review.add("C2.rescindments", "warn", 61,
+        review.add("C2.summary", "critical", summary_pno, "additions - rescindments != net")
+    review.add("C2.rescindments", "warn", summary_pno,
                f"rescindments ({summ['rescindments']:,}) are printed as one number; no list of "
                "them is in this book, so only the subtraction can be checked",
                dollars=summ["rescindments"])
@@ -980,25 +1021,39 @@ def run(out_dir, do_ink=True, ink_selftest=False):
                        + (f"; Part I text added after export: '{a['edited_text']}'"
                           if a.get("edited_text") else ""),
                        part="II", sub_id=r["sub_id"], budget_line=r["budget_line"], field=f,
-                       dollars=r["fy2027"] or 0, expected=a[f], observed=r[f])
+                       dollars=r[FYS[0]] or 0, expected=a[f], observed=r[f])
     ma = [r for r in p2_rows if r["sub_id"] not in p1_by_id]
     report.append(f"C3 Part II: {len(p2_rows)} rows; {same} equal a Part I row in every field; "
                   f"{len(p2_rows) - same - only2} differ in a field; {only2} are not in Part I")
     ma_ids = collections.Counter(r["sub_id"].split(" ")[1][:2] for r in ma)
     ma_lines = collections.Counter(r["budget_line"].split(" ")[1][:2] for r in ma)
+    ma_usd = sum(r[FYS[0]] or 0 for r in ma)
     report.append(f"  not in Part I: ID series {dict(ma_ids)}, budget-line series {dict(ma_lines)}, "
-                  f"FY2027 ${sum(r['fy2027'] or 0 for r in ma):,}, sponsor blank on "
+                  f"FY{FY} ${ma_usd:,}, sponsor blank on "
                   f"{sum(1 for r in ma if not r['sponsor'])}")
+    # The series Part II-only rows are expected in (FY2027: MA IDs on 0N lines). Any other
+    # Part II-only row is critical. The workbook claim is checked, not assumed.
+    sid, sln = CFG["part2_only"]["id_prefix"], CFG["part2_only"]["line_prefix"]
+    series = []
     for r in ma:
-        if not (r["sub_id"].split(" ")[1].startswith("MA") and r["budget_line"].split(" ")[1].startswith("0N")):
+        if r["sub_id"].split(" ")[1].startswith(sid) and r["budget_line"].split(" ")[1].startswith(sln):
+            series.append(r)
+        else:
             review.add("C3.part2_only", "critical", r["pdf_page"],
-                       "Part II row not in Part I and not in the MA / 0N series", part="II",
-                       sub_id=r["sub_id"], budget_line=r["budget_line"], dollars=r["fy2027"] or 0)
-    review.add("C3.ma_series", "warn", ma[0]["pdf_page"] if ma else "",
-               f"{len(ma)} Part II rows (MA IDs on 0N budget lines, no sponsor, "
-               f"${sum(r['fy2027'] or 0 for r in ma):,} FY2027) are not Council additions: they are "
-               "not in Part I, not in the p.61 total, and not in the Council workbook. Meaning of "
-               "MA / 0N unconfirmed", part="II", dollars=sum(r["fy2027"] or 0 for r in ma))
+                       f"Part II row not in Part I and not in the {sid} / {sln} series", part="II",
+                       sub_id=r["sub_id"], budget_line=r["budget_line"], dollars=r[FYS[0]] or 0)
+    wb_ids = {wb_id(a) for a in awards_for_year()}
+    in_wb = [r for r in series if r["sub_id"].split(" ")[1] in wb_ids]
+    s_usd = sum(r[FYS[0]] or 0 for r in series)
+    if series:
+        review.add("C3.ma_series", "warn", series[0]["pdf_page"],
+                   f"{len(series)} Part II rows ({sid} IDs on {sln} budget lines, "
+                   f"{'no sponsor' if not any(r['sponsor'] for r in series) else 'sponsors as printed'}, "
+                   f"${s_usd:,} FY{FY}) are not Council additions: they are "
+                   f"not in Part I, not in the p.{summary_pno} total, and "
+                   + ("not in the Council workbook" if not in_wb else
+                      f"{len(in_wb)} of their IDs are in the Council workbook") +
+                   f". Meaning of {sid} / {sln} unconfirmed", part="II", dollars=s_usd)
     p2ids = {r["sub_id"] for r in p2_rows}
     p1_dn = [r for r in rows if r["part"] == "I" and r["budget_line"].split(" ")[-1].startswith("DN")]
     missing_dn = [r for r in p1_dn if r["sub_id"] not in p2ids]
@@ -1008,7 +1063,7 @@ def run(out_dir, do_ink=True, ink_selftest=False):
         review.add("C3.dn_not_in_part2", "critical", r["pdf_page"],
                    "Part I row on a non-city (DN) budget line is not listed in Part II",
                    part="I", sub_id=r["sub_id"], budget_line=r["budget_line"],
-                   dollars=r["fy2027"] or 0)
+                   dollars=r[FYS[0]] or 0)
     p1_not_dn_in_2 = [r for r in p2_rows if r["sub_id"] in p1_by_id and
                       not r["budget_line"].split(" ")[-1].startswith("DN")]
     report.append(f"  Part II rows from Part I that are not on a DN line: {len(p1_not_dn_in_2)}")
@@ -1019,7 +1074,7 @@ def run(out_dir, do_ink=True, ink_selftest=False):
             review.add("W.edited_after_export", "warn", r["pdf_page"],
                        f"text typed in after export (other font): '{r['edited_text']}'; "
                        f"sponsor now reads '{r['sponsor']}'", part=r["part"], sub_id=r["sub_id"],
-                       budget_line=r["budget_line"], dollars=r["fy2027"] or 0)
+                       budget_line=r["budget_line"], dollars=r[FYS[0]] or 0)
     sa = state.get("stream_agree", collections.Counter())
     so = state.get("stream_out_of_order", collections.Counter())
     report.append(f"C5 geometry vs stream: {sum(sa.values())} words agree; {sum(so.values())} words "
@@ -1047,14 +1102,15 @@ def run(out_dir, do_ink=True, ink_selftest=False):
     if part3_grand:
         g = part3_grand[-1]
         st = "OK" if all(g[fy] == gsum[fy] for fy in FYS) else "FAIL"
-        report.append(f"  TOTAL NON-CITY PROJECT ALLOCATIONS {g['fy2027']:,}/{g['fy2028']:,}: "
-                      f"rows {gsum['fy2027']:,}/{gsum['fy2028']:,} {st}")
+        report.append(f"  TOTAL NON-CITY PROJECT ALLOCATIONS {g[FYS[0]]:,}/{g[FYS[1]]:,}: "
+                      f"rows {gsum[FYS[0]]:,}/{gsum[FYS[1]]:,} {st}")
         p2_all = next((t for t in totals if t["part"] == "II" and t["name"] == "ALL"), None)
         if p2_all:
             st2 = "OK" if all(g[fy] == p2_all[f"printed_{fy}"] for fy in FYS) else "FAIL"
             report.append(f"  = Part II TOTALS FOR ALL: {st2}")
     else:
-        review.add("C4.grand", "critical", 80, "Part III grand total not found", part="III")
+        review.add("C4.grand", "critical", pages_of("part3")[-1], "Part III grand total not found",
+                   part="III")
     # By budget line, Part III vs Part II.
     by3 = collections.defaultdict(lambda: [0, 0, 0, 0])
     for l in p3_lines:
@@ -1077,17 +1133,17 @@ def run(out_dir, do_ink=True, ink_selftest=False):
                        part="III", budget_line=bl, dollars=max(abs(x - y) for x, y in zip(a, b)))
 
     # C9 workbook alignment.
-    report.append("C9 Council workbook (data/capital/council_capital_awards.csv, report_year 2027):")
+    report.append(f"C9 Council workbook (data/capital/council_capital_awards.csv, report_year {FY}):")
     align_workbook(rows, review, report)
 
     # C5 tie-break. A near disagreement keeps the geometry read; it is downgraded only when
     # an independent source settles it: the field equals the Council workbook, or the word is a
     # 0 and both candidate rows print 0 there (no dollar effect).
     wb = collections.defaultdict(list)
-    for a in awards_fy2027():
-        wb[(a["project_id"], a["budget_line"])].append(a)
+    for a in awards_for_year():
+        wb[(wb_id(a), a["budget_line"])].append(a)
     by_sub = {(r["part"], r["sub_id"]): r for r in rows}
-    norm = lambda t: re.sub(r"[^A-Z0-9]", "", unicodedata.normalize("NFKD", t).upper())
+    norm = lambda t: re.sub(r"[^A-Z0-9]", "", unicodedata.normalize("NFKD", t.replace(CID_TAB, " ")).upper())
     ppl = lambda t: sorted(x for x in (norm(y) for y in t.split(",")) if x)
     for rv in review.rows:
         if rv["check_id"] != "C5.geom_vs_stream":
@@ -1117,27 +1173,27 @@ def run(out_dir, do_ink=True, ink_selftest=False):
 
     # ---- write -----------------------------------------------------------------------------
     d = os.path.join(out_dir, "data")
-    with open(os.path.join(d, "fy27_capital_sd_pages.csv"), "w", newline="") as f:
+    with open(os.path.join(d, f"{PREFIX}_capital_sd_pages.csv"), "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(pages[0]))
         w.writeheader()
         w.writerows(pages)
-    with open(os.path.join(d, "fy27_capital_sd_projects.csv"), "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=ROW_COLS, extrasaction="ignore")
+    with open(os.path.join(d, f"{PREFIX}_capital_sd_projects.csv"), "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=row_cols(), extrasaction="ignore")
         w.writeheader()
         for r in rows:
             w.writerow({**r, "flags": ";".join(sorted(set(r["flags"]))), "pdf_sha256": PDF_SHA256})
-    with open(os.path.join(d, "fy27_capital_sd_totals.csv"), "w", newline="") as f:
+    with open(os.path.join(d, f"{PREFIX}_capital_sd_totals.csv"), "w", newline="") as f:
         cols = ["part", "pdf_page", "name", "printed_count", "rows"] + \
                [f"printed_{fy}" for fy in FYS] + [f"sum_{fy}" for fy in FYS] + ["status", "printed_text"]
         w = csv.DictWriter(f, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
         w.writerows(totals)
-    with open(os.path.join(d, "fy27_capital_sd_part3.csv"), "w", newline="") as f:
+    with open(os.path.join(d, f"{PREFIX}_capital_sd_part3.csv"), "w", newline="") as f:
         cols = ["pdf_page", "organization", "budget_line"] + list(FYS) + ["bbox_pt"]
         w = csv.DictWriter(f, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
         w.writerows(p3_lines)
-    with open(os.path.join(d, "fy27_capital_sd_part3_orgs.csv"), "w", newline="") as f:
+    with open(os.path.join(d, f"{PREFIX}_capital_sd_part3_orgs.csv"), "w", newline="") as f:
         cols = ["pdf_page", "organization"] + [f"org_{fy}" for fy in FYS] + ["n_lines", "status", "bbox_pt"]
         w = csv.DictWriter(f, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
@@ -1145,21 +1201,21 @@ def run(out_dir, do_ink=True, ink_selftest=False):
             w.writerow({**o, "n_lines": len(o["lines"])})
     review_rows = sorted(review.rows, key=lambda r: (r["severity"] != "critical",
                                                      -(r["dollars"] or 0), str(r["pdf_page"])))
-    with open(os.path.join(d, "fy27_capital_sd_review.csv"), "w", newline="") as f:
+    with open(os.path.join(d, f"{PREFIX}_capital_sd_review.csv"), "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=Review.COLS)
         w.writeheader()
         w.writerows(review_rows)
         if not review_rows:
             w.writerow({"check_id": "ok", "note": "all checks ran; nothing to review"})
     if do_ink:
-        with open(os.path.join(d, "fy27_capital_sd_ink.json"), "w") as f:
+        with open(os.path.join(d, f"{PREFIX}_capital_sd_ink.json"), "w") as f:
             json.dump({str(k): v for k, v in ink_detail.items() if v}, f, indent=1)
     cnt = collections.Counter((r["check_id"], r["severity"]) for r in review.rows)
     report.append("")
     report.append("review.csv by check:")
     for (c, s), n in sorted(cnt.items()):
         report.append(f"  {c:<28} {s:<8} {n}")
-    with open(os.path.join(d, "fy27_capital_sd_checks.txt"), "w") as f:
+    with open(os.path.join(d, f"{PREFIX}_capital_sd_checks.txt"), "w") as f:
         f.write("\n".join(report) + "\n")
     print("\n".join(report))
     return rows, totals, review
@@ -1167,9 +1223,10 @@ def run(out_dir, do_ink=True, ink_selftest=False):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
-    ap.add_argument("--out", default=OUT)
+    ap.add_argument("--fy", type=int, default=2027, help="fiscal year (config/capital_sd/fy<FY>.toml)")
+    ap.add_argument("--out", default=None, help="output folder (default: the config's review_dir)")
     ap.add_argument("--no-ink", action="store_true", help="skip C7/C8 (no rendering)")
     ap.add_argument("--selftest-ink", action="store_true",
-                    help="drop HD CC1047 from p.40's emitted set; C8 must fire there")
+                    help="drop the config's ink_selftest row from its page; C8 must fire there")
     a = ap.parse_args()
-    run(a.out, do_ink=not a.no_ink, ink_selftest=a.selftest_ink)
+    run(a.out, do_ink=not a.no_ink, ink_selftest=a.selftest_ink, fy=a.fy)

@@ -1,8 +1,10 @@
 """
-FY2027 Terms and Conditions: parse, check and review (GitHub #102, epic #101).
+Terms and Conditions: parse, check and review (epic #101; FY2027 #102, FY2026 #103).
 
-Source: source/FY27/FY27-FINAL-Terms-and-Conditions-6.30.26.pdf (32 pages, tier B, Word export).
-Writes to research/2026-10-20-fy27-capital-terms-review/ (never to data/; DATA-ANOMALIES §27).
+One parser, one config per year (config/terms/fyNNNN.toml: PDF, sha256, page furniture, the
+retired CSV to compare with). FY2027 (the default): source/FY27/FY27-FINAL-Terms-and-Conditions-
+6.30.26.pdf (32 pages, tier B, Word export). FY2026: source/FY26/FY26-Terms-and-Conditions-1.pdf
+(29 pages). Writes to the config's research/ folder (never to data/; DATA-ANOMALIES §27).
 
 The document is prose (families/transparency-and-terms.md §4). Its structure is:
 
@@ -23,10 +25,10 @@ Checks (numbers in checks.txt, failures in review.csv):
   T5 FSR table: vector lattice (pdfplumber) vs image lattice (code/ocr/grid.py detect_grid,
      kernel_px=60) separators within 2 pt, and cell strings identical under both
   T6 ink coverage, as in review_capital_sd.py
-  T7 against the retired data/fy27/terms CSV: rows, numbers, agencies, units, and text
+  T7 against the retired data/fyNN/terms CSV (config old_csv): rows, numbers, agencies, units, and text
      (whitespace removed), plus the mid-word split count in each
 
-Run:  .venv/bin/python code/review_terms.py [--out DIR] [--no-ink]
+Run:  .venv/bin/python code/review_terms.py [--fy 2027|2026] [--out DIR] [--no-ink]
 """
 import argparse
 import collections
@@ -34,6 +36,7 @@ import csv
 import os
 import re
 import sys
+import tomllib
 
 import pdfplumber
 
@@ -43,14 +46,29 @@ sys.path.insert(0, HERE)
 
 from review_capital_sd import Review, render_gray, ink_regions, sha256, SCALE  # noqa: E402
 
-PDF = os.path.join(REPO, "source/FY27/FY27-FINAL-Terms-and-Conditions-6.30.26.pdf")
-PDF_SHA256 = "54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b"
-OLD_CSV = os.path.join(REPO, "data/fy27/terms/fy27_terms_and_conditions.csv")
-OUT = os.path.join(REPO, "research/2026-10-20-fy27-capital-terms-review")
+CONFIG_DIR = os.path.join(REPO, "config", "terms")
+
+
+def configure(fy):
+    """Load config/terms/fy<fy>.toml and set the module's per-year globals."""
+    global CFG, FY, TAG, PREFIX, PDF, PDF_SHA256, OLD_CSV, OUT, FURNITURE_RE
+    with open(os.path.join(CONFIG_DIR, f"fy{fy}.toml"), "rb") as f:
+        CFG = tomllib.load(f)
+    FY = CFG["fiscal_year"]
+    TAG = f"fy{FY}"
+    PREFIX = CFG["prefix"]
+    PDF = os.path.join(REPO, CFG["pdf"])
+    PDF_SHA256 = CFG["sha256"]
+    OLD_CSV = os.path.join(REPO, CFG["old_csv"])
+    OUT = os.path.join(REPO, CFG["review_dir"])
+    FURNITURE_RE = re.compile(CFG["furniture"]["pattern"])
+
+
+configure(2027)
 
 HEAD_RE = re.compile(r"^(\d+)\.\s+(.+?)\s*\((\d{3})\)$")
 AGENCY_RE = re.compile(r"^(.+?)\s*\((\d{3})\)$")
-UOA_RE = re.compile(r"^Unit of Appropriation \[([^\]]+)\]$")
+UOA_RE = re.compile(r"^Units? of Appropriation \[([^\]]+)\]$")   # FY2026 #5, #7: "Units of"
 BL_RE = re.compile(r"^Budget Line (.+)$")
 DATE_RE = re.compile(r"(?:January|February|March|April|May|June|July|August|September|October|"
                      r"November|December) \d{1,2}, \d{4}")
@@ -70,7 +88,9 @@ def page_lines(page, table_bboxes):
         if any(b[0] <= cx <= b[2] and b[1] <= cy <= b[3] for b in table_bboxes):
             continue
         ln["bold"] = is_bold(ln)
-        ln["furniture"] = ln["top"] > 740 and re.fullmatch(r"\d{1,2}", ln["text"].strip()) is not None
+        fu = CFG["furniture"]
+        ln["furniture"] = fu["top_min"] < ln["top"] < fu["top_max"] and \
+            FURNITURE_RE.fullmatch(ln["text"].strip()) is not None
         out.append(ln)
     return out
 
@@ -135,11 +155,20 @@ def fsr_table(pdf, review, report):
                     cells[(r, c)].append(ch)
                 txt = {}
                 for k, chs in cells.items():
-                    lines = collections.defaultdict(list)
-                    for ch in chs:
-                        lines[round(ch["top"])].append(ch)
-                    txt[k] = "\n".join("".join(c["text"] for c in sorted(l, key=lambda c: c["x0"])).strip()
-                                       for _, l in sorted(lines.items()))
+                    # A character joins a line when it overlaps the line's height by half its
+                    # own: FY2026's superscript ordinals ("October 2nd", p.8) sit ~3 pt high
+                    # and would otherwise read as a line of their own ("nd October 2").
+                    lines = []
+                    for ch in sorted(chs, key=lambda c: (c["top"], c["x0"])):
+                        h = ch["bottom"] - ch["top"]
+                        ln = next((l for l in lines if min(l["bottom"], ch["bottom"]) -
+                                   max(l["top"], ch["top"]) > h / 2), None)
+                        if ln is None:
+                            lines.append({"top": ch["top"], "bottom": ch["bottom"], "chars": [ch]})
+                        else:
+                            ln["chars"].append(ch)
+                    txt[k] = "\n".join("".join(c["text"] for c in sorted(l["chars"], key=lambda c: c["x0"])).strip()
+                                       for l in sorted(lines, key=lambda l: l["top"]))
                 return txt
             tv, ti = cells_by(vx, vy), cells_by(ix, iy)
             for k in sorted(set(tv) | set(ti), key=lambda k: (k[0] or 0, k[1] or 0)):
@@ -190,7 +219,7 @@ def parse(pdf, bboxes, review):
         lines = page_lines(page, bboxes.get(pno, []))
         if pno == 1:
             for ln in lines:
-                emitted_lines[pno].append(ln)        # cover: FISCAL 2027 / TERMS AND CONDITIONS
+                emitted_lines[pno].append(ln)        # cover: FISCAL NNNN / TERMS AND CONDITIONS
             continue
         for ln in lines:
             if ln["furniture"]:
@@ -258,20 +287,22 @@ def parse(pdf, bboxes, review):
 
 def body_sentence_check(c, review):
     """T3: units and budget lines named in the opening clause vs the heading."""
-    body = " ".join(l["text"] for l in c["body_lines"])
+    # FY2026 prints budget lines with U+2010 (`HD‐0009`); compared as ASCII, kept as printed.
+    body = " ".join(l["text"] for l in c["body_lines"]).replace("\u2010", "-")
     head_u = sorted({u for g in c["groups"] for u in g["uoas"] if u != "All"})
-    head_b = sorted({b.split(" ")[0].replace("–", "").strip() for g in c["groups"]
-                     for b in g["budget_lines"]})
+    head_b = sorted({b.split(" ")[0].replace("–", "").replace("\u2010", "-").strip()
+                     for g in c["groups"] for b in g["budget_lines"]})
     # Every "unit(s) of appropriation number(s) ..." list and "budget line(s) ..." list in the
     # body (a multi-agency condition has one "As a condition ..." sentence per agency, #73).
     named_u, named_b = set(), set()
-    for lst in re.findall(r"units? of appropriation numbers? ((?:\d{3}(?:,? and |, | )?)+)", body):
+    # "numbers" is optional: FY2026 writes "units of appropriation 401, 402, ..." (#16).
+    for lst in re.findall(r"units? of appropriation (?:numbers? )?((?:\d{3}(?:,? and |, | )?)+)", body):
         named_u.update(re.findall(r"\d{3}", lst))
     for lst in re.findall(r"budget lines? ((?:[A-Z]{1,3}-\d{3,4}[A-Z]?(?:,? and |, | )?)+)", body):
         named_b.update(re.findall(r"[A-Z]{1,3}-\d{3,4}[A-Z]?", lst))
     # "100, 101, and 200 for DHS; 001 and 014 for HPD; ..." (#64, #75): every 3-digit number
     # between a unit list's start and the next " shall ".
-    for span in re.findall(r"units? of appropriation numbers? (.+?) shall ", body):
+    for span in re.findall(r"units? of appropriation (?:numbers? )?(.+?) shall ", body):
         named_u.update(re.findall(r"(?<![-\d])\b(\d{3})\b(?!-)", span))
     m = re.search(r"As a condition of", body)
     clause = body
@@ -300,11 +331,14 @@ def split_words(texts, vocab):
     return n
 
 
-def run(out_dir, do_ink=True):
+def run(out_dir=None, do_ink=True, fy=None):
+    if fy is not None:
+        configure(fy)
+    out_dir = out_dir or OUT
     assert sha256(PDF) == PDF_SHA256, "H1: not the PDF this config was written for"
     os.makedirs(os.path.join(out_dir, "data"), exist_ok=True)
-    review = Review()
-    report = ["FY2027 Terms and Conditions: checks", f"pdf: {os.path.relpath(PDF, REPO)}",
+    review = Review(tag=TAG)
+    report = [f"FY{FY} Terms and Conditions: checks", f"pdf: {os.path.relpath(PDF, REPO)}",
               f"sha256: {PDF_SHA256}", ""]
     with pdfplumber.open(PDF) as pdf:
         pages = []
@@ -462,11 +496,11 @@ def run(out_dir, do_ink=True):
     report.append(f"Kinds: {dict(collections.Counter(r['kind'] for r in rows))}")
 
     d = os.path.join(out_dir, "data")
-    with open(os.path.join(d, "fy27_terms_conditions.csv"), "w", newline="") as f:
+    with open(os.path.join(d, f"{PREFIX}_terms_conditions.csv"), "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0]))
         w.writeheader()
         w.writerows(rows)
-    with open(os.path.join(d, "fy27_terms_units.csv"), "w", newline="") as f:
+    with open(os.path.join(d, f"{PREFIX}_terms_units.csv"), "w", newline="") as f:
         w = csv.writer(f)
         w.writerow(["item_number", "agency_name", "agency_code", "unit_of_appropriation", "budget_line",
                     "pdf_page", "bbox_pt"])
@@ -476,15 +510,15 @@ def run(out_dir, do_ink=True):
                     w.writerow([c["item_number"], g["agency"], g["code"], u, "", p, bx])
                 for b, (p, bx) in zip(g["budget_lines"], g.get("bl_boxes", [])):
                     w.writerow([c["item_number"], g["agency"], g["code"], "", b, p, bx])
-    with open(os.path.join(d, "fy27_terms_fsr_table.csv"), "w", newline="") as f:
+    with open(os.path.join(d, f"{PREFIX}_terms_fsr_table.csv"), "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(fsr[0]))
         w.writeheader()
         w.writerows(fsr)
-    with open(os.path.join(d, "fy27_terms_pages.csv"), "w", newline="") as f:
+    with open(os.path.join(d, f"{PREFIX}_terms_pages.csv"), "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(pages[0]))
         w.writeheader()
         w.writerows(pages)
-    with open(os.path.join(d, "fy27_terms_review.csv"), "w", newline="") as f:
+    with open(os.path.join(d, f"{PREFIX}_terms_review.csv"), "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=Review.COLS)
         w.writeheader()
         w.writerows(sorted(review.rows, key=lambda r: (r["severity"] != "critical", str(r["pdf_page"]))))
@@ -492,7 +526,7 @@ def run(out_dir, do_ink=True):
             w.writerow({"check_id": "ok", "note": "all checks ran; nothing to review"})
     cnt = collections.Counter((r["check_id"], r["severity"]) for r in review.rows)
     report += ["", "review.csv by check:"] + [f"  {c:<22} {s:<8} {n}" for (c, s), n in sorted(cnt.items())]
-    with open(os.path.join(d, "fy27_terms_checks.txt"), "w") as f:
+    with open(os.path.join(d, f"{PREFIX}_terms_checks.txt"), "w") as f:
         f.write("\n".join(report) + "\n")
     print("\n".join(report))
     return rows, review
@@ -500,7 +534,8 @@ def run(out_dir, do_ink=True):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
-    ap.add_argument("--out", default=OUT)
+    ap.add_argument("--fy", type=int, default=2027, help="fiscal year (config/terms/fy<FY>.toml)")
+    ap.add_argument("--out", default=None, help="output folder (default: the config's review_dir)")
     ap.add_argument("--no-ink", action="store_true")
     a = ap.parse_args()
-    run(a.out, do_ink=not a.no_ink)
+    run(a.out, do_ink=not a.no_ink, fy=a.fy)

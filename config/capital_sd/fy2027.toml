@@ -1,0 +1,41 @@
+# FY2027 Section 254 capital supporting detail: every year-specific fact code/review_capital_sd.py
+# needs, and nothing else. Values read off the pages (triage: data/fy27_capital_sd_pages.csv).
+
+fiscal_year = 2027
+pdf = "source/FY27/Supporting-Detail-for-FY2027-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254.V4.pdf"
+sha256 = "4c48252ec0d0a7b6795456feaa53f303193e6a8dcf608b2984758000139d5b90"
+review_dir = "research/2026-10-20-fy27-capital-terms-review"   # outputs land in <review_dir>/data
+prefix = "fy27"                                                # output file names: <prefix>_capital_sd_*
+issue = 102
+
+# The four FY columns, as printed in the column header.
+fys = ["fy2027", "fy2028", "fy2029", "fy2030"]
+
+# The Word export's font subsets on detail pages. Text in any other font was typed in later
+# (Acrobat edits after export: pp.40, 45, 46, 47, 55, 56, 58).
+export_fonts = ["FPJADB+", "FPJABP+"]
+
+# Page map: each kind's inclusive page ranges, checked against each page's furniture (H3).
+# The summary page (p.61) is read by C2. /Rotate per part, also checked.
+[pages]
+cover = [[1, 1]]
+contents = [[2, 2]]
+divider = [[3, 3], [62, 62], [72, 72]]
+summary = [[61, 61]]
+part1 = [[4, 60]]
+part2 = [[63, 71]]
+part3 = [[73, 80]]
+[rotate]
+part1 = 90
+part2 = 90
+part3 = 0
+
+# Part II rows not in Part I are expected only in this series (pp.66-67: MA IDs on 0N lines).
+[part2_only]
+id_prefix = "MA"
+line_prefix = "0N"
+
+# --selftest-ink: drop this row's words from the emitted set on this page; C8 must fire.
+[ink_selftest]
+page = 40
+sub_id = "HD CC1047"

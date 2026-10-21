@@ -22,7 +22,7 @@ import review_terms as terms     # noqa: E402
 
 @pytest.fixture(scope="module")
 def capital(tmp_path_factory):
-    rows, totals, review = cap.run(str(tmp_path_factory.mktemp("cap")), do_ink=False)
+    rows, totals, review = cap.run(str(tmp_path_factory.mktemp("cap")), do_ink=False, fy=2027)
     return rows, totals, review
 
 
@@ -89,6 +89,7 @@ def test_no_unresolved_stream_disagreement(capital):
 
 
 def test_ink_check_sees_a_dropped_row_and_digit():
+    cap.configure(2027)
     with pdfplumber.open(cap.PDF) as pdf:
         page = pdf.pages[46]
         words = cap.page_words(page)
@@ -101,7 +102,7 @@ def test_ink_check_sees_a_dropped_row_and_digit():
 
 @pytest.fixture(scope="module")
 def tc(tmp_path_factory):
-    return terms.run(str(tmp_path_factory.mktemp("tc")), do_ink=False)
+    return terms.run(str(tmp_path_factory.mktemp("tc")), do_ink=False, fy=2027)
 
 
 def test_terms_numbering_and_units(tc):
