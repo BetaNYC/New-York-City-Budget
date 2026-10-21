@@ -42,14 +42,16 @@ counted in `coverage.csv`, not written as rows).
 | capital award | `t474-a92g` | FY2019–FY2026 | 11,496 | 11,274 | 222 | 0 | 0 | — | 0 |
 | capital line | `46m8-77gv` | FY2019–FY2027 | 1,402 | — | — | — | 1 | 1,401 | 24 |
 | capital line | `2cmn-uidm` | FY2017–FY2027 | 1,594 | — | — | — | 4 | 1,590 | 3,892 |
-| capital line | `djxg-kcfi` | all (one CPDB version) | 1,805 | — | — | — | 123 | 1,682 | 107 |
+| capital line | `djxg-kcfi` | FY2026–FY2027 (one current CPDB version) | 313 | — | — | — | 27 | 286 | 421 |
 | T&C unit | `mwzb-yiwb` | FY2017, FY2018, FY2021–FY2027 | 1,263 | — | — | — | 35 | 1,187 | — |
 
 Reading it:
 
-- **Expense, `4d7f-74pe`.** 32,985 of the 34,423 `ambiguous` rows sit in a bucket with the same
-  number of rows on each side and the same key values (EIN, amount): they *are* on the portal, but which
-  portal row is which cannot be told from the keys. The other 1,438 are real count differences.
+- **Expense, `4d7f-74pe`.** 33,218 of the 34,423 `ambiguous` rows sit in a bucket where the portal
+  has at least as many rows as we do, with the same key values (EIN, amount): they *are* on the portal,
+  but which portal row is which cannot be told from the keys (`presence certain` in `match_rule`,
+  `ambiguous_present` in `coverage.csv`). The other 1,205 sit in a bucket with more of ours than the
+  portal's, so at least one of them is not there: only *possibly* present (`presence uncertain`).
   The committed portal extract is keys only (#85), so only EIN and amount are compared here; other
   field differences are in `research/2026-10-14-open-data-diff/field-differences.csv`. FY2013's 1,545
   portal-only rows are the itemized citywide initiatives (#85 finding 4).
@@ -68,7 +70,8 @@ Reading it:
   (verdicts other than `match` are in `differing_fields`). `2cmn-uidm` portal-only counts every
   Council-series line in that year's plan that has no award that year (most carry over from earlier
   years), not a missing record. `djxg-kcfi` is one CPDB version: a line from FY2015 with no planned
-  commitment now is `absent` there and that is expected.
+  commitment now says nothing about FY2015, so `djxg-kcfi` covers FY2026 on only (QA 2026-10-21;
+  before, 123 older lines read "not on Open Data").
 - **T&C units** are context: the unit is in OMB's adopted expense budget for that year, with its
   adopted amount (`portal_value`) and row count. `not_covered`: `All` units, budget lines, and years
   before FY2017 (the dataset starts there).

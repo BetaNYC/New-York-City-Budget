@@ -41,7 +41,8 @@ Families and rules (PLAN §5; the first rule that gives exactly one portal row w
     46m8-77gv   data/capital/council_vs_omb_by_budget_line.csv: the adopted release; a verdict
                 other than `match` is listed in differing_fields.
     2cmn-uidm   the latest commitment-plan release whose first year is the report year.
-    djxg-kcfi   the line has a planned commitment in the CPDB version held (one version only).
+    djxg-kcfi   the line has a planned commitment in the CPDB version held (fisa_2026, one version):
+                FY2026 on only; an earlier year is not covered, since a line missing now proves nothing then.
   terms_unit    (fiscal year, agency, unit of appropriation) named by T&C: data/fyNN/pdf/terms/
                 where present, else the retired data/fyNN/terms/ (a multi-agency condition there
                 does not say which unit is whose, so its units match under any listed agency).
@@ -74,13 +75,15 @@ FIELDS = ["family", "record_key", "fiscal_year", "dataset_id", "snapshot_date", 
           "match_status", "match_rule", "differing_fields", "portal_value", "portal_status",
           "portal_as_of"]
 COVERAGE_FIELDS = ["family", "dataset_id", "fiscal_year", "snapshot_date", "covered", "records",
-                   "same", "differs", "ambiguous", "absent", "context", "not_covered",
+                   "same", "differs", "ambiguous", "ambiguous_present", "absent", "context", "not_covered",
                    "portal_rows", "portal_only", "note"]
 STATUSES = ["same", "differs", "ambiguous", "absent", "context", "not_covered"]
 MAX_CANDIDATES = 20
 COVERS = {"4d7f-74pe": range(2009, 2022), "ujre-m2tj": range(2019, 2022),
           "t474-a92g": range(2019, 2027), "46m8-77gv": range(2019, 2028),
-          "2cmn-uidm": range(2016, 2028), "djxg-kcfi": range(2000, 2100),
+          # CPDB is one current version (fisa_2026): a line missing from it says nothing about an
+          # earlier year, so it covers FY2026 on only (PLAN §5, absent vs not covered).
+          "2cmn-uidm": range(2016, 2028), "djxg-kcfi": range(2026, 2100),
           "mwzb-yiwb": range(2017, 2028)}
 FAMILY_DATASETS = {"expense": ["4d7f-74pe", "ujre-m2tj"], "capital_award": ["t474-a92g"],
                    "capital_line": ["46m8-77gv", "2cmn-uidm", "djxg-kcfi"],
@@ -136,6 +139,19 @@ def expense_records(root=ROOT):
     return out
 
 
+CERTAIN = "presence certain"
+
+
+def ambiguous_rule(prefix, n_ours, n_portal):
+    """An ambiguous bucket. With no more of ours than portal rows, every one of ours has a portal
+    row with the same key values: present, row not identifiable. With more of ours, at least one is
+    not on the portal, and which is unknown: only possibly present."""
+    return (f"{prefix}: bucket holds {n_ours} of ours and {n_portal} on the portal; "
+            + (f"{CERTAIN}: every one of ours has a portal row with the same key values, row not identifiable"
+               if n_ours <= n_portal else
+               "presence uncertain: more of ours than on the portal, so at least one is not there"))
+
+
 def match_buckets(ours, theirs, key_ours, key_theirs):
     """Pair rows in (key) buckets. -> ({id(our row): (status, rule, [their rows])}, portal_only
     per year). `ours`/`theirs` rows carry 'fiscal_year'."""
@@ -158,11 +174,8 @@ def match_buckets(ours, theirs, key_ours, key_theirs):
         if len(rs) == 1 and len(ts) == 1:
             res[id(rs[0])] = (None, None, ts)       # caller decides same / differs
             continue
-        same = len(rs) == len(ts)
         for r in rs:
-            res[id(r)] = ("ambiguous", f"bucket holds {len(rs)} of ours and {len(ts)} on the portal"
-                          + ("; equal counts, same key values: on the portal, row not identifiable"
-                             if same else ""), ts)
+            res[id(r)] = ("ambiguous", (len(rs), len(ts)), ts)
     return res, only
 
 
@@ -209,7 +222,7 @@ def expense_4d7f(records, snap):
         elif status == "ambiguous":
             kw["portal_row_id"] = ";".join(t[":id"] for t in ts[:MAX_CANDIDATES]) + \
                 (";…" if len(ts) > MAX_CANDIDATES else "")
-            rule = f"fy_ein_amount: {rule}"
+            rule = ambiguous_rule("fy_ein_amount", *rule)
         else:
             rule = "fy_ein_amount: " + rule
         out.append(row("expense", key, r["fiscal_year"], ds, snap, status, rule, **kw))
@@ -255,7 +268,7 @@ def expense_ujre(records, snap, mocs):
                 t, rule = ts[0], "fy_vendor_amount_agency"
             elif ts:
                 out.append(row("expense", key, r["fiscal_year"], ds, snap, "ambiguous",
-                               f"fy_vendor_amount_agency: {len(ours_fb[k])} of ours, {len(ts)} on the portal",
+                               ambiguous_rule("fy_vendor_amount_agency", len(ours_fb[k]), len(ts)),
                                portal_row_id=";".join(x[":id"] for x in ts[:MAX_CANDIDATES])))
                 continue
         if t is None:
@@ -329,6 +342,9 @@ def capital_t474(recs, snap):
         idx[(int(t["reported"]), pid(t["id"]), norm_text(t["budget_line"]),
              str(2000 + int(t["fiscal_year"][2:])), Decimal(t["award"]))].append(t)
     head_ids = {(int(h["reported"]), pid(h["id"])) for h in heads}
+    ours_n = Counter((r["fy"], pid(r["project_id"]), norm_text(r["budget_line"]), str(r["amount_fy"]),
+                      Decimal(P.parse_amount_text(r["amount"])) if r["amount"] else None)
+                     for r in recs if r["source_kind"] != "open_data_t474")
     used, out = set(), []
     for r in recs:
         if r["fy"] not in years:
@@ -368,7 +384,7 @@ def capital_t474(recs, snap):
                            portal_value=t["award"], differing_fields="; ".join(diffs)))
         elif ts:
             out.append(row("capital_award", r["key"], r["fy"], ds, snap, "ambiguous",
-                           f"report_year_id_line_fy_amount: {len(ts)} portal rows",
+                           ambiguous_rule("report_year_id_line_fy_amount", ours_n[k], len(ts)),
                            portal_row_id=";".join(t[":id"] for t in ts)))
         elif (r["fy"], pid(r["project_id"])) in head_ids:
             h = next(h for h in heads if (int(h["reported"]), pid(h["id"])) == (r["fy"], pid(r["project_id"])))
@@ -456,7 +472,11 @@ def capital_lines(recs, snaps):
         if n:
             cp[n].append(o)
     version = sorted({o["ccpversion"] for v in cp.values() for o in v})
+    if version != ["fisa_2026"]:
+        raise ValueError(f"djxg-kcfi versions {version}: update COVERS['djxg-kcfi']")
     for fy, ln in lines:
+        if fy not in COVERS[ds]:
+            continue
         key = f"{fy}|{ln}"
         rs = cp.get(ln, [])
         if not rs:
@@ -471,6 +491,7 @@ def capital_lines(recs, snaps):
                        portal_value=str(tot), portal_status=f"{len(rs)} commitments",
                        portal_as_of="/".join(version)))
     council = {ln for _, ln in lines}
+    council = {ln for fy, ln in lines if fy in COVERS[ds]}
     portal_rows[ds] = Counter({0: len([n for n in cp if BC.is_council_line(n)])})
     only[ds] = Counter({0: len([n for n in cp if BC.is_council_line(n) and n not in council])})
     return out, portal_rows, only, lines
@@ -581,6 +602,8 @@ def coverage_rows(family, ds, snap, xw, records_by_year, portal_rows, only, not_
     for r in xw:
         if r["dataset_id"] == ds:
             st[int(r["fiscal_year"])][r["match_status"]] += 1
+            if r["match_status"] == "ambiguous" and CERTAIN in r["match_rule"]:
+                st[int(r["fiscal_year"])]["ambiguous_present"] += 1
     out = []
     for fy in sorted(records_by_year):
         cov = fy in COVERS[ds]
@@ -588,7 +611,8 @@ def coverage_rows(family, ds, snap, xw, records_by_year, portal_rows, only, not_
         nc = (not_covered or {}).get(fy, 0) if cov else records_by_year[fy]
         out.append({"family": family, "dataset_id": ds, "fiscal_year": fy, "snapshot_date": snap,
                     "covered": "yes" if cov else "no", "records": records_by_year[fy],
-                    **{s: c[s] for s in STATUSES if s != "not_covered"}, "not_covered": nc,
+                    **{s: c[s] for s in STATUSES if s != "not_covered"},
+                    "ambiguous_present": c["ambiguous_present"], "not_covered": nc,
                     "portal_rows": portal_rows.get(fy, 0) if cov else "",
                     "portal_only": only.get(fy, 0) if cov else "", "note": note})
     return out
@@ -622,11 +646,11 @@ def build():
     for ds in FAMILY_DATASETS["capital_line"]:
         note = {"46m8-77gv": "adopted release per report year",
                 "2cmn-uidm": "latest release with that first year",
-                "djxg-kcfi": "one CPDB version (fisa_2026) for every year; portal counts are "
-                             "Council lines in it, all years together"}[ds]
+                "djxg-kcfi": "one current CPDB version (fisa_2026): covers FY2026 on only; portal "
+                             "counts are Council lines in it, those years together"}[ds]
         pr, on = prow_d[ds], only_d[ds]
         if ds == "djxg-kcfi":
-            pr = {fy: pr[0] for fy in by_year}
+            pr = {fy: pr[0] for fy in by_year if fy in COVERS[ds]}
             on = {max(by_year): on[0]}
         cov += coverage_rows("capital_line", ds, snaps[ds], d, by_year, pr, on, note=note)
     # terms units

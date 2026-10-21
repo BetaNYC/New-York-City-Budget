@@ -149,8 +149,24 @@ def test_bucket_matching_never_guesses():
     res, only = X.match_buckets(ours, theirs, lambda r: (r["fiscal_year"], r["k"]),
                                 lambda t: (t["fiscal_year"], t["k"]))
     assert res[id(ours[0])][0] is None
-    assert res[id(ours[1])][0] == "ambiguous" and "equal counts" not in res[id(ours[1])][1]
+    assert res[id(ours[1])][:2] == ("ambiguous", (2, 1))
     assert only[2016] == 1                       # the portal's "c"
+
+
+def test_ambiguous_presence_is_claimed_only_when_ours_fit():
+    """FAILS if a bucket with more of ours than portal rows claims presence (QA 2026-10-21), or a
+    bucket where every one of ours fits does not."""
+    assert X.CERTAIN in X.ambiguous_rule("k", 2, 3) and X.CERTAIN in X.ambiguous_rule("k", 2, 2)
+    assert X.CERTAIN not in X.ambiguous_rule("k", 2, 1)
+
+
+def test_cpdb_covers_only_its_own_version_years(built):
+    """FAILS if a line missing from today's CPDB (fisa_2026) is called absent for an earlier year."""
+    for r in rows(built["data/open_data/crosswalk_capital_line.csv"]):
+        if r["dataset_id"] == "djxg-kcfi":
+            assert int(r["fiscal_year"]) >= 2026, r["record_key"]
+    cov = [r for r in rows(built["data/open_data/coverage.csv"]) if r["dataset_id"] == "djxg-kcfi"]
+    assert {r["covered"] for r in cov if int(r["fiscal_year"]) < 2026} == {"no"}
 
 
 def test_amount_tiers():
