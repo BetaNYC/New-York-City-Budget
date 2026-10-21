@@ -6,17 +6,30 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 
 ## Unreleased
 
-### Index (needs a version decision before release)
-- **Reviewed PDF tables, gated (2026-10-21, GitHub #102).** `scripts/build-index.mjs` creates
-  `pdf_years`, `pdf_capital_sd`, `pdf_capital_sd_orgs`, `pdf_capital_sd_totals`, `pdf_terms`,
-  `pdf_terms_units`, `pdf_terms_fsr` and `pdf_review` (`scripts/pdf-families.mjs`) and reads
-  `data/pdf_years.csv`. A family loads only when its status there is `closed`; none is yet, so
-  the shipped `data/budget.db` gains empty tables and no rows. `--include-reviewed --out <file>`
-  builds a separate index with `reviewed` families for the explorer's demo build and refuses to
-  write `data/budget.db`. No tool reads a `pdf_*` table; no tool, argument or answer changes
-  (`test/pdf-families.test.js` compares every tool's answer with and without reviewed rows).
-  `test/no-pdf-data.test.js` allows the `pdf_*` tables only with zero non-closed rows.
-  Because `mcp/scripts/` changed, CI's version guard asks for a bump once this reaches `main`.
+Nothing yet.
+
+## 2.0.1 — unreleased (built 2026-10-20; not tagged, not published)
+
+A patch: the index gains empty tables; no tool, argument or answer changes.
+
+### Changed (index)
+- **The index build reads `data/pdf_years.csv` and serves closed rows only (GitHub #102).**
+  `scripts/build-index.mjs` creates the reviewed-PDF tables (`pdf_years`, `pdf_capital_sd`,
+  `pdf_capital_sd_orgs`, `pdf_capital_sd_totals`, `pdf_terms`, `pdf_terms_units`,
+  `pdf_terms_fsr`, `pdf_schedule_c`, `pdf_schedule_c_categories`,
+  `pdf_schedule_c_initiatives`, the derived `pdf_sc_disclosure`, and `pdf_review`), configured
+  in `scripts/pdf-families.mjs`. A family loads only when its status in `data/pdf_years.csv` is
+  `closed`. None is yet (FY2027 capital §254, Terms & Conditions and Schedule C are `reviewed`), so
+  the shipped `data/budget.db` has these tables empty.
+- **No tool reads them.** `test/pdf-families.test.js` builds an index with the reviewed rows and
+  requires every tool's answer to be identical to the default index's; it also checks that no
+  `src/` file names a `pdf_` table. `test/no-pdf-data.test.js` allows the `pdf_*` tables only
+  with zero non-closed rows.
+- **`--include-reviewed --out <file>`** builds a separate index with the `reviewed` families, for
+  the explorer's local or demo build. It refuses to write `data/budget.db`.
+- `pdf_sc_disclosure` pairs Schedule C rows with the disclosure by a line-for-line port of
+  `code/schedc/disclosure.py` (PR #125); the build stops if the port disagrees with the promoted
+  file on any row.
 
 ### Related, not in the package
 - **Budget explorer (2026-10-20).** `viz/explorer/` is an in-browser explorer (DuckDB-WASM over
@@ -29,6 +42,10 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   index. `deploy-viz.yml` now builds the site (index, data, tests, app) instead of publishing
   `viz/` as-is, and also runs on `data/**`, `mcp/scripts/**` and `mcp/src/fold.ts` changes.
   Nothing in the package changes.
+- **Explorer, reviewed PDF data (2026-10-20, GitHub #102).** `npm run data -- --include-reviewed`
+  (local or demo builds only; the public deploy never passes it) adds the FY2027 Schedule C, capital
+  §254 and Terms & Conditions tables, labeled "checked, review in progress", with a PDF viewer that
+  highlights each row. Nothing in the package changes.
 
 ## 2.0.0 — unreleased (built 2026-10-14; not tagged, not published)
 

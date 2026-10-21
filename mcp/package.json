@@ -1,6 +1,6 @@
 {
   "name": "@betanyc/nyc-budget-mcp",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "MCP server for BetaNYC's New York City Budget data, built only from structured sources: the NYC Council's expense funding disclosure workbooks (FY2009, FY2011–FY2027) and its capital designations (Council workbooks and NYC Open Data, FY2015–FY2027, FY2018 missing), with a by-budget-line comparison to OMB's adopted capital budget.",
   "keywords": [
     "mcp",
