@@ -177,3 +177,14 @@ def test_fy25_capital_and_terms(built):
         if r["flags"]:
             ids = r["review_id"].split(";")
             assert set(r["flags"].split(";")) == {rev[i]["check_id"] for i in ids}
+
+
+def test_fy24_capital_and_terms(built):
+    y24 = {y["family"]: y for y in rows(built["data/pdf_years.csv"]) if y["fiscal_year"] == "2024"}
+    assert y24["capital_sd"]["rows"] == "1364" and y24["capital_sd"]["printed_totals_tied"] == "32/32"
+    assert y24["terms"]["rows"] == "61" and y24["terms"]["printed_totals_tied"] == "n/a"
+    assert {y24[f]["issue"] for f in ("capital_sd", "terms")} == {"105"}
+    assert len(rows(built["data/fy24/pdf/capital_sd/fy24_capital_sd_orgs.csv"])) == 113
+    assert len(rows(built["data/fy24/pdf/terms/fy24_terms_units.csv"])) == 187
+    proj = {(r["part"], r["sub_id"]): r for r in rows(built["data/fy24/pdf/capital_sd/fy24_capital_sd_projects.csv"])}
+    assert proj[("II", "HL TA001")]["fy2024"] == "-40000" and "C3.part2_only" in proj[("II", "HL TA001")]["flags"]

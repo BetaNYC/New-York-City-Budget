@@ -10,7 +10,8 @@ This script re-runs the review parsers (code/review_capital_sd.py, code/review_t
 scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
 Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
 `capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
-(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `capital_sd` and `terms` (#104).
+(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `capital_sd` and `terms` (#104);
+FY2024 `capital_sd` and `terms` (#105).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -392,7 +393,9 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy26", "transparency", build_transparency),
             ("fy26", "schedule_c", lambda d: build_schedule_c(d, fy=2026)),
             ("fy25", "capital_sd", lambda d: build_capital_sd(d, 2025)),
-            ("fy25", "terms", lambda d: build_terms(d, 2025))]
+            ("fy25", "terms", lambda d: build_terms(d, 2025)),
+            ("fy24", "capital_sd", lambda d: build_capital_sd(d, 2024)),
+            ("fy24", "terms", lambda d: build_terms(d, 2024))]
 
 
 def build_all():
