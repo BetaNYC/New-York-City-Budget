@@ -33,7 +33,9 @@ RUN_GAP = 3.0
 # Where a run crosses a drawn cell edge, clipped text continues the word with no gap (measured
 # -0.07..+0.07 pt on every clipped run in FY2026). A new cell's own text starts after the cell
 # padding (0.98 pt and 2.85 pt measured on Reso 01 p.85 and Reso 04 p.34). Over this gap, a
-# crossing starts a new run.
+# crossing starts a new run. So does a letter that starts more than this before the last one
+# ends (FY2024 Reso 02 p.11: the clipped "n" of "Staten Island Delegation" ends 0.95 pt after
+# "South Shore ..." begins, and both centres fall in the next cell).
 CLIP_GAP_MAX = 0.5
 # A header column is under a data cell when they overlap by more than this (pt). Drawn rules
 # line up to 0.01 pt in these files; 2 pt ignores a rule's own width.
@@ -43,7 +45,8 @@ OVERLAP_MIN = 2.0
 def runs(chars, gap=RUN_GAP, cell=None):
     """Content-stream runs (see module docstring). `chars` in stream order. A run also ends
     where the fill colour changes (a red amount, then black text), and, when `cell(c)` gives
-    each char's drawn cell, where it crosses a cell edge with a gap over CLIP_GAP_MAX."""
+    each char's drawn cell, where it crosses a cell edge with a gap over CLIP_GAP_MAX or where
+    a letter overlaps the last by more than CLIP_GAP_MAX."""
     out, cur = [], []
     for c in chars:
         if cur:
@@ -51,7 +54,7 @@ def runs(chars, gap=RUN_GAP, cell=None):
             g = c["x0"] - p["x1"]
             if abs(c["top"] - p["top"]) <= LINE_TOL and c["x0"] >= p["x0"] - 0.01 and \
                     g <= gap and c.get("non_stroking_color") == p.get("non_stroking_color") and \
-                    (cell is None or g <= CLIP_GAP_MAX or cell(c) == cell(p)):
+                    (cell is None or (g >= -CLIP_GAP_MAX and (g <= CLIP_GAP_MAX or cell(c) == cell(p)))):
                 cur.append(c)
                 continue
             out.append(cur)

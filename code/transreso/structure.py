@@ -28,7 +28,7 @@ REQUIRED = {"org", "ein", "agency", "amount"}
 # "- Fiscal YYYY" closes the caption; Reso 07 p.12 prints "Assistance- Fiscal 2026" (no space).
 # FY2025 Reso 11 p.6 prints "CHART #4 Anti-Poverty" with no colon (flagged W.caption_format).
 CAPTION = re.compile(r"^CHART #(\d+):?\s*(.*?)(?:\s*-\s+Fiscal (\d{4}))?(\s*\(continued\))?$")
-PAGE_LABEL = re.compile(r"^Page (\d+)$")
+PAGE_LABEL = re.compile(r"^Page\s(\d+)$")   # FY2024 Reso 01: "Page\xa01" (no-break space)
 AMOUNT = re.compile(r"^(\()?\$(\d{1,3}(?:,\d{3})*)(\))?$")
 EIN_HYPHEN = re.compile(r"^\d{2}-\d{7}$")
 EIN_PLAIN = re.compile(r"^\d{9}$")

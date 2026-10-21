@@ -229,3 +229,51 @@ def test_snapshot_fy25_checks_pass():
     txt = open(path, encoding="utf-8").read()
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "(PASS)" in txt and "agree on every field: 3,555 of 3,555" in txt
+
+
+# --- FY2024 (#105) --------------------------------------------------------------------------------
+CFG24 = ptv.load_config(2024)
+OUT24 = os.path.join(ROOT, CFG24["review_dir"], "data")
+PDF24 = {r["seq"]: os.path.join(ROOT, r["pdf"]) for r in CFG24["resolutions"]}
+
+
+def test_runs_break_on_overlap_past_clip_gap():
+    # FY2024 Reso 02 p.11: a clipped "n" ends 0.95 pt after the next cell's text begins.
+    cell = lambda c: 0 if c["x0"] < 125 else 1
+    cs = [ch("o", 117.45, 122.99), ch("n", 122.99, 128.53), ch("S", 127.58, 134.22),
+          ch("o", 134.18, 139.72)]
+    assert ["".join(c["text"] for c in r) for r in reader.runs(cs, cell=cell)] == ["on", "So"]
+
+
+def test_golden_fy24_clipped_borough_reso02_p11():
+    p = reader.read_pdf(PDF24[2], CFG24["x_tolerance"], CFG24["run_gap_pt"], pages=[11])[0]
+    t = p["tables"][0]
+    labels = [h["label"] for h in t["header"]]
+    c = {labels[j]: x for j, x in next(r for r in t["rows"] if r["row_index"] == 1)["cols"].items()}
+    assert c["Borough"]["text_raw"] == "Staten Island Delegatio" and c["Borough"]["hidden"] == "n"
+    assert c["Organization - Program"]["text_raw"] == "South Shore District Management Association, Inc."
+    assert c["EIN Number"]["text_raw"] == "81-0728516" and c["Amount"]["text_raw"] == "($14,000)"
+
+
+def test_golden_fy24_rotated_page_reso01_p3():
+    # /Rotate 90; the label under the chart is "Page\xa01" (no-break space).
+    p = reader.read_pdf(PDF24[1], CFG24["x_tolerance"], CFG24["run_gap_pt"], pages=[3])[0]
+    assert p["rotation"] == 90 and (p["width"], p["height"]) == (792.0, 612.0)
+    assert any(structure.PAGE_LABEL.match(ln["text"]) and ln["text"].endswith("1") for ln in p["lines"])
+
+
+def test_snapshot_fy24_rows_and_checks():
+    path = os.path.join(OUT24, "fy24_tr_rows.csv")
+    if not os.path.exists(path):
+        pytest.skip("fy24 not built")
+    rows = list(csv.DictReader(open(path, encoding="utf-8")))
+    assert len(rows) == 3303
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rows)
+    by = {}
+    for r in rows:
+        by[r["resolution_seq"]] = by.get(r["resolution_seq"], 0) + 1
+    assert by == {"1": 790, "2": 955, "3": 327, "4": 283, "5": 214, "6": 127, "7": 370,
+                  "8": 161, "9": 76}
+    txt = open(os.path.join(OUT24, "fy24_tr_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "(PASS)" in txt and "agree on every field: 3,303 of 3,303" in txt

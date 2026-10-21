@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Transparency resolutions from the PDFs, checked (GitHub #103 FY2026, #104 FY2025; toolkit plan:
+Transparency resolutions from the PDFs, checked (GitHub #103 FY2026, #104 FY2025, #105 FY2024; toolkit plan:
 research/2026-10-19-schedule-c-pdf-toolkit/PLAN.md).
 
   python3 code/parse_transparency_v2.py --fy 2026            full run, writes <review_dir>/data/

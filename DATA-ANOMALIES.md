@@ -1005,3 +1005,29 @@ p.6's caption has no colon. Reso 08 p.12's member header reads "Member/Borough".
 no EIN (Reso 08 p.13 takes it back and re-prints it with one). Reso 06 p.6 marks a row `***` with
 no `***` footnote. Reso 02 prints the same two Black Spectrum rows under Fiscal 2025, 2024 and
 2023. Reso 04 (2024-10-23) prints no resolution number, and none is known.
+
+---
+
+## 33. FY2024 transparency resolutions rebuilt from the PDFs, checked (#105) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of the 9 PDFs in `source/FY24/transparency-resolutions/`
+> (`code/parse_transparency_v2.py --fy 2024`, `config/transparency/fy2024.toml`). Its review record
+> is [`research/2026-10-21-fy24-transparency-review/`](research/2026-10-21-fy24-transparency-review/README.md).
+> The old `data/fy24/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> record (§27). Not served by the MCP.
+
+**Result.** 3,303 rows from 329 charts (the old parse had 3,294, all of which are here), each with
+its resolution's number and adoption date. An independent image grid agrees on every row,
+including Reso 01's /Rotate 90 pages. No totals and no chart counts are printed.
+
+**What the old parse missed.** 7 EINs printed without a hyphen, "Bronx Community Board #7", and a
+row whose EIN prints as "TF4876222".
+
+**Things a re-parse must know.** Reso 01's page labels use a no-break space ("Page\xa01"). Reso 02
+p.11: a clipped "n" overlaps the next cell's text by 0.95 pt, so runs must break on overlap.
+11 chart pages print no "Page n" label (Reso 02 pp.66-73, Reso 03 pp.55-57). `bbox_pt` on Reso 01
+is in display coordinates in the review folder and unrotated in `data/fy24/pdf/`.
+
+**What the PDF itself gets wrong (flagged, never fixed).** "TF4876222" as an EIN (Reso 07 p.17;
+also in Schedule C; corrected by the same resolution). "#" in the `*` column (Reso 02 p.18). Two
+`***` rows with no `***` footnote (Reso 01 p.55).
