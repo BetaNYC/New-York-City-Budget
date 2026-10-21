@@ -159,3 +159,21 @@ def test_flags_link_to_review(built):
             ids = r["review_id"].split(";")
             assert all(i in rev for i in ids)
             assert set(r["flags"].split(";")) == {rev[i]["check_id"] for i in ids}
+
+
+def test_fy25_capital_and_terms(built):
+    y25 = {y["family"]: y for y in rows(built["data/pdf_years.csv"]) if y["fiscal_year"] == "2025"}
+    assert y25["capital_sd"]["rows"] == "1508" and y25["capital_sd"]["printed_totals_tied"] == "32/32"
+    assert y25["terms"]["rows"] == "65" and y25["terms"]["printed_totals_tied"] == "n/a"
+    assert {y25[f]["issue"] for f in ("capital_sd", "terms")} == {"104"}
+    assert len(rows(built["data/fy25/pdf/capital_sd/fy25_capital_sd_orgs.csv"])) == 129
+    assert len(rows(built["data/fy25/pdf/terms/fy25_terms_units.csv"])) == 234
+    # FY2025 prints 6 IDs on two rows each: both rows carry the C3.id_reused flag.
+    proj = rows(built["data/fy25/pdf/capital_sd/fy25_capital_sd_projects.csv"])
+    twice = [r for r in proj if r["part"] == "I" and r["sub_id"] == "HN CN018"]
+    assert len(twice) == 2 and all("C3.id_reused" in r["flags"] for r in twice)
+    rev = {r["review_id"]: r for r in rows(built["data/fy25/pdf/capital_sd/fy25_capital_sd_review.csv"])}
+    for r in proj:
+        if r["flags"]:
+            ids = r["review_id"].split(";")
+            assert set(r["flags"].split(";")) == {rev[i]["check_id"] for i in ids}
