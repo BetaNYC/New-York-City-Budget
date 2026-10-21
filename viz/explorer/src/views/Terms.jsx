@@ -4,7 +4,7 @@ import * as P from "../query/pdf.js";
 import { FlagBadge, ReviewedLabel, SourcePageLink } from "../components/pdf.jsx";
 import { Matched, Notice, Pager, SelectFilter, Status, TextFilter } from "../components/ui.jsx";
 import { CoverageStrip, useOdCoverage, useOdForRows } from "../components/OpenData.jsx";
-import { OD_STATUS, datasetUrl } from "../query/opendata.js";
+import { STATES, datasetUrl, stateOf, tooltipOf } from "../query/opendata.js";
 
 /**
  * Terms and Conditions: the reports the Council requires as a condition of funds, by agency and
@@ -78,13 +78,13 @@ function UnitsOnOpenData({ xs }) {
   if (!xs?.length) return null;
   return (
     <p className="small">
-      On NYC Open Data (<a href={datasetUrl(xs[0].dataset_id)}>{xs[0].dataset_name ?? xs[0].dataset_id}</a>, adopted release):{" "}
+      On NYC Open Data (<a href={datasetUrl(xs[0].dataset_id)}>{xs[0].dataset_name ?? xs[0].dataset_id}</a>, adopted release, as of {xs[0].snapshot_date}):{" "}
       {xs.map((x) => {
         const [agency, unit] = String(x.record_part ?? "|").split("|");
         return (
-          <span key={x.record_part} className={`od-badge od-${OD_STATUS[x.match_status].tone}`} title={`${x.match_rule}${x.portal_value ? ` · adopted $${Number(x.portal_value).toLocaleString("en-US")}` : ""}`}>
+          <span key={x.record_part} className={`od-badge od-${STATES[stateOf(x)].tone}`} title={`${tooltipOf(x)}${x.portal_value ? ` Adopted $${Number(x.portal_value).toLocaleString("en-US")}.` : ""}`}>
             {agency.includes("+") ? "" : `${agency}:`}
-            {unit} {x.match_status === "context" ? "listed" : "not listed"}
+            {unit} {stateOf(x) === "found" ? "found" : "not found"}
           </span>
         );
       }).reduce((acc, el, i) => (i ? [...acc, " ", el] : [el]), [])}

@@ -1,3 +1,4 @@
+import { HowWeCheck, StateBadge } from "../components/OpenData.jsx";
 import { docUrl, REPO_URL } from "../paths.js";
 
 /** What the data is, where it comes from, and what is missing. Readable before the data loads. */
@@ -38,6 +39,12 @@ export default function About({ manifest }) {
         </li>
         <li>The comparison with OMB's adopted capital budget is by budget line only, the one key the two share.</li>
       </ul>
+      <h3>Is it on NYC Open Data?</h3>
+      <p>
+        Each row says one of four things: <StateBadge state="found" />, <StateBadge state="maybe" />, <StateBadge state="notfound" /> or{" "}
+        <StateBadge state="nocheck" />. Each names the date of the copy we checked.
+      </p>
+      <HowWeCheck />
       <h3>Every row cites its file</h3>
       <p>
         Each award and capital row links to the spreadsheet it came from, at the commit this site was built from, with the sheet, row, retrieval date and

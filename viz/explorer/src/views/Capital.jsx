@@ -7,8 +7,8 @@ import { capitalFilters, writeHash } from "../state/hash.js";
 import { HashLink, Matched, NoData, Notice, Pager, SelectFilter, Status, TextFilter } from "../components/ui.jsx";
 import * as P from "../query/pdf.js";
 import { FlagBadge, ReviewedLabel, SourcePageLink } from "../components/pdf.jsx";
-import { CoverageStrip, OdCell, OdPanel, useOdCoverage, useOdForRows } from "../components/OpenData.jsx";
-import { odForLinesQuery, OD_STATUS, datasetUrl } from "../query/opendata.js";
+import { CoverageStrip, OdCell, OdPanel, StateBadge, useOdCoverage, useOdForRows } from "../components/OpenData.jsx";
+import { odForLinesQuery, datasetUrl, stateOf, tooltipOf } from "../query/opendata.js";
 
 const capKey = (r) => [r.report_year, r.source_row, r.amount_fy];
 
@@ -321,8 +321,8 @@ export function CapitalRow({ state, go, back, manifest, pdfYears }) {
                   {lq.data.l.map((x) => (
                     <li key={x.dataset_id}>
                       <a href={datasetUrl(x.dataset_id)}>{x.dataset_name ?? x.dataset_id}</a> <code className="small">{x.dataset_id}</code>:{" "}
-                      <span className={`od-badge od-${OD_STATUS[x.match_status].tone}`}>{x.match_status === "context" ? "line listed" : "line not listed"}</span>{" "}
-                      <span className="small muted">{x.match_rule}</span>
+                      <StateBadge state={stateOf(x)} /> <span className="small">{tooltipOf(x)}</span>{" "}
+                      <span className="small muted">Rule: {x.match_rule}</span>
                       {x.portal_value ? <span className="small"> · portal amount {x.portal_value}</span> : null}
                       {x.differing_fields ? <div className="small">{x.differing_fields}</div> : null}
                     </li>

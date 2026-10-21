@@ -238,3 +238,5 @@ button.primary { background: var(--navy); color: #fff; border: 1px solid var(--n
 button.primary:hover { background: #164a82; }
 button.primary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.od-y-maybe { color: var(--warn-ink); font-size: 0.75rem; }
+.od-how { max-width: 60rem; color: var(--ink); background: var(--bg); padding: 0.4rem 0.6rem; border-radius: 4px; }
