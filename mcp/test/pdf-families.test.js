@@ -117,14 +117,16 @@ function answers(serverPath) {
 
 test("Schedule C's disclosure alignment is the Schedule C session's own (code/schedc/disclosure.py)", () => {
   // FAILS if the port in scripts/pdf-families.mjs drifts from the promoted file (the build also
-  // stops on that), or the FY2027 counts move: 9,850 matched (City-EIN name rule on), 129 PDF only,
-  // 557 spreadsheet only, 994 ambiguous (research/2026-10-20-fy27-schedule-c-review/README.md).
+  // stops on that), or the counts move. FY2027: 9,850 matched (City-EIN name rule on), 129 PDF
+  // only, 557 spreadsheet only, 994 ambiguous (research/2026-10-20-fy27-schedule-c-review/README.md).
   const db = new Database(REVIEWED_DB, { readonly: true });
   try {
-    const n = (side) => count(db, `SELECT COUNT(*) AS n FROM pdf_sc_disclosure WHERE fiscal_year = 2027 AND side = '${side}'`);
-    assert.deepEqual([n("matched"), n("pdf_only"), n("disclosure_only")], [9850, 129, 557]);
-    assert.equal(count(db, "SELECT SUM(ambiguous) AS n FROM pdf_sc_disclosure WHERE side <> 'pdf_only'"), 994);
-    const mr = db.prepare("SELECT pdf_page, amount, ein, bbox_pt FROM pdf_schedule_c WHERE org LIKE 'Medicare Rights%' AND amount = 135000").all();
+    const n = (fy, side) => count(db, `SELECT COUNT(*) AS n FROM pdf_sc_disclosure WHERE fiscal_year = ${fy} AND side = '${side}'`);
+    assert.deepEqual([n(2027, "matched"), n(2027, "pdf_only"), n(2027, "disclosure_only")], [9850, 129, 557]);
+    assert.equal(count(db, "SELECT SUM(ambiguous) AS n FROM pdf_sc_disclosure WHERE fiscal_year = 2027 AND side <> 'pdf_only'"), 994);
+    // FY2026 (research/2026-10-21-fy26-schedule-c-review/README.md: 9,510 with the City-EIN name rule).
+    assert.equal(n(2026, "matched"), 9510);
+    const mr = db.prepare("SELECT pdf_page, amount, ein, bbox_pt FROM pdf_schedule_c WHERE fiscal_year = 2027 AND org LIKE 'Medicare Rights%' AND amount = 135000").all();
     assert.deepEqual(mr.map((r) => [r.pdf_page, r.amount]), [[279, 135000]], "p.279 Medicare Rights $135,000 (dropped by the old parser)");
   } finally {
     db.close();
