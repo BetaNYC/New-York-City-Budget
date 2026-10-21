@@ -17,7 +17,7 @@ Every column in every CSV this repository produces, what it means, and how the f
 
 ## Coverage at a glance
 
-Not every document type exists (or is machine-readable) for every year. This matters: the discretionary **award** files — the ones with per-organization EINs — only exist **FY2015 onward** (FY2015 is the earliest EIN-level Schedule C). Earlier years (FY2009–FY2014) have initiatives-level Schedule C only (no organization/EIN detail), because those designations were largely made *after* budget adoption and live in the Transparency Resolutions instead.
+Not every document type exists (or is machine-readable) for every year. This matters: the discretionary **award** files — the ones with per-organization EINs — only exist **FY2015 onward** (FY2015 is the earliest Schedule C year with an award file). For FY2009–FY2014 the repo has initiatives-level Schedule C files only. The PDFs for those years do print per-organization award rows with EINs, and FY2008 prints 1,674 member-item rows without EINs; no parser here extracts them. **Corrected 2026-10-20:** earlier text said FY2009–FY2014 have no organization/EIN detail because designations were made after adoption. See [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) §2 for the evidence.
 
 | FY | Schedule C | Terms & Conditions | Capital §254 | Transparency Resolutions |
 |----|-----------|--------------------|--------------|--------------------------|
@@ -33,7 +33,7 @@ Not every document type exists (or is machine-readable) for every year. This mat
 
 **Separately, the Council's expense funding disclosure workbooks give an EIN-level award list for FY2009 and every year FY2011–FY2027** (`data/{year}/expense_disclosure/`, below). It is a parallel dataset from a different source and a later moment, not a fill for the Schedule C gaps in this table.
 
-"awards" = the `_awards.csv` file with per-organization EINs. **EIN-keyed analysis of the Schedule C files is valid FY2015–FY2027.** FY2009–FY2014 are initiatives-only (no EIN). (The budget MCP's 1.x award tools served these files; 2.0 removed them and serves the disclosure instead.) See [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) for the full gap list.
+"awards" = the `_awards.csv` file with per-organization EINs. **EIN-keyed analysis of the Schedule C files is valid FY2015–FY2027.** The FY2009–FY2014 files are initiatives-only; the PDFs print award rows with EINs that were never extracted (corrected 2026-10-20, DATA-ANOMALIES §2). (The budget MCP's 1.x award tools served these files; 2.0 removed them and serves the disclosure instead.) See [`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) for the full gap list.
 
 ---
 
@@ -185,7 +185,7 @@ Section 254 changes to the adopted capital budget.
 
 ## `data/{year}/transparency-resolutions/` — `resoNN_*.csv` + `{year}_transparency_all.csv`
 
-Post-adoption discretionary designations, rescissions, and purpose changes. **No printed totals** (labeled `NOT RECONCILABLE`); the only internal check is that transfers (rescind + re-designate) net to zero.
+Post-adoption discretionary designations, rescissions, and purpose changes. **Not reconciled against printed totals** (labeled `NOT RECONCILABLE`). FY2013 onward print none; FY2009–FY2012 charts do, and only FY2009 is checked against them ([`DATA-ANOMALIES.md`](DATA-ANOMALIES.md) §1, §28; [`code/PARSING.md`](code/PARSING.md)). For the other years the only internal check is that transfers (rescind + re-designate) net to zero. **Corrected 2026-10-20:** this said "No printed totals" for every year.
 
 | Column | Type | Meaning |
 |--------|------|---------|
