@@ -19,13 +19,15 @@ from schedc.structure import clean_text
 # Printed header label -> role. A label not listed here is a T4 flag.
 LABELS = {
     "Member": "member", "Borough": "member", "Borough/Member": "member", "Source": "source",
+    "Member/Borough": "member",                                    # FY2025 Reso 08 p.12
     "Organization - Program": "org", "Organization": "org", "EIN Number": "ein",
     "Agency": "agency", "Amount": "amount", "Agy #": "agy", "U/A": "ua", "*": "prequal",
     "Purpose of Funds": "purpose", "New Purpose of Funds": "purpose",
 }
 REQUIRED = {"org", "ein", "agency", "amount"}
 # "- Fiscal YYYY" closes the caption; Reso 07 p.12 prints "Assistance- Fiscal 2026" (no space).
-CAPTION = re.compile(r"^CHART #(\d+):\s*(.*?)(?:\s*-\s+Fiscal (\d{4}))?(\s*\(continued\))?$")
+# FY2025 Reso 11 p.6 prints "CHART #4 Anti-Poverty" with no colon (flagged W.caption_format).
+CAPTION = re.compile(r"^CHART #(\d+):?\s*(.*?)(?:\s*-\s+Fiscal (\d{4}))?(\s*\(continued\))?$")
 PAGE_LABEL = re.compile(r"^Page (\d+)$")
 AMOUNT = re.compile(r"^(\()?\$(\d{1,3}(?:,\d{3})*)(\))?$")
 EIN_HYPHEN = re.compile(r"^\d{2}-\d{7}$")
@@ -68,8 +70,9 @@ def caption_of(page, table):
     return " ".join(ln["text"] for ln in above).strip(), below
 
 
-def build(res, pages, x_tolerance):
-    """One resolution's pages -> dict(rows, charts, flags, page_info)."""
+def build(res, pages, x_tolerance, doc_fy=2026):
+    """One resolution's pages -> dict(rows, charts, flags, page_info). `doc_fy` is the document year
+    (the row id prefix)."""
     rows, charts, flags, info = [], {}, [], []
     seq = res["seq"]
 
@@ -96,6 +99,9 @@ def build(res, pages, x_tolerance):
             continue
         num, title, fy, cont = int(m.group(1)), m.group(2), m.group(3), bool(m.group(4))
         pi.update(chart_number=num, continued=int(cont))
+        if not cap.startswith(f"CHART #{m.group(1)}:"):
+            flag("W.caption_format", p["page"], f"caption prints no ':' after the chart number: "
+                 f"{cap[:80]!r}; read as chart #{num}", severity="warn", chart_number=num)
         labels = [ln["text"] for ln in below]
         pl = [int(PAGE_LABEL.match(x).group(1)) for x in labels if PAGE_LABEL.match(x)]
         pi["page_label"] = pl[0] if len(pl) == 1 else ""
@@ -154,7 +160,7 @@ def build(res, pages, x_tolerance):
             hidden = {roles[int(j)]: c["hidden"] for j, c in r["cols"].items()
                       if roles.get(int(j)) and c["hidden"]}
             row_flags = list(r["flags"])
-            rec = dict(row_id=f"fy26-tr{seq:02d}-p{p['page']:03d}-r{r['row_index']:03d}",
+            rec = dict(row_id=f"fy{doc_fy % 100:02d}-tr{seq:02d}-p{p['page']:03d}-r{r['row_index']:03d}",
                        resolution_seq=seq, pdf_page=p["page"], table_index=t["table_index"],
                        row_index=r["row_index"], bbox_pt=r["bbox"], chart_number=num,
                        chart_title=title, budget_fiscal_year=int(fy) if fy else "",

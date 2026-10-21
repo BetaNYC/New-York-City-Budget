@@ -90,6 +90,17 @@ def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap):
                 for x in _header_rules(gray, dpi, xs[ci], xs[ci + 1], ys[0], ys[1]):
                     extra.append(x)
                     notes.append(f"region {k}: header rule at {x} pt found in header pixels")
+        # The same, right of the lattice's last rule: a last column whose right rule is drawn
+        # in the header and a few rows only (the `*` column on FY2025 Reso 07 p.30, which
+        # holds "01/") is not in the lattice at all. Looked for only where a data row has a
+        # letter on the page right of the lattice; an empty column there has nothing to read
+        # (24 FY2026 pages leave the empty `*` column outside the lattice).
+        page_w = gray.shape[1] * 72.0 / dpi
+        if any(xs[-1] < (c["x0"] + c["x1"]) / 2 < page_w and ys[1] <= (c["top"] + c["bottom"]) / 2 < ys[-1]
+               and c["text"].strip() for c in chars):
+            for x in _header_rules(gray, dpi, xs[-1] + 1, page_w, ys[0], ys[1]):
+                extra.append(x)
+                notes.append(f"region {k}: header rule at {x} pt found in header pixels")
         xs = sorted(xs + extra)
 
         def cell_of2(c, xs=xs, ys=ys):

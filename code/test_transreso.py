@@ -154,3 +154,78 @@ def test_snapshot_review_sorted():
     sev = {"critical": 0, "warn": 1}
     keys = [(sev[r["severity"]], -int(r["dollar_impact"] or 0)) for r in rv]
     assert keys == sorted(keys)
+
+
+# --- FY2025 (#104) --------------------------------------------------------------------------------
+CFG25 = ptv.load_config(2025)
+OUT25 = os.path.join(ROOT, CFG25["review_dir"], "data")
+PDF25 = {r["seq"]: os.path.join(ROOT, r["pdf"]) for r in CFG25["resolutions"]}
+
+
+def _row25(seq, page, row_index):
+    p = reader.read_pdf(PDF25[seq], CFG25["x_tolerance"], CFG25["run_gap_pt"], pages=[page])[0]
+    t = p["tables"][0]
+    labels = [h["label"] for h in t["header"]]
+    r = next(r for r in t["rows"] if r["row_index"] == row_index)
+    return p, {labels[j]: c for j, c in r["cols"].items()}, r
+
+
+def test_caption_without_colon():
+    # FY2025 Reso 11 p.6 prints "CHART #4 Anti-Poverty" with no colon.
+    m = structure.CAPTION.match("CHART #4 Anti-Poverty - Fiscal 2025")
+    assert m.groups()[:3] == ("4", "Anti-Poverty", "2025")
+
+
+def test_golden_fy25_staff_note_past_star_column_reso07_p30():
+    # The page shows "01/" in the `*` column (no drawn cell); the note runs past the table's
+    # right rule and off the page.
+    p, c, r = _row25(7, 30, 3)
+    assert c["*"]["text_raw"] == "01/" and c["*"]["how"] == "made"
+    assert c["*"]["hidden"].startswith("22; DCLA: We checked Midori")
+    assert c["EIN Number"]["text_raw"] == "13-3682472" and c["Amount"]["text_raw"] == "($5,000)"
+    assert "made_cell:*" in r["flags"]
+    assert sum(1 for x in p["clipped"] if x["table"] == -1) == 2
+
+
+def test_golden_fy25_no_ein_reso08_p13():
+    _, c, _ = _row25(8, 13, 7)
+    assert c["Member"]["text_raw"] == "Salamanca"
+    assert c["EIN Number"]["text_raw"] == "" and c["Amount"]["text_raw"] == "($15,000)"
+
+
+def test_golden_fy25_member_borough_header_reso08_p12():
+    p = reader.read_pdf(PDF25[8], CFG25["x_tolerance"], CFG25["run_gap_pt"], pages=[12])[0]
+    assert p["tables"][0]["header"][0]["label"] == "Member/Borough"
+    assert structure.LABELS["Member/Borough"] == "member"
+
+
+def _read25(name):
+    path = os.path.join(OUT25, name)
+    if not os.path.exists(path):
+        pytest.skip(f"{name} not built")
+    return list(csv.DictReader(open(path, encoding="utf-8")))
+
+
+def test_snapshot_fy25_rows_and_contract():
+    rows = _read25("fy25_tr_rows.csv")
+    assert len(rows) == 3555
+    for col in ptv.CONTRACT + ["resolution_seq", "resolution_number", "resolution_date"]:
+        assert col in rows[0]
+    assert all(r["resolution_date"] for r in rows)
+    # Reso 04 has no resolution number (not printed, not in Legistar's 2026-07-07 pass).
+    assert {r["resolution_seq"] for r in rows if not r["resolution_number"]} == {"4"}
+    assert len({r["row_id"] for r in rows}) == len(rows)
+    by = {}
+    for r in rows:
+        by[r["resolution_seq"]] = by.get(r["resolution_seq"], 0) + 1
+    assert by == {"1": 738, "2": 1108, "3": 213, "4": 27, "5": 260, "6": 188, "7": 340,
+                  "8": 165, "9": 107, "10": 7, "11": 142, "12": 174, "13": 86}
+
+
+def test_snapshot_fy25_checks_pass():
+    path = os.path.join(OUT25, "fy25_tr_checks.txt")
+    if not os.path.exists(path):
+        pytest.skip("checks not built")
+    txt = open(path, encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "(PASS)" in txt and "agree on every field: 3,555 of 3,555" in txt

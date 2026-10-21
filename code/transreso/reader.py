@@ -12,6 +12,8 @@ code/schedc/vector.py. Three things differ, all measured on the FY2026 resolutio
    ends. A run belongs to the cell that holds its first character's centre. Its characters
    whose centre falls in another drawn cell are clipped: not emitted, and listed in `clipped`
    so a person sees every one. If one of them was in fact visible, the ink check finds it.
+   A run that starts in an undrawn cell and runs past the table's edge is cut there the same
+   way (FY2025 Reso 07 pp.29-30: staff notes past the `*` column, only "01/" shows).
 2. **Spanning cells.** On purpose-of-funds charts the data rows draw no rule between Source
    and Member, so one drawn cell spans two header columns (FY2026 Reso 01 p.91). Its runs are
    split by the header's column edges, each run going where its first character sits.
@@ -98,10 +100,26 @@ def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP):
     cell_of = _assign(chars, [b for _, b in cells])
     idx = {id(c): k for k, c in enumerate(chars)}
 
-    clipped_ids, clipped, hidden_of = set(), [], {}
+    clipped_ids, clipped, hidden_of, hidden_at = set(), [], {}, {}
     for run in runs(chars, run_gap, cell=lambda c: cell_of[idx[id(c)]]):
         k0 = cell_of[idx[id(run[0])]]
         if k0 < 0:
+            # A run that starts outside every drawn cell (an undrawn `*` cell) and runs past the
+            # table's edge (FY2025 Reso 07 pp.29-30: staff notes in a column past the `*`
+            # column; the page shows "01/", cut at the table's right rule, and the rest runs
+            # off the page). Its letters outside the table are hidden; they stay with the run's
+            # first letter so the made cell that reads it records them.
+            tb = next((t.bbox for t in tables if _inside(run[0], t.bbox)), None)
+            off = [c for c in run if tb and not _inside(c, tb)]
+            if off and len(off) < len(run):
+                clipped_ids.update(id(c) for c in off)
+                hidden_at[id(run[0])] = "".join(c["text"] for c in off).strip()
+                ink = [c for c in off if c["text"].strip()]
+                clipped.append(dict(table=-1, owner_bbox=[], run_text="".join(c["text"] for c in run),
+                                    hidden_text="".join(c["text"] for c in off),
+                                    bbox=bbox2((min(c["x0"] for c in ink), min(c["top"] for c in ink),
+                                                max(c["x1"] for c in ink),
+                                                max(c["bottom"] for c in ink)))))
             continue
         hidden = [c for c in run if cell_of[idx[id(c)]] != k0 and c["text"].strip()]
         if hidden:
@@ -179,7 +197,8 @@ def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP):
                 sb = (hb[0], top, hb[2], bot)
                 got = [c for c in free if _inside(c, sb)]
                 free = [c for c in free if not _inside(c, sb)]
-                cols[j] = _cell_rec(got, sb, "made", x_tolerance)
+                cols[j] = _cell_rec(got, sb, "made", x_tolerance,
+                                    " ".join(hidden_at[id(c)] for c in got if id(c) in hidden_at))
                 # An empty made cell (the `*` column with no rule) changes nothing; one that
                 # holds text does, and goes to review.
                 flags.append(("made_cell:" if got else "made_cell_empty:") + h["label"])

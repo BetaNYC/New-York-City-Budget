@@ -982,3 +982,26 @@ tables continue over a page without a header (pp.48, 157, 195). Some box titles 
 amount on line two (p.157), or share one cell with it (pp.218, 220). The statement is worded 60
 ways; the text layer splits words ("h as", "designate d"). A 5 pt sliver cell holds the first
 letter of each box label on p.162. Six glyphs are unmapped (`(cid:9)`, e.g. p.344).
+
+---
+
+## 32. FY2025 transparency resolutions parsed from the PDFs, checked (#104) — REVIEW NOT STARTED
+
+> **Scope.** The first parse of the 13 PDFs in `source/FY25/transparency-resolutions/`
+> (`code/parse_transparency_v2.py --fy 2025`, `config/transparency/fy2025.toml`). Its review record
+> is [`research/2026-10-21-fy25-transparency-review/`](research/2026-10-21-fy25-transparency-review/README.md).
+> The old parser never read FY2025, so there is no retired file. Not served by the MCP.
+
+**Result.** 3,555 rows from 309 charts, each with its resolution's adoption date. An independent
+image grid agrees on every row; ink coverage finds nothing on the page that was not read. The
+charts print no totals; "Charts 1 through N" ties on the 3 resolutions that print it.
+
+**Things a re-parse must know.** Reso 07 pp.29-30 print staff notes in a column past the `*`
+column, cut at the table's right rule: only "01/" shows, the rest is in the text layer (kept in
+`hidden_text`). Three chart pages print no "Page n" label (Reso 02 pp.74-75, Reso 03 p.28). Reso 11
+p.6's caption has no colon. Reso 08 p.12's member header reads "Member/Borough".
+
+**What the PDF itself gets wrong (flagged, never fixed).** Reso 07 p.18 prints a $15,000 row with
+no EIN (Reso 08 p.13 takes it back and re-prints it with one). Reso 06 p.6 marks a row `***` with
+no `***` footnote. Reso 02 prints the same two Black Spectrum rows under Fiscal 2025, 2024 and
+2023. Reso 04 (2024-10-23) prints no resolution number, and none is known.

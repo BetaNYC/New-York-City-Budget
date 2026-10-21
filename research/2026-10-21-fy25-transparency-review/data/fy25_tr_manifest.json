@@ -1,0 +1,26 @@
+{
+  "config": "config/transparency/fy2025.toml",
+  "config_sha256": "ed758111347e9f5a59f85fd1de0a4feb195bf03bd2535d0d97122a487e5542a4",
+  "fiscal_year": 2025,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdfium": "156.0.8076.0",
+  "pdfplumber": "0.11.10",
+  "pdfs": {
+    "source/FY25/transparency-resolutions/Transparency-Reso-01-2024-08-15.pdf": "c1711afb44844eed1f22fe7166ece3b4db4fdb33c2477aa18e69f3695029b4de",
+    "source/FY25/transparency-resolutions/Transparency-Reso-02-2024-09-12.pdf": "e48ebaf122dad7cb00367c16336410b14eb7712dbefc3ebbd02089c5261094f7",
+    "source/FY25/transparency-resolutions/Transparency-Reso-03-2024-10-10.pdf": "9922759c06f4c337bc667502958860be38e11c24bc87c78f09b76df677a27478",
+    "source/FY25/transparency-resolutions/Transparency-Reso-04-2024-10-23.pdf": "1f0ff26dd6147783b4db6db9e559d1de33dda8c92c724a639f4d1535394a4422",
+    "source/FY25/transparency-resolutions/Transparency-Reso-05-2024-11-13.pdf": "a146f5709d38437c6df58d3fe7d4bd25471123a12dab64f3d21cffde944d365e",
+    "source/FY25/transparency-resolutions/Transparency-Reso-06-2024-12-05.pdf": "4fb0b7661914ec5c3bb022685be77799138c451b44fb49d13507ea3f292537df",
+    "source/FY25/transparency-resolutions/Transparency-Reso-07-2025-01-23.pdf": "1f0207728a3851da33195ba4eff687fa9d7bfe99b36158d94d29b1ad8d02a7cf",
+    "source/FY25/transparency-resolutions/Transparency-Reso-08-2025-02-13.pdf": "9a73b2e363410f429cde166e8bb647ed43a49b4d5fb3ccb0d7fe48a22aeb884e",
+    "source/FY25/transparency-resolutions/Transparency-Reso-09-2025-03-12.pdf": "97c73eb3ba0950c77ad1b8f04c0270889fe8c8b837656437cea6e1e5f45718c6",
+    "source/FY25/transparency-resolutions/Transparency-Reso-10-2025-03-26.pdf": "8067e9e2ce230495f24dc4c7bd129d9665f5a39a10ba2877cb0449ee5c97634d",
+    "source/FY25/transparency-resolutions/Transparency-Reso-11-2025-04-24.pdf": "2409cecc61d894e0b220f24ed15a399a988a0f9e3e1a886aa57e735754886a96",
+    "source/FY25/transparency-resolutions/Transparency-Reso-12-2025-05-28.pdf": "b22ecaf22f95ad459b91ff3f6ac1f8dee4bfa25191afbea1768b2205301c7409",
+    "source/FY25/transparency-resolutions/Transparency-Reso-13-2025-06-30.pdf": "a953e493559ab089565195bbe55249f2dfca59216526a5d1bbddb01bbb3ef40b"
+  },
+  "pypdfium2": "5.14.0",
+  "python": "3.12.13"
+}

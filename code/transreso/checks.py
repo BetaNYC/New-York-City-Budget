@@ -76,6 +76,11 @@ def run(cfg, R, S):
     # T3
     t3 = [f for f in S["flags"] if f["check_id"] == "T3.charts"]
     gaps = []
+    # A chart page that prints no "Page n" label is allowed only as a named exception; the
+    # labels that are printed must still count every chart page (FY2025 Reso 02 pp.74-75).
+    unlab = {(e["resolution_seq"], e["pdf_page"]) for e in cfg.get("exceptions", [])
+             if e["check_id"] == "T3.page_label"}
+    unlab_seen = set()
     for r in R:
         seq = r["res"]["seq"]
         nums = sorted(c["chart_number"] for c in S["charts"] if c["resolution_seq"] == seq)
@@ -84,15 +89,26 @@ def run(cfg, R, S):
         printed = r["res"]["charts_printed"]
         if printed and printed != len(nums):
             gaps.append((seq, f"prints 'Charts 1 through {printed}', found {len(nums)}"))
-        labels = [p["page_label"] for p in S["page_info"]
-                  if p["resolution_seq"] == seq and p["tables"]]
+        cps = [p for p in S["page_info"] if p["resolution_seq"] == seq and p["tables"]]
+        for p in cps:
+            if p["page_label"] == "" and (seq, p["pdf_page"]) in unlab:
+                unlab_seen.add((seq, p["pdf_page"]))
+        labels = [p["page_label"] if not (p["page_label"] == "" and (seq, p["pdf_page"]) in unlab)
+                  else i for i, p in enumerate(cps, start=1)]
         if labels != list(range(1, len(labels) + 1)):
             gaps.append((seq, f"'Page n' labels under the charts are not 1..{len(labels)}"))
+    for k in sorted(unlab - unlab_seen):
+        gaps.append((k[0], f"named unlabelled page p.{k[1]} prints a label or is not a chart page"))
     out("T3.charts", not t3 and not gaps,
         f"{len(S['charts'])} charts on {len(chart_pages)} pages; printed chart counts tie on "
         f"{sum(1 for r in R if r['res']['charts_printed'])} of "
         f"{sum(1 for r in R if r['res']['charts_printed'])} resolutions that print one; "
-        f"{len(t3)} caption problems; {len(gaps)} numbering problems")
+        f"{len(t3)} caption problems; {len(gaps)} numbering problems"
+        + (f"; {len(unlab_seen)} chart pages print no 'Page n' label (named exceptions, counted "
+           f"by the labels around them)" if unlab else ""))
+    for s_, pg in sorted(unlab_seen):
+        flag("T3.page_label", s_, pg, "chart page prints no 'Page n' label; the next label "
+             "counts it (named exception in the config)", severity="warn")
     for s, m in gaps:
         flag("T3.charts", s, 0, m)
 
@@ -157,11 +173,16 @@ def run(cfg, R, S):
 
     # T11
     t11 = [a for a in rows if {"marker_without_footnote", "prequal_odd"} & set(a["row_flags"])]
-    out("T11.markers", not t11,
+    exc11 = {(e["resolution_seq"], e["pdf_page"], e["row_index"])
+             for e in cfg.get("exceptions", []) if e["check_id"] == "T11.markers"}
+    named11 = {(a["resolution_seq"], a["pdf_page"], a["row_index"]) for a in t11} & exc11
+    out("T11.markers", len(named11) == len(t11) and named11 == exc11,
         f"{sum(1 for a in rows if a['org_marker'] == '**')} rows marked **, "
         f"{sum(1 for a in rows if a['org_marker'] == '***')} marked ***, "
         f"{sum(1 for a in rows if a['prequal_pending'])} pending pre-qualification; "
-        f"{len(t11)} without their footnote or with an odd * cell")
+        f"{len(t11)} without their footnote or with an odd * cell"
+        + (f" ({len(named11)} a named exception in the config, kept as printed and in the "
+           f"review file)" if exc11 else ""))
     for a in t11:
         flag("T11.markers", a["resolution_seq"], a["pdf_page"],
              f"marker problem: {a['row_flags']}", row_id=a["row_id"])
@@ -220,7 +241,7 @@ def run(cfg, R, S):
                 if reader.MONEY.search(ln["text"]):
                     money.append((r["res"]["seq"], p["page"], ln["text"]))
     out("T15.printed_totals", not money,
-        f"{len(money)} money amounts printed outside the tables on chart pages: the FY2026 "
+        f"{len(money)} money amounts printed outside the tables on chart pages: the FY{cfg['fiscal_year']} "
         f"charts print no totals, so there is nothing to tie (the arithmetic is reported, not checked)")
     for s, pg, t in money:
         flag("T15.printed_totals", s, pg, f"money printed outside a table: {t!r}")

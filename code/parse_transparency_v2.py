@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Transparency resolutions from the PDFs, checked (GitHub #103; toolkit plan:
+Transparency resolutions from the PDFs, checked (GitHub #103 FY2026, #104 FY2025; toolkit plan:
 research/2026-10-19-schedule-c-pdf-toolkit/PLAN.md).
 
   python3 code/parse_transparency_v2.py --fy 2026            full run, writes <review_dir>/data/
+                                                             (config/transparency/fy<FY>.toml)
   python3 code/parse_transparency_v2.py --fy 2026 --no-cv    skip the image lattice and ink checks
   python3 code/parse_transparency_v2.py --fy 2026 --out DIR  write somewhere else
 
@@ -297,7 +298,7 @@ def main(argv=None):
     for res in cfg["resolutions"]:
         sha = sha256_file(os.path.join(ROOT, res["pdf"]))
         pages = cached_pages(cfg, res, sha, cache)
-        S = structure.build(res, pages, cfg["x_tolerance"])
+        S = structure.build(res, pages, cfg["x_tolerance"], a.fy)
         date_source = (f"printed p.1 and {cfg['numbers_source']}" if res["printed_date"]
                        else cfg["numbers_source"])
         for r in S["rows"]:
@@ -319,8 +320,8 @@ def main(argv=None):
     cv_rows, cv_pages, cv_flags, acc = {}, {}, [], {}
     if not a.no_cv:
         cv_rows, cv_pages, cv_flags, acc = run_cv(cfg, R, rows, os.path.join(outdir, "overlays"))
-    D = disclosure.align(rows)
-    old = disclosure.compare_retired(rows)
+    D = disclosure.align(rows, a.fy)
+    old = disclosure.compare_retired(rows, a.fy)
 
     for r in rows:
         st = D["per_row"].get(r["row_id"])
@@ -477,7 +478,7 @@ def main(argv=None):
         org = [r for r in des if not r["agency_side"]]
         re_rows.append(dict(
             resolution_seq=seq, resolution_number=res["number"], resolution_date=res["date"],
-            printed_date=res["printed_date"], legistar_id=res["legistar_id"], source_pdf=res["pdf"],
+            printed_date=res["printed_date"], legistar_id=res.get("legistar_id", ""), source_pdf=res["pdf"],
             pdf_sha256=x["sha"], pages=x["npages"],
             chart_pages=sum(1 for p in page_info if p["resolution_seq"] == seq and p["tables"]),
             charts=sum(1 for c in charts if c["resolution_seq"] == seq),
@@ -529,6 +530,7 @@ def main(argv=None):
                reason=r["disclosure_reason"], disclosure_row=r["disclosure_row"])
           for r in rows if r["disclosure_status"] != "n/a"]
     write_csv(os.path.join(outdir, f"{yy}_tr_disclosure_match.csv"), dm, list(dm[0]))
+    old = old or dict(only_new=[], only_old=[])
     old_rows = [dict(side="new_only", resolution_seq=r["resolution_seq"], row_id=r["row_id"],
                      ein=r["ein"], ein_printed=r["ein_printed"], amount=r["amount"], org=r["org"])
                 for r in old["only_new"]] + \
@@ -602,12 +604,15 @@ def main(argv=None):
     w(f"  rescissions of organizations: {len(resc):,}; where the money was designated before: " +
       ", ".join(f"{k} {v}" for k, v in sorted(Counter(r["disclosure_reason"] for r in resc).items())))
     w("")
-    w("RETIRED CSV (data/fy26/transparency-resolutions/fy26_transparency_all.csv, old parser)")
-    w(f"  retired rows {old['old_rows']:,}; these rows {old['new_rows']:,}; same (resolution, EIN, "
-      f"amount) {old['matched']:,}; only here {len(old['only_new'])} "
-      "(EIN printed: " + ", ".join(f"{k} {v}" for k, v in sorted(Counter(
-          r['ein_format'] for r in old['only_new']).items())) +
-      f"); only in the retired file {len(old['only_old'])}")
+    if "old_rows" not in old:
+        w(f"RETIRED CSV: none ({disclosure.retired_path(a.fy)} does not exist)")
+    else:
+        w(f"RETIRED CSV ({disclosure.retired_path(a.fy)}, old parser)")
+        w(f"  retired rows {old['old_rows']:,}; these rows {old['new_rows']:,}; same (resolution, EIN, "
+          f"amount) {old['matched']:,}; only here {len(old['only_new'])} "
+          "(EIN printed: " + ", ".join(f"{k} {v}" for k, v in sorted(Counter(
+              r['ein_format'] for r in old['only_new']).items())) +
+          f"); only in the retired file {len(old['only_old'])}")
     w("")
     rw = Counter(fl.split(":")[0] for r in rows for fl in r["row_flags"])
     w("ROW FLAG COUNTS (all listed in flags.csv; review file holds only those that could change a value)")
