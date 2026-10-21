@@ -40,6 +40,11 @@ describe("filters", () => {
   test("a budget-line filter uses the normal form", () => {
     expect(P.orgsQuery({ budget_line: "pv-dn004" }, 0).params).toEqual(["PV DN004"]);
   });
+  test("a unit filter matches a unit exactly, or a budget line by its start", () => {
+    const q = P.termsQuery({ unit: "HD-0009" }, 0);
+    expect(q.sql).toContain("starts_with(lower(u.budget_line), lower(?))");
+    expect(q.params).toEqual(["HD-0009", "HD-0009"]);
+  });
   test("review notes: no query for a row with no review id", () => {
     expect(P.reviewNotesQuery("")).toBeNull();
     expect(P.reviewNotesQuery("a;b;a").params).toEqual(["a", "b"]);

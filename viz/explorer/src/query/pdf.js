@@ -137,10 +137,11 @@ function termsWhere(f) {
   w.text(["condition_text", "heading_raw"], f.text);
   w.eq("kind", f.kind);
   if (!blank(f.unit)) {
-    // A unit as printed in the heading: "001", or "All".
+    // A unit as printed in the heading ("001", "All"), or the start of a budget line, which is
+    // printed with its scope ("HD-0009 – All Projects").
     w.add(
       `EXISTS (SELECT 1 FROM pdf_terms_units u WHERE u.fiscal_year = pdf_terms.fiscal_year AND u.item_number = pdf_terms.item_number
-               AND (lower(u.unit_of_appropriation) = lower(?) OR lower(u.budget_line) = lower(?)))`,
+               AND (lower(u.unit_of_appropriation) = lower(?) OR starts_with(lower(u.budget_line), lower(?))))`,
       String(f.unit).trim(),
       String(f.unit).trim()
     );
