@@ -913,3 +913,34 @@ finds nothing on the page that was not read.
 runs over the border into the EIN box. A page's running sub-heading is a category name in small
 type (e.g. p.116), not a category banner. Rows on the City's EIN 13-6400434 need a name check
 to match the disclosure (9 rows pair different agencies by amount alone).
+
+## 30. FY2026 transparency resolutions rebuilt from the PDFs, checked (#103) — REVIEW IN PROGRESS
+
+> **Scope.** A new, checked parse of the 10 PDFs in `source/FY26/transparency-resolutions/`
+> (`code/parse_transparency_v2.py`, `code/transreso/`, `config/transparency/fy2026.toml`). Its
+> review record is [`research/2026-10-21-fy26-transparency-review/`](research/2026-10-21-fy26-transparency-review/README.md).
+> The old `data/fy26/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> record (§27). Not served by the MCP.
+
+**Result.** 4,952 rows from 388 charts (the old parse had 4,755, all of which are here). Every row
+carries its resolution's number and adoption date (`resolution_number`, `resolution_date`), so a
+designation can be placed in time. An independent image grid agrees with the vector grid on every
+row; ink coverage finds nothing on the page that was not read.
+
+**The FY2026 charts print no totals.** Nothing to tie. What is printed and checked instead: "Charts
+1 through N" (Reso 03-10), the "Page n" labels, and red ink on every amount in parentheses.
+
+**What the old parse missed (§9 called FY2026 "fully parsed").** 173 EINs printed without a hyphen; 21 rows on the
+prior-year purpose-of-funds chart of 7 resolutions; 2 rows whose clipped text it misread; 1 row
+with no EIN.
+
+**Things a re-parse must know.** Excel clips overflowing text at the next border but leaves the
+hidden letters in the PDF: read text by runs, not letters (12 cells; "Speaker's Initiat" on Reso 02
+p.110 is what the page shows). Purpose-of-funds rows usually draw no border between Source and
+Member. Reso 03-10 print no date and leave "Res. No." blank; numbers and dates come from Legistar
+(`research/2026-07-07-legistar-links-fy21-27.md`). `fiscal_year` on the new rows is the document
+year; the budget year a row changes is `budget_fiscal_year` (2023-2026), from the chart caption.
+
+**What the PDF itself gets wrong (flagged, never fixed).** Reso 06 p.5 captions a chart "Fiscal
+2023" that names a Council Member who took office in 2024 (likely 2026). Reso 01 p.67 "Operation
+Backpack" prints no fiscal year. Reso 06 p.2 prints one row with no EIN.

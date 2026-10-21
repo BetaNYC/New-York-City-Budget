@@ -1,0 +1,65 @@
+TRANSPARENCY RESOLUTIONS FY2026 -- checks (code/parse_transparency_v2.py; config config/transparency/fy2026.toml)
+10 PDFs, 544 pages, 532 chart pages, 388 charts
+
+rows: 4,952
+  designate      3,025 rows  $     214,096,709
+  rescind        1,308 rows  $    -212,763,375
+  purpose_from     309 rows  $     -62,931,698
+  purpose_to       310 rows  $      62,931,698
+  budget year 2023: 8 rows
+  budget year 2024: 92 rows
+  budget year 2025: 249 rows
+  budget year 2026: 4,602 rows
+  no budget year printed: 1 rows
+
+PER RESOLUTION (rows; organizations: designations / rescissions; agency side net; purpose rows)
+   1 Res 1013-2025 2025-08-14:   994 rows, 69 charts; +556 $88,366,514 / 186 $-8,301,500; agency side $-78,731,680; purpose 79
+   2 Res 1059-2025 2025-09-25: 1,655 rows, 66 charts; +1,205 $39,562,766 / 168 $-5,187,904; agency side $-34,374,862; purpose 132
+   3 Res 1100-2025 2025-10-29:   845 rows, 72 charts (prints 72); +429 $26,091,181 / 175 $-13,859,162; agency side $-12,232,019; purpose 166
+   4 Res 1153-2025 2025-11-25:   491 rows, 30 charts (prints 30); +177 $8,572,127 / 122 $-5,083,250; agency side $-3,488,877; purpose 172
+   5 Res 1186-2025 2025-12-18:   303 rows, 35 charts (prints 35); +207 $6,413,702 / 58 $-4,193,554; agency side $-2,220,148; purpose 12
+   6 Res 0255-2026 2026-02-12:   193 rows, 30 charts (prints 30); +78 $3,829,031 / 58 $-3,319,756; agency side $-509,275; purpose 16
+   7 Res 0353-2026 2026-03-10:    80 rows, 24 charts (prints 24); +36 $2,118,339 / 26 $-1,837,849; agency side $-280,490; purpose 12
+   8 Res 0420-2026 2026-04-16:    94 rows, 21 charts (prints 21); +39 $846,219 / 33 $-528,274; agency side $-317,945; purpose 8
+   9 Res 0479-2026 2026-05-20:   141 rows, 22 charts (prints 22); +65 $1,946,904 / 64 $-1,946,904; agency side $0; purpose 10
+  10 Res 0529-2026 2026-06-30:   156 rows, 19 charts (prints 19); +54 $3,757,461 / 84 $-6,198,739; agency side $2,441,278; purpose 12
+
+HARD CHECKS
+  ok    T1.input             10 PDFs, 544 pages; 0 differ from config
+  ok    T2.triage            544 pages surveyed; 0 fail the text-layer gate
+  ok    T3.charts            388 charts on 532 pages; printed chart counts tie on 8 of 8 resolutions that print one; 0 caption problems; 0 numbering problems
+  ok    T4.headers           0 unrecognised headers
+  ok    T5.anchors           4951 EIN-shaped words on the visible text (4949 counting clipped letters), 4951 rows with an EIN; 0 pages differ; 0 rows without a readable amount; 1 rows print no EIN
+  ok    T6.furniture         0 data cells holding header/footer text; 0 unexpected lines under tables
+  ok    T7.chars             713428 non-space chars; 0 in a table but in no cell; 157 clipped (hidden) chars in 12 runs, each listed for review
+  ok    T10.sign_colour      1617 amounts in parentheses, all red; 0 rows where sign and colour disagree
+  ok    T11.markers          528 rows marked **, 33 marked ***, 1 pending pre-qualification; 0 without their footnote or with an odd * cell
+  ok    T12.fiscal_year      387 charts print a fiscal year, all named in their resolution's text; 1 print none (warn, in the review file); 1 name a year the text does not (1 a named exception in the config, kept as printed and in the review file)
+  ok    T13.dates            2 resolutions print their date and it matches; all 10 filename dates equal the Legistar adoption dates in the config
+  ok    T14.provenance       4952 row ids, 4952 unique
+  ok    T15.printed_totals   0 money amounts printed outside the tables on chart pages: the FY2026 charts print no totals, so there is nothing to tie (the arithmetic is reported, not checked)
+  ok    T16.values           0 clean values not reproducible from raw
+
+IMAGE LATTICE (H8): rows rebuilt from code/ocr/grid.py lattices, compared field by field
+  agree on every field: 4,952 of 4,952
+  image rows with no vector row: 0
+  header rules found in header pixels (not in the lattice): 64 pages
+INK COVERAGE (H9): uncovered-ink regions inside the chart tables
+  regions: 0  uncovered px total: 18 of 189,395,507 ink px
+  acceptance on Reso 08 p.19 (fy26-tr08-p019-r003): clean run 0 regions; row withheld -> 9; one char withheld -> 1 (PASS)
+
+DISCLOSURE (report-only; data/fyNN/expense_disclosure)
+  budget year 2023: 4 organization designations; 3 found in the disclosure on (EIN, amount) ($30,000); not found: ein_not_in_disclosure 1
+  budget year 2024: 41 organization designations; 41 found in the disclosure on (EIN, amount) ($1,658,747); not found: 
+  budget year 2025: 147 organization designations; 136 found in the disclosure on (EIN, amount) ($6,510,931); not found: city_ein_name_mismatch 2, later_rescinded 9
+  budget year 2026: 2,653 organization designations; 2,440 found in the disclosure on (EIN, amount) ($153,558,984); not found: amount_differs 44, city_ein_name_mismatch 6, ein_not_in_disclosure 2, key_already_claimed 4, later_rescinded 157
+  rescissions of organizations: 974; where the money was designated before: earlier_resolution 346, not_found 77, partial 116, schedule_c 435
+
+RETIRED CSV (data/fy26/transparency-resolutions/fy26_transparency_all.csv, old parser)
+  retired rows 4,755; these rows 4,952; same (resolution, EIN, amount) 4,755; only here 197 (EIN printed: blank 1, hyphen 23, no_hyphen 173); only in the retired file 0
+
+ROW FLAG COUNTS (all listed in flags.csv; review file holds only those that could change a value)
+  clipped_text 11, ein_blank 1, ein_no_hyphen 173, made_cell 1, made_cell_empty 90, prequal_star_in_org 1, spanning_cell 448, unpaired_purpose 7, wrap_hyphen 97
+  zero-width chars dropped: 1
+
+REVIEW FILE: 24 rows (2 critical, 22 warn); stale decisions: 0
