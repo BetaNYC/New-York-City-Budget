@@ -1,0 +1,29 @@
+FY2024 Terms and Conditions: checks
+pdf: source/FY24/FY24-Terms-and-Conditions.pdf
+sha256: 32186dc0b0c249b324c104b34843016a7256d89da8d49dad28eebe5ab9931ca5
+
+T5 p.8: vector 5 x / 6 y separators; image 5 x / 6 y; unmatched vector x[] y[], image x[] y[]
+T5 p.9: vector 5 x / 4 y separators; image 5 x / 4 y; unmatched vector x[] y[], image x[] y[]
+T5 FSR table cells: 29 identical under both lattices, 0 differ
+T1 numbered conditions: 61; run 1..61; gaps []; repeats []; in order: True
+   the PDF prints no numbers (item_number = order in the book); paragraphs opening 'As a condition' at the left margin: 61
+T2 unit/budget-line heading lines: page text 187, in conditions 187, difference {}
+   of which 'Unit of Appropriation' lines: 182
+T3 body names exactly the heading's units and lines: 58/61
+T4 characters outside furniture and tables not in any condition: 0
+T6 ink coverage: 24 pages, 0 uncovered regions
+T7 old CSV: 59 rows, new 61; first agency equal 47; text equal ignoring whitespace 37
+   mid-word splits (join is a word in the new text, halves are not): old 28, new 0
+W wrap_hyphen joins (line ended in a hyphen; joined with none): 4 conditions
+Conditions naming more than one agency: [32, 34, 44, 46, 53, 61]
+Kinds: {'expense': 57, 'capital': 3, 'capital+expense': 1}
+
+review.csv by check:
+  T2.heading_not_bold    warn     1
+  T2.no_agency_code      warn     5
+  T3.body_vs_heading     warn     3
+  T7.old_csv             warn     2
+  T7.old_csv_agency      warn     12
+  T7.old_csv_text        warn     22
+  T7.old_csv_units       warn     18
+  W.wrap_hyphen          warn     4

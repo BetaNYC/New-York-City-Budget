@@ -1,0 +1,28 @@
+# FY2024 Terms and Conditions: every year-specific fact code/review_terms.py needs.
+
+fiscal_year = 2024
+pdf = "source/FY24/FY24-Terms-and-Conditions.pdf"
+sha256 = "32186dc0b0c249b324c104b34843016a7256d89da8d49dad28eebe5ab9931ca5"
+review_dir = "research/2026-10-21-fy24-capital-terms-review"   # outputs land in <review_dir>/data
+prefix = "fy24"                                                # output file names: <prefix>_terms_*
+issue = 105
+old_csv = "data/fy24/terms/fy24_terms_and_conditions.csv"      # the retired parse, compared in T7
+
+# FY2024 prints no condition numbers ("Administration for Children's Services (068)", not
+# "1. ..."): item_number is the condition's order in the book, as the retired CSV numbered them.
+numbered = false
+
+# The DOE Financial Status Report table (pp.8-9) is the only real table; white boxes behind
+# headings on pp.11, 16, 18, 21 read as tables otherwise.
+table_pages = [8, 9]
+
+# Page furniture: "Page N of 24" at the foot of every page, cover included (top 732 pt).
+[furniture]
+pattern = 'Page \d{1,2} of \d{1,2}'
+top_min = 720
+top_max = 10000
+
+# The one ruled table (DOE Financial Status Reports, pp.8-9) belongs to this condition (#21:
+# its body ends "for the following dates:").
+[fsr_table]
+item_number = 21

@@ -1,11 +1,12 @@
 """
 Terms and Conditions: parse, check and review (epic #101; FY2027 #102, FY2026 #103,
-FY2025 #104).
+FY2025 #104, FY2024 #105).
 
 One parser, one config per year (config/terms/fyNNNN.toml: PDF, sha256, page furniture, the
 retired CSV to compare with). FY2027 (the default): source/FY27/FY27-FINAL-Terms-and-Conditions-
 6.30.26.pdf (32 pages, tier B, Word export). FY2026: source/FY26/FY26-Terms-and-Conditions-1.pdf
-(29 pages). FY2025: source/FY25/FY25-Terms-and-Conditions-1.pdf (25 pages). Writes to the config's research/ folder (never to data/; DATA-ANOMALIES §27).
+(29 pages). FY2025: source/FY25/FY25-Terms-and-Conditions-1.pdf (25 pages). FY2024:
+source/FY24/FY24-Terms-and-Conditions.pdf (24 pages, no printed condition numbers: config numbered = false). Writes to the config's research/ folder (never to data/; DATA-ANOMALIES §27).
 
 The document is prose (families/transparency-and-terms.md §4). Its structure is:
 
@@ -29,7 +30,7 @@ Checks (numbers in checks.txt, failures in review.csv):
   T7 against the retired data/fyNN/terms CSV (config old_csv): rows, numbers, agencies, units, and text
      (whitespace removed), plus the mid-word split count in each
 
-Run:  .venv/bin/python code/review_terms.py [--fy 2027|2026|2025] [--out DIR] [--no-ink]
+Run:  .venv/bin/python code/review_terms.py [--fy 2027|2026|2025|2024] [--out DIR] [--no-ink]
 """
 import argparse
 import collections
@@ -68,8 +69,9 @@ def configure(fy):
 configure(2027)
 
 HEAD_RE = re.compile(r"^(\d+)\.\s+(.+?)\s*\((\d{3})\)$")
-AGENCY_RE = re.compile(r"^(.+?)\s*\((\d{3})\)$")
-UOA_RE = re.compile(r"^Units? of Appropriation \[([^\]]+)\]$")   # FY2026 #5, #7: "Units of"
+AGENCY_RE = re.compile(r"^(.+?)\s*\(\s?(\d{3})\)$")            # FY2024: "( 128)"
+# FY2026 #5, #7: "Units of"; FY2024 "[ 003]", "[ 020 ]", "Unit of appropriation [101]".
+UOA_RE = re.compile(r"^Units? of [Aa]ppropriation \[\s?([^\]]+?)\s?\]$")
 BL_RE = re.compile(r"^Budget Line (.+)$")
 DATE_RE = re.compile(r"(?:January|February|March|April|May|June|July|August|September|October|"
                      r"November|December) \d{1,2}, \d{4}")
@@ -119,6 +121,10 @@ def fsr_table(pdf, review, report):
     rows, bboxes = [], collections.defaultdict(list)
     agree = disagree = 0
     for pno, page in enumerate(pdf.pages, 1):
+        # FY2024 draws white boxes behind some headings (pp.11, 16, 18, 21) that pdfplumber reads
+        # as tables; config table_pages names the pages that hold the real one.
+        if "table_pages" in CFG and pno not in CFG["table_pages"]:
+            continue
         for t in page.find_tables():
             bboxes[pno].append(t.bbox)
             # Vector lattice: distinct cell edges.
@@ -228,11 +234,28 @@ def parse(pdf, bboxes, review):
                 continue
             text = ln["text"].strip()
             m = HEAD_RE.match(text) if ln["bold"] else None
-            if m:
-                cur = {"item_number": int(m.group(1)), "page_start": pno, "page_end": pno,
-                       "groups": [{"agency": m.group(2), "code": m.group(3), "uoas": [],
+            head = (int(m.group(1)), m.group(2), m.group(3)) if m else None
+            # FY2024 prints no condition numbers: a bold agency line (or "Capital Budget") after
+            # body text starts the next condition, numbered in page order (config numbered = false).
+            # Some agency lines print no code ("Department of Transportation", "Mayoralty", p.16, 20).
+            # One is printed in regular type but for its code (p.21 "Office of Criminal Justice
+            # ( 128)"): a centred line that is exactly "Name (code)" counts too, and is flagged.
+            unnumbered = not CFG.get("numbered", True)
+            plain_head = unnumbered and not ln["bold"] and ln["x0"] > 100 and \
+                AGENCY_RE.match(text) is not None
+            if head is None and unnumbered and (ln["bold"] or plain_head) and mode != "head" and \
+                    not (UOA_RE.match(text) or BL_RE.match(text)):
+                a = AGENCY_RE.match(text)
+                head = (len(conds) + 1, a.group(1) if a else text, a.group(2) if a else "")
+            if head:
+                cur = {"item_number": head[0], "page_start": pno, "page_end": pno,
+                       "groups": [{"agency": head[1], "code": head[2], "uoas": [],
                                    "budget_lines": []}],
                        "heading_lines": [text], "body_lines": [], "flags": set()}
+                if unnumbered and not ln["bold"]:
+                    cur["flags"].add("heading_not_bold")
+                    review.add("T2.heading_not_bold", "warn", pno, f"#{head[0]}: heading printed in "
+                               f"regular type: {text}", field=str(head[0]))
                 conds.append(cur)
                 box_add(cur, pno, ln)
                 mode = "head"
@@ -254,9 +277,21 @@ def parse(pdf, bboxes, review):
                 elif b:
                     cur["groups"][-1]["budget_lines"].append(b.group(1))
                     cur["groups"][-1].setdefault("bl_boxes", []).append(lb)
+                elif a and unnumbered and not cur["groups"][-1]["code"] and \
+                        not cur["groups"][-1]["uoas"] and not cur["groups"][-1]["budget_lines"]:
+                    # An agency name wrapped onto a second line (FY2024 p.23: "Office of
+                    # Technological Innovation/Department of Information Telecommunication" /
+                    # "Services (858)").
+                    g = cur["groups"][-1]
+                    g["agency"], g["code"] = f"{g['agency']} {a.group(1)}", a.group(2)
+                    cur["flags"].add("agency_name_wrapped")
                 elif a:
                     cur["groups"].append({"agency": a.group(1), "code": a.group(2), "uoas": [],
                                           "budget_lines": []})
+                elif unnumbered and not re.search(r"[\[\]()]", text):
+                    # A later agency printed with no code (p.16: DCAS, Parks), or "Capital Budget"
+                    # after an agency's units (p.14).
+                    cur["groups"].append({"agency": text, "code": "", "uoas": [], "budget_lines": []})
                 else:
                     review.add("T2.heading_line", "critical", pno, f"unknown heading line: {text}",
                                field=str(cur["item_number"]))
@@ -352,12 +387,31 @@ def run(out_dir=None, do_ink=True, fy=None):
         fsr, bboxes = fsr_table(pdf, review, report)
         conds, emitted = parse(pdf, bboxes, review)
 
+        # Agency lines printed with no code (FY2024 p.16 DOT, DCAS, Parks; p.18 DYCD; p.20
+        # Mayoralty): kept as printed, code blank, flagged.
+        for c in conds:
+            for g in c["groups"]:
+                if not g["code"] and not g["agency"].startswith("Capital Budget"):
+                    c["flags"].add("agency_code_not_printed")
+                    review.add("T2.no_agency_code", "warn", c["page_start"],
+                               f"#{c['item_number']}: '{g['agency']}' is printed with no agency code",
+                               field=str(c["item_number"]))
+
         # T1 numbering.
         nums = [c["item_number"] for c in conds]
         gaps = sorted(set(range(1, max(nums) + 1)) - set(nums))
         dups = [k for k, v in collections.Counter(nums).items() if v > 1]
         report.append(f"T1 numbered conditions: {len(conds)}; run 1..{max(nums)}; gaps {gaps}; "
                       f"repeats {dups}; in order: {nums == sorted(nums)}")
+        if not CFG.get("numbered", True):
+            # No printed numbers to check: count the paragraphs that open a condition instead.
+            opens = sum(1 for p in pdf.pages[1:] for l in p.extract_text_lines()
+                        if l["x0"] < 80 and l["text"].startswith("As a condition"))
+            report.append(f"   the PDF prints no numbers (item_number = order in the book); "
+                          f"paragraphs opening 'As a condition' at the left margin: {opens}")
+            if opens != len(conds):
+                review.add("T1.numbering", "critical", "", f"{len(conds)} headings but {opens} "
+                           "'As a condition' paragraphs")
         for g in gaps:
             review.add("T1.numbering", "critical", "", f"condition {g} missing")
         for d in dups:

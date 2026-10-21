@@ -1,13 +1,15 @@
 """
 Section 254 capital supporting detail: parse, tie out and review (epic #101; FY2027 #102,
-FY2026 #103, FY2025 #104).
+FY2026 #103, FY2025 #104, FY2024 #105).
 
 One parser, one config per year: config/capital_sd/fyNNNN.toml holds the PDF, its sha256, the
 page map, the FY columns and the other year-specific facts. FY2027 (the default) is
 source/FY27/Supporting-Detail-for-FY2027-...-Section-254.V4.pdf (80 pages, Parts I and II
 rotated /Rotate 90); FY2026 is source/FY26/Fiscal-2026-Capital-Budget-Supporting-Details-1.pdf
 (86 pages, Part III rotated instead); FY2025 is source/FY25/Supporting-Detail-for-FY2025-...-
-Council-Version-24.07.17.pdf (87 pages, all Parts upright, Part III a third export). Rules a later
+Council-Version-24.07.17.pdf (87 pages, all Parts upright, Part III a third export); FY2024 is
+source/FY24/FY2024-Sec254-Supporting-Detail-Book_7.10.2023pwp-2.pdf (78 pages, encrypted with an
+empty user password). Rules a later
 year needed and an earlier one must not get are config switches, off by default, so a reviewed
 year's output stays byte-identical.
 
@@ -40,7 +42,7 @@ Checks (each prints its numbers to checks.txt; failures go to review.csv):
   C8 ink coverage: rendered ink not under an emitted character or a vector rule
   C9 alignment with data/capital/council_capital_awards.csv (report only, never fills a value)
 
-Run:  .venv/bin/python code/review_capital_sd.py [--fy 2027|2026|2025] [--out DIR] [--no-ink] [--selftest-ink]
+Run:  .venv/bin/python code/review_capital_sd.py [--fy 2027|2026|2025|2024] [--out DIR] [--no-ink] [--selftest-ink]
 """
 import argparse
 import collections
@@ -802,7 +804,8 @@ def summary_page(pdf, review):
         m = re.search(label + r"\s+\(?\$\s?([\d,]+)\)?", text)
         return money(m.group(1)) if m else None
     return {"additions": grab("City Council Additions"),
-            "rescindments": grab("Less Rescindments from Prior Capital Budgets"),
+            # FY2024 prints "Less: Rescindments ...".
+            "rescindments": grab("Less:? Rescindments from Prior Capital Budgets"),
             "net": grab("Net Change")}
 
 
