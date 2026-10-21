@@ -8,7 +8,8 @@ review_id, flags`, with values as printed. `bbox_pt` is `x0,top,x1,bottom` in PD
 
 This script re-runs the review parsers (code/review_capital_sd.py, code/review_terms.py) into a
 scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
-Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102).
+Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
+`capital_sd` and `terms` (GitHub #103), from config/capital_sd/ and config/terms/.
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -91,35 +92,39 @@ def attach(rows, review, key_row, key_rev):
 
 
 # ------------------------------------------------------------------------------------------
-# FY2027 capital supporting detail
+# Capital supporting detail (FY2027, FY2026)
 # ------------------------------------------------------------------------------------------
 
-def build_capital_sd(scratch):
-    cap.run(scratch, do_ink=True)
+def build_capital_sd(scratch, fy=2027):
+    """Columns follow the year's printed FY headers: FY2027 has fy2027..fy2030, FY2026
+    fy2026..fy2029. A loader that unions the years keeps every printed column."""
+    cap.run(scratch, do_ink=True, fy=fy)
     d = os.path.join(scratch, "data")
-    pages = {int(p["pdf_page"]): p for p in read(os.path.join(d, "fy27_capital_sd_pages.csv"))}
-    base = {"fiscal_year": 2027, "source_pdf": rel(cap.PDF), "pdf_sha256": cap.PDF_SHA256}
+    px = cap.PREFIX
+    fys = cap.FYS
+    summary_pno = cap.pages_of("summary")[0]
+    pages = {int(p["pdf_page"]): p for p in read(os.path.join(d, f"{px}_capital_sd_pages.csv"))}
+    base = {"fiscal_year": cap.FY, "source_pdf": rel(cap.PDF), "pdf_sha256": cap.PDF_SHA256}
 
     def unrot(page, bbox):
         p = pages[int(page)]
         return unrotate(bbox, int(p["rotate"]), float(p["width"]), float(p["height"]))
 
-    review = [dict(base, family="capital_sd", **r) for r in read(os.path.join(d, "fy27_capital_sd_review.csv"))]
+    review = [dict(base, family="capital_sd", **r) for r in read(os.path.join(d, f"{px}_capital_sd_review.csv"))]
 
-    projects = read(os.path.join(d, "fy27_capital_sd_projects.csv"))
+    projects = read(os.path.join(d, f"{px}_capital_sd_projects.csv"))
     for r in projects:
         r.update(base)
         r["bbox_pt"] = unrot(r["pdf_page"], r["bbox_pt"])
     attach(projects, review, lambda r: (r["part"], r["sub_id"]),
            lambda rv: (rv["part"], rv["sub_id"]) if rv["sub_id"] and rv["part"] in ("I", "II") else None)
     proj_cols = CONTRACT + ["part", "agency", "row_in_page", "sub_id", "budget_line", "boro", "title",
-                            "building_code", "school_code", "fy2027", "fy2028", "fy2029", "fy2030",
-                            "sponsor", "title_raw", "sponsor_raw", "fy2027_printed", "fy2028_printed",
-                            "fy2029_printed", "fy2030_printed"]
+                            "building_code", "school_code", *fys,
+                            "sponsor", "title_raw", "sponsor_raw", *(f"{fy}_printed" for fy in fys)]
 
     # Part III: one row per printed budget-line row, carrying its organization's printed line.
-    orgs = read(os.path.join(d, "fy27_capital_sd_part3_orgs.csv"))
-    lines = read(os.path.join(d, "fy27_capital_sd_part3.csv"))
+    orgs = read(os.path.join(d, f"{px}_capital_sd_part3_orgs.csv"))
+    lines = read(os.path.join(d, f"{px}_capital_sd_part3.csv"))
     org_rows = []
     i = 0
     for o in orgs:
@@ -132,64 +137,67 @@ def build_capital_sd(scratch):
                                  org_bbox_pt=unrot(o["pdf_page"], o["bbox_pt"]),
                                  org_line_in_org=k + 1, org_lines=o["n_lines"],
                                  budget_line=l["budget_line"],
-                                 **{fy: l[fy] for fy in cap.FYS},
-                                 **{f"org_printed_{fy}": o[f"org_{fy}"] for fy in cap.FYS},
+                                 **{fy: l[fy] for fy in fys},
+                                 **{f"org_printed_{fy}": o[f"org_{fy}"] for fy in fys},
                                  org_status=o["status"]))
     assert i == len(lines)
     attach(org_rows, review, lambda r: ("III", r["organization"]),
            lambda rv: ("III", rv["note"].split(":")[0]) if rv["part"] == "III" else None)
-    org_cols = CONTRACT + ["organization", "budget_line", "fy2027", "fy2028", "fy2029", "fy2030",
-                           "org_printed_fy2027", "org_printed_fy2028", "org_printed_fy2029",
-                           "org_printed_fy2030", "org_lines", "org_line_in_org", "org_status",
-                           "org_pdf_page", "org_bbox_pt"]
+    org_cols = CONTRACT + ["organization", "budget_line", *fys,
+                           *(f"org_printed_{fy}" for fy in fys), "org_lines", "org_line_in_org",
+                           "org_status", "org_pdf_page", "org_bbox_pt"]
 
-    # Printed totals (28 TOTALS FOR lines) and the p.61 summary.
+    # Printed totals (every TOTALS FOR line) and the summary page (FY2027 p.61, FY2026 p.65).
     totals = []
-    for t in read(os.path.join(d, "fy27_capital_sd_totals.csv")):
+    for t in read(os.path.join(d, f"{px}_capital_sd_totals.csv")):
         totals.append(dict(base, bbox_pt="", kind="totals_for", **t))
     with cap.pdfplumber.open(cap.PDF) as pdf:
         summ = cap.summary_page(pdf, None)
     p1 = next(t for t in totals if t["part"] == "I" and t["name"] == "ALL")
-    for name, val, sumv in (("City Council Additions", summ["additions"], p1["sum_fy2027"]),
+    for name, val, sumv in (("City Council Additions", summ["additions"], p1["sum_" + fys[0]]),
                             ("Less Rescindments from Prior Capital Budgets", summ["rescindments"], ""),
                             ("Net Change", summ["net"], summ["additions"] - summ["rescindments"])):
         status = "" if sumv == "" else ("OK" if int(sumv) == val else "FAIL")
-        totals.append(dict(base, pdf_page=61, bbox_pt="", kind="summary", part="", name=name,
-                           printed_fy2027=val, sum_fy2027=sumv, status=status))
+        totals.append(dict(base, pdf_page=summary_pno, bbox_pt="", kind="summary", part="", name=name,
+                           **{"printed_" + fys[0]: val, "sum_" + fys[0]: sumv}, status=status))
     attach(totals, review, lambda r: (str(r["pdf_page"]), r["name"]),
            lambda rv: (str(rv["pdf_page"]), "Less Rescindments from Prior Capital Budgets")
            if rv["check_id"] == "C2.rescindments" else None)
-    tot_cols = CONTRACT + ["kind", "part", "name", "printed_count", "rows", "printed_fy2027",
-                           "printed_fy2028", "printed_fy2029", "printed_fy2030", "sum_fy2027",
-                           "sum_fy2028", "sum_fy2029", "sum_fy2030", "status", "printed_text"]
+    tot_cols = CONTRACT + ["kind", "part", "name", "printed_count", "rows",
+                           *(f"printed_{fy}" for fy in fys), *(f"sum_{fy}" for fy in fys),
+                           "status", "printed_text"]
 
     tied = sum(1 for t in totals if t["kind"] == "totals_for" and t["status"] == "OK")
     n_tot = sum(1 for t in totals if t["kind"] == "totals_for")
     files = {
-        "fy27_capital_sd_projects.csv": to_csv(projects, proj_cols),
-        "fy27_capital_sd_orgs.csv": to_csv(org_rows, org_cols),
-        "fy27_capital_sd_totals.csv": to_csv(totals, tot_cols),
-        "fy27_capital_sd_review.csv": to_csv(review, REVIEW_COLS),
+        f"{px}_capital_sd_projects.csv": to_csv(projects, proj_cols),
+        f"{px}_capital_sd_orgs.csv": to_csv(org_rows, org_cols),
+        f"{px}_capital_sd_totals.csv": to_csv(totals, tot_cols),
+        f"{px}_capital_sd_review.csv": to_csv(review, REVIEW_COLS),
     }
-    year = dict(base, family="capital_sd", issue=102, status="reviewed", rows=len(projects),
+    summ_ok = all(t["status"] == "OK" for t in totals if t["kind"] == "summary" and t["status"])
+    year = dict(base, family="capital_sd", issue=cap.CFG["issue"], status="reviewed", rows=len(projects),
                 flagged=sum(1 for r in projects if r["flags"]),
                 printed_totals_tied=f"{tied}/{n_tot}",
                 note=(f"Parts I+II {len(projects)} rows (projects table); Part III {len(org_rows)} "
-                      f"budget-line rows of {len(orgs)} organizations (orgs table); p.61 summary ties. "
-                      "Review: research/2026-10-20-fy27-capital-terms-review/REVIEW.md"))
+                      f"budget-line rows of {len(orgs)} organizations (orgs table); "
+                      f"p.{summary_pno} summary {'ties' if summ_ok else 'DOES NOT tie'}. "
+                      f"Review: {cap.CFG['review_dir']}/REVIEW.md"))
     return files, year
 
 
 # ------------------------------------------------------------------------------------------
-# FY2027 Terms and Conditions
+# Terms and Conditions (FY2027, FY2026)
 # ------------------------------------------------------------------------------------------
 
-def build_terms(scratch):
-    terms.run(scratch, do_ink=True)
+def build_terms(scratch, fy=2027):
+    terms.run(scratch, do_ink=True, fy=fy)
     d = os.path.join(scratch, "data")
-    base = {"fiscal_year": 2027, "source_pdf": rel(terms.PDF), "pdf_sha256": terms.PDF_SHA256}
-    review = [dict(base, family="terms", **r) for r in read(os.path.join(d, "fy27_terms_review.csv"))]
-    conds = read(os.path.join(d, "fy27_terms_conditions.csv"))
+    px = terms.PREFIX
+    fsr_item = str(terms.CFG["fsr_table"]["item_number"])
+    base = {"fiscal_year": terms.FY, "source_pdf": rel(terms.PDF), "pdf_sha256": terms.PDF_SHA256}
+    review = [dict(base, family="terms", **r) for r in read(os.path.join(d, f"{px}_terms_review.csv"))]
+    conds = read(os.path.join(d, f"{px}_terms_conditions.csv"))
     for c in conds:
         c.update(base)
         # The row's page and box: its first page. Later pages' boxes stay in page_boxes.
@@ -197,7 +205,7 @@ def build_terms(scratch):
         c["pdf_page"], c["bbox_pt"] = first.split(":")
     owner_of_table = {p: c["item_number"] for c in conds for p in
                       (int(x.split(":")[0]) for x in c["page_boxes"].split("|"))
-                      if c["item_number"] == "15"}
+                      if c["item_number"] == fsr_item}
     attach(conds, review, lambda c: c["item_number"],
            lambda rv: rv["field"] if rv["field"].isdigit() else
            (owner_of_table.get(int(rv["pdf_page"])) if rv["check_id"] == "W.midword_wrap" else None))
@@ -205,15 +213,15 @@ def build_terms(scratch):
                             "agency_code", "units_of_appropriation", "num_units", "budget_lines",
                             "dates_mentioned", "report_deadlines", "heading_raw", "condition_text",
                             "condition_text_raw"]
-    units = read(os.path.join(d, "fy27_terms_units.csv"))
+    units = read(os.path.join(d, f"{px}_terms_units.csv"))
     for u in units:
         u.update(base)
     attach(units, review, lambda u: None, lambda rv: None)
     unit_cols = CONTRACT + ["item_number", "agency_name", "agency_code", "unit_of_appropriation",
                             "budget_line"]
-    fsr = read(os.path.join(d, "fy27_terms_fsr_table.csv"))
+    fsr = read(os.path.join(d, f"{px}_terms_fsr_table.csv"))
     for r in fsr:
-        r.update(base, bbox_pt="", item_number=15)
+        r.update(base, bbox_pt="", item_number=int(fsr_item))
     attach(fsr, review, lambda r: (r["pdf_page"], r["report_content_raw"]),
            lambda rv: (str(rv["pdf_page"]), ast.literal_eval(rv["note"].split("cell: ", 1)[1]
                                                              .rsplit(" (kept", 1)[0]))
@@ -221,18 +229,19 @@ def build_terms(scratch):
     fsr_cols = CONTRACT + ["item_number", "financial_status_report", "report_content", "issue_date",
                            "anticipated_meeting_date", "report_content_raw"]
     files = {
-        "fy27_terms_conditions.csv": to_csv(conds, cond_cols),
-        "fy27_terms_units.csv": to_csv(units, unit_cols),
-        "fy27_terms_fsr_table.csv": to_csv(fsr, fsr_cols),
-        "fy27_terms_review.csv": to_csv(review, REVIEW_COLS),
+        f"{px}_terms_conditions.csv": to_csv(conds, cond_cols),
+        f"{px}_terms_units.csv": to_csv(units, unit_cols),
+        f"{px}_terms_fsr_table.csv": to_csv(fsr, fsr_cols),
+        f"{px}_terms_review.csv": to_csv(review, REVIEW_COLS),
     }
     nums = sorted(int(c["item_number"]) for c in conds)
-    year = dict(base, family="terms", issue=102, status="reviewed", rows=len(conds),
+    assert nums == list(range(1, nums[-1] + 1)), "condition numbering has a gap or repeat"
+    year = dict(base, family="terms", issue=terms.CFG["issue"], status="reviewed", rows=len(conds),
                 flagged=sum(1 for c in conds if c["flags"]),
                 printed_totals_tied="n/a",
                 note=(f"No printed totals; numbering 1..{nums[-1]} complete; {len(units)} unit and "
                       "budget-line heading lines placed (units table). "
-                      "Review: research/2026-10-20-fy27-capital-terms-review/REVIEW.md"))
+                      f"Review: {terms.CFG['review_dir']}/REVIEW.md"))
     return files, year
 
 
@@ -294,8 +303,11 @@ def build_schedule_c(scratch):
     return files, year
 
 
-FAMILIES = [("fy27", "capital_sd", build_capital_sd), ("fy27", "schedule_c", build_schedule_c),
-            ("fy27", "terms", build_terms)]
+FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
+            ("fy27", "schedule_c", build_schedule_c),
+            ("fy27", "terms", lambda d: build_terms(d, 2027)),
+            ("fy26", "capital_sd", lambda d: build_capital_sd(d, 2026)),
+            ("fy26", "terms", lambda d: build_terms(d, 2026))]
 
 
 def build_all():
