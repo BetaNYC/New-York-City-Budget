@@ -1,0 +1,117 @@
+review_id,check_id,severity,pdf_page,part,sub_id,budget_line,field,dollars,expected,observed,note
+bbef22dddd88,C6.sponsor_digit,critical,56,I,PV CC1110,,sponsor,0,,,"sponsor cell holds a number: 'SPEAKER, MANHATTAN DELEGATION 0' (as printed)"
+6531086bc4d0,C6.amount_cells,critical,56,I,PV CC0989,,fy2030,0,,,0 values in fy2030
+549bba9337ee,C3.ma_series,warn,66,II,,,,70987000,,,"30 Part II rows (MA IDs on 0N budget lines, no sponsor, $70,987,000 FY2027) are not Council additions: they are not in Part I, not in the p.61 total, and not in the Council workbook. Meaning of MA / 0N unconfirmed"
+6863aaacab1a,C2.rescindments,warn,61,,,,,23317000,,,"rescindments (23,317,000) are printed as one number; no list of them is in this book, so only the subtraction can be checked"
+12c43ac060d1,C9.workbook_sponsor,warn,46,I,HO CC1034,HO D003,sponsor,10000000,,,"sponsor PDF 'SPEAKER, BROOKS-POWERS' vs workbook 'Speaker, Brooks-Powers, Queens Delegation'"
+21e20b1a2fa2,W.edited_after_export,warn,55,I,PV CC1107,PV D176,,8000000,,,"text typed in after export (other font): ', FARIAS'; sponsor now reads 'SPEAKER, BRONX DELEGATION, FARIAS'"
+b57269c94c28,W.edited_after_export,warn,55,I,PV CC1106,PV D205,,7000000,,,"text typed in after export (other font): ', FARIAS'; sponsor now reads 'SPEAKER, BRONX DELEGATION, FARIAS'"
+5aefaaea2b14,C9.workbook_sponsor,warn,55,I,PV CC1008,PV D274,sponsor,5000000,,,"sponsor PDF 'SPEAKER, WILLIAMS' vs workbook 'Speaker, Williams, Queens Delegation'"
+2341254cb947,W.edited_after_export,warn,47,I,HR CC1065,HR DN01J,,4769000,,,"text typed in after export (other font): ', LOUIS, ZHUANG'; sponsor now reads 'SPEAKER, BANKS, LOUIS, ZHUANG'"
+6c6acac0603e,C3.part2_vs_part1,warn,65,II,HR CC1065,HR DN01J,sponsor,4769000,"SPEAKER, BANKS, LOUIS, ZHUANG","SPEAKER, BANKS","Part II sponsor 'SPEAKER, BANKS' vs Part I (p.47) 'SPEAKER, BANKS, LOUIS, ZHUANG'; Part I text added after export: ', LOUIS, ZHUANG'"
+20c3e4f083b7,W.edited_after_export,warn,56,I,PV CC1010,PV D501,,4000000,,,"text typed in after export (other font): ', WON'; sponsor now reads 'SPEAKER, WILLIAMS, WON'"
+2726c1dcb315,C9.workbook_sponsor,warn,56,I,PV CC1010,PV D501,sponsor,4000000,,,"sponsor PDF 'SPEAKER, WILLIAMS, WON' vs workbook 'Speaker, Won, Williams, Queens Delegation'"
+e489df9ffcb8,W.edited_after_export,warn,58,I,PV CC1054,PV DN784,,4000000,,,"text typed in after export (other font): ', HANIF'; sponsor now reads 'SPEAKER, AVILÉS, HANIF'"
+7d148fa60d03,C3.part2_vs_part1,warn,69,II,PV CC1054,PV DN784,sponsor,4000000,"SPEAKER, AVILÉS, HANIF","SPEAKER, AVILÉS","Part II sponsor 'SPEAKER, AVILÉS' vs Part I (p.58) 'SPEAKER, AVILÉS, HANIF'; Part I text added after export: ', HANIF'"
+ad2890930af6,W.edited_after_export,warn,45,I,HN CC1001,HN D300,,3000000,,,"text typed in after export (other font): ', QUEENS DELEGATION'; sponsor now reads 'SPEAKER, GENNARO, QUEENS DELEGATION'"
+778806963cfa,W.edited_after_export,warn,46,I,HO CC1108,HO D003,,3000000,,,"text typed in after export (other font): ', FARIAS'; sponsor now reads 'SPEAKER, BRONX DELEGATION, FARIAS'"
+888e40045938,W.edited_after_export,warn,47,I,HR CC1059,HR DN05J,,1500000,,,"text typed in after export (other font): ', LOUIS'; sponsor now reads 'SPEAKER, JOSEPH, LOUIS'"
+f71e545615be,C9.workbook_sponsor,warn,56,I,PV CC1110,PV D289,sponsor,1500000,,,"sponsor PDF 'SPEAKER, MANHATTAN DELEGATION 0' vs workbook 'Speaker, Manhattan Delegation'"
+b005da06316a,C3.part2_vs_part1,warn,65,II,HR CC1059,HR DN05J,sponsor,1500000,"SPEAKER, JOSEPH, LOUIS","SPEAKER, JOSEPH","Part II sponsor 'SPEAKER, JOSEPH' vs Part I (p.47) 'SPEAKER, JOSEPH, LOUIS'; Part I text added after export: ', LOUIS'"
+20ff66658f1d,C9.workbook_sponsor,warn,15,I,E CC0377,E D001,sponsor,1200000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+fd1e391783ab,C9.workbook_sponsor,warn,13,I,E CC0339,E D001,sponsor,1000000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+1191bd798416,C9.workbook_title,warn,23,I,E CC0598,E D001,title,1000000,,,title PDF 'QUEENS UNITED MIDDLE SCHOOL GYM / SUPPLEMENTAL COOLING B:B:Q156 S:S:Q289' vs workbook 'QUEENS UNITED MIDDLE SCHOOL SCIENCE LAB UPGRADE B:B:Q156 S:S:Q289'
+7c1715bbb3fd,W.edited_after_export,warn,40,I,HD CC1041,HD D020,,1000000,,,"text typed in after export (other font): '153 NEVINS STREET'; sponsor now reads 'SPEAKER, RESTLER'"
+18e3983500ef,C9.workbook_title,warn,40,I,HD CC1041,HD D020,title,1000000,,,title PDF 'FIFTH AVE COMMITTEE 153 NEVINS STREET' vs workbook 'FIFTH AVE COMMITTEE - AFFORDABLE HOUSING PROJECT 153 NEVINS STREET'
+4ce0ec50aa88,C9.workbook_title,warn,36,I,E CC1245,E D001,title,675000,,,title PDF 'P.S. 370 AUDITORIUM UPGRADE' vs workbook 'P.S. 199 AUDITORIUM UPGRADE B:K199 S:K199'
+684111be3ac9,C9.workbook_sponsor,warn,44,I,HN CC0332,HN D002,sponsor,500000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+c3a850721d35,C9.workbook_sponsor,warn,13,I,E CC0340,E D001,sponsor,450000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+2c1c9cc4c539,C9.workbook_sponsor,warn,53,I,P CC0331,P D021,sponsor,450000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+20513282f4f9,C9.workbook_sponsor,warn,37,I,F CC0385,F D109,sponsor,418000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+773fe07943ff,C9.workbook_sponsor,warn,14,I,E CC0346,E D001,sponsor,400000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+677ff8c9a998,C9.workbook_sponsor,warn,15,I,E CC0378,E D001,sponsor,395000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+9ca28a93331b,C9.workbook_sponsor,warn,15,I,E CC0372,E D001,sponsor,375000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+0c0484fe4f71,C9.workbook_sponsor,warn,15,I,E CC0380,E D001,sponsor,317000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+0b38d665e76b,C9.workbook_sponsor,warn,13,I,E CC0338,E D001,sponsor,313000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+83470565ae32,C9.workbook_sponsor,warn,14,I,E CC0347,E D001,sponsor,300000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+62915e88ca82,C9.workbook_sponsor,warn,39,I,HA CC0384,HA D001,sponsor,300000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+4ae2add05fe5,C9.workbook_sponsor,warn,15,I,E CC0382,E D001,sponsor,255000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+7953f2010b5d,C9.workbook_sponsor,warn,13,I,E CC0333,E D001,sponsor,250000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+cc0feefcf67a,C9.workbook_sponsor,warn,13,I,E CC0343,E D001,sponsor,250000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+ce15a8b4e6f7,C9.workbook_sponsor,warn,15,I,E CC0375,E D001,sponsor,250000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+a300e37b05ee,W.edited_after_export,warn,46,I,HO CC0865,HO D003,,250000,,,text typed in after export (other font): 'BANKS'; sponsor now reads 'BANKS'
+db7b29c986bf,C9.workbook_sponsor,warn,48,I,HW CC0386,HW D105,sponsor,250000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+d7daf5383bb8,C9.workbook_sponsor,warn,49,I,LN CC0383,LN D008,sponsor,250000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+fd27da99e25d,C9.workbook_sponsor,warn,15,I,E CC0379,E D001,sponsor,210000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+eda626e9cf41,C9.workbook_sponsor,warn,13,I,E CC0334,E D001,sponsor,208000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+fc15ed7832be,C9.workbook_sponsor,warn,13,I,E CC0342,E D001,sponsor,200000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+6a2d21b74829,C9.workbook_sponsor,warn,13,I,E CC0341,E D001,sponsor,195000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+a4f640fc39ec,C9.workbook_sponsor,warn,15,I,E CC0376,E D001,sponsor,175000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+cb6c086f6f33,C9.workbook_sponsor,warn,15,I,E CC0381,E D001,sponsor,155000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+c6ca3472a090,C9.workbook_sponsor,warn,13,I,E CC0336,E D001,sponsor,150000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+fc8a3d3ee6a0,C9.workbook_sponsor,warn,14,I,E CC0344,E D001,sponsor,150000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+e5c5f81cb0bb,C9.workbook_sponsor,warn,14,I,E CC0370,E D001,sponsor,125000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+ccfcac16f863,C9.workbook_sponsor,warn,15,I,E CC0373,E D001,sponsor,125000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+43158ab2135b,C9.workbook_sponsor,warn,14,I,E CC0371,E D001,sponsor,100000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+07013f960b8e,C9.workbook_sponsor,warn,15,I,E CC0374,E D001,sponsor,100000,,,sponsor PDF 'SANCHEZ J.' vs workbook 'Sanchez'
+e518364a3d5f,C9.workbook_sponsor,warn,13,I,E CC0335,E D001,sponsor,84000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+9bffc3f66fd4,C9.workbook_sponsor,warn,13,I,E CC0337,E D001,sponsor,50000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+923d10b0281c,C9.workbook_sponsor,warn,14,I,E CC0345,E D001,sponsor,50000,,,sponsor PDF 'SANCHEZ P.' vs workbook 'Sanchez'
+0195287e0cb7,C5.geom_vs_stream,warn,34,I,E CC1180,,fy2030,0,,,"'0' (fy2030): geometry says E CC1180, stream says E CC1181 -> kept geometry: a 0 that both rows print; no dollar effect"
+fd8ba1654c89,C5.geom_vs_stream,warn,34,I,E CC1180,,sponsor,0,,,"'FARÍAS' (sponsor): geometry says E CC1180, stream says E CC1181 -> kept geometry: geometry's sponsor equals the Council workbook"
+e7304a0c14d1,C5.geom_vs_stream,warn,40,I,HD CC0042,,title,0,,,"'COOPER' (title): geometry says HD CC0042, stream says HD CC0045 -> kept geometry: geometry's title equals the Council workbook"
+e89bb8b39fd0,C5.geom_vs_stream,warn,40,I,HD CC0042,,title,0,,,"'SQUARE' (title): geometry says HD CC0042, stream says HD CC0045 -> kept geometry: geometry's title equals the Council workbook"
+f6c608001b4c,C5.geom_vs_stream,warn,40,I,HD CC0042,,title,0,,,"'HDFC' (title): geometry says HD CC0042, stream says HD CC0045 -> kept geometry: geometry's title equals the Council workbook"
+9c69e9920626,C5.geom_vs_stream,warn,40,I,HD CC0042,,title,0,,,"'COMMUNITY' (title): geometry says HD CC0042, stream says HD CC0045 -> kept geometry: geometry's title equals the Council workbook"
+a495834c2f11,C5.geom_vs_stream,warn,40,I,HD CC0042,,title,0,,,"'LAND' (title): geometry says HD CC0042, stream says HD CC0045 -> kept geometry: geometry's title equals the Council workbook"
+253326095021,C5.geom_vs_stream,warn,40,I,HD CC0042,,title,0,,,"'TRUST,' (title): geometry says HD CC0042, stream says HD CC0045 -> kept geometry: geometry's title equals the Council workbook"
+c240cbb8ea2a,C5.geom_vs_stream,warn,40,I,HD CC0042,,title,0,,,"'INC.' (title): geometry says HD CC0042, stream says HD CC0045 -> kept geometry: geometry's title equals the Council workbook"
+aaf293bcf5d3,C5.geom_vs_stream,warn,40,I,HD CC0042,,title,0,,,"'TWO' (title): geometry says HD CC0042, stream says HD CC0045 -> kept geometry: geometry's title equals the Council workbook"
+54793601a4bc,C5.geom_vs_stream,warn,40,I,HD CC0042,,title,0,,,"'BUILDINGS' (title): geometry says HD CC0042, stream says HD CC0045 -> kept geometry: geometry's title equals the Council workbook"
+67b638c66577,C5.geom_vs_stream,warn,40,I,HD CC0042,,title,0,,,"'TENANTS' (title): geometry says HD CC0042, stream says HD CC0045 -> kept geometry: geometry's title equals the Council workbook"
+bc9d731686ad,C5.geom_vs_stream,warn,40,I,HD CC0042,,title,0,,,"'UNITED' (title): geometry says HD CC0042, stream says HD CC0045 -> kept geometry: geometry's title equals the Council workbook"
+a8d0da3b7757,C5.geom_vs_stream,warn,45,I,HN CC1062,,fy2030,0,,,"'0' (fy2030): geometry says HN CC1062, stream says HN CC1122 -> kept geometry: a 0 that both rows print; no dollar effect"
+33dc23a125aa,C5.geom_vs_stream,warn,45,I,HN CC1062,,sponsor,0,,,"'SPEAKER,' (sponsor): geometry says HN CC1062, stream says HN CC1122 -> kept geometry: geometry's sponsor equals the Council workbook"
+7134f2e09619,C5.geom_vs_stream,warn,45,I,HN CC1062,,sponsor,0,,,"'MEALY' (sponsor): geometry says HN CC1062, stream says HN CC1122 -> kept geometry: geometry's sponsor equals the Council workbook"
+447a42ee05a9,W.fy2030_wrapped_below,warn,45,I,HN CC0921,HN D300,,0,,,row flag fy2030_wrapped_below
+d784403427fd,W.fy2030_wrapped_below,warn,45,I,HN CC0922,HN D300,,0,,,row flag fy2030_wrapped_below
+d070bd6fb163,W.geom_near,warn,45,I,HN CC0922,HN D300,,0,,,row flag geom_near
+61dbf5c314c3,W.fy2030_wrapped_below,warn,45,I,HN CC1001,HN D300,,0,,,row flag fy2030_wrapped_below
+2b43827aef5f,W.geom_near,warn,45,I,HN CC1001,HN D300,,0,,,row flag geom_near
+847da1a702a5,W.fy2030_wrapped_below,warn,45,I,HN CC1062,HN D300,,0,,,row flag fy2030_wrapped_below
+f01e4e7ee2cd,W.geom_near,warn,45,I,HN CC1062,HN D300,,0,,,row flag geom_near
+5e203cb60d94,W.fy2030_wrapped_below,warn,45,I,HN CC1122,HN D300,,0,,,row flag fy2030_wrapped_below
+e7d44f9269e3,W.geom_near,warn,45,I,HN CC1122,HN D300,,0,,,row flag geom_near
+5dc73a938148,C5.geom_vs_stream,warn,46,I,HO CC1108,,fy2030,0,,,"'0' (fy2030): geometry says HO CC1108, stream says HO CC1138 -> kept geometry: a 0 that both rows print; no dollar effect"
+4fce0ca045d9,C5.geom_vs_stream,warn,46,I,HO CC1108,,sponsor,0,,,"'SPEAKER,' (sponsor): geometry says HO CC1108, stream says HO CC1138 -> kept geometry: geometry's sponsor equals the Council workbook"
+04dd22233fcd,C5.geom_vs_stream,warn,46,I,HO CC1108,,sponsor,0,,,"'BRONX' (sponsor): geometry says HO CC1108, stream says HO CC1138 -> kept geometry: geometry's sponsor equals the Council workbook"
+d8e099336501,C5.geom_vs_stream,warn,46,I,HO CC1108,,sponsor,0,,,"'DELEGATION' (sponsor): geometry says HO CC1108, stream says HO CC1138 -> kept geometry: geometry's sponsor equals the Council workbook"
+d9b472e0d8b4,C5.geom_vs_stream,warn,46,I,HO CC1108,,sponsor,0,,,"',' (sponsor): geometry says HO CC1108, stream says HO CC1138 -> kept geometry: geometry's sponsor equals the Council workbook"
+14a850afbb52,C5.geom_vs_stream,warn,46,I,HO CC1108,,sponsor,0,,,"'FARIAS' (sponsor): geometry says HO CC1108, stream says HO CC1138 -> kept geometry: geometry's sponsor equals the Council workbook"
+bf34bdf1ff11,C5.geom_vs_stream,warn,47,I,HR CC0444,,fy2030,0,,,"'0' (fy2030): geometry says HR CC0444, stream says HR CC0995 -> kept geometry: a 0 that both rows print; no dollar effect"
+1e1e87d369a4,C5.geom_vs_stream,warn,47,I,HR CC0444,,sponsor,0,,,"'CABÁN' (sponsor): geometry says HR CC0444, stream says HR CC0995 -> kept geometry: geometry's sponsor equals the Council workbook"
+66c6264d15cd,C5.geom_vs_stream,warn,55,I,PV CC0932,,fy2030,0,,,"'0' (fy2030): geometry says PV CC0932, stream says PV CC0170 -> kept geometry: a 0 that both rows print; no dollar effect"
+1ce16fb093fe,C5.geom_vs_stream,warn,55,I,PV CC0932,,sponsor,0,,,"'SPEAKER,' (sponsor): geometry says PV CC0932, stream says PV CC0170 -> kept geometry: geometry's sponsor equals the Council workbook"
+1bdc627bb0cc,C5.geom_vs_stream,warn,55,I,PV CC0932,,sponsor,0,,,"'BREWER' (sponsor): geometry says PV CC0932, stream says PV CC0170 -> kept geometry: geometry's sponsor equals the Council workbook"
+9dae1fae214c,W.fy2030_wrapped_below,warn,55,I,PV CC1106,PV D205,,0,,,row flag fy2030_wrapped_below
+bf348f6c2972,W.fy2030_wrapped_below,warn,55,I,PV CC1073,PV D230,,0,,,row flag fy2030_wrapped_below
+57cb8112ac49,W.geom_near,warn,55,I,PV CC1073,PV D230,,0,,,row flag geom_near
+f9962130ac8c,W.fy2030_wrapped_below,warn,55,I,PV CC1237,PV D230,,0,,,row flag fy2030_wrapped_below
+f98d8f6d567f,W.fy2030_wrapped_below,warn,55,I,PV CC0673,PV D236,,0,,,row flag fy2030_wrapped_below
+93bdf865aab2,W.fy2030_wrapped_below,warn,55,I,PV CC1082,PV D262,,0,,,row flag fy2030_wrapped_below
+ebf6b578556f,W.fy2030_wrapped_below,warn,55,I,PV CC1045,PV D264,,0,,,row flag fy2030_wrapped_below
+0ccf92987b5b,W.fy2030_wrapped_below,warn,55,I,PV CC0985,PV D272,,0,,,row flag fy2030_wrapped_below
+43a7fac3fed5,W.geom_near,warn,55,I,PV CC0985,PV D272,,0,,,row flag geom_near
+f499757ecc0c,W.fy2030_wrapped_below,warn,55,I,PV CC1008,PV D274,,0,,,row flag fy2030_wrapped_below
+9b36c5f3de75,W.fy2030_wrapped_below,warn,55,I,PV CC0133,PV D279,,0,,,row flag fy2030_wrapped_below
+4e03dcb8da20,W.geom_near,warn,55,I,PV CC0133,PV D279,,0,,,row flag geom_near
+55f6f45ae73c,W.fy2030_wrapped_below,warn,55,I,PV CC0932,PV D279,,0,,,row flag fy2030_wrapped_below
+6c8bdccd960e,W.geom_near,warn,55,I,PV CC0932,PV D279,,0,,,row flag geom_near
+0d84fd5c0915,W.fy2030_wrapped_below,warn,55,I,PV CC0170,PV D289,,0,,,row flag fy2030_wrapped_below
+6df5ce2e638c,W.geom_near,warn,55,I,PV CC0170,PV D289,,0,,,row flag geom_near
+750f922d3f74,C5.geom_vs_stream,warn,56,I,PV CC0686,,fy2030,0,,,"'0' (fy2030): geometry says PV CC0686, stream says PV CC0011 -> kept geometry: a 0 that both rows print; no dollar effect"
+ab6738650384,C5.geom_vs_stream,warn,56,I,PV CC0686,,sponsor,0,,,"'HUDSON' (sponsor): geometry says PV CC0686, stream says PV CC0011 -> kept geometry: geometry's sponsor equals the Council workbook"
+2c617ab5d981,W.geom_near,warn,56,I,PV CC0929,PV DN004,,0,,,row flag geom_near
+b19e0f3228d5,C5.geom_vs_stream,warn,58,I,PV CC0947,,fy2030,0,,,"'0' (fy2030): geometry says PV CC0947, stream says PV CC0952 -> kept geometry: a 0 that both rows print; no dollar effect"
+c59a902292b0,C5.geom_vs_stream,warn,58,I,PV CC0947,,sponsor,0,,,"'SPEAKER,' (sponsor): geometry says PV CC0947, stream says PV CC0952 -> kept geometry: geometry's sponsor equals the Council workbook"
+fee608418648,C5.geom_vs_stream,warn,58,I,PV CC0947,,sponsor,0,,,"'ENCARNACION' (sponsor): geometry says PV CC0947, stream says PV CC0952 -> kept geometry: geometry's sponsor equals the Council workbook"

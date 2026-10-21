@@ -1,0 +1,13 @@
+{
+  "config": "config/schedule_c/fy2027.toml",
+  "config_sha256": "601bf5f881a7f54308a78be19e4b3d56a5f61a25bc8057caa4b7fdf7bcbba702",
+  "fiscal_year": 2027,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdf": "source/FY27/Fiscal-2027-Schedule-C-Final-3.pdf",
+  "pdf_sha256": "63c03739d3ac5e4f53f8e869dff829e7d832634419067bbdc5699bced6eed955",
+  "pdfium": "156.0.8076.0",
+  "pdfplumber": "0.11.10",
+  "pypdfium2": "5.14.0",
+  "python": "3.12.13"
+}

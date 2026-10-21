@@ -1,4 +1,5 @@
-# CI gate for @betanyc/nyc-budget-mcp (the MCP server in mcp/).
+# CI gate for @betanyc/nyc-budget-mcp (the MCP server in mcp/), and for the in-browser
+# explorer in viz/explorer/, which is built from the MCP's own index (job `explorer` below).
 #
 # Enforces that the TypeScript build (`npm run build` -> `tsc`) and the test
 # suite (`node --test test/*.test.js`) both pass on a clean `npm ci` install,
@@ -31,9 +32,15 @@ on:
       - "data/disclosure_years.csv"
       - "data/fy*/expense_disclosure/**"
       - "data/capital/**"
+      - "data/pdf_years.csv"
+      - "data/pdf_review_suggestions.csv"
+      - "data/fy*/pdf/**"
       - "source/wayback-council/**"
       - "source/expense-funding-disclosure/**"
       - "source/open-data-t474-a92g/**"
+      - "data/open_data/**"
+      - "source/open-data-watch.csv"
+      - "viz/explorer/**"
   push:
     branches: [main]
     paths:
@@ -42,9 +49,15 @@ on:
       - "data/disclosure_years.csv"
       - "data/fy*/expense_disclosure/**"
       - "data/capital/**"
+      - "data/pdf_years.csv"
+      - "data/pdf_review_suggestions.csv"
+      - "data/fy*/pdf/**"
       - "source/wayback-council/**"
       - "source/expense-funding-disclosure/**"
       - "source/open-data-t474-a92g/**"
+      - "data/open_data/**"
+      - "source/open-data-watch.csv"
+      - "viz/explorer/**"
   # Manual trigger — lets us fire a run on any branch. A path-scoped
   # pull_request/push event does not fire on the very PR that introduces the
   # workflow, so this dispatch is retained as a low-cost on-demand affordance.
@@ -89,6 +102,63 @@ jobs:
       - name: Test
         run: npm test
 
+  # The explorer (viz/explorer/) reads exactly the MCP's index: its data build runs
+  # mcp/scripts/build-index.mjs and exports budget.db to Parquet. `npm test` there runs the unit
+  # tests and the parity test, which fails if, for any fiscal year, the Parquet's row counts or
+  # dollar totals (by status for the disclosure, by year for capital) differ from budget.db, if
+  # any row or column differs, or if the explorer's queries answer differently from the MCP's.
+  # The app build runs last so a bundling break is caught on the PR, not at deploy.
+  explorer:
+    name: Explorer parity + build (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version:
+          - "22.x"
+          - "24.x"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: |
+            mcp/package-lock.json
+            viz/explorer/package-lock.json
+
+      - name: Build the MCP index
+        working-directory: mcp
+        run: npm ci
+
+      - name: Install the explorer
+        working-directory: viz/explorer
+        run: npm ci
+
+      - name: Build the explorer data (MCP index -> Parquet)
+        working-directory: viz/explorer
+        run: npm run data
+
+      - name: Unit + parity tests
+        working-directory: viz/explorer
+        run: npm test
+
+      - name: Build the app
+        working-directory: viz/explorer
+        run: npm run build
+
+      # The reviewed PDF families (data/pdf_years.csv status = reviewed) in a separate index
+      # (.cache/budget-reviewed.db, never mcp/data/budget.db): parity per pdf_* table and status.
+      # After the app build, so the build above stays the public, closed-only one.
+      - name: Parity with the reviewed PDF tables included
+        working-directory: viz/explorer
+        run: npm run data -- --include-reviewed && npm run test:parity
+
   # Merged ≠ shipped guard. Consumers run `npx -y @betanyc/nyc-budget-mcp`, so
   # the npm registry — not main — is what ships. A PR that changes shipped code
   # but leaves mcp/package.json at a version already on the registry would merge
@@ -121,7 +191,7 @@ jobs:
           # datasets build-index.mjs bakes into the shipped SQLite index (2.0.0;
           # before 2.0 this was data/combined, which no longer ships). The repo's
           # wider budget-data pipeline outside these paths is excluded.
-          SHIPPED="mcp/src mcp/scripts mcp/package.json data/disclosure_years.csv :(glob)data/fy*/expense_disclosure/** data/capital source/wayback-council source/expense-funding-disclosure source/open-data-t474-a92g"
+          SHIPPED="mcp/src mcp/scripts mcp/package.json data/disclosure_years.csv :(glob)data/fy*/expense_disclosure/** data/capital source/wayback-council source/expense-funding-disclosure source/open-data-t474-a92g data/open_data source/open-data-watch.csv"
           # Word-split SHIPPED into pathspecs, with shell globbing off so git (not
           # bash) expands the :(glob) pathspec.
           set -f

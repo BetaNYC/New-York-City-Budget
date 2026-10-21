@@ -17,7 +17,7 @@ Machine-readable data on how the **New York City Council** designates money, bui
 
 Each row keeps the workbook, sheet and row it came from, and every file's sha256 is recorded. The parsers read the spreadsheets cell by cell; no number is typed in by hand or read by a language model.
 
-> **GitHub Pages:** [betanyc.github.io/New-York-City-Budget](https://betanyc.github.io/New-York-City-Budget/) now opens on a notice pointing to the structured data. The old Schedule C explorer **stays online, frozen** as of 2026-10-16 at `legacy.html`, with a banner saying not to cite it: its figures came from the PDF parser this release retires. See [`viz/README.md`](viz/README.md).
+> **GitHub Pages:** [betanyc.github.io/New-York-City-Budget](https://betanyc.github.io/New-York-City-Budget/) now opens on a notice pointing to the structured data. The new **[budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/)** searches the same data the MCP serves, in the browser, with every row linked to its source spreadsheet ([`viz/explorer/`](viz/explorer/README.md)). The old Schedule C explorer **stays online, frozen** as of 2026-10-16 at `legacy.html`, with a banner saying not to cite it: its figures came from the PDF parser this release retires. See [`viz/README.md`](viz/README.md).
 
 **Retired in 2.0, kept for history:** the earlier versions of this repository parsed the Council's adopted-budget **PDFs** (Schedule C, Terms & Conditions, Section 254 capital, transparency resolutions) for FY2009–FY2027. Those files and their parsers are still here (`data/fyNN/schedule_c/`, `terms/`, `capital/`, `data/combined/`, `data/recovered/`), but we found errors in that extraction, and 2.0 neither serves nor ships them. The sections below that describe them describe that historical record.
 
@@ -82,7 +82,7 @@ New-York-City-Budget/
 │   └── combined/        all-years roll-ups (built by code/build_combined.py) [PDF-derived: retired]
 ├── code/                ← parser scripts + variants + validate_data.py (QA) + tests + PARSING.md + requirements.txt
 ├── mcp/                 ← MCP server, 2.0: structured sources only (see below)
-└── viz/                 ← GitHub Pages site: a notice + the old Schedule C explorer, online but frozen (viz/README.md)
+└── viz/                 ← GitHub Pages site: a notice, the budget explorer (viz/explorer/), and the old Schedule C explorer, online but frozen (viz/README.md)
 ```
 
 ### `source/expense-funding-disclosure/` — Council RnD award-level expense data

@@ -1,0 +1,545 @@
+resolution_seq,pdf_page,width,height,rotation,tables,chart_number,continued,page_label,footnotes,rows,ein_tokens,ein_tokens_all_chars,nonws_chars,clipped_chars,zero_width_chars,image_regions,image_lattices,image_rows,rows_agree,image_notes,ink_px,uncovered_px,ink_regions,caption
+1,1,612.0,792.0,0,0,,,,,0,0,0,2705,0,0,,,,,,,,,
+1,2,612.0,792.0,0,0,,,,,0,0,0,1984,0,0,,,,,,,,,
+1,3,792.0,612.0,0,1,1,0,1,* **,20,20,20,1950,0,0,1,1,20,20,,723534,0,0,CHART #1: Local Initiatives - Fiscal 2026
+1,4,792.0,612.0,0,1,1,1,2,* **,19,19,19,1953,0,0,1,1,19,19,,710712,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+1,5,792.0,612.0,0,1,1,1,3,* **,27,27,27,2261,0,0,1,1,27,27,,892062,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+1,6,792.0,612.0,0,1,1,1,4,* **,25,25,25,2183,0,0,1,1,25,25,,841383,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+1,7,792.0,612.0,0,1,1,1,5,* **,24,24,24,2051,0,0,1,1,24,24,,797511,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+1,8,792.0,612.0,0,1,1,1,6,* **,21,21,21,2009,0,0,1,1,21,21,,744793,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+1,9,792.0,612.0,0,1,1,1,7,* **,22,22,22,2021,0,0,1,1,22,22,,766975,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+1,10,792.0,612.0,0,1,1,1,8,* **,20,20,20,1941,0,0,1,1,20,20,,715007,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+1,11,792.0,612.0,0,1,1,1,9,* **,25,25,25,2082,0,0,1,1,25,25,,814535,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+1,12,792.0,612.0,0,1,1,1,10,* **,3,3,3,498,0,0,1,1,3,3,,142656,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+1,13,792.0,612.0,0,1,2,0,11,* **,7,7,7,835,0,0,1,1,7,7,,277346,0,0,CHART #2: Aging Discretionary - Fiscal 2026
+1,14,792.0,612.0,0,1,3,0,12,* **,23,23,23,2262,0,0,1,1,23,23,,834667,0,0,CHART #3: Youth Discretionary - Fiscal 2026
+1,15,792.0,612.0,0,1,3,1,13,* **,7,7,7,803,0,0,1,1,7,7,,263926,0,0,CHART #3: Youth Discretionary - Fiscal 2026 (continued)
+1,16,792.0,612.0,0,1,4,0,14,* **,16,16,16,1420,0,0,1,1,16,16,,549324,0,0,CHART #4: Anti-Poverty - Fiscal 2026
+1,17,792.0,612.0,0,1,5,0,15,* **,16,16,16,1460,0,0,1,1,16,16,,556846,0,0,CHART #5: Community Safety and Victim Services Initiative - Fiscal 2026
+1,18,792.0,612.0,0,1,6,0,16,* **,21,21,21,2016,0,0,1,1,21,21,,745268,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2026
+1,19,792.0,612.0,0,1,6,1,17,* **,26,26,26,2193,0,0,1,1,26,26,,867969,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2026 (continued)
+1,20,792.0,612.0,0,1,6,1,18,* **,6,6,6,709,0,0,1,1,6,6,,233465,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2026 (continued)
+1,21,792.0,612.0,0,1,7,0,19,* **,6,6,6,822,0,0,1,1,6,6,,264026,0,0,CHART #7: Boroughwide Needs Initiative - Fiscal 2026
+1,22,792.0,612.0,0,1,8,0,20,* **,21,21,21,2134,0,0,1,1,21,21,,652256,0,0,CHART #8: A Greener NYC - Fiscal 2026
+1,23,792.0,612.0,0,1,9,0,21,* **,27,27,27,2790,0,0,1,1,27,27,,841680,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2026
+1,24,792.0,612.0,0,1,9,1,22,* **,30,30,30,2872,0,0,1,1,30,30,,892986,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2026 (continued)
+1,25,792.0,612.0,0,1,9,1,23,* **,7,7,7,908,0,0,1,1,7,7,,240343,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2026 (continued)
+1,26,792.0,612.0,0,1,10,0,24,* **,17,17,17,1616,0,0,1,1,17,17,,502866,0,0,CHART #10: Cultural Immigrant Initiative - Fiscal 2026
+1,27,792.0,612.0,0,1,11,0,25,* **,21,21,21,2157,0,0,1,1,21,21,,642202,0,0,CHART #11: Digital Inclusion and Literacy Initiative - Fiscal 2026
+1,28,792.0,612.0,0,1,12,0,26,* **,5,5,5,638,0,0,1,1,5,5,,168752,0,0,CHART #12: Neighborhood Development Grant Initiative - Fiscal 2026
+1,29,792.0,612.0,0,1,13,0,27,* **,25,25,25,2231,0,0,1,1,25,25,,716561,0,0,CHART #13: NYC Cleanup - Fiscal 2026
+1,30,792.0,612.0,0,1,14,0,28,* **,4,4,4,537,0,0,1,1,4,4,,147060,0,0,CHART #14: Parks Equity Initiative - Fiscal 2026
+1,31,792.0,612.0,0,1,15,0,29,* **,17,17,17,1664,0,0,1,1,17,17,,508106,0,0,CHART #15: Support Our Older Adults - Fiscal 2026
+1,32,792.0,612.0,0,1,16,0,30,* **,34,34,34,2904,0,0,1,1,34,34,,935581,0,0,CHART #16: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026
+1,33,792.0,612.0,0,1,17,0,31,* **,4,4,4,520,0,0,1,1,4,4,,155578,0,0,CHART #17: Citywide Young Adult Entrepreneurship Program Initiative - Fiscal 2026
+1,34,792.0,612.0,0,1,18,0,32,* **,2,2,2,313,0,0,1,1,2,2,,85546,0,0,CHART #18: Stabilizing NYC - Fiscal 2026
+1,35,792.0,612.0,0,1,19,0,33,* **,24,24,24,1673,0,0,1,1,24,24,,714329,0,0,CHART #19: LGBTQIA+ Youth Support and Services - Fiscal 2026
+1,36,792.0,612.0,0,1,20,0,34,* **,27,27,27,1828,0,0,1,1,27,27,,800545,0,0,CHART #20: Hate Crimes Prevention - Fiscal 2026
+1,37,792.0,612.0,0,1,21,0,35,* **,29,29,29,2752,0,0,1,1,29,29,,992089,0,0,CHART #21: Violence Prevention and Intervention for Youth and Young Adults (Formerly Art a Catalyst for Change and Crisis Management System) - Fiscal 2026
+1,38,792.0,612.0,0,1,21,1,36,* **,28,28,28,2684,0,0,1,1,28,28,,969461,0,0,CHART #21: Violence Prevention and Intervention for Youth and Young Adults (Formerly Art a Catalyst for Change and Crisis Management System) - Fiscal 2026 (continued)
+1,39,792.0,612.0,0,1,21,1,37,* **,25,25,25,2119,0,0,1,1,25,25,,804989,0,0,CHART #21: Violence Prevention and Intervention for Youth and Young Adults (Formerly Art a Catalyst for Change and Crisis Management System) - Fiscal 2026 (continued)
+1,40,792.0,612.0,0,1,22,0,38,* **,2,2,2,316,0,0,1,1,2,2,,83535,0,0,CHART #22: LGBTQIA+ Inclusive Curriculum - Fiscal 2026
+1,41,792.0,612.0,0,1,23,0,39,* **,5,5,5,522,0,0,1,1,5,5,,174758,0,0,CHART #23: Education Equity Action Plan - Fiscal 2026
+1,42,792.0,612.0,0,1,24,0,40,* **,2,2,2,388,0,0,1,1,2,2,,84672,0,0,CHART #24: Educational Programs for Students (Formerly College and Career Readiness and Educational Programs for Students) - Fiscal 2026
+1,43,792.0,612.0,0,1,25,0,41,* **,1,1,1,286,0,0,1,1,1,1,,63778,0,0,CHART #25: Support for Educators - Fiscal 2026
+1,44,792.0,612.0,0,1,26,0,42,* **,22,22,22,1519,0,0,1,1,22,22,,643737,0,0,CHART #26: Culturally Specific Gender Based Violence Initiative (formerly Initiative for Immigrant Survivors of Domestic Violence) - Fiscal 2026
+1,45,792.0,612.0,0,1,27,0,43,* **,3,3,3,379,0,0,1,1,3,3,,116495,0,0,CHART #27: Elie Wiesel Holocaust Survivors - Fiscal 2026
+1,46,792.0,612.0,0,1,28,0,44,* **,9,9,9,742,0,0,1,1,9,9,,283648,0,0,CHART #28: Wrap-Around Support for Transitional-Aged Foster Youth - Fiscal 2026
+1,47,792.0,612.0,0,1,29,0,45,* **,3,3,3,405,0,0,1,1,3,3,,120444,0,0,CHART #29: Older Adult Center Improvements  - Fiscal 2026
+1,48,792.0,612.0,0,1,30,0,46,* **,2,2,2,348,0,0,1,1,2,2,,86518,0,0,CHART #30: Older Adult Clubs for Immigrant Populations  - Fiscal 2026
+1,49,792.0,612.0,0,1,31,0,47,* **,6,6,6,555,0,0,1,1,6,6,,198838,0,0,CHART #31: Empowering Black Communities  - Fiscal 2026
+1,50,792.0,612.0,0,1,32,0,48,* **,3,3,3,372,0,0,1,1,3,3,,115024,0,0,CHART #32: Coalition Theaters of Color - Fiscal 2026
+1,51,792.0,612.0,0,1,33,0,49,* **,2,2,2,346,0,0,1,1,2,2,,89018,0,0,CHART #33: Afterschool Enrichment Initiative - Fiscal 2026
+1,52,792.0,612.0,0,1,34,0,50,* **,5,5,5,488,0,0,1,1,5,5,,169892,0,0,CHART #34: Home Plus - Fiscal 2026
+1,53,792.0,612.0,0,1,35,0,51,* **,14,14,14,1172,0,0,1,1,14,14,,460321,0,0,CHART #35: Feeding Our Communities - Fiscal 2026
+1,54,792.0,612.0,0,1,36,0,52,* **,1,1,1,264,0,0,1,1,1,1,,62197,0,0,CHART #36: Food Pantries - Fiscal 2026
+1,55,792.0,612.0,0,1,37,0,53,* **,2,2,2,325,0,0,1,1,2,2,,87345,0,0,CHART #37: MWBE Accelerator - Fiscal 2026
+1,56,792.0,612.0,0,1,38,0,54,* **,2,2,2,322,0,0,1,1,2,2,,85550,0,0,CHART #38: LGBTQIA+ Community Services - Fiscal 2026
+1,57,792.0,612.0,0,1,39,0,55,* **,21,21,21,1558,0,0,1,1,21,21,,651435,0,0,CHART #39: Trans Equity Programs - Fiscal 2026
+1,58,792.0,612.0,0,1,40,0,56,* **,3,3,3,409,0,0,1,1,3,3,,121412,0,0,CHART #40: Community Housing Preservation Strategies - Fiscal 2026
+1,59,792.0,612.0,0,1,41,0,57,* **,23,23,23,1633,0,0,1,1,23,23,,697295,0,0,CHART #41: MCCAP Initiative - Fiscal 2026
+1,60,792.0,612.0,0,1,42,0,58,* **,6,6,6,534,0,0,1,1,6,6,,195810,0,0,CHART #42: Gender-Affirming Care for TGNCNBI Youth - Fiscal 2026
+1,61,792.0,612.0,0,1,43,0,59,* **,1,1,1,268,0,0,1,1,1,1,,60045,0,0,CHART #43: Support for Arts Instruction - Fiscal 2026
+1,62,792.0,612.0,0,1,44,0,60,* **,2,2,2,381,0,0,1,1,2,2,,92964,0,0,CHART #44: Emergency Medical Services Mental Health and Wellness - Fiscal 2026
+1,63,792.0,612.0,0,1,45,0,61,* **,2,2,2,373,0,0,1,1,2,2,,90564,0,0,CHART #45: NYC 988 Crisis Intervention and Suicide Prevention Hotline  - Fiscal 2026
+1,64,792.0,612.0,0,1,46,0,62,* **,2,2,2,341,0,0,1,1,2,2,,86197,0,0,CHART #46: Mental Health Services for Vulnerable Populations - Fiscal 2026
+1,65,792.0,612.0,0,1,47,0,63,* **,1,1,1,288,0,0,1,1,1,1,,60201,0,0,CHART #47: Estate Planning and Resolution Initiative (EPAR) - Fiscal 2026
+1,66,792.0,612.0,0,1,48,0,64,* **,3,3,3,393,0,0,1,1,3,3,,120021,0,0,CHART #48: Tax Lien Sale Outreach and Assistance - Fiscal 2026
+1,67,792.0,612.0,0,1,49,0,65,* **,1,1,1,272,0,0,1,1,1,1,,63705,0,0,CHART #49: Operation Backpack
+1,68,792.0,612.0,0,1,50,0,66,* **,2,2,2,352,0,0,1,1,2,2,,86625,0,0,CHART #50: Adult Literacy Forward (Formerly Adult Literacy Pilot Project) - Fiscal 2026
+1,69,792.0,612.0,0,1,51,0,67,* **,4,4,4,433,0,0,1,1,4,4,,140942,0,0,CHART #51: New York Immigrant Family Unity Project - Fiscal 2026
+1,70,792.0,612.0,0,1,52,0,68,* **,9,9,9,820,0,0,1,1,9,9,,290372,0,0,CHART #52: Legal Services for Low-Income Immigrants (Formerly Legal Services for Low-Income Immigrants and Protect NYC) - Fiscal 2026
+1,71,792.0,612.0,0,1,53,0,69,* **,10,10,10,826,0,0,1,1,10,10,,318643,0,0,CHART #53: Unaccompanied Minors and Families - Fiscal 2026
+1,72,792.0,612.0,0,1,54,0,70,* **,17,17,17,1248,0,0,1,1,17,17,,525533,0,0,CHART #54: Immigrant Rights Workshops - Fiscal 2026
+1,73,792.0,612.0,0,1,55,0,71,* **,3,3,3,405,0,0,1,1,3,3,,121577,0,0,CHART #55: CUNY Citizenship NOW! Program - Fiscal 2026
+1,74,792.0,612.0,0,1,56,0,72,* **,3,3,3,513,0,0,1,1,3,3,,134072,0,0,CHART #56: Rapid Response Legal Collaborative (Formerly Legal Services for Low-Income Immigrants) - Fiscal 2026
+1,75,792.0,612.0,0,1,57,0,73,* **,10,10,10,847,0,0,1,1,10,10,,322477,0,0,CHART #57: Special Immigration Juvenile Status (SIJS) - Fiscal 2026
+1,76,792.0,612.0,0,1,58,0,74,* **,8,8,8,755,0,0,1,1,8,8,,267864,0,0,CHART #58: Asylum Seeker Legal Assistance Network (ASLAN)/ Pro Se Plus - Fiscal 2026
+1,77,792.0,612.0,0,1,59,0,75,* **,1,1,1,270,0,0,1,1,1,1,,57338,0,0,CHART #59: Know Your Rights for Immigrant Street Vendors - Fiscal 2026
+1,78,792.0,612.0,0,1,60,0,76,* **,2,2,2,350,0,0,1,1,2,2,,83776,0,0,CHART #60: Divorce Proceedings Representation for Domestic Violence Survivors - Fiscal 2026
+1,79,792.0,612.0,0,1,61,0,77,* **,6,6,6,763,0,0,1,1,6,6,,252762,0,0,CHART #61: Local Initiatives - Fiscal 2025
+1,80,792.0,612.0,0,1,62,0,78,* **,2,2,2,351,0,0,1,1,2,2,,93242,0,0,CHART #62: Speaker's Initiative - Fiscal 2025
+1,81,792.0,612.0,0,1,63,0,79,* **,2,2,2,452,0,0,1,1,2,2,,119564,0,0,CHART #63: A Greener NYC - Fiscal 2025
+1,82,792.0,612.0,0,1,64,0,80,* **,2,2,2,431,0,0,1,1,2,2,,113359,0,0,CHART #64: Youth Discretionary - Fiscal 2025
+1,83,792.0,612.0,0,1,65,0,81,* **,2,2,2,400,0,0,1,1,2,2,,108124,0,0,CHART #65: Support Our Older Adults - Fiscal 2025
+1,84,792.0,612.0,0,1,66,0,82,* **,2,2,2,352,0,0,1,1,2,2,,93118,0,0,CHART #66: Local Initiatives - Fiscal 2024
+1,85,792.0,612.0,0,1,67,0,83,* **,15,15,15,3434,35,0,1,1,15,15,,548488,0,0,CHART #67: Purpose of Funds Changes - Fiscal 2026
+1,86,792.0,612.0,0,1,67,1,84,* **,10,10,10,3053,18,0,1,1,10,10,region 0: header rule at 70.68 pt found in header pixels,454484,16,0,CHART #67: Purpose of Funds Changes - Fiscal 2026 (continued)
+1,87,792.0,612.0,0,1,67,1,85,* **,4,4,4,2752,0,0,1,1,4,4,region 0: header rule at 70.68 pt found in header pixels,365924,0,0,CHART #67: Purpose of Funds Changes - Fiscal 2026 (continued)
+1,88,792.0,612.0,0,1,67,1,86,* **,11,11,11,2485,0,0,1,1,11,11,,417876,0,0,CHART #67: Purpose of Funds Changes - Fiscal 2026 (continued)
+1,89,792.0,612.0,0,1,67,1,87,* **,13,13,13,3735,0,0,1,1,13,13,,564189,0,0,CHART #67: Purpose of Funds Changes - Fiscal 2026 (continued)
+1,90,792.0,612.0,0,1,67,1,88,* **,6,6,6,2411,0,0,1,1,6,6,region 0: header rule at 70.68 pt found in header pixels,345946,0,0,CHART #67: Purpose of Funds Changes - Fiscal 2026 (continued)
+1,91,792.0,612.0,0,1,67,1,89,* **,4,4,4,2870,0,0,1,1,4,4,region 0: header rule at 70.68 pt found in header pixels,371319,0,0,CHART #67: Purpose of Funds Changes - Fiscal 2026 (continued)
+1,92,792.0,612.0,0,1,67,1,90,* **,4,4,4,2854,0,0,1,1,4,4,region 0: header rule at 70.68 pt found in header pixels,369467,0,0,CHART #67: Purpose of Funds Changes - Fiscal 2026 (continued)
+1,93,792.0,612.0,0,1,67,1,91,* **,4,4,4,2800,0,0,1,1,4,4,region 0: header rule at 70.68 pt found in header pixels,364794,0,0,CHART #67: Purpose of Funds Changes - Fiscal 2026 (continued)
+1,94,792.0,612.0,0,1,67,1,92,* **,2,2,2,1556,0,0,1,1,2,2,region 0: header rule at 70.68 pt found in header pixels,199702,0,0,CHART #67: Purpose of Funds Changes - Fiscal 2026 (continued)
+1,95,792.0,612.0,0,1,68,0,93,* **,4,4,4,770,0,0,1,1,4,4,,131765,0,0,CHART #68: Purpose of Funds Changes - Fiscal 2025
+1,96,792.0,612.0,0,1,69,0,94,* **,2,2,2,555,0,0,1,1,2,2,,84781,0,0,CHART #69: Purpose of Funds Changes - Fiscal 2024
+2,1,612.0,792.0,0,0,,,,,0,0,0,2724,0,0,,,,,,,,,
+2,2,612.0,792.0,0,0,,,,,0,0,0,2128,0,0,,,,,,,,,
+2,3,792.0,612.0,0,1,1,0,1,* **,27,27,27,2232,0,0,1,1,27,27,,886722,0,0,CHART #1: Local Initiatives - Fiscal 2026
+2,4,792.0,612.0,0,1,1,1,2,* **,25,25,25,2144,0,0,1,1,25,25,,849402,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+2,5,792.0,612.0,0,1,1,1,3,* **,26,26,26,2096,0,0,1,1,26,26,,852702,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+2,6,792.0,612.0,0,1,1,1,4,* **,25,25,25,2104,0,0,1,1,25,25,,833076,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+2,7,792.0,612.0,0,1,1,1,5,* ** ***,22,22,22,2126,0,0,1,1,22,22,,784583,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+2,8,792.0,612.0,0,1,1,1,6,* **,24,24,24,2209,0,0,1,1,24,24,,842309,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+2,9,792.0,612.0,0,1,1,1,7,* **,2,2,2,375,0,0,1,1,2,2,,102294,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+2,10,792.0,612.0,0,1,2,0,8,* **,4,4,4,572,0,0,1,1,4,4,,175110,0,0,CHART #2: Aging Discretionary - Fiscal 2026
+2,11,792.0,612.0,0,1,3,0,9,* **,7,7,7,659,0,0,1,1,7,7,,243766,0,0,CHART #3: Youth Discretionary - Fiscal 2026
+2,12,792.0,612.0,0,1,4,0,10,* **,10,10,10,1056,0,0,1,1,10,10,,381360,0,0,CHART #4: Anti-Poverty - Fiscal 2026
+2,13,792.0,612.0,0,1,5,0,11,* **,8,8,8,944,0,0,1,1,8,8,,326465,0,0,CHART #5: Community Safety and Victim Services Initiative - Fiscal 2026
+2,14,792.0,612.0,0,1,6,0,12,* **,25,25,25,2294,0,0,1,1,25,25,,876278,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2026
+2,15,792.0,612.0,0,1,6,1,13,* **,9,9,9,786,0,0,1,1,9,9,,305568,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2026 (continued)
+2,16,792.0,612.0,0,1,7,0,14,* **,6,6,6,799,0,0,1,1,6,6,,256904,0,0,CHART #7: Boroughwide Needs Initiative - Fiscal 2026
+2,17,792.0,612.0,0,1,8,0,15,* ** ***,31,31,31,2744,0,0,1,1,31,31,,871007,0,0,CHART #8: A Greener NYC - Fiscal 2026
+2,18,792.0,612.0,0,1,9,0,16,* **,26,26,26,2680,0,0,1,1,26,26,,812864,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2026
+2,19,792.0,612.0,0,1,9,1,17,* **,30,30,30,2584,0,0,1,1,30,30,,845205,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2026 (continued)
+2,20,792.0,612.0,0,1,9,1,18,* **,30,30,30,2797,0,0,1,1,30,30,,874796,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2026 (continued)
+2,21,792.0,612.0,0,1,9,1,19,* **,25,25,25,2637,0,0,1,1,25,25,,791284,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2026 (continued)
+2,22,792.0,612.0,0,1,9,1,20,* **,9,9,9,1106,0,0,1,1,9,9,,311392,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2026 (continued)
+2,23,792.0,612.0,0,1,10,0,21,* **,27,27,27,2686,0,0,1,1,27,27,,819186,0,0,CHART #10: Cultural Immigrant Initiative - Fiscal 2026
+2,24,792.0,612.0,0,1,10,1,22,* **,6,6,6,707,0,0,1,1,6,6,,195343,0,0,CHART #10: Cultural Immigrant Initiative - Fiscal 2026 (continued)
+2,25,792.0,612.0,0,1,11,0,23,* **,15,15,15,1459,0,0,1,1,15,15,,445622,0,0,CHART #11: Digital Inclusion and Literacy Initiative - Fiscal 2026
+2,26,792.0,612.0,0,1,12,0,24,* **,11,11,11,1106,0,0,1,1,11,11,,326094,0,0,CHART #12: Neighborhood Development Grant Initiative - Fiscal 2026
+2,27,792.0,612.0,0,1,13,0,25,* **,18,18,18,1949,0,0,1,1,18,18,,578583,0,0,CHART #13: NYC Cleanup - Fiscal 2026
+2,28,792.0,612.0,0,1,14,0,26,* **,25,25,25,2373,0,0,1,1,25,25,,742293,0,0,CHART #14: Parks Equity Initiative - Fiscal 2026
+2,29,792.0,612.0,0,1,15,0,27,* **,14,14,14,1296,0,0,1,1,14,14,,402975,0,0,CHART #15: Support Our Older Adults - Fiscal 2026
+2,30,792.0,612.0,0,1,16,0,28,* **,29,29,29,2718,0,0,1,1,29,29,,833967,0,0,CHART #16: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026
+2,31,792.0,612.0,0,1,17,0,29,* **,5,5,5,488,0,0,1,1,5,5,,148516,0,0,CHART #17: SU-CASA - Fiscal 2026
+2,32,792.0,612.0,0,1,18,0,30,* **,25,25,25,2964,0,0,1,1,25,25,,834585,0,0,CHART #18: Older Adults Across the Boroughs (formerly Borough Presidents’ Discretionary Funding Restoration) - Fiscal 2026
+2,33,792.0,612.0,0,1,18,1,31,* **,23,23,23,2839,0,0,1,1,23,23,,775635,0,0,CHART #18: Older Adults Across the Boroughs (formerly Borough Presidents’ Discretionary Funding Restoration) - Fiscal 2026 (continued)
+2,34,792.0,612.0,0,1,18,1,32,* **,25,25,25,3135,0,0,1,1,25,25,,855349,0,0,CHART #18: Older Adults Across the Boroughs (formerly Borough Presidents’ Discretionary Funding Restoration) - Fiscal 2026 (continued)
+2,35,792.0,612.0,0,1,18,1,33,* **,26,26,26,3056,0,0,1,1,26,26,,851325,0,0,CHART #18: Older Adults Across the Boroughs (formerly Borough Presidents’ Discretionary Funding Restoration) - Fiscal 2026 (continued)
+2,36,792.0,612.0,0,1,18,1,34,* **,27,27,27,3022,0,0,1,1,27,27,,863290,0,0,CHART #18: Older Adults Across the Boroughs (formerly Borough Presidents’ Discretionary Funding Restoration) - Fiscal 2026 (continued)
+2,37,792.0,612.0,0,1,18,1,35,* **,7,7,7,1094,0,0,1,1,7,7,,267543,0,0,CHART #18: Older Adults Across the Boroughs (formerly Borough Presidents’ Discretionary Funding Restoration) - Fiscal 2026 (continued)
+2,38,792.0,612.0,0,1,19,0,36,* **,30,30,30,3190,0,0,1,1,30,30,,952624,0,0,CHART #19: Food Pantries - Fiscal 2026
+2,39,792.0,612.0,0,1,19,1,37,* **,27,27,27,3029,0,0,1,1,27,27,,899682,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,40,792.0,612.0,0,1,19,1,38,* **,27,27,27,3092,0,0,1,1,27,27,,883503,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,41,792.0,612.0,0,1,19,1,39,* **,29,29,29,3317,0,0,1,1,29,29,,946359,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,42,792.0,612.0,0,1,19,1,40,* **,30,30,30,3490,0,0,1,1,30,30,,973853,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,43,792.0,612.0,0,1,19,1,41,* **,29,29,29,3220,0,0,1,1,29,29,,947071,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,44,792.0,612.0,0,1,19,1,42,* **,30,30,30,3307,0,0,1,1,30,30,,981538,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,45,792.0,612.0,0,1,19,1,43,* **,28,28,28,3140,0,0,1,1,28,28,,914412,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,46,792.0,612.0,0,1,19,1,44,* **,25,25,25,3014,0,0,1,1,25,25,,845833,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,47,792.0,612.0,0,1,19,1,45,* **,29,29,29,3212,0,0,1,1,29,29,,929509,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,48,792.0,612.0,0,1,19,1,46,* **,29,29,29,3394,0,0,1,1,29,29,,970795,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,49,792.0,612.0,0,1,19,1,47,* **,32,32,32,3482,0,0,1,1,32,32,,1030683,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,50,792.0,612.0,0,1,19,1,48,* **,28,28,28,3154,0,0,1,1,28,28,,903606,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,51,792.0,612.0,0,1,19,1,49,* **,27,27,27,3038,0,0,1,1,27,27,,882217,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,52,792.0,612.0,0,1,19,1,50,* **,27,27,27,3003,0,0,1,1,27,27,,898708,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,53,792.0,612.0,0,1,19,1,51,* **,25,25,25,2813,0,0,1,1,25,25,,830421,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,54,792.0,612.0,0,1,19,1,52,* **,24,24,24,2837,0,0,1,1,24,24,,800122,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,55,792.0,612.0,0,1,19,1,53,* **,25,25,25,2788,0,0,1,1,25,25,,804881,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,56,792.0,612.0,0,1,19,1,54,* **,18,18,18,2270,0,0,1,1,18,18,,640834,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,57,792.0,612.0,0,1,19,1,55,* **,8,8,8,1039,0,0,1,1,8,8,,286736,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,58,792.0,612.0,0,1,19,1,56,* **,26,26,26,2660,0,0,1,1,26,26,,802836,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,59,792.0,612.0,0,1,19,1,57,* **,25,25,25,2675,0,0,1,1,25,25,,791488,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,60,792.0,612.0,0,1,19,1,58,* **,24,24,24,2619,0,0,1,1,24,24,,776445,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,61,792.0,612.0,0,1,19,1,59,* **,30,30,30,2947,0,0,1,1,30,30,,906831,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,62,792.0,612.0,0,1,19,1,60,* **,15,15,15,1639,0,0,1,1,15,15,,480535,0,0,CHART #19: Food Pantries - Fiscal 2026 (continued)
+2,63,792.0,612.0,0,1,20,0,61,* **,4,4,4,430,0,0,1,1,4,4,,148695,0,0,CHART #20: Coalition Theaters of Color - Fiscal 2026
+2,64,792.0,612.0,0,1,21,0,62,* **,4,4,4,498,0,0,1,1,4,4,,163165,0,0,CHART #21: Community Interpreter Bank - Fiscal 2026
+2,65,792.0,612.0,0,1,22,0,63,* **,6,6,6,796,0,0,1,1,6,6,,240292,0,0,CHART #22: Violence Prevention and Intervention for Youth and Young Adults (Formerly Art a Catalyst for Change and Crisis Management System) - Fiscal 2026
+2,66,792.0,612.0,0,1,23,0,64,* **,2,2,2,317,0,0,1,1,2,2,,90544,0,0,CHART #23: AAPI Community Support - Fiscal 2026
+2,67,792.0,612.0,0,1,24,0,65,* **,2,2,2,325,0,0,1,1,2,2,,90150,0,0,CHART #24: Elder Abuse Prevention Programs - Fiscal 2026
+2,68,792.0,612.0,0,1,25,0,66,* **,4,4,4,519,0,0,1,1,4,4,,149807,0,0,CHART #25: Culturally Specific Gender Based Violence Initiative (formerly Initiative for Immigrant Survivors of Domestic Violence) - Fiscal 2026
+2,69,792.0,612.0,0,1,26,0,67,* **,2,2,2,393,0,0,1,1,2,2,,91982,0,0,"CHART #26: Alternatives to Incarceration and Reentry Programs (Formerly Alternatives to Incarceration, Discharge Planning, and Diversion Programs) - Fiscal 2026"
+2,70,792.0,612.0,0,1,27,0,68,* **,2,2,2,316,0,0,1,1,2,2,,89571,0,0,CHART #27: Mental Health Services for Veterans - Fiscal 2026
+2,71,792.0,612.0,0,1,28,0,69,* **,3,3,3,382,0,0,1,1,3,3,,121748,0,0,CHART #28: Court-Involved Youth Mental Health Initiative - Fiscal 2026
+2,72,792.0,612.0,0,1,29,0,70,* **,3,3,3,425,0,0,1,1,3,3,,126941,0,0,"CHART #29: Developmental, Psychological and Behavioral Health Services - Fiscal 2026"
+2,73,792.0,612.0,0,1,30,0,71,* **,32,32,32,2121,0,0,1,1,32,32,,950707,0,0,CHART #30: Peer Specialists Support - Fiscal 2026
+2,74,792.0,612.0,0,1,30,1,72,* **,3,3,3,410,0,0,1,1,3,3,,128236,0,0,CHART #30: Peer Specialists Support - Fiscal 2026 (continued)
+2,75,792.0,612.0,0,1,31,0,73,* **,2,2,2,392,0,0,1,1,2,2,,93020,0,0,CHART #31: HIV/AIDS Pathways to Care (Formerly Ending the Epidemic and HIV/AIDS Faith Community Based Initiative) - Fiscal 2026
+2,76,792.0,612.0,0,1,32,0,74,* **,1,1,1,287,0,1,1,1,1,1,,59608,0,0,"CHART #32: Trap, Neuter, and Release (TNR) for Stray Animals Citywide Initiative - Fiscal 2026"
+2,77,792.0,612.0,0,1,33,0,75,* **,5,5,5,526,0,0,1,1,5,5,,180600,0,0,CHART #33: Community Housing Preservation Strategies - Fiscal 2026
+2,78,792.0,612.0,0,1,34,0,76,* **,2,2,2,327,0,0,1,1,2,2,,93768,0,0,CHART #34: Community Land Trust - Fiscal 2026
+2,79,792.0,612.0,0,1,35,0,77,* **,5,5,5,472,0,0,1,1,5,5,,172197,0,0,CHART #35: Pride at Work - Fiscal 2026
+2,80,792.0,612.0,0,1,36,0,78,* **,1,1,1,307,0,0,1,1,1,1,,64919,0,0,CHART #36: Adult Literacy Forward (Formerly Adult Literacy Pilot Project) - Fiscal 2026
+2,81,792.0,612.0,0,1,37,0,79,* **,6,6,6,656,0,0,1,1,6,6,,227733,0,0,CHART #37: Adult Literacy Initiative - Fiscal 2026
+2,82,792.0,612.0,0,1,38,0,80,* **,13,13,13,1138,0,0,1,1,13,13,,431737,0,0,CHART #38: Legal Services for Low-Income Immigrants (Formerly Legal Services for Low-Income Immigrants and Protect NYC) - Fiscal 2026
+2,83,792.0,612.0,0,1,39,0,81,* **,3,3,3,428,0,0,1,1,3,3,,129839,0,0,CHART #39: Welcome NYC (Formerly Key to the City and Welcome NYC) - Fiscal 2026
+2,84,792.0,612.0,0,1,40,0,82,* **,5,5,5,494,0,0,1,1,5,5,,173402,0,0,CHART #40: School-Based Immigrant Rapid Response Legal Access - Fiscal 2026
+2,85,792.0,612.0,0,1,41,0,83,* **,15,15,15,1165,0,0,1,1,15,15,,484057,0,0,CHART #41: Legal Services for AAPI Communities - Fiscal 2026
+2,86,792.0,612.0,0,1,42,0,84,* **,1,1,1,284,0,0,1,1,1,1,,63180,0,0,CHART #42: Immigrant Legal Providers Support Network - Fiscal 2026
+2,87,792.0,612.0,0,1,43,0,85,* **,6,6,6,634,0,0,1,1,6,6,,216913,0,0,CHART #43: Legal Services for Day Laborers and Domestic Workers - Fiscal 2026
+2,88,792.0,612.0,0,1,44,0,86,* **,3,3,3,421,0,0,1,1,3,3,,126043,0,0,CHART #44: Language Access and Legal Services for Black Immigrants - Fiscal 2026
+2,89,792.0,612.0,0,1,45,0,87,* **,6,6,6,572,0,0,1,1,6,6,,207480,0,0,CHART #45: Haitian Response Initiative - Fiscal 2026
+2,90,792.0,612.0,0,1,46,0,88,* **,4,4,4,476,0,0,1,1,4,4,,149329,0,0,CHART #46: Immigration Legal Services for Survivors of Violence and Gender Based Harm - Fiscal 2026
+2,91,792.0,612.0,0,1,47,0,89,* **,1,1,1,290,0,0,1,1,1,1,,65477,0,0,CHART #47: Unaccompanied Minors and Families - Fiscal 2026
+2,92,792.0,612.0,0,1,48,0,90,* **,3,3,3,395,0,0,1,1,3,3,,125765,0,0,CHART #48: Afterschool Enrichment Initiative - Fiscal 2026
+2,93,792.0,612.0,0,1,49,0,91,* **,2,2,2,339,0,0,1,1,2,2,,92174,0,0,CHART #49: LGBTQIA+ Youth Support and Services - Fiscal 2026
+2,94,792.0,612.0,0,1,50,0,92,* **,1,1,1,295,0,0,1,1,1,1,,62330,0,0,CHART #50: Asylum Seeker Legal Assistance Network (ASLAN) / Pro Se Plus - Fiscal 2026
+2,95,792.0,612.0,0,1,51,0,93,* **,2,2,2,306,0,0,1,1,2,2,,88848,0,0,CHART #51: Social Adult Day Care - Fiscal 2026
+2,96,792.0,612.0,0,1,52,0,94,* **,3,3,3,422,0,0,1,1,3,3,,131076,0,0,CHART #52: Tax Lien Sale Outreach and Assistance - Fiscal 2026
+2,97,792.0,612.0,0,1,53,0,95,* **,28,28,28,2617,0,0,1,1,28,28,,970233,0,0,CHART #53: Older Adult Center Improvements - Fiscal 2026
+2,98,792.0,612.0,0,1,53,1,96,* **,7,7,7,853,0,0,1,1,7,7,,282903,0,0,CHART #53: Older Adult Center Improvements - Fiscal 2026 (continued)
+2,99,792.0,612.0,0,1,54,0,97,* **,2,2,2,344,0,0,1,1,2,2,,89011,0,0,CHART #54: Guaranteed Income Program (Formerly Guaranteed Income Pilot Program) - Fiscal 2026
+2,100,792.0,612.0,0,1,55,0,98,* **,8,8,8,871,0,0,1,1,8,8,,303920,0,0,CHART #55: Local Initiatives - Fiscal 2025
+2,101,792.0,612.0,0,1,56,0,99,* **,2,2,2,403,0,0,1,1,2,2,,110788,0,0,CHART #56: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+2,102,792.0,612.0,0,1,57,0,100,* **,2,2,2,480,0,0,1,1,2,2,,127667,0,0,CHART #57: Youth Discretionary - Fiscal 2025
+2,103,792.0,612.0,0,1,58,0,101,* **,2,2,2,396,0,0,1,1,2,2,,103924,0,0,CHART #58: Community Safety and Victim Services - Fiscal 2025
+2,104,792.0,612.0,0,1,59,0,102,* **,6,6,6,539,0,0,1,1,6,6,,200338,0,0,CHART #59: Protect NYC Families - Fiscal 2025
+2,105,792.0,612.0,0,1,60,0,103,* **,2,2,2,319,0,0,1,1,2,2,,90090,0,0,CHART #60: Veteran Resource Centers - Fiscal 2025
+2,106,792.0,612.0,0,1,61,0,104,* **,2,2,2,393,0,0,1,1,2,2,,111731,0,0,CHART #61: Local Initiatives - Fiscal 2024
+2,107,792.0,612.0,0,1,62,0,105,* **,2,2,2,354,0,0,1,1,2,2,,99432,0,0,CHART #62: Youth Discretionary - Fiscal 2024
+2,108,792.0,612.0,0,1,63,0,106,* **,2,2,2,384,0,0,1,1,2,2,,101964,0,0,CHART #63: Speaker's Initiative to Address Citywide Needs - Fiscal 2024
+2,109,792.0,612.0,0,1,64,0,107,* **,14,14,14,3361,30,0,1,1,14,14,,534658,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026
+2,110,792.0,612.0,0,1,64,1,108,* **,8,8,8,3001,36,0,1,1,8,8,region 0: header rule at 70.68 pt found in header pixels,427653,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,111,792.0,612.0,0,1,64,1,109,* **,5,5,5,2873,0,0,1,1,5,5,region 0: header rule at 70.68 pt found in header pixels,385004,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,112,792.0,612.0,0,1,64,1,110,* **,5,5,5,2792,0,0,1,1,5,5,region 0: header rule at 70.68 pt found in header pixels,374357,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,113,792.0,612.0,0,1,64,1,111,* **,5,5,5,2931,0,0,1,1,5,5,region 0: header rule at 70.68 pt found in header pixels,391298,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,114,792.0,612.0,0,1,64,1,112,* **,6,6,6,3291,0,0,1,1,6,6,region 0: header rule at 70.68 pt found in header pixels,432171,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,115,792.0,612.0,0,1,64,1,113,* **,5,5,5,2703,0,0,1,1,5,5,region 0: header rule at 70.68 pt found in header pixels,365558,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,116,792.0,612.0,0,1,64,1,114,* **,5,5,5,2864,0,0,1,1,5,5,region 0: header rule at 70.68 pt found in header pixels,385146,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,117,792.0,612.0,0,1,64,1,115,* **,5,5,5,2689,0,0,1,1,5,5,region 0: header rule at 70.68 pt found in header pixels,364167,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,118,792.0,612.0,0,1,64,1,116,* **,9,9,9,3037,0,0,1,1,9,9,region 0: header rule at 70.68 pt found in header pixels,446927,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,119,792.0,612.0,0,1,64,1,117,* **,8,8,8,2953,0,0,1,1,8,8,region 0: header rule at 70.68 pt found in header pixels,433266,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,120,792.0,612.0,0,1,64,1,118,* **,8,8,8,2908,0,0,1,1,8,8,region 0: header rule at 70.68 pt found in header pixels,424963,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,121,792.0,612.0,0,1,64,1,119,* **,8,8,8,2947,0,0,1,1,8,8,region 0: header rule at 70.68 pt found in header pixels,430419,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,122,792.0,612.0,0,1,64,1,120,* **,8,8,8,2942,0,0,1,1,8,8,region 0: header rule at 70.68 pt found in header pixels,430620,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,123,792.0,612.0,0,1,64,1,121,* **,8,8,8,2912,0,0,1,1,8,8,region 0: header rule at 70.68 pt found in header pixels,425719,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,124,792.0,612.0,0,1,64,1,122,* **,11,11,11,3082,0,0,1,1,11,11,region 0: header rule at 70.68 pt found in header pixels,476860,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,125,792.0,612.0,0,1,64,1,123,* **,8,8,8,2455,0,0,1,1,8,8,,365963,0,0,CHART #64: Purpose of Funds Changes - Fiscal 2026 (continued)
+2,126,792.0,612.0,0,1,65,0,124,* **,4,4,4,876,0,0,1,1,4,4,,146054,0,0,CHART #65: Purpose of Funds Changes - Fiscal 2025
+2,127,792.0,612.0,0,1,66,0,125,* **,2,2,2,748,0,0,1,1,2,2,,110148,0,0,CHART #66: Purpose of Funds Changes - Fiscal 2024
+3,1,612.0,792.0,0,0,,,,,0,0,0,1197,0,0,,,,,,,,,
+3,2,792.0,612.0,0,1,1,0,1,* **,22,22,22,1975,0,0,1,1,22,22,,766218,0,0,CHART #1: Local Initiatives - Fiscal 2026
+3,3,792.0,612.0,0,1,1,1,2,* **,23,23,23,2176,0,0,1,1,23,23,,816571,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+3,4,792.0,612.0,0,1,1,1,3,* **,5,5,5,661,0,0,1,1,5,5,,213870,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+3,5,792.0,612.0,0,1,2,0,4,* **,2,2,2,395,0,0,1,1,2,2,,112977,0,0,CHART #2: Aging Discretionary - Fiscal 2026
+3,6,792.0,612.0,0,1,3,0,5,* **,8,8,8,911,0,0,1,1,8,8,,314793,0,0,CHART #3: Youth Discretionary - Fiscal 2026
+3,7,792.0,612.0,0,1,4,0,6,* **,7,7,7,766,0,0,1,1,7,7,,276046,0,0,CHART #4: Anti-Poverty - Fiscal 2026
+3,8,792.0,612.0,0,1,5,0,7,* **,2,2,2,399,0,0,1,1,2,2,,110323,0,0,CHART #5: Community Safety and Victim Services - Fiscal 2026
+3,9,792.0,612.0,0,1,6,0,8,* **,16,16,16,1441,0,0,1,1,16,16,,554046,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2026
+3,10,792.0,612.0,0,1,7,0,9,* **,4,4,4,518,0,0,1,1,4,4,,167299,0,0,CHART #7: Boroughwide Needs Initiative - Fiscal 2026
+3,11,851.61,658.06,0,1,8,0,10,* **,7,7,7,733,0,0,1,1,7,7,,253780,0,0,CHART #8: A Greener NYC - Fiscal 2026
+3,12,851.61,658.06,0,1,9,0,11,* **,26,26,26,2571,0,0,1,1,26,26,,914443,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2026
+3,13,851.61,658.06,0,1,9,1,12,* **,15,15,15,1616,0,0,1,1,15,15,,565613,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2026 (continued)
+3,14,851.61,658.06,0,1,10,0,13,* **,12,12,12,1167,0,0,1,1,12,12,,419687,0,0,CHART #10: Cultural Immigrant Initiative - Fiscal 2026
+3,15,851.61,658.06,0,1,11,0,14,* **,7,7,7,758,0,0,1,1,7,7,,256539,0,0,CHART #11: Digital Inclusion and Literacy Initiative - Fiscal 2026
+3,16,851.61,658.06,0,1,12,0,15,* **,6,6,6,750,0,0,1,1,6,6,,236624,0,0,CHART #12: Neighborhood Development Grant Initiative - Fiscal 2026
+3,17,851.61,658.06,0,1,13,0,16,* **,12,12,12,1232,0,0,1,1,12,12,,434240,0,0,CHART #13: NYC Cleanup - Fiscal 2026
+3,18,851.61,658.06,0,1,14,0,17,* **,19,19,19,1961,0,0,1,1,19,19,,679596,0,0,CHART #14: Support Our Older Adults - Fiscal 2026
+3,19,851.61,658.06,0,1,15,0,18,* **,26,26,26,2534,0,0,1,1,26,26,,895250,0,0,CHART #15: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026
+3,20,851.61,658.06,0,1,16,0,19,* **,15,15,15,1650,0,0,1,1,15,15,,566828,0,0,CHART #16: Food Pantries - Fiscal 2026
+3,21,792.0,612.0,0,1,17,0,20,* **,28,28,28,2696,0,0,1,1,28,28,,972957,0,0,CHART #17: Older Adult Center Improvements - Fiscal 2026
+3,22,792.0,612.0,0,1,17,1,21,* **,26,26,26,2596,0,0,1,1,26,26,,928977,0,0,CHART #17: Older Adult Center Improvements - Fiscal 2026 (continued)
+3,23,792.0,612.0,0,1,17,1,22,* **,14,14,14,1404,0,0,1,1,14,14,,506672,0,0,CHART #17: Older Adult Center Improvements - Fiscal 2026 (continued)
+3,24,792.0,612.0,0,1,18,0,23,* **,2,2,2,350,0,0,1,1,2,2,,93406,0,0,CHART #18: Chamber on the Go and Small Business Assistance - Fiscal 2026
+3,25,792.0,612.0,0,1,19,0,24,* **,2,2,2,331,0,0,1,1,2,2,,93645,0,0,CHART #19: Trans Equity Programs - Fiscal 2026
+3,26,792.0,612.0,0,1,20,0,25,* **,2,2,2,357,0,0,1,1,2,2,,96881,0,0,CHART #20: Tax Lien Sale Outreach and Assistance - Fiscal 2026
+3,27,792.0,612.0,0,1,21,0,26,* **,9,9,9,798,0,0,1,1,9,9,,310121,0,0,CHART #21: YouthBuild Project Initiative - Fiscal 2026
+3,28,792.0,612.0,0,1,22,0,27,* **,2,2,2,307,0,0,1,1,2,2,,89058,0,0,CHART #22: Coalition Theaters of Color - Fiscal 2026
+3,29,792.0,612.0,0,1,23,0,28,* **,2,2,2,319,0,0,1,1,2,2,,91190,0,0,CHART #23: Hate Crimes Prevention - Fiscal 2026
+3,30,792.0,612.0,0,1,24,0,29,* **,6,6,6,572,0,0,1,1,6,6,,207040,0,0,CHART #24: CUNY Citizenship NOW! Program - Fiscal 2026
+3,31,792.0,612.0,0,1,25,0,30,* **,8,8,8,820,0,0,1,1,8,8,,279686,0,0,CHART #25: Legal Services for Low-Income Immigrants (Formerly Legal Services for Low-Income Immigrants and Protect NYC) - Fiscal 2026
+3,32,792.0,612.0,0,1,26,0,31,* **,32,32,32,2208,0,0,1,1,32,32,,961519,0,0,CHART #26: Immigrant Opportunities Initiative - Fiscal 2026
+3,33,792.0,612.0,0,1,26,1,32,* **,1,1,1,272,0,0,1,1,1,1,,60329,0,0,CHART #26: Immigrant Opportunities Initiative - Fiscal 2026 (continued)
+3,34,792.0,612.0,0,1,27,0,33,* **,1,1,1,293,0,0,1,1,1,1,,59849,0,0,CHART #27: Immigration Legal Services for Survivors of Violence and Gender Based Harm - Fiscal 2026
+3,35,792.0,612.0,0,1,28,0,34,* **,4,4,4,437,0,0,1,1,4,4,,146926,0,0,CHART #28: Know Your Rights for Immigrant Street Vendors - Fiscal 2026
+3,36,792.0,612.0,0,1,29,0,35,* **,8,8,8,733,0,0,1,1,8,8,,268129,0,0,CHART #29: Language Access and Legal Services for Black Immigrants - Fiscal 2026
+3,37,792.0,612.0,0,1,30,0,36,* **,16,16,16,1298,0,0,1,1,16,16,,519686,0,0,CHART #30: Legal Services for Day Laborers and Domestic Workers - Fiscal 2026
+3,38,792.0,612.0,0,1,31,0,37,* **,2,2,2,338,0,0,1,1,2,2,,90306,0,0,CHART #31: School-Based Immigrant Rapid Response Legal Access - Fiscal 2026
+3,39,792.0,612.0,0,1,32,0,38,* **,2,2,2,331,0,0,1,1,2,2,,90412,0,0,CHART #32: Special Immigration Juvenile Status (SIJS) - Fiscal 2026
+3,40,792.0,612.0,0,1,33,0,39,* **,2,2,2,303,0,0,1,1,2,2,,88289,0,0,CHART #33: LGBTQIA+ Inclusive Curriculum - Fiscal 2026
+3,41,792.0,612.0,0,1,34,0,40,* **,24,24,24,1686,0,0,1,1,24,24,,725205,0,0,CHART #34: Artificial Intelligence Community Engagement - Fiscal 2026
+3,42,792.0,612.0,0,1,35,0,41,* **,2,2,2,372,0,0,1,1,2,2,,94332,0,0,CHART #35: Adult Literacy Forward (Formerly Adult Literacy Pilot Project) - Fiscal 2026
+3,43,792.0,612.0,0,1,36,0,42,* **,2,2,2,329,0,0,1,1,2,2,,93965,0,0,CHART #36: Autism Awareness - Fiscal 2026
+3,44,792.0,612.0,0,1,37,0,43,* **,2,2,2,334,0,0,1,1,2,2,,94554,0,0,CHART #37: Children Under Five - Fiscal 2026
+3,45,792.0,612.0,0,1,38,0,44,* **,2,2,2,368,0,0,1,1,2,2,,94146,0,0,CHART #38: Older Adults Mental Health (Formerly Geriatric Mental Health) - Fiscal 2026
+3,46,792.0,612.0,0,1,39,0,45,* **,5,5,5,581,0,0,1,1,5,5,,172776,0,0,"CHART #39: Alternatives to Incarceration and Reentry Programs (Formerly Alternatives to Incarceration, Discharge Planning, and Diversion Programs) - Fiscal 2026"
+3,47,792.0,612.0,0,1,40,0,46,* **,32,32,32,2498,0,0,1,1,32,32,,1013043,0,0,CHART #40: BID Containerization - Fiscal 2026
+3,48,792.0,612.0,0,1,40,1,47,* **,27,27,27,2163,0,0,1,1,27,27,,870448,0,0,CHART #40: BID Containerization - Fiscal 2026 (continued)
+3,49,792.0,612.0,0,1,41,0,48,* **,4,4,4,447,0,0,1,1,4,4,,151397,0,0,CHART #41: Empowering Black Communities - Fiscal 2026
+3,50,792.0,612.0,0,1,42,0,49,* **,4,4,4,448,0,0,1,1,4,4,,152279,0,0,CHART #42: Community Composting - Fiscal 2026
+3,51,792.0,612.0,0,1,43,0,50,* **,4,4,4,468,0,0,1,1,4,4,,152082,0,0,CHART #43: Community Composting at Cultural Institutions Groups - Fiscal 2026
+3,52,792.0,612.0,0,1,44,0,51,* **,2,2,2,339,0,0,1,1,2,2,,90739,0,0,CHART #44: Legal Services for Low-Income Immigrants - Fiscal 2025
+3,53,792.0,612.0,0,1,45,0,52,* **,32,32,32,2144,0,0,1,1,32,32,,931467,0,0,CHART #45: Protect NYC Families - Fiscal 2025
+3,54,792.0,612.0,0,1,45,1,53,* **,24,24,24,1690,0,0,1,1,24,24,,718963,0,0,CHART #45: Protect NYC Families - Fiscal 2025 (continued)
+3,55,792.0,612.0,0,1,46,0,54,* **,32,32,32,2596,0,0,1,1,32,32,,1034166,0,0,CHART #46: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+3,56,792.0,612.0,0,1,46,1,55,* **,5,5,5,622,0,0,1,1,5,5,,195455,0,0,CHART #46: Speaker's Initiative to Address Citywide Needs - Fiscal 2025 (continued)
+3,57,792.0,612.0,0,1,47,0,56,* **,1,1,1,279,0,0,1,1,1,1,,62510,0,0,CHART #47: Immigrant Opportunities Initiative - Fiscal 2025
+3,58,792.0,612.0,0,1,48,0,57,* **,4,4,4,588,0,0,1,1,4,4,,177906,0,0,CHART #48: Local Initiatives - Fiscal 2025
+3,59,792.0,612.0,0,1,49,0,58,* **,2,2,2,392,0,0,1,1,2,2,,105500,0,0,CHART #49: Youth Discretionary - Fiscal 2025
+3,60,792.0,612.0,0,1,50,0,59,* **,4,4,4,581,0,0,1,1,4,4,,174900,0,0,CHART #50: Community Safety and Victim Services - Fiscal 2025
+3,61,792.0,612.0,0,1,51,0,60,* **,2,2,2,393,0,0,1,1,2,2,,106846,0,0,CHART #51: Aging Discretionary - Fiscal 2025
+3,62,792.0,612.0,0,1,52,0,61,* **,2,2,2,370,0,0,1,1,2,2,,102949,0,0,CHART #52: Anti-Poverty - Fiscal 2025
+3,63,792.0,612.0,0,1,53,0,62,* **,6,6,6,781,0,0,1,1,6,6,,246978,0,0,CHART #53: Support Our Older Adults - Fiscal 2025
+3,64,792.0,612.0,0,1,54,0,63,* **,4,4,4,478,0,0,1,1,4,4,,154523,0,0,CHART #54: Adult Literacy Pilot Project - Fiscal 2025
+3,65,792.0,612.0,0,1,55,0,64,* **,2,2,2,331,0,0,1,1,2,2,,93266,0,0,CHART #55: Autism Awareness - Fiscal 2025
+3,66,792.0,612.0,0,1,56,0,65,* **,2,2,2,335,0,0,1,1,2,2,,93684,0,0,CHART #56: Children Under Five - Fiscal 2025
+3,67,792.0,612.0,0,1,57,0,66,* **,2,2,2,339,0,0,1,1,2,2,,93447,0,0,CHART #57: Older Adults Mental Health - Fiscal 2025
+3,68,792.0,612.0,0,1,58,0,67,* **,4,4,4,530,0,0,1,1,4,4,,169127,0,0,CHART #58: Anti-Poverty - Fiscal 2024
+3,69,792.0,612.0,0,1,59,0,68,* **,4,4,4,559,0,0,1,1,4,4,,169980,0,0,CHART #59: Speaker's Initiative to Address Citywide Needs - Fiscal 2024
+3,70,792.0,612.0,0,1,60,0,69,* **,4,4,4,494,0,0,1,1,4,4,,164679,0,0,CHART #60: Food Pantries - Fiscal 2024
+3,71,792.0,612.0,0,1,61,0,70,* **,4,4,4,588,0,0,1,1,4,4,,177380,0,0,CHART #61: Local Initiatives - Fiscal 2024
+3,72,792.0,612.0,0,1,62,0,71,* **,2,2,2,392,0,0,1,1,2,2,,105278,0,0,CHART #62: Youth Discretionary - Fiscal 2024
+3,73,792.0,612.0,0,1,63,0,72,* **,4,4,4,581,0,0,1,1,4,4,,174456,0,0,CHART #63: Community Safety and Victim Services - Fiscal 2024
+3,74,792.0,612.0,0,1,64,0,73,* **,2,2,2,393,0,0,1,1,2,2,,106624,0,0,CHART #64: Aging Discretionary - Fiscal 2024
+3,75,792.0,612.0,0,1,65,0,74,* **,8,8,8,943,0,0,1,1,8,8,,312868,0,0,CHART #65: Support Our Older Adults - Fiscal 2024
+3,76,792.0,612.0,0,1,66,0,75,* **,2,2,2,341,0,0,1,1,2,2,,93254,0,0,CHART #66: Adult Literacy Initiative - Fiscal 2024
+3,77,792.0,612.0,0,1,67,0,76,* **,2,2,2,343,0,0,1,1,2,2,,93208,0,0,CHART #67: Adult Literacy Pilot Project - Fiscal 2024
+3,78,792.0,612.0,0,1,68,0,77,* **,2,2,2,331,0,0,1,1,2,2,,93044,0,0,CHART #68: Autism Awareness - Fiscal 2024
+3,79,792.0,612.0,0,1,69,0,78,* **,2,2,2,335,0,0,1,1,2,2,,93462,0,0,CHART #69: Children Under Five - Fiscal 2024
+3,80,792.0,612.0,0,1,70,0,79,* **,2,2,2,337,0,0,1,1,2,2,,93225,0,0,CHART #70: Geriatric Mental Health - Fiscal 2024
+3,81,1028.57,794.81,0,1,71,0,80,* **,8,8,8,3262,0,0,1,1,8,8,region 0: header rule at 91.08 pt found in header pixels,805797,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026
+3,82,1028.57,794.81,0,1,71,1,81,* **,8,8,8,3432,0,0,1,1,8,8,region 0: header rule at 91.08 pt found in header pixels,841007,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,83,1028.57,794.81,0,1,71,1,82,* **,8,8,8,3426,0,0,1,1,8,8,region 0: header rule at 91.08 pt found in header pixels,842877,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,84,1028.57,794.81,0,1,71,1,83,* **,8,8,8,3326,0,0,1,1,8,8,region 0: header rule at 91.08 pt found in header pixels,823179,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,85,1028.57,794.81,0,1,71,1,84,* **,7,7,7,3117,0,0,1,1,7,7,region 0: header rule at 91.08 pt found in header pixels,754998,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,86,1028.57,794.81,0,1,71,1,85,* **,8,8,8,3379,0,0,1,1,8,8,region 0: header rule at 91.08 pt found in header pixels,839230,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,87,1028.57,794.81,0,1,71,1,86,* **,9,9,9,3626,0,0,1,1,9,9,region 0: header rule at 91.08 pt found in header pixels,904335,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,88,1028.57,794.81,0,1,71,1,87,* **,8,8,8,3432,0,0,1,1,8,8,region 0: header rule at 91.08 pt found in header pixels,840349,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,89,1028.57,794.81,0,1,71,1,88,* **,8,8,8,3260,0,0,1,1,8,8,region 0: header rule at 91.08 pt found in header pixels,810899,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,90,1028.57,794.81,0,1,71,1,89,* **,11,11,11,3454,0,0,1,1,11,11,region 0: header rule at 91.08 pt found in header pixels,906103,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,91,1028.57,794.81,0,1,71,1,90,* **,7,7,7,2877,0,0,1,1,7,7,region 0: header rule at 91.08 pt found in header pixels,721173,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,92,1028.57,794.81,0,1,71,1,91,* **,3,3,3,2651,0,0,1,1,3,3,region 0: header rule at 91.08 pt found in header pixels,614340,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,93,1028.57,794.81,0,1,71,1,92,* **,4,4,4,2912,0,0,1,1,4,4,region 0: header rule at 91.08 pt found in header pixels,686550,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,94,1028.57,794.81,0,1,71,1,93,* **,10,10,10,3160,0,0,1,1,10,10,region 0: header rule at 91.08 pt found in header pixels,809454,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,95,1028.57,794.81,0,1,71,1,94,* **,10,10,10,3065,0,0,1,1,10,10,region 0: header rule at 91.08 pt found in header pixels,792143,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,96,1028.57,794.81,0,1,71,1,95,* **,10,10,10,3143,0,0,1,1,10,10,region 0: header rule at 91.08 pt found in header pixels,803941,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,97,1028.57,794.81,0,1,71,1,96,* **,10,10,10,3012,0,0,1,1,10,10,region 0: header rule at 91.08 pt found in header pixels,781095,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,98,1028.57,794.81,0,1,71,1,97,* **,10,10,10,3056,0,0,1,1,10,10,region 0: header rule at 91.08 pt found in header pixels,789555,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,99,1028.57,794.81,0,1,71,1,98,* **,10,10,10,3067,0,0,1,1,10,10,region 0: header rule at 91.08 pt found in header pixels,790815,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,100,1028.57,794.81,0,1,71,1,99,* **,7,7,7,2197,0,0,1,1,7,7,region 0: header rule at 91.08 pt found in header pixels,564705,0,0,CHART #71: Purpose of Funds Changes - Fiscal 2026 (continued)
+3,101,1028.57,794.81,0,1,72,0,100,* **,2,2,2,688,0,0,1,1,2,2,,172372,0,0,CHART #72: Purpose of Funds Changes - Fiscal 2025
+4,1,612.0,792.0,0,0,,,,,0,0,0,1197,0,0,,,,,,,,,
+4,2,792.0,612.0,0,1,1,0,1,* **,19,19,19,2033,0,0,1,1,19,19,,735886,0,0,CHART #1: Local Initiatives - Fiscal 2026
+4,3,792.0,612.0,0,1,1,1,2,* **,23,23,23,2233,0,0,1,1,23,23,,819817,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+4,4,792.0,612.0,0,1,1,1,3,* **,14,14,14,1608,0,0,1,1,14,14,,558108,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+4,5,792.0,612.0,0,1,2,0,4,* **,12,12,12,1338,0,0,1,1,12,12,,460130,0,0,CHART #2: Aging Discretionary - Fiscal 2026
+4,6,792.0,612.0,0,1,3,0,5,* **,14,14,14,1632,0,0,1,1,14,14,,563884,0,0,CHART #3: Anti-Poverty - Fiscal 2026
+4,7,792.0,612.0,0,1,4,0,6,* **,12,12,12,1459,0,0,1,1,12,12,,486034,0,0,CHART #4: Community Safety and Victim Services - Fiscal 2026
+4,8,792.0,612.0,0,1,5,0,7,* **,22,22,22,1917,0,0,1,1,22,22,,749043,0,0,CHART #5: Speaker's Initiative to Address Citywide Needs - Fiscal 2026
+4,9,792.0,612.0,0,1,6,0,8,* **,2,2,2,435,0,0,1,1,2,2,,117847,0,0,CHART #6: Boroughwide Needs Initiative - Fiscal 2026
+4,10,792.0,612.0,0,1,7,0,9,* **,22,22,22,1963,0,0,1,1,22,22,,627265,0,0,CHART #7: A Greener NYC - Fiscal 2026
+4,11,792.0,612.0,0,1,8,0,10,* ** ***,16,16,16,1687,0,0,1,1,16,16,,486304,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2026
+4,12,792.0,612.0,0,1,9,0,11,* **,29,29,29,2814,0,0,1,1,29,29,,856920,0,0,CHART #9: Cultural Immigrant Initiative - Fiscal 2026
+4,13,792.0,612.0,0,1,9,1,12,* **,3,3,3,512,0,0,1,1,3,3,,119899,0,0,CHART #9: Cultural Immigrant Initiative - Fiscal 2026 (continued)
+4,14,792.0,612.0,0,1,10,0,13,* **,14,14,14,1517,0,0,1,1,14,14,,435836,0,0,CHART #10: Digital Inclusion and Literacy Initiative - Fiscal 2026
+4,15,792.0,612.0,0,1,11,0,14,* **,16,16,16,1669,0,0,1,1,16,16,,496528,0,0,CHART #11:  Parks Equity Initiative - Fiscal 2026
+4,16,792.0,612.0,0,1,12,0,15,* ** ***,8,8,8,1003,0,0,1,1,8,8,,262107,0,0,CHART #12: NYC Cleanup - Fiscal 2026
+4,17,792.0,612.0,0,1,13,0,16,* **,20,20,20,2099,0,0,1,1,20,20,,620631,0,0,CHART #13: Support Our Older Adults - Fiscal 2026
+4,18,792.0,612.0,0,1,14,0,17,* **,9,9,9,1109,0,0,1,1,9,9,,300296,0,0,CHART #14: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026
+4,19,792.0,612.0,0,1,15,0,18,* **,2,2,2,434,0,0,1,1,2,2,,96305,0,0,CHART #15: Neighborhood Development Grant Initiative - Fiscal 2026
+4,20,792.0,612.0,0,1,16,0,19,* **,17,17,17,1608,0,0,1,1,17,17,,593374,0,0,CHART #16: Older Adult Center Improvements - Fiscal 2026
+4,21,792.0,612.0,0,1,17,0,20,* **,2,2,2,355,0,0,1,1,2,2,,96955,0,0,CHART #17: Education Equity Action Plan - Fiscal 2026
+4,22,792.0,612.0,0,1,18,0,21,* **,2,2,2,356,0,0,1,1,2,2,,95031,0,0,CHART #18: Estate Planning and Resolution (EPAR) Initiative - Fiscal 2026
+4,23,792.0,612.0,0,1,19,0,22,* **,5,5,5,511,0,0,1,1,5,5,,175844,0,0,CHART #19: School-Based Immigrant Rapid Response Legal Access - Fiscal 2026
+4,24,792.0,612.0,0,1,20,0,23,* **,2,2,2,395,0,0,1,1,2,2,,91557,0,0,CHART #20: Legal Services for Low-Income Immigrants (Formerly Legal Services for Low-Income Immigrants and Protect NYC) - Fiscal 2026
+4,25,792.0,612.0,0,1,21,0,24,* **,1,1,1,274,0,0,1,1,1,1,,60647,0,0,CHART #21: Immigrant Legal Providers Support Network - Fiscal 2026
+4,26,792.0,612.0,0,1,22,0,25,* **,13,13,13,1001,0,0,1,1,13,13,,418774,0,0,CHART #22: Immigrant Opportunities Initiative - Fiscal 2026
+4,27,792.0,612.0,0,1,23,0,26,* **,3,3,3,415,0,0,1,1,3,3,,125687,0,0,CHART #23: Worker Cooperative Business Development Initiative - Fiscal 2026
+4,28,792.0,612.0,0,1,24,0,27,* **,9,9,9,802,0,0,1,1,9,9,,311009,0,0,CHART #24: BID Containerization - Fiscal 2026
+4,29,792.0,612.0,0,1,25,0,28,* **,2,2,2,425,0,0,1,1,2,2,,106771,0,0,CHART #25: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025
+4,30,792.0,612.0,0,1,26,0,29,* **,4,4,4,571,0,0,1,1,4,4,,175541,0,0,CHART #26: Local Initiatives - Fiscal 2025
+4,31,792.0,612.0,0,1,27,0,30,* **,2,2,2,398,0,0,1,1,2,2,,108101,0,0,CHART #27: Local Initiatives - Fiscal 2024
+4,32,792.0,612.0,0,1,28,0,31,* ** ***,2,2,2,2089,0,0,1,1,2,2,region 0: header rule at 65.64 pt found in header pixels,228257,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026
+4,33,792.0,612.0,0,1,28,1,32,* **,3,3,3,2666,0,0,1,1,3,3,region 0: header rule at 65.64 pt found in header pixels,303661,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,34,792.0,612.0,0,1,28,1,33,* **,13,13,13,3460,0,0,1,1,13,13,region 0: header rule at 65.64 pt found in header pixels,466518,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,35,792.0,612.0,0,1,28,1,34,* **,11,11,11,3503,0,0,1,1,11,11,region 0: header rule at 65.64 pt found in header pixels,446415,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,36,792.0,612.0,0,1,28,1,35,* **,7,7,7,3198,0,0,1,1,7,7,region 0: header rule at 65.64 pt found in header pixels,386892,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,37,792.0,612.0,0,1,28,1,36,* **,8,8,8,3538,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,431336,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,38,792.0,612.0,0,1,28,1,37,* **,8,8,8,3484,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,425918,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,39,792.0,612.0,0,1,28,1,38,* **,8,8,8,3376,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,417625,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,40,792.0,612.0,0,1,28,1,39,* **,8,8,8,3482,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,425936,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,41,792.0,612.0,0,1,28,1,40,* **,8,8,8,3448,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,423152,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,42,792.0,612.0,0,1,28,1,41,* **,8,8,8,3428,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,420573,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,43,792.0,612.0,0,1,28,1,42,* **,8,8,8,3414,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,419029,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,44,792.0,612.0,0,1,28,1,43,* **,8,8,8,3466,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,424267,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,45,792.0,612.0,0,1,28,1,44,* **,8,8,8,3394,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,419260,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,46,792.0,612.0,0,1,28,1,45,* **,8,8,8,3440,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,420714,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,47,792.0,612.0,0,1,28,1,46,* **,8,8,8,3516,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,430145,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,48,792.0,612.0,0,1,28,1,47,* **,8,8,8,3400,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,417421,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,49,792.0,612.0,0,1,28,1,48,* **,8,8,8,3458,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,423831,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,50,792.0,612.0,0,1,28,1,49,* **,8,8,8,3440,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,422688,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,51,792.0,612.0,0,1,28,1,50,* **,8,8,8,3522,0,0,1,1,8,8,region 0: header rule at 65.64 pt found in header pixels,430075,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,52,792.0,612.0,0,1,28,1,51,* **,12,12,12,2985,0,0,1,1,12,12,region 0: header rule at 65.64 pt found in header pixels,406772,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026 (continued)
+4,53,792.0,612.0,0,1,29,0,52,* **,2,2,2,708,0,0,1,1,2,2,,89806,0,0,CHART #29: Purpose of Funds Changes - Fiscal 2025
+4,54,792.0,612.0,0,1,30,0,53,* **,2,2,2,694,0,0,1,1,2,2,,88620,0,0,CHART #30: Purpose of Funds Changes - Fiscal 2024
+5,1,612.0,792.0,0,0,,,,,0,0,0,1197,0,0,,,,,,,,,
+5,2,792.0,612.0,0,1,1,0,1,* **,24,24,24,2114,0,0,1,1,24,24,,816250,0,0,CHART #1: Local Initiatives - Fiscal 2026
+5,3,792.0,612.0,0,1,1,1,2,* **,13,13,13,1324,0,0,1,1,13,13,,471665,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+5,4,792.0,612.0,0,1,2,0,3,* **,4,4,4,583,0,0,1,1,4,4,,173101,0,0,CHART #2: Youth Discretionary - Fiscal 2026
+5,5,792.0,612.0,0,1,3,0,4,* **,6,6,6,670,0,0,1,1,6,6,,227136,0,0,CHART #3: Anti-Poverty - Fiscal 2026
+5,6,792.0,612.0,0,1,4,0,5,* **,2,2,2,492,0,0,1,1,2,2,,123913,0,0,CHART #4: Community Safety and Victim Services - Fiscal 2026
+5,7,792.0,612.0,0,1,5,0,6,* **,7,7,7,833,0,0,1,1,7,7,,234790,0,0,CHART #5: A Greener NYC - Fiscal 2026
+5,8,792.0,612.0,0,1,6,0,7,* **,4,4,4,617,0,0,1,1,4,4,,156950,0,0,CHART #6: Cultural After-School Adventure (CASA) - Fiscal 2026
+5,9,792.0,612.0,0,1,7,0,8,* **,4,4,4,653,0,0,1,1,4,4,,164128,0,0,CHART #7: Cultural Immigrant Initiative - Fiscal 2026
+5,10,792.0,612.0,0,1,8,0,9,* **,11,11,11,1203,0,0,1,1,11,11,,352234,0,0,CHART #8:  Parks Equity Initiative - Fiscal 2026
+5,11,792.0,612.0,0,1,9,0,10,* ** ***,6,6,6,920,0,0,1,1,6,6,,223370,0,0,CHART #9: NYC Cleanup - Fiscal 2026
+5,12,792.0,612.0,0,1,10,0,11,* **,11,11,11,1255,0,0,1,1,11,11,,356476,0,0,CHART #10: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026
+5,13,792.0,612.0,0,1,11,0,12,* **,4,4,4,637,0,0,1,1,4,4,,161343,0,0,CHART #11: Neighborhood Development Grant Initiative - Fiscal 2026
+5,14,792.0,612.0,0,1,12,0,13,* **,30,30,30,2741,0,0,1,1,30,30,,878138,0,0,CHART #12: SU-CASA - Fiscal 2026
+5,15,792.0,612.0,0,1,12,1,14,* **,33,33,33,2942,0,0,1,1,33,33,,951369,0,0,CHART #12: SU-CASA - Fiscal 2026 (continued)
+5,16,792.0,612.0,0,1,12,1,15,* **,29,29,29,2745,0,0,1,1,29,29,,865589,0,0,CHART #12: SU-CASA - Fiscal 2026 (continued)
+5,17,792.0,612.0,0,1,12,1,16,* **,34,34,34,3011,0,0,1,1,34,34,,970709,0,0,CHART #12: SU-CASA - Fiscal 2026 (continued)
+5,18,792.0,612.0,0,1,12,1,17,* **,15,15,15,1443,0,0,1,1,15,15,,442275,0,0,CHART #12: SU-CASA - Fiscal 2026 (continued)
+5,19,792.0,612.0,0,1,13,0,18,* **,4,4,4,562,0,0,1,1,4,4,,149698,0,0,CHART #13: Food Pantries - Fiscal 2026
+5,20,792.0,612.0,0,1,14,0,19,* **,2,2,2,559,0,0,1,1,2,2,,110373,0,0,CHART #14: Older Adults Across the Boroughs (formerly Borough Presidents’ Discretionary Funding Restoration) - Fiscal 2026
+5,21,792.0,612.0,0,1,15,0,20,* **,11,11,11,966,0,0,1,1,11,11,,306136,0,0,CHART #15: Speaker's Initiative to Address Citywide Needs - Fiscal 2026
+5,22,792.0,612.0,0,1,16,0,21,* **,2,2,2,306,0,0,1,1,2,2,,83979,0,0,CHART #16: MCCAP Initiative - Fiscal 2026
+5,23,792.0,612.0,0,1,17,0,22,* **,2,2,2,395,0,0,1,1,2,2,,98636,0,0,CHART #17: Violence Prevention and Intervention for Youth and Young Adults - Fiscal 2026
+5,24,792.0,612.0,0,1,18,0,23,* **,4,4,4,531,0,0,1,1,4,4,,148827,0,0,CHART #18: HIV/AIDS Pathways to Care (Formerly Ending the Epidemic and HIV/AIDS Faith Community Based Initiative) - Fiscal 2026
+5,25,792.0,612.0,0,1,19,0,24,* **,4,4,4,465,0,0,1,1,4,4,,150016,0,0,CHART #19: Trans Equity Programs - Fiscal 2026
+5,26,792.0,612.0,0,1,20,0,25,* **,1,1,1,315,0,0,1,1,1,1,,57895,0,0,CHART #20: Healthy Beginnings (Formerly Child Health and Wellness and Maternal and Child Health Services) - Fiscal 2026
+5,27,792.0,612.0,0,1,21,0,26,* **,2,2,2,317,0,0,1,1,2,2,,84667,0,0,CHART #21: BID Containerization - Fiscal 2026
+5,28,792.0,612.0,0,1,22,0,27,* **,3,3,3,372,0,0,1,1,3,3,,115587,0,0,CHART #22: Coalition Theaters of Color - Fiscal 2026
+5,29,792.0,612.0,0,1,23,0,28,* **,1,1,1,266,0,0,1,1,1,1,,59001,0,0,CHART #23: Community Interpreter Bank - Fiscal 2026
+5,30,792.0,612.0,0,1,24,0,29,* **,1,1,1,261,0,0,1,1,1,1,,56809,0,0,CHART #24: Construction Site Safety Training - Fiscal 2026
+5,31,792.0,612.0,0,1,25,0,30,* **,1,1,1,274,0,0,1,1,1,1,,60094,0,0,CHART #25: Educational Programs for Students - Fiscal 2026
+5,32,792.0,612.0,0,1,26,0,31,* **,1,1,1,263,0,0,1,1,1,1,,58691,0,0,CHART #26: MWBE Leadership Associations - Fiscal 2026
+5,33,792.0,612.0,0,1,27,0,32,* **,2,2,2,352,0,0,1,1,2,2,,86458,0,0,CHART #27: Welcome NYC (Formerly Key to the City and Welcome NYC) - Fiscal 2026
+5,34,792.0,612.0,0,1,28,0,33,* **,1,1,1,288,0,0,1,1,1,1,,57433,0,0,CHART #28: Older Adults Mental Health (Formerly Geriatric Mental Health) - Fiscal 2026
+5,35,792.0,612.0,0,1,29,0,34,* **,2,2,2,334,0,0,1,1,2,2,,87530,0,0,CHART #29: Trans Equity Programs - Fiscal 2025
+5,36,792.0,612.0,0,1,30,0,35,* **,4,4,4,460,0,0,1,1,4,4,,147493,0,0,CHART #30: Ending the Epidemic - Fiscal 2025
+5,37,792.0,612.0,0,1,31,0,36,* **,2,2,2,340,0,0,1,1,2,2,,88719,0,0,CHART #31: Trans Equity Programs - Fiscal 2024
+5,38,792.0,612.0,0,1,32,0,37,* **,2,2,2,336,0,0,1,1,2,2,,88059,0,0,CHART #32: Ending the Epidemic - Fiscal 2024
+5,39,792.0,612.0,0,1,33,0,38,* **,2,2,2,355,0,0,1,1,2,2,,93922,0,0,CHART #33: Local Initiatives - Fiscal 2024
+5,40,792.0,612.0,0,1,34,0,39,* **,8,8,8,1522,0,0,1,1,8,8,,260252,0,0,CHART #34: Purpose of Funds Changes - Fiscal 2026
+5,41,792.0,612.0,0,1,35,0,40,* **,4,4,4,1105,0,0,1,1,4,4,,166748,0,0,CHART #35: Purpose of Funds Changes - Fiscal 2025
+6,1,612.0,792.0,0,0,,,,,0,0,0,1193,0,0,,,,,,,,,
+6,2,792.0,612.0,0,1,1,0,1,* ** ***,22,21,21,2131,0,0,1,1,22,22,,780804,0,0,CHART #1: Local Initiatives - Fiscal 2026
+6,3,792.0,612.0,0,1,1,1,2,* **,25,25,25,2172,0,0,1,1,25,25,,857648,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+6,4,792.0,612.0,0,1,1,1,3,* **,4,4,4,499,0,0,1,1,4,4,,162029,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+6,5,792.0,612.0,0,1,2,0,4,* **,4,4,4,483,0,0,1,1,4,4,,160469,0,0,CHART #2: Aging Discretionary - Fiscal 2023
+6,6,792.0,612.0,0,1,3,0,5,* **,6,6,6,813,0,0,1,1,6,6,,262850,0,0,CHART #3: Youth Discretionary - Fiscal 2026
+6,7,792.0,612.0,0,1,4,0,6,* **,6,6,6,776,0,0,1,1,6,6,,258899,0,0,CHART #4: Anti-Poverty - Fiscal 2026
+6,8,792.0,612.0,0,1,5,0,7,* ** ***,18,18,18,1708,0,0,1,1,18,18,,626518,0,0,CHART #5: Speaker's Initiative to Address Citywide Needs - Fiscal 2026
+6,9,792.0,612.0,0,1,6,0,8,* **,2,2,2,423,0,0,1,1,2,2,,113778,0,0,CHART #6: Community Safety and Victim Services - Fiscal 2026
+6,10,792.0,612.0,0,1,7,0,9,* **,10,10,10,1043,0,0,1,1,10,10,,309403,0,0,CHART #7: A Greener NYC - Fiscal 2026
+6,11,792.0,612.0,0,1,8,0,10,* **,8,8,8,1063,0,0,1,1,8,8,,292094,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2026
+6,12,792.0,612.0,0,1,9,0,11,* **,20,20,20,1874,0,0,1,1,20,20,,590045,0,0,CHART #9: Cultural Immigrant Initiative - Fiscal 2026
+6,13,792.0,612.0,0,1,10,0,12,* **,4,4,4,562,0,0,1,1,4,4,,147576,0,0,CHART #10: Parks Equity Initiative - Fiscal 2026
+6,14,792.0,612.0,0,1,11,0,13,* **,2,2,2,367,0,0,1,1,2,2,,88904,0,0,CHART #11: Support Our Older Adults - Fiscal 2026
+6,15,792.0,612.0,0,1,12,0,14,* **,6,6,6,721,0,0,1,1,6,6,,195656,0,0,CHART #12: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026
+6,16,792.0,612.0,0,1,13,0,15,* **,4,4,4,561,0,0,1,1,4,4,,152071,0,0,CHART #13: NYC Cleanup - Fiscal 2026
+6,17,792.0,612.0,0,1,14,0,16,* **,4,4,4,508,0,0,1,1,4,4,,141032,0,0,CHART #14: SU-CASA - Fiscal 2026
+6,18,792.0,612.0,0,1,15,0,17,* **,2,2,2,352,0,0,1,1,2,2,,83116,0,0,CHART #15: Neighborhood Development Grant Initiative  - Fiscal 2026
+6,19,792.0,612.0,0,1,16,0,18,* **,2,2,2,292,0,0,1,1,2,2,,87138,0,0,CHART #16: Autism Awareness - Fiscal 2026
+6,20,792.0,612.0,0,1,17,0,19,* ** ***,3,3,3,469,0,0,1,1,3,3,,123033,0,0,CHART #17: Coalition Theaters of Color - Fiscal 2026
+6,21,792.0,612.0,0,1,18,0,20,* **,2,2,2,350,0,0,1,1,2,2,,95001,0,0,CHART #18: Older Adult Center Improvements - Fiscal 2026
+6,22,792.0,612.0,0,1,19,0,21,* **,4,4,4,632,0,0,1,1,4,4,,169181,0,0,CHART #19: Violence Prevention and Intervention for Youth and Young Adults (Formerly Art a Catalyst for Change and Crisis Management System) - Fiscal 2026
+6,23,792.0,612.0,0,1,20,0,22,* **,6,6,6,657,0,0,1,1,6,6,,212696,0,0,CHART #20: Legal Services for Low-Income Immigrants (Formerly Legal Services for Low-Income Immigrants and Protect NYC) - Fiscal 2026
+6,24,792.0,612.0,0,1,21,0,23,* **,1,1,1,278,0,0,1,1,1,1,,61217,0,0,CHART #21: Special Immigration Juvenile Status (SIJS) - Fiscal 2026
+6,25,792.0,612.0,0,1,22,0,24,* **,2,2,2,336,0,0,1,1,2,2,,92263,0,0,CHART #22: Immigrant Opportunities Initiative - Fiscal 2026
+6,26,792.0,612.0,0,1,23,0,25,* **,2,2,2,314,0,0,1,1,2,2,,87383,0,0,CHART #23: Gender-Affirming Care for TGNCNBI Youth - Fiscal 2026
+6,27,792.0,612.0,0,1,24,0,26,* **,2,2,2,397,0,0,1,1,2,2,,106519,0,0,CHART #24: Speaker's Initiative - Fiscal 2025
+6,28,792.0,612.0,0,1,25,0,27,* **,2,2,2,392,0,0,1,1,2,2,,106973,0,0,CHART #25: Food Pantries - Fiscal 2025
+6,29,792.0,612.0,0,1,26,0,28,* **,2,2,2,336,0,0,1,1,2,2,,94100,0,0,CHART #26: Protect NYC Families - Fiscal 2025
+6,30,792.0,612.0,0,1,27,0,29,* **,2,2,2,364,0,0,1,1,2,2,,98748,0,0,CHART #27: Local Initiatives - Fiscal 2024
+6,31,792.0,612.0,0,1,28,0,30,* **,12,12,12,2387,0,0,1,1,12,12,,404285,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2026
+6,32,792.0,612.0,0,1,29,0,31,* **,2,2,2,596,0,0,1,1,2,2,,88207,0,0,CHART #29: Purpose of Funds Changes - Fiscal 2025
+6,33,792.0,612.0,0,1,30,0,32,* **,2,2,2,472,0,0,1,1,2,2,,75899,0,0,CHART #30: Purpose of Funds Changes - Fiscal 2024
+7,1,612.0,792.0,0,0,,,,,0,0,0,1193,0,0,,,,,,,,,
+7,2,792.0,612.0,0,1,1,0,1,* **,4,4,4,601,0,0,1,1,4,4,,179046,0,0,CHART #1: Local Initiatives - Fiscal 2026
+7,3,792.0,612.0,0,1,2,0,2,* **,2,2,2,337,0,0,1,1,2,2,,90787,0,0,CHART #2: Youth Discretionary - Fiscal 2026
+7,4,792.0,612.0,0,1,3,0,3,* **,5,5,5,615,0,0,1,1,5,5,,202165,0,0,CHART #3: Speaker's Initiative to Address Citywide Needs - Fiscal 2026
+7,5,792.0,612.0,0,1,4,0,4,* **,2,2,2,372,0,0,1,1,2,2,,91341,0,0,CHART #4: A Greener NYC - Fiscal 2026
+7,6,792.0,612.0,0,1,5,0,5,* **,4,4,4,604,0,0,1,1,4,4,,154759,0,0,CHART #5: Digital Inclusion and Literacy Initiative - Fiscal 2026
+7,7,792.0,612.0,0,1,6,0,6,* **,4,4,4,584,0,0,1,1,4,4,,150349,0,0,CHART #6: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026
+7,8,792.0,612.0,0,1,7,0,7,* **,2,2,2,402,0,0,1,1,2,2,,95782,0,0,CHART #7: Food Pantries - Fiscal 2026
+7,9,792.0,612.0,0,1,8,0,8,* **,2,2,2,340,0,0,1,1,2,2,,86182,0,0,CHART #8: NYC Cleanup - Fiscal 2026
+7,10,792.0,612.0,0,1,9,0,9,* **,2,2,2,469,0,0,1,1,2,2,,104933,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2026
+7,11,792.0,612.0,0,1,10,0,10,* **,2,2,2,330,0,0,1,1,2,2,,81710,0,0,CHART #10: Worker Cooperative Business Development Initiative - Fiscal 2026
+7,12,792.0,612.0,0,1,11,0,11,* **,1,1,1,274,0,0,1,1,1,1,,57198,0,0,CHART #11: Chamber on the Go and Small Business Assistance- Fiscal 2026
+7,13,792.0,612.0,0,1,12,0,12,* **,9,9,9,818,0,0,1,1,9,9,,304138,0,0,CHART #12: BID Containerization - Fiscal 2026
+7,14,792.0,612.0,0,1,13,0,13,* **,4,4,4,462,0,0,1,1,4,4,,142292,0,0,CHART #13: Citywide Young Adult Entrepreneurship Program Initiative - Fiscal 2026
+7,15,792.0,612.0,0,1,14,0,14,* **,2,2,2,286,0,0,1,1,2,2,,78889,0,0,CHART #14: Hate Crimes Prevention - Fiscal 2026
+7,16,792.0,612.0,0,1,15,0,15,* **,2,2,2,321,0,0,1,1,2,2,,82580,0,0,CHART #15: Construction Site Safety Training - Fiscal 2026
+7,17,792.0,612.0,0,1,16,0,16,* **,3,3,3,364,0,0,1,1,3,3,,110373,0,0,CHART #16: Community Development Financial Institutions - Fiscal 2026
+7,18,792.0,612.0,0,1,17,0,17,* **,2,2,2,331,0,0,1,1,2,2,,87753,0,0,CHART #17: Speaker's Initiative - Fiscal 2025
+7,19,792.0,612.0,0,1,18,0,18,* **,4,4,4,551,0,0,1,1,4,4,,162114,0,0,CHART #18: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025
+7,20,792.0,612.0,0,1,19,0,19,* **,2,2,2,393,0,0,1,1,2,2,,96431,0,0,CHART #19: Cultural Immigrant Initiative - Fiscal 2025
+7,21,792.0,612.0,0,1,20,0,20,* **,2,2,2,341,0,0,1,1,2,2,,90812,0,0,CHART #20: Speaker's Initiative - Fiscal 2024
+7,22,792.0,612.0,0,1,21,0,21,* **,2,2,2,305,0,0,1,1,2,2,,85287,0,0,CHART #21: A Greener NYC - Fiscal 2024
+7,23,792.0,612.0,0,1,22,0,22,* **,2,2,2,304,0,0,1,1,2,2,,85369,0,0,CHART #22: NYC Cleanup - Fiscal 2024
+7,24,792.0,612.0,0,1,23,0,23,* **,4,4,4,539,0,0,1,1,4,4,,160574,0,0,CHART #23: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2024
+7,25,792.0,612.0,0,1,24,0,24,* **,12,12,12,2980,0,0,1,1,12,12,region 0: header rule at 70.68 pt found in header pixels,472104,0,0,CHART #24: Purpose of Funds Changes - Fiscal 2026
+8,1,612.0,792.0,0,0,,,,,0,0,0,1193,0,0,,,,,,,,,
+8,2,792.0,612.0,0,1,1,0,1,* **,10,10,10,1093,0,0,1,1,10,10,,393153,0,0,CHART #1: Local Initiatives - Fiscal 2026
+8,3,792.0,612.0,0,1,2,0,2,* **,6,6,6,844,0,0,1,1,6,6,,277124,1,0,CHART #2: Youth Discretionary - Fiscal 2026
+8,4,792.0,612.0,0,1,3,0,3,* **,6,6,6,719,0,0,1,1,6,6,,240207,0,0,CHART #3: Speaker's Initiative to Address Citywide Needs - Fiscal 2026
+8,5,792.0,612.0,0,1,4,0,4,* **,4,4,4,500,0,0,1,1,4,4,,168146,0,0,CHART #4: Anti-Poverty - Fiscal 2026
+8,6,851.61,658.06,0,1,5,0,5,* **,2,2,2,365,0,0,1,1,2,2,,98387,0,0,CHART #5: Cultural Immigrant Initiative - Fiscal 2026
+8,7,851.61,658.06,0,1,6,0,6,* **,2,2,2,431,0,0,1,1,2,2,,110137,0,0,CHART #6: Digital Inclusion and Literacy Initiative - Fiscal 2026
+8,8,851.61,658.06,0,1,7,0,7,* **,2,2,2,430,0,0,1,1,2,2,,111119,0,0,CHART #7: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2026
+8,9,851.61,658.06,0,1,8,0,8,* **,10,10,10,1045,0,0,1,1,10,10,,366778,0,0,CHART #8: Parks Equity Initiative - Fiscal 2026
+8,10,851.61,658.06,0,1,9,0,9,* **,4,4,4,559,0,0,1,1,4,4,,176829,0,0,CHART #9: NYC Cleanup - Fiscal 2026
+8,11,851.61,658.06,0,1,10,0,10,* **,4,4,4,654,0,0,1,1,4,4,,191244,0,0,CHART #10: Cultural After-School Adventure (CASA) - Fiscal 2026
+8,12,851.61,658.06,0,1,11,0,11,* **,2,2,2,322,0,0,1,1,2,2,,94007,0,0,CHART #11: SU-CASA - Fiscal 2026
+8,13,851.61,658.06,0,1,12,0,12,* **,2,2,2,497,0,0,1,1,2,2,,111370,0,0,CHART #12: Older Adults Across the Boroughs (formerly Borough Presidents’ Discretionary Funding Restoration) - Fiscal 2026
+8,14,851.61,658.06,0,1,13,0,13,* **,4,4,4,638,0,0,1,1,4,4,,191579,0,0,CHART #13: Food Pantries - Fiscal 2026
+8,15,792.0,612.0,0,1,14,0,14,* **,4,4,4,585,0,0,1,1,4,4,,164412,0,0,CHART #14: Legal Services for Low-Income Immigrants (Formerly Legal Services for Low-Income Immigrants and Protect NYC) - Fiscal 2026
+8,16,792.0,612.0,0,1,15,0,15,* **,2,2,2,342,0,0,1,1,2,2,,96806,0,0,CHART #15: Peer Specialists Support - Fiscal 2026
+8,17,792.0,612.0,0,1,16,0,16,* **,4,4,4,410,0,0,1,1,4,4,,143181,0,0,CHART #16: Coalition Theaters of Color - Fiscal 2026
+8,18,792.0,612.0,0,1,17,0,17,* **,4,4,4,515,0,0,1,1,4,4,,164819,0,0,CHART #17: Local Initiatives - Fiscal 2025
+8,19,792.0,612.0,0,1,18,0,18,* **,4,4,2,620,38,0,1,1,4,4,,175879,0,0,CHART #18: Youth Discretionary - Fiscal 2025
+8,20,792.0,612.0,0,1,19,0,19,* **,6,6,6,514,0,0,1,1,6,6,,191469,0,0,CHART #19: Worker Cooperative Business Development Initiative - Fiscal 2025
+8,21,792.0,612.0,0,1,20,0,20,* **,4,4,4,588,0,0,1,1,4,4,,177931,1,0,CHART #20: Youth Discretionary - Fiscal 2024
+8,22,1028.57,794.81,0,1,21,0,21,* **,8,8,8,2056,0,0,1,1,8,8,,559902,0,0,CHART #21: Purpose of Funds Changes - Fiscal 2026
+9,1,612.0,792.0,0,0,,,,,0,0,0,1193,0,0,,,,,,,,,
+9,2,792.0,612.0,0,1,1,0,1,* **,24,24,24,2251,0,0,1,1,24,24,,849697,0,0,CHART #1: Local Initiatives - Fiscal 2026
+9,3,792.0,612.0,0,1,1,1,2,* **,5,5,5,611,0,0,1,1,5,5,,194395,0,0,CHART #1: Local Initiatives - Fiscal 2026 (continued)
+9,4,792.0,612.0,0,1,2,0,3,* **,2,2,2,414,0,0,1,1,2,2,,110654,0,0,CHART #2: Aging Discretionary - Fiscal 2026
+9,5,792.0,612.0,0,1,3,0,4,* **,8,8,8,1032,0,0,1,1,8,8,,340231,0,0,CHART #3: Youth Discretionary - Fiscal 2026
+9,6,792.0,612.0,0,1,4,0,5,* **,4,4,4,496,0,0,1,1,4,4,,160979,0,0,CHART #4: Anti-Poverty - Fiscal 2026
+9,7,792.0,612.0,0,1,5,0,6,* **,8,8,8,1063,0,0,1,1,8,8,,350218,0,0,CHART #5: Boroughwide Needs - Fiscal 2026
+9,8,792.0,612.0,0,1,6,0,7,* **,10,10,10,1132,0,0,1,1,10,10,,388525,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2026
+9,9,792.0,612.0,0,1,7,0,8,* **,4,4,4,569,0,0,1,1,4,4,,153627,0,0,CHART #7: A Greener NYC - Fiscal 2026
+9,10,792.0,612.0,0,1,8,0,9,* **,8,8,8,1061,0,0,1,1,8,8,,289779,0,0,CHART #8: Digital Inclusion and Literacy Initiative - Fiscal 2026
+9,11,792.0,612.0,0,1,9,0,10,* ** ***,6,6,6,853,0,0,1,1,6,6,,211442,0,0,CHART #9: Parks Equity Initiative - Fiscal 2026
+9,12,792.0,612.0,0,1,10,0,11,* **,10,10,10,1126,0,0,1,1,10,10,,331378,0,0,CHART #10: NYC Cleanup - Fiscal 2026
+9,13,792.0,612.0,0,1,11,0,12,* **,10,10,10,1375,0,0,1,1,10,10,,372956,0,0,CHART #11: Cultural After-School Adventure (CASA) - Fiscal 2026
+9,14,792.0,612.0,0,1,12,0,13,* **,8,8,8,968,0,0,1,1,8,8,,273019,0,0,CHART #12: Cultural Immigrant Initiative - Fiscal 2026
+9,15,792.0,612.0,0,1,13,0,14,* **,2,2,2,442,0,0,1,1,2,2,,106091,0,0,CHART #13: Food Pantries - Fiscal 2026
+9,16,792.0,612.0,0,1,14,0,15,* **,2,2,2,396,0,0,1,1,2,2,,86790,0,0,CHART #14: HIV/AIDS Pathways to Care (Formerly Ending the Epidemic and HIV/AIDS Faith Community Based Initiative) - Fiscal 2026
+9,17,792.0,612.0,0,1,15,0,16,* **,2,2,2,522,0,0,1,1,2,2,,112345,0,0,CHART #15: Violence Prevention and Intervention for Youth and Young Adults (Formerly Art a Catalyst for Change and Crisis Management System) - Fiscal 2026
+9,18,792.0,612.0,0,1,16,0,17,* ** ***,4,4,4,502,0,0,1,1,4,4,,138165,0,0,CHART #16: Coalition Theaters of Color - Fiscal 2026
+9,19,792.0,612.0,0,1,17,0,18,* **,2,2,2,330,0,0,1,1,2,2,,83264,0,0,CHART #17: Special Immigration Juvenile Status (SIJS) - Fiscal 2026
+9,20,792.0,612.0,0,1,18,0,19,* **,4,4,4,505,0,0,1,1,4,4,,161203,0,0,CHART #18: Local Initiatives - Fiscal 2025
+9,21,792.0,612.0,0,1,19,0,20,* **,2,2,2,386,0,0,1,1,2,2,,86036,0,0,CHART #19: HIV/AIDS Faith and Community Based Initiative (formerly HIV/AIDS Faith Based Initiative) - Fiscal 2025
+9,22,792.0,612.0,0,1,20,0,21,* **,4,4,4,504,0,0,1,1,4,4,,160306,0,0,CHART #20: Local Initiatives - Fiscal 2024
+9,23,792.0,612.0,0,1,21,0,22,* **,2,2,2,336,0,0,1,1,2,2,,86036,0,0,CHART #21: HIV/AIDS Faith Based Initiative - Fiscal 2024
+9,24,792.0,612.0,0,1,22,0,23,* **,10,10,10,2160,0,0,1,1,10,10,,353731,0,0,CHART #22: Purpose of Funds Changes - Fiscal 2026
+10,1,612.0,792.0,0,0,,,,,0,0,0,1386,0,0,,,,,,,,,
+10,2,792.0,612.0,0,1,1,0,1,* ** ***,21,21,21,2143,0,0,1,1,21,21,,760302,0,0,CHART #1: Local Initiatives - Fiscal 2026
+10,3,792.0,612.0,0,1,2,0,2,* **,26,26,26,2193,0,0,1,1,26,26,,869602,0,0,CHART #2: Speaker's Initiative to Address Citywide Needs - Fiscal 2026
+10,4,851.61,658.06,0,1,3,0,3,* **,2,2,2,460,0,0,1,1,2,2,,116758,0,0,CHART #3: Neighborhood Development Grant Initiative - Fiscal 2026
+10,5,851.61,658.06,0,1,4,0,4,* **,6,6,6,928,0,0,1,1,6,6,,277642,0,0,CHART #4: Cultural Immigrant Initiative - Fiscal 2026
+10,6,851.61,658.06,0,1,5,0,5,* **,10,10,10,1061,0,0,1,1,10,10,,376303,0,0,CHART #5: Food Pantries - Fiscal 2026
+10,7,851.61,658.06,0,1,6,0,6,* **,4,4,4,484,0,0,1,1,4,4,,154937,0,0,CHART #6: SU-CASA - Fiscal 2026
+10,8,792.0,612.0,0,1,7,0,7,* **,32,32,32,2569,0,0,1,1,32,32,,1019302,0,0,CHART #7: BID Containerization - Fiscal 2026
+10,9,792.0,612.0,0,1,7,1,8,* **,11,11,11,1029,0,0,1,1,11,11,,382866,0,0,CHART #7: BID Containerization - Fiscal 2026 (continued)
+10,10,792.0,612.0,0,1,8,0,9,* **,2,2,2,347,0,0,1,1,2,2,,95691,0,0,CHART #8: Foreclosure Prevention Programs - Fiscal 2026
+10,11,792.0,612.0,0,1,9,0,10,* **,3,3,3,375,0,0,1,1,3,3,,124572,0,0,CHART #9: Peer Specialists Support - Fiscal 2026
+10,12,792.0,612.0,0,1,10,0,11,* **,6,6,6,666,0,0,1,1,6,6,,227673,0,0,CHART #10: Local Initiatives - Fiscal 2025
+10,13,792.0,612.0,0,1,11,0,12,* **,2,2,2,360,0,0,1,1,2,2,,96619,0,0,CHART #11: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+10,14,792.0,612.0,0,1,12,0,13,* **,6,6,6,522,0,0,1,1,6,6,,191619,0,0,CHART #12: Worker Cooperative Business Development Initiative - Fiscal 2025
+10,15,792.0,612.0,0,1,13,0,14,* **,2,2,2,350,0,0,1,1,2,2,,94500,0,0,CHART #13: Foreclosure Prevention Programs - Fiscal 2025
+10,16,792.0,612.0,0,1,14,0,15,* **,3,3,3,359,0,0,1,1,3,3,,119175,0,0,CHART #14: Protect NYC Families - Fiscal 2025
+10,17,792.0,612.0,0,1,15,0,16,* **,2,2,2,386,0,0,1,1,2,2,,105482,0,0,CHART #15: Youth Discretionary - Fiscal 2024
+10,18,792.0,612.0,0,1,16,0,17,* **,2,2,2,340,0,0,1,1,2,2,,92921,0,0,CHART #16: Foreclosure Prevention Programs - Fiscal 2024
+10,19,792.0,612.0,0,1,17,0,18,* **,4,4,4,439,0,0,1,1,4,4,,153229,0,0,CHART #17: Local Initiatives - Fiscal 2023
+10,20,1028.57,794.81,0,1,18,0,19,* ** ***,8,8,8,1772,0,0,1,1,8,8,,487179,0,0,CHART #18: Purpose of Funds Changes - Fiscal 2026
+10,21,1028.57,794.81,0,1,19,0,20,* **,4,4,4,964,0,0,1,1,4,4,,263259,0,0,CHART #19: Purpose of Funds Changes - Fiscal 2025

@@ -1,0 +1,171 @@
+# FY2026 transparency resolutions: every year-specific fact the pipeline needs (GitHub #103).
+# Shared code: code/transreso/ (and code/schedc/, code/schedc_cv/ underneath it).
+
+fiscal_year = 2026
+review_dir = "research/2026-10-21-fy26-transparency-review"   # outputs land in <review_dir>/data
+x_tolerance = 3.0          # pdfplumber default; these charts print real space glyphs
+run_gap_pt = 3.0           # code/transreso/reader.py RUN_GAP
+
+# Resolution number and adoption date: from research/2026-07-07-legistar-links-fy21-27.md
+# (FY2026 table, all "confirmed"; read from Legistar on 2026-07-07, not re-queried here).
+# `printed_date` is the date the PDF itself prints, with its page; Reso 03-10 print none (their
+# p.1 is the resolution text, "Preconsidered Res. No." left blank). `charts_printed` is
+# "as set forth in Charts 1 through N" on p.1; Reso 01-02 carry the committee report instead,
+# which names no chart count.
+numbers_source = "research/2026-07-07-legistar-links-fy21-27.md"
+
+# Line-end hyphens (W5.wrap_hyphen): all 97 were read by hand from the flags file on
+# 2026-10-21. 96 are compound words and keep the hyphen (faith-based x66, non-profits x22,
+# low-income x3, science-based, Meals-on-wheels, Elliot-Chelsea, School-Community x2). This one
+# could be "Heart Paws - Canine Therapy Program" with the spaces lost, so it goes to review.
+wrap_hyphen_review = ["Paws-\nCanine"]
+
+[[resolutions]]
+seq = 1
+pdf = "source/FY26/transparency-resolutions/Transparency-Reso-01-2025-08-14.pdf"
+sha256 = "1971de3135d4ca702f7a870b5a98802a1b68f1ba5a08ff963a8aa58691b2d048"
+pages = 96
+number = "Res 1013-2025"
+legistar_id = 76221
+date = "2025-08-14"
+printed_date = "August 14, 2025"   # p.1 "This Resolution, dated August 14, 2025"
+charts_printed = 0
+
+[[resolutions]]
+seq = 2
+pdf = "source/FY26/transparency-resolutions/Transparency-Reso-02-2025-09-25.pdf"
+sha256 = "e27233c3aa1839ce95ba38a4f9f4a1200777eafa3110b4e7926c5add0deee7ff"
+pages = 127
+number = "Res 1059-2025"
+legistar_id = 76441
+date = "2025-09-25"
+printed_date = "September 25, 2025"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 3
+pdf = "source/FY26/transparency-resolutions/Transparency-Reso-03-2025-10-29.pdf"
+sha256 = "eebfdefb423e2d4e66fb3eb8401a74cfb68a29d02b990bb9dda8167b3e121e1f"
+pages = 101
+number = "Res 1100-2025"
+legistar_id = 76604
+date = "2025-10-29"
+printed_date = ""
+charts_printed = 72
+
+[[resolutions]]
+seq = 4
+pdf = "source/FY26/transparency-resolutions/Transparency-Reso-04-2025-11-25.pdf"
+sha256 = "c58cf294415a01a33abdecc7081f9aa19350750bdd232c18385ecc51c53a08c8"
+pages = 54
+number = "Res 1153-2025"
+legistar_id = 76762
+date = "2025-11-25"
+printed_date = ""
+charts_printed = 30
+
+[[resolutions]]
+seq = 5
+pdf = "source/FY26/transparency-resolutions/Transparency-Reso-05-2025-12-18.pdf"
+sha256 = "b3d430a23d87300f02ae2ebe7b7383a3db760b909da2d1aceaa911424d3ffd93"
+pages = 41
+number = "Res 1186-2025"
+legistar_id = 76863
+date = "2025-12-18"
+printed_date = ""
+charts_printed = 35
+
+[[resolutions]]
+seq = 6
+pdf = "source/FY26/transparency-resolutions/Transparency-Reso-06-2026-02-12.pdf"
+sha256 = "e8e143ee3d57d37858cabe8a478b3d706f0f0e86db572781e0d6505ed01274f4"
+pages = 33
+number = "Res 0255-2026"
+legistar_id = 77952
+date = "2026-02-12"
+printed_date = ""
+charts_printed = 30
+
+[[resolutions]]
+seq = 7
+pdf = "source/FY26/transparency-resolutions/Transparency-Reso-07-2026-03-10.pdf"
+sha256 = "96efa1bea86499c874d6cd131d8d28bda9574f9383239f406834a0cd9dc74cce"
+pages = 25
+number = "Res 0353-2026"
+legistar_id = 78310
+date = "2026-03-10"
+printed_date = ""
+charts_printed = 24
+
+[[resolutions]]
+seq = 8
+pdf = "source/FY26/transparency-resolutions/Transparency-Reso-08-2026-04-16.pdf"
+sha256 = "5b21e0801be9ac7d049d039796d7f3b7491c3bed87cd010ab0b5d22e516df203"
+pages = 22
+number = "Res 0420-2026"
+legistar_id = 78579
+date = "2026-04-16"
+printed_date = ""
+charts_printed = 21
+
+[[resolutions]]
+seq = 9
+pdf = "source/FY26/transparency-resolutions/Transparency-Reso-09-2026-05-20.pdf"
+sha256 = "303bc197b2498509acebe312b34ca9d8d6f9506191de7d927cb487f02d237d28"
+pages = 24
+number = "Res 0479-2026"
+legistar_id = 78870
+date = "2026-05-20"
+printed_date = ""
+charts_printed = 22
+
+[[resolutions]]
+seq = 10
+pdf = "source/FY26/transparency-resolutions/Transparency-Reso-10-2026-06-30.pdf"
+sha256 = "0bdba59faa99ad69c2ea204eea644c4688593173dd7bff3e01a748f6fbb2037a"
+pages = 21
+number = "Res 0529-2026"
+legistar_id = 79151
+date = "2026-06-30"
+printed_date = ""
+charts_printed = 19
+
+[image]
+# Same values as config/schedule_c/fy2027.toml (measured there on FY2027 Schedule C); the
+# FY2026 charts are the same Excel-to-PDF rule weights. Re-checked by the acceptance run below.
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 64
+# Acceptance: withholding this row (Reso 08 p.19, Banks / Made in Brownsville, ($15,000)), or
+# one character of it, must make the ink check fire. The page also holds the clipped
+# "Jozef Pilsudski" runs, so a clean pass shows hidden letters really are hidden.
+ink_acceptance_seq = 8
+ink_acceptance_page = 19
+ink_acceptance_row_id = "fy26-tr08-p019-r003"
+
+
+# Named exceptions: places where the PDF disagrees with itself. Each must match exactly or the
+# check still fails; each stays in the review file.
+# Reso 06 chart #2 "Aging Discretionary - Fiscal 2023" (p.5): the resolution text (p.1) names
+# Fiscal 2024, 2025 and 2026 only, and the chart sits between Fiscal 2026 charts #1 and #3. Its
+# rows name Council Member Zhuang, who took office in January 2024 (after FY2023 ended), so
+# "2023" looks like a typo for 2026. Kept as printed; flagged.
+[[exceptions]]
+check_id = "T12.fiscal_year"
+resolution_seq = 6
+chart_number = 2
+fy_printed = "2023"
+
+# Places a person has looked at and that stay in the review file as named items.
+[[known_issues]]
+check_id = "K.no_fiscal_year"
+resolution_seq = 1
+pdf_page = 67
+field = "budget_fiscal_year"
+dollar_impact = 0
+what_to_check = "Chart #49 'Operation Backpack' prints no '- Fiscal YYYY'. Reso 01's committee report (pp.1-2) lists Operation Backpack among the Fiscal 2026 initiatives, and the chart sits among the Fiscal 2026 charts (#1-#60). budget_fiscal_year left blank, as printed."

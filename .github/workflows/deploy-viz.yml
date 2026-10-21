@@ -1,24 +1,28 @@
-# Auto-deploy the viz/ dashboard to GitHub Pages.
+# Build and deploy the GitHub Pages site: the viz/ notice and frozen legacy explorer, plus the
+# in-browser budget explorer at explorer/.
 #
-# Pages for this repo is configured as "deploy from a branch" (source: gh-pages, /).
-# The dashboard, however, lives in the viz/ SUBDIRECTORY — and Pages cannot point at
-# a subfolder of a branch. The fix is a gh-pages branch that holds the contents of
-# viz/ at its ROOT; this workflow (re)builds that branch on every change to viz/, so
-# the live site stays in sync with main without the previous manual step.
+# Pages for this repo is configured as "deploy from a branch" (source: gh-pages, /), served at
+# https://betanyc.github.io/New-York-City-Budget/. Until the explorer, this workflow published
+# viz/ as-is with `git subtree split --prefix viz`. The explorer needs a build step, so the job
+# now builds the site and publishes the result:
 #
-# Mechanism: `git subtree split --prefix viz` produces a commit whose tree IS the
-# viz/ directory at root; we force-push it to gh-pages, which Pages then serves.
-# This is exactly the manual `subtree split` + force-push that was run by hand when
-# the site was first published — now automated. Uses only first-party actions/checkout
-# plus plain git (no third-party deploy action).
+#   1. Build the MCP's index (mcp/: `npm ci` runs prepare = tsc + scripts/build-index.mjs).
+#   2. Build the explorer's data: viz/explorer/scripts/build-data.mjs re-runs build-index.mjs and
+#      exports budget.db's tables to Parquet. ONE loader: the explorer never parses a CSV itself.
+#   3. Test: the Pages notice tests, the explorer's unit tests, and the parity test (the Parquet
+#      equals budget.db year by year, and the explorer's queries answer what the MCP answers).
+#      A failure stops the deploy; the last good gh-pages stays live.
+#   4. Build the app (Vite, relative base, so it works under /New-York-City-Budget/explorer/).
+#   5. Assemble the site: everything in viz/ except viz/explorer/ (as the subtree split published
+#      it) plus the built explorer in explorer/ (viz/explorer/scripts/assemble-site.mjs).
+#   6. Publish: commit the assembled tree with git plumbing (a temporary index, no checkout) and
+#      force-push it to gh-pages. Uses only first-party actions plus plain git.
 #
-# Scope: fires only when viz/ changes. Since 2026-10-16 legacy.html and its
-# viz/data/schedule_c.csv are frozen: nothing regenerates them (viz/README.md). workflow_dispatch is
-# kept so the very PR that introduces this file — which a path-scoped push won't trigger —
-# can be run on demand, and for manual redeploys.
+# Scope: data/**, mcp/scripts/**, mcp/src/fold.ts and viz/** feed the site, so a data merge redeploys.
+# workflow_dispatch is kept for manual redeploys and for the PR that changes this file.
 #
-# Safety: force-push targets only the generated gh-pages deploy branch (never main). If a
-# run fails, the last good gh-pages stays live — the site does not go down.
+# Safety: force-push targets only the generated gh-pages deploy branch (never main). If a run
+# fails at any step, nothing is pushed and the last good gh-pages stays live.
 
 name: Deploy viz to Pages
 
@@ -26,6 +30,9 @@ on:
   push:
     branches: [main]
     paths:
+      - "data/**"
+      - "mcp/scripts/**"
+      - "mcp/src/fold.ts"   # the explorer's text search imports the MCP's fold rule
       - "viz/**"
       - ".github/workflows/deploy-viz.yml"
   workflow_dispatch:
@@ -40,18 +47,57 @@ permissions:
 
 jobs:
   deploy:
-    name: Publish viz/ to gh-pages
+    name: Build and publish the site to gh-pages
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout (full history — subtree split needs it)
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Split viz/ to gh-pages root and publish
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "npm"
+          cache-dependency-path: |
+            mcp/package-lock.json
+            viz/explorer/package-lock.json
+
+      - name: Build the MCP index
+        working-directory: mcp
+        run: npm ci
+
+      - name: Install the explorer
+        working-directory: viz/explorer
+        run: npm ci
+
+      - name: Build the explorer data (MCP index -> Parquet)
+        working-directory: viz/explorer
+        run: npm run data
+
+      - name: Test (Pages notice, explorer unit tests, parity with the MCP index)
+        run: |
+          set -euo pipefail
+          python3 viz/test_pages_site.py
+          (cd viz/explorer && npm test)
+
+      - name: Build the explorer app
+        working-directory: viz/explorer
+        run: npm run build
+
+      - name: Assemble the site
+        working-directory: viz/explorer
+        run: node scripts/assemble-site.mjs --out "$RUNNER_TEMP/site"
+
+      - name: Publish to gh-pages
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git subtree split --prefix viz -b gh-pages-deploy
-          git push --force origin gh-pages-deploy:gh-pages
+          # Stage the assembled site into a temporary index (never the checkout's), write it as a
+          # tree, and make a parentless commit of it: gh-pages holds exactly the built site.
+          export GIT_INDEX_FILE="$RUNNER_TEMP/pages.index"
+          git --work-tree="$RUNNER_TEMP/site" add -A
+          tree=$(git write-tree)
+          commit=$(git commit-tree "$tree" -m "Deploy Pages from ${GITHUB_SHA}")
+          unset GIT_INDEX_FILE
+          git push --force origin "${commit}:refs/heads/gh-pages"

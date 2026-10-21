@@ -1,0 +1,129 @@
+severity,check_id,pdf_page,award_id,table_index,row_index,field,message
+critical,H8.lattice,48,fy26-p048-t00-r000,0,0,no_image_row,image lattice no_image_row: []
+critical,H8.lattice,157,fy26-p157-t00-r000,0,0,no_image_row,image lattice no_image_row: []
+critical,H8.lattice,344,fy26-p344-t00-r017,0,17,org;ein,"image lattice differs: ['org', 'ein']"
+critical,H8.lattice,421,fy26-p421-t00-r004,0,4,org;ein,"image lattice differs: ['org', 'ein']"
+warn,H10.category_total,173,,,,,"Immigrant Services: expected 86,091,341, observed 86,092,141 (named exception: PDF self-error: summary lines sum $86,092,141, TOTAL printed $86,091,341 (pending review))"
+warn,H11.box_alias,47,,,,,"Community Development: summary line 'Diversity, Inclusion and Equity in Tech Initiative' $700,000 is printed as box(es) 'Diversity, Inclusion & Equity in Tech Initiative' $700,000 ('and' vs '&')"
+warn,H11.box_alias,126,,,,,"Domestic Violence: summary line 'Supportive Alternatives to Violent Encounters (SAVE)' $2,450,000 is printed as box(es) 'Supportive Alternatives to Violent Encounters (SAVE)' $600,000; 'Supportive Alternatives to Violent Encounters (SAVE)' $1,275,000; 'Supportive Alternatives to Violent Encounters (SAVE)' $575,000 (box adds '(Formerly Art a Catalyst ...)')"
+warn,H11.box_alias,129,,,,,"Education: summary line 'Educational Programs for Students (Formerly – College and Career Readiness and Educational Programs for Students' $8,883,133 is printed as box(es) 'Educational Programs for Students (Formerly – College and Career Readiness and Educational Programs for Students)' $8,883,133 (summary drops the closing ')')"
+warn,H11.box_alias,160,,,,,"Health Services: summary line 'Reproductive & Sexual Health Services' $654,423 is printed as box(es) 'Reproductive and Sexual Health Services' $654,423 ('&' vs 'and')"
+warn,H11.box_alias,163,,,,,"Higher Education Initiatives: summary line 'CUNY Research Institute' $5,500,000 is printed as box(es) 'CUNY Research Institutes' $5,500,000 ('Institute' vs 'Institutes')"
+warn,H11.box_alias,170,,,,,"Housing: summary line 'Financial Empowerment for NYC Renters' $450,000 is printed as box(es) ""Financial Empowerment for NYC's Renters"" $450,000 ('NYC Renters' vs ""NYC's Renters"")"
+warn,H11.box_alias,178,,,,,"Legal Services: summary line 'Legal Services for Low-Income and Working-Class New Yorkers (Formerly Legal Services for Low-Income New Yorkers and Legal Services for the Working Poor)' $9,255,000 is printed as box(es) 'Legal Services for Low-Income and Working-Class New Yorkers (formerly Legal Services for Low-Income New Yorkers and Legal Services for the Working Poor)' $9,255,000 ('Formerly' vs 'formerly')"
+warn,H11.box_alias,183,,,,,"Mental Health Services: summary line 'Developmental, Psychological & Behavioral Health Services' $2,255,493 is printed as box(es) 'Developmental, Psychological and Behavioral Health Services' $2,255,493 ('&' vs 'and')"
+warn,H11.box_alias,184,,,,,"Mental Health Services: summary line 'LGBTQIA+ Youth Mental Health' $1,200,000 is printed as box(es) 'LGBTQIA+ Youth Mental Health (Formerly LGBTQ Youth Mental Health)' $1,200,000 (box adds '(Formerly LGBTQ Youth Mental Health)')"
+warn,H11.box_alias,187,,,,,"Mental Health Services: summary line 'Older Adults Mental Health (Formerly Geriatric Older Adults)' $3,349,520 is printed as box(es) 'Older Adults Mental Health (Formerly Geriatric Mental Health)' $3,349,520 ('Geriatric Older Adults' vs 'Geriatric Mental Health')"
+warn,H11.box_alias,217,,,,,"Public Safety: summary line 'Violence Prevention and Intervention for Youth and Young Adults' $4,490,600 is printed as box(es) 'Violence Prevention and Intervention for Youth and Young Adults (Formerly Art a Catalyst for Change and Crisis Management System)' $4,490,600 (box adds '(Formerly Art a Catalyst ...)')"
+warn,H12.designated_sum,98,,,,,"Cultural Immigrant Initiative (partial): expected 6,798,000, observed 6,783,000 (named exception: PDF self-error: statement $6,798,000 designated, rows sum $6,783,000 (pending review))"
+warn,H13.rollup,0,,,,,"body rows + post-adoption reserves vs sum of category TOTALs (+ direct agency designations): expected 665,080,021, observed 665,065,821 (named exception: the -$15,000 of p.98 and the $800 of p.173 (pending review))"
+warn,H5.anchors,158,fy26-p158-t00-r013,,,ein,"EIN printed as '26-265183', not an EIN; clean EIN left blank (named exception: 8-digit EIN as printed (Brooklyn Center for Quality Life))"
+warn,H5.anchors,379,fy26-p379-t00-r016,,,ein,"EIN printed as '61081232', not an EIN; clean EIN left blank (named exception: 8-digit EIN as printed (Morris Heights Health Center))"
+warn,row_flag,16,fy26-p016-t00-r007,0,7,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,23,fy26-p023-t00-r012,0,12,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,30,fy26-p030-t00-r019,0,19,cid_glyph:purpose,cid_glyph:purpose
+warn,row_flag,45,fy26-p045-t00-r010,0,10,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,48,fy26-p048-t00-r000,0,0,headerless_table,headerless_table
+warn,row_flag,48,fy26-p048-t02-r021,2,21,sliver_band:r22,sliver_band:r22
+warn,row_flag,61,fy26-p061-t00-r023,0,23,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,62,fy26-p062-t00-r019,0,19,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,77,fy26-p077-t00-r011,0,11,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,77,fy26-p077-t00-r012,0,12,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,89,fy26-p089-t00-r005,0,5,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,101,fy26-p101-t00-r013,0,13,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,111,fy26-p111-t02-r011,2,11,amount_no_dollar,amount_no_dollar
+warn,row_flag,120,fy26-p120-t00-r011,0,11,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,122,fy26-p122-t00-r002,0,2,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,124,fy26-p124-t00-r033,0,33,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,124,fy26-p124-t00-r034,0,34,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,130,fy26-p130-t01-r025,1,25,continuation_row:r26,continuation_row:r26
+warn,row_flag,139,fy26-p139-t00-r007,0,7,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,139,fy26-p139-t00-r013,0,13,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,151,fy26-p151-t00-r020,0,20,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,157,fy26-p157-t00-r000,0,0,headerless_table,headerless_table
+warn,row_flag,158,fy26-p158-t00-r013,0,13,ein_unreadable,ein_unreadable
+warn,row_flag,183,fy26-p183-t00-r003,0,3,continuation_row:r4,continuation_row:r4
+warn,row_flag,192,fy26-p192-t01-r012,1,12,continuation_row:r13,continuation_row:r13
+warn,row_flag,192,fy26-p192-t01-r029,1,29,continuation_row:r30,continuation_row:r30
+warn,row_flag,192,fy26-p192-t01-r035,1,35,continuation_row:r36,continuation_row:r36
+warn,row_flag,193,fy26-p193-t01-r035,1,35,continuation_row:r36,continuation_row:r36
+warn,row_flag,193,fy26-p193-t01-r043,1,43,continuation_row:r44,continuation_row:r44
+warn,row_flag,195,fy26-p195-t00-r000,0,0,headerless_table,headerless_table
+warn,row_flag,195,fy26-p195-t00-r001,0,1,headerless_table,headerless_table
+warn,row_flag,195,fy26-p195-t00-r002,0,2,headerless_table,headerless_table
+warn,row_flag,195,fy26-p195-t00-r003,0,3,headerless_table,headerless_table
+warn,row_flag,200,fy26-p200-t00-r013,0,13,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,200,fy26-p200-t00-r014,0,14,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,201,fy26-p201-t00-r027,0,27,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,203,fy26-p203-t00-r019,0,19,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,212,fy26-p212-t00-r011,0,11,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,213,fy26-p213-t00-r008,0,8,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,213,fy26-p213-t00-r019,0,19,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,220,fy26-p220-t01-r011,1,11,continuation_row:r12,continuation_row:r12
+warn,row_flag,224,fy26-p224-t00-r008,0,8,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,234,fy26-p234-t00-r020,0,20,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,236,fy26-p236-t00-r001,0,1,wrap_hyphen:sponsor,wrap_hyphen:sponsor
+warn,row_flag,239,fy26-p239-t00-r012,0,12,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,240,fy26-p240-t00-r003,0,3,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,240,fy26-p240-t00-r018,0,18,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,242,fy26-p242-t00-r011,0,11,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,243,fy26-p243-t00-r005,0,5,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,245,fy26-p245-t00-r009,0,9,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,249,fy26-p249-t00-r003,0,3,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,250,fy26-p250-t00-r010,0,10,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,250,fy26-p250-t00-r013,0,13,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,250,fy26-p250-t00-r017,0,17,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,254,fy26-p254-t00-r011,0,11,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,283,fy26-p283-t00-r007,0,7,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,284,fy26-p284-t00-r005,0,5,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,289,fy26-p289-t00-r001,0,1,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,289,fy26-p289-t00-r003,0,3,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,297,fy26-p297-t00-r001,0,1,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,301,fy26-p301-t00-r009,0,9,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,301,fy26-p301-t00-r015,0,15,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,321,fy26-p321-t00-r009,0,9,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,321,fy26-p321-t00-r013,0,13,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,327,fy26-p327-t00-r022,0,22,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,332,fy26-p332-t00-r001,0,1,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,332,fy26-p332-t00-r005,0,5,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,334,fy26-p334-t00-r002,0,2,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,334,fy26-p334-t00-r011,0,11,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,335,fy26-p335-t00-r007,0,7,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,344,fy26-p344-t00-r016,0,16,cid_glyph:purpose,cid_glyph:purpose
+warn,row_flag,346,fy26-p346-t00-r014,0,14,cid_glyph:org,cid_glyph:org
+warn,row_flag,353,fy26-p353-t00-r012,0,12,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,356,fy26-p356-t00-r020,0,20,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,358,fy26-p358-t00-r012,0,12,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,358,fy26-p358-t00-r016,0,16,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,359,fy26-p359-t00-r016,0,16,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,365,fy26-p365-t00-r009,0,9,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,366,fy26-p366-t00-r008,0,8,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,368,fy26-p368-t00-r017,0,17,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,372,fy26-p372-t00-r015,0,15,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,375,fy26-p375-t00-r001,0,1,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,379,fy26-p379-t00-r016,0,16,ein_unreadable,ein_unreadable
+warn,row_flag,382,fy26-p382-t00-r009,0,9,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,382,fy26-p382-t00-r010,0,10,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,397,fy26-p397-t00-r004,0,4,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,401,fy26-p401-t00-r004,0,4,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,404,fy26-p404-t00-r006,0,6,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,405,fy26-p405-t00-r016,0,16,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,410,fy26-p410-t00-r019,0,19,cid_glyph:org,cid_glyph:org
+warn,row_flag,418,fy26-p418-t00-r001,0,1,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,423,fy26-p423-t00-r010,0,10,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,431,fy26-p431-t00-r008,0,8,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,432,fy26-p432-t00-r001,0,1,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,437,fy26-p437-t00-r011,0,11,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,439,fy26-p439-t00-r012,0,12,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,444,fy26-p444-t00-r005,0,5,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,445,fy26-p445-t00-r007,0,7,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,448,fy26-p448-t00-r010,0,10,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,452,fy26-p452-t00-r014,0,14,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,453,fy26-p453-t00-r006,0,6,cid_glyph:org,cid_glyph:org
+warn,row_flag,454,fy26-p454-t00-r001,0,1,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,455,fy26-p455-t00-r008,0,8,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,460,fy26-p460-t00-r017,0,17,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,462,fy26-p462-t00-r004,0,4,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,464,fy26-p464-t00-r011,0,11,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,464,fy26-p464-t00-r014,0,14,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,466,fy26-p466-t00-r010,0,10,wrap_hyphen:purpose,wrap_hyphen:purpose

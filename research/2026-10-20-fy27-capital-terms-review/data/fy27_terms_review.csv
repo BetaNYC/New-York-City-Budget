@@ -1,0 +1,38 @@
+review_id,check_id,severity,pdf_page,part,sub_id,budget_line,field,dollars,expected,observed,note
+751431189b2e,T7.old_csv_text,warn,13,,,,30,0,,,#30: text differs from the old CSV at char 0: old ...'CapitalBudgetforDepartmentofHousingPrese' new ...'Asaconditionofthefundsinunitofappropriat'
+720e5f0526a0,T7.old_csv_text,warn,14,,,,33,0,,,#33: text differs from the old CSV at char 0: old ...'BudgetLineHD-0206Asaconditionofthefundsi' new ...'AsaconditionofthefundsinbudgetlineHD-020'
+8e7bde86904b,T7.old_csv_text,warn,16,,,,39,0,,,#39: text differs from the old CSV at char 0: old ...'BudgetLineHB-0278–AllProjectsAsaconditio' new ...'AsaconditionofthefundsinbudgetlineHB-027'
+be05f2864a01,T7.old_csv_text,warn,21,,,,57,0,,,#57: text differs from the old CSV at char 0: old ...'BudgetLineHA-0001–AllProjectsAsaconditio' new ...'AsaconditionofthefundsinbudgetlineHA-000'
+0ba207ebc0f2,T7.old_csv_text,warn,21,,,,58,0,,,#58: text differs from the old CSV at char 0: old ...'BudgetLineHA-0001–AllProjectsAsaconditio' new ...'AsaconditionofthefundsinbudgetlineHA-000'
+1456f2081d11,T7.old_csv_text,warn,22,,,,59,0,,,#59: text differs from the old CSV at char 0: old ...'BudgetLineDP-0001–AllProjectsBudgetLineD' new ...'AsaconditionoffundsinbudgetlinesDP-0001a'
+0f3fbb6391f2,T7.old_csv_text,warn,24,,,,64,0,,,#64: text differs from the old CSV at char 0: old ...'DepartmentofHousingPreservationandDevelo' new ...'Asaconditionofthefundsinunitofappropriat'
+595035723252,T7.old_csv_units,warn,24,,,,64,0,,,"#64: units old ['100', '101', '200'] new ['001', '002', '010', '014', '100', '101', '101', '200', '201']"
+eb0f4a1bfb2f,T7.old_csv_text,warn,25,,,,65,0,,,#65: text differs from the old CSV at char 0: old ...'DepartmentofFinance(836)UnitofAppropriat' new ...'Asaconditionofthefundsinunitofappropriat'
+35fd6d4eb2a2,T7.old_csv_units,warn,25,,,,65,0,,,"#65: units old ['001'] new ['001', '001', '001']"
+c53c5c350edb,T7.old_csv_text,warn,25,,,,66,0,,,#66: text differs from the old CSV at char 0: old ...'HealthandHospitalsCorporation(819)Unitof' new ...'Asaconditionofthefundsinunitofappropriat'
+9a2815497520,T7.old_csv_units,warn,25,,,,66,0,,,"#66: units old ['103', '113'] new ['001', '103', '113']"
+d2b2e170e648,T7.old_csv_text,warn,25,,,,67,0,,,#67: text differs from the old CSV at char 0: old ...'OfficeofAdministrativeTrialsandHearings(' new ...'Asaconditionofthefundsinunitofappropriat'
+d1da4861e899,T7.old_csv_units,warn,25,,,,67,0,,,"#67: units old ['472'] new ['001', '002', '472']"
+b4b0a305358d,T7.old_csv_text,warn,27,,,,68,0,,,#68: text differs from the old CSV at char 0: old ...'HealthandHospitalsCorporation(819)Unitof' new ...'Asaconditionofthefundsinunitofappropriat'
+086f31d14ef1,T7.old_csv_units,warn,27,,,,68,0,,,"#68: units old ['103', '113'] new ['001', '103', '113']"
+1d5c21a6f77c,T7.old_csv_text,warn,27,,,,69,0,,,#69: text differs from the old CSV at char 0: old ...'DepartmentofEducation(040)UnitofAppropri' new ...'Asaconditionofthefundsinunitofappropriat'
+f8f6acc7a4aa,T7.old_csv_units,warn,27,,,,69,0,,,"#69: units old ['001', '002', '007', '008', '011'] new ['001', '002', '007', '008', '011', '401', '402']"
+52bd3b4dbffd,T7.old_csv_text,warn,28,,,,70,0,,,#70: text differs from the old CSV at char 0: old ...'NewYorkCityPoliceDepartment(056)UnitofAp' new ...'Asaconditionofthefundsinunitofappropriat'
+31f4631e6cf1,T7.old_csv_units,warn,28,,,,70,0,,,"#70: units old ['009', '010'] new ['001', '004', '009', '010', '016']"
+c896ae3ff637,T7.old_csv_text,warn,29,,,,71,0,,,#71: text differs from the old CSV at char 0: old ...'OfficeofCriminalJusticeCoordinator(128)U' new ...'Asaconditionofthefundsinunitofappropriat'
+8961b96b840b,T7.old_csv_units,warn,29,,,,71,0,,,"#71: units old ['003'] new ['001', '003']"
+f52258f9b14a,T7.old_csv_text,warn,29,,,,72,0,,,#72: text differs from the old CSV at char 0: old ...'NewYorkCityPoliceDepartment(056)UnitofAp' new ...'Asaconditionofthefundsinunitofappropriat'
+6d89d2f55189,T7.old_csv_units,warn,29,,,,72,0,,,"#72: units old ['311', '312'] new ['001', '311', '312']"
+af1a7a698bdb,T7.old_csv_text,warn,30,,,,73,0,,,#73: text differs from the old CSV at char 0: old ...'DepartmentofSanitation(827)UnitofAppropr' new ...'Asaconditionofthefundsinunitofappropriat'
+6be1b93a55cb,T7.old_csv_units,warn,30,,,,73,0,,,"#73: units old ['001', '002', '005', '006'] new ['001', '001', '001', '002', '002', '002', '003', '003', '004', '004', '005', '005', '006', '006', '006', '007', '007', '008', '008', '009', '010', '016', '020', '101', '102', '103', '104', '105', '107']"
+00daecf82aef,T7.old_csv_text,warn,31,,,,74,0,,,#74: text differs from the old CSV at char 0: old ...'HumanResourcesAdministration(069)UnitofA' new ...'Asaconditionofthefundsinunitofappropriat'
+ec7536ea3adf,T7.old_csv_units,warn,31,,,,74,0,,,"#74: units old ['004'] new ['004', '103']"
+8adbcc616fdf,T7.old_csv_text,warn,31,,,,75,0,,,#75: text differs from the old CSV at char 0: old ...'DepartmentofEducation(040)UnitofAppropri' new ...'Asaconditionofthefundsinunitofappropriat'
+2d7a2ceff573,T7.old_csv_units,warn,31,,,,75,0,,,"#75: units old ['001', '002', '003', '004', '012'] new ['001', '002', '003', '004', '012', '020', '021', '104', '114', '407', '408', '409', '410', '453', '454', '470']"
+938add3a29b2,W.wrap_hyphen,warn,31,,,,75,0,,,#75: a line ends in a hyphen; joined without a space
+9589d72673f9,W.wrap_hyphen,warn,5,,,,13,0,,,#13: a line ends in a hyphen; joined without a space
+31b68dd9eddf,T7.old_csv_text,warn,7,,,,15,0,,,#15: text differs from the old CSV at char 165: old ...'usReportsforthefollowingdates:FINANCIALSTATUSREPORTREPORTCONTENTISSUED' new ...'usReportsforthefollowingdates:'
+0300333b8351,W.wrap_hyphen,warn,7,,,,14,0,,,#14: a line ends in a hyphen; joined without a space
+ed0199f51fda,W.midword_wrap,warn,8,,,,report_content,0,,,the PDF wraps a word inside the cell: 'FY 2027 FSR Update; FY 2027 November Plan Su\nmmary' (kept as printed)
+c8eca2ebdf9c,W.midword_wrap,warn,8,,,,report_content,0,,,"the PDF wraps a word inside the cell: 'FY 2027 FSR Update, including Fiscal Analysis; FY 2\n028 Preliminary Budget Summary' (kept as printed)"
+19f359210e61,W.midword_wrap,warn,8,,,,report_content,0,,,"the PDF wraps a word inside the cell: 'FY 2027 FSR Update, including Fiscal Analysis; FY 2\n028 Executive Budget Summary' (kept as printed)"

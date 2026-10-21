@@ -1,0 +1,62 @@
+SCHEDULE C FY2026 -- checks (code/parse_schedule_c_v2.py; config config/schedule_c/fy2026.toml)
+pdf source/FY26/Fiscal-2026-Schedule-C-4.pdf  sha256 58532138d5bcd9e013ff377e2d8638dc530b1c88d74a91ee1e6597c66589b074
+
+award rows: 9,765  total $545,669,395
+  body         5,850 rows  $   495,870,395
+  appendix_a     473 rows  $     5,610,000
+  appendix_b   2,619 rows  $    36,539,000
+  appendix_c     823 rows  $     7,650,000
+initiatives: 159  categories: 25
+
+STRUCTURAL CHECKS
+  ok    H1.input         sha256 58532138d5bc… pages 469
+  ok    H2.triage        469 pages surveyed; 0 with invisible text or <=100 chars on an award page
+  ok    H3.pagemap       0 award rows outside their configured section range
+  ok    H4.headers       0 unknown or incomplete award-table headers
+  ok    H5.anchors       9763 EIN-shaped words, 9763 rows with an EIN; 0 pages differ; 0 rows without exactly one EIN and one amount; 2 named exceptions
+  ok    H6.furniture     0 data cells holding header/footer text
+  ok    H7.chars         1433825 non-space chars; 0 orphan chars in award tables; 0 unmapped cells
+  ok    H14.provenance   9765 award_ids, 9765 unique
+  ok    H16.values       0 clean values not reproducible from raw
+
+PRINTED TOTALS (H10-H13)
+  H10.category_total         named_exception  1
+  H10.category_total         ok               24
+  H11.box_vs_summary         ok               25
+  H12.designated_sum         named_exception  1
+  H12.designated_sum         ok               131
+  H12.reserve_only_rows      ok               19
+  H12.statement_adds_up      ok               46
+  H13.rollup                 named_exception  1
+  -> named_exception: p.173 Immigrant Services: expected 86,091,341, observed 86,092,141 (diff +800) PDF self-error: summary lines sum $86,092,141, TOTAL printed $86,091,341 (pending review)
+  -> named_exception: p.98 Cultural Immigrant Initiative (partial): expected 6,798,000, observed 6,783,000 (diff -15,000) PDF self-error: statement $6,798,000 designated, rows sum $6,783,000 (pending review)
+  -> named_exception: p.0 body rows + post-adoption reserves vs sum of category TOTALs (+ direct agency designations): expected 665,080,021, observed 665,065,821 (diff -14,200) the -$15,000 of p.98 and the $800 of p.173 (pending review)
+  roll-up: category TOTALs $665,080,021 = body rows $495,870,395 + post-adoption reserves $145,283,557 + designated directly to an agency, no rows printed $23,911,869 + $14,200
+  appendices print no total; their pots (DATA-ANOMALIES §19): appendix_a $5,610,000, appendix_b $36,539,000, appendix_c $7,650,000
+
+IMAGE LATTICE (H8): rows read independently through code/ocr/grid.py lattices
+  agree on every field: 9,761 of 9,765
+  differs: 2
+  no_image_row: 2
+  image rows with no vector row: 0
+INK COVERAGE (H9): uncovered-ink regions inside award tables
+  regions: 0  uncovered px total: 478 of 263,337,561 ink px
+  acceptance on p.176 (fy26-p176-t00-r003): clean run 0 regions; row withheld -> 3; one char withheld -> 1 (PASS); the char is 'f'
+  blind spot: withholding the row's smallest box, ',', -> 0 regions (its ink is under the 64 px region floor). A lone dropped comma or period is not visible to ink; H7 (every character lands in a cell) covers it
+
+DISCLOSURE (report-only; data/fy26/expense_disclosure, workbook sheet 'FY26 (09-14-26)')
+  pdf rows 9,765; disclosure rows 11,764; matched (EIN, amount, City-EIN name rule) 9,510
+  matched without the City-EIN name rule (the 2026-10-19 prototype's H17 floor, 9,529): 9,529
+  body        cleared 5,697 ($475,826,834); pending 27 ($810,375); unmatched 126 ($19,233,186)
+  appendix_a  cleared 464 ($5,523,500); pending 4 ($36,500); unmatched 5 ($50,000)
+  appendix_b  cleared 2,483 ($34,379,500); pending 34 ($224,000); unmatched 102 ($1,935,500)
+  appendix_c  cleared 794 ($7,374,500); pending 7 ($61,500); unmatched 22 ($214,000)
+  pdf rows without a disclosure row, by reason: amount_differs 110, city_ein_name_mismatch 19, ein_fully_claimed 15, ein_not_in_disclosure 45, key_already_claimed 64, pdf_value_unreadable 2
+  disclosure rows without a pdf row, by reason: amount_or_count_differs 2101 ($167,158,514), city_ein_pending 5 ($5,017,901), ein_not_in_pdf 148 ($19,800,031)
+  disclosure rows on keys where the allocation was a choice (ambiguous): 1,737
+
+WARN COUNTS (not in the review file; listed in flags.csv)
+  amount_no_dollar 1, cid_glyph 5, continuation_row 8, ein_unreadable 2, headerless_table 6, sliver_band 1, wrap_hyphen 85
+  zero-width chars dropped: 0
+
+REVIEW FILE: 28 rows (4 critical, 24 warn); stale decisions: 0

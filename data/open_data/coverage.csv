@@ -1,0 +1,93 @@
+family,dataset_id,fiscal_year,snapshot_date,covered,records,same,differs,ambiguous,ambiguous_present,absent,context,not_covered,portal_rows,portal_only,note
+expense,4d7f-74pe,2009,2026-10-14,yes,5745,4091,0,1650,1650,4,0,0,5745,4,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2011,2026-10-14,yes,5420,3921,0,1490,1490,9,0,0,5419,8,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2012,2026-10-14,yes,5823,4012,0,1621,1616,190,0,0,5671,40,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2013,2026-10-14,yes,4987,3249,0,1542,1371,196,0,0,6281,1545,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2014,2026-10-14,yes,6611,4537,0,2073,2073,1,0,0,6611,1,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2015,2026-10-14,yes,6650,4156,0,2493,2493,1,0,0,6650,1,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2016,2026-10-14,yes,7797,5035,0,2762,2762,0,0,0,7797,0,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2017,2026-10-14,yes,8671,5068,0,3595,3553,8,0,0,8670,12,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2018,2026-10-14,yes,8894,5144,0,3742,3709,8,0,0,8893,15,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2019,2026-10-14,yes,9655,5226,0,4429,4429,0,0,0,9655,0,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2020,2026-10-14,yes,10616,5616,0,4995,4799,5,0,0,10616,8,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2021,2026-10-14,yes,9054,4940,0,4031,3273,83,0,0,9013,153,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2022,2026-10-14,no,11336,0,0,0,0,0,0,11336,,,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2023,2026-10-14,no,11027,0,0,0,0,0,0,11027,,,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2024,2026-10-14,no,10811,0,0,0,0,0,0,10811,,,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2025,2026-10-14,no,11276,0,0,0,0,0,0,11276,,,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2026,2026-10-14,no,11764,0,0,0,0,0,0,11764,,,keys-only extract: EIN and amount compared
+expense,4d7f-74pe,2027,2026-10-14,no,10407,0,0,0,0,0,0,10407,,,keys-only extract: EIN and amount compared
+expense,ujre-m2tj,2009,2026-10-21,no,5745,0,0,0,0,0,0,5745,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2011,2026-10-21,no,5420,0,0,0,0,0,0,5420,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2012,2026-10-21,no,5823,0,0,0,0,0,0,5823,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2013,2026-10-21,no,4987,0,0,0,0,0,0,4987,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2014,2026-10-21,no,6611,0,0,0,0,0,0,6611,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2015,2026-10-21,no,6650,0,0,0,0,0,0,6650,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2016,2026-10-21,no,7797,0,0,0,0,0,0,7797,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2017,2026-10-21,no,8671,0,0,0,0,0,0,8671,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2018,2026-10-21,no,8894,0,0,0,0,0,0,8894,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2019,2026-10-21,yes,9655,5518,2,3215,3215,920,0,0,8735,3215,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2020,2026-10-21,yes,10616,5965,0,3683,3683,968,0,0,9653,3688,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2021,2026-10-21,yes,9054,5255,0,2970,2863,829,0,0,8335,3080,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2022,2026-10-21,no,11336,0,0,0,0,0,0,11336,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2023,2026-10-21,no,11027,0,0,0,0,0,0,11027,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2024,2026-10-21,no,10811,0,0,0,0,0,0,10811,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2025,2026-10-21,no,11276,0,0,0,0,0,0,11276,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2026,2026-10-21,no,11764,0,0,0,0,0,0,11764,,,latest posting per award (2021-06-09)
+expense,ujre-m2tj,2027,2026-10-21,no,10407,0,0,0,0,0,0,10407,,,latest posting per award (2021-06-09)
+capital_award,t474-a92g,2015,2026-10-14,no,1347,0,0,0,0,0,0,1347,,,"Council records (workbook, t474); PDF rows are in the crosswalk only"
+capital_award,t474-a92g,2016,2026-10-14,no,1387,0,0,0,0,0,0,1387,,,"Council records (workbook, t474); PDF rows are in the crosswalk only"
+capital_award,t474-a92g,2017,2026-10-14,no,1471,0,0,0,0,0,0,1471,,,"Council records (workbook, t474); PDF rows are in the crosswalk only"
+capital_award,t474-a92g,2019,2026-10-14,yes,1628,1628,0,0,0,0,0,0,1628,0,"Council records (workbook, t474); PDF rows are in the crosswalk only"
+capital_award,t474-a92g,2020,2026-10-14,yes,1662,1660,2,0,0,0,0,0,1660,0,"Council records (workbook, t474); PDF rows are in the crosswalk only"
+capital_award,t474-a92g,2021,2026-10-14,yes,1483,1483,0,0,0,0,0,0,1483,0,"Council records (workbook, t474); PDF rows are in the crosswalk only"
+capital_award,t474-a92g,2022,2026-10-14,yes,1491,1490,1,0,0,0,0,0,1490,0,"Council records (workbook, t474); PDF rows are in the crosswalk only"
+capital_award,t474-a92g,2023,2026-10-14,yes,1412,1411,1,0,0,0,0,0,1411,0,"Council records (workbook, t474); PDF rows are in the crosswalk only"
+capital_award,t474-a92g,2024,2026-10-14,yes,1241,1241,0,0,0,0,0,0,1241,0,"Council records (workbook, t474); PDF rows are in the crosswalk only"
+capital_award,t474-a92g,2025,2026-10-14,yes,1325,1325,0,0,0,0,0,0,1325,0,"Council records (workbook, t474); PDF rows are in the crosswalk only"
+capital_award,t474-a92g,2026,2026-10-14,yes,1254,1036,218,0,0,0,0,0,1253,0,"Council records (workbook, t474); PDF rows are in the crosswalk only"
+capital_award,t474-a92g,2027,2026-10-14,no,1215,0,0,0,0,0,0,1215,,,"Council records (workbook, t474); PDF rows are in the crosswalk only"
+capital_line,46m8-77gv,2015,2026-10-14,no,211,0,0,0,0,0,0,211,,,adopted release per report year
+capital_line,46m8-77gv,2017,2026-10-14,no,192,0,0,0,0,0,0,192,,,adopted release per report year
+capital_line,46m8-77gv,2019,2026-10-14,yes,175,0,0,0,0,0,175,0,173,1,adopted release per report year
+capital_line,46m8-77gv,2020,2026-10-14,yes,191,0,0,0,0,0,191,0,195,4,adopted release per report year
+capital_line,46m8-77gv,2021,2026-10-14,yes,162,0,0,0,0,1,161,0,161,0,adopted release per report year
+capital_line,46m8-77gv,2022,2026-10-14,yes,149,0,0,0,0,0,149,0,149,1,adopted release per report year
+capital_line,46m8-77gv,2023,2026-10-14,yes,130,0,0,0,0,0,130,0,130,0,adopted release per report year
+capital_line,46m8-77gv,2024,2026-10-14,yes,137,0,0,0,0,0,137,0,136,0,adopted release per report year
+capital_line,46m8-77gv,2025,2026-10-14,yes,145,0,0,0,0,0,145,0,147,3,adopted release per report year
+capital_line,46m8-77gv,2026,2026-10-14,yes,160,0,0,0,0,0,160,0,160,7,adopted release per report year
+capital_line,46m8-77gv,2027,2026-10-14,yes,153,0,0,0,0,0,153,0,160,8,adopted release per report year
+capital_line,2cmn-uidm,2015,2026-10-14,no,211,0,0,0,0,0,0,211,,,latest release with that first year
+capital_line,2cmn-uidm,2017,2026-10-14,yes,192,0,0,0,0,1,191,0,569,378,latest release with that first year
+capital_line,2cmn-uidm,2019,2026-10-14,yes,175,0,0,0,0,0,175,0,598,423,latest release with that first year
+capital_line,2cmn-uidm,2020,2026-10-14,yes,191,0,0,0,0,0,191,0,634,443,latest release with that first year
+capital_line,2cmn-uidm,2021,2026-10-14,yes,162,0,0,0,0,1,161,0,555,394,latest release with that first year
+capital_line,2cmn-uidm,2022,2026-10-14,yes,149,0,0,0,0,0,149,0,564,415,latest release with that first year
+capital_line,2cmn-uidm,2023,2026-10-14,yes,130,0,0,0,0,0,130,0,542,412,latest release with that first year
+capital_line,2cmn-uidm,2024,2026-10-14,yes,137,0,0,0,0,0,137,0,527,390,latest release with that first year
+capital_line,2cmn-uidm,2025,2026-10-14,yes,145,0,0,0,0,0,145,0,504,359,latest release with that first year
+capital_line,2cmn-uidm,2026,2026-10-14,yes,160,0,0,0,0,1,159,0,502,343,latest release with that first year
+capital_line,2cmn-uidm,2027,2026-10-14,yes,153,0,0,0,0,1,152,0,487,335,latest release with that first year
+capital_line,djxg-kcfi,2015,2026-10-21,no,211,0,0,0,0,0,0,211,,,"one current CPDB version (fisa_2026): covers FY2026 on only; portal counts are Council lines in it, those years together"
+capital_line,djxg-kcfi,2017,2026-10-21,no,192,0,0,0,0,0,0,192,,,"one current CPDB version (fisa_2026): covers FY2026 on only; portal counts are Council lines in it, those years together"
+capital_line,djxg-kcfi,2019,2026-10-21,no,175,0,0,0,0,0,0,175,,,"one current CPDB version (fisa_2026): covers FY2026 on only; portal counts are Council lines in it, those years together"
+capital_line,djxg-kcfi,2020,2026-10-21,no,191,0,0,0,0,0,0,191,,,"one current CPDB version (fisa_2026): covers FY2026 on only; portal counts are Council lines in it, those years together"
+capital_line,djxg-kcfi,2021,2026-10-21,no,162,0,0,0,0,0,0,162,,,"one current CPDB version (fisa_2026): covers FY2026 on only; portal counts are Council lines in it, those years together"
+capital_line,djxg-kcfi,2022,2026-10-21,no,149,0,0,0,0,0,0,149,,,"one current CPDB version (fisa_2026): covers FY2026 on only; portal counts are Council lines in it, those years together"
+capital_line,djxg-kcfi,2023,2026-10-21,no,130,0,0,0,0,0,0,130,,,"one current CPDB version (fisa_2026): covers FY2026 on only; portal counts are Council lines in it, those years together"
+capital_line,djxg-kcfi,2024,2026-10-21,no,137,0,0,0,0,0,0,137,,,"one current CPDB version (fisa_2026): covers FY2026 on only; portal counts are Council lines in it, those years together"
+capital_line,djxg-kcfi,2025,2026-10-21,no,145,0,0,0,0,0,0,145,,,"one current CPDB version (fisa_2026): covers FY2026 on only; portal counts are Council lines in it, those years together"
+capital_line,djxg-kcfi,2026,2026-10-21,yes,160,0,0,0,0,1,159,0,629,0,"one current CPDB version (fisa_2026): covers FY2026 on only; portal counts are Council lines in it, those years together"
+capital_line,djxg-kcfi,2027,2026-10-21,yes,153,0,0,0,0,26,127,0,629,421,"one current CPDB version (fisa_2026): covers FY2026 on only; portal counts are Council lines in it, those years together"
+terms_unit,mwzb-yiwb,2015,2026-10-21,no,18,0,0,0,0,0,0,18,,,"adopted-release extract; portal_rows = (agency, unit) pairs in it; portal-only not counted (extract)"
+terms_unit,mwzb-yiwb,2016,2026-10-21,no,49,0,0,0,0,0,0,49,,,"adopted-release extract; portal_rows = (agency, unit) pairs in it; portal-only not counted (extract)"
+terms_unit,mwzb-yiwb,2017,2026-10-21,yes,72,0,0,0,0,3,63,6,138,0,"adopted-release extract; portal_rows = (agency, unit) pairs in it; portal-only not counted (extract)"
+terms_unit,mwzb-yiwb,2018,2026-10-21,yes,76,0,0,0,0,0,70,6,139,0,"adopted-release extract; portal_rows = (agency, unit) pairs in it; portal-only not counted (extract)"
+terms_unit,mwzb-yiwb,2021,2026-10-21,yes,111,0,0,0,0,1,104,6,154,0,"adopted-release extract; portal_rows = (agency, unit) pairs in it; portal-only not counted (extract)"
+terms_unit,mwzb-yiwb,2022,2026-10-21,yes,131,0,0,0,0,9,115,7,156,0,"adopted-release extract; portal_rows = (agency, unit) pairs in it; portal-only not counted (extract)"
+terms_unit,mwzb-yiwb,2023,2026-10-21,yes,158,0,0,0,0,7,145,6,156,0,"adopted-release extract; portal_rows = (agency, unit) pairs in it; portal-only not counted (extract)"
+terms_unit,mwzb-yiwb,2024,2026-10-21,yes,175,0,0,0,0,15,154,6,167,0,"adopted-release extract; portal_rows = (agency, unit) pairs in it; portal-only not counted (extract)"
+terms_unit,mwzb-yiwb,2025,2026-10-21,yes,156,0,0,0,0,0,155,1,169,0,"adopted-release extract; portal_rows = (agency, unit) pairs in it; portal-only not counted (extract)"
+terms_unit,mwzb-yiwb,2026,2026-10-21,yes,239,0,0,0,0,0,230,9,171,0,"adopted-release extract; portal_rows = (agency, unit) pairs in it; portal-only not counted (extract)"
+terms_unit,mwzb-yiwb,2027,2026-10-21,yes,262,0,0,0,0,0,255,7,168,0,"adopted-release extract; portal_rows = (agency, unit) pairs in it; portal-only not counted (extract)"

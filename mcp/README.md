@@ -40,6 +40,11 @@ PDF-derived data.
 
 `list_available_fiscal_years` reports this per year, with every gap stated.
 
+**In a browser:** the [budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/)
+([`../viz/explorer/`](../viz/explorer/README.md)) is built from this server's own index
+(`scripts/build-index.mjs` → `data/budget.db` → Parquet), and a parity test in CI checks that the
+two agree year by year. A change to the index build reaches the explorer on its next deploy.
+
 ## Tools
 
 | Tool | Purpose |
@@ -190,6 +195,7 @@ TypeScript + the MCP SDK + zod over stdio, on a local SQLite index (no live upst
 
 - **The parent repo's structured datasets** are the single source of truth: `../data/disclosure_years.csv`, `../data/fyNN/expense_disclosure/`, `../data/capital/`, and the `MANIFEST.csv` of each source folder whose files they cite.
 - **`scripts/build-index.mjs`** reads only those files and builds `mcp/data/budget.db` (git-ignored) with `better-sqlite3`. It records every file it read in the index's `meta.inputs`, stops on any value outside a documented vocabulary (a status, a flag, a row count that disagrees with `disclosure_years.csv`, a capital source whose sha256 differs from its manifest), and is idempotent: the `.db` is dropped and rebuilt each run.
+- **Reviewed PDF tables (not served).** The index also has empty `pdf_*` tables (`scripts/pdf-families.mjs`): reviewed PDF data from `data/pdf_years.csv` loads into them only when a family's status is `closed`, and no tool reads them. `--include-reviewed --out <file>` builds a separate index with `reviewed` families too, for the explorer's demo build; it refuses to write `data/budget.db`. `test/pdf-families.test.js` checks that every tool answers the same from that index as from the default one.
 - **`src/db.ts`** opens the index read-only and runs one query per tool; totals come from SQL over every match, never from the page.
 - **`src/server.ts`** holds the tool definitions, strict zod validation, the migration notes for removed tools, and the response text.
 
