@@ -1,0 +1,22 @@
+FY2026 Terms and Conditions: checks
+pdf: source/FY26/FY26-Terms-and-Conditions-1.pdf
+sha256: 53159ea1e370e6e0f7756ca9da6527ea756c4c42bd2a657d50d268c806d7c22c
+
+T5 p.8: vector 5 x / 8 y separators; image 5 x / 8 y; unmatched vector x[] y[], image x[] y[]
+T5 FSR table cells: 28 identical under both lattices, 0 differ
+T1 numbered conditions: 68; run 1..68; gaps []; repeats []; in order: True
+T2 unit/budget-line heading lines: page text 245, in conditions 245, difference {}
+   of which 'Unit of Appropriation' lines: 239
+T3 body names exactly the heading's units and lines: 67/68
+T4 characters outside furniture and tables not in any condition: 0
+T6 ink coverage: 29 pages, 0 uncovered regions
+T7 old CSV: 68 rows, new 68; first agency equal 68; text equal ignoring whitespace 21
+   mid-word splits (join is a word in the new text, halves are not): old 0, new 0
+W wrap_hyphen joins (line ended in a hyphen; joined with none): 0 conditions
+Conditions naming more than one agency: [29, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68]
+Kinds: {'expense': 63, 'capital+expense': 1, 'capital': 4}
+
+review.csv by check:
+  T3.body_vs_heading     warn     1
+  T7.old_csv_text        warn     47
+  T7.old_csv_units       warn     12

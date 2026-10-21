@@ -44,20 +44,27 @@ def test_row_contract(built):
         assert rs, path
         for col in bp.CONTRACT if not path.endswith("_review.csv") else ["fiscal_year", "source_pdf", "pdf_sha256"]:
             assert col in rs[0], (path, col)
+        fy = "20" + path.split("/")[1][2:]                  # data/fy26/pdf/... -> 2026
         for r in rs:
-            assert r["fiscal_year"] == "2027"
+            assert r["fiscal_year"] == fy
             assert os.path.exists(os.path.join(REPO, r["source_pdf"]))
 
 
 def test_pdf_years(built):
-    ys = {y["family"]: y for y in rows(built["data/pdf_years.csv"])}
+    all_years = rows(built["data/pdf_years.csv"])
+    assert {y["status"] for y in all_years} == {"reviewed"}
+    ys = {y["family"]: y for y in all_years if y["fiscal_year"] == "2027"}
     assert set(ys) == {"capital_sd", "schedule_c", "terms"}
-    assert {y["status"] for y in ys.values()} == {"reviewed"}
     assert ys["capital_sd"]["rows"] == "1391" and ys["capital_sd"]["printed_totals_tied"] == "28/28"
     assert ys["terms"]["rows"] == "75"
     assert ys["schedule_c"]["rows"] == "9979" and ys["schedule_c"]["printed_totals_tied"] == "25/25"
     for y in ys.values():
         assert y["issue"] == "102"
+    y26 = {y["family"]: y for y in all_years if y["fiscal_year"] == "2026"}
+    assert y26["capital_sd"]["rows"] == "1456" and y26["capital_sd"]["printed_totals_tied"] == "33/33"
+    assert y26["terms"]["rows"] == "68"
+    for y in y26.values():
+        assert y["issue"] == "103"
 
 
 def test_counts(built):
@@ -65,6 +72,12 @@ def test_counts(built):
     assert len(rows(built["data/fy27/pdf/terms/fy27_terms_units.csv"])) == 269
     totals = rows(built["data/fy27/pdf/capital_sd/fy27_capital_sd_totals.csv"])
     assert all(t["status"] == "OK" for t in totals if t["status"])
+    assert len(rows(built["data/fy26/pdf/capital_sd/fy26_capital_sd_orgs.csv"])) == 151
+    assert len(rows(built["data/fy26/pdf/terms/fy26_terms_units.csv"])) == 245
+    totals = rows(built["data/fy26/pdf/capital_sd/fy26_capital_sd_totals.csv"])
+    assert all(t["status"] == "OK" for t in totals if t["status"])
+    assert sum(t["kind"] == "summary" for t in totals) == 3 and \
+        {t["pdf_page"] for t in totals if t["kind"] == "summary"} == {"65"}
 
 
 def test_unrotate():
@@ -95,12 +108,28 @@ def test_bbox_covers_the_row(built):
     assert t.startswith("1. City University of New York (042)") and "2. City" not in t
 
 
+def test_bbox_covers_the_row_fy26(built):
+    # Parts I/II upright (p.70), Part III rotated /Rotate 90 (p.81): both boxes hold their row.
+    proj = {(r["part"], r["sub_id"]): r for r in rows(built["data/fy26/pdf/capital_sd/fy26_capital_sd_projects.csv"])}
+    r = proj[("II", "PV MA0005")]
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "PV MA0005" in t and "-183,000" in t and "EVENT STUDIO UPGRADE" in t
+    o = next(o for o in rows(built["data/fy26/pdf/capital_sd/fy26_capital_sd_orgs.csv"])
+             if o["budget_line"] == "PV MN07D")
+    assert o["fy2026"] == "-183000" and o["pdf_page"] == "81"
+    t = boxed_text(o["source_pdf"], int(o["pdf_page"]), o["bbox_pt"])
+    assert "PV MN07D" in t and "(183,000" in t      # pdfium reads the rotated row out of order
+    t = boxed_text(o["source_pdf"], int(o["org_pdf_page"]), o["org_bbox_pt"])
+    assert "MANHATTAN COMMUNITY ACCESS CORPORATION" in t
+
+
 def test_flags_link_to_review(built):
-    proj = rows(built["data/fy27/pdf/capital_sd/fy27_capital_sd_projects.csv"])
-    rev = {r["review_id"]: r for r in rows(built["data/fy27/pdf/capital_sd/fy27_capital_sd_review.csv"])}
-    flagged = [r for r in proj if r["flags"]]
-    assert flagged
-    for r in flagged:
-        ids = r["review_id"].split(";")
-        assert all(i in rev for i in ids)
-        assert set(r["flags"].split(";")) == {rev[i]["check_id"] for i in ids}
+    for fy in ("fy27", "fy26"):
+        proj = rows(built[f"data/{fy}/pdf/capital_sd/{fy}_capital_sd_projects.csv"])
+        rev = {r["review_id"]: r for r in rows(built[f"data/{fy}/pdf/capital_sd/{fy}_capital_sd_review.csv"])}
+        flagged = [r for r in proj if r["flags"]]
+        assert flagged
+        for r in flagged:
+            ids = r["review_id"].split(";")
+            assert all(i in rev for i in ids)
+            assert set(r["flags"].split(";")) == {rev[i]["check_id"] for i in ids}
