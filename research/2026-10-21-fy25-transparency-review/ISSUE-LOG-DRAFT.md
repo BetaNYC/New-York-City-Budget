@@ -1,6 +1,6 @@
 # Draft #104 issue-log comments: FY2025 transparency resolutions (NOT posted)
 
-**Written:** 2026-10-21 19:20 EDT. One block per problem, in the order found, in the shape #104
+**Written:** 2026-10-21 19:00 EDT. One block per problem, in the order found, in the shape #104
 asks for. Each is meant to be its own comment on #104 once Noel approves. "PR" means the PR that
 adds this folder; "promotion PR" the one that writes `data/fy25/pdf/transparency/`.
 
