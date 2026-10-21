@@ -13,8 +13,11 @@
  *   source/{wayback-council,expense-funding-disclosure,open-data-t474-a92g}/MANIFEST.csv
  *   the capital source files themselves, read only to hash them
  *
- * Nothing extracted from a PDF is read: not Schedule C, its appendices or recovered sidecars,
- * Terms & Conditions, §254 capital, transparency resolutions, data/combined/ or data/recovered/.
+ * The retired PDF extracts are never read: not data/fyNN/schedule_c/, its appendices or recovered
+ * sidecars, data/fyNN/terms/, data/fyNN/capital/ (§254), transparency resolutions, data/combined/
+ * or data/recovered/. The reviewed PDF tables (data/pdf_years.csv, data/fyNN/pdf/) have their own
+ * gate: data/pdf_years.csv is always read, and a family's files only when its status is closed, or
+ * reviewed under --include-reviewed --out <other file> (scripts/pdf-families.mjs).
  * Every file read is recorded in meta.inputs, and test/no-pdf-data.test.js fails if one of them
  * is not on the structured allowlist.
  *
@@ -30,16 +33,32 @@ import { parse } from "csv-parse/sync";
 import Database from "better-sqlite3";
 import { createHash } from "crypto";
 import { readFileSync, existsSync, rmSync, mkdirSync, renameSync } from "fs";
-import { join, dirname, basename } from "path";
+import { join, dirname, basename, resolve } from "path";
 import { fileURLToPath } from "url";
 import { verifyIndex } from "./verify-index.mjs";
+import { loadPdfFamilies, pdfSchemaSql, verifyPdf } from "./pdf-families.mjs";
 // The folding rule db.ts applies to queries (src/fold.ts); `npm run build` always runs first.
 import { fold } from "../dist/fold.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MCP_ROOT = join(__dirname, "..");
 const REPO = join(MCP_ROOT, "..");
-const DB_PATH = join(MCP_ROOT, "data", "budget.db");
+const DEFAULT_DB_PATH = join(MCP_ROOT, "data", "budget.db");
+
+/**
+ * Reviewed PDF tables (scripts/pdf-families.mjs). Off by default: the MCP's own index, and the
+ * npm package built from it, carry status = closed rows only. --include-reviewed also loads
+ * status = reviewed families, and is refused unless --out names another file, so a reviewed
+ * build can never replace data/budget.db (the explorer's local or demo build uses it).
+ */
+const ARGS = process.argv.slice(2);
+const INCLUDE_REVIEWED = ARGS.includes("--include-reviewed");
+const OUT_AT = ARGS.indexOf("--out");
+const DB_PATH = OUT_AT >= 0 ? resolve(ARGS[OUT_AT + 1] ?? "") : DEFAULT_DB_PATH;
+if (OUT_AT >= 0 && !ARGS[OUT_AT + 1]) throw new Error("build-index: --out needs a path");
+if (INCLUDE_REVIEWED && DB_PATH === DEFAULT_DB_PATH) {
+  throw new Error("build-index: --include-reviewed must not write data/budget.db; give --out <path>");
+}
 /** Built here, verified, then renamed over DB_PATH. Same directory, so the rename is atomic. */
 const TMP_PATH = `${DB_PATH}.building-${process.pid}`;
 
@@ -269,6 +288,7 @@ function build() {
 
     CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT);
   `);
+  db.exec(pdfSchemaSql());
 
   const counts = {};
 
@@ -473,7 +493,12 @@ function build() {
     return cmp.length;
   })();
 
+  // --- reviewed PDF tables, gated by status (scripts/pdf-families.mjs) ------------------------
+  const pdf = loadPdfFamilies(db, { readCsv, sha256Of }, INCLUDE_REVIEWED);
+  Object.assign(counts, pdf.counts);
+
   const setMeta = db.prepare("INSERT INTO meta (key, value) VALUES (?, ?)");
+  setMeta.run("include_reviewed", INCLUDE_REVIEWED ? "yes" : "no");
   setMeta.run("built_at", new Date().toISOString());
   setMeta.run("source", "BetaNYC/New-York-City-Budget (committed structured datasets only)");
   setMeta.run("inputs", JSON.stringify(INPUTS));
@@ -485,7 +510,7 @@ function build() {
   // Fail loud before the index can ship: 0 rows, or a declared year missing, is a stop.
   const capitalRowsByYear = new Map();
   for (const r of cap) capitalRowsByYear.set(Number(r.report_year), (capitalRowsByYear.get(Number(r.report_year)) ?? 0) + 1);
-  const problems = verifyIndex(db, { disclosureYears: years, capitalRowsByYear });
+  const problems = [...verifyIndex(db, { disclosureYears: years, capitalRowsByYear }), ...verifyPdf(db, pdf)];
   db.close();
   if (problems.length) {
     log("verify_failed", { problems });
