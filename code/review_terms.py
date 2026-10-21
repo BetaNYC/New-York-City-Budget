@@ -175,6 +175,14 @@ def fsr_table(pdf, review, report):
     return out, bboxes
 
 
+def box_add(cond, pno, ln):
+    """Grow the condition's box on page `pno` (one box per page it touches)."""
+    b = cond.setdefault("boxes", {}).get(pno)
+    nb = (ln["x0"], ln["top"], ln["x1"], ln["bottom"])
+    cond["boxes"][pno] = nb if b is None else (min(b[0], nb[0]), min(b[1], nb[1]),
+                                               max(b[2], nb[2]), max(b[3], nb[3]))
+
+
 def parse(pdf, bboxes, review):
     conds, cur, mode = [], None, None
     emitted_lines = collections.defaultdict(list)
@@ -196,6 +204,7 @@ def parse(pdf, bboxes, review):
                                    "budget_lines": []}],
                        "heading_lines": [text], "body_lines": [], "flags": set()}
                 conds.append(cur)
+                box_add(cur, pno, ln)
                 mode = "head"
                 emitted_lines[pno].append(ln)
                 continue
@@ -204,13 +213,17 @@ def parse(pdf, bboxes, review):
                 continue
             cur["page_end"] = pno
             emitted_lines[pno].append(ln)
+            box_add(cur, pno, ln)
             if ln["bold"] and mode == "head":
                 cur["heading_lines"].append(text)
                 u, b, a = UOA_RE.match(text), BL_RE.match(text), AGENCY_RE.match(text)
+                lb = (pno, f"{ln['x0']:.2f},{ln['top']:.2f},{ln['x1']:.2f},{ln['bottom']:.2f}")
                 if u:
                     cur["groups"][-1]["uoas"].append(u.group(1))
+                    cur["groups"][-1].setdefault("uoa_boxes", []).append(lb)
                 elif b:
                     cur["groups"][-1]["budget_lines"].append(b.group(1))
+                    cur["groups"][-1].setdefault("bl_boxes", []).append(lb)
                 elif a:
                     cur["groups"].append({"agency": a.group(1), "code": a.group(2), "uoas": [],
                                           "budget_lines": []})
@@ -223,7 +236,23 @@ def parse(pdf, bboxes, review):
                 review.add("T4.bold_in_body", "warn", pno, f"#{cur['item_number']}: bold line "
                            f"inside the body: {text}")
             mode = "body"
-            cur["body_lines"].append({"text": ln["text"], "x0": ln["x0"], "pdf_page": pno})
+            cur["body_lines"].append({"text": ln["text"], "x0": ln["x0"], "pdf_page": pno,
+                                      "top": ln["top"]})
+    # A table belongs to the condition open at its top edge: the last condition with a line
+    # above it on its page, else the last condition started on an earlier page (#15, pp.7-8).
+    for pno, tbs in bboxes.items():
+        for tb in tbs:
+            above = [c for c in conds for ln in c["body_lines"] + c.get("head_tops", [])
+                     if ln["pdf_page"] == pno and ln["top"] < tb[1]]
+            owner = above[-1] if above else ([c for c in conds if c["page_start"] < pno] or [None])[-1]
+            if owner is None:
+                review.add("T4.table_owner", "critical", pno, "table before any condition")
+                continue
+            owner.setdefault("tables", []).append(pno)
+            bx = owner.setdefault("boxes", {}).get(pno)
+            owner["boxes"][pno] = tb if bx is None else (min(bx[0], tb[0]), min(bx[1], tb[1]),
+                                                         max(bx[2], tb[2]), max(bx[3], tb[3]))
+            owner["page_end"] = max(owner["page_end"], pno)
     return conds, emitted_lines
 
 
@@ -375,6 +404,8 @@ def run(out_dir, do_ink=True):
             "dates_mentioned": "; ".join(dict.fromkeys(DATE_RE.findall(text))),
             "report_deadlines": "; ".join(dict.fromkeys(
                 re.findall(r"no later than (" + DATE_RE.pattern + ")", text))),
+            "page_boxes": "|".join(f"{p}:{b[0]:.2f},{b[1]:.2f},{b[2]:.2f},{b[3]:.2f}"
+                                   for p, b in sorted(c.get("boxes", {}).items())),
             "heading_raw": "\n".join(c["heading_lines"]),
             "condition_text": text,
             "condition_text_raw": "\n".join(l["text"] for l in c["body_lines"]),
@@ -437,13 +468,14 @@ def run(out_dir, do_ink=True):
         w.writerows(rows)
     with open(os.path.join(d, "fy27_terms_units.csv"), "w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["item_number", "agency_name", "agency_code", "unit_of_appropriation", "budget_line"])
+        w.writerow(["item_number", "agency_name", "agency_code", "unit_of_appropriation", "budget_line",
+                    "pdf_page", "bbox_pt"])
         for c in conds:
             for g in c["groups"]:
-                for u in g["uoas"]:
-                    w.writerow([c["item_number"], g["agency"], g["code"], u, ""])
-                for b in g["budget_lines"]:
-                    w.writerow([c["item_number"], g["agency"], g["code"], "", b])
+                for u, (p, bx) in zip(g["uoas"], g.get("uoa_boxes", [])):
+                    w.writerow([c["item_number"], g["agency"], g["code"], u, "", p, bx])
+                for b, (p, bx) in zip(g["budget_lines"], g.get("bl_boxes", [])):
+                    w.writerow([c["item_number"], g["agency"], g["code"], "", b, p, bx])
     with open(os.path.join(d, "fy27_terms_fsr_table.csv"), "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(fsr[0]))
         w.writeheader()

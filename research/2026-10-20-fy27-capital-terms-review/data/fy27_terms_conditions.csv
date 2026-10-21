@@ -1,9 +1,9 @@
-item_number,page_start,page_end,kind,agency_name,agency_code,units_of_appropriation,num_units,budget_lines,dates_mentioned,report_deadlines,heading_raw,condition_text,condition_text_raw,flags,pdf_sha256
-1,2,2,expense,City University of New York,042,042:001,1,,"June 1, 2027","June 1, 2027","1. City University of New York (042)
+item_number,page_start,page_end,kind,agency_name,agency_code,units_of_appropriation,num_units,budget_lines,dates_mentioned,report_deadlines,page_boxes,heading_raw,condition_text,condition_text_raw,flags,pdf_sha256
+1,2,2,expense,City University of New York,042,042:001,1,,"June 1, 2027","June 1, 2027","2:72.00,74.26,540.05,152.38","1. City University of New York (042)
 Unit of Appropriation [001]","As a condition of the funds in unit of appropriation number 001, the City University of New York shall submit to the Council no later than June 1, 2027, a report on bias incidents, disaggregated by type of incident and school, for the 2026-2027 academic year.","As a condition of the funds in unit of appropriation number 001, the City University of New York shall
 submit to the Council no later than June 1, 2027, a report on bias incidents, disaggregated by type of
 incident and school, for the 2026-2027 academic year.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-2,2,2,expense,City University of New York,042,042:001; 042:002,2,,,,"2. City University of New York (042)
+2,2,2,expense,City University of New York,042,042:001; 042:002,2,,,,"2:72.00,168.22,539.95,300.10","2. City University of New York (042)
 Unit of Appropriation [001]
 Unit of Appropriation [002]","As a condition of the funds in unit of appropriation numbers 001 and 002, the City University of New York shall submit to the Council no fewer than four reports regarding the budget for each community college. A report shall be submitted within seven business days of each issuance of an update of the financial plan. Each such report shall include the following information for each community college: a. The amount of funds budgeted, disaggregated by budget code and source of funds; and b. Headcount.","As a condition of the funds in unit of appropriation numbers 001 and 002, the City University of New York
 shall submit to the Council no fewer than four reports regarding the budget for each community college.
@@ -11,7 +11,7 @@ A report shall be submitted within seven business days of each issuance of an up
 Each such report shall include the following information for each community college:
 a. The amount of funds budgeted, disaggregated by budget code and source of funds; and
 b. Headcount.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-3,2,2,expense,Department for the Aging,125,125:003; 125:007,2,,"September 1, 2026","September 1, 2026","3. Department for the Aging (125)
+3,2,2,expense,Department for the Aging,125,125:003; 125:007,2,,"September 1, 2026","September 1, 2026","2:72.00,315.94,540.00,447.76","3. Department for the Aging (125)
 Unit of Appropriation [003]
 Unit of Appropriation [007]","As a condition of the funds in unit of appropriation numbers 003 and 007, the Department for the Aging shall submit to the Council no later than September 1, 2026, a report listing the name and location of each older adult center and social club under its jurisdiction and for each such center or club: a. Whether air conditioning is installed and if not, why; b. Whether air conditioning is functional; and c. If air conditioning is not functional, for how many days and why.","As a condition of the funds in unit of appropriation numbers 003 and 007, the Department for the Aging
 shall submit to the Council no later than September 1, 2026, a report listing the name and location of each
@@ -19,7 +19,7 @@ older adult center and social club under its jurisdiction and for each such cent
 a. Whether air conditioning is installed and if not, why;
 b. Whether air conditioning is functional; and
 c. If air conditioning is not functional, for how many days and why.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-4,2,2,expense,Department for the Aging,125,125:002; 125:003; 125:005; 125:006; 125:007,5,,"January 15, 2027; July 1, 2026; December 31, 2026; July 15, 2027; January 1, 2027; June 30, 2027","January 15, 2027; July 15, 2027","4. Department for the Aging (125)
+4,2,2,expense,Department for the Aging,125,125:002; 125:003; 125:005; 125:006; 125:007,5,,"January 15, 2027; July 1, 2026; December 31, 2026; July 15, 2027; January 1, 2027; June 30, 2027","January 15, 2027; July 15, 2027","2:72.00,463.66,540.06,662.61","4. Department for the Aging (125)
 Unit of Appropriation [002]
 Unit of Appropriation [003]
 Unit of Appropriation [005]
@@ -32,7 +32,7 @@ provide the current ratio of caseworkers to clients and supervisors to caseworke
 be submitted no later than January 15, 2027, and shall cover the period beginning July 1, 2026, and ending
 December 31, 2026, and the second report shall be submitted no later than July 15, 2027, and shall cover
 the period beginning January 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-5,2,3,expense,Department for the Aging,125,125:003; 125:007,2,,"February 1, 2027; January 1, 2026; December 31, 2026","February 1, 2027","5. Department for the Aging (125)
+5,2,3,expense,Department for the Aging,125,125:003; 125:007,2,,"February 1, 2027; January 1, 2026; December 31, 2026","February 1, 2027","2:225.25,678.51,386.78,716.31|3:72.00,87.70,539.99,179.20","5. Department for the Aging (125)
 Unit of Appropriation [003]
 Unit of Appropriation [007]","As a condition of the funds in unit of appropriation numbers 003 and 007, the Department for the Aging shall submit to the Council no later than February 1, 2027, a report on older adult center utilization, attendance, and meals served. Such report shall contain, for each older adult center and social club: a. The average daily attendance; b. The average number of meals served daily; and c. The utilization rate. Such report shall cover the period between January 1, 2026, and December 31, 2026.","As a condition of the funds in unit of appropriation numbers 003 and 007, the Department for the Aging
 shall submit to the Council no later than February 1, 2027, a report on older adult center utilization,
@@ -41,7 +41,7 @@ a. The average daily attendance;
 b. The average number of meals served daily; and
 c. The utilization rate.
 Such report shall cover the period between January 1, 2026, and December 31, 2026.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-6,3,3,expense,Department of City Planning,030,030:001,1,,"November 21, 2024",,"6. Department of City Planning (030)
+6,3,3,expense,Department of City Planning,030,030:001,1,,"November 21, 2024",,"3:72.00,195.10,539.92,326.92","6. Department of City Planning (030)
 Unit of Appropriation [001]","As a condition of the funds in unit of appropriation number 001, the Department of City Planning (DCP) shall post and maintain on its website or a City website maintained by the Office of the Mayor, the status of the implementation of each of the commitments made in the City of Yes for Housing Opportunity commitment letter dated November 21, 2024, including but not limited to: a. The status; and b. The status note. Such information shall be posted to maintain currency twice per year in January and July.","As a condition of the funds in unit of appropriation number 001, the Department of City Planning (DCP)
 shall post and maintain on its website or a City website maintained by the Office of the Mayor, the status
 of the implementation of each of the commitments made in the City of Yes for Housing Opportunity
@@ -49,7 +49,7 @@ commitment letter dated November 21, 2024, including but not limited to:
 a. The status; and
 b. The status note.
 Such information shall be posted to maintain currency twice per year in January and July.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-7,3,3,expense,Department of Citywide Administrative Services,856,856:100; 856:290,2,,"November 1, 2026; July 1, 2025; June 30, 2026",,"7. Department of Citywide Administrative Services (856)
+7,3,3,expense,Department of Citywide Administrative Services,856,856:100; 856:290,2,,"November 1, 2026; July 1, 2025; June 30, 2026",,"3:72.00,342.82,540.03,555.21","7. Department of Citywide Administrative Services (856)
 Unit of Appropriation [100]
 Unit of Appropriation [290]","As a condition of the funds in unit of appropriation numbers 100 and 290, the Department of Citywide Administrative Services shall submit a report to the Council regarding reimbursements made pursuant to section 10-172 of the administrative code for the cost of school safety guards. Such report shall provide: a. The headcount of school safety guards, disaggregated by school; b. The hours and amounts reimbursed for school safety guards, disaggregated by school; c. The number of schools that applied for the program established pursuant to section 10-172 and the number of schools enrolled in the program, disaggregated by non-public schools and charter schools; and d. A description of the methodology used to set the level of reimbursable hours with an explanation of any changes made to that level in the prior year. The report shall be submitted on or before November 1, 2026, and shall cover the period beginning July 1, 2025, and ending June 30, 2026.","As a condition of the funds in unit of appropriation numbers 100 and 290, the Department of Citywide
 Administrative Services shall submit a report to the Council regarding reimbursements made pursuant to
@@ -63,7 +63,7 @@ d. A description of the methodology used to set the level of reimbursable hours 
 of any changes made to that level in the prior year.
 The report shall be submitted on or before November 1, 2026, and shall cover the period beginning July
 1, 2025, and ending June 30, 2026.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-8,3,4,expense,Department of Correction,072,072:001; 072:002; 072:003; 072:005; 072:006; 072:009; 072:011,7,,"January 15, 2027; July 1, 2026; December 31, 2026; July 15, 2027; January 1, 2027; June 30, 2027",,"8. Department of Correction (072)
+8,3,4,expense,Department of Correction,072,072:001; 072:002; 072:003; 072:005; 072:006; 072:009; 072:011,7,,"January 15, 2027; July 1, 2026; December 31, 2026; July 15, 2027; January 1, 2027; June 30, 2027",,"3:72.00,571.05,540.06,716.31|4:72.00,74.26,539.95,152.38","8. Department of Correction (072)
 Unit of Appropriation [001]
 Unit of Appropriation [002]
 Unit of Appropriation [003]
@@ -78,7 +78,7 @@ the salary range, average salary, and title of the civilian positions occupied b
 The first report shall be submitted on or before January 15, 2027, and shall cover the period beginning
 July 1, 2026, and ending December 31, 2026. The second report shall be submitted on or before July 15,
 2027, and shall cover the period beginning January 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-9,4,4,expense,Department of Education,040,040:436,1,,"February 1, 2027; July 1, 2026; December 31, 2026; August 1, 2027; January 1, 2027; June 30, 2027","February 1, 2027; August 1, 2027","9. Department of Education (040)
+9,4,4,expense,Department of Education,040,040:436,1,,"February 1, 2027; July 1, 2026; December 31, 2026; August 1, 2027; January 1, 2027; June 30, 2027","February 1, 2027; August 1, 2027","4:72.00,168.22,540.08,313.48","9. Department of Education (040)
 Unit of Appropriation [436]","As a condition of the funds in unit of appropriation number 436, the Department of Education (DOE) shall submit two reports to the Council regarding charter matching projects, including a list of all charter matching projects and the amount spent on each project, with a breakdown of expense and capital spending. For any charters where the school's expenditures and the DOE's match obligation do not match, DOE shall provide an explanation for the discrepancy. The first report shall be submitted no later than February 1, 2027, and shall cover the period beginning July 1, 2026, and ending December 31, 2026, and the second report shall be submitted no later than August 1, 2027, and shall cover the period beginning January 1, 2027, and ending June 30, 2027.","As a condition of the funds in unit of appropriation number 436, the Department of Education (DOE) shall
 submit two reports to the Council regarding charter matching projects, including a list of all charter
 matching projects and the amount spent on each project, with a breakdown of expense and capital
@@ -87,7 +87,7 @@ DOE shall provide an explanation for the discrepancy. The first report shall be 
 February 1, 2027, and shall cover the period beginning July 1, 2026, and ending December 31, 2026, and
 the second report shall be submitted no later than August 1, 2027, and shall cover the period beginning
 January 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-10,4,4,expense,Department of Education,040,040:406; 040:410; 040:436; 040:444,4,,"January 31, 2027","January 31, 2027","10. Department of Education (040)
+10,4,4,expense,Department of Education,040,040:406; 040:410; 040:436; 040:444,4,,"January 31, 2027","January 31, 2027","4:72.00,329.38,540.18,703.24","10. Department of Education (040)
 Unit of Appropriation [406]
 Unit of Appropriation [410]
 Unit of Appropriation [436]
@@ -113,7 +113,7 @@ f. The total lease payments from DOE to date;
 g. The projected total lease payments from DOE;
 h. The per pupil cost of the lease to DOE; and
 i. The owner of the leased property.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-11,5,5,expense,Department of Education,040,040:406,1,,"October 1, 2026; December 1, 2026; June 1, 2027","October 1, 2026; December 1, 2026; June 1, 2027","11. Department of Education (040)
+11,5,5,expense,Department of Education,040,040:406,1,,"October 1, 2026; December 1, 2026; June 1, 2027","October 1, 2026; December 1, 2026; June 1, 2027","5:72.00,74.26,539.97,313.66","11. Department of Education (040)
 Unit of Appropriation [406]","As a condition of the funds in unit of appropriation number 406, the Department of Education (DOE) shall submit to the Council three reports that list city charter schools by name and address. Such reports shall contain the number of enrolled students in each charter school, disaggregated by grade, as well as the following information for all charter schools: a. The number of enrolled students, disaggregated by grade; b. The number of enrolled Special Education students, disaggregated by grade; c. The number of enrolled General Education students, disaggregated by grade; d. The number of enrolled English Language Learner students, disaggregated by grade; e. The number of students provided free or reduced-price school lunches, disaggregated by grade; and f. The sum of year-end projected payments, disaggregated by payments for general education students and payments for special education students, with the payments for special education students further disaggregated by tuition payment category. The first report shall be submitted no later than October 1, 2026, the second report shall be submitted no later than December 1, 2026, and the final report shall be submitted no later than June 1, 2027.","As a condition of the funds in unit of appropriation number 406, the Department of Education (DOE) shall
 submit to the Council three reports that list city charter schools by name and address. Such reports shall
 contain the number of enrolled students in each charter school, disaggregated by grade, as well as the
@@ -129,7 +129,7 @@ students and payments for special education students, with the payments for spec
 students further disaggregated by tuition payment category.
 The first report shall be submitted no later than October 1, 2026, the second report shall be submitted no
 later than December 1, 2026, and the final report shall be submitted no later than June 1, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-12,5,5,expense,Department of Education,040,040:401; 040:402; 040:403; 040:404; 040:415; 040:416; 040:453; 040:454; 040:481; 040:482,10,,"January 31, 2027","January 31, 2027","12. Department of Education (040)
+12,5,5,expense,Department of Education,040,040:401; 040:402; 040:403; 040:404; 040:415; 040:416; 040:453; 040:454; 040:481; 040:482,10,,"January 31, 2027","January 31, 2027","5:72.00,329.50,540.04,609.03","12. Department of Education (040)
 Unit of Appropriation [401]
 Unit of Appropriation [402]
 Unit of Appropriation [403]
@@ -148,7 +148,7 @@ located and the budgeted funding amount for community schools allocated in each 
 report shall be disaggregated by services provided by the DOE and those provided through a contracted
 community-based organization. DOE shall also include in such report a list of community schools with
 their respective partner community-based organization.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-13,5,7,expense,Department of Education,040,040:407; 040:408; 040:409; 040:410; 040:470,5,,"September 1, 2026","September 1, 2026","13. Department of Education (040)
+13,5,7,expense,Department of Education,040,040:407; 040:408; 040:409; 040:410; 040:470,5,,"September 1, 2026","September 1, 2026","5:226.14,624.93,385.81,703.05|6:72.00,87.70,540.00,716.32|7:72.00,74.26,539.85,206.08","13. Department of Education (040)
 Unit of Appropriation [407]
 Unit of Appropriation [408]
 Unit of Appropriation [409]
@@ -207,7 +207,7 @@ Such information shall be reported for each of the following seat types:
 4. 3-K extended day/year FCC seats.
 Additionally, the report shall include a list of standard day/year+ providers by site and shall be submitted
 no later than September 1, 2026.",wrap_hyphen,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-14,7,7,expense,Department of Education,040,040:407; 040:408; 040:409; 040:410; 040:470,5,,"January 31, 2027; February 28, 2027; May 24, 2027; April 30, 2027","February 28, 2027; May 24, 2027","14. Department of Education (040)
+14,7,7,expense,Department of Education,040,040:407; 040:408; 040:409; 040:410; 040:470,5,,"January 31, 2027; February 28, 2027; May 24, 2027; April 30, 2027","February 28, 2027; May 24, 2027","7:72.00,235.36,540.09,555.21","14. Department of Education (040)
 Unit of Appropriation [407]
 Unit of Appropriation [408]
 Unit of Appropriation [409]
@@ -229,10 +229,10 @@ f. For the second report, the number of seats at the end of the 2026-2027 school
 The first report shall be submitted no later than February 28, 2027, and include preliminary
 enrollment data as of January 31, 2027, and the second report shall be submitted no later than May
 24, 2027, and include final enrollment data as of April 30, 2027.",wrap_hyphen,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-15,7,7,expense,Department of Education,040,040:All,1,,,,"15. Department of Education (040)
+15,7,8,expense,Department of Education,040,040:All,1,,,,"7:68.40,571.11,543.60,712.56|8:68.40,72.24,543.60,187.62","15. Department of Education (040)
 Unit of Appropriation [All]","As a condition of the funds in all the units of appropriation authorizing expenditures for the Department of Education (DOE), DOE shall issue the Financial Status Reports for the following dates:","As a condition of the funds in all the units of appropriation authorizing expenditures for the Department
 of Education (DOE), DOE shall issue the Financial Status Reports for the following dates:",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-16,8,8,expense,Department of Education,040,040:401; 040:402; 040:407; 040:415; 040:416; 040:453; 040:481; 040:482,8,,"October 31, 2026","October 31, 2026","16. Department of Education (040)
+16,8,8,expense,Department of Education,040,040:401; 040:402; 040:407; 040:415; 040:416; 040:453; 040:481; 040:482,8,,"October 31, 2026","October 31, 2026","8:72.00,203.51,540.16,509.92","16. Department of Education (040)
 Unit of Appropriation [401]
 Unit of Appropriation [402]
 Unit of Appropriation [407]
@@ -253,7 +253,7 @@ are provided, for each school year since the program has been established at eac
 f. The annual number of student behavioral incidents at each school where Project Pivot programming
 and services are provided, for each school year since the program has been established at each such
 school.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-17,8,8,expense,Department of Education,040,040:401; 040:402; 040:481; 040:482,4,,"November 1, 2026","November 1, 2026","17. Department of Education (040)
+17,8,8,expense,Department of Education,040,040:401; 040:402; 040:481; 040:482,4,,"November 1, 2026","November 1, 2026","8:72.00,525.82,540.18,657.63","17. Department of Education (040)
 Unit of Appropriation [401]
 Unit of Appropriation [402]
 Unit of Appropriation [481]
@@ -261,7 +261,7 @@ Unit of Appropriation [482]","As a condition of the funds in unit of appropriati
 Education shall submit to the Council no later than November 1, 2026, a report on the Public Schools
 Athletic League summer registration and attendance, disaggregated by school district, student grade
 level, and by special education and non-special education students, for the summer of 2026.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-18,8,9,expense,Department of Education,040,040:401; 040:402; 040:407; 040:415; 040:416; 040:453; 040:454; 040:481; 040:482,9,,"October 31, 2026","October 31, 2026","18. Department of Education (040)
+18,8,9,expense,Department of Education,040,040:401; 040:402; 040:407; 040:415; 040:416; 040:453; 040:454; 040:481; 040:482,9,,"October 31, 2026","October 31, 2026","8:226.14,673.47,385.81,711.33|9:72.00,74.26,540.21,380.62","18. Department of Education (040)
 Unit of Appropriation [401]
 Unit of Appropriation [402]
 Unit of Appropriation [407]
@@ -285,7 +285,7 @@ school years; and
 e. The annual student behavioral incident rates at schools where restorative justice programs and
 services were provided, disaggregated by whether the programs were direct or indirect, for the last
 three school years.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-19,9,9,expense,Department of Education,040,040:401; 040:402; 040:403; 040:404; 040:481; 040:482,6,,"August 15, 2026","August 15, 2026","19. Department of Education (040)
+19,9,9,expense,Department of Education,040,040:401; 040:402; 040:403; 040:404; 040:481; 040:482,6,,"August 15, 2026","August 15, 2026","9:72.00,398.80,540.01,651.51","19. Department of Education (040)
 Unit of Appropriation [401]
 Unit of Appropriation [402]
 Unit of Appropriation [403]
@@ -302,7 +302,7 @@ Pre-K through 12; and
 c. The number of full-time and part-time certified arts teachers, disaggregated by:
 1. grade level taught; and
 2. arts discipline taught.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-20,9,10,expense,Department of Education,040,040:401; 040:403; 040:407; 040:409; 040:415; 040:421; 040:423; 040:481,8,,"November 15, 2026; October 31, 2026; March 15, 2027; February 28, 2027","November 15, 2026; March 15, 2027","20. Department of Education (040)
+20,9,10,expense,Department of Education,040,040:401; 040:403; 040:407; 040:409; 040:415; 040:421; 040:423; 040:481,8,,"November 15, 2026; October 31, 2026; March 15, 2027; February 28, 2027","November 15, 2026; March 15, 2027","9:226.14,667.35,385.81,718.65|10:72.00,74.26,540.03,286.66","20. Department of Education (040)
 Unit of Appropriation [401]
 Unit of Appropriation [403]
 Unit of Appropriation [407]
@@ -320,7 +320,7 @@ social workers hired by individual schools.
 The first report shall be submitted no later than November 15, 2026, reflecting data as of October 31,
 2026, and the second report shall be submitted no later than March 15, 2027, reflecting data as of
 February 28, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-21,10,10,expense,Department of Education,040,040:439; 040:440,2,,"April 1, 2027","April 1, 2027","21. Department of Education (040)
+21,10,10,expense,Department of Education,040,040:439; 040:440,2,,"April 1, 2027","April 1, 2027","10:72.00,302.50,540.01,541.77","21. Department of Education (040)
 Unit of Appropriation [439]
 Unit of Appropriation [440]","As a condition of the funds in unit of appropriation numbers 439 and 440, the Department of Education (DOE) shall submit to the Council no later than April 1, 2027, a report that contains the following information for each school: a. The number of summer meals served; b. The number and percentage of students who completed and submitted a lunch form, an alternative income form, or both; c. The number of students eligible for free or reduced-price lunch; d. The average number of meals served per day, disaggregated by breakfast, lunch, and summer meals; e. The average cost per meal for breakfasts served; f. The average cost per meal for lunches served; and g. The average cost per summer meal served. Additionally, the report shall contain for all DOE schools the number of traditional and kosher meals served and the number of halal meals requested, where applicable.","As a condition of the funds in unit of appropriation numbers 439 and 440, the Department of Education
 (DOE) shall submit to the Council no later than April 1, 2027, a report that contains the following
@@ -336,7 +336,7 @@ f. The average cost per meal for lunches served; and
 g. The average cost per summer meal served.
 Additionally, the report shall contain for all DOE schools the number of traditional and kosher meals
 served and the number of halal meals requested, where applicable.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-22,10,10,expense,Department of Education,040,040:438; 040:453; 040:454,3,,"January 15, 2027; July 1, 2026; December 31, 2026; July 15, 2027; January 1, 2027; June 30, 2027","January 15, 2027; July 15, 2027","22. Department of Education (040)
+22,10,10,expense,Department of Education,040,040:438; 040:453; 040:454,3,,"January 15, 2027; July 1, 2026; December 31, 2026; July 15, 2027; January 1, 2027; June 30, 2027","January 15, 2027; July 15, 2027","10:72.00,557.61,540.02,716.31","22. Department of Education (040)
 Unit of Appropriation [438]
 Unit of Appropriation [453]
 Unit of Appropriation [454]","As a condition of the funds in unit of appropriation numbers 438, 453, and 454, the Department of Education shall submit to the Council two reports on busing provided for students living in shelters. Such reports shall provide the number of students who have been routed and a snapshot of the number of students who are waiting to be routed. The first report shall be submitted no later than January 15, 2027, and shall cover the period beginning July 1, 2026, and ending December 31, 2026, and the second report shall be submitted no later than July 15, 2027, and shall cover the period beginning January 1, 2027, and ending June 30, 2027.","As a condition of the funds in unit of appropriation numbers 438, 453, and 454, the Department of
@@ -346,7 +346,7 @@ students who are waiting to be routed. The first report shall be submitted no la
 and shall cover the period beginning July 1, 2026, and ending December 31, 2026, and the second report
 shall be submitted no later than July 15, 2027, and shall cover the period beginning January 1, 2027, and
 ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-23,11,11,expense,Department of Education,040,040:All,1,,"September 1, 2026; December 1, 2026; February 15, 2027; May 5, 2027","September 1, 2026; December 1, 2026; February 15, 2027; May 5, 2027","23. Department of Education (040)
+23,11,11,expense,Department of Education,040,040:All,1,,"September 1, 2026; December 1, 2026; February 15, 2027; May 5, 2027","September 1, 2026; December 1, 2026; February 15, 2027; May 5, 2027","11:76.98,101.08,539.99,340.36","23. Department of Education (040)
 Unit of Appropriation [All]","As a condition of the funds in all units of appropriation authorizing expenditures for the Department of Education (DOE), the DOE shall submit to the Council four reports that reflect funding for early childhood education programming in its entirety, including infant and toddler, 2-K, 3-K, Universal pre-Kindergarten (“pre-K”), City Transitional Seats (“CTS”) Toddler, CTS 3-K, and CTS pre-K, and family child care programs (collectively, “ECE programs”). Such reports shall include all relevant object codes, budget codes, and units of appropriation containing ECE program funding, the amount of funding allocated to ECE programs for each such object code, budget code, and unit of appropriation, and the DOE personnel headcount budgeted for ECE programs for Fiscal 2027 and Fiscal 2028. The first report shall be submitted no later than September 1, 2026, and shall include budgeted information as of the Fiscal 2027 Adopted Budget. The second report shall be submitted no later than December 1, 2026, and shall include budgeted information as of the Fiscal 2027 November Plan. The third report shall be submitted no later than February 15, 2027, and shall include budgeted information as of the Fiscal 2028 Preliminary Budget. The fourth report shall be submitted no later than May 5, 2027, and shall include budgeted information as of the Fiscal 2028 Executive Budget.","As a condition of the funds in all units of appropriation authorizing expenditures for the Department of
 Education (DOE), the DOE shall submit to the Council four reports that reflect funding for early childhood
 education programming in its entirety, including infant and toddler, 2-K, 3-K, Universal pre-Kindergarten
@@ -361,7 +361,7 @@ December 1, 2026, and shall include budgeted information as of the Fiscal 2027 N
 third report shall be submitted no later than February 15, 2027, and shall include budgeted information
 as of the Fiscal 2028 Preliminary Budget. The fourth report shall be submitted no later than May 5, 2027,
 and shall include budgeted information as of the Fiscal 2028 Executive Budget.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-24,11,11,expense,Department of Finance,836,836:001,1,,"October 10, 2026; July 1, 2026; September 30, 2026; January 10, 2027; October 1, 2026; December 31, 2026; April 10, 2027; January 1, 2027; March 31, 2027; July 10, 2027; April 1, 2027; June 30, 2027",,"24. Department of Finance (836)
+24,11,11,expense,Department of Finance,836,836:001,1,,"October 10, 2026; July 1, 2026; September 30, 2026; January 10, 2027; October 1, 2026; December 31, 2026; April 10, 2027; January 1, 2027; March 31, 2027; July 10, 2027; April 1, 2027; June 30, 2027",,"11:72.00,356.26,540.07,582.03","24. Department of Finance (836)
 Unit of Appropriation [001]","As a condition of the funds in unit of appropriation number 001, the Department of Finance shall submit four reports to the Council detailing the following information: a. The number of summonses issued for unlicensed cannabis; b. The total amount of fines imposed; c. The amount of fines collected; and d. The amount of fines uncollected within the reporting period and fiscal year to date. Such reports shall also include, as applicable, fees or other charges assessed and collected within the reporting period in connection with the operation of unlicensed cannabis. The reports shall be submitted on: (i) October 10, 2026, covering the period beginning July 1, 2026, and ending September 30, 2026; (ii) January 10, 2027, covering the period beginning October 1, 2026, and ending December 31, 2026; (iii) April 10, 2027, covering the period beginning January 1, 2027, and ending March 31, 2027; and (iv) July 10, 2027, covering the period beginning April 1, 2027, and ending June 30, 2027.","As a condition of the funds in unit of appropriation number 001, the Department of Finance shall submit
 four reports to the Council detailing the following information:
 a. The number of summonses issued for unlicensed cannabis;
@@ -375,7 +375,7 @@ ending September 30, 2026; (ii) January 10, 2027, covering the period beginning 
 ending December 31, 2026; (iii) April 10, 2027, covering the period beginning January 1, 2027, and ending
 March 31, 2027; and (iv) July 10, 2027, covering the period beginning April 1, 2027, and ending June 30,
 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-25,11,12,expense,Department of Finance,836,836:001,1,,"October 15, 2026; July 1, 2026; September 30, 2026; January 15, 2027; October 1, 2026; December 31, 2026; April 15, 2027; January 1, 2027; March 31, 2027; July 15, 2027; April 1, 2027; June 30, 2027",,"25. Department of Finance (836)
+25,11,12,expense,Department of Finance,836,836:001,1,,"October 15, 2026; July 1, 2026; September 30, 2026; January 15, 2027; October 1, 2026; December 31, 2026; April 15, 2027; January 1, 2027; March 31, 2027; July 15, 2027; April 1, 2027; June 30, 2027",,"11:72.00,597.93,540.01,716.31|12:72.00,74.26,540.04,192.64","25. Department of Finance (836)
 Unit of Appropriation [001]","As a condition of the funds in unit of appropriation number 001, the Department of Finance shall submit to the Council four reports on tax expenditures incurred as a result of exemptions from local taxes granted pursuant to the private housing finance law. Each report shall contain the following information: a. The amount of tax payments projected to be collected by the City for Fiscal 2027 from properties granted an exemption from local taxes pursuant to the private housing finance law, disaggregated by housing program; and, for the applicable reporting period: b. The amount of such payments received by the City, disaggregated by housing program; c. The amount of such taxes billed that is delinquent, disaggregated by housing program; d. The borough block lot number of tax lots that were billed such taxes; and e. The borough block lot number of tax lots that had past due tax balances. The reports shall be submitted on: (i) October 15, 2026, covering the period beginning July 1, 2026 and ending September 30, 2026; (ii) January 15, 2027, covering the period beginning October 1, 2026 and ending December 31, 2026; (iii) April 15, 2027, covering the period beginning January 1, 2027 and ending March 31, 2027; and (iv) July 15, 2027, covering the period beginning April 1, 2027 and ending June 30, 2027.","As a condition of the funds in unit of appropriation number 001, the Department of Finance shall submit
 to the Council four reports on tax expenditures incurred as a result of exemptions from local taxes granted
 pursuant to the private housing finance law. Each report shall contain the following information:
@@ -391,7 +391,7 @@ ending September 30, 2026; (ii) January 15, 2027, covering the period beginning 
 ending December 31, 2026; (iii) April 15, 2027, covering the period beginning January 1, 2027 and ending
 March 31, 2027; and (iv) July 15, 2027, covering the period beginning April 1, 2027 and ending June 30,
 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-26,12,12,expense,Department of Finance,836,836:001; 836:011,2,,"April 1, 2027; January 1, 2026; December 31, 2026","April 1, 2027","26. Department of Finance (836)
+26,12,12,expense,Department of Finance,836,836:001; 836:011,2,,"April 1, 2027; January 1, 2026; December 31, 2026","April 1, 2027","12:72.00,208.54,540.03,380.62","26. Department of Finance (836)
 Unit of Appropriation [001]
 Unit of Appropriation [011]","As a condition of the funds in unit of appropriation numbers 001 and 011, the Department of Finance (DOF) shall submit to the Council no later than April 1, 2027, a report of the number and nature of inquiries received by the Taxpayer Advocate regarding property tax exemptions and business tax exemptions. Such report shall also include the number, nature, and resolution of complaints received by the Taxpayer Advocate; any recommendations made by the Taxpayer Advocate to the commissioner; the acceptance and denial rates of such recommendations by the commissioner; the number and nature of inquiries referred to the Taxpayer Advocate by the ombudspersons at DOF; and the number and nature of inquiries referred to the Taxpayer Advocate by 311. Such report shall cover the period beginning January 1, 2026, and ending on December 31, 2026.","As a condition of the funds in unit of appropriation numbers 001 and 011, the Department of Finance
 (DOF) shall submit to the Council no later than April 1, 2027, a report of the number and nature of inquiries
@@ -402,14 +402,14 @@ and denial rates of such recommendations by the commissioner; the number and nat
 referred to the Taxpayer Advocate by the ombudspersons at DOF; and the number and nature of inquiries
 referred to the Taxpayer Advocate by 311. Such report shall cover the period beginning January 1, 2026,
 and ending on December 31, 2026.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-27,12,12,expense,Department of Health and Mental Hygiene,816,816:102; 816:112,2,,"September 15, 2026; May 15, 2027",,"27. Department of Health and Mental Hygiene (816)
+27,12,12,expense,Department of Health and Mental Hygiene,816,816:102; 816:112,2,,"September 15, 2026; May 15, 2027",,"12:72.00,396.58,539.97,514.95","27. Department of Health and Mental Hygiene (816)
 Unit of Appropriation [102]
 Unit of Appropriation [112]","As a condition of funds in unit of appropriation numbers 102 and 112, the Department of Health and Mental Hygiene shall submit to the Council two reports detailing the number of new infections of tuberculosis, HIV/AIDS, viral hepatitis, and measles. Additionally, the reports shall include a rate comparison for the past two years. The reports shall be submitted to the Council on September 15, 2026, and May 15, 2027.","As a condition of funds in unit of appropriation numbers 102 and 112, the Department of Health and
 Mental Hygiene shall submit to the Council two reports detailing the number of new infections of
 tuberculosis, HIV/AIDS, viral hepatitis, and measles. Additionally, the reports shall include a rate
 comparison for the past two years. The reports shall be submitted to the Council on September 15, 2026,
 and May 15, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-28,12,13,expense,Department of Health and Mental Hygiene,816,816:108; 816:120,2,,"December 1, 2026","December 1, 2026","28. Department of Health and Mental Hygiene (816)
+28,12,13,expense,Department of Health and Mental Hygiene,816,816:108; 816:120,2,,"December 1, 2026","December 1, 2026","12:76.98,530.85,540.03,716.37|13:94.98,74.26,485.62,98.68","28. Department of Health and Mental Hygiene (816)
 Unit of Appropriation [108]
 Unit of Appropriation [120]","As a condition of the funds in unit of appropriation numbers 108 and 120, the Department of Health and Mental Hygiene shall submit to the Council a report in relation to clubhouses, as such term is defined in local law number 119 for the year 2023, that receive City financial assistance. Such report shall be submitted no later than December 1, 2026, and shall contain the following information for each such clubhouse as of the date of preparation of such report: a. Provider; b. Location; c. Amount of all-funds budget provided and the associated unit of appropriation and budget code; d. Capacity; e. Number of persons served, disaggregated by month; f. Number of staff; and g. Any service interruptions and, if so, the service interrupted and for how many days.","As a condition of the funds in unit of appropriation numbers 108 and 120, the Department of Health and
 Mental Hygiene shall submit to the Council a report in relation to clubhouses, as such term is defined in
@@ -423,7 +423,7 @@ d. Capacity;
 e. Number of persons served, disaggregated by month;
 f. Number of staff; and
 g. Any service interruptions and, if so, the service interrupted and for how many days.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-29,13,13,expense,Department of Homeless Services,071,071:100; 071:101; 071:102; 071:200; 071:201; 071:202,6,,"October 10, 2026; July 1, 2026; September 30, 2026; January 10, 2027; October 1, 2026; December 31, 2026; April 10, 2027; January 1, 2027; March 31, 2027; July 10, 2027; April 1, 2027; June 30, 2027",,"29. Department of Homeless Services (071)
+29,13,13,expense,Department of Homeless Services,071,071:100; 071:101; 071:102; 071:200; 071:201; 071:202,6,,"October 10, 2026; July 1, 2026; September 30, 2026; January 10, 2027; October 1, 2026; December 31, 2026; April 10, 2027; January 1, 2027; March 31, 2027; July 10, 2027; April 1, 2027; June 30, 2027",,"13:72.00,114.52,540.07,380.62","29. Department of Homeless Services (071)
 Unit of Appropriation [100]
 Unit of Appropriation [101]
 Unit of Appropriation [102]
@@ -441,7 +441,7 @@ ending September 30, 2026; (ii) January 10, 2027, covering the period beginning 
 ending December 31, 2026; (iii) April 10, 2027, covering the period beginning January 1, 2027, and ending
 March 31, 2027; and (iv) July 10, 2027, covering the period beginning April 1, 2027, and ending June 30,
 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-30,13,13,capital+expense,Department of Housing Preservation and Development; Capital Budget for Department of Housing Preservation and Development,806; 806,806:004; 806:009,2,HD-0009 – All Projects,"October 15, 2027; July 1, 2026; June 30, 2027","October 15, 2027","30. Department of Housing Preservation and Development (806)
+30,13,13,capital+expense,Department of Housing Preservation and Development; Capital Budget for Department of Housing Preservation and Development,806; 806,806:004; 806:009,2,HD-0009 – All Projects,"October 15, 2027; July 1, 2026; June 30, 2027","October 15, 2027","13:72.00,396.52,540.03,555.21","30. Department of Housing Preservation and Development (806)
 Unit of Appropriation [004]
 Unit of Appropriation [009]
 Capital Budget for Department of Housing Preservation and Development (806)
@@ -450,7 +450,7 @@ Department of Housing Preservation and Development shall submit to the Council n
 15, 2027, a report detailing the number of buildings in the Article 7A program and the expenditure amount
 for each building. Such report shall cover the period beginning on July 1, 2026, and ending on June 30,
 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-31,13,14,expense,Department of Housing Preservation and Development,806,806:001,1,,"September 30, 2027; July 1, 2026; June 30, 2027","September 30, 2027","31. Department of Housing Preservation and Development (806)
+31,13,14,expense,Department of Housing Preservation and Development,806,806:001,1,,"September 30, 2027; July 1, 2026; June 30, 2027","September 30, 2027","13:72.00,571.05,539.99,716.31|14:72.00,74.26,539.89,112.06","31. Department of Housing Preservation and Development (806)
 Unit of Appropriation [001]","As a condition of the funds in unit of appropriation number 001, the Department of Housing Preservation and Development (HPD) shall submit a report to the Council that provides the following information for each Project that receives an Article XI exemption approved by the Council at HPD’s request: a. The Council District; b. The amount of the City tax expenditure; c. The number of units, broken down by area median income levels; d. The expiration date of the exemption; e. The additional subsidy programs from which the Project benefits, if any; and f. The number of open A, B, and C violations. The report shall be submitted no later than September 30, 2027, and cover the period July 1, 2026, to June 30, 2027.","As a condition of the funds in unit of appropriation number 001, the Department of Housing Preservation
 and Development (HPD) shall submit a report to the Council that provides the following information for
 each Project that receives an Article XI exemption approved by the Council at HPD’s request:
@@ -462,7 +462,7 @@ e. The additional subsidy programs from which the Project benefits, if any; and
 f. The number of open A, B, and C violations.
 The report shall be submitted no later than September 30, 2027, and cover the period July 1, 2026, to
 June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-32,14,14,expense,Department of Housing Preservation and Development,806,806:004; 806:011,2,,"July 15, 2027; July 1, 2026; June 30, 2027","July 15, 2027","32. Department of Housing Preservation and Development (806)
+32,14,14,expense,Department of Housing Preservation and Development,806,806:004; 806:011,2,,"July 15, 2027; July 1, 2026; June 30, 2027","July 15, 2027","14:72.00,127.96,540.01,259.78","32. Department of Housing Preservation and Development (806)
 Unit of Appropriation [004]
 Unit of Appropriation [011]","As a condition of the funds in unit of appropriation numbers 004 and 011, the Department of Housing Preservation and Development (HPD) shall submit to the Council no later than July 15, 2027, a report on the Underlying Conditions Program. Such report shall include the number of underlying conditions issued by HPD, the address of each building to which an underlying condition was issued, and the result of each order that was issued. Such report shall cover the period beginning on July 1, 2026, and ending on June 30, 2027.","As a condition of the funds in unit of appropriation numbers 004 and 011, the Department of Housing
 Preservation and Development (HPD) shall submit to the Council no later than July 15, 2027, a report on
@@ -470,7 +470,7 @@ the Underlying Conditions Program. Such report shall include the number of under
 by HPD, the address of each building to which an underlying condition was issued, and the result of each
 order that was issued. Such report shall cover the period beginning on July 1, 2026, and ending on June
 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-33,14,14,capital,Capital Budget for Department of Housing Preservation and Development,806,,0,HD-0206,,,"33. Capital Budget for Department of Housing Preservation and Development (806)
+33,14,14,capital,Capital Budget for Department of Housing Preservation and Development,806,,0,HD-0206,,,"14:72.00,275.68,539.97,461.20","33. Capital Budget for Department of Housing Preservation and Development (806)
 Budget Line HD-0206","As a condition of the funds in budget line HD-0206, and any other budget lines where funding is utilized for conversion of housing units under the Permanent Affordability Commitment Together program (“PACT”) or Public Housing Preservation Trust (“PHPT”), the New York City Housing Authority shall submit no fewer than four reports to the Council that detail the conversion of Section 9 public housing units to Section 8 under PACT or to the PHPT. A report shall be submitted within seven business days of each issuance of an update of the financial plan and shall include the following information as of the date of such issuance: a. The developments that have begun conversion under PACT; b. The developments that have begun conversion to PHPT; c. The number of units in each development; and d. The number of vacant units in each development.","As a condition of the funds in budget line HD-0206, and any other budget lines where funding is utilized
 for conversion of housing units under the Permanent Affordability Commitment Together program
 (“PACT”) or Public Housing Preservation Trust (“PHPT”), the New York City Housing Authority shall submit
@@ -482,7 +482,7 @@ a. The developments that have begun conversion under PACT;
 b. The developments that have begun conversion to PHPT;
 c. The number of units in each development; and
 d. The number of vacant units in each development.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-34,14,14,expense,Department of Sanitation,827,827:102; 827:109,2,,"February 15, 2027; July 1, 2026; December 31, 2026; August 15, 2027; January 1, 2027; June 30, 2027","February 15, 2027; August 15, 2027","34. Department of Sanitation (827)
+34,14,14,expense,Department of Sanitation,827,827:102; 827:109,2,,"February 15, 2027; July 1, 2026; December 31, 2026; August 15, 2027; January 1, 2027; June 30, 2027","February 15, 2027; August 15, 2027","14:72.00,477.09,539.99,622.35","34. Department of Sanitation (827)
 Unit of Appropriation [102]
 Unit of Appropriation [109]","As a condition of the funds in unit of appropriation numbers 102 and 109, the Department of Sanitation shall submit to the Council two reports detailing the number of weekly litter basket pickups, disaggregated by Community District. Such reports shall also include the location of litter baskets in commercial corridors in which trucks do litter pickups in .shapefile or .geojson format. The first report shall be submitted no later than February 15, 2027, and shall cover the period beginning July 1, 2026, and ending December 31, 2026, and the second report shall be submitted no later than August 15, 2027, and shall cover the period beginning January 1, 2027, and ending June 30, 2027.","As a condition of the funds in unit of appropriation numbers 102 and 109, the Department of Sanitation
 shall submit to the Council two reports detailing the number of weekly litter basket pickups, disaggregated
@@ -491,7 +491,7 @@ in which trucks do litter pickups in .shapefile or .geojson format. The first re
 later than February 15, 2027, and shall cover the period beginning July 1, 2026, and ending December 31,
 2026, and the second report shall be submitted no later than August 15, 2027, and shall cover the period
 beginning January 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-35,14,15,expense,Department of Sanitation,827,827:101; 827:102; 827:109; 827:110,4,,"September 15, 2027","September 15, 2027","35. Department of Sanitation (827)
+35,14,15,expense,Department of Sanitation,827,827:101; 827:102; 827:109; 827:110,4,,"September 15, 2027","September 15, 2027","14:225.48,638.31,386.52,702.99|15:72.00,74.26,540.17,192.64","35. Department of Sanitation (827)
 Unit of Appropriation [101]
 Unit of Appropriation [102]
 Unit of Appropriation [109]
@@ -504,14 +504,14 @@ b. The tonnage of organics collected on each route; and
 c. A description of the organics education and outreach conducted at each school that is part of the
 program.
 Such report shall be submitted no later than September 15, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-36,15,15,expense,Department of Small Business Services,801,801:002,1,,"January 15, 2027; July 1, 2025; June 30, 2026","January 15, 2027","36. Department of Small Business Services (801)
+36,15,15,expense,Department of Small Business Services,801,801:002,1,,"January 15, 2027; July 1, 2025; June 30, 2026","January 15, 2027","15:72.00,208.54,540.04,326.92","36. Department of Small Business Services (801)
 Unit of Appropriation [002]","As a condition of the funds in unit of appropriation number 002, the Department of Small Business Services (SBS) shall submit to the Council no later than January 15, 2027, a report detailing the number of small businesses served through SBS’s Commercial Lease Assistance Program, disaggregated by borough. The report shall also include a description of the various types of assistance provided to small businesses through the program. Such report shall cover the period beginning on July 1, 2025, and ending on June 30, 2026.","As a condition of the funds in unit of appropriation number 002, the Department of Small Business
 Services (SBS) shall submit to the Council no later than January 15, 2027, a report detailing the number of
 small businesses served through SBS’s Commercial Lease Assistance Program, disaggregated by borough.
 The report shall also include a description of the various types of assistance provided to small businesses
 through the program. Such report shall cover the period beginning on July 1, 2025, and ending on June
 30, 2026.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-37,15,15,expense,Department of Small Business Services,801,801:006,1,,"January 31, 2027; January 1, 2026; December 31, 2026",,"37. Department of Small Business Services (801)
+37,15,15,expense,Department of Small Business Services,801,801:006,1,,"January 31, 2027; January 1, 2026; December 31, 2026",,"15:72.00,342.82,540.00,608.91","37. Department of Small Business Services (801)
 Unit of Appropriation [006]","As a condition of the funds in unit of appropriation number 006, the Department of Small Business Services, in collaboration with the Economic Development Corporation, shall submit to the Council a report regarding NYC Ferry. The report shall include: a. Current route map and list of routes and landings served; b. Annual ridership by routes; c. Systemwide On-Time Performance as reported by the Operator; d. Latest demographic information available for ferry riders including percent identifying as New Yorkers; e. The number and class of vessels currently in the NYC Ferry fleet including their passenger capacity; f. A breakdown of city capital spending for any major facility completed in the prior year (landings, maintenance facilities, etc.); g. The total city capital spending for any vessel built or acquired in the prior year; h. The systemwide subsidy from the prior fiscal year; and i. The number of participants in the Ferry Forward program, disaggregated by eligibility category and borough of residence. Such report shall be submitted on January 31, 2027, and except where noted shall cover the period from January 1, 2026, to December 31, 2026.","As a condition of the funds in unit of appropriation number 006, the Department of Small Business
 Services, in collaboration with the Economic Development Corporation, shall submit to the Council a
 report regarding NYC Ferry. The report shall include:
@@ -529,7 +529,7 @@ i. The number of participants in the Ferry Forward program, disaggregated by eli
 and borough of residence.
 Such report shall be submitted on January 31, 2027, and except where noted shall cover the period from
 January 1, 2026, to December 31, 2026.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-38,15,16,expense,Department of Small Business Services,801,801:010; 801:011,2,,"April 15, 2027; July 1, 2026; February 28, 2027","April 15, 2027","38. Department of Small Business Services (801)
+38,15,16,expense,Department of Small Business Services,801,801:010; 801:011,2,,"April 15, 2027; July 1, 2026; February 28, 2027","April 15, 2027","15:72.00,624.81,540.07,716.37|16:72.00,74.26,512.42,138.94","38. Department of Small Business Services (801)
 Unit of Appropriation [010]
 Unit of Appropriation [011]","As a condition of the funds in unit of appropriation numbers 010 and 011, the Department of Small Business Services shall provide to the Council no later than April 15, 2027, a report detailing the: a. Number of registrants placed at jobs; b. Zip codes in which registrants placed at jobs reside; c. Job category/job classification of job placements (direct managed hires or self-placement); d. Industry of job placement; and e. Average hourly wage at placement. Such report shall cover the period beginning on July 1, 2026, and ending on February 28, 2027.","As a condition of the funds in unit of appropriation numbers 010 and 011, the Department of Small
 Business Services shall provide to the Council no later than April 15, 2027, a report detailing the:
@@ -539,13 +539,13 @@ c. Job category/job classification of job placements (direct managed hires or se
 d. Industry of job placement; and
 e. Average hourly wage at placement.
 Such report shall cover the period beginning on July 1, 2026, and ending on February 28, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-39,16,16,capital,Capital Budget for the Department of Transportation,841,,0,HB-0278 – All Projects,,,"39. Capital Budget for the Department of Transportation (841)
+39,16,16,capital,Capital Budget for the Department of Transportation,841,,0,HB-0278 – All Projects,,,"16:72.00,154.84,539.95,259.78","39. Capital Budget for the Department of Transportation (841)
 Budget Line HB-0278 – All Projects","As a condition of the funds in budget line HB-0278 for the Department of Transportation (DOT) capital project related to the Brooklyn-Queens Expressway (“BQE”, also known as I-278), DOT shall submit to the Council no later than seven business days after the release of the Adopted and Executive Capital Plans, a report that provides capital funding budgeted, committed, and spent for the project which details all changes made since the prior Capital Plan, and updates on the project timeline.","As a condition of the funds in budget line HB-0278 for the Department of Transportation (DOT) capital
 project related to the Brooklyn-Queens Expressway (“BQE”, also known as I-278), DOT shall submit to the
 Council no later than seven business days after the release of the Adopted and Executive Capital Plans, a
 report that provides capital funding budgeted, committed, and spent for the project which details all
 changes made since the prior Capital Plan, and updates on the project timeline.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-40,16,16,expense,Department of Transportation,841,841:004; 841:014,2,,"October 10, 2026; July 1, 2026; September 30, 2026; January 10, 2027; October 1, 2026; December 31, 2026; April 10, 2027; January 1, 2027; March 31, 2027; July 10, 2027; April 1, 2027; June 30, 2027",,"40. Department of Transportation (841)
+40,16,16,expense,Department of Transportation,841,841:004; 841:014,2,,"October 10, 2026; July 1, 2026; September 30, 2026; January 10, 2027; October 1, 2026; December 31, 2026; April 10, 2027; January 1, 2027; March 31, 2027; July 10, 2027; April 1, 2027; June 30, 2027",,"16:72.00,275.68,540.02,434.32","40. Department of Transportation (841)
 Unit of Appropriation [004]
 Unit of Appropriation [014]","As a condition of the funds in unit of appropriation numbers 004 and 014, the Department of Transportation (DOT) shall submit to the Council four reports on community outreach conducted for the Streets Plan. DOT shall report the location of the project, the program area of the project (consistent with the most recent annual Streets Plan report), and the schedule of Community Board meetings. The reports shall be submitted on: (i) October 10, 2026, covering the period beginning July 1, 2026, and ending September 30, 2026; (ii) January 10, 2027, covering the period beginning October 1, 2026, and ending December 31, 2026; (iii) April 10, 2027, covering the period beginning January 1, 2027, and ending March 31, 2027; and (iv) July 10, 2027, covering the period beginning April 1, 2027, and ending June 30, 2027.","As a condition of the funds in unit of appropriation numbers 004 and 014, the Department of
 Transportation (DOT) shall submit to the Council four reports on community outreach conducted for the
@@ -555,7 +555,7 @@ shall be submitted on: (i) October 10, 2026, covering the period beginning July 
 September 30, 2026; (ii) January 10, 2027, covering the period beginning October 1, 2026, and ending
 December 31, 2026; (iii) April 10, 2027, covering the period beginning January 1, 2027, and ending March
 31, 2027; and (iv) July 10, 2027, covering the period beginning April 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-41,16,16,expense,Department of Youth and Community Development,260,260:005; 260:311,2,,"February 1, 2027; July 1, 2026; December 31, 2026; August 1, 2027; January 1, 2027; June 30, 2027","February 1, 2027; August 1, 2027","41. Department of Youth and Community Development (260)
+41,16,16,expense,Department of Youth and Community Development,260,260:005; 260:311,2,,"February 1, 2027; July 1, 2026; December 31, 2026; August 1, 2027; January 1, 2027; June 30, 2027","February 1, 2027; August 1, 2027","16:72.00,450.22,540.01,635.73","41. Department of Youth and Community Development (260)
 Unit of Appropriation [005]
 Unit of Appropriation [311]","As a condition of the funds in unit of appropriation numbers 005 and 311, the Department of Youth and Community Development shall submit to the Council two reports detailing spending for the Adult Literacy program, including but not limited to: a. The agency’s budget for the Adult Literacy program; b. How spending is distributed across community-based organizations; c. The rate of funding per student for each community-based organization; and d. The number of students in the aggregate and disaggregated by community-based organization. The first report shall be submitted no later than February 1, 2027, and shall cover the period beginning July 1, 2026, and ending December 31, 2026, and the second report shall be submitted no later than August 1, 2027, and shall cover the period beginning January 1, 2027, and ending June 30, 2027.","As a condition of the funds in unit of appropriation numbers 005 and 311, the Department of Youth and
 Community Development shall submit to the Council two reports detailing spending for the Adult Literacy
@@ -567,7 +567,7 @@ d. The number of students in the aggregate and disaggregated by community-based 
 The first report shall be submitted no later than February 1, 2027, and shall cover the period beginning
 July 1, 2026, and ending December 31, 2026, and the second report shall be submitted no later than
 August 1, 2027, and shall cover the period beginning January 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-42,16,17,expense,Department of Youth and Community Development,260,260:401; 260:402,2,,"February 1, 2027; July 1, 2026; December 31, 2026; August 1, 2027; January 1, 2027; June 30, 2027","February 1, 2027; August 1, 2027","42. Department of Youth and Community Development (260)
+42,16,17,expense,Department of Youth and Community Development,260,260:401; 260:402,2,,"February 1, 2027; July 1, 2026; December 31, 2026; August 1, 2027; January 1, 2027; June 30, 2027","February 1, 2027; August 1, 2027","16:72.00,651.63,539.88,716.31|17:72.00,74.26,539.98,206.08","42. Department of Youth and Community Development (260)
 Unit of Appropriation [401]
 Unit of Appropriation [402]","As a condition of the funds in unit of appropriation numbers 401 and 402, the Department of Youth and Community Development (DYCD) shall provide to the Council two reports on daily engagements for all Crisis Management Systems (CURE, Youth Enrichment Services, and Community Healing Services) programs, disaggregated by site location. DYCD shall include information on the number of contracts, number of providers, headcount, the award amount, the precinct and borough in which the services take place, catchment area, and the programming that is held at each event. The reporting shall also include a breakdown of costs and shall include personal service costs, including but not limited to overtime; and other than personal service costs, including but not limited to costs of any associated contracts. The first report shall be submitted no later than February 1, 2027, and shall cover the period beginning July 1, 2026, and ending December 31, 2026, and the second report shall be submitted no later than August 1, 2027, and shall cover the period beginning January 1, 2027, and ending June 30, 2027.","As a condition of the funds in unit of appropriation numbers 401 and 402, the Department of Youth and
 Community Development (DYCD) shall provide to the Council two reports on daily engagements for all
@@ -580,16 +580,16 @@ other than personal service costs, including but not limited to costs of any ass
 report shall be submitted no later than February 1, 2027, and shall cover the period beginning July 1, 2026,
 and ending December 31, 2026, and the second report shall be submitted no later than August 1, 2027,
 and shall cover the period beginning January 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-43,17,17,expense,Department of Youth and Community Development,260,260:312,1,,"August 1, 2026","August 1, 2026","43. Department of Youth and Community Development (260)
+43,17,17,expense,Department of Youth and Community Development,260,260:312,1,,"August 1, 2026","August 1, 2026","17:72.00,221.98,539.93,313.48","43. Department of Youth and Community Development (260)
 Unit of Appropriation [312]","As a condition of the funds in unit of appropriation number 312, the Department of Youth and Community Development shall provide a report to the Council no later than August 1, 2026, on the utilization of older youth beds (i.e., beds serving youth 21-24 years of age), including average daily attendance for Fiscal 2026, disaggregated by borough and provider agency.","As a condition of the funds in unit of appropriation number 312, the Department of Youth and Community
 Development shall provide a report to the Council no later than August 1, 2026, on the utilization of older
 youth beds (i.e., beds serving youth 21-24 years of age), including average daily attendance for Fiscal 2026,
 disaggregated by borough and provider agency.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-44,17,17,expense,Health and Hospitals Corporation,819,819:001,1,,"January 31, 2027","January 31, 2027","44. Health and Hospitals Corporation (819)
+44,17,17,expense,Health and Hospitals Corporation,819,819:001,1,,"January 31, 2027","January 31, 2027","17:72.00,331.66,539.90,409.78","44. Health and Hospitals Corporation (819)
 Unit of Appropriation [001]","As a condition of the funds in unit of appropriation number 001, the Health and Hospitals Corporation (H+H) shall submit to the Council no later than January 31, 2027, a report on budgeted and actual headcount for H+H's correctional health staff by title.","As a condition of the funds in unit of appropriation number 001, the Health and Hospitals Corporation
 (H+H) shall submit to the Council no later than January 31, 2027, a report on budgeted and actual
 headcount for H+H's correctional health staff by title.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-45,17,17,expense,Health and Hospitals Corporation,819,819:001,1,,"October 30, 2026; July 1, 2026; September 30, 2026; January 31, 2027; October 1, 2026; December 31, 2026; April 30, 2027; January 1, 2027; March 31, 2027; July 31, 2027; April 1, 2027; June 30, 2027",,"45. Health and Hospitals Corporation (819)
+45,17,17,expense,Health and Hospitals Corporation,819,819:001,1,,"October 30, 2026; July 1, 2026; September 30, 2026; January 31, 2027; October 1, 2026; December 31, 2026; April 30, 2027; January 1, 2027; March 31, 2027; July 31, 2027; April 1, 2027; June 30, 2027",,"17:72.00,425.68,539.99,570.93","45. Health and Hospitals Corporation (819)
 Unit of Appropriation [001]","As a condition of the funds in unit of appropriation number 001, the Health and Hospitals Corporation (H+H) shall submit to the Council four reports identifying H+H's actual full-time headcount, disaggregated by job title grouping. Reports shall also include variance reports against the end of June of the previous fiscal year. The reports shall be submitted on: (i) October 30, 2026, covering the period beginning July 1, 2026, and ending September 30, 2026; (ii) January 31, 2027, covering the period beginning October 1, 2026, and ending December 31, 2026; (iii) April 30, 2027, covering the period beginning January 1, 2027, and ending March 31, 2027; and (iv) July 31, 2027, covering the period beginning April 1, 2027, and ending June 30, 2027.","As a condition of the funds in unit of appropriation number 001, the Health and Hospitals Corporation
 (H+H) shall submit to the Council four reports identifying H+H's actual full-time headcount, disaggregated
 by job title grouping. Reports shall also include variance reports against the end of June of the previous
@@ -598,16 +598,16 @@ fiscal year. The reports shall be submitted on: (i) October 30, 2026, covering t
 2026, and ending December 31, 2026; (iii) April 30, 2027, covering the period beginning January 1, 2027,
 and ending March 31, 2027; and (iv) July 31, 2027, covering the period beginning April 1, 2027, and ending
 June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-46,17,17,expense,Health and Hospitals Corporation,819,819:001,1,,"February 15, 2027; January 1, 2026; December 31, 2026","February 15, 2027","46. Health and Hospitals Corporation (819)
+46,17,17,expense,Health and Hospitals Corporation,819,819:001,1,,"February 15, 2027; January 1, 2026; December 31, 2026","February 15, 2027","17:72.00,586.77,539.93,678.33","46. Health and Hospitals Corporation (819)
 Unit of Appropriation [001]","As a condition of the funds in unit of appropriation number 001, the Health and Hospitals Corporation shall submit to the Council no later than February 15, 2027, a report on the hospital utilization rate of beds and the average length of stay, in total and disaggregated by hospital. Such report shall cover the period beginning January 1, 2026, and ending on December 31, 2026.","As a condition of the funds in unit of appropriation number 001, the Health and Hospitals Corporation
 shall submit to the Council no later than February 15, 2027, a report on the hospital utilization rate of
 beds and the average length of stay, in total and disaggregated by hospital. Such report shall cover the
 period beginning January 1, 2026, and ending on December 31, 2026.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-47,17,18,expense,Health and Hospitals Corporation,819,819:001,1,,"August 1, 2027","August 1, 2027","47. Health and Hospitals Corporation (819)
+47,17,18,expense,Health and Hospitals Corporation,819,819:001,1,,"August 1, 2027","August 1, 2027","17:207.78,694.23,404.19,718.65|18:72.00,87.70,539.98,125.50","47. Health and Hospitals Corporation (819)
 Unit of Appropriation [001]","As a condition of the funds in unit of appropriation number 001, the Health and Hospitals Corporation (H+H) shall post on its website a list of H+H pediatric emergency rooms, including locations and available services. Such report shall be posted no later than August 1, 2027.","As a condition of the funds in unit of appropriation number 001, the Health and Hospitals Corporation
 (H+H) shall post on its website a list of H+H pediatric emergency rooms, including locations and available
 services. Such report shall be posted no later than August 1, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-48,18,18,expense,Human Resources Administration,069,069:103; 069:201; 069:203; 069:205,4,,"July 1, 2026; September 30, 2026; November 10, 2026; October 1, 2026; December 31, 2026; February 10, 2027; January 1, 2027; March 31, 2027; May 10, 2027; April 1, 2027; June 30, 2027; August 10, 2027",,"48. Human Resources Administration (069)
+48,18,18,expense,Human Resources Administration,069,069:103; 069:201; 069:203; 069:205,4,,"July 1, 2026; September 30, 2026; November 10, 2026; October 1, 2026; December 31, 2026; February 10, 2027; January 1, 2027; March 31, 2027; May 10, 2027; April 1, 2027; June 30, 2027; August 10, 2027",,"18:72.00,141.40,540.02,514.89","48. Human Resources Administration (069)
 Unit of Appropriation [103]
 Unit of Appropriation [201]
 Unit of Appropriation [203]
@@ -633,7 +633,7 @@ Such reports shall be submitted as follows: (i) for the period beginning July 1,
 period beginning January 1, 2027, and ending March 31, 2027, the report shall be submitted by May 10,
 2027; and (iv) for the period beginning April 1, 2027, and ending June 30, 2027, the report shall be
 submitted by August 10, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-49,18,19,expense,Human Resources Administration,069,069:103,1,,"July 1, 2026; September 30, 2026; October 10, 2026; October 1, 2026; December 31, 2026; January 10, 2027; January 1, 2027; March 31, 2027; April 10, 2027; April 1, 2027; June 30, 2027; July 10, 2027",,"49. Human Resources Administration (069)
+49,18,19,expense,Human Resources Administration,069,069:103,1,,"July 1, 2026; September 30, 2026; October 10, 2026; October 1, 2026; December 31, 2026; January 10, 2027; January 1, 2027; March 31, 2027; April 10, 2027; April 1, 2027; June 30, 2027; July 10, 2027",,"18:72.00,530.79,540.01,716.31|19:72.00,74.26,539.99,192.64","49. Human Resources Administration (069)
 Unit of Appropriation [103]","As a condition of the funds in unit of appropriation number 103, the Human Resources Administration shall submit to the Council four reports on the CityFHEPS rental assistance voucher program. Such reports shall be disaggregated by month and include: a. The number of unduplicated households enrolled in and utilizing CityFHEPS vouchers; b. The number of unduplicated individual people (including all members of all households) enrolled in and utilizing CityFHEPS vouchers; c. The average monthly subsidy and client contribution amount of active vouchers, disaggregated by household size; d. The average length of time current voucher clients have been enrolled in CityFHEPS; e. The percentage of new monthly voucher holders who were able to exit from shelter and from community; f. The number of new enrollments, disaggregated by household size; and g. The number of voucher holders who have utilized CityFHEPS for housing and subsequently returned to shelter within one year. Such reports shall be submitted as follows: (i) for the period beginning July 1, 2026, and ending September 30, 2026, the report shall be submitted by October 10, 2026; (ii) for the period beginning October 1, 2026, and ending December 31, 2026, the report shall be submitted by January 10, 2027; (iii) for the period beginning January 1, 2027, and ending March 31, 2027, the report shall be submitted by April 10, 2027; and (iv) for the period beginning April 1, 2027, and ending June 30, 2027, the report shall be submitted by July 10, 2027.","As a condition of the funds in unit of appropriation number 103, the Human Resources Administration
 shall submit to the Council four reports on the CityFHEPS rental assistance voucher program. Such reports
 shall be disaggregated by month and include:
@@ -654,7 +654,7 @@ and ending December 31, 2026, the report shall be submitted by January 10, 2027;
 beginning January 1, 2027, and ending March 31, 2027, the report shall be submitted by April 10, 2027;
 and (iv) for the period beginning April 1, 2027, and ending June 30, 2027, the report shall be submitted by
 July 10, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-50,19,19,expense,Human Resources Administration,069,069:105; 069:112; 069:205; 069:212,4,,,,"50. Human Resources Administration (069)
+50,19,19,expense,Human Resources Administration,069,069:105; 069:112; 069:205; 069:212,4,,,,"19:72.00,208.54,539.98,367.24","50. Human Resources Administration (069)
 Unit of Appropriation [105]
 Unit of Appropriation [112]
 Unit of Appropriation [205]
@@ -664,7 +664,7 @@ collaborate to submit to the Council no fewer than four reports that reflect the
 entirety, including the total budget of ENDGBV, the total budget by program area, and the total headcount
 for ENDGBV. Each such report shall be submitted within seven business days of the issuance of an update
 of the financial plan.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-51,19,19,expense,Human Resources Administration,069,069:101; 069:103; 069:105; 069:107; 069:112; 069:205; 069:207; 069:212,8,,,,"51. Human Resources Administration (069)
+51,19,19,expense,Human Resources Administration,069,069:101; 069:103; 069:105; 069:107; 069:112; 069:205; 069:207; 069:212,8,,,,"19:72.00,383.08,540.03,595.47","51. Human Resources Administration (069)
 Unit of Appropriation [101]
 Unit of Appropriation [103]
 Unit of Appropriation [105]
@@ -678,7 +678,7 @@ than four reports that reflect OCJ's funding in its entirety including the total
 budget codes, the total budget broken out by program area and the budget code for each, and the total
 headcount for OCJ and the respective budget codes. Each such report shall be submitted within seven
 business days of the issuance of an update of the financial plan.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-52,19,20,expense,Human Resources Administration,069,069:103; 069:111; 069:203; 069:211,4,,,,"52. Human Resources Administration (069)
+52,19,20,expense,Human Resources Administration,069,069:103; 069:111; 069:203; 069:211,4,,,,"19:72.00,611.37,539.92,716.37|20:72.00,74.26,540.00,340.36","52. Human Resources Administration (069)
 Unit of Appropriation [103]
 Unit of Appropriation [111]
 Unit of Appropriation [203]
@@ -704,7 +704,7 @@ i. The number of existing Fair Fares clients whose renewals were approved; and
 j. The number of former Fair Fares clients whose renewals were denied, disaggregated by those
 who were denied due to ineligibility and those who were denied because the enrollee failed to
 complete their renewal on time.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-53,20,20,expense,Mayoralty,002,002:091,1,,"February 1, 2027; July 1, 2026; December 31, 2026; August 1, 2027; January 1, 2027; June 30, 2027","February 1, 2027; August 1, 2027","53. Mayoralty (002)
+53,20,20,expense,Mayoralty,002,002:091,1,,"February 1, 2027; July 1, 2026; December 31, 2026; August 1, 2027; January 1, 2027; June 30, 2027","February 1, 2027; August 1, 2027","20:72.00,356.26,540.05,501.52","53. Mayoralty (002)
 Unit of Appropriation [091]","As a condition of the funds in the unit of appropriation number 091, the Mayor’s Office of Contract Services (MOCS) shall submit two reports regarding emergency contracts. Each report shall identify the agencies that entered into, renewed, or extended a services contract made pursuant to an emergency declaration. Such reports shall include, for each agency, the number and value of all emergency contracts entered into, renewed, or extended, and the names of vendors selected pursuant to these contracts. The first report shall be submitted no later than February 1, 2027, for the period beginning July 1, 2026, and ending December 31, 2026. The second report shall be submitted no later than August 1, 2027, for the period beginning January 1, 2027, and ending June 30, 2027.","As a condition of the funds in the unit of appropriation number 091, the Mayor’s Office of Contract
 Services (MOCS) shall submit two reports regarding emergency contracts. Each report shall identify the
 agencies that entered into, renewed, or extended a services contract made pursuant to an emergency
@@ -713,7 +713,7 @@ entered into, renewed, or extended, and the names of vendors selected pursuant t
 first report shall be submitted no later than February 1, 2027, for the period beginning July 1, 2026, and
 ending December 31, 2026. The second report shall be submitted no later than August 1, 2027, for the
 period beginning January 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-54,20,20,expense,Mayoralty,002,002:260; 002:261,2,,"July 31, 2027","July 31, 2027","54. Mayoralty (002)
+54,20,20,expense,Mayoralty,002,002:260; 002:261,2,,"July 31, 2027","July 31, 2027","20:76.98,517.41,539.97,649.23","54. Mayoralty (002)
 Unit of Appropriation [260]
 Unit of Appropriation [261]","As a condition of the funds in unit of appropriation numbers 260 and 261, the Mayor’s Office for Persons with Disabilities shall submit to the Council a report in relation to such Office’s staffing in Fiscal 2027. Such report shall be submitted no later than July 31, 2027, and shall contain the following information: a. A list of the positions within the Office, by title and function or program, and whether each such position is filled or vacant; b. For each position listed, the amount of City funding and the associated budget code.","As a condition of the funds in unit of appropriation numbers 260 and 261, the Mayor’s Office for Persons
 with Disabilities shall submit to the Council a report in relation to such Office’s staffing in Fiscal 2027.
@@ -721,7 +721,7 @@ Such report shall be submitted no later than July 31, 2027, and shall contain th
 a. A list of the positions within the Office, by title and function or program, and whether each such
 position is filled or vacant;
 b. For each position listed, the amount of City funding and the associated budget code.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-55,20,21,expense,New York City Commission on Human Rights,226,226:004,1,,"July 31, 2026; July 1, 2026; October 31, 2026; September 30, 2026; January 31, 2027; October 1, 2026; December 31, 2026; April 30, 2027; January 1, 2027; March 31, 2027; July 31, 2027; April 1, 2027; June 30, 2027","July 31, 2026; October 31, 2026; January 31, 2027; April 30, 2027; July 31, 2027","55. New York City Commission on Human Rights (226)
+55,20,21,expense,New York City Commission on Human Rights,226,226:004,1,,"July 31, 2026; July 1, 2026; October 31, 2026; September 30, 2026; January 31, 2027; October 1, 2026; December 31, 2026; April 30, 2027; January 1, 2027; March 31, 2027; July 31, 2027; April 1, 2027; June 30, 2027","July 31, 2026; October 31, 2026; January 31, 2027; April 30, 2027; July 31, 2027","20:76.98,665.13,539.88,716.37|21:76.98,74.26,540.04,246.34","55. New York City Commission on Human Rights (226)
 Unit of Appropriation [004]","As a condition of the funds in unit of appropriation number 004, the New York City Commission on Human Rights shall submit to the Council five reports of: a. The number of inquiries received from individuals in each of the thirty three neighborhoods identified by the Taskforce for Racial Inclusion and Equity (TRIE) Initiative; b. The number of inquiries received from individuals in non-TRIE neighborhoods; and c. The number of mobile intakes conducted at community events in each TRIE neighborhood and the date of each such intake. The first report shall be submitted no later than July 31, 2026, and shall cover the period prior to July 1, 2026. The second report shall be submitted no later than October 31, 2026, and shall cover the period beginning July 1, 2026, and ending September 30, 2026. The third report shall be submitted no later than January 31, 2027, and shall cover the period beginning October 1, 2026, and ending December 31, 2026. The fourth report shall be submitted no later than April 30, 2027, and shall cover the period beginning January 1, 2027, and ending March 31, 2027. The fifth report shall be submitted no later than July 31, 2027, and shall cover the period beginning April 1, 2027, and ending June 30, 2027.","As a condition of the funds in unit of appropriation number 004, the New York City Commission on
 Human Rights shall submit to the Council five reports of:
 a. The number of inquiries received from individuals in each of the thirty three neighborhoods
@@ -736,14 +736,14 @@ January 31, 2027, and shall cover the period beginning October 1, 2026, and endi
 The fourth report shall be submitted no later than April 30, 2027, and shall cover the period beginning
 January 1, 2027, and ending March 31, 2027. The fifth report shall be submitted no later than July 31,
 2027, and shall cover the period beginning April 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-56,21,21,expense,New York City Commission on Human Rights,226,226:003,1,,"October 15, 2026; January 1, 2027; March 1, 2027","October 15, 2026","56. New York City Commission on Human Rights (226)
+56,21,21,expense,New York City Commission on Human Rights,226,226:003,1,,"October 15, 2026; January 1, 2027; March 1, 2027","October 15, 2026","21:72.00,262.24,540.11,380.62","56. New York City Commission on Human Rights (226)
 Unit of Appropriation [003]","As a condition of the funds in unit of appropriation number 003, the New York City Commission on Human Rights (CCHR) shall submit to the Council three reports of the number of attorneys staffed on CCHR’s enforcement team and the number of full-time staff members dedicated wholly or principally to overseeing, managing, or improving data collection, management, and analysis at CCHR. CCHR shall submit such reports with current staffing numbers no later than October 15, 2026; January 1, 2027; and March 1, 2027.","As a condition of the funds in unit of appropriation number 003, the New York City Commission on Human
 Rights (CCHR) shall submit to the Council three reports of the number of attorneys staffed on CCHR’s
 enforcement team and the number of full-time staff members dedicated wholly or principally to
 overseeing, managing, or improving data collection, management, and analysis at CCHR. CCHR shall
 submit such reports with current staffing numbers no later than October 15, 2026; January 1, 2027; and
 March 1, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-57,21,21,capital,Capital Budget for New York City Housing Authority,806,,0,HA-0001 – All Projects,"February 15, 2027; January 1, 2026; December 31, 2026","February 15, 2027","57. Capital Budget for New York City Housing Authority (806)
+57,21,21,capital,Capital Budget for New York City Housing Authority,806,,0,HA-0001 – All Projects,"February 15, 2027; January 1, 2026; December 31, 2026","February 15, 2027","21:72.00,396.52,540.05,595.47","57. Capital Budget for New York City Housing Authority (806)
 Budget Line HA-0001 – All Projects","As a condition of the funds in budget line HA-0001 for the Roof Repair Program at the New York City Housing Authority (NYCHA), NYCHA shall submit to the Council no later than February 15, 2027, a report detailing the categories of physical improvements made with the Roof Repair Program funding. Such report shall include the budget for roof repair, disaggregated by funding source, and the number of physical improvements that have been completed or for which construction has begun, disaggregated by physical improvement type (i.e. simple repairs, where the roof can be replaced without work on perimeter walls; moderate repairs, where the roof will be replaced and repairs are needed to perimeter parapet walls; or complex repairs, where the roof and perimeter parapet walls both need to be replaced) and the location of each improvement completed or for which construction has begun. Such report shall also include the current construction phase and the anticipated timeline of each subsequent construction phase for each project (i.e. design, construction, water shut down, closeout). Such report shall cover the period beginning January 1, 2026, and ending on December 31, 2026.","As a condition of the funds in budget line HA-0001 for the Roof Repair Program at the New York City
 Housing Authority (NYCHA), NYCHA shall submit to the Council no later than February 15, 2027, a report
 detailing the categories of physical improvements made with the Roof Repair Program funding. Such
@@ -756,7 +756,7 @@ location of each improvement completed or for which construction has begun. Such
 include the current construction phase and the anticipated timeline of each subsequent construction
 phase for each project (i.e. design, construction, water shut down, closeout). Such report shall cover the
 period beginning January 1, 2026, and ending on December 31, 2026.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-58,21,22,capital,Capital Budget for the New York City Housing Authority,806,,0,HA-0001 – All Projects,"February 1, 2027; July 1, 2026; December 31, 2026; August 1, 2027; January 1, 2027; June 30, 2027",,"58. Capital Budget for the New York City Housing Authority (806)
+58,21,22,capital,Capital Budget for the New York City Housing Authority,806,,0,HA-0001 – All Projects,"February 1, 2027; July 1, 2026; December 31, 2026; August 1, 2027; January 1, 2027; June 30, 2027",,"21:72.00,611.37,539.99,716.31|22:72.00,74.26,540.02,138.94","58. Capital Budget for the New York City Housing Authority (806)
 Budget Line HA-0001 – All Projects","As a condition of the funds in budget line HA-0001 for the Vacant Unit Readiness Program at the New York City Housing Authority (NYCHA), NYCHA shall submit to the Council two reports detailing the status of improvements to be made with Vacant Unit Readiness Program (""program"") funding. Such report shall include the total budget for the program in each year of the Financial Plan, disaggregated by funding source and whether capital or expense; the number of units completed, where the tenant has been selected for move-in, or is non-dwelling; the number of units in the program by development, disaggregated by borough and Council Member; and whether the development is in PACT or the Preservation Trust. The reports shall be submitted on February 1, 2027, covering the period beginning on July 1, 2026, and ending on December 31, 2026, and on August 1, 2027, covering the period beginning on January 1, 2027, and ending on June 30, 2027.","As a condition of the funds in budget line HA-0001 for the Vacant Unit Readiness Program at the New York
 City Housing Authority (NYCHA), NYCHA shall submit to the Council two reports detailing the status of
 improvements to be made with Vacant Unit Readiness Program (""program"") funding. Such report shall
@@ -767,14 +767,14 @@ disaggregated by borough and Council Member; and whether the development is in P
 Preservation Trust. The reports shall be submitted on February 1, 2027, covering the period beginning on
 July 1, 2026, and ending on December 31, 2026, and on August 1, 2027, covering the period beginning on
 January 1, 2027, and ending on June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-59,22,22,capital,Capital Budget for New York City Office of Technology and Innovation,858,,0,DP-0001– All Projects; DP-0002 – All Projects,,,"59. Capital Budget for New York City Office of Technology and Innovation (858)
+59,22,22,capital,Capital Budget for New York City Office of Technology and Innovation,858,,0,DP-0001– All Projects; DP-0002 – All Projects,,,"22:72.00,154.84,540.01,273.22","59. Capital Budget for New York City Office of Technology and Innovation (858)
 Budget Line DP-0001– All Projects
 Budget Line DP-0002 – All Projects","As a condition of funds in budget lines DP-0001 and DP-0002, the New York City Office of Technology and Innovation (OTI) shall submit to the Council three reports detailing spending for OTI’s capital projects, including but not limited to, how spending is distributed across hardware, software, physical structures, land, cloud services, and other platforms. Such reports shall be submitted within seven business days of the release of each capital plan and shall include data as of such capital plan update.","As a condition of funds in budget lines DP-0001 and DP-0002, the New York City Office of Technology and
 Innovation (OTI) shall submit to the Council three reports detailing spending for OTI’s capital projects,
 including but not limited to, how spending is distributed across hardware, software, physical structures,
 land, cloud services, and other platforms. Such reports shall be submitted within seven business days of
 the release of each capital plan and shall include data as of such capital plan update.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-60,22,22,expense,New York City Office of Technology and Innovation,858,858:002; 858:004; 858:008; 858:012; 858:014,5,,"April 15, 2027",,"60. New York City Office of Technology and Innovation (858)
+60,22,22,expense,New York City Office of Technology and Innovation,858,858:002; 858:004; 858:008; 858:012; 858:014,5,,"April 15, 2027",,"22:72.00,289.12,540.13,541.83","60. New York City Office of Technology and Innovation (858)
 Unit of Appropriation [002]
 Unit of Appropriation [004]
 Unit of Appropriation [008]
@@ -791,7 +791,7 @@ c. The term of the contract, the start date, the end date, and if any extensions
 d. The contract value;
 e. The contracted product category; and
 f. The agency or agencies identified or described in the contract to receive such goods or services.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-61,22,23,expense,New York City Police Department,056,056:001; 056:100,2,,"September 30, 2026; January 30, 2027","September 30, 2026; January 30, 2027","61. New York City Police Department (056)
+61,22,23,expense,New York City Police Department,056,056:001; 056:100,2,,"September 30, 2026; January 30, 2027","September 30, 2026; January 30, 2027","22:72.00,557.67,540.04,716.37|23:90.00,74.26,539.81,179.20","61. New York City Police Department (056)
 Unit of Appropriation [001]
 Unit of Appropriation [100]","As a condition of the funds in unit of appropriation numbers 001 and 100, the New York Police Department shall consult with the Department of Education and the Department of Transportation to submit two reports regarding school crossing guard intersection locations. The first report shall be submitted no later than September 30, 2026, and shall be based on deployments as of the second week of September 2026. The second report shall be submitted no later than January 30, 2027, and shall be based on deployments as of the second week of January 2027. The reports shall include: a. The criteria utilized to determine school crossing guard intersections and crossing guard allocations; b. Each location; c. A description of any changes to the school crossing guard training manual and patrol guide sections related to crossing guard deployment; and d. For both crossing guards and crossing guard supervisors: 1. The budgeted headcount; 2. The actual headcount; and 3. The number of vacancies, disaggregated by patrol borough and precinct and provided in a machine-readable format.","As a condition of the funds in unit of appropriation numbers 001 and 100, the New York Police Department
 shall consult with the Department of Education and the Department of Transportation to submit two
@@ -809,7 +809,7 @@ d. For both crossing guards and crossing guard supervisors:
 2. The actual headcount; and
 3. The number of vacancies, disaggregated by patrol borough and precinct and provided in a
 machine-readable format.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-62,23,23,expense,New York City Police Department,056,056:001; 056:100,2,,"January 15, 2027; July 1, 2026; December 31, 2026; July 15, 2027; January 1, 2027; June 30, 2027",,"62. New York City Police Department (056)
+62,23,23,expense,New York City Police Department,056,056:001; 056:100,2,,"January 15, 2027; July 1, 2026; December 31, 2026; July 15, 2027; January 1, 2027; June 30, 2027",,"23:72.00,195.10,539.99,326.92","62. New York City Police Department (056)
 Unit of Appropriation [001]
 Unit of Appropriation [100]","As a condition of the funds in unit of appropriation numbers 001 and 100 for the New York City Police Department (NYPD), the NYPD shall submit to the Council two reports detailing the number of deployments the Strategic Response Group command deployed and the borough in which such units were deployed. The first report shall be submitted on or before January 15, 2027, and shall cover the period beginning July 1, 2026, and ending December 31, 2026. The second report shall be submitted on or before July 15, 2027, and shall cover the period beginning January 1, 2027, and ending June 30, 2027.","As a condition of the funds in unit of appropriation numbers 001 and 100 for the New York City Police
 Department (NYPD), the NYPD shall submit to the Council two reports detailing the number of
@@ -817,7 +817,7 @@ deployments the Strategic Response Group command deployed and the borough in whi
 deployed. The first report shall be submitted on or before January 15, 2027, and shall cover the period
 beginning July 1, 2026, and ending December 31, 2026. The second report shall be submitted on or before
 July 15, 2027, and shall cover the period beginning January 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-63,23,24,expense,New York City Police Department,056,056:001; 056:002; 056:003; 056:004; 056:006; 056:007; 056:008; 056:009; 056:010; 056:016; 056:020; 056:024,12,,"July 1, 2026; September 30, 2026; December 15, 2026; October 1, 2026; December 31, 2026; March 15, 2027; January 1, 2027; March 31, 2027; June 15, 2027; April 1, 2027; June 30, 2027; September 15, 2027",,"63. New York City Police Department (056)
+63,23,24,expense,New York City Police Department,056,056:001; 056:002; 056:003; 056:004; 056:006; 056:007; 056:008; 056:009; 056:010; 056:016; 056:020; 056:024,12,,"July 1, 2026; September 30, 2026; December 15, 2026; October 1, 2026; December 31, 2026; March 15, 2027; January 1, 2027; March 31, 2027; June 15, 2027; April 1, 2027; June 30, 2027; September 15, 2027",,"23:72.00,342.82,540.15,716.31|24:72.00,74.26,540.02,165.82","63. New York City Police Department (056)
 Unit of Appropriation [001]
 Unit of Appropriation [002]
 Unit of Appropriation [003]
@@ -850,7 +850,7 @@ Such reports shall be submitted as follows: (i) for the period beginning July 1,
 beginning January 1, 2027, and ending March 31, 2027, the report shall be submitted by June 15, 2027;
 and (iv) for the period beginning April 1, 2027, and ending June 30, 2027, the report shall be submitted by
 September 15, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-64,24,24,expense,Department of Homeless Services; Department of Housing Preservation and Development; Human Resources Administration; New York City Office of Technology and Innovation,071; 806; 069; 858,071:100; 071:101; 071:200; 806:001; 806:014; 069:101; 069:201; 858:002; 858:010,9,,,,"64. Department of Homeless Services (071)
+64,24,24,expense,Department of Homeless Services; Department of Housing Preservation and Development; Human Resources Administration; New York City Office of Technology and Innovation,071; 806; 069; 858,071:100; 071:101; 071:200; 806:001; 806:014; 069:101; 069:201; 858:002; 858:010,9,,,,"24:72.00,181.66,540.03,716.37","64. Department of Homeless Services (071)
 Unit of Appropriation [100]
 Unit of Appropriation [101]
 Unit of Appropriation [200]
@@ -885,7 +885,7 @@ e. A breakdown of budgeted state and federal funding for asylum response efforts
 program or grant.
 This term and condition shall also apply to any other agency or unit of appropriation not expressly listed
 herein that has budgeted funding and/or actual expenditures related to asylum response efforts.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-65,25,25,expense,Department of Environmental Protection; Department of Finance; Department of Housing Preservation and Development,826; 836; 806,826:001; 836:001; 806:001,3,,"October 10, 2026; July 1, 2026; September 30, 2026; January 10, 2027; October 1, 2026; December 31, 2026; April 10, 2027; January 1, 2027; March 31, 2027; July 10, 2027; April 1, 2027; June 30, 2027",,"65. Department of Environmental Protection (826)
+65,25,25,expense,Department of Environmental Protection; Department of Finance; Department of Housing Preservation and Development,826; 836; 806,826:001; 836:001; 806:001,3,,"October 10, 2026; July 1, 2026; September 30, 2026; January 10, 2027; October 1, 2026; December 31, 2026; April 10, 2027; January 1, 2027; March 31, 2027; July 10, 2027; April 1, 2027; June 30, 2027",,"25:72.00,74.26,540.03,326.92","65. Department of Environmental Protection (826)
 Unit of Appropriation [001]
 Department of Finance (836)
 Unit of Appropriation [001]
@@ -900,7 +900,7 @@ on: (i) October 10, 2026, covering the period beginning July 1, 2026, and ending
 January 10, 2027, covering the period beginning October 1, 2026, and ending December 31, 2026; (iii)
 April 10, 2027, covering the period beginning January 1, 2027, and ending March 31, 2027; and (iv) July
 10, 2027, covering the period beginning April 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-66,25,25,expense,Department of Health and Mental Hygiene; Health and Hospitals Corporation,816; 819,816:103; 816:113; 819:001,3,,"June 30, 2027","June 30, 2027","66. Department of Health and Mental Hygiene (816)
+66,25,25,expense,Department of Health and Mental Hygiene; Health and Hospitals Corporation,816; 819,816:103; 816:113; 819:001,3,,"June 30, 2027","June 30, 2027","25:72.00,342.82,540.07,501.45","66. Department of Health and Mental Hygiene (816)
 Unit of Appropriation [103]
 Unit of Appropriation [113]
 Health and Hospitals Corporation (819)
@@ -909,7 +909,7 @@ and Mental Hygiene (DOHMH) and in unit of appropriation number 001 for the New Y
 Hospitals Corporation (H+H), DOHMH and H+H shall submit to the Council no later than June 30, 2027, a
 report on City Health Department programs providing resources related to doulas and midwives,
 disaggregated by borough.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-67,25,27,expense,Department of Education; Office of Administrative Trials and Hearings,040; 820,040:472; 820:001; 820:002,3,,"November 1, 2026; January 31, 2027; July 1, 2026; December 31, 2026",,"67. Department of Education (040)
+67,25,27,expense,Department of Education; Office of Administrative Trials and Hearings,040; 820,040:472; 820:001; 820:002,3,,"November 1, 2026; January 31, 2027; July 1, 2026; December 31, 2026",,"25:72.00,517.35,539.99,716.31|26:90.00,74.26,539.97,716.32|27:72.00,74.26,539.92,407.50","67. Department of Education (040)
 Unit of Appropriation [472]
 Office of Administrative Trials and Hearings (820)
 Unit of Appropriation [001]
@@ -994,7 +994,7 @@ All information shall be reported in compliance with applicable laws relating to
 information. If a category contains between one and five students, or allows another category to be
 narrowed to between one and five students, the number may be replaced with a symbol. A category that
 contains zero students shall be reported as zero.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-68,27,27,expense,Department of Health and Mental Hygiene; Health and Hospitals Corporation,816; 819,816:103; 816:113; 819:001,3,,"October 10, 2026; July 1, 2026; September 30, 2026; January 10, 2027; October 1, 2026; December 31, 2026; April 10, 2027; January 1, 2027; March 31, 2027; July 10, 2027; April 1, 2027; June 30, 2027",,"68. Department of Health and Mental Hygiene (816)
+68,27,27,expense,Department of Health and Mental Hygiene; Health and Hospitals Corporation,816; 819,816:103; 816:113; 819:001,3,,"October 10, 2026; July 1, 2026; September 30, 2026; January 10, 2027; October 1, 2026; December 31, 2026; April 10, 2027; January 1, 2027; March 31, 2027; July 10, 2027; April 1, 2027; June 30, 2027",,"27:72.00,423.34,540.12,649.17","68. Department of Health and Mental Hygiene (816)
 Unit of Appropriation [103]
 Unit of Appropriation [113]
 Health and Hospitals Corporation (819)
@@ -1008,7 +1008,7 @@ beginning July 1, 2026, and ending September 30, 2026; (ii) January 10, 2027, co
 beginning October 1, 2026, and ending December 31, 2026; (iii) April 10, 2027, covering the period
 beginning January 1, 2027, and ending March 31, 2027; and (iv) July 10, 2027, covering the period
 beginning April 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-69,27,28,expense,Administration for Children’s Services; Department of Education,068; 040,068:001; 068:002; 068:007; 068:008; 068:011; 040:401; 040:402,7,,"January 15, 2027; July 1, 2026; December 31, 2026; July 15, 2027; January 1, 2027; June 30, 2027","January 15, 2027; July 15, 2027","69. Administration for Children’s Services (068)
+69,27,28,expense,Administration for Children’s Services; Department of Education,068; 040,068:001; 068:002; 068:007; 068:008; 068:011; 040:401; 040:402,7,,"January 15, 2027; July 1, 2026; December 31, 2026; July 15, 2027; January 1, 2027; June 30, 2027","January 15, 2027; July 15, 2027","27:197.88,665.07,414.17,716.32|28:72.00,74.26,540.03,608.97","69. Administration for Children’s Services (068)
 Unit of Appropriation [001]
 Unit of Appropriation [002]
 Unit of Appropriation [007]
@@ -1049,7 +1049,7 @@ education program.
 The first report shall be submitted no later than January 15, 2027, and shall cover the period beginning
 July 1, 2026, and ending December 31, 2026, and the second report shall be submitted no later than July
 15, 2027, and shall cover the period beginning January 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-70,28,29,expense,Fire Department; New York City Police Department,057; 056,057:009; 057:010; 056:001; 056:004; 056:016,5,,"February 1, 2027; July 1, 2026; December 31, 2026; August 1, 2027; January 1, 2027; June 30, 2027","February 1, 2027; August 1, 2027","70. Fire Department (057)
+70,28,29,expense,Fire Department; New York City Police Department,057; 056,057:009; 057:010; 056:001; 056:004; 056:016,5,,"February 1, 2027; July 1, 2026; December 31, 2026; August 1, 2027; January 1, 2027; June 30, 2027","February 1, 2027; August 1, 2027","28:216.78,624.81,395.13,716.37|29:72.00,74.26,540.00,232.96","70. Fire Department (057)
 Unit of Appropriation [009]
 Unit of Appropriation [010]
 New York City Police Department (056)
@@ -1065,7 +1065,7 @@ responded to by NYPD officers. The first report shall be submitted no later than
 shall cover the period beginning July 1, 2026, and ending December 31, 2026, and the second report shall
 be submitted no later than August 1, 2027, and shall cover the period beginning January 1, 2027, and
 ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-71,29,29,expense,Department of Correction; Office of Criminal Justice Coordinator,072; 128,072:003; 128:001,2,,"January 15, 2027; July 1, 2026; December 31, 2026; July 15, 2027; January 1, 2027; June 30, 2027",,"71. Department of Correction (072)
+71,29,29,expense,Department of Correction; Office of Criminal Justice Coordinator,072; 128,072:003; 128:001,2,,"January 15, 2027; July 1, 2026; December 31, 2026; July 15, 2027; January 1, 2027; June 30, 2027",,"29:72.00,248.80,539.98,461.20","71. Department of Correction (072)
 Unit of Appropriation [003]
 Office of Criminal Justice Coordinator (128)
 Unit of Appropriation [001]","As a condition of the funds in unit of appropriation number 003 for the Department of Correction (DOC) and unit of appropriation number 001 for the Office of the Criminal Justice Coordinator (MOCJ), DOC and MOCJ shall submit a 2-year forecast or relevant plausible policy impact models, given the makeup of the actual observed jail population and related trends. Such forecast or impact models shall include the methodology of such forecast or impact models. In addition, such forecast or impact models shall also include the projected impact of proactive policy strategies, as practicable, such as Alternatives to Incarceration, Supervised Release, and Electronic Monitoring programs on the jail population across the period. The first report shall be submitted on or before January 15, 2027, and shall cover the period beginning July 1, 2026, and ending December 31, 2026. The second report shall be submitted on or before July 15, 2027, and shall cover the period beginning January 1, 2027, and ending June 30, 2027.","As a condition of the funds in unit of appropriation number 003 for the Department of Correction (DOC)
@@ -1078,7 +1078,7 @@ Incarceration, Supervised Release, and Electronic Monitoring programs on the jai
 period. The first report shall be submitted on or before January 15, 2027, and shall cover the period
 beginning July 1, 2026, and ending December 31, 2026. The second report shall be submitted on or before
 July 15, 2027, and shall cover the period beginning January 1, 2027, and ending June 30, 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-72,29,30,expense,Department of Youth and Community Development; New York City Police Department,260; 056,260:311; 260:312; 056:001,3,,"October 10, 2026; July 1, 2026; September 30, 2026; January 10, 2027; October 1, 2026; December 31, 2026; April 10, 2027; January 1, 2027; March 31, 2027; July 10, 2027; April 1, 2027; June 30, 2027",,"72. Department of Youth and Community Development (260)
+72,29,30,expense,Department of Youth and Community Development; New York City Police Department,260; 056,260:311; 260:312; 056:001,3,,"October 10, 2026; July 1, 2026; September 30, 2026; January 10, 2027; October 1, 2026; December 31, 2026; April 10, 2027; January 1, 2027; March 31, 2027; July 10, 2027; April 1, 2027; June 30, 2027",,"29:72.00,477.09,540.07,716.31|30:72.00,74.26,539.99,125.50","72. Department of Youth and Community Development (260)
 Unit of Appropriation [311]
 Unit of Appropriation [312]
 New York City Police Department (056)
@@ -1097,7 +1097,7 @@ and if each program or activity are available and accessible to people with disa
 also include a breakdown of costs disaggregated by agency, and shall include personal service costs,
 including but not limited to overtime; other than personal service costs; and costs of any associated
 contracts.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-73,30,31,expense,Department of Correction; Department of Sanitation; Fire Department; New York City Police Department,072; 827; 057; 056,072:001; 072:002; 072:005; 072:006; 827:101; 827:102; 827:103; 827:104; 827:105; 827:107; 057:001; 057:002; 057:003; 057:004; 057:005; 057:006; 057:007; 057:008; 056:001; 056:002; 056:003; 056:004; 056:006; 056:007; 056:008; 056:009; 056:010; 056:016; 056:020,29,,"October 15, 2026","October 15, 2026","73. Department of Correction (072)
+73,30,31,expense,Department of Correction; Department of Sanitation; Fire Department; New York City Police Department,072; 827; 057; 056,072:001; 072:002; 072:005; 072:006; 827:101; 827:102; 827:103; 827:104; 827:105; 827:107; 057:001; 057:002; 057:003; 057:004; 057:005; 057:006; 057:007; 057:008; 056:001; 056:002; 056:003; 056:004; 056:006; 056:007; 056:008; 056:009; 056:010; 056:016; 056:020,29,,"October 15, 2026","October 15, 2026","30:72.00,141.40,540.17,716.37|31:72.00,74.26,540.15,259.78","73. Department of Correction (072)
 Unit of Appropriation [001]
 Unit of Appropriation [002]
 Unit of Appropriation [005]
@@ -1146,7 +1146,7 @@ As a condition of the funds in unit of appropriation numbers 001, 002, 003, 004,
 016, and 020, the New York Police Department shall submit to the Council no later than October 15, 2026,
 a report detailing the demographics of uniformed personnel, including gender, race, and ethnicity. Such
 information shall be disaggregated by rank, gender, race, and ethnicity.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-74,31,31,expense,Administration for Children’s Services; Human Resources Administration,068; 069,068:004; 069:103,2,,"October 30, 2026; July 1, 2026; September 30, 2026; January 31, 2027; October 1, 2026; December 31, 2026; April 30, 2027; January 1, 2027; March 31, 2027; July 31, 2027; April 1, 2027; June 30, 2027",,"74. Administration for Children’s Services (068)
+74,31,31,expense,Administration for Children’s Services; Human Resources Administration,068; 069,068:004; 069:103,2,,"October 30, 2026; July 1, 2026; September 30, 2026; January 31, 2027; October 1, 2026; December 31, 2026; April 30, 2027; January 1, 2027; March 31, 2027; July 31, 2027; April 1, 2027; June 30, 2027",,"31:72.00,275.68,540.07,595.47","74. Administration for Children’s Services (068)
 Unit of Appropriation [004]
 Human Resources Administration (069)
 Unit of Appropriation [103]","As a condition of the funds in unit of appropriation number 004 for the Administration for Children’s Services (ACS) and unit of appropriation number 103 for the Human Resources Administration (HRA), ACS shall collaborate with HRA to submit to the Council four reports in relation to childcare voucher utilization. Each such report shall contain the following information, disaggregated by month: a. The number of children enrolled in care, disaggregated by: 1. Children enrolled in subsidized care that are eligible as a result of receiving Cash Assistance, involvement in child welfare services, and meeting criteria for a low-income subsidy; 2. Age of enrolled children; and 3. Full-time (i.e., more than 6 hours per day) or part-time (i.e., 6 hours or fewer per day) of care; and b. The total number of children on the waitlist for a voucher, disaggregated by: 1. Age of child, and 2. Borough of residence. The reports shall be submitted on: (i) October 30, 2026, covering the period beginning July 1, 2026, and ending September 30, 2026; (ii) January 31, 2027, covering the period beginning October 1, 2026, and ending December 31, 2026; (iii) April 30, 2027, covering the period beginning January 1, 2027, and ending March 31, 2027; and (iv) July 31, 2027, covering the period beginning April 1, 2027, and ending June 30, 2027.","As a condition of the funds in unit of appropriation number 004 for the Administration for Children’s
@@ -1167,7 +1167,7 @@ ending September 30, 2026; (ii) January 31, 2027, covering the period beginning 
 ending December 31, 2026; (iii) April 30, 2027, covering the period beginning January 1, 2027, and ending
 March 31, 2027; and (iv) July 31, 2027, covering the period beginning April 1, 2027, and ending June 30,
 2027.",,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
-75,31,32,expense,City University of New York; Department of Education; Department of Health and Mental Hygiene; Mayoralty,042; 040; 816; 002,042:001; 042:002; 042:003; 042:004; 042:012; 040:407; 040:408; 040:409; 040:410; 040:453; 040:454; 040:470; 816:104; 816:114; 002:020; 002:021,16,,"January 31, 2027; September 15, 2026","January 31, 2027","75. City University of New York (042)
+75,31,32,expense,City University of New York; Department of Education; Department of Health and Mental Hygiene; Mayoralty,042; 040; 816; 002,042:001; 042:002; 042:003; 042:004; 042:012; 040:407; 040:408; 040:409; 040:410; 040:453; 040:454; 040:470; 816:104; 816:114; 002:020; 002:021,16,,"January 31, 2027; September 15, 2026","January 31, 2027","31:221.34,611.37,390.50,716.31|32:72.00,74.26,540.02,541.77","75. City University of New York (042)
 Unit of Appropriation [001]
 Unit of Appropriation [002]
 Unit of Appropriation [003]

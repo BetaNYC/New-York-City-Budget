@@ -118,6 +118,12 @@ def group_lines(words):
     return [sorted(l, key=lambda w: w["x0"]) for l in lines]
 
 
+def bbox_of(ws):
+    """`x0,top,x1,bottom` of some words, in pdfplumber's (display) coordinates."""
+    return (f"{min(w['x0'] for w in ws):.2f},{min(w['top'] for w in ws):.2f},"
+            f"{max(w['x1'] for w in ws):.2f},{max(w['bottom'] for w in ws):.2f}")
+
+
 def line_text(ws):
     return " ".join(w["text"] for w in sorted(ws, key=lambda w: w["x0"]))
 
@@ -547,7 +553,7 @@ def parse_part3_page(page, pno, state, review):
             if am and len(am) == 4:
                 if state.get("pending_name"):
                     text = state.pop("pending_name") + " " + text
-                state["org"] = {"pdf_page": pno, "organization": text,
+                state["org"] = {"pdf_page": pno, "organization": text, "bbox_pt": bbox_of(ln),
                                 **{f"org_{fy}": money(am[fy]["text"]) for fy in FYS},
                                 "lines": []}
                 state["orgs"].append(state["org"])
@@ -565,6 +571,7 @@ def parse_part3_page(page, pno, state, review):
                            part="III")
                 continue
             state["org"]["lines"].append({"pdf_page": pno, "budget_line": text,
+                                          "bbox_pt": bbox_of(ln),
                                           **{fy: money(am[fy]["text"]) for fy in FYS},
                                           "top": ln[0]["top"]})
             consumed.update(w["wid"] for w in ln)
@@ -1126,12 +1133,12 @@ def run(out_dir, do_ink=True, ink_selftest=False):
         w.writeheader()
         w.writerows(totals)
     with open(os.path.join(d, "fy27_capital_sd_part3.csv"), "w", newline="") as f:
-        cols = ["pdf_page", "organization", "budget_line"] + list(FYS)
+        cols = ["pdf_page", "organization", "budget_line"] + list(FYS) + ["bbox_pt"]
         w = csv.DictWriter(f, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
         w.writerows(p3_lines)
     with open(os.path.join(d, "fy27_capital_sd_part3_orgs.csv"), "w", newline="") as f:
-        cols = ["pdf_page", "organization"] + [f"org_{fy}" for fy in FYS] + ["n_lines", "status"]
+        cols = ["pdf_page", "organization"] + [f"org_{fy}" for fy in FYS] + ["n_lines", "status", "bbox_pt"]
         w = csv.DictWriter(f, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
         for o in orgs:
