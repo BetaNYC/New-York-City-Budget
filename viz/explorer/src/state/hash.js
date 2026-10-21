@@ -7,7 +7,7 @@
  * passed through.
  */
 
-export const VIEWS = ["awards", "award", "years", "capital", "capital-row", "omb", "orgs", "terms", "source", "about"];
+export const VIEWS = ["awards", "award", "years", "capital", "capital-row", "omb", "orgs", "terms", "source", "review", "about"];
 
 export const DEFAULT_STATE = {
   view: "awards",
@@ -55,13 +55,19 @@ export const DEFAULT_STATE = {
   tq: "",
   tkind: "",
   tpage: 0,
+  rfam: "", // review queue: family, year, check, severity, open/decided, selected review_id
+  rfy: null,
+  rcheck: "",
+  rsev: "",
+  rstate: "",
+  rid: "",
   spdf: "", // source viewer: repo path of the PDF, page, row box (x0,top,x1,bottom), label
   spage: null,
   sbox: "",
   slabel: "",
 };
 
-const INT_KEYS = ["fy", "page", "ay", "row", "cfy", "afy", "district", "cpage", "seq", "ofy", "opage", "gfy", "gpage", "tfy", "tpage", "spage"];
+const INT_KEYS = ["fy", "page", "ay", "row", "cfy", "afy", "district", "cpage", "seq", "ofy", "opage", "gfy", "gpage", "tfy", "tpage", "spage", "rfy"];
 const NUM_KEYS = ["min", "max", "cmin", "cmax"];
 
 export function readHash(hash = typeof window === "undefined" ? "" : window.location.hash) {

@@ -159,7 +159,7 @@ async function main() {
     // Which index was exported (repo-relative), and whether it holds reviewed PDF rows.
     index: DB_PATH.slice(REPO.length + 1),
     include_reviewed: meta.include_reviewed === "yes",
-    pdf_families: Object.fromEntries(Object.entries(PDF_FAMILIES).map(([k, f]) => [k, { label: f.label, main: f.main, tables: f.tables.map((t) => t.table) }])),
+    pdf_families: Object.fromEntries(Object.entries(PDF_FAMILIES).map(([k, f]) => [k, { label: f.label, main: f.main, tables: f.tables.map((t) => t.table), decisions: f.decisions ?? {} }])),
     capital: capitalGaps(readFileSync(join(REPO, "data", "capital", "README.md"), "utf8"), CAPITAL_REPORT_YEARS),
     files,
   };

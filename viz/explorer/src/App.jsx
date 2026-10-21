@@ -10,6 +10,7 @@ import Awards from "./views/Awards.jsx";
 import Capital, { CapitalRow } from "./views/Capital.jsx";
 import Omb from "./views/Omb.jsx";
 import Orgs from "./views/Orgs.jsx";
+import Review from "./views/Review.jsx";
 import Source from "./views/Source.jsx";
 import Terms from "./views/Terms.jsx";
 import { pdfYearsQuery, REVIEWED_LABEL } from "./query/pdf.js";
@@ -24,6 +25,8 @@ const TABS = [
   // --include-reviewed build).
   ["orgs", "Organizations", "capital_sd"],
   ["terms", "Terms & Conditions", "terms"],
+  // The review screen: only when a family is loaded with status = reviewed (a --include-reviewed build).
+  ["review", "Review", "review"],
   ["about", "About the data"],
 ];
 const PARENT = { award: "awards", "capital-row": "capital" };
@@ -80,7 +83,7 @@ export default function App() {
           </p>
           <h1>NYC Council budget explorer</h1>
           <nav className="tabs" aria-label="Views">
-            {TABS.filter(([, , fam]) => !fam || (db.manifest?.files?.[`${db.manifest?.pdf_families?.[fam]?.main}.parquet`]?.rows ?? 0) > 0).map(([v, label]) => (
+            {TABS.filter(([, , fam]) => !fam || (fam === "review" ? Boolean(db.manifest?.include_reviewed) && (db.manifest?.files?.["pdf_review.parquet"]?.rows ?? 0) > 0 : (db.manifest?.files?.[`${db.manifest?.pdf_families?.[fam]?.main}.parquet`]?.rows ?? 0) > 0)).map(([v, label]) => (
               <HashLink key={v} href={writeHash({ ...state, view: v })} onGo={() => go({ view: v })} className={tab === v ? "active" : undefined}>
                 {label}
               </HashLink>
@@ -185,6 +188,8 @@ function Ready({ state, set, go, back, manifest }) {
       return <Terms {...props} />;
     case "source":
       return <Source {...props} />;
+    case "review":
+      return <Review {...props} />;
     case "about":
       return <About manifest={manifest} />;
     default:

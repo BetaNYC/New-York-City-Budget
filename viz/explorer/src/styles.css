@@ -102,3 +102,26 @@ ol.conditions { padding-left: 2.2rem; }
 .pdfloading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); pointer-events: none; }
 .pdfmissing { border: 1px solid var(--line); border-radius: 8px; padding: 16px; color: var(--muted); font-size: 13px; }
 .rowhighlight { position: absolute; z-index: 10; pointer-events: none; border: 2px solid #d9480f; background: rgba(255, 196, 0, 0.22); border-radius: 2px; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.06); }
+
+/* Review queue (--include-reviewed builds only) */
+.review-top { display: flex; gap: 1.5rem; align-items: end; flex-wrap: wrap; }
+.review-progress { margin: 0.4rem 0; }
+.review-layout { display: grid; grid-template-columns: minmax(14rem, 19rem) 1fr; gap: 1rem; align-items: start; margin-top: 0.75rem; }
+.review-list { list-style: none; margin: 0; padding: 0; max-height: 80vh; overflow: auto; border: 1px solid var(--line); border-radius: 6px; }
+.review-list li { border-bottom: 1px solid var(--line); }
+.review-list li.selected { background: #fff3cd; }
+.review-item { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 0.45rem 0.6rem; cursor: pointer; font: inherit; }
+.decided { font-size: 0.75rem; padding: 0 0.35rem; border-radius: 3px; background: #e3f4e5; color: #1d5e2a; }
+.review-panel article h3 { margin-top: 0; }
+.review-decide { border: 1px solid var(--line); border-radius: 6px; padding: 0.6rem 0.9rem; background: #fbfaf6; margin: 0.6rem 0; }
+.review-decide .buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-top: 0.4rem; }
+.review-decide .buttons button { padding: 0.3rem 0.7rem; border: 1px solid var(--line); border-radius: 5px; background: #fff; cursor: pointer; }
+.review-decide .change { display: inline-flex; gap: 0.3rem; }
+.field.wide { width: 100%; }
+.field.wide input { width: 100%; }
+.review-columns { display: grid; grid-template-columns: minmax(14rem, 22rem) 1fr; gap: 1rem; }
+.fields.compact div { padding: 0.15rem 0; }
+.fields.compact dt { font-size: 0.75rem; color: var(--muted); }
+.howto { border: 1px solid var(--line); border-radius: 6px; padding: 0.6rem 0.9rem; }
+.howto pre { background: #f3f4f6; padding: 0.5rem; overflow: auto; }
+@media (max-width: 900px) { .review-layout, .review-columns { grid-template-columns: 1fr; } }

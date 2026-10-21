@@ -64,6 +64,7 @@ export const PDF_FAMILIES = {
   capital_sd: {
     label: "Capital §254 supporting detail",
     main: "pdf_capital_sd",
+    decisions: { 2027: "research/2026-10-20-fy27-capital-terms-review/data/fy27_capital_sd_review_decisions.csv" },
     review: REVIEW_PY,
     tables: [
       {
@@ -105,6 +106,7 @@ export const PDF_FAMILIES = {
   terms: {
     label: "Terms and Conditions",
     main: "pdf_terms",
+    decisions: { 2027: "research/2026-10-20-fy27-capital-terms-review/data/fy27_terms_review_decisions.csv" },
     review: REVIEW_PY,
     tables: [
       {
@@ -143,6 +145,7 @@ export const PDF_FAMILIES = {
 PDF_FAMILIES.schedule_c = {
   label: "Schedule C",
   main: "pdf_schedule_c",
+  decisions: { 2027: "research/2026-10-20-fy27-schedule-c-review/data/fy27_sc_review_decisions.csv" },
   prefix: "sc",
   review: {
     file: "review",
@@ -192,6 +195,17 @@ PDF_FAMILIES.schedule_c = {
 };
 
 /** Tables a family derives (not read from a CSV): name -> CREATE columns. */
+/**
+ * The suggested decision for each review row (data/pdf_review_suggestions.csv, written by
+ * code/build_review_suggestions.py from the families' REVIEW.md files). Loaded for loaded
+ * families only, and read only when at least one family loads.
+ */
+export const SUGGESTIONS = {
+  table: "pdf_review_suggestions",
+  file: "data/pdf_review_suggestions.csv",
+  columns: [["fiscal_year", I], ["family", T], ["review_id", T], ["check_id", T], ["suggested_decision", T], ["suggested_note", T], ["source", T]],
+};
+
 export const DERIVED = {
   pdf_sc_disclosure: [
     ["fiscal_year", I], ["side", T], ["award_id", T], ["ein", T], ["amount", I], ["disclosure_row", I],
@@ -210,6 +224,7 @@ export const PDF_TABLES = [
   ...Object.values(PDF_FAMILIES).flatMap((f) => f.tables.map((t) => t.table)),
   ...Object.keys(DERIVED),
   REVIEW_TABLE.table,
+  SUGGESTIONS.table,
 ];
 
 const ident = (s) => `"${s}"`;
@@ -228,6 +243,7 @@ export function pdfSchemaSql() {
   for (const [t, cols] of Object.entries(DERIVED)) {
     out.push(`CREATE TABLE ${t} (${[...cols.map(([n, ty]) => `${ident(n)} ${ty}`), '"family" TEXT', '"status" TEXT'].join(", ")})`);
   }
+  out.push(`CREATE TABLE ${SUGGESTIONS.table} (${[...SUGGESTIONS.columns.map(([n, ty]) => `${ident(n)} ${ty}`), '"status" TEXT'].join(", ")})`);
   out.push(`CREATE TABLE ${REVIEW_TABLE.table} (${[...REVIEW_TABLE.columns.map(([n, ty]) => `${ident(n)} ${ty}`), '"status" TEXT'].join(", ")})`);
   return out.join(";\n") + ";";
 }
@@ -321,7 +337,27 @@ export function loadPdfFamilies(db, io, includeReviewed) {
     counts.pdf_years += 1;
     loaded.push({ fiscal_year: fy, family: y.family, status: y.status, rows: mainRows });
   }
+  if (loaded.length) counts[SUGGESTIONS.table] = loadSuggestions(db, io, loaded);
   return { counts, loaded, includeReviewed };
+}
+
+/** Suggestions for the loaded families; every loaded review row must have exactly one. */
+function loadSuggestions(db, io, loaded) {
+  const rows = io.readCsv(SUGGESTIONS.file);
+  const want = SUGGESTIONS.columns.map(([n]) => n);
+  if (rows.length && Object.keys(rows[0]).join(",") !== want.join(",")) throw new Error(`${SUGGESTIONS.file}: columns ${Object.keys(rows[0]).join(",")}; expected ${want.join(",")}`);
+  const status = new Map(loaded.map((l) => [`${l.fiscal_year}/${l.family}`, l.status]));
+  const mine = rows.filter((r) => status.has(`${r.fiscal_year}/${r.family}`));
+  const ins = db.prepare(`INSERT INTO ${SUGGESTIONS.table} VALUES (?, ?, ?, ?, ?, ?, ?, ?)`);
+  db.transaction(() => {
+    for (const r of mine) ins.run(Number(r.fiscal_year), r.family, r.review_id, r.check_id, r.suggested_decision, r.suggested_note, r.source, status.get(`${r.fiscal_year}/${r.family}`));
+  })();
+  const missing = db.prepare(`SELECT COUNT(*) AS n FROM ${REVIEW_TABLE.table} r WHERE NOT EXISTS (SELECT 1 FROM ${SUGGESTIONS.table} s
+    WHERE s.fiscal_year = r.fiscal_year AND s.family = r.family AND s.review_id = r.review_id)`).get().n;
+  const extra = db.prepare(`SELECT COUNT(*) AS n FROM ${SUGGESTIONS.table} s WHERE NOT EXISTS (SELECT 1 FROM ${REVIEW_TABLE.table} r
+    WHERE s.fiscal_year = r.fiscal_year AND s.family = r.family AND s.review_id = r.review_id)`).get().n;
+  if (missing || extra) throw new Error(`${SUGGESTIONS.file}: ${missing} review rows have no suggestion row, ${extra} suggestion rows match no review row (run code/build_review_suggestions.py --write)`);
+  return mine.length;
 }
 
 /** One family's review CSV into pdf_review: mapped columns, the rest as JSON in `detail`. */

@@ -265,6 +265,24 @@ export function reviewNotesQuery(reviewIds) {
   };
 }
 
+// ---------------------------------------------------------------- the review queue
+
+/** Every review row of every loaded family, with its suggested decision. */
+export const reviewQueueQuery = () => ({
+  sql: `SELECT r.fiscal_year, r.family, r.status, r.review_id, r.check_id, r.severity, r.pdf_page, r.field, r.dollars,
+          r.expected, r.observed, r.note, r.detail, r.source_pdf,
+          s.suggested_decision, s.suggested_note, s.source AS suggestion_source
+        FROM pdf_review r LEFT JOIN pdf_review_suggestions s
+          ON s.fiscal_year = r.fiscal_year AND s.family = r.family AND s.review_id = r.review_id`,
+  params: [],
+});
+
+/** The data row a review id points at, in one of its family's tables (rows carry review_id). */
+export const reviewRowQuery = (table, fy, reviewId) => ({
+  sql: `SELECT * FROM "${table}" WHERE fiscal_year = ? AND contains(';' || COALESCE(review_id, '') || ';', ?) LIMIT 1`,
+  params: [Number(fy), `;${reviewId};`],
+});
+
 // ---------------------------------------------------------------- the source viewer
 
 /** "x0,top,x1,bottom" -> numbers, or null. */
