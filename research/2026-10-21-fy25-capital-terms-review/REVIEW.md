@@ -1,6 +1,6 @@
 # FY2025 capital and T&C: rows for Noel to review
 
-**Generated:** 2026-10-21 19:40 EDT, from `data/fy25_capital_sd_review.csv` and
+**Generated:** 2026-10-21 19:05 EDT, from `data/fy25_capital_sd_review.csv` and
 `data/fy25_terms_review.csv`. Prepared by BetaNYC with AI assistance.
 
 Sorted by dollars. Page = PDF page (1-based), not the printed "Page N of 63". Nothing here was

@@ -1,6 +1,6 @@
 # Draft #104 issue-log comments (NOT posted)
 
-**Written:** 2026-10-21 19:40 EDT. One block per problem, in the order found, in the shape #104 asks
+**Written:** 2026-10-21 19:05 EDT. One block per problem, in the order found, in the shape #104 asks
 for. Each is meant to be its own comment on #104 once Noel approves. "PR" below means the PR that
 adds this folder. Capital supporting detail and Terms & Conditions only; Schedule C and the
 transparency resolutions log their own.
