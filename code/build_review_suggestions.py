@@ -111,12 +111,12 @@ TR26_BY_ID = {
 
 # FY2026 (research/2026-10-21-fy26-capital-terms-review/REVIEW.md, tables A, B, C).
 CAPITAL26_BY_SUB = {
-    ("C3.part2_only", "PV MA0022"): ("needs_info", "Part II only (MA ID on a 0N line); accept as printed and include in the Council Finance question.", "A3"),
-    ("C3.part2_only", "PV MA0007"): ("needs_info", "Part II only, on a DN line; accept as printed and include in the Council Finance question.", "A7"),
+    ("C3.part2_only", "PV MA0022"): ("accepted_as_printed", "Part II only (MA ID on a 0N line); accept as printed and include in the Council Finance question.", "A3"),
+    ("C3.part2_only", "PV MA0007"): ("accepted_as_printed", "Part II only, on a DN line; accept as printed and include in the Council Finance question.", "A7"),
     ("C3.part2_only", "PV MA0005"): ("accepted_as_printed", "A negative row (-183,000), Part II only; a reduction, accept as printed.", "A8"),
 }
 CAPITAL26_BY_CHECK = {
-    "C3.ma_series": ("needs_info", "Accept as printed; ask Council Finance what MM / MA / 0N mean.", "A1"),
+    "C3.ma_series": ("accepted_as_printed", "Accept as printed; ask Council Finance what MM / MA / 0N mean.", "A1"),
     "C2.rescindments": ("accepted_as_printed", "One printed number; only the subtraction can be checked here.", "A2"),
     "W.edited_after_export": ("accepted_as_printed", "Typed into the PDF after export; accept the later edit as printed.", "A4"),
     "C9.workbook_sponsor": ("accepted_as_printed", "Keep the PDF's sponsor (later edits, or the workbook's merged HN CN1451).", "A4, A5"),
@@ -139,7 +139,8 @@ CAPITAL_BY_SUB = {
     ("C9.workbook_title", "HD CC1041"): ("accepted_as_printed", "Title edited in the PDF after export; keep the PDF's.", "A14"),
 }
 CAPITAL_BY_CHECK = {
-    "C3.ma_series": ("needs_info", "Accept as printed; ask Council Finance what MA / 0N mean.", "A1"),
+    # REVIEW.md A1 says "Accept as printed"; the Council Finance question stays in the note.
+    "C3.ma_series": ("accepted_as_printed", "Accept as printed; ask Council Finance what MA / 0N mean.", "A1"),
     "C2.rescindments": ("accepted_as_printed", "One printed number with no list behind it; only the subtraction ties.", "A2"),
     "C9.workbook_sponsor": ("accepted_as_printed", "Keep the PDF's sponsor; the workbook differs (delegations, or one 'Sanchez' for two members).", "A3, A5, A7, A11, A17"),
     "W.edited_after_export": ("accepted_as_printed", "Text typed into the PDF after export; keep as printed.", "A4, A7, A9, A14, A16"),

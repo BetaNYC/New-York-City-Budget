@@ -17,6 +17,29 @@ export const DECISION_LABEL = {
   parser_bug: "our reading is wrong",
   needs_info: "needs more information",
 };
+/** What a decision records, as a button says it ("Accept suggestion → keep as printed"). */
+export const DECISION_ACTION = {
+  accepted_as_printed: "keep as printed",
+  source_error: "source error",
+  parser_bug: "our reading is wrong",
+  needs_info: "needs more information",
+};
+
+/** The "Accept suggestion" button's label: it names the decision it will record. */
+export const suggestionLabel = (item) =>
+  DECISIONS.includes(item?.suggested_decision) ? `Accept suggestion → ${DECISION_ACTION[item.suggested_decision]}` : "Accept suggestion (none for this item)";
+
+/**
+ * Why a decision button cannot be used yet, before it is clicked (null = it can). The name comes
+ * first: every decision records it as decided_by.
+ */
+export function blockedReason(kind, item, { by = "", change = "" } = {}) {
+  if (!String(by).trim()) return "Enter your name first (at the top of the queue): it is recorded as decided_by.";
+  if (kind === "suggestion" && !DECISIONS.includes(item?.suggested_decision)) return "This item has no suggested decision.";
+  if (kind === "change" && !String(change).trim()) return "Type the right value first.";
+  return null;
+}
+
 const SEVERITY_RANK = { critical: 0, warn: 1 };
 
 export const itemKey = (it) => `${it.family}|${it.fiscal_year}|${it.review_id}`;
@@ -110,6 +133,27 @@ export function toDecisionsCsv(items, decisions, family, fiscalYear) {
     lines.push(DECISIONS_HEADER.map((c) => quote(d[c])).join(","));
   }
   return lines.join("\n") + "\n";
+}
+
+/**
+ * Every family and year with at least one decision made in this browser (not already committed),
+ * as files ready to download: [{ family, fiscal_year, count, name, text }]. `paths` maps
+ * family -> { year: committed decisions path }; the file is named like the committed one.
+ */
+export function exportGroups(items, decisions, paths = {}) {
+  const groups = new Map();
+  for (const it of items) {
+    if (isCommitted(it) || !decisions[itemKey(it)]) continue;
+    const k = `${it.family}|${Number(it.fiscal_year)}`;
+    if (!groups.has(k)) groups.set(k, { family: it.family, fiscal_year: Number(it.fiscal_year), count: 0 });
+    groups.get(k).count += 1;
+  }
+  return [...groups.values()]
+    .sort((a, b) => b.fiscal_year - a.fiscal_year || a.family.localeCompare(b.family))
+    .map((g) => {
+      const path = paths[g.family]?.[g.fiscal_year] ?? `fy${String(g.fiscal_year).slice(2)}_${g.family}_review_decisions.csv`;
+      return { ...g, name: path.split("/").at(-1), path, text: toDecisionsCsv(items, decisions, g.family, g.fiscal_year) };
+    });
 }
 
 /** RFC 4180 CSV -> array of string arrays. */

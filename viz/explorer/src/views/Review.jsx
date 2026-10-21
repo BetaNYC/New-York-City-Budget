@@ -5,6 +5,7 @@ import { money } from "../format.js";
 import { sourceLinks } from "../paths.js";
 import * as P from "../query/pdf.js";
 import * as R from "../review/queue.js";
+import { makeZip } from "../review/zip.js";
 import { ReviewedLabel } from "../components/pdf.jsx";
 import { Notice, SelectFilter, Status } from "../components/ui.jsx";
 
@@ -43,6 +44,22 @@ export default function Review({ state, set, manifest, pdfYears }) {
       return next;
     });
 
+  const download = (name, blob) => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
+  // One CSV when one family/year has new decisions; otherwise one .zip holding one CSV per
+  // family/year (browsers block or ask about several downloads at once; a single zip always arrives).
+  const groups = R.exportGroups(all, decisions, Object.fromEntries(Object.entries(families).map(([k, v]) => [k, v.decisions ?? {}])));
+  const exportAll = () => {
+    if (!groups.length) return;
+    if (groups.length === 1) return download(groups[0].name, new Blob([groups[0].text], { type: "text/csv" }));
+    const stamp = new Date().toISOString().slice(0, 10);
+    download(`nycb-review-decisions-${stamp}.zip`, new Blob([makeZip(groups.map((g) => ({ name: g.name, text: g.text })))], { type: "application/zip" }));
+  };
   const exportCsv = (family, fy) => {
     const csv = R.toDecisionsCsv(all, decisions, family, fy);
     const path = families[family]?.decisions?.[fy] ?? `fy${String(fy).slice(2)}_${family}_review_decisions.csv`;
@@ -71,9 +88,23 @@ export default function Review({ state, set, manifest, pdfYears }) {
         record a decision. Nothing changes the data: decisions are saved in this browser until you export them and commit the file.
       </p>
       <div className="review-top">
-        <label className="field">
-          <span>Your name (decided_by)</span>
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Noel Hidalgo" />
+        <label className={`field reviewer-name${name.trim() ? "" : " needs-name"}`}>
+          <span>
+            Your name (recorded as <code>decided_by</code>) <span className="required">required</span>
+          </span>
+          <input
+            id="reviewer-name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="e.g. Noel Hidalgo"
+            required
+            aria-required="true"
+            aria-describedby="reviewer-name-hint"
+            autoComplete="name"
+          />
+          <span id="reviewer-name-hint" className="small">
+            {name.trim() ? "Saved in this browser; every decision you record carries it." : "Enter your name before deciding: the decision buttons stay off until you do."}
+          </span>
         </label>
         <p className="review-progress">
           <strong>{prog.decided}</strong> of {prog.total} decided ({prog.committed} already in the repository) · {prog.open} open · {prog.needs_info} need more information
@@ -108,6 +139,15 @@ export default function Review({ state, set, manifest, pdfYears }) {
       </div>
 
       <h3>Save your decisions to the repository</h3>
+      <div className="export-all">
+        <button type="button" className="primary" onClick={exportAll} disabled={!groups.length}>
+          Export all my decisions{groups.length ? ` (${groups.reduce((n, g) => n + g.count, 0)} in ${groups.length} file${groups.length > 1 ? "s, one .zip" : ""})` : ""}
+        </button>
+        <p className="small">
+          <strong>Exports include only items you've decided; undecided items stay in the queue.</strong>{" "}
+          {groups.length ? `Files: ${groups.map((g) => `${g.name} (${g.count})`).join(", ")}.` : "Nothing new to export yet."}
+        </p>
+      </div>
       {msg && (
         <Notice tone={msg.tone}>
           {msg.text}
@@ -151,8 +191,8 @@ export default function Review({ state, set, manifest, pdfYears }) {
                     <code>{path}</code>
                   </td>
                   <td>
-                    <button type="button" onClick={() => exportCsv(it.family, it.fiscal_year)}>
-                      Export CSV
+                    <button type="button" onClick={() => exportCsv(it.family, it.fiscal_year)} title="Only the items decided in this browser">
+                      Export this one
                     </button>
                   </td>
                 </tr>
@@ -161,7 +201,9 @@ export default function Review({ state, set, manifest, pdfYears }) {
           </tbody>
         </table>
         <pre className="small">
-          {`# from the repository root, for each exported file:
+          {`# a .zip (several families/years): unzip it first
+unzip ~/Downloads/nycb-review-decisions-*.zip -d ~/Downloads/review-decisions
+# from the repository root, for each exported file:
 .venv/bin/python code/validate_review_decisions.py \\
     --review data/fyNN/pdf/<family>/<the family's>_review.csv \\
     --decisions <the path above> \\
@@ -243,24 +285,26 @@ function Item({ it, manifest, families, decided, name, onDecide, onClear }) {
           <span>Note (optional)</span>
           <input value={note} onChange={(e) => setNote(e.target.value)} placeholder="why" />
         </label>
-        <div className="buttons">
-          <button type="button" onClick={() => act("keep")}>
+        <div className="buttons" aria-describedby="decide-hint">
+          <button type="button" onClick={() => act("keep")} disabled={Boolean(R.blockedReason("keep", it, { by: name }))}>
             Keep as printed
           </button>
-          <button type="button" onClick={() => act("suggestion")} disabled={!it.suggested_decision}>
-            Accept suggestion
+          <button type="button" onClick={() => act("suggestion")} disabled={Boolean(R.blockedReason("suggestion", it, { by: name }))}>
+            {R.suggestionLabel(it)}
           </button>
-          <button type="button" onClick={() => act("needs_info")}>
+          <button type="button" onClick={() => act("needs_info")} disabled={Boolean(R.blockedReason("needs_info", it, { by: name }))}>
             Needs more information
           </button>
           <span className="change">
             <input value={change} onChange={(e) => setChange(e.target.value)} placeholder="the right value" aria-label="Change to" />
-            <button type="button" onClick={() => act("change")}>
+            <button type="button" onClick={() => act("change")} disabled={Boolean(R.blockedReason("change", it, { by: name, change }))}>
               Change to…
             </button>
           </span>
         </div>
-        {err ? <Notice tone="warn">{err}</Notice> : null}
+        <p id="decide-hint" className={`decide-hint${err || !name.trim() ? " warn" : ""}`} role="status" aria-live="polite">
+          {err ?? R.blockedReason("keep", it, { by: name }) ?? (change.trim() ? null : "To record a different value, type it, then Change to…")}
+        </p>
         </>
         )}
       </div>
