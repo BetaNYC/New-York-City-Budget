@@ -1,1 +1,7 @@
 review_id,decision,note,decided_by,decided_at
+01375b88b4c3,accepted_as_printed,"Hyphen belongs to the name; name kept without the cut-off "" -"". EIN 134113613 (both grids agree).",Noel Hidalgo,2026-10-20T23:14-04:00
+efad3687c709,accepted_as_printed,"Kept as printed: ""Meals-Council District 32"".",Noel Hidalgo,2026-10-20T23:14-04:00
+2a9b49ebcf3e,accepted_as_printed,"Same as efad3687c709 (Appendix A).",Noel Hidalgo,2026-10-20T23:14-04:00
+7253bd6cce3a,source_error,"Roll-up $1 follows from p.214: the PDF's printed designated total is $1 above its rows. Numbers left as printed.",Noel Hidalgo,2026-10-20T23:14-04:00
+d68b985e6c58,source_error,"PDF prints $7,229,999; its 394 rows sum to $7,229,998. Numbers left as printed.",Noel Hidalgo,2026-10-20T23:14-04:00
+173122c5ffd8,accepted_as_printed,"Text layer ""multi media"" kept as the record; the page shows ""multi-media"".",Noel Hidalgo,2026-10-20T23:14-04:00
