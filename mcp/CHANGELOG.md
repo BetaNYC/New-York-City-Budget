@@ -56,7 +56,7 @@ A patch: the index gains empty tables; no tool, argument or answer changes.
   §254 and Terms & Conditions tables, labeled "checked, review in progress", with a PDF viewer that
   highlights each row. Nothing in the package changes.
 
-## 2.0.0 — unreleased (built 2026-10-14; not tagged, not published)
+## 2.0.0 — 2026-10-17
 
 2.0 rebuilds the server on **structured sources only**: the NYC Council's expense funding
 disclosure spreadsheets and its capital designations (the Council's capital workbooks and NYC
