@@ -982,3 +982,48 @@ tables continue over a page without a header (pp.48, 157, 195). Some box titles 
 amount on line two (p.157), or share one cell with it (pp.218, 220). The statement is worded 60
 ways; the text layer splits words ("h as", "designate d"). A 5 pt sliver cell holds the first
 letter of each box label on p.162. Six glyphs are unmapped (`(cid:9)`, e.g. p.344).
+
+## 32. FY2025 Schedule C rebuilt from the PDF, checked (#104) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of `source/FY25/Fiscal-2025-Schedule-C-MERGE-FINAL-2.pdf` with
+> the §29 toolkit (`code/parse_schedule_c_v2.py`, `config/schedule_c/fy2025.toml`). Its review
+> record is
+> [`research/2026-10-21-fy25-schedule-c-review/`](research/2026-10-21-fy25-schedule-c-review/README.md).
+> The old `data/fy25/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
+> Not served by the MCP.
+
+**Result.** 9,579 award rows, $471,876,698 (body 5,659 / $422,077,698; appendices A, B, C
+470 / $5,610,000, 2,616 / $36,539,000, 834 / $7,650,000). The old parse has 9,566 rows: the 13
+it lost ($9,092,588, among them Bronx Defenders $5,533,333, p.169) are all here, and nothing the
+old parse had is missing. The §20 row (p.233) comes back as two awards (Corbin Hill Food Project
+and Council For Unity, $50,000 each). 24 of 25 category TOTALs tie; an independent image grid
+agrees on 9,577 rows (2 differ on a hyphen at a cell edge); ink coverage finds nothing on the
+page that was not read.
+
+**What the PDF itself gets wrong (flagged, never fixed).**
+
+- **$50,000, p.115.** Education prints TOTAL $39,924,300; its lines add to $39,974,300.
+- **$594,000, p.64.** CASA's statement (reserve $2,066,000 + designated $14,680,000) adds to
+  $16,746,000, not its $17,340,000 box.
+- **$27,000, p.167.** Immigrant Opportunities says "has designated $2,562,000"; its 31 rows add to
+  $2,535,000. These three are the whole roll-up gap (−$571,000).
+- **p.222.** Pride at Work's statement says "$3.2 million" designated; the box is $501,000 and
+  its rows add to $451,000. **p.60.** "$4.1 million" stands for $4,091,000.
+- **p.181.** Safe Horizon's EIN is printed "13-294-6970". Clean EIN left blank.
+- **pp.168, 170.** Two amounts printed "$77,000.00" and "$50,000.".
+- **p.202.** Parks and Recreation Services prints no summary table and no TOTAL.
+- **16 box/summary name differences** (e.g. "&" vs "and"; one summary line for two SAVE boxes,
+  p.102; four library lines all named "Fiscal 2025 Subsidy", p.174). Rows carry the box title.
+
+**Money in no award row.** 16 initiatives "will designate awards post-adoption" ($50,455,000);
+7 CUNY/DOE initiatives are "designated directly" with no rows ($20,011,869, pp.155–157); the
+four library subsidies are "directly allocated" ($15,700,000, p.174). All are in the initiatives
+table.
+
+**Things a re-parse must know.** "Council" / "Member" are two header row bands (pp.131–144).
+Some box titles have their first letter in its own cell or outside the table (pp.36, 149, 258).
+Amount digits run past their cell's rule (p.222, p.260) or a box amount is cut into three cells
+(p.157). p.167's name column is lost at pdfplumber's default snap (read at 1 pt). Statements
+give amounts in millions ("$4.1 million"), and one sits inside a description cell (p.168). A
+second box hides inside the first box's table (p.35). 17 summary-table titles; one with no title
+(p.59).

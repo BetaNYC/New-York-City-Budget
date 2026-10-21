@@ -72,20 +72,20 @@ def _band(seps, v):
     return i if 0 <= i < len(seps) - 1 else None
 
 
-def _roles(texts):
+def _roles(texts, roles=ROLE):
     out = {}
     for j, c in enumerate(texts):
         h = " ".join(c.split()).lower()
         if not h or len(h) > 60:
             continue
-        for k, r in ROLE:
+        for k, r in roles:
             if k in h and r not in out.values():
                 out[j] = r
                 break
     return out
 
 
-def image_rows(page_chars, lats, x_tolerance, carry=None):
+def image_rows(page_chars, lats, x_tolerance, carry=None, roles=ROLE):
     """Award rows read through the image lattices alone: [{y0, y1, fields{role: raw}}].
 
     `carry` (optional dict, kept by the caller from page to page) lets a table that runs over
@@ -93,7 +93,10 @@ def image_rows(page_chars, lats, x_tolerance, carry=None):
     header the IMAGE side found: carry["header"] = {role: x_centre_pt}. The carried header
     applies only to lattices above the page's first own header, and only when the carried
     org, EIN and amount columns each land in a different column of the lattice and its first
-    row holds an EIN in the EIN column. Off when carry is None (FY2027)."""
+    row holds an EIN in the EIN column. Off when carry is None (FY2027).
+
+    `roles` is the header role table; a year's config may add words after the shared ones
+    (FY2025 p.156: a name column headed "Institute")."""
     chars = [c for c in page_chars if c["text"] not in ZERO_WIDTH]
     cells = {}
     for ch in chars:
@@ -128,7 +131,7 @@ def image_rows(page_chars, lats, x_tolerance, carry=None):
                     hdr = None
         for ri in range(nr):
             raw = [chars_to_text(cells.get((k, ri, ci), []), x_tolerance) for ci in range(nc)]
-            rl = _roles(raw)
+            rl = _roles(raw, roles)
             if {"org", "ein", "amount"} <= set(rl.values()):
                 hdr = rl
                 seen_header = True

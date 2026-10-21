@@ -12,11 +12,14 @@ Fields keep the printed text (`*_raw`, `amount_printed`) next to the clean value
 value differs from raw only by the rules in `clean_text`.
 """
 import re
+from decimal import Decimal
 
 AMOUNT_RE = re.compile(r"^\$\s?(\d{1,3}(?:,\d{3})*)$")
 EIN_RE = re.compile(r"^(\d{2}-\d{7}|\d{9})$")
 MONEY_ANY = re.compile(r"\$\s?([\d,]+)")
 CID = re.compile(r"\(cid:\d+\)")
+# An amount cut inside its last thousands group ("$200,00"): the rest is in the next cell.
+SPLIT_TAIL = re.compile(r"^\$\s?\d{1,3}(?:,\d{3})*,\d{1,2}$")
 EIN_IN_TEXT = re.compile(r"(^|[\s|])(\d{2}-\d{7}|\d{9})($|[\s|])")
 
 
@@ -95,6 +98,25 @@ def header_map(row, labels):
     return cols, unknown
 
 
+def _join_header_bands(r0, r1):
+    """Two header row bands -> one synthetic header row, each band-1 text appended (after a
+    space) to the band-0 cell over its centre. None when band 1 holds an EIN or an amount, or
+    text under no band-0 cell."""
+    t1 = _row_text(r1)
+    if not t1 or EIN_IN_TEXT.search(t1) or MONEY_ANY.search(t1):
+        return None
+    cells = [dict(c) for c in r0["cells"]]
+    for c in r1["cells"]:
+        if not c["text_raw"].strip():
+            continue
+        cx = (c["bbox"][0] + c["bbox"][2]) / 2
+        hit = [h for h in cells if h["bbox"][0] <= cx < h["bbox"][2]]
+        if not hit:
+            return None
+        hit[0]["text_raw"] = (hit[0]["text_raw"] + " " + c["text_raw"]).strip()
+    return dict(cells=cells)
+
+
 def table_kind(t, cfg):
     first = " | ".join(" ".join(c["text_raw"].split()) for c in t["rows"][0]["cells"]
                        if c["text_raw"].strip())
@@ -106,6 +128,12 @@ def table_kind(t, cfg):
     if re.search(r"\$[\d,]+$", first) and len(t["rows"]) >= 1 and \
             any(" ".join(c["text_raw"].split()) for c in t["rows"][0]["cells"][:3]):
         return "box"
+    if cfg["structure"].get("box_amount_cells") and not EIN_IN_TEXT.search(first):
+        # The box amount cut into cells (FY2025 p.157 "... | $ | 5 | 00,000").
+        texts = [c["text_raw"].strip() for c in t["rows"][0]["cells"] if c["text_raw"].strip()]
+        for k in range(2, min(4, len(texts) - 1) + 1):
+            if parse_amount("".join(texts[-k:])) is not None:
+                return "box"
     if cfg["structure"].get("box_amount_on_second_row") and len(t["rows"]) >= 2 and \
             first and "$" not in first and not EIN_IN_TEXT.search(first):
         # A box whose title wraps to a second line, the amount printed on that line (FY2026
@@ -119,6 +147,19 @@ def table_kind(t, cfg):
     return "other"
 
 
+def statement_amount(v):
+    """A dollar figure as a statement prints it: "1,120,000", or in millions, "4.1 million"
+    (FY2025 p.36: "has designated $4.1 million"; the rows under it add to $4,100,000). A
+    rounded figure is taken at its face value, so a statement that rounds fails H12 and is a
+    review row, never a silent tolerance."""
+    if not v:
+        return None
+    m = re.fullmatch(r"(\d+(?:\.\d+)?) million", v)
+    if m:
+        return int(Decimal(m.group(1)) * 1000000)
+    return int(v.replace(",", ""))
+
+
 def statement_kind(text, cfg):
     """Designation statement -> (kind, reserve, designated). Kinds come from config regexes."""
     t = " ".join(text.split())
@@ -126,8 +167,8 @@ def statement_kind(text, cfg):
         m = re.search(st["re"], t)
         if m:
             g = m.groupdict()
-            num = lambda k: int(g[k].replace(",", "")) if g.get(k) else None
-            return st["kind"], num("reserve"), num("designated")
+            return st["kind"], statement_amount(g.get("reserve")), \
+                statement_amount(g.get("designated"))
     return "unknown", None, None
 
 
@@ -184,17 +225,47 @@ def split_merged_tables(pages, cfg):
         return pages
     hdr_re = re.compile(cfg["structure"]["award_header_re"])
     prefix = cfg["structure"]["statement_prefix"]
+    split_boxes = cfg["structure"].get("split_boxes")
+    in_cell = cfg["structure"].get("statement_in_cell")
+
+    def box_row(i, x):
+        # A second initiative box drawn inside the same ruled table, directly under the first
+        # box's statement (FY2025 p.35: "Adult Literacy Pilot Project | $2,500,000" in row 11).
+        # Off unless the year's config sets `structure.split_boxes`.
+        return bool(split_boxes and i > 0 and re.search(r"\$[\d,]+$", x) and
+                    not EIN_IN_TEXT.search(x) and not x.startswith(prefix))
+
     out = []
     for p in pages:
         tables, lines = [], list(p["lines"])
         for t in p["tables"]:
             texts = _row_texts_with_slivers(t)
             if not any((hdr_re.search(x) and i > 0) or x.startswith(prefix)
-                       for i, x in enumerate(texts)):
+                       or (in_cell and (" " + prefix) in x) for i, x in enumerate(texts)):
                 tables.append(dict(t, _orig=t["table_index"]))
                 continue
             segs, cur, in_stmt = [], [], False
-            for r, x in zip(t["rows"], texts):
+            for i, (r, x) in enumerate(zip(t["rows"], texts)):
+                k = x.find(" " + prefix) if in_cell else -1
+                if k > 0 and not hdr_re.search(x) and not EIN_IN_TEXT.search(x):
+                    # The statement starts on a later line of a description cell (FY2025
+                    # p.168: "Scope of Service: ... for Fiscal 2025 only." / "Designation
+                    # Method: The Council will designate awards post-adoption."). The row
+                    # stays as it is; its statement part is also read as a text line.
+                    if cur:
+                        segs.append(cur)
+                    cur, in_stmt = [], True
+                    xs = [c["bbox"] for c in r["cells"] if c["text_raw"].strip()]
+                    lines.append(dict(top=r["top"], bottom=r["bottom"],
+                                      x0=min(b[0] for b in xs), x1=max(b[2] for b in xs),
+                                      text=" ".join(x[k:].replace(" | ", " ").split()),
+                                      size=0.0, bold=False, from_table=True))
+                    continue
+                if in_stmt and box_row(i, x):
+                    if cur:
+                        segs.append(cur)
+                    cur, in_stmt = [r], False
+                    continue
                 # The statement runs on until the award header (p.209 wraps it into a row of
                 # two cells: "to the following providers for Fiscal 2026 | .").
                 if x.startswith(prefix) or (in_stmt and not hdr_re.search(x)
@@ -203,6 +274,8 @@ def split_merged_tables(pages, cfg):
                         segs.append(cur)
                     cur, in_stmt = [], True
                     xs = [c["bbox"] for c in r["cells"] if c["text_raw"].strip()]
+                    if not xs:
+                        continue    # an empty band under the statement (FY2025 p.35 r10)
                     lines.append(dict(top=r["top"], bottom=r["bottom"],
                                       x0=min(b[0] for b in xs), x1=max(b[2] for b in xs),
                                       text=" ".join(x.replace(" | ", " ").split()),
@@ -244,6 +317,29 @@ def build(pages, cfg):
     def flag(check, severity, page, msg, **kw):
         flags.append(dict(check_id=check, severity=severity, pdf_page=page, message=msg, **kw))
 
+    # Letters printed just left of a table's left rule, in its first row band (FY2025 p.36):
+    # loose lines of one or two characters that straddle the rule.
+    edge_letters, edge_digits = {}, {}
+    if s.get("amount_sliver_join"):
+        # Digits printed just right of a table's right rule, in its first row band (FY2025
+        # p.260: the last "0" of a box amount).
+        for p in pages:
+            for t in p["tables"]:
+                r0 = t["rows"][0]
+                for ln in p["lines"]:
+                    if re.fullmatch(r"\d{1,2}", ln["text"]) and \
+                            t["bbox"][2] - 3 <= ln["x0"] <= t["bbox"][2] + 3 and \
+                            r0["top"] <= (ln["top"] + ln["bottom"]) / 2 < r0["bottom"]:
+                        edge_digits[(p["page"], t["table_index"])] = ln["text"]
+    if s.get("box_title_letters"):
+        for p in pages:
+            for t in p["tables"]:
+                r0 = t["rows"][0]
+                for ln in p["lines"]:
+                    if len(ln["text"]) <= 2 and ln["x0"] < t["bbox"][0] <= ln["x1"] and \
+                            r0["top"] <= (ln["top"] + ln["bottom"]) / 2 < r0["bottom"]:
+                        edge_letters[(p["page"], t["table_index"])] = ln["text"]
+
     # 1. One event list in (page, top) order.
     events = []
     for p in pages:
@@ -257,6 +353,7 @@ def build(pages, cfg):
 
     category, section = None, "body"
     current, initiatives, summary, awards = None, [], [], []
+    header_rows = {}  # (page, table_index) -> header row bands, where not 1
     stmt_buf = None  # collecting a designation statement
     last_cols = last_owner = None
 
@@ -364,7 +461,34 @@ def build(pages, cfg):
         if kind == "box":
             cells = [c for c in t["rows"][0]["cells"] if c["text_raw"].strip()]
             title_raw = cells[0]["text_raw"]
+            if s.get("box_title_letters"):
+                # The title's first letter drawn apart from the rest (FY2025): in its own
+                # narrow cell, abutting the next (p.149 "E" | "nding the Epidemic", p.258 "V" |
+                # "eteran Resource Centers"), or left of the table's left rule, outside every
+                # cell (p.36 "D" + "igital Inclusion ..."). Put back; H11 (box vs summary
+                # line) checks the result. Off unless the year's config sets it.
+                if len(cells) > 2 and len(cells[0]["text_raw"].strip()) <= 2 and \
+                        abs(cells[1]["bbox"][0] - cells[0]["bbox"][2]) < 0.5:
+                    title_raw = cells[0]["text_raw"].strip() + cells[1]["text_raw"]
+                    cells = [dict(cells[1], text_raw=title_raw)] + cells[2:]
+                lead = edge_letters.get((pn, t["table_index"]))
+                if lead and cells[0]["bbox"][0] == t["bbox"][0]:
+                    title_raw = lead + title_raw
             amt_printed = " ".join(cells[-1]["text_raw"].split())
+            if s.get("box_amount_cells") and parse_amount(amt_printed) is None:
+                # The box amount cut into several cells by phantom column rules (FY2025 p.157
+                # "$" | "5" | "00,000"): the last cells, joined with no space, read as one
+                # amount. Flagged, so a person confirms it.
+                for k in range(2, min(4, len(cells) - 1) + 1):
+                    joined = "".join(c["text_raw"].strip() for c in cells[-k:])
+                    if parse_amount(joined) is not None:
+                        amt_printed = joined
+                        cells = cells[:-k] + [dict(cells[-1], text_raw=joined)]
+                        flag("W.box_amount_cells", "warn", pn, f"box amount printed across {k} "
+                             f"cells; read as {joined!r}; confirm on the page",
+                             table_index=t["table_index"], field="amount",
+                             dollar_impact=parse_amount(joined))
+                        break
             if len(cells) == 1:
                 # Title and amount in one cell, no rule between them (FY2026 pp.218, 220): the
                 # amount is the trailing "$N" of the printed text.
@@ -380,6 +504,16 @@ def build(pages, cfg):
                     if c["bbox"][0] == cells[0]["bbox"][0] and c["bbox"][1] < bar_bottom \
                             and c["text_raw"].strip():
                         title_raw += "\n" + c["text_raw"]
+            if s.get("amount_sliver_join") and SPLIT_TAIL.match(amt_printed):
+                # The last digit(s) of the box amount fall right of the table's right rule
+                # (FY2025 p.260 "$250,00" + "0"). Put back from the loose line beside it.
+                tail = edge_digits.get((pn, t["table_index"]))
+                if tail and parse_amount(amt_printed + tail) is not None:
+                    amt_printed += tail
+                    flag("W.amount_split_digits", "warn", pn, f"box amount printed across the "
+                         f"table's right rule: read as {amt_printed!r}; confirm on the page",
+                         table_index=t["table_index"], field="amount",
+                         dollar_impact=parse_amount(amt_printed))
             title, _ = clean_text(title_raw)
             current = dict(initiative_id=len(initiatives) + 1, initiative=title,
                            initiative_raw=title_raw, category=category,
@@ -398,6 +532,18 @@ def build(pages, cfg):
         # award table
         hdr = t["rows"][0]
         cols, unknown = (last_cols, []) if headerless else header_map(hdr, labels)
+        first = 0 if headerless else 1
+        if unknown and not headerless and s.get("header_two_bands") and len(t["rows"]) > 1:
+            # A header printed over two row bands (FY2025 pp.131-144: "Council" over "Member",
+            # a rule between them). Read as one header only when every text cell of the
+            # second band sits under a header cell, it holds no EIN and no amount, and the
+            # joined labels are all known; otherwise the unknown label stays a flag.
+            joined = _join_header_bands(t["rows"][0], t["rows"][1])
+            if joined is not None:
+                c2, u2 = header_map(joined, labels)
+                if not u2:
+                    cols, unknown, first = c2, [], 2
+                    header_rows[(pn, t["table_index"])] = 2
         if unknown:
             flag("H4.header", "critical", pn, f"unknown header label(s): {unknown}",
                  table_index=t["table_index"])
@@ -408,7 +554,6 @@ def build(pages, cfg):
             continue
         last_cols, last_owner = cols, current
         rows = t["rows"]
-        first = 0 if headerless else 1
         for ri in range(first, len(rows)):
             r = rows[ri]
             rec = dict(pdf_page=pn, table_index=t["table_index"], row_index=r["row_index"],
@@ -435,6 +580,40 @@ def build(pages, cfg):
                     rec["row_flags"].append(f"spanning_cell:{f}")
                     spans.add(f)
                 rec[f + "_raw"] = raw
+            if s.get("amount_sliver_join") and "amount" in fields:
+                # An amount's last digit(s) in the narrow cell right of the amount cell (FY2025
+                # p.222 "$200,00" | "0": a white-filled phantom column inside the drawn border).
+                # Joined when the amount cell ends in an incomplete thousands group and the two
+                # read as one amount; flagged, so a person confirms it.
+                ac = _cell_at(rows, ri, dict(cols)["amount"])[0]
+                for c in r["cells"]:
+                    if ac is not None and tuple(c["bbox"]) not in used and \
+                            re.fullmatch(r"\d{1,2}", c["text_raw"].strip()) and \
+                            c["bbox"][2] - c["bbox"][0] <= 10 and \
+                            abs(c["bbox"][0] - ac["bbox"][2]) < 0.5 and \
+                            SPLIT_TAIL.match(rec["amount_raw"].strip()) and \
+                            parse_amount(rec["amount_raw"].strip() + c["text_raw"].strip()) is not None:
+                        rec["amount_raw"] = rec["amount_raw"].strip() + c["text_raw"].strip()
+                        used.add(tuple(c["bbox"]))
+                        char_boxes += c["char_boxes"]
+                        rec["row_flags"].append("amount_split_digits")
+            if s.get("header_span_cells") and not headerless:
+                # A data row cut into more cells than its header (FY2025 p.183: the name
+                # column's header spans x 72-409, the row's name sits in a cell 77-230 and the
+                # cell at the header's centre, 230-409, is empty). A text cell no column
+                # claimed goes to the header cell over its centre, if that column read empty.
+                spans_x = [(f, hc["bbox"][0], hc["bbox"][2]) for hc in hdr["cells"]
+                           for f, x in cols if hc["bbox"][0] <= x < hc["bbox"][2]]
+                for c in r["cells"]:
+                    if tuple(c["bbox"]) in used or not c["text_raw"].strip():
+                        continue
+                    cx = (c["bbox"][0] + c["bbox"][2]) / 2
+                    hit = [f for f, a, b in spans_x if a <= cx < b]
+                    if len(hit) == 1 and not rec[hit[0] + "_raw"].strip():
+                        rec[hit[0] + "_raw"] = c["text_raw"]
+                        used.add(tuple(c["bbox"]))
+                        char_boxes += c["char_boxes"]
+                        rec["row_flags"].append(f"header_span_cell:{hit[0]}")
             for c in r["cells"]:
                 if tuple(c["bbox"]) not in used and c["text_raw"].strip():
                     rec["row_flags"].append("unmapped_cell")
@@ -517,6 +696,12 @@ def build(pages, cfg):
             # number printed; flagged, so a person confirms it.
             rec["amount"] = int(rec["amount_printed"].replace(",", ""))
             rec["row_flags"].append("amount_no_dollar")
+        if rec["amount"] is None and cfg["structure"].get("amount_odd_format") and \
+                re.fullmatch(r"\$\d{1,3}(?:,\d{3})*(?:\.00|\.)", rec["amount_printed"]):
+            # Printed with zero cents or a trailing period (FY2025 p.168 "$77,000.00", p.170
+            # "$50,000."). Read as the whole dollars printed; flagged, so a person confirms it.
+            rec["amount"] = int(rec["amount_printed"][1:].split(".")[0].replace(",", ""))
+            rec["row_flags"].append("amount_odd_format")
         if rec["amount"] is None:
             rec["row_flags"].append("amount_unreadable")
 
@@ -524,4 +709,4 @@ def build(pages, cfg):
         ini["rows_sum"] = sum(a["amount"] or 0 for a in awards
                               if a["initiative_id"] == ini["initiative_id"])
     return dict(initiatives=initiatives, summary=summary, awards=awards, flags=flags,
-                last_cols=last_cols)
+                last_cols=last_cols, header_rows=header_rows)

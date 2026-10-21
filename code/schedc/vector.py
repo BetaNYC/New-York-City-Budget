@@ -111,9 +111,12 @@ def _assign(chars, boxes):
     return np.where(hit, inside.argmax(axis=1), -1)
 
 
-def read_page(page, page_no, x_tolerance=X_TOLERANCE):
-    """One page -> dict with tables (rows of cells with raw text), loose lines and orphans."""
-    tables = sorted(page.find_tables(), key=lambda t: (r2(t.bbox[1]), r2(t.bbox[0])))
+def read_page(page, page_no, x_tolerance=X_TOLERANCE, table_settings=None):
+    """One page -> dict with tables (rows of cells with raw text), loose lines and orphans.
+    `table_settings` overrides pdfplumber's lines-strategy defaults for this page only (a
+    year's config names the page and says why; FY2025 p.167)."""
+    tables = sorted(page.find_tables(table_settings or {}),
+                    key=lambda t: (r2(t.bbox[1]), r2(t.bbox[0])))
     chars = [c for c in page.chars]
     zero_width = sum(1 for c in chars if c["text"] in ZERO_WIDTH)
     chars = [c for c in chars if c["text"] not in ZERO_WIDTH]
@@ -167,13 +170,16 @@ def read_page(page, page_no, x_tolerance=X_TOLERANCE):
                 nonws_chars=sum(1 for c in chars if c["text"].strip()))
 
 
-def read_pdf(pdf_path, pages=None, x_tolerance=X_TOLERANCE):
+def read_pdf(pdf_path, pages=None, x_tolerance=X_TOLERANCE, page_settings=None):
+    """`page_settings`: {page number: pdfplumber table settings} for the few pages a year's
+    config overrides; every other page uses pdfplumber's defaults."""
     import pdfplumber
     out = []
+    page_settings = page_settings or {}
     with pdfplumber.open(pdf_path) as pdf:
         for i, page in enumerate(pdf.pages):
             if pages and (i + 1) not in pages:
                 continue
-            out.append(read_page(page, i + 1, x_tolerance))
+            out.append(read_page(page, i + 1, x_tolerance, page_settings.get(i + 1)))
             page.flush_cache()
     return out

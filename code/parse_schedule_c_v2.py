@@ -38,7 +38,10 @@ ROW_FLAG_CHECK = {"wrap_hyphen": "W5.wrap_hyphen", "ein_overflow_hyphen": "W.ein
                   "empty_row": "H5.anchors", "ein_unreadable": "H5.anchors",
                   "amount_unreadable": "H5.anchors", "continuation_row": "W.continuation_row", "sliver_band": "W.continuation_row",
                   "headerless_table": "W.headerless_table",
-                  "amount_no_dollar": "W.amount_no_dollar", "cid_glyph": "W.cid_glyph"}
+                  "amount_no_dollar": "W.amount_no_dollar", "cid_glyph": "W.cid_glyph",
+                  "amount_split_digits": "W.amount_split_digits",
+                  "amount_odd_format": "W.amount_odd_format",
+                  "header_span_cell": "W.header_span_cell"}
 AWARD_COLUMNS = [
     "award_id", "fiscal_year", "source_pdf", "section", "category", "initiative", "initiative_id",
     "member", "sponsor", "delegation", "org", "ein", "amount", "agency", "purpose",
@@ -54,11 +57,16 @@ def bbox_s(b):
 
 def cached_vector(cfg, pdf_sha, cache_dir, pages=None):
     src = open(os.path.join(HERE, "schedc", "vector.py"), "rb").read()
-    key = hashlib.sha256(pdf_sha.encode() + str(cfg["x_tolerance"]).encode() + src).hexdigest()[:16]
+    # Per-page table settings (config `vector_pages`, e.g. FY2025 p.167), part of the key.
+    ps = {v["page"]: {k: x for k, x in v.items() if k not in ("page", "note")}
+          for v in cfg.get("vector_pages", [])}
+    key = hashlib.sha256(pdf_sha.encode() + str(cfg["x_tolerance"]).encode() + src
+                         + (json.dumps(ps, sort_keys=True).encode() if ps else b"")).hexdigest()[:16]
     path = os.path.join(cache_dir, f"vector-{key}.json")
     if pages is None and os.path.exists(path):
         return json.load(open(path))
-    pg = vector.read_pdf(cfg["_pdf_abs"], pages=pages, x_tolerance=cfg["x_tolerance"])
+    pg = vector.read_pdf(cfg["_pdf_abs"], pages=pages, x_tolerance=cfg["x_tolerance"],
+                         page_settings=ps)
     if pages is None:
         os.makedirs(cache_dir, exist_ok=True)
         json.dump(pg, open(path, "w"))
@@ -80,6 +88,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
     vmap = {p["page"]: p for p in vpages}
     row_res, page_res, flags = {}, {}, []
     carry = {} if im.get("carry_header") else None
+    roles = imagegrid.ROLE + [tuple(r) for r in im.get("extra_roles", [])]
     pdf = pdfplumber.open(cfg["_pdf_abs"])
     doc = pdfium.PdfDocument(cfg["_pdf_abs"])
     try:
@@ -92,7 +101,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
                 gray = gray[:, :, 0]
             page = pdf.pages[pn - 1]
             lats = imagegrid.lattices(gray, dpi, im["kernel_px"], im["region_pad_px"])
-            irows = imagegrid.image_rows(page.chars, lats, cfg["x_tolerance"], carry)
+            irows = imagegrid.image_rows(page.chars, lats, cfg["x_tolerance"], carry, roles)
             res, extra = imagegrid.compare_page(aw, irows, im["row_tol_pt"])
             for r in res:
                 row_res[r["award_id"]] = r
@@ -122,10 +131,12 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
             tids = {a["table_index"] for a in aw}
             tboxes = [t["bbox"] for t in vp["tables"] if t["table_index"] in tids]
             cboxes = [b for a in aw for b in a["_char_boxes"]]
+            hrows = S.get("header_rows", {})
             for t in vp["tables"]:
                 if t["table_index"] in tids:
-                    for c in t["rows"][0]["cells"]:
-                        cboxes += c["char_boxes"]
+                    for r in t["rows"][:hrows.get((pn, t["table_index"]), 1)]:
+                        for c in r["cells"]:
+                            cboxes += c["char_boxes"]
             rules = ink.rule_shapes(page)
             ik = ink.coverage(gray, dpi, tboxes, cboxes, rules, im["char_pad_px"],
                               im["rule_pad_px"], im["ink_cell_px"], im["ink_min_region_px"])
@@ -158,8 +169,10 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
             vp = vmap[pn]
             tids = {a["table_index"] for a in aw}
             tboxes = [t["bbox"] for t in vp["tables"] if t["table_index"] in tids]
+            hrows = S.get("header_rows", {})
             hdr = [b for t in vp["tables"] if t["table_index"] in tids
-                   for c in t["rows"][0]["cells"] for b in c["char_boxes"]]
+                   for r in t["rows"][:hrows.get((pn, t["table_index"]), 1)]
+                   for c in r["cells"] for b in c["char_boxes"]]
             rules = ink.rule_shapes(page)
             target = cfg["image"]["ink_acceptance_award_id"]
 
@@ -282,7 +295,7 @@ def main(argv=None):
             it["value_vector"] = json.dumps(a_["_raw"], ensure_ascii=False)
             it.setdefault("dollar_impact", a_["amount"] or 0)
         if f["check_id"].startswith(("H10", "H12", "H13")) and "expected" in f:
-            it["dollar_impact"] = abs(f["observed"] - f["expected"])
+            it["dollar_impact"] = abs((f["observed"] or 0) - (f["expected"] or 0))
         items.append(it)
     for r in S["awards"]:
         h8 = {f.get("award_id") for f in cv_flags}
@@ -294,6 +307,24 @@ def main(argv=None):
                               what_to_check="EIN cell also holds a lone '-' (the org text's "
                               "trailing hyphen running over the rule); EIN read as "
                               f"{r['ein']}. Confirm on the page.",
+                              value_vector=json.dumps(r["_raw"], ensure_ascii=False)))
+        if "amount_split_digits" in r["row_flags"]:
+            items.append(dict(check_id="W.amount_split_digits", severity="warn",
+                              pdf_page=r["pdf_page"], table_index=r["table_index"],
+                              row_index=r["row_index"], award_id=r["award_id"], field="amount",
+                              dollar_impact=r["amount"],
+                              what_to_check="amount's last digit(s) sit in the narrow cell to "
+                              f"its right; joined and read as {r['amount_printed']!r}. Confirm "
+                              "on the page.",
+                              value_vector=json.dumps(r["_raw"], ensure_ascii=False)))
+        if "amount_odd_format" in r["row_flags"]:
+            items.append(dict(check_id="W.amount_odd_format", severity="warn",
+                              pdf_page=r["pdf_page"], table_index=r["table_index"],
+                              row_index=r["row_index"], award_id=r["award_id"], field="amount",
+                              dollar_impact=r["amount"],
+                              what_to_check=f"amount printed as {r['amount_printed']!r} (cents "
+                              f"or a trailing period); read as {r['amount']:,}. Confirm on the "
+                              "page.",
                               value_vector=json.dumps(r["_raw"], ensure_ascii=False)))
         if "amount_no_dollar" in r["row_flags"]:
             items.append(dict(check_id="W.amount_no_dollar", severity="warn",
@@ -456,8 +487,8 @@ def main(argv=None):
         w(f"  {k[0]:<26} {k[1]:<16} {st[k]}")
     for r in rec_res:
         if r["status"] != "ok":
-            w(f"  -> {r['status']}: p.{r['pdf_page']} {r['label']}: expected {r['expected']:,}, "
-              f"observed {r['observed']:,} (diff {r['diff']:+,}) {r['note']}")
+            w(f"  -> {r['status']}: p.{r['pdf_page']} {r['label']}: expected {reconcile._n(r['expected'])}, "
+              f"observed {reconcile._n(r['observed'])} (diff {r['diff']:+,}) {r['note']}")
     if roll.get("direct"):
         gap = roll["category_totals"] - roll["body_rows"] - roll["reserves"] - roll["direct"]
         w(f"  roll-up: category TOTALs ${roll['category_totals']:,} = body rows "

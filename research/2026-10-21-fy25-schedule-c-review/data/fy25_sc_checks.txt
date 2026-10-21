@@ -1,0 +1,69 @@
+SCHEDULE C FY2025 -- checks (code/parse_schedule_c_v2.py; config config/schedule_c/fy2025.toml)
+pdf source/FY25/Fiscal-2025-Schedule-C-MERGE-FINAL-2.pdf  sha256 71b7dfc2a96aab412275da3c519e3faf913d654fd252b880c75738b0c6a2c196
+
+award rows: 9,579  total $471,876,698
+  body         5,659 rows  $   422,077,698
+  appendix_a     470 rows  $     5,610,000
+  appendix_b   2,616 rows  $    36,539,000
+  appendix_c     834 rows  $     7,650,000
+initiatives: 160  categories: 25
+
+STRUCTURAL CHECKS
+  ok    H1.input         sha256 71b7dfc2a96a… pages 455
+  ok    H2.triage        455 pages surveyed; 0 with invisible text or <=100 chars on an award page
+  ok    H3.pagemap       0 award rows outside their configured section range
+  ok    H4.headers       0 unknown or incomplete award-table headers
+  ok    H5.anchors       9578 EIN-shaped words, 9578 rows with an EIN; 0 pages differ; 0 rows without exactly one EIN and one amount; 1 named exceptions
+  ok    H6.furniture     0 data cells holding header/footer text
+  ok    H7.chars         1397849 non-space chars; 0 orphan chars in award tables; 0 unmapped cells
+  ok    H14.provenance   9579 award_ids, 9579 unique
+  ok    H16.values       0 clean values not reproducible from raw
+
+PRINTED TOTALS (H10-H13)
+  H10.category_total         named_exception  1
+  H10.category_total         ok               24
+  H10.no_summary             named_exception  1
+  H11.box_vs_summary         ok               25
+  H12.designated_sum         named_exception  3
+  H12.designated_sum         ok               130
+  H12.reserve_only_rows      ok               16
+  H12.statement_adds_up      named_exception  3
+  H12.statement_adds_up      ok               29
+  H13.rollup                 named_exception  1
+  -> named_exception: p.115 Education: expected 39,924,300, observed 39,974,300 (diff +50,000) PDF self-error: summary lines sum $39,974,300, TOTAL printed $39,924,300 (pending review)
+  -> named_exception: p.202 Parks and Recreation Services: expected 5,368,500, observed 5,368,500 (diff +0) Parks and Recreation Services prints no summary table or TOTAL (p.202)
+  -> named_exception: p.60 Initiative to Combat Sexual Assault (partial): expected 4,100,000, observed 4,091,000 (diff -9,000) statement rounds: '$4.1 million' printed, rows sum $4,091,000 (pending review)
+  -> named_exception: p.60 Initiative to Combat Sexual Assault (partial): expected 4,160,000, observed 4,169,000 (diff +9,000) statement rounds: $69,000 + '$4.1 million' read as $4,169,000 vs the $4,160,000 box (pending review)
+  -> named_exception: p.64 Cultural After-School Adventure (CASA) (partial): expected 17,340,000, observed 16,746,000 (diff -594,000) PDF self-error: reserve $2,066,000 + designated $14,680,000 = $16,746,000, box $17,340,000 (pending review)
+  -> named_exception: p.167 Immigrant Opportunities Initiative (partial): expected 2,562,000, observed 2,535,000 (diff -27,000) PDF self-error: statement $2,562,000 designated, rows sum $2,535,000 (pending review)
+  -> named_exception: p.222 Pride at Work (partial): expected 3,200,000, observed 451,000 (diff -2,749,000) PDF self-error: statement says '$3.2 million' designated; rows sum $451,000 and the box is $501,000 (pending review)
+  -> named_exception: p.222 Pride at Work (partial): expected 501,000, observed 3,250,000 (diff +2,749,000) PDF self-error: $50,000 + '$3.2 million' vs the $501,000 box (pending review)
+  -> named_exception: p.0 body rows + post-adoption reserves vs sum of category TOTALs (+ direct agency designations): expected 540,282,182, observed 539,711,182 (diff -571,000) the -$594,000 of p.64, the -$27,000 of p.167 and the +$50,000 of p.115 (pending review)
+  roll-up: category TOTALs $540,282,182 = body rows $422,077,698 + post-adoption reserves $81,921,615 + designated directly to an agency, no rows printed $35,711,869 + $571,000
+  appendices print no total; their pots (DATA-ANOMALIES §19): appendix_a $5,610,000, appendix_b $36,539,000, appendix_c $7,650,000
+
+IMAGE LATTICE (H8): rows read independently through code/ocr/grid.py lattices
+  agree on every field: 9,577 of 9,579
+  differs: 2
+  image rows with no vector row: 0
+INK COVERAGE (H9): uncovered-ink regions inside award tables
+  regions: 0  uncovered px total: 30 of 276,778,130 ink px
+  acceptance on p.169 (fy25-p169-t01-r001): clean run 0 regions; row withheld -> 3; one char withheld -> 1 (PASS); the char is 'f'
+  blind spot: withholding the row's smallest box, ',', -> 0 regions (its ink is under the 64 px region floor). A lone dropped comma or period is not visible to ink; H7 (every character lands in a cell) covers it
+
+DISCLOSURE (report-only; data/fy25/expense_disclosure, workbook sheet 'FY25 (09-14-26)')
+  pdf rows 9,579; disclosure rows 11,276; matched (EIN, amount, City-EIN name rule) 9,368
+  matched without the City-EIN name rule (the 2026-10-19 prototype's H17 floor, 9,386): 9,385
+  body        cleared 5,534 ($415,827,974); pending 14 ($506,000); unmatched 111 ($5,743,724)
+  appendix_a  cleared 463 ($5,540,000); pending 2 ($15,000); unmatched 5 ($55,000)
+  appendix_b  cleared 2,521 ($35,009,729); pending 17 ($117,000); unmatched 78 ($1,412,271)
+  appendix_c  cleared 810 ($7,473,000); pending 7 ($39,000); unmatched 17 ($138,000)
+  pdf rows without a disclosure row, by reason: amount_differs 51, city_ein_name_mismatch 28, ein_fully_claimed 33, ein_not_in_disclosure 43, key_already_claimed 55, pdf_value_unreadable 1
+  disclosure rows without a pdf row, by reason: amount_or_count_differs 1813 ($123,219,047), city_ein_pending 11 ($1,638,901), ein_not_in_pdf 84 ($5,795,531)
+  disclosure rows on keys where the allocation was a choice (ambiguous): 1,592
+
+WARN COUNTS (not in the review file; listed in flags.csv)
+  amount_odd_format 2, amount_split_digits 5, cid_glyph 6, continuation_row 16, ein_unreadable 1, header_span_cell 2, wrap_hyphen 67
+  zero-width chars dropped: 1
+
+REVIEW FILE: 39 rows (2 critical, 37 warn); stale decisions: 0

@@ -276,3 +276,129 @@ def test_snapshot26_rows_and_checks():
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "acceptance on p.176" in txt and "(PASS)" in txt
     assert "H17 floor, 9,529): 9,529" in txt
+
+
+# --- FY2025 (config/schedule_c/fy2025.toml) ----------------------------------------------------
+CFG25 = config.load(2025)
+OUT25 = os.path.join(config.ROOT, CFG25["review_dir"], "data")
+FY25_SWITCHES = ("header_two_bands", "box_title_letters", "amount_sliver_join",
+                 "amount_odd_format", "header_span_cells", "split_boxes", "box_amount_cells",
+                 "statement_in_cell")
+
+
+def test_fy2025_switches_off_for_fy2026_and_fy2027():
+    for c in (CFG, CFG26):
+        for k in FY25_SWITCHES:
+            assert not c["structure"].get(k)
+        assert not c.get("vector_pages") and not c.get("no_summary")
+        assert not c["image"].get("extra_roles")
+
+
+def test_statement_amount_millions():
+    assert structure.statement_amount("4.1 million") == 4100000
+    assert structure.statement_amount("1 million") == 1000000
+    assert structure.statement_amount("1,120,000") == 1120000
+    assert structure.statement_amount(None) is None
+
+
+def test_fy2025_statement_kinds():
+    k = lambda t: structure.statement_kind(t, CFG25)
+    assert k("The City Council will designate $490,000 post-adoption and has designated $4.1 "
+             "million to the following providers for Fiscal 2025:") == ("partial", 490000, 4100000)
+    assert k("The City Council for Fiscal 2025 and will designate $69,000 post-adoption and has "
+             "designated $4.1 million to the following providers:")[0] == "partial"
+    assert k("The City Council will designate $1,580,000 post-adoption and has designated and "
+             "has designated $12.7 million to the following providers for Fiscal 2025:") \
+        == ("partial", 1580000, 12700000)
+    assert k("The City Council will designate $7,201,000 post-adoption and has designated "
+             "$1,059,000 to the following organizations for Fiscal 2025:")[0] == "partial"
+    assert k("This funding is directly allocated to the Research Library.")[0] == "direct"
+    assert k("The City Council has designated directly to the City University of New York for "
+             "the following institutes.")[0] == "direct"
+    assert k("The City Council will designate awards post-adoption:")[0] == "reserve_all"
+
+
+# Golden rows, read from the rendered FY2025 pages (2026-10-21), not copied from output.
+@pytest.fixture(scope="module")
+def pages25():
+    ps = vector.read_pdf(CFG25["_pdf_abs"], pages={35, 36, 131, 149, 156, 157, 167, 168, 169,
+                                                     183, 222, 233, 260},
+                         x_tolerance=CFG25["x_tolerance"],
+                         page_settings={v["page"]: {"snap_tolerance": v["snap_tolerance"]}
+                                        for v in CFG25["vector_pages"]})
+    return {p["page"]: p for p in structure.split_merged_tables(ps, CFG25)}
+
+
+def _rows25(pages25, pns):
+    return structure.build([pages25[p] for p in pns], CFG25)
+
+
+def test_golden25_bronx_defenders_p169(pages25):
+    S = _rows25(pages25, [169])
+    r = [a for a in S["awards"] if a["amount"] and a["amount"] > 5000000]
+    assert sorted((a["org"], a["ein"], a["amount"]) for a in r) == [
+        ("Bronx Defenders, The", "133931074", 5533333),
+        ("Brooklyn Defender Services", "113305406", 5533333),
+        ("Legal Aid Society", "135562265", 5533334)]
+    assert {a["initiative"] for a in r} == {"New York Immigrant Family Unity Project"}
+
+
+def test_golden25_council_member_header_two_bands_p131(pages25):
+    r = [a for a in _rows25(pages25, [131])["awards"] if a["ein"] == "611682898"]
+    assert len(r) == 1 and r[0]["member"] == "Farias" and r[0]["amount"] == 35000
+    assert r[0]["org"] == "ArtBridge Projects, Inc. - Council District 18"
+
+
+def test_golden25_box_titles_p36_p149(pages25):
+    titles = {i["initiative"] for i in _rows25(pages25, [36, 149])["initiatives"]}
+    assert "Digital Inclusion and Literacy Initiative" in titles
+    assert "Ending the Epidemic" in titles
+
+
+def test_golden25_box_split_in_table_p35_and_amount_cells_p157(pages25):
+    ini = {i["initiative"]: i["amount"] for i in _rows25(pages25, [35, 157])["initiatives"]}
+    assert ini["Adult Literacy Pilot Project"] == 2500000
+    assert ini["CUNY Social Work Fellows"] == 500000
+
+
+def test_golden25_name_column_snap_p167(pages25):
+    r = [a for a in _rows25(pages25, [167])["awards"] if a["ein"] == "113534833"]
+    assert len(r) == 1 and r[0]["org"] == "Ansob Center for Refugees, Inc." and r[0]["amount"] == 45000
+
+
+def test_golden25_odd_amount_p168(pages25):
+    r = [a for a in _rows25(pages25, [168])["awards"] if a["ein"] == "112423857"]
+    assert len(r) == 1 and r[0]["amount"] == 77000 and r[0]["amount_printed"] == "$77,000.00"
+    assert "amount_odd_format" in r[0]["row_flags"]
+
+
+def test_golden25_name_left_of_header_centre_p183(pages25):
+    r = [a for a in _rows25(pages25, [183])["awards"] if a["ein"] == "141397918"]
+    assert len(r) == 1 and r[0]["org"] == "Astor Services for Children & Families"
+    assert r[0]["amount"] == 673888
+
+
+def test_golden25_amount_last_digit_past_rule_p222_p260(pages25):
+    r = [a for a in _rows25(pages25, [222])["awards"] if a["ein"] == "800259180"]
+    assert len(r) == 1 and r[0]["amount"] == 200000 and r[0]["org"] == "Destination Tomorrow, Inc."
+    ini = {i["initiative"]: i["amount"] for i in _rows25(pages25, [260])["initiatives"]}
+    assert ini["HRA Teen RAPP"] == 250000
+
+
+def test_golden25_section20_row_comes_back_split_p233(pages25):
+    # DATA-ANOMALIES §20: the old parse put Corbin Hill's purpose into Council For Unity's name.
+    r = {a["ein"]: a for a in _rows25(pages25, [233])["awards"]}
+    assert r["112880221"]["org"] == "Council For Unity, Inc." and r["112880221"]["amount"] == 50000
+    assert r["461206478"]["org"] == "Corbin Hill Food Project, Inc., The"
+    assert "farm shares" in r["461206478"]["purpose"]
+
+
+@pytest.mark.skipif(not os.path.exists(OUT25), reason="FY2025 outputs not built")
+def test_snapshot25_rows_and_checks():
+    with open(os.path.join(OUT25, "fy25_sc_awards.csv"), newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    assert len(rows) == 9579
+    assert sum(int(r["amount"]) for r in rows) == 471876698
+    txt = open(os.path.join(OUT25, "fy25_sc_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "acceptance on p.169" in txt and "(PASS)" in txt

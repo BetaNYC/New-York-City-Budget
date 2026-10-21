@@ -25,6 +25,11 @@ from collections import Counter
 MONEY = re.compile(r"\$([\d,]+)")
 
 
+def _n(v):
+    """A money value for a message; None (an amount the parse could not read) as 'unreadable'."""
+    return "unreadable" if v is None else f"{v:,}"
+
+
 def _exception(cfg, check, page, expected, observed):
     for e in cfg.get("exceptions", []):
         if e["check"] == check and (e.get("page"), e.get("expected"), e.get("observed")) == \
@@ -46,12 +51,13 @@ def run(S, cfg):
                             status=status, note=exc["note"] if exc else "", **kw))
         if not ok:
             flags.append(dict(check_id=check, severity="warn" if exc else "critical",
-                              pdf_page=page, message=f"{label}: expected {expected:,}, "
-                              f"observed {observed:,}" + (f" (named exception: {exc['note']})"
+                              pdf_page=page, message=f"{label}: expected {_n(expected)}, "
+                              f"observed {_n(observed)}" + (f" (named exception: {exc['note']})"
                                                           if exc else ""),
                               expected=expected, observed=observed, **kw))
 
     cats = list(dict.fromkeys(r["category"] for r in S["summary"]))
+    alias_pages = Counter(al["page"] for al in cfg.get("box_aliases", []))
     totals = {}
     for cat in cats:
         lines = [r for r in S["summary"] if r["category"] == cat and not r["is_total"]]
@@ -78,8 +84,11 @@ def run(S, cfg):
             key = tuple(al["summary"])
             if not (want - boxes) and summ[key]:
                 boxes = boxes - want + Counter({key: 1})
+                # Two aliases on one page (FY2025 pp.156, 174) need their own review ids:
+                # there the box title is the `field`.
+                xtra = dict(field=al["boxes"][0][0]) if alias_pages[al["page"]] > 1 else {}
                 flags.append(dict(check_id="H11.box_alias", severity="warn",
-                                  pdf_page=al["page"], category=cat, dollar_impact=0,
+                                  pdf_page=al["page"], category=cat, dollar_impact=0, **xtra,
                                   message=f"{cat}: summary line {key[0]!r} ${key[1]:,} is printed "
                                   "as box(es) " + "; ".join(f"{b[0]!r} ${b[1]:,}" for b in al["boxes"])
                                   + f" ({al['note']})"))
@@ -87,14 +96,31 @@ def run(S, cfg):
             for k in sorted((boxes - summ).keys() | (summ - boxes).keys(), key=str):
                 flags.append(dict(check_id="H11.box_vs_summary", severity="critical",
                                   pdf_page=tot["pdf_page"], category=cat,
-                                  message=f"{cat}: {k[0]!r} ${k[1]:,} boxes={boxes[k]} "
+                                  message=f"{cat}: {k[0]!r} ${_n(k[1])} boxes={boxes[k]} "
                                   f"summary={summ[k]}"))
         results.append(dict(check_id="H11.box_vs_summary", pdf_page=tot["pdf_page"], label=cat,
                             expected=sum(summ.values()), observed=sum((boxes & summ).values()),
                             diff=0, status="ok" if boxes == summ else "FAIL", note="",
                             category=cat))
+    # A category that prints no summary table at all (FY2025 p.202, Parks and Recreation
+    # Services: one box, no table, no TOTAL) passes only when the year's config names it in
+    # `no_summary`; its boxes then stand in for its TOTAL in the roll-up, and it is a warn.
+    nosum = {n["category"]: n for n in cfg.get("no_summary", [])}
     for c in cfg["categories"]:
         if c not in totals:
+            if c in nosum:
+                boxes = sum(i["amount"] or 0 for i in S["initiatives"] if i["category"] == c)
+                totals[c] = boxes
+                results.append(dict(check_id="H10.no_summary", pdf_page=nosum[c]["page"],
+                                    label=c, expected=boxes, observed=boxes, diff=0,
+                                    status="named_exception", note=nosum[c]["note"],
+                                    category=c))
+                flags.append(dict(check_id="H10.no_summary", severity="warn",
+                                  pdf_page=nosum[c]["page"], category=c, dollar_impact=0,
+                                  message=f"category {c!r} prints no summary table and no "
+                                  f"TOTAL; its boxes (${boxes:,}) stand in for the TOTAL in "
+                                  f"the roll-up (named exception: {nosum[c]['note']})"))
+                continue
             flags.append(dict(check_id="H10.total", severity="critical", pdf_page=0,
                               message=f"category {c!r} has no summary table"))
 
