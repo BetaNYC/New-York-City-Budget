@@ -11,8 +11,9 @@ printed record below: each fiscal year's adopted Schedule C, which names the Spe
 no longer says it is a stop. The person's Council member id and terms come from uvw5-9znb: the
 member terms that overlap the fiscal years the record covers (a fiscal year runs July to June).
 
-`term_start` / `term_end` are those **Council member terms**, not the dates of election as Speaker,
-which no record in this repository gives (`term_basis` says so). No row is written for a Speaker
+`member_term_start` / `member_term_end` are those **Council member terms** (the span of the
+member's terms that overlap the fiscal years named), NOT the Speaker's tenure: no record in this
+repository gives the dates of election as Speaker (`term_basis` says so). No row is written for a Speaker
 no committed record names (FY2027 onward: see `NOT_RECORDED`).
 """
 import argparse
@@ -54,7 +55,7 @@ RECORDS = [
 # changed in January 2026, which needs a record (e.g. Legistar) before it is written here.
 NOT_RECORDED = [2010, 2016, 2027]
 
-FIELDS = ["person", "council_member_id", "term_start", "term_end", "fiscal_years_named",
+FIELDS = ["person", "council_member_id", "member_term_start", "member_term_end", "fiscal_years_named",
           "term_basis", "source"]
 
 
@@ -87,13 +88,13 @@ def build():
             raise SystemExit(f"{name}: member ids {ids} in uvw5-9znb for FY{fys[0]}-FY{fys[-1]}")
         rows.append({
             "person": name, "council_member_id": ids.pop(),
-            "term_start": min(m["term_start"][:10] for m in terms),
-            "term_end": max(m["term_end"][:10] for m in terms),
+            "member_term_start": min(m["term_start"][:10] for m in terms),
+            "member_term_end": max(m["term_end"][:10] for m in terms),
             "fiscal_years_named": ";".join(str(y) for y in fys),
-            "term_basis": "Council member terms overlapping those fiscal years (uvw5-9znb); "
-                          "the Speaker election date is not recorded",
+            "term_basis": "Council member terms overlapping those fiscal years (uvw5-9znb), not "
+                          "Speaker tenure; the Speaker election date is not recorded",
             "source": "; ".join(f"{pdf} p.{page}" for _, pdf, page in recs) + f"; {UVW5}"})
-    rows.sort(key=lambda r: r["term_start"])
+    rows.sort(key=lambda r: r["member_term_start"])
     buf = io.StringIO()
     w = csv.DictWriter(buf, fieldnames=FIELDS, lineterminator="\n")
     w.writeheader()
