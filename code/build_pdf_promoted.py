@@ -22,6 +22,7 @@ import ast
 import csv
 import io
 import os
+import shutil
 import sys
 import tempfile
 
@@ -246,6 +247,13 @@ def build_schedule_c(scratch):
     import contextlib
     import parse_schedule_c_v2 as sc
     from schedc import config as sc_config
+    # The parser reads decisions from its output folder, so seed the scratch run with the
+    # reviewer's decisions; otherwise the promoted review file never carries them.
+    decisions = os.path.join(REPO, "research", "2026-10-20-fy27-schedule-c-review", "data",
+                             "fy27_sc_review_decisions.csv")
+    if os.path.exists(decisions):
+        os.makedirs(scratch, exist_ok=True)
+        shutil.copy(decisions, os.path.join(scratch, "fy27_sc_review_decisions.csv"))
     with contextlib.redirect_stdout(io.StringIO()):
         if sc.main(["--fy", "2027", "--out", scratch]) != 0:
             raise RuntimeError("parse_schedule_c_v2 failed")
