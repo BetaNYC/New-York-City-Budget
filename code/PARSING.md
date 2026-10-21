@@ -73,7 +73,7 @@ Invocation pattern:
 | FY22 | `Fiscal-2022-Schedule-C-Merge-6.30.21.pdf` | 24/26 exact | Veterans −714,500 in-source; trailing Youth. |
 | FY23 | `Fiscal-2023-Schedule-C-Merge-6.13.22-Final-1.pdf` | 26/26 exact | Perfectly clean. |
 | FY24 | `Fiscal-2024-Schedule-C-Merge-Final.pdf` | 24/26 exact | Criminal Justice +52,935 in-source; trailing Youth. |
-| FY08 | (earliest era) | see "Bounded / blocked" below | Distinct pre-FY09 format; deferred. |
+| FY08 | `schedule_c_rvs_2008.pdf` (earliest era) | see "Bounded / blocked" below | Distinct pre-FY09 format; deferred. Appendix E (pp.36–123) prints 1,674 member-item award rows, $36,399,802, with no EIN column (corrected 2026-10-20). |
 | FY15 | `fy2015-FY15-Schedule-C-Template-Final.pdf` | **24/24 exact** | Parsed by `parse_schedule_c_fy15.py` (NOT the shared parser). See the FY2015 section below. Award/EIN-level: 652 award rows. |
 
 ### Schedule C — FY2015 (dedicated parser)
@@ -84,7 +84,8 @@ narrative sections ("FROM BUDGET RESPONSE TO ADOPTION…", "INTRODUCTION"), so p
 shifts every label by two and drops the last four real categories as 0/0. The FY15 variant maps
 each block to the category heading that immediately **precedes** it, which labels all 24 blocks
 correctly. It reuses the shared parser's award/roster/appendix machinery unchanged (FY2015 IS a
-modern award/EIN-level year, unlike FY09–FY14).
+modern award/EIN-level year in this repo's files. FY09–FY14 print award rows with EINs too, but
+no parser here extracts them; see the early-era section).
 
 It reconciles **24/24 exact** (grand total $233,438,000). Three FY15 line-item formatting artifacts
 that the shared segmenter silently drops are handled in the variant — each hand-verified to sum to
@@ -114,12 +115,21 @@ correctly maps to no block and shows 0/0.
 
 ### Schedule C — early era (FY2009–FY2014)
 
-The FY09–FY14 Schedule C documents have NO award-level EIN tables (discretionary designations
-were made post-adoption — see the Transparency Resolutions for org-level detail). They DO carry a
-reconcilable per-category *initiatives summary* (`CATEGORY` → `Agency Initiative Funding` table →
-`TOTAL $X`). `parse_schedule_c_legacy.py` extracts it and reconciles the row sum against the
-printed TOTAL. It emits only `*_schedule_c_initiatives.csv` + `*_schedule_c_reconciliation.txt`
-(no awards/appendix files — that data isn't in these documents).
+The FY09–FY14 Schedule C documents carry a reconcilable per-category *initiatives summary*
+(`CATEGORY` → `Agency Initiative Funding` table → `TOTAL $X`). `parse_schedule_c_legacy.py`
+extracts it and reconciles the row sum against the printed TOTAL. It emits only
+`*_schedule_c_initiatives.csv` + `*_schedule_c_reconciliation.txt`. The documents also print
+per-organization award rows with EINs, which this parser does not extract: FY10 p.61 carries the
+header `Member | Sponsor | Legal Name of Organization | EIN | * | Amount | Agency | Purpose of
+Funds | Fiscal Conduit Name | FC EIN`. A prototype parse of the drawn tables counts about
+3,900–4,700 award rows with an EIN each year (EIN-shaped words in the award-EIN column: 3,859 /
+3,994 / 4,139 / 4,331 / 4,553 / 4,726, FY2009–FY2014; details: PR #98). These are prototype
+counts, not extracted rows; none is in the repo yet.
+
+**Corrected 2026-10-20:** earlier text said these documents have "NO award-level EIN tables"
+because designations "were made post-adoption", and that award data "isn't in these documents".
+The PDFs print it; the parser does not extract it (details: PR #98). The parser's output is
+unchanged.
 
 ```bash
 .venv/bin/python code/parse_schedule_c_legacy.py <ScheduleC.pdf> \
@@ -146,6 +156,12 @@ as one row keyed to the first (primary) agency, with every header's UA lines col
 numbers are synthesized in document order. T&C documents print no totals → **NOT RECONCILABLE**;
 correctness is checked by counts + regression tests (`test_parse_terms_legacy.py`).
 
+**Known defect (recorded 2026-10-20):** the committed `condition_text` carries about 393
+mid-word splits across FY2015–FY2027 by a heuristic count (169 in FY2027) from the pypdf text
+layer (e.g. `appropriatio n`, `inci dents`, both in
+`fy27_terms_and_conditions.csv`). The text needs a re-extraction with a check; the data is
+unchanged (details: PR #98).
+
 ```bash
 .venv/bin/python code/parse_terms_legacy.py <TermsAndConditions.pdf> \
     --outdir data/fyNN/terms --prefix fyNN
@@ -170,8 +186,10 @@ found on council.nyc.gov) → N/A.
 ## Bounded / blocked (tracked here, see status table at bottom)
 
 - ~~Schedule C FY2009–FY2014~~ — **RESOLVED** by `parse_schedule_c_legacy.py` (initiatives-only,
-  reconciled; see the early-era table above). **FY2008** remains deferred: a distinct earliest-era
-  format with none of the FY09+ markers. NOTE: the main `parse_schedule_c.py` still raises on
+  reconciled; see the early-era table above). The award rows those PDFs print are **not**
+  extracted (DATA-ANOMALIES §2). **FY2008** remains deferred: a distinct earliest-era format with
+  none of the FY09+ markers. It prints 1,674 member-item award rows (Appendix E, pp.36–123,
+  $36,399,802) with no EIN column. NOTE: the main `parse_schedule_c.py` still raises on
   FY2008/FY2014-shaped input (0 categories) — those years route to the legacy parser instead.
 - ~~**Schedule C FY2015**~~ — **RESOLVED** by the dedicated `parse_schedule_c_fy15.py` (adjacent-heading
   block→category mapping), which does NOT modify the shared parser. Reconciles 24/24 exact and emits
@@ -185,8 +203,10 @@ found on council.nyc.gov) → N/A.
 
 ## Transparency Resolutions — per year (FY10–FY24 + FY26)
 
-Post-adoption discretionary designations. **NOT RECONCILABLE** in every year — these documents
-print no per-chart or grand totals (the only internal check is the transfer net-out). The
+Post-adoption discretionary designations. **NOT RECONCILABLE** as parsed: the parser checks only
+the transfer net-out. FY2013 onward print no per-chart or grand totals. **Corrected 2026-10-20:**
+earlier text said no year prints totals. FY2009–FY2012 charts print a total under the grid (e.g.
+FY2010 Reso 06 p.28, `$1,664,000.00`); FY2010–FY2012 have 178 such lines (details: PR #98). The
 `batch` mode derives each resolution's sequence number and adoption date from the filename
 (`Transparency-Reso-NN-YYYY-MM-DD.pdf`), so it works for any year and any count (the old
 hardcoded FY26 table and `!= 10` count assertion are gone). `-dup` files are skipped; non-PDF
@@ -200,8 +220,13 @@ ROSTER=$(ls data/fy*/schedule_c/*_schedule_c_awards.csv)
     --outdir data/fyNN/transparency-resolutions --prefix fyNN --roster-csv $ROSTER
 ```
 
-**Financial columns (EIN, amount, agency, date, action) are deterministic and reliable in every
-year** — they come from the EIN+$ anchor. The organization / council_member / program **text**
+**Financial columns (EIN, amount, agency, date, action) are deterministic** — they come from the
+EIN+$ anchor. **Corrected 2026-10-20:** this said "reliable in every year". The values on emitted
+rows are, but rows are missing: EINs printed without a hyphen are dropped (173 rows in FY2026,
+157 positive and 16 rescissions, all 157 positive ones matching the disclosure on (EIN,
+amount)); rows with no printed EIN are dropped; FY2013 Reso 01 merges rows into their neighbor (77 of 587 rows carry a second EIN in
+`organization`); FY2010–FY2012 amounts lose their cents (337 rows; `$18,606.94` → `18606`). See
+DATA-ANOMALIES §1 and §3. The organization / council_member / program **text**
 degrades in the older years, whose PDF text layer glues adjacent words together
 ("ChristChurchofNewBrighton") and bleeds the column header into the first data row. Each year's
 `*_reconciliation.txt` prints an **org-text confidence** band (HIGH / MODERATE / LOW) quantifying
@@ -209,13 +234,13 @@ this so the caveat travels with the data.
 
 | FY | resolutions parsed | org-text confidence | Notes |
 |---|---|---|---|
-| FY10 | 12 | LOW | glued-word + header-bleed artifacts (~22%); join on EIN |
-| FY11 | 10 | LOW | ~25% |
-| FY12 | 7 (of 8; 1 `-dup` skipped) | LOW | ~19% |
-| FY13 | 9 (of 12; **3 `.doc` BLOCKED**: resos 07/10/11) | LOW | ~25% |
-| FY14 | 3 | MODERATE | small doc, minor header bleed |
-| FY15 | 12 | HIGH | clean |
-| FY16 | 13 | MODERATE | ~2–3% artifacts |
+| FY10 | 12 (8 with rows) | LOW | glued-word + header-bleed artifacts (~22%); join on EIN. Resos 02–04 are scans and Reso 01 lacks its exhibits: 0 rows. Resos 01–02 are Fiscal 2009 documents. |
+| FY11 | 10 (7 with rows) | LOW | ~25%. Resos 08–10 are scans: 0 rows. |
+| FY12 | 7 (of 8; 1 `-dup` skipped; 6 with rows) | LOW | ~19%. Reso 02 is a scan: 0 rows. |
+| FY13 | 9 (of 12; **3 `.doc` BLOCKED**: resos 07/10/11; 8 with rows) | LOW | ~25%. Reso 09 is a SoHo BID report, not a transparency resolution: 0 rows. The `.doc` files hold no charts. |
+| FY14 | 3 | LOW (6.02%) | small doc, minor header bleed |
+| FY15 | 12 | MODERATE (3.05%) | |
+| FY16 | 13 | LOW (5.08%) | |
 | FY17 | 13 | HIGH | clean |
 | FY18 | 12 | HIGH | clean |
 | FY19 | 11 | HIGH | 3 orphaned org names of 7090 |
@@ -225,6 +250,12 @@ this so the caveat travels with the data.
 | FY23 | 14 | HIGH | clean |
 | FY24 | 9 | HIGH | clean |
 | FY09 | 8 | LOW | Scans, no text layer → **OCR pipeline**, `parse_transparency_reso_fy09.py`; 2620 rows, 0/1 printed chart totals exact (reso 07 mismatch) |
+
+**Corrected 2026-10-20:** the "resolutions parsed" counts included nine files that produce 0 rows
+(seven scans, FY2010 Reso 01 and FY2013 Reso 09), and the FY14–FY16 bands disagreed with the
+year files, whose figures are now shown. The Fiscal 2009 dating of FY10 Reso 01–02 is from their
+own text (Reso 02's cover memo, June 18, 2009, encloses "The last FY'09 Transparency
+Resolution"). Details: PR #98.
 
 ---
 
@@ -419,8 +450,14 @@ uses `parse_capital.py` (not `parse_capital_detail.py`). Invocation:
     "source/FY27/Supporting-Detail-for-FY2027-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254.V4.pdf" \
     --outdir data/fy27/capital --prefix fy27 --roster data/fy*/schedule_c/*_schedule_c_awards.csv
 ```
-Reconciliation: **24/26** (the two open DIFFs — Part I `HOUSING & DEVELOPMENT` 63/65 and
-`HUMAN RESOURCES` 18/19 — are in-source line-item vs. printed-subtotal gaps, not parser errors).
+Reconciliation: **24/26**. The two open DIFFs — Part I `HOUSING & DEVELOPMENT` 63/65 and
+`HUMAN RESOURCES` 18/19 — are parser misses. **Corrected 2026-10-20:** earlier text called them
+"in-source line-item vs. printed-subtotal gaps, not parser errors". The PDF prints the missing
+rows: `HD CC0707` (THE DOE FUND INC. - 2031 EASTERN PARKWAY, 300,000) and `HD CC0863` (EARL
+W.JIMERSON BALCONY RAILINGS RENOVATION, 300,000) on p.40, and `HR CC0168` (ALI FORNEY CENTER
+EMERGENCY HOUSING SITE CONSTRUCTION, 250,000) on p.47. In `fy27_capital_projects.csv` (1,388 rows) each lost row's text
+sits inside the title of the row before it (`HD CC0706`, `HD CC0862`, `HR CC1253`). With them both sections reconcile (65 projects, $54,135,000; 19
+projects, $19,483,000; details: PR #98). The parser's output is unchanged.
 
 The row grammar has **two code-column layouts**: CITY items carry a `CC####` budget line and a
 `D####`/`DN###` sub id, with the SPONSOR glued to the front of the TITLE after the four amounts;
@@ -618,7 +655,7 @@ NOT_RECONCILED · BLOCKED · N/A (no such document that year).
 | FY15 | RECONCILED (24/24, fy15 parser) | EXTRACTED (17) | pending | EXTRACTED 12 |
 | FY16 | RECONCILED (24/26) | EXTRACTED (30) | pending | EXTRACTED 13 |
 | FY17 | RECONCILED (24/27) | EXTRACTED (30) | EXTRACTED (ResoA) | EXTRACTED 13 |
-| FY18 | RECONCILED (24/27) | EXTRACTED (33) | pending (ResoA 0 blocks) | EXTRACTED 12 |
+| FY18 | RECONCILED (24/27) | EXTRACTED (33) | pending (the `ResoA` file is the FY2018 supporting detail book: Part I 1,485 city projects, $575,000,000, plus Parts II–III; not parsed) | EXTRACTED 12 |
 | FY19 | RECONCILED (27/28) | N/A | pending (FY19 sub-format) | EXTRACTED 11 |
 | FY20 | RECONCILED (27/28) | N/A | **RECONCILED 23/23** | EXTRACTED 8 |
 | FY21 | RECONCILED (25/26) | EXTRACTED (46) | EXTRACTED (ResoA) | EXTRACTED 8 |
@@ -650,8 +687,12 @@ coverage notes) do not gate. It writes a dated report to `data/QA-REPORT.md` and
 .venv/bin/python code/validate_data.py --no-report        # stdout only
 ```
 
-Current run (2026-07-28, post OCR re-run `c53c71d`): 281 files, **4 hard failures**, EIN coverage
-100% on every EIN-bearing file except FY09 transparency (97.9%, 2565/2620).
+Run of 2026-07-28 (post OCR re-run `c53c71d`): 281 files, **4 hard failures**, EIN coverage
+100% on every EIN-bearing file except FY09 transparency (97.9%, 2565/2620). **Corrected
+2026-10-20:** the current `data/QA-REPORT.md` (302 files, 4 hard failures, 598 soft advisories)
+also shows disclosure years below 100%: FY2009 99.5% (5717/5745), FY2011 99.7%, FY2012 99.9%, and
+FY2013–FY2015 short by 2, 3 and 1 rows. Coverage counts rows the parsers emitted, and the PDF
+parsers emit only rows with an EIN, so 100% there does not mean every printed row is present.
 Tests: `code/test_validate_data.py`.
 
 **The 4 hard failures are a known, expected FY09-only exception, not parser bugs.** They are all

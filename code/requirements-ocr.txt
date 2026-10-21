@@ -9,7 +9,9 @@
 
 python-doctr[torch]>=0.11,<0.13
 opencv-python-headless>=4.9,<5
-pypdfium2>=4.30,<5
+# render.py is verified on 4.30 and 5.x (identical output). Note python-doctr 0.11-0.12 itself
+# requires pypdfium2<5, so the resolver still picks 4.x until doctr moves to >=1.0.1.
+pypdfium2>=4.30,<6
 numpy>=1.26,<3
 pillow>=10,<12
 
