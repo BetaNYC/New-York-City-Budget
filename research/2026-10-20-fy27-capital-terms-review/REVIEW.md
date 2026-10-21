@@ -13,7 +13,7 @@ words (sponsor, title, names) and two policy questions.
 
 | # | $ (FY2027) | Page | Row | What | Suggested decision |
 |---|---:|---|---|---|---|
-| 1 | 70,987,000 | 66–67 | 30 `PV MA…` rows on `PV 0N…` lines | In Part II and Part III only. Not in Part I, not in the p.61 "City Council Additions", not in the Council workbook. No sponsor. The Part II total ($210,677,000) includes them | Accept as printed. Ask Council Finance what `MA` / `0N` mean (Mayoral?) |
+| 1 | 70,987,000 | 66–67 | 30 `PV MA…` rows on `PV 0N…` lines | In Part II and Part III only. Not in Part I, not in the p.61 "City Council Additions", not in the Council workbook. No sponsor. The Part II total ($210,677,000) includes them. **Evidence (2026-10-20):** in the repo's OMB Capital Budget extract (`source/open-data-46m8-77gv/46m8-77gv.csv.gz`), all 29 `PV 0N…` lines behind these 30 rows appear in the Adopted release (pub_date 20260713) with City funds (`C`) in yr1 FY2027 at exactly the PDF amounts (total $70,987,000); none appears in the Preliminary (20260217) or Executive (20260512) release. So the lines were added at adoption. What `MA` stands for is still unconfirmed | Accept as printed. Ask Council Finance what `MA` / `0N` mean |
 | 2 | 23,317,000 | 61 | p.61 "Less Rescindments" | One printed number. No list of rescindments in this book, so only the subtraction ties | Accept; note "unverifiable here" |
 | 3 | 10,000,000 | 46 | `HO CC1034` | Sponsor: PDF `SPEAKER, BROOKS-POWERS`; workbook adds `Queens Delegation` | Keep PDF; note the difference |
 | 4 | 8,000,000 + 7,000,000 + 3,000,000 | 55, 55, 46 | `PV CC1107`, `PV CC1106`, `HO CC1108` | `, FARIAS` typed into the PDF after export (other font, no accent). Workbook agrees it's Farías | Accept as printed |
