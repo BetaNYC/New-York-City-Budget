@@ -1,0 +1,9 @@
+checked_at,dataset_id,name,rows_updated_at,rows_updated_at_epoch,cached_rows,columns_ok,held_rows_updated_at,verdict
+2026-10-21T05:50:29-04:00,4d7f-74pe,City Council Discretionary Funding,2021-04-20,1618932382,97002,yes,2021-04-20,current
+2026-10-21T05:50:31-04:00,ujre-m2tj,Discretionary Award Tracker,2021-06-30,1625084549,53418,yes,,not_held
+2026-10-21T05:50:34-04:00,t474-a92g,City Council Capital Budget,2025-12-17,1766003942,11503,yes,2025-12-17,current
+2026-10-21T05:50:37-04:00,46m8-77gv,Capital Budget,2026-07-13,1783965522,16491,yes,2026-07-13,current
+2026-10-21T05:50:40-04:00,2cmn-uidm,Capital Commitment Plan,2026-09-28,1790628315,60739,yes,2026-09-28,current
+2026-10-21T05:50:42-04:00,djxg-kcfi,Capital Projects Database (CPDB) - Commitments,2026-08-24,1787586625,41277,yes,,not_held
+2026-10-21T05:50:45-04:00,mwzb-yiwb,Expense Budget,2026-07-08,1783519030,1137678,yes,,not_held
+2026-10-21T05:50:48-04:00,uvw5-9znb,City Council Members (1999 to Present),2026-04-10,1775844029,558,yes,,not_held
