@@ -1,12 +1,15 @@
 """
 Section 254 capital supporting detail: parse, tie out and review (epic #101; FY2027 #102,
-FY2026 #103).
+FY2026 #103, FY2025 #104).
 
 One parser, one config per year: config/capital_sd/fyNNNN.toml holds the PDF, its sha256, the
 page map, the FY columns and the other year-specific facts. FY2027 (the default) is
 source/FY27/Supporting-Detail-for-FY2027-...-Section-254.V4.pdf (80 pages, Parts I and II
 rotated /Rotate 90); FY2026 is source/FY26/Fiscal-2026-Capital-Budget-Supporting-Details-1.pdf
-(86 pages, Part III rotated instead).
+(86 pages, Part III rotated instead); FY2025 is source/FY25/Supporting-Detail-for-FY2025-...-
+Council-Version-24.07.17.pdf (87 pages, all Parts upright, Part III a third export). Rules a later
+year needed and an earlier one must not get are config switches, off by default, so a reviewed
+year's output stays byte-identical.
 
 This is a review build, not a served dataset (DATA-ANOMALIES §27: PDF data is not served in
 2.0). It writes to the config's research/ folder and never touches data/.
@@ -37,7 +40,7 @@ Checks (each prints its numbers to checks.txt; failures go to review.csv):
   C8 ink coverage: rendered ink not under an emitted character or a vector rule
   C9 alignment with data/capital/council_capital_awards.csv (report only, never fills a value)
 
-Run:  .venv/bin/python code/review_capital_sd.py [--fy 2027|2026] [--out DIR] [--no-ink] [--selftest-ink]
+Run:  .venv/bin/python code/review_capital_sd.py [--fy 2027|2026|2025] [--out DIR] [--no-ink] [--selftest-ink]
 """
 import argparse
 import collections
@@ -78,7 +81,7 @@ def configure(fy):
     PAGE_MAP is checked against the page furniture in triage() (a page that disagrees fails).
     EXPORT_FONTS: the Word export's fonts on detail pages; text in any other font was typed in
     later. Every other year-specific value is read from CFG where it is used."""
-    global CFG, FY, TAG, PREFIX, PDF, PDF_SHA256, OUT, PAGE_MAP, FYS, EXPORT_FONTS
+    global CFG, FY, TAG, PREFIX, PDF, PDF_SHA256, OUT, PAGE_MAP, FYS, EXPORT_FONTS, BOLD_FONTS
     with open(os.path.join(CONFIG_DIR, f"fy{fy}.toml"), "rb") as f:
         CFG = tomllib.load(f)
     FY = CFG["fiscal_year"]
@@ -91,6 +94,8 @@ def configure(fy):
                 for a, b in ranges for p in range(a, b + 1)}
     FYS = tuple(CFG["fys"])
     EXPORT_FONTS = tuple(CFG["export_fonts"])
+    # Bold faces whose names do not say "Bold" (FY2025 Part III: CIDFont+F1). Default none.
+    BOLD_FONTS = frozenset(CFG.get("bold_fonts", ()))
 
 
 def pages_of(kind):
@@ -125,7 +130,7 @@ def page_words(page):
     for k, w in enumerate(words):
         w["si"] = min(c["_si"] for c in w["chars"])
         w["wid"] = k
-        w["bold"] = "Bold" in w["fontname"]
+        w["bold"] = "Bold" in w["fontname"] or w["fontname"] in BOLD_FONTS
         w["cy"] = (w["top"] + w["bottom"]) / 2
     return words
 
@@ -148,7 +153,19 @@ def bbox_of(ws):
 
 
 def line_text(ws):
-    return " ".join(w["text"] for w in sorted(ws, key=lambda w: w["x0"]))
+    """Words left to right, one space apart. With `join_touching_words`, words that touch
+    (gap under 0.5 pt) were split only because the font changed mid-word, so they join with no
+    space (FY2025 p.51: an edit typed `SCHULMAN` with its `C` in another font subset). Off by
+    default: on, FY2026/FY2027 `sponsor_raw` would lose the space in `GENNARO ,` (4 rows)."""
+    if not CFG.get("join_touching_words"):
+        return " ".join(w["text"] for w in sorted(ws, key=lambda w: w["x0"]))
+    out, prev = "", None
+    for w in sorted(ws, key=lambda w: w["x0"]):
+        if prev is not None:
+            out += "" if w["x0"] - prev["x1"] < 0.5 and abs(w["top"] - prev["top"]) < LINE_TOL else " "
+        out += w["text"]
+        prev = w
+    return out
 
 
 def rid(*parts):
@@ -218,11 +235,14 @@ def check_page_map(pages, review):
 # --------------------------------------------------------------------------------------------
 
 def header_columns(lines):
-    """Column geometry from this page's header line (SUB ID ... SPONSOR)."""
+    """Column geometry from this page's header line (SUB ID ... SPONSOR; FY2025 prints
+    PROJECT ID ... SPONSOR, so `PROJECT` names both the ID and the title column)."""
     for ln in lines:
         texts = [w["text"] for w in ln]
-        if "SUB" in texts and "SPONSOR" in texts:
-            by = {w["text"]: w for w in ln}
+        if ("SUB" in texts or texts[:2] == ["PROJECT", "ID"]) and "SPONSOR" in texts:
+            by = {w["text"]: w for w in ln}        # the last PROJECT is the title's
+            if "SUB" not in by:
+                by["SUB"] = ln[0]
             fy_x1 = []
             for i, w in enumerate(ln):
                 if w["text"] == "FY" and i + 1 < len(ln) and re.fullmatch(r"20\d\d", ln[i + 1]["text"]):
@@ -416,6 +436,23 @@ def parse_detail_page(page, pno, part, state, review, gaps):
                 else:
                     geom[w["wid"]] = None
 
+        # A sponsor cell can wrap past its row's band (FY2025 p.50 `HN CN017`: three lines). A
+        # sponsor-column line in no band joins the row of the sponsor line just above it when the
+        # gap is a within-cell gap (< BLOCK_GAP), as wrapped title lines do.
+        prev = None                       # (top, row) of the last sponsor line placed in a row
+        for ln in seg_lines:
+            sp = [w for w in ln if column_of(w, cols) == "sponsor"]
+            if not sp:
+                continue
+            ks = {geom[w["wid"]] for w in sp}
+            if ks == {None} and prev and sp[0]["top"] - prev[0] < BLOCK_GAP:
+                for w in sp:
+                    geom[w["wid"]] = prev[1]
+                seg_rows[prev[1]]["flags"].append("sponsor_wrapped_below")
+                ks = {prev[1]}
+            known = ks - {None}
+            prev = (sp[0]["top"], next(iter(known))) if len(known) == 1 else None
+
         # Stream read: the last SUB ID emitted before the word.
         order = sorted(range(len(seg_rows)), key=lambda i: seg_rows[i]["anchor_si"])
         def stream_row(w):
@@ -556,12 +593,15 @@ def parse_part3_page(page, pno, state, review):
     consumed = set()
     lines_out, grand = [], []
 
+    # FY2025 Part III sets its amounts up to ~5 pt left of the header's right edge.
+    tol = CFG.get("part3_amount_x1_tol", AMOUNT_X1_TOL)
+
     def amounts(ln):
         got = {}
         for w in ln:
             if AMOUNT_RE.match(w["text"]):
                 for k, x1 in enumerate(hdr["fy_x1"]):
-                    if abs(w["x1"] - x1) <= AMOUNT_X1_TOL:
+                    if abs(w["x1"] - x1) <= tol:
                         got[FYS[k]] = w
         return got
 
@@ -638,7 +678,7 @@ def vector_rules(page):
         h = r["bottom"] - r["top"]
         w = r["x1"] - r["x0"]
         if h <= 2.5 and w >= 100:
-            ys.append(((r["top"] + r["bottom"]) / 2, r["x0"], r["x1"]))
+            ys.append(((r["top"] + r["bottom"]) / 2, r["x0"], r["x1"], h))
     return sorted(ys)
 
 
@@ -758,7 +798,8 @@ def summary_page(pdf, review):
     """The summary page (FY2027 p.61): City Council Additions / Less Rescindments / Net Change."""
     text = pdf.pages[pages_of("summary")[0] - 1].extract_text()
     def grab(label):
-        m = re.search(label + r"\s+\(?\$([\d,]+)\)?", text)
+        # FY2025 prints a space after the dollar sign: "($ 75,000,000)".
+        m = re.search(label + r"\s+\(?\$\s?([\d,]+)\)?", text)
         return money(m.group(1)) if m else None
     return {"additions": grab("City Council Additions"),
             "rescindments": grab("Less Rescindments from Prior Capital Budgets"),
@@ -771,9 +812,29 @@ def wb_id(a):
     return a["project_id"].split(" ")[-1]
 
 
+def wb_text(s):
+    """Undo the comparison source's mojibake, for comparing only (never written out). The
+    FY2025 and FY2024 rows come from NYC Open Data t474-a92g, whose accents were decoded as
+    cp437: FY2025 `OssΘ` is cp1252 `Ossé`, FY2024 `Oss├⌐` is UTF-8 `Ossé`. Config
+    `workbook_mojibake = "cp1252"` / `"utf-8"` names the real encoding; default: no change."""
+    enc = CFG.get("workbook_mojibake")
+    if not enc or s.isascii():
+        return s
+    try:
+        return s.encode("cp437").decode(enc)
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return s
+
+
 def awards_for_year():
     with open(AWARDS, newline="", encoding="utf-8") as f:
-        return [r for r in csv.DictReader(f) if r["report_year"] == str(FY)]
+        rows = [r for r in csv.DictReader(f) if r["report_year"] == str(FY)]
+    if CFG.get("workbook_mojibake"):
+        for r in rows:
+            fixed = {k: wb_text(r[k]) for k in ("title", "sponsor")}
+            r["_mojibake"] = [(r[k], fixed[k]) for k in fixed if fixed[k] != r[k]]
+            r.update(fixed)
+    return rows
 
 
 def align_workbook(rows, review, report):
@@ -849,7 +910,14 @@ def align_workbook(rows, review, report):
         if not cands:
             continue
         n += 1
+        # The PDF reuses some IDs on one budget line (FY2025 `HN CN018`, `HO CN019`, `E CN810`):
+        # with `wb_pick_by_amount`, compare with the workbook row that has this row's amount.
+        # Off by default, so FY2026/FY2027 output stays as reviewed (on, FY2026 `HN CN1451`
+        # would lose 2 warnings: it would be compared with its own workbook row).
         a = cands[0]
+        if CFG.get("wb_pick_by_amount"):
+            a = next((c for c in cands if int(c["amount"]) == (r.get("fy" + c["amount_fy"]) or 0)),
+                     a)
         if norm(r["title_raw"]) == norm(a["title"]):
             t_eq += 1
         else:
@@ -866,6 +934,16 @@ def align_workbook(rows, review, report):
                        field="sponsor", dollars=r[FYS[0]] or 0)
     report.append(f"  title equal (letters and digits only) on {t_eq}/{n}; sponsor list equal on "
                   f"{s_eq}/{n}")
+    moj = [a for a in aw if a.get("_mojibake")]
+    if moj:
+        report.append(f"  {len(moj)} rows of the comparison source print accents as mojibake "
+                      f"(decoded as {CFG['workbook_mojibake']} to compare; source rows "
+                      f"{', '.join(sorted({a['source_kind'] for a in moj}))})")
+        raw, dec = moj[0]["_mojibake"][0]
+        review.add("C9.workbook_text", "warn", "",
+                   f"{len(moj)} FY{FY} rows of data/capital/council_capital_awards.csv print "
+                   f"accents as mojibake (e.g. '{raw}' for '{dec}'); compared after decoding. "
+                   "A note for data/capital, not edited here", part="I")
     return matched, pdf_only, wb_only
 
 
@@ -944,6 +1022,13 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
                 vec = vector_rules(page)
                 img = image_rules(gray)
                 m, vonly, ionly = compare_rules(vec, img)
+                # Hairlines thinner than the config's c7_hairline_pt are under a pixel at 300
+                # dpi (FY2025 Part III: 0.12 pt, 50% grey): counted, not listed one by one.
+                hair = CFG.get("c7_hairline_pt", 0)
+                thin = {round(v[0], 2) for v in vec if v[3] < hair}
+                c7.setdefault("hairline", collections.Counter())
+                c7["hairline"][n] += sum(1 for y in vonly if y in thin)
+                vonly = [y for y in vonly if y not in thin]
                 c7["pages"] += 1
                 c7["matched"] += m
                 c7["vector_only"] += len(vonly)
@@ -968,6 +1053,16 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
             report.append(f"C7 image rules vs vector rules: {c7['pages']} pages, "
                           f"{c7['matched']} matched, {c7['vector_only']} vector only, "
                           f"{c7['image_only']} image only")
+            hl = c7.get("hairline", collections.Counter())
+            if sum(hl.values()):
+                pp = sorted(k for k, v in hl.items() if v)
+                report.append(f"  plus {sum(hl.values())} vector hairlines under "
+                              f"{CFG['c7_hairline_pt']} pt, below pixel resolution at {DPI} dpi, "
+                              f"on pp.{pp[0]}-{pp[-1]}")
+                review.add("C7.hairlines", "warn", pp[0],
+                           f"{sum(hl.values())} vector rules thinner than {CFG['c7_hairline_pt']} pt "
+                           f"(pp.{pp[0]}-{pp[-1]}) are not seen in the {DPI} dpi render; they are "
+                           "separators between rows, not content")
             report.append(f"C8 ink coverage: {c8['pages']} pages, {c8['regions']} uncovered "
                           f"regions" + (f"  [SELF-TEST: {selftest['sub_id']} removed on "
                                         f"p.{selftest['page']}]" if ink_selftest else ""))
@@ -1004,10 +1099,17 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
     key = lambda r: (r["sub_id"], r["budget_line"], r["boro"], r["title"], r["sponsor"],
                      *(r[fy] for fy in FYS))
     p1_by_id = {r["sub_id"]: r for r in rows if r["part"] == "I"}
+    p1_all = collections.defaultdict(list)
+    for r in rows:
+        if r["part"] == "I":
+            p1_all[r["sub_id"]].append(r)
     p2_rows = [r for r in rows if r["part"] == "II"]
     same = only2 = 0
     for r in p2_rows:
-        a = p1_by_id.get(r["sub_id"])
+        # An ID printed twice in Part I (FY2025 `ED NC128`, pp.4 and 44): the one on this
+        # row's budget line.
+        a = next((c for c in p1_all.get(r["sub_id"], []) if c["budget_line"] == r["budget_line"]),
+                 p1_by_id.get(r["sub_id"]))
         if a is None:
             only2 += 1
             continue
@@ -1025,6 +1127,15 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
     ma = [r for r in p2_rows if r["sub_id"] not in p1_by_id]
     report.append(f"C3 Part II: {len(p2_rows)} rows; {same} equal a Part I row in every field; "
                   f"{len(p2_rows) - same - only2} differ in a field; {only2} are not in Part I")
+    reused = {k: v for k, v in p1_all.items() if len(v) > 1}
+    if reused:
+        report.append(f"  Part I IDs printed on more than one row: {len(reused)} "
+                      f"({', '.join(sorted(reused))})")
+    for k, v in sorted(reused.items()):
+        review.add("C3.id_reused", "warn", v[0]["pdf_page"],
+                   f"{k} is printed on {len(v)} Part I rows: " + "; ".join(
+                       f"p.{x['pdf_page']} {x['budget_line']} '{x['title']}' {x[FYS[0]] or 0:,}"
+                       for x in v), part="I", sub_id=k, dollars=sum(x[FYS[0]] or 0 for x in v))
     ma_ids = collections.Counter(r["sub_id"].split(" ")[1][:2] for r in ma)
     ma_lines = collections.Counter(r["budget_line"].split(" ")[1][:2] for r in ma)
     ma_usd = sum(r[FYS[0]] or 0 for r in ma)

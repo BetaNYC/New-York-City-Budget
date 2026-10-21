@@ -1,10 +1,11 @@
 """
-Terms and Conditions: parse, check and review (epic #101; FY2027 #102, FY2026 #103).
+Terms and Conditions: parse, check and review (epic #101; FY2027 #102, FY2026 #103,
+FY2025 #104).
 
 One parser, one config per year (config/terms/fyNNNN.toml: PDF, sha256, page furniture, the
 retired CSV to compare with). FY2027 (the default): source/FY27/FY27-FINAL-Terms-and-Conditions-
 6.30.26.pdf (32 pages, tier B, Word export). FY2026: source/FY26/FY26-Terms-and-Conditions-1.pdf
-(29 pages). Writes to the config's research/ folder (never to data/; DATA-ANOMALIES §27).
+(29 pages). FY2025: source/FY25/FY25-Terms-and-Conditions-1.pdf (25 pages). Writes to the config's research/ folder (never to data/; DATA-ANOMALIES §27).
 
 The document is prose (families/transparency-and-terms.md §4). Its structure is:
 
@@ -28,7 +29,7 @@ Checks (numbers in checks.txt, failures in review.csv):
   T7 against the retired data/fyNN/terms CSV (config old_csv): rows, numbers, agencies, units, and text
      (whitespace removed), plus the mid-word split count in each
 
-Run:  .venv/bin/python code/review_terms.py [--fy 2027|2026] [--out DIR] [--no-ink]
+Run:  .venv/bin/python code/review_terms.py [--fy 2027|2026|2025] [--out DIR] [--no-ink]
 """
 import argparse
 import collections

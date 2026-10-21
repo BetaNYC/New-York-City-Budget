@@ -1,0 +1,20 @@
+# FY2025 Terms and Conditions: every year-specific fact code/review_terms.py needs.
+
+fiscal_year = 2025
+pdf = "source/FY25/FY25-Terms-and-Conditions-1.pdf"
+sha256 = "1e7b8be18702e9d9c7e10521f624ee1b4ca039c254b875435d766eac0f748e57"
+review_dir = "research/2026-10-21-fy25-capital-terms-review"   # outputs land in <review_dir>/data
+prefix = "fy25"                                                # output file names: <prefix>_terms_*
+issue = 104
+old_csv = "data/fy25/terms/fy25_terms_and_conditions.csv"      # the retired parse, compared in T7
+
+# Page furniture: a bare page number at the foot of every page, cover included (top 733 pt).
+[furniture]
+pattern = '\d{1,2}'
+top_min = 720
+top_max = 10000
+
+# The one ruled table (DOE Financial Status Reports, p.6) belongs to this condition (#16, not
+# #15 as in FY2026: its body ends "for the following dates:").
+[fsr_table]
+item_number = 16

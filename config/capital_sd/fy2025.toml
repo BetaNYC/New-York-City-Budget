@@ -1,0 +1,66 @@
+# FY2025 Section 254 capital supporting detail ("Council Version 24.07.17"): every year-specific
+# fact code/review_capital_sd.py needs, and nothing else. Values read off the pages (triage:
+# data/fy25_capital_sd_pages.csv).
+
+fiscal_year = 2025
+pdf = "source/FY25/Supporting-Detail-for-FY2025-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254-Council-Version-24.07.17.pdf"
+sha256 = "e34acb153288b12704c6a1351f8bcc7f6bc9b91e6f184d6a4a3f32d353e68f3d"
+review_dir = "research/2026-10-21-fy25-capital-terms-review"   # outputs land in <review_dir>/data
+prefix = "fy25"                                                # output file names: <prefix>_capital_sd_*
+issue = 104
+
+# The four FY columns, as printed in the column header.
+fys = ["fy2025", "fy2026", "fy2027", "fy2028"]
+
+# The Word export's fonts on detail pages (Parts I and II): unsubsetted Arial, with Times New
+# Roman for the page title. Text in any other font was typed in later (p.51: BXDXCW+ArialMT,
+# MIZCVF+ArialMT). Part III is a third export (CIDFont+F1..F3) and has no rows to flag.
+export_fonts = ["ArialMT", "Arial-BoldMT", "TimesNewRomanPS-BoldMT"]
+
+# Part III (pp.79-87) is a third export with anonymous fonts: CIDFont+F1 is the bold face
+# (organization lines, header; checked on a 288 dpi render), CIDFont+F3 the regular one.
+bold_fonts = ["CIDFont+F1"]
+# p.51: an edit typed SCHULMAN with its C in another font subset; the reader splits words at a
+# font change, so words that touch are joined again.
+join_touching_words = true
+# Part III amounts sit 2.8-4.7 pt left of their FY header's right edge (columns are ~65 pt apart).
+part3_amount_x1_tol = 6.0
+
+# The comparison source for FY2025 is NYC Open Data t474-a92g (no Council workbook found;
+# data/capital/README.md). Its accents are cp1252 bytes read as cp437 (`OssΘ`, `Cabßn`,
+# `CAF╔`): C9 decodes them before comparing. Nothing is written back.
+workbook_mojibake = "cp1252"
+# Six IDs are printed on two rows each (C3.id_reused); compare each with the source row that
+# has its amount, not the first row with its ID.
+wb_pick_by_amount = true
+
+# C7: Part III separates organizations with 0.12 pt, 50% grey hairlines, under a pixel at 300
+# dpi, so the image side cannot see them. Rules thinner than this are counted, not listed.
+c7_hairline_pt = 0.25
+
+# Page map: each kind's inclusive page ranges, checked against each page's furniture (H3).
+# Parts I, II and III are all upright; the contents, the dividers and the summary (p.67) carry
+# /Rotate 90.
+[pages]
+cover = [[1, 1]]
+contents = [[2, 2]]
+divider = [[3, 3], [68, 68], [78, 78]]
+summary = [[67, 67]]
+part1 = [[4, 66]]
+part2 = [[69, 77]]
+part3 = [[79, 87]]
+[rotate]
+part1 = 0
+part2 = 0
+part3 = 0
+
+# Part II rows not in Part I are expected only in this series (MA IDs on 0N lines, as FY2027).
+[part2_only]
+id_prefix = "MA"
+line_prefix = "0N"
+
+# --selftest-ink: drop this row's words from the emitted set on this page; C8 must fire.
+[ink_selftest]
+page = 4
+sub_id = "ED NC056"
+
