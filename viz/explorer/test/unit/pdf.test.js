@@ -70,6 +70,15 @@ describe("Schedule C beside the disclosure", () => {
   });
 });
 
+describe("recorded decisions", () => {
+  test("a row is decided only when every review entry has a decision", () => {
+    expect(P.flagState([])).toEqual({ state: "unknown" });
+    expect(P.flagState([{ decision: "source_error" }, { decision: "" }])).toEqual({ state: "open", open: 1 });
+    expect(P.flagState([{ decision: "source_error" }, { decision: "source_error" }])).toEqual({ state: "decided", decisions: ["source_error"] });
+    expect(P.reviewNotesQuery("a").sql).toContain("decision, decision_note");
+  });
+});
+
 describe("hash state for the new views", () => {
   test("round trip", () => {
     const s = { ...readHash(""), view: "source", spdf: "source/FY27/x.pdf", spage: 47, sbox: "1,2,3,4", slabel: "HR CC0168" };

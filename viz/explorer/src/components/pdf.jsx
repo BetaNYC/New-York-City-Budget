@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { useQueries } from "../duckdb/useDuckDB.js";
-import { REVIEWED_LABEL, reviewNotesQuery } from "../query/pdf.js";
+import { DECISION_WORDS, REVIEWED_LABEL, flagState, reviewNotesQuery } from "../query/pdf.js";
 import { writeHash } from "../state/hash.js";
 import { HashLink } from "./ui.jsx";
 
@@ -17,31 +17,36 @@ export function ReviewedLabel({ status, block = false }) {
 }
 
 /**
- * A row's review flags as a badge. Opening it loads the notes from pdf_review (the family's
- * review CSV), so a reader sees why the row was flagged in the reviewer's words.
+ * A row's review flags as a badge, with the recorded decision when there is one (a person's
+ * decision, committed in the family's decisions file and carried into its review CSV). Opening it
+ * shows each flag's note from pdf_review in the reviewer's words.
  */
 export function FlagBadge({ flags, reviewId }) {
   const [open, setOpen] = useState(false);
   const list = String(flags ?? "").split(";").filter(Boolean);
+  const q = useQueries(true, `flag|${reviewId}`, () => {
+    const rq = reviewNotesQuery(reviewId);
+    return rq ? { notes: rq } : null;
+  });
   if (!list.length) return null;
+  const notes = q.data?.notes ?? [];
+  const st = flagState(notes);
+  const count = list.length === 1 ? "1 review flag" : `${list.length} review flags`;
+  const tail = st.state === "decided" ? ` · decided: ${st.decisions.map((d) => DECISION_WORDS[d] ?? d).join(", ")}` : st.state === "open" ? " · open" : "";
   return (
-    <details className="flagbadge" onToggle={(e) => setOpen(e.currentTarget.open)}>
+    <details className={`flagbadge flag-${st.state}`} onToggle={(e) => setOpen(e.currentTarget.open)}>
       <summary title={list.join(", ")}>
-        {list.length === 1 ? "1 review flag" : `${list.length} review flags`}
+        {count}
+        {tail}
       </summary>
-      {open ? <ReviewNotes reviewId={reviewId} /> : null}
+      {open ? <ReviewNotes notes={notes} loading={q.loading} error={q.error} /> : null}
     </details>
   );
 }
 
-function ReviewNotes({ reviewId }) {
-  const q = useQueries(true, String(reviewId), () => {
-    const rq = reviewNotesQuery(reviewId);
-    return rq ? { notes: rq } : null;
-  });
-  if (q.loading) return <p className="muted small">Loading the notes…</p>;
-  if (q.error) return <p className="muted small">The notes could not be loaded.</p>;
-  const notes = q.data?.notes ?? [];
+function ReviewNotes({ notes, loading, error }) {
+  if (loading) return <p className="muted small">Loading the notes…</p>;
+  if (error) return <p className="muted small">The notes could not be loaded.</p>;
   if (!notes.length) return <p className="muted small">No note recorded.</p>;
   return (
     <ul className="flagnotes">
@@ -49,6 +54,13 @@ function ReviewNotes({ reviewId }) {
         <li key={n.review_id}>
           <code>{n.check_id}</code> <span className={`sev sev-${n.severity}`}>{n.severity}</span>
           {n.pdf_page ? <span className="muted"> p.{n.pdf_page}</span> : null}: {n.note}
+          {n.decision ? (
+            <div className="decision-line">
+              Decision: <code>{n.decision}</code> ({DECISION_WORDS[n.decision] ?? n.decision}){n.decision_note ? ` — ${n.decision_note}` : ""}
+            </div>
+          ) : (
+            <div className="muted small">No decision recorded yet.</div>
+          )}
         </li>
       ))}
     </ul>

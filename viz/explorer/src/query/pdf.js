@@ -260,9 +260,26 @@ export function reviewNotesQuery(reviewIds) {
   const ids = [...new Set(String(reviewIds ?? "").split(";").map((s) => s.trim()).filter(Boolean))];
   if (!ids.length) return null;
   return {
-    sql: `SELECT review_id, family, check_id, severity, pdf_page, note FROM pdf_review WHERE review_id IN (${ids.map(() => "?").join(", ")}) ORDER BY severity, review_id`,
+    sql: `SELECT review_id, family, check_id, severity, pdf_page, note, decision, decision_note FROM pdf_review WHERE review_id IN (${ids.map(() => "?").join(", ")}) ORDER BY severity, review_id`,
     params: ids,
   };
+}
+
+/** A recorded decision in plain words (PLAN.md §5.3 vocabulary). */
+export const DECISION_WORDS = {
+  accepted_as_printed: "kept as printed",
+  source_error: "the PDF's own error",
+  parser_bug: "our reading is wrong",
+  needs_info: "needs more information",
+};
+
+/** One badge state for a row's review entries: "decided" when every entry has a decision. */
+export function flagState(notes) {
+  if (!notes?.length) return { state: "unknown" };
+  const open = notes.filter((n) => !n.decision);
+  if (open.length) return { state: "open", open: open.length };
+  const kinds = [...new Set(notes.map((n) => n.decision))];
+  return { state: "decided", decisions: kinds };
 }
 
 // ---------------------------------------------------------------- the source viewer

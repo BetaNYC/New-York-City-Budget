@@ -102,3 +102,6 @@ ol.conditions { padding-left: 2.2rem; }
 .pdfloading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); pointer-events: none; }
 .pdfmissing { border: 1px solid var(--line); border-radius: 8px; padding: 16px; color: var(--muted); font-size: 13px; }
 .rowhighlight { position: absolute; z-index: 10; pointer-events: none; border: 2px solid #d9480f; background: rgba(255, 196, 0, 0.22); border-radius: 2px; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.06); }
+
+.flagbadge.flag-decided > summary { background: #e3f4e5; color: #1d5e2a; border-color: #9fd2a8; }
+.decision-line { margin-top: 0.15rem; color: #1d5e2a; }
