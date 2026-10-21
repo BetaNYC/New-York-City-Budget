@@ -1,0 +1,11 @@
+fiscal_year,source_pdf,pdf_sha256,pdf_page,bbox_pt,review_id,flags,item_number,financial_status_report,report_content,issue_date,anticipated_meeting_date,report_content_raw
+2027,source/FY27/FY27-FINAL-Terms-and-Conditions-6.30.26.pdf,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b,7,,,,15,September 2026,FY 2027 FSR - Opening Condition,October 6,October 28,FY 2027 FSR - Opening Condition
+2027,source/FY27/FY27-FINAL-Terms-and-Conditions-6.30.26.pdf,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b,7,,,,15,October 2026,FY 2026 Year-End Close,November 6,December 3,FY 2026 Year-End Close
+2027,source/FY27/FY27-FINAL-Terms-and-Conditions-6.30.26.pdf,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b,8,,ed0199f51fda,W.midword_wrap,15,December 2026,FY 2027 FSR Update; FY 2027 November Plan Su mmary,December 9,January 14,"FY 2027 FSR Update; FY 2027 November Plan Su
+mmary"
+2027,source/FY27/FY27-FINAL-Terms-and-Conditions-6.30.26.pdf,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b,8,,c8eca2ebdf9c,W.midword_wrap,15,February 2027,"FY 2027 FSR Update, including Fiscal Analysis; FY 2 028 Preliminary Budget Summary",February 11,March 11,"FY 2027 FSR Update, including Fiscal Analysis; FY 2
+028 Preliminary Budget Summary"
+2027,source/FY27/FY27-FINAL-Terms-and-Conditions-6.30.26.pdf,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b,8,,,,15,March 2027,"FY 2027 FSR Update, including Fiscal Analysis; FY 2028 Preliminary Budget Summary",April 8,May 6,"FY 2027 FSR Update, including Fiscal Analysis;
+FY 2028 Preliminary Budget Summary"
+2027,source/FY27/FY27-FINAL-Terms-and-Conditions-6.30.26.pdf,54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b,8,,19f359210e61,W.midword_wrap,15,May 2027,"FY 2027 FSR Update, including Fiscal Analysis; FY 2 028 Executive Budget Summary",May 26,June 16,"FY 2027 FSR Update, including Fiscal Analysis; FY 2
+028 Executive Budget Summary"

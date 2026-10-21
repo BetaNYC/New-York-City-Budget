@@ -1,0 +1,24 @@
+FY2027 Terms and Conditions: checks
+pdf: source/FY27/FY27-FINAL-Terms-and-Conditions-6.30.26.pdf
+sha256: 54b94c9508783f96ef70f78cca847352460805f537006cc7a1819744778c5d1b
+
+T5 p.7: vector 5 x / 4 y separators; image 5 x / 4 y; unmatched vector x[] y[], image x[] y[]
+T5 p.8: vector 5 x / 5 y separators; image 5 x / 5 y; unmatched vector x[] y[], image x[] y[]
+T5 FSR table cells: 28 identical under both lattices, 0 differ
+T1 numbered conditions: 75; run 1..75; gaps []; repeats []; in order: True
+T2 unit/budget-line heading lines: page text 269, in conditions 269, difference {}
+   of which 'Unit of Appropriation' lines: 262
+T3 body names exactly the heading's units and lines: 75/75
+T4 characters outside furniture and tables not in any condition: 0
+T6 ink coverage: 32 pages, 0 uncovered regions
+T7 old CSV: 75 rows, new 75; first agency equal 75; text equal ignoring whitespace 56
+   mid-word splits (join is a word in the new text, halves are not): old 134, new 0
+W wrap_hyphen joins (line ended in a hyphen; joined with none): 3 conditions
+Conditions naming more than one agency: [30, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75]
+Kinds: {'expense': 69, 'capital+expense': 1, 'capital': 5}
+
+review.csv by check:
+  T7.old_csv_text        warn     19
+  T7.old_csv_units       warn     12
+  W.midword_wrap         warn     3
+  W.wrap_hyphen          warn     3
