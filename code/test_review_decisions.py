@@ -107,3 +107,18 @@ def test_merge_adds_new_and_never_overwrites(tmp_path):
     before = committed.read_text()
     assert vrd.main(["--review", str(rv), "--decisions", str(committed), "--add", str(export), "--write"]) == 1
     assert committed.read_text() == before
+
+
+def test_accept_as_printed_is_never_needs_info():
+    # A suggestion whose note says "Accept as printed" (the REVIEW.md's own words) must not be
+    # needs_info: clicking "Accept suggestion" would record something the note does not say.
+    _, rows = brs.build()
+    bad = [(r["review_id"], r["suggested_note"]) for r in rows
+           if "accept as printed" in r["suggested_note"].lower() and r["suggested_decision"] == "needs_info"]
+    assert bad == []
+    by = {r["review_id"]: r for r in rows}
+    assert by["549bba9337ee"]["suggested_decision"] == "accepted_as_printed"
+    assert "Council Finance" in by["549bba9337ee"]["suggested_note"]
+    # Real unknowns stay needs_info: FY2027 E CC0598 and E CC1245.
+    assert by["1191bd798416"]["suggested_decision"] == "needs_info"
+    assert by["4ce0ec50aa88"]["suggested_decision"] == "needs_info"

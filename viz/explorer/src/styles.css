@@ -148,3 +148,12 @@ ol.conditions { padding-left: 2.2rem; }
 @media (max-width: 900px) { .review-layout, .review-columns { grid-template-columns: 1fr; } }
 .flagbadge.flag-decided > summary { background: #e3f4e5; color: #1d5e2a; border-color: #9fd2a8; }
 .decision-line { margin-top: 0.15rem; color: #1d5e2a; }
+
+/* Review: the reviewer's name is required before any decision (recorded as decided_by). */
+.reviewer-name { min-width: 18rem; }
+.reviewer-name .required { font-size: 0.72rem; font-weight: 700; color: var(--err-ink); text-transform: uppercase; letter-spacing: 0.03em; }
+.reviewer-name.needs-name { background: var(--warn-bg); border: 2px solid var(--warn-line); border-radius: 6px; padding: 0.5rem 0.7rem; }
+.reviewer-name.needs-name input { border: 2px solid var(--warn-line); }
+.review-decide .buttons button:disabled { opacity: 0.5; cursor: not-allowed; }
+.decide-hint { margin: 0.35rem 0 0; font-size: 0.85rem; color: var(--muted); min-height: 1.3em; }
+.decide-hint.warn { color: var(--warn-ink); font-weight: 600; }
