@@ -100,8 +100,9 @@ export function orgsQuery(f, page) {
             ANY_VALUE(org_printed_y1) AS org_printed_y1, ANY_VALUE(org_printed_y2) AS org_printed_y2,
             ANY_VALUE(org_printed_y3) AS org_printed_y3, ANY_VALUE(org_printed_y4) AS org_printed_y4,
             ANY_VALUE(org_status) AS org_status, COUNT(*) AS n_lines,
-            list({ budget_line: budget_line, y1: amount_y1, y2: amount_y2, y3: amount_y3, y4: amount_y4,
-                   pdf_page: pdf_page, bbox_pt: bbox_pt, flags: flags, review_id: review_id } ORDER BY org_line_in_org) AS lines,
+            -- JSON text, not a LIST: DuckDB-WASM hands a LIST back as an Arrow vector (orgLines()).
+            CAST(to_json(list({ budget_line: budget_line, y1: amount_y1, y2: amount_y2, y3: amount_y3, y4: amount_y4,
+                   pdf_page: pdf_page, bbox_pt: bbox_pt, flags: flags, review_id: review_id } ORDER BY org_line_in_org)) AS VARCHAR) AS lines,
             string_agg(NULLIF(flags, ''), ';') AS flags, string_agg(NULLIF(review_id, ''), ';') AS review_id
           FROM pdf_capital_sd_orgs${w.sql()}
           GROUP BY fiscal_year, status, organization, org_pdf_page, org_bbox_pt, source_pdf
@@ -110,6 +111,9 @@ export function orgsQuery(f, page) {
     params: w.params,
   };
 }
+
+/** An organization row's budget lines (orgsQuery's `lines`, JSON text). */
+export const orgLines = (o) => (typeof o.lines === "string" ? JSON.parse(o.lines) : []);
 
 export function orgsTotalsQuery(f) {
   const w = orgWhere(f);
@@ -191,7 +195,7 @@ export function parseBbox(s) {
 /**
  * A row box (`bbox_pt`: x0,top,x1,bottom in points on the unrotated page, origin top-left) as a
  * PDF user-space rectangle [x0, y0, x1, y1] (origin bottom-left), for pdf.js's
- * viewport.convertToViewportRectangle, which applies the page's /Rotate. `view` is the page's
+ * viewport.convertToViewportPoint (two corners), which applies the page's /Rotate. `view` is the page's
  * MediaBox as pdf.js reports it ([x0, y0, x1, y1]).
  */
 export function bboxToPdfRect(bbox, view) {
@@ -201,7 +205,7 @@ export function bboxToPdfRect(bbox, view) {
   return [vx0 + b[0], vy1 - b[3], vx0 + b[2], vy1 - b[1]];
 }
 
-/** [a, b, c, d] from convertToViewportRectangle -> {left, top, width, height} in CSS px. */
+/** Two viewport corners [x0, y0, x1, y1], in either order -> {left, top, width, height} in CSS px. */
 export function viewportBox(r) {
   const left = Math.min(r[0], r[2]);
   const top = Math.min(r[1], r[3]);

@@ -19,7 +19,7 @@ import "pdfjs-dist/web/pdf_viewer.css";
  *
  * `bbox` is the row contract's `bbox_pt`: x0,top,x1,bottom in points on the UNROTATED page. The
  * viewport pdf.js renders with already applies the page's /Rotate (the capital book's pages are
- * /Rotate 90), so the box goes through viewport.convertToViewportRectangle and lands where the
+ * /Rotate 90), so the box's corners go through viewport.convertToViewportPoint and land where the
  * row is drawn.
  */
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
@@ -56,13 +56,17 @@ export default function PdfViewer({ src, initialPage = 1, bbox = "", label, fall
     eventBus.on("pagechanging", ({ pageNumber }) => setPage(pageNumber));
     eventBus.on("scalechanging", ({ scale: s }) => setScale(s));
     // The highlight: redrawn each time the target page renders (a zoom re-renders it).
-    eventBus.on("pagerendered", ({ pageNumber, source }) => {
-      if (pageNumber !== target || !bbox) return;
+    eventBus.on("pagerendered", ({ pageNumber, source, isDetailView }) => {
+      // A zoomed-in page also renders a "detail view" of its visible part; the page's own render
+      // (with its viewport and div) is the one to draw on.
+      if (pageNumber !== target || !bbox || isDetailView || !source?.viewport || !source?.div) return;
       const div = source.div;
       div.querySelector(".rowhighlight")?.remove();
       const rect = bboxToPdfRect(bbox, source.pdfPage.view);
       if (!rect) return;
-      const box = viewportBox(source.viewport.convertToViewportRectangle(rect));
+      // pdf.js 6 has no convertToViewportRectangle; map the two corners.
+      const vp = source.viewport;
+      const box = viewportBox([...vp.convertToViewportPoint(rect[0], rect[1]), ...vp.convertToViewportPoint(rect[2], rect[3])]);
       const pad = 3;
       const el = document.createElement("div");
       el.className = "rowhighlight";

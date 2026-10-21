@@ -1,5 +1,5 @@
 import { useQueries } from "../duckdb/useDuckDB.js";
-import { count, money } from "../format.js";
+import { money, plural } from "../format.js";
 import * as P from "../query/pdf.js";
 import { FlagBadge, ReviewedLabel, SourcePageLink } from "../components/pdf.jsx";
 import { Matched, Notice, Pager, SelectFilter, Status, TextFilter } from "../components/ui.jsx";
@@ -8,7 +8,20 @@ import { Matched, Notice, Pager, SelectFilter, Status, TextFilter } from "../com
  * Capital §254 Part III, "Capital project detail by non-city entity": each organization's printed
  * line and the budget-line rows under it. From the reviewed PDF tables (pdf_capital_sd_orgs).
  */
-export default function Orgs({ state, set, go, pdfYears }) {
+export default function Orgs(props) {
+  const fams = props.pdfYears.filter((y) => y.family === "capital_sd");
+  if (!fams.length) {
+    return (
+      <Notice>
+        No organization (capital Part III) data is in this build. These tables come from PDFs reviewed in epic #101; they appear once a year's review is closed, or in a local build
+        made with <code>npm run data -- --include-reviewed</code>.
+      </Notice>
+    );
+  }
+  return <OrgsBody {...props} />;
+}
+
+function OrgsBody({ state, set, go, pdfYears }) {
   const fams = pdfYears.filter((y) => y.family === "capital_sd");
   const f = P.orgFilters(state);
   const q = useQueries(true, JSON.stringify([f, state.gpage]), () => ({ totals: P.orgsTotalsQuery(f), rows: P.orgsQuery(f, state.gpage) }));
@@ -43,7 +56,7 @@ function Results({ data, state, set, go }) {
       <Matched matched={n} what="organizations" />
       {n > 0 && (
         <p className="muted">
-          {count(t.lines)} budget-line rows: {money(t.y1)} for the book's own year, {money(Number(t.y2) + Number(t.y3) + Number(t.y4))} for the three later years (sums of the
+          {plural(t.lines, "budget-line row")}: {money(t.y1)} for the book's own year, {money(Number(t.y2) + Number(t.y3) + Number(t.y4))} for the three later years (sums of the
           matching rows)
         </p>
       )}
@@ -75,7 +88,7 @@ function Results({ data, state, set, go }) {
                   </td>
                   <td>
                     <ul className="plain">
-                      {o.lines.map((l) => (
+                      {P.orgLines(o).map((l) => (
                         <li key={l.budget_line}>
                           <code>{l.budget_line}</code> {money(l.y1)}
                           {Number(l.y2) || Number(l.y3) || Number(l.y4) ? <span className="muted"> + {money(Number(l.y2) + Number(l.y3) + Number(l.y4))} later</span> : null}{" "}

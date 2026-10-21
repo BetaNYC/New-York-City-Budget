@@ -6,6 +6,18 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 
 ## Unreleased
 
+### Index (needs a version decision before release)
+- **Reviewed PDF tables, gated (2026-10-21, GitHub #102).** `scripts/build-index.mjs` creates
+  `pdf_years`, `pdf_capital_sd`, `pdf_capital_sd_orgs`, `pdf_capital_sd_totals`, `pdf_terms`,
+  `pdf_terms_units`, `pdf_terms_fsr` and `pdf_review` (`scripts/pdf-families.mjs`) and reads
+  `data/pdf_years.csv`. A family loads only when its status there is `closed`; none is yet, so
+  the shipped `data/budget.db` gains empty tables and no rows. `--include-reviewed --out <file>`
+  builds a separate index with `reviewed` families for the explorer's demo build and refuses to
+  write `data/budget.db`. No tool reads a `pdf_*` table; no tool, argument or answer changes
+  (`test/pdf-families.test.js` compares every tool's answer with and without reviewed rows).
+  `test/no-pdf-data.test.js` allows the `pdf_*` tables only with zero non-closed rows.
+  Because `mcp/scripts/` changed, CI's version guard asks for a bump once this reaches `main`.
+
 ### Related, not in the package
 - **Budget explorer (2026-10-20).** `viz/explorer/` is an in-browser explorer (DuckDB-WASM over
   Parquet) for exactly this server's data, published at

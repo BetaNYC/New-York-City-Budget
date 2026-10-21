@@ -2,13 +2,26 @@ import { useQueries } from "../duckdb/useDuckDB.js";
 import { count } from "../format.js";
 import * as P from "../query/pdf.js";
 import { FlagBadge, ReviewedLabel, SourcePageLink } from "../components/pdf.jsx";
-import { Matched, Pager, SelectFilter, Status, TextFilter } from "../components/ui.jsx";
+import { Matched, Notice, Pager, SelectFilter, Status, TextFilter } from "../components/ui.jsx";
 
 /**
  * Terms and Conditions: the reports the Council requires as a condition of funds, by agency and
  * unit of appropriation (pdf_terms). Text only, no dollars.
  */
-export default function Terms({ state, set, go, pdfYears }) {
+export default function Terms(props) {
+  const fams = props.pdfYears.filter((y) => y.family === "terms");
+  if (!fams.length) {
+    return (
+      <Notice>
+        No Terms and Conditions data is in this build. These tables come from PDFs reviewed in epic #101; they appear once a year's review is closed, or in a local build
+        made with <code>npm run data -- --include-reviewed</code>.
+      </Notice>
+    );
+  }
+  return <TermsBody {...props} />;
+}
+
+function TermsBody({ state, set, go, pdfYears }) {
   const fams = pdfYears.filter((y) => y.family === "terms");
   const f = P.termsFilters(state);
   const q = useQueries(true, JSON.stringify([f, state.tpage]), () => ({ n: P.termsCountQuery(f), rows: P.termsQuery(f, state.tpage) }));

@@ -116,7 +116,8 @@ export default function App() {
         <div className="wrap">
           <p>
             Built by <a href="https://beta.nyc">BetaNYC</a> from the NYC Council's own spreadsheets and NYC Open Data, the same data as the{" "}
-            <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a> server.{" "}
+            <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a> server
+            {db.manifest?.include_reviewed ? <>, plus reviewed PDF tables the server does not serve ({REVIEWED_LABEL})</> : null}.{" "}
             {db.manifest ? (
               <>
                 Data build of {db.manifest.generated_at.slice(0, 10)} from commit{" "}

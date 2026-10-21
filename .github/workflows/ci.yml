@@ -32,6 +32,8 @@ on:
       - "data/disclosure_years.csv"
       - "data/fy*/expense_disclosure/**"
       - "data/capital/**"
+      - "data/pdf_years.csv"
+      - "data/fy*/pdf/**"
       - "source/wayback-council/**"
       - "source/expense-funding-disclosure/**"
       - "source/open-data-t474-a92g/**"
@@ -44,6 +46,8 @@ on:
       - "data/disclosure_years.csv"
       - "data/fy*/expense_disclosure/**"
       - "data/capital/**"
+      - "data/pdf_years.csv"
+      - "data/fy*/pdf/**"
       - "source/wayback-council/**"
       - "source/expense-funding-disclosure/**"
       - "source/open-data-t474-a92g/**"
@@ -141,6 +145,13 @@ jobs:
       - name: Build the app
         working-directory: viz/explorer
         run: npm run build
+
+      # The reviewed PDF families (data/pdf_years.csv status = reviewed) in a separate index
+      # (.cache/budget-reviewed.db, never mcp/data/budget.db): parity per pdf_* table and status.
+      # After the app build, so the build above stays the public, closed-only one.
+      - name: Parity with the reviewed PDF tables included
+        working-directory: viz/explorer
+        run: npm run data -- --include-reviewed && npm run test:parity
 
   # Merged ≠ shipped guard. Consumers run `npx -y @betanyc/nyc-budget-mcp`, so
   # the npm registry — not main — is what ships. A PR that changes shipped code
