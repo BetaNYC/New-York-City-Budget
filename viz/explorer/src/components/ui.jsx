@@ -98,12 +98,16 @@ export function Matched({ matched, what }) {
   return <p className="matched">{matched === 0 ? `No ${what} match these filters.` : `${plural(matched, what.replace(/s$/, ""), what)} match.`}</p>;
 }
 
-/** A link inside the app: sets the hash state, and stays a real link for open-in-new-tab. */
-export function HashLink({ href, onGo, children, className }) {
+/**
+ * A link inside the app: sets the hash state, and stays a real link for open-in-new-tab.
+ * `current` marks the view tab the visitor is on (aria-current="page"; DESIGN-NOTES.md §1).
+ */
+export function HashLink({ href, onGo, children, className, current = false }) {
   return (
     <a
       href={href}
       className={className}
+      aria-current={current ? "page" : undefined}
       onClick={(e) => {
         if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
         e.preventDefault();
