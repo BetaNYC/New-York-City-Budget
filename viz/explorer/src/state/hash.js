@@ -7,7 +7,7 @@
  * passed through.
  */
 
-export const VIEWS = ["awards", "award", "years", "capital", "capital-row", "omb", "about"];
+export const VIEWS = ["awards", "award", "years", "capital", "capital-row", "omb", "orgs", "terms", "source", "about"];
 
 export const DEFAULT_STATE = {
   view: "awards",
@@ -43,9 +43,24 @@ export const DEFAULT_STATE = {
   oline: "",
   verdict: "",
   opage: 0,
+  // Reviewed PDF data (only in a build made with --include-reviewed, or once a year is closed)
+  gfy: null, // organizations (capital Part III): fiscal year
+  org: "",
+  gline: "",
+  gpage: 0,
+  tfy: null, // Terms and Conditions
+  tagency: "",
+  tunit: "",
+  tq: "",
+  tkind: "",
+  tpage: 0,
+  spdf: "", // source viewer: repo path of the PDF, page, row box (x0,top,x1,bottom), label
+  spage: null,
+  sbox: "",
+  slabel: "",
 };
 
-const INT_KEYS = ["fy", "page", "ay", "row", "cfy", "afy", "district", "cpage", "seq", "ofy", "opage"];
+const INT_KEYS = ["fy", "page", "ay", "row", "cfy", "afy", "district", "cpage", "seq", "ofy", "opage", "gfy", "gpage", "tfy", "tpage", "spage"];
 const NUM_KEYS = ["min", "max", "cmin", "cmax"];
 
 export function readHash(hash = typeof window === "undefined" ? "" : window.location.hash) {
@@ -142,5 +157,7 @@ export const FILTER_KEYS = {
   awards: ["fy", "status", "legal_name", "council_member", "agency", "program_name", "source", "ein", "min", "max"],
   capital: ["cfy", "afy", "sponsor", "borough", "district", "line", "title", "description", "cmin", "cmax"],
   omb: ["ofy", "oline", "verdict"],
+  orgs: ["gfy", "org", "gline"],
+  terms: ["tfy", "tagency", "tunit", "tq", "tkind"],
 };
-export const PAGE_KEY = { awards: "page", capital: "cpage", omb: "opage" };
+export const PAGE_KEY = { awards: "page", capital: "cpage", omb: "opage", orgs: "gpage", terms: "tpage" };

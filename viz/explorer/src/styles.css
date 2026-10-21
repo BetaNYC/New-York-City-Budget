@@ -71,3 +71,34 @@ table { border-collapse: collapse; }
 .loading progress { width: 20rem; max-width: 100%; }
 .prose { max-width: 50rem; }
 .updating > :not(p:first-child) { opacity: 0.55; }
+
+/* Reviewed PDF data (INTEGRATION.md §3-4) */
+.reviewed { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.01em; padding: 0.05rem 0.45rem; border-radius: 999px; background: #fff3cd; color: #6b4e00; border: 1px solid #e0c36a; white-space: nowrap; vertical-align: middle; }
+.reviewed-block { margin: 0.5rem 0; font-size: 0.9rem; color: var(--muted); }
+.flagbadge { display: inline-block; vertical-align: middle; margin-left: 0.25rem; font-size: 0.78rem; }
+.flagbadge > summary { display: inline-block; cursor: pointer; list-style: none; padding: 0.05rem 0.45rem; border-radius: 999px; background: #fde2e1; color: #8a1c14; border: 1px solid #e8a39d; }
+.flagbadge > summary::-webkit-details-marker { display: none; }
+.flagbadge[open] { display: block; margin: 0.3rem 0; }
+.flagnotes { margin: 0.35rem 0 0; padding-left: 1.1rem; max-width: 46rem; }
+.flagnotes li { margin: 0.15rem 0; }
+.sev { font-size: 0.7rem; text-transform: uppercase; padding: 0 0.3rem; border-radius: 3px; background: #eef3f8; }
+.sev-critical { background: #fde2e1; color: #8a1c14; }
+.pagelink { white-space: nowrap; }
+.book { border: 1px solid var(--line); border-radius: 6px; padding: 0.5rem 0.9rem; margin: 0.75rem 0; background: #fbfaf6; }
+.book h3 { margin: 0.2rem 0; font-size: 1rem; }
+ul.plain { list-style: none; margin: 0; padding: 0; }
+ol.conditions { padding-left: 2.2rem; }
+.condition h3 { font-size: 1rem; margin: 0.9rem 0 0.2rem; }
+.condition-text { max-width: 60rem; white-space: pre-wrap; }
+
+/* The source viewer: layout from nyc-eo-explorer's styles.css (MIT, BetaNYC). */
+.pdfnav { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; margin-bottom: 8px; }
+.pdfnav button { background: #fff; border: 1px solid var(--line); border-radius: 6px; cursor: pointer; padding: 2px 9px; line-height: 1.5; }
+.pdfnav button:disabled { color: var(--muted); cursor: default; }
+.pdfnav input { width: 5em; padding: 2px 6px; border: 1px solid var(--line); border-radius: 6px; font: inherit; }
+.pdfzoom { display: flex; align-items: center; gap: 6px; margin-left: 4px; }
+.pdfstage { position: relative; height: 75vh; }
+.pdfscroll { position: absolute; inset: 0; overflow: auto; border: 1px solid var(--line); border-radius: 8px; background: #e9ecef; }
+.pdfloading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); pointer-events: none; }
+.pdfmissing { border: 1px solid var(--line); border-radius: 8px; padding: 16px; color: var(--muted); font-size: 13px; }
+.rowhighlight { position: absolute; z-index: 10; pointer-events: none; border: 2px solid #d9480f; background: rgba(255, 196, 0, 0.22); border-radius: 2px; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.06); }

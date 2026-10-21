@@ -5,9 +5,29 @@ import { sourceLinks } from "../paths.js";
 import * as Q from "../query/sql.js";
 import { capitalFilters, writeHash } from "../state/hash.js";
 import { HashLink, Matched, NoData, Notice, Pager, SelectFilter, Status, TextFilter } from "../components/ui.jsx";
+import * as P from "../query/pdf.js";
+import { FlagBadge, ReviewedLabel, SourcePageLink } from "../components/pdf.jsx";
+
+/** The years with a §254 supporting-detail book loaded (pdf_years family capital_sd). */
+const bookYears = (pdfYears) => (pdfYears ?? []).filter((y) => y.family === "capital_sd");
+
+/**
+ * Part I rows of the §254 book for the capital rows on screen, matched on (report year, Council ID,
+ * budget line): the PDF adds per-member sponsors (SANCHEZ J. / SANCHEZ P., where the workbook says
+ * "Sanchez") and the FY+1..FY+3 columns. Null when no book is loaded for those years.
+ */
+function usePdfMatches(rows, pdfYears) {
+  const years = bookYears(pdfYears).map((y) => Number(y.fiscal_year));
+  const want = [...new Set((rows ?? []).map((r) => Number(r.report_year)))].filter((y) => years.includes(y));
+  const q = useQueries(true, `pdfm|${want.join(",")}`, () => {
+    const mq = P.capitalPdfMatchesQuery(want);
+    return mq ? { m: mq } : null;
+  });
+  return q.data?.m ? P.indexPdfMatches(q.data.m) : null;
+}
 
 /** Council capital designations: by report year, sponsor, borough, district, budget line. */
-export default function Capital({ state, set, go, manifest, capitalYears }) {
+export default function Capital({ state, set, go, manifest, capitalYears, pdfYears }) {
   const f = capitalFilters(state);
   const gap = gapFor(state.cfy, manifest.capital, capitalYears);
   const q = useQueries(true, JSON.stringify([f, state.cpage]), () =>
@@ -53,11 +73,16 @@ export default function Capital({ state, set, go, manifest, capitalYears }) {
           "{state.line}" is not a budget line: give an agency code of one or two letters, a space or "-", then the line (e.g. P D018).
         </Notice>
       )}
+      {bookYears(pdfYears)
+        .filter((y) => state.cfy == null || Number(y.fiscal_year) === state.cfy)
+        .map((y) => (
+          <BookSummary key={y.fiscal_year} y={y} state={state} go={go} />
+        ))}
       {gap ? (
         <NoData year={state.cfy} what="capital" reason={gap} />
       ) : (
         <Status loading={q.loading && !q.data} updating={q.loading && Boolean(q.data)} error={q.error}>
-          {q.data && <Results data={q.data} state={state} set={set} go={go} />}
+          {q.data && <Results data={q.data} state={state} set={set} go={go} pdfYears={pdfYears} />}
         </Status>
       )}
     </section>
@@ -72,8 +97,39 @@ export function gapFor(year, cap, capitalYears) {
   return "No Council capital list for this year is in this repository.";
 }
 
-function Results({ data, state, set, go }) {
+/** The year's §254 book: its printed totals and the summary page, as checked. */
+function BookSummary({ y, state, go }) {
+  const fy = Number(y.fiscal_year);
+  const q = useQueries(true, `book${fy}`, () => ({ t: P.capitalTotalsPdfQuery(fy) }));
+  const t = q.data?.t ?? [];
+  const summary = t.filter((r) => r.kind === "summary");
+  const tied = t.filter((r) => r.kind === "totals_for" && r.tie_status === "OK").length;
+  const all = t.filter((r) => r.kind === "totals_for").length;
+  return (
+    <div className="book">
+      <h3>
+        FY{fy} §254 supporting-detail book <ReviewedLabel status={y.status} />
+      </h3>
+      <p className="small">
+        The Council's printed book of these changes. All {tied} of {all} printed "TOTALS FOR" lines add up from its rows. Part I matches the Council workbook
+        below on every amount, so the rows below gain the book's sponsors and later-year columns where they match.{" "}
+        {summary.map((s, i) => (
+          <span key={s.name}>
+            {i ? " · " : ""}
+            {s.name}: <strong>{money(s.printed_y1)}</strong>
+          </span>
+        ))}{" "}
+        <SourcePageLink state={state} go={go} pdf={y.source_pdf} page={summary[0]?.pdf_page} label={`FY${fy} §254 summary page`}>
+          (summary page)
+        </SourcePageLink>
+      </p>
+    </div>
+  );
+}
+
+function Results({ data, state, set, go, pdfYears }) {
   const r = Q.rollupCapital(data.totals);
+  const pdf = usePdfMatches(data.rows, pdfYears);
   return (
     <>
       <Matched matched={r.matched} what="capital rows" />
@@ -117,6 +173,7 @@ function Results({ data, state, set, go }) {
                   <th scope="col" className="num">
                     Amount
                   </th>
+                  {pdf ? <th scope="col">§254 book (PDF)</th> : null}
                 </tr>
               </thead>
               <tbody>
@@ -137,6 +194,7 @@ function Results({ data, state, set, go }) {
                       <td>{row.borough}</td>
                       <td>{row.source_kind === "open_data_t474" ? <span className="muted">unusable (t474)</span> : row.council_district}</td>
                       <td className="num">{row.amount === null ? <span className="muted">unknown</span> : money(row.amount)}</td>
+                      {pdf ? <PdfCell m={P.pdfMatchFor(pdf, row)} state={state} go={go} /> : null}
                     </tr>
                   );
                 })}
@@ -147,6 +205,27 @@ function Results({ data, state, set, go }) {
         </>
       )}
     </>
+  );
+}
+
+/** The matching Part I row: sponsor as printed, the later-year columns, flags, the page. */
+function PdfCell({ m, state, go }) {
+  if (!m) return <td className="muted small">not in the book</td>;
+  const fy = Number(m.fiscal_year);
+  const later = [m.amount_y2, m.amount_y3, m.amount_y4];
+  return (
+    <td className="small">
+      <div>{m.sponsor || <span className="muted">no sponsor</span>}</div>
+      <div className="muted">
+        {later.map((v, i) => (
+          <span key={i}>
+            {i ? " · " : ""}FY{fy + i + 1} {v == null ? "—" : money(v)}
+          </span>
+        ))}
+      </div>
+      <SourcePageLink state={state} go={go} pdf={m.source_pdf} page={m.pdf_page} bbox={m.bbox_pt} label={`${m.sub_id} ${m.title}`} /> <ReviewedLabel status={m.status} />{" "}
+      <FlagBadge flags={m.flags} reviewId={m.review_id} />
+    </td>
   );
 }
 
@@ -166,9 +245,11 @@ const CAPITAL_FIELDS = [
   ["row_flag", "Row flag"],
 ];
 
-export function CapitalRow({ state, back, manifest }) {
+export function CapitalRow({ state, go, back, manifest, pdfYears }) {
   const q = useQueries(true, String(state.seq), () => (state.seq != null ? { row: Q.capitalRowQuery(state.seq) } : null));
   const c = q.data?.row?.[0];
+  const pdf = usePdfMatches(c ? [c] : [], pdfYears);
+  const m = c && pdf ? P.pdfMatchFor(pdf, c) : null;
   const links = c ? sourceLinks(manifest.source_commit, c.source_file) : null;
   return (
     <section>
@@ -217,6 +298,22 @@ export function CapitalRow({ state, back, manifest }) {
                 </li>
               )}
             </ul>
+            {m ? (
+              <>
+                <h3>
+                  In the §254 book (PDF) <ReviewedLabel status={m.status} />
+                </h3>
+                <p>
+                  <code>{m.sub_id}</code> on <code>{m.budget_line}</code>: {m.title}. Sponsor as printed: <strong>{m.sponsor || "none"}</strong>. FY
+                  {m.fiscal_year} {money(m.amount_y1)}, FY{Number(m.fiscal_year) + 1} {money(m.amount_y2)}, FY{Number(m.fiscal_year) + 2} {money(m.amount_y3)}, FY
+                  {Number(m.fiscal_year) + 3} {m.amount_y4 == null ? "not printed" : money(m.amount_y4)}.{" "}
+                  <SourcePageLink state={state} go={go} pdf={m.source_pdf} page={m.pdf_page} bbox={m.bbox_pt} label={`${m.sub_id} ${m.title}`}>
+                    See it on p.{m.pdf_page}
+                  </SourcePageLink>{" "}
+                  <FlagBadge flags={m.flags} reviewId={m.review_id} />
+                </p>
+              </>
+            ) : null}
             <h3>Every column</h3>
             <dl className="fields">
               {CAPITAL_FIELDS.map(([k, label, note]) => (

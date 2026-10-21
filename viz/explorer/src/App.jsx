@@ -9,6 +9,10 @@ import Award from "./views/Award.jsx";
 import Awards from "./views/Awards.jsx";
 import Capital, { CapitalRow } from "./views/Capital.jsx";
 import Omb from "./views/Omb.jsx";
+import Orgs from "./views/Orgs.jsx";
+import Source from "./views/Source.jsx";
+import Terms from "./views/Terms.jsx";
+import { pdfYearsQuery, REVIEWED_LABEL } from "./query/pdf.js";
 import Years from "./views/Years.jsx";
 
 const TABS = [
@@ -16,6 +20,10 @@ const TABS = [
   ["years", "Years"],
   ["capital", "Capital"],
   ["omb", "Capital vs OMB"],
+  // Shown only when a PDF family is loaded (data/pdf_years.csv; closed, or reviewed in a
+  // --include-reviewed build).
+  ["orgs", "Organizations", "capital_sd"],
+  ["terms", "Terms & Conditions", "terms"],
   ["about", "About the data"],
 ];
 const PARENT = { award: "awards", "capital-row": "capital" };
@@ -72,7 +80,7 @@ export default function App() {
           </p>
           <h1>NYC Council budget explorer</h1>
           <nav className="tabs" aria-label="Views">
-            {TABS.map(([v, label]) => (
+            {TABS.filter(([, , fam]) => !fam || (db.manifest?.files?.[`${db.manifest?.pdf_families?.[fam]?.main}.parquet`]?.rows ?? 0) > 0).map(([v, label]) => (
               <HashLink key={v} href={writeHash({ ...state, view: v })} onGo={() => go({ view: v })} className={tab === v ? "active" : undefined}>
                 {label}
               </HashLink>
@@ -81,6 +89,12 @@ export default function App() {
         </div>
       </header>
       <main className="wrap">
+        {db.manifest?.include_reviewed ? (
+          <Notice tone="warn">
+            <strong>Demo build with PDF data still in review.</strong> Rows marked <span className="reviewed">{REVIEWED_LABEL}</span> come from PDFs re-read for
+            GitHub issue #102: every printed total was checked and the doubts are listed, but a person has not signed them off. The public site does not show them.
+          </Notice>
+        ) : null}
         {db.phase === PHASES.ERROR ? (
           <Notice tone="error">
             The data could not be loaded: {String(db.error?.message ?? db.error)}.{" "}
@@ -139,6 +153,7 @@ function Ready({ state, set, go, back, manifest }) {
     years: { sql: "SELECT fiscal_year, loaded, early_snapshot, note FROM disclosure_years ORDER BY fiscal_year DESC", params: [] },
     capYears: { sql: "SELECT report_year FROM capital_sources ORDER BY report_year", params: [] },
     ombYears: { sql: "SELECT DISTINCT report_year FROM capital_vs_omb ORDER BY report_year", params: [] },
+    pdfYears: pdfYearsQuery(),
   }));
   const lookups = useMemo(() => {
     if (!q.data) return null;
@@ -146,6 +161,7 @@ function Ready({ state, set, go, back, manifest }) {
       years: q.data.years.map((y) => ({ ...y, fiscal_year: Number(y.fiscal_year), loaded: Boolean(Number(y.loaded)), early_snapshot: Boolean(Number(y.early_snapshot)) })),
       capitalYears: q.data.capYears.map((r) => Number(r.report_year)),
       ombYears: q.data.ombYears.map((r) => Number(r.report_year)),
+      pdfYears: q.data.pdfYears.map((y) => ({ ...y, fiscal_year: Number(y.fiscal_year) })),
     };
   }, [q.data]);
   if (q.error) return <Notice tone="error">{String(q.error.message ?? q.error)}</Notice>;
@@ -162,6 +178,12 @@ function Ready({ state, set, go, back, manifest }) {
       return <CapitalRow {...props} />;
     case "omb":
       return <Omb {...props} />;
+    case "orgs":
+      return <Orgs {...props} />;
+    case "terms":
+      return <Terms {...props} />;
+    case "source":
+      return <Source {...props} />;
     case "about":
       return <About manifest={manifest} />;
     default:

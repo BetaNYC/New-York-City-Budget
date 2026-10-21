@@ -19,8 +19,11 @@ const BUNDLES = {
   eh: { mainModule: ehWasm, mainWorker: ehWorker },
 };
 
-/** The tables the build writes (scripts/build-data.mjs TABLES). */
+/** The tables every build writes (scripts/build-data.mjs TABLES). The reviewed PDF tables (pdf_*)
+ * are read from the manifest's file list, so a family added to mcp/scripts/pdf-families.mjs loads
+ * without a change here. */
 export const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta"];
+const tablesOf = (manifest) => [...TABLES, ...Object.keys(manifest.files).map((f) => f.replace(/\.parquet$/, "")).filter((t) => t.startsWith("pdf_"))];
 
 export const PHASES = { IDLE: "idle", MANIFEST: "manifest", ENGINE: "engine", DATA: "data", READY: "ready", ERROR: "error" };
 
@@ -68,12 +71,13 @@ async function boot() {
 
   emit({ phase: PHASES.DATA, progress: 0 });
   let done = 0;
-  for (const t of TABLES) {
+  const tables = tablesOf(manifest);
+  for (const t of tables) {
     const file = `${t}.parquet`;
     const bytes = new Uint8Array(await (await fetchOk(dataUrl(file, manifest.files[file].sha256.slice(0, 12)))).arrayBuffer());
     await db.registerFileBuffer(file, bytes);
     await conn.query(`CREATE TABLE "${t}" AS SELECT * FROM '${file}'`);
-    emit({ progress: ++done / TABLES.length });
+    emit({ progress: ++done / tables.length });
   }
   emit({ phase: PHASES.READY, progress: 1 });
 }

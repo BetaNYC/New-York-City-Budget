@@ -13,6 +13,11 @@
  *   3. The same filters through the MCP (mcp/dist/db.js) and through src/query/sql.js on the
  *      Parquet: matched count, totals by status/kind and the first page of rows must agree.
  *
+ * 4. The reviewed PDF tables (pdf_*), per family, fiscal year and status: rows, and the dollar
+ *    sums where the table has amounts. Layer 2 also covers them row by row. The index compared is
+ *    the one manifest.json names: mcp/data/budget.db, or .cache/budget-reviewed.db for a build
+ *    made with --include-reviewed, whose manifest must then say include_reviewed.
+ *
  * Reads budget.db with better-sqlite3 (read-only) and the Parquet with @duckdb/node-api.
  * Amounts are compared to within half a cent: the two engines may add the same doubles in a
  * different order. Integers and text are compared exactly.
@@ -27,13 +32,16 @@ import Database from "better-sqlite3";
 import { DuckDBInstance } from "@duckdb/node-api";
 
 import * as Q from "../src/query/sql.js";
+import { PDF_FAMILIES, PDF_TABLES } from "../../../mcp/scripts/pdf-families.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const APP = resolve(HERE, "..");
 const REPO = resolve(APP, "..", "..");
-const DB_PATH = join(REPO, "mcp", "data", "budget.db");
 const DATA = join(APP, "public", "data");
-const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta"];
+if (!existsSync(join(DATA, "manifest.json"))) throw new Error("parity: public/data/manifest.json is missing. Run `npm run data` first.");
+const MANIFEST = JSON.parse(readFileSync(join(DATA, "manifest.json"), "utf8"));
+const DB_PATH = join(REPO, MANIFEST.index ?? "mcp/data/budget.db");
+const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta", ...PDF_TABLES];
 const CENT = 0.005;
 
 for (const f of [DB_PATH, ...TABLES.map((t) => join(DATA, `${t}.parquet`)), join(DATA, "manifest.json")]) {
@@ -132,6 +140,33 @@ describe("1. per-year counts and dollar totals", () => {
     for (const t of TABLES) {
       const n = sqlite.prepare(`SELECT COUNT(*) AS n FROM ${t}`).get().n;
       assert.equal(m.files[`${t}.parquet`].rows, n, t);
+    }
+  });
+});
+
+describe("4. reviewed PDF tables, per family, year and status", () => {
+  test("the manifest's gate is the index's", () => {
+    const flag = sqlite.prepare("SELECT value FROM meta WHERE key = 'include_reviewed'").get().value;
+    assert.equal(MANIFEST.include_reviewed, flag === "yes");
+    if (!MANIFEST.include_reviewed) {
+      for (const t of PDF_TABLES) assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM ${t} WHERE status <> 'closed'`).get().n, 0, t);
+    }
+  });
+  for (const t of PDF_TABLES) {
+    test(t, async () => {
+      const cols = sqlite.prepare(`PRAGMA table_info(${t})`).all().map((c) => c.name);
+      const sums = cols.filter((c) => /^(amount|org_printed|printed|sum)_y\d$/.test(c) || c === "dollars");
+      const keys = ["status", ...(cols.includes("family") ? ["family"] : []), ...(cols.includes("fiscal_year") ? ["fiscal_year"] : [])];
+      const q = `SELECT ${keys.join(", ")}, COUNT(*) AS n${sums.map((c) => `, COALESCE(SUM(${c}), 0) AS ${c}`).join("")}
+                 FROM ${t} GROUP BY ${keys.join(", ")} ORDER BY ${keys.join(", ")}`;
+      assert.deepEqual(await duck(q), sqlite.prepare(q).all());
+    });
+  }
+  test("each loaded family's main table has pdf_years.rows rows", async () => {
+    for (const y of await duck("SELECT fiscal_year, family, status, rows FROM pdf_years")) {
+      const main = PDF_FAMILIES[y.family].main;
+      const [{ n }] = await duck(`SELECT COUNT(*) AS n FROM ${main} WHERE fiscal_year = ? AND family = ? AND status = ?`, [y.fiscal_year, y.family, y.status]);
+      assert.equal(n, y.rows, `FY${y.fiscal_year} ${y.family}`);
     }
   });
 });

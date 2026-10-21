@@ -20,6 +20,14 @@
  *
  *   node scripts/build-data.mjs              rebuild the MCP index, then export
  *   node scripts/build-data.mjs --skip-index export the existing mcp/data/budget.db as is
+ *   node scripts/build-data.mjs --include-reviewed
+ *       also load the reviewed PDF families (data/pdf_years.csv status = reviewed). The index is
+ *       built into .cache/budget-reviewed.db, never mcp/data/budget.db, and the manifest says
+ *       include_reviewed: true, so every reviewed row the app shows is labeled "checked, review
+ *       in progress". Off by default; the public deploy never passes it (INTEGRATION.md §3).
+ *
+ * The pdf_* tables (mcp/scripts/pdf-families.mjs PDF_TABLES) are always exported, empty when no
+ * family is loaded, so the app and the parity test never branch on which tables exist.
  *
  * Needs `npm ci` in mcp/ first (the index build uses the MCP's dependencies and dist/fold.js).
  */
@@ -34,16 +42,19 @@ import { DuckDBInstance } from "@duckdb/node-api";
 
 import { capitalGaps } from "./lib/capital-gaps.mjs";
 import { CAPITAL_REPORT_YEARS } from "../../../mcp/scripts/verify-index.mjs";
+import { PDF_FAMILIES, PDF_TABLES } from "../../../mcp/scripts/pdf-families.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const APP = resolve(HERE, "..");
 const REPO = resolve(APP, "..", "..");
 const MCP = join(REPO, "mcp");
-const DB_PATH = join(MCP, "data", "budget.db");
+const INCLUDE_REVIEWED = process.argv.includes("--include-reviewed");
+const REVIEWED_DB = join(APP, ".cache", "budget-reviewed.db");
+const DB_PATH = INCLUDE_REVIEWED ? REVIEWED_DB : join(MCP, "data", "budget.db");
 const OUT_DIR = join(APP, "public", "data");
 
 /** The tables the explorer reads, in the order they are written. */
-export const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta"];
+export const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta", ...PDF_TABLES];
 
 const DUCK_TYPE = { INTEGER: "BIGINT", REAL: "DOUBLE", TEXT: "VARCHAR" };
 
@@ -72,7 +83,8 @@ function buildIndex() {
     throw new Error("build-data: mcp/dist/fold.js is missing. Run `npm run build` in mcp/ first.");
   }
   log("index_start");
-  execFileSync(process.execPath, [join(MCP, "scripts", "build-index.mjs")], { cwd: MCP, stdio: "inherit" });
+  const args = INCLUDE_REVIEWED ? ["--include-reviewed", "--out", DB_PATH] : [];
+  execFileSync(process.execPath, [join(MCP, "scripts", "build-index.mjs"), ...args], { cwd: MCP, stdio: "inherit" });
 }
 
 /** Append one SQLite value under its declared column type. */
@@ -122,6 +134,8 @@ async function main() {
   if (!process.argv.includes("--skip-index")) buildIndex();
   if (!existsSync(DB_PATH)) throw new Error(`build-data: ${DB_PATH} not found. Run without --skip-index.`);
   mkdirSync(OUT_DIR, { recursive: true });
+  // Delete-then-write would leave a stale table behind if one were dropped; every table in TABLES
+  // is rewritten below, and the manifest lists exactly those.
 
   const sqlite = new Database(DB_PATH, { readonly: true, fileMustExist: true });
   const meta = Object.fromEntries(sqlite.prepare("SELECT key, value FROM meta").all().map((r) => [r.key, r.value]));
@@ -142,6 +156,10 @@ async function main() {
     source_commit: sourceCommit(),
     index_built_at: meta.built_at,
     index_counts: JSON.parse(meta.counts),
+    // Which index was exported (repo-relative), and whether it holds reviewed PDF rows.
+    index: DB_PATH.slice(REPO.length + 1),
+    include_reviewed: meta.include_reviewed === "yes",
+    pdf_families: Object.fromEntries(Object.entries(PDF_FAMILIES).map(([k, f]) => [k, { label: f.label, main: f.main, tables: f.tables.map((t) => t.table) }])),
     capital: capitalGaps(readFileSync(join(REPO, "data", "capital", "README.md"), "utf8"), CAPITAL_REPORT_YEARS),
     files,
   };
