@@ -61,6 +61,27 @@ describe("rows decided in the repository are closed", () => {
   });
 });
 
+describe("buttons say what they record, and why they are off", () => {
+  test("Accept suggestion names its decision", () => {
+    expect(R.suggestionLabel({ suggested_decision: "accepted_as_printed" })).toBe("Accept suggestion → keep as printed");
+    expect(R.suggestionLabel({ suggested_decision: "source_error" })).toBe("Accept suggestion → source error");
+    expect(R.suggestionLabel({ suggested_decision: "needs_info" })).toBe("Accept suggestion → needs more information");
+    expect(R.suggestionLabel({ suggested_decision: "" })).toBe("Accept suggestion (none for this item)");
+  });
+  test("no name: every button is off, with the reason; then each button's own reason", () => {
+    for (const k of ["keep", "suggestion", "needs_info", "change"]) expect(R.blockedReason(k, items[0], { by: " " })).toMatch(/Enter your name first/);
+    expect(R.blockedReason("keep", items[0], { by: "Noel" })).toBeNull();
+    expect(R.blockedReason("suggestion", items[1], { by: "Noel" })).toMatch(/no suggested decision/);
+    expect(R.blockedReason("change", items[0], { by: "Noel" })).toMatch(/right value/);
+    expect(R.blockedReason("change", items[0], { by: "Noel", change: "X" })).toBeNull();
+  });
+  test("the store key and the decision shape do not change (saved decisions survive)", () => {
+    expect(R.STORE_KEY).toBe("nycb-review-decisions-v1");
+    expect(R.NAME_KEY).toBe("nycb-review-reviewer");
+    expect(Object.keys(R.decide("keep", items[0], { by: "N", now: NOW })).sort()).toEqual(["decided_at", "decided_by", "decision", "family", "fiscal_year", "note", "review_id"]);
+  });
+});
+
 describe("decisions CSV", () => {
   const dec = {
     [R.itemKey(items[0])]: R.decide("keep", items[0], { by: "Noel", note: 'has, comma and "quotes"', now: NOW }),

@@ -1,7 +1,7 @@
 fiscal_year,family,review_id,check_id,suggested_decision,suggested_note,source
 2027,capital_sd,bbef22dddd88,C6.sponsor_digit,accepted_as_printed,Misprint on p.56: the stray 0 belongs to the row below; kept as printed.,research/2026-10-20-fy27-capital-terms-review/REVIEW.md A11
 2027,capital_sd,6531086bc4d0,C6.amount_cells,accepted_as_printed,Misprint on p.56: FY2030 not printed on this row; kept blank. No dollar effect.,research/2026-10-20-fy27-capital-terms-review/REVIEW.md A10
-2027,capital_sd,549bba9337ee,C3.ma_series,needs_info,Accept as printed; ask Council Finance what MA / 0N mean.,research/2026-10-20-fy27-capital-terms-review/REVIEW.md A1
+2027,capital_sd,549bba9337ee,C3.ma_series,accepted_as_printed,Accept as printed; ask Council Finance what MA / 0N mean.,research/2026-10-20-fy27-capital-terms-review/REVIEW.md A1
 2027,capital_sd,6863aaacab1a,C2.rescindments,accepted_as_printed,One printed number with no list behind it; only the subtraction ties.,research/2026-10-20-fy27-capital-terms-review/REVIEW.md A2
 2027,capital_sd,12c43ac060d1,C9.workbook_sponsor,accepted_as_printed,"Keep the PDF's sponsor; the workbook differs (delegations, or one 'Sanchez' for two members).","research/2026-10-20-fy27-capital-terms-review/REVIEW.md A3, A5, A7, A11, A17"
 2027,capital_sd,21e20b1a2fa2,W.edited_after_export,accepted_as_printed,Text typed into the PDF after export; keep as printed.,"research/2026-10-20-fy27-capital-terms-review/REVIEW.md A4, A7, A9, A14, A16"
@@ -158,10 +158,10 @@ fiscal_year,family,review_id,check_id,suggested_decision,suggested_note,source
 2027,schedule_c,7253bd6cce3a,H13.rollup,source_error,The same $1 in the roll-up (item 4).,research/2026-10-20-fy27-schedule-c-review/REVIEW.md item 5
 2027,schedule_c,d68b985e6c58,H12.designated_sum,source_error,"The PDF disagrees with itself by $1 (statement $7,229,999, rows $7,229,998).",research/2026-10-20-fy27-schedule-c-review/REVIEW.md item 4
 2027,schedule_c,173122c5ffd8,K.text_layer,,No suggestion in the Schedule C REVIEW.md.,research/2026-10-20-fy27-schedule-c-review/REVIEW.md
-2026,capital_sd,0a4bc5e267ec,C3.part2_only,needs_info,Part II only (MA ID on a 0N line); accept as printed and include in the Council Finance question.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A3
-2026,capital_sd,138c84722a95,C3.part2_only,needs_info,"Part II only, on a DN line; accept as printed and include in the Council Finance question.",research/2026-10-21-fy26-capital-terms-review/REVIEW.md A7
+2026,capital_sd,0a4bc5e267ec,C3.part2_only,accepted_as_printed,Part II only (MA ID on a 0N line); accept as printed and include in the Council Finance question.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A3
+2026,capital_sd,138c84722a95,C3.part2_only,accepted_as_printed,"Part II only, on a DN line; accept as printed and include in the Council Finance question.",research/2026-10-21-fy26-capital-terms-review/REVIEW.md A7
 2026,capital_sd,80b21af34f06,C3.part2_only,accepted_as_printed,"A negative row (-183,000), Part II only; a reduction, accept as printed.",research/2026-10-21-fy26-capital-terms-review/REVIEW.md A8
-2026,capital_sd,5f578772c9b9,C3.ma_series,needs_info,Accept as printed; ask Council Finance what MM / MA / 0N mean.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A1
+2026,capital_sd,5f578772c9b9,C3.ma_series,accepted_as_printed,Accept as printed; ask Council Finance what MM / MA / 0N mean.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A1
 2026,capital_sd,86537ccd27ce,C2.rescindments,accepted_as_printed,One printed number; only the subtraction can be checked here.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A2
 2026,capital_sd,86f817dea27b,W.edited_after_export,accepted_as_printed,Typed into the PDF after export; accept the later edit as printed.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A4
 2026,capital_sd,a425f228b878,C9.workbook_sponsor,accepted_as_printed,"Keep the PDF's sponsor (later edits, or the workbook's merged HN CN1451).","research/2026-10-21-fy26-capital-terms-review/REVIEW.md A4, A5"

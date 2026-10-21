@@ -71,9 +71,23 @@ export default function Review({ state, set, manifest, pdfYears }) {
         record a decision. Nothing changes the data: decisions are saved in this browser until you export them and commit the file.
       </p>
       <div className="review-top">
-        <label className="field">
-          <span>Your name (decided_by)</span>
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Noel Hidalgo" />
+        <label className={`field reviewer-name${name.trim() ? "" : " needs-name"}`}>
+          <span>
+            Your name (recorded as <code>decided_by</code>) <span className="required">required</span>
+          </span>
+          <input
+            id="reviewer-name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="e.g. Noel Hidalgo"
+            required
+            aria-required="true"
+            aria-describedby="reviewer-name-hint"
+            autoComplete="name"
+          />
+          <span id="reviewer-name-hint" className="small">
+            {name.trim() ? "Saved in this browser; every decision you record carries it." : "Enter your name before deciding: the decision buttons stay off until you do."}
+          </span>
         </label>
         <p className="review-progress">
           <strong>{prog.decided}</strong> of {prog.total} decided ({prog.committed} already in the repository) · {prog.open} open · {prog.needs_info} need more information
@@ -243,24 +257,26 @@ function Item({ it, manifest, families, decided, name, onDecide, onClear }) {
           <span>Note (optional)</span>
           <input value={note} onChange={(e) => setNote(e.target.value)} placeholder="why" />
         </label>
-        <div className="buttons">
-          <button type="button" onClick={() => act("keep")}>
+        <div className="buttons" aria-describedby="decide-hint">
+          <button type="button" onClick={() => act("keep")} disabled={Boolean(R.blockedReason("keep", it, { by: name }))}>
             Keep as printed
           </button>
-          <button type="button" onClick={() => act("suggestion")} disabled={!it.suggested_decision}>
-            Accept suggestion
+          <button type="button" onClick={() => act("suggestion")} disabled={Boolean(R.blockedReason("suggestion", it, { by: name }))}>
+            {R.suggestionLabel(it)}
           </button>
-          <button type="button" onClick={() => act("needs_info")}>
+          <button type="button" onClick={() => act("needs_info")} disabled={Boolean(R.blockedReason("needs_info", it, { by: name }))}>
             Needs more information
           </button>
           <span className="change">
             <input value={change} onChange={(e) => setChange(e.target.value)} placeholder="the right value" aria-label="Change to" />
-            <button type="button" onClick={() => act("change")}>
+            <button type="button" onClick={() => act("change")} disabled={Boolean(R.blockedReason("change", it, { by: name, change }))}>
               Change to…
             </button>
           </span>
         </div>
-        {err ? <Notice tone="warn">{err}</Notice> : null}
+        <p id="decide-hint" className={`decide-hint${err || !name.trim() ? " warn" : ""}`} role="status" aria-live="polite">
+          {err ?? R.blockedReason("keep", it, { by: name }) ?? (change.trim() ? null : "To record a different value, type it, then Change to…")}
+        </p>
         </>
         )}
       </div>

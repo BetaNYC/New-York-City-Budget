@@ -17,6 +17,29 @@ export const DECISION_LABEL = {
   parser_bug: "our reading is wrong",
   needs_info: "needs more information",
 };
+/** What a decision records, as a button says it ("Accept suggestion → keep as printed"). */
+export const DECISION_ACTION = {
+  accepted_as_printed: "keep as printed",
+  source_error: "source error",
+  parser_bug: "our reading is wrong",
+  needs_info: "needs more information",
+};
+
+/** The "Accept suggestion" button's label: it names the decision it will record. */
+export const suggestionLabel = (item) =>
+  DECISIONS.includes(item?.suggested_decision) ? `Accept suggestion → ${DECISION_ACTION[item.suggested_decision]}` : "Accept suggestion (none for this item)";
+
+/**
+ * Why a decision button cannot be used yet, before it is clicked (null = it can). The name comes
+ * first: every decision records it as decided_by.
+ */
+export function blockedReason(kind, item, { by = "", change = "" } = {}) {
+  if (!String(by).trim()) return "Enter your name first (at the top of the queue): it is recorded as decided_by.";
+  if (kind === "suggestion" && !DECISIONS.includes(item?.suggested_decision)) return "This item has no suggested decision.";
+  if (kind === "change" && !String(change).trim()) return "Type the right value first.";
+  return null;
+}
+
 const SEVERITY_RANK = { critical: 0, warn: 1 };
 
 export const itemKey = (it) => `${it.family}|${it.fiscal_year}|${it.review_id}`;
