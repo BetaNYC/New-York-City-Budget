@@ -106,6 +106,32 @@ def test_transparency_rows_carry_resolution(built):
     assert "23-7164776" in t and "Restler" in t and "Banks" not in t
 
 
+def test_fy25_transparency(built):
+    ys = [y for y in rows(built["data/pdf_years.csv"])
+          if y["fiscal_year"] == "2025" and y["family"] == "transparency"]
+    assert len(ys) == 1
+    y = ys[0]
+    assert y["issue"] == "104" and y["status"] == "reviewed" and y["rows"] == "3555"
+    assert y["printed_totals_tied"] == "3/3"
+    assert y["source_pdf"] == "source/FY25/transparency-resolutions/"
+    rs = rows(built["data/fy25/pdf/transparency/fy25_tr_rows.csv"])
+    assert len(rs) == 3555 and all(r["resolution_date"] for r in rs)
+    dates = {r["resolution_seq"]: r["resolution_date"] for r in rs}
+    assert dates["1"] == "2024-08-15" and dates["13"] == "2025-06-30"
+    # Reso 04 (2024-10-23) has no resolution number on record; every other row has one.
+    assert {r["resolution_seq"] for r in rs if not r["resolution_number"].startswith("Res ")} == {"4"}
+    rev = {r["review_id"]: r for r in rows(built["data/fy25/pdf/transparency/fy25_tr_review.csv"])}
+    for r in rs:
+        if r["review_id"]:
+            assert r["review_id"] in rev and rev[r["review_id"]]["check_id"] in r["flags"].split(";")
+    # Reso 07 p.30: "01/" shows in the * column; the staff note past the table is hidden.
+    r = next(r for r in rs if r["row_id"] == "fy25-tr07-p030-r003")
+    assert r["prequal_printed"] == "01/" and r["prequal_pending"] == "0"
+    assert r["hidden_text"].startswith("prequal: 22; DCLA: We checked")
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "13-3682472" in t and "Midori" in t
+
+
 def test_unrotate():
     # p.40 'H' at display (206.41, 38.68, 214.72, 50.20) on a /Rotate 90 page shown 792 x 612;
     # pdfium's unrotated glyph box is x 39.5-47.8, y-from-top 578.2-584.8.
