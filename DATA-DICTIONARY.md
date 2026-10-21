@@ -12,6 +12,10 @@ Every column in every CSV this repository produces, what it means, and how the f
 > be cited as current. The MCP serves only `data/{year}/expense_disclosure/`,
 > `data/disclosure_years.csv` and `data/capital/` (`council_capital_awards.csv`,
 > `council_vs_omb_by_budget_line.csv`).
+>
+> **Reviewed PDF tables (2026-10-20):** `data/fy{NN}/pdf/` holds a new, checked generation of PDF
+> tables, listed in `data/pdf_years.csv` (section below). They reach the MCP only when their year's
+> status is `closed`.
 
 ---
 
@@ -285,6 +289,72 @@ on the rows, never a Council figure.
 | `row_flagged` | Rows with a `row_flag`. |
 | `early_snapshot` | `yes` for a workbook frozen while much of it was Pending and never revised (FY2009, FY2013): do not headline its Cleared total. |
 | `note` | Why a year is an early snapshot or not loaded, with its counts. |
+
+## `data/pdf_years.csv` and `data/fy{NN}/pdf/{family}/` (reviewed PDF tables)
+
+**Added 2026-10-20 (GitHub #102).** A second generation of PDF-derived tables, re-read from the PDFs
+with every printed total checked and every doubt listed for a person (epic #101). They are separate
+from the retired PDF files above, which stay untouched. Written by `code/build_pdf_promoted.py
+--write` (checked by `--check`), which re-runs `code/review_capital_sd.py` and
+`code/review_terms.py`. The review that produced them: `research/2026-10-20-fy27-capital-terms-review/`.
+
+**Not served yet.** The MCP serves a family only when its `status` is `closed`; `reviewed` rows can
+appear only in a local explorer build made with `--include-reviewed`, labeled "checked, review in
+progress".
+
+### `data/pdf_years.csv`
+
+One row per (fiscal year, PDF family) promoted.
+
+| Column | Meaning |
+|--------|---------|
+| `fiscal_year`, `family` | The year and the family folder name (`capital_sd`, `terms`; `schedule_c` to come). |
+| `source_pdf`, `pdf_sha256` | The PDF in `source/` and its sha256; the build stops if the file differs. |
+| `issue` | The year's GitHub issue (FY2027: 102). |
+| `status` | `reviewed`: every check ran and its flags are listed, not yet signed off. `closed`: the year's issue is closed. Only a person sets `closed`. |
+| `rows`, `flagged` | Rows in the family's main table, and how many carry a flag. |
+| `printed_totals_tied` | Printed totals that tie / printed totals checked (`28/28`), or `n/a` when the PDF prints none. |
+| `note` | What the tables hold and where the review file is. |
+
+### Columns on every row (the row contract)
+
+| Column | Meaning |
+|--------|---------|
+| `fiscal_year` | Integer. |
+| `source_pdf`, `pdf_sha256` | As in `pdf_years.csv`. |
+| `pdf_page` | 1-based PDF page (not the printed "Page N of M"). |
+| `bbox_pt` | The row's box, `x0,top,x1,bottom` in PDF points on the **unrotated** page, origin top-left. The capital book's pages carry `/Rotate 90`; the box is in the page's own (portrait) coordinates. Blank where the row is not one place on a page (totals lines, the FSR table). |
+| `review_id` | Blank, or the `;`-joined ids of this row's entries in the family's `_review.csv`. |
+| `flags` | Blank, or the `;`-joined `check_id`s of those entries. |
+
+Values are as printed. Where a value is parsed (amounts), the printed text is kept beside it
+(`*_printed`, `*_raw`).
+
+### `data/fy27/pdf/capital_sd/`
+
+The FY2027 §254 supporting-detail book.
+
+| File | Rows | What |
+|---|---:|---|
+| `fy27_capital_sd_projects.csv` | 1,391 | Parts I (1,213) and II (178). `part`, `agency` (section heading), `sub_id` (`HD CC1047`, the printed SUB ID: agency code + Council ID), `budget_line` (`HD D020`), `boro`, `title` (B:/S: codes removed into `building_code`, `school_code`), `fy2027`–`fy2030` (whole dollars; blank where nothing is printed), `sponsor` (as printed, multi-member lists kept), `title_raw` / `sponsor_raw` (line breaks kept), `fy20NN_printed` |
+| `fy27_capital_sd_orgs.csv` | 127 | Part III, one row per printed budget-line row: `organization`, `budget_line`, `fy2027`–`fy2030`, the organization's printed line (`org_printed_fy20NN`), `org_status` (`OK` when its rows sum to it), `org_pdf_page`, `org_bbox_pt` |
+| `fy27_capital_sd_totals.csv` | 31 | The 28 `TOTALS FOR` lines (`kind = totals_for`: printed count and sums, computed `rows` and `sum_fy20NN`, `status`) and the p.61 summary (`kind = summary`) |
+| `fy27_capital_sd_review.csv` | 116 | The review queue: `review_id`, `check_id`, `severity` (`critical` / `warn`), page, row, `dollars`, `note` |
+
+Part II's 30 `MA`-series rows (`0N` budget lines) are not in Part I or the Council's additions;
+meaning unconfirmed. The Council workbook (`data/capital/`) is the structured source for the same
+projects: Part I matches it on 1,215 of 1,215 non-zero amounts.
+
+### `data/fy27/pdf/terms/`
+
+The FY2027 Terms and Conditions.
+
+| File | Rows | What |
+|---|---:|---|
+| `fy27_terms_conditions.csv` | 75 | One per numbered condition: `item_number`, `page_start`, `page_end`, `page_boxes` (`page:x0,top,x1,bottom`, `|`-joined; `pdf_page`/`bbox_pt` are the first), `kind` (`expense`, `capital`, `capital+expense`), `agency_name` / `agency_code` (`;`-joined when a condition names several agencies), `units_of_appropriation` (`agency_code:unit`), `num_units`, `budget_lines`, `dates_mentioned`, `report_deadlines` (dates after "no later than"), `heading_raw`, `condition_text` (lines joined), `condition_text_raw` (line breaks kept) |
+| `fy27_terms_units.csv` | 269 | One per unit-of-appropriation or budget-line heading line, with its own `pdf_page` and `bbox_pt` |
+| `fy27_terms_fsr_table.csv` | 6 | The DOE Financial Status Report schedule in condition 15 (pp.7–8), cells as printed |
+| `fy27_terms_review.csv` | 37 | The review queue, as above |
 
 ## `data/capital/` (Council capital, structured sources only)
 
