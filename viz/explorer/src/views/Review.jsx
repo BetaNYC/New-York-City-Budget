@@ -166,7 +166,7 @@ export default function Review({ state, set, manifest, pdfYears }) {
     --review data/fyNN/pdf/<family>/<the family's>_review.csv \\
     --decisions <the path above> \\
     --add ~/Downloads/<the exported file> --write
-git add <the path above> && git commit -m "Review decisions (#102)"`}
+git add <the path above> && git commit -m "Review decisions (#<the year's issue: #102 FY2027, #103 FY2026>)"`}
         </pre>
         <p>
           To pick up where you (or someone else) left off, import a decisions file: it replaces this browser's decision for each review_id it names.{" "}

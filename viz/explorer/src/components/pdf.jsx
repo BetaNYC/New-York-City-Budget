@@ -13,7 +13,7 @@ import { HashLink } from "./ui.jsx";
 export function ReviewedLabel({ status, block = false }) {
   if (status !== "reviewed") return null;
   const text = <span className="reviewed">{REVIEWED_LABEL}</span>;
-  return block ? <p className="reviewed-block">{text} This comes from a PDF re-read for GitHub issue #102; every printed total was checked, and the doubts are listed, but a person has not signed it off yet.</p> : text;
+  return block ? <p className="reviewed-block">{text} This comes from a PDF re-read in the PDF review (GitHub epic #101, one issue per fiscal year); every printed total was checked, and the doubts are listed, but a person has not signed it off yet.</p> : text;
 }
 
 /**

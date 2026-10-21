@@ -249,25 +249,27 @@ function Dimension({ dim, fyA, fyB, ctx, state, set, go }) {
               <p>
                 <ReviewedLabel status={avA.status ?? avB.status} />
               </p>
-              <table className="totals">
-                <caption>
-                  {Q.SOURCES[src].label}, {count(diff.rows.length)} {dim === "org" ? "EINs" : "keys"}. Click a status to list only those.
-                </caption>
-                <tbody>
-                  {D.STATUSES.map((s) => (
-                    <tr key={s}>
-                      <th scope="row">
-                        <button type="button" className="linkish" aria-pressed={state.cstat === s} onClick={() => set({ cstat: state.cstat === s ? "" : s })}>
-                          {D.STATUS_LABEL[s]}
-                        </button>
-                      </th>
-                      <td>{count(diff.summary[s].count)}</td>
-                      <td className="num">FY{fyA} {s === "new" ? "—" : money(diff.summary[s].a)}</td>
-                      <td className="num">FY{fyB} {s === "dropped" ? "—" : money(diff.summary[s].b)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="table-wrap">
+                <table className="totals cmp-summary">
+                  <caption>
+                    {Q.SOURCES[src].label}, {count(diff.rows.length)} {dim === "org" ? "EINs" : "keys"}. Click a status to list only those.
+                  </caption>
+                  <tbody>
+                    {D.STATUSES.map((s) => (
+                      <tr key={s}>
+                        <th scope="row">
+                          <button type="button" className="linkish" aria-pressed={state.cstat === s} onClick={() => set({ cstat: state.cstat === s ? "" : s })}>
+                            {D.STATUS_LABEL[s]}
+                          </button>
+                        </th>
+                        <td>{count(diff.summary[s].count)}</td>
+                        <td className="num">FY{fyA} {s === "new" ? "—" : money(diff.summary[s].a)}</td>
+                        <td className="num">FY{fyB} {s === "dropped" ? "—" : money(diff.summary[s].b)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
               <div className="table-wrap">
                 <table className="rows compare">
                   <thead>

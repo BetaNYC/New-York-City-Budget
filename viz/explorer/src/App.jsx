@@ -97,7 +97,7 @@ export default function App() {
         {db.manifest?.include_reviewed ? (
           <Notice tone="warn">
             <strong>Demo build with PDF data still in review.</strong> Rows marked <span className="reviewed">{REVIEWED_LABEL}</span> come from PDFs re-read for
-            GitHub issue #102: every printed total was checked and the doubts are listed, but a person has not signed them off. The public site does not show them.
+            the PDF review (GitHub epic #101; each fiscal year has its own issue, e.g. #102 for FY2027, #103 for FY2026): every printed total was checked and the doubts are listed, but a person has not signed them off. The public site does not show them.
           </Notice>
         ) : null}
         {db.phase === PHASES.ERROR ? (

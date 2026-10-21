@@ -69,7 +69,18 @@ table { border-collapse: collapse; }
 .totals { margin: 0.5rem 0 1rem; }
 .totals caption { text-align: left; font-size: 0.85rem; color: var(--muted); padding-bottom: 0.25rem; }
 .totals th, .totals td { padding: 0.25rem 1rem 0.25rem 0; text-align: left; }
-.table-wrap { overflow-x: auto; }
+/*
+ * Wide tables scroll sideways inside their column, with a visible cue: a shadow appears on the
+ * side that has more to see (the "local" white covers fade out as the content scrolls).
+ */
+.table-wrap {
+  overflow-x: auto;
+  background:
+    linear-gradient(to right, var(--paper) 30%, rgba(255, 255, 255, 0)) left center / 40px 100% no-repeat local,
+    linear-gradient(to left, var(--paper) 30%, rgba(255, 255, 255, 0)) right center / 40px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgba(11, 48, 89, 0.28), rgba(11, 48, 89, 0)) left center / 14px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgba(11, 48, 89, 0.28), rgba(11, 48, 89, 0)) right center / 14px 100% no-repeat scroll;
+}
 .rows { width: 100%; font-size: 0.9rem; }
 .rows th, .rows td { border-bottom: 1px solid var(--line); padding: 0.4rem 0.5rem; text-align: left; vertical-align: top; }
 .rows thead th { background: var(--bg); position: sticky; top: 0; }
@@ -162,7 +173,12 @@ ol.conditions { padding-left: 2.2rem; }
 .cmp-increased { background: #e7f0fb; color: #0b3059; }
 .cmp-decreased { background: #fff3cd; color: #5c4400; }
 .cmp-changed { background: #f1e8fb; color: #4b2a7a; }
-table.compare td.num { white-space: nowrap; }
+/* Compare tables fit their column: cells wrap; an amount (a link or a figure) stays on one line. */
+table.compare { width: 100%; }
+table.compare td.num { white-space: normal; }
+table.compare td.num a, table.compare .nowrap { white-space: nowrap; }
+table.compare th[scope="row"] { width: 26%; }
+table.compare .gap { max-width: 100%; }
 .drill { border-top: 2px solid var(--navy); margin-top: 1.25rem; padding-top: 0.5rem; }
 @media (max-width: 600px) {
   /* Compare tables as stacked cards on a phone: each cell names its column. */
@@ -173,4 +189,10 @@ table.compare td.num { white-space: nowrap; }
   table.compare td.num { white-space: normal; }
   table.compare td[data-label]:not([data-label=""])::before { content: attr(data-label); display: block; font-size: 0.75rem; color: var(--muted); font-weight: 600; }
   .gap { max-width: none; }
+}
+table.cmp-summary td.num { white-space: nowrap; }
+@media (max-width: 600px) { table.cmp-summary td.num { white-space: normal; } }
+@media (max-width: 600px) {
+  table.cmp-summary { font-size: 0.82rem; }
+  table.cmp-summary th, table.cmp-summary td { padding: 0.25rem 0.3rem; }
 }
