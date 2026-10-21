@@ -21,12 +21,14 @@ import Database from "better-sqlite3";
 import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
 import { PDF_TABLES } from "../scripts/pdf-families.mjs";
+import { OPEN_DATA_TABLES } from "../scripts/open-data.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const MCP = join(HERE, "..");
 const DB_PATH = join(MCP, "data", "budget.db");
 
-const ALLOWED_TABLES = ["capital_council", "capital_sources", "capital_vs_omb", "disclosure", "disclosure_years", "meta", ...PDF_TABLES].sort();
+const ALLOWED_TABLES = ["capital_council", "capital_sources", "capital_vs_omb", "disclosure", "disclosure_years", "meta",
+  ...PDF_TABLES, ...OPEN_DATA_TABLES].sort();
 /** Families whose status is closed: the only ones whose files and PDF this index may read. */
 const CLOSED = parse(readFileSync(join(MCP, "..", "data", "pdf_years.csv"), "utf8"), { columns: true, skip_empty_lines: true })
   .filter((y) => y.status === "closed");
@@ -42,6 +44,10 @@ const ALLOWED_INPUTS = [
   /^source\/expense-funding-disclosure\/Capital-Database\.xlsx$/,
   /^source\/open-data-t474-a92g\/t474-a92g\.csv\.gz$/,
   /^data\/pdf_years\.csv$/,
+  // Whether each record is on NYC Open Data (scripts/open-data.mjs). The T&C file is read, but its
+  // rows load only for a loaded terms family (test/open-data.test.js).
+  /^data\/open_data\/(crosswalk_(expense|capital_award|capital_line|terms_unit)|coverage)\.csv$/,
+  /^source\/open-data-watch\.csv$/,
 ];
 /** The retired PDF-derived trees and file shapes. None may be read or shipped. */
 const PDF_DERIVED = [

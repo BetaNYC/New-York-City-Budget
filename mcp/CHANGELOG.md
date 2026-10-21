@@ -12,6 +12,15 @@ Nothing yet.
 
 A patch: the index gains empty tables; no tool, argument or answer changes.
 
+### Added (index, 2026-10-21)
+- **Is each record on NYC Open Data?** `scripts/open-data.mjs` loads `data/open_data/`
+  (`code/build_open_data_crosswalk.py`, plan `research/2026-10-21-open-data-tracking/PLAN.md`) into
+  `open_data_crosswalk`, `open_data_coverage`, `open_data_datasets` and `open_data_rules`. Every row
+  must name a record the index holds, or the build stops. Rows about PDF-derived records (T&C
+  units, §254 rows) follow the PDF gate, so this index carries none of them. The index grows
+  about 11 MB (41 MB → 52 MB). **No tool reads these tables yet** (`test/open-data.test.js`); the
+  explorer shows them. Version stays 2.0.1: it is not published, so the version guard passes.
+
 ### Changed (index)
 - **The index build reads `data/pdf_years.csv` and serves closed rows only (GitHub #102).**
   `scripts/build-index.mjs` creates the reviewed-PDF tables (`pdf_years`, `pdf_capital_sd`,

@@ -38,6 +38,8 @@ on:
       - "source/wayback-council/**"
       - "source/expense-funding-disclosure/**"
       - "source/open-data-t474-a92g/**"
+      - "data/open_data/**"
+      - "source/open-data-watch.csv"
       - "viz/explorer/**"
   push:
     branches: [main]
@@ -53,6 +55,8 @@ on:
       - "source/wayback-council/**"
       - "source/expense-funding-disclosure/**"
       - "source/open-data-t474-a92g/**"
+      - "data/open_data/**"
+      - "source/open-data-watch.csv"
       - "viz/explorer/**"
   # Manual trigger — lets us fire a run on any branch. A path-scoped
   # pull_request/push event does not fire on the very PR that introduces the
@@ -187,7 +191,7 @@ jobs:
           # datasets build-index.mjs bakes into the shipped SQLite index (2.0.0;
           # before 2.0 this was data/combined, which no longer ships). The repo's
           # wider budget-data pipeline outside these paths is excluded.
-          SHIPPED="mcp/src mcp/scripts mcp/package.json data/disclosure_years.csv :(glob)data/fy*/expense_disclosure/** data/capital source/wayback-council source/expense-funding-disclosure source/open-data-t474-a92g"
+          SHIPPED="mcp/src mcp/scripts mcp/package.json data/disclosure_years.csv :(glob)data/fy*/expense_disclosure/** data/capital source/wayback-council source/expense-funding-disclosure source/open-data-t474-a92g data/open_data source/open-data-watch.csv"
           # Word-split SHIPPED into pathspecs, with shell globbing off so git (not
           # bash) expands the :(glob) pathspec.
           set -f

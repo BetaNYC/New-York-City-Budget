@@ -12,6 +12,9 @@
  *   data/capital/council_vs_omb_by_budget_line.csv     the repo's Council-vs-OMB arithmetic
  *   source/{wayback-council,expense-funding-disclosure,open-data-t474-a92g}/MANIFEST.csv
  *   the capital source files themselves, read only to hash them
+ *   data/open_data/crosswalk_*.csv, coverage.csv, source/open-data-watch.csv
+ *                                                      whether each record is on NYC Open Data
+ *                                                      (scripts/open-data.mjs)
  *
  * The retired PDF extracts are never read: not data/fyNN/schedule_c/, its appendices or recovered
  * sidecars, data/fyNN/terms/, data/fyNN/capital/ (§254), transparency resolutions, data/combined/
@@ -37,6 +40,7 @@ import { join, dirname, basename, resolve } from "path";
 import { fileURLToPath } from "url";
 import { verifyIndex } from "./verify-index.mjs";
 import { loadPdfFamilies, pdfSchemaSql, verifyPdf } from "./pdf-families.mjs";
+import { loadOpenData, openDataSchemaSql, verifyOpenData } from "./open-data.mjs";
 // The folding rule db.ts applies to queries (src/fold.ts); `npm run build` always runs first.
 import { fold } from "../dist/fold.js";
 
@@ -289,6 +293,7 @@ function build() {
     CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT);
   `);
   db.exec(pdfSchemaSql());
+  db.exec(openDataSchemaSql());
 
   const counts = {};
 
@@ -497,6 +502,10 @@ function build() {
   const pdf = loadPdfFamilies(db, { readCsv, sha256Of }, INCLUDE_REVIEWED);
   Object.assign(counts, pdf.counts);
 
+  // --- is it on NYC Open Data? (scripts/open-data.mjs; PDF-derived records follow the PDF gate) --
+  const od = loadOpenData(db, { readCsv }, pdf.loaded);
+  Object.assign(counts, od.counts);
+
   const setMeta = db.prepare("INSERT INTO meta (key, value) VALUES (?, ?)");
   setMeta.run("include_reviewed", INCLUDE_REVIEWED ? "yes" : "no");
   setMeta.run("built_at", new Date().toISOString());
@@ -510,7 +519,8 @@ function build() {
   // Fail loud before the index can ship: 0 rows, or a declared year missing, is a stop.
   const capitalRowsByYear = new Map();
   for (const r of cap) capitalRowsByYear.set(Number(r.report_year), (capitalRowsByYear.get(Number(r.report_year)) ?? 0) + 1);
-  const problems = [...verifyIndex(db, { disclosureYears: years, capitalRowsByYear }), ...verifyPdf(db, pdf)];
+  const problems = [...verifyIndex(db, { disclosureYears: years, capitalRowsByYear }), ...verifyPdf(db, pdf),
+    ...verifyOpenData(db)];
   db.close();
   if (problems.length) {
     log("verify_failed", { problems });
