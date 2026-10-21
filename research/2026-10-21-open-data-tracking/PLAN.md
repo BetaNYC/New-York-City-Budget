@@ -2,7 +2,7 @@
 title: "Plan: track whether each record is on NYC Open Data"
 created: 2026-10-21
 type: plan
-status: draft, for Noel's approval before any bulk pull
+status: approved 2026-10-21 (Noel Hidalgo, "approve all")
 tags: [open-data, explorer, mcp, crosswalk, provenance]
 ---
 
@@ -13,8 +13,11 @@ tags: [open-data, explorer, mcp, crosswalk, provenance]
 (read-only; no rows pulled). Builds on the #84 inventory,
 [`../2026-10-14-structured-data-inventory.md`](../2026-10-14-structured-data-inventory.md).
 **Implements:** item 2 of `viz/explorer/DESIGN-NOTES.md` (branch `feature/budget-explorer`).
-**Status:** a plan only. Per that note and the workspace research-planning rule, **no dataset is
-pulled until Noel approves this plan.**
+**Status:** **approved by Noel Hidalgo on 2026-10-21 ("approve all")**, recorded 2026-10-21 06:08 EDT:
+every suggested answer in §7 stands, and live read-only pulls of the listed datasets are authorized.
+Built in `code/open_data_watch.py`, `code/fetch_open_data_snapshots.py`,
+`code/build_open_data_crosswalk.py`; results in [`data/open_data/README.md`](../../data/open_data/README.md).
+See §8 for where the build departs from this text.
 
 ## 1. Goal
 
@@ -165,7 +168,7 @@ fields. Parity test covers the crosswalk tables.
 | Loader, parity test, explorer badge and coverage strip | 1.5–2 |
 | **Total** | **5.5–6.5** |
 
-## 7. Open questions for Noel
+## 7. Open questions for Noel (answered 2026-10-21: every suggestion approved)
 
 1. **Approve the dataset list?** Tier 1 and 2 build; tier 3 held. Suggested: yes.
 2. **`mwzb-yiwb` (1.1 M rows): whole, or a Council-relevant extract?** DESIGN-NOTES says "pull each
@@ -178,3 +181,24 @@ fields. Parity test covers the crosswalk tables.
    flag ours only in v1; list portal-only counts per year on the coverage strip.
 6. **`ujre-m2tj`'s status values** (clearance) are newer than `4d7f-74pe`'s for FY2019–FY2021. Show
    both? Suggested: show both, dated.
+
+**Noel's answers (2026-10-21):** 1 yes, tiers 1 and 2 build, tier 3 held. 2 extract, filter recorded.
+3 every changed snapshot for small datasets, latest only for the two big OMB ones (`mwzb-yiwb`,
+`2cmn-uidm`). 4 by hand, no scheduler. 5 flag ours only, portal-only counts per year on the
+coverage strip. 6 show both, dated.
+
+## 8. Where the build departs from this plan (2026-10-21)
+
+1. **No app token.** None is configured on office-mac. Socrata serves unauthenticated requests;
+   every other rule held (paged on `:id`, one request at a time, 2.5 s apart, `count(*)` and `:id`
+   checked, standard User-Agent only). Each MANIFEST says `app token none`. 108 requests on
+   2026-10-21 (metadata, counts, size probes and pages), all HTTP 200.
+2. **`mwzb-yiwb` extract: the adopted release only, not every publication.** §4 said "every
+   publication date". Filtered that way it is 305,000 rows; the crosswalk uses only each year's
+   adopted release, which is 180,885 rows. Adding the other releases later is a filter change.
+3. **Not-covered rows are counted, not written.** `crosswalk_*.csv` omit `not_covered` rows
+   (`coverage.csv` counts them); the expense file is 19 MB as it is.
+4. **History files are gzip'd** (`crosswalk_history_<family>.csv.gz`, mtime 0).
+5. **Expense compares EIN and amount only.** The committed `4d7f-74pe` extract is keys only (#85),
+   so other field differences stay in `research/2026-10-14-open-data-diff/`.
+
