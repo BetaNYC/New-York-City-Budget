@@ -5,6 +5,7 @@ import { money } from "../format.js";
 import { sourceLinks } from "../paths.js";
 import * as P from "../query/pdf.js";
 import * as R from "../review/queue.js";
+import { makeZip } from "../review/zip.js";
 import { ReviewedLabel } from "../components/pdf.jsx";
 import { Notice, SelectFilter, Status } from "../components/ui.jsx";
 
@@ -43,6 +44,22 @@ export default function Review({ state, set, manifest, pdfYears }) {
       return next;
     });
 
+  const download = (name, blob) => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
+  // One CSV when one family/year has new decisions; otherwise one .zip holding one CSV per
+  // family/year (browsers block or ask about several downloads at once; a single zip always arrives).
+  const groups = R.exportGroups(all, decisions, Object.fromEntries(Object.entries(families).map(([k, v]) => [k, v.decisions ?? {}])));
+  const exportAll = () => {
+    if (!groups.length) return;
+    if (groups.length === 1) return download(groups[0].name, new Blob([groups[0].text], { type: "text/csv" }));
+    const stamp = new Date().toISOString().slice(0, 10);
+    download(`nycb-review-decisions-${stamp}.zip`, new Blob([makeZip(groups.map((g) => ({ name: g.name, text: g.text })))], { type: "application/zip" }));
+  };
   const exportCsv = (family, fy) => {
     const csv = R.toDecisionsCsv(all, decisions, family, fy);
     const path = families[family]?.decisions?.[fy] ?? `fy${String(fy).slice(2)}_${family}_review_decisions.csv`;
@@ -122,6 +139,15 @@ export default function Review({ state, set, manifest, pdfYears }) {
       </div>
 
       <h3>Save your decisions to the repository</h3>
+      <div className="export-all">
+        <button type="button" className="primary" onClick={exportAll} disabled={!groups.length}>
+          Export all my decisions{groups.length ? ` (${groups.reduce((n, g) => n + g.count, 0)} in ${groups.length} file${groups.length > 1 ? "s, one .zip" : ""})` : ""}
+        </button>
+        <p className="small">
+          <strong>Exports include only items you've decided; undecided items stay in the queue.</strong>{" "}
+          {groups.length ? `Files: ${groups.map((g) => `${g.name} (${g.count})`).join(", ")}.` : "Nothing new to export yet."}
+        </p>
+      </div>
       {msg && (
         <Notice tone={msg.tone}>
           {msg.text}
@@ -165,8 +191,8 @@ export default function Review({ state, set, manifest, pdfYears }) {
                     <code>{path}</code>
                   </td>
                   <td>
-                    <button type="button" onClick={() => exportCsv(it.family, it.fiscal_year)}>
-                      Export CSV
+                    <button type="button" onClick={() => exportCsv(it.family, it.fiscal_year)} title="Only the items decided in this browser">
+                      Export this one
                     </button>
                   </td>
                 </tr>
@@ -175,7 +201,9 @@ export default function Review({ state, set, manifest, pdfYears }) {
           </tbody>
         </table>
         <pre className="small">
-          {`# from the repository root, for each exported file:
+          {`# a .zip (several families/years): unzip it first
+unzip ~/Downloads/nycb-review-decisions-*.zip -d ~/Downloads/review-decisions
+# from the repository root, for each exported file:
 .venv/bin/python code/validate_review_decisions.py \\
     --review data/fyNN/pdf/<family>/<the family's>_review.csv \\
     --decisions <the path above> \\

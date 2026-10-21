@@ -135,6 +135,27 @@ export function toDecisionsCsv(items, decisions, family, fiscalYear) {
   return lines.join("\n") + "\n";
 }
 
+/**
+ * Every family and year with at least one decision made in this browser (not already committed),
+ * as files ready to download: [{ family, fiscal_year, count, name, text }]. `paths` maps
+ * family -> { year: committed decisions path }; the file is named like the committed one.
+ */
+export function exportGroups(items, decisions, paths = {}) {
+  const groups = new Map();
+  for (const it of items) {
+    if (isCommitted(it) || !decisions[itemKey(it)]) continue;
+    const k = `${it.family}|${Number(it.fiscal_year)}`;
+    if (!groups.has(k)) groups.set(k, { family: it.family, fiscal_year: Number(it.fiscal_year), count: 0 });
+    groups.get(k).count += 1;
+  }
+  return [...groups.values()]
+    .sort((a, b) => b.fiscal_year - a.fiscal_year || a.family.localeCompare(b.family))
+    .map((g) => {
+      const path = paths[g.family]?.[g.fiscal_year] ?? `fy${String(g.fiscal_year).slice(2)}_${g.family}_review_decisions.csv`;
+      return { ...g, name: path.split("/").at(-1), path, text: toDecisionsCsv(items, decisions, g.family, g.fiscal_year) };
+    });
+}
+
 /** RFC 4180 CSV -> array of string arrays. */
 export function parseCsv(text) {
   const rows = [];
