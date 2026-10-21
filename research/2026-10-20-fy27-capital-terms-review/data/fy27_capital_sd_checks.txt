@@ -1,0 +1,69 @@
+FY2027 capital supporting detail: checks
+pdf: source/FY27/Supporting-Detail-for-FY2027-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254.V4.pdf
+sha256: 4c48252ec0d0a7b6795456feaa53f303193e6a8dcf608b2984758000139d5b90
+
+H3 page map: 80 pages, 0 disagree
+BLOCK_GAP 12.0: title-line gaps within a cell max 9.24, between cells min 14.94 (2062 gaps)
+C7 image rules vs vector rules: 80 pages, 222 matched, 0 vector only, 0 image only
+C8 ink coverage: 80 pages, 0 uncovered regions
+
+Rows parsed: Part I 1213, Part II 178
+C1/C2 TOTALS FOR lines (rows/printed, FY2027 sum/printed):
+   I p.4   DEPARTMENT FOR THE AGING                     4/4         5,321,000/5,321,000     OK
+   I p.4   ADMIN FOR CHILDREN'S SERVICES                7/7        18,018,000/18,018,000    OK
+   I p.37  EDUCATION                                  709/709     225,464,000/225,464,000   OK
+   I p.37  ECONOMIC DEVELOPMENT                        10/10       24,175,000/24,175,000    OK
+   I p.39  FIRE                                        31/31       26,292,000/26,292,000    OK
+   I p.39  HOUSING AUTHORITY                            7/7         6,290,000/6,290,000     OK
+   I p.42  HOUSING & DEVELOPMENT                       65/65       54,135,000/54,135,000    OK
+   I p.44  HEALTH                                      34/34       16,492,000/16,492,000    OK
+   I p.45  HIGHER EDUCATION                            29/29       39,297,000/39,297,000    OK
+   I p.47  HEALTH & HOSPITALS CORP.                    27/27       50,878,000/50,878,000    OK
+   I p.47  HUMAN RESOURCES                             19/19       19,483,000/19,483,000    OK
+   I p.48  HIGHWAYS                                    16/16        8,875,000/8,875,000     OK
+   I p.49  BROOKLYN PUBLIC LIBRARY                      8/8         9,975,000/9,975,000     OK
+   I p.49  NEW YORK PUBLIC LIBRARY                     18/18       13,517,000/13,517,000    OK
+   I p.50  QUEENS BOROUGH PUB. LIB.                     3/3         9,250,000/9,250,000     OK
+   I p.54  PARKS                                      107/107     182,096,000/182,096,000   OK
+   I p.55  POLICE                                       7/7         1,856,000/1,856,000     OK
+   I p.58  CULTURAL INSTITUTIONS                       83/83      110,398,000/110,398,000   OK
+   I p.60  PUBLIC BUILDINGS                            29/29       31,876,000/31,876,000    OK
+   I p.60  ALL                                       1213/1213    853,688,000/853,688,000   OK
+  II p.63  DEPARTMENT FOR THE AGING                     4/4         5,321,000/5,321,000     OK
+  II p.63  ADMIN FOR CHILDREN'S SERVICES                7/7        18,018,000/18,018,000    OK
+  II p.63  ECONOMIC DEVELOPMENT                         5/5         2,675,000/2,675,000     OK
+  II p.65  HEALTH                                      34/34       16,492,000/16,492,000    OK
+  II p.66  HUMAN RESOURCES                             19/19       19,483,000/19,483,000    OK
+  II p.70  CULTURAL INSTITUTIONS                       82/82      117,862,000/117,862,000   OK
+  II p.71  PUBLIC BUILDINGS                            27/27       30,826,000/30,826,000    OK
+  II p.71  ALL                                        178/178     210,677,000/210,677,000   OK
+  28/28 totals lines tie on count and all four FYs
+C2 p.61: additions 853,688,000, rescindments 23,317,000, net 830,371,000
+  additions = Part I TOTALS FOR ALL FY2027 = sum of Part I rows: OK
+  additions - rescindments = net: OK
+C3 Part II: 178 rows; 145 equal a Part I row in every field; 3 differ in a field; 30 are not in Part I
+  not in Part I: ID series {'MA': 30}, budget-line series {'0N': 30}, FY2027 $70,987,000, sponsor blank on 30
+  Part I rows on DN (non-city) lines: 148; missing from Part II: 0
+  Part II rows from Part I that are not on a DN line: 0
+C5 geometry vs stream: 23049 words agree; 364 words the stream wrote out of row order (no second opinion), on pages [34, 40, 45, 46, 47, 55, 56, 58]
+C4 Part III: 109 organizations, 127 budget-line rows; 109/109 organization lines equal their rows
+  TOTAL NON-CITY PROJECT ALLOCATIONS 210,677,000/10,000,000: rows 210,677,000/10,000,000 OK
+  = Part II TOTALS FOR ALL: OK
+  Part III vs Part II by budget line: 127/127 equal
+C9 Council workbook (data/capital/council_capital_awards.csv, report_year 2027):
+  PDF Part I non-zero amounts: 1215; workbook FY2027 rows: 1215; matched on (ID, budget line, FY, amount): 1215; PDF only: 0; workbook only: 0
+  borough differs from the workbook on 0 Part I rows
+  title equal (letters and digits only) on 1210/1213; sponsor list equal on 1175/1213
+
+review.csv by check:
+  C2.rescindments              warn     1
+  C3.ma_series                 warn     1
+  C3.part2_vs_part1            warn     3
+  C5.geom_vs_stream            warn     32
+  C6.amount_cells              critical 1
+  C6.sponsor_digit             critical 1
+  C9.workbook_sponsor          warn     38
+  C9.workbook_title            warn     3
+  W.edited_after_export        warn     10
+  W.fy2030_wrapped_below       warn     16
+  W.geom_near                  warn     10
