@@ -882,3 +882,34 @@ answers surfaced when FY2009 entered the served set: the 53 rows with no grantee
 - **FY2009 charts carry columns no other year has** — `Fiscal Conduit/Sponsoring Organization`, `Fiscal Conduit EIN`, and `Status (Council, MOC, etc)`. The shared 16-column schema cannot hold them (`validate_data.py` treats an extra column as a hard failure), so they are emitted to the sidecar `fy09_transparency_fiscal_conduits.csv`, joined back on `(resolution, chart, ein)` — the same pattern as `fy25_capital_noncity_by_entity.csv`. The `Status` column has no analogue in any other year; it records the Council's own pre-qualification review state at the time of the resolution.
 
 **One upside.** Because the tables are fully ruled, column identity comes from the printed grid rather than from regex-guessing at a reflowed text line. The FY2010–FY2013 text layers glue adjacent words together and bleed the header into the first data row (see #11 and the `org-text confidence: LOW` bands in those years' reconciliation files). FY2009's organization and member *text* should therefore come out **cleaner than the years that "worked"** — the opposite of what one would expect from a scan.
+
+---
+
+## 29. FY2027 Schedule C rebuilt from the PDF, checked (#102) — REVIEW IN PROGRESS
+
+> **Scope.** A new, checked parse of `source/FY27/Fiscal-2027-Schedule-C-Final-3.pdf`
+> (`code/parse_schedule_c_v2.py`, `config/schedule_c/fy2027.toml`). Its review record is
+> [`research/2026-10-20-fy27-schedule-c-review/`](research/2026-10-20-fy27-schedule-c-review/README.md).
+> The old `data/fy27/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
+> Not served by the MCP.
+
+**Result.** 9,979 award rows, $655,045,412 (body 6,119 / $605,246,412; appendices A, B, C
+467 / $5,610,000, 2,558 / $36,539,000, 835 / $7,650,000, the pots in §19). The old parse had
+9,978 rows: the difference is Medicare Rights Center, $135,000, p.279 (§23). All 25 category
+TOTALs tie; every initiative's rows equal what its designation statement says it designated,
+except one; an independent image grid agrees with the vector grid on 9,978 rows; ink coverage
+finds nothing on the page that was not read.
+
+**What the PDF itself gets wrong (flagged, never fixed).**
+
+- **$1, p.214.** Support Our Older Adults says "has designated $7,229,999"; its 394 rows add to
+  $7,229,998. It is the only gap in the roll-up: category TOTALs $655,764,999 = body rows
+  $605,246,412 + post-adoption reserves $50,518,586 + $1.
+- **p.486.** The text layer reads "multi media" where the page shows "multi-media". The text layer
+  is kept.
+
+**Things a re-parse must know.** Long initiative titles wrap into a second row of the title bar
+(pp.44, 168, 179). Initiative boxes have no right-hand border. On p.463 a name's trailing hyphen
+runs over the border into the EIN box. A page's running sub-heading is a category name in small
+type (e.g. p.116), not a category banner. Rows on the City's EIN 13-6400434 need a name check
+to match the disclosure (9 rows pair different agencies by amount alone).

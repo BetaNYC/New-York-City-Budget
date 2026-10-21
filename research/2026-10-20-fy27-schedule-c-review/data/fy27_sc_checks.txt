@@ -1,0 +1,58 @@
+SCHEDULE C FY2027 -- checks (code/parse_schedule_c_v2.py; config config/schedule_c/fy2027.toml)
+pdf source/FY27/Fiscal-2027-Schedule-C-Final-3.pdf  sha256 63c03739d3ac5e4f53f8e869dff829e7d832634419067bbdc5699bced6eed955
+
+award rows: 9,979  total $655,045,412
+  body         6,119 rows  $   605,246,412
+  appendix_a     467 rows  $     5,610,000
+  appendix_b   2,558 rows  $    36,539,000
+  appendix_c     835 rows  $     7,650,000
+initiatives: 170  categories: 25
+
+STRUCTURAL CHECKS
+  ok    H1.input         sha256 63c03739d3ac… pages 498
+  ok    H2.triage        498 pages surveyed; 0 with invisible text or <=100 chars on an award page
+  ok    H3.pagemap       0 award rows outside their configured section range
+  ok    H4.headers       0 unknown or incomplete award-table headers
+  ok    H5.anchors       9979 EIN-shaped words, 9979 rows with an EIN; 0 pages differ; 0 rows without exactly one EIN and one amount
+  ok    H6.furniture     0 data cells holding header/footer text
+  ok    H7.chars         1464539 non-space chars; 0 orphan chars in award tables; 0 unmapped cells
+  ok    H14.provenance   9979 award_ids, 9979 unique
+  ok    H16.values       0 clean values not reproducible from raw
+
+PRINTED TOTALS (H10-H13)
+  H10.category_total         ok               25
+  H11.box_vs_summary         ok               25
+  H12.designated_sum         named_exception  1
+  H12.designated_sum         ok               159
+  H12.reserve_only_rows      ok               10
+  H12.statement_adds_up      ok               44
+  H13.rollup                 named_exception  1
+  -> named_exception: p.214 Support Our Older Adults (partial): expected 7,229,999, observed 7,229,998 (diff -1) PDF self-error: statement $7,229,999, rows sum $7,229,998 (pending review)
+  -> named_exception: p.0 body rows + post-adoption reserves vs sum of category TOTALs: expected 655,764,999, observed 655,764,998 (diff -1) the same $1 as p.214 Support Our Older Adults (pending review)
+  roll-up: category TOTALs $655,764,999 = body rows $605,246,412 + post-adoption reserves $50,518,586 + $1
+  appendices print no total; their pots (DATA-ANOMALIES §19): appendix_a $5,610,000, appendix_b $36,539,000, appendix_c $7,650,000
+
+IMAGE LATTICE (H8): rows read independently through code/ocr/grid.py lattices
+  agree on every field: 9,978 of 9,979
+  differs: 1
+  image rows with no vector row: 0
+INK COVERAGE (H9): uncovered-ink regions inside award tables
+  regions: 0  uncovered px total: 390 of 401,909,762 ink px
+  acceptance on p.279 (fy27-p279-t00-r012): clean run 0 regions; row withheld -> 11; one char withheld -> 1 (PASS)
+
+DISCLOSURE (report-only; data/fy27/expense_disclosure, retrieved 2026-10-12)
+  pdf rows 9,979; disclosure rows 10,407; matched (EIN, amount, City-EIN name rule) 9,850
+  matched without the City-EIN name rule (the 2026-10-19 prototype's H17 floor, 9,859): 9,859
+  body        cleared 5,142 ($504,165,344); pending 918 ($93,072,609); unmatched 59 ($8,008,459)
+  appendix_a  cleared 425 ($5,124,000); pending 38 ($412,500); unmatched 4 ($73,500)
+  appendix_b  cleared 2,228 ($31,886,950); pending 280 ($3,608,050); unmatched 50 ($1,044,000)
+  appendix_c  cleared 685 ($6,191,000); pending 134 ($1,209,500); unmatched 16 ($249,500)
+  pdf rows without a disclosure row, by reason: amount_differs 42, city_ein_name_mismatch 9, ein_fully_claimed 11, ein_not_in_disclosure 17, key_already_claimed 50
+  disclosure rows without a pdf row, by reason: amount_or_count_differs 456 ($47,013,905), city_ein_pending 71 ($11,338,761), ein_not_in_pdf 30 ($1,681,381)
+  disclosure rows on keys where the allocation was a choice (ambiguous): 994
+
+WARN COUNTS (not in the review file; listed in flags.csv)
+  ein_overflow_hyphen 1, wrap_hyphen 80
+  zero-width chars dropped: 2
+
+REVIEW FILE: 6 rows (1 critical, 5 warn); stale decisions: 0
