@@ -3,6 +3,8 @@ import { count } from "../format.js";
 import * as P from "../query/pdf.js";
 import { FlagBadge, ReviewedLabel, SourcePageLink } from "../components/pdf.jsx";
 import { Matched, Notice, Pager, SelectFilter, Status, TextFilter } from "../components/ui.jsx";
+import { CoverageStrip, useOdCoverage, useOdForRows } from "../components/OpenData.jsx";
+import { OD_STATUS, datasetUrl } from "../query/opendata.js";
 
 /**
  * Terms and Conditions: the reports the Council requires as a condition of funds, by agency and
@@ -26,6 +28,8 @@ function TermsBody({ state, set, go, pdfYears }) {
   const f = P.termsFilters(state);
   const q = useQueries(true, JSON.stringify([f, state.tpage]), () => ({ n: P.termsCountQuery(f), rows: P.termsQuery(f, state.tpage) }));
   const yearOptions = [["", "All years"], ...fams.map((y) => [String(y.fiscal_year), `FY${y.fiscal_year}`])];
+  const odCov = useOdCoverage("terms_unit");
+  const od = useOdForRows("terms_unit", q.data?.rows ?? [], (c) => [c.fiscal_year, c.item_number], { pdf: 1 });
   return (
     <section>
       <h2>Terms and Conditions</h2>
@@ -52,11 +56,12 @@ function TermsBody({ state, set, go, pdfYears }) {
         {q.data && (
           <>
             <Matched matched={Number(q.data.n[0].n)} what="conditions" />
+            <CoverageStrip family="terms_unit" coverage={odCov} title="Units named here, in OMB's Expense Budget on NYC Open Data" />
             {Number(q.data.n[0].n) > 0 && <p className="muted">{count(q.data.n[0].agencies)} agency names among them.</p>}
             <ol className="conditions">
               {q.data.rows.map((c) => (
                 <li key={`${c.fiscal_year}|${c.item_number}`} value={c.item_number}>
-                  <Condition c={c} state={state} go={go} />
+                  <Condition c={c} state={state} go={go} od={od?.get(`${Number(c.fiscal_year)}|${c.item_number}`)} />
                 </li>
               ))}
             </ol>
@@ -68,7 +73,26 @@ function TermsBody({ state, set, go, pdfYears }) {
   );
 }
 
-function Condition({ c, state, go }) {
+/** Each unit the condition names, and whether OMB's adopted Expense Budget on NYC Open Data lists it. */
+function UnitsOnOpenData({ xs }) {
+  if (!xs?.length) return null;
+  return (
+    <p className="small">
+      On NYC Open Data (<a href={datasetUrl(xs[0].dataset_id)}>{xs[0].dataset_name ?? xs[0].dataset_id}</a>, adopted release):{" "}
+      {xs.map((x) => {
+        const [agency, unit] = String(x.record_part ?? "|").split("|");
+        return (
+          <span key={x.record_part} className={`od-badge od-${OD_STATUS[x.match_status].tone}`} title={`${x.match_rule}${x.portal_value ? ` · adopted $${Number(x.portal_value).toLocaleString("en-US")}` : ""}`}>
+            {agency.includes("+") ? "" : `${agency}:`}
+            {unit} {x.match_status === "context" ? "listed" : "not listed"}
+          </span>
+        );
+      }).reduce((acc, el, i) => (i ? [...acc, " ", el] : [el]), [])}
+    </p>
+  );
+}
+
+function Condition({ c, state, go, od }) {
   const pages = c.page_start === c.page_end ? `p.${c.page_start}` : `pp.${c.page_start}–${c.page_end}`;
   return (
     <article className="condition">
@@ -93,6 +117,7 @@ function Condition({ c, state, go }) {
           {pages}
         </SourcePageLink>
       </p>
+      <UnitsOnOpenData xs={od} />
       <details>
         <summary>Text</summary>
         <p className="condition-text">{c.condition_text}</p>

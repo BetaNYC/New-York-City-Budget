@@ -196,3 +196,29 @@ table.cmp-summary td.num { white-space: nowrap; }
   table.cmp-summary { font-size: 0.82rem; }
   table.cmp-summary th, table.cmp-summary td { padding: 0.25rem 0.3rem; }
 }
+/*
+ * NYC Open Data badges and the coverage strip (PLAN 2026-10-21). Text carries the meaning; color
+ * only repeats it. Contrast on white, WCAG AA: ok #135c2e on #e3f4e8 7.4:1; warn uses the notice
+ * colors (#5c4400 on #fff3cd 8.9:1); bad #7a1414 on #fde8e8 9.6:1; info #0b3059 on #e6eef8 11.4:1;
+ * none #4a5a6a on #eef1f4 6.4:1.
+ */
+.od-badge { display: inline-block; padding: 0.05rem 0.4rem; border-radius: 3px; font-size: 0.8rem; border: 1px solid transparent; white-space: nowrap; }
+.od-ok { background: #e3f4e8; color: #135c2e; border-color: #8cc9a0; }
+.od-warn { background: var(--warn-bg); color: var(--warn-ink); border-color: var(--warn-line); }
+.od-bad { background: var(--err-bg); color: var(--err-ink); border-color: #e3a1a1; }
+.od-info { background: #e6eef8; color: var(--navy); border-color: #9cc0e8; }
+.od-none { background: #eef1f4; color: var(--muted); border-color: var(--line); }
+.od-list li { margin-bottom: 0.5rem; }
+.od-strip { margin: 0.75rem 0 1rem; padding: 0.5rem 0.75rem; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+.od-strip summary { font-weight: 600; color: var(--navy); cursor: pointer; }
+.od-strip-row { margin: 0.5rem 0; }
+.od-strip-name { font-size: 0.9rem; }
+.od-years { display: flex; gap: 0.25rem; list-style: none; padding: 0; margin: 0.25rem 0 0; overflow-x: auto; }
+.od-y { flex: 0 0 auto; min-width: 3.4rem; padding: 0.2rem 0.3rem; border-radius: 4px; font-size: 0.75rem; text-align: center; border: 1px solid var(--line); }
+.od-y span { display: block; }
+.od-y-fy { color: var(--muted); }
+.od-y-pct { font-weight: 700; font-size: 0.85rem; }
+.od-y-only { color: var(--muted); font-size: 0.7rem; }
+.od-y-all { background: #e3f4e8; border-color: #8cc9a0; color: #135c2e; }
+.od-y-part { background: #e6eef8; border-color: #9cc0e8; color: var(--navy); }
+.od-y-none { background: repeating-linear-gradient(135deg, #f7f8fa, #f7f8fa 5px, #eef1f4 5px, #eef1f4 10px); color: var(--muted); }

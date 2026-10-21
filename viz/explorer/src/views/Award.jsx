@@ -4,6 +4,7 @@ import { sourceLinks } from "../paths.js";
 import * as Q from "../query/sql.js";
 import { Notice, Status } from "../components/ui.jsx";
 import { ScForAward, scYearsOf } from "./ScheduleC.jsx";
+import { OdPanel, useOdCoverage, useOdForRows } from "../components/OpenData.jsx";
 
 /** Columns in the order shown, with a label and, where the data needs one, a short explanation. */
 const FIELDS = [
@@ -62,6 +63,8 @@ export default function Award({ state, go, back, manifest, pdfYears }) {
 
 function Detail({ a, manifest, state, go, scYears }) {
   const links = sourceLinks(manifest.source_commit, a.source_path);
+  const odCov = useOdCoverage("expense");
+  const od = useOdForRows("expense", [a], (r) => [r.fiscal_year, r.source_row]);
   const flags = flagNotes(a.row_flag, DISCLOSURE_FLAG_NOTE);
   return (
     <>
@@ -104,6 +107,7 @@ function Detail({ a, manifest, state, go, scYears }) {
         </li>
       </ul>
 
+      <OdPanel xs={od?.get(`${Number(a.fiscal_year)}|${a.source_row}`)} coverage={odCov} fy={a.fiscal_year} what="expense award" />
       <ScForAward a={a} scYears={scYears} state={state} go={go} />
       <h3>Every column</h3>
       <dl className="fields">

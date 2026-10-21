@@ -20,10 +20,10 @@ const BUNDLES = {
 };
 
 /** The tables every build writes (scripts/build-data.mjs TABLES). The reviewed PDF tables (pdf_*)
- * are read from the manifest's file list, so a family added to mcp/scripts/pdf-families.mjs loads
- * without a change here. */
+ * and the NYC Open Data crosswalk (open_data_*) are read from the manifest's file list, so a table
+ * added to mcp/scripts/pdf-families.mjs or open-data.mjs loads without a change here. */
 export const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta"];
-const tablesOf = (manifest) => [...TABLES, ...Object.keys(manifest.files).map((f) => f.replace(/\.parquet$/, "")).filter((t) => t.startsWith("pdf_"))];
+const tablesOf = (manifest) => [...TABLES, ...Object.keys(manifest.files).map((f) => f.replace(/\.parquet$/, "")).filter((t) => t.startsWith("pdf_") || t.startsWith("open_data_"))];
 
 export const PHASES = { IDLE: "idle", MANIFEST: "manifest", ENGINE: "engine", DATA: "data", READY: "ready", ERROR: "error" };
 

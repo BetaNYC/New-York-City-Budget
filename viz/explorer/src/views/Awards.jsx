@@ -7,6 +7,7 @@ import { disclosureFilters, writeHash } from "../state/hash.js";
 import { HashLink, Matched, NoData, Notice, Pager, SelectFilter, Status, TextFilter } from "../components/ui.jsx";
 import { SC_SIDE_LABEL } from "../query/pdf.js";
 import { ScCell, ScOnlyResults, ScPanel, scYearsOf, useScForRows } from "./ScheduleC.jsx";
+import { CoverageStrip, OdCell, useOdCoverage, useOdForRows } from "../components/OpenData.jsx";
 
 /**
  * Browse and search the Council's expense funding disclosure. Totals cover every matching row;
@@ -83,6 +84,8 @@ export default function Awards({ state, set, go, years, pdfYears }) {
 
 function Results({ data, state, set, go, years, scYears }) {
   const sc = useScForRows(data.rows, scYears);
+  const odCov = useOdCoverage("expense");
+  const od = useOdForRows("expense", data.rows, (r) => [r.fiscal_year, r.source_row]);
   const r = Q.rollupDisclosure(data.totals);
   const matchedYears = r.by_year.map((y) => y.fiscal_year);
   const early = years.filter((y) => y.early_snapshot && matchedYears.includes(y.fiscal_year));
@@ -120,6 +123,7 @@ function Results({ data, state, set, go, years, scYears }) {
         </Notice>
       )}
       {otherYears.length > 0 && <Notice tone="warn">{OTHER_STATUS_NOTE}</Notice>}
+      <CoverageStrip family="expense" coverage={odCov} title="These awards on NYC Open Data, by year" />
       {matchedYears.length > 1 && state.fy == null && r.matched > 0 && (
         <p className="muted">These totals add up {matchedYears.length} fiscal years. Each year is a separate Council workbook; see Years for the per-year view.</p>
       )}
@@ -154,6 +158,7 @@ function Results({ data, state, set, go, years, scYears }) {
                     Amount
                   </th>
                   {sc ? <th scope="col">Schedule C (PDF)</th> : null}
+                  <th scope="col">NYC Open Data</th>
                 </tr>
               </thead>
               <tbody>
@@ -182,6 +187,7 @@ function Results({ data, state, set, go, years, scYears }) {
                           inYear={scYears.some((y) => y.fiscal_year === Number(row.fiscal_year))}
                         />
                       ) : null}
+                      <OdCell xs={od?.get(`${Number(row.fiscal_year)}|${row.source_row}`)} coverage={odCov} fy={row.fiscal_year} />
                     </tr>
                   );
                 })}

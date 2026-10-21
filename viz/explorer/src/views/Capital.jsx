@@ -7,6 +7,10 @@ import { capitalFilters, writeHash } from "../state/hash.js";
 import { HashLink, Matched, NoData, Notice, Pager, SelectFilter, Status, TextFilter } from "../components/ui.jsx";
 import * as P from "../query/pdf.js";
 import { FlagBadge, ReviewedLabel, SourcePageLink } from "../components/pdf.jsx";
+import { CoverageStrip, OdCell, OdPanel, useOdCoverage, useOdForRows } from "../components/OpenData.jsx";
+import { odForLinesQuery, OD_STATUS, datasetUrl } from "../query/opendata.js";
+
+const capKey = (r) => [r.report_year, r.source_row, r.amount_fy];
 
 /** The years with a §254 supporting-detail book loaded (pdf_years family capital_sd). */
 const bookYears = (pdfYears) => (pdfYears ?? []).filter((y) => y.family === "capital_sd");
@@ -129,10 +133,13 @@ function BookSummary({ y, state, go }) {
 
 function Results({ data, state, set, go, pdfYears }) {
   const r = Q.rollupCapital(data.totals);
+  const odCov = useOdCoverage("capital_award");
+  const od = useOdForRows("capital_award", data.rows, capKey);
   const pdf = usePdfMatches(data.rows, pdfYears);
   return (
     <>
       <Matched matched={r.matched} what="capital rows" />
+      <CoverageStrip family="capital_award" coverage={odCov} title="Council capital awards on NYC Open Data, by report year" />
       {r.matched > 0 && (
         <table className="totals">
           <caption>Totals over all {count(r.matched)} matching rows</caption>
@@ -174,6 +181,7 @@ function Results({ data, state, set, go, pdfYears }) {
                     Amount
                   </th>
                   {pdf ? <th scope="col">§254 book (PDF)</th> : null}
+                  <th scope="col">NYC Open Data</th>
                 </tr>
               </thead>
               <tbody>
@@ -195,6 +203,7 @@ function Results({ data, state, set, go, pdfYears }) {
                       <td>{row.source_kind === "open_data_t474" ? <span className="muted">unusable (t474)</span> : row.council_district}</td>
                       <td className="num">{row.amount === null ? <span className="muted">unknown</span> : money(row.amount)}</td>
                       {pdf ? <PdfCell m={P.pdfMatchFor(pdf, row)} state={state} go={go} /> : null}
+                      <OdCell xs={od?.get(`${Number(row.report_year)}|${row.source_row}|${row.amount_fy ?? ""}`)} coverage={odCov} fy={row.report_year} />
                     </tr>
                   );
                 })}
@@ -251,6 +260,12 @@ export function CapitalRow({ state, go, back, manifest, pdfYears }) {
   const pdf = usePdfMatches(c ? [c] : [], pdfYears);
   const m = c && pdf ? P.pdfMatchFor(pdf, c) : null;
   const links = c ? sourceLinks(manifest.source_commit, c.source_file) : null;
+  const odCov = useOdCoverage("capital_award");
+  const od = useOdForRows("capital_award", c ? [c] : [], capKey);
+  const lq = useQueries(true, c ? `odline|${c.report_year}|${c.budget_line_norm}` : "odline|", () => {
+    const q2 = c && c.budget_line_norm ? odForLinesQuery([[c.report_year, c.budget_line_norm]]) : null;
+    return q2 ? { l: q2 } : null;
+  });
   return (
     <section>
       <p>
@@ -298,6 +313,23 @@ export function CapitalRow({ state, go, back, manifest, pdfYears }) {
                 </li>
               )}
             </ul>
+            <OdPanel xs={od?.get(`${Number(c.report_year)}|${c.source_row}|${c.amount_fy ?? ""}`)} coverage={odCov} fy={c.report_year} what="capital award" />
+            {lq.data?.l?.length ? (
+              <>
+                <h3>Its budget line on NYC Open Data</h3>
+                <ul className="od-list">
+                  {lq.data.l.map((x) => (
+                    <li key={x.dataset_id}>
+                      <a href={datasetUrl(x.dataset_id)}>{x.dataset_name ?? x.dataset_id}</a> <code className="small">{x.dataset_id}</code>:{" "}
+                      <span className={`od-badge od-${OD_STATUS[x.match_status].tone}`}>{x.match_status === "context" ? "line listed" : "line not listed"}</span>{" "}
+                      <span className="small muted">{x.match_rule}</span>
+                      {x.portal_value ? <span className="small"> · portal amount {x.portal_value}</span> : null}
+                      {x.differing_fields ? <div className="small">{x.differing_fields}</div> : null}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
             {m ? (
               <>
                 <h3>

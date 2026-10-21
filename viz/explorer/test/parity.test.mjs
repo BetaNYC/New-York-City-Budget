@@ -13,6 +13,9 @@
  *   3. The same filters through the MCP (mcp/dist/db.js) and through src/query/sql.js on the
  *      Parquet: matched count, totals by status/kind and the first page of rows must agree.
  *
+ * 6. Whether each record is on NYC Open Data (open_data_*): per family, dataset, year and status,
+ *    and the coverage strip's numbers. Layer 2 covers every row.
+ *
  * 4. The reviewed PDF tables (pdf_*), per family, fiscal year and status: rows, and the dollar
  *    sums where the table has amounts. Layer 2 also covers them row by row. The index compared is
  *    the one manifest.json names: mcp/data/budget.db, or .cache/budget-reviewed.db for a build
@@ -34,6 +37,7 @@ import { DuckDBInstance } from "@duckdb/node-api";
 import * as Q from "../src/query/sql.js";
 import * as C from "../src/compare/queries.js";
 import { PDF_FAMILIES, PDF_TABLES } from "../../../mcp/scripts/pdf-families.mjs";
+import { OPEN_DATA_TABLES } from "../../../mcp/scripts/open-data.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const APP = resolve(HERE, "..");
@@ -42,7 +46,8 @@ const DATA = join(APP, "public", "data");
 if (!existsSync(join(DATA, "manifest.json"))) throw new Error("parity: public/data/manifest.json is missing. Run `npm run data` first.");
 const MANIFEST = JSON.parse(readFileSync(join(DATA, "manifest.json"), "utf8"));
 const DB_PATH = join(REPO, MANIFEST.index ?? "mcp/data/budget.db");
-const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta", ...PDF_TABLES];
+const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta",
+  ...PDF_TABLES, ...OPEN_DATA_TABLES];
 const CENT = 0.005;
 
 for (const f of [DB_PATH, ...TABLES.map((t) => join(DATA, `${t}.parquet`)), join(DATA, "manifest.json")]) {
@@ -186,6 +191,25 @@ describe("4. reviewed PDF tables, per family, year and status", () => {
       const [{ n }] = await duck(`SELECT COUNT(*) AS n FROM ${main} WHERE fiscal_year = ? AND family = ? AND status = ?`, [y.fiscal_year, y.family, y.status]);
       assert.equal(n, y.rows, `FY${y.fiscal_year} ${y.family}`);
     }
+  });
+});
+
+describe("6. NYC Open Data: crosswalk and coverage", () => {
+  test("crosswalk rows per family, dataset, year and status, from both engines", async () => {
+    const q = `SELECT family, dataset_id, fiscal_year, match_status, record_pdf, COUNT(*) AS n
+               FROM open_data_crosswalk GROUP BY 1, 2, 3, 4, 5 ORDER BY 1, 2, 3, 4, 5`;
+    assert.deepEqual(await duck(q), sqlite.prepare(q).all());
+  });
+  test("the coverage strip's numbers, from both engines", async () => {
+    const q = `SELECT family, dataset_id, fiscal_year, covered, records, same, differs, ambiguous, absent, context,
+                 not_covered, portal_rows, portal_only FROM open_data_coverage ORDER BY 1, 2, 3`;
+    assert.deepEqual(await duck(q), sqlite.prepare(q).all());
+  });
+  test("the explorer's badge query joins every expense crosswalk row to its award", async () => {
+    const [{ n }] = await duck(`SELECT COUNT(*) AS n FROM open_data_crosswalk x LEFT JOIN disclosure d
+      ON d.fiscal_year = x.fiscal_year AND d.source_row = CAST(x.record_row AS BIGINT)
+      WHERE x.family = 'expense' AND d.source_row IS NULL`);
+    assert.equal(n, 0);
   });
 });
 
