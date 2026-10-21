@@ -44,15 +44,21 @@ def test_row_contract(built):
         assert rs, path
         for col in bp.CONTRACT if not path.endswith("_review.csv") else ["fiscal_year", "source_pdf", "pdf_sha256"]:
             assert col in rs[0], (path, col)
+        fy = "20" + path.split("/")[1][2:]          # data/fyNN/...
         for r in rs:
-            assert r["fiscal_year"] == "2027"
+            assert r["fiscal_year"] == fy
             assert os.path.exists(os.path.join(REPO, r["source_pdf"]))
 
 
 def test_pdf_years(built):
-    ys = {y["family"]: y for y in rows(built["data/pdf_years.csv"])}
+    all_ys = rows(built["data/pdf_years.csv"])
+    assert {y["status"] for y in all_ys} == {"reviewed"}
+    y26 = {y["family"]: y for y in all_ys if y["fiscal_year"] == "2026"}
+    assert set(y26) == {"schedule_c"}
+    assert y26["schedule_c"]["rows"] == "9765" and y26["schedule_c"]["issue"] == "103"
+    assert y26["schedule_c"]["printed_totals_tied"] == "24/25"
+    ys = {y["family"]: y for y in all_ys if y["fiscal_year"] == "2027"}
     assert set(ys) == {"capital_sd", "schedule_c", "terms"}
-    assert {y["status"] for y in ys.values()} == {"reviewed"}
     assert ys["capital_sd"]["rows"] == "1391" and ys["capital_sd"]["printed_totals_tied"] == "28/28"
     assert ys["terms"]["rows"] == "75"
     assert ys["schedule_c"]["rows"] == "9979" and ys["schedule_c"]["printed_totals_tied"] == "25/25"
