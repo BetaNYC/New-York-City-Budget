@@ -9,8 +9,8 @@ review_id, flags`, with values as printed. `bbox_pt` is `x0,top,x1,bottom` in PD
 This script re-runs the review parsers (code/review_capital_sd.py, code/review_terms.py) into a
 scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
 Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
-`capital_sd` and `terms` (GitHub #103), from config/capital_sd/ and config/terms/; FY2026
-`transparency` (GitHub #103, via code/parse_transparency_v2.py).
+`capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
+(via code/parse_transparency_v2.py), all GitHub #103.
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -250,43 +250,55 @@ def build_terms(scratch, fy=2027):
 # FY2027 Schedule C
 # ------------------------------------------------------------------------------------------
 
-def build_schedule_c(scratch):
+# What each year's pdf_years.csv note says after the row count and total.
+SC_NOTE = {
+    2027: ("25 category TOTALs tie; one $1 PDF self-error (p.214, initiative statement vs its "
+           "rows) flagged. Review: research/2026-10-20-fy27-schedule-c-review/REVIEW.md"),
+    2026: ("24/25 category TOTALs tie; two PDF self-errors flagged (p.173 TOTAL $800 under its "
+           "lines; p.98 rows $15,000 under the statement); 2 eight-digit EINs. "
+           "Review: research/2026-10-21-fy26-schedule-c-review/REVIEW.md"),
+}
+SC_ISSUE = {2027: 102, 2026: 103}
+
+
+def build_schedule_c(scratch, fy=2027):
     """Re-run code/parse_schedule_c_v2.py (all checks, image lattice and ink included) into the
     scratch folder and promote its award, initiative, category and review tables. Its rows
-    already carry the row contract; the PDF has no /Rotate pages, so bbox_pt needs no unrotate."""
+    already carry the row contract; neither PDF has /Rotate pages (FY2026's landscape pages
+    are 792x612 media boxes), so bbox_pt needs no unrotate."""
     import contextlib
     import parse_schedule_c_v2 as sc
     from schedc import config as sc_config
+    cfg = sc_config.load(fy)
+    yy = f"fy{fy % 100:02d}"
     # The parser reads decisions from its output folder, so seed the scratch run with the
     # reviewer's decisions; otherwise the promoted review file never carries them.
-    decisions = os.path.join(REPO, "research", "2026-10-20-fy27-schedule-c-review", "data",
-                             "fy27_sc_review_decisions.csv")
+    decisions = os.path.join(REPO, cfg["review_dir"], "data", f"{yy}_sc_review_decisions.csv")
     if os.path.exists(decisions):
         os.makedirs(scratch, exist_ok=True)
-        shutil.copy(decisions, os.path.join(scratch, "fy27_sc_review_decisions.csv"))
+        shutil.copy(decisions, os.path.join(scratch, f"{yy}_sc_review_decisions.csv"))
     with contextlib.redirect_stdout(io.StringIO()):
-        if sc.main(["--fy", "2027", "--out", scratch]) != 0:
+        if sc.main(["--fy", str(fy), "--out", scratch]) != 0:
             raise RuntimeError("parse_schedule_c_v2 failed")
-    cfg = sc_config.load(2027)
-    checks_txt = open(os.path.join(scratch, "fy27_sc_checks.txt"), encoding="utf-8").read()
+    checks_txt = open(os.path.join(scratch, f"{yy}_sc_checks.txt"), encoding="utf-8").read()
     if "FAIL" in checks_txt.replace("(FAIL)", ""):
         raise RuntimeError("a Schedule C check failed; not promoting")
-    base = {"fiscal_year": 2027, "source_pdf": cfg["pdf"], "pdf_sha256": cfg["sha256"]}
-    awards = read(os.path.join(scratch, "fy27_sc_awards.csv"))
-    inits = read(os.path.join(scratch, "fy27_sc_initiatives.csv"))
-    cats = read(os.path.join(scratch, "fy27_sc_categories.csv"))
+    base = {"fiscal_year": fy, "source_pdf": cfg["pdf"], "pdf_sha256": cfg["sha256"]}
+    awards = read(os.path.join(scratch, f"{yy}_sc_awards.csv"))
+    inits = read(os.path.join(scratch, f"{yy}_sc_initiatives.csv"))
+    cats = read(os.path.join(scratch, f"{yy}_sc_categories.csv"))
     review = [dict(base, family="schedule_c", **r)
-              for r in read(os.path.join(scratch, "fy27_sc_review.csv"))]
+              for r in read(os.path.join(scratch, f"{yy}_sc_review.csv"))]
     for rs in (awards, inits, cats):
         for r in rs:
             assert r["source_pdf"] == base["source_pdf"] and r["pdf_sha256"] == base["pdf_sha256"]
     order = lambda cols: CONTRACT + [c for c in cols if c not in CONTRACT]
     files = {
-        "fy27_sc_awards.csv": to_csv(awards, order(list(awards[0]))),
-        "fy27_sc_initiatives.csv": to_csv(inits, order(list(inits[0]))),
-        "fy27_sc_categories.csv": to_csv(cats, order(list(cats[0]))),
-        "fy27_sc_review.csv": to_csv(review, ["fiscal_year", "family", "source_pdf", "pdf_sha256"]
-                                     + [c for c in review[0] if c not in base and c != "family"]),
+        f"{yy}_sc_awards.csv": to_csv(awards, order(list(awards[0]))),
+        f"{yy}_sc_initiatives.csv": to_csv(inits, order(list(inits[0]))),
+        f"{yy}_sc_categories.csv": to_csv(cats, order(list(cats[0]))),
+        f"{yy}_sc_review.csv": to_csv(review, ["fiscal_year", "family", "source_pdf", "pdf_sha256"]
+                                      + [c for c in review[0] if c not in base and c != "family"]),
     }
     tot = {r["category"]: int(r["amount"]) for r in cats if r["line"] == "TOTAL"}
     lines = {}
@@ -294,13 +306,11 @@ def build_schedule_c(scratch):
         if r["line"] != "TOTAL":
             lines[r["category"]] = lines.get(r["category"], 0) + int(r["amount"])
     tied = sum(1 for c in tot if lines.get(c) == tot[c])
-    year = dict(base, family="schedule_c", issue=102, status="reviewed", rows=len(awards),
-                flagged=sum(1 for r in awards if r["flags"]),
+    year = dict(base, family="schedule_c", issue=SC_ISSUE[fy], status="reviewed",
+                rows=len(awards), flagged=sum(1 for r in awards if r["flags"]),
                 printed_totals_tied=f"{tied}/{len(tot)}",
                 note=(f"{len(awards)} award rows, ${sum(int(r['amount']) for r in awards):,} "
-                      "(body + appendices A/B/C); 25 category TOTALs tie; one $1 PDF self-error "
-                      "(p.214, initiative statement vs its rows) flagged. "
-                      "Review: research/2026-10-20-fy27-schedule-c-review/REVIEW.md"))
+                      f"(body + appendices A/B/C); {SC_NOTE[fy]}"))
     return files, year
 
 
@@ -379,7 +389,8 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy27", "terms", lambda d: build_terms(d, 2027)),
             ("fy26", "capital_sd", lambda d: build_capital_sd(d, 2026)),
             ("fy26", "terms", lambda d: build_terms(d, 2026)),
-            ("fy26", "transparency", build_transparency)]
+            ("fy26", "transparency", build_transparency),
+            ("fy26", "schedule_c", lambda d: build_schedule_c(d, fy=2026))]
 
 
 def build_all():

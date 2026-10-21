@@ -145,3 +145,134 @@ def test_snapshot_checks_pass():
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "acceptance on p.279" in txt and "(PASS)" in txt
     assert "matched without the City-EIN name rule (the 2026-10-19 prototype's H17 floor, 9,859): 9,859" in txt
+
+
+# --- FY2026 (config/schedule_c/fy2026.toml) ----------------------------------------------------
+CFG26 = config.load(2026)
+OUT26 = os.path.join(config.ROOT, CFG26["review_dir"], "data")
+
+
+def test_fy2027_config_leaves_fy2026_switches_off():
+    s = CFG["structure"]
+    for k in ("split_merged_tables", "continuation_rows", "headerless_continuation",
+              "box_amount_on_second_row", "amount_without_dollar"):
+        assert not s.get(k)
+    assert not CFG["image"].get("carry_header")
+
+
+def test_clean_text_drops_unmapped_glyph():
+    assert structure.clean_text("District 36.(cid:9)") == ("District 36.", ["cid_glyph"])
+
+
+def test_fy2026_statement_kinds():
+    k = lambda t: structure.statement_kind(t, CFG26)[0]
+    assert k("The City Council will designate awards post-adoption.") == "reserve_all"
+    assert k("The Council will designate $8,300,000 post-adoption and has designated "
+             "$16,600,000 to the following providers:") == "partial"
+    assert k("The City Council will designate $1,500,000 post-adoption and has designate d "
+             "$1,500,000 to the following provider for Fiscal 2026:") == "partial"
+    assert k("The City Council has designated directly to the City University of New York.") \
+        == "direct"
+    assert k("The City Council has designated $4,800,000 to the following providers for "
+             "Fiscal 2026:") == "designated"
+    assert k("The City Council h as designated the following providers for Fiscal 2026 :") \
+        == "full"
+    assert k("The City Council will designate $5,000,000 post adoption for Fiscal 2026.") \
+        == "reserve_only"
+
+
+def _cell(x0, x1, text):
+    return dict(bbox=[x0, 0, x1, 0], text_raw=text, char_boxes=[])
+
+
+def test_split_merged_table_synthetic():
+    row = lambda i, top, cells: dict(row_index=i, top=top, bottom=top + 10,
+                                     cells=[dict(c, bbox=[c["bbox"][0], top, c["bbox"][2],
+                                                          top + 10]) for c in cells])
+    t = dict(table_index=0, bbox=[0, 0, 100, 60], rows=[
+        row(0, 0, [_cell(0, 80, "Box Title"), _cell(80, 100, "$5,000")]),
+        row(1, 10, [_cell(0, 100, "Designation Method: The Council has designated the")]),
+        row(2, 20, [_cell(0, 100, "following providers for Fiscal 2026:")]),
+        row(3, 30, [_cell(0, 60, "Legal Name of Organization – Program Name"),
+                    _cell(60, 80, "EIN"), _cell(80, 100, "Amount")]),
+        row(4, 40, [_cell(0, 60, "Org"), _cell(60, 80, "13-1234567"), _cell(80, 100, "$5,000")]),
+    ])
+    page = dict(page=1, tables=[t], lines=[], orphans=[])
+    out = structure.split_merged_tables([page], CFG26)[0]
+    assert [len(x["rows"]) for x in out["tables"]] == [1, 2]
+    assert [ln["text"] for ln in out["lines"]] == [
+        "Designation Method: The Council has designated the",
+        "following providers for Fiscal 2026:"]
+    assert page["tables"][0]["table_index"] == 0 and len(page["tables"][0]["rows"]) == 5
+    assert structure.split_merged_tables([page], CFG)[0] is page      # off for FY2027
+
+
+# Golden rows, read from the rendered FY2026 pages (2026-10-21), not copied from output.
+@pytest.fixture(scope="module")
+def pages26():
+    ps = vector.read_pdf(CFG26["_pdf_abs"], pages={36, 111, 130, 156, 157, 175, 176, 218},
+                         x_tolerance=CFG26["x_tolerance"])
+    return {p["page"]: p for p in structure.split_merged_tables(ps, CFG26)}
+
+
+def _rows26(pages26, pns):
+    return structure.build([pages26[p] for p in pns], CFG26)
+
+
+def test_golden26_merged_table_p36(pages26):
+    S = _rows26(pages26, [36])
+    ini = [i for i in S["initiatives"] if i["initiative"] == "AAPI Community Support"]
+    assert len(ini) == 1 and ini[0]["amount"] == 5060000 and ini[0]["statement_kind"] == "full"
+    r = [a for a in S["awards"] if a["org"] == "A Place for Kids, Inc."]
+    assert len(r) == 1 and r[0]["ein"] == "133624631" and r[0]["amount"] == 50000
+    assert r[0]["initiative"] == "AAPI Community Support"
+
+
+def test_golden26_two_line_name_p130(pages26):
+    r = [a for a in _rows26(pages26, [130])["awards"] if a["ein"] == "131635308"]
+    assert len(r) == 1 and r[0]["amount"] == 50000
+    assert r[0]["org"] == ("Young Men's and Young Women's Hebrew Association of Washington "
+                           "Heights and Inwood")
+    assert any(f.startswith("continuation_row") for f in r[0]["row_flags"])
+
+
+def test_golden26_headerless_carry_over_p157(pages26):
+    S = _rows26(pages26, [156, 157])
+    r = [a for a in S["awards"] if a["ein"] == "264417161"]
+    assert len(r) == 1 and r[0]["amount"] == 98469 and "headerless_table" in r[0]["row_flags"]
+    assert r[0]["org"] == "Tell Every Amazing Lady About Ovarian Cancer Foundation"
+    hb = [i for i in S["initiatives"] if i["initiative"].startswith("Healthy Beginnings")]
+    assert len(hb) == 1 and hb[0]["amount"] == 4393244
+
+
+def test_golden26_bronx_defenders_p176(pages26):
+    S = _rows26(pages26, [175, 176])
+    r = [a for a in S["awards"] if a["pdf_page"] == 176 and a["ein"] in
+         ("133931074", "113305406", "135562265") and a["amount"] > 5000000]
+    assert sorted(a["amount"] for a in r) == [5533333, 5533333, 5533334]
+    assert {a["org"] for a in r} == {"Bronx Defenders, The", "Brooklyn Defender Services",
+                                     "Legal Aid Society"}
+
+
+def test_golden26_amount_without_dollar_p111(pages26):
+    r = [a for a in _rows26(pages26, [111])["awards"] if a["ein"] == "134127229"]
+    assert len(r) == 1 and r[0]["amount"] == 75000 and r[0]["amount_printed"] == "75,000"
+    assert "amount_no_dollar" in r[0]["row_flags"]
+
+
+def test_golden26_box_in_one_cell_p218(pages26):
+    ini = {i["initiative"]: i["amount"] for i in _rows26(pages26, [218])["initiatives"]}
+    assert ini["BID Containerization"] == 5000000
+    assert ini["Chamber on the Go and Small Business Assistance"] == 2252267
+
+
+@pytest.mark.skipif(not os.path.exists(OUT26), reason="FY2026 outputs not built")
+def test_snapshot26_rows_and_checks():
+    with open(os.path.join(OUT26, "fy26_sc_awards.csv"), newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    assert len(rows) == 9765
+    assert sum(int(r["amount"]) for r in rows) == 545669395
+    txt = open(os.path.join(OUT26, "fy26_sc_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "acceptance on p.176" in txt and "(PASS)" in txt
+    assert "H17 floor, 9,529): 9,529" in txt

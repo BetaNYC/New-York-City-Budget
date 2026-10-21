@@ -85,8 +85,15 @@ def _roles(texts):
     return out
 
 
-def image_rows(page_chars, lats, x_tolerance):
-    """Award rows read through the image lattices alone: [{y0, y1, fields{role: raw}}]."""
+def image_rows(page_chars, lats, x_tolerance, carry=None):
+    """Award rows read through the image lattices alone: [{y0, y1, fields{role: raw}}].
+
+    `carry` (optional dict, kept by the caller from page to page) lets a table that runs over
+    a page break without repeating its header (FY2026 pp.157, 195) be read with the last
+    header the IMAGE side found: carry["header"] = {role: x_centre_pt}. The carried header
+    applies only to lattices above the page's first own header, and only when the carried
+    org, EIN and amount columns each land in a different column of the lattice and its first
+    row holds an EIN in the EIN column. Off when carry is None (FY2027)."""
     chars = [c for c in page_chars if c["text"] not in ZERO_WIDTH]
     cells = {}
     for ch in chars:
@@ -99,16 +106,35 @@ def image_rows(page_chars, lats, x_tolerance):
                 cells.setdefault((k, ri, ci), []).append(ch)
                 break
     rows = []
+    seen_header = False
     for k, L in enumerate(lats):
         if not L["xs_pt"]:
             continue
         nr, nc = len(L["ys_pt"]) - 1, len(L["xs_pt"]) - 1
         hdr = None
+        if carry is not None and carry.get("header") and not seen_header:
+            hdr = {}
+            for role, x in carry["header"].items():
+                ci = _band(L["xs_pt"], x)
+                if ci is not None and ci not in hdr:
+                    hdr[ci] = role
+            if not {"org", "ein", "amount"} <= set(hdr.values()):
+                hdr = None
+            else:
+                # ... and only when the lattice's first row holds an EIN in that column.
+                ein_ci = next(ci for ci, role in hdr.items() if role == "ein")
+                first = chars_to_text(cells.get((k, 0, ein_ci), []), x_tolerance).strip()
+                if not re.fullmatch(r"\d{2}-\d{7}|\d{9}", first):
+                    hdr = None
         for ri in range(nr):
             raw = [chars_to_text(cells.get((k, ri, ci), []), x_tolerance) for ci in range(nc)]
             rl = _roles(raw)
             if {"org", "ein", "amount"} <= set(rl.values()):
                 hdr = rl
+                seen_header = True
+                if carry is not None:
+                    carry["header"] = {role: (L["xs_pt"][ci] + L["xs_pt"][ci + 1]) / 2
+                                       for ci, role in rl.items()}
                 continue
             if hdr is None:
                 continue

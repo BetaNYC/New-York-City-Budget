@@ -159,6 +159,14 @@ export function totalsQueries(fyA, fyB) {
             FROM pdf_transparency WHERE fiscal_year IN (?, ?) AND agency_side = 0 GROUP BY 1`,
       params: ys,
     },
+    // Schedule C beside the disclosure, per year (pdf_sc_disclosure: the Schedule C review's rule).
+    sc_pairs: {
+      sql: `SELECT fiscal_year AS fy, side, COUNT(*) AS n,
+              COALESCE(SUM(CASE WHEN side = 'disclosure_only' THEN disclosure_amount ELSE amount END), 0) AS amount,
+              string_agg(DISTINCT status, ';') AS status
+            FROM pdf_sc_disclosure WHERE fiscal_year IN (?, ?) GROUP BY 1, 2`,
+      params: ys,
+    },
     terms: {
       sql: `SELECT fiscal_year AS fy, COUNT(*) AS n, NULL AS amount, string_agg(DISTINCT status, ';') AS status
             FROM pdf_terms WHERE fiscal_year IN (?, ?) GROUP BY 1`,

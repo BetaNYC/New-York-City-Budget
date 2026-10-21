@@ -292,3 +292,31 @@ fiscal_year,family,review_id,check_id,suggested_decision,suggested_note,source
 2026,transparency,bf7f09c1f8e1,W.clipped_text,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #22
 2026,transparency,ebdf1f207c90,W.clipped_text,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #23
 2026,transparency,b58a6462dcf7,K.no_fiscal_year,accepted_as_printed,As the transparency REVIEW.md suggests; see its item.,research/2026-10-21-fy26-transparency-review/REVIEW.md Warn #24
+2026,schedule_c,3c76fd1e62f3,H8.lattice,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 1
+2026,schedule_c,072b76ac2954,H8.lattice,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 2
+2026,schedule_c,5c57e0993df3,H8.lattice,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 10
+2026,schedule_c,239a56d3a7b0,H8.lattice,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 13
+2026,schedule_c,6664767f0cae,W5.wrap_hyphen,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 3
+2026,schedule_c,c0ca776b10e9,W.amount_no_dollar,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 4
+2026,schedule_c,94ae97242c0b,H5.anchors,source_error,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 5
+2026,schedule_c,9937d66ba686,W5.wrap_hyphen,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 6
+2026,schedule_c,1ba072f0ec08,W5.wrap_hyphen,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 7
+2026,schedule_c,27f7098256d9,W5.wrap_hyphen,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 8 (same as item 7)
+2026,schedule_c,a4f483f8851e,W5.wrap_hyphen,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 9
+2026,schedule_c,3c166360f764,H12.designated_sum,source_error,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 15
+2026,schedule_c,818c8efb9455,W5.wrap_hyphen,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 11
+2026,schedule_c,b584161694fe,W5.wrap_hyphen,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 12
+2026,schedule_c,b3a44442119b,H13.rollup,source_error,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 17
+2026,schedule_c,205216c81be1,H5.anchors,source_error,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 14
+2026,schedule_c,d46489c09362,H10.category_total,source_error,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md item 16
+2026,schedule_c,6a638deac498,H11.box_alias,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md section: Names that differ between a box and its summary line
+2026,schedule_c,7e804857cd66,H11.box_alias,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md section: Names that differ between a box and its summary line
+2026,schedule_c,725050558d24,H11.box_alias,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md section: Names that differ between a box and its summary line
+2026,schedule_c,1627668768c9,H11.box_alias,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md section: Names that differ between a box and its summary line
+2026,schedule_c,1fdc4cfb83e2,H11.box_alias,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md section: Names that differ between a box and its summary line
+2026,schedule_c,d7e15277029d,H11.box_alias,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md section: Names that differ between a box and its summary line
+2026,schedule_c,44ce15605701,H11.box_alias,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md section: Names that differ between a box and its summary line
+2026,schedule_c,90633378be3d,H11.box_alias,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md section: Names that differ between a box and its summary line
+2026,schedule_c,cc1ddc891f8b,H11.box_alias,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md section: Names that differ between a box and its summary line
+2026,schedule_c,fce75be02b84,H11.box_alias,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md section: Names that differ between a box and its summary line
+2026,schedule_c,fc84c7565f29,H11.box_alias,accepted_as_printed,As the FY2026 Schedule C REVIEW.md suggests; see its item.,research/2026-10-21-fy26-schedule-c-review/REVIEW.md section: Names that differ between a box and its summary line

@@ -59,6 +59,10 @@ def test_pdf_years(built):
     assert tr[0]["printed_totals_tied"] == "8/8"
     assert tr[0]["source_pdf"] == "source/FY26/transparency-resolutions/"
     ys = {y["family"]: y for y in all_years if y["fiscal_year"] == "2027"}
+    y26 = {y["family"]: y for y in all_years if y["fiscal_year"] == "2026"}
+    assert set(y26) == {"capital_sd", "schedule_c", "terms", "transparency"}
+    assert y26["schedule_c"]["rows"] == "9765" and y26["schedule_c"]["issue"] == "103"
+    assert y26["schedule_c"]["printed_totals_tied"] == "24/25"
     assert set(ys) == {"capital_sd", "schedule_c", "terms"}
     assert ys["capital_sd"]["rows"] == "1391" and ys["capital_sd"]["printed_totals_tied"] == "28/28"
     assert ys["terms"]["rows"] == "75"

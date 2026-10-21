@@ -42,6 +42,41 @@ REVIEW_FILES = {
     ("2026", "capital_sd"): "data/fy26/pdf/capital_sd/fy26_capital_sd_review.csv",
     ("2026", "terms"): "data/fy26/pdf/terms/fy26_terms_review.csv",
     ("2026", "transparency"): "data/fy26/pdf/transparency/fy26_tr_review.csv",
+    ("2026", "schedule_c"): "data/fy26/pdf/schedule_c/fy26_sc_review.csv",
+}
+
+# FY2026 Schedule C (research/2026-10-21-fy26-schedule-c-review/REVIEW.md): every review_id, from
+# its tables (items 15-17 state source_error without the word "Suggest"; item 8 is "Same" as 7).
+SC26_REVIEW = "research/2026-10-21-fy26-schedule-c-review/REVIEW.md"
+SC26_BY_ID = {
+    "3c76fd1e62f3": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 1"),
+    "072b76ac2954": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 2"),
+    "5c57e0993df3": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 10"),
+    "239a56d3a7b0": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 13"),
+    "6664767f0cae": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 3"),
+    "c0ca776b10e9": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 4"),
+    "94ae97242c0b": ("source_error", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 5"),
+    "9937d66ba686": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 6"),
+    "1ba072f0ec08": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 7"),
+    "27f7098256d9": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 8 (same as item 7)"),
+    "a4f483f8851e": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 9"),
+    "3c166360f764": ("source_error", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 15"),
+    "818c8efb9455": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 11"),
+    "b584161694fe": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 12"),
+    "b3a44442119b": ("source_error", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 17"),
+    "205216c81be1": ("source_error", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 14"),
+    "d46489c09362": ("source_error", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "item 16"),
+    "6a638deac498": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "section: Names that differ between a box and its summary line"),
+    "7e804857cd66": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "section: Names that differ between a box and its summary line"),
+    "725050558d24": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "section: Names that differ between a box and its summary line"),
+    "1627668768c9": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "section: Names that differ between a box and its summary line"),
+    "1fdc4cfb83e2": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "section: Names that differ between a box and its summary line"),
+    "d7e15277029d": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "section: Names that differ between a box and its summary line"),
+    "44ce15605701": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "section: Names that differ between a box and its summary line"),
+    "90633378be3d": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "section: Names that differ between a box and its summary line"),
+    "cc1ddc891f8b": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "section: Names that differ between a box and its summary line"),
+    "fce75be02b84": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "section: Names that differ between a box and its summary line"),
+    "fc84c7565f29": ("accepted_as_printed", "As the FY2026 Schedule C REVIEW.md suggests; see its item.", "section: Names that differ between a box and its summary line"),
 }
 
 # FY2026 transparency (research/2026-10-21-fy26-transparency-review/REVIEW.md): its "Suggest"
@@ -148,6 +183,9 @@ def suggest(fy, family, r):
     elif family == "terms":
         hit = TERMS_BY_CHECK.get(r["check_id"])
         src = CAP_REVIEW
+    elif family == "schedule_c" and fy == "2026":
+        decision, note, item = SC26_BY_ID[r["review_id"]]
+        return decision, note, f"{SC26_REVIEW} {item}"
     elif family == "schedule_c":
         hit = SC_BY_ID.get(r["review_id"])
         src = SC_REVIEW

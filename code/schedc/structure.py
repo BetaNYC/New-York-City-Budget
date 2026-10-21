@@ -16,6 +16,8 @@ import re
 AMOUNT_RE = re.compile(r"^\$\s?(\d{1,3}(?:,\d{3})*)$")
 EIN_RE = re.compile(r"^(\d{2}-\d{7}|\d{9})$")
 MONEY_ANY = re.compile(r"\$\s?([\d,]+)")
+CID = re.compile(r"\(cid:\d+\)")
+EIN_IN_TEXT = re.compile(r"(^|[\s|])(\d{2}-\d{7}|\d{9})($|[\s|])")
 
 
 def clean_text(raw):
@@ -24,9 +26,14 @@ def clean_text(raw):
        the hyphen (`Home-⏎Delivered` -> `Home-Delivered`; flagged `wrap_hyphen`, because it
        could also be a split word);
     2. any other line break joins with one space;
-    3. runs of whitespace collapse to one space; ends are trimmed.
+    3. runs of whitespace collapse to one space; ends are trimmed;
+    4. an unmapped glyph, which pdfplumber writes as "(cid:N)", is dropped (FY2026 p.344:
+       "District 36.(cid:9)", drawn on the page as an empty box; flagged `cid_glyph`).
     Returns (clean, rules_applied)."""
     rules = []
+    if CID.search(raw):
+        raw = CID.sub("", raw)
+        rules.append("cid_glyph")
     lines = raw.split("\n")
     out = lines[0] if lines else ""
     for ln in lines[1:]:
@@ -93,11 +100,22 @@ def table_kind(t, cfg):
                        if c["text_raw"].strip())
     if re.search(cfg["structure"]["award_header_re"], first):
         return "award"
-    if first.startswith(cfg["structure"]["summary_title"]):
+    titles = cfg["structure"].get("summary_titles", [cfg["structure"]["summary_title"]])
+    if any(first.startswith(x) for x in titles):
         return "summary"
     if re.search(r"\$[\d,]+$", first) and len(t["rows"]) >= 1 and \
             any(" ".join(c["text_raw"].split()) for c in t["rows"][0]["cells"][:3]):
         return "box"
+    if cfg["structure"].get("box_amount_on_second_row") and len(t["rows"]) >= 2 and \
+            first and "$" not in first and not EIN_IN_TEXT.search(first):
+        # A box whose title wraps to a second line, the amount printed on that line (FY2026
+        # p.157 "Healthy Beginnings (Formerly ... Maternal and" / "Child Health Services) |
+        # $4,393,244"). The title cell of both rows starts at the same x.
+        r0, r1 = t["rows"][0]["cells"], t["rows"][1]["cells"]
+        second = " | ".join(" ".join(c["text_raw"].split()) for c in r1 if c["text_raw"].strip())
+        if re.search(r"\$[\d,]+$", second) and not EIN_IN_TEXT.search(second) and \
+                r0[0]["bbox"][0] == r1[0]["bbox"][0] and len(r0) == len(r1):
+            return "box2"
     return "other"
 
 
@@ -111,6 +129,108 @@ def statement_kind(text, cfg):
             num = lambda k: int(g[k].replace(",", "")) if g.get(k) else None
             return st["kind"], num("reserve"), num("designated")
     return "unknown", None, None
+
+
+def _row_text(r):
+    return " | ".join(" ".join(c["text_raw"].split()) for c in r["cells"] if c["text_raw"].strip())
+
+
+SLIVER_PT = 8.0
+
+
+def _row_texts_with_slivers(t):
+    """Row texts of a table, with letters that fell into a narrow sliver cell put back in
+    front of their row. FY2026 p.162 draws a 5 pt cell down the left edge of a box that
+    spans six row bands; each label's first letter lands in it ("D" | "esignation Method:").
+    A sliver's letters are matched to row bands by their own vertical centre. Used only to
+    read box and statement rows; award cells are never rebuilt this way."""
+    texts = [_row_text(r) for r in t["rows"]]
+    for r0 in t["rows"]:
+        for c in r0["cells"]:
+            if c["bbox"][2] - c["bbox"][0] >= SLIVER_PT or not c["text_raw"].strip():
+                continue
+            letters = [ch for ch in c["text_raw"] if not ch.isspace()]
+            boxes = sorted(c["char_boxes"], key=lambda b: (b[1], b[0]))
+            if len(letters) != len(boxes):
+                continue
+            for ch, b in zip(letters, boxes):
+                cy = (b[1] + b[3]) / 2
+                for i, r in enumerate(t["rows"]):
+                    if r["top"] <= cy < r["bottom"]:
+                        rest = [x for x in r["cells"] if x is not c and x["text_raw"].strip()]
+                        if rest and abs(rest[0]["bbox"][0] - c["bbox"][2]) < 0.5:
+                            texts[i] = ch + _row_text(dict(cells=rest))
+                        break
+    return texts
+
+
+def split_merged_tables(pages, cfg):
+    """FY2026 portrait pages draw an initiative box, its description, its designation
+    statement and its award table as ONE ruled table (p.36: 32 row bands, one pdfplumber
+    table). Split such a table where FY2027 draws separate ones, so the rest of the pipeline
+    sees the same shapes in both years:
+
+      - a row that is an award header (config `award_header_re`) below row 0 starts a new
+        table;
+      - a row whose text starts with the statement prefix, and the rows under it up to the
+        award header (none holding an EIN), become loose text lines (the statement), as
+        FY2027 prints them.
+
+    Row indices are kept as printed (so award ids still say where the row is); tables on the
+    page are renumbered top to bottom and orphans are re-pointed by position. Off unless the
+    year's config sets `structure.split_merged_tables`. Returns new page dicts; the input
+    (the vector cache) is not modified."""
+    if not cfg["structure"].get("split_merged_tables"):
+        return pages
+    hdr_re = re.compile(cfg["structure"]["award_header_re"])
+    prefix = cfg["structure"]["statement_prefix"]
+    out = []
+    for p in pages:
+        tables, lines = [], list(p["lines"])
+        for t in p["tables"]:
+            texts = _row_texts_with_slivers(t)
+            if not any((hdr_re.search(x) and i > 0) or x.startswith(prefix)
+                       for i, x in enumerate(texts)):
+                tables.append(dict(t, _orig=t["table_index"]))
+                continue
+            segs, cur, in_stmt = [], [], False
+            for r, x in zip(t["rows"], texts):
+                # The statement runs on until the award header (p.209 wraps it into a row of
+                # two cells: "to the following providers for Fiscal 2026 | .").
+                if x.startswith(prefix) or (in_stmt and not hdr_re.search(x)
+                                            and not EIN_IN_TEXT.search(x)):
+                    if cur:
+                        segs.append(cur)
+                    cur, in_stmt = [], True
+                    xs = [c["bbox"] for c in r["cells"] if c["text_raw"].strip()]
+                    lines.append(dict(top=r["top"], bottom=r["bottom"],
+                                      x0=min(b[0] for b in xs), x1=max(b[2] for b in xs),
+                                      text=" ".join(x.replace(" | ", " ").split()),
+                                      size=0.0, bold=False, from_table=True))
+                    continue
+                in_stmt = False
+                if hdr_re.search(x) and cur:
+                    segs.append(cur)
+                    cur = []
+                cur.append(r)
+            if cur:
+                segs.append(cur)
+            for rows in segs:
+                tables.append(dict(table_index=None, _orig=t["table_index"], rows=rows, bbox=[
+                    t["bbox"][0], rows[0]["top"], t["bbox"][2],
+                    max(c["bbox"][3] for r in rows for c in r["cells"])]))
+        tables.sort(key=lambda t: (t["bbox"][1], t["bbox"][0]))
+        for i, t in enumerate(tables):
+            t["table_index"] = i
+        orphans = []
+        for o in p["orphans"]:
+            cy = (o["bbox"][1] + o["bbox"][3]) / 2
+            same = [t for t in tables if t["_orig"] == o["table"]]
+            hit = [t for t in same if t["bbox"][1] <= cy < t["bbox"][3]] or same
+            orphans.append(dict(o, table=hit[0]["table_index"] if hit else -1))
+        lines.sort(key=lambda ln: (ln["top"], ln["x0"]))
+        out.append(dict(p, tables=tables, lines=lines, orphans=orphans))
+    return out
 
 
 def build(pages, cfg):
@@ -138,7 +258,7 @@ def build(pages, cfg):
     category, section = None, "body"
     current, initiatives, summary, awards = None, [], [], []
     stmt_buf = None  # collecting a designation statement
-    last_cols = None
+    last_cols = last_owner = None
 
     def close_statement():
         nonlocal stmt_buf
@@ -188,6 +308,19 @@ def build(pages, cfg):
         t = obj
         if kind != "line":
             close_statement()
+        headerless = False
+        if kind in ("other", "box") and s.get("headerless_continuation") and last_cols and \
+                last_owner is current:
+            # An award table carried over a page break with no header row (FY2026 p.157,
+            # where a one-row carry-over otherwise reads as an initiative box "...| $98,469";
+            # p.195): it continues the last award table when nothing (box, summary, banner,
+            # section) came between, and the previous header's EIN and amount columns land on
+            # an EIN and an amount in its first row. Flagged on every row.
+            c_ein = _cell_at(t["rows"], 0, dict(last_cols)["ein"])[0]
+            c_amt = _cell_at(t["rows"], 0, dict(last_cols)["amount"])[0]
+            if c_ein and c_amt and EIN_RE.match(c_ein["text_raw"].strip()) and \
+                    parse_amount(c_amt["text_raw"]) is not None:
+                kind, headerless = "award", True
         if kind == "other":
             only = [c["text_raw"] for c in t["rows"][0]["cells"] if c["text_raw"].strip()]
             if len(t["rows"]) == 1 and len(only) == 1 and only[0] in categories:
@@ -212,10 +345,32 @@ def build(pages, cfg):
                     rec["initiative"] = texts[-2]
                 summary.append(rec)
             continue
+        if kind == "box2":
+            r0 = [c for c in t["rows"][0]["cells"] if c["text_raw"].strip()]
+            cells = [c for c in t["rows"][1]["cells"] if c["text_raw"].strip()]
+            title_raw = r0[0]["text_raw"] + "\n" + cells[0]["text_raw"]
+            amt_printed = " ".join(cells[-1]["text_raw"].split())
+            current = dict(initiative_id=len(initiatives) + 1, initiative=clean_text(title_raw)[0],
+                           initiative_raw=title_raw, category=category,
+                           section=section, pdf_page=pn, table_index=t["table_index"],
+                           amount=parse_amount(amt_printed), amount_printed=amt_printed,
+                           bbox_pt=t["bbox"], statement="", statement_kind="none",
+                           reserve=None, designated=None, n_rows=0, rows_sum=0)
+            if current["amount"] is None:
+                flag("H11.box", "critical", pn, f"box amount unreadable: {amt_printed!r}",
+                     initiative=current["initiative"])
+            initiatives.append(current)
+            continue
         if kind == "box":
             cells = [c for c in t["rows"][0]["cells"] if c["text_raw"].strip()]
             title_raw = cells[0]["text_raw"]
             amt_printed = " ".join(cells[-1]["text_raw"].split())
+            if len(cells) == 1:
+                # Title and amount in one cell, no rule between them (FY2026 pp.218, 220): the
+                # amount is the trailing "$N" of the printed text.
+                m = re.search(r"\s(\$[\d,]+)$", title_raw)
+                if m:
+                    title_raw, amt_printed = title_raw[:m.start()], m.group(1)
             # A long title wraps into the next row band of the black bar (p.44): any cell
             # aligned with the title cell that starts above the bottom of the amount cell
             # (which spans the whole bar) is part of the title.
@@ -242,7 +397,7 @@ def build(pages, cfg):
 
         # award table
         hdr = t["rows"][0]
-        cols, unknown = header_map(hdr, labels)
+        cols, unknown = (last_cols, []) if headerless else header_map(hdr, labels)
         if unknown:
             flag("H4.header", "critical", pn, f"unknown header label(s): {unknown}",
                  table_index=t["table_index"])
@@ -251,20 +406,23 @@ def build(pages, cfg):
             flag("H4.header", "critical", pn, f"award header lacks org/ein/amount: {fields}",
                  table_index=t["table_index"])
             continue
-        last_cols = cols
+        last_cols, last_owner = cols, current
         rows = t["rows"]
-        for ri in range(1, len(rows)):
+        first = 0 if headerless else 1
+        for ri in range(first, len(rows)):
             r = rows[ri]
             rec = dict(pdf_page=pn, table_index=t["table_index"], row_index=r["row_index"],
                        section=section, category=category if section == "body" else "",
                        initiative=current["initiative"] if (current and section == "body") else "",
                        initiative_id=current["initiative_id"] if (current and section == "body") else "",
                        initiative_page=current["pdf_page"] if (current and section == "body") else "",
-                       header=" | ".join(fields), row_flags=[])
+                       header=" | ".join(fields),
+                       row_flags=["headerless_table"] if headerless else [])
             x0 = min(c["bbox"][0] for c in r["cells"])
             x1 = max(c["bbox"][2] for c in r["cells"])
             rec["bbox_pt"] = [x0, r["top"], x1, r["bottom"]]
             used = set()
+            spans = set()
             char_boxes = []
             for f, x in cols:
                 cell, spanned = _cell_at(rows, ri, x)
@@ -275,6 +433,7 @@ def build(pages, cfg):
                         char_boxes += cell["char_boxes"]
                 if spanned is not None and raw:
                     rec["row_flags"].append(f"spanning_cell:{f}")
+                    spans.add(f)
                 rec[f + "_raw"] = raw
             for c in r["cells"]:
                 if tuple(c["bbox"]) not in used and c["text_raw"].strip():
@@ -284,6 +443,31 @@ def build(pages, cfg):
                          row_index=r["row_index"])
             rec["_char_boxes"] = char_boxes
             rec["_raw"] = {f: rec[f + "_raw"] for f in fields}
+            # A row band whose own cells hold text but no EIN and no amount, directly under an
+            # award row of the same table, is the rest of that row's wrapped text: FY2026
+            # draws a rule between the two lines of a long name (p.130 "...Washington
+            # Heights" / "and Inwood"). Joined to the row above, line break kept; flagged.
+            # Text a band only sees through a taller cell above it (spanning) is that row's,
+            # not the band's; a band with no text of its own is a sliver of the row above
+            # (p.48 r22, under a two-line amount) and is not a row. Off unless the year's
+            # config sets `structure.continuation_rows`.
+            prev = awards[-1] if awards else None
+            own = {f for f in fields if f not in spans and rec[f + "_raw"].strip()}
+            if s.get("continuation_rows") and prev is not None and ri > first and \
+                    (prev["pdf_page"], prev["table_index"]) == (pn, t["table_index"]) and \
+                    "ein" not in own and "amount" not in own:
+                for f in sorted(own):
+                    prev[f + "_raw"] = (prev[f + "_raw"] + "\n" + rec[f + "_raw"]
+                                        if prev[f + "_raw"] else rec[f + "_raw"])
+                prev["_raw"] = {f: prev[f + "_raw"] for f in fields}
+                prev["_char_boxes"] += char_boxes
+                prev["bbox_pt"] = [min(prev["bbox_pt"][0], x0), prev["bbox_pt"][1],
+                                   max(prev["bbox_pt"][2], x1), r["bottom"]]
+                prev["row_flags"].append(f"continuation_row:r{r['row_index']}" if own
+                                         else f"sliver_band:r{r['row_index']}")
+                prev["row_flags"] += [f for f in rec["row_flags"] if f not in prev["row_flags"]
+                                      and not f.startswith("spanning_cell")]
+                continue
             if not any(rec[f + "_raw"].strip() for f in fields):
                 rec["row_flags"].append("empty_row")
             awards.append(rec)
@@ -303,6 +487,8 @@ def build(pages, cfg):
                 applied.update(rules)
                 if "wrap_hyphen" in rules:
                     rec["row_flags"].append(f"wrap_hyphen:{f}")
+                if "cid_glyph" in rules:
+                    rec["row_flags"].append(f"cid_glyph:{f}")
             else:
                 rec[f], rec[f + "_raw"] = "", ""
         rec["clean_rules_applied"] = ";".join(sorted(applied))
@@ -325,6 +511,12 @@ def build(pages, cfg):
         if not rec["ein"]:
             rec["row_flags"].append("ein_unreadable")
         rec["amount"] = parse_amount(rec["amount_printed"])
+        if rec["amount"] is None and cfg["structure"].get("amount_without_dollar") and \
+                re.fullmatch(r"\d{1,3}(?:,\d{3})*", rec["amount_printed"]):
+            # Printed without its "$" (FY2026 p.111, Ghetto Film School "75,000"). Read as the
+            # number printed; flagged, so a person confirms it.
+            rec["amount"] = int(rec["amount_printed"].replace(",", ""))
+            rec["row_flags"].append("amount_no_dollar")
         if rec["amount"] is None:
             rec["row_flags"].append("amount_unreadable")
 

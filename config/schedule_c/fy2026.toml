@@ -1,0 +1,297 @@
+# FY2026 Schedule C: every year-specific fact the pipeline needs, and nothing else (PLAN §7).
+# Each value cites the page it was read from. Shared code lives in code/schedc/.
+
+fiscal_year = 2026
+pdf = "source/FY26/Fiscal-2026-Schedule-C-4.pdf"
+sha256 = "58532138d5bcd9e013ff377e2d8638dc530b1c88d74a91ee1e6597c66589b074"
+pages = 469
+x_tolerance = 3.0          # pdfplumber default; FY2026 text has real space glyphs (PLAN §2.2)
+review_dir = "research/2026-10-21-fy26-schedule-c-review"   # outputs land in <review_dir>/data
+# Disclosure (report only): data/fy26/expense_disclosure, parsed from the workbook's sheet
+# 'FY26 (09-14-26)'. H17 floor: the 2026-10-19 prototype matched 9,529 rows (PLAN §2.3).
+disclosure_note = "workbook sheet 'FY26 (09-14-26)'"
+h17_floor = 9529
+
+# The 25 categories, as printed on each category banner (20 pt bold; ToC p.3 uses capitals and
+# says "DOMESTIC VIOLENCE", "HIGHER EDUCATION INITIATIVES"; the banners are the record).
+categories = [
+  "Anti-Poverty", "Boroughwide Needs", "Community Development",
+  "Community Safety and Victim Services", "Criminal Justice Services", "Cultural Organizations",
+  "Domestic Violence", "Education", "Environmental Initiatives", "Food Initiatives",
+  "Health Services", "Higher Education Initiatives", "Homeless Services", "Housing",
+  "Immigrant Services", "Legal Services", "Mental Health Services", "Older Adult Services",
+  "Parks and Recreation Services", "Public Safety",
+  "Small Business Services and Workforce Development",
+  "Speaker’s Initiative to Address Citywide Needs", "Veteran Services",
+  "Young Women’s Initiative", "Youth Services",
+]
+
+# Section page ranges, read from the pages (Appendix titles first printed on pp.280, 306, 427;
+# ToC p.3; first category banner p.11).
+[[page_ranges]]
+name = "front"
+first = 1
+last = 10
+[[page_ranges]]
+name = "body"
+first = 11
+last = 279
+[[page_ranges]]
+name = "appendix_a"
+first = 280
+last = 305
+[[page_ranges]]
+name = "appendix_b"
+first = 306
+last = 426
+[[page_ranges]]
+name = "appendix_c"
+first = 427
+last = 469
+
+[[sections]]
+name = "appendix_a"
+title_re = "Appendix A: Aging Discretionary"
+[[sections]]
+name = "appendix_b"
+title_re = "Appendix B: Local Initiatives"
+[[sections]]
+name = "appendix_c"
+title_re = "Appendix C: Youth Discretionary"
+
+[structure]
+award_header_re = "(Tax ID|EIN).*Amount"
+summary_title = "Fiscal 2026 Council Initiatives"
+# Two categories title their summary table differently (pp.153, 162).
+summary_titles = ["Fiscal 2026 Council Initiatives", "Fiscal 2026 Food Initiatives",
+                  "Fiscal 2026 Higher Education Initiatives"]
+box_amount_on_second_row = true   # p.157: a box title wraps, its amount on the second line
+amount_without_dollar = true      # p.111: Ghetto Film School's amount printed "75,000" (flagged)
+banner_min_size = 19.0     # category banners are 20 pt bold (e.g. p.11 "Anti-Poverty")
+statement_prefix = "Designation Method:"
+# FY2026 portrait pages draw box + description + statement + award table as one ruled table
+# (p.36), and draw a rule between the two lines of a long name (p.130 "and Inwood").
+split_merged_tables = true
+continuation_rows = true
+# An award table that runs over a page break without repeating its header (pp.157, 195).
+headerless_continuation = true
+page_furniture_re = "(\\d+|Page \\d+|Fiscal Year 2026 Adopted Expense Budget Adjustment Summary)"
+header_labels = [
+  ["Council Member", "member"],
+  ["Sponsor", "sponsor"],
+  ["Borough Delegation", "delegation"],
+  ["Legal Name of Organization [-–] Program Name", "org"],
+  ["Legal Name of the Organization – Program Name", "org"],   # pp.173-177
+  ["Legal Name of Organization - Program", "org"],            # p.273 (printed cut short)
+  ["Legal Name", "org"],                                      # pp.180, 186
+  ["Tax ID", "ein"],
+  ["EIN", "ein"],
+  ["Amount", "amount"],
+  ["Agency", "agency"],
+  ["Purpose of Funds", "purpose"],
+]
+
+# Designation statements (text after "Designation Method:"), checked in order. FY2026 words
+# them many ways (60 distinct strings); each pattern names the pages it was written from. The
+# text layer splits some words ("h as" p.170, "designate d" p.166, "2026 :" p.170); the
+# patterns allow exactly those splits and nothing else. Kinds (code/schedc/reconcile.py):
+#   partial       reserve post-adoption + designated to the rows printed
+#   reserve_only  a stated amount post-adoption, no rows
+#   reserve_all   "will designate awards post-adoption" (no amount: the whole box; p.111)
+#   designated    "has designated $N to the following providers" (p.189)
+#   direct        "has designated directly to the City University of New York" (pp.162-164)
+#   full          the rows are the whole box
+[[statements]]
+kind = "partial"
+re = "^The (City )?Council will designate \\$(?P<reserve>[\\d,]+) post-adoption(, including \\$[\\d,]+ for the AAPI curriculum,)? and h ?as designate ?d \\$(?P<designated>[\\d,]+) (to )?the following providers?( for Fiscal 2026)? ?[:.]$"
+[[statements]]
+kind = "reserve_only"
+re = "^The (City )?Council will designate \\$(?P<reserve>[\\d,]+) post[- ]adoption( for Fiscal 2026)? ?[.:]$"
+[[statements]]
+kind = "reserve_all"
+re = "^The (City )?Council will designate awards post-adoption ?[.:]$"
+[[statements]]
+kind = "designated"
+re = "^The (City )?Council has designated \\$(?P<designated>[\\d,]+) to the following providers for Fiscal 2026 ?:$"
+[[statements]]
+kind = "direct"
+re = "^The (City )?Council has designated (\\$(?P<designated>[\\d,]+) )?directly to the City University of New York( and \\$[\\d,]+ directly to the Department of Education| for Fiscal 2026| for the following institutes for Fiscal 2026 ?:)?\\.?$"
+[[statements]]
+kind = "full"
+re = "^The (City )?Council h ?as designated (to )?the following providers? for Fiscal 2026 ?[:.]:?$"
+
+# Image lattice and ink: FY2027's values (same 10-11 pt body type). On FY2026 they give 0 ink
+# regions (478 loose px of 263,337,561 ink px). The 60 px kernel cannot see a table one row tall
+# (~53 px rules; pp.48, 157): those 2 rows are review items, not a reason to shrink the kernel
+# toward glyph-stem size (~33 px).
+[image]
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+carry_header = true   # pp.157, 195: the image side reads a headerless carry-over with its last header
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 64
+ink_acceptance_page = 176
+ink_acceptance_award_id = "fy26-p176-t00-r003"   # Bronx Defenders $5,533,333, one of the 13 rows the old parser lost
+ink_acceptance_char = "alnum"   # the row's smallest box is a comma, below the region floor
+
+# Box vs summary names (H11). Each summary line below is printed under a different name than
+# its initiative box (or, for SAVE, as one line for three boxes). The amounts agree; the
+# names are the PDF's own. Initiative names in the output are the box titles. Read from the
+# pages cited; every use is a warn in the review file.
+[[box_aliases]]
+category = "Community Development"
+page = 47
+summary = ["Diversity, Inclusion and Equity in Tech Initiative", 700000]   # summary table p.36
+boxes = [["Diversity, Inclusion & Equity in Tech Initiative", 700000]]
+note = "'and' vs '&'"
+[[box_aliases]]
+category = "Education"
+page = 129
+summary = ["Educational Programs for Students (Formerly – College and Career Readiness and Educational Programs for Students", 8883133]   # summary table p.128
+boxes = [["Educational Programs for Students (Formerly – College and Career Readiness and Educational Programs for Students)", 8883133]]
+note = "summary drops the closing ')'"
+[[box_aliases]]
+category = "Health Services"
+page = 160
+summary = ["Reproductive & Sexual Health Services", 654423]   # summary table p.155
+boxes = [["Reproductive and Sexual Health Services", 654423]]
+note = "'&' vs 'and'"
+[[box_aliases]]
+category = "Higher Education Initiatives"
+page = 163
+summary = ["CUNY Research Institute", 5500000]   # summary table p.162
+boxes = [["CUNY Research Institutes", 5500000]]
+note = "'Institute' vs 'Institutes'"
+[[box_aliases]]
+category = "Housing"
+page = 170
+summary = ["Financial Empowerment for NYC Renters", 450000]   # summary table p.167
+boxes = [["Financial Empowerment for NYC's Renters", 450000]]
+note = "'NYC Renters' vs \"NYC's Renters\""
+[[box_aliases]]
+category = "Legal Services"
+page = 178
+summary = ["Legal Services for Low-Income and Working-Class New Yorkers (Formerly Legal Services for Low-Income New Yorkers and Legal Services for the Working Poor)", 9255000]   # summary table p.178
+boxes = [["Legal Services for Low-Income and Working-Class New Yorkers (formerly Legal Services for Low-Income New Yorkers and Legal Services for the Working Poor)", 9255000]]
+note = "'Formerly' vs 'formerly'"
+[[box_aliases]]
+category = "Mental Health Services"
+page = 183
+summary = ["Developmental, Psychological & Behavioral Health Services", 2255493]   # summary table p.181
+boxes = [["Developmental, Psychological and Behavioral Health Services", 2255493]]
+note = "'&' vs 'and'"
+[[box_aliases]]
+category = "Mental Health Services"
+page = 184
+summary = ["LGBTQIA+ Youth Mental Health", 1200000]   # summary table p.181
+boxes = [["LGBTQIA+ Youth Mental Health (Formerly LGBTQ Youth Mental Health)", 1200000]]
+note = "box adds '(Formerly LGBTQ Youth Mental Health)'"
+[[box_aliases]]
+category = "Mental Health Services"
+page = 187
+summary = ["Older Adults Mental Health (Formerly Geriatric Older Adults)", 3349520]   # summary table p.181
+boxes = [["Older Adults Mental Health (Formerly Geriatric Mental Health)", 3349520]]
+note = "'Geriatric Older Adults' vs 'Geriatric Mental Health'"
+[[box_aliases]]
+category = "Public Safety"
+page = 217
+summary = ["Violence Prevention and Intervention for Youth and Young Adults", 4490600]   # summary table p.217
+boxes = [["Violence Prevention and Intervention for Youth and Young Adults (Formerly Art a Catalyst for Change and Crisis Management System)", 4490600]]
+note = "box adds '(Formerly Art a Catalyst ...)'"
+[[box_aliases]]
+category = "Domestic Violence"
+page = 126
+summary = ["Supportive Alternatives to Violent Encounters (SAVE)", 2450000]   # summary table p.112
+boxes = [["Supportive Alternatives to Violent Encounters (SAVE)", 600000], ["Supportive Alternatives to Violent Encounters (SAVE)", 1275000], ["Supportive Alternatives to Violent Encounters (SAVE)", 575000]]
+note = "box adds '(Formerly Art a Catalyst ...)'"
+
+# Named exceptions: places where the PDF disagrees with itself. Each must match exactly
+# (page, expected, observed) or the check still fails. Read on the pages; none is corrected.
+# Immigrant Services (p.173): the summary lines add to $86,092,141; TOTAL prints $86,091,341.
+[[exceptions]]
+check = "H10.category_total"
+page = 173
+expected = 86091341
+observed = 86092141
+note = "PDF self-error: summary lines sum $86,092,141, TOTAL printed $86,091,341 (pending review)"
+# Cultural Immigrant Initiative (p.98): "will designate $597,000 post-adoption and has
+# designated $6,798,000"; $597,000 + $6,798,000 = the $7,395,000 box, but the 383 rows printed
+# under it (pp.99-111) add to $6,783,000. Every page's EIN count equals its row count.
+[[exceptions]]
+check = "H12.designated_sum"
+page = 98
+expected = 6798000
+observed = 6783000
+note = "PDF self-error: statement $6,798,000 designated, rows sum $6,783,000 (pending review)"
+# The roll-up gap is exactly those two: -$15,000 (p.98) + $800 (p.173 TOTAL vs its lines).
+[[exceptions]]
+check = "H13.rollup"
+page = 0
+expected = 665080021
+observed = 665065821
+note = "the -$15,000 of p.98 and the $800 of p.173 (pending review)"
+# Two EINs printed with 8 digits (known going in, #103). Clean EIN left blank.
+[[exceptions]]
+check = "H5.anchors"
+award_id = "fy26-p158-t00-r013"
+ein_printed = "26-265183"
+note = "8-digit EIN as printed (Brooklyn Center for Quality Life)"
+[[exceptions]]
+check = "H5.anchors"
+award_id = "fy26-p379-t00-r016"
+ein_printed = "61081232"
+note = "8-digit EIN as printed (Morris Heights Health Center)"
+
+# Line-end hyphens a person should look at (read by hand from the 85 in fy26_sc_flags.csv;
+# the other 78 are compound words such as low-income, Anti-Violence, Bedford-Stuyvesant, and
+# the two before "Council District" (pp.45, 212) are listed by the pipeline itself). The clean
+# value keeps each joined, as printed; the raw value keeps the line break.
+[[known_issues]]
+check_id = "W5.wrap_hyphen"
+pdf_page = 77
+field = "org"
+award_id = "fy26-p077-t00-r011"
+table_index = 0
+row_index = 11
+dollar_impact = 20000
+what_to_check = "'Queens College Foundation-' then 'Kupferberg Center for the Arts': kept as 'Foundation-Kupferberg'. Is it 'Foundation - Kupferberg'?"
+[[known_issues]]
+check_id = "W5.wrap_hyphen"
+pdf_page = 77
+field = "org"
+award_id = "fy26-p077-t00-r012"
+table_index = 0
+row_index = 12
+dollar_impact = 20000
+what_to_check = "Same as the row above (Robert H. Goddard High School)."
+[[known_issues]]
+check_id = "W5.wrap_hyphen"
+pdf_page = 213
+field = "org"
+award_id = "fy26-p213-t00-r008"
+table_index = 0
+row_index = 8
+dollar_impact = 15000
+what_to_check = "'Rockaway Events-' then 'Flag Day & Fall Festival': kept as 'Events-Flag Day'. Is it 'Events - Flag Day'?"
+[[known_issues]]
+check_id = "W5.wrap_hyphen"
+pdf_page = 213
+field = "org"
+award_id = "fy26-p213-t00-r019"
+table_index = 0
+row_index = 19
+dollar_impact = 15000
+what_to_check = "'Tudor Park Event-' then 'council District 32': kept as 'Event-council District 32'. Is it 'Event - Council District 32'?"
+[[known_issues]]
+check_id = "W5.wrap_hyphen"
+pdf_page = 242
+field = "org"
+award_id = "fy26-p242-t00-r011"
+table_index = 0
+row_index = 11
+dollar_impact = 100000
+what_to_check = "'Community School District 28-' then 'MBK/MSK': kept as '28-MBK/MSK'. Is it '28 - MBK/MSK'?"

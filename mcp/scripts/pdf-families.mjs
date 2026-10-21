@@ -157,7 +157,10 @@ export const PDF_FAMILIES = {
 PDF_FAMILIES.schedule_c = {
   label: "Schedule C",
   main: "pdf_schedule_c",
-  decisions: { 2027: "research/2026-10-20-fy27-schedule-c-review/data/fy27_sc_review_decisions.csv" },
+  decisions: {
+    2026: "research/2026-10-21-fy26-schedule-c-review/data/fy26_sc_review_decisions.csv",
+    2027: "research/2026-10-20-fy27-schedule-c-review/data/fy27_sc_review_decisions.csv",
+  },
   prefix: "sc",
   review: {
     file: "review",

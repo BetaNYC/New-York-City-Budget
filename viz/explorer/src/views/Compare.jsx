@@ -93,6 +93,7 @@ function Totals({ fyA, fyB, ctx, state, go }) {
   const rows = [
     ["disclosure", "Expense disclosure (Council spreadsheet)"],
     ["schedule_c", "Schedule C (adopted budget PDF)"],
+    ["sc_pairs", "Schedule C beside the disclosure (paired on EIN and amount)"],
     ["transparency", "Transparency resolutions (PDF), to organizations, net"],
     ["capital", "Council capital, the list's own year"],
     ["capital_sd", "Capital §254 book, Part I (PDF)"],
@@ -147,6 +148,34 @@ function Totals({ fyA, fyB, ctx, state, go }) {
                     </>
                   );
                 const both = !a.gap && !b.gap;
+                if (src === "sc_pairs") {
+                  const pairCell = (fy) => {
+                    const av = Q.availability("schedule_c", fy, ctx);
+                    if (!av.ok) return <Gap fy={fy} reason={av.reason} />;
+                    const by = Object.fromEntries((q.data.sc_pairs ?? []).filter((x) => Number(x.fy) === fy).map((x) => [x.side, x]));
+                    const lk = (side, text) => (
+                      <HashLink href={writeHash({ view: "awards", fy, scside: side })} onGo={() => go({ view: "awards", fy, scside: side })}>
+                        {text}
+                      </HashLink>
+                    );
+                    return (
+                      <>
+                        {lk("matched", `${count(by.matched?.n ?? 0)} paired`)} · {lk("pdf_only", `${count(by.pdf_only?.n ?? 0)} Schedule C only`)} ·{" "}
+                        {lk("disclosure_only", `${count(by.disclosure_only?.n ?? 0)} spreadsheet only`)} <ReviewedLabel status={av.status} />
+                      </>
+                    );
+                  };
+                  return (
+                    <tr key={src}>
+                      <th scope="row">{label}</th>
+                      <td className="num" data-label={`FY${fyA}`}>{pairCell(fyA)}</td>
+                      <td className="num" data-label={`FY${fyB}`}>{pairCell(fyB)}</td>
+                      <td className="num" data-label="Change">
+                        <span className="muted">—</span>
+                      </td>
+                    </tr>
+                  );
+                }
                 return (
                   <tr key={src}>
                     <th scope="row">{label}</th>
