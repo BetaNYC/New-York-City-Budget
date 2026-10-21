@@ -913,3 +913,41 @@ finds nothing on the page that was not read.
 runs over the border into the EIN box. A page's running sub-heading is a category name in small
 type (e.g. p.116), not a category banner. Rows on the City's EIN 13-6400434 need a name check
 to match the disclosure (9 rows pair different agencies by amount alone).
+
+---
+
+## 30. FY2026 Schedule C rebuilt from the PDF, checked (#103) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of `source/FY26/Fiscal-2026-Schedule-C-4.pdf` with the §29
+> toolkit (`code/parse_schedule_c_v2.py`, `config/schedule_c/fy2026.toml`). Its review record is
+> [`research/2026-10-21-fy26-schedule-c-review/`](research/2026-10-21-fy26-schedule-c-review/README.md).
+> The old `data/fy26/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
+> Not served by the MCP.
+
+**Result.** 9,765 award rows, $545,669,395 (body 5,850 / $495,870,395; appendices A, B, C
+473 / $5,610,000, 2,619 / $36,539,000, 823 / $7,650,000). The old parse had 9,752 rows: the 13
+it lost ($8,588,150, among them Bronx Defenders $5,533,333, p.176) are all here, and nothing the
+old parse had is missing. 24 of 25 category TOTALs tie; an independent image grid agrees on
+9,761 rows (2 differ on a hyphen at a cell edge; 2 one-row tables it cannot see); ink coverage
+finds nothing on the page that was not read.
+
+**What the PDF itself gets wrong (flagged, never fixed).**
+
+- **$800, p.173.** Immigrant Services prints TOTAL $86,091,341; its lines add to $86,092,141.
+- **$15,000, p.98.** Cultural Immigrant Initiative says "has designated $6,798,000"; its 383 rows
+  (pp.99–111) add to $6,783,000. These two are the whole roll-up gap (−$14,200).
+- **Two 8-digit EINs:** p.158 "26-265183", p.379 "61081232". Clean EIN left blank.
+- **p.111.** Ghetto Film School's amount is printed "75,000", without "$".
+- **11 box/summary name differences** (e.g. "&" vs "and"; one summary line for three SAVE boxes,
+  p.112). Rows carry the box title.
+
+**Money in no award row.** 14 initiatives "will designate awards post-adoption" ($78,512,162);
+8 CUNY/DOE initiatives are "designated directly" with no rows ($23,911,869, pp.162–164). Both are
+in the initiatives table.
+
+**Things a re-parse must know.** On portrait pages the initiative box, statement and award table
+are one ruled table (p.36). A rule splits some long names into two row bands (p.130). Award
+tables continue over a page without a header (pp.48, 157, 195). Some box titles wrap with the
+amount on line two (p.157), or share one cell with it (pp.218, 220). The statement is worded 60
+ways; the text layer splits words ("h as", "designate d"). A 5 pt sliver cell holds the first
+letter of each box label on p.162. Six glyphs are unmapped (`(cid:9)`, e.g. p.344).

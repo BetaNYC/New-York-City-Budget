@@ -67,16 +67,29 @@ def run(cfg, pdf_sha, pages, S):
             by_page[a["pdf_page"]] = by_page.get(a["pdf_page"], 0) + 1
     diffs = [(p["page"], p["ein_tokens"], by_page.get(p["page"], 0)) for p in pages
              if p["ein_tokens"] != by_page.get(p["page"], 0)]
-    one = [a for a in S["awards"] if not a["ein"] or a["amount"] is None]
+    # A row whose printed EIN is not EIN-shaped (FY2026: two 8-digit EINs) passes only as a
+    # named exception in the year's config, matched on (award_id, ein_printed).
+    named = {(e["award_id"], e["ein_printed"]): e for e in cfg.get("exceptions", [])
+             if e["check"] == "H5.anchors"}
+    one = [a for a in S["awards"] if (not a["ein"] or a["amount"] is None)
+           and (a["award_id"], a["ein_printed"]) not in named]
+    exc = [a for a in S["awards"] if (a["award_id"], a["ein_printed"]) in named]
     out("H5.anchors", not diffs and not one,
         f"{sum(p['ein_tokens'] for p in pages)} EIN-shaped words, "
         f"{sum(by_page.values())} rows with an EIN; {len(diffs)} pages differ; "
-        f"{len(one)} rows without exactly one EIN and one amount")
+        f"{len(one)} rows without exactly one EIN and one amount"
+        + (f"; {len(exc)} named exceptions" if exc else ""))
     for pn, words, rws in diffs:
         flag("H5.anchors", pn, f"{words} EIN-shaped words but {rws} award rows with an EIN")
     for a in one:
         flag("H5.anchors", a["pdf_page"], "row without a readable EIN or amount",
              award_id=a["award_id"])
+    for a in exc:
+        e = named[(a["award_id"], a["ein_printed"])]
+        flags.append(dict(check_id="H5.anchors", severity="warn", pdf_page=a["pdf_page"],
+                          award_id=a["award_id"], field="ein",
+                          message=f"EIN printed as {a['ein_printed']!r}, not an EIN; clean "
+                          f"EIN left blank (named exception: {e['note']})"))
 
     # H6 furniture in data cells
     furn = [(a, f) for a in S["awards"] for f in ("member", "sponsor", "delegation", "org",

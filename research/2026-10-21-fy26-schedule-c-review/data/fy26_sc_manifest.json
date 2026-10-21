@@ -1,0 +1,13 @@
+{
+  "config": "config/schedule_c/fy2026.toml",
+  "config_sha256": "a5d19889008091336f2d9e8b10ea8ee2ba4dcf242ee69a151c66403655dd48eb",
+  "fiscal_year": 2026,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdf": "source/FY26/Fiscal-2026-Schedule-C-4.pdf",
+  "pdf_sha256": "58532138d5bcd9e013ff377e2d8638dc530b1c88d74a91ee1e6597c66589b074",
+  "pdfium": "156.0.8076.0",
+  "pdfplumber": "0.11.10",
+  "pypdfium2": "5.14.0",
+  "python": "3.12.13"
+}

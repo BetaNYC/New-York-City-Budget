@@ -2,7 +2,7 @@
 """
 Schedule C from the PDF, checked (PLAN: research/2026-10-19-schedule-c-pdf-toolkit/PLAN.md).
 
-  python3 code/parse_schedule_c_v2.py --fy 2027              full run, writes data/schedule_c_v2/fy27/
+  python3 code/parse_schedule_c_v2.py --fy 2027              full run, writes <review_dir>/data/
   python3 code/parse_schedule_c_v2.py --fy 2027 --no-cv      skip the image lattice and ink checks
   python3 code/parse_schedule_c_v2.py --fy 2027 --pages 279  iterate on some pages (writes nothing)
 
@@ -36,7 +36,9 @@ CONTRACT = ["fiscal_year", "source_pdf", "pdf_sha256", "pdf_page", "bbox_pt", "r
 ROW_FLAG_CHECK = {"wrap_hyphen": "W5.wrap_hyphen", "ein_overflow_hyphen": "W.ein_overflow_hyphen",
                   "spanning_cell": "W.spanning_cell", "unmapped_cell": "H7.unmapped",
                   "empty_row": "H5.anchors", "ein_unreadable": "H5.anchors",
-                  "amount_unreadable": "H5.anchors"}
+                  "amount_unreadable": "H5.anchors", "continuation_row": "W.continuation_row", "sliver_band": "W.continuation_row",
+                  "headerless_table": "W.headerless_table",
+                  "amount_no_dollar": "W.amount_no_dollar", "cid_glyph": "W.cid_glyph"}
 AWARD_COLUMNS = [
     "award_id", "fiscal_year", "source_pdf", "section", "category", "initiative", "initiative_id",
     "member", "sponsor", "delegation", "org", "ein", "amount", "agency", "purpose",
@@ -77,6 +79,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
         by_page.setdefault(a["pdf_page"], []).append(a)
     vmap = {p["page"]: p for p in vpages}
     row_res, page_res, flags = {}, {}, []
+    carry = {} if im.get("carry_header") else None
     pdf = pdfplumber.open(cfg["_pdf_abs"])
     doc = pdfium.PdfDocument(cfg["_pdf_abs"])
     try:
@@ -89,7 +92,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
                 gray = gray[:, :, 0]
             page = pdf.pages[pn - 1]
             lats = imagegrid.lattices(gray, dpi, im["kernel_px"], im["region_pad_px"])
-            irows = imagegrid.image_rows(page.chars, lats, cfg["x_tolerance"])
+            irows = imagegrid.image_rows(page.chars, lats, cfg["x_tolerance"], carry)
             res, extra = imagegrid.compare_page(aw, irows, im["row_tol_pt"])
             for r in res:
                 row_res[r["award_id"]] = r
@@ -173,6 +176,19 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
             acc = dict(page=pn, award_id=target, clean=len(fire(allb)),
                        row_withheld=len(fire(row)), char_withheld=len(fire(one)),
                        char=t_boxes[small])
+            if im.get("ink_acceptance_char") == "alnum":
+                # The smallest box overall may be a comma or period, whose ink is below the
+                # region floor (FY2026 p.176: a comma, 0 regions). Then test the smallest
+                # letter or digit, and report the punctuation result next to it.
+                txt = {tuple(vector.bbox2((c["x0"], c["top"], c["x1"], c["bottom"]))): c["text"]
+                       for c in page.chars}
+                acc["char_text"] = txt.get(tuple(t_boxes[small]), "?")
+                alnum = [i for i in range(len(t_boxes)) if txt.get(tuple(t_boxes[i]), "").isalnum()]
+                k = min(alnum, key=lambda i: (t_boxes[i][2] - t_boxes[i][0]) *
+                        (t_boxes[i][3] - t_boxes[i][1]))
+                acc.update(any_char_withheld=acc["char_withheld"], any_char_text=acc["char_text"],
+                           char=t_boxes[k], char_text=txt[tuple(t_boxes[k])],
+                           char_withheld=len(fire([b for b in allb if b is not t_boxes[k]])))
     finally:
         pdf.close()
         doc.close()
@@ -220,7 +236,7 @@ def main(argv=None):
         from ocr.render import parse_page_spec
         only = parse_page_spec(a.pages)
     cache = os.path.join(a.cache_dir, f"fy{a.fy}")
-    vpages = cached_vector(cfg, pdf_sha, cache)
+    vpages = structure.split_merged_tables(cached_vector(cfg, pdf_sha, cache), cfg)
     S = structure.build(vpages, cfg)
     for r in S["awards"]:
         r["fiscal_year"] = a.fy
@@ -265,7 +281,7 @@ def main(argv=None):
             it.setdefault("row_index", a_["row_index"])
             it["value_vector"] = json.dumps(a_["_raw"], ensure_ascii=False)
             it.setdefault("dollar_impact", a_["amount"] or 0)
-        if f["check_id"].startswith(("H12", "H13")) and "expected" in f:
+        if f["check_id"].startswith(("H10", "H12", "H13")) and "expected" in f:
             it["dollar_impact"] = abs(f["observed"] - f["expected"])
         items.append(it)
     for r in S["awards"]:
@@ -278,6 +294,15 @@ def main(argv=None):
                               what_to_check="EIN cell also holds a lone '-' (the org text's "
                               "trailing hyphen running over the rule); EIN read as "
                               f"{r['ein']}. Confirm on the page.",
+                              value_vector=json.dumps(r["_raw"], ensure_ascii=False)))
+        if "amount_no_dollar" in r["row_flags"]:
+            items.append(dict(check_id="W.amount_no_dollar", severity="warn",
+                              pdf_page=r["pdf_page"], table_index=r["table_index"],
+                              row_index=r["row_index"], award_id=r["award_id"], field="amount",
+                              dollar_impact=r["amount"],
+                              what_to_check=f"amount printed without '$': "
+                              f"{r['amount_printed']!r}; read as {r['amount']:,}. Confirm on "
+                              "the page.",
                               value_vector=json.dumps(r["_raw"], ensure_ascii=False)))
         for fl in r["row_flags"]:
             if fl == "wrap_hyphen:org" and "-\nCouncil District" in r["org_raw"]:
@@ -433,9 +458,16 @@ def main(argv=None):
         if r["status"] != "ok":
             w(f"  -> {r['status']}: p.{r['pdf_page']} {r['label']}: expected {r['expected']:,}, "
               f"observed {r['observed']:,} (diff {r['diff']:+,}) {r['note']}")
-    w(f"  roll-up: category TOTALs ${roll['category_totals']:,} = body rows ${roll['body_rows']:,}"
-      f" + post-adoption reserves ${roll['reserves']:,} "
-      f"{'+ $' + format(roll['category_totals'] - roll['body_rows'] - roll['reserves'], ',') if roll['category_totals'] != roll['body_rows'] + roll['reserves'] else ''}")
+    if roll.get("direct"):
+        gap = roll["category_totals"] - roll["body_rows"] - roll["reserves"] - roll["direct"]
+        w(f"  roll-up: category TOTALs ${roll['category_totals']:,} = body rows "
+          f"${roll['body_rows']:,} + post-adoption reserves ${roll['reserves']:,} + designated "
+          f"directly to an agency, no rows printed ${roll['direct']:,}"
+          + (f" + ${gap:,}" if gap else ""))
+    else:
+        w(f"  roll-up: category TOTALs ${roll['category_totals']:,} = body rows ${roll['body_rows']:,}"
+          f" + post-adoption reserves ${roll['reserves']:,} "
+          f"{'+ $' + format(roll['category_totals'] - roll['body_rows'] - roll['reserves'], ',') if roll['category_totals'] != roll['body_rows'] + roll['reserves'] else ''}")
     w("  appendices print no total; their pots (DATA-ANOMALIES §19): "
       + ", ".join(f"{s} ${sum(r['amount'] or 0 for r in S['awards'] if r['section'] == s):,}"
                   for s in ("appendix_a", "appendix_b", "appendix_c")))
@@ -455,15 +487,24 @@ def main(argv=None):
           f"uncovered px total: {sum(p['uncovered_px'] for p in cv_pages.values()):,} of "
           f"{sum(p['ink_px'] for p in cv_pages.values()):,} ink px")
         if acc:
+            im = cfg["image"]
             w(f"  acceptance on p.{acc['page']} ({acc['award_id']}): clean run {acc['clean']} regions; "
               f"row withheld -> {acc['row_withheld']}; one char withheld -> {acc['char_withheld']} "
-              f"({'PASS' if acc['clean'] == 0 and acc['row_withheld'] and acc['char_withheld'] else 'FAIL'})")
+              f"({'PASS' if acc['clean'] == 0 and acc['row_withheld'] and acc['char_withheld'] else 'FAIL'})"
+              + (f"; the char is {acc['char_text']!r}" if "char_text" in acc else ""))
+            if "any_char_withheld" in acc:
+                w(f"  blind spot: withholding the row's smallest box, {acc['any_char_text']!r}, -> "
+                  f"{acc['any_char_withheld']} regions (its ink is under the "
+                  f"{im['ink_min_region_px']} px region floor). A lone dropped comma or period "
+                  "is not visible to ink; H7 (every character lands in a cell) covers it")
     w("")
-    w("DISCLOSURE (report-only; data/fy27/expense_disclosure, retrieved 2026-10-12)")
+    w(f"DISCLOSURE (report-only; data/{yy}/expense_disclosure, "
+      f"{cfg.get('disclosure_note', 'retrieved 2026-10-12')})")
     w(f"  pdf rows {dsum['pdf_rows']:,}; disclosure rows {dsum['disclosure_rows']:,}; "
       f"matched (EIN, amount, City-EIN name rule) {dsum['matched']:,}")
     nn = disclosure.align_without_name_rule(S["awards"], a.fy)
-    w(f"  matched without the City-EIN name rule (the 2026-10-19 prototype's H17 floor, 9,859): {nn:,}")
+    w(f"  matched without the City-EIN name rule (the 2026-10-19 prototype's H17 floor, "
+      f"{cfg.get('h17_floor', 9859):,}): {nn:,}")
     for sec in ("body", "appendix_a", "appendix_b", "appendix_c"):
         parts = []
         for stt in ("cleared", "pending", "other", "unmatched"):
