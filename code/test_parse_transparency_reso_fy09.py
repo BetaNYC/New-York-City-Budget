@@ -178,6 +178,67 @@ def test_detect_grid_returns_none_on_a_page_with_no_rules():
     assert gridmod.detect_grid(img) is None
 
 
+def _cropped_table_with_stacked_stems(rows=8, cols=4, cell_w=120, cell_h=40, margin=4,
+                                      stem_h=28, stem_w=3):
+    """A table cropped tight to its border (no page around it), with one tall glyph-like
+    stem per row stacked at the same x in column 1 -- a column of '1's or 'l's in a value
+    column. Returns (img, xs, ys, stem_x)."""
+    img, xs, ys = synthetic_table(rows=rows, cols=cols, cell_w=cell_w, cell_h=cell_h,
+                                  margin=margin)
+    stem_x = xs[1] + cell_w // 2
+    pad = (cell_h - stem_h) // 2
+    for r in range(rows):
+        cv2.rectangle(img, (stem_x, ys[r] + pad), (stem_x + stem_w - 1, ys[r] + pad + stem_h),
+                      0, -1)
+    return img, xs, ys, stem_x
+
+
+def test_rule_masks_default_kernel_is_unchanged():
+    """kernel_px=None must reproduce the page-relative kernel exactly (max(20, dim // 30)),
+    so every existing caller sees bit-identical rule masks."""
+    img, xs, ys = synthetic_table()
+    ink = gridmod.binarize(img)
+    h, w = ink.shape[:2]
+    hk, vk = max(20, w // gridmod.KERNEL_DIVISOR), max(20, h // gridmod.KERNEL_DIVISOR)
+    want_h = cv2.morphologyEx(ink, cv2.MORPH_OPEN,
+                              cv2.getStructuringElement(cv2.MORPH_RECT, (hk, 1)))
+    want_v = cv2.morphologyEx(ink, cv2.MORPH_OPEN,
+                              cv2.getStructuringElement(cv2.MORPH_RECT, (1, vk)))
+    got_h, got_v = gridmod.rule_masks(ink)
+    assert np.array_equal(got_h, want_h) and np.array_equal(got_v, want_v)
+    g_default, g_none = gridmod.detect_grid(img), gridmod.detect_grid(img, kernel_px=None)
+    assert (g_default.xs, g_default.ys) == (g_none.xs, g_none.ys)
+    assert (g_default.nrows, g_default.ncols) == (len(ys) - 1, len(xs) - 1)
+
+
+def test_page_relative_kernel_turns_stacked_stems_into_a_false_column_on_a_crop():
+    """On a crop, dim // 30 falls to the 20px floor -- shorter than a glyph stem -- so each
+    stem survives the vertical opening, the stacked stems group at one x and gap-bridge into a
+    full-height 'rule'. An absolute kernel_px longer than any stem (but far shorter than a real
+    rule) removes them and leaves exactly the printed lattice."""
+    img, xs, ys, stem_x = _cropped_table_with_stacked_stems()
+    rel = gridmod.detect_grid(img)
+    assert rel is not None
+    assert rel.ncols == len(xs)                          # one column too many...
+    assert any(abs(x - stem_x) <= 3 for x in rel.xs)     # ...and it sits on the stems
+
+    fixed = gridmod.detect_grid(img, kernel_px=60)
+    assert fixed is not None
+    assert (fixed.nrows, fixed.ncols) == (len(ys) - 1, len(xs) - 1)
+    assert all(abs(got - want) <= 2 for got, want in zip(fixed.xs, xs))
+    assert all(abs(got - want) <= 2 for got, want in zip(fixed.ys, ys))
+
+
+def test_float_kernel_divisor_does_not_raise():
+    """A float divisor makes dim // divisor a float, which cv2.getStructuringElement rejects
+    as a ksize; rule_masks int-casts it, so a float gives the same grid as the int."""
+    img, _, _ = synthetic_table()
+    g_float = gridmod.detect_grid(img, kernel_divisor=30.0)
+    g_int = gridmod.detect_grid(img, kernel_divisor=30)
+    assert g_float is not None
+    assert (g_float.xs, g_float.ys) == (g_int.xs, g_int.ys)
+
+
 def test_grid_locate_and_cell_round_trip(tmp_path):
     img, xs, ys = synthetic_table()
     g = gridmod.detect_grid(img)

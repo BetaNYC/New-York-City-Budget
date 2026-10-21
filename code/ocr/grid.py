@@ -92,14 +92,19 @@ def binarize(gray):
     return ((gray < 128).astype(np.uint8)) * 255
 
 
-def rule_masks(ink, kernel_divisor=KERNEL_DIVISOR):
+def rule_masks(ink, kernel_divisor=KERNEL_DIVISOR, kernel_px=None):
     """Separate horizontal and vertical rules from text by morphological opening with a
     long, thin kernel: only ink that survives an erosion by a line-shaped element as long
     as 1/30 of the page can be a printed rule -- glyphs and speckle cannot."""
     cv2 = _cv2()
     h, w = ink.shape[:2]
-    hk = max(20, w // kernel_divisor)
-    vk = max(20, h // kernel_divisor)
+    if kernel_px:
+        # Absolute kernel length, for crops and digital renders: a page-relative kernel on a
+        # cropped table can fall below glyph-stem height, and stems then chain into false rules.
+        hk = vk = int(kernel_px)
+    else:
+        hk = max(20, int(w // kernel_divisor))
+        vk = max(20, int(h // kernel_divisor))
     horiz = cv2.morphologyEx(ink, cv2.MORPH_OPEN,
                              cv2.getStructuringElement(cv2.MORPH_RECT, (hk, 1)))
     vert = cv2.morphologyEx(ink, cv2.MORPH_OPEN,
@@ -259,12 +264,12 @@ def count_rules(gray, min_span_frac=MIN_SPAN_FRAC, merge_tol=MERGE_TOL_PX,
 
 def detect_grid(gray, min_span_frac=MIN_SPAN_FRAC, merge_tol=MERGE_TOL_PX,
                 kernel_divisor=KERNEL_DIVISOR, min_row_px=MIN_ROW_PX,
-                min_col_px=MIN_COL_PX):
+                min_col_px=MIN_COL_PX, kernel_px=None):
     """Detect the ruled table on an upright, deskewed page. Returns a Grid, or None when
     the page carries no lattice (narrative and EXHIBIT divider pages)."""
     import numpy as np
     ink = binarize(gray)
-    horiz, vert = rule_masks(ink, kernel_divisor)
+    horiz, vert = rule_masks(ink, kernel_divisor, kernel_px)
 
     rules = np.maximum(horiz, vert)
     ys_nz, xs_nz = np.nonzero(rules)
