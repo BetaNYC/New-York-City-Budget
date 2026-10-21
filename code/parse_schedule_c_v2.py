@@ -311,7 +311,7 @@ def main(argv=None):
         for key in ([("award", it["award_id"])] if it.get("award_id") else []) + \
                 ([("initiative", it["initiative_id"])] if it.get("initiative_id") else []):
             rid.setdefault(key, rv["review_id"])
-    for f in all_flags:
+    for f in all_flags + items:
         if f.get("award_id"):
             rflags.setdefault(("award", f["award_id"]), set()).add(f["check_id"])
         if f.get("initiative_id"):
