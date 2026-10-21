@@ -32,6 +32,7 @@ import Database from "better-sqlite3";
 import { DuckDBInstance } from "@duckdb/node-api";
 
 import * as Q from "../src/query/sql.js";
+import * as C from "../src/compare/queries.js";
 import { PDF_FAMILIES, PDF_TABLES } from "../../../mcp/scripts/pdf-families.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -186,6 +187,28 @@ describe("4. reviewed PDF tables, per family, year and status", () => {
       assert.equal(n, y.rows, `FY${y.fiscal_year} ${y.family}`);
     }
   });
+});
+
+describe("5. compare two years: every grouping keeps every row", () => {
+  // For each source the Compare view reads, each dimension and each year in the index: the
+  // view's groups (DuckDB, on the Parquet) add up to the year's rows and dollars in budget.db.
+  // A key expression that dropped blanks or split a row would fail here, with the source named.
+  for (const [src, s] of Object.entries(C.SOURCES)) {
+    for (const dim of Object.keys(s.dims)) {
+      test(`${src} by ${dim}`, async () => {
+        const where = s.where ? ` AND ${s.where}` : "";
+        const years = sqlite.prepare(`SELECT DISTINCT ${s.fy} AS y FROM ${s.table} WHERE 1 = 1${where} ORDER BY 1`).all().map((r) => r.y);
+        for (const y of years) {
+          const want = sqlite.prepare(`SELECT COUNT(*) AS n, COALESCE(SUM(${s.amount}), 0) AS amount FROM ${s.table} WHERE ${s.fy} = ?${where}`).get(y);
+          const g = C.groupQuery(src, dim, y);
+          const rows = await duck(g.sql, g.params);
+          assert.equal(rows.reduce((t, r) => t + r.n, 0), want.n, `FY${y} rows`);
+          near(rows.reduce((t, r) => t + Number(r.amount), 0), want.amount, `FY${y} amount`);
+          assert.equal(new Set(rows.map((r) => r.key)).size, rows.length, `FY${y} keys unique`);
+        }
+      });
+    }
+  }
 });
 
 describe("2. every row, every column", () => {
