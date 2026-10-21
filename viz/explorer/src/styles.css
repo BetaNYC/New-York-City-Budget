@@ -24,9 +24,30 @@ header.site { background: var(--navy); color: #fff; padding: 1rem 0 0; }
 header.site a { color: #fff; }
 header.site h1 { margin: 0.1rem 0 0.75rem; font-size: 1.6rem; }
 .kicker { margin: 0; font-size: 0.85rem; opacity: 0.85; }
-.tabs { display: flex; flex-wrap: wrap; gap: 0.25rem; }
-.tabs a { padding: 0.5rem 0.9rem; text-decoration: none; border-radius: 4px 4px 0 0; }
-.tabs a.active { background: var(--bg); color: var(--navy); font-weight: 600; }
+/*
+ * View tabs as buttons (DESIGN-NOTES.md §1). Every tab has a shape at rest, a hover state, a
+ * visible keyboard focus ring and a distinct current tab (aria-current="page"). Contrast, WCAG AA,
+ * measured on the dark header (--navy #0b3059):
+ *   text #fff on rest #18467c 9.5:1, on hover #245b99 6.9:1; tab border #9cc0e8 vs header 7.0:1;
+ *   current tab #f4f6f8 vs header 12.3:1, its navy text 12.3:1; focus ring #ffd166 vs header 9.2:1
+ *   (the ring sits 2px outside the tab, on the header).
+ */
+.tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; padding-bottom: 0.75rem; }
+header.site .tabs a {
+  display: inline-block; padding: 0.45rem 0.9rem; border-radius: 6px; text-decoration: none; line-height: 1.3;
+  color: #fff; background: #18467c; border: 1px solid #9cc0e8; font-weight: 500;
+  transition: background-color 0.12s, border-color 0.12s;
+}
+header.site .tabs a:hover { background: #245b99; border-color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+header.site .tabs a:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
+header.site .tabs a[aria-current="page"] { background: var(--bg); color: var(--navy); border-color: #fff; font-weight: 700; box-shadow: inset 0 -3px 0 var(--accent); }
+header.site .tabs a[aria-current="page"]:hover { text-decoration: none; }
+@media (max-width: 480px) {
+  .tabs { gap: 0.35rem; }
+  header.site .tabs a { padding: 0.4rem 0.65rem; font-size: 0.9rem; }
+}
+@media (prefers-reduced-motion: reduce) { header.site .tabs a { transition: none; } }
+@media (forced-colors: active) { header.site .tabs a { border: 1px solid ButtonText; } header.site .tabs a[aria-current="page"] { border-width: 3px; } }
 main.wrap { background: var(--paper); padding-top: 1rem; padding-bottom: 3rem; min-height: 60vh; }
 footer.site { font-size: 0.85rem; color: var(--muted); padding: 1.5rem 0; }
 h2 { color: var(--navy); margin: 0.5rem 0; }

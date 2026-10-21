@@ -73,7 +73,7 @@ export default function App() {
           <h1>NYC Council budget explorer</h1>
           <nav className="tabs" aria-label="Views">
             {TABS.map(([v, label]) => (
-              <HashLink key={v} href={writeHash({ ...state, view: v })} onGo={() => go({ view: v })} className={tab === v ? "active" : undefined}>
+              <HashLink key={v} href={writeHash({ ...state, view: v })} onGo={() => go({ view: v })} className={tab === v ? "active" : undefined} current={tab === v}>
                 {label}
               </HashLink>
             ))}
