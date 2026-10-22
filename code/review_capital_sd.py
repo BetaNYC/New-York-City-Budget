@@ -1,6 +1,6 @@
 """
 Section 254 capital supporting detail: parse, tie out and review (epic #101; FY2027 #102,
-FY2026 #103, FY2025 #104, FY2024 #105).
+FY2026 #103, FY2025 #104, FY2024 #105, FY2023 #106).
 
 One parser, one config per year: config/capital_sd/fyNNNN.toml holds the PDF, its sha256, the
 page map, the FY columns and the other year-specific facts. FY2027 (the default) is
@@ -9,7 +9,8 @@ rotated /Rotate 90); FY2026 is source/FY26/Fiscal-2026-Capital-Budget-Supporting
 (86 pages, Part III rotated instead); FY2025 is source/FY25/Supporting-Detail-for-FY2025-...-
 Council-Version-24.07.17.pdf (87 pages, all Parts upright, Part III a third export); FY2024 is
 source/FY24/FY2024-Sec254-Supporting-Detail-Book_7.10.2023pwp-2.pdf (78 pages, encrypted with an
-empty user password). Rules a later
+empty user password); FY2023 is source/FY23/FY23-Sec254-Capital-Supporting-Detail-Book.pdf (89 pages,
+the City seal on its cover). Rules a later
 year needed and an earlier one must not get are config switches, off by default, so a reviewed
 year's output stays byte-identical.
 
@@ -42,7 +43,7 @@ Checks (each prints its numbers to checks.txt; failures go to review.csv):
   C8 ink coverage: rendered ink not under an emitted character or a vector rule
   C9 alignment with data/capital/council_capital_awards.csv (report only, never fills a value)
 
-Run:  .venv/bin/python code/review_capital_sd.py [--fy 2027|2026|2025|2024] [--out DIR] [--no-ink] [--selftest-ink]
+Run:  .venv/bin/python code/review_capital_sd.py [--fy 2027|2026|2025|2024|2023] [--out DIR] [--no-ink] [--selftest-ink]
 """
 import argparse
 import collections
@@ -711,7 +712,7 @@ def compare_rules(vec, img, tol=1.5):
     return matched, vonly, ionly
 
 
-def ink_regions(gray, words, consumed, page, pad_px=4, min_ink_px=30):
+def ink_regions(gray, words, consumed, page, pad_px=4, min_ink_px=30, images=False):
     """Ink not covered by an emitted character's box or a vector rule/fill.
 
     A re-targeted, simplified take on exec-orders `vlm_ocr.ink_coverage` (PLAN §3 stage 6):
@@ -739,6 +740,10 @@ def ink_regions(gray, words, consumed, page, pad_px=4, min_ink_px=30):
                 # Bold capitals overshoot the font box: 14 pt titles by ~1.3 pt (pp.2, 3).
                 pad = max(pad_px, int(0.12 * ch["size"] * SCALE))
                 box(ch["x0"], ch["top"], ch["x1"], ch["bottom"], pad)
+    # images=True: a picture's box counts as covered (config `ink_cover_image_pages`: FY2023
+    # p.1 prints the City seal as two images). Only on the pages the config names.
+    for im in (page.images if images else ()):
+        box(im["x0"], im["top"], im["x1"], im["bottom"], pad_px)
     for r in list(page.rects) + list(page.lines) + list(page.curves):
         # pdfplumber gives a stroked line's centre line; its ink is linewidth thick.
         lw = float(r.get("linewidth") or 0) if r.get("stroke") else 0.0
@@ -856,6 +861,26 @@ def align_workbook(rows, review, report):
                 k = (pid, r["budget_line"], fy[2:], v)
                 pdf_keys[k] += 1
                 pdf_by[k].append(r)
+    # t474 records broken across rows keep their first row with no amount (row_flag
+    # split_record_amount_unknown; data/capital/README.md). They cannot join on amount: each is
+    # listed with the PDF row that has its ID and budget line. FY2022 and FY2023 have one each.
+    aw_all = aw
+    blank = [a for a in aw if a["amount"] == ""]
+    aw = [a for a in aw if a["amount"] != ""]
+    for a in blank:
+        hits = [r for r in rows if r["part"] == "I" and r["sub_id"].split(" ")[-1] == wb_id(a)
+                and r["budget_line"] == a["budget_line"]]
+        got = "; ".join(f"{r['sub_id']} p.{r['pdf_page']} "
+                        f"{', '.join(f'FY{fy[2:]} {r[fy]:,}' for fy in FYS if r[fy])}"
+                        for r in hits) or "no PDF row"
+        report.append(f"  workbook row with no amount ({a['row_flag'] or 'blank'}): {a['project_id']} "
+                      f"{a['budget_line']} '{a['title']}' -> PDF: {got}")
+        r = hits[0] if hits else None
+        review.add("C9.workbook_no_amount", "warn", r["pdf_page"] if r else "",
+                   f"the workbook row for {a['project_id']} on {a['budget_line']} has no amount "
+                   f"({a['row_flag'] or 'blank'}; {a['source_row']}); the PDF prints {got}. "
+                   "Not compared on amount", part="I", sub_id=r["sub_id"] if r else a["project_id"],
+                   budget_line=a["budget_line"], dollars=(r[FYS[0]] or 0) if r else 0)
     wb_keys = collections.Counter()
     wb_by = collections.defaultdict(list)
     for a in aw:
@@ -880,7 +905,7 @@ def align_workbook(rows, review, report):
     # Text fields, for the matched rows: sponsor and borough (titles differ by design: the
     # workbook has title + description).
     wb_by_id = collections.defaultdict(list)
-    for a in aw:
+    for a in aw_all:
         wb_by_id[(wb_id(a), a["budget_line"])].append(a)
     boro_diff = 0
     for r in rows:
@@ -919,8 +944,8 @@ def align_workbook(rows, review, report):
         # would lose 2 warnings: it would be compared with its own workbook row).
         a = cands[0]
         if CFG.get("wb_pick_by_amount"):
-            a = next((c for c in cands if int(c["amount"]) == (r.get("fy" + c["amount_fy"]) or 0)),
-                     a)
+            a = next((c for c in cands if c["amount"] and
+                      int(c["amount"]) == (r.get("fy" + c["amount_fy"]) or 0)), a)
         if norm(r["title_raw"]) == norm(a["title"]):
             t_eq += 1
         else:
@@ -1046,7 +1071,11 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
                     drop = {wid for r in rows if r["sub_id"] == selftest["sub_id"] and
                             r["pdf_page"] == n for wid in r["words"]}
                     used = used - drop
-                regs, total_ink = ink_regions(gray, words_by_page[n], used, page)
+                img_pages = CFG.get("ink_cover_image_pages", ())
+                if n in img_pages:
+                    c8.setdefault("images", []).append((n, len(page.images)))
+                regs, total_ink = ink_regions(gray, words_by_page[n], used, page,
+                                              images=n in img_pages)
                 c8["pages"] += 1
                 c8["regions"] += len(regs)
                 ink_detail[n] = regs
@@ -1069,6 +1098,9 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
             report.append(f"C8 ink coverage: {c8['pages']} pages, {c8['regions']} uncovered "
                           f"regions" + (f"  [SELF-TEST: {selftest['sub_id']} removed on "
                                         f"p.{selftest['page']}]" if ink_selftest else ""))
+            for n, k in c8.get("images", ()):
+                report.append(f"  p.{n}: {k} images counted as covered (config "
+                              "ink_cover_image_pages)")
         else:
             report.append("C7, C8: not run (--no-ink)")
 
@@ -1168,6 +1200,23 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
                    + ("not in the Council workbook" if not in_wb else
                       f"{len(in_wb)} of their IDs are in the Council workbook") +
                    f". Meaning of {sid} / {sln} unconfirmed", part="II", dollars=s_usd)
+    # Config `flag_id_series`: Part I ID series to list for a person (FY2023 `RR`: no sponsor,
+    # some on borough A; the Council's t474 dictionary says only "analogous to TA"). One warning
+    # per series naming every row; the rows stay in the data as printed. Default none.
+    for ser in CFG.get("flag_id_series", ()):
+        sr = [r for r in rows if r["part"] == "I" and r["sub_id"].split(" ")[-1].startswith(ser)]
+        if not sr:
+            continue
+        usd = sum(r[FYS[0]] or 0 for r in sr)
+        report.append(f"  Part I {ser} series: {len(sr)} rows, FY{FY} ${usd:,}, sponsor blank on "
+                      f"{sum(1 for r in sr if not r['sponsor'])}, boroughs "
+                      f"{dict(sorted(collections.Counter(r['boro'] for r in sr).items()))}")
+        review.add("C3.id_series", "warn", sr[0]["pdf_page"],
+                   f"{len(sr)} Part I rows carry {ser} IDs (${usd:,} FY{FY}, in the Part I total): "
+                   + "; ".join(f"p.{r['pdf_page']} {r['sub_id']} {r['budget_line']} {r['boro']} "
+                               f"'{r['title']}' {r[FYS[0]] or 0:,}"
+                               + ("" if r["sponsor"] else " (no sponsor)") for r in sr)
+                   + f". Meaning of {ser} unconfirmed", part="I", dollars=usd)
     p2ids = {r["sub_id"] for r in p2_rows}
     p1_dn = [r for r in rows if r["part"] == "I" and r["budget_line"].split(" ")[-1].startswith("DN")]
     missing_dn = [r for r in p1_dn if r["sub_id"] not in p2ids]
