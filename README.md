@@ -58,6 +58,7 @@ If you use the derived data, please attribute BetaNYC and link back to this repo
 New-York-City-Budget/
 ├── README.md                                       ← you are here
 ├── Insights-NYC-Council-Discretionary-FY25-FY27.md ← narrative analysis
+├── PDF-RECIPE.md                                   ← how to turn a year of PDFs into checked tables
 ├── LICENSE                                         ← MIT, for the code, derived data and docs
 ├── source/              ← official NYC Council documents, © City of New York
 │   ├── FY08/ … FY27/    (Schedule C, Terms, Capital, transparency-resolutions/ per year — PDFs)
@@ -281,6 +282,10 @@ transparency. Details in [`code/PARSING.md`](code/PARSING.md).
 - Category names differ across years (FY2025 has a standalone "Libraries" that later folds into "Cultural Organizations"). Normalize before comparing.
 
 ## Reproduce or extend to a new year
+
+**Turning a year of PDFs into checked tables (the new tools; FY2027 and FY2026 so far):** follow
+[`PDF-RECIPE.md`](PDF-RECIPE.md), step by step. The commands below are the older parsers, kept
+for the years not yet redone.
 
 Requires Python 3 with the packages in `code/requirements.txt` (`pypdf`, `cryptography`, `pdfplumber`; `xlrd` only for the `.xls` expense disclosure years, FY2009 and FY2011–FY2013):
 
