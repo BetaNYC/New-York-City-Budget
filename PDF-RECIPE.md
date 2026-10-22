@@ -1,12 +1,12 @@
 # Recipe: turn one fiscal year of PDFs into checked tables
 
 This is the step-by-step for one fiscal year of Council budget PDFs: from the files in `source/`
-to tables a person has reviewed and the public explorer serves. FY2027 (#102) and FY2026 (#103)
-were done this way. The plan behind it is
+to tables a person has reviewed and the public explorer serves. FY2027 (#102), FY2026 (#103) and
+FY2025 back to FY2018 (#104–#111) were done this way. The plan behind it is
 [`research/2026-10-19-schedule-c-pdf-toolkit/PLAN.md`](research/2026-10-19-schedule-c-pdf-toolkit/PLAN.md),
 and the epic that tracks every year is [#101](https://github.com/BetaNYC/New-York-City-Budget/issues/101).
 
-**Last revised:** 2026-10-21.
+**Last revised:** 2026-10-22.
 
 ## The idea in four lines
 
@@ -38,8 +38,8 @@ lives in its config; the code is shared.
 |---|---|---|---|---|
 | `schedule_c` | Schedule C: who got each discretionary award | `code/parse_schedule_c_v2.py` | `config/schedule_c/fy20NN.toml` | `code/test_schedc.py` |
 | `transparency` | Transparency resolutions: changes made after adoption, each with a date | `code/parse_transparency_v2.py` | `config/transparency/fy20NN.toml` | `code/test_transreso.py` |
-| `capital_sd` | Capital §254 supporting detail | `code/review_capital_sd.py` | `config/capital_sd/fy20NN.toml` | `code/test_review_capital_sd.py`, `code/test_review_fy26_capital_terms.py` |
-| `terms` | Terms and Conditions | `code/review_terms.py` | `config/terms/fy20NN.toml` | `code/test_review_fy26_capital_terms.py` |
+| `capital_sd` | Capital §254 supporting detail | `code/review_capital_sd.py` | `config/capital_sd/fy20NN.toml` | `code/test_review_capital_sd.py`, `code/test_review_fyNN_capital_terms.py` |
+| `terms` | Terms and Conditions | `code/review_terms.py` | `config/terms/fy20NN.toml` | `code/test_review_fyNN_capital_terms.py` |
 
 Shared code: `code/schedc/` (vector grid, structure, printed totals, disclosure alignment, review
 file), `code/schedc_cv/` (image grid, ink coverage), `code/transreso/` (transparency on top of
@@ -137,9 +137,8 @@ Promotion regenerates the tables from the PDF into `data/fyNN/pdf/<family>/`. No
 from `research/`.
 
 - [ ] Add the year to `code/build_pdf_promoted.py`: an entry in `FAMILIES`. Schedule C also
-      needs the year in `SC_ISSUE` and `SC_NOTE`, or the run stops with an error. Transparency's
-      `build_transparency` was written for FY2026 only, so a new transparency year means making
-      it take the year.
+      needs the year in `SC_ISSUE` and `SC_NOTE`, and transparency in `TR_ISSUE`, or the run
+      stops with an error. Capital and terms take the issue from their config.
 - [ ] Run it. It writes the tables and the year's rows in `data/pdf_years.csv`, with
       `status = reviewed` and the year's issue number.
 - [ ] Run `--check` yourself before opening the PR. CI does not run the Python checks.
@@ -159,9 +158,10 @@ promote, year 2 review, year 2 promote.
       `review_id,decision,note,decided_by,decided_at`.
 - [ ] Add the year to `code/build_review_suggestions.py`: its review files in `REVIEW_FILES`,
       and rules in `suggest()` that cite the year's own `REVIEW.md` items. Items that say "ask
-      Council Finance" become `needs_info`. Watch out: a year missing from `REVIEW_FILES` is
-      skipped without an error, and a new capital or terms year falls through to the FY2027
-      rules. Then run `--write`, and `--check` before you open the PR.
+      Council Finance" become `needs_info`. A family-year in `data/pdf_years.csv` with no
+      `REVIEW_FILES` entry, or no rules of its own, stops the run, and
+      `code/test_review_decisions.py` fails if any review row has no suggestion. Then run
+      `--write`, and `--check` before you open the PR.
 - [ ] Build the explorer with the reviewed data and run its tests (Node 22 or later):
 
 ```bash
@@ -229,9 +229,10 @@ Once that is merged to `main`, the public explorer
 
 ## Running a year with AI sessions
 
-FY2027 and FY2026 were run as one background session per family, each in its own git
-worktree from `main`, with a person integrating and reviewing. Epic #101 shows which years are
-in progress. The brief each session got had the
+FY2027 to FY2018 were run as one background session per family, each in its own git worktree,
+with a person integrating and reviewing. FY2027 and FY2026 started from `main`; FY2025 back to
+FY2018 were one stack of PRs per family, each year on the one before, merged together by an
+integrator. Epic #101 shows which years are in progress. The brief each session got had the
 same parts:
 
 - **Where:** the repo (public), the branch, what `main` already holds.

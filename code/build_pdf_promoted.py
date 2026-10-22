@@ -6,8 +6,9 @@ every PDF-derived row carries `fiscal_year, source_pdf, pdf_sha256, pdf_page, bb
 review_id, flags`, with values as printed. `bbox_pt` is `x0,top,x1,bottom` in PDF points on the
 **unrotated** page (top-left origin), so a viewer that renders the page with its /Rotate can map it.
 
-This script re-runs the review parsers (code/review_capital_sd.py, code/review_terms.py) into a
-scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
+This script re-runs the parsers (code/review_capital_sd.py, code/review_terms.py,
+code/parse_schedule_c_v2.py, code/parse_transparency_v2.py) into a scratch folder, so the
+promoted files are regenerated from the PDFs, never copied from research/.
 Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
 `capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
 (via code/parse_transparency_v2.py), all GitHub #103. For FY2025 back to FY2018 (FY2025 #104,
