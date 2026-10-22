@@ -192,3 +192,17 @@ def test_fy24_schedule_c(built):
     finally:
         doc.close()
     assert "Medicare Rights Center" in t and "MercyFirst" not in t and "CBO Capacity" not in t
+
+
+def test_fy23_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2023" and y["family"] == "schedule_c")
+    assert y["issue"] == "106" and y["status"] == "reviewed" and y["rows"] == "5925"
+    assert y["printed_totals_tied"] == "26/26"
+    aw = rows(built["data/fy23/pdf/schedule_c/fy23_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 323063807
+    assert sum(int(r["amount"]) for r in aw if r["section"] == "appendix_b") == 36539000
+    # One of the two Local rows the old parse lost (DATA-ANOMALIES §19): its box holds it.
+    r = next(r for r in aw if r["award_id"] == "fy23-p235-t00-r018")
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "Laundromat Project" in t and "Latinas" not in t

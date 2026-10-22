@@ -10,7 +10,7 @@ This script re-runs the review parsers (code/review_capital_sd.py, code/review_t
 scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
 Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
 `capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
-(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `schedule_c` (GitHub #104); FY2024 `schedule_c` (GitHub #105).
+(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `schedule_c` (GitHub #104); FY2024 `schedule_c` (GitHub #105); FY2023 `schedule_c` (GitHub #106).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -268,8 +268,15 @@ SC_NOTE = {
            "flagged; 1,438 rows in tables with no vertical rules checked by pixel rules only; "
            "bbox_pt from the MediaBox corner (216 pages start at -18,18). "
            "Review: research/2026-10-21-fy24-schedule-c-review/REVIEW.md"),
+    2023: ("26/26 category TOTALs tie; appendices equal their fixed pots, including the two "
+           "$5,000 Local rows the old parse lost (pp.213, 235); PDF self-errors flagged (boxes "
+           "vs summary: p.83 Low Wage Worker Support $120,000 vs $2,000,000, p.86 Autism "
+           "Awareness; six boxes whose rows or reserve do not make the box; four rounded "
+           "statements; roll-up +$646,350); Asiyah Women's Center printed with another org's "
+           "EIN (pp.13, 175); 1,028 rows in tables with no vertical rules checked by pixel rules "
+           "only. Review: research/2026-10-21-fy23-schedule-c-review/REVIEW.md"),
 }
-SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105}
+SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106}
 
 
 def build_schedule_c(scratch, fy=2027):
@@ -404,7 +411,8 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy26", "transparency", build_transparency),
             ("fy26", "schedule_c", lambda d: build_schedule_c(d, fy=2026)),
             ("fy25", "schedule_c", lambda d: build_schedule_c(d, fy=2025)),
-            ("fy24", "schedule_c", lambda d: build_schedule_c(d, fy=2024))]
+            ("fy24", "schedule_c", lambda d: build_schedule_c(d, fy=2024)),
+            ("fy23", "schedule_c", lambda d: build_schedule_c(d, fy=2023))]
 
 
 def build_all():
