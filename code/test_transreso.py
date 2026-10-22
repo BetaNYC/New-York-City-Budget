@@ -350,3 +350,69 @@ def test_snapshot_fy23_rows_and_checks():
     txt = open(os.path.join(OUT23, "fy23_tr_checks.txt"), encoding="utf-8").read()
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "(PASS)" in txt and "agree on every field: 8,424 of 8,424" in txt
+
+
+# --- FY2022 (#107) --------------------------------------------------------------------------------
+CFG22 = ptv.load_config(2022)
+OUT22 = os.path.join(ROOT, CFG22["review_dir"], "data")
+PDF22 = {r["seq"]: os.path.join(ROOT, r["pdf"]) for r in CFG22["resolutions"]}
+
+
+def _build22(seq, pages, **kw):
+    ps = reader.read_pdf(PDF22[seq], CFG22["x_tolerance"], CFG22["run_gap_pt"], pages=pages, **kw)
+    res = next(r for r in CFG22["resolutions"] if r["seq"] == seq)
+    return structure.build(res, ps, CFG22["x_tolerance"], 2022)
+
+
+def test_amount_with_cents_fy22():
+    # Reso 03 chart #48 prints "$20,290.00"; only ".00" is read.
+    assert structure.parse_amount("$20,290.00") == 20290
+    assert structure.parse_amount("($150.00)") == -150
+    assert structure.parse_amount("$1.50") is None
+
+
+def test_golden_fy22_no_amount_chart_reso03_p94():
+    # "Beating Hearts": Member | Organization | EIN Number | *, and a note under the table.
+    S = _build22(3, [94])
+    assert [f["check_id"] for f in S["flags"]] == ["T4.no_amount"]
+    r = S["rows"][0]
+    assert (r["member"], r["org"], r["ein"], r["amount"], r["action"], r["chart_kind"]) == (
+        "Adams", "Hope Church", "811270080", None, "listed", "no_amount")
+    assert S["chart_notes"][0]["lines"][0].startswith("***Staten Island Heart Society, Inc. has received $350,000")
+
+
+def test_golden_fy22_page_origin_reso02_p23():
+    # The media box starts at (-8.39, -8.39); the text layer counts from there.
+    p = reader.read_pdf(PDF22[2], CFG22["x_tolerance"], CFG22["run_gap_pt"], pages=[23])[0]
+    assert p["origin"] == [-8.39, -8.39]
+    assert ptv.shift_box([10.0, 20.0, 30.0, 40.0], p["origin"]) == [18.39, 28.39, 38.39, 48.39]
+
+
+def test_golden_fy22_overlaid_text_reso09_p38():
+    # Only on the named page: "Funding to go support …" drawn over the EIN is hidden.
+    S = _build22(9, [38], overlay_pages=[38])
+    r = next(r for r in S["rows"] if r["row_index"] == 3)
+    assert (r["ein_printed"], r["ein"], r["amount"]) == ("13-4170389", "134170389", -5000)
+    assert r["hidden_text"].startswith("ein: Funding to go support the creation")
+    assert any(f.startswith("overlaid_text") for f in r["row_flags"])
+    S = _build22(9, [38])                       # not named: read as before, EIN garbled
+    assert next(r for r in S["rows"] if r["row_index"] == 3)["ein_format"] == "odd"
+
+
+def test_golden_fy22_continued_wrong_number_reso07_p34():
+    S = _build22(7, [32, 33, 34])
+    assert [f["check_id"] for f in S["flags"]] == ["T3.continued_number"]
+    assert {r["chart_number"] for r in S["rows"] if r["pdf_page"] == 34} == {22}
+
+
+def test_snapshot_fy22_rows_and_checks():
+    path = os.path.join(OUT22, "fy22_tr_rows.csv")
+    if not os.path.exists(path):
+        pytest.skip("fy22 not built")
+    rows = list(csv.DictReader(open(path, encoding="utf-8")))
+    assert len(rows) == 7918
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rows)
+    assert sum(1 for r in rows if r["action"] == "listed") == 91
+    txt = open(os.path.join(OUT22, "fy22_tr_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "(PASS)" in txt and "agree on every field: 7,917 of 7,918" in txt

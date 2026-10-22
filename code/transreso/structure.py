@@ -33,12 +33,14 @@ REQUIRED = {"org", "ein", "agency", "amount"}
 CAPTION = re.compile(r"^CHART #?(\d+):?\s*(.*?)(?:\s*-\s+(?:Fiscal|FY) (\d{4}))?"
                      r"(\s*\(c[a-z]ntinued\))?$")
 PAGE_LABEL = re.compile(r"^Page\s(\d+)$")   # FY2024 Reso 01: "Page\xa01" (no-break space)
-AMOUNT = re.compile(r"^(\()?\$(\d{1,3}(?:,\d{3})*)(\))?$")
+# FY2022 Reso 03 chart #48 prints cents, always ".00" ("$20,290.00"); read as whole dollars.
+AMOUNT = re.compile(r"^(\()?\$(\d{1,3}(?:,\d{3})*)(\.00)?(\))?$")
 EIN_HYPHEN = re.compile(r"^\d{2}-\d{7}$")
 EIN_PLAIN = re.compile(r"^\d{9}$")
 MARKER = re.compile(r"\s*(\*{1,3})$")
 FOOTNOTES = {
-    "*": ("* Indicates pending completion of pre-qualification review.",),
+    "*": ("* Indicates pending completion of pre-qualification review.",
+          "*Indicates pending completion of pre-qualification review."),           # FY2022
     "**": ("** Requires a budget modification for the changes to take effect",),
     "***": ("*** Correction to designation listed in Schedule C and/or subsequent T",
             "*** Correction and/or Reversal of a change made in a previous Transparency"),  # FY2023
@@ -54,7 +56,7 @@ CITY_EIN = "136400434"
 def parse_amount(s):
     """'$5,000' -> 5000, '($5,000)' -> -5000; anything else -> None."""
     m = AMOUNT.match(s.strip())
-    if not m or bool(m.group(1)) != bool(m.group(3)):
+    if not m or bool(m.group(1)) != bool(m.group(4)):
         return None
     v = int(m.group(2).replace(",", ""))
     return -v if m.group(1) else v
@@ -83,7 +85,7 @@ def caption_of(page, table):
 def build(res, pages, x_tolerance, doc_fy=2026):
     """One resolution's pages -> dict(rows, charts, flags, page_info). `doc_fy` is the document year
     (the row id prefix)."""
-    rows, charts, flags, info, empty = [], {}, [], [], []
+    rows, charts, flags, info, empty, chart_notes = [], {}, [], [], [], []
     seq = res["seq"]
 
     def flag(check, page, msg, severity="critical", **kw):
@@ -127,8 +129,6 @@ def build(res, pages, x_tolerance, doc_fy=2026):
         # Footnote 3 wraps onto a second line ("…Transparency Resolution(s)"); anything else
         # below a table is unexpected text and goes to review.
         other = [x for x in other if not ("***" in notes and x.startswith("Resolution"))]
-        for x in other:
-            flag("T6.furniture", p["page"], f"unexpected text below the table: {x[:100]!r}")
 
         if cont and num not in charts and (prev_chart or {}).get("chart_number") == num - 1:
             # FY2023 Reso 08 p.32: the first page of chart #25 prints "(continued)". Read as the
@@ -137,6 +137,22 @@ def build(res, pages, x_tolerance, doc_fy=2026):
                  f"'(continued)': {cap[:80]!r}; read as the start of the chart", severity="warn",
                  chart_number=num)
             cont = False
+        same = prev_chart and prev_chart["title"] == title and prev_chart["fy_printed"] == (fy or "")
+        if cont and same and prev_chart["chart_number"] != num:
+            # FY2022 Reso 07 p.34: "CHART #21: Purpose of Funds Changes (continued)" under chart #22
+            # of the same title and year. Read as continuing it; named exception only.
+            flag("T3.continued_number", p["page"], f"'(continued)' caption prints chart #{num}, "
+                 f"but continues chart #{prev_chart['chart_number']} (same title and year): "
+                 f"{cap[:80]!r}; read as chart #{prev_chart['chart_number']}", severity="warn",
+                 chart_number=prev_chart["chart_number"])
+            num = prev_chart["chart_number"]
+        elif not cont and same and prev_chart["chart_number"] == num:
+            # FY2022 Reso 01 pp.51-54, Reso 02 p.35: the caption repeats without "(continued)".
+            # Read as continuing the chart; named exception only.
+            flag("T3.continued_missing", p["page"], f"caption repeats chart #{num} without "
+                 f"'(continued)': {cap[:80]!r}; read as its continuation", severity="warn",
+                 chart_number=num)
+            cont = True
         if cont:
             if not prev_chart or prev_chart["chart_number"] != num or prev_chart["title"] != title \
                     or prev_chart["fy_printed"] != (fy or ""):
@@ -165,9 +181,22 @@ def build(res, pages, x_tolerance, doc_fy=2026):
         if header and header[-1] == "" and roles.get(len(header) - 2) == "ua":
             roles[len(header) - 1] = "prequal"
         unknown = [header[j] for j, r in roles.items() if r is None]
-        if unknown or not REQUIRED <= set(roles.values()):
-            flag("T4.headers", p["page"], f"header not recognised: {header}")
         kind = "purpose_of_funds" if "purpose" in roles.values() else "designation"
+        if not unknown and {"org", "ein"} <= set(roles.values()) and \
+                not {"agency", "amount", "purpose"} & set(roles.values()):
+            # FY2022 "Beating Hearts": a list of organizations with no agency and no amount, and
+            # a note under the table saying what they get. Rows kept, amount blank; named
+            # exception only (T4.no_amount). The note is not furniture.
+            kind = "no_amount"
+            chart_notes.append(dict(resolution_seq=seq, pdf_page=p["page"], lines=other))
+            flag("T4.no_amount", p["page"], f"chart #{num} {title!r} prints no Agency or Amount "
+                 f"column ({header}); rows kept with a blank amount. Its note: "
+                 f"{' '.join(other)[:300]!r}", severity="warn", chart_number=num)
+            other = []
+        elif unknown or not REQUIRED <= set(roles.values()):
+            flag("T4.headers", p["page"], f"header not recognised: {header}")
+        for x in other:
+            flag("T6.furniture", p["page"], f"unexpected text below the table: {x[:100]!r}")
         hdr_s = " | ".join(header)
         if ch["header"] and ch["header"] != hdr_s:
             ch.setdefault("header_variants", set()).add(hdr_s)
@@ -224,7 +253,9 @@ def build(res, pages, x_tolerance, doc_fy=2026):
             rec["agy_num"] = raw.get("agy", "").strip()
             rec["ua"] = raw.get("ua", "").strip()
             a = rec["amount"]
-            if kind == "purpose_of_funds":
+            if kind == "no_amount":
+                rec["action"] = "listed"
+            elif kind == "purpose_of_funds":
                 rec["action"] = "purpose_from" if (a or 0) < 0 else "purpose_to"
             else:
                 rec["action"] = "rescind" if (a or 0) < 0 else "designate"
@@ -242,7 +273,7 @@ def build(res, pages, x_tolerance, doc_fy=2026):
                 row_flags.append("ein_no_hyphen")
             elif rec["ein_format"] in ("blank", "odd"):
                 row_flags.append("ein_" + rec["ein_format"])
-            if a is None:
+            if a is None and kind != "no_amount":
                 row_flags.append("amount_unreadable")
             elif a == 0:
                 row_flags.append("amount_zero")
@@ -261,4 +292,4 @@ def build(res, pages, x_tolerance, doc_fy=2026):
             pi["rows"] += 1
 
     return dict(rows=rows, charts=list(charts.values()), flags=flags, page_info=info,
-                empty_rows=empty)
+                empty_rows=empty, chart_notes=chart_notes)

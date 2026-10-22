@@ -62,7 +62,7 @@ def _rule_drawn(gray, dpi, x, y0, y1, frac=HEADER_RULE_FRAC):
     return bool(band.size) and float(band.mean(axis=0).max()) >= frac
 
 
-def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap):
+def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap, overlay=False):
     """[{y0, y1, fields{role: raw}, hidden{role: text}}] for every data row the image lattice
     finds under a recognised header, plus the lattices and notes."""
     lats = imagegrid.lattices(gray, dpi, kernel_px, pad)
@@ -126,7 +126,9 @@ def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap):
             return (ri, ci)
 
         cells, hidden = {}, {}
-        for run in reader.runs(chars, run_gap, cell=lambda c: data_cell(c)):
+        all_runs = reader.runs(chars, run_gap, cell=lambda c: data_cell(c))
+        over = reader.overlaid(all_runs, data_cell) if overlay else set()
+        for k_run, run in enumerate(all_runs):
             own = data_cell(run[0])
             if own is None:
                 continue
@@ -136,7 +138,7 @@ def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap):
             else:
                 col = imagegrid._band(xs, (run[0]["x0"] + run[0]["x1"]) / 2)
             for c in run:
-                if data_cell(c) == own:
+                if k_run not in over and data_cell(c) == own:
                     cells.setdefault((ri, col), []).append(c)
                 else:
                     hidden.setdefault((ri, col), []).append(c)
@@ -144,7 +146,9 @@ def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap):
         labels = [" ".join(chars_to_text(cells.get((0, ci), []), x_tolerance).split())
                   for ci in range(nc)]
         roles = _roles(labels)
-        if not structure.REQUIRED <= set(roles.values()):
+        rs_ = set(roles.values())
+        listing = {"org", "ein"} <= rs_ and not {"agency", "amount", "purpose"} & rs_   # FY2022
+        if not structure.REQUIRED <= rs_ and not listing:
             notes.append(f"region {k}: no recognised header {labels}")
             continue
         for ri in range(1, len(ys) - 1):

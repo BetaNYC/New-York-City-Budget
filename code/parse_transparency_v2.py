@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Transparency resolutions from the PDFs, checked (GitHub #103 FY2026, #104 FY2025, #105 FY2024,
-#106 FY2023; toolkit plan:
+#106 FY2023, #107 FY2022; toolkit plan:
 research/2026-10-19-schedule-c-pdf-toolkit/PLAN.md).
 
   python3 code/parse_transparency_v2.py --fy 2026            full run, writes <review_dir>/data/
@@ -58,7 +58,8 @@ REVIEW_ROW_FLAGS = {"clipped_text": "W.clipped_text", "made_cell": "W.made_cell"
 ROW_FLAG_CHECK = dict(REVIEW_ROW_FLAGS, wrap_hyphen="W5.wrap_hyphen", ein_no_hyphen="W.ein_no_hyphen",
                       spanning_cell="W.spanning_cell", made_cell_empty="W.made_cell_empty", sign_colour="T10.sign_colour",
                       marker_without_footnote="T11.markers", prequal_odd="T11.markers",
-                      amount_unreadable="T5.anchors", unpaired_purpose="W.unpaired_purpose")
+                      amount_unreadable="T5.anchors", unpaired_purpose="W.unpaired_purpose",
+                      overlaid_text="T7.overlaid")
 
 
 def load_config(fy):
@@ -87,15 +88,24 @@ def write_csv(path, rows, cols):
             w.writerow(r)
 
 
+def overlay_pages(cfg, seq):
+    """Pages of resolution `seq` where text drawn over a cell's own text is hidden (T7.overlaid,
+    a named exception in the config; FY2022 Reso 09 p.38)."""
+    return sorted(e["pdf_page"] for e in cfg.get("exceptions", [])
+                  if e["check_id"] == "T7.overlaid" and e["resolution_seq"] == seq)
+
+
 def cached_pages(cfg, res, sha, cache_dir):
     src = b"".join(open(os.path.join(HERE, "transreso", m), "rb").read()
                    for m in ("reader.py",)) + open(os.path.join(HERE, "schedc", "vector.py"), "rb").read()
+    overlay = overlay_pages(cfg, res["seq"])
     key = hashlib.sha256(sha.encode() + str((cfg["x_tolerance"], cfg["run_gap_pt"])).encode()
-                         + src).hexdigest()[:16]
+                         + (str(overlay).encode() if overlay else b"") + src).hexdigest()[:16]
     path = os.path.join(cache_dir, f"r{res['seq']:02d}-{key}.json")
     if os.path.exists(path):
         return json.load(open(path))
-    pg = reader.read_pdf(os.path.join(ROOT, res["pdf"]), cfg["x_tolerance"], cfg["run_gap_pt"])
+    pg = reader.read_pdf(os.path.join(ROOT, res["pdf"]), cfg["x_tolerance"], cfg["run_gap_pt"],
+                         overlay_pages=overlay)
     os.makedirs(cache_dir, exist_ok=True)
     json.dump(pg, open(path, "w"))
     return json.load(open(path))     # same shape as a cache hit (JSON keys are strings)
@@ -115,6 +125,28 @@ def front_text(res):
 def _gray(doc, pn, dpi):
     g = doc[pn - 1].render(scale=dpi / 72.0, grayscale=True).to_numpy()
     return g[:, :, 0] if g.ndim == 3 else g
+
+
+def _to_text_coords(gray, origin, dpi):
+    """The rendered page shifted so pixel = pdfplumber point x dpi/72. pdfplumber counts from the
+    media box's own origin, the renderer from the page's corner; they differ where the box does
+    not start at (0, 0) (FY2022 Reso 02: -8.39, -8.39)."""
+    import numpy as np
+    s = dpi / 72.0
+    for axis, o in ((1, origin[0]), (0, origin[1])):
+        d = int(round(-o * s))
+        if d > 0:
+            gray = gray[d:, :] if axis == 0 else gray[:, d:]
+        elif d < 0:
+            pad = [(0, 0), (0, 0)]
+            pad[axis] = (-d, 0)
+            gray = np.pad(gray, pad, constant_values=255)
+    return gray
+
+
+def shift_box(b, origin):
+    """A pdfplumber box -> the same box on the page as rendered (top-left corner = 0, 0)."""
+    return [b[0] - origin[0], b[1] - origin[1], b[2] - origin[0], b[3] - origin[1]]
 
 
 def run_cv(cfg, R, rows, out_overlays):
@@ -143,10 +175,13 @@ def run_cv(cfg, R, rows, out_overlays):
                     continue
                 recs = by_page.get((seq, pn), [])
                 gray = _gray(doc, pn, dpi)
+                if any(vp.get("origin", (0, 0))):
+                    gray = _to_text_coords(gray, vp["origin"], dpi)
                 page = pdf.pages[pn - 1]
                 irows, lats, notes = image.image_rows(page.chars, gray, dpi, im["kernel_px"],
                                                       im["region_pad_px"], cfg["x_tolerance"],
-                                                      cfg["run_gap_pt"])
+                                                      cfg["run_gap_pt"],
+                                                      pn in overlay_pages(cfg, seq))
                 res_, extra = image.compare_page(recs, irows, im["row_tol_pt"])
                 for rr in res_:
                     row_res[rr["row_id"]] = rr
@@ -171,6 +206,10 @@ def run_cv(cfg, R, rows, out_overlays):
                                           e["fields"].get("amount", "")) or 0)))
                 t = vp["tables"][0]
                 hdr = [b for h in t["header"] for b in h["char_boxes"]]
+                if im.get("header_char_top_pt"):
+                    # FY2022 Reso 02: bold capitals in the header ("EIN") rise above the box the
+                    # text layer gives them; the config names how far (0 elsewhere).
+                    hdr = [[b[0], b[1] - im["header_char_top_pt"], b[2], b[3]] for b in hdr]
                 cboxes = [b for a in recs for b in a["_char_boxes"]] + hdr
                 rules = ink.rule_shapes(page)
                 ik = ink.coverage(gray, dpi, [t["bbox"]], cboxes, rules, im["char_pad_px"],
@@ -295,7 +334,7 @@ def main(argv=None):
     outdir = a.out or os.path.join(ROOT, cfg["review_dir"], "data")
     cache = os.path.join(a.cache_dir, f"fy{a.fy}")
 
-    R, rows, charts, sflags, page_info, empty = [], [], [], [], [], []
+    R, rows, charts, sflags, page_info, empty, notes = [], [], [], [], [], [], []
     for res in cfg["resolutions"]:
         sha = sha256_file(os.path.join(ROOT, res["pdf"]))
         pages = cached_pages(cfg, res, sha, cache)
@@ -314,7 +353,9 @@ def main(argv=None):
         sflags += S["flags"]
         page_info += S["page_info"]
         empty += S["empty_rows"]
-    S = dict(rows=rows, charts=charts, flags=sflags, page_info=page_info, empty_rows=empty)
+        notes += S["chart_notes"]
+    S = dict(rows=rows, charts=charts, flags=sflags, page_info=page_info, empty_rows=empty,
+             chart_notes=notes)
     for r in purpose_pairs(rows):
         r["row_flags"].append("unpaired_purpose")
 
@@ -322,6 +363,13 @@ def main(argv=None):
     cv_rows, cv_pages, cv_flags, acc = {}, {}, [], {}
     if not a.no_cv:
         cv_rows, cv_pages, cv_flags, acc = run_cv(cfg, R, rows, os.path.join(outdir, "overlays"))
+    # Row boxes on the page as rendered (only differs where the page origin is not 0, 0).
+    for x in R:
+        for vp in x["pages"]:
+            if any(vp.get("origin", (0, 0))):
+                for r in rows:
+                    if r["resolution_seq"] == x["res"]["seq"] and r["pdf_page"] == vp["page"]:
+                        r["bbox_pt"] = shift_box(r["bbox_pt"], vp["origin"])
     D = disclosure.align(rows, a.fy)
     old = disclosure.compare_retired(rows, a.fy)
 
@@ -552,6 +600,8 @@ def main(argv=None):
     for kind in ("designate", "rescind", "purpose_from", "purpose_to"):
         rs = [r for r in rows if r["action"] == kind]
         w(f"  {kind:<13} {len(rs):>6,} rows  ${sum(r['amount'] or 0 for r in rs):>16,}")
+    if any(r["action"] == "listed" for r in rows):      # FY2022 "Beating Hearts": no amount
+        w(f"  {'listed':<13} {sum(1 for r in rows if r['action'] == 'listed'):>6,} rows  (no amount printed)")
     for y in sorted({r["budget_fiscal_year"] for r in rows if r["budget_fiscal_year"]}):
         rs = [r for r in rows if r["budget_fiscal_year"] == y]
         w(f"  budget year {y}: {len(rs):,} rows")

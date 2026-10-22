@@ -30,7 +30,7 @@ from collections import Counter
 
 from schedc.config import ROOT
 from schedc.structure import clean_text
-from transreso import reader
+from transreso import reader, structure
 
 FURNITURE = re.compile(r"(Organization - Program|EIN Number|^Agency$|^Amount$|Purpose of Funds|"
                        r"^Page \d+$|Indicates pending|Requires a budget modification|CHART #)")
@@ -81,6 +81,18 @@ def run(cfg, R, S):
               if e["check_id"] == "T3.continued_start"}
     cs = {(f["resolution_seq"], f["pdf_page"]) for f in S["flags"] if f["check_id"] == "T3.continued_start"}
     t3 += [dict(resolution_seq=k[0], pdf_page=k[1]) for k in sorted(cs ^ cs_exc)]
+    # FY2022: a caption that repeats without "(continued)", or a "(continued)" caption with the
+    # wrong chart number, is read as continuing the chart before it; named exceptions only.
+    cont_named = {}
+    for cid in ("T3.continued_missing", "T3.continued_number"):
+        ex = {(e["resolution_seq"], e["pdf_page"]) for e in cfg.get("exceptions", []) if e["check_id"] == cid}
+        got = {(f["resolution_seq"], f["pdf_page"]) for f in S["flags"] if f["check_id"] == cid}
+        t3 += [dict(resolution_seq=k[0], pdf_page=k[1]) for k in sorted(got ^ ex)]
+        cont_named[cid] = len(got & ex)
+    # FY2022 Reso 02 p.106: a page with no table that prints only a footnote and "Page 84" (the
+    # chart before it spilled over). Named exception: its label joins the count in page order.
+    spill = {(e["resolution_seq"], e["pdf_page"]) for e in cfg.get("exceptions", [])
+             if e["check_id"] == "T3.label_page"}
     gaps = []
     # A chart page that prints no "Page n" label is allowed only as a named exception; the
     # labels that are printed must still count every chart page (FY2025 Reso 02 pp.74-75).
@@ -95,7 +107,12 @@ def run(cfg, R, S):
         printed = r["res"]["charts_printed"]
         if printed and printed != len(nums):
             gaps.append((seq, f"prints 'Charts 1 through {printed}', found {len(nums)}"))
-        cps = [p for p in S["page_info"] if p["resolution_seq"] == seq and p["tables"]]
+        def spill_label(p):
+            pl = [int(m.group(1)) for ln in r["pages"][p["pdf_page"] - 1]["lines"]
+                  for m in [structure.PAGE_LABEL.match(ln["text"])] if m]
+            return dict(p, page_label=pl[0] if len(pl) == 1 else "")
+        cps = [p if p["tables"] else spill_label(p) for p in S["page_info"]
+               if p["resolution_seq"] == seq and (p["tables"] or (seq, p["pdf_page"]) in spill)]
         for p in cps:
             if p["page_label"] == "" and (seq, p["pdf_page"]) in unlab:
                 unlab_seen.add((seq, p["pdf_page"]))
@@ -103,6 +120,9 @@ def run(cfg, R, S):
                   else i for i, p in enumerate(cps, start=1)]
         if labels != list(range(1, len(labels) + 1)):
             gaps.append((seq, f"'Page n' labels under the charts are not 1..{len(labels)}"))
+    tabled = {(p["resolution_seq"], p["pdf_page"]) for p in S["page_info"] if p["tables"]}
+    for k in sorted(spill & tabled):
+        gaps.append((k[0], f"named label-only page p.{k[1]} has a table"))
     for k in sorted(unlab - unlab_seen):
         gaps.append((k[0], f"named unlabelled page p.{k[1]} prints a label or is not a chart page"))
     out("T3.charts", not t3 and not gaps,
@@ -113,7 +133,17 @@ def run(cfg, R, S):
         + (f"; {len(unlab_seen)} chart pages print no 'Page n' label (named exceptions, counted "
            f"by the labels around them)" if unlab else "")
         + (f"; {len(cs & cs_exc)} chart's first page prints '(continued)' (named exception, read "
-           f"as the chart's start)" if cs_exc else ""))
+           f"as the chart's start)" if cs_exc else "")
+        + (f"; {cont_named['T3.continued_missing']} pages repeat a caption without '(continued)' "
+           f"and {cont_named['T3.continued_number']} print the wrong chart number on a "
+           f"'(continued)' caption (named exceptions, read as continuations)"
+           if any(cont_named.values()) else "")
+        + (f"; {len(spill)} page(s) with no table print only a footnote and a 'Page n' label "
+           f"(named exception, counted)" if spill else ""))
+    for s_, pg in sorted(spill - tabled):
+        flag("T3.label_page", s_, pg, "page with no table prints only a footnote and a 'Page n' "
+             "label (the chart before it spilled over); counted (named exception in the config)",
+             severity="warn")
     for s_, pg in sorted(unlab_seen):
         flag("T3.page_label", s_, pg, "chart page prints no 'Page n' label; the next label "
              "counts it (named exception in the config)", severity="warn")
@@ -122,7 +152,16 @@ def run(cfg, R, S):
 
     # T4
     t4 = [f for f in S["flags"] if f["check_id"] == "T4.headers"]
-    out("T4.headers", not t4, f"{len(t4)} unrecognised headers")
+    # FY2022 "Beating Hearts": a header with no Agency or Amount, allowed only as a named
+    # exception (T4.no_amount).
+    na_ex = {(e["resolution_seq"], e["pdf_page"]) for e in cfg.get("exceptions", [])
+             if e["check_id"] == "T4.no_amount"}
+    na = {(f["resolution_seq"], f["pdf_page"]) for f in S["flags"] if f["check_id"] == "T4.no_amount"}
+    t4 += [dict(resolution_seq=k[0], pdf_page=k[1]) for k in sorted(na ^ na_ex)]
+    out("T4.headers", not t4, f"{len(t4)} unrecognised headers"
+        + (f"; {len(na & na_ex)} chart pages print no Agency or Amount column (named exceptions; "
+           f"{sum(1 for a in rows if a['chart_kind'] == 'no_amount')} rows kept with a blank "
+           f"amount)" if na_ex else ""))
 
     # T5
     by_page = Counter((r["resolution_seq"], r["pdf_page"]) for r in rows if r["ein"])
@@ -134,7 +173,7 @@ def run(cfg, R, S):
             n_tok_all += p["ein_tokens_all_chars"]
             if p["ein_tokens"] != by_page.get(k, 0):
                 diffs.append((k, p["ein_tokens"], by_page.get(k, 0)))
-    no_amt = [r for r in rows if r["amount"] is None]
+    no_amt = [r for r in rows if r["amount"] is None and r["chart_kind"] != "no_amount"]
     no_ein = [r for r in rows if not r["ein"]]
     empty = S.get("empty_rows", [])
     out("T5.anchors", not diffs and not no_amt,
@@ -166,11 +205,21 @@ def run(cfg, R, S):
     # T7
     orph = [(r["res"]["seq"], p["page"], o) for r in R for p in r["pages"] for o in p["orphans"]]
     clip = [(r["res"]["seq"], p["page"], c) for r in R for p in r["pages"] for c in p["clipped"]]
-    out("T7.chars", not orph,
+    over = [a for a in rows if any(f.startswith("overlaid_text") for f in a["row_flags"])]
+    ov_ex = {(e["resolution_seq"], e["pdf_page"]) for e in cfg.get("exceptions", [])
+             if e["check_id"] == "T7.overlaid"}
+    ov_bad = ov_ex - {(a["resolution_seq"], a["pdf_page"]) for a in over}
+    out("T7.chars", not orph and not ov_bad,
         f"{sum(p['nonws_chars'] for r in R for p in r['pages'])} non-space chars; "
         f"{len(orph)} in a table but in no cell; "
         f"{sum(p['clipped_chars'] for r in R for p in r['pages'])} clipped (hidden) chars in "
-        f"{len(clip)} runs, each listed for review")
+        f"{len(clip)} runs, each listed for review"
+        + (f"; {sum(1 for c in clip if c[2].get('overlaid'))} runs drawn on top of other text "
+           f"and not shown on the page ({len(over)} rows, critical review items)" if over else ""))
+    for a in over:
+        flag("T7.overlaid", a["resolution_seq"], a["pdf_page"],
+             f"text drawn on top of this row's cell is hidden on the page ({a['hidden_text']}); "
+             f"kept out of the value. Confirm on the page.", row_id=a["row_id"])
     for s, pg, o in orph:
         flag("T7.chars", s, pg, f"char {o['text']!r} in a table but in no cell", bbox_pt=o["bbox"])
 
@@ -244,17 +293,23 @@ def run(cfg, R, S):
         f"{len(ids)} row ids, {len(set(ids))} unique")
 
     # T15
-    money = []
+    money, in_notes = [], 0
+    notes = {(n["resolution_seq"], n["pdf_page"]): n["lines"] for n in S.get("chart_notes", [])}
     for r in R:
         for p in r["pages"]:
             if not p["tables"]:
                 continue
             for ln in p["lines"]:
+                if ln["text"] in notes.get((r["res"]["seq"], p["page"]), ()):
+                    in_notes += bool(reader.MONEY.search(ln["text"]))
+                    continue
                 if reader.MONEY.search(ln["text"]):
                     money.append((r["res"]["seq"], p["page"], ln["text"]))
     out("T15.printed_totals", not money,
         f"{len(money)} money amounts printed outside the tables on chart pages: the FY{cfg['fiscal_year']} "
-        f"charts print no totals, so there is nothing to tie (the arithmetic is reported, not checked)")
+        f"charts print no totals, so there is nothing to tie (the arithmetic is reported, not checked)"
+        + (f"; {in_notes} in notes under no-amount charts (in the review file with the chart)"
+           if notes else ""))
     for s, pg, t in money:
         flag("T15.printed_totals", s, pg, f"money printed outside a table: {t!r}")
 

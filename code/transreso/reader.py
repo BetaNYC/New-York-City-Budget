@@ -40,6 +40,31 @@ CLIP_GAP_MAX = 0.5
 # A header column is under a data cell when they overlap by more than this (pt). Drawn rules
 # line up to 0.01 pt in these files; 2 pt ignores a rule's own width.
 OVERLAP_MIN = 2.0
+# On pages named in the config (check T7.overlaid), a run whose first letter lies more than this
+# share of its width on top of a letter drawn earlier on the same line is overlaid text that the
+# page does not show (FY2022 Reso 09 p.38:
+# "Funding to go support …" is drawn over the EIN "13-4170389" and clipped away when rendered).
+# Only letters an earlier run shows in its own cell count (see `overlaid`).
+OVERLAY_SHARE = 0.5
+
+
+def overlaid(run_list, cell):
+    """Indexes of runs whose first ink letter starts on top of a letter that an earlier run
+    shows in its own cell. Letters an earlier run carries past its cell are clipped, so text
+    drawn over them is the visible text (FY2025 Reso 01 pp.59-61, FY2026 Reso 02 p.110)."""
+    seen, out = [], set()
+    for k, run in enumerate(run_list):
+        ink = [c for c in run if c["text"].strip() and not c["text"].startswith("(cid:")]
+        if ink:
+            f = ink[0]
+            w = max(f["x1"] - f["x0"], 0.01)
+            if any(abs(f["top"] - c["top"]) <= LINE_TOL and
+                   min(f["x1"], c["x1"]) - max(f["x0"], c["x0"]) > OVERLAY_SHARE * w for c in seen):
+                out.add(k)
+                continue
+            own = cell(run[0])
+            seen += [c for c in ink if cell(c) == own]
+    return out
 
 
 def runs(chars, gap=RUN_GAP, cell=None):
@@ -89,7 +114,7 @@ def _cell_rec(chars, bbox, how, x_tolerance, hidden=""):
                 char_boxes=[bbox2((c["x0"], c["top"], c["x1"], c["bottom"])) for c in ink])
 
 
-def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP):
+def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP, overlay=False):
     tables = sorted(page.find_tables(), key=lambda t: (r2(t.bbox[1]), r2(t.bbox[0])))
     allchars = list(page.chars)
     zero_width = sum(1 for c in allchars if c["text"] in ZERO_WIDTH)
@@ -103,9 +128,25 @@ def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP):
     cell_of = _assign(chars, [b for _, b in cells])
     idx = {id(c): k for k, c in enumerate(chars)}
 
-    clipped_ids, clipped, hidden_of, hidden_at = set(), [], {}, {}
-    for run in runs(chars, run_gap, cell=lambda c: cell_of[idx[id(c)]]):
+    clipped_ids, clipped, hidden_of, hidden_at, overlay_cells = set(), [], {}, {}, set()
+    all_runs = runs(chars, run_gap, cell=lambda c: cell_of[idx[id(c)]])
+    # Only on pages the year's config names (T7.overlaid): FY2024 Reso 06 p.26 and FY2026
+    # Reso 02 p.114 have text drawn over text too, and their committed outputs predate the rule.
+    over = overlaid(all_runs, lambda c: cell_of[idx[id(c)]]) if overlay else set()
+    for ri, run in enumerate(all_runs):
         k0 = cell_of[idx[id(run[0])]]
+        if ri in over and k0 >= 0:
+            # Overlaid text: every letter hidden, recorded on the cell it starts in.
+            ink = [c for c in run if c["text"].strip()]
+            clipped_ids.update(id(c) for c in run)
+            hidden_of[k0] = (hidden_of.get(k0, "") + "".join(c["text"] for c in run)).strip()
+            overlay_cells.add(k0)
+            ti, b = cells[k0]
+            clipped.append(dict(table=ti, owner_bbox=list(b), run_text="".join(c["text"] for c in run),
+                                hidden_text="".join(c["text"] for c in run), overlaid=True,
+                                bbox=bbox2((min(c["x0"] for c in ink), min(c["top"] for c in ink),
+                                            max(c["x1"] for c in ink), max(c["bottom"] for c in ink)))))
+            continue
         if k0 < 0:
             # A run that starts outside every drawn cell (an undrawn `*` cell) and runs past the
             # table's edge (FY2025 Reso 07 pp.29-30: staff notes in a column past the `*`
@@ -177,6 +218,8 @@ def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP):
                          if min(b[2], h["bbox"][2]) - max(b[0], h["bbox"][0]) > OVERLAP_MIN]
                 cs = by_cell.get(k, [])
                 hid = hidden_of.get(gidx[k], "")
+                if gidx[k] in overlay_cells:
+                    flags.append("overlaid_text:" + "+".join(header[j]["label"] for j in under))
                 if len(under) == 1:
                     cols[under[0]] = _cell_rec(cs, b, "cell", x_tolerance, hid)
                 elif len(under) > 1:
@@ -221,7 +264,8 @@ def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP):
     vis_page = page.filter(lambda o: o.get("object_type") != "char" or id(o) not in clipped_ids)
     words_vis = vis_page.extract_words()
     return dict(page=page_no, width=r2(page.width), height=r2(page.height),
-                rotation=int(page.rotation or 0), tables=out_tables,
+                rotation=int(page.rotation or 0), origin=[r2(page.bbox[0]), r2(page.bbox[1])],
+                tables=out_tables,
                 lines=text_lines(outside + loose, x_tolerance),
                 loose_char_boxes=[bbox2((c["x0"], c["top"], c["x1"], c["bottom"]))
                                   for c in outside if c["text"].strip()],
@@ -232,14 +276,14 @@ def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP):
                 clipped_chars=sum(1 for c in chars if id(c) in clipped_ids and c["text"].strip()))
 
 
-def read_pdf(pdf_path, x_tolerance=3.0, run_gap=RUN_GAP, pages=None):
+def read_pdf(pdf_path, x_tolerance=3.0, run_gap=RUN_GAP, pages=None, overlay_pages=()):
     import pdfplumber
     out = []
     with pdfplumber.open(pdf_path) as pdf:
         for i, page in enumerate(pdf.pages):
             if pages and (i + 1) not in pages:
                 continue
-            out.append(read_page(page, i + 1, x_tolerance, run_gap))
+            out.append(read_page(page, i + 1, x_tolerance, run_gap, (i + 1) in overlay_pages))
             page.flush_cache()
     return out
 
