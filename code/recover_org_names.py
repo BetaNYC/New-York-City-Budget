@@ -23,6 +23,8 @@ Usage:
 import argparse, csv, glob, os, re, sys, zipfile
 import xml.etree.ElementTree as ET
 
+from retired_paths import family_glob
+
 # Descriptive prose where a grantee name belongs. Broadened after a dry run found rows the first
 # pattern missed ("Funds to be used…", "Funding support for…") — those had leaked into the
 # recovery source itself, which is exactly the contamination this pass exists to remove.
@@ -149,7 +151,7 @@ def council_names():
 def corpus_names():
     """EIN -> name, from our own award rows that parsed cleanly."""
     lookup = {}
-    for f in glob.glob("data/fy*/schedule_c/*.csv"):
+    for f in family_glob("data", "schedule_c", "*.csv"):
         if "initiatives" in f or "reconcil" in f:
             continue
         with open(f, newline="", encoding="utf-8") as fh:
@@ -172,7 +174,7 @@ def main():
     print(f"council (ein, amount) keys: {len(council):,}")
 
     rows, ambiguous, unresolved = [], [], []
-    for f in sorted(glob.glob("data/fy*/schedule_c/*.csv")):
+    for f in family_glob("data", "schedule_c", "*.csv"):
         if "initiatives" in f or "reconcil" in f:
             continue
         with open(f, newline="", encoding="utf-8") as fh:

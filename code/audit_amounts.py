@@ -42,6 +42,9 @@ import sys
 import zipfile
 import xml.etree.ElementTree as ET
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from retired_paths import current_path, family_glob  # noqa: E402
+
 NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
 NINE = re.compile(r"^\d{9}$")
 # A second organization's EIN or dollar figure still sitting in our `organization` text — the
@@ -261,10 +264,10 @@ def read_corpus():
     join to a per-award disclosure) and the *_reconciliation.txt notes.
     """
     out = []
-    for path in sorted(glob.glob("data/fy*/schedule_c/*.csv")):
+    for path in family_glob("data", "schedule_c", "*.csv"):
         if "initiatives" in path or "reconcil" in path:
             continue
-        fy = 2000 + int(re.search(r"data/fy(\d\d)/", path).group(1))
+        fy = 2000 + int(re.search(r"/fy(\d\d)/", path).group(1))
         with open(path, newline="", encoding="utf-8") as fh:
             for ln, r in enumerate(csv.DictReader(fh), start=2):
                 org = (r.get("organization") or "").strip()
@@ -346,7 +349,7 @@ def crosswalk_check(rows):
     out = collections.defaultdict(collections.Counter)
     with open(path, newline="", encoding="utf-8") as fh:
         for r in csv.DictReader(fh):
-            v = verdict.get((r["file"], int(r["line"])), "row_absent")
+            v = verdict.get((current_path(r["file"]), int(r["line"])), "row_absent")
             out[r["defect"]]["_n"] += 1
             out[r["defect"]]["corroborated" if v in CORROBORATED else v] += 1
     return out
@@ -381,7 +384,7 @@ def write_report(rows, years, counts, dollars, today):
     a("# Amount Audit")
     a("")
     a(f"**Report generated:** {today}  ")
-    a(f"**Data current as of:** {today} (corpus at `data/fy*/schedule_c/`, "
+    a(f"**Data current as of:** {today} (corpus at `data/fy*/schedule_c/` and `data/retired/fy*/schedule_c/`, "
       "disclosure at `source/expense-funding-disclosure/`)  ")
     a("**Produced by:** `code/audit_amounts.py` — read-only, changes nothing")
     a("")
@@ -399,7 +402,7 @@ def write_report(rows, years, counts, dollars, today):
     a("")
     a("## What was compared")
     a("")
-    a("Each award row in `data/fy*/schedule_c/*.csv` (Schedule C awards plus the three "
+    a("Each award row in `data/fy*/schedule_c/*.csv` and `data/retired/fy*/schedule_c/*.csv` (Schedule C awards plus the three "
       "appendices; initiative totals and reconciliation notes excluded) against "
       "`source/expense-funding-disclosure/funded_disclosure_FY####.xlsx` for the **same fiscal "
       "year**, joined on **(EIN, canonical organization name)**.")

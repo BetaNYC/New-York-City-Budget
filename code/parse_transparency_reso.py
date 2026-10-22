@@ -368,7 +368,7 @@ FY26_META = [
 
 def default_roster():
     return os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                        'data', 'fy26', 'schedule_c', 'fy26_schedule_c_awards.csv')
+                        'data', 'retired', 'fy26', 'schedule_c', 'fy26_schedule_c_awards.csv')
 
 def discover_resolutions(srcdir):
     """List (num, date, path) for every Transparency-Reso PDF in ``srcdir``, sequence order.

@@ -20,16 +20,16 @@ import pytest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-FY26_CSV = os.path.join(REPO, "data", "fy26", "capital", "fy26_capital_projects.csv")
+FY26_CSV = os.path.join(REPO, "data", "retired", "fy26", "capital", "fy26_capital_projects.csv")
 # FY25 canonical capital is now the Council-additions supporting-detail book (Parts I+II),
 # directly comparable to FY26/FY27. The old broad appropriation-changes extract was renamed to
 # fy25_capital_changes_appropriation.csv (kept for provenance).
-FY25_CSV = os.path.join(REPO, "data", "fy25", "capital", "fy25_capital_projects.csv")
-FY25_NONCITY_CSV = os.path.join(REPO, "data", "fy25", "capital",
+FY25_CSV = os.path.join(REPO, "data", "retired", "fy25", "capital", "fy25_capital_projects.csv")
+FY25_NONCITY_CSV = os.path.join(REPO, "data", "retired", "fy25", "capital",
                                 "fy25_capital_noncity_by_entity.csv")
-FY25_APPROP_CSV = os.path.join(REPO, "data", "fy25", "capital",
+FY25_APPROP_CSV = os.path.join(REPO, "data", "retired", "fy25", "capital",
                                "fy25_capital_changes_appropriation.csv")
-FY27_CSV = os.path.join(REPO, "data", "fy27", "capital", "fy27_capital_projects.csv")
+FY27_CSV = os.path.join(REPO, "data", "retired", "fy27", "capital", "fy27_capital_projects.csv")
 # FY27 + FY25-detail source PDFs are committed in-repo (unlike FY26, whose source lives in the
 # iCloud tree), so their re-parse layers always run here.
 FY27_PDF = os.path.join(REPO, "source", "FY27",
@@ -47,7 +47,7 @@ SRC = os.environ.get("NYC_BUDGET_SRC",
     "Apple Notes/INBOX/NYC Budget FY 27/Source Documents")
 FY26_PDF = os.path.join(SRC, "FY 26", "Fiscal-2026-Capital-Budget-Supporting-Details-1.pdf")
 FY25_PDF = os.path.join(SRC, "FY 25", "Fiscal-2025-Capital-Changes.pdf")
-AWARDS = [os.path.join(REPO, "data", fy, "schedule_c", f"{fy}_schedule_c_awards.csv")
+AWARDS = [os.path.join(REPO, "data", "retired", fy, "schedule_c", f"{fy}_schedule_c_awards.csv")
           for fy in ("fy25", "fy26", "fy27")]
 
 

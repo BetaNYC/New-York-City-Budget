@@ -44,7 +44,7 @@ Families and rules (PLAN §5; the first rule that gives exactly one portal row w
     djxg-kcfi   the line has a planned commitment in the CPDB version held (fisa_2026, one version):
                 FY2026 on only; an earlier year is not covered, since a line missing now proves nothing then.
   terms_unit    (fiscal year, agency, unit of appropriation) named by T&C: data/fyNN/pdf/terms/
-                where present, else the retired data/fyNN/terms/ (a multi-agency condition there
+                where present, else the retired data/fyNN/terms/ or data/retired/fyNN/terms/ (a multi-agency condition there
                 does not say which unit is whose, so its units match under any listed agency).
     mwzb-yiwb   the adopted-release extract. A pair outside the extract's filter, an `All` unit,
                 or a year before FY2017 is `not_covered`, never `absent`.
@@ -68,6 +68,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import build_capital_council as BC          # noqa: E402
 import parse_expense_disclosure as P        # noqa: E402
+from retired_paths import family_glob       # noqa: E402
 
 ROOT = os.path.dirname(HERE)
 OUT = os.path.join("data", "open_data")
@@ -516,7 +517,7 @@ def terms_records(root=ROOT):
                         (int(r["fiscal_year"]), r["item_number"], r["agency_code"], [r["agency_code"]],
                          r["unit_of_appropriation"], os.path.relpath(path, root)))
     out = [x for v in pdf_years.values() for x in v]
-    for path in sorted(glob.glob(os.path.join(root, "data", "fy*", "terms", "*.csv"))):
+    for path in family_glob(os.path.join(root, "data"), "terms", "*.csv"):
         fy = 2000 + int(re.search(r"fy(\d\d)", os.path.basename(path)).group(1))
         if fy in pdf_years:
             continue

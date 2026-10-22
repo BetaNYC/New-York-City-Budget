@@ -18,7 +18,7 @@ NONE dissents. It never breaks a tie and never picks a "best" candidate; disagre
 ambiguity are both hard stops.
 
   S1 council_disclosure     source/expense-funding-disclosure/funded_disclosure_FY*.xlsx
-  S2 transparency_reso      data/fy*/transparency-resolutions/*_transparency_all.csv
+  S2 transparency_reso      data/[retired/]fy*/transparency-resolutions/*_transparency_all.csv
                             The Council's designation resolutions — published separately from the
                             disclosure workbook, on a different cadence, from different copy.
   S3 corpus_other_year      our own clean award rows for the same (EIN, amount) in a DIFFERENT
@@ -68,6 +68,9 @@ import sys
 import zipfile
 import xml.etree.ElementTree as ET
 
+import retired_paths
+from retired_paths import family_glob
+
 NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
 CROSSWALK = "data/combined/org_name_recovery_crosswalk.csv"
 CROSSWALK_FIELDS = ["file", "line", "ein", "amount", "defect", "source", "match_key",
@@ -99,7 +102,7 @@ def build_surnames():
     is the cleanest place they appear. Same construction as validate_data.build_surname_set:
     single alpha tokens of 4+ characters, boroughs and agencies removed."""
     out = set()
-    for p in sorted(glob.glob("data/fy*/transparency-resolutions/*_transparency_all.csv")):
+    for p in family_glob("data", "transparency-resolutions", "*_transparency_all.csv"):
         with open(p, newline="", encoding="utf-8") as fh:
             for r in csv.DictReader(fh):
                 v = (r.get("council_member") or "").strip()
@@ -276,7 +279,7 @@ def transparency_names():
     not what it is. Keying on the positive designated amount keeps the two apart.
     """
     lookup = {}
-    for p in sorted(glob.glob("data/fy*/transparency-resolutions/*_transparency_all.csv")):
+    for p in family_glob("data", "transparency-resolutions", "*_transparency_all.csv"):
         with open(p, newline="", encoding="utf-8") as fh:
             for r in csv.DictReader(fh):
                 org = (r.get("organization") or "").strip()
@@ -297,14 +300,14 @@ def load_sources():
 
 
 def award_files():
-    for f in sorted(glob.glob("data/fy*/schedule_c/*.csv")):
+    for f in family_glob("data", "schedule_c", "*.csv"):
         if "initiatives" not in f and "reconcil" not in f:
             yield f
 
 
 def fy_of(path):
-    """'data/fy18/schedule_c/x.csv' -> 'fy18'."""
-    return path.split(os.sep)[1] if os.sep in path else path.split("/")[1]
+    """'data/fy18/schedule_c/x.csv' or 'data/retired/fy18/schedule_c/x.csv' -> 'fy18'."""
+    return retired_paths.fy_of(path)
 
 
 def corpus_names():

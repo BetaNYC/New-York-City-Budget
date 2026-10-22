@@ -72,9 +72,12 @@ def test_roll_up_faithful_to_per_year_sources_real_tree():
     per-year *_schedule_c_awards.csv row counts, it carries `purpose`, and it manufactures ZERO
     duplicates beyond those already present (identically) in the per-year sources."""
     import glob
-    per_year_files = sorted(glob.glob(
-        os.path.join(REPO, "data", "fy*", "schedule_c", "*_schedule_c_awards.csv")))
+    per_year_files = sorted(
+        glob.glob(os.path.join(REPO, "data", "fy*", "schedule_c", "*_schedule_c_awards.csv"))
+        + glob.glob(os.path.join(REPO, "data", "retired", "fy*", "schedule_c", "*_schedule_c_awards.csv")))
     assert per_year_files, "expected committed per-year award files"
+    # FY2015-FY2017 under data/fyNN/, FY2018-FY2027 under data/retired/fyNN/ (#218).
+    assert {B.year_of(p) for p in per_year_files} >= {f"FY{y}" for y in range(16, 28)}, per_year_files
 
     per_year_rows = 0
     per_year_full_dupes = 0

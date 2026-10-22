@@ -6,7 +6,7 @@ sha256 = "53159ea1e370e6e0f7756ca9da6527ea756c4c42bd2a657d50d268c806d7c22c"
 review_dir = "research/2026-10-21-fy26-capital-terms-review"   # outputs land in <review_dir>/data
 prefix = "fy26"                                                # output file names: <prefix>_terms_*
 issue = 103
-old_csv = "data/fy26/terms/fy26_terms_and_conditions.csv"      # the retired parse, compared in T7
+old_csv = "data/retired/fy26/terms/fy26_terms_and_conditions.csv"      # the retired parse, compared in T7
 
 # Page furniture: "Page N of 29" at the head of every page, cover included (top 39 pt).
 [furniture]

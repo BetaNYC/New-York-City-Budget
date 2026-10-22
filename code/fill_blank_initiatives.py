@@ -35,6 +35,8 @@ import sys
 import zipfile
 import xml.etree.ElementTree as ET
 
+from retired_paths import family_dir
+
 NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
 CROSSWALK = "data/combined/org_name_recovery_crosswalk.csv"
 
@@ -96,7 +98,7 @@ def year_sources(fy):
 def known_initiatives(key):
     """Initiative strings this fiscal year already uses — the vocabulary we must stay inside."""
     out = set()
-    for f in glob.glob(f"data/{key}/schedule_c/*_schedule_c_*.csv"):
+    for f in glob.glob(os.path.join(family_dir("data", key, "schedule_c"), "*_schedule_c_*.csv")):
         with open(f, newline="", encoding="utf-8") as fh:
             for r in csv.DictReader(fh):
                 v = (r.get("initiative") or "").strip()
@@ -113,7 +115,7 @@ def plan():
             continue
         key = f"fy{str(fy)[2:]}"
         vocab = known_initiatives(key)
-        for f in sorted(glob.glob(f"data/{key}/schedule_c/*_schedule_c_awards.csv")):
+        for f in sorted(glob.glob(os.path.join(family_dir("data", key, "schedule_c"), "*_schedule_c_awards.csv"))):
             with open(f, newline="", encoding="utf-8") as fh:
                 for ln, r in enumerate(csv.DictReader(fh), start=2):
                     if (r.get("award_type") or "").strip() != "initiative_provider":

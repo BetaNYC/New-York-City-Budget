@@ -5,7 +5,8 @@
  * PDF-derived, retired (kept in the repo for history, never shipped): data/fyNN/schedule_c/
  * (awards, initiatives, appendices), data/fyNN/terms/, data/fyNN/capital/ (§254),
  * data/fyNN/transparency-resolutions/, data/combined/ (roll-ups and the Legistar crosswalk of the
- * PDF documents) and data/recovered/.
+ * PDF documents) and data/recovered/; for the family-years already redone, the same files under
+ * data/retired/fyNN/ (data/retired/README.md).
  *
  * The reviewed PDF tables (data/pdf_years.csv, data/fyNN/pdf/, scripts/pdf-families.mjs) are a
  * separate, gated path: the pdf_* tables always exist, and hold only status = closed rows in this
@@ -52,7 +53,8 @@ const ALLOWED_INPUTS = [
 /** The retired PDF-derived trees and file shapes. None may be read or shipped. */
 const PDF_DERIVED = [
   /(^|\/)schedule_c(\/|_)/, /appendix_/, /(^|\/)terms(\/|_)/, /transparency/, /(^|\/)data\/fy\d{2}\/capital\//,
-  /(^|\/)data\/combined\//, /(^|\/)data\/recovered\//, /legistar_crosswalk/, /\.pdf$/i, /recovered/,
+  /(^|\/)data\/combined\//, /(^|\/)data\/recovered\//, /(^|\/)data\/retired\//, /legistar_crosswalk/, /\.pdf$/i,
+  /recovered/,
 ];
 
 test("the built index holds only the structured tables", () => {

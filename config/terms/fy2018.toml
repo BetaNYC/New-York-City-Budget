@@ -10,7 +10,7 @@ sha256 = "c14da9b32e5c07bbb37ea226bdc9166891d6f8c0953f07ac10f89ac2191e05c2"
 review_dir = "research/2026-10-22-fy18-capital-terms-review"   # outputs land in <review_dir>/data
 prefix = "fy18"                                                # output file names: <prefix>_terms_*
 issue = 111
-old_csv = "data/fy18/terms/fy18_terms_and_conditions.csv"      # the retired parse, compared in T7
+old_csv = "data/retired/fy18/terms/fy18_terms_and_conditions.csv"      # the retired parse, compared in T7
 
 # FY2018 prints no condition numbers, as FY2021-FY2024 (p.2: "Administration for Children's
 # Services (068)"): item_number is the condition's order in the book.

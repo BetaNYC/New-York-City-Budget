@@ -32,7 +32,7 @@ Checks (numbers in checks.txt, failures in review.csv):
   T5 FSR table: vector lattice (pdfplumber) vs image lattice (code/ocr/grid.py detect_grid,
      kernel_px=60) separators within 2 pt, and cell strings identical under both
   T6 ink coverage, as in review_capital_sd.py
-  T7 against the retired data/fyNN/terms CSV (config old_csv): rows, numbers, agencies, units, and text
+  T7 against the retired data/retired/fyNN/terms CSV (config old_csv): rows, numbers, agencies, units, and text
      (whitespace removed), plus the mid-word split count in each
 
 Run:  .venv/bin/python code/review_terms.py [--fy 2027|2026|2025|2024|2023|2022|2021|2018] [--out DIR] [--no-ink]

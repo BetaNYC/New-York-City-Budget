@@ -20,7 +20,7 @@ import pytest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-COMBINED = os.path.join(REPO, 'data', 'fy26', 'transparency-resolutions',
+COMBINED = os.path.join(REPO, 'data', 'retired', 'fy26', 'transparency-resolutions',
                         'fy26_transparency_all.csv')
 SRC = os.path.join(REPO, 'source', 'FY26', 'transparency-resolutions')
 

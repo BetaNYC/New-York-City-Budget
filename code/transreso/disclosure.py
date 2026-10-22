@@ -19,8 +19,9 @@ never EIN alone, never the member; the City's EIN 13-6400434 also needs a name m
 2. **Where did each rescission come from?** Every negative row on a designation chart (not an
    agency's side) is looked for, as (EIN, |amount|), among earlier designations: the same
    resolution's own earlier rows, earlier resolutions' positive rows, and, for the document
-   year itself, that year's committed Schedule C award files (data/fyNN/schedule_c/,
-   PDF-derived by the old parser and not trusted as values; used here as a cross-check only). Reasons: earlier_resolution,
+   year itself, that year's committed Schedule C award files (data/retired/fyNN/schedule_c/,
+   or data/fyNN/schedule_c/ for a year not yet redone; PDF-derived by the old parser and not
+   trusted as values; used here as a cross-check only). Reasons: earlier_resolution,
    schedule_c, partial (the EIN has a larger earlier amount), not_found.
 """
 import csv
@@ -29,6 +30,7 @@ import re
 from collections import defaultdict
 from decimal import Decimal
 
+from retired_paths import family_dir
 from schedc.config import ROOT
 
 CITY_EIN = "136400434"
@@ -59,7 +61,7 @@ def load_disclosure(fy):
 def load_schedule_c(fy):
     """(EIN, amount) multiset from the committed Schedule C award files of fiscal year `fy`."""
     yy = f"fy{fy % 100:02d}"
-    d = os.path.join(ROOT, "data", yy, "schedule_c")
+    d = family_dir(os.path.join(ROOT, "data"), yy, "schedule_c")
     keys = defaultdict(int)
     for fn in (f"{yy}_schedule_c_awards.csv", f"{yy}_appendix_a_aging.csv",
                f"{yy}_appendix_b_local.csv", f"{yy}_appendix_c_youth.csv"):
@@ -146,11 +148,12 @@ def align(rows, fy=2026):
 
 def retired_path(fy):
     yy = f"fy{fy % 100:02d}"
-    return os.path.join("data", yy, "transparency-resolutions", f"{yy}_transparency_all.csv")
+    d = family_dir(os.path.join(ROOT, "data"), yy, "transparency-resolutions")
+    return os.path.relpath(os.path.join(d, f"{yy}_transparency_all.csv"), ROOT)
 
 
 def compare_retired(rows, fy=2026):
-    """The retired data/fyNN/transparency-resolutions/fyNN_transparency_all.csv (old parser)
+    """The retired data/retired/fyNN/transparency-resolutions/fyNN_transparency_all.csv (old parser)
     against these rows, as a (resolution, EIN, amount) multiset. None when the year has no
     retired file (FY2025 was never parsed by the old parser)."""
     path = os.path.join(ROOT, retired_path(fy))
