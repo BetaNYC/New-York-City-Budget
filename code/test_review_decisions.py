@@ -105,6 +105,27 @@ def test_suggestions_cover_every_review_row_and_are_committed():
     assert by["01375b88b4c3"]["suggested_decision"] == "accepted_as_printed"
 
 
+def test_every_promoted_review_row_has_a_suggestion_from_its_own_year():
+    # Globbed, not taken from REVIEW_FILES: a year left out of REVIEW_FILES would be skipped
+    # without a word, and a year that borrowed another year's rules would cite that year.
+    with open(brs.OUT, newline="", encoding="utf-8") as f:
+        sugg = {(r["fiscal_year"], r["family"], r["review_id"]): r for r in csv.DictReader(f)}
+    paths = glob.glob(os.path.join(REPO, "data", "fy*", "pdf", "*", "*_review.csv"))
+    assert len(paths) >= 36
+    missing, wrong_year = [], []
+    for path in paths:
+        fam = os.path.basename(os.path.dirname(path))
+        with open(path, newline="", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                fy = r["fiscal_year"]
+                s = sugg.get((fy, fam, r["review_id"]))
+                if s is None:
+                    missing.append((fy, fam, r["review_id"]))
+                elif f"-fy{fy[2:]}-" not in s["source"]:
+                    wrong_year.append((fy, fam, r["review_id"], s["source"]))
+    assert missing == [] and wrong_year == []
+
+
 def test_merge_adds_new_and_never_overwrites(tmp_path):
     rv = tmp_path / "review.csv"
     with open(rv, "w", newline="") as f:

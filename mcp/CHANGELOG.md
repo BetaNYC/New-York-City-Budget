@@ -12,6 +12,13 @@ Nothing yet.
 
 A patch: the index gains empty tables; no tool, argument or answer changes.
 
+### Changed (PDF family config, 2026-10-22)
+- **`scripts/pdf-families.mjs` lists the FY2025–FY2018 decisions files (GitHub #104–#111).**
+  Every family-year in `data/pdf_years.csv` now has its decisions file path (header-only until a
+  person decides items). All those years are `reviewed`, not `closed`, so this index loads none of
+  their rows; only the explorer's `--include-reviewed` build shows them. Version stays 2.0.1: it
+  is not published, so the version guard passes.
+
 ### Added (index, 2026-10-21)
 - **Is each record on NYC Open Data?** `scripts/open-data.mjs` loads `data/open_data/`
   (`code/build_open_data_crosswalk.py`, plan `research/2026-10-21-open-data-tracking/PLAN.md`) into

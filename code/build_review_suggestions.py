@@ -11,10 +11,15 @@ left blank: the reviewer decides with no default.
   FY2027 capital §254 and T&C: research/2026-10-20-fy27-capital-terms-review/REVIEW.md
   FY2027 Schedule C:           research/2026-10-20-fy27-schedule-c-review/REVIEW.md
   FY2026 capital §254 and T&C: research/2026-10-21-fy26-capital-terms-review/REVIEW.md
+  FY2026 Schedule C and transparency: research/2026-10-21-fy26-{schedule-c,transparency}-review/REVIEW.md
+  FY2025-FY2018, every family: code/review_suggestion_rules.py, one rule list per family-year, each
+    citing that year's own research/<date>-fyNN-<family>-review/REVIEW.md
 Items that say "ask Council Finance" become needs_info (they stay open until answered), as for FY2027.
 
 Every review_id in the families' review CSVs (data/fyNN/pdf/<family>/*_review.csv) gets exactly
-one row; a review_id the rules do not cover is a stop.
+one row; a review_id the rules do not cover is a stop. So is a family-year in data/pdf_years.csv
+with no entry in REVIEW_FILES, or with no rules of its own (a year never falls through to
+another year's rules).
 
 Run:   .venv/bin/python code/build_review_suggestions.py --write
 Check: .venv/bin/python code/build_review_suggestions.py --check
@@ -27,6 +32,10 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
+sys.path.insert(0, HERE)
+
+import review_suggestion_rules as rules  # noqa: E402
+
 OUT = os.path.join(REPO, "data", "pdf_review_suggestions.csv")
 COLUMNS = ["fiscal_year", "family", "review_id", "check_id", "suggested_decision", "suggested_note", "source"]
 DECISIONS = ("source_error", "parser_bug", "accepted_as_printed", "needs_info")
@@ -43,6 +52,35 @@ REVIEW_FILES = {
     ("2026", "terms"): "data/fy26/pdf/terms/fy26_terms_review.csv",
     ("2026", "transparency"): "data/fy26/pdf/transparency/fy26_tr_review.csv",
     ("2026", "schedule_c"): "data/fy26/pdf/schedule_c/fy26_sc_review.csv",
+    ("2025", "capital_sd"): "data/fy25/pdf/capital_sd/fy25_capital_sd_review.csv",
+    ("2025", "schedule_c"): "data/fy25/pdf/schedule_c/fy25_sc_review.csv",
+    ("2025", "terms"): "data/fy25/pdf/terms/fy25_terms_review.csv",
+    ("2025", "transparency"): "data/fy25/pdf/transparency/fy25_tr_review.csv",
+    ("2024", "capital_sd"): "data/fy24/pdf/capital_sd/fy24_capital_sd_review.csv",
+    ("2024", "schedule_c"): "data/fy24/pdf/schedule_c/fy24_sc_review.csv",
+    ("2024", "terms"): "data/fy24/pdf/terms/fy24_terms_review.csv",
+    ("2024", "transparency"): "data/fy24/pdf/transparency/fy24_tr_review.csv",
+    ("2023", "capital_sd"): "data/fy23/pdf/capital_sd/fy23_capital_sd_review.csv",
+    ("2023", "schedule_c"): "data/fy23/pdf/schedule_c/fy23_sc_review.csv",
+    ("2023", "terms"): "data/fy23/pdf/terms/fy23_terms_review.csv",
+    ("2023", "transparency"): "data/fy23/pdf/transparency/fy23_tr_review.csv",
+    ("2022", "capital_sd"): "data/fy22/pdf/capital_sd/fy22_capital_sd_review.csv",
+    ("2022", "schedule_c"): "data/fy22/pdf/schedule_c/fy22_sc_review.csv",
+    ("2022", "terms"): "data/fy22/pdf/terms/fy22_terms_review.csv",
+    ("2022", "transparency"): "data/fy22/pdf/transparency/fy22_tr_review.csv",
+    ("2021", "schedule_c"): "data/fy21/pdf/schedule_c/fy21_sc_review.csv",
+    ("2021", "terms"): "data/fy21/pdf/terms/fy21_terms_review.csv",
+    ("2021", "transparency"): "data/fy21/pdf/transparency/fy21_tr_review.csv",
+    ("2020", "capital_sd"): "data/fy20/pdf/capital_sd/fy20_capital_sd_review.csv",
+    ("2020", "schedule_c"): "data/fy20/pdf/schedule_c/fy20_sc_review.csv",
+    ("2020", "transparency"): "data/fy20/pdf/transparency/fy20_tr_review.csv",
+    ("2019", "capital_sd"): "data/fy19/pdf/capital_sd/fy19_capital_sd_review.csv",
+    ("2019", "schedule_c"): "data/fy19/pdf/schedule_c/fy19_sc_review.csv",
+    ("2019", "transparency"): "data/fy19/pdf/transparency/fy19_tr_review.csv",
+    ("2018", "capital_sd"): "data/fy18/pdf/capital_sd/fy18_capital_sd_review.csv",
+    ("2018", "schedule_c"): "data/fy18/pdf/schedule_c/fy18_sc_review.csv",
+    ("2018", "terms"): "data/fy18/pdf/terms/fy18_terms_review.csv",
+    ("2018", "transparency"): "data/fy18/pdf/transparency/fy18_tr_review.csv",
 }
 
 # FY2026 Schedule C (research/2026-10-21-fy26-schedule-c-review/REVIEW.md): every review_id, from
@@ -166,8 +204,10 @@ SC_BY_ID = {
 
 
 def suggest(fy, family, r):
-    if family == "transparency":
-        hit = TR26_BY_ID.get(r["review_id"]) if fy == "2026" else None
+    if (fy, family) in rules.RULES:
+        return rules.suggest(fy, family, r)
+    if family == "transparency" and fy == "2026":
+        hit = TR26_BY_ID.get(r["review_id"])
         if hit is None:
             return ("", "No suggestion in the transparency REVIEW.md.", TR26_REVIEW)
         decision, note, item = hit
@@ -178,22 +218,22 @@ def suggest(fy, family, r):
     elif family == "terms" and fy == "2026":
         hit = TERMS26_BY_CHECK.get(r["check_id"])
         src = CAP26_REVIEW
-    elif family == "capital_sd":
+    elif family == "capital_sd" and fy == "2027":
         hit = CAPITAL_BY_SUB.get((r["check_id"], r["sub_id"])) or CAPITAL_BY_CHECK.get(r["check_id"])
         src = CAP_REVIEW
-    elif family == "terms":
+    elif family == "terms" and fy == "2027":
         hit = TERMS_BY_CHECK.get(r["check_id"])
         src = CAP_REVIEW
     elif family == "schedule_c" and fy == "2026":
         decision, note, item = SC26_BY_ID[r["review_id"]]
         return decision, note, f"{SC26_REVIEW} {item}"
-    elif family == "schedule_c":
+    elif family == "schedule_c" and fy == "2027":
         hit = SC_BY_ID.get(r["review_id"])
         src = SC_REVIEW
         if hit is None:
             return ("", "No suggestion in the Schedule C REVIEW.md.", src)
     else:
-        raise SystemExit(f"unknown family {family}")
+        raise SystemExit(f"FY{fy} {family}: no suggestion rules for this family-year")
     if hit is None:
         raise SystemExit(f"{family} {r['review_id']}: no rule for check {r['check_id']}")
     decision, note, item = hit
@@ -202,6 +242,11 @@ def suggest(fy, family, r):
 
 
 def build():
+    with open(os.path.join(REPO, "data", "pdf_years.csv"), newline="", encoding="utf-8") as f:
+        missing = [(y["fiscal_year"], y["family"]) for y in csv.DictReader(f)
+                   if (y["fiscal_year"], y["family"]) not in REVIEW_FILES]
+    if missing:
+        raise SystemExit(f"in data/pdf_years.csv but not in REVIEW_FILES: {missing}")
     rows = []
     for (fy, family), rel in REVIEW_FILES.items():
         with open(os.path.join(REPO, rel), newline="", encoding="utf-8") as f:
