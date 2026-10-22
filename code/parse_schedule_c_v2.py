@@ -26,6 +26,7 @@ from collections import Counter
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
+import page_image  # noqa: E402
 from schedc import checks, config, disclosure, reconcile, review, structure, vector  # noqa: E402
 
 ROOT = config.ROOT
@@ -48,14 +49,31 @@ ROW_FLAG_CHECK = {"wrap_hyphen": "W5.wrap_hyphen", "ein_overflow_hyphen": "W.ein
                   "sliver_char": "W.sliver_char",
                   "asterisk": "W.asterisk", "star_text": "H7.star",
                   "star_in_cell": "W.star_in_cell", "amount_cents": "W.amount_cents",
-                  "fiscal_conduit": "W.fiscal_conduit"}
+                  "fiscal_conduit": "W.fiscal_conduit", "shared_column": "W.shared_column"}
 AWARD_COLUMNS = [
     "award_id", "fiscal_year", "source_pdf", "section", "category", "initiative", "initiative_id",
     "member", "sponsor", "delegation", "org", "ein", "amount", "agency", "purpose",
     "ein_printed", "amount_printed", "member_raw", "sponsor_raw", "delegation_raw", "org_raw",
     "agency_raw", "purpose_raw", "clean_rules_applied", "row_flags", "image_check",
     "disclosure_status", "disclosure_reason", "pdf_sha256", "pdf_page", "table_index",
-    "row_index", "bbox_pt", "lattice", "review_id", "flags"]
+    "row_index", "bbox_pt", "lattice",
+    # Decided in #209 (W8, #217), every year, blank where the PDF prints none:
+    # `program_or_subheading` a "Program"/"School" column or a sub-heading inside the table, so
+    # `purpose` holds only a printed purpose; `review_not_completed` the "*" mark (FY2019,
+    # FY2018: "1" printed, "0" not printed in a table with a "*" column); `fiscal_conduit*` the
+    # FY2018 "Fiscal Conduit" / "FC EIN" columns (the transparency rows' field names);
+    # `read_from_page_image` the fields a person confirmed from the page image (page_image.py).
+    "program_or_subheading", "program_or_subheading_raw", "review_not_completed",
+    "fiscal_conduit", "fiscal_conduit_ein", "fiscal_conduit_raw", "fiscal_conduit_ein_printed",
+    "read_from_page_image", "review_id", "flags"]
+# The rows of a list printed under one award saying who it passes through to (structure
+# `side_lists`: the Jobs to Build On partners, FY2019 pp.105-106, FY2018 p.106; decided in #209):
+# each a sub-award of `parent_award_id`, not counted in any award total. Written every year.
+SUBAWARD_COLUMNS = [
+    "subaward_id", "parent_award_id", "fiscal_year", "source_pdf", "pdf_sha256", "pdf_page",
+    "table_index", "row_index", "bbox_pt", "org", "ein", "amount", "service_type", "ein_printed",
+    "amount_printed", "org_raw", "service_type_raw", "row_flags", "image_check", "lattice",
+    "review_id", "flags"]
 
 
 def bbox_s(b):
@@ -96,7 +114,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
     im = cfg["image"]
     dpi = im["dpi"]
     by_page = {}
-    for a in S["awards"]:
+    for a in S["awards"] + subaward_proxies(S):
         by_page.setdefault(a["pdf_page"], []).append(a)
     vmap = {p["page"]: p for p in vpages}
     row_res, page_res, flags = {}, {}, []
@@ -249,6 +267,23 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
     return row_res, page_res, flags, acc
 
 
+def subaward_proxies(S):
+    """Sub-award rows (structure `side_lists`) in the shape the image lattice and ink checks
+    take an award row: the whole row, its wrapped line included (the pixels draw no rule above
+    "Placement", FY2019 p.105, so the image lattice reads the two bands as one row), and its
+    cell texts (FY2018 p.106's one "Amount Service Type" header cell is the image side's
+    `amount` column). Their ids are the sub-award ids, so their H8 flags and results are theirs."""
+    out = []
+    for sa in S.get("subawards", []):
+        raw = {("amount" if f == "amount_service" else f): v for f, v in sa["_raw"].items()
+               if f != "service_type"}
+        out.append(dict(award_id=sa["subaward_id"], pdf_page=sa["pdf_page"],
+                        table_index=sa["table_index"], row_index=sa["row_index"],
+                        bbox_pt=sa["bbox_pt"], amount=sa["amount"], _raw=raw,
+                        _char_boxes=sa["_char_boxes"], subaward=True))
+    return out
+
+
 def _shift_rules(rules, ox, oy):
     """ink.rule_shapes boxes moved to MediaBox-corner coordinates (vector.origin)."""
     if not ox and not oy:
@@ -299,7 +334,7 @@ def main(argv=None):
     cache = os.path.join(a.cache_dir, f"fy{a.fy}")
     vpages = structure.split_merged_tables(cached_vector(cfg, pdf_sha, cache), cfg)
     S = structure.build(vpages, cfg)
-    for r in S["awards"]:
+    for r in S["awards"] + S["subawards"]:
         r["fiscal_year"] = a.fy
         r["pdf_sha256"] = pdf_sha
 
@@ -310,20 +345,11 @@ def main(argv=None):
     if not a.no_cv:
         cv_rows, cv_pages, cv_flags, acc = run_cv(
             cfg, S, vpages, None if only else os.path.join(outdir, "overlays"), only)
-    D = disclosure.align(S["awards"], a.fy)
-    dsum = disclosure.summary(D, S["awards"])
-
     awards = S["awards"]
     if only:
         awards = [r for r in awards if r["pdf_page"] in only]
-    for r in awards:
-        i = D["matches"].get(r["award_id"])
-        r["disclosure_status"] = D["disc"][i]["status"] if i is not None else "unmatched"
-    reasons = {u["award"]["award_id"]: u for u in D["unmatched_sc"]}
-    for r in awards:
-        u = reasons.get(r["award_id"])
-        r["disclosure_reason"] = u["reason"] if u else ""
-        cr = cv_rows.get(r["award_id"])
+    for r in awards + S["subawards"]:
+        cr = cv_rows.get(r.get("award_id") or r["subaward_id"])
         r["image_check"] = (cr["status"] + (":" + ";".join(cr["diffs"]) if cr["diffs"] else "")
                             ) if cr else ("not_run" if a.no_cv else "no_result")
         r["lattice"] = "both" if cr and cr["status"] == "agree" else \
@@ -427,6 +453,17 @@ def main(argv=None):
     rv_rows, stale = review.write(os.path.join(outdir, f"{yy}_sc_review.csv"), items, a.fy,
                                   os.path.join(outdir, f"{yy}_sc_review_decisions.csv"),
                                   checks_ran)
+    # The page-image rule (code/page_image.py): a person's read_from_page_image decision puts
+    # the page's value on its award row, before the disclosure alignment reads it.
+    page_image.apply_decisions(rv_rows, {r["award_id"]: r for r in S["awards"]}, "award_id")
+    D = disclosure.align(S["awards"], a.fy)
+    dsum = disclosure.summary(D, S["awards"])
+    reasons = {u["award"]["award_id"]: u for u in D["unmatched_sc"]}
+    for r in S["awards"]:
+        i = D["matches"].get(r["award_id"])
+        r["disclosure_status"] = D["disc"][i]["status"] if i is not None else "unmatched"
+        u = reasons.get(r["award_id"])
+        r["disclosure_reason"] = u["reason"] if u else ""
     # Per-row review_id (the row's first entry in the review file, by its sort order) and flags.
     rid, rflags = {}, {}
     for rv, it in ((rv, next(i for i in items if review.review_id(
@@ -456,6 +493,20 @@ def main(argv=None):
         o["amount"] = "" if r["amount"] is None else r["amount"]
         rows_out.append(o)
     write_csv(os.path.join(outdir, f"{yy}_sc_awards.csv"), rows_out, AWARD_COLUMNS)
+
+    # Sub-awards: flagged K.side_list (the list's review item, one per page) and their own checks.
+    side_rid = {rv["pdf_page"]: rv["review_id"] for rv in rv_rows if rv["check_id"] == "K.side_list"}
+    sub_out = []
+    for r in S["subawards"]:
+        fs = rflags.get(("award", r["subaward_id"]), set()) | {"K.side_list"}
+        fs.update(ROW_FLAG_CHECK[fl] for fl in r["row_flags"])
+        o = {c: r.get(c, "") for c in SUBAWARD_COLUMNS}
+        o.update(source_pdf=cfg["pdf"], bbox_pt=bbox_s(r["bbox_pt"]), row_flags=r["row_flags_s"],
+                 amount="" if r["amount"] is None else r["amount"],
+                 review_id=rid.get(("award", r["subaward_id"]), side_rid.get(r["pdf_page"], "")),
+                 flags=";".join(sorted(fs)))
+        sub_out.append(o)
+    write_csv(os.path.join(outdir, f"{yy}_sc_subawards.csv"), sub_out, SUBAWARD_COLUMNS)
 
     for i in S["initiatives"]:
         i.update(fiscal_year=a.fy, source_pdf=cfg["pdf"], pdf_sha256=pdf_sha,
@@ -544,6 +595,10 @@ def main(argv=None):
         rs = [r for r in S["awards"] if r["section"] == sec]
         w(f"  {sec:<11} {len(rs):>6,} rows  ${sum(r['amount'] or 0 for r in rs):>14,}")
     w(f"initiatives: {len(S['initiatives'])}  categories: {len(set(s['category'] for s in S['summary']))}")
+    if S["subawards"]:
+        w(f"sub-award rows (side_lists, not counted above): {len(S['subawards'])}  total "
+          f"${sum(r['amount'] or 0 for r in S['subawards']):,}, under "
+          + ", ".join(sorted({r['parent_award_id'] for r in S['subawards']})))
     w("")
     w("STRUCTURAL CHECKS")
     for c in chk_res:
@@ -574,7 +629,8 @@ def main(argv=None):
     if a.no_cv:
         w("IMAGE LATTICE / INK: not run (--no-cv)")
     else:
-        sc = Counter(r["status"] for r in cv_rows.values())
+        subs = {r["subaward_id"] for r in S["subawards"]}
+        sc = Counter(r["status"] for k, r in cv_rows.items() if k not in subs)
         w("IMAGE LATTICE (H8): rows read independently through code/ocr/grid.py lattices")
         w(f"  agree on every field: {sc.get('agree', 0):,} of {len(S['awards']):,}")
         if "bands_agree" in sc or "bands_differ" in sc:
@@ -585,6 +641,10 @@ def main(argv=None):
             if k not in ("agree", "bands_agree"):
                 w(f"  {k}: {sc[k]}")
         w(f"  image rows with no vector row: {sum(1 for f in cv_flags if f['check_id'] == 'H8.image_only_row')}")
+        if subs:
+            ss = Counter(cv_rows[k]["status"] if k in cv_rows else "no_result" for k in sorted(subs))
+            w(f"  sub-award rows: " + ", ".join(f"{k} {v}" for k, v in sorted(ss.items()))
+              + f" of {len(subs)}")
         w("INK COVERAGE (H9): uncovered-ink regions inside award tables")
         w(f"  regions: {sum(1 for f in cv_flags if f['check_id'] == 'H9.ink')}  "
           f"uncovered px total: {sum(p['uncovered_px'] for p in cv_pages.values()):,} of "

@@ -118,7 +118,7 @@ statement_beside_label_span = true
 # "e").
 box_title_tail = true
 # Also new for FY2019, with no switch: the "*" column (header label `star`, below; read into
-# the routine row flag W.asterisk) and `side_lists` (pp.105-106).
+# `review_not_completed` and the routine row flag W.asterisk) and `side_lists` (pp.105-106).
 # FY2020-FY2025 switches with no effect on FY2019 (off): split_boxes, split_boxes_after_rows,
 # split_boxes_award_tables, hrule_header_split, hrule_lead_column, hrule_split_lines,
 # hrule_short_ein, header_one_cell, banner_variants, summary_amount_doubled,
@@ -143,8 +143,8 @@ header_labels = [
                                                                # (p.42), no "*" column
   ["Amoun", "amount"],                                         # p.39: the "t" in the 8 pt white
   ["t", "amount_tail"],                                        # column at the right edge (unused)
-  ["Program \\*", "purpose"],                                  # pp.93-94, an h-rule table
-  ["Program", "purpose"],                                      # pp.93-94 (Art as a Catalyst)
+  ["Program \\*", "program_or_subheading"],                    # pp.93-94, an h-rule table
+  ["Program", "program_or_subheading"],                        # pp.93-94 (Art as a Catalyst)
 ]
 
 # Designation statements (text after "Designation Method:"), checked in order. What FY2019
@@ -234,29 +234,20 @@ ink_acceptance_char = "alnum"
 
 # A list of who one award passes through to, printed as a table under it (pp.105-106: "**Below
 # is a list of the Jobs to Build On service providers partners:", under Consortium for Worker
-# Education (CWE) - Jobs to Build On**, 13-3564313, $5,154,200, p.105). Not awards: read, not
-# counted, one review item per page.
+# Education (CWE) - Jobs to Build On**, 13-3564313, $5,154,200, p.105). Not awards: read into
+# the sub-awards table (fy19_sc_subawards.csv), each row linked to `parent`, not counted; one
+# review item per page. Their EINs count in the H5 census as sub-award rows (13 on p.105, 15 on
+# p.106). The page prints no remainder (FY2018 does).
 [[side_lists]]
 page = 105
 header = "Organization | EIN | Amount | Service Type"
 note = "Jobs to Build On service provider partners under CWE's $5,154,200 row (p.105)"
+parent = { page = 105, ein = "133564313", amount = 5154200 }
 [[side_lists]]
 page = 106
 header = "Organization | EIN | Amount | Service Type"
 note = "Jobs to Build On service provider partners, continued from p.105"
-# Their EINs are EIN-shaped words with no award row (13 on p.105, 15 on p.106).
-[[exceptions]]
-check = "H5.page_words"
-page = 105
-words = 18
-rows = 5
-note = "13 EINs in the Jobs to Build On partner list (side_lists), not award rows"
-[[exceptions]]
-check = "H5.page_words"
-page = 106
-words = 16
-rows = 1
-note = "15 EINs in the Jobs to Build On partner list (side_lists), not award rows"
+parent = { page = 105, ein = "133564313", amount = 5154200 }
 
 # Box vs summary names (H11): the summary line is printed under a different name than its box
 # (or, for SAVE, one line for a box of the whole initiative and its three parts' boxes; for

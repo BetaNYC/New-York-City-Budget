@@ -37,6 +37,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
 from schedc.config import ROOT, sha256_file  # noqa: E402
+import page_image  # noqa: E402
 from transreso import checks, disclosure, reader, structure  # noqa: E402
 
 CONTRACT = ["fiscal_year", "source_pdf", "pdf_sha256", "pdf_page", "bbox_pt", "review_id", "flags"]
@@ -49,10 +50,14 @@ ROW_COLUMNS = CONTRACT + [
     "amount_printed", "prequal_printed", "purpose_raw", "hidden_text", "clean_rules_applied",
     "row_flags", "image_check", "lattice", "disclosure_status", "disclosure_reason",
     "disclosure_row", "table_index", "row_index"]
-# FY2018 only (its charts print a fiscal conduit / sponsoring organization and its EIN): added at
-# the end of the row table when a year has them, so no other year's table changes.
+# Decided in #209 (W8, #217), every year, blank where the PDF prints none:
+# `fiscal_conduit*` FY2018's fiscal conduit / sponsoring organization and its EIN (the same fields
+# as the Schedule C awards); `amount_kind` "dollar_amount", or "no_dollar_amount" for the rows of a
+# chart that prints no amount (Beating Hearts, chart_kind no_amount: amount blank, so every sum
+# skips them); `read_from_page_image` the fields a person confirmed from the page (page_image.py).
 CONDUIT_COLUMNS = ["fiscal_conduit", "fiscal_conduit_ein", "fiscal_conduit_raw",
                    "fiscal_conduit_ein_printed"]
+ROW_COLUMNS += CONDUIT_COLUMNS + ["amount_kind", "read_from_page_image"]
 REVIEW_COLUMNS = ["review_id", "severity", "dollar_impact", "check_id", "resolution_seq",
                   "pdf_page", "row_index", "row_id", "field", "what_to_check", "value_vector",
                   "value_image", "expected", "observed", "overlay", "decision", "note"]
@@ -442,12 +447,8 @@ def main(argv=None):
                 for r in rows:
                     if r["resolution_seq"] == x["res"]["seq"] and r["pdf_page"] == vp["page"]:
                         r["bbox_pt"] = shift_box(r["bbox_pt"], vp["origin"])
-    D = disclosure.align(rows, a.fy)
-    old = disclosure.compare_retired(rows, a.fy)
-
     for r in rows:
-        st = D["per_row"].get(r["row_id"])
-        r["disclosure_status"], r["disclosure_reason"], r["disclosure_row"] = st if st else ("n/a", "", "")
+        r["amount_kind"] = "no_dollar_amount" if r["chart_kind"] == "no_amount" else "dollar_amount"
         cr = cv_rows.get(r["row_id"])
         r["image_check"] = (cr["status"] + (":" + ";".join(cr["diffs"]) if cr["diffs"] else "")
                             ) if cr else ("not_run" if a.no_cv else "no_result")
@@ -549,6 +550,14 @@ def main(argv=None):
     rv.sort(key=lambda o: (sev.get(o["severity"], 2), -int(o["dollar_impact"] or 0),
                            int(o["resolution_seq"] or 0), int(o["pdf_page"] or 0), o["review_id"]))
     stale = sorted(set(decided) - {o["review_id"] for o in rv})
+    # The page-image rule (code/page_image.py): a person's read_from_page_image decision puts the
+    # page's value on its row, before the disclosure alignment reads it.
+    page_image.apply_decisions(rv, by_id, "row_id")
+    D = disclosure.align(rows, a.fy)
+    old = disclosure.compare_retired(rows, a.fy)
+    for r in rows:
+        st = D["per_row"].get(r["row_id"])
+        r["disclosure_status"], r["disclosure_reason"], r["disclosure_row"] = st if st else ("n/a", "", "")
 
     # Row contract: review_id = the row's first review entry; flags = every check id on it.
     rid, rfl = {}, defaultdict(set)
@@ -566,7 +575,7 @@ def main(argv=None):
 
     os.makedirs(outdir, exist_ok=True)
     out_rows = []
-    row_cols = ROW_COLUMNS + (CONDUIT_COLUMNS if any("fiscal_conduit" in r for r in rows) else [])
+    row_cols = ROW_COLUMNS
     for r in rows:
         o = {c: r.get(c, "") for c in row_cols}
         o["bbox_pt"] = bbox_s(r["bbox_pt"])

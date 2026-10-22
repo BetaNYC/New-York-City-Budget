@@ -4,7 +4,8 @@ file: data/pdf_review_suggestions.csv. The explorer's review screen shows it bes
 its "accept suggestion" button copies it into the reviewer's decision.
 
 A suggestion is only ever the review file's own words turned into the decision vocabulary
-(PLAN.md §5.3: source_error | parser_bug | accepted_as_printed | needs_info). Each rule below
+(PLAN.md §5.3: source_error | parser_bug | accepted_as_printed | needs_info; and, since #209,
+read_from_page_image, whose note carries what the page shows: code/page_image.py). Each rule below
 cites the REVIEW.md item it comes from. Where a REVIEW.md makes no suggestion, the suggestion is
 left blank: the reviewer decides with no default.
 
@@ -34,11 +35,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 
+import page_image  # noqa: E402
 import review_suggestion_rules as rules  # noqa: E402
 
 OUT = os.path.join(REPO, "data", "pdf_review_suggestions.csv")
 COLUMNS = ["fiscal_year", "family", "review_id", "check_id", "suggested_decision", "suggested_note", "source"]
-DECISIONS = ("source_error", "parser_bug", "accepted_as_printed", "needs_info")
+DECISIONS = ("source_error", "parser_bug", "accepted_as_printed", "needs_info", "read_from_page_image")
 
 CAP_REVIEW = "research/2026-10-20-fy27-capital-terms-review/REVIEW.md"
 SC_REVIEW = "research/2026-10-20-fy27-schedule-c-review/REVIEW.md"
@@ -252,6 +254,10 @@ def build():
         with open(os.path.join(REPO, rel), newline="", encoding="utf-8") as f:
             for r in csv.DictReader(f):
                 d, note, src = suggest(fy, family, r)
+                if d == page_image.DECISION:
+                    # Accepting it must record a decision the readers can apply.
+                    page_image.parse(note)
+                    assert r.get("award_id") or r.get("row_id"), (fy, family, r["review_id"])
                 rows.append({"fiscal_year": fy, "family": family, "review_id": r["review_id"], "check_id": r["check_id"],
                              "suggested_decision": d, "suggested_note": note, "source": src})
     ids = [(r["family"], r["review_id"]) for r in rows]
