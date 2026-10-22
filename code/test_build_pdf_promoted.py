@@ -267,6 +267,29 @@ def test_fy19_transparency(built):
     assert rs["fy19-tr07-p027-r017"]["org"].startswith("Greenwich House, Inc.")
 
 
+def test_fy18_transparency(built):
+    ys = [y for y in rows(built["data/pdf_years.csv"])
+          if y["fiscal_year"] == "2018" and y["family"] == "transparency"]
+    assert len(ys) == 1
+    y = ys[0]
+    assert y["issue"] == "111" and y["status"] == "reviewed" and y["rows"] == "5558"
+    assert y["printed_totals_tied"] == "n/a"
+    rs = {r["row_id"]: r for r in rows(built["data/fy18/pdf/transparency/fy18_tr_rows.csv"])}
+    assert len(rs) == 5558
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rs.values())
+    assert sum(1 for r in rs.values() if r["action"] == "listed" and r["amount"] == "") == 136
+    # Reso 01 p.55 prints a header row with no labels (T4.blank_header).
+    r = rs["fy18-tr01-p055-r001"]
+    assert (r["org"], r["amount"]) == ("Rugby Family Services", "-3500")
+    assert boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"]) == (
+        "Williams Rugby Family Services 11-3223904 DYCD ($3,500.00) 260 312")
+    # A fiscal conduit (FY2018 only columns).
+    r = rs["fy18-tr01-p013-r018"]
+    assert (r["fiscal_conduit"], r["fiscal_conduit_ein"]) == ("Greater Ridgewood Youth Council, Inc.", "112518141")
+    assert boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"]).endswith(
+        "Greater Ridgewood Youth Council, Inc. 11-2518141 *")
+
+
 def test_unrotate():
     # p.40 'H' at display (206.41, 38.68, 214.72, 50.20) on a /Rotate 90 page shown 792 x 612;
     # pdfium's unrotated glyph box is x 39.5-47.8, y-from-top 578.2-584.8.

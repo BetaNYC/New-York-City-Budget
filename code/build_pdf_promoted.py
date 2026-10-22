@@ -13,7 +13,7 @@ Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #1
 (via code/parse_transparency_v2.py), all GitHub #103; FY2025 `transparency` (GitHub #104);
 FY2024 `transparency` (GitHub #105); FY2023 `transparency` (GitHub #106); FY2022 `transparency`
 (GitHub #107); FY2021 `transparency` (GitHub #108); FY2020 `transparency` (GitHub #109);
-FY2019 `transparency` (GitHub #110).
+FY2019 `transparency` (GitHub #110); FY2018 `transparency` (GitHub #111).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -318,10 +318,10 @@ def build_schedule_c(scratch, fy=2027):
 
 
 # ------------------------------------------------------------------------------------------
-# Transparency resolutions (FY2026 .. FY2019)
+# Transparency resolutions (FY2026 .. FY2018)
 # ------------------------------------------------------------------------------------------
 
-TR_ISSUE = {2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108, 2020: 109, 2019: 110}
+TR_ISSUE = {2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108, 2020: 109, 2019: 110, 2018: 111}
 
 
 def tr_note(fy, cfg, rows_, charts):
@@ -360,7 +360,7 @@ def tr_note(fy, cfg, rows_, charts):
 def build_transparency(scratch, fy=2026):
     """Re-run code/parse_transparency_v2.py (all checks, image lattice and ink included) into the
     scratch folder and promote its row, chart, resolution and review tables (GitHub #103 FY2026,
-    #104 FY2025, #105 FY2024, #106 FY2023, #107 FY2022, #108 FY2021, #109 FY2020, #110 FY2019). FY2022 Reso 02's media box starts at
+    #104 FY2025, #105 FY2024, #106 FY2023, #107 FY2022, #108 FY2021, #109 FY2020, #110 FY2019, #111 FY2018). FY2022 Reso 02's media box starts at
     (-8.39, -8.39); the parser already writes its bbox_pt on the rendered page.
 
     One family row in data/pdf_years.csv covers a year's resolution PDFs: `source_pdf` is their
@@ -436,6 +436,7 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy21", "transparency", lambda d: build_transparency(d, 2021)),
             ("fy20", "transparency", lambda d: build_transparency(d, 2020)),
             ("fy19", "transparency", lambda d: build_transparency(d, 2019)),
+            ("fy18", "transparency", lambda d: build_transparency(d, 2018)),
             ("fy26", "schedule_c", lambda d: build_schedule_c(d, fy=2026))]
 
 
