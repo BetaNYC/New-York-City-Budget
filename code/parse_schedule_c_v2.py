@@ -47,7 +47,8 @@ ROW_FLAG_CHECK = {"wrap_hyphen": "W5.wrap_hyphen", "ein_overflow_hyphen": "W.ein
                   "reattributed": "H12.initiative_pages",
                   "sliver_char": "W.sliver_char",
                   "asterisk": "W.asterisk", "star_text": "H7.star",
-                  "star_in_cell": "W.star_in_cell"}
+                  "star_in_cell": "W.star_in_cell", "amount_cents": "W.amount_cents",
+                  "fiscal_conduit": "W.fiscal_conduit"}
 AWARD_COLUMNS = [
     "award_id", "fiscal_year", "source_pdf", "section", "category", "initiative", "initiative_id",
     "member", "sponsor", "delegation", "org", "ein", "amount", "agency", "purpose",

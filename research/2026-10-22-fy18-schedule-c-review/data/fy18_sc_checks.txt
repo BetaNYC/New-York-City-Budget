@@ -1,0 +1,69 @@
+SCHEDULE C FY2018 -- checks (code/parse_schedule_c_v2.py; config config/schedule_c/fy2018.toml)
+pdf source/FY18/FY-2018-Schedule-C-Cover-Template-FINAL-MERGE.pdf  sha256 d4f1374ee16d8503f54cc0e5b43a2c5077b4f9f2d382df0169267d1b9e5fc5cb
+
+award rows: 5,906  total $203,804,505
+  body         1,420 rows  $   154,005,505
+  appendix_a     537 rows  $     5,610,000
+  appendix_b   3,054 rows  $    36,539,000
+  appendix_c     895 rows  $     7,650,000
+initiatives: 145  categories: 26
+
+STRUCTURAL CHECKS
+  ok    H1.input         sha256 d4f1374ee16d… pages 357
+  ok    H2.triage        357 pages surveyed; 0 with invisible text or <=100 chars on an award page
+  ok    H3.pagemap       0 award rows outside their configured section range
+  ok    H4.headers       0 unknown or incomplete award-table headers
+  ok    H5.anchors       5974 EIN-shaped words, 5953 rows with an EIN; 0 pages differ; 0 rows without exactly one EIN and one amount; 1 named exceptions
+  ok    H6.furniture     0 data cells holding header/footer text
+  ok    H7.chars         1105934 non-space chars; 0 orphan chars in award tables; 0 unmapped cells
+  ok    H7.hrule_splits  14 tables from horizontal rules; 0 characters cross a column split; 0 stacks of rules not read
+  ok    H14.provenance   5906 award_ids, 5906 unique
+  ok    H16.values       0 clean values not reproducible from raw
+
+PRINTED TOTALS (H10-H13)
+  H10.category_total         named_exception  1
+  H10.category_total         ok               25
+  H11.box_vs_summary         ok               26
+  H12.designated_sum         named_exception  10
+  H12.designated_sum         ok               82
+  H12.reserve_only_rows      ok               35
+  H13.rollup                 named_exception  1
+  -> named_exception: p.38 Community Development: expected 14,460,000, observed 14,360,000 (diff -100,000) PDF self-error: Community Development's TOTAL prints $14,460,000; its five lines add to $14,360,000 (pending review)
+  -> named_exception: p.36 Discretionary Child Care (reserve_rows): expected 9,373,993, observed 9,855,190 (diff +481,197) Discretionary Child Care: box $9,855,190 less '$481,197 post adoption' = $9,373,993; the 12 rows add to $9,855,190, one of them Administration for Children's Services, The, 13-6400434, $481,197 (p.36), the reserve (pending review)
+  -> named_exception: p.53 Supportive Alternatives to Violent Encounters (SAVE) (none): expected 1,950,000, observed 0 (diff -1,950,000) a box for the whole SAVE initiative ($1,950,000), printed over its three parts' boxes ($600,000, $350,000, $1,000,000), whose rows are under them; it has no rows of its own (pending review)
+  -> named_exception: p.57 Support for Educators (full): expected 20,804,500, observed 20,804,000 (diff -500) PDF self-error: Support for Educators box $20,804,500; its 2 rows add to $20,804,000. The scope names $250,000 + $20,104,500 = $20,354,500 for DOE; the DOE row prints $20,354,000 (pending review)
+  -> named_exception: p.80 Immigrant Opportunities Initiative (reserve_rows): expected 2,468,000, observed 2,408,000 (diff -60,000) PDF self-error: Immigrant Opportunities Initiative box $2,600,000 less '$132,000 post-adoption' = $2,468,000; the 29 rows (p.81) add to $2,408,000 (pending review)
+  -> named_exception: p.85 Autism Awareness (full): expected 3,236,846, observed 3,291,846 (diff +55,000) PDF self-error: Autism Awareness box and its table's TOTAL row (p.86) print $3,236,846; the 38 rows add to $3,291,846 (pending review)
+  -> named_exception: p.93 Crisis Management System (none): expected 11,340,534, observed 0 (diff -11,340,534) a box for the whole Crisis Management System ($11,340,534), printed over its eight parts' boxes (pp.94-97), whose rows are under them; it has no rows of its own; its parts add to $11,327,800 (pending review)
+  -> named_exception: p.95 Crisis Management System – School Based Conflict Mediation (full): expected 1,280,000, observed 1,320,000 (diff +40,000) PDF self-error: Crisis Management System - School Based Conflict Mediation box $1,280,000; its 17 rows (p.96) add to $1,320,000; Street Corner Resources is printed twice, $40,000 each, once with 'Inc.' (pending review)
+  -> named_exception: p.101 Naturally Occurring Retirement Communities (NORCs) (reserve_rows): expected 1,421,000, observed 3,850,000 (diff +2,429,000) NORCs: box $3,850,000 less '$1.9 million' and '$529,000' held post-adoption = $1,421,000; the 13 rows add to $3,850,000, one of them Department for the Aging, 13-6400434, $2,429,000 (p.101), the two reserves (pending review)
+  -> named_exception: p.124 COMPASS (full): expected 1,813,600, observed 1,667,600 (diff -146,000) COMPASS: 'has designated the Department of Youth and Community Development and the providers listed below'; the 7 providers add to $1,667,600; DYCD's $146,000 has no row (pending review)
+  -> named_exception: p.127 Initiative for Immigrant Survivors of Domestic Violence (full): expected 250,000, observed 230,000 (diff -20,000) PDF self-error: Initiative for Immigrant Survivors of Domestic Violence box $250,000; its 6 rows add to $230,000 (pending review)
+  -> named_exception: p.0 body rows + post-adoption reserves vs sum of category TOTALs (+ direct agency designations): expected 330,801,000, observed 333,555,028 (diff +2,754,028) the two reserves printed again as agency rows (pp.36, 101), six boxes whose rows do not make them (pp.57, 80, 85, 95, 124, 127), Community Development's TOTAL (p.38) and Merit-Based Scholarships' box (p.69) (pending review)
+  roll-up: category TOTALs $330,801,000 = body rows $154,005,505 + post-adoption reserves $132,416,318 + designated directly to an agency, no rows printed $47,133,205 + $-2,754,028
+  appendices print no total; their pots (DATA-ANOMALIES §19): appendix_a $5,610,000, appendix_b $36,539,000, appendix_c $7,650,000
+
+IMAGE LATTICE (H8): rows read independently through code/ocr/grid.py lattices
+  agree on every field: 5,260 of 5,906
+  rows in tables with no drawn vertical rules, which the image lattice cannot see: 646; the pixels' horizontal rules confirm the row band of 646
+  image rows with no vector row: 0
+INK COVERAGE (H9): uncovered-ink regions inside award tables
+  regions: 0  uncovered px total: 30 of 160,718,002 ink px
+  acceptance on p.131 (fy18-p131-t00-r002): clean run 0 regions; row withheld -> 4; one char withheld -> 1 (PASS); the char is 'i'
+
+DISCLOSURE (report-only; data/fy18/expense_disclosure, as committed in data/fy18/expense_disclosure)
+  pdf rows 5,906; disclosure rows 8,894; matched (EIN, amount, City-EIN name rule) 5,707
+  matched without the City-EIN name rule (no prototype floor for this year): 5,715
+  body        cleared 1,331 ($114,140,021); pending 7 ($66,229); unmatched 82 ($39,799,255)
+  appendix_a  cleared 526 ($5,533,750); pending 2 ($13,000); unmatched 9 ($63,250)
+  appendix_b  cleared 2,947 ($35,266,100); pending 17 ($126,500); unmatched 90 ($1,146,400)
+  appendix_c  cleared 866 ($7,410,000); pending 11 ($73,500); unmatched 18 ($166,500)
+  pdf rows without a disclosure row, by reason: amount_differs 99, city_ein_name_mismatch 8, ein_fully_claimed 9, ein_not_in_disclosure 63, key_already_claimed 19, pdf_value_unreadable 1
+  disclosure rows without a pdf row, by reason: amount_or_count_differs 2873 ($202,231,369), ein_not_in_pdf 314 ($17,039,531)
+  disclosure rows on keys where the allocation was a choice (ambiguous): 1,044
+
+WARN COUNTS (not in the review file; listed in flags.csv)
+  amount_bare 4512, amount_cents 537, asterisk 1504, cid_glyph 10, continuation_row 3, ein_unreadable 1, fiscal_conduit 50, headerless_table 59, hrule_table 143, star_in_cell 9, wrap_hyphen 185
+  zero-width chars dropped: 0
+
+REVIEW FILE: 117 rows (2 critical, 115 warn); stale decisions: 0

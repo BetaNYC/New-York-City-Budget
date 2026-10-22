@@ -65,6 +65,9 @@ def run(cfg, pdf_sha, pages, S):
     for a in S["awards"]:
         if a["ein"]:
             by_page[a["pdf_page"]] = by_page.get(a["pdf_page"], 0) + 1
+        if a.get("_conduit_ein"):
+            # A fiscal conduit's EIN printed on the row (FY2018 "FC EIN" column).
+            by_page[a["pdf_page"]] = by_page.get(a["pdf_page"], 0) + 1
     diffs = [(p["page"], p["ein_tokens"], by_page.get(p["page"], 0)) for p in pages
              if p["ein_tokens"] != by_page.get(p["page"], 0)]
     # A page whose word count is off for a reason read off the page (FY2020 p.306: the text

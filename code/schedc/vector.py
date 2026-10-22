@@ -269,6 +269,7 @@ HRULE_ALIGN = 3.0       # pt: the rules of one table start and end within this o
 AMOUNT_WORD = re.compile(r"^\$[\d,]+$")
 EIN_SHORT = re.compile(r"^(\d{2}-?\d{7}|\d{2}-\d{6}|\d{2}-\d{8})$")
 AMOUNT_BARE = re.compile(r"^(\$[\d,]+|\d{1,3}(?:,\d{3})*)$")
+AMOUNT_CENTS = re.compile(r"^(\$[\d,]+|\d{1,3}(?:,\d{3})*|\$\d{1,3}(?:,\d{3})*\.\d{2})$")
 
 
 def _dark(color):
@@ -353,6 +354,10 @@ def hrule_tables(page, ox, oy, tables, words, opts=()):
     # `bare_amounts` (FY2020): member and appendix tables print amounts with no "$"
     # ("5,500", p.13), so a row's amount word may be bare.
     AW = AMOUNT_BARE if "bare_amounts" in opts else AMOUNT_WORD
+    # `amount_cents` (FY2018): Appendix A prints every amount with cents ("$30,000.00", p.131),
+    # so such a word is an amount word too; without it the ruled table looks suspect.
+    if "amount_cents" in opts:
+        AW = AMOUNT_CENTS
     # `hrule_short_ein` (FY2020 p.134): a row's EIN printed one digit short ("47-984801")
     # still marks an award row, so the table starts at it.
     ET = EIN_SHORT if "hrule_short_ein" in opts else EIN_TOKEN
@@ -418,6 +423,27 @@ def hrule_tables(page, ox, oy, tables, words, opts=()):
                 not any(t.bbox[1] < ys[0] - 1.0 and t.bbox[3] > min(w["top"] for w in over)
                         and t.bbox[0] < x1 and t.bbox[2] > x0 for t in keep):
             ys = [max(floor, min(w["top"] for w in over) - 2.0)] + ys
+        if "hrule_skip_kept" in opts:
+            # A stack that runs on into a kept ruled table (FY2018 p.107: the rules around
+            # "Urban Health Plan, Inc. 15-24042810 $88,855" continue as the top and bottom of
+            # the next table) ends where that table starts.
+            # A kept table at the stack's head (p.93: the award header drawn as its own ruled
+            # table over the h-rule rows) is skipped, not an end.
+            def kept_band(ya, yb):
+                return any(t.bbox[1] - 0.5 <= ya and yb <= t.bbox[3] + 0.5 and t.bbox[0] < x1
+                           and t.bbox[2] > x0 for t in keep)
+            i = 0
+            while i < len(ys) - 1:
+                if kept_band(ys[i], ys[i + 1]):
+                    if any(ET.match(w["text"]) for w in words
+                           if in_box(w, (x0, ys[0], x1, ys[i]))):
+                        ys = ys[:i + 1]
+                        break
+                    ys, i = ys[i + 1:], 0
+                    continue
+                i += 1
+            if len(ys) < 2:
+                continue
         bands = list(zip(ys, ys[1:]))
         bw = [[w for w in words if in_box(w, (x0, ya, x1, yb))] for ya, yb in bands]
         has = [any(ET.match(w["text"]) or AW.match(w["text"]) for w in ws)
@@ -629,7 +655,8 @@ class _ShiftedTable:
 # Vector switches a year's config may set under [structure] (FY2023), passed to read_page.
 VECTOR_OPTS = ("hrule_beside", "hrule_header_split", "sliver_chars", "split_one_cell_rows",
                "hrule_extra_column", "edge_slivers", "bare_amounts", "hrule_lead_column",
-               "hrule_split_lines", "hrule_short_ein")
+               "hrule_split_lines", "hrule_short_ein", "amount_cents",
+               "hrule_skip_kept")
 
 
 def read_pdf(pdf_path, pages=None, x_tolerance=X_TOLERANCE, page_settings=None, hrule=False,

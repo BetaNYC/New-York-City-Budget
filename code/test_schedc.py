@@ -1098,3 +1098,115 @@ def test_snapshot19_rows_and_checks():
     txt = open(os.path.join(OUT19, "fy19_sc_checks.txt"), encoding="utf-8").read()
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "acceptance on p.133" in txt and "(PASS)" in txt
+
+
+# --- FY2018 (config/schedule_c/fy2018.toml) ----------------------------------------------------
+CFG18 = config.load(2018)
+OUT18 = os.path.join(config.ROOT, CFG18["review_dir"], "data")
+FY18_SWITCHES = ("amount_cents", "short_ein_rows", "hrule_skip_kept", "box_title_above",
+                 "award_table_totals")
+
+
+def test_fy2018_switches_off_for_other_years():
+    for c in (CFG, CFG26, CFG25, CFG24, CFG23, CFG22, CFG21, CFG20, CFG19):
+        for k in FY18_SWITCHES:
+            assert not c["structure"].get(k)
+        assert not {"conduit", "conduit_ein"} & {f for _, f in c["structure"]["header_labels"]}
+
+
+def test_fy2018_statement_kinds():
+    def k(x):
+        return structure.statement_kind(x, CFG18)
+    assert k("The City Council will designate allocation post-budget adoption.")[0] == \
+        "reserve_all"
+    assert k("The  City Council will designate this allocation post-adoption.")[0] == \
+        "reserve_all"
+    assert k("This funding is allocated directly to the NYC Health+Hospital.")[0] == "direct"
+    assert k("The City Council will designate NNORC allocations, which total $1.9 million, "
+             "post-budget adoption. The Council will designate $529,000 of the total $1.95 "
+             "million for vertical NORCs post-budget adoption and has designated the following "
+             "providers and amounts for Fiscal 2018.")[:2] == ("reserve_rows", 2429000)
+
+
+# Golden rows, read from the rendered FY2018 pages (2026-10-22), not copied from output.
+@pytest.fixture(scope="module")
+def pages18():
+    ps = vector.read_pdf(CFG18["_pdf_abs"], pages={33, 34, 63, 64, 92, 93, 94, 105, 106, 107,
+                                                   126, 127, 130, 131},
+                         x_tolerance=CFG18["x_tolerance"], hrule=True,
+                         opts=tuple(o for o in vector.VECTOR_OPTS if CFG18["structure"].get(o)))
+    return {p["page"]: p for p in structure.split_merged_tables(ps, CFG18)}
+
+
+def _rows18(pages18, pns):
+    return structure.build([pages18[p] for p in pns], CFG18)
+
+
+def test_golden18_fiscal_conduit_p34(pages18):
+    S = _rows18(pages18, [33, 34])
+    r = _one(S, "133981477", 4000)
+    assert r["org"] == "Staten Island Hindu Temple, Inc."
+    assert r["_conduit_ein"] == "135562256" and "fiscal_conduit" in r["row_flags"]
+    fc = [f for f in S["flags"] if f["check_id"] == "W.fiscal_conduit" and
+          f["award_id"] == r["award_id"]]
+    assert len(fc) == 1 and "Jewish Community" in fc[0]["message"]
+
+
+def test_golden18_total_row_is_not_an_award_p64(pages18):
+    S = _rows18(pages18, [63, 64])
+    assert not [a for a in S["awards"] if a["org"] == "TOTAL"]
+    assert {"pdf_page": 64, "initiative": "Access Health NYC", "printed": 1187000,
+            "rows": 1187000} in S["table_totals"]
+
+
+def test_golden18_box_title_above_its_table_p94(pages18):
+    S = _rows18(pages18, [92, 93, 94])
+    ini = {i["initiative"]: i for i in S["initiatives"]}
+    cv = ini["Crisis Management System – Cure Violence"]
+    assert cv["amount"] == 4775000 and cv["rows_sum"] == 4775000
+    # The Art as a Catalyst rows carried over p.93 under a header drawn as its own table.
+    assert ini["Art a Catalyst for Change"]["n_rows"] == 35
+
+
+def test_golden18_short_ein_row_between_tables_p107(pages18):
+    S = _rows18(pages18, [107])
+    r = [a for a in S["awards"] if a["ein_printed"] == "15-24042810"]
+    assert len(r) == 1 and r[0]["amount"] == 88855 and r[0]["org"] == "Urban Health Plan, Inc."
+    assert _one(S, "133046424", 58600)["org"] == \
+        "West Brighton Community Local Development Corporation"
+    ini = {i["initiative"]: i for i in S["initiatives"]}
+    assert ini["MWBE Leadership Associations"]["rows_sum"] == 600000
+
+
+def test_golden18_side_list_p106(pages18):
+    S = _rows18(pages18, [105, 106])
+    side = [f for f in S["flags"] if f["check_id"] == "K.side_list"]
+    assert [f["dollar_impact"] for f in side] == [4463500]
+    assert not [a for a in S["awards"] if a["pdf_page"] == 106]
+
+
+def test_golden18_star_in_its_own_cell_p127(pages18):
+    S = _rows18(pages18, [126, 127])
+    r = _one(S, "133083068", 63000)
+    assert "asterisk" in r["row_flags"] and "unmapped_cell" not in r["row_flags"]
+
+
+def test_golden18_appendix_a_amounts_with_cents_p131(pages18):
+    S = _rows18(pages18, [130, 131])
+    r = _one(S, "113199040", 19000)
+    assert r["section"] == "appendix_a" and r["member"] == "Williams"
+    assert r["amount_printed"] == "$19,000.00" and "amount_cents" in r["row_flags"]
+
+
+@pytest.mark.skipif(not os.path.exists(OUT18), reason="FY2018 outputs not built")
+def test_snapshot18_rows_and_checks():
+    with open(os.path.join(OUT18, "fy18_sc_awards.csv"), newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    assert len(rows) == 5906
+    assert sum(int(r["amount"]) for r in rows) == 203804505
+    for sec, pot in (("appendix_a", 5610000), ("appendix_b", 36539000), ("appendix_c", 7650000)):
+        assert sum(int(r["amount"]) for r in rows if r["section"] == sec) == pot
+    assert sum("asterisk" in r["row_flags"] for r in rows) == 1504
+    txt = open(os.path.join(OUT18, "fy18_sc_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "acceptance on p.131" in txt and "(PASS)" in txt

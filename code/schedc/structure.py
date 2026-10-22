@@ -131,7 +131,11 @@ def table_kind(t, cfg):
     if any(first.startswith(x) for x in titles):
         return "summary"
     if re.search(r"\$[\d,]+$", first) and len(t["rows"]) >= 1 and \
-            any(" ".join(c["text_raw"].split()) for c in t["rows"][0]["cells"][:3]):
+            any(" ".join(c["text_raw"].split()) for c in t["rows"][0]["cells"][:3]) and \
+            not (cfg["structure"].get("short_ein_rows") and
+                 re.search(r"(^|[\s|])\d{2}-(\d{6}|\d{8})($|[\s|])", first)):
+        # `short_ein_rows` (FY2018 p.107): a row printing an EIN of the wrong length
+        # ("Urban Health Plan, Inc. | 15-24042810 | $88,855") is an award row, not a box.
         return "box"
     if cfg["structure"].get("box_amount_dollar_space") and re.search(r"\$ [\d,]+$", first) and \
             not EIN_IN_TEXT.search(first):
@@ -490,6 +494,7 @@ def build(pages, cfg):
     sub_of = {}       # initiative_id -> the sub-heading the rows under it are printed beneath
     covered = {}      # (page, table_index) -> char boxes read that are in no award row
     side_tables = {}  # page -> bboxes of tables named in `side_lists` (not award rows)
+    table_totals = []  # TOTAL rows closing an award table (`award_table_totals`)
 
     def _subhead(r):
         texts = {" ".join(c["text_raw"].split()) for c in r["cells"] if c["text_raw"].strip()}
@@ -685,9 +690,43 @@ def build(pages, cfg):
             k0 = 1 if subheads and len(t["rows"]) > 1 and _subhead(t["rows"][0]) else 0
             c_ein = _cell_at(t["rows"], k0, dict(last_cols)["ein"])[0]
             c_amt = _cell_at(t["rows"], k0, dict(last_cols)["amount"])[0]
-            if c_ein and c_amt and EIN_RE.match(c_ein["text_raw"].strip()) and \
+            ein_ok = (EIN_RE.match(c_ein["text_raw"].strip()) or (
+                s.get("short_ein_rows") and EIN_LIKE.match(c_ein["text_raw"].strip()))) \
+                if c_ein else None
+            if c_ein and c_amt and ein_ok and \
                     parse_amount(c_amt["text_raw"]) is not None:
                 kind, headerless = "award", True
+        if kind == "other" and s.get("box_title_above"):
+            # A box whose title bar is printed above the table's top rule, outside its cells,
+            # the table starting at "Agency:" (FY2018 p.94: "Crisis Management System – Cure
+            # Violence" and "$4,775,000" in the band over the table). Read as the box's first
+            # row; flagged, so a person confirms it.
+            r0 = t["rows"][0]
+            t0 = " ".join(_row_text(r0).split())
+            band = [ln for ln in page_lines.get(pn, []) if not ln.get("from_table") and
+                    -1.0 <= t["bbox"][1] - ln["bottom"] <= 3.0 and
+                    t["bbox"][0] - 2 <= ln["x0"]]   # p.95: the table only as wide as "Agency:"
+            money = [ln for ln in band if re.fullmatch(r"\$[\d,]+", ln["text"])]
+            title = [ln for ln in band if ln not in money]
+            if t0.startswith("Agency:") and len(money) == 1 and title and \
+                    max(ln["x1"] for ln in title) < money[0]["x0"] and \
+                    not any(EIN_IN_TEXT.search(ln["text"]) for ln in title):
+                top = min(ln["top"] for ln in band)
+                x1 = max(t["bbox"][2], money[0]["x1"])
+                cells = [dict(bbox=[t["bbox"][0], top, money[0]["x0"], t["bbox"][1]],
+                              text_raw=" ".join(ln["text"] for ln in
+                                                sorted(title, key=lambda ln: ln["x0"])),
+                              nchars=0, char_boxes=[]),
+                         dict(bbox=[money[0]["x0"], top, x1, t["bbox"][1]],
+                              text_raw=money[0]["text"], nchars=0, char_boxes=[])]
+                t = dict(t, rows=[dict(r0, row_index=-1, top=top, bottom=t["bbox"][1],
+                                       cells=cells)] + t["rows"])
+                kind = "box"
+                flag("W.box_title_above", "warn", pn, f"box title {cells[0]['text_raw']!r} "
+                     f"and amount {money[0]['text']!r} printed above the box's table, outside "
+                     "its rules; read as its title bar; confirm on the page",
+                     table_index=t["table_index"], field=cells[0]["text_raw"],
+                     dollar_impact=parse_amount(money[0]["text"]))
         if kind == "other" and s.get("box_amount_loose"):
             # A box drawn narrower than its title bar, its amount printed beside it outside
             # the rules (FY2021 p.98: "Naturally Occurring Retirement Communities (NORCs)" in
@@ -904,18 +943,28 @@ def build(pages, cfg):
             # partners", under CWE's $5,154,200 row). Named in the year's config with its page
             # and header as printed: its rows are not awards and are not counted; the list,
             # its rows and their sum are one review item. Its characters count as read.
-            ax = dict(header_map(hdr, labels)[0]).get("amount")
-            own = [ri for ri in range(1, len(t["rows"]))
-                   if EIN_IN_TEXT.search(_row_text(t["rows"][ri]))]
-            amts = [parse_amount(" ".join((_cell_at(t["rows"], ri, ax)[0] or {}).get(
-                "text_raw", "").split())) for ri in own] if ax else []
+            # The list runs on into the ruled tables under it with no header of their own
+            # (FY2018 p.106: three tables), up to the next table of another kind.
+            part = [t]
+            for u in sorted((u for p_ in pages if p_["page"] == pn for u in p_["tables"]
+                             if u["bbox"][1] > t["bbox"][1]), key=lambda u: u["bbox"][1]):
+                if table_kind(u, cfg) != "other":
+                    break
+                part.append(u)
+            rows_ = [r_ for k_, u in enumerate(part) for r_ in u["rows"][(1 if k_ == 0 else 0):]]
+            own = [r_ for r_ in rows_ if EIN_IN_TEXT.search(_row_text(r_))]
+            # Each row's amount: the "$" figure in its text (FY2018 p.106 prints "Amount" and
+            # "Service Type" in one header cell, so there is no amount column to read).
+            amts = [parse_amount((re.findall(r"\$[\d,]+", _row_text(r_)) or [""])[0])
+                    for r_ in own]
             tot = sum(v or 0 for v in amts)
             flag("K.side_list", "critical", pn, f"{side['note']}: {len(own)} rows with an EIN, "
                  f"${tot:,} as printed; read as no award", table_index=t["table_index"],
                  dollar_impact=tot)
-            side_tables.setdefault(pn, []).append(t["bbox"])
-            covered.setdefault((pn, t["table_index"]), []).extend(
-                b for r in t["rows"] for c in r["cells"] for b in c["char_boxes"])
+            for u in part:
+                side_tables.setdefault(pn, []).append(u["bbox"])
+                covered.setdefault((pn, u["table_index"]), []).extend(
+                    b for r in u["rows"] for c in r["cells"] for b in c["char_boxes"])
             continue
         if unknown:
             flag("H4.header", "critical", pn, f"unknown header label(s): {unknown}",
@@ -1023,6 +1072,18 @@ def build(pages, cfg):
             if any(c.get("sliver_chars") for c in r["cells"] if tuple(c["bbox"]) in used):
                 rec["row_flags"].append("sliver_char")     # vector.read_page `sliver_chars`
             for c in r["cells"]:
+                if tuple(c["bbox"]) not in used and c["text_raw"].strip() == "*" and \
+                        "star" not in fields and any(f_ == "star" for _, f_ in labels):
+                    # A "*" in its own cell under a header with no "*" column (FY2018 p.127,
+                    # Dedicated Contraceptive Fund: "Legal Name of Organization | EIN | Amount"):
+                    # the row's asterisk, flagged and a review item.
+                    rec["row_flags"] += ["asterisk", "star_in_cell"]
+                    char_boxes += c["char_boxes"]
+                    flag("W.star_in_cell", "warn", pn, "'*' printed in a cell of its own under a "
+                         "header with no '*' column; read as the row's asterisk",
+                         table_index=t["table_index"], row_index=r["row_index"], field="star",
+                         dollar_impact=0)
+                    continue
                 if tuple(c["bbox"]) not in used and c["text_raw"].strip():
                     rec["row_flags"].append("unmapped_cell")
                     flag("H7.unmapped", "critical", pn, f"text in a cell no header column claims: "
@@ -1058,6 +1119,32 @@ def build(pages, cfg):
                                          else f"sliver_band:r{r['row_index']}")
                 prev["row_flags"] += [f for f in rec["row_flags"] if f not in prev["row_flags"]
                                       and not f.startswith("spanning_cell")]
+                continue
+            if s.get("award_table_totals") and "org" in fields and \
+                    " ".join(rec["org_raw"].split()).upper() == "TOTAL" and \
+                    not rec["ein_raw"].strip() and current is not None:
+                # A TOTAL row closing an award table (FY2018 p.64: "TOTAL | $1,187,000" under
+                # Access Health NYC's rows). Not an award: checked against the rows of its
+                # initiative read so far; a mismatch is a critical H12.table_total.
+                tot = parse_amount(" ".join(rec["amount_raw"].split()))
+                got = sum(parse_amount(" ".join(a["amount_raw"].split())) or 0 for a in awards
+                          if a.get("initiative_id") == current["initiative_id"] and
+                          a["section"] == section)
+                table_totals.append(dict(pdf_page=pn, initiative=current["initiative"],
+                                         printed=tot, rows=got))
+                if tot != got:
+                    # A PDF that disagrees with itself passes only as a named exception matched
+                    # on (page, printed, rows), as reconcile's; a warn flag then.
+                    exc = next((e for e in cfg.get("exceptions", []) if e["check"] ==
+                                "H12.table_total" and (e["page"], e["expected"], e["observed"])
+                                == (pn, tot, got)), None)
+                    flag("H12.table_total", "warn" if exc else "critical", pn,
+                         f"{current['initiative']}: TOTAL row prints "
+                         f"{rec['amount_raw'].strip()!r}; its rows add to {got:,}" +
+                         (f" (named exception: {exc['note']})" if exc else ""),
+                         initiative=current["initiative"], table_index=t["table_index"],
+                         row_index=r["row_index"], dollar_impact=abs((tot or 0) - got))
+                covered.setdefault((pn, t["table_index"]), []).extend(char_boxes)
                 continue
             if not any(rec[f + "_raw"].strip() for f in fields):
                 rec["row_flags"].append("empty_row")
@@ -1139,6 +1226,20 @@ def build(pages, cfg):
                 flag("H7.star", "critical", rec["pdf_page"], f"'*' column holds {st!r}",
                      award_id=rec["award_id"], table_index=rec["table_index"],
                      row_index=rec["row_index"], field="star")
+        if "conduit_raw" in rec or "conduit_ein_raw" in rec:
+            # "Fiscal Conduit" and "FC EIN" columns (FY2018, header labels `conduit`,
+            # `conduit_ein`; p.10: an organization may receive its funds through a fiscal
+            # conduit). No output column holds them: a row that prints one is flagged and is a
+            # warn review item carrying both as printed; the FC EIN counts in the anchor census.
+            fc = " ".join(rec.pop("conduit_raw", "").split())
+            fe = " ".join(rec.pop("conduit_ein_raw", "").split())
+            if fc or fe:
+                rec["row_flags"].append("fiscal_conduit")
+                rec["_conduit_ein"] = fe.replace("-", "") if EIN_RE.match(fe) else ""
+                flag("W.fiscal_conduit", "warn", rec["pdf_page"], f"fiscal conduit printed: "
+                     f"{fc!r}, FC EIN {fe!r}; not in an output column (kept here as printed)",
+                     award_id=rec["award_id"], table_index=rec["table_index"],
+                     row_index=rec["row_index"], field="conduit", dollar_impact=0)
         rec["ein_printed"] = rec.pop("ein_raw").strip()
         rec["amount_printed"] = " ".join(rec.pop("amount_raw").split())
         if "empty_row" in rec["row_flags"]:
@@ -1169,6 +1270,13 @@ def build(pages, cfg):
             bare = cfg["structure"].get("bare_amounts") and \
                 {"member", "delegation", "sponsor"} & set(rec["header"].split(" | "))
             rec["row_flags"].append("amount_bare" if bare else "amount_no_dollar")
+        if rec["amount"] is None and cfg["structure"].get("amount_cents") and \
+                re.fullmatch(r"\$\d{1,3}(?:,\d{3})*\.00", rec["amount_printed"]) and \
+                {"member", "delegation", "sponsor"} & set(rec["header"].split(" | ")):
+            # `amount_cents` (FY2018): Appendix A prints every amount with zero cents
+            # ("$30,000.00", p.131). Read as the whole dollars printed; a routine flag there.
+            rec["amount"] = int(rec["amount_printed"][1:].split(".")[0].replace(",", ""))
+            rec["row_flags"].append("amount_cents")
         if rec["amount"] is None and cfg["structure"].get("amount_odd_format") and \
                 re.fullmatch(r"\$\d{1,3}(?:,\d{3})*(?:\.00|\.)", rec["amount_printed"]):
             # Printed with zero cents or a trailing period (FY2025 p.168 "$77,000.00", p.170
@@ -1182,6 +1290,6 @@ def build(pages, cfg):
         ini["rows_sum"] = sum(a["amount"] or 0 for a in awards
                               if a["initiative_id"] == ini["initiative_id"])
     return dict(initiatives=initiatives, summary=summary, awards=awards, flags=flags,
-                side_tables=side_tables,
+                side_tables=side_tables, table_totals=table_totals,
                 last_cols=last_cols, header_rows=header_rows,
                 band_words=band_words, covered=covered)
