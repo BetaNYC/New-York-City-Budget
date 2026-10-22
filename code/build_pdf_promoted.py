@@ -16,7 +16,8 @@ FY2023 `capital_sd` and `terms` (#106);
 FY2022 `capital_sd` and `terms` (#107);
 FY2021 `terms` (#108; no FY2021 capital supporting detail in source/);
 FY2020 `capital_sd` (#109; Part I only, so its orgs table is header only; no FY2020 T&C);
-FY2019 `capital_sd` (#110; an Excel print: no Part II/III and no summary page; no FY2019 T&C).
+FY2019 `capital_sd` (#110; an Excel print: no Part II/III and no summary page; no FY2019 T&C);
+FY2018 `capital_sd` and `terms` (#111; the capital book prints no summary page).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -420,7 +421,9 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy22", "terms", lambda d: build_terms(d, 2022)),
             ("fy21", "terms", lambda d: build_terms(d, 2021)),
             ("fy20", "capital_sd", lambda d: build_capital_sd(d, 2020)),
-            ("fy19", "capital_sd", lambda d: build_capital_sd(d, 2019))]
+            ("fy19", "capital_sd", lambda d: build_capital_sd(d, 2019)),
+            ("fy18", "capital_sd", lambda d: build_capital_sd(d, 2018)),
+            ("fy18", "terms", lambda d: build_terms(d, 2018))]
 
 
 def build_all():
