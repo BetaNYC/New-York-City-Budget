@@ -1,0 +1,73 @@
+# FY2019 Section 254 capital supporting detail ("Supporting Detail to the Fiscal 2019 Changes to
+# the Executive Capital Budget (Council Projects Only)"): every year-specific fact
+# code/review_capital_sd.py needs, and nothing else. Values read off the pages (triage:
+# data/fy19_capital_sd_pages.csv).
+#
+# A different kind of book from FY2018 and FY2020-FY2027: the Council's database printed from
+# Excel 2016 (Producer "Microsoft Excel 2016"), not a Word table. Not encrypted; no /Rotate; all
+# 55 pages are 792 x 612 landscape. Every cell has drawn borders (thin filled rects), so it is
+# read from its vector grid (config layout = "grid"). No cover, contents, dividers, agency
+# headings, TOTALS FOR lines, Part II, Part III or summary page: pp.1-54 are one table, one
+# unlabelled bold total row closes it (p.54), and a "Key to CD" table (pp.54-55) names the
+# council-district codes printed in the CD column.
+
+fiscal_year = 2019
+pdf = "source/FY19/Capital-Final-Upload.pdf"
+sha256 = "afc334a4720985a9e8e3c737bf218cd46b39b7f2c6f6e155e24408ae3dc2418c"
+review_dir = "research/2026-10-22-fy19-capital-terms-review"   # outputs land in <review_dir>/data
+prefix = "fy19"                                                # output file names: <prefix>_capital_sd_*
+issue = 110
+
+layout = "grid"
+
+# The four FY columns, as printed in the column header (p.1: "FY19 FY20 FY21 FY22").
+fys = ["fy2019", "fy2020", "fy2021", "fy2022"]
+
+# The Excel export's fonts on the grid (p.1): Calibri and Calibri-Bold (header, total row). The
+# Key to CD (pp.54-55) is set in ArialMT / Arial-BoldMT; it is not a project row.
+export_fonts = ["ABCDEE+Calibri"]
+
+# ID numbers that are not two letters and three to five digits, read off the pages: `HL NC57`
+# (p.36; t474 prints it the same way).
+extra_sub_ids = ["NC57"]
+
+# The comparison source for FY2019 is NYC Open Data t474-a92g (no Council workbook found;
+# data/capital/README.md). Its rows keep the agency prefix (`HL NC034`), as FY2020's.
+wb_full_id = true
+# Its text is UTF-8 bytes read as cp437 (`TRUCK┬á` = a no-break space after TRUCK, p.47
+# `PV NC004`), as FY2020's: C9 decodes it before comparing. Nothing is written back.
+workbook_mojibake = "utf-8"
+
+[grid]
+# Every page's first printed line (p.1).
+first_line = "Supporting Detail to the Fiscal 2019 Changes to the Executive Capital Budget (Council Projects Only)"
+# The project table's horizontal rules run x 51.3-737.4 (686 pt); the Key to CD's run x 51.3-259.4
+# (208 pt) (p.54).
+table_min_width = 600
+key_min_width = 150
+key_right = 259.4
+key_caption = "Key to CD"
+# Header cell -> field, read off p.1's header row (each name sits between two drawn rules).
+header = { "PROJECT" = "sub_id", "POLBORO" = "boro", "NEWPROJECT" = "budget_line", "CD" = "cd", "TITLE" = "title", "DESC" = "description", "FY19" = "fy2019", "FY20" = "fy2020", "FY21" = "fy2021", "FY22" = "fy2022" }
+columns = ["sub_id", "boro", "budget_line", "cd", "title", "description", "fy2019", "fy2020", "fy2021", "fy2022"]
+# Key to CD codes 00-51 are the Speaker and the 51 members (p.54: "A Speaker 00" ... "R Borelli
+# Joseph 51"); 88-99 are caucuses, delegations and other groups (p.55).
+key_person_max = 51
+
+# Page map: each kind's inclusive page ranges, checked against each page's furniture (H3).
+# p.54 holds the last rows, the total row and the start of the Key to CD; p.55 only the key.
+[pages]
+part1 = [[1, 54]]
+cd_key = [[55, 55]]
+[rotate]
+part1 = 0
+
+# No Part II in this book; the series is kept so the config has the same shape as other years.
+[part2_only]
+id_prefix = "MA"
+line_prefix = "0N"
+
+# --selftest-ink: drop this row's words from the emitted set on this page; C8 must fire.
+[ink_selftest]
+page = 1
+sub_id = "AG CN002"
