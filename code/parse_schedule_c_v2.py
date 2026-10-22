@@ -42,7 +42,8 @@ ROW_FLAG_CHECK = {"wrap_hyphen": "W5.wrap_hyphen", "ein_overflow_hyphen": "W.ein
                   "amount_split_digits": "W.amount_split_digits",
                   "amount_odd_format": "W.amount_odd_format",
                   "header_span_cell": "W.header_span_cell", "hrule_table": "W.hrule_table",
-                  "loose_header": "W.loose_header", "reattributed": "H12.initiative_pages"}
+                  "loose_header": "W.loose_header", "reattributed": "H12.initiative_pages",
+                  "sliver_char": "W.sliver_char"}
 AWARD_COLUMNS = [
     "award_id", "fiscal_year", "source_pdf", "section", "category", "initiative", "initiative_id",
     "member", "sponsor", "delegation", "org", "ein", "amount", "agency", "purpose",
@@ -63,15 +64,17 @@ def cached_vector(cfg, pdf_sha, cache_dir, pages=None):
           for v in cfg.get("vector_pages", [])}
     hrule = bool(cfg["structure"].get("hrule_tables"))
     open_top = bool(cfg["structure"].get("open_top_rows"))
+    opts = tuple(o for o in vector.VECTOR_OPTS if cfg["structure"].get(o))
     key = hashlib.sha256(pdf_sha.encode() + str(cfg["x_tolerance"]).encode() + src
                          + (json.dumps(ps, sort_keys=True).encode() if ps else b"")
                          + (b"hrule" if hrule else b"")
-                         + (b"open_top" if open_top else b"")).hexdigest()[:16]
+                         + (b"open_top" if open_top else b"")
+                         + "".join(opts).encode()).hexdigest()[:16]
     path = os.path.join(cache_dir, f"vector-{key}.json")
     if pages is None and os.path.exists(path):
         return json.load(open(path))
     pg = vector.read_pdf(cfg["_pdf_abs"], pages=pages, x_tolerance=cfg["x_tolerance"],
-                         page_settings=ps, hrule=hrule, open_top=open_top)
+                         page_settings=ps, hrule=hrule, open_top=open_top, opts=opts)
     if pages is None:
         os.makedirs(cache_dir, exist_ok=True)
         json.dump(pg, open(path, "w"))
@@ -351,6 +354,15 @@ def main(argv=None):
                               f"its right; joined and read as {r['amount_printed']!r}. Confirm "
                               "on the page.",
                               value_vector=json.dumps(r["_raw"], ensure_ascii=False)))
+        if "sliver_char" in r["row_flags"]:
+            items.append(dict(check_id="W.sliver_char", severity="warn",
+                              pdf_page=r["pdf_page"], table_index=r["table_index"],
+                              row_index=r["row_index"], award_id=r["award_id"], field="org",
+                              dollar_impact=r["amount"],
+                              what_to_check="a letter centred in the narrow cell left of the text "
+                              "(a phantom column) was read into the cell its glyph runs into; "
+                              f"read as {r['org']!r}. Confirm on the page.",
+                              value_vector=json.dumps(r["_raw"], ensure_ascii=False)))
         if "amount_odd_format" in r["row_flags"]:
             items.append(dict(check_id="W.amount_odd_format", severity="warn",
                               pdf_page=r["pdf_page"], table_index=r["table_index"],
@@ -380,6 +392,16 @@ def main(argv=None):
                                   value_vector=json.dumps(r["_raw"], ensure_ascii=False)))
     for k in cfg.get("known_issues", []):
         items.append(dict(k, severity=k.get("severity", "warn")))
+    # Two initiatives on one page failing the same check (FY2023 p.43: two H12.designated_sum
+    # exceptions) would share a review_id; there the initiative is the `field`, as two box
+    # aliases on one page are (reconcile.py). No other year has such a pair.
+    keys = Counter((i["check_id"], i.get("pdf_page", ""), i.get("table_index", ""),
+                    i.get("row_index", ""), i.get("field", "")) for i in items)
+    for i in items:
+        if i.get("initiative") and not i.get("field") and keys[(
+                i["check_id"], i.get("pdf_page", ""), i.get("table_index", ""),
+                i.get("row_index", ""), "")] > 1:
+            i["field"] = i["initiative"]
 
     if only:
         print(f"pages {a.pages}: {len(awards)} rows, ${sum(r['amount'] or 0 for r in awards):,}")

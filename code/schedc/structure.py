@@ -128,6 +128,16 @@ def table_kind(t, cfg):
     if re.search(r"\$[\d,]+$", first) and len(t["rows"]) >= 1 and \
             any(" ".join(c["text_raw"].split()) for c in t["rows"][0]["cells"][:3]):
         return "box"
+    if cfg["structure"].get("box_amount_dollar_space") and re.search(r"\$ [\d,]+$", first) and \
+            not EIN_IN_TEXT.search(first):
+        # The box amount printed with a space after "$" (FY2023 p.34 "AAPI | $ 5,000,000").
+        return "box"
+    if cfg["structure"].get("box_amount_without_dollar") and \
+            re.search(r"\| \d{1,3}(?:,\d{3})+$", first) and not EIN_IN_TEXT.search(first) and \
+            first.count(" | ") == 1:
+        # The box amount printed without its "$" (FY2023 p.92 "Trauma Recovery Centers |
+        # 2,400,000", in the black bar): a title cell and a bare amount, nothing EIN-like.
+        return "box"
     if cfg["structure"].get("box_amount_cells") and not EIN_IN_TEXT.search(first):
         # The box amount cut into cells (FY2025 p.157 "... | $ | 5 | 00,000").
         texts = [c["text_raw"].strip() for c in t["rows"][0]["cells"] if c["text_raw"].strip()]
@@ -232,6 +242,11 @@ def split_merged_tables(pages, cfg):
     in_cell = cfg["structure"].get("statement_in_cell")
     split_after = cfg["structure"].get("split_boxes_after_rows")
     stmt_loose = cfg["structure"].get("statement_loose_text")
+    # A box row inside a table that starts with an award header and has no statement row
+    # (FY2023 p.53: "... Community Schools rows | (empty band) | Educational Programs for
+    # Students | $7,143,133 | Agency: ...", the box's statement on in the next table). The
+    # table is split there as `split_boxes_after_rows` splits one with a statement.
+    in_award = split_after and cfg["structure"].get("split_boxes_award_tables")
 
     def box_row(i, x):
         # A second initiative box drawn inside the same ruled table, directly under the first
@@ -246,7 +261,10 @@ def split_merged_tables(pages, cfg):
         for t in p["tables"]:
             texts = _row_texts_with_slivers(t)
             if not any((hdr_re.search(x) and i > 0) or x.startswith(prefix)
-                       or (in_cell and (" " + prefix) in x) for i, x in enumerate(texts)):
+                       or (in_cell and (" " + prefix) in x)
+                       or (in_award and hdr_re.search(texts[0]) and box_row(i, x) and
+                           x.count(" | ") == 1 and not re.search(r"\d{2}-\d", x))
+                       for i, x in enumerate(texts)):
                 tables.append(dict(t, _orig=t["table_index"]))
                 continue
             segs, cur, in_stmt = [], [], False
@@ -535,6 +553,15 @@ def build(pages, cfg):
                 if lead and cells[0]["bbox"][0] == t["bbox"][0]:
                     title_raw = lead + title_raw
             amt_printed = " ".join(cells[-1]["text_raw"].split())
+            bare = None
+            if s.get("box_amount_without_dollar") and parse_amount(amt_printed) is None and \
+                    re.fullmatch(r"\d{1,3}(?:,\d{3})+", amt_printed):
+                # Printed without its "$" (FY2023 p.92). Read as the number printed; flagged.
+                flag("W.box_amount_no_dollar", "warn", pn, f"box amount printed without '$': "
+                     f"{amt_printed!r}; read as {int(amt_printed.replace(',', '')):,}; confirm on "
+                     "the page", table_index=t["table_index"], field="amount",
+                     dollar_impact=int(amt_printed.replace(",", "")))
+                bare = int(amt_printed.replace(",", ""))
             if s.get("box_amount_cells") and parse_amount(amt_printed) is None:
                 # The box amount cut into several cells by phantom column rules (FY2025 p.157
                 # "$" | "5" | "00,000"): the last cells, joined with no space, read as one
@@ -578,7 +605,8 @@ def build(pages, cfg):
             current = dict(initiative_id=len(initiatives) + 1, initiative=title,
                            initiative_raw=title_raw, category=category,
                            section=section, pdf_page=pn, table_index=t["table_index"],
-                           amount=parse_amount(amt_printed), amount_printed=amt_printed,
+                           amount=parse_amount(amt_printed) if bare is None else bare,
+                           amount_printed=amt_printed,
                            bbox_pt=t["bbox"], statement="", statement_kind="none",
                            reserve=None, designated=None, n_rows=0, rows_sum=0)
             if current["amount"] is None:
@@ -678,6 +706,8 @@ def build(pages, cfg):
                         used.add(tuple(c["bbox"]))
                         char_boxes += c["char_boxes"]
                         rec["row_flags"].append(f"header_span_cell:{hit[0]}")
+            if any(c.get("sliver_chars") for c in r["cells"] if tuple(c["bbox"]) in used):
+                rec["row_flags"].append("sliver_char")     # vector.read_page `sliver_chars`
             for c in r["cells"]:
                 if tuple(c["bbox"]) not in used and c["text_raw"].strip():
                     rec["row_flags"].append("unmapped_cell")

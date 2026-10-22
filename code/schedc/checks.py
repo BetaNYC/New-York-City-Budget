@@ -95,8 +95,22 @@ def run(cfg, pdf_sha, pages, S):
     furn = [(a, f) for a in S["awards"] for f in ("member", "sponsor", "delegation", "org",
                                                    "agency", "purpose")
             if a.get(f) and FURNITURE.search(a[f])]
-    out("H6.furniture", not furn, f"{len(furn)} data cells holding header/footer text")
+    # A cell whose own printed text matches a furniture pattern (FY2023 p.176: a purpose that
+    # ends "in conjunction with Council Member") passes only as a named exception in the
+    # year's config, matched on (award_id, field); it stays a warn in the review file.
+    h6 = {(e["award_id"], e["field"]): e for e in cfg.get("exceptions", [])
+          if e["check"] == "H6.furniture"}
+    real = [(a, f) for a, f in furn if (a["award_id"], f) not in h6]
+    out("H6.furniture", not real, f"{len(real)} data cells holding header/footer text"
+        + (f"; {len(furn) - len(real)} named exceptions" if len(furn) > len(real) else ""))
     for a, f in furn:
+        e = h6.get((a["award_id"], f))
+        if e:
+            flags.append(dict(check_id="H6.furniture", severity="warn", pdf_page=a["pdf_page"],
+                              award_id=a["award_id"], field=f,
+                              message=f"{f} matches a furniture pattern: {a[f][-80:]!r} "
+                              f"(named exception: {e['note']})"))
+            continue
         flag("H6.furniture", a["pdf_page"], f"{f} holds furniture text: {a[f][:80]!r}",
              award_id=a["award_id"])
 

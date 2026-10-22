@@ -1,0 +1,13 @@
+{
+  "config": "config/schedule_c/fy2023.toml",
+  "config_sha256": "5b008e00a8ac446e8a1f0fb7daa4d524ad2c68cc48e4e89e7759791e9b5a37f3",
+  "fiscal_year": 2023,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdf": "source/FY23/Fiscal-2023-Schedule-C-Merge-6.13.22-Final-1.pdf",
+  "pdf_sha256": "05437d32f7f9ff660e9aaeb95eab3466597b1a7e5764076bc0cfec23adf23969",
+  "pdfium": "156.0.8076.0",
+  "pdfplumber": "0.11.10",
+  "pypdfium2": "5.14.0",
+  "python": "3.12.13"
+}

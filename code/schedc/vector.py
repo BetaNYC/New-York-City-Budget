@@ -142,11 +142,12 @@ def shift(objs, ox, oy):
 
 
 def read_page(page, page_no, x_tolerance=X_TOLERANCE, table_settings=None, hrule=False,
-              open_top=False):
+              open_top=False, opts=()):
     """One page -> dict with tables (rows of cells with raw text), loose lines and orphans.
     `table_settings` overrides pdfplumber's lines-strategy defaults for this page only (a
     year's config names the page and says why; FY2025 p.167). Coordinates are from the
-    MediaBox's top-left corner (`origin`)."""
+    MediaBox's top-left corner (`origin`). `opts`: the names of the year's further vector
+    switches (`VECTOR_OPTS`), all off unless its config sets them."""
     ox, oy = origin(page)
     tables = sorted(page.find_tables(table_settings or {}),
                     key=lambda t: (r2(t.bbox[1]), r2(t.bbox[0])))
@@ -157,7 +158,8 @@ def read_page(page, page_no, x_tolerance=X_TOLERANCE, table_settings=None, hrule
         ws = shift(page.extract_words(), ox, oy)
         tables = [open_top_row(page, ox, oy, t, ws) for t in tables]
     if hrule:
-        tables, hnotes = hrule_tables(page, ox, oy, tables, shift(page.extract_words(), ox, oy))
+        tables, hnotes = hrule_tables(page, ox, oy, tables, shift(page.extract_words(), ox, oy),
+                                      opts)
     if hrule or open_top:
         tables = sorted(tables, key=lambda t: (r2(t.bbox[1]), r2(t.bbox[0])))
     chars = shift(page.chars, ox, oy)
@@ -183,6 +185,28 @@ def read_page(page, page_no, x_tolerance=X_TOLERANCE, table_settings=None, hrule
                         (c["x0"], c["top"], c["x1"], c["bottom"]))))
                 continue
             by_cell.setdefault(int(k), []).append(c)
+        moved = {}
+        if "sliver_chars" in opts:
+            # A glyph whose centre falls in a narrow phantom column (a white-filled box's edge,
+            # < 8 pt wide) while its box runs on into the text cell beside it (FY2023 p.98: the
+            # "I" of "Inc." centred 0.07 pt left of the rule at x=85.65) goes to that cell: the
+            # one holding its vertical centre that its box overlaps. Counted on the cell, so
+            # the row is flagged.
+            for k in sorted(by_cell):
+                b = cells[k]
+                if b[2] - b[0] >= 8.0:
+                    continue
+                keep_ = []
+                for c in by_cell[k]:
+                    cy = (c["top"] + c["bottom"]) / 2
+                    hit = [j for j, d in enumerate(cells) if j != k and d[2] - d[0] >= 8.0 and
+                           d[1] <= cy < d[3] and c["x1"] > d[0] + 0.5 and c["x0"] < d[2] - 0.5]
+                    if len(hit) == 1 and c["text"].strip():
+                        by_cell.setdefault(hit[0], []).append(c)
+                        moved[hit[0]] = moved.get(hit[0], 0) + 1
+                    else:
+                        keep_.append(c)
+                by_cell[k] = keep_
         # Row bands: distinct cell tops, as pdfplumber's Table.rows groups them.
         tops = sorted({b[1] for b in cells})
         rows = []
@@ -195,7 +219,8 @@ def read_page(page, page_no, x_tolerance=X_TOLERANCE, table_settings=None, hrule
                 rc.append(dict(bbox=list(b), text_raw=chars_to_text(cs, x_tolerance),
                                nchars=sum(1 for c in cs if c["text"].strip()),
                                char_boxes=[bbox2((c["x0"], c["top"], c["x1"], c["bottom"]))
-                                           for c in cs if c["text"].strip()]))
+                                           for c in cs if c["text"].strip()],
+                               **(dict(sliver_chars=moved[ci]) if ci in moved else {})))
             rc.sort(key=lambda d: d["bbox"][0])
             bottom = min(c["bbox"][3] for c in rc)
             rows.append(dict(row_index=ri, top=top, bottom=bottom, cells=rc))
@@ -286,7 +311,7 @@ def _hrules(page, ox, oy):
     return sorted(out)
 
 
-def hrule_tables(page, ox, oy, tables, words):
+def hrule_tables(page, ox, oy, tables, words, opts=()):
     """Tables built from stacks of horizontal rules. `tables` are the lines-strategy tables
     (bbox and cells, already shifted); `words` are the page's words, shifted. Returns
     (tables, notes): the page's tables with h-rule tables added.
@@ -302,7 +327,17 @@ def hrule_tables(page, ox, oy, tables, words):
     an EIN or Tax ID column) to its last band with an EIN or amount word, when some EIN or
     amount word in it is in no cell of a kept table. Suspect tables lose their cells inside
     that region; a suspect table left with no cells is dropped. Columns: org | EIN | amount,
-    split at the leftmost EIN word and halfway between the EIN and amount words."""
+    split at the leftmost EIN word and halfway between the EIN and amount words.
+
+    Two FY2023 switches (`opts`, off unless the year's config sets them):
+      - `hrule_beside`: a lines-strategy table with no EIN word in its cells but EIN words
+        printed just right of it, in its own row bands, is suspect too (FY2023 p.68: white-
+        filled boxes make a table of the "Institute" column only, the EINs and amounts beside
+        it; p.140, p.139 under the last rows);
+      - `hrule_header_split`: a column header printed in the same band as the first award row,
+        with no rule between them (FY2023 p.35: "Legal Name of Organization  EIN  Amount" over
+        "Chinese-American Family Alliance ... 26-4048050 $30,000"), is cut off as its own band,
+        halfway between the header words and the row's words."""
     def cell_of(w, t):
         cx, cy = (w["x0"] + w["x1"]) / 2, (w["top"] + w["bottom"]) / 2
         return next((c for c in t.cells if c[0] <= cx < c[2] and c[1] <= cy < c[3]), None)
@@ -326,6 +361,11 @@ def hrule_tables(page, ox, oy, tables, words):
             if c is None or c[1] not in tops_amt:
                 suspect.add(k)
                 break
+        if "hrule_beside" in opts and k not in suspect and \
+                not any(cell_of(w, t) for w in ein_w) and \
+                any(w["x0"] >= t.bbox[2] - 1.0 and t.bbox[1] <= (w["top"] + w["bottom"]) / 2 <
+                    t.bbox[3] for w in ein_w):
+            suspect.add(k)
     keep = [t for k, t in enumerate(tables) if k not in suspect]
     all_rules = _hrules(page, ox, oy)
     rules = [(y, a, b) for y, a, b in all_rules
@@ -370,6 +410,15 @@ def hrule_tables(page, ox, oy, tables, words):
         if first > 0 and not has[first - 1] and \
                 any(w["text"] in ("EIN", "ID") for w in bw[first - 1]):
             first -= 1
+        elif "hrule_header_split" in opts:
+            hw = [w for w in bw[first] if w["text"] in ("EIN", "ID")]
+            dw = [w for w in bw[first] if EIN_TOKEN.match(w["text"])]
+            if hw and dw and max(w["bottom"] for w in hw) < min(w["top"] for w in dw) - 1.0 \
+                    and not any(w["bottom"] > max(x["bottom"] for x in hw) + 1.0 and
+                                w["top"] < min(x["top"] for x in dw) - 1.0 for w in bw[first]):
+                cut = (max(w["bottom"] for w in hw) + min(w["top"] for w in dw)) / 2
+                ys = ys[:first + 1] + [cut] + ys[first + 1:]
+                last += 1
         ys = ys[first:last + 2]
         top, bottom = ys[0], ys[-1]
         inside = [w for w in words if in_box(w, (x0, top, x1, bottom))]
@@ -469,8 +518,12 @@ class _ShiftedTable:
         self.cells = [(c[0] - ox, c[1] - oy, c[2] - ox, c[3] - oy) for c in t.cells]
 
 
+# Vector switches a year's config may set under [structure] (FY2023), passed to read_page.
+VECTOR_OPTS = ("hrule_beside", "hrule_header_split", "sliver_chars")
+
+
 def read_pdf(pdf_path, pages=None, x_tolerance=X_TOLERANCE, page_settings=None, hrule=False,
-             open_top=False):
+             open_top=False, opts=()):
     """`page_settings`: {page number: pdfplumber table settings} for the few pages a year's
     config overrides; every other page uses pdfplumber's defaults."""
     import pdfplumber
@@ -481,6 +534,6 @@ def read_pdf(pdf_path, pages=None, x_tolerance=X_TOLERANCE, page_settings=None, 
             if pages and (i + 1) not in pages:
                 continue
             out.append(read_page(page, i + 1, x_tolerance, page_settings.get(i + 1), hrule,
-                                 open_top))
+                                 open_top, opts))
             page.flush_cache()
     return out

@@ -530,3 +530,117 @@ def test_snapshot24_rows_and_checks():
     txt = open(os.path.join(OUT24, "fy24_sc_checks.txt"), encoding="utf-8").read()
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "acceptance on p.242" in txt and "(PASS)" in txt
+
+
+# --- FY2023 (config/schedule_c/fy2023.toml) ----------------------------------------------------
+CFG23 = config.load(2023)
+OUT23 = os.path.join(config.ROOT, CFG23["review_dir"], "data")
+FY23_SWITCHES = ("box_amount_dollar_space", "box_amount_without_dollar", "split_boxes_award_tables",
+                 "hrule_beside", "hrule_header_split", "sliver_chars")
+
+
+def test_fy2023_switches_off_for_other_years():
+    for c in (CFG, CFG26, CFG25, CFG24):
+        for k in FY23_SWITCHES:
+            assert not c["structure"].get(k)
+        assert not [e for e in c.get("exceptions", []) if e["check"] == "H6.furniture"]
+
+
+def test_fy2023_statement_kinds():
+    k = lambda t: structure.statement_kind(t, CFG23)  # noqa: E731
+    assert k("The City Council will designate $1,020,000 post adoption and has designated the "
+             "following providers for Fiscal 2023.") == ("reserve_rows", 1020000, None)
+    assert k("The City Council has designated the following providers for Fiscal 2023 and "
+             "$186,947 will be designated post-adoption.") == ("reserve_rows", 186947, None)
+    assert k("The City Council has designated the following providers for Fiscal 2023 and will "
+             "designate $1.8 million post-adoption:") == ("reserve_rows", 1800000, None)
+    assert k("The City Council has designated $160,000 to the following provider for Fiscal 2023 "
+             "and $40,000 will be designated post-budget adoption:") == ("partial", 40000, 160000)
+    assert k("The Council Members will designate $100,000 per Council District, for a total of "
+             "$5,100,000 post adoption.") == ("reserve_only", 5100000, None)
+    assert k("This initiative will be designated post-Adoption.") == ("reserve_all", None, None)
+    assert k("The Council has designated the following provider for Fiscal 2022:")[0] == "full"
+
+
+# Golden rows, read from the rendered FY2023 pages (2026-10-21), not copied from output.
+@pytest.fixture(scope="module")
+def pages23():
+    ps = vector.read_pdf(CFG23["_pdf_abs"], pages={34, 35, 52, 53, 67, 68, 91, 92, 93, 97, 98,
+                                                     139, 140, 213, 235},
+                         x_tolerance=CFG23["x_tolerance"], hrule=True,
+                         opts=tuple(o for o in vector.VECTOR_OPTS if CFG23["structure"].get(o)),
+                         page_settings={93: {"explicit_vertical_lines": [90.0]}})
+    return {p["page"]: p for p in structure.split_merged_tables(ps, CFG23)}
+
+
+def _rows23(pages23, pns):
+    return structure.build([pages23[p] for p in pns], CFG23)
+
+
+def test_golden23_box_dollar_space_and_header_in_row_band_p34_p35(pages23):
+    S = _rows23(pages23, [34, 35])
+    assert {i["initiative"]: i["amount"] for i in S["initiatives"]}["AAPI"] == 5000000
+    r = _one(S, "264048050", 30000)
+    assert r["org"] == "Chinese-American Family Alliance for Mental Health, Inc."
+    assert r["initiative"] == "AAPI"
+
+
+def test_golden23_box_inside_award_table_p53(pages23):
+    S = _rows23(pages23, [52, 53])
+    ini = {i["initiative"]: i["amount"] for i in S["initiatives"]}
+    assert ini["Educational Programs for Students"] == 7143133
+    assert _one(S, "461227433", 3000000)["initiative"] == "Community Schools"
+    assert _one(S, "133212867", 64333)["initiative"] == "Educational Programs for Students"
+
+
+def test_golden23_name_column_only_table_p68(pages23):
+    r = _one(_rows23(pages23, [67, 68]), "136400434", 250000)
+    assert r["org"] == ("City University of New York - LGBTQ Public History Project - LaGuardia "
+                        "Community College")
+
+
+def test_golden23_box_without_dollar_p92(pages23):
+    S = _rows23(pages23, [91, 92])
+    assert {i["initiative"]: i["amount"] for i in S["initiatives"]}["Trauma Recovery Centers"] \
+        == 2400000
+    r = _one(S, "131624228", 350000)
+    assert r["org"] == "Young Men's Christian Association of Greater New York"
+    assert r["initiative"] == "Opioid Prevention and Treatment"
+
+
+def test_golden23_last_row_without_left_rule_p93(pages23):
+    assert _one(_rows23(pages23, [93]), "133561657", 778500)["org"] == "City Parks Foundation"
+
+
+def test_golden23_sliver_letter_p98(pages23):
+    r = _one(_rows23(pages23, [97, 98]), "132738818", 247765)
+    assert r["org"] == "Metropolitan New York Coordinating Council on Jewish Poverty, Inc."
+    assert "sliver_char" in r["row_flags"]
+
+
+def test_golden23_rows_beside_white_boxes_p140(pages23):
+    r = _one(_rows23(pages23, [139, 140]), "133942063", 100000)
+    assert r["org"] == "Lower East Side Girls Club of New York, Inc., The"
+
+
+def test_golden23_local_rows_the_old_parse_lost_p213_p235(pages23):
+    # DATA-ANOMALIES §19: the old parse dropped these two $5,000 Local rows.
+    S = _rows23(pages23, [213])
+    r = [a for a in S["awards"] if a["org"].startswith("Elite Community Foundation, Inc.")]
+    assert len(r) == 1 and r[0]["amount"] == 5000 and r[0]["ein_printed"] == "84 -2079676"
+    S = _rows23(pages23, [235])
+    r = [a for a in S["awards"] if a["org"] == "Laundromat Project, Inc., The"]
+    assert len(r) == 1 and r[0]["amount"] == 5000 and r[0]["member"] == "Ossé"
+
+
+@pytest.mark.skipif(not os.path.exists(OUT23), reason="FY2023 outputs not built")
+def test_snapshot23_rows_and_checks():
+    with open(os.path.join(OUT23, "fy23_sc_awards.csv"), newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    assert len(rows) == 5925
+    assert sum(int(r["amount"]) for r in rows) == 323063807
+    for sec, pot in (("appendix_a", 5610000), ("appendix_b", 36539000), ("appendix_c", 7650000)):
+        assert sum(int(r["amount"]) for r in rows if r["section"] == sec) == pot
+    txt = open(os.path.join(OUT23, "fy23_sc_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "acceptance on p.235" in txt and "(PASS)" in txt
