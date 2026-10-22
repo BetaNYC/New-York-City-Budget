@@ -63,6 +63,8 @@ New-York-City-Budget/
 ├── source/              ← official NYC Council documents, © City of New York
 │   ├── FY08/ … FY27/    (Schedule C, Terms, Capital, transparency-resolutions/ per year — PDFs)
 │   ├── expense-funding-disclosure/  (Council RnD award-level expense spreadsheets, FY2013–FY2027)
+│   ├── gpp/             (budget PDFs from the City's Government Publications Portal: OMB's capital
+│   │                     supporting-detail books FY2009–FY2027, not yet reviewed; see its README)
 │   ├── wayback-council/ (Council files recovered from the Internet Archive: FY2009–FY2012 disclosure
 │   │                     workbooks, FY15–FY17 + FY26 capital databases; manifests for every capture)
 │   ├── open-data-4d7f-74pe/  (manifest, metadata and data dictionary of the NYC Open Data pull,
