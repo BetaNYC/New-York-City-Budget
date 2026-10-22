@@ -648,3 +648,82 @@ def test_snapshot_fy19_rows_and_checks():
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "(PASS)" in txt and "agree on every field: 7,207 of 7,207" in txt
     assert "regions: 0 " in txt
+
+
+# --- FY2018 (#111) --------------------------------------------------------------------------------
+CFG18 = ptv.load_config(2018)
+OUT18 = os.path.join(ROOT, CFG18["review_dir"], "data")
+PDF18 = {r["seq"]: os.path.join(ROOT, r["pdf"]) for r in CFG18["resolutions"]}
+
+
+def _build18(seq, pages):
+    ps = reader.read_pdf(PDF18[seq], CFG18["x_tolerance"], CFG18["run_gap_pt"], pages=pages,
+                         overfull_pages=ptv.overfull_pages(CFG18, seq),
+                         restart_pages=ptv.restart_pages(CFG18, seq))
+    res = next(r for r in CFG18["resolutions"] if r["seq"] == seq)
+    return structure.build(res, ps, CFG18["x_tolerance"], 2018, None,
+                           ptv.blank_header_pages(CFG18, seq))
+
+
+def _row18(S, page, row_index):
+    return next(r for r in S["rows"] if (r["pdf_page"], r["row_index"]) == (page, row_index))
+
+
+def test_amount_without_dollar_fy18():
+    # FY2018 Reso 05 p.61 prints "(100,000.00)"; a "$" stays optional, parentheses must pair.
+    assert structure.parse_amount("(100,000.00)") == -100000
+    assert structure.parse_amount("100,000.00") == 100000
+    assert structure.parse_amount("$5,000") == 5000
+    assert structure.parse_amount("$20,290.00") == 20290
+    assert structure.parse_amount("(100,000.00") is None
+    assert structure.parse_amount("5,000") is None
+
+
+def test_golden_fy18_blank_header_reso01_p55():
+    # A grey header row with no labels, read with p.54's labels (same column edges).
+    S = _build18(1, [54, 55])
+    assert [(f["check_id"], f["pdf_page"]) for f in S["flags"]] == [("T4.blank_header", 55)]
+    r = _row18(S, 55, 1)
+    assert (r["member"], r["org"], r["ein"], r["agency"], r["amount"], r["agy_num"], r["ua"]) == (
+        "Williams", "Rugby Family Services", "113223904", "DYCD", -3500, "260", "312")
+    # Without the named exception the page is an unrecognised header.
+    ps = reader.read_pdf(PDF18[1], 3.0, 3.0, pages=[54, 55])
+    res = next(r for r in CFG18["resolutions"] if r["seq"] == 1)
+    assert "T4.headers" in [f["check_id"] for f in structure.build(res, ps, 3.0, 2018)["flags"]]
+
+
+def test_golden_fy18_fiscal_conduit_reso01_p13():
+    S = _build18(1, [13])
+    r = _row18(S, 13, 18)
+    assert (r["org"], r["fiscal_conduit"], r["fiscal_conduit_ein"]) == (
+        "Ridgewood Volunteer Ambulance Corps, Inc.", "Greater Ridgewood Youth Council, Inc.", "112518141")
+
+
+def test_golden_fy18_clip_restart_reso04_p52():
+    # "…Velocity Track Club New York" runs into the EIN cell; on this named page the EIN that
+    # follows 0.99 pt later is read as the EIN cell's own text.
+    S = _build18(4, [52])
+    r = _row18(S, 52, 2)
+    assert r["ein_printed"] == "46-3197831" and r["hidden_text"] == "org: ork"
+    plain = reader.read_pdf(PDF18[4], 3.0, 3.0, pages=[52])[0]["tables"][0]["rows"][1]["cols"]
+    assert plain[2]["text_raw"] == ""
+
+
+def test_snapshot_fy18_rows_and_checks():
+    path = os.path.join(OUT18, "fy18_tr_rows.csv")
+    if not os.path.exists(path):
+        pytest.skip("fy18 not built")
+    rows = list(csv.DictReader(open(path, encoding="utf-8")))
+    assert len(rows) == 5558
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rows)
+    by = {}
+    for r in rows:
+        by[r["resolution_seq"]] = by.get(r["resolution_seq"], 0) + 1
+    assert by == {"1": 893, "2": 845, "3": 1229, "4": 498, "5": 515, "6": 315, "7": 241,
+                  "8": 407, "9": 190, "10": 90, "11": 85, "12": 250}
+    assert sum(1 for r in rows if r["action"] == "listed") == 136
+    assert sum(1 for r in rows if r["fiscal_conduit"] or r["fiscal_conduit_ein_printed"]) == 63
+    txt = open(os.path.join(OUT18, "fy18_tr_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "(PASS)" in txt and "agree on every field: 5,558 of 5,558" in txt
+    assert "regions: 0 " in txt

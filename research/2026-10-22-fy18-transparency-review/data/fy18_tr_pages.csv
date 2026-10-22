@@ -1,0 +1,599 @@
+resolution_seq,pdf_page,width,height,rotation,tables,chart_number,continued,page_label,footnotes,rows,ein_tokens,ein_tokens_all_chars,nonws_chars,clipped_chars,zero_width_chars,image_regions,image_lattices,image_rows,rows_agree,image_notes,ink_px,uncovered_px,ink_regions,caption
+1,1,612.0,792.0,0,0,,,,,0,0,0,2734,0,0,,,,,,,,,
+1,2,612.0,792.0,0,0,,,,,0,0,0,2838,0,0,,,,,,,,,
+1,3,612.0,792.0,0,0,,,,,0,0,0,2263,0,0,,,,,,,,,
+1,4,612.0,792.0,0,0,,,,,0,0,0,2220,0,0,,,,,,,,,
+1,5,612.0,792.0,0,0,,,,,0,0,0,2307,0,0,,,,,,,,,
+1,6,612.0,792.0,0,0,,,,,0,0,0,1358,0,0,,,,,,,,,
+1,7,612.0,792.0,0,0,,,,,0,0,0,1481,0,0,,,,,,,,,
+1,8,612.0,792.0,0,0,,,,,0,0,0,1569,0,0,,,,,,,,,
+1,9,612.0,792.0,0,0,,,,,0,0,0,1578,0,0,,,,,,,,,
+1,10,612.0,792.0,0,0,,,,,0,0,0,1537,0,0,,,,,,,,,
+1,11,612.0,792.0,0,0,,,,,0,0,0,1419,0,0,,,,,,,,,
+1,12,612.0,792.0,0,0,,,,,0,0,0,904,0,0,,,,,,,,,
+1,13,792.0,612.0,0,1,1,0,1,* **,46,47,47,3619,0,0,1,1,46,46,,990684,0,0,CHART 1: Local Initiatives - Fiscal 2018
+1,14,792.0,612.0,0,1,1,1,2,* **,11,13,13,1123,0,0,1,1,11,11,,277361,0,0,CHART 1: Local Initiatives - Fiscal 2018 (continued)
+1,15,792.0,612.0,0,1,2,0,3,* **,7,7,7,838,0,0,1,1,7,7,,197417,0,0,CHART 2: Aging Discretionary - Fiscal 2018
+1,16,792.0,612.0,0,1,3,0,4,* **,4,6,6,570,0,0,1,1,4,4,,128679,0,0,CHART 3: Youth Discretionary - Fiscal 2018
+1,17,792.0,612.0,0,1,4,0,5,* **,7,7,7,776,0,0,1,1,7,7,,186937,0,0,CHART 4: Anti-Poverty Initiative - Fiscal 2018
+1,18,792.0,612.0,0,1,5,0,6,* **,2,2,2,400,0,0,1,1,2,2,,81678,0,0,CHART 5: Boroughwide Needs Initiative - Fiscal 2018
+1,19,792.0,612.0,0,1,6,0,7,* **,41,41,41,3755,0,0,1,1,41,41,,1138549,0,0,CHART 6:  Cultural After-School Adventure (CASA) - Fiscal 2018
+1,20,792.0,612.0,0,1,6,1,8,* **,45,45,45,3774,0,0,1,1,45,45,,1198567,0,0,CHART 6:  Cultural After-School Adventure (CASA) - Fiscal 2018 (continued)
+1,21,792.0,612.0,0,1,6,1,9,* **,45,45,45,4030,0,0,1,1,45,45,,1234719,0,0,CHART 6:  Cultural After-School Adventure (CASA) - Fiscal 2018 (continued)
+1,22,792.0,612.0,0,1,6,1,10,* **,43,43,43,3957,0,0,1,1,43,43,,1201118,0,0,CHART 6:  Cultural After-School Adventure (CASA) - Fiscal 2018 (continued)
+1,23,792.0,612.0,0,1,6,1,11,* **,37,37,37,3315,0,0,1,1,37,37,,1027154,0,0,CHART 6:  Cultural After-School Adventure (CASA) - Fiscal 2018 (continued)
+1,24,792.0,612.0,0,1,7,0,12,* **,45,45,45,3199,0,0,1,1,45,45,,1117339,0,0,CHART 7:  A Greener NYC - Fiscal 2018
+1,25,792.0,612.0,0,1,7,1,13,* **,36,36,36,2567,0,0,1,1,36,36,,893667,0,0,CHART 7:  A Greener NYC - Fiscal 2018 (continued)
+1,26,792.0,612.0,0,1,8,0,14,* **,45,45,45,3195,0,0,1,1,45,45,,1115851,0,0,CHART 8:  Digital Inclusion and Literacy Initiative - Fiscal 2018
+1,27,792.0,612.0,0,1,8,1,15,* **,23,23,23,1675,0,0,1,1,23,23,,575760,0,0,CHART 8:  Digital Inclusion and Literacy Initiative - Fiscal 2018 (continued)
+1,28,792.0,612.0,0,1,9,0,16,* **,44,44,44,3150,0,0,1,1,44,44,,1090166,0,0,CHART 9:  Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018
+1,29,792.0,612.0,0,1,9,1,17,* **,41,41,41,2951,0,0,1,1,41,41,,1020100,0,0,CHART 9:  Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018 (continued)
+1,30,792.0,612.0,0,1,9,1,18,* **,7,7,7,704,0,0,1,1,7,7,,199605,0,0,CHART 9:  Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018 (continued)
+1,31,792.0,612.0,0,1,10,0,19,* **,46,46,46,3511,0,0,1,1,46,46,,1167682,0,0,CHART 10:  Healthy Aging Initiative - Fiscal 2018
+1,32,792.0,612.0,0,1,10,1,20,* **,21,21,21,1855,0,0,1,1,21,21,,572498,0,0,CHART 10:  Healthy Aging Initiative - Fiscal 2018 (continued)
+1,33,792.0,612.0,0,1,11,0,21,* **,45,45,45,3475,0,0,1,1,45,45,,1159173,0,0,CHART 11:  NYC Cleanup Initiative - Fiscal 2018
+1,34,792.0,612.0,0,1,11,1,22,* **,29,29,29,2140,0,0,1,1,29,29,,727746,0,0,CHART 11:  NYC Cleanup Initiative - Fiscal 2018 (continued)
+1,35,792.0,612.0,0,1,12,0,23,* **,46,46,46,3675,0,0,1,1,46,46,,1193899,0,0,CHART 12:  Support Our Seniors Initiative - Fiscal 2018
+1,36,792.0,612.0,0,1,12,0,24,* **,39,39,39,3125,0,0,1,1,39,39,,1018048,0,0,CHART 12:  Support Our Seniors Initiative - Fiscal 2018
+1,37,792.0,612.0,0,1,13,0,25,* **,2,2,2,327,0,0,1,1,2,2,,82088,0,0,CHART 13: Dropout Prevention and Intervention Initiative - Fiscal 2018
+1,38,792.0,612.0,0,1,14,0,26,* **,15,15,15,1105,0,0,1,1,15,15,,453551,0,0,CHART 14: City's First Readers Initiative - Fiscal 2018
+1,39,792.0,612.0,0,1,15,0,27,* **,15,15,15,1073,0,0,1,1,15,15,,446742,0,0,CHART 15: Young Women's Leadership Development Initiative - Fiscal 2018
+1,40,792.0,612.0,0,1,16,0,28,* **,2,2,2,350,0,0,1,1,2,2,,85446,0,0,CHART 16: Alternatives to Incarceration (ATI's) Initiative - Fiscal 2018
+1,41,792.0,612.0,0,1,17,0,29,* **,2,2,2,325,0,0,1,1,2,2,,86362,0,0,CHART 17: Food Pantries Initiative - Fiscal 2018
+1,42,792.0,612.0,0,1,18,0,30,* **,14,14,14,1125,0,0,1,1,14,14,,439878,0,0,CHART 18: Chamber on the Go and Small Business Assistance Initiative - Fiscal 2018
+1,43,792.0,612.0,0,1,19,0,31,* **,2,2,2,340,0,0,1,1,2,2,,86357,0,0,CHART 19: Job Training and Placement Initiative - Fiscal 2018
+1,44,792.0,612.0,0,1,20,0,32,* **,3,3,3,438,0,0,1,1,3,3,,117187,0,0,"CHART 20: Developmental, Psychological and Behavioral Health Services Initiative - Fiscal 2018"
+1,45,792.0,612.0,0,1,21,0,33,* **,2,2,2,363,0,0,1,1,2,2,,86856,0,0,CHART 21: Mental Health Services for Vulnerable Populations Initiative - Fiscal 2018
+1,46,792.0,612.0,0,1,22,0,34,* **,2,2,2,343,0,0,1,1,2,2,,85245,0,0,CHART 22: Autism Awareness Initiative - Fiscal 2018
+1,47,792.0,612.0,0,1,23,0,35,* **,3,3,3,406,0,0,1,1,3,3,,116547,0,0,CHART 23: Discretionary Child Care Initiative - Fiscal 2018
+1,48,792.0,612.0,0,1,24,0,36,* **,7,7,7,668,0,0,1,1,7,7,,233568,0,0,CHART 24: YouthBuild Project Initiative - Fiscal 2018
+1,49,792.0,612.0,0,1,25,0,37,* **,6,6,6,575,0,0,1,1,6,6,,199487,0,0,CHART 25: Legal Services for Low-Income New Yorkers Initiative - Fiscal 2018
+1,50,792.0,612.0,0,1,26,0,38,* **,5,5,5,472,0,0,1,1,5,5,,161146,0,0,CHART 26: Support for Victims of Human Trafficking Initiative - Fiscal 2018
+1,51,792.0,612.0,0,1,27,0,39,* **,8,8,8,692,0,0,1,1,8,8,,257912,0,0,CHART 27: Legal Services for the Working Poor - Fiscal 2018
+1,52,792.0,612.0,0,1,28,0,40,* **,2,2,2,345,0,0,1,1,2,2,,86567,0,0,CHART 28: Neighborhood Development Grant Initiative - Fiscal 2018
+1,53,792.0,612.0,0,1,29,0,41,* **,2,2,2,337,0,0,1,1,2,2,,88550,0,0,CHART 29: Crisis Management System - Fiscal 2018
+1,54,792.0,612.0,0,1,30,0,42,* **,4,4,4,493,0,0,1,1,4,4,,128283,0,0,CHART 30: Local Initiatives - Fiscal 2017
+1,55,792.0,612.0,0,1,31,0,43,* **,2,2,2,264,0,0,1,1,2,2,,61340,0,0,CHART 31: Youth Discretionary - Fiscal 2017
+1,56,792.0,612.0,0,1,32,0,44,* **,2,3,3,301,0,0,1,1,2,2,,68200,0,0,CHART 32: Local Initiatives - Fiscal 2016
+1,57,792.0,612.0,0,1,33,0,45,* **,2,2,2,352,0,0,1,1,2,2,,84619,0,0,CHART 33: Digital Inclusion and Literacy Initiative - Fiscal 2017
+1,58,792.0,612.0,0,1,34,0,46,* **,2,2,2,337,0,0,1,1,2,2,,85277,0,0,CHART 34: Food Pantries Initiative - Fiscal 2017
+1,59,792.0,612.0,0,1,35,0,47,* **,2,2,2,339,0,0,1,1,2,2,,86103,0,0,CHART 35: Unaccompanied Minors and Families Initiative - Fiscal 2017
+1,60,792.0,612.0,0,1,36,0,48,* **,2,2,2,332,0,0,1,1,2,2,,84707,0,0,CHART 36: Discretionary Child Care Initiative - Fiscal 2017
+1,61,792.0,612.0,0,1,37,0,49,* **,2,2,2,352,0,0,1,1,2,2,,88931,0,0,CHART 37: Coalition Theaters of Color - Fiscal 2017
+1,62,792.0,612.0,0,1,38,0,50,* **,18,18,18,2931,0,0,1,1,18,18,,556803,12,0,CHART 38: Purpose of Funds Changes - Fiscal 2018
+1,63,792.0,612.0,0,1,39,0,51,* **,10,10,10,1870,0,0,1,1,10,10,,348271,0,0,CHART 39:  Purpose of Funds - Fiscal 2017
+2,1,612.0,792.0,0,0,,,,,0,0,0,2728,0,0,,,,,,,,,
+2,2,612.0,792.0,0,0,,,,,0,0,0,2851,0,0,,,,,,,,,
+2,3,612.0,792.0,0,0,,,,,0,0,0,2390,0,0,,,,,,,,,
+2,4,612.0,792.0,0,0,,,,,0,0,0,2264,0,0,,,,,,,,,
+2,5,612.0,792.0,0,0,,,,,0,0,0,2271,0,0,,,,,,,,,
+2,6,612.0,792.0,0,0,,,,,0,0,0,1667,0,0,,,,,,,,,
+2,7,612.0,792.0,0,0,,,,,0,0,0,1358,0,0,,,,,,,,,
+2,8,612.0,792.0,0,0,,,,,0,0,0,1542,0,0,,,,,,,,,
+2,9,612.0,792.0,0,0,,,,,0,0,0,1629,0,0,,,,,,,,,
+2,10,612.0,792.0,0,0,,,,,0,0,0,1438,0,0,,,,,,,,,
+2,11,612.0,792.0,0,0,,,,,0,0,0,1330,0,0,,,,,,,,,
+2,12,612.0,792.0,0,0,,,,,0,0,0,1412,0,0,,,,,,,,,
+2,13,612.0,792.0,0,0,,,,,0,0,0,1580,0,0,,,,,,,,,
+2,14,612.0,792.0,0,0,,,,,0,0,0,1480,0,0,,,,,,,,,
+2,15,612.0,792.0,0,0,,,,,0,0,0,18,0,0,,,,,,,,,
+2,16,792.0,612.0,0,1,1,0,1,* **,44,45,45,3488,0,0,1,1,44,44,,959907,0,0,CHART 1: Local Initiatives - Fiscal 2018
+2,17,792.0,612.0,0,1,1,1,2,* **,6,6,6,686,0,0,1,1,6,6,,159263,0,0,CHART 1: Local Initiatives - Fiscal 2018 (continued)
+2,18,792.0,612.0,0,1,2,0,3,* **,7,7,7,698,0,0,1,1,7,7,,175660,0,0,CHART 2: Youth Discretionary - Fiscal 2018
+2,19,792.0,612.0,0,1,3,0,4,* **,46,46,46,4036,0,0,1,1,46,46,,1255258,0,0,CHART 3:  Cultural After-School Adventure (CASA) - Fiscal 2018
+2,20,792.0,612.0,0,1,3,1,5,* **,27,27,27,2542,0,0,1,1,27,27,,761511,0,0,CHART 3:  Cultural After-School Adventure (CASA) - Fiscal 2018 (continued)
+2,21,792.0,612.0,0,1,4,0,6,* **,23,23,23,1667,0,0,1,1,23,23,,580633,0,0,CHART 4:  A Greener NYC - Fiscal 2018
+2,22,792.0,612.0,0,1,5,0,7,* **,39,39,39,2783,0,0,1,1,39,39,,970378,0,0,CHART 5:  Digital Inclusion and Literacy Initiative - Fiscal 2018
+2,23,792.0,612.0,0,1,6,0,8,* **,44,44,44,3284,0,0,1,1,44,44,,1112103,0,0,CHART 6:  Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018
+2,24,792.0,612.0,0,1,6,1,9,* **,6,6,6,674,0,0,1,1,6,6,,180395,0,0,CHART 6:  Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018 (continued)
+2,25,792.0,612.0,0,1,7,0,10,* **,23,23,23,2001,0,0,1,1,23,23,,621561,0,0,CHART 7:  Healthy Aging Initiative - Fiscal 2018
+2,26,792.0,612.0,0,1,8,0,11,* **,36,36,36,2845,0,0,1,1,36,36,,936518,0,0,CHART 8:  NYC Cleanup Initiative - Fiscal 2018
+2,27,792.0,612.0,0,1,9,0,12,* **,36,36,36,2977,0,0,1,1,36,36,,951252,0,0,CHART 9:  Support Our Seniors Initiative - Fiscal 2018
+2,28,792.0,612.0,0,1,10,0,13,* **,46,46,46,3764,0,0,1,1,46,46,,1229666,0,0,CHART 10:  Parks Equity Initiative - Fiscal 2018
+2,29,792.0,612.0,0,1,10,1,14,* **,19,19,19,1516,0,0,1,1,19,19,,500364,0,0,CHART 10:  Parks Equity Initiative - Fiscal 2018 (continued)
+2,30,792.0,612.0,0,1,11,0,15,* **,18,18,18,1687,0,0,1,1,18,18,,523296,0,0,CHART 11:  Food Pantries Initiative - Fiscal 2018
+2,31,792.0,612.0,0,1,12,0,16,* **,7,7,7,701,0,0,1,1,7,7,,203104,0,0,CHART 12:  Neighborhood Development Grant Initiative - Fiscal 2018
+2,32,792.0,612.0,0,1,13,0,17,* **,46,46,46,3246,0,0,1,1,46,46,,1129799,0,0,CHART 13: Cultural Immigrant Initiative - Fiscal 2018
+2,33,792.0,612.0,0,1,13,0,18,* **,16,16,16,1238,0,0,1,1,16,16,,409444,0,0,CHART 13: Cultural Immigrant Initiative - Fiscal 2018
+2,34,792.0,612.0,0,1,14,0,19,* **,5,5,5,485,0,0,1,1,5,5,,160392,0,0,CHART 14: Bail Fund Initiative - Fiscal 2018
+2,35,792.0,612.0,0,1,15,0,20,* **,3,3,3,357,0,0,1,1,3,3,,106998,0,0,CHART 15: Post-Arrest Diversion Program Initiative - Fiscal 2018
+2,36,792.0,612.0,0,1,16,0,21,* **,4,4,4,468,0,0,1,1,4,4,,141847,0,0,CHART 16: Geriatric Mental Health Initiative - Fiscal 2018
+2,37,792.0,612.0,0,1,17,0,22,* **,3,3,3,414,0,0,1,1,3,3,,118994,0,0,CHART 17: Viral Hepatitis Prevention Initiative - Fiscal 2018
+2,38,792.0,612.0,0,1,18,0,23,* **,2,2,2,372,0,0,1,1,2,2,,88909,0,0,"CHART 18: Developmental, Psychological and Behavioral Health Services Initiative - Fiscal 2018"
+2,39,792.0,612.0,0,1,19,0,24,* **,14,14,14,1058,0,0,1,1,14,14,,397675,0,0,CHART 19: Medicaid Redesign Transition Initiative - Fiscal 2018
+2,40,792.0,612.0,0,1,20,0,25,* **,18,18,18,1293,0,0,1,1,18,18,,504014,0,0,CHART 20: Stabilizing NYC Initiative - Fiscal 2018
+2,41,792.0,612.0,0,1,21,0,26,* **,27,27,27,2056,0,0,1,1,27,27,,763654,0,0,CHART 21: Elie Wiesel Holocaust Survivors Initiative - Fiscal 2018
+2,42,792.0,612.0,0,1,22,0,27,* **,11,11,11,964,0,0,1,1,11,11,,331920,0,0,CHART 22: Senior Centers for Immigrant Populations Initiative - Fiscal 2018
+2,43,792.0,612.0,0,1,23,0,28,* **,14,14,14,1290,0,0,1,1,14,14,,431473,0,0,"CHART 23: Senior Centers, Programs, and Enhancements Initiative - Fiscal 2018"
+2,44,792.0,612.0,0,1,24,0,29,* **,4,4,4,447,0,0,1,1,4,4,,136845,0,0,CHART 24: New York Immigrant Family Unity Project Initiative - Fiscal 2018
+2,45,792.0,612.0,0,1,25,0,30,* **,6,6,6,611,0,0,1,1,6,6,,195843,0,0,CHART 25: Unaccompanied Minors and Families Initiative - Fiscal 2018
+2,46,792.0,612.0,0,1,26,0,31,* **,19,19,19,1383,0,0,1,1,19,19,,531819,0,0,CHART 26: Immigrant Family Health Initiative - Fiscal 2018
+2,47,792.0,612.0,0,1,27,0,32,* **,12,12,12,950,0,0,1,1,12,12,,350234,0,0,CHART 27: Legal Services for the Working Poor - Fiscal 2018
+2,48,792.0,612.0,0,1,28,0,33,* **,4,4,4,458,0,0,1,1,4,4,,134152,0,0,CHART 28: Prevent Sexual Assault (PSA) Initiative for Young Adults - Fiscal 2018
+2,49,792.0,612.0,0,1,29,0,34,* **,2,2,2,355,0,0,1,1,2,2,,89587,0,0,CHART 29: Art as a Catalyst for Change Initiative - Fiscal 2018
+2,50,792.0,612.0,0,1,30,0,35,* **,31,31,31,2476,0,0,1,1,31,31,,907580,0,0,CHART 30: Crisis Management System - Fiscal 2018
+2,51,792.0,612.0,0,1,30,1,36,* **,36,36,36,2877,0,0,1,1,36,36,,1044718,0,0,CHART 30: Crisis Management System - Fiscal 2018 (continued)
+2,52,792.0,612.0,0,1,31,0,37,* **,2,2,2,331,0,0,1,1,2,2,,84401,0,0,CHART 31: Coalition of Theaters of Color Initiative - Fiscal 2018
+2,53,792.0,612.0,0,1,32,0,38,* **,2,2,2,338,0,0,1,1,2,2,,85436,0,0,CHART 32: Young Women's Leadership Development Initiative - Fiscal 2018
+2,54,792.0,612.0,0,1,33,0,39,* **,1,1,1,263,0,0,1,1,1,1,,55964,0,0,CHART 33: Dedicated Contraceptive Fund Initiative - Fiscal 2018
+2,55,792.0,612.0,0,1,34,0,40,* **,2,2,2,351,0,0,1,1,2,2,,90939,0,0,CHART 34: YouthBuild Project Initiative - Fiscal 2018
+2,56,792.0,612.0,0,1,35,0,41,* **,9,9,9,792,0,0,1,1,9,9,,275186,0,0,CHART 35: Chamber on the Go and Small Business Assistance Initiative - Fiscal 2018
+2,57,792.0,612.0,0,1,36,0,42,* **,15,15,15,1107,0,0,1,1,15,15,,421476,0,0,CHART 36: Worker Cooperative Business Development Initiative - Fiscal 2018
+2,58,792.0,612.0,0,1,37,0,43,* **,2,2,2,317,0,0,1,1,2,2,,81422,0,0,CHART 37: Financial Empowerment for NYC's Renters Initiative - Fiscal 2018
+2,59,792.0,612.0,0,1,38,0,44,* **,14,19,19,1382,0,0,1,1,14,14,,386795,0,0,CHART 38: Local Initiatives - Fiscal 2017
+2,60,792.0,612.0,0,1,39,0,45,* **,4,5,5,564,0,0,1,1,4,4,,137691,0,0,CHART 39: Anti-Poverty Initiative - Fiscal 2017
+2,61,792.0,612.0,0,1,40,0,46,* **,5,5,5,589,0,0,1,1,5,5,,156661,0,0,CHART 40: Local Initiatives - Fiscal 2016
+2,62,792.0,612.0,0,1,41,0,47,* **,2,2,2,331,0,0,1,1,2,2,,79399,0,0,CHART 41: Parks Equity Initiative- Fiscal 2017
+2,63,792.0,612.0,0,1,42,0,48,* **,2,2,2,340,0,0,1,1,2,2,,80627,0,0,CHART 42: NYC Cleanup Initiative- Fiscal 2017
+2,64,792.0,612.0,0,1,43,0,49,* **,2,2,2,396,0,0,1,1,2,2,,95907,0,0,CHART 43: Crisis Management System Initiative - Fiscal 2017
+2,65,792.0,612.0,0,1,44,0,50,* **,18,18,18,3905,0,0,1,1,18,18,,670946,5,0,CHART 44: Purpose of Funds Changes - Fiscal 2018
+2,66,792.0,612.0,0,1,44,1,51,* **,24,24,24,4023,0,0,1,1,24,24,,746597,1,0,CHART 44: Purpose of Funds Changes - Fiscal 2018 (continued)
+2,67,792.0,612.0,0,1,45,0,52,* **,4,4,4,1086,0,0,1,1,4,4,,182620,3,0,CHART 45:  Purpose of Funds - Fiscal 2017
+2,68,612.0,792.0,0,1,46,0,53,,33,33,33,1961,0,0,1,1,33,33,,723964,0,0,CHART 46: Beating Hearts Initiative - Fiscal 2018
+3,1,612.0,792.0,0,0,,,,,0,0,0,2731,0,0,,,,,,,,,
+3,2,612.0,792.0,0,0,,,,,0,0,0,2932,0,0,,,,,,,,,
+3,3,612.0,792.0,0,0,,,,,0,0,0,2130,0,0,,,,,,,,,
+3,4,612.0,792.0,0,0,,,,,0,0,0,2231,0,0,,,,,,,,,
+3,5,612.0,792.0,0,0,,,,,0,0,0,2213,0,0,,,,,,,,,
+3,6,612.0,792.0,0,0,,,,,0,0,0,1183,0,0,,,,,,,,,
+3,7,612.0,792.0,0,0,,,,,0,0,0,1358,0,0,,,,,,,,,
+3,8,612.0,792.0,0,0,,,,,0,0,0,1534,0,0,,,,,,,,,
+3,9,612.0,792.0,0,0,,,,,0,0,0,1578,0,0,,,,,,,,,
+3,10,612.0,792.0,0,0,,,,,0,0,0,1602,0,0,,,,,,,,,
+3,11,612.0,792.0,0,0,,,,,0,0,0,1559,0,0,,,,,,,,,
+3,12,612.0,792.0,0,0,,,,,0,0,0,1507,0,0,,,,,,,,,
+3,13,612.0,792.0,0,0,,,,,0,0,0,1483,0,0,,,,,,,,,
+3,14,612.0,792.0,0,0,,,,,0,0,0,567,0,0,,,,,,,,,
+3,15,792.0,612.0,0,1,1,0,1,* **,41,41,41,3168,0,0,1,1,41,41,,886878,0,0,CHART 1: Local Initiatives - Fiscal 2018
+3,16,792.0,612.0,0,1,2,0,2,* **,5,5,5,602,0,0,1,1,5,5,,138780,0,0,CHART 2: Aging Discretionary - Fiscal 2018
+3,17,792.0,612.0,0,1,3,0,3,* **,14,17,16,1291,6,0,1,1,14,14,,330989,0,0,CHART 3: Youth Discretionary - Fiscal 2018
+3,18,792.0,612.0,0,1,4,0,4,* **,2,2,2,451,0,0,1,1,2,2,,89065,0,0,CHART 4: Anti-Poverty Initiative - Fiscal 2018
+3,19,792.0,612.0,0,1,5,0,5,* **,2,2,2,342,0,0,1,1,2,2,,58816,0,0,CHART 5:  Speaker's Initiative - Fiscal 2018
+3,20,792.0,612.0,0,1,6,0,6,* **,48,48,48,3945,0,0,1,1,48,48,,959098,0,0,CHART 6: Cultural After-School Adventure (CASA) - Fiscal 2018
+3,21,792.0,612.0,0,1,6,1,7,* **,44,44,44,3773,0,0,1,1,44,44,,897959,0,0,CHART 6: Cultural After-School Adventure (CASA) - Fiscal 2018 (continued)
+3,22,792.0,612.0,0,1,6,1,8,* **,40,40,40,3659,0,0,1,1,40,40,,851694,0,0,CHART 6: Cultural After-School Adventure (CASA) - Fiscal 2018 (continued)
+3,23,792.0,612.0,0,1,6,1,9,* **,16,16,16,1467,0,0,1,1,16,16,,331304,0,0,CHART 6: Cultural After-School Adventure (CASA) - Fiscal 2018 (continued)
+3,24,792.0,612.0,0,1,7,0,10,* ** ***,35,35,35,3223,0,0,1,1,35,35,,711624,0,0,CHART 7:  A Greener NYC - Fiscal 2018
+3,25,792.0,612.0,0,1,8,0,11,* ** ***,29,29,29,2644,0,0,1,1,29,29,,575101,0,0,CHART 8:  Digital Inclusion and Literacy Initiative - Fiscal 2018
+3,26,792.0,612.0,0,1,9,0,12,* **,49,49,49,3587,0,0,1,1,49,49,,934996,0,0,CHART 9:  Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018
+3,27,792.0,612.0,0,1,9,0,13,* **,11,11,11,929,0,0,1,1,11,11,,218485,0,0,CHART 9:  Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018
+3,28,792.0,612.0,0,1,10,0,14,* **,29,29,29,2443,0,0,1,1,29,29,,593631,0,0,CHART 10:  Support Our Seniors - Fiscal 2018
+3,29,792.0,612.0,0,1,11,0,15,* **,15,15,15,1311,0,0,1,1,15,15,,304186,0,0,CHART 11:  Healthy Aging Initiative - Fiscal 2018
+3,30,792.0,612.0,0,1,12,0,16,* ** ***,41,41,41,3383,0,0,1,1,41,41,,784755,0,0,CHART 12:  NYC Cleanup Initiative - Fiscal 2018
+3,31,792.0,612.0,0,1,13,0,17,* **,37,37,37,3355,0,0,1,1,37,37,,789031,0,0,CHART 13:  Parks Equity Initiative - Fiscal 2018
+3,32,792.0,612.0,0,1,13,1,18,* **,37,37,37,3036,0,0,1,1,37,37,,748202,0,0,CHART 13:  Parks Equity Initiative - Fiscal 2018 (continued)
+3,33,792.0,612.0,0,1,13,1,19,* **,35,35,35,2436,0,0,1,1,35,35,,654612,0,0,CHART 13:  Parks Equity Initiative - Fiscal 2018 (continued)
+3,34,792.0,612.0,0,1,13,1,20,* **,36,36,36,2447,0,0,1,1,36,36,,670239,0,0,CHART 13:  Parks Equity Initiative - Fiscal 2018 (continued)
+3,35,792.0,612.0,0,1,13,1,21,* **,13,13,13,1055,0,0,1,1,13,13,,257594,0,0,CHART 13:  Parks Equity Initiative - Fiscal 2018 (continued)
+3,36,792.0,612.0,0,1,14,0,22,* **,50,50,50,4429,0,0,1,1,50,50,,1049118,0,0,CHART 14:  Food Pantries Initiative - Fiscal 2018
+3,37,792.0,612.0,0,1,14,1,23,* **,50,50,50,4435,0,0,1,1,50,50,,1056198,0,0,CHART 14:  Food Pantries Initiative - Fiscal 2018 (Continued)
+3,38,792.0,612.0,0,1,14,1,24,* **,51,51,51,4722,0,0,1,1,51,51,,1091186,0,0,CHART 14:  Food Pantries Initiative - Fiscal 2018 (Continued)
+3,39,792.0,612.0,0,1,14,1,25,* **,51,51,51,4637,0,0,1,1,51,51,,1087505,0,0,CHART 14:  Food Pantries Initiative - Fiscal 2018 (Continued)
+3,40,792.0,612.0,0,1,14,1,26,* **,35,35,35,3253,0,0,1,1,35,35,,759165,0,0,CHART 14:  Food Pantries Initiative - Fiscal 2018 (Continued)
+3,41,792.0,612.0,0,1,15,0,27,* **,28,28,28,2313,0,0,1,1,28,28,,570067,0,0,CHART 15:  Neighborhood Development Grant Initiative - Fiscal 2018
+3,42,792.0,612.0,0,1,16,0,28,* **,50,50,50,3484,0,0,1,1,50,50,,921848,0,0,CHART 16: Cultural Immigrant Initiative - Fiscal 2018
+3,43,792.0,612.0,0,1,16,1,29,* **,49,49,49,3360,0,0,1,1,49,49,,898950,0,0,CHART 16: Cultural Immigrant Initiative - Fiscal 2018 (Continued)
+3,44,792.0,612.0,0,1,16,1,30,* **,13,13,13,1088,0,0,1,1,13,13,,254723,0,0,CHART 16: Cultural Immigrant Initiative - Fiscal 2018 (Continued)
+3,45,792.0,612.0,0,1,17,0,31,* **,12,12,12,1061,0,0,1,1,12,12,,246288,0,0,CHART 17: Adult Literacy Initiative - Fiscal 2018
+3,46,792.0,612.0,0,1,18,0,32,* **,2,2,2,362,0,0,1,1,2,2,,81493,0,0,CHART 18: Dropout Prevention and Intervention Initiative - Fiscal 2018
+3,47,792.0,612.0,0,1,19,0,33,* **,2,2,2,337,0,0,1,1,2,2,,79155,0,0,CHART 19: Medicaid Redesign Transition - Fiscal 2018
+3,48,792.0,612.0,0,1,20,0,34,* **,5,5,5,496,0,0,1,1,5,5,,140000,0,0,CHART 20: Communities of Color Nonprofit Stabilization Fund - Fiscal 2018
+3,49,792.0,612.0,0,1,21,0,35,* **,2,2,2,337,0,0,1,1,2,2,,78534,0,0,CHART 21: HPD Alternative Enforcement Program (AEP) - Fiscal 2018
+3,50,792.0,612.0,0,1,22,0,36,* **,5,5,5,508,0,0,1,1,5,5,,149435,0,0,CHART 22: Afterschool Enrichment Initiative - Fiscal 2018
+3,51,792.0,612.0,0,1,23,0,37,* **,4,4,4,426,0,0,1,1,4,4,,121682,0,0,CHART 23: Immigrant Opportunities Initiative - Fiscal 2018
+3,52,792.0,612.0,0,1,24,0,38,* **,7,7,7,716,0,0,1,1,7,7,,217338,0,0,CHART 24: Home Loan Program - Fiscal 2018
+3,53,792.0,612.0,0,1,25,0,39,* **,2,2,2,355,0,0,1,1,2,2,,79336,0,0,CHART 25: Elie Wiesel Holocaust Survivors Initiative - Fiscal 2018
+3,54,792.0,612.0,0,1,26,0,40,* **,3,3,3,392,0,0,1,1,3,3,,99529,0,0,CHART 26: Senior Centers for Immigrant Populations Initiative - Fiscal 2018
+3,55,792.0,612.0,0,1,27,0,41,* **,37,37,37,2641,0,0,1,1,37,37,,957938,0,0,"CHART 27: Senior Centers, Programs, and Enhancements Initiative - Fiscal 2018"
+3,56,792.0,612.0,0,1,28,0,42,* **,1,1,1,286,0,0,1,1,1,1,,49447,0,0,CHART 28: Prevent Sexual Assault (PSA) Initiative for Young Adults - Fiscal 2018
+3,57,792.0,612.0,0,1,29,0,43,* **,8,8,8,693,0,0,1,1,8,8,,220995,0,0,CHART 29: Wrap-Around Support for Traditional-Aged Foster Youth - Fiscal 2018
+3,58,792.0,612.0,0,1,30,0,44,* **,8,8,8,689,0,0,1,1,8,8,,221439,0,0,CHART 30: Coalition Theaters of Color Initiative - Fiscal 2018
+3,59,792.0,612.0,0,1,31,0,45,* **,7,7,7,691,0,0,1,1,7,7,,210278,0,0,CHART 31: Day Laborer Workforce Initiative - Fiscal 2018
+3,60,792.0,612.0,0,1,32,0,46,* **,2,2,2,316,0,0,1,1,2,2,,72755,0,0,CHART 32: Maternal and Child Health Services - Fiscal 2018
+3,61,792.0,612.0,0,1,33,0,47,* **,2,2,2,331,0,0,1,1,2,2,,76615,0,0,CHART 33: Post-Arrest Diversion Program Initiative - Fiscal 2018
+3,62,792.0,612.0,0,1,34,0,48,* **,2,2,2,328,0,0,1,1,2,2,,78244,0,0,CHART 34: Discretionary Child Care - Fiscal 2018
+3,63,792.0,612.0,0,1,35,0,49,* **,8,8,8,787,0,0,1,1,8,8,,229406,0,0,CHART 35: Local Initiatives - Fiscal 2017
+3,64,792.0,612.0,0,1,36,0,50,* **,2,2,2,390,0,0,1,1,2,2,,87153,0,0,CHART 36: Youth Discretionary - Fiscal 2017
+3,65,792.0,612.0,0,1,37,0,51,* **,2,2,2,398,0,0,1,1,2,2,,86091,0,0,CHART 37: Speaker's Initiative to Address Citywide Needs - Fiscal 2017
+3,66,792.0,612.0,0,1,38,0,52,* **,2,2,2,414,0,0,1,1,2,2,,90811,0,0,CHART 38: Local Initiatives - Fiscal 2016
+3,67,792.0,612.0,0,1,39,0,53,* **,2,2,2,349,0,0,1,1,2,2,,83842,0,0,CHART 39: Food Pantries- Fiscal 2017
+3,68,792.0,612.0,0,1,40,0,54,* **,4,4,4,527,0,0,1,1,4,4,,139787,0,0,CHART 40: Parks Equity Initiative- Fiscal 2016
+3,69,792.0,612.0,0,1,41,0,55,* **,2,2,2,381,0,0,1,1,2,2,,97515,0,0,CHART 41: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2017
+3,70,792.0,612.0,0,1,42,0,56,* **,18,18,18,3420,0,0,1,1,18,18,,618652,3,0,CHART 42: Purpose of Funds Changes - Fiscal 2018
+3,71,792.0,612.0,0,1,42,1,57,* **,20,20,20,4014,6,0,1,1,20,20,,706340,3,0,CHART 42: Purpose of Funds Changes - Fiscal 2018 (continued)
+3,72,792.0,612.0,0,1,42,1,58,* **,14,14,10,3096,30,0,1,1,14,14,,524482,35,0,CHART 42: Purpose of Funds Changes - Fiscal 2018 (continued)
+3,73,792.0,612.0,0,1,42,1,59,* **,10,10,10,2753,0,0,1,1,10,10,,462143,1,0,CHART 42: Purpose of Funds Changes - Fiscal 2018 (continued)
+3,74,792.0,612.0,0,1,42,1,60,* **,10,10,10,2840,0,0,1,1,10,10,,471704,1,0,CHART 42: Purpose of Funds Changes - Fiscal 2018 (continued)
+3,75,792.0,612.0,0,1,42,1,61,* **,10,10,10,2740,0,0,1,1,10,10,,461598,1,0,CHART 42: Purpose of Funds Changes - Fiscal 2018 (continued)
+3,76,792.0,612.0,0,1,42,1,62,,8,8,8,1912,0,0,1,1,8,8,,339943,1,0,CHART 42: Purpose of Funds Changes - Fiscal 2018 (continued)
+3,77,792.0,612.0,0,1,43,0,63,* **,12,12,12,2109,0,0,1,1,12,12,,400015,0,0,CHART 43:  Purpose of Funds - Fiscal 2017
+3,78,612.0,792.0,0,1,44,0,64,,38,38,38,2200,0,0,1,1,38,38,,838320,7,0,CHART 44: Beating Hearts Initiative - Fiscal 2018
+4,1,612.0,792.0,0,0,,,,,0,0,0,2781,0,0,,,,,,,,,
+4,2,612.0,792.0,0,0,,,,,0,0,0,2905,0,0,,,,,,,,,
+4,3,612.0,792.0,0,0,,,,,0,0,0,2268,0,0,,,,,,,,,
+4,4,612.0,792.0,0,0,,,,,0,0,0,2352,0,0,,,,,,,,,
+4,5,612.0,792.0,0,0,,,,,0,0,0,2302,0,0,,,,,,,,,
+4,6,612.0,792.0,0,0,,,,,0,0,0,984,0,0,,,,,,,,,
+4,7,612.0,792.0,0,0,,,,,0,0,0,1344,0,0,,,,,,,,,
+4,8,612.0,792.0,0,0,,,,,0,0,0,1537,0,0,,,,,,,,,
+4,9,612.0,792.0,0,0,,,,,0,0,0,1555,0,0,,,,,,,,,
+4,10,612.0,792.0,0,0,,,,,0,0,0,1533,0,0,,,,,,,,,
+4,11,612.0,792.0,0,0,,,,,0,0,0,1506,0,0,,,,,,,,,
+4,12,612.0,792.0,0,0,,,,,0,0,0,1461,0,0,,,,,,,,,
+4,13,612.0,792.0,0,0,,,,,0,0,0,1508,0,0,,,,,,,,,
+4,14,612.0,792.0,0,0,,,,,0,0,0,441,0,0,,,,,,,,,
+4,15,792.0,612.0,0,1,1,0,1,* **,35,35,35,3103,0,0,1,1,35,35,,800776,0,0,CHART 1: Local Initiatives - Fiscal 2018
+4,16,792.0,612.0,0,1,1,1,2,* **,18,18,18,1572,0,0,1,1,18,18,,419312,0,0,CHART 1: Local Initiatives - Fiscal 2018 (Continued)
+4,17,792.0,612.0,0,1,2,0,3,* **,6,6,6,676,0,0,1,1,6,6,,159982,0,0,CHART 2: Anti-Poverty Initiative - Fiscal 2018
+4,18,792.0,612.0,0,1,3,0,4,* **,41,41,41,3403,0,0,1,1,41,41,,854423,0,0,CHART 3: Cultural After-School Adventure (CASA) - Fiscal 2018
+4,19,792.0,612.0,0,1,4,0,5,* **,20,20,20,1496,0,0,1,1,20,20,,395258,0,0,CHART 4:  A Greener NYC - Fiscal 2018
+4,20,792.0,612.0,0,1,5,0,6,* **,9,9,9,835,0,0,1,1,9,9,,194459,0,0,CHART 5:  Digital Inclusion and Literacy Initiative - Fiscal 2018
+4,21,792.0,612.0,0,1,6,0,7,* **,17,17,17,1408,0,0,1,1,17,17,,348660,0,0,CHART 6:  Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018
+4,22,792.0,612.0,0,1,7,0,8,* **,9,9,9,836,0,0,1,1,9,9,,194796,0,0,CHART 7: Support Our Seniors - Fiscal 2018
+4,23,792.0,612.0,0,1,8,0,9,* **,8,8,8,815,0,0,1,1,8,8,,180154,0,0,CHART 8:  Healthy Aging Initiative - Fiscal 2018
+4,24,792.0,612.0,0,1,9,0,10,* **,11,11,11,949,0,0,1,1,11,11,,231444,0,0,CHART 9:  NYC Cleanup Initiative - Fiscal 2018
+4,25,792.0,612.0,0,1,10,0,11,* **,21,21,21,1575,0,0,1,1,21,21,,416260,0,0,CHART 10:  Parks Equity Initiative - Fiscal 2018
+4,26,792.0,612.0,0,1,11,0,12,* **,14,14,14,1495,0,0,1,1,14,14,,333752,0,0,CHART 11:  Food Pantries Initiative - Fiscal 2018
+4,27,792.0,612.0,0,1,12,0,13,* **,6,6,6,645,0,0,1,1,6,6,,140590,0,0,CHART 12:  Neighborhood Development Grant Initiative - Fiscal 2018
+4,28,792.0,612.0,0,1,13,0,14,* **,28,28,28,1992,0,0,1,1,28,28,,535630,0,0,CHART 13: Cultural Immigrant Initiative - Fiscal 2018
+4,29,792.0,612.0,0,1,14,0,15,* **,2,2,2,379,0,0,1,1,2,2,,59682,0,0,CHART 14: Alternatives to Incarceration (ATI's) Initiative - Fiscal 2018
+4,30,792.0,612.0,0,1,15,0,16,* **,35,35,35,2271,0,0,1,1,35,35,,610109,0,0,CHART 15: Ending the Epidemic - Fiscal 2018
+4,31,792.0,612.0,0,1,15,1,17,* **,16,16,16,1167,0,0,1,1,16,16,,291635,0,0,CHART 15: Ending the Epidemic - Fiscal 2018 (Continued)
+4,32,792.0,612.0,0,1,16,0,18,* **,3,3,3,337,0,0,1,1,3,3,,60432,0,0,CHART 16: Maternal and Child Health Services - Fiscal 2018
+4,33,792.0,612.0,0,1,17,0,19,* **,2,2,2,351,0,0,1,1,2,2,,57235,0,0,CHART 17: Court-Involved Youth Mental Health Initiative - Fiscal 2018
+4,34,792.0,612.0,0,1,18,0,20,* **,2,2,2,334,0,0,1,1,2,2,,55324,0,0,CHART 18: Child Health and Wellness Initiative - Fiscal 2018
+4,35,792.0,612.0,0,1,19,0,21,* **,1,1,1,271,0,0,1,1,1,1,,36289,0,0,CHART 19: HIV/AIDS Faith Based Initiative - Fiscal 2018
+4,36,792.0,612.0,0,1,20,0,22,* **,1,1,1,291,0,0,1,1,1,1,,37069,0,0,"CHART 20: Senior Centers, Programs, and Enhancements - Fiscal 2018"
+4,37,792.0,612.0,0,1,21,0,23,* **,1,1,1,245,0,0,1,1,1,1,,34948,0,0,CHART 21: Bail Fund - Fiscal 2018
+4,38,792.0,612.0,0,1,22,0,24,* **,1,1,1,240,0,0,1,1,1,1,,33758,0,0,CHART 22: Video Visitation - Fiscal 2018
+4,39,792.0,612.0,0,1,23,0,25,* **,1,1,1,274,0,0,1,1,1,1,,35197,0,0,CHART 23: Discretionary Child Care Initiative - Fiscal 2018
+4,40,792.0,612.0,0,1,24,0,26,* **,7,7,7,828,0,0,1,1,7,7,,164356,0,0,CHART 24: Crisis Management System - Fiscal 2018
+4,41,792.0,612.0,0,1,25,0,27,* **,2,2,2,317,0,0,1,1,2,2,,55372,0,0,CHART 25: Home Loan Program - Fiscal 2018
+4,42,792.0,612.0,0,1,26,0,28,* **,5,5,5,545,0,0,1,1,5,5,,108323,0,0,CHART 26: Communities of Color Nonprofit Stabilization Fund - Fiscal 2018
+4,43,792.0,612.0,0,1,27,0,29,* **,8,8,8,752,0,0,1,1,8,8,,164377,0,0,CHART 27: Art a Catalyst for Change - Fiscal 2018
+4,44,792.0,612.0,0,1,28,0,30,* **,17,17,17,1289,0,0,1,1,17,17,,318331,0,0,CHART 28: Chamber on the Go and Small Business Assistance - Fiscal 2018
+4,45,792.0,612.0,0,1,29,0,31,* **,4,4,4,405,0,0,1,1,4,4,,83191,0,0,CHART 29: Support for Educators Initiative - Fiscal 2018
+4,46,792.0,612.0,0,1,30,0,32,* **,14,14,14,1053,0,0,1,1,14,14,,251195,0,0,CHART 30: Wrap-Around Support for Traditional-Aged Foster Youth - Fiscal 2018
+4,47,792.0,612.0,0,1,31,0,33,* **,24,24,24,1703,0,0,1,1,24,24,,441699,0,0,CHART 31: Adult Literacy Initiative - Fiscal 2018
+4,48,792.0,612.0,0,1,32,0,34,* **,2,2,2,329,0,0,1,1,2,2,,54819,0,0,CHART 32: Immigrant Opportunities Initiative - Fiscal 2018
+4,49,792.0,612.0,0,1,33,0,35,* **,36,36,36,3228,0,0,1,1,36,36,,750576,0,0,CHART 33: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2018
+4,50,792.0,612.0,0,1,34,0,36,* **,24,24,24,1796,0,0,1,1,24,24,,519103,0,0,CHART 34: Local Initiatives - Fiscal 2017
+4,51,792.0,612.0,0,1,35,0,37,* **,2,2,2,385,0,0,1,1,2,2,,77526,0,0,CHART 35: Youth Discretionary - Fiscal 2017
+4,52,792.0,612.0,0,1,36,0,38,* **,2,2,1,405,3,0,1,1,2,2,,79500,0,0,CHART 36: Local Initiatives - Fiscal 2016
+4,53,792.0,612.0,0,1,37,0,39,* **,2,2,2,333,0,0,1,1,2,2,,62193,0,0,CHART 37: Food Pantries- Fiscal 2017
+4,54,792.0,612.0,0,1,38,0,40,* **,2,2,2,393,0,0,1,1,2,2,,68344,0,0,CHART 38: Healthy Aging Initiative- Fiscal 2017
+4,55,792.0,612.0,0,1,39,0,41,* **,2,2,2,336,0,0,1,1,2,2,,61791,0,0,CHART 39: Food Pantries- Fiscal 2016
+4,56,792.0,612.0,0,1,40,0,42,* **,16,16,10,2768,136,0,1,1,16,16,,480983,0,0,CHART 40: Purpose of Funds Changes - Fiscal 2018
+4,57,792.0,612.0,0,1,41,0,43,* **,2,2,2,582,0,0,1,1,2,2,,91025,0,0,CHART 41:  Purpose of Funds - Fiscal 2017
+4,58,792.0,612.0,0,1,42,0,44,***,2,2,2,533,0,0,1,1,2,2,,54362,0,0,CHART 42: Job Training and Placement Initiative - Fiscal 2018 ***
+4,59,792.0,612.0,0,1,43,0,45,,17,17,17,943,0,0,1,1,17,17,,221386,0,0,CHART 43: Beating Hearts Initiative - Fiscal 2018
+5,1,612.0,792.0,0,0,,,,,0,0,0,2732,0,0,,,,,,,,,
+5,2,612.0,792.0,0,0,,,,,0,0,0,2993,0,0,,,,,,,,,
+5,3,612.0,792.0,0,0,,,,,0,0,0,2322,0,0,,,,,,,,,
+5,4,612.0,792.0,0,0,,,,,0,0,0,2296,0,0,,,,,,,,,
+5,5,612.0,792.0,0,0,,,,,0,0,0,2344,0,0,,,,,,,,,
+5,6,612.0,792.0,0,0,,,,,0,0,0,1550,0,0,,,,,,,,,
+5,7,612.0,792.0,0,0,,,,,0,0,0,1351,0,0,,,,,,,,,
+5,8,612.0,792.0,0,0,,,,,0,0,0,1550,0,0,,,,,,,,,
+5,9,612.0,792.0,0,0,,,,,0,0,0,1579,0,0,,,,,,,,,
+5,10,612.0,792.0,0,0,,,,,0,0,0,1514,0,0,,,,,,,,,
+5,11,612.0,792.0,0,0,,,,,0,0,0,1406,0,0,,,,,,,,,
+5,12,612.0,792.0,0,0,,,,,0,0,0,1470,0,0,,,,,,,,,
+5,13,612.0,792.0,0,0,,,,,0,0,0,1535,0,0,,,,,,,,,
+5,14,612.0,792.0,0,0,,,,,0,0,0,1356,0,0,,,,,,,,,
+5,15,792.0,612.0,0,1,1,0,1,* ** ***,41,43,43,3244,0,0,1,1,41,41,,1004184,0,0,CHART 1: Local Initiatives - Fiscal 2018
+5,16,792.0,612.0,0,1,1,1,2,* ** ***,36,40,40,3026,0,0,1,1,36,36,,917317,0,0,CHART 1: Local Initiatives - Fiscal 2018 (continued)
+5,17,792.0,612.0,0,1,1,1,3,* ** ***,9,9,9,943,0,0,1,1,9,9,,251481,0,0,CHART 1: Local Initiatives - Fiscal 2018 (continued)
+5,18,792.0,612.0,0,1,2,0,4,* **,6,8,8,735,0,0,1,1,6,6,,191749,1,0,CHART 2: Aging Discretionary - Fiscal 2018
+5,19,792.0,612.0,0,1,3,0,5,* **,4,6,6,641,0,0,1,1,4,4,,157684,0,0,CHART 3: Youth Discretionary - Fiscal 2018
+5,20,792.0,612.0,0,1,4,0,6,* **,8,8,8,791,0,0,1,1,8,8,,227264,0,0,CHART 4: Anti-Poverty Initiative - Fiscal 2018
+5,21,792.0,612.0,0,1,5,0,7,* ** ***,14,16,16,1608,0,0,1,1,14,14,,431121,0,0,CHART 5: Initiative to Address Borough Wide Needs - Fiscal 2018
+5,22,792.0,612.0,0,1,6,0,8,* **,30,30,30,2694,0,0,1,1,30,30,,857023,5,0,CHART 6: Cultural After-School Adventure (CASA) Initiative - Fiscal 2018
+5,23,792.0,612.0,0,1,7,0,9,,12,12,12,1088,0,0,1,1,12,12,,366387,0,0,CHART 7: A Greener NYC Initiative - Fiscal 2018
+5,24,792.0,612.0,0,1,8,0,10,* **,2,2,2,361,0,0,1,1,2,2,,83174,0,0,CHART 8: Digital Inclusion and Literacy Initiative - Fiscal 2018
+5,25,792.0,612.0,0,1,9,0,11,* **,12,12,12,1011,0,0,1,1,12,12,,330211,0,0,CHART 9: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018
+5,26,792.0,612.0,0,1,10,0,12,* **,12,12,12,1205,0,0,1,1,12,12,,360220,1,0,CHART 10: Support Our Seniors Initiative - Fiscal 2018
+5,27,792.0,612.0,0,1,11,0,13,* **,6,6,6,836,0,0,1,1,6,6,,221941,0,0,CHART 11: Healthy Aging Initiative - Fiscal 2018
+5,28,792.0,612.0,0,1,12,0,14,* **,20,20,20,1526,0,0,1,1,20,20,,527610,0,0,CHART 12: NYC Cleanup Initiative - Fiscal 2018
+5,29,792.0,612.0,0,1,13,0,15,* **,40,40,40,2800,0,0,1,1,40,40,,1027933,1,0,CHART 13: Parks Equity Initiative - Fiscal 2018
+5,30,792.0,612.0,0,1,14,0,16,* **,10,10,10,978,0,0,1,1,10,10,,299914,0,0,CHART 14: Food Pantries Initiative - Fiscal 2018
+5,31,792.0,612.0,0,1,15,0,17,* **,6,6,6,671,0,0,1,1,6,6,,189206,0,0,CHART 15: Neighborhood Development Grant Initiative - Fiscal 2018
+5,32,792.0,612.0,0,1,16,0,18,* **,26,26,26,1951,0,0,1,1,26,26,,676905,1,0,CHART 16: Cultural Immigrant Initiative - Fiscal 2018
+5,33,792.0,612.0,0,1,17,0,19,* **,37,37,37,2779,0,0,1,1,37,37,,982354,1,0,CHART 17: HIV/AIDS Faith Based Initiative - Fiscal 2018
+5,34,792.0,612.0,0,1,18,0,20,* **,6,6,6,537,0,0,1,1,6,6,,202440,0,0,CHART 18: Community Housing Preservation Strategies - Fiscal 2018
+5,35,792.0,612.0,0,1,19,0,21,* **,10,10,10,827,0,0,1,1,10,10,,314027,0,0,CHART 19: Ending the Epidemic Initiative - Fiscal 2018
+5,36,792.0,612.0,0,1,20,0,22,* **,2,2,2,326,0,0,1,1,2,2,,87525,0,0,CHART 20: Autism Awareness - Fiscal 2018
+5,37,792.0,612.0,0,1,21,0,23,* **,4,4,4,460,0,0,1,1,4,4,,149240,0,0,CHART 21: Maternal and Child Health Services - Fiscal 2018
+5,38,792.0,612.0,0,1,22,0,24,* **,3,3,3,386,0,0,1,1,3,3,,115394,0,0,"CHART 22: Senior Centers, Programs, and Enhancements - Fiscal 2018"
+5,39,792.0,612.0,0,1,23,0,25,* **,2,2,2,343,0,0,1,1,2,2,,90581,0,0,CHART 23: Educational Programs for Students - Fiscal 2018
+5,40,792.0,612.0,0,1,24,0,26,* **,1,1,1,272,0,0,1,1,1,1,,58022,0,0,CHART 24: Discretionary Child Care Initiative - Fiscal 2018
+5,41,792.0,612.0,0,1,25,0,27,* **,1,1,1,274,0,0,1,1,1,1,,57503,0,0,CHART 25: Dropout Prevention and Intervention Initiative - Fiscal 2018
+5,42,792.0,612.0,0,1,26,0,28,* ** ***,12,12,12,1065,0,0,1,1,12,12,,384380,0,0,CHART 26: Immigrant Resource Center - Fiscal 2018
+5,43,792.0,612.0,0,1,27,0,29,* **,4,4,4,469,0,0,1,1,4,4,,151703,0,0,CHART 27: Art a Catalyst for Change - Fiscal 2018
+5,44,792.0,612.0,0,1,28,0,30,* **,1,1,1,290,0,0,1,1,1,1,,65771,0,0,CHART 28: CUNY Research Institutes - Fiscal 2018
+5,45,792.0,612.0,0,1,29,0,31,* ** ***,2,2,2,476,0,0,1,1,2,2,,93722,0,0,CHART 29: Wrap-Around Support for Traditional-Aged Foster Youth - Fiscal 2018
+5,46,792.0,612.0,0,1,30,0,32,* **,14,14,14,1090,0,0,1,1,14,14,,439079,0,0,CHART 30: Adult Literacy Initiative - Fiscal 2018
+5,47,792.0,612.0,0,1,31,0,33,* **,1,1,1,257,0,0,1,1,1,1,,56093,0,0,CHART 31: Civic Education in New York City Schools - Fiscal 2018
+5,48,792.0,612.0,0,1,32,0,34,* **,3,3,3,468,0,0,1,1,3,3,,129952,0,0,CHART 32: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2018
+5,49,792.0,612.0,0,1,33,0,35,* **,1,1,1,285,0,0,1,1,1,1,,62709,0,0,CHART 33: Afterschool Enrichment Initiative - Fiscal 2018
+5,50,792.0,612.0,0,1,34,0,36,* **,1,1,1,280,0,0,1,1,1,1,,60977,0,0,CHART 34: Job Training and Placement Initiative - Fiscal 2018
+5,51,792.0,612.0,0,1,35,0,37,* **,2,2,2,331,0,0,1,1,2,2,,88328,0,0,CHART 35: Immigrant Opportunities Initiative - Fiscal 2018
+5,52,792.0,612.0,0,1,36,0,38,* **,4,4,4,445,0,0,1,1,4,4,,143232,0,0,CHART 36: Legal Services for the Working Poor - Fiscal 2018
+5,53,792.0,612.0,0,1,37,0,39,* **,24,31,31,2201,0,0,1,1,24,24,,647600,0,0,CHART 37: Local Initiatives - Fiscal 2017
+5,54,792.0,612.0,0,1,38,0,40,* **,12,13,13,1092,0,0,1,1,12,12,,328578,0,0,CHART 38: Youth Discretionary - Fiscal 2017
+5,55,792.0,612.0,0,1,39,0,41,* **,6,6,6,721,0,0,1,1,6,6,,195606,0,0,CHART 39: Aging Discretionary - Fiscal 2017
+5,56,792.0,612.0,0,1,40,0,42,* **,4,5,5,533,0,0,1,1,4,4,,136332,0,0,CHART 40: Anti-Poverty Initiative - Fiscal 2017
+5,57,792.0,612.0,0,1,41,0,43,* **,2,2,2,376,0,0,1,1,2,2,,89080,0,0,CHART 41: Local Initiatives - Fiscal 2016
+5,58,792.0,612.0,0,1,42,0,44,* **,4,4,4,641,0,0,1,1,4,4,,152823,0,0,CHART 42: Cultural After-School Adventure (CASA) - Fiscal 2017
+5,59,792.0,612.0,0,1,43,0,45,* **,2,2,2,327,0,0,1,1,2,2,,91584,0,0,CHART 43: Adult Literacy - Fiscal 2017
+5,60,792.0,612.0,0,1,44,0,46,* **,20,20,20,3704,0,0,1,1,20,20,,595742,0,0,CHART 44: Purpose of Funds Changes - Fiscal 2018
+5,61,792.0,612.0,0,1,44,1,47,* **,22,22,22,4167,0,0,1,1,22,22,region 0: header rule at 72.84 pt found in header pixels,697357,2,0,CHART 44: Purpose of Funds Changes - Fiscal 2018 (continued)
+5,62,792.0,612.0,0,1,45,0,48,* **,6,6,6,1584,0,0,1,1,6,6,region 0: header rule at 75.72 pt found in header pixels,271920,0,0,CHART 45: Purpose of Funds - Fiscal 2017
+5,63,792.0,612.0,0,1,46,0,49,,8,8,8,695,0,0,1,1,8,8,,295319,2,0,CHART 46: Beating Hearts Initiative - Fiscal 2018
+6,1,612.0,792.0,0,0,,,,,0,0,0,2733,0,0,,,,,,,,,
+6,2,612.0,792.0,0,0,,,,,0,0,0,2922,0,0,,,,,,,,,
+6,3,612.0,792.0,0,0,,,,,0,0,0,2237,0,0,,,,,,,,,
+6,4,612.0,792.0,0,0,,,,,0,0,0,2283,0,0,,,,,,,,,
+6,5,612.0,792.0,0,0,,,,,0,0,0,2124,0,0,,,,,,,,,
+6,6,612.0,792.0,0,0,,,,,0,0,0,0,0,0,,,,,,,,,
+6,7,612.0,792.0,0,0,,,,,0,0,0,1351,0,0,,,,,,,,,
+6,8,612.0,792.0,0,0,,,,,0,0,0,1539,0,0,,,,,,,,,
+6,9,612.0,792.0,0,0,,,,,0,0,0,1554,0,0,,,,,,,,,
+6,10,612.0,792.0,0,0,,,,,0,0,0,1392,0,0,,,,,,,,,
+6,11,612.0,792.0,0,0,,,,,0,0,0,1569,0,0,,,,,,,,,
+6,12,612.0,792.0,0,0,,,,,0,0,0,1467,0,0,,,,,,,,,
+6,13,612.0,792.0,0,0,,,,,0,0,0,1253,0,0,,,,,,,,,
+6,14,792.0,612.0,0,1,1,0,1,* **,37,37,37,3021,0,0,1,1,37,37,,823759,0,0,CHART 1: Local Initiatives - Fiscal 2018
+6,15,792.0,612.0,0,1,2,0,2,* **,4,4,4,504,0,0,1,1,4,4,,117846,0,0,CHART 2: Aging Discretionary - Fiscal 2018
+6,16,792.0,612.0,0,1,3,0,3,* **,13,13,13,1233,0,0,1,1,13,13,,315889,0,0,CHART 3: Youth Discretionary - Fiscal 2018
+6,17,792.0,612.0,0,1,4,0,4,* **,4,4,4,645,0,0,1,1,4,4,,141430,0,0,CHART 4: Anti-Poverty Initiative - Fiscal 2018
+6,18,792.0,612.0,0,1,5,0,5,* **,2,2,2,439,0,0,1,1,2,2,,88252,0,0,CHART 5: Initiative to Address Borough Wide Needs - Fiscal 2018
+6,19,792.0,612.0,0,1,6,0,6,* **,2,2,2,422,0,0,1,1,2,2,,81551,0,0,CHART 6: Speaker's Initiative to Address Citywide Needs - Fiscal 2018
+6,20,792.0,612.0,0,1,7,0,7,* **,38,38,38,3322,0,0,1,1,38,38,,1072966,4,0,CHART 7: Cultural After-School Adventure (CASA) Initiative - Fiscal 2018
+6,21,792.0,612.0,0,1,7,1,8,* **,8,8,8,917,0,0,1,1,8,8,,254432,2,0,CHART 7: Cultural After-School Adventure (CASA) Initiative - Fiscal 2018 (continued)
+6,22,792.0,612.0,0,1,8,0,9,* **,7,7,7,681,0,0,1,1,7,7,,208504,0,0,CHART 8: A Greener NYC Initiative - Fiscal 2018
+6,23,792.0,612.0,0,1,9,0,10,* **,6,6,6,691,0,0,1,1,6,6,,193724,0,0,CHART 9: Support Our Seniors Initiative - Fiscal 2018
+6,24,792.0,612.0,0,1,10,0,11,* **,2,2,2,340,0,0,1,1,2,2,,81067,0,0,CHART 10: Healthy Aging Initiative - Fiscal 2018
+6,25,792.0,612.0,0,1,11,0,12,* **,5,5,5,570,0,0,1,1,5,5,,163145,0,0,CHART 11: NYC Cleanup Initiative - Fiscal 2018
+6,26,792.0,612.0,0,1,12,0,13,* **,11,11,11,1002,0,0,1,1,11,11,,319423,1,0,CHART 12: Parks Equity Initiative - Fiscal 2018
+6,27,792.0,612.0,0,1,13,0,14,* **,3,3,3,451,0,0,1,1,3,3,,114973,0,0,CHART 13: Food Pantries Initiative - Fiscal 2018
+6,28,792.0,612.0,0,1,14,0,15,* **,5,5,5,610,0,0,1,1,5,5,,164045,0,0,CHART 14: Neighborhood Development Grant Initiative - Fiscal 2018
+6,29,792.0,612.0,0,1,15,0,16,* **,19,19,19,1482,0,0,1,1,19,19,,503562,0,0,CHART 15: Cultural Immigrant Initiative - Fiscal 2018
+6,30,792.0,612.0,0,1,16,0,17,* **,2,2,2,370,0,0,1,1,2,2,,86367,0,0,CHART 16: HIV/AIDS Faith Based Initiative - Fiscal 2018
+6,31,792.0,612.0,0,1,17,0,18,* **,6,6,6,654,0,0,1,1,6,6,,228399,0,0,CHART 17: Crisis Management System - Fiscal 2018
+6,32,792.0,612.0,0,1,18,0,19,* **,6,6,6,704,0,0,1,1,6,6,,231918,0,0,CHART 18: Ending the Epidemic - Fiscal 2018
+6,33,792.0,612.0,0,1,19,0,20,* **,2,2,2,312,0,0,1,1,2,2,,80803,0,0,CHART 19: Initiative for Immigrant Survivors of Domestic Violence - Fiscal 2018
+6,34,792.0,612.0,0,1,20,0,21,* **,2,2,2,301,0,0,1,1,2,2,,81872,0,0,CHART 20: Immigrant Opportunities Initiative - Fiscal 2018
+6,35,792.0,612.0,0,1,21,0,22,* **,2,2,2,334,0,0,1,1,2,2,,88251,0,0,CHART 21: Initiative to Combat Sexual Assault - Fiscal 2018
+6,36,792.0,612.0,0,1,22,0,23,* **,2,2,2,366,0,0,1,1,2,2,,97335,0,0,CHART 22: CUNY Research Institutes - Fiscal 2018
+6,37,792.0,612.0,0,1,23,0,24,* **,17,17,17,1312,0,0,1,1,17,17,,424096,0,0,CHART 23: Local Initiatives - Fiscal 2017
+6,38,792.0,612.0,0,1,24,0,25,* **,2,2,2,380,0,0,1,1,2,2,,88691,0,0,CHART 24: Anti-Poverty Initiative - Fiscal 2017
+6,39,792.0,612.0,0,1,25,0,26,* **,4,4,4,558,0,0,1,1,4,4,,146758,0,0,CHART 25: Food Pantries - Fiscal 2017
+6,40,792.0,612.0,0,1,26,0,27,* **,2,2,2,406,0,0,1,1,2,2,,88912,0,0,CHART 26: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2017
+6,41,792.0,612.0,0,1,27,0,28,* **,2,2,2,388,0,0,1,1,2,2,,87458,0,0,CHART 27: Speaker's Initiative to Address Citywide Needs - Fiscal 2017
+6,42,792.0,612.0,0,1,28,0,29,* **,2,2,2,422,0,0,1,1,2,2,,92382,0,0,CHART 28: Initiative to Address Boroughwide Needs - Fiscal 2017
+6,43,792.0,612.0,0,1,29,0,30,* **,4,5,5,611,0,0,1,1,4,4,,148302,0,0,CHART 29: Youth Discretionary - Fiscal 2017
+6,44,792.0,612.0,0,1,30,0,31,* **,2,2,2,493,0,0,1,1,2,2,,101883,0,0,CHART 30: Cultural After-School Adventure (CASA) Initiative - Fiscal 2017
+6,45,792.0,612.0,0,1,31,0,32,* **,2,2,2,337,0,0,1,1,2,2,,91351,0,0,CHART 31: Adult Literacy Initiative- Fiscal 2017
+6,46,792.0,612.0,0,1,32,0,33,* **,2,2,2,313,0,0,1,1,2,2,,85135,0,0,CHART 32: HIV/AIDS Faith Based Initiative - Fiscal 2017
+6,47,792.0,612.0,0,1,33,0,34,* **,2,2,2,327,0,0,1,1,2,2,,90348,0,0,CHART 33: Food Access and Benefits - Fiscal 2017
+6,48,792.0,612.0,0,1,34,0,35,* **,2,2,2,341,0,0,1,1,2,2,,92474,0,0,CHART 34: HIV/AIDS Faith Based Initiative - Fiscal 2016
+6,49,792.0,612.0,0,1,35,0,36,* **,2,2,2,332,0,0,1,1,2,2,,91541,0,0,CHART 35: Adult Literacy Initiative - Fiscal 2016
+6,50,792.0,612.0,0,1,36,0,37,* **,14,14,14,3475,0,0,1,1,14,14,,531847,0,0,CHART 36: Purpose of Funds Changes - Fiscal 2018
+6,51,792.0,612.0,0,1,36,1,38,* **,12,12,12,3348,0,0,1,1,12,12,,508604,0,0,CHART 36: Purpose of Funds Changes - Fiscal 2018 (Continued)
+6,52,792.0,612.0,0,1,36,1,39,* **,21,21,21,3834,0,0,1,1,21,21,,640702,0,0,CHART 36: Purpose of Funds Changes - Fiscal 2018 (Continued)
+6,53,792.0,612.0,0,1,36,1,40,* **,17,17,17,3709,0,0,1,1,17,17,,599262,0,0,CHART 36: Purpose of Funds Changes - Fiscal 2018 (Continued)
+6,54,792.0,612.0,0,1,37,0,41,* **,2,2,2,683,0,0,1,1,2,2,,96486,0,0,CHART 37: Purpose of Funds Changes - Fiscal 2017
+6,55,792.0,612.0,0,1,38,0,42,,16,16,16,967,0,0,1,1,16,16,,511652,2,0,CHART 38: Beating Hearts Initiative - Fiscal 2018
+7,1,612.0,792.0,0,0,,,,,0,0,0,2660,0,0,,,,,,,,,
+7,2,612.0,792.0,0,0,,,,,0,0,0,2679,0,0,,,,,,,,,
+7,3,612.0,792.0,0,0,,,,,0,0,0,2181,0,0,,,,,,,,,
+7,4,612.0,792.0,0,0,,,,,0,0,0,2385,0,0,,,,,,,,,
+7,5,612.0,792.0,0,0,,,,,0,0,0,1448,0,0,,,,,,,,,
+7,6,612.0,792.0,0,0,,,,,0,0,0,1555,0,0,,,,,,,,,
+7,7,612.0,792.0,0,0,,,,,0,0,0,1525,0,0,,,,,,,,,
+7,8,612.0,792.0,0,0,,,,,0,0,0,1508,0,0,,,,,,,,,
+7,9,612.0,792.0,0,0,,,,,0,0,0,1367,0,0,,,,,,,,,
+7,10,612.0,792.0,0,0,,,,,0,0,0,204,0,0,,,,,,,,,
+7,11,792.0,612.0,0,1,1,0,1,* **,35,35,35,2614,0,0,1,1,35,35,,853433,0,0,CHART 1: Local Initiatives - Fiscal 2018
+7,12,792.0,612.0,0,1,2,0,2,* **,10,10,10,928,0,0,1,1,10,10,,273656,0,0,CHART 2: Youth Discretionary - Fiscal 2018
+7,13,792.0,612.0,0,1,3,0,3,* **,2,2,2,376,0,0,1,1,2,2,,87620,0,0,CHART 3: Anti-Poverty Initiative - Fiscal 2018
+7,14,792.0,612.0,0,1,4,0,4,* **,2,2,2,421,0,0,1,1,2,2,,91825,0,0,CHART 4: Speaker's Initiative to Address Citywide Needs - Fiscal 2018
+7,15,792.0,612.0,0,1,5,0,5,* **,38,38,38,3481,0,0,1,1,38,38,,1079946,0,0,CHART 5: Cultural After-School Adventure (CASA) Initiative - Fiscal 2018
+7,16,792.0,612.0,0,1,6,0,6,* **,7,7,7,728,0,0,1,1,7,7,,212740,0,0,CHART 6: A Greener NYC Initiative - Fiscal 2018
+7,17,792.0,612.0,0,1,7,0,7,* **,6,6,6,662,0,0,1,1,6,6,,189710,0,0,CHART 7: Support Our Seniors Initiative - Fiscal 2018
+7,18,792.0,612.0,0,1,8,0,8,* **,3,3,3,399,0,0,1,1,3,3,,102803,0,0,CHART 8: Healthy Aging Initiative - Fiscal 2018
+7,19,792.0,612.0,0,1,9,0,9,* **,6,6,6,647,0,0,1,1,6,6,,189630,0,0,CHART 9: NYC Cleanup Initiative - Fiscal 2018
+7,20,792.0,612.0,0,1,10,0,10,* **,7,7,7,673,0,0,1,1,7,7,,204823,0,0,CHART 10: Parks Equity Initiative - Fiscal 2018
+7,21,792.0,612.0,0,1,11,0,11,* **,2,2,2,372,0,0,1,1,2,2,,86521,0,0,CHART 11: Neighborhood Development Grant Initiative - Fiscal 2018
+7,22,792.0,612.0,0,1,12,0,12,* **,34,34,34,2639,0,0,1,1,34,34,,891026,0,0,CHART 12: Cultural Immigrant Initiative - Fiscal 2018
+7,23,792.0,612.0,0,1,13,0,13,* **,2,2,2,368,0,0,1,1,2,2,,87475,0,0,CHART 13: HIV/AIDS Faith Based Initiative - Fiscal 2018
+7,24,792.0,612.0,0,1,14,0,14,* **,4,4,4,537,0,0,1,1,4,4,,167280,0,0,CHART 14: Art as a Catalyst for Change - Fiscal 2018
+7,25,792.0,612.0,0,1,15,0,15,* **,3,3,3,472,0,0,1,1,3,3,,133420,0,0,CHART 15: Job Training and Placement Initiative - Fiscal 2018
+7,26,792.0,612.0,0,1,16,0,16,* **,2,2,2,331,0,0,1,1,2,2,,89954,0,0,CHART 16: Community Schools - Fiscal 2018
+7,27,792.0,612.0,0,1,17,0,17,* **,1,1,1,273,0,0,1,1,1,1,,57607,0,0,CHART 17: Discretionary Child Care Initiative - Fiscal 2018
+7,28,792.0,612.0,0,1,18,0,18,* **,1,1,1,274,0,0,1,1,1,1,,59299,0,0,CHART 18: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2018
+7,29,792.0,612.0,0,1,19,0,19,* **,1,1,1,278,0,0,1,1,1,1,,62807,0,0,CHART 19: Adult Literacy Initiative - Fiscal 2018
+7,30,792.0,612.0,0,1,20,0,20,* **,2,2,2,389,0,0,1,1,2,2,,97511,0,0,"CHART 20: Senior Centers, Programs, and Enhancements - Fiscal 2018"
+7,31,792.0,612.0,0,1,21,0,21,* **,12,12,12,1022,0,0,1,1,12,12,,389291,0,0,CHART 21: Immigrant Resource Initiative - Fiscal 2018
+7,32,792.0,612.0,0,1,22,0,22,* **,2,2,2,346,0,0,1,1,2,2,,93578,0,0,CHART 22: Ending the Epidemic Initiative - Fiscal 2018
+7,33,792.0,612.0,0,1,23,0,23,* **,7,7,7,722,0,0,1,1,7,7,,250457,0,0,CHART 23: Home Loan Program - Fiscal 2018
+7,34,792.0,612.0,0,1,24,0,24,* **,18,18,18,1477,0,0,1,1,18,18,,462556,0,0,CHART 24: Local Initiatives - Fiscal 2017
+7,35,792.0,612.0,0,1,25,0,25,* **,10,10,10,984,0,0,1,1,10,10,,282719,0,0,CHART 25: Youth Discretionary - Fiscal 2017
+7,36,792.0,612.0,0,1,26,0,26,* **,2,2,2,374,0,0,1,1,2,2,,89380,0,0,CHART 26: Local Initiatives - Fiscal 2016
+7,37,792.0,612.0,0,1,27,0,27,,12,12,12,2392,0,0,1,1,12,12,,425901,0,0,CHART 27: Purpose of Funds Changes - Fiscal 2018
+7,38,792.0,612.0,0,1,28,0,28,,10,10,10,698,0,0,1,1,10,10,,340200,0,0,CHART 28: Beating Hearts Initiative - Fiscal 2018
+8,1,612.0,792.0,0,0,,,,,0,0,0,2709,0,0,,,,,,,,,
+8,2,612.0,792.0,0,0,,,,,0,0,0,2776,0,0,,,,,,,,,
+8,3,612.0,792.0,0,0,,,,,0,0,0,1954,0,0,,,,,,,,,
+8,4,612.0,792.0,0,0,,,,,0,0,0,2230,0,0,,,,,,,,,
+8,5,612.0,792.0,0,0,,,,,0,0,0,799,0,0,,,,,,,,,
+8,6,612.0,792.0,0,0,,,,,0,0,0,1374,0,0,,,,,,,,,
+8,7,612.0,792.0,0,0,,,,,0,0,0,1566,0,0,,,,,,,,,
+8,8,612.0,792.0,0,0,,,,,0,0,0,1595,0,0,,,,,,,,,
+8,9,612.0,792.0,0,0,,,,,0,0,0,1506,0,0,,,,,,,,,
+8,10,612.0,792.0,0,0,,,,,0,0,0,1390,0,0,,,,,,,,,
+8,11,612.0,792.0,0,0,,,,,0,0,0,719,0,0,,,,,,,,,
+8,12,792.0,612.0,0,1,1,0,1,* **,30,30,30,2257,0,0,1,1,30,30,,740697,0,0,CHART 1: Local Initiatives - Fiscal 2018
+8,13,792.0,612.0,0,1,2,0,2,* **,16,16,16,1419,0,0,1,1,16,16,,427511,0,0,CHART 2: Aging Discretionary - Fiscal 2018
+8,14,792.0,612.0,0,1,3,0,3,* **,28,28,28,2098,0,0,1,1,28,28,,692137,0,0,CHART 3: Youth Discretionary - Fiscal 2018
+8,15,792.0,612.0,0,1,4,0,4,* **,4,4,4,529,0,0,1,1,4,4,,137255,0,0,CHART 4: Anti-Poverty Initiative - Fiscal 2018
+8,16,792.0,612.0,0,1,5,0,5,* **,4,4,4,554,0,0,1,1,4,4,,137770,0,0,CHART 5: Speaker's Initiative to Address Citywide Needs - Fiscal 2018
+8,17,792.0,612.0,0,1,6,0,6,* **,34,34,34,2972,0,0,1,1,34,34,,958908,2,0,CHART 6: Cultural After-School Adventure (CASA) Initiative - Fiscal 2018
+8,18,792.0,612.0,0,1,7,0,7,* **,4,4,4,470,0,0,1,1,4,4,,129651,1,0,CHART 7: A Greener NYC Initiative - Fiscal 2018
+8,19,792.0,612.0,0,1,8,0,8,* **,10,10,10,1129,0,0,1,1,10,10,,320602,0,0,CHART 8: Support Our Seniors Initiative - Fiscal 2018
+8,20,792.0,612.0,0,1,9,0,9,* **,4,4,4,581,0,0,1,1,4,4,,148424,0,0,CHART 9: Healthy Aging Initiative - Fiscal 2018
+8,21,792.0,612.0,0,1,10,0,10,* **,13,13,13,1045,0,0,1,1,13,13,,353195,1,0,CHART 10: NYC Cleanup Initiative - Fiscal 2018
+8,22,792.0,612.0,0,1,11,0,11,* **,13,13,13,1036,0,0,1,1,13,13,,354432,0,0,CHART 11: Parks Equity Initiative - Fiscal 2018
+8,23,792.0,612.0,0,1,12,0,12,* **,2,2,2,368,0,0,1,1,2,2,,85746,0,0,CHART 12: Food Pantries Initiative - Fiscal 2018
+8,24,792.0,612.0,0,1,13,0,13,* **,25,25,25,2079,0,0,1,1,25,25,,678839,0,0,CHART 13: Cultural Immigrant Initiative - Fiscal 2018
+8,25,792.0,612.0,0,1,14,0,14,* **,24,24,24,2964,0,0,1,1,24,24,,837000,2,0,CHART 14: SU-CASA Initiative - Fiscal 2018
+8,26,792.0,612.0,0,1,14,1,15,* **,22,22,22,3021,0,0,1,1,22,22,,820596,0,0,CHART 14: SU-CASA Initiative - Fiscal 2018 (continued)
+8,27,792.0,612.0,0,1,14,1,16,* **,22,22,22,3119,0,0,1,1,22,22,,835114,2,0,CHART 14: SU-CASA Initiative - Fiscal 2018 (continued)
+8,28,792.0,612.0,0,1,14,1,17,* **,20,20,20,3069,0,0,1,1,20,20,,803786,5,0,CHART 14: SU-CASA Initiative - Fiscal 2018 (continued)
+8,29,792.0,612.0,0,1,14,1,18,* **,4,4,4,758,0,0,1,1,4,4,,183086,0,0,CHART 14: SU-CASA Initiative - Fiscal 2018 (continued)
+8,30,792.0,612.0,0,1,15,0,19,* **,7,7,7,669,0,0,1,1,7,7,,238177,0,0,CHART 15: Art as a Catalyst for Change - Fiscal 2018
+8,31,792.0,612.0,0,1,16,0,20,* **,2,2,2,308,0,0,1,1,2,2,,83810,0,0,CHART 16: Coalition Theaters of Color Initiative - Fiscal 2018
+8,32,792.0,612.0,0,1,17,0,21,* **,2,2,2,300,0,0,1,1,2,2,,83239,0,0,CHART 17: Support for Educators Initiative - Fiscal 2018
+8,33,792.0,612.0,0,1,18,0,22,* **,2,2,2,331,0,0,1,1,2,2,,89647,0,0,CHART 18: Social Adult Day Care - Fiscal 2018
+8,34,792.0,612.0,0,1,19,0,23,* **,2,2,2,330,0,0,1,1,2,2,,91312,0,0,CHART 19: Adult Literacy Initiative - Fiscal 2018
+8,35,792.0,612.0,0,1,20,0,24,* **,4,4,4,454,0,0,1,1,4,4,,141359,0,0,CHART 20: Sports Training and Rolemodels for Success (STARS) Initiative - Fiscal 2018
+8,36,792.0,612.0,0,1,21,0,25,* **,4,4,4,456,0,0,1,1,4,4,,144181,0,0,CHART 21: Immigrant Resource Initiative - Fiscal 2018
+8,37,792.0,612.0,0,1,22,0,26,* **,2,2,2,311,0,0,1,1,2,2,,83485,0,0,CHART 22: Young Women's Leadership Development Initiative - Fiscal 2018
+8,38,792.0,612.0,0,1,23,0,27,* **,3,3,3,384,0,0,1,1,3,3,,115287,0,0,CHART 23: City's First Readers Initiative - Fiscal 2018
+8,39,792.0,612.0,0,1,24,0,28,* **,5,5,5,531,0,0,1,1,5,5,,177982,0,0,CHART 24: Job Training and Placement Initiative - Fiscal 2018
+8,40,792.0,612.0,0,1,25,0,29,* **,5,5,5,558,0,0,1,1,5,5,,185130,0,0,CHART 25: Day Laborer Workforce Initiative - Fiscal 2018
+8,41,792.0,612.0,0,1,26,0,30,* **,34,36,36,2541,0,0,1,1,34,34,,846980,0,0,CHART 26: Local Initiatives - Fiscal 2017
+8,42,792.0,612.0,0,1,27,0,31,* **,6,10,10,825,0,0,1,1,6,6,,210444,0,0,CHART 27: Youth Discretionary - Fiscal 2017
+8,43,792.0,612.0,0,1,28,0,32,* **,2,2,2,372,0,0,1,1,2,2,,83321,0,0,CHART 28: Anti-Poverty Initiative - Fiscal 2017
+8,44,792.0,612.0,0,1,29,0,33,* **,21,21,21,3871,0,0,1,1,21,21,,645934,0,0,CHART 29: Purpose of Funds Changes - Fiscal 2018
+8,45,792.0,612.0,0,1,29,1,34,* **,17,17,17,3505,0,0,1,1,17,17,,572751,0,0,CHART 29: Purpose of Funds Changes - Fiscal 2018 (continued)
+8,46,792.0,612.0,0,1,30,0,35,* **,6,6,6,879,0,0,1,1,6,6,,197668,0,0,CHART 30: Purpose of Funds Changes - Fiscal 2017
+8,47,792.0,612.0,0,1,31,0,36,,4,4,4,502,0,0,1,1,4,4,,168482,0,0,CHART 31: Beating Hearts Initiative - Fiscal 2018
+9,1,612.0,792.0,0,0,,,,,0,0,0,2682,0,0,,,,,,,,,
+9,2,612.0,792.0,0,0,,,,,0,0,0,2395,0,0,,,,,,,,,
+9,3,612.0,792.0,0,0,,,,,0,0,0,2155,0,0,,,,,,,,,
+9,4,612.0,792.0,0,0,,,,,0,0,0,634,0,0,,,,,,,,,
+9,5,612.0,792.0,0,0,,,,,0,0,0,1542,0,0,,,,,,,,,
+9,6,612.0,792.0,0,0,,,,,0,0,0,1571,0,0,,,,,,,,,
+9,7,612.0,792.0,0,0,,,,,0,0,0,1387,0,0,,,,,,,,,
+9,8,612.0,792.0,0,0,,,,,0,0,0,1570,0,0,,,,,,,,,
+9,9,612.0,792.0,0,0,,,,,0,0,0,202,0,0,,,,,,,,,
+9,10,792.0,612.0,0,1,1,0,1,* **,34,47,47,3241,0,0,1,1,34,34,,928566,0,0,CHART 1: Local Initiatives - Fiscal 2018
+9,11,792.0,612.0,0,1,1,1,2,* **,18,18,18,1479,0,0,1,1,18,18,,453584,0,0,CHART 1: Local Initiatives - Fiscal 2018 (continued)
+9,12,792.0,612.0,0,1,2,0,3,* **,10,11,11,1006,0,0,1,1,10,10,,279706,0,0,CHART 2: Youth Discretionary - Fiscal 2018
+9,13,792.0,612.0,0,1,3,0,4,* **,2,2,2,417,0,0,1,1,2,2,,89091,0,0,CHART 3: Anti-Poverty Initiative - Fiscal 2018
+9,14,792.0,612.0,0,1,4,0,5,* **,1,1,1,337,0,0,1,1,1,1,,62174,0,0,CHART 4: Speaker's Initiative to Address Citywide Needs - Fiscal 2018
+9,15,792.0,612.0,0,1,5,0,6,* **,6,6,6,745,0,0,1,1,6,6,,196289,0,0,CHART 5: Initiative to Address Borough Wide Needs - Fiscal 2018
+9,16,792.0,612.0,0,1,6,0,7,* **,6,6,6,665,0,0,1,1,6,6,,181147,0,0,CHART 6: Cultural After-School Adventure (CASA) Initiative - Fiscal 2018
+9,17,792.0,612.0,0,1,7,0,8,* **,2,2,2,348,0,0,1,1,2,2,,84237,0,0,CHART 7: A Greener NYC Initiative - Fiscal 2018
+9,18,792.0,612.0,0,1,8,0,9,* **,2,2,2,352,0,0,1,1,2,2,,83725,0,0,CHART 8: Neighborhood Development Grant Initiative - Fiscal 2018
+9,19,792.0,612.0,0,1,9,0,10,* **,2,2,2,367,0,0,1,1,2,2,,84158,0,0,CHART 9: Digital Inclusion and Literacy Initiative - Fiscal 2018
+9,20,792.0,612.0,0,1,10,0,11,* **,8,8,8,730,0,0,1,1,8,8,,228636,0,0,CHART 10: Parks Equity Initiative - Fiscal 2018
+9,21,792.0,612.0,0,1,11,0,12,* **,4,4,4,524,0,0,1,1,4,4,,140557,0,0,CHART 11: Food Pantries Initiative - Fiscal 2018
+9,22,792.0,612.0,0,1,12,0,13,* **,19,19,19,2647,0,0,1,1,19,19,,709404,0,0,CHART 12: SU-CASA Initiative - Fiscal 2018
+9,23,792.0,612.0,0,1,13,0,14,* **,8,8,8,688,0,0,1,1,8,8,,260087,0,0,CHART 13: Art as a Catalyst for Change - Fiscal 2018
+9,24,792.0,612.0,0,1,14,0,15,* **,2,2,2,343,0,0,1,1,2,2,,90894,0,0,CHART 14: Discretionary Child Care Initiative - Fiscal 2018
+9,25,792.0,612.0,0,1,15,0,16,* **,4,4,4,501,0,0,1,1,4,4,,150523,0,0,CHART 15: Community Housing Preservation Strategies Initiative - Fiscal 2018
+9,26,792.0,612.0,0,1,16,0,17,* **,2,2,2,350,0,0,1,1,2,2,,93158,0,0,CHART 16: Center for Court Innovation - Fiscal 2018
+9,27,792.0,612.0,0,1,17,0,18,* **,2,2,2,336,0,0,1,1,2,2,,90697,0,0,CHART 17: Adult Literacy Initiative - Fiscal 2018
+9,28,792.0,612.0,0,1,18,0,19,* **,2,2,2,359,0,0,1,1,2,2,,90016,0,0,CHART 18: Communities of Color Nonprofit Stabilization Fund Initiative - Fiscal 2018
+9,29,792.0,612.0,0,1,19,0,20,* **,2,2,2,356,0,0,1,1,2,2,,90980,0,0,CHART 19: Young Women's Leadership Development Initiative - Fiscal 2018
+9,30,792.0,612.0,0,1,20,0,21,* **,1,1,1,261,0,0,1,1,1,1,,61462,0,0,"CHART 20: Senior Centers, Programs, and Enhancements"
+9,31,792.0,612.0,0,1,21,0,22,* **,2,2,2,392,0,0,1,1,2,2,,87534,0,0,CHART 21: Local Initiatives - Fiscal 2017
+9,32,792.0,612.0,0,1,22,0,23,* **,13,13,13,2946,0,0,1,1,13,13,,612294,0,0,CHART 22: Purpose of Funds Changes - Fiscal 2018
+9,33,792.0,612.0,0,1,22,1,24,* **,12,12,12,3181,0,0,1,1,12,12,,632202,6,0,CHART 22: Purpose of Funds Changes - Fiscal 2018 (continued)
+9,34,792.0,612.0,0,1,22,1,25,* **,9,9,9,3088,0,0,1,1,9,9,region 0: header rule at 75.96 pt found in header pixels,569504,0,0,CHART 22: Purpose of Funds Changes - Fiscal 2018 (continued)
+9,35,792.0,612.0,0,1,22,1,26,* **,8,8,8,2507,0,0,1,1,8,8,region 0: header rule at 75.96 pt found in header pixels,481505,0,0,CHART 22: Purpose of Funds Changes - Fiscal 2018 (continued)
+9,36,792.0,612.0,0,1,23,0,27,,9,9,9,767,0,0,1,1,9,9,,331338,0,0,CHART 23: Beating Hearts Initiative - Fiscal 2018
+10,1,612.0,792.0,0,0,,,,,0,0,0,2583,0,0,,,,,,,,,
+10,2,612.0,792.0,0,0,,,,,0,0,0,2379,0,0,,,,,,,,,
+10,3,612.0,792.0,0,0,,,,,0,0,0,620,0,0,,,,,,,,,
+10,4,612.0,792.0,0,0,,,,,0,0,0,1402,0,0,,,,,,,,,
+10,5,612.0,792.0,0,0,,,,,0,0,0,1622,0,0,,,,,,,,,
+10,6,612.0,792.0,0,0,,,,,0,0,0,708,0,0,,,,,,,,,
+10,7,792.0,612.0,0,1,1,0,1,* **,14,15,15,1228,0,0,1,1,14,14,,323168,0,0,CHART 1: Local Initiatives - Fiscal 2018
+10,8,792.0,612.0,0,1,2,0,2,* **,2,2,2,378,0,0,1,1,2,2,,76476,0,0,CHART 2: Aging Discretionary - Fiscal 2018
+10,9,792.0,612.0,0,1,3,0,3,* **,7,7,7,729,0,0,1,1,7,7,,180641,0,0,CHART 3: Youth Discretionary - Fiscal 2018
+10,10,792.0,612.0,0,1,4,0,4,* **,1,1,1,328,0,0,1,1,1,1,,56771,0,0,CHART 4: Speaker's Initiative to Address Citywide Needs - Fiscal 2018
+10,11,792.0,612.0,0,1,5,0,5,* **,4,4,4,609,0,0,1,1,4,4,,134629,0,0,CHART 5: Initiative to Address Borough Wide Needs - Fiscal 2018
+10,12,792.0,612.0,0,1,6,0,6,* **,5,5,5,520,0,0,1,1,5,5,,147730,0,0,CHART 6: NYC Cleanup Initiative - Fiscal 2018
+10,13,792.0,612.0,0,1,7,0,7,* **,2,2,2,334,0,0,1,1,2,2,,81366,0,0,CHART 7: Support Our Seniors Initiative - Fiscal 2018
+10,14,792.0,612.0,0,1,8,0,8,* **,21,21,21,1654,0,0,1,1,21,21,,550892,0,0,CHART 8: Parks Equity Initiative - Fiscal 2018
+10,15,792.0,612.0,0,1,9,0,9,* **,2,2,2,381,0,0,1,1,2,2,,87487,0,0,CHART 9: Digital Inclusion and Literacy Initiative - Fiscal 2018
+10,16,792.0,612.0,0,1,10,0,10,* **,4,4,4,545,0,0,1,1,4,4,,136798,0,0,CHART 10: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018
+10,17,792.0,612.0,0,1,11,0,11,* **,2,2,2,373,0,0,1,1,2,2,,94173,0,0,CHART 11: Access to Food and Nutritional Education Initiative - Fiscal 2018
+10,18,792.0,612.0,0,1,12,0,12,* **,15,15,15,3741,0,0,1,1,15,15,region 0: header rule at 73.8 pt found in header pixels,676438,0,0,CHART 12: Purpose of Funds Changes - Fiscal 2018
+10,19,792.0,612.0,0,1,12,1,13,* **,7,7,7,3114,0,0,1,1,7,7,region 0: header rule at 73.8 pt found in header pixels,513622,12,0,CHART 12: Purpose of Funds Changes - Fiscal 2018 (continued)
+10,20,792.0,612.0,0,1,12,1,14,* **,4,2,2,1906,0,0,1,1,4,4,region 0: header rule at 73.8 pt found in header pixels,307304,0,0,CHART 12: Purpose of Funds Changes - Fiscal 2018 (continued)
+11,1,612.0,792.0,0,0,,,,,0,0,0,2720,0,0,,,,,,,,,
+11,2,612.0,792.0,0,0,,,,,0,0,0,2515,0,0,,,,,,,,,
+11,3,612.0,792.0,0,0,,,,,0,0,0,1132,0,0,,,,,,,,,
+11,4,612.0,792.0,0,0,,,,,0,0,0,1399,0,0,,,,,,,,,
+11,5,612.0,792.0,0,0,,,,,0,0,0,1508,0,0,,,,,,,,,
+11,6,612.0,792.0,0,0,,,,,0,0,0,1019,0,0,,,,,,,,,
+11,7,792.0,612.0,0,1,1,0,1,* **,21,21,21,1694,0,0,1,1,21,21,,533779,0,0,CHART 1: Local Initiatives - Fiscal 2018
+11,8,792.0,612.0,0,1,2,0,2,* **,2,2,2,363,0,0,1,1,2,2,,83873,0,0,CHART 2: Youth Discretionary - Fiscal 2018
+11,9,792.0,612.0,0,1,3,0,3,* **,3,3,3,399,0,0,1,1,3,3,,98093,0,0,CHART 3: Cultural Immigrant Initiative - Fiscal 2018
+11,10,792.0,612.0,0,1,4,0,4,* **,2,2,2,420,0,0,1,1,2,2,,92748,0,0,CHART 4: Cultural After-School Adventure (CASA) Initiative - Fiscal 2018
+11,11,792.0,612.0,0,1,5,0,5,* **,5,5,5,579,0,0,1,1,5,5,,164699,0,0,CHART 5: Food Pantries Initiative - Fiscal 2018
+11,12,792.0,612.0,0,1,6,0,6,* **,3,3,3,371,0,0,1,1,3,3,,115909,0,0,CHART 6: Ending the Epidemic Initiative - Fiscal 2018
+11,13,792.0,612.0,0,1,7,0,7,* **,3,3,3,352,0,0,1,1,3,3,,109106,0,0,CHART 7: Elie Wiesel Holocaust Survivors Initiative - Fiscal 2018
+11,14,792.0,612.0,0,1,8,0,8,* **,13,13,13,1023,0,0,1,1,13,13,,331065,0,0,CHART 8: Local Initiatives - Fiscal 2017
+11,15,792.0,612.0,0,1,9,0,9,* **,2,2,2,366,0,0,1,1,2,2,,84863,0,0,CHART 9: Aging Discretionary - Fiscal 2017
+11,16,792.0,612.0,0,1,10,0,10,* **,2,2,2,388,0,0,1,1,2,2,,87332,0,0,CHART 10: Youth Discretionary - Fiscal 2017
+11,17,792.0,612.0,0,1,11,0,11,* **,14,14,14,3250,0,0,1,1,14,14,,610125,5,0,CHART 11: Purpose of Funds Changes - Fiscal 2018
+11,18,792.0,612.0,0,1,11,1,12,* **,12,12,12,3339,0,0,1,1,12,12,region 0: header rule at 75.48 pt found in header pixels,588789,1,0,CHART 11: Purpose of Funds Changes - Fiscal 2018 (continued)
+11,19,792.0,612.0,0,1,12,0,13,* **,2,2,2,709,0,0,1,1,2,2,,110988,3,0,CHART 12: Purpose of Funds Changes - Fiscal 2017
+11,20,792.0,612.0,0,1,13,0,14,,1,1,1,339,0,0,1,1,1,1,,72393,0,0,CHART 13: Beating Hearts Initiative - Fiscal 2018
+12,1,612.0,792.0,0,0,,,,,0,0,0,2728,0,0,,,,,,,,,
+12,2,612.0,792.0,0,0,,,,,0,0,0,2411,0,0,,,,,,,,,
+12,3,612.0,792.0,0,0,,,,,0,0,0,2189,0,0,,,,,,,,,
+12,4,612.0,792.0,0,0,,,,,0,0,0,2241,0,0,,,,,,,,,
+12,5,612.0,792.0,0,0,,,,,0,0,0,1131,0,0,,,,,,,,,
+12,6,612.0,792.0,0,0,,,,,0,0,0,1457,0,0,,,,,,,,,
+12,7,612.0,792.0,0,0,,,,,0,0,0,1486,0,0,,,,,,,,,
+12,8,612.0,792.0,0,0,,,,,0,0,0,1530,0,0,,,,,,,,,
+12,9,612.0,792.0,0,0,,,,,0,0,0,1487,0,0,,,,,,,,,
+12,10,612.0,792.0,0,0,,,,,0,0,0,1575,0,0,,,,,,,,,
+12,11,612.0,792.0,0,0,,,,,0,0,0,1406,0,0,,,,,,,,,
+12,12,612.0,792.0,0,0,,,,,0,0,0,684,0,0,,,,,,,,,
+12,13,792.0,612.0,0,1,1,0,1,* **,42,42,42,3285,0,0,1,1,42,42,,1040883,0,0,CHART 1: Local Initiatives - Fiscal 2018
+12,14,792.0,612.0,0,1,1,1,2,* **,12,12,12,1264,0,0,1,1,12,12,,345224,0,0,CHART 1: Local Initiatives - Fiscal 2018 (continued)
+12,15,792.0,612.0,0,1,2,0,3,* **,36,36,36,3180,0,0,1,1,36,36,,944072,0,0,CHART 2: Youth Discretionary - Fiscal 2018
+12,16,792.0,612.0,0,1,3,0,4,* **,4,4,4,607,0,0,1,1,4,4,,143441,0,0,CHART 3: Aging Discretionary - Fiscal 2018
+12,17,792.0,612.0,0,1,4,0,5,* **,4,4,4,593,0,0,1,1,4,4,,141397,0,0,CHART 4: Anti-Poverty Initiative - Fiscal 2018
+12,18,792.0,612.0,0,1,5,0,6,* **,4,4,4,594,0,0,1,1,4,4,,139085,0,0,CHART 5: Speaker's Initiative to Address Citywide Needs - Fiscal 2018
+12,19,792.0,612.0,0,1,6,0,7,* **,4,4,4,617,0,0,1,1,4,4,,148616,0,0,CHART 6: Boroughwide Needs Initiative - Fiscal 2018
+12,20,792.0,612.0,0,1,7,0,8,* **,16,16,16,1383,0,0,1,1,16,16,,446628,0,0,CHART 7: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018
+12,21,792.0,612.0,0,1,8,0,9,* **,14,14,14,1394,0,0,1,1,14,14,,424266,0,0,CHART 8: A Greener NYC - Fiscal 2018
+12,22,792.0,612.0,0,1,9,0,10,* **,10,10,10,1163,0,0,1,1,10,10,,325801,0,0,CHART 9: Cultural After-School Adventure (CASA) - Fiscal 2018
+12,23,792.0,612.0,0,1,10,0,11,* **,4,4,4,523,0,0,1,1,4,4,,140106,0,0,CHART 10: Neighborhood Development Grant Initiative - Fiscal 2018
+12,24,792.0,612.0,0,1,11,0,12,* **,10,10,10,943,0,0,1,1,10,10,,290803,0,0,CHART 11: NYC Cleanup Initiative - Fiscal 2018
+12,25,792.0,612.0,0,1,12,0,13,* **,6,6,6,738,0,0,1,1,6,6,,199760,0,0,CHART 12: Parks Equity Initiative - Fiscal 2018
+12,26,792.0,612.0,0,1,13,0,14,* **,2,2,2,438,0,0,1,1,2,2,,101094,0,0,CHART 13: SU-CASA - Fiscal 2018
+12,27,792.0,612.0,0,1,14,0,15,* **,2,2,2,325,0,0,1,1,2,2,,78237,0,0,CHART 14: Support Our Seniors Initiative - Fiscal 2018
+12,28,792.0,612.0,0,1,15,0,16,* **,2,2,2,381,0,0,1,1,2,2,,85307,0,0,CHART 15: Digital Inclusion and Literacy Initiative - Fiscal 2018
+12,29,792.0,612.0,0,1,16,0,17,* **,4,4,4,551,0,0,1,1,4,4,,150412,0,0,CHART 16: Food Pantries - Fiscal 2018
+12,30,792.0,612.0,0,1,17,0,18,* **,2,2,2,352,0,0,1,1,2,2,,81889,0,0,CHART 17: Cultural Immigrant Initiative - Fiscal 2018
+12,31,792.0,612.0,0,1,18,0,19,* **,2,2,2,333,0,0,1,1,2,2,,81967,0,0,CHART 18: Young Women's Leadership Development - Fiscal 2018
+12,32,792.0,612.0,0,1,19,0,20,* **,2,2,2,349,0,0,1,1,2,2,,85225,0,0,CHART 19: Initiative for Immigrant Survivors of Domestic Violence - Fiscal 2018
+12,33,792.0,612.0,0,1,20,0,21,* **,2,2,2,318,0,0,1,1,2,2,,78055,0,0,CHART 20: Afterschool Enrichment Initiative - Fiscal 2018
+12,34,792.0,612.0,0,1,21,0,22,* **,2,2,2,379,0,0,1,1,2,2,,88895,0,0,"CHART 21: Senior Centers, Programs, and Enhancements - Fiscal 2018"
+12,35,792.0,612.0,0,1,22,0,23,* **,2,2,2,308,0,0,1,1,2,2,,78312,0,0,CHART 22: City's First Readers - Fiscal 2018
+12,36,792.0,612.0,0,1,23,0,24,* **,2,2,2,329,0,0,1,1,2,2,,78636,0,0,CHART 23: Court-Involved Youth Mental Health Initiative - Fiscal 2018
+12,37,792.0,612.0,0,1,24,0,25,* **,2,2,2,342,0,0,1,1,2,2,,81200,0,0,"CHART 24: Developmental, Psychological and Behavioral Health Services - Fiscal 2018"
+12,38,792.0,612.0,0,1,25,0,26,* **,2,2,2,313,0,0,1,1,2,2,,78163,0,0,CHART 25: Immigrant Health Initiative - Fiscal 2018
+12,39,792.0,612.0,0,1,26,0,27,* **,4,4,4,458,0,0,1,1,4,4,,145561,0,0,CHART 26: Ending the Epidemic - Fiscal 2018
+12,40,792.0,612.0,0,1,27,0,28,* **,2,2,2,356,0,0,1,1,2,2,,86185,0,0,CHART 27: Access Health Initiative - Fiscal 2018
+12,41,792.0,612.0,0,1,28,0,29,* **,4,4,4,543,0,0,1,1,4,4,,152464,0,0,CHART 28: Communities of Color Nonprofit Stabilization Fund - Fiscal 2018
+12,42,792.0,612.0,0,1,29,0,30,* **,2,2,2,332,0,0,1,1,2,2,,81367,0,0,CHART 29: Mental Health Services for Vulnerable Populations - Fiscal 2018
+12,43,792.0,612.0,0,1,30,0,31,* **,2,2,2,336,0,0,1,1,2,2,,86702,0,0,CHART 30: Maternal and Child Health Services - Fiscal 2018
+12,44,792.0,612.0,0,1,31,0,32,* **,2,2,2,326,0,0,1,1,2,2,,83632,0,0,CHART 31: Community Housing Preservation Strategies - Fiscal 2018
+12,45,792.0,612.0,0,1,32,0,33,* **,8,8,8,900,0,0,1,1,8,8,,249198,0,0,CHART 32: Local Initiatives - Fiscal 2017
+12,46,792.0,612.0,0,1,33,0,34,* **,2,2,2,386,0,0,1,1,2,2,,87467,0,0,CHART 33: Youth Discretionary - Fiscal 2017
+12,47,792.0,612.0,0,1,34,0,35,* **,2,2,2,322,0,0,1,1,2,2,,82734,0,0,CHART 34: A Greener NYC - Fiscal 2017
+12,48,792.0,612.0,0,1,35,0,36,* **,14,14,14,3019,0,0,1,1,14,14,,599674,7,0,CHART 35: Purpose of Funds Changes - Fiscal 2018
+12,49,792.0,612.0,0,1,35,1,37,* **,10,10,10,2583,0,0,1,1,10,10,,482002,7,0,CHART 35: Purpose of Funds Changes - Fiscal 2018 (continued)
+12,50,792.0,612.0,0,1,36,0,38,* **,2,2,2,625,0,0,1,1,2,2,,108595,5,0,CHART 36: Purpose of Funds Changes - Fiscal 2017
+12,51,792.0,612.0,0,1,37,0,39,* **,2,2,2,503,0,0,1,1,2,2,,90445,1,0,CHART 37: Purpose of Funds Changes - Fiscal 2016

@@ -82,7 +82,7 @@ def overlaid(run_list, cell):
     return out
 
 
-def runs(chars, gap=RUN_GAP, cell=None):
+def runs(chars, gap=RUN_GAP, cell=None, restart=False):
     """Content-stream runs (see module docstring). `chars` in stream order. A run also ends
     where the fill colour changes (a red amount, then black text), and, when `cell(c)` gives
     each char's drawn cell, where it crosses a cell edge with a gap over CLIP_GAP_MAX or where
@@ -92,9 +92,16 @@ def runs(chars, gap=RUN_GAP, cell=None):
         if cur:
             p = cur[-1]
             g = c["x0"] - p["x1"]
+            # `restart` (pages the config names, T7.clip_restart): text already carried past its
+            # own cell continues only with no gap; a gap over CLIP_GAP_MAX there is the next
+            # cell's own text starting after its padding (FY2018 Reso 04 p.52: "…Velocity Track
+            # Club New York" runs into the EIN cell, and the EIN "46-3197831" follows 0.99 pt
+            # after the "k"). Not everywhere: hidden text can itself have such gaps (FY2018 Reso
+            # 03 p.72, "Inc.(COMET)" drawn with no space glyph).
             if abs(c["top"] - p["top"]) <= LINE_TOL and c["x0"] >= p["x0"] - 0.01 and \
                     g <= gap and c.get("non_stroking_color") == p.get("non_stroking_color") and \
-                    (cell is None or (g >= -CLIP_GAP_MAX and (g <= CLIP_GAP_MAX or cell(c) == cell(p)))):
+                    (cell is None or (g >= -CLIP_GAP_MAX and (g <= CLIP_GAP_MAX or (
+                        cell(c) == cell(p) and not (restart and cell(p) != cell(cur[0])))))):
                 cur.append(c)
                 continue
             out.append(cur)
@@ -181,7 +188,8 @@ def _cell_rec(chars, bbox, how, x_tolerance, hidden=""):
                 char_boxes=[bbox2((c["x0"], c["top"], c["x1"], c["bottom"])) for c in ink])
 
 
-def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP, overlay=False, overfull=False):
+def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP, overlay=False, overfull=False,
+              restart=False):
     tables = sorted(page.find_tables(), key=lambda t: (r2(t.bbox[1]), r2(t.bbox[0])))
     allchars = list(page.chars)
     zero_width = sum(1 for c in allchars if c["text"] in ZERO_WIDTH)
@@ -201,7 +209,7 @@ def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP, overlay=False, ov
     idx = {id(c): k for k, c in enumerate(chars)}
 
     clipped_ids, clipped, hidden_of, hidden_at, overlay_cells = set(), [], {}, {}, set()
-    all_runs = runs(chars, run_gap, cell=lambda c: cell_of[idx[id(c)]])
+    all_runs = runs(chars, run_gap, cell=lambda c: cell_of[idx[id(c)]], restart=restart)
     # Only on pages the year's config names (T7.overlaid): FY2024 Reso 06 p.26 and FY2026
     # Reso 02 p.114 have text drawn over text too, and their committed outputs predate the rule.
     over = overlaid(all_runs, lambda c: cell_of[idx[id(c)]]) if overlay else set()
@@ -353,7 +361,7 @@ def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP, overlay=False, ov
 
 
 def read_pdf(pdf_path, x_tolerance=3.0, run_gap=RUN_GAP, pages=None, overlay_pages=(),
-             overfull_pages=()):
+             overfull_pages=(), restart_pages=()):
     import pdfplumber
     out = []
     with pdfplumber.open(pdf_path) as pdf:
@@ -361,7 +369,7 @@ def read_pdf(pdf_path, x_tolerance=3.0, run_gap=RUN_GAP, pages=None, overlay_pag
             if pages and (i + 1) not in pages:
                 continue
             out.append(read_page(page, i + 1, x_tolerance, run_gap, (i + 1) in overlay_pages,
-                                 (i + 1) in overfull_pages))
+                                 (i + 1) in overfull_pages, (i + 1) in restart_pages))
             page.flush_cache()
     return out
 

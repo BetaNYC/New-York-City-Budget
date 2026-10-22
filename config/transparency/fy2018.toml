@@ -1,0 +1,387 @@
+# FY2018 transparency resolutions: every year-specific fact the pipeline needs (GitHub #111).
+# Shared code: code/transreso/ (and code/schedc/, code/schedc_cv/ underneath it). Same layout as
+# FY2019-FY2026: Excel charts, one landscape table per chart page (no /Rotate this year).
+
+fiscal_year = 2018
+issue = 111
+review_dir = "research/2026-10-22-fy18-transparency-review"   # outputs land in <review_dir>/data
+x_tolerance = 3.0
+run_gap_pt = 3.0
+
+# Resolution number and adoption date: from research/2026-07-07-legistar-links-fy15-20.md
+# (FY2018 table; Reso 03, 05, 06 and 09-12 "confirmed (positional)") and
+# data/combined/legistar_crosswalk.csv; read from Legistar on 2026-07-07, not re-queried here.
+# The crosswalk holds no Legistar URL for FY2018, so no legistar_id. All 12 open with the
+# Committee on Finance report, which prints the date ("This Resolution, dated ..."); none prints
+# "Charts 1 through N".
+#
+# Reso 01 (Res 1563-2017) is dated June 21, 2017, nine days before Fiscal 2018 began (July 1,
+# 2017) and after the Fiscal 2018 budget was adopted (June 6, 2017). Its p.1 says it changes
+# designations "in accordance with the Fiscal 2018 Expense Budget" (charts 1-29 and 38) and the
+# Fiscal 2017 and 2016 budgets (charts 30-37, 39). The 2026-07-07 notes and the crosswalk file it
+# as FY2018 Transparency Reso 01. Kept in FY2018; a review item (known_issues below).
+numbers_source = "research/2026-07-07-legistar-links-fy15-20.md"
+
+# Captions: every resolution prints "CHART 1:" (no "#") on every chart page; `caption_no_hash`
+# says that is the resolution's house style, so those captions are not review items.
+
+wrap_hyphen_review = []
+
+[[resolutions]]
+seq = 1
+pdf = "source/FY18/transparency-resolutions/Transparency-Reso-01-2017-06-21.pdf"
+sha256 = "52727df42b2b62d505f87039b9719b4fc1df6be1a0e08dd5ddf6ea53b3c586a8"
+pages = 63
+number = "Res 1563-2017"
+date = "2017-06-21"
+printed_date = "June 21, 2017"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 2
+pdf = "source/FY18/transparency-resolutions/Transparency-Reso-02-2017-07-20.pdf"
+sha256 = "709a1e58cf358a12189a2d60abc287e431ec0f80246dccf7d619d1bafdb76458"
+pages = 68
+number = "Res 1589-2017"
+date = "2017-07-20"
+printed_date = "July 20, 2017"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 3
+pdf = "source/FY18/transparency-resolutions/Transparency-Reso-03-2017-08-24.pdf"
+sha256 = "f9970c41b3e462aa5de582440e24750c44785948f11786fb864b832ffe76d219"
+pages = 78
+number = "Res 1621-2017"
+date = "2017-08-24"
+printed_date = "August 24, 2017"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 4
+pdf = "source/FY18/transparency-resolutions/Transparency-Reso-04-2017-09-27.pdf"
+sha256 = "8973615102dace8d31f1918506a3cab5e78539ab47b51c9366a8f387d7b5a8d1"
+pages = 59
+number = "Res 1658-2017"
+date = "2017-09-27"
+printed_date = "September 27, 2017"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 5
+pdf = "source/FY18/transparency-resolutions/Transparency-Reso-05-2017-10-31.pdf"
+sha256 = "92e3d29378f1e52cad90f15edb1ef7d95edf8c5670d2aefb8f401cdae058c17c"
+pages = 63
+number = "Res 1699-2017"
+date = "2017-10-31"
+printed_date = "October 31, 2017"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 6
+pdf = "source/FY18/transparency-resolutions/Transparency-Reso-06-2017-11-30.pdf"
+sha256 = "1bcc31ffc114cbe020601b38e9de034379e23988f181d733bb39da590c96ea61"
+pages = 55
+number = "Res 1730-2017"
+date = "2017-11-30"
+printed_date = "November 30, 2017"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 7
+pdf = "source/FY18/transparency-resolutions/Transparency-Reso-07-2017-12-19.pdf"
+sha256 = "eca77c74f93e8d31cfc8b3339bf4d9438faa58ae4360a4d4cb8ec2c388bc5435"
+pages = 38
+number = "Res 1780-2017"
+date = "2017-12-19"
+printed_date = "December 19, 2017"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 8
+pdf = "source/FY18/transparency-resolutions/Transparency-Reso-08-2018-02-15.pdf"
+sha256 = "e4113cacaefe141a290eb4e12ec2ff8923e73cd846d5167f38da7dc4b0df3950"
+pages = 47
+number = "Res 0189-2018"
+date = "2018-02-15"
+printed_date = "February 15, 2018"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 9
+pdf = "source/FY18/transparency-resolutions/Transparency-Reso-09-2018-03-22.pdf"
+sha256 = "c9d9a5d7d405dc2ad45f2aa4b43f4e83832e0b61330f5847c5b19cba457a556b"
+pages = 36
+number = "Res 0239-2018"
+date = "2018-03-22"
+printed_date = "March 22, 2018"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 10
+pdf = "source/FY18/transparency-resolutions/Transparency-Reso-10-2018-04-11.pdf"
+sha256 = "1510326ab33c4f5c78ca5429409601f3f07c9c2c2921d0ae8e60d054cd06103e"
+pages = 20
+number = "Res 0271-2018"
+date = "2018-04-11"
+printed_date = "April 11, 2018"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 11
+pdf = "source/FY18/transparency-resolutions/Transparency-Reso-11-2018-05-09.pdf"
+sha256 = "e5fed9db7fdd4b2abbb2edb92bb44e98dceeee9b5fe55c2af7846da7ea732d13"
+pages = 20
+number = "Res 0333-2018"
+date = "2018-05-09"
+printed_date = "May 9, 2018"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 12
+pdf = "source/FY18/transparency-resolutions/Transparency-Reso-12-2018-06-14.pdf"
+sha256 = "f371b422d6fa474f6050540b875510651fd3b7b38d4616598162fb3745897d5a"
+pages = 51
+number = "Res 0399-2018"
+date = "2018-06-14"
+printed_date = "June 14, 2018"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[image]
+# Same values as config/transparency/fy2026.toml.
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 64
+# Acceptance on the first chart page (Reso 01 p.13, first row): withholding the row, or one
+# character of it, must make the ink check fire.
+ink_acceptance_seq = 1
+ink_acceptance_page = 13
+ink_acceptance_row_id = "fy18-tr01-p013-r001"
+# The row's narrowest marks ("i", "l" in "Brooklyn Historical", 1.81 pt wide; the "*" in the
+# pre-qualification column, 3.17 pt) ink fewer pixels than ink_min_region_px, so withholding one
+# cannot fire. The withheld letter is the smallest at least this wide.
+ink_acceptance_min_char_pt = 4.0
+
+[[known_issues]]
+check_id = "K.adopted_before_fy"
+resolution_seq = 1
+pdf_page = 1
+field = "resolution_date"
+dollar_impact = 0
+what_to_check = "Reso 01 (Res 1563-2017) is dated June 21, 2017, before Fiscal 2018 began (July 1, 2017) but after the Fiscal 2018 budget was adopted (June 6, 2017). Its p.1 changes designations in the Fiscal 2018 Expense Budget (charts 1-29, 38) and the Fiscal 2017 and 2016 budgets (charts 30-37, 39). Kept in the FY2018 series, as the 2026-07-07 Legistar notes and data/combined/legistar_crosswalk.csv file it; each row's budget_fiscal_year is its chart's. Confirm it belongs with FY2018 rather than FY2017."
+
+# Named exceptions: places where the PDF disagrees with itself. Each must match exactly or the
+# check still fails; each stays in the review file.
+
+# A grey header row that prints no labels (Reso 01 pp.55-56, Reso 03 p.48, Reso 04 p.32). Each
+# page's column edges are the same as the chart page before it (pp.54, 47, 31), so it is read with
+# that page's labels.
+[[exceptions]]
+check_id = "T4.blank_header"
+resolution_seq = 1
+pdf_page = 55
+
+[[exceptions]]
+check_id = "T4.blank_header"
+resolution_seq = 1
+pdf_page = 56
+
+[[exceptions]]
+check_id = "T4.blank_header"
+resolution_seq = 3
+pdf_page = 48
+
+[[exceptions]]
+check_id = "T4.blank_header"
+resolution_seq = 4
+pdf_page = 32
+
+# Overfull cells (see config/transparency/fy2019.toml): text wrapped to more lines than its row
+# is tall, drawn across the row's rules. Read as one block per cell; each row goes to review.
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 4
+pdf_page = 56
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 11
+pdf_page = 17
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 11
+pdf_page = 19
+
+# A box drawn round the resolution text on a portrait page, found as a one-column table ("Resolved,
+# That the City Council ..."). Not a chart; not read as a table.
+[[exceptions]]
+check_id = "T3.text_box"
+resolution_seq = 3
+pdf_page = 14
+
+[[exceptions]]
+check_id = "T3.text_box"
+resolution_seq = 4
+pdf_page = 14
+
+[[exceptions]]
+check_id = "T3.text_box"
+resolution_seq = 5
+pdf_page = 14
+
+[[exceptions]]
+check_id = "T3.text_box"
+resolution_seq = 6
+pdf_page = 13
+
+[[exceptions]]
+check_id = "T3.text_box"
+resolution_seq = 7
+pdf_page = 10
+
+[[exceptions]]
+check_id = "T3.text_box"
+resolution_seq = 8
+pdf_page = 11
+
+[[exceptions]]
+check_id = "T3.text_box"
+resolution_seq = 9
+pdf_page = 9
+
+[[exceptions]]
+check_id = "T3.text_box"
+resolution_seq = 11
+pdf_page = 6
+
+# "Beating Hearts Initiative": organizations getting automated external defibrillators. The
+# header is Member | Organization | EIN Number | *: no agency and no amount; a note under the
+# table says what they get. Rows kept, amount blank, action "listed".
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 2
+pdf_page = 68
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 3
+pdf_page = 78
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 4
+pdf_page = 59
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 5
+pdf_page = 63
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 6
+pdf_page = 55
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 7
+pdf_page = 38
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 8
+pdf_page = 47
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 9
+pdf_page = 36
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 11
+pdf_page = 20
+
+# A caption repeated on the next page without "(continued)": Reso 01 p.36 (chart #12 Support Our
+# Seniors Initiative), Reso 02 p.33 (chart #13 Cultural Immigrant Initiative), Reso 03 p.27
+# (chart #9 DoVE). Read as continuations.
+[[exceptions]]
+check_id = "T3.continued_missing"
+resolution_seq = 1
+pdf_page = 36
+
+[[exceptions]]
+check_id = "T3.continued_missing"
+resolution_seq = 2
+pdf_page = 33
+
+[[exceptions]]
+check_id = "T3.continued_missing"
+resolution_seq = 3
+pdf_page = 27
+
+# `**` on a page that prints no footnotes at all (Reso 05 p.23, the last page of its chart). Kept
+# as printed.
+[[exceptions]]   # New York Botanical Garden ($20,000.00) DYCD
+check_id = "T11.markers"
+resolution_seq = 5
+pdf_page = 23
+row_index = 5
+
+[[exceptions]]   # New York Botanical Garden $20,000.00 DYCD
+check_id = "T11.markers"
+resolution_seq = 5
+pdf_page = 23
+row_index = 6
+
+[[exceptions]]   # Fund for the City of New York, Inc. - Cafeteria Culture Prog ($12,500.00) DYCD
+check_id = "T11.markers"
+resolution_seq = 5
+pdf_page = 23
+row_index = 9
+
+[[exceptions]]   # Fund for the City of New York, Inc. - Cafeteria Culture Prog $12,500.00 DOE
+check_id = "T11.markers"
+resolution_seq = 5
+pdf_page = 23
+row_index = 10
+
+[[exceptions]]   # Fund for the City of New York, Inc. - Cafeteria Culture Prog ($22,500.00) DYCD
+check_id = "T11.markers"
+resolution_seq = 5
+pdf_page = 23
+row_index = 11
+
+[[exceptions]]   # Fund for the City of New York, Inc. - Cafeteria Culture Prog $22,500.00 DOE
+check_id = "T11.markers"
+resolution_seq = 5
+pdf_page = 23
+row_index = 12
+
+# Reso 04 p.52 row 2: "Amateur Athletic Unions Of The Us, Inc. Velocity Track Club New York" runs
+# into the EIN cell (only "…New Y" shows) and the EIN "46-3197831" follows 0.99 pt after the "k",
+# in the same run. On this page a gap like that, after text has crossed into another cell, starts
+# the next cell's own text, so the EIN is read. (Not everywhere: Reso 03 p.72 draws hidden text
+# "Inc.(COMET)" with such a gap and no space glyph.)
+[[exceptions]]
+check_id = "T7.clip_restart"
+resolution_seq = 4
+pdf_page = 52

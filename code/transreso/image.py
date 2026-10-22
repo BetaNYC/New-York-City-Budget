@@ -65,11 +65,13 @@ def _rule_drawn(gray, dpi, x, y0, y1, frac=HEADER_RULE_FRAC):
 
 
 def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap, overlay=False,
-               overfull=False):
+               overfull=False, blank_labels=None, restart=False):
     """[{y0, y1, fields{role: raw}, hidden{role: text}}] for every data row the image lattice
     finds under a recognised header, plus the lattices and notes. On `overfull` pages (T7.overfull)
     a text block of two or more lines goes to the image row holding its middle, as in the
-    reader (transreso.reader.block_ys); the rows are the image lattice's own."""
+    reader (transreso.reader.block_ys); the rows are the image lattice's own. `blank_labels`: on a
+    page whose header prints no labels (T4.blank_header), the labels the reader borrowed from
+    the page before, used when the lattice has the same number of columns."""
     lats = imagegrid.lattices(gray, dpi, kernel_px, pad)
     chars = [c for c in page_chars if c["text"] not in ZERO_WIDTH]
     notes = []
@@ -137,7 +139,7 @@ def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap, over
             data_cell = partial(data_cell, bys=reader.block_ys(chars, box_of, run_gap))
 
         cells, hidden = {}, {}
-        all_runs = reader.runs(chars, run_gap, cell=lambda c: data_cell(c))
+        all_runs = reader.runs(chars, run_gap, cell=lambda c: data_cell(c), restart=restart)
         over = reader.overlaid(all_runs, data_cell) if overlay else set()
         for k_run, run in enumerate(all_runs):
             own = data_cell(run[0])
@@ -156,6 +158,8 @@ def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap, over
         nc = len(xs) - 1
         labels = [" ".join(chars_to_text(cells.get((0, ci), []), x_tolerance).split())
                   for ci in range(nc)]
+        if blank_labels and not any(labels) and len(blank_labels) == len(labels):
+            labels = list(blank_labels)
         roles = _roles(labels)
         rs_ = set(roles.values())
         listing = {"org", "ein"} <= rs_ and not {"agency", "amount", "purpose"} & rs_   # FY2022
@@ -172,7 +176,8 @@ def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap, over
     return rows, lats, notes
 
 
-FIELDS = ("source", "member", "org", "ein", "agency", "amount", "agy", "ua", "prequal", "purpose")
+FIELDS = ("source", "member", "org", "ein", "agency", "amount", "agy", "ua", "prequal", "purpose",
+          "conduit", "conduit_ein")
 
 
 def compare_page(recs, img_rows, row_tol_pt):

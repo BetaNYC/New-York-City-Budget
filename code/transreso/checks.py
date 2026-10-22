@@ -126,6 +126,12 @@ def run(cfg, R, S):
         if labels != list(range(1, len(labels) + 1)):
             gaps.append((seq, f"'Page n' labels under the charts are not 1..{len(labels)}"))
     tabled = {(p["resolution_seq"], p["pdf_page"]) for p in S["page_info"] if p["tables"]}
+    # FY2018: boxes round resolution text, named in the config, are not charts (T3.text_box).
+    tb_ex = {(e["resolution_seq"], e["pdf_page"]) for e in cfg.get("exceptions", [])
+             if e["check_id"] == "T3.text_box"}
+    tb = {(r["res"]["seq"], p["page"]) for r in R for p in r["pages"] if p.get("text_box")}
+    for k in sorted(tb ^ tb_ex):
+        gaps.append((k[0], f"named text-box page p.{k[1]} has no table, or a text box is not named"))
     for k in sorted(spill & tabled):
         gaps.append((k[0], f"named label-only page p.{k[1]} has a table"))
     for k in sorted(unlab - unlab_seen):
@@ -146,7 +152,9 @@ def run(cfg, R, S):
         + (f"; {len(spill)} page(s) with no table print only a footnote and a 'Page n' label "
            f"(named exception, counted)" if spill else "")
         + (f"; {len(cn & cn_ex)} caption(s) print the wrong chart number (named exception, read "
-           f"as the number the config gives)" if cn_ex else ""))
+           f"as the number the config gives)" if cn_ex else "")
+        + (f"; {len(tb & tb_ex)} boxes round resolution text, not charts (named exceptions)"
+           if tb_ex else ""))
     for s_, pg in sorted(spill - tabled):
         flag("T3.label_page", s_, pg, "page with no table prints only a footnote and a 'Page n' "
              "label (the chart before it spilled over); counted (named exception in the config)",
@@ -165,13 +173,23 @@ def run(cfg, R, S):
              if e["check_id"] == "T4.no_amount"}
     na = {(f["resolution_seq"], f["pdf_page"]) for f in S["flags"] if f["check_id"] == "T4.no_amount"}
     t4 += [dict(resolution_seq=k[0], pdf_page=k[1]) for k in sorted(na ^ na_ex)]
+    # FY2018: a header row with no labels, read with the previous chart page's (T4.blank_header).
+    bh_ex = {(e["resolution_seq"], e["pdf_page"]) for e in cfg.get("exceptions", [])
+             if e["check_id"] == "T4.blank_header"}
+    bh = {(f["resolution_seq"], f["pdf_page"]) for f in S["flags"] if f["check_id"] == "T4.blank_header"}
+    t4 += [dict(resolution_seq=k[0], pdf_page=k[1]) for k in sorted(bh ^ bh_ex)]
     out("T4.headers", not t4, f"{len(t4)} unrecognised headers"
         + (f"; {len(na & na_ex)} chart pages print no Agency or Amount column (named exceptions; "
            f"{sum(1 for a in rows if a['chart_kind'] == 'no_amount')} rows kept with a blank "
-           f"amount)" if na_ex else ""))
+           f"amount)" if na_ex else "")
+        + (f"; {len(bh & bh_ex)} chart pages print a header row with no labels (named exceptions, "
+           f"read with the previous chart page's labels)" if bh_ex else ""))
 
     # T5
     by_page = Counter((r["resolution_seq"], r["pdf_page"]) for r in rows if r["ein"])
+    # FY2018: a fiscal conduit's EIN is an EIN-shaped word on the page too.
+    n_conduit = sum(1 for r in rows if r.get("fiscal_conduit_ein"))
+    by_page.update((r["resolution_seq"], r["pdf_page"]) for r in rows if r.get("fiscal_conduit_ein"))
     diffs, n_tok, n_tok_all = [], 0, 0
     for r in R:
         for p in r["pages"]:
@@ -185,7 +203,9 @@ def run(cfg, R, S):
     empty = S.get("empty_rows", [])
     out("T5.anchors", not diffs and not no_amt,
         f"{n_tok} EIN-shaped words on the visible text ({n_tok_all} counting clipped letters), "
-        f"{sum(by_page.values())} rows with an EIN; {len(diffs)} pages differ; "
+        f"{sum(by_page.values()) - n_conduit} rows with an EIN"
+        + (f" and {n_conduit} with a fiscal conduit EIN" if n_conduit else "")
+        + f"; {len(diffs)} pages differ; "
         f"{len(no_amt)} rows without a readable amount; {len(no_ein)} rows print no EIN"
         + (f"; {len(empty)} drawn rows print nothing and are not rows (" +
            ", ".join(f"Reso {e['resolution_seq']:02d} p.{e['pdf_page']} row {e['row_index']}"
@@ -222,7 +242,12 @@ def run(cfg, R, S):
              if e["check_id"] == "T7.overfull"}
     of_got = {(r["res"]["seq"], p["page"]) for r in R for p in r["pages"] if p.get("overfull_chars")}
     of_rows = [a for a in rows if any(f.startswith("overfull_cell") for f in a["row_flags"])]
-    out("T7.chars", not orph and not ov_bad and of_got == of_ex,
+    # FY2018 Reso 04 p.52: text carried into the next cell stops at that cell's own text, on
+    # pages the config names (T7.clip_restart); each must have such a clipped run.
+    rs_ex = {(e["resolution_seq"], e["pdf_page"]) for e in cfg.get("exceptions", [])
+             if e["check_id"] == "T7.clip_restart"}
+    rs_bad = rs_ex - {(s_, pg) for s_, pg, _ in clip}
+    out("T7.chars", not orph and not ov_bad and of_got == of_ex and not rs_bad,
         f"{sum(p['nonws_chars'] for r in R for p in r['pages'])} non-space chars; "
         f"{len(orph)} in a table but in no cell; "
         f"{sum(p['clipped_chars'] for r in R for p in r['pages'])} clipped (hidden) chars in "
@@ -232,7 +257,11 @@ def run(cfg, R, S):
         + (f"; {sum(p.get('overfull_chars', 0) for r in R for p in r['pages'])} letters drawn "
            f"across a row rule on {len(of_got)} pages ({len(of_got & of_ex)} named in the config: "
            f"each cell's lines read as one block; {len(of_rows)} rows, in the review file)"
-           if of_got or of_ex else ""))
+           if of_got or of_ex else "")
+        + (f"; on {len(rs_ex)} named page(s) text carried into the next cell stops where that "
+           f"cell's own text starts" if rs_ex else ""))
+    for s_, pg in sorted(rs_bad):
+        flag("T7.chars", s_, pg, "named T7.clip_restart page has no clipped run")
     for s_, pg in sorted(of_got ^ of_ex):
         flag("T7.overfull", s_, pg, "text drawn across a row rule on a page the config does not "
              "name, or a named page with none")
@@ -329,8 +358,9 @@ def run(cfg, R, S):
         f"{len(ids)} row ids, {len(set(ids))} unique")
 
     # T15
-    money, in_notes = [], 0
+    money, in_notes, in_fn = [], 0, 0
     notes = {(n["resolution_seq"], n["pdf_page"]): n["lines"] for n in S.get("chart_notes", [])}
+    fnotes = {(n["resolution_seq"], n["pdf_page"]): n["lines"] for n in S.get("footnote_notes", [])}
     for r in R:
         for p in r["pages"]:
             if not p["tables"]:
@@ -339,13 +369,18 @@ def run(cfg, R, S):
                 if ln["text"] in notes.get((r["res"]["seq"], p["page"]), ()):
                     in_notes += bool(reader.MONEY.search(ln["text"]))
                     continue
+                if ln["text"] in fnotes.get((r["res"]["seq"], p["page"]), ()):
+                    in_fn += bool(reader.MONEY.search(ln["text"]))
+                    continue
                 if reader.MONEY.search(ln["text"]):
                     money.append((r["res"]["seq"], p["page"], ln["text"]))
     out("T15.printed_totals", not money,
         f"{len(money)} money amounts printed outside the tables on chart pages: the FY{cfg['fiscal_year']} "
         f"charts print no totals, so there is nothing to tie (the arithmetic is reported, not checked)"
         + (f"; {in_notes} in notes under no-amount charts (in the review file with the chart)"
-           if notes else ""))
+           if notes else "")
+        + (f"; {in_fn} in footnotes that explain one chart (in the review file with the chart)"
+           if fnotes else ""))
     for s, pg, t in money:
         flag("T15.printed_totals", s, pg, f"money printed outside a table: {t!r}")
 

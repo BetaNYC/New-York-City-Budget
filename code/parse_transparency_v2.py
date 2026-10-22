@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Transparency resolutions from the PDFs, checked (GitHub #103 FY2026, #104 FY2025, #105 FY2024,
-#106 FY2023, #107 FY2022, #108 FY2021, #109 FY2020, #110 FY2019; toolkit plan:
+#106 FY2023, #107 FY2022, #108 FY2021, #109 FY2020, #110 FY2019,
+#111 FY2018; toolkit plan:
 research/2026-10-19-schedule-c-pdf-toolkit/PLAN.md).
 
   python3 code/parse_transparency_v2.py --fy 2026            full run, writes <review_dir>/data/
@@ -48,6 +49,10 @@ ROW_COLUMNS = CONTRACT + [
     "amount_printed", "prequal_printed", "purpose_raw", "hidden_text", "clean_rules_applied",
     "row_flags", "image_check", "lattice", "disclosure_status", "disclosure_reason",
     "disclosure_row", "table_index", "row_index"]
+# FY2018 only (its charts print a fiscal conduit / sponsoring organization and its EIN): added at
+# the end of the row table when a year has them, so no other year's table changes.
+CONDUIT_COLUMNS = ["fiscal_conduit", "fiscal_conduit_ein", "fiscal_conduit_raw",
+                   "fiscal_conduit_ein_printed"]
 REVIEW_COLUMNS = ["review_id", "severity", "dollar_impact", "check_id", "resolution_seq",
                   "pdf_page", "row_index", "row_id", "field", "what_to_check", "value_vector",
                   "value_image", "expected", "observed", "overlay", "decision", "note"]
@@ -56,7 +61,8 @@ REVIEW_ROW_FLAGS = {"clipped_text": "W.clipped_text", "made_cell": "W.made_cell"
                     "prequal_star_in_org": "W.prequal_star_in_org", "ein_blank": "T5.anchors",
                     "ein_odd": "T5.anchors", "amount_zero": "W.amount_zero",
                     "cell_outside_header": "T7.chars", "empty_row": "T5.anchors",
-                    "overfull_cell": "T7.overfull"}
+                    "overfull_cell": "T7.overfull", "amount_no_dollar": "W.amount_format",
+                    "conduit_ein_odd": "W.conduit_ein"}
 ROW_FLAG_CHECK = dict(REVIEW_ROW_FLAGS, wrap_hyphen="W5.wrap_hyphen", ein_no_hyphen="W.ein_no_hyphen",
                       spanning_cell="W.spanning_cell", made_cell_empty="W.made_cell_empty", sign_colour="T10.sign_colour",
                       marker_without_footnote="T11.markers", prequal_odd="T11.markers",
@@ -104,19 +110,52 @@ def overfull_pages(cfg, seq):
                   if e["check_id"] == "T7.overfull" and e["resolution_seq"] == seq)
 
 
+def restart_pages(cfg, seq):
+    """Pages of resolution `seq` where text carried into the next cell stops at that cell's own
+    text (T7.clip_restart, a named exception in the config; FY2018 Reso 04 p.52)."""
+    return sorted(e["pdf_page"] for e in cfg.get("exceptions", [])
+                  if e["check_id"] == "T7.clip_restart" and e["resolution_seq"] == seq)
+
+
+def text_box_pages(cfg, seq):
+    """Pages of resolution `seq` where a drawn box round the resolution text is found as a table
+    (T3.text_box, a named exception in the config; FY2018 Reso 03 p.14)."""
+    return sorted(e["pdf_page"] for e in cfg.get("exceptions", [])
+                  if e["check_id"] == "T3.text_box" and e["resolution_seq"] == seq)
+
+
+def blank_header_pages(cfg, seq):
+    """Pages of resolution `seq` whose header row prints no labels (T4.blank_header, a named
+    exception in the config; FY2018 Reso 01 p.55)."""
+    return sorted(e["pdf_page"] for e in cfg.get("exceptions", [])
+                  if e["check_id"] == "T4.blank_header" and e["resolution_seq"] == seq)
+
+
+def blank_labels(pages, vp, cfg, seq):
+    """For a named T4.blank_header page: the header labels of the chart page before it (what the
+    reader reads it with), for the image lattice; else None."""
+    if vp["page"] not in blank_header_pages(cfg, seq) or any(h["label"] for h in vp["tables"][0]["header"]):
+        return None
+    prev = [p for p in pages if p["page"] < vp["page"] and p["tables"]
+            and any(h["label"] for h in p["tables"][0]["header"])]
+    return [h["label"] for h in prev[-1]["tables"][0]["header"]] if prev else None
+
+
 def cached_pages(cfg, res, sha, cache_dir):
     src = b"".join(open(os.path.join(HERE, "transreso", m), "rb").read()
                    for m in ("reader.py",)) + open(os.path.join(HERE, "schedc", "vector.py"), "rb").read()
     overlay = overlay_pages(cfg, res["seq"])
     overfull = overfull_pages(cfg, res["seq"])
+    restart = restart_pages(cfg, res["seq"])
     key = hashlib.sha256(sha.encode() + str((cfg["x_tolerance"], cfg["run_gap_pt"])).encode()
                          + (str(overlay).encode() if overlay else b"")
-                         + (b"overfull" + str(overfull).encode() if overfull else b"") + src).hexdigest()[:16]
+                         + (b"overfull" + str(overfull).encode() if overfull else b"")
+                         + (b"restart" + str(restart).encode() if restart else b"") + src).hexdigest()[:16]
     path = os.path.join(cache_dir, f"r{res['seq']:02d}-{key}.json")
     if os.path.exists(path):
         return json.load(open(path))
     pg = reader.read_pdf(os.path.join(ROOT, res["pdf"]), cfg["x_tolerance"], cfg["run_gap_pt"],
-                         overlay_pages=overlay, overfull_pages=overfull)
+                         overlay_pages=overlay, overfull_pages=overfull, restart_pages=restart)
     os.makedirs(cache_dir, exist_ok=True)
     json.dump(pg, open(path, "w"))
     return json.load(open(path))     # same shape as a cache hit (JSON keys are strings)
@@ -193,7 +232,9 @@ def run_cv(cfg, R, rows, out_overlays):
                                                       im["region_pad_px"], cfg["x_tolerance"],
                                                       cfg["run_gap_pt"],
                                                       pn in overlay_pages(cfg, seq),
-                                                      pn in overfull_pages(cfg, seq))
+                                                      pn in overfull_pages(cfg, seq),
+                                                      blank_labels(x["pages"], vp, cfg, seq),
+                                                      pn in restart_pages(cfg, seq))
                 res_, extra = image.compare_page(recs, irows, im["row_tol_pt"])
                 for rr in res_:
                     row_res[rr["row_id"]] = rr
@@ -245,7 +286,12 @@ def run_cv(cfg, R, rows, out_overlays):
                                             im["ink_cell_px"], im["ink_min_region_px"])["regions"]
                     allb = [b for a in recs for b in a["_char_boxes"]]
                     t_boxes = next(a["_char_boxes"] for a in recs if a["row_id"] == target)
-                    small = min(range(len(t_boxes)), key=lambda i: (t_boxes[i][2] - t_boxes[i][0]) *
+                    # FY2018 Reso 01 p.13: an "i" (1.81 pt wide) or the "*" (3.17 pt) inks fewer
+                    # pixels than the smallest region, so the config can skip marks narrower than
+                    # this (pt).
+                    w_min = im.get("ink_acceptance_min_char_pt", 0)
+                    small = min((i for i in range(len(t_boxes)) if t_boxes[i][2] - t_boxes[i][0] >= w_min),
+                                key=lambda i: (t_boxes[i][2] - t_boxes[i][0]) *
                                 (t_boxes[i][3] - t_boxes[i][1]))
                     acc = dict(seq=seq, page=pn, row_id=target, clean=len(fire(allb)),
                                row_withheld=len(fire([b for a in recs if a["row_id"] != target
@@ -346,13 +392,21 @@ def main(argv=None):
     outdir = a.out or os.path.join(ROOT, cfg["review_dir"], "data")
     cache = os.path.join(a.cache_dir, f"fy{a.fy}")
 
-    R, rows, charts, sflags, page_info, empty, notes = [], [], [], [], [], [], []
+    R, rows, charts, sflags, page_info, empty, notes, fnotes = [], [], [], [], [], [], [], []
     for res in cfg["resolutions"]:
         sha = sha256_file(os.path.join(ROOT, res["pdf"]))
         pages = cached_pages(cfg, res, sha, cache)
+        boxes = text_box_pages(cfg, res["seq"])
+        for p in pages:
+            if p["page"] in boxes and p["tables"]:
+                # FY2018: a box drawn round resolution text on a portrait page, not a chart
+                # (T3.text_box, a named exception). Its cells are prose; not read as a table.
+                p["text_box"] = len(p["tables"])
+                p["tables"], p["orphans"], p["clipped"] = [], [], []
         renumber = {e["pdf_page"]: (e["printed"], e["read_as"]) for e in cfg.get("exceptions", [])
                     if e["check_id"] == "T3.chart_number" and e["resolution_seq"] == res["seq"]}
-        S = structure.build(res, pages, cfg["x_tolerance"], a.fy, renumber)
+        S = structure.build(res, pages, cfg["x_tolerance"], a.fy, renumber,
+                            blank_header_pages(cfg, res["seq"]))
         # FY2019 Reso 01 prints another day than Legistar's (T13.printed_date): Legistar's only.
         same_day = res["printed_date"] and datetime.datetime.strptime(
             res["printed_date"], "%B %d, %Y").date().isoformat() == res["date"]
@@ -371,8 +425,9 @@ def main(argv=None):
         page_info += S["page_info"]
         empty += S["empty_rows"]
         notes += S["chart_notes"]
+        fnotes += S["footnote_notes"]
     S = dict(rows=rows, charts=charts, flags=sflags, page_info=page_info, empty_rows=empty,
-             chart_notes=notes)
+             chart_notes=notes, footnote_notes=fnotes)
     for r in purpose_pairs(rows):
         r["row_flags"].append("unpaired_purpose")
 
@@ -430,6 +485,11 @@ def main(argv=None):
                 what = f"'*' printed at the end of the organization, not in the * column: {r['org_raw']!r}. Read as pending pre-qualification."
             elif base == "amount_zero":
                 what = "amount prints as $0"
+            elif base == "amount_no_dollar":
+                what = (f"amount printed without '$' ({r['amount_printed']!r}); read as "
+                        f"{r['amount']:,}. Confirm on the page.")
+            elif base == "conduit_ein_odd":
+                what = f"fiscal conduit EIN not readable: {r['fiscal_conduit_ein_printed']!r}"
             elif base == "overfull_cell":
                 what = (f"'{fl.split(':', 1)[1]}' text wraps to more lines than the row is tall and "
                         f"is drawn across the row's rules (part of it hidden or on top of the next "
@@ -506,13 +566,14 @@ def main(argv=None):
 
     os.makedirs(outdir, exist_ok=True)
     out_rows = []
+    row_cols = ROW_COLUMNS + (CONDUIT_COLUMNS if any("fiscal_conduit" in r for r in rows) else [])
     for r in rows:
-        o = {c: r.get(c, "") for c in ROW_COLUMNS}
+        o = {c: r.get(c, "") for c in row_cols}
         o["bbox_pt"] = bbox_s(r["bbox_pt"])
         o["row_flags"] = ";".join(r["row_flags"])
         o["amount"] = "" if r["amount"] is None else r["amount"]
         out_rows.append(o)
-    write_csv(os.path.join(outdir, f"{yy}_tr_rows.csv"), out_rows, ROW_COLUMNS)
+    write_csv(os.path.join(outdir, f"{yy}_tr_rows.csv"), out_rows, row_cols)
     write_csv(os.path.join(outdir, f"{yy}_tr_review.csv"), rv, REVIEW_COLUMNS)
 
     # Charts and resolutions.
