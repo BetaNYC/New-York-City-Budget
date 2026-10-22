@@ -43,7 +43,8 @@ FOOTNOTES = {
           "*Indicates pending completion of pre-qualification review."),           # FY2022
     "**": ("** Requires a budget modification for the changes to take effect",),
     "***": ("*** Correction to designation listed in Schedule C and/or subsequent T",
-            "*** Correction and/or Reversal of a change made in a previous Transparency"),  # FY2023
+            "*** Correction and/or Reversal of a change made in a previous Transparency",   # FY2023
+            "*** Technical adjustment to designation made in a previous Transparency"),     # FY2021
 }
 
 

@@ -1,0 +1,240 @@
+# FY2021 transparency resolutions: every year-specific fact the pipeline needs (GitHub #108).
+# Shared code: code/transreso/ (and code/schedc/, code/schedc_cv/ underneath it). Same layout as
+# FY2022-FY2026: Excel charts, one landscape table per chart page (no /Rotate this year).
+
+fiscal_year = 2021
+issue = 108
+review_dir = "research/2026-10-21-fy21-transparency-review"   # outputs land in <review_dir>/data
+x_tolerance = 3.0
+run_gap_pt = 3.0
+
+# Resolution number and adoption date: from research/2026-07-07-legistar-links-fy21-27.md
+# (FY2021 table, all "confirmed") and data/combined/legistar_crosswalk.csv; read from Legistar
+# on 2026-07-07, not re-queried here. All 8 open with the Committee on Finance report, which
+# prints the date ("This Resolution, dated ..."); none prints "Charts 1 through N".
+numbers_source = "research/2026-07-07-legistar-links-fy21-27.md"
+
+# Line-end hyphens (W5.wrap_hyphen): all 12, on 12 rows, were read by hand on 2026-10-21.
+# All are compound words or names that keep the hyphen (after-school x2, Nature-Based, NORC-SSP,
+# Avenue-Arts x2, Bedford-Stuyvesant, on-site, state-of-the-art x2, one-to-one, Self-Awareness).
+# None goes to review.
+wrap_hyphen_review = []
+
+[[resolutions]]
+seq = 1
+pdf = "source/FY21/transparency-resolutions/Transparency-Reso-01-2020-08-27.pdf"
+sha256 = "73abfe5b670e687c7ca726fb0de8b195678ecaa82fa678f5811ce1edd29922c6"
+pages = 126
+number = "Res 1394-2020"
+legistar_id = 66163
+date = "2020-08-27"
+printed_date = "August 27, 2020"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 2
+pdf = "source/FY21/transparency-resolutions/Transparency-Reso-02-2020-09-23.pdf"
+sha256 = "7b32e292cfb4d8730c730b30ad4fb0c9120079aa54255aa3001812ce93a4dd8f"
+pages = 65
+number = "Res 1433-2020"
+legistar_id = 66272
+date = "2020-09-23"
+printed_date = "September 23, 2020"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 3
+pdf = "source/FY21/transparency-resolutions/Transparency-Reso-03-2020-10-29.pdf"
+sha256 = "c15af760ece36be64185af2e4910e7e5b64a58534d43551172ac0d5280b67b32"
+pages = 47
+number = "Res 1470-2020"
+legistar_id = 66454
+date = "2020-10-29"
+printed_date = "October 29, 2020"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 4
+pdf = "source/FY21/transparency-resolutions/Transparency-Reso-04-2020-11-19.pdf"
+sha256 = "1522ced694def873b44a92e811c3545cdd013f8b62dcf7597905be30f84a09ea"
+pages = 23
+number = "Res 1480-2020"
+legistar_id = 66521
+date = "2020-11-19"
+printed_date = "November 19, 2020"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 5
+pdf = "source/FY21/transparency-resolutions/Transparency-Reso-05-2020-12-17.pdf"
+sha256 = "ba46cc51d7d4b372b09a4284255374986a4491e41d8be27f431465b40bd18a31"
+pages = 40
+number = "Res 1509-2020"
+legistar_id = 66617
+date = "2020-12-17"
+printed_date = "December 17, 2020"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 6
+pdf = "source/FY21/transparency-resolutions/Transparency-Reso-06-2021-02-25.pdf"
+sha256 = "8fa6690bd9131f009c87ba3ab2c659a5a547ecc42315b8edbc0388119f3c8486"
+pages = 40
+number = "Res 1544-2021"
+legistar_id = 66803
+date = "2021-02-25"
+printed_date = "February 25, 2021"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 7
+pdf = "source/FY21/transparency-resolutions/Transparency-Reso-07-2021-04-22.pdf"
+sha256 = "758c5722c2d1cc4686cf4bbfda6bd07692fccc2ec6aa43e295e8503ac0e273bb"
+pages = 38
+number = "Res 1603-2021"
+legistar_id = 67065
+date = "2021-04-22"
+printed_date = "April 22, 2021"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 8
+pdf = "source/FY21/transparency-resolutions/Transparency-Reso-08-2021-06-30.pdf"
+sha256 = "09a3fd47d3fc2b3c96fdf29ccfddceee1c4c8a9928b823c240c2ff1649a66279"
+pages = 25
+number = "Res 1693-2021"
+legistar_id = 67385
+date = "2021-06-30"
+printed_date = "June 30, 2021"   # p.1
+charts_printed = 0
+
+[image]
+# Same values as config/transparency/fy2026.toml.
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 64
+# Acceptance on the first chart page (Reso 01 p.16, first row): withholding the row, or one
+# character of it, must make the ink check fire.
+ink_acceptance_seq = 1
+ink_acceptance_page = 16
+ink_acceptance_row_id = "fy21-tr01-p016-r001"
+
+
+# Named exceptions: places where the PDF disagrees with itself. Each must match exactly or the
+# check still fails; each stays in the review file.
+
+# Chart pages that print no "Page n" label; the labels around them count them. 15 pages in 6
+# resolutions: the prior-year charts just before "Purpose of Funds Changes" (Reso 05 pp.33-37:
+# the next label, "Page 28" on p.38, counts them) and the "Beating Hearts" charts. Checked on the
+# rendered page (Reso 05 p.35).
+[[exceptions]]   # chart #42
+check_id = "T3.page_label"
+resolution_seq = 2
+pdf_page = 65
+
+[[exceptions]]   # chart #34
+check_id = "T3.page_label"
+resolution_seq = 3
+pdf_page = 47
+
+[[exceptions]]   # chart #21
+check_id = "T3.page_label"
+resolution_seq = 5
+pdf_page = 33
+
+[[exceptions]]   # chart #22
+check_id = "T3.page_label"
+resolution_seq = 5
+pdf_page = 34
+
+[[exceptions]]   # chart #23
+check_id = "T3.page_label"
+resolution_seq = 5
+pdf_page = 35
+
+[[exceptions]]   # chart #24
+check_id = "T3.page_label"
+resolution_seq = 5
+pdf_page = 36
+
+[[exceptions]]   # chart #25
+check_id = "T3.page_label"
+resolution_seq = 5
+pdf_page = 37
+
+[[exceptions]]   # chart #27
+check_id = "T3.page_label"
+resolution_seq = 5
+pdf_page = 40
+
+[[exceptions]]   # chart #23
+check_id = "T3.page_label"
+resolution_seq = 6
+pdf_page = 34
+
+[[exceptions]]   # chart #24
+check_id = "T3.page_label"
+resolution_seq = 6
+pdf_page = 35
+
+[[exceptions]]   # chart #25
+check_id = "T3.page_label"
+resolution_seq = 6
+pdf_page = 36
+
+[[exceptions]]   # chart #26
+check_id = "T3.page_label"
+resolution_seq = 6
+pdf_page = 37
+
+[[exceptions]]   # chart #20
+check_id = "T3.page_label"
+resolution_seq = 7
+pdf_page = 31
+
+[[exceptions]]   # chart #21
+check_id = "T3.page_label"
+resolution_seq = 7
+pdf_page = 32
+
+[[exceptions]]   # chart #12
+check_id = "T3.page_label"
+resolution_seq = 8
+pdf_page = 20
+
+# First page of a chart printing "(continued)": Reso 02 p.20 (chart #6 Speaker's Initiative to
+# Address Citywide Needs; p.19 is #5, and the labels "Page 7", "Page 8" run on). Read as the
+# chart's start.
+[[exceptions]]
+check_id = "T3.continued_start"
+resolution_seq = 2
+pdf_page = 20
+
+# "Beating Hearts": organizations getting automated external defibrillators through Staten
+# Island Heart Society (printed in the note under the table). The header is Member |
+# Organization | EIN Number | *: no agency, no amount. Rows kept, amount blank, action "listed"
+# (as FY2022).
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 1
+pdf_page = 126
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 2
+pdf_page = 65
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 3
+pdf_page = 47
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 5
+pdf_page = 40

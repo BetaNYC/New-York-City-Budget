@@ -416,3 +416,77 @@ def test_snapshot_fy22_rows_and_checks():
     txt = open(os.path.join(OUT22, "fy22_tr_checks.txt"), encoding="utf-8").read()
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "(PASS)" in txt and "agree on every field: 7,917 of 7,918" in txt
+
+
+# --- FY2021 (#108) --------------------------------------------------------------------------------
+CFG21 = ptv.load_config(2021)
+OUT21 = os.path.join(ROOT, CFG21["review_dir"], "data")
+PDF21 = {r["seq"]: os.path.join(ROOT, r["pdf"]) for r in CFG21["resolutions"]}
+
+
+def _build21(seq, pages):
+    ps = reader.read_pdf(PDF21[seq], CFG21["x_tolerance"], CFG21["run_gap_pt"], pages=pages)
+    res = next(r for r in CFG21["resolutions"] if r["seq"] == seq)
+    return structure.build(res, ps, CFG21["x_tolerance"], 2021)
+
+
+def test_footnote_variant_fy21():
+    # FY2021's wording of the *** footnote (Reso 02-07, e.g. Reso 03 p.12).
+    assert structure.footnote_of("*** Technical adjustment to designation made in a previous "
+                                 "Transparency Resolution.") == "***"
+
+
+def test_golden_fy21_technical_adjustment_reso03_p12():
+    S = _build21(3, [12])
+    assert not [f for f in S["flags"] if f["check_id"] in ("T6.furniture", "T11.markers")]
+    rs = [r for r in S["rows"] if r["org_marker"] == "***"]
+    assert [(r["org"], r["correction"], r["amount"]) for r in rs] == [
+        ("City University of New York - Brooklyn College", 1, -5000),
+        ("Research Foundation of the City University of New York - Council District 45", 1, 5000)]
+
+
+def test_golden_fy21_no_amount_chart_reso01_p126():
+    # "Beating Hearts" on a portrait page; the note says $175,000 (FY2022's say $350,000).
+    S = _build21(1, [126])
+    assert [f["check_id"] for f in S["flags"]] == ["T4.no_amount"]
+    assert len(S["rows"]) == 18
+    r = S["rows"][0]
+    assert (r["member"], r["org"], r["ein"], r["amount"], r["action"], r["chart_kind"]) == (
+        "Koslowitz", "Ronald McDonald House of Long Island, Inc.", "112764747", None, "listed",
+        "no_amount")
+    assert S["chart_notes"][0]["lines"][0].replace(" ", "").startswith(
+        "***StatenIslandHeartSociety,Inc.hasreceived$175,000")
+
+
+def test_golden_fy21_row_without_ein_reso02_p29():
+    # Chart #9 (continued): a row with no member and no EIN, "Department of Cultural Affairs **"
+    # DCLA ($10,000), above Bartlett Foundation $10,000 DYCD. Kept as printed.
+    S = _build21(2, [28, 29])
+    r = next(r for r in S["rows"] if r["pdf_page"] == 29 and r["row_index"] == 20)
+    assert (r["member"], r["org"], r["org_marker"], r["ein"], r["agency"], r["amount"],
+            r["agency_side"], r["row_flags"]) == (
+        "", "Department of Cultural Affairs", "**", "", "DCLA", -10000, 0, ["ein_blank"])
+
+
+def test_golden_fy21_continued_first_page_reso02_p20():
+    S = _build21(2, [19, 20])
+    assert [f["check_id"] for f in S["flags"]] == ["T3.continued_start"]
+    assert [(r["chart_number"], r["amount"]) for r in S["rows"] if r["pdf_page"] == 20] == [
+        (6, 80000), (6, 60000)]
+
+
+def test_snapshot_fy21_rows_and_checks():
+    path = os.path.join(OUT21, "fy21_tr_rows.csv")
+    if not os.path.exists(path):
+        pytest.skip("fy21 not built")
+    rows = list(csv.DictReader(open(path, encoding="utf-8")))
+    assert len(rows) == 4500
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rows)
+    by = {}
+    for r in rows:
+        by[r["resolution_seq"]] = by.get(r["resolution_seq"], 0) + 1
+    assert by == {"1": 2432, "2": 709, "3": 255, "4": 184, "5": 232, "6": 218, "7": 315, "8": 155}
+    assert sum(1 for r in rows if r["action"] == "listed") == 28
+    txt = open(os.path.join(OUT21, "fy21_tr_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "(PASS)" in txt and "agree on every field: 4,500 of 4,500" in txt
