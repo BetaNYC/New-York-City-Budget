@@ -15,7 +15,8 @@ FY2024 `capital_sd` and `terms` (#105);
 FY2023 `capital_sd` and `terms` (#106);
 FY2022 `capital_sd` and `terms` (#107);
 FY2021 `terms` (#108; no FY2021 capital supporting detail in source/);
-FY2020 `capital_sd` (#109; Part I only, so its orgs table is header only; no FY2020 T&C).
+FY2020 `capital_sd` (#109; Part I only, so its orgs table is header only; no FY2020 T&C);
+FY2019 `capital_sd` (#110; an Excel print: no Part II/III and no summary page; no FY2019 T&C).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -108,7 +109,8 @@ def build_capital_sd(scratch, fy=2027):
     d = os.path.join(scratch, "data")
     px = cap.PREFIX
     fys = cap.FYS
-    summary_pno = cap.pages_of("summary")[0]
+    # FY2019 prints no summary page: no summary lines are added to its totals table.
+    summary_pno = (cap.pages_of("summary") or [None])[0]
     pages = {int(p["pdf_page"]): p for p in read(os.path.join(d, f"{px}_capital_sd_pages.csv"))}
     base = {"fiscal_year": cap.FY, "source_pdf": rel(cap.PDF), "pdf_sha256": cap.PDF_SHA256}
 
@@ -126,7 +128,11 @@ def build_capital_sd(scratch, fy=2027):
            lambda rv: (rv["part"], rv["sub_id"]) if rv["sub_id"] and rv["part"] in ("I", "II") else None)
     proj_cols = CONTRACT + ["part", "agency", "row_in_page", "sub_id", "budget_line", "boro", "title",
                             "building_code", "school_code", *fys,
-                            "sponsor", "title_raw", "sponsor_raw", *(f"{fy}_printed" for fy in fys)]
+                            "sponsor", "title_raw", "sponsor_raw",
+                            # FY2019 (Excel print) only: its CD codes and DESC column.
+                            *(c for c in ("council_district", "description", "description_raw")
+                              if projects and c in projects[0]),
+                            *(f"{fy}_printed" for fy in fys)]
 
     # Part III: one row per printed budget-line row, carrying its organization's printed line.
     orgs = read(os.path.join(d, f"{px}_capital_sd_part3_orgs.csv"))
@@ -157,12 +163,15 @@ def build_capital_sd(scratch, fy=2027):
     totals = []
     for t in read(os.path.join(d, f"{px}_capital_sd_totals.csv")):
         totals.append(dict(base, bbox_pt="", kind="totals_for", **t))
-    with cap.pdfplumber.open(cap.PDF) as pdf:
-        summ = cap.summary_page(pdf, None)
-    p1 = next(t for t in totals if t["part"] == "I" and t["name"] == "ALL")
-    for name, val, sumv in (("City Council Additions", summ["additions"], p1["sum_" + fys[0]]),
-                            ("Less Rescindments from Prior Capital Budgets", summ["rescindments"], ""),
-                            ("Net Change", summ["net"], summ["additions"] - summ["rescindments"])):
+    summary_lines = ()
+    if summary_pno:
+        with cap.pdfplumber.open(cap.PDF) as pdf:
+            summ = cap.summary_page(pdf, None)
+        p1 = next(t for t in totals if t["part"] == "I" and t["name"] == "ALL")
+        summary_lines = (("City Council Additions", summ["additions"], p1["sum_" + fys[0]]),
+                         ("Less Rescindments from Prior Capital Budgets", summ["rescindments"], ""),
+                         ("Net Change", summ["net"], summ["additions"] - summ["rescindments"]))
+    for name, val, sumv in summary_lines:
         status = "" if sumv == "" else ("OK" if int(sumv) == val else "FAIL")
         totals.append(dict(base, pdf_page=summary_pno, bbox_pt="", kind="summary", part="", name=name,
                            **{"printed_" + fys[0]: val, "sum_" + fys[0]: sumv}, status=status))
@@ -191,7 +200,8 @@ def build_capital_sd(scratch, fy=2027):
                        # FY2020 prints Part I only: no Part II or III to promote.
                        f"Part I only (the book prints no Part II or III): {len(projects)} rows "
                        "(projects table); ") +
-                      f"p.{summary_pno} summary {'ties' if summ_ok else 'DOES NOT tie'}. "
+                      (f"p.{summary_pno} summary {'ties' if summ_ok else 'DOES NOT tie'}. " if summary_pno else
+                       "no summary page printed. ") +
                       f"Review: {cap.CFG['review_dir']}/REVIEW.md"))
     return files, year
 
@@ -409,7 +419,8 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy22", "capital_sd", lambda d: build_capital_sd(d, 2022)),
             ("fy22", "terms", lambda d: build_terms(d, 2022)),
             ("fy21", "terms", lambda d: build_terms(d, 2021)),
-            ("fy20", "capital_sd", lambda d: build_capital_sd(d, 2020))]
+            ("fy20", "capital_sd", lambda d: build_capital_sd(d, 2020)),
+            ("fy19", "capital_sd", lambda d: build_capital_sd(d, 2019))]
 
 
 def build_all():

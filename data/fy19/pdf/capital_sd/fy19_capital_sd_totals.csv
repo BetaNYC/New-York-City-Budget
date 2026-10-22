@@ -1,0 +1,2 @@
+fiscal_year,source_pdf,pdf_sha256,pdf_page,bbox_pt,review_id,flags,kind,part,name,printed_count,rows,printed_fy2019,printed_fy2020,printed_fy2021,printed_fy2022,sum_fy2019,sum_fy2020,sum_fy2021,sum_fy2022,status,printed_text
+2019,source/FY19/Capital-Final-Upload.pdf,afc334a4720985a9e8e3c737bf218cd46b39b7f2c6f6e155e24408ae3dc2418c,54,,,,totals_for,I,ALL,,1625,614910000,15900000,0,0,614910000,15900000,0,0,OK,"614,910,000  15,900,000  -  -"

@@ -41,9 +41,10 @@ def test_row_contract(built):
         if path.endswith("pdf_years.csv"):
             continue
         rs = rows(text)
-        # FY2020's capital book prints no Part III, so its orgs table is header only (the MCP
-        # loader reads the file for every capital year and accepts no rows).
-        if path == "data/fy20/pdf/capital_sd/fy20_capital_sd_orgs.csv":
+        # FY2020's and FY2019's capital books print no Part III, so their orgs tables are header
+        # only (the MCP loader reads the file for every capital year and accepts no rows).
+        if path in ("data/fy20/pdf/capital_sd/fy20_capital_sd_orgs.csv",
+                    "data/fy19/pdf/capital_sd/fy19_capital_sd_orgs.csv"):
             assert not rs and set(bp.CONTRACT) <= set(text.splitlines()[0].split(",")), path
             continue
         assert rs, path
@@ -217,3 +218,16 @@ def test_fy22_capital_and_terms(built):
     proj = {(r["part"], r["sub_id"]): r for r in rows(built["data/fy22/pdf/capital_sd/fy22_capital_sd_projects.csv"])}
     assert proj[("II", "PW MBP01")]["fy2022"] == "-72000" and "C3.part2_only" in proj[("II", "PW MBP01")]["flags"]
     assert proj[("I", "AG TANC1")]["fy2022"] == "331000"
+
+
+def test_fy19_capital(built):
+    proj = {r["sub_id"]: r for r in rows(built["data/fy19/pdf/capital_sd/fy19_capital_sd_projects.csv"])}
+    assert len(rows(built["data/fy19/pdf/capital_sd/fy19_capital_sd_projects.csv"])) == 1625
+    r = proj["CS NC001"]                                   # p.1: the CD codes and the key's names
+    assert (r["sponsor_raw"], r["council_district"], r["sponsor"]) == ("00, 37", "00, 37", "Speaker, Espinal")
+    assert proj["E CN403"]["boro"] == "k" and "C6.boro" in proj["E CN403"]["flags"]
+    tot = rows(built["data/fy19/pdf/capital_sd/fy19_capital_sd_totals.csv"])
+    assert [(t["kind"], t["printed_count"], t["printed_fy2019"], t["status"]) for t in tot] == \
+        [("totals_for", "", "614910000", "OK")]           # p.54; no count, no summary page
+    y = next(y for y in rows(built["data/pdf_years.csv"]) if y["fiscal_year"] == "2019")
+    assert (y["family"], y["issue"], y["rows"], y["printed_totals_tied"]) == ("capital_sd", "110", "1625", "1/1")
