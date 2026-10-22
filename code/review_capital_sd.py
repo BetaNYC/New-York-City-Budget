@@ -1294,8 +1294,8 @@ def align_workbook(rows, review, report):
         n += 1
         # The PDF reuses some IDs on one budget line (FY2025 `HN CN018`, `HO CN019`, `E CN810`):
         # with `wb_pick_by_amount`, compare with the workbook row that has this row's amount.
-        # Off by default, so FY2026/FY2027 output stays as reviewed (on, FY2026 `HN CN1451`
-        # would lose 2 warnings: it would be compared with its own workbook row).
+        # Off by default, so FY2027 output stays as reviewed. On for FY2026 since #218 (its
+        # `HN CN1451` is compared with its own workbook row, not the other project's).
         a = cands[0]
         if CFG.get("wb_pick_by_amount"):
             a = next((c for c in cands if c["amount"] and
