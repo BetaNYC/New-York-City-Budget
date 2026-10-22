@@ -244,6 +244,29 @@ def test_fy20_transparency(built):
     assert boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"]).startswith(
         "Youth Richards Jewish Community Council of the")
 
+def test_fy19_transparency(built):
+    ys = [y for y in rows(built["data/pdf_years.csv"])
+          if y["fiscal_year"] == "2019" and y["family"] == "transparency"]
+    assert len(ys) == 1
+    y = ys[0]
+    assert y["issue"] == "110" and y["status"] == "reviewed" and y["rows"] == "7207"
+    assert y["printed_totals_tied"] == "n/a"
+    rs = {r["row_id"]: r for r in rows(built["data/fy19/pdf/transparency/fy19_tr_rows.csv"])}
+    assert len(rs) == 7207
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rs.values())
+    assert sum(1 for r in rs.values() if r["action"] == "listed" and r["amount"] == "") == 112
+    r = rs["fy19-tr01-p018-r001"]
+    assert boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"]).startswith(
+        "Van Bramer Jacob A. Riis Neighborhood Settlement, Inc. - Friends of Queensbridge Park 11-1729398")
+    # Reso 01 p.108 prints "CHART 55" on chart #56's first page (T3.chart_number).
+    r = rs["fy19-tr01-p108-r001"]
+    assert r["chart_number"] == "56" and r["budget_fiscal_year"] == "2018"
+    assert "Citywide Icahn School of Medicine at Mount Sinai 13-6171197" in boxed_text(
+        r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    # Reso 07 p.27: an overfull cell, read as one block (T7.overfull).
+    assert rs["fy19-tr07-p027-r017"]["org"].startswith("Greenwich House, Inc.")
+
+
 def test_unrotate():
     # p.40 'H' at display (206.41, 38.68, 214.72, 50.20) on a /Rotate 90 page shown 792 x 612;
     # pdfium's unrotated glyph box is x 39.5-47.8, y-from-top 578.2-584.8.
