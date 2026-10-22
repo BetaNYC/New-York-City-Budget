@@ -202,3 +202,47 @@ def overlay(gray, dpi, lats, vector_tables, marks, path):
     for b in marks:
         cv2.rectangle(img, (P(b[0]) - 6, P(b[1]) - 6), (P(b[2]) + 6, P(b[3]) + 6), (0, 0, 255), 4)
     cv2.imwrite(path, img)
+
+
+def hrule_ys(gray, dpi, x0_pt, x1_pt, kernel_px, cover=0.8):
+    """y positions (pt) of horizontal rules drawn across a table's width, read from pixels
+    alone: pixel rows of `grid.rule_masks`' horizontal mask covered over at least `cover` of
+    [x0_pt, x1_pt], merged where adjacent. The image-side check for tables ruled with
+    horizontal lines only (FY2024), where `grid.detect_grid` finds no lattice: it confirms
+    each row band's top and bottom rule and that no rule runs through the band."""
+    import numpy as np
+    from ocr import grid as G
+    s = dpi / 72.0
+    horiz, _ = G.rule_masks(G.binarize(gray), kernel_px=kernel_px)
+    a, b = max(0, int(x0_pt * s)), min(gray.shape[1], int(x1_pt * s))
+    if b <= a:
+        return []
+    frac = (horiz[:, a:b] > 0).mean(axis=1)
+    rows = np.nonzero(frac >= cover)[0]
+    out, run = [], []
+    for y in rows:
+        if run and y > run[-1] + 1:
+            out.append((run[0] + run[-1]) / 2 / s)
+            run = []
+        run.append(int(y))
+    if run:
+        out.append((run[0] + run[-1]) / 2 / s)
+    return out
+
+
+def check_bands(awards, ys, tol_pt):
+    """Per award row of an h-rule table: 'bands_agree' when a pixel rule lies within tol_pt of
+    its top and of its bottom and none lies inside it (2 pt in from each edge), else
+    'bands_differ' with what is missing. Returns {award_id: (status, diffs)}."""
+    out = {}
+    for a in awards:
+        top, bot = a["bbox_pt"][1], a["bbox_pt"][3]
+        diffs = []
+        if not any(abs(y - top) <= tol_pt for y in ys):
+            diffs.append("no_rule_at_top")
+        if not any(abs(y - bot) <= tol_pt for y in ys):
+            diffs.append("no_rule_at_bottom")
+        if any(top + 2 < y < bot - 2 for y in ys):
+            diffs.append("rule_inside_row")
+        out[a["award_id"]] = ("bands_agree" if not diffs else "bands_differ", diffs)
+    return out

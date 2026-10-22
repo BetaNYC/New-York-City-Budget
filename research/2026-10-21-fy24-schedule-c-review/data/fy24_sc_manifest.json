@@ -1,0 +1,13 @@
+{
+  "config": "config/schedule_c/fy2024.toml",
+  "config_sha256": "6ebfac869a7a4ab20495e14bb28e54ad5484c21d1eae4d17bc58b2172c9b9b95",
+  "fiscal_year": 2024,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdf": "source/FY24/Fiscal-2024-Schedule-C-Merge-Final.pdf",
+  "pdf_sha256": "de122be2423c2f9a2e42c53dcc260b960e9ff74d9f930367f62c49af62dbe77a",
+  "pdfium": "156.0.8076.0",
+  "pdfplumber": "0.11.10",
+  "pypdfium2": "5.14.0",
+  "python": "3.12.13"
+}

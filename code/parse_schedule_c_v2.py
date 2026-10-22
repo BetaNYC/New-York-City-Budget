@@ -41,7 +41,8 @@ ROW_FLAG_CHECK = {"wrap_hyphen": "W5.wrap_hyphen", "ein_overflow_hyphen": "W.ein
                   "amount_no_dollar": "W.amount_no_dollar", "cid_glyph": "W.cid_glyph",
                   "amount_split_digits": "W.amount_split_digits",
                   "amount_odd_format": "W.amount_odd_format",
-                  "header_span_cell": "W.header_span_cell"}
+                  "header_span_cell": "W.header_span_cell", "hrule_table": "W.hrule_table",
+                  "loose_header": "W.loose_header", "reattributed": "H12.initiative_pages"}
 AWARD_COLUMNS = [
     "award_id", "fiscal_year", "source_pdf", "section", "category", "initiative", "initiative_id",
     "member", "sponsor", "delegation", "org", "ein", "amount", "agency", "purpose",
@@ -60,13 +61,17 @@ def cached_vector(cfg, pdf_sha, cache_dir, pages=None):
     # Per-page table settings (config `vector_pages`, e.g. FY2025 p.167), part of the key.
     ps = {v["page"]: {k: x for k, x in v.items() if k not in ("page", "note")}
           for v in cfg.get("vector_pages", [])}
+    hrule = bool(cfg["structure"].get("hrule_tables"))
+    open_top = bool(cfg["structure"].get("open_top_rows"))
     key = hashlib.sha256(pdf_sha.encode() + str(cfg["x_tolerance"]).encode() + src
-                         + (json.dumps(ps, sort_keys=True).encode() if ps else b"")).hexdigest()[:16]
+                         + (json.dumps(ps, sort_keys=True).encode() if ps else b"")
+                         + (b"hrule" if hrule else b"")
+                         + (b"open_top" if open_top else b"")).hexdigest()[:16]
     path = os.path.join(cache_dir, f"vector-{key}.json")
     if pages is None and os.path.exists(path):
         return json.load(open(path))
     pg = vector.read_pdf(cfg["_pdf_abs"], pages=pages, x_tolerance=cfg["x_tolerance"],
-                         page_settings=ps)
+                         page_settings=ps, hrule=hrule, open_top=open_top)
     if pages is None:
         os.makedirs(cache_dir, exist_ok=True)
         json.dump(pg, open(path, "w"))
@@ -88,6 +93,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
     vmap = {p["page"]: p for p in vpages}
     row_res, page_res, flags = {}, {}, []
     carry = {} if im.get("carry_header") else None
+    hrule_cache = {}
     roles = imagegrid.ROLE + [tuple(r) for r in im.get("extra_roles", [])]
     pdf = pdfplumber.open(cfg["_pdf_abs"])
     doc = pdfium.PdfDocument(cfg["_pdf_abs"])
@@ -100,14 +106,32 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
             if gray.ndim == 3:
                 gray = gray[:, :, 0]
             page = pdf.pages[pn - 1]
+            ox, oy = vector.origin(page)     # pixels start at the MediaBox corner (FY2024)
             lats = imagegrid.lattices(gray, dpi, im["kernel_px"], im["region_pad_px"])
-            irows = imagegrid.image_rows(page.chars, lats, cfg["x_tolerance"], carry, roles)
+            irows = imagegrid.image_rows(vector.shift(page.chars, ox, oy), lats,
+                                         cfg["x_tolerance"], carry, roles)
             res, extra = imagegrid.compare_page(aw, irows, im["row_tol_pt"])
+            # Rows of tables ruled with horizontal lines only (vector.hrule_tables): the image
+            # lattice cannot see them; their row bands are checked against pixel rules. With
+            # `image.band_check` (FY2024) the same goes for any row the image lattice did not
+            # see: tables whose only vertical "rules" are the edges of white-filled boxes
+            # (e.g. p.178) look ruled to pdfplumber and unruled to the pixels.
+            vt = {t["table_index"]: t for t in vmap[pn]["tables"]}
+            for r in res:
+                a = next(x for x in aw if x["award_id"] == r["award_id"])
+                t = vt.get(a["table_index"], {})
+                if (t.get("hrule") or im.get("band_check")) and r["status"] == "no_image_row":
+                    ys = hrule_cache.get((pn, a["table_index"]))
+                    if ys is None:
+                        ys = hrule_cache[(pn, a["table_index"])] = imagegrid.hrule_ys(
+                            gray, dpi, t["bbox"][0], t["bbox"][2], im["kernel_px"])
+                    st, d = imagegrid.check_bands([a], ys, im["row_tol_pt"])[a["award_id"]]
+                    r.update(status=st, diffs=d)
             for r in res:
                 row_res[r["award_id"]] = r
             marks = []
             for r in res:
-                if r["status"] != "agree":
+                if r["status"] not in ("agree", "bands_agree"):
                     a = next(x for x in aw if x["award_id"] == r["award_id"])
                     marks.append(a["bbox_pt"])
                     flags.append(dict(check_id="H8.lattice", severity="critical", pdf_page=pn,
@@ -137,7 +161,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
                     for r in t["rows"][:hrows.get((pn, t["table_index"]), 1)]:
                         for c in r["cells"]:
                             cboxes += c["char_boxes"]
-            rules = ink.rule_shapes(page)
+            rules = _shift_rules(ink.rule_shapes(page), ox, oy)
             ik = ink.coverage(gray, dpi, tboxes, cboxes, rules, im["char_pad_px"],
                               im["rule_pad_px"], im["ink_cell_px"], im["ink_min_region_px"])
             for reg in ik["regions"]:
@@ -148,7 +172,8 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
             n_lat = sum(1 for L in lats if L["xs_pt"])
             page_res[pn] = dict(image_regions=len(lats), image_lattices=n_lat,
                                 image_rows=len(irows),
-                                rows_agree=sum(1 for r in res if r["status"] == "agree"),
+                                rows_agree=sum(1 for r in res if r["status"] in
+                                               ("agree", "bands_agree")),
                                 ink_px=ik["ink_px"], uncovered_px=ik["uncovered_px"],
                                 ink_regions=len(ik["regions"]))
             if marks and out_overlays:
@@ -166,6 +191,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
             if gray.ndim == 3:
                 gray = gray[:, :, 0]
             page = pdf.pages[pn - 1]
+            ox, oy = vector.origin(page)
             vp = vmap[pn]
             tids = {a["table_index"] for a in aw}
             tboxes = [t["bbox"] for t in vp["tables"] if t["table_index"] in tids]
@@ -173,7 +199,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
             hdr = [b for t in vp["tables"] if t["table_index"] in tids
                    for r in t["rows"][:hrows.get((pn, t["table_index"]), 1)]
                    for c in r["cells"] for b in c["char_boxes"]]
-            rules = ink.rule_shapes(page)
+            rules = _shift_rules(ink.rule_shapes(page), ox, oy)
             target = cfg["image"]["ink_acceptance_award_id"]
 
             def fire(boxes):
@@ -194,7 +220,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
                 # region floor (FY2026 p.176: a comma, 0 regions). Then test the smallest
                 # letter or digit, and report the punctuation result next to it.
                 txt = {tuple(vector.bbox2((c["x0"], c["top"], c["x1"], c["bottom"]))): c["text"]
-                       for c in page.chars}
+                       for c in vector.shift(page.chars, ox, oy)}
                 acc["char_text"] = txt.get(tuple(t_boxes[small]), "?")
                 alnum = [i for i in range(len(t_boxes)) if txt.get(tuple(t_boxes[i]), "").isalnum()]
                 k = min(alnum, key=lambda i: (t_boxes[i][2] - t_boxes[i][0]) *
@@ -206,6 +232,13 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
         pdf.close()
         doc.close()
     return row_res, page_res, flags, acc
+
+
+def _shift_rules(rules, ox, oy):
+    """ink.rule_shapes boxes moved to MediaBox-corner coordinates (vector.origin)."""
+    if not ox and not oy:
+        return rules
+    return [(a - ox, b - oy, c - ox, d - oy) for a, b, c, d in rules]
 
 
 def _overlay_crops(gray, dpi, marks, stem):
@@ -278,7 +311,8 @@ def main(argv=None):
         cr = cv_rows.get(r["award_id"])
         r["image_check"] = (cr["status"] + (":" + ";".join(cr["diffs"]) if cr["diffs"] else "")
                             ) if cr else ("not_run" if a.no_cv else "no_result")
-        r["lattice"] = "both" if cr and cr["status"] == "agree" else "vector"
+        r["lattice"] = "both" if cr and cr["status"] == "agree" else \
+            "vector+bands" if cr and cr["status"] == "bands_agree" else "vector"
         r["row_flags_s"] = ";".join(r["row_flags"])
 
     # Flags that need a person, as review items.
@@ -509,8 +543,12 @@ def main(argv=None):
         sc = Counter(r["status"] for r in cv_rows.values())
         w("IMAGE LATTICE (H8): rows read independently through code/ocr/grid.py lattices")
         w(f"  agree on every field: {sc.get('agree', 0):,} of {len(S['awards']):,}")
+        if "bands_agree" in sc or "bands_differ" in sc:
+            w(f"  rows in tables with no drawn vertical rules, which the image lattice cannot "
+              f"see: {sc.get('bands_agree', 0) + sc.get('bands_differ', 0):,}; the pixels' "
+              f"horizontal rules confirm the row band of {sc.get('bands_agree', 0):,}")
         for k in sorted(sc):
-            if k != "agree":
+            if k not in ("agree", "bands_agree"):
                 w(f"  {k}: {sc[k]}")
         w(f"  image rows with no vector row: {sum(1 for f in cv_flags if f['check_id'] == 'H8.image_only_row')}")
         w("INK COVERAGE (H9): uncovered-ink regions inside award tables")
@@ -523,7 +561,7 @@ def main(argv=None):
               f"row withheld -> {acc['row_withheld']}; one char withheld -> {acc['char_withheld']} "
               f"({'PASS' if acc['clean'] == 0 and acc['row_withheld'] and acc['char_withheld'] else 'FAIL'})"
               + (f"; the char is {acc['char_text']!r}" if "char_text" in acc else ""))
-            if "any_char_withheld" in acc:
+            if "any_char_withheld" in acc and not acc["any_char_withheld"]:
                 w(f"  blind spot: withholding the row's smallest box, {acc['any_char_text']!r}, -> "
                   f"{acc['any_char_withheld']} regions (its ink is under the "
                   f"{im['ink_min_region_px']} px region floor). A lone dropped comma or period "
@@ -534,8 +572,11 @@ def main(argv=None):
     w(f"  pdf rows {dsum['pdf_rows']:,}; disclosure rows {dsum['disclosure_rows']:,}; "
       f"matched (EIN, amount, City-EIN name rule) {dsum['matched']:,}")
     nn = disclosure.align_without_name_rule(S["awards"], a.fy)
-    w(f"  matched without the City-EIN name rule (the 2026-10-19 prototype's H17 floor, "
-      f"{cfg.get('h17_floor', 9859):,}): {nn:,}")
+    if cfg.get("h17_floor", 9859):
+        w(f"  matched without the City-EIN name rule (the 2026-10-19 prototype's H17 floor, "
+          f"{cfg.get('h17_floor', 9859):,}): {nn:,}")
+    else:   # no prototype for this year (FY2024): no floor to compare with
+        w(f"  matched without the City-EIN name rule (no prototype floor for this year): {nn:,}")
     for sec in ("body", "appendix_a", "appendix_b", "appendix_c"):
         parts = []
         for stt in ("cleared", "pending", "other", "unmatched"):

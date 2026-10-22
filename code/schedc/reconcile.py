@@ -10,6 +10,8 @@ Stage 8 -- reconcile to what the PDF prints (PLAN §3, §6 H10-H13).
          reserve_only  no rows, reserve = box amount
          none          rows = box amount (member-item initiatives print no statement)
          reserve_all   no rows; the whole box is held post-adoption (FY2026)
+         reserve_rows  a stated reserve, rows printed, no designated amount: rows = box -
+                       reserve (FY2024)
          designated    rows = designated = box amount (FY2026)
          direct        designated straight to an agency: stated amounts add to the box; rows,
                        if any, add to the box; else the box is a direct pot (FY2026)
@@ -138,6 +140,12 @@ def run(S, cfg):
         elif k == "reserve_only":
             record("H12.reserve_only_rows", ini["pdf_page"], label, 0, ini["n_rows"], **kw)
             record("H12.statement_adds_up", ini["pdf_page"], label, amt, ini["reserve"], **kw)
+            reserves += ini["reserve"]
+        elif k == "reserve_rows":
+            # "will designate $N post-adoption and has designated the following providers"
+            # (FY2024): no designated amount printed, so the rows are the box less the reserve.
+            record("H12.designated_sum", ini["pdf_page"], label, (amt or 0) - ini["reserve"],
+                   rows, **kw)
             reserves += ini["reserve"]
         elif k == "reserve_all":
             # "will designate awards post-adoption": no amount printed, so the whole box is

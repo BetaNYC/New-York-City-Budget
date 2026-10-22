@@ -161,14 +161,17 @@ def statement_amount(v):
 
 
 def statement_kind(text, cfg):
-    """Designation statement -> (kind, reserve, designated). Kinds come from config regexes."""
+    """Designation statement -> (kind, reserve, designated). Kinds come from config regexes;
+    several groups named `designated...` add up (FY2024 p.147 names two amounts designated)."""
     t = " ".join(text.split())
     for st in cfg["statements"]:
         m = re.search(st["re"], t)
         if m:
             g = m.groupdict()
+            parts = [statement_amount(v) for k_, v in sorted(g.items())
+                     if k_.startswith("designated") and v]
             return st["kind"], statement_amount(g.get("reserve")), \
-                statement_amount(g.get("designated"))
+                (sum(parts) if parts else None)
     return "unknown", None, None
 
 
@@ -227,6 +230,8 @@ def split_merged_tables(pages, cfg):
     prefix = cfg["structure"]["statement_prefix"]
     split_boxes = cfg["structure"].get("split_boxes")
     in_cell = cfg["structure"].get("statement_in_cell")
+    split_after = cfg["structure"].get("split_boxes_after_rows")
+    stmt_loose = cfg["structure"].get("statement_loose_text")
 
     def box_row(i, x):
         # A second initiative box drawn inside the same ruled table, directly under the first
@@ -261,7 +266,14 @@ def split_merged_tables(pages, cfg):
                                       text=" ".join(x[k:].replace(" | ", " ").split()),
                                       size=0.0, bold=False, from_table=True))
                     continue
-                if in_stmt and box_row(i, x):
+                if (in_stmt and box_row(i, x)) or (split_after and cur and not in_stmt and
+                                                   hdr_re.search(texts[t["rows"].index(cur[0])])
+                                                   and box_row(i, x) and x.count(" | ") == 1
+                                                   and not re.search(r"\d{2}-\d", x)):
+                    # ... or right under the award rows of the box before it (FY2024 p.122:
+                    # "Supportive Alternatives to Violent Encounters (SAVE) | $1,850,000" after
+                    # the first SAVE box's one award row): two text cells, title and amount,
+                    # with nothing EIN-like ("13-294-6970" is a malformed EIN, not a box).
                     if cur:
                         segs.append(cur)
                     cur, in_stmt = [r], False
@@ -276,10 +288,23 @@ def split_merged_tables(pages, cfg):
                     xs = [c["bbox"] for c in r["cells"] if c["text_raw"].strip()]
                     if not xs:
                         continue    # an empty band under the statement (FY2025 p.35 r10)
+                    text = " ".join(x.replace(" | ", " ").split())
+                    if stmt_loose and text == prefix:
+                        # The statement's words sit in the band but in no cell (FY2024 p.217:
+                        # "Designation Method:" alone in a cell, "The City Council has
+                        # designated ..." beside it, outside the cells). Loose lines centred in
+                        # the band
+                        # and inside the table's width are read into it, and taken out of
+                        # the page's loose lines.
+                        side = [ln for ln in lines if not ln.get("from_table") and
+                                r["top"] <= (ln["top"] + ln["bottom"]) / 2 < r["bottom"] and
+                                t["bbox"][0] <= ln["x0"] and ln["x1"] <= t["bbox"][2]]
+                        for ln in sorted(side, key=lambda ln: ln["x0"]):
+                            text = " ".join((text + " " + ln["text"]).split())
+                            lines.remove(ln)
                     lines.append(dict(top=r["top"], bottom=r["bottom"],
                                       x0=min(b[0] for b in xs), x1=max(b[2] for b in xs),
-                                      text=" ".join(x.replace(" | ", " ").split()),
-                                      size=0.0, bold=False, from_table=True))
+                                      text=text, size=0.0, bold=False, from_table=True))
                     continue
                 in_stmt = False
                 if hdr_re.search(x) and cur:
@@ -339,6 +364,8 @@ def build(pages, cfg):
                     if len(ln["text"]) <= 2 and ln["x0"] < t["bbox"][0] <= ln["x1"] and \
                             r0["top"] <= (ln["top"] + ln["bottom"]) / 2 < r0["bottom"]:
                         edge_letters[(p["page"], t["table_index"])] = ln["text"]
+
+    page_lines = {p["page"]: p["lines"] for p in pages}
 
     # 1. One event list in (page, top) order.
     events = []
@@ -406,6 +433,39 @@ def build(pages, cfg):
         if kind != "line":
             close_statement()
         headerless = False
+        loose_hdr = None
+        if kind in ("other", "box") and s.get("loose_header"):
+            # The award header printed as loose text just above the table, outside its rules
+            # (FY2024 p.149: "Legal Name of Organization", "EIN", "Amount" in bold, 10 pt above
+            # the first rule). Each loose line goes to the first-row cell under its centre; the
+            # table is an award table when that gives a known org, EIN and amount column and
+            # its first row holds an EIN and an amount there.
+            above = [ln for ln in page_lines.get(pn, []) if -2 <= t["bbox"][1] - ln["bottom"] <= 14
+                     and not ln.get("from_table")]
+            hc = [dict(c, text_raw="") for c in t["rows"][0]["cells"]]
+            for ln in above:
+                for wx0, wx1, wt in ln.get("words", []):
+                    cx = (wx0 + wx1) / 2
+                    hit = [c for c in hc if c["bbox"][0] <= cx < c["bbox"][2]]
+                    if hit:
+                        hit[0]["text_raw"] = (hit[0]["text_raw"] + " " + wt).strip()
+            c2, u2 = header_map(dict(cells=hc), labels)
+            f2 = dict(c2)
+            if "org" not in f2 and {"ein", "amount"} <= set(f2):
+                # The name column's label printed inside the table above (p.265: "Legal Name
+                # of Organization" in the box table's last band, "EIN Amount" loose below it):
+                # the first-row cell left of the EIN column, when it holds text, is the name.
+                left = [c for c in t["rows"][0]["cells"] if c["bbox"][2] <= f2["ein"] and
+                        c["text_raw"].strip()]
+                if len(left) == 1:
+                    c2 = c2 + [("org", (left[0]["bbox"][0] + left[0]["bbox"][2]) / 2)]
+                    f2 = dict(c2)
+            if above and not u2 and {"org", "ein", "amount"} <= set(f2):
+                c_ein = _cell_at(t["rows"], 0, f2["ein"])[0]
+                c_amt = _cell_at(t["rows"], 0, f2["amount"])[0]
+                if c_ein and c_amt and EIN_RE.match(c_ein["text_raw"].strip()) and \
+                        parse_amount(c_amt["text_raw"]) is not None:
+                    kind, loose_hdr = "award", c2
         if kind in ("other", "box") and s.get("headerless_continuation") and last_cols and \
                 last_owner is current:
             # An award table carried over a page break with no header row (FY2026 p.157,
@@ -531,9 +591,11 @@ def build(pages, cfg):
 
         # award table
         hdr = t["rows"][0]
-        cols, unknown = (last_cols, []) if headerless else header_map(hdr, labels)
-        first = 0 if headerless else 1
-        if unknown and not headerless and s.get("header_two_bands") and len(t["rows"]) > 1:
+        cols, unknown = (last_cols, []) if headerless else \
+            (loose_hdr, []) if loose_hdr else header_map(hdr, labels)
+        first = 0 if (headerless or loose_hdr) else 1
+        if unknown and not headerless and not loose_hdr and s.get("header_two_bands") and \
+                len(t["rows"]) > 1:
             # A header printed over two row bands (FY2025 pp.131-144: "Council" over "Member",
             # a rule between them). Read as one header only when every text cell of the
             # second band sits under a header cell, it holds no EIN and no amount, and the
@@ -562,7 +624,9 @@ def build(pages, cfg):
                        initiative_id=current["initiative_id"] if (current and section == "body") else "",
                        initiative_page=current["pdf_page"] if (current and section == "body") else "",
                        header=" | ".join(fields),
-                       row_flags=["headerless_table"] if headerless else [])
+                       row_flags=(["headerless_table"] if headerless else []) +
+                       (["loose_header"] if loose_hdr else []) +
+                       (["hrule_table"] if t.get("hrule") else []))
             x0 = min(c["bbox"][0] for c in r["cells"])
             x1 = max(c["bbox"][2] for c in r["cells"])
             rec["bbox_pt"] = [x0, r["top"], x1, r["bottom"]]
@@ -653,6 +717,37 @@ def build(pages, cfg):
             if current and section == "body":
                 current["n_rows"] += 1
     close_statement()
+
+    # Pages whose rows belong to another initiative than the box above them in page order
+    # (FY2024 pp.130-137: eight landscape pages with no printed page number, merged in after
+    # A Greener NYC's statement (printed p.89); their rows are NYC Cleanup's, whose box is on
+    # p.145, and add to exactly the $12,028,500 its statement designates). Named in the year's
+    # config, each with its reason; every moved row is flagged and the move is a review item.
+    for ip in cfg.get("initiative_pages", []):
+        tgt = [i for i in initiatives if i["initiative"] == ip["initiative"] and
+               i["category"] == ip["category"]]
+        moved = [a for a in awards if ip["first"] <= a["pdf_page"] <= ip["last"] and
+                 a["section"] == "body"]
+        if len(tgt) != 1 or not moved:
+            flag("H12.initiative_pages", "critical", ip["first"], f"initiative_pages: "
+                 f"{ip['initiative']!r} found {len(tgt)} times, {len(moved)} rows on the pages")
+            continue
+        for a in moved:
+            old_id = a["initiative_id"]
+            for i in initiatives:
+                if i["initiative_id"] == old_id:
+                    i["n_rows"] -= 1
+            a.update(initiative=tgt[0]["initiative"], initiative_id=tgt[0]["initiative_id"],
+                     initiative_page=tgt[0]["pdf_page"], category=tgt[0]["category"])
+            a["row_flags"].append("reattributed")
+            tgt[0]["n_rows"] += 1
+        flag("H12.initiative_pages", "critical", ip["first"],
+             f"{len(moved)} rows on pp.{ip['first']}-{ip['last']} attached to "
+             f"{ip['initiative']!r} (box p.{tgt[0]['pdf_page']}), not to the box above them in "
+             f"page order: {ip['note']}", initiative_id=tgt[0]["initiative_id"],
+             initiative=ip["initiative"],
+             dollar_impact=sum(parse_amount(" ".join(a["amount_raw"].split())) or 0
+                               for a in moved))
 
     # 2. Field cleaning and per-row validation.
     fy = cfg["fiscal_year"] % 100

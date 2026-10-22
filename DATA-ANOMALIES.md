@@ -1027,3 +1027,35 @@ Amount digits run past their cell's rule (p.222, p.260) or a box amount is cut i
 give amounts in millions ("$4.1 million"), and one sits inside a description cell (p.168). A
 second box hides inside the first box's table (p.35). 17 summary-table titles; one with no title
 (p.59).
+
+## 33. FY2024 Schedule C rebuilt from the PDF, checked (#105) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of `source/FY24/Fiscal-2024-Schedule-C-Merge-Final.pdf` with
+> the §29 toolkit (`config/schedule_c/fy2024.toml`). Its review record is
+> [`research/2026-10-21-fy24-schedule-c-review/`](research/2026-10-21-fy24-schedule-c-review/README.md).
+> The old `data/fy24/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
+> Not served by the MCP.
+
+**Result.** 9,291 award rows, $453,858,561 (body 5,380 / $404,059,561; appendices A, B, C
+477 / $5,610,000, 2,616 / $36,539,000, 818 / $7,650,000). Nothing the first PDF parse had is
+missing; 81 rows are new. The §20 row (p.234) comes back as two awards. 24 of 25 category
+TOTALs tie. The image grid agrees on 7,844 rows; 1,447 rows sit in tables with no vertical
+rules, and the pixels' horizontal rules confirm the row band of 1,438 of them.
+
+**What the PDF itself gets wrong (flagged, never fixed).**
+
+- **$52,935, p.63.** Criminal Justice Services prints TOTAL $28,658,710; its lines add to
+  $28,711,645. The table is titled "Fiscal 2023".
+- **Six statements whose reserve and rows do not make the box** (pp.109, 129, 147, 148, 176,
+  181; −$60,000 to +$635,000). With p.63 they are the whole roll-up gap (+$430,904).
+- **p.261.** Drama Club, Inc. is printed with Digital Girl, Inc.'s EIN 47-2288307.
+- **p.135** Tax ID "TF4876222"; **p.182** "13-294-6970". Clean EIN left blank.
+- **pp.130–137.** Eight landscape pages are merged out of order: their rows (NYC Cleanup's,
+  $12,028,500) follow A Greener NYC's statement. Attached to NYC Cleanup, flagged.
+- **p.201.** Parks prints no summary table. **15 box/summary name differences.**
+
+**Things a re-parse must know.** 216 pages have a MediaBox starting at (−18, 18): take every
+coordinate from the MediaBox corner. 70 award tables have horizontal rules only. First rows
+with no rule above them (pp.41–46, 152–153). Headers printed loose above the table, or at its
+bottom (pp.41–45). Statements say "will designate $N post-adoption and has designated the
+following providers" with no designated amount (45 boxes). The Speaker's pages use 8.8 pt type.

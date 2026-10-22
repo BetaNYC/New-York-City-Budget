@@ -112,6 +112,22 @@ def run(cfg, pdf_sha, pages, S):
         flag("H7.chars", pn, f"char {o['text']!r} in an award table but in no cell",
              bbox_pt=o["bbox"])
 
+    # H7 for tables built from horizontal rules (vector.hrule_tables, FY2024 only): their
+    # column splits are inferred from the EIN and amount words, so no character may cross one.
+    hts = [(p["page"], t) for p in pages for t in p["tables"] if t.get("hrule")]
+    notes = [(p["page"], n) for p in pages for n in p.get("hrule_notes", [])]
+    if hts or notes:
+        cross = sum(t["split_straddles"] for _, t in hts)
+        out("H7.hrule_splits", not cross and not notes,
+            f"{len(hts)} tables from horizontal rules; {cross} characters cross a column "
+            f"split; {len(notes)} stacks of rules not read")
+        for pn, t in hts:
+            if t["split_straddles"]:
+                flag("H7.hrule_splits", pn, f"{t['split_straddles']} characters cross a column "
+                     f"split at {t['splits']}", table_index=t["table_index"])
+        for pn, n in notes:
+            flag("H7.hrule_splits", pn, n)
+
     # H14 provenance and unique ids
     ids = [a["award_id"] for a in S["awards"]]
     out("H14.provenance", len(ids) == len(set(ids)) and all(a.get("bbox_pt") for a in S["awards"]),

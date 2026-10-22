@@ -402,3 +402,131 @@ def test_snapshot25_rows_and_checks():
     txt = open(os.path.join(OUT25, "fy25_sc_checks.txt"), encoding="utf-8").read()
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "acceptance on p.169" in txt and "(PASS)" in txt
+
+
+# --- FY2024 (config/schedule_c/fy2024.toml) ----------------------------------------------------
+CFG24 = config.load(2024)
+OUT24 = os.path.join(config.ROOT, CFG24["review_dir"], "data")
+FY24_SWITCHES = ("hrule_tables", "open_top_rows", "loose_header", "split_boxes_after_rows",
+                 "statement_loose_text")
+
+
+def test_fy2024_switches_off_for_other_years():
+    for c in (CFG, CFG26, CFG25):
+        for k in FY24_SWITCHES:
+            assert not c["structure"].get(k)
+        assert not c.get("initiative_pages") and not c["image"].get("band_check")
+
+
+def test_statement_designated_parts_add():
+    k = structure.statement_kind(
+        "The City Council has designated $1 million to Food Bank for New York City for school "
+        "pantries, $59,000 to two community-based food organizations, and will designate $6.2 "
+        "million post-adoption to additional community-based food organizations for Fiscal "
+        "2024:", CFG24)
+    assert k == ("partial", 6200000, 1059000)
+    assert structure.statement_kind("The City Council will designate $418,442 post adoption The "
+                                    "City Council has designated the following providers for "
+                                    "Fiscal 2024:", CFG24) == ("reserve_rows", 418442, None)
+
+
+def test_check_bands():
+    from schedc_cv import imagegrid
+    a = dict(award_id="x", bbox_pt=[0, 100, 10, 114])
+    assert imagegrid.check_bands([a], [100.2, 113.9], 1.0)["x"] == ("bands_agree", [])
+    assert imagegrid.check_bands([a], [113.9], 1.0)["x"][1] == ["no_rule_at_top"]
+    assert imagegrid.check_bands([a], [100, 107, 114], 1.0)["x"][1] == ["rule_inside_row"]
+
+
+# Golden rows, read from the rendered FY2024 pages (2026-10-21), not copied from output.
+@pytest.fixture(scope="module")
+def pages24():
+    ps = vector.read_pdf(CFG24["_pdf_abs"], pages={35, 36, 40, 41, 63, 122, 124, 129, 130, 145,
+                                                     176, 177, 178, 234, 242, 261},
+                         x_tolerance=CFG24["x_tolerance"], hrule=True, open_top=True)
+    return {p["page"]: p for p in structure.split_merged_tables(ps, CFG24)}
+
+
+def _rows24(pages24, pns):
+    return structure.build([pages24[p] for p in pns], CFG24)
+
+
+def _one(S, ein, amount):
+    r = [a for a in S["awards"] if a["ein"] == ein and a["amount"] == amount]
+    assert len(r) == 1, (ein, amount, len(r))
+    return r[0]
+
+
+def test_golden24_hrule_table_p36_p63(pages24):
+    r = _one(_rows24(pages24, [35, 36]), "113580935", 50000)   # p.36 continues p.35
+    assert r["org"] == "Chhaya Community Development Corporation" and "hrule_table" in r["row_flags"]
+    r = _one(_rows24(pages24, [63]), "133267496", 48000)
+    assert r["org"] == "Avenues For Justice, Inc." and r["initiative"] == \
+        "Alternatives to Incarceration (ATIs)"
+    r = _one(_rows24(pages24, [124]), "135562167", 425000)
+    assert r["org"] == "Bank Street College of Education"
+    r = _one(_rows24(pages24, [176]), "134170232", 25000)
+    assert r["org"] == "Adaptive Design Association, Inc." and r["initiative"] == "Autism Awareness"
+
+
+def test_golden24_open_top_row_p41(pages24):
+    r = _one(_rows24(pages24, [40, 41]), "814237999", 45000)
+    assert r["member"] == "Salamanca" and r["agency"] == "DYCD"
+    assert r["org"] == "Bronx Community Foundation, Inc., The - Council District 17"
+
+
+def test_golden24_white_filled_columns_p178(pages24):
+    r = _one(_rows24(pages24, [176, 177, 178]), "133149298", 45000)
+    assert r["org"] == "New Alternatives for Children, Inc."
+
+
+def test_golden24_two_boxes_in_one_table_p122(pages24):
+    S = _rows24(pages24, [122])
+    saves = sorted(i["amount"] for i in S["initiatives"]
+                   if i["initiative"] == "Supportive Alternatives to Violent Encounters (SAVE)")
+    assert saves == [600000, 1850000]
+    assert _one(S, "020694269", 600000)["org"] == "Connect, Inc."
+
+
+def test_golden24_landscape_inserts_belong_to_nyc_cleanup(pages24):
+    S = _rows24(pages24, [129, 130, 145])
+    moved = [a for a in S["awards"] if a["pdf_page"] == 130]
+    assert moved and {a["initiative"] for a in moved} == {"NYC Cleanup"}
+    assert all("reattributed" in a["row_flags"] for a in moved)
+    r = [a for a in S["awards"] if a["ein"] == "134355067" and a["member"] == "Caban"]
+    assert len(r) == 1 and r[0]["amount"] == 10000 and r[0]["initiative"] == "A Greener NYC"
+
+
+def test_golden24_ein_as_printed_p261_and_section20_p234(pages24):
+    r = _one(_rows24(pages24, [261]), "472288307", 107627)
+    assert r["org"] == "Drama Club, Inc."          # the PDF repeats Digital Girl's EIN
+    S = _rows24(pages24, [234])
+    assert _one(S, "112880221", 50000)["org"] == "Council For Unity, Inc."
+    assert _one(S, "461206478", 50000)["org"] == "Corbin Hill Food Project, Inc., The"
+
+
+def test_golden24_mediabox_offset_p242(pages24):
+    # p.242's MediaBox starts at (-18.03, 17.97); bbox_pt is from its top-left corner, so the
+    # row's text is found there by pdfium, which reads from the same corner.
+    import pypdfium2 as pdfium
+    r = _one(_rows24(pages24, [242]), "133505372", 100000)
+    assert r["org"].startswith("Medicare Rights Center")
+    doc = pdfium.PdfDocument(CFG24["_pdf_abs"])
+    pg = doc[241]
+    x0, y0, x1, y1 = pg.get_mediabox()
+    b = r["bbox_pt"]
+    t = pg.get_textpage().get_text_bounded(left=x0 + b[0], bottom=y1 - b[3], right=x0 + b[2],
+                                           top=y1 - b[1])
+    doc.close()
+    assert "Medicare Rights Center" in t and "133505372" in t
+
+
+@pytest.mark.skipif(not os.path.exists(OUT24), reason="FY2024 outputs not built")
+def test_snapshot24_rows_and_checks():
+    with open(os.path.join(OUT24, "fy24_sc_awards.csv"), newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    assert len(rows) == 9291
+    assert sum(int(r["amount"]) for r in rows) == 453858561
+    txt = open(os.path.join(OUT24, "fy24_sc_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "acceptance on p.242" in txt and "(PASS)" in txt
