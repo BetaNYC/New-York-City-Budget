@@ -196,7 +196,12 @@ def read_page(page, page_no, x_tolerance=X_TOLERANCE, table_settings=None, hrule
             # the row is flagged.
             for k in sorted(by_cell):
                 b = cells[k]
-                if b[2] - b[0] >= 8.0:
+                # `edge_slivers` (FY2021 pp.105-106): the white column down a table's left or
+                # right edge is 8.9 pt wide; each row's first letter and last digit is centred
+                # in it, its box running on into the text cell.
+                lim = 9.5 if "edge_slivers" in opts and (abs(b[0] - t.bbox[0]) < 0.5 or
+                                                         abs(b[2] - t.bbox[2]) < 0.5) else 8.0
+                if b[2] - b[0] >= lim:
                     continue
                 keep_ = []
                 for c in by_cell[k]:
@@ -569,7 +574,7 @@ class _ShiftedTable:
 
 # Vector switches a year's config may set under [structure] (FY2023), passed to read_page.
 VECTOR_OPTS = ("hrule_beside", "hrule_header_split", "sliver_chars", "split_one_cell_rows",
-               "hrule_extra_column")
+               "hrule_extra_column", "edge_slivers")
 
 
 def read_pdf(pdf_path, pages=None, x_tolerance=X_TOLERANCE, page_settings=None, hrule=False,

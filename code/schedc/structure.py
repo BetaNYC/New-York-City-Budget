@@ -21,6 +21,11 @@ CID = re.compile(r"\(cid:\d+\)")
 # An amount cut inside its last thousands group ("$200,00"): the rest is in the next cell.
 SPLIT_TAIL = re.compile(r"^\$\s?\d{1,3}(?:,\d{3})*,\d{1,2}$")
 EIN_IN_TEXT = re.compile(r"(^|[\s|])(\d{2}-\d{7}|\d{9})($|[\s|])")
+# An EIN as printed, also with too few or too many digits (FY2021 p.90 "47-984801"): enough to
+# know a row is an award row (structure `header_band_words`); the EIN itself is read by EIN_RE.
+EIN_LIKE = re.compile(r"^\d{2}-\d{6,8}$")
+# An award header's column words, as printed (structure `header_band_words`).
+HEADER_WORD = re.compile(r"\b(EIN|Tax ID|Amount)\b")
 
 
 def clean_text(raw):
@@ -196,6 +201,39 @@ def _row_text(r):
 SLIVER_PT = 8.0
 
 
+def _band_header(row, lines, x0, x1, prefix):
+    """A header row with the loose words printed in its own row band added, each to the cell
+    under its centre (FY2021 p.45: "EIN" in the cell, "Legal Name of Organization" and
+    "Amount" in the same band but outside every cell). Loose lines that are statements, or
+    lie outside the table's width, are left out. None when no word was added."""
+    cells = [dict(c) for c in row["cells"]]
+    added = False
+    used = []
+    for ln in lines:
+        if ln.get("from_table") or ln["text"].startswith(prefix) or \
+                not row["top"] <= (ln["top"] + ln["bottom"]) / 2 < row["bottom"]:
+            continue
+        words = [w for w in ln.get("words", []) if x0 <= (w[0] + w[1]) / 2 < x1]
+        hits = [[c for c in cells if c["bbox"][0] <= (w[0] + w[1]) / 2 < c["bbox"][2]]
+                for w in words]
+        if words and not any(hits):
+            # A loose line right of the row's last cell (p.35 "Amount", the row's cells
+            # ending at x 467 inside a table 538 wide): its own cell, the line's width.
+            cells.append(dict(bbox=[words[0][0], row["top"], words[-1][1], row["bottom"]],
+                              text_raw=" ".join(w[2] for w in words), nchars=0,
+                              char_boxes=[]))
+            added = True
+            used += [[w[0], row["top"], w[1], row["bottom"]] for w in words]
+            continue
+        for w, hit in zip(words, hits):
+            if hit:
+                hit[0]["text_raw"] = (hit[0]["text_raw"] + " " + w[2]).strip()
+                added = True
+                used.append([w[0], row["top"], w[1], row["bottom"]])
+    cells.sort(key=lambda c: c["bbox"][0])
+    return dict(row, cells=cells, band_words=used) if added else None
+
+
 def _row_texts_with_slivers(t):
     """Row texts of a table, with letters that fell into a narrow sliver cell put back in
     front of their row. FY2026 p.162 draws a 5 pt cell down the left edge of a box that
@@ -251,6 +289,19 @@ def split_merged_tables(pages, cfg):
     # Students | $7,143,133 | Agency: ...", the box's statement on in the next table). The
     # table is split there as `split_boxes_after_rows` splits one with a statement.
     in_award = split_after and cfg["structure"].get("split_boxes_award_tables")
+    # An award header printed partly outside the table's rules, in the same row band (FY2021
+    # p.35: "Legal Name of Organization | EIN" in cells, "Amount" loose beside them): read
+    # with its loose words, so the statement above it ends there and the table splits there.
+    band_words = cfg["structure"].get("header_band_words")
+
+    sub_heads = set(cfg["structure"].get("award_subheadings", []))
+
+    def seg_award(x0):
+        # The segment is an award table: it starts at the award header or, in a year with
+        # award-table sub-headings (FY2021 p.72), at a sub-heading or an award row carried
+        # over from the page before.
+        return bool(hdr_re.search(x0) or (sub_heads and (x0 in sub_heads or
+                                                          EIN_IN_TEXT.search(x0))))
 
     def box_row(i, x):
         # A second initiative box drawn inside the same ruled table, directly under the first
@@ -264,6 +315,11 @@ def split_merged_tables(pages, cfg):
         tables, lines = [], list(p["lines"])
         for t in p["tables"]:
             texts = _row_texts_with_slivers(t)
+            if band_words:
+                for i, r in enumerate(t["rows"]):
+                    bh = _band_header(r, p["lines"], t["bbox"][0], t["bbox"][2], prefix)
+                    if bh is not None and hdr_re.search(_row_text(bh)):
+                        texts[i] = _row_text(bh)
             if not any((hdr_re.search(x) and i > 0) or x.startswith(prefix)
                        or (in_cell and (" " + prefix) in x)
                        or (in_award and hdr_re.search(texts[0]) and box_row(i, x) and
@@ -289,7 +345,7 @@ def split_merged_tables(pages, cfg):
                                       size=0.0, bold=False, from_table=True))
                     continue
                 if (in_stmt and box_row(i, x)) or (split_after and cur and not in_stmt and
-                                                   hdr_re.search(texts[t["rows"].index(cur[0])])
+                                                   seg_award(texts[t["rows"].index(cur[0])])
                                                    and box_row(i, x) and x.count(" | ") == 1
                                                    and not re.search(r"\d{2}-\d", x)):
                     # ... or right under the award rows of the box before it (FY2024 p.122:
@@ -403,6 +459,17 @@ def build(pages, cfg):
     category, section = None, "body"
     current, initiatives, summary, awards = None, [], [], []
     header_rows = {}  # (page, table_index) -> header row bands, where not 1
+    band_words = {}   # (page, table_index) -> boxes of loose header words read (header_band_words)
+    # Sub-headings printed as a row of an award table (FY2021 p.70 "Technical Assistance",
+    # "Community Consultant Contracts"; config `structure.award_subheadings`, the texts as
+    # printed): not award rows; the rows under one carry it in `purpose` (flagged).
+    subheads = set(s.get("award_subheadings", []))
+    sub_of = {}       # initiative_id -> the sub-heading the rows under it are printed beneath
+    covered = {}      # (page, table_index) -> char boxes read that are in no award row
+
+    def _subhead(r):
+        texts = {" ".join(c["text_raw"].split()) for c in r["cells"] if c["text_raw"].strip()}
+        return next(iter(texts)) if len(texts) == 1 and texts <= subheads else None
     stmt_buf = None  # collecting a designation statement
     last_cols = last_owner = None
 
@@ -436,6 +503,12 @@ def build(pages, cfg):
                 close_statement()
                 category, current = text, None
                 continue
+            if subheads and text in subheads and current is not None:
+                # A sub-heading printed above the award table's header (p.70 "Technical
+                # Assistance"), not in a row of it.
+                close_statement()
+                sub_of[current["initiative_id"]] = text
+                continue
             if text.startswith(s["statement_prefix"]):
                 close_statement()
                 stmt_buf = dict(page=pn, bottom=obj["bottom"],
@@ -447,11 +520,26 @@ def build(pages, cfg):
             if stmt_buf is not None and pn == stmt_buf["page"] and \
                     -3 <= obj["top"] - stmt_buf["bottom"] <= 6 and \
                     not re.fullmatch(s["page_furniture_re"], text):
+                if s.get("header_band_words") and not obj.get("from_table") and \
+                        HEADER_WORD.search(" ".join(
+                            ln["text"] for ln in page_lines.get(pn, [])
+                            if not ln.get("from_table") and abs(
+                                ln["top"] + ln["bottom"] - obj["top"] - obj["bottom"]) <= 6)):
+                    # The award header printed as loose text right under the statement
+                    # (FY2021 p.40 "Legal Name", "EIN", "Amount"): it ends the statement.
+                    close_statement()
+                    continue
                 stmt_buf["lines"].append(text)
                 stmt_buf["bottom"] = obj["bottom"]
             continue
 
         t = obj
+        if s.get("skip_empty_first_row") and len(t["rows"]) > 1 and \
+                not any(c["text_raw"].strip() for c in t["rows"][0]["cells"]):
+            # An empty row band drawn above a box's title bar (FY2021 p.84, Queens Borough
+            # Public Library's subsidy): the table is read from its first row with text.
+            t = dict(t, rows=t["rows"][1:])
+            kind = table_kind(t, cfg)
         if kind != "line":
             close_statement()
         headerless = False
@@ -463,7 +551,13 @@ def build(pages, cfg):
             # table is an award table when that gives a known org, EIN and amount column and
             # its first row holds an EIN and an amount there.
             above = [ln for ln in page_lines.get(pn, []) if -2 <= t["bbox"][1] - ln["bottom"] <= 14
-                     and not ln.get("from_table")]
+                     and not ln.get("from_table") and not (
+                         s.get("header_band_words") and ln["text"].startswith(s["statement_prefix"]))]
+            if s.get("header_band_words") and above:
+                # Only the line band nearest the table (FY2021 p.85: the statement's second
+                # line, "designate $30,000 post adoption:", is 12 pt above the header).
+                low = max(ln["bottom"] for ln in above)
+                above = [ln for ln in above if low - ln["bottom"] <= 3]
             hc = [dict(c, text_raw="") for c in t["rows"][0]["cells"]]
             for ln in above:
                 for wx0, wx1, wt in ln.get("words", []):
@@ -485,9 +579,34 @@ def build(pages, cfg):
             if above and not u2 and {"org", "ein", "amount"} <= set(f2):
                 c_ein = _cell_at(t["rows"], 0, f2["ein"])[0]
                 c_amt = _cell_at(t["rows"], 0, f2["amount"])[0]
-                if c_ein and c_amt and EIN_RE.match(c_ein["text_raw"].strip()) and \
+                ein_ok = EIN_LIKE if s.get("header_band_words") else EIN_RE
+                if c_ein and c_amt and ein_ok.match(c_ein["text_raw"].strip()) and \
                         parse_amount(c_amt["text_raw"]) is not None:
                     kind, loose_hdr = "award", c2
+        band_hdr = None
+        if s.get("header_band_words") and loose_hdr is None and len(t["rows"]) > 1 and (
+                kind != "award" or not {"org", "ein", "amount"} <= set(dict(header_map(
+                    t["rows"][0], labels)[0]))):
+            # The award header printed partly outside the table's rules, in its first row band
+            # (FY2021 p.45: "EIN" in a cell, "Legal Name of Organization" and "Amount" loose
+            # beside it; p.35 after the table split). Read with the loose words when that gives
+            # a known org, EIN and amount column and the row under it holds an EIN and an
+            # amount there. Flagged on every row.
+            bh = _band_header(t["rows"][0], page_lines.get(pn, []), t["bbox"][0], t["bbox"][2],
+                              s["statement_prefix"])
+            if bh is not None:
+                c2, u2 = header_map(bh, labels)
+                f2 = dict(c2)
+                if not u2 and {"org", "ein", "amount"} <= set(f2):
+                    c_ein = _cell_at(t["rows"], 1, f2["ein"])[0]
+                    c_amt = _cell_at(t["rows"], 1, f2["amount"])[0]
+                    if c_ein and c_amt and EIN_RE.match(c_ein["text_raw"].strip()) and \
+                            parse_amount(c_amt["text_raw"]) is not None:
+                        kind, band_hdr = "award", c2
+                        # Its loose words are header text, read: H7 does not count them as
+                        # characters in no cell.
+                        band_words[(pn, t["table_index"])] = bh["band_words"]
+                        covered.setdefault((pn, t["table_index"]), []).extend(bh["band_words"])
         if kind in ("other", "box") and s.get("headerless_continuation") and last_cols and \
                 last_owner is current:
             # An award table carried over a page break with no header row (FY2026 p.157,
@@ -495,11 +614,32 @@ def build(pages, cfg):
             # p.195): it continues the last award table when nothing (box, summary, banner,
             # section) came between, and the previous header's EIN and amount columns land on
             # an EIN and an amount in its first row. Flagged on every row.
-            c_ein = _cell_at(t["rows"], 0, dict(last_cols)["ein"])[0]
-            c_amt = _cell_at(t["rows"], 0, dict(last_cols)["amount"])[0]
+            k0 = 1 if subheads and len(t["rows"]) > 1 and _subhead(t["rows"][0]) else 0
+            c_ein = _cell_at(t["rows"], k0, dict(last_cols)["ein"])[0]
+            c_amt = _cell_at(t["rows"], k0, dict(last_cols)["amount"])[0]
             if c_ein and c_amt and EIN_RE.match(c_ein["text_raw"].strip()) and \
                     parse_amount(c_amt["text_raw"]) is not None:
                 kind, headerless = "award", True
+        if kind == "other" and s.get("box_amount_loose"):
+            # A box drawn narrower than its title bar, its amount printed beside it outside
+            # the rules (FY2021 p.98: "Naturally Occurring Retirement Communities (NORCs)" in
+            # a table 79-388 wide, "$5,400,325" loose at x 478-531 in the same band). Read as
+            # the box's amount cell; flagged.
+            r0 = t["rows"][0]
+            texts0 = [c for c in r0["cells"] if c["text_raw"].strip()]
+            side = [ln for ln in page_lines.get(pn, []) if not ln.get("from_table") and
+                    re.fullmatch(r"\$[\d,]+", ln["text"]) and ln["x0"] >= t["bbox"][2] - 2 and
+                    r0["top"] <= (ln["top"] + ln["bottom"]) / 2 < r0["bottom"]]
+            if len(texts0) == 1 and len(side) == 1 and not EIN_IN_TEXT.search(texts0[0]["text_raw"]):
+                ln = side[0]
+                cell = dict(bbox=[ln["x0"], r0["top"], ln["x1"], r0["bottom"]],
+                            text_raw=ln["text"], nchars=len(ln["text"]), char_boxes=[])
+                t = dict(t, rows=[dict(r0, cells=r0["cells"] + [cell])] + t["rows"][1:])
+                kind = "box"
+                flag("W.box_amount_loose", "warn", pn, f"box amount {ln['text']!r} printed "
+                     f"outside the box's rules, beside {texts0[0]['text_raw'][:60]!r}; read as "
+                     "its amount; confirm on the page", table_index=t["table_index"],
+                     field="amount", dollar_impact=parse_amount(ln["text"]))
         if kind == "other":
             only = [c["text_raw"] for c in t["rows"][0]["cells"] if c["text_raw"].strip()]
             if len(t["rows"]) == 1 and len(only) == 1 and only[0] in categories:
@@ -512,6 +652,15 @@ def build(pages, cfg):
                 if not texts or texts == ["Agency", "Initiative", "Amount"]:
                     continue
                 amt = parse_amount(texts[-1])
+                if amt is None and s.get("summary_amount_without_dollar") and \
+                        re.fullmatch(r"\d{1,3}(?:,\d{3})+", texts[-1]):
+                    # Printed without its "$" (FY2021 p.49, Education "TOTAL | 21,679,075").
+                    # Read as the number printed; flagged.
+                    amt = int(texts[-1].replace(",", ""))
+                    flag("W.summary_amount_no_dollar", "warn", pn, f"summary amount printed "
+                         f"without '$': {texts[-1]!r}; read as {amt:,}; confirm on the page",
+                         table_index=t["table_index"], row_index=r["row_index"],
+                         field="amount", dollar_impact=amt)
                 rec = dict(category=category, pdf_page=pn, table_index=t["table_index"],
                            row_index=r["row_index"], bbox_pt=[r["cells"][0]["bbox"][0], r["top"],
                                                               r["cells"][-1]["bbox"][2], r["bottom"]],
@@ -614,6 +763,17 @@ def build(pages, cfg):
                            amount_printed=amt_printed,
                            bbox_pt=t["bbox"], statement="", statement_kind="none",
                            reserve=None, designated=None, n_rows=0, rows_sum=0)
+            for rd in s.get("box_amount_read", []):
+                # A box amount printed malformed (FY2021 p.122 "$477,00", the summary line
+                # "$477,000"): read as the config names it, the printed text kept. Each entry
+                # must match page, title and printed text exactly; a critical review item.
+                if current["amount"] is None and (rd["page"], rd["initiative"], rd["printed"]) \
+                        == (pn, title, amt_printed):
+                    current["amount"] = rd["amount"]
+                    flag("H11.box_amount_read", "critical", pn, f"box amount printed "
+                         f"{amt_printed!r}, read as ${rd['amount']:,}: {rd['note']}",
+                         initiative=title, initiative_id=current["initiative_id"],
+                         field="amount", dollar_impact=rd["amount"])
             if current["amount"] is None:
                 flag("H11.box", "critical", pn, f"box amount unreadable: {amt_printed!r}",
                      initiative=title)
@@ -625,7 +785,7 @@ def build(pages, cfg):
         # award table
         hdr = t["rows"][0]
         cols, unknown = (last_cols, []) if headerless else \
-            (loose_hdr, []) if loose_hdr else header_map(hdr, labels)
+            (loose_hdr, []) if loose_hdr else (band_hdr, []) if band_hdr else header_map(hdr, labels)
         first = 0 if (headerless or loose_hdr) else 1
         if unknown and not headerless and not loose_hdr and s.get("header_two_bands") and \
                 len(t["rows"]) > 1:
@@ -651,6 +811,11 @@ def build(pages, cfg):
         rows = t["rows"]
         for ri in range(first, len(rows)):
             r = rows[ri]
+            if subheads and _subhead(r):
+                sub_of[current["initiative_id"] if current else None] = _subhead(r)
+                covered.setdefault((pn, t["table_index"]), []).extend(
+                    b for c in r["cells"] for b in c["char_boxes"])
+                continue
             rec = dict(pdf_page=pn, table_index=t["table_index"], row_index=r["row_index"],
                        section=section, category=category if section == "body" else "",
                        initiative=current["initiative"] if (current and section == "body") else "",
@@ -659,6 +824,7 @@ def build(pages, cfg):
                        header=" | ".join(fields),
                        row_flags=(["headerless_table"] if headerless else []) +
                        (["loose_header"] if loose_hdr else []) +
+                       (["band_header"] if band_hdr else []) +
                        (["hrule_table"] if t.get("hrule") else []))
             x0 = min(c["bbox"][0] for c in r["cells"])
             x1 = max(c["bbox"][2] for c in r["cells"])
@@ -711,6 +877,24 @@ def build(pages, cfg):
                         used.add(tuple(c["bbox"]))
                         char_boxes += c["char_boxes"]
                         rec["row_flags"].append(f"header_span_cell:{hit[0]}")
+            if s.get("header_overlap_cells") and not headerless and not loose_hdr and \
+                    not band_hdr:
+                # A data row whose cell borders do not line up with its header's (FY2021 p.73:
+                # the header's EIN cell spans x 336-392, its centre falls in an empty 5 pt cell
+                # of the data row, whose EIN sits in a cell 375-433). A text cell no column
+                # claimed goes to the one header column whose cell it overlaps, if that column
+                # read empty; flagged.
+                spans_x = [(f, hc["bbox"][0], hc["bbox"][2]) for hc in hdr["cells"]
+                           for f, x in cols if hc["bbox"][0] <= x < hc["bbox"][2]]
+                for c in r["cells"]:
+                    if tuple(c["bbox"]) in used or not c["text_raw"].strip():
+                        continue
+                    hit = [f for f, a, b in spans_x if a < c["bbox"][2] and c["bbox"][0] < b]
+                    if len(hit) == 1 and not rec[hit[0] + "_raw"].strip():
+                        rec[hit[0] + "_raw"] = c["text_raw"]
+                        used.add(tuple(c["bbox"]))
+                        char_boxes += c["char_boxes"]
+                        rec["row_flags"].append(f"header_span_cell:{hit[0]}")
             if any(c.get("sliver_chars") for c in r["cells"] if tuple(c["bbox"]) in used):
                 rec["row_flags"].append("sliver_char")     # vector.read_page `sliver_chars`
             for c in r["cells"]:
@@ -720,6 +904,10 @@ def build(pages, cfg):
                          f"{c['text_raw'][:80]!r}", table_index=t["table_index"],
                          row_index=r["row_index"])
             rec["_char_boxes"] = char_boxes
+            sub = sub_of.get(current["initiative_id"] if current else None) if subheads else None
+            if sub and "purpose" not in fields:
+                rec["purpose_raw"] = sub
+                rec["row_flags"].append("subheading")
             rec["_raw"] = {f: rec[f + "_raw"] for f in fields}
             # A row band whose own cells hold text but no EIN and no amount, directly under an
             # award row of the same table, is the rest of that row's wrapped text: FY2026
@@ -839,4 +1027,5 @@ def build(pages, cfg):
         ini["rows_sum"] = sum(a["amount"] or 0 for a in awards
                               if a["initiative_id"] == ini["initiative_id"])
     return dict(initiatives=initiatives, summary=summary, awards=awards, flags=flags,
-                last_cols=last_cols, header_rows=header_rows)
+                last_cols=last_cols, header_rows=header_rows,
+                band_words=band_words, covered=covered)

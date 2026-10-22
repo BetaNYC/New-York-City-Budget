@@ -42,7 +42,8 @@ ROW_FLAG_CHECK = {"wrap_hyphen": "W5.wrap_hyphen", "ein_overflow_hyphen": "W.ein
                   "amount_split_digits": "W.amount_split_digits",
                   "amount_odd_format": "W.amount_odd_format",
                   "header_span_cell": "W.header_span_cell", "hrule_table": "W.hrule_table",
-                  "loose_header": "W.loose_header", "reattributed": "H12.initiative_pages",
+                  "loose_header": "W.loose_header", "band_header": "W.band_header", "subheading": "W.subheading",
+                  "reattributed": "H12.initiative_pages",
                   "sliver_char": "W.sliver_char"}
 AWARD_COLUMNS = [
     "award_id", "fiscal_year", "source_pdf", "section", "category", "initiative", "initiative_id",
@@ -158,6 +159,9 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
             tids = {a["table_index"] for a in aw}
             tboxes = [t["bbox"] for t in vp["tables"] if t["table_index"] in tids]
             cboxes = [b for a in aw for b in a["_char_boxes"]]
+            # Text read into a table but into no award row: loose header words and award-table
+            # sub-headings (structure `header_band_words`, `award_subheadings`; FY2021).
+            cboxes += [b for ti in tids for b in S.get("covered", {}).get((pn, ti), [])]
             hrows = S.get("header_rows", {})
             for t in vp["tables"]:
                 if t["table_index"] in tids:
@@ -202,6 +206,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
             hdr = [b for t in vp["tables"] if t["table_index"] in tids
                    for r in t["rows"][:hrows.get((pn, t["table_index"]), 1)]
                    for c in r["cells"] for b in c["char_boxes"]]
+            hdr += [b for ti in tids for b in S.get("covered", {}).get((pn, ti), [])]
             rules = _shift_rules(ink.rule_shapes(page), ox, oy)
             target = cfg["image"]["ink_acceptance_award_id"]
 

@@ -727,3 +727,141 @@ def test_snapshot22_rows_and_checks():
     txt = open(os.path.join(OUT22, "fy22_sc_checks.txt"), encoding="utf-8").read()
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "acceptance on p.84" in txt and "(PASS)" in txt
+
+
+# --- FY2021 (config/schedule_c/fy2021.toml) ----------------------------------------------------
+CFG21 = config.load(2021)
+OUT21 = os.path.join(config.ROOT, CFG21["review_dir"], "data")
+FY21_SWITCHES = ("header_band_words", "award_subheadings", "edge_slivers",
+                 "summary_amount_without_dollar", "box_amount_read", "box_amount_loose",
+                 "skip_empty_first_row", "header_overlap_cells")
+
+
+def test_fy2021_switches_off_for_other_years():
+    for c in (CFG, CFG26, CFG25, CFG24, CFG23, CFG22):
+        for k in FY21_SWITCHES:
+            assert not c["structure"].get(k)
+
+
+def test_fy2021_statement_kinds():
+    def k(x):
+        return structure.statement_kind(x, CFG21)
+    assert k("The Council will designate $85,000 post-adoption. The Council has designated "
+             "$4,845,000 for the following providers for Fiscal 2021:") == \
+        ("partial", 85000, 4845000)
+    assert k("The City Council will designate $80,000 post-adoption, and the City Council has "
+             "designated the following providers for Fiscal 2021:")[:2] == ("reserve_rows", 80000)
+    assert k("The City Council has designated the following providers for Fiscal 2021 and will "
+             "designate $161,500 post-adoptions:")[:2] == ("reserve_rows", 161500)
+    assert k("This initiative will be designated post-adoption")[0] == "reserve_all"
+    assert k("This funding is allocated directly to the Department for the Aging.")[0] == "direct"
+
+
+# Golden rows, read from the rendered FY2021 pages (2026-10-22), not copied from output.
+@pytest.fixture(scope="module")
+def pages21():
+    ps = vector.read_pdf(CFG21["_pdf_abs"], pages={40, 44, 45, 49, 59, 60, 69, 70, 71, 72, 73,
+                                                   83, 84, 97, 98, 99, 104, 105, 121, 122},
+                         x_tolerance=CFG21["x_tolerance"], hrule=True,
+                         opts=tuple(o for o in vector.VECTOR_OPTS if CFG21["structure"].get(o)))
+    return {p["page"]: p for p in structure.split_merged_tables(ps, CFG21)}
+
+
+def _rows21(pages21, pns):
+    return structure.build([pages21[p] for p in pns], CFG21)
+
+
+def test_golden21_header_outside_the_cells_p45(pages21):
+    # "EIN" in a cell, "Legal Name of Organization" and "Amount" loose in the same band.
+    S = _rows21(pages21, [44, 45])
+    r = _one(S, "133111859", 50000)
+    assert r["org"] == "Instituto Arte Teatral Internacional, Inc."
+    assert r["initiative"] == "Coalition Theaters of Color"
+    assert _one(S, "710991159", 50000)["org"] == \
+        "ID Studio Theater Performance and Research Center, Inc."
+
+
+def test_golden21_statement_ends_at_loose_header_p40(pages21):
+    S = _rows21(pages21, [40])
+    ini = {i["initiative"]: i for i in S["initiatives"]}
+    assert ini["Discharge Planning"]["statement_kind"] == "full"
+    assert ini["Discharge Planning"]["rows_sum"] == 250000
+
+
+def test_golden21_total_without_dollar_p49(pages21):
+    S = _rows21(pages21, [49])
+    t = [r for r in S["summary"] if r["is_total"]]
+    assert len(t) == 1 and t[0]["amount"] == 21679075
+
+
+def test_golden21_statement_in_description_cell_p60(pages21):
+    ini = {i["initiative"]: i for i in _rows21(pages21, [59, 60])["initiatives"]}
+    assert ini["HIV/AIDS Faith-Based"]["statement_kind"] == "reserve_rows"
+    assert ini["HIV/AIDS Faith-Based"]["reserve"] == 10200
+
+
+def test_golden21_subheadings_p70_p72(pages21):
+    S = _rows21(pages21, [69, 70, 71, 72])
+    ta = [a for a in S["awards"] if a["purpose"] == "Technical Assistance"]
+    assert [a["amount"] for a in ta] == [85000, 50540]
+    r = _one(S, "133020589", 25270)
+    assert r["org"] == "Belmont Arthur Avenue Local Development Corporation"
+    assert r["purpose"] == "Community Consultant Contracts"
+    assert _one(S, "237169558", 51850)["purpose"] == "Housing Preservation Initiative"
+    assert not any("Consultant" in a["org"] or "Preservation Initiative" in a["org"]
+                   for a in S["awards"])
+    ini = {i["initiative"]: i for i in S["initiatives"]}
+    assert ini["Community Land Trust"]["amount"] == 637500
+
+
+def test_golden21_header_cells_not_aligned_p73(pages21):
+    S = _rows21(pages21, [73])
+    assert _one(S, "113498425", 1250000)["org"] == \
+        "Neighborhood Restore Housing Development Fund Corporation"
+    assert _one(S, "830506416", 2000000)["org"] == "Center for New York City Neighborhoods, Inc."
+
+
+def test_golden21_box_under_empty_band_p84(pages21):
+    ini = {i["initiative"]: i for i in _rows21(pages21, [83, 84])["initiatives"]}
+    q = ini["Fiscal 2021 Subsidy: Queens Borough Public Library"]
+    assert q["amount"] == 3320100 and q["statement_kind"] == "direct"
+    assert "New York Public Library" in ini["Fiscal 2021 Subsidy: New York Public Library"][
+        "statement"]
+
+
+def test_golden21_box_amount_beside_the_box_p98(pages21):
+    S = _rows21(pages21, [97, 98, 99])
+    ini = {i["initiative"]: i for i in S["initiatives"]}
+    assert ini["Naturally Occurring Retirement Communities (NORCs)"]["amount"] == 5400325
+    assert _one(S, "112326244", 50000)["initiative"] == \
+        "Naturally Occurring Retirement Communities (NORCs)"
+
+
+def test_golden21_edge_slivers_p105(pages21):
+    S = _rows21(pages21, [104, 105])
+    assert _one(S, "861096987", 118750)["org"] == "East River Development All"
+    assert _one(S, "811099195", 95000)["org"] == "Pathways To Apprenticeship"
+    ini = {i["initiative"]: i["amount"] for i in S["initiatives"]}
+    assert ini["Create New Technology Incubators"] == 1190000
+
+
+def test_golden21_box_amount_as_printed_p122(pages21):
+    S = _rows21(pages21, [121, 122])
+    i = [i for i in S["initiatives"]
+         if i["initiative"] == "Initiative for Immigrant Survivors of Domestic Violence"][0]
+    assert i["amount_printed"] == "$477,00" and i["amount"] == 477000
+    assert any(f["check_id"] == "H11.box_amount_read" and f["severity"] == "critical"
+               for f in S["flags"])
+
+
+@pytest.mark.skipif(not os.path.exists(OUT21), reason="FY2021 outputs not built")
+def test_snapshot21_rows_and_checks():
+    with open(os.path.join(OUT21, "fy21_sc_awards.csv"), newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    assert len(rows) == 6179
+    assert sum(int(r["amount"]) for r in rows) == 262477792
+    for sec, pot in (("appendix_a", 5610000), ("appendix_b", 36539000), ("appendix_c", 7650000)):
+        assert sum(int(r["amount"]) for r in rows if r["section"] == sec) == pot
+    txt = open(os.path.join(OUT21, "fy21_sc_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "acceptance on p.45" in txt and "(PASS)" in txt

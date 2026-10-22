@@ -116,8 +116,15 @@ def run(cfg, pdf_sha, pages, S):
 
     # H7 character conservation inside award tables
     award_tables = {(a["pdf_page"], a["table_index"]) for a in S["awards"]}
+    bw = S.get("band_words", {})
+
+    def _read_header_word(pn, o):
+        # A loose header word read into its table's header (structure `header_band_words`).
+        cx, cy = (o["bbox"][0] + o["bbox"][2]) / 2, (o["bbox"][1] + o["bbox"][3]) / 2
+        return any(b[0] - 0.5 <= cx <= b[2] + 0.5 and b[1] <= cy < b[3]
+                   for b in bw.get((pn, o["table"]), []))
     orph = [(p["page"], o) for p in pages for o in p["orphans"]
-            if (p["page"], o["table"]) in award_tables]
+            if (p["page"], o["table"]) in award_tables and not _read_header_word(p["page"], o)]
     unm = [f for f in S["flags"] if f["check_id"] == "H7.unmapped"]
     out("H7.chars", not orph and not unm,
         f"{sum(p['nonws_chars'] for p in pages)} non-space chars; {len(orph)} orphan chars in "
