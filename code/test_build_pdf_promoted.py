@@ -41,6 +41,12 @@ def test_row_contract(built):
         if path.endswith("pdf_years.csv"):
             continue
         rs = rows(text)
+        # FY2020's and FY2019's capital books print no Part III, so their orgs tables are header
+        # only (the MCP loader reads the file for every capital year and accepts no rows).
+        if path in ("data/fy20/pdf/capital_sd/fy20_capital_sd_orgs.csv",
+                    "data/fy19/pdf/capital_sd/fy19_capital_sd_orgs.csv"):
+            assert not rs and set(bp.CONTRACT) <= set(text.splitlines()[0].split(",")), path
+            continue
         assert rs, path
         for col in bp.CONTRACT if not path.endswith("_review.csv") else ["fiscal_year", "source_pdf", "pdf_sha256"]:
             assert col in rs[0], (path, col)
@@ -455,3 +461,84 @@ def test_fy18_schedule_c(built):
     r = next(r for r in aw if r["award_id"] == "fy18-p131-t00-r002")
     t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
     assert "19,000.00" in t and "Williams" in t and "100,500" not in t
+def test_fy25_capital_and_terms(built):
+    y25 = {y["family"]: y for y in rows(built["data/pdf_years.csv"]) if y["fiscal_year"] == "2025"}
+    assert y25["capital_sd"]["rows"] == "1508" and y25["capital_sd"]["printed_totals_tied"] == "32/32"
+    assert y25["terms"]["rows"] == "65" and y25["terms"]["printed_totals_tied"] == "n/a"
+    assert {y25[f]["issue"] for f in ("capital_sd", "terms")} == {"104"}
+    assert len(rows(built["data/fy25/pdf/capital_sd/fy25_capital_sd_orgs.csv"])) == 129
+    assert len(rows(built["data/fy25/pdf/terms/fy25_terms_units.csv"])) == 234
+    # FY2025 prints 6 IDs on two rows each: both rows carry the C3.id_reused flag.
+    proj = rows(built["data/fy25/pdf/capital_sd/fy25_capital_sd_projects.csv"])
+    twice = [r for r in proj if r["part"] == "I" and r["sub_id"] == "HN CN018"]
+    assert len(twice) == 2 and all("C3.id_reused" in r["flags"] for r in twice)
+    rev = {r["review_id"]: r for r in rows(built["data/fy25/pdf/capital_sd/fy25_capital_sd_review.csv"])}
+    for r in proj:
+        if r["flags"]:
+            ids = r["review_id"].split(";")
+            assert set(r["flags"].split(";")) == {rev[i]["check_id"] for i in ids}
+
+
+def test_fy24_capital_and_terms(built):
+    y24 = {y["family"]: y for y in rows(built["data/pdf_years.csv"]) if y["fiscal_year"] == "2024"}
+    assert y24["capital_sd"]["rows"] == "1364" and y24["capital_sd"]["printed_totals_tied"] == "32/32"
+    assert y24["terms"]["rows"] == "61" and y24["terms"]["printed_totals_tied"] == "n/a"
+    assert {y24[f]["issue"] for f in ("capital_sd", "terms")} == {"105"}
+    assert len(rows(built["data/fy24/pdf/capital_sd/fy24_capital_sd_orgs.csv"])) == 113
+    assert len(rows(built["data/fy24/pdf/terms/fy24_terms_units.csv"])) == 187
+    proj = {(r["part"], r["sub_id"]): r for r in rows(built["data/fy24/pdf/capital_sd/fy24_capital_sd_projects.csv"])}
+    assert proj[("II", "HL TA001")]["fy2024"] == "-40000" and "C3.part2_only" in proj[("II", "HL TA001")]["flags"]
+
+
+def test_fy23_capital_and_terms(built):
+    y23 = {y["family"]: y for y in rows(built["data/pdf_years.csv"]) if y["fiscal_year"] == "2023"}
+    assert y23["capital_sd"]["rows"] == "1547" and y23["capital_sd"]["printed_totals_tied"] == "32/32"
+    assert y23["terms"]["rows"] == "60" and y23["terms"]["printed_totals_tied"] == "n/a"
+    assert {y23[f]["issue"] for f in ("capital_sd", "terms")} == {"106"}
+    assert len(rows(built["data/fy23/pdf/capital_sd/fy23_capital_sd_orgs.csv"])) == 115
+    assert len(rows(built["data/fy23/pdf/terms/fy23_terms_units.csv"])) == 158
+    proj = {(r["part"], r["sub_id"]): r for r in rows(built["data/fy23/pdf/capital_sd/fy23_capital_sd_projects.csv"])}
+    assert proj[("I", "E CN136")]["fy2023"] == "150000" and "C9.workbook_no_amount" in proj[("I", "E CN136")]["flags"]
+    assert proj[("I", "HA RR002")]["sponsor"] == "" and proj[("I", "HA RR002")]["boro"] == "A"
+
+
+def test_fy22_capital_and_terms(built):
+    y22 = {y["family"]: y for y in rows(built["data/pdf_years.csv"]) if y["fiscal_year"] == "2022"}
+    assert y22["capital_sd"]["rows"] == "1641" and y22["capital_sd"]["printed_totals_tied"] == "34/34"
+    assert y22["terms"]["rows"] == "50" and y22["terms"]["printed_totals_tied"] == "n/a"
+    assert {y22[f]["issue"] for f in ("capital_sd", "terms")} == {"107"}
+    assert len(rows(built["data/fy22/pdf/capital_sd/fy22_capital_sd_orgs.csv"])) == 122
+    assert len(rows(built["data/fy22/pdf/terms/fy22_terms_units.csv"])) == 134
+    proj = {(r["part"], r["sub_id"]): r for r in rows(built["data/fy22/pdf/capital_sd/fy22_capital_sd_projects.csv"])}
+    assert proj[("II", "PW MBP01")]["fy2022"] == "-72000" and "C3.part2_only" in proj[("II", "PW MBP01")]["flags"]
+    assert proj[("I", "AG TANC1")]["fy2022"] == "331000"
+
+
+def test_fy19_capital(built):
+    proj = {r["sub_id"]: r for r in rows(built["data/fy19/pdf/capital_sd/fy19_capital_sd_projects.csv"])}
+    assert len(rows(built["data/fy19/pdf/capital_sd/fy19_capital_sd_projects.csv"])) == 1625
+    r = proj["CS NC001"]                                   # p.1: the CD codes and the key's names
+    assert (r["sponsor_raw"], r["council_district"], r["sponsor"]) == ("00, 37", "00, 37", "Speaker, Espinal")
+    assert proj["E CN403"]["boro"] == "k" and "C6.boro" in proj["E CN403"]["flags"]
+    tot = rows(built["data/fy19/pdf/capital_sd/fy19_capital_sd_totals.csv"])
+    assert [(t["kind"], t["printed_count"], t["printed_fy2019"], t["status"]) for t in tot] == \
+        [("totals_for", "", "614910000", "OK")]           # p.54; no count, no summary page
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2019" and y["family"] == "capital_sd")
+    assert (y["family"], y["issue"], y["rows"], y["printed_totals_tied"]) == ("capital_sd", "110", "1625", "1/1")
+
+
+def test_fy18_capital_and_terms(built):
+    proj = {(r["part"], r["sub_id"]): r for r in rows(built["data/fy18/pdf/capital_sd/fy18_capital_sd_projects.csv"])}
+    assert len(proj) == 1718 and len(rows(built["data/fy18/pdf/capital_sd/fy18_capital_sd_orgs.csv"])) == 170
+    assert proj[("II", "HH TA003")]["fy2018"] == "-100000" and "C3.part2_only" in proj[("II", "HH TA003")]["flags"]
+    assert proj[("I", "E CN765")]["sponsor"] == "DISTRICT 28"                    # p.43, as printed
+    tot = rows(built["data/fy18/pdf/capital_sd/fy18_capital_sd_totals.csv"])
+    assert len(tot) == 35 and all(t["status"] == "OK" and t["kind"] == "totals_for" for t in tot)
+    conds = rows(built["data/fy18/pdf/terms/fy18_terms_conditions.csv"])
+    assert len(conds) == 33 and conds[1]["budget_lines"] == "All Project Lines – All Projects"
+    fsr = rows(built["data/fy18/pdf/terms/fy18_terms_fsr_table.csv"])
+    assert len(fsr) == 6 and fsr[-1]["report_content"] == "FY18 FSR update; FY19 Executive Budget Summary"
+    ys = {y["family"]: y for y in rows(built["data/pdf_years.csv"]) if y["fiscal_year"] == "2018"}
+    assert ys["capital_sd"]["printed_totals_tied"] == "35/35" and ys["terms"]["rows"] == "33"
+    assert {y["issue"] for y in ys.values()} == {"111"}

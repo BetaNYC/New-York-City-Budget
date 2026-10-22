@@ -1,0 +1,73 @@
+# FY2022 Section 254 capital supporting detail ("FY22 Sec254 Capital Supporting Detail Book"): every
+# year-specific fact code/review_capital_sd.py needs, and nothing else. Values read off the pages
+# (triage: data/fy22_capital_sd_pages.csv).
+#
+# Not encrypted; every page upright (no /Rotate), 792 x 612 pt.
+
+fiscal_year = 2022
+pdf = "source/FY22/FY22-Sec254-Capital-Supporting-Detail-Book.pdf"
+sha256 = "040dfc52d172cf789b9602048568caf2162ed2f3567347f0af9f2b9f6a79611e"
+review_dir = "research/2026-10-21-fy22-capital-terms-review"   # outputs land in <review_dir>/data
+prefix = "fy22"                                                # output file names: <prefix>_capital_sd_*
+issue = 107
+
+# The four FY columns, as printed in the column header (p.4: "FY 2022 FY 2023 FY 2024 FY 2025").
+fys = ["fy2022", "fy2023", "fy2024", "fy2025"]
+
+# The Word export's fonts on detail pages (Parts I and II; p.4: ArialMT, Arial-BoldMT and two
+# TimesNewRomanPS-BoldMT characters, the "I." mark).
+export_fonts = ["ArialMT", "Arial-BoldMT", "TimesNewRomanPS-BoldMT"]
+
+# ID numbers that are not two letters and digits (p.4 `AG TANC1`): listed in full, each read off
+# the pages.
+extra_sub_ids = ["TANC1", "TANC2", "TANC3", "KBP01", "KBP02", "MBP01"]
+
+# Part III (pp.84-92) is a second export with unnamed CID fonts, as FY2025 and FY2023: CIDFont+F1
+# is the bold face (organization lines, header), CIDFont+F3 the regular one (budget-line rows). Its
+# amounts sit left of the FY header's right edge (p.84: $47,000 ends at 505.1, FY 2022 at 508.7).
+bold_fonts = ["CIDFont+F1"]
+part3_amount_x1_tol = 6.0
+
+# The comparison source for FY2022 is NYC Open Data t474-a92g (no Council workbook found;
+# data/capital/README.md). Its accents and no-break spaces are UTF-8 bytes read as cp437 (`┬á`), as
+# FY2023's: C9 decodes them before comparing. Nothing is written back.
+workbook_mojibake = "utf-8"
+# Some ID numbers are printed on two rows of one budget line, or by two agencies (C3.id_reused:
+# `E CN884` p.43, `PV NC101` pp.68-69). C9 compares each with the t474 row that has its amount
+# (as FY2025, FY2023).
+wb_pick_by_amount = true
+
+# C7: Part III separates organizations with hairlines under a pixel at 300 dpi (as FY2023).
+c7_hairline_pt = 0.25
+
+# C8: the cover (p.1) prints the City seal as two images, as FY2023; their boxes count as covered.
+ink_cover_image_pages = [1]
+
+# 15 Part I rows carry `TA` IDs (`E TA001`, `AG TANC1`, ...; pp.4-70), all on borough A, 13 with no
+# sponsor printed (the Council's t474 dictionary: TA = Technical Adjustment). C3 lists them in one
+# warning, as FY2023's RR rows.
+flag_id_series = ["TA"]
+
+# Page map: each kind's inclusive page ranges, checked against each page's furniture (H3).
+[pages]
+cover = [[1, 1]]
+contents = [[2, 2]]
+divider = [[3, 3], [73, 73], [83, 83]]
+summary = [[72, 72]]
+part1 = [[4, 71]]
+part2 = [[74, 82]]
+part3 = [[84, 92]]
+[rotate]
+part1 = 0
+part2 = 0
+part3 = 0
+
+# Part II rows not in Part I are expected only in this series (MA IDs on 0N lines, as FY2025).
+[part2_only]
+id_prefix = "MA"
+line_prefix = "0N"
+
+# --selftest-ink: drop this row's words from the emitted set on this page; C8 must fire.
+[ink_selftest]
+page = 4
+sub_id = "AG CN002"

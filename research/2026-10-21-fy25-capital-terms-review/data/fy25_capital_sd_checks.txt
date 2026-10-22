@@ -1,0 +1,76 @@
+FY2025 capital supporting detail: checks
+pdf: source/FY25/Supporting-Detail-for-FY2025-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254-Council-Version-24.07.17.pdf
+sha256: e34acb153288b12704c6a1351f8bcc7f6bc9b91e6f184d6a4a3f32d353e68f3d
+
+H3 page map: 87 pages, 0 disagree
+BLOCK_GAP 12.0: title-line gaps within a cell max 8.13, between cells min 15.9 (1980 gaps)
+C7 image rules vs vector rules: 87 pages, 113 matched, 0 vector only, 0 image only
+  plus 106 vector hairlines under 0.25 pt, below pixel resolution at 300 dpi, on pp.79-87
+C8 ink coverage: 87 pages, 0 uncovered regions
+
+Rows parsed: Part I 1327, Part II 181
+C1/C2 TOTALS FOR lines (rows/printed, FY2025 sum/printed):
+   I p.4   AGING                                        5/5           404,000/404,000       OK
+   I p.4   CHILDREN SERVICES                            5/5         1,199,000/1,199,000     OK
+   I p.43  EDUCATION                                  827/827     223,606,000/223,606,000   OK
+   I p.44  ECONOMIC DEVELOPMENT                        29/29       24,983,000/24,983,000    OK
+   I p.44  ENVIRONMENTAL PROTECTION                     1/1           210,000/210,000       OK
+   I p.45  FIRE DEPARTMENT                              2/2           750,000/750,000       OK
+   I p.45  HOUSING AUTHORITY                            5/5         2,620,000/2,620,000     OK
+   I p.48  HOUSING PRESERVATION & DEVELOPMENT          68/68       62,461,000/62,461,000    OK
+   I p.50  HEALTH                                      30/30       35,238,000/35,238,000    OK
+   I p.51  CITY UNIVERSITY OF NEW YORK                 32/32       28,242,000/28,242,000    OK
+   I p.52  HEALTH AND HOSPITALS CORPORATION            28/28       36,017,000/36,017,000    OK
+   I p.53  HUMAN RESOURCES                              6/6         4,196,000/4,196,000     OK
+   I p.54  HIGHWAYS                                    15/15       11,122,000/11,122,000    OK
+   I p.54  BROOKLYN PUBLIC LIBRARY                      5/5         8,100,000/8,100,000     OK
+   I p.55  NEW YORK PUBLIC LIBRARY                     16/16       14,077,000/14,077,000    OK
+   I p.55  QUEENS PUBLIC LIBRARY                        4/4        14,200,000/14,200,000    OK
+   I p.60  PARKS AND RECREATION                       119/119     210,025,000/210,025,000   OK
+   I p.61  POLICE                                      18/18        2,806,000/2,806,000     OK
+   I p.61  GENERAL SERVICES - EQUIPMENT                 2/2         5,000,000/5,000,000     OK
+   I p.65  CULTURAL AFFAIRS                            81/81       78,119,000/78,119,000    OK
+   I p.66  PUBLIC BUILDINGS                            26/26       10,782,000/10,782,000    OK
+   I p.66  SANITATION                                   2/2           668,000/668,000       OK
+   I p.66  TRAFFIC                                      1/1           175,000/175,000       OK
+   I p.66  ALL                                       1327/1327    775,000,000/775,000,000   OK
+  II p.69  AGING                                        5/5           404,000/404,000       OK
+  II p.69  CHILDREN SERVICES                            5/5         1,199,000/1,199,000     OK
+  II p.70  ECONOMIC DEVELOPMENT                        19/19        7,279,000/7,279,000     OK
+  II p.72  HEALTH                                      30/30       35,238,000/35,238,000    OK
+  II p.72  HUMAN RESOURCES                              6/6         4,196,000/4,196,000     OK
+  II p.76  CULTURAL AFFAIRS                            95/95      100,204,000/100,204,000   OK
+  II p.77  PUBLIC BUILDINGS                            21/21       10,472,000/10,472,000    OK
+  II p.77  ALL                                        181/181     158,992,000/158,992,000   OK
+  32/32 totals lines tie on count and all four FYs
+C2 p.67: additions 775,000,000, rescindments 75,000,000, net 700,000,000
+  additions = Part I TOTALS FOR ALL FY2025 = sum of Part I rows: OK
+  additions - rescindments = net: OK
+C3 Part II: 181 rows; 141 equal a Part I row in every field; 0 differ in a field; 40 are not in Part I
+  Part I IDs printed on more than one row: 6 (E CN810, ED NC128, HN CN018, HN CN020, HN CN021, HO CN019)
+  not in Part I: ID series {'MA': 39, 'CT': 1}, budget-line series {'0N': 39, 'DN': 1}, FY2025 $60,157,000, sponsor blank on 40
+  Part I rows on DN (non-city) lines: 141; missing from Part II: 0
+  Part II rows from Part I that are not on a DN line: 0
+C5 geometry vs stream: 24789 words agree; 20 words the stream wrote out of row order (no second opinion), on pages [51]
+C4 Part III: 106 organizations, 129 budget-line rows; 106/106 organization lines equal their rows
+  TOTAL NON-CITY PROJECT ALLOCATIONS 158,992,000/11,000,000: rows 158,992,000/11,000,000 OK
+  = Part II TOTALS FOR ALL: OK
+  Part III vs Part II by budget line: 129/129 equal
+C9 Council workbook (data/capital/council_capital_awards.csv, report_year 2025):
+  PDF Part I non-zero amounts: 1327; workbook FY2025 rows: 1325; matched on (ID, budget line, FY, amount): 1325; PDF only: 2; workbook only: 0
+  borough differs from the workbook on 0 Part I rows
+  title equal (letters and digits only) on 1325/1325; sponsor list equal on 1325/1325
+  50 rows of the comparison source print accents as mojibake (decoded as cp1252 to compare; source rows open_data_t474)
+
+review.csv by check:
+  C2.rescindments              warn     1
+  C3.id_reused                 warn     6
+  C3.ma_series                 warn     1
+  C3.part2_only                critical 1
+  C5.geom_vs_stream            warn     2
+  C7.hairlines                 warn     1
+  C9.workbook                  warn     2
+  C9.workbook_text             warn     1
+  W.edited_after_export        warn     1
+  W.geom_near                  warn     8
+  W.sponsor_wrapped_below      warn     1

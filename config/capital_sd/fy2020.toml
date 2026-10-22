@@ -1,0 +1,67 @@
+# FY2020 Section 254 capital supporting detail ("Supporting Detail for the FY 2020 Changes to the
+# Executive Capital Budget Adopted by the City Council Pursuant to Section 254"): every
+# year-specific fact code/review_capital_sd.py needs, and nothing else. Values read off the pages
+# (triage: data/fy20_capital_sd_pages.csv).
+#
+# The PDF is AES-128 encrypted (V4 R4, /P -1324) with an empty user password: it opens and its
+# text extracts, as FY2024's. pp.2-79 carry /Rotate 90 (612 x 792 portrait boxes shown
+# landscape); the cover (p.1) and the summary (p.80) are landscape boxes, upright.
+#
+# This book prints Part I only: no contents page, no dividers, no Part II (non-city projects)
+# and no Part III (by organization), and the summary comes last (p.80). C3 and C4 have nothing
+# to compare and say so.
+
+fiscal_year = 2020
+pdf = "source/FY20/Supporting-Detail-for-the-FY-2020-Changes-to-the-Executive-Capital-Budget-Adopted-by-the-City-Council-Pursuant-to-Section-254-2.pdf"
+sha256 = "0820f439a491cf054117bd0d0faef0e4b43ce0f84549ee21dc53b6bdde9193d4"
+review_dir = "research/2026-10-21-fy20-capital-terms-review"   # outputs land in <review_dir>/data
+prefix = "fy20"                                                # output file names: <prefix>_capital_sd_*
+issue = 109
+
+# The four FY columns, as printed in the column header (p.2: "FY 2020 FY 2021 FY 2022 FY 2023").
+fys = ["fy2020", "fy2021", "fy2022", "fy2023"]
+
+# A different export from FY2022-FY2027 (Ghostscript from PScript5): Helvetica, Helvetica-Bold
+# and Times-Bold (the "I." mark), subset-prefixed (p.2).
+export_fonts = ["BTMRTL+Helvetica", "QIYLGP+Helvetica-Bold", "WFTLUU+Times-Bold"]
+
+# ID numbers that are not two letters and three to five digits, each read off the pages:
+# `E CNA02`-`E CNA09` (p.46), `HL NC02` (p.54), `TF CN90` (twice, p.79).
+extra_sub_ids = ["CNA02", "CNA03", "CNA04", "CNA05", "CNA06", "CNA07", "CNA08", "CNA09",
+                 "NC02", "CN90"]
+
+# The comparison source for FY2020 is NYC Open Data t474-a92g (no Council workbook found;
+# data/capital/README.md). Its accents are UTF-8 bytes read as cp437, as FY2022-FY2024's: C9
+# decodes them before comparing. Nothing is written back.
+workbook_mojibake = "utf-8"
+# `TF CN90` is printed on two rows of one budget line (p.79): C9 compares each with the t474 row
+# that has its amount (as FY2022-FY2025).
+wb_pick_by_amount = true
+# FY2020's t474 rows keep the agency prefix (`MT CN001`), and one ID number is used by several
+# prefixes on one budget line at one amount (`MT CN001` and `TF CN001`, $200,000 each on
+# `TF D005`, pp.78-79; `HW CN905` and `P CN905` on `HW D104`, p.61): C9 compares the full ID.
+wb_full_id = true
+
+# p.39 `E CN817`: its title cell holds an empty line (a space typed in MicrosoftSansSerif on a
+# line of its own, y = 180), so "HIGH SCHOOL (M535/M542)" sits 16.2 pt below the first line, past
+# BLOCK_GAP. The same edit set two more spaces in that font over the letters, so the page shows
+# "ACCESSIBLEBATHROOMS ATPARK" (kept as printed). The block after this row's joins it.
+title_blank_line = [[39, "E CN817"]]
+
+# Page map: each kind's inclusive page ranges, checked against each page's furniture (H3).
+[pages]
+cover = [[1, 1]]
+part1 = [[2, 79]]
+summary = [[80, 80]]
+[rotate]
+part1 = 90
+
+# No Part II in this book; the series is kept so the config has the same shape as other years.
+[part2_only]
+id_prefix = "MA"
+line_prefix = "0N"
+
+# --selftest-ink: drop this row's words from the emitted set on this page; C8 must fire.
+[ink_selftest]
+page = 2
+sub_id = "AG CN001"

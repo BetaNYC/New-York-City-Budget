@@ -1,0 +1,24 @@
+FY2021 Terms and Conditions: checks
+pdf: source/FY21/Fiscal-2021-Terms-and-Conditions.pdf
+sha256: 0b469b3e7e4f9c1fcfaf2688fae03ae2c33bcc9ef2a51f1306c567dffbb7e00f
+
+T5 p.8: vector 5 x / 8 y separators; image 5 x / 8 y; unmatched vector x[] y[], image x[] y[]
+T5 FSR table cells: 28 identical under both lattices, 0 differ
+T1 numbered conditions: 46; run 1..46; gaps []; repeats []; in order: True
+   the PDF prints no numbers (item_number = order in the book); paragraphs opening 'As a condition' at the left margin: 46
+T2 unit/budget-line heading lines: page text 111, in conditions 111, difference {}
+   of which 'Unit of Appropriation' lines: 107
+T3 body names exactly the heading's units and lines: 44/46
+T4 characters outside furniture and tables not in any condition: 0
+T6 ink coverage: 16 pages, 0 uncovered regions
+T7 old CSV: 46 rows, new 46; first agency equal 46; text equal ignoring whitespace 44
+   mid-word splits (join is a word in the new text, halves are not): old 22, new 0
+W wrap_hyphen joins (line ended in a hyphen; joined with none): 3 conditions
+Conditions naming more than one agency: [1, 12, 28, 37]
+Kinds: {'expense': 42, 'capital': 2, 'capital+expense': 2}
+
+review.csv by check:
+  T3.body_vs_heading     warn     2
+  T7.old_csv_text        warn     2
+  T7.old_csv_units       warn     4
+  W.wrap_hyphen          warn     3

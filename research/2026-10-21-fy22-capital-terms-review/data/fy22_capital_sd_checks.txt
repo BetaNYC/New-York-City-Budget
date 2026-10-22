@@ -1,0 +1,86 @@
+FY2022 capital supporting detail: checks
+pdf: source/FY22/FY22-Sec254-Capital-Supporting-Detail-Book.pdf
+sha256: 040dfc52d172cf789b9602048568caf2162ed2f3567347f0af9f2b9f6a79611e
+
+H3 page map: 92 pages, 0 disagree
+BLOCK_GAP 12.0: title-line gaps within a cell max 8.13, between cells min 15.9 (2024 gaps)
+C7 image rules vs vector rules: 92 pages, 119 matched, 0 vector only, 0 image only
+  plus 99 vector hairlines under 0.25 pt, below pixel resolution at 300 dpi, on pp.84-92
+C8 ink coverage: 92 pages, 0 uncovered regions
+  p.1: 2 images counted as covered (config ink_cover_image_pages)
+
+Rows parsed: Part I 1462, Part II 179
+C1/C2 TOTALS FOR lines (rows/printed, FY2022 sum/printed):
+   I p.4   AGING                                       10/10        5,996,000/5,996,000     OK
+   I p.4   COURTS                                       1/1           446,000/446,000       OK
+   I p.4   CHILDREN SERVICES                            2/2         5,102,000/5,102,000     OK
+   I p.45  EDUCATION                                  917/917     190,409,000/190,409,000   OK
+   I p.46  ECONOMIC DEVELOPMENT                         5/5         3,289,000/3,289,000     OK
+   I p.46  FIRE DEPARTMENT                              7/7         1,230,000/1,230,000     OK
+   I p.48  HOUSING AUTHORITY                           39/39       19,926,000/19,926,000    OK
+   I p.51  HOUSING PRESERVATION & DEVELOPMENT          65/65       56,789,000/56,789,000    OK
+   I p.52  HEALTH                                      36/36       27,040,000/27,040,000    OK
+   I p.54  CITY UNIVERSITY OF NEW YORK                 34/34       16,527,000/16,527,000    OK
+   I p.55  HEALTH AND HOSPITALS CORPORATION            25/25       13,379,000/13,379,000    OK
+   I p.56  HUMAN RESOURCES                              8/8         3,542,000/3,542,000     OK
+   I p.56  HIGHWAYS                                    13/13        6,385,000/6,385,000     OK
+   I p.56  NEW YORK RESEARCH LIBRARY                    1/1           250,000/250,000       OK
+   I p.57  BROOKLYN PUBLIC LIBRARY                      8/8         9,529,000/9,529,000     OK
+   I p.58  NEW YORK PUBLIC LIBRARY                     16/16       10,025,000/10,025,000    OK
+   I p.58  QUEENS PUBLIC LIBRARY                       15/15       33,851,000/33,851,000    OK
+   I p.64  PARKS AND RECREATION                       121/121     165,905,000/165,905,000   OK
+   I p.64  POLICE                                      12/12        3,342,000/3,342,000     OK
+   I p.68  CULTURAL AFFAIRS                            86/86      105,388,000/105,388,000   OK
+   I p.70  PUBLIC BUILDINGS                            37/37       24,938,000/24,938,000    OK
+   I p.70  SANITATION                                   1/1           192,000/192,000       OK
+   I p.71  TRAFFIC                                      1/1           600,000/600,000       OK
+   I p.71  WATER POLLUTION CONTROL                      2/2           415,000/415,000       OK
+   I p.71  ALL                                       1462/1462    704,495,000/704,495,000   OK
+  II p.74  AGING                                        9/9         5,846,000/5,846,000     OK
+  II p.74  COURTS                                       1/1           446,000/446,000       OK
+  II p.74  CHILDREN SERVICES                            2/2         5,102,000/5,102,000     OK
+  II p.75  ECONOMIC DEVELOPMENT                         3/3           969,000/969,000       OK
+  II p.76  HEALTH                                      37/37       28,040,000/28,040,000    OK
+  II p.77  HUMAN RESOURCES                              8/8         3,542,000/3,542,000     OK
+  II p.80  CULTURAL AFFAIRS                            80/80      102,810,000/102,810,000   OK
+  II p.82  PUBLIC BUILDINGS                            39/39       26,417,000/26,417,000    OK
+  II p.82  ALL                                        179/179     173,172,000/173,172,000   OK
+  34/34 totals lines tie on count and all four FYs
+C2 p.72: additions 704,495,000, rescindments 29,495,000, net 675,000,000
+  additions = Part I TOTALS FOR ALL FY2022 = sum of Part I rows: OK
+  additions - rescindments = net: OK
+C3 Part II: 179 rows; 150 equal a Part I row in every field; 0 differ in a field; 29 are not in Part I
+  Part I IDs printed on more than one row: 2 (E CN884, PV NC101)
+  not in Part I: ID series {'KB': 3, 'MA': 25, 'MB': 1}, budget-line series {'KN': 3, '0N': 25, 'MN': 1}, FY2022 $47,921,000, sponsor blank on 29
+  Part I TA series: 15 rows, FY2022 $13,394,000, sponsor blank on 13, boroughs {'A': 15}
+  Part I rows on DN (non-city) lines: 150; missing from Part II: 0
+  Part II rows from Part I that are not on a DN line: 0
+C5 geometry vs stream: 26650 words agree; 0 words the stream wrote out of row order (no second opinion), on pages []
+C4 Part III: 99 organizations, 122 budget-line rows; 99/99 organization lines equal their rows
+  TOTAL NON-CITY PROJECT ALLOCATIONS 173,172,000/19,730,000: rows 173,172,000/19,730,000 OK
+  = Part II TOTALS FOR ALL: OK
+  Part III vs Part II by budget line: 122/122 equal
+C9 Council workbook (data/capital/council_capital_awards.csv, report_year 2022):
+  workbook row with no amount (split_record_amount_unknown): E CN673 E D001 'BRONX THEATRE HIGH SCHOOL' -> PDF: E CN673 p.34 FY2022 55,000
+  PDF Part I non-zero amounts: 1491; workbook FY2022 rows: 1490; matched on (ID, budget line, FY, amount): 1490; PDF only: 1; workbook only: 0
+  borough differs from the workbook on 1 Part I rows
+  title equal (letters and digits only) on 1458/1462; sponsor list equal on 1365/1462
+  32 rows of the comparison source print accents as mojibake (decoded as utf-8 to compare; source rows open_data_t474)
+
+review.csv by check:
+  C2.rescindments              warn     1
+  C3.id_reused                 warn     2
+  C3.id_series                 warn     1
+  C3.ma_series                 warn     1
+  C3.part2_only                critical 4
+  C6.boro                      critical 1
+  C6.sponsor_digit             critical 28
+  C7.hairlines                 warn     1
+  C9.workbook                  warn     1
+  C9.workbook_boro             warn     1
+  C9.workbook_no_amount        warn     1
+  C9.workbook_sponsor          warn     97
+  C9.workbook_text             warn     1
+  C9.workbook_title            warn     4
+  W.geom_near                  warn     13
+  W.sponsor_wrapped_below      warn     4

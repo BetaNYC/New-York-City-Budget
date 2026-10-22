@@ -1,0 +1,65 @@
+FY2020 capital supporting detail: checks
+pdf: source/FY20/Supporting-Detail-for-the-FY-2020-Changes-to-the-Executive-Capital-Budget-Adopted-by-the-City-Council-Pursuant-to-Section-254-2.pdf
+sha256: 0820f439a491cf054117bd0d0faef0e4b43ce0f84549ee21dc53b6bdde9193d4
+
+H3 page map: 80 pages, 0 disagree
+BLOCK_GAP 12.0: title-line gaps within a cell max 8.16, between cells min 15.84 (2127 gaps)
+C7 image rules vs vector rules: 80 pages, 71 matched, 0 vector only, 0 image only
+C8 ink coverage: 80 pages, 0 uncovered regions
+
+Rows parsed: Part I 1663, Part II 0
+C1/C2 TOTALS FOR lines (rows/printed, FY2020 sum/printed):
+   I p.2   AGING                                       10/10        1,832,000/1,832,000     OK
+   I p.2   CHILDREN SERVICES                            2/2         1,610,000/1,610,000     OK
+   I p.47  EDUCATION                                  984/984     166,110,000/166,110,000   OK
+   I p.48  ECONOMIC DEVELOPMENT                        13/13       12,995,000/12,995,000    OK
+   I p.48  FIRE DEPARTMENT                              9/9         1,133,000/1,133,000     OK
+   I p.51  HOUSING AUTHORITY                           50/50       29,035,000/29,035,000    OK
+   I p.54  HOUSING PRESERVATION & DEVELOPMENT          67/67       48,099,000/48,099,000    OK
+   I p.54  HOMELESS SERVICES                            1/1           719,000/719,000       OK
+   I p.56  HEALTH                                      36/36       22,701,000/22,701,000    OK
+   I p.58  CITY UNIVERSITY OF NEW YORK                 59/59       65,058,000/65,058,000    OK
+   I p.60  HEALTH AND HOSPITALS CORPORATION            26/26       17,571,000/17,571,000    OK
+   I p.60  HUMAN RESOURCES                              8/8         3,351,000/3,351,000     OK
+   I p.61  HIGHWAYS                                    18/18       16,300,000/16,300,000    OK
+   I p.61  BROOKLYN PUBLIC LIBRARY                      7/7         6,860,000/6,860,000     OK
+   I p.62  NEW YORK PUBLIC LIBRARY                     14/14       12,808,000/12,808,000    OK
+   I p.63  QUEENS PUBLIC LIBRARY                       16/16       16,241,000/16,241,000    OK
+   I p.69  PARKS AND RECREATION                       136/136     137,461,000/137,461,000   OK
+   I p.70  POLICE                                      28/28        5,755,000/5,755,000     OK
+   I p.76  CULTURAL AFFAIRS                           126/126     107,777,000/107,777,000   OK
+   I p.78  PUBLIC BUILDINGS                            35/35       21,693,000/21,693,000    OK
+   I p.78  SEWERS                                       1/1         1,500,000/1,500,000     OK
+   I p.78  TRANSIT AUTHORITY                            2/2         1,250,000/1,250,000     OK
+   I p.79  TRAFFIC                                     15/15        3,351,000/3,351,000     OK
+   I p.79  ALL                                       1663/1663    701,210,000/701,210,000   OK
+  24/24 totals lines tie on count and all four FYs
+C2 p.80: additions 701,210,000, rescindments 46,210,000, net 655,000,000
+  additions = Part I TOTALS FOR ALL FY2020 = sum of Part I rows: OK
+  additions - rescindments = net: OK
+C3 Part II: this book prints no Part II; nothing to compare
+  Part I IDs printed on more than one row: 2 (P CN967, TF CN90)
+  Part I rows on DN (non-city) lines: 179, FY2020 $111,014,000 (no Part II to list them)
+C5 geometry vs stream: 27501 words agree; 0 words the stream wrote out of row order (no second opinion), on pages []
+C4 Part III: this book prints no Part III; nothing to compare
+C9 Council workbook (data/capital/council_capital_awards.csv, report_year 2020):
+  workbook row with no amount (split_record_amount_unknown): E CN817 E D001 'MORE ACCESSIBLE' -> PDF: E CN817 p.39 FY2020 170,000
+  workbook row with no amount (split_record_amount_unknown): E CN832 E D001 'P.S. 3 BEDFORD VILLAGE (K003) (K003)' -> PDF: E CN832 p.39 FY2020 300,000
+  PDF Part I non-zero amounts: 1662; workbook FY2020 rows: 1660; matched on (ID, budget line, FY, amount): 1660; PDF only: 2; workbook only: 0
+  borough differs from the workbook on 3 Part I rows
+  title equal (letters and digits only) on 1659/1662; sponsor list equal on 1609/1662
+  1 rows of the comparison source print accents as mojibake (decoded as utf-8 to compare; source rows open_data_t474)
+
+review.csv by check:
+  C2.rescindments              warn     1
+  C3.id_reused                 warn     2
+  C5.title_blank_line          warn     1
+  C6.boro                      critical 3
+  C9.workbook                  warn     2
+  C9.workbook_boro             warn     3
+  C9.workbook_no_amount        warn     2
+  C9.workbook_sponsor          warn     53
+  C9.workbook_text             warn     1
+  C9.workbook_title            warn     3
+  W.geom_near                  warn     16
+  W.sponsor_wrapped_below      warn     1

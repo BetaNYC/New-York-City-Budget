@@ -312,12 +312,16 @@ def capital_records(root=ROOT):
         with open(path, newline="", encoding="utf-8") as f:
             rows = list(csv.DictReader(f))
         fys = [c for c in rows[0] if re.fullmatch(r"fy20\d\d", c)] if rows else []
+        # FY2025 prints some IDs on two Part I rows (C3.id_reused): those keys also carry the
+        # row's page and place, so they stay unique. Every other key is unchanged.
+        twice = {k for k, n in Counter(r["sub_id"] for r in rows if r["part"] == "I").items() if n > 1}
         for r in rows:
             if r["part"] != "I":
                 continue
+            at = f"|p{r['pdf_page']}r{r['row_in_page']}" if r["sub_id"] in twice else ""
             for c in fys:
                 if r[c] not in ("", "0"):
-                    recs.append({"key": f"pdf|{r['fiscal_year']}|{r['sub_id']}|{c[2:]}",
+                    recs.append({"key": f"pdf|{r['fiscal_year']}|{r['sub_id']}{at}|{c[2:]}",
                                  "fy": int(r["fiscal_year"]), "amount_fy": c[2:],
                                  "project_id": r["sub_id"], "budget_line": r["budget_line"],
                                  "amount": r[c], "borough": r["boro"], "council_district": "",

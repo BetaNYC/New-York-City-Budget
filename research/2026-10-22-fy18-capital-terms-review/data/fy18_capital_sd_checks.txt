@@ -1,0 +1,67 @@
+FY2018 capital supporting detail: checks
+pdf: source/FY18/FY18-Sec254-Capital-ResoA-M499-Res1534-Res1535.pdf
+sha256: 22c3bef34a7a7e6536124b92b08090ac016d3a4737e5f56acf9496701ff90848
+
+H3 page map: 96 pages, 0 disagree
+BLOCK_GAP 12.0: title-line gaps within a cell max 8.17, between cells min 15.88 (1926 gaps)
+C7 image rules vs vector rules: 96 pages, 128 matched, 0 vector only, 0 image only
+  plus 138 vector hairlines under 0.25 pt, below pixel resolution at 300 dpi, on pp.85-96
+C8 ink coverage: 96 pages, 0 uncovered regions
+
+Rows parsed: Part I 1485, Part II 233
+C1/C2 TOTALS FOR lines (rows/printed, FY2018 sum/printed):
+   I p.4   AGING                                        7/7         8,280,000/8,280,000     OK
+   I p.5   BROOKLYN PUBLIC LIBRARY                     14/14       10,789,000/10,789,000    OK
+   I p.5   CHILDREN SERVICES                            4/4         1,792,000/1,792,000     OK
+   I p.7   CITY UNIVERSITY OF NEW YORK                 47/47       53,678,000/53,678,000    OK
+   I p.13  CULTURAL AFFAIRS                           131/131      84,187,000/84,187,000    OK
+   I p.14  ECONOMIC DEVELOPMENT                        17/17       18,105,000/18,105,000    OK
+   I p.49  EDUCATION                                  830/830     128,158,000/128,158,000   OK
+   I p.50  FIRE DEPARTMENT                             19/19        3,521,000/3,521,000     OK
+   I p.51  HEALTH                                      29/29       23,000,000/23,000,000    OK
+   I p.52  HEALTH AND HOSPITALS CORPORATION            15/15       11,234,000/11,234,000    OK
+   I p.53  HIGHWAYS                                    14/14        4,809,000/4,809,000     OK
+   I p.53  HOMELESS SERVICES                            2/2           109,000/109,000       OK
+   I p.56  HOUSING AUTHORITY                           60/60       31,249,000/31,249,000    OK
+   I p.58  HOUSING PRESERVATION & DEVELOPMENT          40/40       38,542,000/38,542,000    OK
+   I p.58  HUMAN RESOURCES                              2/2           284,000/284,000       OK
+   I p.58  NEW YORK PUBLIC LIBRARY                      8/8         4,184,000/4,184,000     OK
+   I p.65  PARKS AND RECREATION                       152/152     123,377,000/123,377,000   OK
+   I p.66  POLICE                                      21/21        5,416,000/5,416,000     OK
+   I p.68  PUBLIC BUILDINGS                            37/37       12,322,000/12,322,000    OK
+   I p.69  QUEENS PUBLIC LIBRARY                       22/22        7,776,000/7,776,000     OK
+   I p.69  SANITATION                                   2/2           285,000/285,000       OK
+   I p.69  TRAFFIC                                     11/11        3,403,000/3,403,000     OK
+   I p.69  TRANSIT AUTHORITY                            1/1           500,000/500,000       OK
+   I p.70  ALL                                       1485/1485    575,000,000/575,000,000   OK
+  II p.72  AGING                                        1/1           500,000/500,000       OK
+  II p.72  CHILDREN SERVICES                            4/4         1,792,000/1,792,000     OK
+  II p.78  CULTURAL AFFAIRS                           135/135      71,820,000/71,820,000    OK
+  II p.79  ECONOMIC DEVELOPMENT                        12/12        7,694,000/7,694,000     OK
+  II p.80  HEALTH                                      28/28       22,750,000/22,750,000    OK
+  II p.80  HOMELESS SERVICES                            4/4           702,000/702,000       OK
+  II p.81  HOUSING PRESERVATION & DEVELOPMENT          13/13       17,312,000/17,312,000    OK
+  II p.81  HUMAN RESOURCES                              2/2           284,000/284,000       OK
+  II p.81  PARKS AND RECREATION                         2/2         1,041,000/1,041,000     OK
+  II p.83  PUBLIC BUILDINGS                            32/32       10,100,000/10,100,000    OK
+  II p.83  ALL                                        233/233     133,995,000/133,995,000   OK
+  35/35 totals lines tie on count and all four FYs
+C2: this book prints no summary page (additions, rescindments, net); nothing to compare
+C3 Part II: 233 rows; 178 equal a Part I row in every field; 0 differ in a field; 55 are not in Part I
+  not in Part I: ID series {'TA': 3, 'MA': 52}, budget-line series {'DN': 2, '0N': 52, 'MN': 1}, FY2018 $33,282,000, sponsor blank on 55
+  Part I rows on DN (non-city) lines: 178; missing from Part II: 0
+  Part II rows from Part I that are not on a DN line: 0
+C5 geometry vs stream: 25746 words agree; 0 words the stream wrote out of row order (no second opinion), on pages []
+C4 Part III: 138 organizations, 170 budget-line rows; 138/138 organization lines equal their rows
+  TOTAL NON-CITY PROJECT ALLOCATIONS 133,995,000/10,500,000: rows 133,995,000/10,500,000 OK
+  = Part II TOTALS FOR ALL: OK
+  Part III vs Part II by budget line: 170/170 equal
+C9: no comparison source for FY2018 (no Council workbook; t474-a92g starts at FY2019); not run
+
+review.csv by check:
+  C3.ma_series                 warn     1
+  C3.part2_only                critical 3
+  C6.sponsor_seat              warn     15
+  C7.hairlines                 warn     1
+  W.geom_near                  warn     26
+  W.sponsor_wrapped_below      warn     4
