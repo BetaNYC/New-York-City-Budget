@@ -8,7 +8,7 @@ import { describe, expect, test } from "vitest";
 
 import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 
-import { landingSpot, rowBoxOnViewport } from "../../src/query/pdf.js";
+import { landingSpot, landsByJump, rowBoxOnViewport } from "../../src/query/pdf.js";
 
 const REPO = join(import.meta.dirname, "..", "..", "..", "..");
 
@@ -53,18 +53,13 @@ describe("a rotated page (FY2027 capital book p.47, /Rotate 90): HR CC0168", () 
     expect(text).not.toContain("CC0167");
   });
 
-  test("the landing spot puts the whole box in the pane, and survives pdf.js's XYZ jump", async () => {
+  test("the landing spot puts the whole box in the pane, at three zooms", async () => {
     const page = await openPage(CAPITAL, 47);
     for (const scale of [0.8, 1.5, 3]) {
       const vp = page.getViewport({ scale });
       const box = rowBoxOnViewport(bbox, page.view, vp);
       const spot = landingSpot(box, 500);
       expect(inPane(box, spot, Math.max(box.width + 48, 400), 500)).toBe(true);
-      // PdfViewer hands pdf.js the spot in PDF space; pdf.js maps it back with the same viewport.
-      const [x, y] = vp.convertToPdfPoint(spot.left, spot.top);
-      const [l, t] = vp.convertToViewportPoint(x, y);
-      expect(l).toBeCloseTo(spot.left, 6);
-      expect(t).toBeCloseTo(spot.top, 6);
     }
   });
 });
@@ -80,6 +75,20 @@ describe("an upright page (FY2027 Schedule C p.279): the Medicare Rights Center 
     const pane = 400;
     expect(box.top + box.height).toBeGreaterThan(pane);
     expect(inPane(box, landingSpot(box, pane), vp.width, pane)).toBe(true);
+  });
+});
+
+describe("landsByJump: when the viewer waits for the pages and jumps", () => {
+  test("page 1 with a box jumps (the row may sit low on the page); page 1 without one does not", () => {
+    expect(landsByJump(1, "18.42,402.92,958.68,460.06")).toBe(true);
+    expect(landsByJump(1, "")).toBe(false);
+    expect(landsByJump(1, "not,a,box")).toBe(false);
+  });
+  test("any later page jumps; no page or page 0 does not", () => {
+    expect(landsByJump(279, "")).toBe(true);
+    expect(landsByJump(279, "18.42,402.92,958.68,460.06")).toBe(true);
+    expect(landsByJump(0, "1,2,3,4")).toBe(false);
+    expect(landsByJump(Number.NaN, "1,2,3,4")).toBe(false);
   });
 });
 

@@ -142,14 +142,15 @@ test("every MCP tool answers the same from a reviewed index as from the default 
 });
 
 test("no MCP source file names a pdf_ table", () => {
-  // FAILS if a tool (src/*.ts) starts reading the reviewed tables. rowlinks.ts names the row
-  // contract's fields (pdf_page, pdf_sha256) to build links, and reads no table: it may not import
-  // the database or hold SQL (#210).
+  // FAILS if a tool (src/*.ts) starts reading the reviewed tables. rowlinks.ts may name the two
+  // row-contract fields it builds links from (pdf_page, pdf_sha256) and nothing else with a pdf_
+  // prefix; it may not import the database or hold SQL (#210).
   for (const f of readdirSync(join(MCP, "src"))) {
-    const text = readFileSync(join(MCP, "src", f), "utf8");
+    let text = readFileSync(join(MCP, "src", f), "utf8");
     if (f === "rowlinks.ts") {
-      assert.doesNotMatch(text, /from "\.\/db\.js"|better-sqlite3|\bSELECT\b|\bFROM\s+pdf_/i, f);
-      continue;
+      assert.doesNotMatch(text, /from "\.\/db\.js"|better-sqlite3/, f);
+      assert.doesNotMatch(text, /\b(SELECT|FROM|JOIN|WHERE)\b/, f);
+      text = text.replace(/\bpdf_(page|sha256)\b/g, "");
     }
     assert.doesNotMatch(text, /\bpdf_[a-z_]+\b/, f);
   }

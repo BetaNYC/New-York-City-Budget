@@ -339,6 +339,12 @@ export function rowBoxOnViewport(bbox, view, viewport) {
 }
 
 /**
+ * Whether the viewer has to wait for the pages and jump on open: always for a page past the first,
+ * and on page 1 too when there is a box to scroll to (it may sit low on the page).
+ */
+export const landsByJump = (page, bbox) => Number.isInteger(page) && page >= 1 && (page > 1 || !!parseBbox(bbox));
+
+/**
  * Where on the page to scroll so a row box is in view when the page opens (#211): the spot, in
  * the page's pixels, to put at the pane's top-left corner. The box sits a quarter of the pane down,
  * with some of the page above it for context; a box too tall for that starts one margin down.

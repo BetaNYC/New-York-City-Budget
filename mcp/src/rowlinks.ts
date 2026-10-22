@@ -49,10 +49,10 @@ export interface RowLinks {
 
 const encodePath = (p: string) => String(p).split("/").map(encodeURIComponent).join("/");
 
-/** A source PDF's repo path, as the source view accepts it (Source.jsx), or null. */
+/** A source PDF's repo path, as the source view accepts it (Source.jsx), or null. No ".." segment. */
 export function sourcePdfPath(p: unknown): string | null {
   const s = typeof p === "string" ? p.trim() : "";
-  return /^source\/.+\.pdf$/i.test(s) ? s : null;
+  return /^source\/.+\.pdf$/i.test(s) && !s.split("/").includes("..") ? s : null;
 }
 
 /** A 1-based page number, or null. */
@@ -68,7 +68,7 @@ export function pdfPage(p: unknown): number | null {
 export function bboxParam(b: RowRef["bbox_pt"]): string {
   const s = Array.isArray(b) ? b.join(",") : typeof b === "string" ? b.replace(/\s+/g, "") : "";
   const parts = s.split(",");
-  return parts.length === 4 && parts.every((x) => x !== "" && Number.isFinite(Number(x))) ? s : "";
+  return parts.length === 4 && parts.every((x) => /^-?\d+(\.\d+)?$/.test(x)) ? s : "";
 }
 
 /** The source view's state for a row, or null when the row names no PDF page. */
@@ -92,9 +92,15 @@ export function sourceViewHash(row: RowRef, label = ""): string {
   return `#${params.toString()}`;
 }
 
-/** A repo file at a commit: GitHub's page for it and the raw download. Null without a commit. */
+/** A commit id: 7 to 40 hex digits. A branch or tag name ("main", "HEAD", "v1") moves, so it is refused. */
+export const isCommitId = (c: unknown): c is string => typeof c === "string" && /^[0-9a-f]{7,40}$/i.test(c);
+
+/**
+ * A repo file at a commit: GitHub's page for it and the raw download. Null without a commit id,
+ * so a link never points at a file that can change.
+ */
 export function githubLinks(commit: string | null | undefined, path: string | null | undefined): { page: string; raw: string } | null {
-  if (!commit || !path) return null;
+  if (!isCommitId(commit) || !path) return null;
   return {
     raw: `https://raw.githubusercontent.com/${REPO}/${encodeURIComponent(commit)}/${encodePath(path)}`,
     page: `${REPO_URL}/blob/${encodeURIComponent(commit)}/${encodePath(path)}`,

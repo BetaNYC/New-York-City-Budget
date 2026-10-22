@@ -35,12 +35,31 @@ test("the FY2027 Medicare Rights Center row: the epic's source-view link, exactl
   assert.equal(l.publisher, null, "no manifest records the Council's copy of this file");
 });
 
+test("only a commit id makes a GitHub link: never a branch or tag, which can move", () => {
+  for (const c of ["main", "HEAD", "v1", "gh-pages", "3af3c7", "3af3c7c/../main", "g3af3c7c"]) {
+    assert.equal(githubLinks(c, MEDICARE.source_pdf), null, c);
+    assert.equal(rowLinks(MEDICARE, { commit: c }).github, null, c);
+  }
+  assert.ok(githubLinks("3af3c7c", MEDICARE.source_pdf));
+  assert.ok(githubLinks("3AF3C7C06D1C65CC5805D8829A606B9B75D203C3", MEDICARE.source_pdf));
+});
+
+test("a path with a .. segment, or a box that is not four plain decimals, is refused", () => {
+  assert.equal(rowLinks({ ...MEDICARE, source_pdf: "source/../mcp/x.pdf" }, { commit: "3af3c7c" }).source_view, null);
+  assert.equal(rowLinks({ ...MEDICARE, source_pdf: "source/FY27/../../x.pdf" }, { commit: "3af3c7c" }).github, null);
+  assert.ok(rowLinks({ ...MEDICARE, source_pdf: "source/FY27/a..b.pdf" }).source_view, "dots inside a name are fine");
+  for (const b of ["0x10,1,2,3", "1e3,1,2,3", "Infinity,1,2,3", "1.,2,3,4", ".5,2,3,4", "1,2,3"]) {
+    assert.doesNotMatch(rowLinks({ ...MEDICARE, bbox_pt: b }).source_view, /sbox=/, b);
+  }
+  assert.match(rowLinks({ ...MEDICARE, bbox_pt: "-18.00,18,600.5,700" }).source_view, /sbox=-18\.00%2C18%2C600\.5%2C700/);
+});
+
 test("no commit: no GitHub link (the source view needs none)", () => {
   const l = rowLinks(MEDICARE, { label: "x" });
   assert.equal(l.github, null);
   assert.equal(l.raw, null);
   assert.ok(l.source_view);
-  assert.equal(githubLinks("abc", ""), null);
+  assert.equal(githubLinks("3af3c7c", ""), null);
 });
 
 test("a page as text (as CSV rows carry it) gives the same link as a number", () => {

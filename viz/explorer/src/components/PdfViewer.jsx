@@ -3,7 +3,7 @@ import workerSrc from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 import { EventBus, PDFLinkService, PDFViewer } from "pdfjs-dist/web/pdf_viewer.mjs";
 import { useEffect, useRef, useState } from "react";
 
-import { landingSpot, rowBoxOnViewport } from "../query/pdf.js";
+import { landingSpot, landsByJump, rowBoxOnViewport } from "../query/pdf.js";
 
 import "pdfjs-dist/web/pdf_viewer.css";
 
@@ -90,7 +90,7 @@ export default function PdfViewer({ src, initialPage = 1, bbox = "", label, fall
     eventBus.on("pagesinit", async () => {
       const live = () => !cancelled && viewer === viewerRef.current && viewer.pdfDocument;
       viewer.currentScaleValue = "page-width";
-      if (!Number.isInteger(target) || target < 1 || (target === 1 && !bbox)) {
+      if (!landsByJump(target, bbox)) {
         landedRef.current = true;
         return;
       }

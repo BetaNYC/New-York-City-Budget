@@ -64,9 +64,11 @@ carrying `status`. Then:
 - **Source viewer.** Every PDF-derived row opens its page in pdf.js with `bbox_pt` highlighted
   (nyc-eo-explorer's `PdfViewer`). PDFs are read from GitHub pinned to the build commit, like the
   spreadsheets (FY27: 8.5 + 0.7 + 0.2 MB; all PDFs 242 MB, so never copied into Pages). The page
-  opens scrolled to the box, rotated pages included (#211). A row's links (this view, the PDF on
-  GitHub at the build commit, the publisher's copy where a manifest has the same sha256) come from
-  one builder the MCP also uses, `mcp/src/rowlinks.ts`, imported from `mcp/dist/rowlinks.js` (#210).
+  opens scrolled to the box, rotated pages included (#211). Rows with no `bbox_pt` (transparency
+  charts, capital totals, the Terms FSR table) open at the top of their page.
+- **Row links.** Each row gets three links: this view, the PDF on GitHub at the build commit, and
+  the publisher's copy when one matches. One builder makes them for both the explorer and the MCP:
+  `mcp/src/rowlinks.ts`, imported from `mcp/dist/rowlinks.js` (#210).
 - **Schedule C (FY27):** joins the Awards view as a second source beside the disclosure
   spreadsheet, matched on (EIN, amount). The view shows match / PDF-only / spreadsheet-only.
 - **Capital §254:** Part I enriches the existing Capital view, matched on `sub_id` +
