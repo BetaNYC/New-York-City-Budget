@@ -200,6 +200,27 @@ def test_fy22_transparency(built):
                  "District 24 13-3320984 DYCD ($10,000) 260 005")
 
 
+
+def test_fy21_transparency(built):
+    ys = [y for y in rows(built["data/pdf_years.csv"])
+          if y["fiscal_year"] == "2021" and y["family"] == "transparency"]
+    assert len(ys) == 1
+    y = ys[0]
+    assert y["issue"] == "108" and y["status"] == "reviewed" and y["rows"] == "4500"
+    assert y["printed_totals_tied"] == "n/a"
+    rs = {r["row_id"]: r for r in rows(built["data/fy21/pdf/transparency/fy21_tr_rows.csv"])}
+    assert len(rs) == 4500
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rs.values())
+    assert sum(1 for r in rs.values() if r["action"] == "listed" and r["amount"] == "") == 28
+    # Reso 02 p.29: the row under the one with no EIN; Reso 01 p.126: a portrait "Beating
+    # Hearts" page (no agency, no amount).
+    r = rs["fy21-tr02-p029-r021"]
+    assert boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"]) == (
+        "Adams Bartlett Foundation, The - Council District 28 ** 90-0952784 DYCD $10,000 260 005")
+    r = rs["fy21-tr01-p126-r001"]
+    assert boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"]) == (
+        "Koslowitz Ronald McDonald House of Long Island, Inc. 11-2764747")
+
 def test_unrotate():
     # p.40 'H' at display (206.41, 38.68, 214.72, 50.20) on a /Rotate 90 page shown 792 x 612;
     # pdfium's unrotated glyph box is x 39.5-47.8, y-from-top 578.2-584.8.

@@ -12,7 +12,7 @@ Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #1
 `capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
 (via code/parse_transparency_v2.py), all GitHub #103; FY2025 `transparency` (GitHub #104);
 FY2024 `transparency` (GitHub #105); FY2023 `transparency` (GitHub #106); FY2022 `transparency`
-(GitHub #107).
+(GitHub #107); FY2021 `transparency` (GitHub #108).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -317,10 +317,10 @@ def build_schedule_c(scratch, fy=2027):
 
 
 # ------------------------------------------------------------------------------------------
-# Transparency resolutions (FY2026 .. FY2022)
+# Transparency resolutions (FY2026 .. FY2021)
 # ------------------------------------------------------------------------------------------
 
-TR_ISSUE = {2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107}
+TR_ISSUE = {2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108}
 
 
 def tr_note(fy, cfg, rows_, charts):
@@ -359,7 +359,7 @@ def tr_note(fy, cfg, rows_, charts):
 def build_transparency(scratch, fy=2026):
     """Re-run code/parse_transparency_v2.py (all checks, image lattice and ink included) into the
     scratch folder and promote its row, chart, resolution and review tables (GitHub #103 FY2026,
-    #104 FY2025, #105 FY2024, #106 FY2023, #107 FY2022). FY2022 Reso 02's media box starts at
+    #104 FY2025, #105 FY2024, #106 FY2023, #107 FY2022, #108 FY2021). FY2022 Reso 02's media box starts at
     (-8.39, -8.39); the parser already writes its bbox_pt on the rendered page.
 
     One family row in data/pdf_years.csv covers a year's resolution PDFs: `source_pdf` is their
@@ -432,6 +432,7 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy24", "transparency", lambda d: build_transparency(d, 2024)),
             ("fy23", "transparency", lambda d: build_transparency(d, 2023)),
             ("fy22", "transparency", lambda d: build_transparency(d, 2022)),
+            ("fy21", "transparency", lambda d: build_transparency(d, 2021)),
             ("fy26", "schedule_c", lambda d: build_schedule_c(d, fy=2026))]
 
 
