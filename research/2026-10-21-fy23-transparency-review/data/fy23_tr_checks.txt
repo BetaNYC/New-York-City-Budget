@@ -1,0 +1,69 @@
+TRANSPARENCY RESOLUTIONS FY2023 -- checks (code/parse_transparency_v2.py; config config/transparency/fy2023.toml)
+14 PDFs, 697 pages, 656 chart pages, 502 charts
+
+rows: 8,424
+  designate      6,348 rows  $     237,744,972
+  rescind        1,634 rows  $    -232,147,072
+  purpose_from     221 rows  $     -19,043,449
+  purpose_to       221 rows  $      19,043,449
+  budget year 2020: 6 rows
+  budget year 2021: 183 rows
+  budget year 2022: 378 rows
+  budget year 2023: 7,857 rows
+  no budget year printed: 0 rows
+
+PER RESOLUTION (rows; organizations: designations / rescissions; agency side net; purpose rows)
+   1 Res 0255-2022 2022-07-14: 1,782 rows, 56 charts; +1,487 $66,795,010 / 174 $-2,572,721; agency side $-64,040,389; purpose 62
+   2 Res 0288-2022 2022-08-11: 1,752 rows, 49 charts; +1,545 $58,159,201 / 122 $-3,092,700; agency side $-55,066,501; purpose 24
+   3 Res 0327-2022 2022-09-29: 1,569 rows, 55 charts; +1,320 $30,274,080 / 155 $-4,484,871; agency side $-25,373,209; purpose 26
+   4 Res 0363-2022 2022-10-27:   815 rows, 47 charts; +622 $20,908,624 / 133 $-3,665,755; agency side $-17,242,869; purpose 10
+   5 Res 0388-2022 2022-11-22:   428 rows, 38 charts; +284 $6,797,559 / 88 $-1,595,128; agency side $-5,202,431; purpose 24
+   6 Res 0440-2022 2022-12-21:   435 rows, 41 charts; +276 $6,993,835 / 77 $-1,861,536; agency side $-5,132,299; purpose 46
+   7 Res 0457-2023 2023-01-19:   202 rows, 30 charts; +123 $4,709,750 / 42 $-948,231; agency side $1,238,481; purpose 10
+   8 Res 0472-2023 2023-02-02:   561 rows, 41 charts; +216 $16,789,930 / 194 $-16,514,930; agency side $-275,000; purpose 140
+   9 Res 0502-2023 2023-02-16:   144 rows, 31 charts; +72 $2,383,270 / 50 $-1,129,398; agency side $-1,253,872; purpose 10
+  10 Res 0508-2023 2023-03-02:   256 rows, 29 charts; +138 $11,011,985 / 105 $-9,771,985; agency side $-1,240,000; purpose 10
+  11 Res 0530-2023 2023-03-16:   137 rows, 17 charts; +56 $1,153,000 / 40 $-683,000; agency side $-470,000; purpose 30
+  12 Res 0575-2023 2023-04-27:   208 rows, 37 charts; +87 $2,435,627 / 82 $-2,425,327; agency side $-10,300; purpose 36
+  13 Res 0607-2023 2023-05-11:    25 rows, 8 charts; +12 $179,834 / 10 $-144,834; agency side $-35,000; purpose 2
+  14 Res 0705-2023 2023-06-30:   110 rows, 23 charts; +45 $1,208,088 / 48 $-1,531,088; agency side $323,000; purpose 12
+
+HARD CHECKS
+  ok    T1.input             14 PDFs, 697 pages; 0 differ from config
+  ok    T2.triage            697 pages surveyed; 0 fail the text-layer gate
+  ok    T3.charts            502 charts on 656 pages; printed chart counts tie on 0 of 0 resolutions that print one; 0 caption problems; 0 numbering problems; 4 chart pages print no 'Page n' label (named exceptions, counted by the labels around them); 1 chart's first page prints '(continued)' (named exception, read as the chart's start)
+  ok    T4.headers           0 unrecognised headers
+  ok    T5.anchors           8424 EIN-shaped words on the visible text (8423 counting clipped letters), 8424 rows with an EIN; 0 pages differ; 0 rows without a readable amount; 0 rows print no EIN; 4 drawn rows print nothing and are not rows (Reso 01 p.67 row 22, Reso 03 p.83 row 4, Reso 06 p.53 row 11, Reso 06 p.53 row 12)
+  ok    T6.furniture         0 data cells holding header/footer text; 0 unexpected lines under tables
+  ok    T7.chars             989989 non-space chars; 0 in a table but in no cell; 13 clipped (hidden) chars in 4 runs, each listed for review
+  ok    T10.sign_colour      1855 amounts in parentheses, all red; 0 rows where sign and colour disagree
+  ok    T11.markers          1593 rows marked **, 105 marked ***, 5 pending pre-qualification; 18 without their footnote or with an odd * cell (18 a named exception in the config, kept as printed and in the review file)
+  ok    T12.fiscal_year      502 charts print a fiscal year, all named in their resolution's text; 0 print none (warn, in the review file); 0 name a year the text does not (0 a named exception in the config, kept as printed and in the review file)
+  ok    T13.dates            14 resolutions print their date and it matches; all 14 filename dates equal the Legistar adoption dates in the config
+  ok    T14.provenance       8424 row ids, 8424 unique
+  ok    T15.printed_totals   0 money amounts printed outside the tables on chart pages: the FY2023 charts print no totals, so there is nothing to tie (the arithmetic is reported, not checked)
+  ok    T16.values           0 clean values not reproducible from raw
+
+IMAGE LATTICE (H8): rows rebuilt from code/ocr/grid.py lattices, compared field by field
+  agree on every field: 8,424 of 8,424
+  image rows with no vector row: 0
+  header rules found in header pixels (not in the lattice): 21 pages
+INK COVERAGE (H9): uncovered-ink regions inside the chart tables
+  regions: 0  uncovered px total: 202 of 281,698,450 ink px
+  acceptance on Reso 01 p.7 (fy23-tr01-p007-r001): clean run 0 regions; row withheld -> 8; one char withheld -> 1 (PASS)
+
+DISCLOSURE (report-only; data/fyNN/expense_disclosure)
+  budget year 2020: 2 organization designations; 1 found in the disclosure on (EIN, amount) ($5,000); not found: amount_differs 1
+  budget year 2021: 81 organization designations; 72 found in the disclosure on (EIN, amount) ($594,500); not found: amount_differs 1, city_ein_name_mismatch 2, ein_not_in_disclosure 1, later_rescinded 5
+  budget year 2022: 150 organization designations; 135 found in the disclosure on (EIN, amount) ($2,884,777); not found: amount_differs 2, ein_not_in_disclosure 2, later_rescinded 11
+  budget year 2023: 6,050 organization designations; 5,525 found in the disclosure on (EIN, amount) ($200,883,527); not found: amount_differs 88, city_ein_name_mismatch 10, ein_not_in_disclosure 4, key_already_claimed 20, later_rescinded 403
+  rescissions of organizations: 1,320; where the money was designated before: earlier_resolution 671, not_found 202, partial 104, schedule_c 343
+
+RETIRED CSV (data/fy23/transparency-resolutions/fy23_transparency_all.csv, old parser)
+  retired rows 8,354; these rows 8,424; same (resolution, EIN, amount) 8,354; only here 70 (EIN printed: hyphen 9, no_hyphen 61); only in the retired file 0
+
+ROW FLAG COUNTS (all listed in flags.csv; review file holds only those that could change a value)
+  amount_zero 2, clipped_text 4, ein_no_hyphen 68, made_cell_empty 226, marker_without_footnote 18, spanning_cell 144, unpaired_purpose 8, wrap_hyphen 31
+  zero-width chars dropped: 0
+
+REVIEW FILE: 45 rows (18 critical, 27 warn); stale decisions: 0

@@ -27,17 +27,27 @@ LABELS = {
 REQUIRED = {"org", "ein", "agency", "amount"}
 # "- Fiscal YYYY" closes the caption; Reso 07 p.12 prints "Assistance- Fiscal 2026" (no space).
 # FY2025 Reso 11 p.6 prints "CHART #4 Anti-Poverty" with no colon (flagged W.caption_format).
-CAPTION = re.compile(r"^CHART #(\d+):?\s*(.*?)(?:\s*-\s+Fiscal (\d{4}))?(\s*\(continued\))?$")
+# FY2023 prints "CHART 41:" (no "#", Reso 01 p.81), "- FY 2023" for "- Fiscal 2023" (Reso 01
+# p.66, Reso 09 pp.21-25) and "(cpntinued)" (Reso 03 p.20); each is read and flagged
+# W.caption_format.
+CAPTION = re.compile(r"^CHART #?(\d+):?\s*(.*?)(?:\s*-\s+(?:Fiscal|FY) (\d{4}))?"
+                     r"(\s*\(c[a-z]ntinued\))?$")
 PAGE_LABEL = re.compile(r"^Page\s(\d+)$")   # FY2024 Reso 01: "Page\xa01" (no-break space)
 AMOUNT = re.compile(r"^(\()?\$(\d{1,3}(?:,\d{3})*)(\))?$")
 EIN_HYPHEN = re.compile(r"^\d{2}-\d{7}$")
 EIN_PLAIN = re.compile(r"^\d{9}$")
 MARKER = re.compile(r"\s*(\*{1,3})$")
 FOOTNOTES = {
-    "*": "* Indicates pending completion of pre-qualification review.",
-    "**": "** Requires a budget modification for the changes to take effect",
-    "***": "*** Correction to designation listed in Schedule C and/or subsequent T",
+    "*": ("* Indicates pending completion of pre-qualification review.",),
+    "**": ("** Requires a budget modification for the changes to take effect",),
+    "***": ("*** Correction to designation listed in Schedule C and/or subsequent T",
+            "*** Correction and/or Reversal of a change made in a previous Transparency"),  # FY2023
 }
+
+
+def footnote_of(line):
+    """The marker whose footnote this printed line is, or None."""
+    return next((k for k, vs in FOOTNOTES.items() if any(line.startswith(v) for v in vs)), None)
 CITY_EIN = "136400434"
 
 
@@ -73,7 +83,7 @@ def caption_of(page, table):
 def build(res, pages, x_tolerance, doc_fy=2026):
     """One resolution's pages -> dict(rows, charts, flags, page_info). `doc_fy` is the document year
     (the row id prefix)."""
-    rows, charts, flags, info = [], {}, [], []
+    rows, charts, flags, info, empty = [], {}, [], [], []
     seq = res["seq"]
 
     def flag(check, page, msg, severity="critical", **kw):
@@ -100,21 +110,33 @@ def build(res, pages, x_tolerance, doc_fy=2026):
         num, title, fy, cont = int(m.group(1)), m.group(2), m.group(3), bool(m.group(4))
         pi.update(chart_number=num, continued=int(cont))
         if not cap.startswith(f"CHART #{m.group(1)}:"):
-            flag("W.caption_format", p["page"], f"caption prints no ':' after the chart number: "
+            what = ("no '#' before" if not cap.startswith("CHART #") else "no ':' after")
+            flag("W.caption_format", p["page"], f"caption prints {what} the chart number: "
                  f"{cap[:80]!r}; read as chart #{num}", severity="warn", chart_number=num)
+        elif fy and not re.search(r"-\s+Fiscal \d{4}", cap) or cont and "(continued)" not in cap:
+            flag("W.caption_format", p["page"], f"caption prints "
+                 f"{'FY YYYY for Fiscal YYYY' if fy and 'Fiscal' not in cap else 'a misspelt (continued)'}: "
+                 f"{cap[:80]!r}; read as chart #{num}, Fiscal {fy}"
+                 f"{' (continued)' if cont else ''}", severity="warn", chart_number=num)
         labels = [ln["text"] for ln in below]
         pl = [int(PAGE_LABEL.match(x).group(1)) for x in labels if PAGE_LABEL.match(x)]
         pi["page_label"] = pl[0] if len(pl) == 1 else ""
-        notes = sorted(k for k, v in FOOTNOTES.items() if any(x.startswith(v) for x in labels))
+        notes = sorted({footnote_of(x) for x in labels} - {None})
         pi["footnotes"] = " ".join(notes)
-        other = [x for x in labels if not PAGE_LABEL.match(x) and
-                 not any(x.startswith(v) for v in FOOTNOTES.values())]
+        other = [x for x in labels if not PAGE_LABEL.match(x) and not footnote_of(x)]
         # Footnote 3 wraps onto a second line ("…Transparency Resolution(s)"); anything else
         # below a table is unexpected text and goes to review.
         other = [x for x in other if not ("***" in notes and x.startswith("Resolution"))]
         for x in other:
             flag("T6.furniture", p["page"], f"unexpected text below the table: {x[:100]!r}")
 
+        if cont and num not in charts and (prev_chart or {}).get("chart_number") == num - 1:
+            # FY2023 Reso 08 p.32: the first page of chart #25 prints "(continued)". Read as the
+            # start of the chart; allowed only as a named exception (T3.continued_start).
+            flag("T3.continued_start", p["page"], f"first page of chart #{num} prints "
+                 f"'(continued)': {cap[:80]!r}; read as the start of the chart", severity="warn",
+                 chart_number=num)
+            cont = False
         if cont:
             if not prev_chart or prev_chart["chart_number"] != num or prev_chart["title"] != title \
                     or prev_chart["fy_printed"] != (fy or ""):
@@ -153,6 +175,11 @@ def build(res, pages, x_tolerance, doc_fy=2026):
         ch["kind"] = kind
 
         for r in t["rows"]:
+            if not any(c["text_raw"] or c["hidden"] for c in r["cols"].values()):
+                # A drawn row with nothing printed in it (FY2023 Reso 01 p.67, Reso 03 p.83,
+                # Reso 06 p.53): not a change. Counted, not kept.
+                empty.append(dict(resolution_seq=seq, pdf_page=p["page"], row_index=r["row_index"]))
+                continue
             raw = {roles[int(j)]: c["text_raw"] for j, c in r["cols"].items() if roles.get(int(j))}
             red = {roles[int(j)]: c["red"] for j, c in r["cols"].items() if roles.get(int(j))}
             nchars = {roles[int(j)]: c["nchars"] for j, c in r["cols"].items() if roles.get(int(j))}
@@ -233,4 +260,5 @@ def build(res, pages, x_tolerance, doc_fy=2026):
             rows.append(rec)
             pi["rows"] += 1
 
-    return dict(rows=rows, charts=list(charts.values()), flags=flags, page_info=info)
+    return dict(rows=rows, charts=list(charts.values()), flags=flags, page_info=info,
+                empty_rows=empty)

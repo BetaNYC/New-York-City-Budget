@@ -277,3 +277,76 @@ def test_snapshot_fy24_rows_and_checks():
     txt = open(os.path.join(OUT24, "fy24_tr_checks.txt"), encoding="utf-8").read()
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "(PASS)" in txt and "agree on every field: 3,303 of 3,303" in txt
+
+
+# --- FY2023 (#106) --------------------------------------------------------------------------------
+CFG23 = ptv.load_config(2023)
+OUT23 = os.path.join(ROOT, CFG23["review_dir"], "data")
+PDF23 = {r["seq"]: os.path.join(ROOT, r["pdf"]) for r in CFG23["resolutions"]}
+
+
+def test_caption_variants_fy23():
+    # Reso 01 p.81: no "#"; Reso 01 p.66 and Reso 09 pp.21-25: "FY 2023"; Reso 03 p.20: a typo.
+    m = structure.CAPTION.match("CHART 41: Neighborhood Development Grant Initiative - Fiscal 2022")
+    assert m.groups()[:3] == ("41", "Neighborhood Development Grant Initiative", "2022")
+    m = structure.CAPTION.match("CHART #26: Financial Empowerment for NYC's Renters - FY 2023")
+    assert m.groups()[:3] == ("26", "Financial Empowerment for NYC's Renters", "2023")
+    m = structure.CAPTION.match("CHART #8: A Greener NYC - Fiscal 2023 (cpntinued)")
+    assert m.groups()[:3] == ("8", "A Greener NYC", "2023") and m.group(4)
+
+
+def test_footnote_variants_fy23():
+    assert structure.footnote_of("*** Correction and/or Reversal of a change made in a previous "
+                                 "Transparency Resolution.") == "***"
+    assert structure.footnote_of("** Requires a budget modification for the changes to take effect.") == "**"
+    assert structure.footnote_of("Page 1") is None
+
+
+def _build23(seq, page):
+    p = reader.read_pdf(PDF23[seq], CFG23["x_tolerance"], CFG23["run_gap_pt"], pages=[page])[0]
+    res = next(r for r in CFG23["resolutions"] if r["seq"] == seq)
+    return structure.build(res, [p], CFG23["x_tolerance"], 2023)
+
+
+def test_golden_fy23_continued_first_page_reso08_p32():
+    # The first page of chart #25 prints "(continued)"; both rows are kept, chart #25 starts here.
+    p = reader.read_pdf(PDF23[8], CFG23["x_tolerance"], CFG23["run_gap_pt"], pages=[31, 32])
+    res = next(r for r in CFG23["resolutions"] if r["seq"] == 8)
+    S = structure.build(res, p, CFG23["x_tolerance"], 2023)
+    assert [f["check_id"] for f in S["flags"]] == ["T3.continued_start"]
+    rs = [r for r in S["rows"] if r["chart_number"] == 25]
+    assert [(r["org"], r["org_marker"], r["ein"], r["agency"], r["amount"]) for r in rs] == [
+        ("Legal Aid Society", "**", "135562265", "MOCJ", -1000000),
+        ("Legal Aid Society", "**", "135562265", "DYCD", 1000000)]
+
+
+def test_golden_fy23_empty_drawn_row_reso01_p67():
+    # The last drawn row under chart #27 (Stabilizing NYC) prints nothing: counted, not a row.
+    S = _build23(1, 67)
+    assert S["empty_rows"] == [dict(resolution_seq=1, pdf_page=67, row_index=22)]
+    assert S["rows"][-1]["org"] == "Woodside on the Move, Inc." and S["rows"][-1]["amount"] == 160000
+
+
+def test_golden_fy23_clipped_org_reso01_p85():
+    # "… Summer Day Camp & Enrichm" shows; "ent Academy" is hidden under the EIN cell.
+    S = _build23(1, 85)
+    r = next(r for r in S["rows"] if r["row_index"] == 7)
+    assert r["org"].endswith("Summer Day Camp & Enrichm") and r["hidden_text"] == "org: ent Academy"
+    assert (r["member"], r["ein"], r["amount"]) == ("Hudson", "112870465", -4000)
+
+
+def test_snapshot_fy23_rows_and_checks():
+    path = os.path.join(OUT23, "fy23_tr_rows.csv")
+    if not os.path.exists(path):
+        pytest.skip("fy23 not built")
+    rows = list(csv.DictReader(open(path, encoding="utf-8")))
+    assert len(rows) == 8424
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rows)
+    by = {}
+    for r in rows:
+        by[r["resolution_seq"]] = by.get(r["resolution_seq"], 0) + 1
+    assert by == {"1": 1782, "2": 1752, "3": 1569, "4": 815, "5": 428, "6": 435, "7": 202,
+                  "8": 561, "9": 144, "10": 256, "11": 137, "12": 208, "13": 25, "14": 110}
+    txt = open(os.path.join(OUT23, "fy23_tr_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "(PASS)" in txt and "agree on every field: 8,424 of 8,424" in txt

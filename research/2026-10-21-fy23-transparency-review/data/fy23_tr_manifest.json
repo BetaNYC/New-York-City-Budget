@@ -1,0 +1,27 @@
+{
+  "config": "config/transparency/fy2023.toml",
+  "config_sha256": "f9609dbb513bac2854d696b13381327b1ed9d1674df74a1657fa9a6858718b3c",
+  "fiscal_year": 2023,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdfium": "156.0.8076.0",
+  "pdfplumber": "0.11.10",
+  "pdfs": {
+    "source/FY23/transparency-resolutions/Transparency-Reso-01-2022-07-14.pdf": "28ccf338d2c389c7819db0495ba6adc5ac1e0db1c5001ff3712a7a033b5415e1",
+    "source/FY23/transparency-resolutions/Transparency-Reso-02-2022-08-11.pdf": "e4edb05688dc9bf475a194f807eea483b118908969b111e55aec3ef5824b706b",
+    "source/FY23/transparency-resolutions/Transparency-Reso-03-2022-09-29.pdf": "153141571e6cd722fdd9b0abbd122309896b28a6e0d05090fb66044a5fcfdb7e",
+    "source/FY23/transparency-resolutions/Transparency-Reso-04-2022-10-27.pdf": "f3bc38f3527b8517bd94cf034b20af727a6f0c99bdea0f83bbc1d605ca90307d",
+    "source/FY23/transparency-resolutions/Transparency-Reso-05-2022-11-22.pdf": "c2b021902ec80a9db3e6af4f3662493e408cd1f07a89317ccdd6035710bfea4c",
+    "source/FY23/transparency-resolutions/Transparency-Reso-06-2022-12-21.pdf": "f27db224df9a7cac3b13960fba9c29a3ede44a80e1374e50b8faa9dbb4c3c974",
+    "source/FY23/transparency-resolutions/Transparency-Reso-07-2023-01-19.pdf": "2c20d91d8f3f230b8d3f0d7310cdb912e431bba474ef87e2ca13325360c2ced6",
+    "source/FY23/transparency-resolutions/Transparency-Reso-08-2023-02-02.pdf": "aa12d6e0f50e22ff9ac2138f6fafb995d7ba6529e10d3b5727069c5c9e222f81",
+    "source/FY23/transparency-resolutions/Transparency-Reso-09-2023-02-16.pdf": "ebf3274d50a7df732588031ba0ccaf1412f7cb86cbf04eca3079a9e252281594",
+    "source/FY23/transparency-resolutions/Transparency-Reso-10-2023-03-02.pdf": "50df25f9ec6fd53aea702fc1f1621ab157136af1dcd1b887d6c285ef311cafb6",
+    "source/FY23/transparency-resolutions/Transparency-Reso-11-2023-03-16.pdf": "fd5855b08dca49ebad05b67a98ab1d09fdc723f36e46eac74729d235d0365ddf",
+    "source/FY23/transparency-resolutions/Transparency-Reso-12-2023-04-27.pdf": "59c4dbeb85b2517ba08658baafd365365d282ce2fcc503c1e068550ee7a2574e",
+    "source/FY23/transparency-resolutions/Transparency-Reso-13-2023-05-11.pdf": "f3a79bb95ef92e189539a15dd948b00d6eb624f705cfc0aca8ab1f1fa21b1f2a",
+    "source/FY23/transparency-resolutions/Transparency-Reso-14-2023-06-30.pdf": "e673e7c886eeac44b9108d99750db958b4d3805e83579db2623db69b88890df8"
+  },
+  "pypdfium2": "5.14.0",
+  "python": "3.12.13"
+}

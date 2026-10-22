@@ -75,6 +75,12 @@ def run(cfg, R, S):
 
     # T3
     t3 = [f for f in S["flags"] if f["check_id"] == "T3.charts"]
+    # A chart's first page printing "(continued)" is read as its start, allowed only as a named
+    # exception (FY2023 Reso 08 p.32).
+    cs_exc = {(e["resolution_seq"], e["pdf_page"]) for e in cfg.get("exceptions", [])
+              if e["check_id"] == "T3.continued_start"}
+    cs = {(f["resolution_seq"], f["pdf_page"]) for f in S["flags"] if f["check_id"] == "T3.continued_start"}
+    t3 += [dict(resolution_seq=k[0], pdf_page=k[1]) for k in sorted(cs ^ cs_exc)]
     gaps = []
     # A chart page that prints no "Page n" label is allowed only as a named exception; the
     # labels that are printed must still count every chart page (FY2025 Reso 02 pp.74-75).
@@ -105,7 +111,9 @@ def run(cfg, R, S):
         f"{sum(1 for r in R if r['res']['charts_printed'])} resolutions that print one; "
         f"{len(t3)} caption problems; {len(gaps)} numbering problems"
         + (f"; {len(unlab_seen)} chart pages print no 'Page n' label (named exceptions, counted "
-           f"by the labels around them)" if unlab else ""))
+           f"by the labels around them)" if unlab else "")
+        + (f"; {len(cs & cs_exc)} chart's first page prints '(continued)' (named exception, read "
+           f"as the chart's start)" if cs_exc else ""))
     for s_, pg in sorted(unlab_seen):
         flag("T3.page_label", s_, pg, "chart page prints no 'Page n' label; the next label "
              "counts it (named exception in the config)", severity="warn")
@@ -128,10 +136,14 @@ def run(cfg, R, S):
                 diffs.append((k, p["ein_tokens"], by_page.get(k, 0)))
     no_amt = [r for r in rows if r["amount"] is None]
     no_ein = [r for r in rows if not r["ein"]]
+    empty = S.get("empty_rows", [])
     out("T5.anchors", not diffs and not no_amt,
         f"{n_tok} EIN-shaped words on the visible text ({n_tok_all} counting clipped letters), "
         f"{sum(by_page.values())} rows with an EIN; {len(diffs)} pages differ; "
-        f"{len(no_amt)} rows without a readable amount; {len(no_ein)} rows print no EIN")
+        f"{len(no_amt)} rows without a readable amount; {len(no_ein)} rows print no EIN"
+        + (f"; {len(empty)} drawn rows print nothing and are not rows (" +
+           ", ".join(f"Reso {e['resolution_seq']:02d} p.{e['pdf_page']} row {e['row_index']}"
+                     for e in empty) + ")" if empty else ""))
     for (s, pg), w, n in diffs:
         flag("T5.anchors", s, pg, f"{w} EIN-shaped words but {n} rows with an EIN")
     for a in no_amt:
