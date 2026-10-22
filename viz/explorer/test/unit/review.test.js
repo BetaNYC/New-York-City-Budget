@@ -36,6 +36,15 @@ describe("decision buttons", () => {
     expect(R.decide("suggestion", items[0], opts).note).toBe("Suggestion accepted: keep");
     expect(() => R.decide("suggestion", items[1], opts)).toThrow(/no suggested decision/);
   });
+  test("accepting a page-image suggestion keeps what the page shows in the note (#209)", () => {
+    const it = { family: "schedule_c", fiscal_year: 2023, review_id: "42eba5fef74a", severity: "warn", check_id: "H5.anchors",
+      suggested_decision: "read_from_page_image", suggested_note: 'page shows ein: "87-0753479" (text layer "87 0753479")' };
+    const d = R.decide("suggestion", it, opts);
+    expect(d.decision).toBe("read_from_page_image");
+    // code/page_image.py reads the value from anywhere in the note.
+    expect(d.note).toMatch(/page shows ein: "87-0753479"/);
+    expect(R.suggestionLabel(it)).toBe("Accept suggestion → use what the page shows");
+  });
   test("change to… records parser_bug with the value", () => {
     expect(R.decide("change", items[0], { ...opts, change: "HR CC0168", note: "see p.47" })).toMatchObject({ decision: "parser_bug", note: "change to: HR CC0168 — see p.47" });
     expect(() => R.decide("change", items[0], opts)).toThrow(/change to/);

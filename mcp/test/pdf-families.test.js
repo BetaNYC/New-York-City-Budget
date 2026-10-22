@@ -80,6 +80,29 @@ test("a reviewed build loads exactly the families data/pdf_years.csv lists", () 
   }
 });
 
+test("the schema fields decided in #209 load (W8, #217)", () => {
+  // FAILS if a sub-award loses its award, a sub-award is counted as an award, or a "no dollar
+  // amount" row carries an amount (every SUM must skip it).
+  const db = new Database(REVIEWED_DB, { readonly: true });
+  try {
+    for (const fy of [2019, 2018]) {
+      const subs = db.prepare(`SELECT s.amount, a.amount AS parent_amount, a.ein AS parent_ein FROM pdf_schedule_c_subawards s
+        LEFT JOIN pdf_schedule_c a ON a.fiscal_year = s.fiscal_year AND a.award_id = s.parent_award_id WHERE s.fiscal_year = ?`).all(fy);
+      assert.equal(subs.length, 28, `FY${fy} sub-awards`);
+      assert.equal(subs.reduce((t, r) => t + r.amount, 0), 4463500, `FY${fy} sub-award total`);
+      assert.ok(subs.every((r) => r.parent_amount === 5154200 && r.parent_ein === "133564313"), `FY${fy} parent is CWE's Jobs to Build On award`);
+    }
+    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_schedule_c_subawards WHERE fiscal_year NOT IN (2018, 2019)"), 0);
+    const nd = db.prepare("SELECT fiscal_year AS fy, COUNT(*) AS n, COUNT(amount) AS with_amount FROM pdf_transparency WHERE amount_kind = 'no_dollar_amount' GROUP BY 1 ORDER BY 1").all();
+    assert.deepEqual(nd.map((r) => [r.fy, r.n, r.with_amount]), [[2018, 136, 0], [2019, 112, 0], [2020, 73, 0], [2021, 28, 0], [2022, 91, 0]]);
+    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_transparency WHERE amount_kind = 'dollar_amount' AND amount IS NULL"), 0);
+    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_schedule_c WHERE fiscal_year = 2019 AND review_not_completed = 1"), 304);
+    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_schedule_c WHERE fiscal_year = 2018 AND fiscal_conduit <> ''"), 50);
+  } finally {
+    db.close();
+  }
+});
+
 /** Call every tool with a fixed set of arguments against the server module at `serverPath`. */
 function answers(serverPath) {
   const script = `

@@ -10,12 +10,19 @@
  */
 
 export const DECISIONS_HEADER = ["review_id", "decision", "note", "decided_by", "decided_at"];
-export const DECISIONS = ["source_error", "parser_bug", "accepted_as_printed", "needs_info"];
+/**
+ * read_from_page_image (#209): the page and the PDF's text layer disagree and the reviewer confirmed
+ * what the page shows; its note says so, `page shows <field>: "<value>"` (code/page_image.py), and
+ * the readers use that value, flagged. Today it is recorded by accepting a suggestion that carries
+ * the note; code/validate_review_decisions.py rejects one whose note does not say what the page shows.
+ */
+export const DECISIONS = ["source_error", "parser_bug", "accepted_as_printed", "needs_info", "read_from_page_image"];
 export const DECISION_LABEL = {
   accepted_as_printed: "kept as printed",
   source_error: "the PDF's own error",
   parser_bug: "our reading is wrong",
   needs_info: "needs more information",
+  read_from_page_image: "read from the page image",
 };
 /** What a decision records, as a button says it ("Accept suggestion → keep as printed"). */
 export const DECISION_ACTION = {
@@ -23,6 +30,7 @@ export const DECISION_ACTION = {
   source_error: "source error",
   parser_bug: "our reading is wrong",
   needs_info: "needs more information",
+  read_from_page_image: "use what the page shows",
 };
 
 /** The "Accept suggestion" button's label: it names the decision it will record. */
