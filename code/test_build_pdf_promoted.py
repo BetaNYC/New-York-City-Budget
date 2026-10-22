@@ -232,3 +232,16 @@ def test_fy21_schedule_c(built):
     r = next(r for r in aw if r["award_id"] == "fy21-p045-t00-r002")
     t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
     assert "Instituto Arte Teatral" in t and "ID Studio" not in t
+
+
+def test_fy20_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2020" and y["family"] == "schedule_c")
+    assert y["issue"] == "109" and y["status"] == "reviewed" and y["rows"] == "7921"
+    assert y["printed_totals_tied"] == "27/27"
+    aw = rows(built["data/fy20/pdf/schedule_c/fy20_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 336750073
+    # An Appendix A row printed with no "$" (#59); its box holds it, not its neighbours.
+    r = next(r for r in aw if r["award_id"] == "fy20-p190-t00-r002")
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "Wellness Program" in t and "19,000" in t and "Abe Stark" not in t
