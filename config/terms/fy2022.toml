@@ -1,0 +1,29 @@
+# FY2022 Terms and Conditions: every year-specific fact code/review_terms.py needs.
+
+fiscal_year = 2022
+pdf = "source/FY22/FY22-Terms-and-Conditions_FINAL.pdf"
+sha256 = "39336f5657224623a460e3403cca074b601c709151c4baf467ff3dc0fecb24b9"
+review_dir = "research/2026-10-21-fy22-capital-terms-review"   # outputs land in <review_dir>/data
+prefix = "fy22"                                                # output file names: <prefix>_terms_*
+issue = 107
+old_csv = "data/fy22/terms/fy22_terms_and_conditions.csv"      # the retired parse, compared in T7
+
+# FY2022 prints no condition numbers, as FY2023 and FY2024 (p.2: "Administration for Children's
+# Services (068)"): item_number is the condition's order in the book.
+numbered = false
+
+# The DOE Financial Status Report table starts on p.8 and ends on p.9; find_tables finds nothing on
+# any other page.
+table_pages = [8, 9]
+
+# FY2022 prints no page numbers or other furniture (no character above 70 pt or below 705 pt on any
+# page): the pattern matches nothing.
+[furniture]
+pattern = '(?!)'
+top_min = 10000
+top_max = 10000
+
+# The one ruled table (DOE Financial Status Reports, pp.8-9) belongs to this condition (its body
+# ends "for the following dates:").
+[fsr_table]
+item_number = 21

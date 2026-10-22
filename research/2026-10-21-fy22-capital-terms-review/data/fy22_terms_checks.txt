@@ -1,0 +1,27 @@
+FY2022 Terms and Conditions: checks
+pdf: source/FY22/FY22-Terms-and-Conditions_FINAL.pdf
+sha256: 39336f5657224623a460e3403cca074b601c709151c4baf467ff3dc0fecb24b9
+
+T5 p.8: vector 5 x / 7 y separators; image 5 x / 7 y; unmatched vector x[] y[], image x[] y[]
+T5 p.9: vector 5 x / 2 y separators; image 5 x / 2 y; unmatched vector x[] y[], image x[] y[]
+T5 FSR table cells: 28 identical under both lattices, 0 differ
+T1 numbered conditions: 50; run 1..50; gaps []; repeats []; in order: True
+   the PDF prints no numbers (item_number = order in the book); paragraphs opening 'As a condition' at the left margin: 50
+T2 unit/budget-line heading lines: page text 134, in conditions 134, difference {}
+   of which 'Unit of Appropriation' lines: 128
+T3 body names exactly the heading's units and lines: 48/50
+T4 characters outside furniture and tables not in any condition: 0
+T6 ink coverage: 18 pages, 0 uncovered regions
+T7 old CSV: 50 rows, new 50; first agency equal 47; text equal ignoring whitespace 43
+   mid-word splits (join is a word in the new text, halves are not): old 19, new 0
+W wrap_hyphen joins (line ended in a hyphen; joined with none): 4 conditions
+Conditions naming more than one agency: [2, 14, 28, 32, 33]
+Kinds: {'expense': 45, 'capital': 3, 'capital+expense': 2}
+
+review.csv by check:
+  T2.no_agency_code      warn     2
+  T3.body_vs_heading     warn     2
+  T7.old_csv_agency      warn     3
+  T7.old_csv_text        warn     7
+  T7.old_csv_units       warn     8
+  W.wrap_hyphen          warn     4

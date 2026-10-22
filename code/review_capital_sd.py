@@ -1,6 +1,6 @@
 """
 Section 254 capital supporting detail: parse, tie out and review (epic #101; FY2027 #102,
-FY2026 #103, FY2025 #104, FY2024 #105, FY2023 #106).
+FY2026 #103, FY2025 #104, FY2024 #105, FY2023 #106, FY2022 #107).
 
 One parser, one config per year: config/capital_sd/fyNNNN.toml holds the PDF, its sha256, the
 page map, the FY columns and the other year-specific facts. FY2027 (the default) is
@@ -10,7 +10,8 @@ rotated /Rotate 90); FY2026 is source/FY26/Fiscal-2026-Capital-Budget-Supporting
 Council-Version-24.07.17.pdf (87 pages, all Parts upright, Part III a third export); FY2024 is
 source/FY24/FY2024-Sec254-Supporting-Detail-Book_7.10.2023pwp-2.pdf (78 pages, encrypted with an
 empty user password); FY2023 is source/FY23/FY23-Sec254-Capital-Supporting-Detail-Book.pdf (89 pages,
-the City seal on its cover). Rules a later
+the City seal on its cover); FY2022 is source/FY22/FY22-Sec254-Capital-Supporting-Detail-Book.pdf
+(92 pages, IDs such as `TANC1`). Rules a later
 year needed and an earlier one must not get are config switches, off by default, so a reviewed
 year's output stays byte-identical.
 
@@ -43,7 +44,7 @@ Checks (each prints its numbers to checks.txt; failures go to review.csv):
   C8 ink coverage: rendered ink not under an emitted character or a vector rule
   C9 alignment with data/capital/council_capital_awards.csv (report only, never fills a value)
 
-Run:  .venv/bin/python code/review_capital_sd.py [--fy 2027|2026|2025|2024|2023] [--out DIR] [--no-ink] [--selftest-ink]
+Run:  .venv/bin/python code/review_capital_sd.py [--fy 2027|2026|2025|2024|2023|2022] [--out DIR] [--no-ink] [--selftest-ink]
 """
 import argparse
 import collections
@@ -71,7 +72,8 @@ BLOCK_GAP = 12.0          # pt between line tops: below = same cell (leading ~9.
                           # cell (>= 14.4 measured). Re-measured in checks.txt every run.
 AMOUNT_X1_TOL = 3.0       # an amount is right-aligned to its FY header's right edge
 NEAR_TOL = 6.0            # a word outside every row band may join the nearest band within this
-AMOUNT_RE = re.compile(r"^-?\$?[\d,]+$|^\$?\([\d,]+\)$")   # FY2026 Part III: "(183,000)"
+# Negative amounts: FY2026 Part III "(183,000)"; FY2022 p.86 "($72,000)", its $ inside the brackets
+AMOUNT_RE = re.compile(r"^-?\$?[\d,]+$|^\$?\([\d,]+\)$|^\(\$[\d,]+\)$")
 SUB_CODE_RE = re.compile(r"^[A-Z]{1,3}$")
 SUB_ID_RE = re.compile(r"^[A-Z]{2}\d{3,5}$")
 CID_TAB = "(cid:9)"
@@ -84,7 +86,8 @@ def configure(fy):
     PAGE_MAP is checked against the page furniture in triage() (a page that disagrees fails).
     EXPORT_FONTS: the Word export's fonts on detail pages; text in any other font was typed in
     later. Every other year-specific value is read from CFG where it is used."""
-    global CFG, FY, TAG, PREFIX, PDF, PDF_SHA256, OUT, PAGE_MAP, FYS, EXPORT_FONTS, BOLD_FONTS
+    global CFG, FY, TAG, PREFIX, PDF, PDF_SHA256, OUT, PAGE_MAP, FYS, EXPORT_FONTS, BOLD_FONTS, \
+        SUB_ID_EXTRA_RE
     with open(os.path.join(CONFIG_DIR, f"fy{fy}.toml"), "rb") as f:
         CFG = tomllib.load(f)
     FY = CFG["fiscal_year"]
@@ -99,6 +102,10 @@ def configure(fy):
     EXPORT_FONTS = tuple(CFG["export_fonts"])
     # Bold faces whose names do not say "Bold" (FY2025 Part III: CIDFont+F1). Default none.
     BOLD_FONTS = frozenset(CFG.get("bold_fonts", ()))
+    # ID numbers outside SUB_ID_RE that this year prints (FY2022: `TANC1`, `KBP01`), each listed
+    # in full in config `extra_sub_ids`. Default none: matches nothing.
+    SUB_ID_EXTRA_RE = re.compile("^(?:" + "|".join(map(re.escape, CFG.get("extra_sub_ids", ()))) + ")$"
+                                 if CFG.get("extra_sub_ids") else r"(?!)")
 
 
 def pages_of(kind):
@@ -288,7 +295,8 @@ def classify_line(ln, cols):
     if re.fullmatch(r"Page \d+ of \d+", " ".join(texts)):
         return "footer"
     first = [w for w in ln if column_of(w, cols) == "sub_id"]
-    if len(first) >= 2 and SUB_CODE_RE.match(first[0]["text"]) and SUB_ID_RE.match(first[1]["text"]):
+    if len(first) >= 2 and SUB_CODE_RE.match(first[0]["text"]) and (
+            SUB_ID_RE.match(first[1]["text"]) or SUB_ID_EXTRA_RE.match(first[1]["text"])):
         return "anchor"
     if all(w["bold"] for w in ln) and not any(AMOUNT_RE.match(t) for t in texts):
         return "heading"
