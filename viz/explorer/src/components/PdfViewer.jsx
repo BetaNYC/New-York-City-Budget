@@ -3,7 +3,7 @@ import workerSrc from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 import { EventBus, PDFLinkService, PDFViewer } from "pdfjs-dist/web/pdf_viewer.mjs";
 import { useEffect, useRef, useState } from "react";
 
-import { bboxToPdfRect, viewportBox } from "../query/pdf.js";
+import { landingSpot, rowBoxOnViewport } from "../query/pdf.js";
 
 import "pdfjs-dist/web/pdf_viewer.css";
 
@@ -20,7 +20,7 @@ import "pdfjs-dist/web/pdf_viewer.css";
  * `bbox` is the row contract's `bbox_pt`: x0,top,x1,bottom in points on the UNROTATED page. The
  * viewport pdf.js renders with already applies the page's /Rotate (the capital book's pages are
  * /Rotate 90), so the box's corners go through viewport.convertToViewportPoint and land where the
- * row is drawn.
+ * row is drawn. On open the pane scrolls so that box is in view, not the page's top (#211).
  */
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
@@ -62,11 +62,8 @@ export default function PdfViewer({ src, initialPage = 1, bbox = "", label, fall
       if (pageNumber !== target || !bbox || isDetailView || !source?.viewport || !source?.div) return;
       const div = source.div;
       div.querySelector(".rowhighlight")?.remove();
-      const rect = bboxToPdfRect(bbox, source.pdfPage.view);
-      if (!rect) return;
-      // pdf.js 6 has no convertToViewportRectangle; map the two corners.
-      const vp = source.viewport;
-      const box = viewportBox([...vp.convertToViewportPoint(rect[0], rect[1]), ...vp.convertToViewportPoint(rect[2], rect[3])]);
+      const box = rowBoxOnViewport(bbox, source.pdfPage.view, source.viewport);
+      if (!box) return;
       const pad = 3;
       const el = document.createElement("div");
       el.className = "rowhighlight";
@@ -79,10 +76,21 @@ export default function PdfViewer({ src, initialPage = 1, bbox = "", label, fall
       });
       div.appendChild(el);
     });
+    // Scroll the row's box into view on the target page (its page view's viewport is the one
+    // pdf.js lays the page out with, so a rotated page's box lands where it is drawn). The spot
+    // goes back to PDF space for pdf.js's own XYZ jump, which keeps the zoom.
+    const scrollToBox = () => {
+      const pv = viewer.getPageView(target - 1);
+      const box = pv?.pdfPage ? rowBoxOnViewport(bbox, pv.pdfPage.view, pv.viewport) : null;
+      if (!box) return;
+      const spot = landingSpot(box, containerRef.current?.clientHeight ?? 0);
+      const [x, y] = pv.viewport.convertToPdfPoint(spot.left, spot.top);
+      viewer.scrollPageIntoView({ pageNumber: target, destArray: [null, { name: "XYZ" }, x, y, null], allowNegativeOffset: false });
+    };
     eventBus.on("pagesinit", async () => {
       const live = () => !cancelled && viewer === viewerRef.current && viewer.pdfDocument;
       viewer.currentScaleValue = "page-width";
-      if (!Number.isInteger(target) || target <= 1) {
+      if (!Number.isInteger(target) || target < 1 || (target === 1 && !bbox)) {
         landedRef.current = true;
         return;
       }
@@ -93,6 +101,7 @@ export default function PdfViewer({ src, initialPage = 1, bbox = "", label, fall
       if (target <= viewer.pagesCount) viewer.currentPageNumber = target;
       requestAnimationFrame(() => {
         if (live() && viewer.currentPageNumber !== target && target <= viewer.pagesCount) viewer.currentPageNumber = target;
+        if (live() && bbox && target <= viewer.pagesCount) scrollToBox();
         landedRef.current = true;
       });
     });
