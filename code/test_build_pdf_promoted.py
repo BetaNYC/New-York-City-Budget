@@ -171,3 +171,24 @@ def test_fy25_schedule_c(built):
     r = next(r for r in aw if r["award_id"] == "fy25-p169-t01-r001")   # Bronx Defenders
     t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
     assert "Bronx Defenders" in t and "13-3931074" in t and "Brooklyn Defender" not in t
+
+
+def test_fy24_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2024" and y["family"] == "schedule_c")
+    assert y["issue"] == "105" and y["status"] == "reviewed" and y["rows"] == "9291"
+    assert y["printed_totals_tied"] == "24/25"
+    aw = rows(built["data/fy24/pdf/schedule_c/fy24_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 453858561
+    # p.242's MediaBox starts at (-18.03, 17.97); bbox_pt is from its top-left corner.
+    r = next(r for r in aw if r["pdf_page"] == "242" and r["ein"] == "133505372")
+    doc = pdfium.PdfDocument(os.path.join(REPO, r["source_pdf"]))
+    try:
+        pg = doc[241]
+        mx0, _, _, my1 = pg.get_mediabox()
+        x0, top, x1, bottom = (float(v) for v in r["bbox_pt"].split(","))
+        t = pg.get_textpage().get_text_bounded(left=mx0 + x0, bottom=my1 - bottom,
+                                               right=mx0 + x1, top=my1 - top)
+    finally:
+        doc.close()
+    assert "Medicare Rights Center" in t and "MercyFirst" not in t and "CBO Capacity" not in t
