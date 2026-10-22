@@ -206,3 +206,16 @@ def test_fy23_schedule_c(built):
     r = next(r for r in aw if r["award_id"] == "fy23-p235-t00-r018")
     t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
     assert "Laundromat Project" in t and "Latinas" not in t
+
+
+def test_fy22_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2022" and y["family"] == "schedule_c")
+    assert y["issue"] == "107" and y["status"] == "reviewed" and y["rows"] == "5732"
+    assert y["printed_totals_tied"] == "25/25"
+    aw = rows(built["data/fy22/pdf/schedule_c/fy22_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 285155968
+    # A row of the four-column table the old parse lost; its box holds it, not its neighbours.
+    r = next(r for r in aw if r["award_id"] == "fy22-p084-t03-r001")
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "Society of the Educational" in t and "Heritage High School" in t and "Groove" not in t

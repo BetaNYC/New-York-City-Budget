@@ -10,7 +10,7 @@ This script re-runs the review parsers (code/review_capital_sd.py, code/review_t
 scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
 Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
 `capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
-(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `schedule_c` (GitHub #104); FY2024 `schedule_c` (GitHub #105); FY2023 `schedule_c` (GitHub #106).
+(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `schedule_c` (GitHub #104); FY2024 `schedule_c` (GitHub #105); FY2023 `schedule_c` (GitHub #106); FY2022 `schedule_c` (GitHub #107).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -275,8 +275,14 @@ SC_NOTE = {
            "statements; roll-up +$646,350); Asiyah Women's Center printed with another org's "
            "EIN (pp.13, 175); 1,028 rows in tables with no vertical rules checked by pixel rules "
            "only. Review: research/2026-10-21-fy23-schedule-c-review/REVIEW.md"),
+    2022: ("25/25 category TOTALs tie; appendices equal their fixed pots; PDF self-errors flagged "
+           "(p.57 Public Health Funding Backfill box $4,467,933 vs summary $4,667,933; six "
+           "statements holding a reserve while their rows make the whole box; three more and one "
+           "rounding; roll-up +$6,545,340); 5 EINs of the wrong length; Art as a Catalyst for "
+           "Change (40 rows, pp.84-85) read with its Program column in purpose. "
+           "Review: research/2026-10-21-fy22-schedule-c-review/REVIEW.md"),
 }
-SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106}
+SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107}
 
 
 def build_schedule_c(scratch, fy=2027):
@@ -412,7 +418,8 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy26", "schedule_c", lambda d: build_schedule_c(d, fy=2026)),
             ("fy25", "schedule_c", lambda d: build_schedule_c(d, fy=2025)),
             ("fy24", "schedule_c", lambda d: build_schedule_c(d, fy=2024)),
-            ("fy23", "schedule_c", lambda d: build_schedule_c(d, fy=2023))]
+            ("fy23", "schedule_c", lambda d: build_schedule_c(d, fy=2023)),
+            ("fy22", "schedule_c", lambda d: build_schedule_c(d, fy=2022))]
 
 
 def build_all():
