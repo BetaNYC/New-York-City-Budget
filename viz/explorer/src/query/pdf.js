@@ -326,3 +326,31 @@ export function viewportBox(r) {
   const top = Math.min(r[1], r[3]);
   return { left, top, width: Math.abs(r[2] - r[0]), height: Math.abs(r[3] - r[1]) };
 }
+
+/**
+ * A row box on a pdf.js page viewport (the page's /Rotate and the zoom applied), as a CSS box in
+ * the page's own pixels, or null. The highlight is drawn here and the viewer scrolls to it.
+ */
+export function rowBoxOnViewport(bbox, view, viewport) {
+  const rect = bboxToPdfRect(bbox, view);
+  if (!rect) return null;
+  // pdf.js 6 has no convertToViewportRectangle; map the two corners.
+  return viewportBox([...viewport.convertToViewportPoint(rect[0], rect[1]), ...viewport.convertToViewportPoint(rect[2], rect[3])]);
+}
+
+/**
+ * Whether the viewer has to wait for the pages and jump on open: always for a page past the first,
+ * and on page 1 too when there is a box to scroll to (it may sit low on the page).
+ */
+export const landsByJump = (page, bbox) => Number.isInteger(page) && page >= 1 && (page > 1 || !!parseBbox(bbox));
+
+/**
+ * Where on the page to scroll so a row box is in view when the page opens (#211): the spot, in
+ * the page's pixels, to put at the pane's top-left corner. The box sits a quarter of the pane down,
+ * with some of the page above it for context; a box too tall for that starts one margin down.
+ * Horizontally the box's left edge sits one margin in (it matters only when zoomed past the pane).
+ */
+export function landingSpot(box, paneHeight, margin = 24) {
+  const above = box.height + margin > paneHeight * 0.75 ? margin : Math.round(paneHeight / 4);
+  return { left: Math.max(0, box.left - margin), top: Math.max(0, box.top - above) };
+}

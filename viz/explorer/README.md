@@ -12,7 +12,8 @@ column, into Parquet. It never parses a CSV. `test/parity.test.mjs` then checks,
 year, that row counts and dollar totals equal `budget.db`, that every row and column is identical,
 and that the explorer's queries (`src/query/sql.js`) answer exactly what the MCP's
 (`mcp/src/db.ts`) answer for the same filters. Text search uses the MCP's own fold rule, imported
-from `mcp/dist/fold.js`.
+from `mcp/dist/fold.js`; source-page links and GitHub file links use the MCP's row-link builder,
+imported from `mcp/dist/rowlinks.js`.
 
 **Nothing PDF-derived.** Only the tables the MCP 2.0 index holds: `disclosure`,
 `disclosure_years`, `capital_council`, `capital_sources`, `capital_vs_omb`, `meta`.
@@ -62,7 +63,7 @@ the `pdf_*` tables are then empty and their tabs hidden. How the data gets here:
 | Organizations | §254 Part III: each non-city organization's printed line and its budget-line rows, with whether they add up. Only when a capital book is loaded. |
 | Terms & Conditions | The year's conditions by agency, unit of appropriation or budget line, kind, and text; deadlines after "no later than"; condition 15's FSR table. Only when a T&C family is loaded. |
 | Review (reviewed builds only) | The review queue: every flagged row of every loaded PDF family, critical first, then by dollars; filters for family, year, check, severity, open/decided. Each item shows the PDF page with the row highlighted, the parsed values, the review fields and the suggested decision (`data/pdf_review_suggestions.csv`, from each REVIEW.md). Buttons: keep as printed (`accepted_as_printed`), accept suggestion, needs more information (`needs_info`), change to… (`parser_bug`, the value in the note). Decisions stay in the browser (localStorage) and export per family as `review_id,decision,note,decided_by,decided_at`, the Schedule C decisions file's header, to the path shown; import resumes a review. Check a file with `code/validate_review_decisions.py`. |
-| Source page | Any PDF-derived row opens its PDF page (pdf.js) with the row's `bbox_pt` box highlighted. The PDF is read from GitHub at the build commit, like the spreadsheets; rotated pages (the capital book is `/Rotate 90`) are handled by pdf.js's viewport. |
+| Source page | Any PDF-derived row opens its PDF page (pdf.js) with the row's `bbox_pt` box highlighted. The PDF is read from GitHub at the build commit, like the spreadsheets; rotated pages (the capital book is `/Rotate 90`) are handled by pdf.js's viewport. The page opens scrolled so the box is in view; a row with no box (transparency charts, capital totals, the Terms FSR table) opens at the top of its page. |
 
 All state is in the URL hash, so any filtered view is a link.
 
