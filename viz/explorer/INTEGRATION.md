@@ -44,8 +44,8 @@ Values stay **as printed** (`*_raw` columns optional, kept beside any normalized
   `status` is `reviewed` (checks pass, flags listed, Noel has not signed off) or `closed`
   (the year's issue is closed).
 
-The old PDF-derived files in `data/fyNN/schedule_c/`, `terms/`, `capital/` stay untouched and stay
-out of the MCP, as since 2.0.
+The old PDF-derived files in `data/fyNN/schedule_c/`, `terms/`, `capital/` (moved unchanged to
+`data/retired/fyNN/` once a year is redone: `data/retired/README.md`) stay out of the MCP, as since 2.0.
 
 ## 3. What the loader does
 

@@ -144,7 +144,7 @@ This is **genuinely unpopulated in the source, not a parse regression**: 0 empty
 
 ## 12. FY2027 capital — leaked data in the `agency` field — RESOLVED (fixed in PR #7, 2026-07-08)
 
-**Resolved.** Previously, `data/fy27/capital/fy27_capital_projects.csv` had 52 rows with a malformed `agency` value (a mis-parsed row's text stuffed into the column, e.g. `"PV MA1002 PV 0N957 K 1,500,000 0 0 0 NOEL POINTER FOUNDATION"`). **Actual root cause** (found during the fix): FY2027's Capital Project Detail book uses two code-column layouts, and `parse_capital.py`'s `ROW` regex only accepted the city form (`CC####`/`D####`). The non-city grantee rows (`MA####`/`0N###`, no council sponsor) failed to match, were dropped as projects, and one leaked its text into the `agency` field of the following city rows. (The parser is `parse_capital.py`, not `parse_capital_detail.py` as first assumed.)
+**Resolved.** Previously, `data/retired/fy27/capital/fy27_capital_projects.csv` had 52 rows with a malformed `agency` value (a mis-parsed row's text stuffed into the column, e.g. `"PV MA1002 PV 0N957 K 1,500,000 0 0 0 NOEL POINTER FOUNDATION"`). **Actual root cause** (found during the fix): FY2027's Capital Project Detail book uses two code-column layouts, and `parse_capital.py`'s `ROW` regex only accepted the city form (`CC####`/`D####`). The non-city grantee rows (`MA####`/`0N###`, no council sponsor) failed to match, were dropped as projects, and one leaked its text into the `agency` field of the following city rows. (The parser is `parse_capital.py`, not `parse_capital_detail.py` as first assumed.)
 
 **Fix (PR #7):** the `ROW` regex now accepts both code pairs (`(?:CC|MA)` / `(?:D|0N)`) and treats `0N###`-sub-id rows as non-city (no sponsor peeled off the title). Outcome: 52 polluted rows → **0**; 30 previously-dropped non-city grantee projects recovered (1358 → 1388 rows); FY2027 reconciliation improved **23/26 → 24/26**. FY2020/FY2022–FY2026 capital are unchanged. `validate_data.py` gained an `agency_pollution` check so this class is caught going forward. A regression test in `test_parse_capital.py` locks it in.
 
@@ -154,7 +154,7 @@ This is **genuinely unpopulated in the source, not a parse regression**: 0 empty
 
 **The bug.** In the wide "with-purpose" Schedule C tables (FY2021 onward), each page repeats a column-header line. On Speaker's Initiative pages it reads `Sponsor Legal Name of Organization - Program Name Tax ID Amount Agency Purpose of Funds`; on Boroughwide Needs pages the leading word is `Delegation` instead of `Sponsor`. Because these variants begin with `Sponsor`/`Delegation` (not `Council Member` or `Legal Name…`), `parse_awards()` did not recognize them as headers, so the line was buffered and bled into the **organization** field of the *next* award. The header-junk filter in `main()` (`HJ = (… "sponsor legal" …)`) then deleted the **entire row** as if it were header noise — silently dropping a real, funded award rather than stripping the bled-in fragment.
 
-**Concrete FY2027 case (the one that surfaced this):** Speaker's Initiative → **"Fund for the City of New York, Inc. – West Side Work Coalition", $125,000, DYCD** (source PDF p.274, EIN 13-2612524) was absent from `data/fy27/schedule_c/fy27_schedule_c_awards.csv`. This understated FCNY's FY2027 Schedule C passthrough by exactly $125,000 (36 rows / \$3,232,714 → the true **37 rows / \$3,357,714**).
+**Concrete FY2027 case (the one that surfaced this):** Speaker's Initiative → **"Fund for the City of New York, Inc. – West Side Work Coalition", $125,000, DYCD** (source PDF p.274, EIN 13-2612524) was absent from `data/retired/fy27/schedule_c/fy27_schedule_c_awards.csv`. This understated FCNY's FY2027 Schedule C passthrough by exactly $125,000 (36 rows / \$3,232,714 → the true **37 rows / \$3,357,714**).
 
 **Fix.** `parse_awards()` now recognizes the repeated `Sponsor…`/`Delegation…` column-header line (signature: contains "legal name of organization" + "program name" + "amount" + "tax id"/"ein") and treats it as header noise — it flushes the prior record and clears the buffer, leaving the parse mode unchanged, so the header can no longer glue itself onto the following award. The `main()` header-junk filter is unchanged; it simply no longer sees a corrupted row to delete. Category reconciliation is untouched (the fix is in `parse_awards`, not `parse_initiatives`): FY2027 stays **25/25 exact, GRAND TOTAL \$655,764,999**. A regression test (`test_parse_schedule_c.py::test_fy27_west_side_work_coalition_survives`) locks in that the West Side row survives and that FCNY reconciles to 37 / \$3,357,714.
 
@@ -849,6 +849,8 @@ Pages site use structured sources only. Retired and no longer served or shown: S
 (awards, initiatives, appendices), Terms & Conditions, per-year §254 capital, transparency
 resolutions, `data/combined/` (including the Legistar crosswalk of those documents) and
 `data/recovered/`. The files stay in the repository as a historical record; nothing was deleted.
+Since 2026-10-22 (#209, #218), each family-year the checked process has redone sits under
+`data/retired/fyNN/` at its old path ([`data/retired/README.md`](data/retired/README.md)).
 `mcp/test/no-pdf-data.test.js` fails if the MCP's index build reads one of them or the npm
 package ships one. Two things about the structured data that the 2.0 MCP now states on its
 answers surfaced when FY2009 entered the served set: the 53 rows with no grantee EIN (now in
@@ -890,7 +892,7 @@ answers surfaced when FY2009 entered the served set: the 53 rows with no grantee
 > **Scope.** A new, checked parse of `source/FY27/Fiscal-2027-Schedule-C-Final-3.pdf`
 > (`code/parse_schedule_c_v2.py`, `config/schedule_c/fy2027.toml`). Its review record is
 > [`research/2026-10-20-fy27-schedule-c-review/`](research/2026-10-20-fy27-schedule-c-review/README.md).
-> The old `data/fy27/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
+> The old `data/retired/fy27/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
 > Not served by the MCP.
 
 **Result.** 9,979 award rows, $655,045,412 (body 6,119 / $605,246,412; appendices A, B, C
@@ -919,7 +921,7 @@ to match the disclosure (9 rows pair different agencies by amount alone).
 > **Scope.** A new, checked parse of the 10 PDFs in `source/FY26/transparency-resolutions/`
 > (`code/parse_transparency_v2.py`, `code/transreso/`, `config/transparency/fy2026.toml`). Its
 > review record is [`research/2026-10-21-fy26-transparency-review/`](research/2026-10-21-fy26-transparency-review/README.md).
-> The old `data/fy26/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> The old `data/retired/fy26/transparency-resolutions/*.csv` files are unchanged and stay the historical
 > record (§27). Not served by the MCP.
 
 **Result.** 4,952 rows from 388 charts (the old parse had 4,755, all of which are here). Every row
@@ -952,7 +954,7 @@ Backpack" prints no fiscal year. Reso 06 p.2 prints one row with no EIN.
 > **Scope.** A new, checked parse of `source/FY26/Fiscal-2026-Schedule-C-4.pdf` with the §29
 > toolkit (`code/parse_schedule_c_v2.py`, `config/schedule_c/fy2026.toml`). Its review record is
 > [`research/2026-10-21-fy26-schedule-c-review/`](research/2026-10-21-fy26-schedule-c-review/README.md).
-> The old `data/fy26/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
+> The old `data/retired/fy26/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
 > Not served by the MCP.
 
 **Result.** 9,765 award rows, $545,669,395 (body 5,850 / $495,870,395; appendices A, B, C
@@ -991,7 +993,7 @@ letter of each box label on p.162. Six glyphs are unmapped (`(cid:9)`, e.g. p.34
 > the §29 toolkit (`code/parse_schedule_c_v2.py`, `config/schedule_c/fy2025.toml`). Its review
 > record is
 > [`research/2026-10-21-fy25-schedule-c-review/`](research/2026-10-21-fy25-schedule-c-review/README.md).
-> The old `data/fy25/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
+> The old `data/retired/fy25/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
 > Not served by the MCP.
 
 **Result.** 9,579 award rows, $471,876,698 (body 5,659 / $422,077,698; appendices A, B, C
@@ -1073,7 +1075,7 @@ headings into the text of 14, the FSR table into #16, dropped hyphens in 4, and 
 > **Scope.** A new, checked parse of `source/FY24/Fiscal-2024-Schedule-C-Merge-Final.pdf` with
 > the §29 toolkit (`config/schedule_c/fy2024.toml`). Its review record is
 > [`research/2026-10-21-fy24-schedule-c-review/`](research/2026-10-21-fy24-schedule-c-review/README.md).
-> The old `data/fy24/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
+> The old `data/retired/fy24/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
 > Not served by the MCP.
 
 **Result.** 9,291 award rows, $453,858,561 (body 5,380 / $404,059,561; appendices A, B, C
@@ -1107,7 +1109,7 @@ following providers" with no designated amount (45 boxes). The Speaker's pages u
 > **Scope.** A new, checked parse of the 9 PDFs in `source/FY24/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2024`, `config/transparency/fy2024.toml`). Its review record
 > is [`research/2026-10-21-fy24-transparency-review/`](research/2026-10-21-fy24-transparency-review/README.md).
-> The old `data/fy24/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> The old `data/retired/fy24/transparency-resolutions/*.csv` files are unchanged and stay the historical
 > record (§27). Not served by the MCP.
 
 **Result.** 3,303 rows from 329 charts (the old parse had 3,294, all of which are here), each with
@@ -1139,13 +1141,20 @@ not Council additions. The retired capital CSV drops the comma after `SPEAKER` (
 PDF prints no condition numbers; 61 conditions in book order. The retired CSV has 59 and is
 misnumbered from #44 on; 5 agency headings print no code.
 
+**"No copying" permission flag (signed off 2026-10-22).** The capital book's owner permissions
+(`/P -1052`) allow printing and "extract for accessibility" but not copying. The flag does not block
+text extraction: the PDF opens with no password and every character extracts
+([review README](research/2026-10-21-fy24-capital-terms-review/README.md#the-encrypted-capital-book),
+#146). The maintainer signed off on using it as a public record (decision recorded in #209,
+2026-10-22).
+
 ---
 
 ## 38. FY2023 Schedule C rebuilt from the PDF, checked (#106) — REVIEW NOT STARTED
 
 > **Scope.** A new, checked parse of `source/FY23/Fiscal-2023-Schedule-C-Merge-6.13.22-Final-1.pdf`
 > with the §29 toolkit (`config/schedule_c/fy2023.toml`). Its review record is
-> [`research/2026-10-21-fy23-schedule-c-review/`](research/2026-10-21-fy23-schedule-c-review/README.md). The old `data/fy23/schedule_c/*.csv` files are
+> [`research/2026-10-21-fy23-schedule-c-review/`](research/2026-10-21-fy23-schedule-c-review/README.md). The old `data/retired/fy23/schedule_c/*.csv` files are
 > unchanged and stay the historical record (§27). Not served by the MCP.
 
 **Result.** 5,925 award rows, $323,063,807 (body 1,867 / $273,264,807; appendices A, B, C
@@ -1177,7 +1186,7 @@ put the reserve after the providers ("... and $N will be designated post-adoptio
 > **Scope.** A new, checked parse of the 14 PDFs in `source/FY23/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2023`, `config/transparency/fy2023.toml`). Its review
 > record is [`research/2026-10-21-fy23-transparency-review/`](research/2026-10-21-fy23-transparency-review/README.md).
-> The old `data/fy23/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> The old `data/retired/fy23/transparency-resolutions/*.csv` files are unchanged and stay the historical
 > record (§27). Not served by the MCP.
 
 **Result.** 8,424 rows from 502 charts (the old parse had 8,354, all of which are here), each
@@ -1217,7 +1226,7 @@ as the retired CSV numbered them; it put the FSR table into condition 24's text.
 
 > **Scope.** A new, checked parse of `source/FY22/Fiscal-2022-Schedule-C-Merge-6.30.21.pdf` with
 > the §29 toolkit (`config/schedule_c/fy2022.toml`). Its review record is
-> [`research/2026-10-21-fy22-schedule-c-review/`](research/2026-10-21-fy22-schedule-c-review/README.md). The old `data/fy22/schedule_c/*.csv` files are
+> [`research/2026-10-21-fy22-schedule-c-review/`](research/2026-10-21-fy22-schedule-c-review/README.md). The old `data/retired/fy22/schedule_c/*.csv` files are
 > unchanged and stay the historical record (§27). Not served by the MCP.
 
 **Result.** 5,732 award rows, $285,155,968 (body 1,550 / $235,356,968; appendices A, B, C
@@ -1245,7 +1254,7 @@ drawn as one wide cell each (pp.117–118). "TOTAL:" (p.32). A box drawn inside 
 > **Scope.** A new, checked parse of the 14 PDFs in `source/FY22/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2022`, `config/transparency/fy2022.toml`). Its review
 > record is [`research/2026-10-21-fy22-transparency-review/`](research/2026-10-21-fy22-transparency-review/README.md).
-> The old `data/fy22/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> The old `data/retired/fy22/transparency-resolutions/*.csv` files are unchanged and stay the historical
 > record (§27). Not served by the MCP.
 
 **Result.** 7,918 rows from 424 charts (the old parse had 7,768, all of which are here), each
@@ -1291,7 +1300,7 @@ the FSR table's months are out of order as printed.
 
 > **Scope.** A new, checked parse of `source/FY21/Fiscal-2021-Schedule-C-Cover-REPORT-Final.pdf`
 > with the §29 toolkit (`config/schedule_c/fy2021.toml`). Its review record is
-> [`research/2026-10-22-fy21-schedule-c-review/`](research/2026-10-22-fy21-schedule-c-review/README.md). The old `data/fy21/schedule_c/*.csv` files are
+> [`research/2026-10-22-fy21-schedule-c-review/`](research/2026-10-22-fy21-schedule-c-review/README.md). The old `data/retired/fy21/schedule_c/*.csv` files are
 > unchanged and stay the historical record (§27). Not served by the MCP.
 
 **Result.** 6,179 award rows, $262,477,792 (body 1,869 / $212,678,792; appendices A, B, C
@@ -1319,7 +1328,7 @@ last digits (pp.105–106). A box amount outside its box (p.98); an empty band o
 > **Scope.** A new, checked parse of the 8 PDFs in `source/FY21/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2021`, `config/transparency/fy2021.toml`). Its review
 > record is [`research/2026-10-21-fy21-transparency-review/`](research/2026-10-21-fy21-transparency-review/README.md).
-> The old `data/fy21/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> The old `data/retired/fy21/transparency-resolutions/*.csv` files are unchanged and stay the historical
 > record (§27). Not served by the MCP.
 
 **Result.** 4,500 rows from 237 charts (the old parse had 4,463, all of which are here), each
@@ -1346,7 +1355,7 @@ amount. Reso 02 p.20 prints "(continued)" on a chart's first page. 15 chart page
 
 46 conditions, unnumbered and with no page furniture, numbered here in book order; all 111 unit and
 budget-line heading lines placed; the FSR table (p.8) agrees under both lattices. The retired
-`data/fy21/terms` CSV has the same 46 conditions in order but keeps only the first agency of the
+`data/retired/fy21/terms` CSV has the same 46 conditions in order but keeps only the first agency of the
 four two-agency conditions (#1 ACS/DOC, #12 DOE/SCA, #28 HPD/Capital Budget, #37 DYCD/DCAS), files
 DOC's units under ACS's code, puts capital budget lines in `units`, folds the FSR table into #19's
 text and drops a printed hyphen (#23). The PDF prints SCA with DOE's code (040). FY2021 has no
@@ -1358,7 +1367,7 @@ capital supporting detail in `source/`.
 
 > **Scope.** A new, checked parse of `source/FY20/Fiscal-2020-Schedule-C-Final-Merge.pdf` with
 > the §29 toolkit (`config/schedule_c/fy2020.toml`). Its review record is
-> [`research/2026-10-22-fy20-schedule-c-review/`](research/2026-10-22-fy20-schedule-c-review/README.md). The old `data/fy20/schedule_c/*.csv` files are
+> [`research/2026-10-22-fy20-schedule-c-review/`](research/2026-10-22-fy20-schedule-c-review/README.md). The old `data/retired/fy20/schedule_c/*.csv` files are
 > unchanged and stay the historical record (§27). Not served by the MCP.
 
 **Result.** 7,921 award rows, $336,750,073 (body 3,528 / $286,951,073; appendices A, B, C
@@ -1386,7 +1395,7 @@ padded (p.111). A summary amount whose text is doubled (p.145). Page-origin offs
 > **Scope.** A new, checked parse of the 8 PDFs in `source/FY20/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2020`, `config/transparency/fy2020.toml`). Its review
 > record is [`research/2026-10-21-fy20-transparency-review/`](research/2026-10-21-fy20-transparency-review/README.md).
-> The old `data/fy20/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> The old `data/retired/fy20/transparency-resolutions/*.csv` files are unchanged and stay the historical
 > record (§27). Not served by the MCP.
 
 **Result.** 5,396 rows from 300 charts (the old parse had 5,319, all of which are here), each
@@ -1429,7 +1438,7 @@ Conditions in `source/`.
 
 > **Scope.** A new, checked parse of `source/FY19/Fiscal-2019-Schedule-C-Final-Report.pdf` with
 > the §29 toolkit (`config/schedule_c/fy2019.toml`). Its review record is
-> [`research/2026-10-22-fy19-schedule-c-review/`](research/2026-10-22-fy19-schedule-c-review/README.md). The old `data/fy19/schedule_c/*.csv` files are
+> [`research/2026-10-22-fy19-schedule-c-review/`](research/2026-10-22-fy19-schedule-c-review/README.md). The old `data/retired/fy19/schedule_c/*.csv` files are
 > unchanged and stay the historical record (§27). Not served by the MCP.
 
 **Result.** 5,995 award rows, $248,436,176 (body 1,551 / $198,637,176; appendices A, B, C
@@ -1462,7 +1471,7 @@ titled without "Council" (pp.41, 102).
 > **Scope.** A new, checked parse of the 11 PDFs in `source/FY19/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2019`, `config/transparency/fy2019.toml`). Its review
 > record is [`research/2026-10-22-fy19-transparency-review/`](research/2026-10-22-fy19-transparency-review/README.md).
-> The old `data/fy19/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> The old `data/retired/fy19/transparency-resolutions/*.csv` files are unchanged and stay the historical
 > record (§27). Not served by the MCP.
 
 **Result.** 7,207 rows from 445 charts (the old parse had 7,090, all of which are here), each
@@ -1509,7 +1518,7 @@ $15,460,000 more on 11 lines. FY2019 has no Terms & Conditions in `source/`.
 > `source/FY18/FY-2018-Schedule-C-Cover-Template-FINAL-MERGE.pdf` with the §29 toolkit
 > (`config/schedule_c/fy2018.toml`). Its review record is
 > [`research/2026-10-22-fy18-schedule-c-review/`](research/2026-10-22-fy18-schedule-c-review/README.md).
-> The old `data/fy18/schedule_c/*.csv` files are unchanged and stay the historical record
+> The old `data/retired/fy18/schedule_c/*.csv` files are unchanged and stay the historical record
 > (§27). Not served by the MCP.
 
 **Result.** 5,906 award rows, $203,804,505 (body 1,420 / $154,005,505; appendices A, B, C
@@ -1541,7 +1550,7 @@ pages where the text layer glues an EIN to the name before it; pp.115–119 blan
 > **Scope.** A new, checked parse of the 12 PDFs in `source/FY18/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2018`, `config/transparency/fy2018.toml`). Its review
 > record is [`research/2026-10-22-fy18-transparency-review/`](research/2026-10-22-fy18-transparency-review/README.md).
-> The old `data/fy18/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> The old `data/retired/fy18/transparency-resolutions/*.csv` files are unchanged and stay the historical
 > record (§27). Not served by the MCP.
 
 **Result.** 5,558 rows from 400 charts, each with its resolution's number and adoption date, and,
@@ -1575,5 +1584,5 @@ capital (§26): 1,485 Part I projects, $575,000,000 FY2018. All 35 printed `TOTA
 count and all four years; Part II and Part III tie to each other and to Part I. There is no outside
 source to compare with. 15 rows name the sponsor `DISTRICT 28`; Part II adds 52 `MA` and 3 `TA`
 rows not in Part I. The T&C have 33 unnumbered conditions, one a page, all heading lines placed;
-the retired `data/fy18/terms` CSV has the same 33 but folds the FSR table into #14's text, drops
+the retired `data/retired/fy18/terms` CSV has the same 33 but folds the FSR table into #14's text, drops
 two line-end hyphens and files budget-line headings as units.

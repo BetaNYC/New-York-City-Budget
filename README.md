@@ -19,7 +19,7 @@ Each row keeps the workbook, sheet and row it came from, and every file's sha256
 
 > **GitHub Pages:** [betanyc.github.io/New-York-City-Budget](https://betanyc.github.io/New-York-City-Budget/) now opens on a notice pointing to the structured data. The new **[budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/)** searches the same data the MCP serves, in the browser, with every row linked to its source spreadsheet ([`viz/explorer/`](viz/explorer/README.md)). The old Schedule C explorer **stays online, frozen** as of 2026-10-16 at `legacy.html`, with a banner saying not to cite it: its figures came from the PDF parser this release retires. See [`viz/README.md`](viz/README.md).
 
-**Retired in 2.0, kept for history:** the earlier versions of this repository parsed the Council's adopted-budget **PDFs** (Schedule C, Terms & Conditions, Section 254 capital, transparency resolutions) for FY2009–FY2027. Those files and their parsers are still here (`data/fyNN/schedule_c/`, `terms/`, `capital/`, `data/combined/`, `data/recovered/`), but we found errors in that extraction, and 2.0 neither serves nor ships them. The sections below that describe them describe that historical record.
+**Retired in 2.0, kept for history:** the earlier versions of this repository parsed the Council's adopted-budget **PDFs** (Schedule C, Terms & Conditions, Section 254 capital, transparency resolutions) for FY2009–FY2027. Those files and their parsers are still here (`data/fyNN/schedule_c/`, `terms/`, `capital/`, `data/combined/`, `data/recovered/`; for each year the checked process has redone, under [`data/retired/`](data/retired/README.md)), but we found errors in that extraction, and 2.0 neither serves nor ships them. The sections below that describe them describe that historical record.
 
 **Per-year processing manifest:** [`code/PARSING.md`](code/PARSING.md) records, for every fiscal year and document type (structured and retired), exactly which parser + invocation produces its CSVs and the reconciliation status. It is the authoritative "how do I regenerate FY_N_?" reference.
 
@@ -79,6 +79,7 @@ New-York-City-Budget/
 │   │   ├── terms/       Terms & Conditions (reporting mandates) [PDF-derived: retired]
 │   │   ├── capital/     Section 254 capital changes            [PDF-derived: retired]
 │   │   └── expense_disclosure/  the Council's award-level disclosure workbooks, FY2009, FY2011–FY2027 (served by the MCP)
+│   ├── retired/         the old PDF-parser CSVs of every family-year already redone (data/retired/README.md)
 │   ├── capital/         Council capital designations FY2015–FY2017, FY2019–FY2027 from structured sources,
 │   │                     OMB reference tables, reconciliation by budget line (no PDF data; served by the MCP)
 │   ├── reference/       lookup tables derived from outside sources (Census ZCTA → state; Legistar roster extract)
@@ -114,7 +115,7 @@ They are published as data in `data/{year}/expense_disclosure/` (see below).
 
 ## The data files
 
-> **Retired in 2.0 (PDF-derived):** the `schedule_c/`, `terms/`, `capital/` (per-year §254), `transparency-resolutions/`, `data/combined/` and `data/recovered/` files described below were extracted from the adopted-budget PDFs. They stay in the repository as a historical record, are no longer served by the MCP or shown on the Pages site, and should not be cited as current. The structured datasets are `data/{year}/expense_disclosure/`, `data/disclosure_years.csv` and `data/capital/`.
+> **Retired in 2.0 (PDF-derived):** the `schedule_c/`, `terms/`, `capital/` (per-year §254), `transparency-resolutions/`, `data/combined/` and `data/recovered/` files described below were extracted from the adopted-budget PDFs. For each family-year the checked process has redone (FY2018–FY2027 so far) they are under `data/retired/{year}/` at the same path ([`data/retired/README.md`](data/retired/README.md)). They stay in the repository as a historical record, are no longer served by the MCP or shown on the Pages site, and should not be cited as current. The structured datasets are `data/{year}/expense_disclosure/`, `data/disclosure_years.csv` and `data/capital/`.
 
 ### `data/{year}/schedule_c/{year}_schedule_c_initiatives.csv` — authoritative totals
 One row per Council initiative; sums exactly to each category's printed `TOTAL`.
@@ -179,7 +180,7 @@ Section 254 capital changes. `part, agency, budget_line, sub_id, boro, fy1, fy2,
 - **FY2025, FY2026, and FY2027** use the "Capital Project Detail" (Council-additions) schedule, share this schema, and reconcile against printed agency subtotals and both `TOTALS FOR ALL` grand totals. FY2025 is now directly comparable to FY2026/FY2027 (parsed from the Council-version supporting-detail book; Part I **$775M / 1327 projects**, Part II non-city **$158,992,000 / 181 projects**). Part III (the non-city-by-entity cross-tab of Part II) is emitted to the sidecar `fy25_capital_noncity_by_entity.csv`.
 - The broader FY2025 **"Appropriation Changes"** resolution book (all executive-capital changes, ~$5.2B, `NOT RECONCILABLE`, adds an `action` column) is a *different document type* and is retained for provenance as `fy25_capital_changes_appropriation.csv`.
 
-### `data/fy26/transparency-resolutions/`
+### `data/retired/fy26/transparency-resolutions/`
 Post-adoption discretionary designations from the 10 FY2026 Transparency Resolutions (per-resolution `resoNN_transparency_designations.csv` files + a combined `fy26_transparency_all.csv`). Columns: `resolution, date, chart, fiscal_year, action, source, council_member, organization, program, ein, amount, agency, agy_num, ua, purpose, flags` — `action` ∈ designate / rescind / purpose_change; rescissions carry negative amounts. These record money the adopted budget left "to be designated post-adoption" (e.g. the FY2026 AI Community Engagement $1M). **No printed totals exist**, so they are labeled `NOT RECONCILABLE`; the only internal check is that transfers (rescind + re-designate) net to zero.
 
 **FY2009 only — `fy09_transparency_fiscal_conduits.csv`.** FY09's long-form charts (1–3) print two
@@ -295,7 +296,7 @@ Requires Python 3 with the packages in `code/requirements.txt` (`pypdf`, `crypto
 python code/parse_schedule_c.py <ScheduleC.pdf> --outdir data/fy28/schedule_c --prefix fy28
 python code/parse_terms.py       <Terms.pdf>     --outdir data/fy28/terms      --prefix fy28
 python code/parse_capital.py     <Capital.pdf>   --outdir data/fy28/capital     --prefix fy28 \
-       --roster data/*/schedule_c/*_schedule_c_awards.csv
+       --roster data/*/schedule_c/*_schedule_c_awards.csv data/retired/*/schedule_c/*_schedule_c_awards.csv
 ```
 
 Always read the generated `*_reconciliation.txt` to confirm a parse before trusting a new year.
