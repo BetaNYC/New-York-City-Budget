@@ -5,6 +5,7 @@ Tests for code/validate_review_decisions.py and code/build_review_suggestions.py
 Run: pytest code/test_review_decisions.py
 """
 import csv
+import glob
 import os
 import sys
 
@@ -62,7 +63,7 @@ def test_cli_exit_codes(tmp_path):
 
 
 def test_committed_decision_files_are_valid():
-    # The header-only files committed for each FY2027 family, and the Schedule C one.
+    # The decisions files committed for each FY2027 and FY2026 family.
     pairs = [
         ("data/fy27/pdf/schedule_c/fy27_sc_review.csv", "research/2026-10-20-fy27-schedule-c-review/data/fy27_sc_review_decisions.csv"),
         ("data/fy27/pdf/capital_sd/fy27_capital_sd_review.csv", "research/2026-10-20-fy27-capital-terms-review/data/fy27_capital_sd_review_decisions.csv"),
@@ -72,6 +73,17 @@ def test_committed_decision_files_are_valid():
         ("data/fy26/pdf/schedule_c/fy26_sc_review.csv", "research/2026-10-21-fy26-schedule-c-review/data/fy26_sc_review_decisions.csv"),
         ("data/fy26/pdf/transparency/fy26_tr_review.csv", "research/2026-10-21-fy26-transparency-review/data/fy26_tr_review_decisions.csv"),
     ]
+    # FY2025 back to FY2018: one decisions file per family and year in data/pdf_years.csv.
+    prefix = {"capital_sd": "capital_sd", "terms": "terms", "schedule_c": "sc", "transparency": "tr"}
+    with open(os.path.join(REPO, "data", "pdf_years.csv"), newline="") as f:
+        for y in csv.DictReader(f):
+            if int(y["fiscal_year"]) > 2025:
+                continue
+            nn, pre = y["fiscal_year"][2:], prefix[y["family"]]
+            found = glob.glob(os.path.join(REPO, "research", f"2026-10-2*-fy{nn}-*-review", "data",
+                                           f"fy{nn}_{pre}_review_decisions.csv"))
+            assert len(found) == 1, (y["fiscal_year"], y["family"], found)
+            pairs.append((f"data/fy{nn}/pdf/{y['family']}/fy{nn}_{pre}_review.csv", os.path.relpath(found[0], REPO)))
     for review, decisions in pairs:
         assert vrd.main(["--review", os.path.join(REPO, review), "--decisions", os.path.join(REPO, decisions)]) == 0, decisions
 
