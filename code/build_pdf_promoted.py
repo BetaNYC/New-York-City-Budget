@@ -10,7 +10,7 @@ This script re-runs the review parsers (code/review_capital_sd.py, code/review_t
 scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
 Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
 `capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
-(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `schedule_c` (GitHub #104); FY2024 `schedule_c` (GitHub #105); FY2023 `schedule_c` (GitHub #106); FY2022 `schedule_c` (GitHub #107).
+(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `schedule_c` (GitHub #104); FY2024 `schedule_c` (GitHub #105); FY2023 `schedule_c` (GitHub #106); FY2022 `schedule_c` (GitHub #107); FY2021 `schedule_c` (GitHub #108).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -281,8 +281,14 @@ SC_NOTE = {
            "rounding; roll-up +$6,545,340); 5 EINs of the wrong length; Art as a Catalyst for "
            "Change (40 rows, pp.84-85) read with its Program column in purpose. "
            "Review: research/2026-10-21-fy22-schedule-c-review/REVIEW.md"),
+    2021: ("26/26 category TOTALs tie; appendices equal their fixed pots; PDF self-errors flagged "
+           "(p.122 box printed '$477,00', read as $477,000; three statements holding a reserve "
+           "while their rows make the whole box; one $1 over and one rounding; roll-up "
+           "+$129,070); 6 EINs of the wrong length; award headers printed outside the table "
+           "rules; 431 rows checked by pixel rules only. "
+           "Review: research/2026-10-22-fy21-schedule-c-review/REVIEW.md"),
 }
-SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107}
+SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108}
 
 
 def build_schedule_c(scratch, fy=2027):
@@ -419,7 +425,8 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy25", "schedule_c", lambda d: build_schedule_c(d, fy=2025)),
             ("fy24", "schedule_c", lambda d: build_schedule_c(d, fy=2024)),
             ("fy23", "schedule_c", lambda d: build_schedule_c(d, fy=2023)),
-            ("fy22", "schedule_c", lambda d: build_schedule_c(d, fy=2022))]
+            ("fy22", "schedule_c", lambda d: build_schedule_c(d, fy=2022)),
+            ("fy21", "schedule_c", lambda d: build_schedule_c(d, fy=2021))]
 
 
 def build_all():

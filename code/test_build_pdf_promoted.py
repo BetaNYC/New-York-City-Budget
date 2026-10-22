@@ -219,3 +219,16 @@ def test_fy22_schedule_c(built):
     r = next(r for r in aw if r["award_id"] == "fy22-p084-t03-r001")
     t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
     assert "Society of the Educational" in t and "Heritage High School" in t and "Groove" not in t
+
+
+def test_fy21_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2021" and y["family"] == "schedule_c")
+    assert y["issue"] == "108" and y["status"] == "reviewed" and y["rows"] == "6179"
+    assert y["printed_totals_tied"] == "26/26"
+    aw = rows(built["data/fy21/pdf/schedule_c/fy21_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 262477792
+    # A row of a table whose header is printed outside its rules; its box holds it.
+    r = next(r for r in aw if r["award_id"] == "fy21-p045-t00-r002")
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "Instituto Arte Teatral" in t and "ID Studio" not in t
