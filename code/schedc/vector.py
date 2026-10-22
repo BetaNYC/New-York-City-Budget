@@ -160,6 +160,8 @@ def read_page(page, page_no, x_tolerance=X_TOLERANCE, table_settings=None, hrule
     if hrule:
         tables, hnotes = hrule_tables(page, ox, oy, tables, shift(page.extract_words(), ox, oy),
                                       opts)
+    if "split_one_cell_rows" in opts:
+        tables = [split_one_cell_rows(t, shift(page.extract_words(), ox, oy)) for t in tables]
     if hrule or open_top:
         tables = sorted(tables, key=lambda t: (r2(t.bbox[1]), r2(t.bbox[0])))
     chars = shift(page.chars, ox, oy)
@@ -329,7 +331,7 @@ def hrule_tables(page, ox, oy, tables, words, opts=()):
     that region; a suspect table left with no cells is dropped. Columns: org | EIN | amount,
     split at the leftmost EIN word and halfway between the EIN and amount words.
 
-    Two FY2023 switches (`opts`, off unless the year's config sets them):
+    FY2023 switches (`opts`, off unless the year's config sets them):
       - `hrule_beside`: a lines-strategy table with no EIN word in its cells but EIN words
         printed just right of it, in its own row bands, is suspect too (FY2023 p.68: white-
         filled boxes make a table of the "Institute" column only, the EINs and amounts beside
@@ -337,7 +339,10 @@ def hrule_tables(page, ox, oy, tables, words, opts=()):
       - `hrule_header_split`: a column header printed in the same band as the first award row,
         with no rule between them (FY2023 p.35: "Legal Name of Organization  EIN  Amount" over
         "Chinese-American Family Alliance ... 26-4048050 $30,000"), is cut off as its own band,
-        halfway between the header words and the row's words."""
+        halfway between the header words and the row's words.
+    An FY2022 switch:
+      - `hrule_extra_column`: words between the EIN and amount columns that are neither make a
+        fourth column (FY2022 pp.84-85: "... | EIN | Program | Amount")."""
     def cell_of(w, t):
         cx, cy = (w["x0"] + w["x1"]) / 2, (w["top"] + w["bottom"]) / 2
         return next((c for c in t.cells if c[0] <= cx < c[2] and c[1] <= cy < c[3]), None)
@@ -432,14 +437,25 @@ def hrule_tables(page, ox, oy, tables, words, opts=()):
             continue
         b1 = min(w["x0"] for w in eins) - 0.5
         b2 = (max(w["x1"] for w in eins) + min(w["x0"] for w in amts)) / 2
+        splits = (b1, b2)
+        if "hrule_extra_column" in opts:
+            # A text column printed between the EIN and amount columns (FY2022 pp.84-85, Art as
+            # a Catalyst for Change: "Legal Name of Organization | EIN | Program | Amount").
+            er, al = max(w["x1"] for w in eins), min(w["x0"] for w in amts)
+            mid = [w for w in inside if w["x0"] > er + 1.0 and w["x1"] < al - 1.0 and
+                   not EIN_TOKEN.match(w["text"]) and not AMOUNT_WORD.match(w["text"])]
+            if mid:
+                splits = (b1, (er + min(w["x0"] for w in mid)) / 2,
+                          (max(w["x1"] for w in mid) + al) / 2)
         for k in trimmed:
             trimmed[k] = [c for c in trimmed[k] if not (
                 (c[1] + c[3]) / 2 > top and (c[1] + c[3]) / 2 < bottom and
                 c[0] < x1 and c[2] > x0)]
         tcells = []
+        xs = (x0,) + splits + (x1,)
         for ya, yb in zip(ys, ys[1:]):
-            tcells += [(x0, ya, b1, yb), (b1, ya, b2, yb), (b2, ya, x1, yb)]
-        new.append(_HruleTable((x0, top, x1, bottom), tcells, (b1, b2)))
+            tcells += [(a, ya, b, yb) for a, b in zip(xs, xs[1:])]
+        new.append(_HruleTable((x0, top, x1, bottom), tcells, splits))
     if not new:
         return tables, notes
     out = [t for k, t in enumerate(tables) if k not in suspect]
@@ -494,6 +510,39 @@ def open_top_row(page, ox, oy, t, words=None):
     return _Cells((t.bbox[0], y0, t.bbox[2], t.bbox[3]), cells)
 
 
+def split_one_cell_rows(t, words):
+    """A lines-strategy table whose rows are drawn as one full-width cell each, with no column
+    rules (FY2022 pp.117-118: rules and an outer border only), the name, EIN and amount all in
+    that one cell. Such rows are cut into name | EIN | amount at the leftmost EIN word and
+    halfway between the EIN and amount words of the table's one-cell rows, as `hrule_tables`
+    splits its columns; a one-cell header row ("... EIN  Amount") is cut the same way. Returns
+    the table unchanged when no one-cell row holds both an EIN word and an amount word."""
+    def inside(w, c):
+        cx, cy = (w["x0"] + w["x1"]) / 2, (w["top"] + w["bottom"]) / 2
+        return c[0] <= cx < c[2] and c[1] <= cy < c[3]
+    wide = [c for c in t.cells if c[2] - c[0] >= 0.8 * (t.bbox[2] - t.bbox[0])]
+    data = [(c, [w for w in words if inside(w, c)]) for c in wide]
+    data = [(c, ws) for c, ws in data if any(EIN_TOKEN.match(w["text"]) for w in ws) and
+            any(AMOUNT_WORD.match(w["text"]) for w in ws)]
+    if not data:
+        return t
+    eins = [w for _, ws in data for w in ws if EIN_TOKEN.match(w["text"])]
+    amts = [w for _, ws in data for w in ws if AMOUNT_WORD.match(w["text"])]
+    if max(w["x1"] for w in eins) >= min(w["x0"] for w in amts):
+        return t
+    b1 = min(w["x0"] for w in eins) - 0.5
+    b2 = (max(w["x1"] for w in eins) + min(w["x0"] for w in amts)) / 2
+    heads = [c for c in wide if {"EIN", "Amount"} <= {w["text"] for w in words if inside(w, c)}]
+    cut = [c for c, _ in data] + heads
+    cells = []
+    for c in t.cells:
+        if c in cut and c[0] < b1 and b2 < c[2]:
+            cells += [(c[0], c[1], b1, c[3]), (b1, c[1], b2, c[3]), (b2, c[1], c[2], c[3])]
+        else:
+            cells.append(c)
+    return _Cells(t.bbox, cells)
+
+
 class _Cells:
     """A lines-strategy table with cells changed: cut down to the cells above an h-rule table,
     or with an open top row added."""
@@ -519,7 +568,8 @@ class _ShiftedTable:
 
 
 # Vector switches a year's config may set under [structure] (FY2023), passed to read_page.
-VECTOR_OPTS = ("hrule_beside", "hrule_header_split", "sliver_chars")
+VECTOR_OPTS = ("hrule_beside", "hrule_header_split", "sliver_chars", "split_one_cell_rows",
+               "hrule_extra_column")
 
 
 def read_pdf(pdf_path, pages=None, x_tolerance=X_TOLERANCE, page_settings=None, hrule=False,

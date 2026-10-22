@@ -1,0 +1,70 @@
+SCHEDULE C FY2022 -- checks (code/parse_schedule_c_v2.py; config config/schedule_c/fy2022.toml)
+pdf source/FY22/Fiscal-2022-Schedule-C-Merge-6.30.21.pdf  sha256 2c444f83d12bc62a1e4e235aa42b21f8d1bc4d421da8b6eb020b620216b39af1
+
+award rows: 5,732  total $285,155,968
+  body         1,550 rows  $   235,356,968
+  appendix_a     510 rows  $     5,610,000
+  appendix_b   2,790 rows  $    36,539,000
+  appendix_c     882 rows  $     7,650,000
+initiatives: 141  categories: 25
+
+STRUCTURAL CHECKS
+  ok    H1.input         sha256 2c444f83d12b… pages 326
+  ok    H2.triage        326 pages surveyed; 0 with invisible text or <=100 chars on an award page
+  ok    H3.pagemap       0 award rows outside their configured section range
+  ok    H4.headers       0 unknown or incomplete award-table headers
+  ok    H5.anchors       5727 EIN-shaped words, 5727 rows with an EIN; 0 pages differ; 0 rows without exactly one EIN and one amount; 5 named exceptions
+  ok    H6.furniture     0 data cells holding header/footer text
+  ok    H7.chars         1006890 non-space chars; 0 orphan chars in award tables; 0 unmapped cells
+  ok    H7.hrule_splits  4 tables from horizontal rules; 0 characters cross a column split; 0 stacks of rules not read
+  ok    H14.provenance   5732 award_ids, 5732 unique
+  ok    H16.values       0 clean values not reproducible from raw
+
+PRINTED TOTALS (H10-H13)
+  H10.category_total         ok               25
+  H11.box_vs_summary         ok               25
+  H12.designated_sum         named_exception  10
+  H12.designated_sum         ok               90
+  H12.reserve_only_rows      ok               31
+  H12.statement_adds_up      ok               11
+  H13.rollup                 named_exception  1
+  -> named_exception: p.34 LGBT Community Services (reserve_rows): expected 3,625,000, observed 4,725,000 (diff +1,100,000) PDF self-error: LGBT Community Services box $4,725,000 less '$1.1 million' post-adoption = $3,625,000; rows sum to the whole box (pending review)
+  -> named_exception: p.34 Trans Equity Programs (reserve_rows): expected 2,275,000, observed 3,275,000 (diff +1,000,000) PDF self-error: Trans Equity Programs box $3,275,000 less '$1 million' post-adoption = $2,275,000; rows sum to the whole box (pending review)
+  -> named_exception: p.36 Alternatives to Incarceration (ATIs) (reserve_rows): expected 11,487,000, observed 11,473,795 (diff -13,205) statement rounds: Alternatives to Incarceration (ATIs) box $14,487,000 less '$3 million' = $11,487,000; rows sum $11,473,795, so the reserve is $3,013,205 (pending review)
+  -> named_exception: p.39 Supports for Persons Involved in the Sex Trade (reserve_rows): expected 4,144,697, observed 4,434,697 (diff +290,000) PDF self-error: Supports for Persons Involved in the Sex Trade box $4,434,697 less $290,000 post-adoption = $4,144,697; rows sum to the whole box (pending review)
+  -> named_exception: p.44 City’s First Readers (reserve_rows): expected 3,914,000, observed 5,564,000 (diff +1,650,000) PDF self-error: City's First Readers box $5,564,000 less '$1.65 million' post-adoption = $3,914,000; rows sum to the whole box (pending review)
+  -> named_exception: p.54 Ending the Epidemic (reserve_rows): expected 6,798,554, observed 7,044,600 (diff +246,046) PDF self-error: Ending the Epidemic box $7,735,000 less $936,446 = $6,798,554; rows sum $7,044,600 (pending review)
+  -> named_exception: p.58 Viral Hepatitis Prevention (reserve_rows): expected 1,663,567, observed 1,717,447 (diff +53,880) PDF self-error: Viral Hepatitis Prevention box $1,923,658 less $260,091 = $1,663,567; rows sum $1,717,447 (pending review)
+  -> named_exception: p.85 Crisis Management System (reserve_rows): expected 2,925,600, observed 3,925,600 (diff +1,000,000) PDF self-error: Crisis Management System box $3,925,600 less '$1 million' post-adoption = $2,925,600; rows sum to the whole box (pending review)
+  -> named_exception: p.115 Dedicated Contraceptive Fund (full): expected 781,000, observed 777,850 (diff -3,150) PDF self-error: Dedicated Contraceptive Fund box $781,000; its 4 rows sum $777,850 (pending review)
+  -> named_exception: p.119 Afterschool Enrichment Initiative (reserve_rows): expected 6,578,231, observed 8,000,000 (diff +1,421,769) PDF self-error: Afterschool Enrichment Initiative box $8,000,000 less $1,421,769 post-adoption = $6,578,231; rows sum to the whole box (pending review)
+  -> named_exception: p.0 body rows + post-adoption reserves vs sum of category TOTALs (+ direct agency designations): expected 465,728,895, observed 472,274,235 (diff +6,545,340) the eleven statement and box gaps of pp.34 (2), 36, 39, 44, 54, 57, 58, 85, 115, 119 (pending review)
+  roll-up: category TOTALs $465,728,895 = body rows $235,356,968 + post-adoption reserves $203,090,898 + designated directly to an agency, no rows printed $33,826,369 + $-6,545,340
+  appendices print no total; their pots (DATA-ANOMALIES §19): appendix_a $5,610,000, appendix_b $36,539,000, appendix_c $7,650,000
+
+IMAGE LATTICE (H8): rows read independently through code/ocr/grid.py lattices
+  agree on every field: 5,616 of 5,732
+  rows in tables with no drawn vertical rules, which the image lattice cannot see: 108; the pixels' horizontal rules confirm the row band of 106
+  bands_differ: 2
+  differs: 8
+  image rows with no vector row: 2
+INK COVERAGE (H9): uncovered-ink regions inside award tables
+  regions: 0  uncovered px total: 0 of 173,743,942 ink px
+  acceptance on p.84 (fy22-p084-t03-r001): clean run 0 regions; row withheld -> 5; one char withheld -> 1 (PASS); the char is 'i'
+
+DISCLOSURE (report-only; data/fy22/expense_disclosure, as committed in data/fy22/expense_disclosure)
+  pdf rows 5,732; disclosure rows 11,336; matched (EIN, amount, City-EIN name rule) 5,555
+  matched without the City-EIN name rule (no prototype floor for this year): 5,571
+  body        cleared 1,470 ($214,428,657); pending 11 ($155,625); unmatched 69 ($20,772,686)
+  appendix_a  cleared 496 ($5,468,000); pending 2 ($10,000); unmatched 12 ($132,000)
+  appendix_b  cleared 2,686 ($35,100,201); pending 28 ($207,499); unmatched 76 ($1,231,300)
+  appendix_c  cleared 848 ($7,289,500); pending 14 ($132,000); unmatched 20 ($228,500)
+  pdf rows without a disclosure row, by reason: amount_differs 75, city_ein_name_mismatch 17, ein_fully_claimed 9, ein_not_in_disclosure 56, key_already_claimed 15, pdf_value_unreadable 5
+  disclosure rows without a pdf row, by reason: amount_or_count_differs 5038 ($246,063,913), city_ein_pending 42 ($804,839), ein_not_in_pdf 701 ($28,889,593)
+  disclosure rows on keys where the allocation was a choice (ambiguous): 1,468
+
+WARN COUNTS (not in the review file; listed in flags.csv)
+  cid_glyph 2, continuation_row 6, ein_unreadable 5, headerless_table 14, hrule_table 52, sliver_band 10, wrap_hyphen 68
+  zero-width chars dropped: 0
+
+REVIEW FILE: 47 rows (13 critical, 34 warn); stale decisions: 0

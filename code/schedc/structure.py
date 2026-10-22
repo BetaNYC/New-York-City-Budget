@@ -172,7 +172,9 @@ def statement_amount(v):
 
 def statement_kind(text, cfg):
     """Designation statement -> (kind, reserve, designated). Kinds come from config regexes;
-    several groups named `designated...` add up (FY2024 p.147 names two amounts designated)."""
+    several groups named `designated...` add up (FY2024 p.147 names two amounts designated), and
+    so do groups named `reserve...` (FY2022 p.65: two amounts allocated straight to agencies,
+    the rest to the providers listed)."""
     t = " ".join(text.split())
     for st in cfg["statements"]:
         m = re.search(st["re"], t)
@@ -180,7 +182,9 @@ def statement_kind(text, cfg):
             g = m.groupdict()
             parts = [statement_amount(v) for k_, v in sorted(g.items())
                      if k_.startswith("designated") and v]
-            return st["kind"], statement_amount(g.get("reserve")), \
+            held = [statement_amount(v) for k_, v in sorted(g.items())
+                    if k_.startswith("reserve") and v]
+            return st["kind"], (sum(held) if held else None), \
                 (sum(parts) if parts else None)
     return "unknown", None, None
 
@@ -514,7 +518,8 @@ def build(pages, cfg):
                            cells=texts, amount=amt, amount_printed=texts[-1])
                 if amt is None:
                     flag("H10.summary_row", "critical", pn, f"summary row amount unreadable: {texts}")
-                rec["is_total"] = texts[0].upper() == "TOTAL"
+                rec["is_total"] = texts[0].upper() == "TOTAL" or (
+                    s.get("total_colon") and texts[0].upper() == "TOTAL:")   # FY2022 p.32
                 if not rec["is_total"]:
                     rec["agency"] = texts[0] if len(texts) == 3 else ""
                     rec["initiative"] = texts[-2]

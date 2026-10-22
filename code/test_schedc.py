@@ -644,3 +644,86 @@ def test_snapshot23_rows_and_checks():
     txt = open(os.path.join(OUT23, "fy23_sc_checks.txt"), encoding="utf-8").read()
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "acceptance on p.235" in txt and "(PASS)" in txt
+
+
+# --- FY2022 (config/schedule_c/fy2022.toml) ----------------------------------------------------
+CFG22 = config.load(2022)
+OUT22 = os.path.join(config.ROOT, CFG22["review_dir"], "data")
+FY22_SWITCHES = ("split_one_cell_rows", "hrule_extra_column", "total_colon")
+
+
+def test_fy2022_switches_off_for_other_years():
+    for c in (CFG, CFG26, CFG25, CFG24, CFG23):
+        for k in FY22_SWITCHES:
+            assert not c["structure"].get(k)
+
+
+def test_statement_reserve_parts_add():
+    k = structure.statement_kind(
+        "The City Council has allocated $195,000 directly to the NYC Department of Housing "
+        "Preservation and Development, $25,000 directly to the Department of Consumer Affairs, "
+        "and has designated the following provider for Fiscal 2022:", CFG22)
+    assert k == ("reserve_rows", 220000, None)
+    assert structure.statement_kind("The City Council will designate post-adoption",
+                                    CFG22)[0] == "reserve_all"
+
+
+# Golden rows, read from the rendered FY2022 pages (2026-10-21), not copied from output.
+@pytest.fixture(scope="module")
+def pages22():
+    ps = vector.read_pdf(CFG22["_pdf_abs"], pages={32, 36, 37, 80, 81, 83, 84, 85, 116, 117, 118},
+                         x_tolerance=CFG22["x_tolerance"], hrule=True,
+                         opts=tuple(o for o in vector.VECTOR_OPTS if CFG22["structure"].get(o)))
+    return {p["page"]: p for p in structure.split_merged_tables(ps, CFG22)}
+
+
+def _rows22(pages22, pns):
+    return structure.build([pages22[p] for p in pns], CFG22)
+
+
+def test_golden22_total_with_colon_p32(pages22):
+    S = _rows22(pages22, [32])
+    t = [r for r in S["summary"] if r["is_total"]]
+    assert len(t) == 1 and t[0]["amount"] == 27490000
+
+
+def test_golden22_box_dollar_space_p37(pages22):
+    ini = {i["initiative"]: i["amount"] for i in _rows22(pages22, [36, 37])["initiatives"]}
+    assert ini["Discharge Planning"] == 250000
+
+
+def test_golden22_box_inside_award_table_p81(pages22):
+    S = _rows22(pages22, [80, 81])
+    assert {i["initiative"]: i["amount"] for i in S["initiatives"]}[
+        "Mental Health Services for Vulnerable Populations"] == 2338000
+    assert _one(S, "133104537", 1200000)["initiative"] == "LGBTQ Youth All-Borough Mental Health"
+
+
+def test_golden22_program_column_p84_p85(pages22):
+    S = _rows22(pages22, [83, 84, 85])
+    r = _one(S, "113210593", 18000)
+    assert r["org"] == "Society of the Educational Arts, Inc. (SEA)"
+    assert r["purpose"] == "Heritage High School" and r["initiative"] == "Art as a Catalyst for Change"
+    assert sum(a["amount"] for a in S["awards"] if a["initiative"] == "Art as a Catalyst for Change") \
+        == 720000
+
+
+def test_golden22_one_cell_rows_p117_p118(pages22):
+    S = _rows22(pages22, [116, 117, 118])
+    r = _one(S, "113167245", 60000)
+    assert r["org"] == "Arab-American Family Support Center"
+    assert r["initiative"] == "Young Women’s Leadership Development"
+    assert _one(S, "300836513", 100000)["org"] == "Drama Club, Inc."
+
+
+@pytest.mark.skipif(not os.path.exists(OUT22), reason="FY2022 outputs not built")
+def test_snapshot22_rows_and_checks():
+    with open(os.path.join(OUT22, "fy22_sc_awards.csv"), newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    assert len(rows) == 5732
+    assert sum(int(r["amount"]) for r in rows) == 285155968
+    for sec, pot in (("appendix_a", 5610000), ("appendix_b", 36539000), ("appendix_c", 7650000)):
+        assert sum(int(r["amount"]) for r in rows if r["section"] == sec) == pot
+    txt = open(os.path.join(OUT22, "fy22_sc_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "acceptance on p.84" in txt and "(PASS)" in txt
