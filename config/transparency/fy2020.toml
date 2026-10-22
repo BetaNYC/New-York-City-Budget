@@ -1,0 +1,237 @@
+# FY2020 transparency resolutions: every year-specific fact the pipeline needs (GitHub #109).
+# Shared code: code/transreso/ (and code/schedc/, code/schedc_cv/ underneath it). Same layout as
+# FY2021-FY2026: Excel charts, one landscape table per chart page (no /Rotate this year).
+
+fiscal_year = 2020
+issue = 109
+review_dir = "research/2026-10-21-fy20-transparency-review"   # outputs land in <review_dir>/data
+x_tolerance = 3.0
+run_gap_pt = 3.0
+
+# Resolution number and adoption date: from research/2026-07-07-legistar-links-fy15-20.md
+# (FY2020 table, all "confirmed"; Reso 02-05 "confirmed (positional)") and
+# data/combined/legistar_crosswalk.csv; read from Legistar on 2026-07-07, not re-queried here.
+# The crosswalk holds no Legistar URL for FY2020, so no legistar_id. All 8 open with the
+# Committee on Finance report, which prints the date ("This Resolution, dated ..."); none prints
+# "Charts 1 through N".
+numbers_source = "research/2026-07-07-legistar-links-fy15-20.md"
+
+# Line-end hyphens (W5.wrap_hyphen): all 144, on 96 rows, were read by hand on 2026-10-22.
+# 143 are compound words or names that keep the hyphen (community-based x50, child-parent x24,
+# court-involved x24, non-governmental x24, enrollment-based x5, Anti-Violence x4,
+# Bedford-Stuyvesant x4, Watson-Gleason x2, 10-week, COVID-19, Meet-the-Author, Nature-Based,
+# after-school, anti-bullying). One is a separator printed without spaces: Reso 05 p.67 row 4,
+# "Millennium Development-" / "Millennium Youth Services" (the row above prints
+# "Millennium Development - Millennium Youth Services"). Kept as printed; goes to review.
+wrap_hyphen_review = ["Millennium Development-\nMillennium Youth Services"]
+
+[[resolutions]]
+seq = 1
+pdf = "source/FY20/transparency-resolutions/Transparency-Reso-01-2019-07-23.pdf"
+sha256 = "f1b6a1fb2a77baac0b807d2a2c6505d0ada3a83020b661f77f90f69355ae5be5"
+pages = 80
+number = "Res 0998-2019"
+date = "2019-07-23"
+printed_date = "July 23, 2019"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 2
+pdf = "source/FY20/transparency-resolutions/Transparency-Reso-02-2019-08-14.pdf"
+sha256 = "b84e38e9ab2457bc3bb208a1c1406ad980dbcbe9a0793c3999a88cb4167af507"
+pages = 86
+number = "Res 1022-2019"
+date = "2019-08-14"
+printed_date = "August 14, 2019"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 3
+pdf = "source/FY20/transparency-resolutions/Transparency-Reso-03-2019-09-25.pdf"
+sha256 = "ba2f652aa7db7f740707124d332572580b1cffbaae41e552941141a7a84d2503"
+pages = 88
+number = "Res 1059-2019"
+date = "2019-09-25"
+printed_date = "September 25, 2019"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 4
+pdf = "source/FY20/transparency-resolutions/Transparency-Reso-04-2019-11-14.pdf"
+sha256 = "389b64f4c3c5aa1e7625a8e10247b589815a4c5f4ea4ef95197c8ea562bade29"
+pages = 84
+number = "Res 1155-2019"
+date = "2019-11-14"
+printed_date = "November 14, 2019"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 5
+pdf = "source/FY20/transparency-resolutions/Transparency-Reso-05-2019-12-19.pdf"
+sha256 = "eeac0ee6cfe8bbbe9f0887c1dec49f239ba9db39089261246b986806e7466ca4"
+pages = 73
+number = "Res 1198-2019"
+date = "2019-12-19"
+printed_date = "December 19, 2019"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 6
+pdf = "source/FY20/transparency-resolutions/Transparency-Reso-06-2020-01-23.pdf"
+sha256 = "cf4dc74edf410a0493828015d87af3a236b3a692aad71b11b49396e8efb58750"
+pages = 26
+number = "Res 1228-2020"
+date = "2020-01-23"
+printed_date = "January 23, 2020"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 7
+pdf = "source/FY20/transparency-resolutions/Transparency-Reso-07-2020-02-27.pdf"
+sha256 = "77a6af2db16cf429aa9960b3ec18a8d6ebf772db90864ae60505f832a25d1970"
+pages = 43
+number = "Res 1258-2020"
+date = "2020-02-27"
+printed_date = "February 27, 2020"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 8
+pdf = "source/FY20/transparency-resolutions/Transparency-Reso-08-2020-06-30.pdf"
+sha256 = "b6d0a5dc4925e2cf14da2f6847234a9c88eb2a3af8c1fc019799ff72b46052f6"
+pages = 28
+number = "Res 1352-2020"
+date = "2020-06-30"
+printed_date = "June 30, 2020"   # p.1
+charts_printed = 0
+
+[image]
+# Same values as config/transparency/fy2026.toml.
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 64
+# Acceptance on the first chart page (Reso 01 p.13, first row): withholding the row, or one
+# character of it, must make the ink check fire.
+ink_acceptance_seq = 1
+ink_acceptance_page = 13
+ink_acceptance_row_id = "fy20-tr01-p013-r001"
+
+# Named exceptions: places where the PDF disagrees with itself. Each must match exactly or the
+# check still fails; each stays in the review file.
+
+# First page of a chart printing "(continued)": Reso 02 p.34 (chart #12 Healthy Aging
+# Initiative; p.33 is #11, and the labels "Page 18", "Page 19" run on). Read as the chart's start.
+[[exceptions]]
+check_id = "T3.continued_start"
+resolution_seq = 2
+pdf_page = 34
+
+# A caption repeated on the next page without "(continued)": Reso 05 p.47 (chart #28 Public
+# Health Funding Backfill, starts p.46). Read as its continuation.
+[[exceptions]]
+check_id = "T3.continued_missing"
+resolution_seq = 5
+pdf_page = 47
+
+# Reso 06 pp.25-26 print "CHART #: Purpose of Funds Changes - Fiscal 2020 (continued)", with no
+# number, under chart #16 "Purpose of Funds Changes - Fiscal 2020" (p.24). Read as chart #16.
+[[exceptions]]
+check_id = "T3.continued_number"
+resolution_seq = 6
+pdf_page = 25
+
+[[exceptions]]
+check_id = "T3.continued_number"
+resolution_seq = 6
+pdf_page = 26
+
+# "Beating Hearts Initiative": organizations getting automated external defibrillators. The
+# header is Member | Organization | EIN Number | *: no agency, no amount, and (unlike FY2021 and
+# FY2022) no note under the table. Rows kept, amount blank, action "listed".
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 3
+pdf_page = 88
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 4
+pdf_page = 84
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 5
+pdf_page = 73
+
+# `***` on pages that print only the * and ** footnotes (Reso 02 pp.16, 23; Reso 04 p.20;
+# Reso 05 p.22). Checked on the rendered page (Reso 04 p.20). Kept as printed.
+[[exceptions]]   # Department of Parks and Recreation ($3,500) DPR
+check_id = "T11.markers"
+resolution_seq = 2
+pdf_page = 16
+row_index = 21
+
+[[exceptions]]   # New York Junior Tennis League, Inc. $3,500 DYCD
+check_id = "T11.markers"
+resolution_seq = 2
+pdf_page = 16
+row_index = 22
+
+[[exceptions]]   # City University of New York - Public School 99Q (28Q099) ($20,000) CUNY
+check_id = "T11.markers"
+resolution_seq = 2
+pdf_page = 23
+row_index = 17
+
+[[exceptions]]   # Research Foundation of the City University of New York - Pub $20,000 DCLA
+check_id = "T11.markers"
+resolution_seq = 2
+pdf_page = 23
+row_index = 18
+
+[[exceptions]]   # Museum of Contemporary African Diasporian Arts, Inc. - KIDfl ($5,000) DFTA
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 20
+row_index = 15
+
+[[exceptions]]   # Jewish Community Council of Greater Coney Island, Inc. - Sen $5,000 DFTA
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 20
+row_index = 16
+
+[[exceptions]]   # Museum of Contemporary African Diasporian Arts, Inc. - KIDfl ($2,500) DCLA
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 20
+row_index = 17
+
+[[exceptions]]   # New York City Housing Authority - Louis Armstrong Tenant Ass ($5,000) HPD
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 20
+row_index = 18
+
+[[exceptions]]   # Universal Baptist Church - Harvest Street Festival $7,500 DYCD
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 20
+row_index = 19
+
+[[exceptions]]   # Museum of Contemporary African Diasporian Arts, Inc. ($20,000) DYCD
+check_id = "T11.markers"
+resolution_seq = 5
+pdf_page = 22
+row_index = 1
+
+[[exceptions]]   # Museum of Contemporary African Diasporian Arts, Inc. $20,000 DCLA
+check_id = "T11.markers"
+resolution_seq = 5
+pdf_page = 22
+row_index = 2

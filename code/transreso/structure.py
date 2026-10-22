@@ -21,6 +21,7 @@ LABELS = {
     "Member": "member", "Borough": "member", "Borough/Member": "member", "Source": "source",
     "Member/Borough": "member",                                    # FY2025 Reso 08 p.12
     "Organization - Program": "org", "Organization": "org", "EIN Number": "ein",
+    "Organization - School": "org",                                # FY2020 Reso 03 p.58
     "Agency": "agency", "Amount": "amount", "Agy #": "agy", "U/A": "ua", "*": "prequal",
     "Purpose of Funds": "purpose", "New Purpose of Funds": "purpose",
 }
@@ -30,7 +31,7 @@ REQUIRED = {"org", "ein", "agency", "amount"}
 # FY2023 prints "CHART 41:" (no "#", Reso 01 p.81), "- FY 2023" for "- Fiscal 2023" (Reso 01
 # p.66, Reso 09 pp.21-25) and "(cpntinued)" (Reso 03 p.20); each is read and flagged
 # W.caption_format.
-CAPTION = re.compile(r"^CHART #?(\d+):?\s*(.*?)(?:\s*-\s+(?:Fiscal|FY) (\d{4}))?"
+CAPTION = re.compile(r"^CHART #?(\d*):?\s*(.*?)(?:\s*-\s+(?:Fiscal|FY) (\d{4}))?"
                      r"(\s*\(c[a-z]ntinued\))?$")
 PAGE_LABEL = re.compile(r"^Page\s(\d+)$")   # FY2024 Reso 01: "Page\xa01" (no-break space)
 # FY2022 Reso 03 chart #48 prints cents, always ".00" ("$20,290.00"); read as whole dollars.
@@ -51,6 +52,29 @@ FOOTNOTES = {
 def footnote_of(line):
     """The marker whose footnote this printed line is, or None."""
     return next((k for k, vs in FOOTNOTES.items() if any(line.startswith(v) for v in vs)), None)
+# FY2020 caption variants, rewritten before CAPTION is matched (each flagged W.caption_format):
+# "Chart #35:" (Reso 01 pp.70-80), "Chart # 44:" (Reso 03 pp.73-87) and "SU-CASA (continued) -
+# Fiscal 2020" (Reso 05 pp.32-33, Reso 06 pp.17-18). "CHART #:" with no number (Reso 06
+# pp.25-26) matches CAPTION with an empty number.
+CAPTION_FIXES = [
+    (re.compile(r"^Chart\b"), "CHART", "'Chart' for 'CHART'"),
+    (re.compile(r"^CHART # (?=\d)"), "CHART #", "a space after '#'"),
+    (re.compile(r"\s*(\(c[a-z]ntinued\))(\s*-\s+(?:Fiscal|FY) \d{4})$"), r"\2 \1",
+     "'(continued)' before the fiscal year"),
+]
+
+
+def normalise_caption(cap):
+    """(caption as CAPTION expects it, [what was rewritten])."""
+    fixes = []
+    for rx, to, what in CAPTION_FIXES:
+        new = rx.sub(to, cap, count=1)
+        if new != cap:
+            cap = new
+            fixes.append(what)
+    return cap, fixes
+
+
 CITY_EIN = "136400434"
 
 
@@ -105,14 +129,22 @@ def build(res, pages, x_tolerance, doc_fy=2026):
             flag("T3.charts", p["page"], f"{len(p['tables'])} tables on one chart page")
         t = p["tables"][0]
         cap, below = caption_of(p, t)
-        m = CAPTION.match(cap)
+        norm, fixes = normalise_caption(cap)
+        m = CAPTION.match(norm)
         pi["caption"] = cap
         if not m:
             flag("T3.charts", p["page"], f"no chart caption above the table: {cap[:80]!r}")
             continue
-        num, title, fy, cont = int(m.group(1)), m.group(2), m.group(3), bool(m.group(4))
-        pi.update(chart_number=num, continued=int(cont))
-        if not cap.startswith(f"CHART #{m.group(1)}:"):
+        num, title, fy, cont = (int(m.group(1)) if m.group(1) else None), m.group(2), m.group(3), \
+            bool(m.group(4))
+        pi.update(chart_number=num if num is not None else "", continued=int(cont))
+        if fixes:
+            flag("W.caption_format", p["page"], f"caption prints {' and '.join(fixes)}: "
+                 f"{cap[:80]!r}; read as chart #{num}{' (continued)' if cont else ''}",
+                 severity="warn", chart_number=num)
+        elif num is None:
+            pass                                    # T3.continued_number below, or T3.charts
+        elif not cap.startswith(f"CHART #{m.group(1)}:"):
             what = ("no '#' before" if not cap.startswith("CHART #") else "no ':' after")
             flag("W.caption_format", p["page"], f"caption prints {what} the chart number: "
                  f"{cap[:80]!r}; read as chart #{num}", severity="warn", chart_number=num)
@@ -131,7 +163,8 @@ def build(res, pages, x_tolerance, doc_fy=2026):
         # below a table is unexpected text and goes to review.
         other = [x for x in other if not ("***" in notes and x.startswith("Resolution"))]
 
-        if cont and num not in charts and (prev_chart or {}).get("chart_number") == num - 1:
+        if cont and num is not None and num not in charts and \
+                (prev_chart or {}).get("chart_number") == num - 1:
             # FY2023 Reso 08 p.32: the first page of chart #25 prints "(continued)". Read as the
             # start of the chart; allowed only as a named exception (T3.continued_start).
             flag("T3.continued_start", p["page"], f"first page of chart #{num} prints "
@@ -142,7 +175,9 @@ def build(res, pages, x_tolerance, doc_fy=2026):
         if cont and same and prev_chart["chart_number"] != num:
             # FY2022 Reso 07 p.34: "CHART #21: Purpose of Funds Changes (continued)" under chart #22
             # of the same title and year. Read as continuing it; named exception only.
-            flag("T3.continued_number", p["page"], f"'(continued)' caption prints chart #{num}, "
+            # FY2020 Reso 06 pp.25-26 print "CHART #:" with no number; the same rule applies.
+            flag("T3.continued_number", p["page"], f"'(continued)' caption prints chart "
+                 f"{'#' + str(num) if num is not None else 'with no number'}, "
                  f"but continues chart #{prev_chart['chart_number']} (same title and year): "
                  f"{cap[:80]!r}; read as chart #{prev_chart['chart_number']}", severity="warn",
                  chart_number=prev_chart["chart_number"])
@@ -154,6 +189,9 @@ def build(res, pages, x_tolerance, doc_fy=2026):
                  f"'(continued)': {cap[:80]!r}; read as its continuation", severity="warn",
                  chart_number=num)
             cont = True
+        if num is None:
+            flag("T3.charts", p["page"], f"caption prints no chart number: {cap[:80]!r}")
+            continue
         if cont:
             if not prev_chart or prev_chart["chart_number"] != num or prev_chart["title"] != title \
                     or prev_chart["fy_printed"] != (fy or ""):

@@ -490,3 +490,79 @@ def test_snapshot_fy21_rows_and_checks():
     txt = open(os.path.join(OUT21, "fy21_tr_checks.txt"), encoding="utf-8").read()
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "(PASS)" in txt and "agree on every field: 4,500 of 4,500" in txt
+
+
+# --- FY2020 (#109) --------------------------------------------------------------------------------
+CFG20 = ptv.load_config(2020)
+OUT20 = os.path.join(ROOT, CFG20["review_dir"], "data")
+PDF20 = {r["seq"]: os.path.join(ROOT, r["pdf"]) for r in CFG20["resolutions"]}
+
+
+def _build20(seq, pages):
+    ps = reader.read_pdf(PDF20[seq], CFG20["x_tolerance"], CFG20["run_gap_pt"], pages=pages)
+    res = next(r for r in CFG20["resolutions"] if r["seq"] == seq)
+    return structure.build(res, ps, CFG20["x_tolerance"], 2020)
+
+
+def test_caption_variants_fy20():
+    assert structure.normalise_caption("Chart #35: Purpose of Funds Changes - Fiscal 2020") == (
+        "CHART #35: Purpose of Funds Changes - Fiscal 2020", ["'Chart' for 'CHART'"])
+    assert structure.normalise_caption("Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)") == (
+        "CHART #44: Purpose of Funds Changes - Fiscal 2020 (continued)",
+        ["'Chart' for 'CHART'", "a space after '#'"])
+    assert structure.normalise_caption("CHART #16: SU-CASA (continued) - Fiscal 2020") == (
+        "CHART #16: SU-CASA - Fiscal 2020 (continued)", ["'(continued)' before the fiscal year"])
+    assert structure.normalise_caption("CHART #9: A Greener NYC - Fiscal 2021") == (
+        "CHART #9: A Greener NYC - Fiscal 2021", [])
+    m = structure.CAPTION.match("CHART #: Purpose of Funds Changes - Fiscal 2020 (continued)")
+    assert m.groups()[:3] == ("", "Purpose of Funds Changes", "2020") and m.group(4)
+
+
+def test_golden_fy20_lowercase_caption_reso01_p70():
+    # "Chart #35:" over a Source | Member | ... | New Purpose of Funds chart.
+    S = _build20(1, [70])
+    assert [f["check_id"] for f in S["flags"]] == ["W.caption_format"]
+    assert len(S["rows"]) == 18
+    r = S["rows"][0]
+    assert (r["source"], r["member"], r["org"], r["ein"], r["agency"], r["amount"], r["action"],
+            r["chart_number"]) == ("Local", "Borelli", "Columcille Cultural Center, Inc.",
+                                   "133909562", "DYCD", -2500, "purpose_from", 35)
+
+
+def test_golden_fy20_continued_mid_caption_reso05_p32():
+    S = _build20(5, [31, 32])
+    assert [f["check_id"] for f in S["flags"]] == ["W.caption_format"]
+    assert {(r["pdf_page"], r["chart_number"]) for r in S["rows"]} == {(31, 16), (32, 16)}
+
+
+def test_golden_fy20_unnumbered_continued_reso06_p25():
+    S = _build20(6, [24, 25, 26])
+    assert [(f["check_id"], f["pdf_page"]) for f in S["flags"]] == [
+        ("T3.continued_number", 25), ("T3.continued_number", 26)]
+    assert {r["chart_number"] for r in S["rows"]} == {16}
+
+
+def test_golden_fy20_school_header_reso03_p58():
+    # Header "Organization - School" with no Member column.
+    S = _build20(3, [58])
+    assert S["flags"] == []
+    r = S["rows"][0]
+    assert (r["org"], r["org_marker"], r["ein"], r["agency"], r["amount"]) == (
+        "East Flatbush Village, Inc. - Meyer Levin High School", "**", "800612019", "DCLA", -18000)
+
+
+def test_snapshot_fy20_rows_and_checks():
+    path = os.path.join(OUT20, "fy20_tr_rows.csv")
+    if not os.path.exists(path):
+        pytest.skip("fy20 not built")
+    rows = list(csv.DictReader(open(path, encoding="utf-8")))
+    assert len(rows) == 5396
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rows)
+    by = {}
+    for r in rows:
+        by[r["resolution_seq"]] = by.get(r["resolution_seq"], 0) + 1
+    assert by == {"1": 1361, "2": 1270, "3": 1090, "4": 573, "5": 570, "6": 176, "7": 233, "8": 123}
+    assert sum(1 for r in rows if r["action"] == "listed") == 73
+    txt = open(os.path.join(OUT20, "fy20_tr_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "(PASS)" in txt and "agree on every field: 5,396 of 5,396" in txt
