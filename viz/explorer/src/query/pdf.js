@@ -288,6 +288,7 @@ export const DECISION_WORDS = {
   source_error: "the PDF's own error",
   parser_bug: "our reading is wrong",
   needs_info: "needs more information",
+  read_from_page_image: "read from the page image",
 };
 
 /** One badge state for a row's review entries: "decided" when every entry has a decision. */

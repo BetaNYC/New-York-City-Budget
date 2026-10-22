@@ -10,7 +10,7 @@ wins; else a check rule with its sub_id; else a check rule alone. A review row t
 rule, or two, is a stop.
 """
 
-DECISIONS = ("source_error", "parser_bug", "accepted_as_printed", "needs_info")
+DECISIONS = ("source_error", "parser_bug", "accepted_as_printed", "needs_info", "read_from_page_image")
 
 RULES = {}
 
@@ -274,8 +274,11 @@ RULES[("2023", "schedule_c")] = ("research/2026-10-21-fy23-schedule-c-review/REV
     ("item 34", "source_error",
      "As the FY2023 Schedule C REVIEW.md suggests; see its item.",
      ["c231b2927c37"]),
-    ("item 35", "accepted_as_printed",
-     "As the FY2023 Schedule C REVIEW.md suggests (the EIN is 870753479 on the page); see its item.",
+    # The page-image rule (#209): the REVIEW.md's "the EIN is 870753479 on the page" (looked at)
+    # in the decision that carries it (code/page_image.py). A person still confirms p.235.
+    ("item 35", "read_from_page_image",
+     'page shows ein: "87-0753479" (the text layer has a space for the hyphen, "87 0753479"; '
+     'the FY2023 Schedule C REVIEW.md item 35 looked at p.235). Confirm on the page.',
      ["42eba5fef74a"]),
     ("item 36", "accepted_as_printed",
      "As the FY2023 Schedule C REVIEW.md suggests; see its item.",
@@ -608,9 +611,8 @@ RULES[("2019", "schedule_c")] = ("research/2026-10-22-fy19-schedule-c-review/REV
     ("item 15", "accepted_as_printed",
      "As the FY2019 Schedule C REVIEW.md suggests; see its item.",
      ["685f229d5a0b"]),
-    ("item 16", "accepted_as_printed",
-     "As the FY2019 Schedule C REVIEW.md suggests; see its item.",
-     ["12c6e02b3ba0", "a3c03050ef92"]),
+    # item 16 (12c6e02b3ba0, a3c03050ef92: the partner list's EINs as an H5 named exception) is
+    # gone: since #209 those EINs are sub-award rows and the census counts them.
     ("item 17", "accepted_as_printed",
      "As the FY2019 Schedule C REVIEW.md suggests; see its item.",
      ["f180288281ff"]),
@@ -622,13 +624,13 @@ RULES[("2019", "schedule_c")] = ("research/2026-10-22-fy19-schedule-c-review/REV
      ["4d556072e010"]),
     ("item 20", "accepted_as_printed",
      "As the FY2019 Schedule C REVIEW.md suggests; see its item.",
-     ["ed8a060b3b0e"]),
+     ["12390d893278"]),   # was ed8a060b3b0e (field purpose, before #209's program_or_subheading)
     ("item 21", "accepted_as_printed",
      "As the FY2019 Schedule C REVIEW.md suggests; see its item.",
-     ["70f9bb5337a5"]),
+     ["bdeb51b22b29"]),   # was 70f9bb5337a5 (field purpose)
     ("item 22", "accepted_as_printed",
      "As the FY2019 Schedule C REVIEW.md suggests; see its item.",
-     ["a64980563c5b"]),
+     ["766361e729d4"]),   # was a64980563c5b (field purpose)
     ("section: Names that differ between a box and its summary line", "accepted_as_printed",
      "As the FY2019 Schedule C REVIEW.md suggests; see its item.",
      ["cfb068757f9f", "b6bea8d7dae2", "f09a5bec8a33", "7e94a6a17e37", "8c1603f0064f",
@@ -700,15 +702,17 @@ RULES[("2018", "schedule_c")] = ("research/2026-10-22-fy18-schedule-c-review/REV
      ["e9c19a33944f"]),
     ("item 21 (9 rows W.star_in_cell)", "accepted_as_printed",
      "As the FY2018 Schedule C REVIEW.md suggests; see its item.",
-     ["de39bcdc4521", "10c595584c87", "2cd83253d605", "5ef14f7e6c05", "891f35f29562",
-          "9f5b37c4464b", "a4e5d9c36c67", "e0d2d621f438", "1f7556977e37"]),
+     # Eight in the School column, now program_or_subheading (#209), so new ids: were
+     # de39bcdc4521, 10c595584c87, 2cd83253d605, 5ef14f7e6c05, 891f35f29562, 9f5b37c4464b,
+     # a4e5d9c36c67, e0d2d621f438.
+     ["ddc682cc8eca", "9380f51eefe7", "9cb233bec7d2", "32080afb1509", "f8153e6c9077",
+          "2a116819202b", "7f4854730150", "58511551cb85", "1f7556977e37"]),
     ("item 22 (`1d1f48236143` and 5 more: pp.16, 177, 300, 301, 331, 332)", "accepted_as_printed",
      "As the FY2018 Schedule C REVIEW.md suggests; see its item.",
      ["1d1f48236143", "a35ddeac14ae", "1d2f74631fde", "574730046d24", "da4f87516cb8",
           "308a3b2ea53b"]),
-    ("item 23", "accepted_as_printed",
-     "As the FY2018 Schedule C REVIEW.md suggests; see its item.",
-     ["428ef099881f"]),
+    # item 23 (428ef099881f: the partner list's 28 EINs as an H5 named exception) is gone: since
+    # #209 those EINs are sub-award rows and the census counts them.
     ("section: Fiscal conduits, table row `f0d35523ca12`", "source_error",
      "As the FY2018 Schedule C REVIEW.md suggests; see its item.",
      ["f0d35523ca12"]),
@@ -1092,8 +1096,11 @@ RULES[("2019", "transparency")] = ("research/2026-10-22-fy19-transparency-review
     ("Critical #1–2", "accepted_as_printed",
      "As the FY2019 transparency REVIEW.md suggests; see its item.",
      ["9d5b5c4d7120", "fffe2d2c53d4"]),
-    ("Critical #3", "parser_bug",
-     "As the FY2019 transparency REVIEW.md suggests: EIN 472383238 (47-2383238) as shown on the page; see its item.",
+    # The page-image rule (#209): the REVIEW.md's parser_bug "EIN 472383238 as shown on the page"
+    # is a page-vs-text-layer case, in the decision that carries it (code/page_image.py).
+    ("Critical #3", "read_from_page_image",
+     'page shows ein: "472383238" (the text layer adds a hidden tab glyph, "472383238(cid:9)"; '
+     'the FY2019 transparency REVIEW.md Critical #3). Confirm on Reso 03 p.46.',
      ["68a35940ec45"]),
     ("Critical #4–7", "source_error",
      "As the FY2019 transparency REVIEW.md suggests; see its item.",

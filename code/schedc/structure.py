@@ -26,6 +26,13 @@ EIN_IN_TEXT = re.compile(r"(^|[\s|])(\d{2}-\d{7}|\d{9})($|[\s|])")
 EIN_LIKE = re.compile(r"^\d{2}-\d{6,8}$")
 # An award header's column words, as printed (structure `header_band_words`).
 HEADER_WORD = re.compile(r"\b(EIN|Tax ID|Amount)\b")
+# An award row's text fields, each kept raw (`<field>_raw`) and clean. `program_or_subheading`
+# holds a "Program" or "School" column (header label `program_or_subheading`; FY2018-FY2022 Art
+# as a Catalyst for Change) or a sub-heading printed inside the table (`award_subheadings`), so
+# that `purpose` holds only a printed purpose (decided in #209). `fiscal_conduit` is FY2018's
+# "Fiscal Conduit" column.
+TEXT_FIELDS = ("member", "sponsor", "delegation", "org", "agency", "purpose",
+               "program_or_subheading", "fiscal_conduit")
 
 
 def clean_text(raw):
@@ -55,6 +62,11 @@ def clean_text(raw):
     if collapsed != out:
         rules.append("ws_collapse")
     return collapsed, sorted(set(rules))
+
+
+def strip_star(text):
+    """A row's "*" mark printed at the end of a cell, dropped (clean rule `star_mark`)."""
+    return re.sub(r"(^|\s)\*$", "", text).strip()
 
 
 def parse_amount(s):
@@ -435,6 +447,129 @@ def split_merged_tables(pages, cfg):
     return out
 
 
+# A side list's header labels as printed (FY2019 pp.105-106; FY2018 p.106 prints "Amount" and
+# "Service Type" in one header cell, read as `amount_service`).
+SIDE_LABELS = {"Organization": "org", "EIN": "ein", "Amount": "amount",
+               "Service Type": "service_type", "Amount Service Type": "amount_service"}
+MONEY_TOKEN = re.compile(r"\$[\d,]+")
+
+
+def _side_rows(part, hdr, pn, flag):
+    """The rows of a side list (structure `side_lists`; FY2019 pp.105-106, FY2018 p.106) as
+    sub-award records. Each cell goes to the header cell over its centre (some rows are cut
+    into narrow phantom cells, p.105 r11); a row band with no EIN is the wrapped text of the row
+    above ("Placement", p.105 r13), joined to it with its line break, flagged. The list's later
+    tables print no header of their own (FY2018 p.106): the first table's header holds."""
+    hcells = [c for c in hdr["cells"] if c["text_raw"].strip()]
+    cols = []
+    for c in hcells:
+        t_ = " ".join(c["text_raw"].split())
+        if t_ not in SIDE_LABELS:
+            flag("H4.header", "critical", pn, f"side list header label not known: {t_!r}")
+            return []
+        cols.append((SIDE_LABELS[t_], c["bbox"][0], c["bbox"][2]))
+
+    def field_of(c):
+        cx = (c["bbox"][0] + c["bbox"][2]) / 2
+        hit = [f for f, a, b in cols if a <= cx < b]
+        return hit[0] if hit else min(cols, key=lambda k: abs((k[1] + k[2]) / 2 - cx))[0]
+
+    out = []
+    for k_, u in enumerate(part):
+        for r in u["rows"][(1 if k_ == 0 else 0):]:
+            raw = {}
+            boxes = []
+            for c in sorted(r["cells"], key=lambda c: c["bbox"][0]):
+                if not c["text_raw"].strip():
+                    continue
+                f = field_of(c)
+                raw[f] = (raw[f] + "\n" + c["text_raw"]) if f in raw else c["text_raw"]
+                boxes += c["char_boxes"]
+            if not raw:
+                continue
+            x0 = min(c["bbox"][0] for c in r["cells"])
+            x1 = max(c["bbox"][2] for c in r["cells"])
+            band = [x0, r["top"], x1, r["bottom"]]
+            if not EIN_IN_TEXT.search(_row_text(r)) and out and out[-1]["table_index"] == \
+                    u["table_index"]:
+                prev = out[-1]
+                for f, v in raw.items():
+                    prev["_raw"][f] = (prev["_raw"][f] + "\n" + v) if prev["_raw"].get(f) else v
+                prev["bbox_pt"][3] = r["bottom"]
+                prev["_char_boxes"] += boxes
+                if "continuation_row" not in prev["row_flags"]:
+                    prev["row_flags"].append("continuation_row")
+                continue
+            out.append(dict(pdf_page=pn, table_index=u["table_index"], row_index=r["row_index"],
+                            bbox_pt=list(band), _raw=raw, _char_boxes=boxes, row_flags=[]))
+    for sa in out:
+        raw = dict(sa["_raw"])    # sa["_raw"] stays as the cells read (the image check's view)
+        if "amount_service" in raw:
+            # One cell for both (FY2018 p.106): the "$" figure is the amount; the rest of the
+            # cell, its lines kept, is the service type. Flagged (routine).
+            lines = raw.pop("amount_service").split("\n")
+            amt = next((m.group(0) for ln in lines for m in [MONEY_TOKEN.search(ln)] if m), "")
+            rest = [MONEY_TOKEN.sub("", ln, count=1).strip() if amt and amt in ln else ln
+                    for ln in lines]
+            raw["amount"] = amt
+            raw["service_type"] = "\n".join(ln for ln in rest if ln.strip())
+            sa["row_flags"].append("shared_column")
+        sa["org_raw"] = raw.get("org", "")
+        sa["org"], _ = clean_text(sa["org_raw"])
+        sa["service_type_raw"] = raw.get("service_type", "")
+        sa["service_type"], _ = clean_text(sa["service_type_raw"])
+        sa["ein_printed"] = raw.get("ein", "").strip()
+        sa["ein"] = sa["ein_printed"].replace("-", "") if EIN_RE.match(sa["ein_printed"]) else ""
+        sa["amount_printed"] = " ".join(raw.get("amount", "").split())
+        sa["amount"] = parse_amount(sa["amount_printed"])
+        sa["subaward_id"] = f"p{pn:03d}-t{sa['table_index']:02d}-r{sa['row_index']:03d}"
+        for f, bad in (("ein", "ein_unreadable"), ("amount", "amount_unreadable")):
+            if not sa[f]:
+                sa["row_flags"].append(bad)
+                flag("H5.anchors", "critical", pn, f"side list row {f} unreadable: "
+                     f"{raw.get(f, '')!r}", table_index=sa["table_index"],
+                     row_index=sa["row_index"], field=f)
+    return out
+
+
+def _link_subawards(subawards, awards, cfg, flag):
+    """Each sub-award's parent: the one award its list names (`parent` in the year's
+    `side_lists` entry: page, EIN, amount as printed). The FY2018 list's page prints what is
+    left of the parent (`remainder`, p.105: "The remaining $690,700 will be used by CWE"):
+    parent amount - sub-awards = remainder, or a critical flag."""
+    fy = cfg["fiscal_year"] % 100
+    by_parent = {}
+    for sa in subawards:
+        side = sa.pop("side_list")
+        if "parent" not in side:
+            raise ValueError(f"{cfg.get('_path', 'the year config')}: [[side_lists]] page "
+                             f"{side['page']} has no `parent` (page, ein, amount of the award "
+                             "the list breaks down)")
+        pa = side["parent"]
+        hit = [a for a in awards if a["pdf_page"] == pa["page"] and a["ein"] == pa["ein"]
+               and a["amount"] == pa["amount"]]
+        if len(hit) != 1:
+            flag("K.side_list_parent", "critical", sa["pdf_page"], f"side list parent "
+                 f"{pa} found {len(hit)} times", table_index=sa["table_index"])
+            sa["parent_award_id"] = ""
+        else:
+            sa["parent_award_id"] = hit[0]["award_id"]
+            by_parent.setdefault(hit[0]["award_id"], (hit[0], pa, []))[2].append(sa)
+        sa["subaward_id"] = f"fy{fy:02d}-sub-{sa['subaward_id']}"
+    for aid, (a, pa, subs) in by_parent.items():
+        tot = sum(sa["amount"] or 0 for sa in subs)
+        if "remainder" in pa and a["amount"] - tot != pa["remainder"]:
+            flag("K.side_list_sum", "critical", pa["page"], f"{a['org']} ${a['amount']:,} less "
+                 f"its {len(subs)} sub-awards ${tot:,} is ${a['amount'] - tot:,}; the page prints "
+                 f"a remainder of ${pa['remainder']:,}", award_id=aid,
+                 expected=pa["remainder"], observed=a["amount"] - tot,
+                 dollar_impact=abs(a["amount"] - tot - pa["remainder"]))
+        elif tot > a["amount"]:
+            flag("K.side_list_sum", "critical", pa["page"], f"{a['org']} ${a['amount']:,}: its "
+                 f"{len(subs)} sub-awards add to more, ${tot:,}", award_id=aid,
+                 dollar_impact=tot - a["amount"])
+
+
 def build(pages, cfg):
     """Vector pages -> dict(categories, summary_lines, initiatives, awards, flags, events)."""
     s = cfg["structure"]
@@ -489,11 +624,13 @@ def build(pages, cfg):
     beside = set()    # ids of loose lines read into a statement beside its label
     # Sub-headings printed as a row of an award table (FY2021 p.70 "Technical Assistance",
     # "Community Consultant Contracts"; config `structure.award_subheadings`, the texts as
-    # printed): not award rows; the rows under one carry it in `purpose` (flagged).
+    # printed): not award rows; the rows under one carry it in `program_or_subheading`
+    # (flagged), so `purpose` holds only a printed purpose (decided in #209).
     subheads = set(s.get("award_subheadings", []))
     sub_of = {}       # initiative_id -> the sub-heading the rows under it are printed beneath
     covered = {}      # (page, table_index) -> char boxes read that are in no award row
     side_tables = {}  # page -> bboxes of tables named in `side_lists` (not award rows)
+    subawards = []    # rows of the tables named in `side_lists` (_side_rows)
     table_totals = []  # TOTAL rows closing an award table (`award_table_totals`)
 
     def _subhead(r):
@@ -951,16 +1088,16 @@ def build(pages, cfg):
                 if table_kind(u, cfg) != "other":
                     break
                 part.append(u)
-            rows_ = [r_ for k_, u in enumerate(part) for r_ in u["rows"][(1 if k_ == 0 else 0):]]
-            own = [r_ for r_ in rows_ if EIN_IN_TEXT.search(_row_text(r_))]
-            # Each row's amount: the "$" figure in its text (FY2018 p.106 prints "Amount" and
-            # "Service Type" in one header cell, so there is no amount column to read).
-            amts = [parse_amount((re.findall(r"\$[\d,]+", _row_text(r_)) or [""])[0])
-                    for r_ in own]
-            tot = sum(v or 0 for v in amts)
-            flag("K.side_list", "critical", pn, f"{side['note']}: {len(own)} rows with an EIN, "
-                 f"${tot:,} as printed; read as no award", table_index=t["table_index"],
-                 dollar_impact=tot)
+            # Its rows are sub-awards (decided in #209): each row with an EIN is one, linked to
+            # the award it breaks down (`parent`, below), and not counted in any award total.
+            subs = _side_rows(part, hdr, pn, flag)
+            for sa in subs:
+                sa.update(side_list=side)
+            subawards.extend(subs)
+            tot = sum(sa["amount"] or 0 for sa in subs)
+            flag("K.side_list", "critical", pn, f"{side['note']}: {len(subs)} rows with an EIN, "
+                 f"${tot:,} as printed; read as sub-awards of one award (the subawards table), "
+                 "not counted as awards", table_index=t["table_index"], dollar_impact=tot)
             for u in part:
                 side_tables.setdefault(pn, []).append(u["bbox"])
                 covered.setdefault((pn, u["table_index"]), []).extend(
@@ -1091,8 +1228,8 @@ def build(pages, cfg):
                          row_index=r["row_index"])
             rec["_char_boxes"] = char_boxes
             sub = sub_of.get(current["initiative_id"] if current else None) if subheads else None
-            if sub and "purpose" not in fields:
-                rec["purpose_raw"] = sub
+            if sub and "program_or_subheading" not in fields:
+                rec["program_or_subheading_raw"] = sub
                 rec["row_flags"].append("subheading")
             rec["_raw"] = {f: rec[f + "_raw"] for f in fields}
             # A row band whose own cells hold text but no EIN and no amount, directly under an
@@ -1189,8 +1326,16 @@ def build(pages, cfg):
     for rec in awards:
         rec["award_id"] = (f"fy{fy:02d}-p{rec['pdf_page']:03d}-t{rec['table_index']:02d}"
                            f"-r{rec['row_index']:03d}")
+        has_conduit = "conduit_raw" in rec or "conduit_ein_raw" in rec
+        if has_conduit:
+            # "Fiscal Conduit" and "FC EIN" columns (FY2018, header labels `conduit`,
+            # `conduit_ein`; p.10: an organization may receive its funds through a fiscal
+            # conduit): kept in `fiscal_conduit` and `fiscal_conduit_ein`, the same fields as
+            # the transparency rows (decided in #209).
+            rec["fiscal_conduit_raw"] = rec.pop("conduit_raw", "")
+            rec["fiscal_conduit_ein_printed"] = rec.pop("conduit_ein_raw", "").strip()
         applied = set()
-        for f in ("member", "sponsor", "delegation", "org", "agency", "purpose"):
+        for f in TEXT_FIELDS:
             if f + "_raw" in rec:
                 rec[f], rules = clean_text(rec[f + "_raw"])
                 applied.update(rules)
@@ -1201,24 +1346,41 @@ def build(pages, cfg):
             else:
                 rec[f], rec[f + "_raw"] = "", ""
         rec["clean_rules_applied"] = ";".join(sorted(applied))
-        if "star_raw" in rec or ("hrule_table" in rec["row_flags"] and
-                                 any(f == "star" for _, f in labels)):
-            # A "*" column (FY2019, header label `star`; p.10: "organizations identified in
-            # Schedule C with an asterisk" have a review not yet complete). No output column
-            # holds it: a "*" is a routine row flag; any other text there is a review item.
+        star_col = "star_raw" in rec
+        if star_col or ("hrule_table" in rec["row_flags"] and
+                        any(f == "star" for _, f in labels)):
+            # A "*" column (FY2019, FY2018, header label `star`). The PDF's footnote (FY2019
+            # p.11, FY2018 p.10): "For those organizations identified in Schedule C with an
+            # asterisk, either MOCS or the Council's review process has not yet been completed;
+            # ... All such reviews and requirements must be completed prior to contract
+            # award." Kept in `review_not_completed` (below); any other text there is a review
+            # item.
             st = " ".join(rec.pop("star_raw", "").split())
-            cut = next((f for f in ("purpose", "org") if re.search(r"(^|\s)\*$", rec[f])),
+            cut = next((f for f in ("program_or_subheading", "purpose", "org")
+                        if re.search(r"(^|\s)\*$", rec[f])),
                        None) if not st and "hrule_table" in rec["row_flags"] else None
             if st == "*":
                 rec["row_flags"].append("asterisk")
             elif cut:
                 # A table ruled with horizontal lines only has no "*" column of its own (p.94:
-                # "Public School / Middle School 183  *" in the Program column): the "*" stays
-                # in the cell as printed; the row is flagged and is a review item.
+                # "Public School / Middle School 183  *" in the Program column): the row is
+                # flagged and is a review item. In org or purpose the "*" stays in the cell as
+                # printed; in program_or_subheading (row context, not printed text a reader
+                # quotes) the clean value drops it, since review_not_completed records it; the
+                # raw value keeps it (clean rule `star_mark`).
+                printed = rec[cut]
                 rec["row_flags"] += ["asterisk", "star_in_cell"]
+                if cut == "program_or_subheading":
+                    rec[cut] = strip_star(printed)
+                    rec["clean_rules_applied"] = ";".join(sorted(
+                        set(filter(None, rec["clean_rules_applied"].split(";"))) | {"star_mark"}))
+                    how = ("the '*' is the row's mark (review_not_completed), dropped from "
+                           "program_or_subheading; program_or_subheading_raw keeps it")
+                else:
+                    how = "kept in the cell as printed"
                 flag("W.star_in_cell", "warn", rec["pdf_page"], f"'*' printed at the end of "
-                     f"the {cut} cell {rec[cut][-60:]!r} (no '*' column in this table); kept "
-                     "in the cell as printed", award_id=rec["award_id"],
+                     f"the {cut} cell {printed[-60:]!r} (no '*' column in this table); {how}",
+                     award_id=rec["award_id"],
                      table_index=rec["table_index"], row_index=rec["row_index"], field=cut,
                      dollar_impact=0)
             elif st:
@@ -1226,18 +1388,40 @@ def build(pages, cfg):
                 flag("H7.star", "critical", rec["pdf_page"], f"'*' column holds {st!r}",
                      award_id=rec["award_id"], table_index=rec["table_index"],
                      row_index=rec["row_index"], field="star")
-        if "conduit_raw" in rec or "conduit_ein_raw" in rec:
-            # "Fiscal Conduit" and "FC EIN" columns (FY2018, header labels `conduit`,
-            # `conduit_ein`; p.10: an organization may receive its funds through a fiscal
-            # conduit). No output column holds them: a row that prints one is flagged and is a
-            # warn review item carrying both as printed; the FC EIN counts in the anchor census.
-            fc = " ".join(rec.pop("conduit_raw", "").split())
-            fe = " ".join(rec.pop("conduit_ein_raw", "").split())
-            if fc or fe:
+        if any(f == "star" for _, f in labels):
+            # `review_not_completed`: "1" where the row prints the "*" (in its column or, flagged,
+            # in a cell of its own or at the end of a cell); "0" where the row's table has a "*"
+            # column and the row prints none; blank where the table has no "*" column, and in
+            # every year whose PDF prints no "*" footnote (FY2020 on).
+            rec["review_not_completed"] = "1" if "asterisk" in rec["row_flags"] else \
+                "0" if star_col and "star_text" not in rec["row_flags"] else ""
+        if has_conduit:
+            # A row that prints a fiscal conduit is flagged and is a warn review item; the FC EIN
+            # counts in the anchor census.
+            fe = rec["fiscal_conduit_ein_printed"]
+            rec["fiscal_conduit_ein"] = fe.replace("-", "") if EIN_RE.match(fe) else ""
+            note = next((n for n in s.get("conduit_notes", []) if n["page"] == rec["pdf_page"]
+                         and n["printed"] == rec["fiscal_conduit"]), None)
+            if note is not None:
+                # Text in the conduit column that is not a conduit (FY2018 p.271: "Please
+                # indicate the actuals schools.", a drafting note; config `conduit_notes`):
+                # fiscal_conduit blank, the printed text kept in fiscal_conduit_raw, flagged.
+                printed = rec["fiscal_conduit"]
+                rec["fiscal_conduit"] = ""
+                rec["row_flags"].append("conduit_note")
+                flag("W.fiscal_conduit", "warn", rec["pdf_page"], f"the conduit column prints "
+                     f"{printed!r}: {note['note']}; fiscal_conduit left blank, the text kept in "
+                     "fiscal_conduit_raw", award_id=rec["award_id"],
+                     table_index=rec["table_index"], row_index=rec["row_index"], field="conduit",
+                     dollar_impact=0)
+            elif rec["fiscal_conduit"] or fe:
                 rec["row_flags"].append("fiscal_conduit")
-                rec["_conduit_ein"] = fe.replace("-", "") if EIN_RE.match(fe) else ""
+                kept = ("kept in fiscal_conduit and fiscal_conduit_ein" if rec["fiscal_conduit_ein"]
+                        else "kept in fiscal_conduit; fiscal_conduit_ein blank (no EIN printed)"
+                        if not fe else f"kept in fiscal_conduit; the FC EIN as printed is not an "
+                        "EIN, so fiscal_conduit_ein is blank (fiscal_conduit_ein_printed keeps it)")
                 flag("W.fiscal_conduit", "warn", rec["pdf_page"], f"fiscal conduit printed: "
-                     f"{fc!r}, FC EIN {fe!r}; not in an output column (kept here as printed)",
+                     f"{rec['fiscal_conduit']!r}, FC EIN {' '.join(fe.split())!r}; {kept}",
                      award_id=rec["award_id"], table_index=rec["table_index"],
                      row_index=rec["row_index"], field="conduit", dollar_impact=0)
         rec["ein_printed"] = rec.pop("ein_raw").strip()
@@ -1289,7 +1473,9 @@ def build(pages, cfg):
     for ini in initiatives:
         ini["rows_sum"] = sum(a["amount"] or 0 for a in awards
                               if a["initiative_id"] == ini["initiative_id"])
+    _link_subawards(subawards, awards, cfg, flag)
     return dict(initiatives=initiatives, summary=summary, awards=awards, flags=flags,
+                subawards=subawards,
                 side_tables=side_tables, table_totals=table_totals,
                 last_cols=last_cols, header_rows=header_rows,
                 band_words=band_words, covered=covered)

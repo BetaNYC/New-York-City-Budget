@@ -111,7 +111,8 @@ split_boxes_award_tables = true
 # Women's Leadership Development): cut at the EIN and amount words.
 split_one_cell_rows = true
 # A fourth column, "Program", between EIN and Amount in an h-rule table (pp.84-85, Art as a
-# Catalyst for Change: the school each $18,000 award serves). Read into `purpose`.
+# Catalyst for Change: the school each $18,000 award serves). Read into
+# `program_or_subheading` (#209), not `purpose`.
 hrule_extra_column = true
 # A summary TOTAL printed "TOTAL:" (p.32, Community Development).
 total_colon = true
@@ -133,7 +134,7 @@ header_labels = [
   ["Amount", "amount"],
   ["Agency", "agency"],
   ["Purpose of Funds", "purpose"],
-  ["Program", "purpose"],                                     # pp.84-85 (see above)
+  ["Program", "program_or_subheading"],                       # pp.84-85 (see above)
 ]
 
 # Designation statements (text after "Designation Method:"), checked in order. FY2022 words

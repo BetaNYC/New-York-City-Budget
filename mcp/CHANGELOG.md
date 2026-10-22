@@ -12,6 +12,21 @@ Nothing yet.
 
 A patch: the index gains empty tables; no tool, argument or answer changes.
 
+### Changed (PDF family config, 2026-10-22: schema fields decided in #209, W8 #217)
+- **New columns in the reviewed-PDF tables, every year, blank where the PDF prints none.**
+  `pdf_schedule_c`: `program_or_subheading` (+ `_raw`; FY2018–FY2022's "Program"/"School"
+  column and FY2021's sub-headings, so `purpose` holds only a printed purpose),
+  `review_not_completed` (the `*` mark, FY2019 and FY2018: 1 printed, 0 not), the four
+  `fiscal_conduit*` columns (FY2018) and `read_from_page_image`. `pdf_transparency`: the four
+  `fiscal_conduit*` columns (no longer `optional`), `amount_kind` (`no_dollar_amount` for the
+  Beating Hearts rows, whose amount is NULL, so every `SUM` skips them) and
+  `read_from_page_image`.
+- **A new table, `pdf_schedule_c_subawards`** (`fyNN_sc_subawards.csv`): the Jobs to Build On
+  partner lists (FY2019, FY2018; 28 rows, $4,463,500 each year), each row linked to its award by
+  `parent_award_id` and never counted in an award total. Header only in the other years.
+- No tool reads any `pdf_*` table yet, and the MCP's own index loads only `closed` years (none),
+  so answers do not change. Version stays 2.0.1: it is not published.
+
 ### Added (row links, 2026-10-22)
 - Added `src/rowlinks.ts`, one builder for a PDF row's links (#210). It returns the explorer
   source-view link, the GitHub page and raw download at a given commit, and the publisher's copy

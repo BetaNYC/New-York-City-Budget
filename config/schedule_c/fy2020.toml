@@ -155,7 +155,7 @@ header_labels = [
   ["Amount", "amount"],
   ["Agency", "agency"],
   ["Purpose of Funds", "purpose"],
-  ["Program", "purpose"],                                     # p.142 (see above)
+  ["Program", "program_or_subheading"],                       # p.142 (see above)
 ]
 
 # Designation statements (text after "Designation Method:"), checked in order. What FY2021
