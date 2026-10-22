@@ -67,6 +67,17 @@ def run(cfg, pdf_sha, pages, S):
             by_page[a["pdf_page"]] = by_page.get(a["pdf_page"], 0) + 1
     diffs = [(p["page"], p["ein_tokens"], by_page.get(p["page"], 0)) for p in pages
              if p["ein_tokens"] != by_page.get(p["page"], 0)]
+    # A page whose word count is off for a reason read off the page (FY2020 p.306: the text
+    # layer glues one EIN to the name before it, "Students131693134", so the page has one
+    # EIN-shaped word fewer than rows) passes only as a named exception matched on (page,
+    # words, rows); a warn flag.
+    pw = {(e["page"], e["words"], e["rows"]): e for e in cfg.get("exceptions", [])
+          if e["check"] == "H5.page_words"}
+    for d in [d for d in diffs if d in pw]:
+        diffs.remove(d)
+        flags.append(dict(check_id="H5.anchors", severity="warn", pdf_page=d[0],
+                          dollar_impact=0, message=f"{d[1]} EIN-shaped words but {d[2]} award "
+                          f"rows with an EIN (named exception: {pw[d]['note']})"))
     # A row whose printed EIN is not EIN-shaped (FY2026: two 8-digit EINs) passes only as a
     # named exception in the year's config, matched on (award_id, ein_printed).
     named = {(e["award_id"], e["ein_printed"]): e for e in cfg.get("exceptions", [])

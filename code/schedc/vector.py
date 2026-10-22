@@ -267,6 +267,8 @@ HRULE_MERGE = 2.0       # pt: a rule drawn as a thin filled box has two edges th
 HRULE_ROW_MAX = 45.0    # pt: a row band is at most three lines of 11 pt type
 HRULE_ALIGN = 3.0       # pt: the rules of one table start and end within this of each other
 AMOUNT_WORD = re.compile(r"^\$[\d,]+$")
+EIN_SHORT = re.compile(r"^(\d{2}-?\d{7}|\d{2}-\d{6}|\d{2}-\d{8})$")
+AMOUNT_BARE = re.compile(r"^(\$[\d,]+|\d{1,3}(?:,\d{3})*)$")
 
 
 def _dark(color):
@@ -348,6 +350,13 @@ def hrule_tables(page, ox, oy, tables, words, opts=()):
     An FY2022 switch:
       - `hrule_extra_column`: words between the EIN and amount columns that are neither make a
         fourth column (FY2022 pp.84-85: "... | EIN | Program | Amount")."""
+    # `bare_amounts` (FY2020): member and appendix tables print amounts with no "$"
+    # ("5,500", p.13), so a row's amount word may be bare.
+    AW = AMOUNT_BARE if "bare_amounts" in opts else AMOUNT_WORD
+    # `hrule_short_ein` (FY2020 p.134): a row's EIN printed one digit short ("47-984801")
+    # still marks an award row, so the table starts at it.
+    ET = EIN_SHORT if "hrule_short_ein" in opts else EIN_TOKEN
+
     def cell_of(w, t):
         cx, cy = (w["x0"] + w["x1"]) / 2, (w["top"] + w["bottom"]) / 2
         return next((c for c in t.cells if c[0] <= cx < c[2] and c[1] <= cy < c[3]), None)
@@ -356,8 +365,8 @@ def hrule_tables(page, ox, oy, tables, words, opts=()):
         cx, cy = (w["x0"] + w["x1"]) / 2, (w["top"] + w["bottom"]) / 2
         return b[0] <= cx < b[2] and b[1] <= cy < b[3]
 
-    ein_w = [w for w in words if EIN_TOKEN.match(w["text"])]
-    amt_w = [w for w in words if AMOUNT_WORD.match(w["text"])]
+    ein_w = [w for w in words if ET.match(w["text"])]
+    amt_w = [w for w in words if AW.match(w["text"])]
     suspect = set()
     for k, t in enumerate(tables):
         if not any(cell_of(w, t) for w in words):
@@ -404,16 +413,16 @@ def hrule_tables(page, ox, oy, tables, words, opts=()):
         floor = max([y for y, _, _ in all_rules if y < ys[0] - 1.0], default=0.0)
         over = [w for w in words if x0 <= (w["x0"] + w["x1"]) / 2 < x1 and w["top"] > floor
                 and ys[0] - HRULE_ROW_MAX < (w["top"] + w["bottom"]) / 2 < ys[0]]
-        if any(EIN_TOKEN.match(w["text"]) for w in over) and \
-                any(AMOUNT_WORD.match(w["text"]) for w in over) and \
+        if any(ET.match(w["text"]) for w in over) and \
+                any(AW.match(w["text"]) for w in over) and \
                 not any(t.bbox[1] < ys[0] - 1.0 and t.bbox[3] > min(w["top"] for w in over)
                         and t.bbox[0] < x1 and t.bbox[2] > x0 for t in keep):
             ys = [max(floor, min(w["top"] for w in over) - 2.0)] + ys
         bands = list(zip(ys, ys[1:]))
         bw = [[w for w in words if in_box(w, (x0, ya, x1, yb))] for ya, yb in bands]
-        has = [any(EIN_TOKEN.match(w["text"]) or AMOUNT_WORD.match(w["text"]) for w in ws)
+        has = [any(ET.match(w["text"]) or AW.match(w["text"]) for w in ws)
                for ws in bw]
-        data = [i for i, ws in enumerate(bw) if any(EIN_TOKEN.match(w["text"]) for w in ws)]
+        data = [i for i, ws in enumerate(bw) if any(ET.match(w["text"]) for w in ws)]
         if not data:
             continue
         first, last = data[0], data[-1]
@@ -422,7 +431,7 @@ def hrule_tables(page, ox, oy, tables, words, opts=()):
             first -= 1
         elif "hrule_header_split" in opts:
             hw = [w for w in bw[first] if w["text"] in ("EIN", "ID")]
-            dw = [w for w in bw[first] if EIN_TOKEN.match(w["text"])]
+            dw = [w for w in bw[first] if ET.match(w["text"])]
             if hw and dw and max(w["bottom"] for w in hw) < min(w["top"] for w in dw) - 1.0 \
                     and not any(w["bottom"] > max(x["bottom"] for x in hw) + 1.0 and
                                 w["top"] < min(x["top"] for x in dw) - 1.0 for w in bw[first]):
@@ -432,8 +441,16 @@ def hrule_tables(page, ox, oy, tables, words, opts=()):
         ys = ys[first:last + 2]
         top, bottom = ys[0], ys[-1]
         inside = [w for w in words if in_box(w, (x0, top, x1, bottom))]
-        eins = [w for w in inside if EIN_TOKEN.match(w["text"])]
-        amts = [w for w in inside if AMOUNT_WORD.match(w["text"])]
+        eins = [w for w in inside if ET.match(w["text"])]
+        amts = [w for w in inside if AW.match(w["text"])]
+        if "bare_amounts" in opts and eins:
+            # A bare number left of the EIN column is part of a name ("Public School 151Q",
+            # "District 21"), not an amount.
+            amts = [w for w in amts if w["x0"] > max(e["x1"] for e in eins)]
+            # ... and amounts are right-aligned: a bare number further left is in a text
+            # column ("P.S. 108" in p.142's Program column).
+            if amts:
+                amts = [w for w in amts if w["x1"] >= max(a["x1"] for a in amts) - 15.0]
         if not [w for w in eins + amts if loose(w)]:
             continue
         if not amts or max(w["x1"] for w in eins) >= min(w["x0"] for w in amts):
@@ -448,10 +465,47 @@ def hrule_tables(page, ox, oy, tables, words, opts=()):
             # a Catalyst for Change: "Legal Name of Organization | EIN | Program | Amount").
             er, al = max(w["x1"] for w in eins), min(w["x0"] for w in amts)
             mid = [w for w in inside if w["x0"] > er + 1.0 and w["x1"] < al - 1.0 and
-                   not EIN_TOKEN.match(w["text"]) and not AMOUNT_WORD.match(w["text"])]
+                   not ET.match(w["text"]) and not AW.match(w["text"])]
             if mid:
                 splits = (b1, (er + min(w["x0"] for w in mid)) / 2,
                           (max(w["x1"] for w in mid) + al) / 2)
+        if "hrule_lead_column" in opts:
+            # A Council Member column left of the name column, its header in the same band as
+            # the name's (FY2020 pp.38-41, Digital Inclusion and Literacy: "Councilmember Legal
+            # Name of Organization | EIN | Amount", no vertical rules): split at the left edge
+            # of "Legal", when the header band has a word clear of it on the left.
+            hb = [w for w in inside if ys[0] <= (w["top"] + w["bottom"]) / 2 < ys[1]]
+            lw = [w for w in hb if w["text"] == "Legal"]
+            if lw and not any(ET.match(w["text"]) for w in hb) and \
+                    any(w["x1"] < lw[0]["x0"] - 5.0 for w in hb):
+                splits = (lw[0]["x0"] - 2.0,) + tuple(splits)
+        if "hrule_split_lines" in opts:
+            # Award rows with no rule between them, one band holding two or three (FY2020 p.84
+            # "Fund for the City of New York ... | 13-2612524 | $25,000" over "History UnErased,
+            # Inc. | 47-2852025 | $100,000"; p.187, three): the band is cut between its lines
+            # when each line holds one name, one EIN and one amount, and nothing else.
+            def lines_of(ws):
+                cs = []
+                for w in sorted(ws, key=lambda w: w["top"]):
+                    c = (w["top"] + w["bottom"]) / 2
+                    if not cs or c - cs[-1] > 2.0:
+                        cs.append(c)
+                return cs
+            cut = []
+            for ya, yb in zip(ys, ys[1:]):
+                bws = [w for w in inside if ya <= (w["top"] + w["bottom"]) / 2 < yb]
+                e_l = lines_of([w for w in bws if ET.match(w["text"])])
+                if len(e_l) < 2:
+                    continue
+                a_l = lines_of([w for w in bws if AW.match(w["text"]) and w["x0"] > splits[-1]])
+                o_l = lines_of([w for w in bws if w["x1"] < splits[0]])
+                al_l = lines_of(bws)
+                if len(a_l) == len(o_l) == len(al_l) == len(e_l) and \
+                        all(abs(a - b) <= 2.0 for a, b in zip(e_l, a_l)) and \
+                        all(abs(a - b) <= 2.0 for a, b in zip(e_l, o_l)):
+                    cut += [(a + b) / 2 for a, b in zip(e_l, e_l[1:])]
+            if cut:
+                ys = sorted(ys + cut)
         for k in trimmed:
             trimmed[k] = [c for c in trimmed[k] if not (
                 (c[1] + c[3]) / 2 > top and (c[1] + c[3]) / 2 < bottom and
@@ -574,7 +628,8 @@ class _ShiftedTable:
 
 # Vector switches a year's config may set under [structure] (FY2023), passed to read_page.
 VECTOR_OPTS = ("hrule_beside", "hrule_header_split", "sliver_chars", "split_one_cell_rows",
-               "hrule_extra_column", "edge_slivers")
+               "hrule_extra_column", "edge_slivers", "bare_amounts", "hrule_lead_column",
+               "hrule_split_lines", "hrule_short_ein")
 
 
 def read_pdf(pdf_path, pages=None, x_tolerance=X_TOLERANCE, page_settings=None, hrule=False,

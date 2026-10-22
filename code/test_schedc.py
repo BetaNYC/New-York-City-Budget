@@ -865,3 +865,124 @@ def test_snapshot21_rows_and_checks():
     txt = open(os.path.join(OUT21, "fy21_sc_checks.txt"), encoding="utf-8").read()
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "acceptance on p.45" in txt and "(PASS)" in txt
+
+
+# --- FY2020 (config/schedule_c/fy2020.toml) ----------------------------------------------------
+CFG20 = config.load(2020)
+OUT20 = os.path.join(config.ROOT, CFG20["review_dir"], "data")
+FY20_SWITCHES = ("bare_amounts", "hrule_lead_column", "hrule_split_lines", "header_one_cell",
+                 "hrule_short_ein", "orphans_in_gaps", "statement_beside_label",
+                 "banner_variants", "summary_amount_doubled")
+
+
+def test_fy2020_switches_off_for_other_years():
+    for c in (CFG, CFG26, CFG25, CFG24, CFG23, CFG22, CFG21):
+        for k in FY20_SWITCHES:
+            assert not c["structure"].get(k)
+
+
+def test_fy2020_statement_kinds():
+    def k(x):
+        return structure.statement_kind(x, CFG20)
+    assert k("The City Council will designate $250,000 post-adoption and has designated $3 "
+             "million directly to CUNY.")[:2] == ("reserve_rows", 3250000)
+    assert k("The Borough Presidents will designate the providers post-adoption.")[0] == \
+        "reserve_all"
+    assert k("The City Council will designate $38,000 post–adoption and has designated the "
+             "following providers for Fiscal 2020:")[:2] == ("reserve_rows", 38000)
+
+
+# Golden rows, read from the rendered FY2020 pages (2026-10-22), not copied from output.
+@pytest.fixture(scope="module")
+def pages20():
+    ps = vector.read_pdf(CFG20["_pdf_abs"], pages={12, 13, 38, 39, 45, 46, 84, 96, 97, 111, 112,
+                                                   133, 134, 145, 160, 161, 162, 163, 189, 190},
+                         x_tolerance=CFG20["x_tolerance"], hrule=True,
+                         opts=tuple(o for o in vector.VECTOR_OPTS if CFG20["structure"].get(o)))
+    return {p["page"]: p for p in structure.split_merged_tables(ps, CFG20)}
+
+
+def _rows20(pages20, pns):
+    return structure.build([pages20[p] for p in pns], CFG20)
+
+
+def test_golden20_member_table_bare_amounts_p13(pages20):
+    S = _rows20(pages20, [12, 13])
+    r = _one(S, "300064721", 5500)
+    assert r["member"] == "Ayala" and r["org"] == "161st Street Merchants Association, Inc."
+    assert "amount_bare" in r["row_flags"] and "amount_no_dollar" not in r["row_flags"]
+
+
+def test_golden20_member_column_in_hrule_table_p38_p39(pages20):
+    S = _rows20(pages20, [38, 39])
+    r = [a for a in S["awards"] if a["ein"] == "112547268" and a["pdf_page"] == 39][0]
+    assert r["member"] == "Levin" and r["org"] == "BRIC Arts Media Brooklyn, Inc."
+    assert r["amount"] == 20000
+
+
+def test_golden20_eins_as_printed_p46(pages20):
+    # The PDF prints these EINs one row off; read as printed, flagged in the config.
+    S = _rows20(pages20, [45, 46])
+    assert _one(S, "113431280", 210000)["org"] == "New York Foundling Hospital"
+    assert _one(S, "133540337", 748000)["org"] == "Safe Horizon, Inc."
+
+
+def test_golden20_two_rows_in_one_band_p84(pages20):
+    S = _rows20(pages20, [84])
+    assert _one(S, "132612524", 25000)["org"].startswith("Fund for the City of New York, Inc.")
+    assert _one(S, "472852025", 100000)["org"] == "History UnErased, Inc."
+
+
+def test_golden20_banners_p97_p111(pages20):
+    S = _rows20(pages20, [96, 97, 111, 112])
+    cats = {r["category"] for r in S["summary"]}
+    assert {"Health Services", "Housing"} <= cats
+
+
+def test_golden20_short_ein_starts_the_table_p134(pages20):
+    S = _rows20(pages20, [133, 134])
+    r = [a for a in S["awards"] if a["ein_printed"] == "47-984801"]
+    assert len(r) == 1 and r[0]["amount"] == 50000
+    assert r[0]["initiative"] == "Opioid Prevention and Treatment"
+
+
+def test_golden20_doubled_summary_amount_p145(pages20):
+    S = _rows20(pages20, [145])
+    t = [r for r in S["summary"] if r.get("initiative") ==
+         "Senior Centers, Programs, and Enhancements"]
+    assert t[0]["amount"] == 3383670
+
+
+def test_golden20_statement_beside_label_p161(pages20):
+    ini = {i["initiative"]: i for i in _rows20(pages20, [160, 161])["initiatives"]}
+    assert ini["Job Training and Placement Initiative"]["statement_kind"] == "full"
+    assert ini["Job Training and Placement Initiative"]["rows_sum"] == 7899200
+
+
+def test_golden20_header_in_one_cell_p162_p163(pages20):
+    S = _rows20(pages20, [162, 163])
+    r = _one(S, "260117797", 18000)
+    assert r["member"] == "Cabrera"
+    assert r["org"] == "Fordham Road District Management Association, Inc."
+    # DATA-ANOMALIES §20's one FY2020 row comes back as two awards.
+    assert _one(S, "821902677", 20000)["org"] == "NYC MWBE Alliance, Inc."
+    assert [a["amount"] for a in S["awards"] if a["ein_printed"] == "15-24042810"] == [88855]
+
+
+def test_golden20_appendix_rows_without_dollar_p190(pages20):
+    S = _rows20(pages20, [189, 190])
+    r = _one(S, "113199040", 19000)
+    assert r["section"] == "appendix_a" and r["member"] == "Louis"
+
+
+@pytest.mark.skipif(not os.path.exists(OUT20), reason="FY2020 outputs not built")
+def test_snapshot20_rows_and_checks():
+    with open(os.path.join(OUT20, "fy20_sc_awards.csv"), newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    assert len(rows) == 7921
+    assert sum(int(r["amount"]) for r in rows) == 336750073
+    for sec, pot in (("appendix_a", 5610000), ("appendix_b", 36539000), ("appendix_c", 7650000)):
+        assert sum(int(r["amount"]) for r in rows if r["section"] == sec) == pot
+    txt = open(os.path.join(OUT20, "fy20_sc_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "acceptance on p.190" in txt and "(PASS)" in txt

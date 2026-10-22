@@ -1,0 +1,13 @@
+{
+  "config": "config/schedule_c/fy2020.toml",
+  "config_sha256": "0f6ffc8d61abf070eeb8170f82cc97e57206c88b4975deca0a4ff3a476ca99b0",
+  "fiscal_year": 2020,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdf": "source/FY20/Fiscal-2020-Schedule-C-Final-Merge.pdf",
+  "pdf_sha256": "8bab407917eb1aa2e274bb19ae4176ac314344bab70028821c0c8b0786c578d4",
+  "pdfium": "156.0.8076.0",
+  "pdfplumber": "0.11.10",
+  "pypdfium2": "5.14.0",
+  "python": "3.12.13"
+}
