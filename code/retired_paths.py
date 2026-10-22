@@ -16,6 +16,7 @@ import glob
 import os
 import re
 
+
 def family_dir(data_dir, yy, family):
     """data/retired/<yy>/<family> if that year's old parse was retired, else data/<yy>/<family>."""
     retired = os.path.join(data_dir, "retired", yy, family)

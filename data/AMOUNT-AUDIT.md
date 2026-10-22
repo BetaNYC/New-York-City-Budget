@@ -1,6 +1,6 @@
 ---
 title: Amount Audit — award amounts against the Council's expense disclosure
-created: 2026-10-22
+created: 2026-10-12
 type: data-audit
 status: active
 tags: [nyc-budget, data-quality, audit, schedule-c]

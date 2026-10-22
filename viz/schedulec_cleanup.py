@@ -70,6 +70,8 @@ from collections import defaultdict
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 DATA = os.path.join(REPO, "data")
+sys.path.insert(0, os.path.join(REPO, "code"))
+from retired_paths import family_dir  # noqa: E402
 
 DEFAULT_START = 2015          # first FY with the modern reconciled Schedule C schedule
 DEFAULT_END = 2027            # last FY currently in the repo
@@ -183,8 +185,7 @@ def _read_csv(path: str) -> list[dict]:
 
 def _schedule_c_dir(yy: str) -> str:
     # FY2018-FY2027 moved to data/retired/ once redone from the PDF (#218); earlier years did not.
-    retired = os.path.join(DATA, "retired", f"fy{yy}", "schedule_c")
-    return retired if os.path.isdir(retired) else os.path.join(DATA, f"fy{yy}", "schedule_c")
+    return family_dir(DATA, f"fy{yy}", "schedule_c")
 
 
 def _initiatives_path(year: int) -> str:

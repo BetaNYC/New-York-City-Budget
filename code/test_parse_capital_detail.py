@@ -45,8 +45,7 @@ def _rows(path):
 @pytest.mark.parametrize("prefix", [y[0] for y in YEARS])
 def test_committed_schema_and_columns(prefix):
     csv_path = os.path.join(REPO, "data", "retired", prefix, "capital", f"{prefix}_capital_projects.csv")
-    if not os.path.exists(csv_path):
-        pytest.skip(f"{prefix} capital output not generated")
+    assert os.path.exists(csv_path), f"committed CSV missing: {os.path.relpath(csv_path, REPO)}"
     rows = _rows(csv_path)
     assert rows and list(rows[0].keys()) == FY27_COLS
     for r in rows:

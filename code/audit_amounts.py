@@ -35,7 +35,6 @@ import argparse
 import collections
 import csv
 import datetime
-import glob
 import os
 import re
 import sys
@@ -355,6 +354,16 @@ def crosswalk_check(rows):
     return out
 
 
+def created_date(today):
+    """The report's first `created:` date, kept across re-runs; today only for a new report."""
+    if os.path.exists(REPORT):
+        with open(REPORT, encoding="utf-8") as fh:
+            for line in fh:
+                if line.startswith("created: "):
+                    return line.split(": ", 1)[1].strip()
+    return today
+
+
 def write_report(rows, years, counts, dollars, today):
     total = len(rows)
     total_d = sum(r["amount"] or 0 for r in rows)
@@ -375,7 +384,7 @@ def write_report(rows, years, counts, dollars, today):
     a = L.append
     a("---")
     a("title: Amount Audit — award amounts against the Council's expense disclosure")
-    a(f"created: {today}")
+    a(f"created: {created_date(today)}")
     a("type: data-audit")
     a("status: active")
     a("tags: [nyc-budget, data-quality, audit, schedule-c]")
@@ -675,8 +684,9 @@ def main():
 
     today = datetime.date.today().isoformat()
     os.makedirs("data", exist_ok=True)
+    text = write_report(rows, years, counts, dollars, today)  # reads the old `created:` first
     with open(REPORT, "w", encoding="utf-8") as fh:
-        fh.write(write_report(rows, years, counts, dollars, today))
+        fh.write(text)
     print(f"\nreport   -> {REPORT}")
 
     flagged = [r for r in rows if r["verdict"] not in CORROBORATED]
