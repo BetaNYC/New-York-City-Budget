@@ -155,6 +155,24 @@ def test_fy24_transparency(built):
     assert "81-0728516" in t and "South Shore" in t
 
 
+def test_fy23_transparency(built):
+    ys = [y for y in rows(built["data/pdf_years.csv"])
+          if y["fiscal_year"] == "2023" and y["family"] == "transparency"]
+    assert len(ys) == 1
+    y = ys[0]
+    assert y["issue"] == "106" and y["status"] == "reviewed" and y["rows"] == "8424"
+    assert y["printed_totals_tied"] == "n/a"
+    assert y["source_pdf"] == "source/FY23/transparency-resolutions/"
+    rs = rows(built["data/fy23/pdf/transparency/fy23_tr_rows.csv"])
+    assert len(rs) == 8424
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rs)
+    # Reso 08 p.32: chart #25's first page prints "(continued)"; its rows are kept.
+    r = next(r for r in rs if r["row_id"] == "fy23-tr08-p032-r001")
+    assert r["chart_number"] == "25" and r["amount"] == "-1000000"
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert t == "Legal Aid Society ** 13-5562265 MOCJ ($1,000,000) 098 002"
+
+
 def test_unrotate():
     # p.40 'H' at display (206.41, 38.68, 214.72, 50.20) on a /Rotate 90 page shown 792 x 612;
     # pdfium's unrotated glyph box is x 39.5-47.8, y-from-top 578.2-584.8.
