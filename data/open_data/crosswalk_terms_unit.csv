@@ -283,36 +283,31 @@ terms_unit,2022|24|040|410,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 2
 terms_unit,2022|24|040|470,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 040, unit 470",,864706411,4 rows; SE PRE-K CONTRACT PMTS - OTPS,20210630
 terms_unit,2022|25|040|439,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 040, unit 439",,236254306,8 rows; SCHOOL FOOD SERVICES - PS,20210630
 terms_unit,2022|25|040|440,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 040, unit 440",,293920543,32 rows; SCHOOL FOOD SERVICES - OTPS,20210630
-terms_unit,2022|26|040|401,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 040, unit 401",,6860638386,129 rows; GE INSTR & SCH LEADERSHIP - PS,20210630
-terms_unit,2022|26|040|402,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 040, unit 402",,631910587,253 rows; GE INSTR & SCH LEADERSHIP - OTPS,20210630
-terms_unit,2022|26|040|481,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 040, unit 481",,1045102791,121 rows; CATEGORICAL PROGRAMS - PS,20210630
-terms_unit,2022|26|040|482,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 040, unit 482",,755366100,224 rows; CATEGORICAL PROGRAMS - OTPS,20210630
-terms_unit,2022|27|826|002,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 826, unit 002",,22799472,45 rows; ENVIRONMENTAL MANAGEMENT,20210630
-terms_unit,2022|27|826|004,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 826, unit 004",,711257569,779 rows; UTILITY - OTPS,20210630
-terms_unit,2022|27|826|200,2022,mwzb-yiwb,2026-10-21,,absent,adopted release 20210630: no row for the unit,,,,
-terms_unit,2022|28|858|002,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 858, unit 002",,266627454,533 rows; TECHNOLOGY SERVICES - OTPS,20210630
-terms_unit,2022|28|858|002#2,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 858, unit 002",,266627454,533 rows; TECHNOLOGY SERVICES - OTPS,20210630
-terms_unit,2022|28|858|002#3,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 858, unit 002",,266627454,533 rows; TECHNOLOGY SERVICES - OTPS,20210630
-terms_unit,2022|28|858|003,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 858, unit 003",,18659259,53 rows; ADMIN/OPERATIONS PS,20210630
-terms_unit,2022|28|858|006,2022,mwzb-yiwb,2026-10-21,,absent,adopted release 20210630: no row for the unit,,,,
-terms_unit,2022|28|858|006#2,2022,mwzb-yiwb,2026-10-21,,absent,adopted release 20210630: no row for the unit,,,,
+terms_unit,2022|27|040|401,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 040, unit 401",,6860638386,129 rows; GE INSTR & SCH LEADERSHIP - PS,20210630
+terms_unit,2022|27|040|402,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 040, unit 402",,631910587,253 rows; GE INSTR & SCH LEADERSHIP - OTPS,20210630
+terms_unit,2022|27|040|481,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 040, unit 481",,1045102791,121 rows; CATEGORICAL PROGRAMS - PS,20210630
+terms_unit,2022|27|040|482,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 040, unit 482",,755366100,224 rows; CATEGORICAL PROGRAMS - OTPS,20210630
+terms_unit,2022|28|069|103,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 069, unit 103",,2326288743,289 rows; PUBLIC ASSISTANCE - OTPS,20210630
+terms_unit,2022|28|071|200,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 071, unit 200",,1782680964,370 rows; SHELTER INTAKE AND PROGRAM - OTPS,20210630
+terms_unit,2022|28|801|006,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 801, unit 006",,28863088,75 rows; ECONOMIC DEVELOPMENT CORP.,20210630
+terms_unit,2022|28|826|002,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 826, unit 002",,22799472,45 rows; ENVIRONMENTAL MANAGEMENT,20210630
+terms_unit,2022|28|826|004,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 826, unit 004",,711257569,779 rows; UTILITY - OTPS,20210630
+terms_unit,2022|28|846|002,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 846, unit 002",,313038543,436 rows; MAINTENANCE & OPERATIONS,20210630
 terms_unit,2022|28|858|010,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 858, unit 010",,13276640,134 rows; MAYOR'S OFFICE OF MEDIA & ENTERTAINMENT,20210630
-terms_unit,2022|28|858|103,2022,mwzb-yiwb,2026-10-21,,absent,adopted release 20210630: no row for the unit,,,,
-terms_unit,2022|28|858|104,2022,mwzb-yiwb,2026-10-21,,absent,adopted release 20210630: no row for the unit,,,,
 terms_unit,2022|29|836|001,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 836, unit 001",,45673560,74 rows; ADMINISTRATION & PLANNING,20210630
 terms_unit,2022|29|836|011,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 836, unit 011",,83402260,163 rows; ADMINISTRATION-OTPS,20210630
 terms_unit,2022|2|068|006,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 068, unit 006",,1081307442,125 rows; CHILD WELFARE-OTPS,20210630
 terms_unit,2022|2|068|008,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 068, unit 008",,165399048,150 rows; JUVENILE JUSTICE - OTPS,20210630
-terms_unit,2022|2|068|312,2022,mwzb-yiwb,2026-10-21,,absent,adopted release 20210630: no row for the unit,,,,
+terms_unit,2022|2|260|312,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 260, unit 312",,577304107,244 rows; OTHER THAN PERSONAL SERVICES,20210630
 terms_unit,2022|30|816|102,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 816, unit 102",,108334986,274 rows; DISEASE CONTROL - PS,20210630
 terms_unit,2022|30|816|112,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 816, unit 112",,185254512,722 rows; DISEASE CONTROL - OTPS,20210630
 terms_unit,2022|31|816|102,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 816, unit 102",,108334986,274 rows; DISEASE CONTROL - PS,20210630
 terms_unit,2022|31|816|112,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 816, unit 112",,185254512,722 rows; DISEASE CONTROL - OTPS,20210630
-terms_unit,2022|32|816|001,2022,mwzb-yiwb,2026-10-21,,absent,adopted release 20210630: no row for the unit,,,,
+terms_unit,2022|32|040|423,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 040, unit 423",,379065761,20 rows; SE INSTRUCTIONAL SUPPORT - PS,20210630
+terms_unit,2022|32|040|424,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 040, unit 424",,294821340,50 rows; SE INSTRUCTIONAL SUPPORT -  OTPS,20210630
 terms_unit,2022|32|816|103,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 816, unit 103",,116339893,82 rows; FAMILY & CHILD HEALTH - PS,20210630
 terms_unit,2022|32|816|113,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 816, unit 113",,56094473,315 rows; FAMILY & CHILD HEALTH - OTPS,20210630
-terms_unit,2022|32|816|423,2022,mwzb-yiwb,2026-10-21,,absent,adopted release 20210630: no row for the unit,,,,
-terms_unit,2022|32|816|424,2022,mwzb-yiwb,2026-10-21,,absent,adopted release 20210630: no row for the unit,,,,
+terms_unit,2022|32|819|001,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 819, unit 001",,1163334884,55 rows; LUMP SUM,20210630
 terms_unit,2022|33|806|004,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 806, unit 004",,69846377,213 rows; OFFICE OF HOUSING PRESERVATION,20210630
 terms_unit,2022|33|806|009,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 806, unit 009",,25584820,119 rows; OFFICE OF DEVELOPMENT OTPS,20210630
 terms_unit,2022|34|806|004,2022,mwzb-yiwb,2026-10-21,,context,"adopted release 20210630: agency 806, unit 004",,69846377,213 rows; OFFICE OF HOUSING PRESERVATION,20210630
