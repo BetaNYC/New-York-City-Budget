@@ -21,6 +21,14 @@ code/schedc/vector.py. Three things differ, all measured on the FY2026 resolutio
    some pages, the last purpose cell on Reso 03 p.81), the cell is the header column's
    x-range across the row's band. Characters in it are read, and the row is flagged.
 
+4. **Overfull cells** (FY2019, FY2018). Where a cell's text wraps to more lines than its row
+   is tall, Excel centres the text block on the row and draws it across the rules above and
+   below (FY2019 Reso 07 p.27: "Alvin Ailey Dance Foundation, Inc. - … Social Services," /
+   "Inc." in a one-line row, its "Inc." on top of the next row's first line). On pages the
+   config names (check T7.overfull), a cell's lines are one *block* (runs drawn one after
+   another, each next line starting at the block's left edge one line lower), and the whole
+   block belongs to the cell that holds the block's vertical middle. Elsewhere nothing changes.
+
 Nothing is dropped silently: every non-space character inside a table ends in a cell, in
 `clipped`, or in `orphans`, and the checks count all three.
 """
@@ -46,6 +54,13 @@ OVERLAP_MIN = 2.0
 # "Funding to go support …" is drawn over the EIN "13-4170389" and clipped away when rendered).
 # Only letters an earlier run shows in its own cell count (see `overlaid`).
 OVERLAY_SHARE = 0.5
+# A letter drawn more than this (pt) above or below the cell it is read into is overfull text
+# (T7.overfull). Letters in cells that fit stay inside their cell's box; FY2020-FY2026 have none.
+OVERFULL_PT = 1.5
+# Block lines (see `block_ys`): a next line starts within this (pt) of the block's left edge and
+# at most this many letter heights below the line before.
+BLOCK_X_TOL = 1.0
+BLOCK_PITCH = 1.6
 
 
 def overlaid(run_list, cell):
@@ -89,6 +104,58 @@ def runs(chars, gap=RUN_GAP, cell=None):
     return out
 
 
+def block_ys(chars, box_of, run_gap=RUN_GAP):
+    """{id(char): the vertical middle of its text block} for chars in blocks of two or more
+    lines (overfull cells, module docstring item 4). `chars` in stream order; `box_of(c)` is the
+    box (x0, top, x1, bottom) holding the char's centre, or None. A next line joins the block
+    only if it is in the same box as the line before, or it and a line already in the block are
+    both drawn across their boxes' rules: some rows are drawn column by column, and a line that
+    fits its own row is never part of the next row's block (FY2019 Reso 07 p.27, Borough
+    "Eugene" in rows 2 and 3; Reso 04 p.40, rows 1 and 2)."""
+    def over(line):
+        # A letter in no box at all is past the table's edge (FY2019 Reso 04 p.49, "67K" under
+        # the last row): drawn across the rule too.
+        return any(c["text"].strip() and (box_of(c) is None or overshoot(c, box_of(c)) > OVERFULL_PT)
+                   for c in line)
+    blocks = []
+    for run in runs(chars, run_gap):
+        f = run[0]
+        if blocks:
+            b = blocks[-1]
+            last = b["lines"][-1]
+            if abs(f["top"] - last[0]["top"]) <= LINE_TOL and f["x0"] >= last[-1]["x1"] - 0.5:
+                last.extend(run)
+                continue
+            h = max(f["bottom"] - f["top"], 0.01)
+            if 0 < f["top"] - last[0]["top"] <= BLOCK_PITCH * h and abs(f["x0"] - b["x0"]) <= BLOCK_X_TOL \
+                    and (box_of(f) == box_of(last[0]) or (b["over"] and over(run))):
+                b["lines"].append(list(run))
+                b["over"] = b["over"] or over(run)
+                continue
+        blocks.append(dict(x0=f["x0"], lines=[list(run)], over=over(run)))
+    out = {}
+    for b in blocks:
+        if len(b["lines"]) < 2:
+            continue
+        cs = [c for ln in b["lines"] for c in ln]
+        mid = (min(c["top"] for c in cs) + max(c["bottom"] for c in cs)) / 2
+        out.update((id(c), mid) for c in cs)
+    return out
+
+
+def _assign_y(chars, boxes, ys):
+    """_assign, with a char's vertical centre taken from `ys` (id -> y) where it is listed."""
+    if not ys:
+        return _assign(chars, boxes)
+    return _assign([dict(x0=c["x0"], x1=c["x1"], top=ys[id(c)], bottom=ys[id(c)]) if id(c) in ys
+                    else c for c in chars], boxes)
+
+
+def overshoot(c, b):
+    """How far (pt) letter `c` is drawn above or below box `b`."""
+    return max(b[1] - c["top"], c["bottom"] - b[3])
+
+
 def _centre(c):
     return (c["x0"] + c["x1"]) / 2, (c["top"] + c["bottom"]) / 2
 
@@ -114,7 +181,7 @@ def _cell_rec(chars, bbox, how, x_tolerance, hidden=""):
                 char_boxes=[bbox2((c["x0"], c["top"], c["x1"], c["bottom"])) for c in ink])
 
 
-def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP, overlay=False):
+def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP, overlay=False, overfull=False):
     tables = sorted(page.find_tables(), key=lambda t: (r2(t.bbox[1]), r2(t.bbox[0])))
     allchars = list(page.chars)
     zero_width = sum(1 for c in allchars if c["text"] in ZERO_WIDTH)
@@ -125,7 +192,12 @@ def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP, overlay=False):
     for ti, t in enumerate(tables):
         for b in sorted({tuple(r2(v) for v in c) for c in t.cells}, key=lambda b: (b[1], b[0])):
             cells.append((ti, b))
-    cell_of = _assign(chars, [b for _, b in cells])
+    bys = {}
+    if overfull:
+        k0 = _assign(chars, [b for _, b in cells])
+        box0 = {id(c): cells[k][1] for c, k in zip(chars, k0) if k >= 0}
+        bys = block_ys(chars, lambda c: box0.get(id(c)), run_gap)
+    cell_of = _assign_y(chars, [b for _, b in cells], bys)
     idx = {id(c): k for k, c in enumerate(chars)}
 
     clipped_ids, clipped, hidden_of, hidden_at, overlay_cells = set(), [], {}, {}, set()
@@ -182,13 +254,13 @@ def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP, overlay=False):
     visible = [c for c in chars if id(c) not in clipped_ids]
 
     tboxes = [t.bbox for t in tables]
-    t_of = _assign(visible, tboxes)
+    t_of = _assign_y(visible, tboxes, bys)
     out_tables, orphans, loose = [], [], []
     for ti, t in enumerate(tables):
         tchars = [c for c, k in zip(visible, t_of) if k == ti]
         tcells = [b for tj, b in cells if tj == ti]
         gidx = [k for k, (tj, _) in enumerate(cells) if tj == ti]   # table cell -> page cell
-        c_of = _assign(tchars, tcells)
+        c_of = _assign_y(tchars, tcells, bys)
         by_cell = {}
         free = []
         for c, k in zip(tchars, c_of):
@@ -220,6 +292,8 @@ def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP, overlay=False):
                 hid = hidden_of.get(gidx[k], "")
                 if gidx[k] in overlay_cells:
                     flags.append("overlaid_text:" + "+".join(header[j]["label"] for j in under))
+                if overfull and any(c["text"].strip() and overshoot(c, b) > OVERFULL_PT for c in cs):
+                    flags.append("overfull_cell:" + "+".join(header[j]["label"] for j in under))
                 if len(under) == 1:
                     cols[under[0]] = _cell_rec(cs, b, "cell", x_tolerance, hid)
                 elif len(under) > 1:
@@ -273,17 +347,21 @@ def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP, overlay=False):
                 ein_tokens=sum(1 for w in words_vis if EIN_TOKEN.match(w["text"])),
                 ein_tokens_all_chars=sum(1 for w in words_all if EIN_TOKEN.match(w["text"])),
                 nonws_chars=sum(1 for c in chars if c["text"].strip()),
-                clipped_chars=sum(1 for c in chars if id(c) in clipped_ids and c["text"].strip()))
+                clipped_chars=sum(1 for c in chars if id(c) in clipped_ids and c["text"].strip()),
+                overfull_chars=sum(1 for c, k in zip(chars, cell_of) if k >= 0 and c["text"].strip()
+                                   and overshoot(c, cells[k][1]) > OVERFULL_PT))
 
 
-def read_pdf(pdf_path, x_tolerance=3.0, run_gap=RUN_GAP, pages=None, overlay_pages=()):
+def read_pdf(pdf_path, x_tolerance=3.0, run_gap=RUN_GAP, pages=None, overlay_pages=(),
+             overfull_pages=()):
     import pdfplumber
     out = []
     with pdfplumber.open(pdf_path) as pdf:
         for i, page in enumerate(pdf.pages):
             if pages and (i + 1) not in pages:
                 continue
-            out.append(read_page(page, i + 1, x_tolerance, run_gap, (i + 1) in overlay_pages))
+            out.append(read_page(page, i + 1, x_tolerance, run_gap, (i + 1) in overlay_pages,
+                                 (i + 1) in overfull_pages))
             page.flush_cache()
     return out
 

@@ -107,9 +107,11 @@ def caption_of(page, table):
     return " ".join(ln["text"] for ln in above).strip(), below
 
 
-def build(res, pages, x_tolerance, doc_fy=2026):
+def build(res, pages, x_tolerance, doc_fy=2026, renumber=None):
     """One resolution's pages -> dict(rows, charts, flags, page_info). `doc_fy` is the document year
-    (the row id prefix)."""
+    (the row id prefix). `renumber` = {pdf_page: (printed, read_as)}: captions that print the
+    wrong chart number (T3.chart_number, named exceptions in the config; FY2019 Reso 01 p.108)."""
+    renumber = renumber or {}
     rows, charts, flags, info, empty, chart_notes = [], {}, [], [], [], []
     seq = res["seq"]
 
@@ -144,6 +146,8 @@ def build(res, pages, x_tolerance, doc_fy=2026):
                  severity="warn", chart_number=num)
         elif num is None:
             pass                                    # T3.continued_number below, or T3.charts
+        elif res.get("caption_no_hash") and cap.startswith(f"CHART {m.group(1)}:"):
+            pass                                    # FY2019: "CHART 1:" is the resolution's style
         elif not cap.startswith(f"CHART #{m.group(1)}:"):
             what = ("no '#' before" if not cap.startswith("CHART #") else "no ':' after")
             flag("W.caption_format", p["page"], f"caption prints {what} the chart number: "
@@ -153,6 +157,13 @@ def build(res, pages, x_tolerance, doc_fy=2026):
                  f"{'FY YYYY for Fiscal YYYY' if fy and 'Fiscal' not in cap else 'a misspelt (continued)'}: "
                  f"{cap[:80]!r}; read as chart #{num}, Fiscal {fy}"
                  f"{' (continued)' if cont else ''}", severity="warn", chart_number=num)
+        if p["page"] in renumber and num == renumber[p["page"]][0]:
+            # FY2019 Reso 01 p.108: the first page of chart #56 (Purpose of Funds Changes - Fiscal
+            # 2018) prints "CHART 55:"; its later pages print 56. Named exception only.
+            flag("T3.chart_number", p["page"], f"caption prints chart #{num}, read as chart "
+                 f"#{renumber[p['page']][1]} (named exception in the config): {cap[:80]!r}",
+                 severity="warn", chart_number=renumber[p["page"]][1])
+            num = renumber[p["page"]][1]
         labels = [ln["text"] for ln in below]
         pl = [int(PAGE_LABEL.match(x).group(1)) for x in labels if PAGE_LABEL.match(x)]
         pi["page_label"] = pl[0] if len(pl) == 1 else ""

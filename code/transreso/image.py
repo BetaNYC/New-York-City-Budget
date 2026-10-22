@@ -15,6 +15,8 @@ What is particular to these charts:
   of its characters are hidden (clipped), the same reading rule as the vector side but on
   the other lattice.
 """
+from functools import partial
+
 import numpy as np
 
 from schedc.vector import ZERO_WIDTH, chars_to_text
@@ -62,9 +64,12 @@ def _rule_drawn(gray, dpi, x, y0, y1, frac=HEADER_RULE_FRAC):
     return bool(band.size) and float(band.mean(axis=0).max()) >= frac
 
 
-def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap, overlay=False):
+def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap, overlay=False,
+               overfull=False):
     """[{y0, y1, fields{role: raw}, hidden{role: text}}] for every data row the image lattice
-    finds under a recognised header, plus the lattices and notes."""
+    finds under a recognised header, plus the lattices and notes. On `overfull` pages (T7.overfull)
+    a text block of two or more lines goes to the image row holding its middle, as in the
+    reader (transreso.reader.block_ys); the rows are the image lattice's own."""
     lats = imagegrid.lattices(gray, dpi, kernel_px, pad)
     chars = [c for c in page_chars if c["text"] not in ZERO_WIDTH]
     notes = []
@@ -116,14 +121,20 @@ def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap, over
         drawn = {(ri, si): _rule_drawn(gray, dpi, lat_xs[si], ys[ri], ys[ri + 1])
                  for ri in range(len(ys) - 1) for si in range(1, len(lat_xs) - 1)}
 
-        def data_cell(c, xs=lat_xs, ys=ys, drawn=drawn):
-            cx, cy = (c["x0"] + c["x1"]) / 2, (c["top"] + c["bottom"]) / 2
+        def data_cell(c, xs=lat_xs, ys=ys, drawn=drawn, bys={}):
+            cx, cy = (c["x0"] + c["x1"]) / 2, bys.get(id(c), (c["top"] + c["bottom"]) / 2)
             ri, ci = imagegrid._band(ys, cy), imagegrid._band(xs, cx)
             if ri is None or ci is None:
                 return None
             while ci > 0 and not drawn[(ri, ci)]:
                 ci -= 1
             return (ri, ci)
+
+        if overfull:
+            def box_of(c, xs=lat_xs, ys=ys):
+                rc = data_cell(c)
+                return None if rc is None else (xs[rc[1]], ys[rc[0]], xs[rc[1] + 1], ys[rc[0] + 1])
+            data_cell = partial(data_cell, bys=reader.block_ys(chars, box_of, run_gap))
 
         cells, hidden = {}, {}
         all_runs = reader.runs(chars, run_gap, cell=lambda c: data_cell(c))

@@ -1,0 +1,24 @@
+{
+  "config": "config/transparency/fy2019.toml",
+  "config_sha256": "6e7a3bf4838d7b520b2140f740942a33fb7297b980f15317bffe0a2e0d313b54",
+  "fiscal_year": 2019,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdfium": "156.0.8076.0",
+  "pdfplumber": "0.11.10",
+  "pdfs": {
+    "source/FY19/transparency-resolutions/Transparency-Reso-01-2018-07-18.pdf": "15c89ee72f3a96b8a76994fed705dfa087f6d84170357203f23b3cbe102cf0e1",
+    "source/FY19/transparency-resolutions/Transparency-Reso-02-2018-08-08.pdf": "959d137ec7c12150d51e201a222e0a2271bdaed707af41267d1dd6984d48365d",
+    "source/FY19/transparency-resolutions/Transparency-Reso-03-2018-09-26.pdf": "06f7c94d97f1641d3046dfc83354435fcad8a1162d383962583aa5701b7c4d39",
+    "source/FY19/transparency-resolutions/Transparency-Reso-04-2018-10-31.pdf": "69dd6077c896047659966579c353f527585e78d803569ff234eba7766f48d30f",
+    "source/FY19/transparency-resolutions/Transparency-Reso-05-2018-12-11.pdf": "014440a04a150cad1bf0292f91809a8c365c2e9ea96a7fe87491e4ee10822063",
+    "source/FY19/transparency-resolutions/Transparency-Reso-06-2018-12-20.pdf": "708097dea4da94cadc3885e99a9f1fdcec428e9d12c192e4eaa200cb1660eeb0",
+    "source/FY19/transparency-resolutions/Transparency-Reso-07-2019-01-24.pdf": "024cce366f02915b06cced26abc30f8ba7fa0874f539877c91ba5259b51578ed",
+    "source/FY19/transparency-resolutions/Transparency-Reso-08-2019-02-28.pdf": "b8262e6537aadb70cc575490dfcf4a648e330e192d0c175e82497a806c26f912",
+    "source/FY19/transparency-resolutions/Transparency-Reso-09-2019-03-28.pdf": "57acd2104ceec3c7a0b29f3b706b44016eba466c79bf769d183db47dd5bcb369",
+    "source/FY19/transparency-resolutions/Transparency-Reso-10-2019-04-18.pdf": "bd3dd19322629270c92e8b9cb9b7a36deb1305e0f36cb50329eb19af7015a0cb",
+    "source/FY19/transparency-resolutions/Transparency-Reso-11-2019-06-19.pdf": "eefa96985c2d64ec988175da4ebdfbb79c0d23ac7598e071761da140bab4ca1a"
+  },
+  "pypdfium2": "5.14.0",
+  "python": "3.12.13"
+}

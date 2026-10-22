@@ -566,3 +566,85 @@ def test_snapshot_fy20_rows_and_checks():
     txt = open(os.path.join(OUT20, "fy20_tr_checks.txt"), encoding="utf-8").read()
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "(PASS)" in txt and "agree on every field: 5,396 of 5,396" in txt
+
+
+# --- FY2019 (#110) --------------------------------------------------------------------------------
+CFG19 = ptv.load_config(2019)
+OUT19 = os.path.join(ROOT, CFG19["review_dir"], "data")
+PDF19 = {r["seq"]: os.path.join(ROOT, r["pdf"]) for r in CFG19["resolutions"]}
+
+
+def _build19(seq, pages):
+    ps = reader.read_pdf(PDF19[seq], CFG19["x_tolerance"], CFG19["run_gap_pt"], pages=pages,
+                         overfull_pages=ptv.overfull_pages(CFG19, seq))
+    res = next(r for r in CFG19["resolutions"] if r["seq"] == seq)
+    renumber = {e["pdf_page"]: (e["printed"], e["read_as"]) for e in CFG19["exceptions"]
+                if e["check_id"] == "T3.chart_number" and e["resolution_seq"] == seq}
+    return structure.build(res, ps, CFG19["x_tolerance"], 2019, renumber)
+
+
+def _org19(S, page, row_index):
+    return next(r["org_raw"] for r in S["rows"] if (r["pdf_page"], r["row_index"]) == (page, row_index))
+
+
+def test_golden_fy19_overfull_cells_reso07_p27():
+    # One-line rows whose organization wraps to two lines: the block is centred on the row and
+    # drawn across its rules. Without the T7.overfull rule, row 17 reads "IGnrce.enwich House"
+    # (row 16's "Inc." on top of its own first line) and row 22 loses "Aged" past the table.
+    ps = reader.read_pdf(PDF19[7], 3.0, 3.0, pages=[27])
+    assert ps[0]["overfull_chars"] > 0
+    plain = {r["row_index"]: r["cols"] for r in ps[0]["tables"][0]["rows"]}
+    assert plain[17][1]["text_raw"].startswith("IGnrce.enwich House")
+    S = _build19(7, [25, 26, 27])
+    assert _org19(S, 27, 16).endswith("Penn South Social Services,\nInc.")
+    assert _org19(S, 27, 17).startswith("Greenwich House, Inc. - Judith C White")
+    assert _org19(S, 27, 18).startswith("Midtown Management Group, Inc.")
+    assert _org19(S, 27, 22).endswith("For The\nAged")
+    # Rows drawn column by column, each line inside its own row, stay apart (Borough "Eugene").
+    p27 = [r for r in S["rows"] if r["pdf_page"] == 27]
+    assert [r["member"] for r in p27 if r["row_index"] in (1, 2, 3)] == ["Eugene"] * 3
+    assert all(r["ein"] and r["amount"] for r in p27)
+    assert sum(1 for r in p27 if any(f.startswith("overfull_cell") for f in r["row_flags"])) == 4
+
+
+def test_golden_fy19_overfull_past_table_reso04_p49():
+    # The last row's "67K" is drawn below the table's bottom rule.
+    S = _build19(4, [48, 49])
+    assert _org19(S, 49, 6) == "University Settlement Society of New York, Inc. - Public School\n67K"
+
+
+def test_golden_fy19_chart_renumber_reso01_p108():
+    S = _build19(1, [104, 108, 109])
+    assert [(f["check_id"], f["pdf_page"]) for f in S["flags"]] == [("T3.chart_number", 108)]
+    assert sorted({(c["chart_number"], c["fy_printed"], c["first_page"]) for c in S["charts"]}) == [
+        (55, "2019", 104), (56, "2018", 108)]
+
+
+def test_golden_fy19_caption_house_style():
+    # Reso 01 prints "CHART 1:" on every page (caption_no_hash): no review item. Reso 10 prints
+    # "CHART #n:", and its one "CHART 7:" (p.15) still is.
+    assert _build19(1, [18])["flags"] == []
+    assert [f["check_id"] for f in _build19(10, [15])["flags"]] == ["W.caption_format"]
+
+
+def test_snapshot_fy19_rows_and_checks():
+    path = os.path.join(OUT19, "fy19_tr_rows.csv")
+    if not os.path.exists(path):
+        pytest.skip("fy19 not built")
+    rows = list(csv.DictReader(open(path, encoding="utf-8")))
+    assert len(rows) == 7207
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rows)
+    by = {}
+    for r in rows:
+        by[r["resolution_seq"]] = by.get(r["resolution_seq"], 0) + 1
+    assert by == {"1": 1704, "2": 1604, "3": 1118, "4": 596, "5": 925, "6": 89, "7": 339,
+                  "8": 349, "9": 285, "10": 131, "11": 67}
+    assert sum(1 for r in rows if r["action"] == "listed") == 112
+    # Reso 01 prints "dated July 17, 2018"; resolution_date is Legistar's 2018-07-18.
+    r1 = [r for r in rows if r["resolution_seq"] == "1"]
+    assert {r["resolution_date"] for r in r1} == {"2018-07-18"}
+    assert not r1[0]["resolution_date_source"].startswith("printed")
+    txt = open(os.path.join(OUT19, "fy19_tr_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "(PASS)" in txt and "agree on every field: 7,207 of 7,207" in txt
+    assert "regions: 0 " in txt

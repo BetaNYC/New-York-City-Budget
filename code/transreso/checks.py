@@ -89,6 +89,11 @@ def run(cfg, R, S):
         got = {(f["resolution_seq"], f["pdf_page"]) for f in S["flags"] if f["check_id"] == cid}
         t3 += [dict(resolution_seq=k[0], pdf_page=k[1]) for k in sorted(got ^ ex)]
         cont_named[cid] = len(got & ex)
+    # FY2019 Reso 01 p.108: a caption printing the wrong chart number, read as the config says.
+    cn_ex = {(e["resolution_seq"], e["pdf_page"]) for e in cfg.get("exceptions", [])
+             if e["check_id"] == "T3.chart_number"}
+    cn = {(f["resolution_seq"], f["pdf_page"]) for f in S["flags"] if f["check_id"] == "T3.chart_number"}
+    t3 += [dict(resolution_seq=k[0], pdf_page=k[1]) for k in sorted(cn ^ cn_ex)]
     # FY2022 Reso 02 p.106: a page with no table that prints only a footnote and "Page 84" (the
     # chart before it spilled over). Named exception: its label joins the count in page order.
     spill = {(e["resolution_seq"], e["pdf_page"]) for e in cfg.get("exceptions", [])
@@ -139,7 +144,9 @@ def run(cfg, R, S):
            f"'(continued)' caption (named exceptions, read as continuations)"
            if any(cont_named.values()) else "")
         + (f"; {len(spill)} page(s) with no table print only a footnote and a 'Page n' label "
-           f"(named exception, counted)" if spill else ""))
+           f"(named exception, counted)" if spill else "")
+        + (f"; {len(cn & cn_ex)} caption(s) print the wrong chart number (named exception, read "
+           f"as the number the config gives)" if cn_ex else ""))
     for s_, pg in sorted(spill - tabled):
         flag("T3.label_page", s_, pg, "page with no table prints only a footnote and a 'Page n' "
              "label (the chart before it spilled over); counted (named exception in the config)",
@@ -209,13 +216,26 @@ def run(cfg, R, S):
     ov_ex = {(e["resolution_seq"], e["pdf_page"]) for e in cfg.get("exceptions", [])
              if e["check_id"] == "T7.overlaid"}
     ov_bad = ov_ex - {(a["resolution_seq"], a["pdf_page"]) for a in over}
-    out("T7.chars", not orph and not ov_bad,
+    # FY2019: text drawn across its row's rules (reader docstring item 4). Every page with such
+    # letters must be named in the config (T7.overfull), and every named page must have some.
+    of_ex = {(e["resolution_seq"], e["pdf_page"]) for e in cfg.get("exceptions", [])
+             if e["check_id"] == "T7.overfull"}
+    of_got = {(r["res"]["seq"], p["page"]) for r in R for p in r["pages"] if p.get("overfull_chars")}
+    of_rows = [a for a in rows if any(f.startswith("overfull_cell") for f in a["row_flags"])]
+    out("T7.chars", not orph and not ov_bad and of_got == of_ex,
         f"{sum(p['nonws_chars'] for r in R for p in r['pages'])} non-space chars; "
         f"{len(orph)} in a table but in no cell; "
         f"{sum(p['clipped_chars'] for r in R for p in r['pages'])} clipped (hidden) chars in "
         f"{len(clip)} runs, each listed for review"
         + (f"; {sum(1 for c in clip if c[2].get('overlaid'))} runs drawn on top of other text "
-           f"and not shown on the page ({len(over)} rows, critical review items)" if over else ""))
+           f"and not shown on the page ({len(over)} rows, critical review items)" if over else "")
+        + (f"; {sum(p.get('overfull_chars', 0) for r in R for p in r['pages'])} letters drawn "
+           f"across a row rule on {len(of_got)} pages ({len(of_got & of_ex)} named in the config: "
+           f"each cell's lines read as one block; {len(of_rows)} rows, in the review file)"
+           if of_got or of_ex else ""))
+    for s_, pg in sorted(of_got ^ of_ex):
+        flag("T7.overfull", s_, pg, "text drawn across a row rule on a page the config does not "
+             "name, or a named page with none")
     for a in over:
         flag("T7.overlaid", a["resolution_seq"], a["pdf_page"],
              f"text drawn on top of this row's cell is hidden on the page ({a['hidden_text']}); "
@@ -271,7 +291,11 @@ def run(cfg, R, S):
              f"chart #{c['chart_number']} is Fiscal {c['fy_printed']}; the resolution text names {named}")
 
     # T13
-    bad13 = []
+    bad13, named13 = [], []
+    # FY2019 Reso 01 prints "dated July 17, 2018"; Legistar has it adopted 2018-07-18. A printed
+    # date that differs is allowed only as a named exception (T13.printed_date) giving both.
+    exc13 = {(e["resolution_seq"], e["printed_date"]) for e in cfg.get("exceptions", [])
+             if e["check_id"] == "T13.printed_date"}
     for r in R:
         res_ = r["res"]
         fname = re.search(r"(\d{4}-\d{2}-\d{2})\.pdf$", res_["pdf"]).group(1)
@@ -279,13 +303,25 @@ def run(cfg, R, S):
             bad13.append((res_["seq"], f"filename date {fname} != config date {res_['date']}"))
         if res_["printed_date"]:
             d = datetime.datetime.strptime(res_["printed_date"], "%B %d, %Y").date().isoformat()
-            if d != res_["date"] or f"dated {res_['printed_date']}" not in r["front_text"]:
+            if f"dated {res_['printed_date']}" not in r["front_text"]:
+                bad13.append((res_["seq"], f"printed date {res_['printed_date']!r} not on p.1"))
+            elif d != res_["date"] and (res_["seq"], res_["printed_date"]) in exc13:
+                named13.append((res_["seq"], res_["printed_date"], res_["date"]))
+            elif d != res_["date"]:
                 bad13.append((res_["seq"], f"printed date {res_['printed_date']!r} != {res_['date']}"))
-    out("T13.dates", not bad13,
+    unused13 = exc13 - {(s_, p_) for s_, p_, _ in named13}
+    out("T13.dates", not bad13 and not unused13,
         f"{sum(1 for r in R if r['res']['printed_date'])} resolutions print their date and it "
-        f"matches; all {len(R)} filename dates equal the Legistar adoption dates in the config")
+        f"matches" + (f" ({len(named13)} printing another day than Legistar's adoption date, a "
+                      f"named exception in the config, in the review file)" if exc13 else "")
+        + f"; all {len(R)} filename dates equal the Legistar adoption dates in the config")
     for s, m in bad13:
         flag("T13.dates", s, 1, m)
+    for s, pd_, d in named13:
+        flag("T13.printed_date", s, 1, f"p.1 prints 'dated {pd_}'; Legistar's adoption date (used "
+             f"as resolution_date) is {d} (named exception in the config)", severity="warn")
+    for s, pd_ in sorted(unused13):
+        flag("T13.dates", s, 1, f"named printed date {pd_!r} not found")
 
     # T14
     ids = [a["row_id"] for a in rows]

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Transparency resolutions from the PDFs, checked (GitHub #103 FY2026, #104 FY2025, #105 FY2024,
-#106 FY2023, #107 FY2022, #108 FY2021, #109 FY2020; toolkit plan:
+#106 FY2023, #107 FY2022, #108 FY2021, #109 FY2020, #110 FY2019; toolkit plan:
 research/2026-10-19-schedule-c-pdf-toolkit/PLAN.md).
 
   python3 code/parse_transparency_v2.py --fy 2026            full run, writes <review_dir>/data/
@@ -24,6 +24,7 @@ the reader's source. No network. Outputs are deterministic.
 """
 import argparse
 import csv
+import datetime
 import hashlib
 import json
 import os
@@ -54,7 +55,8 @@ REVIEW_COLUMNS = ["review_id", "severity", "dollar_impact", "check_id", "resolut
 REVIEW_ROW_FLAGS = {"clipped_text": "W.clipped_text", "made_cell": "W.made_cell",
                     "prequal_star_in_org": "W.prequal_star_in_org", "ein_blank": "T5.anchors",
                     "ein_odd": "T5.anchors", "amount_zero": "W.amount_zero",
-                    "cell_outside_header": "T7.chars", "empty_row": "T5.anchors"}
+                    "cell_outside_header": "T7.chars", "empty_row": "T5.anchors",
+                    "overfull_cell": "T7.overfull"}
 ROW_FLAG_CHECK = dict(REVIEW_ROW_FLAGS, wrap_hyphen="W5.wrap_hyphen", ein_no_hyphen="W.ein_no_hyphen",
                       spanning_cell="W.spanning_cell", made_cell_empty="W.made_cell_empty", sign_colour="T10.sign_colour",
                       marker_without_footnote="T11.markers", prequal_odd="T11.markers",
@@ -95,17 +97,26 @@ def overlay_pages(cfg, seq):
                   if e["check_id"] == "T7.overlaid" and e["resolution_seq"] == seq)
 
 
+def overfull_pages(cfg, seq):
+    """Pages of resolution `seq` where a cell's text block is drawn across its row's rules
+    (T7.overfull, a named exception in the config; FY2019 Reso 07 p.27)."""
+    return sorted(e["pdf_page"] for e in cfg.get("exceptions", [])
+                  if e["check_id"] == "T7.overfull" and e["resolution_seq"] == seq)
+
+
 def cached_pages(cfg, res, sha, cache_dir):
     src = b"".join(open(os.path.join(HERE, "transreso", m), "rb").read()
                    for m in ("reader.py",)) + open(os.path.join(HERE, "schedc", "vector.py"), "rb").read()
     overlay = overlay_pages(cfg, res["seq"])
+    overfull = overfull_pages(cfg, res["seq"])
     key = hashlib.sha256(sha.encode() + str((cfg["x_tolerance"], cfg["run_gap_pt"])).encode()
-                         + (str(overlay).encode() if overlay else b"") + src).hexdigest()[:16]
+                         + (str(overlay).encode() if overlay else b"")
+                         + (b"overfull" + str(overfull).encode() if overfull else b"") + src).hexdigest()[:16]
     path = os.path.join(cache_dir, f"r{res['seq']:02d}-{key}.json")
     if os.path.exists(path):
         return json.load(open(path))
     pg = reader.read_pdf(os.path.join(ROOT, res["pdf"]), cfg["x_tolerance"], cfg["run_gap_pt"],
-                         overlay_pages=overlay)
+                         overlay_pages=overlay, overfull_pages=overfull)
     os.makedirs(cache_dir, exist_ok=True)
     json.dump(pg, open(path, "w"))
     return json.load(open(path))     # same shape as a cache hit (JSON keys are strings)
@@ -181,7 +192,8 @@ def run_cv(cfg, R, rows, out_overlays):
                 irows, lats, notes = image.image_rows(page.chars, gray, dpi, im["kernel_px"],
                                                       im["region_pad_px"], cfg["x_tolerance"],
                                                       cfg["run_gap_pt"],
-                                                      pn in overlay_pages(cfg, seq))
+                                                      pn in overlay_pages(cfg, seq),
+                                                      pn in overfull_pages(cfg, seq))
                 res_, extra = image.compare_page(recs, irows, im["row_tol_pt"])
                 for rr in res_:
                     row_res[rr["row_id"]] = rr
@@ -279,7 +291,7 @@ def review_crops(cfg, R, rv, by_id, outdir):
     os.makedirs(outdir, exist_ok=True)
     for x in R:
         seq = x["res"]["seq"]
-        mine = [o for o in rv if str(o["resolution_seq"]) == str(seq) and o["pdf_page"] != ""]
+        mine = [o for o in rv if str(o["resolution_seq"]) == str(seq) and o["pdf_page"] not in ("", 0)]
         if not mine:
             continue
         doc = pdfium.PdfDocument(os.path.join(ROOT, x["res"]["pdf"]))
@@ -338,8 +350,13 @@ def main(argv=None):
     for res in cfg["resolutions"]:
         sha = sha256_file(os.path.join(ROOT, res["pdf"]))
         pages = cached_pages(cfg, res, sha, cache)
-        S = structure.build(res, pages, cfg["x_tolerance"], a.fy)
-        date_source = (f"printed p.1 and {cfg['numbers_source']}" if res["printed_date"]
+        renumber = {e["pdf_page"]: (e["printed"], e["read_as"]) for e in cfg.get("exceptions", [])
+                    if e["check_id"] == "T3.chart_number" and e["resolution_seq"] == res["seq"]}
+        S = structure.build(res, pages, cfg["x_tolerance"], a.fy, renumber)
+        # FY2019 Reso 01 prints another day than Legistar's (T13.printed_date): Legistar's only.
+        same_day = res["printed_date"] and datetime.datetime.strptime(
+            res["printed_date"], "%B %d, %Y").date().isoformat() == res["date"]
+        date_source = (f"printed p.1 and {cfg['numbers_source']}" if same_day
                        else cfg["numbers_source"])
         for r in S["rows"]:
             r.update(fiscal_year=a.fy, source_pdf=res["pdf"], pdf_sha256=sha,
@@ -413,6 +430,10 @@ def main(argv=None):
                 what = f"'*' printed at the end of the organization, not in the * column: {r['org_raw']!r}. Read as pending pre-qualification."
             elif base == "amount_zero":
                 what = "amount prints as $0"
+            elif base == "overfull_cell":
+                what = (f"'{fl.split(':', 1)[1]}' text wraps to more lines than the row is tall and "
+                        f"is drawn across the row's rules (part of it hidden or on top of the next "
+                        f"row); read whole from the text layer as one block. Confirm on the page.")
             else:
                 what = f"row flag {fl}"
             seen_check_row.add((cid, r["row_id"]))
