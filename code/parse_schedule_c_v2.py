@@ -45,7 +45,9 @@ ROW_FLAG_CHECK = {"wrap_hyphen": "W5.wrap_hyphen", "ein_overflow_hyphen": "W.ein
                   "header_span_cell": "W.header_span_cell", "hrule_table": "W.hrule_table",
                   "loose_header": "W.loose_header", "band_header": "W.band_header", "subheading": "W.subheading",
                   "reattributed": "H12.initiative_pages",
-                  "sliver_char": "W.sliver_char"}
+                  "sliver_char": "W.sliver_char",
+                  "asterisk": "W.asterisk", "star_text": "H7.star",
+                  "star_in_cell": "W.star_in_cell"}
 AWARD_COLUMNS = [
     "award_id", "fiscal_year", "source_pdf", "section", "category", "initiative", "initiative_id",
     "member", "sponsor", "delegation", "org", "ein", "amount", "agency", "purpose",
@@ -149,6 +151,9 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
             for x in extra:
                 if not any(v.strip() for v in x["fields"].values()):
                     continue
+                if any(b[1] - 1 <= (x["y0"] + x["y1"]) / 2 <= b[3] + 1
+                       for b in S.get("side_tables", {}).get(pn, [])):
+                    continue     # a row of a named side list (structure `side_lists`)
                 marks.append([0, x["y0"], page.width, x["y1"]])
                 flags.append(dict(check_id="H8.image_only_row", severity="critical",
                                   pdf_page=pn, message="image lattice row with no vector row",

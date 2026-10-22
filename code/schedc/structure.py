@@ -489,6 +489,7 @@ def build(pages, cfg):
     subheads = set(s.get("award_subheadings", []))
     sub_of = {}       # initiative_id -> the sub-heading the rows under it are printed beneath
     covered = {}      # (page, table_index) -> char boxes read that are in no award row
+    side_tables = {}  # page -> bboxes of tables named in `side_lists` (not award rows)
 
     def _subhead(r):
         texts = {" ".join(c["text_raw"].split()) for c in r["cells"] if c["text_raw"].strip()}
@@ -542,9 +543,16 @@ def build(pages, cfg):
                     # x 80-179, "The City Council has designated ..." from x 224 in the same
                     # band). Read into the statement, in reading order.
                     cy = (obj["top"] + obj["bottom"]) / 2
+                    span = s.get("statement_beside_label_span")
+                    # `statement_beside_label_span` (FY2019 pp.43, 105: the label centred
+                    # between the statement's two lines, "The City Council has designated ...
+                    # for Fiscal" above its centre and "2019:" below): every loose line beside
+                    # the label whose height overlaps the label's, in reading order.
                     side = sorted((ln for ln in page_lines.get(pn, []) if ln is not obj and
                                    not ln.get("from_table") and ln["x0"] > obj["x1"] and
-                                   ln["top"] <= cy < ln["bottom"]), key=lambda ln: ln["x0"])
+                                   ((ln["top"] < obj["bottom"] and obj["top"] < ln["bottom"])
+                                    if span else ln["top"] <= cy < ln["bottom"])),
+                                  key=lambda ln: (ln["top"], ln["x0"]) if span else ln["x0"])
                     if side:
                         stmt_buf["lines"] = [" ".join(ln["text"] for ln in side)]
                         stmt_buf["bottom"] = max(obj["bottom"], *(ln["bottom"] for ln in side))
@@ -788,6 +796,13 @@ def build(pages, cfg):
                 lead = edge_letters.get((pn, t["table_index"]))
                 if lead and cells[0]["bbox"][0] == t["bbox"][0]:
                     title_raw = lead + title_raw
+            if s.get("box_title_tail") and len(cells) > 2 and \
+                    len(cells[1]["text_raw"].strip()) <= 2 and \
+                    abs(cells[1]["bbox"][0] - cells[0]["bbox"][2]) < 0.5:
+                # The title's last letter drawn apart, in its own cell abutting the rest
+                # (FY2019 p.74 "Foreclosure Buyback Initiativ" | "e"). Put back; H11 checks it.
+                title_raw = title_raw + cells[1]["text_raw"].strip()
+                cells = [dict(cells[0], text_raw=title_raw)] + cells[2:]
             amt_printed = " ".join(cells[-1]["text_raw"].split())
             bare = None
             if s.get("box_amount_without_dollar") and parse_amount(amt_printed) is None and \
@@ -881,6 +896,27 @@ def build(pages, cfg):
                 if not u2:
                     cols, unknown, first = c2, [], 2
                     header_rows[(pn, t["table_index"])] = 2
+        side = next((sl for sl in cfg.get("side_lists", []) if sl["page"] == pn and
+                     _row_text(hdr) == sl["header"]), None) if not headerless else None
+        if side is not None:
+            # A table under an award that lists who the award passes through to (FY2019
+            # pp.105-106: "**Below is a list of the Jobs to Build On service providers
+            # partners", under CWE's $5,154,200 row). Named in the year's config with its page
+            # and header as printed: its rows are not awards and are not counted; the list,
+            # its rows and their sum are one review item. Its characters count as read.
+            ax = dict(header_map(hdr, labels)[0]).get("amount")
+            own = [ri for ri in range(1, len(t["rows"]))
+                   if EIN_IN_TEXT.search(_row_text(t["rows"][ri]))]
+            amts = [parse_amount(" ".join((_cell_at(t["rows"], ri, ax)[0] or {}).get(
+                "text_raw", "").split())) for ri in own] if ax else []
+            tot = sum(v or 0 for v in amts)
+            flag("K.side_list", "critical", pn, f"{side['note']}: {len(own)} rows with an EIN, "
+                 f"${tot:,} as printed; read as no award", table_index=t["table_index"],
+                 dollar_impact=tot)
+            side_tables.setdefault(pn, []).append(t["bbox"])
+            covered.setdefault((pn, t["table_index"]), []).extend(
+                b for r in t["rows"] for c in r["cells"] for b in c["char_boxes"])
+            continue
         if unknown:
             flag("H4.header", "critical", pn, f"unknown header label(s): {unknown}",
                  table_index=t["table_index"])
@@ -916,6 +952,13 @@ def build(pages, cfg):
             char_boxes = []
             for f, x in cols:
                 cell, spanned = _cell_at(rows, ri, x)
+                if f == "star" and cell is not None and any(
+                        _cell_at(rows, ri, x2)[0] is cell for f2, x2 in cols if f2 != "star"):
+                    # A row whose cells do not split where the header's "*" column does
+                    # (FY2019 p.45: the amount cell runs under the "*"): the cell is the other
+                    # column's, not the star's.
+                    rec[f + "_raw"] = ""
+                    continue
                 raw = cell["text_raw"] if cell else ""
                 if cell is not None:
                     used.add(tuple(cell["bbox"]))
@@ -1071,6 +1114,31 @@ def build(pages, cfg):
             else:
                 rec[f], rec[f + "_raw"] = "", ""
         rec["clean_rules_applied"] = ";".join(sorted(applied))
+        if "star_raw" in rec or ("hrule_table" in rec["row_flags"] and
+                                 any(f == "star" for _, f in labels)):
+            # A "*" column (FY2019, header label `star`; p.10: "organizations identified in
+            # Schedule C with an asterisk" have a review not yet complete). No output column
+            # holds it: a "*" is a routine row flag; any other text there is a review item.
+            st = " ".join(rec.pop("star_raw", "").split())
+            cut = next((f for f in ("purpose", "org") if re.search(r"(^|\s)\*$", rec[f])),
+                       None) if not st and "hrule_table" in rec["row_flags"] else None
+            if st == "*":
+                rec["row_flags"].append("asterisk")
+            elif cut:
+                # A table ruled with horizontal lines only has no "*" column of its own (p.94:
+                # "Public School / Middle School 183  *" in the Program column): the "*" stays
+                # in the cell as printed; the row is flagged and is a review item.
+                rec["row_flags"] += ["asterisk", "star_in_cell"]
+                flag("W.star_in_cell", "warn", rec["pdf_page"], f"'*' printed at the end of "
+                     f"the {cut} cell {rec[cut][-60:]!r} (no '*' column in this table); kept "
+                     "in the cell as printed", award_id=rec["award_id"],
+                     table_index=rec["table_index"], row_index=rec["row_index"], field=cut,
+                     dollar_impact=0)
+            elif st:
+                rec["row_flags"].append("star_text")
+                flag("H7.star", "critical", rec["pdf_page"], f"'*' column holds {st!r}",
+                     award_id=rec["award_id"], table_index=rec["table_index"],
+                     row_index=rec["row_index"], field="star")
         rec["ein_printed"] = rec.pop("ein_raw").strip()
         rec["amount_printed"] = " ".join(rec.pop("amount_raw").split())
         if "empty_row" in rec["row_flags"]:
@@ -1114,5 +1182,6 @@ def build(pages, cfg):
         ini["rows_sum"] = sum(a["amount"] or 0 for a in awards
                               if a["initiative_id"] == ini["initiative_id"])
     return dict(initiatives=initiatives, summary=summary, awards=awards, flags=flags,
+                side_tables=side_tables,
                 last_cols=last_cols, header_rows=header_rows,
                 band_words=band_words, covered=covered)
