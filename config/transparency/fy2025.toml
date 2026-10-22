@@ -1,0 +1,261 @@
+# FY2025 transparency resolutions: every year-specific fact the pipeline needs (GitHub #104).
+# Shared code: code/transreso/ (and code/schedc/, code/schedc_cv/ underneath it). Same layout as
+# FY2026 (config/transparency/fy2026.toml): Excel charts, one table per chart page.
+
+fiscal_year = 2025
+issue = 104
+review_dir = "research/2026-10-21-fy25-transparency-review"   # outputs land in <review_dir>/data
+x_tolerance = 3.0          # pdfplumber default; these charts print real space glyphs
+run_gap_pt = 3.0           # code/transreso/reader.py RUN_GAP
+
+# Resolution number and adoption date: from research/2026-07-07-legistar-links-fy21-27.md
+# (FY2025 table) and data/combined/legistar_crosswalk.csv; read from Legistar and
+# council.nyc.gov on 2026-07-07, not re-queried here. `printed_date` is the date the PDF itself
+# prints on p.1 ("This Resolution, dated ..."): Reso 01-10 carry the committee report and print
+# it; Reso 11-13 carry the resolution text instead ("Preconsidered Res. No." left blank), print
+# no date, and print "as set forth in Charts 1 through N" (`charts_printed`).
+# Reso 04 (2024-10-23) has no Legistar matter number: the 2026-07-07 pass found it on
+# council.nyc.gov only (absent from Legistar's phrase search), and the PDF prints none. Its
+# `number` is left blank and the gap is a named review item (known_issues below).
+numbers_source = "research/2026-07-07-legistar-links-fy21-27.md"
+
+# Line-end hyphens (W5.wrap_hyphen): all 4 were read by hand on 2026-10-21 and are compound
+# words that keep the hyphen (at-risk, evidence-based, In-School x2). None goes to review.
+wrap_hyphen_review = []
+
+[[resolutions]]
+seq = 1
+pdf = "source/FY25/transparency-resolutions/Transparency-Reso-01-2024-08-15.pdf"
+sha256 = "c1711afb44844eed1f22fe7166ece3b4db4fdb33c2477aa18e69f3695029b4de"
+pages = 63
+number = "Res 0517-2024"
+legistar_id = 74597
+date = "2024-08-15"
+printed_date = "August 15, 2024"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 2
+pdf = "source/FY25/transparency-resolutions/Transparency-Reso-02-2024-09-12.pdf"
+sha256 = "e48ebaf122dad7cb00367c16336410b14eb7712dbefc3ebbd02089c5261094f7"
+pages = 78
+number = "Res 0559-2024"
+legistar_id = 74713
+date = "2024-09-12"
+printed_date = "September 12, 2024"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 3
+pdf = "source/FY25/transparency-resolutions/Transparency-Reso-03-2024-10-10.pdf"
+sha256 = "9922759c06f4c337bc667502958860be38e11c24bc87c78f09b76df677a27478"
+pages = 31
+number = "Res 0597-2024"
+legistar_id = 74800
+date = "2024-10-10"
+printed_date = "October 10, 2024"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 4
+pdf = "source/FY25/transparency-resolutions/Transparency-Reso-04-2024-10-23.pdf"
+sha256 = "1f0ff26dd6147783b4db6db9e559d1de33dda8c92c724a639f4d1535394a4422"
+pages = 10
+number = ""
+# legistar_id: not located (see number_missing below)
+date = "2024-10-23"
+printed_date = "October 23, 2024"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 5
+pdf = "source/FY25/transparency-resolutions/Transparency-Reso-05-2024-11-13.pdf"
+sha256 = "a146f5709d38437c6df58d3fe7d4bd25471123a12dab64f3d21cffde944d365e"
+pages = 31
+number = "Res 0641-2024"
+legistar_id = 74987
+date = "2024-11-13"
+printed_date = "November 13, 2024"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 6
+pdf = "source/FY25/transparency-resolutions/Transparency-Reso-06-2024-12-05.pdf"
+sha256 = "4fb0b7661914ec5c3bb022685be77799138c451b44fb49d13507ea3f292537df"
+pages = 25
+number = "Res 0677-2024"
+legistar_id = 75088
+date = "2024-12-05"
+printed_date = "December 5, 2024"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 7
+pdf = "source/FY25/transparency-resolutions/Transparency-Reso-07-2025-01-23.pdf"
+sha256 = "1f0207728a3851da33195ba4eff687fa9d7bfe99b36158d94d29b1ad8d02a7cf"
+pages = 30
+number = "Res 0712-2025"
+legistar_id = 75210
+date = "2025-01-23"
+printed_date = "January 23, 2025"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 8
+pdf = "source/FY25/transparency-resolutions/Transparency-Reso-08-2025-02-13.pdf"
+sha256 = "9a73b2e363410f429cde166e8bb647ed43a49b4d5fb3ccb0d7fe48a22aeb884e"
+pages = 24
+number = "Res 0732-2025"
+legistar_id = 75369
+date = "2025-02-13"
+printed_date = "February 13, 2025"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 9
+pdf = "source/FY25/transparency-resolutions/Transparency-Reso-09-2025-03-12.pdf"
+sha256 = "97c73eb3ba0950c77ad1b8f04c0270889fe8c8b837656437cea6e1e5f45718c6"
+pages = 24
+number = "Res 0791-2025"
+legistar_id = 75514
+date = "2025-03-12"
+printed_date = "March 12, 2025"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 10
+pdf = "source/FY25/transparency-resolutions/Transparency-Reso-10-2025-03-26.pdf"
+sha256 = "8067e9e2ce230495f24dc4c7bd129d9665f5a39a10ba2877cb0449ee5c97634d"
+pages = 4
+number = "Res 0815-2025"
+legistar_id = 75624
+date = "2025-03-26"
+printed_date = "March 26, 2025"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 11
+pdf = "source/FY25/transparency-resolutions/Transparency-Reso-11-2025-04-24.pdf"
+sha256 = "2409cecc61d894e0b220f24ed15a399a988a0f9e3e1a886aa57e735754886a96"
+pages = 25
+number = "Res 0849-2025"
+legistar_id = 75693
+date = "2025-04-24"
+printed_date = ""
+charts_printed = 18
+
+[[resolutions]]
+seq = 12
+pdf = "source/FY25/transparency-resolutions/Transparency-Reso-12-2025-05-28.pdf"
+sha256 = "b22ecaf22f95ad459b91ff3f6ac1f8dee4bfa25191afbea1768b2205301c7409"
+pages = 35
+number = "Res 0875-2025"
+legistar_id = 75850
+date = "2025-05-28"
+printed_date = ""
+charts_printed = 33
+
+[[resolutions]]
+seq = 13
+pdf = "source/FY25/transparency-resolutions/Transparency-Reso-13-2025-06-30.pdf"
+sha256 = "a953e493559ab089565195bbe55249f2dfca59216526a5d1bbddb01bbb3ef40b"
+pages = 15
+number = "Res 0959-2025"
+legistar_id = 76075
+date = "2025-06-30"
+printed_date = ""
+charts_printed = 14
+
+[image]
+# Same values as config/transparency/fy2026.toml.
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 64
+# Acceptance: withholding this row (Reso 01 p.60, Department of Health and Mental Hygiene,
+# ($25,000)), or one character of it, must make the ink check fire. The page also holds two
+# clipped "Speaker's Initiat|ive" runs, so a clean pass shows hidden letters really are hidden.
+ink_acceptance_seq = 1
+ink_acceptance_page = 60
+ink_acceptance_row_id = "fy25-tr01-p060-r001"
+
+[[known_issues]]
+check_id = "K.no_resolution_number"
+resolution_seq = 4
+pdf_page = 1
+field = "resolution_number"
+dollar_impact = 0
+what_to_check = "Reso 04 (adopted 2024-10-23, per council.nyc.gov and its own p.1 'dated October 23, 2024') has no resolution number: the PDF prints none, and the 2026-07-07 Legistar pass did not find its matter (data/combined/legistar_crosswalk.csv: not_located). resolution_number left blank on its rows; resolution_date is set. Look it up in Legistar and add it to config/transparency/fy2025.toml."
+
+
+# Named exceptions: places where the PDF disagrees with itself. Each must match exactly or the
+# check still fails; each stays in the review file.
+
+# Three chart pages print no "Page n" label under the chart, and the next label counts them
+# (Reso 02: p.73 "Page 71", pp.74-75 none, p.76 "Page 74"; Reso 03: p.27 "Page 25", p.28 none,
+# p.29 "Page 27"). All three are one-chart "Art a Catalyst for Change" pages.
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 2
+pdf_page = 74
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 2
+pdf_page = 75
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 3
+pdf_page = 28
+
+# Reso 06 p.6 row 24: "Brooklyn Kindergarten Society ***" (Speaker, $50,000), but the page
+# prints only the * and ** footnotes. Kept as printed: org_marker "***", correction = 1.
+[[exceptions]]
+check_id = "T11.markers"
+resolution_seq = 6
+pdf_page = 6
+row_index = 24
+
+# Reso 07 pp.29-30: four purpose-of-funds rows carry a staff note in a column past the `*`
+# column, off the right page edge ("01/22; placeholder - program name & Purpose fo funds
+# change"; "01/22; DCLA: We checked Midori's final CDF report ..."). Only "01/" shows on the
+# page, in the `*` column. Kept as printed: prequal_printed "01/", prequal_pending 0; the rest
+# is in hidden_text.
+[[exceptions]]
+check_id = "T11.markers"
+resolution_seq = 7
+pdf_page = 29
+row_index = 6
+
+[[exceptions]]
+check_id = "T11.markers"
+resolution_seq = 7
+pdf_page = 29
+row_index = 7
+
+[[exceptions]]
+check_id = "T11.markers"
+resolution_seq = 7
+pdf_page = 30
+row_index = 3
+
+[[exceptions]]
+check_id = "T11.markers"
+resolution_seq = 7
+pdf_page = 30
+row_index = 4
+
+
+# Places a person has looked at and that stay in the review file as named items (continued).
+[[known_issues]]
+check_id = "K.repeated_chart"
+resolution_seq = 2
+pdf_page = 75
+field = "budget_fiscal_year"
+dollar_impact = 18000
+what_to_check = "Reso 02 prints the same two rows (Black Spectrum Theatre Company: Catherine & Count Basie Middle School 72Q (28Q072) ($18,000) to Redwood Middle School (28Q332) $18,000, Member column absent) three times, as 'Art a Catalyst for Change' chart #17 (Fiscal 2025, p.47), #43 (Fiscal 2024, p.74) and #44 (Fiscal 2023, p.75). #43 and #44 are the two pages that print no 'Page n' label. Kept as printed (6 rows); the explorer should not assume the three are different changes without a person's look."

@@ -1,0 +1,360 @@
+# FY2019 transparency resolutions: every year-specific fact the pipeline needs (GitHub #110).
+# Shared code: code/transreso/ (and code/schedc/, code/schedc_cv/ underneath it). Same layout as
+# FY2020-FY2026: Excel charts, one landscape table per chart page (no /Rotate this year).
+
+fiscal_year = 2019
+issue = 110
+review_dir = "research/2026-10-22-fy19-transparency-review"   # outputs land in <review_dir>/data
+x_tolerance = 3.0
+run_gap_pt = 3.0
+
+# Resolution number and adoption date: from research/2026-07-07-legistar-links-fy15-20.md
+# (FY2019 table; Reso 03-05 and 07-10 "confirmed (positional)") and
+# data/combined/legistar_crosswalk.csv; read from Legistar on 2026-07-07, not re-queried here.
+# The crosswalk holds no Legistar URL for FY2019, so no legistar_id. All 11 open with the
+# Committee on Finance report, which prints the date ("This Resolution, dated ..."); none prints
+# "Charts 1 through N".
+numbers_source = "research/2026-07-07-legistar-links-fy15-20.md"
+
+# Captions: Reso 01-07 and 11 print "CHART 1:" (no "#") on every chart page (484 pages); Reso
+# 08-10 print "CHART #1:". `caption_no_hash = true` on a resolution says "CHART n:" is its house
+# style, so those captions are not review items; any other odd caption still is (Reso 02 p.32
+# "CHART 7 Cultural ..." with no colon, Reso 09 p.23 "CHART # 7:", Reso 10 p.15 "CHART 7:").
+
+# Line-end hyphens (W5.wrap_hyphen): all 25, on 24 rows, were read by hand on 2026-10-22.
+# 24 are compound words or names that keep the hyphen (after-school x5, enrollment-based x6,
+# After-School x3, "Little-Tiger" x3, Ferreras-Copeland x2, pre-kindergarten, anti-displacement,
+# t-shirts, NORC-SSP (the row below prints "NORC- SSP"), and Reso 04 p.66 row 4 " -" / "Public",
+# a spaced separator). One is a separator printed without spaces: Reso 07 p.30 row 22,
+# "CCNS Howard Beach Neighborhood SC-" / "Catholic Charities Neighborhood Services, Inc." (the
+# rows around it print " - " between program and sponsor). Kept as printed; goes to review.
+wrap_hyphen_review = ["Neighborhood SC-\nCatholic Charities"]
+
+[[resolutions]]
+seq = 1
+pdf = "source/FY19/transparency-resolutions/Transparency-Reso-01-2018-07-18.pdf"
+sha256 = "15c89ee72f3a96b8a76994fed705dfa087f6d84170357203f23b3cbe102cf0e1"
+pages = 112
+number = "Res 0457-2018"
+date = "2018-07-18"
+printed_date = "July 17, 2018"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 2
+pdf = "source/FY19/transparency-resolutions/Transparency-Reso-02-2018-08-08.pdf"
+sha256 = "959d137ec7c12150d51e201a222e0a2271bdaed707af41267d1dd6984d48365d"
+pages = 103
+number = "Res 0472-2018"
+date = "2018-08-08"
+printed_date = "August 8, 2018"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 3
+pdf = "source/FY19/transparency-resolutions/Transparency-Reso-03-2018-09-26.pdf"
+sha256 = "06f7c94d97f1641d3046dfc83354435fcad8a1162d383962583aa5701b7c4d39"
+pages = 83
+number = "Res 0537-2018"
+date = "2018-09-26"
+printed_date = "September 26, 2018"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 4
+pdf = "source/FY19/transparency-resolutions/Transparency-Reso-04-2018-10-31.pdf"
+sha256 = "69dd6077c896047659966579c353f527585e78d803569ff234eba7766f48d30f"
+pages = 68
+number = "Res 0579-2018"
+date = "2018-10-31"
+printed_date = "October 31, 2018"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 5
+pdf = "source/FY19/transparency-resolutions/Transparency-Reso-05-2018-12-11.pdf"
+sha256 = "014440a04a150cad1bf0292f91809a8c365c2e9ea96a7fe87491e4ee10822063"
+pages = 138
+number = "Res 0652-2018"
+date = "2018-12-11"
+printed_date = "December 11, 2018"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 6
+pdf = "source/FY19/transparency-resolutions/Transparency-Reso-06-2018-12-20.pdf"
+sha256 = "708097dea4da94cadc3885e99a9f1fdcec428e9d12c192e4eaa200cb1660eeb0"
+pages = 29
+number = "Res 0674-2018"
+date = "2018-12-20"
+printed_date = "December 20, 2018"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 7
+pdf = "source/FY19/transparency-resolutions/Transparency-Reso-07-2019-01-24.pdf"
+sha256 = "024cce366f02915b06cced26abc30f8ba7fa0874f539877c91ba5259b51578ed"
+pages = 41
+number = "Res 0722-2019"
+date = "2019-01-24"
+printed_date = "January 24, 2019"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[[resolutions]]
+seq = 8
+pdf = "source/FY19/transparency-resolutions/Transparency-Reso-08-2019-02-28.pdf"
+sha256 = "b8262e6537aadb70cc575490dfcf4a648e330e192d0c175e82497a806c26f912"
+pages = 66
+number = "Res 0763-2019"
+date = "2019-02-28"
+printed_date = "February 28, 2019"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 9
+pdf = "source/FY19/transparency-resolutions/Transparency-Reso-09-2019-03-28.pdf"
+sha256 = "57acd2104ceec3c7a0b29f3b706b44016eba466c79bf769d183db47dd5bcb369"
+pages = 46
+number = "Res 0805-2019"
+date = "2019-03-28"
+printed_date = "March 28, 2019"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 10
+pdf = "source/FY19/transparency-resolutions/Transparency-Reso-10-2019-04-18.pdf"
+sha256 = "bd3dd19322629270c92e8b9cb9b7a36deb1305e0f36cb50329eb19af7015a0cb"
+pages = 30
+number = "Res 0846-2019"
+date = "2019-04-18"
+printed_date = "April 18, 2019"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 11
+pdf = "source/FY19/transparency-resolutions/Transparency-Reso-11-2019-06-19.pdf"
+sha256 = "eefa96985c2d64ec988175da4ebdfbb79c0d23ac7598e071761da140bab4ca1a"
+pages = 17
+number = "Res 0964-2019"
+date = "2019-06-19"
+printed_date = "June 19, 2019"   # p.1
+charts_printed = 0
+caption_no_hash = true   # every caption prints "CHART n:" (no "#")
+
+[image]
+# Same values as config/transparency/fy2026.toml.
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 64
+# Reso 09 (pp.11-44): bold capitals in the header ("EIN Number", "U/A") rise up to 1.23 pt above
+# the box the text layer gives them (p.11: "E" box top 42.73 pt, ink from 41.5 pt), as on
+# FY2022 Reso 02. The header's letter boxes are taken this much higher, on every page.
+header_char_top_pt = 1.3
+# Acceptance on the first chart page (Reso 01 p.18, first row): withholding the row, or one
+# character of it, must make the ink check fire.
+ink_acceptance_seq = 1
+ink_acceptance_page = 18
+ink_acceptance_row_id = "fy19-tr01-p018-r001"
+
+# Named exceptions: places where the PDF disagrees with itself. Each must match exactly or the
+# check still fails; each stays in the review file.
+
+# Reso 01 p.1 prints "This Resolution, dated July 17, 2018"; Legistar has Res 0457-2018 adopted
+# 2018-07-18 (the filename and resolution_date use Legistar's, as the 2026-07-07 notes say).
+[[exceptions]]
+check_id = "T13.printed_date"
+resolution_seq = 1
+printed_date = "July 17, 2018"
+
+# Reso 01 p.108 prints "CHART 55: Purpose of Funds Changes - Fiscal 2018", but chart #55 is
+# "Purpose of Funds Changes - Fiscal 2019" (pp.104-107) and pp.109-111 print "CHART 56: Purpose of
+# Funds Changes - Fiscal 2018 (continued)". Read as the first page of chart #56.
+[[exceptions]]
+check_id = "T3.chart_number"
+resolution_seq = 1
+pdf_page = 108
+printed = 55
+read_as = 56
+
+# Reso 03 p.55: the "Page 41" label is printed on top of the end of the *** footnote line (the
+# text layer reads "ResolutPioange 41"), so no label is read; the labels around it (40, 42)
+# count it.
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 3
+pdf_page = 55
+
+# "Beating Hearts Initiative": organizations getting automated external defibrillators. The
+# header is Member | Organization | EIN Number | *: no agency, no amount, and (as FY2020) no
+# note under the table. Rows kept, amount blank, action "listed".
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 2
+pdf_page = 103
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 3
+pdf_page = 83
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 4
+pdf_page = 68
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 5
+pdf_page = 138
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 7
+pdf_page = 41
+
+# `**` on a page that prints only the `*` footnote (Reso 04 p.19, chart #4 Anti-Poverty
+# Initiative). Kept as printed.
+[[exceptions]]   # Urban Justice Center ** ($10,000) MOCJ
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 19
+row_index = 3
+
+[[exceptions]]   # Catholic Charities Community Services, Archdiocese of New York ** $10,000 DYCD
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 19
+row_index = 4
+
+[[exceptions]]   # Brooklyn Defender Services** ($5,000) DSS/HRA
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 19
+row_index = 5
+
+[[exceptions]]   # Fund for the City of New York, Inc. - Crown Heights Mediation Center** $5,000 DYCD
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 19
+row_index = 6
+
+# Overfull cells: an organization (or purpose) wraps to more lines than its row is tall, and
+# Excel draws the whole block centred on the row, across the rules above and below it (part of
+# it hidden under, or printed on top of, the next row). Read from the text layer as one block
+# per cell (transreso.reader, item 4); each affected row goes to review (T7.overfull).
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 3
+pdf_page = 43
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 3
+pdf_page = 46
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 3
+pdf_page = 83
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 4
+pdf_page = 23
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 4
+pdf_page = 26
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 4
+pdf_page = 40
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 4
+pdf_page = 49
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 4
+pdf_page = 51
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 4
+pdf_page = 52
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 4
+pdf_page = 56
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 4
+pdf_page = 64
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 4
+pdf_page = 65
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 7
+pdf_page = 25
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 7
+pdf_page = 26
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 7
+pdf_page = 27
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 7
+pdf_page = 28
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 7
+pdf_page = 29
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 7
+pdf_page = 30
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 7
+pdf_page = 31
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 7
+pdf_page = 37
+
+[[exceptions]]
+check_id = "T7.overfull"
+resolution_seq = 7
+pdf_page = 38

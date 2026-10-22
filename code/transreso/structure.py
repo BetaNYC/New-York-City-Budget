@@ -19,32 +19,89 @@ from schedc.structure import clean_text
 # Printed header label -> role. A label not listed here is a T4 flag.
 LABELS = {
     "Member": "member", "Borough": "member", "Borough/Member": "member", "Source": "source",
+    "Member/Borough": "member",                                    # FY2025 Reso 08 p.12
     "Organization - Program": "org", "Organization": "org", "EIN Number": "ein",
+    "Organization - School": "org",                                # FY2020 Reso 03 p.58
     "Agency": "agency", "Amount": "amount", "Agy #": "agy", "U/A": "ua", "*": "prequal",
     "Purpose of Funds": "purpose", "New Purpose of Funds": "purpose",
+    "Delegation": "member",                                        # FY2018 Reso 06 p.42
+    # FY2018: who receives the money on the organization's behalf. "Fiscal Conduit" alone is the
+    # EIN column's label on FY2018 Reso 11 pp.7-8 (it prints no "EIN"; both pages leave it empty).
+    "Fiscal Conduit/Sponsoring Organization": "conduit", "Fiscal Conduit EIN": "conduit_ein",
+    "Fiscal Conduit": "conduit_ein",
 }
 REQUIRED = {"org", "ein", "agency", "amount"}
 # "- Fiscal YYYY" closes the caption; Reso 07 p.12 prints "Assistance- Fiscal 2026" (no space).
-CAPTION = re.compile(r"^CHART #(\d+):\s*(.*?)(?:\s*-\s+Fiscal (\d{4}))?(\s*\(continued\))?$")
-PAGE_LABEL = re.compile(r"^Page (\d+)$")
-AMOUNT = re.compile(r"^(\()?\$(\d{1,3}(?:,\d{3})*)(\))?$")
+# FY2025 Reso 11 p.6 prints "CHART #4 Anti-Poverty" with no colon (flagged W.caption_format).
+# FY2023 prints "CHART 41:" (no "#", Reso 01 p.81), "- FY 2023" for "- Fiscal 2023" (Reso 01
+# p.66, Reso 09 pp.21-25) and "(cpntinued)" (Reso 03 p.20); each is read and flagged
+# W.caption_format.
+CAPTION = re.compile(r"^CHART #?(\d*):?\s*(.*?)(?:\s*-\s+(?:Fiscal|FY) (\d{4}))?"
+                     r"(\s*\(c[a-z]ntinued\))?$")
+PAGE_LABEL = re.compile(r"^Page\s(\d+)$")   # FY2024 Reso 01: "Page\xa01" (no-break space)
+# FY2022 Reso 03 chart #48 prints cents, always ".00" ("$20,290.00"); read as whole dollars.
+# FY2018 Reso 05 p.61 prints four amounts with no "$" but with cents ("(100,000.00)"): read, and
+# flagged. With neither "$" nor cents ("5,000") it is not an amount.
+AMOUNT = re.compile(r"^(\()?(?:\$(\d{1,3}(?:,\d{3})*)(?:\.00)?|(\d{1,3}(?:,\d{3})*)\.00)(\))?$")
 EIN_HYPHEN = re.compile(r"^\d{2}-\d{7}$")
 EIN_PLAIN = re.compile(r"^\d{9}$")
 MARKER = re.compile(r"\s*(\*{1,3})$")
+# FY2018: `***` footnotes that explain one chart and run over several lines (Reso 03 pp.24-25,
+# 30; Reso 04 p.58). Every line under one of them, down to the "Page n" label, is its text; the
+# whole note goes to review with the chart (T6.footnote).
+LONG_FOOTNOTES = ("*** In a previous Fiscal 2018 transparency resolution, these funds were shown",
+                  "*** In Schedule C $5,154,200 was designated to Consortium for Worker Education")
 FOOTNOTES = {
-    "*": "* Indicates pending completion of pre-qualification review.",
-    "**": "** Requires a budget modification for the changes to take effect",
-    "***": "*** Correction to designation listed in Schedule C and/or subsequent T",
+    "*": ("* Indicates pending completion of pre-qualification review.",
+          "*Indicates pending completion of pre-qualification review."),           # FY2022
+    "**": ("** Requires a budget modification for the changes to take effect",),
+    "***": ("*** Correction to designation listed in Schedule C and/or subsequent T",
+            "*** Correction and/or Reversal of a change made in a previous Transparency",   # FY2023
+            "*** Technical adjustment to designation made in a previous Transparency",      # FY2021
+            "*** Indicates a change that was reflected in the Budget Modification (MN-1)") # FY2018
+            + LONG_FOOTNOTES,
 }
+
+
+def footnote_of(line):
+    """The marker whose footnote this printed line is, or None."""
+    return next((k for k, vs in FOOTNOTES.items() if any(line.startswith(v) for v in vs)), None)
+# FY2020 caption variants, rewritten before CAPTION is matched (each flagged W.caption_format):
+# "Chart #35:" (Reso 01 pp.70-80), "Chart # 44:" (Reso 03 pp.73-87) and "SU-CASA (continued) -
+# Fiscal 2020" (Reso 05 pp.32-33, Reso 06 pp.17-18). "CHART #:" with no number (Reso 06
+# pp.25-26) matches CAPTION with an empty number.
+CAPTION_FIXES = [
+    (re.compile(r"^Chart\b"), "CHART", "'Chart' for 'CHART'"),
+    (re.compile(r"^CHART # (?=\d)"), "CHART #", "a space after '#'"),
+    (re.compile(r"\s*(\(c[a-z]ntinued\))(\s*-\s+(?:Fiscal|FY) \d{4})$"), r"\2 \1",
+     "'(continued)' before the fiscal year"),
+    # FY2018: "(Continued)" (Reso 03 p.37) and a footnote marker after the caption ("- Fiscal
+    # 2018 ***", Reso 04 p.58).
+    (re.compile(r"\(Continued\)$"), "(continued)", "'(Continued)' with a capital C"),
+    (re.compile(r"(-\s+(?:Fiscal|FY) \d{4})\s+\*{1,3}$"), r"\1", "a footnote marker after the caption"),
+]
+
+
+def normalise_caption(cap):
+    """(caption as CAPTION expects it, [what was rewritten])."""
+    fixes = []
+    for rx, to, what in CAPTION_FIXES:
+        new = rx.sub(to, cap, count=1)
+        if new != cap:
+            cap = new
+            fixes.append(what)
+    return cap, fixes
+
+
 CITY_EIN = "136400434"
 
 
 def parse_amount(s):
     """'$5,000' -> 5000, '($5,000)' -> -5000; anything else -> None."""
     m = AMOUNT.match(s.strip())
-    if not m or bool(m.group(1)) != bool(m.group(3)):
+    if not m or bool(m.group(1)) != bool(m.group(4)):
         return None
-    v = int(m.group(2).replace(",", ""))
+    v = int((m.group(2) or m.group(3)).replace(",", ""))
     return -v if m.group(1) else v
 
 
@@ -68,9 +125,15 @@ def caption_of(page, table):
     return " ".join(ln["text"] for ln in above).strip(), below
 
 
-def build(res, pages, x_tolerance):
-    """One resolution's pages -> dict(rows, charts, flags, page_info)."""
-    rows, charts, flags, info = [], {}, [], []
+def build(res, pages, x_tolerance, doc_fy=2026, renumber=None, blank_headers=()):
+    """One resolution's pages -> dict(rows, charts, flags, page_info). `doc_fy` is the document year
+    (the row id prefix). `renumber` = {pdf_page: (printed, read_as)}: captions that print the
+    wrong chart number (T3.chart_number, named exceptions in the config; FY2019 Reso 01 p.108).
+    `blank_headers`: pages whose header row prints no labels at all (T4.blank_header; FY2018 Reso 01
+    p.55); each takes the labels of the chart page before it when the column edges are the same."""
+    renumber = renumber or {}
+    prev_header = None
+    rows, charts, flags, info, empty, chart_notes, footnote_notes = [], {}, [], [], [], [], []
     seq = res["seq"]
 
     def flag(check, page, msg, severity="critical", **kw):
@@ -89,26 +152,85 @@ def build(res, pages, x_tolerance):
             flag("T3.charts", p["page"], f"{len(p['tables'])} tables on one chart page")
         t = p["tables"][0]
         cap, below = caption_of(p, t)
-        m = CAPTION.match(cap)
+        norm, fixes = normalise_caption(cap)
+        m = CAPTION.match(norm)
         pi["caption"] = cap
         if not m:
             flag("T3.charts", p["page"], f"no chart caption above the table: {cap[:80]!r}")
             continue
-        num, title, fy, cont = int(m.group(1)), m.group(2), m.group(3), bool(m.group(4))
-        pi.update(chart_number=num, continued=int(cont))
+        num, title, fy, cont = (int(m.group(1)) if m.group(1) else None), m.group(2), m.group(3), \
+            bool(m.group(4))
+        pi.update(chart_number=num if num is not None else "", continued=int(cont))
+        if fixes:
+            flag("W.caption_format", p["page"], f"caption prints {' and '.join(fixes)}: "
+                 f"{cap[:80]!r}; read as chart #{num}{' (continued)' if cont else ''}",
+                 severity="warn", chart_number=num)
+        elif num is None:
+            pass                                    # T3.continued_number below, or T3.charts
+        elif res.get("caption_no_hash") and cap.startswith(f"CHART {m.group(1)}:"):
+            pass                                    # FY2019: "CHART 1:" is the resolution's style
+        elif not cap.startswith(f"CHART #{m.group(1)}:"):
+            what = ("no '#' before" if not cap.startswith("CHART #") else "no ':' after")
+            flag("W.caption_format", p["page"], f"caption prints {what} the chart number: "
+                 f"{cap[:80]!r}; read as chart #{num}", severity="warn", chart_number=num)
+        elif fy and not re.search(r"-\s+Fiscal \d{4}", cap) or cont and "(continued)" not in cap:
+            flag("W.caption_format", p["page"], f"caption prints "
+                 f"{'FY YYYY for Fiscal YYYY' if fy and 'Fiscal' not in cap else 'a misspelt (continued)'}: "
+                 f"{cap[:80]!r}; read as chart #{num}, Fiscal {fy}"
+                 f"{' (continued)' if cont else ''}", severity="warn", chart_number=num)
+        if p["page"] in renumber and num == renumber[p["page"]][0]:
+            # FY2019 Reso 01 p.108: the first page of chart #56 (Purpose of Funds Changes - Fiscal
+            # 2018) prints "CHART 55:"; its later pages print 56. Named exception only.
+            flag("T3.chart_number", p["page"], f"caption prints chart #{num}, read as chart "
+                 f"#{renumber[p['page']][1]} (named exception in the config): {cap[:80]!r}",
+                 severity="warn", chart_number=renumber[p["page"]][1])
+            num = renumber[p["page"]][1]
         labels = [ln["text"] for ln in below]
         pl = [int(PAGE_LABEL.match(x).group(1)) for x in labels if PAGE_LABEL.match(x)]
         pi["page_label"] = pl[0] if len(pl) == 1 else ""
-        notes = sorted(k for k, v in FOOTNOTES.items() if any(x.startswith(v) for x in labels))
+        notes = sorted({footnote_of(x) for x in labels} - {None})
         pi["footnotes"] = " ".join(notes)
-        other = [x for x in labels if not PAGE_LABEL.match(x) and
-                 not any(x.startswith(v) for v in FOOTNOTES.values())]
+        other = [x for x in labels if not PAGE_LABEL.match(x) and not footnote_of(x)]
+        long_ = next((i for i, x in enumerate(labels) if x.startswith(LONG_FOOTNOTES)), None)
+        if long_ is not None:
+            text = [x for x in labels[long_:] if not PAGE_LABEL.match(x)]
+            other = [x for x in other if x not in text]
+            footnote_notes.append(dict(resolution_seq=seq, pdf_page=p["page"], lines=text))
+            flag("T6.footnote", p["page"], f"a footnote explains this chart: {' '.join(text)[:400]!r}",
+                 severity="warn", chart_number=num)
         # Footnote 3 wraps onto a second line ("…Transparency Resolution(s)"); anything else
         # below a table is unexpected text and goes to review.
         other = [x for x in other if not ("***" in notes and x.startswith("Resolution"))]
-        for x in other:
-            flag("T6.furniture", p["page"], f"unexpected text below the table: {x[:100]!r}")
 
+        if cont and num is not None and num not in charts and \
+                (prev_chart or {}).get("chart_number") == num - 1:
+            # FY2023 Reso 08 p.32: the first page of chart #25 prints "(continued)". Read as the
+            # start of the chart; allowed only as a named exception (T3.continued_start).
+            flag("T3.continued_start", p["page"], f"first page of chart #{num} prints "
+                 f"'(continued)': {cap[:80]!r}; read as the start of the chart", severity="warn",
+                 chart_number=num)
+            cont = False
+        same = prev_chart and prev_chart["title"] == title and prev_chart["fy_printed"] == (fy or "")
+        if cont and same and prev_chart["chart_number"] != num:
+            # FY2022 Reso 07 p.34: "CHART #21: Purpose of Funds Changes (continued)" under chart #22
+            # of the same title and year. Read as continuing it; named exception only.
+            # FY2020 Reso 06 pp.25-26 print "CHART #:" with no number; the same rule applies.
+            flag("T3.continued_number", p["page"], f"'(continued)' caption prints chart "
+                 f"{'#' + str(num) if num is not None else 'with no number'}, "
+                 f"but continues chart #{prev_chart['chart_number']} (same title and year): "
+                 f"{cap[:80]!r}; read as chart #{prev_chart['chart_number']}", severity="warn",
+                 chart_number=prev_chart["chart_number"])
+            num = prev_chart["chart_number"]
+        elif not cont and same and prev_chart["chart_number"] == num:
+            # FY2022 Reso 01 pp.51-54, Reso 02 p.35: the caption repeats without "(continued)".
+            # Read as continuing the chart; named exception only.
+            flag("T3.continued_missing", p["page"], f"caption repeats chart #{num} without "
+                 f"'(continued)': {cap[:80]!r}; read as its continuation", severity="warn",
+                 chart_number=num)
+            cont = True
+        if num is None:
+            flag("T3.charts", p["page"], f"caption prints no chart number: {cap[:80]!r}")
+            continue
         if cont:
             if not prev_chart or prev_chart["chart_number"] != num or prev_chart["title"] != title \
                     or prev_chart["fy_printed"] != (fy or ""):
@@ -131,15 +253,41 @@ def build(res, pages, x_tolerance):
         prev_chart = ch
 
         header = [h["label"] for h in t["header"]]
+        edges = [round(h["bbox"][0]) for h in t["header"]] + [round(t["header"][-1]["bbox"][2])] \
+            if t["header"] else []
+        if p["page"] in blank_headers and header and not any(header):
+            # FY2018 Reso 01 pp.55-56, Reso 03 p.48, Reso 04 p.32: a grey header row with no
+            # labels. Read with the labels of the chart page before it, whose column edges are
+            # the same (to the point); named exception only.
+            if prev_header and prev_header[1] == edges:
+                header = list(prev_header[0])
+                flag("T4.blank_header", p["page"], f"chart #{num} prints a header row with no labels; "
+                     f"read with the previous chart page's ({header})", severity="warn",
+                     chart_number=num)
+        if any(header):
+            prev_header = (header, edges)
         roles = {j: LABELS.get(lb) for j, lb in enumerate(header)}
         # Some pages leave the last header cell blank where others print "*" (Reso 01 p.48,
         # Reso 04 p.3); the column is the same narrow pre-qualification column.
         if header and header[-1] == "" and roles.get(len(header) - 2) == "ua":
             roles[len(header) - 1] = "prequal"
         unknown = [header[j] for j, r in roles.items() if r is None]
-        if unknown or not REQUIRED <= set(roles.values()):
-            flag("T4.headers", p["page"], f"header not recognised: {header}")
         kind = "purpose_of_funds" if "purpose" in roles.values() else "designation"
+        if not unknown and {"org", "ein"} <= set(roles.values()) and \
+                not {"agency", "amount", "purpose"} & set(roles.values()):
+            # FY2022 "Beating Hearts": a list of organizations with no agency and no amount, and
+            # a note under the table saying what they get. Rows kept, amount blank; named
+            # exception only (T4.no_amount). The note is not furniture.
+            kind = "no_amount"
+            chart_notes.append(dict(resolution_seq=seq, pdf_page=p["page"], lines=other))
+            flag("T4.no_amount", p["page"], f"chart #{num} {title!r} prints no Agency or Amount "
+                 f"column ({header}); rows kept with a blank amount. Its note: "
+                 f"{' '.join(other)[:300]!r}", severity="warn", chart_number=num)
+            other = []
+        elif unknown or not REQUIRED <= set(roles.values()):
+            flag("T4.headers", p["page"], f"header not recognised: {header}")
+        for x in other:
+            flag("T6.furniture", p["page"], f"unexpected text below the table: {x[:100]!r}")
         hdr_s = " | ".join(header)
         if ch["header"] and ch["header"] != hdr_s:
             ch.setdefault("header_variants", set()).add(hdr_s)
@@ -147,6 +295,11 @@ def build(res, pages, x_tolerance):
         ch["kind"] = kind
 
         for r in t["rows"]:
+            if not any(c["text_raw"] or c["hidden"] for c in r["cols"].values()):
+                # A drawn row with nothing printed in it (FY2023 Reso 01 p.67, Reso 03 p.83,
+                # Reso 06 p.53): not a change. Counted, not kept.
+                empty.append(dict(resolution_seq=seq, pdf_page=p["page"], row_index=r["row_index"]))
+                continue
             raw = {roles[int(j)]: c["text_raw"] for j, c in r["cols"].items() if roles.get(int(j))}
             red = {roles[int(j)]: c["red"] for j, c in r["cols"].items() if roles.get(int(j))}
             nchars = {roles[int(j)]: c["nchars"] for j, c in r["cols"].items() if roles.get(int(j))}
@@ -154,7 +307,7 @@ def build(res, pages, x_tolerance):
             hidden = {roles[int(j)]: c["hidden"] for j, c in r["cols"].items()
                       if roles.get(int(j)) and c["hidden"]}
             row_flags = list(r["flags"])
-            rec = dict(row_id=f"fy26-tr{seq:02d}-p{p['page']:03d}-r{r['row_index']:03d}",
+            rec = dict(row_id=f"fy{doc_fy % 100:02d}-tr{seq:02d}-p{p['page']:03d}-r{r['row_index']:03d}",
                        resolution_seq=seq, pdf_page=p["page"], table_index=t["table_index"],
                        row_index=r["row_index"], bbox_pt=r["bbox"], chart_number=num,
                        chart_title=title, budget_fiscal_year=int(fy) if fy else "",
@@ -189,9 +342,19 @@ def build(res, pages, x_tolerance):
             rec["amount_printed"] = raw.get("amount", "")
             rec["amount"] = parse_amount(rec["amount_printed"])
             rec["agy_num"] = raw.get("agy", "").strip()
+            if "conduit" in roles.values() or "conduit_ein" in roles.values():
+                # FY2018 only: the fiscal conduit / sponsoring organization and its EIN.
+                rec["fiscal_conduit_raw"] = raw.get("conduit", "")
+                rec["fiscal_conduit"] = clean_text(raw.get("conduit", ""))[0]
+                rec["fiscal_conduit_ein_printed"] = raw.get("conduit_ein", "")
+                rec["fiscal_conduit_ein"], fmt = parse_ein(rec["fiscal_conduit_ein_printed"])
+                if fmt == "odd":
+                    row_flags.append("conduit_ein_odd")
             rec["ua"] = raw.get("ua", "").strip()
             a = rec["amount"]
-            if kind == "purpose_of_funds":
+            if kind == "no_amount":
+                rec["action"] = "listed"
+            elif kind == "purpose_of_funds":
                 rec["action"] = "purpose_from" if (a or 0) < 0 else "purpose_to"
             else:
                 rec["action"] = "rescind" if (a or 0) < 0 else "designate"
@@ -209,8 +372,10 @@ def build(res, pages, x_tolerance):
                 row_flags.append("ein_no_hyphen")
             elif rec["ein_format"] in ("blank", "odd"):
                 row_flags.append("ein_" + rec["ein_format"])
-            if a is None:
+            if a is None and kind != "no_amount":
                 row_flags.append("amount_unreadable")
+            elif a is not None and "$" not in rec["amount_printed"]:
+                row_flags.append("amount_no_dollar")
             elif a == 0:
                 row_flags.append("amount_zero")
             # Sign vs colour: a rescission prints red, a designation black (T10).
@@ -227,4 +392,5 @@ def build(res, pages, x_tolerance):
             rows.append(rec)
             pi["rows"] += 1
 
-    return dict(rows=rows, charts=list(charts.values()), flags=flags, page_info=info)
+    return dict(rows=rows, charts=list(charts.values()), flags=flags, page_info=info,
+                empty_rows=empty, chart_notes=chart_notes, footnote_notes=footnote_notes)

@@ -1,0 +1,65 @@
+TRANSPARENCY RESOLUTIONS FY2019 -- checks (code/parse_transparency_v2.py; config config/transparency/fy2019.toml)
+11 PDFs, 733 pages, 592 chart pages, 445 charts
+
+rows: 7,207
+  designate      4,906 rows  $     172,270,310
+  rescind        1,553 rows  $    -167,740,309
+  purpose_from     318 rows  $     -24,384,117
+  purpose_to       318 rows  $      24,384,117
+  listed           112 rows  (no amount printed)
+  budget year 2017: 304 rows
+  budget year 2018: 411 rows
+  budget year 2019: 6,492 rows
+  no budget year printed: 0 rows
+
+PER RESOLUTION (rows; organizations: designations / rescissions; agency side net; purpose rows)
+   1 Res 0457-2018 2018-07-18: 1,704 rows, 57 charts; +1,450 $50,583,906 / 118 $-4,427,558; agency side $-46,156,348; purpose 88
+   2 Res 0472-2018 2018-08-08: 1,604 rows, 45 charts; +1,244 $31,366,276 / 110 $-7,940,557; agency side $-23,570,718; purpose 166
+   3 Res 0537-2018 2018-09-26: 1,118 rows, 45 charts; +848 $24,283,285 / 130 $-5,343,990; agency side $-18,939,295; purpose 50
+   4 Res 0579-2018 2018-10-31:   596 rows, 46 charts; +283 $8,321,012 / 221 $-5,441,187; agency side $-2,839,825; purpose 74
+   5 Res 0652-2018 2018-12-11:   925 rows, 100 charts; +430 $15,158,925 / 398 $-14,920,305; agency side $46,380; purpose 74
+   6 Res 0674-2018 2018-12-20:    89 rows, 21 charts; +50 $2,845,260 / 25 $-817,500; agency side $-127,760; purpose 10
+   7 Res 0722-2019 2019-01-24:   339 rows, 23 charts; +216 $3,058,761 / 73 $-913,761; agency side $-2,145,000; purpose 48
+   8 Res 0763-2019 2019-02-28:   349 rows, 46 charts; +147 $4,631,156 / 122 $-3,509,776; agency side $-271,380; purpose 78
+   9 Res 0805-2019 2019-03-28:   285 rows, 29 charts; +130 $24,517,236 / 118 $-5,703,767; agency side $-17,213,469; purpose 18
+  10 Res 0846-2019 2019-04-18:   131 rows, 22 charts; +62 $1,827,733 / 56 $-1,856,673; agency side $28,940; purpose 12
+  11 Res 0964-2019 2019-06-19:    67 rows, 11 charts; +26 $1,137,440 / 22 $-1,108,500; agency side $-28,940; purpose 18
+
+HARD CHECKS
+  ok    T1.input             11 PDFs, 733 pages; 0 differ from config
+  ok    T2.triage            733 pages surveyed; 0 fail the text-layer gate
+  ok    T3.charts            445 charts on 592 pages; printed chart counts tie on 0 of 0 resolutions that print one; 0 caption problems; 0 numbering problems; 1 chart pages print no 'Page n' label (named exceptions, counted by the labels around them); 1 caption(s) print the wrong chart number (named exception, read as the number the config gives)
+  ok    T4.headers           0 unrecognised headers; 5 chart pages print no Agency or Amount column (named exceptions; 112 rows kept with a blank amount)
+  ok    T5.anchors           7204 EIN-shaped words on the visible text (7204 counting clipped letters), 7204 rows with an EIN; 0 pages differ; 0 rows without a readable amount; 3 rows print no EIN; 1 drawn rows print nothing and are not rows (Reso 05 p.29 row 31)
+  ok    T6.furniture         0 data cells holding header/footer text; 0 unexpected lines under tables
+  ok    T7.chars             1013479 non-space chars; 0 in a table but in no cell; 0 clipped (hidden) chars in 0 runs, each listed for review; 2475 letters drawn across a row rule on 21 pages (21 named in the config: each cell's lines read as one block; 33 rows, in the review file)
+  ok    T10.sign_colour      1871 amounts in parentheses, all red; 0 rows where sign and colour disagree
+  ok    T11.markers          599 rows marked **, 60 marked ***, 809 pending pre-qualification; 4 without their footnote or with an odd * cell (4 a named exception in the config, kept as printed and in the review file)
+  ok    T12.fiscal_year      445 charts print a fiscal year, all named in their resolution's text; 0 print none (warn, in the review file); 0 name a year the text does not (0 a named exception in the config, kept as printed and in the review file)
+  ok    T13.dates            11 resolutions print their date and it matches (1 printing another day than Legistar's adoption date, a named exception in the config, in the review file); all 11 filename dates equal the Legistar adoption dates in the config
+  ok    T14.provenance       7207 row ids, 7207 unique
+  ok    T15.printed_totals   0 money amounts printed outside the tables on chart pages: the FY2019 charts print no totals, so there is nothing to tie (the arithmetic is reported, not checked); 0 in notes under no-amount charts (in the review file with the chart)
+  ok    T16.values           0 clean values not reproducible from raw
+
+IMAGE LATTICE (H8): rows rebuilt from code/ocr/grid.py lattices, compared field by field
+  agree on every field: 7,207 of 7,207
+  image rows with no vector row: 0
+  header rules found in header pixels (not in the lattice): 23 pages
+INK COVERAGE (H9): uncovered-ink regions inside the chart tables
+  regions: 0  uncovered px total: 20,268 of 232,846,323 ink px
+  acceptance on Reso 01 p.18 (fy19-tr01-p018-r001): clean run 0 regions; row withheld -> 12; one char withheld -> 1 (PASS)
+
+DISCLOSURE (report-only; data/fyNN/expense_disclosure)
+  budget year 2017: 143 organization designations; 138 found in the disclosure on (EIN, amount) ($4,467,905); not found: amount_differs 4, later_rescinded 1
+  budget year 2018: 158 organization designations; 143 found in the disclosure on (EIN, amount) ($5,348,191); not found: amount_differs 1, key_already_claimed 7, later_rescinded 7
+  budget year 2019: 4,585 organization designations; 4,041 found in the disclosure on (EIN, amount) ($140,660,080); not found: amount_differs 43, city_ein_name_mismatch 2, ein_not_in_disclosure 5, key_already_claimed 10, later_rescinded 484
+  rescissions of organizations: 1,393; where the money was designated before: earlier_resolution 713, not_found 333, partial 298, schedule_c 49
+
+RETIRED CSV (data/fy19/transparency-resolutions/fy19_transparency_all.csv, old parser)
+  retired rows 7,090; these rows 7,207; same (resolution, EIN, amount) 7,090; only here 117 (EIN printed: hyphen 109, no_hyphen 5, odd 3); only in the retired file 0
+
+ROW FLAG COUNTS (all listed in flags.csv; review file holds only those that could change a value)
+  ein_no_hyphen 5, ein_odd 3, made_cell_empty 2, marker_without_footnote 4, overfull_cell 33, spanning_cell 144, wrap_hyphen 24
+  zero-width chars dropped: 0
+
+REVIEW FILE: 52 rows (7 critical, 45 warn); stale decisions: 0

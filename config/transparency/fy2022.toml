@@ -1,0 +1,474 @@
+# FY2022 transparency resolutions: every year-specific fact the pipeline needs (GitHub #107).
+# Shared code: code/transreso/ (and code/schedc/, code/schedc_cv/ underneath it). Same layout as
+# FY2023-FY2026: Excel charts, one landscape table per chart page (no /Rotate this year).
+
+fiscal_year = 2022
+issue = 107
+review_dir = "research/2026-10-21-fy22-transparency-review"   # outputs land in <review_dir>/data
+x_tolerance = 3.0
+run_gap_pt = 3.0
+
+# Resolution number and adoption date: from research/2026-07-07-legistar-links-fy21-27.md
+# (FY2022 table, all "confirmed") and data/combined/legistar_crosswalk.csv; read from Legistar
+# on 2026-07-07, not re-queried here. All 14 open with the Committee on Finance report, which
+# prints the date ("This Resolution, dated ..."); none prints "Charts 1 through N".
+numbers_source = "research/2026-07-07-legistar-links-fy21-27.md"
+
+# Line-end hyphens (W5.wrap_hyphen): all 128, on 75 rows, were read by hand on 2026-10-21.
+# 75 are compound words or names that keep the hyphen (community-based x63, after-school,
+# Self-Awareness, Brooks-Powers, Nature-Based, re-entry, to-be-named, car-free, an address
+# "107-33 Sutphin Blvd"); 53 are a " - " separator whose spaces the clean value keeps
+# ("Pantry - EFRO# 85545", "- Council District …"). None goes to review.
+wrap_hyphen_review = []
+
+[[resolutions]]
+seq = 1
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-01-2021-07-29.pdf"
+sha256 = "7f3a164464c4fdffc3cf4024eeb8d0bc03131598be4d6f3fe3dff2c0a0e8cb2b"
+pages = 93
+number = "Res 1715-2021"
+legistar_id = 67433
+date = "2021-07-29"
+printed_date = "July 29, 2021"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 2
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-02-2021-08-26.pdf"
+sha256 = "97e2ec420923cecb721a9ffbbb41d2e2c6b2447e78c5c7102a96d56d272ad5d1"
+pages = 138
+number = "Res 1726-2021"
+legistar_id = 67490
+date = "2021-08-26"
+printed_date = "August 26, 2021"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 3
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-03-2021-09-23.pdf"
+sha256 = "2c3fff6c6981f2d8923b011ed8ad3205f1e3018ee49ddc666e39a8bac593be96"
+pages = 94
+number = "Res 1739-2021"
+legistar_id = 67545
+date = "2021-09-23"
+printed_date = "September 23, 2021"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 4
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-04-2021-10-07.pdf"
+sha256 = "705a6ff67fddb969904ff09406c0cbe20b203edaef24e8ebc5a41e33db4d352a"
+pages = 39
+number = "Res 1752-2021"
+legistar_id = 67634
+date = "2021-10-07"
+printed_date = "October 7, 2021"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 5
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-05-2021-10-21.pdf"
+sha256 = "8c80853c026976ca7ce387379687aa60cf32cabc08aa6480a4e56a48cc46bf87"
+pages = 34
+number = "Res 1765-2021"
+legistar_id = 67689
+date = "2021-10-21"
+printed_date = "October 21, 2021"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 6
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-06-2021-11-10.pdf"
+sha256 = "3e2c28e0b7ad821c18c90381d39c81d1230aaa403b56b190e9f8cd2a2605d388"
+pages = 38
+number = "Res 1785-2021"
+legistar_id = 67797
+date = "2021-11-10"
+printed_date = "November 10, 2021"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 7
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-07-2021-11-23.pdf"
+sha256 = "696da7c0c31f6f204d277c538d2b9e52cb38583fe66e49d523c5bc33d3f26098"
+pages = 34
+number = "Res 1803-2021"
+legistar_id = 67866
+date = "2021-11-23"
+printed_date = "November 23, 2021"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 8
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-08-2021-12-09.pdf"
+sha256 = "61842d75b24a4e04f2da583e6fabef602f0a1203a6256eaad4145438a1021ec2"
+pages = 40
+number = "Res 1839-2021"
+legistar_id = 67977
+date = "2021-12-09"
+printed_date = "December 9, 2021"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 9
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-09-2021-12-15.pdf"
+sha256 = "d3a27dc6c5f27366c24fc5989ed842c27ae58aaaa3f45d9ad58a1bfcf6a469a0"
+pages = 60
+number = "Res 1869-2021"
+legistar_id = 68007
+date = "2021-12-15"
+printed_date = "December 15, 2021"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 10
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-10-2022-03-10.pdf"
+sha256 = "e44dea394ec22d3db687f708be24392b75f8ea8fa8b33a57056e99099d8f8dfe"
+pages = 43
+number = "Res 0058-2022"
+legistar_id = 68341
+date = "2022-03-10"
+printed_date = "March 10, 2022"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 11
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-11-2022-04-14.pdf"
+sha256 = "a101dc5a4924962cbad37b85ea0b57d9dd363c55bdf187c68099a6d6b64d12f6"
+pages = 31
+number = "Res 0107-2022"
+legistar_id = 68648
+date = "2022-04-14"
+printed_date = "April 14, 2022"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 12
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-12-2022-05-05.pdf"
+sha256 = "2f9b1f3b1d8821a745a6914192d4f8ac108befe7d13eeb41fe756639413ffab6"
+pages = 25
+number = "Res 0154-2022"
+legistar_id = 69169
+date = "2022-05-05"
+printed_date = "May 5, 2022"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 13
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-13-2022-05-19.pdf"
+sha256 = "c2601df9b86b5983ddd8ea34ff0f5a99ae1da5a4eb01b152296b0b48f6d8d681"
+pages = 24
+number = "Res 0160-2022"
+legistar_id = 69391
+date = "2022-05-19"
+printed_date = "May 19, 2022"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 14
+pdf = "source/FY22/transparency-resolutions/Transparency-Reso-14-2022-06-13.pdf"
+sha256 = "98617f28fe48a9f617dcc6bc8d09dd0e59b028162aab8489e99e554622890545"
+pages = 16
+number = "Res 0224-2022"
+legistar_id = 69668
+date = "2022-06-13"
+printed_date = "June 13, 2022"   # p.1
+charts_printed = 0
+
+[image]
+# Same values as config/transparency/fy2026.toml.
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 64
+# Reso 02's header font: the bold capitals of "EIN" rise 0.45 pt above the box the text layer
+# gives them (box top 54.15 pt, glyph top about 53.7 pt on p.23, measured at 8x zoom), which the
+# ink check reported once per page (77 px, 107 pages). Header boxes are raised by this much.
+header_char_top_pt = 0.6
+# Acceptance on the first chart page (Reso 01 p.16, first row): withholding the row, or one
+# character of it, must make the ink check fire.
+ink_acceptance_seq = 1
+ink_acceptance_page = 16
+ink_acceptance_row_id = "fy22-tr01-p016-r001"
+
+# Named exceptions: places where the PDF disagrees with itself. Each must match exactly or the
+# check still fails; each stays in the review file.
+
+# Chart pages that print no "Page n" label; the labels around them count them. 25 pages in 12
+# resolutions, mostly the last chart or two (prior-year and "Beating Hearts" charts). Checked on
+# the rendered page (Reso 12 p.20).
+[[exceptions]]   # chart #40
+check_id = "T3.page_label"
+resolution_seq = 1
+pdf_page = 84
+
+[[exceptions]]   # chart #41
+check_id = "T3.page_label"
+resolution_seq = 1
+pdf_page = 85
+
+[[exceptions]]   # chart #49
+check_id = "T3.page_label"
+resolution_seq = 3
+pdf_page = 91
+
+[[exceptions]]   # chart #51
+check_id = "T3.page_label"
+resolution_seq = 3
+pdf_page = 94
+
+[[exceptions]]   # chart #22
+check_id = "T3.page_label"
+resolution_seq = 4
+pdf_page = 36
+
+[[exceptions]]   # chart #25
+check_id = "T3.page_label"
+resolution_seq = 4
+pdf_page = 39
+
+[[exceptions]]   # chart #25
+check_id = "T3.page_label"
+resolution_seq = 6
+pdf_page = 38
+
+[[exceptions]]   # chart #20
+check_id = "T3.page_label"
+resolution_seq = 7
+pdf_page = 31
+
+[[exceptions]]   # chart #28
+check_id = "T3.page_label"
+resolution_seq = 8
+pdf_page = 40
+
+[[exceptions]]   # chart #25
+check_id = "T3.page_label"
+resolution_seq = 9
+pdf_page = 36
+
+[[exceptions]]   # chart #25
+check_id = "T3.page_label"
+resolution_seq = 10
+pdf_page = 39
+
+[[exceptions]]   # chart #26
+check_id = "T3.page_label"
+resolution_seq = 10
+pdf_page = 40
+
+[[exceptions]]   # chart #27
+check_id = "T3.page_label"
+resolution_seq = 10
+pdf_page = 41
+
+[[exceptions]]   # chart #29
+check_id = "T3.page_label"
+resolution_seq = 10
+pdf_page = 43
+
+[[exceptions]]   # chart #18
+check_id = "T3.page_label"
+resolution_seq = 11
+pdf_page = 27
+
+[[exceptions]]   # chart #19
+check_id = "T3.page_label"
+resolution_seq = 11
+pdf_page = 28
+
+[[exceptions]]   # chart #21
+check_id = "T3.page_label"
+resolution_seq = 11
+pdf_page = 31
+
+[[exceptions]]   # chart #13
+check_id = "T3.page_label"
+resolution_seq = 12
+pdf_page = 19
+
+[[exceptions]]   # chart #14
+check_id = "T3.page_label"
+resolution_seq = 12
+pdf_page = 20
+
+[[exceptions]]   # chart #15
+check_id = "T3.page_label"
+resolution_seq = 12
+pdf_page = 21
+
+[[exceptions]]   # chart #16
+check_id = "T3.page_label"
+resolution_seq = 12
+pdf_page = 22
+
+[[exceptions]]   # chart #17
+check_id = "T3.page_label"
+resolution_seq = 12
+pdf_page = 23
+
+[[exceptions]]   # chart #19
+check_id = "T3.page_label"
+resolution_seq = 12
+pdf_page = 25
+
+[[exceptions]]   # chart #16
+check_id = "T3.page_label"
+resolution_seq = 13
+pdf_page = 23
+
+[[exceptions]]   # chart #17
+check_id = "T3.page_label"
+resolution_seq = 13
+pdf_page = 24
+
+# Reso 02 p.106: no table; it prints only the "**" footnote and "Page 84" (chart #50's
+# footnote spilled over from p.105). Counted in the page labels.
+[[exceptions]]
+check_id = "T3.label_page"
+resolution_seq = 2
+pdf_page = 106
+
+# First page of a chart printing "(continued)": Reso 02 p.80 (chart #27, p.79 is #26) and
+# p.124 (chart #67, p.123 is #66). Read as the chart's start.
+[[exceptions]]
+check_id = "T3.continued_start"
+resolution_seq = 2
+pdf_page = 80
+
+[[exceptions]]
+check_id = "T3.continued_start"
+resolution_seq = 2
+pdf_page = 124
+
+# A caption repeated on the next page without "(continued)" (same number, title and year):
+# Reso 01 pp.51-54 (chart #13 Support Our Seniors, starts p.50), Reso 02 p.35 (chart #8 CASA,
+# starts p.34). Read as continuations.
+[[exceptions]]
+check_id = "T3.continued_missing"
+resolution_seq = 1
+pdf_page = 51
+
+[[exceptions]]
+check_id = "T3.continued_missing"
+resolution_seq = 1
+pdf_page = 52
+
+[[exceptions]]
+check_id = "T3.continued_missing"
+resolution_seq = 1
+pdf_page = 53
+
+[[exceptions]]
+check_id = "T3.continued_missing"
+resolution_seq = 1
+pdf_page = 54
+
+[[exceptions]]
+check_id = "T3.continued_missing"
+resolution_seq = 2
+pdf_page = 35
+
+# Reso 07 p.34 prints "CHART #21: Purpose of Funds Changes - Fiscal 2022 (continued)" under
+# chart #22 "Purpose of Funds Changes - Fiscal 2022" (p.33); chart #21 is Local Initiatives -
+# Fiscal 2020 (p.32). Read as chart #22 continued.
+[[exceptions]]
+check_id = "T3.continued_number"
+resolution_seq = 7
+pdf_page = 34
+
+# "Beating Hearts": organizations getting automated external defibrillators through Staten
+# Island Heart Society ($350,000, printed in the note under the table). The header is Member |
+# Organization | EIN Number | *: no agency, no amount. Rows kept, amount blank, action "listed".
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 3
+pdf_page = 94
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 4
+pdf_page = 39
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 6
+pdf_page = 38
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 8
+pdf_page = 40
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 10
+pdf_page = 43
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 11
+pdf_page = 31
+
+[[exceptions]]
+check_id = "T4.no_amount"
+resolution_seq = 12
+pdf_page = 25
+
+# `***` on pages that print only the * and ** footnotes (Reso 03 p.16, Reso 08 p.16, Reso 09
+# p.38), and "#" in the `*` column (Reso 03 p.29, as FY2024 Reso 02 p.18). Kept as printed.
+[[exceptions]]   # Bartlett Foundation, The ($10,000)
+check_id = "T11.markers"
+resolution_seq = 3
+pdf_page = 16
+row_index = 7
+
+[[exceptions]]   # Bartlett Foundation, The $10,000
+check_id = "T11.markers"
+resolution_seq = 3
+pdf_page = 16
+row_index = 8
+
+[[exceptions]]   # Queens Symphony Orchestra, Inc. - Queensborough Community Co ($40,000)
+check_id = "T11.markers"
+resolution_seq = 3
+pdf_page = 29
+row_index = 1
+
+[[exceptions]]   # Kan Cobra Tiger Alliance, Inc. - Public School 326K (22K326) ($20,000)
+check_id = "T11.markers"
+resolution_seq = 8
+pdf_page = 16
+row_index = 3
+
+[[exceptions]]   # Kan Cobra Tiger Alliance, Inc. - Public School 326K (22K326) $20,000
+check_id = "T11.markers"
+resolution_seq = 8
+pdf_page = 16
+row_index = 4
+
+[[exceptions]]   # Chess-in-the-Schools, Inc. $5,000
+check_id = "T11.markers"
+resolution_seq = 9
+pdf_page = 38
+row_index = 1
+
+[[exceptions]]   # Chess-in-the-Schools, Inc. ($5,000)
+check_id = "T11.markers"
+resolution_seq = 9
+pdf_page = 38
+row_index = 2
+
+
+# Reso 09 p.38 rows 3-4: a long line "Funding to go support the creation of educational home kits
+# ..." is drawn on top of the EIN "13-4170389" and runs off the page; the page shows only the EIN
+# (and "anc" in the empty `*` column, H9). On this page a run that starts on top of a cell's own
+# text is hidden (kept in hidden_text) and the row goes to review (T7.overlaid).
+[[exceptions]]
+check_id = "T7.overlaid"
+resolution_seq = 9
+pdf_page = 38

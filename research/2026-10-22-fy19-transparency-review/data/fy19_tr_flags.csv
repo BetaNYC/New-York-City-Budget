@@ -1,0 +1,234 @@
+severity,check_id,resolution_seq,pdf_page,row_id,field,message
+critical,T11.markers,4,19,fy19-tr04-p019-r003,,marker problem: ['marker_without_footnote']
+critical,T11.markers,4,19,fy19-tr04-p019-r004,,marker problem: ['marker_without_footnote']
+critical,T11.markers,4,19,fy19-tr04-p019-r005,,marker problem: ['marker_without_footnote']
+critical,T11.markers,4,19,fy19-tr04-p019-r006,,marker problem: ['marker_without_footnote']
+critical,T5.anchors,1,111,fy19-tr01-p111-r011,,"row prints no EIN: 'All Allocations' ($4,090,000)"
+critical,T5.anchors,1,111,fy19-tr01-p111-r012,,"row prints no EIN: 'All Allocations' $4,090,000"
+critical,T5.anchors,3,46,fy19-tr03-p046-r016,,"row prints no EIN: 'Himalayan Elders Project, Inc.' $12,000"
+warn,T13.printed_date,1,1,,,"p.1 prints 'dated July 17, 2018'; Legistar's adoption date (used as resolution_date) is 2018-07-18 (named exception in the config)"
+warn,T3.chart_number,1,108,,,"caption prints chart #55, read as chart #56 (named exception in the config): 'CHART 55: Purpose of Funds Changes - Fiscal 2018'"
+warn,T3.page_label,3,55,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T4.no_amount,2,103,,,"chart #45 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: ''"
+warn,T4.no_amount,3,83,,,"chart #45 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: ''"
+warn,T4.no_amount,4,68,,,"chart #46 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: ''"
+warn,T4.no_amount,5,138,,,"chart #100 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: ''"
+warn,T4.no_amount,7,41,,,"chart #23 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: ''"
+warn,W.caption_format,2,32,,,caption prints no '#' before the chart number: 'CHART 7 Cultural Immigrant Initiative - Fiscal 2019 (continued)'; read as chart #7
+warn,W.caption_format,9,23,,,caption prints a space after '#': 'CHART # 7: Cultural Immigrant Initiative - Fiscal 2019'; read as chart #7
+warn,W.caption_format,10,15,,,caption prints no '#' before the chart number: 'CHART 7: Cultural Immigrant Initiative - Fiscal 2019'; read as chart #7
+warn,row_flag,1,63,fy19-tr01-p063-r011,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,1,104,fy19-tr01-p104-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,1,104,fy19-tr01-p104-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,1,106,fy19-tr01-p106-r011,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,1,106,fy19-tr01-p106-r012,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,1,106,fy19-tr01-p106-r014,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,1,111,fy19-tr01-p111-r011,ein_odd,ein_odd
+warn,row_flag,1,111,fy19-tr01-p111-r012,ein_odd,ein_odd
+warn,row_flag,2,74,fy19-tr02-p074-r001,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,2,83,fy19-tr02-p083-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,2,84,fy19-tr02-p084-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,84,fy19-tr02-p084-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,84,fy19-tr02-p084-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,84,fy19-tr02-p084-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,84,fy19-tr02-p084-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,84,fy19-tr02-p084-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,84,fy19-tr02-p084-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,84,fy19-tr02-p084-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,85,fy19-tr02-p085-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,85,fy19-tr02-p085-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,85,fy19-tr02-p085-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,85,fy19-tr02-p085-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,85,fy19-tr02-p085-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,85,fy19-tr02-p085-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,85,fy19-tr02-p085-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,85,fy19-tr02-p085-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,86,fy19-tr02-p086-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,86,fy19-tr02-p086-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,86,fy19-tr02-p086-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,86,fy19-tr02-p086-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,86,fy19-tr02-p086-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,86,fy19-tr02-p086-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,86,fy19-tr02-p086-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,86,fy19-tr02-p086-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,87,fy19-tr02-p087-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,87,fy19-tr02-p087-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,87,fy19-tr02-p087-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,87,fy19-tr02-p087-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,87,fy19-tr02-p087-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,87,fy19-tr02-p087-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,87,fy19-tr02-p087-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,87,fy19-tr02-p087-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,88,fy19-tr02-p088-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,88,fy19-tr02-p088-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,88,fy19-tr02-p088-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,88,fy19-tr02-p088-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,88,fy19-tr02-p088-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,88,fy19-tr02-p088-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,88,fy19-tr02-p088-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,88,fy19-tr02-p088-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,89,fy19-tr02-p089-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,89,fy19-tr02-p089-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,89,fy19-tr02-p089-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,89,fy19-tr02-p089-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,89,fy19-tr02-p089-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,89,fy19-tr02-p089-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,89,fy19-tr02-p089-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,89,fy19-tr02-p089-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,90,fy19-tr02-p090-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,90,fy19-tr02-p090-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,90,fy19-tr02-p090-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,90,fy19-tr02-p090-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,90,fy19-tr02-p090-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,90,fy19-tr02-p090-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,90,fy19-tr02-p090-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,90,fy19-tr02-p090-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,91,fy19-tr02-p091-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,91,fy19-tr02-p091-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,91,fy19-tr02-p091-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,91,fy19-tr02-p091-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,91,fy19-tr02-p091-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,91,fy19-tr02-p091-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,92,fy19-tr02-p092-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,92,fy19-tr02-p092-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,92,fy19-tr02-p092-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,92,fy19-tr02-p092-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,92,fy19-tr02-p092-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,92,fy19-tr02-p092-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,92,fy19-tr02-p092-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,92,fy19-tr02-p092-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,93,fy19-tr02-p093-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,93,fy19-tr02-p093-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,93,fy19-tr02-p093-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,93,fy19-tr02-p093-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,93,fy19-tr02-p093-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,93,fy19-tr02-p093-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,93,fy19-tr02-p093-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,93,fy19-tr02-p093-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,95,fy19-tr02-p095-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,95,fy19-tr02-p095-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,95,fy19-tr02-p095-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,95,fy19-tr02-p095-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,95,fy19-tr02-p095-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,95,fy19-tr02-p095-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,95,fy19-tr02-p095-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,95,fy19-tr02-p095-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,96,fy19-tr02-p096-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,96,fy19-tr02-p096-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,96,fy19-tr02-p096-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,96,fy19-tr02-p096-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,96,fy19-tr02-p096-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,96,fy19-tr02-p096-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,97,fy19-tr02-p097-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,97,fy19-tr02-p097-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,97,fy19-tr02-p097-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,97,fy19-tr02-p097-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,97,fy19-tr02-p097-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,97,fy19-tr02-p097-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,98,fy19-tr02-p098-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,98,fy19-tr02-p098-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,98,fy19-tr02-p098-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,98,fy19-tr02-p098-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,98,fy19-tr02-p098-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,98,fy19-tr02-p098-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,99,fy19-tr02-p099-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,99,fy19-tr02-p099-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,100,fy19-tr02-p100-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,100,fy19-tr02-p100-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,102,fy19-tr02-p102-r009,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,2,102,fy19-tr02-p102-r010,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,3,43,fy19-tr03-p043-r012,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,3,46,fy19-tr03-p046-r016,ein_odd,ein_odd
+warn,row_flag,3,46,fy19-tr03-p046-r024,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,3,79,fy19-tr03-p079-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,79,fy19-tr03-p079-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,79,fy19-tr03-p079-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,79,fy19-tr03-p079-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,81,fy19-tr03-p081-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,81,fy19-tr03-p081-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,81,fy19-tr03-p081-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,81,fy19-tr03-p081-r005,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,81,fy19-tr03-p081-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,81,fy19-tr03-p081-r006,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,83,fy19-tr03-p083-r008,overfull_cell:Organization,overfull_cell:Organization
+warn,row_flag,3,83,fy19-tr03-p083-r017,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,83,fy19-tr03-p083-r018,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,83,fy19-tr03-p083-r019,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,19,fy19-tr04-p019-r003,marker_without_footnote,marker_without_footnote
+warn,row_flag,4,19,fy19-tr04-p019-r004,marker_without_footnote,marker_without_footnote
+warn,row_flag,4,19,fy19-tr04-p019-r005,marker_without_footnote,marker_without_footnote
+warn,row_flag,4,19,fy19-tr04-p019-r006,marker_without_footnote,marker_without_footnote
+warn,row_flag,4,23,fy19-tr04-p023-r036,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,4,26,fy19-tr04-p026-r023,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,4,40,fy19-tr04-p040-r002,overfull_cell:Organization - School,overfull_cell:Organization - School
+warn,row_flag,4,40,fy19-tr04-p040-r004,overfull_cell:Organization - School,overfull_cell:Organization - School
+warn,row_flag,4,40,fy19-tr04-p040-r010,overfull_cell:Organization - School,overfull_cell:Organization - School
+warn,row_flag,4,49,fy19-tr04-p049-r006,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,4,51,fy19-tr04-p051-r002,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,4,52,fy19-tr04-p052-r005,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,4,56,fy19-tr04-p056-r001,overfull_cell:Organization,overfull_cell:Organization
+warn,row_flag,4,64,fy19-tr04-p064-r005,overfull_cell:New Purpose of Funds,overfull_cell:New Purpose of Funds
+warn,row_flag,4,64,fy19-tr04-p064-r017,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,64,fy19-tr04-p064-r018,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,65,fy19-tr04-p065-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,65,fy19-tr04-p065-r001,overfull_cell:New Purpose of Funds,overfull_cell:New Purpose of Funds
+warn,row_flag,4,65,fy19-tr04-p065-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,65,fy19-tr04-p065-r003,overfull_cell:New Purpose of Funds,overfull_cell:New Purpose of Funds
+warn,row_flag,4,66,fy19-tr04-p066-r003,wrap_hyphen:source,wrap_hyphen:source
+warn,row_flag,4,66,fy19-tr04-p066-r004,wrap_hyphen:source,wrap_hyphen:source
+warn,row_flag,5,71,fy19-tr05-p071-r003,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,5,71,fy19-tr05-p071-r004,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,5,100,fy19-tr05-p100-r010,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,5,134,fy19-tr05-p134-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,134,fy19-tr05-p134-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,136,fy19-tr05-p136-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,136,fy19-tr05-p136-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,136,fy19-tr05-p136-r015,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,136,fy19-tr05-p136-r015,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,136,fy19-tr05-p136-r016,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,136,fy19-tr05-p136-r016,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,7,22,fy19-tr07-p022-r003,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,7,22,fy19-tr07-p022-r004,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,7,25,fy19-tr07-p025-r005,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,7,25,fy19-tr07-p025-r009,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,25,fy19-tr07-p025-r019,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,26,fy19-tr07-p026-r009,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,26,fy19-tr07-p026-r010,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,26,fy19-tr07-p026-r013,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,27,fy19-tr07-p027-r002,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,27,fy19-tr07-p027-r016,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,27,fy19-tr07-p027-r017,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,27,fy19-tr07-p027-r022,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,28,fy19-tr07-p028-r005,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,28,fy19-tr07-p028-r007,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,29,fy19-tr07-p029-r020,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,30,fy19-tr07-p030-r003,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,30,fy19-tr07-p030-r022,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,7,31,fy19-tr07-p031-r003,overfull_cell:Organization - Program,overfull_cell:Organization - Program
+warn,row_flag,7,37,fy19-tr07-p037-r011,overfull_cell:New Purpose of Funds,overfull_cell:New Purpose of Funds
+warn,row_flag,7,38,fy19-tr07-p038-r005,overfull_cell:New Purpose of Funds,overfull_cell:New Purpose of Funds
+warn,row_flag,7,38,fy19-tr07-p038-r008,overfull_cell:New Purpose of Funds,overfull_cell:New Purpose of Funds
+warn,row_flag,7,38,fy19-tr07-p038-r010,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,7,38,fy19-tr07-p038-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,7,38,fy19-tr07-p038-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,7,38,fy19-tr07-p038-r013,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,7,38,fy19-tr07-p038-r014,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,7,38,fy19-tr07-p038-r017,overfull_cell:New Purpose of Funds,overfull_cell:New Purpose of Funds
+warn,row_flag,8,62,fy19-tr08-p062-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,62,fy19-tr08-p062-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,62,fy19-tr08-p062-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,62,fy19-tr08-p062-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,45,fy19-tr09-p045-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,45,fy19-tr09-p045-r009,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,9,45,fy19-tr09-p045-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,45,fy19-tr09-p045-r010,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,9,46,fy19-tr09-p046-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,46,fy19-tr09-p046-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,24,fy19-tr10-p024-r004,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,11,16,fy19-tr11-p016-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,11,16,fy19-tr11-p016-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,16,fy19-tr11-p016-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,16,fy19-tr11-p016-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,16,fy19-tr11-p016-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,16,fy19-tr11-p016-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,16,fy19-tr11-p016-r008,spanning_cell:Source+Member,spanning_cell:Source+Member

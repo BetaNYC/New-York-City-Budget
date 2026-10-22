@@ -1,0 +1,66 @@
+TRANSPARENCY RESOLUTIONS FY2018 -- checks (code/parse_transparency_v2.py; config config/transparency/fy2018.toml)
+12 PDFs, 598 pages, 462 chart pages, 400 charts
+
+rows: 5,558
+  designate      3,834 rows  $     159,972,559
+  rescind        1,100 rows  $    -159,072,559
+  purpose_from     243 rows  $     -20,192,969
+  purpose_to       245 rows  $      20,232,969
+  listed           136 rows  (no amount printed)
+  budget year 2016: 27 rows
+  budget year 2017: 326 rows
+  budget year 2018: 5,204 rows
+  no budget year printed: 1 rows
+
+PER RESOLUTION (rows; organizations: designations / rescissions; agency side net; purpose rows)
+   1 Res 1563-2017 2017-06-21:   893 rows, 39 charts; +779 $36,355,580 / 55 $-3,689,346; agency side $-32,666,234; purpose 28
+   2 Res 1589-2017 2017-07-20:   845 rows, 46 charts; +650 $38,650,193 / 79 $-2,491,641; agency side $-36,158,552; purpose 46
+   3 Res 1621-2017 2017-08-24: 1,229 rows, 44 charts; +963 $27,819,373 / 96 $-2,296,183; agency side $-25,448,190; purpose 102
+   4 Res 1658-2017 2017-09-27:   498 rows, 43 charts; +354 $18,367,733 / 80 $-2,130,307; agency side $-16,312,426; purpose 18
+   5 Res 1699-2017 2017-10-31:   515 rows, 46 charts; +304 $8,584,064 / 127 $-3,555,859; agency side $-5,528,205; purpose 48
+   6 Res 1730-2017 2017-11-30:   315 rows, 38 charts; +131 $2,841,090 / 90 $-1,889,812; agency side $-951,278; purpose 66
+   7 Res 1780-2017 2017-12-19:   241 rows, 28 charts; +135 $5,312,225 / 70 $-2,947,800; agency side $-2,364,425; purpose 12
+   8 Res 0189-2018 2018-02-15:   407 rows, 31 charts; +230 $6,132,015 / 120 $-2,747,015; agency side $-2,385,000; purpose 44
+   9 Res 0239-2018 2018-03-22:   190 rows, 23 charts; +78 $2,305,288 / 54 $-2,115,288; agency side $-190,000; purpose 42
+  10 Res 0271-2018 2018-04-11:    90 rows, 12 charts; +36 $956,365 / 27 $-521,550; agency side $-34,815; purpose 26
+  11 Res 0333-2018 2018-05-09:    85 rows, 13 charts; +29 $486,801 / 23 $-231,000; agency side $-255,801; purpose 28
+  12 Res 0399-2018 2018-06-14:   250 rows, 37 charts; +111 $3,223,792 / 110 $-3,188,308; agency side $-35,484; purpose 28
+
+HARD CHECKS
+  ok    T1.input             12 PDFs, 598 pages; 0 differ from config
+  ok    T2.triage            598 pages surveyed; 0 fail the text-layer gate
+  ok    T3.charts            400 charts on 462 pages; printed chart counts tie on 0 of 0 resolutions that print one; 0 caption problems; 0 numbering problems; 3 pages repeat a caption without '(continued)' and 0 print the wrong chart number on a '(continued)' caption (named exceptions, read as continuations); 8 boxes round resolution text, not charts (named exceptions)
+  ok    T4.headers           0 unrecognised headers; 9 chart pages print no Agency or Amount column (named exceptions; 136 rows kept with a blank amount); 4 chart pages print a header row with no labels (named exceptions, read with the previous chart page's labels)
+  ok    T5.anchors           5615 EIN-shaped words on the visible text (5603 counting clipped letters), 5556 rows with an EIN and 59 with a fiscal conduit EIN; 0 pages differ; 0 rows without a readable amount; 2 rows print no EIN
+  ok    T6.furniture         0 data cells holding header/footer text; 0 unexpected lines under tables
+  ok    T7.chars             812721 non-space chars; 0 in a table but in no cell; 181 clipped (hidden) chars in 14 runs, each listed for review; 281 letters drawn across a row rule on 3 pages (3 named in the config: each cell's lines read as one block; 4 rows, in the review file); on 1 named page(s) text carried into the next cell stops where that cell's own text starts
+  ok    T10.sign_colour      1343 amounts in parentheses, all red; 0 rows where sign and colour disagree
+  ok    T11.markers          619 rows marked **, 46 marked ***, 415 pending pre-qualification; 6 without their footnote or with an odd * cell (6 a named exception in the config, kept as printed and in the review file)
+  ok    T12.fiscal_year      399 charts print a fiscal year, all named in their resolution's text; 1 print none (warn, in the review file); 0 name a year the text does not (0 a named exception in the config, kept as printed and in the review file)
+  ok    T13.dates            12 resolutions print their date and it matches; all 12 filename dates equal the Legistar adoption dates in the config
+  ok    T14.provenance       5558 row ids, 5558 unique
+  ok    T15.printed_totals   0 money amounts printed outside the tables on chart pages: the FY2018 charts print no totals, so there is nothing to tie (the arithmetic is reported, not checked); 9 in notes under no-amount charts (in the review file with the chart); 1 in footnotes that explain one chart (in the review file with the chart)
+  ok    T16.values           0 clean values not reproducible from raw
+
+IMAGE LATTICE (H8): rows rebuilt from code/ocr/grid.py lattices, compared field by field
+  agree on every field: 5,558 of 5,558
+  image rows with no vector row: 0
+  header rules found in header pixels (not in the lattice): 8 pages
+INK COVERAGE (H9): uncovered-ink regions inside the chart tables
+  regions: 0  uncovered px total: 156 of 153,991,970 ink px
+  acceptance on Reso 01 p.13 (fy18-tr01-p013-r001): clean run 0 regions; row withheld -> 8; one char withheld -> 1 (PASS)
+
+DISCLOSURE (report-only; data/fyNN/expense_disclosure)
+  budget year 2016: 13 organization designations; 13 found in the disclosure on (EIN, amount) ($129,622); not found: 
+  budget year 2017: 141 organization designations; 115 found in the disclosure on (EIN, amount) ($1,467,637); not found: amount_differs 2, key_already_claimed 1, later_rescinded 23
+  budget year 2018: 3,646 organization designations; 3,355 found in the disclosure on (EIN, amount) ($138,123,103); not found: amount_differs 40, city_ein_name_mismatch 8, ein_not_in_disclosure 2, key_already_claimed 9, later_rescinded 232
+  rescissions of organizations: 931; where the money was designated before: earlier_resolution 411, not_found 295, partial 178, schedule_c 47
+
+RETIRED CSV (data/fy18/transparency-resolutions/fy18_transparency_all.csv, old parser)
+  retired rows 5,366; these rows 5,558; same (resolution, EIN, amount) 5,364; only here 194 (EIN printed: blank 2, hyphen 143, no_hyphen 49); only in the retired file 2
+
+ROW FLAG COUNTS (all listed in flags.csv; review file holds only those that could change a value)
+  amount_no_dollar 4, clipped_text 14, conduit_ein_odd 4, ein_blank 2, ein_no_hyphen 50, marker_without_footnote 6, overfull_cell 4, spanning_cell 56, unpaired_purpose 4, wrap_hyphen 27
+  zero-width chars dropped: 0
+
+REVIEW FILE: 72 rows (8 critical, 64 warn); stale decisions: 0

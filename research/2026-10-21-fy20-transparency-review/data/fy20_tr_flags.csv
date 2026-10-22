@@ -1,0 +1,406 @@
+severity,check_id,resolution_seq,pdf_page,row_id,field,message
+critical,T11.markers,2,16,fy20-tr02-p016-r021,,marker problem: ['marker_without_footnote']
+critical,T11.markers,2,16,fy20-tr02-p016-r022,,marker problem: ['marker_without_footnote']
+critical,T11.markers,2,23,fy20-tr02-p023-r017,,marker problem: ['marker_without_footnote']
+critical,T11.markers,2,23,fy20-tr02-p023-r018,,marker problem: ['marker_without_footnote']
+critical,T11.markers,4,20,fy20-tr04-p020-r015,,marker problem: ['marker_without_footnote']
+critical,T11.markers,4,20,fy20-tr04-p020-r016,,marker problem: ['marker_without_footnote']
+critical,T11.markers,4,20,fy20-tr04-p020-r017,,marker problem: ['marker_without_footnote']
+critical,T11.markers,4,20,fy20-tr04-p020-r018,,marker problem: ['marker_without_footnote']
+critical,T11.markers,4,20,fy20-tr04-p020-r019,,marker problem: ['marker_without_footnote']
+critical,T11.markers,5,22,fy20-tr05-p022-r001,,marker problem: ['marker_without_footnote']
+critical,T11.markers,5,22,fy20-tr05-p022-r002,,marker problem: ['marker_without_footnote']
+warn,T3.continued_missing,5,47,,,caption repeats chart #28 without '(continued)': 'CHART #28: Public Health Funding Backfill - Fiscal 2020'; read as its continuation
+warn,T3.continued_number,6,25,,,"'(continued)' caption prints chart with no number, but continues chart #16 (same title and year): 'CHART #: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #16"
+warn,T3.continued_number,6,26,,,"'(continued)' caption prints chart with no number, but continues chart #16 (same title and year): 'CHART #: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #16"
+warn,T3.continued_start,2,34,,,first page of chart #12 prints '(continued)': 'CHART #12: Healthy Aging Initiative - Fiscal 2020 (continued)'; read as the start of the chart
+warn,T4.no_amount,3,88,,,"chart #46 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: ''"
+warn,T4.no_amount,4,84,,,"chart #58 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: ''"
+warn,T4.no_amount,5,73,,,"chart #43 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: ''"
+warn,W.caption_format,1,70,,,caption prints 'Chart' for 'CHART': 'Chart #35: Purpose of Funds Changes - Fiscal 2020'; read as chart #35
+warn,W.caption_format,1,71,,,caption prints 'Chart' for 'CHART': 'Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #35 (continued)
+warn,W.caption_format,1,72,,,caption prints 'Chart' for 'CHART': 'Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #35 (continued)
+warn,W.caption_format,1,73,,,caption prints 'Chart' for 'CHART': 'Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #35 (continued)
+warn,W.caption_format,1,74,,,caption prints 'Chart' for 'CHART': 'Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #35 (continued)
+warn,W.caption_format,1,75,,,caption prints 'Chart' for 'CHART': 'Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #35 (continued)
+warn,W.caption_format,1,76,,,caption prints 'Chart' for 'CHART': 'Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #35 (continued)
+warn,W.caption_format,1,77,,,caption prints 'Chart' for 'CHART': 'Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #35 (continued)
+warn,W.caption_format,1,78,,,caption prints 'Chart' for 'CHART': 'Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #35 (continued)
+warn,W.caption_format,1,79,,,caption prints 'Chart' for 'CHART': 'Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #35 (continued)
+warn,W.caption_format,1,80,,,caption prints 'Chart' for 'CHART': 'Chart #36: Purpose of Funds Changes - Fiscal 2019'; read as chart #36
+warn,W.caption_format,2,85,,,caption prints 'Chart' for 'CHART': 'Chart #50: Purpose of Funds Changes - Fiscal 2020'; read as chart #50
+warn,W.caption_format,2,86,,,caption prints 'Chart' for 'CHART': 'Chart #51: Purpose of Funds Changes - Fiscal 2019'; read as chart #51
+warn,W.caption_format,3,73,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020'; read as chart #44
+warn,W.caption_format,3,74,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #44 (continued)
+warn,W.caption_format,3,75,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #44 (continued)
+warn,W.caption_format,3,76,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #44 (continued)
+warn,W.caption_format,3,77,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #44 (continued)
+warn,W.caption_format,3,78,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #44 (continued)
+warn,W.caption_format,3,79,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #44 (continued)
+warn,W.caption_format,3,80,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #44 (continued)
+warn,W.caption_format,3,81,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #44 (continued)
+warn,W.caption_format,3,82,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #44 (continued)
+warn,W.caption_format,3,83,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #44 (continued)
+warn,W.caption_format,3,84,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #44 (continued)
+warn,W.caption_format,3,85,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #44 (continued)
+warn,W.caption_format,3,86,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)'; read as chart #44 (continued)
+warn,W.caption_format,3,87,,,caption prints 'Chart' for 'CHART' and a space after '#': 'Chart # 45: Purpose of Funds Changes - Fiscal 2019'; read as chart #45
+warn,W.caption_format,5,32,,,caption prints '(continued)' before the fiscal year: 'CHART #16: SU-CASA (continued) - Fiscal 2020'; read as chart #16 (continued)
+warn,W.caption_format,5,33,,,caption prints '(continued)' before the fiscal year: 'CHART #16: SU-CASA (continued) - Fiscal 2020'; read as chart #16 (continued)
+warn,W.caption_format,6,17,,,caption prints '(continued)' before the fiscal year: 'CHART #10: SU-CASA (continued) - Fiscal 2020'; read as chart #10 (continued)
+warn,W.caption_format,6,18,,,caption prints '(continued)' before the fiscal year: 'CHART #10: SU-CASA (continued) - Fiscal 2020'; read as chart #10 (continued)
+warn,row_flag,1,15,fy20-tr01-p015-r028,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,1,19,fy20-tr01-p019-r006,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,1,42,fy20-tr01-p042-r037,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,1,55,fy20-tr01-p055-r016,prequal_star_in_org,prequal_star_in_org
+warn,row_flag,1,71,fy20-tr01-p071-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,1,71,fy20-tr01-p071-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,71,fy20-tr01-p071-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,73,fy20-tr01-p073-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,73,fy20-tr01-p073-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,73,fy20-tr01-p073-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,73,fy20-tr01-p073-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,73,fy20-tr01-p073-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,73,fy20-tr01-p073-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,73,fy20-tr01-p073-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,73,fy20-tr01-p073-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,73,fy20-tr01-p073-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,73,fy20-tr01-p073-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,73,fy20-tr01-p073-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,73,fy20-tr01-p073-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,74,fy20-tr01-p074-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,74,fy20-tr01-p074-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,74,fy20-tr01-p074-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,74,fy20-tr01-p074-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,74,fy20-tr01-p074-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,74,fy20-tr01-p074-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,74,fy20-tr01-p074-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,74,fy20-tr01-p074-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,74,fy20-tr01-p074-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,74,fy20-tr01-p074-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,74,fy20-tr01-p074-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,74,fy20-tr01-p074-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,75,fy20-tr01-p075-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,75,fy20-tr01-p075-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,75,fy20-tr01-p075-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,75,fy20-tr01-p075-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,75,fy20-tr01-p075-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,75,fy20-tr01-p075-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,75,fy20-tr01-p075-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,75,fy20-tr01-p075-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,75,fy20-tr01-p075-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,75,fy20-tr01-p075-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,75,fy20-tr01-p075-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,75,fy20-tr01-p075-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,76,fy20-tr01-p076-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,76,fy20-tr01-p076-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,76,fy20-tr01-p076-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,76,fy20-tr01-p076-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,76,fy20-tr01-p076-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,76,fy20-tr01-p076-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,76,fy20-tr01-p076-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,76,fy20-tr01-p076-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,76,fy20-tr01-p076-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,76,fy20-tr01-p076-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,76,fy20-tr01-p076-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,76,fy20-tr01-p076-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,77,fy20-tr01-p077-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,77,fy20-tr01-p077-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,77,fy20-tr01-p077-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,77,fy20-tr01-p077-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,77,fy20-tr01-p077-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,77,fy20-tr01-p077-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,77,fy20-tr01-p077-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,77,fy20-tr01-p077-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,77,fy20-tr01-p077-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,77,fy20-tr01-p077-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,77,fy20-tr01-p077-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,77,fy20-tr01-p077-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,78,fy20-tr01-p078-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,78,fy20-tr01-p078-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,78,fy20-tr01-p078-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,78,fy20-tr01-p078-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,78,fy20-tr01-p078-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,78,fy20-tr01-p078-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,78,fy20-tr01-p078-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,78,fy20-tr01-p078-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,78,fy20-tr01-p078-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,78,fy20-tr01-p078-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,78,fy20-tr01-p078-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,78,fy20-tr01-p078-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,79,fy20-tr01-p079-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,79,fy20-tr01-p079-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,79,fy20-tr01-p079-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,79,fy20-tr01-p079-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,79,fy20-tr01-p079-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,79,fy20-tr01-p079-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,79,fy20-tr01-p079-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,79,fy20-tr01-p079-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,16,fy20-tr02-p016-r021,marker_without_footnote,marker_without_footnote
+warn,row_flag,2,16,fy20-tr02-p016-r022,marker_without_footnote,marker_without_footnote
+warn,row_flag,2,23,fy20-tr02-p023-r017,marker_without_footnote,marker_without_footnote
+warn,row_flag,2,23,fy20-tr02-p023-r018,marker_without_footnote,marker_without_footnote
+warn,row_flag,2,61,fy20-tr02-p061-r010,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,2,77,fy20-tr02-p077-r035,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,2,85,fy20-tr02-p085-r013,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,85,fy20-tr02-p085-r014,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,23,fy20-tr03-p023-r011,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,3,31,fy20-tr03-p031-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,31,fy20-tr03-p031-r026,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,31,fy20-tr03-p031-r027,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,35,fy20-tr03-p035-r025,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,3,35,fy20-tr03-p035-r026,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,3,35,fy20-tr03-p035-r027,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,3,39,fy20-tr03-p039-r039,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,39,fy20-tr03-p039-r040,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,40,fy20-tr03-p040-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,40,fy20-tr03-p040-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,40,fy20-tr03-p040-r003,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,40,fy20-tr03-p040-r004,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r003,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r006,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r007,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r008,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r009,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r010,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r011,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r012,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r013,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r014,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r015,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r016,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r020,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r021,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,42,fy20-tr03-p042-r037,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,43,fy20-tr03-p043-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,43,fy20-tr03-p043-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,43,fy20-tr03-p043-r003,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,43,fy20-tr03-p043-r004,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,43,fy20-tr03-p043-r005,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,43,fy20-tr03-p043-r006,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,43,fy20-tr03-p043-r007,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,43,fy20-tr03-p043-r008,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,43,fy20-tr03-p043-r009,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,77,fy20-tr03-p077-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,77,fy20-tr03-p077-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,77,fy20-tr03-p077-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,77,fy20-tr03-p077-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,77,fy20-tr03-p077-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,77,fy20-tr03-p077-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,77,fy20-tr03-p077-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,77,fy20-tr03-p077-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,77,fy20-tr03-p077-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,77,fy20-tr03-p077-r005,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,78,fy20-tr03-p078-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,78,fy20-tr03-p078-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,78,fy20-tr03-p078-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,78,fy20-tr03-p078-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,78,fy20-tr03-p078-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,78,fy20-tr03-p078-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,78,fy20-tr03-p078-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,78,fy20-tr03-p078-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,78,fy20-tr03-p078-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,78,fy20-tr03-p078-r005,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,79,fy20-tr03-p079-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,79,fy20-tr03-p079-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,79,fy20-tr03-p079-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,79,fy20-tr03-p079-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,79,fy20-tr03-p079-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,79,fy20-tr03-p079-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,79,fy20-tr03-p079-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,79,fy20-tr03-p079-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,79,fy20-tr03-p079-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,79,fy20-tr03-p079-r005,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,80,fy20-tr03-p080-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,80,fy20-tr03-p080-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,80,fy20-tr03-p080-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,80,fy20-tr03-p080-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,80,fy20-tr03-p080-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,80,fy20-tr03-p080-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,80,fy20-tr03-p080-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,80,fy20-tr03-p080-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,80,fy20-tr03-p080-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,80,fy20-tr03-p080-r005,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,81,fy20-tr03-p081-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,81,fy20-tr03-p081-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,81,fy20-tr03-p081-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,81,fy20-tr03-p081-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,81,fy20-tr03-p081-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,81,fy20-tr03-p081-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,81,fy20-tr03-p081-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,81,fy20-tr03-p081-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,81,fy20-tr03-p081-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,81,fy20-tr03-p081-r005,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,82,fy20-tr03-p082-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,82,fy20-tr03-p082-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,82,fy20-tr03-p082-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,82,fy20-tr03-p082-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,82,fy20-tr03-p082-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,82,fy20-tr03-p082-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,82,fy20-tr03-p082-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,82,fy20-tr03-p082-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,82,fy20-tr03-p082-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,82,fy20-tr03-p082-r005,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,83,fy20-tr03-p083-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,83,fy20-tr03-p083-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,83,fy20-tr03-p083-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,83,fy20-tr03-p083-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,83,fy20-tr03-p083-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,83,fy20-tr03-p083-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,83,fy20-tr03-p083-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,83,fy20-tr03-p083-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,83,fy20-tr03-p083-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,83,fy20-tr03-p083-r005,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,84,fy20-tr03-p084-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,84,fy20-tr03-p084-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,84,fy20-tr03-p084-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,84,fy20-tr03-p084-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,84,fy20-tr03-p084-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,84,fy20-tr03-p084-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,84,fy20-tr03-p084-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,84,fy20-tr03-p084-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,84,fy20-tr03-p084-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,84,fy20-tr03-p084-r005,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,85,fy20-tr03-p085-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,85,fy20-tr03-p085-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,85,fy20-tr03-p085-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,85,fy20-tr03-p085-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,85,fy20-tr03-p085-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,85,fy20-tr03-p085-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,85,fy20-tr03-p085-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,85,fy20-tr03-p085-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,86,fy20-tr03-p086-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,86,fy20-tr03-p086-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,86,fy20-tr03-p086-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,86,fy20-tr03-p086-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,86,fy20-tr03-p086-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,86,fy20-tr03-p086-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,86,fy20-tr03-p086-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,3,86,fy20-tr03-p086-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,4,20,fy20-tr04-p020-r010,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,20,fy20-tr04-p020-r015,marker_without_footnote,marker_without_footnote
+warn,row_flag,4,20,fy20-tr04-p020-r016,marker_without_footnote,marker_without_footnote
+warn,row_flag,4,20,fy20-tr04-p020-r017,marker_without_footnote,marker_without_footnote
+warn,row_flag,4,20,fy20-tr04-p020-r018,marker_without_footnote,marker_without_footnote
+warn,row_flag,4,20,fy20-tr04-p020-r019,marker_without_footnote,marker_without_footnote
+warn,row_flag,4,79,fy20-tr04-p079-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,79,fy20-tr04-p079-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,81,fy20-tr04-p081-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,81,fy20-tr04-p081-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,81,fy20-tr04-p081-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,81,fy20-tr04-p081-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,81,fy20-tr04-p081-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,81,fy20-tr04-p081-r005,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,4,81,fy20-tr04-p081-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,81,fy20-tr04-p081-r006,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,4,81,fy20-tr04-p081-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,81,fy20-tr04-p081-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,82,fy20-tr04-p082-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,82,fy20-tr04-p082-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,82,fy20-tr04-p082-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,82,fy20-tr04-p082-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,82,fy20-tr04-p082-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,82,fy20-tr04-p082-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,83,fy20-tr04-p083-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,83,fy20-tr04-p083-r007,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,4,83,fy20-tr04-p083-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,83,fy20-tr04-p083-r008,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,4,83,fy20-tr04-p083-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,4,83,fy20-tr04-p083-r009,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,4,83,fy20-tr04-p083-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,22,fy20-tr05-p022-r001,marker_without_footnote,marker_without_footnote
+warn,row_flag,5,22,fy20-tr05-p022-r002,marker_without_footnote,marker_without_footnote
+warn,row_flag,5,32,fy20-tr05-p032-r015,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,5,61,fy20-tr05-p061-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,61,fy20-tr05-p061-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,61,fy20-tr05-p061-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,61,fy20-tr05-p061-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,61,fy20-tr05-p061-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,61,fy20-tr05-p061-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,61,fy20-tr05-p061-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,61,fy20-tr05-p061-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,62,fy20-tr05-p062-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,62,fy20-tr05-p062-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,62,fy20-tr05-p062-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,62,fy20-tr05-p062-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,62,fy20-tr05-p062-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,62,fy20-tr05-p062-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,62,fy20-tr05-p062-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,62,fy20-tr05-p062-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,63,fy20-tr05-p063-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,63,fy20-tr05-p063-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,63,fy20-tr05-p063-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,63,fy20-tr05-p063-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,63,fy20-tr05-p063-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,63,fy20-tr05-p063-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,63,fy20-tr05-p063-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,63,fy20-tr05-p063-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,64,fy20-tr05-p064-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,64,fy20-tr05-p064-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,64,fy20-tr05-p064-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,64,fy20-tr05-p064-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,64,fy20-tr05-p064-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,64,fy20-tr05-p064-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,64,fy20-tr05-p064-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,64,fy20-tr05-p064-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,65,fy20-tr05-p065-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,65,fy20-tr05-p065-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,65,fy20-tr05-p065-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,65,fy20-tr05-p065-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,65,fy20-tr05-p065-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,65,fy20-tr05-p065-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,65,fy20-tr05-p065-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,65,fy20-tr05-p065-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,66,fy20-tr05-p066-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,66,fy20-tr05-p066-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,66,fy20-tr05-p066-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,66,fy20-tr05-p066-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,66,fy20-tr05-p066-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,66,fy20-tr05-p066-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,66,fy20-tr05-p066-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,66,fy20-tr05-p066-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,67,fy20-tr05-p067-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,67,fy20-tr05-p067-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,67,fy20-tr05-p067-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,67,fy20-tr05-p067-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,67,fy20-tr05-p067-r004,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,5,68,fy20-tr05-p068-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,68,fy20-tr05-p068-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,69,fy20-tr05-p069-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,69,fy20-tr05-p069-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,69,fy20-tr05-p069-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,69,fy20-tr05-p069-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,69,fy20-tr05-p069-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,69,fy20-tr05-p069-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,70,fy20-tr05-p070-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,70,fy20-tr05-p070-r001,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,5,70,fy20-tr05-p070-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,70,fy20-tr05-p070-r002,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,5,70,fy20-tr05-p070-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,70,fy20-tr05-p070-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,70,fy20-tr05-p070-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,70,fy20-tr05-p070-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,71,fy20-tr05-p071-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,71,fy20-tr05-p071-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,6,25,fy20-tr06-p025-r006,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,7,42,fy20-tr07-p042-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,7,42,fy20-tr07-p042-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,7,42,fy20-tr07-p042-r007,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,7,42,fy20-tr07-p042-r012,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,7,43,fy20-tr07-p043-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,7,43,fy20-tr07-p043-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,7,43,fy20-tr07-p043-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,7,43,fy20-tr07-p043-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,26,fy20-tr08-p026-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,26,fy20-tr08-p026-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,26,fy20-tr08-p026-r012,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,8,27,fy20-tr08-p027-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,27,fy20-tr08-p027-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,27,fy20-tr08-p027-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,27,fy20-tr08-p027-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,28,fy20-tr08-p028-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,28,fy20-tr08-p028-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,28,fy20-tr08-p028-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,28,fy20-tr08-p028-r011,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,8,28,fy20-tr08-p028-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,8,28,fy20-tr08-p028-r012,wrap_hyphen:purpose,wrap_hyphen:purpose

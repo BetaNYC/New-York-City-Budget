@@ -1,0 +1,336 @@
+# FY2023 transparency resolutions: every year-specific fact the pipeline needs (GitHub #106).
+# Shared code: code/transreso/ (and code/schedc/, code/schedc_cv/ underneath it). Same layout as
+# FY2024-FY2026: Excel charts, one landscape table per chart page (no /Rotate this year).
+
+fiscal_year = 2023
+issue = 106
+review_dir = "research/2026-10-21-fy23-transparency-review"   # outputs land in <review_dir>/data
+x_tolerance = 3.0
+run_gap_pt = 3.0
+
+# Resolution number and adoption date: from research/2026-07-07-legistar-links-fy21-27.md
+# (FY2023 table, all "confirmed") and data/combined/legistar_crosswalk.csv; read from Legistar
+# on 2026-07-07, not re-queried here. All 14 open with the Committee on Finance report, which
+# prints the date ("This Resolution, dated ..."); none prints "Charts 1 through N".
+numbers_source = "research/2026-07-07-legistar-links-fy21-27.md"
+
+# Line-end hyphens (W5.wrap_hyphen): all 33, on 31 rows, were read by hand on 2026-10-21.
+# Every one is a compound word or name that keeps the hyphen (low-income x26 on Reso 08
+# pp.55-58, Anti-Hate, Nature-Based, pre-kindergarten, culturally-sensitive, Ehrenreich-Austin,
+# de-escalation, anti-violence), or a " - " separator whose spaces the clean value keeps
+# (Reso 03 p.91, Reso 12 p.38). None goes to review.
+wrap_hyphen_review = []
+
+[[resolutions]]
+seq = 1
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-01-2022-07-14.pdf"
+sha256 = "28ccf338d2c389c7819db0495ba6adc5ac1e0db1c5001ff3712a7a033b5415e1"
+pages = 98
+number = "Res 0255-2022"
+legistar_id = 69789
+date = "2022-07-14"
+printed_date = "July 14, 2022"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 2
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-02-2022-08-11.pdf"
+sha256 = "e4edb05688dc9bf475a194f807eea483b118908969b111e55aec3ef5824b706b"
+pages = 97
+number = "Res 0288-2022"
+legistar_id = 69889
+date = "2022-08-11"
+printed_date = "August 11, 2022"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 3
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-03-2022-09-29.pdf"
+sha256 = "153141571e6cd722fdd9b0abbd122309896b28a6e0d05090fb66044a5fcfdb7e"
+pages = 93
+number = "Res 0327-2022"
+legistar_id = 70175
+date = "2022-09-29"
+printed_date = "September 29, 2022"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 4
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-04-2022-10-27.pdf"
+sha256 = "f3bc38f3527b8517bd94cf034b20af727a6f0c99bdea0f83bbc1d605ca90307d"
+pages = 59
+number = "Res 0363-2022"
+legistar_id = 70358
+date = "2022-10-27"
+printed_date = "October 27, 2022"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 5
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-05-2022-11-22.pdf"
+sha256 = "c2b021902ec80a9db3e6af4f3662493e408cd1f07a89317ccdd6035710bfea4c"
+pages = 44
+number = "Res 0388-2022"
+legistar_id = 70503
+date = "2022-11-22"
+printed_date = "November 22, 2022"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 6
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-06-2022-12-21.pdf"
+sha256 = "f27db224df9a7cac3b13960fba9c29a3ede44a80e1374e50b8faa9dbb4c3c974"
+pages = 53
+number = "Res 0440-2022"
+legistar_id = 70543
+date = "2022-12-21"
+printed_date = "December 21, 2022"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 7
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-07-2023-01-19.pdf"
+sha256 = "2c20d91d8f3f230b8d3f0d7310cdb912e431bba474ef87e2ca13325360c2ced6"
+pages = 32
+number = "Res 0457-2023"
+legistar_id = 70676
+date = "2023-01-19"
+printed_date = "January 19, 2023"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 8
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-08-2023-02-02.pdf"
+sha256 = "aa12d6e0f50e22ff9ac2138f6fafb995d7ba6529e10d3b5727069c5c9e222f81"
+pages = 60
+number = "Res 0472-2023"
+legistar_id = 70759
+date = "2023-02-02"
+printed_date = "February 2, 2023"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 9
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-09-2023-02-16.pdf"
+sha256 = "ebf3274d50a7df732588031ba0ccaf1412f7cb86cbf04eca3079a9e252281594"
+pages = 33
+number = "Res 0502-2023"
+legistar_id = 70832
+date = "2023-02-16"
+printed_date = "February 16, 2023"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 10
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-10-2023-03-02.pdf"
+sha256 = "50df25f9ec6fd53aea702fc1f1621ab157136af1dcd1b887d6c285ef311cafb6"
+pages = 33
+number = "Res 0508-2023"
+legistar_id = 70946
+date = "2023-03-02"
+printed_date = "March 2, 2023"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 11
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-11-2023-03-16.pdf"
+sha256 = "fd5855b08dca49ebad05b67a98ab1d09fdc723f36e46eac74729d235d0365ddf"
+pages = 20
+number = "Res 0530-2023"
+legistar_id = 70972
+date = "2023-03-16"
+printed_date = "March 16, 2023"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 12
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-12-2023-04-27.pdf"
+sha256 = "59c4dbeb85b2517ba08658baafd365365d282ce2fcc503c1e068550ee7a2574e"
+pages = 41
+number = "Res 0575-2023"
+legistar_id = 71183
+date = "2023-04-27"
+printed_date = "April 27, 2023"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 13
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-13-2023-05-11.pdf"
+sha256 = "f3a79bb95ef92e189539a15dd948b00d6eb624f705cfc0aca8ab1f1fa21b1f2a"
+pages = 9
+number = "Res 0607-2023"
+legistar_id = 71334
+date = "2023-05-11"
+printed_date = "May 11, 2023"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 14
+pdf = "source/FY23/transparency-resolutions/Transparency-Reso-14-2023-06-30.pdf"
+sha256 = "e673e7c886eeac44b9108d99750db958b4d3805e83579db2623db69b88890df8"
+pages = 25
+number = "Res 0705-2023"
+legistar_id = 71611
+date = "2023-06-30"
+printed_date = "June 30, 2023"   # p.1
+charts_printed = 0
+
+[image]
+# Same values as config/transparency/fy2026.toml.
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 64
+# Acceptance on the first chart page (Reso 01 p.7, first row): withholding the row, or one
+# character of it, must make the ink check fire.
+ink_acceptance_seq = 1
+ink_acceptance_page = 7
+ink_acceptance_row_id = "fy23-tr01-p007-r001"
+
+# Named exceptions: places where the PDF disagrees with itself. Each must match exactly or the
+# check still fails; each stays in the review file.
+
+# Chart pages that print no "Page n" label; the labels after them count them (Reso 08: p.43
+# "Page 41", p.44 none, p.45 "Page 43"; Reso 09: p.28 "Page 26", pp.29-31 none, p.32 "Page 30").
+# Checked on the rendered page (Reso 09 p.29). All four are Fiscal 2022 charts.
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 8
+pdf_page = 44
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 9
+pdf_page = 29
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 9
+pdf_page = 30
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 9
+pdf_page = 31
+
+# Reso 08 p.32: the first page of chart #25 (Prisoners' Rights Project - Fiscal 2023) prints
+# "(continued)"; p.31 is chart #24 and no earlier page prints #25. Read as the chart's start.
+[[exceptions]]
+check_id = "T3.continued_start"
+resolution_seq = 8
+pdf_page = 32
+
+# Rows marked "***" on pages that print only the * and ** footnotes (as FY2024 Reso 01 p.55).
+# Kept as printed: org_marker "***", correction = 1. One block per row.
+[[exceptions]]   # Davidson Community Center, Inc. ($25,000)
+check_id = "T11.markers"
+resolution_seq = 3
+pdf_page = 11
+row_index = 3
+
+[[exceptions]]   # Literacy (LINC), Inc. - Council District 14 ($5,000)
+check_id = "T11.markers"
+resolution_seq = 3
+pdf_page = 11
+row_index = 4
+
+[[exceptions]]   # PowerMyLearning, Inc. - Digital Learning Programs - Council  $30,000
+check_id = "T11.markers"
+resolution_seq = 3
+pdf_page = 11
+row_index = 5
+
+[[exceptions]]   # New York City H2O - Council District 46 ($20,000)
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 15
+row_index = 1
+
+[[exceptions]]   # New York City H2O - Council District 46 $20,000
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 15
+row_index = 2
+
+[[exceptions]]   # City University of New York - Queensborough Community Colleg ($15,000)
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 15
+row_index = 3
+
+[[exceptions]]   # City University of New York - Queensborough Community Colleg ($20,000)
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 15
+row_index = 4
+
+[[exceptions]]   # Department of Cultural Affairs $35,000
+check_id = "T11.markers"
+resolution_seq = 4
+pdf_page = 15
+row_index = 5
+
+[[exceptions]]   # District 29Q Community Education Council ($10,000)
+check_id = "T11.markers"
+resolution_seq = 6
+pdf_page = 34
+row_index = 3
+
+[[exceptions]]   # District 29Q Community Education Council $10,000
+check_id = "T11.markers"
+resolution_seq = 6
+pdf_page = 34
+row_index = 4
+
+[[exceptions]]   # Committee for Hispanic Children and Families, Inc., The ($75,000)
+check_id = "T11.markers"
+resolution_seq = 6
+pdf_page = 35
+row_index = 1
+
+[[exceptions]]   # Committee for Hispanic Children and Families, Inc., The - Co $75,000
+check_id = "T11.markers"
+resolution_seq = 6
+pdf_page = 35
+row_index = 2
+
+[[exceptions]]   # Reel Stories Teen Filmmaking, Inc. - Boys and Girls High Sch ($20,000)
+check_id = "T11.markers"
+resolution_seq = 6
+pdf_page = 40
+row_index = 1
+
+[[exceptions]]   # Department of Cultural Affairs $20,000
+check_id = "T11.markers"
+resolution_seq = 6
+pdf_page = 40
+row_index = 2
+
+[[exceptions]]   # GLAAD, Inc. ($100,000)
+check_id = "T11.markers"
+resolution_seq = 7
+pdf_page = 29
+row_index = 1
+
+[[exceptions]]   # GLAAD, Inc. $100,000
+check_id = "T11.markers"
+resolution_seq = 7
+pdf_page = 29
+row_index = 2
+
+[[exceptions]]   # Department of Sanitation - Council District 30 ($30,000)
+check_id = "T11.markers"
+resolution_seq = 8
+pdf_page = 6
+row_index = 2
+
+[[exceptions]]   # Department of Sanitation - Council District 30 $30,000
+check_id = "T11.markers"
+resolution_seq = 8
+pdf_page = 6
+row_index = 3
+

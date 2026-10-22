@@ -1,0 +1,65 @@
+TRANSPARENCY RESOLUTIONS FY2025 -- checks (code/parse_transparency_v2.py; config config/transparency/fy2025.toml)
+13 PDFs, 395 pages, 374 chart pages, 309 charts
+
+rows: 3,555
+  designate      2,360 rows  $     113,086,940
+  rescind        1,004 rows  $    -108,036,940
+  purpose_from      93 rows  $      -7,391,902
+  purpose_to        98 rows  $       7,391,902
+  budget year 2023: 34 rows
+  budget year 2024: 108 rows
+  budget year 2025: 3,413 rows
+  no budget year printed: 0 rows
+
+PER RESOLUTION (rows; organizations: designations / rescissions; agency side net; purpose rows)
+   1 Res 0517-2024 2024-08-15:   738 rows, 44 charts; +409 $20,386,380 / 241 $-4,388,380; agency side $-15,998,000; purpose 56
+   2 Res 0559-2024 2024-09-12: 1,108 rows, 46 charts; +960 $42,812,684 / 82 $-2,430,674; agency side $-40,382,010; purpose 16
+   3 Res 0597-2024 2024-10-10:   213 rows, 25 charts; +100 $3,314,665 / 71 $-1,066,000; agency side $-2,248,665; purpose 26
+   4  2024-10-23:    27 rows, 9 charts; +16 $1,442,735 / 2 $-148,250; agency side $-1,294,485; purpose 0
+   5 Res 0641-2024 2024-11-13:   260 rows, 29 charts; +149 $7,783,961 / 75 $-3,343,961; agency side $-4,440,000; purpose 12
+   6 Res 0677-2024 2024-12-05:   188 rows, 22 charts; +110 $13,006,917 / 42 $-3,076,517; agency side $-4,880,400; purpose 14
+   7 Res 0712-2025 2025-01-23:   340 rows, 23 charts; +276 $5,493,500 / 42 $-1,060,500; agency side $-4,433,000; purpose 11
+   8 Res 0732-2025 2025-02-13:   165 rows, 21 charts; +86 $4,538,837 / 68 $-1,529,503; agency side $-3,009,334; purpose 4
+   9 Res 0791-2025 2025-03-12:   107 rows, 22 charts; +45 $1,305,895 / 45 $-1,436,541; agency side $130,646; purpose 8
+  10 Res 0815-2025 2025-03-26:     7 rows, 3 charts; +2 $110,000 / 3 $-110,000; agency side $0; purpose 2
+  11 Res 0849-2025 2025-04-24:   142 rows, 18 charts (prints 18); +46 $820,547 / 48 $-1,063,299; agency side $242,752; purpose 32
+  12 Res 0875-2025 2025-05-28:   174 rows, 33 charts (prints 33); +76 $3,067,359 / 75 $-2,439,359; agency side $-628,000; purpose 6
+  13 Res 0959-2025 2025-06-30:    86 rows, 14 charts (prints 14); +36 $2,107,926 / 31 $-1,116,756; agency side $-991,170; purpose 4
+
+HARD CHECKS
+  ok    T1.input             13 PDFs, 395 pages; 0 differ from config
+  ok    T2.triage            395 pages surveyed; 0 fail the text-layer gate
+  ok    T3.charts            309 charts on 374 pages; printed chart counts tie on 3 of 3 resolutions that print one; 0 caption problems; 0 numbering problems; 3 chart pages print no 'Page n' label (named exceptions, counted by the labels around them)
+  ok    T4.headers           0 unrecognised headers
+  ok    T5.anchors           3553 EIN-shaped words on the visible text (3553 counting clipped letters), 3553 rows with an EIN; 0 pages differ; 0 rows without a readable amount; 2 rows print no EIN
+  ok    T6.furniture         0 data cells holding header/footer text; 0 unexpected lines under tables
+  ok    T7.chars             442330 non-space chars; 0 in a table but in no cell; 383 clipped (hidden) chars in 11 runs, each listed for review
+  ok    T10.sign_colour      1097 amounts in parentheses, all red; 0 rows where sign and colour disagree
+  ok    T11.markers          534 rows marked **, 40 marked ***, 1 pending pre-qualification; 5 without their footnote or with an odd * cell (5 a named exception in the config, kept as printed and in the review file)
+  ok    T12.fiscal_year      309 charts print a fiscal year, all named in their resolution's text; 0 print none (warn, in the review file); 0 name a year the text does not (0 a named exception in the config, kept as printed and in the review file)
+  ok    T13.dates            10 resolutions print their date and it matches; all 13 filename dates equal the Legistar adoption dates in the config
+  ok    T14.provenance       3555 row ids, 3555 unique
+  ok    T15.printed_totals   0 money amounts printed outside the tables on chart pages: the FY2025 charts print no totals, so there is nothing to tie (the arithmetic is reported, not checked)
+  ok    T16.values           0 clean values not reproducible from raw
+
+IMAGE LATTICE (H8): rows rebuilt from code/ocr/grid.py lattices, compared field by field
+  agree on every field: 3,555 of 3,555
+  image rows with no vector row: 0
+  header rules found in header pixels (not in the lattice): 8 pages
+INK COVERAGE (H9): uncovered-ink regions inside the chart tables
+  regions: 0  uncovered px total: 42 of 130,994,570 ink px
+  acceptance on Reso 01 p.60 (fy25-tr01-p060-r001): clean run 0 regions; row withheld -> 8; one char withheld -> 1 (PASS)
+
+DISCLOSURE (report-only; data/fyNN/expense_disclosure)
+  budget year 2023: 13 organization designations; 5 found in the disclosure on (EIN, amount) ($380,500); not found: amount_differs 6, city_ein_name_mismatch 2
+  budget year 2024: 42 organization designations; 37 found in the disclosure on (EIN, amount) ($640,771); not found: later_rescinded 5
+  budget year 2025: 2,256 organization designations; 2,067 found in the disclosure on (EIN, amount) ($90,602,749); not found: amount_differs 27, city_ein_name_mismatch 8, key_already_claimed 5, later_rescinded 149
+  rescissions of organizations: 825; where the money was designated before: earlier_resolution 385, not_found 48, partial 58, schedule_c 334
+
+RETIRED CSV: none (data/fy25/transparency-resolutions/fy25_transparency_all.csv does not exist)
+
+ROW FLAG COUNTS (all listed in flags.csv; review file holds only those that could change a value)
+  clipped_text 10, ein_blank 2, ein_no_hyphen 8, made_cell 4, made_cell_empty 58, marker_without_footnote 1, prequal_odd 4, spanning_cell 30, unpaired_purpose 13, wrap_hyphen 4
+  zero-width chars dropped: 0
+
+REVIEW FILE: 40 rows (7 critical, 33 warn); stale decisions: 0

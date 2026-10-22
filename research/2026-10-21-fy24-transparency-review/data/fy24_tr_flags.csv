@@ -1,0 +1,71 @@
+severity,check_id,resolution_seq,pdf_page,row_id,field,message
+critical,H9.ink,2,11,,,"uncovered ink, 72 px"
+critical,H9.ink,2,11,,,"uncovered ink, 72 px"
+critical,T11.markers,1,55,fy24-tr01-p055-r001,,marker problem: ['marker_without_footnote']
+critical,T11.markers,1,55,fy24-tr01-p055-r002,,marker problem: ['marker_without_footnote']
+critical,T11.markers,2,18,fy24-tr02-p018-r014,,marker problem: ['prequal_odd']
+critical,T5.anchors,7,17,fy24-tr07-p017-r001,,"row prints no EIN: 'Knickerbocker Avenue Merchants Partnership, Inc. - Knickerbocker Beautification' ($10,000)"
+warn,T3.page_label,2,66,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,2,67,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,2,68,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,2,69,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,2,70,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,2,71,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,2,72,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,2,73,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,3,55,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,3,56,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,3,57,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,row_flag,1,26,fy24-tr01-p026-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,1,26,fy24-tr01-p026-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,1,55,fy24-tr01-p055-r001,marker_without_footnote,marker_without_footnote
+warn,row_flag,1,55,fy24-tr01-p055-r002,marker_without_footnote,marker_without_footnote
+warn,row_flag,1,57,fy24-tr01-p057-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,1,57,fy24-tr01-p057-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,2,3,fy24-tr02-p003-r011,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,2,11,fy24-tr02-p011-r001,clipped_text:member,clipped_text:member
+warn,row_flag,2,11,fy24-tr02-p011-r002,clipped_text:member,clipped_text:member
+warn,row_flag,2,18,fy24-tr02-p018-r008,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,2,18,fy24-tr02-p018-r014,prequal_odd,prequal_odd
+warn,row_flag,2,20,fy24-tr02-p020-r012,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,2,45,fy24-tr02-p045-r003,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,2,58,fy24-tr02-p058-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,2,58,fy24-tr02-p058-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,2,65,fy24-tr02-p065-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,2,65,fy24-tr02-p065-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,50,fy24-tr03-p050-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,50,fy24-tr03-p050-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,50,fy24-tr03-p050-r003,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,50,fy24-tr03-p050-r004,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,54,fy24-tr03-p054-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,54,fy24-tr03-p054-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,54,fy24-tr03-p054-r003,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,3,54,fy24-tr03-p054-r004,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,4,16,fy24-tr04-p016-r003,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,32,fy24-tr04-p032-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,4,32,fy24-tr04-p032-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,4,32,fy24-tr04-p032-r003,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,4,32,fy24-tr04-p032-r003,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,32,fy24-tr04-p032-r004,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,4,32,fy24-tr04-p032-r004,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,35,fy24-tr04-p035-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,4,35,fy24-tr04-p035-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,4,35,fy24-tr04-p035-r003,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,5,28,fy24-tr05-p028-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,5,28,fy24-tr05-p028-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,5,36,fy24-tr05-p036-r007,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,5,36,fy24-tr05-p036-r008,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,6,22,fy24-tr06-p022-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,6,22,fy24-tr06-p022-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,6,25,fy24-tr06-p025-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,6,25,fy24-tr06-p025-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,6,26,fy24-tr06-p026-r008,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,7,17,fy24-tr07-p017-r001,ein_odd,ein_odd
+warn,row_flag,7,37,fy24-tr07-p037-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,7,37,fy24-tr07-p037-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,8,26,fy24-tr08-p026-r001,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,8,26,fy24-tr08-p026-r002,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,8,26,fy24-tr08-p026-r003,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,8,26,fy24-tr08-p026-r004,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,8,26,fy24-tr08-p026-r005,made_cell_empty:*,made_cell_empty:*
+warn,row_flag,8,26,fy24-tr08-p026-r006,made_cell_empty:*,made_cell_empty:*

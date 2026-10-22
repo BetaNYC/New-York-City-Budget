@@ -1,0 +1,49 @@
+severity,check_id,resolution_seq,pdf_page,row_id,field,message
+critical,T5.anchors,2,29,fy21-tr02-p029-r020,,"row prints no EIN: 'Department of Cultural Affairs' ($10,000)"
+warn,T3.continued_start,2,20,,,"first page of chart #6 prints '(continued)': ""CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2021 (continue""; read as the start of the chart"
+warn,T3.page_label,2,65,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,3,47,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,5,33,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,5,34,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,5,35,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,5,36,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,5,37,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,5,40,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,6,34,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,6,35,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,6,36,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,6,37,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,7,31,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,7,32,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T3.page_label,8,20,,,chart page prints no 'Page n' label; the next label counts it (named exception in the config)
+warn,T4.no_amount,1,126,,,"chart #54 'Beating Hearts' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: '***StatenIslandHeartSociety,Inc.hasreceived$175,000thatwillgotowardsprovidingautomatedexternaldefibrillators (AEDs)tonon-profitorganizationsthatprimarilyservetheyouthandagingpopulations.Thenon-profitorganizationsare listed above.'"
+warn,T4.no_amount,2,65,,,"chart #42 'Beating Hearts' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: '***StatenIslandHeartSociety,Inc.hasreceived$175,000thatwillgotowardsprovidingautomatedexternaldefibrillators (AEDs)tonon-profitorganizationsthatprimarilyservetheyouthandagingpopulations.Thenon-profitorganizationsare listed above.'"
+warn,T4.no_amount,3,47,,,"chart #34 'Beating Hearts' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: '***StatenIslandHeartSociety,Inc.hasreceived$175,000thatwillgotowardsprovidingautomatedexternaldefibrillators (AEDs)tonon-profitorganizationsthatprimarilyservetheyouthandagingpopulations.Thenon-profitorganizationsare listed above.'"
+warn,T4.no_amount,5,40,,,"chart #27 'Beating Hearts' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: '***StatenIslandHeartSociety,Inc.hasreceived$175,000thatwillgotowardsprovidingautomatedexternaldefibrillators (AEDs)tonon-profitorganizationsthatprimarilyservetheyouthandagingpopulations.Thenon-profitorganizationsare listed above.'"
+warn,row_flag,1,26,fy21-tr01-p026-r008,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,1,82,fy21-tr01-p082-r025,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,1,120,fy21-tr01-p120-r013,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,1,124,fy21-tr01-p124-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,124,fy21-tr01-p124-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,124,fy21-tr01-p124-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,124,fy21-tr01-p124-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,124,fy21-tr01-p124-r013,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,1,124,fy21-tr01-p124-r014,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,13,fy21-tr02-p013-r012,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,2,29,fy21-tr02-p029-r020,ein_blank,ein_blank
+warn,row_flag,2,34,fy21-tr02-p034-r011,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,2,62,fy21-tr02-p062-r004,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,3,15,fy21-tr03-p015-r019,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,15,fy21-tr03-p015-r022,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,15,fy21-tr03-p015-r023,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,22,fy21-tr04-p022-r006,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,12,fy21-tr05-p012-r018,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,5,12,fy21-tr05-p012-r019,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,5,38,fy21-tr05-p038-r001,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,5,38,fy21-tr05-p038-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,6,40,fy21-tr06-p040-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,7,18,fy21-tr07-p018-r001,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,7,33,fy21-tr07-p033-r013,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,7,33,fy21-tr07-p033-r014,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,7,34,fy21-tr07-p034-r007,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,8,22,fy21-tr08-p022-r008,wrap_hyphen:purpose,wrap_hyphen:purpose

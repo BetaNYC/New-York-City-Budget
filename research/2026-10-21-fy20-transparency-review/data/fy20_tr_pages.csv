@@ -1,0 +1,509 @@
+resolution_seq,pdf_page,width,height,rotation,tables,chart_number,continued,page_label,footnotes,rows,ein_tokens,ein_tokens_all_chars,nonws_chars,clipped_chars,zero_width_chars,image_regions,image_lattices,image_rows,rows_agree,image_notes,ink_px,uncovered_px,ink_regions,caption
+1,1,612.0,792.0,0,0,,,,,0,0,0,2799,0,0,,,,,,,,,
+1,2,612.0,792.0,0,0,,,,,0,0,0,2599,0,0,,,,,,,,,
+1,3,612.0,792.0,0,0,,,,,0,0,0,2252,0,0,,,,,,,,,
+1,4,612.0,792.0,0,0,,,,,0,0,0,2211,0,0,,,,,,,,,
+1,5,612.0,792.0,0,0,,,,,0,0,0,1543,0,0,,,,,,,,,
+1,6,612.0,792.0,0,0,,,,,0,0,0,1593,0,0,,,,,,,,,
+1,7,612.0,792.0,0,0,,,,,0,0,0,1605,0,0,,,,,,,,,
+1,8,612.0,792.0,0,0,,,,,0,0,0,1429,0,0,,,,,,,,,
+1,9,612.0,792.0,0,0,,,,,0,0,0,1410,0,0,,,,,,,,,
+1,10,612.0,792.0,0,0,,,,,0,0,0,1585,0,0,,,,,,,,,
+1,11,612.0,792.0,0,0,,,,,0,0,0,1521,0,0,,,,,,,,,
+1,12,612.0,792.0,0,0,,,,,0,0,0,363,0,0,,,,,,,,,
+1,13,792.0,612.0,0,1,1,0,1,* **,31,31,31,2842,0,0,1,1,31,31,,1034552,2,0,CHART #1: Local Initiatives - Fiscal 2020
+1,14,792.0,612.0,0,1,1,1,2,* **,31,31,31,2778,0,0,1,1,31,31,,997908,2,0,CHART #1: Local Initiatives - Fiscal 2020 (continued)
+1,15,792.0,612.0,0,1,1,1,3,* **,33,33,33,2657,0,0,1,1,33,33,,1013097,2,0,CHART #1: Local Initiatives - Fiscal 2020 (continued)
+1,16,792.0,612.0,0,1,1,1,4,* **,29,29,29,2709,0,0,1,1,29,29,,976775,2,0,CHART #1: Local Initiatives - Fiscal 2020 (continued)
+1,17,792.0,612.0,0,1,1,1,5,* **,4,4,4,586,0,0,1,1,4,4,,173805,2,0,CHART #1: Local Initiatives - Fiscal 2020 (continued)
+1,18,792.0,612.0,0,1,2,0,6,* **,13,13,13,1281,0,0,1,1,13,13,,456799,2,0,CHART #2: Youth Discretionary - Fiscal 2020
+1,19,792.0,612.0,0,1,3,0,7,* **,23,23,23,1931,0,0,1,1,23,23,,732980,2,0,CHART #3: Anti-Poverty Initiative - Fiscal 2020
+1,20,792.0,612.0,0,1,4,0,8,* **,18,18,18,1705,0,0,1,1,18,18,,604025,2,0,CHART #4: Aging Discretionary - Fiscal 2020
+1,21,792.0,612.0,0,1,5,0,9,* **,2,2,2,396,0,0,1,1,2,2,,100629,2,0,CHART #5: Speaker's Initiative to Address Citywide Needs - Fiscal 2020
+1,22,792.0,612.0,0,1,6,0,10,* **,39,39,39,3174,0,0,1,1,39,39,,1105586,0,0,CHART #6: A Greener NYC - Fiscal 2020
+1,23,792.0,612.0,0,1,6,1,11,* **,24,24,24,2013,0,0,1,1,24,24,,690639,0,0,CHART #6: A Greener NYC - Fiscal 2020 (continued)
+1,24,792.0,612.0,0,1,7,0,12,* **,34,34,34,3411,0,0,1,1,34,34,,1072766,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2020
+1,25,792.0,612.0,0,1,7,1,13,* **,39,39,39,3725,0,0,1,1,39,39,,1190226,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2020 (continued)
+1,26,792.0,612.0,0,1,7,1,14,* **,43,43,43,3868,0,0,1,1,43,43,,1261285,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2020 (continued)
+1,27,792.0,612.0,0,1,7,1,15,* **,16,16,16,1480,0,0,1,1,16,16,,470231,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2020 (continued)
+1,28,792.0,612.0,0,1,8,0,16,* **,42,42,42,3375,0,0,1,1,42,42,,1161748,0,0,CHART #8: Cultural Immigrant Initiative - Fiscal 2020
+1,29,792.0,612.0,0,1,8,1,17,* **,39,39,39,3112,0,0,1,1,39,39,,1080960,0,0,CHART #8: Cultural Immigrant Initiative - Fiscal 2020 (continued)
+1,30,792.0,612.0,0,1,8,1,18,* **,13,13,13,1083,0,0,1,1,13,13,,361634,0,0,CHART #8: Cultural Immigrant Initiative - Fiscal 2020 (continued)
+1,31,792.0,612.0,0,1,9,0,19,* **,18,18,18,1518,0,0,1,1,18,18,,511851,0,0,CHART #9: Digital Inclusion and Literacy Initiative  - Fiscal 2020
+1,32,792.0,612.0,0,1,10,0,20,* **,43,43,43,2908,0,0,1,1,43,43,,1103024,0,0,CHART #10: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020
+1,33,792.0,612.0,0,1,10,1,21,* **,42,42,42,2739,0,0,1,1,42,42,,1061975,0,0,CHART #10: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020 (continued)
+1,34,792.0,612.0,0,1,10,1,22,* **,36,36,36,2673,0,0,1,1,36,36,,961284,0,0,CHART #10: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020 (continued)
+1,35,792.0,612.0,0,1,11,0,23,* **,43,43,43,4020,0,0,1,1,43,43,,1307616,0,0,CHART #11: Food Pantries Initiative - Fiscal 2020
+1,36,792.0,612.0,0,1,11,1,24,* **,43,43,43,4071,0,0,1,1,43,43,,1311841,0,0,CHART #11: Food Pantries Initiative - Fiscal 2020 (continued)
+1,37,792.0,612.0,0,1,11,1,25,* **,41,41,41,4147,0,0,1,1,41,41,,1306704,0,0,CHART #11: Food Pantries Initiative - Fiscal 2020 (continued)
+1,38,792.0,612.0,0,1,11,1,26,* **,38,38,38,3868,0,0,1,1,38,38,,1226155,0,0,CHART #11: Food Pantries Initiative - Fiscal 2020 (continued)
+1,39,792.0,612.0,0,1,11,1,27,* **,41,41,41,3811,0,0,1,1,41,41,,1251341,0,0,CHART #11: Food Pantries Initiative - Fiscal 2020 (continued)
+1,40,792.0,612.0,0,1,11,1,28,* **,11,11,11,1203,0,0,1,1,11,11,,368177,0,0,CHART #11: Food Pantries Initiative - Fiscal 2020 (continued)
+1,41,792.0,612.0,0,1,12,0,29,* **,9,9,9,861,0,0,1,1,9,9,,269294,0,0,CHART #12: Healthy Aging Initiative - Fiscal 2020
+1,42,792.0,612.0,0,1,13,0,30,* **,40,40,40,3259,0,0,1,1,40,40,,1124330,0,0,CHART #13: Neighborhood Development Grant Initiative - Fiscal 2020
+1,43,792.0,612.0,0,1,13,1,31,* **,11,11,11,1176,0,0,1,1,11,11,,350871,0,0,CHART #13: Neighborhood Development Grant Initiative - Fiscal 2020 (continued)
+1,44,792.0,612.0,0,1,14,0,32,* **,40,40,40,3298,0,0,1,1,40,40,,1124676,0,0,CHART #14: NYC Cleanup Initiative - Fiscal 2020
+1,45,792.0,612.0,0,1,14,1,33,* **,31,31,31,2647,0,0,1,1,31,31,,898736,0,0,CHART #14: NYC Cleanup Initiative - Fiscal 2020 (continued)
+1,46,792.0,612.0,0,1,15,0,34,* **,32,32,32,3468,0,0,1,1,32,32,,1075081,0,0,CHART #15: Parks Equity Initiative - Fiscal 2020
+1,47,792.0,612.0,0,1,15,1,35,* **,34,34,34,2860,0,0,1,1,34,34,,977717,0,0,CHART #15: Parks Equity Initiative - Fiscal 2020 (continued)
+1,48,792.0,612.0,0,1,15,1,36,* **,18,18,18,1957,0,0,1,1,18,18,,598534,0,0,CHART #15: Parks Equity Initiative - Fiscal 2020 (continued)
+1,49,792.0,612.0,0,1,16,0,37,* **,6,6,6,588,0,0,1,1,6,6,,179166,0,0,CHART #16: SU-CASA Initiative - Fiscal 2020
+1,50,792.0,612.0,0,1,17,0,38,* **,36,36,36,3030,0,0,1,1,36,36,,1035586,0,0,CHART #17: Support Our Seniors - Fiscal 2020
+1,51,792.0,612.0,0,1,17,1,39,* **,39,39,39,3048,0,0,1,1,39,39,,1062917,0,0,CHART #17: Support Our Seniors - Fiscal 2020 (continued)
+1,52,792.0,612.0,0,1,17,1,40,* **,21,21,21,1974,0,0,1,1,21,21,,624338,0,0,CHART #17: Support Our Seniors - Fiscal 2020 (continued)
+1,53,792.0,612.0,0,1,18,0,41,* **,2,2,2,348,0,0,1,1,2,2,,93853,0,0,CHART #18: Community Housing Preservation Strategies - Fiscal 2020
+1,54,792.0,612.0,0,1,19,0,42,* **,8,8,8,890,0,0,1,1,8,8,,303038,8,0,CHART #19: Crisis Management System - Fiscal 2020
+1,55,792.0,612.0,0,1,20,0,43,* **,16,16,16,1099,0,0,1,1,16,16,,462481,0,0,CHART #20: City's First Readers - Fiscal 2020
+1,56,792.0,612.0,0,1,21,0,44,* **,2,2,2,311,0,0,1,1,2,2,,88014,0,0,CHART #21: Legal Services for the Working Poor - Fiscal 2020
+1,57,792.0,612.0,0,1,22,0,45,* **,15,15,15,1163,0,0,1,1,15,15,,459575,0,0,CHART #22: Community Land Trust Initiative - Fiscal 2020
+1,58,792.0,612.0,0,1,23,0,46,* **,3,3,3,393,0,0,1,1,3,3,,119775,0,0,CHART #23: Elie Wiesel Holocaust Survivors - Fiscal 2020
+1,59,792.0,612.0,0,1,24,0,47,* **,1,1,1,273,0,0,1,1,1,1,,61362,0,0,CHART #24: Reproductive and Sexual Health Services - Fiscal 2020
+1,60,792.0,612.0,0,1,25,0,48,* **,3,3,3,350,0,0,1,1,3,3,,113510,0,0,CHART #25: Unaccompanied Minors and Families - Fiscal 2020
+1,61,792.0,612.0,0,1,26,0,49,* **,2,2,2,319,0,0,1,1,2,2,,88419,0,0,CHART #26: Initiative to Combat Sexual Assault - Fiscal 2020
+1,62,792.0,612.0,0,1,27,0,50,* **,3,3,3,385,0,0,1,1,3,3,,118833,0,0,CHART #27: Young Women's Leadership Development - Fiscal 2020
+1,63,792.0,612.0,0,1,28,0,51,* **,2,2,2,340,0,0,1,1,2,2,,89157,0,0,CHART #28: Initiative for Immigrant Survivors of Domestic Violence - Fiscal 2020
+1,64,792.0,612.0,0,1,29,0,52,* **,2,2,2,353,0,0,1,1,2,2,,93724,0,0,CHART #29: Social and Emotional Supports for Students - Fiscal 2020
+1,65,792.0,612.0,0,1,30,0,53,* **,8,8,8,718,0,0,1,1,8,8,,264359,0,0,CHART #30: YouthBuild Project Initiative - Fiscal 2020
+1,66,792.0,612.0,0,1,31,0,54,* **,10,10,10,930,0,0,1,1,10,10,,340918,2,0,CHART #31: Local Initiatives - Fiscal 2019
+1,67,792.0,612.0,0,1,32,0,55,* **,2,2,2,358,0,0,1,1,2,2,,92230,2,0,CHART #32: Youth Discretionary - Fiscal 2019
+1,68,792.0,612.0,0,1,33,0,56,* **,4,4,4,575,0,0,1,1,4,4,,147653,0,0,CHART #33: Cultural After-School Adventure (CASA) - Fiscal 2019
+1,69,792.0,612.0,0,1,34,0,57,* **,2,2,2,384,0,0,1,1,2,2,,91717,0,0,CHART #34: Support Our Seniors - Fiscal 2019
+1,70,792.0,612.0,0,1,35,0,58,* **,18,18,18,3653,0,0,1,1,18,18,,693265,0,0,Chart #35: Purpose of Funds Changes - Fiscal 2020
+1,71,792.0,612.0,0,1,35,1,59,* **,16,16,16,3308,0,0,1,1,16,16,region 0: header rule at 73.08 pt found in header pixels,623624,0,0,Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)
+1,72,792.0,612.0,0,1,35,1,60,* **,6,6,6,1451,0,0,1,1,6,6,,258759,0,0,Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)
+1,73,792.0,612.0,0,1,35,1,61,* **,12,12,12,3564,0,0,1,1,12,12,region 0: header rule at 73.08 pt found in header pixels,615304,0,0,Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)
+1,74,792.0,612.0,0,1,35,1,62,* **,12,12,12,3540,0,0,1,1,12,12,region 0: header rule at 73.08 pt found in header pixels,612662,0,0,Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)
+1,75,792.0,612.0,0,1,35,1,63,* **,12,12,12,3612,0,0,1,1,12,12,region 0: header rule at 73.08 pt found in header pixels,621616,0,0,Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)
+1,76,792.0,612.0,0,1,35,1,64,* **,12,12,12,3564,0,0,1,1,12,12,region 0: header rule at 73.08 pt found in header pixels,616719,0,0,Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)
+1,77,792.0,612.0,0,1,35,1,65,* **,12,12,12,3548,0,0,1,1,12,12,region 0: header rule at 73.08 pt found in header pixels,613861,0,0,Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)
+1,78,792.0,612.0,0,1,35,1,66,* **,12,12,12,3496,0,0,1,1,12,12,region 0: header rule at 73.08 pt found in header pixels,605268,0,0,Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)
+1,79,792.0,612.0,0,1,35,1,67,* **,8,8,8,2490,0,0,1,1,8,8,region 0: header rule at 73.08 pt found in header pixels,423320,0,0,Chart #35: Purpose of Funds Changes - Fiscal 2020 (continued)
+1,80,792.0,612.0,0,1,36,0,68,* **,10,10,10,2017,0,0,1,1,10,10,,382424,0,0,Chart #36: Purpose of Funds Changes - Fiscal 2019
+2,1,612.0,792.0,0,0,,,,,0,0,0,2795,0,0,,,,,,,,,
+2,2,612.0,792.0,0,0,,,,,0,0,0,2686,0,0,,,,,,,,,
+2,3,612.0,792.0,0,0,,,,,0,0,0,2309,0,0,,,,,,,,,
+2,4,612.0,792.0,0,0,,,,,0,0,0,2331,0,0,,,,,,,,,
+2,5,612.0,792.0,0,0,,,,,0,0,0,2307,0,0,,,,,,,,,
+2,6,612.0,792.0,0,0,,,,,0,0,0,1647,0,0,,,,,,,,,
+2,7,612.0,792.0,0,0,,,,,0,0,0,1585,0,0,,,,,,,,,
+2,8,612.0,792.0,0,0,,,,,0,0,0,1608,0,0,,,,,,,,,
+2,9,612.0,792.0,0,0,,,,,0,0,0,1572,0,0,,,,,,,,,
+2,10,612.0,792.0,0,0,,,,,0,0,0,1414,0,0,,,,,,,,,
+2,11,612.0,792.0,0,0,,,,,0,0,0,1618,0,0,,,,,,,,,
+2,12,612.0,792.0,0,0,,,,,0,0,0,1508,0,0,,,,,,,,,
+2,13,612.0,792.0,0,0,,,,,0,0,0,1384,0,0,,,,,,,,,
+2,14,612.0,792.0,0,0,,,,,0,0,0,1422,0,0,,,,,,,,,
+2,15,612.0,792.0,0,0,,,,,0,0,0,696,0,0,,,,,,,,,
+2,16,792.0,612.0,0,1,1,0,1,* **,26,26,26,2339,0,0,1,1,26,26,,851881,0,0,CHART #1: Local Initiatives - Fiscal 2020
+2,17,792.0,612.0,0,1,1,1,2,* **,26,26,26,2016,0,0,1,1,26,26,,781566,0,0,CHART #1: Local Initiatives - Fiscal 2020 (continued)
+2,18,792.0,612.0,0,1,2,0,3,* **,28,28,28,2045,0,0,1,1,28,28,,846120,0,0,CHART #2: Youth Discretionary - Fiscal 2020
+2,19,792.0,612.0,0,1,3,0,4,* **,7,7,7,731,0,0,1,1,7,7,,252741,0,0,CHART #3: Anti-Poverty Initiative - Fiscal 2020
+2,20,792.0,612.0,0,1,4,0,5,* **,6,6,6,621,0,0,1,1,6,6,,216256,0,0,CHART #4: Aging Discretionary - Fiscal 2020
+2,21,792.0,612.0,0,1,5,0,6,* **,14,14,14,1274,0,0,1,1,14,14,,453625,0,0,CHART #5: Boroughwide Needs - Fiscal 2020
+2,22,792.0,612.0,0,1,6,0,7,* **,27,27,27,2158,0,0,1,1,27,27,,754368,0,0,CHART #6: A Greener NYC - Fiscal 2020
+2,23,792.0,612.0,0,1,7,0,8,* **,35,35,35,3494,0,0,1,1,35,35,,1091495,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2020
+2,24,792.0,612.0,0,1,7,1,9,* **,40,40,40,3593,0,0,1,1,40,40,,1172200,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2020 (continued)
+2,25,792.0,612.0,0,1,7,1,10,* **,6,6,6,606,0,0,1,1,6,6,,180258,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2020 (continued)
+2,26,792.0,612.0,0,1,8,0,11,* **,21,21,21,1587,0,0,1,1,21,21,,559211,0,0,CHART #8: Cultural Immigrant Initiative - Fiscal 2020
+2,27,792.0,612.0,0,1,9,0,12,* **,14,14,14,1118,0,0,1,1,14,14,,387829,0,0,CHART #9: Digital Inclusion and Literacy Initiative  - Fiscal 2020
+2,28,792.0,612.0,0,1,10,0,13,* **,38,38,38,2839,0,0,1,1,38,38,,1023684,0,0,CHART #10: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020
+2,29,792.0,612.0,0,1,10,1,14,* **,25,25,25,1923,0,0,1,1,25,25,,676415,0,0,CHART #10: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020 (continued)
+2,30,792.0,612.0,0,1,11,0,15,* **,42,42,42,3899,0,0,1,1,42,42,,1275300,0,0,CHART #11: Food Pantries Initiative - Fiscal 2020
+2,31,792.0,612.0,0,1,11,1,16,* **,40,40,40,3890,0,0,1,1,40,40,,1248803,0,0,CHART #11: Food Pantries Initiative - Fiscal 2020 (continued)
+2,32,792.0,612.0,0,1,11,1,17,* **,42,42,42,3814,0,0,1,1,42,42,,1249276,0,0,CHART #11: Food Pantries Initiative - Fiscal 2020 (continued)
+2,33,792.0,612.0,0,1,11,1,18,* **,24,24,24,2553,0,0,1,1,24,24,,786030,0,0,CHART #11: Food Pantries Initiative - Fiscal 2020 (continued)
+2,34,792.0,612.0,0,1,12,1,19,* **,12,12,12,1037,0,0,1,1,12,12,,338630,0,0,CHART #12: Healthy Aging Initiative - Fiscal 2020 (continued)
+2,35,792.0,612.0,0,1,13,0,20,* **,23,23,23,1902,0,0,1,1,23,23,,645827,0,0,CHART #13: Neighborhood Development Grant Initiative - Fiscal 2020
+2,36,792.0,612.0,0,1,14,0,21,* ** ***,38,38,38,3119,0,0,1,1,38,38,,1061789,0,0,CHART #14: NYC Cleanup Initiative - Fiscal 2020
+2,37,792.0,612.0,0,1,14,1,22,* ** ***,17,17,17,1618,0,0,1,1,17,17,,501982,0,0,CHART #14: NYC Cleanup Initiative - Fiscal 2020 (continued)
+2,38,792.0,612.0,0,1,15,0,23,* ** ***,36,36,36,3089,0,0,1,1,36,36,,1038190,0,0,CHART #15: Parks Equity Initiative - Fiscal 2020
+2,39,792.0,612.0,0,1,15,1,24,* **,7,7,7,717,0,0,1,1,7,7,,217139,0,0,CHART #15: Parks Equity Initiative - Fiscal 2020 (continued)
+2,40,792.0,612.0,0,1,16,0,25,* **,35,35,35,2850,0,0,1,1,35,35,,972152,0,0,CHART #16: Support Our Seniors - Fiscal 2020
+2,41,792.0,612.0,0,1,16,1,26,* **,6,6,6,636,0,0,1,1,6,6,,187044,0,0,CHART #16: Support Our Seniors - Fiscal 2020 (continued)
+2,42,792.0,612.0,0,1,17,0,27,* **,2,2,2,323,0,0,1,1,2,2,,89064,0,0,CHART #17: Afterschool Enrichment Initiative - Fiscal 2020
+2,43,792.0,612.0,0,1,18,0,28,* **,2,2,2,322,0,0,1,1,2,2,,89583,0,0,CHART #18: Citywide Homeless Prevention Fund - Fiscal 2020
+2,44,792.0,612.0,0,1,19,0,29,* **,2,2,2,295,0,0,1,1,2,2,,86374,0,0,CHART #19: City's First Readers - Fiscal 2020
+2,45,792.0,612.0,0,1,20,0,30,* **,3,3,3,363,0,0,1,1,3,3,,115915,0,0,CHART #20: Educational Programs for Students - Fiscal 2020
+2,46,792.0,612.0,0,1,21,0,31,* **,35,35,35,2175,0,0,1,1,35,35,,965566,2,0,CHART #21: Coalition Theaters of Color - Fiscal 2020
+2,47,792.0,612.0,0,1,21,1,32,* **,18,18,18,1303,0,0,1,1,18,18,,528429,0,0,CHART #21: Coalition Theaters of Color - Fiscal 2020 (continued)
+2,48,792.0,612.0,0,1,22,0,33,* **,2,2,2,305,0,0,1,1,2,2,,86901,0,0,CHART #22: Housing Court Answers - Fiscal 2020
+2,49,792.0,612.0,0,1,23,0,34,* **,3,3,3,406,0,0,1,1,3,3,,122492,0,0,CHART #23: Chamber on the Go and Small Business Assistance - Fiscal 2020
+2,50,792.0,612.0,0,1,24,0,35,* **,3,3,3,364,0,0,1,1,3,3,,114136,0,0,CHART #24: Alternatives to Incarceration (ATI's) - Fiscal 2020
+2,51,792.0,612.0,0,1,25,0,36,* **,6,6,6,553,0,0,1,1,6,6,,196560,0,0,CHART #25: Legal Services for Low-Income New Yorkers - Fiscal 2020
+2,52,792.0,612.0,0,1,26,0,37,* **,2,2,2,342,0,0,1,1,2,2,,93914,0,0,CHART #26: Legal Services for the Working Poor - Fiscal 2020
+2,53,792.0,612.0,0,1,27,0,38,* **,26,26,26,2054,0,0,1,1,26,26,,808081,0,0,CHART #27: Community Housing Preservation Strategies - Fiscal 2020
+2,54,792.0,612.0,0,1,28,0,39,* **,4,4,4,472,0,0,1,1,4,4,,148451,2,0,CHART #28: Legal Services for Veterans - Fiscal 2020
+2,55,792.0,612.0,0,1,29,0,40,* **,13,13,13,959,0,0,1,1,13,13,,386439,0,0,CHART #29: Veterans Community Development - Fiscal 2020
+2,56,792.0,612.0,0,1,30,0,41,* **,2,2,2,308,0,0,1,1,2,2,,88055,0,0,CHART #30: Job Placement for Veterans - Fiscal 2020
+2,57,792.0,612.0,0,1,31,0,42,* **,4,4,4,424,0,0,1,1,4,4,,138986,0,0,CHART #31: Mental Health Services for Veterans - Fiscal 2020
+2,58,792.0,612.0,0,1,32,0,43,* **,15,15,15,1170,0,0,1,1,15,15,,463696,2,0,CHART #32: Hate Crimes Prevention - Fiscal 2020
+2,59,792.0,612.0,0,1,33,0,44,* **,2,2,2,319,0,0,1,1,2,2,,89523,0,0,CHART #33: HIV/AIDS Faith Based Initiative - Fiscal 2020
+2,60,792.0,612.0,0,1,34,0,45,* **,2,2,2,307,0,0,1,1,2,2,,89769,0,0,CHART #34: Autism Awareness - Fiscal 2020
+2,61,792.0,612.0,0,1,35,0,46,* **,17,17,17,1164,0,0,1,1,17,17,,490782,0,0,CHART #35: Maternal and Child Health Services - Fiscal 2020
+2,62,792.0,612.0,0,1,36,0,47,* **,14,14,14,1101,0,0,1,1,14,14,,427962,0,0,CHART #36: Access Health Initiative - Fiscal 2020
+2,63,792.0,612.0,0,1,37,0,48,* **,31,31,31,1848,0,0,1,1,31,31,,855593,2,0,CHART #37: Ending the Epidemic - Fiscal 2020
+2,64,792.0,612.0,0,1,37,1,49,* **,17,17,17,1148,0,0,1,1,17,17,,490509,2,0,CHART #37: Ending the Epidemic - Fiscal 2020 (continued)
+2,65,792.0,612.0,0,1,38,0,50,* **,6,6,6,745,0,0,1,1,6,6,,234427,0,0,CHART #38: Art a Catalyst for Change - Fiscal 2020
+2,66,792.0,612.0,0,1,39,0,51,* **,13,13,13,1026,0,0,1,1,13,13,,396267,0,0,CHART #39: Elie Wiesel Holocaust Survivors - Fiscal 2020
+2,67,792.0,612.0,0,1,40,0,52,* **,2,2,2,311,0,0,1,1,2,2,,88619,0,0,CHART #40: Construction Site Safety - Fiscal 2020
+2,68,792.0,612.0,0,1,41,0,53,* **,2,2,2,313,0,0,1,1,2,2,,90050,0,0,CHART #41: Crisis Management System - Fiscal 2020
+2,69,792.0,612.0,0,1,42,0,54,* **,18,18,18,1268,0,0,1,1,18,18,,532744,0,0,CHART #42: Census 2020 Outreach - Fiscal 2020
+2,70,792.0,612.0,0,1,43,0,55,* **,35,35,35,2854,0,0,1,1,35,35,,1085032,0,0,"CHART #43: Senior Centers, Programs, and Enhancements - Fiscal 2020"
+2,71,792.0,612.0,0,1,43,1,56,* **,21,21,21,1821,0,0,1,1,21,21,,677351,2,0,"CHART #43: Senior Centers, Programs, and Enhancements - Fiscal 2020 (continued)"
+2,72,792.0,612.0,0,1,44,0,57,* **,32,32,32,2563,0,0,1,1,32,32,,997627,0,0,CHART #44: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2020
+2,73,792.0,612.0,0,1,45,0,58,* **,3,3,3,489,0,0,1,1,3,3,,132762,2,0,"CHART #45: Developmental, Psychological and Behavioral Health Services - Fiscal 2020"
+2,74,792.0,612.0,0,1,46,0,59,* **,35,35,35,2206,0,0,1,1,35,35,,978615,0,0,CHART #46: Public Health Funding Backfill - Fiscal 2020
+2,75,792.0,612.0,0,1,46,1,60,* **,35,35,35,2027,0,0,1,1,35,35,,943936,0,0,CHART #46: Public Health Funding Backfill - Fiscal 2020 (continued)
+2,76,792.0,612.0,0,1,46,1,61,* **,35,35,35,2290,0,0,1,1,35,35,,992384,8,0,CHART #46: Public Health Funding Backfill - Fiscal 2020 (continued)
+2,77,792.0,612.0,0,1,46,1,62,* **,35,35,35,2075,0,0,1,1,35,35,,952796,0,0,CHART #46: Public Health Funding Backfill - Fiscal 2020 (continued)
+2,78,792.0,612.0,0,1,46,1,63,* **,35,35,35,2197,0,0,1,1,35,35,,980970,0,0,CHART #46: Public Health Funding Backfill - Fiscal 2020 (continued)
+2,79,792.0,612.0,0,1,46,1,64,* **,35,35,35,2224,0,0,1,1,35,35,,975389,2,0,CHART #46: Public Health Funding Backfill - Fiscal 2020 (continued)
+2,80,792.0,612.0,0,1,46,1,65,* **,35,35,35,2311,0,0,1,1,35,35,,997262,0,0,CHART #46: Public Health Funding Backfill - Fiscal 2020 (continued)
+2,81,792.0,612.0,0,1,46,1,66,* **,4,4,4,482,0,0,1,1,4,4,,145744,0,0,CHART #46: Public Health Funding Backfill - Fiscal 2020 (continued)
+2,82,792.0,612.0,0,1,47,0,67,* **,5,5,5,553,0,0,1,1,5,5,,175112,2,0,CHART #47: Local Initiatives - Fiscal 2019
+2,83,792.0,612.0,0,1,48,0,68,* **,2,2,2,341,0,0,1,1,2,2,,90286,2,0,CHART #48: Youth Discretionary - Fiscal 2019
+2,84,792.0,612.0,0,1,49,0,69,* **,2,2,2,416,0,0,1,1,2,2,,98582,0,0,CHART #49: Food Pantries Initiative - Fiscal 2019
+2,85,792.0,612.0,0,1,50,0,70,* **,16,16,16,2746,0,0,1,1,16,16,,547503,3,0,Chart #50: Purpose of Funds Changes - Fiscal 2020
+2,86,792.0,612.0,0,1,51,0,71,* **,4,4,4,1045,0,0,1,1,4,4,,181638,0,0,Chart #51: Purpose of Funds Changes - Fiscal 2019
+3,1,612.0,792.0,0,0,,,,,0,0,0,2735,0,0,,,,,,,,,
+3,2,612.0,792.0,0,0,,,,,0,0,0,3008,0,0,,,,,,,,,
+3,3,612.0,792.0,0,0,,,,,0,0,0,2455,0,0,,,,,,,,,
+3,4,612.0,792.0,0,0,,,,,0,0,0,2363,0,0,,,,,,,,,
+3,5,612.0,792.0,0,0,,,,,0,0,0,2112,0,0,,,,,,,,,
+3,6,612.0,792.0,0,0,,,,,0,0,0,1870,0,0,,,,,,,,,
+3,7,612.0,792.0,0,0,,,,,0,0,0,1537,0,0,,,,,,,,,
+3,8,612.0,792.0,0,0,,,,,0,0,0,1602,0,0,,,,,,,,,
+3,9,612.0,792.0,0,0,,,,,0,0,0,1430,0,0,,,,,,,,,
+3,10,612.0,792.0,0,0,,,,,0,0,0,1572,0,0,,,,,,,,,
+3,11,612.0,792.0,0,0,,,,,0,0,0,1548,0,0,,,,,,,,,
+3,12,612.0,792.0,0,0,,,,,0,0,0,1405,0,0,,,,,,,,,
+3,13,612.0,792.0,0,0,,,,,0,0,0,1486,0,0,,,,,,,,,
+3,14,612.0,792.0,0,0,,,,,0,0,0,1156,0,0,,,,,,,,,
+3,15,792.0,612.0,0,1,1,0,1,* **,32,32,32,2546,0,0,1,1,32,32,,945038,0,0,CHART #1: Local Initiatives - Fiscal 2020
+3,16,792.0,612.0,0,1,1,1,2,* **,28,28,28,2122,0,0,1,1,28,28,,786087,0,0,CHART #1: Local Initiatives - Fiscal 2020 (continued)
+3,17,792.0,612.0,0,1,2,0,3,* **,32,32,32,2281,0,0,1,1,32,32,,970972,0,0,CHART #2: Youth Discretionary - Fiscal 2020
+3,18,792.0,612.0,0,1,2,1,4,* **,8,8,8,753,0,0,1,1,8,8,,249053,0,0,CHART #2: Youth Discretionary - Fiscal 2020 (continued)
+3,19,792.0,612.0,0,1,3,0,5,* ** ***,6,6,6,808,0,0,1,1,6,6,,225098,0,0,CHART #3: Anti-Poverty Initiative - Fiscal 2020
+3,20,792.0,612.0,0,1,4,0,6,* **,11,11,11,1149,0,0,1,1,11,11,,388656,0,0,CHART #4: Aging Discretionary - Fiscal 2020
+3,21,792.0,612.0,0,1,5,0,7,* **,6,6,6,663,0,0,1,1,6,6,,211188,0,0,CHART #5: Speaker's Initiative to Address Citywide Needs - Fiscal 2020
+3,22,792.0,612.0,0,1,6,0,8,* ** ***,40,40,40,2960,0,0,1,1,40,40,,1055235,0,0,CHART #6: A Greener NYC - Fiscal 2020
+3,23,792.0,612.0,0,1,6,1,9,* ** ***,11,11,11,1090,0,0,1,1,11,11,,324113,0,0,CHART #6: A Greener NYC - Fiscal 2020 (continued)
+3,24,792.0,612.0,0,1,7,0,10,* **,40,40,40,3435,0,0,1,1,40,40,,1121297,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2020
+3,25,792.0,612.0,0,1,7,1,11,* **,39,39,39,3549,0,0,1,1,39,39,,1138623,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2020 (continued)
+3,26,792.0,612.0,0,1,7,1,12,* **,20,20,20,1952,0,0,1,1,20,20,,601867,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2020 (continued)
+3,27,792.0,612.0,0,1,8,0,13,* ** ***,41,41,41,3003,0,0,1,1,41,41,,1052193,0,0,CHART #8: Cultural Immigrant Initiative - Fiscal 2020
+3,28,792.0,612.0,0,1,8,1,14,* ** ***,15,15,15,1294,0,0,1,1,15,15,,410248,0,0,CHART #8: Cultural Immigrant Initiative - Fiscal 2020 (continued)
+3,29,792.0,612.0,0,1,9,0,15,* ** ***,11,11,11,1173,0,0,1,1,11,11,,338166,0,0,CHART #9: Digital Inclusion and Literacy Initiative  - Fiscal 2020
+3,30,792.0,612.0,0,1,10,0,16,* **,41,41,41,3239,0,0,1,1,41,41,,1115371,0,0,CHART #10: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020
+3,31,792.0,612.0,0,1,10,1,17,* **,36,36,36,2841,0,0,1,1,36,36,,973923,6,0,CHART #10: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020 (continued)
+3,32,792.0,612.0,0,1,10,1,18,* **,22,22,22,1751,0,0,1,1,22,22,,585214,0,0,CHART #10: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020 (continued)
+3,33,792.0,612.0,0,1,11,0,19,* **,29,29,29,2606,0,0,1,1,29,29,,852646,3,0,CHART #11: Food Pantries Initiative - Fiscal 2020
+3,34,792.0,612.0,0,1,12,0,20,* **,18,18,18,1730,0,0,1,1,18,18,,540213,0,0,CHART #12: Healthy Aging Initiative - Fiscal 2020
+3,35,792.0,612.0,0,1,13,0,21,* **,36,36,36,3276,0,0,1,1,36,36,,1043367,0,0,CHART #13: Neighborhood Development Grant Initiative - Fiscal 2020
+3,36,792.0,612.0,0,1,13,1,22,* **,39,39,39,3438,0,0,1,1,39,39,,1117229,0,0,CHART #13: Neighborhood Development Grant Initiative - Fiscal 2020 (continued)
+3,37,792.0,612.0,0,1,13,1,23,* ** ***,39,39,39,3581,0,0,1,1,39,39,,1120027,0,0,CHART #13: Neighborhood Development Grant Initiative - Fiscal 2020 (continued)
+3,38,792.0,612.0,0,1,13,1,24,* ** ***,24,24,24,2274,0,0,1,1,24,24,,696334,6,0,CHART #13: Neighborhood Development Grant Initiative - Fiscal 2020 (continued)
+3,39,792.0,612.0,0,1,14,0,25,* ** ***,40,40,40,3106,0,0,1,1,40,40,,1073944,0,0,CHART #14: NYC Cleanup Initiative - Fiscal 2020
+3,40,792.0,612.0,0,1,14,1,26,* ** ***,5,5,5,687,0,0,1,1,5,5,,169511,0,0,CHART #14: NYC Cleanup Initiative - Fiscal 2020 (continued)
+3,41,792.0,612.0,0,1,15,0,27,* **,40,40,40,2851,0,0,1,1,40,40,,1038820,6,0,CHART #15: Parks Equity Initiative - Fiscal 2020
+3,42,792.0,612.0,0,1,15,1,28,* **,39,39,39,2938,0,0,1,1,39,39,,1043379,0,0,CHART #15: Parks Equity Initiative - Fiscal 2020 (continued)
+3,43,792.0,612.0,0,1,15,1,29,* **,12,12,12,969,0,0,1,1,12,12,,327653,0,0,CHART #15: Parks Equity Initiative - Fiscal 2020 (continued)
+3,44,792.0,612.0,0,1,16,0,30,* **,41,41,41,3356,0,0,1,1,41,41,,1127948,0,0,CHART #16: Support Our Seniors - Fiscal 2020
+3,45,792.0,612.0,0,1,16,1,31,* **,15,15,15,1531,0,0,1,1,15,15,,458757,0,0,CHART #16: Support Our Seniors - Fiscal 2020 (continued)
+3,46,792.0,612.0,0,1,17,0,32,* **,2,2,2,302,0,0,1,1,2,2,,81411,0,0,CHART #17: Afterschool Enrichment Initiative - Fiscal 2020
+3,47,792.0,612.0,0,1,18,0,33,* **,8,8,8,684,0,0,1,1,8,8,,248605,0,0,CHART #18: Supports for Persons Involved in the Sex Trade - Fiscal 2020
+3,48,792.0,612.0,0,1,19,0,34,* **,2,2,2,338,0,0,1,1,2,2,,87448,0,0,CHART #19: Young Women's Leadership Development - Fiscal 2020
+3,49,792.0,612.0,0,1,20,0,35,* **,3,3,3,357,0,0,1,1,3,3,,110328,0,0,CHART #20: Discretionary Child Care - Fiscal 2020
+3,50,792.0,612.0,0,1,21,0,36,* **,4,4,4,503,0,0,1,1,4,4,,148723,0,0,CHART #21: Coalition Theaters of Color - Fiscal 2020
+3,51,792.0,612.0,0,1,22,0,37,* **,31,31,31,2103,0,0,1,1,31,31,,880336,0,0,CHART #22: Stabilizing NYC - Fiscal 2020
+3,52,792.0,612.0,0,1,23,0,38,* **,1,1,1,245,0,0,1,1,1,1,,54710,0,0,CHART #23: Support for Educators - Fiscal 2020
+3,53,792.0,612.0,0,1,24,0,39,* **,1,1,1,272,0,0,1,1,1,1,,59093,0,0,CHART #24: Hate Crimes Prevention - Fiscal 2020
+3,54,792.0,612.0,0,1,25,0,40,* **,5,5,5,519,0,0,1,1,5,5,,166244,0,0,CHART #25: Mental Health Services for Vulnerable Populations - Fiscal 2020
+3,55,792.0,612.0,0,1,26,0,41,* **,7,7,7,664,0,0,1,1,7,7,,230109,0,0,CHART #26: Community Housing Preservation Strategies - Fiscal 2020
+3,56,792.0,612.0,0,1,27,0,42,* **,15,15,15,1130,0,0,1,1,15,15,,444271,0,0,CHART #27: Autism Awareness - Fiscal 2020
+3,57,792.0,612.0,0,1,28,0,43,* **,2,2,2,290,0,0,1,1,2,2,,80991,0,0,CHART #28: Ending the Epidemic - Fiscal 2020
+3,58,792.0,612.0,0,1,29,0,44,* **,6,6,6,648,0,0,1,1,6,6,,208428,0,0,CHART #29: Art a Catalyst for Change - Fiscal 2020
+3,59,792.0,612.0,0,1,30,0,45,* **,4,4,4,519,0,0,1,1,4,4,,158750,0,0,CHART #30: Census 2020 Outreach - Fiscal 2020
+3,60,792.0,612.0,0,1,31,0,46,* **,2,2,2,325,0,0,1,1,2,2,,82649,0,0,CHART #31: Worker Cooperative Business Development Initiative - Fiscal 2020
+3,61,792.0,612.0,0,1,32,0,47,* **,2,2,2,344,0,0,1,1,2,2,,85190,0,0,CHART #32: Initiative for Immigrant Survivors of Domestic Violence - Fiscal 2020
+3,62,792.0,612.0,0,1,33,0,48,* **,3,3,3,393,0,0,1,1,3,3,,114907,0,0,CHART #33: Maternal and Child Health Services - Fiscal 2020
+3,63,792.0,612.0,0,1,34,0,49,* **,11,11,11,825,0,0,1,1,11,11,,322032,0,0,CHART #34: Public Health Funding Backfill - Fiscal 2020
+3,64,792.0,612.0,0,1,35,0,50,* **,2,2,2,320,0,0,1,1,2,2,,85972,0,0,CHART #35: HIV/AIDS Faith Based Initiative - Fiscal 2020
+3,65,792.0,612.0,0,1,36,0,51,* **,2,2,2,321,0,0,1,1,2,2,,86083,0,0,CHART #36: Dedicated Contraceptive Fund - Fiscal 2020
+3,66,792.0,612.0,0,1,37,0,52,* **,1,1,1,255,0,0,1,1,1,1,,54487,0,0,CHART #37: Educational Programs for Students - Fiscal 2020
+3,67,792.0,612.0,0,1,38,0,53,* **,8,8,8,771,0,0,1,1,8,8,,250435,0,0,CHART #38: Local Initiatives - Fiscal 2019
+3,68,792.0,612.0,0,1,39,0,54,* **,6,6,6,709,0,0,1,1,6,6,,228448,0,0,CHART #39: Youth Discretionary - Fiscal 2019
+3,69,792.0,612.0,0,1,40,0,55,* **,2,2,2,370,0,0,1,1,2,2,,94567,0,0,CHART #40: Anti-Poverty Initiative - Fiscal 2019
+3,70,792.0,612.0,0,1,41,0,56,* **,2,2,2,398,0,0,1,1,2,2,,89395,0,0,CHART #41: Neighborhood Development Grant Initiative - Fiscal 2019
+3,71,792.0,612.0,0,1,42,0,57,* **,4,4,4,524,0,0,1,1,4,4,,158358,0,0,CHART #42: Youth Discretionary - Fiscal 2018
+3,72,792.0,612.0,0,1,43,0,58,* **,2,2,2,368,0,0,1,1,2,2,,86690,0,0,CHART #43: Digital Inclusion and Literacy Initiative  - Fiscal 2018
+3,73,792.0,612.0,0,1,44,0,59,* **,16,16,16,3282,0,0,1,1,16,16,,609727,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020
+3,74,792.0,612.0,0,1,44,1,60,* **,14,14,14,3074,0,0,1,1,14,14,,585464,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)
+3,75,792.0,612.0,0,1,44,1,61,* **,16,16,16,3220,0,0,1,1,16,16,,626189,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)
+3,76,792.0,612.0,0,1,44,1,62,* **,10,10,10,2001,0,0,1,1,10,10,,386549,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)
+3,77,792.0,612.0,0,1,44,1,63,* **,5,5,5,2768,0,0,1,1,5,5,region 0: header rule at 72.0 pt found in header pixels,418337,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)
+3,78,792.0,612.0,0,1,44,1,64,* **,5,5,5,2901,0,0,1,1,5,5,region 0: header rule at 72.0 pt found in header pixels,436505,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)
+3,79,792.0,612.0,0,1,44,1,65,* **,5,5,5,2742,0,0,1,1,5,5,region 0: header rule at 72.0 pt found in header pixels,414070,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)
+3,80,792.0,612.0,0,1,44,1,66,* **,5,5,5,2837,0,0,1,1,5,5,region 0: header rule at 72.0 pt found in header pixels,428048,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)
+3,81,792.0,612.0,0,1,44,1,67,* **,5,5,5,2770,0,0,1,1,5,5,region 0: header rule at 72.0 pt found in header pixels,418693,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)
+3,82,792.0,612.0,0,1,44,1,68,* **,5,5,5,2873,0,0,1,1,5,5,region 0: header rule at 72.0 pt found in header pixels,434707,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)
+3,83,792.0,612.0,0,1,44,1,69,* **,5,5,5,2779,0,0,1,1,5,5,region 0: header rule at 72.0 pt found in header pixels,419225,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)
+3,84,792.0,612.0,0,1,44,1,70,* **,5,5,5,2868,0,0,1,1,5,5,region 0: header rule at 72.0 pt found in header pixels,432343,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)
+3,85,792.0,612.0,0,1,44,1,71,* **,4,4,4,2248,0,0,1,1,4,4,region 0: header rule at 72.0 pt found in header pixels,338268,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)
+3,86,792.0,612.0,0,1,44,1,72,* **,4,4,4,2284,0,0,1,1,4,4,region 0: header rule at 72.0 pt found in header pixels,342112,0,0,Chart # 44: Purpose of Funds Changes - Fiscal 2020 (continued)
+3,87,792.0,612.0,0,1,45,0,73,* **,4,4,4,899,0,0,1,1,4,4,,161731,0,0,Chart # 45: Purpose of Funds Changes - Fiscal 2019
+3,88,792.0,612.0,0,1,46,0,74,,28,28,28,1352,0,0,1,1,28,28,,601970,0,0,CHART #46: Beating Hearts Initiative - Fiscal 2020
+4,1,612.0,792.0,0,0,,,,,0,0,0,2803,0,0,,,,,,,,,
+4,2,612.0,792.0,0,0,,,,,0,0,0,2975,0,0,,,,,,,,,
+4,3,612.0,792.0,0,0,,,,,0,0,0,2341,0,0,,,,,,,,,
+4,4,612.0,792.0,0,0,,,,,0,0,0,2098,0,0,,,,,,,,,
+4,5,612.0,792.0,0,0,,,,,0,0,0,2343,0,0,,,,,,,,,
+4,6,612.0,792.0,0,0,,,,,0,0,0,2139,0,0,,,,,,,,,
+4,7,612.0,792.0,0,0,,,,,0,0,0,1888,0,0,,,,,,,,,
+4,8,612.0,792.0,0,0,,,,,0,0,0,1530,0,0,,,,,,,,,
+4,9,612.0,792.0,0,0,,,,,0,0,0,1587,0,0,,,,,,,,,
+4,10,612.0,792.0,0,0,,,,,0,0,0,1423,0,0,,,,,,,,,
+4,11,612.0,792.0,0,0,,,,,0,0,0,1407,0,0,,,,,,,,,
+4,12,612.0,792.0,0,0,,,,,0,0,0,1618,0,0,,,,,,,,,
+4,13,612.0,792.0,0,0,,,,,0,0,0,1592,0,0,,,,,,,,,
+4,14,612.0,792.0,0,0,,,,,0,0,0,1620,0,0,,,,,,,,,
+4,15,612.0,792.0,0,0,,,,,0,0,0,1448,0,0,,,,,,,,,
+4,16,612.0,792.0,0,0,,,,,0,0,0,1530,0,0,,,,,,,,,
+4,17,612.0,792.0,0,0,,,,,0,0,0,983,0,0,,,,,,,,,
+4,18,792.0,612.0,0,1,1,0,1,* ** ***,28,28,28,2477,0,0,1,1,28,28,,895454,0,0,CHART #1: Local Initiatives - Fiscal 2020
+4,19,792.0,612.0,0,1,1,1,2,* **,32,32,32,2682,0,0,1,1,32,32,,1018170,0,0,CHART #1: Local Initiatives - Fiscal 2020 (continued)
+4,20,792.0,612.0,0,1,1,1,3,* **,23,23,23,1989,0,0,1,1,23,23,,740436,0,0,CHART #1: Local Initiatives - Fiscal 2020 (continued)
+4,21,792.0,612.0,0,1,2,0,4,* **,18,18,18,1583,0,0,1,1,18,18,,606373,0,0,CHART #2: Youth Discretionary - Fiscal 2020
+4,22,792.0,612.0,0,1,3,0,5,* ** ***,8,8,8,1004,0,0,1,1,8,8,,307870,0,0,CHART #3: Anti-Poverty Initiative - Fiscal 2020
+4,23,792.0,612.0,0,1,4,0,6,* **,5,5,5,597,0,0,1,1,5,5,,192926,0,0,CHART #4: Aging Discretionary - Fiscal 2020
+4,24,792.0,612.0,0,1,5,0,7,* **,4,4,4,505,0,0,1,1,4,4,,153728,0,0,CHART #5: Initiative to Address Boroughwide Needs - Fiscal 2020
+4,25,792.0,612.0,0,1,6,0,8,* **,4,4,4,532,0,0,1,1,4,4,,156990,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2020
+4,26,792.0,612.0,0,1,7,0,9,* ** ***,4,4,4,529,0,0,1,1,4,4,,132866,0,0,CHART #7: A Greener NYC - Fiscal 2020
+4,27,792.0,612.0,0,1,8,0,10,* **,34,34,34,3263,0,0,1,1,34,34,,1027657,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2020
+4,28,792.0,612.0,0,1,9,0,11,* ** ***,2,2,2,393,0,0,1,1,2,2,,78806,0,0,CHART #9: Cultural Immigrant Initiative - Fiscal 2020
+4,29,792.0,612.0,0,1,10,0,12,* ** ***,12,12,12,1195,0,0,1,1,12,12,,352544,0,0,CHART #10: Digital Inclusion and Literacy Initiative  - Fiscal 2020
+4,30,792.0,612.0,0,1,11,0,13,* **,14,14,14,1177,0,0,1,1,14,14,,389833,0,0,CHART #11: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020
+4,31,792.0,612.0,0,1,12,0,14,* **,10,10,10,1122,0,0,1,1,10,10,,332885,0,0,CHART #12: Food Pantries Initiative - Fiscal 2020
+4,32,792.0,612.0,0,1,13,0,15,* ** ***,15,15,15,1481,0,0,1,1,15,15,,442395,0,0,CHART #13: Neighborhood Development Grant Initiative - Fiscal 2020
+4,33,792.0,612.0,0,1,14,0,16,* ** ***,23,23,23,1930,0,0,1,1,23,23,,635653,0,0,CHART #14: NYC Cleanup Initiative - Fiscal 2020
+4,34,792.0,612.0,0,1,15,0,17,* ** ***,39,39,39,3112,0,0,1,1,39,39,,1069319,0,0,CHART #15: Parks Equity Initiative - Fiscal 2020
+4,35,792.0,612.0,0,1,15,1,18,* ** ***,12,12,12,1270,0,0,1,1,12,12,,373676,0,0,CHART #15: Parks Equity Initiative - Fiscal 2020 (continued)
+4,36,792.0,612.0,0,1,16,0,19,* **,17,17,17,1345,0,0,1,1,17,17,,463633,0,0,CHART #16: Support Our Seniors - Fiscal 2020
+4,37,792.0,612.0,0,1,17,0,20,* **,4,4,4,486,0,0,1,1,4,4,,148176,0,0,CHART #17: LGBTQ Inclusive Curriculum - Fiscal 2020
+4,38,792.0,612.0,0,1,18,0,21,* **,4,4,4,414,0,0,1,1,4,4,,137463,0,0,CHART #18: Legal Services for the Working Poor - Fiscal 2020
+4,39,792.0,612.0,0,1,19,0,22,* **,2,2,2,363,0,0,1,1,2,2,,93782,0,0,"CHART #19: Diversity, Inclusion & Equity in Tech Initiative - Fiscal 2020"
+4,40,792.0,612.0,0,1,20,0,23,* ** ***,4,4,4,574,0,0,1,1,4,4,,151288,0,0,CHART #20: Art a Catalyst for Change - Fiscal 2020
+4,41,792.0,612.0,0,1,21,0,24,* **,2,2,2,326,0,0,1,1,2,2,,91032,0,0,CHART #21: Census 2020 Outreach - Fiscal 2020
+4,42,792.0,612.0,0,1,22,0,25,* **,2,2,2,290,0,0,1,1,2,2,,84424,0,0,CHART #22: City's First Readers - Fiscal 2020
+4,43,792.0,612.0,0,1,23,0,26,* **,2,2,2,297,0,0,1,1,2,2,,85021,0,0,CHART #23: Brooklyn Public Library - Fiscal 2020
+4,44,792.0,612.0,0,1,24,0,27,* **,2,2,2,310,0,0,1,1,2,2,,85592,0,0,"CHART #24: Senior Centers, Programs, and Enhancements - Fiscal 2020"
+4,45,792.0,612.0,0,1,25,0,28,* **,8,8,8,633,0,0,1,1,8,8,,242087,0,0,CHART #25: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2020
+4,46,792.0,612.0,0,1,26,0,29,* **,2,2,2,304,0,0,1,1,2,2,,86665,0,0,CHART #26: Initiative to Combat Sexual Assault - Fiscal 2020
+4,47,792.0,612.0,0,1,27,0,30,* ** ***,13,13,13,1083,0,0,1,1,13,13,,395902,0,0,CHART #27: Public Health Funding Backfill - Fiscal 2020
+4,48,792.0,612.0,0,1,28,0,31,* **,2,2,2,368,0,0,1,1,2,2,,100706,0,0,CHART #28: Crisis Management System - Fiscal 2020
+4,49,792.0,612.0,0,1,29,0,32,* **,3,3,3,415,0,0,1,1,3,3,,123441,0,0,CHART #29: Educational Programs for Students - Fiscal 2020
+4,50,792.0,612.0,0,1,30,0,33,* **,1,1,1,258,0,0,1,1,1,1,,64231,0,0,CHART #30: COMPASS - Fiscal 2020
+4,51,792.0,612.0,0,1,31,0,34,* **,2,2,2,314,0,0,1,1,2,2,,88148,0,0,CHART #31: Afterschool Enrichment Initiative - Fiscal 2020
+4,52,792.0,612.0,0,1,32,0,35,* **,1,1,1,272,0,0,1,1,1,1,,57073,0,0,CHART #32: Sports Training and Rolemodels for Success (STARS) Initiative - Fiscal 2020
+4,53,792.0,612.0,0,1,33,0,36,* **,2,2,2,315,0,0,1,1,2,2,,84905,0,0,CHART #33: Supports for Persons Involved in the Sex Trade - Fiscal 2020
+4,54,792.0,612.0,0,1,34,0,37,* **,2,2,2,326,0,0,1,1,2,2,,86824,0,0,CHART #34: Worker Cooperative Business Development Initiative - Fiscal 2020
+4,55,792.0,612.0,0,1,35,0,38,* **,2,2,2,294,0,0,1,1,2,2,,87034,0,0,CHART #35: Stabilizing NYC - Fiscal 2020
+4,56,792.0,612.0,0,1,36,0,39,* **,4,4,4,422,0,0,1,1,4,4,,136344,0,0,CHART #36: Community Housing Preservation Strategies - Fiscal 2020
+4,57,792.0,612.0,0,1,37,0,40,* **,2,2,2,296,0,0,1,1,2,2,,86592,0,0,CHART #37: Community Land Trust - Fiscal 2020
+4,58,792.0,612.0,0,1,38,0,41,* **,1,1,1,249,0,0,1,1,1,1,,56883,0,0,CHART #38: Innovative Criminal Justice Programs  - Fiscal 2020
+4,59,792.0,612.0,0,1,39,0,42,* **,3,3,3,526,0,0,1,1,3,3,,142180,2,0,CHART #39: Borough Presidents' Discretionary Funding Restoration - Fiscal 2020
+4,60,792.0,612.0,0,1,40,0,43,* **,2,2,2,322,0,0,1,1,2,2,,90276,0,0,CHART #40: Hate Crimes Prevention - Fiscal 2020
+4,61,792.0,612.0,0,1,41,0,44,* **,2,2,2,356,0,0,1,1,2,2,,96380,0,0,CHART #41: Opioid Prevention and Treatment - Fiscal 2020
+4,62,792.0,612.0,0,1,42,0,45,* **,2,2,2,315,0,0,1,1,2,2,,82479,0,0,"CHART #42: Developmental, Psychological and Behavioral Health Services - Fiscal 2020"
+4,63,792.0,612.0,0,1,43,0,46,* **,14,14,14,1307,0,0,1,1,14,14,,481349,2,0,CHART #43: Local Initiatives - Fiscal 2019
+4,64,792.0,612.0,0,1,44,0,47,* **,4,4,4,490,0,0,1,1,4,4,,152127,2,0,CHART #44: Youth Discretionary - Fiscal 2019
+4,65,792.0,612.0,0,1,45,0,48,* **,2,2,2,390,0,0,1,1,2,2,,94674,2,0,CHART #45: Initiative to Address Boroughwide Needs - Fiscal 2019
+4,66,792.0,612.0,0,1,46,0,49,* **,1,1,1,309,0,0,1,1,1,1,,65087,2,0,CHART #46: Speaker's Initiative to Address Citywide Needs - Fiscal 2019
+4,67,792.0,612.0,0,1,47,0,50,* **,16,16,16,1677,0,0,1,1,16,16,,507049,0,0,CHART #47: Digital Inclusion and Literacy Initiative  - Fiscal 2019
+4,68,792.0,612.0,0,1,48,0,51,* **,2,2,2,328,0,0,1,1,2,2,,81250,0,0,CHART #48: Parks Equity Initiative - Fiscal 2019
+4,69,792.0,612.0,0,1,49,0,52,* **,2,2,2,371,0,0,1,1,2,2,,96066,0,0,"CHART #49: Diversity, Inclusion & Equity in Tech Initiative - Fiscal 2019"
+4,70,792.0,612.0,0,1,50,0,53,* **,2,2,2,290,0,0,1,1,2,2,,84424,0,0,CHART #50: City's First Readers - Fiscal 2019
+4,71,792.0,612.0,0,1,51,0,54,* **,2,2,2,297,0,0,1,1,2,2,,84972,0,0,CHART #51: Brooklyn Public Library - Fiscal 2019
+4,72,792.0,612.0,0,1,52,0,55,* **,1,1,1,281,0,0,1,1,1,1,,62745,2,0,CHART #52: Afterschool Enrichment Initiative - Fiscal 2019
+4,73,792.0,612.0,0,1,53,0,56,* **,6,6,6,697,0,0,1,1,6,6,,221895,0,0,CHART #53: Local Initiatives - Fiscal 2018
+4,74,792.0,612.0,0,1,54,0,57,* **,12,12,12,1240,0,0,1,1,12,12,,396741,0,0,CHART #54: Digital Inclusion and Literacy Initiative  - Fiscal 2018
+4,75,792.0,612.0,0,1,55,0,58,* **,2,2,2,371,0,0,1,1,2,2,,90370,0,0,"CHART #55: Diversity, Inclusion & Equity in Tech Initiative - Fiscal 2018"
+4,76,792.0,612.0,0,1,56,0,59,* **,10,10,10,2858,0,0,1,1,10,10,,513350,0,0,CHART #56: Purpose of Funds Changes - Fiscal 2020
+4,77,792.0,612.0,0,1,56,1,60,* **,18,18,18,3418,0,0,1,1,18,18,,664526,0,0,CHART #56: Purpose of Funds Changes - Fiscal 2020 (continued)
+4,78,792.0,612.0,0,1,56,1,61,* **,12,12,12,2833,0,0,1,1,12,12,,525635,0,0,CHART #56: Purpose of Funds Changes - Fiscal 2020 (continued)
+4,79,792.0,612.0,0,1,56,1,62,* **,16,16,16,3579,0,0,1,1,16,16,,661907,0,0,CHART #56: Purpose of Funds Changes - Fiscal 2020 (continued)
+4,80,792.0,612.0,0,1,56,1,63,* **,14,14,14,3461,0,0,1,1,14,14,,620731,0,0,CHART #56: Purpose of Funds Changes - Fiscal 2020 (continued)
+4,81,792.0,612.0,0,1,56,1,64,* **,8,8,8,3444,0,0,1,1,8,8,region 0: header rule at 73.08 pt found in header pixels,562362,0,0,CHART #56: Purpose of Funds Changes - Fiscal 2020 (continued)
+4,82,792.0,612.0,0,1,56,1,65,* **,6,6,6,2634,0,0,1,1,6,6,region 0: header rule at 73.08 pt found in header pixels,425450,0,0,CHART #56: Purpose of Funds Changes - Fiscal 2020 (continued)
+4,83,792.0,612.0,0,1,57,0,66,* **,10,10,10,2209,0,0,1,1,10,10,region 0: header rule at 73.08 pt found in header pixels,401331,0,0,CHART #57: Purpose of Funds Changes - Fiscal 2019
+4,84,792.0,612.0,0,1,58,0,67,,33,33,33,1605,0,0,1,1,34,33,,731409,0,0,CHART #58: Beating Hearts Initiative - Fiscal 2020
+5,1,612.0,792.0,0,0,,,,,0,0,0,2794,0,0,,,,,,,,,
+5,2,612.0,792.0,0,0,,,,,0,0,0,2908,0,0,,,,,,,,,
+5,3,612.0,792.0,0,0,,,,,0,0,0,2304,0,0,,,,,,,,,
+5,4,612.0,792.0,0,0,,,,,0,0,0,2438,0,0,,,,,,,,,
+5,5,612.0,792.0,0,0,,,,,0,0,0,2249,0,0,,,,,,,,,
+5,6,612.0,792.0,0,0,,,,,0,0,0,261,0,0,,,,,,,,,
+5,7,612.0,792.0,0,0,,,,,0,0,0,1593,0,0,,,,,,,,,
+5,8,612.0,792.0,0,0,,,,,0,0,0,1607,0,0,,,,,,,,,
+5,9,612.0,792.0,0,0,,,,,0,0,0,1569,0,0,,,,,,,,,
+5,10,612.0,792.0,0,0,,,,,0,0,0,1489,0,0,,,,,,,,,
+5,11,612.0,792.0,0,0,,,,,0,0,0,1539,0,0,,,,,,,,,
+5,12,612.0,792.0,0,0,,,,,0,0,0,1531,0,0,,,,,,,,,
+5,13,612.0,792.0,0,0,,,,,0,0,0,1388,0,0,,,,,,,,,
+5,14,792.0,612.0,0,1,1,0,1,* ** ***,28,28,28,2438,0,0,1,1,28,28,,902394,0,0,CHART #1: Local Initiatives - Fiscal 2020
+5,15,792.0,612.0,0,1,1,1,2,* **,7,7,7,667,0,0,1,1,7,7,,226703,0,0,CHART #1: Local Initiatives - Fiscal 2020 (continued)
+5,16,792.0,612.0,0,1,2,0,3,* ** ***,10,10,10,1018,0,0,1,1,10,10,,335740,0,0,CHART #2: Youth Discretionary - Fiscal 2020
+5,17,792.0,612.0,0,1,3,0,4,* ** ***,10,10,10,1056,0,0,1,1,10,10,,346115,0,0,CHART #3: Anti-Poverty Initiative - Fiscal 2020
+5,18,792.0,612.0,0,1,4,0,5,* **,5,5,5,560,0,0,1,1,5,5,,178306,0,0,CHART #4: Aging Discretionary - Fiscal 2020
+5,19,792.0,612.0,0,1,5,0,6,* **,2,2,2,404,0,0,1,1,2,2,,97029,0,0,CHART #5: Initiative to Address Boroughwide Needs - Fiscal 2020
+5,20,792.0,612.0,0,1,6,0,7,* **,11,11,11,1002,0,0,1,1,11,11,,370747,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2020
+5,21,792.0,612.0,0,1,7,0,8,* ** ***,22,22,22,2020,0,0,1,1,22,22,,651880,0,0,CHART #7: A Greener NYC - Fiscal 2020
+5,22,792.0,612.0,0,1,8,0,9,* **,36,36,36,3374,0,0,1,1,36,36,,1085350,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2020
+5,23,792.0,612.0,0,1,8,1,10,* **,2,2,2,400,0,0,1,1,2,2,,88057,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2020 (continued)
+5,24,792.0,612.0,0,1,9,0,11,* ** ***,19,19,19,1872,0,0,1,1,19,19,,572049,0,0,CHART #9: Cultural Immigrant Initiative - Fiscal 2020
+5,25,792.0,612.0,0,1,10,0,12,* **,7,7,7,682,0,0,1,1,7,7,,207698,0,0,CHART #10: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020
+5,26,792.0,612.0,0,1,11,0,13,* **,12,12,12,1144,0,0,1,1,12,12,,365323,0,0,CHART #11: Food Pantries Initiative - Fiscal 2020
+5,27,792.0,612.0,0,1,12,0,14,* **,2,2,2,354,0,0,1,1,2,2,,86132,0,0,CHART #12: Healthy Aging Initiative - Fiscal 2020
+5,28,792.0,612.0,0,1,13,0,15,* **,7,7,7,752,0,0,1,1,7,7,,221339,0,0,CHART #13: Neighborhood Development Grant Initiative - Fiscal 2020
+5,29,792.0,612.0,0,1,14,0,16,* ** ***,16,16,16,1542,0,0,1,1,16,16,,479465,0,0,CHART #14: NYC Cleanup Initiative - Fiscal 2020
+5,30,792.0,612.0,0,1,15,0,17,* ** ***,20,20,20,1849,0,0,1,1,20,20,,585472,0,0,CHART #15: Parks Equity Initiative - Fiscal 2020
+5,31,792.0,612.0,0,1,16,0,18,* ** ***,28,28,28,3160,0,0,1,1,28,28,,934796,0,0,CHART #16: SU-CASA - Fiscal 2020
+5,32,792.0,612.0,0,1,16,1,19,* **,24,24,24,2991,0,0,1,1,24,24,,866508,0,0,CHART #16: SU-CASA (continued) - Fiscal 2020
+5,33,792.0,612.0,0,1,16,1,20,* **,21,21,21,2478,0,0,1,1,21,21,,733394,0,0,CHART #16: SU-CASA (continued) - Fiscal 2020
+5,34,792.0,612.0,0,1,17,0,21,* **,2,2,2,349,0,0,1,1,2,2,,86306,0,0,CHART #17: Support Our Seniors - Fiscal 2020
+5,35,792.0,612.0,0,1,18,0,22,* **,1,1,1,259,0,0,1,1,1,1,,60902,0,0,CHART #18: College and Career Readiness - Fiscal 2020
+5,36,792.0,612.0,0,1,19,0,23,* **,2,2,2,334,0,0,1,1,2,2,,91136,0,0,CHART #19: Educational Programs for Students - Fiscal 2020
+5,37,792.0,612.0,0,1,20,0,24,* **,2,2,2,323,0,0,1,1,2,2,,91112,0,0,CHART #20: Support for Educators - Fiscal 2020
+5,38,792.0,612.0,0,1,21,0,25,* ** ***,1,1,1,326,0,0,1,1,1,1,,58214,0,0,CHART #21: Work-Based Learning Internships - Fiscal 2020
+5,39,792.0,612.0,0,1,22,0,26,* ** ***,2,2,2,449,0,0,1,1,2,2,,98015,2,0,CHART #22: Social and Emotional Supports for Students - Fiscal 2020
+5,40,792.0,612.0,0,1,23,0,27,* **,4,4,4,432,0,0,1,1,4,4,,142910,0,0,CHART #23: Adult Literacy Initiative - Fiscal 2020
+5,41,792.0,612.0,0,1,24,0,28,* **,3,3,3,406,0,0,1,1,3,3,,124025,0,0,CHART #24: CUNY Citizenship NOW! Program - Fiscal 2020
+5,42,792.0,612.0,0,1,25,0,29,* **,34,34,34,1993,0,0,1,1,34,34,,931583,2,0,CHART #25: Ending the Epidemic - Fiscal 2020
+5,43,792.0,612.0,0,1,25,1,30,* **,21,21,21,1390,0,0,1,1,21,21,,598688,2,0,CHART #25: Ending the Epidemic - Fiscal 2020 (continued)
+5,44,792.0,612.0,0,1,26,0,31,* **,2,2,2,331,0,0,1,1,2,2,,94151,0,0,CHART #26: Cancer Services - Fiscal 2020
+5,45,792.0,612.0,0,1,27,0,32,* **,2,2,2,328,0,0,1,1,2,2,,90692,0,0,CHART #27: Maternal and Child Health Services - Fiscal 2020
+5,46,792.0,612.0,0,1,28,0,33,* **,35,35,35,2054,0,0,1,1,35,35,,951040,2,0,CHART #28: Public Health Funding Backfill - Fiscal 2020
+5,47,792.0,612.0,0,1,28,0,34,* **,27,27,27,1727,0,0,1,1,27,27,,764403,2,0,CHART #28: Public Health Funding Backfill - Fiscal 2020
+5,48,792.0,612.0,0,1,29,0,35,* **,5,5,5,630,0,0,1,1,5,5,,197224,0,0,CHART #29: Crisis Management System - Fiscal 2020
+5,49,792.0,612.0,0,1,30,0,36,* **,4,4,4,392,0,0,1,1,4,4,,132073,0,0,CHART #30: Supports for Persons Involved in the Sex Trade - Fiscal 2020
+5,50,792.0,612.0,0,1,31,0,37,* **,1,1,1,279,0,0,1,1,1,1,,62369,0,0,CHART #31: Reproductive and Sexual Health Services - Fiscal 2020
+5,51,792.0,612.0,0,1,32,0,38,* **,3,3,3,373,0,0,1,1,3,3,,121003,0,0,CHART #32: Stabilizing NYC - Fiscal 2020
+5,52,792.0,612.0,0,1,33,0,39,* **,6,6,6,678,0,0,1,1,6,6,,229348,2,0,CHART #33: Local Initiatives - Fiscal 2019
+5,53,792.0,612.0,0,1,34,0,40,* **,6,6,6,616,0,0,1,1,6,6,,205819,2,0,CHART #34: Anti-Poverty Initiative - Fiscal 2019
+5,54,792.0,612.0,0,1,35,0,41,* **,2,2,2,351,0,0,1,1,2,2,,87963,2,0,CHART #35: Speaker's Initiative to Address Citywide Needs - Fiscal 2019
+5,55,792.0,612.0,0,1,36,0,42,* **,6,6,6,657,0,0,1,1,6,6,,197428,0,0,CHART #36: A Greener NYC - Fiscal 2019
+5,56,792.0,612.0,0,1,37,0,43,* **,10,10,10,1099,0,0,1,1,10,10,,329785,0,0,CHART #37: Food Pantries Initiative - Fiscal 2019
+5,57,792.0,612.0,0,1,38,0,44,* **,2,2,2,338,0,0,1,1,2,2,,83134,0,0,CHART #38: NYC Cleanup Initiative - Fiscal 2019
+5,58,792.0,612.0,0,1,39,0,45,* **,4,4,4,591,0,0,1,1,4,4,,155238,0,0,CHART #39: Parks Equity Initiative - Fiscal 2019
+5,59,792.0,612.0,0,1,40,0,46,* **,4,4,4,607,0,0,1,1,4,4,,158122,0,0,CHART #40: Support Our Seniors - Fiscal 2019
+5,60,792.0,612.0,0,1,41,0,47,* **,16,16,16,3312,0,0,1,1,16,16,,630615,0,0,CHART #41: Purpose of Funds Changes - Fiscal 2020
+5,61,792.0,612.0,0,1,41,1,48,* **,4,4,4,2790,0,0,1,1,4,4,region 0: header rule at 73.08 pt found in header pixels,439080,0,0,CHART #41: Purpose of Funds Changes - Fiscal 2020 (continued)
+5,62,792.0,612.0,0,1,41,1,49,* **,4,4,4,2836,0,0,1,1,4,4,region 0: header rule at 73.08 pt found in header pixels,444247,0,0,CHART #41: Purpose of Funds Changes - Fiscal 2020 (continued)
+5,63,792.0,612.0,0,1,41,1,50,* **,4,4,4,2822,0,0,1,1,4,4,region 0: header rule at 73.08 pt found in header pixels,443139,0,0,CHART #41: Purpose of Funds Changes - Fiscal 2020 (continued)
+5,64,792.0,612.0,0,1,41,1,51,* **,4,4,4,2772,0,0,1,1,4,4,region 0: header rule at 73.08 pt found in header pixels,437885,0,0,CHART #41: Purpose of Funds Changes - Fiscal 2020 (continued)
+5,65,792.0,612.0,0,1,41,1,52,* **,4,4,4,2836,0,0,1,1,4,4,region 0: header rule at 73.08 pt found in header pixels,444088,0,0,CHART #41: Purpose of Funds Changes - Fiscal 2020 (continued)
+5,66,792.0,612.0,0,1,41,1,53,* **,4,4,4,2762,0,0,1,1,4,4,region 0: header rule at 73.08 pt found in header pixels,435068,0,0,CHART #41: Purpose of Funds Changes - Fiscal 2020 (continued)
+5,67,792.0,612.0,0,1,41,1,54,* **,4,4,4,2093,0,0,1,1,4,4,region 0: header rule at 73.08 pt found in header pixels,337742,0,0,CHART #41: Purpose of Funds Changes - Fiscal 2020 (continued)
+5,68,792.0,612.0,0,1,41,1,55,* **,10,10,10,2621,0,0,1,1,10,10,,458589,0,0,CHART #41: Purpose of Funds Changes - Fiscal 2020 (continued)
+5,69,792.0,612.0,0,1,41,1,56,* **,6,6,6,2569,0,0,1,1,6,6,region 0: header rule at 73.08 pt found in header pixels,419192,0,0,CHART #41: Purpose of Funds Changes - Fiscal 2020 (continued)
+5,70,792.0,612.0,0,1,41,1,57,* **,6,6,6,2695,0,0,1,1,6,6,region 0: header rule at 73.08 pt found in header pixels,432533,0,0,CHART #41: Purpose of Funds Changes - Fiscal 2020 (continued)
+5,71,792.0,612.0,0,1,41,1,58,* **,6,6,6,1586,0,0,1,1,6,6,region 0: header rule at 73.08 pt found in header pixels,269118,0,0,CHART #41: Purpose of Funds Changes - Fiscal 2020 (continued)
+5,72,792.0,612.0,0,1,42,0,59,* **,6,6,6,1609,0,0,1,1,6,6,,279908,0,0,CHART #42: Purpose of Funds Changes - Fiscal 2019
+5,73,792.0,612.0,0,1,43,0,60,,12,12,12,594,0,0,1,1,12,12,,274965,0,0,CHART #43: Beating Hearts Initiative - Fiscal 2020
+6,1,612.0,792.0,0,0,,,,,0,0,0,2730,0,0,,,,,,,,,
+6,2,612.0,792.0,0,0,,,,,0,0,0,2261,0,0,,,,,,,,,
+6,3,612.0,792.0,0,0,,,,,0,0,0,1745,0,0,,,,,,,,,
+6,4,612.0,792.0,0,0,,,,,0,0,0,1535,0,0,,,,,,,,,
+6,5,612.0,792.0,0,0,,,,,0,0,0,1590,0,0,,,,,,,,,
+6,6,612.0,792.0,0,0,,,,,0,0,0,1577,0,0,,,,,,,,,
+6,7,792.0,612.0,0,1,1,0,1,* **,17,17,17,1548,0,0,1,1,17,17,,532648,0,0,CHART #1: Local Initiatives - Fiscal 2020
+6,8,792.0,612.0,0,1,2,0,2,* **,2,2,2,342,0,0,1,1,2,2,,85086,0,0,CHART #2: Speaker's Initiative to Address Citywide Needs - Fiscal 2020
+6,9,792.0,612.0,0,1,3,0,3,* **,14,14,14,1533,0,0,1,1,14,14,,445139,0,0,CHART #3: Cultural After-School Adventure (CASA) - Fiscal 2020
+6,10,792.0,612.0,0,1,4,0,4,* **,4,4,4,543,0,0,1,1,4,4,,145088,0,0,CHART #4: Cultural Immigrant Initiative - Fiscal 2020
+6,11,792.0,612.0,0,1,5,0,5,* **,6,6,6,830,0,0,1,1,6,6,,218721,0,0,CHART #5: Digital Inclusion and Literacy Initiative - Fiscal 2020
+6,12,792.0,612.0,0,1,6,0,6,* **,2,2,2,360,0,0,1,1,2,2,,81805,0,0,CHART #6: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020
+6,13,792.0,612.0,0,1,7,0,7,* **,2,2,2,343,0,0,1,1,2,2,,84729,0,0,CHART #7: Food Pantries Initiative - Fiscal 2020
+6,14,792.0,612.0,0,1,8,0,8,* **,2,2,2,383,0,0,1,1,2,2,,89331,0,0,CHART #8: NYC Cleanup Initiative - Fiscal 2020
+6,15,792.0,612.0,0,1,9,0,9,* ** ***,10,10,10,1114,0,0,1,1,10,10,,313847,0,0,CHART #9: Parks Equity Initiative - Fiscal 2020
+6,16,792.0,612.0,0,1,10,0,10,* ** ***,25,25,25,2939,0,0,1,1,25,25,,839863,6,0,CHART #10: SU-CASA - Fiscal 2020
+6,17,792.0,612.0,0,1,10,1,11,* **,26,26,26,3132,0,0,1,1,26,26,,902144,0,0,CHART #10: SU-CASA (continued) - Fiscal 2020
+6,18,792.0,612.0,0,1,10,1,12,* **,28,28,28,3166,0,0,1,1,28,28,,937720,3,0,CHART #10: SU-CASA (continued) - Fiscal 2020
+6,19,792.0,612.0,0,1,11,0,13,* **,2,2,2,429,0,0,1,1,2,2,,98103,0,0,CHART #11: Support Our Seniors - Fiscal 2020
+6,20,792.0,612.0,0,1,12,0,14,* **,2,2,2,294,0,0,1,1,2,2,,87161,0,0,CHART #12: COMPASS - Fiscal 2020
+6,21,792.0,612.0,0,1,13,0,15,* **,2,2,2,331,0,0,1,1,2,2,,90201,0,0,CHART #13: Coalition Theaters of Color - Fiscal 2020
+6,22,792.0,612.0,0,1,14,0,16,* **,4,4,4,581,0,0,1,1,4,4,,173264,0,0,CHART #14: Local Initiatives - Fiscal 2019
+6,23,792.0,612.0,0,1,15,0,17,* **,2,2,2,394,0,0,1,1,2,2,,92673,0,0,CHART #15: Food Pantries Initiative - Fiscal 2019
+6,24,792.0,612.0,0,1,16,0,18,* **,12,12,12,3116,0,0,1,1,12,12,,558363,0,0,CHART #16: Purpose of Funds Changes - Fiscal 2020
+6,25,792.0,612.0,0,1,,1,19,* **,8,8,8,3116,0,0,1,1,8,8,,517753,0,0,CHART #: Purpose of Funds Changes - Fiscal 2020 (continued)
+6,26,792.0,612.0,0,1,,1,20,* **,6,6,6,1325,0,0,1,1,6,6,,242632,0,0,CHART #: Purpose of Funds Changes - Fiscal 2020 (continued)
+7,1,612.0,792.0,0,0,,,,,0,0,0,2683,0,0,,,,,,,,,
+7,2,612.0,792.0,0,0,,,,,0,0,0,2715,0,0,,,,,,,,,
+7,3,612.0,792.0,0,0,,,,,0,0,0,2384,0,0,,,,,,,,,
+7,4,612.0,792.0,0,0,,,,,0,0,0,2519,0,0,,,,,,,,,
+7,5,612.0,792.0,0,0,,,,,0,0,0,421,0,0,,,,,,,,,
+7,6,612.0,792.0,0,0,,,,,0,0,0,1509,0,0,,,,,,,,,
+7,7,612.0,792.0,0,0,,,,,0,0,0,1587,0,0,,,,,,,,,
+7,8,612.0,792.0,0,0,,,,,0,0,0,1593,0,0,,,,,,,,,
+7,9,612.0,792.0,0,0,,,,,0,0,0,1568,0,0,,,,,,,,,
+7,10,612.0,792.0,0,0,,,,,0,0,0,1346,0,0,,,,,,,,,
+7,11,612.0,792.0,0,0,,,,,0,0,0,698,0,0,,,,,,,,,
+7,12,792.0,612.0,0,1,1,0,1,* **,19,19,19,1529,0,0,1,1,19,19,,579886,0,0,CHART #1: Local Initiatives - Fiscal 2020
+7,13,792.0,612.0,0,1,2,0,2,* **,10,10,10,850,0,0,1,1,10,10,,311632,0,0,CHART #2: Youth Discretionary - Fiscal 2020
+7,14,792.0,612.0,0,1,3,0,3,* **,16,16,16,1692,0,0,1,1,16,16,,589085,0,0,CHART #3: Aging Discretionary - Fiscal 2020
+7,15,792.0,612.0,0,1,4,0,4,* **,7,7,7,700,0,0,1,1,7,7,,231136,0,0,CHART #4: Speaker's Initiative to Address Citywide Needs - Fiscal 2020
+7,16,792.0,612.0,0,1,5,0,5,* **,2,2,2,381,0,0,1,1,2,2,,94409,0,0,CHART #5: A Greener NYC - Fiscal 2020
+7,17,792.0,612.0,0,1,6,0,6,* **,18,18,18,2113,0,0,1,1,18,18,,610832,0,0,CHART #6: Cultural After-School Adventure (CASA) - Fiscal 2020
+7,18,792.0,612.0,0,1,7,0,7,* ** ***,28,28,28,2320,0,0,1,1,28,28,,768636,0,0,CHART #7: Cultural Immigrant Initiative - Fiscal 2020
+7,19,792.0,612.0,0,1,8,0,8,* **,6,6,6,734,0,0,1,1,6,6,,201986,0,0,CHART #8: Digital Inclusion and Literacy Initiative - Fiscal 2020
+7,20,792.0,612.0,0,1,9,0,9,* **,2,2,2,350,0,0,1,1,2,2,,80466,0,0,CHART #9: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2020
+7,21,792.0,612.0,0,1,10,0,10,* **,4,4,4,557,0,0,1,1,4,4,,150067,0,0,CHART #10: Food Pantries Initiative - Fiscal 2020
+7,22,792.0,612.0,0,1,11,0,11,* **,2,2,2,398,0,0,1,1,2,2,,91823,0,0,CHART #11: Healthy Aging Initiative - Fiscal 2020
+7,23,792.0,612.0,0,1,12,0,12,* **,2,2,2,373,0,0,1,1,2,2,,86669,0,0,CHART #12: Neighborhood Development Grant Initiative - Fiscal 2020
+7,24,792.0,612.0,0,1,13,0,13,* **,6,6,6,677,0,0,1,1,6,6,,196717,0,0,CHART #13: Parks Equity Initiative - Fiscal 2020
+7,25,792.0,612.0,0,1,14,0,14,* **,10,10,10,1077,0,0,1,1,10,10,,327066,0,0,CHART #14: SU-CASA - Fiscal 2020
+7,26,792.0,612.0,0,1,15,0,15,* **,10,10,10,1169,0,0,1,1,10,10,,340351,0,0,CHART #15: Support Our Seniors - Fiscal 2020
+7,27,792.0,612.0,0,1,16,0,16,* **,3,3,3,429,0,0,1,1,3,3,,127840,0,0,CHART #16: Educational Programs for Students - Fiscal 2020
+7,28,792.0,612.0,0,1,17,0,17,* **,1,1,1,274,0,0,1,1,1,1,,63328,0,0,CHART #17: Support for Educators - Fiscal 2020
+7,29,792.0,612.0,0,1,18,0,18,* **,1,1,1,256,0,0,1,1,1,1,,58305,0,0,CHART #18: Work-Based Learning Internships - Fiscal 2020
+7,30,792.0,612.0,0,1,19,0,19,* **,22,22,22,1555,0,0,1,1,22,22,,642912,0,0,CHART #19: Public Health Funding Backfill - Fiscal 2020
+7,31,792.0,612.0,0,1,20,0,20,* **,1,1,1,302,0,0,1,1,1,1,,65975,0,0,CHART #20: Bridge Program for Workforce Development - Fiscal 2020
+7,32,792.0,612.0,0,1,21,0,21,* ** ***,2,2,2,404,0,0,1,1,2,2,,91693,0,0,CHART #21: Coalition Theaters of Color - Fiscal 2020
+7,33,792.0,612.0,0,1,22,0,22,* **,8,8,8,851,0,0,1,1,8,8,,288322,0,0,CHART #22: Art a Catalyst for Change - Fiscal 2020
+7,34,792.0,612.0,0,1,23,0,23,* **,4,4,4,507,0,0,1,1,4,4,,150328,0,0,"CHART #23: Senior Centers, Programs, and Enhancements - Fiscal 2020"
+7,35,792.0,612.0,0,1,24,0,24,* **,2,2,2,382,0,0,1,1,2,2,,102257,0,0,CHART #24: Census 2020 Outreach Initiative - Fiscal 2020
+7,36,792.0,612.0,0,1,25,0,25,* **,1,1,1,280,0,0,1,1,1,1,,64880,0,0,CHART #25: Cure Hate Initiative - Fiscal 2020
+7,37,792.0,612.0,0,1,26,0,26,* **,2,2,2,372,0,0,1,1,2,2,,96658,2,0,CHART #26: Social and Emotional Supports for Students - Fiscal 2020
+7,38,792.0,612.0,0,1,27,0,27,* **,2,2,2,371,0,0,1,1,2,2,,97114,4,0,CHART #27: Local Initiatives - Fiscal 2019
+7,39,792.0,612.0,0,1,28,0,28,* **,2,2,2,333,0,0,1,1,2,2,,87633,2,0,CHART #28: Youth Discretionay - Fiscal 2019
+7,40,792.0,612.0,0,1,29,0,29,* **,2,2,2,332,0,0,1,1,2,2,,86216,0,0,CHART #29: Youth Discretionary - Fiscal 2018
+7,41,792.0,612.0,0,1,30,0,30,* **,4,4,4,468,0,0,1,1,4,4,,138889,0,0,CHART #30: Cultural After-School Adventure (CASA) Initiative  - Fiscal 2018
+7,42,792.0,612.0,0,1,31,0,31,* **,14,14,14,3363,0,0,1,1,14,14,,620741,0,0,CHART #31: Purpose of Funds Changes - Fiscal 2020
+7,43,792.0,612.0,0,1,31,1,32,* **,20,20,20,3650,0,0,1,1,20,20,region 0: header rule at 73.08 pt found in header pixels,708718,1,0,CHART #31: Purpose of Funds Changes - Fiscal 2020 (continued)
+8,1,612.0,792.0,0,0,,,,,0,0,0,2652,0,0,,,,,,,,,
+8,2,612.0,792.0,0,0,,,,,0,0,0,2317,0,0,,,,,,,,,
+8,3,612.0,792.0,0,0,,,,,0,0,0,2045,0,0,,,,,,,,,
+8,4,612.0,792.0,0,0,,,,,0,0,0,1423,0,0,,,,,,,,,
+8,5,612.0,792.0,0,0,,,,,0,0,0,1394,0,0,,,,,,,,,
+8,6,612.0,792.0,0,0,,,,,0,0,0,1570,0,0,,,,,,,,,
+8,7,612.0,792.0,0,0,,,,,0,0,0,966,0,0,,,,,,,,,
+8,8,792.0,612.0,0,1,1,0,1,* ** ***,23,23,23,1997,0,0,1,1,23,23,,737510,0,0,CHART #1: Local Initiatives - Fiscal 2020
+8,9,792.0,612.0,0,1,2,0,2,* **,10,10,10,899,0,0,1,1,10,10,,330022,0,0,CHART #2: Youth Discretionary - Fiscal 2020
+8,10,792.0,612.0,0,1,3,0,3,* **,4,4,4,541,0,0,1,1,4,4,,168863,0,0,CHART #3: Aging Discretionary - Fiscal 2020
+8,11,792.0,612.0,0,1,4,0,4,* **,2,2,2,370,0,0,1,1,2,2,,97894,0,0,CHART #4: Speaker's Initiative to Address Citywide Needs - Fiscal 2020
+8,12,792.0,612.0,0,1,5,0,5,* **,2,2,2,444,0,0,1,1,2,2,,105401,0,0,CHART #5: A Greener NYC - Fiscal 2020
+8,13,792.0,612.0,0,1,6,0,6,* **,2,2,2,386,0,0,1,1,2,2,,90226,0,0,CHART #6: Cultural After-School Adventure (CASA) - Fiscal 2020
+8,14,792.0,612.0,0,1,7,0,7,* **,6,6,6,589,0,0,1,1,6,6,,180375,0,0,CHART #7: Cultural Immigrant Initiative - Fiscal 2020
+8,15,792.0,612.0,0,1,8,0,8,* **,4,4,4,555,0,0,1,1,4,4,,145600,0,0,CHART #8: Neighborhood Development Grant Initiative - Fiscal 2020
+8,16,792.0,612.0,0,1,9,0,9,* **,8,8,8,793,0,0,1,1,8,8,,242726,0,0,CHART #9: Parks Equity Initiative - Fiscal 2020
+8,17,792.0,612.0,0,1,10,0,10,* **,6,6,6,776,0,0,1,1,6,6,,215847,0,0,CHART #10: Support Our Seniors - Fiscal 2020
+8,18,792.0,612.0,0,1,11,0,11,* **,2,2,2,414,0,0,1,1,2,2,,94192,0,0,CHART #11: SU-CASA - Fiscal 2020
+8,19,792.0,612.0,0,1,12,0,12,* **,2,2,2,326,0,0,1,1,2,2,,85707,0,0,CHART #12: Educational Programs for Students - Fiscal 2020
+8,20,792.0,612.0,0,1,13,0,13,* **,2,2,2,314,0,0,1,1,2,2,,83319,0,0,CHART #13: Census 2020 Outreach Initiative - Fiscal 2020
+8,21,792.0,612.0,0,1,14,0,14,* **,6,6,6,691,0,0,1,1,6,6,,212672,0,0,CHART #14: Art a Catalyst for Change - Fiscal 2020
+8,22,792.0,612.0,0,1,15,0,15,* **,2,2,2,297,0,0,1,1,2,2,,79962,0,0,CHART #15: Community Land Trust - Fiscal 2020
+8,23,792.0,612.0,0,1,16,0,16,* **,2,2,2,372,0,0,1,1,2,2,,88664,0,0,CHART #16: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2020
+8,24,792.0,612.0,0,1,17,0,17,* **,2,2,2,321,0,0,1,1,2,2,,81110,0,0,CHART #17: Afterschool Enrichment Initiative - Fiscal 2020
+8,25,792.0,612.0,0,1,18,0,18,* **,2,2,2,302,0,0,1,1,2,2,,79301,0,0,CHART #18: Innovative Criminal Justice Programs - Fiscal 2020
+8,26,792.0,612.0,0,1,19,0,19,* **,16,16,16,3467,0,0,1,1,16,16,region 0: header rule at 72.12 pt found in header pixels,652859,0,0,CHART #19: Purpose of Funds Changes - Fiscal 2020
+8,27,792.0,612.0,0,1,19,1,20,* **,8,8,8,3273,0,0,1,1,8,8,region 0: header rule at 72.12 pt found in header pixels,537945,5,0,CHART #19: Purpose of Funds Changes - Fiscal 2020 (continued)
+8,28,792.0,612.0,0,1,19,1,21,* **,12,12,12,2789,0,0,1,1,12,12,region 0: header rule at 72.12 pt found in header pixels,507210,0,0,CHART #19: Purpose of Funds Changes - Fiscal 2020 (continued)
