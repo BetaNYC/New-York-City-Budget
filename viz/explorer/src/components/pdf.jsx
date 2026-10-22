@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { sourceViewState } from "../../../../mcp/dist/rowlinks.js";
+
 import { useQueries } from "../duckdb/useDuckDB.js";
 import { DECISION_WORDS, REVIEWED_LABEL, flagState, reviewNotesQuery } from "../query/pdf.js";
 import { writeHash } from "../state/hash.js";
@@ -67,10 +69,14 @@ function ReviewNotes({ notes, loading, error }) {
   );
 }
 
-/** A link that opens the PDF page in the source viewer, with the row's box highlighted. */
+/**
+ * A link that opens the PDF page in the source viewer, with the row's box highlighted. The target
+ * state comes from the MCP's row-link builder (mcp/src/rowlinks.ts), the same one that writes the
+ * MCP's source-view links (#210); the href keeps the visitor's other state, as every in-app link does.
+ */
 export function SourcePageLink({ state, go, pdf, page, bbox, label, children }) {
-  if (!pdf || !page) return null;
-  const target = { view: "source", spdf: pdf, spage: Number(page), sbox: bbox || "", slabel: label || "" };
+  const target = sourceViewState({ source_pdf: pdf, pdf_page: page, bbox_pt: bbox }, label);
+  if (!target) return null;
   return (
     <HashLink href={writeHash({ ...state, ...target })} onGo={() => go(target)} className="pagelink">
       {children ?? `p.${page}`}

@@ -12,6 +12,16 @@ Nothing yet.
 
 A patch: the index gains empty tables; no tool, argument or answer changes.
 
+### Added (row links, 2026-10-22)
+- **`src/rowlinks.ts`: one builder for a PDF row's three links (GitHub #210).** The explorer's
+  source view at the row (`#view=source&spdf=…&spage=…&sbox=…&slabel=…`, byte for byte what the
+  explorer's `writeHash` writes), the PDF on GitHub at a given commit (page and raw download), and
+  the publisher's copy where a manifest records a file with the same sha256
+  (`src/publisher-copies.ts`, generated from `source/gpp/MANIFEST.csv` by
+  `scripts/build-publisher-copies.mjs`; null otherwise, never guessed). Shipped in `dist/` and
+  imported by the explorer from `mcp/dist/rowlinks.js`, like `fold.js`. No tool uses it yet (that
+  is #212); `server.ts` takes its `REPO_URL` from it.
+
 ### Changed (PDF family config, 2026-10-22)
 - **`scripts/pdf-families.mjs` lists the FY2025–FY2018 decisions files (GitHub #104–#111).**
   Every family-year in `data/pdf_years.csv` now has its decisions file path (header-only until a

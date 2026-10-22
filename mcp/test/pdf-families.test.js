@@ -142,8 +142,15 @@ test("every MCP tool answers the same from a reviewed index as from the default 
 });
 
 test("no MCP source file names a pdf_ table", () => {
-  // FAILS if a tool (src/*.ts) starts reading the reviewed tables.
+  // FAILS if a tool (src/*.ts) starts reading the reviewed tables. rowlinks.ts names the row
+  // contract's fields (pdf_page, pdf_sha256) to build links, and reads no table: it may not import
+  // the database or hold SQL (#210).
   for (const f of readdirSync(join(MCP, "src"))) {
-    assert.doesNotMatch(readFileSync(join(MCP, "src", f), "utf8"), /\bpdf_[a-z_]+\b/, f);
+    const text = readFileSync(join(MCP, "src", f), "utf8");
+    if (f === "rowlinks.ts") {
+      assert.doesNotMatch(text, /from "\.\/db\.js"|better-sqlite3|\bSELECT\b|\bFROM\s+pdf_/i, f);
+      continue;
+    }
+    assert.doesNotMatch(text, /\bpdf_[a-z_]+\b/, f);
   }
 });

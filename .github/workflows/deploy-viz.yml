@@ -18,7 +18,8 @@
 #   6. Publish: commit the assembled tree with git plumbing (a temporary index, no checkout) and
 #      force-push it to gh-pages. Uses only first-party actions plus plain git.
 #
-# Scope: data/**, mcp/scripts/**, mcp/src/fold.ts and viz/** feed the site, so a data merge redeploys.
+# Scope: data/**, mcp/scripts/**, mcp/src/fold.ts, mcp/src/rowlinks.ts (+ publisher-copies.ts) and viz/**
+# feed the site, so a data merge redeploys.
 # workflow_dispatch is kept for manual redeploys and for the PR that changes this file.
 #
 # Safety: force-push targets only the generated gh-pages deploy branch (never main). If a run
@@ -33,6 +34,8 @@ on:
       - "data/**"
       - "mcp/scripts/**"
       - "mcp/src/fold.ts"   # the explorer's text search imports the MCP's fold rule
+      - "mcp/src/rowlinks.ts"   # the explorer's source links import the MCP's row-link builder
+      - "mcp/src/publisher-copies.ts"
       - "viz/**"
       - ".github/workflows/deploy-viz.yml"
   workflow_dispatch:

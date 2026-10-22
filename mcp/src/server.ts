@@ -33,12 +33,11 @@ import {
   type DisclosureYear,
   type OmbComparisonResult,
 } from "./db.js";
+import { REPO_URL } from "./rowlinks.js";
 
 const PACKAGE_VERSION = (
   JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf-8")) as { version: string }
 ).version;
-
-const REPO_URL = "https://github.com/BetaNYC/New-York-City-Budget";
 
 const n = (x: number) => x.toLocaleString("en-US");
 
