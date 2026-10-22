@@ -885,7 +885,7 @@ answers surfaced when FY2009 entered the served set: the 53 rows with no grantee
 
 ---
 
-## 29. FY2027 Schedule C rebuilt from the PDF, checked (#102) — REVIEW IN PROGRESS
+## 29. FY2027 Schedule C rebuilt from the PDF, checked (#102) — ALL 6 ITEMS DECIDED, NOT YET CLOSED
 
 > **Scope.** A new, checked parse of `source/FY27/Fiscal-2027-Schedule-C-Final-3.pdf`
 > (`code/parse_schedule_c_v2.py`, `config/schedule_c/fy2027.toml`). Its review record is
@@ -914,7 +914,7 @@ runs over the border into the EIN box. A page's running sub-heading is a categor
 type (e.g. p.116), not a category banner. Rows on the City's EIN 13-6400434 need a name check
 to match the disclosure (9 rows pair different agencies by amount alone).
 
-## 30. FY2026 transparency resolutions rebuilt from the PDFs, checked (#103) — REVIEW IN PROGRESS
+## 30. FY2026 transparency resolutions rebuilt from the PDFs, checked (#103) — REVIEW IN PROGRESS (2 of 24 decided)
 
 > **Scope.** A new, checked parse of the 10 PDFs in `source/FY26/transparency-resolutions/`
 > (`code/parse_transparency_v2.py`, `code/transreso/`, `config/transparency/fy2026.toml`). Its
@@ -947,7 +947,7 @@ Backpack" prints no fiscal year. Reso 06 p.2 prints one row with no EIN.
 
 ---
 
-## 31. FY2026 Schedule C rebuilt from the PDF, checked (#103) — REVIEW NOT STARTED
+## 31. FY2026 Schedule C rebuilt from the PDF, checked (#103) — REVIEW IN PROGRESS (4 of 28 decided)
 
 > **Scope.** A new, checked parse of `source/FY26/Fiscal-2026-Schedule-C-4.pdf` with the §29
 > toolkit (`code/parse_schedule_c_v2.py`, `config/schedule_c/fy2026.toml`). Its review record is
@@ -982,3 +982,598 @@ tables continue over a page without a header (pp.48, 157, 195). Some box titles 
 amount on line two (p.157), or share one cell with it (pp.218, 220). The statement is worded 60
 ways; the text layer splits words ("h as", "designate d"). A 5 pt sliver cell holds the first
 letter of each box label on p.162. Six glyphs are unmapped (`(cid:9)`, e.g. p.344).
+
+---
+
+## 32. FY2025 Schedule C rebuilt from the PDF, checked (#104) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of `source/FY25/Fiscal-2025-Schedule-C-MERGE-FINAL-2.pdf` with
+> the §29 toolkit (`code/parse_schedule_c_v2.py`, `config/schedule_c/fy2025.toml`). Its review
+> record is
+> [`research/2026-10-21-fy25-schedule-c-review/`](research/2026-10-21-fy25-schedule-c-review/README.md).
+> The old `data/fy25/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
+> Not served by the MCP.
+
+**Result.** 9,579 award rows, $471,876,698 (body 5,659 / $422,077,698; appendices A, B, C
+470 / $5,610,000, 2,616 / $36,539,000, 834 / $7,650,000). The old parse has 9,566 rows: the 13
+it lost ($9,092,588, among them Bronx Defenders $5,533,333, p.169) are all here, and nothing the
+old parse had is missing. The §20 row (p.233) comes back as two awards (Corbin Hill Food Project
+and Council For Unity, $50,000 each). 24 of 25 category TOTALs tie; an independent image grid
+agrees on 9,577 rows (2 differ on a hyphen at a cell edge); ink coverage finds nothing on the
+page that was not read.
+
+**What the PDF itself gets wrong (flagged, never fixed).**
+
+- **$50,000, p.115.** Education prints TOTAL $39,924,300; its lines add to $39,974,300.
+- **$594,000, p.64.** CASA's statement (reserve $2,066,000 + designated $14,680,000) adds to
+  $16,746,000, not its $17,340,000 box.
+- **$27,000, p.167.** Immigrant Opportunities says "has designated $2,562,000"; its 31 rows add to
+  $2,535,000. These three are the whole roll-up gap (−$571,000).
+- **p.222.** Pride at Work's statement says "$3.2 million" designated; the box is $501,000 and
+  its rows add to $451,000. **p.60.** "$4.1 million" stands for $4,091,000.
+- **p.181.** Safe Horizon's EIN is printed "13-294-6970". Clean EIN left blank.
+- **pp.168, 170.** Two amounts printed "$77,000.00" and "$50,000.".
+- **p.202.** Parks and Recreation Services prints no summary table and no TOTAL.
+- **16 box/summary name differences** (e.g. "&" vs "and"; one summary line for two SAVE boxes,
+  p.102; four library lines all named "Fiscal 2025 Subsidy", p.174). Rows carry the box title.
+
+**Money in no award row.** 16 initiatives "will designate awards post-adoption" ($50,455,000);
+7 CUNY/DOE initiatives are "designated directly" with no rows ($20,011,869, pp.155–157); the
+four library subsidies are "directly allocated" ($15,700,000, p.174). All are in the initiatives
+table.
+
+**Things a re-parse must know.** "Council" / "Member" are two header row bands (pp.131–144).
+Some box titles have their first letter in its own cell or outside the table (pp.36, 149, 258).
+Amount digits run past their cell's rule (p.222, p.260) or a box amount is cut into three cells
+(p.157). p.167's name column is lost at pdfplumber's default snap (read at 1 pt). Statements
+give amounts in millions ("$4.1 million"), and one sits inside a description cell (p.168). A
+second box hides inside the first box's table (p.35). 17 summary-table titles; one with no title
+(p.59).
+
+---
+
+## 33. FY2025 transparency resolutions parsed from the PDFs, checked (#104) — REVIEW NOT STARTED
+
+> **Scope.** The first parse of the 13 PDFs in `source/FY25/transparency-resolutions/`
+> (`code/parse_transparency_v2.py --fy 2025`, `config/transparency/fy2025.toml`). Its review record
+> is [`research/2026-10-21-fy25-transparency-review/`](research/2026-10-21-fy25-transparency-review/README.md).
+> The old parser never read FY2025, so there is no retired file. Not served by the MCP.
+
+**Result.** 3,555 rows from 309 charts, each with its resolution's adoption date. An independent
+image grid agrees on every row; ink coverage finds nothing on the page that was not read. The
+charts print no totals; "Charts 1 through N" ties on the 3 resolutions that print it.
+
+**Things a re-parse must know.** Reso 07 pp.29-30 print staff notes in a column past the `*`
+column, cut at the table's right rule: only "01/" shows, the rest is in the text layer (kept in
+`hidden_text`). Three chart pages print no "Page n" label (Reso 02 pp.74-75, Reso 03 p.28). Reso 11
+p.6's caption has no colon. Reso 08 p.12's member header reads "Member/Borough".
+
+**What the PDF itself gets wrong (flagged, never fixed).** Reso 07 p.18 prints a $15,000 row with
+no EIN (Reso 08 p.13 takes it back and re-prints it with one). Reso 06 p.6 marks a row `***` with
+no `***` footnote. Reso 02 prints the same two Black Spectrum rows under Fiscal 2025, 2024 and
+2023. Reso 04 (2024-10-23) prints no resolution number, and none is known.
+
+---
+
+## 34. FY2025 capital and T&C, re-read from the PDFs (GitHub #104) — REVIEW NOT STARTED
+
+> **Scope.** Its review record is [`research/2026-10-21-fy25-capital-terms-review/`](research/2026-10-21-fy25-capital-terms-review/README.md). Not served by the MCP.
+
+Capital: 32 / 32 printed totals tie; Part I equals NYC Open Data `t474-a92g` on all 1,325 of its
+FY2025 rows (2 FY2026-only amounts are not in t474). t474's FY2025 accents are cp437 mojibake (50
+rows). The PDF prints 6 project IDs on two rows each, so `sub_id` is not a key. Part II carries 39
+`MA` / `0N` rows ($57,657,000) and `PV CT001` ($2,500,000) that are not Council additions (meaning
+unconfirmed). The PDF was edited after export on p.51. T&C: 65 conditions; the retired CSV put
+headings into the text of 14, the FSR table into #16, dropped hyphens in 4, and lost units in 9.
+
+---
+
+## 35. FY2024 Schedule C rebuilt from the PDF, checked (#105) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of `source/FY24/Fiscal-2024-Schedule-C-Merge-Final.pdf` with
+> the §29 toolkit (`config/schedule_c/fy2024.toml`). Its review record is
+> [`research/2026-10-21-fy24-schedule-c-review/`](research/2026-10-21-fy24-schedule-c-review/README.md).
+> The old `data/fy24/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
+> Not served by the MCP.
+
+**Result.** 9,291 award rows, $453,858,561 (body 5,380 / $404,059,561; appendices A, B, C
+477 / $5,610,000, 2,616 / $36,539,000, 818 / $7,650,000). Nothing the first PDF parse had is
+missing; 81 rows are new. The §20 row (p.234) comes back as two awards. 24 of 25 category
+TOTALs tie. The image grid agrees on 7,844 rows; 1,447 rows sit in tables with no vertical
+rules, and the pixels' horizontal rules confirm the row band of 1,438 of them.
+
+**What the PDF itself gets wrong (flagged, never fixed).**
+
+- **$52,935, p.63.** Criminal Justice Services prints TOTAL $28,658,710; its lines add to
+  $28,711,645. The table is titled "Fiscal 2023".
+- **Six statements whose reserve and rows do not make the box** (pp.109, 129, 147, 148, 176,
+  181; −$60,000 to +$635,000). With p.63 they are the whole roll-up gap (+$430,904).
+- **p.261.** Drama Club, Inc. is printed with Digital Girl, Inc.'s EIN 47-2288307.
+- **p.135** Tax ID "TF4876222"; **p.182** "13-294-6970". Clean EIN left blank.
+- **pp.130–137.** Eight landscape pages are merged out of order: their rows (NYC Cleanup's,
+  $12,028,500) follow A Greener NYC's statement. Attached to NYC Cleanup, flagged.
+- **p.201.** Parks prints no summary table. **15 box/summary name differences.**
+
+**Things a re-parse must know.** 216 pages have a MediaBox starting at (−18, 18): take every
+coordinate from the MediaBox corner. 70 award tables have horizontal rules only. First rows
+with no rule above them (pp.41–46, 152–153). Headers printed loose above the table, or at its
+bottom (pp.41–45). Statements say "will designate $N post-adoption and has designated the
+following providers" with no designated amount (45 boxes). The Speaker's pages use 8.8 pt type.
+
+---
+
+## 36. FY2024 transparency resolutions rebuilt from the PDFs, checked (#105) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of the 9 PDFs in `source/FY24/transparency-resolutions/`
+> (`code/parse_transparency_v2.py --fy 2024`, `config/transparency/fy2024.toml`). Its review record
+> is [`research/2026-10-21-fy24-transparency-review/`](research/2026-10-21-fy24-transparency-review/README.md).
+> The old `data/fy24/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> record (§27). Not served by the MCP.
+
+**Result.** 3,303 rows from 329 charts (the old parse had 3,294, all of which are here), each with
+its resolution's number and adoption date. An independent image grid agrees on every row,
+including Reso 01's /Rotate 90 pages. No totals and no chart counts are printed.
+
+**What the old parse missed.** 7 EINs printed without a hyphen, "Bronx Community Board #7", and a
+row whose EIN prints as "TF4876222".
+
+**Things a re-parse must know.** Reso 01's page labels use a no-break space ("Page\xa01"). Reso 02
+p.11: a clipped "n" overlaps the next cell's text by 0.95 pt, so runs must break on overlap.
+11 chart pages print no "Page n" label (Reso 02 pp.66-73, Reso 03 pp.55-57). `bbox_pt` on Reso 01
+is in display coordinates in the review folder and unrotated in `data/fy24/pdf/`.
+
+**What the PDF itself gets wrong (flagged, never fixed).** "TF4876222" as an EIN (Reso 07 p.17;
+also in Schedule C; corrected by the same resolution). "#" in the `*` column (Reso 02 p.18). Two
+`***` rows with no `***` footnote (Reso 01 p.55).
+
+---
+
+## 37. FY2024 capital and T&C, re-read from the PDFs (GitHub #105) — REVIEW NOT STARTED
+
+> **Scope.** Its review record is [`research/2026-10-21-fy24-capital-terms-review/`](research/2026-10-21-fy24-capital-terms-review/README.md). Not served by the MCP.
+
+Capital (an encrypted PDF with an empty user password): 32 / 32 printed totals tie; Part I equals
+NYC Open Data `t474-a92g` on all 1,241 amounts. t474's FY2024 accents are UTF-8 read as cp437 (78
+rows). Part II carries 29 `MA` / `0N` rows ($61,737,000) and `HL TA001` (−$40,000 on `HL RN404`),
+not Council additions. The retired capital CSV drops the comma after `SPEAKER` (190 rows). T&C: the
+PDF prints no condition numbers; 61 conditions in book order. The retired CSV has 59 and is
+misnumbered from #44 on; 5 agency headings print no code.
+
+---
+
+## 38. FY2023 Schedule C rebuilt from the PDF, checked (#106) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of `source/FY23/Fiscal-2023-Schedule-C-Merge-6.13.22-Final-1.pdf`
+> with the §29 toolkit (`config/schedule_c/fy2023.toml`). Its review record is
+> [`research/2026-10-21-fy23-schedule-c-review/`](research/2026-10-21-fy23-schedule-c-review/README.md). The old `data/fy23/schedule_c/*.csv` files are
+> unchanged and stay the historical record (§27). Not served by the MCP.
+
+**Result.** 5,925 award rows, $323,063,807 (body 1,867 / $273,264,807; appendices A, B, C
+489 / $5,610,000, 2,728 / $36,539,000, 841 / $7,650,000). Nothing the first PDF parse had is
+missing; 45 rows are new, including the two $5,000 Local rows §19 describes, so Appendix B is
+the $36,539,000 pot. All 26 category TOTALs tie. The image grid agrees on 4,884 rows; 1,040
+rows sit in tables with no vertical rules, and the pixels' horizontal rules confirm 1,028.
+
+**What the PDF itself gets wrong (flagged, never fixed).**
+- **Two boxes print a different amount from their summary line:** Low Wage Worker Support
+  $120,000 vs $2,000,000 (p.83, p.81); Autism Awareness $3,166,846 vs $3,316,846 (p.86).
+- **Six boxes whose rows (and reserve) don't make the box:** pp.34, 43, 53, 54, 82, 136
+  (−$416,000 to +$1,100,000). Four statements round ("$14.5 million" etc., pp.42, 43, 44, 59).
+  With the two above they are the whole roll-up gap (+$646,350).
+- **pp.13, 175.** Asiyah Women's Center is printed with Muslims Giving Back's EIN 822712941.
+- **p.213** EIN "84 -2079676"; **p.235** "87-0753479" whose hyphen the text layer reads as a
+  space. Clean EIN left blank.
+- **17 box/summary name differences**; "Fiscal 2022" in two statements (pp.49, 50).
+
+**Things a re-parse must know.** A box amount printed "$ 5,000,000" (p.34) and one with no "$"
+(p.92). A box drawn inside the award table above it (p.53). White-filled boxes that make a
+table of names only (pp.68, 139, 140). 46 award tables have horizontal rules only. Statements
+put the reserve after the providers ("... and $N will be designated post-adoption").
+
+---
+
+## 39. FY2023 transparency resolutions rebuilt from the PDFs, checked (#106) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of the 14 PDFs in `source/FY23/transparency-resolutions/`
+> (`code/parse_transparency_v2.py --fy 2023`, `config/transparency/fy2023.toml`). Its review
+> record is [`research/2026-10-21-fy23-transparency-review/`](research/2026-10-21-fy23-transparency-review/README.md).
+> The old `data/fy23/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> record (§27). Not served by the MCP.
+
+**Result.** 8,424 rows from 502 charts (the old parse had 8,354, all of which are here), each
+with its resolution's number and adoption date. An independent image grid agrees on every row;
+the ink check finds nothing outside a parsed cell. No totals and no chart counts are printed.
+
+**What the old parse missed.** 61 EINs printed without a hyphen and 9 ordinary rows.
+
+**Things a re-parse must know.** Captions vary: "CHART 41:" (no "#", Reso 01 p.81), "- FY 2023"
+(Reso 01 p.66, Reso 09 pp.21–25), "(cpntinued)" (Reso 03 p.20), and a chart's first page marked
+"(continued)" (Reso 08 p.32). Empty drawn rows sit under some tables (Reso 01 p.67, Reso 03 p.83,
+Reso 06 p.53). The `***` footnote has a second wording. 4 chart pages print no "Page n" label
+(Reso 08 p.44, Reso 09 pp.29–31).
+
+**What the PDF itself gets wrong (flagged, never fixed).** 18 `***` rows with no `***` footnote on
+the page (Reso 03–08). The City's EIN 13-6400434 printed for Fort Greene Council, Inc. (Reso 11
+p.19). Two $0 rows (Reso 07 p.27).
+
+---
+
+## 40. FY2023 capital and T&C, re-read from the PDFs (GitHub #106) — REVIEW NOT STARTED
+
+> **Scope.** Its review record is [`research/2026-10-21-fy23-capital-terms-review/`](research/2026-10-21-fy23-capital-terms-review/README.md). Not served by the MCP.
+
+Capital: 32 / 32 printed totals tie; Part I equals NYC Open Data `t474-a92g` on all 1,411 of its
+FY2023 amounts, and adds the one t474 lost to a broken record (`E CN136`, $150,000), so t474's
+$879,526,000 becomes the PDF's $879,676,000. t474's FY2023 accents are UTF-8 read as cp437 (74
+rows). 15 Part I rows carry `RR` IDs ($22,633,000, no sponsor, 4 on borough `A`). Part II carries
+39 `MA` / `0N` rows ($78,861,000), not Council additions. Against OMB's July 2022 adopted budget,
+129 of 130 lines match; `E D001` differs by $5,400,000. The retired capital CSV drops the comma
+after `SPEAKER` (265 rows). T&C: the PDF prints no condition numbers; 60 conditions in book order,
+as the retired CSV numbered them; it put the FSR table into condition 24's text.
+
+---
+
+## 41. FY2022 Schedule C rebuilt from the PDF, checked (#107) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of `source/FY22/Fiscal-2022-Schedule-C-Merge-6.30.21.pdf` with
+> the §29 toolkit (`config/schedule_c/fy2022.toml`). Its review record is
+> [`research/2026-10-21-fy22-schedule-c-review/`](research/2026-10-21-fy22-schedule-c-review/README.md). The old `data/fy22/schedule_c/*.csv` files are
+> unchanged and stay the historical record (§27). Not served by the MCP.
+
+**Result.** 5,732 award rows, $285,155,968 (body 1,550 / $235,356,968; appendices A, B, C
+510 / $5,610,000, 2,790 / $36,539,000, 882 / $7,650,000). Nothing the first PDF parse had is
+missing; 71 rows are new, among them Art as a Catalyst for Change (40 rows, $720,000, pp.84–85),
+which the old parse dropped. All 25 category TOTALs tie. The image grid agrees on 5,616 rows.
+
+**What the PDF itself gets wrong (flagged, never fixed).**
+- **p.57.** Public Health Funding Backfill's box prints $4,467,933; its summary line $4,667,933.
+- **Six statements hold a reserve while their rows add to the whole box** (pp.34 ×2, 39, 44,
+  85, 119; $290,000 to $1,650,000); three more whose reserve and rows make neither (pp.54, 58,
+  115); "$3 million" for $3,013,205 (p.36). With p.57 they are the whole roll-up gap
+  (+$6,545,340).
+- **p.37** "$3,462,000 million" (read as $3,462,000). **Five EINs of the wrong length**
+  (pp.48, 52, 79, 80, 82). **16 box/summary name differences.**
+
+**Things a re-parse must know.** A four-column table with a "Program" column (pp.84–85). Rows
+drawn as one wide cell each (pp.117–118). "TOTAL:" (p.32). A box drawn inside an award table
+(p.81). The ink check skips the first row of a table with no header row of its own.
+
+---
+
+## 42. FY2022 transparency resolutions rebuilt from the PDFs, checked (#107) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of the 14 PDFs in `source/FY22/transparency-resolutions/`
+> (`code/parse_transparency_v2.py --fy 2022`, `config/transparency/fy2022.toml`). Its review
+> record is [`research/2026-10-21-fy22-transparency-review/`](research/2026-10-21-fy22-transparency-review/README.md).
+> The old `data/fy22/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> record (§27). Not served by the MCP.
+
+**Result.** 7,918 rows from 424 charts (the old parse had 7,768, all of which are here), each
+with its resolution's number and adoption date. An independent image grid agrees on 7,917.
+No totals and no chart counts are printed. 11 of 14 resolutions add new money (+$23.0M in all,
+mostly "Pandemic Support for Human Service Providers").
+
+**What the old parse missed.** The 91 "Beating Hearts" rows (no amount column), 45 EINs printed
+without a hyphen, 12 ordinary rows, and two rows with no usable EIN.
+
+**Things a re-parse must know.** Most of Reso 02's pages have a media box starting at (−8.39, −8.39): shift the page
+image, and write boxes on the rendered page. "Beating Hearts" charts have no amount. Reso 03
+chart #48 prints cents. Captions repeat without "(continued)" (Reso 01 pp.51–54, Reso 02 p.35),
+print the wrong number (Reso 07 p.34) or "(continued)" on a first page (Reso 02 pp.80, 124).
+Reso 09 p.38 draws a hidden line over an EIN. Reso 02 p.106 is only a spilled footnote.
+25 chart pages print no "Page n" label.
+
+**What the PDF itself gets wrong (flagged, never fixed).** A row with no member, organization or
+EIN, ($1,613,026) DYCD (Reso 03 p.32). "FY22 05075" as an EIN (Reso 07 p.21). "#" in the `*`
+column (Reso 03 p.29). Six `***` rows with no `***` footnote (Reso 03 p.16, Reso 08 p.16, Reso 09
+p.38).
+
+---
+
+## 43. FY2022 capital and T&C, re-read from the PDFs (GitHub #107) — REVIEW NOT STARTED
+
+> **Scope.** Its review record is [`research/2026-10-21-fy22-capital-terms-review/`](research/2026-10-21-fy22-capital-terms-review/README.md). Not served by the MCP.
+
+Capital: 34 / 34 printed totals tie; Part I equals NYC Open Data `t474-a92g` on all 1,490 of its
+FY2022 amounts and adds the one t474 lost to a broken record (`E CN673`, $55,000), so t474's
+$704,440,000 becomes the PDF's $704,495,000; all 149 PDF budget lines equal OMB's July 2021 adopted
+release. The PDF prints IDs outside the usual shape (`TANC1`, `KBP01`, `MBP01`), 4 Borough
+President rows in Part II only (one −$72,000), 28 sponsor cells that name a vacant district (`CD
+22`, `CD 48`), a lower-case borough (`P CN039`), and `AMPREY-SAMUEL` for Ampry-Samuel (25 rows).
+The retired capital CSV drops the comma after `SPEAKER` (236 rows) and moves wrapped sponsors into
+titles (21). T&C: no printed numbers or page furniture; 50 conditions in book order; the retired
+CSV lost condition 26 (`Department of Education (40)`) and split 28, so its 26–28 are misaligned;
+the FSR table's months are out of order as printed.
+
+---
+
+## 44. FY2021 Schedule C rebuilt from the PDF, checked (#108) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of `source/FY21/Fiscal-2021-Schedule-C-Cover-REPORT-Final.pdf`
+> with the §29 toolkit (`config/schedule_c/fy2021.toml`). Its review record is
+> [`research/2026-10-22-fy21-schedule-c-review/`](research/2026-10-22-fy21-schedule-c-review/README.md). The old `data/fy21/schedule_c/*.csv` files are
+> unchanged and stay the historical record (§27). Not served by the MCP.
+
+**Result.** 6,179 award rows, $262,477,792 (body 1,869 / $212,678,792; appendices A, B, C
+514 / $5,610,000, 2,902 / $36,539,000, 894 / $7,650,000). Nothing the first PDF parse had is
+missing; 69 rows are new ($11,149,604), among them 36 of Art as a Catalyst for Change's 40 rows. All 26
+category TOTALs tie. The image grid agrees on 5,744 rows.
+
+**What the PDF itself gets wrong (flagged, never fixed).**
+- **p.122** prints the box "$477,00" (its summary line $477,000).
+- **Three statements hold a reserve while their rows add to the whole box** (pp.44, 93, 107);
+  p.39's rows are $1 over; p.55 "$4.6 million" for $4,659,000. They are the whole roll-up gap
+  (+$129,070).
+- **Six 8-digit EINs** (pp.64, 65, 87, 89, 90, 91; p.60 prints two of them correctly);
+  Congregation Beit Simchat Torah printed with two EINs (pp.61, 63). **16 box/summary name
+  differences**; p.122's summary title says "Fiscal 2020".
+
+**Things a re-parse must know.** Award headers printed outside the table's rules (pp.35–128).
+Sub-headings inside an award table (pp.70–72). 8.9 pt edge columns holding first letters and
+last digits (pp.105–106). A box amount outside its box (p.98); an empty band over a box (p.84).
+
+---
+
+## 45. FY2021 transparency resolutions rebuilt from the PDFs, checked (#108) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of the 8 PDFs in `source/FY21/transparency-resolutions/`
+> (`code/parse_transparency_v2.py --fy 2021`, `config/transparency/fy2021.toml`). Its review
+> record is [`research/2026-10-21-fy21-transparency-review/`](research/2026-10-21-fy21-transparency-review/README.md).
+> The old `data/fy21/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> record (§27). Not served by the MCP.
+
+**Result.** 4,500 rows from 237 charts (the old parse had 4,463, all of which are here), each
+with its resolution's number and adoption date. An independent image grid agrees on all 4,500.
+No totals and no chart counts are printed. 6 of 8 resolutions net to $0; Reso 06 adds $500,000
+and Reso 07 $17,000,000 (mostly the Food Pantries Initiative).
+
+**What the old parse missed.** The 28 "Beating Hearts" rows (no amount column), 8 EINs printed
+without a hyphen, and one row with no EIN.
+
+**Things a re-parse must know.** The `***` footnote has a third wording ("Technical adjustment
+to designation made in a previous Transparency Resolution"). "Beating Hearts" charts have no
+amount. Reso 02 p.20 prints "(continued)" on a chart's first page. 15 chart pages print no
+"Page n" label.
+
+**What the PDF itself gets wrong (flagged, never fixed).** A row with no member and no EIN,
+"Department of Cultural Affairs **" ($10,000) DCLA (Reso 02 p.29).
+
+---
+
+## 46. FY2021 Terms & Conditions, re-read from the PDF (GitHub #108) — REVIEW NOT STARTED
+
+> **Scope.** Its review record is [`research/2026-10-21-fy21-capital-terms-review/`](research/2026-10-21-fy21-capital-terms-review/README.md). Not served by the MCP.
+
+46 conditions, unnumbered and with no page furniture, numbered here in book order; all 111 unit and
+budget-line heading lines placed; the FSR table (p.8) agrees under both lattices. The retired
+`data/fy21/terms` CSV has the same 46 conditions in order but keeps only the first agency of the
+four two-agency conditions (#1 ACS/DOC, #12 DOE/SCA, #28 HPD/Capital Budget, #37 DYCD/DCAS), files
+DOC's units under ACS's code, puts capital budget lines in `units`, folds the FSR table into #19's
+text and drops a printed hyphen (#23). The PDF prints SCA with DOE's code (040). FY2021 has no
+capital supporting detail in `source/`.
+
+---
+
+## 47. FY2020 Schedule C rebuilt from the PDF, checked (#109) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of `source/FY20/Fiscal-2020-Schedule-C-Final-Merge.pdf` with
+> the §29 toolkit (`config/schedule_c/fy2020.toml`). Its review record is
+> [`research/2026-10-22-fy20-schedule-c-review/`](research/2026-10-22-fy20-schedule-c-review/README.md). The old `data/fy20/schedule_c/*.csv` files are
+> unchanged and stay the historical record (§27). Not served by the MCP.
+
+**Result.** 7,921 award rows, $336,750,073 (body 3,528 / $286,951,073; appendices A, B, C
+510 / $5,610,000, 2,986 / $36,539,000, 897 / $7,650,000). Nothing the first PDF parse had is
+missing; 5,080 rows are new ($77,987,688), 4,180 of them in the appendices: #59's FY2020
+loss, recovered from the PDF. All 27 category TOTALs tie. §20's one FY2020 merged row comes
+back as two awards. The image grid agrees on 6,380 rows.
+
+**What the PDF itself gets wrong (flagged, never fixed).**
+- **p.46**: three EINs printed one row off (Foundling, North Brooklyn Coalition, Safe Horizon).
+- **p.46** rows $200,000 short of the box; **p.45** rows $2,000 over; five rounded statements;
+  the roll-up gap (−$219,300) is these.
+- **Three EINs of the wrong length** (pp.134 ×2, 162). **16 box/summary name differences**;
+  a SAVE box for the whole initiative over its parts' boxes (p.79).
+
+**Things a re-parse must know.** Amounts with no "$" in member tables and appendices. Many
+tables ruled with horizontal lines only, some with a member column (pp.38–41), two or three rows
+to a band (pp.84, 102, 187), a header in one cell (pp.162–164). Banners drawn twice (p.97) or
+padded (p.111). A summary amount whose text is doubled (p.145). Page-origin offset pp.166–177.
+
+---
+
+## 48. FY2020 transparency resolutions rebuilt from the PDFs, checked (#109) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of the 8 PDFs in `source/FY20/transparency-resolutions/`
+> (`code/parse_transparency_v2.py --fy 2020`, `config/transparency/fy2020.toml`). Its review
+> record is [`research/2026-10-21-fy20-transparency-review/`](research/2026-10-21-fy20-transparency-review/README.md).
+> The old `data/fy20/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> record (§27). Not served by the MCP.
+
+**Result.** 5,396 rows from 300 charts (the old parse had 5,319, all of which are here), each
+with its resolution's number and adoption date. An independent image grid agrees on all 5,396.
+No totals and no chart counts are printed. Reso 03, 05 and 07 add new money (+$3.0M in all).
+
+**What the old parse missed.** The 73 "Beating Hearts Initiative" rows (no amount column) and 4
+EINs printed without a hyphen.
+
+**Things a re-parse must know.** Captions print "Chart" and "Chart # 44", "(continued)" before
+the fiscal year (SU-CASA), and "CHART #:" with no number (Reso 06 pp.25–26). Purpose-of-funds
+charts have a Source column and initiative names that span Source and Member. "Organization -
+School" is a header label. "Beating Hearts Initiative" charts have no amount and no note.
+
+**What the PDF itself gets wrong (flagged, never fixed).** Two DoVE charts are $1 off inside
+themselves (Reso 01 chart #10 +$1, Reso 04 chart #11 −$1: MOCJ $110,814 against $110,815
+taken back). 11 `***` rows with no `***` footnote (Reso 02 pp.16, 23; Reso 04 p.20; Reso 05
+p.22). "Millennium Development-Millennium Youth Services" printed without spaces around the
+separator (Reso 05 p.67).
+
+---
+
+## 49. FY2020 capital supporting detail, re-read from the PDF (GitHub #109) — REVIEW NOT STARTED
+
+> **Scope.** Its review record is [`research/2026-10-21-fy20-capital-terms-review/`](research/2026-10-21-fy20-capital-terms-review/README.md). Not served by the MCP.
+
+The book is Part I only (no Part II or III), encrypted with an empty password and rotated. 24 / 24
+printed totals tie (1,663 projects, $701,210,000 FY2020, $5,000,000 FY2021). Part I equals NYC Open
+Data `t474-a92g` on all 1,660 of its amounts and adds the two t474 lost to broken records (`E
+CN817` $170,000, `E CN832` $300,000), so t474's $700,740,000 becomes the PDF's total. Against OMB's
+adopted release, 184 / 191 lines match and OMB carries $7,353,000 more on 11 lines. The PDF prints
+three lower-case `r` boroughs, IDs outside the usual shape (`CNA02`, `NC02`, `CN90`, the last
+twice), an all-zero row, and `AMPREY-SAMUEL` (31 rows). The retired capital CSV drops the comma
+after `SPEAKER` (219 rows) and moves wrapped sponsors into titles (26). FY2020 has no Terms &
+Conditions in `source/`.
+
+---
+
+## 50. FY2019 Schedule C rebuilt from the PDF, checked (#110) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of `source/FY19/Fiscal-2019-Schedule-C-Final-Report.pdf` with
+> the §29 toolkit (`config/schedule_c/fy2019.toml`). Its review record is
+> [`research/2026-10-22-fy19-schedule-c-review/`](research/2026-10-22-fy19-schedule-c-review/README.md). The old `data/fy19/schedule_c/*.csv` files are
+> unchanged and stay the historical record (§27). Not served by the MCP.
+
+**Result.** 5,995 award rows, $248,436,176 (body 1,551 / $198,637,176; appendices A, B, C
+523 / $5,610,000, 3,016 / $36,539,000, 905 / $7,650,000). Nothing the first PDF parse had is
+missing except 27 rows of a partner list that are not awards (below); 5,176 rows are new
+($71,772,745), 4,444 of them in the appendices: #59's FY2019 loss, recovered from the PDF. All
+27 category TOTALs tie. **All 39 of §20's FY2019 merged rows come back as separate awards (82
+awards).** The image grid agrees on 5,090 rows.
+
+**What the PDF itself does (flagged, never fixed).**
+- **A "*" column** (p.10: review not complete at adoption) on 304 rows; kept as a row flag.
+- **Six post-adoption reserves printed again as City-agency rows** (13-6400434; pp.38, 43, 73,
+  78, 82, 125): those boxes' rows add to the box, not the box less the reserve.
+- **Ending the Epidemic** (p.62): rows $150,000 more than the box less its reserve.
+- **A partner list under CWE's Jobs to Build On row** (pp.105–106, 28 rows, $4,463,500 vs the
+  row's $5,154,200): read as no award.
+- **H+H printed with the City's EIN** in Viral Hepatitis Prevention (p.66, 3 rows).
+- **15 box/summary name differences**; a SAVE box for the whole initiative over its parts' boxes
+  (p.49).
+
+**Things a re-parse must know.** Amounts with no "$" in member tables and appendices. A "*"
+column. Headers loose above h-rule tables (pp.42, 125). A statement label centred between its
+two lines (pp.43, 105). A box title's last letter in its own cell (p.74). Two summary tables
+titled without "Council" (pp.41, 102).
+
+---
+
+## 51. FY2019 transparency resolutions rebuilt from the PDFs, checked (#110) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of the 11 PDFs in `source/FY19/transparency-resolutions/`
+> (`code/parse_transparency_v2.py --fy 2019`, `config/transparency/fy2019.toml`). Its review
+> record is [`research/2026-10-22-fy19-transparency-review/`](research/2026-10-22-fy19-transparency-review/README.md).
+> The old `data/fy19/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> record (§27). Not served by the MCP.
+
+**Result.** 7,207 rows from 445 charts (the old parse had 7,090, all of which are here), each
+with its resolution's number and adoption date. An independent image grid agrees on all 7,207.
+No totals and no chart counts are printed. Reso 04, 05, 06, 08 and 09 add new money (+$4.7M in
+all); Reso 02 takes back $144,999 more than it gives.
+
+**What the old parse missed.** The 112 "Beating Hearts Initiative" rows (no amount column),
+Reso 01's two "All Allocations" rows (EIN "Various", $4,090,000 each way), 2 EINs printed
+without a hyphen and 1 followed by a hidden tab glyph.
+
+**Things a re-parse must know.** On 21 pages (Reso 03, 04, 07) text wraps to more lines than
+its row is tall and is drawn across the row's rules: read it as one block per cell, or wrapped
+lines land in the next row ("IGnrce.enwich House") or fall off the table. Some rows are drawn
+column by column. Reso 01–07 and 11 print "CHART 1:" with no "#". Reso 01 p.108 prints chart
+#56's first page as "CHART 55". Reso 09's bold header capitals rise above their text boxes.
+
+**What the PDF itself gets wrong (flagged, never fixed).** Reso 01 p.1 is dated July 17, 2018;
+Legistar says adopted July 18. One DoVE chart is $1 off inside itself (Reso 02 chart #8). 4 `**`
+rows with no `**` footnote (Reso 04 p.19). "Neighborhood SC-Catholic Charities" printed without
+spaces around the separator (Reso 07 p.30).
+
+---
+
+## 52. FY2019 capital supporting detail, re-read from the PDF (GitHub #110) — REVIEW NOT STARTED
+
+> **Scope.** Its review record is [`research/2026-10-22-fy19-capital-terms-review/`](research/2026-10-22-fy19-capital-terms-review/README.md). Not served by the MCP.
+
+The book is the Council's database printed from Excel (every cell ruled; no agency totals, no Part
+II or III, no summary page), read from its vector grid and checked against the image grid. 1,625
+rows; its one total row (no label, no count) ties on all four years: $614,910,000 FY2019,
+$15,900,000 FY2020. It equals NYC Open Data `t474-a92g` on all 1,628 amounts and all 1,625 titles.
+Sponsors are printed as council-district codes with a key on pp.54–55; one row disagrees with t474
+(`HW CN030`, p.40: CD 49 Rose in the PDF, 31 Richards in t474, title "DOT REPAVING IN DISTRICT
+31"). The PDF prints three lower-case `k` boroughs, a two-digit ID (`HL NC57`) and six IDs used
+twice (`LB CN001`–`LB CN006`). Against OMB's adopted release, 165 / 176 lines match and OMB carries
+$15,460,000 more on 11 lines. FY2019 has no Terms & Conditions in `source/`.
+
+---
+
+## 53. FY2018 Schedule C rebuilt from the PDF, checked (#111) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of
+> `source/FY18/FY-2018-Schedule-C-Cover-Template-FINAL-MERGE.pdf` with the §29 toolkit
+> (`config/schedule_c/fy2018.toml`). Its review record is
+> [`research/2026-10-22-fy18-schedule-c-review/`](research/2026-10-22-fy18-schedule-c-review/README.md).
+> The old `data/fy18/schedule_c/*.csv` files are unchanged and stay the historical record
+> (§27). Not served by the MCP.
+
+**Result.** 5,906 award rows, $203,804,505 (body 1,420 / $154,005,505; appendices A, B, C
+537 / $5,610,000, 3,054 / $36,539,000, 895 / $7,650,000). Everything the first parse had is
+here except 27 rows of a partner list that are not awards; 5,031 rows are new ($101,056,774),
+Appendices B and C among them: #59's FY2018 loss. Appendix A's amounts with cents are read
+as whole dollars (§21 `fy18_aging_shift` does not arise). **All 94 of §20's FY2018 merged rows
+come back as separate awards (224 awards).** The image grid agrees on 5,260 rows.
+
+**What the PDF itself does (flagged, never fixed).**
+- **Fiscal conduit columns**: 50 rows print one; kept in the review file.
+- **Good Shepherd Services printed with another organization's EIN** (p.55, 46-1227433).
+- **Two reserves printed again as City-agency rows** (pp.36, 101); **six boxes whose rows do
+  not make them** (pp.57, 80, 85, 95, 124, 127); Community Development's TOTAL $100,000 over
+  its lines (p.38); Merit-Based Scholarships' box $75,331 over its summary line (p.69); Crisis
+  Management System's whole box $12,734 over its parts (p.93).
+- **A partner list under CWE's Jobs to Build On row** (p.106, 28 rows): read as no award.
+- **24 box/summary name differences**; boxes for the whole SAVE and Crisis Management System
+  over their parts' boxes, the parts' titles printed above their tables.
+
+**Things a re-parse must know.** Appendix A's "$N.00" amounts; TOTAL rows inside award tables;
+box titles above their tables (pp.53, 94–97); a row between two ruled tables (p.107); six
+pages where the text layer glues an EIN to the name before it; pp.115–119 blank.
+
+---
+
+## 54. FY2018 transparency resolutions rebuilt from the PDFs, checked (#111) — REVIEW NOT STARTED
+
+> **Scope.** A new, checked parse of the 12 PDFs in `source/FY18/transparency-resolutions/`
+> (`code/parse_transparency_v2.py --fy 2018`, `config/transparency/fy2018.toml`). Its review
+> record is [`research/2026-10-22-fy18-transparency-review/`](research/2026-10-22-fy18-transparency-review/README.md).
+> The old `data/fy18/transparency-resolutions/*.csv` files are unchanged and stay the historical
+> record (§27). Not served by the MCP.
+
+**Result.** 5,558 rows from 400 charts, each with its resolution's number and adoption date, and,
+where printed, the fiscal conduit and its EIN (63 rows). An independent image grid agrees on all
+5,558. No totals and no chart counts are printed. Reso 08 and 10 add new money (+$1.4M);
+Reso 05 takes back $500,000 more than it gives.
+
+**What the old parse got wrong.** It missed 194 rows (136 "Beating Hearts Initiative" rows, 48
+more with a hyphenless EIN, 2 "All Allocations", 8 others, most next to hidden text) and misread one EIN (Reso 04
+p.56, Vietnam Veterans of America: 21-2629339 for 11-2629339).
+
+**Things a re-parse must know.** Reso 01 is dated June 21, 2017, before Fiscal 2018 began, and
+changes the FY2018, 2017 and 2016 budgets. 95 chart pages print fiscal conduit columns. Four
+header rows print no labels; eight boxes round resolution text look like tables. Some `***`
+footnotes explain one chart over several lines. Amounts print cents, and four print no "$".
+
+**What the PDF itself gets wrong (flagged, never fixed).** Police Athletic League's two +$20,000
+purpose rows have no negative (Reso 05 p.60). One organization under two EINs in a pair (Reso 04
+p.56). Four conduit EINs print as "#########" or 8 digits. 6 `**` rows on a page with no
+footnotes (Reso 05 p.23).
+
+---
+
+## 55. FY2018 capital supporting detail and Terms & Conditions, re-read from the PDFs (GitHub #111) — REVIEW NOT STARTED
+
+> **Scope.** Its review record is [`research/2026-10-22-fy18-capital-terms-review/`](research/2026-10-22-fy18-capital-terms-review/README.md). Not served by the MCP.
+
+The capital book, filed as `FY18-Sec254-Capital-ResoA-…pdf`, is the §254 supporting detail, Parts
+I–III (encrypted with an empty password, no summary page). It is the only source for FY2018 Council
+capital (§26): 1,485 Part I projects, $575,000,000 FY2018. All 35 printed `TOTALS FOR` lines tie on
+count and all four years; Part II and Part III tie to each other and to Part I. There is no outside
+source to compare with. 15 rows name the sponsor `DISTRICT 28`; Part II adds 52 `MA` and 3 `TA`
+rows not in Part I. The T&C have 33 unnumbered conditions, one a page, all heading lines placed;
+the retired `data/fy18/terms` CSV has the same 33 but folds the FSR table into #14's text, drops
+two line-end hyphens and files budget-line headings as units.

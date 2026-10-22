@@ -1,0 +1,130 @@
+severity,check_id,pdf_page,award_id,table_index,row_index,field,message
+critical,H8.lattice,334,fy25-p334-t00-r002,0,2,org;ein,"image lattice differs: ['org', 'ein']"
+critical,H8.lattice,407,fy25-p407-t00-r012,0,12,org;ein,"image lattice differs: ['org', 'ein']"
+warn,H10.category_total,115,,,,,"Education: expected 39,924,300, observed 39,974,300 (named exception: PDF self-error: summary lines sum $39,974,300, TOTAL printed $39,924,300 (pending review))"
+warn,H10.no_summary,202,,,,,"category 'Parks and Recreation Services' prints no summary table and no TOTAL; its boxes ($5,368,500) stand in for the TOTAL in the roll-up (named exception: Parks and Recreation Services prints no summary table or TOTAL (p.202))"
+warn,H11.box_alias,42,,,,,"Community Development: summary line 'Diversity, Inclusion and Equity in Tech Initiative' $700,000 is printed as box(es) 'Diversity, Inclusion and Equity in Tech' $700,000 (box drops 'Initiative')"
+warn,H11.box_alias,59,,,,,"Criminal Justice Services: summary line 'Alternatives to Incarceration (ATI)' $14,487,000 is printed as box(es) 'Alternatives to Incarceration (ATIs)' $14,487,000 ('(ATI)' vs '(ATIs)')"
+warn,H11.box_alias,114,,,,,"Domestic Violence: summary line 'Supportive Alternatives to Violent Encounters (SAVE)' $2,450,000 is printed as box(es) 'Supportive Alternatives to Violent Encounters (SAVE)' $1,850,000; 'Supportive Alternatives to Violent Encounters (SAVE)' $600,000 (one summary line for two SAVE boxes)"
+warn,H11.box_alias,153,,,,,"Health Services: summary line 'Reproductive & Sexual Health Services' $554,423 is printed as box(es) 'Reproductive and Sexual Health Services' $554,423 ('&' vs 'and')"
+warn,H11.box_alias,155,,,,,"Higher Education Initiatives: summary line 'Creative Arts Team (CUNY CAT)' $400,000 is printed as box(es) 'Creative Arts Team' $400,000 (summary adds '(CUNY CAT)')"
+warn,H11.box_alias,156,,,,CUNY Research Institutes,"Higher Education Initiatives: summary line 'CUNY Research Institute' $4,500,000 is printed as box(es) 'CUNY Research Institutes' $4,500,000 ('Institute' vs 'Institutes')"
+warn,H11.box_alias,156,,,,CUNY School of Labor and Urban Studies (SLU),"Higher Education Initiatives: summary line 'CUNY School of Labor and Urban Studies' $1,200,000 is printed as box(es) 'CUNY School of Labor and Urban Studies (SLU)' $1,200,000 (box adds '(SLU)')"
+warn,H11.box_alias,163,,,,,"Housing: summary line 'Financial Empowerment for NYC Renters' $450,000 is printed as box(es) ""Financial Empowerment for NYC's Renters"" $450,000 ('NYC Renters' vs ""NYC's Renters"")"
+warn,H11.box_alias,174,,,,Fiscal 2025 Subsidy: Brooklyn Public Library,"Libraries: summary line 'Fiscal 2025 Subsidy' $4,380,300 is printed as box(es) 'Fiscal 2025 Subsidy: Brooklyn Public Library' $4,380,300 (summary line 'Fiscal 2025 Subsidy' (agency BPL))"
+warn,H11.box_alias,174,,,,Fiscal 2025 Subsidy: New York Public Library,"Libraries: summary line 'Fiscal 2025 Subsidy' $5,840,400 is printed as box(es) 'Fiscal 2025 Subsidy: New York Public Library' $5,840,400 (summary line 'Fiscal 2025 Subsidy' (agency NYPL))"
+warn,H11.box_alias,174,,,,Fiscal 2025 Subsidy: Queens Borough Public Library,"Libraries: summary line 'Fiscal 2025 Subsidy' $4,380,300 is printed as box(es) 'Fiscal 2025 Subsidy: Queens Borough Public Library' $4,380,300 (summary line 'Fiscal 2025 Subsidy' (agency QBPL))"
+warn,H11.box_alias,174,,,,Fiscal 2025 Subsidy: Research Library,"Libraries: summary line 'Fiscal 2025 Subsidy' $1,099,000 is printed as box(es) 'Fiscal 2025 Subsidy: Research Library' $1,099,000 (summary line 'Fiscal 2025 Subsidy' (agency (NYPL-R) Research))"
+warn,H11.box_alias,178,,,,,"Mental Health: summary line 'Developmental, Psychological & Behavioral Health Services' $2,255,493 is printed as box(es) 'Developmental, Psychological and Behavioral Health Services' $2,255,493 ('&' vs 'and')"
+warn,H11.box_alias,179,,,,,"Mental Health: summary line 'LGBTQIA+ Youth Mental Health' $1,200,000 is printed as box(es) 'LGBTQIA+ Youth Mental Health (formerly LGBTQ Youth Mental Health)' $1,200,000 (box adds '(formerly LGBTQ Youth Mental Health)')"
+warn,H11.box_alias,181,,,,,"Mental Health: summary line 'Older Adults Mental Health (formerly Geriatric Older Adults)' $3,405,540 is printed as box(es) 'Older Adults Mental Health (formerly Geriatric Mental Health)' $3,405,540 ('Geriatric Older Adults' vs 'Geriatric Mental Health')"
+warn,H11.box_alias,212,,,,,"Public Safety: summary line 'Hate Crimes Prevention Initiative' $1,225,000 is printed as box(es) 'Hate Crimes Prevention' $1,225,000 (box drops 'Initiative')"
+warn,H12.designated_sum,60,,,,,"Initiative to Combat Sexual Assault (partial): expected 4,100,000, observed 4,091,000 (named exception: statement rounds: '$4.1 million' printed, rows sum $4,091,000 (pending review))"
+warn,H12.designated_sum,167,,,,,"Immigrant Opportunities Initiative (partial): expected 2,562,000, observed 2,535,000 (named exception: PDF self-error: statement $2,562,000 designated, rows sum $2,535,000 (pending review))"
+warn,H12.designated_sum,222,,,,,"Pride at Work (partial): expected 3,200,000, observed 451,000 (named exception: PDF self-error: statement says '$3.2 million' designated; rows sum $451,000 and the box is $501,000 (pending review))"
+warn,H12.statement_adds_up,60,,,,,"Initiative to Combat Sexual Assault (partial): expected 4,160,000, observed 4,169,000 (named exception: statement rounds: $69,000 + '$4.1 million' read as $4,169,000 vs the $4,160,000 box (pending review))"
+warn,H12.statement_adds_up,64,,,,,"Cultural After-School Adventure (CASA) (partial): expected 17,340,000, observed 16,746,000 (named exception: PDF self-error: reserve $2,066,000 + designated $14,680,000 = $16,746,000, box $17,340,000 (pending review))"
+warn,H12.statement_adds_up,222,,,,,"Pride at Work (partial): expected 501,000, observed 3,250,000 (named exception: PDF self-error: $50,000 + '$3.2 million' vs the $501,000 box (pending review))"
+warn,H13.rollup,0,,,,,"body rows + post-adoption reserves vs sum of category TOTALs (+ direct agency designations): expected 540,282,182, observed 539,711,182 (named exception: the -$594,000 of p.64, the -$27,000 of p.167 and the +$50,000 of p.115 (pending review))"
+warn,H5.anchors,181,fy25-p181-t00-r004,,,ein,"EIN printed as '13-294-6970', not an EIN; clean EIN left blank (named exception: EIN printed with two hyphens (Safe Horizon, Inc.))"
+warn,W.amount_split_digits,260,,3,,amount,"box amount printed across the table's right rule: read as '$250,000'; confirm on the page"
+warn,W.box_amount_cells,157,,0,,amount,"box amount printed across 3 cells; read as '$500,000'; confirm on the page"
+warn,row_flag,13,fy25-p013-t00-r018,0,18,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,15,fy25-p015-t00-r009,0,9,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,18,fy25-p018-t00-r011,0,11,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,20,fy25-p020-t00-r018,0,18,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,42,fy25-p042-t00-r017,0,17,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,46,fy25-p046-t00-r019,0,19,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,53,fy25-p053-t00-r017,0,17,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,57,fy25-p057-t00-r005,0,5,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,58,fy25-p058-t00-r007,0,7,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,58,fy25-p058-t00-r011,0,11,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,71,fy25-p071-t00-r011,0,11,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,71,fy25-p071-t00-r012,0,12,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,82,fy25-p082-t00-r001,0,1,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,117,fy25-p117-t04-r017,4,17,continuation_row:r18,continuation_row:r18
+warn,row_flag,144,fy25-p144-t00-r002,0,2,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,168,fy25-p168-t00-r004,0,4,amount_odd_format,amount_odd_format
+warn,row_flag,170,fy25-p170-t00-r021,0,21,amount_odd_format,amount_odd_format
+warn,row_flag,177,fy25-p177-t02-r011,2,11,continuation_row:r12,continuation_row:r12
+warn,row_flag,181,fy25-p181-t00-r004,0,4,ein_unreadable,ein_unreadable
+warn,row_flag,183,fy25-p183-t02-r001,2,1,header_span_cell:org,header_span_cell:org
+warn,row_flag,183,fy25-p183-t02-r003,2,3,header_span_cell:org,header_span_cell:org
+warn,row_flag,187,fy25-p187-t00-r009,0,9,continuation_row:r10,continuation_row:r10
+warn,row_flag,187,fy25-p187-t00-r026,0,26,continuation_row:r27,continuation_row:r27
+warn,row_flag,187,fy25-p187-t00-r033,0,33,continuation_row:r34,continuation_row:r34
+warn,row_flag,188,fy25-p188-t02-r030,2,30,continuation_row:r31,continuation_row:r31
+warn,row_flag,197,fy25-p197-t00-r001,0,1,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,210,fy25-p210-t02-r001,2,1,continuation_row:r2,continuation_row:r2
+warn,row_flag,210,fy25-p210-t02-r007,2,7,continuation_row:r8,continuation_row:r8
+warn,row_flag,211,fy25-p211-t00-r013,0,13,continuation_row:r14,continuation_row:r14
+warn,row_flag,211,fy25-p211-t00-r015,0,15,continuation_row:r16,continuation_row:r16
+warn,row_flag,211,fy25-p211-t00-r017,0,17,continuation_row:r18,continuation_row:r18
+warn,row_flag,211,fy25-p211-t00-r019,0,19,continuation_row:r20,continuation_row:r20
+warn,row_flag,211,fy25-p211-t00-r031,0,31,continuation_row:r32,continuation_row:r32
+warn,row_flag,211,fy25-p211-t00-r034,0,34,continuation_row:r35,continuation_row:r35
+warn,row_flag,212,fy25-p212-t01-r020,1,20,continuation_row:r21,continuation_row:r21
+warn,row_flag,212,fy25-p212-t01-r040,1,40,continuation_row:r41,continuation_row:r41
+warn,row_flag,222,fy25-p222-t02-r001,2,1,amount_split_digits,amount_split_digits
+warn,row_flag,222,fy25-p222-t02-r002,2,2,amount_split_digits,amount_split_digits
+warn,row_flag,222,fy25-p222-t02-r003,2,3,amount_split_digits,amount_split_digits
+warn,row_flag,222,fy25-p222-t02-r004,2,4,amount_split_digits,amount_split_digits
+warn,row_flag,222,fy25-p222-t02-r005,2,5,amount_split_digits,amount_split_digits
+warn,row_flag,227,fy25-p227-t00-r012,0,12,wrap_hyphen:sponsor,wrap_hyphen:sponsor
+warn,row_flag,228,fy25-p228-t00-r008,0,8,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,232,fy25-p232-t00-r003,0,3,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,232,fy25-p232-t00-r015,0,15,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,237,fy25-p237-t00-r004,0,4,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,237,fy25-p237-t00-r015,0,15,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,237,fy25-p237-t00-r016,0,16,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,242,fy25-p242-t00-r008,0,8,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,242,fy25-p242-t00-r013,0,13,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,249,fy25-p249-t00-r012,0,12,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,253,fy25-p253-t00-r006,0,6,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,253,fy25-p253-t00-r018,0,18,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,272,fy25-p272-t00-r005,0,5,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,277,fy25-p277-t00-r004,0,4,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,277,fy25-p277-t00-r005,0,5,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,284,fy25-p284-t00-r017,0,17,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,289,fy25-p289-t00-r004,0,4,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,289,fy25-p289-t00-r009,0,9,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,304,fy25-p304-t00-r015,0,15,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,304,fy25-p304-t00-r017,0,17,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,309,fy25-p309-t00-r019,0,19,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,309,fy25-p309-t00-r021,0,21,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,312,fy25-p312-t00-r016,0,16,cid_glyph:org,cid_glyph:org
+warn,row_flag,316,fy25-p316-t00-r002,0,2,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,320,fy25-p320-t00-r016,0,16,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,322,fy25-p322-t00-r018,0,18,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,335,fy25-p335-t00-r023,0,23,cid_glyph:org,cid_glyph:org
+warn,row_flag,342,fy25-p342-t00-r010,0,10,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,349,fy25-p349-t00-r021,0,21,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,352,fy25-p352-t00-r010,0,10,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,352,fy25-p352-t00-r022,0,22,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,354,fy25-p354-t00-r011,0,11,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,354,fy25-p354-t00-r012,0,12,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,355,fy25-p355-t00-r019,0,19,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,358,fy25-p358-t00-r015,0,15,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,360,fy25-p360-t00-r010,0,10,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,362,fy25-p362-t00-r012,0,12,cid_glyph:org,cid_glyph:org
+warn,row_flag,368,fy25-p368-t00-r001,0,1,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,368,fy25-p368-t00-r002,0,2,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,387,fy25-p387-t00-r004,0,4,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,390,fy25-p390-t00-r005,0,5,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,396,fy25-p396-t00-r004,0,4,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,396,fy25-p396-t00-r021,0,21,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,397,fy25-p397-t00-r006,0,6,cid_glyph:org,cid_glyph:org
+warn,row_flag,399,fy25-p399-t00-r001,0,1,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,405,fy25-p405-t00-r003,0,3,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,410,fy25-p410-t00-r002,0,2,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,410,fy25-p410-t00-r003,0,3,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,416,fy25-p416-t00-r011,0,11,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,417,fy25-p417-t00-r007,0,7,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,418,fy25-p418-t00-r001,0,1,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,429,fy25-p429-t00-r007,0,7,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,433,fy25-p433-t00-r016,0,16,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,438,fy25-p438-t00-r010,0,10,cid_glyph:org,cid_glyph:org
+warn,row_flag,446,fy25-p446-t00-r009,0,9,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,447,fy25-p447-t00-r010,0,10,cid_glyph:org,cid_glyph:org
+warn,row_flag,450,fy25-p450-t00-r013,0,13,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,450,fy25-p450-t00-r017,0,17,wrap_hyphen:purpose,wrap_hyphen:purpose

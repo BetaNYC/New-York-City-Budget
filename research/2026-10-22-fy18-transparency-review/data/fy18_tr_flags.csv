@@ -1,0 +1,213 @@
+severity,check_id,resolution_seq,pdf_page,row_id,field,message
+critical,T11.markers,5,23,fy18-tr05-p023-r005,,marker problem: ['marker_without_footnote']
+critical,T11.markers,5,23,fy18-tr05-p023-r006,,marker problem: ['marker_without_footnote']
+critical,T11.markers,5,23,fy18-tr05-p023-r009,,marker problem: ['marker_without_footnote']
+critical,T11.markers,5,23,fy18-tr05-p023-r010,,marker problem: ['marker_without_footnote']
+critical,T11.markers,5,23,fy18-tr05-p023-r011,,marker problem: ['marker_without_footnote']
+critical,T11.markers,5,23,fy18-tr05-p023-r012,,marker problem: ['marker_without_footnote']
+critical,T5.anchors,10,20,fy18-tr10-p020-r001,,"row prints no EIN: 'All Allocations' ($7,805,000.00)"
+critical,T5.anchors,10,20,fy18-tr10-p020-r002,,"row prints no EIN: 'All Allocations' $7,805,000.00"
+warn,T12.fiscal_year,9,30,,,"chart #20 'Senior Centers, Programs, and Enhancements' prints no fiscal year"
+warn,T3.continued_missing,1,36,,,caption repeats chart #12 without '(continued)': 'CHART 12:  Support Our Seniors Initiative - Fiscal 2018'; read as its continuation
+warn,T3.continued_missing,2,33,,,caption repeats chart #13 without '(continued)': 'CHART 13: Cultural Immigrant Initiative - Fiscal 2018'; read as its continuation
+warn,T3.continued_missing,3,27,,,caption repeats chart #9 without '(continued)': 'CHART 9:  Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2018'; read as its continuation
+warn,T4.blank_header,1,55,,,"chart #31 prints a header row with no labels; read with the previous chart page's (['Member', 'Organization', 'EIN Number', 'Agency', 'Amount', 'Agy #', 'U/A', 'Fiscal Conduit/Sponsoring Organization', 'Fiscal Conduit EIN', '*'])"
+warn,T4.blank_header,1,56,,,"chart #32 prints a header row with no labels; read with the previous chart page's (['Member', 'Organization', 'EIN Number', 'Agency', 'Amount', 'Agy #', 'U/A', 'Fiscal Conduit/Sponsoring Organization', 'Fiscal Conduit EIN', '*'])"
+warn,T4.blank_header,3,48,,,"chart #20 prints a header row with no labels; read with the previous chart page's (['Organization', 'EIN Number', 'Agency', 'Amount', 'Agy #', 'U/A', '*'])"
+warn,T4.blank_header,4,32,,,"chart #16 prints a header row with no labels; read with the previous chart page's (['Organization', 'EIN Number', 'Agency', 'Amount', 'Agy #', 'U/A', '*'])"
+warn,T4.no_amount,2,68,,,"chart #46 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: '***StatenIslandHeartSociety,Inc.hasreceived$350,000thatwillgotowardsprovidingautomatedexternaldefibrillators (AEDs)tonon-profitorganizationsthatprimarilyservetheyouthandagingpopulations.Thenon-profitorganizationsare listed above.'"
+warn,T4.no_amount,3,78,,,"chart #44 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: '***StatenIslandHeartSociety,Inc.hasreceived$350,000thatwillgotowardsprovidingautomatedexternaldefibrillators (AEDs)tonon-profitorganizationsthatprimarilyservetheyouthandagingpopulations.Thenon-profitorganizationsare listed above.'"
+warn,T4.no_amount,4,59,,,"chart #43 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: '***Staten Island Heart Society, Inc. has received $350,000 that will go towards providing automated external defibrillators (AEDs)to non-profitorganizations that primarily serve the youth and aging populations. Thenon-profit organizations are listed above.'"
+warn,T4.no_amount,5,63,,,"chart #46 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: '***Staten Island Heart Society, Inc. has received $350,000 that will go towards providing automated external defibrillators (AEDs) to non-profit organizations that primarily serve the youth and aging populations. The non-profit organizations are listed above.'"
+warn,T4.no_amount,6,55,,,"chart #38 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: '***Staten Island Heart Society, Inc. has received $350,000 that will go towards providing automated external defibrillators (AEDs) to non-profit organizations that primarily serve the youth and aging populations. The non-profit organizations are listed above.'"
+warn,T4.no_amount,7,38,,,"chart #28 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: '***Staten Island Heart Society, Inc. has received $350,000 that will go towards providing automated external defibrillators (AEDs) to non-profit organizations that primarily serve the youth and aging populations. The non-profit organizations are listed above.'"
+warn,T4.no_amount,8,47,,,"chart #31 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: '***Staten Island Heart Society, Inc. has received $350,000 that will go towards providing automated external defibrillators (AEDs) to non-profit organizations that primarily serve the youth and aging populations. The non-profit organizations are listed above.'"
+warn,T4.no_amount,9,36,,,"chart #23 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: '***Staten Island Heart Society, Inc. has received $350,000 that will go towards providing automated external defibrillators (AEDs) to non-profit organizations that primarily serve the youth and aging populations. The non-profit organizations are listed above.'"
+warn,T4.no_amount,11,20,,,"chart #13 'Beating Hearts Initiative' prints no Agency or Amount column (['Member', 'Organization', 'EIN Number', '*']); rows kept with a blank amount. Its note: '***Staten Island Heart Society, Inc. has received $350,000 that will go towards providing automated external defibrillators (AEDs) to non-profit organizations that primarily serve the youth and aging populations. The non-profit organizations are listed above.'"
+warn,T6.footnote,3,24,,,"a footnote explains this chart: '*** In a previous Fiscal 2018 transparency resolution, these funds were shown to be reallocated from one agency to another which would have required a budget modification in order to be effectuated. Since no budget modification has been approved to date for Fiscal 2018, the reallocation has not occurred. As indicated in this chart, the funds will no longer be reallocated and will remain within the'"
+warn,T6.footnote,3,25,,,"a footnote explains this chart: '*** In a previous Fiscal 2018 transparency resolution, these funds were shown to be reallocated from one agency to another which would have required a budget modification in order to be effectuated. Since no budget modification has been approved to date for Fiscal 2018, the reallocation has not occurred. As indicated in this chart, the funds will no longer be reallocated and will remain within the'"
+warn,T6.footnote,3,30,,,"a footnote explains this chart: '*** In a previous Fiscal 2018 transparency resolution, these funds were shown to be reallocated from one agency to another which would have required a budget modification in order to be effectuated. Since no budget modification has been approved to date for Fiscal 2018, the reallocation has not occurred. As indicated in this chart, the funds will no longer be reallocated and will remain within the'"
+warn,T6.footnote,4,58,,,"a footnote explains this chart: '*** In Schedule C $5,154,200 was designated to Consortium for Worker Education - Jobs to Build On (CWE), $4.46m of which CWE subcontracted to service provider partners. The Subcontractors and the amount that CWE allocated to each was listed in Schedule C. CWE is changing the allocation originally provided to two subcontractors and this chart reflects that change.'"
+warn,W.caption_format,3,37,,,caption prints '(Continued)' with a capital C: 'CHART 14:  Food Pantries Initiative - Fiscal 2018 (Continued)'; read as chart #14 (continued)
+warn,W.caption_format,3,38,,,caption prints '(Continued)' with a capital C: 'CHART 14:  Food Pantries Initiative - Fiscal 2018 (Continued)'; read as chart #14 (continued)
+warn,W.caption_format,3,39,,,caption prints '(Continued)' with a capital C: 'CHART 14:  Food Pantries Initiative - Fiscal 2018 (Continued)'; read as chart #14 (continued)
+warn,W.caption_format,3,40,,,caption prints '(Continued)' with a capital C: 'CHART 14:  Food Pantries Initiative - Fiscal 2018 (Continued)'; read as chart #14 (continued)
+warn,W.caption_format,3,43,,,caption prints '(Continued)' with a capital C: 'CHART 16: Cultural Immigrant Initiative - Fiscal 2018 (Continued)'; read as chart #16 (continued)
+warn,W.caption_format,3,44,,,caption prints '(Continued)' with a capital C: 'CHART 16: Cultural Immigrant Initiative - Fiscal 2018 (Continued)'; read as chart #16 (continued)
+warn,W.caption_format,4,16,,,caption prints '(Continued)' with a capital C: 'CHART 1: Local Initiatives - Fiscal 2018 (Continued)'; read as chart #1 (continued)
+warn,W.caption_format,4,31,,,caption prints '(Continued)' with a capital C: 'CHART 15: Ending the Epidemic - Fiscal 2018 (Continued)'; read as chart #15 (continued)
+warn,W.caption_format,4,58,,,caption prints a footnote marker after the caption: 'CHART 42: Job Training and Placement Initiative - Fiscal 2018 ***'; read as chart #42
+warn,W.caption_format,6,51,,,caption prints '(Continued)' with a capital C: 'CHART 36: Purpose of Funds Changes - Fiscal 2018 (Continued)'; read as chart #36 (continued)
+warn,W.caption_format,6,52,,,caption prints '(Continued)' with a capital C: 'CHART 36: Purpose of Funds Changes - Fiscal 2018 (Continued)'; read as chart #36 (continued)
+warn,W.caption_format,6,53,,,caption prints '(Continued)' with a capital C: 'CHART 36: Purpose of Funds Changes - Fiscal 2018 (Continued)'; read as chart #36 (continued)
+warn,row_flag,1,19,fy18-tr01-p019-r001,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,1,19,fy18-tr01-p019-r002,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,1,23,fy18-tr01-p023-r036,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,1,23,fy18-tr01-p023-r037,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,1,47,fy18-tr01-p047-r002,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,1,60,fy18-tr01-p060-r002,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,1,63,fy18-tr01-p063-r003,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,1,63,fy18-tr01-p063-r004,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,2,59,fy18-tr02-p059-r005,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,2,59,fy18-tr02-p059-r006,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,2,66,fy18-tr02-p066-r023,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,2,66,fy18-tr02-p066-r024,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,16,fy18-tr03-p016-r003,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,16,fy18-tr03-p016-r004,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,16,fy18-tr03-p016-r005,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,17,fy18-tr03-p017-r014,clipped_text:org,clipped_text:org
+warn,row_flag,3,29,fy18-tr03-p029-r001,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,70,fy18-tr03-p070-r001,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,3,70,fy18-tr03-p070-r002,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,3,71,fy18-tr03-p071-r001,clipped_text:source,clipped_text:source
+warn,row_flag,3,71,fy18-tr03-p071-r002,clipped_text:source,clipped_text:source
+warn,row_flag,3,72,fy18-tr03-p072-r005,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,72,fy18-tr03-p072-r006,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,72,fy18-tr03-p072-r007,clipped_text:org,clipped_text:org
+warn,row_flag,3,72,fy18-tr03-p072-r007,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,72,fy18-tr03-p072-r008,clipped_text:org,clipped_text:org
+warn,row_flag,3,72,fy18-tr03-p072-r008,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,72,fy18-tr03-p072-r009,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,72,fy18-tr03-p072-r010,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,72,fy18-tr03-p072-r011,clipped_text:org,clipped_text:org
+warn,row_flag,3,72,fy18-tr03-p072-r011,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,72,fy18-tr03-p072-r012,clipped_text:org,clipped_text:org
+warn,row_flag,3,72,fy18-tr03-p072-r012,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,72,fy18-tr03-p072-r013,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,72,fy18-tr03-p072-r014,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,3,77,fy18-tr03-p077-r003,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,3,78,fy18-tr03-p078-r035,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,16,fy18-tr04-p016-r001,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,4,16,fy18-tr04-p016-r002,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,4,16,fy18-tr04-p016-r011,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,4,16,fy18-tr04-p016-r012,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,4,18,fy18-tr04-p018-r001,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,19,fy18-tr04-p019-r001,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,22,fy18-tr04-p022-r001,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,26,fy18-tr04-p026-r007,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,26,fy18-tr04-p026-r008,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,42,fy18-tr04-p042-r001,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,42,fy18-tr04-p042-r002,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,42,fy18-tr04-p042-r003,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,42,fy18-tr04-p042-r004,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,42,fy18-tr04-p042-r005,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,44,fy18-tr04-p044-r001,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,50,fy18-tr04-p050-r003,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,50,fy18-tr04-p050-r004,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,52,fy18-tr04-p052-r002,clipped_text:org,clipped_text:org
+warn,row_flag,4,56,fy18-tr04-p056-r001,clipped_text:org,clipped_text:org
+warn,row_flag,4,56,fy18-tr04-p056-r002,clipped_text:org,clipped_text:org
+warn,row_flag,4,56,fy18-tr04-p056-r005,clipped_text:org,clipped_text:org
+warn,row_flag,4,56,fy18-tr04-p056-r005,unpaired_purpose,unpaired_purpose
+warn,row_flag,4,56,fy18-tr04-p056-r006,clipped_text:org,clipped_text:org
+warn,row_flag,4,56,fy18-tr04-p056-r006,unpaired_purpose,unpaired_purpose
+warn,row_flag,4,56,fy18-tr04-p056-r007,clipped_text:org,clipped_text:org
+warn,row_flag,4,56,fy18-tr04-p056-r008,clipped_text:org,clipped_text:org
+warn,row_flag,4,56,fy18-tr04-p056-r010,overfull_cell:New Purpose of Funds,overfull_cell:New Purpose of Funds
+warn,row_flag,4,56,fy18-tr04-p056-r015,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,4,56,fy18-tr04-p056-r016,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,5,23,fy18-tr05-p023-r005,marker_without_footnote,marker_without_footnote
+warn,row_flag,5,23,fy18-tr05-p023-r006,marker_without_footnote,marker_without_footnote
+warn,row_flag,5,23,fy18-tr05-p023-r009,marker_without_footnote,marker_without_footnote
+warn,row_flag,5,23,fy18-tr05-p023-r010,marker_without_footnote,marker_without_footnote
+warn,row_flag,5,23,fy18-tr05-p023-r011,marker_without_footnote,marker_without_footnote
+warn,row_flag,5,23,fy18-tr05-p023-r012,marker_without_footnote,marker_without_footnote
+warn,row_flag,5,60,fy18-tr05-p060-r001,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,5,60,fy18-tr05-p060-r002,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,5,60,fy18-tr05-p060-r011,unpaired_purpose,unpaired_purpose
+warn,row_flag,5,60,fy18-tr05-p060-r012,unpaired_purpose,unpaired_purpose
+warn,row_flag,5,61,fy18-tr05-p061-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,61,fy18-tr05-p061-r003,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,5,61,fy18-tr05-p061-r003,amount_no_dollar,amount_no_dollar
+warn,row_flag,5,61,fy18-tr05-p061-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,61,fy18-tr05-p061-r004,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,5,61,fy18-tr05-p061-r004,amount_no_dollar,amount_no_dollar
+warn,row_flag,5,61,fy18-tr05-p061-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,61,fy18-tr05-p061-r005,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,5,61,fy18-tr05-p061-r005,amount_no_dollar,amount_no_dollar
+warn,row_flag,5,61,fy18-tr05-p061-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,61,fy18-tr05-p061-r006,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,5,61,fy18-tr05-p061-r006,amount_no_dollar,amount_no_dollar
+warn,row_flag,5,62,fy18-tr05-p062-r001,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,5,62,fy18-tr05-p062-r002,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,5,62,fy18-tr05-p062-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,5,62,fy18-tr05-p062-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,6,14,fy18-tr06-p014-r021,conduit_ein_odd,conduit_ein_odd
+warn,row_flag,6,14,fy18-tr06-p014-r032,conduit_ein_odd,conduit_ein_odd
+warn,row_flag,6,16,fy18-tr06-p016-r002,conduit_ein_odd,conduit_ein_odd
+warn,row_flag,6,16,fy18-tr06-p016-r012,conduit_ein_odd,conduit_ein_odd
+warn,row_flag,6,50,fy18-tr06-p050-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,6,50,fy18-tr06-p050-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,6,51,fy18-tr06-p051-r005,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,6,53,fy18-tr06-p053-r004,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,6,53,fy18-tr06-p053-r005,wrap_hyphen:member,wrap_hyphen:member
+warn,row_flag,8,25,fy18-tr08-p025-r011,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,9,33,fy18-tr09-p033-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,34,fy18-tr09-p034-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,34,fy18-tr09-p034-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,34,fy18-tr09-p034-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,34,fy18-tr09-p034-r003,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,9,34,fy18-tr09-p034-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,34,fy18-tr09-p034-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,34,fy18-tr09-p034-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,34,fy18-tr09-p034-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,34,fy18-tr09-p034-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,34,fy18-tr09-p034-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,34,fy18-tr09-p034-r009,wrap_hyphen:org,wrap_hyphen:org
+warn,row_flag,9,35,fy18-tr09-p035-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,35,fy18-tr09-p035-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,35,fy18-tr09-p035-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,9,35,fy18-tr09-p035-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,18,fy18-tr10-p018-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,18,fy18-tr10-p018-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,18,fy18-tr10-p018-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,18,fy18-tr10-p018-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,18,fy18-tr10-p018-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,18,fy18-tr10-p018-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,18,fy18-tr10-p018-r013,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,18,fy18-tr10-p018-r014,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,18,fy18-tr10-p018-r015,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,19,fy18-tr10-p019-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,19,fy18-tr10-p019-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,19,fy18-tr10-p019-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,10,19,fy18-tr10-p019-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,19,fy18-tr10-p019-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,19,fy18-tr10-p019-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,10,19,fy18-tr10-p019-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,19,fy18-tr10-p019-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,19,fy18-tr10-p019-r006,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,10,19,fy18-tr10-p019-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,20,fy18-tr10-p020-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,20,fy18-tr10-p020-r001,ein_blank,ein_blank
+warn,row_flag,10,20,fy18-tr10-p020-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,20,fy18-tr10-p020-r002,ein_blank,ein_blank
+warn,row_flag,10,20,fy18-tr10-p020-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,10,20,fy18-tr10-p020-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,14,fy18-tr11-p014-r012,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,11,17,fy18-tr11-p017-r001,overfull_cell:New Purpose of Funds,overfull_cell:New Purpose of Funds
+warn,row_flag,11,17,fy18-tr11-p017-r013,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,17,fy18-tr11-p017-r014,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,17,fy18-tr11-p017-r014,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,11,18,fy18-tr11-p018-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,18,fy18-tr11-p018-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,18,fy18-tr11-p018-r002,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,11,18,fy18-tr11-p018-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,18,fy18-tr11-p018-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,18,fy18-tr11-p018-r004,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,11,18,fy18-tr11-p018-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,18,fy18-tr11-p018-r006,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,18,fy18-tr11-p018-r006,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,11,18,fy18-tr11-p018-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,18,fy18-tr11-p018-r008,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,18,fy18-tr11-p018-r008,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,11,18,fy18-tr11-p018-r009,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,18,fy18-tr11-p018-r010,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,18,fy18-tr11-p018-r010,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,11,18,fy18-tr11-p018-r011,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,18,fy18-tr11-p018-r012,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,11,18,fy18-tr11-p018-r012,wrap_hyphen:purpose,wrap_hyphen:purpose
+warn,row_flag,11,19,fy18-tr11-p019-r001,overfull_cell:New Purpose of Funds,overfull_cell:New Purpose of Funds
+warn,row_flag,11,19,fy18-tr11-p019-r002,overfull_cell:New Purpose of Funds,overfull_cell:New Purpose of Funds
+warn,row_flag,12,39,fy18-tr12-p039-r001,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,12,39,fy18-tr12-p039-r002,ein_no_hyphen,ein_no_hyphen
+warn,row_flag,12,48,fy18-tr12-p048-r009,wrap_hyphen:purpose,wrap_hyphen:purpose

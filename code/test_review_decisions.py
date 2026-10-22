@@ -5,6 +5,7 @@ Tests for code/validate_review_decisions.py and code/build_review_suggestions.py
 Run: pytest code/test_review_decisions.py
 """
 import csv
+import glob
 import os
 import sys
 
@@ -62,7 +63,7 @@ def test_cli_exit_codes(tmp_path):
 
 
 def test_committed_decision_files_are_valid():
-    # The header-only files committed for each FY2027 family, and the Schedule C one.
+    # The decisions files committed for each FY2027 and FY2026 family.
     pairs = [
         ("data/fy27/pdf/schedule_c/fy27_sc_review.csv", "research/2026-10-20-fy27-schedule-c-review/data/fy27_sc_review_decisions.csv"),
         ("data/fy27/pdf/capital_sd/fy27_capital_sd_review.csv", "research/2026-10-20-fy27-capital-terms-review/data/fy27_capital_sd_review_decisions.csv"),
@@ -72,6 +73,17 @@ def test_committed_decision_files_are_valid():
         ("data/fy26/pdf/schedule_c/fy26_sc_review.csv", "research/2026-10-21-fy26-schedule-c-review/data/fy26_sc_review_decisions.csv"),
         ("data/fy26/pdf/transparency/fy26_tr_review.csv", "research/2026-10-21-fy26-transparency-review/data/fy26_tr_review_decisions.csv"),
     ]
+    # FY2025 back to FY2018: one decisions file per family and year in data/pdf_years.csv.
+    prefix = {"capital_sd": "capital_sd", "terms": "terms", "schedule_c": "sc", "transparency": "tr"}
+    with open(os.path.join(REPO, "data", "pdf_years.csv"), newline="") as f:
+        for y in csv.DictReader(f):
+            if int(y["fiscal_year"]) > 2025:
+                continue
+            nn, pre = y["fiscal_year"][2:], prefix[y["family"]]
+            found = glob.glob(os.path.join(REPO, "research", f"2026-10-2*-fy{nn}-*-review", "data",
+                                           f"fy{nn}_{pre}_review_decisions.csv"))
+            assert len(found) == 1, (y["fiscal_year"], y["family"], found)
+            pairs.append((f"data/fy{nn}/pdf/{y['family']}/fy{nn}_{pre}_review.csv", os.path.relpath(found[0], REPO)))
     for review, decisions in pairs:
         assert vrd.main(["--review", os.path.join(REPO, review), "--decisions", os.path.join(REPO, decisions)]) == 0, decisions
 
@@ -91,6 +103,27 @@ def test_suggestions_cover_every_review_row_and_are_committed():
     by = {r["review_id"]: r for r in rows}
     assert by["d68b985e6c58"]["suggested_decision"] == "source_error"
     assert by["01375b88b4c3"]["suggested_decision"] == "accepted_as_printed"
+
+
+def test_every_promoted_review_row_has_a_suggestion_from_its_own_year():
+    # Globbed, not taken from REVIEW_FILES: a year left out of REVIEW_FILES would be skipped
+    # without a word, and a year that borrowed another year's rules would cite that year.
+    with open(brs.OUT, newline="", encoding="utf-8") as f:
+        sugg = {(r["fiscal_year"], r["family"], r["review_id"]): r for r in csv.DictReader(f)}
+    paths = glob.glob(os.path.join(REPO, "data", "fy*", "pdf", "*", "*_review.csv"))
+    assert len(paths) >= 36
+    missing, wrong_year = [], []
+    for path in paths:
+        fam = os.path.basename(os.path.dirname(path))
+        with open(path, newline="", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                fy = r["fiscal_year"]
+                s = sugg.get((fy, fam, r["review_id"]))
+                if s is None:
+                    missing.append((fy, fam, r["review_id"]))
+                elif f"-fy{fy[2:]}-" not in s["source"]:
+                    wrong_year.append((fy, fam, r["review_id"], s["source"]))
+    assert missing == [] and wrong_year == []
 
 
 def test_merge_adds_new_and_never_overwrites(tmp_path):

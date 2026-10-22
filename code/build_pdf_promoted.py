@@ -6,11 +6,18 @@ every PDF-derived row carries `fiscal_year, source_pdf, pdf_sha256, pdf_page, bb
 review_id, flags`, with values as printed. `bbox_pt` is `x0,top,x1,bottom` in PDF points on the
 **unrotated** page (top-left origin), so a viewer that renders the page with its /Rotate can map it.
 
-This script re-runs the review parsers (code/review_capital_sd.py, code/review_terms.py) into a
-scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
+This script re-runs the parsers (code/review_capital_sd.py, code/review_terms.py,
+code/parse_schedule_c_v2.py, code/parse_transparency_v2.py) into a scratch folder, so the
+promoted files are regenerated from the PDFs, never copied from research/.
 Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
 `capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
-(via code/parse_transparency_v2.py), all GitHub #103.
+(via code/parse_transparency_v2.py), all GitHub #103. For FY2025 back to FY2018 (FY2025 #104,
+FY2024 #105, FY2023 #106, FY2022 #107, FY2021 #108, FY2020 #109, FY2019 #110, FY2018 #111):
+`schedule_c` and `transparency` every year; `capital_sd` and `terms` FY2025-FY2022 and FY2018;
+FY2021 `terms` only (no FY2021 capital supporting detail in source/); FY2020 `capital_sd` only
+(Part I only, so its orgs table is header only; no FY2020 T&C); FY2019 `capital_sd` only (an
+Excel print: no Part II/III and no summary page; no FY2019 T&C). The FY2018 capital book prints
+no summary page.
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -103,7 +110,8 @@ def build_capital_sd(scratch, fy=2027):
     d = os.path.join(scratch, "data")
     px = cap.PREFIX
     fys = cap.FYS
-    summary_pno = cap.pages_of("summary")[0]
+    # FY2019 prints no summary page: no summary lines are added to its totals table.
+    summary_pno = (cap.pages_of("summary") or [None])[0]
     pages = {int(p["pdf_page"]): p for p in read(os.path.join(d, f"{px}_capital_sd_pages.csv"))}
     base = {"fiscal_year": cap.FY, "source_pdf": rel(cap.PDF), "pdf_sha256": cap.PDF_SHA256}
 
@@ -121,7 +129,11 @@ def build_capital_sd(scratch, fy=2027):
            lambda rv: (rv["part"], rv["sub_id"]) if rv["sub_id"] and rv["part"] in ("I", "II") else None)
     proj_cols = CONTRACT + ["part", "agency", "row_in_page", "sub_id", "budget_line", "boro", "title",
                             "building_code", "school_code", *fys,
-                            "sponsor", "title_raw", "sponsor_raw", *(f"{fy}_printed" for fy in fys)]
+                            "sponsor", "title_raw", "sponsor_raw",
+                            # FY2019 (Excel print) only: its CD codes and DESC column.
+                            *(c for c in ("council_district", "description", "description_raw")
+                              if projects and c in projects[0]),
+                            *(f"{fy}_printed" for fy in fys)]
 
     # Part III: one row per printed budget-line row, carrying its organization's printed line.
     orgs = read(os.path.join(d, f"{px}_capital_sd_part3_orgs.csv"))
@@ -152,12 +164,15 @@ def build_capital_sd(scratch, fy=2027):
     totals = []
     for t in read(os.path.join(d, f"{px}_capital_sd_totals.csv")):
         totals.append(dict(base, bbox_pt="", kind="totals_for", **t))
-    with cap.pdfplumber.open(cap.PDF) as pdf:
-        summ = cap.summary_page(pdf, None)
-    p1 = next(t for t in totals if t["part"] == "I" and t["name"] == "ALL")
-    for name, val, sumv in (("City Council Additions", summ["additions"], p1["sum_" + fys[0]]),
-                            ("Less Rescindments from Prior Capital Budgets", summ["rescindments"], ""),
-                            ("Net Change", summ["net"], summ["additions"] - summ["rescindments"])):
+    summary_lines = ()
+    if summary_pno:
+        with cap.pdfplumber.open(cap.PDF) as pdf:
+            summ = cap.summary_page(pdf, None)
+        p1 = next(t for t in totals if t["part"] == "I" and t["name"] == "ALL")
+        summary_lines = (("City Council Additions", summ["additions"], p1["sum_" + fys[0]]),
+                         ("Less Rescindments from Prior Capital Budgets", summ["rescindments"], ""),
+                         ("Net Change", summ["net"], summ["additions"] - summ["rescindments"]))
+    for name, val, sumv in summary_lines:
         status = "" if sumv == "" else ("OK" if int(sumv) == val else "FAIL")
         totals.append(dict(base, pdf_page=summary_pno, bbox_pt="", kind="summary", part="", name=name,
                            **{"printed_" + fys[0]: val, "sum_" + fys[0]: sumv}, status=status))
@@ -180,9 +195,14 @@ def build_capital_sd(scratch, fy=2027):
     year = dict(base, family="capital_sd", issue=cap.CFG["issue"], status="reviewed", rows=len(projects),
                 flagged=sum(1 for r in projects if r["flags"]),
                 printed_totals_tied=f"{tied}/{n_tot}",
-                note=(f"Parts I+II {len(projects)} rows (projects table); Part III {len(org_rows)} "
-                      f"budget-line rows of {len(orgs)} organizations (orgs table); "
-                      f"p.{summary_pno} summary {'ties' if summ_ok else 'DOES NOT tie'}. "
+                note=((f"Parts I+II {len(projects)} rows (projects table); Part III {len(org_rows)} "
+                       f"budget-line rows of {len(orgs)} organizations (orgs table); "
+                       if cap.pages_of("part3") else
+                       # FY2020 prints Part I only: no Part II or III to promote.
+                       f"Part I only (the book prints no Part II or III): {len(projects)} rows "
+                       "(projects table); ") +
+                      (f"p.{summary_pno} summary {'ties' if summ_ok else 'DOES NOT tie'}. " if summary_pno else
+                       "no summary page printed. ") +
                       f"Review: {cap.CFG['review_dir']}/REVIEW.md"))
     return files, year
 
@@ -257,15 +277,68 @@ SC_NOTE = {
     2026: ("24/25 category TOTALs tie; two PDF self-errors flagged (p.173 TOTAL $800 under its "
            "lines; p.98 rows $15,000 under the statement); 2 eight-digit EINs. "
            "Review: research/2026-10-21-fy26-schedule-c-review/REVIEW.md"),
+    2025: ("24/25 category TOTALs tie (Parks prints no summary table, p.202); PDF self-errors "
+           "flagged (p.115 TOTAL $50,000 under its lines; p.64 statement $594,000 short of its "
+           "box; p.167 rows $27,000 under the statement; p.222 '$3.2 million' for a $501,000 "
+           "box); 1 malformed EIN (p.181). "
+           "Review: research/2026-10-21-fy25-schedule-c-review/REVIEW.md"),
+    2024: ("24/25 category TOTALs tie (Parks prints no summary table, p.201); PDF self-errors "
+           "flagged (p.63 TOTAL $52,935 under its lines; six statements whose reserve and rows "
+           "do not make the box); pp.130-137 (191 rows, $12,028,500) attached to NYC Cleanup, "
+           "flagged; 1,438 rows in tables with no vertical rules checked by pixel rules only; "
+           "bbox_pt from the MediaBox corner (216 pages start at -18,18). "
+           "Review: research/2026-10-21-fy24-schedule-c-review/REVIEW.md"),
+    2023: ("26/26 category TOTALs tie; appendices equal their fixed pots, including the two "
+           "$5,000 Local rows the old parse lost (pp.213, 235); PDF self-errors flagged (boxes "
+           "vs summary: p.83 Low Wage Worker Support $120,000 vs $2,000,000, p.86 Autism "
+           "Awareness; six boxes whose rows or reserve do not make the box; four rounded "
+           "statements; roll-up +$646,350); Asiyah Women's Center printed with another org's "
+           "EIN (pp.13, 175); 1,028 rows in tables with no vertical rules checked by pixel rules "
+           "only. Review: research/2026-10-21-fy23-schedule-c-review/REVIEW.md"),
+    2022: ("25/25 category TOTALs tie; appendices equal their fixed pots; PDF self-errors flagged "
+           "(p.57 Public Health Funding Backfill box $4,467,933 vs summary $4,667,933; six "
+           "statements holding a reserve while their rows make the whole box; three more and one "
+           "rounding; roll-up +$6,545,340); 5 EINs of the wrong length; Art as a Catalyst for "
+           "Change (40 rows, pp.84-85) read with its Program column in purpose. "
+           "Review: research/2026-10-21-fy22-schedule-c-review/REVIEW.md"),
+    2021: ("26/26 category TOTALs tie; appendices equal their fixed pots; PDF self-errors flagged "
+           "(p.122 box printed '$477,00', read as $477,000; three statements holding a reserve "
+           "while their rows make the whole box; one $1 over and one rounding; roll-up "
+           "+$129,070); 6 EINs of the wrong length; award headers printed outside the table "
+           "rules; 431 rows checked by pixel rules only. "
+           "Review: research/2026-10-22-fy21-schedule-c-review/REVIEW.md"),
+    2020: ("27/27 category TOTALs tie; appendices (amounts printed with no '$') equal their fixed "
+           "pots; PDF self-errors flagged (p.46 three EINs printed one row off; p.46 rows "
+           "$200,000 short of the box; p.45 $2,000 over; five rounded statements; roll-up "
+           "-$219,300); 3 EINs of the wrong length; DATA-ANOMALIES §20's FY2020 row read as two "
+           "awards; 1,532 rows checked by pixel rules only. "
+           "Review: research/2026-10-22-fy20-schedule-c-review/REVIEW.md"),
+    2019: ("27/27 category TOTALs tie; appendices (amounts printed with no '$') equal their fixed "
+           "pots; a '*' column (review not complete) read as a row flag on 304 rows; PDF "
+           "self-errors flagged (six post-adoption reserves printed again as City-agency rows; "
+           "p.62 Ending the Epidemic rows $150,000 over; roll-up +$914,919); a partner list "
+           "under one award (pp.105-106, 28 rows) read as no award; all 39 of DATA-ANOMALIES "
+           "§20's FY2019 merged rows read as 82 awards; 902 rows checked by pixel rules only. "
+           "Review: research/2026-10-22-fy19-schedule-c-review/REVIEW.md"),
+    2018: ("25/26 category TOTALs tie (Community Development's prints $100,000 over its lines, "
+           "a named PDF self-error); appendices equal their fixed pots (Appendix A's amounts "
+           "printed with cents, the rest with no '$'); a '*' column read as a row flag on "
+           "1,504 rows; fiscal conduits (50 rows) kept in the review file; PDF self-errors "
+           "flagged (two reserves printed again as City-agency rows; six boxes whose rows do "
+           "not make them; roll-up +$2,754,028); p.55 Good Shepherd printed with another org's "
+           "EIN; a partner list (p.106, 28 rows) read as no award; all 94 of DATA-ANOMALIES "
+           "§20's FY2018 merged rows read as 224 awards; 646 rows checked by pixel rules only. "
+           "Review: research/2026-10-22-fy18-schedule-c-review/REVIEW.md"),
 }
-SC_ISSUE = {2027: 102, 2026: 103}
+SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108, 2020: 109, 2019: 110, 2018: 111}
 
 
 def build_schedule_c(scratch, fy=2027):
     """Re-run code/parse_schedule_c_v2.py (all checks, image lattice and ink included) into the
     scratch folder and promote its award, initiative, category and review tables. Its rows
-    already carry the row contract; neither PDF has /Rotate pages (FY2026's landscape pages
-    are 792x612 media boxes), so bbox_pt needs no unrotate."""
+    already carry the row contract; no Schedule C PDF has /Rotate pages (FY2026's and FY2025's
+    landscape pages are 792x612 media boxes), so bbox_pt needs no unrotate. Its coordinates
+    are from the MediaBox's top-left corner (FY2024 has MediaBoxes starting at (-18, 18))."""
     import contextlib
     import parse_schedule_c_v2 as sc
     from schedc import config as sc_config
@@ -315,72 +388,108 @@ def build_schedule_c(scratch, fy=2027):
 
 
 # ------------------------------------------------------------------------------------------
-# FY2026 transparency resolutions
+# Transparency resolutions (FY2026 .. FY2018)
 # ------------------------------------------------------------------------------------------
 
-def build_transparency(scratch):
-    """Re-run code/parse_transparency_v2.py (all checks, image lattice and ink included) into the
-    scratch folder and promote its row, chart, resolution and review tables (GitHub #103).
+TR_ISSUE = {2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108, 2020: 109, 2019: 110, 2018: 111}
 
-    One family row in data/pdf_years.csv covers the 10 resolution PDFs: `source_pdf` is their
+
+def tr_note(fy, cfg, rows_, charts):
+    """The data/pdf_years.csv note for a transparency year."""
+    reviewed = sum(1 for r in rows_ if r["review_id"])
+    if fy == 2026:
+        return (f"10 resolutions (Res 1013-2025 .. Res 0529-2026, 2025-08-14 .. 2026-06-30), "
+                f"{len(rows_)} rows, {len(charts)} charts; each row has resolution_number and "
+                "resolution_date. The charts print no money totals: printed_totals_tied is "
+                "'Charts 1 through N' vs charts found (Reso 03-10 print it). Of the flagged "
+                f"rows, {reviewed} are in the review file; the "
+                "rest carry routine flags only (no-border cells, hyphenless EINs, compound "
+                "words at a line end). pdf_sha256 = "
+                "sha256 of the sorted '<sha256>  <path>' lines of the 10 PDFs. "
+                "Review: research/2026-10-21-fy26-transparency-review/REVIEW.md")
+    res = cfg["resolutions"]
+    numbered = [r for r in res if r["number"]]
+    unnumbered = [r for r in res if not r["number"]]
+    printing = [r["seq"] for r in res if r["charts_printed"]]
+    tied_how = (f"printed_totals_tied is 'Charts 1 through N' vs charts found (Reso "
+                f"{printing[0]:02d}-{printing[-1]:02d} print it)" if printing else
+                "printed_totals_tied is n/a (no resolution prints a chart count either)")
+    n_unnum = sum(1 for r in rows_ if not r["resolution_number"])
+    return (f"{len(res)} resolutions ({numbered[0]['number']} .. {numbered[-1]['number']}, "
+            f"{res[0]['date']} .. {res[-1]['date']}), {len(rows_)} rows, {len(charts)} charts; "
+            "each row has resolution_date and resolution_number"
+            + (f", except the {n_unnum} rows of Reso "
+               + ", ".join(f"{r['seq']:02d} ({r['date']})" for r in unnumbered)
+               + ", whose number is not on record (review item)" if unnumbered else "")
+            + f". The charts print no money totals: {tied_how}. Of the flagged "
+            f"rows, {reviewed} are in the review file; the rest carry routine flags only. "
+            f"pdf_sha256 = sha256 of the sorted '<sha256>  <path>' lines of the {len(res)} PDFs. "
+            f"Review: {cfg['review_dir']}/REVIEW.md")
+
+
+def build_transparency(scratch, fy=2026):
+    """Re-run code/parse_transparency_v2.py (all checks, image lattice and ink included) into the
+    scratch folder and promote its row, chart, resolution and review tables (GitHub #103 FY2026,
+    #104 FY2025, #105 FY2024, #106 FY2023, #107 FY2022, #108 FY2021, #109 FY2020, #110 FY2019, #111 FY2018). FY2022 Reso 02's media box starts at
+    (-8.39, -8.39); the parser already writes its bbox_pt on the rendered page.
+
+    One family row in data/pdf_years.csv covers a year's resolution PDFs: `source_pdf` is their
     folder and `pdf_sha256` the sha256 of the sorted "<sha256>  <path>" lines, so any change to
-    any of the 10 changes it. Every data row carries its own PDF and that PDF's hash. No page
-    has a /Rotate, so bbox_pt needs no unrotate."""
+    any of them changes it. Every data row carries its own PDF and that PDF's hash. FY2024 Reso 01
+    pp.3-61 carry /Rotate 90: the parser's bbox_pt is in display coordinates, so it is unrotated
+    here (no FY2025 or FY2026 page has a /Rotate)."""
     import contextlib
     import hashlib
     import parse_transparency_v2 as tr
-    decisions = os.path.join(REPO, "research", "2026-10-21-fy26-transparency-review", "data",
-                             "fy26_tr_review_decisions.csv")
+    cfg = tr.load_config(fy)
+    yy = f"fy{fy % 100:02d}"
+    decisions = os.path.join(REPO, cfg["review_dir"], "data", f"{yy}_tr_review_decisions.csv")
     os.makedirs(scratch, exist_ok=True)
     if os.path.exists(decisions):
-        shutil.copy(decisions, os.path.join(scratch, "fy26_tr_review_decisions.csv"))
+        shutil.copy(decisions, os.path.join(scratch, f"{yy}_tr_review_decisions.csv"))
     with contextlib.redirect_stdout(io.StringIO()):
-        if tr.main(["--fy", "2026", "--out", scratch]) != 0:
+        if tr.main(["--fy", str(fy), "--out", scratch]) != 0:
             raise RuntimeError("parse_transparency_v2 failed")
-    checks_txt = open(os.path.join(scratch, "fy26_tr_checks.txt"), encoding="utf-8").read()
+    checks_txt = open(os.path.join(scratch, f"{yy}_tr_checks.txt"), encoding="utf-8").read()
     if "FAIL" in checks_txt.replace("(FAIL)", ""):
         raise RuntimeError("a transparency check failed; not promoting")
-    cfg = tr.load_config(2026)
     pdfs = {r["seq"]: r for r in cfg["resolutions"]}
     shas = {r["seq"]: r["sha256"] for r in cfg["resolutions"]}
     order = lambda cols: CONTRACT + [c for c in cols if c not in CONTRACT]
-    rows_ = read(os.path.join(scratch, "fy26_tr_rows.csv"))
-    charts = read(os.path.join(scratch, "fy26_tr_charts.csv"))
-    resos = read(os.path.join(scratch, "fy26_tr_resolutions.csv"))
+    rows_ = read(os.path.join(scratch, f"{yy}_tr_rows.csv"))
+    charts = read(os.path.join(scratch, f"{yy}_tr_charts.csv"))
+    resos = read(os.path.join(scratch, f"{yy}_tr_resolutions.csv"))
     for r in rows_ + charts:
         seq = int(r["resolution_seq"])
         assert r["source_pdf"] == pdfs[seq]["pdf"] and r["pdf_sha256"] == shas[seq], r["source_pdf"]
+    pages = {(p["resolution_seq"], p["pdf_page"]): p for p in read(os.path.join(scratch, f"{yy}_tr_pages.csv"))}
+    for r in rows_:
+        p = pages[(r["resolution_seq"], r["pdf_page"])]
+        if int(p["rotation"]):
+            r["bbox_pt"] = unrotate(r["bbox_pt"], int(p["rotation"]), float(p["width"]), float(p["height"]))
     for r in resos:
-        r.update(fiscal_year=2026, pdf_page=1, bbox_pt="", review_id="", flags="")
+        r.update(fiscal_year=fy, pdf_page=1, bbox_pt="", review_id="", flags="")
     review = []
-    for r in read(os.path.join(scratch, "fy26_tr_review.csv")):
+    for r in read(os.path.join(scratch, f"{yy}_tr_review.csv")):
         seq = int(r["resolution_seq"]) if r["resolution_seq"] else None
-        review.append(dict(fiscal_year=2026, family="transparency",
+        review.append(dict(fiscal_year=fy, family="transparency",
                            source_pdf=pdfs[seq]["pdf"] if seq else "",
                            pdf_sha256=shas[seq] if seq else "", **r))
     files = {
-        "fy26_tr_rows.csv": to_csv(rows_, order(list(rows_[0]))),
-        "fy26_tr_charts.csv": to_csv(charts, order(list(charts[0]))),
-        "fy26_tr_resolutions.csv": to_csv(resos, order(list(resos[0]))),
-        "fy26_tr_review.csv": to_csv(review, list(review[0])),
+        f"{yy}_tr_rows.csv": to_csv(rows_, order(list(rows_[0]))),
+        f"{yy}_tr_charts.csv": to_csv(charts, order(list(charts[0]))),
+        f"{yy}_tr_resolutions.csv": to_csv(resos, order(list(resos[0]))),
+        f"{yy}_tr_review.csv": to_csv(review, list(review[0])),
     }
     folder = os.path.dirname(pdfs[1]["pdf"]) + "/"
     manifest = "".join(f"{shas[k]}  {pdfs[k]['pdf']}\n" for k in sorted(pdfs))
     n_printed = sum(1 for r in cfg["resolutions"] if r["charts_printed"])
     tied = sum(1 for r in resos if r["charts_printed"] and int(r["charts_printed"]) == int(r["charts"]))
-    year = dict(fiscal_year=2026, family="transparency", source_pdf=folder,
-                pdf_sha256=hashlib.sha256(manifest.encode()).hexdigest(), issue=103,
+    year = dict(fiscal_year=fy, family="transparency", source_pdf=folder,
+                pdf_sha256=hashlib.sha256(manifest.encode()).hexdigest(), issue=TR_ISSUE[fy],
                 status="reviewed", rows=len(rows_), flagged=sum(1 for r in rows_ if r["flags"]),
-                printed_totals_tied=f"{tied}/{n_printed}",
-                note=(f"10 resolutions (Res 1013-2025 .. Res 0529-2026, 2025-08-14 .. 2026-06-30), "
-                      f"{len(rows_)} rows, {len(charts)} charts; each row has resolution_number and "
-                      "resolution_date. The charts print no money totals: printed_totals_tied is "
-                      "'Charts 1 through N' vs charts found (Reso 03-10 print it). Of the flagged "
-                      f"rows, {sum(1 for r in rows_ if r['review_id'])} are in the review file; the "
-                      "rest carry routine flags only (no-border cells, hyphenless EINs, compound "
-                      "words at a line end). pdf_sha256 = "
-                      "sha256 of the sorted '<sha256>  <path>' lines of the 10 PDFs. "
-                      "Review: research/2026-10-21-fy26-transparency-review/REVIEW.md"))
+                printed_totals_tied=f"{tied}/{n_printed}" if n_printed else "n/a",
+                note=tr_note(fy, cfg, rows_, charts))
     return files, year
 
 
@@ -390,7 +499,36 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy26", "capital_sd", lambda d: build_capital_sd(d, 2026)),
             ("fy26", "terms", lambda d: build_terms(d, 2026)),
             ("fy26", "transparency", build_transparency),
-            ("fy26", "schedule_c", lambda d: build_schedule_c(d, fy=2026))]
+            ("fy26", "schedule_c", lambda d: build_schedule_c(d, fy=2026)),
+            ("fy25", "schedule_c", lambda d: build_schedule_c(d, fy=2025)),
+            ("fy24", "schedule_c", lambda d: build_schedule_c(d, fy=2024)),
+            ("fy23", "schedule_c", lambda d: build_schedule_c(d, fy=2023)),
+            ("fy22", "schedule_c", lambda d: build_schedule_c(d, fy=2022)),
+            ("fy21", "schedule_c", lambda d: build_schedule_c(d, fy=2021)),
+            ("fy20", "schedule_c", lambda d: build_schedule_c(d, fy=2020)),
+            ("fy19", "schedule_c", lambda d: build_schedule_c(d, fy=2019)),
+            ("fy18", "schedule_c", lambda d: build_schedule_c(d, fy=2018)),
+            ("fy25", "transparency", lambda d: build_transparency(d, 2025)),
+            ("fy24", "transparency", lambda d: build_transparency(d, 2024)),
+            ("fy23", "transparency", lambda d: build_transparency(d, 2023)),
+            ("fy22", "transparency", lambda d: build_transparency(d, 2022)),
+            ("fy21", "transparency", lambda d: build_transparency(d, 2021)),
+            ("fy20", "transparency", lambda d: build_transparency(d, 2020)),
+            ("fy19", "transparency", lambda d: build_transparency(d, 2019)),
+            ("fy18", "transparency", lambda d: build_transparency(d, 2018)),
+            ("fy25", "capital_sd", lambda d: build_capital_sd(d, 2025)),
+            ("fy25", "terms", lambda d: build_terms(d, 2025)),
+            ("fy24", "capital_sd", lambda d: build_capital_sd(d, 2024)),
+            ("fy24", "terms", lambda d: build_terms(d, 2024)),
+            ("fy23", "capital_sd", lambda d: build_capital_sd(d, 2023)),
+            ("fy23", "terms", lambda d: build_terms(d, 2023)),
+            ("fy22", "capital_sd", lambda d: build_capital_sd(d, 2022)),
+            ("fy22", "terms", lambda d: build_terms(d, 2022)),
+            ("fy21", "terms", lambda d: build_terms(d, 2021)),
+            ("fy20", "capital_sd", lambda d: build_capital_sd(d, 2020)),
+            ("fy19", "capital_sd", lambda d: build_capital_sd(d, 2019)),
+            ("fy18", "capital_sd", lambda d: build_capital_sd(d, 2018)),
+            ("fy18", "terms", lambda d: build_terms(d, 2018))]
 
 
 def build_all():

@@ -41,6 +41,9 @@ const CONTRACT = [
   ["flags", T],
 ];
 
+/** A column only some years' files carry (FY2019 capital's Excel print, FY2018 transparency's fiscal conduits); blank where absent. */
+const optional = (name, type) => [name, type, undefined, { optional: true }];
+
 const years = (dbPrefix, csv, type, suffix = "") =>
   [1, 2, 3, 4].map((k) => [`${dbPrefix}_y${k}${suffix}`, type, csv.replace("{y}", `{y${k}}`)]);
 
@@ -71,6 +74,13 @@ export const PDF_FAMILIES = {
     label: "Capital §254 supporting detail",
     main: "pdf_capital_sd",
     decisions: {
+      2018: "research/2026-10-22-fy18-capital-terms-review/data/fy18_capital_sd_review_decisions.csv",
+      2019: "research/2026-10-22-fy19-capital-terms-review/data/fy19_capital_sd_review_decisions.csv",
+      2020: "research/2026-10-21-fy20-capital-terms-review/data/fy20_capital_sd_review_decisions.csv",
+      2022: "research/2026-10-21-fy22-capital-terms-review/data/fy22_capital_sd_review_decisions.csv",
+      2023: "research/2026-10-21-fy23-capital-terms-review/data/fy23_capital_sd_review_decisions.csv",
+      2024: "research/2026-10-21-fy24-capital-terms-review/data/fy24_capital_sd_review_decisions.csv",
+      2025: "research/2026-10-21-fy25-capital-terms-review/data/fy25_capital_sd_review_decisions.csv",
       2026: "research/2026-10-21-fy26-capital-terms-review/data/fy26_capital_sd_review_decisions.csv",
       2027: "research/2026-10-20-fy27-capital-terms-review/data/fy27_capital_sd_review_decisions.csv",
     },
@@ -86,6 +96,7 @@ export const PDF_FAMILIES = {
           ...years("amount", "fy{y}", I),
           ["sponsor", T], ["title_raw", T], ["sponsor_raw", T],
           ...years("amount", "fy{y}_printed", T, "_printed"),
+          optional("council_district", T), optional("description", T), optional("description_raw", T),
         ],
       },
       {
@@ -116,6 +127,12 @@ export const PDF_FAMILIES = {
     label: "Terms and Conditions",
     main: "pdf_terms",
     decisions: {
+      2018: "research/2026-10-22-fy18-capital-terms-review/data/fy18_terms_review_decisions.csv",
+      2021: "research/2026-10-21-fy21-capital-terms-review/data/fy21_terms_review_decisions.csv",
+      2022: "research/2026-10-21-fy22-capital-terms-review/data/fy22_terms_review_decisions.csv",
+      2023: "research/2026-10-21-fy23-capital-terms-review/data/fy23_terms_review_decisions.csv",
+      2024: "research/2026-10-21-fy24-capital-terms-review/data/fy24_terms_review_decisions.csv",
+      2025: "research/2026-10-21-fy25-capital-terms-review/data/fy25_terms_review_decisions.csv",
       2026: "research/2026-10-21-fy26-capital-terms-review/data/fy26_terms_review_decisions.csv",
       2027: "research/2026-10-20-fy27-capital-terms-review/data/fy27_terms_review_decisions.csv",
     },
@@ -158,6 +175,14 @@ PDF_FAMILIES.schedule_c = {
   label: "Schedule C",
   main: "pdf_schedule_c",
   decisions: {
+    2018: "research/2026-10-22-fy18-schedule-c-review/data/fy18_sc_review_decisions.csv",
+    2019: "research/2026-10-22-fy19-schedule-c-review/data/fy19_sc_review_decisions.csv",
+    2020: "research/2026-10-22-fy20-schedule-c-review/data/fy20_sc_review_decisions.csv",
+    2021: "research/2026-10-22-fy21-schedule-c-review/data/fy21_sc_review_decisions.csv",
+    2022: "research/2026-10-21-fy22-schedule-c-review/data/fy22_sc_review_decisions.csv",
+    2023: "research/2026-10-21-fy23-schedule-c-review/data/fy23_sc_review_decisions.csv",
+    2024: "research/2026-10-21-fy24-schedule-c-review/data/fy24_sc_review_decisions.csv",
+    2025: "research/2026-10-21-fy25-schedule-c-review/data/fy25_sc_review_decisions.csv",
     2026: "research/2026-10-21-fy26-schedule-c-review/data/fy26_sc_review_decisions.csv",
     2027: "research/2026-10-20-fy27-schedule-c-review/data/fy27_sc_review_decisions.csv",
   },
@@ -222,7 +247,17 @@ PDF_FAMILIES.transparency = {
   main: "pdf_transparency",
   prefix: "tr",
   multiPdf: { file: "resolutions", seq: "resolution_seq" },
-  decisions: { 2026: "research/2026-10-21-fy26-transparency-review/data/fy26_tr_review_decisions.csv" },
+  decisions: {
+    2018: "research/2026-10-22-fy18-transparency-review/data/fy18_tr_review_decisions.csv",
+    2019: "research/2026-10-22-fy19-transparency-review/data/fy19_tr_review_decisions.csv",
+    2020: "research/2026-10-21-fy20-transparency-review/data/fy20_tr_review_decisions.csv",
+    2021: "research/2026-10-21-fy21-transparency-review/data/fy21_tr_review_decisions.csv",
+    2022: "research/2026-10-21-fy22-transparency-review/data/fy22_tr_review_decisions.csv",
+    2023: "research/2026-10-21-fy23-transparency-review/data/fy23_tr_review_decisions.csv",
+    2024: "research/2026-10-21-fy24-transparency-review/data/fy24_tr_review_decisions.csv",
+    2025: "research/2026-10-21-fy25-transparency-review/data/fy25_tr_review_decisions.csv",
+    2026: "research/2026-10-21-fy26-transparency-review/data/fy26_tr_review_decisions.csv",
+  },
   review: {
     file: "review",
     map: {
@@ -248,6 +283,8 @@ PDF_FAMILIES.transparency = {
         ["agency_raw", T], ["amount_printed", T], ["prequal_printed", T], ["purpose_raw", T], ["hidden_text", T],
         ["clean_rules_applied", T], ["row_flags", T], ["image_check", T], ["lattice", T], ["disclosure_status", T],
         ["disclosure_reason", T], ["disclosure_row", I], ["table_index", I], ["row_index", I],
+        optional("fiscal_conduit", T), optional("fiscal_conduit_ein", T), optional("fiscal_conduit_raw", T),
+        optional("fiscal_conduit_ein_printed", T),
       ],
     },
     {
@@ -412,8 +449,9 @@ export function loadPdfFamilies(db, io, includeReviewed) {
       const rel = `${dir}/fy${yy}_${prefix}_${t.file}.csv`;
       const rows = io.readCsv(rel);
       const want = t.columns.map(([n, , src]) => csvName(src ?? n, fy));
-      const have = rows.length ? Object.keys(rows[0]) : want;
-      if ([...have].sort().join(",") !== [...want].sort().join(",")) {
+      const need = t.columns.filter((c) => !c[3]?.optional).map(([n, , src]) => csvName(src ?? n, fy));
+      const have = rows.length ? Object.keys(rows[0]) : need;
+      if (!need.every((c) => have.includes(c)) || !have.every((c) => want.includes(c))) {
         throw new Error(`${rel}: columns differ from mcp/scripts/pdf-families.mjs\n  file:   ${have.join(",")}\n  config: ${want.join(",")}`);
       }
       for (const [i, r] of rows.entries()) {

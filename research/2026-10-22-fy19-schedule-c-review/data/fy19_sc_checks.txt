@@ -1,0 +1,70 @@
+SCHEDULE C FY2019 -- checks (code/parse_schedule_c_v2.py; config config/schedule_c/fy2019.toml)
+pdf source/FY19/Fiscal-2019-Schedule-C-Final-Report.pdf  sha256 dd6e75fa70236eb0c535df270850b968889c017f111c8b3accb2fe4aa6d38910
+
+award rows: 5,995  total $248,436,176
+  body         1,551 rows  $   198,637,176
+  appendix_a     523 rows  $     5,610,000
+  appendix_b   3,016 rows  $    36,539,000
+  appendix_c     905 rows  $     7,650,000
+initiatives: 136  categories: 27
+
+STRUCTURAL CHECKS
+  ok    H1.input         sha256 dd6e75fa7023… pages 357
+  ok    H2.triage        357 pages surveyed; 0 with invisible text or <=100 chars on an award page
+  ok    H3.pagemap       0 award rows outside their configured section range
+  ok    H4.headers       0 unknown or incomplete award-table headers
+  ok    H5.anchors       6023 EIN-shaped words, 5995 rows with an EIN; 0 pages differ; 0 rows without exactly one EIN and one amount
+  ok    H6.furniture     0 data cells holding header/footer text
+  ok    H7.chars         1077116 non-space chars; 0 orphan chars in award tables; 0 unmapped cells
+  ok    H7.hrule_splits  30 tables from horizontal rules; 0 characters cross a column split; 0 stacks of rules not read
+  ok    H14.provenance   5995 award_ids, 5995 unique
+  ok    H16.values       0 clean values not reproducible from raw
+
+PRINTED TOTALS (H10-H13)
+  H10.category_total         ok               27
+  H11.box_vs_summary         ok               27
+  H12.designated_sum         named_exception  8
+  H12.designated_sum         ok               98
+  H12.reserve_only_rows      ok               16
+  H12.statement_adds_up      named_exception  1
+  H12.statement_adds_up      ok               2
+  H13.rollup                 named_exception  1
+  -> named_exception: p.37 Adult Literacy Initiative (reserve_rows): expected 3,815,000, observed 4,000,000 (diff +185,000) Adult Literacy Initiative: box $4,000,000 less '$185,000 post-adoption' = $3,815,000; the 44 rows add to $4,000,000, one of them Department of Youth and Community Development, 13-6400434, $185,000 (p.38), the reserve (pending review)
+  -> named_exception: p.43 Support for Victims of Human Trafficking (reserve_rows): expected 1,000,000, observed 1,200,000 (diff +200,000) Support for Victims of Human Trafficking: box $1,200,000 less '$200,000 post-adoption' = $1,000,000; the 10 rows add to $1,200,000, one of them Mayor's Office of Criminal Justice, 13-6400434, $200,000 (p.43), the reserve (pending review)
+  -> named_exception: p.49 Supportive Alternatives to Violent Encounters (SAVE) (none): expected 2,450,000, observed 0 (diff -2,450,000) a box for the whole SAVE initiative ($2,450,000), printed over its three parts' boxes ($600,000, $850,000, $1,000,000), whose rows are under them; it has no rows of its own (pending review)
+  -> named_exception: p.59 Community Boards Enhancement (direct): expected 2,507,500, observed 42,500 (diff -2,465,000) Community Boards Enhancement: 'allocated directly to the Community Boards and each is designated $42,500'; 59 boards x $42,500 = $2,507,500, the box (pending review)
+  -> named_exception: p.62 Ending the Epidemic (reserve_rows): expected 5,675,000, observed 5,825,000 (diff +150,000) PDF self-error: Ending the Epidemic box $6,945,000 less '$1,270,000 post-adoption' = $5,675,000; the 52 rows (pp.63-64) add to $5,825,000, $150,000 more; no agency row (pending review)
+  -> named_exception: p.72 Community Housing Preservation Strategies (reserve_rows): expected 3,471,081, observed 3,651,000 (diff +179,919) Community Housing Preservation Strategies: box $3,651,000 less '$179,919 post-adoption' = $3,471,081; the 67 rows add to $3,651,000, four of them Housing Preservation and Development, 13-6400434 ($29,730, $29,730, $61,000, $59,459, p.73), which add to the reserve (pending review)
+  -> named_exception: p.78 Immigrant Health Initiative (reserve_rows): expected 1,950,000, observed 2,000,000 (diff +50,000) Immigrant Health Initiative: box $2,000,000 less '$50,000 post-adoption' = $1,950,000; the 21 rows add to $2,000,000, one of them Department of Health and Mental Hygiene, 13-6400434, $50,000 (p.78), the reserve (pending review)
+  -> named_exception: p.82 Legal Services for the Working Poor (reserve_rows): expected 3,155,000, observed 3,205,000 (diff +50,000) Legal Services for the Working Poor: box $3,205,000 less '$50,000 post-adoption' = $3,155,000; the 12 rows add to $3,205,000, one of them Department of Social Services, 13-6400434, $50,000 (p.82), the reserve (pending review)
+  -> named_exception: p.125 Prevent Sexual Assault (PSA) Initiative for Young Adults (reserve_rows): expected 175,000, observed 275,000 (diff +100,000) Prevent Sexual Assault (PSA) Initiative for Young Adults: box $275,000 less '$100,000 post-adoption' = $175,000; the 4 rows add to $275,000, one of them Mayor's Office of Criminal Justice, 13-6400434, $100,000 (p.125), the reserve (pending review)
+  -> named_exception: p.0 body rows + post-adoption reserves vs sum of category TOTALs (+ direct agency designations): expected 338,301,000, observed 339,215,919 (diff +914,919) the six reserves printed again as agency rows (pp.37, 43, 72, 78, 82, 125) and Ending the Epidemic's $150,000 (p.62) (pending review)
+  roll-up: category TOTALs $338,301,000 = body rows $198,637,176 + post-adoption reserves $102,483,574 + designated directly to an agency, no rows printed $38,095,169 + $-914,919
+  appendices print no total; their pots (DATA-ANOMALIES §19): appendix_a $5,610,000, appendix_b $36,539,000, appendix_c $7,650,000
+
+IMAGE LATTICE (H8): rows read independently through code/ocr/grid.py lattices
+  agree on every field: 5,090 of 5,995
+  rows in tables with no drawn vertical rules, which the image lattice cannot see: 903; the pixels' horizontal rules confirm the row band of 902
+  bands_differ: 1
+  differs: 2
+  image rows with no vector row: 0
+INK COVERAGE (H9): uncovered-ink regions inside award tables
+  regions: 0  uncovered px total: 18 of 180,736,020 ink px
+  acceptance on p.133 (fy19-p133-t00-r002): clean run 0 regions; row withheld -> 7; one char withheld -> 1 (PASS); the char is 'l'
+
+DISCLOSURE (report-only; data/fy19/expense_disclosure, as committed in data/fy19/expense_disclosure)
+  pdf rows 5,995; disclosure rows 9,655; matched (EIN, amount, City-EIN name rule) 5,714
+  matched without the City-EIN name rule (no prototype floor for this year): 5,733
+  body        cleared 1,443 ($179,935,531); pending 10 ($134,478); unmatched 98 ($18,567,167)
+  appendix_a  cleared 515 ($5,544,500); pending 1 ($5,000); unmatched 7 ($60,500)
+  appendix_b  cleared 2,850 ($33,983,909); pending 17 ($147,500); unmatched 149 ($2,407,591)
+  appendix_c  cleared 868 ($7,417,500); pending 10 ($58,000); unmatched 27 ($174,500)
+  pdf rows without a disclosure row, by reason: amount_differs 117, city_ein_name_mismatch 19, ein_fully_claimed 13, ein_not_in_disclosure 104, key_already_claimed 28
+  disclosure rows without a pdf row, by reason: amount_or_count_differs 3577 ($151,566,910.0), city_ein_pending 1 ($20,000), ein_not_in_pdf 363 ($14,131,672)
+  disclosure rows on keys where the allocation was a choice (ambiguous): 1,291
+
+WARN COUNTS (not in the review file; listed in flags.csv)
+  amount_bare 5092, asterisk 304, cid_glyph 10, continuation_row 4, headerless_table 37, hrule_table 318, loose_header 21, sliver_char 3, star_in_cell 3, wrap_hyphen 67
+  zero-width chars dropped: 0
+
+REVIEW FILE: 38 rows (5 critical, 33 warn); stale decisions: 0

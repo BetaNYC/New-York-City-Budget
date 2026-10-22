@@ -65,8 +65,22 @@ def run(cfg, pdf_sha, pages, S):
     for a in S["awards"]:
         if a["ein"]:
             by_page[a["pdf_page"]] = by_page.get(a["pdf_page"], 0) + 1
+        if a.get("_conduit_ein"):
+            # A fiscal conduit's EIN printed on the row (FY2018 "FC EIN" column).
+            by_page[a["pdf_page"]] = by_page.get(a["pdf_page"], 0) + 1
     diffs = [(p["page"], p["ein_tokens"], by_page.get(p["page"], 0)) for p in pages
              if p["ein_tokens"] != by_page.get(p["page"], 0)]
+    # A page whose word count is off for a reason read off the page (FY2020 p.306: the text
+    # layer glues one EIN to the name before it, "Students131693134", so the page has one
+    # EIN-shaped word fewer than rows) passes only as a named exception matched on (page,
+    # words, rows); a warn flag.
+    pw = {(e["page"], e["words"], e["rows"]): e for e in cfg.get("exceptions", [])
+          if e["check"] == "H5.page_words"}
+    for d in [d for d in diffs if d in pw]:
+        diffs.remove(d)
+        flags.append(dict(check_id="H5.anchors", severity="warn", pdf_page=d[0],
+                          dollar_impact=0, message=f"{d[1]} EIN-shaped words but {d[2]} award "
+                          f"rows with an EIN (named exception: {pw[d]['note']})"))
     # A row whose printed EIN is not EIN-shaped (FY2026: two 8-digit EINs) passes only as a
     # named exception in the year's config, matched on (award_id, ein_printed).
     named = {(e["award_id"], e["ein_printed"]): e for e in cfg.get("exceptions", [])
@@ -95,15 +109,36 @@ def run(cfg, pdf_sha, pages, S):
     furn = [(a, f) for a in S["awards"] for f in ("member", "sponsor", "delegation", "org",
                                                    "agency", "purpose")
             if a.get(f) and FURNITURE.search(a[f])]
-    out("H6.furniture", not furn, f"{len(furn)} data cells holding header/footer text")
+    # A cell whose own printed text matches a furniture pattern (FY2023 p.176: a purpose that
+    # ends "in conjunction with Council Member") passes only as a named exception in the
+    # year's config, matched on (award_id, field); it stays a warn in the review file.
+    h6 = {(e["award_id"], e["field"]): e for e in cfg.get("exceptions", [])
+          if e["check"] == "H6.furniture"}
+    real = [(a, f) for a, f in furn if (a["award_id"], f) not in h6]
+    out("H6.furniture", not real, f"{len(real)} data cells holding header/footer text"
+        + (f"; {len(furn) - len(real)} named exceptions" if len(furn) > len(real) else ""))
     for a, f in furn:
+        e = h6.get((a["award_id"], f))
+        if e:
+            flags.append(dict(check_id="H6.furniture", severity="warn", pdf_page=a["pdf_page"],
+                              award_id=a["award_id"], field=f,
+                              message=f"{f} matches a furniture pattern: {a[f][-80:]!r} "
+                              f"(named exception: {e['note']})"))
+            continue
         flag("H6.furniture", a["pdf_page"], f"{f} holds furniture text: {a[f][:80]!r}",
              award_id=a["award_id"])
 
     # H7 character conservation inside award tables
     award_tables = {(a["pdf_page"], a["table_index"]) for a in S["awards"]}
+    bw = S.get("band_words", {})
+
+    def _read_header_word(pn, o):
+        # A loose header word read into its table's header (structure `header_band_words`).
+        cx, cy = (o["bbox"][0] + o["bbox"][2]) / 2, (o["bbox"][1] + o["bbox"][3]) / 2
+        return any(b[0] - 0.5 <= cx <= b[2] + 0.5 and b[1] <= cy < b[3]
+                   for b in bw.get((pn, o["table"]), []))
     orph = [(p["page"], o) for p in pages for o in p["orphans"]
-            if (p["page"], o["table"]) in award_tables]
+            if (p["page"], o["table"]) in award_tables and not _read_header_word(p["page"], o)]
     unm = [f for f in S["flags"] if f["check_id"] == "H7.unmapped"]
     out("H7.chars", not orph and not unm,
         f"{sum(p['nonws_chars'] for p in pages)} non-space chars; {len(orph)} orphan chars in "
@@ -111,6 +146,22 @@ def run(cfg, pdf_sha, pages, S):
     for pn, o in orph:
         flag("H7.chars", pn, f"char {o['text']!r} in an award table but in no cell",
              bbox_pt=o["bbox"])
+
+    # H7 for tables built from horizontal rules (vector.hrule_tables, FY2024 only): their
+    # column splits are inferred from the EIN and amount words, so no character may cross one.
+    hts = [(p["page"], t) for p in pages for t in p["tables"] if t.get("hrule")]
+    notes = [(p["page"], n) for p in pages for n in p.get("hrule_notes", [])]
+    if hts or notes:
+        cross = sum(t["split_straddles"] for _, t in hts)
+        out("H7.hrule_splits", not cross and not notes,
+            f"{len(hts)} tables from horizontal rules; {cross} characters cross a column "
+            f"split; {len(notes)} stacks of rules not read")
+        for pn, t in hts:
+            if t["split_straddles"]:
+                flag("H7.hrule_splits", pn, f"{t['split_straddles']} characters cross a column "
+                     f"split at {t['splits']}", table_index=t["table_index"])
+        for pn, n in notes:
+            flag("H7.hrule_splits", pn, n)
 
     # H14 provenance and unique ids
     ids = [a["award_id"] for a in S["awards"]]

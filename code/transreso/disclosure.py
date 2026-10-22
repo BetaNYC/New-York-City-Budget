@@ -9,6 +9,7 @@ never EIN alone, never the member; the City's EIN 13-6400434 also needs a name m
    (not an agency's side of a transfer) is looked for in the Council's expense disclosure for
    Y (data/fyNN/expense_disclosure/). The FY2026 disclosure was taken 2026-07-15, after the
    last FY2026 resolution (2026-06-30), so every surviving FY2026 designation should be in it.
+   (Each year's README says when its disclosure snapshot was taken.)
    Rows are taken newest resolution first, so a key that was designated twice is matched by
    the latest designation. A row that does not match gets one reason:
      later_rescinded   a later resolution rescinds the same (EIN, amount)
@@ -17,9 +18,9 @@ never EIN alone, never the member; the City's EIN 13-6400434 also needs a name m
      city_ein_name_mismatch / key_already_claimed
 2. **Where did each rescission come from?** Every negative row on a designation chart (not an
    agency's side) is looked for, as (EIN, |amount|), among earlier designations: the same
-   resolution's own earlier rows, earlier resolutions' positive rows, and, for FY2026, the
-   committed Schedule C award files (data/fy26/schedule_c/, PDF-derived by the old parser and
-   not trusted as values; used here as a cross-check only). Reasons: earlier_resolution,
+   resolution's own earlier rows, earlier resolutions' positive rows, and, for the document
+   year itself, that year's committed Schedule C award files (data/fyNN/schedule_c/,
+   PDF-derived by the old parser and not trusted as values; used here as a cross-check only). Reasons: earlier_resolution,
    schedule_c, partial (the EIN has a larger earlier amount), not_found.
 """
 import csv
@@ -55,12 +56,13 @@ def load_disclosure(fy):
     return out
 
 
-def load_schedule_c_fy26():
-    """(EIN, amount) multiset from the committed FY2026 Schedule C award files."""
-    d = os.path.join(ROOT, "data", "fy26", "schedule_c")
+def load_schedule_c(fy):
+    """(EIN, amount) multiset from the committed Schedule C award files of fiscal year `fy`."""
+    yy = f"fy{fy % 100:02d}"
+    d = os.path.join(ROOT, "data", yy, "schedule_c")
     keys = defaultdict(int)
-    for fn in ("fy26_schedule_c_awards.csv", "fy26_appendix_a_aging.csv",
-               "fy26_appendix_b_local.csv", "fy26_appendix_c_youth.csv"):
+    for fn in (f"{yy}_schedule_c_awards.csv", f"{yy}_appendix_a_aging.csv",
+               f"{yy}_appendix_b_local.csv", f"{yy}_appendix_c_youth.csv"):
         with open(os.path.join(d, fn), newline="", encoding="utf-8") as f:
             for r in csv.DictReader(f):
                 ein = re.sub(r"\D", "", r["ein"] or "")
@@ -75,8 +77,8 @@ def _is_award(r):
     return r["chart_kind"] == "designation" and r["amount"] is not None and not r["agency_side"]
 
 
-def align(rows):
-    """Returns dict(per_row{row_id: (status, reason, disclosure_row)}, disc_years, summary)."""
+def align(rows, fy=2026):
+    """`fy` is the document year (its Schedule C is the rescission cross-check). Returns dict(per_row{row_id: (status, reason, disclosure_row)}, disc_years, summary)."""
     per_row, summary = {}, {}
     years = sorted({r["budget_fiscal_year"] for r in rows if r["budget_fiscal_year"]})
     for fy in years:
@@ -119,7 +121,7 @@ def align(rows):
                            matched=sum(1 for r in pos if per_row[r["row_id"]][0] == "matched"))
 
     # Rescission origins.
-    sc = load_schedule_c_fy26()
+    sc = load_schedule_c(fy)
     for r in rows:
         if not (_is_award(r) and r["amount"] < 0):
             continue
@@ -130,10 +132,10 @@ def align(rows):
                    (r["resolution_seq"], r["pdf_page"], r["row_index"])]
         if any(x["amount"] == -r["amount"] for x in earlier):
             reason = "earlier_resolution"
-        elif r["budget_fiscal_year"] == 2026 and sc.get(key):
+        elif r["budget_fiscal_year"] == fy and sc.get(key):
             reason = "schedule_c"
         elif any(x["amount"] > -r["amount"] for x in earlier) or (
-                r["budget_fiscal_year"] == 2026 and
+                r["budget_fiscal_year"] == fy and
                 any(k[0] == r["ein"] and k[1] > -r["amount"] for k in sc)):
             reason = "partial"
         else:
@@ -142,10 +144,18 @@ def align(rows):
     return dict(per_row=per_row, summary=summary)
 
 
-def compare_retired(rows):
-    """The retired data/fy26/transparency-resolutions/fy26_transparency_all.csv (old parser)
-    against these rows, as a (resolution, EIN, amount) multiset."""
-    path = os.path.join(ROOT, "data", "fy26", "transparency-resolutions", "fy26_transparency_all.csv")
+def retired_path(fy):
+    yy = f"fy{fy % 100:02d}"
+    return os.path.join("data", yy, "transparency-resolutions", f"{yy}_transparency_all.csv")
+
+
+def compare_retired(rows, fy=2026):
+    """The retired data/fyNN/transparency-resolutions/fyNN_transparency_all.csv (old parser)
+    against these rows, as a (resolution, EIN, amount) multiset. None when the year has no
+    retired file (FY2025 was never parsed by the old parser)."""
+    path = os.path.join(ROOT, retired_path(fy))
+    if not os.path.exists(path):
+        return None
     old = defaultdict(list)
     with open(path, newline="", encoding="utf-8") as f:
         for r in csv.DictReader(f):

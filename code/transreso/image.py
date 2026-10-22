@@ -15,6 +15,8 @@ What is particular to these charts:
   of its characters are hidden (clipped), the same reading rule as the vector side but on
   the other lattice.
 """
+from functools import partial
+
 import numpy as np
 
 from schedc.vector import ZERO_WIDTH, chars_to_text
@@ -62,9 +64,14 @@ def _rule_drawn(gray, dpi, x, y0, y1, frac=HEADER_RULE_FRAC):
     return bool(band.size) and float(band.mean(axis=0).max()) >= frac
 
 
-def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap):
+def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap, overlay=False,
+               overfull=False, blank_labels=None, restart=False):
     """[{y0, y1, fields{role: raw}, hidden{role: text}}] for every data row the image lattice
-    finds under a recognised header, plus the lattices and notes."""
+    finds under a recognised header, plus the lattices and notes. On `overfull` pages (T7.overfull)
+    a text block of two or more lines goes to the image row holding its middle, as in the
+    reader (transreso.reader.block_ys); the rows are the image lattice's own. `blank_labels`: on a
+    page whose header prints no labels (T4.blank_header), the labels the reader borrowed from
+    the page before, used when the lattice has the same number of columns."""
     lats = imagegrid.lattices(gray, dpi, kernel_px, pad)
     chars = [c for c in page_chars if c["text"] not in ZERO_WIDTH]
     notes = []
@@ -90,6 +97,17 @@ def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap):
                 for x in _header_rules(gray, dpi, xs[ci], xs[ci + 1], ys[0], ys[1]):
                     extra.append(x)
                     notes.append(f"region {k}: header rule at {x} pt found in header pixels")
+        # The same, right of the lattice's last rule: a last column whose right rule is drawn
+        # in the header and a few rows only (the `*` column on FY2025 Reso 07 p.30, which
+        # holds "01/") is not in the lattice at all. Looked for only where a data row has a
+        # letter on the page right of the lattice; an empty column there has nothing to read
+        # (24 FY2026 pages leave the empty `*` column outside the lattice).
+        page_w = gray.shape[1] * 72.0 / dpi
+        if any(xs[-1] < (c["x0"] + c["x1"]) / 2 < page_w and ys[1] <= (c["top"] + c["bottom"]) / 2 < ys[-1]
+               and c["text"].strip() for c in chars):
+            for x in _header_rules(gray, dpi, xs[-1] + 1, page_w, ys[0], ys[1]):
+                extra.append(x)
+                notes.append(f"region {k}: header rule at {x} pt found in header pixels")
         xs = sorted(xs + extra)
 
         def cell_of2(c, xs=xs, ys=ys):
@@ -105,8 +123,8 @@ def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap):
         drawn = {(ri, si): _rule_drawn(gray, dpi, lat_xs[si], ys[ri], ys[ri + 1])
                  for ri in range(len(ys) - 1) for si in range(1, len(lat_xs) - 1)}
 
-        def data_cell(c, xs=lat_xs, ys=ys, drawn=drawn):
-            cx, cy = (c["x0"] + c["x1"]) / 2, (c["top"] + c["bottom"]) / 2
+        def data_cell(c, xs=lat_xs, ys=ys, drawn=drawn, bys={}):
+            cx, cy = (c["x0"] + c["x1"]) / 2, bys.get(id(c), (c["top"] + c["bottom"]) / 2)
             ri, ci = imagegrid._band(ys, cy), imagegrid._band(xs, cx)
             if ri is None or ci is None:
                 return None
@@ -114,8 +132,16 @@ def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap):
                 ci -= 1
             return (ri, ci)
 
+        if overfull:
+            def box_of(c, xs=lat_xs, ys=ys):
+                rc = data_cell(c)
+                return None if rc is None else (xs[rc[1]], ys[rc[0]], xs[rc[1] + 1], ys[rc[0] + 1])
+            data_cell = partial(data_cell, bys=reader.block_ys(chars, box_of, run_gap))
+
         cells, hidden = {}, {}
-        for run in reader.runs(chars, run_gap, cell=lambda c: data_cell(c)):
+        all_runs = reader.runs(chars, run_gap, cell=lambda c: data_cell(c), restart=restart)
+        over = reader.overlaid(all_runs, data_cell) if overlay else set()
+        for k_run, run in enumerate(all_runs):
             own = data_cell(run[0])
             if own is None:
                 continue
@@ -125,15 +151,19 @@ def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap):
             else:
                 col = imagegrid._band(xs, (run[0]["x0"] + run[0]["x1"]) / 2)
             for c in run:
-                if data_cell(c) == own:
+                if k_run not in over and data_cell(c) == own:
                     cells.setdefault((ri, col), []).append(c)
                 else:
                     hidden.setdefault((ri, col), []).append(c)
         nc = len(xs) - 1
         labels = [" ".join(chars_to_text(cells.get((0, ci), []), x_tolerance).split())
                   for ci in range(nc)]
+        if blank_labels and not any(labels) and len(blank_labels) == len(labels):
+            labels = list(blank_labels)
         roles = _roles(labels)
-        if not structure.REQUIRED <= set(roles.values()):
+        rs_ = set(roles.values())
+        listing = {"org", "ein"} <= rs_ and not {"agency", "amount", "purpose"} & rs_   # FY2022
+        if not structure.REQUIRED <= rs_ and not listing:
             notes.append(f"region {k}: no recognised header {labels}")
             continue
         for ri in range(1, len(ys) - 1):
@@ -146,7 +176,8 @@ def image_rows(page_chars, gray, dpi, kernel_px, pad, x_tolerance, run_gap):
     return rows, lats, notes
 
 
-FIELDS = ("source", "member", "org", "ein", "agency", "amount", "agy", "ua", "prequal", "purpose")
+FIELDS = ("source", "member", "org", "ein", "agency", "amount", "agy", "ua", "prequal", "purpose",
+          "conduit", "conduit_ein")
 
 
 def compare_page(recs, img_rows, row_tol_pt):

@@ -1,0 +1,13 @@
+{
+  "config": "config/schedule_c/fy2019.toml",
+  "config_sha256": "7e535b20effc5f892b3b6cbb076a82114631c49e16f609c7672a4a9ffc62ada5",
+  "fiscal_year": 2019,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdf": "source/FY19/Fiscal-2019-Schedule-C-Final-Report.pdf",
+  "pdf_sha256": "dd6e75fa70236eb0c535df270850b968889c017f111c8b3accb2fe4aa6d38910",
+  "pdfium": "156.0.8076.0",
+  "pdfplumber": "0.11.10",
+  "pypdfium2": "5.14.0",
+  "python": "3.12.13"
+}

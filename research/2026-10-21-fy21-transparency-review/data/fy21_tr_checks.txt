@@ -1,0 +1,62 @@
+TRANSPARENCY RESOLUTIONS FY2021 -- checks (code/parse_transparency_v2.py; config config/transparency/fy2021.toml)
+8 PDFs, 404 pages, 324 chart pages, 237 charts
+
+rows: 4,500
+  designate      3,397 rows  $     113,197,054
+  rescind          759 rows  $     -95,697,054
+  purpose_from     158 rows  $      -2,636,500
+  purpose_to       158 rows  $       2,636,500
+  listed            28 rows  (no amount printed)
+  budget year 2019: 16 rows
+  budget year 2020: 110 rows
+  budget year 2021: 4,374 rows
+  no budget year printed: 0 rows
+
+PER RESOLUTION (rows; organizations: designations / rescissions; agency side net; purpose rows)
+   1 Res 1394-2020 2020-08-27: 2,432 rows, 54 charts; +2,197 $53,731,596 / 108 $-2,351,450; agency side $-51,380,146; purpose 62
+   2 Res 1433-2020 2020-09-23:   709 rows, 42 charts; +541 $22,436,584 / 89 $-3,974,362; agency side $-18,462,222; purpose 30
+   3 Res 1470-2020 2020-10-29:   255 rows, 34 charts; +156 $6,026,406 / 59 $-1,549,886; agency side $-4,476,520; purpose 18
+   4 Res 1480-2020 2020-11-19:   184 rows, 15 charts; +90 $1,384,930 / 54 $-554,930; agency side $-830,000; purpose 26
+   5 Res 1509-2020 2020-12-17:   232 rows, 27 charts; +107 $3,114,256 / 86 $-2,743,256; agency side $-371,000; purpose 24
+   6 Res 1544-2021 2021-02-25:   218 rows, 27 charts; +99 $2,660,765 / 60 $-1,631,325; agency side $-529,440; purpose 40
+   7 Res 1603-2021 2021-04-22:   315 rows, 23 charts; +134 $20,000,244 / 101 $-2,290,244; agency side $-710,000; purpose 68
+   8 Res 1693-2021 2021-06-30:   155 rows, 15 charts; +54 $644,800 / 53 $-644,800; agency side $0; purpose 48
+
+HARD CHECKS
+  ok    T1.input             8 PDFs, 404 pages; 0 differ from config
+  ok    T2.triage            404 pages surveyed; 0 fail the text-layer gate
+  ok    T3.charts            237 charts on 324 pages; printed chart counts tie on 0 of 0 resolutions that print one; 0 caption problems; 0 numbering problems; 15 chart pages print no 'Page n' label (named exceptions, counted by the labels around them); 1 chart's first page prints '(continued)' (named exception, read as the chart's start)
+  ok    T4.headers           0 unrecognised headers; 4 chart pages print no Agency or Amount column (named exceptions; 28 rows kept with a blank amount)
+  ok    T5.anchors           4499 EIN-shaped words on the visible text (4499 counting clipped letters), 4499 rows with an EIN; 0 pages differ; 0 rows without a readable amount; 1 rows print no EIN; 15 drawn rows print nothing and are not rows (Reso 02 p.65 row 4, Reso 02 p.65 row 5, Reso 02 p.65 row 6, Reso 02 p.65 row 7, Reso 02 p.65 row 8, Reso 02 p.65 row 9, Reso 02 p.65 row 10, Reso 02 p.65 row 11, Reso 02 p.65 row 12, Reso 02 p.65 row 13, Reso 02 p.65 row 14, Reso 02 p.65 row 15, Reso 02 p.65 row 16, Reso 02 p.65 row 17, Reso 02 p.65 row 18)
+  ok    T6.furniture         0 data cells holding header/footer text; 0 unexpected lines under tables
+  ok    T7.chars             610926 non-space chars; 0 in a table but in no cell; 0 clipped (hidden) chars in 0 runs, each listed for review
+  ok    T10.sign_colour      917 amounts in parentheses, all red; 0 rows where sign and colour disagree
+  ok    T11.markers          598 rows marked **, 34 marked ***, 73 pending pre-qualification; 0 without their footnote or with an odd * cell
+  ok    T12.fiscal_year      237 charts print a fiscal year, all named in their resolution's text; 0 print none (warn, in the review file); 0 name a year the text does not (0 a named exception in the config, kept as printed and in the review file)
+  ok    T13.dates            8 resolutions print their date and it matches; all 8 filename dates equal the Legistar adoption dates in the config
+  ok    T14.provenance       4500 row ids, 4500 unique
+  ok    T15.printed_totals   0 money amounts printed outside the tables on chart pages: the FY2021 charts print no totals, so there is nothing to tie (the arithmetic is reported, not checked); 4 in notes under no-amount charts (in the review file with the chart)
+  ok    T16.values           0 clean values not reproducible from raw
+
+IMAGE LATTICE (H8): rows rebuilt from code/ocr/grid.py lattices, compared field by field
+  agree on every field: 4,500 of 4,500
+  image rows with no vector row: 0
+  header rules found in header pixels (not in the lattice): 0 pages
+INK COVERAGE (H9): uncovered-ink regions inside the chart tables
+  regions: 0  uncovered px total: 12 of 142,299,013 ink px
+  acceptance on Reso 01 p.16 (fy21-tr01-p016-r001): clean run 0 regions; row withheld -> 8; one char withheld -> 1 (PASS)
+
+DISCLOSURE (report-only; data/fyNN/expense_disclosure)
+  budget year 2019: 6 organization designations; 6 found in the disclosure on (EIN, amount) ($226,855); not found: 
+  budget year 2020: 37 organization designations; 35 found in the disclosure on (EIN, amount) ($674,930); not found: amount_differs 2
+  budget year 2021: 3,335 organization designations; 3,094 found in the disclosure on (EIN, amount) ($103,568,681); not found: amount_differs 52, city_ein_name_mismatch 2, ein_not_in_disclosure 24, key_already_claimed 5, later_rescinded 158
+  rescissions of organizations: 610; where the money was designated before: earlier_resolution 268, not_found 39, partial 52, schedule_c 251
+
+RETIRED CSV (data/fy21/transparency-resolutions/fy21_transparency_all.csv, old parser)
+  retired rows 4,463; these rows 4,500; same (resolution, EIN, amount) 4,463; only here 37 (EIN printed: blank 1, hyphen 28, no_hyphen 8); only in the retired file 0
+
+ROW FLAG COUNTS (all listed in flags.csv; review file holds only those that could change a value)
+  ein_blank 1, ein_no_hyphen 8, spanning_cell 6, wrap_hyphen 12
+  zero-width chars dropped: 0
+
+REVIEW FILE: 21 rows (1 critical, 20 warn); stale decisions: 0

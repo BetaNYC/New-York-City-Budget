@@ -1,0 +1,13 @@
+{
+  "config": "config/schedule_c/fy2022.toml",
+  "config_sha256": "b56716191e1af30e4825ab6bc432494ee5b6082d030e3ee77e8ddcb57b6a0b28",
+  "fiscal_year": 2022,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdf": "source/FY22/Fiscal-2022-Schedule-C-Merge-6.30.21.pdf",
+  "pdf_sha256": "2c444f83d12bc62a1e4e235aa42b21f8d1bc4d421da8b6eb020b620216b39af1",
+  "pdfium": "156.0.8076.0",
+  "pdfplumber": "0.11.10",
+  "pypdfium2": "5.14.0",
+  "python": "3.12.13"
+}

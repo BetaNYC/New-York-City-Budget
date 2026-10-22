@@ -12,6 +12,20 @@ Nothing yet.
 
 A patch: the index gains empty tables; no tool, argument or answer changes.
 
+### Changed (PDF family config, 2026-10-22)
+- **`scripts/pdf-families.mjs` lists the FY2025–FY2018 decisions files (GitHub #104–#111).**
+  Every family-year in `data/pdf_years.csv` now has its decisions file path (header-only until a
+  person decides items). All those years are `reviewed`, not `closed`, so this index loads none of
+  their rows; only the explorer's `--include-reviewed` build shows them. Version stays 2.0.1: it
+  is not published, so the version guard passes.
+- **A column only some years carry no longer stops the build.** FY2019 capital (an Excel print)
+  adds `council_district`, `description` and `description_raw`; FY2018 transparency adds four
+  `fiscal_conduit*` columns. They are declared `optional` in `pdf-families.mjs` and load blank in
+  other years; any other column difference is still a stop.
+- **`scripts/open-data.mjs` reads the FY2025 capital keys that carry a place**
+  (`pdf|2025|HN CN018|p51r3|2025`, from `code/build_open_data_crosswalk.py`, where the PDF prints
+  one SUB ID on two Part I rows). The place goes in `record_part`; the build used to stop on it.
+
 ### Added (index, 2026-10-21)
 - **Is each record on NYC Open Data?** `scripts/open-data.mjs` loads `data/open_data/`
   (`code/build_open_data_crosswalk.py`, plan `research/2026-10-21-open-data-tracking/PLAN.md`) into

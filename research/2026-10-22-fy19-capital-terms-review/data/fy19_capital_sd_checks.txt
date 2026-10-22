@@ -1,0 +1,40 @@
+FY2019 capital supporting detail: checks
+pdf: source/FY19/Capital-Final-Upload.pdf
+sha256: afc334a4720985a9e8e3c737bf218cd46b39b7f2c6f6e155e24408ae3dc2418c
+
+H3 page map: 55 pages, 0 disagree
+Key to CD: 64 codes printed (pp.54-55); 61 used by rows; 1965 codes on 1625 rows; codes not in the key: none; key codes no row uses: ['90', '96', '99']
+  rows with more than one code: 221
+C7 image rules vs vector rules: 55 pages, 1801 matched, 1 vector only, 0 image only
+  53 horizontal rules drawn twice in the same place, counted once
+  column rules: 599 matched, 0 vector only, 0 image only
+C8 ink coverage: 55 pages, 0 uncovered regions
+
+Rows parsed: Part I 1625, Part II 0
+C1/C2 TOTALS FOR lines (rows/printed, FY2019 sum/printed):
+   I p.54  ALL                                       1625/-       614,910,000/614,910,000   OK
+  1/1 totals lines tie on count and all four FYs
+C2: this book prints no summary page (additions, rescindments, net); nothing to compare
+C3 Part II: this book prints no Part II; nothing to compare
+  Part I IDs printed on more than one row: 6 (LB CN001, LB CN002, LB CN003, LB CN004, LB CN005, LB CN006)
+  Part I rows on DN (non-city) lines: 161, FY2019 $98,592,000 (no Part II to list them)
+C5 geometry vs stream: 36308 words agree; 0 words the stream wrote out of row order (no second opinion), on pages []
+C4 Part III: this book prints no Part III; nothing to compare
+C9 Council workbook (data/capital/council_capital_awards.csv, report_year 2019):
+  PDF Part I non-zero amounts: 1628; workbook FY2019 rows: 1628; matched on (ID, budget line, FY, amount): 1628; PDF only: 0; workbook only: 0
+  borough differs from the workbook on 3 Part I rows
+  title equal (letters and digits only) on 1625/1625; sponsor list equal on 1617/1625
+  CD codes equal (run together, as t474 writes them) on 1624/1625; description equal on 1621/1625
+  11 rows of the comparison source print accents as mojibake (decoded as utf-8 to compare; source rows open_data_t474)
+
+review.csv by check:
+  C3.id_reused                 warn     6
+  C6.boro                      critical 3
+  C6.cell_overflow             warn     4
+  C6.key_overrun               warn     1
+  C7.rules                     warn     1
+  C9.workbook_boro             warn     3
+  C9.workbook_cd               warn     1
+  C9.workbook_description      warn     4
+  C9.workbook_sponsor          warn     8
+  C9.workbook_text             warn     1

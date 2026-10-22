@@ -1,0 +1,396 @@
+resolution_seq,pdf_page,width,height,rotation,tables,chart_number,continued,page_label,footnotes,rows,ein_tokens,ein_tokens_all_chars,nonws_chars,clipped_chars,zero_width_chars,image_regions,image_lattices,image_rows,rows_agree,image_notes,ink_px,uncovered_px,ink_regions,caption
+1,1,612.0,792.0,0,0,,,,,0,0,0,2636,0,0,,,,,,,,,
+1,2,612.0,792.0,0,0,,,,,0,0,0,429,0,0,,,,,,,,,
+1,3,792.0,612.0,0,1,1,0,1,* **,20,20,20,2034,0,0,1,1,20,20,,752148,0,0,CHART #1: Local Initiatives - Fiscal 2025
+1,4,792.0,612.0,0,1,1,1,2,* **,24,24,24,2253,0,0,1,1,24,24,,853488,0,0,CHART #1: Local Initiatives - Fiscal 2025 (continued)
+1,5,792.0,612.0,0,1,1,1,3,* **,26,26,26,2182,0,0,1,1,26,26,,868319,0,0,CHART #1: Local Initiatives - Fiscal 2025 (continued)
+1,6,792.0,612.0,0,1,1,1,4,* **,26,26,26,2291,0,0,1,1,26,26,,882733,0,0,CHART #1: Local Initiatives - Fiscal 2025 (continued)
+1,7,792.0,612.0,0,1,1,1,5,* **,22,22,22,2239,0,0,1,1,22,22,,813918,0,0,CHART #1: Local Initiatives - Fiscal 2025 (continued)
+1,8,792.0,612.0,0,1,1,1,6,* **,21,21,21,2243,0,0,1,1,21,21,,808469,0,0,CHART #1: Local Initiatives - Fiscal 2025 (continued)
+1,9,792.0,612.0,0,1,2,0,7,* **,8,8,8,911,0,0,1,1,8,8,,318098,0,0,CHART #2: Aging Discretionary - Fiscal 2025
+1,10,792.0,612.0,0,1,3,0,8,* **,22,22,22,2162,0,0,1,1,22,22,,799877,0,0,CHART #3: Youth Discretionary - Fiscal 2025
+1,11,792.0,612.0,0,1,4,0,9,* **,10,10,10,1062,0,0,1,1,10,10,,379104,0,0,CHART #4: Anti-Poverty - Fiscal 2025
+1,12,792.0,612.0,0,1,5,0,10,* **,23,23,23,2117,0,0,1,1,23,23,,812945,0,0,CHART #5: Community Safety and Victim Services Initiative - Fiscal 2025
+1,13,792.0,612.0,0,1,5,1,11,* **,10,10,10,1059,0,0,1,1,10,10,,367118,0,0,CHART #5: Community Safety and Victim Services Initiative - Fiscal 2025 (continued)
+1,14,792.0,612.0,0,1,6,0,12,* **,13,13,13,1226,0,0,1,1,13,13,,467702,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+1,15,792.0,612.0,0,1,7,0,13,* **,4,4,4,560,0,0,1,1,4,4,,173923,0,0,CHART #7: Boroughwide Needs Initiative - Fiscal 2025
+1,16,851.61,658.06,0,1,8,0,14,* **,24,24,24,2559,0,0,1,1,24,24,,883982,0,0,CHART #8: A Greener NYC - Fiscal 2025
+1,17,851.61,658.06,0,1,8,1,15,* **,11,11,11,1220,0,0,1,1,11,11,,412733,0,0,CHART #8: A Greener NYC - Fiscal 2025 (continued)
+1,18,851.61,658.06,0,1,9,0,16,* **,33,33,33,2758,0,0,1,1,33,33,,1054557,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2025
+1,19,851.61,658.06,0,1,9,1,17,* **,26,26,26,2592,0,0,1,1,26,26,,921676,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2025 (continued)
+1,20,851.61,658.06,0,1,9,1,18,* **,27,27,27,2870,0,0,1,1,27,27,,993719,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2025 (continued)
+1,21,851.61,658.06,0,1,9,1,19,* **,30,30,30,2933,0,0,1,1,30,30,,1039683,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2025 (continued)
+1,22,851.61,658.06,0,1,9,1,20,* **,26,26,26,2912,0,0,1,1,26,26,,989323,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2025 (continued)
+1,23,851.61,658.06,0,1,9,1,21,* **,29,29,29,3015,0,0,1,1,29,29,,1037397,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2025 (continued)
+1,24,851.61,658.06,0,1,10,0,22,* **,28,28,28,2595,0,0,1,1,28,28,,945041,0,0,CHART #10: Cultural Immigrant Initiative - Fiscal 2025
+1,25,851.61,658.06,0,1,10,1,23,* **,1,1,1,345,0,0,1,1,1,1,,78972,0,0,CHART #10: Cultural Immigrant Initiative - Fiscal 2025 (continued)
+1,26,851.61,658.06,0,1,11,0,24,* **,21,21,21,2248,0,0,1,1,21,21,,771360,0,0,CHART #11: Digital Inclusion and Literacy Initiative - Fiscal 2025
+1,27,851.61,658.06,0,1,12,0,25,* **,20,20,20,2177,0,0,1,1,20,20,,740024,0,0,CHART #12: Neighborhood Development Grant Initiative - Fiscal 2025
+1,28,851.61,658.06,0,1,13,0,26,* **,20,20,20,2159,0,0,1,1,20,20,,748046,0,0,CHART #13: NYC Cleanup - Fiscal 2025
+1,29,851.61,658.06,0,1,14,0,27,* **,23,23,23,2432,0,0,1,1,23,23,,841426,0,0,CHART #14: Parks Equity Initiative - Fiscal 2025
+1,30,851.61,658.06,0,1,15,0,28,* **,26,26,26,2616,0,0,1,1,26,26,,920780,0,0,CHART #15: Support Our Older Adults - Fiscal 2025
+1,31,851.61,658.06,0,1,15,1,29,* **,5,5,5,608,0,0,1,1,5,5,,191290,0,0,CHART #15: Support Our Older Adults - Fiscal 2025 (continued)
+1,32,851.61,658.06,0,1,16,0,30,* **,28,28,28,2817,0,0,1,1,28,28,,985003,0,0,CHART #16: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025
+1,33,792.0,612.0,0,1,17,0,31,* **,2,2,2,375,0,0,1,1,2,2,,100855,0,0,CHART #17: Veterans Community Development - Fiscal 2025
+1,34,792.0,612.0,0,1,18,0,32,* **,2,2,2,298,0,0,1,1,2,2,,88203,0,0,CHART #18: Ending the Epidemic - Fiscal 2025
+1,35,792.0,612.0,0,1,19,0,33,* **,2,2,2,325,0,0,1,1,2,2,,92029,0,0,CHART #19: LGBTQIA+ Inclusive Curriculum - Fiscal 2025
+1,36,792.0,612.0,0,1,20,0,34,* **,2,2,2,311,0,0,1,1,2,2,,90050,0,0,CHART #20: Community Composting - Fiscal 2025
+1,37,792.0,612.0,0,1,21,0,35,* **,2,2,2,304,0,0,1,1,2,2,,88058,0,0,CHART #21: City's First Readers - Fiscal 2025
+1,38,792.0,612.0,0,1,22,0,36,* **,2,2,2,368,0,0,1,1,2,2,,96305,0,0,CHART #22: HIV/AIDS Faith and Community Based Initiative (formerly HIV/AIDS Faith Based Initiative) - Fiscal 2025
+1,39,792.0,612.0,0,1,23,0,37,* **,2,2,2,347,0,0,1,1,2,2,,95251,0,0,CHART #23: Art a Catalyst for Change - Fiscal 2025
+1,40,792.0,612.0,0,1,24,0,38,* **,2,2,2,337,0,0,1,1,2,2,,95671,0,0,CHART #24: Crisis Management System - Fiscal 2025
+1,41,792.0,612.0,0,1,25,0,39,* **,11,11,11,912,0,0,1,1,11,11,,364757,0,0,CHART #25: Job Training and Placement Initiative - Fiscal 2025
+1,42,792.0,612.0,0,1,26,0,40,* **,2,2,2,348,0,0,1,1,2,2,,92826,0,0,CHART #26: Chamber on the Go and Small Business Assistance - Fiscal 2025
+1,43,792.0,612.0,0,1,27,0,41,* **,2,2,2,334,0,0,1,1,2,2,,93287,0,0,CHART #27: MWBE Leadership Associations - Fiscal 2025
+1,44,792.0,612.0,0,1,28,0,42,* **,6,6,6,621,0,0,1,1,6,6,,221232,0,0,CHART #28: Mental Health Clubhouses- Fiscal 2025
+1,45,792.0,612.0,0,1,29,0,43,* **,2,2,2,344,0,0,1,1,2,2,,96810,0,0,CHART #29: Youth Peer Support Pilot - Fiscal 2025
+1,46,792.0,612.0,0,1,30,0,44,* **,1,1,1,303,0,0,1,1,1,1,,63540,0,0,CHART #30: Older Adults Mental Health (formerly Geriatric Mental Health) - Fiscal 2025
+1,47,792.0,612.0,0,1,31,0,45,* **,1,1,1,292,0,0,1,1,1,1,,63616,0,0,CHART #31: Mental Health Services for Vulnerable Populations - Fiscal 2025
+1,48,792.0,612.0,0,1,32,0,46,* **,8,8,8,935,0,0,1,1,8,8,,325802,0,0,CHART #32: Local Initiatives - Fiscal 2024
+1,49,792.0,612.0,0,1,33,0,47,* **,2,2,2,376,0,0,1,1,2,2,,111056,0,0,CHART #33: Food Pantries - Fiscal 2024
+1,50,792.0,612.0,0,1,34,0,48,* **,4,4,4,610,0,0,1,1,4,4,,190974,0,0,CHART #34: Cultural After-School Adventure (CASA) - Fiscal 2024
+1,51,792.0,612.0,0,1,35,0,49,* **,2,2,2,388,0,0,1,1,2,2,,107201,0,0,CHART #35: Speaker's Initiative to Address Citywide Needs - Fiscal 2024
+1,52,792.0,612.0,0,1,36,0,50,* **,2,2,2,457,0,0,1,1,2,2,,128274,0,0,CHART #36: NYC Cleanup - Fiscal 2024
+1,53,792.0,612.0,0,1,37,0,51,* **,2,2,2,423,0,0,1,1,2,2,,112992,0,0,CHART #37: Neighborhood Development Grant Initiative - Fiscal 2024
+1,54,792.0,612.0,0,1,38,0,52,* **,6,6,6,589,0,0,1,1,6,6,,220604,0,0,CHART #38: Local Initiatives - Fiscal 2023
+1,55,792.0,612.0,0,1,39,0,53,* **,2,2,2,376,0,0,1,1,2,2,,107600,0,0,CHART #39: Boroughwide Needs Initiative - Fiscal 2023
+1,56,792.0,612.0,0,1,40,0,54,* **,2,2,2,343,0,0,1,1,2,2,,98011,0,0,CHART #40: Youth Discretionary - Fiscal 2023
+1,57,792.0,612.0,0,1,41,0,55,* **,2,2,2,363,0,0,1,1,2,2,,97232,0,0,CHART #41: Neighborhood Development Grant Initiative - Fiscal 2023
+1,58,792.0,612.0,0,1,42,0,56,* **,2,2,2,359,0,0,1,1,2,2,,107341,0,0,CHART #42: NYC Cleanup - Fiscal 2023
+1,59,1028.57,794.81,0,1,43,0,57,* **,14,14,14,3243,21,0,1,1,14,14,,924832,20,0,CHART #43: Purpose of Funds Changes - Fiscal 2025
+1,60,1028.57,794.81,0,1,43,1,58,* **,14,14,14,2554,18,0,1,1,14,14,,782745,0,0,CHART #43: Purpose of Funds Changes - Fiscal 2025 (continued)
+1,61,1028.57,794.81,0,1,43,1,59,* **,14,14,14,3280,6,0,1,1,14,14,,926551,0,0,CHART #43: Purpose of Funds Changes - Fiscal 2025 (continued)
+1,62,1028.57,794.81,0,1,43,1,60,* **,8,8,8,1854,0,0,1,1,8,8,,528684,0,0,CHART #43: Purpose of Funds Changes - Fiscal 2025 (continued)
+1,63,1028.57,794.81,0,1,44,0,61,* **,6,6,6,1583,0,0,1,1,6,6,,446882,0,0,CHART #44: Purpose of Funds Changes - Fiscal 2024
+2,1,612.0,792.0,0,0,,,,,0,0,0,2599,0,0,,,,,,,,,
+2,2,612.0,792.0,0,0,,,,,0,0,0,429,0,0,,,,,,,,,
+2,3,792.0,612.0,0,1,1,0,1,* **,25,25,25,2141,0,0,1,1,25,25,,848716,0,0,CHART #1: Local Initiatives - Fiscal 2025
+2,4,792.0,612.0,0,1,1,1,2,* **,25,25,25,2354,0,0,1,1,25,25,,868050,0,0,CHART #1: Local Initiatives - Fiscal 2025 (continued)
+2,5,792.0,612.0,0,1,1,1,3,* **,16,16,16,1721,0,0,1,1,16,16,,618601,0,0,CHART #1: Local Initiatives - Fiscal 2025 (continued)
+2,6,792.0,612.0,0,1,2,0,4,* **,2,2,2,373,0,0,1,1,2,2,,101429,0,0,CHART #2: Aging Discretionary - Fiscal 2025
+2,7,792.0,612.0,0,1,3,0,5,* **,8,8,8,864,0,0,1,1,8,8,,306152,0,0,CHART #3: Youth Discretionary - Fiscal 2025
+2,8,792.0,612.0,0,1,4,0,6,* **,4,4,4,454,0,0,1,1,4,4,,157187,0,0,CHART #4: Anti-Poverty - Fiscal 2025
+2,9,792.0,612.0,0,1,5,0,7,* **,2,2,2,425,0,0,1,1,2,2,,112874,0,0,CHART #5: Community Safety and Victim Services Initiative - Fiscal 2025
+2,10,792.0,612.0,0,1,6,0,8,* **,15,15,15,1405,0,0,1,1,15,15,,529864,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+2,11,851.61,658.06,0,1,7,0,9,* **,11,11,11,1134,0,0,1,1,11,11,,396075,0,0,CHART #7: A Greener NYC - Fiscal 2025
+2,12,851.61,658.06,0,1,8,0,10,* **,25,25,25,2732,0,0,1,1,25,25,,942415,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2025
+2,13,851.61,658.06,0,1,8,1,11,* **,23,23,23,2579,0,0,1,1,23,23,,875824,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2025 (continued)
+2,14,851.61,658.06,0,1,8,1,12,* **,24,24,24,2476,0,0,1,1,24,24,,873963,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2025 (continued)
+2,15,851.61,658.06,0,1,8,1,13,* **,17,17,17,1951,0,0,1,1,17,17,,656135,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2025 (continued)
+2,16,851.61,658.06,0,1,9,0,14,* **,18,18,18,1911,0,0,1,1,18,18,,661133,0,0,CHART #9: Cultural Immigrant Initiative - Fiscal 2025
+2,17,851.61,658.06,0,1,10,0,15,* **,11,11,11,1038,0,0,1,1,11,11,,373191,0,0,CHART #10: Digital Inclusion and Literacy Initiative - Fiscal 2025
+2,18,851.61,658.06,0,1,11,0,16,* **,2,2,2,379,0,0,1,1,2,2,,99409,0,0,CHART #11: Neighborhood Development Grant Initiative - Fiscal 2025
+2,19,851.61,658.06,0,1,12,0,17,* **,16,16,16,1683,0,0,1,1,16,16,,583158,0,0,CHART #12: NYC Cleanup - Fiscal 2025
+2,20,851.61,658.06,0,1,13,0,18,* **,16,16,16,1596,0,0,1,1,16,16,,563725,0,0,CHART #13: Parks Equity Initiative - Fiscal 2025
+2,21,851.61,658.06,0,1,14,0,19,* **,13,13,13,1324,0,0,1,1,13,13,,465351,0,0,CHART #14: Support Our Older Adults - Fiscal 2025
+2,22,851.61,658.06,0,1,15,0,20,* **,29,29,29,2526,0,0,1,1,29,29,,952936,0,0,CHART #15: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025
+2,23,851.61,658.06,0,1,15,1,21,* **,5,5,5,633,0,0,1,1,5,5,,192494,0,0,CHART #15: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025 (continued)
+2,24,851.61,658.06,0,1,16,0,22,* **,30,30,30,3095,0,0,1,1,30,30,,1092838,0,0,CHART #16: Food Pantries - Fiscal 2025
+2,25,851.61,658.06,0,1,16,1,23,* **,27,27,27,3005,0,0,1,1,27,27,,1042869,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,26,851.61,658.06,0,1,16,1,24,* **,26,26,26,2971,0,0,1,1,26,26,,1001619,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,27,851.61,658.06,0,1,16,1,25,* **,30,30,30,3215,0,0,1,1,30,30,,1096257,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,28,851.61,658.06,0,1,16,1,26,* **,30,30,30,3372,0,0,1,1,30,30,,1131878,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,29,851.61,658.06,0,1,16,1,27,* **,26,26,26,2931,0,0,1,1,26,26,,994004,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,30,851.61,658.06,0,1,16,1,28,* **,30,30,30,3295,0,0,1,1,30,30,,1143393,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,31,851.61,658.06,0,1,16,1,29,* **,31,31,31,3416,0,0,1,1,31,31,,1181266,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,32,851.61,658.06,0,1,16,1,30,* **,27,27,27,2919,0,0,1,1,27,27,,1004441,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,33,851.61,658.06,0,1,16,1,31,* **,27,27,27,2929,0,0,1,1,27,27,,1004546,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,34,851.61,658.06,0,1,16,1,32,* **,30,30,30,3293,0,0,1,1,30,30,,1130914,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,35,851.61,658.06,0,1,16,1,33,* **,34,34,34,3507,0,0,1,1,34,34,,1246147,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,36,851.61,658.06,0,1,16,1,34,* **,32,32,32,3053,0,0,1,1,32,32,,1109198,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,37,851.61,658.06,0,1,16,1,35,* **,31,31,31,3259,0,0,1,1,31,31,,1146703,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,38,851.61,658.06,0,1,16,1,36,* **,28,28,28,3008,0,0,1,1,28,28,,1064506,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,39,851.61,658.06,0,1,16,1,37,* **,26,26,26,2707,0,0,1,1,26,26,,952412,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,40,851.61,658.06,0,1,16,1,38,* **,26,26,26,2666,0,0,1,1,26,26,,934405,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,41,851.61,658.06,0,1,16,1,39,* **,19,19,19,2264,0,0,1,1,19,19,,764631,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,42,851.61,658.06,0,1,16,1,40,* **,4,4,4,613,0,0,1,1,4,4,,179784,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,43,851.61,658.06,0,1,16,1,41,* **,29,29,29,2797,0,0,1,1,29,29,,1016410,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,44,851.61,658.06,0,1,16,1,42,* **,27,27,27,2761,0,0,1,1,27,27,,985884,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,45,851.61,658.06,0,1,16,1,43,* **,25,25,25,2505,0,0,1,1,25,25,,908939,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,46,851.61,658.06,0,1,16,1,44,* **,11,11,11,1169,0,0,1,1,11,11,,407113,0,0,CHART #16: Food Pantries - Fiscal 2025 (continued)
+2,47,792.0,612.0,0,1,17,0,45,* **,2,2,2,395,0,0,1,1,2,2,,106577,0,0,CHART #17: Art a Catalyst for Change - Fiscal 2025
+2,48,792.0,612.0,0,1,18,0,46,* **,2,2,2,317,0,0,1,1,2,2,,91185,0,0,CHART #18: Community Composting - Fiscal 2025
+2,49,792.0,612.0,0,1,19,0,47,* **,3,3,3,394,0,0,1,1,3,3,,125278,0,0,CHART #19: Citywide Homeless Prevention Fund - Fiscal 2025
+2,50,792.0,612.0,0,1,20,0,48,* **,4,4,4,458,0,0,1,1,4,4,,152058,0,0,CHART #20: Afterschool Enrichment Initiative - Fiscal 2025
+2,51,792.0,612.0,0,1,21,0,49,* **,9,9,9,810,0,0,1,1,9,9,,311619,0,0,CHART #21: YouthBuild Project Initiative - Fiscal 2025
+2,52,792.0,612.0,0,1,22,0,50,* **,2,2,2,315,0,0,1,1,2,2,,89387,0,0,CHART #22: Coalition Theaters of Color - Fiscal 2025
+2,53,792.0,612.0,0,1,23,0,51,* **,3,3,3,390,0,0,1,1,3,3,,126338,0,0,CHART #23: Veteran Resource Centers - Fiscal 2025
+2,54,792.0,612.0,0,1,24,0,52,* **,7,7,7,775,0,0,1,1,7,7,,265456,0,0,CHART #24: Education Equity Action Plan - Fiscal 2025
+2,55,792.0,612.0,0,1,25,0,53,* **,2,2,2,334,0,0,1,1,2,2,,89369,0,0,CHART #25: Community Development Financial Institutions - Fiscal 2025
+2,56,792.0,612.0,0,1,26,0,54,* **,2,2,2,346,0,0,1,1,2,2,,94481,0,0,CHART #26: Support for Victims of Human Trafficking - Fiscal 2025
+2,57,792.0,612.0,0,1,27,0,55,* **,4,4,4,402,0,0,1,1,4,4,,145522,0,0,CHART #27: Discharge Planning - Fiscal 2025
+2,58,792.0,612.0,0,1,28,0,56,* **,4,4,4,450,0,0,1,1,4,4,,153194,0,0,CHART #28: Trauma Recovery Centers - Fiscal 2025
+2,59,792.0,612.0,0,1,29,0,57,* **,2,2,2,341,0,0,1,1,2,2,,92413,0,0,CHART #29: Mental Health Services for Vulnerable Populations - Fiscal 2025
+2,60,792.0,612.0,0,1,30,0,58,* **,9,9,9,708,0,0,1,1,9,9,,294990,0,0,CHART #30: Ending the Epidemic - Fiscal 2025
+2,61,792.0,612.0,0,1,31,0,59,* **,5,5,5,571,0,0,1,1,5,5,,188862,0,0,CHART #31: HIV/AIDS Faith and Community Based Initiative - Fiscal 2025
+2,62,792.0,612.0,0,1,32,0,60,* **,3,3,3,358,0,0,1,1,3,3,,120451,0,0,CHART #32: Viral Hepatitis Prevention - Fiscal 2025
+2,63,792.0,612.0,0,1,33,0,61,* **,4,4,4,531,0,0,1,1,4,4,,165987,0,0,CHART #33: Legal Services for Low-Income Immigrants - Fiscal 2025
+2,64,792.0,612.0,0,1,34,0,62,* **,3,3,3,405,0,0,1,1,3,3,,126135,0,0,CHART #34: Immigrant Opportunities Initiative - Fiscal 2025
+2,65,792.0,612.0,0,1,35,0,63,* **,6,6,6,554,0,0,1,1,6,6,,208519,0,0,CHART #35: Welcome NYC - Fiscal 2025
+2,66,792.0,612.0,0,1,36,0,64,* **,2,2,2,339,0,0,1,1,2,2,,95011,0,0,CHART #36: Community Interpreter Bank - Fiscal 2025
+2,67,792.0,612.0,0,1,37,0,65,* **,6,6,6,591,0,0,1,1,6,6,,211747,0,0,CHART #37: Language Services Worker Cooperatives - Fiscal 2025
+2,68,792.0,612.0,0,1,38,0,66,* **,32,32,32,2155,0,0,1,1,32,32,,947867,0,0,CHART #38: Adult Literacy Initiative - Fiscal 2025
+2,69,792.0,612.0,0,1,38,1,67,* **,32,32,32,2180,0,0,1,1,32,32,,959540,0,0,CHART #38: Adult Literacy Initiative - Fiscal 2025 (continued)
+2,70,792.0,612.0,0,1,39,0,68,* **,21,21,21,1497,0,0,1,1,21,21,,650280,0,0,CHART #39: Adult Literacy Pilot Project - Fiscal 2025
+2,71,792.0,612.0,0,1,40,0,69,* **,2,2,2,334,0,0,1,1,2,2,,94833,0,0,CHART #40: AAPI Community Support - Fiscal 2025
+2,72,792.0,612.0,0,1,41,0,70,* **,2,2,2,404,0,0,1,1,2,2,,105029,0,0,CHART #41: Cultural After-School Adventure (CASA) - Fiscal 2024
+2,73,792.0,612.0,0,1,42,0,71,* **,2,2,2,339,0,0,1,1,2,2,,91031,0,0,CHART #42: Speaker's Initiative to Address Citywide Needs - Fiscal 2023
+2,74,792.0,612.0,0,1,43,0,,* **,2,2,2,389,0,0,1,1,2,2,,106577,0,0,CHART #43: Art a Catalyst for Change - Fiscal 2024
+2,75,792.0,612.0,0,1,44,0,,* **,2,2,2,389,0,0,1,1,2,2,,106577,0,0,CHART #44: Art a Catalyst for Change - Fiscal 2023
+2,76,1028.57,794.81,0,1,45,0,74,* **,12,12,12,3110,0,0,1,1,12,12,,868806,0,0,CHART #45: Purpose of Funds Changes - Fiscal 2025
+2,77,1028.57,794.81,0,1,45,1,75,* **,2,2,2,587,0,0,1,1,2,2,,157473,0,0,CHART #45: Purpose of Funds Changes - Fiscal 2025 (continued)
+2,78,1028.57,794.81,0,1,46,0,76,* **,2,2,2,751,0,0,1,1,2,2,,192540,0,0,CHART #46: Purpose of Funds Changes - Fiscal 2024
+3,1,612.0,792.0,0,0,,,,,0,0,0,2650,0,0,,,,,,,,,
+3,2,612.0,792.0,0,0,,,,,0,0,0,429,0,0,,,,,,,,,
+3,3,792.0,612.0,0,1,1,0,1,* **,21,21,21,2089,0,0,1,1,21,21,,768260,0,0,CHART #1: Local Initiatives - Fiscal 2025
+3,4,792.0,612.0,0,1,1,1,2,* **,14,14,14,1238,0,0,1,1,14,14,,480611,0,0,CHART #1: Local Initiatives - Fiscal 2025 (continued)
+3,5,792.0,612.0,0,1,2,0,3,* **,10,10,10,930,0,0,1,1,10,10,,346203,0,0,CHART #2: Youth Discretionary - Fiscal 2025
+3,6,792.0,612.0,0,1,3,0,4,* **,3,3,3,438,0,0,1,1,3,3,,132306,0,0,CHART #3: Anti-Poverty - Fiscal 2025
+3,7,792.0,612.0,0,1,4,0,5,* **,4,4,4,642,0,0,1,1,4,4,,186751,0,0,CHART #4: Community Safety and Victim Services Initiative - Fiscal 2025
+3,8,792.0,612.0,0,1,5,0,6,* **,6,6,6,727,0,0,1,1,6,6,,233347,0,0,CHART #5: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+3,9,792.0,612.0,0,1,6,0,7,* **,2,2,2,417,0,0,1,1,2,2,,104605,0,0,CHART #6: Boroughwide Needs Initiative - Fiscal 2025
+3,10,792.0,612.0,0,1,7,0,8,* **,2,2,2,320,0,0,1,1,2,2,,82751,0,0,CHART #7: A Greener NYC - Fiscal 2025
+3,11,792.0,612.0,0,1,8,0,9,* **,23,23,23,2666,0,0,1,1,23,23,,774488,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2025
+3,12,792.0,612.0,0,1,8,1,10,* **,24,24,24,2489,0,0,1,1,24,24,,747096,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2025 (continued)
+3,13,792.0,612.0,0,1,8,1,11,* **,7,7,7,811,0,0,1,1,7,7,,222668,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2025 (continued)
+3,14,792.0,612.0,0,1,9,0,12,* **,11,11,11,1006,0,0,1,1,11,11,,312415,0,0,CHART #9: Cultural Immigrant Initiative - Fiscal 2025
+3,15,792.0,612.0,0,1,10,0,13,* **,5,5,5,680,0,0,1,1,5,5,,175919,0,0,CHART #10: Digital Inclusion and Literacy Initiative - Fiscal 2025
+3,16,792.0,612.0,0,1,11,0,14,* **,7,7,7,847,0,0,1,1,7,7,,235517,0,0,CHART #11: Neighborhood Development Grant Initiative - Fiscal 2025
+3,17,792.0,612.0,0,1,12,0,15,* **,2,2,2,353,0,0,1,1,2,2,,88195,0,0,CHART #12: NYC Cleanup - Fiscal 2025
+3,18,792.0,612.0,0,1,13,0,16,* **,2,2,2,348,0,0,1,1,2,2,,85920,0,0,CHART #13: Parks Equity Initiative - Fiscal 2025
+3,19,792.0,612.0,0,1,14,0,17,* **,7,7,7,779,0,0,1,1,7,7,,219889,0,0,CHART #14: Support Our Older Adults - Fiscal 2025
+3,20,792.0,612.0,0,1,15,0,18,* **,12,12,12,1311,0,0,1,1,12,12,,380337,0,0,CHART #15: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025
+3,21,792.0,612.0,0,1,16,0,19,* **,7,7,7,928,0,0,1,1,7,7,,255618,0,0,CHART #16: Food Pantries - Fiscal 2025
+3,22,792.0,612.0,0,1,17,0,20,* **,2,2,2,326,0,0,1,1,2,2,,84887,0,0,CHART #17: Guaranteed Income Pilot Program - Fiscal 2025
+3,23,792.0,612.0,0,1,18,0,21,* **,3,3,3,385,0,0,1,1,3,3,,117670,0,0,CHART #18: Maternal and Child Health Services - Fiscal 2025
+3,24,792.0,612.0,0,1,19,0,22,* **,2,2,2,453,0,0,1,1,2,2,,114932,0,0,CHART #19: Cultural After-School Adventure (CASA) - Fiscal 2024
+3,25,792.0,612.0,0,1,20,0,23,* **,2,2,2,417,0,0,1,1,2,2,,106182,0,0,CHART #20: Speaker's Initiative to Address Citywide Needs - Fiscal 2024
+3,26,792.0,612.0,0,1,21,0,24,* **,3,3,3,458,0,0,1,1,3,3,,136532,0,0,CHART #21: Local Initiatives - Fiscal 2023
+3,27,792.0,612.0,0,1,22,0,25,* **,2,2,2,359,0,0,1,1,2,2,,90591,0,0,CHART #22: Neighborhood Development Grant Initiative - Fiscal 2023
+3,28,792.0,612.0,0,1,23,0,,* **,4,4,4,475,0,0,1,1,4,4,,151717,0,0,CHART #23: Art a Catalyst for Change - Fiscal 2024
+3,29,792.0,612.0,0,1,24,0,27,* **,16,16,16,3083,0,0,1,1,16,16,,527280,0,0,CHART #24: Purpose of Funds Changes - Fiscal 2025
+3,30,792.0,612.0,0,1,24,1,28,* **,6,6,6,2218,0,0,1,1,6,6,region 0: header rule at 70.68 pt found in header pixels,319131,0,0,CHART #24: Purpose of Funds Changes - Fiscal 2025 (continued)
+3,31,792.0,612.0,0,1,25,0,29,* **,4,4,4,1313,0,0,1,1,4,4,region 0: header rule at 70.68 pt found in header pixels,190329,0,0,CHART #25: Purpose of Funds Changes - Fiscal 2024
+4,1,612.0,792.0,0,0,,,,,0,0,0,1924,0,0,,,,,,,,,
+4,2,792.0,612.0,0,1,1,0,1,* **,10,10,10,993,0,0,1,1,10,10,,367274,0,0,CHART #1: Crisis Management System - Fiscal 2025
+4,3,792.0,612.0,0,1,2,0,2,* **,2,2,2,310,0,0,1,1,2,2,,90927,0,0,CHART #2: Hate Crimes Prevention - Fiscal 2025
+4,4,792.0,612.0,0,1,3,0,3,* **,2,2,2,330,0,0,1,1,2,2,,92941,0,0,CHART #3: Initiative to Combat Sexual Assault - Fiscal 2025
+4,5,792.0,612.0,0,1,4,0,4,* **,2,2,2,291,0,0,1,1,2,2,,87519,0,0,CHART #4: Pride At Work - Fiscal 2025
+4,6,792.0,612.0,0,1,5,0,5,* **,3,3,3,383,0,0,1,1,3,3,,125305,0,0,CHART #5: Community Land Trust - Fiscal 2025
+4,7,792.0,612.0,0,1,6,0,6,* **,2,2,2,320,0,0,1,1,2,2,,89942,0,0,CHART #6: Financial Empowerment for NYC's Renters - Fiscal 2025
+4,8,792.0,612.0,0,1,7,0,7,* **,2,2,2,302,0,0,1,1,2,2,,90153,0,0,CHART #7: Ending the Epidemic - Fiscal 2025
+4,9,792.0,612.0,0,1,8,0,8,* **,2,2,2,328,0,0,1,1,2,2,,94200,0,0,CHART #8: Trauma Recovery Centers - Fiscal 2025
+4,10,792.0,612.0,0,1,9,0,9,* **,2,2,2,329,0,0,1,1,2,2,,93789,0,0,CHART #9: Adult Literacy Initiative - Fiscal 2025
+5,1,612.0,792.0,0,0,,,,,0,0,0,2659,0,0,,,,,,,,,
+5,2,612.0,792.0,0,0,,,,,0,0,0,612,0,0,,,,,,,,,
+5,3,792.0,612.0,0,1,1,0,1,* **,22,22,22,2122,0,0,1,1,22,22,,772704,0,0,CHART #1: Local Initiatives - Fiscal 2025
+5,4,792.0,612.0,0,1,2,0,2,* **,5,5,5,624,0,0,1,1,5,5,,198314,0,0,CHART #2: Youth Discretionary - Fiscal 2025
+5,5,792.0,612.0,0,1,3,0,3,* ** ***,16,16,16,1421,0,0,1,1,16,16,,511227,0,0,CHART #3: Community Safety and Victim Services Initiative - Fiscal 2025
+5,6,792.0,612.0,0,1,4,0,4,* **,4,4,4,540,0,0,1,1,4,4,,165190,0,0,CHART #4: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+5,7,792.0,612.0,0,1,5,0,5,* **,10,10,10,918,0,0,1,1,10,10,,290459,0,0,CHART #5: A Greener NYC - Fiscal 2025
+5,8,792.0,612.0,0,1,6,0,6,* ** ***,28,28,28,2953,0,0,1,1,28,28,,856925,0,0,CHART #6: Cultural After-School Adventure (CASA) - Fiscal 2025
+5,9,792.0,612.0,0,1,7,0,7,* **,6,6,6,727,0,0,1,1,6,6,,203299,0,0,CHART #7: Cultural Immigrant Initiative - Fiscal 2025
+5,10,792.0,612.0,0,1,8,0,8,* **,10,10,10,1047,0,0,1,1,10,10,,307139,0,0,CHART #8: Digital Inclusion and Literacy Initiative - Fiscal 2025
+5,11,792.0,612.0,0,1,9,0,9,* **,5,5,5,588,0,0,1,1,5,5,,160717,0,0,CHART #9: Neighborhood Development Grant Initiative - Fiscal 2025
+5,12,792.0,612.0,0,1,10,0,10,* **,6,6,6,740,0,0,1,1,6,6,,207120,0,0,CHART #10: NYC Cleanup - Fiscal 2025
+5,13,792.0,612.0,0,1,11,0,11,* **,16,16,16,1660,0,0,1,1,16,16,,497832,0,0,CHART #11: Parks Equity Initiative - Fiscal 2025
+5,14,792.0,612.0,0,1,12,0,12,* **,12,12,12,1286,0,0,1,1,12,12,,373597,0,0,CHART #12: Support Our Older Adults - Fiscal 2025
+5,15,792.0,612.0,0,1,13,0,13,* ** ***,15,15,15,1718,0,0,1,1,15,15,,476213,0,0,CHART #13: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025
+5,16,792.0,612.0,0,1,14,0,14,* **,2,2,2,409,0,0,1,1,2,2,,101401,0,0,CHART #14: Food Pantries - Fiscal 2025
+5,17,792.0,612.0,0,1,15,0,15,* **,5,5,5,488,0,0,1,1,5,5,,148520,0,0,CHART #15: SU-CASA - Fiscal 2025
+5,18,792.0,612.0,0,1,16,0,16,* **,5,5,5,633,0,0,1,1,5,5,,203846,0,0,CHART #16: Crisis Management System - Fiscal 2025
+5,19,792.0,612.0,0,1,17,0,17,* **,2,2,2,335,0,0,1,1,2,2,,87470,0,0,CHART #17: Supports for Persons Involved in the Sex Trade - Fiscal 2025
+5,20,792.0,612.0,0,1,18,0,18,* **,3,3,3,398,0,0,1,1,3,3,,115911,0,0,"CHART #18: Diversity, Inclusion & Equity in Tech Initiative - Fiscal 2025"
+5,21,792.0,612.0,0,1,19,0,19,* **,15,15,15,1123,0,0,1,1,15,15,,453769,0,0,CHART #19: Estate Planning and Resolution Initiative (EPAR) - Fiscal 2025
+5,22,792.0,612.0,0,1,20,0,20,* **,25,25,25,1752,0,0,1,1,25,25,,729684,0,0,CHART #20: Adult Literacy Initiative - Fiscal 2025
+5,23,792.0,612.0,0,1,21,0,21,* **,25,25,25,1704,0,0,1,1,25,25,,728123,0,0,CHART #21: Adult Literacy Pilot Project - Fiscal 2025
+5,24,792.0,612.0,0,1,22,0,22,* **,2,2,2,385,0,0,1,1,2,2,,104608,0,0,CHART #22: Trauma Recovery Centers - Fiscal 2025
+5,25,792.0,612.0,0,1,23,0,23,* **,2,2,2,394,0,0,1,1,2,2,,104752,0,0,CHART #23: Art a Catalyst for Change - Fiscal 2025
+5,26,792.0,612.0,0,1,24,0,24,* **,2,2,2,326,0,0,1,1,2,2,,90029,0,0,CHART #24: Local Initiatives - Fiscal 2024
+5,27,792.0,612.0,0,1,25,0,25,* **,3,3,3,381,0,0,1,1,3,3,,118171,0,0,CHART #25: Local Initiatives - Fiscal 2023
+5,28,792.0,612.0,0,1,26,0,26,* **,2,2,2,343,0,0,1,1,2,2,,92576,0,0,CHART #26: Youth Discretionary - Fiscal 2023
+5,29,792.0,612.0,0,1,27,0,27,* **,2,2,2,554,0,0,1,1,2,2,,90692,2,0,CHART #27: Purpose of Funds Changes - Fiscal 2025
+5,30,792.0,612.0,0,1,28,0,28,* **,4,4,4,991,0,0,1,1,4,4,,168941,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2024
+5,31,792.0,612.0,0,1,29,0,29,* **,6,6,6,1126,0,0,1,1,6,6,,206385,0,0,CHART #29: Purpose of Funds Changes - Fiscal 2023
+6,1,612.0,792.0,0,0,,,,,0,0,0,2498,0,0,,,,,,,,,
+6,2,612.0,792.0,0,0,,,,,0,0,0,109,0,0,,,,,,,,,
+6,3,792.0,612.0,0,1,1,0,1,* **,18,18,18,1648,0,0,1,1,18,18,,629590,0,0,CHART #1: Local Initiatives - Fiscal 2025
+6,4,792.0,612.0,0,1,2,0,2,* **,4,4,4,511,0,0,1,1,4,4,,164494,0,0,CHART #2: Youth Discretionary - Fiscal 2025
+6,5,792.0,612.0,0,1,3,0,3,* **,6,6,6,682,0,0,1,1,6,6,,246954,0,0,CHART #3: Anti-Poverty - Fiscal 2025
+6,6,792.0,612.0,0,1,4,0,4,* **,26,26,26,2235,0,0,1,1,26,26,,880442,0,0,CHART #4: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+6,7,792.0,612.0,0,1,4,1,5,* **,23,23,23,1852,0,0,1,1,23,23,,745038,0,0,CHART #4: Speaker's Initiative to Address Citywide Needs - Fiscal 2025 (continued)
+6,8,851.61,658.06,0,1,5,0,6,* **,6,6,6,558,0,0,1,1,6,6,,201900,0,0,CHART #5: A Greener NYC - Fiscal 2025
+6,9,851.61,658.06,0,1,6,0,7,* **,10,10,10,1259,0,0,1,1,10,10,,406332,0,0,CHART #6: Cultural After-School Adventure (CASA) - Fiscal 2025
+6,10,851.61,658.06,0,1,7,0,8,* **,5,5,5,616,0,0,1,1,5,5,,194979,0,0,CHART #7: Cultural Immigrant Initiative - Fiscal 2025
+6,11,851.61,658.06,0,1,8,0,9,* **,6,6,6,756,0,0,1,1,6,6,,244247,0,0,CHART #8: Neighborhood Development Grant Initiative - Fiscal 2025
+6,12,851.61,658.06,0,1,9,0,10,* **,11,11,11,1176,0,0,1,1,11,11,,408474,0,0,CHART #9: NYC Cleanup - Fiscal 2025
+6,13,851.61,658.06,0,1,10,0,11,* **,4,4,4,586,0,0,1,1,4,4,,173348,0,0,CHART #10: Parks Equity Initiative - Fiscal 2025
+6,14,851.61,658.06,0,1,11,0,12,* **,6,6,6,728,0,0,1,1,6,6,,237373,0,0,CHART #11: Support Our Older Adults - Fiscal 2025
+6,15,851.61,658.06,0,1,12,0,13,* **,21,21,21,1847,0,0,1,1,21,21,,677550,0,0,CHART #12: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025
+6,16,792.0,612.0,0,1,13,0,14,* **,1,1,1,267,0,0,1,1,1,1,,64072,0,0,CHART #13: Trauma Recovery Centers - Fiscal 2025
+6,17,792.0,612.0,0,1,14,0,15,* **,5,5,5,489,0,0,1,1,5,5,,173576,0,0,CHART #14: Legal Services for Low-Income Immigrants - Fiscal 2025
+6,18,792.0,612.0,0,1,15,0,16,* **,1,1,1,265,0,0,1,1,1,1,,64237,0,0,CHART #15: Discharge Planning - Fiscal 2025
+6,19,792.0,612.0,0,1,16,0,17,* **,1,1,1,280,0,0,1,1,1,1,,65509,0,0,CHART #16: CUNY Social Worker Fellows - Fiscal 2025
+6,20,792.0,612.0,0,1,17,0,18,* **,7,7,7,601,0,0,1,1,7,7,,232509,0,0,CHART #17: Adult Literacy Initiative - Fiscal 2025
+6,21,792.0,612.0,0,1,18,0,19,* **,7,7,7,597,0,0,1,1,7,7,,234131,0,0,CHART #18: Adult Literacy Pilot Project - Fiscal 2025
+6,22,792.0,612.0,0,1,19,0,20,* **,2,2,2,389,0,0,1,1,2,2,,107574,0,0,CHART #19: Speaker's Initiative to Address Citywide Needs - Fiscal 2024
+6,23,792.0,612.0,0,1,20,0,21,* **,2,2,2,457,0,0,1,1,2,2,,128274,0,0,CHART #20: NYC Cleanup - Fiscal 2024
+6,24,792.0,612.0,0,1,21,0,22,* **,2,2,2,423,0,0,1,1,2,2,,112992,0,0,CHART #21: Neighborhood Development Grant Initiative - Fiscal 2024
+6,25,1028.57,794.81,0,1,22,0,23,* **,14,14,14,2559,0,0,1,1,14,14,,778736,0,0,CHART #22: Purpose of Funds Changes - Fiscal 2025
+7,1,612.0,792.0,0,0,,,,,0,0,0,2540,0,0,,,,,,,,,
+7,2,612.0,792.0,0,0,,,,,0,0,0,458,0,0,,,,,,,,,
+7,3,792.0,612.0,0,1,1,0,1,* **,24,24,24,2109,0,0,1,1,24,24,,811005,0,0,CHART #1: Local Initiatives - Fiscal 2025
+7,4,792.0,612.0,0,1,2,0,2,* **,10,10,10,967,0,0,1,1,10,10,,363672,0,0,CHART #2: Youth Discretionary - Fiscal 2025
+7,5,792.0,612.0,0,1,3,0,3,* **,4,4,4,564,0,0,1,1,4,4,,173259,0,0,CHART #3: Aging Discretionary - Fiscal 2025
+7,6,792.0,612.0,0,1,4,0,4,* **,2,2,2,327,0,0,1,1,2,2,,90055,0,0,CHART #4: Anti-Poverty - Fiscal 2025
+7,7,792.0,612.0,0,1,5,0,5,* **,18,18,18,1587,0,0,1,1,18,18,,615727,0,0,CHART #5: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+7,8,792.0,612.0,0,1,6,0,6,* **,2,2,2,403,0,0,1,1,2,2,,97934,0,0,CHART #6: A Greener NYC - Fiscal 2025
+7,9,792.0,612.0,0,1,7,0,7,* **,10,10,10,1176,0,0,1,1,10,10,,332244,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2025
+7,10,792.0,612.0,0,1,8,0,8,* **,6,6,6,638,0,0,1,1,6,6,,186685,0,0,CHART #8: Cultural Immigrant Initiative - Fiscal 2025
+7,11,792.0,612.0,0,1,9,0,9,* **,4,4,4,608,0,0,1,1,4,4,,157907,0,0,CHART #9: Neighborhood Development Grant Initiative - Fiscal 2025
+7,12,792.0,612.0,0,1,10,0,10,* **,4,4,4,547,0,0,1,1,4,4,,150896,0,0,CHART #10: NYC Cleanup - Fiscal 2025
+7,13,792.0,612.0,0,1,11,0,11,* **,4,4,4,571,0,0,1,1,4,4,,149809,0,0,CHART #11: Support Our Older Adults - Fiscal 2025
+7,14,792.0,612.0,0,1,12,0,12,* ** ***,6,6,6,826,0,0,1,1,6,6,,201294,0,0,CHART #12: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025
+7,15,792.0,612.0,0,1,13,0,13,* **,30,30,30,2664,0,0,1,1,30,30,,860863,0,0,CHART #13: SU-CASA - Fiscal 2025
+7,16,792.0,612.0,0,1,13,1,14,* **,33,33,33,3010,0,0,1,1,33,33,,956292,0,0,CHART #13: SU-CASA - Fiscal 2025 (continued)
+7,17,792.0,612.0,0,1,13,1,15,* **,30,30,30,2779,0,0,1,1,30,30,,873478,0,0,CHART #13: SU-CASA - Fiscal 2025 (continued)
+7,18,792.0,612.0,0,1,13,1,16,* **,32,31,31,2826,0,0,1,1,32,32,,909861,0,0,CHART #13: SU-CASA - Fiscal 2025 (continued)
+7,19,792.0,612.0,0,1,13,1,17,* **,25,25,25,2490,0,0,1,1,25,25,,758759,0,0,CHART #13: SU-CASA - Fiscal 2025 (continued)
+7,20,792.0,612.0,0,1,14,0,18,* **,7,7,7,802,0,0,1,1,7,7,,269243,0,0,CHART #14: Art a Catalyst for Change - Fiscal 2025
+7,21,792.0,612.0,0,1,15,0,19,* **,2,2,2,344,0,0,1,1,2,2,,89949,0,0,CHART #15: Crisis Management System - Fiscal 2025
+7,22,792.0,612.0,0,1,16,0,20,* **,2,2,2,321,0,0,1,1,2,2,,85295,0,0,CHART #16: Community Composting - Fiscal 2025
+7,23,792.0,612.0,0,1,17,0,21,* **,4,4,4,487,0,0,1,1,4,4,,148814,0,0,CHART #17: Estate Planning and Resolution Initiative (EPAR) - Fiscal 2025
+7,24,792.0,612.0,0,1,18,0,22,* **,2,2,2,330,0,0,1,1,2,2,,83421,0,0,CHART #18: Legal Services for Low-Income Immigrants - Fiscal 2025
+7,25,792.0,612.0,0,1,19,0,23,* **,32,32,32,2151,0,0,1,1,32,32,,938410,0,0,CHART #19: Protect NYC Families Initiative - Fiscal 2025
+7,26,792.0,612.0,0,1,19,1,24,* **,26,26,26,1865,0,0,1,1,26,26,,787102,0,0,CHART #19: Protect NYC Families Initiative - Fiscal 2025 (continued)
+7,27,792.0,612.0,0,1,20,0,25,* **,4,4,4,496,0,0,1,1,4,4,,153656,0,0,CHART #20: Speaker's Initiative to Address Citywide Needs - Fiscal 2024
+7,28,792.0,612.0,0,1,21,0,26,* **,6,6,6,658,0,0,1,1,6,6,,219694,0,0,CHART #21: Local Initiatives - Fiscal 2024
+7,29,792.0,612.0,0,1,22,0,27,* **,7,7,7,1404,94,0,1,1,7,7,,229419,10,0,CHART #22: Purpose of Funds Changes - Fiscal 2025
+7,30,792.0,612.0,0,1,23,0,28,* **,4,4,4,1083,244,0,1,1,4,4,region 0: header rule at 771.96 pt found in header pixels,138673,10,0,CHART #23: Purpose of Funds Changes - Fiscal 2024
+8,1,612.0,792.0,0,0,,,,,0,0,0,2496,0,0,,,,,,,,,
+8,2,612.0,792.0,0,0,,,,,0,0,0,275,0,0,,,,,,,,,
+8,3,792.0,612.0,0,1,1,0,1,* **,10,10,10,1040,0,0,1,1,10,10,,363969,0,0,CHART #1: Local Initiatives - Fiscal 2025
+8,4,792.0,612.0,0,1,2,0,2,* **,2,2,2,344,0,0,1,1,2,2,,90958,0,0,CHART #2: Aging Discretionary - Fiscal 2025
+8,5,792.0,612.0,0,1,3,0,3,* **,2,2,2,439,0,0,1,1,2,2,,117402,0,0,CHART #3: Anti-Poverty - Fiscal 2025
+8,6,792.0,612.0,0,1,4,0,4,* **,4,4,4,523,0,0,1,1,4,4,,160568,0,0,CHART #4: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+8,7,792.0,612.0,0,1,5,0,5,* **,12,12,12,1506,0,0,1,1,12,12,,420189,0,0,CHART #5: Cultural After-School Adventure (CASA) - Fiscal 2025
+8,8,792.0,612.0,0,1,6,0,6,* **,14,14,14,1584,0,0,1,1,14,14,,450927,0,0,CHART #6: Cultural Immigrant Initiative - Fiscal 2025
+8,9,792.0,612.0,0,1,7,0,7,* **,17,17,17,1571,0,0,1,1,17,17,,486350,0,0,CHART #7: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2025
+8,10,792.0,612.0,0,1,8,0,8,* **,4,4,4,407,0,0,1,1,4,4,,124209,0,0,CHART #8: Parks Equity Initiative - Fiscal 2025
+8,11,792.0,612.0,0,1,9,0,9,* **,2,2,2,420,0,0,1,1,2,2,,96784,0,0,CHART #9: Support Our Older Adults - Fiscal 2025
+8,12,792.0,612.0,0,1,10,0,10,* **,7,7,7,918,0,0,1,1,7,7,,248593,0,0,CHART #10: Food Pantries - Fiscal 2025
+8,13,792.0,612.0,0,1,11,0,11,* **,30,29,29,2795,0,0,1,1,30,30,,870850,0,0,CHART #11: SU-CASA - Fiscal 2025
+8,14,792.0,612.0,0,1,11,1,12,* **,18,18,18,1760,0,0,1,1,18,18,,536853,0,0,CHART #11: SU-CASA - Fiscal 2025 (continued)
+8,15,792.0,612.0,0,1,12,0,13,* **,10,10,10,800,0,0,1,1,10,10,,317740,0,0,CHART #12: Adult Literacy Initiative - Fiscal 2025
+8,16,792.0,612.0,0,1,13,0,14,* **,5,5,5,513,0,0,1,1,5,5,,175663,0,0,CHART #13: Adult Literacy Pilot Project - Fiscal 2025
+8,17,792.0,612.0,0,1,14,0,15,* **,12,12,12,864,0,0,1,1,12,12,,364671,0,0,CHART #14: Discharge Planning - Fiscal 2025
+8,18,792.0,612.0,0,1,15,0,16,* **,2,2,2,327,0,0,1,1,2,2,,84297,0,0,CHART #15: Coalition Theaters of Color - Fiscal 2025
+8,19,792.0,612.0,0,1,16,0,17,* **,2,2,2,313,0,0,1,1,2,2,,84216,0,0,CHART #16: AAPI Community Support - Fiscal 2025
+8,20,792.0,612.0,0,1,17,0,18,* **,2,2,2,324,0,0,1,1,2,2,,84058,0,0,CHART #17: Initiative to Combat Sexual Assault - Fiscal 2025
+8,21,792.0,612.0,0,1,18,0,19,* **,2,2,2,321,0,0,1,1,2,2,,83840,0,0,CHART #18: Elder Abuse Prevention Programs - Fiscal 2025
+8,22,792.0,612.0,0,1,19,0,20,* **,2,2,2,317,0,0,1,1,2,2,,85336,0,0,CHART #19: Protect NYC Families - Fiscal 2025
+8,23,792.0,612.0,0,1,20,0,21,* **,2,2,2,357,0,0,1,1,2,2,,90688,0,0,CHART #20: Speaker's Initiative to Address Citywide Needs - Fiscal 2024
+8,24,792.0,612.0,0,1,21,0,22,* **,4,4,4,981,0,0,1,1,4,4,,154076,0,0,CHART #21: Purpose of Funds Changes - Fiscal 2025
+9,1,612.0,792.0,0,0,,,,,0,0,0,2601,0,0,,,,,,,,,
+9,2,612.0,792.0,0,0,,,,,0,0,0,275,0,0,,,,,,,,,
+9,3,792.0,612.0,0,1,1,0,1,* **,19,19,19,1656,0,0,1,1,19,19,,642406,0,0,CHART #1: Local Initiatives - Fiscal 2025
+9,4,792.0,612.0,0,1,2,0,2,* **,2,2,2,367,0,0,1,1,2,2,,104579,0,0,CHART #2: Aging Discretionary - Fiscal 2025
+9,5,792.0,612.0,0,1,3,0,3,* **,4,4,4,548,0,0,1,1,4,4,,169126,0,0,CHART #3: Anti-Poverty - Fiscal 2025
+9,6,792.0,612.0,0,1,4,0,4,* **,8,8,8,976,0,0,1,1,8,8,,318560,0,0,CHART #4: Community Safety and Victim Services Initiative - Fiscal 2025
+9,7,792.0,612.0,0,1,5,0,5,* ** ***,14,14,14,1345,0,0,1,1,14,14,,477101,0,0,CHART #5: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+9,8,792.0,612.0,0,1,6,0,6,* **,2,2,2,389,0,0,1,1,2,2,,95234,0,0,CHART #6: A Greener NYC - Fiscal 2025
+9,9,792.0,612.0,0,1,7,0,7,* **,2,2,2,396,0,0,1,1,2,2,,91086,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2025
+9,10,792.0,612.0,0,1,8,0,8,* ** ***,6,6,6,824,0,0,1,1,6,6,,199207,0,0,CHART #8: Cultural Immigrant Initiative - Fiscal 2025
+9,11,792.0,612.0,0,1,9,0,9,* **,2,2,2,419,0,0,1,1,2,2,,94484,0,0,CHART #9: Digital Inclusion and Literacy Initiative - Fiscal 2025
+9,12,792.0,612.0,0,1,10,0,10,* **,4,4,4,613,0,0,1,1,4,4,,158761,0,0,CHART #10: NYC Cleanup - Fiscal 2025
+9,13,792.0,612.0,0,1,11,0,11,* **,11,11,11,1294,0,0,1,1,11,11,,372178,0,0,CHART #11: Food Pantries - Fiscal 2025
+9,14,792.0,612.0,0,1,12,0,12,* **,3,3,3,376,0,0,1,1,3,3,,116511,0,0,CHART #12: Adult Literacy Initiative - Fiscal 2025
+9,15,792.0,612.0,0,1,13,0,13,* **,4,4,4,428,0,0,1,1,4,4,,141635,0,0,CHART #13: Adult Literacy Pilot Project - Fiscal 2025
+9,16,792.0,612.0,0,1,14,0,14,* **,2,2,2,354,0,0,1,1,2,2,,86655,0,0,CHART #14: Worker Cooperative Business Development Initiative - Fiscal 2025
+9,17,792.0,612.0,0,1,15,0,15,* **,2,2,2,308,0,0,1,1,2,2,,81187,0,0,CHART #15: Support for Victims of Human Trafficking - Fiscal 2025
+9,18,792.0,612.0,0,1,16,0,16,* **,2,2,2,395,0,0,1,1,2,2,,108061,0,0,CHART #16: Crisis Management System - Fiscal 2025
+9,19,792.0,612.0,0,1,17,0,17,* **,2,2,2,349,0,0,1,1,2,2,,90108,0,0,CHART #17: Art a Catalyst for Change - Fiscal 2025
+9,20,792.0,612.0,0,1,18,0,18,* ** ***,2,2,2,415,0,0,1,1,2,2,,85017,0,0,CHART #18: Coalition Theaters of Color - Fiscal 2025
+9,21,792.0,612.0,0,1,19,0,19,* **,2,2,2,405,0,0,1,1,2,2,,110276,0,0,CHART #19: Anti-Poverty - Fiscal 2024
+9,22,792.0,612.0,0,1,20,0,20,* **,4,4,4,521,0,0,1,1,4,4,,156760,0,0,CHART #20: Community Safety and Victim Services - Fiscal 2024
+9,23,792.0,612.0,0,1,21,0,21,* **,2,2,2,391,0,0,1,1,2,2,,103413,0,0,CHART #21: Youth Discretionary - Fiscal 2024
+9,24,792.0,612.0,0,1,22,0,22,* **,8,8,8,1932,0,0,1,1,8,8,,313109,0,0,CHART #22: Purpose of Funds Changes - Fiscal 2025
+10,1,612.0,792.0,0,0,,,,,0,0,0,2092,0,0,,,,,,,,,
+10,2,792.0,612.0,0,1,1,0,1,* **,2,2,2,385,0,0,1,1,2,2,,110054,0,0,CHART #1: Youth Discretionary - Fiscal 2025
+10,3,792.0,612.0,0,1,2,0,2,* **,3,3,3,421,0,0,1,1,3,3,,130316,0,0,CHART #2: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+10,4,792.0,612.0,0,1,3,0,3,* **,2,2,2,716,0,0,1,1,2,2,,102327,0,0,CHART #3: Purpose of Funds Changes - Fiscal 2025
+11,1,612.0,792.0,0,0,,,,,0,0,0,998,0,0,,,,,,,,,
+11,2,792.0,612.0,0,1,1,0,1,* **,26,26,26,2186,0,0,1,1,26,26,,855282,0,0,CHART #1: Local Initiatives - Fiscal 2025
+11,3,792.0,612.0,0,1,1,1,2,* **,2,2,2,406,0,0,1,1,2,2,,106103,0,0,CHART #1: Local Initiatives - Fiscal 2025 (continued)
+11,4,792.0,612.0,0,1,2,0,3,* **,2,2,2,372,0,0,1,1,2,2,,98179,0,0,CHART #2: Aging Discretionary - Fiscal 2025
+11,5,792.0,612.0,0,1,3,0,4,* **,2,2,2,361,0,0,1,1,2,2,,94617,0,0,CHART #3: Youth Discretionary - Fiscal 2025
+11,6,792.0,612.0,0,1,4,0,5,* **,2,2,2,419,0,0,1,1,2,2,,115579,0,0,CHART #4 Anti-Poverty - Fiscal 2025
+11,7,792.0,612.0,0,1,5,0,6,* **,2,2,2,387,0,0,1,1,2,2,,96568,0,0,CHART #5: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+11,8,792.0,612.0,0,1,6,0,7,* **,2,2,2,387,0,0,1,1,2,2,,91917,0,0,CHART #6: A Greener NYC - Fiscal 2025
+11,9,792.0,612.0,0,1,7,0,8,* **,18,18,18,2498,0,0,1,1,18,18,,681061,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2025
+11,10,792.0,612.0,0,1,7,1,9,* **,16,16,16,1907,0,0,1,1,16,16,,541936,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2025 (continued)
+11,11,792.0,612.0,0,1,8,0,10,* ** ***,16,16,16,1543,0,0,1,1,16,16,,461902,0,0,CHART #8: Cultural Immigrant Initiative - Fiscal 2025
+11,12,792.0,612.0,0,1,9,0,11,* **,2,2,2,351,0,0,1,1,2,2,,86394,0,0,CHART #9: NYC Cleanup - Fiscal 2025
+11,13,792.0,612.0,0,1,10,0,12,* **,4,4,4,609,0,0,1,1,4,4,,155117,0,0,CHART #10: Parks Equity Initiative - Fiscal 2025
+11,14,792.0,612.0,0,1,11,0,13,* **,2,2,2,364,0,0,1,1,2,2,,90030,0,0,CHART #11: SU-CASA - Fiscal 2025
+11,15,792.0,612.0,0,1,12,0,14,* **,2,2,2,349,0,0,1,1,2,2,,90865,0,0,CHART #12: Adult Literacy Initiative - Fiscal 2025
+11,16,792.0,612.0,0,1,13,0,15,* ** ***,2,2,2,415,0,0,1,1,2,2,,85017,0,0,CHART #13: Coalition Theaters of Color - Fiscal 2025
+11,17,792.0,612.0,0,1,14,0,16,* **,2,2,2,386,0,0,1,1,2,2,,97666,0,0,CHART #14: Art a Catalyst for Change - Fiscal 2025
+11,18,792.0,612.0,0,1,15,0,17,* **,2,2,2,335,0,0,1,1,2,2,,89803,0,0,CHART #15: Discharge Planning - Fiscal 2025
+11,19,792.0,612.0,0,1,16,0,18,* **,4,4,4,508,0,0,1,1,4,4,,160112,0,0,CHART #16: Aging Discretionary - Fiscal 2024
+11,20,792.0,612.0,0,1,17,0,19,* **,2,2,2,364,0,0,1,1,2,2,,103518,0,0,CHART #17: Support Our Older Adults - Fiscal 2024
+11,21,792.0,612.0,0,1,18,0,20,* **,10,10,10,2583,0,0,1,1,10,10,region 0: header rule at 70.68 pt found in header pixels,411755,0,0,CHART #18: Purpose of Funds Changes - Fiscal 2025
+11,22,792.0,612.0,0,1,18,1,21,* **,6,6,6,2555,0,0,1,1,6,6,region 0: header rule at 70.68 pt found in header pixels,362751,0,0,CHART #18: Purpose of Funds Changes - Fiscal 2025 (continued)
+11,23,792.0,612.0,0,1,18,1,22,* **,6,6,6,2607,0,0,1,1,6,6,region 0: header rule at 70.68 pt found in header pixels,367785,0,0,CHART #18: Purpose of Funds Changes - Fiscal 2025 (continued)
+11,24,792.0,612.0,0,1,18,1,23,* **,6,6,6,2529,0,0,1,1,6,6,region 0: header rule at 70.68 pt found in header pixels,359650,0,0,CHART #18: Purpose of Funds Changes - Fiscal 2025 (continued)
+11,25,792.0,612.0,0,1,18,1,24,* **,4,4,4,1514,0,0,1,1,4,4,region 0: header rule at 70.68 pt found in header pixels,213389,0,0,CHART #18: Purpose of Funds Changes - Fiscal 2025 (continued)
+12,1,612.0,792.0,0,0,,,,,0,0,0,998,0,0,,,,,,,,,
+12,2,792.0,612.0,0,1,1,0,1,* ** ***,26,26,26,2175,0,0,1,1,26,26,,836776,0,0,CHART #1: Local Initiatives - Fiscal 2025
+12,3,792.0,612.0,0,1,1,1,2,* **,10,10,10,989,0,0,1,1,10,10,,352043,0,0,CHART #1: Local Initiatives - Fiscal 2025 (continued)
+12,4,792.0,612.0,0,1,2,0,3,* **,8,8,8,866,0,0,1,1,8,8,,298706,0,0,CHART #2: Aging Discretionary - Fiscal 2025
+12,5,792.0,612.0,0,1,3,0,4,* **,13,13,13,1299,0,0,1,1,13,13,,472018,0,0,CHART #3: Youth Discretionary - Fiscal 2025
+12,6,792.0,612.0,0,1,4,0,5,* **,10,10,10,961,0,0,1,1,10,10,,349146,0,0,CHART #4: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+12,7,792.0,612.0,0,1,5,0,6,* **,4,4,4,528,0,0,1,1,4,4,,160007,0,0,CHART #5: Community Safety and Victim Services - Fiscal 2025
+12,8,792.0,612.0,0,1,6,0,7,* **,2,2,2,424,0,0,1,1,2,2,,117018,0,0,CHART #6: Boroughwide Needs - Fiscal 2025
+12,9,792.0,612.0,0,1,7,0,8,* **,4,4,4,544,0,0,1,1,4,4,,168386,0,0,CHART #7: Anti-Poverty Initiative - Fiscal 2025
+12,10,792.0,612.0,0,1,8,0,9,* ** ***,2,2,2,475,0,0,1,1,2,2,,94253,0,0,CHART #8: A Greener NYC - Fiscal 2025
+12,11,792.0,612.0,0,1,9,0,10,* **,6,6,6,865,0,0,1,1,6,6,,230338,0,0,CHART #9: Cultural After-School Adventure (CASA) - Fiscal 2025
+12,12,792.0,612.0,0,1,10,0,11,* **,8,8,8,906,0,0,1,1,8,8,,263144,0,0,CHART #10: Cultural Immigrant Initiative - Fiscal 2025
+12,13,792.0,612.0,0,1,11,0,12,* ** ***,11,11,11,1265,0,0,1,1,11,11,,347776,0,0,CHART #11: NYC Cleanup - Fiscal 2025
+12,14,792.0,612.0,0,1,12,0,13,* ** ***,8,8,8,1113,0,0,1,1,8,8,,283215,0,0,CHART #12: Parks Equity Initiative - Fiscal 2025
+12,15,792.0,612.0,0,1,13,0,14,* **,5,5,5,627,0,0,1,1,5,5,,167302,0,0,CHART #13: Support Our Older Adults - Fiscal 2025
+12,16,792.0,612.0,0,1,14,0,15,* **,9,9,9,1118,0,0,1,1,9,9,,313627,0,0,CHART #14: Food Pantries - Fiscal 2025
+12,17,792.0,612.0,0,1,15,0,16,* **,2,2,2,374,0,0,1,1,2,2,,86387,0,0,CHART #15: Digital Inclusion and Literacy Initiative - Fiscal 2025
+12,18,792.0,612.0,0,1,16,0,17,* **,1,1,1,281,0,0,1,1,1,1,,62440,0,0,CHART #16: Adult Literacy Pilot Project - Fiscal 2025
+12,19,792.0,612.0,0,1,17,0,18,* **,1,1,1,277,0,0,1,1,1,1,,59120,0,0,CHART #17: Legal Services for Low-Income Immigrants - Fiscal 2025
+12,20,792.0,612.0,0,1,18,0,19,* **,4,4,4,399,0,0,1,1,4,4,,136894,0,0,CHART #18: Adult Literacy Initiative - Fiscal 2025
+12,21,792.0,612.0,0,1,19,0,20,* **,2,2,2,296,0,0,1,1,2,2,,82285,0,0,CHART #19: Autism Awareness - Fiscal 2025
+12,22,792.0,612.0,0,1,20,0,21,* **,2,2,2,365,0,0,1,1,2,2,,94790,0,0,CHART #20: Crisis Management System - Fiscal 2025
+12,23,792.0,612.0,0,1,21,0,22,* **,2,2,2,309,0,0,1,1,2,2,,81667,0,0,CHART #21: Elie Wiesel Holocaust Survivors - Fiscal 2025
+12,24,792.0,612.0,0,1,22,0,23,* **,2,2,2,371,0,0,1,1,2,2,,91509,0,0,CHART #22: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2025
+12,25,792.0,612.0,0,1,23,0,24,* **,2,2,2,304,0,0,1,1,2,2,,82144,0,0,CHART #23: Older Adults Mental Health - Fiscal 2025
+12,26,792.0,612.0,0,1,24,0,25,* **,2,2,2,300,0,0,1,1,2,2,,79732,0,0,CHART #24: YouthBuild Project Initiative - Fiscal 2025
+12,27,792.0,612.0,0,1,25,0,26,* **,4,4,4,449,0,0,1,1,4,4,,146074,0,0,CHART #25: Community Interpreter Bank - Fiscal 2025
+12,28,792.0,612.0,0,1,26,0,27,* **,4,4,4,458,0,0,1,1,4,4,,143868,0,0,CHART #26: Speaker's Initiative to Address Citywide Needs - Fiscal 2024
+12,29,792.0,612.0,0,1,27,0,28,* **,2,2,2,359,0,0,1,1,2,2,,93596,0,0,CHART #27: Support Our Older Adults - Fiscal 2024
+12,30,792.0,612.0,0,1,28,0,29,* **,2,2,2,419,0,0,1,1,2,2,,112608,0,0,CHART #28: Local Initiatives - Fiscal 2024
+12,31,792.0,612.0,0,1,29,0,30,* **,2,2,2,390,0,0,1,1,2,2,,107817,0,0,CHART #29: A Greener NYC - Fiscal 2024
+12,32,792.0,612.0,0,1,30,0,31,* **,2,2,2,353,0,0,1,1,2,2,,92564,0,0,CHART #30: NYC Cleanup - Fiscal 2024
+12,33,792.0,612.0,0,1,31,0,32,* **,4,4,4,610,0,0,1,1,4,4,,188893,0,0,CHART #31: Parks Equity Initiative - Fiscal 2024
+12,34,792.0,612.0,0,1,32,0,33,* **,2,2,2,305,0,0,1,1,2,2,,81088,0,0,CHART #32: City's First Readers - Fiscal 2024
+12,35,792.0,612.0,0,1,33,0,34,* **,6,6,6,1327,0,0,1,1,6,6,,216978,0,0,CHART #33: Purpose of Funds Changes - Fiscal 2025
+13,1,612.0,792.0,0,0,,,,,0,0,0,998,0,0,,,,,,,,,
+13,2,792.0,612.0,0,1,1,0,1,* **,19,19,19,1723,0,0,1,1,19,19,,659717,0,0,CHART #1: Local Initiatives - Fiscal 2025
+13,3,792.0,612.0,0,1,2,0,2,* **,6,6,6,850,0,0,1,1,6,6,,266334,0,0,CHART #2: Youth Discretionary - Fiscal 2025
+13,4,792.0,612.0,0,1,3,0,3,* **,2,2,2,399,0,0,1,1,2,2,,104027,0,0,CHART #3: Community Safety and Victim Services - Fiscal 2025
+13,5,792.0,612.0,0,1,4,0,4,* **,4,4,4,576,0,0,1,1,4,4,,179408,0,0,CHART #4: Boroughwide Needs - Fiscal 2025
+13,6,792.0,612.0,0,1,5,0,5,* **,2,2,2,444,0,0,1,1,2,2,,115368,0,0,CHART #5: Anti-Poverty Initiative - Fiscal 2025
+13,7,792.0,612.0,0,1,6,0,6,* **,15,15,15,1310,0,0,1,1,15,15,,503972,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2025
+13,8,792.0,612.0,0,1,7,0,7,* **,6,6,6,818,0,0,1,1,6,6,,217109,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2025
+13,9,792.0,612.0,0,1,8,0,8,* **,8,8,8,1005,0,0,1,1,8,8,,284485,0,0,CHART #8: NYC Cleanup - Fiscal 2025
+13,10,792.0,612.0,0,1,9,0,9,* **,4,4,4,458,0,0,1,1,4,4,,131006,0,0,CHART #9: Support Our Older Adults - Fiscal 2025
+13,11,792.0,612.0,0,1,10,0,10,* ** ***,7,7,7,975,0,0,1,1,7,7,,244939,0,0,CHART #10: Food Pantries - Fiscal 2025
+13,12,792.0,612.0,0,1,11,0,11,* **,4,4,4,484,0,0,1,1,4,4,,153808,0,0,CHART #11: Community Interpreter Bank - Fiscal 2025
+13,13,792.0,612.0,0,1,12,0,12,* **,1,1,1,277,0,0,1,1,1,1,,61727,0,0,CHART #12: Adult Literacy Pilot Project - Fiscal 2025
+13,14,792.0,612.0,0,1,13,0,13,* ** ***,4,4,4,704,0,0,1,1,4,4,,190333,0,0,CHART #13: Parks Equity Initiative - Fiscal 2024
+13,15,792.0,612.0,0,1,14,0,14,* **,4,4,4,1212,0,0,1,1,4,4,,179090,0,0,CHART #14: Purpose of Funds Changes - Fiscal 2025

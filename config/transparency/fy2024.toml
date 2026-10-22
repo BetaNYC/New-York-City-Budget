@@ -1,0 +1,222 @@
+# FY2024 transparency resolutions: every year-specific fact the pipeline needs (GitHub #105).
+# Shared code: code/transreso/ (and code/schedc/, code/schedc_cv/ underneath it). Same layout as
+# FY2025 and FY2026: Excel charts, one table per chart page. Reso 01 pp.3-61 carry /Rotate (the
+# charts are landscape pages stored portrait); pdfplumber and pdfium both read them as displayed,
+# so bbox_pt is in display coordinates here and is unrotated at promotion.
+
+fiscal_year = 2024
+issue = 105
+review_dir = "research/2026-10-21-fy24-transparency-review"   # outputs land in <review_dir>/data
+x_tolerance = 3.0
+run_gap_pt = 3.0
+
+# Resolution number and adoption date: from research/2026-07-07-legistar-links-fy21-27.md
+# (FY2024 table, all "confirmed") and data/combined/legistar_crosswalk.csv; read from Legistar
+# on 2026-07-07, not re-queried here. All 9 open with the Committee on Finance report, which
+# prints the date on p.1 ("This Resolution, dated ..."); none prints "Charts 1 through N".
+numbers_source = "research/2026-07-07-legistar-links-fy21-27.md"
+
+# Line-end hyphens (W5.wrap_hyphen): all 3 were read by hand on 2026-10-21. Two are compound
+# words that keep the hyphen (Self-Determination, Anti-Hate). This one could be "Special Projects
+# - Council District 1" with the spaces lost, so it goes to review.
+wrap_hyphen_review = ["Projects-\nCouncil"]
+
+[[resolutions]]
+seq = 1
+pdf = "source/FY24/transparency-resolutions/Transparency-Reso-01-2023-08-03.pdf"
+sha256 = "887d2e02a396921c74fc69a8ac8abad51b959855ac60fbb30913d93b7b6b9099"
+pages = 61
+number = "Res 0726-2023"
+legistar_id = 71693
+date = "2023-08-03"
+printed_date = "August 3, 2023"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 2
+pdf = "source/FY24/transparency-resolutions/Transparency-Reso-02-2023-09-14.pdf"
+sha256 = "ab077e79514d8bf94aa7234667a47c899c538eed8b3c3a73ddb0c5199886beab"
+pages = 75
+number = "Res 0744-2023"
+legistar_id = 71819
+date = "2023-09-14"
+printed_date = "September 14, 2023"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 3
+pdf = "source/FY24/transparency-resolutions/Transparency-Reso-03-2023-10-05.pdf"
+sha256 = "68dd33ff19c73d8f862f68607f9b7d74a228c1852739219d80f4d3cd92fdb50e"
+pages = 59
+number = "Res 0806-2023"
+legistar_id = 71935
+date = "2023-10-05"
+printed_date = "October 5, 2023"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 4
+pdf = "source/FY24/transparency-resolutions/Transparency-Reso-04-2023-11-02.pdf"
+sha256 = "6e30349a713226285339ea81eaf8caf7237b3049f64c3d7342fde92759468f5f"
+pages = 37
+number = "Res 0834-2023"
+legistar_id = 72030
+date = "2023-11-02"
+printed_date = "November 2, 2023"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 5
+pdf = "source/FY24/transparency-resolutions/Transparency-Reso-05-2023-12-20.pdf"
+sha256 = "bba77be26c1bc1d1ff735cd64310b62917f87ce3c1f699610f6fabd18bd5e197"
+pages = 36
+number = "Res 0864-2023"
+legistar_id = 72180
+date = "2023-12-20"
+printed_date = "December 20, 2023"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 6
+pdf = "source/FY24/transparency-resolutions/Transparency-Reso-06-2024-02-08.pdf"
+sha256 = "23dd6b527842033f94b3e37fd1918ec1c86f3b6008d92b0db15473a0c1a8abb1"
+pages = 27
+number = "Res 0006-2024"
+legistar_id = 72349
+date = "2024-02-08"
+printed_date = "February 8, 2024"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 7
+pdf = "source/FY24/transparency-resolutions/Transparency-Reso-07-2024-04-11.pdf"
+sha256 = "40ccd0ffadecef4861f07acec2f74278f2600d9f587dbd98c3706aaa7c2c2f52"
+pages = 39
+number = "Res 0305-2024"
+legistar_id = 74000
+date = "2024-04-11"
+printed_date = "April 11, 2024"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 8
+pdf = "source/FY24/transparency-resolutions/Transparency-Reso-08-2024-05-23.pdf"
+sha256 = "5f4bb932754512de8dc45eb169a37d95b388ea4dd1a1c2b6d8b104eb1d7e32a1"
+pages = 35
+number = "Res 0436-2024"
+legistar_id = 74256
+date = "2024-05-23"
+printed_date = "May 23, 2024"   # p.1
+charts_printed = 0
+
+[[resolutions]]
+seq = 9
+pdf = "source/FY24/transparency-resolutions/Transparency-Reso-09-2024-06-30.pdf"
+sha256 = "510704725795b2f2f834e96f6014abeb092356c60e26bb837cb9c10a4b12a8ea"
+pages = 19
+number = "Res 0484-2024"
+legistar_id = 74356
+date = "2024-06-30"
+printed_date = "June 30, 2024"   # p.1
+charts_printed = 0
+
+[image]
+# Same values as config/transparency/fy2026.toml.
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 64
+# Acceptance on a /Rotate 90 page (Reso 01 p.3, first row): withholding the row, or one
+# character of it, must make the ink check fire.
+ink_acceptance_seq = 1
+ink_acceptance_page = 3
+ink_acceptance_row_id = "fy24-tr01-p003-r001"
+
+# Named exceptions: places where the PDF disagrees with itself. Each must match exactly or the
+# check still fails; each stays in the review file.
+
+# Chart pages that print no "Page n" label; the labels after them count them (Reso 02: p.65
+# "Page 63", pp.66-73 none, p.74 "Page 72"; Reso 03: p.54 "Page 52", pp.55-57 none, p.58
+# "Page 56"). As in FY2025, these look like charts added after the labels were set.
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 2
+pdf_page = 66
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 2
+pdf_page = 67
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 2
+pdf_page = 68
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 2
+pdf_page = 69
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 2
+pdf_page = 70
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 2
+pdf_page = 71
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 2
+pdf_page = 72
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 2
+pdf_page = 73
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 3
+pdf_page = 55
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 3
+pdf_page = 56
+
+[[exceptions]]
+check_id = "T3.page_label"
+resolution_seq = 3
+pdf_page = 57
+
+# Reso 01 p.55 (chart #40, Aging Discretionary - Fiscal 2023): two rows marked "***" (Selfhelp -
+# Clearview Senior Center ($5,000); Department for the Aging $5,000), but the page prints only
+# the * and ** footnotes. Kept as printed: org_marker "***", correction = 1.
+[[exceptions]]
+check_id = "T11.markers"
+resolution_seq = 1
+pdf_page = 55
+row_index = 1
+
+[[exceptions]]
+check_id = "T11.markers"
+resolution_seq = 1
+pdf_page = 55
+row_index = 2
+
+# Reso 02 p.18 row 14: the `*` column prints "#" (Fund for the City of New York - Cafeteria
+# Culture, $20,000; checked on the rendered page). Kept as printed: prequal_printed "#",
+# prequal_pending 0.
+[[exceptions]]
+check_id = "T11.markers"
+resolution_seq = 2
+pdf_page = 18
+row_index = 14

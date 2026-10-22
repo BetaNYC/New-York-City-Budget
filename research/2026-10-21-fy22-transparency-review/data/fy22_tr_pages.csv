@@ -1,0 +1,710 @@
+resolution_seq,pdf_page,width,height,rotation,tables,chart_number,continued,page_label,footnotes,rows,ein_tokens,ein_tokens_all_chars,nonws_chars,clipped_chars,zero_width_chars,image_regions,image_lattices,image_rows,rows_agree,image_notes,ink_px,uncovered_px,ink_regions,caption
+1,1,612.0,792.0,0,0,,,,,0,0,0,2770,0,0,,,,,,,,,
+1,2,612.0,792.0,0,0,,,,,0,0,0,2824,0,0,,,,,,,,,
+1,3,612.0,792.0,0,0,,,,,0,0,0,2498,0,0,,,,,,,,,
+1,4,612.0,792.0,0,0,,,,,0,0,0,2175,0,0,,,,,,,,,
+1,5,612.0,792.0,0,0,,,,,0,0,0,2315,0,0,,,,,,,,,
+1,6,612.0,792.0,0,0,,,,,0,0,0,1159,0,0,,,,,,,,,
+1,7,612.0,792.0,0,0,,,,,0,0,0,1356,0,0,,,,,,,,,
+1,8,612.0,792.0,0,0,,,,,0,0,0,1537,0,0,,,,,,,,,
+1,9,612.0,792.0,0,0,,,,,0,0,0,1491,0,0,,,,,,,,,
+1,10,612.0,792.0,0,0,,,,,0,0,0,1583,0,0,,,,,,,,,
+1,11,612.0,792.0,0,0,,,,,0,0,0,1557,0,0,,,,,,,,,
+1,12,612.0,792.0,0,0,,,,,0,0,0,1603,0,0,,,,,,,,,
+1,13,612.0,792.0,0,0,,,,,0,0,0,1567,0,0,,,,,,,,,
+1,14,612.0,792.0,0,0,,,,,0,0,0,1417,0,0,,,,,,,,,
+1,15,612.0,792.0,0,0,,,,,0,0,0,222,0,0,,,,,,,,,
+1,16,792.0,612.0,0,1,1,0,1,* **,31,31,31,2571,0,0,1,1,31,31,,1006853,0,0,CHART #1: Local Initiatives - Fiscal 2022
+1,17,792.0,612.0,0,1,1,1,2,* **,34,34,34,2613,0,0,1,1,34,34,,1044448,0,0,CHART #1: Local Initiatives - Fiscal 2022 (continued)
+1,18,792.0,612.0,0,1,1,1,3,* **,18,18,18,1399,0,0,1,1,18,18,,543281,0,0,CHART #1: Local Initiatives - Fiscal 2022 (continued)
+1,19,792.0,612.0,0,1,2,0,4,* **,20,20,20,1575,0,0,1,1,20,20,,633120,0,0,CHART #2: Youth Discretionary - Fiscal 2022
+1,20,792.0,612.0,0,1,3,0,5,* **,8,8,8,828,0,0,1,1,8,8,,283823,0,0,CHART #3: Aging Discretionary - Fiscal 2022
+1,21,792.0,612.0,0,1,4,0,6,* **,12,12,12,1175,0,0,1,1,12,12,,413217,0,0,CHART #4: Anti-Poverty Initiative - Fiscal 2022
+1,22,792.0,612.0,0,1,5,0,7,* **,2,2,2,356,0,0,1,1,2,2,,91901,0,0,CHART #5: Boroughwide Needs Initiative - Fiscal 2022
+1,23,792.0,612.0,0,1,6,0,8,* **,9,9,9,785,0,0,1,1,9,9,,281271,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2022
+1,24,792.0,612.0,0,1,7,0,9,* **,43,43,43,3154,0,0,1,1,43,43,,1143756,0,0,CHART #7: A Greener NYC - Fiscal 2022
+1,25,792.0,612.0,0,1,7,1,10,* **,41,41,41,3259,0,0,1,1,41,41,,1138181,0,0,CHART #7: A Greener NYC - Fiscal 2022 (continued)
+1,26,792.0,612.0,0,1,7,1,11,* **,28,28,28,2461,0,0,1,1,28,28,,808569,0,0,CHART #7: A Greener NYC - Fiscal 2022 (continued)
+1,27,792.0,612.0,0,1,8,0,12,* **,36,36,36,3318,0,0,1,1,36,36,,1071528,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022
+1,28,792.0,612.0,0,1,8,1,13,* **,36,36,36,3388,0,0,1,1,36,36,,1073387,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+1,29,792.0,612.0,0,1,8,1,14,* **,36,36,36,3557,0,0,1,1,36,36,,1112940,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+1,30,792.0,612.0,0,1,8,1,15,* **,35,35,35,3561,0,0,1,1,35,35,,1107659,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+1,31,792.0,612.0,0,1,8,1,16,* **,36,36,36,3663,0,0,1,1,36,36,,1129141,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+1,32,792.0,612.0,0,1,8,1,17,* **,38,38,38,3627,0,0,1,1,38,38,,1152227,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+1,33,792.0,612.0,0,1,8,1,18,* **,34,34,34,3538,0,0,1,1,34,34,,1082656,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+1,34,792.0,612.0,0,1,8,1,19,* **,36,36,36,3584,0,0,1,1,36,36,,1121316,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+1,35,792.0,612.0,0,1,8,1,20,* **,43,43,43,4089,0,0,1,1,43,43,,1296849,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+1,36,792.0,612.0,0,1,8,1,21,* **,21,21,21,2053,0,0,1,1,21,21,,644324,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+1,37,792.0,612.0,0,1,9,0,22,* **,34,34,34,3456,0,0,1,1,34,34,,1069178,0,0,CHART #9: Neighborhood Development Grant Initiative - Fiscal 2022
+1,38,792.0,612.0,0,1,9,1,23,* **,16,16,16,1583,0,0,1,1,16,16,,492719,0,0,CHART #9: Neighborhood Development Grant Initiative - Fiscal 2022 (continued)
+1,39,792.0,612.0,0,1,10,0,24,* **,34,34,34,3321,0,0,1,1,34,34,,1049050,0,0,CHART #10: NYC Cleanup Initiative  - Fiscal 2022
+1,40,792.0,612.0,0,1,10,1,25,* **,37,37,37,3498,0,0,1,1,37,37,,1118031,0,0,CHART #10: NYC Cleanup Initiative  - Fiscal 2022 (continued)
+1,41,792.0,612.0,0,1,10,1,26,* **,10,10,10,976,0,0,1,1,10,10,,299576,0,0,CHART #10: NYC Cleanup Initiative  - Fiscal 2022 (continued)
+1,42,792.0,612.0,0,1,11,0,27,* **,38,38,38,3451,0,0,1,1,38,38,,1133390,0,0,CHART #11: Parks Equity Initiative - Fiscal 2022
+1,43,792.0,612.0,0,1,11,1,28,* **,41,41,41,3603,0,0,1,1,41,41,,1194400,0,0,CHART #11: Parks Equity Initiative - Fiscal 2022 (continued)
+1,44,792.0,612.0,0,1,11,1,29,* **,8,8,8,872,0,0,1,1,8,8,,259189,0,0,CHART #11: Parks Equity Initiative - Fiscal 2022 (continued)
+1,45,792.0,612.0,0,1,12,0,30,* **,41,41,41,3308,0,0,1,1,41,41,,1129312,0,0,CHART #12: Cultural Immigrant Initiative - Fiscal 2022
+1,46,792.0,612.0,0,1,12,1,31,* **,40,40,40,3218,0,0,1,1,40,40,,1090801,0,0,CHART #12: Cultural Immigrant Initiative - Fiscal 2022 (continued)
+1,47,792.0,612.0,0,1,12,1,32,* **,40,40,40,3281,0,0,1,1,40,40,,1104018,0,0,CHART #12: Cultural Immigrant Initiative - Fiscal 2022 (continued)
+1,48,792.0,612.0,0,1,12,1,33,* **,41,41,41,3288,0,0,1,1,41,41,,1129676,0,0,CHART #12: Cultural Immigrant Initiative - Fiscal 2022 (continued)
+1,49,792.0,612.0,0,1,12,1,34,* **,8,8,8,953,0,0,1,1,8,8,,276656,0,0,CHART #12: Cultural Immigrant Initiative - Fiscal 2022 (continued)
+1,50,792.0,612.0,0,1,13,0,35,* **,37,37,37,3277,0,0,1,1,37,37,,1070128,0,0,CHART #13: Support Our Seniors - Fiscal 2022
+1,51,792.0,612.0,0,1,13,0,36,* **,38,38,38,3408,0,0,1,1,38,38,,1102890,0,0,CHART #13: Support Our Seniors - Fiscal 2022
+1,52,792.0,612.0,0,1,13,0,37,* **,38,38,38,3312,0,0,1,1,38,38,,1088260,0,0,CHART #13: Support Our Seniors - Fiscal 2022
+1,53,792.0,612.0,0,1,13,0,38,* **,35,35,35,3430,0,0,1,1,35,35,,1076352,0,0,CHART #13: Support Our Seniors - Fiscal 2022
+1,54,792.0,612.0,0,1,13,0,39,* **,24,24,24,2131,0,0,1,1,24,24,,694879,0,0,CHART #13: Support Our Seniors - Fiscal 2022
+1,55,792.0,612.0,0,1,14,0,40,* **,29,29,29,2992,0,0,1,1,29,29,,942044,0,0,CHART #14: Food Pantries Initiative - Fiscal 2022
+1,56,792.0,612.0,0,1,14,1,41,* **,9,9,9,1021,0,0,1,1,9,9,,309811,0,0,CHART #14: Food Pantries Initiative - Fiscal 2022 (continued)
+1,57,792.0,612.0,0,1,15,0,42,* **,40,40,40,3235,0,0,1,1,40,40,,1111680,0,0,CHART #15: Digital Inclusion and Literacy Initiative - Fiscal 2022
+1,58,792.0,612.0,0,1,15,1,43,* **,39,39,39,3256,0,0,1,1,39,39,,1099186,0,0,CHART #15: Digital Inclusion and Literacy Initiative - Fiscal 2022 (continued)
+1,59,792.0,612.0,0,1,15,1,44,* **,7,7,7,737,0,0,1,1,7,7,,216743,0,0,CHART #15: Digital Inclusion and Literacy Initiative - Fiscal 2022 (continued)
+1,60,792.0,612.0,0,1,16,0,45,* **,6,6,6,570,0,0,1,1,6,6,,197616,0,0,CHART #16: Five Borough Chamber Alliance - Fiscal 2022
+1,61,792.0,612.0,0,1,17,0,46,* **,20,20,20,1690,0,0,1,1,20,20,,643165,0,0,CHART #17: LGBT Community Services - Fiscal 2022
+1,62,792.0,612.0,0,1,18,0,47,* **,19,19,19,1491,0,0,1,1,19,19,,588379,0,0,CHART #18: Trans Equity Programs - Fiscal 2022
+1,63,792.0,612.0,0,1,19,0,48,* **,3,3,3,417,0,0,1,1,3,3,,116615,0,0,CHART #19: Legal Services for the Working Poor  - Fiscal 2022
+1,64,792.0,612.0,0,1,20,0,49,* **,2,2,2,353,0,0,1,1,2,2,,91721,0,0,CHART #20: Alternatives to Incarceration (ATI's)  - Fiscal 2022
+1,65,792.0,612.0,0,1,21,0,50,* **,2,2,2,327,0,0,1,1,2,2,,87272,0,0,CHART #21: Young Women's Leadership Development  - Fiscal 2022
+1,66,792.0,612.0,0,1,22,0,51,* **,7,7,7,640,0,0,1,1,7,7,,221538,0,0,CHART #22: Access Health Initiative - Fiscal 2022
+1,67,792.0,612.0,0,1,23,0,52,* **,5,5,5,473,0,0,1,1,5,5,,161900,0,0,CHART #23: Autism Awareness - Fiscal 2022
+1,68,792.0,612.0,0,1,24,0,53,* **,2,2,2,305,0,0,1,1,2,2,,87876,0,0,CHART #24: Cancer Services - Fiscal 2022
+1,69,792.0,612.0,0,1,25,0,54,* **,4,4,4,441,0,0,1,1,4,4,,137714,0,0,CHART #25: Court-Involved Youth Mental Health Initiative - Fiscal 2022
+1,70,792.0,612.0,0,1,26,0,55,* **,7,7,7,613,0,0,1,1,7,7,,208647,0,0,"CHART #26: Developmental, Psychological and Behavioral Health Services - Fiscal 2022"
+1,71,792.0,612.0,0,1,27,0,56,* **,8,8,8,640,0,0,1,1,8,8,,242896,0,0,CHART #27: Ending the Epidemic - Fiscal 2022
+1,72,792.0,612.0,0,1,28,0,57,* **,3,3,3,376,0,0,1,1,3,3,,110771,0,0,CHART #28: Geriatric Mental Health - Fiscal 2022
+1,73,792.0,612.0,0,1,29,0,58,* **,3,3,3,420,0,0,1,1,3,3,,119423,0,0,CHART #29: HIV/AIDS Faith Based Initiative - Fiscal 2022
+1,74,792.0,612.0,0,1,30,0,59,* **,2,2,2,323,0,0,1,1,2,2,,87655,0,0,CHART #30: Maternal and Child Health Services - Fiscal 2022
+1,75,792.0,612.0,0,1,31,0,60,* **,4,4,4,442,0,0,1,1,4,4,,137215,0,0,CHART #31: Mental Health Services for Vulnerable Populations - Fiscal 2022
+1,76,792.0,612.0,0,1,32,0,61,* **,3,3,3,409,0,0,1,1,3,3,,116856,0,0,CHART #32: Opioid Prevention and Treatment - Fiscal 2022
+1,77,792.0,612.0,0,1,33,0,62,* **,4,4,4,453,0,0,1,1,4,4,,143052,0,0,CHART #33: Viral Hepatitis Prevention - Fiscal 2022
+1,78,792.0,612.0,0,1,34,0,63,* **,2,2,2,337,0,0,1,1,2,2,,90313,0,0,CHART #34: Veterans Community Development - Fiscal 2022
+1,79,792.0,612.0,0,1,35,0,64,* **,2,2,2,324,0,0,1,1,2,2,,87244,0,0,CHART #35: Construction Site Safety Training - Fiscal 2022
+1,80,792.0,612.0,0,1,36,0,65,* **,2,2,2,338,0,0,1,1,2,2,,92421,0,0,CHART #36: Afterschool Enrichment  - Fiscal 2022
+1,81,792.0,612.0,0,1,37,0,66,* **,2,2,2,351,0,0,1,1,2,2,,91951,0,0,CHART #37: Job Training and Placement Initiative  - Fiscal 2022
+1,82,792.0,612.0,0,1,38,0,67,* **,12,12,12,855,0,0,1,1,12,12,,354870,0,0,CHART #38: LGBTQ Inclusive Curriclum  - Fiscal 2022
+1,83,792.0,612.0,0,1,39,0,68,* **,2,2,2,320,0,0,1,1,2,2,,89346,0,0,CHART #39: Commuinty Schools  - Fiscal 2022
+1,84,792.0,612.0,0,1,40,0,,* **,10,10,10,973,0,0,1,1,10,10,,375596,0,0,CHART #40: Local Initiatives - Fiscal 2021
+1,85,792.0,612.0,0,1,41,0,,* **,2,2,2,342,0,0,1,1,2,2,,99699,0,0,CHART #41: Aging Discretionary - Fiscal 2021
+1,86,792.0,612.0,0,1,42,0,71,* **,2,2,2,348,0,0,1,1,2,2,,87355,0,0,CHART #42: A Greener NYC - Fiscal 2021
+1,87,792.0,612.0,0,1,43,0,72,* **,4,4,4,598,0,0,1,1,4,4,,154736,0,0,CHART #43: Cultural After-School Adventure (CASA) - Fiscal 2021
+1,88,792.0,612.0,0,1,44,0,73,* **,2,2,2,351,0,0,1,1,2,2,,87229,0,0,CHART #44: Cultural Immigrant Initiative - Fiscal 2021
+1,89,792.0,612.0,0,1,45,0,74,* **,2,2,2,347,0,0,1,1,2,2,,83786,0,0,CHART #45: Support Our Seniors - Fiscal 2021
+1,90,792.0,612.0,0,1,46,0,75,* **,2,2,2,402,0,0,1,1,2,2,,99584,0,0,CHART #46: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2021
+1,91,792.0,612.0,0,1,47,0,76,* **,10,10,10,1716,0,0,1,1,10,10,,340362,0,0,CHART #47: Purpose of Funds Changes - Fiscal 2022
+1,92,792.0,612.0,0,1,48,0,77,* **,8,8,8,1719,0,0,1,1,8,8,,322881,0,0,CHART #48: Purpose of Funds Changes - Fiscal 2021
+1,93,792.0,612.0,0,1,49,0,78,* **,2,2,2,667,0,0,1,1,2,2,,107370,0,0,CHART #49: Purpose of Funds Changes - Fiscal 2020
+2,1,612.0,792.0,0,0,,,,,0,0,0,2784,0,0,,,,,,,,,
+2,2,612.0,792.0,0,0,,,,,0,0,0,2721,0,0,,,,,,,,,
+2,3,612.0,792.0,0,0,,,,,0,0,0,2404,0,0,,,,,,,,,
+2,4,612.0,792.0,0,0,,,,,0,0,0,2299,0,0,,,,,,,,,
+2,5,612.0,792.0,0,0,,,,,0,0,0,2194,0,0,,,,,,,,,
+2,6,612.0,792.0,0,0,,,,,0,0,0,2178,0,0,,,,,,,,,
+2,7,612.0,792.0,0,0,,,,,0,0,0,2341,0,0,,,,,,,,,
+2,8,612.0,792.0,0,0,,,,,0,0,0,2291,0,0,,,,,,,,,
+2,9,612.0,792.0,0,0,,,,,0,0,0,279,0,0,,,,,,,,,
+2,10,612.0,792.0,0,0,,,,,0,0,0,1378,0,0,,,,,,,,,
+2,11,612.0,792.0,0,0,,,,,0,0,0,1577,0,0,,,,,,,,,
+2,12,612.0,792.0,0,0,,,,,0,0,0,1574,0,0,,,,,,,,,
+2,13,612.0,792.0,0,0,,,,,0,0,0,1523,0,0,,,,,,,,,
+2,14,612.0,792.0,0,0,,,,,0,0,0,1520,0,0,,,,,,,,,
+2,15,612.0,792.0,0,0,,,,,0,0,0,1568,0,0,,,,,,,,,
+2,16,612.0,792.0,0,0,,,,,0,0,0,1584,0,0,,,,,,,,,
+2,17,612.0,792.0,0,0,,,,,0,0,0,1532,0,0,,,,,,,,,
+2,18,612.0,792.0,0,0,,,,,0,0,0,1499,0,0,,,,,,,,,
+2,19,612.0,792.0,0,0,,,,,0,0,0,1547,0,0,,,,,,,,,
+2,20,612.0,792.0,0,0,,,,,0,0,0,1636,0,0,,,,,,,,,
+2,21,612.0,792.0,0,0,,,,,0,0,0,1433,0,0,,,,,,,,,
+2,22,612.0,792.0,0,0,,,,,0,0,0,711,0,0,,,,,,,,,
+2,23,792.0,612.0,0,1,1,0,1,* **,30,30,30,2544,0,0,1,1,30,30,,1009150,1335,0,CHART #1: Local Initiatives - Fiscal 2022
+2,24,792.0,612.0,0,1,1,1,2,* **,13,13,13,1214,0,0,1,1,13,13,,430023,1250,0,CHART #1: Local Initiatives - Fiscal 2022 (continued)
+2,25,792.0,612.0,0,1,2,0,3,* **,7,7,7,740,0,0,1,1,7,7,,257497,502,0,CHART #2: Youth Discretionary - Fiscal 2022
+2,26,792.0,612.0,0,1,3,0,4,* **,5,5,5,619,0,0,1,1,5,5,,196568,567,0,CHART #3: Aging Discretionary - Fiscal 2022
+2,27,792.0,612.0,0,1,4,0,5,* **,6,6,6,726,0,0,1,1,6,6,,226986,608,0,CHART #4: Anti-Poverty Initiative - Fiscal 2022
+2,28,792.0,612.0,0,1,5,0,6,* **,4,4,4,505,0,0,1,1,4,4,,149764,467,0,CHART #5: Speaker's Initiative to Address Citywide Needs - Fiscal 2022
+2,29,792.0,612.0,0,1,6,0,7,* **,37,37,37,3080,0,0,1,1,37,37,,1028890,386,0,CHART #6: A Greener NYC - Fiscal 2022
+2,30,792.0,612.0,0,1,6,1,8,* **,35,35,35,2898,0,0,1,1,35,35,,970401,301,0,CHART #6: A Greener NYC - Fiscal 2022 (continued)
+2,31,792.0,612.0,0,1,6,1,9,* **,18,18,18,1838,0,0,1,1,18,18,,559392,357,0,CHART #6: A Greener NYC - Fiscal 2022 (continued)
+2,32,792.0,612.0,0,1,7,0,10,* **,37,37,37,2950,0,0,1,1,37,37,,1001727,297,0,CHART #7: Digital Inclusion and Literacy Initiative - Fiscal 2022
+2,33,792.0,612.0,0,1,7,1,11,* **,34,34,34,3167,0,0,1,1,34,34,,997822,313,0,CHART #7: Digital Inclusion and Literacy Initiative - Fiscal 2022 (continued)
+2,34,792.0,612.0,0,1,8,0,12,* **,36,36,36,3008,0,0,1,1,36,36,,1007641,379,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022
+2,35,792.0,612.0,0,1,8,0,13,* **,29,29,29,3070,0,0,1,1,29,29,,924965,320,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022
+2,36,792.0,612.0,0,1,8,1,14,* **,36,36,36,3557,0,0,1,1,36,36,,1096502,396,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+2,37,792.0,612.0,0,1,8,1,15,* **,38,38,38,3392,0,0,1,1,38,38,,1100126,443,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+2,38,792.0,612.0,0,1,8,1,16,* **,36,36,36,3384,0,0,1,1,36,36,,1069614,367,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+2,39,792.0,612.0,0,1,8,1,17,* **,31,31,31,3299,0,0,1,1,31,31,,991626,248,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+2,40,792.0,612.0,0,1,8,1,18,* **,38,38,38,3604,0,0,1,1,38,38,,1125792,425,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+2,41,792.0,612.0,0,1,8,1,19,* **,31,31,31,3167,0,0,1,1,31,31,,966659,270,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+2,42,792.0,612.0,0,1,8,1,20,* **,33,33,33,3167,0,0,1,1,33,33,,992025,412,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+2,43,792.0,612.0,0,1,8,1,21,* **,28,28,28,2847,0,0,1,1,28,28,,874388,290,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+2,44,792.0,612.0,0,1,9,0,22,* **,30,30,30,3048,0,0,1,1,30,30,,933320,413,0,CHART #9: NYC Cleanup Initiative  - Fiscal 2022
+2,45,792.0,612.0,0,1,9,1,23,* **,20,20,20,2148,0,0,1,1,20,20,,644859,305,0,CHART #9: NYC Cleanup Initiative  - Fiscal 2022 (continued)
+2,46,792.0,612.0,0,1,9,1,24,* **,29,29,29,2631,0,0,1,1,29,29,,834377,415,0,CHART #9: NYC Cleanup Initiative  - Fiscal 2022 (continued)
+2,47,792.0,612.0,0,1,10,0,25,* **,24,24,24,2182,0,0,1,1,24,23,,704236,265,0,CHART #10: Parks Equity Initiative - Fiscal 2022
+2,48,792.0,612.0,0,1,10,1,26,* **,38,38,38,3231,0,0,1,1,38,38,,1072461,280,0,CHART #10: Parks Equity Initiative - Fiscal 2022 (continued)
+2,49,792.0,612.0,0,1,10,1,27,* **,22,22,22,2051,0,0,1,1,22,22,,648379,446,0,CHART #10: Parks Equity Initiative - Fiscal 2022 (continued)
+2,50,792.0,612.0,0,1,11,0,28,* **,35,35,35,3013,0,0,1,1,35,35,,987315,287,0,CHART #11: Cultural Immigrant Initiative - Fiscal 2022
+2,51,792.0,612.0,0,1,11,1,29,* **,36,36,36,3081,0,0,1,1,36,36,,999538,420,0,CHART #11: Cultural Immigrant Initiative - Fiscal 2022 (continued)
+2,52,792.0,612.0,0,1,11,1,30,* **,35,35,35,2937,0,0,1,1,35,35,,978988,475,0,CHART #11: Cultural Immigrant Initiative - Fiscal 2022 (continued)
+2,53,792.0,612.0,0,1,11,1,31,* **,35,35,35,2959,0,0,1,1,35,35,,970723,260,0,CHART #11: Cultural Immigrant Initiative - Fiscal 2022 (continued)
+2,54,792.0,612.0,0,1,11,1,32,* **,13,13,13,1182,0,0,1,1,13,13,,378748,190,0,CHART #11: Cultural Immigrant Initiative - Fiscal 2022 (continued)
+2,55,792.0,612.0,0,1,12,0,33,* **,36,36,36,3235,0,0,1,1,36,36,,1035770,312,0,CHART #12: Support Our Seniors - Fiscal 2022
+2,56,792.0,612.0,0,1,12,1,34,* **,32,32,32,3101,0,0,1,1,32,32,,957610,311,0,CHART #12: Support Our Seniors - Fiscal 2022 (continued)
+2,57,792.0,612.0,0,1,12,1,35,* **,35,35,35,3476,0,0,1,1,35,35,,1051837,392,0,CHART #12: Support Our Seniors - Fiscal 2022 (continued)
+2,58,792.0,612.0,0,1,12,1,36,* **,21,21,21,2177,0,0,1,1,21,21,,645589,414,0,CHART #12: Support Our Seniors - Fiscal 2022 (continued)
+2,59,792.0,612.0,0,1,13,0,37,* **,33,33,33,3480,0,0,1,1,33,33,,1072931,343,0,CHART #13: Food Pantries Initiative - Fiscal 2022
+2,60,792.0,612.0,0,1,13,1,38,* **,31,31,31,3396,0,0,1,1,31,31,,1035644,428,0,CHART #13: Food Pantries Initiative - Fiscal 2022 (continued)
+2,61,792.0,612.0,0,1,13,1,39,* **,35,35,35,3789,0,0,1,1,35,35,,1139691,332,0,CHART #13: Food Pantries Initiative - Fiscal 2022 (continued)
+2,62,792.0,612.0,0,1,13,1,40,* **,36,36,36,3798,0,0,1,1,36,36,,1157271,359,0,CHART #13: Food Pantries Initiative - Fiscal 2022 (continued)
+2,63,792.0,612.0,0,1,13,1,41,* **,35,35,35,3583,0,0,1,1,35,35,,1121542,382,0,CHART #13: Food Pantries Initiative - Fiscal 2022 (continued)
+2,64,792.0,612.0,0,1,13,1,42,* **,35,35,35,3144,0,0,1,1,35,35,,1034838,477,0,CHART #13: Food Pantries Initiative - Fiscal 2022 (continued)
+2,65,792.0,612.0,0,1,13,1,43,* **,6,6,6,598,0,0,1,1,6,6,,184857,110,0,CHART #13: Food Pantries Initiative - Fiscal 2022 (continued)
+2,66,792.0,612.0,0,1,14,0,44,* **,29,29,29,2985,0,0,1,1,29,29,,905239,404,0,CHART #14: Neighborhood Development Grant Initiative - Fiscal 2022
+2,67,792.0,612.0,0,1,14,1,45,* **,7,7,7,780,0,0,1,1,7,7,,221996,117,0,CHART #14: Neighborhood Development Grant Initiative - Fiscal 2022 (continued)
+2,68,792.0,612.0,0,1,15,0,46,* **,5,5,5,606,0,0,1,1,5,5,,187030,88,0,CHART #15: LGBT Community Services - Fiscal 2022
+2,69,792.0,612.0,0,1,16,0,47,* **,1,1,1,276,0,0,1,1,1,1,,61611,38,0,CHART #16: Afterschool Enrichment Initiative - Fiscal 2022
+2,70,792.0,612.0,0,1,17,0,48,* **,4,4,4,441,0,0,1,1,4,4,,149372,8,0,CHART #17: Physical Education and Fitness - Fiscal 2022
+2,71,792.0,612.0,0,1,18,0,49,* **,7,7,7,596,0,0,1,1,7,7,,230658,14,0,CHART #18: College Career and Readiness - Fiscal 2022
+2,72,792.0,612.0,0,1,19,0,50,* **,3,3,3,461,0,0,1,1,3,3,,129570,95,0,CHART #19: Educational Programs for Students - Fiscal 2022
+2,73,792.0,612.0,0,1,20,0,51,* **,2,2,2,346,0,0,1,1,2,2,,93283,74,0,CHART #20: LGBTQ Inclusive Curriculum - Fiscal 2022
+2,74,792.0,612.0,0,1,21,0,52,* **,4,4,4,418,0,0,1,1,4,4,,143134,127,0,CHART #21: Social and Emotional Supports for Students  - Fiscal 2022
+2,75,792.0,612.0,0,1,22,0,53,* **,2,2,2,323,0,0,1,1,2,2,,92880,75,0,CHART #22: Job Placement for Veterans - Fiscal 2022
+2,76,792.0,612.0,0,1,23,0,54,* **,2,2,2,360,0,0,1,1,2,2,,100418,99,0,CHART #23 Legal Services for Veterans - Fiscal 2022
+2,77,792.0,612.0,0,1,24,0,55,* **,2,2,2,312,0,0,1,1,2,2,,89666,21,0,CHART #24: Mental Health Services for Veterans - Fiscal 2022
+2,78,792.0,612.0,0,1,25,0,56,* **,5,5,5,502,0,0,1,1,5,5,,174344,169,0,CHART #25: Veterans Community Development - Fiscal 2022
+2,79,792.0,612.0,0,1,26,0,57,* **,35,35,35,2239,0,0,1,1,35,35,,1023993,536,0,CHART #26: Coalition Theaters of Color - Fiscal 2022
+2,80,792.0,612.0,0,1,27,1,58,* **,34,34,34,2190,0,0,1,1,34,34,,999628,461,0,CHART #27: Coalition Theaters of Color - Fiscal 2022 (continued)
+2,81,792.0,612.0,0,1,28,0,59,* **,2,2,2,316,0,0,1,1,2,2,,91710,98,0,CHART #28: MWBE Leadership Associations - Fiscal 2022
+2,82,792.0,612.0,0,1,29,0,60,* **,19,19,19,1333,0,0,1,1,19,19,,577774,750,0,CHART #29: Chamber on the Go and Small Business Assistance - Fiscal 2022
+2,83,792.0,612.0,0,1,30,0,61,* **,7,7,7,646,0,0,1,1,7,7,,240588,309,0,CHART #30: Day Laborer Workforce Initiative - Fiscal 2022
+2,84,792.0,612.0,0,1,31,0,62,* **,16,16,16,1079,0,0,1,1,16,16,,478638,609,0,CHART #31: Worker Cooperative Business Development Initiative - Fiscal 2022
+2,85,792.0,612.0,0,1,32,0,63,* **,2,2,2,331,0,0,1,1,2,2,,91458,83,0,CHART #32: Job Training and Placement Initiative - Fiscal 2022
+2,86,792.0,612.0,0,1,33,0,64,* **,5,5,5,541,0,0,1,1,5,5,,183790,261,0,CHART #33: Crisis Management System - Fiscal 2022
+2,87,792.0,612.0,0,1,34,0,65,* **,29,29,29,1803,0,0,1,1,29,29,,850431,645,0,CHART #34: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022
+2,88,792.0,612.0,0,1,35,0,66,* **,2,2,2,334,0,0,1,1,2,2,,92616,91,0,CHART #35: Immigrant Survivors of Domestic Violence - Fiscal 2022
+2,89,792.0,612.0,0,1,36,0,67,* **,2,2,2,324,0,0,1,1,2,2,,91471,81,0,CHART #36: Legal Services for the Working Poor - Fiscal 2022
+2,90,792.0,612.0,0,1,37,0,68,* **,24,24,24,1651,0,0,1,1,24,24,,727433,539,0,CHART #37: City's First Readers - Fiscal 2022
+2,91,792.0,612.0,0,1,38,0,69,* **,10,10,10,1038,0,0,1,1,10,10,,333272,47,0,CHART #38: YouthBuild Project Initiative - Fiscal 2022
+2,92,792.0,612.0,0,1,39,0,70,* **,16,16,16,1159,0,0,1,1,16,16,,490907,400,0,CHART #39: Communities of Color NonProfit Stabilization Fund - Fiscal 2022
+2,93,792.0,612.0,0,1,40,0,71,* **,2,2,2,308,0,0,1,1,2,2,,87543,29,0,"CHART #40: Senior Centers, Programs, and Enhancements - Fiscal 2022"
+2,94,792.0,612.0,0,1,41,0,72,* **,2,2,2,319,0,0,1,1,2,2,,86845,21,0,CHART #41: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2022
+2,95,792.0,612.0,0,1,42,0,73,* **,3,3,3,404,0,0,1,1,3,3,,120210,60,0,CHART #42: LGBTQ Senior Services in Every Borough - Fiscal 2022
+2,96,792.0,612.0,0,1,43,0,74,* **,29,29,29,2031,0,0,1,1,29,29,,876905,431,0,CHART #43: Elie Wiesel Holocaust Survivors - Fiscal 2022
+2,97,792.0,612.0,0,1,44,0,75,* **,7,7,7,608,0,0,1,1,7,7,,233449,268,0,CHART #44: Family Advocacy and Guardianship Support - Fiscal 2022
+2,98,792.0,612.0,0,1,45,0,76,* **,10,10,10,796,0,0,1,1,10,10,,316742,421,0,CHART #45: Wrap-Around Support for Transitional-Aged Foster Youth - Fiscal 2022
+2,99,792.0,612.0,0,1,46,0,77,* **,35,35,35,2535,0,0,1,1,35,35,,1084807,661,0,CHART #46: Adult Literacy Initiative - Fiscal 2022
+2,100,792.0,612.0,0,1,46,1,78,* **,13,13,13,931,0,0,1,1,13,13,,397309,371,0,CHART #46: Adult Literacy Initiative - Fiscal 2022 (continued)
+2,101,792.0,612.0,0,1,47,0,79,* **,18,18,18,1261,0,0,1,1,18,18,,551934,699,0,CHART #47: Initiative to Combat Sexual Assault - Fiscal 2022
+2,102,792.0,612.0,0,1,48,0,80,* **,8,8,8,662,0,0,1,1,8,8,,260003,333,0,CHART #48: Unaccompanied Minors and Families - Fiscal 2022
+2,103,792.0,612.0,0,1,49,0,81,* **,34,34,34,2118,0,0,1,1,34,34,,998120,498,0,CHART #49: AAPI Community Support:  - Fiscal 2022
+2,104,792.0,612.0,0,1,49,1,82,* **,11,11,11,856,0,0,1,1,11,11,,353796,310,0,CHART #49 AAPI Community Support:  - Fiscal 2022 (continued)
+2,105,792.0,612.0,0,1,50,0,83,*,35,35,35,2287,0,0,1,1,35,35,,1050414,371,0,CHART #50: Community Housing Preservation Strategies - Fiscal 2022
+2,106,792.0,612.0,0,0,,,,,0,0,0,60,0,0,,,,,,,,,
+2,107,792.0,612.0,0,1,50,1,85,* **,33,33,33,2343,0,0,1,1,33,33,,1009992,492,0,CHART #50: Community Housing Preservation Strategies - Fiscal 2022 (continued)
+2,108,792.0,612.0,0,1,51,0,86,* **,18,18,18,1322,0,0,1,1,18,18,,569218,393,0,CHART #51: Community Land Trust - Fiscal 2022
+2,109,792.0,612.0,0,1,52,0,87,* **,21,21,21,1488,0,0,1,1,21,21,,648529,419,0,CHART #52: Foreclosure Prevention Programs - Fiscal 2022
+2,110,792.0,612.0,0,1,53,0,88,* **,7,7,7,677,0,0,1,1,7,7,,250344,251,0,CHART #53: Home Loan Program - Fiscal 2022
+2,111,792.0,612.0,0,1,54,0,89,* **,21,21,21,1486,0,0,1,1,21,21,,644439,359,0,CHART #54: Stabilizing NYC - Fiscal 2022
+2,112,792.0,612.0,0,1,55,0,90,* **,2,2,2,322,0,0,1,1,2,2,,90721,75,0,CHART #55: Construction Site Safety Training - Fiscal 2022
+2,113,792.0,612.0,0,1,56,0,91,* **,3,3,3,358,0,0,1,1,3,3,,114256,65,0,CHART #56: Education Equity Action Plan - Fiscal 2022
+2,114,792.0,612.0,0,1,57,0,92,* **,8,8,8,688,0,0,1,1,8,8,,260986,340,0,CHART #57: Supports for Persons Involved in the Sex Trade - Fiscal 2022
+2,115,792.0,612.0,0,1,58,0,93,* **,5,5,5,478,0,0,1,1,5,5,,169619,178,0,CHART #58: Innovative Criminal Justice Programs - Fiscal 2022
+2,116,792.0,612.0,0,1,59,0,94,* **,24,24,24,1601,0,0,1,1,24,24,,722652,808,0,CHART #59: Alternatives to Incarceration (ATI's) - Fiscal 2022
+2,117,792.0,612.0,0,1,60,0,95,* **,1,1,1,260,0,0,1,1,1,1,,57570,32,0,CHART #60: Civic Education in New York City Schools - Fiscal 2022
+2,118,792.0,612.0,0,1,61,0,96,* **,14,14,14,1024,0,8,1,1,14,14,,436965,284,0,CHART #61: Children Under Five - Fiscal 2022
+2,119,792.0,612.0,0,1,62,0,97,* **,25,25,25,1625,0,0,1,1,25,25,,739952,458,0,CHART #62: Court-Involved Youth Mental Health Initiative - Fiscal 2022
+2,120,792.0,612.0,0,1,63,0,98,* **,33,33,33,2040,0,0,1,1,33,33,,956163,479,0,CHART #63: Mental Health Services for Vulnerable Populations - Fiscal 2022
+2,121,792.0,612.0,0,1,64,0,99,* **,2,2,2,286,0,0,1,1,2,2,,87218,34,0,CHART #64: Autism Awareness - Fiscal 2022
+2,122,792.0,612.0,0,1,65,0,100,* **,35,35,35,2211,0,0,1,1,35,35,,1027539,388,0,CHART #65: Geriatric Mental Health - Fiscal 2022
+2,123,792.0,612.0,0,1,66,0,101,* **,35,35,35,2355,0,0,1,1,35,35,,1051699,507,0,CHART #66: Access Health Initiative - Fiscal 2022
+2,124,792.0,612.0,0,1,67,1,102,* **,4,4,4,422,0,0,1,1,4,4,,143865,78,0,CHART #67: Access Health Initiative - Fiscal 2022 (continued)
+2,125,792.0,612.0,0,1,68,0,103,* **,24,24,24,1723,0,0,1,1,24,24,,745868,405,0,CHART #68: MCCAP Initiative - Fiscal 2022
+2,126,792.0,612.0,0,1,69,0,104,* **,35,35,35,2163,0,0,1,1,35,35,,1021300,420,0,CHART #69: HIV/AIDS Faith Based Initiative - Fiscal 2022
+2,127,792.0,612.0,0,1,69,1,105,* **,3,3,3,383,0,0,1,1,3,3,,115436,55,0,CHART #69: HIV/AIDS Faith Based Initiative - Fiscal 2022 (continued)
+2,128,792.0,612.0,0,1,70,0,106,* **,12,12,12,937,0,0,1,1,12,12,,379756,250,0,CHART #70: Maternal and Child Health Services - Fiscal 2022
+2,129,792.0,612.0,0,1,71,0,107,* **,10,10,10,885,0,0,1,1,10,10,,339055,242,0,CHART #71: Viral Hepatitis Prevention - Fiscal 2022
+2,130,792.0,612.0,0,1,72,0,108,* **,29,29,29,1789,0,0,1,1,29,29,,840674,531,0,CHART #72: Young Women's Leadership Development - Fiscal 2022
+2,131,792.0,612.0,0,1,73,0,109,* **,14,14,14,1041,0,0,1,1,14,14,,438049,565,0,CHART #73: Food Access and Benefits - Fiscal 2022
+2,132,792.0,612.0,0,1,74,0,110,* **,8,8,8,824,0,0,1,1,8,8,,268272,160,0,CHART #74: Local Initiatives - Fiscal 2021
+2,133,792.0,612.0,0,1,75,0,111,* **,4,4,4,599,0,0,1,1,4,4,,154235,127,0,CHART #75: Cultural After-School Adventure (CASA) - Fiscal 2021
+2,134,792.0,612.0,0,1,76,0,112,* **,2,2,2,388,0,0,1,1,2,2,,90510,40,0,CHART #76: Neighborhood Development Grant Initiative - Fiscal 2021
+2,135,792.0,612.0,0,1,77,0,113,* **,2,2,2,316,0,0,1,1,2,2,,86882,30,0,CHART #77: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2021
+2,136,792.0,612.0,0,1,78,0,114,* **,12,12,12,2409,0,0,1,1,12,12,,490305,205,0,CHART #78: Purpose of Funds Changes - Fiscal 2022
+2,137,792.0,612.0,0,1,79,0,115,* **,6,6,6,1150,0,0,1,1,6,6,,231447,69,0,CHART #79: Purpose of Funds Changes - Fiscal 2021
+2,138,792.0,612.0,0,1,80,0,116,* **,2,2,2,536,0,0,1,1,2,2,,95791,55,0,CHART #80: Purpose of Funds Changes - Fiscal 2020
+3,1,612.0,792.0,0,0,,,,,0,0,0,2807,0,0,,,,,,,,,
+3,2,612.0,792.0,0,0,,,,,0,0,0,2452,0,0,,,,,,,,,
+3,3,612.0,792.0,0,0,,,,,0,0,0,2123,0,0,,,,,,,,,
+3,4,612.0,792.0,0,0,,,,,0,0,0,2364,0,0,,,,,,,,,
+3,5,612.0,792.0,0,0,,,,,0,0,0,2332,0,0,,,,,,,,,
+3,6,612.0,792.0,0,0,,,,,0,0,0,1301,0,0,,,,,,,,,
+3,7,612.0,792.0,0,0,,,,,0,0,0,1552,0,0,,,,,,,,,
+3,8,612.0,792.0,0,0,,,,,0,0,0,1400,0,0,,,,,,,,,
+3,9,612.0,792.0,0,0,,,,,0,0,0,1621,0,0,,,,,,,,,
+3,10,612.0,792.0,0,0,,,,,0,0,0,1571,0,0,,,,,,,,,
+3,11,612.0,792.0,0,0,,,,,0,0,0,1514,0,0,,,,,,,,,
+3,12,612.0,792.0,0,0,,,,,0,0,0,1489,0,0,,,,,,,,,
+3,13,612.0,792.0,0,0,,,,,0,0,0,1640,0,0,,,,,,,,,
+3,14,612.0,792.0,0,0,,,,,0,0,0,1443,0,0,,,,,,,,,
+3,15,612.0,792.0,0,0,,,,,0,0,0,232,0,0,,,,,,,,,
+3,16,792.0,612.0,0,1,1,0,1,* **,28,28,28,2611,0,0,1,1,28,28,,947141,0,0,CHART #1: Local Initiatives - Fiscal 2022
+3,17,792.0,612.0,0,1,1,1,2,* **,27,27,27,2135,0,0,1,1,27,27,,849940,0,0,CHART #1: Local Initiatives - Fiscal 2022 (continued)
+3,18,792.0,612.0,0,1,2,0,3,* **,10,10,10,1087,0,0,1,1,10,10,,379865,0,0,CHART #2: Youth Discretionary - Fiscal 2022
+3,19,792.0,612.0,0,1,3,0,4,* **,2,2,2,358,0,0,1,1,2,2,,99922,0,0,CHART #3: Boroughwide Needs Initiative - Fiscal 2022
+3,20,792.0,612.0,0,1,4,0,5,* **,6,6,6,669,0,0,1,1,6,6,,227611,0,0,CHART #4: Speaker's Initiative to Address Citywide Needs - Fiscal 2022
+3,21,792.0,612.0,0,1,5,0,6,* **,25,25,25,2318,0,0,1,1,25,25,,752187,0,0,CHART #5: A Greener NYC - Fiscal 2022
+3,22,792.0,612.0,0,1,6,0,7,* **,36,36,36,3306,0,0,1,1,36,36,,1080078,0,0,CHART #6: Cultural After-School Adventure (CASA) - Fiscal 2022
+3,23,792.0,612.0,0,1,6,1,8,* **,38,38,38,3731,0,0,1,1,38,38,,1178401,0,0,CHART #6: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+3,24,792.0,612.0,0,1,6,1,9,* **,17,17,17,1855,0,0,1,1,17,17,,550603,0,0,CHART #6: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+3,25,792.0,612.0,0,1,7,0,10,* **,13,13,13,1119,0,0,1,1,13,13,,370256,0,0,CHART #7: Neighborhood Development Grant Initiative - Fiscal 2022
+3,26,792.0,612.0,0,1,8,0,11,* **,35,35,35,3479,0,0,1,1,35,35,,1091927,0,0,CHART #8: NYC Cleanup Initiative  - Fiscal 2022
+3,27,792.0,612.0,0,1,8,1,12,* **,7,7,7,774,0,0,1,1,7,7,,224123,0,0,CHART #8: NYC Cleanup Initiative  - Fiscal 2022 (continued)
+3,28,792.0,612.0,0,1,9,0,13,* **,29,29,29,2536,0,0,1,1,29,29,,852212,0,0,CHART #9: Parks Equity Initiative - Fiscal 2022
+3,29,792.0,612.0,0,1,10,0,14,* **,33,33,33,2540,0,0,1,1,33,33,,896994,0,0,CHART #10: Cultural Immigrant Initiative - Fiscal 2022
+3,30,792.0,612.0,0,1,11,0,15,* **,35,35,35,3131,0,0,1,1,35,35,,1029702,0,0,CHART #11: Support Our Seniors - Fiscal 2022
+3,31,792.0,612.0,0,1,11,1,16,* **,18,18,18,1579,0,0,1,1,18,18,,520033,0,0,CHART #11: Support Our Seniors - Fiscal 2022 (continued)
+3,32,792.0,612.0,0,1,12,0,17,* **,39,38,38,3650,0,0,1,1,39,39,,1200196,0,0,CHART #12: Food Pantries Initiative - Fiscal 2022
+3,33,792.0,612.0,0,1,12,1,18,* **,39,39,39,3629,0,0,1,1,39,39,,1190292,0,0,CHART #12: Food Pantries Initiative - Fiscal 2022 (continued)
+3,34,792.0,612.0,0,1,12,1,19,* **,33,33,33,3517,0,0,1,1,33,33,,1109996,0,0,CHART #12: Food Pantries Initiative - Fiscal 2022 (continued)
+3,35,792.0,612.0,0,1,12,1,20,* **,6,6,6,795,0,0,1,1,6,6,,220772,0,0,CHART #12: Food Pantries Initiative - Fiscal 2022 (continued)
+3,36,792.0,612.0,0,1,13,0,21,* **,38,38,38,3158,0,0,1,1,38,38,,1077171,0,0,CHART #13: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022
+3,37,792.0,612.0,0,1,13,1,22,* **,42,42,42,2923,0,0,1,1,42,42,,1091080,0,0,CHART #13: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022 (continued)
+3,38,792.0,612.0,0,1,13,1,23,* **,42,42,42,3026,0,0,1,1,42,42,,1110215,0,0,CHART #13: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022 (continued)
+3,39,792.0,612.0,0,1,13,1,24,* **,9,9,9,872,0,0,1,1,9,9,,264501,0,0,CHART #13: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022 (continued)
+3,40,792.0,612.0,0,1,14,0,25,* **,12,12,12,1295,0,0,1,1,12,12,,390571,0,0,CHART #14: Digital Inclusion and Literacy Initiative - Fiscal 2022
+3,41,792.0,612.0,0,1,15,0,26,* **,4,4,4,380,0,0,1,1,4,4,,131772,0,0,CHART #15: Initiative to Combat Sexual Assault - Fiscal 2022
+3,42,792.0,612.0,0,1,16,0,27,* **,7,7,7,618,0,0,1,1,7,7,,228098,0,0,CHART #16: AAPI Community Support - Fiscal 2022
+3,43,792.0,612.0,0,1,17,0,28,* **,8,8,8,643,0,0,1,1,8,8,,254594,0,0,CHART #17: Community Land Trust - Fiscal 2022
+3,44,792.0,612.0,0,1,18,0,29,* **,2,2,2,331,0,0,1,1,2,2,,87153,0,0,CHART #18: Foreclosure Prevention Programs - Fiscal 2022
+3,45,792.0,612.0,0,1,19,0,30,* **,2,2,2,323,0,0,1,1,2,2,,88015,0,0,CHART #19: Construction Site Safety Training - Fiscal 2022
+3,46,792.0,612.0,0,1,20,0,31,* **,2,2,2,318,0,0,1,1,2,2,,89647,0,0,CHART #20: Adult Literacy Initiative - Fiscal 2022
+3,47,792.0,612.0,0,1,21,0,32,* **,4,4,4,431,0,0,1,1,4,4,,140442,0,0,CHART #21: Education Equity Action Plan  - Fiscal 2022
+3,48,792.0,612.0,0,1,22,0,33,* **,2,2,2,307,0,0,1,1,2,2,,85644,0,0,CHART #22: Job Training and Placement Initiative  - Fiscal 2022
+3,49,792.0,612.0,0,1,23,0,34,* **,1,1,1,252,0,0,1,1,1,1,,58292,0,0,CHART #23: Physical Education and Fitness   - Fiscal 2022
+3,50,792.0,612.0,0,1,24,0,35,* **,3,3,3,378,0,0,1,1,3,3,,117024,0,0,CHART #24: Coalition Theaters of Color - Fiscal 2022
+3,51,792.0,612.0,0,1,25,0,36,* **,34,34,34,2131,0,0,1,1,34,34,,954022,0,0,CHART #25: Afterschool Enrichment Initiative - Fiscal 2022
+3,52,792.0,612.0,0,1,25,1,37,* **,7,7,7,730,0,0,1,1,7,7,,245245,4,0,CHART #25: Afterschool Enrichment Initiative - Fiscal 2022 (continued)
+3,53,792.0,612.0,0,1,26,0,38,* **,2,2,2,313,0,0,1,1,2,2,,89275,0,0,CHART #26: Geriatric Mental Health - Fiscal 2022
+3,54,792.0,612.0,0,1,27,0,39,* **,6,6,6,593,0,0,1,1,6,6,,205155,0,0,CHART #27: Public Health Funding Backfill - Fiscal 2022
+3,55,792.0,612.0,0,1,28,0,40,* **,3,3,3,357,0,2,1,1,3,3,,115417,0,0,CHART #28: Children Under Five - Fiscal 2022
+3,56,792.0,612.0,0,1,29,0,41,* **,35,35,35,2064,0,0,1,1,35,35,,959690,0,0,CHART #29: Ending the Epidemic - Fiscal 2022
+3,57,792.0,612.0,0,1,29,1,42,* **,12,12,12,885,0,0,1,1,12,12,,356964,0,0,CHART #29: Ending the Epidemic - Fiscal 2022 (continued)
+3,58,792.0,612.0,0,1,30,0,43,* **,25,25,25,1636,0,0,1,1,25,25,,717066,0,0,CHART #30: HIV/AIDS Faith Based Initiative - Fiscal 2022
+3,59,792.0,612.0,0,1,31,0,44,* **,32,32,32,1964,0,0,1,1,32,32,,892069,0,0,CHART #31: Viral Hepatitis Prevention- Fiscal 2022
+3,60,792.0,612.0,0,1,32,0,45,* **,4,4,4,416,0,0,1,1,4,4,,137480,0,0,CHART #32: Dedicated Contraceptive Fund - Fiscal 2022
+3,61,792.0,612.0,0,1,33,0,46,* **,16,16,16,1101,0,0,1,1,16,16,,462469,0,0,CHART #33: Maternal and Child Health Services - Fiscal 2022
+3,62,792.0,612.0,0,1,34,0,47,* **,2,2,2,328,0,0,1,1,2,2,,88850,0,0,CHART #34: Reproductive and Sexual Health Services- Fiscal 2022
+3,63,792.0,612.0,0,1,35,0,48,* **,34,34,34,2164,0,0,1,1,34,34,,955228,2,0,CHART #35: Access Health Initiative - Fiscal 2022
+3,64,792.0,612.0,0,1,36,0,49,* **,7,7,7,623,0,0,1,1,7,7,,227501,0,0,CHART #36: Cancer Services - Fiscal 2022
+3,65,792.0,612.0,0,1,37,0,50,* **,1,1,1,246,0,0,1,1,1,1,,57873,0,0,CHART #37: Child Health and Wellness - Fiscal 2022
+3,66,792.0,612.0,0,1,38,0,51,* **,19,19,19,1300,0,0,1,1,19,19,,552021,0,0,CHART #38: Immigrant Health Initiative - Fiscal 2022
+3,67,792.0,612.0,0,1,39,0,52,* **,13,13,13,1021,0,0,1,1,13,13,,401477,0,0,CHART #39: MCCAP Initiative - Fiscal 2022
+3,68,792.0,612.0,0,1,40,0,53,* **,1,1,1,263,0,0,1,1,1,1,,57698,0,0,CHART #40: Mental Health Services for Vulnerable Populations - Fiscal 2022
+3,69,792.0,612.0,0,1,41,0,54,* **,19,19,19,1308,0,0,1,1,19,19,,560911,0,0,CHART #41: Hate Crimes Prevention - Fiscal 2022
+3,70,792.0,612.0,0,1,42,0,55,* **,2,2,2,321,0,0,1,1,2,2,,88996,0,0,CHART #42: Crisis Management System - Fiscal 2022
+3,71,792.0,612.0,0,1,43,0,56,* **,4,4,4,458,0,0,1,1,4,4,,142929,0,0,CHART #43: Information and Referral Services - Fiscal 2022
+3,72,792.0,612.0,0,1,44,0,57,* **,4,4,4,433,0,0,1,1,4,4,,139126,0,0,CHART #44: Elder Abuse Prevention Programs - Fiscal 2022
+3,73,792.0,612.0,0,1,45,0,58,* **,35,35,35,2562,0,0,1,1,35,35,,1038890,0,0,"CHART #45: Senior Centers, Programs, and Enhancements - Fiscal 2022"
+3,74,792.0,612.0,0,1,45,1,59,* **,34,34,34,2927,0,0,1,1,34,34,,1083170,0,0,"CHART #45: Senior Centers, Programs, and Enhancements - Fiscal 2022 (continued)"
+3,75,792.0,612.0,0,1,45,1,60,* **,18,18,18,1702,0,0,1,1,18,18,,605726,2,0,"CHART #45: Senior Centers, Programs, and Enhancements - Fiscal 2022 (continued)"
+3,76,792.0,612.0,0,1,46,0,61,* **,34,34,34,2856,0,0,1,1,34,34,,1093107,2,0,CHART #46: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2022
+3,77,792.0,612.0,0,1,46,1,62,* **,19,19,19,1768,0,0,1,1,19,19,,638367,0,0,CHART #46: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2022 (continued)
+3,78,792.0,612.0,0,1,47,0,63,* **,2,2,2,338,0,0,1,1,2,2,,91735,0,0,CHART #47: Young Women's Leadership Development - Fiscal 2022
+3,79,792.0,612.0,0,1,48,0,64,* **,33,33,33,2348,0,0,1,1,33,33,,937141,0,0,CHART #48: Pandemic Support for Human Service Providers - Fiscal 2022
+3,80,792.0,612.0,0,1,48,1,65,* **,33,33,33,2190,0,0,1,1,33,33,,911282,0,0,CHART #48: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+3,81,792.0,612.0,0,1,48,1,66,* **,33,33,33,2290,0,0,1,1,33,33,,926550,0,0,CHART #48: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+3,82,792.0,612.0,0,1,48,1,67,* **,33,33,33,2188,0,0,1,1,33,33,,905235,0,0,CHART #48: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+3,83,792.0,612.0,0,1,48,1,68,* **,33,33,33,2157,0,0,1,1,33,33,,899660,2,0,CHART #48: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+3,84,792.0,612.0,0,1,48,1,69,* **,32,32,32,2207,0,0,1,1,32,32,,892868,2,0,CHART #48: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+3,85,792.0,612.0,0,1,48,1,70,* **,33,33,33,2292,0,0,1,1,33,33,,932850,0,0,CHART #48: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+3,86,792.0,612.0,0,1,48,1,71,* **,33,33,33,2417,0,0,1,1,33,33,,951498,0,0,CHART #48: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+3,87,792.0,612.0,0,1,48,1,72,* **,33,33,33,2218,0,0,1,1,33,33,,911234,0,0,CHART #48: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+3,88,792.0,612.0,0,1,48,1,73,* **,33,33,33,2356,0,0,1,1,33,33,,938305,0,0,CHART #48: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+3,89,792.0,612.0,0,1,48,1,74,* **,33,33,33,2266,0,0,1,1,33,33,,921039,0,0,CHART #48: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+3,90,792.0,612.0,0,1,48,1,75,* **,25,25,25,1962,0,0,1,1,25,25,,753816,4,0,CHART #48: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+3,91,792.0,612.0,0,1,49,0,,* **,4,4,4,610,0,0,1,1,4,4,,167901,0,0,CHART #49: Youth Discretionary - Fiscal 2021
+3,92,792.0,612.0,0,1,50,0,77,* **,14,14,14,3520,0,0,1,1,14,14,region 0: header rule at 72.12 pt found in header pixels,643957,0,0,CHART #50: Purpose of Funds Changes - Fiscal 2022
+3,93,792.0,612.0,0,1,50,1,78,* **,6,6,6,1308,0,0,1,1,6,6,region 0: header rule at 72.12 pt found in header pixels,242637,0,0,CHART #50: Purpose of Funds Changes - Fiscal 2022 (continued)
+3,94,612.0,792.0,0,1,51,0,,,24,24,24,1424,0,0,1,1,24,24,,368777,0,0,CHART #51: Beating Hearts - Fiscal 2022
+4,1,612.0,792.0,0,0,,,,,0,0,0,2691,0,0,,,,,,,,,
+4,2,612.0,792.0,0,0,,,,,0,0,0,2415,0,0,,,,,,,,,
+4,3,612.0,792.0,0,0,,,,,0,0,0,2357,0,0,,,,,,,,,
+4,4,612.0,792.0,0,0,,,,,0,0,0,1301,0,0,,,,,,,,,
+4,5,612.0,792.0,0,0,,,,,0,0,0,1525,0,0,,,,,,,,,
+4,6,612.0,792.0,0,0,,,,,0,0,0,1347,0,0,,,,,,,,,
+4,7,612.0,792.0,0,0,,,,,0,0,0,1531,0,0,,,,,,,,,
+4,8,612.0,792.0,0,0,,,,,0,0,0,1429,0,0,,,,,,,,,
+4,9,612.0,792.0,0,0,,,,,0,0,0,884,0,0,,,,,,,,,
+4,10,792.0,612.0,0,1,1,0,1,* **,21,21,21,1845,0,0,1,1,21,21,,717818,2,0,CHART #1: Local Initiatives - Fiscal 2022
+4,11,792.0,612.0,0,1,2,0,2,* **,2,2,2,342,0,0,1,1,2,2,,91441,0,0,CHART #2: Youth Discretionary - Fiscal 2022
+4,12,792.0,612.0,0,1,3,0,3,* **,11,11,11,1195,0,0,1,1,11,11,,419479,0,0,CHART #3: Speaker's Initiative to Address Citywide Needs - Fiscal 2022
+4,13,792.0,612.0,0,1,4,0,4,* **,31,31,31,2621,0,0,1,1,31,31,,897316,0,0,CHART #4: A Greener NYC - Fiscal 2022
+4,14,792.0,612.0,0,1,5,0,5,* **,33,33,33,3281,0,0,1,1,33,33,,1036062,0,0,CHART #5: Cultural After-School Adventure (CASA) - Fiscal 2022
+4,15,792.0,612.0,0,1,5,1,6,* **,39,39,39,3752,0,0,1,1,39,39,,1192473,0,0,CHART #5: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+4,16,792.0,612.0,0,1,5,1,7,* **,23,23,23,2142,0,0,1,1,23,23,,687632,0,0,CHART #5: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+4,17,792.0,612.0,0,1,6,0,8,* **,9,9,9,947,0,0,1,1,9,9,,280502,0,0,CHART #6: Neighborhood Development Grant Initiative - Fiscal 2022
+4,18,792.0,612.0,0,1,7,0,9,* **,15,15,15,1503,0,0,1,1,15,15,,473569,0,0,CHART #7: NYC Cleanup Initiative  - Fiscal 2022
+4,19,792.0,612.0,0,1,8,0,10,* **,23,23,23,2196,0,0,1,1,23,23,,713796,4,0,CHART #8: Parks Equity Initiative - Fiscal 2022
+4,20,792.0,612.0,0,1,9,0,11,* **,31,31,31,2226,0,0,1,1,31,31,,812969,0,0,CHART #9: Cultural Immigrant Initiative - Fiscal 2022
+4,21,792.0,612.0,0,1,10,0,12,* **,14,14,14,1375,0,0,1,1,14,14,,431443,0,0,CHART #10: Support Our Seniors - Fiscal 2022
+4,22,792.0,612.0,0,1,11,0,13,* **,38,38,38,3986,0,0,1,1,38,38,,1257848,0,0,CHART #11: Food Pantries Initiative - Fiscal 2022
+4,23,792.0,612.0,0,1,11,1,14,* **,16,16,16,1171,0,0,1,1,16,16,,423363,0,0,CHART #11: Food Pantries Initiative - Fiscal 2022 (continued)
+4,24,792.0,612.0,0,1,12,0,15,* **,43,43,43,3049,0,0,1,1,43,43,,1125628,0,0,CHART #12: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022
+4,25,792.0,612.0,0,1,12,1,16,* **,35,35,35,3195,0,0,1,1,35,35,,1042696,0,0,CHART #12: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022 (continued)
+4,26,792.0,612.0,0,1,12,1,17,* **,33,33,33,2551,0,0,1,1,33,33,,892916,0,0,CHART #12: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022 (continued)
+4,27,792.0,612.0,0,1,13,0,18,* **,16,16,16,1412,0,0,1,1,16,16,,467463,0,0,CHART #13: Digital Inclusion and Literacy Initiative - Fiscal 2022
+4,28,792.0,612.0,0,1,14,0,19,* **,2,2,2,326,0,0,1,1,2,2,,84460,0,0,CHART #14: Hate Crime Prevention Initiative - Fiscal 2022
+4,29,792.0,612.0,0,1,15,0,20,* **,6,6,6,675,0,0,1,1,6,6,,220483,0,0,CHART #15: Community Housing Preservation Strategies - Fiscal 2022
+4,30,792.0,612.0,0,1,16,0,21,* **,12,12,12,1148,0,0,1,1,12,12,,423428,0,0,CHART #16: Crisis Management System - Fiscal 2022
+4,31,792.0,612.0,0,1,17,0,22,* **,7,7,7,701,0,0,1,1,7,7,,231242,0,0,"CHART #17: Senior Centers, Programs, and Enhancements - Fiscal 2022"
+4,32,792.0,612.0,0,1,18,0,23,* **,4,4,4,443,0,0,1,1,4,4,,139918,0,0,CHART #18: College Career and Readiness - Fiscal 2022
+4,33,792.0,612.0,0,1,19,0,24,* **,2,2,2,329,0,0,1,1,2,2,,84742,0,0,CHART #19: Legal Services for the Working Poor - Fiscal 2022
+4,34,792.0,612.0,0,1,20,0,25,* **,21,21,21,1528,0,0,1,1,21,21,,638982,0,0,CHART #20: Adult Literacy Pilot Project - Fiscal 2022
+4,35,792.0,612.0,0,1,21,0,26,* **,6,6,6,583,0,0,1,1,6,6,,201072,0,0,CHART #21: Afterschool Enrichment Initiative - Fiscal 2022
+4,36,792.0,612.0,0,1,22,0,,* **,2,2,2,329,0,0,1,1,2,2,,80685,0,0,CHART #22: Aging Discretionary - Fiscal 2021
+4,37,792.0,612.0,0,1,23,0,28,* **,3,3,3,427,0,0,1,1,3,3,,120720,0,0,CHART #23: Community Housing Preservation Strategies - Fiscal 2021
+4,38,792.0,612.0,0,1,24,0,29,* **,14,14,14,2619,0,0,1,1,14,14,,510642,1,0,CHART #24: Purpose of Funds Changes - Fiscal 2022
+4,39,612.0,792.0,0,1,25,0,,,8,8,8,678,0,0,1,1,8,8,,143322,0,0,CHART #25: Beating Hearts - Fiscal 2022
+5,1,612.0,792.0,0,0,,,,,0,0,0,2776,0,0,,,,,,,,,
+5,2,612.0,792.0,0,0,,,,,0,0,0,2314,0,0,,,,,,,,,
+5,3,612.0,792.0,0,0,,,,,0,0,0,2377,0,0,,,,,,,,,
+5,4,612.0,792.0,0,0,,,,,0,0,0,561,0,0,,,,,,,,,
+5,5,612.0,792.0,0,0,,,,,0,0,0,1454,0,0,,,,,,,,,
+5,6,612.0,792.0,0,0,,,,,0,0,0,1615,0,0,,,,,,,,,
+5,7,612.0,792.0,0,0,,,,,0,0,0,1536,0,0,,,,,,,,,
+5,8,612.0,792.0,0,0,,,,,0,0,0,1477,0,0,,,,,,,,,
+5,9,612.0,792.0,0,0,,,,,0,0,0,18,0,0,,,,,,,,,
+5,10,792.0,612.0,0,1,1,0,1,* **,10,10,10,1043,0,0,1,1,10,10,,359010,0,0,CHART #1: Local Initiatives - Fiscal 2022
+5,11,792.0,612.0,0,1,2,0,2,* **,11,11,11,1023,0,0,1,1,11,11,,331498,0,0,CHART #2: A Greener NYC - Fiscal 2022
+5,12,792.0,612.0,0,1,3,0,3,* **,27,27,27,2592,0,0,1,1,27,27,,828536,0,0,CHART #3: Cultural After-School Adventure (CASA) - Fiscal 2022
+5,13,792.0,612.0,0,1,4,0,4,* **,5,5,5,488,0,0,1,1,5,5,,152477,0,0,CHART #4: SU-CASA - Fiscal 2022
+5,14,792.0,612.0,0,1,5,0,5,* **,3,3,3,477,0,0,1,1,3,3,,116926,0,0,CHART #5: Neighborhood Development Grant Initiative - Fiscal 2022
+5,15,792.0,612.0,0,1,6,0,6,* **,10,10,10,1010,0,0,1,1,10,10,,310373,0,0,CHART #6: NYC Cleanup Initiative  - Fiscal 2022
+5,16,792.0,612.0,0,1,7,0,7,* **,11,11,11,1111,0,0,1,1,11,11,,347384,0,0,CHART #7: Parks Equity Initiative - Fiscal 2022
+5,17,792.0,612.0,0,1,8,0,8,* **,10,10,10,831,0,0,1,1,10,10,,279753,0,0,CHART #8: Cultural Immigrant Initiative - Fiscal 2022
+5,18,792.0,612.0,0,1,9,0,9,* **,16,16,16,1612,0,0,1,1,16,16,,500241,0,0,CHART #9: Support Our Seniors - Fiscal 2022
+5,19,792.0,612.0,0,1,10,0,10,* **,32,32,32,3263,0,0,1,1,32,32,,1030529,0,0,CHART #10: Food Pantries Initiative - Fiscal 2022
+5,20,792.0,612.0,0,1,11,0,11,* **,33,33,33,2832,0,0,1,1,33,33,,955439,0,0,CHART #11: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022
+5,21,792.0,612.0,0,1,11,1,12,* **,14,14,14,1220,0,0,1,1,14,14,,401116,0,0,CHART #11: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022 (continued)
+5,22,792.0,612.0,0,1,12,0,13,* **,11,11,11,1083,0,0,1,1,11,11,,330818,0,0,CHART #12: Digital Inclusion and Literacy Initiative - Fiscal 2022
+5,23,792.0,612.0,0,1,13,0,14,* **,2,2,2,316,0,0,1,1,2,2,,82681,0,0,CHART #13: Initiative to Combat Sexual Assault - Fiscal 2022
+5,24,792.0,612.0,0,1,14,0,15,* **,2,2,2,342,0,0,1,1,2,2,,88260,0,0,CHART #14: Trans Equity Programs - Fiscal 2022
+5,25,792.0,612.0,0,1,15,0,16,* **,32,32,32,2062,0,0,1,1,32,32,,889386,0,0,CHART #15: Pandemic Support for Human Service Providers - Fiscal 2022
+5,26,792.0,612.0,0,1,15,1,17,* **,32,32,32,2173,0,0,1,1,32,32,,922476,0,0,CHART #15: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+5,27,792.0,612.0,0,1,15,1,18,* **,34,34,34,2295,0,0,1,1,34,34,,967417,0,0,CHART #15: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+5,28,792.0,612.0,0,1,15,1,19,* **,12,12,12,958,0,0,1,1,12,12,,369377,0,0,CHART #15: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+5,29,792.0,612.0,0,1,16,0,20,* **,2,2,2,325,0,0,1,1,2,2,,83469,0,0,CHART #16: AAPI Community Support - Fiscal 2022
+5,30,792.0,612.0,0,1,17,0,21,* **,16,16,16,1362,0,0,1,1,16,16,,528919,0,0,CHART #17: Crisis Management System - Fiscal 2022
+5,31,792.0,612.0,0,1,18,0,22,* **,2,2,2,341,0,0,1,1,2,2,,83946,0,0,CHART #18: NYC Cleanup Initiative  - Fiscal 2021
+5,32,792.0,612.0,0,1,19,0,23,* **,2,2,2,323,0,0,1,1,2,2,,77803,0,0,CHART #19: Support Our Seniors - Fiscal 2020
+5,33,792.0,612.0,0,1,20,0,24,* **,2,2,2,374,0,0,1,1,2,2,,85313,0,0,CHART #20: Digital Inclusion and Literacy Initiative - Fiscal 2020
+5,34,792.0,612.0,0,1,21,0,25,* **,4,4,4,976,0,0,1,1,4,4,,172417,0,0,CHART #21: Purpose of Funds Changes - Fiscal 2022
+6,1,612.0,792.0,0,0,,,,,0,0,0,2524,0,0,,,,,,,,,
+6,2,612.0,792.0,0,0,,,,,0,0,0,2430,0,0,,,,,,,,,
+6,3,612.0,792.0,0,0,,,,,0,0,0,2338,0,0,,,,,,,,,
+6,4,612.0,792.0,0,0,,,,,0,0,0,955,0,0,,,,,,,,,
+6,5,612.0,792.0,0,0,,,,,0,0,0,1417,0,0,,,,,,,,,
+6,6,612.0,792.0,0,0,,,,,0,0,0,1536,0,0,,,,,,,,,
+6,7,612.0,792.0,0,0,,,,,0,0,0,1503,0,0,,,,,,,,,
+6,8,612.0,792.0,0,0,,,,,0,0,0,1426,0,0,,,,,,,,,
+6,9,612.0,792.0,0,0,,,,,0,0,0,714,0,0,,,,,,,,,
+6,10,792.0,612.0,0,1,1,0,1,* **,22,22,22,2136,0,0,1,1,22,22,,789807,0,0,CHART #1: Local Initiatives - Fiscal 2022
+6,11,792.0,612.0,0,1,2,0,2,* **,4,4,4,544,0,0,1,1,4,4,,158860,0,0,CHART #2: Youth Discretionary - Fiscal 2022
+6,12,792.0,612.0,0,1,3,0,3,* **,2,2,2,365,0,0,1,1,2,2,,95292,0,0,CHART #3: Anti-Poverty Initiative - Fiscal 2022
+6,13,792.0,612.0,0,1,4,0,4,* ** ***,8,8,8,853,0,0,1,1,8,8,,245630,0,0,CHART #4: A Greener NYC - Fiscal 2022
+6,14,792.0,612.0,0,1,5,0,5,* **,4,4,4,569,0,0,1,1,4,4,,149568,0,0,CHART #5: Cultural After-School Adventure (CASA) - Fiscal 2022
+6,15,792.0,612.0,0,1,6,0,6,* **,5,5,5,614,0,0,1,1,5,5,,168813,0,0,CHART #6: Neighborhood Development Grant Initiative - Fiscal 2022
+6,16,792.0,612.0,0,1,7,0,7,* **,6,6,6,684,0,0,1,1,6,6,,198875,0,0,CHART #7: NYC Cleanup Initiative  - Fiscal 2022
+6,17,792.0,612.0,0,1,8,0,8,* ** ***,10,10,10,1080,0,0,1,1,10,10,,310309,0,0,CHART #8: Parks Equity Initiative - Fiscal 2022
+6,18,792.0,612.0,0,1,9,0,9,* **,19,19,19,1583,0,0,1,1,19,19,,532392,0,0,CHART #9: Cultural Immigrant Initiative - Fiscal 2022
+6,19,792.0,612.0,0,1,10,0,10,* **,2,2,2,336,0,0,1,1,2,2,,79784,0,0,CHART #10: Support Our Seniors - Fiscal 2022
+6,20,792.0,612.0,0,1,11,0,11,* **,14,14,14,1329,0,0,1,1,14,14,,427825,0,0,CHART #11: Food Pantries Initiative - Fiscal 2022
+6,21,792.0,612.0,0,1,12,0,12,* **,14,14,14,1263,0,0,1,1,14,14,,410557,0,0,CHART #12: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022
+6,22,792.0,612.0,0,1,13,0,13,* **,4,4,4,478,0,0,1,1,4,4,,133395,0,0,CHART #13: Digital Inclusion and Literacy Initiative - Fiscal 2022
+6,23,792.0,612.0,0,1,14,0,14,* **,2,2,2,369,0,0,1,1,2,2,,95436,0,0,CHART #14: Art a Catalyst for Change - Fiscal 2022
+6,24,792.0,612.0,0,1,15,0,15,* **,3,3,3,367,0,0,1,1,3,3,,113789,0,0,CHART #15: Stabilizing NYC - Fiscal 2022
+6,25,792.0,612.0,0,1,16,0,16,* **,3,3,3,369,0,0,1,1,3,3,,105859,0,0,CHART #16: Court-Involved Youth Mental Health Initiative - Fiscal 2022
+6,26,792.0,612.0,0,1,17,0,17,* **,10,10,10,774,0,3,1,1,10,10,,305699,0,0,CHART #17: Mental Health Services for Vulnerable Populations - Fiscal 2022
+6,27,792.0,612.0,0,1,18,0,18,* **,34,34,34,2103,0,0,1,1,34,34,,920494,0,0,CHART #18: Pandemic Support for Human Service Providers - Fiscal 2022
+6,28,792.0,612.0,0,1,18,1,19,* **,32,32,32,2202,0,0,1,1,32,32,,907359,0,0,CHART #18: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+6,29,792.0,612.0,0,1,18,1,20,* **,34,34,34,2208,0,0,1,1,34,34,,945768,0,0,CHART #18: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+6,30,792.0,612.0,0,1,18,1,21,* **,20,20,20,1382,0,0,1,1,20,20,,575632,0,0,CHART #18: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+6,31,792.0,612.0,0,1,19,0,22,* **,1,1,1,263,0,0,1,1,1,1,,57808,0,0,CHART #19: Autism Awareness - Fiscal 2022
+6,32,792.0,612.0,0,1,20,0,23,* **,3,3,3,367,0,2,1,1,3,3,,112900,0,0,CHART #20: Children Under Five - Fiscal 2022
+6,33,792.0,612.0,0,1,21,0,24,* **,2,2,2,321,0,0,1,1,2,2,,84962,0,0,CHART #21: Adult Literacy Pilot Project - Fiscal 2022
+6,34,792.0,612.0,0,1,22,0,25,* **,2,2,2,321,0,0,1,1,2,2,,84283,0,0,CHART #22: Hate Crime Prevention Initiative - Fiscal 2022
+6,35,792.0,612.0,0,1,23,0,26,* **,2,2,2,295,0,0,1,1,2,2,,79895,0,0,CHART #23: LGBTQ Inclusive Curriculum - Fiscal 2022
+6,36,792.0,612.0,0,1,24,0,27,* **,14,14,14,3437,0,2,1,1,14,14,region 0: header rule at 72.12 pt found in header pixels,621892,0,0,CHART #24: Purpose of Funds Changes - Fiscal 2022
+6,37,792.0,612.0,0,1,24,1,28,* **,4,4,4,1344,0,0,1,1,4,4,region 0: header rule at 72.12 pt found in header pixels,223294,0,0,CHART #24: Purpose of Funds Changes - Fiscal 2022 (continued)
+6,38,612.0,792.0,0,1,25,0,,,13,13,13,941,0,0,1,1,13,13,,216514,0,0,CHART #25: Beating Hearts - Fiscal 2022
+7,1,612.0,792.0,0,0,,,,,0,0,0,2757,0,0,,,,,,,,,
+7,2,612.0,792.0,0,0,,,,,0,0,0,2469,0,0,,,,,,,,,
+7,3,612.0,792.0,0,0,,,,,0,0,0,2316,0,0,,,,,,,,,
+7,4,612.0,792.0,0,0,,,,,0,0,0,561,0,0,,,,,,,,,
+7,5,612.0,792.0,0,0,,,,,0,0,0,1485,0,0,,,,,,,,,
+7,6,612.0,792.0,0,0,,,,,0,0,0,1487,0,0,,,,,,,,,
+7,7,612.0,792.0,0,0,,,,,0,0,0,1478,0,0,,,,,,,,,
+7,8,612.0,792.0,0,0,,,,,0,0,0,1579,0,0,,,,,,,,,
+7,9,792.0,612.0,0,1,1,0,1,* **,12,12,12,982,0,0,1,1,12,12,,366742,0,0,CHART #1: Local Initiatives - Fiscal 2022
+7,10,792.0,612.0,0,1,2,0,2,* **,4,4,4,566,0,0,1,1,4,4,,163108,0,0,CHART #2: Boroughwide Needs Initiative - Fiscal 2022
+7,11,792.0,612.0,0,1,3,0,3,* **,2,2,2,371,0,0,1,1,2,2,,96429,0,0,CHART #3: Speaker's Initiative - Fiscal 2022
+7,12,792.0,612.0,0,1,4,0,4,* ** ***,15,15,15,1479,0,0,1,1,15,15,,450904,0,0,CHART #4: A Greener NYC - Fiscal 2022
+7,13,792.0,612.0,0,1,5,0,5,* **,26,26,26,3009,0,0,1,1,26,26,,909552,0,0,CHART #5: SU-CASA - Fiscal 2022
+7,14,792.0,612.0,0,1,5,1,6,* **,4,4,4,619,0,0,1,1,4,4,,156386,0,0,CHART #5: SU-CASA - Fiscal 2022 (continued)
+7,15,792.0,612.0,0,1,6,0,7,* **,36,36,36,3461,0,0,1,1,36,36,,1096367,0,0,CHART #6: Cultural After-School Adventure (CASA) - Fiscal 2022
+7,16,792.0,612.0,0,1,6,1,8,* **,8,8,8,926,0,0,1,1,8,8,,260750,0,0,CHART #6: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+7,17,792.0,612.0,0,1,7,0,9,* **,13,13,13,1329,0,0,1,1,13,13,,410586,0,0,CHART #7: NYC Cleanup Initiative  - Fiscal 2022
+7,18,792.0,612.0,0,1,8,0,10,* **,4,4,4,481,0,0,1,1,4,4,,136486,0,0,CHART #8: Parks Equity Initiative - Fiscal 2022
+7,19,792.0,612.0,0,1,9,0,11,* ** ***,12,12,12,1107,0,0,1,1,12,12,,341343,0,0,CHART #9: Cultural Immigrant Initiative - Fiscal 2022
+7,20,792.0,612.0,0,1,10,0,12,* **,7,7,7,698,0,0,1,1,7,7,,211778,0,0,CHART #10: Support Our Seniors - Fiscal 2022
+7,21,792.0,612.0,0,1,11,0,13,* **,6,5,5,675,0,0,1,1,6,6,,198708,0,0,CHART #11: Food Pantries Initiative - Fiscal 2022
+7,22,792.0,612.0,0,1,12,0,14,* **,17,17,17,1442,0,0,1,1,17,17,,479907,0,0,CHART #12: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022
+7,23,792.0,612.0,0,1,13,0,15,* **,6,6,6,674,0,0,1,1,6,6,,194116,0,0,CHART #13: Digital Inclusion and Literacy Initiative - Fiscal 2022
+7,24,792.0,612.0,0,1,14,0,16,* **,2,2,2,375,0,0,1,1,2,2,,85467,0,0,CHART #14: Neighborhood Development Grant Initiative - Fiscal 2022
+7,25,792.0,612.0,0,1,15,0,17,* **,5,5,5,620,0,0,1,1,5,5,,192927,0,0,CHART #15: Crisis Management System - Fiscal 2022
+7,26,792.0,612.0,0,1,16,0,18,* **,2,2,2,322,0,0,1,1,2,2,,84001,0,0,CHART #16: Immigrant Health Initiative - Fiscal 2022
+7,27,792.0,612.0,0,1,17,0,19,* **,2,2,2,334,0,0,1,1,2,2,,79982,0,0,CHART #17: Community Housing Preservation Strategies - Fiscal 2022
+7,28,792.0,612.0,0,1,18,0,20,* **,34,34,34,2350,0,0,1,1,34,34,,977276,0,0,CHART #18: Pandemic Support for Human Service Providers - Fiscal 2022
+7,29,792.0,612.0,0,1,18,1,21,* **,14,14,14,972,0,0,1,1,14,14,,405240,0,0,CHART #18: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+7,30,792.0,612.0,0,1,19,0,22,* **,2,2,2,381,0,0,1,1,2,2,,87271,0,0,CHART #19: Cultural After-School Adventure (CASA) - Fiscal 2021
+7,31,792.0,612.0,0,1,20,0,,* **,2,2,2,308,0,0,1,1,2,2,,82898,0,0,CHART #20: Construction Site Safety - Fiscal 2021
+7,32,792.0,612.0,0,1,21,0,24,* **,4,4,4,465,0,0,1,1,4,4,,149040,0,0,CHART #21: Local Initiatives - Fiscal 2020
+7,33,792.0,612.0,0,1,22,0,25,* **,15,15,15,3718,0,0,1,1,15,15,region 0: header rule at 72.12 pt found in header pixels,662315,0,0,CHART #22: Purpose of Funds Changes - Fiscal 2022
+7,34,792.0,612.0,0,1,21,1,26,* **,13,13,13,3403,0,0,1,1,13,13,region 0: header rule at 72.12 pt found in header pixels,600315,0,0,CHART #21: Purpose of Funds Changes - Fiscal 2022 (continued)
+8,1,612.0,792.0,0,0,,,,,0,0,0,2723,0,0,,,,,,,,,
+8,2,612.0,792.0,0,0,,,,,0,0,0,2290,0,0,,,,,,,,,
+8,3,612.0,792.0,0,0,,,,,0,0,0,2385,0,0,,,,,,,,,
+8,4,612.0,792.0,0,0,,,,,0,0,0,1786,0,0,,,,,,,,,
+8,5,612.0,792.0,0,0,,,,,0,0,0,1538,0,0,,,,,,,,,
+8,6,612.0,792.0,0,0,,,,,0,0,0,1623,0,0,,,,,,,,,
+8,7,612.0,792.0,0,0,,,,,0,0,0,1412,0,0,,,,,,,,,
+8,8,612.0,792.0,0,0,,,,,0,0,0,1384,0,0,,,,,,,,,
+8,9,612.0,792.0,0,0,,,,,0,0,0,1527,0,0,,,,,,,,,
+8,10,612.0,792.0,0,0,,,,,0,0,0,17,0,0,,,,,,,,,
+8,11,792.0,612.0,0,1,1,0,1,* **,10,10,10,1041,0,0,1,1,10,10,,357847,0,0,CHART #1: Local Initiatives - Fiscal 2022
+8,12,792.0,612.0,0,1,2,0,2,* **,5,5,5,525,0,0,1,1,5,5,,173619,0,0,CHART #2: Aging Discretionary - Fiscal 2022
+8,13,792.0,612.0,0,1,3,0,3,* **,2,2,2,347,0,0,1,1,2,2,,92399,0,0,CHART #3: Speaker's Initiative - Fiscal 2022
+8,14,792.0,612.0,0,1,4,0,4,* ** ***,12,12,12,1319,0,0,1,1,12,12,,382897,0,0,CHART #4: A Greener NYC - Fiscal 2022
+8,15,792.0,612.0,0,1,5,0,5,* **,27,27,27,2972,0,0,1,1,27,27,,899997,0,0,CHART #5: SU-CASA - Fiscal 2022
+8,16,792.0,612.0,0,1,6,0,6,* **,38,38,38,3283,0,0,1,1,38,38,,1097342,0,0,CHART #6: Cultural After-School Adventure (CASA) - Fiscal 2022
+8,17,792.0,612.0,0,1,6,1,7,* **,8,8,8,1057,0,0,1,1,8,8,,292114,0,0,CHART #6: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+8,18,792.0,612.0,0,1,7,0,8,* ** ***,6,6,6,809,0,0,1,1,6,6,,204928,0,0,CHART #7: NYC Cleanup Initiative  - Fiscal 2022
+8,19,792.0,612.0,0,1,8,0,9,* **,16,16,16,1559,0,0,1,1,16,16,,494314,0,0,CHART #8: Parks Equity Initiative - Fiscal 2022
+8,20,792.0,612.0,0,1,9,0,10,* ** ***,16,16,16,1662,0,0,1,1,16,16,,489232,0,0,CHART #9: Cultural Immigrant Initiative - Fiscal 2022
+8,21,792.0,612.0,0,1,10,0,11,* **,8,8,8,797,0,0,1,1,8,8,,245580,0,0,CHART #10: Support Our Seniors - Fiscal 2022
+8,22,792.0,612.0,0,1,11,0,12,* **,5,5,5,664,0,0,1,1,5,5,,182543,0,0,CHART #11: Food Pantries Initiative - Fiscal 2022
+8,23,792.0,612.0,0,1,12,0,13,* **,8,8,8,803,0,0,1,1,8,8,,240888,0,0,CHART #12: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022
+8,24,792.0,612.0,0,1,13,0,14,* **,6,6,6,683,0,0,1,1,6,6,,194927,0,0,CHART #13: Digital Inclusion and Literacy Initiative - Fiscal 2022
+8,25,792.0,612.0,0,1,14,0,15,* **,2,2,2,390,0,0,1,1,2,2,,88051,0,0,CHART #14: Neighborhood Development Grant Initiative - Fiscal 2022
+8,26,792.0,612.0,0,1,15,0,16,* **,5,5,5,465,0,0,1,1,5,5,,158673,0,0,CHART #15: Afterschool Enrichment Initiative - Fiscal 2022
+8,27,792.0,612.0,0,1,16,0,17,* **,2,2,2,365,0,0,1,1,2,2,,91889,0,0,CHART #16: YouthBuild Project Initiative - Fiscal 2022
+8,28,792.0,612.0,0,1,17,0,18,* **,2,2,2,345,0,0,1,1,2,2,,86242,0,0,CHART #17: AAPI Community Support - Fiscal 2022
+8,29,792.0,612.0,0,1,18,0,19,* **,2,2,2,316,0,0,1,1,2,2,,86333,0,0,CHART #18: Key to the City - Fiscal 2022
+8,30,792.0,612.0,0,1,19,0,20,* **,3,3,3,416,0,0,1,1,3,3,,120214,0,0,CHART #19: Hate Crime Prevention Initiative - Fiscal 2022
+8,31,792.0,612.0,0,1,20,0,21,* **,34,34,34,2319,0,0,1,1,34,34,,968819,0,0,CHART #20: Pandemic Support for Human Service Providers - Fiscal 2022
+8,32,792.0,612.0,0,1,20,1,22,* **,15,15,15,1129,0,0,1,1,15,15,,451389,0,0,CHART #20: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+8,33,792.0,612.0,0,1,21,0,23,* **,2,2,2,377,0,0,1,1,2,2,,97801,0,0,CHART #21: Art a Catalyst for Change - Fiscal 2022
+8,34,792.0,612.0,0,1,22,0,24,* **,4,4,4,424,0,0,1,1,4,4,,137696,0,0,CHART #22: Access Health Initiative - Fiscal 2022
+8,35,792.0,612.0,0,1,23,0,25,* **,6,6,6,528,0,0,1,1,6,6,,198430,0,0,CHART #23: Ending the Epidemic - Fiscal 2022
+8,36,792.0,612.0,0,1,24,0,26,* **,2,2,2,341,0,0,1,1,2,2,,89152,0,0,CHART #24: Crisis Management System - Fiscal 2022
+8,37,792.0,612.0,0,1,25,0,27,* **,2,2,2,298,0,0,1,1,2,2,,78261,0,0,CHART #25: Initiative to Combat Sexual Assault - Fiscal 2022
+8,38,792.0,612.0,0,1,26,0,28,* **,10,10,10,1019,0,0,1,1,10,10,,353673,0,0,CHART #26: Local Initiatives - Fiscal 2021
+8,39,792.0,612.0,0,1,27,0,29,* **,10,10,10,2447,0,0,1,1,10,10,region 0: header rule at 72.12 pt found in header pixels,443583,1,0,CHART #27: Purpose of Funds Changes - Fiscal 2022
+8,40,612.0,792.0,0,1,28,0,,,3,3,3,433,0,0,1,1,3,3,,66164,0,0,CHART #28: Beating Hearts - Fiscal 2022
+9,1,612.0,792.0,0,0,,,,,0,0,0,2763,0,0,,,,,,,,,
+9,2,612.0,792.0,0,0,,,,,0,0,0,2392,0,0,,,,,,,,,
+9,3,612.0,792.0,0,0,,,,,0,0,0,2276,0,0,,,,,,,,,
+9,4,612.0,792.0,0,0,,,,,0,0,0,1508,0,0,,,,,,,,,
+9,5,612.0,792.0,0,0,,,,,0,0,0,1527,0,0,,,,,,,,,
+9,6,612.0,792.0,0,0,,,,,0,0,0,1594,0,0,,,,,,,,,
+9,7,612.0,792.0,0,0,,,,,0,0,0,1651,0,0,,,,,,,,,
+9,8,612.0,792.0,0,0,,,,,0,0,0,1567,0,0,,,,,,,,,
+9,9,612.0,792.0,0,0,,,,,0,0,0,774,0,0,,,,,,,,,
+9,10,792.0,612.0,0,1,1,0,1,* **,8,8,8,855,0,0,1,1,8,8,,295587,0,0,CHART #1: Local Initiatives - Fiscal 2022
+9,11,792.0,612.0,0,1,2,0,2,* **,2,2,2,381,0,0,1,1,2,2,,100016,0,0,CHART #2: Youth Discretionary - Fiscal 2022
+9,12,792.0,612.0,0,1,3,0,3,* **,2,2,2,386,0,0,1,1,2,2,,104847,0,0,CHART #3: Aging Discretionary - Fiscal 2022
+9,13,792.0,612.0,0,1,4,0,4,* **,10,10,10,893,0,0,1,1,10,10,,317086,0,0,CHART #4: Speaker's Initiative to Address Citywide Needs - Fiscal 2022
+9,14,792.0,612.0,0,1,5,0,5,* ** ***,8,8,8,916,0,0,1,1,8,8,,255199,0,0,CHART #5: A Greener NYC - Fiscal 2022
+9,15,792.0,612.0,0,1,6,0,6,* **,31,31,31,3206,0,0,1,1,31,31,,1013147,0,0,CHART #6: SU-CASA - Fiscal 2022
+9,16,792.0,612.0,0,1,6,1,7,* **,25,25,25,2710,0,0,1,1,25,25,,828178,0,0,CHART #6: SU-CASA - Fiscal 2022 (continued)
+9,17,792.0,612.0,0,1,7,0,8,* **,35,35,35,3418,0,0,1,1,35,35,,1068446,0,0,CHART #7: Cultural After-School Adventure (CASA) - Fiscal 2022
+9,18,792.0,612.0,0,1,8,0,9,* **,2,2,2,346,0,0,1,1,2,2,,85488,0,0,CHART #8: Parks Equity Initiative - Fiscal 2022
+9,19,792.0,612.0,0,1,9,0,10,* **,6,6,6,699,0,0,1,1,6,6,,194820,0,0,CHART #9: Cultural Immigrant Initiative - Fiscal 2022
+9,20,792.0,612.0,0,1,10,0,11,* **,4,4,4,570,0,0,1,1,4,4,,146527,0,0,CHART #10: Digital Inclusion and Literacy Initiative - Fiscal 2022
+9,21,792.0,612.0,0,1,11,0,12,* **,2,2,2,393,0,0,1,1,2,2,,88743,0,0,CHART #11: Neighborhood Development Grant Initiative - Fiscal 2022
+9,22,792.0,612.0,0,1,12,0,13,* **,1,1,1,271,0,0,1,1,1,1,,57507,0,0,CHART #12: Food Pantries Initiative - Fiscal 2022
+9,23,792.0,612.0,0,1,13,0,14,* **,2,2,2,335,0,0,1,1,2,2,,81312,0,0,CHART #13: Support Our Seniors - Fiscal 2022
+9,24,792.0,612.0,0,1,14,0,15,* **,1,1,1,252,0,0,1,1,1,1,,52526,0,0,CHART #14: Physical Education and Fitness - Fiscal 2022
+9,25,792.0,612.0,0,1,15,0,16,* **,2,2,2,380,0,0,1,1,2,2,,94709,0,0,CHART #15: YouthBuild Project Initiative - Fiscal 2022
+9,26,792.0,612.0,0,1,16,0,17,* **,1,1,1,300,0,0,1,1,1,1,,62780,0,0,CHART #16: LGBT Community Services  - Fiscal 2022
+9,27,792.0,612.0,0,1,17,0,18,* **,10,10,10,847,0,0,1,1,10,10,,317799,0,0,CHART #17: Mental Health Services for Vulnerable Populations  - Fiscal 2022
+9,28,792.0,612.0,0,1,18,0,19,* **,2,2,2,338,0,0,1,1,2,2,,88750,0,0,CHART #18: HIV/AIDS Faith Based Initiative - Fiscal 2022
+9,29,792.0,612.0,0,1,19,0,20,* **,34,34,34,2294,0,0,1,1,34,34,,979779,0,0,CHART #19: MCCAP Initiative - Fiscal 2022
+9,30,792.0,612.0,0,1,19,1,21,* **,29,29,29,2149,0,0,1,1,29,29,,868907,0,0,CHART #19: MCCAP Initiative - Fiscal 2022 (continued)
+9,31,792.0,612.0,0,1,20,0,22,* **,2,2,2,331,0,0,1,1,2,2,,84337,0,0,CHART #20: Supports for Persons Involved in the Sex Trade - Fiscal 2022
+9,32,792.0,612.0,0,1,21,0,23,* **,4,4,4,577,0,0,1,1,4,4,,169997,0,0,CHART #21: Art a Catalyst for Change - Fiscal 2022
+9,33,792.0,612.0,0,1,22,0,24,* **,2,2,2,343,0,0,1,1,2,2,,89922,0,0,CHART #22: Crisis Management System - Fiscal 2022
+9,34,792.0,612.0,0,1,23,0,25,* **,1,1,1,302,0,0,1,1,1,1,,60317,0,0,CHART #23: Pandemic Support for Human Service Providers - Fiscal 2022
+9,35,792.0,612.0,0,1,24,0,26,* **,2,2,2,324,0,0,1,1,2,2,,83445,0,0,CHART #24: Innovative Criminal Justice Programs - Fiscal 2022
+9,36,792.0,612.0,0,1,25,0,,* **,2,2,2,317,0,0,1,1,2,2,,87172,0,0,CHART #25: Local Initiatives - Fiscal 2021
+9,37,792.0,612.0,0,1,26,0,28,* **,4,4,4,569,0,0,1,1,4,4,,170233,0,0,CHART #26: Art a Catalyst for Change - Fiscal 2021
+9,38,792.0,612.0,0,1,27,0,29,* **,6,6,4,2661,422,0,1,1,6,6,region 0: header rule at 72.12 pt found in header pixels,373860,704,2,CHART #27: Purpose of Funds Changes - Fiscal 2022
+9,39,792.0,612.0,0,1,27,1,30,* **,2,2,2,1879,0,0,1,1,2,2,region 0: header rule at 72.12 pt found in header pixels,288980,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,40,792.0,612.0,0,1,27,1,31,* **,3,3,3,2684,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,418829,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,41,792.0,612.0,0,1,27,1,32,* **,3,3,3,2698,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,419530,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,42,792.0,612.0,0,1,27,1,33,* **,3,3,3,2701,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,418801,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,43,792.0,612.0,0,1,27,1,34,* **,3,3,3,2704,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,420787,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,44,792.0,612.0,0,1,27,1,35,* **,3,3,3,2749,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,424723,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,45,792.0,612.0,0,1,27,1,36,* **,3,3,3,2732,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,424390,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,46,792.0,612.0,0,1,27,1,37,* **,3,3,3,2746,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,426678,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,47,792.0,612.0,0,1,27,1,38,* **,3,3,3,2659,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,414796,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,48,792.0,612.0,0,1,27,1,39,* **,3,3,3,2617,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,410998,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,49,792.0,612.0,0,1,27,1,40,* **,3,3,3,2653,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,416013,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,50,792.0,612.0,0,1,27,1,41,* **,3,3,3,2684,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,417787,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,51,792.0,612.0,0,1,27,1,42,* **,3,3,3,2701,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,421075,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,52,792.0,612.0,0,1,27,1,43,* **,3,3,3,2728,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,422041,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,53,792.0,612.0,0,1,27,1,44,* **,3,3,3,2716,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,422023,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,54,792.0,612.0,0,1,27,1,45,* **,3,3,3,2740,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,424944,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,55,792.0,612.0,0,1,27,1,46,* **,3,3,3,2703,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,418945,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,56,792.0,612.0,0,1,27,1,47,* **,3,3,3,2686,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,418330,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,57,792.0,612.0,0,1,27,1,48,* **,3,3,3,2656,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,413340,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,58,792.0,612.0,0,1,27,1,49,* **,3,3,3,2676,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,418063,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,59,792.0,612.0,0,1,27,1,50,* **,3,3,3,2764,0,0,1,1,3,3,region 0: header rule at 72.12 pt found in header pixels,430690,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+9,60,792.0,612.0,0,1,27,1,51,* **,1,1,1,1065,0,0,1,1,1,1,region 0: header rule at 72.12 pt found in header pixels,159380,0,0,CHART #27: Purpose of Funds Changes - Fiscal 2022 (continued)
+10,1,612.0,792.0,0,0,,,,,0,0,0,2781,0,0,,,,,,,,,
+10,2,612.0,792.0,0,0,,,,,0,0,0,2506,0,0,,,,,,,,,
+10,3,612.0,792.0,0,0,,,,,0,0,0,2282,0,0,,,,,,,,,
+10,4,612.0,792.0,0,0,,,,,0,0,0,2325,0,0,,,,,,,,,
+10,5,612.0,792.0,0,0,,,,,0,0,0,1463,0,0,,,,,,,,,
+10,6,612.0,792.0,0,0,,,,,0,0,0,1614,0,0,,,,,,,,,
+10,7,612.0,792.0,0,0,,,,,0,0,0,1417,0,0,,,,,,,,,
+10,8,612.0,792.0,0,0,,,,,0,0,0,1741,0,0,,,,,,,,,
+10,9,612.0,792.0,0,0,,,,,0,0,0,1388,0,0,,,,,,,,,
+10,10,612.0,792.0,0,0,,,,,0,0,0,220,0,0,,,,,,,,,
+10,11,792.0,612.0,0,1,1,0,1,* **,31,31,31,2716,0,0,1,1,31,31,,1033670,0,0,CHART #1: Local Initiatives - Fiscal 2022
+10,12,792.0,612.0,0,1,1,1,2,* **,12,12,12,1163,0,0,1,1,12,12,,418250,0,0,CHART #1: Local Initiatives - Fiscal 2022 (continued)
+10,13,792.0,612.0,0,1,2,0,3,* **,4,4,4,603,0,0,1,1,4,4,,182475,0,0,CHART #2: Youth Discretionary - Fiscal 2022
+10,14,792.0,612.0,0,1,3,0,4,* **,4,4,4,574,0,0,1,1,4,4,,174424,0,0,CHART #3: Aging Discretionary - Fiscal 2022
+10,15,792.0,612.0,0,1,4,0,5,* **,3,3,3,495,0,0,1,1,3,3,,143280,0,0,CHART #4: Anti-Poverty Initiative - Fiscal 2022
+10,16,792.0,612.0,0,1,5,0,6,* **,2,2,2,358,0,0,1,1,2,2,,90929,0,0,CHART #5: Speaker's Initiative to Address Citywide Needs - Fiscal 2022
+10,17,792.0,612.0,0,1,6,0,7,* **,13,13,13,1287,0,0,1,1,13,13,,403133,0,0,CHART #6: A Greener NYC - Fiscal 2022
+10,18,792.0,612.0,0,1,7,0,8,* **,31,31,31,3050,0,0,1,1,31,31,,977394,0,0,CHART #7: SU-CASA - Fiscal 2022
+10,19,792.0,612.0,0,1,8,0,9,* **,34,34,34,3394,0,0,1,1,34,34,,1066045,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022
+10,20,792.0,612.0,0,1,8,1,10,* **,36,36,36,3230,0,0,1,1,36,36,,1049906,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+10,21,792.0,612.0,0,1,9,0,11,* **,18,18,18,1569,0,0,1,1,18,18,,519278,0,0,CHART #9: Parks Equity Initiative - Fiscal 2022
+10,22,792.0,612.0,0,1,10,0,12,* **,12,12,12,1249,0,0,1,1,12,12,,377494,0,0,CHART #10: Cultural Immigrant Initiative - Fiscal 2022
+10,23,792.0,612.0,0,1,11,0,13,* **,7,7,7,845,0,0,1,1,7,7,,239988,0,0,CHART #11: Digital Inclusion and Literacy Initiative - Fiscal 2022
+10,24,792.0,612.0,0,1,12,0,14,* ** ***,11,11,11,1082,0,0,1,1,11,11,,320089,0,0,CHART #12: Neighborhood Development Grant Initiative - Fiscal 2022
+10,25,792.0,612.0,0,1,13,0,15,* **,9,9,9,952,0,0,1,1,9,9,,283290,0,0,CHART #13: NYC Cleanup Initiative - Fiscal 2022
+10,26,792.0,612.0,0,1,14,0,16,* **,17,17,17,1493,0,0,1,1,17,17,,492236,0,0,CHART #14: Support Our Seniors - Fiscal 2022
+10,27,792.0,612.0,0,1,15,0,17,* **,5,5,5,571,0,0,1,1,5,5,,160971,0,0,CHART #15: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022
+10,28,792.0,612.0,0,1,16,0,18,* ** ***,4,4,4,558,0,0,1,1,4,4,,150638,0,0,CHART #16: Crisis Management System - Fiscal 2022
+10,29,792.0,612.0,0,1,17,0,19,* **,2,2,2,385,0,0,1,1,2,2,,97393,0,0,CHART #17: Educational Programs for Students - Fiscal 2022
+10,30,792.0,612.0,0,1,18,0,20,* **,4,4,4,445,0,0,1,1,4,4,,137704,0,0,CHART #18: Adult Literacy Initiative - Fiscal 2022
+10,31,792.0,612.0,0,1,19,0,21,* **,2,2,2,335,0,0,1,1,2,2,,86857,0,0,CHART #19: Adult Literacy Pilot Project - Fiscal 2022
+10,32,792.0,612.0,0,1,20,0,22,* **,2,2,2,364,0,0,1,1,2,2,,92956,0,0,CHART #20: Art a Catalyst for Change - Fiscal 2022
+10,33,792.0,612.0,0,1,21,0,23,* **,2,2,2,340,0,0,1,1,2,2,,86791,0,0,CHART #21: Court-Involved Youth Mental Health Initiative - Fiscal 2022
+10,34,792.0,612.0,0,1,22,0,24,* **,4,4,4,516,0,0,1,1,4,4,,150257,0,0,"CHART #22: Senior Centers, Programs, and Enhancements - Fiscal 2022"
+10,35,792.0,612.0,0,1,23,0,25,* **,2,2,2,331,0,0,1,1,2,2,,90102,0,0,CHART #23: Home Loan Program - Fiscal 2022
+10,36,792.0,612.0,0,1,24,0,26,* **,34,34,34,2324,0,0,1,1,34,34,,973634,0,0,CHART #24: Pandemic Support for Human Service Providers - Fiscal 2022
+10,37,792.0,612.0,0,1,24,1,27,* **,34,34,34,2344,0,0,1,1,34,34,,981524,0,0,CHART #24: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+10,38,792.0,612.0,0,1,24,1,28,* **,22,22,22,1559,0,0,1,1,22,22,,645423,0,0,CHART #24: Pandemic Support for Human Service Providers - Fiscal 2022 (continued)
+10,39,792.0,612.0,0,1,25,0,,* **,2,2,2,345,0,0,1,1,2,2,,92858,0,0,CHART #25: Local Initiatives - Fiscal 2021
+10,40,792.0,612.0,0,1,26,0,,* **,4,4,4,631,0,0,1,1,4,4,,186171,0,0,CHART #26: Cultural After-School Adventure (CASA)  - Fiscal 2021
+10,41,792.0,612.0,0,1,27,0,,* **,4,4,4,540,0,0,1,1,4,4,,171844,0,0,CHART #27: Local Initiatives - Fiscal 2020
+10,42,792.0,612.0,0,1,28,0,32,* **,14,14,14,2569,0,0,1,1,14,14,,502713,0,0,CHART #28: Purpose of Funds Changes - Fiscal 2022
+10,43,612.0,792.0,0,1,29,0,,,32,32,32,2125,0,0,1,1,32,32,,525304,0,0,CHART #29: Beating Hearts - Fiscal 2022
+11,1,612.0,792.0,0,0,,,,,0,0,0,2802,0,0,,,,,,,,,
+11,2,612.0,792.0,0,0,,,,,0,0,0,2571,0,0,,,,,,,,,
+11,3,612.0,792.0,0,0,,,,,0,0,0,2340,0,0,,,,,,,,,
+11,4,612.0,792.0,0,0,,,,,0,0,0,561,0,0,,,,,,,,,
+11,5,612.0,792.0,0,0,,,,,0,0,0,1506,0,0,,,,,,,,,
+11,6,612.0,792.0,0,0,,,,,0,0,0,1522,0,0,,,,,,,,,
+11,7,612.0,792.0,0,0,,,,,0,0,0,1568,0,0,,,,,,,,,
+11,8,612.0,792.0,0,0,,,,,0,0,0,1491,0,0,,,,,,,,,
+11,9,612.0,792.0,0,0,,,,,0,0,0,8,0,0,,,,,,,,,
+11,10,792.0,612.0,0,1,1,0,1,* **,26,26,26,2401,0,0,1,1,26,26,,902707,0,0,CHART #1: Local Initiatives - Fiscal 2022
+11,11,792.0,612.0,0,1,2,0,2,* **,14,14,14,1245,0,0,1,1,14,14,,467917,0,0,CHART #2: Youth Discretionary - Fiscal 2022
+11,12,792.0,612.0,0,1,3,0,3,* **,5,5,5,564,0,0,1,1,5,5,,191762,0,0,CHART #3: Aging Discretionary - Fiscal 2022
+11,13,792.0,612.0,0,1,4,0,4,* **,2,2,2,344,0,0,1,1,2,2,,91177,0,0,CHART #4: Anti-Poverty Initiative - Fiscal 2022
+11,14,792.0,612.0,0,1,5,0,5,* **,2,2,2,404,0,0,1,1,2,2,,102334,0,0,CHART #5: Boroughwide Needs Initiative - Fiscal 2022
+11,15,792.0,612.0,0,1,6,0,6,* **,4,4,4,589,0,0,1,1,4,4,,171967,0,0,CHART #6: Speaker's Initiative to Address Citywide Needs - Fiscal 2022
+11,16,792.0,612.0,0,1,7,0,7,* **,22,22,22,2106,0,0,1,1,22,22,,681990,0,0,CHART #7: SU-CASA - Fiscal 2022
+11,17,792.0,612.0,0,1,8,0,8,* **,20,20,20,2017,0,0,1,1,20,20,,624382,0,0,CHART #8: Cultural After-School Adventure (CASA) - Fiscal 2022
+11,18,792.0,612.0,0,1,9,0,9,* **,2,2,2,370,0,0,1,1,2,2,,89443,0,0,CHART #9: Parks Equity Initiative - Fiscal 2022
+11,19,792.0,612.0,0,1,10,0,10,* **,4,4,4,558,0,0,1,1,4,4,,152476,0,0,CHART #10: Cultural Immigrant Initiative - Fiscal 2022
+11,20,792.0,612.0,0,1,11,0,11,* **,4,4,4,458,0,0,1,1,4,4,,130891,0,0,CHART #11: Digital Inclusion and Literacy Initiative - Fiscal 2022
+11,21,792.0,612.0,0,1,12,0,12,* **,2,2,2,387,0,0,1,1,2,2,,90451,0,0,CHART #12: NYC Cleanup Initiative - Fiscal 2022
+11,22,792.0,612.0,0,1,13,0,13,* **,4,4,4,534,0,0,1,1,4,4,,142643,0,0,CHART #13: Support Our Seniors - Fiscal 2022
+11,23,792.0,612.0,0,1,14,0,14,* **,8,8,8,737,0,0,1,1,8,8,,232273,0,0,CHART #14: Domestic Violence and Empowerment (DoVE) Initiative - Fiscal 2022
+11,24,792.0,612.0,0,1,15,0,15,* **,2,2,2,378,0,0,1,1,2,2,,95589,0,0,CHART #15: Crisis Management System - Fiscal 2022
+11,25,792.0,612.0,0,1,16,0,16,* **,2,2,2,351,0,0,1,1,2,2,,87367,0,0,CHART #16: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2022
+11,26,792.0,612.0,0,1,17,0,17,* **,9,9,9,790,0,0,1,1,9,9,,287794,0,0,CHART #17: Pandemic Support for Human Service Providers - Fiscal 2022
+11,27,792.0,612.0,0,1,18,0,,* **,2,2,2,319,0,0,1,1,2,2,,88847,0,0,CHART #18: Youth Discretionary - Fiscal 2021
+11,28,792.0,612.0,0,1,19,0,,* **,2,2,2,332,0,0,1,1,2,2,,91742,0,0,CHART #19: Local Initiatives - Fiscal 2020
+11,29,792.0,612.0,0,1,20,0,20,* **,16,16,16,3500,0,0,1,1,16,16,,666708,0,0,CHART #20: Purpose of Funds Changes - Fiscal 2022
+11,30,792.0,612.0,0,1,20,1,21,* **,4,4,4,955,0,0,1,1,4,4,,170812,0,0,CHART #20: Purpose of Funds Changes - Fiscal 2022 (continued)
+11,31,612.0,792.0,0,1,21,0,,,9,9,9,764,0,0,1,1,9,9,,158925,0,0,CHART #21: Beating Hearts - Fiscal 2022
+12,1,612.0,792.0,0,0,,,,,0,0,0,2690,0,0,,,,,,,,,
+12,2,612.0,792.0,0,0,,,,,0,0,0,2262,0,0,,,,,,,,,
+12,3,612.0,792.0,0,0,,,,,0,0,0,2311,0,0,,,,,,,,,
+12,4,612.0,792.0,0,0,,,,,0,0,0,275,0,0,,,,,,,,,
+12,5,612.0,792.0,0,0,,,,,0,0,0,8,0,0,,,,,,,,,
+12,6,792.0,612.0,0,1,1,0,1,* ** ***,16,16,16,1301,0,0,1,1,16,16,,481847,0,0,CHART #1: Local Initiatives - Fiscal 2022
+12,7,792.0,612.0,0,1,2,0,2,* **,4,4,4,454,0,0,1,1,4,4,,147174,0,0,CHART #2: Youth Discretionary - Fiscal 2022
+12,8,792.0,612.0,0,1,3,0,3,* **,2,2,2,473,0,0,1,1,2,2,,118238,0,0,CHART #3: Speaker's Initiative to Address Citywide Needs - Fiscal 2022
+12,9,792.0,612.0,0,1,4,0,4,* **,6,6,6,751,0,0,1,1,6,6,,223556,0,0,CHART #4: SU-CASA - Fiscal 2022
+12,10,792.0,612.0,0,1,5,0,5,* **,28,28,28,3225,0,0,1,1,28,28,,955496,3,0,CHART #5: Cultural After-School Adventure (CASA) - Fiscal 2022
+12,11,792.0,612.0,0,1,5,1,6,* **,14,14,14,1446,0,0,1,1,14,14,,439440,0,0,CHART #5: Cultural After-School Adventure (CASA) - Fiscal 2022 (continued)
+12,12,792.0,612.0,0,1,6,0,7,* **,9,9,9,990,0,0,1,1,9,9,,298617,0,0,CHART #6: Parks Equity Initiative - Fiscal 2022
+12,13,792.0,612.0,0,1,7,0,8,* **,6,6,6,625,0,0,1,1,6,6,,188354,0,0,CHART #7: Digital Inclusion and Literacy Initiative - Fiscal 2022
+12,14,792.0,612.0,0,1,8,0,9,* **,2,2,2,380,0,0,1,1,2,2,,89949,0,0,CHART #8: NYC Cleanup Initiative - Fiscal 2022
+12,15,792.0,612.0,0,1,9,0,10,* **,12,12,12,1311,0,0,1,1,12,12,,398926,0,0,CHART #9: Food Pantries - Fiscal 2022
+12,16,792.0,612.0,0,1,10,0,11,* **,7,7,7,709,0,0,1,1,7,7,,219866,0,0,CHART #10: A Greener NYC - Fiscal 2022
+12,17,792.0,612.0,0,1,11,0,12,* **,2,2,2,344,0,0,1,1,2,2,,88939,0,0,CHART #11: Crisis Management System - Fiscal 2022
+12,18,792.0,612.0,0,1,12,0,13,* **,2,2,2,310,0,0,1,1,2,2,,79978,0,0,CHART #12: Children and Families in NYC Homeless System - Fiscal 2022
+12,19,792.0,612.0,0,1,13,0,,* **,2,2,2,365,0,0,1,1,2,2,,102228,0,0,CHART #13: Local Initiatives - Fiscal 2021
+12,20,792.0,612.0,0,1,14,0,,* **,2,2,2,371,0,0,1,1,2,2,,102228,0,0,CHART #14: Anti-Poverty Initiative - Fiscal 2021
+12,21,792.0,612.0,0,1,15,0,,* **,2,2,2,400,0,0,1,1,2,2,,107366,0,0,CHART #15: Boroughwide Needs Initiative - Fiscal 2021
+12,22,792.0,612.0,0,1,16,0,,* **,6,6,6,627,0,0,1,1,6,6,,205341,0,0,CHART #16: Neighborhood Development Grant Initiative - Fiscal 2021
+12,23,792.0,612.0,0,1,17,0,,* **,2,2,2,361,0,0,1,1,2,2,,91975,0,0,CHART #17: Chamber on the Go and Small Business Assistance - Fiscal 2021
+12,24,792.0,612.0,0,1,18,0,19,* **,4,4,4,829,0,0,1,1,4,4,,152863,0,0,CHART #18: Purpose of Funds Changes - Fiscal 2022
+12,25,612.0,792.0,0,1,19,0,,,2,2,2,373,0,0,1,1,2,2,,52594,0,0,CHART #19: Beating Hearts - Fiscal 2022
+13,1,612.0,792.0,0,0,,,,,0,0,0,2288,0,0,,,,,,,,,
+13,2,612.0,792.0,0,0,,,,,0,0,0,2440,0,0,,,,,,,,,
+13,3,612.0,792.0,0,0,,,,,0,0,0,1330,0,0,,,,,,,,,
+13,4,612.0,792.0,0,0,,,,,0,0,0,1551,0,0,,,,,,,,,
+13,5,612.0,792.0,0,0,,,,,0,0,0,1378,0,0,,,,,,,,,
+13,6,612.0,792.0,0,0,,,,,0,0,0,1581,0,0,,,,,,,,,
+13,7,612.0,792.0,0,0,,,,,0,0,0,196,0,0,,,,,,,,,
+13,8,792.0,612.0,0,1,1,0,1,* **,7,7,7,765,0,0,1,1,7,7,,268534,0,0,CHART #1: Local Initiatives - Fiscal 2022
+13,9,792.0,612.0,0,1,2,0,2,* **,14,14,14,1253,0,0,1,1,14,14,,468352,0,0,CHART #2: Speaker's Initiative to Address Citywide Needs - Fiscal 2022
+13,10,792.0,612.0,0,1,3,0,3,* **,6,6,6,744,0,0,1,1,6,6,,210293,0,0,CHART #3: Cultural After-School Adventure (CASA) - Fiscal 2022
+13,11,792.0,612.0,0,1,4,0,4,* **,13,13,13,1230,0,0,1,1,13,13,,400611,0,0,CHART #4: Food Pantries - Fiscal 2022
+13,12,792.0,612.0,0,1,5,0,5,* **,6,6,6,620,0,0,1,1,6,6,,189790,0,0,CHART #5: A Greener NYC - Fiscal 2022
+13,13,792.0,612.0,0,1,6,0,6,* **,2,2,2,307,0,0,1,1,2,2,,83341,0,0,CHART #6: AAPI Community Support - Fiscal 2022
+13,14,792.0,612.0,0,1,7,0,7,* **,2,2,2,309,0,0,1,1,2,2,,79577,0,0,CHART #7: Mental Health Services for Vulnerable Populations - Fiscal 2022
+13,15,792.0,612.0,0,1,8,0,8,* **,1,1,1,291,0,0,1,1,1,1,,58261,0,0,CHART #8: Alternatives to Incarceration (ATI's) - Fiscal 2022
+13,16,792.0,612.0,0,1,9,0,9,* **,1,1,1,269,0,0,1,1,1,1,,54103,0,0,CHART #9: Children and Families in NYC Homeless System - Fiscal 2022
+13,17,792.0,612.0,0,1,10,0,10,* **,1,1,1,281,0,0,1,1,1,1,,55932,0,0,CHART #10: Court-Involved Youth Mental Health Initiative - Fiscal 2022
+13,18,792.0,612.0,0,1,11,0,11,* **,2,2,2,317,0,0,1,1,2,2,,85658,0,0,CHART #11: Home Loan Program - Fiscal 2022
+13,19,792.0,612.0,0,1,12,0,12,* **,4,4,4,411,0,0,1,1,4,4,,134125,0,0,CHART #12: LGBTQ Inclusive Curriculum - Fiscal 2022
+13,20,792.0,612.0,0,1,13,0,13,* **,1,1,1,269,0,0,1,1,1,1,,51584,0,0,CHART #13: Naturally Occurring Retirement Communities (NORCs) - Fiscal 2022
+13,21,792.0,612.0,0,1,14,0,14,* **,3,3,3,364,0,0,1,1,3,3,,110184,0,0,CHART #14: New York Immigrant Family Unity Project - Fiscal 2022
+13,22,792.0,612.0,0,1,15,0,15,* **,1,1,1,254,0,0,1,1,1,1,,52792,0,0,CHART #15: Physical Education and Fitness - Fiscal 2022
+13,23,792.0,612.0,0,1,16,0,,* **,2,2,2,343,0,0,1,1,2,2,,90736,0,0,CHART #16: Cultural Immigrant Initiative - Fiscal 2021
+13,24,792.0,612.0,0,1,17,0,,* **,2,2,2,332,0,0,1,1,2,2,,92192,0,0,CHART #17: Food Pantries - Fiscal 2021
+14,1,612.0,792.0,0,0,,,,,0,0,0,2663,0,0,,,,,,,,,
+14,2,612.0,792.0,0,0,,,,,0,0,0,2283,0,0,,,,,,,,,
+14,3,612.0,792.0,0,0,,,,,0,0,0,428,0,0,,,,,,,,,
+14,4,612.0,792.0,0,0,,,,,0,0,0,1505,0,0,,,,,,,,,
+14,5,612.0,792.0,0,0,,,,,0,0,0,1517,0,0,,,,,,,,,
+14,6,612.0,792.0,0,0,,,,,0,0,0,427,0,0,,,,,,,,,
+14,7,792.0,612.0,0,1,1,0,1,* **,4,4,4,511,0,0,1,1,4,4,,160866,0,0,CHART #1: Local Initiatives - Fiscal 2022
+14,8,792.0,612.0,0,1,2,0,2,* **,4,4,4,493,0,0,1,1,4,4,,160496,0,0,CHART #2: Anti-Poverty Initiative - Fiscal 2022
+14,9,792.0,612.0,0,1,3,0,3,* **,8,8,8,1005,0,0,1,1,8,8,,275257,0,0,CHART #3: Cultural After-School Adventure (CASA) - Fiscal 2022
+14,10,792.0,612.0,0,1,4,0,4,* **,4,4,4,528,0,0,1,1,4,4,,142457,0,0,CHART #4: SU-CASA - Fiscal 2022
+14,11,792.0,612.0,0,1,5,0,5,* **,2,2,2,356,0,0,1,1,2,2,,84659,0,0,CHART #5: Digital Inclusion and Literacy Initiative - Fiscal 2022
+14,12,792.0,612.0,0,1,6,0,6,* **,2,2,2,332,0,0,1,1,2,2,,83996,0,0,CHART #6: Pandemic Support for Human Service Providers - Fiscal 2022
+14,13,792.0,612.0,0,1,7,0,7,* **,2,2,2,321,0,0,1,1,2,2,,86730,0,0,CHART #7: Anti-Poverty Initiative - Fiscal 2021
+14,14,792.0,612.0,0,1,8,0,8,* **,4,4,4,807,0,0,1,1,4,4,,154238,5,0,CHART #8: Purpose of Funds Changes - Fiscal 2022
+14,15,792.0,612.0,0,1,9,0,9,* **,2,2,2,642,0,0,1,1,2,2,,113994,1,0,CHART #9: Purpose of Funds Changes - Fiscal 2021
+14,16,792.0,612.0,0,1,10,0,10,* **,2,2,2,668,0,0,1,1,2,2,,116903,1,0,CHART #10: Purpose of Funds Changes - Fiscal 2020

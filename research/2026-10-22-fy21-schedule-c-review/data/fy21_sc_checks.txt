@@ -1,0 +1,65 @@
+SCHEDULE C FY2021 -- checks (code/parse_schedule_c_v2.py; config config/schedule_c/fy2021.toml)
+pdf source/FY21/Fiscal-2021-Schedule-C-Cover-REPORT-Final.pdf  sha256 3323ceaefa437b775711bacadc8c8645a89759dfe198b72d0bdd569da9271f0a
+
+award rows: 6,179  total $262,477,792
+  body         1,869 rows  $   212,678,792
+  appendix_a     514 rows  $     5,610,000
+  appendix_b   2,902 rows  $    36,539,000
+  appendix_c     894 rows  $     7,650,000
+initiatives: 134  categories: 26
+
+STRUCTURAL CHECKS
+  ok    H1.input         sha256 3323ceaefa43… pages 343
+  ok    H2.triage        343 pages surveyed; 0 with invisible text or <=100 chars on an award page
+  ok    H3.pagemap       0 award rows outside their configured section range
+  ok    H4.headers       0 unknown or incomplete award-table headers
+  ok    H5.anchors       6173 EIN-shaped words, 6173 rows with an EIN; 0 pages differ; 0 rows without exactly one EIN and one amount; 6 named exceptions
+  ok    H6.furniture     0 data cells holding header/footer text
+  ok    H7.chars         1044677 non-space chars; 0 orphan chars in award tables; 0 unmapped cells
+  ok    H7.hrule_splits  1 tables from horizontal rules; 0 characters cross a column split; 0 stacks of rules not read
+  ok    H14.provenance   6179 award_ids, 6179 unique
+  ok    H16.values       0 clean values not reproducible from raw
+
+PRINTED TOTALS (H10-H13)
+  H10.category_total         ok               26
+  H11.box_vs_summary         ok               26
+  H12.designated_sum         named_exception  4
+  H12.designated_sum         ok               104
+  H12.reserve_only_rows      ok               16
+  H12.statement_adds_up      named_exception  1
+  H12.statement_adds_up      ok               5
+  H13.rollup                 named_exception  1
+  -> named_exception: p.39 Alternatives to Incarceration (ATIs) (reserve_rows): expected 11,622,300, observed 11,622,301 (diff +1) PDF self-error: Alternatives to Incarceration (ATIs) box $11,878,800 less $256,500 post-adoption = $11,622,300; the 19 rows sum $11,622,301 (pending review)
+  -> named_exception: p.44 Coalition Theaters of Color (reserve_rows): expected 3,650,000, observed 3,740,000 (diff +90,000) PDF self-error: Coalition Theaters of Color box $3,740,000 less $90,000 post-adoption = $3,650,000; rows sum to the whole box (pending review)
+  -> named_exception: p.55 Food Pantries (partial): expected 5,659,000, observed 5,600,000 (diff -59,000) statement rounds: Food Pantries box $5,659,000; '$4.6 million post-adoption' and '$1 million' designated make $5,600,000, so the reserve is $4,659,000 (pending review)
+  -> named_exception: p.93 Art as a Catalyst for Change (reserve_rows): expected 596,700, observed 612,000 (diff +15,300) PDF self-error: Art as a Catalyst for Change box $612,000 less $15,300 post-adoption = $596,700; rows sum to the whole box (pending review)
+  -> named_exception: p.107 MWBE Leadership Associations (reserve_rows): expected 427,231, observed 510,000 (diff +82,769) PDF self-error: MWBE Leadership Associations box $510,000 less $82,769 post-adoption = $427,231; rows sum to the whole box (pending review)
+  -> named_exception: p.0 body rows + post-adoption reserves vs sum of category TOTALs (+ direct agency designations): expected 325,948,006, observed 326,077,076 (diff +129,070) the five statement gaps of pp.39, 44, 55, 93, 107 (pending review)
+  roll-up: category TOTALs $325,948,006 = body rows $212,678,792 + post-adoption reserves $82,317,815 + designated directly to an agency, no rows printed $31,080,469 + $-129,070
+  appendices print no total; their pots (DATA-ANOMALIES §19): appendix_a $5,610,000, appendix_b $36,539,000, appendix_c $7,650,000
+
+IMAGE LATTICE (H8): rows read independently through code/ocr/grid.py lattices
+  agree on every field: 5,744 of 6,179
+  rows in tables with no drawn vertical rules, which the image lattice cannot see: 435; the pixels' horizontal rules confirm the row band of 431
+  bands_differ: 4
+  image rows with no vector row: 3
+INK COVERAGE (H9): uncovered-ink regions inside award tables
+  regions: 0  uncovered px total: 797 of 182,129,875 ink px
+  acceptance on p.45 (fy21-p045-t00-r002): clean run 0 regions; row withheld -> 3; one char withheld -> 1 (PASS); the char is 'i'
+
+DISCLOSURE (report-only; data/fy21/expense_disclosure, as committed in data/fy21/expense_disclosure)
+  pdf rows 6,179; disclosure rows 9,054; matched (EIN, amount, City-EIN name rule) 5,874
+  matched without the City-EIN name rule (no prototype floor for this year): 5,888
+  body        cleared 1,730 ($196,612,839); pending 5 ($204,000); unmatched 134 ($15,861,953)
+  appendix_a  cleared 504 ($5,528,000); pending 3 ($29,000); unmatched 7 ($53,000)
+  appendix_b  cleared 2,754 ($34,497,300); pending 24 ($274,000); unmatched 124 ($1,767,700)
+  appendix_c  cleared 836 ($7,222,000); pending 18 ($123,000); unmatched 40 ($305,000)
+  pdf rows without a disclosure row, by reason: amount_differs 132, city_ein_name_mismatch 14, ein_fully_claimed 33, ein_not_in_disclosure 101, key_already_claimed 19, pdf_value_unreadable 6
+  disclosure rows without a pdf row, by reason: amount_or_count_differs 2789 ($125,326,791), city_ein_pending 59 ($677,445), ein_not_in_pdf 332 ($22,756,131)
+  disclosure rows on keys where the allocation was a choice (ambiguous): 1,403
+
+WARN COUNTS (not in the review file; listed in flags.csv)
+  band_header 81, continuation_row 38, ein_unreadable 6, header_span_cell 2, headerless_table 61, hrule_table 26, loose_header 511, sliver_band 6, sliver_char 9, subheading 67, wrap_hyphen 66
+  zero-width chars dropped: 0
+
+REVIEW FILE: 48 rows (8 critical, 40 warn); stale decisions: 0

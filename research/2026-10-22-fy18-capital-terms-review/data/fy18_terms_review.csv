@@ -1,0 +1,14 @@
+review_id,check_id,severity,pdf_page,part,sub_id,budget_line,field,dollars,expected,observed,note
+39ce84c67782,W.wrap_hyphen,warn,13,,,,12,0,,,#12: a line ends in a hyphen; joined without a space
+bac83e7e0d7c,T5.text_below_table,warn,15,,,,,0,,,"7 characters printed just below the table's bottom rule ('Summary'), read into its last row (config fsr_table.overflow_below_pt)"
+22e18a9ce90e,T7.old_csv_text,warn,15,,,,14,0,,,#14: text differs from the old CSV at char 111: old ...'tusReportforthefollowingdates:FinancialStatusReportReportContentAntici' new ...'tusReportforthefollowingdates:'
+2c9f956247da,T7.old_csv_text,warn,16,,,,15,0,,,#15: text differs from the old CSV at char 332: old ...'entofEducationfacilitiesandnonDepartmentofEducationfacilities.Thesemi-' new ...'entofEducationfacilitiesandnon-DepartmentofEducationfacilities.Thesemi'
+f9d52f25c2f3,W.wrap_hyphen,warn,16,,,,15,0,,,#15: a line ends in a hyphen; joined without a space
+e85955a5930b,T3.body_vs_heading,warn,18,,,,17,0,436;E2360,436,#17: heading units ['436'] lines ['E2360']; body names units ['436'] lines []
+a9351521fa05,T7.old_csv_units,warn,18,,,,17,0,,,"#17: units old ['436', 'Budget Line E2360 – All Projects'] new ['436']"
+f947a4c17868,T7.old_csv_units,warn,3,,,,2,0,,,#2: units old ['All Project Lines – All Projects'] new []
+fb1161c9910d,T7.old_csv_text,warn,33,,,,32,0,,,#32: text differs from the old CSV at char 321: old ...'ficationofjobplacements(directmanagedhiresorself-placement);4)industry' new ...'ficationofjobplacements(direct-managedhiresorself-placement);4)industr'
+2f91d13ec644,W.wrap_hyphen,warn,33,,,,32,0,,,#32: a line ends in a hyphen; joined without a space
+265dd6ae82d0,T7.old_csv_units,warn,4,,,,3,0,,,#3: units old ['All Project Lines – All Projects'] new []
+c8c860fb7d59,T7.old_csv_units,warn,5,,,,4,0,,,#4: units old ['Budget Line HA-0001 – All Projects'] new []
+8c1e8172336a,T7.old_csv_units,warn,6,,,,5,0,,,#5: units old ['Budget Line HA-0001 – All Projects'] new []

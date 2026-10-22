@@ -1,0 +1,50 @@
+# FY2018 Terms and Conditions: every year-specific fact code/review_terms.py needs.
+#
+# Microsoft Word 2016; not encrypted; no /Rotate; all 34 pages 612 x 792. p.1 is the cover
+# ("FISCAL 2018 TERMS / AND CONDITIONS"); pp.2-34 print one condition per page, except that a
+# condition's agency heading can sit at the foot of the page before its units (pp.24, 25, 30).
+
+fiscal_year = 2018
+pdf = "source/FY18/FY18-Terms-and-Conditions.pdf"
+sha256 = "c14da9b32e5c07bbb37ea226bdc9166891d6f8c0953f07ac10f89ac2191e05c2"
+review_dir = "research/2026-10-22-fy18-capital-terms-review"   # outputs land in <review_dir>/data
+prefix = "fy18"                                                # output file names: <prefix>_terms_*
+issue = 111
+old_csv = "data/fy18/terms/fy18_terms_and_conditions.csv"      # the retired parse, compared in T7
+
+# FY2018 prints no condition numbers, as FY2021-FY2024 (p.2: "Administration for Children's
+# Services (068)"): item_number is the condition's order in the book.
+numbered = false
+
+# T1 counts the paragraphs that open a condition at the left margin. FY2018 sets the body at 67-72
+# pt, but the DOE FSR condition at 114 pt (p.15), and opens 6 conditions with other words, each
+# read off its page: "Where the Commissioner" (p.3), "The appropriations" (p.4), "In relation to"
+# (pp.5, 6), "No later than" (pp.22, 30).
+body_x0_max = 120
+opening_phrases = ["As a condition", "Where the Commissioner", "The appropriations", "In relation to",
+                   "No later than"]
+
+# "All Project Lines – All Projects" (pp.3-4, under "Capital Budget") names every capital project
+# line. It is kept as printed in budget_lines, not read as a second agency.
+all_lines_headings = ["All Project Lines – All Projects"]
+
+# The DOE Financial Status Report table is on p.15 only.
+table_pages = [15]
+
+# FY2018 prints no page numbers or other furniture: the pattern matches nothing.
+[furniture]
+pattern = '(?!)'
+top_min = 10000
+top_max = 10000
+
+# The one ruled table (DOE Financial Status Reports, p.15) belongs to this condition (its body
+# ends "for the following dates:").
+[fsr_table]
+item_number = 14
+# p.15 prints its header in mixed case ("Financial Status Report"), and its third and fourth
+# columns as "Anticipated Meeting Date", "Issue Date" (FY2021-FY2027: Issue Date first).
+header_starts = "Financial Status"
+columns_3_4 = ["anticipated_meeting_date", "issue_date"]
+# The last row's report content ends in "Summary", printed 1.7 pt below the table's bottom rule
+# (p.15, y = 419.8; the rule at 418.1-419.1). It is read into that row.
+overflow_below_pt = 3.0

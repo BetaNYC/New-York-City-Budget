@@ -1,0 +1,68 @@
+SCHEDULE C FY2020 -- checks (code/parse_schedule_c_v2.py; config config/schedule_c/fy2020.toml)
+pdf source/FY20/Fiscal-2020-Schedule-C-Final-Merge.pdf  sha256 8bab407917eb1aa2e274bb19ae4176ac314344bab70028821c0c8b0786c578d4
+
+award rows: 7,921  total $336,750,073
+  body         3,528 rows  $   286,951,073
+  appendix_a     510 rows  $     5,610,000
+  appendix_b   2,986 rows  $    36,539,000
+  appendix_c     897 rows  $     7,650,000
+initiatives: 140  categories: 27
+
+STRUCTURAL CHECKS
+  ok    H1.input         sha256 8bab407917eb… pages 405
+  ok    H2.triage        405 pages surveyed; 0 with invisible text or <=100 chars on an award page
+  ok    H3.pagemap       0 award rows outside their configured section range
+  ok    H4.headers       0 unknown or incomplete award-table headers
+  ok    H5.anchors       7917 EIN-shaped words, 7918 rows with an EIN; 0 pages differ; 0 rows without exactly one EIN and one amount; 3 named exceptions
+  ok    H6.furniture     0 data cells holding header/footer text
+  ok    H7.chars         1207661 non-space chars; 0 orphan chars in award tables; 0 unmapped cells
+  ok    H7.hrule_splits  46 tables from horizontal rules; 0 characters cross a column split; 0 stacks of rules not read
+  ok    H14.provenance   7921 award_ids, 7921 unique
+  ok    H16.values       0 clean values not reproducible from raw
+
+PRINTED TOTALS (H10-H13)
+  H10.category_total         ok               27
+  H11.box_vs_summary         ok               27
+  H12.designated_sum         named_exception  6
+  H12.designated_sum         ok               114
+  H12.reserve_only_rows      ok               9
+  H12.statement_adds_up      named_exception  2
+  H12.statement_adds_up      ok               5
+  H13.rollup                 named_exception  1
+  -> named_exception: p.45 Initiative to Combat Sexual Assault (reserve_rows): expected 3,170,000, observed 3,172,000 (diff +2,000) PDF self-error: Initiative to Combat Sexual Assault box $3,210,000 less $40,000 post-adoption = $3,170,000; the 14 rows sum $3,172,000 (pending review)
+  -> named_exception: p.46 Innovative Criminal Justice Programs (full): expected 3,038,000, observed 2,838,000 (diff -200,000) PDF self-error: Innovative Criminal Justice Programs box $3,038,000; its 7 rows sum $2,838,000. The description names $200,000 for Carnegie Hall's NeON Arts program, which has no row (pending review)
+  -> named_exception: p.47 Supports for Persons Involved in the Sex Trade (reserve_only): expected 2,988,000, observed 2,900,000 (diff -88,000) statement rounds: Supports for Persons Involved in the Sex Trade box $2,988,000; '$2.9 million post-adoption', no rows (pending review)
+  -> named_exception: p.78 Domestic Violence and Empowerment (DoVE) Initiative (reserve_rows): expected 2,005,000, observed 2,022,500 (diff +17,500) statement rounds: DoVE box $9,805,000 less '$7.8 million' = $2,005,000; rows sum $2,022,500, so the reserve is $7,782,500 (pending review)
+  -> named_exception: p.79 Supportive Alternatives to Violent Encounters (SAVE) (none): expected 2,450,000, observed 0 (diff -2,450,000) a box for the whole SAVE initiative ($2,450,000), printed over its three parts' boxes ($600,000, $850,000, $1,000,000), whose rows are under them; it has no rows of its own (pending review)
+  -> named_exception: p.86 A Greener NYC (reserve_rows): expected 2,680,000, observed 2,710,000 (diff +30,000) statement rounds: A Greener NYC box $4,080,000 less '$1.4 million' = $2,680,000; rows sum $2,710,000, so the reserve is $1,370,000 (pending review)
+  -> named_exception: p.89 NYC Cleanup (reserve_rows): expected 8,460,000, observed 8,478,200 (diff +18,200) statement rounds: NYC Cleanup box $13,260,000 less '$4.8 million' = $8,460,000; rows sum $8,478,200, so the reserve is $4,781,800 (pending review)
+  -> named_exception: p.94 Food Pantries (partial): expected 5,659,000, observed 5,660,000 (diff +1,000) statement rounds: Food Pantries box $5,659,000; '$4.66 million post-adoption' and '$1 million' designated make $5,660,000, so the reserve is $4,659,000 (pending review)
+  -> named_exception: p.0 body rows + post-adoption reserves vs sum of category TOTALs (+ direct agency designations): expected 404,372,774, observed 404,153,474 (diff -219,300) the seven statement gaps of pp.45, 46, 47, 78, 86, 89, 94 (pending review)
+  roll-up: category TOTALs $404,372,774 = body rows $286,951,073 + post-adoption reserves $80,569,432 + designated directly to an agency, no rows printed $36,632,969 + $219,300
+  appendices print no total; their pots (DATA-ANOMALIES §19): appendix_a $5,610,000, appendix_b $36,539,000, appendix_c $7,650,000
+
+IMAGE LATTICE (H8): rows read independently through code/ocr/grid.py lattices
+  agree on every field: 6,380 of 7,921
+  rows in tables with no drawn vertical rules, which the image lattice cannot see: 1,541; the pixels' horizontal rules confirm the row band of 1,532
+  bands_differ: 9
+  image rows with no vector row: 0
+INK COVERAGE (H9): uncovered-ink regions inside award tables
+  regions: 0  uncovered px total: 18 of 210,915,293 ink px
+  acceptance on p.190 (fy20-p190-t00-r002): clean run 0 regions; row withheld -> 8; one char withheld -> 1 (PASS); the char is 'i'
+
+DISCLOSURE (report-only; data/fy20/expense_disclosure, as committed in data/fy20/expense_disclosure)
+  pdf rows 7,921; disclosure rows 10,616; matched (EIN, amount, City-EIN name rule) 7,579
+  matched without the City-EIN name rule (no prototype floor for this year): 7,599
+  body        cleared 3,316 ($261,091,069); pending 6 ($41,250); unmatched 206 ($25,818,754)
+  appendix_a  cleared 489 ($5,359,500); pending 4 ($23,500); unmatched 17 ($227,000)
+  appendix_b  cleared 2,869 ($35,093,735); pending 28 ($196,500); unmatched 89 ($1,248,765)
+  appendix_c  cleared 851 ($7,217,000); pending 16 ($100,500); unmatched 30 ($332,500)
+  pdf rows without a disclosure row, by reason: amount_differs 196, city_ein_name_mismatch 26, ein_fully_claimed 20, ein_not_in_disclosure 48, key_already_claimed 49, pdf_value_unreadable 3
+  disclosure rows without a pdf row, by reason: amount_or_count_differs 2820 ($133,701,706), city_ein_pending 4 ($132,000), ein_not_in_pdf 213 ($14,259,942)
+  disclosure rows on keys where the allocation was a choice (ambiguous): 1,543
+
+WARN COUNTS (not in the review file; listed in flags.csv)
+  amount_bare 5025, band_header 65, continuation_row 37, ein_unreadable 3, headerless_table 71, hrule_table 747, sliver_band 4, wrap_hyphen 71
+  zero-width chars dropped: 0
+
+REVIEW FILE: 42 rows (10 critical, 32 warn); stale decisions: 0

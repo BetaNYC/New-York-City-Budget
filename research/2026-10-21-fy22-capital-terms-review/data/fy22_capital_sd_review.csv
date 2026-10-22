@@ -1,0 +1,162 @@
+review_id,check_id,severity,pdf_page,part,sub_id,budget_line,field,dollars,expected,observed,note
+da1ad2bc0307,C3.part2_only,critical,82,II,PW KBP01,PW KN497,,1551000,,,Part II row not in Part I and not in the MA / 0N series
+bc340f5d743d,C3.part2_only,critical,75,II,HL KBP01,HL KN04A,,1000000,,,Part II row not in Part I and not in the MA / 0N series
+e41187db0bd7,C3.part2_only,critical,82,II,PW KBP02,PW KN03G,,1000000,,,Part II row not in Part I and not in the MA / 0N series
+1a354491bc7d,C6.sponsor_digit,critical,17,I,E CN270,,sponsor,0,,,sponsor cell holds a number: 'CD 22' (as printed)
+b651501ce338,C6.sponsor_digit,critical,17,I,E CN271,,sponsor,0,,,"sponsor cell holds a number: 'SPEAKER, CD 22' (as printed)"
+3c2b4ef6131d,C6.sponsor_digit,critical,17,I,E CN272,,sponsor,0,,,sponsor cell holds a number: 'CD 22' (as printed)
+8536791a66b8,C6.sponsor_digit,critical,43,I,E CN884,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+a260f7fd5686,C6.sponsor_digit,critical,43,I,E CN885,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+caf9d403ba69,C6.sponsor_digit,critical,43,I,E CN886,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+518f56adde0b,C6.sponsor_digit,critical,43,I,E CN887,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+d2a973fd30f7,C6.sponsor_digit,critical,43,I,E CN888,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+e414755e2157,C6.sponsor_digit,critical,43,I,E CN889,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+d48cdb66f902,C6.sponsor_digit,critical,43,I,E CN890,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+271a1484c61b,C6.sponsor_digit,critical,43,I,E CN891,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+8c43d4533924,C6.sponsor_digit,critical,43,I,E CN895,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+cb3daf60bc2c,C6.sponsor_digit,critical,47,I,HA CN013,,sponsor,0,,,sponsor cell holds a number: 'CD 22' (as printed)
+b5e0a8cb47bc,C6.sponsor_digit,critical,47,I,HA CN014,,sponsor,0,,,"sponsor cell holds a number: 'CD 22, SPEAKER' (as printed)"
+f5a5fbfb3abb,C6.sponsor_digit,critical,51,I,HL NC006,,sponsor,0,,,sponsor cell holds a number: 'CD 22' (as printed)
+f22a7c03d8a1,C6.sponsor_digit,critical,52,I,HL NC041,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+a0315ab65a35,C6.sponsor_digit,critical,52,I,HL NC042,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+e65445fb9237,C6.sponsor_digit,critical,53,I,HN CN013,,sponsor,0,,,sponsor cell holds a number: 'CD 22' (as printed)
+f6e1bf5440bf,C6.sponsor_digit,critical,54,I,HN CN030,,sponsor,0,,,"sponsor cell holds a number: 'SPEAKER, CD 22, GRODENCHIK, KOSLOWITZ, QUEENS DELEGATION, MOYA' (as printed)"
+34103ef28d3c,C6.sponsor_digit,critical,55,I,HO CN033,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+8c378516cad3,C6.sponsor_digit,critical,58,I,E CN274,,sponsor,0,,,sponsor cell holds a number: 'CD 22' (as printed)
+5bcbe970615b,C6.boro,critical,60,I,P CN039,,boro,0,,,borough shape: 'x'
+b870be887fe2,C6.sponsor_digit,critical,70,I,PW NC078,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+b1912a3acbbb,C6.sponsor_digit,critical,70,I,PW NC079,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+c14ef25ccf9b,C6.sponsor_digit,critical,75,II,HL NC006,,sponsor,0,,,sponsor cell holds a number: 'CD 22' (as printed)
+2927d19a97fc,C6.sponsor_digit,critical,76,II,HL NC041,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+b29846356464,C6.sponsor_digit,critical,76,II,HL NC042,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+9d87e9b3fbfd,C6.sponsor_digit,critical,82,II,PW NC078,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+f0cf2df4a61f,C6.sponsor_digit,critical,82,II,PW NC079,,sponsor,0,,,sponsor cell holds a number: 'CD 48' (as printed)
+351ce4515a42,C3.part2_only,critical,82,II,PW MBP01,PW MN03W,,-72000,,,Part II row not in Part I and not in the MA / 0N series
+27d98cd2c1f9,C3.ma_series,warn,77,II,,,,44442000,,,"25 Part II rows (MA IDs on 0N budget lines, no sponsor, $44,442,000 FY2022) are not Council additions: they are not in Part I, not in the p.72 total, and not in the Council workbook. Meaning of MA / 0N unconfirmed"
+492c5a1caa88,C2.rescindments,warn,72,,,,,29495000,,,"rescindments (29,495,000) are printed as one number; no list of them is in this book, so only the subtraction can be checked"
+038c3dd9f65a,C3.id_series,warn,4,I,,,,13394000,,,"15 Part I rows carry TA IDs ($13,394,000 FY2022, in the Part I total): p.4 AG TANC1 AG DN216 A 'JEWISH COMMUNITY COUNCIL OF GREATER CONEY ISLAND, INC.' 331,000; p.45 E TA001 E D001 A 'RENOVATE P.S. 321 WILIAM PENN PLAYGROUND (15K321, K321)' 800,000 (no sponsor); p.45 E TA002 E D001 A 'PS 107X - PLAYGROUND RENOVATIONS-[BLD:X107 SCH:X107]' 700,000 (no sponsor); p.45 E TA003 E D001 A 'P.S. 031 SAMUEL F. DUPONT NEW MEDIA LAB- BLD:K031 SCH:K031' 60,000 (no sponsor); p.56 L TA001 L D002 A 'THE FEMINIST INSTITUTE AND THE NY PUBLIC LIBRARY DIGITIZATION PROJECT' 250,000 (no sponsor); p.63 P TA001 P D017 A 'SHIRLEY CHISHOLM RECREATION CENTER (846 P- 217SCRC)' 4,000,000 (no sponsor); p.63 P TA002 P D018 A 'KIMLAU SQUARE IMPROVEMENTS , MANHATTAN (846 P-303KIML)' 581,000 (no sponsor); p.63 P TA003 P D020 A 'GREENCROFT PLAYGROUD R089 (846 P-503GCPG)' 2,900,000; p.63 P TA004 P D018 A '846 P-301SUMM SUMMER STAGE PROJECT REIMBUSEMENT' 250,000 (no sponsor); p.63 P TA005 P D019 A 'UNION STREET BEAUTIFICATION IN QUEENS' 500,000 (no sponsor); p.63 P TANC1 P D018 A 'ASPHALT GREEN, INC' 377,000 (no sponsor); p.64 PO TA001 PO D185 A 'ARGUS CAMERAS (111 PO-DARG21)' 72,000 (no sponsor); p.70 PW TANC1 PW DN004 A 'THE YOUNG MEN'S AND YOUNG WOMEN'S HEBREW ASSOCIATION (92 Y)' 2,240,000 (no sponsor); p.70 PW TANC2 PW DN284 A 'NATIONAL ASSOCIATION ON DRUG ABUSE PROBLEMS (NEW YORK STATE), INC.' 145,000 (no sponsor); p.70 PW TANC3 PW DN506 A 'FORTUNE SOCIETY' 188,000 (no sponsor). Meaning of TA unconfirmed"
+48454d4cf1cd,C9.workbook_sponsor,warn,33,I,E CN657,E D001,sponsor,9513000,,,"sponsor PDF 'SPEAKER, KOO, QUEENS DELEGATION, BLACK, LATINO AND ASIAN CAUCUS, MILLER, ADAMS' vs workbook 'Koo, Miller, Adams, Queens Delegation, BLAC, Speaker'"
+008f5d209304,C9.workbook_sponsor,warn,58,I,LQ CN014,LQ D122,sponsor,4500000,,,"sponsor PDF 'SPEAKER, BLACK, LATINO AND ASIAN CAUCUS, MILLER' vs workbook 'Miller, BLAC, Speaker'"
+fb4b205fe876,C9.workbook_sponsor,warn,70,I,PW NC081,PW DN03G,sponsor,4300000,,,"sponsor PDF 'SPEAKER, BROOKS-POWERS, LEVIN, CUMBO, MENCHACA, AMPREY-SAMUEL, LOUIS, WOMEN'S CAUCUS, CORNEGY' vs workbook 'Brooks-Powers, Levin, Cumbo, Cornegy, Menchaca, Ampry-Samuel, Louis, Women's Caucus, Speaker'"
+9953712efe6b,C9.workbook_sponsor,warn,63,I,P TA001,P D017,sponsor,4000000,,,sponsor PDF '' vs workbook 'Technical Adjustments'
+207d54717965,C9.workbook_sponsor,warn,4,I,PW CN072,AG DN262,sponsor,3684000,,,"sponsor PDF 'SPEAKER, GRODENCHIK, LANDER, MAISEL, GJONAJ, GIBSON, MOYA, KOSLOWITZ' vs workbook 'Gjonaj, Gibson, Moya, Vacant 22, Manhattan Delegation, Lander, Maisel, Speaker'"
+0552e405cf23,C9.workbook_sponsor,warn,67,I,PV NC084,PV DN669,sponsor,3500000,,,"sponsor PDF 'SPEAKER, BLACK, LATINO AND ASIAN CAUCUS, RIVERA, AYALA, MILLER' vs workbook 'Rivera, Ayala, Miller, BLAC, Speaker'"
+64a98e67a0ea,C9.workbook_sponsor,warn,68,I,PV NC094,PV D236,sponsor,3100000,,,"sponsor PDF 'SPEAKER, LANDER' vs workbook 'Lander'"
+9ad8c41e73c4,C9.workbook_sponsor,warn,63,I,P TA003,P D020,sponsor,2900000,,,"sponsor PDF 'BORELLI, TECHNICAL ADJUSTMENTS' vs workbook 'Borelli, Technical Adjustment'"
+de40a9b754bd,C9.workbook_sponsor,warn,70,I,PW CN073,PW DN03G,sponsor,2900000,,,"sponsor PDF 'SPEAKER, BROOKS-POWERS, LEVIN, CUMBO, CORNEGY, MENCHACA, AMPREY-SAMUEL, LOUIS, WOMEN'S CAUCUS' vs workbook 'Brooks-Powers, Levin, Cumbo, Cornegy, Menchaca, Ampry-Samuel, Louis, Women's Caucus'"
+62919a1021c7,C9.workbook_title,warn,58,I,E CN274,P D019,title,2600000,,,title PDF 'DPR WOODTREE PLAYGROUND BASKETBALL' vs workbook 'DPR WOODTREE PLAYGROUND BASKETBALL COURTS'
+c39af8e7d055,C9.workbook_sponsor,warn,58,I,E CN274,P D019,sponsor,2600000,,,sponsor PDF 'CD 22' vs workbook 'Vacant 22'
+28ff6ca457d6,C9.workbook_sponsor,warn,70,I,PW TANC1,PW DN004,sponsor,2240000,,,sponsor PDF '' vs workbook 'Technical Adjustments'
+75a2cd12b26b,C9.workbook_sponsor,warn,51,I,PV NC082,HD D020,sponsor,2000000,,,"sponsor PDF 'SPEAKER, WOMEN'S CAUCUS, DIAZ' vs workbook 'Diaz (D), Women's Caucus, Speaker'"
+2c3e435107e0,C9.workbook_sponsor,warn,54,I,HN CN061,HN D002,sponsor,2000000,,,"sponsor PDF 'SPEAKER, RODRIGUEZ' vs workbook 'Rodriguez'"
+08ab3197d869,C9.workbook_sponsor,warn,68,I,PV NC099,PV D264,sponsor,1850000,,,"sponsor PDF 'SPEAKER, DROMM, CUMBO, DIAZ' vs workbook 'Dromm, Cumbo, Diaz (D), Speaker'"
+121063d435ae,C9.workbook_sponsor,warn,68,I,PV NC090,PV D176,sponsor,1700000,,,"sponsor PDF 'SPEAKER, RILEY, BRONX DELEGATION' vs workbook 'Riley Bronx Delegation, Speaker'"
+4364e45c23ae,C3.id_reused,warn,68,I,PV NC101,,,1550000,,,"PV NC101 is printed on 2 Part I rows: p.68 PV D235 'BROOKLYN MUSEUM - AFRICAN GALLERIES' 1,250,000; p.69 PW DN725 'BRONXWORKS, INC.' 300,000"
+92877cab0f53,C9.workbook_sponsor,warn,67,I,PV NC068,PV D262,sponsor,1545000,,,"sponsor PDF 'SPEAKER, CUMBO, AMPREY-SAMUEL' vs workbook 'Cumbo, Ampry-Samuel, Speaker'"
+7397ad050a8d,C9.workbook_sponsor,warn,55,I,HO CN033,HO D003,sponsor,1244000,,,sponsor PDF 'CD 48' vs workbook 'Vacant 48'
+364357a6f210,C9.workbook_sponsor,warn,54,I,HO CN003,HO D003,sponsor,1100000,,,"sponsor PDF 'SPEAKER, RIVERA' vs workbook 'Rivera'"
+59e2eb49f84a,C3.id_reused,warn,43,I,E CN884,,,1000000,,,"E CN884 is printed on 2 Part I rows: p.43 E D001 '811K TECHNOLOGY' 500,000; p.43 E D001 'NYC PUBLIC SCHOOL 97 BRONX - SCHOOLYARD' 500,000"
+514c090d2fcd,C9.workbook_sponsor,warn,49,I,HD NC046,HD D020,sponsor,1000000,,,"sponsor PDF 'SPEAKER, AMPREY-SAMUEL' vs workbook 'Ampry-Samuel, Speaker'"
+78a1c99521c0,C9.workbook_sponsor,warn,50,I,HD NC052,HD D020,sponsor,1000000,,,"sponsor PDF 'SPEAKER, CORNEGY, AMPREY-SAMUEL' vs workbook 'Cornegy, Ampry-Samuel, Speaker'"
+5948b063afe8,C9.workbook_sponsor,warn,50,I,HD NC053,HD D022,sponsor,1000000,,,"sponsor PDF 'SPEAKER, ADAMS, QUEENS DELEGATION, BLACK, LATINO AND ASIAN CAUCUS, MILLER' vs workbook 'Miller, Adams, Queens Delegation, BLAC, Speaker'"
+6b2afa7caa79,C9.workbook_sponsor,warn,50,I,HD NC059,HD D020,sponsor,1000000,,,"sponsor PDF 'SPEAKER, DIAZ' vs workbook 'Diaz (D), Speaker'"
+43059a8faa86,C9.workbook_sponsor,warn,51,I,PW CN074,HD D020,sponsor,1000000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+bde48836df34,C9.workbook_boro,warn,60,I,P CN039,P D021,boro,1000000,,,borough PDF x vs workbook X
+b27944c0508d,C9.workbook_sponsor,warn,62,I,P CN124,P D019,sponsor,1000000,,,"sponsor PDF 'SPEAKER, DIAZ' vs workbook 'Diaz (D), Speaker'"
+67634a24da0f,C9.workbook_sponsor,warn,67,I,PV NC081,PV D471,sponsor,1000000,,,"sponsor PDF 'SPEAKER, BLACK, LATINO AND ASIAN CAUCUS, MILLER' vs workbook 'Miller, BLAC, Speaker'"
+ae23993888db,C9.workbook_sponsor,warn,68,I,PV NC106,PV DN01W,sponsor,1000000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+e3fd26eca6c4,C9.workbook_sponsor,warn,51,I,HL NC006,HL DN273,sponsor,900000,,,sponsor PDF 'CD 22' vs workbook 'Vacant 22'
+26a9638bed29,C9.workbook_sponsor,warn,45,I,E TA001,E D001,sponsor,800000,,,sponsor PDF '' vs workbook 'Technical Adjustments'
+0d27ae9c413f,C9.workbook_sponsor,warn,47,I,HA CN019,HA D001,sponsor,750000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+cc73d5989688,C9.workbook_sponsor,warn,52,I,HL NC042,HL DN03O,sponsor,750000,,,sponsor PDF 'CD 48' vs workbook 'Vacant 48'
+581dcb859977,C9.workbook_sponsor,warn,54,I,HN CN030,HN D300,sponsor,729000,,,"sponsor PDF 'SPEAKER, CD 22, GRODENCHIK, KOSLOWITZ, QUEENS DELEGATION, MOYA' vs workbook 'Moya, Vacant 22, Grodenchik, Koslowitz, Queens Delegation, Speaker'"
+604808d1003a,C9.workbook_sponsor,warn,45,I,E TA002,E D001,sponsor,700000,,,sponsor PDF '' vs workbook 'Technical Adjustments'
+dbc25376b840,C9.workbook_sponsor,warn,17,I,E CN272,E D001,sponsor,597000,,,sponsor PDF 'CD 22' vs workbook 'Vacant 22'
+362ea1581558,C9.workbook_sponsor,warn,63,I,P TA002,P D018,sponsor,581000,,,sponsor PDF '' vs workbook 'Technical Adjustments'
+41423e4fb521,C9.workbook_sponsor,warn,29,I,E CN555,E D001,sponsor,500000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+6e210c7c1743,C9.workbook_title,warn,43,I,E CN884,E D001,title,500000,,,title PDF '811K TECHNOLOGY B:K811 S:K811' vs workbook 'NYC PUBLIC SCHOOL 97 BRONX - SCHOOLYARD'
+85aaabd8f5d9,C9.workbook_sponsor,warn,43,I,E CN884,E D001,sponsor,500000,,,"sponsor PDF 'CD 48' vs workbook 'Gjonaj, Speaker'"
+b68d79e87c2f,C9.workbook_sponsor,warn,50,I,HD NC047,HD D020,sponsor,500000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+1e967b9ee7c1,C9.workbook_sponsor,warn,57,I,LB CN007,LB D104,sponsor,500000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+1fb238c95913,C9.workbook_sponsor,warn,63,I,P TA005,P D019,sponsor,500000,,,sponsor PDF '' vs workbook 'Technical Adjustments'
+d463f5e054e2,C9.workbook_sponsor,warn,43,I,E CN895,E D001,sponsor,450000,,,sponsor PDF 'CD 48' vs workbook 'Vacant 48'
+88392c82d4f7,C9.workbook_sponsor,warn,47,I,HA CN013,HA D001,sponsor,403000,,,sponsor PDF 'CD 22' vs workbook 'Vacant 22'
+3b5c5ed8c8ed,C9.workbook_sponsor,warn,23,I,E CN432,E D001,sponsor,400000,,,"sponsor PDF 'SPEAKER, HOLDEN' vs workbook 'Holden'"
+c405f06c5748,C9.workbook_sponsor,warn,37,I,E CN740,E D001,sponsor,400000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+d74cf98fc64b,C9.workbook_sponsor,warn,63,I,P TANC1,P D018,sponsor,377000,,,sponsor PDF '' vs workbook 'Technical Adjustments'
+1ec685532a0a,C9.workbook_sponsor,warn,36,I,E CN733,E D001,sponsor,350000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+1476c315c5b3,C9.workbook_title,warn,49,I,HD NC032,HD D020,title,350000,,,title PDF 'FIFTH AVENUE CCOMMITTEE' vs workbook 'FIFTH AVENUE COMMITTEE'
+98f408184ce0,C9.workbook_sponsor,warn,54,I,HN CN051,HN D300,sponsor,350000,,,"sponsor PDF 'SPEAKER, MOYA' vs workbook 'Moya'"
+4d5298e4ff2e,C9.workbook_sponsor,warn,4,I,AG TANC1,AG DN216,sponsor,331000,,,"sponsor PDF 'TREYGER, TECHNICAL ADJUSTMENTS' vs workbook 'Treyger, Technical Adjustment'"
+557c6f8145b7,C9.workbook_sponsor,warn,29,I,E CN553,E D001,sponsor,305000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+f5a56f673d55,C9.workbook_sponsor,warn,17,I,E CN270,E D001,sponsor,300000,,,sponsor PDF 'CD 22' vs workbook 'Vacant 22'
+abbc93a323d2,C9.workbook_sponsor,warn,17,I,E CN271,E D001,sponsor,300000,,,"sponsor PDF 'SPEAKER, CD 22' vs workbook 'Vacant 23, Speaker'"
+9f5bcb9b020f,C9.workbook_sponsor,warn,29,I,E CN550,E D001,sponsor,300000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+b87aac53ffb6,C9.workbook_sponsor,warn,37,I,E CN734,E D001,sponsor,300000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+4cc76192a9e2,C9.workbook_sponsor,warn,37,I,E CN737,E D001,sponsor,300000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+c6be60678e85,C9.workbook_sponsor,warn,37,I,E CN742,E D001,sponsor,300000,,,"sponsor PDF 'SPEAKER, DIAZ' vs workbook 'Diaz (D), Speaker'"
+3f986aade576,C9.workbook_sponsor,warn,43,I,E CN887,E D001,sponsor,300000,,,sponsor PDF 'CD 48' vs workbook 'Vacant 48'
+a90085144a5f,C9.workbook_sponsor,warn,56,I,HW CN008,HW D101,sponsor,300000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+c9cb5a7ba2bf,C9.workbook_sponsor,warn,56,I,HW CN012,HW D101,sponsor,300000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+878e554f3bb8,C9.workbook_sponsor,warn,59,I,P CN028,P D018,sponsor,300000,,,"sponsor PDF 'AYALA' vs workbook 'Ayala, Speaker'"
+b1e7b711ff3e,C9.workbook_sponsor,warn,70,I,PW NC079,PW DN317,sponsor,294000,,,sponsor PDF 'CD 48' vs workbook 'Vacant 48'
+5f7b5a181a88,C9.workbook_sponsor,warn,43,I,E CN886,E D001,sponsor,290000,,,sponsor PDF 'CD 48' vs workbook 'Vacant 48'
+d8a592e417ca,C9.workbook_sponsor,warn,29,I,E CN552,E D001,sponsor,282000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+e05605c74af5,C9.workbook_sponsor,warn,52,I,HL NC041,HL DN04B,sponsor,263000,,,sponsor PDF 'CD 48' vs workbook 'Vacant 48'
+27a2125c4762,C9.workbook_sponsor,warn,43,I,E CN889,E D001,sponsor,250000,,,sponsor PDF 'CD 48' vs workbook 'Vacant 48'
+a0f539465288,C9.workbook_sponsor,warn,56,I,L TA001,L D002,sponsor,250000,,,sponsor PDF '' vs workbook 'Technical Adjustments'
+3421a1ce8415,C9.workbook_sponsor,warn,57,I,LB CN004,LB D104,sponsor,250000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+94e9ceb75e0a,C9.workbook_sponsor,warn,63,I,P TA004,P D018,sponsor,250000,,,sponsor PDF '' vs workbook 'Technical Adjustments'
+49b17542186a,C9.workbook_sponsor,warn,47,I,HA CN014,HA D001,sponsor,247000,,,"sponsor PDF 'CD 22, SPEAKER' vs workbook 'Vacant 22, Speaker'"
+02b4f4087995,C9.workbook_sponsor,warn,43,I,E CN891,E D001,sponsor,233000,,,sponsor PDF 'CD 48' vs workbook 'Vacant 48'
+99a6cdad60bd,C9.workbook_sponsor,warn,47,I,HA CN020,HA D001,sponsor,232000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+7ebce0946003,C9.workbook_sponsor,warn,47,I,HA CN021,HA D001,sponsor,231000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+2946c2b37867,C9.workbook_sponsor,warn,59,I,P CN027,P D018,sponsor,225000,,,"sponsor PDF 'AYALA' vs workbook 'Ayala, Speaker'"
+5151ec8626d4,C9.workbook_sponsor,warn,57,I,LN CN006,LN D008,sponsor,201000,,,"sponsor PDF 'AYALA' vs workbook 'Ayala, Speaker'"
+834c28496f51,C9.workbook_sponsor,warn,29,I,E CN554,E D001,sponsor,200000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+dbbd5a76413b,C9.workbook_sponsor,warn,37,I,E CN741,E D001,sponsor,200000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+c2a5d62b404c,C9.workbook_sponsor,warn,53,I,HN CN013,HN D300,sponsor,200000,,,sponsor PDF 'CD 22' vs workbook 'Vacant 22'
+c68a4ebebcc4,C9.workbook_sponsor,warn,70,I,PW TANC3,PW DN506,sponsor,188000,,,sponsor PDF '' vs workbook 'Technical Adjustments'
+9bfdeb663570,C9.workbook_sponsor,warn,43,I,E CN885,E D001,sponsor,175000,,,sponsor PDF 'CD 48' vs workbook 'Vacant 48'
+ca89646fb133,C9.workbook_sponsor,warn,28,I,E CN547,E D001,sponsor,150000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+1db8461ddab6,C9.workbook_sponsor,warn,29,I,E CN548,E D001,sponsor,150000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+9448f19cf6eb,C9.workbook_sponsor,warn,29,I,E CN549,E D001,sponsor,150000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+75cdf3bd03d0,C9.workbook_sponsor,warn,29,I,E CN551,E D001,sponsor,150000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+ac3c53c6283a,C9.workbook_sponsor,warn,29,I,E CN556,E D001,sponsor,150000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+82209a613647,C9.workbook_sponsor,warn,29,I,E CN558,E D001,sponsor,150000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+e2768e1af042,C9.workbook_sponsor,warn,37,I,E CN736,E D001,sponsor,150000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+c009596f2b45,C9.workbook_sponsor,warn,37,I,E CN738,E D001,sponsor,150000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+a90c765e0e39,C9.workbook_sponsor,warn,43,I,E CN890,E D001,sponsor,150000,,,sponsor PDF 'CD 48' vs workbook 'Vacant 48'
+aec2c151bec2,C9.workbook_sponsor,warn,62,I,P CN122,P D017,sponsor,150000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+c2cc29c2a225,C9.workbook_sponsor,warn,70,I,PW TANC2,PW DN284,sponsor,145000,,,sponsor PDF '' vs workbook 'Technical Adjustments'
+fba4d38c4b54,C9.workbook_sponsor,warn,28,I,E CN546,E D001,sponsor,130000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+4528f2d8ba24,C9.workbook_sponsor,warn,70,I,PW NC078,PW DN317,sponsor,101000,,,sponsor PDF 'CD 48' vs workbook 'Vacant 48'
+3e233e17a112,C9.workbook_sponsor,warn,29,I,E CN557,E D001,sponsor,100000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+86fcf2b0129c,C9.workbook_sponsor,warn,37,I,E CN735,E D001,sponsor,100000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+56284884ab10,C9.workbook_sponsor,warn,37,I,E CN739,E D001,sponsor,100000,,,sponsor PDF 'DIAZ' vs workbook 'Diaz (D)'
+e8ef0007c338,C9.workbook_sponsor,warn,43,I,E CN888,E D001,sponsor,100000,,,sponsor PDF 'CD 48' vs workbook 'Vacant 48'
+6bc2d8467905,C9.workbook_sponsor,warn,64,I,PO TA001,PO D185,sponsor,72000,,,sponsor PDF '' vs workbook 'Technical Adjustments'
+a85dd17e1700,C9.workbook_sponsor,warn,45,I,E TA003,E D001,sponsor,60000,,,sponsor PDF '' vs workbook 'Technical Adjustments'
+4545e1886ad8,C9.workbook_no_amount,warn,34,I,E CN673,E D001,,55000,,,"the workbook row for E CN673 on E D001 has no amount (split_record_amount_unknown; row-i3e2.bxrr~mvbz); the PDF prints E CN673 p.34 FY2022 55,000. Not compared on amount"
+c08473c0402f,C9.workbook,warn,34,I,E CN673,E D001,,55000,,,"in the PDF, not in the workbook: E CN673 FY2022 55,000"
+ee64abe785c1,C9.workbook_title,warn,34,I,E CN673,E D001,title,55000,,,title PDF 'BRONX THEATRE HIGH SCHOOL B:X546 S:X546' vs workbook 'BRONX THEATRE HIGH SCHOOL'
+2d1ea440bcc7,C9.workbook_sponsor,warn,70,I,PW CN054,PW DN03V,sponsor,20000,,,sponsor PDF 'AMPREY-SAMUEL' vs workbook 'Ampry-Samuel'
+e96770906545,C9.workbook_text,warn,,I,,,,0,,,"32 FY2022 rows of data/capital/council_capital_awards.csv print accents as mojibake (e.g. '┬áIS 72 [R072R072]' for ' IS 72 [R072R072]'); compared after decoding. A note for data/capital, not edited here"
+4c17abea8aa0,W.geom_near,warn,33,I,E CN657,E D001,,0,,,row flag geom_near
+00143ff90578,W.geom_near,warn,54,I,HN CN030,HN D300,,0,,,row flag geom_near
+b212ae5e86d4,W.geom_near,warn,55,I,HO CN025,HO D003,,0,,,row flag geom_near
+3f027cf0f536,W.geom_near,warn,58,I,LQ CN014,LQ D122,,0,,,row flag geom_near
+54b8a5fe51bf,W.geom_near,warn,66,I,PV NC038,PV DN099,,0,,,row flag geom_near
+a48a1277b3e6,W.geom_near,warn,67,I,PV NC081,PV D471,,0,,,row flag geom_near
+bae9358cdd60,W.geom_near,warn,67,I,PV NC084,PV DN669,,0,,,row flag geom_near
+c75e550152d3,W.geom_near,warn,70,I,PW CN073,PW DN03G,,0,,,row flag geom_near
+41bcb253dcda,W.sponsor_wrapped_below,warn,70,I,PW CN073,PW DN03G,,0,,,row flag sponsor_wrapped_below
+3baa1b6b9c3f,W.geom_near,warn,70,I,PW NC081,PW DN03G,,0,,,row flag geom_near
+276a05dbbeb9,W.sponsor_wrapped_below,warn,70,I,PW NC081,PW DN03G,,0,,,row flag sponsor_wrapped_below
+c9df510cd757,W.geom_near,warn,79,II,PV NC038,PV DN099,,0,,,row flag geom_near
+43ea858739dc,W.geom_near,warn,80,II,PV NC084,PV DN669,,0,,,row flag geom_near
+b8cf8fa4dec1,W.geom_near,warn,82,II,PW CN073,PW DN03G,,0,,,row flag geom_near
+9b46dd26971c,W.sponsor_wrapped_below,warn,82,II,PW CN073,PW DN03G,,0,,,row flag sponsor_wrapped_below
+44699946cd1e,W.geom_near,warn,82,II,PW NC081,PW DN03G,,0,,,row flag geom_near
+12214e9f3ef7,W.sponsor_wrapped_below,warn,82,II,PW NC081,PW DN03G,,0,,,row flag sponsor_wrapped_below
+38a5739f5d65,C7.hairlines,warn,84,,,,,0,,,"99 vector rules thinner than 0.25 pt (pp.84-92) are not seen in the 300 dpi render; they are separators between rows, not content"

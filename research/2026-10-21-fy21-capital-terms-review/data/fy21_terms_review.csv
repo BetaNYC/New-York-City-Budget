@@ -1,0 +1,12 @@
+review_id,check_id,severity,pdf_page,part,sub_id,budget_line,field,dollars,expected,observed,note
+c11fccdc03bd,T3.body_vs_heading,warn,11,,,,28,0,004;009;HD-0009,004;009,"#28: heading units ['004', '009'] lines ['HD-0009']; body names units ['004', '009'] lines []"
+a37e610f8e5f,T7.old_csv_units,warn,11,,,,28,0,,,"#28: units old ['004', '009', 'Budget Line HD-0009 – All Projects'] new ['004', '009']"
+45902b80e8c2,W.wrap_hyphen,warn,11,,,,28,0,,,#28: a line ends in a hyphen; joined without a space
+5d05f4678df0,T7.old_csv_units,warn,2,,,,2,0,,,#2: units old ['Budget Line HA-0001 – All Projects'] new []
+fe962e80c270,T7.old_csv_units,warn,3,,,,3,0,,,#3: units old ['Budget Line HA-0001 – All Projects'] new []
+70be57701f90,T3.body_vs_heading,warn,5,,,,12,0,436;E2364,436,#12: heading units ['436'] lines ['E2364']; body names units ['436'] lines []
+247734947bdf,T7.old_csv_units,warn,5,,,,12,0,,,"#12: units old ['436', 'Budget Line E2364 and E2365 – All Projects'] new ['436']"
+36fcd3345fe1,W.wrap_hyphen,warn,5,,,,12,0,,,#12: a line ends in a hyphen; joined without a space
+e66767c4964a,W.wrap_hyphen,warn,7,,,,18,0,,,#18: a line ends in a hyphen; joined without a space
+ef031011506a,T7.old_csv_text,warn,8,,,,19,0,,,#19: text differs from the old CSV at char 169: old ...'usReportsforthefollowingdates:FINANCIALSTATUSREPORTREPORTCONTENTISSUED' new ...'usReportsforthefollowingdates:'
+85c40ad36427,T7.old_csv_text,warn,9,,,,23,0,,,"#23: text differs from the old CSV at char 484: old ...'pationrates–averagemealsperdayforbreakfast,lunch,andsummermeals.Inaddi' new ...'pationrates–averagemealsperday-forbreakfast,lunch,andsummermeals.Inadd'"
