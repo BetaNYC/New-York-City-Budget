@@ -173,6 +173,33 @@ def test_fy23_transparency(built):
     assert t == "Legal Aid Society ** 13-5562265 MOCJ ($1,000,000) 098 002"
 
 
+def test_fy22_transparency(built):
+    ys = [y for y in rows(built["data/pdf_years.csv"])
+          if y["fiscal_year"] == "2022" and y["family"] == "transparency"]
+    assert len(ys) == 1
+    y = ys[0]
+    assert y["issue"] == "107" and y["status"] == "reviewed" and y["rows"] == "7918"
+    assert y["printed_totals_tied"] == "n/a"
+    rs = rows(built["data/fy22/pdf/transparency/fy22_tr_rows.csv"])
+    assert len(rs) == 7918
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rs)
+    assert sum(1 for r in rs if r["action"] == "listed" and r["amount"] == "") == 91
+    # Reso 02 p.29: the media box starts at (-8.39, -8.39); the promoted box is on the page as
+    # rendered, so in PDF space it is offset by the box's origin.
+    r = next(r for r in rs if r["row_id"] == "fy22-tr02-p029-r001")
+    doc = pdfium.PdfDocument(os.path.join(REPO, r["source_pdf"]))
+    try:
+        pg = doc[int(r["pdf_page"]) - 1]
+        mb = pg.get_mediabox()
+        x0, top, x1, bottom = (float(v) for v in r["bbox_pt"].split(","))
+        t = pg.get_textpage().get_text_bounded(left=x0 + mb[0], bottom=mb[3] - bottom,
+                                               right=x1 + mb[0], top=mb[3] - top)
+    finally:
+        doc.close()
+    assert t == ("Gennaro Outstanding Renewal Enterprises, Inc. - E-Waste Collection - Council "
+                 "District 24 13-3320984 DYCD ($10,000) 260 005")
+
+
 def test_unrotate():
     # p.40 'H' at display (206.41, 38.68, 214.72, 50.20) on a /Rotate 90 page shown 792 x 612;
     # pdfium's unrotated glyph box is x 39.5-47.8, y-from-top 578.2-584.8.
