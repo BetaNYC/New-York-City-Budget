@@ -1,0 +1,64 @@
+# FY2018 Section 254 capital supporting detail ("Supporting Detail For Fiscal Year 2018 / Changes to
+# the Executive Capital Budget Adopted by the City Council Pursuant to Section 254 of the City
+# Charter", p.1): every year-specific fact code/review_capital_sd.py needs, and nothing else.
+# Values read off the pages (triage: data/fy18_capital_sd_pages.csv).
+#
+# The file name says "ResoA-M499-Res1534-Res1535", but the book is the supporting detail, Parts I-III
+# (DATA-ANOMALIES §26; families/capital.md). Acrobat Distiller 17.0 from PScript5, as FY2020.
+# AES-128 encrypted (V4 R4, /P -1324) with an empty user password: it opens and its text extracts,
+# as FY2020 and FY2024. Only the cover (p.1) carries /Rotate 90; pp.2-96 are 792 x 612 upright.
+# Unlike FY2020-FY2027 it prints no summary page (additions / rescindments / net): C2 says so.
+
+fiscal_year = 2018
+pdf = "source/FY18/FY18-Sec254-Capital-ResoA-M499-Res1534-Res1535.pdf"
+sha256 = "22c3bef34a7a7e6536124b92b08090ac016d3a4737e5f56acf9496701ff90848"
+review_dir = "research/2026-10-22-fy18-capital-terms-review"   # outputs land in <review_dir>/data
+prefix = "fy18"                                                # output file names: <prefix>_capital_sd_*
+issue = 111
+
+# The four FY columns, as printed in the column header (p.4: "FY 2018 FY 2019 FY 2020 FY 2021").
+fys = ["fy2018", "fy2019", "fy2020", "fy2021"]
+
+# The export's fonts on detail pages (p.4): Helvetica, Helvetica-Bold and "Times New Roman,Bold"
+# (the "I." mark), not subset-prefixed.
+export_fonts = ["Helvetica", "Times New Roman,Bold"]
+
+# Part III sets its amounts up to 4.6 pt left of the FY header's right edge (p.85: 4,000,000 ends
+# at 503.3, FY 2018 at 507.9), as FY2022 and FY2025.
+part3_amount_x1_tol = 6.0
+
+# C7: Part III separates organizations with hairlines under a pixel at 300 dpi (pp.85-96: 0.04-0.1
+# pt, 50% grey), as FY2022 and FY2023.
+c7_hairline_pt = 0.25
+
+# Sponsors that are a council seat, not a member, read off the pages: 15 Queens school rows on
+# pp.43-44 (`E CN765`-`E CN779`, $5,000,000) print "DISTRICT 28". C6 lists them as warnings instead
+# of as a number misread into the sponsor cell.
+sponsor_digit_ok = ["DISTRICT 28"]
+
+# FY2018 is in no structured source: no Council workbook was found, and NYC Open Data t474-a92g
+# starts at FY2019 (data/capital/README.md, RECONCILIATION.md §1). C9 has nothing to compare.
+no_comparison_source = "no Council workbook; t474-a92g starts at FY2019"
+
+# Page map: each kind's inclusive page ranges, checked against each page's furniture (H3).
+[pages]
+cover = [[1, 1]]
+contents = [[2, 2]]
+divider = [[3, 3], [71, 71], [84, 84]]
+part1 = [[4, 70]]
+part2 = [[72, 83]]
+part3 = [[85, 96]]
+[rotate]
+part1 = 0
+part2 = 0
+part3 = 0
+
+# Part II rows not in Part I are expected only in this series (MA IDs on 0N lines, as FY2027).
+[part2_only]
+id_prefix = "MA"
+line_prefix = "0N"
+
+# --selftest-ink: drop this row's words from the emitted set on this page; C8 must fire.
+[ink_selftest]
+page = 4
+sub_id = "AG CN002"

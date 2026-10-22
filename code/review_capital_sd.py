@@ -1,6 +1,7 @@
 """
 Section 254 capital supporting detail: parse, tie out and review (epic #101; FY2027 #102,
-FY2026 #103, FY2025 #104, FY2024 #105, FY2023 #106, FY2022 #107, FY2020 #109, FY2019 #110).
+FY2026 #103, FY2025 #104, FY2024 #105, FY2023 #106, FY2022 #107, FY2020 #109, FY2019 #110,
+FY2018 #111).
 
 One parser, one config per year: config/capital_sd/fyNNNN.toml holds the PDF, its sha256, the
 page map, the FY columns and the other year-specific facts. FY2027 (the default) is
@@ -14,7 +15,9 @@ the City seal on its cover); FY2022 is source/FY22/FY22-Sec254-Capital-Supportin
 (92 pages, IDs such as `TANC1`); FY2020 is source/FY20/Supporting-Detail-for-the-FY-2020-...-Section-254-2.pdf
 (80 pages, encrypted, Part I only, pp.2-79 /Rotate 90); FY2019 is source/FY19/Capital-Final-Upload.pdf
 (55 pages, an Excel print with drawn cell borders: config `layout = "grid"`, read from its vector
-grid by parse_grid_page(), with a CD column and a Key to CD instead of sponsors). Rules a later
+grid by parse_grid_page(), with a CD column and a Key to CD instead of sponsors); FY2018 is
+source/FY18/FY18-Sec254-Capital-ResoA-M499-Res1534-Res1535.pdf (96 pages, encrypted, Parts I-III, no
+summary page and no comparison source: config `no_comparison_source`). Rules a later
 year needed and an earlier one must not get are config switches, off by default, so a reviewed
 year's output stays byte-identical.
 
@@ -47,7 +50,7 @@ Checks (each prints its numbers to checks.txt; failures go to review.csv):
   C8 ink coverage: rendered ink not under an emitted character or a vector rule
   C9 alignment with data/capital/council_capital_awards.csv (report only, never fills a value)
 
-Run:  .venv/bin/python code/review_capital_sd.py [--fy 2027|2026|2025|2024|2023|2022|2020|2019] [--out DIR] [--no-ink] [--selftest-ink]
+Run:  .venv/bin/python code/review_capital_sd.py [--fy 2027|2026|2025|2024|2023|2022|2020|2019|2018] [--out DIR] [--no-ink] [--selftest-ink]
 """
 import argparse
 import collections
@@ -588,7 +591,13 @@ def finish_row(row, wmap, pno, part, review):
     if not re.fullmatch(r"[A-Z]", row["boro"]):
         review.add("C6.boro", "critical", pno, f"borough shape: '{row['boro']}'", part=part,
                    sub_id=row["sub_id"], field="boro")
-    if re.search(r"\d", row["sponsor"]):
+    if row["sponsor"] in CFG.get("sponsor_digit_ok", ()):
+        # FY2018 pp.43-44: 15 rows name a seat, not a member ("DISTRICT 28"), read off the pages.
+        review.add("C6.sponsor_seat", "warn", pno,
+                   f"sponsor printed as a seat, not a member: '{row['sponsor']}' (config "
+                   "sponsor_digit_ok)", part=part, sub_id=row["sub_id"], field="sponsor",
+                   dollars=row[FYS[0]] or 0)
+    elif re.search(r"\d", row["sponsor"]):
         review.add("C6.sponsor_digit", "critical", pno,
                    f"sponsor cell holds a number: '{row['sponsor']}' (as printed)", part=part,
                    sub_id=row["sub_id"], field="sponsor")
@@ -1617,8 +1626,11 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
                    f"{len(series)} Part II rows ({sid} IDs on {sln} budget lines, "
                    f"{'no sponsor' if not any(r['sponsor'] for r in series) else 'sponsors as printed'}, "
                    f"${s_usd:,} FY{FY}) are not Council additions: they are "
-                   f"not in Part I, not in the p.{summary_pno} total, and "
-                   + ("not in the Council workbook" if not in_wb else
+                   f"not in Part I, not in the "
+                   + (f"p.{summary_pno} total" if summary_pno else "Part I total") + ", and "
+                   # FY2018: no summary page and no comparison source (config).
+                   + ("there is no comparison source for this year" if CFG.get("no_comparison_source")
+                      else "not in the Council workbook" if not in_wb else
                       f"{len(in_wb)} of their IDs are in the Council workbook") +
                    f". Meaning of {sid} / {sln} unconfirmed", part="II", dollars=s_usd)
     # Config `flag_id_series`: Part I ID series to list for a person (FY2023 `RR`: no sponsor,
@@ -1725,9 +1737,15 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
                        f"budget line {bl}: Part II {a} (pp.{pages2}) vs Part III {b} (pp.{pages3})",
                        part="III", budget_line=bl, dollars=max(abs(x - y) for x, y in zip(a, b)))
 
-    # C9 workbook alignment.
-    report.append(f"C9 Council workbook (data/capital/council_capital_awards.csv, report_year {FY}):")
-    align_workbook(rows, review, report)
+    # C9 workbook alignment. FY2018 has no comparison source (no Council workbook, and t474-a92g
+    # starts at FY2019; data/capital/README.md): config `no_comparison_source` says so instead of
+    # listing every row as missing from it. The printed totals are then the only outside check.
+    if CFG.get("no_comparison_source"):
+        report.append(f"C9: no comparison source for FY{FY} ({CFG['no_comparison_source']}); "
+                      "not run")
+    else:
+        report.append(f"C9 Council workbook (data/capital/council_capital_awards.csv, report_year {FY}):")
+        align_workbook(rows, review, report)
 
     # C5 tie-break. A near disagreement keeps the geometry read; it is downgraded only when
     # an independent source settles it: the field equals the Council workbook, or the word is a

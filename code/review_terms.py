@@ -1,7 +1,7 @@
 """
 Terms and Conditions: parse, check and review (epic #101; FY2027 #102, FY2026 #103,
 FY2025 #104, FY2024 #105, FY2023 #106, FY2022 #107,
-FY2021 #108).
+FY2021 #108, FY2018 #111).
 
 One parser, one config per year (config/terms/fyNNNN.toml: PDF, sha256, page furniture, the
 retired CSV to compare with). FY2027 (the default): source/FY27/FY27-FINAL-Terms-and-Conditions-
@@ -10,7 +10,8 @@ retired CSV to compare with). FY2027 (the default): source/FY27/FY27-FINAL-Terms
 source/FY24/FY24-Terms-and-Conditions.pdf (24 pages, no printed condition numbers: config numbered = false). FY2023: source/FY23/FY23-Terms-
 and-Conditions_FINAL_OMB-and-Council-Review-6.11.22.pdf (19 pages, unnumbered too). FY2022:
 source/FY22/FY22-Terms-and-Conditions_FINAL.pdf (18 pages, unnumbered, no page furniture). FY2021:
-source/FY21/Fiscal-2021-Terms-and-Conditions.pdf (16 pages, as FY2022; body margin 90 pt). Writes to the config's research/ folder (never to data/; DATA-ANOMALIES §27).
+source/FY21/Fiscal-2021-Terms-and-Conditions.pdf (16 pages, as FY2022; body margin 90 pt). FY2018:
+source/FY18/FY18-Terms-and-Conditions.pdf (34 pages, one condition a page, unnumbered). Writes to the config's research/ folder (never to data/; DATA-ANOMALIES §27).
 
 The document is prose (families/transparency-and-terms.md §4). Its structure is:
 
@@ -34,7 +35,7 @@ Checks (numbers in checks.txt, failures in review.csv):
   T7 against the retired data/fyNN/terms CSV (config old_csv): rows, numbers, agencies, units, and text
      (whitespace removed), plus the mid-word split count in each
 
-Run:  .venv/bin/python code/review_terms.py [--fy 2027|2026|2025|2024|2023|2022|2021] [--out DIR] [--no-ink]
+Run:  .venv/bin/python code/review_terms.py [--fy 2027|2026|2025|2024|2023|2022|2021|2018] [--out DIR] [--no-ink]
 """
 import argparse
 import collections
@@ -155,12 +156,23 @@ def fsr_table(pdf, review, report):
             for v in miss_x + miss_y + extra_x + extra_y:
                 review.add("T5.lattice", "critical", pno, f"separator at {round(v, 1)} in one lattice only")
             # Cell strings under each lattice, characters assigned by centre (stage 5).
+            # FY2018 p.15: the last cell's text runs below the table's bottom rule ("Summary",
+            # 1.7 pt under it). Config fsr_table.overflow_below_pt reads a line that close under
+            # the table into the last row, with a warning. Default 0: nothing changes.
+            below = CFG["fsr_table"].get("overflow_below_pt", 0)
+            spill = set()
+
             def cells_by(xs, ys):
                 cells = collections.defaultdict(list)
                 for ch in page.chars:
                     cx, cy = (ch["x0"] + ch["x1"]) / 2, (ch["top"] + ch["bottom"]) / 2
-                    if not (t.bbox[0] <= cx <= t.bbox[2] and t.bbox[1] <= cy <= t.bbox[3]):
+                    under = below and t.bbox[3] < cy and ch["top"] - t.bbox[3] < below and \
+                        t.bbox[0] <= cx <= t.bbox[2]
+                    if not under and not (t.bbox[0] <= cx <= t.bbox[2] and t.bbox[1] <= cy <= t.bbox[3]):
                         continue
+                    if under and ch["text"].strip():
+                        spill.add((round(ch["x0"], 2), round(ch["top"], 2), ch["text"]))
+                        cy = ys[-1] - 0.01
                     r = next((k for k in range(len(ys) - 1) if ys[k] <= cy < ys[k + 1]), None)
                     c = next((k for k in range(len(xs) - 1) if xs[k] <= cx < xs[k + 1]), None)
                     cells[(r, c)].append(ch)
@@ -182,6 +194,14 @@ def fsr_table(pdf, review, report):
                                        for l in sorted(lines, key=lambda l: l["top"]))
                 return txt
             tv, ti = cells_by(vx, vy), cells_by(ix, iy)
+            if spill:
+                bboxes[pno][-1] = (t.bbox[0], t.bbox[1], t.bbox[2],
+                                   max(ch["bottom"] for ch in page.chars
+                                       if (round(ch["x0"], 2), round(ch["top"], 2), ch["text"]) in spill))
+                review.add("T5.text_below_table", "warn", pno,
+                           f"{len(spill)} characters printed just below the table's bottom rule "
+                           f"('{''.join(c for _, _, c in sorted(spill))}'), read into its last row "
+                           "(config fsr_table.overflow_below_pt)")
             for k in sorted(set(tv) | set(ti), key=lambda k: (k[0] or 0, k[1] or 0)):
                 if tv.get(k) == ti.get(k):
                     agree += 1
@@ -198,15 +218,21 @@ def fsr_table(pdf, review, report):
     out = []
     for r in rows:
         c = r["cells_raw"]
-        if c[0].replace("\n", " ").startswith("FINANCIAL"):
+        # The header row: FY2021-FY2027 print it in capitals, FY2018 "Financial Status Report"
+        # (config fsr_table.header_starts).
+        if c[0].replace("\n", " ").strip().startswith(CFG["fsr_table"].get("header_starts", "FINANCIAL")):
             continue
         flags = set()
         clean = [join_lines(x.split("\n"), flags) for x in c]
         if any(re.search(r"\b(Su mmary|FY 2 0\d\d)\b", x) for x in clean):
             flags.add("midword_wrap_in_source")
+        # FY2018 prints "Anticipated Meeting Date" before "Issue Date" (p.15): config
+        # fsr_table.columns_3_4 names the third and fourth columns as printed.
+        c34 = dict(zip(CFG["fsr_table"].get("columns_3_4", ["issue_date", "anticipated_meeting_date"]),
+                       clean[2:4]))
         out.append({"pdf_page": r["pdf_page"], "financial_status_report": clean[0],
-                    "report_content": clean[1], "issue_date": clean[2],
-                    "anticipated_meeting_date": clean[3],
+                    "report_content": clean[1], "issue_date": c34["issue_date"],
+                    "anticipated_meeting_date": c34["anticipated_meeting_date"],
                     "report_content_raw": c[1], "flags": ";".join(sorted(flags))})
         if "midword_wrap_in_source" in flags:
             review.add("W.midword_wrap", "warn", r["pdf_page"],
@@ -289,6 +315,11 @@ def parse(pdf, bboxes, review):
                     g = cur["groups"][-1]
                     g["agency"], g["code"] = f"{g['agency']} {a.group(1)}", a.group(2)
                     cur["flags"].add("agency_name_wrapped")
+                elif text in CFG.get("all_lines_headings", ()):
+                    # FY2018 pp.3-4: "All Project Lines – All Projects" under "Capital Budget"
+                    # names every capital line: kept as printed in budget_lines.
+                    cur["groups"][-1]["budget_lines"].append(text)
+                    cur["groups"][-1].setdefault("bl_boxes", []).append(lb)
                 elif a:
                     cur["groups"].append({"agency": a.group(1), "code": a.group(2), "uoas": [],
                                           "budget_lines": []})
@@ -331,7 +362,8 @@ def body_sentence_check(c, review):
     body = " ".join(l["text"] for l in c["body_lines"]).replace("\u2010", "-")
     head_u = sorted({u for g in c["groups"] for u in g["uoas"] if u != "All"})
     head_b = sorted({b.split(" ")[0].replace("–", "").replace("\u2010", "-").strip()
-                     for g in c["groups"] for b in g["budget_lines"]})
+                     for g in c["groups"] for b in g["budget_lines"]
+                     if b not in CFG.get("all_lines_headings", ())})
     # Every "unit(s) of appropriation number(s) ..." list and "budget line(s) ..." list in the
     # body (a multi-agency condition has one "As a condition ..." sentence per agency, #73).
     named_u, named_b = set(), set()
@@ -411,13 +443,18 @@ def run(out_dir=None, do_ink=True, fy=None):
             # No printed numbers to check: count the paragraphs that open a condition instead.
             # FY2021 sets its body at x0 = 90 pt (config body_x0_max; FY2022-FY2024 at 72 pt).
             x0_max = CFG.get("body_x0_max", 80)
+            # FY2018 opens 6 conditions otherwise ("Where the Commissioner", "No later than ...");
+            # config opening_phrases lists every opening, read off the pages.
+            phrases = tuple(CFG.get("opening_phrases", ("As a condition",)))
+            what = "'As a condition'" if phrases == ("As a condition",) else \
+                "/".join(f"'{p}'" for p in phrases)
             opens = sum(1 for p in pdf.pages[1:] for l in p.extract_text_lines()
-                        if l["x0"] < x0_max and l["text"].startswith("As a condition"))
+                        if l["x0"] < x0_max and l["text"].startswith(phrases))
             report.append(f"   the PDF prints no numbers (item_number = order in the book); "
-                          f"paragraphs opening 'As a condition' at the left margin: {opens}")
+                          f"paragraphs opening {what} at the left margin: {opens}")
             if opens != len(conds):
                 review.add("T1.numbering", "critical", "", f"{len(conds)} headings but {opens} "
-                           "'As a condition' paragraphs")
+                           f"{what} paragraphs")
         for g in gaps:
             review.add("T1.numbering", "critical", "", f"condition {g} missing")
         for d in dups:

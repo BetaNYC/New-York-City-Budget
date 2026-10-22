@@ -1,0 +1,25 @@
+FY2018 Terms and Conditions: checks
+pdf: source/FY18/FY18-Terms-and-Conditions.pdf
+sha256: c14da9b32e5c07bbb37ea226bdc9166891d6f8c0953f07ac10f89ac2191e05c2
+
+T5 p.15: vector 5 x / 8 y separators; image 5 x / 8 y; unmatched vector x[] y[], image x[] y[]
+T5 FSR table cells: 29 identical under both lattices, 0 differ
+T1 numbered conditions: 33; run 1..33; gaps []; repeats []; in order: True
+   the PDF prints no numbers (item_number = order in the book); paragraphs opening 'As a condition'/'Where the Commissioner'/'The appropriations'/'In relation to'/'No later than' at the left margin: 33
+T2 unit/budget-line heading lines: page text 74, in conditions 74, difference {}
+   of which 'Unit of Appropriation' lines: 71
+T3 body names exactly the heading's units and lines: 32/33
+T4 characters outside furniture and tables not in any condition: 0
+T6 ink coverage: 34 pages, 0 uncovered regions
+T7 old CSV: 33 rows, new 33; first agency equal 33; text equal ignoring whitespace 30
+   mid-word splits (join is a word in the new text, halves are not): old 8, new 0
+W wrap_hyphen joins (line ended in a hyphen; joined with none): 3 conditions
+Conditions naming more than one agency: [17]
+Kinds: {'expense': 28, 'capital': 4, 'capital+expense': 1}
+
+review.csv by check:
+  T3.body_vs_heading     warn     1
+  T5.text_below_table    warn     1
+  T7.old_csv_text        warn     3
+  T7.old_csv_units       warn     5
+  W.wrap_hyphen          warn     3
