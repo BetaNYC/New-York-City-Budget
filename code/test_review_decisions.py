@@ -161,3 +161,92 @@ def test_accept_as_printed_is_never_needs_info():
     # Real unknowns stay needs_info: FY2027 E CC0598 and E CC1245.
     assert by["1191bd798416"]["suggested_decision"] == "needs_info"
     assert by["4ce0ec50aa88"]["suggested_decision"] == "needs_info"
+
+
+# ---------------------------------------------------------------- the page-image rule (#209)
+
+PAGE_REVIEW = [{"review_id": "p1", "check_id": "H5.anchors", "pdf_page": "235", "award_id": "fy23-p235-t00-r018", "field": "ein"},
+               {"review_id": "p2", "check_id": "T5.anchors", "pdf_page": "46", "row_id": "fy19-tr03-p046-r016", "field": ""},
+               {"review_id": "p3", "check_id": "H13.rollup", "pdf_page": "", "award_id": "", "field": ""}]
+
+
+def page_dec(rid, note):
+    return dict(dec(rid, "read_from_page_image"), note=note)
+
+
+def test_page_image_decision_must_say_what_the_page_shows():
+    ok = vrd.validate(PAGE_REVIEW, vrd.HEADER, [
+        page_dec("p1", 'page shows ein: "87-0753479"'),
+        page_dec("p2", 'Suggestion accepted: page shows ein: "472383238" (hidden tab glyph)')])
+    assert ok["errors"] == []
+    bad = vrd.validate(PAGE_REVIEW, vrd.HEADER, [
+        page_dec("p1", "the page shows 87-0753479"),            # not in the form
+        page_dec("p2", 'page shows amount: "12,000"'),          # amounts are not read from the page
+        page_dec("p3", 'page shows ein: "87-0753479"')])        # names no data row
+    text = "\n".join(bad["errors"])
+    assert "line 2" in text and 'page shows <field>: "<value>"' in text
+    assert "line 3" in text and "'amount' cannot be read from the page image" in text
+    assert "line 4" in text and "names none" in text
+    assert "not an EIN" in "\n".join(vrd.validate(PAGE_REVIEW, vrd.HEADER, [page_dec("p1", 'page shows ein: "87-075347"')])["errors"])
+    # The note's field must be the review item's field, when the item names one.
+    assert "the review item is about 'ein'; the note names 'org'" in "\n".join(
+        vrd.validate(PAGE_REVIEW, vrd.HEADER, [page_dec("p1", 'page shows org: "Laundromat"')])["errors"])
+    # A sub-award row is refused here, not left to stop the reader.
+    sub = [{"review_id": "s1", "check_id": "H8.lattice", "pdf_page": "105",
+            "award_id": "fy19-sub-p105-t01-r012", "field": "row_band:12.53pt"}]
+    errs = "\n".join(vrd.validate(sub, vrd.HEADER, [page_dec("s1", 'page shows ein: "37-1514651"')])["errors"])
+    assert "not supported on a sub-award row" in errs
+
+
+def test_page_image_decision_is_applied_to_its_row_and_flagged():
+    import page_image
+    rows = {"fy23-p235-t00-r018": {"ein": "", "ein_printed": "87 0753479", "read_from_page_image": "",
+                                   "row_flags": ["ein_unreadable"]},
+            "fy23-p235-t00-r019": {"ein": "111111111", "ein_printed": "11-1111111", "read_from_page_image": ""}}
+    review = [{"review_id": "p1", "award_id": "fy23-p235-t00-r018", "decision": "read_from_page_image",
+               "note": 'Suggestion accepted: page shows ein: "87-0753479"'},
+              {"review_id": "x", "award_id": "fy23-p235-t00-r019", "decision": "accepted_as_printed", "note": ""}]
+    changed = page_image.apply_decisions(review, rows, "award_id")
+    assert len(changed) == 1
+    r = rows["fy23-p235-t00-r018"]
+    assert (r["ein"], r["ein_printed"], r["read_from_page_image"]) == ("870753479", "87 0753479", "ein")
+    assert rows["fy23-p235-t00-r019"]["read_from_page_image"] == ""
+    # The row no longer says its EIN is unreadable.
+    assert r["row_flags"] == ["ein_read_from_page_image"]
+    tr_row = {"ein": "", "ein_format": "odd", "row_flags": ["ein_odd"]}
+    page_image.apply(tr_row, "ein", "472383238")
+    assert (tr_row["ein_format"], tr_row["row_flags"]) == ("page_image", ["ein_read_from_page_image"])
+    # A sub-award decision stops the run with a clear message.
+    try:
+        page_image.apply_decisions([{"review_id": "s", "award_id": "fy19-sub-p105-t01-r012",
+                                     "decision": "read_from_page_image", "note": 'page shows ein: "37-1514651"'}],
+                                   rows, "award_id")
+        raise AssertionError("expected a stop")
+    except ValueError as e:
+        assert "sub-award" in str(e)
+    # A decision that cannot be applied stops the run; nothing is guessed.
+    review[0]["award_id"] = "nope"
+    try:
+        page_image.apply_decisions(review, rows, "award_id")
+        raise AssertionError("expected a stop")
+    except ValueError as e:
+        assert "names one data row" in str(e) or "needs a review row" in str(e)
+
+
+def test_page_image_suggestions_for_laundromat_and_himalayan_elders():
+    # The two review items #217 names, suggested (never decided) as read_from_page_image.
+    _, rows = brs.build()
+    by = {(r["fiscal_year"], r["family"], r["review_id"]): r for r in rows}
+    import page_image
+    s = by[("2023", "schedule_c", "42eba5fef74a")]
+    assert s["suggested_decision"] == "read_from_page_image"
+    assert page_image.parse(s["suggested_note"]) == ("ein", "87-0753479")
+    s = by[("2019", "transparency", "68a35940ec45")]
+    assert s["suggested_decision"] == "read_from_page_image"
+    assert page_image.parse(s["suggested_note"]) == ("ein", "472383238")
+    # Only those two: no other review row is suggested as read from the page image yet.
+    assert sum(r["suggested_decision"] == "read_from_page_image" for r in rows) == 2
+    # And nobody has decided them: the committed decisions files carry no such decision.
+    for path in glob.glob(os.path.join(REPO, "research", "*", "data", "*_review_decisions.csv")):
+        with open(path, newline="", encoding="utf-8") as f:
+            assert all(d["decision"] != "read_from_page_image" for d in csv.DictReader(f)), path

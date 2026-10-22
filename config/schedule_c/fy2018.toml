@@ -118,10 +118,14 @@ box_title_above = true
 # checked against the rows above it (H12.table_total).
 award_table_totals = true
 # Also new for FY2018, with no switch: the "Fiscal Conduit" / "FC EIN" columns (header labels
-# `conduit`, `conduit_ein`): a row printing one is flagged and a warn review row carrying both
-# (W.fiscal_conduit, 50 rows); the FC EIN counts in the anchor census. A "*" in a cell of its
-# own under a header with no "*" column (p.127) is the row's asterisk.
-# FY2019's "*" column (header label `star`) and `side_lists` (p.106).
+# `conduit`, `conduit_ein`), read into `fiscal_conduit` and `fiscal_conduit_ein` (#209); a row
+# printing one is flagged and a warn review row (W.fiscal_conduit, 50 rows); the FC EIN counts in
+# the anchor census. A "*" in a cell of its own under a header with no "*" column (p.127) is the
+# row's asterisk. FY2019's "*" column (header label `star`; read into `review_not_completed`) and
+# `side_lists` (p.106).
+# Text in the "Fiscal Conduit" column that is not a conduit: fiscal_conduit blank, the printed
+# text kept in fiscal_conduit_raw, flagged (REVIEW.md f0d35523ca12 suggests source_error).
+conduit_notes = [{ page = 271, printed = "Please indicate the actuals schools.", note = "a drafting note left in the PDF, not a conduit" }]
 # FY2019-FY2025 switches with no effect on FY2018 (off): box_title_letters, hrule_beside,
 # orphans_in_gaps, loose_header, sliver_chars, edge_slivers, skip_empty_first_row,
 # split_boxes, split_boxes_after_rows, split_boxes_award_tables, hrule_header_split,
@@ -143,7 +147,7 @@ header_labels = [
   ["CM Purpose of Funds", "purpose"],                          # member and appendix tables (p.12)
   ["\\*", "star"],                                             # p.10: review not complete (p.12)
   ["Cultural Organization - School", "org"],                   # pp.45-50 (CASA)
-  ["School", "purpose"],                                       # pp.92-93 (Art as a Catalyst)
+  ["School", "program_or_subheading"],                         # pp.92-93 (Art as a Catalyst)
   ["Fiscal Conduit", "conduit"],                               # Boroughwide Needs (pp.27-35) and
   ["FC EIN", "conduit_ein"],                                   # the appendices (pp.130-357)
 ]
@@ -231,11 +235,15 @@ ink_acceptance_char = "alnum"
 # A list of who one award passes through to, printed as a table under it (p.106: "Below is a
 # list of the JtBO service provider partners:", under Consortium for Worker Education - Jobs to
 # Build On**, 13-3564313, $5,154,200, p.105; p.105's scope: "$4.46 million ... on service
-# provider partners ... The remaining $690,700 ... oversight"). Not awards: read, not counted.
+# provider partners ... The remaining $690,700 ... oversight"). Not awards: read into the
+# sub-awards table (fy18_sc_subawards.csv), each row linked to `parent`, not counted; parent
+# less its sub-awards must equal the printed `remainder`. Their 28 EINs count in the H5 census
+# as sub-award rows.
 [[side_lists]]
 page = 106
 header = "Organization | EIN | Amount Service Type"
 note = "Jobs to Build On (JtBO) service provider partners under CWE's $5,154,200 row (p.105)"
+parent = { page = 105, ein = "133564313", amount = 5154200, remainder = 690700 }
 
 # Box vs summary names (H11): the summary line is printed under a different name than its box,
 # or one summary line stands for a box of the whole initiative and its parts' boxes (SAVE p.53,
@@ -507,12 +515,6 @@ page = 332
 words = 22
 rows = 24
 note = "the text layer glues 112425813 to the name before it twice ('Inc.112425813')"
-[[exceptions]]
-check = "H5.page_words"
-page = 106
-words = 28
-rows = 0
-note = "28 EINs in the Jobs to Build On partner list (side_lists), not award rows"
 # The roll-up gap is exactly these: the two reserves printed again as agency rows ($481,197
 # p.36; $2,429,000 p.101) - $500 (p.57) - $60,000 (p.80) + $55,000 (p.85) + $40,000 (p.95)
 # - $146,000 (p.124) - $20,000 (p.127) - $100,000 (Community Development's TOTAL, p.38)

@@ -11,7 +11,13 @@ Checks (each failure is listed; any failure exits 1):
   - the header is exactly those five columns, in that order
   - every review_id is in the review CSV (a decision on an id that no longer exists is stale)
   - no review_id appears twice
-  - decision is one of source_error, parser_bug, accepted_as_printed, needs_info
+  - decision is one of source_error, parser_bug, accepted_as_printed, needs_info,
+    read_from_page_image
+  - a read_from_page_image decision (code/page_image.py: the page and the text layer disagree and
+    a person confirmed what the page shows) names one data row (its review row has an award_id or
+    row_id; not a sub-award), and its note says what the page shows: page shows <field>:
+    "<value>", e.g. page shows ein: "87-0753479"; <field> is one of page_image.FIELDS and, when the
+    review row names a field, that one
   - decided_by is not blank; decided_at is an ISO date or date-time (2026-10-21, 2026-10-21T09:30:00Z)
 Report: decided / open counts, and every open review_id with its check and page. `needs_info`
 counts as decided but is listed separately (it still needs an answer).
@@ -33,11 +39,15 @@ change a committed decision is a problem (nothing is overwritten). The merged re
 import argparse
 import csv
 import io
+import os
 import re
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import page_image  # noqa: E402
+
 HEADER = ["review_id", "decision", "note", "decided_by", "decided_at"]
-DECISIONS = ("source_error", "parser_bug", "accepted_as_printed", "needs_info")
+DECISIONS = ("source_error", "parser_bug", "accepted_as_printed", "needs_info", page_image.DECISION)
 ISO = re.compile(r"^\d{4}-\d{2}-\d{2}([T ]\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?\d{2})?)?$")
 
 
@@ -67,6 +77,18 @@ def validate(review_rows, header, decisions):
             errors.append(f"{at}: review_id not in the review CSV (stale or mistyped)")
         if d.get("decision") not in DECISIONS:
             errors.append(f"{at}: decision {d.get('decision')!r}; allowed: {', '.join(DECISIONS)}")
+        elif d["decision"] == page_image.DECISION:
+            row = known.get(rid, {})
+            if rid in known and not (row.get("award_id") or row.get("row_id")):
+                errors.append(f"{at}: {page_image.DECISION} needs a review row naming one data row "
+                              "(award_id or row_id); this one names none")
+            elif page_image.is_subaward(row.get("award_id")):
+                errors.append(f"{at}: {page_image.DECISION} is not supported on a sub-award row "
+                              f"({row['award_id']}) yet")
+            try:
+                page_image.parse(d.get("note"), row.get("field") or "")
+            except ValueError as e:
+                errors.append(f"{at}: {e}")
         if not (d.get("decided_by") or "").strip():
             errors.append(f"{at}: decided_by is blank")
         if not ISO.match((d.get("decided_at") or "").strip()):

@@ -80,6 +80,31 @@ test("a reviewed build loads exactly the families data/pdf_years.csv lists", () 
   }
 });
 
+test("the schema fields decided in #209 load (W8, #217)", () => {
+  // FAILS if a sub-award loses its award, a sub-award is counted as an award, or a "no dollar
+  // amount" row carries an amount (every SUM must skip it).
+  const db = new Database(REVIEWED_DB, { readonly: true });
+  try {
+    for (const fy of [2019, 2018]) {
+      const subs = db.prepare(`SELECT s.amount, a.amount AS parent_amount, a.ein AS parent_ein FROM pdf_schedule_c_subawards s
+        LEFT JOIN pdf_schedule_c a ON a.fiscal_year = s.fiscal_year AND a.award_id = s.parent_award_id WHERE s.fiscal_year = ?`).all(fy);
+      assert.equal(subs.length, 28, `FY${fy} sub-awards`);
+      assert.equal(subs.reduce((t, r) => t + r.amount, 0), 4463500, `FY${fy} sub-award total`);
+      assert.ok(subs.every((r) => r.parent_amount === 5154200 && r.parent_ein === "133564313"), `FY${fy} parent is CWE's Jobs to Build On award`);
+    }
+    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_schedule_c_subawards WHERE fiscal_year NOT IN (2018, 2019)"), 0);
+    const nd = db.prepare("SELECT fiscal_year AS fy, COUNT(*) AS n, COUNT(amount) AS with_amount FROM pdf_transparency WHERE amount_kind = 'no_dollar_amount' GROUP BY 1 ORDER BY 1").all();
+    assert.deepEqual(nd.map((r) => [r.fy, r.n, r.with_amount]), [[2018, 136, 0], [2019, 112, 0], [2020, 73, 0], [2021, 28, 0], [2022, 91, 0]]);
+    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_transparency WHERE amount_kind = 'dollar_amount' AND amount IS NULL"), 0);
+    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_schedule_c WHERE fiscal_year = 2019 AND review_not_completed = 1"), 304);
+    // 49 conduits (p.271's drafting note in the conduit column is not one), 48 with an EIN.
+    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_schedule_c WHERE fiscal_year = 2018 AND fiscal_conduit <> ''"), 49);
+    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_schedule_c WHERE fiscal_year = 2018 AND fiscal_conduit_ein <> ''"), 48);
+  } finally {
+    db.close();
+  }
+});
+
 /** Call every tool with a fixed set of arguments against the server module at `serverPath`. */
 function answers(serverPath) {
   const script = `
@@ -142,8 +167,16 @@ test("every MCP tool answers the same from a reviewed index as from the default 
 });
 
 test("no MCP source file names a pdf_ table", () => {
-  // FAILS if a tool (src/*.ts) starts reading the reviewed tables.
+  // FAILS if a tool (src/*.ts) starts reading the reviewed tables. rowlinks.ts may name the two
+  // row-contract fields it builds links from (pdf_page, pdf_sha256) and nothing else with a pdf_
+  // prefix; it may not import the database or hold SQL (#210).
   for (const f of readdirSync(join(MCP, "src"))) {
-    assert.doesNotMatch(readFileSync(join(MCP, "src", f), "utf8"), /\bpdf_[a-z_]+\b/, f);
+    let text = readFileSync(join(MCP, "src", f), "utf8");
+    if (f === "rowlinks.ts") {
+      assert.doesNotMatch(text, /from "\.\/db\.js"|better-sqlite3/, f);
+      assert.doesNotMatch(text, /\b(SELECT|FROM|JOIN|WHERE)\b/, f);
+      text = text.replace(/\bpdf_(page|sha256)\b/g, "");
+    }
+    assert.doesNotMatch(text, /\bpdf_[a-z_]+\b/, f);
   }
 });

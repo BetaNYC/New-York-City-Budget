@@ -10,12 +10,19 @@
  */
 
 export const DECISIONS_HEADER = ["review_id", "decision", "note", "decided_by", "decided_at"];
-export const DECISIONS = ["source_error", "parser_bug", "accepted_as_printed", "needs_info"];
+/**
+ * read_from_page_image (#209): the page and the PDF's text layer disagree and the reviewer confirmed
+ * what the page shows; its note says so, `page shows <field>: "<value>"` (code/page_image.py), and
+ * the readers use that value, flagged. Today it is recorded by accepting a suggestion that carries
+ * the note; code/validate_review_decisions.py rejects one whose note does not say what the page shows.
+ */
+export const DECISIONS = ["source_error", "parser_bug", "accepted_as_printed", "needs_info", "read_from_page_image"];
 export const DECISION_LABEL = {
   accepted_as_printed: "kept as printed",
   source_error: "the PDF's own error",
   parser_bug: "our reading is wrong",
   needs_info: "needs more information",
+  read_from_page_image: "read from the page image",
 };
 /** What a decision records, as a button says it ("Accept suggestion → keep as printed"). */
 export const DECISION_ACTION = {
@@ -23,7 +30,28 @@ export const DECISION_ACTION = {
   source_error: "source error",
   parser_bug: "our reading is wrong",
   needs_info: "needs more information",
+  read_from_page_image: "use what the page shows",
 };
+
+/** read_from_page_image: what code/page_image.py reads from the note, and the fields it allows. */
+export const PAGE_IMAGE = "read_from_page_image";
+const PAGE_NOTE = /page shows (\w+): "([^"]+)"/;
+const PAGE_FIELDS = ["ein", "org", "member", "agency", "purpose"];
+
+/**
+ * Why a read_from_page_image note cannot be applied (null = it can): the same rules as
+ * code/page_image.py parse() and code/validate_review_decisions.py, so the reviewer sees the
+ * problem here instead of a stopped build.
+ */
+export function pageImageNoteError(note, item) {
+  const m = PAGE_NOTE.exec(String(note ?? ""));
+  if (!m) return 'The note must say what the page shows: page shows <field>: "<value>".';
+  const [, field, value] = m;
+  if (!PAGE_FIELDS.includes(field)) return `"${field}" cannot be read from the page image; allowed: ${PAGE_FIELDS.join(", ")}.`;
+  if (field === "ein" && !/^(\d{2}-\d{7}|\d{9})$/.test(value)) return `"${value}" is not an EIN (12-3456789 or 123456789).`;
+  if (item?.field && item.field !== field) return `This item is about "${item.field}"; the note names "${field}".`;
+  return null;
+}
 
 /** The "Accept suggestion" button's label: it names the decision it will record. */
 export const suggestionLabel = (item) =>
@@ -93,7 +121,10 @@ export function decide(kind, item, { note = "", change = "", by = "", now = new 
   else if (kind === "suggestion") {
     if (!DECISIONS.includes(item.suggested_decision)) throw new Error("This item has no suggested decision.");
     decision = item.suggested_decision;
-    text = n || `Suggestion accepted: ${item.suggested_note ?? ""}`.trim();
+    // A read_from_page_image note carries the value the readers apply: always keep it, and add
+    // the reviewer's words after it.
+    if (decision === PAGE_IMAGE) text = `${item.suggested_note ?? ""}${n ? ` — ${n}` : ""}`.trim();
+    else text = n || `Suggestion accepted: ${item.suggested_note ?? ""}`.trim();
   } else if (kind === "change") {
     const c = change.trim();
     if (!c) throw new Error('Say what the value should be ("change to…").');
@@ -101,6 +132,10 @@ export function decide(kind, item, { note = "", change = "", by = "", now = new 
     text = `change to: ${c}${n ? ` — ${n}` : ""}`;
   } else throw new Error(`unknown decision kind ${kind}`);
   if (!by.trim()) throw new Error("Enter your name first (decided_by).");
+  if (decision === PAGE_IMAGE) {
+    const err = pageImageNoteError(text, item);
+    if (err) throw new Error(err);
+  }
   return {
     review_id: item.review_id,
     family: item.family,
@@ -211,6 +246,10 @@ export function importDecisions(text, items) {
     const line = i + 2;
     if (!it) return errors.push(`Line ${line}: review_id ${d.review_id} is not in this build's queue.`);
     if (!DECISIONS.includes(d.decision)) return errors.push(`Line ${line}: decision "${d.decision}" is not one of ${DECISIONS.join(", ")}.`);
+    if (d.decision === PAGE_IMAGE) {
+      const err = pageImageNoteError(d.note, it);
+      if (err) return errors.push(`Line ${line}: ${err}`);
+    }
     out[itemKey(it)] = { ...d, family: it.family, fiscal_year: Number(it.fiscal_year) };
   });
   return { decisions: out, errors };

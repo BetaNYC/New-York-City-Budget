@@ -299,7 +299,8 @@ SC_NOTE = {
            "(p.57 Public Health Funding Backfill box $4,467,933 vs summary $4,667,933; six "
            "statements holding a reserve while their rows make the whole box; three more and one "
            "rounding; roll-up +$6,545,340); 5 EINs of the wrong length; Art as a Catalyst for "
-           "Change (40 rows, pp.84-85) read with its Program column in purpose. "
+           "Change (40 rows, pp.84-85) read with its Program column in "
+           "program_or_subheading (36 rows print one). "
            "Review: research/2026-10-21-fy22-schedule-c-review/REVIEW.md"),
     2021: ("26/26 category TOTALs tie; appendices equal their fixed pots; PDF self-errors flagged "
            "(p.122 box printed '$477,00', read as $477,000; three statements holding a reserve "
@@ -314,20 +315,22 @@ SC_NOTE = {
            "awards; 1,532 rows checked by pixel rules only. "
            "Review: research/2026-10-22-fy20-schedule-c-review/REVIEW.md"),
     2019: ("27/27 category TOTALs tie; appendices (amounts printed with no '$') equal their fixed "
-           "pots; a '*' column (review not complete) read as a row flag on 304 rows; PDF "
-           "self-errors flagged (six post-adoption reserves printed again as City-agency rows; "
-           "p.62 Ending the Epidemic rows $150,000 over; roll-up +$914,919); a partner list "
-           "under one award (pp.105-106, 28 rows) read as no award; all 39 of DATA-ANOMALIES "
-           "§20's FY2019 merged rows read as 82 awards; 902 rows checked by pixel rules only. "
+           "pots; a '*' column (review not complete) read into review_not_completed, 304 rows; "
+           "PDF self-errors flagged (six post-adoption reserves printed again as City-agency "
+           "rows; p.62 Ending the Epidemic rows $150,000 over; roll-up +$914,919); a partner "
+           "list under one award (pp.105-106) read as its 28 sub-awards ($4,463,500), not "
+           "counted; all 39 of DATA-ANOMALIES §20's FY2019 merged rows read as 82 awards; 902 "
+           "rows checked by pixel rules only. "
            "Review: research/2026-10-22-fy19-schedule-c-review/REVIEW.md"),
     2018: ("25/26 category TOTALs tie (Community Development's prints $100,000 over its lines, "
            "a named PDF self-error); appendices equal their fixed pots (Appendix A's amounts "
-           "printed with cents, the rest with no '$'); a '*' column read as a row flag on "
-           "1,504 rows; fiscal conduits (50 rows) kept in the review file; PDF self-errors "
-           "flagged (two reserves printed again as City-agency rows; six boxes whose rows do "
-           "not make them; roll-up +$2,754,028); p.55 Good Shepherd printed with another org's "
-           "EIN; a partner list (p.106, 28 rows) read as no award; all 94 of DATA-ANOMALIES "
-           "§20's FY2018 merged rows read as 224 awards; 646 rows checked by pixel rules only. "
+           "printed with cents, the rest with no '$'); a '*' column read into "
+           "review_not_completed, 1,504 rows; fiscal conduits (50 rows) in fiscal_conduit; PDF "
+           "self-errors flagged (two reserves printed again as City-agency rows; six boxes whose "
+           "rows do not make them; roll-up +$2,754,028); p.55 Good Shepherd printed with another "
+           "org's EIN; a partner list (p.106) read as its 28 sub-awards ($4,463,500), not "
+           "counted; all 94 of DATA-ANOMALIES §20's FY2018 merged rows read as 224 awards; 646 "
+           "rows checked by pixel rules only. "
            "Review: research/2026-10-22-fy18-schedule-c-review/REVIEW.md"),
 }
 SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108, 2020: 109, 2019: 110, 2018: 111}
@@ -360,9 +363,12 @@ def build_schedule_c(scratch, fy=2027):
     awards = read(os.path.join(scratch, f"{yy}_sc_awards.csv"))
     inits = read(os.path.join(scratch, f"{yy}_sc_initiatives.csv"))
     cats = read(os.path.join(scratch, f"{yy}_sc_categories.csv"))
+    # Sub-awards (the Jobs to Build On partner lists, FY2019 and FY2018): header only in the
+    # other years, so every year has the file.
+    subs = read(os.path.join(scratch, f"{yy}_sc_subawards.csv"))
     review = [dict(base, family="schedule_c", **r)
               for r in read(os.path.join(scratch, f"{yy}_sc_review.csv"))]
-    for rs in (awards, inits, cats):
+    for rs in (awards, inits, cats, subs):
         for r in rs:
             assert r["source_pdf"] == base["source_pdf"] and r["pdf_sha256"] == base["pdf_sha256"]
     order = lambda cols: CONTRACT + [c for c in cols if c not in CONTRACT]
@@ -370,6 +376,7 @@ def build_schedule_c(scratch, fy=2027):
         f"{yy}_sc_awards.csv": to_csv(awards, order(list(awards[0]))),
         f"{yy}_sc_initiatives.csv": to_csv(inits, order(list(inits[0]))),
         f"{yy}_sc_categories.csv": to_csv(cats, order(list(cats[0]))),
+        f"{yy}_sc_subawards.csv": to_csv(subs, order(sc.SUBAWARD_COLUMNS)),
         f"{yy}_sc_review.csv": to_csv(review, ["fiscal_year", "family", "source_pdf", "pdf_sha256"]
                                       + [c for c in review[0] if c not in base and c != "family"]),
     }

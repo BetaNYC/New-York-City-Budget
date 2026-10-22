@@ -41,7 +41,7 @@ const CONTRACT = [
   ["flags", T],
 ];
 
-/** A column only some years' files carry (FY2019 capital's Excel print, FY2018 transparency's fiscal conduits); blank where absent. */
+/** A column only some years' files carry (FY2019 capital's Excel print); blank where absent. */
 const optional = (name, type) => [name, type, undefined, { optional: true }];
 
 const years = (dbPrefix, csv, type, suffix = "") =>
@@ -209,6 +209,29 @@ PDF_FAMILIES.schedule_c = {
         ["org_raw", T], ["agency_raw", T], ["purpose_raw", T], ["clean_rules_applied", T], ["row_flags", T],
         ["image_check", T], ["disclosure_status", T], ["disclosure_reason", T], ["table_index", I], ["row_index", I],
         ["lattice", T],
+        // Decided in #209 (W8, #217), every year, blank where the PDF prints none: a "Program" /
+        // "School" column or a sub-heading inside the table (so purpose holds only a printed
+        // purpose); the "*" mark ("1" printed, "0" not, FY2019 and FY2018 only; the PDF's footnote:
+        // "either MOCS or the Council's review process has not yet been completed"); FY2018's
+        // fiscal conduit and its EIN (the transparency rows' field names); and the fields a person
+        // confirmed from the page image where the text layer disagrees (code/page_image.py).
+        ["program_or_subheading", T], ["program_or_subheading_raw", T], ["review_not_completed", I],
+        ["fiscal_conduit", T], ["fiscal_conduit_ein", T], ["fiscal_conduit_raw", T], ["fiscal_conduit_ein_printed", T],
+        ["read_from_page_image", T],
+      ],
+    },
+    {
+      // A list printed under one award saying who it passes the money to (the Jobs to Build On
+      // partners, FY2019 pp.105-106 and FY2018 p.106; decided in #209): each row a sub-award of
+      // parent_award_id (a pdf_schedule_c award_id), never counted in an award total. Header only
+      // in the other years.
+      table: "pdf_schedule_c_subawards",
+      file: "subawards",
+      columns: [
+        ...CONTRACT,
+        ["subaward_id", T], ["parent_award_id", T], ["table_index", I], ["row_index", I], ["org", T], ["ein", T],
+        ["amount", I], ["service_type", T], ["ein_printed", T], ["amount_printed", T], ["org_raw", T],
+        ["service_type_raw", T], ["row_flags", T], ["image_check", T], ["lattice", T],
       ],
     },
     {
@@ -283,8 +306,12 @@ PDF_FAMILIES.transparency = {
         ["agency_raw", T], ["amount_printed", T], ["prequal_printed", T], ["purpose_raw", T], ["hidden_text", T],
         ["clean_rules_applied", T], ["row_flags", T], ["image_check", T], ["lattice", T], ["disclosure_status", T],
         ["disclosure_reason", T], ["disclosure_row", I], ["table_index", I], ["row_index", I],
-        optional("fiscal_conduit", T), optional("fiscal_conduit_ein", T), optional("fiscal_conduit_raw", T),
-        optional("fiscal_conduit_ein_printed", T),
+        // Decided in #209 (W8, #217), every year: FY2018's fiscal conduit (blank in other years);
+        // amount_kind "dollar_amount", or "no_dollar_amount" for a chart that prints no amount
+        // (Beating Hearts: amount is NULL, so every SUM skips them; COUNT(*) does not); and the
+        // fields a person confirmed from the page image (code/page_image.py).
+        ["fiscal_conduit", T], ["fiscal_conduit_ein", T], ["fiscal_conduit_raw", T], ["fiscal_conduit_ein_printed", T],
+        ["amount_kind", T], ["read_from_page_image", T],
       ],
     },
     {

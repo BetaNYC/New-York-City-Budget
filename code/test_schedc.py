@@ -703,7 +703,9 @@ def test_golden22_program_column_p84_p85(pages22):
     S = _rows22(pages22, [83, 84, 85])
     r = _one(S, "113210593", 18000)
     assert r["org"] == "Society of the Educational Arts, Inc. (SEA)"
-    assert r["purpose"] == "Heritage High School" and r["initiative"] == "Art as a Catalyst for Change"
+    # The Program column is row context, not a purpose (#209): program_or_subheading.
+    assert r["program_or_subheading"] == "Heritage High School" and r["purpose"] == ""
+    assert r["initiative"] == "Art as a Catalyst for Change"
     assert sum(a["amount"] for a in S["awards"] if a["initiative"] == "Art as a Catalyst for Change") \
         == 720000
 
@@ -802,12 +804,13 @@ def test_golden21_statement_in_description_cell_p60(pages21):
 
 def test_golden21_subheadings_p70_p72(pages21):
     S = _rows21(pages21, [69, 70, 71, 72])
-    ta = [a for a in S["awards"] if a["purpose"] == "Technical Assistance"]
+    # Sub-headings are row context, not a purpose (#209): program_or_subheading.
+    ta = [a for a in S["awards"] if a["program_or_subheading"] == "Technical Assistance"]
     assert [a["amount"] for a in ta] == [85000, 50540]
     r = _one(S, "133020589", 25270)
     assert r["org"] == "Belmont Arthur Avenue Local Development Corporation"
-    assert r["purpose"] == "Community Consultant Contracts"
-    assert _one(S, "237169558", 51850)["purpose"] == "Housing Preservation Initiative"
+    assert r["program_or_subheading"] == "Community Consultant Contracts" and r["purpose"] == ""
+    assert _one(S, "237169558", 51850)["program_or_subheading"] == "Housing Preservation Initiative"
     assert not any("Consultant" in a["org"] or "Preservation Initiative" in a["org"]
                    for a in S["awards"])
     ini = {i["initiative"]: i for i in S["initiatives"]}
@@ -1146,7 +1149,7 @@ def test_golden18_fiscal_conduit_p34(pages18):
     S = _rows18(pages18, [33, 34])
     r = _one(S, "133981477", 4000)
     assert r["org"] == "Staten Island Hindu Temple, Inc."
-    assert r["_conduit_ein"] == "135562256" and "fiscal_conduit" in r["row_flags"]
+    assert r["fiscal_conduit_ein"] == "135562256" and "fiscal_conduit" in r["row_flags"]
     fc = [f for f in S["flags"] if f["check_id"] == "W.fiscal_conduit" and
           f["award_id"] == r["award_id"]]
     assert len(fc) == 1 and "Jewish Community" in fc[0]["message"]

@@ -6,6 +6,11 @@
  * and the base is "./" (vite.config.js), so it is resolved against the page at first use, not at
  * import time — the unit tests import this module in Node, where there is no `window`.
  */
+
+// REPO, REPO_URL and the GitHub links come from the MCP's row-link builder (mcp/src/rowlinks.ts),
+// imported, not copied, so the explorer and the MCP's answers link a file the same way (#210).
+import { REPO, REPO_URL, githubLinks } from "../../../mcp/dist/rowlinks.js";
+
 let originBase = null;
 const base = () => (originBase ??= new URL(import.meta.env.BASE_URL, window.location.href));
 
@@ -14,8 +19,7 @@ export const assetUrl = (path) => new URL(path, base()).href;
 /** public/ files get no content hash; cache-busting rides on the file's sha256 from the manifest. */
 export const dataUrl = (name, version) => assetUrl(`data/${name}`) + (version ? `?v=${encodeURIComponent(version)}` : "");
 
-export const REPO = "BetaNYC/New-York-City-Budget";
-export const REPO_URL = `https://github.com/${REPO}`;
+export { REPO, REPO_URL };
 
 const encodePath = (p) => String(p).split("/").map(encodeURIComponent).join("/");
 
@@ -28,13 +32,7 @@ const encodePath = (p) => String(p).split("/").map(encodeURIComponent).join("/")
  * (raw.githubusercontent.com; no file in source/ is in git LFS), `page` is GitHub's page for it,
  * with its history. Neither is fetched by the app, so cross-origin rules do not apply.
  */
-export function sourceLinks(commit, path) {
-  if (!commit || !path) return null;
-  return {
-    raw: `https://raw.githubusercontent.com/${REPO}/${encodeURIComponent(commit)}/${encodePath(path)}`,
-    page: `${REPO_URL}/blob/${encodeURIComponent(commit)}/${encodePath(path)}`,
-  };
-}
+export const sourceLinks = (commit, path) => githubLinks(commit, path);
 
 /** A repo document (README, data dictionary) at the build's commit. */
 export const docUrl = (commit, path) => `${REPO_URL}/blob/${encodeURIComponent(commit || "main")}/${encodePath(path)}`;

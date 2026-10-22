@@ -107,7 +107,7 @@ Each run writes a `*_checks.txt` into `<review_dir>/data/`. The checks, in plain
 
 | Check | What it asks | If it fails |
 |---|---|---|
-| Vector grid vs image grid | Do two independent readings (the PDF's drawn lines, and the page image) find the same cells and values? | A person looks; the text layer is the record |
+| Vector grid vs image grid | Do two independent readings (the PDF's drawn lines, and the page image) find the same cells and values? | A person looks; the text layer is the record, unless the person confirms the page shows something else (`read_from_page_image`, Step 7) |
 | Printed totals | Do the rows add up to every total the PDF prints (category, initiative, chart, `TOTALS FOR`)? | A parser bug until proven otherwise; if the PDF is wrong, it becomes a named exception in the config |
 | Anchor census | Does every EIN (or other row anchor) on the page become exactly one row? | Rows were dropped or merged |
 | Ink coverage | Is any printed mark on the page outside every parsed cell? | Something was dropped |
@@ -185,6 +185,7 @@ parsed values, and the suggested decision. The decisions are:
 | `source_error` | The PDF itself is wrong; keep it as printed and flag it |
 | `parser_bug` | We read it wrong; the right value goes in the note |
 | `needs_info` | Can't tell yet (for example, waiting on Council Finance) |
+| `read_from_page_image` | The page and the PDF's text layer disagree, and you checked the page: use what the page shows. The note must say it: `page shows ein: "87-0753479"` (fields: `ein`, `org`, `member`, `agency`, `purpose`). The reader then uses that value, keeps the text layer's in `ein_printed` / `*_raw`, and lists the field in the row's `read_from_page_image` (#209; `code/page_image.py`) |
 
 Decisions stay in the browser until you export them. Export per family, then check the export
 and merge it into the committed file:

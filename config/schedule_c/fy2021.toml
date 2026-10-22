@@ -105,7 +105,7 @@ box_title_letters = true
 # A letter in a narrow phantom column left of its text cell (9 rows, p.105).
 sliver_chars = true
 # A fourth column, "Program", between EIN and Amount (pp.93-94, Art as a Catalyst for Change,
-# as FY2022 pp.84-85). Read into `purpose`.
+# as FY2022 pp.84-85). Read into `program_or_subheading` (#209), not `purpose`.
 hrule_extra_column = true
 # The statement starts on a later line of a description cell (p.60, HIV/AIDS Faith-Based).
 statement_in_cell = true
@@ -118,7 +118,7 @@ header_band_words = true
 # Sub-headings printed as rows of an award table (pp.70-72, Community Housing Preservation
 # Strategies: "Technical Assistance", "Community Consultant Contracts", "Housing Preservation
 # Initiative"; the first printed above the header). Not award rows; the rows under each carry
-# it in `purpose` (67 rows, flagged).
+# it in `program_or_subheading` (67 rows, flagged; #209), not `purpose`.
 award_subheadings = ["Technical Assistance", "Community Consultant Contracts", "Housing Preservation Initiative"]
 # The white column down a table's left and right edge is 8.9 pt wide, the first letter and the
 # last digit of each row centred in it (pp.105-106).
@@ -156,7 +156,7 @@ header_labels = [
   ["Amount", "amount"],
   ["Agency", "agency"],
   ["Purpose of Funds", "purpose"],
-  ["Program", "purpose"],                                     # pp.93-94 (see above)
+  ["Program", "program_or_subheading"],                       # pp.93-94 (see above)
 ]
 
 # Designation statements (text after "Designation Method:"), checked in order. What FY2021

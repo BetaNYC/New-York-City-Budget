@@ -10,6 +10,7 @@ import os
 import re
 
 from schedc.config import ROOT
+from schedc.structure import TEXT_FIELDS
 from schedc.vector import EIN_TOKEN
 
 FURNITURE = re.compile(r"(Legal Name of Organization|Tax ID|^EIN$|Purpose of Funds|"
@@ -65,9 +66,13 @@ def run(cfg, pdf_sha, pages, S):
     for a in S["awards"]:
         if a["ein"]:
             by_page[a["pdf_page"]] = by_page.get(a["pdf_page"], 0) + 1
-        if a.get("_conduit_ein"):
+        if a.get("fiscal_conduit_ein"):
             # A fiscal conduit's EIN printed on the row (FY2018 "FC EIN" column).
             by_page[a["pdf_page"]] = by_page.get(a["pdf_page"], 0) + 1
+    for sa in S.get("subawards", []):
+        if sa["ein"]:
+            # A sub-award row of a side list (FY2019 pp.105-106, FY2018 p.106).
+            by_page[sa["pdf_page"]] = by_page.get(sa["pdf_page"], 0) + 1
     diffs = [(p["page"], p["ein_tokens"], by_page.get(p["page"], 0)) for p in pages
              if p["ein_tokens"] != by_page.get(p["page"], 0)]
     # A page whose word count is off for a reason read off the page (FY2020 p.306: the text
@@ -106,8 +111,7 @@ def run(cfg, pdf_sha, pages, S):
                           f"EIN left blank (named exception: {e['note']})"))
 
     # H6 furniture in data cells
-    furn = [(a, f) for a in S["awards"] for f in ("member", "sponsor", "delegation", "org",
-                                                   "agency", "purpose")
+    furn = [(a, f) for a in S["awards"] for f in TEXT_FIELDS
             if a.get(f) and FURNITURE.search(a[f])]
     # A cell whose own printed text matches a furniture pattern (FY2023 p.176: a purpose that
     # ends "in conjunction with Council Member") passes only as a named exception in the
@@ -169,9 +173,17 @@ def run(cfg, pdf_sha, pages, S):
         f"{len(ids)} award_ids, {len(set(ids))} unique")
 
     # H16 no value altered: printed fields equal the cell text; clean differs only by listed rules
-    from schedc.structure import clean_text
+    from schedc.structure import clean_text, strip_star
+
+    def clean16(a, f):
+        c = clean_text(a[f + "_raw"])[0]
+        if f == "program_or_subheading" and "star_in_cell" in a["row_flags"]:
+            return strip_star(c)          # clean rule `star_mark`
+        if f == "fiscal_conduit" and "conduit_note" in a["row_flags"]:
+            return ""                     # config `conduit_notes`: not a conduit
+        return c
     bad16 = [a for a in S["awards"]
-             for f in ("member", "sponsor", "delegation", "org", "agency", "purpose")
-             if a.get(f + "_raw") and clean_text(a[f + "_raw"])[0] != a[f]]
+             for f in TEXT_FIELDS
+             if a.get(f + "_raw") and clean16(a, f) != a[f]]
     out("H16.values", not bad16, f"{len(bad16)} clean values not reproducible from raw")
     return res, flags
