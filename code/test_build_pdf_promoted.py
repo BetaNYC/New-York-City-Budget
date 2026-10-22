@@ -583,8 +583,19 @@ def test_new_fields_in_every_year(built):
 def test_fiscal_conduit_schedule_c_fy18(built):
     aw = _sc(built, 2018)
     fc = [r for r in aw if r["fiscal_conduit"] or r["fiscal_conduit_ein_printed"]]
-    assert len(fc) == 50 and all("W.fiscal_conduit" in r["flags"] for r in fc)
-    assert not any("fiscal_conduit" in r["row_flags"] for r in aw if r not in fc)
+    # 50 rows print something in the conduit column: 49 conduits (48 with an EIN; p.242 prints
+    # "13-281380", 8 digits) and p.271's drafting note, which is not a conduit.
+    assert len(fc) == 49 and all("W.fiscal_conduit" in r["flags"] for r in fc)
+    assert sum(1 for r in fc if r["fiscal_conduit_ein"]) == 48
+    assert not any("fiscal_conduit" in r["row_flags"].split(";") for r in aw if r not in fc)
+    r = next(r for r in aw if r["award_id"] == "fy18-p271-t00-r014")
+    assert (r["fiscal_conduit"], r["fiscal_conduit_raw"]) == ("", "Please indicate the actuals\nschools.")
+    assert "conduit_note" in r["row_flags"] and "W.fiscal_conduit" in r["flags"]
+    r = next(r for r in aw if r["award_id"] == "fy18-p242-t00-r011")
+    assert (r["fiscal_conduit_ein"], r["fiscal_conduit_ein_printed"]) == ("", "13-281380")
+    rv = {x["review_id"]: x for x in rows(built["data/fy18/pdf/schedule_c/fy18_sc_review.csv"])}
+    assert "not an EIN" in rv["1361ec218029"]["what_to_check"]
+    assert "not a conduit" in rv["f0d35523ca12"]["what_to_check"]
     # p.34 (test_schedc golden): Staten Island Hindu Temple through the JCC of Staten Island.
     r = next(r for r in aw if r["ein"] == "133981477" and r["amount"] == "4000")
     assert (r["fiscal_conduit"], r["fiscal_conduit_ein"]) == (
@@ -609,13 +620,21 @@ def test_program_or_subheading_out_of_purpose(built):
     # FY2018-FY2022 Art as a Catalyst for Change ("School" FY2018, "Program" after) and FY2021's
     # sub-headings (pp.70-72): in program_or_subheading; purpose keeps only a printed purpose.
     got = {fy: [r for r in _sc(built, fy) if r["program_or_subheading"]] for fy in SC_YEARS}
-    assert {fy: len(v) for fy, v in got.items() if v} == {2018: 35, 2019: 37, 2020: 36, 2021: 103, 2022: 36}
+    # FY2019 p.94 r026 prints only "*" in its Program cell: no program, its mark recorded.
+    assert {fy: len(v) for fy, v in got.items() if v} == {2018: 35, 2019: 36, 2020: 36, 2021: 103, 2022: 36}
     sub21 = [r for r in got[2021] if "subheading" in r["row_flags"].split(";")]
     assert len(sub21) == 67 and {r["program_or_subheading"] for r in sub21} == {
         "Technical Assistance", "Community Consultant Contracts", "Housing Preservation Initiative"}
     for fy, rs in got.items():
         for r in rs:
             assert r["purpose"] == "" and r["purpose_raw"] == "", (fy, r["award_id"])
+            # The "*" is the row's mark (review_not_completed), not part of the school's name.
+            assert not r["program_or_subheading"].endswith("*"), (fy, r["award_id"])
+    starred = [r for fy in (2018, 2019) for r in _sc(built, fy)
+               if r["program_or_subheading_raw"].rstrip().endswith("*")]
+    assert len(starred) == 11 and all(r["review_not_completed"] == "1" for r in starred)
+    r = next(r for r in starred if r["award_id"] == "fy19-p094-t00-r026")
+    assert (r["program_or_subheading"], r["program_or_subheading_raw"]) == ("", "*")
     r = next(r for r in got[2022] if r["award_id"] == "fy22-p084-t03-r001")
     assert r["program_or_subheading"] == "Heritage High School"
 
@@ -638,6 +657,12 @@ def test_subawards_jobs_to_build_on(built):
         # vertical rules), and every EIN and amount read.
         assert {r["image_check"] for r in subs} == ({"agree"} if fy == 2019 else {"bands_agree"}), fy
         assert all(r["ein"] and r["amount"] for r in subs)
+    # Award and category totals are main's (3af3c7c): sub-awards are counted in neither.
+    CAT_TOTALS = {2019: 338301000, 2018: 330801000}   # category TOTAL lines, as on main
+    for fy, awards_total in ((2019, 248436176), (2018, 203804505)):
+        assert sum(int(r["amount"]) for r in _sc(built, fy)) == awards_total, fy
+        cats = _sc(built, fy, "categories")
+        assert sum(int(r["amount"]) for r in cats if r["line"] == "TOTAL") == CAT_TOTALS[fy], fy
     # A row whose service type wraps to a second ruled band (FY2019 p.105, "Placement").
     r = next(r for r in _sc(built, 2019, "subawards") if r["subaward_id"] == "fy19-sub-p105-t01-r012")
     assert (r["org"], r["amount"], r["service_type"]) == (
@@ -688,6 +713,8 @@ def test_page_image_decision_reaches_the_row_and_the_disclosure(tmp_path):
     r = next(r for r in rows(open(d / "fy23_sc_awards.csv", encoding="utf-8").read())
              if r["award_id"] == "fy23-p235-t00-r018")
     assert (r["ein"], r["ein_printed"], r["read_from_page_image"]) == ("870753479", "87 0753479", "ein")
+    assert "ein_unreadable" not in r["row_flags"] and "ein_read_from_page_image" in r["row_flags"]
+    assert "H5.anchors" in r["flags"]                   # still linked to its review item
     assert r["disclosure_status"] == "cleared"          # unmatched (pdf_value_unreadable) as printed
     d = tmp_path / "tr19"
     d.mkdir()
@@ -697,4 +724,5 @@ def test_page_image_decision_reaches_the_row_and_the_disclosure(tmp_path):
     r = next(r for r in rows(open(d / "fy19_tr_rows.csv", encoding="utf-8").read())
              if r["row_id"] == "fy19-tr03-p046-r016")
     assert (r["ein"], r["ein_printed"], r["read_from_page_image"]) == ("472383238", "472383238(cid:9)", "ein")
+    assert r["ein_format"] == "page_image" and "ein_odd" not in r["row_flags"].split(";")
     assert r["disclosure_status"] == "matched"

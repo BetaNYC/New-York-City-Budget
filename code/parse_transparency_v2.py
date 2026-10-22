@@ -72,7 +72,7 @@ ROW_FLAG_CHECK = dict(REVIEW_ROW_FLAGS, wrap_hyphen="W5.wrap_hyphen", ein_no_hyp
                       spanning_cell="W.spanning_cell", made_cell_empty="W.made_cell_empty", sign_colour="T10.sign_colour",
                       marker_without_footnote="T11.markers", prequal_odd="T11.markers",
                       amount_unreadable="T5.anchors", unpaired_purpose="W.unpaired_purpose",
-                      overlaid_text="T7.overlaid")
+                      overlaid_text="T7.overlaid", **{page_image.EIN_PAGE_FLAG: "T5.anchors"})
 
 
 def load_config(fy):

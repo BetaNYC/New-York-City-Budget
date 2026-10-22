@@ -49,7 +49,8 @@ ROW_FLAG_CHECK = {"wrap_hyphen": "W5.wrap_hyphen", "ein_overflow_hyphen": "W.ein
                   "sliver_char": "W.sliver_char",
                   "asterisk": "W.asterisk", "star_text": "H7.star",
                   "star_in_cell": "W.star_in_cell", "amount_cents": "W.amount_cents",
-                  "fiscal_conduit": "W.fiscal_conduit", "shared_column": "W.shared_column"}
+                  "fiscal_conduit": "W.fiscal_conduit", "shared_column": "W.shared_column",
+                  "conduit_note": "W.fiscal_conduit", page_image.EIN_PAGE_FLAG: "H5.anchors"}
 AWARD_COLUMNS = [
     "award_id", "fiscal_year", "source_pdf", "section", "category", "initiative", "initiative_id",
     "member", "sponsor", "delegation", "org", "ein", "amount", "agency", "purpose",
@@ -455,7 +456,8 @@ def main(argv=None):
                                   checks_ran)
     # The page-image rule (code/page_image.py): a person's read_from_page_image decision puts
     # the page's value on its award row, before the disclosure alignment reads it.
-    page_image.apply_decisions(rv_rows, {r["award_id"]: r for r in S["awards"]}, "award_id")
+    for r in page_image.apply_decisions(rv_rows, {r["award_id"]: r for r in S["awards"]}, "award_id"):
+        r["row_flags_s"] = ";".join(r["row_flags"])
     D = disclosure.align(S["awards"], a.fy)
     dsum = disclosure.summary(D, S["awards"])
     reasons = {u["award"]["award_id"]: u for u in D["unmatched_sc"]}

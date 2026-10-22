@@ -44,6 +44,18 @@ describe("decision buttons", () => {
     // code/page_image.py reads the value from anywhere in the note.
     expect(d.note).toMatch(/page shows ein: "87-0753479"/);
     expect(R.suggestionLabel(it)).toBe("Accept suggestion → use what the page shows");
+    // A note the reviewer types is added after the value, never in place of it.
+    const typed = R.decide("suggestion", it, { ...opts, note: "checked p.235" });
+    expect(typed.note).toBe('page shows ein: "87-0753479" (text layer "87 0753479") — checked p.235');
+    // A note that cannot be applied is refused here, not at the build.
+    expect(() => R.decide("suggestion", { ...it, suggested_note: "the page shows 87-0753479" }, opts)).toThrow(/page shows <field>/);
+    expect(() => R.decide("suggestion", { ...it, field: "ein", suggested_note: 'page shows org: "X"' }, opts)).toThrow(/about "ein"/);
+    const csv = 'review_id,decision,note,decided_by,decided_at\n42eba5fef74a,read_from_page_image,typed over,Noel,2026-10-22\n';
+    const { errors } = R.importDecisions(csv, [it]);
+    expect(errors).toHaveLength(1);
+    expect(errors[0]).toMatch(/Line 2: The note must say what the page shows/);
+    const ok = 'review_id,decision,note,decided_by,decided_at\n42eba5fef74a,read_from_page_image,"page shows ein: ""87-0753479""",Noel,2026-10-22\n';
+    expect(R.importDecisions(ok, [it]).errors).toEqual([]);
   });
   test("change to… records parser_bug with the value", () => {
     expect(R.decide("change", items[0], { ...opts, change: "HR CC0168", note: "see p.47" })).toMatchObject({ decision: "parser_bug", note: "change to: HR CC0168 — see p.47" });

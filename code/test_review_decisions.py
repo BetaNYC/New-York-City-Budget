@@ -188,11 +188,20 @@ def test_page_image_decision_must_say_what_the_page_shows():
     assert "line 3" in text and "'amount' cannot be read from the page image" in text
     assert "line 4" in text and "names none" in text
     assert "not an EIN" in "\n".join(vrd.validate(PAGE_REVIEW, vrd.HEADER, [page_dec("p1", 'page shows ein: "87-075347"')])["errors"])
+    # The note's field must be the review item's field, when the item names one.
+    assert "the review item is about 'ein'; the note names 'org'" in "\n".join(
+        vrd.validate(PAGE_REVIEW, vrd.HEADER, [page_dec("p1", 'page shows org: "Laundromat"')])["errors"])
+    # A sub-award row is refused here, not left to stop the reader.
+    sub = [{"review_id": "s1", "check_id": "H8.lattice", "pdf_page": "105",
+            "award_id": "fy19-sub-p105-t01-r012", "field": "row_band:12.53pt"}]
+    errs = "\n".join(vrd.validate(sub, vrd.HEADER, [page_dec("s1", 'page shows ein: "37-1514651"')])["errors"])
+    assert "not supported on a sub-award row" in errs
 
 
 def test_page_image_decision_is_applied_to_its_row_and_flagged():
     import page_image
-    rows = {"fy23-p235-t00-r018": {"ein": "", "ein_printed": "87 0753479", "read_from_page_image": ""},
+    rows = {"fy23-p235-t00-r018": {"ein": "", "ein_printed": "87 0753479", "read_from_page_image": "",
+                                   "row_flags": ["ein_unreadable"]},
             "fy23-p235-t00-r019": {"ein": "111111111", "ein_printed": "11-1111111", "read_from_page_image": ""}}
     review = [{"review_id": "p1", "award_id": "fy23-p235-t00-r018", "decision": "read_from_page_image",
                "note": 'Suggestion accepted: page shows ein: "87-0753479"'},
@@ -202,6 +211,19 @@ def test_page_image_decision_is_applied_to_its_row_and_flagged():
     r = rows["fy23-p235-t00-r018"]
     assert (r["ein"], r["ein_printed"], r["read_from_page_image"]) == ("870753479", "87 0753479", "ein")
     assert rows["fy23-p235-t00-r019"]["read_from_page_image"] == ""
+    # The row no longer says its EIN is unreadable.
+    assert r["row_flags"] == ["ein_read_from_page_image"]
+    tr_row = {"ein": "", "ein_format": "odd", "row_flags": ["ein_odd"]}
+    page_image.apply(tr_row, "ein", "472383238")
+    assert (tr_row["ein_format"], tr_row["row_flags"]) == ("page_image", ["ein_read_from_page_image"])
+    # A sub-award decision stops the run with a clear message.
+    try:
+        page_image.apply_decisions([{"review_id": "s", "award_id": "fy19-sub-p105-t01-r012",
+                                     "decision": "read_from_page_image", "note": 'page shows ein: "37-1514651"'}],
+                                   rows, "award_id")
+        raise AssertionError("expected a stop")
+    except ValueError as e:
+        assert "sub-award" in str(e)
     # A decision that cannot be applied stops the run; nothing is guessed.
     review[0]["award_id"] = "nope"
     try:

@@ -64,6 +64,11 @@ def clean_text(raw):
     return collapsed, sorted(set(rules))
 
 
+def strip_star(text):
+    """A row's "*" mark printed at the end of a cell, dropped (clean rule `star_mark`)."""
+    return re.sub(r"(^|\s)\*$", "", text).strip()
+
+
 def parse_amount(s):
     m = AMOUNT_RE.match(s.strip())
     return int(m.group(1).replace(",", "")) if m else None
@@ -535,7 +540,12 @@ def _link_subawards(subawards, awards, cfg, flag):
     fy = cfg["fiscal_year"] % 100
     by_parent = {}
     for sa in subawards:
-        pa = sa.pop("side_list")["parent"]
+        side = sa.pop("side_list")
+        if "parent" not in side:
+            raise ValueError(f"{cfg.get('_path', 'the year config')}: [[side_lists]] page "
+                             f"{side['page']} has no `parent` (page, ein, amount of the award "
+                             "the list breaks down)")
+        pa = side["parent"]
         hit = [a for a in awards if a["pdf_page"] == pa["page"] and a["ein"] == pa["ein"]
                and a["amount"] == pa["amount"]]
         if len(hit) != 1:
@@ -1353,12 +1363,24 @@ def build(pages, cfg):
                 rec["row_flags"].append("asterisk")
             elif cut:
                 # A table ruled with horizontal lines only has no "*" column of its own (p.94:
-                # "Public School / Middle School 183  *" in the Program column): the "*" stays
-                # in the cell as printed; the row is flagged and is a review item.
+                # "Public School / Middle School 183  *" in the Program column): the row is
+                # flagged and is a review item. In org or purpose the "*" stays in the cell as
+                # printed; in program_or_subheading (row context, not printed text a reader
+                # quotes) the clean value drops it, since review_not_completed records it; the
+                # raw value keeps it (clean rule `star_mark`).
+                printed = rec[cut]
                 rec["row_flags"] += ["asterisk", "star_in_cell"]
+                if cut == "program_or_subheading":
+                    rec[cut] = strip_star(printed)
+                    rec["clean_rules_applied"] = ";".join(sorted(
+                        set(filter(None, rec["clean_rules_applied"].split(";"))) | {"star_mark"}))
+                    how = ("the '*' is the row's mark (review_not_completed), dropped from "
+                           "program_or_subheading; program_or_subheading_raw keeps it")
+                else:
+                    how = "kept in the cell as printed"
                 flag("W.star_in_cell", "warn", rec["pdf_page"], f"'*' printed at the end of "
-                     f"the {cut} cell {rec[cut][-60:]!r} (no '*' column in this table); kept "
-                     "in the cell as printed", award_id=rec["award_id"],
+                     f"the {cut} cell {printed[-60:]!r} (no '*' column in this table); {how}",
+                     award_id=rec["award_id"],
                      table_index=rec["table_index"], row_index=rec["row_index"], field=cut,
                      dollar_impact=0)
             elif st:
@@ -1378,11 +1400,28 @@ def build(pages, cfg):
             # counts in the anchor census.
             fe = rec["fiscal_conduit_ein_printed"]
             rec["fiscal_conduit_ein"] = fe.replace("-", "") if EIN_RE.match(fe) else ""
-            if rec["fiscal_conduit"] or fe:
+            note = next((n for n in s.get("conduit_notes", []) if n["page"] == rec["pdf_page"]
+                         and n["printed"] == rec["fiscal_conduit"]), None)
+            if note is not None:
+                # Text in the conduit column that is not a conduit (FY2018 p.271: "Please
+                # indicate the actuals schools.", a drafting note; config `conduit_notes`):
+                # fiscal_conduit blank, the printed text kept in fiscal_conduit_raw, flagged.
+                printed = rec["fiscal_conduit"]
+                rec["fiscal_conduit"] = ""
+                rec["row_flags"].append("conduit_note")
+                flag("W.fiscal_conduit", "warn", rec["pdf_page"], f"the conduit column prints "
+                     f"{printed!r}: {note['note']}; fiscal_conduit left blank, the text kept in "
+                     "fiscal_conduit_raw", award_id=rec["award_id"],
+                     table_index=rec["table_index"], row_index=rec["row_index"], field="conduit",
+                     dollar_impact=0)
+            elif rec["fiscal_conduit"] or fe:
                 rec["row_flags"].append("fiscal_conduit")
+                kept = ("kept in fiscal_conduit and fiscal_conduit_ein" if rec["fiscal_conduit_ein"]
+                        else "kept in fiscal_conduit; fiscal_conduit_ein blank (no EIN printed)"
+                        if not fe else f"kept in fiscal_conduit; the FC EIN as printed is not an "
+                        "EIN, so fiscal_conduit_ein is blank (fiscal_conduit_ein_printed keeps it)")
                 flag("W.fiscal_conduit", "warn", rec["pdf_page"], f"fiscal conduit printed: "
-                     f"{rec['fiscal_conduit']!r}, FC EIN {' '.join(fe.split())!r}; kept in "
-                     "fiscal_conduit and fiscal_conduit_ein",
+                     f"{rec['fiscal_conduit']!r}, FC EIN {' '.join(fe.split())!r}; {kept}",
                      award_id=rec["award_id"], table_index=rec["table_index"],
                      row_index=rec["row_index"], field="conduit", dollar_impact=0)
         rec["ein_printed"] = rec.pop("ein_raw").strip()

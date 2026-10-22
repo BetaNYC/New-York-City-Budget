@@ -173,9 +173,17 @@ def run(cfg, pdf_sha, pages, S):
         f"{len(ids)} award_ids, {len(set(ids))} unique")
 
     # H16 no value altered: printed fields equal the cell text; clean differs only by listed rules
-    from schedc.structure import clean_text
+    from schedc.structure import clean_text, strip_star
+
+    def clean16(a, f):
+        c = clean_text(a[f + "_raw"])[0]
+        if f == "program_or_subheading" and "star_in_cell" in a["row_flags"]:
+            return strip_star(c)          # clean rule `star_mark`
+        if f == "fiscal_conduit" and "conduit_note" in a["row_flags"]:
+            return ""                     # config `conduit_notes`: not a conduit
+        return c
     bad16 = [a for a in S["awards"]
              for f in TEXT_FIELDS
-             if a.get(f + "_raw") and clean_text(a[f + "_raw"])[0] != a[f]]
+             if a.get(f + "_raw") and clean16(a, f) != a[f]]
     out("H16.values", not bad16, f"{len(bad16)} clean values not reproducible from raw")
     return res, flags

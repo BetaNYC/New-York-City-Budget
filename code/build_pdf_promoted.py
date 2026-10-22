@@ -300,7 +300,8 @@ SC_NOTE = {
            "statements holding a reserve while their rows make the whole box; three more and one "
            "rounding; roll-up +$6,545,340); 5 EINs of the wrong length; Art as a Catalyst for "
            "Change (40 rows, pp.84-85) read with its Program column in "
-           "program_or_subheading. Review: research/2026-10-21-fy22-schedule-c-review/REVIEW.md"),
+           "program_or_subheading (36 rows print one). "
+           "Review: research/2026-10-21-fy22-schedule-c-review/REVIEW.md"),
     2021: ("26/26 category TOTALs tie; appendices equal their fixed pots; PDF self-errors flagged "
            "(p.122 box printed '$477,00', read as $477,000; three statements holding a reserve "
            "while their rows make the whole box; one $1 over and one rounding; roll-up "

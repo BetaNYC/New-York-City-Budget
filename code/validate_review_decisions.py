@@ -15,8 +15,9 @@ Checks (each failure is listed; any failure exits 1):
     read_from_page_image
   - a read_from_page_image decision (code/page_image.py: the page and the text layer disagree and
     a person confirmed what the page shows) names one data row (its review row has an award_id or
-    row_id), and its note says what the page shows: page shows <field>: "<value>", e.g.
-    page shows ein: "87-0753479"; <field> is one of page_image.FIELDS
+    row_id; not a sub-award), and its note says what the page shows: page shows <field>:
+    "<value>", e.g. page shows ein: "87-0753479"; <field> is one of page_image.FIELDS and, when the
+    review row names a field, that one
   - decided_by is not blank; decided_at is an ISO date or date-time (2026-10-21, 2026-10-21T09:30:00Z)
 Report: decided / open counts, and every open review_id with its check and page. `needs_info`
 counts as decided but is listed separately (it still needs an answer).
@@ -81,8 +82,11 @@ def validate(review_rows, header, decisions):
             if rid in known and not (row.get("award_id") or row.get("row_id")):
                 errors.append(f"{at}: {page_image.DECISION} needs a review row naming one data row "
                               "(award_id or row_id); this one names none")
+            elif page_image.is_subaward(row.get("award_id")):
+                errors.append(f"{at}: {page_image.DECISION} is not supported on a sub-award row "
+                              f"({row['award_id']}) yet")
             try:
-                page_image.parse(d.get("note"))
+                page_image.parse(d.get("note"), row.get("field") or "")
             except ValueError as e:
                 errors.append(f"{at}: {e}")
         if not (d.get("decided_by") or "").strip():

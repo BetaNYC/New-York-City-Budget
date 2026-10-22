@@ -97,7 +97,9 @@ test("the schema fields decided in #209 load (W8, #217)", () => {
     assert.deepEqual(nd.map((r) => [r.fy, r.n, r.with_amount]), [[2018, 136, 0], [2019, 112, 0], [2020, 73, 0], [2021, 28, 0], [2022, 91, 0]]);
     assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_transparency WHERE amount_kind = 'dollar_amount' AND amount IS NULL"), 0);
     assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_schedule_c WHERE fiscal_year = 2019 AND review_not_completed = 1"), 304);
-    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_schedule_c WHERE fiscal_year = 2018 AND fiscal_conduit <> ''"), 50);
+    // 49 conduits (p.271's drafting note in the conduit column is not one), 48 with an EIN.
+    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_schedule_c WHERE fiscal_year = 2018 AND fiscal_conduit <> ''"), 49);
+    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_schedule_c WHERE fiscal_year = 2018 AND fiscal_conduit_ein <> ''"), 48);
   } finally {
     db.close();
   }

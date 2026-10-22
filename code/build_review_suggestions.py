@@ -256,7 +256,7 @@ def build():
                 d, note, src = suggest(fy, family, r)
                 if d == page_image.DECISION:
                     # Accepting it must record a decision the readers can apply.
-                    page_image.parse(note)
+                    page_image.parse(note, r.get("field") or "")
                     assert r.get("award_id") or r.get("row_id"), (fy, family, r["review_id"])
                 rows.append({"fiscal_year": fy, "family": family, "review_id": r["review_id"], "check_id": r["check_id"],
                              "suggested_decision": d, "suggested_note": note, "source": src})
