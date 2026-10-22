@@ -40,6 +40,7 @@ on:
       - "source/open-data-t474-a92g/**"
       - "data/open_data/**"
       - "source/open-data-watch.csv"
+      - "source/gpp/MANIFEST.csv"   # mcp/src/publisher-copies.ts is built from it
       - "viz/explorer/**"
   push:
     branches: [main]
@@ -57,6 +58,7 @@ on:
       - "source/open-data-t474-a92g/**"
       - "data/open_data/**"
       - "source/open-data-watch.csv"
+      - "source/gpp/MANIFEST.csv"   # mcp/src/publisher-copies.ts is built from it
       - "viz/explorer/**"
   # Manual trigger — lets us fire a run on any branch. A path-scoped
   # pull_request/push event does not fire on the very PR that introduces the

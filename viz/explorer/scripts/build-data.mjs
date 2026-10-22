@@ -82,8 +82,8 @@ function buildIndex() {
   if (!existsSync(join(MCP, "node_modules"))) {
     throw new Error("build-data: mcp/node_modules is missing. Run `npm ci` in mcp/ first.");
   }
-  if (!existsSync(join(MCP, "dist", "fold.js"))) {
-    throw new Error("build-data: mcp/dist/fold.js is missing. Run `npm run build` in mcp/ first.");
+  for (const f of ["fold.js", "rowlinks.js"]) {
+    if (!existsSync(join(MCP, "dist", f))) throw new Error(`build-data: mcp/dist/${f} is missing. Run \`npm run build\` in mcp/ first.`);
   }
   log("index_start");
   const args = INCLUDE_REVIEWED ? ["--include-reviewed", "--out", DB_PATH] : [];

@@ -27,6 +27,12 @@ A patch: the index gains empty tables; no tool, argument or answer changes.
 - No tool reads any `pdf_*` table yet, and the MCP's own index loads only `closed` years (none),
   so answers do not change. Version stays 2.0.1: it is not published.
 
+### Added (row links, 2026-10-22)
+- Added `src/rowlinks.ts`, one builder for a PDF row's links (#210). It returns the explorer
+  source-view link, the GitHub page and raw download at a given commit, and the publisher's copy
+  when a manifest has the same sha256 (otherwise null). The explorer imports it from `dist/`. No
+  tool uses it yet (#212).
+
 ### Changed (PDF family config, 2026-10-22)
 - **`scripts/pdf-families.mjs` lists the FY2025–FY2018 decisions files (GitHub #104–#111).**
   Every family-year in `data/pdf_years.csv` now has its decisions file path (header-only until a
