@@ -221,6 +221,29 @@ def test_fy21_transparency(built):
     assert boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"]) == (
         "Koslowitz Ronald McDonald House of Long Island, Inc. 11-2764747")
 
+
+def test_fy20_transparency(built):
+    ys = [y for y in rows(built["data/pdf_years.csv"])
+          if y["fiscal_year"] == "2020" and y["family"] == "transparency"]
+    assert len(ys) == 1
+    y = ys[0]
+    assert y["issue"] == "109" and y["status"] == "reviewed" and y["rows"] == "5396"
+    assert y["printed_totals_tied"] == "n/a"
+    rs = {r["row_id"]: r for r in rows(built["data/fy20/pdf/transparency/fy20_tr_rows.csv"])}
+    assert len(rs) == 5396
+    assert all(r["resolution_date"] and r["resolution_number"].startswith("Res ") for r in rs.values())
+    assert sum(1 for r in rs.values() if r["action"] == "listed" and r["amount"] == "") == 73
+    # Reso 01 p.70 ("Chart #35:") and Reso 06 p.25 ("CHART #:", read as chart #16): rows on
+    # pages whose captions the reader rewrites.
+    r = rs["fy20-tr01-p070-r001"]
+    assert r["chart_number"] == "35"
+    assert boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"]).startswith(
+        "Local Borelli Columcille Cultural Center, Inc. 13-3909562 DYCD ($2,500) Funds will be")
+    r = rs["fy20-tr06-p025-r001"]
+    assert r["chart_number"] == "16"
+    assert boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"]).startswith(
+        "Youth Richards Jewish Community Council of the")
+
 def test_unrotate():
     # p.40 'H' at display (206.41, 38.68, 214.72, 50.20) on a /Rotate 90 page shown 792 x 612;
     # pdfium's unrotated glyph box is x 39.5-47.8, y-from-top 578.2-584.8.
