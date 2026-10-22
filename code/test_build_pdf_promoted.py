@@ -41,6 +41,11 @@ def test_row_contract(built):
         if path.endswith("pdf_years.csv"):
             continue
         rs = rows(text)
+        # FY2020's capital book prints no Part III, so its orgs table is header only (the MCP
+        # loader reads the file for every capital year and accepts no rows).
+        if path == "data/fy20/pdf/capital_sd/fy20_capital_sd_orgs.csv":
+            assert not rs and set(bp.CONTRACT) <= set(text.splitlines()[0].split(",")), path
+            continue
         assert rs, path
         for col in bp.CONTRACT if not path.endswith("_review.csv") else ["fiscal_year", "source_pdf", "pdf_sha256"]:
             assert col in rs[0], (path, col)
