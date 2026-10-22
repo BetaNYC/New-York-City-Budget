@@ -84,6 +84,10 @@ A family-year is `closed` when:
 
 ## Working with the data owners
 
+**Who to contact first:** for every question below, BetaNYC starts with two Council staff it already
+works with, one on the Council's data team and one in the Finance Division, and follows their
+referrals from there. Other Council relationships are a fallback, not a first stop.
+
 - **Council Finance questions** (every `needs_info` item: MA-series capital rows, FY2025 Apollo
   Theater, FY2022 Borough President rows, the older ones): one shared document or spreadsheet the
   Council answers in, plus a monthly email from Noel pointing to it. Each question also gets a
