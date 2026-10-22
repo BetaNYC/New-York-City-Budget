@@ -10,7 +10,7 @@ This script re-runs the review parsers (code/review_capital_sd.py, code/review_t
 scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
 Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
 `capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
-(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `schedule_c` (GitHub #104); FY2024 `schedule_c` (GitHub #105); FY2023 `schedule_c` (GitHub #106); FY2022 `schedule_c` (GitHub #107); FY2021 `schedule_c` (GitHub #108); FY2020 `schedule_c` (GitHub #109).
+(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `schedule_c` (GitHub #104); FY2024 `schedule_c` (GitHub #105); FY2023 `schedule_c` (GitHub #106); FY2022 `schedule_c` (GitHub #107); FY2021 `schedule_c` (GitHub #108); FY2020 `schedule_c` (GitHub #109); FY2019 `schedule_c` (GitHub #110).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -293,8 +293,15 @@ SC_NOTE = {
            "-$219,300); 3 EINs of the wrong length; DATA-ANOMALIES §20's FY2020 row read as two "
            "awards; 1,532 rows checked by pixel rules only. "
            "Review: research/2026-10-22-fy20-schedule-c-review/REVIEW.md"),
+    2019: ("27/27 category TOTALs tie; appendices (amounts printed with no '$') equal their fixed "
+           "pots; a '*' column (review not complete) read as a row flag on 304 rows; PDF "
+           "self-errors flagged (six post-adoption reserves printed again as City-agency rows; "
+           "p.62 Ending the Epidemic rows $150,000 over; roll-up +$914,919); a partner list "
+           "under one award (pp.105-106, 28 rows) read as no award; all 39 of DATA-ANOMALIES "
+           "§20's FY2019 merged rows read as 82 awards; 902 rows checked by pixel rules only. "
+           "Review: research/2026-10-22-fy19-schedule-c-review/REVIEW.md"),
 }
-SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108, 2020: 109}
+SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108, 2020: 109, 2019: 110}
 
 
 def build_schedule_c(scratch, fy=2027):
@@ -433,7 +440,8 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy23", "schedule_c", lambda d: build_schedule_c(d, fy=2023)),
             ("fy22", "schedule_c", lambda d: build_schedule_c(d, fy=2022)),
             ("fy21", "schedule_c", lambda d: build_schedule_c(d, fy=2021)),
-            ("fy20", "schedule_c", lambda d: build_schedule_c(d, fy=2020))]
+            ("fy20", "schedule_c", lambda d: build_schedule_c(d, fy=2020)),
+            ("fy19", "schedule_c", lambda d: build_schedule_c(d, fy=2019))]
 
 
 def build_all():
