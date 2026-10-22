@@ -1,6 +1,6 @@
 """
 Section 254 capital supporting detail: parse, tie out and review (epic #101; FY2027 #102,
-FY2026 #103, FY2025 #104, FY2024 #105, FY2023 #106, FY2022 #107).
+FY2026 #103, FY2025 #104, FY2024 #105, FY2023 #106, FY2022 #107, FY2020 #109).
 
 One parser, one config per year: config/capital_sd/fyNNNN.toml holds the PDF, its sha256, the
 page map, the FY columns and the other year-specific facts. FY2027 (the default) is
@@ -11,7 +11,8 @@ Council-Version-24.07.17.pdf (87 pages, all Parts upright, Part III a third expo
 source/FY24/FY2024-Sec254-Supporting-Detail-Book_7.10.2023pwp-2.pdf (78 pages, encrypted with an
 empty user password); FY2023 is source/FY23/FY23-Sec254-Capital-Supporting-Detail-Book.pdf (89 pages,
 the City seal on its cover); FY2022 is source/FY22/FY22-Sec254-Capital-Supporting-Detail-Book.pdf
-(92 pages, IDs such as `TANC1`). Rules a later
+(92 pages, IDs such as `TANC1`); FY2020 is source/FY20/Supporting-Detail-for-the-FY-2020-...-Section-254-2.pdf
+(80 pages, encrypted, Part I only, pp.2-79 /Rotate 90). Rules a later
 year needed and an earlier one must not get are config switches, off by default, so a reviewed
 year's output stays byte-identical.
 
@@ -44,7 +45,7 @@ Checks (each prints its numbers to checks.txt; failures go to review.csv):
   C8 ink coverage: rendered ink not under an emitted character or a vector rule
   C9 alignment with data/capital/council_capital_awards.csv (report only, never fills a value)
 
-Run:  .venv/bin/python code/review_capital_sd.py [--fy 2027|2026|2025|2024|2023|2022] [--out DIR] [--no-ink] [--selftest-ink]
+Run:  .venv/bin/python code/review_capital_sd.py [--fy 2027|2026|2025|2024|2023|2022|2020] [--out DIR] [--no-ink] [--selftest-ink]
 """
 import argparse
 import collections
@@ -383,6 +384,19 @@ def parse_detail_page(page, pno, part, state, review, gaps):
         seg_lines = [ln for _, ln in seg]
         anchors = [ln for kind, ln in seg if kind == "anchor"]
         tblocks = blocks_of(seg_lines, "title", cols)
+        # Config `title_blank_line`: rows whose title cell holds an empty line, read off the page
+        # (FY2020 p.39 `E CN817`: a space typed in another font on a line of its own puts the
+        # second title line two leadings down). The block after theirs joins theirs. Default none.
+        joins = {s for p, s in CFG.get("title_blank_line", ()) if p == pno}
+        if joins:
+            ids = [" ".join(w["text"] for w in [w for w in ln if column_of(w, cols) == "sub_id"][:2])
+                   for ln in anchors]
+            for i in reversed(range(len(ids))):
+                if ids[i] in joins and i + 1 < len(tblocks):
+                    tblocks[i] = tblocks[i] + tblocks.pop(i + 1)
+                    review.add("C5.title_blank_line", "warn", pno, "title cell holds an empty line "
+                               "(config title_blank_line); its next title block is joined to it",
+                               part=part, sub_id=ids[i], field="title")
         # Record line gaps inside the title column, to keep BLOCK_GAP honest.
         tl = [ws[0]["top"] for ws in sum(([*b] for b in tblocks), [])]
         allt = sorted(ws[0]["top"] for ws in
@@ -825,7 +839,14 @@ def summary_page(pdf, review):
 def wb_id(a):
     """The workbook's project ID without its agency prefix: FY2027 prints `CC0001`, FY2026
     `E CN0001`. The PDF's SUB ID is compared the same way (`sub_id.split(" ")[-1]`)."""
-    return a["project_id"].split(" ")[-1]
+    return a["project_id"] if CFG.get("wb_full_id") else a["project_id"].split(" ")[-1]
+
+
+def pdf_id(r):
+    """The PDF row's ID as wb_id() compares it. Config `wb_full_id` (FY2020): the comparison
+    source prints the agency prefix and reuses ID numbers across prefixes on one budget line
+    (`TF CN001`, `MT CN001` on `TF D005`), so both sides keep it. Default off: the number only."""
+    return r["sub_id"] if CFG.get("wb_full_id") else r["sub_id"].split(" ")[-1]
 
 
 def wb_text(s):
@@ -862,7 +883,7 @@ def align_workbook(rows, review, report):
     for r in rows:
         if r["part"] != "I":
             continue
-        pid = r["sub_id"].split(" ")[-1]
+        pid = pdf_id(r)
         for fy in FYS:
             v = r[fy]
             if v:
@@ -876,7 +897,7 @@ def align_workbook(rows, review, report):
     blank = [a for a in aw if a["amount"] == ""]
     aw = [a for a in aw if a["amount"] != ""]
     for a in blank:
-        hits = [r for r in rows if r["part"] == "I" and r["sub_id"].split(" ")[-1] == wb_id(a)
+        hits = [r for r in rows if r["part"] == "I" and pdf_id(r) == wb_id(a)
                 and r["budget_line"] == a["budget_line"]]
         got = "; ".join(f"{r['sub_id']} p.{r['pdf_page']} "
                         f"{', '.join(f'FY{fy[2:]} {r[fy]:,}' for fy in FYS if r[fy])}"
@@ -919,7 +940,7 @@ def align_workbook(rows, review, report):
     for r in rows:
         if r["part"] != "I":
             continue
-        cands = wb_by_id.get((r["sub_id"].split(" ")[-1], r["budget_line"]), [])
+        cands = wb_by_id.get((pdf_id(r), r["budget_line"]), [])
         if cands and all(c["borough"] != r["boro"] for c in cands):
             boro_diff += 1
             review.add("C9.workbook_boro", "warn", r["pdf_page"],
@@ -942,7 +963,7 @@ def align_workbook(rows, review, report):
     for r in rows:
         if r["part"] != "I":
             continue
-        cands = wb_by_id.get((r["sub_id"].split(" ")[-1], r["budget_line"]), [])
+        cands = wb_by_id.get((pdf_id(r), r["budget_line"]), [])
         if not cands:
             continue
         n += 1
@@ -1148,6 +1169,9 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
             p1_all[r["sub_id"]].append(r)
     p2_rows = [r for r in rows if r["part"] == "II"]
     same = only2 = 0
+    # FY2020 prints Part I only (no Part II or III pages in the config's page map): C3 and C4
+    # have nothing to compare and say so. Every other year has both.
+    has_p2, has_p3 = bool(pages_of("part2")), bool(pages_of("part3"))
     for r in p2_rows:
         # An ID printed twice in Part I (FY2025 `ED NC128`, pp.4 and 44): the one on this
         # row's budget line.
@@ -1168,8 +1192,11 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
                        part="II", sub_id=r["sub_id"], budget_line=r["budget_line"], field=f,
                        dollars=r[FYS[0]] or 0, expected=a[f], observed=r[f])
     ma = [r for r in p2_rows if r["sub_id"] not in p1_by_id]
-    report.append(f"C3 Part II: {len(p2_rows)} rows; {same} equal a Part I row in every field; "
-                  f"{len(p2_rows) - same - only2} differ in a field; {only2} are not in Part I")
+    if has_p2:
+        report.append(f"C3 Part II: {len(p2_rows)} rows; {same} equal a Part I row in every field; "
+                      f"{len(p2_rows) - same - only2} differ in a field; {only2} are not in Part I")
+    else:
+        report.append("C3 Part II: this book prints no Part II; nothing to compare")
     reused = {k: v for k, v in p1_all.items() if len(v) > 1}
     if reused:
         report.append(f"  Part I IDs printed on more than one row: {len(reused)} "
@@ -1182,9 +1209,10 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
     ma_ids = collections.Counter(r["sub_id"].split(" ")[1][:2] for r in ma)
     ma_lines = collections.Counter(r["budget_line"].split(" ")[1][:2] for r in ma)
     ma_usd = sum(r[FYS[0]] or 0 for r in ma)
-    report.append(f"  not in Part I: ID series {dict(ma_ids)}, budget-line series {dict(ma_lines)}, "
-                  f"FY{FY} ${ma_usd:,}, sponsor blank on "
-                  f"{sum(1 for r in ma if not r['sponsor'])}")
+    if has_p2:
+        report.append(f"  not in Part I: ID series {dict(ma_ids)}, budget-line series {dict(ma_lines)}, "
+                      f"FY{FY} ${ma_usd:,}, sponsor blank on "
+                      f"{sum(1 for r in ma if not r['sponsor'])}")
     # The series Part II-only rows are expected in (FY2027: MA IDs on 0N lines). Any other
     # Part II-only row is critical. The workbook claim is checked, not assumed.
     sid, sln = CFG["part2_only"]["id_prefix"], CFG["part2_only"]["line_prefix"]
@@ -1197,7 +1225,7 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
                        f"Part II row not in Part I and not in the {sid} / {sln} series", part="II",
                        sub_id=r["sub_id"], budget_line=r["budget_line"], dollars=r[FYS[0]] or 0)
     wb_ids = {wb_id(a) for a in awards_for_year()}
-    in_wb = [r for r in series if r["sub_id"].split(" ")[1] in wb_ids]
+    in_wb = [r for r in series if pdf_id(r) in wb_ids]
     s_usd = sum(r[FYS[0]] or 0 for r in series)
     if series:
         review.add("C3.ma_series", "warn", series[0]["pdf_page"],
@@ -1227,9 +1255,13 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
                    + f". Meaning of {ser} unconfirmed", part="I", dollars=usd)
     p2ids = {r["sub_id"] for r in p2_rows}
     p1_dn = [r for r in rows if r["part"] == "I" and r["budget_line"].split(" ")[-1].startswith("DN")]
-    missing_dn = [r for r in p1_dn if r["sub_id"] not in p2ids]
-    report.append(f"  Part I rows on DN (non-city) lines: {len(p1_dn)}; missing from Part II: "
-                  f"{len(missing_dn)}")
+    missing_dn = [r for r in p1_dn if r["sub_id"] not in p2ids] if has_p2 else []
+    if not has_p2:
+        report.append(f"  Part I rows on DN (non-city) lines: {len(p1_dn)}, FY{FY} "
+                      f"${sum(r[FYS[0]] or 0 for r in p1_dn):,} (no Part II to list them)")
+    else:
+        report.append(f"  Part I rows on DN (non-city) lines: {len(p1_dn)}; missing from Part II: "
+                      f"{len(missing_dn)}")
     for r in missing_dn:
         review.add("C3.dn_not_in_part2", "critical", r["pdf_page"],
                    "Part I row on a non-city (DN) budget line is not listed in Part II",
@@ -1237,7 +1269,8 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
                    dollars=r[FYS[0]] or 0)
     p1_not_dn_in_2 = [r for r in p2_rows if r["sub_id"] in p1_by_id and
                       not r["budget_line"].split(" ")[-1].startswith("DN")]
-    report.append(f"  Part II rows from Part I that are not on a DN line: {len(p1_not_dn_in_2)}")
+    if has_p2:
+        report.append(f"  Part II rows from Part I that are not on a DN line: {len(p1_not_dn_in_2)}")
 
     # Edited text (warn): post-export edits, so a person reads them.
     for r in rows:
@@ -1253,6 +1286,8 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
                   f"{sorted(so)}")
 
     # C4: Part III.
+    if not has_p3:
+        report.append("C4 Part III: this book prints no Part III; nothing to compare")
     orgs = part3_state["orgs"]
     p3_lines = [dict(l, organization=o["organization"]) for o in orgs for l in o["lines"]]
     org_ok = 0
@@ -1267,8 +1302,9 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
                        f"{o['organization']}: lines {sums} vs printed "
                        f"{ {fy: o[f'org_{fy}'] for fy in FYS} }", part="III",
                        dollars=max(abs(sums[fy] - o[f"org_{fy}"]) for fy in FYS))
-    report.append(f"C4 Part III: {len(orgs)} organizations, {len(p3_lines)} budget-line rows; "
-                  f"{org_ok}/{len(orgs)} organization lines equal their rows")
+    if has_p3:
+        report.append(f"C4 Part III: {len(orgs)} organizations, {len(p3_lines)} budget-line rows; "
+                      f"{org_ok}/{len(orgs)} organization lines equal their rows")
     gsum = {fy: sum(l[fy] for l in p3_lines) for fy in FYS}
     if part3_grand:
         g = part3_grand[-1]
@@ -1279,7 +1315,7 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
         if p2_all:
             st2 = "OK" if all(g[fy] == p2_all[f"printed_{fy}"] for fy in FYS) else "FAIL"
             report.append(f"  = Part II TOTALS FOR ALL: {st2}")
-    else:
+    elif has_p3:
         review.add("C4.grand", "critical", pages_of("part3")[-1], "Part III grand total not found",
                    part="III")
     # By budget line, Part III vs Part II.
@@ -1293,7 +1329,8 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
             for k, fy in enumerate(FYS):
                 by2[r["budget_line"]][k] += r[fy] or 0
     lines_eq = sum(1 for bl in set(by2) | set(by3) if by2.get(bl) == by3.get(bl))
-    report.append(f"  Part III vs Part II by budget line: {lines_eq}/{len(set(by2) | set(by3))} equal")
+    if has_p3:
+        report.append(f"  Part III vs Part II by budget line: {lines_eq}/{len(set(by2) | set(by3))} equal")
     for bl in sorted(set(by2) | set(by3)):
         a, b = by2.get(bl, [0] * 4), by3.get(bl, [0] * 4)
         if a != b:
@@ -1323,7 +1360,7 @@ def run(out_dir=None, do_ink=True, ink_selftest=False, fy=None):
         m = re.search(r"stream says (\S+ \S+)", rv["note"])
         other = by_sub.get((rv["part"], m.group(1))) if m else None
         f = rv["field"]
-        a = (wb.get((r["sub_id"].split(" ")[-1], r["budget_line"])) or [None])[0] if r else None
+        a = (wb.get((pdf_id(r), r["budget_line"])) or [None])[0] if r else None
         why = None
         if f in FYS and rv["note"].startswith("'0'") and r and other and r[f] == 0 and other[f] == 0:
             why = "a 0 that both rows print; no dollar effect"
