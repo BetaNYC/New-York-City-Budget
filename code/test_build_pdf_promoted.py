@@ -258,3 +258,16 @@ def test_fy19_schedule_c(built):
     r = next(r for r in aw if r["award_id"] == "fy19-p133-t00-r002")
     t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
     assert "Holocaust Survivors" in t and "6,500" in t and "Senior Stars" not in t
+
+
+def test_fy18_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2018" and y["family"] == "schedule_c")
+    assert y["issue"] == "111" and y["status"] == "reviewed" and y["rows"] == "5906"
+    assert y["printed_totals_tied"] == "25/26"   # Community Development (p.38), named
+    aw = rows(built["data/fy18/pdf/schedule_c/fy18_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 203804505
+    # An Appendix A row printed with cents; its box holds it, not its neighbours.
+    r = next(r for r in aw if r["award_id"] == "fy18-p131-t00-r002")
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "19,000.00" in t and "Williams" in t and "100,500" not in t

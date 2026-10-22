@@ -10,7 +10,7 @@ This script re-runs the review parsers (code/review_capital_sd.py, code/review_t
 scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
 Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
 `capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
-(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `schedule_c` (GitHub #104); FY2024 `schedule_c` (GitHub #105); FY2023 `schedule_c` (GitHub #106); FY2022 `schedule_c` (GitHub #107); FY2021 `schedule_c` (GitHub #108); FY2020 `schedule_c` (GitHub #109); FY2019 `schedule_c` (GitHub #110).
+(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `schedule_c` (GitHub #104); FY2024 `schedule_c` (GitHub #105); FY2023 `schedule_c` (GitHub #106); FY2022 `schedule_c` (GitHub #107); FY2021 `schedule_c` (GitHub #108); FY2020 `schedule_c` (GitHub #109); FY2019 `schedule_c` (GitHub #110); FY2018 `schedule_c` (GitHub #111).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -300,8 +300,17 @@ SC_NOTE = {
            "under one award (pp.105-106, 28 rows) read as no award; all 39 of DATA-ANOMALIES "
            "§20's FY2019 merged rows read as 82 awards; 902 rows checked by pixel rules only. "
            "Review: research/2026-10-22-fy19-schedule-c-review/REVIEW.md"),
+    2018: ("25/26 category TOTALs tie (Community Development's prints $100,000 over its lines, "
+           "a named PDF self-error); appendices equal their fixed pots (Appendix A's amounts "
+           "printed with cents, the rest with no '$'); a '*' column read as a row flag on "
+           "1,504 rows; fiscal conduits (50 rows) kept in the review file; PDF self-errors "
+           "flagged (two reserves printed again as City-agency rows; six boxes whose rows do "
+           "not make them; roll-up +$2,754,028); p.55 Good Shepherd printed with another org's "
+           "EIN; a partner list (p.106, 28 rows) read as no award; all 94 of DATA-ANOMALIES "
+           "§20's FY2018 merged rows read as 224 awards; 646 rows checked by pixel rules only. "
+           "Review: research/2026-10-22-fy18-schedule-c-review/REVIEW.md"),
 }
-SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108, 2020: 109, 2019: 110}
+SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108, 2020: 109, 2019: 110, 2018: 111}
 
 
 def build_schedule_c(scratch, fy=2027):
@@ -441,7 +450,8 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy22", "schedule_c", lambda d: build_schedule_c(d, fy=2022)),
             ("fy21", "schedule_c", lambda d: build_schedule_c(d, fy=2021)),
             ("fy20", "schedule_c", lambda d: build_schedule_c(d, fy=2020)),
-            ("fy19", "schedule_c", lambda d: build_schedule_c(d, fy=2019))]
+            ("fy19", "schedule_c", lambda d: build_schedule_c(d, fy=2019)),
+            ("fy18", "schedule_c", lambda d: build_schedule_c(d, fy=2018))]
 
 
 def build_all():
