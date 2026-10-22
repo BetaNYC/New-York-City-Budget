@@ -14,7 +14,8 @@ Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #1
 FY2024 `capital_sd` and `terms` (#105);
 FY2023 `capital_sd` and `terms` (#106);
 FY2022 `capital_sd` and `terms` (#107);
-FY2021 `terms` (#108; no FY2021 capital supporting detail in source/).
+FY2021 `terms` (#108; no FY2021 capital supporting detail in source/);
+FY2020 `capital_sd` (#109; Part I only, so its orgs table is header only; no FY2020 T&C).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -184,8 +185,12 @@ def build_capital_sd(scratch, fy=2027):
     year = dict(base, family="capital_sd", issue=cap.CFG["issue"], status="reviewed", rows=len(projects),
                 flagged=sum(1 for r in projects if r["flags"]),
                 printed_totals_tied=f"{tied}/{n_tot}",
-                note=(f"Parts I+II {len(projects)} rows (projects table); Part III {len(org_rows)} "
-                      f"budget-line rows of {len(orgs)} organizations (orgs table); "
+                note=((f"Parts I+II {len(projects)} rows (projects table); Part III {len(org_rows)} "
+                       f"budget-line rows of {len(orgs)} organizations (orgs table); "
+                       if cap.pages_of("part3") else
+                       # FY2020 prints Part I only: no Part II or III to promote.
+                       f"Part I only (the book prints no Part II or III): {len(projects)} rows "
+                       "(projects table); ") +
                       f"p.{summary_pno} summary {'ties' if summ_ok else 'DOES NOT tie'}. "
                       f"Review: {cap.CFG['review_dir']}/REVIEW.md"))
     return files, year
@@ -403,7 +408,8 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy23", "terms", lambda d: build_terms(d, 2023)),
             ("fy22", "capital_sd", lambda d: build_capital_sd(d, 2022)),
             ("fy22", "terms", lambda d: build_terms(d, 2022)),
-            ("fy21", "terms", lambda d: build_terms(d, 2021))]
+            ("fy21", "terms", lambda d: build_terms(d, 2021)),
+            ("fy20", "capital_sd", lambda d: build_capital_sd(d, 2020))]
 
 
 def build_all():
