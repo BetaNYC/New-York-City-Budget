@@ -90,8 +90,10 @@ A family-year is `closed` when:
   GitHub issue recording the date sent, which starts its 30 days. Drafts are prepared for Noel; he
   sends them.
 - **NYC Open Data `t474-a92g`** (City Council Capital Budget, published by the Council, starts at
-  FY2019): ask the owner to add FY2018 and earlier through the portal's "contact dataset owner"
-  form, offering our checked FY2018 table. Drafted for Noel; he submits it or approves submitting.
+  FY2019): ask the Council to add FY2018 and earlier, offering our checked FY2018 table, in two
+  ways: an email from Noel to the Council team BetaNYC already works with, and the portal's
+  "contact dataset owner" form, so the request is also on the City's record. Both drafted for Noel;
+  he sends the email and submits the form, or approves submitting it.
 
 ## How the work is run
 
@@ -156,7 +158,7 @@ review set the real pace.
 | 23 | Old CSVs | Move to `data/retired/` |
 | 24 | FY2026 `wb_pick_by_amount` | On; re-check its 3 decided items |
 | 25 | FY2018 capital in `data/capital/` | Yes, labeled "from the PDF", once closed |
-| 26 | Asking the Council to fill `t474-a92g` | NYC Open Data's "contact dataset owner" form |
+| 26 | Asking the Council to fill `t474-a92g` | Both: an email to the Council team we know, and NYC Open Data's "contact dataset owner" form |
 
 ## Related
 
