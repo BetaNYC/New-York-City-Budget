@@ -45,6 +45,7 @@ export const OPEN_DATA_SCHEMA = {
     // (fiscal_year = report year, record_row = source_row or SUB ID, record_amount_fy).
     ["record_row", T], ["record_amount_fy", I], ["record_pdf", I],
     // T&C: "agency|unit" (the agency is "A+B" where a retired CSV does not say whose unit it is).
+    // PDF capital: "p<page>r<row>" where one SUB ID is printed on two Part I rows, else null.
     ["record_part", T],
     ["dataset_id", T], ["portal_row_id", T], ["candidates", I], ["match_status", T],
     ["rule_id", I], ["differing_fields", T], ["portal_value", T], ["portal_status", T],
@@ -121,8 +122,14 @@ export function loadOpenData(db, io, loadedPdf) {
           if (k[0] === "pdf") {
             pdf = 1;
             if (!has("capital_sd", fy)) return;     // a PDF-derived record: only with its family
+            // pdf|fy|SUB ID|amount fy, or pdf|fy|SUB ID|p<page>r<row>|amount fy where the PDF
+            // prints one SUB ID on two Part I rows (FY2025); the place goes in record_part.
+            if (k.length === 5 && !/^p\d+r\d+$/.test(k[3]) || k.length < 4 || k.length > 5) {
+              throw new Error(`${at}: record_key ${JSON.stringify(r.record_key)}`);
+            }
             row = k[2];
-            amountFy = int(k[3], `${at} record_key`);
+            if (k.length === 5) part = k[3];
+            amountFy = int(k[k.length - 1], `${at} record_key`);
           } else {
             if (k.length !== 3 || Number(k[0]) !== fy) throw new Error(`${at}: record_key ${JSON.stringify(r.record_key)}`);
             row = k[1];

@@ -41,6 +41,9 @@ const CONTRACT = [
   ["flags", T],
 ];
 
+/** A column only some years' files carry (FY2019 capital's Excel print, FY2018 transparency's fiscal conduits); blank where absent. */
+const optional = (name, type) => [name, type, undefined, { optional: true }];
+
 const years = (dbPrefix, csv, type, suffix = "") =>
   [1, 2, 3, 4].map((k) => [`${dbPrefix}_y${k}${suffix}`, type, csv.replace("{y}", `{y${k}}`)]);
 
@@ -93,6 +96,7 @@ export const PDF_FAMILIES = {
           ...years("amount", "fy{y}", I),
           ["sponsor", T], ["title_raw", T], ["sponsor_raw", T],
           ...years("amount", "fy{y}_printed", T, "_printed"),
+          optional("council_district", T), optional("description", T), optional("description_raw", T),
         ],
       },
       {
@@ -279,6 +283,8 @@ PDF_FAMILIES.transparency = {
         ["agency_raw", T], ["amount_printed", T], ["prequal_printed", T], ["purpose_raw", T], ["hidden_text", T],
         ["clean_rules_applied", T], ["row_flags", T], ["image_check", T], ["lattice", T], ["disclosure_status", T],
         ["disclosure_reason", T], ["disclosure_row", I], ["table_index", I], ["row_index", I],
+        optional("fiscal_conduit", T), optional("fiscal_conduit_ein", T), optional("fiscal_conduit_raw", T),
+        optional("fiscal_conduit_ein_printed", T),
       ],
     },
     {
@@ -443,8 +449,9 @@ export function loadPdfFamilies(db, io, includeReviewed) {
       const rel = `${dir}/fy${yy}_${prefix}_${t.file}.csv`;
       const rows = io.readCsv(rel);
       const want = t.columns.map(([n, , src]) => csvName(src ?? n, fy));
-      const have = rows.length ? Object.keys(rows[0]) : want;
-      if ([...have].sort().join(",") !== [...want].sort().join(",")) {
+      const need = t.columns.filter((c) => !c[3]?.optional).map(([n, , src]) => csvName(src ?? n, fy));
+      const have = rows.length ? Object.keys(rows[0]) : need;
+      if (!need.every((c) => have.includes(c)) || !have.every((c) => want.includes(c))) {
         throw new Error(`${rel}: columns differ from mcp/scripts/pdf-families.mjs\n  file:   ${have.join(",")}\n  config: ${want.join(",")}`);
       }
       for (const [i, r] of rows.entries()) {
