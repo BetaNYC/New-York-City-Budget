@@ -3,7 +3,7 @@
 **Report generated:** 2026-10-22. Prepared by BetaNYC with AI assistance.
 **Data current as of:** `main` @ `2aecf90`; the FY2018–FY2025 PDF PRs (#139–#189) and their
 integration; the live explorer as deployed from `9248851`.
-**Status:** epic plan, before the grill. Nothing here changes code, data or the published package.
+**Status:** epic plan for #190, before the grill. Nothing here changes code, data or the published package.
 
 ## The goal, in one line
 
