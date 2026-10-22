@@ -10,7 +10,7 @@ This script re-runs the review parsers (code/review_capital_sd.py, code/review_t
 scratch folder, so the promoted files are regenerated from the PDFs, never copied from research/.
 Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
 `capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
-(via code/parse_transparency_v2.py), all GitHub #103.
+(via code/parse_transparency_v2.py), all GitHub #103; FY2025 `schedule_c` (GitHub #104); FY2024 `schedule_c` (GitHub #105); FY2023 `schedule_c` (GitHub #106); FY2022 `schedule_c` (GitHub #107); FY2021 `schedule_c` (GitHub #108); FY2020 `schedule_c` (GitHub #109); FY2019 `schedule_c` (GitHub #110); FY2018 `schedule_c` (GitHub #111).
 
 `status` in data/pdf_years.csv: `reviewed` = every check ran and its flags are listed, but Noel has
 not signed off; `closed` = the year's issue is closed. Promotion writes `reviewed`; only a person
@@ -257,15 +257,68 @@ SC_NOTE = {
     2026: ("24/25 category TOTALs tie; two PDF self-errors flagged (p.173 TOTAL $800 under its "
            "lines; p.98 rows $15,000 under the statement); 2 eight-digit EINs. "
            "Review: research/2026-10-21-fy26-schedule-c-review/REVIEW.md"),
+    2025: ("24/25 category TOTALs tie (Parks prints no summary table, p.202); PDF self-errors "
+           "flagged (p.115 TOTAL $50,000 under its lines; p.64 statement $594,000 short of its "
+           "box; p.167 rows $27,000 under the statement; p.222 '$3.2 million' for a $501,000 "
+           "box); 1 malformed EIN (p.181). "
+           "Review: research/2026-10-21-fy25-schedule-c-review/REVIEW.md"),
+    2024: ("24/25 category TOTALs tie (Parks prints no summary table, p.201); PDF self-errors "
+           "flagged (p.63 TOTAL $52,935 under its lines; six statements whose reserve and rows "
+           "do not make the box); pp.130-137 (191 rows, $12,028,500) attached to NYC Cleanup, "
+           "flagged; 1,438 rows in tables with no vertical rules checked by pixel rules only; "
+           "bbox_pt from the MediaBox corner (216 pages start at -18,18). "
+           "Review: research/2026-10-21-fy24-schedule-c-review/REVIEW.md"),
+    2023: ("26/26 category TOTALs tie; appendices equal their fixed pots, including the two "
+           "$5,000 Local rows the old parse lost (pp.213, 235); PDF self-errors flagged (boxes "
+           "vs summary: p.83 Low Wage Worker Support $120,000 vs $2,000,000, p.86 Autism "
+           "Awareness; six boxes whose rows or reserve do not make the box; four rounded "
+           "statements; roll-up +$646,350); Asiyah Women's Center printed with another org's "
+           "EIN (pp.13, 175); 1,028 rows in tables with no vertical rules checked by pixel rules "
+           "only. Review: research/2026-10-21-fy23-schedule-c-review/REVIEW.md"),
+    2022: ("25/25 category TOTALs tie; appendices equal their fixed pots; PDF self-errors flagged "
+           "(p.57 Public Health Funding Backfill box $4,467,933 vs summary $4,667,933; six "
+           "statements holding a reserve while their rows make the whole box; three more and one "
+           "rounding; roll-up +$6,545,340); 5 EINs of the wrong length; Art as a Catalyst for "
+           "Change (40 rows, pp.84-85) read with its Program column in purpose. "
+           "Review: research/2026-10-21-fy22-schedule-c-review/REVIEW.md"),
+    2021: ("26/26 category TOTALs tie; appendices equal their fixed pots; PDF self-errors flagged "
+           "(p.122 box printed '$477,00', read as $477,000; three statements holding a reserve "
+           "while their rows make the whole box; one $1 over and one rounding; roll-up "
+           "+$129,070); 6 EINs of the wrong length; award headers printed outside the table "
+           "rules; 431 rows checked by pixel rules only. "
+           "Review: research/2026-10-22-fy21-schedule-c-review/REVIEW.md"),
+    2020: ("27/27 category TOTALs tie; appendices (amounts printed with no '$') equal their fixed "
+           "pots; PDF self-errors flagged (p.46 three EINs printed one row off; p.46 rows "
+           "$200,000 short of the box; p.45 $2,000 over; five rounded statements; roll-up "
+           "-$219,300); 3 EINs of the wrong length; DATA-ANOMALIES §20's FY2020 row read as two "
+           "awards; 1,532 rows checked by pixel rules only. "
+           "Review: research/2026-10-22-fy20-schedule-c-review/REVIEW.md"),
+    2019: ("27/27 category TOTALs tie; appendices (amounts printed with no '$') equal their fixed "
+           "pots; a '*' column (review not complete) read as a row flag on 304 rows; PDF "
+           "self-errors flagged (six post-adoption reserves printed again as City-agency rows; "
+           "p.62 Ending the Epidemic rows $150,000 over; roll-up +$914,919); a partner list "
+           "under one award (pp.105-106, 28 rows) read as no award; all 39 of DATA-ANOMALIES "
+           "§20's FY2019 merged rows read as 82 awards; 902 rows checked by pixel rules only. "
+           "Review: research/2026-10-22-fy19-schedule-c-review/REVIEW.md"),
+    2018: ("25/26 category TOTALs tie (Community Development's prints $100,000 over its lines, "
+           "a named PDF self-error); appendices equal their fixed pots (Appendix A's amounts "
+           "printed with cents, the rest with no '$'); a '*' column read as a row flag on "
+           "1,504 rows; fiscal conduits (50 rows) kept in the review file; PDF self-errors "
+           "flagged (two reserves printed again as City-agency rows; six boxes whose rows do "
+           "not make them; roll-up +$2,754,028); p.55 Good Shepherd printed with another org's "
+           "EIN; a partner list (p.106, 28 rows) read as no award; all 94 of DATA-ANOMALIES "
+           "§20's FY2018 merged rows read as 224 awards; 646 rows checked by pixel rules only. "
+           "Review: research/2026-10-22-fy18-schedule-c-review/REVIEW.md"),
 }
-SC_ISSUE = {2027: 102, 2026: 103}
+SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108, 2020: 109, 2019: 110, 2018: 111}
 
 
 def build_schedule_c(scratch, fy=2027):
     """Re-run code/parse_schedule_c_v2.py (all checks, image lattice and ink included) into the
     scratch folder and promote its award, initiative, category and review tables. Its rows
-    already carry the row contract; neither PDF has /Rotate pages (FY2026's landscape pages
-    are 792x612 media boxes), so bbox_pt needs no unrotate."""
+    already carry the row contract; no Schedule C PDF has /Rotate pages (FY2026's and FY2025's
+    landscape pages are 792x612 media boxes), so bbox_pt needs no unrotate. Its coordinates
+    are from the MediaBox's top-left corner (FY2024 has MediaBoxes starting at (-18, 18))."""
     import contextlib
     import parse_schedule_c_v2 as sc
     from schedc import config as sc_config
@@ -390,7 +443,15 @@ FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy26", "capital_sd", lambda d: build_capital_sd(d, 2026)),
             ("fy26", "terms", lambda d: build_terms(d, 2026)),
             ("fy26", "transparency", build_transparency),
-            ("fy26", "schedule_c", lambda d: build_schedule_c(d, fy=2026))]
+            ("fy26", "schedule_c", lambda d: build_schedule_c(d, fy=2026)),
+            ("fy25", "schedule_c", lambda d: build_schedule_c(d, fy=2025)),
+            ("fy24", "schedule_c", lambda d: build_schedule_c(d, fy=2024)),
+            ("fy23", "schedule_c", lambda d: build_schedule_c(d, fy=2023)),
+            ("fy22", "schedule_c", lambda d: build_schedule_c(d, fy=2022)),
+            ("fy21", "schedule_c", lambda d: build_schedule_c(d, fy=2021)),
+            ("fy20", "schedule_c", lambda d: build_schedule_c(d, fy=2020)),
+            ("fy19", "schedule_c", lambda d: build_schedule_c(d, fy=2019)),
+            ("fy18", "schedule_c", lambda d: build_schedule_c(d, fy=2018))]
 
 
 def build_all():

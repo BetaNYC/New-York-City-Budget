@@ -1,0 +1,535 @@
+# FY2018 Schedule C: every year-specific fact the pipeline needs, and nothing else (PLAN §7).
+# Each value cites the page it was read from. Shared code lives in code/schedc/.
+
+fiscal_year = 2018
+pdf = "source/FY18/FY-2018-Schedule-C-Cover-Template-FINAL-MERGE.pdf"
+sha256 = "d4f1374ee16d8503f54cc0e5b43a2c5077b4f9f2d382df0169267d1b9e5fc5cb"
+pages = 357
+x_tolerance = 3.0          # pdfplumber default; FY2018 text has real space glyphs (PLAN §2.2)
+review_dir = "research/2026-10-22-fy18-schedule-c-review"   # outputs land in <review_dir>/data
+# Disclosure (report only): data/fy18/expense_disclosure. There was no 2026-10-19 prototype for
+# FY2018, so no H17 floor (0).
+disclosure_note = "as committed in data/fy18/expense_disclosure"
+h17_floor = 0
+
+# The 26 categories, as printed on each category banner (20 pt bold, pp.11-126): FY2019's 27
+# but Libraries, which FY2018 does not print.
+categories = [
+  "Anti-Poverty", "Boroughwide Needs", "Children’s Services", "Community Development",
+  "Criminal Justice Services", "Cultural Organizations", "Domestic Violence Services",
+  "Education", "Environmental Initiatives", "Food Initiatives", "Government Officials",
+  "Health Services", "Higher Education Initiatives", "Homeless Services", "Housing",
+  "Immigrant Services", "Legal Services", "Mental Health Services",
+  "Parks and Recreation Services", "Public Safety", "Senior Services",
+  "Small Business Services and Workforce Development",
+  "Speaker’s Initiative to Address Citywide Needs", "Veteran Services",
+  "Young Women’s Initiative", "Youth Services",
+]
+
+# Section page ranges, read from the pages (Appendix titles first printed on pp.130, 163, 308;
+# first category banner p.11). pp.115-119 are blank (epic #101).
+[[page_ranges]]
+name = "front"
+first = 1
+last = 10
+[[page_ranges]]
+name = "body"
+first = 11
+last = 129
+[[page_ranges]]
+name = "appendix_a"
+first = 130
+last = 162
+[[page_ranges]]
+name = "appendix_b"
+first = 163
+last = 307
+[[page_ranges]]
+name = "appendix_c"
+first = 308
+last = 357
+
+[[sections]]
+name = "appendix_a"
+title_re = "Appendix A: Aging Discretionary"
+[[sections]]
+name = "appendix_b"
+title_re = "Appendix B: Local Initiatives"
+[[sections]]
+name = "appendix_c"
+title_re = "Appendix C: Youth Discretionary"
+
+[structure]
+award_header_re = "(Tax ID|EIN).*Amount"
+summary_title = "Fiscal 2018 Council Initiatives"
+summary_titles = [
+  # The category summary tables: "Fiscal 2018 Council ... Initiatives" (e.g. p.44), or without
+  # "Council" (e.g. p.40 "Fiscal 2018 Criminal Justice Services Initiatives").
+  "Fiscal 2018 Council", "Fiscal 2018 Criminal Justice Services Initiatives",
+  "Fiscal 2018 Food Initiatives", "Fiscal 2018 Health Services Initiatives",
+  "Fiscal 2018 Higher Education Initiatives", "Fiscal 2018 Mental Health Services Initiatives",
+  "Fiscal 2018 Veteran Services Initiatives", "Fiscal 2018 Young Women’s Initiatives",
+  "Fiscal 2018 Youth and Community Development Initiatives",
+  "Agency | Initiative | Amount",
+]
+banner_min_size = 19.0     # category banners are 20 pt bold (e.g. p.11 "Anti-Poverty")
+statement_prefix = "Designation Method:"
+# Each switch below changes FY2018's output when turned off (checked one by one).
+# Box + description + statement + award table drawn as one ruled table.
+split_merged_tables = true
+# A rule between the two lines of a long name (3 rows).
+continuation_rows = true
+# An award table carried over a page without a header (59 rows).
+headerless_continuation = true
+# Tables ruled with horizontal lines only (14 tables, 143 rows; e.g. pp.81, 93, 96).
+hrule_tables = true
+# From FY2019-FY2026:
+# A fourth column, "School", between EIN and Amount (pp.92-93, Art as a Catalyst for Change).
+hrule_extra_column = true
+# Amounts printed with no "$" in the member tables and Appendices B and C (p.12 "5,000"); a
+# routine flag there (W.amount_bare, 4,512 rows).
+amount_without_dollar = true
+bare_amounts = true
+# "Designation Method:" alone, the statement beside it as its own loose line (FY2020), or
+# centred between the statement's two lines (FY2019's span).
+statement_beside_label = true
+statement_beside_label_span = true
+# The award header printed as loose text right under the statement ends it (FY2021).
+header_band_words = true
+# A box title's last letter drawn apart, in its own cell (FY2019).
+box_title_tail = true
+# An h-rule table whose first row prints an EIN of the wrong length (FY2020; p.107 Urban
+# Health Plan, Inc. "15-24042810").
+hrule_short_ein = true
+# New for FY2018 (code/schedc/vector.py, structure.py, checks.py):
+# Appendix A prints every amount with cents ("$30,000.00", p.131; 537 rows): an amount word in
+# the vector pass, read as the whole dollars, a routine flag (W.amount_cents).
+amount_cents = true
+# A row printing an EIN of the wrong length is an award row, not an initiative box (p.107).
+short_ein_rows = true
+# An h-rule stack ends where a ruled table starts, and skips one at its head (p.107: the rules
+# round Urban Health Plan's row are the next table's top and bottom; p.93: the header drawn as
+# its own table over the h-rule rows).
+hrule_skip_kept = true
+# A box's title bar printed above its table, outside the rules (pp.53, 94-97: SAVE's and Crisis
+# Management System's parts; 11 boxes, warn review rows).
+box_title_above = true
+# A TOTAL row closing an award table (14 tables, e.g. p.64 Access Health NYC): not an award;
+# checked against the rows above it (H12.table_total).
+award_table_totals = true
+# Also new for FY2018, with no switch: the "Fiscal Conduit" / "FC EIN" columns (header labels
+# `conduit`, `conduit_ein`): a row printing one is flagged and a warn review row carrying both
+# (W.fiscal_conduit, 50 rows); the FC EIN counts in the anchor census. A "*" in a cell of its
+# own under a header with no "*" column (p.127) is the row's asterisk.
+# FY2019's "*" column (header label `star`) and `side_lists` (p.106).
+# FY2019-FY2025 switches with no effect on FY2018 (off): box_title_letters, hrule_beside,
+# orphans_in_gaps, loose_header, sliver_chars, edge_slivers, skip_empty_first_row,
+# split_boxes, split_boxes_after_rows, split_boxes_award_tables, hrule_header_split,
+# hrule_lead_column, hrule_split_lines, header_one_cell, banner_variants, summary_amount_doubled,
+# statement_loose_text, statement_in_cell, award_subheadings, summary_amount_without_dollar,
+# box_amount_loose, header_overlap_cells, box_amount_dollar_space, box_amount_without_dollar,
+# header_two_bands, split_one_cell_rows, total_colon, open_top_rows, box_amount_on_second_row,
+# amount_sliver_join, amount_odd_format, header_span_cells, box_amount_cells.
+page_furniture_re = "(\\d+|Page \\d+|Fiscal 2018 Adopted Expense Budget Adjustment Summary)"
+header_labels = [
+  ["Council Member", "member"],
+  ["Borough", "delegation"],
+  ["Sponsor", "sponsor"],
+  ["Legal Name of Organization [-–] Program Name", "org"],     # member and appendix tables
+  ["Legal Name of Organization", "org"],
+  ["EIN", "ein"],
+  ["Amount", "amount"],
+  ["Agency", "agency"],
+  ["CM Purpose of Funds", "purpose"],                          # member and appendix tables (p.12)
+  ["\\*", "star"],                                             # p.10: review not complete (p.12)
+  ["Cultural Organization - School", "org"],                   # pp.45-50 (CASA)
+  ["School", "purpose"],                                       # pp.92-93 (Art as a Catalyst)
+  ["Fiscal Conduit", "conduit"],                               # Boroughwide Needs (pp.27-35) and
+  ["FC EIN", "conduit_ein"],                                   # the appendices (pp.130-357)
+]
+
+# Designation statements (text after "Designation Method:"), checked in order. Shared with
+# FY2019:
+#   - "will designate $N post-adoption and has designated the following providers" (kind
+#     `reserve_rows`, rows = box - reserve, e.g. p.36), or the other way round, "has designated
+#     the following providers for Fiscal 2018 and will designate $N post-adoption" (p.41);
+#   - the whole box later, "will designate post-adoption" (e.g. p.50): kind reserve_all;
+#   - straight to CUNY or DOE (pp.69-70, 129): kind direct;
+#   - "has designated (to) the following provider(s) for Fiscal 2018": kind full.
+[[statements]]
+kind = "reserve_rows"
+re = "^The (City )?Council will designate \\$(?P<reserve>[\\d,]+|\\d+(\\.\\d+)? million) (awards )?(post[- ][Aa]doption|after adoption)[.,]? (and )?([Tt]he (City )?Council )?has (designated (to )?the following providers?|made the following designations) (for|in) Fiscal 2018 ?[:.]?$"
+[[statements]]
+kind = "reserve_rows"
+re = "^The (City )?(Council )?has designated (to )?the following providers? for Fiscal 2018 and will designate \\$(?P<reserve>[\\d,]+|\\d+(\\.\\d+)? million) post[- ](budget )?[Aa]doptions? ?[.:]$"
+[[statements]]
+kind = "reserve_all"
+re = "^(The (City )?Council will designate (awards |this funding |to service providers )?|This initiative will be designated )(post[- ](budget )?adoption|after adoption)( for Fiscal 2018)? ?[.:]?$"
+[[statements]]
+kind = "direct"
+re = "^This funding is allocated directly to (the )?(City University of New York|CUNY|NYC Department of Education|Department of Education|Department for the Aging)( for the following institutes)?[.:]$"
+[[statements]]
+kind = "full"
+re = "^The (City )?(Council )?has designated (to )?(the )?following providers? (for|in) Fiscal 2018 ?[:.]$"
+
+# FY2018's own wordings:
+#   - the whole box later: "will designate allocation post-budget adoption" (e.g. p.36), "will
+#     designate this initiative / this allocation post-adoption" (pp.38, 125, 128-129), "The
+#     Borough Presidents will designate the organizations and the amount each will receive
+#     under this initiative post-budget adoption" (p.99): kind reserve_all;
+#   - straight to an agency: "provided directly to the Department of City Administrative
+#     Services" (p.39), "to the agency" (p.80), the City Clerk, the Brooklyn Borough President
+#     (p.62), HPD (and DCA) (p.76), Parks (p.91), DYCD (p.125), ACS (p.126), "NYC Health+Hospital"
+#     (p.127), "will direct the funding directly to the agency" (p.67), "These funds are allocated
+#     directly to agencies for Fiscal 2018: Agency City University of New York Department of
+#     Education" (p.69): kind direct;
+#   - NORCs (p.101): "will designate NNORC allocations, which total $1.9 million, post-budget
+#     adoption. The Council will designate $529,000 of the total $1.95 million for vertical NORCs
+#     post-budget adoption and has designated the following providers": both held, the rest rows;
+#   - one named provider (p.98), or "the Department of Youth and Community Development and the
+#     providers listed below" (p.124, COMPASS): kind full.
+[[statements]]
+kind = "reserve_all"
+re = "^The +City Council will designate (allocation|this initiative|this allocation) post-(budget )?adoption\\.$"
+[[statements]]
+kind = "reserve_all"
+re = "^The Borough Presidents will designate the organizations and the amount each will receive under this initiative post-budget adoption\\.$"
+[[statements]]
+kind = "direct"
+re = "^((This|The) funding is (allocated|provided) directly to (the )?(NYC Department of Youth and Community Development|Department of City Administrative Services|agency|Office of the City Clerk|Brooklyn Borough President|NYC Department of Housing Preservation and Development( and the Department of Consumer Affairs)?|NYC Department of Parks and Recreation|Department of Youth and Community Development|NYC Administration for Children’s Services|NYC Health\\+Hospital)\\.?|The City Council will direct the funding directly to the agency in Fiscal 2018\\.|These funds are allocated directly to agencies for Fiscal 2018: Agency City University of New York Department of Education)$"
+[[statements]]
+kind = "reserve_rows"
+re = "^The City Council will designate NNORC allocations, which total \\$(?P<reserve>\\d+(\\.\\d+)? million), post-budget adoption\\. The Council will designate \\$(?P<reserve2>[\\d,]+) of the total \\$1\\.95 million for vertical NORCs post-budget adoption and has designated the following providers and amounts for Fiscal 2018\\.$"
+[[statements]]
+kind = "full"
+re = "^The City Council has designated (the Metropolitan Council on Jewish Poverty as the provider for this initiative for Fiscal 2018\\.|the Department of Youth and Community Development and the providers listed below:)$"
+
+[image]
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+carry_header = true
+band_check = true
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 32
+# Acceptance: Williams | Bergen Basin Community Development Corporation d/b/a Millennium
+# Development | 113199040 | $19,000.00 (p.131, Appendix A), an amount printed with cents, in the
+# appendix the old parse read with the cents run into the purpose (DATA-ANOMALIES §21
+# fy18_aging_shift). Withholding the row, or its smallest letter, must fire.
+ink_acceptance_page = 131
+ink_acceptance_award_id = "fy18-p131-t00-r002"
+ink_acceptance_char = "alnum"
+
+
+
+
+
+
+# A list of who one award passes through to, printed as a table under it (p.106: "Below is a
+# list of the JtBO service provider partners:", under Consortium for Worker Education - Jobs to
+# Build On**, 13-3564313, $5,154,200, p.105; p.105's scope: "$4.46 million ... on service
+# provider partners ... The remaining $690,700 ... oversight"). Not awards: read, not counted.
+[[side_lists]]
+page = 106
+header = "Organization | EIN | Amount Service Type"
+note = "Jobs to Build On (JtBO) service provider partners under CWE's $5,154,200 row (p.105)"
+
+# Box vs summary names (H11): the summary line is printed under a different name than its box,
+# or one summary line stands for a box of the whole initiative and its parts' boxes (SAVE p.53,
+# Crisis Management System pp.93-97). Two print different amounts (Merit-Based Scholarships,
+# p.69; Crisis Management System, p.93). Rows carry the box title.
+[[box_aliases]]
+category = "Community Development"
+page = 39
+summary = ["Diversity, Inclusion and Equity in Tech Initiative", 700000]   # summary table p.38
+boxes = [["Diversity, Inclusion and Equity in Tech", 700000]]
+note = "box drops 'Initiative'"
+[[box_aliases]]
+category = "Cultural Organizations"
+page = 44
+summary = ["Coalition Theaters of Color", 1965000]   # summary table p.44
+boxes = [["Coalition of Theaters of Color", 1965000]]
+note = "summary drops 'of'"
+[[box_aliases]]
+category = "Cultural Organizations"
+page = 51
+summary = ["Support For The Arts", 5000000]   # summary table p.44
+boxes = [["Support for the Arts", 5000000]]
+note = "capitals"
+[[box_aliases]]
+category = "Domestic Violence Services"
+page = 53
+summary = ["Supportive Alternatives to Violent Encounters (SAVE)", 1950000]   # summary table p.52
+boxes = [["Supportive Alternatives to Violent Encounters (SAVE)", 1950000], ["Supportive Alternatives to Violent Encounters (SAVE)", 600000], ["Supportive Alternatives to Violent Encounters (SAVE)", 350000], ["Supportive Alternatives to Violent Encounters (SAVE)", 1000000]]
+note = "a box for the whole initiative ($1,950,000, p.53) over its three parts' boxes ($600,000 + $350,000 + $1,000,000, titles printed above their tables, p.53); one summary line"
+[[box_aliases]]
+category = "Education"
+page = 55
+summary = ["Dropout Prevention and Intervention Initiative", 1585000]   # summary table p.54
+boxes = [["Dropout Prevention and Intervention", 1585000]]
+note = "box drops 'Initiative'"
+[[box_aliases]]
+category = "Government Officials"
+page = 62
+summary = ["City Clerk PS Enhancement", 150000]   # summary table p.62
+boxes = [["City Clerk Personal Services Enhancement", 150000]]
+note = "'PS' vs 'Personal Services'"
+[[box_aliases]]
+category = "Government Officials"
+page = 62
+summary = ["Brooklyn Borough President PS Enhancement", 100000]   # summary table p.62
+boxes = [["Brooklyn Borough President Personal Services Enhancement", 100000]]
+note = "'PS' vs 'Personal Services'"
+[[box_aliases]]
+category = "Health Services"
+page = 63
+summary = ["Access Health", 1187000]   # summary table p.63
+boxes = [["Access Health NYC", 1187000]]
+note = "box adds 'NYC'"
+[[box_aliases]]
+category = "Health Services"
+page = 66
+summary = ["HIV/AIDS Faith Based", 1360000]   # summary table p.63
+boxes = [["HIV/AIDS Faith-Based", 1360000]]
+note = "'Faith Based' vs 'Faith-Based'"
+[[box_aliases]]
+category = "Health Services"
+page = 66
+summary = ["Maternal Health Services", 1192818]   # summary table p.63
+boxes = [["Maternal and Child Health Services", 1192818]]
+note = "box adds 'and Child'"
+[[box_aliases]]
+category = "Health Services"
+page = 67
+summary = ["Reproductive & Sexual Health Services", 344788]   # summary table p.63
+boxes = [["Reproductive and Sexual Health Services", 344788]]
+note = "'&' vs 'and'"
+[[box_aliases]]
+category = "Higher Education Initiatives"
+page = 69
+summary = ["City Council Merit-Based Scholarships", 14924669]   # summary table p.69
+boxes = [["City Council Merit-Based Scholarships", 15000000]]
+note = "PDF self-error: the summary line prints $14,924,669, the box $15,000,000 ($75,331 more)"
+[[box_aliases]]
+category = "Higher Education Initiatives"
+page = 70
+summary = ["Murphy Institute for Worker Education", 940000]   # summary table p.69
+boxes = [["Joseph S. Murphy Institute for Worker Education", 940000]]
+note = "box adds 'Joseph S.'"
+[[box_aliases]]
+category = "Housing"
+page = 76
+summary = ["Financial Empowerment for NYC Renters", 450000]   # summary table p.73
+boxes = [["Financial Empowerment for NYC's Renters", 450000]]
+note = "'NYC Renters' vs \"NYC's Renters\""
+[[box_aliases]]
+category = "Housing"
+page = 76
+summary = ["Housing Information Project (SHIP)", 300000]   # summary table p.73
+boxes = [["Housing Information Project", 300000]]
+note = "summary adds '(SHIP)'"
+[[box_aliases]]
+category = "Legal Services"
+page = 84
+summary = ["Legal Information for Families (LIFT)", 485000]   # summary table p.83
+boxes = [["Legal Information for Families Today", 485000]]
+note = "'(LIFT)' vs 'Today'"
+[[box_aliases]]
+category = "Mental Health Services"
+page = 88
+summary = ["Developmental, Psychological & Behavioral Health Services", 2179390]   # summary table p.85
+boxes = [["Developmental, Psychological and Behavioral Health Services", 2179390]]
+note = "'&' vs 'and'"
+[[box_aliases]]
+category = "Public Safety"
+page = 93
+summary = ["Crisis Management System", 11327800]   # summary table p.92
+boxes = [["Crisis Management System", 11340534], ["Crisis Management System – Cure Violence", 4775000], ["Crisis Management System – City Council Employment Program", 1500000], ["Crisis Management System – Job Readiness Program", 1552800], ["Crisis Management System – Legal Services", 1000000], ["Crisis Management System – Mental Health/Therapeutic Services", 520000], ["Crisis Management System – School Based Conflict Mediation", 1280000], ["Crisis Management System -Youth Programs", 450000], ["Crisis Management System – Training", 250000]]
+note = "a box for the whole initiative ($11,340,534, p.93) over its eight parts' boxes (titles printed above their tables, pp.94-97), which add to $11,327,800, the summary line; the whole box prints $12,734 more (PDF self-error)"
+[[box_aliases]]
+category = "Senior Services"
+page = 99
+summary = ["Elie Wiesel Holocaust Survivors Initiative", 3000000]   # summary table p.98
+boxes = [["Elie Wiesel Holocaust Survivors", 3000000]]
+note = "box drops 'Initiative'"
+[[box_aliases]]
+category = "Senior Services"
+page = 102
+summary = ["Senior Centers, Programs, and Services Enhancement", 3000000]   # summary table p.98
+boxes = [["Senior Centers, Programs, and Enhancements", 3000000]]
+note = "'Services Enhancement' vs 'Enhancements'"
+[[box_aliases]]
+category = "Senior Services"
+page = 102
+summary = ["Social Adult Day Care Enhancement", 1055556]   # summary table p.98
+boxes = [["Social Adult Day Care", 1055556]]
+note = "box drops 'Enhancement'"
+[[box_aliases]]
+category = "Youth Services"
+page = 125
+summary = ["Sports Training and Rolemodels for Success Initiative", 1200000]   # summary table p.123
+boxes = [["Sports Training and Rolemodels for Success Initiative (STARS)", 1200000]]
+note = "box adds '(STARS)'"
+[[box_aliases]]
+category = "Young Women’s Initiative"
+page = 127
+summary = ["Expand Transgender Healthcare Training", 150000]   # summary table p.126
+boxes = [["Expand Transgender Specific Healthcare Training", 150000]]
+note = "box adds 'Specific'"
+[[box_aliases]]
+category = "Young Women’s Initiative"
+page = 129
+summary = ["Young Women's Leadership Development", 946000]   # summary table p.126
+boxes = [["Young Women’s Leadership Development", 946000]]
+note = "straight vs curly apostrophe"
+
+# Named exceptions: places where the PDF disagrees with itself or prints a value that is not
+# an EIN. Each must match exactly or the check still fails. None is corrected.
+[[exceptions]]
+check = "H10.category_total"
+page = 38
+expected = 14460000
+observed = 14360000
+note = "PDF self-error: Community Development's TOTAL prints $14,460,000; its five lines add to $14,360,000 (pending review)"
+# The post-adoption reserve printed again as a row for the City agency that holds it (13-6400434).
+[[exceptions]]
+check = "H12.designated_sum"
+page = 36
+expected = 9373993
+observed = 9855190
+note = "Discretionary Child Care: box $9,855,190 less '$481,197 post adoption' = $9,373,993; the 12 rows add to $9,855,190, one of them Administration for Children's Services, The, 13-6400434, $481,197 (p.36), the reserve (pending review)"
+[[exceptions]]
+check = "H12.designated_sum"
+page = 101
+expected = 1421000
+observed = 3850000
+note = "NORCs: box $3,850,000 less '$1.9 million' and '$529,000' held post-adoption = $1,421,000; the 13 rows add to $3,850,000, one of them Department for the Aging, 13-6400434, $2,429,000 (p.101), the two reserves (pending review)"
+# A box for the whole initiative over its parts' boxes, with no rows of its own.
+[[exceptions]]
+check = "H12.designated_sum"
+page = 53
+expected = 1950000
+observed = 0
+note = "a box for the whole SAVE initiative ($1,950,000), printed over its three parts' boxes ($600,000, $350,000, $1,000,000), whose rows are under them; it has no rows of its own (pending review)"
+[[exceptions]]
+check = "H12.designated_sum"
+page = 93
+expected = 11340534
+observed = 0
+note = "a box for the whole Crisis Management System ($11,340,534), printed over its eight parts' boxes (pp.94-97), whose rows are under them; it has no rows of its own; its parts add to $11,327,800 (pending review)"
+# The PDF disagrees with itself.
+[[exceptions]]
+check = "H12.designated_sum"
+page = 57
+expected = 20804500
+observed = 20804000
+note = "PDF self-error: Support for Educators box $20,804,500; its 2 rows add to $20,804,000. The scope names $250,000 + $20,104,500 = $20,354,500 for DOE; the DOE row prints $20,354,000 (pending review)"
+[[exceptions]]
+check = "H12.designated_sum"
+page = 80
+expected = 2468000
+observed = 2408000
+note = "PDF self-error: Immigrant Opportunities Initiative box $2,600,000 less '$132,000 post-adoption' = $2,468,000; the 29 rows (p.81) add to $2,408,000 (pending review)"
+[[exceptions]]
+check = "H12.designated_sum"
+page = 85
+expected = 3236846
+observed = 3291846
+note = "PDF self-error: Autism Awareness box and its table's TOTAL row (p.86) print $3,236,846; the 38 rows add to $3,291,846 (pending review)"
+[[exceptions]]
+check = "H12.table_total"
+page = 86
+expected = 3236846
+observed = 3291846
+note = "PDF self-error: Autism Awareness' TOTAL row prints $3,236,846; the 38 rows add to $3,291,846 (pending review)"
+[[exceptions]]
+check = "H12.designated_sum"
+page = 95
+expected = 1280000
+observed = 1320000
+note = "PDF self-error: Crisis Management System - School Based Conflict Mediation box $1,280,000; its 17 rows (p.96) add to $1,320,000; Street Corner Resources is printed twice, $40,000 each, once with 'Inc.' (pending review)"
+[[exceptions]]
+check = "H12.designated_sum"
+page = 124
+expected = 1813600
+observed = 1667600
+note = "COMPASS: 'has designated the Department of Youth and Community Development and the providers listed below'; the 7 providers add to $1,667,600; DYCD's $146,000 has no row (pending review)"
+[[exceptions]]
+check = "H12.designated_sum"
+page = 127
+expected = 250000
+observed = 230000
+note = "PDF self-error: Initiative for Immigrant Survivors of Domestic Violence box $250,000; its 6 rows add to $230,000 (pending review)"
+# EINs as printed. Clean EIN left blank; the printed value kept.
+[[exceptions]]
+check = "H5.anchors"
+award_id = "fy18-p107-t04-r000"
+ein_printed = "15-24042810"
+note = "10-digit EIN as printed (Urban Health Plan, Inc.; DATA-ANOMALIES §20's row, as FY2020 p.162)"
+# The text layer glues an EIN to the name before it, so the page has fewer EIN-shaped words than
+# rows with an EIN; the vector cell reads it apart (as FY2020 p.306).
+[[exceptions]]
+check = "H5.page_words"
+page = 16
+words = 22
+rows = 23
+note = "the text layer glues 112507910 to the name before it ('Ltd.112507910')"
+[[exceptions]]
+check = "H5.page_words"
+page = 177
+words = 24
+rows = 25
+note = "the text layer glues 260579140 to the name before it ('5X260579140')"
+[[exceptions]]
+check = "H5.page_words"
+page = 300
+words = 18
+rows = 19
+note = "the text layer glues 134094385 to the name before it ('Inc.134094385')"
+[[exceptions]]
+check = "H5.page_words"
+page = 301
+words = 18
+rows = 19
+note = "the text layer glues 134094385 to the name before it ('Inc.134094385')"
+[[exceptions]]
+check = "H5.page_words"
+page = 331
+words = 17
+rows = 18
+note = "the text layer glues 111729398 to the name before it ('Academy111729398')"
+[[exceptions]]
+check = "H5.page_words"
+page = 332
+words = 22
+rows = 24
+note = "the text layer glues 112425813 to the name before it twice ('Inc.112425813')"
+[[exceptions]]
+check = "H5.page_words"
+page = 106
+words = 28
+rows = 0
+note = "28 EINs in the Jobs to Build On partner list (side_lists), not award rows"
+# The roll-up gap is exactly these: the two reserves printed again as agency rows ($481,197
+# p.36; $2,429,000 p.101) - $500 (p.57) - $60,000 (p.80) + $55,000 (p.85) + $40,000 (p.95)
+# - $146,000 (p.124) - $20,000 (p.127) - $100,000 (Community Development's TOTAL, p.38)
+# + $75,331 (Merit-Based Scholarships' box over its summary line, p.69) = $2,754,028.
+[[exceptions]]
+check = "H13.rollup"
+page = 0
+expected = 330801000
+observed = 333555028
+note = "the two reserves printed again as agency rows (pp.36, 101), six boxes whose rows do not make them (pp.57, 80, 85, 95, 124, 127), Community Development's TOTAL (p.38) and Merit-Based Scholarships' box (p.69) (pending review)"
+
+# An EIN that is another organization's. Read as printed.
+[[known_issues]]
+check_id = "K.ein_other_org"
+severity = "critical"
+pdf_page = 55
+field = "ein"
+initiative = "Dropout Prevention and Intervention"
+dollar_impact = 207000
+what_to_check = "p.55: Good Shepherd Services, $207,000, prints EIN 46-1227433, New York City Community Learning Schools' EIN (the disclosure's Community Schools row, $1,500,000); Good Shepherd Services, Inc. prints 13-5598710 elsewhere in this PDF (e.g. Crisis Management System, p.94). Kept as printed. Which EIN is right?"

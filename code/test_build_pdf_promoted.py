@@ -159,3 +159,115 @@ def test_flags_link_to_review(built):
             ids = r["review_id"].split(";")
             assert all(i in rev for i in ids)
             assert set(r["flags"].split(";")) == {rev[i]["check_id"] for i in ids}
+
+
+def test_fy25_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2025" and y["family"] == "schedule_c")
+    assert y["issue"] == "104" and y["status"] == "reviewed" and y["rows"] == "9579"
+    assert y["printed_totals_tied"] == "24/25"
+    aw = rows(built["data/fy25/pdf/schedule_c/fy25_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 471876698
+    r = next(r for r in aw if r["award_id"] == "fy25-p169-t01-r001")   # Bronx Defenders
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "Bronx Defenders" in t and "13-3931074" in t and "Brooklyn Defender" not in t
+
+
+def test_fy24_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2024" and y["family"] == "schedule_c")
+    assert y["issue"] == "105" and y["status"] == "reviewed" and y["rows"] == "9291"
+    assert y["printed_totals_tied"] == "24/25"
+    aw = rows(built["data/fy24/pdf/schedule_c/fy24_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 453858561
+    # p.242's MediaBox starts at (-18.03, 17.97); bbox_pt is from its top-left corner.
+    r = next(r for r in aw if r["pdf_page"] == "242" and r["ein"] == "133505372")
+    doc = pdfium.PdfDocument(os.path.join(REPO, r["source_pdf"]))
+    try:
+        pg = doc[241]
+        mx0, _, _, my1 = pg.get_mediabox()
+        x0, top, x1, bottom = (float(v) for v in r["bbox_pt"].split(","))
+        t = pg.get_textpage().get_text_bounded(left=mx0 + x0, bottom=my1 - bottom,
+                                               right=mx0 + x1, top=my1 - top)
+    finally:
+        doc.close()
+    assert "Medicare Rights Center" in t and "MercyFirst" not in t and "CBO Capacity" not in t
+
+
+def test_fy23_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2023" and y["family"] == "schedule_c")
+    assert y["issue"] == "106" and y["status"] == "reviewed" and y["rows"] == "5925"
+    assert y["printed_totals_tied"] == "26/26"
+    aw = rows(built["data/fy23/pdf/schedule_c/fy23_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 323063807
+    assert sum(int(r["amount"]) for r in aw if r["section"] == "appendix_b") == 36539000
+    # One of the two Local rows the old parse lost (DATA-ANOMALIES §19): its box holds it.
+    r = next(r for r in aw if r["award_id"] == "fy23-p235-t00-r018")
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "Laundromat Project" in t and "Latinas" not in t
+
+
+def test_fy22_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2022" and y["family"] == "schedule_c")
+    assert y["issue"] == "107" and y["status"] == "reviewed" and y["rows"] == "5732"
+    assert y["printed_totals_tied"] == "25/25"
+    aw = rows(built["data/fy22/pdf/schedule_c/fy22_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 285155968
+    # A row of the four-column table the old parse lost; its box holds it, not its neighbours.
+    r = next(r for r in aw if r["award_id"] == "fy22-p084-t03-r001")
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "Society of the Educational" in t and "Heritage High School" in t and "Groove" not in t
+
+
+def test_fy21_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2021" and y["family"] == "schedule_c")
+    assert y["issue"] == "108" and y["status"] == "reviewed" and y["rows"] == "6179"
+    assert y["printed_totals_tied"] == "26/26"
+    aw = rows(built["data/fy21/pdf/schedule_c/fy21_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 262477792
+    # A row of a table whose header is printed outside its rules; its box holds it.
+    r = next(r for r in aw if r["award_id"] == "fy21-p045-t00-r002")
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "Instituto Arte Teatral" in t and "ID Studio" not in t
+
+
+def test_fy20_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2020" and y["family"] == "schedule_c")
+    assert y["issue"] == "109" and y["status"] == "reviewed" and y["rows"] == "7921"
+    assert y["printed_totals_tied"] == "27/27"
+    aw = rows(built["data/fy20/pdf/schedule_c/fy20_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 336750073
+    # An Appendix A row printed with no "$" (#59); its box holds it, not its neighbours.
+    r = next(r for r in aw if r["award_id"] == "fy20-p190-t00-r002")
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "Wellness Program" in t and "19,000" in t and "Abe Stark" not in t
+
+
+def test_fy19_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2019" and y["family"] == "schedule_c")
+    assert y["issue"] == "110" and y["status"] == "reviewed" and y["rows"] == "5995"
+    assert y["printed_totals_tied"] == "27/27"
+    aw = rows(built["data/fy19/pdf/schedule_c/fy19_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 248436176
+    # An Appendix A row printed with no "$" (#59); its box holds it, not its neighbours.
+    r = next(r for r in aw if r["award_id"] == "fy19-p133-t00-r002")
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "Holocaust Survivors" in t and "6,500" in t and "Senior Stars" not in t
+
+
+def test_fy18_schedule_c(built):
+    y = next(y for y in rows(built["data/pdf_years.csv"])
+             if y["fiscal_year"] == "2018" and y["family"] == "schedule_c")
+    assert y["issue"] == "111" and y["status"] == "reviewed" and y["rows"] == "5906"
+    assert y["printed_totals_tied"] == "25/26"   # Community Development (p.38), named
+    aw = rows(built["data/fy18/pdf/schedule_c/fy18_sc_awards.csv"])
+    assert sum(int(r["amount"]) for r in aw) == 203804505
+    # An Appendix A row printed with cents; its box holds it, not its neighbours.
+    r = next(r for r in aw if r["award_id"] == "fy18-p131-t00-r002")
+    t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
+    assert "19,000.00" in t and "Williams" in t and "100,500" not in t

@@ -1,0 +1,13 @@
+{
+  "config": "config/schedule_c/fy2018.toml",
+  "config_sha256": "f238384d6f3cd83a2daf385bbf2de599d79f171d17a4b2506dbd98d22f47b18b",
+  "fiscal_year": 2018,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdf": "source/FY18/FY-2018-Schedule-C-Cover-Template-FINAL-MERGE.pdf",
+  "pdf_sha256": "d4f1374ee16d8503f54cc0e5b43a2c5077b4f9f2d382df0169267d1b9e5fc5cb",
+  "pdfium": "156.0.8076.0",
+  "pdfplumber": "0.11.10",
+  "pypdfium2": "5.14.0",
+  "python": "3.12.13"
+}

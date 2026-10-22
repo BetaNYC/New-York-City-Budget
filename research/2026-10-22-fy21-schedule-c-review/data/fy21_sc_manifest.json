@@ -1,0 +1,13 @@
+{
+  "config": "config/schedule_c/fy2021.toml",
+  "config_sha256": "8183861b09675fc3b264babab135ac4562202f5026d0daea028cbd830e280df8",
+  "fiscal_year": 2021,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdf": "source/FY21/Fiscal-2021-Schedule-C-Cover-REPORT-Final.pdf",
+  "pdf_sha256": "3323ceaefa437b775711bacadc8c8645a89759dfe198b72d0bdd569da9271f0a",
+  "pdfium": "156.0.8076.0",
+  "pdfplumber": "0.11.10",
+  "pypdfium2": "5.14.0",
+  "python": "3.12.13"
+}

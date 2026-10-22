@@ -1,0 +1,432 @@
+# FY2024 Schedule C: every year-specific fact the pipeline needs, and nothing else (PLAN §7).
+# Each value cites the page it was read from. Shared code lives in code/schedc/.
+
+fiscal_year = 2024
+pdf = "source/FY24/Fiscal-2024-Schedule-C-Merge-Final.pdf"
+sha256 = "de122be2423c2f9a2e42c53dcc260b960e9ff74d9f930367f62c49af62dbe77a"
+pages = 453
+x_tolerance = 3.0          # pdfplumber default; FY2024 text has real space glyphs (PLAN §2.2)
+review_dir = "research/2026-10-21-fy24-schedule-c-review"   # outputs land in <review_dir>/data
+# Disclosure (report only): data/fy24/expense_disclosure, parsed from the workbook's sheet
+# 'FY24 (06-08-26)'. There was no 2026-10-19 prototype for FY2024, so no H17 floor (0).
+disclosure_note = "workbook sheet 'FY24 (06-08-26)'"
+h17_floor = 0
+
+# The 26 categories, as printed on each category banner (20 pt bold, pp.9-262). FY2024 differs
+# from FY2025 in four names: "Cultural Organizations" (p.67), "Domestic Violence Services"
+# (p.109), "Mental Health Services" (p.176), and "Older Adult Services (formerly Senior
+# Services)" (p.184).
+categories = [
+  "Anti-Poverty", "Boroughwide Needs", "Community Development",
+  "Community Safety and Victim Services", "Criminal Justice Services", "Cultural Organizations",
+  "Domestic Violence Services", "Education", "Environmental Initiatives", "Food Initiatives",
+  "Health Services", "Higher Education Initiatives", "Homeless Services", "Housing",
+  "Immigrant Services", "Legal Services", "Libraries", "Mental Health Services",
+  "Older Adult Services (formerly Senior Services)", "Parks and Recreation Services",
+  "Public Safety", "Small Business Services and Workforce Development",
+  "Speaker’s Initiative to Address Citywide Needs", "Veteran Services",
+  "Young Women’s Initiative", "Youth Services",
+]
+
+# Section page ranges, read from the pages (Appendix titles first printed on pp.266, 292, 412;
+# first category banner p.9).
+[[page_ranges]]
+name = "front"
+first = 1
+last = 8
+[[page_ranges]]
+name = "body"
+first = 9
+last = 265
+[[page_ranges]]
+name = "appendix_a"
+first = 266
+last = 291
+[[page_ranges]]
+name = "appendix_b"
+first = 292
+last = 411
+[[page_ranges]]
+name = "appendix_c"
+first = 412
+last = 453
+
+[[sections]]
+name = "appendix_a"
+title_re = "Appendix A: Aging Discretionary"
+[[sections]]
+name = "appendix_b"
+title_re = "Appendix B: Local Initiatives"
+[[sections]]
+name = "appendix_c"
+title_re = "Appendix C: Youth Discretionary"
+
+[structure]
+award_header_re = "(Tax ID|EIN).*Amount"
+summary_title = "Fiscal 2024 Council Initiatives"
+# FY2024 titles its category summary tables 17 ways (pp.9-262); two say "Fiscal 2023" (p.63
+# Criminal Justice Services, p.262 Youth Services, typos kept as printed). Parks and Recreation
+# Services (p.201) prints no summary table at all (`no_summary`, below).
+summary_titles = [
+  "Fiscal 2024 Council Initiatives", "Fiscal 2024 Community Development Initiatives",
+  "Fiscal 2023 Criminal Justice Services Initiatives",
+  "Fiscal 2024 Council Cultural Organization Initiatives",
+  "Fiscal 2024 Council Domestic Violence Services Initiatives", "Fiscal 2024 Food Initiatives",
+  "Fiscal 2024 Health Services Initiatives", "Fiscal 2024 Higher Education Initiatives",
+  "Fiscal 2024 Council Homeless Initiatives", "Fiscal 2024 Initiatives",
+  "Fiscal 2024 Council Legal Services Initiatives", "Fiscal 2024 Council Libraries Initiatives",
+  "Fiscal 2024 Mental Health Services Initiatives",
+  "Fiscal 2024 Council Older Adult Services Initiatives",
+  "Fiscal 2024 Small Business Services and Workforce Development Initiatives",
+  "Fiscal 2024 Veteran Services Initiatives", "Fiscal 2024 Young Women’s Initiatives",
+  "Fiscal 2023 Youth and Community Development Initiatives",
+]
+banner_min_size = 19.0     # category banners are 20 pt bold (e.g. p.9 "Anti-Poverty")
+statement_prefix = "Designation Method:"
+# Each switch below changes FY2024's output when turned off (checked one by one).
+# Box + description + statement + award table drawn as one ruled table (e.g. pp.35, 122, 217).
+split_merged_tables = true
+# A rule between the two lines of a long name (16 rows on 6 pages, e.g. p.178 "...Washington"
+# / "Heights and Inwood"; p.211, 10 school names).
+continuation_rows = true
+# Award tables that run over a page without a header (38 pages, e.g. pp.36-39 continuing
+# p.35's table; pp.41-45, whose header is printed at the bottom of the table).
+headerless_continuation = true
+# Tables ruled with horizontal lines only, no vertical rules (70 tables on 53 pages, e.g.
+# pp.35-39, 63-66, 149, 161): rows from the rules, columns split at the EIN and amount words
+# (code/schedc/vector.py `hrule_tables`). Tables made of white-filled boxes only (p.161) or
+# whose EIN rows have no amount cell (p.69) are replaced by them.
+hrule_tables = true
+# A table's first row with no rule above it (pp.41-46: the column rules start 13 pt higher;
+# pp.152-153: nothing drawn above it but the page-header rule). Read as a row when its band
+# holds an EIN word and an amount word (`open_top_row`, `hrule_tables`).
+open_top_rows = true
+# The award header printed as loose text just above the table (pp.148, 149, 155, 169, 264,
+# 265), sometimes only "EIN  Amount" (p.265: "Legal Name of Organization" is in the box table
+# above).
+loose_header = true
+# Two "Council" / "Member" header bands, as FY2025 (e.g. p.69, pp.138-145).
+header_two_bands = true
+# A second box in the same ruled table: under the first box's statement (as FY2025), or under
+# its award rows (p.122, two SAVE boxes).
+split_boxes = true
+split_boxes_after_rows = true
+# "Designation Method:" alone in a cell, its text beside it outside the cells (p.217).
+statement_loose_text = true
+# FY2025 and FY2026 switches with no effect on FY2024 (off): box_amount_on_second_row,
+# amount_without_dollar, box_title_letters, amount_sliver_join, amount_odd_format,
+# header_span_cells, box_amount_cells, statement_in_cell.
+page_furniture_re = "(\\d+|Page \\d+|FISCAL YEAR 2024 ADOPTED EXPENSE BUDGET ADJUSTMENT SUMMARY)"
+header_labels = [
+  ["Council Member", "member"],
+  ["Sponsor", "sponsor"],
+  ["Legal Name of Organization [-–] Program Name", "org"],
+  ["Institute", "org"],                                       # p.157 CUNY Research Institutes
+  ["Legal Name", "org"],                                      # pp.63-66
+  ["Legal Name of Organization", "org"],                      # pp.35-48, 148-169 (h-rule tables)
+  ["Tax ID", "ein"],
+  ["EIN", "ein"],
+  ["Amount", "amount"],
+  ["Agency", "agency"],
+  ["Purpose of Funds", "purpose"],
+]
+
+# Designation statements (text after "Designation Method:"), checked in order. FY2024 words
+# them 71 ways (144 statements). What FY2024 does that FY2025 does not:
+#   - "will designate $N post-adoption and has designated the following providers": a reserve
+#     and rows, but no designated amount (31 boxes, e.g. pp.48, 67, 69). Kind `reserve_rows`
+#     (code/schedc/reconcile.py): rows = box - reserve. Worded also "post adoption", "after
+#     adoption", "post-Adoption", "$N awards post-adoption" (p.40), "$N in awards
+#     post-adoption" (pp.125, 126), as two sentences ("will designate $N post adoption The
+#     City Council has designated ...", pp.176-183), or the other way round ("has designated
+#     the following providers for Fiscal 2024 and will designate $N post-adoption", p.63);
+#   - p.147 Food Pantries: "has designated $N to Food Bank for New York City for school
+#     pantries, $N to two community-based food organizations, and will designate $N
+#     post-adoption ...": the two designated amounts add up;
+#   - "will designate post adoption." with no amount (pp.108, 182, 265): kind reserve_all;
+#   - "This funding is allocated directly to the City University of New York" (pp.156-157),
+#     "The City Council has allocated $N directly to the City University of New York and $N
+#     directly to the Department of Education" (p.158), "The funding is allocated directly to
+#     the NYC Department of Education" (p.260): kind direct;
+#   - other wordings of "the following providers": "has made the following designations"
+#     (p.37), "will designate the following providers" (p.66), "The City will designate"
+#     (p.66), "in Fiscal 2024" (pp.153, 154), no year (p.256), "Fiscal 2023" (p.168, a typo);
+#   - amounts in millions, "$2.48 million" (p.69), "$1 million" (p.147), read at face value;
+#   - Libraries (p.174) as FY2025: "This funding is directly allocated to the ... Library.";
+#   - p.262 prints two statements in one ("has designated the following provider for Fiscal
+#     2024. The City Council will designate $N post-adoption and has designated ...").
+# A loose column header printed under a statement ("Legal Name of Organization", e.g. p.148)
+# is read into it by the line-joining rule; the patterns allow it at the end.
+[[statements]]
+kind = "reserve_rows"
+re = "^(The (City )?Council has designated the following providers? for Fiscal 2024\\. )?The (City )?Council will designate \\$(?P<reserve>[\\d,]+|\\d+(\\.\\d+)? million) (in )?(awards )?(post[- ][Aa]doption|after adoption)( and|\\. The City Council)? (has|have) designated the following providers? (for|in) Fiscal 2024 ?[:.]( Legal Name of Organization)?$"
+[[statements]]
+kind = "reserve_rows"
+re = "^The (City )?Council will designate \\$(?P<reserve>[\\d,]+) post adoption The City Council has designated the following providers? for Fiscal 2024 ?[:.]$"
+[[statements]]
+kind = "reserve_rows"
+re = "^The City Council has designated the following providers for Fiscal 2024 and will designate \\$(?P<reserve>[\\d,]+) post-adoption:$"
+[[statements]]
+kind = "partial"
+re = "^The City Council has designated \\$(?P<designated>[\\d,]+|\\d+(\\.\\d+)? million) to Food Bank for New York City for school pantries, \\$(?P<designated2>[\\d,]+) to two community-based food organizations, and will designate \\$(?P<reserve>[\\d,]+|\\d+(\\.\\d+)? million) post-adoption to additional community-based food organizations for Fiscal 2024:$"
+[[statements]]
+kind = "reserve_only"
+re = "^The (City )?Council will designate \\$(?P<reserve>[\\d,]+) post[- ]adoption( for Fiscal 2024)? ?[.:]$"
+[[statements]]
+kind = "direct"
+re = "^This funding is directly allocated to the (Brooklyn Public Library|New York Public Library|Queens Borough Public Library|Research Library)\\.$"
+[[statements]]
+kind = "reserve_all"
+re = "^The (City )?Council will designate (awards )?post[- ]adoption ?[.:]$"
+[[statements]]
+kind = "direct"
+re = "^Th(is|e) funding is allocated directly to the (City University of New York|NYC Department of Education)( for the following institutes| for Fiscal 2024)?[.:]$"
+[[statements]]
+kind = "direct"
+re = "^The City Council has allocated \\$[\\d,]+ directly to the City University of New York and \\$[\\d,]+ directly to the Department of Education\\.$"
+[[statements]]
+kind = "full"
+re = "^The (City )?(Council )?(h ?as designated|has made|will designate) the following (providers?|designations)( (for|in) Fiscal 202[34])? ?[:.]( Legal Name of Organization)?$"
+
+# Image lattice and ink: FY2027's values, with three FY2024 changes.
+#   - carry_header: the image side reads a table with no header (or its header at the bottom,
+#     pp.41-45) with the last header it saw, as FY2026.
+#   - band_check: rows the image lattice cannot see (tables with no drawn vertical rules: the
+#     h-rule tables, and tables whose only verticals are white-filled boxes, e.g. p.178) are
+#     checked against the pixels' horizontal rules (code/schedc_cv/imagegrid.py `check_bands`).
+#   - ink_min_region_px 48, not 64: the Speaker's pages (pp.227-254) are set in 8.8 pt type,
+#     where a letter 'i' is 61 px at 300 dpi. At 48 the clean run still finds 0 regions (1,736
+#     loose px of 274,459,445 ink px) and the self-test's 'i' fires.
+# Pixels and pdfplumber coordinates are both taken from the MediaBox corner: 216 pages
+# (pp.227-254, 266-453) have MediaBox [-18.03 17.97 773.97 629.97] (code/schedc/vector.py
+# `origin`).
+[image]
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+carry_header = true
+band_check = true
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 48
+# Acceptance: Medicare Rights Center, Inc. $100,000 (p.242), a row the data on main lacks, on a
+# page with a MediaBox offset. Withholding the row, or its smallest letter, must fire.
+ink_acceptance_page = 242
+ink_acceptance_award_id = "fy24-p242-t00-r006"
+ink_acceptance_char = "alnum"
+
+
+
+# Rows whose initiative is not the box above them in page order (code/schedc/structure.py).
+# pp.130-137 are eight landscape pages (1148x887, no printed page number) merged in between
+# printed pp.89 and 90, right after A Greener NYC's statement (p.129). Their 191 rows are
+# cleaning, litter and BID sanitation awards; they add to $12,028,500, exactly what NYC
+# Cleanup's statement (box on p.145: $14,280,000 less $2,251,500 post-adoption) designates.
+# A Greener NYC's own rows (pp.138-145) follow on printed pp.90-97.
+[[initiative_pages]]
+first = 130
+last = 137
+initiative = "NYC Cleanup"
+category = "Environmental Initiatives"
+note = "landscape insert pages merged out of order; rows sum to NYC Cleanup's designated $12,028,500"
+
+# A category with no summary table: Parks and Recreation Services (p.201) prints its banner,
+# one box (Parks Equity Initiative $5,368,500) and its award table; no summary table, no TOTAL.
+[[no_summary]]
+category = "Parks and Recreation Services"
+page = 201
+note = "Parks and Recreation Services prints no summary table or TOTAL (p.201)"
+
+# Box vs summary names (H11): the summary line is printed under a different name than its box
+# (or, for SAVE, one line for two boxes; for Libraries, four lines all named "Fiscal 2024
+# Subsidy", told apart by their agency column). Amounts agree; rows carry the box title.
+[[box_aliases]]
+category = "Community Development"
+page = 46
+summary = ["Diversity, Inclusion and Equity in Tech Initiative", 700000]   # summary table p.35
+boxes = [["Diversity, Inclusion and Equity in Tech", 700000]]
+note = "box drops 'Initiative'"
+[[box_aliases]]
+category = "Criminal Justice Services"
+page = 63
+summary = ["Alternatives to Incarceration (ATI)", 14487000]   # summary table p.63
+boxes = [["Alternatives to Incarceration (ATIs)", 14487000]]
+note = "'(ATI)' vs '(ATIs)'"
+[[box_aliases]]
+category = "Domestic Violence Services"
+page = 122
+summary = ["Supportive Alternatives to Violent Encounters (SAVE)", 2450000]   # summary table p.109
+boxes = [["Supportive Alternatives to Violent Encounters (SAVE)", 600000], ["Supportive Alternatives to Violent Encounters (SAVE)", 1850000]]
+note = "one summary line for two SAVE boxes"
+[[box_aliases]]
+category = "Education"
+page = 126
+summary = ["LGBTQIA+ Inclusive Curriculum (Formerly Known as LGBTQ Inclusive Curriculum)", 2800000]   # summary table p.123
+boxes = [["LGBTQIA+ Inclusive Curriculum (Formerly known as LGBTQ Inclusive Curriculum)", 2800000]]
+note = "'Known' vs 'known'"
+[[box_aliases]]
+category = "Health Services"
+page = 154
+summary = ["Reproductive & Sexual Health Services", 554423]   # summary table p.148
+boxes = [["Reproductive and Sexual Health Services", 554423]]
+note = "'&' vs 'and'"
+[[box_aliases]]
+category = "Higher Education Initiatives"
+page = 156
+summary = ["Care Workers for Our Future", 400000]   # summary table p.156
+boxes = [["Care Workers For Our Future", 400000]]
+note = "'for' vs 'For'"
+[[box_aliases]]
+category = "Higher Education Initiatives"
+page = 156
+summary = ["Creative Arts Team (CUNY CAT)", 400000]   # summary table p.156
+boxes = [["Creative Arts Team", 400000]]
+note = "summary adds '(CUNY CAT)'"
+[[box_aliases]]
+category = "Housing"
+page = 163
+summary = ["Financial Empowerment for NYC Renters", 450000]   # summary table p.160
+boxes = [["Financial Empowerment for NYC's Renters", 450000]]
+note = "'NYC Renters' vs \"NYC's Renters\""
+[[box_aliases]]
+category = "Libraries"
+page = 174
+summary = ["Fiscal 2024 Subsidy", 4380300]   # summary table p.174, agency BPL
+boxes = [["Fiscal 2024 Subsidy: Brooklyn Public Library", 4380300]]
+note = "summary line 'Fiscal 2024 Subsidy' (agency BPL)"
+[[box_aliases]]
+category = "Libraries"
+page = 174
+summary = ["Fiscal 2024 Subsidy", 5840400]   # summary table p.174, agency NYPL
+boxes = [["Fiscal 2024 Subsidy: New York Public Library", 5840400]]
+note = "summary line 'Fiscal 2024 Subsidy' (agency NYPL)"
+[[box_aliases]]
+category = "Libraries"
+page = 174
+summary = ["Fiscal 2024 Subsidy", 4380300]   # summary table p.174, agency QBPL
+boxes = [["Fiscal 2024 Subsidy: Queens Public Library", 4380300]]
+note = "summary line 'Fiscal 2024 Subsidy' (agency QBPL)"
+[[box_aliases]]
+category = "Libraries"
+page = 175
+summary = ["Fiscal 2024 Subsidy", 1099000]   # summary table p.174, agency (NYPL-R) Research
+boxes = [["Fiscal 2024 Subsidy: Research Library", 1099000]]
+note = "summary line 'Fiscal 2024 Subsidy' (Research Library)"
+[[box_aliases]]
+category = "Mental Health Services"
+page = 179
+summary = ["Developmental, Psychological & Behavioral Health Services", 2255493]   # summary table p.176
+boxes = [["Developmental, Psychological and Behavioral Health Services", 2255493]]
+note = "'&' vs 'and'"
+[[box_aliases]]
+category = "Mental Health Services"
+page = 180
+summary = ["LGBTQIA Youth All-Borough Mental Health", 1200000]   # summary table p.176
+boxes = [["LGBTQIA+ Youth All-Borough Mental Health", 1200000]]
+note = "'LGBTQIA' vs 'LGBTQIA+'"
+[[box_aliases]]
+category = "Public Safety"
+page = 212
+summary = ["Hate Crimes Prevention Initiative", 1225000]   # summary table p.209
+boxes = [["Hate Crimes Prevention", 1225000]]
+note = "box drops 'Initiative'"
+
+# Named exceptions: places where the PDF disagrees with itself or prints a value that is not
+# an EIN. Each must match exactly or the check still fails. None is corrected.
+# Criminal Justice Services (p.63): the 7 summary lines add to $28,711,645; TOTAL prints
+# $28,658,710. (The same table is titled "Fiscal 2023 ...".)
+[[exceptions]]
+check = "H10.category_total"
+page = 63
+expected = 28658710
+observed = 28711645
+note = "PDF self-error: summary lines sum $28,711,645, TOTAL printed $28,658,710 (pending review)"
+# Statements of the "will designate $N post-adoption and has designated the following
+# providers" kind whose reserve and rows do not add to the box (box - reserve = expected).
+[[exceptions]]
+check = "H12.designated_sum"
+page = 109
+expected = 10401500
+observed = 10341500
+note = "PDF self-error: DoVE box $12,010,000 less $1,608,500 post-adoption = $10,401,500; rows sum $10,341,500 (pending review)"
+[[exceptions]]
+check = "H12.designated_sum"
+page = 129
+expected = 4350000
+observed = 4985000
+note = "PDF self-error: A Greener NYC box $5,100,000 less $750,000 post-adoption = $4,350,000; its rows (pp.138-145) sum $4,985,000 (pending review)"
+[[exceptions]]
+check = "H12.designated_sum"
+page = 148
+expected = 3380924
+observed = 3459893
+note = "PDF self-error: Access Health box $3,620,210 less $239,286 after adoption = $3,380,924; rows sum $3,459,893 (pending review)"
+[[exceptions]]
+check = "H12.designated_sum"
+page = 176
+expected = 2843404
+observed = 3018404
+note = "PDF self-error: Autism Awareness box $3,261,846 less $418,442 post adoption = $2,843,404; rows sum $3,018,404 (pending review)"
+[[exceptions]]
+check = "H12.designated_sum"
+page = 181
+expected = 3088000
+observed = 2638000
+note = "PDF self-error: Mental Health Services for Vulnerable Populations box $3,663,000 less $575,000 = $3,088,000; rows sum $2,638,000 (pending review)"
+# Food Pantries (p.147): "$1 million ... $59,000 ... and will designate $6.2 million": the rows
+# add to $1,059,000 as stated, and $6.2 million rounds the $6,201,000 that makes the
+# $7,260,000 box.
+[[exceptions]]
+check = "H12.statement_adds_up"
+page = 147
+expected = 7260000
+observed = 7259000
+note = "statement rounds: '$6.2 million' post-adoption for $6,201,000 (pending review)"
+# The roll-up gap is exactly those: -$60,000 + $635,000 + $78,969 + $175,000 - $450,000
+# (p.109, 129, 148, 176, 181), -$1,000 (p.147) and +$52,935 (p.63 TOTAL vs its lines).
+[[exceptions]]
+check = "H13.rollup"
+page = 0
+expected = 477244065
+observed = 477674969
+note = "the six statement gaps of pp.109, 129, 147, 148, 176, 181 and the +$52,935 of p.63 (pending review)"
+# EINs printed in a form that is not an EIN. Clean EIN left blank; the printed value kept.
+[[exceptions]]
+check = "H5.anchors"
+award_id = "fy24-p135-t00-r022"
+ein_printed = "TF4876222"
+note = "Tax ID printed 'TF4876222' (Knickerbocker Avenue Merchants Partnership)"
+[[exceptions]]
+check = "H5.anchors"
+award_id = "fy24-p182-t00-r005"
+ein_printed = "13-294-6970"
+note = "EIN printed with two hyphens (Safe Horizon, Inc.), as in FY2025"
+
+# Issues our checks cannot see, read by hand.
+# Drama Club, Inc. (p.261, Young Women's Leadership Development) is printed with EIN
+# 47-2288307, the EIN of Digital Girl, Inc. in the row above (and on pp.41, 46). Both grids
+# read the same digits; the PDF repeats the EIN. Kept as printed.
+[[known_issues]]
+check_id = "K.ein_repeated"
+severity = "critical"
+pdf_page = 261
+field = "ein"
+award_id = "fy24-p261-t00-r008"
+table_index = 0
+row_index = 8
+dollar_impact = 107627
+what_to_check = "Drama Club, Inc. is printed with EIN 47-2288307, the EIN of Digital Girl, Inc. in the row above. Kept as printed; the disclosure (and main's repaired data) give Drama Club 30-0836513."
+# Line-end hyphens a person should look at (read by hand from the 81 in fy24_sc_flags.csv; the
+# other 80 are compound words, names (Brooks-Powers, Woodhaven-Richmond Hill, Bed-Stuy) or
+# ranges (K-12)). Kept joined, as printed; the raw value keeps the line break.
+[[known_issues]]
+check_id = "W5.wrap_hyphen"
+pdf_page = 341
+field = "org"
+award_id = "fy24-p341-t00-r022"
+table_index = 0
+row_index = 22
+dollar_impact = 8000
+what_to_check = "'Arts Programming for All Grades-' then 'Public School/Intermediate School 187M': kept as 'Grades-Public'. Is it 'Grades - Public'?"

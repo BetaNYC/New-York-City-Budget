@@ -1,0 +1,13 @@
+{
+  "config": "config/schedule_c/fy2025.toml",
+  "config_sha256": "29733c68a5562bd933db7115d95984aa6319c0d587b9df83662e7b11fd56828f",
+  "fiscal_year": 2025,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdf": "source/FY25/Fiscal-2025-Schedule-C-MERGE-FINAL-2.pdf",
+  "pdf_sha256": "71b7dfc2a96aab412275da3c519e3faf913d654fd252b880c75738b0c6a2c196",
+  "pdfium": "156.0.8076.0",
+  "pdfplumber": "0.11.10",
+  "pypdfium2": "5.14.0",
+  "python": "3.12.13"
+}

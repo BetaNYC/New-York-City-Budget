@@ -1,0 +1,70 @@
+SCHEDULE C FY2024 -- checks (code/parse_schedule_c_v2.py; config config/schedule_c/fy2024.toml)
+pdf source/FY24/Fiscal-2024-Schedule-C-Merge-Final.pdf  sha256 de122be2423c2f9a2e42c53dcc260b960e9ff74d9f930367f62c49af62dbe77a
+
+award rows: 9,291  total $453,858,561
+  body         5,380 rows  $   404,059,561
+  appendix_a     477 rows  $     5,610,000
+  appendix_b   2,616 rows  $    36,539,000
+  appendix_c     818 rows  $     7,650,000
+initiatives: 148  categories: 25
+
+STRUCTURAL CHECKS
+  ok    H1.input         sha256 de122be2423c… pages 453
+  ok    H2.triage        453 pages surveyed; 0 with invisible text or <=100 chars on an award page
+  ok    H3.pagemap       0 award rows outside their configured section range
+  ok    H4.headers       0 unknown or incomplete award-table headers
+  ok    H5.anchors       9289 EIN-shaped words, 9289 rows with an EIN; 0 pages differ; 0 rows without exactly one EIN and one amount; 2 named exceptions
+  ok    H6.furniture     0 data cells holding header/footer text
+  ok    H7.chars         1355527 non-space chars; 0 orphan chars in award tables; 0 unmapped cells
+  ok    H7.hrule_splits  70 tables from horizontal rules; 0 characters cross a column split; 0 stacks of rules not read
+  ok    H14.provenance   9291 award_ids, 9291 unique
+  ok    H16.values       0 clean values not reproducible from raw
+
+PRINTED TOTALS (H10-H13)
+  H10.category_total         named_exception  1
+  H10.category_total         ok               24
+  H10.no_summary             named_exception  1
+  H11.box_vs_summary         ok               25
+  H12.designated_sum         named_exception  5
+  H12.designated_sum         ok               128
+  H12.reserve_only_rows      ok               5
+  H12.statement_adds_up      named_exception  1
+  H12.statement_adds_up      ok               2
+  H13.rollup                 named_exception  1
+  -> named_exception: p.63 Criminal Justice Services: expected 28,658,710, observed 28,711,645 (diff +52,935) PDF self-error: summary lines sum $28,711,645, TOTAL printed $28,658,710 (pending review)
+  -> named_exception: p.201 Parks and Recreation Services: expected 5,368,500, observed 5,368,500 (diff +0) Parks and Recreation Services prints no summary table or TOTAL (p.201)
+  -> named_exception: p.109 Domestic Violence and Empowerment (DoVE) Initiative (reserve_rows): expected 10,401,500, observed 10,341,500 (diff -60,000) PDF self-error: DoVE box $12,010,000 less $1,608,500 post-adoption = $10,401,500; rows sum $10,341,500 (pending review)
+  -> named_exception: p.129 A Greener NYC (reserve_rows): expected 4,350,000, observed 4,985,000 (diff +635,000) PDF self-error: A Greener NYC box $5,100,000 less $750,000 post-adoption = $4,350,000; its rows (pp.138-145) sum $4,985,000 (pending review)
+  -> named_exception: p.147 Food Pantries (partial): expected 7,260,000, observed 7,259,000 (diff -1,000) statement rounds: '$6.2 million' post-adoption for $6,201,000 (pending review)
+  -> named_exception: p.148 Access Health (reserve_rows): expected 3,380,924, observed 3,459,893 (diff +78,969) PDF self-error: Access Health box $3,620,210 less $239,286 after adoption = $3,380,924; rows sum $3,459,893 (pending review)
+  -> named_exception: p.176 Autism Awareness (reserve_rows): expected 2,843,404, observed 3,018,404 (diff +175,000) PDF self-error: Autism Awareness box $3,261,846 less $418,442 post adoption = $2,843,404; rows sum $3,018,404 (pending review)
+  -> named_exception: p.181 Mental Health Services for Vulnerable Populations (reserve_rows): expected 3,088,000, observed 2,638,000 (diff -450,000) PDF self-error: Mental Health Services for Vulnerable Populations box $3,663,000 less $575,000 = $3,088,000; rows sum $2,638,000 (pending review)
+  -> named_exception: p.0 body rows + post-adoption reserves vs sum of category TOTALs (+ direct agency designations): expected 477,244,065, observed 477,674,969 (diff +430,904) the six statement gaps of pp.109, 129, 147, 148, 176, 181 and the +$52,935 of p.63 (pending review)
+  roll-up: category TOTALs $477,244,065 = body rows $404,059,561 + post-adoption reserves $38,403,539 + designated directly to an agency, no rows printed $35,211,869 + $-430,904
+  appendices print no total; their pots (DATA-ANOMALIES §19): appendix_a $5,610,000, appendix_b $36,539,000, appendix_c $7,650,000
+
+IMAGE LATTICE (H8): rows read independently through code/ocr/grid.py lattices
+  agree on every field: 7,844 of 9,291
+  rows in tables with no drawn vertical rules, which the image lattice cannot see: 1,447; the pixels' horizontal rules confirm the row band of 1,438
+  bands_differ: 9
+  image rows with no vector row: 0
+INK COVERAGE (H9): uncovered-ink regions inside award tables
+  regions: 0  uncovered px total: 1,736 of 274,459,445 ink px
+  acceptance on p.242 (fy24-p242-t00-r006): clean run 0 regions; row withheld -> 6; one char withheld -> 1 (PASS); the char is 'i'
+
+DISCLOSURE (report-only; data/fy24/expense_disclosure, workbook sheet 'FY24 (06-08-26)')
+  pdf rows 9,291; disclosure rows 10,811; matched (EIN, amount, City-EIN name rule) 9,023
+  matched without the City-EIN name rule (no prototype floor for this year): 9,038
+  body        cleared 5,226 ($395,180,620); pending 18 ($277,300); unmatched 136 ($8,601,641)
+  appendix_a  cleared 460 ($5,401,000); pending 3 ($20,000); unmatched 14 ($189,000)
+  appendix_b  cleared 2,493 ($34,855,750); pending 34 ($249,500); unmatched 89 ($1,433,750)
+  appendix_c  cleared 781 ($7,251,250); pending 8 ($58,000); unmatched 29 ($340,750)
+  pdf rows without a disclosure row, by reason: amount_differs 94, city_ein_name_mismatch 17, ein_fully_claimed 34, ein_not_in_disclosure 65, key_already_claimed 56, pdf_value_unreadable 2
+  disclosure rows without a pdf row, by reason: amount_or_count_differs 1703 ($80,922,376), city_ein_pending 9 ($316,000), ein_not_in_pdf 76 ($3,439,618)
+  disclosure rows on keys where the allocation was a choice (ambiguous): 1,644
+
+WARN COUNTS (not in the review file; listed in flags.csv)
+  cid_glyph 1, continuation_row 16, ein_unreadable 2, headerless_table 645, hrule_table 927, loose_header 81, reattributed 191, sliver_band 2, wrap_hyphen 81
+  zero-width chars dropped: 1
+
+REVIEW FILE: 39 rows (11 critical, 28 warn); stale decisions: 0
