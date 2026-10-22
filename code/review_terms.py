@@ -1,6 +1,7 @@
 """
 Terms and Conditions: parse, check and review (epic #101; FY2027 #102, FY2026 #103,
-FY2025 #104, FY2024 #105, FY2023 #106, FY2022 #107).
+FY2025 #104, FY2024 #105, FY2023 #106, FY2022 #107,
+FY2021 #108).
 
 One parser, one config per year (config/terms/fyNNNN.toml: PDF, sha256, page furniture, the
 retired CSV to compare with). FY2027 (the default): source/FY27/FY27-FINAL-Terms-and-Conditions-
@@ -8,7 +9,8 @@ retired CSV to compare with). FY2027 (the default): source/FY27/FY27-FINAL-Terms
 (29 pages). FY2025: source/FY25/FY25-Terms-and-Conditions-1.pdf (25 pages). FY2024:
 source/FY24/FY24-Terms-and-Conditions.pdf (24 pages, no printed condition numbers: config numbered = false). FY2023: source/FY23/FY23-Terms-
 and-Conditions_FINAL_OMB-and-Council-Review-6.11.22.pdf (19 pages, unnumbered too). FY2022:
-source/FY22/FY22-Terms-and-Conditions_FINAL.pdf (18 pages, unnumbered, no page furniture). Writes to the config's research/ folder (never to data/; DATA-ANOMALIES §27).
+source/FY22/FY22-Terms-and-Conditions_FINAL.pdf (18 pages, unnumbered, no page furniture). FY2021:
+source/FY21/Fiscal-2021-Terms-and-Conditions.pdf (16 pages, as FY2022; body margin 90 pt). Writes to the config's research/ folder (never to data/; DATA-ANOMALIES §27).
 
 The document is prose (families/transparency-and-terms.md §4). Its structure is:
 
@@ -32,7 +34,7 @@ Checks (numbers in checks.txt, failures in review.csv):
   T7 against the retired data/fyNN/terms CSV (config old_csv): rows, numbers, agencies, units, and text
      (whitespace removed), plus the mid-word split count in each
 
-Run:  .venv/bin/python code/review_terms.py [--fy 2027|2026|2025|2024|2023|2022] [--out DIR] [--no-ink]
+Run:  .venv/bin/python code/review_terms.py [--fy 2027|2026|2025|2024|2023|2022|2021] [--out DIR] [--no-ink]
 """
 import argparse
 import collections
@@ -407,8 +409,10 @@ def run(out_dir=None, do_ink=True, fy=None):
                       f"repeats {dups}; in order: {nums == sorted(nums)}")
         if not CFG.get("numbered", True):
             # No printed numbers to check: count the paragraphs that open a condition instead.
+            # FY2021 sets its body at x0 = 90 pt (config body_x0_max; FY2022-FY2024 at 72 pt).
+            x0_max = CFG.get("body_x0_max", 80)
             opens = sum(1 for p in pdf.pages[1:] for l in p.extract_text_lines()
-                        if l["x0"] < 80 and l["text"].startswith("As a condition"))
+                        if l["x0"] < x0_max and l["text"].startswith("As a condition"))
             report.append(f"   the PDF prints no numbers (item_number = order in the book); "
                           f"paragraphs opening 'As a condition' at the left margin: {opens}")
             if opens != len(conds):
