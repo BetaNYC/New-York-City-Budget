@@ -708,11 +708,15 @@ export function bookPart2OnlyQuery(f) {
 }
 
 /**
- * The "MA" series (agency code, then MA: "PV MA0005"): rows the book prints only in Part II, with
- * one question about them to Council Finance in every year (#209: needs_info). Its label is
- * mcp/src/questions.ts maSeriesWords, from the question's status.
+ * Each year's Part II series ("MA" IDs on "0N" lines; FY2026 "MM"), from the reader's config
+ * (config/capital_sd/fyYYYY.toml, loaded as pdf_capital_sd_series). A row is in it by
+ * mcp/src/questions.ts inPart2Series; one question to Council Finance covers it (#209), labeled
+ * by seriesWords with the question's status.
  */
-export const isMaSeries = (subId) => /^[A-Z]{1,2} MA/.test(String(subId ?? "").trim());
+export const part2SeriesQuery = () => ({
+  sql: "SELECT fiscal_year, id_prefix, line_prefix FROM pdf_capital_sd_series ORDER BY fiscal_year",
+  params: [],
+});
 export const PART2_ONLY_LABEL = "printed only in Part II";
 
 /**

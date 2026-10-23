@@ -130,6 +130,7 @@ export const PDF_FAMILIES = {
         ],
       },
     ],
+    derive: deriveCapitalSeries,
   },
   terms: {
     label: "Terms and Conditions",
@@ -373,6 +374,10 @@ export const COUNCIL_QUESTIONS = {
 };
 
 export const DERIVED = {
+  // The project ID series the capital book prints only in Part II, per year, from the reader's own
+  // config (config/capital_sd/fyYYYY.toml [part2_only]: "MA" IDs on "0N" lines; FY2026 "MM").
+  // One question to Council Finance covers it (src/questions.ts MA_SERIES_QUESTION).
+  pdf_capital_sd_series: [["fiscal_year", I], ["id_prefix", T], ["line_prefix", T]],
   pdf_sc_disclosure: [
     ["fiscal_year", I], ["side", T], ["award_id", T], ["ein", T], ["amount", I], ["disclosure_row", I],
     ["disclosure_status", T], ["disclosure_name", T], ["disclosure_source", T], ["disclosure_amount", "REAL"],
@@ -445,7 +450,7 @@ function insertAll(db, table, columns, rows, extra, at) {
  * Load the families data/pdf_years.csv lists into `db` (whose schema pdfSchemaSql() created).
  *
  * @param db               better-sqlite3 database
- * @param io               { readCsv(rel), sha256Of(rel), exists(rel) } from build-index.mjs (they record inputs)
+ * @param io               { readCsv(rel), readText(rel), sha256Of(rel) } from build-index.mjs (they record inputs)
  * @param includeReviewed  load status = reviewed families too
  * @returns { counts, loaded: [{fiscal_year, family, status, rows}], expect } for verifyPdf()
  */
@@ -513,7 +518,7 @@ export function loadPdfFamilies(db, io, includeReviewed) {
       if (t.table === fam.main) mainRows = rows.length;
     }
     counts[REVIEW_TABLE.table] += loadReview(db, io, `${dir}/fy${yy}_${prefix}_${fam.review.file}.csv`, fam.review, y, pdfs);
-    for (const [t, n] of Object.entries(fam.derive ? fam.derive(db, fy, y) : {})) counts[t] += n;
+    for (const [t, n] of Object.entries(fam.derive ? fam.derive(db, fy, y, io) : {})) counts[t] += n;
     if (mainRows !== intOf(y.rows, `${at} rows`)) throw new Error(`${at}: rows ${y.rows}, but ${fam.main} has ${mainRows}`);
     db.prepare(`INSERT INTO pdf_years VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).run(
       fy, y.family, y.source_pdf, y.pdf_sha256, intOf(y.issue, `${at} issue`), y.status,
@@ -586,6 +591,25 @@ function loadReview(db, io, rel, cfg, y, pdfs) {
     });
   })();
   return rows.length;
+}
+
+// ---------------------------------------------------------------- capital book: Part II series
+
+/**
+ * The year's [part2_only] series from config/capital_sd/fyYYYY.toml (code/review_capital_sd.py
+ * reads the same keys): `id_prefix` (after the agency code: "PV MA0005" -> "MA") and
+ * `line_prefix` (after the agency code of the budget line: "PV 0N06Z" -> "0N").
+ */
+function deriveCapitalSeries(db, fy, y, io) {
+  const rel = `config/capital_sd/fy${fy}.toml`;
+  const toml = io.readText(rel);
+  const sec = /^\[part2_only\]\s*$([\s\S]*?)(?=^\[|(?![\s\S]))/m.exec(toml)?.[1] ?? "";
+  const key = (k) => new RegExp(`^${k}\\s*=\\s*"([^"]*)"`, "m").exec(sec)?.[1];
+  const id = key("id_prefix");
+  const line = key("line_prefix");
+  if (!id || !line) throw new Error(`${rel}: [part2_only] needs id_prefix and line_prefix`);
+  db.prepare(`INSERT INTO pdf_capital_sd_series VALUES (?, ?, ?, ?, ?)`).run(fy, id, line, y.family, y.status);
+  return { pdf_capital_sd_series: 1 };
 }
 
 // ---------------------------------------------------------------- Schedule C x disclosure

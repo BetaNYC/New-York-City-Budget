@@ -24,11 +24,15 @@ terms; the version is left at 2.0.1 until the release (W11, #220) picks one.
 - **Questions to Council Finance** come from `data/council_questions.csv` (a new
   `pdf_council_questions` table in the PDF tables download; `src/questions.ts` words them, shared
   with the explorer). A review entry a question covers says "Open question (not yet sent)", "Question
-  sent on <date>", "Question sent to Council Finance on <date>, no answer yet" (30 days or more),
-  or the answer with its date. The capital book's "MA" series and borough codes A and C carry
-  their question's status. This replaces the `detail.question_sent` field nothing wrote, and the
-  "question sent to Council Finance" label on the MA series, which claimed a question had been
-  sent when none had.
+  sent to Council Finance on <date>", the same with ", no answer yet" (30 days or more), or the
+  answer with its date. A `needs_info` entry no question covers says "Still being checked". The
+  capital book's Part II series and borough codes A and C carry their question's status. This
+  replaces the `detail.question_sent` field nothing wrote, and the "question sent to Council
+  Finance" label on the MA series, which claimed a question had been sent when none had.
+- **The capital book's Part II series is read from the reader's config**
+  (`config/capital_sd/fyYYYY.toml` `[part2_only]`, loaded as `pdf_capital_sd_series`), not
+  hardcoded as "MA": FY2026's series is "MM" on "0N" lines, so its 39 MM rows are the series
+  (`part_ii_only_series`, was `part_ii_only_ma`: 3) and its three MA rows are not.
 
 ### Added (the checked PDF tables, 2026-10-22: W3 #212, W5 #214, W6 #215)
 - **Four tools**: `search_schedule_c_awards` (with each row's `disclosure_status`),

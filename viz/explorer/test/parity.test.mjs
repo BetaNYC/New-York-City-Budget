@@ -45,6 +45,7 @@ import * as C from "../src/compare/queries.js";
 import * as P from "../src/query/pdf.js";
 import { PDF_FAMILIES, PDF_TABLES } from "../../../mcp/scripts/pdf-families.mjs";
 import { OPEN_DATA_TABLES } from "../../../mcp/scripts/open-data.mjs";
+import { inPart2Series } from "../../../mcp/dist/questions.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const APP = resolve(HERE, "..");
@@ -497,7 +498,8 @@ describe("7. the PDF family searches answer what budget.db answers", () => {
     const o = P.bookPart2OnlyQuery({ fiscal_year: 2027 });
     const only = await duck(o.sql, o.params);
     assert.equal(only.length, 30);
-    assert.ok(only.every((r) => P.isMaSeries(r.sub_id)), "FY2027's Part-II-only rows are the MA series");
+    const series = await duck(P.part2SeriesQuery().sql);
+    assert.ok(only.every((r) => inPart2Series(r, series)), "FY2027's Part-II-only rows are its config's series (MA on 0N)");
     const b = P.bookQuery({ fiscal_year: 2027, part: "II" }, 0);
     assert.ok((await duck(b.sql, b.params)).length > 0, "Part II rows stay searchable");
   });

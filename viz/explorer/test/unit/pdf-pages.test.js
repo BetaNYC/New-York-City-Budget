@@ -105,7 +105,7 @@ describe("public review notes (#224 review)", () => {
   test("a note's question to Council Finance, in the MCP's words", () => {
     const q = { question_id: "capital-ma-series", review_ids: "a", q_status: "draft", sent_on: "", answered_on: "", answer: "" };
     expect(decisionLine({ decision: "", ...q })).toBe("Open question (not yet sent)");
-    expect(decisionLine({ decision: "needs_info" })).toBe("Open question (not yet sent)");
+    expect(decisionLine({ decision: "needs_info" })).toBe("Still being checked");
     expect(decisionLine({ decision: "accepted_as_printed", decision_note: "Apollo", ...q })).toBe("Decided: kept as printed. Open question (not yet sent). Apollo");
     expect(decisionLine({ decision: "", ...q, q_status: "sent", sent_on: "2020-01-02" })).toBe("Question sent to Council Finance on 2020-01-02, no answer yet");
     expect(decisionLine({ decision: "" })).toBe("Not yet decided.");
@@ -268,11 +268,9 @@ describe("the capital book", () => {
     expect(o.params).toEqual([2027]);
     expect(P.bookQuery({}, 0).sql).toContain("AS in_other_part");
   });
-  test("the MA series gets the Council Finance label; other Part-II-only rows do not", () => {
-    expect(P.isMaSeries("PV MA0005")).toBe(true);
-    expect(P.isMaSeries("E MA0001")).toBe(true);
-    expect(P.isMaSeries("PV MM0001")).toBe(false);
-    expect(P.isMaSeries("HL TA001")).toBe(false);
+  test("the Part II series comes from the loaded config table, not a hardcoded prefix", () => {
+    expect(P.part2SeriesQuery().sql).toContain("FROM pdf_capital_sd_series");
+    expect(P.isMaSeries).toBeUndefined();
   });
   test("a printed dash is shown as a dash, not $0 (FY2019)", () => {
     expect(P.printedDash("-")).toBe(true);

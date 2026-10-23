@@ -54,7 +54,6 @@ import {
   STATUS_LABEL,
   TR_ACTIONS,
   VACANT_DISTRICT,
-  isMaSeries,
   type ServedRow,
 } from "./pdfquery.js";
 import { otherFlagWords } from "./checkwords.js";
@@ -62,7 +61,9 @@ import {
   BOROUGH_CODES_QUESTION,
   MA_SERIES_QUESTION,
   decisionWithQuestion,
-  maSeriesWords,
+  inPart2Series,
+  seriesWords,
+  type Part2Series,
   questionById,
   questionWords,
   type CouncilQuestion,
@@ -727,10 +728,14 @@ function bookBorough(code: unknown, qs: CouncilQuestion[]): string {
 }
 
 /** Where a book row sits: Part I (listed again in Part II or not), or Part II (repeating Part I, or printed only there). */
-function bookPartLabel(r: Record<string, any>, qs: CouncilQuestion[]): string {
+function bookPartLabel(r: Record<string, any>, qs: CouncilQuestion[], series: Part2Series[]): string {
   if (r.part !== "II") return r.in_other_part ? "Part I (listed again in Part II: money that went to a non-city group)" : "Part I";
   if (r.in_other_part) return "Part II, the non-city list (repeats its Part I row)";
-  return `Part II, the non-city list: printed only in Part II${isMaSeries(r.sub_id) ? ` (${maSeriesWords(questionById(qs, MA_SERIES_QUESTION))})` : ""}; in no Part I total`;
+  return `Part II, the non-city list: printed only in Part II${
+    inPart2Series(r, series)
+      ? ` (${seriesWords(series.filter((s) => Number(s.fiscal_year) === Number(r.fiscal_year)).map((s) => s.id_prefix), questionById(qs, MA_SERIES_QUESTION))})`
+      : ""
+  }; in no Part I total`;
 }
 
 function capitalBookText(res: ReturnType<typeof searchCapitalBook>, qs: CouncilQuestion[]): string {
@@ -752,7 +757,7 @@ function capitalBookText(res: ReturnType<typeof searchCapitalBook>, qs: CouncilQ
   if (only.rows)
     L.push(
       `  Printed only in Part II: ${n(only.rows)} row(s), ${cols(only)}. They have no Part I row and are not added to the Part I total.` +
-        (res.part_ii_only_ma ? ` ${n(res.part_ii_only_ma)} of them are ${maSeriesWords(questionById(qs, MA_SERIES_QUESTION))}.` : "")
+        (res.part_ii_only_series ? ` ${n(res.part_ii_only_series)} of them are ${seriesWords(res.series_prefixes, questionById(qs, MA_SERIES_QUESTION))}.` : "")
     );
   L.push(
     ...(res.negative_rows ? [`  Reductions: ${n(res.negative_rows)} matching row(s) print a negative amount in some year column (first year: ${usd(res.negative_y1)}).`] : []),
@@ -765,7 +770,7 @@ function capitalBookText(res: ReturnType<typeof searchCapitalBook>, qs: CouncilQ
     const r = s.row;
     const fy = r.fiscal_year as number;
     L.push(
-      `FY${fy} book · ${bookPartLabel(r, qs)} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${bookBorough(r.boro, qs)} · ${r.agency}` +
+      `FY${fy} book · ${bookPartLabel(r, qs, res.series)} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${bookBorough(r.boro, qs)} · ${r.agency}` +
         `\n    title: ${r.title}` +
         `\n    sponsor: ${r.sponsor || "(none printed)"}${VACANT_DISTRICT.test(String(r.sponsor ?? "").trim()) ? " (a district with no member)" : ""}` +
         (r.council_district ? ` · council district ${r.council_district}` : "") +

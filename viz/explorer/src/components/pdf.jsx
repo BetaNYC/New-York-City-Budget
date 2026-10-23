@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
 import { rowLinks, sourceViewState } from "../../../../mcp/dist/rowlinks.js";
-import { otherFlagWords } from "../../../../mcp/dist/checkwords.js";
+import { UNKNOWN_CHECK, otherFlagWords } from "../../../../mcp/dist/checkwords.js";
 import { decisionWithQuestion } from "../../../../mcp/dist/questions.js";
 
 import { useQueries } from "../duckdb/useDuckDB.js";
@@ -137,7 +137,7 @@ export function PublicNotes({ notes, flags }) {
         {notes.map((n) => (
           <li key={n.review_id}>
             {n.pdf_page ? <span className="muted">Page {n.pdf_page}: </span> : null}
-            {n.plain_note || "A value on this row differs between two readings of the page."}
+            {n.plain_note || UNKNOWN_CHECK}
             <div className={n.decision ? "decision-line" : "muted"}>{decisionLine(n)}</div>
           </li>
         ))}

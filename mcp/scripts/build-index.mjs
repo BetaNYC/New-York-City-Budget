@@ -98,6 +98,10 @@ function readCsv(rel) {
   });
 }
 
+function readText(rel) {
+  return readFileSync(repoPath(rel), "utf8");
+}
+
 function sha256Of(rel) {
   return createHash("sha256").update(readFileSync(repoPath(rel))).digest("hex");
 }
@@ -513,7 +517,7 @@ function build() {
   const listed = readCsv("data/pdf_years.csv").map((y) => ({ fiscal_year: Number(y.fiscal_year), family: y.family, status: y.status, rows: Number(y.rows) }));
   const pdf = SPREADSHEET_ONLY
     ? { counts: Object.fromEntries(PDF_TABLES.map((t) => [t, 0])), loaded: [], includeReviewed: false }
-    : loadPdfFamilies(db, { readCsv, sha256Of }, INCLUDE_REVIEWED);
+    : loadPdfFamilies(db, { readCsv, readText, sha256Of }, INCLUDE_REVIEWED);
   Object.assign(counts, pdf.counts);
 
   // --- is it on NYC Open Data? (scripts/open-data.mjs; PDF-derived records follow the PDF gate) --

@@ -29,7 +29,7 @@ import * as budgetServer from "../dist/server.js";
 import { closePdfTables } from "../dist/pdfdata.js";
 import { searchScheduleC, searchTransparency, searchCapitalBook, searchTerms, councilQuestions, STATUS_LABEL, HIDDEN_TEXT_LABEL } from "../dist/pdfquery.js";
 import { fold } from "../dist/fold.js";
-import { BOROUGH_CODES_QUESTION, maSeriesWords, questionById, questionWords } from "../dist/questions.js";
+import { BOROUGH_CODES_QUESTION, questionById, questionWords, seriesWords } from "../dist/questions.js";
 import * as explorer from "../../viz/explorer/src/query/pdf.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -294,14 +294,21 @@ test("review entries show the note and the decision in plain words, as the publi
   }
 });
 
-test("the MA-series rows carry their question's status from data/council_questions.csv", async () => {
-  // FAILS if the MA label claims a question was sent when the file says draft, or loses the question.
+test("the Part II series rows carry their question's status from data/council_questions.csv", async () => {
+  // FAILS if the series label claims a question was sent when the file says draft, loses the
+  // question, or names a series other than the year's config ("MA"; FY2026 "MM").
   const q = db.prepare("SELECT question_status AS status, sent_on FROM pdf_council_questions WHERE question_id = 'capital-ma-series'").get();
   assert.ok(q, "premise: the MA-series question is loaded");
-  const words = maSeriesWords({ ...q, question_id: "capital-ma-series" });
-  const { text } = await call("search_capital_book", { fiscal_year: 2027, part: "II", limit: 5 });
-  assert.ok(text.includes(words), words);
-  if (q.status === "draft") assert.doesNotMatch(text, /question sent/i);
+  assert.deepEqual(db.prepare("SELECT fiscal_year, id_prefix, line_prefix FROM pdf_capital_sd_series WHERE fiscal_year IN (2026, 2027) ORDER BY 1").all(),
+    [{ fiscal_year: 2026, id_prefix: "MM", line_prefix: "0N" }, { fiscal_year: 2027, id_prefix: "MA", line_prefix: "0N" }], "config/capital_sd/fy2026.toml, fy2027.toml");
+  for (const [fy, p] of [[2027, "MA"], [2026, "MM"]]) {
+    const words = seriesWords([p], { ...q, question_id: "capital-ma-series" });
+    const { text } = await call("search_capital_book", { fiscal_year: fy, part: "II", limit: 500 });
+    assert.ok(text.includes(words), `FY${fy}: ${words}`);
+    if (q.status === "draft") assert.doesNotMatch(text, /question sent/i);
+  }
+  const { text } = await call("search_capital_book", { part: "II", limit: 1 });
+  assert.match(text, /of them are the "MA"\/"MM" series, a question for Council Finance: /, "both series over all years");
 });
 
 // ---------------------------------------------------------------- sums
@@ -389,7 +396,7 @@ test("Schedule C totals equal the PDF's own (pdf_years notes) and never include 
 
 test("capital book: the total is Part I's; 'of which … non-city groups' is the Part I rows listed again in Part II; Part-II-only rows apart (Noel, 2026-10-23)", async () => {
   // FAILS if the total adds Part II, "of which" is not part of the total, a Part-II-only row is
-  // added, or a row that is not in the MA series is called a question to Council Finance.
+  // added, or a row that is not in its year's Part II series is called a question to Council Finance.
   const r = searchCapitalBook(db, COMMIT(), { fiscal_year: 2027, limit: 500 });
   const printed = db.prepare("SELECT printed_y1 FROM pdf_capital_sd_totals WHERE fiscal_year = 2027 AND kind = 'totals_for' AND part = 'I' AND name = 'ALL'").get().printed_y1;
   assert.equal(r.part_i.rows, 1213);
@@ -398,9 +405,9 @@ test("capital book: the total is Part I's; 'of which … non-city groups' is the
   assert.deepEqual([r.noncity.rows, r.noncity.y1], [148, 139690000], "Part I rows listed again in Part II");
   assert.ok(r.noncity.y1 <= r.part_i.y1);
   assert.deepEqual([r.part_ii.rows, r.part_ii.y1], [178, 210677000], "Part II as printed");
-  assert.deepEqual([r.part_ii_only.rows, r.part_ii_only.y1, r.part_ii_only_ma], [30, 70987000, 30], "printed only in Part II: all 30 are MA");
+  assert.deepEqual([r.part_ii_only.rows, r.part_ii_only.y1, r.part_ii_only_series], [30, 70987000, 30], "printed only in Part II: all 30 are the MA series");
   const r26 = searchCapitalBook(db, COMMIT(), { fiscal_year: 2026, limit: 1 });
-  assert.deepEqual([r26.part_ii_only.rows, r26.part_ii_only_ma], [42, 3], "FY2026: 42 printed only in Part II, 3 of them MA");
+  assert.deepEqual([r26.part_ii_only.rows, r26.part_ii_only_series, r26.series_prefixes], [42, 39, ["MM"]], "FY2026: 42 printed only in Part II, 39 of them its MM series (config)");
   const { text } = await call("search_capital_book", { fiscal_year: 2027, limit: 1 });
   assert.match(text, /\nTotal, over the 1,213 matching Part I row\(s\) [^\n]*: first year \$853,688,000 · /);
   assert.match(text, /\n  Of which went to non-city groups: 148 Part I row\(s\) the book lists again in Part II, first year \$139,690,000 · /);
@@ -412,8 +419,9 @@ test("capital book: the total is Part I's; 'of which … non-city groups' is the
     const only = rowBlocks(p2).filter((b) => b.includes("printed only in Part II"));
     assert.equal(only.length, fy === 2027 ? 30 : 42, `FY${fy}`);
     for (const b of only) {
-      const id = / · ((?:[A-Z]{1,2}) \S+) · budget line/.exec(b)?.[1] ?? "";
-      assert.equal(b.includes("a question for Council Finance"), /^[A-Z]{1,2} MA/.test(id), `FY${fy} ${id}: the question label only on MA rows`);
+      const [, id = "", line = ""] = / · ((?:[A-Z]{1,2}) \S+) · budget line (\S+ \S+)/.exec(b) ?? [];
+      const inSeries = id.split(" ")[1].startsWith(fy === 2026 ? "MM" : "MA") && line.split(" ")[1].startsWith("0N");
+      assert.equal(b.includes("a question for Council Finance"), inSeries, `FY${fy} ${id} ${line}: the question label only on the year's series`);
     }
     assert.ok(rowBlocks(p2).some((b) => b.includes("Part II, the non-city list (repeats its Part I row)")));
   }
