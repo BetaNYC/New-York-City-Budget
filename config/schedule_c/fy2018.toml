@@ -119,8 +119,10 @@ box_title_above = true
 award_table_totals = true
 # Also new for FY2018, with no switch: the "Fiscal Conduit" / "FC EIN" columns (header labels
 # `conduit`, `conduit_ein`), read into `fiscal_conduit` and `fiscal_conduit_ein` (#209); a row
-# printing one is flagged and a warn review row (W.fiscal_conduit, 50 rows); the FC EIN counts in
-# the anchor census. A "*" in a cell of its own under a header with no "*" column (p.127) is the
+# printing one is flagged (row flag `fiscal_conduit`, 49 rows); the FC EIN counts in the anchor
+# census. Only a conduit with no well-formed FC EIN (p.242 "13-281380") or a `conduit_notes` row
+# (p.271) is a warn review row (W.fiscal_conduit, 2 rows); the other 48 were dropped once the
+# value had a column of its own. A "*" in a cell of its own under a header with no "*" column (p.127) is the
 # row's asterisk. FY2019's "*" column (header label `star`; read into `review_not_completed`) and
 # `side_lists` (p.106).
 # Text in the "Fiscal Conduit" column that is not a conduit: fiscal_conduit blank, the printed
