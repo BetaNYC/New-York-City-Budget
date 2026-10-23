@@ -256,11 +256,55 @@ download left are removed by the next one. One download runs at a time per folde
 `pdf-tables/download.lock`). Plain `http:` is refused except on this machine. A running server
 picks up tables `download` installs, without a restart.
 
-> **No release exists yet.** Publishing the release automatically on merge is W7 (#216). Until
-> then, build one locally: `npm run build-pdf-release -- --out <dir> [--pdfs] [--allow-local-commit]`
+> **No release exists yet.** `.github/workflows/pdf-tables-release.yml` (W7, #216) publishes them
+> once it is on `main` and a maintainer runs it (see "Publishing a release" below). Until then, build one
+> locally: `npm run build-pdf-release -- --out <dir> [--pdfs] [--allow-local-commit]`
 > (`--allow-local-commit` is for local trials only: it warns, the manifest says
 > `"source_commit_scope": "local"`, and a server builds no GitHub link from such tables), and install it
 > with `download --pdf-tables --from <dir>/pdf-tables.manifest.json`.
+
+### Publishing a release (automatic, W7)
+
+`.github/workflows/pdf-tables-release.yml` runs on a push to `main` that changes the PDF tables:
+`data/fy*/pdf/**`, `data/pdf_years.csv`, `research/*/data/*_review_decisions.csv`, or the
+scripts that build them (`mcp/scripts/build-index.mjs`, `build-pdf-release.mjs`,
+`verify-pdf-release.mjs`, `pdf-families.mjs`, `source-commit.mjs`). Never on a pull request or a
+fork. **A push publishes only once the repository variable `PDF_TABLES_AUTO_PUBLISH` is `true`**
+(Settings → Secrets and variables → Actions → Variables); until then a push builds and checks
+only, so the first release is a maintainer's hand run. Two jobs:
+
+1. **Build and check** (read-only): `build-pdf-release.mjs --pdfs` (never
+   `--allow-local-commit`), then `verify-pdf-release.mjs --commit <pushed commit>`, which fails
+   unless every file has its manifest's size and sha256 (the tables also unpacked), the manifest
+   parses as the downloader reads it, the tables were built from the pushed commit with
+   `source_commit_check: "pdfs_match"` and `source_commit_scope: "origin/main"`, `data/` and
+   `source/` are clean, and the commit is on `origin/main`. Then the downloader installs the
+   tables from the folder into a throwaway data folder. The checked files go to the next job.
+2. **Publish** (the only job with `contents: write`; it runs no repository code): checks every
+   file's sha256 against the manifest again, creates a **draft** release tagged
+   `pdf-tables-YYYY-MM-DD-<7-digit commit>` (UTC date) at the pushed commit, uploads the files
+   `verify-pdf-release.mjs` listed (the tables, every cited PDF by sha256, the manifest last), and
+   only then publishes it. The downloader skips drafts, so it never sees a half-uploaded release.
+   The release is not marked "latest", so the npm releases (`mcp-v*`) keep that badge. A second
+   run for the same commit on the same day stops: the tag exists.
+
+Run by hand: Actions → "PDF tables release" → Run workflow, on `main`. `dry_run` (default: on)
+builds and checks without publishing; uncheck it to publish.
+
+**The first run** (a maintainer's decision; nothing publishes before it):
+
+1. Merge the PR that adds the workflow to `main`. Its push builds and checks only: the publish
+   job is skipped while `PDF_TABLES_AUTO_PUBLISH` is unset.
+2. Actions → "PDF tables release" → Run workflow on `main`, `dry_run` checked. Read the run's
+   summary: the tag, file count and size (about 160 MB: 17 MB of tables, 141 MB of PDFs).
+3. Run it again with `dry_run` unchecked: the first release.
+4. Check it from any machine: `NYC_BUDGET_DATA_DIR=$(mktemp -d) npx @betanyc/nyc-budget-mcp download --pdf-tables`,
+   then a PDF tool with the same `NYC_BUDGET_DATA_DIR`.
+5. To publish on every merge from then on, set the repository variable
+   `PDF_TABLES_AUTO_PUBLISH` to `true`. Delete it to go back to hand runs.
+
+To withdraw a release, delete it (and its tag) on GitHub; the downloader then picks the newest
+remaining one.
 
 ### The release format (`nyc-budget-pdf-tables/1`)
 
@@ -363,6 +407,7 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/pdf-families.test.js` | The PDF families' gate: `--include-reviewed` never writes `data/budget.db`; a reviewed build loads exactly what `pdf_years.csv` lists, from no old-parser file; the download holds the `pdf_*` tables only, every row of a listed reviewed or closed family-year; the spreadsheet tools answer the same with or without it |
 | `test/pdf-tools.test.js` | The four PDF tools: without the download, how to add it; every served row labeled, with its page and links at the build's commit (never a branch; none when the PDFs were not checked against it); planted rows of an unlisted year or another status never served; hidden text always labeled; decisions shown; "no dollar amount" rows and Part II never summed; totals equal the CSVs; **parity** with the explorer's queries (`viz/explorer/src/query/pdf.js`: Terms, Schedule C only rows, capital Part I) |
 | `test/pdf-download.test.js` | The download, against a local HTTP server and folder only: install, `--pdfs`, a tampered, oversized or missing file (or PDF) installs nothing and leaves no temp file, a killed download's temp files are swept, one download at a time, plain http refused, `NYC_BUDGET_PDF_DATA=on` in the background and `=pdfs` not re-downloading a release without PDFs, release picking |
+| `test/pdf-release.test.js` | The automatic release (W7): `verify-pdf-release.mjs` accepts pretest's release and lists exactly its files, manifest last; refuses a local build, another commit, a tampered or missing file, another format; the workflow's tag is one the downloader picks, and the CLI installs from exactly the uploaded files on a local HTTP server; the workflow never runs on a PR, has write access only in its publish job, never builds with `--allow-local-commit` |
 | `test/source-commit.test.js` | The commit recorded for the GitHub links, on a throwaway repo: only a clean commit on `origin/main` whose PDFs match |
 | `test/tools.test.js` | Exactly eight tools listed; every removed 1.x tool answers with its migration note; `list_available_fiscal_years` matches the datasets year by year |
 | `test/disclosure.test.js` | Every row of every year indexed with its provenance; FY2010 not loaded; true counts and Cleared / Pending totals under any `limit`; ordering; status, amount, address and member filters; caveat and footer; strict-schema hints |
@@ -388,6 +433,8 @@ Published to npm by CI, never from a laptop:
   `npm publish --provenance --access public` from `mcp/`, then cuts a GitHub Release.
 - **To release** after the version-bump PR merges: `git tag mcp-v<version>` and
   `git push origin mcp-v<version>`.
+- **The PDF tables** are not in the npm package: `.github/workflows/pdf-tables-release.yml`
+  publishes them as `pdf-tables-*` GitHub Releases on merge (see "Publishing a release").
 - **CI**: `.github/workflows/ci.yml` builds and tests `mcp/` on Node 22 and 24 for every PR into
   `main` that touches `mcp/` or the data the index is built from.
 
