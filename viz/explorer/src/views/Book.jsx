@@ -40,11 +40,26 @@ function Body({ state, set, go, manifest, pdfYears }) {
   const fy19 = rows.some((r) => r.council_district || r.description);
   return (
     <section>
-      <h2>The capital book: every row of the §254 supporting detail</h2>
+      <h2>The capital book (City Charter §254)</h2>
       <p className="lede">
         Each year the Council prints the capital projects it funds in a supporting-detail book (under §254 of the City Charter). These rows were read from
-        that PDF and checked against its printed totals. Amounts are as printed, for the book's own year and the next three; a negative amount is a reduction.
+        that PDF and checked against its printed totals. Amounts are as printed, for the book's own year and the next three; a negative amount is a reduction,
+        and "–" means the book prints a dash.
       </p>
+      <ul className="small muted">
+        <li>
+          <strong>Project ID (SUB ID)</strong>: the ID the book prints for each project, an agency code and the Council's own number (e.g. HR CC0168). The book can
+          print one ID on more than one row.
+        </li>
+        <li>
+          <strong>Part I</strong> is the book's "capital project detail"; <strong>Part II</strong> its "non-city capital project detail" (projects of
+          organizations outside City government), which repeats many Part I rows. Part III, by organization, is in the Organizations tab.
+        </li>
+        <li>
+          <strong>Boro</strong>: the borough code the book prints: K Brooklyn, M Manhattan, Q Queens, R Staten Island, X Bronx. A and C are shown as printed;
+          the book does not say what they stand for.
+        </li>
+      </ul>
       <YearStatus years={years.filter((y) => fy == null || y.fiscal_year === fy)} />
       <form className="filters" onSubmit={(e) => e.preventDefault()} aria-label="Search the capital book">
         <SelectFilter label="Fiscal year" value={fy ?? ""} options={yearOptions} onApply={(v) => set({ bkfy: v === "" ? null : Number(v) })} />
@@ -53,7 +68,7 @@ function Body({ state, set, go, manifest, pdfYears }) {
         <SelectFilter
           label="Borough"
           value={state.bkboro}
-          options={[["", "Any borough"], ...Object.entries(Q.BOROUGHS).map(([k, v]) => [k, `${v} (${k})`])]}
+          options={[["", "Any borough"], ...P.BOOK_BOROUGHS]}
           onApply={(v) => set({ bkboro: v })}
         />
         <TextFilter label="Agency" value={state.bkagency} onApply={(v) => set({ bkagency: v })} placeholder="e.g. parks" />
@@ -111,7 +126,9 @@ function Body({ state, set, go, manifest, pdfYears }) {
                       <th scope="col">Title (as printed)</th>
                       <th scope="col">Sponsor</th>
                       <th scope="col">Budget line</th>
-                      <th scope="col">Boro</th>
+                      <th scope="col">
+                        <abbr title="Borough code as printed">Boro</abbr>
+                      </th>
                       <th scope="col">Agency</th>
                       {fy19 ? <th scope="col">Council district (FY2019 book)</th> : null}
                       {[1, 2, 3, 4].map((k) => (
@@ -147,7 +164,12 @@ function Body({ state, set, go, manifest, pdfYears }) {
   );
 }
 
-const amountCell = (v) => (v == null ? <span className="muted">not printed</span> : Number(v) < 0 ? <span className="negative">{money(v)} (reduction)</span> : money(v));
+/** An amount as the book prints it: a dash stays a dash (FY2019's book prints "-" for an empty year), never "$0". */
+const amountCell = (v, printed) => {
+  if (P.printedDash(printed)) return <span aria-label="a dash, no amount">–</span>;
+  if (v == null) return <span className="muted">not printed</span>;
+  return Number(v) < 0 ? <span className="negative">{money(v)} (reduction)</span> : money(v);
+};
 
 function BookRow({ r, fy19, od, state, go, manifest }) {
   return (
@@ -180,10 +202,10 @@ function BookRow({ r, fy19, od, state, go, manifest }) {
       <td>{r.boro}</td>
       <td className="small">{r.agency}</td>
       {fy19 ? <td>{r.council_district}</td> : null}
-      <td className="num">{amountCell(r.amount_y1)}</td>
-      <td className="num">{amountCell(r.amount_y2)}</td>
-      <td className="num">{amountCell(r.amount_y3)}</td>
-      <td className="num">{amountCell(r.amount_y4)}</td>
+      <td className="num">{amountCell(r.amount_y1, r.amount_y1_printed)}</td>
+      <td className="num">{amountCell(r.amount_y2, r.amount_y2_printed)}</td>
+      <td className="num">{amountCell(r.amount_y3, r.amount_y3_printed)}</td>
+      <td className="num">{amountCell(r.amount_y4, r.amount_y4_printed)}</td>
       <OdBookCell xs={od} />
       <td>
         <RowLinks state={state} go={go} manifest={manifest} row={r} label={`${r.sub_id} ${r.title}, FY${r.fiscal_year} ${money(r.amount_y1)}`} />
@@ -208,10 +230,11 @@ function OdBookCell({ xs }) {
         const one = x.portal_row_id && !String(x.portal_row_id).includes(";");
         return (
           <div key={`${x.dataset_id}|${x.record_amount_fy}|${x.record_part ?? ""}`}>
-            <StateBadge state={stateOf(x)} title={tooltipOf(x)} />{" "}
+            {x.exact ? <StateBadge state={stateOf(x)} title={tooltipOf(x)} /> : <span className="od-badge od-warn" title={tooltipOf(x)}>{P.OD_SUB_ID_ONLY}</span>}{" "}
             <span className="muted">
               FY{x.record_amount_fy} · <a href={one ? rowUrl(x.dataset_id, x.portal_row_id) : datasetUrl(x.dataset_id)}>{one ? "see row" : x.dataset_id}</a>
             </span>
+            {!x.exact ? <div className="muted">The book prints this project ID on more than one row; the match is to the ID, and may be another of its rows.</div> : null}
           </div>
         );
       })}

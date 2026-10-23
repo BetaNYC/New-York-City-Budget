@@ -4,6 +4,7 @@ import { useDuckDB, useQueries } from "./duckdb/useDuckDB.js";
 import { PHASES, ensureData } from "./duckdb/store.js";
 import { FILTER_KEYS, PAGE_KEY, historyDepth, pushHash, readHash, writeHash } from "./state/hash.js";
 import { HashLink, Notice } from "./components/ui.jsx";
+import { ReviewScreenContext } from "./components/pdf.jsx";
 import About from "./views/About.jsx";
 import Award from "./views/Award.jsx";
 import Awards from "./views/Awards.jsx";
@@ -102,7 +103,7 @@ export default function App() {
         {db.manifest?.review_screen ? (
           <Notice tone="warn">
             <strong>Local review build.</strong> This build has the Review tab, where a person decides the flagged rows; the public site does not. Rows marked{" "}
-            <span className="reviewed">{REVIEWED_LABEL}</span> come from PDFs re-read for the PDF review (GitHub epic #101; each fiscal year has its own issue,
+            <span className="reviewed">{REVIEWED_LABEL}</span> come from PDFs re-read for the PDF review (<a href="https://github.com/BetaNYC/New-York-City-Budget/issues/101">GitHub epic #101</a>; each fiscal year has its own issue,
             e.g. #102 for FY2027, #103 for FY2026): every printed total was checked and the doubts are listed, but a person has not signed them off.
           </Notice>
         ) : null}
@@ -120,7 +121,9 @@ export default function App() {
             <Loading phase={db.phase} progress={db.progress} manifest={db.manifest} />
           )
         ) : (
-          <Ready state={state} set={set} go={go} back={back} manifest={db.manifest} />
+          <ReviewScreenContext.Provider value={Boolean(db.manifest?.review_screen)}>
+            <Ready state={state} set={set} go={go} back={back} manifest={db.manifest} />
+          </ReviewScreenContext.Provider>
         )}
       </main>
       <footer className="site">

@@ -38,7 +38,7 @@ function Body({ state, set, go, manifest, pdfYears }) {
         <SelectFilter label="Year of the resolutions" value={state.trfy ?? ""} options={yearOptions} onApply={(v) => set({ trfy: v === "" ? null : Number(v), trreso: "" })} />
         <TextFilter label="Budget year changed" type="number" value={state.trbfy ?? ""} onApply={(v) => set({ trbfy: v === "" ? null : Number(v) })} width="8rem" />
         <TextFilter label="Organization" value={state.trorg} onApply={(v) => set({ trorg: v })} placeholder="part of the name" />
-        <TextFilter label="EIN" value={state.trein} onApply={(v) => set({ trein: v })} placeholder="13-2612524" width="9rem" />
+        <TextFilter label="EIN (tax ID)" value={state.trein} onApply={(v) => set({ trein: v })} placeholder="13-2612524" width="9rem" />
         <TextFilter label="Council member" value={state.trmember} onApply={(v) => set({ trmember: v })} placeholder="surname or Speaker" />
         <label className="field">
           <span>Resolution number</span>
@@ -71,6 +71,7 @@ function Body({ state, set, go, manifest, pdfYears }) {
           onApply={(v) => set({ traction: v })}
         />
       </form>
+      {P.einUnusable(state.trein) && <Notice tone="warn">"{state.trein}" is not an EIN: give its nine digits (e.g. 13-2612524). The EIN filter is not applied.</Notice>}
       <Status loading={q.loading && !q.data} updating={q.loading && Boolean(q.data)} error={q.error}>
         {q.data && (
           <>
@@ -86,13 +87,28 @@ function Body({ state, set, go, manifest, pdfYears }) {
                       <td className="num">{a === "listed" ? <span className="muted">{P.NO_AMOUNT_LABEL}</span> : money(r.byAction[a].amount)}</td>
                     </tr>
                   ))}
+                  {Object.keys(r.agencyByAction).length > 0 ? (
+                    <tr>
+                      <th scope="rowgroup" colSpan={3} className="small">
+                        Lines for a City agency itself, not money to or from an organization (some charts list them in their own section); kept out of the
+                        lines above
+                      </th>
+                    </tr>
+                  ) : null}
+                  {P.TR_ACTIONS.filter((a) => r.agencyByAction[a]).map((a) => (
+                    <tr key={`agency-${a}`}>
+                      <th scope="row">City agency lines: {P.TR_ACTION_LABEL[a].toLowerCase()}</th>
+                      <td>{plural(r.agencyByAction[a].n, "row")}</td>
+                      <td className="num">{a === "listed" ? <span className="muted">{P.NO_AMOUNT_LABEL}</span> : money(r.agencyByAction[a].amount)}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             )}
             {r.matched > 0 && (
               <p className="muted small">
                 Amounts are as printed: money taken back prints as a negative number, and a change of purpose prints the old purpose as a negative line and the new
-                one as a positive line, so the two add to about zero. Rows that print no dollar amount are counted as rows, never as dollars.
+                one as a positive line, so the two nearly cancel out. Rows that print no dollar amount are counted as rows, never as dollars.
               </p>
             )}
             {r.matched > 0 && (
@@ -105,7 +121,7 @@ function Body({ state, set, go, manifest, pdfYears }) {
                       <th scope="col">Change</th>
                       <th scope="col">Council member</th>
                       <th scope="col">Organization (as printed)</th>
-                      <th scope="col">EIN</th>
+                      <th scope="col">EIN (tax ID)</th>
                       <th scope="col">Agency</th>
                       <th scope="col">Purpose</th>
                       <th scope="col" className="num">
@@ -151,7 +167,7 @@ function TrRow({ x, state, go, manifest }) {
         <div className="muted">
           Chart {x.chart_number}: {x.chart_title}
         </div>
-        {Number(x.agency_side) === 1 ? <div className="muted">agency side of the chart</div> : null}
+        {Number(x.agency_side) === 1 ? <div className="muted">a line for a City agency itself, not an organization</div> : null}
       </td>
       <td>{x.member}</td>
       <td>

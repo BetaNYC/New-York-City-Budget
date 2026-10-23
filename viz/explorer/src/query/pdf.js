@@ -16,8 +16,9 @@ export const statusLabel = (status) => (status === "closed" ? CLOSED_LABEL : sta
 export const HIDDEN_TEXT_LABEL = "hidden text, not visible on the printed page";
 export const NO_AMOUNT_LABEL = "no dollar amount";
 /** Schedule C's "*" mark (FY2019, FY2018), in the words of the PDF's own footnote. */
-export const REVIEW_NOT_COMPLETED_LABEL = "review not completed";
-export const REVIEW_NOT_COMPLETED_NOTE = "Marked * in the book: either MOCS or the Council's review process had not yet been completed.";
+// (Its own words, so it is never confused with this site's "checked, review in progress".)
+export const REVIEW_NOT_COMPLETED_LABEL = "* in the book: the City's review of this group wasn't finished at adoption";
+export const REVIEW_NOT_COMPLETED_NOTE = "The book's footnote: either MOCS or the Council's review process has not yet been completed.";
 
 const blank = (v) => v === null || v === undefined || (typeof v === "string" && v.trim() === "");
 /** The value side of a text filter: lower-case, accents removed (DuckDB's strip_accents twin). */
@@ -171,8 +172,7 @@ export const ordinal = (n) => {
   return `${v}${t >= 11 && t <= 13 ? "th" : ["th", "st", "nd", "rd"][v % 10] ?? "th"}`;
 };
 /** How to show a condition's item_number: "No. 7" where printed, else its place in the book. */
-export const termsNumberLabel = (fy, n) =>
-  TERMS_BOOK_ORDER_YEARS.includes(Number(fy)) ? `${ordinal(n)} in book order (this year's book prints no numbers)` : `No. ${n}`;
+export const termsNumberLabel = (fy, n) => (TERMS_BOOK_ORDER_YEARS.includes(Number(fy)) ? `No. ${n} (book order)` : `No. ${n}`);
 
 export function termsQuery(f, page) {
   const w = termsWhere(f);
@@ -392,6 +392,8 @@ const intOrNull = (v) => (v === null || v === undefined || v === "" || !Number.i
 const numOrNull = (v) => (blank(v) || !Number.isFinite(Number(v)) ? null : Number(v));
 /** An EIN as digits ("13-2612524" -> "132612524"), or "" when it has none. */
 export const einDigits = (v) => String(v ?? "").replace(/\D/g, "");
+/** A typed EIN with no digits, which the filter cannot use (the page says so rather than ignoring it). */
+export const einUnusable = (v) => String(v ?? "").trim() !== "" && einDigits(v) === "";
 
 /** Schedule C search: the hash state's keys -> filters. */
 export const scSearchFilters = (s) => ({
@@ -413,6 +415,13 @@ export const SC_DISCLOSURE_LABEL = {
   pending: "In the spreadsheet: Pending",
   unmatched: "Not paired with a spreadsheet row",
 };
+/**
+ * What Cleared and Pending mean, as far as the sources say: the spreadsheet's Status column is the
+ * designation's clearance state, Cleared or Pending (source/expense-funding-disclosure/README.md);
+ * the Council does not define the steps further, so neither do we.
+ */
+export const SC_DISCLOSURE_NOTE =
+  "The Council's disclosure spreadsheet gives each designation a clearance status, Cleared or Pending. The Council does not publish what each step involves.";
 
 function scSearchWhere(f) {
   const w = new Where();
@@ -531,25 +540,36 @@ export function trQuery(f, page) {
   };
 }
 
-/** Rows and dollars by action, over every match. "No dollar amount" rows count as rows, never as dollars. */
+/**
+ * Rows and dollars by action and side, over every match. A chart's agency-side lines
+ * (agency_side = 1) are the City agency's own lines, not money to or from an organization; the
+ * resolution pipeline keeps them apart (code/transreso/structure.py: org_designations vs
+ * agency_side_net), and so do these totals. "No dollar amount" rows count as rows, never as dollars.
+ */
 export function trTotalsQuery(f) {
   const w = trWhere(f);
   return {
-    sql: `SELECT action, COUNT(*) AS n, COALESCE(SUM(amount), 0) AS amount, COUNT(*) FILTER (WHERE amount IS NULL) AS no_amount
-          FROM pdf_transparency${w.sql()} GROUP BY action ORDER BY action`,
+    sql: `SELECT action, COALESCE(agency_side, 0) AS agency_side, COUNT(*) AS n, COALESCE(SUM(amount), 0) AS amount,
+            COUNT(*) FILTER (WHERE amount IS NULL) AS no_amount
+          FROM pdf_transparency${w.sql()} GROUP BY 1, 2 ORDER BY 2, 1`,
     params: w.params,
   };
 }
 
-/** Rollup of trTotalsQuery's rows: { matched, byAction: {action: {n, amount, no_amount}} }. */
+/**
+ * Rollup of trTotalsQuery's rows: { matched, byAction, agencyByAction }, each {action: {n, amount,
+ * no_amount}}: byAction for organization lines, agencyByAction for the agency-side lines.
+ */
 export function rollupTr(rows) {
   const byAction = {};
+  const agencyByAction = {};
   let matched = 0;
   for (const r of rows ?? []) {
-    byAction[r.action] = { n: Number(r.n), amount: Number(r.amount), no_amount: Number(r.no_amount) };
+    const into = Number(r.agency_side) === 1 ? agencyByAction : byAction;
+    into[r.action] = { n: Number(r.n), amount: Number(r.amount), no_amount: Number(r.no_amount) };
     matched += Number(r.n);
   }
-  return { matched, byAction };
+  return { matched, byAction, agencyByAction };
 }
 
 /** The resolutions of the years loaded, for the resolution picker: number, date, rows. */
@@ -601,8 +621,11 @@ export function bookQuery(f, page) {
   const w = bookWhere(f);
   return {
     sql: `SELECT fiscal_year, status, part, agency, row_in_page, sub_id, budget_line, boro, title, sponsor, building_code, school_code,
-            amount_y1, amount_y2, amount_y3, amount_y4, amount_y1_printed, council_district, description,
-            pdf_page, bbox_pt, source_pdf, pdf_sha256, flags, review_id
+            amount_y1, amount_y2, amount_y3, amount_y4, amount_y1_printed, amount_y2_printed, amount_y3_printed, amount_y4_printed,
+            council_district, description,
+            pdf_page, bbox_pt, source_pdf, pdf_sha256, flags, review_id,
+            -- rows in the whole book that print this SUB ID (Part I and Part II often repeat one; odForBookRow)
+            (SELECT COUNT(*) FROM pdf_capital_sd s WHERE s.fiscal_year = pdf_capital_sd.fiscal_year AND s.sub_id = pdf_capital_sd.sub_id) AS id_rows
           FROM pdf_capital_sd${w.sql()}
           ORDER BY fiscal_year DESC, part, pdf_page, row_in_page
           ${OFFSET(page)}`,
@@ -649,13 +672,36 @@ export function odForBookRowsQuery(rows) {
   };
 }
 
+/** A printed amount that is only a dash ("-", "–", "—"): the book prints no amount there. */
+export const printedDash = (p) => /^\s*[-–—]\s*$/.test(String(p ?? ""));
+
 /** A book row's place, as the crosswalk writes it. */
 export const bookPlace = (r) => `p${Number(r.pdf_page)}r${Number(r.row_in_page)}`;
 
-/** The crosswalk rows that are this book row's own: same year and SUB ID, and its place where one is recorded. */
+/**
+ * The crosswalk rows for a book row, each with `exact`: true when the match is this row's own (its
+ * place is recorded and is this row's, or the book prints the SUB ID on this row only), false when
+ * the crosswalk records no place and the book prints the SUB ID on more than one row (`id_rows`),
+ * so the match is to the SUB ID, not to this exact row. A crosswalk row recording another row's
+ * place is dropped. The crosswalk records a place for 32 rows and never a part.
+ */
 export function odForBookRow(xs, r) {
   const place = bookPlace(r);
-  return (xs ?? []).filter(
-    (x) => Number(x.fiscal_year) === Number(r.fiscal_year) && x.record_row === r.sub_id && (x.record_part == null || x.record_part === "" || x.record_part === place)
-  );
+  const shared = Number(r.id_rows ?? 1) > 1;
+  return (xs ?? [])
+    .filter((x) => Number(x.fiscal_year) === Number(r.fiscal_year) && x.record_row === r.sub_id)
+    .filter((x) => x.record_part == null || x.record_part === "" || x.record_part === place)
+    .map((x) => ({ ...x, exact: x.record_part === place || !shared }));
 }
+export const OD_SUB_ID_ONLY = "matched on project ID only, not to this exact row";
+
+/** The borough codes the book prints: the five boroughs, and A and C as printed (meaning not recorded). */
+export const BOOK_BOROUGHS = [
+  ["K", "Brooklyn (K)"],
+  ["M", "Manhattan (M)"],
+  ["Q", "Queens (Q)"],
+  ["R", "Staten Island (R)"],
+  ["X", "Bronx (X)"],
+  ["A", "A (as printed)"],
+  ["C", "C (as printed)"],
+];

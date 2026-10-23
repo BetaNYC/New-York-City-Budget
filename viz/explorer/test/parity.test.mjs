@@ -53,8 +53,11 @@ const DATA = join(APP, "public", "data");
 if (!existsSync(join(DATA, "manifest.json"))) throw new Error("parity: public/data/manifest.json is missing. Run `npm run data` first.");
 const MANIFEST = JSON.parse(readFileSync(join(DATA, "manifest.json"), "utf8"));
 const DB_PATH = join(REPO, MANIFEST.index ?? "mcp/data/budget.db");
+// A public build withholds the review screen's tables (manifest.withheld); every other table is compared.
+const WITHHELD = MANIFEST.withheld ?? [];
 const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta",
-  ...PDF_TABLES, ...OPEN_DATA_TABLES];
+  ...PDF_TABLES, ...OPEN_DATA_TABLES].filter((t) => !WITHHELD.includes(t));
+const COMPARED_PDF_TABLES = PDF_TABLES.filter((t) => !WITHHELD.includes(t));
 const CENT = 0.005;
 
 for (const f of [DB_PATH, ...TABLES.map((t) => join(DATA, `${t}.parquet`)), join(DATA, "manifest.json")]) {
@@ -165,11 +168,17 @@ describe("4. reviewed PDF tables, per family, year and status", () => {
     assert.ok(["public", "review", "closed"].includes(MANIFEST.build), `build ${MANIFEST.build}`);
     assert.equal(MANIFEST.review_screen, MANIFEST.build === "review", "the review screen is only in a review build");
     assert.equal(MANIFEST.include_reviewed, MANIFEST.build !== "closed");
+    // The suggested decisions are the review screen's: never in a public build's files.
+    assert.deepEqual(WITHHELD, MANIFEST.build === "public" ? ["pdf_review_suggestions"] : []);
+    for (const t of WITHHELD) {
+      assert.equal(MANIFEST.files[`${t}.parquet`], undefined, `${t} is listed in a public manifest`);
+      assert.equal(existsSync(join(DATA, `${t}.parquet`)), false, `${t}.parquet is in a public build's data`);
+    }
     if (!MANIFEST.include_reviewed) {
       for (const t of PDF_TABLES) assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM ${t} WHERE status <> 'closed'`).get().n, 0, t);
     }
   });
-  for (const t of PDF_TABLES) {
+  for (const t of COMPARED_PDF_TABLES) {
     test(t, async () => {
       const cols = sqlite.prepare(`PRAGMA table_info(${t})`).all().map((c) => c.name);
       const sums = cols.filter((c) => /^(amount|org_printed|printed|sum)_y\d$/.test(c) || ["dollars", "amount", "disclosure_amount", "rows_sum", "designated", "reserve"].includes(c));
@@ -357,11 +366,14 @@ describe("7. the PDF family searches answer what budget.db answers", () => {
       const t = P.trTotalsQuery(f);
       const got = P.rollupTr(await duck(t.sql, t.params));
       assert.equal(got.matched, want.length, "matched");
-      for (const a of P.TR_ACTIONS) {
-        const w = want.filter((r) => r.action === a);
-        assert.equal(got.byAction[a]?.n ?? 0, w.length, `${a} rows`);
-        assert.equal(got.byAction[a]?.amount ?? 0, sum(w, "amount"), `${a} amount`);
-        assert.equal(got.byAction[a]?.no_amount ?? 0, w.filter((r) => r.amount == null).length, `${a} no dollar amount`);
+      // Organization lines and the agency side's lines, kept apart (code/transreso/structure.py).
+      for (const [side, by] of [[0, got.byAction], [1, got.agencyByAction]]) {
+        for (const a of P.TR_ACTIONS) {
+          const w = want.filter((r) => r.action === a && Number(r.agency_side ?? 0) === side);
+          assert.equal(by[a]?.n ?? 0, w.length, `side ${side} ${a} rows`);
+          assert.equal(by[a]?.amount ?? 0, sum(w, "amount"), `side ${side} ${a} amount`);
+          assert.equal(by[a]?.no_amount ?? 0, w.filter((r) => r.amount == null).length, `side ${side} ${a} no dollar amount`);
+        }
       }
       const page = [...want]
         .sort(cmp(["resolution_date", "desc"], ["fiscal_year", "desc"], ["resolution_seq", "desc"], ["pdf_page", "asc"], ["table_index", "asc"], ["row_index", "asc"], ["row_id", "asc"]))
@@ -370,6 +382,24 @@ describe("7. the PDF family searches answer what budget.db answers", () => {
       assert.deepEqual((await duck(r.sql, r.params)).map((x) => `${x.fiscal_year}:${x.row_id}`), page.map((x) => `${x.fiscal_year}:${x.row_id}`), "first page, in order");
     });
   }
+
+  test("Transparency: organization lines equal the resolutions' own totals (designations, rescissions), agency side apart", async () => {
+    // pdf_transparency_resolutions carries the pipeline's sums: org_designations_sum, org_rescissions_sum, agency_side_net.
+    // agency_side_net covers the designation charts' agency lines (money added and taken back), not purpose changes.
+    const res = sqlite.prepare(`SELECT fiscal_year, resolution_seq, org_designations_sum AS d, org_rescissions_sum AS r, agency_side_net AS a,
+      agency_side_rows AS an FROM pdf_transparency_resolutions`).all();
+    for (const x of res) {
+      const t = P.trTotalsQuery({ fiscal_year: x.fiscal_year });
+      const rows = await duck(t.sql.replace("FROM pdf_transparency WHERE", "FROM pdf_transparency WHERE resolution_seq = ? AND"), [x.resolution_seq, ...t.params]);
+      const got = P.rollupTr(rows);
+      const ag = ["designate", "rescind"].map((a) => got.agencyByAction[a] ?? { n: 0, amount: 0 });
+      const agencyNet = ag[0].amount + ag[1].amount;
+      assert.equal(ag[0].n + ag[1].n, x.an ?? 0, `FY${x.fiscal_year} resolution ${x.resolution_seq} agency-side rows`);
+      assert.equal(got.byAction.designate?.amount ?? 0, x.d ?? 0, `FY${x.fiscal_year} resolution ${x.resolution_seq} designations`);
+      assert.equal(got.byAction.rescind?.amount ?? 0, x.r ?? 0, `FY${x.fiscal_year} resolution ${x.resolution_seq} rescissions`);
+      assert.equal(agencyNet, x.a ?? 0, `FY${x.fiscal_year} resolution ${x.resolution_seq} agency side`);
+    }
+  });
 
   test("Transparency: rows that print no dollar amount have no amount, so every total skips them", async () => {
     const [{ n }] = await duck("SELECT COUNT(*) AS n FROM pdf_transparency WHERE amount_kind = 'no_dollar_amount' AND amount IS NOT NULL");
@@ -439,6 +469,22 @@ describe("7. the PDF family searches answer what budget.db answers", () => {
     // And through the explorer's own lookup: each such row gets only its own matches.
     const byId = new Map();
     for (const x of xs) byId.set(`${x.fiscal_year}|${x.record_row}`, [x.fiscal_year, x.record_row]);
+    // A crosswalk row with no place, for a SUB ID the book prints on several rows, is never shown as that row's own match.
+    const idRows = new Map();
+    for (const r of rowsOf("pdf_capital_sd")) idRows.set(`${r.fiscal_year}|${r.sub_id}`, (idRows.get(`${r.fiscal_year}|${r.sub_id}`) ?? 0) + 1);
+    const loose = await duck(`SELECT fiscal_year, record_row FROM open_data_crosswalk WHERE family = 'capital_award' AND record_pdf = 1 AND (record_part IS NULL OR record_part = '')`);
+    let shared = 0;
+    for (const x of loose) {
+      const n = idRows.get(`${x.fiscal_year}|${x.record_row}`) ?? 0;
+      const r = rowsOf("pdf_capital_sd").find((b) => b.fiscal_year === x.fiscal_year && b.sub_id === x.record_row);
+      if (!r) continue;
+      const [m] = P.odForBookRow([x], { ...r, id_rows: n });
+      assert.equal(m.exact, n === 1, `FY${x.fiscal_year} ${x.record_row}: ${n} book rows`);
+      if (n > 1) shared++;
+    }
+    assert.ok(shared > 0, "some crosswalk rows are on a SUB ID printed more than once");
+    const b = P.bookQuery({}, 0);
+    for (const r of await duck(b.sql, b.params)) assert.equal(r.id_rows, idRows.get(`${r.fiscal_year}|${r.sub_id}`), `${r.sub_id} id_rows`);
     for (const [fy, id] of byId.values()) {
       const rows = rowsOf("pdf_capital_sd").filter((r) => r.fiscal_year === fy && r.sub_id === id);
       const q = P.odForBookRowsQuery(rows);

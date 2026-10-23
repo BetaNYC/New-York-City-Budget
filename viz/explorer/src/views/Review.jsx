@@ -20,7 +20,13 @@ const browserStorage = () => (typeof window !== "undefined" ? window.localStorag
  * page (the row's box highlighted), the parsed values, the reviewer's suggestion and the decision
  * buttons. Only in a --include-reviewed build. Decisions stay in this browser until exported.
  */
-export default function Review({ state, set, manifest, pdfYears }) {
+export default function Review(props) {
+  // A public build has no review screen and ships no suggestions table: ask nothing.
+  if (!props.manifest.review_screen) return <Notice>No review queue in this build. It appears in a local build made with <code>npm run data -- --include-reviewed</code>.</Notice>;
+  return <ReviewScreen {...props} />;
+}
+
+function ReviewScreen({ state, set, manifest, pdfYears }) {
   const q = useQueries(true, "reviewqueue", () => ({ items: P.reviewQueueQuery() }));
   const [decisions, setDecisions] = useState(() => R.loadStore(browserStorage()));
   const [name, setName] = useState(() => browserStorage()?.getItem(R.NAME_KEY) ?? "");
@@ -77,7 +83,7 @@ export default function Review({ state, set, manifest, pdfYears }) {
 
   if (q.error) return <Notice tone="error">{String(q.error.message ?? q.error)}</Notice>;
   if (!q.data) return <p className="muted">Loading the review queue…</p>;
-  if (!manifest.review_screen || !all.length) return <Notice>No review queue in this build. It appears in a local build made with <code>npm run data -- --include-reviewed</code>.</Notice>;
+  if (!all.length) return <Notice>No review queue in this build. It appears in a local build made with <code>npm run data -- --include-reviewed</code>.</Notice>;
 
   return (
     <section>

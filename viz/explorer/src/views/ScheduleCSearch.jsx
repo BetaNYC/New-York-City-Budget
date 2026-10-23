@@ -49,7 +49,7 @@ function Body({ state, set, go, manifest, pdfYears }) {
       <form className="filters" onSubmit={(e) => e.preventDefault()} aria-label="Search Schedule C">
         <SelectFilter label="Fiscal year" value={state.scfy ?? ""} options={yearOptions} onApply={(v) => set({ scfy: v === "" ? null : Number(v) })} />
         <TextFilter label="Organization" value={state.scorg} onApply={(v) => set({ scorg: v })} placeholder="part of the name" />
-        <TextFilter label="EIN" value={state.scein} onApply={(v) => set({ scein: v })} placeholder="13-2612524" width="9rem" />
+        <TextFilter label="EIN (tax ID)" value={state.scein} onApply={(v) => set({ scein: v })} placeholder="13-2612524" width="9rem" />
         <TextFilter label="Sponsor" value={state.scspon} onApply={(v) => set({ scspon: v })} placeholder="member, Speaker, delegation" />
         <TextFilter label="Category" value={state.sccat} onApply={(v) => set({ sccat: v })} placeholder="e.g. Local" />
         <TextFilter label="Initiative" value={state.scinit} onApply={(v) => set({ scinit: v })} placeholder="e.g. senior" />
@@ -63,6 +63,8 @@ function Body({ state, set, go, manifest, pdfYears }) {
           onApply={(v) => set({ scdisc: v })}
         />
       </form>
+      <p className="muted small">{P.SC_DISCLOSURE_NOTE}</p>
+      {P.einUnusable(state.scein) && <Notice tone="warn">"{state.scein}" is not an EIN: give its nine digits (e.g. 13-2612524). The EIN filter is not applied.</Notice>}
       <Status loading={q.loading && !q.data} updating={q.loading && Boolean(q.data)} error={q.error}>
         {q.data && (
           <>
@@ -82,7 +84,7 @@ function Body({ state, set, go, manifest, pdfYears }) {
                     <tr>
                       <th scope="col">FY</th>
                       <th scope="col">Organization (as printed)</th>
-                      <th scope="col">EIN</th>
+                      <th scope="col">EIN (tax ID)</th>
                       <th scope="col">Sponsor</th>
                       <th scope="col">Category and initiative</th>
                       <th scope="col">Agency</th>
@@ -143,7 +145,9 @@ function ScRow({ r, subs, state, go, manifest }) {
           {r.org} <ReviewedLabel status={r.status} /> <FlagBadge flags={r.flags} reviewId={r.review_id} />
           {Number(r.review_not_completed) === 1 ? (
             <div className="small">
-              <span className="mark-label">{P.REVIEW_NOT_COMPLETED_LABEL}</span> <span className="muted">{P.REVIEW_NOT_COMPLETED_NOTE}</span>
+              <span className="mark-label" title={P.REVIEW_NOT_COMPLETED_NOTE}>
+                {P.REVIEW_NOT_COMPLETED_LABEL}
+              </span>
             </div>
           ) : null}
           {r.fiscal_conduit ? (
@@ -193,7 +197,7 @@ function ScRow({ r, subs, state, go, manifest }) {
               <thead>
                 <tr>
                   <th scope="col">Organization (as printed)</th>
-                  <th scope="col">EIN</th>
+                  <th scope="col">EIN (tax ID)</th>
                   <th scope="col">Service</th>
                   <th scope="col" className="num">
                     Amount
@@ -205,7 +209,7 @@ function ScRow({ r, subs, state, go, manifest }) {
                 {(subs ?? []).map((s) => (
                   <tr key={s.subaward_id}>
                     <td>
-                      {s.org} <FlagBadge flags={s.flags} reviewId={s.review_id} />
+                      {s.org} <ReviewedLabel status={s.status} /> <FlagBadge flags={s.flags} reviewId={s.review_id} />
                     </td>
                     <td>{fmtEin(s.ein)}</td>
                     <td>{s.service_type}</td>

@@ -11,7 +11,7 @@ import { describe, expect, test } from "vitest";
 
 import * as P from "../../src/query/pdf.js";
 import { DEFAULT_STATE, FILTER_KEYS, PAGE_KEY, VIEWS, readHash, writeHash } from "../../src/state/hash.js";
-import { HiddenText, ReviewedLabel, RowLinks } from "../../src/components/pdf.jsx";
+import { HiddenText, PublicNotes, ReviewedLabel, RowLinks } from "../../src/components/pdf.jsx";
 import ScheduleCSearch, { YearStatus } from "../../src/views/ScheduleCSearch.jsx";
 import Transparency from "../../src/views/Transparency.jsx";
 import Book from "../../src/views/Book.jsx";
@@ -78,8 +78,29 @@ describe("the status label every PDF row carries (#190)", () => {
     expect(out).toContain("p.279");
     expect(out).toContain("spage=279");
     expect(out).toContain(`/blob/${MANIFEST.source_commit}/source/FY27/Fiscal-2027-Schedule-C-Final-3.pdf`);
-    expect(out).toContain('aria-label="The PDF on GitHub, page 279"');
+    // The GitHub page opens the PDF at page 1, so its label names no page.
+    expect(out).toContain('aria-label="The PDF on GitHub"');
     expect(html(RowLinks, { state: DEFAULT_STATE, go: noop, manifest: MANIFEST, row: { source_pdf: "x.txt", pdf_page: 1 } })).toBe("");
+  });
+});
+
+describe("public review notes (#224 review)", () => {
+  test("plain notes, no check id or severity; undecided says so", () => {
+    const out = html(PublicNotes, {
+      notes: [
+        { review_id: "a", check_id: "K.side_list", severity: "critical", pdf_page: 106, note: "a list printed beside the table", decision: "" },
+        { review_id: "b", check_id: "W.amount_bare", severity: "warn", pdf_page: 106, note: "amount printed without $", decision: "accepted_as_printed", decision_note: "" },
+      ],
+    });
+    expect(out).not.toMatch(/critical|K\.side_list|W\.amount_bare/i);
+    expect(out).toContain("Not yet decided.");
+    expect(out).toContain("Decided: kept as printed");
+    expect(out).toContain("not about the organization");
+  });
+  test("an EIN with no digits is reported, not silently dropped", () => {
+    expect(P.einUnusable("abc")).toBe(true);
+    expect(P.einUnusable("13-2612524")).toBe(false);
+    expect(P.einUnusable("")).toBe(false);
   });
 });
 
@@ -110,12 +131,16 @@ describe("Schedule C, every row", () => {
   test("the page renders its labeled filters, or says there is no data", () => {
     expect(page(ScheduleCSearch, [])).toContain("No Schedule C data is in this build");
     const out = page(ScheduleCSearch, [year("schedule_c", 2019), year("schedule_c", 2027, "closed")]);
-    for (const l of ["Fiscal year", "Organization", "EIN", "Sponsor", "Category", "Initiative", "Agency", "Min $", "Max $", "In the disclosure spreadsheet"]) {
+    for (const l of ["Fiscal year", "Organization", "EIN (tax ID)", "Sponsor", "Category", "Initiative", "Agency", "Min $", "Max $", "In the disclosure spreadsheet"]) {
       expect(out).toContain(`<span>${l}</span>`);
     }
     expect(out).toContain('aria-label="Search Schedule C"');
     expect(out).toContain("checked, review in progress");
     expect(out).toContain("checked and reviewed");
+    expect(out).toContain("clearance status, Cleared or Pending");
+    expect(page(ScheduleCSearch, [year("schedule_c", 2019)]).replace(/<[^>]+>/g, "")).not.toContain("not an EIN");
+    const bad = html(ScheduleCSearch, { state: { ...DEFAULT_STATE, scein: "abc" }, set: noop, go: noop, manifest: MANIFEST, pdfYears: [year("schedule_c", 2019)] });
+    expect(bad).toContain("is not an EIN");
   });
   test("the year line groups years by status", () => {
     const out = html(YearStatus, { years: [year("t", 2020), year("t", 2018), year("t", 2027, "closed")] });
@@ -140,17 +165,29 @@ describe("Transparency resolutions", () => {
   });
   test("totals by kind of change; rows with no dollar amount count as rows, not dollars", () => {
     const r = P.rollupTr([
-      { action: "designate", n: 3, amount: 3000, no_amount: 0 },
-      { action: "listed", n: 2, amount: 0, no_amount: 2 },
+      { action: "designate", agency_side: 0, n: 3, amount: 3000, no_amount: 0 },
+      { action: "listed", agency_side: 0, n: 2, amount: 0, no_amount: 2 },
     ]);
     expect(r.matched).toBe(5);
     expect(r.byAction.listed).toEqual({ n: 2, amount: 0, no_amount: 2 });
     expect(P.trTotalsQuery({}).sql).toContain("SUM(amount)");
   });
+  test("a City agency's own lines (agency side) are totaled apart from money to or from organizations", () => {
+    const r = P.rollupTr([
+      { action: "rescind", agency_side: 0, n: 4, amount: -310, no_amount: 0 },
+      { action: "rescind", agency_side: 1, n: 2, amount: -1073, no_amount: 0 },
+      { action: "designate", agency_side: 1, n: 1, amount: 73, no_amount: 0 },
+    ]);
+    expect(r.byAction.rescind.amount).toBe(-310);
+    expect(r.byAction.designate).toBeUndefined();
+    expect(r.agencyByAction).toEqual({ rescind: { n: 2, amount: -1073, no_amount: 0 }, designate: { n: 1, amount: 73, no_amount: 0 } });
+    expect(r.matched).toBe(7);
+    expect(P.trTotalsQuery({}).sql).toContain("COALESCE(agency_side, 0) AS agency_side");
+  });
   test("the page renders its labeled filters, or says there is no data", () => {
     expect(page(Transparency, [])).toContain("No transparency resolution data");
     const out = page(Transparency, [year("transparency", 2025)]);
-    for (const l of ["Year of the resolutions", "Budget year changed", "Organization", "EIN", "Council member", "Resolution number", "Adopted on or after", "Adopted on or before", "Kind of change"]) {
+    for (const l of ["Year of the resolutions", "Budget year changed", "Organization", "EIN (tax ID)", "Council member", "Resolution number", "Adopted on or after", "Adopted on or before", "Kind of change"]) {
       expect(out).toContain(`<span>${l}</span>`);
     }
     expect(out).toContain('type="date"');
@@ -184,13 +221,33 @@ describe("the capital book", () => {
       { fiscal_year: 2025, record_row: "E CN811", record_part: null, record_amount_fy: 2025, portal_row_id: "row-other" },
       { fiscal_year: 2024, record_row: "E CN810", record_part: null, record_amount_fy: 2024, portal_row_id: "row-fy24" },
     ];
-    const first = P.odForBookRow(xs, { fiscal_year: 2025, sub_id: "E CN810", pdf_page: 19, row_in_page: 12 });
-    const second = P.odForBookRow(xs, { fiscal_year: 2025, sub_id: "E CN810", pdf_page: 29, row_in_page: 21 });
-    expect(first.map((x) => x.portal_row_id)).toEqual(["row-7h42-r8im.3gyn"]);
-    expect(second.map((x) => x.portal_row_id)).toEqual(["row-byw5.wrq2_k74t"]);
-    // An ID printed once has no place in its key, and keeps its match.
-    expect(P.odForBookRow(xs, { fiscal_year: 2025, sub_id: "E CN811", pdf_page: 3, row_in_page: 1 }).map((x) => x.portal_row_id)).toEqual(["row-other"]);
+    const first = P.odForBookRow(xs, { fiscal_year: 2025, sub_id: "E CN810", pdf_page: 19, row_in_page: 12, id_rows: 2 });
+    const second = P.odForBookRow(xs, { fiscal_year: 2025, sub_id: "E CN810", pdf_page: 29, row_in_page: 21, id_rows: 2 });
+    expect(first.map((x) => [x.portal_row_id, x.exact])).toEqual([["row-7h42-r8im.3gyn", true]]);
+    expect(second.map((x) => [x.portal_row_id, x.exact])).toEqual([["row-byw5.wrq2_k74t", true]]);
+    // An ID printed once has no place in its key, and keeps its match as its own.
+    expect(P.odForBookRow(xs, { fiscal_year: 2025, sub_id: "E CN811", pdf_page: 3, row_in_page: 1, id_rows: 1 }).map((x) => [x.portal_row_id, x.exact])).toEqual([["row-other", true]]);
     expect(P.bookPlace({ pdf_page: "19", row_in_page: "12" })).toBe("p19r12");
+  });
+  test("an ID printed on two rows (Part I and Part II) with no place recorded: matched on the ID only, on both rows", () => {
+    const xs = [{ fiscal_year: 2027, record_row: "AG CC1053", record_part: null, record_amount_fy: 2027, portal_row_id: "row-x" }];
+    for (const row of [{ part: "I", pdf_page: 4, row_in_page: 2 }, { part: "II", pdf_page: 63, row_in_page: 1 }]) {
+      const [m] = P.odForBookRow(xs, { fiscal_year: 2027, sub_id: "AG CC1053", id_rows: 2, ...row });
+      expect(m.exact).toBe(false);
+    }
+    expect(P.OD_SUB_ID_ONLY).toBe("matched on project ID only, not to this exact row");
+    expect(P.bookQuery({}, 0).sql).toContain("AS id_rows");
+  });
+  test("a printed dash is shown as a dash, not $0 (FY2019)", () => {
+    expect(P.printedDash("-")).toBe(true);
+    expect(P.printedDash(" – ")).toBe(true);
+    expect(P.printedDash("0")).toBe(false);
+    expect(P.printedDash("")).toBe(false);
+    expect(P.bookQuery({}, 0).sql).toContain("amount_y4_printed");
+  });
+  test("the borough list has the five boroughs and A and C as printed", () => {
+    expect(P.BOOK_BOROUGHS.map(([k]) => k)).toEqual(["K", "M", "Q", "R", "X", "A", "C"]);
+    expect(Object.fromEntries(P.BOOK_BOROUGHS).A).toBe("A (as printed)");
   });
   test("the Open Data query asks once per (year, SUB ID)", () => {
     expect(P.odForBookRowsQuery([])).toBeNull();
@@ -213,7 +270,7 @@ describe("the capital book", () => {
 
 describe("Terms and Conditions: book-order numbers (#206)", () => {
   test("FY2018 and FY2021–FY2024 say the number is the order in the book; other years show the printed number", () => {
-    for (const fy of [2018, 2021, 2022, 2023, 2024]) expect(P.termsNumberLabel(fy, 3)).toBe("3rd in book order (this year's book prints no numbers)");
+    for (const fy of [2018, 2021, 2022, 2023, 2024]) expect(P.termsNumberLabel(fy, 16)).toBe("No. 16 (book order)");
     for (const fy of [2025, 2026, 2027]) expect(P.termsNumberLabel(fy, 3)).toBe("No. 3");
   });
   test("ordinals", () => {

@@ -39,13 +39,15 @@
  * loader reads only the data/fyNN/pdf/ families that data/pdf_years.csv lists.
  *
  * The pdf_* tables (mcp/scripts/pdf-families.mjs PDF_TABLES) are always exported, empty when no
- * family is loaded, so the app and the parity test never branch on which tables exist.
+ * family is loaded, so the app and the parity test never branch on which tables exist. The one
+ * exception: a public build withholds pdf_review_suggestions (manifest `withheld`), which only the
+ * review screen reads.
  *
  * Needs `npm ci` in mcp/ first (the index build uses the MCP's dependencies and dist/fold.js).
  */
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, renameSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -54,7 +56,7 @@ import { DuckDBInstance } from "@duckdb/node-api";
 
 import { capitalGaps } from "./lib/capital-gaps.mjs";
 import { CAPITAL_REPORT_YEARS } from "../../../mcp/scripts/verify-index.mjs";
-import { PDF_FAMILIES, PDF_TABLES } from "../../../mcp/scripts/pdf-families.mjs";
+import { PDF_FAMILIES, PDF_TABLES, SUGGESTIONS } from "../../../mcp/scripts/pdf-families.mjs";
 import { OPEN_DATA_TABLES } from "../../../mcp/scripts/open-data.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -73,9 +75,17 @@ const DB_PATH = {
 }[BUILD];
 const OUT_DIR = join(APP, "public", "data");
 
+/**
+ * Tables the public build does not ship: the reviewers' suggested decisions are for the review
+ * screen only, so a public build writes no Parquet file for them and the manifest lists them as
+ * withheld (#224 review). A decision a person recorded is in pdf_review and is shown.
+ */
+const WITHHELD = BUILD === "public" ? [SUGGESTIONS.table] : [];
+
 /** The tables the explorer reads, in the order they are written. */
-export const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta",
+const ALL_TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta",
   ...PDF_TABLES, ...OPEN_DATA_TABLES];
+const TABLES = ALL_TABLES.filter((t) => !WITHHELD.includes(t));
 
 const DUCK_TYPE = { INTEGER: "BIGINT", REAL: "DOUBLE", TEXT: "VARCHAR" };
 
@@ -156,6 +166,8 @@ async function main() {
   if (!process.argv.includes("--skip-index")) buildIndex();
   if (!existsSync(DB_PATH)) throw new Error(`build-data: ${DB_PATH} not found. Run without --skip-index.`);
   mkdirSync(OUT_DIR, { recursive: true });
+  // A withheld table's file from an earlier review build would still be served: remove it.
+  for (const t of WITHHELD) rmSync(join(OUT_DIR, `${t}.parquet`), { force: true });
   // Delete-then-write would leave a stale table behind if one were dropped; every table in TABLES
   // is rewritten below, and the manifest lists exactly those.
 
@@ -184,6 +196,7 @@ async function main() {
     // public | review | closed (above). The review screen is only in a review build.
     build: BUILD,
     review_screen: BUILD === "review",
+    withheld: WITHHELD,
     pdf_families: Object.fromEntries(Object.entries(PDF_FAMILIES).map(([k, f]) => [k, { label: f.label, main: f.main, tables: f.tables.map((t) => t.table), decisions: f.decisions ?? {} }])),
     capital: capitalGaps(readFileSync(join(REPO, "data", "capital", "README.md"), "utf8"), CAPITAL_REPORT_YEARS),
     files,
