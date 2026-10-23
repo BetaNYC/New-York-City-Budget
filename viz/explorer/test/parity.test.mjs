@@ -189,14 +189,15 @@ describe("4. reviewed PDF tables, per family, year and status", () => {
     }
     for (const c of ["review_id", "note", "decision", "decision_note"]) assert.ok(cols.includes(c), `pdf_review.${c}`);
     if (!MANIFEST.include_reviewed) {
-      for (const t of PDF_TABLES) assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM ${t} WHERE status <> 'closed'`).get().n, 0, t);
+      // Every table but pdf_council_questions, which has no family-year status (not gated).
+      for (const t of PDF_TABLES.filter((t) => t !== "pdf_council_questions")) assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM ${t} WHERE status <> 'closed'`).get().n, 0, t);
     }
   });
   for (const t of COMPARED_PDF_TABLES) {
     test(t, async () => {
       const cols = shipped(t, sqlite.prepare(`PRAGMA table_info(${t})`).all().map((c) => c.name));
       const sums = cols.filter((c) => /^(amount|org_printed|printed|sum)_y\d$/.test(c) || ["dollars", "amount", "disclosure_amount", "rows_sum", "designated", "reserve"].includes(c));
-      const keys = ["status", ...(cols.includes("family") ? ["family"] : []), ...(cols.includes("fiscal_year") ? ["fiscal_year"] : [])];
+      const keys = [cols.includes("status") ? "status" : "question_status", ...(cols.includes("family") ? ["family"] : []), ...(cols.includes("fiscal_year") ? ["fiscal_year"] : [])];
       const q = `SELECT ${keys.join(", ")}, COUNT(*) AS n${sums.map((c) => `, COALESCE(SUM(${c}), 0) AS ${c}`).join("")}
                  FROM ${t} GROUP BY ${keys.join(", ")} ORDER BY ${keys.join(", ")}`;
       assert.deepEqual(await duck(q), sqlite.prepare(q).all());

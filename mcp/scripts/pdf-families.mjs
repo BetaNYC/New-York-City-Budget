@@ -29,6 +29,9 @@
 
 import { createHash } from "node:crypto";
 
+import { plainReviewNote } from "../dist/checkwords.js";
+import { QUESTION_STATUSES } from "../dist/questions.js";
+
 const T = "TEXT";
 const I = "INTEGER";
 
@@ -59,6 +62,9 @@ export const REVIEW_TABLE = {
     // A person's recorded decision, where the family's review CSV carries one (Schedule C's is
     // seeded from its committed decisions file); blank while the row is open.
     ["decision", T], ["decision_note", T],
+    // The note in plain words, derived by rule from check_id and field (src/checkwords.ts): what
+    // public views and MCP answers show in place of the reviewers' shorthand in `note`.
+    ["plain_note", T],
   ],
 };
 
@@ -354,6 +360,18 @@ export const SUGGESTIONS = {
   columns: [["fiscal_year", I], ["family", T], ["review_id", T], ["check_id", T], ["suggested_decision", T], ["suggested_note", T], ["source", T]],
 };
 
+/**
+ * The questions to Council Finance (data/council_questions.csv; src/questions.ts words them).
+ * Loaded whole when at least one family loads; code/test_council_questions.py checks the file.
+ * The CSV's `status` (draft, sent, answered) is stored as `question_status`: in every other
+ * pdf_* table `status` is the family-year's, which the gate and its checks read.
+ */
+export const COUNCIL_QUESTIONS = {
+  table: "pdf_council_questions",
+  file: "data/council_questions.csv",
+  columns: [["question_id", T], ["review_ids", T], ["issue", I], ["sent_on", T], ["answered_on", T], ["answer", T], ["question_status", T, "status"]],
+};
+
 export const DERIVED = {
   pdf_sc_disclosure: [
     ["fiscal_year", I], ["side", T], ["award_id", T], ["ein", T], ["amount", I], ["disclosure_row", I],
@@ -373,6 +391,7 @@ export const PDF_TABLES = [
   ...Object.keys(DERIVED),
   REVIEW_TABLE.table,
   SUGGESTIONS.table,
+  COUNCIL_QUESTIONS.table,
 ];
 
 const ident = (s) => `"${s}"`;
@@ -392,6 +411,7 @@ export function pdfSchemaSql() {
     out.push(`CREATE TABLE ${t} (${[...cols.map(([n, ty]) => `${ident(n)} ${ty}`), '"family" TEXT', '"status" TEXT'].join(", ")})`);
   }
   out.push(`CREATE TABLE ${SUGGESTIONS.table} (${[...SUGGESTIONS.columns.map(([n, ty]) => `${ident(n)} ${ty}`), '"status" TEXT'].join(", ")})`);
+  out.push(`CREATE TABLE ${COUNCIL_QUESTIONS.table} (${COUNCIL_QUESTIONS.columns.map(([n, ty]) => `${ident(n)} ${ty}`).join(", ")})`);
   out.push(`CREATE TABLE ${REVIEW_TABLE.table} (${[...REVIEW_TABLE.columns.map(([n, ty]) => `${ident(n)} ${ty}`), '"status" TEXT'].join(", ")})`);
   return out.join(";\n") + ";";
 }
@@ -503,6 +523,7 @@ export function loadPdfFamilies(db, io, includeReviewed) {
     loaded.push({ fiscal_year: fy, family: y.family, status: y.status, rows: mainRows });
   }
   if (loaded.length) counts[SUGGESTIONS.table] = loadSuggestions(db, io, loaded);
+  if (loaded.length) counts[COUNCIL_QUESTIONS.table] = loadQuestions(db, io);
   return { counts, loaded, includeReviewed };
 }
 
@@ -525,6 +546,19 @@ function loadSuggestions(db, io, loaded) {
   return mine.length;
 }
 
+/** data/council_questions.csv, whole. */
+function loadQuestions(db, io) {
+  const rel = COUNCIL_QUESTIONS.file;
+  const rows = io.readCsv(rel);
+  const want = COUNCIL_QUESTIONS.columns.map(([n, , src]) => src ?? n);
+  if (rows.length && Object.keys(rows[0]).join(",") !== want.join(",")) throw new Error(`${rel}: columns ${Object.keys(rows[0]).join(",")}; expected ${want.join(",")}`);
+  rows.forEach((r, i) => {
+    if (!QUESTION_STATUSES.includes(r.status)) throw new Error(`${rel} row ${i + 2}: status ${JSON.stringify(r.status)}; expected ${QUESTION_STATUSES.join(", ")}`);
+  });
+  insertAll(db, COUNCIL_QUESTIONS.table, COUNCIL_QUESTIONS.columns, rows, {}, rel);
+  return rows.length;
+}
+
 /** One family's review CSV into pdf_review: mapped columns, the rest as JSON in `detail`. */
 function loadReview(db, io, rel, cfg, y, pdfs) {
   const rows = io.readCsv(rel);
@@ -543,6 +577,7 @@ function loadReview(db, io, rel, cfg, y, pdfs) {
       const detail = Object.fromEntries(cfg.detail.filter((c) => r[c] !== "").map((c) => [c, r[c]]));
       const vals = REVIEW_TABLE.columns.map(([n, ty]) => {
         if (n === "detail") return Object.keys(detail).length ? JSON.stringify(detail) : "";
+        if (n === "plain_note") return plainReviewNote({ check_id: r[cfg.map.check_id], field: r[cfg.map.field] });
         if (!cfg.map[n]) return ty === I ? null : ""; // a column this family's CSV does not have
         const v = r[cfg.map[n]];
         return ty === I ? intOf(v, `${rel} row ${i + 2} ${cfg.map[n]}`) : v ?? "";
@@ -708,7 +743,8 @@ function deriveScDisclosure(db, fy, y) {
 export function verifyPdf(db, { loaded, includeReviewed }) {
   const problems = [];
   const allowed = includeReviewed ? ["closed", "reviewed"] : ["closed"];
-  for (const t of PDF_TABLES) {
+  // Every table but the questions (not gated; they carry no family-year status).
+  for (const t of PDF_TABLES.filter((t) => t !== COUNCIL_QUESTIONS.table)) {
     for (const { status, n } of db.prepare(`SELECT status, COUNT(*) AS n FROM ${t} GROUP BY status`).all()) {
       if (!allowed.includes(status)) problems.push(`${t}: ${n} rows with status ${JSON.stringify(status)}, not allowed in this build`);
     }

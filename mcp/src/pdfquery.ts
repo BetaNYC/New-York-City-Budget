@@ -25,6 +25,8 @@ import type { Database as DB } from "better-sqlite3";
 import { fold } from "./fold.js";
 import { rowLinks, type RowLinks } from "./rowlinks.js";
 import { localPdfPath } from "./pdfdata.js";
+import { plainReviewNote } from "./checkwords.js";
+import { questionsByReviewId, type CouncilQuestion } from "./questions.js";
 import { existsSync } from "fs";
 
 export const STATUS_LABEL: Record<string, string> = {
@@ -74,18 +76,20 @@ export type Row = Record<string, any>;
 // ---------------------------------------------------------------- shared per-row parts
 
 /**
- * A row's review entry, as the public explorer shows it (PR #224, FlagBadge): the note and the
- * decision in plain words, never a check id or a severity (a "critical" beside an organization's
- * name reads as a charge against it; it is about our reading of the PDF), and never the
- * reviewers' suggested decisions, which the public build withholds (pdf_review_suggestions).
+ * A row's review entry, as the public explorer shows it (PR #224, FlagBadge): the note in plain
+ * words (src/checkwords.ts) and the decision in plain words, never a check id or a severity (a
+ * "critical" beside an organization's name reads as a charge against it; it is about our reading
+ * of the PDF), and never the reviewers' suggested decisions, which the public build withholds
+ * (pdf_review_suggestions).
  */
 export interface ReviewEntry {
   review_id: string;
+  /** The note in plain words, derived from the check id and field (plainReviewNote). */
   note: string;
   decision: string;
   decision_note: string;
-  /** The date the question was sent to Council Finance, where recorded (`detail.question_sent`). */
-  question_sent: string | null;
+  /** The question to Council Finance that covers this entry (data/council_questions.csv), or null. */
+  question: CouncilQuestion | null;
 }
 
 export interface ServedRow {
@@ -97,30 +101,30 @@ export interface ServedRow {
   local_pdf: string | null;
 }
 
+/** The questions to Council Finance in the tables, or none when the download predates them. */
+export function councilQuestions(db: DB): CouncilQuestion[] {
+  const has = db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'pdf_council_questions'").get();
+  return has ? (db.prepare("SELECT question_id, review_ids, issue, sent_on, answered_on, answer, question_status AS status FROM pdf_council_questions ORDER BY question_id").all() as CouncilQuestion[]) : [];
+}
+
 /** pdf_review entries for the page's rows, keyed "fy|family|review_id". */
 function reviewsFor(db: DB, family: string, rows: Row[]): Map<string, ReviewEntry> {
   const ids = [...new Set(rows.flatMap((r) => String(r.review_id ?? "").split(";").map((s) => s.trim()).filter(Boolean)))];
   const out = new Map<string, ReviewEntry>();
+  const questions = questionsByReviewId(councilQuestions(db));
   for (let i = 0; i < ids.length; i += 500) {
     const chunk = ids.slice(i, i + 500);
     const got = db
       .prepare(
-        `SELECT r.fiscal_year, r.review_id, r.note, r.detail, r.decision, r.decision_note
+        `SELECT r.fiscal_year, r.review_id, r.check_id, r.field, r.decision, r.decision_note
          FROM pdf_review r
          WHERE r.family = ? AND r.review_id IN (${chunk.map(() => "?").join(",")})`
       )
       .all(family, ...chunk) as Row[];
     for (const g of got) {
-      let sent: string | null = null;
-      try {
-        const d = g.detail ? JSON.parse(g.detail) : {};
-        sent = typeof d.question_sent === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d.question_sent) ? d.question_sent : null;
-      } catch {
-        sent = null;
-      }
       out.set(`${g.fiscal_year}|${family}|${g.review_id}`, {
-        review_id: g.review_id, note: g.note ?? "",
-        decision: g.decision ?? "", decision_note: g.decision_note ?? "", question_sent: sent,
+        review_id: g.review_id, note: plainReviewNote(g),
+        decision: g.decision ?? "", decision_note: g.decision_note ?? "", question: questions.get(g.review_id) ?? null,
       });
     }
   }
@@ -141,21 +145,6 @@ function serve(db: DB, family: string, rows: Row[], commit: string, label: (r: R
       local_pdf: local && existsSync(local) ? local : null,
     };
   });
-}
-
-const DAY = 86_400_000;
-
-/**
- * The words for a `needs_info` decision (PLAN.md "What closed means", rule 3): an open question
- * to Council Finance. Once 30 days have passed since it was sent, the row is published as printed
- * with the sent date; with no sent date recorded, it is plainly an open question.
- */
-export function needsInfoLabel(sent: string | null, today: Date = new Date()): string {
-  if (!sent) return "needs more information: an open question to Council Finance (no date sent is recorded yet); published as printed";
-  const days = Math.floor((today.getTime() - Date.parse(`${sent}T00:00:00Z`)) / DAY);
-  return days >= 30
-    ? `Question sent to Council Finance on ${sent}, no answer yet; published as printed`
-    : `needs more information: question sent to Council Finance on ${sent} (${days} day(s) ago), waiting for an answer; published as printed`;
 }
 
 /** The pdf_years rows of a family: which years exist and at what status. */
@@ -429,7 +418,7 @@ export interface CapitalBookResult {
   part_ii: YearSums;
   /** Matched Part II rows printed only in Part II: in no Part I total. */
   part_ii_only: YearSums;
-  /** Of those, the MA series: the rows with a question sent to Council Finance (#209). */
+  /** Of those, the MA series: the rows one question to Council Finance covers (#209). */
   part_ii_only_ma: number;
   /** Rows with a reduction (a negative amount) in any year column, and the first year's reductions. */
   negative_rows: number;
@@ -444,7 +433,7 @@ export interface CapitalBookResult {
 const IN_OTHER_PART = (other: "I" | "II") =>
   `EXISTS (SELECT 1 FROM pdf_capital_sd o WHERE o.part = '${other}' AND o.fiscal_year = c.fiscal_year AND o.sub_id = c.sub_id AND o.budget_line IS c.budget_line)`;
 
-/** The "MA" series ("PV MA0005"): printed only in Part II, one question sent to Council Finance (#209). The explorer's isMaSeries. */
+/** The "MA" series ("PV MA0005"): printed only in Part II, one question to Council Finance (#209). The explorer's isMaSeries. */
 export const isMaSeries = (subId: unknown) => /^[A-Z]{1,2} MA/.test(String(subId ?? "").trim());
 const MA_SQL = "(c.sub_id GLOB '[A-Z] MA*' OR c.sub_id GLOB '[A-Z][A-Z] MA*')";
 

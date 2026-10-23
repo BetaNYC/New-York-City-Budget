@@ -27,8 +27,9 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import * as budgetServer from "../dist/server.js";
 import { closePdfTables } from "../dist/pdfdata.js";
-import { searchScheduleC, searchTransparency, searchCapitalBook, searchTerms, needsInfoLabel, STATUS_LABEL, HIDDEN_TEXT_LABEL } from "../dist/pdfquery.js";
+import { searchScheduleC, searchTransparency, searchCapitalBook, searchTerms, councilQuestions, STATUS_LABEL, HIDDEN_TEXT_LABEL } from "../dist/pdfquery.js";
 import { fold } from "../dist/fold.js";
+import { BOROUGH_CODES_QUESTION, maSeriesWords, questionById, questionWords } from "../dist/questions.js";
 import * as explorer from "../../viz/explorer/src/query/pdf.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -269,17 +270,19 @@ test("hidden text is always served, and always labeled", async () => {
 });
 
 test("review entries show the note and the decision in plain words, as the public explorer", async () => {
-  // FAILS if a decided row hides its decision, an open one reads as decided, or an answer shows a
-  // check id, a severity or a reviewer's suggestion (the public explorer shows none of them, #224).
+  // FAILS if a decided row hides its decision, an open one reads as decided, an answer shows a
+  // check id, a severity or a reviewer's suggestion (the public explorer shows none of them, #224),
+  // or a note is the reviewers' shorthand instead of its plain words (src/checkwords.ts).
   const WORDS = { accepted_as_printed: "kept as printed", source_error: "the PDF's own error, kept as printed" };
-  const decided = db.prepare("SELECT r.fiscal_year, r.review_id, r.note, r.decision, r.decision_note, a.org FROM pdf_review r JOIN pdf_schedule_c a ON a.fiscal_year = r.fiscal_year AND (';' || a.review_id || ';') LIKE ('%;' || r.review_id || ';%') WHERE r.family = 'schedule_c' AND r.decision <> '' LIMIT 3").all();
+  const decided = db.prepare("SELECT r.fiscal_year, r.review_id, r.note, r.plain_note, r.decision, r.decision_note, a.org FROM pdf_review r JOIN pdf_schedule_c a ON a.fiscal_year = r.fiscal_year AND (';' || a.review_id || ';') LIKE ('%;' || r.review_id || ';%') WHERE r.family = 'schedule_c' AND r.decision IN ('accepted_as_printed', 'source_error') LIMIT 3").all();
   assert.ok(decided.length >= 1, "premise: decided Schedule C rows");
   for (const d of decided) {
     const { text } = await call("search_schedule_c_awards", { fiscal_year: d.fiscal_year, organization: d.org, limit: 500 });
-    assert.ok(text.includes(`      - ${d.note} — ${WORDS[d.decision]}${d.decision_note ? ` (${d.decision_note})` : ""}`), `${d.review_id}: ${d.decision}`);
+    assert.ok(text.includes(`      - ${d.plain_note} — ${WORDS[d.decision]}${d.decision_note ? ` (${d.decision_note})` : ""}`), `${d.review_id}: ${d.decision}`);
+    assert.ok(!text.includes(d.note), `${d.review_id}: the reviewers' note is not served`);
   }
   const { text } = await call("search_transparency_changes", { fiscal_year: 2026, organization: "South Asian Youth Action, Inc. - Elmhurst Center", action: "purpose_to" });
-  assert.match(text, /\n    1 thing to check on this row \(about how the PDF was read, not about the organization\) · not yet decided\n      - text hidden under the next cell [^\n]* — not yet decided\n/);
+  assert.match(text, /\n    1 thing to check on this row \(about how the PDF was read, not about the organization\) · not yet decided\n      - Some text is hidden under the next cell on the printed page\. [^\n]* — not yet decided\n/);
   // No check id, severity or suggestion anywhere, over many rows of every tool.
   const ids = db.prepare("SELECT DISTINCT check_id FROM pdf_review").all().map((r) => r.check_id).filter(Boolean);
   for (const [name, args] of SAMPLES) {
@@ -291,10 +294,14 @@ test("review entries show the note and the decision in plain words, as the publi
   }
 });
 
-test("needs_info: an open question, or after 30 days the date it was sent", () => {
-  assert.match(needsInfoLabel(null), /an open question to Council Finance \(no date sent is recorded yet\)/);
-  assert.equal(needsInfoLabel("2026-09-01", new Date("2026-10-22T12:00:00Z")), "Question sent to Council Finance on 2026-09-01, no answer yet; published as printed");
-  assert.match(needsInfoLabel("2026-10-10", new Date("2026-10-22T12:00:00Z")), /question sent to Council Finance on 2026-10-10 \(12 day\(s\) ago\), waiting for an answer/);
+test("the MA-series rows carry their question's status from data/council_questions.csv", async () => {
+  // FAILS if the MA label claims a question was sent when the file says draft, or loses the question.
+  const q = db.prepare("SELECT question_status AS status, sent_on FROM pdf_council_questions WHERE question_id = 'capital-ma-series'").get();
+  assert.ok(q, "premise: the MA-series question is loaded");
+  const words = maSeriesWords({ ...q, question_id: "capital-ma-series" });
+  const { text } = await call("search_capital_book", { fiscal_year: 2027, part: "II", limit: 5 });
+  assert.ok(text.includes(words), words);
+  if (q.status === "draft") assert.doesNotMatch(text, /question sent/i);
 });
 
 // ---------------------------------------------------------------- sums
@@ -398,7 +405,7 @@ test("capital book: the total is Part I's; 'of which … non-city groups' is the
   assert.match(text, /\nTotal, over the 1,213 matching Part I row\(s\) [^\n]*: first year \$853,688,000 · /);
   assert.match(text, /\n  Of which went to non-city groups: 148 Part I row\(s\) the book lists again in Part II, first year \$139,690,000 · /);
   assert.match(text, /\n  Part II \(the non-city list\) as printed: 178 row\(s\), first year \$210,677,000; /);
-  assert.match(text, /\n  Printed only in Part II: 30 row\(s\), first year \$70,987,000 [^\n]*not added to the Part I total\. 30 of them are the "MA" series: question sent to Council Finance\./);
+  assert.match(text, /\n  Printed only in Part II: 30 row\(s\), first year \$70,987,000 [^\n]*not added to the Part I total\. 30 of them are the "MA" series, a question for Council Finance: [^\n]*\./);
   assert.doesNotMatch(text, /Totals over all|both parts|Part I alone/, "no all-rows figure");
   for (const fy of [2027, 2026]) {
     const { text: p2 } = await call("search_capital_book", { fiscal_year: fy, part: "II", limit: 500 });
@@ -406,7 +413,7 @@ test("capital book: the total is Part I's; 'of which … non-city groups' is the
     assert.equal(only.length, fy === 2027 ? 30 : 42, `FY${fy}`);
     for (const b of only) {
       const id = / · ((?:[A-Z]{1,2}) \S+) · budget line/.exec(b)?.[1] ?? "";
-      assert.equal(b.includes("question sent to Council Finance"), /^[A-Z]{1,2} MA/.test(id), `FY${fy} ${id}: the question label only on MA rows`);
+      assert.equal(b.includes("a question for Council Finance"), /^[A-Z]{1,2} MA/.test(id), `FY${fy} ${id}: the question label only on MA rows`);
     }
     assert.ok(rowBlocks(p2).some((b) => b.includes("Part II, the non-city list (repeats its Part I row)")));
   }
@@ -415,7 +422,9 @@ test("capital book: the total is Part I's; 'of which … non-city groups' is the
 });
 
 test('capital book: borough "A" and "C" are shown as printed, not as boroughs, with #227', async () => {
-  // FAILS if A or C reads as a borough, or a filter of A / C does not find the rows printing it.
+  // FAILS if A or C reads as a borough, a filter of A / C does not find the rows printing it, or
+  // the label loses its question's status (data/council_questions.csv).
+  const words = questionWords(questionById(councilQuestions(db), BOROUGH_CODES_QUESTION));
   for (const code of ["A", "C"]) {
     const n = db.prepare("SELECT COUNT(*) AS n FROM pdf_capital_sd WHERE upper(boro) = ?").get(code).n;
     assert.ok(n > 0, `premise: rows print ${code}`);
@@ -425,7 +434,7 @@ test('capital book: borough "A" and "C" are shown as printed, not as boroughs, w
     const blocks = rowBlocks(text);
     assert.equal(blocks.length, Math.min(n, 500));
     for (const b of blocks)
-      assert.ok(b.includes(` · borough ${code} (as printed; not a borough, meaning unclear; question to the Council: https://github.com/BetaNYC/New-York-City-Budget/issues/227) · `), b.slice(0, 200));
+      assert.ok(b.includes(` · borough ${code} (as printed; not a borough, meaning unclear; question to the Council: https://github.com/BetaNYC/New-York-City-Budget/issues/227, ${words}) · `), b.slice(0, 200));
   }
   const { text } = await call("search_capital_book", { borough: "K", limit: 5 });
   assert.match(text, / · borough K · /);
@@ -672,7 +681,8 @@ function plant(meta) {
   ins("pdf_schedule_c", { ...base, amount: null, amount_printed: "", award_id: "planted-no-amount", org: "Medicare Rights no amount" });
   ins("pdf_years", { fiscal_year: 2015, family: "schedule_c", source_pdf: "x", pdf_sha256: "x", issue: 0, status: "old_parser", rows: 1, flagged: 0, printed_totals_tied: "", note: "" });
   ins("pdf_terms", { ...db.prepare("SELECT * FROM pdf_terms WHERE fiscal_year = 2027 AND item_number = 1").get(), fiscal_year: 2016, status: "reviewed" });
-  s.prepare("UPDATE pdf_review SET decision = 'needs_info', decision_note = 'asked', detail = ? WHERE review_id = '977106b18980'").run(JSON.stringify({ question_sent: "2026-08-01" }));
+  s.prepare("UPDATE pdf_review SET decision = 'needs_info', decision_note = 'asked' WHERE review_id = '977106b18980'").run();
+  ins("pdf_council_questions", { question_id: "planted", review_ids: "977106b18980", issue: null, sent_on: "2026-08-01", answered_on: "", answer: "", question_status: "sent" });
   for (const [k, v] of Object.entries(meta)) ins("meta", { key: k, value: v });
   s.close();
   useDir(SYNTH);
@@ -691,7 +701,7 @@ test("planted rows of an unlisted year or another status are never served, and a
     assert.doesNotMatch((await call("search_terms_conditions", { limit: 100 })).text, /^FY2016 /m);
     // needs_info with a sent date over 30 days ago: labeled with the date.
     const tr = await call("search_transparency_changes", { fiscal_year: 2026 });
-    assert.match(tr.text, / — Question sent to Council Finance on 2026-08-01, no answer yet; published as printed \(asked\)\n/);
+    assert.match(tr.text, / — Question sent to Council Finance on 2026-08-01, no answer yet \(asked\)\n/);
   } finally {
     useDir(WITH);
   }

@@ -74,7 +74,7 @@ two agree year by year. A change to the index build reaches the explorer on its 
 | `compare_capital_to_omb` | For each report year and Council-series budget line, the Council table's total vs OMB's adopted release, this year and next, with a verdict (`match`, `differ`, `council_only`, `omb_only`). Lines that disagree first |
 | `search_schedule_c_awards` | The adopted budget's Schedule C as printed, by fiscal year / organization / EIN (the organization's or its fiscal conduit's) / member, sponsor or delegation / category / initiative / agency / purpose / `disclosure_status` / amount range. Each row says whether the same EIN and amount is in the disclosure spreadsheet (cleared, pending or unmatched, with the reason). Sub-awards listed under their award, never counted. PDF tables |
 | `search_transparency_changes` | The transparency resolutions: designations, rescissions and purpose-of-funds changes after adoption, by fiscal year / budget year / organization / EIN / member / `resolution_number` / `resolution_date` or a `date_from`–`date_to` range / action, newest first. Totals per kind of change; "no dollar amount" rows counted, never summed. PDF tables |
-| `search_capital_book` | The §254 supporting detail (Parts I and II) by fiscal year / `project_id` / `budget_line` / sponsor / borough / agency / title / part / amount range, in book order. The total is Part I's (it ties to the book's printed total); "of which … went to non-city groups" is the Part I rows the book lists again in Part II (the same year, SUB ID and budget line, as the explorer); rows printed only in Part II are listed apart and never added, and only the `MA` series among them is labeled "question sent to Council Finance". Reductions counted on their own; "CD nn" sponsors labeled as districts with no member; borough "A" and "C" shown as printed, "not a borough, meaning unclear" (question to the Council: #227), and matched as printed by a borough filter. PDF tables |
+| `search_capital_book` | The §254 supporting detail (Parts I and II) by fiscal year / `project_id` / `budget_line` / sponsor / borough / agency / title / part / amount range, in book order. The total is Part I's (it ties to the book's printed total); "of which … went to non-city groups" is the Part I rows the book lists again in Part II (the same year, SUB ID and budget line, as the explorer); rows printed only in Part II are listed apart and never added, and only the `MA` series among them is labeled with its question to Council Finance and that question's status (`data/council_questions.csv`). Reductions counted on their own; "CD nn" sponsors labeled as districts with no member; borough "A" and "C" shown as printed, "not a borough, meaning unclear" (question to the Council: #227, with its status), and matched as printed by a borough filter. PDF tables |
 | `search_terms_conditions` | Terms and Conditions by fiscal year / agency / unit of appropriation / text, the same filters as the explorer's Terms view. PDF tables |
 | `list_available_fiscal_years` | What each fiscal year holds in each dataset and where it came from; FY2010 (disclosure) and FY2018 (capital) stated as gaps; each PDF family-year's status, and whether the PDF tables are installed |
 
@@ -210,12 +210,17 @@ The four PDF tools follow the rules settled for epic #190
   available yet".
 - **Values as printed**, never corrected. Each row lists its review entries as the public
   explorer shows them: "N things to check on this row (about how the PDF was read, not about the
-  organization)", each entry's note and its decision in plain words, or "not yet decided". No
-  check id or severity is shown ("critical" next to an organization's name would read as a
-  charge against it), and the reviewers' suggested decisions are not served (the download
-  withholds `pdf_review_suggestions`, as the public explorer does). A `needs_info` question is labeled as an open question
-  to Council Finance; once a sent date is recorded and 30 days have passed, as "Question sent to
-  Council Finance on <date>, no answer yet".
+  organization)", each entry's note and its decision in plain words, or "not yet decided". The
+  note is one plain sentence for its check, from `src/checkwords.ts` (shared with the explorer),
+  never the check's code or the reviewers' shorthand; the row's other flags follow as "how this
+  row was read: ...". No check id or severity is shown ("critical" next to an organization's
+  name would read as a charge against it), and the reviewers' suggested decisions are not served
+  (the download withholds `pdf_review_suggestions`, as the public explorer does).
+- **Questions to Council Finance** (`data/council_questions.csv`, worded by `src/questions.ts`,
+  shared with the explorer): an entry a question covers, or a `needs_info` decision, says "Open
+  question (not yet sent)" (a draft), "Question sent on <date>" (under 30 days), "Question sent to
+  Council Finance on <date>, no answer yet" (30 days or more), or "Council Finance answered on
+  <date>: <answer>".
 - **Hidden text** (text in the PDF a reader cannot see on the page) is served in its own line,
   always labeled "hidden text, not visible on the printed page".
 - **The #209 fields**: `fiscal_conduit`, the `*` mark (`review_not_completed`, with the PDF's

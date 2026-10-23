@@ -11,7 +11,8 @@ import { describe, expect, test } from "vitest";
 
 import * as P from "../../src/query/pdf.js";
 import { DEFAULT_STATE, FILTER_KEYS, PAGE_KEY, VIEWS, readHash, writeHash } from "../../src/state/hash.js";
-import { HiddenText, PublicNotes, ReviewedLabel, RowLinks } from "../../src/components/pdf.jsx";
+import { HiddenText, PublicNotes, ReviewedLabel, RowLinks, decisionLine } from "../../src/components/pdf.jsx";
+import { CHECK_WORDS } from "../../../../mcp/dist/checkwords.js";
 import ScheduleCSearch, { YearStatus } from "../../src/views/ScheduleCSearch.jsx";
 import Transparency from "../../src/views/Transparency.jsx";
 import Book from "../../src/views/Book.jsx";
@@ -85,23 +86,36 @@ describe("the status label every PDF row carries (#190)", () => {
 });
 
 describe("public review notes (#224 review)", () => {
-  test("plain notes, no check id or severity; undecided says so", () => {
+  test("plain notes, no check id, severity or reviewers' shorthand; undecided says so", () => {
     const out = html(PublicNotes, {
+      flags: "K.side_list;W.amount_bare;W.asterisk",
       notes: [
-        { review_id: "a", check_id: "K.side_list", severity: "critical", pdf_page: 106, note: "a list printed beside the table", decision: "" },
-        { review_id: "b", check_id: "W.amount_bare", severity: "warn", pdf_page: 106, note: "amount printed without $", decision: "accepted_as_printed", decision_note: "" },
+        { review_id: "a", pdf_page: 106, note: "JtBO partners: 28 rows", plain_note: CHECK_WORDS["K.side_list"], decision: "" },
+        { review_id: "b", pdf_page: 106, note: "amount printed without $", plain_note: CHECK_WORDS["W.amount_bare"], decision: "accepted_as_printed", decision_note: "" },
       ],
     });
-    expect(out).not.toMatch(/critical|K\.side_list|W\.amount_bare/i);
+    expect(out).not.toMatch(/critical|K\.side_list|W\.amount_bare|JtBO/i);
     expect(out).toContain("Not yet decided.");
     expect(out).toContain("Decided: kept as printed");
     expect(out).toContain("not about the organization");
+    // The row's other flag in plain words, and a flag its note already says only once.
+    expect(out).toContain(`How this row was read: ${CHECK_WORDS["W.asterisk"].replaceAll("'", "&#x27;")}`);
+    expect(out.split(CHECK_WORDS["W.amount_bare"]).length).toBe(2);
+  });
+  test("a note's question to Council Finance, in the MCP's words", () => {
+    const q = { question_id: "capital-ma-series", review_ids: "a", q_status: "draft", sent_on: "", answered_on: "", answer: "" };
+    expect(decisionLine({ decision: "", ...q })).toBe("Open question (not yet sent)");
+    expect(decisionLine({ decision: "needs_info" })).toBe("Open question (not yet sent)");
+    expect(decisionLine({ decision: "accepted_as_printed", decision_note: "Apollo", ...q })).toBe("Decided: kept as printed. Open question (not yet sent). Apollo");
+    expect(decisionLine({ decision: "", ...q, q_status: "sent", sent_on: "2020-01-02" })).toBe("Question sent to Council Finance on 2020-01-02, no answer yet");
+    expect(decisionLine({ decision: "" })).toBe("Not yet decided.");
   });
   test("the public notes query asks for no check id or severity (a public pdf_review has neither)", () => {
     const pub = P.reviewNotesQuery("a;b", { full: false }).sql;
-    expect(pub).not.toMatch(/check_id|severity/);
-    expect(pub).toContain("note, decision, decision_note");
-    expect(P.reviewNotesQuery("a").sql).toContain("check_id, severity");
+    expect(pub).not.toMatch(/check_id|severity|r\.note\b/);
+    expect(pub).toContain("r.plain_note, r.decision, r.decision_note");
+    expect(pub).toContain("pdf_council_questions");
+    expect(P.reviewNotesQuery("a").sql).toContain("r.check_id, r.severity");
   });
   test("an EIN with no digits is reported, not silently dropped", () => {
     expect(P.einUnusable("abc")).toBe(true);
@@ -259,7 +273,6 @@ describe("the capital book", () => {
     expect(P.isMaSeries("E MA0001")).toBe(true);
     expect(P.isMaSeries("PV MM0001")).toBe(false);
     expect(P.isMaSeries("HL TA001")).toBe(false);
-    expect(P.MA_QUESTION_LABEL).toBe("question sent to Council Finance");
   });
   test("a printed dash is shown as a dash, not $0 (FY2019)", () => {
     expect(P.printedDash("-")).toBe(true);

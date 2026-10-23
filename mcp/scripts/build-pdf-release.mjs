@@ -105,7 +105,7 @@ async function main() {
   db.exec("VACUUM");
   // The PDFs the rows cite, with the sha256 each row carries (checked against the bytes by the build).
   const pdfs = db
-    .prepare(PDF_TABLES.filter((t) => !["pdf_years", "pdf_review", "pdf_review_suggestions", "pdf_sc_disclosure"].includes(t))
+    .prepare(PDF_TABLES.filter((t) => !["pdf_years", "pdf_review", "pdf_review_suggestions", "pdf_sc_disclosure", "pdf_council_questions"].includes(t))
       .map((t) => `SELECT source_pdf, pdf_sha256 FROM ${t}`).join(" UNION ") + " ORDER BY source_pdf")
     .all();
   db.close();

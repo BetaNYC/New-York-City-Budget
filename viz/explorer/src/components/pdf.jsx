@@ -1,10 +1,12 @@
 import { createContext, useContext, useState } from "react";
 
 import { rowLinks, sourceViewState } from "../../../../mcp/dist/rowlinks.js";
+import { otherFlagWords } from "../../../../mcp/dist/checkwords.js";
+import { decisionWithQuestion } from "../../../../mcp/dist/questions.js";
 
 import { useQueries } from "../duckdb/useDuckDB.js";
 import * as P from "../query/pdf.js";
-import { DECISION_WORDS, flagState, reviewNotesQuery } from "../query/pdf.js";
+import { DECISION_WORDS, flagState, noteQuestion, reviewNotesQuery } from "../query/pdf.js";
 import { writeHash } from "../state/hash.js";
 import { HashLink } from "./ui.jsx";
 
@@ -58,7 +60,8 @@ export const ReviewScreenContext = createContext(false);
  * decision, committed in the family's decisions file and carried into its review CSV). Opening it
  * shows each review entry's note from pdf_review. In a review build: the check ids, severity and
  * decision codes. In the public build: only "N things to check on this row", each entry's note
- * and its decision in plain words, never a check id or a severity (a "critical" next to an
+ * and its decision in plain words (mcp/src/checkwords.ts, mcp/src/questions.ts), and the row's
+ * other flags as plain sentences, never a check id or a severity (a "critical" next to an
  * organization's name reads as a charge against it; it is about our reading of the PDF).
  */
 export function FlagBadge({ flags, reviewId }) {
@@ -84,7 +87,7 @@ export function FlagBadge({ flags, reviewId }) {
           {count}
           {tail}
         </summary>
-        {open ? <PublicNotes notes={notes} /> : null}
+        {open ? <PublicNotes notes={notes} flags={flags} /> : null}
       </details>
     );
   }
@@ -108,8 +111,23 @@ export function FlagBadge({ flags, reviewId }) {
   );
 }
 
-/** The public build's notes: what to check, in the reviewer's words, and the decision in plain words. */
-export function PublicNotes({ notes }) {
+/**
+ * A note's decision line in plain words: "Decided: ...", the question to Council Finance that
+ * covers it (mcp/src/questions.ts, the MCP's wording), or "Not yet decided.".
+ */
+export function decisionLine(n) {
+  const decided = n.decision ? `Decided: ${DECISION_WORDS[n.decision] ?? n.decision}` : "";
+  const line = decisionWithQuestion(n.decision ?? "", decided, noteQuestion(n));
+  if (!line) return "Not yet decided.";
+  return n.decision && n.decision_note ? `${line}. ${n.decision_note}` : line;
+}
+
+/**
+ * The public build's notes: what to check, in plain words (pdf_review.plain_note), the decision
+ * in plain words, and the row's other flags as plain sentences ("how this row was read").
+ */
+export function PublicNotes({ notes, flags }) {
+  const other = otherFlagWords(flags, notes.map((n) => n.plain_note));
   return (
     <div className="flagnotes small">
       <p className="muted">
@@ -119,14 +137,43 @@ export function PublicNotes({ notes }) {
         {notes.map((n) => (
           <li key={n.review_id}>
             {n.pdf_page ? <span className="muted">Page {n.pdf_page}: </span> : null}
-            {n.note || "A value on this row differs between two readings of the page."}
-            <div className={n.decision ? "decision-line" : "muted"}>
-              {n.decision ? `Decided: ${DECISION_WORDS[n.decision] ?? n.decision}${n.decision_note ? `. ${n.decision_note}` : ""}` : "Not yet decided."}
-            </div>
+            {n.plain_note || "A value on this row differs between two readings of the page."}
+            <div className={n.decision ? "decision-line" : "muted"}>{decisionLine(n)}</div>
           </li>
         ))}
       </ul>
+      {other.length ? <p className="muted">How this row was read: {other.join(" ")}</p> : null}
     </div>
+  );
+}
+
+/** The review build's notes: check ids, severities, the reviewers' notes and decision codes. */
+function ReviewNotes({ notes, loading, error }) {
+  if (loading) return <p className="muted small">Loading the notes…</p>;
+  if (error) return <p className="muted small">The notes could not be loaded.</p>;
+  if (!notes.length) return <p className="muted small">No note recorded.</p>;
+  return (
+    <ul className="flagnotes">
+      {notes.map((n) => (
+        <li key={n.review_id}>
+          <code>{n.check_id}</code> <span className={`sev sev-${n.severity}`}>{n.severity}</span>
+          {n.pdf_page ? <span className="muted"> p.{n.pdf_page}</span> : null}: {n.note}
+          <div className="muted small">In public: {n.plain_note}</div>
+          {n.decision ? (
+            <div className="decision-line">
+              Decision: <code>{n.decision}</code> ({DECISION_WORDS[n.decision] ?? n.decision}){n.decision_note ? ` — ${n.decision_note}` : ""}
+            </div>
+          ) : (
+            <div className="muted small">No decision recorded yet.</div>
+          )}
+          {n.question_id ? (
+            <div className="small">
+              Council Finance question <code>{n.question_id}</code>: {decisionWithQuestion("needs_info", "", noteQuestion(n))}
+            </div>
+          ) : null}
+        </li>
+      ))}
+    </ul>
   );
 }
 

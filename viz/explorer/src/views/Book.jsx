@@ -3,6 +3,7 @@ import { money, plural } from "../format.js";
 import * as P from "../query/pdf.js";
 import * as Q from "../query/sql.js";
 import { FlagBadge, ReviewedLabel, RowLinks } from "../components/pdf.jsx";
+import { BOROUGH_CODES_QUESTION, MA_SERIES_QUESTION, maSeriesWords, questionById, questionWords } from "../../../../mcp/dist/questions.js";
 import { StateBadge } from "../components/OpenData.jsx";
 import { Matched, Notice, Pager, SelectFilter, Status, TextFilter } from "../components/ui.jsx";
 import { datasetUrl, rowUrl, stateOf, tooltipOf } from "../query/opendata.js";
@@ -30,7 +31,10 @@ function Body({ state, set, go, manifest, pdfYears }) {
     t: P.bookTotalsQuery(f),
     rows: P.bookQuery(f, state.bkpage),
     only: P.bookPart2OnlyQuery(f),
+    questions: P.councilQuestionsQuery(),
   }));
+  // The questions to Council Finance the MA series and borough labels name (mcp/src/questions.ts).
+  const questions = q.data?.questions ?? [];
   const rows = q.data?.rows ?? [];
   const oq = useQueries(true, `bookod|${rows.map((r) => `${r.fiscal_year}|${r.sub_id}`).join(",")}`, () => {
     const x = P.odForBookRowsQuery(rows);
@@ -157,7 +161,7 @@ function Body({ state, set, go, manifest, pdfYears }) {
                 </tbody>
               </table>
             )}
-            {Number(t.part2_only_n) > 0 && <Part2Only rows={q.data.only} total={Number(t.part2_only_n)} yl={yl} state={state} go={go} manifest={manifest} />}
+            {Number(t.part2_only_n) > 0 && <Part2Only questions={questions} rows={q.data.only} total={Number(t.part2_only_n)} yl={yl} state={state} go={go} manifest={manifest} />}
             {Number(t.n) > 0 && (
               <div className="table-wrap">
                 <table className="rows">
@@ -186,6 +190,7 @@ function Body({ state, set, go, manifest, pdfYears }) {
                   <tbody>
                     {rows.map((r) => (
                       <BookRow
+                        questions={questions}
                         key={`${r.fiscal_year}|${r.part}|${r.pdf_page}|${r.row_in_page}`}
                         r={r}
                         fy19={fy19}
@@ -214,7 +219,7 @@ const amountCell = (v, printed) => {
   return Number(v) < 0 ? <span className="negative">{money(v)} (reduction)</span> : money(v);
 };
 
-function BookRow({ r, fy19, od, state, go, manifest }) {
+function BookRow({ r, fy19, od, state, go, manifest, questions }) {
   return (
     <tr>
       <td>
@@ -228,7 +233,7 @@ function BookRow({ r, fy19, od, state, go, manifest }) {
             ) : (
               <>
                 {P.PART2_ONLY_LABEL}
-                {P.isMaSeries(r.sub_id) ? ` (${P.MA_QUESTION_LABEL})` : ""}
+                {P.isMaSeries(r.sub_id) ? ` (${maSeriesWords(questionById(questions, MA_SERIES_QUESTION))})` : ""}
               </>
             )}
           </div>
@@ -264,6 +269,7 @@ function BookRow({ r, fy19, od, state, go, manifest }) {
             <a href={P.BOROUGH_QUESTION_URL} className="small" aria-label={`Our question to the Council about borough code ${r.boro} (GitHub #227)`}>
               (#227)
             </a>
+            <div className="muted small">{questionWords(questionById(questions, BOROUGH_CODES_QUESTION))}</div>
           </>
         ) : (
           r.boro
@@ -313,14 +319,15 @@ function OdBookCell({ xs }) {
 
 /**
  * The matching rows printed only in Part II (Noel, PR #224): listed apart, never added to the Part I
- * total. The "MA" series is one question sent to Council Finance (#209).
+ * total. The "MA" series is one question to Council Finance (#209), labeled with its status.
  */
-function Part2Only({ rows, total, yl, state, go, manifest }) {
+function Part2Only({ rows, total, yl, state, go, manifest, questions }) {
+  const ma = maSeriesWords(questionById(questions, MA_SERIES_QUESTION));
   return (
     <details className="book" open>
       <summary>
         <strong>Printed only in Part II</strong> ({plural(total, "row")}): not added to the capital book's total
-        {rows.some((r) => P.isMaSeries(r.sub_id)) ? `; the "MA" series: ${P.MA_QUESTION_LABEL}` : ""}
+        {rows.some((r) => P.isMaSeries(r.sub_id)) ? `; ${ma}` : ""}
       </summary>
       <div className="table-wrap">
         <table className="rows small">
@@ -344,7 +351,7 @@ function Part2Only({ rows, total, yl, state, go, manifest }) {
                 <td>{r.fiscal_year}</td>
                 <td>
                   <code>{r.sub_id}</code>
-                  {P.isMaSeries(r.sub_id) ? <div className="muted">{P.MA_QUESTION_LABEL}</div> : null}
+                  {P.isMaSeries(r.sub_id) ? <div className="muted">{ma}</div> : null}
                 </td>
                 <td>
                   {r.title} <ReviewedLabel status={r.status} /> <FlagBadge flags={r.flags} reviewId={r.review_id} />

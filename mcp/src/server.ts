@@ -47,7 +47,7 @@ import {
   searchCapitalBook,
   searchTerms,
   familyYears,
-  needsInfoLabel,
+  councilQuestions,
   HIDDEN_TEXT_LABEL,
   PDF_FAMILY_LABEL,
   SC_DISCLOSURE_STATUSES,
@@ -57,6 +57,16 @@ import {
   isMaSeries,
   type ServedRow,
 } from "./pdfquery.js";
+import { otherFlagWords } from "./checkwords.js";
+import {
+  BOROUGH_CODES_QUESTION,
+  MA_SERIES_QUESTION,
+  decisionWithQuestion,
+  maSeriesWords,
+  questionById,
+  questionWords,
+  type CouncilQuestion,
+} from "./questions.js";
 
 const PACKAGE_VERSION = (
   JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf-8")) as { version: string }
@@ -564,14 +574,15 @@ function pdfRowTail(s: ServedRow): string {
         (open ? (open === s.reviews.length ? " · not yet decided" : ` · ${open} not yet decided`) : " · decided")
     );
     for (const e of s.reviews) {
-      const decision =
-        e.decision === "needs_info"
-          ? needsInfoLabel(e.question_sent)
-          : e.decision
-            ? DECISION_WORDS[e.decision] ?? e.decision.replaceAll("_", " ")
-            : "not yet decided";
+      const decided = e.decision ? DECISION_WORDS[e.decision] ?? e.decision.replaceAll("_", " ") : "";
+      const decision = decisionWithQuestion(e.decision, decided, e.question) || "not yet decided";
       L.push(`      - ${e.note || "(no note)"} — ${decision}${e.decision && e.decision_note ? ` (${e.decision_note})` : ""}`);
     }
+    // The row's other flags in plain words (src/checkwords.ts), never the codes, as the public
+    // explorer's badge shows them: only on a row with review entries (the rest are routine notes
+    // on how the page is printed). A flag with an entry above is said there.
+    const other = otherFlagWords(r.flags, s.reviews.map((e) => e.note));
+    if (other.length) L.push(`    how this row was read: ${other.join(" ")}`);
   }
   if (r.hidden_text) L.push(`    ${HIDDEN_TEXT_LABEL}: ${JSON.stringify(r.hidden_text)}`);
   if (r.read_from_page_image) L.push(`    read from the page image (a person confirmed the page where the PDF's text layer disagrees): ${r.read_from_page_image}`);
@@ -707,20 +718,22 @@ function transparencyText(res: ReturnType<typeof searchTransparency>): string {
  */
 const BOOK_BOROUGH_UNCLEAR = new Set(["A", "C"]);
 const BOOK_BOROUGH_ISSUE = `${REPO_URL}/issues/227`;
-function bookBorough(code: unknown): string {
+function bookBorough(code: unknown, qs: CouncilQuestion[]): string {
   const c = String(code ?? "").trim();
   if (!c) return "—";
-  return BOOK_BOROUGH_UNCLEAR.has(c.toUpperCase()) ? `${c} (as printed; not a borough, meaning unclear; question to the Council: ${BOOK_BOROUGH_ISSUE})` : c;
+  return BOOK_BOROUGH_UNCLEAR.has(c.toUpperCase())
+    ? `${c} (as printed; not a borough, meaning unclear; question to the Council: ${BOOK_BOROUGH_ISSUE}, ${questionWords(questionById(qs, BOROUGH_CODES_QUESTION))})`
+    : c;
 }
 
 /** Where a book row sits: Part I (listed again in Part II or not), or Part II (repeating Part I, or printed only there). */
-function bookPartLabel(r: Record<string, any>): string {
+function bookPartLabel(r: Record<string, any>, qs: CouncilQuestion[]): string {
   if (r.part !== "II") return r.in_other_part ? "Part I (listed again in Part II: money that went to a non-city group)" : "Part I";
   if (r.in_other_part) return "Part II, the non-city list (repeats its Part I row)";
-  return `Part II, the non-city list: printed only in Part II${isMaSeries(r.sub_id) ? " (question sent to Council Finance)" : ""}; in no Part I total`;
+  return `Part II, the non-city list: printed only in Part II${isMaSeries(r.sub_id) ? ` (${maSeriesWords(questionById(qs, MA_SERIES_QUESTION))})` : ""}; in no Part I total`;
 }
 
-function capitalBookText(res: ReturnType<typeof searchCapitalBook>): string {
+function capitalBookText(res: ReturnType<typeof searchCapitalBook>, qs: CouncilQuestion[]): string {
   const cols = (t: { y1: number; y2: number; y3: number; y4: number }) =>
     `first year ${usd(t.y1)} · second ${usd(t.y2)} · third ${usd(t.y3)} · fourth ${usd(t.y4)}`;
   const p1 = res.part_i;
@@ -739,7 +752,7 @@ function capitalBookText(res: ReturnType<typeof searchCapitalBook>): string {
   if (only.rows)
     L.push(
       `  Printed only in Part II: ${n(only.rows)} row(s), ${cols(only)}. They have no Part I row and are not added to the Part I total.` +
-        (res.part_ii_only_ma ? ` ${n(res.part_ii_only_ma)} of them are the "MA" series: question sent to Council Finance.` : "")
+        (res.part_ii_only_ma ? ` ${n(res.part_ii_only_ma)} of them are ${maSeriesWords(questionById(qs, MA_SERIES_QUESTION))}.` : "")
     );
   L.push(
     ...(res.negative_rows ? [`  Reductions: ${n(res.negative_rows)} matching row(s) print a negative amount in some year column (first year: ${usd(res.negative_y1)}).`] : []),
@@ -752,7 +765,7 @@ function capitalBookText(res: ReturnType<typeof searchCapitalBook>): string {
     const r = s.row;
     const fy = r.fiscal_year as number;
     L.push(
-      `FY${fy} book · ${bookPartLabel(r)} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${bookBorough(r.boro)} · ${r.agency}` +
+      `FY${fy} book · ${bookPartLabel(r, qs)} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${bookBorough(r.boro, qs)} · ${r.agency}` +
         `\n    title: ${r.title}` +
         `\n    sponsor: ${r.sponsor || "(none printed)"}${VACANT_DISTRICT.test(String(r.sponsor ?? "").trim()) ? " (a district with no member)" : ""}` +
         (r.council_district ? ` · council district ${r.council_district}` : "") +
@@ -1387,7 +1400,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (yg.text) return textResult(yg.text);
         const res = searchCapitalBook(t.db, linkCommit(t), { ...a, budget_line: line.value, borough: a.borough?.trim() });
         if (res.matched === 0) return textResult(`No matching project rows in the capital book (checked years ${yearSpan(yg.years)}).\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "capital_sd")}`);
-        return textResult(`${capitalBookText(res)}\n\n${pdfFooter(t, "capital_sd")}`);
+        return textResult(`${capitalBookText(res, councilQuestions(t.db))}\n\n${pdfFooter(t, "capital_sd")}`);
       }
 
       case "search_terms_conditions": {

@@ -22,7 +22,7 @@ import { dirname, join } from "node:path";
 import Database from "better-sqlite3";
 import { parse } from "csv-parse/sync";
 
-import { DERIVED, PDF_FAMILIES, PDF_TABLES, SUGGESTIONS } from "../scripts/pdf-families.mjs";
+import { COUNCIL_QUESTIONS, DERIVED, PDF_FAMILIES, PDF_TABLES, SUGGESTIONS } from "../scripts/pdf-families.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const MCP = join(HERE, "..");
@@ -56,7 +56,7 @@ test("a reviewed build loads exactly the families data/pdf_years.csv lists", () 
       const n = count(db, `SELECT COUNT(*) AS n FROM ${main} WHERE fiscal_year = ${Number(y.fiscal_year)} AND family = '${y.family}' AND status = '${y.status}'`);
       assert.equal(n, Number(y.rows), `${y.fiscal_year} ${y.family}`);
     }
-    for (const t of PDF_TABLES.filter((t) => t !== "pdf_years" && t !== "pdf_review" && t !== SUGGESTIONS.table && !(t in DERIVED))) {
+    for (const t of PDF_TABLES.filter((t) => t !== "pdf_years" && t !== "pdf_review" && t !== SUGGESTIONS.table && t !== COUNCIL_QUESTIONS.table && !(t in DERIVED))) {
       assert.equal(count(db, `SELECT COUNT(*) AS n FROM ${t} WHERE source_pdf NOT LIKE 'source/%.pdf' OR length(pdf_sha256) <> 64 OR pdf_page IS NULL`), 0, t);
     }
   } finally {
