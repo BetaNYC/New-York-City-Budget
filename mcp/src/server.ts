@@ -683,6 +683,19 @@ function transparencyText(res: ReturnType<typeof searchTransparency>): string {
   return L.join("\n");
 }
 
+/**
+ * The capital book's borough code. "A" and "C" are printed but are not boroughs, and what they
+ * mean is not known: shown as printed, with that said, and the question to the Council (#227).
+ * The same labels as the explorer.
+ */
+const BOOK_BOROUGH_UNCLEAR = new Set(["A", "C"]);
+const BOOK_BOROUGH_ISSUE = `${REPO_URL}/issues/227`;
+function bookBorough(code: unknown): string {
+  const c = String(code ?? "").trim();
+  if (!c) return "—";
+  return BOOK_BOROUGH_UNCLEAR.has(c.toUpperCase()) ? `${c} (as printed; not a borough, meaning unclear; question to the Council: ${BOOK_BOROUGH_ISSUE})` : c;
+}
+
 function capitalBookText(res: ReturnType<typeof searchCapitalBook>): string {
   const cols = (t: { y1: number; y2: number; y3: number; y4: number }) =>
     `first year ${usd(t.y1)} · second ${usd(t.y2)} · third ${usd(t.y3)} · fourth ${usd(t.y4)}`;
@@ -714,7 +727,7 @@ function capitalBookText(res: ReturnType<typeof searchCapitalBook>): string {
     const r = s.row;
     const fy = r.fiscal_year as number;
     L.push(
-      `FY${fy} book · ${r.part === "II" ? (r.in_part_i ? "Part II, the non-city list (reprints its Part I row)" : "Part II, the non-city list: printed only in Part II (question sent to Council Finance); in no Part I total") : "Part I"} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${r.boro || "—"} · ${r.agency}` +
+      `FY${fy} book · ${r.part === "II" ? (r.in_part_i ? "Part II, the non-city list (reprints its Part I row)" : "Part II, the non-city list: printed only in Part II (question sent to Council Finance); in no Part I total") : "Part I"} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${bookBorough(r.boro)} · ${r.agency}` +
         `\n    title: ${r.title}` +
         `\n    sponsor: ${r.sponsor || "(none printed)"}${VACANT_DISTRICT.test(String(r.sponsor ?? "").trim()) ? " (a district with no member)" : ""}` +
         (r.council_district ? ` · council district ${r.council_district}` : "") +
@@ -932,7 +945,7 @@ export const TOOLS = [
         project_id: { type: "string", description: "Project ID as the book prints it (substring, case-insensitive): 'HO CC0001', or 'CC0001' without the agency code" },
         budget_line: { type: "string", description: "Budget line, exact, agency code then line ('P D018', 'PW-DN846')" },
         sponsor: { type: "string", description: "Sponsor as printed (substring), e.g. 'Speaker', 'Avilés'. 'CD 22' is a district with no member" },
-        borough: { type: "string", description: "Borough code, any case: K, M, Q, R, X, C, or the unconfirmed A" },
+        borough: { type: "string", description: "Borough code as printed, any case: K, M, Q, R, X; 'A' and 'C' also match the rows that print them (not boroughs, meaning unclear; issue #227)" },
         agency: { type: "string", description: "Agency name as printed (substring), e.g. 'PARKS'" },
         title: { type: "string", description: "Project title, or FY2019's description (substring)" },
         part: { type: "string", enum: ["I", "II"], description: "The book's part: I, the projects (the total), or II, the non-city groups' list" },
@@ -1337,7 +1350,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const line = budgetLineArg(a.budget_line);
         if (line.error) return errorResult(line.error);
         if (a.borough != null && !/^[A-Za-z]$/.test(a.borough.trim()))
-          return errorResult(`borough must be one code letter (K, M, Q, R, X, C, or the unconfirmed A); got ${JSON.stringify(a.borough)}.`);
+          return errorResult(`borough must be one code letter as printed (K, M, Q, R, X, or A or C, which are not boroughs; #227); got ${JSON.stringify(a.borough)}.`);
         const guard =
           emptyError("project_id", a.project_id) ?? emptyError("sponsor", a.sponsor) ?? emptyError("agency", a.agency) ??
           emptyError("title", a.title) ?? limitError(a.limit) ?? rangeError(a.min_amount, a.max_amount);

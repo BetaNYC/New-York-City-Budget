@@ -366,6 +366,23 @@ test("capital book: the total is Part I's; Part II is 'of which … went to non-
   assert.match(p2, /FY2027 book · Part II, the non-city list \(reprints its Part I row\) · /);
 });
 
+test('capital book: borough "A" and "C" are shown as printed, not as boroughs, with #227', async () => {
+  // FAILS if A or C reads as a borough, or a filter of A / C does not find the rows printing it.
+  for (const code of ["A", "C"]) {
+    const n = db.prepare("SELECT COUNT(*) AS n FROM pdf_capital_sd WHERE upper(boro) = ?").get(code).n;
+    assert.ok(n > 0, `premise: rows print ${code}`);
+    const r = searchCapitalBook(db, COMMIT(), { borough: code, limit: 500 });
+    assert.equal(r.matched, n, code);
+    const { text } = await call("search_capital_book", { borough: code.toLowerCase(), limit: 500 });
+    const blocks = rowBlocks(text);
+    assert.equal(blocks.length, Math.min(n, 500));
+    for (const b of blocks)
+      assert.ok(b.includes(` · borough ${code} (as printed; not a borough, meaning unclear; question to the Council: https://github.com/BetaNYC/New-York-City-Budget/issues/227) · `), b.slice(0, 200));
+  }
+  const { text } = await call("search_capital_book", { borough: "K", limit: 5 });
+  assert.match(text, / · borough K · /);
+});
+
 // ---------------------------------------------------------------- parity with the explorer
 
 /** Run one of the explorer's DuckDB queries on SQLite, with DuckDB's functions supplied. */
