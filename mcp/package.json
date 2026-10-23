@@ -37,12 +37,13 @@
   ],
   "scripts": {
     "build": "tsc",
-    "build-index": "node scripts/build-index.mjs",
+    "build-index": "node scripts/build-index.mjs --spreadsheet-only",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
     "prepare": "node scripts/prepare.mjs",
-    "pretest": "npm run build && npm run build-index",
-    "test": "node --test test/*.test.js"
+    "pretest": "npm run build && npm run build-index && node scripts/build-pdf-release.mjs --out .pdf-test/release --keep-full",
+    "test": "node --test test/*.test.js",
+    "build-pdf-release": "node scripts/build-pdf-release.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",

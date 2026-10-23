@@ -1,6 +1,7 @@
 /**
- * The 2.0.0 tool surface: exactly four tools, the six 1.x tools answering with their migration
- * note, and list_available_fiscal_years rebuilt on the structured datasets.
+ * The tool surface: the four spreadsheet tools of 2.0.0 and the four PDF tools of #212 (covered
+ * in test/pdf-tools.test.js), the six 1.x tools answering with their migration note, and
+ * list_available_fiscal_years rebuilt on the structured datasets.
  *
  * Expected values come from data/disclosure_years.csv and data/capital/*.csv. Each test says
  * what result would make it FAIL.
@@ -20,13 +21,14 @@ const REPO = join(HERE, "..", "..");
 const readCsv = (rel) => parse(readFileSync(join(REPO, rel), "utf8"), { columns: true, skip_empty_lines: true, bom: true });
 const fmt = (n) => n.toLocaleString("en-US");
 
-const TOOLS_2 = ["search_disclosure_awards", "search_council_capital", "compare_capital_to_omb", "list_available_fiscal_years"];
+const TOOLS_2 = ["search_disclosure_awards", "search_council_capital", "compare_capital_to_omb", "list_available_fiscal_years",
+  "search_schedule_c_awards", "search_transparency_changes", "search_capital_book", "search_terms_conditions"];
 const REMOVED = {
   search_awards: "search_disclosure_awards",
   get_awards_by_ein: "search_disclosure_awards",
-  search_transparency_resolutions: "nyc-council-mcp",
-  search_capital_projects: "search_council_capital",
-  get_terms_conditions: "source/FY27/FY27-FINAL-Terms-and-Conditions-6.30.26.pdf",
+  search_transparency_resolutions: "search_transparency_changes",
+  search_capital_projects: "search_capital_book",
+  get_terms_conditions: "search_terms_conditions",
   get_legistar_link: "nyc-council-mcp",
 };
 
@@ -41,7 +43,7 @@ after(async () => {
   await client.close();
 });
 
-test("tools/list exposes exactly the four 2.0.0 tools", async () => {
+test("tools/list exposes exactly the eight tools", async () => {
   // FAILS if a retired tool is still listed, or a 2.0 tool is missing.
   const { tools } = await client.listTools();
   assert.deepEqual(tools.map((t) => t.name).sort(), [...TOOLS_2].sort());
@@ -89,6 +91,6 @@ test("list_available_fiscal_years reports every year from the datasets, gaps sta
   }
   assert.match(text, /• FY2010 disclosure is not loaded: the Council's workbook \(2,592 rows/);
   assert.match(text, /• FY2018 capital: no Council workbook was found/);
-  assert.match(text, /Retired in 2\.0\.0 and not served: everything extracted from the adopted-budget PDFs/);
+  assert.match(text, /Retired in 2\.0\.0 and never served: the old PDF parser's output/);
   assert.doesNotMatch(text, /Schedule C awards:|Terms & Conditions:|Transparency Resolutions:/);
 });

@@ -16,3 +16,4 @@ mcp/**/budget.db*
 *.swp
 mcp/.reviewed-test/
 mcp/.open-data-test/
+mcp/.pdf-test/

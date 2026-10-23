@@ -10,7 +10,47 @@ Nothing yet.
 
 ## 2.0.1 — unreleased (built 2026-10-20; not tagged, not published)
 
-A patch: the index gains empty tables; no tool, argument or answer changes.
+The index gains empty tables, and (2026-10-22) four new tools over the checked PDF tables, which
+are an optional download. Nothing is removed. The new tools make this a minor change in semver
+terms; the version is left at 2.0.1 until the release (W11, #220) picks one.
+
+### Added (the checked PDF tables, 2026-10-22: W3 #212, W5 #214, W6 #215)
+- **Four tools**: `search_schedule_c_awards` (with each row's `disclosure_status`),
+  `search_transparency_changes`, `search_capital_book`, `search_terms_conditions`. They serve the
+  family-years `data/pdf_years.csv` lists as `reviewed` or `closed` (all 36 are `reviewed`
+  today), never the old parser's output; FY2008–FY2017 answer "not available yet". Every row
+  carries its status label ("checked, review in progress" / "checked and reviewed"), flags,
+  review entries (decision and note where decided; `needs_info` labeled as an open question, or
+  with the date sent once 30 days have passed), hidden text in its own labeled line, the #209
+  fields, and the three links from `src/rowlinks.ts`, the GitHub one at the commit the tables
+  were built from. "No dollar amount" rows and the capital book's Part II (a reprint of Part I)
+  are counted, never summed; sub-awards are listed under their award, never counted.
+  `search_disclosure_awards` is unchanged and separate.
+- **The optional download** (`src/pdfdata.ts`): `npx @betanyc/nyc-budget-mcp download
+  --pdf-tables [--pdfs] [--from <manifest>]`, or `NYC_BUDGET_PDF_DATA=on` (or `pdfs`) to download
+  in the background on start. From this repo's newest `pdf-tables-*` GitHub Release (none yet;
+  W7 #216 publishes them) or `NYC_BUDGET_PDF_DATA_URL`; every file checked against the
+  manifest's size and sha256; installed in a per-user folder (`NYC_BUDGET_DATA_DIR`), never
+  `node_modules`. Until it is installed, the four tools say how to add it.
+- **`scripts/build-pdf-release.mjs`** builds the release assets locally (`pdf-tables.db.gz`, the
+  manifest, optionally the PDFs); the format is in the README. About 17 MB to download, 115 MB on
+  disk; the PDFs are 141 MB more.
+- `list_available_fiscal_years` reports each PDF family-year's status, and whether the download
+  is installed. The `REMOVED_TOOLS` notes for `search_awards`, `search_transparency_resolutions`,
+  `search_capital_projects` and `get_terms_conditions` point at the new tools.
+
+### Changed (2026-10-22)
+- **The package's index never holds PDF rows.** `npm run build-index` (and so `prepare`) runs
+  `build-index.mjs --spreadsheet-only`: no PDF family loads, closed or not. `data/budget.db` stays
+  about 51 MB. The script's default (closed families load) is unchanged for the explorer's build.
+- Every index records `source_commit` (`git rev-parse HEAD`, or `NYC_BUDGET_SOURCE_COMMIT`) and
+  `source_commit_check` (`pdfs_match` only when every cited PDF has the same bytes at that
+  commit; otherwise no GitHub link is built), and `pdf_years_listed` (every family-year and its
+  status, so the package can report them without the download).
+- Tests: `no-pdf-data.test.js` is replaced by `shipped-data.test.js` (the package's index and
+  tarball, still strict), and `pdf-families.test.js` drops "no tool reads a pdf_* table" for the
+  serving rules; new `pdf-tools.test.js` (labels, gate, hidden text, links, sums, parity with the
+  explorer's queries) and `pdf-download.test.js` (local HTTP server only).
 
 ### Changed (PDF family config, 2026-10-22: schema fields decided in #209, W8 #217)
 - **New columns in the reviewed-PDF tables, every year, blank where the PDF prints none.**

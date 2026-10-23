@@ -53,7 +53,9 @@ The old PDF-derived files in `data/fyNN/schedule_c/`, `terms/`, `capital/` (move
 (`pdf_schedule_c`, `pdf_capital_sd`, `pdf_capital_sd_orgs`, `pdf_terms`, `pdf_terms_units`),
 carrying `status`. Then:
 
-- **MCP:** serves only `status = closed` rows. A `reviewed` year is invisible to MCP tools.
+- **MCP:** its four PDF tools serve `reviewed` and `closed` rows, each labeled, from an optional
+  download built by `mcp/scripts/build-pdf-release.mjs`; the npm package's own index holds no
+  PDF rows (`build-index.mjs --spreadsheet-only`; #212, #215).
 - **Explorer:** an env flag at build time. The public deploy (`deploy-viz.yml`) builds with
   `closed` only. A local or demo build (`npm run data -- --include-reviewed`) adds `reviewed`
   rows, and every such row, page, and chart shows a **"checked, review in progress"** label.

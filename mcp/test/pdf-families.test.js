@@ -1,19 +1,22 @@
 /**
- * The reviewed PDF tables (scripts/pdf-families.mjs, viz/explorer/INTEGRATION.md §3): the MCP
- * never serves a status = reviewed row.
+ * The checked PDF tables (scripts/pdf-families.mjs, viz/explorer/INTEGRATION.md §3) and how they
+ * are built for the MCP's optional download (scripts/build-pdf-release.mjs, #215).
  *
- *   1. The MCP's own index (data/budget.db, built by pretest) holds no reviewed row in any pdf_*
- *      table, and records include_reviewed = no.
- *   2. --include-reviewed is refused when it would write data/budget.db.
- *   3. A reviewed build (--include-reviewed --out) loads exactly what data/pdf_years.csv lists.
- *   4. Every MCP tool answers the same, byte for byte, from that reviewed index as from the
- *      default one: no tool reads a pdf_* table, so reviewed rows are invisible to tools even when
- *      they are in the file. Also checked statically: no source file names a pdf_ table.
+ * 2.0.0 asserted here that no tool reads a pdf_* table. #212 serves them on purpose, so those two
+ * tests are replaced by the rules the serving must keep (W5, #214):
+ *   1. --include-reviewed is refused when it would write data/budget.db.
+ *   2. A reviewed build loads exactly what data/pdf_years.csv lists, and only from the new
+ *      process's files: no old-parser CSV (data/fyNN/schedule_c/, terms/, capital/, transparency
+ *      resolutions, data/retired/, data/combined/) is ever an input.
+ *   3. The download holds the pdf_* tables and the build's meta only, every row of a family-year
+ *      pdf_years lists as reviewed or closed, with the commit its links are built from.
+ *   4. The spreadsheet tools answer the same, byte for byte, with the PDF tables installed or not.
+ * test/pdf-tools.test.js covers the four tools themselves.
  */
-import { test, before, after } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { cpSync, mkdirSync, readFileSync, readdirSync, rmSync } from "node:fs";
+import { mkdirSync, readFileSync, rmSync, symlinkSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import Database from "better-sqlite3";
@@ -24,34 +27,15 @@ import { DERIVED, PDF_FAMILIES, PDF_TABLES, SUGGESTIONS } from "../scripts/pdf-f
 const HERE = dirname(fileURLToPath(import.meta.url));
 const MCP = join(HERE, "..");
 const REPO = join(MCP, "..");
-const DEFAULT_DB = join(MCP, "data", "budget.db");
-// Inside mcp/ so the copied dist/ resolves mcp/node_modules. Gitignored.
-const TMP = join(MCP, ".reviewed-test");
-const REVIEWED_DB = join(TMP, "data", "budget.db");
+// Built once by pretest (scripts/build-pdf-release.mjs --out .pdf-test/release --keep-full).
+const RELEASE = join(MCP, ".pdf-test", "release");
+const REVIEWED_DB = join(RELEASE, "full.db");
+const TABLES_DB = join(RELEASE, "pdf-tables.db");
 const years = parse(readFileSync(join(REPO, "data", "pdf_years.csv"), "utf8"), { columns: true, skip_empty_lines: true });
-
-before(() => {
-  rmSync(TMP, { recursive: true, force: true });
-  mkdirSync(join(TMP, "data"), { recursive: true });
-  cpSync(join(MCP, "dist"), join(TMP, "dist"), { recursive: true });
-  cpSync(join(MCP, "package.json"), join(TMP, "package.json"));
-  const r = spawnSync(process.execPath, [join(MCP, "scripts", "build-index.mjs"), "--include-reviewed", "--out", REVIEWED_DB], { cwd: MCP, encoding: "utf8" });
-  assert.equal(r.status, 0, r.stderr);
-});
+const TMP = join(MCP, ".pdf-test", "families");
 after(() => rmSync(TMP, { recursive: true, force: true }));
 
 const count = (db, sql) => db.prepare(sql).get().n;
-
-test("the MCP's index holds no reviewed PDF row", () => {
-  // FAILS if a default build loads a status = reviewed family.
-  const db = new Database(DEFAULT_DB, { readonly: true });
-  try {
-    for (const t of PDF_TABLES) assert.equal(count(db, `SELECT COUNT(*) AS n FROM ${t} WHERE status <> 'closed'`), 0, t);
-    assert.equal(db.prepare("SELECT value FROM meta WHERE key = 'include_reviewed'").get().value, "no");
-  } finally {
-    db.close();
-  }
-});
 
 test("--include-reviewed is refused for data/budget.db", () => {
   // FAILS if a reviewed build could replace the MCP's own index.
@@ -105,41 +89,6 @@ test("the schema fields decided in #209 load (W8, #217)", () => {
   }
 });
 
-/** Call every tool with a fixed set of arguments against the server module at `serverPath`. */
-function answers(serverPath) {
-  const script = `
-    import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-    import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
-    const { server } = await import(${JSON.stringify(serverPath)});
-    const [ct, st] = InMemoryTransport.createLinkedPair();
-    await server.connect(st);
-    const client = new Client({ name: "pdf-test", version: "0" }, { capabilities: {} });
-    await client.connect(ct);
-    const calls = [
-      ["list_available_fiscal_years", {}],
-      ["search_council_capital", { fiscal_year: 2027 }],
-      ["search_council_capital", { title: "ali forney" }],
-      ["search_council_capital", { title: "fornay" }],
-      ["search_council_capital", { sponsor: "sanchez", fiscal_year: 2027 }],
-      ["search_council_capital", { budget_line: "PV 0N042" }],
-      ["compare_capital_to_omb", { report_year: 2027 }],
-      ["search_disclosure_awards", { fiscal_year: 2027, legal_name: "ali forney" }],
-      // Schedule C (pdf_schedule_c, pdf_sc_disclosure): p.279 Medicare Rights $135,000, the City's EIN
-      ["search_disclosure_awards", { fiscal_year: 2027, legal_name: "medicare rights" }],
-      ["search_disclosure_awards", { fiscal_year: 2027, ein: "13-6400434" }],
-      ["search_disclosure_awards", { fiscal_year: 2027, min_amount: 135000, max_amount: 135000 }],
-    ];
-    const out = [(await client.listTools()).tools.map((t) => t.name)];
-    for (const [name, args] of calls) out.push(await client.callTool({ name, arguments: args }));
-    await client.close();
-    process.stdout.write(JSON.stringify(out));
-  `;
-  const r = spawnSync(process.execPath, ["--input-type=module", "-e", script], { cwd: MCP, encoding: "utf8", maxBuffer: 64 << 20 });
-  assert.equal(r.status, 0, r.stderr);
-  // The index's build time is the one thing two builds may differ in.
-  return r.stdout.replace(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z/g, "<built_at>");
-}
-
 test("Schedule C's disclosure alignment is the Schedule C session's own (code/schedc/disclosure.py)", () => {
   // FAILS if the port in scripts/pdf-families.mjs drifts from the promoted file (the build also
   // stops on that), or the counts move. FY2027: 9,850 matched (City-EIN name rule on), 129 PDF
@@ -158,25 +107,96 @@ test("Schedule C's disclosure alignment is the Schedule C session's own (code/sc
   }
 });
 
-test("every MCP tool answers the same from a reviewed index as from the default one", () => {
-  // FAILS if any tool's answer changes when reviewed PDF rows are in the index.
-  const a = answers(join(MCP, "dist", "server.js"));
-  const b = answers(join(TMP, "dist", "server.js"));
-  assert.ok(a.length > 1000, "premise: the tools answered");
-  assert.equal(b, a);
+test("no old-parser file is an input of the PDF tables, and every PDF input is a listed family's", () => {
+  // FAILS if the reviewed build reads a retired or old-parser CSV, or a data/fyNN/pdf/ file of a
+  // family-year data/pdf_years.csv does not list.
+  const db = new Database(REVIEWED_DB, { readonly: true });
+  let inputs;
+  try {
+    inputs = JSON.parse(db.prepare("SELECT value FROM meta WHERE key = 'inputs'").get().value);
+  } finally {
+    db.close();
+  }
+  const OLD = [/^data\/fy\d{2}\/(schedule_c|terms|capital|transparency-resolutions)\//, /^data\/(combined|recovered|retired)\//, /legistar_crosswalk/];
+  const listedDir = new Set(years.map((y) => `data/fy${String(y.fiscal_year).slice(2)}/pdf/${y.family}/`));
+  for (const f of inputs) {
+    assert.ok(!OLD.some((re) => re.test(f)), `old-parser input: ${f}`);
+    if (/^data\/fy\d{2}\/pdf\//.test(f)) assert.ok(listedDir.has(f.slice(0, f.lastIndexOf("/") + 1)), `not a listed family-year: ${f}`);
+    if (f.endsWith(".pdf")) assert.ok(years.some((y) => f === y.source_pdf || f.startsWith(y.source_pdf)), `a PDF no family-year lists: ${f}`);
+  }
+  assert.ok(inputs.some((f) => f.includes("/pdf/schedule_c/")), "premise: the families were read");
 });
 
-test("no MCP source file names a pdf_ table", () => {
-  // FAILS if a tool (src/*.ts) starts reading the reviewed tables. rowlinks.ts may name the two
-  // row-contract fields it builds links from (pdf_page, pdf_sha256) and nothing else with a pdf_
-  // prefix; it may not import the database or hold SQL (#210).
-  for (const f of readdirSync(join(MCP, "src"))) {
-    let text = readFileSync(join(MCP, "src", f), "utf8");
-    if (f === "rowlinks.ts") {
-      assert.doesNotMatch(text, /from "\.\/db\.js"|better-sqlite3/, f);
-      assert.doesNotMatch(text, /\b(SELECT|FROM|JOIN|WHERE)\b/, f);
-      text = text.replace(/\bpdf_(page|sha256)\b/g, "");
+test("the download holds the pdf_* tables only, all rows of listed reviewed or closed family-years", () => {
+  // FAILS if a spreadsheet table is shipped twice, a row's family-year is not in pdf_years (or at
+  // another status), or the build recorded no commit to link to.
+  const db = new Database(TABLES_DB, { readonly: true });
+  try {
+    const tables = db.prepare("SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name").all().map((r) => r.name);
+    assert.deepEqual(tables, [...PDF_TABLES, "meta"].sort());
+    const meta = Object.fromEntries(db.prepare("SELECT key, value FROM meta").all().map((r) => [r.key, r.value]));
+    assert.equal(meta.pdf_tables_format, "nyc-budget-pdf-tables/1");
+    assert.equal(meta.pdf_gate, "reviewed_and_closed");
+    assert.match(meta.source_commit, /^[0-9a-f]{40}$/);
+    assert.equal(meta.source_commit_check, "pdfs_match", "every cited PDF has these bytes at the recorded commit");
+    const key = (y) => `${y.fiscal_year}|${y.family}|${y.status}|${y.rows}`;
+    assert.deepEqual(
+      db.prepare("SELECT fiscal_year, family, status, rows FROM pdf_years").all().map(key).sort(),
+      years.map((y) => key({ fiscal_year: Number(y.fiscal_year), family: y.family, status: y.status, rows: Number(y.rows) })).sort()
+    );
+    for (const [fam, cfg] of Object.entries(PDF_FAMILIES)) {
+      for (const t of cfg.tables) {
+        const bad = count(db, `SELECT COUNT(*) AS n FROM ${t.table} r WHERE r.status NOT IN ('reviewed', 'closed') OR NOT EXISTS
+          (SELECT 1 FROM pdf_years y WHERE y.fiscal_year = r.fiscal_year AND y.family = '${fam}' AND y.status = r.status)`);
+        assert.equal(bad, 0, t.table);
+      }
     }
-    assert.doesNotMatch(text, /\bpdf_[a-z_]+\b/, f);
+    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_years WHERE fiscal_year < 2018"), 0, "no old-parser year");
+  } finally {
+    db.close();
   }
+});
+
+/** Call the spreadsheet tools with a fixed set of arguments, with NYC_BUDGET_DATA_DIR = `dataDir`. */
+function answers(dataDir) {
+  const script = `
+    import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+    import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
+    const { server } = await import(${JSON.stringify(join(MCP, "dist", "server.js"))});
+    const [ct, st] = InMemoryTransport.createLinkedPair();
+    await server.connect(st);
+    const client = new Client({ name: "pdf-test", version: "0" }, { capabilities: {} });
+    await client.connect(ct);
+    const calls = [
+      ["search_council_capital", { fiscal_year: 2027 }],
+      ["search_council_capital", { title: "ali forney" }],
+      ["search_council_capital", { sponsor: "sanchez", fiscal_year: 2027 }],
+      ["search_council_capital", { budget_line: "PV 0N042" }],
+      ["compare_capital_to_omb", { report_year: 2027 }],
+      ["search_disclosure_awards", { fiscal_year: 2027, legal_name: "medicare rights" }],
+      ["search_disclosure_awards", { fiscal_year: 2027, ein: "13-6400434" }],
+      ["search_disclosure_awards", { fiscal_year: 2027, min_amount: 135000, max_amount: 135000 }],
+    ];
+    const out = [];
+    for (const [name, args] of calls) out.push(await client.callTool({ name, arguments: args }));
+    await client.close();
+    process.stdout.write(JSON.stringify(out));
+  `;
+  const r = spawnSync(process.execPath, ["--input-type=module", "-e", script], {
+    cwd: MCP, encoding: "utf8", maxBuffer: 64 << 20, env: { ...process.env, NYC_BUDGET_DATA_DIR: dataDir, NYC_BUDGET_PDF_DATA: "" },
+  });
+  assert.equal(r.status, 0, r.stderr);
+  return r.stdout;
+}
+
+test("the spreadsheet tools answer the same with the PDF tables installed or not", () => {
+  // FAILS if installing the download changes any answer of the three spreadsheet tools.
+  rmSync(TMP, { recursive: true, force: true });
+  mkdirSync(join(TMP, "with", "pdf-tables"), { recursive: true });
+  mkdirSync(join(TMP, "without"), { recursive: true });
+  symlinkSync(TABLES_DB, join(TMP, "with", "pdf-tables", "pdf-tables.db"));
+  const a = answers(join(TMP, "without"));
+  const b = answers(join(TMP, "with"));
+  assert.ok(a.length > 1000, "premise: the tools answered");
+  assert.equal(b, a);
 });
