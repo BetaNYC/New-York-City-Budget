@@ -553,16 +553,23 @@ function pdfYearGuard(t: PdfTables, family: string, fy?: number): { years: numbe
 function pdfRowTail(s: ServedRow): string {
   const r = s.row;
   const L: string[] = [`    status: ${s.status_label}`];
-  if (r.flags) L.push(`    flags: ${String(r.flags).split(";").join(", ")}`);
-  for (const e of s.reviews) {
-    const head = `    review ${e.review_id} (${e.severity}, ${e.check_id}): ${e.note || "(no note)"}`;
-    if (e.decision === "needs_info") L.push(`${head}\n      decision: ${needsInfoLabel(e.question_sent)}${e.decision_note ? `; note: ${e.decision_note}` : ""}`);
-    else if (e.decision) L.push(`${head}\n      decision: ${DECISION_WORDS[e.decision] ?? e.decision} (${e.decision})${e.decision_note ? `; note: ${e.decision_note}` : ""}`);
-    else
-      L.push(
-        `${head}\n      no decision recorded yet` +
-          (e.suggested_decision ? `; suggested (not a decision): ${DECISION_WORDS[e.suggested_decision] ?? e.suggested_decision}${e.suggested_note ? ` (${e.suggested_note})` : ""}` : "")
-      );
+  // As the public explorer words them (PR #224): about our reading of the PDF, never a check id
+  // or a severity next to an organization's name, and no suggested decisions.
+  if (s.reviews.length) {
+    const open = s.reviews.filter((e) => !e.decision).length;
+    L.push(
+      `    ${s.reviews.length === 1 ? "1 thing to check on this row" : `${s.reviews.length} things to check on this row`} (about how the PDF was read, not about the organization)` +
+        (open ? (open === s.reviews.length ? " · not yet decided" : ` · ${open} not yet decided`) : " · decided")
+    );
+    for (const e of s.reviews) {
+      const decision =
+        e.decision === "needs_info"
+          ? needsInfoLabel(e.question_sent)
+          : e.decision
+            ? DECISION_WORDS[e.decision] ?? e.decision.replaceAll("_", " ")
+            : "not yet decided";
+      L.push(`      - ${e.note || "(no note)"} — ${decision}${e.decision && e.decision_note ? ` (${e.decision_note})` : ""}`);
+    }
   }
   if (r.hidden_text) L.push(`    ${HIDDEN_TEXT_LABEL}: ${JSON.stringify(r.hidden_text)}`);
   if (r.read_from_page_image) L.push(`    read from the page image (a person confirmed the page where the PDF's text layer disagrees): ${r.read_from_page_image}`);
@@ -634,12 +641,21 @@ const ACTION_WORDS: Record<string, string> = {
   listed: "listed with no dollar amount",
 };
 
+function trActionLines(rows: { action: string; rows: number; with_amount: number; amount: number }[], head: string): string[] {
+  if (!rows.length) return [];
+  return [
+    head,
+    ...rows.map((a) => `    ${ACTION_WORDS[a.action] ?? a.action}: ${n(a.rows)} row(s)` + (a.with_amount ? `, ${usd(a.amount)}` : "") + (a.with_amount < a.rows ? `, ${n(a.rows - a.with_amount)} with no dollar amount (in no sum)` : "")),
+  ];
+}
+
 function transparencyText(res: ReturnType<typeof searchTransparency>): string {
   const L: string[] = [
     `${n(res.matched)} matching row(s) in the Council's transparency resolutions (changes to the adopted budget's designations), read from the PDFs. ${shownLine(res.rows.length, res.matched, "newest resolution first, then in printed order", 500)}`,
     "",
     `Totals over all ${n(res.matched)} match(es), by kind of change (rescissions print as negative amounts):`,
-    ...res.by_action.map((a) => `  ${ACTION_WORDS[a.action] ?? a.action}: ${n(a.rows)} row(s)` + (a.with_amount ? `, ${usd(a.amount)}` : "") + (a.with_amount < a.rows ? `, ${n(a.rows - a.with_amount)} with no dollar amount (in no sum)` : "")),
+    ...trActionLines(res.by_action.filter((a) => a.agency_side !== 1), "  Money to or from organizations:"),
+    ...trActionLines(res.by_action.filter((a) => a.agency_side === 1), "  City-agency lines (a chart's agency side: the agency's own lines, not money to or from an organization; kept apart from the money above):"),
   ];
   if (res.no_dollar_amount)
     L.push(`  ${n(res.no_dollar_amount)} row(s) are from charts that print no dollar amount (amount_kind no_dollar_amount): counted as rows, never in a sum.`);
@@ -655,7 +671,7 @@ function transparencyText(res: ReturnType<typeof searchTransparency>): string {
         `\n    ${ACTION_WORDS[r.action] ?? r.action} · ${r.amount_kind === "no_dollar_amount" ? "no dollar amount (in no sum)" : `${amt(r.amount)}${r.amount_printed ? ` (printed "${r.amount_printed}")` : ""}`}` +
         (r.org ? ` · ${r.org}` : "") + (r.ein || r.ein_printed ? ` (EIN ${r.ein_printed || r.ein})` : "") +
         (r.member ? ` · member ${r.member}` : "") + (r.source ? ` · source ${r.source}` : "") + (r.agency ? ` · agency ${r.agency}` : "") +
-        (r.agency_side === 1 ? " · an agency-side line (no organization)" : "") +
+        (r.agency_side === 1 ? " · a City-agency line (the agency's own line, not money to or from an organization)" : "") +
         (r.purpose ? `\n    purpose: ${r.purpose}` : "") +
         (r.fiscal_conduit ? `\n    fiscal conduit: ${r.fiscal_conduit}${r.fiscal_conduit_ein ? ` (EIN ${r.fiscal_conduit_ein})` : ""}` : "") +
         (r.disclosure_status && r.disclosure_status !== "n/a" ? `\n    disclosure_status: ${r.disclosure_status}` : "") +
@@ -668,29 +684,37 @@ function transparencyText(res: ReturnType<typeof searchTransparency>): string {
 }
 
 function capitalBookText(res: ReturnType<typeof searchCapitalBook>): string {
-  const t = res.totals;
+  const cols = (t: { y1: number; y2: number; y3: number; y4: number }) =>
+    `first year ${usd(t.y1)} · second ${usd(t.y2)} · third ${usd(t.y3)} · fourth ${usd(t.y4)}`;
+  const p1 = res.part_i;
+  const p2 = res.part_ii;
+  const only = res.part_ii_only;
   const L: string[] = [
-    `${n(res.matched)} matching project row(s) in the capital budget's §254 supporting detail (Parts I and II; the capital book), read from the PDFs. ${shownLine(res.rows.length, res.matched, "in book order (newest year first, then part, page and row)", 500)}`,
+    `${n(res.matched)} matching project row(s) in the capital budget's §254 supporting detail (the capital book), read from the PDFs: ${n(p1.rows)} in Part I, ${n(p2.rows)} in Part II (the list of non-city groups). ${shownLine(res.rows.length, res.matched, "in book order (newest year first, then part, page and row)", 500)}`,
     "",
-    `Totals over all ${n(res.matched)} match(es), per printed year column (the first is the book's own fiscal year; the other three are the next three years, printed as plans, not added together here; reductions are added in as negative amounts): ` +
-      `first year ${usd(t.y1)} · second ${usd(t.y2)} · third ${usd(t.y3)} · fourth ${usd(t.y4)}`,
-    ...(res.part_ii_rows
-      ? [
-          `  Part I alone (${n(res.matched - res.part_ii_rows)} row(s)): first year ${usd(res.part_i_totals.y1)} · second ${usd(res.part_i_totals.y2)} · third ${usd(res.part_i_totals.y3)} · fourth ${usd(res.part_i_totals.y4)}. ` +
-            `${n(res.part_ii_rows)} matched row(s) are from Part II, which mostly reprints Part I rows (code/review_capital_sd.py check C3): where both parts match, the totals above count that money twice; use part "I" for a total without the reprint.`,
-        ]
-      : []),
-    ...(res.negative_rows ? [`  Reductions: ${n(res.negative_rows)} row(s) print a negative amount in some year column (first year: ${usd(res.negative_y1)}), added into the totals above.`] : []),
+    `Total, over the ${n(p1.rows)} matching Part I row(s) (the book's own total; the first column is the book's fiscal year, the other three the next three years, printed as plans and not added together here; reductions are added in as negative amounts): ${cols(p1)}`,
+  ];
+  if (p2.rows)
+    L.push(
+      `  Of which went to non-city groups (Part II, ${n(p2.rows)} row(s)): ${cols(p2)}.` +
+        (res.part_ii_reprinted ? ` ${n(res.part_ii_reprinted)} of these rows reprint a Part I row, so their money is already in the total above.` : "")
+    );
+  if (only.rows)
+    L.push(
+      `  Printed only in Part II (question sent to Council Finance): ${n(only.rows)} row(s), ${cols(only)}. They have no Part I row and are not added to the Part I total.`
+    );
+  L.push(
+    ...(res.negative_rows ? [`  Reductions: ${n(res.negative_rows)} matching row(s) print a negative amount in some year column (first year: ${usd(res.negative_y1)}).`] : []),
     ...(res.vacant_rows ? [`  ${n(res.vacant_rows)} row(s) name a district with no member as sponsor ("CD nn").`] : []),
-    ...byYearLines(res.by_year, (y) => `first year ${usd(y.y1)}`),
+    ...byYearLines(res.by_year, (y) => `Part I first year ${usd(y.y1)}`),
     "",
     "Rows:",
-  ];
+  );
   for (const s of res.rows) {
     const r = s.row;
     const fy = r.fiscal_year as number;
     L.push(
-      `FY${fy} book · Part ${r.part}${r.part === "II" ? " (Part II mostly reprints Part I)" : ""} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${r.boro || "—"} · ${r.agency}` +
+      `FY${fy} book · ${r.part === "II" ? (r.in_part_i ? "Part II, the non-city list (reprints its Part I row)" : "Part II, the non-city list: printed only in Part II (question sent to Council Finance); in no Part I total") : "Part I"} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${r.boro || "—"} · ${r.agency}` +
         `\n    title: ${r.title}` +
         `\n    sponsor: ${r.sponsor || "(none printed)"}${VACANT_DISTRICT.test(String(r.sponsor ?? "").trim()) ? " (a district with no member)" : ""}` +
         (r.council_district ? ` · council district ${r.council_district}` : "") +
@@ -900,7 +924,7 @@ export const TOOLS = [
   },
   {
     name: "search_capital_book",
-    description: `Search the capital budget's §254 supporting detail (the "capital book": OMB's list of the Council's changes to the executive capital budget, Parts I and II), FY2018–FY2020 and FY2022–FY2027, from the checked tables BetaNYC reads from the PDFs. Each project row gives its ID, budget line, borough, agency, title, sponsor and the four printed year amounts as printed, with its status label, flags, review decision where decided, and three links. Filter by fiscal_year, project_id (substring: 'CC0001' finds 'HO CC0001'), budget_line (exact, e.g. 'P D018'), sponsor, borough (code), agency, title (also searches FY2019's descriptions), part, min_amount / max_amount (the book's own year). Rows in book order. Totals per year column cover every match, with Part I alone beside them (Part II mostly reprints Part I rows), and reductions (negative amounts) counted on their own. A sponsor printed "CD nn" is a district with no member. For the Council's own capital lists, use search_council_capital. Needs the optional PDF tables download.`,
+    description: `Search the capital budget's §254 supporting detail (the "capital book": OMB's list of the Council's changes to the executive capital budget, Parts I and II), FY2018–FY2020 and FY2022–FY2027, from the checked tables BetaNYC reads from the PDFs. Each project row gives its ID, budget line, borough, agency, title, sponsor and the four printed year amounts as printed, with its status label, flags, review decision where decided, and three links. Filter by fiscal_year, project_id (substring: 'CC0001' finds 'HO CC0001'), budget_line (exact, e.g. 'P D018'), sponsor, borough (code), agency, title (also searches FY2019's descriptions), part, min_amount / max_amount (the book's own year). Rows in book order. The total is Part I's (it ties to the book's printed total), with "of which … went to non-city groups" from Part II; rows printed only in Part II are listed apart and never added. Reductions (negative amounts) are counted on their own. A sponsor printed "CD nn" is a district with no member. For the Council's own capital lists, use search_council_capital. Needs the optional PDF tables download.`,
     inputSchema: {
       type: "object",
       properties: {
@@ -911,7 +935,7 @@ export const TOOLS = [
         borough: { type: "string", description: "Borough code, any case: K, M, Q, R, X, C, or the unconfirmed A" },
         agency: { type: "string", description: "Agency name as printed (substring), e.g. 'PARKS'" },
         title: { type: "string", description: "Project title, or FY2019's description (substring)" },
-        part: { type: "string", enum: ["I", "II"], description: "The book's part (Part II mostly reprints Part I rows)" },
+        part: { type: "string", enum: ["I", "II"], description: "The book's part: I, the projects (the total), or II, the non-city groups' list" },
         min_amount: { type: "number", description: "Minimum amount in the book's own year column, dollars (inclusive; reductions are negative)" },
         max_amount: { type: "number", description: "Maximum amount in the book's own year column, dollars (inclusive)" },
         limit: { type: "number", description: LIMIT_DESC },

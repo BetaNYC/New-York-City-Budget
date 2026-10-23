@@ -24,8 +24,9 @@ terms; the version is left at 2.0.1 until the release (W11, #220) picks one.
   with the date sent once 30 days have passed), hidden text in its own labeled line, the #209
   fields, and the three links from `src/rowlinks.ts`, the GitHub one at the commit the tables
   were built from. "No dollar amount" rows are counted, never summed; sub-awards are listed under
-  their award, never counted; the capital book's totals give Part I alone beside the explorer's
-  all-rows figure (Part II mostly reprints Part I rows), and count reductions on their own. Filters,
+  their award, never counted; the capital book's total is Part I's (Noel Hidalgo, 2026-10-23), with Part II as
+  "of which … went to non-city groups" and the rows printed only in Part II listed apart, never
+  added; reductions are counted on their own. Filters,
   order and totals follow the explorer's search (PR #224): an EIN also matches the fiscal
   conduit's EIN.
   `search_disclosure_awards` is unchanged and separate.
@@ -41,6 +42,27 @@ terms; the version is left at 2.0.1 until the release (W11, #220) picks one.
 - `list_available_fiscal_years` reports each PDF family-year's status, and whether the download
   is installed. The `REMOVED_TOOLS` notes for `search_awards`, `search_transparency_resolutions`,
   `search_capital_projects` and `get_terms_conditions` point at the new tools.
+
+### Fixed (2026-10-23, review of #226)
+- **The download leaves nothing behind.** A failure after the tables were staged (a PDF that
+  fails its sha256 under `--pdfs`) removed only the PDF's temp file; the 116 MB staged tables
+  stayed. Every temp file is now removed whatever fails, and a download first removes temp files a
+  killed download left (`*.download-<pid>`, `*.verified-<pid>` of a process that is gone).
+- **`NYC_BUDGET_PDF_DATA=pdfs` with a release that carries no PDFs** downloaded again on every
+  start. The install now records that PDFs were asked for; such a release counts as done.
+- A file larger than its manifest says is stopped as it arrives (packed and unpacked); plain
+  `http:` is refused except on this machine; one download at a time per folder
+  (`pdf-tables/download.lock`, taken over when its process is gone); a rename refused because
+  another server has the file open counts as done when that file is already this release; a
+  running server picks up a newly installed file (and forgets an old failure) without a restart.
+- **GitHub links only at a commit GitHub has.** `build-index.mjs` records `source_commit` for PDF
+  rows only when that commit is on `origin/main` and `data/` and `source/` are clean, else none
+  (`not_on_main`, `dirty: …`); `--allow-local-commit` (tests, local trials) skips that and records
+  `source_commit_scope: local`. The check moved to `scripts/source-commit.mjs`, with its own test.
+- **As the public explorer (#224):** review entries are shown as "N things to check on this row",
+  each note with its decision in plain words; no check id, no severity, no suggested decision
+  (the download withholds `pdf_review_suggestions`). Transparency totals keep City-agency lines
+  (`agency_side = 1`) apart from money to or from organizations.
 
 ### Changed (2026-10-22)
 - **The package's index never holds PDF rows.** `npm run build-index` (and so `prepare`) runs

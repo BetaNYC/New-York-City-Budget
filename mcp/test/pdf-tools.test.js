@@ -17,7 +17,7 @@
  */
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -244,17 +244,27 @@ test("hidden text is always served, and always labeled", async () => {
   for (const line of text.split("\n").filter((l) => l.includes("hidden text"))) assert.match(line, /^    hidden text, not visible on the printed page: ".+"$/);
 });
 
-test("review entries show the decision and note where decided, else that none is recorded", async () => {
-  // FAILS if a decided row hides its decision, or an open one reads as decided.
-  const decided = db.prepare("SELECT r.fiscal_year, r.review_id, r.decision, r.decision_note, a.org, a.amount FROM pdf_review r JOIN pdf_schedule_c a ON a.fiscal_year = r.fiscal_year AND (';' || a.review_id || ';') LIKE ('%;' || r.review_id || ';%') WHERE r.family = 'schedule_c' AND r.decision <> '' LIMIT 3").all();
+test("review entries show the note and the decision in plain words, as the public explorer", async () => {
+  // FAILS if a decided row hides its decision, an open one reads as decided, or an answer shows a
+  // check id, a severity or a reviewer's suggestion (the public explorer shows none of them, #224).
+  const WORDS = { accepted_as_printed: "kept as printed", source_error: "the PDF's own error, kept as printed" };
+  const decided = db.prepare("SELECT r.fiscal_year, r.review_id, r.note, r.decision, r.decision_note, a.org FROM pdf_review r JOIN pdf_schedule_c a ON a.fiscal_year = r.fiscal_year AND (';' || a.review_id || ';') LIKE ('%;' || r.review_id || ';%') WHERE r.family = 'schedule_c' AND r.decision <> '' LIMIT 3").all();
   assert.ok(decided.length >= 1, "premise: decided Schedule C rows");
   for (const d of decided) {
     const { text } = await call("search_schedule_c_awards", { fiscal_year: d.fiscal_year, organization: d.org, limit: 500 });
-    assert.ok(text.includes(`review ${d.review_id} (`), d.review_id);
-    assert.match(text, new RegExp(`review ${d.review_id} \\([^\\n]*\\n      decision: [^\\n]*\\(${d.decision}\\)`));
+    assert.ok(text.includes(`      - ${d.note} — ${WORDS[d.decision]}${d.decision_note ? ` (${d.decision_note})` : ""}`), `${d.review_id}: ${d.decision}`);
   }
   const { text } = await call("search_transparency_changes", { fiscal_year: 2026, organization: "South Asian Youth Action, Inc. - Elmhurst Center", action: "purpose_to" });
-  assert.match(text, /review 977106b18980 \(warn, W\.clipped_text\)[^\n]*\n      no decision recorded yet; suggested \(not a decision\): kept as printed/);
+  assert.match(text, /\n    1 thing to check on this row \(about how the PDF was read, not about the organization\) · not yet decided\n      - text hidden under the next cell [^\n]* — not yet decided\n/);
+  // No check id, severity or suggestion anywhere, over many rows of every tool.
+  const ids = db.prepare("SELECT DISTINCT check_id FROM pdf_review").all().map((r) => r.check_id).filter(Boolean);
+  for (const [name, args] of SAMPLES) {
+    const { text: t } = await call(name, args);
+    // A severity as a label ("(critical, …" / "(warn, …", the old format), not the word inside a
+    // printed purpose or condition, which can say "critical" or "severity".
+    assert.doesNotMatch(t, /\((critical|warn), |suggested \(|\breview [0-9a-f]{12}\b/i, `${name} ${JSON.stringify(args)}`);
+    for (const id of ids) assert.ok(!t.includes(id), `${name}: check id ${id}`);
+  }
 });
 
 test("needs_info: an open question, or after 30 days the date it was sent", () => {
@@ -284,6 +294,36 @@ test('"no dollar amount" rows are counted but never summed (Beating Hearts)', as
   }
 });
 
+test("transparency: City-agency lines are totaled apart from money to or from organizations", async () => {
+  // FAILS if an agency-side line's amount is added into an organization total.
+  const fy = db.prepare("SELECT fiscal_year FROM pdf_transparency WHERE agency_side = 1 GROUP BY 1 ORDER BY COUNT(*) DESC LIMIT 1").get().fiscal_year;
+  const res = searchTransparency(db, COMMIT(), { fiscal_year: fy, limit: 1 });
+  const want = (side) => db.prepare(`SELECT COALESCE(SUM(amount), 0) AS n FROM pdf_transparency WHERE fiscal_year = ? AND COALESCE(agency_side, 0) = ${side}`).get(fy).n;
+  assert.equal(res.by_action.filter((a) => a.agency_side === 1).reduce((t, a) => t + a.amount, 0), want(1));
+  assert.equal(res.by_action.filter((a) => a.agency_side !== 1).reduce((t, a) => t + a.amount, 0), want(0));
+  const { text } = await call("search_transparency_changes", { fiscal_year: fy, limit: 1 });
+  assert.match(text, /\n  Money to or from organizations:\n/);
+  assert.match(text, /\n  City-agency lines \(a chart's agency side: the agency's own lines, not money to or from an organization; kept apart from the money above\):\n/);
+});
+
+test("a download installed while the server runs is picked up, and a fixed file clears a failure", async () => {
+  // FAILS if the server keeps answering "not installed", or keeps an old failure, until a restart.
+  const dir = join(TMP, "late");
+  rmSync(dir, { recursive: true, force: true });
+  mkdirSync(join(dir, "pdf-tables"), { recursive: true });
+  useDir(dir);
+  try {
+    assert.match((await call("search_terms_conditions", { limit: 1 })).text, /They are not installed on this machine/);
+    writeFileSync(join(dir, "pdf-tables", "pdf-tables.db"), "not a database");
+    assert.match((await call("search_terms_conditions", { limit: 1 })).text, /cannot be (opened|used)/);
+    rmSync(join(dir, "pdf-tables", "pdf-tables.db"));
+    symlinkSync(TABLES_DB, join(dir, "pdf-tables", "pdf-tables.db"));
+    assert.match((await call("search_terms_conditions", { limit: 1 })).text, /matching item\(s\) in the adopted budget's Terms and Conditions/);
+  } finally {
+    useDir(WITH);
+  }
+});
+
 test("Schedule C totals equal the PDF's own (pdf_years notes) and never include sub-awards", async () => {
   // FAILS if a total drifts from the promoted CSV, or the Jobs to Build On partners are added.
   const res = searchScheduleC(db, COMMIT(), { fiscal_year: 2027, limit: 1 });
@@ -299,12 +339,31 @@ test("Schedule C totals equal the PDF's own (pdf_years notes) and never include 
   }
 });
 
-test("capital book totals count Part I once: Part II reprints Part I rows", () => {
-  const r = searchCapitalBook(db, COMMIT(), { fiscal_year: 2027, limit: 1 });
+test("capital book: the total is Part I's; Part II is 'of which … went to non-city groups'; Part-II-only rows apart (Noel, 2026-10-23)", async () => {
+  // FAILS if the total adds Part II, drifts from the book's printed total, or a row printed only
+  // in Part II is added to the Part I total.
+  const r = searchCapitalBook(db, COMMIT(), { fiscal_year: 2027, limit: 500 });
   const printed = db.prepare("SELECT printed_y1 FROM pdf_capital_sd_totals WHERE fiscal_year = 2027 AND kind = 'totals_for' AND part = 'I' AND name = 'ALL'").get().printed_y1;
-  assert.equal(r.part_i_totals.y1, printed, "the book's own printed Part I total");
-  assert.ok(r.part_ii_rows > 0);
-  assert.equal(r.totals.y1, db.prepare("SELECT SUM(amount_y1) AS n FROM pdf_capital_sd WHERE fiscal_year = 2027").get().n, "all rows, as the explorer adds them");
+  assert.equal(r.part_i.y1, 853688000);
+  assert.equal(r.part_i.y1, printed, "the book's own printed Part I total");
+  assert.equal(r.part_i.rows, 1213);
+  assert.equal(r.part_ii.y1, 210677000);
+  assert.equal(r.part_ii.rows, 178);
+  assert.equal(r.part_ii_reprinted, 148, "Part I rows that reappear in Part II");
+  assert.equal(r.part_ii_only.rows, 30, "rows printed only in Part II");
+  assert.equal(r.part_ii_only.y1, db.prepare(`SELECT SUM(amount_y1) AS n FROM pdf_capital_sd c WHERE fiscal_year = 2027 AND part = 'II'
+    AND NOT EXISTS (SELECT 1 FROM pdf_capital_sd p WHERE p.fiscal_year = 2027 AND p.part = 'I' AND p.sub_id = c.sub_id)`).get().n);
+  assert.equal(db.prepare("SELECT COUNT(*) AS n FROM pdf_capital_sd c WHERE fiscal_year = 2027 AND part = 'II' AND sub_id LIKE '% MA%'").get().n, 30, "premise: the 30 are the MA rows");
+  const { text } = await call("search_capital_book", { fiscal_year: 2027, limit: 500 });
+  assert.match(text, /\nTotal, over the 1,213 matching Part I row\(s\) [^\n]*: first year \$853,688,000 · /);
+  assert.match(text, /\n  Of which went to non-city groups \(Part II, 178 row\(s\)\): first year \$210,677,000 · [^\n]*148 of these rows reprint a Part I row/);
+  assert.match(text, /\n  Printed only in Part II \(question sent to Council Finance\): 30 row\(s\), first year \$[\d,]+ [^\n]*not added to the Part I total\./);
+  assert.doesNotMatch(text, /Totals over all|both parts|Part I alone/, "no all-rows figure");
+  const { text: p2 } = await call("search_capital_book", { fiscal_year: 2027, part: "II", limit: 500 });
+  assert.equal(rowBlocks(p2).length, 178);
+  assert.equal(rowBlocks(p2).filter((b) => b.includes("printed only in Part II (question sent to Council Finance)")).length, 30);
+  assert.match(p2, /FY2027 book · Part II, the non-city list: printed only in Part II \(question sent to Council Finance\); in no Part I total · PV MA\d+/);
+  assert.match(p2, /FY2027 book · Part II, the non-city list \(reprints its Part I row\) · /);
 });
 
 // ---------------------------------------------------------------- parity with the explorer
@@ -374,8 +433,17 @@ test("Schedule C: the MCP's unmatched rows are the explorer's 'Schedule C only' 
 
 // The explorer's full-table searches (PR #224, W4). Run once that PR's queries are on the branch;
 // skipped before, so this file does not depend on the order the two PRs merge in.
+// Once #224 is on the branch (its Transparency view exists), these must run: a renamed query then
+// fails here instead of skipping quietly.
+const W4_MERGED = existsSync(join(REPO, "viz", "explorer", "src", "views", "Transparency.jsx"));
 const W4 = typeof explorer.scSearchTotalsQuery === "function";
-const w4 = { skip: W4 ? false : "viz/explorer/src/query/pdf.js has no scSearchTotalsQuery yet (PR #224)" };
+const w4 = { skip: W4 || W4_MERGED ? false : "PR #224 (viz/explorer/src/views/Transparency.jsx, scSearchTotalsQuery) is not on this branch yet" };
+
+test("PR #224's search queries are all there once its views are", () => {
+  if (!W4_MERGED) return;
+  for (const f of ["scSearchQuery", "scSearchTotalsQuery", "trQuery", "trTotalsQuery", "rollupTr", "bookQuery", "bookTotalsQuery"])
+    assert.equal(typeof explorer[f], "function", `viz/explorer/src/query/pdf.js ${f}`);
+});
 
 function explorerDbW4() {
   const x = explorerDb();
@@ -424,9 +492,12 @@ test("transparency search: the MCP and the explorer agree per action", w4, () =>
       const mcp = searchTransparency(db, COMMIT(), { ...mf, limit: 500 });
       assert.equal(mcp.matched, ex.matched, JSON.stringify(ef));
       for (const a of mcp.by_action) {
-        assert.equal(a.rows, ex.byAction[a.action].n, `${JSON.stringify(ef)} ${a.action}`);
-        assert.equal(a.amount, ex.byAction[a.action].amount, `${JSON.stringify(ef)} ${a.action}`);
-        assert.equal(a.rows - a.with_amount, ex.byAction[a.action].no_amount, `${JSON.stringify(ef)} ${a.action}`);
+        // Organization money and City-agency lines apart, as the explorer keeps them.
+        const side = a.agency_side === 1 ? ex.agencyByAction : ex.byAction;
+        assert.ok(side, `${JSON.stringify(ef)}: the explorer splits agency-side lines`);
+        assert.equal(a.rows, side[a.action].n, `${JSON.stringify(ef)} ${a.action} side ${a.agency_side}`);
+        assert.equal(a.amount, side[a.action].amount, `${JSON.stringify(ef)} ${a.action} side ${a.agency_side}`);
+        assert.equal(a.rows - a.with_amount, side[a.action].no_amount, `${JSON.stringify(ef)} ${a.action} side ${a.agency_side}`);
       }
       const page = run(x, explorer.trQuery(ef, 0)).map((r) => r.row_id);
       assert.deepEqual(mcp.rows.slice(0, page.length).map((s) => s.row.row_id), page, JSON.stringify(ef));
@@ -451,7 +522,13 @@ test("capital book search: the MCP and the explorer agree on counts, totals, red
       const ex = run(x, explorer.bookTotalsQuery(ef), false);
       const mcp = searchCapitalBook(db, COMMIT(), { ...mf, limit: 500 });
       assert.equal(mcp.matched, ex.n, JSON.stringify(ef));
-      for (const k of ["y1", "y2", "y3", "y4"]) assert.equal(mcp.totals[k], ex[k], `${JSON.stringify(ef)} ${k}`);
+      // Part I is the total, Part II the non-city list (Noel, 2026-10-23): the explorer's totals
+      // for the same filters restricted to each part.
+      for (const [part, mine] of [["I", mcp.part_i], ["II", mcp.part_ii]]) {
+        if (ef.part && ef.part !== part) continue;
+        const exPart = run(x, explorer.bookTotalsQuery({ ...ef, part }), false);
+        for (const k of ["y1", "y2", "y3", "y4"]) assert.equal(mine[k], exPart[k], `${JSON.stringify(ef)} Part ${part} ${k}`);
+      }
       assert.equal(mcp.negative_rows, ex.negative_rows, JSON.stringify(ef));
       assert.equal(mcp.negative_y1, ex.negative_y1, JSON.stringify(ef));
       assert.equal(mcp.vacant_rows, ex.vacant_rows, JSON.stringify(ef));
@@ -478,7 +555,7 @@ test("capital book: the MCP's Part I rows are the explorer's Part I matches", ()
       const ex = run(x, explorer.capitalPdfMatchesQuery([fy]));
       const mcp = searchCapitalBook(db, COMMIT(), { fiscal_year: fy, part: "I", limit: 500 });
       assert.equal(mcp.matched, ex.length, `FY${fy}`);
-      assert.equal(mcp.totals.y1, ex.reduce((t, r) => t + (r.amount_y1 ?? 0), 0), `FY${fy}`);
+      assert.equal(mcp.part_i.y1, ex.reduce((t, r) => t + (r.amount_y1 ?? 0), 0), `FY${fy}`);
     }
   } finally {
     x.close();
@@ -553,7 +630,7 @@ test("planted rows of an unlisted year or another status are never served, and a
     assert.doesNotMatch((await call("search_terms_conditions", { limit: 100 })).text, /^FY2016 /m);
     // needs_info with a sent date over 30 days ago: labeled with the date.
     const tr = await call("search_transparency_changes", { fiscal_year: 2026 });
-    assert.match(tr.text, /decision: Question sent to Council Finance on 2026-08-01, no answer yet; published as printed; note: asked/);
+    assert.match(tr.text, / — Question sent to Council Finance on 2026-08-01, no answer yet; published as printed \(asked\)\n/);
   } finally {
     useDir(WITH);
   }

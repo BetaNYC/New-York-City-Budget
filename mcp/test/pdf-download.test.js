@@ -153,6 +153,11 @@ test("a file that does not match the manifest installs nothing and keeps the wor
     ["sha", (m) => ((m.files[0].sha256 = "0".repeat(64)), m), /does not match the manifest's size and sha256/],
     ["unpacked", (m) => ((m.files[0].unpacked.sha256 = "1".repeat(64)), m), /the unpacked file does not match/],
     ["size", (m) => ((m.files[0].bytes += 1), m), /does not match the manifest's size and sha256/],
+    // More bytes than the manifest says: stopped as they arrive, packed or unpacked (a gzip bomb).
+    ["too-big", (m) => ((m.files[0].bytes -= 1), m), /more than the manifest's \d+ bytes; stopped/],
+    ["too-big-unpacked", (m) => ((m.files[0].unpacked.bytes = 1000), m), /unpacked: more than the manifest's 1000 bytes; stopped/],
+    // A PDF that fails after the tables were staged: the 116 MB staged file must go too.
+    ["pdf-sha", (m) => ((m.files[1].sha256 = "2".repeat(64)), m), /does not match the manifest's size and sha256/],
     ["name", (m) => ((m.files[0].name = "../pdf-tables.db.gz"), m), /not a plain file name/],
     ["path", (m) => ((m.files[1].path = "source/../../etc/x.pdf"), m), /is not a source PDF path/],
     ["format", (m) => ((m.format = "nyc-budget-pdf-tables/9"), m), /this version reads nyc-budget-pdf-tables\/1/],
@@ -173,8 +178,70 @@ test("a file that does not match the manifest installs nothing and keeps the wor
     assert.notEqual(r.code, 0, label);
     assert.match(r.out, re, label);
     assert.equal(sha256(join(dir, "pdf-tables", "pdf-tables.db")), good, `${label}: the working install is untouched`);
-    assert.deepEqual(readdirSync(join(dir, "pdf-tables")).sort(), ["manifest.json", "pdf-tables.db"], `${label}: no temp file left`);
+    assert.deepEqual(readdirSync(join(dir, "pdf-tables")).sort(), ["manifest.json", "pdf-tables.db"], `${label}: no temp or lock file left`);
+    assert.deepEqual(tempFiles(dir), [], `${label}: no temp file anywhere`);
   }
+});
+
+/** Every *.download-<pid> or *.verified-<pid> file under a data folder. */
+function tempFiles(dir) {
+  const out = [];
+  const walk = (d) => {
+    if (!existsSync(d)) return;
+    for (const e of readdirSync(d, { withFileTypes: true })) {
+      if (e.isDirectory()) walk(join(d, e.name));
+      else if (/\.(download|verified)-\d+$/.test(e.name)) out.push(join(d, e.name));
+    }
+  };
+  walk(dir);
+  return out;
+}
+
+/** A process id that is not running: a child that has exited. */
+async function deadPid() {
+  const p = spawn(process.execPath, ["-e", ""]);
+  await new Promise((r) => p.on("exit", r));
+  return p.pid;
+}
+
+test("a download removes temp files a killed download left, but not a running one's", async () => {
+  // FAILS if a *.verified-<pid> (116 MB) or *.download-<pid> file of a dead process survives the
+  // next download, or a live process's file is removed under it.
+  const dir = join(TMP, "user6");
+  const dead = await deadPid();
+  mkdirSync(join(dir, "pdf-tables"), { recursive: true });
+  mkdirSync(join(dir, "pdfs", "source", "FY27"), { recursive: true });
+  const leftovers = [
+    join(dir, "pdf-tables", `pdf-tables.db.verified-${dead}`),
+    join(dir, "pdf-tables", `pdf-tables.db.verified-${dead}.download-${dead}`),
+    join(dir, "pdfs", "source", "FY27", `x.pdf.download-${dead}`),
+  ];
+  const live = join(dir, "pdf-tables", `pdf-tables.db.verified-${process.pid}`);
+  for (const f of [...leftovers, live]) writeFileSync(f, "x");
+  const r = await cli(["download", "--pdf-tables", "--from", `${base}/pdf-tables.manifest.json`], { NYC_BUDGET_DATA_DIR: dir });
+  assert.equal(r.code, 0, r.out);
+  for (const f of leftovers) assert.ok(!existsSync(f), f);
+  assert.ok(existsSync(live), "a running process's file is kept");
+});
+
+test("one download at a time per folder; a dead downloader's lock is taken over", async () => {
+  const dir = join(TMP, "user7");
+  mkdirSync(join(dir, "pdf-tables"), { recursive: true });
+  writeFileSync(join(dir, "pdf-tables", "download.lock"), String(process.pid));
+  const busy = await cli(["download", "--pdf-tables", "--from", `${base}/pdf-tables.manifest.json`], { NYC_BUDGET_DATA_DIR: dir });
+  assert.notEqual(busy.code, 0);
+  assert.match(busy.out, new RegExp(`another download into .* is running \\(process ${process.pid}\\)`));
+  assert.ok(existsSync(join(dir, "pdf-tables", "download.lock")), "the other process's lock is left alone");
+  writeFileSync(join(dir, "pdf-tables", "download.lock"), String(await deadPid()));
+  const ok = await cli(["download", "--pdf-tables", "--from", `${base}/pdf-tables.manifest.json`], { NYC_BUDGET_DATA_DIR: dir });
+  assert.equal(ok.code, 0, ok.out);
+  assert.ok(!existsSync(join(dir, "pdf-tables", "download.lock")), "the lock is released");
+});
+
+test("plain http is refused except on this machine", async () => {
+  const r = await cli(["download", "--pdf-tables", "--from", "http://example.org/pdf-tables.manifest.json"], { NYC_BUDGET_DATA_DIR: join(TMP, "user8") });
+  assert.notEqual(r.code, 0);
+  assert.match(r.out, /plain http is refused except on this machine; use https/);
 });
 
 test("the CLI refuses a download with no --pdf-tables or --pdfs", async () => {
@@ -218,6 +285,44 @@ test("NYC_BUDGET_PDF_DATA=on downloads on start, in the background", async () =>
   assert.ok(existsSync(join(dir, "pdf-tables", "pdf-tables.db")));
 });
 
+/** Start the server's auto-download once with this env; resolve with the final progress state. */
+function autoStart(dir, env) {
+  const script = `
+    const { maybeAutoDownload, progress } = await import(${JSON.stringify(join(MCP, "dist", "pdfdata.js"))});
+    maybeAutoDownload();
+    while (progress.state === "downloading") await new Promise((r) => setTimeout(r, 50));
+    process.stdout.write(progress.state + (progress.error ? ": " + progress.error : ""));
+  `;
+  return new Promise((resolve) => {
+    const p = spawn(process.execPath, ["--input-type=module", "-e", script], { cwd: MCP, env: { ...process.env, NYC_BUDGET_DATA_DIR: dir, ...env } });
+    let s = "";
+    p.stdout.on("data", (d) => (s += d));
+    p.stderr.on("data", () => {});
+    p.on("exit", () => resolve(s));
+  });
+}
+
+test("NYC_BUDGET_PDF_DATA=pdfs with a release that has no PDFs downloads once, not on every start", async () => {
+  // FAILS if each start downloads the tables again because the release carries no PDFs.
+  const noPdfs = join(SERVE, "no-pdfs");
+  makeRelease(noPdfs, (m) => ({ ...m, pdfs_included: false, files: m.files.filter((f) => f.kind === "pdf_tables") }));
+  const url = `${base}/no-pdfs/pdf-tables.manifest.json`;
+  const dir = join(TMP, "user9");
+  const env = { NYC_BUDGET_PDF_DATA: "pdfs", NYC_BUDGET_PDF_DATA_URL: url };
+  const before = requests.length;
+  assert.equal(await autoStart(dir, env), "done");
+  const first = requests.length - before;
+  assert.ok(first >= 2, "premise: the first start downloaded (manifest and tables)");
+  assert.equal(await autoStart(dir, env), "idle", "the second start has nothing to do");
+  assert.equal(requests.length - before, first, "no request on the second start");
+  // A release WITH PDFs whose files are not all on disk still downloads them.
+  const dir2 = join(TMP, "user10");
+  assert.equal(await autoStart(dir2, { NYC_BUDGET_PDF_DATA: "on", NYC_BUDGET_PDF_DATA_URL: `${base}/pdf-tables.manifest.json` }), "done");
+  assert.equal(await autoStart(dir2, { NYC_BUDGET_PDF_DATA: "pdfs", NYC_BUDGET_PDF_DATA_URL: `${base}/pdf-tables.manifest.json` }), "done", "tables-only install, then pdfs asked: downloads");
+  assert.ok(existsSync(join(dir2, "pdfs", "source", "FY27", "Fiscal-2027-Schedule-C-Final-3.pdf")));
+  assert.equal(await autoStart(dir2, { NYC_BUDGET_PDF_DATA: "pdfs", NYC_BUDGET_PDF_DATA_URL: `${base}/pdf-tables.manifest.json` }), "idle");
+});
+
 test("the newest pdf-tables-* release with a manifest is picked; others are ignored", () => {
   const asset = (tag) => ({ name: "pdf-tables.manifest.json", browser_download_url: `https://github.com/BetaNYC/New-York-City-Budget/releases/download/${tag}/pdf-tables.manifest.json` });
   const releases = [
@@ -240,5 +345,6 @@ test("the release manifest pretest built is well formed", () => {
   assert.equal(m.files[0].sha256, sha256(join(RELEASE, "pdf-tables.db.gz")));
   assert.equal(m.files[0].unpacked.sha256, sha256(join(RELEASE, "pdf-tables.db")));
   assert.equal(m.families.length, 36);
+  assert.equal(m.source_commit_scope, "local", "pretest builds with --allow-local-commit");
   assert.ok(requests.every((u) => !/github/.test(u)));
 });

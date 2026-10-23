@@ -73,15 +73,17 @@ export type Row = Record<string, any>;
 
 // ---------------------------------------------------------------- shared per-row parts
 
+/**
+ * A row's review entry, as the public explorer shows it (PR #224, FlagBadge): the note and the
+ * decision in plain words, never a check id or a severity (a "critical" beside an organization's
+ * name reads as a charge against it; it is about our reading of the PDF), and never the
+ * reviewers' suggested decisions, which the public build withholds (pdf_review_suggestions).
+ */
 export interface ReviewEntry {
   review_id: string;
-  check_id: string;
-  severity: string;
   note: string;
   decision: string;
   decision_note: string;
-  suggested_decision: string;
-  suggested_note: string;
   /** The date the question was sent to Council Finance, where recorded (`detail.question_sent`). */
   question_sent: string | null;
 }
@@ -95,7 +97,7 @@ export interface ServedRow {
   local_pdf: string | null;
 }
 
-/** pdf_review entries (with their suggestion) for the page's rows, keyed "fy|family|review_id". */
+/** pdf_review entries for the page's rows, keyed "fy|family|review_id". */
 function reviewsFor(db: DB, family: string, rows: Row[]): Map<string, ReviewEntry> {
   const ids = [...new Set(rows.flatMap((r) => String(r.review_id ?? "").split(";").map((s) => s.trim()).filter(Boolean)))];
   const out = new Map<string, ReviewEntry>();
@@ -103,10 +105,8 @@ function reviewsFor(db: DB, family: string, rows: Row[]): Map<string, ReviewEntr
     const chunk = ids.slice(i, i + 500);
     const got = db
       .prepare(
-        `SELECT r.fiscal_year, r.review_id, r.check_id, r.severity, r.note, r.detail, r.decision, r.decision_note,
-           COALESCE(s.suggested_decision, '') AS suggested_decision, COALESCE(s.suggested_note, '') AS suggested_note
-         FROM pdf_review r LEFT JOIN pdf_review_suggestions s
-           ON s.fiscal_year = r.fiscal_year AND s.family = r.family AND s.review_id = r.review_id
+        `SELECT r.fiscal_year, r.review_id, r.note, r.detail, r.decision, r.decision_note
+         FROM pdf_review r
          WHERE r.family = ? AND r.review_id IN (${chunk.map(() => "?").join(",")})`
       )
       .all(family, ...chunk) as Row[];
@@ -119,9 +119,8 @@ function reviewsFor(db: DB, family: string, rows: Row[]): Map<string, ReviewEntr
         sent = null;
       }
       out.set(`${g.fiscal_year}|${family}|${g.review_id}`, {
-        review_id: g.review_id, check_id: g.check_id, severity: g.severity, note: g.note ?? "",
-        decision: g.decision ?? "", decision_note: g.decision_note ?? "",
-        suggested_decision: g.suggested_decision, suggested_note: g.suggested_note, question_sent: sent,
+        review_id: g.review_id, note: g.note ?? "",
+        decision: g.decision ?? "", decision_note: g.decision_note ?? "", question_sent: sent,
       });
     }
   }
@@ -315,7 +314,12 @@ function trWhere(f: TransparencyFilters): Where {
 export interface TransparencyResult {
   rows: ServedRow[];
   matched: number;
-  by_action: { action: string; rows: number; with_amount: number; amount: number }[];
+  /**
+   * Per action and side. agency_side 1 marks a chart's City-agency lines: the agency's own lines,
+   * not money to or from an organization (code/transreso/structure.py keeps them apart, and so
+   * does the explorer's trTotalsQuery), so they are totaled separately.
+   */
+  by_action: { action: string; agency_side: number; rows: number; with_amount: number; amount: number }[];
   /** amount_kind = no_dollar_amount: a chart that prints no amount (Beating Hearts); in no sum. */
   no_dollar_amount: number;
   by_year: (StatusTotal & { amount: number })[];
@@ -332,8 +336,9 @@ export function searchTransparency(db: DB, commit: string, f: TransparencyFilter
     .all(...w.params) as Row[];
   const by_action = db
     .prepare(
-      `SELECT t.action, COUNT(*) AS rows, COUNT(t.amount) AS with_amount, COALESCE(SUM(t.amount), 0) AS amount
-       FROM pdf_transparency t ${w.sql()} GROUP BY 1 ORDER BY 1`
+      `SELECT t.action, COALESCE(t.agency_side, 0) AS agency_side, COUNT(*) AS rows, COUNT(t.amount) AS with_amount,
+         COALESCE(SUM(t.amount), 0) AS amount
+       FROM pdf_transparency t ${w.sql()} GROUP BY 1, 2 ORDER BY 2, 1`
     )
     .all(...w.params) as TransparencyResult["by_action"];
   const nd = db
@@ -398,55 +403,81 @@ function cbWhere(f: CapitalBookFilters): Where {
   return w;
 }
 
+type YearSums = { rows: number; y1: number; y2: number; y3: number; y4: number };
+
+/**
+ * The capital book's totals, as decided by Noel Hidalgo on 2026-10-23 (for the MCP and the
+ * explorer alike): the total is Part I's, which ties to the book's printed grand total. Part II is
+ * the list of non-city groups the money goes to, and is reported as "of which … went to non-city
+ * groups". Most Part II rows reprint a Part I row (code/review_capital_sd.py check C3: the same
+ * SUB ID in the same year); the few printed only in Part II (FY2027's 30 `MA` rows, decided
+ * needs_info) are listed on their own and never added to the Part I total.
+ */
 export interface CapitalBookResult {
   rows: ServedRow[];
   matched: number;
-  /**
-   * Sums of the four printed year columns over every matched row, as the explorer's
-   * bookTotalsQuery adds them (y1 is the book's own fiscal year, y2..y4 the next three).
-   */
-  totals: { y1: number; y2: number; y3: number; y4: number };
-  /**
-   * The same over Part I rows only. Part II mostly reprints Part I rows (code/review_capital_sd.py check
-   * C3), so `totals` counts a reprinted row twice when both parts match; this does not.
-   */
-  part_i_totals: { y1: number; y2: number; y3: number; y4: number };
-  part_ii_rows: number;
+  /** The total: matched Part I rows, per printed year column (y1 the book's own year, y2..y4 the next three). */
+  part_i: YearSums;
+  /** Matched Part II rows: the non-city groups' list. */
+  part_ii: YearSums;
+  /** Matched Part II rows whose SUB ID is printed in Part I the same year. */
+  part_ii_reprinted: number;
+  /** Matched Part II rows printed only in Part II: in no Part I total. */
+  part_ii_only: YearSums;
   /** Rows with a reduction (a negative amount) in any year column, and the first year's reductions. */
   negative_rows: number;
   negative_y1: number;
   /** Rows whose sponsor is a district with no member ("CD 22"). */
   vacant_rows: number;
+  /** Per year: Part I rows and their first-year total. */
   by_year: (StatusTotal & { y1: number })[];
 }
+
+/** A Part II row printed in Part I too (the same SUB ID, the same book). */
+const IN_PART_I = `EXISTS (SELECT 1 FROM pdf_capital_sd p1 WHERE p1.fiscal_year = c.fiscal_year AND p1.part = 'I' AND p1.sub_id = c.sub_id AND p1.status = c.status)`;
+
+const sums = (when: string) =>
+  `SUM(CASE WHEN ${when} THEN 1 ELSE 0 END), ` +
+  [1, 2, 3, 4].map((k) => `COALESCE(SUM(CASE WHEN ${when} THEN c.amount_y${k} END), 0)`).join(", ");
 
 export function searchCapitalBook(db: DB, commit: string, f: CapitalBookFilters): CapitalBookResult {
   const w = cbWhere(f);
   const rows = db
-    .prepare(`SELECT c.* FROM pdf_capital_sd c ${w.sql()} ORDER BY c.fiscal_year DESC, c.part, c.pdf_page, c.row_in_page LIMIT ${cap(f.limit, 50, 500)}`)
-    .all(...w.params) as Row[];
-  const totals = db
     .prepare(
-      `SELECT COUNT(*) AS n, COALESCE(SUM(c.part = 'II'), 0) AS part_ii,
-         ${[1, 2, 3, 4].map((k) => `COALESCE(SUM(c.amount_y${k}), 0) AS y${k}, COALESCE(SUM(CASE WHEN c.part = 'I' THEN c.amount_y${k} END), 0) AS p${k}`).join(", ")},
+      `SELECT c.*, CASE WHEN c.part = 'II' THEN ${IN_PART_I} END AS in_part_i
+       FROM pdf_capital_sd c ${w.sql()} ORDER BY c.fiscal_year DESC, c.part, c.pdf_page, c.row_in_page LIMIT ${cap(f.limit, 50, 500)}`
+    )
+    .all(...w.params) as Row[];
+  const t = db
+    .prepare(
+      `SELECT COUNT(*) AS n, ${sums("c.part = 'I'")}, ${sums("c.part = 'II'")}, ${sums(`c.part = 'II' AND NOT ${IN_PART_I}`)},
          COALESCE(SUM(${[1, 2, 3, 4].map((k) => `c.amount_y${k} < 0`).join(" OR ")}), 0) AS negative_rows,
          COALESCE(SUM(CASE WHEN c.amount_y1 < 0 THEN c.amount_y1 END), 0) AS negative_y1,
          COALESCE(SUM(upper(trim(COALESCE(c.sponsor, ''))) GLOB 'CD*' AND trim(substr(trim(c.sponsor), 3)) GLOB '[0-9]*' AND trim(substr(trim(c.sponsor), 3)) NOT GLOB '*[^0-9]*'), 0) AS vacant_rows
        FROM pdf_capital_sd c ${w.sql()}`
     )
-    .get(...w.params) as Record<string, number>;
+    .raw()
+    .get(...w.params) as number[];
+  const pick = (at: number): YearSums => ({ rows: t[at] ?? 0, y1: t[at + 1], y2: t[at + 2], y3: t[at + 3], y4: t[at + 4] });
+  const part_i = pick(1);
+  const part_ii = pick(6);
+  const part_ii_only = pick(11);
   const by_year = db
-    .prepare(`SELECT c.fiscal_year, c.status, COUNT(*) AS rows, COALESCE(SUM(c.amount_y1), 0) AS y1 FROM pdf_capital_sd c ${w.sql()} GROUP BY 1, 2 ORDER BY 1`)
+    .prepare(
+      `SELECT c.fiscal_year, c.status, COUNT(*) AS rows, COALESCE(SUM(c.amount_y1), 0) AS y1 FROM pdf_capital_sd c ${w.sql()} AND c.part = 'I'
+       GROUP BY 1, 2 ORDER BY 1`
+    )
     .all(...w.params) as CapitalBookResult["by_year"];
   return {
     rows: serve(db, "capital_sd", rows, commit, (r) => `${r.sub_id} ${r.title}`.trim()),
-    matched: totals.n,
-    totals: { y1: totals.y1, y2: totals.y2, y3: totals.y3, y4: totals.y4 },
-    part_i_totals: { y1: totals.p1, y2: totals.p2, y3: totals.p3, y4: totals.p4 },
-    part_ii_rows: totals.part_ii,
-    negative_rows: totals.negative_rows,
-    negative_y1: totals.negative_y1,
-    vacant_rows: totals.vacant_rows,
+    matched: t[0],
+    part_i,
+    part_ii,
+    part_ii_reprinted: part_ii.rows - part_ii_only.rows,
+    part_ii_only,
+    negative_rows: t[16],
+    negative_y1: t[17],
+    vacant_rows: t[18],
     by_year,
   };
 }

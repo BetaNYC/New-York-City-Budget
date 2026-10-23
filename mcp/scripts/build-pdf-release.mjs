@@ -4,7 +4,7 @@
  * the files a GitHub Release of this repo carries for `nyc-budget-mcp download`. Publishing them
  * is W7's job (#216); this script only builds and checks them, and never talks to GitHub.
  *
- *   node scripts/build-pdf-release.mjs --out <dir> [--pdfs] [--keep-full]
+ *   node scripts/build-pdf-release.mjs --out <dir> [--pdfs] [--keep-full] [--allow-local-commit]
  *
  * Steps:
  *   1. build-index.mjs --include-reviewed --out <dir>/full.db: every family-year data/pdf_years.csv
@@ -41,12 +41,16 @@ export const DB_ASSET = "pdf-tables.db.gz";
 const ARGS = process.argv.slice(2);
 const at = ARGS.indexOf("--out");
 if (at < 0 || !ARGS[at + 1]) {
-  console.error("usage: node scripts/build-pdf-release.mjs --out <dir> [--pdfs] [--keep-full]");
+  console.error("usage: node scripts/build-pdf-release.mjs --out <dir> [--pdfs] [--keep-full] [--allow-local-commit]");
   process.exit(2);
 }
 const OUT = resolve(ARGS[at + 1]);
 const WITH_PDFS = ARGS.includes("--pdfs");
 const KEEP_FULL = ARGS.includes("--keep-full");
+/** Tests and local trials only: links at a commit that need not be on origin/main (build-index.mjs). */
+const ALLOW_LOCAL = ARGS.includes("--allow-local-commit");
+/** Tables a public download leaves empty, as the public explorer withholds them (PR #224): the reviewers' suggestions. */
+const WITHHELD = ["pdf_review_suggestions"];
 
 const sha256File = async (p) => {
   const h = createHash("sha256");
@@ -64,7 +68,7 @@ async function main() {
   const tables = join(OUT, "pdf-tables.db");
   for (const f of [tables, `${tables}-wal`, `${tables}-shm`]) rmSync(f, { force: true });
 
-  execFileSync(process.execPath, [join(HERE, "build-index.mjs"), "--include-reviewed", "--out", full], { cwd: MCP, stdio: "inherit" });
+  execFileSync(process.execPath, [join(HERE, "build-index.mjs"), "--include-reviewed", "--out", full, ...(ALLOW_LOCAL ? ["--allow-local-commit"] : [])], { cwd: MCP, stdio: "inherit" });
 
   // Only the pdf_* tables and the meta: no spreadsheet table is shipped twice.
   const src = new Database(full, { readonly: true });
@@ -78,13 +82,14 @@ async function main() {
   db.exec("CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT)");
   db.prepare("ATTACH DATABASE ? AS full").run(full);
   db.transaction(() => {
-    for (const t of PDF_TABLES) db.exec(`INSERT INTO main.${t} SELECT * FROM full.${t}`);
+    for (const t of PDF_TABLES.filter((t) => !WITHHELD.includes(t))) db.exec(`INSERT INTO main.${t} SELECT * FROM full.${t}`);
   })();
   db.exec("DETACH DATABASE full");
   const families = db.prepare("SELECT fiscal_year, family, status, rows FROM pdf_years ORDER BY fiscal_year, family").all();
   const set = db.prepare("INSERT INTO meta (key, value) VALUES (?, ?)");
   set.run("pdf_tables_format", FORMAT);
-  for (const k of ["built_at", "source_commit", "source_commit_check", "pdf_gate", "inputs", "counts"]) set.run(k, meta[k] ?? "");
+  for (const k of ["built_at", "source_commit", "source_commit_check", "source_commit_scope", "pdf_gate", "inputs", "counts"]) set.run(k, meta[k] ?? "");
+  set.run("withheld", JSON.stringify(WITHHELD));
   // The lookups the tools (src/pdfquery.ts) and the explorer's queries make by year and key.
   db.exec("CREATE INDEX idx_pdf_sc_year ON pdf_schedule_c(fiscal_year, award_id)");
   db.exec("CREATE INDEX idx_pdf_sc_sub ON pdf_schedule_c_subawards(fiscal_year, parent_award_id)");
@@ -126,6 +131,7 @@ async function main() {
     built_at: meta.built_at,
     source_commit: meta.source_commit,
     source_commit_check: meta.source_commit_check,
+    source_commit_scope: meta.source_commit_scope,
     families,
     pdfs_included: WITH_PDFS,
     files,

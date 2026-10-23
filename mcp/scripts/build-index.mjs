@@ -38,11 +38,11 @@
 import { parse } from "csv-parse/sync";
 import Database from "better-sqlite3";
 import { createHash } from "crypto";
-import { execFileSync } from "child_process";
 import { readFileSync, existsSync, rmSync, mkdirSync, renameSync } from "fs";
 import { join, dirname, basename, resolve } from "path";
 import { fileURLToPath } from "url";
 import { verifyIndex } from "./verify-index.mjs";
+import { sourceCommit } from "./source-commit.mjs";
 import { loadPdfFamilies, pdfSchemaSql, verifyPdf, PDF_TABLES, PDF_FAMILIES } from "./pdf-families.mjs";
 import { loadOpenData, openDataSchemaSql, verifyOpenData } from "./open-data.mjs";
 // The folding rule db.ts applies to queries (src/fold.ts); `npm run build` always runs first.
@@ -63,6 +63,8 @@ const ARGS = process.argv.slice(2);
 const INCLUDE_REVIEWED = ARGS.includes("--include-reviewed");
 /** No PDF family loads, closed or not: the npm package's index (#215). */
 const SPREADSHEET_ONLY = ARGS.includes("--spreadsheet-only");
+/** Record a commit for the links without requiring it on origin/main or a clean tree (sourceCommit). */
+const ALLOW_LOCAL_COMMIT = ARGS.includes("--allow-local-commit");
 if (SPREADSHEET_ONLY && INCLUDE_REVIEWED) throw new Error("build-index: --spreadsheet-only and --include-reviewed contradict each other");
 const OUT_AT = ARGS.indexOf("--out");
 const DB_PATH = OUT_AT >= 0 ? resolve(ARGS[OUT_AT + 1] ?? "") : DEFAULT_DB_PATH;
@@ -233,41 +235,6 @@ function manifestFor(rel, manifests) {
     }
   }
   throw new Error(`${rel}: not under a known source folder`);
-}
-
-/**
- * The git commit this index is built from, for the links to a row's PDF on GitHub (#212): never a
- * branch name, which moves. NYC_BUDGET_SOURCE_COMMIT overrides `git rev-parse HEAD` (a build from
- * an exported tree). The commit is recorded with a check of the PDFs the loaded rows cite:
- *   pdfs_match      every cited PDF is in that commit with exactly these bytes (git blob ids)
- *   no_pdfs_cited   no PDF rows loaded (the npm package's index)
- *   mismatch: <p>   a cited PDF differs from (or is missing in) the commit: the commit is blanked,
- *                   so no GitHub link is built rather than one to a different file
- *   no_git          no commit could be found: blank, no GitHub links
- */
-function sourceCommit(pdfs) {
-  const git = (...a) => execFileSync("git", ["-C", REPO, ...a], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
-  let commit = process.env.NYC_BUDGET_SOURCE_COMMIT ?? "";
-  if (commit !== "" && !/^[0-9a-f]{40}$/i.test(commit)) throw new Error(`NYC_BUDGET_SOURCE_COMMIT must be a full 40-digit commit id; got ${JSON.stringify(commit)}`);
-  try {
-    if (commit === "") commit = git("rev-parse", "HEAD");
-    else commit = git("rev-parse", "--verify", `${commit}^{commit}`);
-  } catch {
-    return { commit: "", check: "no_git" };
-  }
-  if (!pdfs.length) return { commit, check: "no_pdfs_cited" };
-  const want = new Map();
-  for (let i = 0; i < pdfs.length; i += 200) {
-    const chunk = pdfs.slice(i, i + 200);
-    const have = git("hash-object", "--", ...chunk.map((p) => join(REPO, p))).split("\n");
-    chunk.forEach((p, k) => want.set(p, have[k]));
-  }
-  const inCommit = new Map(git("ls-tree", "-r", commit, "--", ...pdfs).split("\n").filter(Boolean).map((l) => {
-    const [meta, path] = l.split("\t");
-    return [path, meta.split(" ")[2]];
-  }));
-  const bad = pdfs.find((p) => inCommit.get(p) !== want.get(p));
-  return bad ? { commit: "", check: `mismatch: ${bad}` } : { commit, check: "pdfs_match" };
 }
 
 function main() {
@@ -559,9 +526,10 @@ function build() {
   setMeta.run("pdf_years_listed", JSON.stringify(listed));
   // The PDFs the loaded rows cite: links to them are built from this commit (src/rowlinks.ts).
   const citedPdfs = db.prepare(Object.values(PDF_FAMILIES).flatMap((f) => f.tables.map((t) => `SELECT source_pdf FROM ${t.table}`)).join(" UNION ")).all().map((r) => r.source_pdf);
-  const commit = sourceCommit(citedPdfs);
+  const commit = sourceCommit(REPO, citedPdfs, { allowLocal: ALLOW_LOCAL_COMMIT, env: process.env.NYC_BUDGET_SOURCE_COMMIT });
   setMeta.run("source_commit", commit.commit);
   setMeta.run("source_commit_check", commit.check);
+  setMeta.run("source_commit_scope", ALLOW_LOCAL_COMMIT ? "local" : "origin/main");
   setMeta.run("built_at", new Date().toISOString());
   setMeta.run("source", "BetaNYC/New-York-City-Budget (committed structured datasets only)");
   setMeta.run("inputs", JSON.stringify(INPUTS));

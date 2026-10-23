@@ -139,6 +139,10 @@ test("the download holds the pdf_* tables only, all rows of listed reviewed or c
     assert.equal(meta.pdf_gate, "reviewed_and_closed");
     assert.match(meta.source_commit, /^[0-9a-f]{40}$/);
     assert.equal(meta.source_commit_check, "pdfs_match", "every cited PDF has these bytes at the recorded commit");
+    assert.equal(meta.source_commit_scope, "local", "pretest builds with --allow-local-commit (test/source-commit.test.js covers the origin/main rule)");
+    // The reviewers' suggested decisions are withheld, as the public explorer withholds them (#224).
+    assert.equal(JSON.stringify(JSON.parse(meta.withheld)), JSON.stringify(["pdf_review_suggestions"]));
+    assert.equal(count(db, "SELECT COUNT(*) AS n FROM pdf_review_suggestions"), 0);
     const key = (y) => `${y.fiscal_year}|${y.family}|${y.status}|${y.rows}`;
     assert.deepEqual(
       db.prepare("SELECT fiscal_year, family, status, rows FROM pdf_years").all().map(key).sort(),
