@@ -29,7 +29,7 @@ Honest catalog of every known gap, quirk, and caveat in this dataset. Nothing he
 > `source/`), and in `code/PARSING.md` the FY2027 capital "in-source gaps", the transparency
 > totals and the Terms and Conditions text (about 393 mid-word splits). FY2010–FY2012
 > transparency charts also print totals, so §28's "FY2009 is the *only* Transparency-Resolution
-> year whose charts print totals at all" is too narrow; §28 is left as its author wrote it. No
+> year whose charts print totals at all" was too narrow; §28 is corrected in place (2026-10-23). No
 > data or code changed, so some copies of the old claims remain until the parsers are revised
 > (issue #5) or the files are next regenerated: `data/capital/RECONCILIATION.md` ("FY2018 is in
 > no source found"); the docstrings and printed messages in `code/parse_schedule_c_legacy.py`
@@ -884,7 +884,7 @@ answers surfaced when FY2009 entered the served set: the 53 rows with no grantee
 
 **What is checked instead.** Four things stand in for the missing text layer:
 
-1. **Printed chart totals.** FY2009 is the *only* Transparency-Resolution year whose charts print totals at all (e.g. `$500,000.00` on the Veterans Resource Center chart; `$0.00` on a net-zero transfer chart). Where a total is printed, the OCR'd rows must sum to it **exactly**. Charts with no printed total stay `NOT RECONCILABLE`, as in every other year.
+1. **Printed chart totals.** FY2009's charts print totals (**corrected 2026-10-23:** this said FY2009 is the only year whose charts do; FY2010–FY2012 charts print them too, e.g. FY2011 Reso 02 p.24, $1,200,000.00, and FY2010 Reso 09 p.15, $0.00; the old parser does not check them) (e.g. `$500,000.00` on the Veterans Resource Center chart; `$0.00` on a net-zero transfer chart). Where a total is printed, the OCR'd rows must sum to it **exactly**. Charts with no printed total stay `NOT RECONCILABLE`, as in every other year.
 2. **Shape checks** on EIN (`##-#######`), amount (`$#,###.##`; parenthesised = rescission), and the 3-digit `Agy #` / `U/A` codes.
 3. **An agency-code dictionary** harvested from the already-parsed FY2010–FY2027 transparency CSVs, so a plausible OCR slip (`DYGD` for `DYCD`) fails where a generic uppercase-letters regex would pass.
 4. **No quiet repair.** Only characters that cannot occur in the target grammar and have exactly one reading (bracket variants, whitespace) are normalized. Letter/digit confusions (`O`/`0`, `S`/`$`) are never guessed — the value is left unparsed, flagged with an `ocr:*` code in the `flags` column, and queued in `fy09_transparency_needs_review.csv` with a crop of the original pixels.

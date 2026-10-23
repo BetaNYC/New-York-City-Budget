@@ -201,7 +201,8 @@ from `research/`.
 
 Open **PR B** (promotion), stacked on PR A. Doing two years? Stack them: year 1 review, year 1
 promote, year 2 review, year 2 promote. Merging PR B makes the year public, labeled "checked,
-review in progress" (see "What `reviewed` and `closed` mean").
+review in progress" (see "What `reviewed` and `closed` mean"). Under the proposed rule in Step 9, PR B closes the
+year's issue (`Closes #NNN` in its body).
 
 ## Step 6: load it into the explorer for review
 
@@ -283,9 +284,13 @@ Check the decisions file:
 
 - [ ] A person changes the family's `status` from `reviewed` to `closed` in `data/pdf_years.csv`.
       Only a person does this.
-- [ ] When every family of the year is closed, write the reflection on the year's issue: what
-      worked, what didn't, what is odd about that year's PDFs, how to redo it, and time spent vs.
-      the estimate. Then close the issue and tick the year in epic #101.
+- [ ] When every family of the year is closed, write the reflection on the year's issue (it is
+      already closed; see below): what worked, what didn't, what is odd about that year's PDFs,
+      how to redo it, and time spent vs. the estimate. Then tick the year as `closed` in epic #101.
+
+**When the year's issue closes** (proposed 2026-10-23, waiting on the maintainer): the year's
+issue closes when its promotion PR merges, that is, when the year is `reviewed` and public.
+Epic #101 tracks the later step from `reviewed` to `closed`.
 
 Once that is merged to `main`, the public explorer
 (https://betanyc.github.io/New-York-City-Budget/explorer/) labels the family "checked and

@@ -269,9 +269,9 @@ use the data, please credit BetaNYC, link to this repository and cite the City o
 source.
 
 **Not covered:** the Council and City documents in `source/` are public records, © The City of
-New York, reproduced here for transparency. Third-party libraries in `viz/` keep their own
-licenses (see [`viz/LICENSE.md`](viz/LICENSE.md)). NYC Open Data is under the
-[NYC Open Data Terms of Use](https://opendata.cityofnewyork.us/overview/#termsofuse).
+New York, reproduced here for transparency. BetaNYC's license does not apply to them.
+Third-party libraries in `viz/` keep their own licenses (see [`viz/LICENSE.md`](viz/LICENSE.md)).
+NYC Open Data is under the [NYC Open Data Terms of Use](https://opendata.cityofnewyork.us/overview/#termsofuse).
 
 ## Acknowledgments
 
