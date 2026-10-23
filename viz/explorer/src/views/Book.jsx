@@ -113,7 +113,8 @@ function Body({ state, set, go, manifest, pdfYears }) {
                   {Number(t.part2_n) > 0 && (
                     <tr>
                       <th scope="row">
-                        of which went to non-city groups ({plural(t.noncity_n, "Part I row")} the book lists again in Part II, {yl1})
+                        of which went to non-city groups: the part of the Part I total that the book reprints in Part II as non-city projects{" "}
+                        {`(${plural(t.noncity_n, "Part I row")}, ${yl1})`}
                       </th>
                       <td className="num">{money(t.noncity_y1)}</td>
                     </tr>
