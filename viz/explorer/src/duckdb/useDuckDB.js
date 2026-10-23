@@ -1,10 +1,32 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 
-import { getSnapshot, run, subscribe } from "./store.js";
+import { ensureTables, getSnapshot, run, subscribe } from "./store.js";
 
 /** Engine and data status (nyc-eo-explorer's hook, MIT). */
 export function useDuckDB() {
   return useSyncExternalStore(subscribe, getSnapshot);
+}
+
+/**
+ * Load these tables (once per visit; see store.js ensureTables) and say whether they are in.
+ * { ready, loading, error, retry }: `loading` lists the tables still on their way.
+ */
+export function useTables(names) {
+  const snap = useDuckDB();
+  const key = names.join(",");
+  const missing = names.filter((t) => snap.tables[t] !== "ready");
+  const failed = names.some((t) => snap.tables[t] === "error");
+  useEffect(() => {
+    if (snap.phase !== "ready" || !names.length) return;
+    if (names.some((t) => !snap.tables[t])) ensureTables(names).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [snap.phase, key]);
+  return {
+    ready: snap.phase === "ready" && missing.length === 0,
+    loading: missing,
+    error: failed ? snap.tableError : null,
+    retry: () => ensureTables(names).catch(() => {}),
+  };
 }
 
 /**

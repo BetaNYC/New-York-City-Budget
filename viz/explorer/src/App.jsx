@@ -1,7 +1,8 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { useDuckDB, useQueries } from "./duckdb/useDuckDB.js";
+import { useDuckDB, useQueries, useTables } from "./duckdb/useDuckDB.js";
 import { PHASES, ensureData } from "./duckdb/store.js";
+import { BASE, aboutMb, bytesOf, tablesForView } from "./duckdb/needs.js";
 import { FILTER_KEYS, PAGE_KEY, historyDepth, pushHash, readHash, writeHash } from "./state/hash.js";
 import { HashLink, Notice } from "./components/ui.jsx";
 import { ReviewScreenContext } from "./components/pdf.jsx";
@@ -156,8 +157,8 @@ export default function App() {
   );
 }
 
-/** The data download, in whole MB, from the manifest's file sizes. */
-export const dataMb = (manifest) => Math.max(1, Math.round(Object.values(manifest?.files ?? {}).reduce((t, f) => t + (f.bytes ?? 0), 0) / 1e6));
+/** The first visit's data download, in whole MB, from the manifest's file sizes (needs.js BASE). */
+export const dataMb = (manifest) => Math.max(1, Math.round(bytesOf(manifest, BASE) / 1e6));
 
 function Loading({ phase, progress, manifest }) {
   const what = { idle: "Starting", manifest: "Reading the data manifest", engine: "Loading the query engine", data: "Loading the data" }[phase] ?? "Loading";
@@ -167,7 +168,26 @@ function Loading({ phase, progress, manifest }) {
         {what}… {phase === "engine" || phase === "data" ? `${Math.round(progress * 100)}%` : ""}
       </p>
       <progress value={progress} max={1} />
-      <p className="muted small">The explorer runs in your browser: it downloads the query engine (about 33 MB, cached after the first visit) and about {dataMb(manifest)} MB of data.</p>
+      <p className="muted small">The explorer runs in your browser: it downloads the query engine (about 33 MB, cached after the first visit) and about {dataMb(manifest)} MB of data. The PDF tables load when you open a page that uses them.</p>
+    </div>
+  );
+}
+
+/** What a view is waiting for: the PDF tables it reads, loaded the first time it opens. */
+export function TablesLoading({ need, manifest }) {
+  if (need.error) {
+    return (
+      <Notice tone="error">
+        The data for this page could not be loaded: {String(need.error.message ?? need.error)}.{" "}
+        <button type="button" className="linkish" onClick={need.retry}>
+          Try again
+        </button>
+      </Notice>
+    );
+  }
+  return (
+    <div className="loading" role="status" aria-live="polite">
+      <p>Loading the data for this page ({aboutMb(bytesOf(manifest, need.loading))}, once per visit)…</p>
     </div>
   );
 }
@@ -189,8 +209,10 @@ function Ready({ state, set, go, back, manifest }) {
       pdfYears: q.data.pdfYears.map((y) => ({ ...y, fiscal_year: Number(y.fiscal_year) })),
     };
   }, [q.data]);
+  const need = useTables(tablesForView(state, manifest));
   if (q.error) return <Notice tone="error">{String(q.error.message ?? q.error)}</Notice>;
   if (!lookups) return <p className="muted">Loading…</p>;
+  if (!need.ready) return <TablesLoading need={need} manifest={manifest} />;
   const props = { state, set, go, back, manifest, ...lookups };
   switch (state.view) {
     case "award":
