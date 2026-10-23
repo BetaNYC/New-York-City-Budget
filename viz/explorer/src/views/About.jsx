@@ -13,12 +13,13 @@ export default function About({ manifest }) {
         server answers from, and a test checks, year by year, that the two hold the same rows and the same totals.
       </p>
       {manifest?.include_reviewed ? (
-        <p>
-          <strong>Tables read from the Council's budget PDFs</strong> (Schedule C, transparency resolutions, the capital book, Terms and Conditions) are here too,
-          but only the ones re-read in the PDF review: read from the page's ruled lines, checked against a second reading and against every printed total, with
-          every doubt listed for a person to decide. Each row says <em>checked, review in progress</em> or <em>checked and reviewed</em>, and links to its page. The
-          older PDF parser's output is never shown.
-        </p>
+        <>
+          <p>
+            It also shows <strong>tables read from the Council's budget PDFs</strong>: Schedule C, transparency resolutions, the capital book and Terms and
+            Conditions, FY2018 on. These are the only data here read from a PDF. More below.
+          </p>
+          <p>The PDF tables load only when you open their page, so the first page opens faster.</p>
+        </>
       ) : (
         <p>Nothing in this build is extracted from a PDF.</p>
       )}
@@ -48,6 +49,37 @@ export default function About({ manifest }) {
         </li>
         <li>The comparison with OMB's adopted capital budget is by budget line only, the one key the two share.</li>
       </ul>
+      {manifest?.include_reviewed ? (
+        <>
+          <h3>Tables read from the PDFs</h3>
+          <ul>
+            <li>
+              Only tables re-read by our checked process are shown. Each is read from the PDF's own text and ruled lines, checked against a second reading of
+              the page image and against every total the PDF prints, and every doubt goes to a person to decide. How:{" "}
+              <a href={docUrl(commit, "PDF-RECIPE.md")}>PDF-RECIPE.md</a>. The older PDF parser's output is never shown.
+            </li>
+            <li>
+              Each row says where its year stands. <em>Checked, review in progress</em>: the table is checked, and a person is still deciding some flagged
+              rows. <em>Checked and reviewed</em>: a person has decided every flagged row. Each year's status is in{" "}
+              <a href={docUrl(commit, "data/pdf_years.csv")}>data/pdf_years.csv</a>.
+            </li>
+            <li>
+              Values are shown as the PDF prints them, never corrected. Where a row needs a second look, it says why in plain words, and gives the decision
+              once a person has made it. Where we have a question for the Council's Finance Division, the row says whether it has been sent, and the answer
+              when there is one.
+            </li>
+            <li>
+              Text that is in the PDF but can't be seen on the printed page is shown on its own, always labeled <em>hidden text</em>.
+            </li>
+            <li>
+              The capital book's total is its Part I. Part II lists again the Part I projects that went to non-city groups. Rows printed only in Part II are
+              listed apart and never added. Borough codes A and C are shown as printed: their meaning is unclear, and it is an{" "}
+              <a href={`${REPO_URL}/issues/227`}>open question</a>.
+            </li>
+            <li>Every row links to its page in the PDF, with the row highlighted.</li>
+          </ul>
+        </>
+      ) : null}
       <h3>Is it on NYC Open Data?</h3>
       <p>
         Each row says one of four things: <StateBadge state="found" />, <StateBadge state="maybe" />, <StateBadge state="notfound" /> or{" "}
@@ -65,7 +97,8 @@ export default function About({ manifest }) {
           The data: <a href={REPO_URL}>the New-York-City-Budget repository</a>.
         </li>
         <li>
-          Ask an AI assistant: the <a href={`${REPO_URL}/blob/main/mcp/README.md`}>nyc-budget-mcp README</a>.
+          Ask an AI assistant: the <a href={`${REPO_URL}/blob/main/mcp/README.md`}>nyc-budget-mcp README</a>. Its PDF tables are an optional download (
+          <code>npx @betanyc/nyc-budget-mcp download --pdf-tables</code>) from the repository's <a href={`${REPO_URL}/releases`}>data releases</a>.
         </li>
       </ul>
       <h3>Credits</h3>

@@ -1,12 +1,13 @@
 # Recipe: turn one fiscal year of PDFs into checked tables
 
 This is the step-by-step for one fiscal year of Council budget PDFs: from the files in `source/`
-to tables a person has reviewed and the public explorer serves. FY2027 (#102), FY2026 (#103) and
-FY2025 back to FY2018 (#104–#111) were done this way. The plan behind it is
+to checked tables that the public explorer and the MCP serve, and then to a year a person has
+fully reviewed. FY2027 (#102), FY2026 (#103) and FY2025 back to FY2018 (#104–#111) were done this
+way. The plan behind it is
 [`research/2026-10-19-schedule-c-pdf-toolkit/PLAN.md`](research/2026-10-19-schedule-c-pdf-toolkit/PLAN.md),
 and the epic that tracks every year is [#101](https://github.com/BetaNYC/New-York-City-Budget/issues/101).
 
-**Last revised:** 2026-10-22.
+**Last revised:** 2026-10-23 (what `reviewed` and `closed` mean, and what each makes public).
 
 ## The idea in four lines
 
@@ -14,7 +15,9 @@ and the epic that tracks every year is [#101](https://github.com/BetaNYC/New-Yor
 2. Check every row against what the PDF prints: its totals, a second reading from the page
    image, and an ink check for anything missed.
 3. Never fix the PDF. Where it is wrong or unclear, flag the row and let a person decide.
-4. Nothing is public until a person has decided every flag and marked the year `closed`.
+4. A checked year is public as soon as it is promoted, labeled "checked, review in progress".
+   It becomes "checked and reviewed" only when a person has decided every flag and marked it
+   `closed`.
 
 ## Words used here
 
@@ -28,6 +31,54 @@ and the epic that tracks every year is [#101](https://github.com/BetaNYC/New-Yor
 | Tier | How readable a PDF is: A = ruled tables, B = few lines, A+B = some of each, D = a scan. |
 | §254 | Section 254 of the City Charter, under which the Council adopts changes to the capital budget. |
 | Stacked PR | A pull request opened against another pull request's branch, so the two are reviewed in order. |
+
+## What `reviewed` and `closed` mean
+
+Each family-year (one family of PDF in one fiscal year) has a `status` in `data/pdf_years.csv`.
+The old parser's output is never served at any status: those years are not in the file.
+
+| Status | What it means | How it gets there |
+|---|---|---|
+| `reviewed` | The tables are checked (Steps 2–3), the review record is written (Step 4), and the tables are promoted (Step 5). A person's review may not be finished: some flags may still be open | Promotion writes it (Step 5) |
+| `closed` | A person has decided every flag (Step 9) | Only a person changes `reviewed` to `closed` |
+
+On 2026-10-23 all 36 family-years (FY2018–FY2027) are `reviewed`. None is `closed` yet: closing
+needs Council Finance's answers to the open questions, and on that date every question in
+`data/council_questions.csv` is still a draft, not yet sent.
+
+**What both make public.** Once merged to `main`, a `reviewed` or `closed` family-year is:
+
+- in the public explorer (https://betanyc.github.io/New-York-City-Budget/explorer/), which
+  redeploys on every merge that changes `data/`;
+- in the MCP's four PDF tools, through the optional data download (`npx @betanyc/nyc-budget-mcp
+  download --pdf-tables`), from the next data release on GitHub. Releases are run by hand for now:
+  the release workflow publishes on merge only once the repository variable
+  `PDF_TABLES_AUTO_PUBLISH` is set.
+
+Each row is shown with:
+
+- its values as printed, never corrected;
+- its status label: "checked, review in progress" (`reviewed`) or "checked and reviewed"
+  (`closed`);
+- its review entries in plain words: what to check, and the decision and note once a person has
+  decided ("not yet decided" until then);
+- the status of any question to Council Finance that covers it, from
+  `data/council_questions.csv`: not yet sent, sent on a date, no answer after 30 days, or the
+  answer;
+- any hidden text (text in the PDF a reader can't see on the page), always labeled as such;
+- links to its page in the explorer, to the PDF on GitHub, and to the publisher's copy where
+  known.
+
+**What neither shows.** The reviewers' suggested decisions, the check codes, how serious a check
+is rated, and the Review tab. Those are for reviewers. They stay in this repository's files
+(`data/pdf_review_suggestions.csv` and the review CSVs), which anyone can read.
+
+**What only `closed` adds.**
+
+- The label changes to "checked and reviewed".
+- The family-year can feed other datasets. The first is FY2018 capital, which goes into
+  `data/capital/`, labeled "from the PDF", once it is closed (#202).
+- A `closed` build of the explorer (`npm run data -- --closed-only`) carries only these years.
 
 ## The four kinds of PDF
 
@@ -149,7 +200,8 @@ from `research/`.
 ```
 
 Open **PR B** (promotion), stacked on PR A. Doing two years? Stack them: year 1 review, year 1
-promote, year 2 review, year 2 promote.
+promote, year 2 review, year 2 promote. Merging PR B makes the year public, labeled "checked,
+review in progress" (see "What `reviewed` and `closed` mean").
 
 ## Step 6: load it into the explorer for review
 
@@ -209,15 +261,25 @@ Each `parser_bug` means fixing the code, re-running Steps 2 and 5, and checking 
 
 ## Step 9: close the year
 
-A family is done when every item has a final decision:
+A family is `closed` when (the rule decided on 2026-10-22, epic #190):
+
+1. every **critical** item is decided one by one;
+2. every **warning** is decided, one by one or in groups by check, with one note per group (for
+   example "all 37 hyphen-break warnings: `accepted_as_printed`");
+3. every **`needs_info`** item is answered, or 30 days have passed since its question went to
+   Council Finance. The date it was sent and the answer go in `data/council_questions.csv`. After
+   30 days the row stays as printed, labeled "Question sent to Council Finance on <date>, no
+   answer yet", and the question stays open as a GitHub issue.
+
+Check the decisions file:
 
 ```bash
 .venv/bin/python code/validate_review_decisions.py --review <review csv> --decisions <decisions csv> --complete
 # exit 0: every item has a decision; 1: the decisions file is invalid; 2: something is still open
 ```
 
-`--complete` counts `needs_info` as a decision. Before closing, find every `needs_info` row in
-the decisions file and settle it by hand, with the answer in the note.
+`--complete` still counts `needs_info` as a decision (#194). Until that is fixed, find every
+`needs_info` row in the decisions file before closing and check it against rule 3 by hand.
 
 - [ ] A person changes the family's `status` from `reviewed` to `closed` in `data/pdf_years.csv`.
       Only a person does this.
@@ -226,7 +288,8 @@ the decisions file and settle it by hand, with the answer in the note.
       the estimate. Then close the issue and tick the year in epic #101.
 
 Once that is merged to `main`, the public explorer
-(https://betanyc.github.io/New-York-City-Budget/explorer/) shows the family on its next deploy.
+(https://betanyc.github.io/New-York-City-Budget/explorer/) labels the family "checked and
+reviewed" on its next deploy, and the MCP does from the next data release.
 
 ## Running a year with AI sessions
 
