@@ -15,9 +15,11 @@
  *   - a "no dollar amount" row (amount NULL) is never in a sum; COUNT(amount) and SUM(amount)
  *     skip it, and the answer counts it separately.
  *
- * Text filters are case- and accent-insensitive substrings on the same columns the explorer
- * searches (viz/explorer/src/query/pdf.js), folded with src/fold.ts on both sides (the fold() SQL
- * function pdfdata.ts registers). LIKE wildcards are not used, so % and _ are literal.
+ * Filters follow the explorer's search rules (viz/explorer/src/query/pdf.js, PR #224) so the two
+ * answer alike: the same columns per filter, an EIN matching the organization's or its fiscal
+ * conduit's, the same row order, and the same totals. Text filters are case- and
+ * accent-insensitive substrings, folded with src/fold.ts on both sides (the fold() SQL function
+ * pdfdata.ts registers). LIKE wildcards are not used, so % and _ are literal.
  */
 import type { Database as DB } from "better-sqlite3";
 import { fold } from "./fold.js";
@@ -194,8 +196,10 @@ function scWhere(f: ScheduleCFilters): Where {
   w.add(SERVED("a", "schedule_c"));
   w.eq("a.fiscal_year", f.fiscal_year);
   w.text(["a.org"], f.organization);
-  if (f.ein != null) w.eq("a.ein", f.ein.replace(/\D/g, ""));
-  w.text(["a.member", "a.sponsor"], f.member);
+  // The organization's EIN, or its fiscal conduit's (the group that receives the money for it).
+  if (f.ein != null) w.add("(a.ein = ? OR a.fiscal_conduit_ein = ?)", f.ein.replace(/\D/g, ""), f.ein.replace(/\D/g, ""));
+  // A member, the Speaker, or a delegation: whichever the row prints.
+  w.text(["a.member", "a.sponsor", "a.delegation"], f.member);
   w.text(["a.category"], f.category);
   w.text(["a.initiative"], f.initiative);
   w.text(["a.agency"], f.agency);
@@ -224,7 +228,7 @@ export interface ScheduleCResult {
 export function searchScheduleC(db: DB, commit: string, f: ScheduleCFilters): ScheduleCResult {
   const w = scWhere(f);
   const rows = db
-    .prepare(`SELECT a.* FROM pdf_schedule_c a ${w.sql()} ORDER BY a.amount IS NULL, a.amount DESC, a.fiscal_year, a.award_id LIMIT ${cap(f.limit, 50, 500)}`)
+    .prepare(`SELECT a.* FROM pdf_schedule_c a ${w.sql()} ORDER BY a.amount IS NULL, a.amount DESC, a.fiscal_year DESC, a.award_id LIMIT ${cap(f.limit, 50, 500)}`)
     .all(...w.params) as Row[];
   const by_year = db
     .prepare(
@@ -285,6 +289,9 @@ export interface TransparencyFilters {
   member?: string;
   resolution_number?: string;
   resolution_date?: string;
+  /** Resolutions dated on or after / on or before (YYYY-MM-DD). */
+  date_from?: string;
+  date_to?: string;
   action?: (typeof TR_ACTIONS)[number];
   limit?: number;
 }
@@ -295,10 +302,12 @@ function trWhere(f: TransparencyFilters): Where {
   w.eq("t.fiscal_year", f.fiscal_year);
   w.eq("t.budget_fiscal_year", f.budget_fiscal_year);
   w.text(["t.org"], f.organization);
-  if (f.ein != null) w.eq("t.ein", f.ein.replace(/\D/g, ""));
+  if (f.ein != null) w.add("(t.ein = ? OR t.fiscal_conduit_ein = ?)", f.ein.replace(/\D/g, ""), f.ein.replace(/\D/g, ""));
   w.text(["t.member"], f.member);
   w.text(["t.resolution_number"], f.resolution_number);
   w.eq("t.resolution_date", f.resolution_date);
+  if (f.date_from != null) w.add("t.resolution_date >= ?", f.date_from);
+  if (f.date_to != null) w.add("t.resolution_date <= ?", f.date_to);
   w.eq("t.action", f.action);
   return w;
 }
@@ -318,7 +327,7 @@ export function searchTransparency(db: DB, commit: string, f: TransparencyFilter
   const rows = db
     .prepare(
       `SELECT t.* FROM pdf_transparency t ${w.sql()}
-       ORDER BY t.fiscal_year DESC, t.resolution_seq, t.chart_number, t.pdf_page, t.row_index LIMIT ${cap(f.limit, 50, 500)}`
+       ORDER BY t.resolution_date DESC, t.fiscal_year DESC, t.resolution_seq DESC, t.pdf_page, t.table_index, t.row_index, t.row_id LIMIT ${cap(f.limit, 50, 500)}`
     )
     .all(...w.params) as Row[];
   const by_action = db
@@ -362,25 +371,30 @@ export interface CapitalBookFilters {
   agency?: string;
   title?: string;
   part?: "I" | "II";
+  /** On the book's own year's column (amount_y1); reductions compare as negative numbers. */
+  min_amount?: number;
+  max_amount?: number;
   limit?: number;
 }
+
+/** A sponsor cell that names a district with no member (#206), e.g. "CD 22" (the explorer's VACANT_DISTRICT). */
+export const VACANT_DISTRICT = /^CD *\d+$/i;
 
 function cbWhere(f: CapitalBookFilters): Where {
   const w = new Where();
   w.add(SERVED("c", "capital_sd"));
   w.eq("c.fiscal_year", f.fiscal_year);
-  if (f.project_id != null) {
-    const id = f.project_id.trim().replace(/\s+/g, " ").toUpperCase();
-    // The book prints "HO CC0001"; the Council's workbooks "CC0001". Either form matches.
-    if (id.includes(" ")) w.add("upper(c.sub_id) = ?", id);
-    else w.add("substr(upper(c.sub_id), instr(c.sub_id, ' ') + 1) = ?", id);
-  }
-  w.eq("c.budget_line", f.budget_line);
-  w.text(["c.sponsor"], f.sponsor);
-  w.eq("c.boro", f.borough);
+  // Substrings, as the explorer's book search: "CC1053" finds "AG CC1053".
+  w.text(["c.sub_id"], f.project_id);
+  if (f.budget_line != null) w.eq("c.budget_line", f.budget_line);
+  w.text(["c.sponsor", "c.sponsor_raw"], f.sponsor);
+  if (f.borough != null) w.add("upper(c.boro) = ?", f.borough.trim().toUpperCase());
   w.text(["c.agency"], f.agency);
-  w.text(["c.title"], f.title);
+  // FY2019's book also prints a description under each title (#206).
+  w.text(["c.title", "c.description"], f.title);
   w.eq("c.part", f.part);
+  if (f.min_amount != null) w.add("c.amount_y1 >= ?", f.min_amount);
+  if (f.max_amount != null) w.add("c.amount_y1 <= ?", f.max_amount);
   return w;
 }
 
@@ -388,35 +402,51 @@ export interface CapitalBookResult {
   rows: ServedRow[];
   matched: number;
   /**
-   * Sums of the four printed year columns over Part I rows only (y1 is the book's own fiscal year,
-   * y2..y4 the next three). Part II reprints Part I rows (code/review_capital_sd.py check C3), so
-   * adding it would count them twice; its rows are counted, never summed.
+   * Sums of the four printed year columns over every matched row, as the explorer's
+   * bookTotalsQuery adds them (y1 is the book's own fiscal year, y2..y4 the next three).
    */
   totals: { y1: number; y2: number; y3: number; y4: number };
+  /**
+   * The same over Part I rows only. Part II reprints Part I rows (code/review_capital_sd.py check
+   * C3), so `totals` counts a reprinted row twice when both parts match; this does not.
+   */
+  part_i_totals: { y1: number; y2: number; y3: number; y4: number };
   part_ii_rows: number;
+  /** Rows with a reduction (a negative amount) in any year column, and the first year's reductions. */
+  negative_rows: number;
+  negative_y1: number;
+  /** Rows whose sponsor is a district with no member ("CD 22"). */
+  vacant_rows: number;
   by_year: (StatusTotal & { y1: number })[];
 }
 
 export function searchCapitalBook(db: DB, commit: string, f: CapitalBookFilters): CapitalBookResult {
   const w = cbWhere(f);
   const rows = db
-    .prepare(`SELECT c.* FROM pdf_capital_sd c ${w.sql()} ORDER BY c.amount_y1 IS NULL, c.amount_y1 DESC, c.fiscal_year, c.pdf_page, c.row_in_page LIMIT ${cap(f.limit, 50, 500)}`)
+    .prepare(`SELECT c.* FROM pdf_capital_sd c ${w.sql()} ORDER BY c.fiscal_year DESC, c.part, c.pdf_page, c.row_in_page LIMIT ${cap(f.limit, 50, 500)}`)
     .all(...w.params) as Row[];
   const totals = db
     .prepare(
-      `SELECT COUNT(*) AS n, SUM(c.part = 'II') AS part_ii,
-         ${[1, 2, 3, 4].map((k) => `COALESCE(SUM(CASE WHEN c.part = 'I' THEN c.amount_y${k} END), 0) AS y${k}`).join(", ")}
+      `SELECT COUNT(*) AS n, COALESCE(SUM(c.part = 'II'), 0) AS part_ii,
+         ${[1, 2, 3, 4].map((k) => `COALESCE(SUM(c.amount_y${k}), 0) AS y${k}, COALESCE(SUM(CASE WHEN c.part = 'I' THEN c.amount_y${k} END), 0) AS p${k}`).join(", ")},
+         COALESCE(SUM(${[1, 2, 3, 4].map((k) => `c.amount_y${k} < 0`).join(" OR ")}), 0) AS negative_rows,
+         COALESCE(SUM(CASE WHEN c.amount_y1 < 0 THEN c.amount_y1 END), 0) AS negative_y1,
+         COALESCE(SUM(upper(trim(COALESCE(c.sponsor, ''))) GLOB 'CD*' AND trim(substr(trim(c.sponsor), 3)) GLOB '[0-9]*' AND trim(substr(trim(c.sponsor), 3)) NOT GLOB '*[^0-9]*'), 0) AS vacant_rows
        FROM pdf_capital_sd c ${w.sql()}`
     )
-    .get(...w.params) as { n: number; part_ii: number | null; y1: number; y2: number; y3: number; y4: number };
+    .get(...w.params) as Record<string, number>;
   const by_year = db
-    .prepare(`SELECT c.fiscal_year, c.status, COUNT(*) AS rows, COALESCE(SUM(CASE WHEN c.part = 'I' THEN c.amount_y1 END), 0) AS y1 FROM pdf_capital_sd c ${w.sql()} GROUP BY 1, 2 ORDER BY 1`)
+    .prepare(`SELECT c.fiscal_year, c.status, COUNT(*) AS rows, COALESCE(SUM(c.amount_y1), 0) AS y1 FROM pdf_capital_sd c ${w.sql()} GROUP BY 1, 2 ORDER BY 1`)
     .all(...w.params) as CapitalBookResult["by_year"];
   return {
     rows: serve(db, "capital_sd", rows, commit, (r) => `${r.sub_id} ${r.title}`.trim()),
     matched: totals.n,
     totals: { y1: totals.y1, y2: totals.y2, y3: totals.y3, y4: totals.y4 },
-    part_ii_rows: totals.part_ii ?? 0,
+    part_i_totals: { y1: totals.p1, y2: totals.p2, y3: totals.p3, y4: totals.p4 },
+    part_ii_rows: totals.part_ii,
+    negative_rows: totals.negative_rows,
+    negative_y1: totals.negative_y1,
+    vacant_rows: totals.vacant_rows,
     by_year,
   };
 }

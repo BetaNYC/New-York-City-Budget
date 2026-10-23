@@ -23,8 +23,11 @@ terms; the version is left at 2.0.1 until the release (W11, #220) picks one.
   review entries (decision and note where decided; `needs_info` labeled as an open question, or
   with the date sent once 30 days have passed), hidden text in its own labeled line, the #209
   fields, and the three links from `src/rowlinks.ts`, the GitHub one at the commit the tables
-  were built from. "No dollar amount" rows and the capital book's Part II (a reprint of Part I)
-  are counted, never summed; sub-awards are listed under their award, never counted.
+  were built from. "No dollar amount" rows are counted, never summed; sub-awards are listed under
+  their award, never counted; the capital book's totals give Part I alone beside the explorer's
+  all-rows figure (Part II reprints Part I rows), and count reductions on their own. Filters,
+  order and totals follow the explorer's search (PR #224): an EIN also matches the fiscal
+  conduit's EIN.
   `search_disclosure_awards` is unchanged and separate.
 - **The optional download** (`src/pdfdata.ts`): `npx @betanyc/nyc-budget-mcp download
   --pdf-tables [--pdfs] [--from <manifest>]`, or `NYC_BUDGET_PDF_DATA=on` (or `pdfs`) to download

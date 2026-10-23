@@ -53,6 +53,7 @@ import {
   SC_DISCLOSURE_STATUSES,
   STATUS_LABEL,
   TR_ACTIONS,
+  VACANT_DISTRICT,
   type ServedRow,
 } from "./pdfquery.js";
 
@@ -669,14 +670,19 @@ function transparencyText(res: ReturnType<typeof searchTransparency>): string {
 function capitalBookText(res: ReturnType<typeof searchCapitalBook>): string {
   const t = res.totals;
   const L: string[] = [
-    `${n(res.matched)} matching project row(s) in the capital budget's §254 supporting detail (Parts I and II; the capital book), read from the PDFs. ${shownLine(res.rows.length, res.matched, "highest first-year amount first", 500)}`,
+    `${n(res.matched)} matching project row(s) in the capital budget's §254 supporting detail (Parts I and II; the capital book), read from the PDFs. ${shownLine(res.rows.length, res.matched, "in book order (newest year first, then part, page and row)", 500)}`,
     "",
-    `Totals over the ${n(res.matched - res.part_ii_rows)} Part I match(es), per printed year column (the first is the book's own fiscal year; the other three are the next three years, printed as plans, not added together here): ` +
+    `Totals over all ${n(res.matched)} match(es), per printed year column (the first is the book's own fiscal year; the other three are the next three years, printed as plans, not added together here; reductions are added in as negative amounts): ` +
       `first year ${usd(t.y1)} · second ${usd(t.y2)} · third ${usd(t.y3)} · fourth ${usd(t.y4)}`,
     ...(res.part_ii_rows
-      ? [`  ${n(res.part_ii_rows)} matched row(s) are from Part II, which reprints Part I rows: they are listed, never added (adding them would count the same money twice).`]
+      ? [
+          `  Part I alone (${n(res.matched - res.part_ii_rows)} row(s)): first year ${usd(res.part_i_totals.y1)} · second ${usd(res.part_i_totals.y2)} · third ${usd(res.part_i_totals.y3)} · fourth ${usd(res.part_i_totals.y4)}. ` +
+            `${n(res.part_ii_rows)} matched row(s) are from Part II, which reprints Part I rows: where both parts match, the totals above count that money twice; use part "I" for a total without the reprint.`,
+        ]
       : []),
-    ...byYearLines(res.by_year, (y) => `first year ${usd(y.y1)} (Part I)`),
+    ...(res.negative_rows ? [`  Reductions: ${n(res.negative_rows)} row(s) print a negative amount in some year column (first year: ${usd(res.negative_y1)}), added into the totals above.`] : []),
+    ...(res.vacant_rows ? [`  ${n(res.vacant_rows)} row(s) name a district with no member as sponsor ("CD nn").`] : []),
+    ...byYearLines(res.by_year, (y) => `first year ${usd(y.y1)}`),
     "",
     "Rows:",
   ];
@@ -684,11 +690,11 @@ function capitalBookText(res: ReturnType<typeof searchCapitalBook>): string {
     const r = s.row;
     const fy = r.fiscal_year as number;
     L.push(
-      `FY${fy} book · Part ${r.part}${r.part === "II" ? " (reprints a Part I row; in no total)" : ""} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${r.boro || "—"} · ${r.agency}` +
+      `FY${fy} book · Part ${r.part}${r.part === "II" ? " (reprints a Part I row)" : ""} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${r.boro || "—"} · ${r.agency}` +
         `\n    title: ${r.title}` +
-        `\n    sponsor: ${r.sponsor || "(none printed)"}` +
+        `\n    sponsor: ${r.sponsor || "(none printed)"}${VACANT_DISTRICT.test(String(r.sponsor ?? "").trim()) ? " (a district with no member)" : ""}` +
         (r.council_district ? ` · council district ${r.council_district}` : "") +
-        `\n    FY${fy} ${amt(r.amount_y1)} · FY${fy + 1} ${amt(r.amount_y2)} · FY${fy + 2} ${amt(r.amount_y3)} · FY${fy + 3} ${amt(r.amount_y4)}` +
+        `\n    ${[0, 1, 2, 3].map((k) => { const v = r[`amount_y${k + 1}`]; return `FY${fy + k} ${amt(v)}${typeof v === "number" && v < 0 ? " (a reduction)" : ""}`; }).join(" · ")}` +
         (r.description ? `\n    description: ${r.description}` : "") +
         `\n${pdfRowTail(s)}`
     );
@@ -857,8 +863,8 @@ export const TOOLS = [
       properties: {
         fiscal_year: { type: "number", description: "FY2018–FY2027. Earlier years were read only by the old parser and are not served." },
         organization: { type: "string", description: "Organization as printed (case- and accent-insensitive substring; % and _ literal)" },
-        ein: { type: "string", description: "EIN, exactly 9 digits, hyphens optional" },
-        member: { type: "string", description: "Council member or sponsor as printed (substring), e.g. 'Brewer', 'Speaker'" },
+        ein: { type: "string", description: "EIN, exactly 9 digits, hyphens optional. Matches the organization's EIN or its fiscal conduit's (the group that receives the money for it), as the explorer does" },
+        member: { type: "string", description: "Council member, sponsor or delegation as printed (substring), e.g. 'Brewer', 'Speaker', 'Queens Delegation'" },
         category: { type: "string", description: "Category heading (substring), e.g. 'Older Adult Services'" },
         initiative: { type: "string", description: "Initiative (substring)" },
         agency: { type: "string", description: "Agency as printed (substring), e.g. 'DYCD'" },
@@ -873,17 +879,19 @@ export const TOOLS = [
   },
   {
     name: "search_transparency_changes",
-    description: `Search the Council's transparency resolutions, FY2018–FY2026: the changes made to the adopted budget's designations after adoption (new designations, rescissions, purpose-of-funds changes), from the checked tables BetaNYC reads from the resolution PDFs. Each row gives the resolution number and date, the chart, the budget year it changes, the organization, EIN, member, agency and amount as printed, with its status label ("checked, review in progress" or "checked and reviewed"), flags, review decision where decided, any hidden text (text in the PDF a reader cannot see on the page, always labeled), and its three links. Rows from charts that print no dollar amount are kept and never summed. Filter by fiscal_year (the resolutions' year), budget_fiscal_year, organization, ein, member, resolution_number (substring, e.g. '1013-2025'), resolution_date (YYYY-MM-DD), action. Totals per kind of change cover every match. Needs the optional PDF tables download.`,
+    description: `Search the Council's transparency resolutions, FY2018–FY2026: the changes made to the adopted budget's designations after adoption (new designations, rescissions, purpose-of-funds changes), from the checked tables BetaNYC reads from the resolution PDFs. Each row gives the resolution number and date, the chart, the budget year it changes, the organization, EIN, member, agency and amount as printed, with its status label ("checked, review in progress" or "checked and reviewed"), flags, review decision where decided, any hidden text (text in the PDF a reader cannot see on the page, always labeled), and its three links. Rows from charts that print no dollar amount are kept and never summed. Filter by fiscal_year (the resolutions' year), budget_fiscal_year, organization, ein, member, resolution_number (substring, e.g. '1013-2025'), resolution_date (YYYY-MM-DD) or a date_from / date_to range, action. Newest resolution first. Totals per kind of change cover every match. Needs the optional PDF tables download.`,
     inputSchema: {
       type: "object",
       properties: {
         fiscal_year: { type: "number", description: "The fiscal year whose resolutions to search, FY2018–FY2026" },
         budget_fiscal_year: { type: "number", description: "The budget year a row's chart changes (a year's resolutions can change another year's budget)" },
         organization: { type: "string", description: "Organization as printed (substring)" },
-        ein: { type: "string", description: "EIN, exactly 9 digits, hyphens optional" },
+        ein: { type: "string", description: "EIN, exactly 9 digits, hyphens optional. Matches the organization's EIN or its fiscal conduit's" },
         member: { type: "string", description: "Council member as printed (substring)" },
         resolution_number: { type: "string", description: "Resolution number (substring), e.g. 'Res 1013-2025' or '1013-2025'" },
-        resolution_date: { type: "string", description: "Resolution date, YYYY-MM-DD" },
+        resolution_date: { type: "string", description: "Resolution date, exactly, YYYY-MM-DD" },
+        date_from: { type: "string", description: "Resolutions dated on or after, YYYY-MM-DD" },
+        date_to: { type: "string", description: "Resolutions dated on or before, YYYY-MM-DD" },
         action: { type: "string", enum: [...TR_ACTIONS], description: "designate, rescind, purpose_from / purpose_to (a purpose-of-funds change), listed (a chart with no dollar amount)" },
         limit: { type: "number", description: LIMIT_DESC },
       },
@@ -892,18 +900,20 @@ export const TOOLS = [
   },
   {
     name: "search_capital_book",
-    description: `Search the capital budget's §254 supporting detail (the "capital book": OMB's list of the Council's changes to the executive capital budget, Parts I and II), FY2018–FY2020 and FY2022–FY2027, from the checked tables BetaNYC reads from the PDFs. Each project row gives its ID, budget line, borough, agency, title, sponsor and the four printed year amounts as printed, with its status label, flags, review decision where decided, and three links. Filter by fiscal_year, project_id (exact; 'HO CC0001' or 'CC0001'), budget_line (exact, e.g. 'P D018'), sponsor, borough (exact code), agency, title, part. Totals per year column cover every match. For the Council's own capital lists, use search_council_capital. Needs the optional PDF tables download.`,
+    description: `Search the capital budget's §254 supporting detail (the "capital book": OMB's list of the Council's changes to the executive capital budget, Parts I and II), FY2018–FY2020 and FY2022–FY2027, from the checked tables BetaNYC reads from the PDFs. Each project row gives its ID, budget line, borough, agency, title, sponsor and the four printed year amounts as printed, with its status label, flags, review decision where decided, and three links. Filter by fiscal_year, project_id (substring: 'CC0001' finds 'HO CC0001'), budget_line (exact, e.g. 'P D018'), sponsor, borough (code), agency, title (also searches FY2019's descriptions), part, min_amount / max_amount (the book's own year). Rows in book order. Totals per year column cover every match, with Part I alone beside them (Part II reprints Part I rows), and reductions (negative amounts) counted on their own. A sponsor printed "CD nn" is a district with no member. For the Council's own capital lists, use search_council_capital. Needs the optional PDF tables download.`,
     inputSchema: {
       type: "object",
       properties: {
         fiscal_year: { type: "number", description: "The book's fiscal year: FY2018–FY2020 or FY2022–FY2027 (FY2021 is not checked yet)" },
-        project_id: { type: "string", description: "Project ID, exact, ignoring case and runs of spaces: with its agency code as the book prints it ('HO CC0001') or without ('CC0001')" },
+        project_id: { type: "string", description: "Project ID as the book prints it (substring, case-insensitive): 'HO CC0001', or 'CC0001' without the agency code" },
         budget_line: { type: "string", description: "Budget line, exact, agency code then line ('P D018', 'PW-DN846')" },
-        sponsor: { type: "string", description: "Sponsor as printed (substring), e.g. 'Speaker', 'Avilés'" },
-        borough: { type: "string", description: "Borough code exactly as printed: K, M, Q, R, X, C, or the unconfirmed A (some years print lower case)" },
+        sponsor: { type: "string", description: "Sponsor as printed (substring), e.g. 'Speaker', 'Avilés'. 'CD 22' is a district with no member" },
+        borough: { type: "string", description: "Borough code, any case: K, M, Q, R, X, C, or the unconfirmed A" },
         agency: { type: "string", description: "Agency name as printed (substring), e.g. 'PARKS'" },
-        title: { type: "string", description: "Project title (substring)" },
-        part: { type: "string", enum: ["I", "II"], description: "The book's part" },
+        title: { type: "string", description: "Project title, or FY2019's description (substring)" },
+        part: { type: "string", enum: ["I", "II"], description: "The book's part (Part II reprints Part I rows)" },
+        min_amount: { type: "number", description: "Minimum amount in the book's own year column, dollars (inclusive; reductions are negative)" },
+        max_amount: { type: "number", description: "Maximum amount in the book's own year column, dollars (inclusive)" },
         limit: { type: "number", description: LIMIT_DESC },
       },
       additionalProperties: false,
@@ -1262,11 +1272,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             member: z.string().optional(),
             resolution_number: z.string().optional(),
             resolution_date: z.string().optional(),
+            date_from: z.string().optional(),
+            date_to: z.string().optional(),
             action: z.enum(TR_ACTIONS).optional(),
             limit: z.number().int().optional(),
           }).strict(), args);
-        if (a.resolution_date != null && !/^\d{4}-\d{2}-\d{2}$/.test(a.resolution_date.trim()))
-          return errorResult(`resolution_date must be a date as YYYY-MM-DD (e.g. 2025-08-14); got ${JSON.stringify(a.resolution_date)}.`);
+        for (const [k, v] of [["resolution_date", a.resolution_date], ["date_from", a.date_from], ["date_to", a.date_to]] as const)
+          if (v != null && !/^\d{4}-\d{2}-\d{2}$/.test(v.trim()))
+            return errorResult(`${k} must be a date as YYYY-MM-DD (e.g. 2025-08-14); got ${JSON.stringify(v)}.`);
+        if (a.date_from != null && a.date_to != null && a.date_from.trim() > a.date_to.trim())
+          return errorResult(`date_from (${a.date_from}) is after date_to (${a.date_to}); nothing can match.`);
         const guard =
           einError(a.ein) ?? emptyError("organization", a.organization) ?? emptyError("member", a.member) ??
           emptyError("resolution_number", a.resolution_number) ?? limitError(a.limit);
@@ -1276,7 +1291,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const t = got.tables;
         const yg = pdfYearGuard(t, "transparency", a.fiscal_year);
         if (yg.text) return textResult(yg.text);
-        const res = searchTransparency(t.db, linkCommit(t), { ...a, resolution_date: a.resolution_date?.trim() });
+        const res = searchTransparency(t.db, linkCommit(t), { ...a, resolution_date: a.resolution_date?.trim(), date_from: a.date_from?.trim(), date_to: a.date_to?.trim() });
         if (res.matched === 0) return textResult(`No matching rows in the transparency resolutions (checked years ${yearSpan(yg.years)}).\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "transparency")}`);
         return textResult(`${transparencyText(res)}\n\n${pdfFooter(t, "transparency")}`);
       }
@@ -1291,15 +1306,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             agency: z.string().optional(),
             title: z.string().optional(),
             part: z.enum(["I", "II"]).optional(),
+            min_amount: z.number().optional(),
+            max_amount: z.number().optional(),
             limit: z.number().int().optional(),
           }).strict(), args);
         const line = budgetLineArg(a.budget_line);
         if (line.error) return errorResult(line.error);
         if (a.borough != null && !/^[A-Za-z]$/.test(a.borough.trim()))
-          return errorResult(`borough must be one printed code letter (K, M, Q, R, X, C, or the unconfirmed A; some years print lower case); got ${JSON.stringify(a.borough)}.`);
+          return errorResult(`borough must be one code letter (K, M, Q, R, X, C, or the unconfirmed A); got ${JSON.stringify(a.borough)}.`);
         const guard =
           emptyError("project_id", a.project_id) ?? emptyError("sponsor", a.sponsor) ?? emptyError("agency", a.agency) ??
-          emptyError("title", a.title) ?? limitError(a.limit);
+          emptyError("title", a.title) ?? limitError(a.limit) ?? rangeError(a.min_amount, a.max_amount);
         if (guard) return errorResult(guard);
         const got = pdfTablesOrAnswer(name);
         if ("answer" in got) return got.answer;

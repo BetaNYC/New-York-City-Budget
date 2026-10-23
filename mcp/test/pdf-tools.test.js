@@ -302,8 +302,9 @@ test("Schedule C totals equal the PDF's own (pdf_years notes) and never include 
 test("capital book totals count Part I once: Part II reprints Part I rows", () => {
   const r = searchCapitalBook(db, COMMIT(), { fiscal_year: 2027, limit: 1 });
   const printed = db.prepare("SELECT printed_y1 FROM pdf_capital_sd_totals WHERE fiscal_year = 2027 AND kind = 'totals_for' AND part = 'I' AND name = 'ALL'").get().printed_y1;
-  assert.equal(r.totals.y1, printed, "the book's own printed Part I total");
+  assert.equal(r.part_i_totals.y1, printed, "the book's own printed Part I total");
   assert.ok(r.part_ii_rows > 0);
+  assert.equal(r.totals.y1, db.prepare("SELECT SUM(amount_y1) AS n FROM pdf_capital_sd WHERE fiscal_year = 2027").get().n, "all rows, as the explorer adds them");
 });
 
 // ---------------------------------------------------------------- parity with the explorer
@@ -369,6 +370,104 @@ test("Schedule C: the MCP's unmatched rows are the explorer's 'Schedule C only' 
   } finally {
     x.close();
   }
+});
+
+// The explorer's full-table searches (PR #224, W4). Run once that PR's queries are on the branch;
+// skipped before, so this file does not depend on the order the two PRs merge in.
+const W4 = typeof explorer.scSearchTotalsQuery === "function";
+const w4 = { skip: W4 ? false : "viz/explorer/src/query/pdf.js has no scSearchTotalsQuery yet (PR #224)" };
+
+function explorerDbW4() {
+  const x = explorerDb();
+  x.function("regexp_matches", { deterministic: true }, (a, re) => (new RegExp(String(re)).test(String(a ?? "")) ? 1 : 0));
+  return x;
+}
+
+test("Schedule C search: the MCP and the explorer's search agree on counts, totals and first page", w4, () => {
+  const x = explorerDbW4();
+  try {
+    const cases = [
+      [{ fiscal_year: 2027 }, { fiscal_year: 2027 }],
+      [{ org: "medicare rights" }, { organization: "medicare rights" }],
+      [{ ein: "13-3564313" }, { ein: "13-3564313" }],
+      [{ sponsor: "queens delegation" }, { member: "queens delegation" }],
+      [{ category: "older adult", min_amount: 10000 }, { category: "older adult", min_amount: 10000 }],
+      [{ initiative: "speaker", agency: "dycd", disclosure: "unmatched" }, { initiative: "speaker", agency: "dycd", disclosure_status: "unmatched" }],
+    ];
+    for (const [ef, mf] of cases) {
+      const ex = run(x, explorer.scSearchTotalsQuery(ef), false);
+      const mcp = searchScheduleC(db, COMMIT(), { ...mf, limit: 500 });
+      assert.equal(mcp.matched, ex.n, JSON.stringify(ef));
+      assert.equal(mcp.amount, ex.amount, JSON.stringify(ef));
+      assert.equal(mcp.no_amount, ex.no_amount, JSON.stringify(ef));
+      const page = run(x, explorer.scSearchQuery(ef, 0)).map((r) => `${r.fiscal_year}|${r.award_id}`);
+      assert.deepEqual(mcp.rows.slice(0, page.length).map((s) => `${s.row.fiscal_year}|${s.row.award_id}`), page, JSON.stringify(ef));
+    }
+  } finally {
+    x.close();
+  }
+});
+
+test("transparency search: the MCP and the explorer agree per action", w4, () => {
+  const x = explorerDbW4();
+  try {
+    const cases = [
+      [{ fiscal_year: 2026 }, { fiscal_year: 2026 }],
+      [{ org: "south asian youth" }, { organization: "south asian youth" }],
+      [{ member: "lee", action: "rescind" }, { member: "lee", action: "rescind" }],
+      [{ resolution: "1013-2025" }, { resolution_number: "1013-2025" }],
+      [{ date_from: "2024-01-01", date_to: "2024-12-31" }, { date_from: "2024-01-01", date_to: "2024-12-31" }],
+      [{ fiscal_year: 2018, action: "listed" }, { fiscal_year: 2018, action: "listed" }],
+    ];
+    for (const [ef, mf] of cases) {
+      const ex = explorer.rollupTr(run(x, explorer.trTotalsQuery(ef)));
+      const mcp = searchTransparency(db, COMMIT(), { ...mf, limit: 500 });
+      assert.equal(mcp.matched, ex.matched, JSON.stringify(ef));
+      for (const a of mcp.by_action) {
+        assert.equal(a.rows, ex.byAction[a.action].n, `${JSON.stringify(ef)} ${a.action}`);
+        assert.equal(a.amount, ex.byAction[a.action].amount, `${JSON.stringify(ef)} ${a.action}`);
+        assert.equal(a.rows - a.with_amount, ex.byAction[a.action].no_amount, `${JSON.stringify(ef)} ${a.action}`);
+      }
+      const page = run(x, explorer.trQuery(ef, 0)).map((r) => r.row_id);
+      assert.deepEqual(mcp.rows.slice(0, page.length).map((s) => s.row.row_id), page, JSON.stringify(ef));
+    }
+  } finally {
+    x.close();
+  }
+});
+
+test("capital book search: the MCP and the explorer agree on counts, totals, reductions and first page", w4, () => {
+  const x = explorerDbW4();
+  try {
+    const cases = [
+      [{ fiscal_year: 2027 }, { fiscal_year: 2027 }],
+      [{ sub_id: "CC1053" }, { project_id: "CC1053" }],
+      [{ sponsor: "speaker", boro: "k" }, { sponsor: "speaker", borough: "k" }],
+      [{ agency: "parks", part: "I", min_amount: 1000000 }, { agency: "parks", part: "I", min_amount: 1000000 }],
+      [{ title: "library", budget_line: "P D018" }, { title: "library", budget_line: "P D018" }],
+      [{ max_amount: -1 }, { max_amount: -1 }],
+    ];
+    for (const [ef, mf] of cases) {
+      const ex = run(x, explorer.bookTotalsQuery(ef), false);
+      const mcp = searchCapitalBook(db, COMMIT(), { ...mf, limit: 500 });
+      assert.equal(mcp.matched, ex.n, JSON.stringify(ef));
+      for (const k of ["y1", "y2", "y3", "y4"]) assert.equal(mcp.totals[k], ex[k], `${JSON.stringify(ef)} ${k}`);
+      assert.equal(mcp.negative_rows, ex.negative_rows, JSON.stringify(ef));
+      assert.equal(mcp.negative_y1, ex.negative_y1, JSON.stringify(ef));
+      assert.equal(mcp.vacant_rows, ex.vacant_rows, JSON.stringify(ef));
+      const page = run(x, explorer.bookQuery(ef, 0)).map((r) => `${r.fiscal_year}|${r.part}|${r.pdf_page}|${r.row_in_page}`);
+      assert.deepEqual(mcp.rows.slice(0, page.length).map((s) => `${s.row.fiscal_year}|${s.row.part}|${s.row.pdf_page}|${s.row.row_in_page}`), page, JSON.stringify(ef));
+    }
+  } finally {
+    x.close();
+  }
+});
+
+test("an EIN filter also finds the rows whose fiscal conduit has that EIN (as the explorer)", () => {
+  const c = db.prepare("SELECT fiscal_year, award_id, fiscal_conduit_ein FROM pdf_schedule_c WHERE fiscal_conduit_ein <> '' AND fiscal_conduit_ein <> ein LIMIT 1").get();
+  assert.ok(c, "premise: FY2018 prints fiscal conduits");
+  const r = searchScheduleC(db, COMMIT(), { fiscal_year: c.fiscal_year, ein: c.fiscal_conduit_ein, limit: 500 });
+  assert.ok(r.rows.some((s) => s.row.award_id === c.award_id));
 });
 
 test("capital book: the MCP's Part I rows are the explorer's Part I matches", () => {
@@ -499,7 +598,8 @@ test("the PDF tools refuse bad filters before they read anything", async () => {
     ["search_schedule_c_awards", { min_amount: 10, max_amount: 1 }, /min_amount \(10\) is greater than max_amount/],
     ["search_transparency_changes", { resolution_date: "8/14/2025" }, /resolution_date must be a date as YYYY-MM-DD/],
     ["search_capital_book", { budget_line: "PD018" }, /budget_line must be an agency code/],
-    ["search_capital_book", { borough: "Brooklyn" }, /borough must be one printed code letter/],
+    ["search_capital_book", { borough: "Brooklyn" }, /borough must be one code letter/],
+    ["search_transparency_changes", { date_from: "2025-02-01", date_to: "2025-01-01" }, /date_from \(2025-02-01\) is after date_to/],
     ["search_terms_conditions", { limit: 0 }, /limit must be at least 1/],
   ];
   for (const [name, args, re] of bad) {
