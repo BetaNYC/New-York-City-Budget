@@ -5,37 +5,46 @@
  * than a React effect, so StrictMode's double mount cannot start two engines; only the `eh`
  * bundle (GitHub Pages cannot send the COOP/COEP headers `coi` needs); BigInt cast to double.
  *
- * All six tables are small (about 3.7 MB of Parquet in total), so each file is fetched whole and
- * materialized as a table once, rather than read by HTTP range requests on every query.
+ * Each Parquet file is small enough to fetch whole and materialize as a table once, rather than
+ * read by HTTP range requests on every query. Only the landing page's files load at start
+ * (needs.js BASE, about 3.7 MB); a PDF family's files load when a view that reads them first opens
+ * (ensureTables), once per visit. Every file is fetched with its sha256 as the cache key, so the
+ * browser's cache works as before.
  */
 import * as duckdb from "@duckdb/duckdb-wasm";
 import ehWasm from "@duckdb/duckdb-wasm/dist/duckdb-eh.wasm?url";
 import ehWorker from "@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url";
 
 import { dataUrl } from "../paths.js";
+import { BASE, TABLES } from "./needs.js";
 
 const BUNDLES = {
   mvp: { mainModule: ehWasm, mainWorker: ehWorker },
   eh: { mainModule: ehWasm, mainWorker: ehWorker },
 };
 
-/** The tables every build writes (scripts/build-data.mjs TABLES). The reviewed PDF tables (pdf_*)
- * and the NYC Open Data crosswalk (open_data_*) are read from the manifest's file list, so a table
- * added to mcp/scripts/pdf-families.mjs or open-data.mjs loads without a change here. */
-export const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta"];
-const tablesOf = (manifest) => [...TABLES, ...Object.keys(manifest.files).map((f) => f.replace(/\.parquet$/, "")).filter((t) => t.startsWith("pdf_") || t.startsWith("open_data_"))];
+export { TABLES };
 
 export const PHASES = { IDLE: "idle", MANIFEST: "manifest", ENGINE: "engine", DATA: "data", READY: "ready", ERROR: "error" };
 
-let snapshot = { phase: PHASES.IDLE, progress: 0, error: null, manifest: null };
+/**
+ * `tables`: what each table is doing: "loading", "ready" or "error" (absent: not asked for yet).
+ * `tableError`: the last table load that failed, for a "Try again".
+ */
+let snapshot = { phase: PHASES.IDLE, progress: 0, error: null, manifest: null, tables: {}, tableError: null };
 const listeners = new Set();
+let db = null;
 let conn = null;
 let bootPromise = null;
+/** One load per table: table -> promise, kept once it succeeds so a table is never fetched twice. */
+const tableLoads = new Map();
 
 function emit(patch) {
   snapshot = { ...snapshot, ...patch };
   listeners.forEach((l) => l());
 }
+
+const setTable = (t, state, patch = {}) => emit({ tables: { ...snapshot.tables, [t]: state }, ...patch });
 
 export const subscribe = (l) => (listeners.add(l), () => listeners.delete(l));
 export const getSnapshot = () => snapshot;
@@ -44,6 +53,43 @@ async function fetchOk(url) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Could not load ${url} (HTTP ${res.status})`);
   return res;
+}
+
+/** Fetch one Parquet file and materialize it as a table. */
+async function loadTable(manifest, t) {
+  const file = `${t}.parquet`;
+  const entry = manifest.files?.[file];
+  if (!entry) throw new Error(`manifest.json lists no ${file}`);
+  const bytes = new Uint8Array(await (await fetchOk(dataUrl(file, entry.sha256.slice(0, 12)))).arrayBuffer());
+  await db.registerFileBuffer(file, bytes);
+  await conn.query(`CREATE TABLE "${t}" AS SELECT * FROM '${file}'`);
+}
+
+/**
+ * Load these tables if they are not loaded yet; resolves when all are. Tables already loading are
+ * waited for, not fetched again. A failed table is forgotten, so asking again retries it.
+ */
+export function ensureTables(names) {
+  return Promise.all(
+    names.map((t) => {
+      if (!tableLoads.has(t)) {
+        setTable(t, "loading");
+        const p = (async () => {
+          await ensureData();
+          await loadTable(snapshot.manifest, t);
+        })().then(
+          () => setTable(t, "ready"),
+          (error) => {
+            tableLoads.delete(t);
+            setTable(t, "error", { tableError: error });
+            throw error;
+          }
+        );
+        tableLoads.set(t, p);
+      }
+      return tableLoads.get(t);
+    })
+  );
 }
 
 async function boot() {
@@ -62,22 +108,23 @@ async function boot() {
   const bundle = await duckdb.selectBundle(BUNDLES);
   // A classic worker: duckdb-browser-eh.worker.js is an IIFE script, bundled same-origin.
   const worker = new Worker(bundle.mainWorker);
-  const db = new duckdb.AsyncDuckDB(new duckdb.ConsoleLogger(duckdb.LogLevel.WARNING), worker);
+  db = new duckdb.AsyncDuckDB(new duckdb.ConsoleLogger(duckdb.LogLevel.WARNING), worker);
   await db.instantiate(bundle.mainModule, bundle.pthreadWorker, (p) => {
     if (p && p.bytesTotal > 0) emit({ progress: p.bytesLoaded / p.bytesTotal });
   });
   await db.open({ path: ":memory:", query: { castBigIntToDouble: true } });
   conn = await db.connect();
 
+  // The landing page's tables only (needs.js BASE); the rest load with the view that reads them.
   emit({ phase: PHASES.DATA, progress: 0 });
   let done = 0;
-  const tables = tablesOf(manifest);
-  for (const t of tables) {
-    const file = `${t}.parquet`;
-    const bytes = new Uint8Array(await (await fetchOk(dataUrl(file, manifest.files[file].sha256.slice(0, 12)))).arrayBuffer());
-    await db.registerFileBuffer(file, bytes);
-    await conn.query(`CREATE TABLE "${t}" AS SELECT * FROM '${file}'`);
-    emit({ progress: ++done / tables.length });
+  const base = BASE.filter((t) => manifest.files[`${t}.parquet`]);
+  for (const t of base) {
+    setTable(t, "loading");
+    const p = loadTable(manifest, t);
+    tableLoads.set(t, p);
+    await p;
+    setTable(t, "ready", { progress: ++done / base.length });
   }
   emit({ phase: PHASES.READY, progress: 1 });
 }
@@ -85,7 +132,9 @@ async function boot() {
 export function ensureData() {
   if (!bootPromise) {
     bootPromise = boot().catch((error) => {
-      emit({ phase: PHASES.ERROR, error });
+      // Start over cleanly on "Try again": the half-loaded engine and its tables are dropped.
+      tableLoads.clear();
+      emit({ phase: PHASES.ERROR, error, tables: {} });
       bootPromise = null;
       throw error;
     });

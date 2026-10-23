@@ -8,9 +8,9 @@ import * as OD from "../query/opendata.js";
  * shows it too; crosswalk rows about PDF-derived records exist only in a reviewed build.
  */
 
-/** The family's coverage rows (one query per family, cached by key). */
-export function useOdCoverage(family) {
-  const q = useQueries(true, `odcov|${family}`, () => ({ c: OD.coverageQuery(family) }));
+/** The family's coverage rows (one query per family, cached by key). `on` false: the tables are not loaded, ask nothing. */
+export function useOdCoverage(family, on = true) {
+  const q = useQueries(true, `odcov|${family}|${on}`, () => (on ? { c: OD.coverageQuery(family) } : null));
   return q.data?.c ?? null;
 }
 
@@ -19,7 +19,7 @@ export function useOdCoverage(family) {
  * [fiscal_year, record_row, amount_fy?].
  */
 export function useOdForRows(family, rows, keyOf, opts = {}) {
-  const keys = (rows ?? []).map(keyOf);
+  const keys = opts.on === false ? [] : (rows ?? []).map(keyOf);
   const withFy = family === "capital_award";
   const key = keys.map((k) => OD.recordKey(k[0], k[1], withFy ? k[2] ?? null : undefined)).join(",");
   const q = useQueries(true, `od|${family}|${opts.pdf ?? 0}|${key}`, () => {
