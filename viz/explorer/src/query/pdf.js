@@ -743,13 +743,25 @@ export function odForBookRow(xs, r) {
 }
 export const OD_SUB_ID_ONLY = "matched on project ID only, not to this exact row";
 
-/** The borough codes the book prints: the five boroughs, and A and C as printed (meaning not recorded). */
+/**
+ * Borough codes the book prints that are not a borough, meaning unclear (Noel, PR #224): shown as
+ * printed, with the question sent to the Council (GitHub #227). The MCP uses the same words.
+ */
+export const UNCLEAR_BOROUGHS = ["A", "C"];
+export const BOROUGH_QUESTION_URL = "https://github.com/BetaNYC/New-York-City-Budget/issues/227";
+export const unclearBoroughLabel = (code) => `${code} (as printed; not a borough, meaning unclear)`;
+/** The book's code for a row, upper-cased, when it is one of the unclear ones; else null. */
+export const unclearBorough = (boro) => {
+  const c = String(boro ?? "").trim().toUpperCase();
+  return UNCLEAR_BOROUGHS.includes(c) ? c : null;
+};
+
+/** The borough codes the book prints: the five boroughs, and A and C as printed. */
 export const BOOK_BOROUGHS = [
   ["K", "Brooklyn (K)"],
   ["M", "Manhattan (M)"],
   ["Q", "Queens (Q)"],
   ["R", "Staten Island (R)"],
   ["X", "Bronx (X)"],
-  ["A", "A (as printed)"],
-  ["C", "C (as printed)"],
+  ...UNCLEAR_BOROUGHS.map((c) => [c, unclearBoroughLabel(c)]),
 ];

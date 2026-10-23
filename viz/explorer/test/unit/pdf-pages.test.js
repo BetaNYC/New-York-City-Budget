@@ -270,7 +270,14 @@ describe("the capital book", () => {
   });
   test("the borough list has the five boroughs and A and C as printed", () => {
     expect(P.BOOK_BOROUGHS.map(([k]) => k)).toEqual(["K", "M", "Q", "R", "X", "A", "C"]);
-    expect(Object.fromEntries(P.BOOK_BOROUGHS).A).toBe("A (as printed)");
+    expect(Object.fromEntries(P.BOOK_BOROUGHS).A).toBe("A (as printed; not a borough, meaning unclear)");
+    expect(Object.fromEntries(P.BOOK_BOROUGHS).C).toBe("C (as printed; not a borough, meaning unclear)");
+    expect(P.unclearBorough(" c ")).toBe("C");
+    expect(P.unclearBorough("K")).toBeNull();
+    expect(P.BOROUGH_QUESTION_URL).toMatch(/\/issues\/227$/);
+    const out = page(Book, [year("capital_sd", 2019)]);
+    expect(out).toContain("A (as printed; not a borough, meaning unclear)");
+    expect(out).toContain('href="https://github.com/BetaNYC/New-York-City-Budget/issues/227"');
   });
   test("the Open Data query asks once per (year, SUB ID)", () => {
     expect(P.odForBookRowsQuery([])).toBeNull();

@@ -62,8 +62,9 @@ function Body({ state, set, go, manifest, pdfYears }) {
           it; Part II rows stay searchable here, each labeled. Part III, the same money by organization, is in the Organizations tab.
         </li>
         <li>
-          <strong>Boro</strong>: the borough code the book prints: K Brooklyn, M Manhattan, Q Queens, R Staten Island, X Bronx. A and C are shown as printed;
-          the book does not say what they stand for.
+          <strong>Boro</strong>: the borough code the book prints: K Brooklyn, M Manhattan, Q Queens, R Staten Island, X Bronx. The book also prints A and C,
+          which are not boroughs; their meaning is unclear, so they are shown as printed (<a href={P.BOROUGH_QUESTION_URL}>our question to the Council, GitHub
+          #227</a>).
         </li>
       </ul>
       <YearStatus years={years.filter((y) => fy == null || y.fiscal_year === fy)} />
@@ -255,7 +256,18 @@ function BookRow({ r, fy19, od, state, go, manifest }) {
         )}
       </td>
       <td>{r.budget_line}</td>
-      <td>{r.boro}</td>
+      <td>
+        {P.unclearBorough(r.boro) ? (
+          <>
+            {P.unclearBoroughLabel(P.unclearBorough(r.boro))}{" "}
+            <a href={P.BOROUGH_QUESTION_URL} className="small" aria-label={`Our question to the Council about borough code ${r.boro} (GitHub #227)`}>
+              (#227)
+            </a>
+          </>
+        ) : (
+          r.boro
+        )}
+      </td>
       <td className="small">{r.agency}</td>
       {fy19 ? <td>{r.council_district}</td> : null}
       <td className="num">{amountCell(r.amount_y1, r.amount_y1_printed)}</td>
