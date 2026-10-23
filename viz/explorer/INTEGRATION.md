@@ -54,9 +54,12 @@ The old PDF-derived files in `data/fyNN/schedule_c/`, `terms/`, `capital/` (move
 carrying `status`. Then:
 
 - **MCP:** serves only `status = closed` rows. A `reviewed` year is invisible to MCP tools.
-- **Explorer:** an env flag at build time. The public deploy (`deploy-viz.yml`) builds with
-  `closed` only. A local or demo build (`npm run data -- --include-reviewed`) adds `reviewed`
-  rows, and every such row, page, and chart shows a **"checked, review in progress"** label.
+  (Epic #190 changes this in W3/W6; not part of the explorer's build.)
+- **Explorer:** since #213 (decided in #190), the public deploy (`deploy-viz.yml`, `npm run data`)
+  shows `reviewed` and `closed` rows, built into `.cache/budget-public.db`. Every row, page and
+  chart says **"checked, review in progress"** (`reviewed`) or **"checked and reviewed"**
+  (`closed`). The review screen (Review tab) is only in a local build made with
+  `npm run data -- --include-reviewed`. `--closed-only` rebuilds the old gate.
 - **Parity test:** extends to every `pdf_*` table, per status.
 
 ## 4. What the explorer shows

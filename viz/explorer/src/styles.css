@@ -107,6 +107,17 @@ table { border-collapse: collapse; }
 /* Reviewed PDF data (INTEGRATION.md §3-4) */
 .reviewed { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.01em; padding: 0.05rem 0.45rem; border-radius: 999px; background: #fff3cd; color: #6b4e00; border: 1px solid #e0c36a; white-space: nowrap; vertical-align: middle; }
 .reviewed-block { margin: 0.5rem 0; font-size: 0.9rem; color: var(--muted); }
+/* #213: "checked and reviewed" (closed), hidden text, row marks, sub-awards, the three row links. */
+.closed-label { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.05rem 0.45rem; border-radius: 999px; background: #e6f4ea; color: #1e5631; border: 1px solid #7fb98f; white-space: nowrap; vertical-align: middle; }
+.mark-label { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0 0.4rem; border-radius: 3px; background: var(--warn-bg); color: var(--warn-ink); border: 1px solid var(--warn-line); }
+.hidden-text { margin-top: 0.2rem; padding: 0.15rem 0.4rem; border-left: 3px solid var(--warn-line); background: #fffbea; }
+.hidden-text-label { font-weight: 600; color: var(--warn-ink); }
+.year-status { list-style: none; padding: 0; margin: 0.25rem 0 0.75rem; }
+tr.subawards > td { background: var(--bg); padding-top: 0; }
+tr.subawards table caption { text-align: left; font-weight: 600; padding: 0.3rem 0; }
+.rowlinks { white-space: nowrap; }
+.negative { color: var(--err-ink); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .flagbadge { display: inline-block; vertical-align: middle; margin-left: 0.25rem; font-size: 0.78rem; }
 .flagbadge > summary { display: inline-block; cursor: pointer; list-style: none; padding: 0.05rem 0.45rem; border-radius: 999px; background: #fde2e1; color: #8a1c14; border: 1px solid #e8a39d; }
 .flagbadge > summary::-webkit-details-marker { display: none; }
@@ -119,7 +130,9 @@ table { border-collapse: collapse; }
 .book { border: 1px solid var(--line); border-radius: 6px; padding: 0.5rem 0.9rem; margin: 0.75rem 0; background: #fbfaf6; }
 .book h3 { margin: 0.2rem 0; font-size: 1rem; }
 ul.plain { list-style: none; margin: 0; padding: 0; }
-ol.conditions { padding-left: 2.2rem; }
+/* The number is in each heading (printed, or book order: #206), so the list draws none. */
+ol.conditions { padding-left: 0; list-style: none; }
+.condition-number { font-weight: 600; }
 .condition h3 { font-size: 1rem; margin: 0.9rem 0 0.2rem; }
 .condition-text { max-width: 60rem; white-space: pre-wrap; }
 

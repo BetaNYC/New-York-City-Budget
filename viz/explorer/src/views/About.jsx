@@ -8,11 +8,20 @@ export default function About({ manifest }) {
     <section className="prose">
       <h2>About the data</h2>
       <p>
-        This explorer shows the NYC Council's discretionary designations from <strong>structured sources only</strong>: the Council's own expense funding
-        disclosure spreadsheets, its capital workbooks, and NYC Open Data. Nothing here is extracted from a PDF. It is built from exactly the index the{" "}
-        <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a> server answers from, and a test checks, year by year, that the
-        two hold the same rows and the same totals.
+        This explorer shows the NYC Council's discretionary designations from the Council's own expense funding disclosure spreadsheets, its capital workbooks,
+        and NYC Open Data. It is built from exactly the index the <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a>{" "}
+        server answers from, and a test checks, year by year, that the two hold the same rows and the same totals.
       </p>
+      {manifest?.include_reviewed ? (
+        <p>
+          <strong>Tables read from the Council's budget PDFs</strong> (Schedule C, transparency resolutions, the capital book, Terms and Conditions) are here too,
+          but only the ones re-read in the PDF review: read from the page's ruled lines, checked against a second reading and against every printed total, with
+          every doubt listed for a person to decide. Each row says <em>checked, review in progress</em> or <em>checked and reviewed</em>, and links to its page. The
+          older PDF parser's output is never shown.
+        </p>
+      ) : (
+        <p>Nothing in this build is extracted from a PDF.</p>
+      )}
       <h3>Expense awards</h3>
       <ul>
         <li>FY2009 and FY2011–FY2027, one row per designation the Council's workbook prints, with clearance status and the grantee's mailing address.</li>

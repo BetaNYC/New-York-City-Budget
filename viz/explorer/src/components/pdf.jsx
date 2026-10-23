@@ -1,21 +1,50 @@
 import { useState } from "react";
 
-import { sourceViewState } from "../../../../mcp/dist/rowlinks.js";
+import { rowLinks, sourceViewState } from "../../../../mcp/dist/rowlinks.js";
 
 import { useQueries } from "../duckdb/useDuckDB.js";
-import { DECISION_WORDS, REVIEWED_LABEL, flagState, reviewNotesQuery } from "../query/pdf.js";
+import * as P from "../query/pdf.js";
+import { DECISION_WORDS, flagState, reviewNotesQuery } from "../query/pdf.js";
 import { writeHash } from "../state/hash.js";
 import { HashLink } from "./ui.jsx";
 
 /**
- * Shown on every row, page and chart built from a reviewed PDF family (status = reviewed): the
- * checks ran and their flags are listed, but a person has not signed off (INTEGRATION.md §3).
- * A closed family shows nothing.
+ * Shown on every row, page and chart built from a PDF family (#190): "checked, review in progress"
+ * (status = reviewed: the checks ran and their flags are listed, but a person has not signed the
+ * year off) or "checked and reviewed" (status = closed: signed off). Nothing for any other value.
  */
 export function ReviewedLabel({ status, block = false }) {
-  if (status !== "reviewed") return null;
-  const text = <span className="reviewed">{REVIEWED_LABEL}</span>;
-  return block ? <p className="reviewed-block">{text} This comes from a PDF re-read in the PDF review (GitHub epic #101, one issue per fiscal year); every printed total was checked, and the doubts are listed, but a person has not signed it off yet.</p> : text;
+  const words = P.statusLabel(status);
+  if (!words) return null;
+  const text = <span className={status === "closed" ? "closed-label" : "reviewed"}>{words}</span>;
+  if (!block) return text;
+  return status === "closed" ? (
+    <p className="reviewed-block">
+      {text} This comes from a PDF re-read in the PDF review (GitHub epic #101, one issue per fiscal year): every printed total was checked, every doubt was
+      decided, and a person signed the year off.
+    </p>
+  ) : (
+    <p className="reviewed-block">
+      {text} This comes from a PDF re-read in the PDF review (GitHub epic #101, one issue per fiscal year); every printed total was checked, and the doubts are
+      listed, but a person has not signed it off yet.
+    </p>
+  );
+}
+
+/** Text the PDF holds but a reader cannot see on the printed page (#209), always labeled as such. */
+export function HiddenText({ text }) {
+  if (!text) return null;
+  return (
+    <div className="hidden-text small">
+      <span className="hidden-text-label">{P.HIDDEN_TEXT_LABEL}:</span> <q>{text}</q>
+    </div>
+  );
+}
+
+/** "read_from_page_image": fields a person confirmed from the page image, where the text layer disagreed (#209). */
+export function PageImageNote({ fields }) {
+  if (!fields) return null;
+  return <div className="small muted">Read from the page image, checked by a person: {String(fields).replaceAll(";", ", ")}</div>;
 }
 
 /**
@@ -81,5 +110,39 @@ export function SourcePageLink({ state, go, pdf, page, bbox, label, children }) 
     <HashLink href={writeHash({ ...state, ...target })} onGo={() => go(target)} className="pagelink">
       {children ?? `p.${page}`}
     </HashLink>
+  );
+}
+
+/**
+ * A row's three links (#190), all from the MCP's row-link builder (mcp/src/rowlinks.ts): its page
+ * in the source view with the row highlighted, the PDF on GitHub at the commit this site was built
+ * from, and the publisher's own copy where a manifest records one with the same sha256.
+ */
+export function RowLinks({ state, go, manifest, row, label }) {
+  const l = rowLinks(row, { label, commit: manifest?.source_commit });
+  const page = sourceViewState(row, label);
+  if (!page) return null;
+  return (
+    <span className="rowlinks small">
+      <SourcePageLink state={state} go={go} pdf={row.source_pdf} page={row.pdf_page} bbox={row.bbox_pt} label={label}>
+        p.{page.spage}
+      </SourcePageLink>
+      {l.github ? (
+        <>
+          {" · "}
+          <a href={l.github} aria-label={`The PDF on GitHub, page ${page.spage}`}>
+            PDF
+          </a>
+        </>
+      ) : null}
+      {l.publisher ? (
+        <>
+          {" · "}
+          <a href={l.publisher.url} aria-label={`The publisher's copy${l.publisher.publisher ? ` (${l.publisher.publisher})` : ""}`}>
+            publisher's copy
+          </a>
+        </>
+      ) : null}
+    </span>
   );
 }

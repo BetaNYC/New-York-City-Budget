@@ -21,6 +21,12 @@
  *    the one manifest.json names: mcp/data/budget.db, or .cache/budget-reviewed.db for a build
  *    made with --include-reviewed, whose manifest must then say include_reviewed.
  *
+ * 7. The PDF family searches (#213: Schedule C every row, Transparency, the capital book): for a
+ *    set of filters, the explorer's query on the Parquet and a plain-JavaScript filter over
+ *    budget.db's rows agree on the count, the totals and the first page, in order. The MCP's own
+ *    tools for these families (W3, #212) are not on main yet; when they land, these cases are the
+ *    ones to ask them too.
+ *
  * Reads budget.db with better-sqlite3 (read-only) and the Parquet with @duckdb/node-api.
  * Amounts are compared to within half a cent: the two engines may add the same doubles in a
  * different order. Integers and text are compared exactly.
@@ -36,6 +42,7 @@ import { DuckDBInstance } from "@duckdb/node-api";
 
 import * as Q from "../src/query/sql.js";
 import * as C from "../src/compare/queries.js";
+import * as P from "../src/query/pdf.js";
 import { PDF_FAMILIES, PDF_TABLES } from "../../../mcp/scripts/pdf-families.mjs";
 import { OPEN_DATA_TABLES } from "../../../mcp/scripts/open-data.mjs";
 
@@ -154,6 +161,10 @@ describe("4. reviewed PDF tables, per family, year and status", () => {
   test("the manifest's gate is the index's", () => {
     const flag = sqlite.prepare("SELECT value FROM meta WHERE key = 'include_reviewed'").get().value;
     assert.equal(MANIFEST.include_reviewed, flag === "yes");
+    // public (reviewed + closed, no review screen), review (the same, with it), closed (closed only).
+    assert.ok(["public", "review", "closed"].includes(MANIFEST.build), `build ${MANIFEST.build}`);
+    assert.equal(MANIFEST.review_screen, MANIFEST.build === "review", "the review screen is only in a review build");
+    assert.equal(MANIFEST.include_reviewed, MANIFEST.build !== "closed");
     if (!MANIFEST.include_reviewed) {
       for (const t of PDF_TABLES) assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM ${t} WHERE status <> 'closed'`).get().n, 0, t);
     }
@@ -233,6 +244,210 @@ describe("5. compare two years: every grouping keeps every row", () => {
       });
     }
   }
+});
+
+describe("7. the PDF family searches answer what budget.db answers", () => {
+  // The oracle: every row of the table from budget.db, filtered and sorted in JavaScript with the
+  // same rules (P.textKey for text, digits for an EIN), independent of the SQL under test.
+  const has = (cols, v) => (r) => v == null || String(v).trim() === "" || cols.some((c) => P.textKey(r[c] ?? "").includes(P.textKey(v)));
+  const ein = (cols, v) => (r) => !P.einDigits(v) || cols.some((c) => r[c] === P.einDigits(v));
+  const eq = (c, v, f = (x) => x) => (r) => v == null || v === "" || r[c] === f(v);
+  const range = (c, lo, hi) => (r) => (lo == null || (r[c] != null && r[c] >= Number(lo))) && (hi == null || (r[c] != null && r[c] <= Number(hi)));
+  const all = (...ps) => (r) => ps.every((p) => p(r));
+  const cmp = (...keys) => (a, b) => {
+    for (const [k, dir] of keys) {
+      const x = a[k];
+      const y = b[k];
+      if (x === y) continue;
+      if (x == null) return 1; // NULLS LAST, as DuckDB orders by default
+      if (y == null) return -1;
+      return (x < y ? -1 : 1) * (dir === "desc" ? -1 : 1);
+    }
+    return 0;
+  };
+  const cache = {};
+  const rowsOf = (t) => (cache[t] ??= sqlite.prepare(`SELECT * FROM ${t} ORDER BY rowid`).all());
+  const sum = (rows, c) => rows.reduce((t, r) => t + (r[c] ?? 0), 0);
+
+  const scCases = [
+    {},
+    { fiscal_year: 2027 },
+    { org: "jewish" },
+    { org: "Women's" },
+    { ein: "13-2612524" },
+    { sponsor: "speaker", fiscal_year: 2025 },
+    { sponsor: "delegation" },
+    { category: "local", agency: "dycd", min_amount: 10000, max_amount: 50000 },
+    { initiative: "senior" },
+    { disclosure: "unmatched" },
+    { fiscal_year: 2019, org: "jobs to build on" },
+    { org: "zzzz-no-such-grantee" },
+  ];
+  for (const f of scCases) {
+    test(`Schedule C ${JSON.stringify(f)}`, async () => {
+      const want = rowsOf("pdf_schedule_c").filter(
+        all(
+          eq("fiscal_year", f.fiscal_year),
+          has(["org"], f.org),
+          ein(["ein", "fiscal_conduit_ein"], f.ein),
+          has(["member", "sponsor", "delegation"], f.sponsor),
+          has(["category"], f.category),
+          has(["initiative"], f.initiative),
+          has(["agency"], f.agency),
+          range("amount", f.min_amount, f.max_amount),
+          eq("disclosure_status", f.disclosure)
+        )
+      );
+      const t = P.scSearchTotalsQuery(f);
+      const [got] = await duck(t.sql, t.params);
+      assert.equal(got.n, want.length, "matched");
+      assert.equal(got.amount, sum(want, "amount"), "amount");
+      assert.equal(got.no_amount, want.filter((r) => r.amount == null).length, "no dollar amount");
+      const page = [...want].sort(cmp(["amount", "desc"], ["fiscal_year", "desc"], ["award_id", "asc"])).slice(0, Q.PAGE_SIZE);
+      const r = P.scSearchQuery(f, 0);
+      const mine = await duck(r.sql, r.params);
+      assert.deepEqual(mine.map((x) => `${x.fiscal_year}:${x.award_id}`), page.map((x) => `${x.fiscal_year}:${x.award_id}`), "first page, in order");
+      // Each row's disclosure partner and sub-award count, from budget.db.
+      const pair = sqlite.prepare("SELECT disclosure_row FROM pdf_sc_disclosure WHERE fiscal_year = ? AND award_id = ? AND side = 'matched'");
+      const subs = sqlite.prepare("SELECT COUNT(*) AS n FROM pdf_schedule_c_subawards WHERE fiscal_year = ? AND parent_award_id = ?");
+      for (const x of mine) {
+        assert.equal(x.disclosure_row, pair.get(x.fiscal_year, x.award_id)?.disclosure_row ?? null, `${x.award_id} disclosure row`);
+        assert.equal(x.subawards, subs.get(x.fiscal_year, x.award_id).n, `${x.award_id} sub-awards`);
+      }
+    });
+  }
+
+  test("Schedule C: every sub-award's parent is a Schedule C award, and none is in an award total", async () => {
+    const [{ n }] = await duck(`SELECT COUNT(*) AS n FROM pdf_schedule_c_subawards s LEFT JOIN pdf_schedule_c a
+      ON a.fiscal_year = s.fiscal_year AND a.award_id = s.parent_award_id WHERE a.award_id IS NULL`);
+    assert.equal(n, 0);
+    const t = P.scSearchTotalsQuery({});
+    const [got] = await duck(t.sql, t.params);
+    assert.equal(got.amount, sqlite.prepare("SELECT COALESCE(SUM(amount), 0) AS s FROM pdf_schedule_c").get().s);
+  });
+
+  const trCases = [
+    {},
+    { fiscal_year: 2025 },
+    { org: "south asian youth" },
+    { ein: "13-3943630" },
+    { member: "lee", fiscal_year: 2025 },
+    { member: "speaker" },
+    { resolution: "1013" },
+    { date_from: "2025-08-01", date_to: "2025-08-31" },
+    { budget_fiscal_year: 2017 },
+    { action: "listed" },
+    { action: "rescind", fiscal_year: 2018 },
+  ];
+  for (const f of trCases) {
+    test(`Transparency ${JSON.stringify(f)}`, async () => {
+      const want = rowsOf("pdf_transparency").filter(
+        all(
+          eq("fiscal_year", f.fiscal_year),
+          eq("budget_fiscal_year", f.budget_fiscal_year),
+          has(["org"], f.org),
+          ein(["ein", "fiscal_conduit_ein"], f.ein),
+          has(["member"], f.member),
+          has(["resolution_number"], f.resolution),
+          (r) => !f.date_from || r.resolution_date >= f.date_from,
+          (r) => !f.date_to || r.resolution_date <= f.date_to,
+          eq("action", f.action)
+        )
+      );
+      const t = P.trTotalsQuery(f);
+      const got = P.rollupTr(await duck(t.sql, t.params));
+      assert.equal(got.matched, want.length, "matched");
+      for (const a of P.TR_ACTIONS) {
+        const w = want.filter((r) => r.action === a);
+        assert.equal(got.byAction[a]?.n ?? 0, w.length, `${a} rows`);
+        assert.equal(got.byAction[a]?.amount ?? 0, sum(w, "amount"), `${a} amount`);
+        assert.equal(got.byAction[a]?.no_amount ?? 0, w.filter((r) => r.amount == null).length, `${a} no dollar amount`);
+      }
+      const page = [...want]
+        .sort(cmp(["resolution_date", "desc"], ["fiscal_year", "desc"], ["resolution_seq", "desc"], ["pdf_page", "asc"], ["table_index", "asc"], ["row_index", "asc"], ["row_id", "asc"]))
+        .slice(0, Q.PAGE_SIZE);
+      const r = P.trQuery(f, 0);
+      assert.deepEqual((await duck(r.sql, r.params)).map((x) => `${x.fiscal_year}:${x.row_id}`), page.map((x) => `${x.fiscal_year}:${x.row_id}`), "first page, in order");
+    });
+  }
+
+  test("Transparency: rows that print no dollar amount have no amount, so every total skips them", async () => {
+    const [{ n }] = await duck("SELECT COUNT(*) AS n FROM pdf_transparency WHERE amount_kind = 'no_dollar_amount' AND amount IS NOT NULL");
+    assert.equal(n, 0);
+  });
+
+  const bookCases = [
+    {},
+    { fiscal_year: 2027 },
+    { sub_id: "cn001" },
+    { sponsor: "sanchez" },
+    { sponsor: "avilés" },
+    { sponsor: "CD 22" },
+    { boro: "k", fiscal_year: 2025 },
+    { agency: "library" },
+    { title: "library" },
+    { title: "heating", fiscal_year: 2019 },
+    { budget_line: "lb-d104" },
+    { part: "II" },
+    { max_amount: -1 },
+    { min_amount: 1000000, fiscal_year: 2026 },
+  ];
+  for (const f of bookCases) {
+    test(`capital book ${JSON.stringify(f)}`, async () => {
+      const line = f.budget_line ? Q.normBudgetLine(f.budget_line) : null;
+      const want = rowsOf("pdf_capital_sd").filter(
+        all(
+          eq("fiscal_year", f.fiscal_year),
+          has(["sub_id"], f.sub_id),
+          has(["sponsor", "sponsor_raw"], f.sponsor),
+          (r) => !f.boro || String(r.boro ?? "").toUpperCase() === f.boro.toUpperCase(),
+          has(["agency"], f.agency),
+          has(["title", "description"], f.title),
+          (r) => !line || r.budget_line === line,
+          eq("part", f.part),
+          range("amount_y1", f.min_amount, f.max_amount)
+        )
+      );
+      const t = P.bookTotalsQuery(f);
+      const [got] = await duck(t.sql, t.params);
+      assert.equal(got.n, want.length, "matched");
+      for (const k of [1, 2, 3, 4]) assert.equal(got[`y${k}`], sum(want, `amount_y${k}`), `amount_y${k}`);
+      assert.equal(got.negative_rows, want.filter((r) => [1, 2, 3, 4].some((k) => r[`amount_y${k}`] < 0)).length, "negative rows");
+      assert.equal(got.negative_y1, sum(want.filter((r) => r.amount_y1 < 0), "amount_y1"), "negative amount");
+      assert.equal(got.vacant_rows, want.filter((r) => P.isVacantDistrict(r.sponsor)).length, "vacant-district sponsors");
+      const page = [...want].sort(cmp(["fiscal_year", "desc"], ["part", "asc"], ["pdf_page", "asc"], ["row_in_page", "asc"])).slice(0, Q.PAGE_SIZE);
+      const r = P.bookQuery(f, 0);
+      const key = (x) => `${x.fiscal_year}:${x.part}:${x.pdf_page}:${x.row_in_page}`;
+      assert.deepEqual((await duck(r.sql, r.params)).map(key), page.map(key), "first page, in order");
+    });
+  }
+
+  test("capital book: a row's place (year, part, page, row) is unique, so the page order is total", () => {
+    const n = sqlite.prepare("SELECT COUNT(*) AS n FROM (SELECT 1 FROM pdf_capital_sd GROUP BY fiscal_year, part, pdf_page, row_in_page HAVING COUNT(*) > 1)").get().n;
+    assert.equal(n, 0);
+  });
+
+  test("#205: every crosswalk row keyed on a place points at exactly one book row with that SUB ID", async () => {
+    const xs = await duck(`SELECT fiscal_year, record_row, record_part FROM open_data_crosswalk
+      WHERE family = 'capital_award' AND record_pdf = 1 AND record_part IS NOT NULL AND record_part <> ''`);
+    const book = new Map();
+    for (const r of rowsOf("pdf_capital_sd")) {
+      const k = `${r.fiscal_year}|${r.sub_id}|${P.bookPlace(r)}`;
+      book.set(k, (book.get(k) ?? 0) + 1);
+    }
+    for (const x of xs) assert.equal(book.get(`${x.fiscal_year}|${x.record_row}|${x.record_part}`), 1, `FY${x.fiscal_year} ${x.record_row} ${x.record_part}`);
+    // And through the explorer's own lookup: each such row gets only its own matches.
+    const byId = new Map();
+    for (const x of xs) byId.set(`${x.fiscal_year}|${x.record_row}`, [x.fiscal_year, x.record_row]);
+    for (const [fy, id] of byId.values()) {
+      const rows = rowsOf("pdf_capital_sd").filter((r) => r.fiscal_year === fy && r.sub_id === id);
+      const q = P.odForBookRowsQuery(rows);
+      const found = await duck(q.sql, q.params);
+      for (const r of rows) {
+        for (const x of P.odForBookRow(found, r)) assert.ok(x.record_part == null || x.record_part === P.bookPlace(r), `FY${fy} ${id} ${P.bookPlace(r)}`);
+      }
+    }
+  });
 });
 
 describe("2. every row, every column", () => {

@@ -19,13 +19,24 @@
  *
  * test/parity.test.mjs then proves the Parquet equals budget.db, year by year.
  *
- *   node scripts/build-data.mjs              rebuild the MCP index, then export
- *   node scripts/build-data.mjs --skip-index export the existing mcp/data/budget.db as is
+ * Which PDF families load (the gate; decided in #190 / PLAN.md "The rules both front ends share"):
+ *
+ *   node scripts/build-data.mjs              the PUBLIC build (deploy-viz.yml): every PDF family
+ *       data/pdf_years.csv lists as reviewed or closed. Built with the MCP's own loader and its
+ *       existing flags (build-index.mjs --include-reviewed --out .cache/budget-public.db), never
+ *       into mcp/data/budget.db, so the MCP's own gate is untouched here. Every row the app shows
+ *       says "checked, review in progress" (reviewed) or "checked and reviewed" (closed). The
+ *       review screen is off: the manifest says review_screen: false.
  *   node scripts/build-data.mjs --include-reviewed
- *       also load the reviewed PDF families (data/pdf_years.csv status = reviewed). The index is
- *       built into .cache/budget-reviewed.db, never mcp/data/budget.db, and the manifest says
- *       include_reviewed: true, so every reviewed row the app shows is labeled "checked, review
- *       in progress". Off by default; the public deploy never passes it (INTEGRATION.md §3).
+ *       the local REVIEW build: the same rows, into .cache/budget-reviewed.db, plus the review
+ *       screen (the Review tab; review_screen: true). Never deployed.
+ *   node scripts/build-data.mjs --closed-only
+ *       closed families only, exported from mcp/data/budget.db: what the public build was before
+ *       #213. Kept so the old gate is one flag away.
+ *   --skip-index                             export the chosen index as it is, without rebuilding
+ *
+ * Old-parser output (data/fyNN/schedule_c/ and the like, data/retired/) is never loaded: the
+ * loader reads only the data/fyNN/pdf/ families that data/pdf_years.csv lists.
  *
  * The pdf_* tables (mcp/scripts/pdf-families.mjs PDF_TABLES) are always exported, empty when no
  * family is loaded, so the app and the parity test never branch on which tables exist.
@@ -50,9 +61,16 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const APP = resolve(HERE, "..");
 const REPO = resolve(APP, "..", "..");
 const MCP = join(REPO, "mcp");
-const INCLUDE_REVIEWED = process.argv.includes("--include-reviewed");
-const REVIEWED_DB = join(APP, ".cache", "budget-reviewed.db");
-const DB_PATH = INCLUDE_REVIEWED ? REVIEWED_DB : join(MCP, "data", "budget.db");
+const REVIEW_SCREEN = process.argv.includes("--include-reviewed");
+const CLOSED_ONLY = process.argv.includes("--closed-only");
+if (REVIEW_SCREEN && CLOSED_ONLY) throw new Error("build-data: --include-reviewed and --closed-only do not go together");
+/** public: reviewed + closed, no review screen; review: the same plus the review screen; closed: closed only. */
+const BUILD = REVIEW_SCREEN ? "review" : CLOSED_ONLY ? "closed" : "public";
+const DB_PATH = {
+  review: join(APP, ".cache", "budget-reviewed.db"),
+  public: join(APP, ".cache", "budget-public.db"),
+  closed: join(MCP, "data", "budget.db"),
+}[BUILD];
 const OUT_DIR = join(APP, "public", "data");
 
 /** The tables the explorer reads, in the order they are written. */
@@ -85,8 +103,9 @@ function buildIndex() {
   for (const f of ["fold.js", "rowlinks.js"]) {
     if (!existsSync(join(MCP, "dist", f))) throw new Error(`build-data: mcp/dist/${f} is missing. Run \`npm run build\` in mcp/ first.`);
   }
-  log("index_start");
-  const args = INCLUDE_REVIEWED ? ["--include-reviewed", "--out", DB_PATH] : [];
+  log("index_start", { build: BUILD, out: DB_PATH });
+  mkdirSync(dirname(DB_PATH), { recursive: true });
+  const args = BUILD === "closed" ? [] : ["--include-reviewed", "--out", DB_PATH];
   execFileSync(process.execPath, [join(MCP, "scripts", "build-index.mjs"), ...args], { cwd: MCP, stdio: "inherit" });
 }
 
@@ -162,6 +181,9 @@ async function main() {
     // Which index was exported (repo-relative), and whether it holds reviewed PDF rows.
     index: DB_PATH.slice(REPO.length + 1),
     include_reviewed: meta.include_reviewed === "yes",
+    // public | review | closed (above). The review screen is only in a review build.
+    build: BUILD,
+    review_screen: BUILD === "review",
     pdf_families: Object.fromEntries(Object.entries(PDF_FAMILIES).map(([k, f]) => [k, { label: f.label, main: f.main, tables: f.tables.map((t) => t.table), decisions: f.decisions ?? {} }])),
     capital: capitalGaps(readFileSync(join(REPO, "data", "capital", "README.md"), "utf8"), CAPITAL_REPORT_YEARS),
     files,

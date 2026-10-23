@@ -77,7 +77,7 @@ export default function Review({ state, set, manifest, pdfYears }) {
 
   if (q.error) return <Notice tone="error">{String(q.error.message ?? q.error)}</Notice>;
   if (!q.data) return <p className="muted">Loading the review queue…</p>;
-  if (!manifest.include_reviewed || !all.length) return <Notice>No review queue in this build. It appears in a local build made with <code>npm run data -- --include-reviewed</code>.</Notice>;
+  if (!manifest.review_screen || !all.length) return <Notice>No review queue in this build. It appears in a local build made with <code>npm run data -- --include-reviewed</code>.</Notice>;
 
   return (
     <section>
