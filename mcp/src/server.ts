@@ -54,6 +54,7 @@ import {
   STATUS_LABEL,
   TR_ACTIONS,
   VACANT_DISTRICT,
+  isMaSeries,
   type ServedRow,
 } from "./pdfquery.js";
 
@@ -531,11 +532,12 @@ function pdfTablesOrAnswer(tool: string): { tables: PdfTables } | { answer: Retu
 }
 
 /** The commit the GitHub links use: only one the build checked every cited PDF against. */
-const linkCommit = (t: PdfTables) => (t.meta.source_commit_check === "pdfs_match" ? t.meta.source_commit : "");
+const linkCommit = (t: PdfTables) =>
+  t.meta.source_commit_check === "pdfs_match" && t.meta.source_commit_scope === "origin/main" ? t.meta.source_commit : "";
 
 function pdfFooter(t: PdfTables, family: string): string {
   const c = linkCommit(t);
-  return `---\nSource: the Council's ${PDF_FAMILY_LABEL[family]} PDFs (source/FYNN/ in ${REPO_URL}), read and checked by BetaNYC (PDF-RECIPE.md; data/fyNN/pdf/ and data/pdf_years.csv). Tables built ${t.meta.built_at} from commit ${c ? c.slice(0, 12) : "(none recorded: no GitHub links)"}. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`;
+  return `---\nSource: the Council's ${PDF_FAMILY_LABEL[family]} PDFs (source/FYNN/ in ${REPO_URL}), read and checked by BetaNYC (PDF-RECIPE.md; data/fyNN/pdf/ and data/pdf_years.csv). Tables built ${t.meta.built_at} from commit ${c ? c.slice(0, 12) : t.meta.source_commit_scope === "local" ? `${String(t.meta.source_commit).slice(0, 12)}, a local build (not checked against origin/main): no GitHub links` : "(none recorded: no GitHub links)"}. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`;
 }
 
 /** The family's checked years, and the answer for a year that is not one of them. */
@@ -659,7 +661,22 @@ function transparencyText(res: ReturnType<typeof searchTransparency>): string {
   ];
   if (res.no_dollar_amount)
     L.push(`  ${n(res.no_dollar_amount)} row(s) are from charts that print no dollar amount (amount_kind no_dollar_amount): counted as rows, never in a sum.`);
-  L.push(...byYearLines(res.by_year, (y) => `net ${usd(y.amount)}`));
+  // Per year, organization money and City-agency lines apart: never one net of both.
+  const trYears = [...new Set(res.by_year.map((y) => y.fiscal_year))];
+  if (trYears.length > 1)
+    L.push(
+      "",
+      "By fiscal year (organizations' net and City-agency lines' net, kept apart):",
+      ...trYears.map((fy) => {
+        const org = res.by_year.find((y) => y.fiscal_year === fy && y.agency_side !== 1);
+        const ag = res.by_year.find((y) => y.fiscal_year === fy && y.agency_side === 1);
+        const st = (org ?? ag)!.status;
+        return (
+          `  FY${fy} (${STATUS_LABEL[st]}): organizations ${n(org?.rows ?? 0)} row(s), net ${usd(org?.amount ?? 0)}` +
+          (ag ? ` · City-agency lines ${n(ag.rows)} row(s), net ${usd(ag.amount)}` : "")
+        );
+      })
+    );
   if (res.resolutions.length)
     L.push("", `Resolutions matched (${res.resolutions.length}): ` + res.resolutions.slice(0, 30).map((r) => `FY${r.fiscal_year} ${r.resolution_number} (${r.resolution_date}) ${n(r.rows)} row(s)`).join("; ") + (res.resolutions.length > 30 ? `; and ${res.resolutions.length - 30} more` : ""));
   L.push("", "Rows:");
@@ -696,6 +713,13 @@ function bookBorough(code: unknown): string {
   return BOOK_BOROUGH_UNCLEAR.has(c.toUpperCase()) ? `${c} (as printed; not a borough, meaning unclear; question to the Council: ${BOOK_BOROUGH_ISSUE})` : c;
 }
 
+/** Where a book row sits: Part I (listed again in Part II or not), or Part II (repeating Part I, or printed only there). */
+function bookPartLabel(r: Record<string, any>): string {
+  if (r.part !== "II") return r.in_other_part ? "Part I (listed again in Part II: money that went to a non-city group)" : "Part I";
+  if (r.in_other_part) return "Part II, the non-city list (repeats its Part I row)";
+  return `Part II, the non-city list: printed only in Part II${isMaSeries(r.sub_id) ? " (question sent to Council Finance)" : ""}; in no Part I total`;
+}
+
 function capitalBookText(res: ReturnType<typeof searchCapitalBook>): string {
   const cols = (t: { y1: number; y2: number; y3: number; y4: number }) =>
     `first year ${usd(t.y1)} · second ${usd(t.y2)} · third ${usd(t.y3)} · fourth ${usd(t.y4)}`;
@@ -707,14 +731,15 @@ function capitalBookText(res: ReturnType<typeof searchCapitalBook>): string {
     "",
     `Total, over the ${n(p1.rows)} matching Part I row(s) (the book's own total; the first column is the book's fiscal year, the other three the next three years, printed as plans and not added together here; reductions are added in as negative amounts): ${cols(p1)}`,
   ];
-  if (p2.rows)
-    L.push(
-      `  Of which went to non-city groups (Part II, ${n(p2.rows)} row(s)): ${cols(p2)}.` +
-        (res.part_ii_reprinted ? ` ${n(res.part_ii_reprinted)} of these rows reprint a Part I row, so their money is already in the total above.` : "")
-    );
+  const nc = res.noncity;
+  L.push(
+    `  Of which went to non-city groups: ${n(nc.rows)} Part I row(s) the book lists again in Part II, ${cols(nc)}.`
+  );
+  if (p2.rows) L.push(`  Part II (the non-city list) as printed: ${n(p2.rows)} row(s), first year ${usd(p2.y1)}; that includes the rows printed only in Part II below.`);
   if (only.rows)
     L.push(
-      `  Printed only in Part II (question sent to Council Finance): ${n(only.rows)} row(s), ${cols(only)}. They have no Part I row and are not added to the Part I total.`
+      `  Printed only in Part II: ${n(only.rows)} row(s), ${cols(only)}. They have no Part I row and are not added to the Part I total.` +
+        (res.part_ii_only_ma ? ` ${n(res.part_ii_only_ma)} of them are the "MA" series: question sent to Council Finance.` : "")
     );
   L.push(
     ...(res.negative_rows ? [`  Reductions: ${n(res.negative_rows)} matching row(s) print a negative amount in some year column (first year: ${usd(res.negative_y1)}).`] : []),
@@ -727,7 +752,7 @@ function capitalBookText(res: ReturnType<typeof searchCapitalBook>): string {
     const r = s.row;
     const fy = r.fiscal_year as number;
     L.push(
-      `FY${fy} book · ${r.part === "II" ? (r.in_part_i ? "Part II, the non-city list (reprints its Part I row)" : "Part II, the non-city list: printed only in Part II (question sent to Council Finance); in no Part I total") : "Part I"} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${bookBorough(r.boro)} · ${r.agency}` +
+      `FY${fy} book · ${bookPartLabel(r)} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${bookBorough(r.boro)} · ${r.agency}` +
         `\n    title: ${r.title}` +
         `\n    sponsor: ${r.sponsor || "(none printed)"}${VACANT_DISTRICT.test(String(r.sponsor ?? "").trim()) ? " (a district with no member)" : ""}` +
         (r.council_district ? ` · council district ${r.council_district}` : "") +

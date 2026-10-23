@@ -322,7 +322,8 @@ export interface TransparencyResult {
   by_action: { action: string; agency_side: number; rows: number; with_amount: number; amount: number }[];
   /** amount_kind = no_dollar_amount: a chart that prints no amount (Beating Hearts); in no sum. */
   no_dollar_amount: number;
-  by_year: (StatusTotal & { amount: number })[];
+  /** Per year and side (agency_side 1: City-agency lines): never one net of both. */
+  by_year: (StatusTotal & { agency_side: number; amount: number })[];
   resolutions: { fiscal_year: number; resolution_number: string; resolution_date: string; rows: number }[];
 }
 
@@ -346,7 +347,10 @@ export function searchTransparency(db: DB, commit: string, f: TransparencyFilter
     .prepare(`SELECT COUNT(*) AS n FROM pdf_transparency t ${w.sql()} AND t.amount_kind = 'no_dollar_amount'`)
     .get(...w.params) as { n: number };
   const by_year = db
-    .prepare(`SELECT t.fiscal_year, t.status, COUNT(*) AS rows, COALESCE(SUM(t.amount), 0) AS amount FROM pdf_transparency t ${w.sql()} GROUP BY 1, 2 ORDER BY 1`)
+    .prepare(
+      `SELECT t.fiscal_year, t.status, COALESCE(t.agency_side, 0) AS agency_side, COUNT(*) AS rows, COALESCE(SUM(t.amount), 0) AS amount
+       FROM pdf_transparency t ${w.sql()} GROUP BY 1, 2, 3 ORDER BY 1, 3`
+    )
     .all(...w.params) as TransparencyResult["by_year"];
   const resolutions = db
     .prepare(
@@ -408,22 +412,25 @@ type YearSums = { rows: number; y1: number; y2: number; y3: number; y4: number }
 /**
  * The capital book's totals, as decided by Noel Hidalgo on 2026-10-23 (for the MCP and the
  * explorer alike): the total is Part I's, which ties to the book's printed grand total. Part II is
- * the list of non-city groups the money goes to, and is reported as "of which … went to non-city
- * groups". Most Part II rows reprint a Part I row (code/review_capital_sd.py check C3: the same
- * SUB ID in the same year); the few printed only in Part II (FY2027's 30 `MA` rows, decided
- * needs_info) are listed on their own and never added to the Part I total.
+ * the list of non-city groups. "Of which … went to non-city groups" is the Part I rows the book lists
+ * again in Part II, so it is part of the total. Rows printed only in Part II (FY2027: 30, all of the
+ * `MA` series, decided needs_info; FY2026: 42, 3 of them MA) are listed on their own and never added.
+ * A row is "the same project in the other part" by year, SUB ID and budget line, the explorer's rule
+ * (viz/explorer/src/query/pdf.js IN_OTHER_PART).
  */
 export interface CapitalBookResult {
   rows: ServedRow[];
   matched: number;
   /** The total: matched Part I rows, per printed year column (y1 the book's own year, y2..y4 the next three). */
   part_i: YearSums;
-  /** Matched Part II rows: the non-city groups' list. */
+  /** Of which went to non-city groups: matched Part I rows the book lists again in Part II. */
+  noncity: YearSums;
+  /** Matched Part II rows, as Part II prints them (the non-city list, with its Part-II-only rows). */
   part_ii: YearSums;
-  /** Matched Part II rows whose SUB ID is printed in Part I the same year. */
-  part_ii_reprinted: number;
   /** Matched Part II rows printed only in Part II: in no Part I total. */
   part_ii_only: YearSums;
+  /** Of those, the MA series: the rows with a question sent to Council Finance (#209). */
+  part_ii_only_ma: number;
   /** Rows with a reduction (a negative amount) in any year column, and the first year's reductions. */
   negative_rows: number;
   negative_y1: number;
@@ -433,8 +440,13 @@ export interface CapitalBookResult {
   by_year: (StatusTotal & { y1: number })[];
 }
 
-/** A Part II row printed in Part I too (the same SUB ID, the same book). */
-const IN_PART_I = `EXISTS (SELECT 1 FROM pdf_capital_sd p1 WHERE p1.fiscal_year = c.fiscal_year AND p1.part = 'I' AND p1.sub_id = c.sub_id AND p1.status = c.status)`;
+/** The same project (year, SUB ID, budget line) printed in the other part: the explorer's IN_OTHER_PART. */
+const IN_OTHER_PART = (other: "I" | "II") =>
+  `EXISTS (SELECT 1 FROM pdf_capital_sd o WHERE o.part = '${other}' AND o.fiscal_year = c.fiscal_year AND o.sub_id = c.sub_id AND o.budget_line IS c.budget_line)`;
+
+/** The "MA" series ("PV MA0005"): printed only in Part II, one question sent to Council Finance (#209). The explorer's isMaSeries. */
+export const isMaSeries = (subId: unknown) => /^[A-Z]{1,2} MA/.test(String(subId ?? "").trim());
+const MA_SQL = "(c.sub_id GLOB '[A-Z] MA*' OR c.sub_id GLOB '[A-Z][A-Z] MA*')";
 
 const sums = (when: string) =>
   `SUM(CASE WHEN ${when} THEN 1 ELSE 0 END), ` +
@@ -444,13 +456,15 @@ export function searchCapitalBook(db: DB, commit: string, f: CapitalBookFilters)
   const w = cbWhere(f);
   const rows = db
     .prepare(
-      `SELECT c.*, CASE WHEN c.part = 'II' THEN ${IN_PART_I} END AS in_part_i
+      `SELECT c.*, CASE WHEN c.part = 'I' THEN ${IN_OTHER_PART("II")} ELSE ${IN_OTHER_PART("I")} END AS in_other_part
        FROM pdf_capital_sd c ${w.sql()} ORDER BY c.fiscal_year DESC, c.part, c.pdf_page, c.row_in_page LIMIT ${cap(f.limit, 50, 500)}`
     )
     .all(...w.params) as Row[];
   const t = db
     .prepare(
-      `SELECT COUNT(*) AS n, ${sums("c.part = 'I'")}, ${sums("c.part = 'II'")}, ${sums(`c.part = 'II' AND NOT ${IN_PART_I}`)},
+      `SELECT COUNT(*) AS n, ${sums("c.part = 'I'")}, ${sums(`c.part = 'I' AND ${IN_OTHER_PART("II")}`)}, ${sums("c.part = 'II'")},
+         ${sums(`c.part = 'II' AND NOT ${IN_OTHER_PART("I")}`)},
+         SUM(CASE WHEN c.part = 'II' AND NOT ${IN_OTHER_PART("I")} AND ${MA_SQL} THEN 1 ELSE 0 END),
          COALESCE(SUM(${[1, 2, 3, 4].map((k) => `c.amount_y${k} < 0`).join(" OR ")}), 0) AS negative_rows,
          COALESCE(SUM(CASE WHEN c.amount_y1 < 0 THEN c.amount_y1 END), 0) AS negative_y1,
          COALESCE(SUM(upper(trim(COALESCE(c.sponsor, ''))) GLOB 'CD*' AND trim(substr(trim(c.sponsor), 3)) GLOB '[0-9]*' AND trim(substr(trim(c.sponsor), 3)) NOT GLOB '*[^0-9]*'), 0) AS vacant_rows
@@ -460,8 +474,9 @@ export function searchCapitalBook(db: DB, commit: string, f: CapitalBookFilters)
     .get(...w.params) as number[];
   const pick = (at: number): YearSums => ({ rows: t[at] ?? 0, y1: t[at + 1], y2: t[at + 2], y3: t[at + 3], y4: t[at + 4] });
   const part_i = pick(1);
-  const part_ii = pick(6);
-  const part_ii_only = pick(11);
+  const noncity = pick(6);
+  const part_ii = pick(11);
+  const part_ii_only = pick(16);
   const by_year = db
     .prepare(
       `SELECT c.fiscal_year, c.status, COUNT(*) AS rows, COALESCE(SUM(c.amount_y1), 0) AS y1 FROM pdf_capital_sd c ${w.sql()} AND c.part = 'I'
@@ -472,12 +487,13 @@ export function searchCapitalBook(db: DB, commit: string, f: CapitalBookFilters)
     rows: serve(db, "capital_sd", rows, commit, (r) => `${r.sub_id} ${r.title}`.trim()),
     matched: t[0],
     part_i,
+    noncity,
     part_ii,
-    part_ii_reprinted: part_ii.rows - part_ii_only.rows,
     part_ii_only,
-    negative_rows: t[16],
-    negative_y1: t[17],
-    vacant_rows: t[18],
+    part_ii_only_ma: t[21],
+    negative_rows: t[22],
+    negative_y1: t[23],
+    vacant_rows: t[24],
     by_year,
   };
 }

@@ -231,9 +231,16 @@ async function fetchStream(url: URL): Promise<Readable> {
   return Readable.fromWeb(res.body as import("stream/web").ReadableStream);
 }
 
-async function fetchText(url: URL): Promise<string> {
+/** A manifest, or GitHub's release list: small JSON. Anything past `max` bytes is refused. */
+const MAX_TEXT_BYTES = 8 << 20;
+async function fetchText(url: URL, max = MAX_TEXT_BYTES): Promise<string> {
   const chunks: Buffer[] = [];
-  for await (const c of await fetchStream(url)) chunks.push(Buffer.from(c));
+  let n = 0;
+  for await (const c of await fetchStream(url)) {
+    n += c.length;
+    if (n > max) throw new Error(`${url.href}: more than ${max} bytes; not a manifest`);
+    chunks.push(Buffer.from(c));
+  }
   return Buffer.concat(chunks).toString("utf8");
 }
 
@@ -399,20 +406,48 @@ export const lockPath = () => join(dataDir(), "pdf-tables", "download.lock");
  */
 function takeLock(): () => void {
   const path = lockPath();
-  for (let attempt = 0; attempt < 2; attempt++) {
+  const takeover = `${path}.takeover`;
+  const tryCreate = (p: string) => {
     try {
-      const fd = openSync(path, "wx");
+      const fd = openSync(p, "wx");
       writeSync(fd, String(process.pid));
       closeSync(fd);
-      return () => rmSync(path, { force: true });
+      return true;
     } catch (err) {
-      if ((err as NodeJS.ErrnoException).code !== "EEXIST") throw err;
-      const pid = Number(readFileSync(path, "utf8").trim());
-      if (alive(pid) && pid !== process.pid) throw new Error(`another download into ${dataDir()} is running (process ${pid}); wait for it to finish`);
-      rmSync(path, { force: true });
+      if ((err as NodeJS.ErrnoException).code === "EEXIST") return false;
+      throw err;
     }
+  };
+  const owner = (p: string) => {
+    try {
+      return Number(readFileSync(p, "utf8").trim());
+    } catch {
+      return NaN;
+    }
+  };
+  const busy = (pid: number) => new Error(`another download into ${dataDir()} is running (process ${pid}); wait for it to finish`);
+  if (tryCreate(path)) return () => rmSync(path, { force: true });
+  const pid = owner(path);
+  if (alive(pid)) throw busy(pid);
+  // The lock's process is gone. Only one process may take it over: whoever creates the takeover
+  // file (O_EXCL) replaces the lock; any other sees a download in progress. A takeover file left by
+  // a killed process is itself cleared by pid.
+  if (!tryCreate(takeover)) {
+    const t = owner(takeover);
+    if (alive(t)) throw busy(t);
+    rmSync(takeover, { force: true });
+    if (!tryCreate(takeover)) throw busy(owner(takeover));
   }
-  throw new Error(`could not take the download lock ${path}`);
+  try {
+    // Re-read under the takeover: the lock may have been replaced by a live process meanwhile.
+    const now = owner(path);
+    if (alive(now)) throw busy(now);
+    rmSync(path, { force: true });
+    if (!tryCreate(path)) throw busy(owner(path));
+    return () => rmSync(path, { force: true });
+  } finally {
+    rmSync(takeover, { force: true });
+  }
 }
 
 const STALE = /\.(download|verified)-(\d+)$/;

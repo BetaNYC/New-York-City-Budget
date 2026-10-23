@@ -63,6 +63,12 @@ function log(event, detail = {}) {
 }
 
 async function main() {
+  if (ALLOW_LOCAL)
+    console.error(
+      "\n*** WARNING: --allow-local-commit. This release's source_commit is not checked against origin/main, and the\n" +
+        "*** manifest says source_commit_scope: \"local\". A server builds no GitHub link from it. For local tests and\n" +
+        "*** trials only: never publish it (W7, #216, refuses local scope).\n"
+    );
   mkdirSync(OUT, { recursive: true });
   const full = join(OUT, "full.db");
   const tables = join(OUT, "pdf-tables.db");

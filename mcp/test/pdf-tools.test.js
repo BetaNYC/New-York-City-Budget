@@ -17,7 +17,7 @@
  */
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -39,6 +39,9 @@ const TMP = join(MCP, ".pdf-test", "tools");
 const WITH = join(TMP, "with");
 const WITHOUT = join(TMP, "without");
 const SYNTH = join(TMP, "synthetic");
+// The same tables marked as built from origin/main (pretest builds with --allow-local-commit, whose
+// tables build no GitHub link), to check the links a published release carries.
+const ON_MAIN = join(TMP, "on-main");
 const readCsv = (rel) => parse(readFileSync(join(REPO, rel), "utf8"), { columns: true, skip_empty_lines: true, bom: true });
 
 const PDF_TOOLS = ["search_schedule_c_awards", "search_transparency_changes", "search_capital_book", "search_terms_conditions"];
@@ -50,6 +53,11 @@ before(async () => {
   mkdirSync(join(WITH, "pdf-tables"), { recursive: true });
   mkdirSync(WITHOUT, { recursive: true });
   symlinkSync(TABLES_DB, join(WITH, "pdf-tables", "pdf-tables.db"));
+  mkdirSync(join(ON_MAIN, "pdf-tables"), { recursive: true });
+  copyFileSync(TABLES_DB, join(ON_MAIN, "pdf-tables", "pdf-tables.db"));
+  const m = new Database(join(ON_MAIN, "pdf-tables", "pdf-tables.db"));
+  m.prepare("UPDATE meta SET value = 'origin/main' WHERE key = 'source_commit_scope'").run();
+  m.close();
   process.env.NYC_BUDGET_DATA_DIR = WITH;
   delete process.env.NYC_BUDGET_PDF_DATA;
   const [ct, st] = InMemoryTransport.createLinkedPair();
@@ -176,6 +184,8 @@ test("every served row carries its status label, page and links built from the b
   // link at a branch (or at any commit but the one the tables were built from).
   const commit = COMMIT();
   let rows = 0;
+  useDir(ON_MAIN);
+  try {
   for (const [name, args] of SAMPLES) {
     const { text, isError } = await call(name, args);
     assert.equal(isError, false, `${name} ${JSON.stringify(args)}: ${text.slice(0, 200)}`);
@@ -192,7 +202,21 @@ test("every served row carries its status label, page and links built from the b
     }
     assert.doesNotMatch(text, /\/blob\/(main|master|HEAD)\//);
   }
+  } finally {
+    useDir(WITH);
+  }
   assert.ok(rows > 1000, `premise: many rows checked (${rows})`);
+});
+
+test("tables built with --allow-local-commit build no GitHub link, and say so", async () => {
+  // FAILS if a local build's commit (which GitHub may not have) is linked.
+  assert.equal(db.prepare("SELECT value FROM meta WHERE key = 'source_commit_scope'").get().value, "local");
+  for (const [name, args] of SAMPLES.slice(0, 4)) {
+    const { text } = await call(name, args);
+    assert.ok(rowBlocks(text).length > 0);
+    assert.doesNotMatch(text, /github\.com\/BetaNYC\/New-York-City-Budget\/blob\//, name);
+    assert.match(text, /a local build \(not checked against origin\/main\): no GitHub links/);
+  }
 });
 
 test("every link resolves to a file: each cited PDF is in the repo and in the commit, at its sha256", () => {
@@ -306,6 +330,23 @@ test("transparency: City-agency lines are totaled apart from money to or from or
   assert.match(text, /\n  City-agency lines \(a chart's agency side: the agency's own lines, not money to or from an organization; kept apart from the money above\):\n/);
 });
 
+test("transparency per year: organizations' net and City-agency lines' net, never combined", async () => {
+  // FAILS if a per-year net adds agency-side lines back into organization money (FY2026 showed
+  // $1,333,334 = $131,047,352 - $129,714,018).
+  const res = searchTransparency(db, COMMIT(), { budget_fiscal_year: 2026, limit: 1 });
+  const want = (fy, side) => db.prepare(`SELECT COALESCE(SUM(amount), 0) AS n FROM pdf_transparency WHERE budget_fiscal_year = 2026 AND fiscal_year = ? AND COALESCE(agency_side, 0) = ${side}`).get(fy).n;
+  for (const y of res.by_year) assert.equal(y.amount, want(y.fiscal_year, y.agency_side), `FY${y.fiscal_year} side ${y.agency_side}`);
+  const { text } = await call("search_transparency_changes", { fiscal_year: 2026, limit: 1 });
+  assert.doesNotMatch(text, /net \$1,333,334/);
+  const multi = await call("search_transparency_changes", { organization: "south asian youth action", limit: 1 });
+  assert.match(multi.text, /\nBy fiscal year \(organizations' net and City-agency lines' net, kept apart\):\n  FY\d{4} \([^)]*\): organizations [\d,]+ row\(s\), net /);
+  const all = await call("search_transparency_changes", { limit: 1 });
+  const line = /\n  FY2026 \([^)]*\): organizations ([\d,]+) row\(s\), net (\S+) · City-agency lines ([\d,]+) row\(s\), net (\S+)\n/.exec(all.text);
+  assert.ok(line, "FY2026 per-year line with both sides");
+  assert.equal(line[2], "$131,047,352");
+  assert.equal(line[4], "-$129,714,018");
+});
+
 test("a download installed while the server runs is picked up, and a fixed file clears a failure", async () => {
   // FAILS if the server keeps answering "not installed", or keeps an old failure, until a restart.
   const dir = join(TMP, "late");
@@ -339,31 +380,38 @@ test("Schedule C totals equal the PDF's own (pdf_years notes) and never include 
   }
 });
 
-test("capital book: the total is Part I's; Part II is 'of which … went to non-city groups'; Part-II-only rows apart (Noel, 2026-10-23)", async () => {
-  // FAILS if the total adds Part II, drifts from the book's printed total, or a row printed only
-  // in Part II is added to the Part I total.
+test("capital book: the total is Part I's; 'of which … non-city groups' is the Part I rows listed again in Part II; Part-II-only rows apart (Noel, 2026-10-23)", async () => {
+  // FAILS if the total adds Part II, "of which" is not part of the total, a Part-II-only row is
+  // added, or a row that is not in the MA series is called a question to Council Finance.
   const r = searchCapitalBook(db, COMMIT(), { fiscal_year: 2027, limit: 500 });
   const printed = db.prepare("SELECT printed_y1 FROM pdf_capital_sd_totals WHERE fiscal_year = 2027 AND kind = 'totals_for' AND part = 'I' AND name = 'ALL'").get().printed_y1;
+  assert.equal(r.part_i.rows, 1213);
   assert.equal(r.part_i.y1, 853688000);
   assert.equal(r.part_i.y1, printed, "the book's own printed Part I total");
-  assert.equal(r.part_i.rows, 1213);
-  assert.equal(r.part_ii.y1, 210677000);
-  assert.equal(r.part_ii.rows, 178);
-  assert.equal(r.part_ii_reprinted, 148, "Part I rows that reappear in Part II");
-  assert.equal(r.part_ii_only.rows, 30, "rows printed only in Part II");
-  assert.equal(r.part_ii_only.y1, db.prepare(`SELECT SUM(amount_y1) AS n FROM pdf_capital_sd c WHERE fiscal_year = 2027 AND part = 'II'
-    AND NOT EXISTS (SELECT 1 FROM pdf_capital_sd p WHERE p.fiscal_year = 2027 AND p.part = 'I' AND p.sub_id = c.sub_id)`).get().n);
-  assert.equal(db.prepare("SELECT COUNT(*) AS n FROM pdf_capital_sd c WHERE fiscal_year = 2027 AND part = 'II' AND sub_id LIKE '% MA%'").get().n, 30, "premise: the 30 are the MA rows");
-  const { text } = await call("search_capital_book", { fiscal_year: 2027, limit: 500 });
+  assert.deepEqual([r.noncity.rows, r.noncity.y1], [148, 139690000], "Part I rows listed again in Part II");
+  assert.ok(r.noncity.y1 <= r.part_i.y1);
+  assert.deepEqual([r.part_ii.rows, r.part_ii.y1], [178, 210677000], "Part II as printed");
+  assert.deepEqual([r.part_ii_only.rows, r.part_ii_only.y1, r.part_ii_only_ma], [30, 70987000, 30], "printed only in Part II: all 30 are MA");
+  const r26 = searchCapitalBook(db, COMMIT(), { fiscal_year: 2026, limit: 1 });
+  assert.deepEqual([r26.part_ii_only.rows, r26.part_ii_only_ma], [42, 3], "FY2026: 42 printed only in Part II, 3 of them MA");
+  const { text } = await call("search_capital_book", { fiscal_year: 2027, limit: 1 });
   assert.match(text, /\nTotal, over the 1,213 matching Part I row\(s\) [^\n]*: first year \$853,688,000 · /);
-  assert.match(text, /\n  Of which went to non-city groups \(Part II, 178 row\(s\)\): first year \$210,677,000 · [^\n]*148 of these rows reprint a Part I row/);
-  assert.match(text, /\n  Printed only in Part II \(question sent to Council Finance\): 30 row\(s\), first year \$[\d,]+ [^\n]*not added to the Part I total\./);
+  assert.match(text, /\n  Of which went to non-city groups: 148 Part I row\(s\) the book lists again in Part II, first year \$139,690,000 · /);
+  assert.match(text, /\n  Part II \(the non-city list\) as printed: 178 row\(s\), first year \$210,677,000; /);
+  assert.match(text, /\n  Printed only in Part II: 30 row\(s\), first year \$70,987,000 [^\n]*not added to the Part I total\. 30 of them are the "MA" series: question sent to Council Finance\./);
   assert.doesNotMatch(text, /Totals over all|both parts|Part I alone/, "no all-rows figure");
-  const { text: p2 } = await call("search_capital_book", { fiscal_year: 2027, part: "II", limit: 500 });
-  assert.equal(rowBlocks(p2).length, 178);
-  assert.equal(rowBlocks(p2).filter((b) => b.includes("printed only in Part II (question sent to Council Finance)")).length, 30);
-  assert.match(p2, /FY2027 book · Part II, the non-city list: printed only in Part II \(question sent to Council Finance\); in no Part I total · PV MA\d+/);
-  assert.match(p2, /FY2027 book · Part II, the non-city list \(reprints its Part I row\) · /);
+  for (const fy of [2027, 2026]) {
+    const { text: p2 } = await call("search_capital_book", { fiscal_year: fy, part: "II", limit: 500 });
+    const only = rowBlocks(p2).filter((b) => b.includes("printed only in Part II"));
+    assert.equal(only.length, fy === 2027 ? 30 : 42, `FY${fy}`);
+    for (const b of only) {
+      const id = / · ((?:[A-Z]{1,2}) \S+) · budget line/.exec(b)?.[1] ?? "";
+      assert.equal(b.includes("question sent to Council Finance"), /^[A-Z]{1,2} MA/.test(id), `FY${fy} ${id}: the question label only on MA rows`);
+    }
+    assert.ok(rowBlocks(p2).some((b) => b.includes("Part II, the non-city list (repeats its Part I row)")));
+  }
+  const { text: p1 } = await call("search_capital_book", { fiscal_year: 2027, part: "I", limit: 500 });
+  assert.match(p1, /Part I \(listed again in Part II: money that went to a non-city group\)/);
 });
 
 test('capital book: borough "A" and "C" are shown as printed, not as boroughs, with #227', async () => {
@@ -539,13 +587,14 @@ test("capital book search: the MCP and the explorer agree on counts, totals, red
       const ex = run(x, explorer.bookTotalsQuery(ef), false);
       const mcp = searchCapitalBook(db, COMMIT(), { ...mf, limit: 500 });
       assert.equal(mcp.matched, ex.n, JSON.stringify(ef));
-      // Part I is the total, Part II the non-city list (Noel, 2026-10-23): the explorer's totals
-      // for the same filters restricted to each part.
-      for (const [part, mine] of [["I", mcp.part_i], ["II", mcp.part_ii]]) {
-        if (ef.part && ef.part !== part) continue;
-        const exPart = run(x, explorer.bookTotalsQuery({ ...ef, part }), false);
-        for (const k of ["y1", "y2", "y3", "y4"]) assert.equal(mine[k], exPart[k], `${JSON.stringify(ef)} Part ${part} ${k}`);
-      }
+      // The total is Part I's; of which non-city; Part II as printed; Part-II-only (Noel, 2026-10-23).
+      const at = JSON.stringify(ef);
+      assert.equal(mcp.part_i.rows, ex.part1_n, `${at} part1_n`);
+      for (const k of ["y1", "y2", "y3", "y4"]) assert.equal(mcp.part_i[k], ex[k], `${at} ${k}`);
+      assert.deepEqual([mcp.noncity.rows, mcp.noncity.y1], [ex.noncity_n, ex.noncity_y1], `${at} non-city`);
+      assert.deepEqual([mcp.part_ii.rows, mcp.part_ii.y1], [ex.part2_n, ex.part2_y1], `${at} Part II`);
+      assert.equal(mcp.part_ii_only.rows, ex.part2_only_n, `${at} part2_only_n`);
+      for (const k of [1, 2, 3, 4]) assert.equal(mcp.part_ii_only[`y${k}`], ex[`part2_only_y${k}`], `${at} part2_only_y${k}`);
       assert.equal(mcp.negative_rows, ex.negative_rows, JSON.stringify(ef));
       assert.equal(mcp.negative_y1, ex.negative_y1, JSON.stringify(ef));
       assert.equal(mcp.vacant_rows, ex.vacant_rows, JSON.stringify(ef));
@@ -637,7 +686,7 @@ function plant(meta) {
 test("planted rows of an unlisted year or another status are never served, and amountless rows never summed", async () => {
   // FAILS if the query gate lets through a row whose family-year is not in pdf_years at that
   // status, or a row with no amount adds to a total.
-  plant({ pdf_tables_format: "nyc-budget-pdf-tables/1", built_at: "2026-10-22T00:00:00Z", source_commit: COMMIT(), source_commit_check: "pdfs_match" });
+  plant({ pdf_tables_format: "nyc-budget-pdf-tables/1", built_at: "2026-10-22T00:00:00Z", source_commit: COMMIT(), source_commit_check: "pdfs_match", source_commit_scope: "origin/main" });
   try {
     const { text } = await call("search_schedule_c_awards", { organization: "medicare rights", limit: 500 });
     assert.doesNotMatch(text, /PLANTED/);
@@ -659,6 +708,8 @@ test("no commit, or a commit the PDFs were not checked against, means no GitHub 
     { source_commit: "main", source_commit_check: "pdfs_match" },
     { source_commit: COMMIT(), source_commit_check: "mismatch: source/FY27/x.pdf" },
     { source_commit: "", source_commit_check: "no_git" },
+    { source_commit: COMMIT(), source_commit_check: "pdfs_match", source_commit_scope: "local" },
+    { source_commit: COMMIT(), source_commit_check: "pdfs_match" },
   ]) {
     plant({ pdf_tables_format: "nyc-budget-pdf-tables/1", built_at: "2026-10-22T00:00:00Z", ...meta });
     try {

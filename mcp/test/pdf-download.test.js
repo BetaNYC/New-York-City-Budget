@@ -238,6 +238,29 @@ test("one download at a time per folder; a dead downloader's lock is taken over"
   assert.ok(!existsSync(join(dir, "pdf-tables", "download.lock")), "the lock is released");
 });
 
+test("a takeover file left by a killed process does not block, and a live one does", async () => {
+  const dir = join(TMP, "user11");
+  mkdirSync(join(dir, "pdf-tables"), { recursive: true });
+  const lock = join(dir, "pdf-tables", "download.lock");
+  writeFileSync(lock, String(await deadPid()));
+  writeFileSync(`${lock}.takeover`, String(process.pid)); // another process taking over now
+  const busy = await cli(["download", "--pdf-tables", "--from", `${base}/pdf-tables.manifest.json`], { NYC_BUDGET_DATA_DIR: dir });
+  assert.notEqual(busy.code, 0);
+  assert.match(busy.out, /another download into .* is running/);
+  writeFileSync(`${lock}.takeover`, String(await deadPid())); // left by a killed process
+  const ok = await cli(["download", "--pdf-tables", "--from", `${base}/pdf-tables.manifest.json`], { NYC_BUDGET_DATA_DIR: dir });
+  assert.equal(ok.code, 0, ok.out);
+  assert.ok(!existsSync(lock) && !existsSync(`${lock}.takeover`), "lock and takeover files released");
+});
+
+test("a manifest larger than a manifest can be is refused", async () => {
+  const big = join(TMP, "big.manifest.json");
+  writeFileSync(big, " ".repeat((8 << 20) + 10));
+  const r = await cli(["download", "--pdf-tables", "--from", big], { NYC_BUDGET_DATA_DIR: join(TMP, "user12") });
+  assert.notEqual(r.code, 0);
+  assert.match(r.out, /more than 8388608 bytes; not a manifest/);
+});
+
 test("plain http is refused except on this machine", async () => {
   const r = await cli(["download", "--pdf-tables", "--from", "http://example.org/pdf-tables.manifest.json"], { NYC_BUDGET_DATA_DIR: join(TMP, "user8") });
   assert.notEqual(r.code, 0);
