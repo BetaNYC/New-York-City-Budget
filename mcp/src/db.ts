@@ -5,7 +5,8 @@
  * structured datasets: the Council's expense funding disclosure workbooks
  * (data/fyNN/expense_disclosure/, provenance in data/disclosure_years.csv) and the Council
  * capital dataset (data/capital/, from Council workbooks and NYC Open Data). Nothing extracted
- * from a PDF is indexed; test/no-pdf-data.test.js fails if any of it comes back.
+ * from a PDF is indexed in the package's index; test/shipped-data.test.js fails if any of it comes
+ * back. The checked PDF tables are a separate, optional download (pdfdata.ts, pdfquery.ts).
  *
  * This module opens the index read-only and exposes one function per tool. Text filters are
  * case-insensitive substrings with LIKE wildcards taken literally; every search returns the

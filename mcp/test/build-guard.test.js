@@ -105,7 +105,9 @@ test("a rebuild never exposes an empty or partial index to a reader opening data
   const expected = before.prepare("SELECT COUNT(*) AS n FROM capital_council").get().n;
   before.close();
   assert.ok(expected > 0, "premise: the index is built");
-  const child = spawn(process.execPath, [join(MCP, "scripts", "build-index.mjs")], { stdio: ["ignore", "ignore", "pipe"] });
+  // --spreadsheet-only: the same build as pretest's (package.json build-index), so the rebuilt file
+  // is the one the other test files expect.
+  const child = spawn(process.execPath, [join(MCP, "scripts", "build-index.mjs"), "--spreadsheet-only"], { stdio: ["ignore", "ignore", "pipe"] });
   let stderr = "";
   child.stderr.on("data", (d) => (stderr += d));
   let running = true;
