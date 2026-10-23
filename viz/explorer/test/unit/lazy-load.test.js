@@ -154,3 +154,33 @@ describe("the store fetches only what is asked, once (store.js)", () => {
   });
 
 });
+
+describe("the landing page's offer of more columns (Awards.jsx MoreColumns)", () => {
+  const offer = async (manifest, props) => {
+    const { createElement } = await import("react");
+    const { renderToStaticMarkup } = await import("react-dom/server");
+    const { MoreColumns } = await import("../../src/views/Awards.jsx");
+    return renderToStaticMarkup(createElement(MoreColumns, { manifest, tables: {}, canSc: true, scIn: false, odIn: false, ...props }));
+  };
+  const noOd = { ...MANIFEST, files: Object.fromEntries(Object.entries(MANIFEST.files).filter(([f]) => !f.startsWith("open_data_"))) };
+
+  test("names both columns when the build has both", async () => {
+    const html = await offer(MANIFEST);
+    expect(html).toContain("Schedule C");
+    expect(html).toContain("NYC Open Data");
+    expect(html).toContain("Show these columns");
+  });
+
+  test("a build without the Open Data tables never mentions them", async () => {
+    const html = await offer(noOd);
+    expect(html).toContain("Schedule C");
+    expect(html).not.toContain("Open Data");
+    expect(html).toContain("Show this column");
+    expect(await offer(noOd, { scIn: true })).toBe("");
+  });
+
+  test("nothing to offer once the columns are in", async () => {
+    expect(await offer(MANIFEST, { scIn: true, odIn: true })).toBe("");
+    expect(await offer(MANIFEST, { canSc: false, odIn: true })).toBe("");
+  });
+});

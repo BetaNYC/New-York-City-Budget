@@ -22,10 +22,14 @@
 #      installs the tables from the folder, into a throwaway data dir. The checked files go to
 #      the next job as a workflow artifact.
 #   2. publish (contents: write, only this job; no npm install, no repo code run): re-checks
-#      every file's sha256 against the manifest, then creates a draft release tagged
+#      every file's sha256 against the manifest, refuses unless the commit is main's tip right
+#      now (and a re-run of a push run, which keeps its old commit), then creates a draft release tagged
 #      pdf-tables-YYYY-MM-DD-<7-digit sha> at the pushed commit, uploads the files, and only
-#      then publishes it, so the downloader never sees a half-uploaded release (it skips drafts).
+#      then publishes it, so the downloader never sees a half-uploaded release (it skips drafts);
+#      a failure before publishing deletes the draft.
 #      Marked not "latest", so the npm releases (release.yml, mcp-v* tags) keep that badge.
+#
+# Actions are pinned by commit (the version in a comment), as this workflow can write releases.
 #
 # npm publishing is release.yml's (mcp-v* tags) and is untouched.
 
@@ -43,6 +47,8 @@ on:
       - "mcp/scripts/verify-pdf-release.mjs"
       - "mcp/scripts/pdf-families.mjs"
       - "mcp/scripts/source-commit.mjs"
+      - "mcp/src/pdfdata.ts" # PDF_TABLES_FORMAT: a format change needs a new release
+      - "source/FY*/**" # the PDFs a --pdfs release carries
   workflow_dispatch:
     inputs:
       dry_run:
@@ -75,13 +81,13 @@ jobs:
     steps:
       # Full history, so origin/main is there for the "commit is on main" checks.
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - name: Set up Node 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22.x"
           cache: "npm"
@@ -123,7 +129,7 @@ jobs:
           echo "Release $TAG: $(wc -l < "$OUT/release-assets.txt") files, $(du -sh "$OUT" | cut -f1)" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Hand the checked files to the publish job
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: pdf-tables-release
           path: ${{ runner.temp }}/upload
@@ -145,7 +151,7 @@ jobs:
       contents: write # create the tag and the release; nothing else
     steps:
       - name: Get the checked files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: pdf-tables-release
           path: release
@@ -158,6 +164,24 @@ jobs:
           test "$(tail -n 1 release-assets.txt)" = "pdf-tables.manifest.json"
           echo "Every file matches the manifest."
 
+      # The downloader installs the newest published release, so publishing an older commit (a
+      # "Re-run jobs" of an old run keeps its old commit but gets today's date) would roll users
+      # back. Only the commit that is main's tip right now is published.
+      - name: The commit is main's tip now
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TIP=$(gh api "repos/$GITHUB_REPOSITORY/commits/main" -q .sha)
+          if [ "$TIP" != "$GITHUB_SHA" ]; then
+            echo "::error::main is now at $TIP, not this run's commit $GITHUB_SHA; nothing published. The run for the newer commit publishes it, or run the workflow by hand on main."
+            exit 1
+          fi
+          if [ "$GITHUB_RUN_ATTEMPT" -gt 1 ] && [ "$GITHUB_EVENT_NAME" != "workflow_dispatch" ]; then
+            echo "::error::This is attempt $GITHUB_RUN_ATTEMPT of a push run; nothing published. Run the workflow by hand on main instead (Actions > PDF tables release > Run workflow)."
+            exit 1
+          fi
+
       - name: Create the release (draft, upload, then publish)
         working-directory: release
         env:
@@ -166,13 +190,30 @@ jobs:
         run: |
           set -euo pipefail
           case "$TAG" in pdf-tables-20[0-9][0-9]-[01][0-9]-[0-3][0-9]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ;; *) echo "::error::unexpected tag '$TAG'"; exit 1 ;; esac
-          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
-            echo "::error::A release tagged $TAG already exists; nothing published. (Same commit, same day: already done.)"
+          if DRAFT=$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json isDraft -q .isDraft 2> /dev/null); then
+            if [ "$DRAFT" = "true" ]; then
+              echo "::error::A draft release tagged $TAG exists, left by a run that did not finish; nothing published. Delete that draft on the Releases page, then run again."
+            else
+              echo "::error::A release tagged $TAG is already published (this commit, today); nothing to do."
+            fi
             exit 1
           fi
+          # From here on this step owns the draft: if anything fails before it is published,
+          # delete it, so the next run starts clean and the downloader never sees it.
+          OURS=0
+          DONE=0
+          cleanup() {
+            if [ "$OURS" = 1 ] && [ "$DONE" = 0 ]; then
+              echo "::warning::Publishing failed; deleting the draft $TAG."
+              gh release delete "$TAG" --repo "$GITHUB_REPOSITORY" --yes || echo "::error::Could not delete the draft $TAG; delete it on the Releases page."
+            fi
+          }
+          trap cleanup EXIT
           mapfile -t FILES < release-assets.txt
+          OURS=1
           gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --draft \
             --title "PDF tables, $(echo "$TAG" | cut -d- -f3-5) ($(echo "$TAG" | cut -d- -f6))" \
             --notes-file release-notes.md "${FILES[@]}"
           gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --draft=false --latest=false
+          DONE=1
           echo "Published https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG" >> "$GITHUB_STEP_SUMMARY"

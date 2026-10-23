@@ -9,7 +9,8 @@
  *   - the tag the workflow makes is one the downloader picks (pickRelease), and the downloader
  *     (the CLI) installs the tables from exactly the files the workflow would upload;
  *   - the workflow itself: no pull_request trigger, contents: write only on the publish job,
- *     never --allow-local-commit, dry_run defaulting to true.
+ *     never --allow-local-commit, dry_run defaulting to true, only main's current tip published,
+ *     a failed upload's draft deleted, every action pinned by commit.
  */
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
@@ -184,4 +185,20 @@ test("the workflow: main only, never a PR, write access on the publish job only,
   assert.equal((code.match(/github\.repository == 'BetaNYC\/New-York-City-Budget' && github\.ref == 'refs\/heads\/main'/g) ?? []).length, 2);
   assert.match(code, /--draft/);
   assert.match(code, /--latest=false/);
+  // Only main's tip is published (a re-run keeps its old commit; the downloader takes the newest),
+  // and a failed upload deletes its own draft.
+  const create = publish.indexOf("gh release create");
+  const tip = publish.indexOf('gh api "repos/$GITHUB_REPOSITORY/commits/main" -q .sha');
+  assert.ok(tip > 0 && tip < create, "the tip check runs before the release is created");
+  assert.match(publish, /"\$TIP" != "\$GITHUB_SHA"/);
+  assert.match(publish, /"\$GITHUB_RUN_ATTEMPT" -gt 1 \] && \[ "\$GITHUB_EVENT_NAME" != "workflow_dispatch"/);
+  assert.match(publish, /trap cleanup EXIT/);
+  assert.match(publish, /gh release delete "\$TAG"/);
+  // Every action pinned by a full commit id, its version in a comment.
+  const uses = code.match(/uses: \S+/g) ?? [];
+  assert.ok(uses.length >= 4);
+  for (const u of uses) assert.match(u, /@[0-9a-f]{40}$/, u);
+  // The PDFs a --pdfs release carries and the downloader's format start a build.
+  assert.match(code, /- "source\/FY\*\/\*\*"/);
+  assert.match(code, /- "mcp\/src\/pdfdata\.ts"/);
 });

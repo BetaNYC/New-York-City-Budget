@@ -268,7 +268,8 @@ picks up tables `download` installs, without a restart.
 `.github/workflows/pdf-tables-release.yml` runs on a push to `main` that changes the PDF tables:
 `data/fy*/pdf/**`, `data/pdf_years.csv`, `research/*/data/*_review_decisions.csv`, or the
 scripts that build them (`mcp/scripts/build-index.mjs`, `build-pdf-release.mjs`,
-`verify-pdf-release.mjs`, `pdf-families.mjs`, `source-commit.mjs`). Never on a pull request or a
+`verify-pdf-release.mjs`, `pdf-families.mjs`, `source-commit.mjs`), the PDFs a release carries
+(`source/FY*/**`), or the format the downloader reads (`mcp/src/pdfdata.ts`). Never on a pull request or a
 fork. **A push publishes only once the repository variable `PDF_TABLES_AUTO_PUBLISH` is `true`**
 (Settings → Secrets and variables → Actions → Variables); until then a push builds and checks
 only, so the first release is a maintainer's hand run. Two jobs:
@@ -281,12 +282,20 @@ only, so the first release is a maintainer's hand run. Two jobs:
    `source/` are clean, and the commit is on `origin/main`. Then the downloader installs the
    tables from the folder into a throwaway data folder. The checked files go to the next job.
 2. **Publish** (the only job with `contents: write`; it runs no repository code): checks every
-   file's sha256 against the manifest again, creates a **draft** release tagged
+   file's sha256 against the manifest again, and stops unless the commit is `main`'s tip right
+   now. The downloader installs the newest published release, so publishing an older commit
+   (a "Re-run jobs" keeps its run's old commit but would get today's date) would roll users back;
+   for the same reason a re-run of a push run is refused (start a hand run instead). Then it
+   creates a **draft** release tagged
    `pdf-tables-YYYY-MM-DD-<7-digit commit>` (UTC date) at the pushed commit, uploads the files
    `verify-pdf-release.mjs` listed (the tables, every cited PDF by sha256, the manifest last), and
    only then publishes it. The downloader skips drafts, so it never sees a half-uploaded release.
-   The release is not marked "latest", so the npm releases (`mcp-v*`) keep that badge. A second
-   run for the same commit on the same day stops: the tag exists.
+   The release is not marked "latest", so the npm releases (`mcp-v*`) keep that badge. If an
+   upload fails, the step deletes its own draft, so the next run starts clean. A second run for
+   the same commit on the same day stops: the release exists (a draft left behind, say if the
+   runner died, is named as such: delete it on the Releases page and run again).
+
+The actions it uses are pinned by commit id, their version in a comment.
 
 Run by hand: Actions → "PDF tables release" → Run workflow, on `main`. `dry_run` (default: on)
 builds and checks without publishing; uncheck it to publish.

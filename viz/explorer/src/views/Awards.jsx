@@ -97,13 +97,15 @@ export default function Awards({ state, set, go, years, pdfYears, manifest }) {
  * The offer to add the Schedule C and NYC Open Data columns, while they are not loaded. Kept off
  * the first visit, which downloads only the spreadsheet tables.
  */
-function MoreColumns({ manifest, tables, canSc, scIn, odIn }) {
+export function MoreColumns({ manifest, tables, canSc, scIn, odIn }) {
   const want = awardsExtras(manifest).filter((t) => tables[t] !== "ready");
-  if ((scIn || !canSc) && odIn) return null;
-  if (!want.length) return null;
+  // Offer only what this build has: a build without the Open Data tables never mentions them.
+  const scMissing = canSc && !scIn;
+  const odMissing = openDataTables(manifest).length > 0 && !odIn;
+  if (!(scMissing || odMissing) || !want.length) return null;
   const loading = want.some((t) => tables[t] === "loading");
   const failed = want.some((t) => tables[t] === "error");
-  const what = [canSc && !scIn ? "where each row stands in Schedule C (the adopted budget's PDF)" : null, odIn ? null : "whether it is on NYC Open Data"].filter(Boolean);
+  const what = [scMissing ? "where each row stands in Schedule C (the adopted budget's PDF)" : null, odMissing ? "whether it is on NYC Open Data" : null].filter(Boolean);
   return (
     <p className="muted small">
       {loading ? (
