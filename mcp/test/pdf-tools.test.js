@@ -496,16 +496,11 @@ test("Schedule C: the MCP's unmatched rows are the explorer's 'Schedule C only' 
   }
 });
 
-// The explorer's full-table searches (PR #224, W4). Run once that PR's queries are on the branch;
-// skipped before, so this file does not depend on the order the two PRs merge in.
-// Once #224 is on the branch (its Transparency view exists), these must run: a renamed query then
-// fails here instead of skipping quietly.
-const W4_MERGED = existsSync(join(REPO, "viz", "explorer", "src", "views", "Transparency.jsx"));
-const W4 = typeof explorer.scSearchTotalsQuery === "function";
-const w4 = { skip: W4 || W4_MERGED ? false : "PR #224 (viz/explorer/src/views/Transparency.jsx, scSearchTotalsQuery) is not on this branch yet" };
+// The explorer's full-table searches (PR #224, W4). #224 and #226 now land together, so these
+// always run: a missing or renamed query fails here, never skips.
+const w4 = {};
 
-test("PR #224's search queries are all there once its views are", () => {
-  if (!W4_MERGED) return;
+test("PR #224's search queries are all there", () => {
   for (const f of ["scSearchQuery", "scSearchTotalsQuery", "trQuery", "trTotalsQuery", "rollupTr", "bookQuery", "bookTotalsQuery"])
     assert.equal(typeof explorer[f], "function", `viz/explorer/src/query/pdf.js ${f}`);
 });
