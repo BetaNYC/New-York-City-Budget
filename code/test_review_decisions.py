@@ -234,7 +234,7 @@ def test_page_image_decision_is_applied_to_its_row_and_flagged():
 
 
 def test_page_image_suggestions_for_laundromat_and_himalayan_elders():
-    # The two review items #217 names, suggested (never decided) as read_from_page_image.
+    # The two review items #217 names, suggested as read_from_page_image.
     _, rows = brs.build()
     by = {(r["fiscal_year"], r["family"], r["review_id"]): r for r in rows}
     import page_image
@@ -246,7 +246,20 @@ def test_page_image_suggestions_for_laundromat_and_himalayan_elders():
     assert page_image.parse(s["suggested_note"]) == ("ein", "472383238")
     # Only those two: no other review row is suggested as read from the page image yet.
     assert sum(r["suggested_decision"] == "read_from_page_image" for r in rows) == 2
-    # And nobody has decided them: the committed decisions files carry no such decision.
+    # Decided by Noel Hidalgo on 2026-10-22: exactly these two carry read_from_page_image in the
+    # committed decisions files, each naming the same field and value as its suggestion.
+    decided = {}
     for path in glob.glob(os.path.join(REPO, "research", "*", "data", "*_review_decisions.csv")):
         with open(path, newline="", encoding="utf-8") as f:
-            assert all(d["decision"] != "read_from_page_image" for d in csv.DictReader(f)), path
+            for d in csv.DictReader(f):
+                if d["decision"] == "read_from_page_image":
+                    decided[d["review_id"]] = page_image.parse(d["note"])
+    assert decided == {"42eba5fef74a": ("ein", "87-0753479"), "68a35940ec45": ("ein", "472383238")}
+    # And promotion applied them: each row carries the page's EIN, flagged.
+    for path, rid, ein in [
+        ("data/fy23/pdf/schedule_c/fy23_sc_awards.csv", "42eba5fef74a", "870753479"),
+        ("data/fy19/pdf/transparency/fy19_tr_rows.csv", "68a35940ec45", "472383238"),
+    ]:
+        with open(os.path.join(REPO, path), newline="", encoding="utf-8") as f:
+            row = next(r for r in csv.DictReader(f) if r["review_id"] == rid)
+        assert row["ein"] == ein and row["read_from_page_image"] == "ein", path

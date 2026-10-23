@@ -574,10 +574,14 @@ def test_new_fields_in_every_year(built):
         aw = _sc(built, fy)
         assert any(r["fiscal_conduit"] for r in aw) == (fy == 2018), fy
         assert any(r["review_not_completed"] for r in aw) == (fy in (2018, 2019)), fy
-        assert not any(r["read_from_page_image"] for r in aw), fy     # nobody has decided one yet
+        # Only rows a person decided read_from_page_image (2026-10-22: FY2023 Laundromat Project).
+        page = [r["review_id"] for r in aw if r["read_from_page_image"]]
+        assert page == (["42eba5fef74a"] if fy == 2023 else []), fy
     for fy in TR_YEARS:
         rs = rows(built[f"data/fy{fy % 100}/pdf/transparency/fy{fy % 100}_tr_rows.csv"])
         assert any(r["fiscal_conduit"] or r["fiscal_conduit_ein_printed"] for r in rs) == (fy == 2018), fy
+        page = [r["review_id"] for r in rs if r["read_from_page_image"]]
+        assert page == (["68a35940ec45"] if fy == 2019 else []), fy     # Himalayan Elders, 2026-10-22
 
 
 def test_fiscal_conduit_schedule_c_fy18(built):
