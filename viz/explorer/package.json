@@ -10,9 +10,10 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "npm run test:unit && npm run test:parity",
+    "test": "npm run test:unit && npm run test:parity && npm run test:lazy",
     "test:unit": "vitest run",
     "test:parity": "node --test test/parity.test.mjs",
+    "test:lazy": "node --test test/lazy-load.test.mjs",
     "site": "node scripts/assemble-site.mjs"
   },
   "dependencies": {

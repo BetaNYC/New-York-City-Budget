@@ -59,6 +59,27 @@ of this against the index. Then
 `npm test && npm run build && npx vite preview`. How the data gets here:
 [`INTEGRATION.md`](INTEGRATION.md); the loader: `mcp/scripts/pdf-families.mjs`.
 
+## What a visit downloads
+
+The first visit downloads only what the landing page (Expense awards) needs: the spreadsheet
+tables and `pdf_years`, the list of PDF family-years the tabs are built from, about 3.7 MB of
+Parquet (13.3 MB before; measured on the public build with `npx vite preview`). The query engine
+(DuckDB-WASM, about 34 MB) comes on top, cached by the browser after the first visit, as before.
+
+Each PDF family's files load the first time a page that reads them opens, from a tab or a link
+straight into it, with a short "Loading the data for this page" message, and stay loaded for the
+rest of the visit. Schedule C brings its pairing with the spreadsheet (`pdf_sc_disclosure`);
+every family brings the review notes (`pdf_review`); Capital, Capital book, Terms and an award's
+page also bring the NYC Open Data crosswalk (`open_data_*`, 1.5 MB). On the landing page, the
+Schedule C and NYC Open Data columns appear once those tables are in: after a click on "Show
+these columns", a Schedule C filter, or a visit to a page that loaded them. Files are fetched
+with their sha256 as the cache key, so the browser caches them as before.
+
+The list of files per page is `src/duckdb/needs.js`. `test/lazy-load.test.mjs` runs each page's
+queries with only its files loaded and checks the first visit's list (no PDF family's file, at
+most 4.5 MB); `test/unit/lazy-load.test.js` checks that the store fetches exactly those files,
+each once.
+
 ## Views
 
 | View | What it shows |
@@ -103,10 +124,11 @@ itself. The app never fetches these files, so cross-origin rules do not apply.
 | `src/components/PdfViewer.jsx`, `src/components/pdf.jsx` | The source viewer; the review label, flag badge and page link. |
 | `src/state/hash.js` | URL-hash state. |
 | `src/data/years.js` | The year overview's model: data or a gap with its reason, never a zero. |
-| `src/duckdb/` | The DuckDB-WASM engine singleton and React hooks. |
+| `src/duckdb/` | The DuckDB-WASM engine singleton and React hooks; `needs.js`, the files each page loads. |
 | `src/views/`, `src/components/` | The views and shared UI. |
 | `test/unit/` | Vitest unit tests (`npm run test:unit`). |
 | `test/parity.test.mjs` | The parity test (`npm run test:parity`; needs `npm run data`). |
+| `test/lazy-load.test.mjs` | Each page's queries on only its files, and the first visit's files (`npm run test:lazy`; needs `npm run data`). |
 | `PLAN.md` | The plan this was built from. |
 | `LICENSE-nyc-eo-explorer` | MIT license of the code adapted from nyc-eo-explorer. |
 

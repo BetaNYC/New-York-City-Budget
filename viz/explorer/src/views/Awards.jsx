@@ -1,6 +1,8 @@
 import { Fragment } from "react";
 
-import { useQueries } from "../duckdb/useDuckDB.js";
+import { useDuckDB, useQueries } from "../duckdb/useDuckDB.js";
+import { ensureTables } from "../duckdb/store.js";
+import { aboutMb, awardsExtras, bytesOf, familyTables, openDataTables } from "../duckdb/needs.js";
 import { DISCLOSURE_FLAG_NOTE, OTHER_STATUS_NOTE, STATUS_LABEL, count, money, plural } from "../format.js";
 import * as Q from "../query/sql.js";
 import { disclosureFilters, writeHash } from "../state/hash.js";
@@ -13,9 +15,17 @@ import { CoverageStrip, OdCell, useOdCoverage, useOdForRows } from "../component
  * Browse and search the Council's expense funding disclosure. Totals cover every matching row;
  * the table shows one page, highest amount first (the MCP's order).
  */
-export default function Awards({ state, set, go, years, pdfYears }) {
+export default function Awards({ state, set, go, years, pdfYears, manifest }) {
   const f = disclosureFilters(state);
-  const scYears = scYearsOf(pdfYears);
+  // The Schedule C pairing and the Open Data badges are extra downloads (needs.js): shown once
+  // their tables are in, which they are after a click here, a Schedule C filter, or any page that
+  // loaded them earlier in the visit.
+  const db = useDuckDB();
+  const isIn = (ts) => ts.length > 0 && ts.every((t) => db.tables[t] === "ready");
+  const scIn = isIn(familyTables(manifest, "schedule_c").filter((t) => manifest.files[`${t}.parquet`]));
+  const odIn = isIn(openDataTables(manifest));
+  const scYears = scIn ? scYearsOf(pdfYears) : [];
+  const canSc = scYearsOf(pdfYears).length > 0;
   const scOnly = state.scside === "pdf_only" && scYears.length > 0;
   const yearRow = state.fy != null ? years.find((y) => y.fiscal_year === state.fy) : null;
   const notLoaded = yearRow && !yearRow.loaded;
@@ -58,7 +68,7 @@ export default function Awards({ state, set, go, years, pdfYears }) {
         <TextFilter label="Funding source" value={state.source} onApply={(v) => set({ source: v })} placeholder="Local, Youth, …" />
         <TextFilter label="Min $" type="number" value={state.min ?? ""} onApply={(v) => set({ min: v === "" ? null : Number(v) })} width="7rem" />
         <TextFilter label="Max $" type="number" value={state.max ?? ""} onApply={(v) => set({ max: v === "" ? null : Number(v) })} width="7rem" />
-        {scYears.length > 0 && (
+        {canSc && (
           <SelectFilter
             label="Schedule C (PDF)"
             value={state.scside}
@@ -68,6 +78,7 @@ export default function Awards({ state, set, go, years, pdfYears }) {
         )}
       </form>
       <ScPanel fy={state.fy} scYears={scYears} set={set} />
+      <MoreColumns manifest={manifest} tables={db.tables} canSc={canSc} scIn={scIn} odIn={odIn} />
 
       {scOnly ? (
         <ScOnlyResults f={f} state={state} set={set} go={go} />
@@ -75,17 +86,45 @@ export default function Awards({ state, set, go, years, pdfYears }) {
         <NoData year={state.fy} what="expense award" reason={yearRow.note} />
       ) : (
         <Status loading={q.loading && !q.data} updating={q.loading && Boolean(q.data)} error={q.error}>
-          {q.data && <Results data={q.data} state={state} set={set} go={go} years={years} scYears={scYears} />}
+          {q.data && <Results data={q.data} state={state} set={set} go={go} years={years} scYears={scYears} odIn={odIn} />}
         </Status>
       )}
     </section>
   );
 }
 
-function Results({ data, state, set, go, years, scYears }) {
+/**
+ * The offer to add the Schedule C and NYC Open Data columns, while they are not loaded. Kept off
+ * the first visit, which downloads only the spreadsheet tables.
+ */
+function MoreColumns({ manifest, tables, canSc, scIn, odIn }) {
+  const want = awardsExtras(manifest).filter((t) => tables[t] !== "ready");
+  if ((scIn || !canSc) && odIn) return null;
+  if (!want.length) return null;
+  const loading = want.some((t) => tables[t] === "loading");
+  const failed = want.some((t) => tables[t] === "error");
+  const what = [canSc && !scIn ? "where each row stands in Schedule C (the adopted budget's PDF)" : null, odIn ? null : "whether it is on NYC Open Data"].filter(Boolean);
+  return (
+    <p className="muted small">
+      {loading ? (
+        <span role="status">Loading the extra columns ({aboutMb(bytesOf(manifest, want))})…</span>
+      ) : (
+        <>
+          To keep the first visit small, this list does not yet show {what.join(", or ")}.{" "}
+          <button type="button" className="linkish" onClick={() => ensureTables(want).catch(() => {})}>
+            {failed ? "Could not load them. Try again" : `Show ${what.length > 1 ? "these columns" : "this column"}`}
+          </button>{" "}
+          ({aboutMb(bytesOf(manifest, want))} more).
+        </>
+      )}
+    </p>
+  );
+}
+
+function Results({ data, state, set, go, years, scYears, odIn }) {
   const sc = useScForRows(data.rows, scYears);
-  const odCov = useOdCoverage("expense");
-  const od = useOdForRows("expense", data.rows, (r) => [r.fiscal_year, r.source_row]);
+  const odCov = useOdCoverage("expense", odIn);
+  const od = useOdForRows("expense", data.rows, (r) => [r.fiscal_year, r.source_row], { on: odIn });
   const r = Q.rollupDisclosure(data.totals);
   const matchedYears = r.by_year.map((y) => y.fiscal_year);
   const early = years.filter((y) => y.early_snapshot && matchedYears.includes(y.fiscal_year));
@@ -123,7 +162,7 @@ function Results({ data, state, set, go, years, scYears }) {
         </Notice>
       )}
       {otherYears.length > 0 && <Notice tone="warn">{OTHER_STATUS_NOTE}</Notice>}
-      <CoverageStrip family="expense" coverage={odCov} title="These awards on NYC Open Data, by year" />
+      {odIn ? <CoverageStrip family="expense" coverage={odCov} title="These awards on NYC Open Data, by year" /> : null}
       {matchedYears.length > 1 && state.fy == null && r.matched > 0 && (
         <p className="muted">These totals add up {matchedYears.length} fiscal years. Each year is a separate Council workbook; see Years for the per-year view.</p>
       )}
@@ -158,7 +197,7 @@ function Results({ data, state, set, go, years, scYears }) {
                     Amount
                   </th>
                   {sc ? <th scope="col">Schedule C (PDF)</th> : null}
-                  <th scope="col">NYC Open Data</th>
+                  {odIn ? <th scope="col">NYC Open Data</th> : null}
                 </tr>
               </thead>
               <tbody>
@@ -187,7 +226,7 @@ function Results({ data, state, set, go, years, scYears }) {
                           inYear={scYears.some((y) => y.fiscal_year === Number(row.fiscal_year))}
                         />
                       ) : null}
-                      <OdCell xs={od?.get(`${Number(row.fiscal_year)}|${row.source_row}`)} coverage={odCov} fy={row.fiscal_year} />
+                      {odIn ? <OdCell xs={od?.get(`${Number(row.fiscal_year)}|${row.source_row}`)} coverage={odCov} fy={row.fiscal_year} /> : null}
                     </tr>
                   );
                 })}
