@@ -50,9 +50,12 @@ node scripts/assemble-site.mjs --out /tmp/site   # the whole Pages site, as depl
 
 All three use the MCP's loader and its existing flags (`build-index.mjs --include-reviewed --out`),
 so `mcp/data/budget.db`, which the MCP serves, is never written with reviewed rows. The manifest
-records `build`, `review_screen` and `withheld`: a public build writes no
+records `build`, `review_screen`, `withheld` and `dropped_columns`: a public build writes no
 `pdf_review_suggestions.parquet` (the reviewers' suggested decisions are for the review screen
-only). `test/parity.test.mjs` checks all three against the index. Then
+only), and its `pdf_review.parquet` leaves out the internal review fields (`check_id`, `severity`,
+`dollars`, `expected`, `observed`, `detail`); the note and the decision stay. The review screen's
+code is a separate chunk, loaded only when the Review tab opens. `test/parity.test.mjs` checks all
+of this against the index. Then
 `npm test && npm run build && npx vite preview`. How the data gets here:
 [`INTEGRATION.md`](INTEGRATION.md); the loader: `mcp/scripts/pdf-families.mjs`.
 

@@ -81,6 +81,12 @@ const OUT_DIR = join(APP, "public", "data");
  * withheld (#224 review). A decision a person recorded is in pdf_review and is shown.
  */
 const WITHHELD = BUILD === "public" ? [SUGGESTIONS.table] : [];
+/**
+ * Columns a public build leaves out of a table it ships: pdf_review's internal fields (the check
+ * id, severity, dollar impact, expected / observed values and the JSON detail). The public flag
+ * badge reads only the note and the decision; the review build keeps every column.
+ */
+const DROPPED = BUILD === "public" ? { pdf_review: ["check_id", "severity", "dollars", "expected", "observed", "detail"] } : {};
 
 /** The tables the explorer reads, in the order they are written. */
 const ALL_TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta",
@@ -137,8 +143,11 @@ function append(appender, type, value, where) {
 async function exportTables(sqlite, conn) {
   const files = {};
   for (const table of TABLES) {
-    const cols = sqlite.prepare(`PRAGMA table_info(${table})`).all();
-    if (cols.length === 0) throw new Error(`budget.db has no table ${table}`);
+    const all = sqlite.prepare(`PRAGMA table_info(${table})`).all();
+    if (all.length === 0) throw new Error(`budget.db has no table ${table}`);
+    const drop = DROPPED[table] ?? [];
+    for (const d of drop) if (!all.some((c) => c.name === d)) throw new Error(`${table}: no column ${d} to drop`);
+    const cols = all.filter((c) => !drop.includes(c.name));
     for (const c of cols) {
       if (!(c.type in DUCK_TYPE)) throw new Error(`${table}.${c.name}: unmapped SQLite type ${c.type}`);
     }
@@ -197,6 +206,7 @@ async function main() {
     build: BUILD,
     review_screen: BUILD === "review",
     withheld: WITHHELD,
+    dropped_columns: DROPPED,
     pdf_families: Object.fromEntries(Object.entries(PDF_FAMILIES).map(([k, f]) => [k, { label: f.label, main: f.main, tables: f.tables.map((t) => t.table), decisions: f.decisions ?? {} }])),
     capital: capitalGaps(readFileSync(join(REPO, "data", "capital", "README.md"), "utf8"), CAPITAL_REPORT_YEARS),
     files,

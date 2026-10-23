@@ -97,6 +97,12 @@ describe("public review notes (#224 review)", () => {
     expect(out).toContain("Decided: kept as printed");
     expect(out).toContain("not about the organization");
   });
+  test("the public notes query asks for no check id or severity (a public pdf_review has neither)", () => {
+    const pub = P.reviewNotesQuery("a;b", { full: false }).sql;
+    expect(pub).not.toMatch(/check_id|severity/);
+    expect(pub).toContain("note, decision, decision_note");
+    expect(P.reviewNotesQuery("a").sql).toContain("check_id, severity");
+  });
   test("an EIN with no digits is reported, not silently dropped", () => {
     expect(P.einUnusable("abc")).toBe(true);
     expect(P.einUnusable("13-2612524")).toBe(false);

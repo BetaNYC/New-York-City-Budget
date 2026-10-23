@@ -65,8 +65,8 @@ export function FlagBadge({ flags, reviewId }) {
   const full = useContext(ReviewScreenContext);
   const [open, setOpen] = useState(false);
   const list = String(flags ?? "").split(";").filter(Boolean);
-  const q = useQueries(true, `flag|${reviewId}`, () => {
-    const rq = reviewNotesQuery(reviewId);
+  const q = useQueries(true, `flag|${full ? 1 : 0}|${reviewId}`, () => {
+    const rq = reviewNotesQuery(reviewId, { full });
     return rq ? { notes: rq } : null;
   });
   if (!list.length) return null;

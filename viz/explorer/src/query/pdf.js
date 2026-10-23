@@ -280,12 +280,17 @@ export function scOnlyTotalsQuery(f) {
 
 // ---------------------------------------------------------------- review notes
 
-/** The review entries behind a row's `review_id` (`;`-joined ids). */
-export function reviewNotesQuery(reviewIds) {
+/**
+ * The review entries behind a row's `review_id` (`;`-joined ids). `full` (a review build) also
+ * asks for the check id and severity, which a public build's pdf_review does not carry.
+ */
+export function reviewNotesQuery(reviewIds, { full = true } = {}) {
   const ids = [...new Set(String(reviewIds ?? "").split(";").map((s) => s.trim()).filter(Boolean))];
   if (!ids.length) return null;
   return {
-    sql: `SELECT review_id, family, check_id, severity, pdf_page, note, decision, decision_note FROM pdf_review WHERE review_id IN (${ids.map(() => "?").join(", ")}) ORDER BY severity, review_id`,
+    sql: full
+      ? `SELECT review_id, family, check_id, severity, pdf_page, note, decision, decision_note FROM pdf_review WHERE review_id IN (${ids.map(() => "?").join(", ")}) ORDER BY severity, review_id`
+      : `SELECT review_id, family, pdf_page, note, decision, decision_note FROM pdf_review WHERE review_id IN (${ids.map(() => "?").join(", ")}) ORDER BY review_id`,
     params: ids,
   };
 }

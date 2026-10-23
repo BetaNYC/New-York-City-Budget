@@ -58,6 +58,9 @@ const WITHHELD = MANIFEST.withheld ?? [];
 const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta",
   ...PDF_TABLES, ...OPEN_DATA_TABLES].filter((t) => !WITHHELD.includes(t));
 const COMPARED_PDF_TABLES = PDF_TABLES.filter((t) => !WITHHELD.includes(t));
+// ...and leaves internal columns out of some it ships (manifest.dropped_columns): compare the rest.
+const DROPPED = MANIFEST.dropped_columns ?? {};
+const shipped = (table, cols) => cols.filter((c) => !(DROPPED[table] ?? []).includes(c.name ?? c));
 const CENT = 0.005;
 
 for (const f of [DB_PATH, ...TABLES.map((t) => join(DATA, `${t}.parquet`)), join(DATA, "manifest.json")]) {
@@ -174,13 +177,24 @@ describe("4. reviewed PDF tables, per family, year and status", () => {
       assert.equal(MANIFEST.files[`${t}.parquet`], undefined, `${t} is listed in a public manifest`);
       assert.equal(existsSync(join(DATA, `${t}.parquet`)), false, `${t}.parquet is in a public build's data`);
     }
+    // A public pdf_review carries no check id, severity or other internal review field.
+    const internal = ["check_id", "severity", "dollars", "expected", "observed", "detail"];
+    assert.deepEqual(DROPPED, MANIFEST.build === "public" ? { pdf_review: internal } : {});
+  });
+  test("a public build's pdf_review file has no check_id or severity column; a review build's has both", async () => {
+    const p = join(DATA, "pdf_review.parquet").replace(/'/g, "''");
+    const cols = (await duck(`DESCRIBE SELECT * FROM read_parquet('${p}')`)).map((r) => r.column_name);
+    for (const c of ["check_id", "severity", "dollars", "expected", "observed", "detail"]) {
+      assert.equal(cols.includes(c), MANIFEST.build !== "public", `pdf_review.${c} in a ${MANIFEST.build} build`);
+    }
+    for (const c of ["review_id", "note", "decision", "decision_note"]) assert.ok(cols.includes(c), `pdf_review.${c}`);
     if (!MANIFEST.include_reviewed) {
       for (const t of PDF_TABLES) assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM ${t} WHERE status <> 'closed'`).get().n, 0, t);
     }
   });
   for (const t of COMPARED_PDF_TABLES) {
     test(t, async () => {
-      const cols = sqlite.prepare(`PRAGMA table_info(${t})`).all().map((c) => c.name);
+      const cols = shipped(t, sqlite.prepare(`PRAGMA table_info(${t})`).all().map((c) => c.name));
       const sums = cols.filter((c) => /^(amount|org_printed|printed|sum)_y\d$/.test(c) || ["dollars", "amount", "disclosure_amount", "rows_sum", "designated", "reserve"].includes(c));
       const keys = ["status", ...(cols.includes("family") ? ["family"] : []), ...(cols.includes("fiscal_year") ? ["fiscal_year"] : [])];
       const q = `SELECT ${keys.join(", ")}, COUNT(*) AS n${sums.map((c) => `, COALESCE(SUM(${c}), 0) AS ${c}`).join("")}
@@ -499,9 +513,9 @@ describe("7. the PDF family searches answer what budget.db answers", () => {
 describe("2. every row, every column", () => {
   for (const table of TABLES) {
     test(table, async () => {
-      const cols = sqlite.prepare(`PRAGMA table_info(${table})`).all();
+      const cols = shipped(table, sqlite.prepare(`PRAGMA table_info(${table})`).all());
       const pcols = (await duck(`DESCRIBE "${table}"`)).map((r) => r.column_name);
-      assert.deepEqual(pcols, cols.map((c) => c.name), "same columns, same order");
+      assert.deepEqual(pcols, cols.map((c) => c.name), "same columns, same order (less any a public build drops)");
       const a = sqlite.prepare(`SELECT * FROM ${table} ORDER BY rowid`).all();
       const b = await duck(`SELECT * FROM "${table}"`);
       assert.equal(b.length, a.length, "row count");

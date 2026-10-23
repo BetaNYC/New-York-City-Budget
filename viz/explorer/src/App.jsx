@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useDuckDB, useQueries } from "./duckdb/useDuckDB.js";
 import { PHASES, ensureData } from "./duckdb/store.js";
@@ -12,7 +12,6 @@ import Capital, { CapitalRow } from "./views/Capital.jsx";
 import Compare from "./views/Compare.jsx";
 import Omb from "./views/Omb.jsx";
 import Orgs from "./views/Orgs.jsx";
-import Review from "./views/Review.jsx";
 import Source from "./views/Source.jsx";
 import Terms from "./views/Terms.jsx";
 import ScheduleCSearch from "./views/ScheduleCSearch.jsx";
@@ -20,6 +19,9 @@ import Transparency from "./views/Transparency.jsx";
 import Book from "./views/Book.jsx";
 import { CLOSED_LABEL, pdfYearsQuery, REVIEWED_LABEL } from "./query/pdf.js";
 import Years from "./views/Years.jsx";
+
+// The review screen is only in a review build: load its code only when it is opened.
+const Review = lazy(() => import("./views/Review.jsx"));
 
 const TABS = [
   ["awards", "Expense awards"],
@@ -214,7 +216,15 @@ function Ready({ state, set, go, back, manifest }) {
     case "source":
       return <Source {...props} />;
     case "review":
-      return <Review {...props} />;
+      return manifest.review_screen ? (
+        <Suspense fallback={<p className="muted">Loading the review screen…</p>}>
+          <Review {...props} />
+        </Suspense>
+      ) : (
+        <Notice>
+          No review queue in this build. It appears in a local build made with <code>npm run data -- --include-reviewed</code>.
+        </Notice>
+      );
     case "compare":
       return <Compare {...props} />;
     case "about":
