@@ -7,7 +7,7 @@
  * passed through.
  */
 
-export const VIEWS = ["awards", "award", "years", "capital", "capital-row", "omb", "orgs", "terms", "source", "review", "compare", "about"];
+export const VIEWS = ["awards", "award", "years", "capital", "capital-row", "omb", "orgs", "terms", "schedc", "transparency", "book", "source", "review", "compare", "about"];
 
 export const DEFAULT_STATE = {
   view: "awards",
@@ -55,6 +55,38 @@ export const DEFAULT_STATE = {
   tq: "",
   tkind: "",
   tpage: 0,
+  scfy: null, // Schedule C, every row (#213): year, organization, EIN, sponsor, category,
+  scorg: "", //   initiative, agency, amount range, where it stands against the disclosure
+  scein: "",
+  scspon: "",
+  sccat: "",
+  scinit: "",
+  scagency: "",
+  scmin: null,
+  scmax: null,
+  scdisc: "",
+  scpage: 0,
+  trfy: null, // Transparency resolutions (#213): year of the resolutions, budget year a chart
+  trbfy: null, //   changes, organization, EIN, member, resolution number, date range, kind of change
+  trorg: "",
+  trein: "",
+  trmember: "",
+  trreso: "",
+  trfrom: "",
+  trto: "",
+  traction: "",
+  trpage: 0,
+  bkfy: null, // the capital book (§254 supporting detail, #213): year, SUB ID, sponsor, borough,
+  bkid: "", //   agency, title, budget line, part, amount range on the book's own year
+  bksponsor: "",
+  bkboro: "",
+  bkagency: "",
+  bktitle: "",
+  bkline: "",
+  bkpart: "",
+  bkmin: null,
+  bkmax: null,
+  bkpage: 0,
   rfam: "", // review queue: family, year, check, severity, open/decided, selected review_id
   rfy: null,
   rcheck: "",
@@ -75,8 +107,9 @@ export const DEFAULT_STATE = {
   slabel: "",
 };
 
-const INT_KEYS = ["fy", "page", "ay", "row", "cfy", "afy", "district", "cpage", "seq", "ofy", "opage", "gfy", "gpage", "tfy", "tpage", "spage", "rfy", "cmpa", "cmpb", "cfyd"];
-const NUM_KEYS = ["min", "max", "cmin", "cmax"];
+const INT_KEYS = ["fy", "page", "ay", "row", "cfy", "afy", "district", "cpage", "seq", "ofy", "opage", "gfy", "gpage", "tfy", "tpage", "spage", "rfy", "cmpa", "cmpb", "cfyd",
+  "scfy", "scpage", "trfy", "trbfy", "trpage", "bkfy", "bkpage"];
+const NUM_KEYS = ["min", "max", "cmin", "cmax", "scmin", "scmax", "bkmin", "bkmax"];
 
 export function readHash(hash = typeof window === "undefined" ? "" : window.location.hash) {
   const state = { ...DEFAULT_STATE };
@@ -175,5 +208,8 @@ export const FILTER_KEYS = {
   omb: ["ofy", "oline", "verdict"],
   orgs: ["gfy", "org", "gline"],
   terms: ["tfy", "tagency", "tunit", "tq", "tkind"],
+  schedc: ["scfy", "scorg", "scein", "scspon", "sccat", "scinit", "scagency", "scmin", "scmax", "scdisc"],
+  transparency: ["trfy", "trbfy", "trorg", "trein", "trmember", "trreso", "trfrom", "trto", "traction"],
+  book: ["bkfy", "bkid", "bksponsor", "bkboro", "bkagency", "bktitle", "bkline", "bkpart", "bkmin", "bkmax"],
 };
-export const PAGE_KEY = { awards: "page", capital: "cpage", omb: "opage", orgs: "gpage", terms: "tpage" };
+export const PAGE_KEY = { awards: "page", capital: "cpage", omb: "opage", orgs: "gpage", terms: "tpage", schedc: "scpage", transparency: "trpage", book: "bkpage" };

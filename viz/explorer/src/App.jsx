@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useDuckDB, useQueries } from "./duckdb/useDuckDB.js";
 import { PHASES, ensureData } from "./duckdb/store.js";
 import { FILTER_KEYS, PAGE_KEY, historyDepth, pushHash, readHash, writeHash } from "./state/hash.js";
 import { HashLink, Notice } from "./components/ui.jsx";
+import { ReviewScreenContext } from "./components/pdf.jsx";
 import About from "./views/About.jsx";
 import Award from "./views/Award.jsx";
 import Awards from "./views/Awards.jsx";
@@ -11,11 +12,16 @@ import Capital, { CapitalRow } from "./views/Capital.jsx";
 import Compare from "./views/Compare.jsx";
 import Omb from "./views/Omb.jsx";
 import Orgs from "./views/Orgs.jsx";
-import Review from "./views/Review.jsx";
 import Source from "./views/Source.jsx";
 import Terms from "./views/Terms.jsx";
-import { pdfYearsQuery, REVIEWED_LABEL } from "./query/pdf.js";
+import ScheduleCSearch from "./views/ScheduleCSearch.jsx";
+import Transparency from "./views/Transparency.jsx";
+import Book from "./views/Book.jsx";
+import { CLOSED_LABEL, pdfYearsQuery, REVIEWED_LABEL } from "./query/pdf.js";
 import Years from "./views/Years.jsx";
+
+// The review screen is only in a review build: load its code only when it is opened.
+const Review = lazy(() => import("./views/Review.jsx"));
 
 const TABS = [
   ["awards", "Expense awards"],
@@ -23,11 +29,13 @@ const TABS = [
   ["compare", "Compare years"],
   ["capital", "Capital"],
   ["omb", "Capital vs OMB"],
-  // Shown only when a PDF family is loaded (data/pdf_years.csv; closed, or reviewed in a
-  // --include-reviewed build).
+  // Shown only when a PDF family is loaded (data/pdf_years.csv: reviewed or closed; #190).
+  ["schedc", "Schedule C", "schedule_c"],
+  ["transparency", "Transparency resolutions", "transparency"],
+  ["book", "Capital book", "capital_sd"],
   ["orgs", "Organizations", "capital_sd"],
   ["terms", "Terms & Conditions", "terms"],
-  // The review screen: only when a family is loaded with status = reviewed (a --include-reviewed build).
+  // The review screen: only in a local review build (npm run data -- --include-reviewed), never public.
   ["review", "Review", "review"],
   ["about", "About the data"],
 ];
@@ -85,7 +93,7 @@ export default function App() {
           </p>
           <h1>NYC Council budget explorer</h1>
           <nav className="tabs" aria-label="Views">
-            {TABS.filter(([, , fam]) => !fam || (fam === "review" ? Boolean(db.manifest?.include_reviewed) && (db.manifest?.files?.["pdf_review.parquet"]?.rows ?? 0) > 0 : (db.manifest?.files?.[`${db.manifest?.pdf_families?.[fam]?.main}.parquet`]?.rows ?? 0) > 0)).map(([v, label]) => (
+            {TABS.filter(([, , fam]) => !fam || (fam === "review" ? Boolean(db.manifest?.review_screen) && (db.manifest?.files?.["pdf_review.parquet"]?.rows ?? 0) > 0 : (db.manifest?.files?.[`${db.manifest?.pdf_families?.[fam]?.main}.parquet`]?.rows ?? 0) > 0)).map(([v, label]) => (
               <HashLink key={v} href={writeHash({ ...state, view: v })} onGo={() => go({ view: v })} className={tab === v ? "active" : undefined} current={tab === v}>
                 {label}
               </HashLink>
@@ -94,10 +102,11 @@ export default function App() {
         </div>
       </header>
       <main className="wrap">
-        {db.manifest?.include_reviewed ? (
+        {db.manifest?.review_screen ? (
           <Notice tone="warn">
-            <strong>Demo build with PDF data still in review.</strong> Rows marked <span className="reviewed">{REVIEWED_LABEL}</span> come from PDFs re-read for
-            the PDF review (GitHub epic #101; each fiscal year has its own issue, e.g. #102 for FY2027, #103 for FY2026): every printed total was checked and the doubts are listed, but a person has not signed them off. The public site does not show them.
+            <strong>Local review build.</strong> This build has the Review tab, where a person decides the flagged rows; the public site does not. Rows marked{" "}
+            <span className="reviewed">{REVIEWED_LABEL}</span> come from PDFs re-read for the PDF review (<a href="https://github.com/BetaNYC/New-York-City-Budget/issues/101">GitHub epic #101</a>; each fiscal year has its own issue,
+            e.g. #102 for FY2027, #103 for FY2026): every printed total was checked and the doubts are listed, but a person has not signed them off.
           </Notice>
         ) : null}
         {db.phase === PHASES.ERROR ? (
@@ -111,10 +120,12 @@ export default function App() {
           state.view === "about" ? (
             <About manifest={db.manifest} />
           ) : (
-            <Loading phase={db.phase} progress={db.progress} />
+            <Loading phase={db.phase} progress={db.progress} manifest={db.manifest} />
           )
         ) : (
-          <Ready state={state} set={set} go={go} back={back} manifest={db.manifest} />
+          <ReviewScreenContext.Provider value={Boolean(db.manifest?.review_screen)}>
+            <Ready state={state} set={set} go={go} back={back} manifest={db.manifest} />
+          </ReviewScreenContext.Provider>
         )}
       </main>
       <footer className="site">
@@ -122,7 +133,12 @@ export default function App() {
           <p>
             Built by <a href="https://beta.nyc">BetaNYC</a> from the NYC Council's own spreadsheets and NYC Open Data, the same data as the{" "}
             <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a> server
-            {db.manifest?.include_reviewed ? <>, plus reviewed PDF tables the server does not serve ({REVIEWED_LABEL})</> : null}.{" "}
+            {db.manifest?.include_reviewed ? (
+              <>
+                , plus the tables read from the Council's budget PDFs and checked against every printed total (each row says "{REVIEWED_LABEL}" or "{CLOSED_LABEL}")
+              </>
+            ) : null}
+            .{" "}
             {db.manifest ? (
               <>
                 Data build of {db.manifest.generated_at.slice(0, 10)} from commit{" "}
@@ -140,7 +156,10 @@ export default function App() {
   );
 }
 
-function Loading({ phase, progress }) {
+/** The data download, in whole MB, from the manifest's file sizes. */
+export const dataMb = (manifest) => Math.max(1, Math.round(Object.values(manifest?.files ?? {}).reduce((t, f) => t + (f.bytes ?? 0), 0) / 1e6));
+
+function Loading({ phase, progress, manifest }) {
   const what = { idle: "Starting", manifest: "Reading the data manifest", engine: "Loading the query engine", data: "Loading the data" }[phase] ?? "Loading";
   return (
     <div className="loading" role="status" aria-live="polite">
@@ -148,7 +167,7 @@ function Loading({ phase, progress }) {
         {what}… {phase === "engine" || phase === "data" ? `${Math.round(progress * 100)}%` : ""}
       </p>
       <progress value={progress} max={1} />
-      <p className="muted small">The explorer runs in your browser: it downloads the query engine (about 33 MB, cached after the first visit) and about 4 MB of data.</p>
+      <p className="muted small">The explorer runs in your browser: it downloads the query engine (about 33 MB, cached after the first visit) and about {dataMb(manifest)} MB of data.</p>
     </div>
   );
 }
@@ -188,10 +207,24 @@ function Ready({ state, set, go, back, manifest }) {
       return <Orgs {...props} />;
     case "terms":
       return <Terms {...props} />;
+    case "schedc":
+      return <ScheduleCSearch {...props} />;
+    case "transparency":
+      return <Transparency {...props} />;
+    case "book":
+      return <Book {...props} />;
     case "source":
       return <Source {...props} />;
     case "review":
-      return <Review {...props} />;
+      return manifest.review_screen ? (
+        <Suspense fallback={<p className="muted">Loading the review screen…</p>}>
+          <Review {...props} />
+        </Suspense>
+      ) : (
+        <Notice>
+          No review queue in this build. It appears in a local build made with <code>npm run data -- --include-reviewed</code>.
+        </Notice>
+      );
     case "compare":
       return <Compare {...props} />;
     case "about":

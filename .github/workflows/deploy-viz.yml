@@ -8,7 +8,10 @@
 #
 #   1. Build the MCP's index (mcp/: `npm ci` runs prepare = tsc + scripts/build-index.mjs).
 #   2. Build the explorer's data: viz/explorer/scripts/build-data.mjs re-runs build-index.mjs and
-#      exports budget.db's tables to Parquet. ONE loader: the explorer never parses a CSV itself.
+#      exports the index's tables to Parquet. ONE loader: the explorer never parses a CSV itself.
+#      `npm run data` is the public build (#213): every PDF family data/pdf_years.csv lists as
+#      reviewed or closed, each row labeled with its status, into viz/explorer/.cache/ (never
+#      mcp/data/budget.db), and no review screen.
 #   3. Test: the Pages notice tests, the explorer's unit tests, and the parity test (the Parquet
 #      equals budget.db year by year, and the explorer's queries answer what the MCP answers).
 #      A failure stops the deploy; the last good gh-pages stays live.
@@ -73,7 +76,7 @@ jobs:
         working-directory: viz/explorer
         run: npm ci
 
-      - name: Build the explorer data (MCP index -> Parquet)
+      - name: Build the explorer data (MCP index -> Parquet; reviewed and closed PDF families)
         working-directory: viz/explorer
         run: npm run data
 

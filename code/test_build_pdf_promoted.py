@@ -574,10 +574,14 @@ def test_new_fields_in_every_year(built):
         aw = _sc(built, fy)
         assert any(r["fiscal_conduit"] for r in aw) == (fy == 2018), fy
         assert any(r["review_not_completed"] for r in aw) == (fy in (2018, 2019)), fy
-        assert not any(r["read_from_page_image"] for r in aw), fy     # nobody has decided one yet
+        # Only rows a person decided read_from_page_image (2026-10-22: FY2023 Laundromat Project).
+        page = [r["review_id"] for r in aw if r["read_from_page_image"]]
+        assert page == (["42eba5fef74a"] if fy == 2023 else []), fy
     for fy in TR_YEARS:
         rs = rows(built[f"data/fy{fy % 100}/pdf/transparency/fy{fy % 100}_tr_rows.csv"])
         assert any(r["fiscal_conduit"] or r["fiscal_conduit_ein_printed"] for r in rs) == (fy == 2018), fy
+        page = [r["review_id"] for r in rs if r["read_from_page_image"]]
+        assert page == (["68a35940ec45"] if fy == 2019 else []), fy     # Himalayan Elders, 2026-10-22
 
 
 def test_fiscal_conduit_schedule_c_fy18(built):
@@ -587,13 +591,17 @@ def test_fiscal_conduit_schedule_c_fy18(built):
     # "13-281380", 8 digits) and p.271's drafting note, which is not a conduit.
     assert len(fc) == 49 and all("W.fiscal_conduit" in r["flags"] for r in fc)
     assert sum(1 for r in fc if r["fiscal_conduit_ein"]) == 48
+    # Only p.242 (no well-formed FC EIN) and p.271's note are review items; the 48 stored
+    # conduits with an EIN are not.
+    rv = {x["review_id"]: x for x in rows(built["data/fy18/pdf/schedule_c/fy18_sc_review.csv"])}
+    assert {x["award_id"] for x in rv.values() if x["check_id"] == "W.fiscal_conduit"} == {
+        "fy18-p242-t00-r011", "fy18-p271-t00-r014"}
     assert not any("fiscal_conduit" in r["row_flags"].split(";") for r in aw if r not in fc)
     r = next(r for r in aw if r["award_id"] == "fy18-p271-t00-r014")
     assert (r["fiscal_conduit"], r["fiscal_conduit_raw"]) == ("", "Please indicate the actuals\nschools.")
     assert "conduit_note" in r["row_flags"] and "W.fiscal_conduit" in r["flags"]
     r = next(r for r in aw if r["award_id"] == "fy18-p242-t00-r011")
     assert (r["fiscal_conduit_ein"], r["fiscal_conduit_ein_printed"]) == ("", "13-281380")
-    rv = {x["review_id"]: x for x in rows(built["data/fy18/pdf/schedule_c/fy18_sc_review.csv"])}
     assert "not an EIN" in rv["1361ec218029"]["what_to_check"]
     assert "not a conduit" in rv["f0d35523ca12"]["what_to_check"]
     # p.34 (test_schedc golden): Staten Island Hindu Temple through the JCC of Staten Island.

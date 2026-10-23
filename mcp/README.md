@@ -1,9 +1,14 @@
 # @betanyc/nyc-budget-mcp — NYC Budget MCP server
 
-A Model Context Protocol (MCP) server for NYC Council budget data, **built only from structured
-sources**: the Council's own expense funding disclosure spreadsheets and its capital
-designations (the Council's capital workbooks and NYC Open Data), plus a by-budget-line
-comparison with OMB's adopted capital budget. Nothing in it was extracted from a PDF.
+A Model Context Protocol (MCP) server for NYC Council budget data. The package itself is
+**built only from structured sources**: the Council's own expense funding disclosure spreadsheets
+and its capital designations (the Council's capital workbooks and NYC Open Data), plus a
+by-budget-line comparison with OMB's adopted capital budget.
+
+Four more tools answer from the **checked tables BetaNYC reads from the Council's budget PDFs**
+(Schedule C, transparency resolutions, the capital book, Terms and Conditions; FY2018 on). Those
+tables are an **optional download** (about 17 MB; 115 MB on disk), not part of the package: see
+[The checked PDF tables](#the-checked-pdf-tables-optional-download).
 
 > **2.0.0 is a breaking release.** The five tools built on data extracted from the
 > adopted-budget PDFs (Schedule C, Terms & Conditions, §254 capital, transparency resolutions)
@@ -26,7 +31,21 @@ Add this to your MCP client config (Claude Desktop, Claude Code, etc.):
 }
 ```
 
-Restart the client; the four `nyc-budget` tools become available. `@2` keeps you on 2.x. A
+Restart the client; the eight `nyc-budget` tools become available. The four PDF tools answer
+with how to add their tables until you download them:
+
+```json
+"mcpServers": {
+  "nyc-budget": {
+    "command": "npx",
+    "args": ["-y", "@betanyc/nyc-budget-mcp@2"],
+    "env": { "NYC_BUDGET_PDF_DATA": "on" }
+  }
+}
+```
+
+or, once, in a terminal: `npx @betanyc/nyc-budget-mcp download --pdf-tables` (add `--pdfs` for
+the PDF files too). `@2` keeps you on 2.x. A
 config that names no version follows npm's `latest` tag; one pinned to `@1` stays on the retired
 PDF-derived data.
 
@@ -36,6 +55,7 @@ PDF-derived data.
 |---|---|---|---|
 | Expense funding **disclosure** | **FY2009, FY2011–FY2027** (156,544 rows) | The Council's own award-level workbooks: FY2013–FY2027 downloaded from the Council RnD site on 2026-10-12, FY2009, FY2011 and FY2012 from the Council's archived workbooks via the Internet Archive (retrieved 2026-10-14) | **FY2010 is not included**: the Council's workbook (2,592 rows) is incomplete against NYC Open Data's (5,981 rows), and the two are never mixed. **FY2009 and FY2013 are early snapshots**, frozen while much was Pending and never revised: their Cleared totals are not headline figures. Per-year provenance: [`../data/disclosure_years.csv`](../data/disclosure_years.csv) |
 | Council **capital** designations | **FY2015–FY2017, FY2019–FY2027** (16,916 rows) | The Council's capital workbooks (FY2015–FY2017 and FY2026 via the Internet Archive, FY2027 from the RnD site) and NYC Open Data `t474-a92g`, which the Council publishes (FY2019–FY2025) | **FY2018 is missing** from every source found. Exact by budget line only: Council project IDs do not link to OMB, FMS or Checkbook, and there is no contract-level data. Overview: [`../data/capital/README.md`](../data/capital/README.md) |
+| **Checked PDF tables** (optional download) | Schedule C FY2018–FY2027 · transparency resolutions FY2018–FY2026 · capital book FY2018–FY2020, FY2022–FY2027 · Terms and Conditions FY2018, FY2021–FY2027 | Read by BetaNYC from the Council's PDFs (`../source/FYNN/`) and checked (`../PDF-RECIPE.md`); statuses in [`../data/pdf_years.csv`](../data/pdf_years.csv) | Every family-year is `reviewed` ("checked, review in progress") today; none is `closed` ("checked and reviewed") yet. FY2008–FY2017 were read only by the old parser and are not served |
 | Council vs **OMB** adopted capital budget | **FY2019–FY2027** (1,425 line-year comparisons, 515 distinct budget lines) | This repo's arithmetic on the capital table and OMB's `46m8-77gv` adopted release | Not a Council or OMB reconciliation. [`../data/capital/RECONCILIATION.md`](../data/capital/RECONCILIATION.md) §3 |
 
 `list_available_fiscal_years` reports this per year, with every gap stated.
@@ -52,7 +72,11 @@ two agree year by year. A change to the index build reaches the explorer on its 
 | `search_disclosure_awards` | The Council's expense funding disclosure by fiscal year / EIN / legal name / council member (substring) or **`council_member_id`** (exact Legistar person ID: `Levin` 7567 and `Levine` 7634 never blend) / source (substring) or **`source_exact`** / agency / program / grantee **`zip`** (exact 5-digit) / **`zip_status`** / **`city`** (exact) / status / **`mocs_id`** / **`od_mocs_id`** / amount range. Each row shows the grantee's mailing address as printed, its derived zip and zip_status, and, FY2009–FY2021, the MOCS ID NYC Open Data gives the same designation where the pairing is unambiguous. Reports the true match count, Cleared and Pending totals over **all** matches, the source and retrieval date of each year, the early-snapshot years and FY2010's exclusion |
 | `search_council_capital` | The Council's capital designations by fiscal year (the list's year) / `amount_fy` / **`budget_line`** (exact, `P D018`) / **`project_id`** (exact) / sponsor (substring) or `sponsor_exact` / `borough` (exact code) / `council_district` (workbook years only) / title / description / amount range. Totals the list's own year separately from out-year amounts; names the file, retrieval date and sha256 of every year it draws on |
 | `compare_capital_to_omb` | For each report year and Council-series budget line, the Council table's total vs OMB's adopted release, this year and next, with a verdict (`match`, `differ`, `council_only`, `omb_only`). Lines that disagree first |
-| `list_available_fiscal_years` | What each fiscal year holds in each dataset and where it came from; FY2010 (disclosure) and FY2018 (capital) stated as gaps |
+| `search_schedule_c_awards` | The adopted budget's Schedule C as printed, by fiscal year / organization / EIN (the organization's or its fiscal conduit's) / member, sponsor or delegation / category / initiative / agency / purpose / `disclosure_status` / amount range. Each row says whether the same EIN and amount is in the disclosure spreadsheet (cleared, pending or unmatched, with the reason). Sub-awards listed under their award, never counted. PDF tables |
+| `search_transparency_changes` | The transparency resolutions: designations, rescissions and purpose-of-funds changes after adoption, by fiscal year / budget year / organization / EIN / member / `resolution_number` / `resolution_date` or a `date_from`–`date_to` range / action, newest first. Totals per kind of change; "no dollar amount" rows counted, never summed. PDF tables |
+| `search_capital_book` | The §254 supporting detail (Parts I and II) by fiscal year / `project_id` / `budget_line` / sponsor / borough / agency / title / part / amount range, in book order. The total is Part I's (it ties to the book's printed total); "of which … went to non-city groups" is the Part I rows the book lists again in Part II (the same year, SUB ID and budget line, as the explorer); rows printed only in Part II are listed apart and never added, and only the `MA` series among them is labeled "question sent to Council Finance". Reductions counted on their own; "CD nn" sponsors labeled as districts with no member; borough "A" and "C" shown as printed, "not a borough, meaning unclear" (question to the Council: #227), and matched as printed by a borough filter. PDF tables |
+| `search_terms_conditions` | Terms and Conditions by fiscal year / agency / unit of appropriation / text, the same filters as the explorer's Terms view. PDF tables |
+| `list_available_fiscal_years` | What each fiscal year holds in each dataset and where it came from; FY2010 (disclosure) and FY2018 (capital) stated as gaps; each PDF family-year's status, and whether the PDF tables are installed |
 
 ### Unknown parameters are rejected, not ignored
 
@@ -173,21 +197,117 @@ and the answer lists it (one today: FY2021 `PW MN02A`, $304,000).
   `Government` rows hold $235,206,318). A narrow FY2011 search with no such rows is still not a
   headline. Otherwise the label says why, and a note gives the year's other statuses.
 
+## The checked PDF tables (optional download)
+
+The four PDF tools follow the rules settled for epic #190
+([`research/2026-10-22-mcp-pdf-tables/PLAN.md`](../research/2026-10-22-mcp-pdf-tables/PLAN.md)):
+
+- **Checked data only.** Only family-years `data/pdf_years.csv` lists as `reviewed` or `closed`
+  are served, and only rows at that status. At run time the server trusts the downloaded
+  release's own `pdf_years` table for that list; what guarantees no old-parser year is ever in it
+  is the build and its tests (`test/pdf-families.test.js`), not the server. Every row says which: "checked, review in progress"
+  or "checked and reviewed". The old parser's output is never served; FY2008–FY2017 answer "not
+  available yet".
+- **Values as printed**, never corrected. Each row lists its review entries as the public
+  explorer shows them: "N things to check on this row (about how the PDF was read, not about the
+  organization)", each entry's note and its decision in plain words, or "not yet decided". No
+  check id or severity is shown ("critical" next to an organization's name would read as a
+  charge against it), and the reviewers' suggested decisions are not served (the download
+  withholds `pdf_review_suggestions`, as the public explorer does). A `needs_info` question is labeled as an open question
+  to Council Finance; once a sent date is recorded and 30 days have passed, as "Question sent to
+  Council Finance on <date>, no answer yet".
+- **Hidden text** (text in the PDF a reader cannot see on the page) is served in its own line,
+  always labeled "hidden text, not visible on the printed page".
+- **The #209 fields**: `fiscal_conduit`, the `*` mark (`review_not_completed`, with the PDF's
+  footnote), `program_or_subheading`, `amount_kind` ("no dollar amount" rows counted, never
+  summed) and the Jobs to Build On sub-awards, listed under their parent award.
+- **Three links per row**, from `src/rowlinks.ts` (shared with the explorer): the explorer's
+  source view with the row highlighted (this one opens the live explorer, which serves the
+  current files, not a fixed commit); the PDF on GitHub **at the commit the tables were built
+  from** (recorded at build time only when that commit is on `origin/main`, `data/` and `source/`
+  are clean, and every cited PDF has the same bytes there; otherwise no GitHub link; never
+  `main`); the publisher's copy where a manifest records the same
+  file. With `--pdfs`, the row also names the PDF's copy on your machine.
+- Totals cover every match, however many rows are shown, as in the other tools.
+- **The same search rules as the explorer** (`viz/explorer/src/query/pdf.js`, PR #224): the same
+  columns per filter (an EIN also matches the fiscal conduit's; an organization never matches a
+  sub-award's partner), the same row order and the same totals. `test/pdf-tools.test.js` checks
+  counts, totals and the first page against the explorer's own queries.
+
+### Getting it
+
+Either way, files go to a per-user folder, never `node_modules`: `NYC_BUDGET_DATA_DIR` if set,
+else `~/Library/Application Support/nyc-budget-mcp` (macOS), `$XDG_DATA_HOME/nyc-budget-mcp` or
+`~/.local/share/nyc-budget-mcp` (Linux), `%LOCALAPPDATA%\nyc-budget-mcp` (Windows).
+
+- `npx @betanyc/nyc-budget-mcp download --pdf-tables [--pdfs] [--from <manifest URL or path>]`
+- or `NYC_BUDGET_PDF_DATA=on` (tables) or `=pdfs` (tables and PDFs) in the server's `env`: the
+  server downloads in the background on its next start; the other tools answer meanwhile, and the
+  PDF tools say the download is under way.
+
+By default the downloader asks GitHub for this repo's newest published release whose tag starts
+with `pdf-tables-` and that carries `pdf-tables.manifest.json`. `NYC_BUDGET_PDF_DATA_URL` (or
+`--from`) points at another manifest, over `https://`, `file:` or a local path. Every file is
+downloaded to a temporary name, checked against the manifest's size and sha256 (the tables also
+after unpacking; a file larger than its manifest says is stopped as it arrives), opened and
+checked for the tables and format the tools read, and only then renamed into place. A failed
+download leaves the previous install untouched and no temporary file; temporary files a killed
+download left are removed by the next one. One download runs at a time per folder (a lock file,
+`pdf-tables/download.lock`). Plain `http:` is refused except on this machine. A running server
+picks up tables `download` installs, without a restart.
+
+> **No release exists yet.** Publishing the release automatically on merge is W7 (#216). Until
+> then, build one locally: `npm run build-pdf-release -- --out <dir> [--pdfs] [--allow-local-commit]`
+> (`--allow-local-commit` is for local trials only: it warns, the manifest says
+> `"source_commit_scope": "local"`, and a server builds no GitHub link from such tables), and install it
+> with `download --pdf-tables --from <dir>/pdf-tables.manifest.json`.
+
+### The release format (`nyc-budget-pdf-tables/1`)
+
+A release carries, as flat assets:
+
+| Asset | What it is |
+|---|---|
+| `pdf-tables.manifest.json` | The manifest (below) |
+| `pdf-tables.db.gz` | gzip of `pdf-tables.db`: every `pdf_*` table of a `build-index.mjs --include-reviewed` build (reviewed and closed family-years; no spreadsheet table), with `pdf_review_suggestions` left empty (withheld, as in the public explorer), plus `meta` (`pdf_tables_format`, `built_at`, `source_commit`, `source_commit_check`, `source_commit_scope`, `pdf_gate`, `withheld`, `inputs`, `counts`) |
+| `<sha256>.pdf` | Optional (`--pdfs` builds): each PDF the rows cite, named by its sha256 |
+
+```json
+{
+  "format": "nyc-budget-pdf-tables/1",
+  "built_at": "2026-10-23T01:00:50.411Z",
+  "source_commit": "<40-digit commit the tables were built from>",
+  "source_commit_check": "pdfs_match",
+  "source_commit_scope": "origin/main",
+  "families": [{ "fiscal_year": 2027, "family": "schedule_c", "status": "reviewed", "rows": 9979 }],
+  "pdfs_included": false,
+  "files": [
+    { "name": "pdf-tables.db.gz", "kind": "pdf_tables", "bytes": 16803670, "sha256": "…",
+      "unpacked": { "name": "pdf-tables.db", "bytes": 116428800, "sha256": "…" } },
+    { "name": "<sha256>.pdf", "kind": "pdf", "path": "source/FY27/Fiscal-2027-Schedule-C-Final-3.pdf", "bytes": 0, "sha256": "…" }
+  ]
+}
+```
+
+File names are plain names resolved next to the manifest; a `pdf` file's `path` must be a
+`source/….pdf` repo path. A server refuses a manifest or tables of another `format`, so a later
+format change needs a new value and a server that reads it.
+
 ## Migrating from 1.x
 
 | 1.x tool | In 2.0.0 |
 |---|---|
-| `search_awards` | `search_disclosure_awards` (`legal_name`, `program_name`, `council_member` / `council_member_id`, `fiscal_year`, `ein`) |
+| `search_awards` | `search_disclosure_awards` (`legal_name`, `program_name`, `council_member` / `council_member_id`, `fiscal_year`, `ein`), or `search_schedule_c_awards` for Schedule C as printed (PDF tables download) |
 | `get_awards_by_ein` | `search_disclosure_awards` with `ein`; its totals and per-year split cover every match |
-| `search_capital_projects` | `search_council_capital` |
-| `search_transparency_resolutions` | No replacement tool yet. The resolutions: Committee on Finance items in [`nyc-council-mcp`](https://github.com/BetaNYC/nyc-council-mcp) (search `modification`). The designations they make: rows in `search_disclosure_awards`, without a resolution number. The PDFs: `source/FYNN/transparency-resolutions/` |
-| `get_terms_conditions` | No replacement tool yet. The Council's Terms and Conditions PDF for each year is in `source/FYNN/` |
+| `search_capital_projects` | `search_capital_book` (the §254 tables, checked; PDF tables download) or `search_council_capital` (the Council's own lists) |
+| `search_transparency_resolutions` | `search_transparency_changes` (PDF tables download). For a resolution's Legistar record, [`nyc-council-mcp`](https://github.com/BetaNYC/nyc-council-mcp) |
+| `get_terms_conditions` | `search_terms_conditions` (PDF tables download) |
 | `get_legistar_link` | Removed. Its crosswalk indexed the PDF documents 2.0 no longer serves, and several rows were researchers' candidates rather than verified links. For a resolution's Legistar record, use [`nyc-council-mcp`](https://github.com/BetaNYC/nyc-council-mcp) |
 | `list_available_fiscal_years` | Kept, rebuilt: per year, which structured datasets exist and where they came from |
 
-Calling a removed tool returns an error that names its replacement, or, for the three with none,
-says so and points to where to look instead. Figures published from 1.x
-(adopted Schedule C, §254) are a different source and will not reproduce against 2.0.
+Calling a removed tool returns an error that names its replacement. Figures published from 1.x
+(the old parser's Schedule C and §254) will not reproduce: the checked tables were read again
+from the PDFs, and the old parser lost and merged rows.
 
 ## Architecture
 
@@ -195,7 +315,9 @@ TypeScript + the MCP SDK + zod over stdio, on a local SQLite index (no live upst
 
 - **The parent repo's structured datasets** are the single source of truth: `../data/disclosure_years.csv`, `../data/fyNN/expense_disclosure/`, `../data/capital/`, and the `MANIFEST.csv` of each source folder whose files they cite.
 - **`scripts/build-index.mjs`** reads only those files and builds `mcp/data/budget.db` (git-ignored) with `better-sqlite3`. It records every file it read in the index's `meta.inputs`, stops on any value outside a documented vocabulary (a status, a flag, a row count that disagrees with `disclosure_years.csv`, a capital source whose sha256 differs from its manifest), and is idempotent: the `.db` is dropped and rebuilt each run.
-- **Reviewed PDF tables (not served).** The index also has empty `pdf_*` tables (`scripts/pdf-families.mjs`): reviewed PDF data from `data/pdf_years.csv` loads into them only when a family's status is `closed`, and no tool reads them. `--include-reviewed --out <file>` builds a separate index with `reviewed` families too, for the explorer's demo build; it refuses to write `data/budget.db`. `test/pdf-families.test.js` checks that every tool answers the same from that index as from the default one.
+- **The PDF tables, kept out of the package.** The index also has empty `pdf_*` tables (`scripts/pdf-families.mjs`). The package's build (`npm run build-index` = `build-index.mjs --spreadsheet-only`) loads no PDF family, whatever its status; with no flag, `closed` families load (the explorer's default build); `--include-reviewed --out <file>` adds `reviewed` ones and refuses to write `data/budget.db`. Every build records the commit it was built from (`meta.source_commit`, `NYC_BUDGET_SOURCE_COMMIT` overrides `git rev-parse HEAD`) and whether every cited PDF has the same bytes at that commit.
+- **`scripts/build-pdf-release.mjs`** builds the optional download from an `--include-reviewed` build (see [the release format](#the-release-format-nyc-budget-pdf-tables1)).
+- **`src/pdfdata.ts`** finds, checks and opens the downloaded tables (read-only) and downloads them; **`src/pdfquery.ts`** runs the four PDF tools' queries, with the serving gate on every query.
 - **`src/db.ts`** opens the index read-only and runs one query per tool; totals come from SQL over every match, never from the page.
 - **`src/server.ts`** holds the tool definitions, strict zod validation, the migration notes for removed tools, and the response text.
 
@@ -206,8 +328,9 @@ From inside `mcp/`:
 ```bash
 npm install          # runs prepare → build + build-index
 npm start            # launch the MCP server over stdio
-npm run build-index  # rebuild mcp/data/budget.db from the repo's datasets
-npm test             # build + build-index + run the tests
+npm run build-index  # rebuild mcp/data/budget.db from the repo's datasets (spreadsheet only)
+npm run build-pdf-release -- --out <dir> [--pdfs]   # build the optional PDF tables download
+npm test             # build + build-index + a PDF tables release in .pdf-test/ + the tests
 ```
 
 `mcp/data/budget.db` is a build artifact (git-ignored); the npm `files` allowlist ships it,
@@ -236,8 +359,12 @@ tests were mutation-checked (see `CHANGELOG.md`).
 
 | File | What it holds the server to |
 |---|---|
-| `test/no-pdf-data.test.js` | The index has only the structured tables; every file the build read is on a structured allowlist and none is PDF-derived; `npm pack` would ship exactly eight files (`dist/` code, README, LICENSE, package.json, the index) |
-| `test/tools.test.js` | Exactly four tools listed; every removed 1.x tool answers with its migration note; `list_available_fiscal_years` matches the datasets year by year |
+| `test/shipped-data.test.js` | The package's index has only the expected tables, every `pdf_*` table empty, the commit recorded; every file its build read is on a structured allowlist and none is PDF-derived; `npm pack` would ship exactly the `dist/` code, README, LICENSE, package.json and the index (replaces 2.0.0's `no-pdf-data.test.js`) |
+| `test/pdf-families.test.js` | The PDF families' gate: `--include-reviewed` never writes `data/budget.db`; a reviewed build loads exactly what `pdf_years.csv` lists, from no old-parser file; the download holds the `pdf_*` tables only, every row of a listed reviewed or closed family-year; the spreadsheet tools answer the same with or without it |
+| `test/pdf-tools.test.js` | The four PDF tools: without the download, how to add it; every served row labeled, with its page and links at the build's commit (never a branch; none when the PDFs were not checked against it); planted rows of an unlisted year or another status never served; hidden text always labeled; decisions shown; "no dollar amount" rows and Part II never summed; totals equal the CSVs; **parity** with the explorer's queries (`viz/explorer/src/query/pdf.js`: Terms, Schedule C only rows, capital Part I) |
+| `test/pdf-download.test.js` | The download, against a local HTTP server and folder only: install, `--pdfs`, a tampered, oversized or missing file (or PDF) installs nothing and leaves no temp file, a killed download's temp files are swept, one download at a time, plain http refused, `NYC_BUDGET_PDF_DATA=on` in the background and `=pdfs` not re-downloading a release without PDFs, release picking |
+| `test/source-commit.test.js` | The commit recorded for the GitHub links, on a throwaway repo: only a clean commit on `origin/main` whose PDFs match |
+| `test/tools.test.js` | Exactly eight tools listed; every removed 1.x tool answers with its migration note; `list_available_fiscal_years` matches the datasets year by year |
 | `test/disclosure.test.js` | Every row of every year indexed with its provenance; FY2010 not loaded; true counts and Cleared / Pending totals under any `limit`; ordering; status, amount, address and member filters; caveat and footer; strict-schema hints |
 | `test/disclosure-audit.test.js` | The audit questions (`../data/DISCLOSURE-AUDIT.md`, M1–M13): exact-to-the-cent totals for every year × status, truncation, sort before limit, limit edges, EIN rules, literal wildcards, multi-value notices, address filters, and the EIN-less note |
 | `test/disclosure-v2.test.js` | FY2009, FY2011, FY2012 with `od_mocs_id`, `od_match`, `row_flag`; early-snapshot labeling; the coverage line; FY2010's reason; exact `mocs_id` / `od_mocs_id`; the `row_flag` note |

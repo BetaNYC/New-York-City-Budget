@@ -8,6 +8,17 @@
 import { PAGE_SIZE, normBudgetLine } from "./sql.js";
 
 export const REVIEWED_LABEL = "checked, review in progress";
+export const CLOSED_LABEL = "checked and reviewed";
+/** A PDF row's status (pdf_years.status) in the words every row shows (#190). */
+export const statusLabel = (status) => (status === "closed" ? CLOSED_LABEL : status === "reviewed" ? REVIEWED_LABEL : "");
+
+/** Labels for fields decided in #209 (W8, #217). */
+export const HIDDEN_TEXT_LABEL = "hidden text, not visible on the printed page";
+export const NO_AMOUNT_LABEL = "no dollar amount";
+/** Schedule C's "*" mark (FY2019, FY2018), in the words of the PDF's own footnote. */
+// (Its own words, so it is never confused with this site's "checked, review in progress".)
+export const REVIEW_NOT_COMPLETED_LABEL = "* in the book: the City's review of this group wasn't finished at adoption";
+export const REVIEW_NOT_COMPLETED_NOTE = "The book's footnote: either MOCS or the Council's review process has not yet been completed.";
 
 const blank = (v) => v === null || v === undefined || (typeof v === "string" && v.trim() === "");
 /** The value side of a text filter: lower-case, accents removed (DuckDB's strip_accents twin). */
@@ -149,6 +160,20 @@ function termsWhere(f) {
   return w;
 }
 
+/**
+ * The years whose Terms and Conditions book prints no item numbers (#206): item_number there is
+ * the condition's place in the book, counted by the reader, not a number printed on the page.
+ */
+export const TERMS_BOOK_ORDER_YEARS = [2018, 2021, 2022, 2023, 2024];
+/** 1 -> "1st", 12 -> "12th", 23 -> "23rd". */
+export const ordinal = (n) => {
+  const v = Number(n);
+  const t = v % 100;
+  return `${v}${t >= 11 && t <= 13 ? "th" : ["th", "st", "nd", "rd"][v % 10] ?? "th"}`;
+};
+/** How to show a condition's item_number: "No. 7" where printed, else its place in the book. */
+export const termsNumberLabel = (fy, n) => (TERMS_BOOK_ORDER_YEARS.includes(Number(fy)) ? `No. ${n} (book order)` : `No. ${n}`);
+
 export function termsQuery(f, page) {
   const w = termsWhere(f);
   return {
@@ -255,12 +280,17 @@ export function scOnlyTotalsQuery(f) {
 
 // ---------------------------------------------------------------- review notes
 
-/** The review entries behind a row's `review_id` (`;`-joined ids). */
-export function reviewNotesQuery(reviewIds) {
+/**
+ * The review entries behind a row's `review_id` (`;`-joined ids). `full` (a review build) also
+ * asks for the check id and severity, which a public build's pdf_review does not carry.
+ */
+export function reviewNotesQuery(reviewIds, { full = true } = {}) {
   const ids = [...new Set(String(reviewIds ?? "").split(";").map((s) => s.trim()).filter(Boolean))];
   if (!ids.length) return null;
   return {
-    sql: `SELECT review_id, family, check_id, severity, pdf_page, note, decision, decision_note FROM pdf_review WHERE review_id IN (${ids.map(() => "?").join(", ")}) ORDER BY severity, review_id`,
+    sql: full
+      ? `SELECT review_id, family, check_id, severity, pdf_page, note, decision, decision_note FROM pdf_review WHERE review_id IN (${ids.map(() => "?").join(", ")}) ORDER BY severity, review_id`
+      : `SELECT review_id, family, pdf_page, note, decision, decision_note FROM pdf_review WHERE review_id IN (${ids.map(() => "?").join(", ")}) ORDER BY review_id`,
     params: ids,
   };
 }
@@ -355,3 +385,383 @@ export function landingSpot(box, paneHeight, margin = 24) {
   const above = box.height + margin > paneHeight * 0.75 ? margin : Math.round(paneHeight / 4);
   return { left: Math.max(0, box.left - margin), top: Math.max(0, box.top - above) };
 }
+
+// ---------------------------------------------------------------- searching every row (#213)
+//
+// One search per PDF family, over every row of the family (not only the rows paired with the
+// disclosure). Each returns { sql, params }; test/parity.test.mjs answers the same filters from
+// budget.db with plain JavaScript and checks the counts, totals and first page agree.
+
+const OFFSET = (page) => `LIMIT ${PAGE_SIZE} OFFSET ${Math.max(0, Number(page) || 0) * PAGE_SIZE}`;
+const intOrNull = (v) => (v === null || v === undefined || v === "" || !Number.isFinite(Number(v)) ? null : Math.trunc(Number(v)));
+const numOrNull = (v) => (blank(v) || !Number.isFinite(Number(v)) ? null : Number(v));
+/** An EIN as digits ("13-2612524" -> "132612524"), or "" when it has none. */
+export const einDigits = (v) => String(v ?? "").replace(/\D/g, "");
+/** A typed EIN with no digits, which the filter cannot use (the page says so rather than ignoring it). */
+export const einUnusable = (v) => String(v ?? "").trim() !== "" && einDigits(v) === "";
+
+/** Schedule C search: the hash state's keys -> filters. */
+export const scSearchFilters = (s) => ({
+  fiscal_year: s.scfy,
+  org: s.scorg,
+  ein: s.scein,
+  sponsor: s.scspon,
+  category: s.sccat,
+  initiative: s.scinit,
+  agency: s.scagency,
+  min_amount: s.scmin,
+  max_amount: s.scmax,
+  disclosure: s.scdisc,
+});
+
+/** Where each Schedule C row stands against the disclosure spreadsheet (pdf_schedule_c.disclosure_status). */
+export const SC_DISCLOSURE_LABEL = {
+  cleared: "In the spreadsheet: Cleared",
+  pending: "In the spreadsheet: Pending",
+  unmatched: "Not paired with a spreadsheet row",
+};
+/**
+ * What Cleared and Pending mean, as far as the sources say: the spreadsheet's Status column is the
+ * designation's clearance state, Cleared or Pending (source/expense-funding-disclosure/README.md);
+ * the Council does not define the steps further, so neither do we.
+ */
+export const SC_DISCLOSURE_NOTE =
+  "The Council's disclosure spreadsheet gives each designation a clearance status, Cleared or Pending. The Council does not publish what each step involves.";
+
+function scSearchWhere(f) {
+  const w = new Where();
+  w.eq("a.fiscal_year", intOrNull(f.fiscal_year));
+  w.text(["a.org"], f.org);
+  // The organization's EIN, or its fiscal conduit's (the group that receives the money for it).
+  if (einDigits(f.ein)) w.add("(a.ein = ? OR a.fiscal_conduit_ein = ?)", einDigits(f.ein), einDigits(f.ein));
+  // A member, the Speaker, or a delegation: whichever the row prints.
+  w.text(["a.member", "a.sponsor", "a.delegation"], f.sponsor);
+  w.text(["a.category"], f.category);
+  w.text(["a.initiative"], f.initiative);
+  w.text(["a.agency"], f.agency);
+  if (numOrNull(f.min_amount) !== null) w.add("a.amount >= ?", numOrNull(f.min_amount));
+  if (numOrNull(f.max_amount) !== null) w.add("a.amount <= ?", numOrNull(f.max_amount));
+  w.eq("a.disclosure_status", f.disclosure);
+  return w;
+}
+
+/** One page of Schedule C rows, highest amount first, with the disclosure row each is paired with. */
+export function scSearchQuery(f, page) {
+  const w = scSearchWhere(f);
+  return {
+    sql: `SELECT a.fiscal_year, a.status, a.award_id, a.section, a.category, a.initiative, a.member, a.sponsor, a.delegation,
+            a.org, a.ein, a.amount, a.amount_printed, a.agency, a.purpose, a.program_or_subheading, a.review_not_completed,
+            a.fiscal_conduit, a.fiscal_conduit_ein, a.read_from_page_image, a.disclosure_status, a.disclosure_reason,
+            a.pdf_page, a.bbox_pt, a.source_pdf, a.pdf_sha256, a.flags, a.review_id,
+            (SELECT m.disclosure_row FROM pdf_sc_disclosure m WHERE m.fiscal_year = a.fiscal_year AND m.award_id = a.award_id AND m.side = 'matched' LIMIT 1) AS disclosure_row,
+            (SELECT COUNT(*) FROM pdf_schedule_c_subawards s WHERE s.fiscal_year = a.fiscal_year AND s.parent_award_id = a.award_id) AS subawards
+          FROM pdf_schedule_c a${w.sql()}
+          ORDER BY a.amount DESC NULLS LAST, a.fiscal_year DESC, a.award_id
+          ${OFFSET(page)}`,
+    params: w.params,
+  };
+}
+
+/**
+ * Totals over every matching row. Sub-awards are in their own table and never counted here: they
+ * are the parent award's money passed on (#209), so adding them would count it twice.
+ */
+export function scSearchTotalsQuery(f) {
+  const w = scSearchWhere(f);
+  return {
+    sql: `SELECT COUNT(*) AS n, COALESCE(SUM(a.amount), 0) AS amount, COUNT(*) FILTER (WHERE a.amount IS NULL) AS no_amount,
+            COUNT(DISTINCT a.fiscal_year) AS years
+          FROM pdf_schedule_c a${w.sql()}`,
+    params: w.params,
+  };
+}
+
+/** The sub-awards printed under the awards on screen: [{fiscal_year, award_id}]. */
+export function scSubawardsQuery(awards) {
+  const keys = (awards ?? []).filter((a) => Number(a.subawards) > 0).map((a) => [Number(a.fiscal_year), String(a.award_id)]);
+  if (!keys.length) return null;
+  return {
+    sql: `SELECT fiscal_year, status, subaward_id, parent_award_id, org, ein, amount, amount_printed, service_type,
+            pdf_page, bbox_pt, source_pdf, pdf_sha256, flags, review_id
+          FROM pdf_schedule_c_subawards WHERE (fiscal_year, parent_award_id) IN (${keys.map(() => "(?, ?)").join(", ")})
+          ORDER BY fiscal_year, parent_award_id, table_index, row_index`,
+    params: keys.flat(),
+  };
+}
+
+// ---------------------------------------------------------------- transparency resolutions
+
+/** Transparency search: the hash state's keys -> filters. */
+export const trFilters = (s) => ({
+  fiscal_year: s.trfy,
+  budget_fiscal_year: s.trbfy,
+  org: s.trorg,
+  ein: s.trein,
+  member: s.trmember,
+  resolution: s.trreso,
+  date_from: s.trfrom,
+  date_to: s.trto,
+  action: s.traction,
+});
+
+/** pdf_transparency.action in plain words. */
+export const TR_ACTION_LABEL = {
+  designate: "Money added",
+  rescind: "Money taken back",
+  purpose_from: "Purpose changed: old purpose",
+  purpose_to: "Purpose changed: new purpose",
+  listed: "Listed, no dollar amount",
+};
+export const TR_ACTIONS = ["designate", "rescind", "purpose_from", "purpose_to", "listed"];
+
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+function trWhere(f) {
+  const w = new Where();
+  w.eq("fiscal_year", intOrNull(f.fiscal_year));
+  w.eq("budget_fiscal_year", intOrNull(f.budget_fiscal_year));
+  w.text(["org"], f.org);
+  if (einDigits(f.ein)) w.add("(ein = ? OR fiscal_conduit_ein = ?)", einDigits(f.ein), einDigits(f.ein));
+  w.text(["member"], f.member);
+  w.text(["resolution_number"], f.resolution);
+  if (ISO_DATE.test(String(f.date_from ?? "").trim())) w.add("resolution_date >= ?", String(f.date_from).trim());
+  if (ISO_DATE.test(String(f.date_to ?? "").trim())) w.add("resolution_date <= ?", String(f.date_to).trim());
+  w.eq("action", f.action);
+  return w;
+}
+
+/** One page of rows, newest resolution first, then in the order the resolution prints them. */
+export function trQuery(f, page) {
+  const w = trWhere(f);
+  return {
+    sql: `SELECT fiscal_year, status, row_id, resolution_seq, resolution_number, resolution_date, chart_number, chart_title,
+            budget_fiscal_year, chart_kind, action, agency_side, source, member, org, ein, agency, amount, amount_printed,
+            amount_kind, purpose, hidden_text, fiscal_conduit, fiscal_conduit_ein, read_from_page_image,
+            disclosure_status, pdf_page, bbox_pt, source_pdf, pdf_sha256, flags, review_id
+          FROM pdf_transparency${w.sql()}
+          ORDER BY resolution_date DESC, fiscal_year DESC, resolution_seq DESC, pdf_page, table_index, row_index, row_id
+          ${OFFSET(page)}`,
+    params: w.params,
+  };
+}
+
+/**
+ * Rows and dollars by action and side, over every match. A chart's agency-side lines
+ * (agency_side = 1) are the City agency's own lines, not money to or from an organization; the
+ * resolution pipeline keeps them apart (code/transreso/structure.py: org_designations vs
+ * agency_side_net), and so do these totals. "No dollar amount" rows count as rows, never as dollars.
+ */
+export function trTotalsQuery(f) {
+  const w = trWhere(f);
+  return {
+    sql: `SELECT action, COALESCE(agency_side, 0) AS agency_side, COUNT(*) AS n, COALESCE(SUM(amount), 0) AS amount,
+            COUNT(*) FILTER (WHERE amount IS NULL) AS no_amount
+          FROM pdf_transparency${w.sql()} GROUP BY 1, 2 ORDER BY 2, 1`,
+    params: w.params,
+  };
+}
+
+/**
+ * Rollup of trTotalsQuery's rows: { matched, byAction, agencyByAction }, each {action: {n, amount,
+ * no_amount}}: byAction for organization lines, agencyByAction for the agency-side lines.
+ */
+export function rollupTr(rows) {
+  const byAction = {};
+  const agencyByAction = {};
+  let matched = 0;
+  for (const r of rows ?? []) {
+    const into = Number(r.agency_side) === 1 ? agencyByAction : byAction;
+    into[r.action] = { n: Number(r.n), amount: Number(r.amount), no_amount: Number(r.no_amount) };
+    matched += Number(r.n);
+  }
+  return { matched, byAction, agencyByAction };
+}
+
+/** The resolutions of the years loaded, for the resolution picker: number, date, rows. */
+export const trResolutionsQuery = () => ({
+  sql: `SELECT fiscal_year, resolution_seq, resolution_number, resolution_date, rows FROM pdf_transparency_resolutions
+        ORDER BY resolution_date DESC, fiscal_year DESC, resolution_seq DESC`,
+  params: [],
+});
+
+// ---------------------------------------------------------------- the capital book (§254)
+
+/** Capital-book search: the hash state's keys -> filters. */
+export const bookFilters = (s) => ({
+  fiscal_year: s.bkfy,
+  sub_id: s.bkid,
+  sponsor: s.bksponsor,
+  boro: s.bkboro,
+  agency: s.bkagency,
+  title: s.bktitle,
+  budget_line: s.bkline,
+  part: s.bkpart,
+  min_amount: s.bkmin,
+  max_amount: s.bkmax,
+});
+
+/** A sponsor cell that names a district with no member (#206), e.g. "CD 22". */
+export const VACANT_DISTRICT = /^CD *\d+$/i;
+export const isVacantDistrict = (sponsor) => VACANT_DISTRICT.test(String(sponsor ?? "").trim());
+
+function bookWhere(f) {
+  const w = new Where();
+  w.eq("fiscal_year", intOrNull(f.fiscal_year));
+  w.text(["sub_id"], f.sub_id);
+  w.text(["sponsor", "sponsor_raw"], f.sponsor);
+  if (!blank(f.boro)) w.add("upper(boro) = ?", String(f.boro).trim().toUpperCase());
+  w.text(["agency"], f.agency);
+  // FY2019's book also prints a description under each title (#206).
+  w.text(["title", "description"], f.title);
+  if (!blank(f.budget_line)) w.eq("budget_line", normBudgetLine(f.budget_line) ?? String(f.budget_line).trim().toUpperCase());
+  w.eq("part", f.part);
+  // The book's own year's column; negative amounts (reductions) compare as numbers.
+  if (numOrNull(f.min_amount) !== null) w.add("amount_y1 >= ?", numOrNull(f.min_amount));
+  if (numOrNull(f.max_amount) !== null) w.add("amount_y1 <= ?", numOrNull(f.max_amount));
+  return w;
+}
+
+/** One page of book rows, in book order (year, part, page, row). */
+export function bookQuery(f, page) {
+  const w = bookWhere(f);
+  return {
+    sql: `SELECT fiscal_year, status, part, agency, row_in_page, sub_id, budget_line, boro, title, sponsor, building_code, school_code,
+            amount_y1, amount_y2, amount_y3, amount_y4, amount_y1_printed, amount_y2_printed, amount_y3_printed, amount_y4_printed,
+            council_district, description,
+            pdf_page, bbox_pt, source_pdf, pdf_sha256, flags, review_id,
+            -- rows in the whole book that print this SUB ID (Part I and Part II often repeat one; odForBookRow)
+            (SELECT COUNT(*) FROM pdf_capital_sd s WHERE s.fiscal_year = b.fiscal_year AND s.sub_id = b.sub_id) AS id_rows,
+            -- the same project in the other part (Part I row listed again in Part II, or the reverse)
+            CASE WHEN part = 'I' THEN ${IN_OTHER_PART("b", "II")} ELSE ${IN_OTHER_PART("b", "I")} END AS in_other_part
+          FROM pdf_capital_sd b${w.sql()}
+          ORDER BY fiscal_year DESC, part, pdf_page, row_in_page
+          ${OFFSET(page)}`,
+    params: w.params,
+  };
+}
+
+/**
+ * Whether the book prints the same project (year, SUB ID, budget line) in the other part. Part II
+ * (the non-city list) repeats Part I rows for non-city groups, and prints some rows Part I does not.
+ */
+const IN_OTHER_PART = (t, other) =>
+  `EXISTS (SELECT 1 FROM pdf_capital_sd o WHERE o.part = '${other}' AND o.fiscal_year = ${t}.fiscal_year AND o.sub_id = ${t}.sub_id AND o.budget_line IS NOT DISTINCT FROM ${t}.budget_line)`;
+
+/**
+ * Totals over every match (Noel, PR #224). The book's total is Part I only: it is what the book's
+ * own grand total prints. Under it: the Part I rows the book lists again in Part II (money that went
+ * to non-city groups), Part II's own total as printed, and the rows printed only in Part II, which
+ * are never added to the Part I total. Reductions (negative amounts) and vacant-district sponsors
+ * are counted on their own.
+ */
+export function bookTotalsQuery(f) {
+  const w = bookWhere(f);
+  const ys = [1, 2, 3, 4];
+  const sumIf = (cond, k) => `COALESCE(SUM(amount_y${k}) FILTER (WHERE ${cond}), 0)`;
+  const I = "part = 'I'";
+  const II = "part = 'II'";
+  const iInII = `${I} AND ${IN_OTHER_PART("b", "II")}`;
+  const iiOnly = `${II} AND NOT ${IN_OTHER_PART("b", "I")}`;
+  return {
+    sql: `SELECT COUNT(*) AS n, COUNT(DISTINCT fiscal_year) AS years,
+            COUNT(*) FILTER (WHERE ${I}) AS part1_n, ${ys.map((k) => `${sumIf(I, k)} AS y${k}`).join(", ")},
+            COUNT(*) FILTER (WHERE ${iInII}) AS noncity_n, ${sumIf(iInII, 1)} AS noncity_y1,
+            COUNT(*) FILTER (WHERE ${II}) AS part2_n, ${sumIf(II, 1)} AS part2_y1,
+            COUNT(*) FILTER (WHERE ${iiOnly}) AS part2_only_n, ${ys.map((k) => `${sumIf(iiOnly, k)} AS part2_only_y${k}`).join(", ")},
+            COUNT(*) FILTER (WHERE ${ys.map((k) => `amount_y${k} < 0`).join(" OR ")}) AS negative_rows,
+            COALESCE(SUM(amount_y1) FILTER (WHERE amount_y1 < 0), 0) AS negative_y1,
+            COUNT(*) FILTER (WHERE regexp_matches(trim(COALESCE(sponsor, '')), '^[Cc][Dd] *[0-9]+$')) AS vacant_rows
+          FROM pdf_capital_sd b${w.sql()}`,
+    params: w.params,
+  };
+}
+
+/** The matching rows printed only in Part II, in book order (listed apart from the Part I total). */
+export function bookPart2OnlyQuery(f) {
+  const w = bookWhere(f);
+  w.add("part = 'II'");
+  w.add(`NOT ${IN_OTHER_PART("b", "I")}`);
+  return {
+    sql: `SELECT fiscal_year, status, part, sub_id, budget_line, boro, title, sponsor, amount_y1, amount_y2, amount_y3, amount_y4,
+            pdf_page, row_in_page, bbox_pt, source_pdf, pdf_sha256, flags, review_id
+          FROM pdf_capital_sd b${w.sql()}
+          ORDER BY fiscal_year DESC, pdf_page, row_in_page
+          ${OFFSET(0)}`,
+    params: w.params,
+  };
+}
+
+/**
+ * The "MA" series (agency code, then MA: "PV MA0005"): rows the book prints only in Part II, with
+ * one question about them sent to Council Finance in every year (#209: needs_info).
+ */
+export const isMaSeries = (subId) => /^[A-Z]{1,2} MA/.test(String(subId ?? "").trim());
+export const PART2_ONLY_LABEL = "printed only in Part II";
+export const MA_QUESTION_LABEL = "question sent to Council Finance";
+
+/**
+ * NYC Open Data rows for the book rows on screen (#205). The crosswalk keys a PDF capital record
+ * on (report year, SUB ID, amount year), and, where the book prints one SUB ID on two rows, also
+ * on the row's place, "p<page>r<row>". The query asks by year and SUB ID; odForBookRow() then keeps
+ * only the crosswalk rows for this row's own place, so a reused ID never shows the other row's match.
+ */
+export function odForBookRowsQuery(rows) {
+  const keys = [...new Map((rows ?? []).map((r) => [`${Number(r.fiscal_year)}|${r.sub_id}`, [Number(r.fiscal_year), String(r.sub_id)]])).values()];
+  if (!keys.length) return null;
+  return {
+    sql: `SELECT x.fiscal_year, x.record_row, x.record_amount_fy, x.record_part, x.dataset_id, x.portal_row_id, x.candidates,
+            x.match_status, r.match_rule, x.differing_fields, x.portal_value, d.name AS dataset_name, d.snapshot_date
+          FROM open_data_crosswalk x
+          LEFT JOIN open_data_rules r ON r.rule_id = x.rule_id
+          LEFT JOIN open_data_datasets d ON d.dataset_id = x.dataset_id
+          WHERE x.family = 'capital_award' AND x.record_pdf = 1 AND (${keys.map(() => "(x.fiscal_year = ? AND x.record_row = ?)").join(" OR ")})
+          ORDER BY x.fiscal_year, x.record_row, x.record_amount_fy, x.dataset_id`,
+    params: keys.flat(),
+  };
+}
+
+/** A printed amount that is only a dash ("-", "–", "—"): the book prints no amount there. */
+export const printedDash = (p) => /^\s*[-–—]\s*$/.test(String(p ?? ""));
+
+/** A book row's place, as the crosswalk writes it. */
+export const bookPlace = (r) => `p${Number(r.pdf_page)}r${Number(r.row_in_page)}`;
+
+/**
+ * The crosswalk rows for a book row, each with `exact`: true when the match is this row's own (its
+ * place is recorded and is this row's, or the book prints the SUB ID on this row only), false when
+ * the crosswalk records no place and the book prints the SUB ID on more than one row (`id_rows`),
+ * so the match is to the SUB ID, not to this exact row. A crosswalk row recording another row's
+ * place is dropped. The crosswalk records a place for 32 rows and never a part.
+ */
+export function odForBookRow(xs, r) {
+  const place = bookPlace(r);
+  const shared = Number(r.id_rows ?? 1) > 1;
+  return (xs ?? [])
+    .filter((x) => Number(x.fiscal_year) === Number(r.fiscal_year) && x.record_row === r.sub_id)
+    .filter((x) => x.record_part == null || x.record_part === "" || x.record_part === place)
+    .map((x) => ({ ...x, exact: x.record_part === place || !shared }));
+}
+export const OD_SUB_ID_ONLY = "matched on project ID only, not to this exact row";
+
+/**
+ * Borough codes the book prints that are not a borough, meaning unclear (Noel, PR #224): shown as
+ * printed, with the question sent to the Council (GitHub #227). The MCP uses the same words.
+ */
+export const UNCLEAR_BOROUGHS = ["A", "C"];
+export const BOROUGH_QUESTION_URL = "https://github.com/BetaNYC/New-York-City-Budget/issues/227";
+export const unclearBoroughLabel = (code) => `${code} (as printed; not a borough, meaning unclear)`;
+/** The book's code for a row, upper-cased, when it is one of the unclear ones; else null. */
+export const unclearBorough = (boro) => {
+  const c = String(boro ?? "").trim().toUpperCase();
+  return UNCLEAR_BOROUGHS.includes(c) ? c : null;
+};
+
+/** The borough codes the book prints: the five boroughs, and A and C as printed. */
+export const BOOK_BOROUGHS = [
+  ["K", "Brooklyn (K)"],
+  ["M", "Manhattan (M)"],
+  ["Q", "Queens (Q)"],
+  ["R", "Staten Island (R)"],
+  ["X", "Bronx (X)"],
+  ...UNCLEAR_BOROUGHS.map((c) => [c, unclearBoroughLabel(c)]),
+];

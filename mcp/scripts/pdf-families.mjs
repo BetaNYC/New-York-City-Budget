@@ -15,7 +15,9 @@
  *   status = reviewed    only with --include-reviewed, which build-index.mjs refuses unless --out
  *                        points away from mcp/data/budget.db (the explorer's local or demo build)
  * Every pdf_* table exists in every index, empty when nothing is loaded, so the schema never
- * depends on the gate. No MCP tool reads a pdf_* table (test/pdf-families.test.js).
+ * depends on the gate. The MCP's four PDF tools read these tables from the optional download
+ * (scripts/build-pdf-release.mjs, src/pdfquery.ts), never from the package's index, which is
+ * built --spreadsheet-only (build-index.mjs).
  *
  * Every family's review CSV goes into one table, pdf_review: the columns all families share are
  * mapped by name (`review.map`), and the family's other review columns are kept, verbatim, as JSON

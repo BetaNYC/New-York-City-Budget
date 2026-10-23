@@ -15,8 +15,8 @@ export default function Terms(props) {
   if (!fams.length) {
     return (
       <Notice>
-        No Terms and Conditions data is in this build. These tables come from PDFs reviewed in epic #101; they appear once a year's review is closed, or in a local build
-        made with <code>npm run data -- --include-reviewed</code>.
+        No Terms and Conditions data is in this build. These tables come from PDFs checked in epic #101; they appear once a year's book has been checked
+        (data/pdf_years.csv).
       </Notice>
     );
   }
@@ -36,6 +36,12 @@ function TermsBody({ state, set, go, pdfYears }) {
       {fams.map((y) => (
         <ReviewedLabel key={y.fiscal_year} status={y.status} block />
       ))}
+      {fams.some((y) => P.TERMS_BOOK_ORDER_YEARS.includes(y.fiscal_year)) ? (
+        <p className="small">
+          The books for {P.TERMS_BOOK_ORDER_YEARS.map((y) => `FY${y}`).join(", ")} print no item numbers, so their conditions are numbered here in the order the
+          book prints them ("book order").
+        </p>
+      ) : null}
       <p className="lede">
         Each condition names the agencies and units of appropriation (or capital budget lines) whose funds it applies to, and the reports the agency must send
         the Council. Deadlines are the dates the text gives after "no later than"; read the condition for the full schedule.
@@ -60,7 +66,7 @@ function TermsBody({ state, set, go, pdfYears }) {
             {Number(q.data.n[0].n) > 0 && <p className="muted">{count(q.data.n[0].agencies)} agency names among them.</p>}
             <ol className="conditions">
               {q.data.rows.map((c) => (
-                <li key={`${c.fiscal_year}|${c.item_number}`} value={c.item_number}>
+                <li key={`${c.fiscal_year}|${c.item_number}`}>
                   <Condition c={c} state={state} go={go} od={od?.get(`${Number(c.fiscal_year)}|${c.item_number}`)} />
                 </li>
               ))}
@@ -97,8 +103,8 @@ function Condition({ c, state, go, od }) {
   return (
     <article className="condition">
       <h3>
-        {c.agency_name} <span className="muted small">FY{c.fiscal_year} · {c.kind}</span> <ReviewedLabel status={c.status} />{" "}
-        <FlagBadge flags={c.flags} reviewId={c.review_id} />
+        <span className="condition-number">{P.termsNumberLabel(c.fiscal_year, c.item_number)}:</span> {c.agency_name}{" "}
+        <span className="muted small">FY{c.fiscal_year} · {c.kind}</span> <ReviewedLabel status={c.status} /> <FlagBadge flags={c.flags} reviewId={c.review_id} />
       </h3>
       <p className="small">
         {c.units_of_appropriation ? (

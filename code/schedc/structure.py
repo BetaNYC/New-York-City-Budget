@@ -1416,14 +1416,18 @@ def build(pages, cfg):
                      dollar_impact=0)
             elif rec["fiscal_conduit"] or fe:
                 rec["row_flags"].append("fiscal_conduit")
-                kept = ("kept in fiscal_conduit and fiscal_conduit_ein" if rec["fiscal_conduit_ein"]
-                        else "kept in fiscal_conduit; fiscal_conduit_ein blank (no EIN printed)"
-                        if not fe else f"kept in fiscal_conduit; the FC EIN as printed is not an "
-                        "EIN, so fiscal_conduit_ein is blank (fiscal_conduit_ein_printed keeps it)")
-                flag("W.fiscal_conduit", "warn", rec["pdf_page"], f"fiscal conduit printed: "
-                     f"{rec['fiscal_conduit']!r}, FC EIN {' '.join(fe.split())!r}; {kept}",
-                     award_id=rec["award_id"], table_index=rec["table_index"],
-                     row_index=rec["row_index"], field="conduit", dollar_impact=0)
+                if not (rec["fiscal_conduit"] and rec["fiscal_conduit_ein"]):
+                    # A conduit with a well-formed EIN is stored and is no review item (it was one
+                    # while the review file was its only home, before #222); one with no EIN, or
+                    # an FC EIN that is not an EIN (p.242 "13-281380"), still is.
+                    kept = ("kept in fiscal_conduit; fiscal_conduit_ein blank (no EIN printed)"
+                            if not fe else f"kept in fiscal_conduit; the FC EIN as printed is not "
+                            "an EIN, so fiscal_conduit_ein is blank (fiscal_conduit_ein_printed "
+                            "keeps it)")
+                    flag("W.fiscal_conduit", "warn", rec["pdf_page"], f"fiscal conduit printed: "
+                         f"{rec['fiscal_conduit']!r}, FC EIN {' '.join(fe.split())!r}; {kept}",
+                         award_id=rec["award_id"], table_index=rec["table_index"],
+                         row_index=rec["row_index"], field="conduit", dollar_impact=0)
         rec["ein_printed"] = rec.pop("ein_raw").strip()
         rec["amount_printed"] = " ".join(rec.pop("amount_raw").split())
         if "empty_row" in rec["row_flags"]:

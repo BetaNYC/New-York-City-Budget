@@ -1150,9 +1150,10 @@ def test_golden18_fiscal_conduit_p34(pages18):
     r = _one(S, "133981477", 4000)
     assert r["org"] == "Staten Island Hindu Temple, Inc."
     assert r["fiscal_conduit_ein"] == "135562256" and "fiscal_conduit" in r["row_flags"]
-    fc = [f for f in S["flags"] if f["check_id"] == "W.fiscal_conduit" and
-          f["award_id"] == r["award_id"]]
-    assert len(fc) == 1 and "Jewish Community" in fc[0]["message"]
+    assert r["fiscal_conduit"] == "Jewish Community Center of Staten Island, Inc."
+    # Stored with a well-formed EIN, so no review item.
+    assert not [f for f in S["flags"] if f["check_id"] == "W.fiscal_conduit" and
+                f["award_id"] == r["award_id"]]
 
 
 def test_golden18_total_row_is_not_an_award_p64(pages18):
