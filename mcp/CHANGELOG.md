@@ -8,11 +8,13 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 
 Nothing yet.
 
-## 2.0.1 — unreleased (built 2026-10-20; not tagged, not published)
+## 2.0.2 — 2026-10-23
 
-The index gains empty tables, and (2026-10-22) four new tools over the checked PDF tables, which
-are an optional download. Nothing is removed. The new tools make this a minor change in semver
-terms; the version is left at 2.0.1 until the release (W11, #220) picks one.
+**Adds four tools** over the checked tables read from the Council's budget PDFs, and an optional
+download of those tables (and the PDFs) from this repo's GitHub Releases. Nothing is removed. 2.0.1
+was built but never published, so this release carries everything since 2.0.0; the notes below
+that say "version stays 2.0.1" were written while it was unpublished. Adding tools is a minor
+change in semver terms; the maintainer chose 2.0.2 (epic #190, W11 #220).
 
 ### Changed (plain words for checks and Council questions, 2026-10-23: epic #190, P3-A)
 - **Review notes in plain words.** Each review entry's note is now one plain sentence for its
@@ -52,8 +54,8 @@ terms; the version is left at 2.0.1 until the release (W11, #220) picks one.
   `search_disclosure_awards` is unchanged and separate.
 - **The optional download** (`src/pdfdata.ts`): `npx @betanyc/nyc-budget-mcp download
   --pdf-tables [--pdfs] [--from <manifest>]`, or `NYC_BUDGET_PDF_DATA=on` (or `pdfs`) to download
-  in the background on start. From this repo's newest `pdf-tables-*` GitHub Release (none yet;
-  W7 #216 publishes them) or `NYC_BUDGET_PDF_DATA_URL`; every file checked against the
+  in the background on start. From this repo's newest `pdf-tables-*` GitHub Release (the first,
+  `pdf-tables-2026-10-23-5bab77c`, was published 2026-10-23 by W7 #216) or `NYC_BUDGET_PDF_DATA_URL`; every file checked against the
   manifest's size and sha256; installed in a per-user folder (`NYC_BUDGET_DATA_DIR`), never
   `node_modules`. Until it is installed, the four tools say how to add it.
 - **`scripts/build-pdf-release.mjs`** builds the release assets locally (`pdf-tables.db.gz`, the
