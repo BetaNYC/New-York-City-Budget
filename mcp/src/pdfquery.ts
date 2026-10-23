@@ -25,6 +25,8 @@ import type { Database as DB } from "better-sqlite3";
 import { fold } from "./fold.js";
 import { rowLinks, type RowLinks } from "./rowlinks.js";
 import { localPdfPath } from "./pdfdata.js";
+import { plainReviewNote } from "./checkwords.js";
+import { questionsByReviewId, type CouncilQuestion, type Part2Series } from "./questions.js";
 import { existsSync } from "fs";
 
 export const STATUS_LABEL: Record<string, string> = {
@@ -74,18 +76,20 @@ export type Row = Record<string, any>;
 // ---------------------------------------------------------------- shared per-row parts
 
 /**
- * A row's review entry, as the public explorer shows it (PR #224, FlagBadge): the note and the
- * decision in plain words, never a check id or a severity (a "critical" beside an organization's
- * name reads as a charge against it; it is about our reading of the PDF), and never the
- * reviewers' suggested decisions, which the public build withholds (pdf_review_suggestions).
+ * A row's review entry, as the public explorer shows it (PR #224, FlagBadge): the note in plain
+ * words (src/checkwords.ts) and the decision in plain words, never a check id or a severity (a
+ * "critical" beside an organization's name reads as a charge against it; it is about our reading
+ * of the PDF), and never the reviewers' suggested decisions, which the public build withholds
+ * (pdf_review_suggestions).
  */
 export interface ReviewEntry {
   review_id: string;
+  /** The note in plain words, derived from the check id and field (plainReviewNote). */
   note: string;
   decision: string;
   decision_note: string;
-  /** The date the question was sent to Council Finance, where recorded (`detail.question_sent`). */
-  question_sent: string | null;
+  /** The question to Council Finance that covers this entry (data/council_questions.csv), or null. */
+  question: CouncilQuestion | null;
 }
 
 export interface ServedRow {
@@ -97,30 +101,30 @@ export interface ServedRow {
   local_pdf: string | null;
 }
 
+/** The questions to Council Finance in the tables, or none when the download predates them. */
+export function councilQuestions(db: DB): CouncilQuestion[] {
+  const has = db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'pdf_council_questions'").get();
+  return has ? (db.prepare("SELECT question_id, review_ids, issue, sent_on, answered_on, answer, question_status AS status FROM pdf_council_questions ORDER BY question_id").all() as CouncilQuestion[]) : [];
+}
+
 /** pdf_review entries for the page's rows, keyed "fy|family|review_id". */
 function reviewsFor(db: DB, family: string, rows: Row[]): Map<string, ReviewEntry> {
   const ids = [...new Set(rows.flatMap((r) => String(r.review_id ?? "").split(";").map((s) => s.trim()).filter(Boolean)))];
   const out = new Map<string, ReviewEntry>();
+  const questions = questionsByReviewId(councilQuestions(db));
   for (let i = 0; i < ids.length; i += 500) {
     const chunk = ids.slice(i, i + 500);
     const got = db
       .prepare(
-        `SELECT r.fiscal_year, r.review_id, r.note, r.detail, r.decision, r.decision_note
+        `SELECT r.fiscal_year, r.review_id, r.check_id, r.field, r.decision, r.decision_note
          FROM pdf_review r
          WHERE r.family = ? AND r.review_id IN (${chunk.map(() => "?").join(",")})`
       )
       .all(family, ...chunk) as Row[];
     for (const g of got) {
-      let sent: string | null = null;
-      try {
-        const d = g.detail ? JSON.parse(g.detail) : {};
-        sent = typeof d.question_sent === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d.question_sent) ? d.question_sent : null;
-      } catch {
-        sent = null;
-      }
       out.set(`${g.fiscal_year}|${family}|${g.review_id}`, {
-        review_id: g.review_id, note: g.note ?? "",
-        decision: g.decision ?? "", decision_note: g.decision_note ?? "", question_sent: sent,
+        review_id: g.review_id, note: plainReviewNote(g),
+        decision: g.decision ?? "", decision_note: g.decision_note ?? "", question: questions.get(g.review_id) ?? null,
       });
     }
   }
@@ -141,21 +145,6 @@ function serve(db: DB, family: string, rows: Row[], commit: string, label: (r: R
       local_pdf: local && existsSync(local) ? local : null,
     };
   });
-}
-
-const DAY = 86_400_000;
-
-/**
- * The words for a `needs_info` decision (PLAN.md "What closed means", rule 3): an open question
- * to Council Finance. Once 30 days have passed since it was sent, the row is published as printed
- * with the sent date; with no sent date recorded, it is plainly an open question.
- */
-export function needsInfoLabel(sent: string | null, today: Date = new Date()): string {
-  if (!sent) return "needs more information: an open question to Council Finance (no date sent is recorded yet); published as printed";
-  const days = Math.floor((today.getTime() - Date.parse(`${sent}T00:00:00Z`)) / DAY);
-  return days >= 30
-    ? `Question sent to Council Finance on ${sent}, no answer yet; published as printed`
-    : `needs more information: question sent to Council Finance on ${sent} (${days} day(s) ago), waiting for an answer; published as printed`;
 }
 
 /** The pdf_years rows of a family: which years exist and at what status. */
@@ -414,7 +403,8 @@ type YearSums = { rows: number; y1: number; y2: number; y3: number; y4: number }
  * explorer alike): the total is Part I's, which ties to the book's printed grand total. Part II is
  * the list of non-city groups. "Of which … went to non-city groups" is the Part I rows the book lists
  * again in Part II, so it is part of the total. Rows printed only in Part II (FY2027: 30, all of the
- * `MA` series, decided needs_info; FY2026: 42, 3 of them MA) are listed on their own and never added.
+ * `MA` series; FY2026: 42, 39 of them its `MM` series) are listed on their own and never added. The
+ * series is the year's config (pdf_capital_sd_series, from config/capital_sd/fyYYYY.toml).
  * A row is "the same project in the other part" by year, SUB ID and budget line, the explorer's rule
  * (viz/explorer/src/query/pdf.js IN_OTHER_PART).
  */
@@ -429,8 +419,12 @@ export interface CapitalBookResult {
   part_ii: YearSums;
   /** Matched Part II rows printed only in Part II: in no Part I total. */
   part_ii_only: YearSums;
-  /** Of those, the MA series: the rows with a question sent to Council Finance (#209). */
-  part_ii_only_ma: number;
+  /** Of those, the year's Part II series ("MA"; FY2026 "MM"): one question to Council Finance covers them (#209). */
+  part_ii_only_series: number;
+  /** The series prefixes of those rows' years ("MA", "MM"). */
+  series_prefixes: string[];
+  /** Each loaded year's Part II series, for labeling rows (inPart2Series). */
+  series: Part2Series[];
   /** Rows with a reduction (a negative amount) in any year column, and the first year's reductions. */
   negative_rows: number;
   negative_y1: number;
@@ -444,9 +438,16 @@ export interface CapitalBookResult {
 const IN_OTHER_PART = (other: "I" | "II") =>
   `EXISTS (SELECT 1 FROM pdf_capital_sd o WHERE o.part = '${other}' AND o.fiscal_year = c.fiscal_year AND o.sub_id = c.sub_id AND o.budget_line IS c.budget_line)`;
 
-/** The "MA" series ("PV MA0005"): printed only in Part II, one question sent to Council Finance (#209). The explorer's isMaSeries. */
-export const isMaSeries = (subId: unknown) => /^[A-Z]{1,2} MA/.test(String(subId ?? "").trim());
-const MA_SQL = "(c.sub_id GLOB '[A-Z] MA*' OR c.sub_id GLOB '[A-Z][A-Z] MA*')";
+/** Each year's Part II series (config/capital_sd/fyYYYY.toml), or none when the download predates the table. */
+export function part2Series(db: DB): Part2Series[] {
+  const has = db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'pdf_capital_sd_series'").get();
+  return has ? (db.prepare("SELECT fiscal_year, id_prefix, line_prefix FROM pdf_capital_sd_series ORDER BY fiscal_year").all() as Part2Series[]) : [];
+}
+
+/** In the row's year's Part II series, as src/questions.ts inPart2Series (the text after the agency code). */
+const SERIES_SQL = `EXISTS (SELECT 1 FROM pdf_capital_sd_series s WHERE s.fiscal_year = c.fiscal_year
+  AND substr(trim(c.sub_id), instr(trim(c.sub_id), ' ') + 1) GLOB s.id_prefix || '*'
+  AND substr(trim(c.budget_line), instr(trim(c.budget_line), ' ') + 1) GLOB s.line_prefix || '*')`;
 
 const sums = (when: string) =>
   `SUM(CASE WHEN ${when} THEN 1 ELSE 0 END), ` +
@@ -454,6 +455,7 @@ const sums = (when: string) =>
 
 export function searchCapitalBook(db: DB, commit: string, f: CapitalBookFilters): CapitalBookResult {
   const w = cbWhere(f);
+  const series = part2Series(db);
   const rows = db
     .prepare(
       `SELECT c.*, CASE WHEN c.part = 'I' THEN ${IN_OTHER_PART("II")} ELSE ${IN_OTHER_PART("I")} END AS in_other_part
@@ -464,7 +466,7 @@ export function searchCapitalBook(db: DB, commit: string, f: CapitalBookFilters)
     .prepare(
       `SELECT COUNT(*) AS n, ${sums("c.part = 'I'")}, ${sums(`c.part = 'I' AND ${IN_OTHER_PART("II")}`)}, ${sums("c.part = 'II'")},
          ${sums(`c.part = 'II' AND NOT ${IN_OTHER_PART("I")}`)},
-         SUM(CASE WHEN c.part = 'II' AND NOT ${IN_OTHER_PART("I")} AND ${MA_SQL} THEN 1 ELSE 0 END),
+         SUM(CASE WHEN c.part = 'II' AND NOT ${IN_OTHER_PART("I")} AND ${series.length ? SERIES_SQL : "0"} THEN 1 ELSE 0 END),
          COALESCE(SUM(${[1, 2, 3, 4].map((k) => `c.amount_y${k} < 0`).join(" OR ")}), 0) AS negative_rows,
          COALESCE(SUM(CASE WHEN c.amount_y1 < 0 THEN c.amount_y1 END), 0) AS negative_y1,
          COALESCE(SUM(upper(trim(COALESCE(c.sponsor, ''))) GLOB 'CD*' AND trim(substr(trim(c.sponsor), 3)) GLOB '[0-9]*' AND trim(substr(trim(c.sponsor), 3)) NOT GLOB '*[^0-9]*'), 0) AS vacant_rows
@@ -490,7 +492,12 @@ export function searchCapitalBook(db: DB, commit: string, f: CapitalBookFilters)
     noncity,
     part_ii,
     part_ii_only,
-    part_ii_only_ma: t[21],
+    part_ii_only_series: t[21],
+    series_prefixes: series.length
+      ? (db.prepare(`SELECT DISTINCT y.id_prefix FROM pdf_capital_sd c JOIN pdf_capital_sd_series y ON y.fiscal_year = c.fiscal_year
+          ${w.sql()} AND c.part = 'II' AND NOT ${IN_OTHER_PART("I")} AND ${SERIES_SQL} ORDER BY 1`).pluck().all(...w.params) as string[])
+      : [],
+    series,
     negative_rows: t[22],
     negative_y1: t[23],
     vacant_rows: t[24],

@@ -25,6 +25,7 @@ const MANIFEST = {
       "pdf_capital_sd", "pdf_capital_sd_orgs", "pdf_capital_sd_totals", "pdf_terms", "pdf_terms_units", "pdf_terms_fsr",
       "pdf_schedule_c", "pdf_schedule_c_subawards", "pdf_schedule_c_categories", "pdf_schedule_c_initiatives",
       "pdf_transparency", "pdf_transparency_charts", "pdf_transparency_resolutions", "pdf_sc_disclosure", "pdf_review",
+      "pdf_council_questions", "pdf_capital_sd_series",
       "open_data_crosswalk", "open_data_rules", "open_data_coverage", "open_data_datasets",
     ].map((t, i) => [`${t}.parquet`, { bytes: 1000 + i, rows: 1, sha256: String(i).padStart(64, "a") }])
   ),
@@ -44,13 +45,13 @@ describe("which files each view needs (needs.js)", () => {
   });
 
   test("each PDF view needs its own family's files (and the review notes), no other family's", () => {
-    expect(extra("schedc")).toEqual(["pdf_review", "pdf_sc_disclosure", "pdf_schedule_c", "pdf_schedule_c_categories", "pdf_schedule_c_initiatives", "pdf_schedule_c_subawards"]);
-    expect(extra("transparency")).toEqual(["pdf_review", "pdf_transparency", "pdf_transparency_charts", "pdf_transparency_resolutions"]);
-    expect(extra("orgs")).toEqual(["pdf_capital_sd", "pdf_capital_sd_orgs", "pdf_capital_sd_totals", "pdf_review"]);
+    expect(extra("schedc")).toEqual(["pdf_council_questions", "pdf_review", "pdf_sc_disclosure", "pdf_schedule_c", "pdf_schedule_c_categories", "pdf_schedule_c_initiatives", "pdf_schedule_c_subawards"]);
+    expect(extra("transparency")).toEqual(["pdf_council_questions", "pdf_review", "pdf_transparency", "pdf_transparency_charts", "pdf_transparency_resolutions"]);
+    expect(extra("orgs")).toEqual(["pdf_capital_sd", "pdf_capital_sd_orgs", "pdf_capital_sd_series", "pdf_capital_sd_totals", "pdf_council_questions", "pdf_review"]);
     const od = ["open_data_coverage", "open_data_crosswalk", "open_data_datasets", "open_data_rules"];
-    expect(extra("book")).toEqual(["pdf_capital_sd", "pdf_capital_sd_orgs", "pdf_capital_sd_totals", "pdf_review", ...od].sort());
+    expect(extra("book")).toEqual(["pdf_capital_sd", "pdf_capital_sd_orgs", "pdf_capital_sd_series", "pdf_capital_sd_totals", "pdf_council_questions", "pdf_review", ...od].sort());
     expect(extra("capital")).toEqual(extra("book"));
-    expect(extra("terms")).toEqual(["pdf_review", "pdf_terms", "pdf_terms_fsr", "pdf_terms_units", ...od].sort());
+    expect(extra("terms")).toEqual(["pdf_council_questions", "pdf_review", "pdf_terms", "pdf_terms_fsr", "pdf_terms_units", ...od].sort());
   });
 
   test("views over the spreadsheets only need nothing more; About the data needs nothing at all", () => {
@@ -65,7 +66,7 @@ describe("which files each view needs (needs.js)", () => {
   });
 
   test("Compare loads the sources of its section only", () => {
-    expect(extra("compare", { csec: "terms" })).toEqual(["pdf_review", "pdf_terms", "pdf_terms_fsr", "pdf_terms_units"]);
+    expect(extra("compare", { csec: "terms" })).toEqual(["pdf_council_questions", "pdf_review", "pdf_terms", "pdf_terms_fsr", "pdf_terms_units"]);
     expect(extra("compare", { csec: "line" })).toEqual(extra("orgs"));
     expect(pdfFamilyFiles(extra("compare", { csec: "org" }))).not.toContain("pdf_capital_sd");
     // The totals compare every source, the Schedule C pairing and the T&C count.

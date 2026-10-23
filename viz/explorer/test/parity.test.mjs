@@ -45,6 +45,7 @@ import * as C from "../src/compare/queries.js";
 import * as P from "../src/query/pdf.js";
 import { PDF_FAMILIES, PDF_TABLES } from "../../../mcp/scripts/pdf-families.mjs";
 import { OPEN_DATA_TABLES } from "../../../mcp/scripts/open-data.mjs";
+import { inPart2Series } from "../../../mcp/dist/questions.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const APP = resolve(HERE, "..");
@@ -189,14 +190,15 @@ describe("4. reviewed PDF tables, per family, year and status", () => {
     }
     for (const c of ["review_id", "note", "decision", "decision_note"]) assert.ok(cols.includes(c), `pdf_review.${c}`);
     if (!MANIFEST.include_reviewed) {
-      for (const t of PDF_TABLES) assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM ${t} WHERE status <> 'closed'`).get().n, 0, t);
+      // Every table but pdf_council_questions, which has no family-year status (not gated).
+      for (const t of PDF_TABLES.filter((t) => t !== "pdf_council_questions")) assert.equal(sqlite.prepare(`SELECT COUNT(*) AS n FROM ${t} WHERE status <> 'closed'`).get().n, 0, t);
     }
   });
   for (const t of COMPARED_PDF_TABLES) {
     test(t, async () => {
       const cols = shipped(t, sqlite.prepare(`PRAGMA table_info(${t})`).all().map((c) => c.name));
       const sums = cols.filter((c) => /^(amount|org_printed|printed|sum)_y\d$/.test(c) || ["dollars", "amount", "disclosure_amount", "rows_sum", "designated", "reserve"].includes(c));
-      const keys = ["status", ...(cols.includes("family") ? ["family"] : []), ...(cols.includes("fiscal_year") ? ["fiscal_year"] : [])];
+      const keys = [cols.includes("status") ? "status" : "question_status", ...(cols.includes("family") ? ["family"] : []), ...(cols.includes("fiscal_year") ? ["fiscal_year"] : [])];
       const q = `SELECT ${keys.join(", ")}, COUNT(*) AS n${sums.map((c) => `, COALESCE(SUM(${c}), 0) AS ${c}`).join("")}
                  FROM ${t} GROUP BY ${keys.join(", ")} ORDER BY ${keys.join(", ")}`;
       assert.deepEqual(await duck(q), sqlite.prepare(q).all());
@@ -496,7 +498,8 @@ describe("7. the PDF family searches answer what budget.db answers", () => {
     const o = P.bookPart2OnlyQuery({ fiscal_year: 2027 });
     const only = await duck(o.sql, o.params);
     assert.equal(only.length, 30);
-    assert.ok(only.every((r) => P.isMaSeries(r.sub_id)), "FY2027's Part-II-only rows are the MA series");
+    const series = await duck(P.part2SeriesQuery().sql);
+    assert.ok(only.every((r) => inPart2Series(r, series)), "FY2027's Part-II-only rows are its config's series (MA on 0N)");
     const b = P.bookQuery({ fiscal_year: 2027, part: "II" }, 0);
     assert.ok((await duck(b.sql, b.params)).length > 0, "Part II rows stay searchable");
   });

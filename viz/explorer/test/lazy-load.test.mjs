@@ -106,6 +106,8 @@ const VIEWS = {
     await run(P.bookPart2OnlyQuery(f), "bookPart2OnlyQuery");
     await run(P.odForBookRowsQuery(rows), "odForBookRowsQuery");
     await run(P.reviewNotesQuery(rows.map((r) => r.review_id).filter(Boolean).slice(0, 5), { full: false }), "reviewNotesQuery");
+    await run(P.councilQuestionsQuery(), "councilQuestionsQuery");
+    await run(P.part2SeriesQuery(), "part2SeriesQuery");
   },
   orgs: async (run) => {
     await run(P.orgsQuery({ fiscal_year: fy("capital_sd") }, 0), "orgsQuery");

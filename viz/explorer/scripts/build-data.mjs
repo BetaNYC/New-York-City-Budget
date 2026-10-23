@@ -84,7 +84,8 @@ const WITHHELD = BUILD === "public" ? [SUGGESTIONS.table] : [];
 /**
  * Columns a public build leaves out of a table it ships: pdf_review's internal fields (the check
  * id, severity, dollar impact, expected / observed values and the JSON detail). The public flag
- * badge reads only the note and the decision; the review build keeps every column.
+ * badge reads the plain note (plain_note, mcp/src/checkwords.ts) and the decision; the review
+ * build keeps every column.
  */
 const DROPPED = BUILD === "public" ? { pdf_review: ["check_id", "severity", "dollars", "expected", "observed", "detail"] } : {};
 
@@ -116,7 +117,7 @@ function buildIndex() {
   if (!existsSync(join(MCP, "node_modules"))) {
     throw new Error("build-data: mcp/node_modules is missing. Run `npm ci` in mcp/ first.");
   }
-  for (const f of ["fold.js", "rowlinks.js"]) {
+  for (const f of ["fold.js", "rowlinks.js", "checkwords.js", "questions.js"]) {
     if (!existsSync(join(MCP, "dist", f))) throw new Error(`build-data: mcp/dist/${f} is missing. Run \`npm run build\` in mcp/ first.`);
   }
   log("index_start", { build: BUILD, out: DB_PATH });

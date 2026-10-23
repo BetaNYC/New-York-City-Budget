@@ -19,8 +19,9 @@ export const TABLES = ["disclosure", "disclosure_years", "capital_council", "cap
  */
 export const BASE = [...TABLES, "pdf_years"];
 
-/** Review notes behind every PDF row's flag badge (src/components/pdf.jsx), for any family. */
-const REVIEW_NOTES = ["pdf_review"];
+/** Review notes behind every PDF row's flag badge (src/components/pdf.jsx), for any family, and the
+ * Council questions they join to (src/query/pdf.js). */
+const REVIEW_NOTES = ["pdf_review", "pdf_council_questions"];
 
 /** The NYC Open Data crosswalk (open_data_*), from the manifest's file list. */
 export const openDataTables = (manifest) => fileTables(manifest).filter((t) => t.startsWith("open_data_"));
@@ -28,12 +29,14 @@ export const openDataTables = (manifest) => fileTables(manifest).filter((t) => t
 /**
  * One PDF family's tables (manifest.pdf_families[family].tables), plus its review notes. Schedule
  * C also brings pdf_sc_disclosure, its pairing with the spreadsheet rows, which every Schedule C
- * screen shows.
+ * screen shows; the capital book brings pdf_capital_sd_series, the Part-II-only ID series its
+ * question label reads (src/query/pdf.js part2SeriesQuery).
  */
 export function familyTables(manifest, family) {
   const fam = manifest?.pdf_families?.[family];
   if (!fam) return [];
-  return [...fam.tables, ...(family === "schedule_c" ? ["pdf_sc_disclosure"] : []), ...REVIEW_NOTES];
+  const extra = { schedule_c: ["pdf_sc_disclosure"], capital_sd: ["pdf_capital_sd_series"] }[family] ?? [];
+  return [...fam.tables, ...extra, ...REVIEW_NOTES];
 }
 
 /** The Schedule C pairing and the Open Data badges the expense list can add (Awards.jsx). */

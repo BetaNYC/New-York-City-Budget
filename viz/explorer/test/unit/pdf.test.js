@@ -75,7 +75,7 @@ describe("recorded decisions", () => {
     expect(P.flagState([])).toEqual({ state: "unknown" });
     expect(P.flagState([{ decision: "source_error" }, { decision: "" }])).toEqual({ state: "open", open: 1 });
     expect(P.flagState([{ decision: "source_error" }, { decision: "source_error" }])).toEqual({ state: "decided", decisions: ["source_error"] });
-    expect(P.reviewNotesQuery("a").sql).toContain("decision, decision_note");
+    expect(P.reviewNotesQuery("a").sql).toContain("r.decision, r.decision_note");
   });
 });
 

@@ -281,19 +281,35 @@ export function scOnlyTotalsQuery(f) {
 // ---------------------------------------------------------------- review notes
 
 /**
- * The review entries behind a row's `review_id` (`;`-joined ids). `full` (a review build) also
- * asks for the check id and severity, which a public build's pdf_review does not carry.
+ * The review entries behind a row's `review_id` (`;`-joined ids), each with the question to
+ * Council Finance that covers it, if any (pdf_council_questions; q_status is the question's).
+ * `full` (a review build) also asks for the check id and severity, which a public build's
+ * pdf_review does not carry; the public build shows `plain_note` (mcp/src/checkwords.ts).
  */
 export function reviewNotesQuery(reviewIds, { full = true } = {}) {
   const ids = [...new Set(String(reviewIds ?? "").split(";").map((s) => s.trim()).filter(Boolean))];
   if (!ids.length) return null;
+  const cols = full ? "r.review_id, r.family, r.check_id, r.severity, r.pdf_page, r.note, r.plain_note" : "r.review_id, r.family, r.pdf_page, r.plain_note";
   return {
-    sql: full
-      ? `SELECT review_id, family, check_id, severity, pdf_page, note, decision, decision_note FROM pdf_review WHERE review_id IN (${ids.map(() => "?").join(", ")}) ORDER BY severity, review_id`
-      : `SELECT review_id, family, pdf_page, note, decision, decision_note FROM pdf_review WHERE review_id IN (${ids.map(() => "?").join(", ")}) ORDER BY review_id`,
+    sql: `SELECT ${cols}, r.decision, r.decision_note,
+            q.question_id, q.review_ids, q.issue, q.sent_on, q.answered_on, q.answer, q.question_status AS q_status
+          FROM pdf_review r LEFT JOIN pdf_council_questions q ON contains(';' || q.review_ids || ';', ';' || r.review_id || ';')
+          WHERE r.review_id IN (${ids.map(() => "?").join(", ")}) ORDER BY ${full ? "r.severity, " : ""}r.review_id`,
     params: ids,
   };
 }
+
+/** A notes-query row's question as mcp/src/questions.ts reads it, or null when none covers it. */
+export const noteQuestion = (n) =>
+  n?.question_id
+    ? { question_id: n.question_id, review_ids: n.review_ids, issue: n.issue, sent_on: n.sent_on, answered_on: n.answered_on, answer: n.answer, status: n.q_status }
+    : null;
+
+/** Every question to Council Finance (the MA series and borough labels read theirs by id). */
+export const councilQuestionsQuery = () => ({
+  sql: "SELECT question_id, review_ids, issue, sent_on, answered_on, answer, question_status AS status FROM pdf_council_questions ORDER BY question_id",
+  params: [],
+});
 
 // ---------------------------------------------------------------- the review queue
 
@@ -692,12 +708,16 @@ export function bookPart2OnlyQuery(f) {
 }
 
 /**
- * The "MA" series (agency code, then MA: "PV MA0005"): rows the book prints only in Part II, with
- * one question about them sent to Council Finance in every year (#209: needs_info).
+ * Each year's Part II series ("MA" IDs on "0N" lines; FY2026 "MM"), from the reader's config
+ * (config/capital_sd/fyYYYY.toml, loaded as pdf_capital_sd_series). A row is in it by
+ * mcp/src/questions.ts inPart2Series; one question to Council Finance covers it (#209), labeled
+ * by seriesWords with the question's status.
  */
-export const isMaSeries = (subId) => /^[A-Z]{1,2} MA/.test(String(subId ?? "").trim());
+export const part2SeriesQuery = () => ({
+  sql: "SELECT fiscal_year, id_prefix, line_prefix FROM pdf_capital_sd_series ORDER BY fiscal_year",
+  params: [],
+});
 export const PART2_ONLY_LABEL = "printed only in Part II";
-export const MA_QUESTION_LABEL = "question sent to Council Finance";
 
 /**
  * NYC Open Data rows for the book rows on screen (#205). The crosswalk keys a PDF capital record

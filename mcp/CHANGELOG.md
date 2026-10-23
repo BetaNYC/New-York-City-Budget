@@ -14,6 +14,26 @@ The index gains empty tables, and (2026-10-22) four new tools over the checked P
 are an optional download. Nothing is removed. The new tools make this a minor change in semver
 terms; the version is left at 2.0.1 until the release (W11, #220) picks one.
 
+### Changed (plain words for checks and Council questions, 2026-10-23: epic #190, P3-A)
+- **Review notes in plain words.** Each review entry's note is now one plain sentence for its
+  check (`src/checkwords.ts`, one table shared with the explorer), with the parts of the row it is
+  about ("Two readings of the page (the PDF's text and its image) split this row differently.
+  Part of the row: organization name, EIN."). The reviewers' shorthand stays in the data. A row with review
+  entries also lists its other flags in plain words ("how this row was read: ..."). No check code
+  is ever shown.
+- **Questions to Council Finance** come from `data/council_questions.csv` (a new
+  `pdf_council_questions` table in the PDF tables download; `src/questions.ts` words them, shared
+  with the explorer). A review entry a question covers says "Open question (not yet sent)", "Question
+  sent to Council Finance on <date>", the same with ", no answer yet" (30 days or more), or the
+  answer with its date. A `needs_info` entry no question covers says "Still being checked". The
+  capital book's Part II series and borough codes A and C carry their question's status. This
+  replaces the `detail.question_sent` field nothing wrote, and the "question sent to Council
+  Finance" label on the MA series, which claimed a question had been sent when none had.
+- **The capital book's Part II series is read from the reader's config**
+  (`config/capital_sd/fyYYYY.toml` `[part2_only]`, loaded as `pdf_capital_sd_series`), not
+  hardcoded as "MA": FY2026's series is "MM" on "0N" lines, so its 39 MM rows are the series
+  (`part_ii_only_series`, was `part_ii_only_ma`: 3) and its three MA rows are not.
+
 ### Added (the checked PDF tables, 2026-10-22: W3 #212, W5 #214, W6 #215)
 - **Four tools**: `search_schedule_c_awards` (with each row's `disclosure_status`),
   `search_transparency_changes`, `search_capital_book`, `search_terms_conditions`. They serve the
