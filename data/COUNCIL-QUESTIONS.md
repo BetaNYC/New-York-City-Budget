@@ -43,8 +43,8 @@ below?
   the "MA" series (FY2026: "MM"), sit on "0N" budget lines, and print no sponsor: FY2018 pp.72–74
   (52 rows), FY2022 pp.77–78 (25), FY2023 pp.76–77 (39), FY2024 pp.65–67 (29), FY2025 pp.72–74 (39),
   FY2026 pp.71–72 (39 MM rows), FY2027 pp.66–67 (30). From FY2022 on they are also not in
-  `t474-a92g`. What are the MA and MM series and the 0N lines?
-- **`capital-borough-codes-a-c`** (#227). What do borough codes A and C mean in the capital books?
+  the NYC Open Data dataset `t474-a92g`. What are the MA and MM series and the 0N lines?
+- **`capital-borough-codes-a-c`**. What do borough codes A and C mean in the capital books?
 - **`fy2025-capital-pv-ct001-apollo-theater`**. FY2025 p.74, Part II: PV CT001 on PV DN027,
   "126 PV207APLO APOLLO THEATER", $2,500,000. It is not in Part I and not in the MA series. What
   kind of item is it?
@@ -57,8 +57,9 @@ below?
   ADJUSTMENT FOR THE SIUH NORTHWELL HEALTH CARDIAC IMAGING PROJ", −$40,000. What kind of item is
   it?
 - **`fy2018-capital-ta-part-ii`**. FY2018, Part II only, no sponsor printed: AG TA001 on AG DN865
-  (p.72, Conselya Block Association, $500,000); HH TA001 on HH DN106 (p.80, Coalition for the
-  Homeless, $693,000); HH TA003 on HH MN336 (p.80, Project Renewal, −$100,000). What kind of items
+  (p.72, "CONSELYA BLOCK ASSOCIATION/211 AINSLIE", $500,000); HH TA001 on HH DN106 (p.80,
+  "COALITION OF THE HOMLESS 2ND FLOOR RENOVATION", $693,000); HH TA003 on HH MN336 (p.80,
+  "PROJECT RENEWAL", −$100,000). What kind of items
   are these?
 - **`fy2023-capital-rr-series`**. FY2023, Part I (pp.46–69): 15 rows with RR project IDs and no
   sponsor printed, $22,633,000, four of them on borough A. What does the RR series mean? On HD D020,
@@ -68,11 +69,12 @@ below?
   ("811K TECHNOLOGY" and "NYC PUBLIC SCHOOL 97 BRONX - SCHOOLYARD"); `t474-a92g` has one. Are these
   two separate projects sharing one ID?
 - **`fy2020-capital-tf-cn90`**. FY2020 p.79: TF CN90 is printed on two $200,000 rows on TF D005
-  (real-time passenger information, one in Manhattan for Council District 11, one in Queens).
-  Are these two separate projects sharing one ID?
+  (real-time passenger information): one printed with borough M, for Council District 11 (sponsor
+  Cohen), the other in Queens. Are these two separate projects sharing one ID? And is the first
+  row's borough M right, since District 11 is in the Bronx?
 - **`fy2019-capital-hw-cn030`**. FY2019 p.40: HW CN030, "DOT REPAVING IN DISTRICT 31", $500,000,
-  prints sponsor Rose and "CD 49, 00"; `t474-a92g` has district 31 (Richards). Which district and
-  sponsor is it?
+  prints Council district "49, 00" (the book's member list gives 49 as Deborah Rose); `t474-a92g`
+  has district 31 (Richards). Which district and sponsor is it?
 - **`fy2027-capital-workbook-titles`**. Two FY2027 rows whose titles differ from `t474-a92g`:
   E CC0598 (p.23; the book: Queens United Middle School gym / supplemental cooling; the dataset:
   a science lab upgrade) and E CC1245 (p.36; the book: P.S. 370 auditorium; the dataset: P.S. 199

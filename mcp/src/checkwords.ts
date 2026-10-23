@@ -117,7 +117,7 @@ export const CHECK_WORDS: Record<string, string> = {
   "W.clipped_text": "Some text is hidden under the next cell on the printed page.",
   "W.conduit_ein": "The fiscal conduit's EIN is not readable on the page.",
   "W.continuation_row": "This row continues onto a second line or page.",
-  "W.edited_after_export": "Some text on this row is in a different font, typed into the PDF after it was exported.",
+  "W.edited_after_export": "Some text on this row is in a different font, which suggests it was added after the PDF was exported.",
   "W.ein_no_hyphen": "The EIN is printed without its hyphen.",
   "W.ein_overflow_hyphen": "The EIN's hyphen runs into the next cell.",
   "W.fiscal_conduit": "The PDF prints something in the fiscal-conduit column for this row, usually a group that receives the money for the one listed.",
