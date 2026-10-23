@@ -455,7 +455,21 @@ describe("7. the PDF family searches answer what budget.db answers", () => {
       const t = P.bookTotalsQuery(f);
       const [got] = await duck(t.sql, t.params);
       assert.equal(got.n, want.length, "matched");
-      for (const k of [1, 2, 3, 4]) assert.equal(got[`y${k}`], sum(want, `amount_y${k}`), `amount_y${k}`);
+      // The book's total is Part I; Part II apart, split into rows also in Part I and rows only in Part II.
+      const same = (a, b) => a.fiscal_year === b.fiscal_year && a.sub_id === b.sub_id && a.budget_line === b.budget_line;
+      const book = rowsOf("pdf_capital_sd");
+      const p1 = want.filter((r) => r.part === "I");
+      const p2 = want.filter((r) => r.part === "II");
+      const noncity = p1.filter((r) => book.some((o) => o.part === "II" && same(o, r)));
+      const only = p2.filter((r) => !book.some((o) => o.part === "I" && same(o, r)));
+      assert.equal(got.part1_n, p1.length, "Part I rows");
+      for (const k of [1, 2, 3, 4]) assert.equal(got[`y${k}`], sum(p1, `amount_y${k}`), `Part I amount_y${k}`);
+      assert.deepEqual([got.noncity_n, got.noncity_y1], [noncity.length, sum(noncity, "amount_y1")], "Part I rows listed again in Part II");
+      assert.deepEqual([got.part2_n, got.part2_y1], [p2.length, sum(p2, "amount_y1")], "Part II");
+      assert.deepEqual([got.part2_only_n, got.part2_only_y1], [only.length, sum(only, "amount_y1")], "printed only in Part II");
+      const o = P.bookPart2OnlyQuery(f);
+      const key0 = (x) => `${x.fiscal_year}:${x.pdf_page}:${x.row_in_page}`;
+      assert.deepEqual((await duck(o.sql, o.params)).map(key0), [...only].sort(cmp(["fiscal_year", "desc"], ["pdf_page", "asc"], ["row_in_page", "asc"])).slice(0, Q.PAGE_SIZE).map(key0), "Part-II-only list");
       assert.equal(got.negative_rows, want.filter((r) => [1, 2, 3, 4].some((k) => r[`amount_y${k}`] < 0)).length, "negative rows");
       assert.equal(got.negative_y1, sum(want.filter((r) => r.amount_y1 < 0), "amount_y1"), "negative amount");
       assert.equal(got.vacant_rows, want.filter((r) => P.isVacantDistrict(r.sponsor)).length, "vacant-district sponsors");
@@ -465,6 +479,27 @@ describe("7. the PDF family searches answer what budget.db answers", () => {
       assert.deepEqual((await duck(r.sql, r.params)).map(key), page.map(key), "first page, in order");
     });
   }
+
+  test("capital book FY2027: Part I $853,688,000, Part II $210,677,000, 148 Part I rows again in Part II, 30 only in Part II", async () => {
+    const t = P.bookTotalsQuery({ fiscal_year: 2027 });
+    const [got] = await duck(t.sql, t.params);
+    assert.equal(got.part1_n, 1213);
+    assert.equal(got.y1, 853688000);
+    assert.equal(got.part2_n, 178);
+    assert.equal(got.part2_y1, 210677000);
+    assert.equal(got.noncity_n, 148);
+    assert.equal(got.part2_only_n, 30);
+    assert.equal(got.noncity_y1 + got.part2_only_y1, got.part2_y1, "Part II = rows also in Part I + rows only in Part II");
+    // Both equal the book's own printed "TOTALS FOR ALL" lines.
+    const printed = Object.fromEntries(sqlite.prepare("SELECT part, printed_y1 FROM pdf_capital_sd_totals WHERE fiscal_year = 2027 AND kind = 'totals_for' AND name = 'ALL'").all().map((r) => [r.part, r.printed_y1]));
+    assert.deepEqual(printed, { I: 853688000, II: 210677000 });
+    const o = P.bookPart2OnlyQuery({ fiscal_year: 2027 });
+    const only = await duck(o.sql, o.params);
+    assert.equal(only.length, 30);
+    assert.ok(only.every((r) => P.isMaSeries(r.sub_id)), "FY2027's Part-II-only rows are the MA series");
+    const b = P.bookQuery({ fiscal_year: 2027, part: "II" }, 0);
+    assert.ok((await duck(b.sql, b.params)).length > 0, "Part II rows stay searchable");
+  });
 
   test("capital book: a row's place (year, part, page, row) is unique, so the page order is total", () => {
     const n = sqlite.prepare("SELECT COUNT(*) AS n FROM (SELECT 1 FROM pdf_capital_sd GROUP BY fiscal_year, part, pdf_page, row_in_page HAVING COUNT(*) > 1)").get().n;

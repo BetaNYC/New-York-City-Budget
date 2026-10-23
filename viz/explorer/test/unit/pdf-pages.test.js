@@ -244,6 +244,23 @@ describe("the capital book", () => {
     expect(P.OD_SUB_ID_ONLY).toBe("matched on project ID only, not to this exact row");
     expect(P.bookQuery({}, 0).sql).toContain("AS id_rows");
   });
+  test("the book's total is Part I; Part II's rows are counted apart (Noel, PR #224)", () => {
+    const t = P.bookTotalsQuery({ fiscal_year: 2027 }).sql;
+    expect(t).toMatch(/SUM\(amount_y1\) FILTER \(WHERE part = 'I'\), 0\) AS y1/);
+    for (const c of ["part1_n", "noncity_y1", "part2_y1", "part2_only_n", "part2_only_y1"]) expect(t).toContain(c);
+    const o = P.bookPart2OnlyQuery({ fiscal_year: 2027 });
+    expect(o.sql).toContain("part = 'II'");
+    expect(o.sql).toContain("NOT EXISTS");
+    expect(o.params).toEqual([2027]);
+    expect(P.bookQuery({}, 0).sql).toContain("AS in_other_part");
+  });
+  test("the MA series gets the Council Finance label; other Part-II-only rows do not", () => {
+    expect(P.isMaSeries("PV MA0005")).toBe(true);
+    expect(P.isMaSeries("E MA0001")).toBe(true);
+    expect(P.isMaSeries("PV MM0001")).toBe(false);
+    expect(P.isMaSeries("HL TA001")).toBe(false);
+    expect(P.MA_QUESTION_LABEL).toBe("question sent to Council Finance");
+  });
   test("a printed dash is shown as a dash, not $0 (FY2019)", () => {
     expect(P.printedDash("-")).toBe(true);
     expect(P.printedDash(" – ")).toBe(true);

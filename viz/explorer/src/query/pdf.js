@@ -630,8 +630,10 @@ export function bookQuery(f, page) {
             council_district, description,
             pdf_page, bbox_pt, source_pdf, pdf_sha256, flags, review_id,
             -- rows in the whole book that print this SUB ID (Part I and Part II often repeat one; odForBookRow)
-            (SELECT COUNT(*) FROM pdf_capital_sd s WHERE s.fiscal_year = pdf_capital_sd.fiscal_year AND s.sub_id = pdf_capital_sd.sub_id) AS id_rows
-          FROM pdf_capital_sd${w.sql()}
+            (SELECT COUNT(*) FROM pdf_capital_sd s WHERE s.fiscal_year = b.fiscal_year AND s.sub_id = b.sub_id) AS id_rows,
+            -- the same project in the other part (Part I row listed again in Part II, or the reverse)
+            CASE WHEN part = 'I' THEN ${IN_OTHER_PART("b", "II")} ELSE ${IN_OTHER_PART("b", "I")} END AS in_other_part
+          FROM pdf_capital_sd b${w.sql()}
           ORDER BY fiscal_year DESC, part, pdf_page, row_in_page
           ${OFFSET(page)}`,
     params: w.params,
@@ -639,22 +641,63 @@ export function bookQuery(f, page) {
 }
 
 /**
- * Totals over every match, for each of the book's four year columns; reductions (negative
- * amounts) are added in, and also counted on their own so they are never hidden in a net figure.
+ * Whether the book prints the same project (year, SUB ID, budget line) in the other part. Part II
+ * (the non-city list) repeats Part I rows for non-city groups, and prints some rows Part I does not.
+ */
+const IN_OTHER_PART = (t, other) =>
+  `EXISTS (SELECT 1 FROM pdf_capital_sd o WHERE o.part = '${other}' AND o.fiscal_year = ${t}.fiscal_year AND o.sub_id = ${t}.sub_id AND o.budget_line IS NOT DISTINCT FROM ${t}.budget_line)`;
+
+/**
+ * Totals over every match (Noel, PR #224). The book's total is Part I only: it is what the book's
+ * own grand total prints. Under it: the Part I rows the book lists again in Part II (money that went
+ * to non-city groups), Part II's own total as printed, and the rows printed only in Part II, which
+ * are never added to the Part I total. Reductions (negative amounts) and vacant-district sponsors
+ * are counted on their own.
  */
 export function bookTotalsQuery(f) {
   const w = bookWhere(f);
   const ys = [1, 2, 3, 4];
+  const sumIf = (cond, k) => `COALESCE(SUM(amount_y${k}) FILTER (WHERE ${cond}), 0)`;
+  const I = "part = 'I'";
+  const II = "part = 'II'";
+  const iInII = `${I} AND ${IN_OTHER_PART("b", "II")}`;
+  const iiOnly = `${II} AND NOT ${IN_OTHER_PART("b", "I")}`;
   return {
     sql: `SELECT COUNT(*) AS n, COUNT(DISTINCT fiscal_year) AS years,
-            ${ys.map((k) => `COALESCE(SUM(amount_y${k}), 0) AS y${k}`).join(", ")},
+            COUNT(*) FILTER (WHERE ${I}) AS part1_n, ${ys.map((k) => `${sumIf(I, k)} AS y${k}`).join(", ")},
+            COUNT(*) FILTER (WHERE ${iInII}) AS noncity_n, ${sumIf(iInII, 1)} AS noncity_y1,
+            COUNT(*) FILTER (WHERE ${II}) AS part2_n, ${sumIf(II, 1)} AS part2_y1,
+            COUNT(*) FILTER (WHERE ${iiOnly}) AS part2_only_n, ${ys.map((k) => `${sumIf(iiOnly, k)} AS part2_only_y${k}`).join(", ")},
             COUNT(*) FILTER (WHERE ${ys.map((k) => `amount_y${k} < 0`).join(" OR ")}) AS negative_rows,
             COALESCE(SUM(amount_y1) FILTER (WHERE amount_y1 < 0), 0) AS negative_y1,
             COUNT(*) FILTER (WHERE regexp_matches(trim(COALESCE(sponsor, '')), '^[Cc][Dd] *[0-9]+$')) AS vacant_rows
-          FROM pdf_capital_sd${w.sql()}`,
+          FROM pdf_capital_sd b${w.sql()}`,
     params: w.params,
   };
 }
+
+/** The matching rows printed only in Part II, in book order (listed apart from the Part I total). */
+export function bookPart2OnlyQuery(f) {
+  const w = bookWhere(f);
+  w.add("part = 'II'");
+  w.add(`NOT ${IN_OTHER_PART("b", "I")}`);
+  return {
+    sql: `SELECT fiscal_year, status, part, sub_id, budget_line, boro, title, sponsor, amount_y1, amount_y2, amount_y3, amount_y4,
+            pdf_page, row_in_page, bbox_pt, source_pdf, pdf_sha256, flags, review_id
+          FROM pdf_capital_sd b${w.sql()}
+          ORDER BY fiscal_year DESC, pdf_page, row_in_page
+          ${OFFSET(0)}`,
+    params: w.params,
+  };
+}
+
+/**
+ * The "MA" series (agency code, then MA: "PV MA0005"): rows the book prints only in Part II, with
+ * one question about them sent to Council Finance in every year (#209: needs_info).
+ */
+export const isMaSeries = (subId) => /^[A-Z]{1,2} MA/.test(String(subId ?? "").trim());
+export const PART2_ONLY_LABEL = "printed only in Part II";
+export const MA_QUESTION_LABEL = "question sent to Council Finance";
 
 /**
  * NYC Open Data rows for the book rows on screen (#205). The crosswalk keys a PDF capital record

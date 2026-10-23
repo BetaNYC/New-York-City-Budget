@@ -26,7 +26,11 @@ export default function Book(props) {
 function Body({ state, set, go, manifest, pdfYears }) {
   const years = pdfYears.filter((y) => y.family === "capital_sd");
   const f = P.bookFilters(state);
-  const q = useQueries(true, JSON.stringify(["book", f, state.bkpage]), () => ({ t: P.bookTotalsQuery(f), rows: P.bookQuery(f, state.bkpage) }));
+  const q = useQueries(true, JSON.stringify(["book", f, state.bkpage]), () => ({
+    t: P.bookTotalsQuery(f),
+    rows: P.bookQuery(f, state.bkpage),
+    only: P.bookPart2OnlyQuery(f),
+  }));
   const rows = q.data?.rows ?? [];
   const oq = useQueries(true, `bookod|${rows.map((r) => `${r.fiscal_year}|${r.sub_id}`).join(",")}`, () => {
     const x = P.odForBookRowsQuery(rows);
@@ -36,6 +40,7 @@ function Body({ state, set, go, manifest, pdfYears }) {
   const fy = state.bkfy;
   const yearOptions = [["", "All years"], ...years.map((y) => [String(y.fiscal_year), `FY${y.fiscal_year}`])];
   // The four year columns are the book's own year and the next three; with one year chosen they get its labels.
+  const yl1 = fy == null ? "the book's year" : `FY${fy}`;
   const yl = (k) => (fy == null ? (k === 1 ? "Book's year" : `Year +${k - 1}`) : `FY${fy + k - 1}`);
   const fy19 = rows.some((r) => r.council_district || r.description);
   return (
@@ -53,7 +58,8 @@ function Body({ state, set, go, manifest, pdfYears }) {
         </li>
         <li>
           <strong>Part I</strong> is the book's "capital project detail"; <strong>Part II</strong> its "non-city capital project detail" (projects of
-          organizations outside City government), which repeats many Part I rows. Part III, by organization, is in the Organizations tab.
+          organizations outside City government), which repeats many Part I rows and prints a few of its own. The book's total is Part I's, as the book prints
+          it; Part II rows stay searchable here, each labeled. Part III, the same money by organization, is in the Organizations tab.
         </li>
         <li>
           <strong>Boro</strong>: the borough code the book prints: K Brooklyn, M Manhattan, Q Queens, R Staten Island, X Bronx. A and C are shown as printed;
@@ -92,15 +98,49 @@ function Body({ state, set, go, manifest, pdfYears }) {
                   {Number(t.years) > 1 ? ` in ${t.years} books (each book's columns are its own years)` : ""}
                 </caption>
                 <tbody>
+                  <tr>
+                    <th scope="rowgroup" colSpan={2}>
+                      The capital book's total: Part I, {plural(t.part1_n, "row")} (what the book's own grand total prints)
+                    </th>
+                  </tr>
                   {[1, 2, 3, 4].map((k) => (
                     <tr key={k}>
                       <th scope="row">{yl(k)}</th>
                       <td className="num">{money(t[`y${k}`])}</td>
                     </tr>
                   ))}
+                  {Number(t.part2_n) > 0 && (
+                    <tr>
+                      <th scope="row">
+                        of which went to non-city groups ({plural(t.noncity_n, "Part I row")} the book lists again in Part II, {yl1})
+                      </th>
+                      <td className="num">{money(t.noncity_y1)}</td>
+                    </tr>
+                  )}
+                  {Number(t.part2_n) > 0 && (
+                    <tr>
+                      <th scope="row">
+                        Part II, the non-city list, as printed ({plural(t.part2_n, "row")}, {yl1})
+                        {Number(t.part2_only_n) > 0 ? (
+                          <div className="muted small">
+                            = the line above plus {money(t.part2_only_y1)} printed only in Part II. Part III lists the same money by organization.
+                          </div>
+                        ) : null}
+                      </th>
+                      <td className="num">{money(t.part2_y1)}</td>
+                    </tr>
+                  )}
+                  {Number(t.part2_only_n) > 0 && (
+                    <tr>
+                      <th scope="row">
+                        Printed only in Part II, not in the Part I total ({plural(t.part2_only_n, "row")}, {yl1}; listed below)
+                      </th>
+                      <td className="num">{money(t.part2_only_y1)}</td>
+                    </tr>
+                  )}
                   {Number(t.negative_rows) > 0 && (
                     <tr>
-                      <th scope="row">Reductions (negative amounts), already in the totals above</th>
+                      <th scope="row">Reductions (negative amounts) among the matching rows, in either part (those in Part I are in its total)</th>
                       <td className="num">
                         {plural(t.negative_rows, "row")} · {money(t.negative_y1)} in the book's year
                       </td>
@@ -115,6 +155,7 @@ function Body({ state, set, go, manifest, pdfYears }) {
                 </tbody>
               </table>
             )}
+            {Number(t.part2_only_n) > 0 && <Part2Only rows={q.data.only} total={Number(t.part2_only_n)} yl={yl} state={state} go={go} manifest={manifest} />}
             {Number(t.n) > 0 && (
               <div className="table-wrap">
                 <table className="rows">
@@ -177,6 +218,21 @@ function BookRow({ r, fy19, od, state, go, manifest }) {
       <td>
         {r.fiscal_year}
         <div className="muted small">Part {r.part}</div>
+        {r.part === "II" ? (
+          <div className="muted small">
+            the non-city list ·{" "}
+            {r.in_other_part ? (
+              "also in Part I"
+            ) : (
+              <>
+                {P.PART2_ONLY_LABEL}
+                {P.isMaSeries(r.sub_id) ? ` (${P.MA_QUESTION_LABEL})` : ""}
+              </>
+            )}
+          </div>
+        ) : r.in_other_part ? (
+          <div className="muted small">listed again in Part II (non-city)</div>
+        ) : null}
       </td>
       <td>
         <code>{r.sub_id}</code>
@@ -239,5 +295,59 @@ function OdBookCell({ xs }) {
         );
       })}
     </td>
+  );
+}
+
+/**
+ * The matching rows printed only in Part II (Noel, PR #224): listed apart, never added to the Part I
+ * total. The "MA" series is one question sent to Council Finance (#209).
+ */
+function Part2Only({ rows, total, yl, state, go, manifest }) {
+  return (
+    <details className="book" open>
+      <summary>
+        <strong>Printed only in Part II</strong> ({plural(total, "row")}): not added to the capital book's total
+        {rows.some((r) => P.isMaSeries(r.sub_id)) ? `; the "MA" series: ${P.MA_QUESTION_LABEL}` : ""}
+      </summary>
+      <div className="table-wrap">
+        <table className="rows small">
+          <caption className="visually-hidden">Rows printed only in Part II, in book order</caption>
+          <thead>
+            <tr>
+              <th scope="col">FY</th>
+              <th scope="col">Project ID</th>
+              <th scope="col">Title (as printed)</th>
+              <th scope="col">Sponsor</th>
+              <th scope="col">Budget line</th>
+              <th scope="col" className="num">
+                {yl(1)}
+              </th>
+              <th scope="col">Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={`${r.fiscal_year}|${r.pdf_page}|${r.row_in_page}`}>
+                <td>{r.fiscal_year}</td>
+                <td>
+                  <code>{r.sub_id}</code>
+                  {P.isMaSeries(r.sub_id) ? <div className="muted">{P.MA_QUESTION_LABEL}</div> : null}
+                </td>
+                <td>
+                  {r.title} <ReviewedLabel status={r.status} /> <FlagBadge flags={r.flags} reviewId={r.review_id} />
+                </td>
+                <td>{r.sponsor || <span className="muted">none printed</span>}</td>
+                <td>{r.budget_line}</td>
+                <td className="num">{amountCell(r.amount_y1)}</td>
+                <td>
+                  <RowLinks state={state} go={go} manifest={manifest} row={r} label={`${r.sub_id} ${r.title}, FY${r.fiscal_year} ${money(r.amount_y1)} (Part II only)`} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {total > rows.length ? <p className="muted small">The first {rows.length} of {total}; narrow the search to see the rest.</p> : null}
+    </details>
   );
 }
