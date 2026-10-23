@@ -31,7 +31,7 @@ YEARS = [
     ("fy24", "source/FY24/FY2024-Sec254-Supporting-Detail-Book_7.10.2023pwp-2.pdf", (30, 30)),
 ]
 
-AWARDS = [os.path.join(REPO, "data", fy, "schedule_c", f"{fy}_schedule_c_awards.csv")
+AWARDS = [os.path.join(REPO, "data", "retired", fy, "schedule_c", f"{fy}_schedule_c_awards.csv")
           for fy in ("fy20", "fy22", "fy23", "fy24")]
 
 
@@ -44,9 +44,8 @@ def _rows(path):
 
 @pytest.mark.parametrize("prefix", [y[0] for y in YEARS])
 def test_committed_schema_and_columns(prefix):
-    csv_path = os.path.join(REPO, "data", prefix, "capital", f"{prefix}_capital_projects.csv")
-    if not os.path.exists(csv_path):
-        pytest.skip(f"{prefix} capital output not generated")
+    csv_path = os.path.join(REPO, "data", "retired", prefix, "capital", f"{prefix}_capital_projects.csv")
+    assert os.path.exists(csv_path), f"committed CSV missing: {os.path.relpath(csv_path, REPO)}"
     rows = _rows(csv_path)
     assert rows and list(rows[0].keys()) == FY27_COLS
     for r in rows:

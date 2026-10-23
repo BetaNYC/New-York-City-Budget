@@ -58,7 +58,7 @@ C4 Part III: 125 organizations, 151 budget-line rows; 125/125 organization lines
 C9 Council workbook (data/capital/council_capital_awards.csv, report_year 2026):
   PDF Part I non-zero amounts: 1261; workbook FY2026 rows: 1254; matched on (ID, budget line, FY, amount): 1253; PDF only: 8; workbook only: 1
   borough differs from the workbook on 0 Part I rows
-  title equal (letters and digits only) on 1239/1251; sponsor list equal on 1247/1251
+  title equal (letters and digits only) on 1240/1251; sponsor list equal on 1248/1251
 
 review.csv by check:
   C2.rescindments              warn     1
@@ -67,7 +67,7 @@ review.csv by check:
   C3.part2_vs_part1            warn     5
   C5.geom_vs_stream            warn     8
   C9.workbook                  warn     9
-  C9.workbook_sponsor          warn     4
-  C9.workbook_title            warn     12
+  C9.workbook_sponsor          warn     3
+  C9.workbook_title            warn     11
   W.edited_after_export        warn     4
   W.geom_near                  warn     3

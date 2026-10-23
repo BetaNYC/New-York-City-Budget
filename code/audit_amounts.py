@@ -35,12 +35,14 @@ import argparse
 import collections
 import csv
 import datetime
-import glob
 import os
 import re
 import sys
 import zipfile
 import xml.etree.ElementTree as ET
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from retired_paths import current_path, family_glob  # noqa: E402
 
 NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
 NINE = re.compile(r"^\d{9}$")
@@ -261,10 +263,10 @@ def read_corpus():
     join to a per-award disclosure) and the *_reconciliation.txt notes.
     """
     out = []
-    for path in sorted(glob.glob("data/fy*/schedule_c/*.csv")):
+    for path in family_glob("data", "schedule_c", "*.csv"):
         if "initiatives" in path or "reconcil" in path:
             continue
-        fy = 2000 + int(re.search(r"data/fy(\d\d)/", path).group(1))
+        fy = 2000 + int(re.search(r"/fy(\d\d)/", path).group(1))
         with open(path, newline="", encoding="utf-8") as fh:
             for ln, r in enumerate(csv.DictReader(fh), start=2):
                 org = (r.get("organization") or "").strip()
@@ -346,10 +348,20 @@ def crosswalk_check(rows):
     out = collections.defaultdict(collections.Counter)
     with open(path, newline="", encoding="utf-8") as fh:
         for r in csv.DictReader(fh):
-            v = verdict.get((r["file"], int(r["line"])), "row_absent")
+            v = verdict.get((current_path(r["file"]), int(r["line"])), "row_absent")
             out[r["defect"]]["_n"] += 1
             out[r["defect"]]["corroborated" if v in CORROBORATED else v] += 1
     return out
+
+
+def created_date(today):
+    """The report's first `created:` date, kept across re-runs; today only for a new report."""
+    if os.path.exists(REPORT):
+        with open(REPORT, encoding="utf-8") as fh:
+            for line in fh:
+                if line.startswith("created: "):
+                    return line.split(": ", 1)[1].strip()
+    return today
 
 
 def write_report(rows, years, counts, dollars, today):
@@ -372,7 +384,7 @@ def write_report(rows, years, counts, dollars, today):
     a = L.append
     a("---")
     a("title: Amount Audit — award amounts against the Council's expense disclosure")
-    a(f"created: {today}")
+    a(f"created: {created_date(today)}")
     a("type: data-audit")
     a("status: active")
     a("tags: [nyc-budget, data-quality, audit, schedule-c]")
@@ -381,7 +393,7 @@ def write_report(rows, years, counts, dollars, today):
     a("# Amount Audit")
     a("")
     a(f"**Report generated:** {today}  ")
-    a(f"**Data current as of:** {today} (corpus at `data/fy*/schedule_c/`, "
+    a(f"**Data current as of:** {today} (corpus at `data/fy*/schedule_c/` and `data/retired/fy*/schedule_c/`, "
       "disclosure at `source/expense-funding-disclosure/`)  ")
     a("**Produced by:** `code/audit_amounts.py` — read-only, changes nothing")
     a("")
@@ -399,7 +411,7 @@ def write_report(rows, years, counts, dollars, today):
     a("")
     a("## What was compared")
     a("")
-    a("Each award row in `data/fy*/schedule_c/*.csv` (Schedule C awards plus the three "
+    a("Each award row in `data/fy*/schedule_c/*.csv` and `data/retired/fy*/schedule_c/*.csv` (Schedule C awards plus the three "
       "appendices; initiative totals and reconciliation notes excluded) against "
       "`source/expense-funding-disclosure/funded_disclosure_FY####.xlsx` for the **same fiscal "
       "year**, joined on **(EIN, canonical organization name)**.")
@@ -672,8 +684,9 @@ def main():
 
     today = datetime.date.today().isoformat()
     os.makedirs("data", exist_ok=True)
+    text = write_report(rows, years, counts, dollars, today)  # reads the old `created:` first
     with open(REPORT, "w", encoding="utf-8") as fh:
-        fh.write(write_report(rows, years, counts, dollars, today))
+        fh.write(text)
     print(f"\nreport   -> {REPORT}")
 
     flagged = [r for r in rows if r["verdict"] not in CORROBORATED]

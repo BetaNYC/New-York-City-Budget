@@ -42,6 +42,7 @@ import fetch_open_data_capital as FC   # noqa: E402  (gz, the paging contract)
 import open_data_registry as R         # noqa: E402
 import open_data_watch as W            # noqa: E402
 import polite_http as H                # noqa: E402
+from retired_paths import family_glob  # noqa: E402
 
 ROOT = os.path.dirname(HERE)
 PAGE = 5000
@@ -89,9 +90,10 @@ def rows_csv(ds, rows):
 def terms_pairs(root=ROOT):
     """{fiscal_year: {(agency_code, unit)}} named by the repo's T&C files: the PDF-derived unit
     tables (data/fyNN/pdf/terms/*_terms_units.csv) where present, and the retired per-year CSVs
-    (data/fyNN/terms/), where every agency of a condition is paired with every unit it lists."""
+    (data/fyNN/terms/, or data/retired/fyNN/terms/ for the years redone from the PDF), where every
+    agency of a condition is paired with every unit it lists."""
     out = {}
-    for path in sorted(glob.glob(os.path.join(root, "data", "fy*", "terms", "*.csv"))):
+    for path in family_glob(os.path.join(root, "data"), "terms", "*.csv"):
         fy = 2000 + int(re.search(r"fy(\d\d)", os.path.basename(path)).group(1))
         with open(path, newline="", encoding="utf-8") as f:
             for r in csv.DictReader(f):

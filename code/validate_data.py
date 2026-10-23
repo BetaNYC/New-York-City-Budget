@@ -55,6 +55,8 @@ import os
 import re
 from collections import Counter, defaultdict
 
+from retired_paths import family_glob
+
 # An EIN printed inside a free-text field. `ein` columns are digits-only by the time they are
 # validated, so a hyphenated EIN in prose is always a row-boundary artifact, never a real value.
 EIN_IN_TEXT = re.compile(r"\d{2}-\d{7}")
@@ -757,7 +759,9 @@ RECON_PATTERNS = [
 def parse_reconciliations(data_dir):
     """Return list of (year:int|None, doctype, ratio_str, status) from every *_reconciliation.txt."""
     out = []
-    for path in sorted(glob.glob(os.path.join(data_dir, "fy*", "*", "*reconciliation*.txt"))):
+    paths = (glob.glob(os.path.join(data_dir, "fy*", "*", "*reconciliation*.txt"))
+             + glob.glob(os.path.join(data_dir, "retired", "fy*", "*", "*reconciliation*.txt")))
+    for path in sorted(paths, key=lambda p: p.replace(os.sep + "retired" + os.sep, os.sep)):
         text = open(path, encoding="utf-8").read()
         year = year_of(path)
         if "expense_disclosure" in path:
@@ -874,8 +878,7 @@ def initiative_reconciliation(data_dir):
     """
     recovered, sidecar_present = load_recovered_awards(data_dir)
     years = []
-    pattern = os.path.join(data_dir, "fy*", "schedule_c", "*_schedule_c_initiatives.csv")
-    for ipath in sorted(glob.glob(pattern)):
+    for ipath in family_glob(data_dir, "schedule_c", "*_schedule_c_initiatives.csv"):
         apath = ipath.replace("_initiatives.csv", "_awards.csv")
         if not os.path.exists(apath):
             continue  # FY2009-FY2014 are initiatives-only by nature, not a gap (DATA-ANOMALIES §1)

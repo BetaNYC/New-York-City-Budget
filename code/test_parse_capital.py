@@ -20,16 +20,16 @@ import pytest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-FY26_CSV = os.path.join(REPO, "data", "fy26", "capital", "fy26_capital_projects.csv")
+FY26_CSV = os.path.join(REPO, "data", "retired", "fy26", "capital", "fy26_capital_projects.csv")
 # FY25 canonical capital is now the Council-additions supporting-detail book (Parts I+II),
 # directly comparable to FY26/FY27. The old broad appropriation-changes extract was renamed to
 # fy25_capital_changes_appropriation.csv (kept for provenance).
-FY25_CSV = os.path.join(REPO, "data", "fy25", "capital", "fy25_capital_projects.csv")
-FY25_NONCITY_CSV = os.path.join(REPO, "data", "fy25", "capital",
+FY25_CSV = os.path.join(REPO, "data", "retired", "fy25", "capital", "fy25_capital_projects.csv")
+FY25_NONCITY_CSV = os.path.join(REPO, "data", "retired", "fy25", "capital",
                                 "fy25_capital_noncity_by_entity.csv")
-FY25_APPROP_CSV = os.path.join(REPO, "data", "fy25", "capital",
+FY25_APPROP_CSV = os.path.join(REPO, "data", "retired", "fy25", "capital",
                                "fy25_capital_changes_appropriation.csv")
-FY27_CSV = os.path.join(REPO, "data", "fy27", "capital", "fy27_capital_projects.csv")
+FY27_CSV = os.path.join(REPO, "data", "retired", "fy27", "capital", "fy27_capital_projects.csv")
 # FY27 + FY25-detail source PDFs are committed in-repo (unlike FY26, whose source lives in the
 # iCloud tree), so their re-parse layers always run here.
 FY27_PDF = os.path.join(REPO, "source", "FY27",
@@ -47,8 +47,13 @@ SRC = os.environ.get("NYC_BUDGET_SRC",
     "Apple Notes/INBOX/NYC Budget FY 27/Source Documents")
 FY26_PDF = os.path.join(SRC, "FY 26", "Fiscal-2026-Capital-Budget-Supporting-Details-1.pdf")
 FY25_PDF = os.path.join(SRC, "FY 25", "Fiscal-2025-Capital-Changes.pdf")
-AWARDS = [os.path.join(REPO, "data", fy, "schedule_c", f"{fy}_schedule_c_awards.csv")
+AWARDS = [os.path.join(REPO, "data", "retired", fy, "schedule_c", f"{fy}_schedule_c_awards.csv")
           for fy in ("fy25", "fy26", "fy27")]
+
+
+def _require(path):
+    """A committed CSV this test reads. Missing means it was moved or deleted: fail, never skip."""
+    assert os.path.exists(path), f"committed CSV missing: {os.path.relpath(path, REPO)}"
 
 
 def _rows(path):
@@ -58,8 +63,8 @@ def _rows(path):
 
 # ---------- layer 1: committed-CSV invariants ----------
 
-@pytest.mark.skipif(not os.path.exists(FY26_CSV), reason="fy26 output not generated")
 def test_fy26_schema_and_columns():
+    _require(FY26_CSV)
     rows = _rows(FY26_CSV)
     assert rows and list(rows[0].keys()) == FY27_COLS
     for r in rows:
@@ -73,8 +78,8 @@ def test_fy26_schema_and_columns():
             assert not tok.lstrip("-").replace(",", "").isdigit() or len(tok) < 7
 
 
-@pytest.mark.skipif(not os.path.exists(FY26_CSV), reason="fy26 output not generated")
 def test_fy26_grand_totals_tie_exactly():
+    _require(FY26_CSV)
     rows = _rows(FY26_CSV)
     def part(p):
         rs = [r for r in rows if r["part"] == p]
@@ -83,18 +88,18 @@ def test_fy26_grand_totals_tie_exactly():
     assert part("II") == (203_243_000, 197)    # printed 'TOTALS FOR ALL (197 PROJECTS)'
 
 
-@pytest.mark.skipif(not os.path.exists(FY26_CSV), reason="fy26 output not generated")
 def test_fy26_negative_adjustment_present():
+    _require(FY26_CSV)
     # PV MA0005 is a -183,000 FY2026 adjustment; missing it desyncs Cultural Institutions.
     rows = _rows(FY26_CSV)
     neg = [r for r in rows if int(r["fy1"]) < 0]
     assert len(neg) == 1 and neg[0]["budget_line"] == "PV MA0005" and neg[0]["fy1"] == "-183000"
 
 
-@pytest.mark.skipif(not os.path.exists(FY25_CSV), reason="fy25 output not generated")
 def test_fy25_detail_schema_and_columns():
     """FY25 canonical capital is now the Council-additions detail — same 13-col schema as
     FY26/FY27, Parts I+II, clean columns (no boro/amount bleed)."""
+    _require(FY25_CSV)
     rows = _rows(FY25_CSV)
     assert rows and list(rows[0].keys()) == FY27_COLS   # exact FY26/FY27 schema, no 'action'
     for r in rows:
@@ -107,8 +112,8 @@ def test_fy25_detail_schema_and_columns():
             assert not tok.lstrip("-").replace(",", "").isdigit() or len(tok) < 7
 
 
-@pytest.mark.skipif(not os.path.exists(FY25_CSV), reason="fy25 output not generated")
 def test_fy25_detail_grand_totals_tie_exactly():
+    _require(FY25_CSV)
     rows = _rows(FY25_CSV)
     def part(p):
         rs = [r for r in rows if r["part"] == p]
@@ -117,10 +122,10 @@ def test_fy25_detail_grand_totals_tie_exactly():
     assert part("II") == (158_992_000, 181)     # printed 'TOTALS FOR ALL (181 PROJECTS)'
 
 
-@pytest.mark.skipif(not os.path.exists(FY25_NONCITY_CSV), reason="fy25 non-city sidecar not generated")
 def test_fy25_noncity_sidecar_reconciles():
     """Part III (by non-city entity) is a cross-tab of Part II: budget-line rows sum to the same
     $158,992,000 grand total."""
+    _require(FY25_NONCITY_CSV)
     rows = _rows(FY25_NONCITY_CSV)
     assert rows and list(rows[0].keys()) == ["organization", "budget_line", "fy1", "fy2", "fy3", "fy4"]
     assert sum(int(r["fy1"]) for r in rows) == 158_992_000
@@ -128,10 +133,10 @@ def test_fy25_noncity_sidecar_reconciles():
         assert r["organization"] and r["budget_line"]
 
 
-@pytest.mark.skipif(not os.path.exists(FY25_APPROP_CSV), reason="fy25 appropriation book not present")
 def test_fy25_appropriation_book_preserved():
     """The old broad appropriation-changes extract must survive the rename (provenance), keeping
     its FY25-only 'action' column and empty boro/sub_id/sponsor."""
+    _require(FY25_APPROP_CSV)
     rows = _rows(FY25_APPROP_CSV)
     assert rows and "action" in rows[0]
     for r in rows:
@@ -197,11 +202,11 @@ def test_fy25_detail_reparse_reconciles(tmp_path):
 
 # ---------- FY27 (parse_capital.py) — non-city column-bleed regression ----------
 
-@pytest.mark.skipif(not os.path.exists(FY27_CSV), reason="fy27 output not generated")
 def test_fy27_agency_never_polluted():
     """The exact bug this fix closes: every `agency` value is a clean agency name — no digit,
     no leaked 'PV MA#### ... amounts ... ORG' mis-parsed row. Would fail on the pre-fix CSV
     (52 polluted rows)."""
+    _require(FY27_CSV)
     rows = _rows(FY27_CSV)
     assert rows and list(rows[0].keys()) == FY27_COLS
     for r in rows:

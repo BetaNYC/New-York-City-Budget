@@ -63,6 +63,8 @@ import sys
 import zipfile
 import xml.etree.ElementTree as ET
 
+from retired_paths import family_glob
+
 NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
 CROSSWALK = "data/combined/org_name_recovery_crosswalk.csv"
 
@@ -88,8 +90,8 @@ NAMEISH = re.compile(r"^[A-Za-z][A-Za-z .'\-]*$")
 def award_files(root="data"):
     """Every award-bearing schedule_c CSV. Initiatives and reconciliation files carry no
     organization column and are skipped."""
-    return sorted(f for f in glob.glob(os.path.join(root, "fy*", "schedule_c", "*.csv"))
-                  if "initiativ" not in f and "reconcil" not in f)
+    return [f for f in family_glob(root, "schedule_c", "*.csv")
+            if "initiativ" not in f and "reconcil" not in f]
 
 
 def pick(row, needles):

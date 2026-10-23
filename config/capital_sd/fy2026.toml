@@ -15,6 +15,11 @@ fys = ["fy2026", "fy2027", "fy2028", "fy2029"]
 # AAAAAA+/AAAAAB+ (a second export). KGLUJE+ArialMT (pp.56, 59, 61, 74) was typed in later.
 export_fonts = ["ArialMT", "Arial-BoldMT", "AAAAAA+", "AAAAAB+"]
 
+# C9: the Council workbook files two projects under `HN CN1451` (REVIEW item 5, rows 61 and 875);
+# compare each PDF row with the workbook row that has its amount, not the first row with its ID.
+# On since 2026-10-22 (#209, #218): clears 2 false C9 warnings on HN CN1451.
+wb_pick_by_amount = true
+
 # Page map: each kind's inclusive page ranges, checked against each page's furniture (H3).
 # The summary page (p.65) is read by C2. Unlike FY2027, Parts I and II are upright and
 # Part III is rotated.

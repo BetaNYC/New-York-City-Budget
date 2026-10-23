@@ -7,7 +7,7 @@ WHY THIS EXISTS
 ---------------
 The look-at-cook toolkit (viz/, MIT — © 2019 DataMade / Derek Eder / Nick Rougeux /
 Open City) renders a wide, one-row-per-leaf CSV with per-year measure columns. This
-script reads the repo's own authoritative `data/{year}/schedule_c/` files — no live
+script reads the repo's own authoritative `data/{year}/schedule_c/` files (`data/retired/{year}/schedule_c/` for FY2018-FY2027) — no live
 API, no re-parsing of PDFs — and emits that shape for NYC Council discretionary
 (Schedule C) funding.
 
@@ -70,6 +70,8 @@ from collections import defaultdict
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 DATA = os.path.join(REPO, "data")
+sys.path.insert(0, os.path.join(REPO, "code"))
+from retired_paths import family_dir  # noqa: E402
 
 DEFAULT_START = 2015          # first FY with the modern reconciled Schedule C schedule
 DEFAULT_END = 2027            # last FY currently in the repo
@@ -181,14 +183,19 @@ def _read_csv(path: str) -> list[dict]:
         return list(csv.DictReader(f))
 
 
+def _schedule_c_dir(yy: str) -> str:
+    # FY2018-FY2027 moved to data/retired/ once redone from the PDF (#218); earlier years did not.
+    return family_dir(DATA, f"fy{yy}", "schedule_c")
+
+
 def _initiatives_path(year: int) -> str:
     yy = f"{year % 100:02d}"
-    return os.path.join(DATA, f"fy{yy}", "schedule_c", f"fy{yy}_schedule_c_initiatives.csv")
+    return os.path.join(_schedule_c_dir(yy), f"fy{yy}_schedule_c_initiatives.csv")
 
 
 def _awards_path(year: int) -> str:
     yy = f"{year % 100:02d}"
-    return os.path.join(DATA, f"fy{yy}", "schedule_c", f"fy{yy}_schedule_c_awards.csv")
+    return os.path.join(_schedule_c_dir(yy), f"fy{yy}_schedule_c_awards.csv")
 
 
 def _to_amount(raw) -> float:

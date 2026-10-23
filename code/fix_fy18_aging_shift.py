@@ -32,7 +32,7 @@ import csv
 import os
 import sys
 
-TARGET = "data/fy18/schedule_c/fy18_appendix_a_aging.csv"
+TARGET = "data/retired/fy18/schedule_c/fy18_appendix_a_aging.csv"  # data/fy18/... before #218
 CROSSWALK = "data/combined/org_name_recovery_crosswalk.csv"
 PREFIX = ".00 "
 

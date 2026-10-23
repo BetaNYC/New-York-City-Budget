@@ -214,7 +214,7 @@ resolutions (FY2013's three `.doc` files) are skipped and reported as blocked.
 
 Invocation (union all parsed Schedule C rosters for member detection):
 ```bash
-ROSTER=$(ls data/fy*/schedule_c/*_schedule_c_awards.csv)
+ROSTER=$(ls data/fy*/schedule_c/*_schedule_c_awards.csv data/retired/fy*/schedule_c/*_schedule_c_awards.csv)
 .venv/bin/python code/parse_transparency_reso.py \
     --batch source/FYnn/transparency-resolutions \
     --outdir data/fyNN/transparency-resolutions --prefix fyNN --roster-csv $ROSTER
@@ -314,7 +314,7 @@ Artifacts are cached under `build/ocr/<pdf-stem>/` (gitignored): `raw/`, `uprigh
 ### Invocation
 
 ```bash
-ROSTER=$(ls data/fy*/schedule_c/*_schedule_c_awards.csv)
+ROSTER=$(ls data/fy*/schedule_c/*_schedule_c_awards.csv data/retired/fy*/schedule_c/*_schedule_c_awards.csv)
 .venv-ocr/bin/python code/parse_transparency_reso_fy09.py \
     --batch source/FY09/transparency-resolutions \
     --outdir data/fy09/transparency-resolutions --prefix fy09 --roster-csv $ROSTER
@@ -421,7 +421,7 @@ Two document types, two schemas (see the README's "The data files" section):
 **A. Capital Project Detail ("Supporting Detail Book")** — reconcilable against
 `TOTALS FOR <agency> (N PROJECTS)`. Use `parse_capital_detail.py`:
 ```bash
-ROSTER=$(ls data/fy*/schedule_c/*_schedule_c_awards.csv)
+ROSTER=$(ls data/fy*/schedule_c/*_schedule_c_awards.csv data/retired/fy*/schedule_c/*_schedule_c_awards.csv)
 .venv/bin/python code/parse_capital_detail.py <SupportingDetailBook.pdf> \
     --outdir data/fyNN/capital --prefix fyNN --roster $ROSTER
 ```
@@ -448,7 +448,7 @@ uses `parse_capital.py` (not `parse_capital_detail.py`). Invocation:
 ```bash
 .venv/bin/python code/parse_capital.py \
     "source/FY27/Supporting-Detail-for-FY2027-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254.V4.pdf" \
-    --outdir data/fy27/capital --prefix fy27 --roster data/fy*/schedule_c/*_schedule_c_awards.csv
+    --outdir data/retired/fy27/capital --prefix fy27 --roster data/fy*/schedule_c/*_schedule_c_awards.csv data/retired/fy*/schedule_c/*_schedule_c_awards.csv
 ```
 Reconciliation: **24/26**. The two open DIFFs — Part I `HOUSING & DEVELOPMENT` 63/65 and
 `HUMAN RESOURCES` 18/19 — are parser misses. **Corrected 2026-10-20:** earlier text called them
@@ -478,7 +478,7 @@ the text layer is scrambled like FY26). Invocation:
 ```bash
 .venv/bin/python code/parse_capital_fy25_detail.py \
     "source/FY25/Supporting-Detail-for-FY2025-Changes-To-the-Executive-Capital-Budget-Pursuant-to-Section-254-Council-Version-24.07.17.pdf" \
-    --outdir data/fy25/capital --prefix fy25 --roster data/fy*/schedule_c/*_schedule_c_awards.csv
+    --outdir data/retired/fy25/capital --prefix fy25 --roster data/fy*/schedule_c/*_schedule_c_awards.csv data/retired/fy*/schedule_c/*_schedule_c_awards.csv
 ```
 Reconciliation: **30/30 agency subtotals exact**, and both `TOTALS FOR ALL` grand totals tie
 exactly — Part I **$775,000,000 / 1327 projects**, Part II (non-city) **$158,992,000 / 181
@@ -721,7 +721,7 @@ because the Council left the EIN blank: FY2013 (2 rows), FY2014 (3), FY2015 (1).
 
 ## Post-extraction repairs (2026-08-12/13)
 
-**The CSVs under `data/fy*/schedule_c/` are no longer purely the parser's output.** 5,450 cells
+**The CSVs under `data/fy*/schedule_c/` (and `data/retired/fy*/schedule_c/`) are no longer purely the parser's output.** 5,450 cells
 were repaired after extraction from the Council's own expense disclosure workbooks
 (`source/expense-funding-disclosure/`), joined on `(EIN, amount)`. Regenerating a year from its PDF
 will therefore NOT reproduce the committed CSV, and that is expected.

@@ -8,8 +8,8 @@ tags: [nyc-budget, data-quality, audit, schedule-c]
 
 # Amount Audit
 
-**Report generated:** 2026-10-12  
-**Data current as of:** 2026-10-12 (corpus at `data/fy*/schedule_c/`, disclosure at `source/expense-funding-disclosure/`)  
+**Report generated:** 2026-10-22  
+**Data current as of:** 2026-10-22 (corpus at `data/fy*/schedule_c/` and `data/retired/fy*/schedule_c/`, disclosure at `source/expense-funding-disclosure/`)  
 **Produced by:** `code/audit_amounts.py` — read-only, changes nothing
 
 ## Verdict, up front
@@ -20,7 +20,7 @@ Of **62,213 award rows** carrying **$3,741,615,569**, **60,578 (97.37%)** have t
 
 ## What was compared
 
-Each award row in `data/fy*/schedule_c/*.csv` (Schedule C awards plus the three appendices; initiative totals and reconciliation notes excluded) against `source/expense-funding-disclosure/funded_disclosure_FY####.xlsx` for the **same fiscal year**, joined on **(EIN, canonical organization name)**.
+Each award row in `data/fy*/schedule_c/*.csv` and `data/retired/fy*/schedule_c/*.csv` (Schedule C awards plus the three appendices; initiative totals and reconciliation notes excluded) against `source/expense-funding-disclosure/funded_disclosure_FY####.xlsx` for the **same fiscal year**, joined on **(EIN, canonical organization name)**.
 
 Three deliberate choices, each of which has burned this repo before:
 

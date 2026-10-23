@@ -49,7 +49,7 @@ For the council-member roster, **pass the glob directly** to `--roster-csv` (sho
 commands below) rather than stashing it in a variable:
 
 ```bash
---roster-csv data/fy*/schedule_c/*_schedule_c_awards.csv
+--roster-csv data/fy*/schedule_c/*_schedule_c_awards.csv data/retired/fy*/schedule_c/*_schedule_c_awards.csv
 ```
 
 > **zsh gotcha (this repo's default shell):** do *not* do `ROSTER=$(ls …)` then
@@ -57,7 +57,7 @@ commands below) rather than stashing it in a variable:
 > the newline-separated paths arrive as a *single* argument that matches no file — the
 > parser then loads an empty roster and prints `roster: 1 names`. A glob passed straight to
 > the flag expands to separate words in both zsh and bash, so it always works. (If you
-> really want a variable, use a zsh array: `roster=(data/fy*/schedule_c/*_schedule_c_awards.csv)`
+> really want a variable, use a zsh array: `roster=(data/fy*/schedule_c/*_schedule_c_awards.csv data/retired/fy*/schedule_c/*_schedule_c_awards.csv)`
 > then `--roster-csv $roster`.)
 
 We validate on **one resolution** (`--only Transparency-Reso-01`) and a **page window**
@@ -275,7 +275,7 @@ default `--stage report` run the whole pipeline end to end:
 ```bash
 .venv-ocr/bin/python code/parse_transparency_reso_fy09.py \
     --batch $SRC --outdir $OUT --prefix fy09 \
-    --roster-csv data/fy*/schedule_c/*_schedule_c_awards.csv
+    --roster-csv data/fy*/schedule_c/*_schedule_c_awards.csv data/retired/fy*/schedule_c/*_schedule_c_awards.csv
 ```
 
 Then run the repo-wide validator (from the plain `.venv`, or `.venv-ocr` — it has no OCR

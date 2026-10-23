@@ -20,7 +20,7 @@ import pytest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-COMBINED = os.path.join(REPO, 'data', 'fy26', 'transparency-resolutions',
+COMBINED = os.path.join(REPO, 'data', 'retired', 'fy26', 'transparency-resolutions',
                         'fy26_transparency_all.csv')
 SRC = os.path.join(REPO, 'source', 'FY26', 'transparency-resolutions')
 
@@ -30,6 +30,11 @@ COLS = ['resolution', 'date', 'chart', 'fiscal_year', 'action', 'source',
 ACTIONS = {'designate', 'rescind', 'purpose_change'}
 
 
+def _require(path):
+    """A committed CSV this test reads. Missing means it was moved or deleted: fail, never skip."""
+    assert os.path.exists(path), f"committed CSV missing: {os.path.relpath(path, REPO)}"
+
+
 def _rows(path):
     with open(path) as f:
         return list(csv.DictReader(f))
@@ -37,8 +42,8 @@ def _rows(path):
 
 # ---------- layer 1: committed-CSV invariants ----------
 
-@pytest.mark.skipif(not os.path.exists(COMBINED), reason='combined CSV not built yet')
 def test_schema_and_hygiene():
+    _require(COMBINED)
     rows = _rows(COMBINED)
     assert rows, 'combined CSV is empty'
     assert list(rows[0].keys()) == COLS, 'unexpected columns'
@@ -80,11 +85,11 @@ def test_peel_delegation_unit():
     assert P.peel_delegation('New York Academy of Medicine, The') == ('', 'New York Academy of Medicine, The')
 
 
-@pytest.mark.skipif(not os.path.exists(COMBINED), reason='combined CSV not built yet')
 def test_no_delegation_bleed_in_org():
     """The bled borough-delegation sponsor must not lead an organization value in the committed
     combined CSV. A handful of heavily-mangled abbreviated rows may still carry 'Delegation'
     mid-string (pre-existing dense-layout artifacts), so the guard is on the leading position."""
+    _require(COMBINED)
     import re
     rows = _rows(COMBINED)
     boro = r'(?:Bronx|Brooklyn|Manhattan|Queens|Staten Island)'
@@ -92,17 +97,17 @@ def test_no_delegation_bleed_in_org():
     assert not bled, f'{len(bled)} org values still lead with a bled Delegation sponsor'
 
 
-@pytest.mark.skipif(not os.path.exists(COMBINED), reason='combined CSV not built yet')
 def test_all_ten_resolutions_present():
+    _require(COMBINED)
     resos = {int(r['resolution']) for r in _rows(COMBINED)}
     assert resos == set(range(1, 11)), f'missing resolutions: {set(range(1, 11)) - resos}'
 
 
-@pytest.mark.skipif(not os.path.exists(COMBINED), reason='combined CSV not built yet')
 def test_aice_million_dollar_pool_nets_to_zero():
     """The load-bearing fact: the FY26 Artificial Intelligence Community Engagement $1M
     initiative rescinds $1,000,000 from the DYCD pool and redistributes exactly that to
     named recipients -> net zero, >=20 recipients, all in resolution 3."""
+    _require(COMBINED)
     aice = [r for r in _rows(COMBINED) if 'Artificial Intelligence' in r['chart']]
     assert aice, 'AICE chart not found'
     assert {r['resolution'] for r in aice} == {'3'}
@@ -115,16 +120,15 @@ def test_aice_million_dollar_pool_nets_to_zero():
     assert len(recips) >= 20, f'expected >=20 AICE recipients, got {len(recips)}'
 
 
-@pytest.mark.skipif(not os.path.exists(COMBINED), reason='combined CSV not built yet')
 def test_unresolved_org_rate_is_small():
     """Dense-chart coordinate artifacts leave a few award rows with an orphaned org name.
     Guard that this stays rare (<1%); a regression that scrambles extraction would spike it."""
+    _require(COMBINED)
     rows = _rows(COMBINED)
     miss = [r for r in rows if not r['organization'].strip() and r['ein'] != '136400434']
     assert len(miss) / len(rows) < 0.01, f'unresolved-org rate too high: {len(miss)}/{len(rows)}'
 
 
-@pytest.mark.skipif(not os.path.exists(COMBINED), reason='combined CSV not built yet')
 def test_no_anchor_debris_in_org_or_program():
     """On standard award charts (designate/rescind), a printed '$' amount must never appear
     inside the organization or program field. Its presence means a broken anchor line (an EIN
@@ -133,6 +137,7 @@ def test_no_anchor_debris_in_org_or_program():
     against. EIN/amount are still captured on the real anchor rows; only the leaked debris is
     excluded. (Scope excludes purpose_change rows: 'Purpose of Funds Changes' charts carry a
     trailing free-text purpose whose wrapping is a separate, pre-existing known limitation.)"""
+    _require(COMBINED)
     for r in _rows(COMBINED):
         if r['action'] == 'purpose_change':
             continue
@@ -141,7 +146,6 @@ def test_no_anchor_debris_in_org_or_program():
             f"{r['organization']!r} / {r['program']!r}"
 
 
-@pytest.mark.skipif(not os.path.exists(COMBINED), reason='combined CSV not built yet')
 def test_member_surname_not_bled_into_wrapped_program():
     """Regression guard for the column-bleed bug: on standard charts the council-member column
     sits on the EIN anchor line while the org/program text wraps onto the lines above and below
@@ -153,6 +157,7 @@ def test_member_surname_not_bled_into_wrapped_program():
     wrapped 'School 54K The Detective Rafael Ramos School' continuation). Assert both the
     rescind and the paired designate row now carry the member in its own column and the full,
     Restler-free program text."""
+    _require(COMBINED)
     repro = [r for r in _rows(COMBINED)
              if r['ein'] == '462754933' and r['resolution'] == '2'
              and 'Youth Discretionary' in r['chart']]

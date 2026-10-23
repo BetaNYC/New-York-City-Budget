@@ -32,6 +32,8 @@ import sys
 import zipfile
 import xml.etree.ElementTree as ET
 
+from retired_paths import family_dir
+
 NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
 OUT = "data/recovered/schedule_c_appendix_recovered.csv"
 
@@ -86,7 +88,7 @@ def read_disclosure(fy):
 def corpus_keys(fy):
     """(EIN, amount) already present anywhere in that fiscal year, so nothing is double-emitted."""
     keys = set()
-    for f in glob.glob(f"data/fy{str(fy)[2:]}/schedule_c/*.csv"):
+    for f in glob.glob(os.path.join(family_dir("data", f"fy{str(fy)[2:]}", "schedule_c"), "*.csv")):
         if "initiatives" in f or "reconcil" in f:
             continue
         with open(f, newline="", encoding="utf-8") as fh:
@@ -113,7 +115,7 @@ def main():
         # the whole year and left ~$45M of local/youth designations unrecovered.
         empty_streams = set()
         for src, stem in STREAMS.items():
-            f = f"data/fy{str(fy)[2:]}/schedule_c/fy{str(fy)[2:]}_{stem}.csv"
+            f = os.path.join(family_dir("data", f"fy{str(fy)[2:]}", "schedule_c"), f"fy{str(fy)[2:]}_{stem}.csv")
             if os.path.exists(f) and sum(1 for _ in open(f, encoding="utf-8")) <= 1:
                 empty_streams.add(src)
         if not empty_streams:

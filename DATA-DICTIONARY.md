@@ -9,7 +9,8 @@ Every column in every CSV this repository produces, what it means, and how the f
 > `data/combined/` and `data/recovered/` files below were extracted from the adopted-budget PDFs.
 > Their definitions stay here because the files stay in the repository as a historical record;
 > they are not served by `@betanyc/nyc-budget-mcp` 2.0 or shown on the Pages site, and should not
-> be cited as current. The MCP serves only `data/{year}/expense_disclosure/`,
+> be cited as current. For each family-year already redone, they are under `data/retired/{year}/`
+> at the same path ([`data/retired/README.md`](data/retired/README.md)). The MCP serves only `data/{year}/expense_disclosure/`,
 > `data/disclosure_years.csv` and `data/capital/` (`council_capital_awards.csv`,
 > `council_vs_omb_by_budget_line.csv`).
 >

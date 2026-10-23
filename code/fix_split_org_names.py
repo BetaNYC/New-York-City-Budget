@@ -41,6 +41,8 @@ import sys
 import zipfile
 import xml.etree.ElementTree as ET
 
+from retired_paths import family_dir
+
 NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
 CROSSWALK = "data/combined/org_name_recovery_crosswalk.csv"
 
@@ -108,7 +110,7 @@ def plan():
         idx = year_index(fy)
         if not idx:
             continue
-        for f in sorted(glob.glob(f"data/fy{str(fy)[2:]}/schedule_c/*.csv")):
+        for f in sorted(glob.glob(os.path.join(family_dir("data", f"fy{str(fy)[2:]}", "schedule_c"), "*.csv"))):
             if "initiatives" in f or "reconcil" in f:
                 continue
             with open(f, newline="", encoding="utf-8") as fh:

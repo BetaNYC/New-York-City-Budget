@@ -10,11 +10,13 @@ Years with only an initiatives summary (FY2009-FY2014, early era) contribute to 
 roll-up but not the awards roll-up (those documents carry no award-level rows). legistar_crosswalk.csv
 is maintained separately and is not touched here.
 """
-import csv, glob, os, re
+import csv, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 DATA = os.path.join(REPO, "data")
+sys.path.insert(0, HERE)
+from retired_paths import family_glob  # noqa: E402
 CROSSWALK = os.path.join(DATA, "combined", "initiative_name_crosswalk.csv")
 CAT_CROSSWALK = os.path.join(DATA, "combined", "category_name_crosswalk.csv")
 
@@ -80,11 +82,11 @@ def year_of(path):
     return f"FY{m.group(1)}" if m else "FY??"
 
 def collect(kind, cols, data_dir=DATA):
-    """Stack every per-year data/fyNN/schedule_c/*_schedule_c_<kind>.csv into rows prefixed
-    with the FYnn year. Pure (no writes) so it is unit-testable against a fixture tree."""
-    pattern = os.path.join(data_dir, "fy*", "schedule_c", f"*_schedule_c_{kind}.csv")
+    """Stack every per-year data/fyNN/schedule_c/*_schedule_c_<kind>.csv (data/retired/fyNN/ for
+    the years redone from the PDF) into rows prefixed with the FYnn year. Pure (no writes) so it is
+    unit-testable against a fixture tree."""
     rows = []
-    for p in sorted(glob.glob(pattern)):
+    for p in family_glob(data_dir, "schedule_c", f"*_schedule_c_{kind}.csv"):
         yr = year_of(p)
         with open(p, newline="") as f:
             for r in csv.DictReader(f):
