@@ -25,7 +25,7 @@ terms; the version is left at 2.0.1 until the release (W11, #220) picks one.
   fields, and the three links from `src/rowlinks.ts`, the GitHub one at the commit the tables
   were built from. "No dollar amount" rows are counted, never summed; sub-awards are listed under
   their award, never counted; the capital book's totals give Part I alone beside the explorer's
-  all-rows figure (Part II reprints Part I rows), and count reductions on their own. Filters,
+  all-rows figure (Part II mostly reprints Part I rows), and count reductions on their own. Filters,
   order and totals follow the explorer's search (PR #224): an EIN also matches the fiscal
   conduit's EIN.
   `search_disclosure_awards` is unchanged and separate.

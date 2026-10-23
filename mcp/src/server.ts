@@ -677,7 +677,7 @@ function capitalBookText(res: ReturnType<typeof searchCapitalBook>): string {
     ...(res.part_ii_rows
       ? [
           `  Part I alone (${n(res.matched - res.part_ii_rows)} row(s)): first year ${usd(res.part_i_totals.y1)} · second ${usd(res.part_i_totals.y2)} · third ${usd(res.part_i_totals.y3)} · fourth ${usd(res.part_i_totals.y4)}. ` +
-            `${n(res.part_ii_rows)} matched row(s) are from Part II, which reprints Part I rows: where both parts match, the totals above count that money twice; use part "I" for a total without the reprint.`,
+            `${n(res.part_ii_rows)} matched row(s) are from Part II, which mostly reprints Part I rows (code/review_capital_sd.py check C3): where both parts match, the totals above count that money twice; use part "I" for a total without the reprint.`,
         ]
       : []),
     ...(res.negative_rows ? [`  Reductions: ${n(res.negative_rows)} row(s) print a negative amount in some year column (first year: ${usd(res.negative_y1)}), added into the totals above.`] : []),
@@ -690,7 +690,7 @@ function capitalBookText(res: ReturnType<typeof searchCapitalBook>): string {
     const r = s.row;
     const fy = r.fiscal_year as number;
     L.push(
-      `FY${fy} book · Part ${r.part}${r.part === "II" ? " (reprints a Part I row)" : ""} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${r.boro || "—"} · ${r.agency}` +
+      `FY${fy} book · Part ${r.part}${r.part === "II" ? " (Part II mostly reprints Part I)" : ""} · ${r.sub_id || "(no ID)"} · budget line ${r.budget_line || "—"} · borough ${r.boro || "—"} · ${r.agency}` +
         `\n    title: ${r.title}` +
         `\n    sponsor: ${r.sponsor || "(none printed)"}${VACANT_DISTRICT.test(String(r.sponsor ?? "").trim()) ? " (a district with no member)" : ""}` +
         (r.council_district ? ` · council district ${r.council_district}` : "") +
@@ -900,7 +900,7 @@ export const TOOLS = [
   },
   {
     name: "search_capital_book",
-    description: `Search the capital budget's §254 supporting detail (the "capital book": OMB's list of the Council's changes to the executive capital budget, Parts I and II), FY2018–FY2020 and FY2022–FY2027, from the checked tables BetaNYC reads from the PDFs. Each project row gives its ID, budget line, borough, agency, title, sponsor and the four printed year amounts as printed, with its status label, flags, review decision where decided, and three links. Filter by fiscal_year, project_id (substring: 'CC0001' finds 'HO CC0001'), budget_line (exact, e.g. 'P D018'), sponsor, borough (code), agency, title (also searches FY2019's descriptions), part, min_amount / max_amount (the book's own year). Rows in book order. Totals per year column cover every match, with Part I alone beside them (Part II reprints Part I rows), and reductions (negative amounts) counted on their own. A sponsor printed "CD nn" is a district with no member. For the Council's own capital lists, use search_council_capital. Needs the optional PDF tables download.`,
+    description: `Search the capital budget's §254 supporting detail (the "capital book": OMB's list of the Council's changes to the executive capital budget, Parts I and II), FY2018–FY2020 and FY2022–FY2027, from the checked tables BetaNYC reads from the PDFs. Each project row gives its ID, budget line, borough, agency, title, sponsor and the four printed year amounts as printed, with its status label, flags, review decision where decided, and three links. Filter by fiscal_year, project_id (substring: 'CC0001' finds 'HO CC0001'), budget_line (exact, e.g. 'P D018'), sponsor, borough (code), agency, title (also searches FY2019's descriptions), part, min_amount / max_amount (the book's own year). Rows in book order. Totals per year column cover every match, with Part I alone beside them (Part II mostly reprints Part I rows), and reductions (negative amounts) counted on their own. A sponsor printed "CD nn" is a district with no member. For the Council's own capital lists, use search_council_capital. Needs the optional PDF tables download.`,
     inputSchema: {
       type: "object",
       properties: {
@@ -911,7 +911,7 @@ export const TOOLS = [
         borough: { type: "string", description: "Borough code, any case: K, M, Q, R, X, C, or the unconfirmed A" },
         agency: { type: "string", description: "Agency name as printed (substring), e.g. 'PARKS'" },
         title: { type: "string", description: "Project title, or FY2019's description (substring)" },
-        part: { type: "string", enum: ["I", "II"], description: "The book's part (Part II reprints Part I rows)" },
+        part: { type: "string", enum: ["I", "II"], description: "The book's part (Part II mostly reprints Part I rows)" },
         min_amount: { type: "number", description: "Minimum amount in the book's own year column, dollars (inclusive; reductions are negative)" },
         max_amount: { type: "number", description: "Maximum amount in the book's own year column, dollars (inclusive)" },
         limit: { type: "number", description: LIMIT_DESC },

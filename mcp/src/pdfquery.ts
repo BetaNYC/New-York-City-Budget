@@ -407,7 +407,7 @@ export interface CapitalBookResult {
    */
   totals: { y1: number; y2: number; y3: number; y4: number };
   /**
-   * The same over Part I rows only. Part II reprints Part I rows (code/review_capital_sd.py check
+   * The same over Part I rows only. Part II mostly reprints Part I rows (code/review_capital_sd.py check
    * C3), so `totals` counts a reprinted row twice when both parts match; this does not.
    */
   part_i_totals: { y1: number; y2: number; y3: number; y4: number };
