@@ -53,8 +53,9 @@ Named exceptions. Suggest `source_error` for all 11.
 - **Disclosure gaps** (report only): 293 FY2020 designations not found on (EIN, amount): 228
   taken back later, 48 at another amount, 9 EIN not in the disclosure, 5 City-EIN name mismatch,
   3 key already used. `data/fy20_tr_disclosure_match.csv`.
-- **Rescission origins** (report only): of 1,053, 498 take back an earlier resolution's row, 196
-  match a Schedule C award (retired CSV), 218 part of a larger amount, 141 not found.
+- **Rescission origins** (report only): of 1,053, 498 take back an earlier resolution's row, 403
+  match a Schedule C award, 93 part of a larger amount, 59 not found (checked Schedule C,
+  `data/fy20/pdf/schedule_c/`, since #204 on 2026-10-23; the retired CSV gave 196 / 218 / 141).
 
 ## Decisions for Noel
 

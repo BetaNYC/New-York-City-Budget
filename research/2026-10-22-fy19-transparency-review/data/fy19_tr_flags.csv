@@ -138,7 +138,7 @@ warn,row_flag,2,100,fy19-tr02-p100-r004,spanning_cell:Source+Member,spanning_cel
 warn,row_flag,2,102,fy19-tr02-p102-r009,wrap_hyphen:member,wrap_hyphen:member
 warn,row_flag,2,102,fy19-tr02-p102-r010,wrap_hyphen:member,wrap_hyphen:member
 warn,row_flag,3,43,fy19-tr03-p043-r012,overfull_cell:Organization - Program,overfull_cell:Organization - Program
-warn,row_flag,3,46,fy19-tr03-p046-r016,ein_odd,ein_odd
+warn,row_flag,3,46,fy19-tr03-p046-r016,ein_read_from_page_image,ein_read_from_page_image
 warn,row_flag,3,46,fy19-tr03-p046-r024,overfull_cell:Organization - Program,overfull_cell:Organization - Program
 warn,row_flag,3,79,fy19-tr03-p079-r007,spanning_cell:Source+Member,spanning_cell:Source+Member
 warn,row_flag,3,79,fy19-tr03-p079-r008,spanning_cell:Source+Member,spanning_cell:Source+Member

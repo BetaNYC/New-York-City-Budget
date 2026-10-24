@@ -7,6 +7,9 @@ note`; decisions `source_error`, `parser_bug`, `accepted_as_printed` or `needs_i
 never writes that file. Nothing here changes a dollar amount. Each row has a crop in
 `data/overlays/` (named `r<reso>-p<page>-<review_id>.png`).
 
+**Updated 2026-10-23 (#196):** two items added for Reso 02 p.114, now 26 rows (3 critical, 23
+warn). They are #25 and #26 at the end, so the numbers above stay as they were.
+
 ## Critical (2)
 
 | # | review_id | Reso, page | $ | What | What we did | Suggest |
@@ -41,6 +44,13 @@ never writes that file. Nothing here changes a dollar amount. Each row has a cro
 | 23 | `ebdf1f207c90` | 08, p.19 | 5,000 | Same organization, the rescinded side, hidden " of Greenpoint". | Same. | `accepted_as_printed` |
 | 24 | `b58a6462dcf7` | 01, p.67 | 0 | **A chart prints no fiscal year.** Chart #49 "Operation Backpack" (no "- Fiscal YYYY"). Reso 01's report (pp.1-2) lists Operation Backpack among the Fiscal 2026 initiatives, and the chart sits among charts #1-#60, all Fiscal 2026. | `budget_fiscal_year` blank, as printed. | `accepted_as_printed`, or Noel sets 2026 (see below) |
 
+## Added 2026-10-23: text drawn over text on Reso 02 p.114 (#196)
+
+| # | review_id | Reso, page | $ | What | What we did | Suggest |
+|---:|---|---|---:|---|---|---|
+| 25 | `34ac4848782b` | 02, p.114 | 63,165 | **Critical: a line drawn on top of the purpose's last line.** Chart #64 "Purpose of Funds Changes", Diaspora Community Services, Inc., 11-3122295, $63,165. The page shows the purpose ending "… aiming to promote healthy development from pregnancy through early childhood." The text layer also holds "Funding supports health and wellness services for children and caregivers," (the first line of the next row's purpose, which that row's cell clips away) drawn on the same spot. Read together they came out interleaved: "pFurengdninagn csyu pthproorutsg hh …". | Named page (`T7.overlaid`, as FY2022 Reso 09 p.38): the drawn-over line is hidden and kept in `hidden_text`; `purpose` is what the page shows. Both grids agree. The next row's purpose ("focusing on …") is unchanged. | `accepted_as_printed` |
+| 26 | `3466f1432813` | 02, p.114 | 63,165 | The same row, listed again as hidden text (`W.clipped_text`). | Same. | `accepted_as_printed` |
+
 ## Not in the review file, on purpose
 
 - **173 EINs printed without a hyphen** (`131641068`). Read as printed (`ein_printed`), 9 digits in
@@ -56,8 +66,9 @@ never writes that file. Nothing here changes a dollar amount. Each row has a cro
   already used, 2 EIN not in the disclosure. Every row and reason:
   `data/fy26_tr_disclosure_match.csv`.
 - **Rescission origins**, report only: of 974 rescissions from organizations, 346 take back an
-  earlier resolution's designation, 435 match a Schedule C award (retired CSV), 116 are part of a
-  larger earlier amount, 77 not found.
+  earlier resolution's designation, 435 match a Schedule C award, 116 are part of a larger earlier
+  amount, 77 not found (checked Schedule C, `data/fy26/pdf/schedule_c/`, since #204 on 2026-10-23;
+  unchanged from the retired CSV).
 
 ## Decisions for Noel
 

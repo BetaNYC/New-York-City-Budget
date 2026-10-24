@@ -6735,7 +6735,7 @@ fy23-tr08-p023-r009,8,23,2023,rescind,135562265,-1000000,Legal Aid Society,resci
 fy23-tr08-p023-r010,8,23,2023,designate,135562265,1000000,Legal Aid Society,matched,cleared,6107
 fy23-tr08-p023-r011,8,23,2023,rescind,131632530,-35000,"Union Settlement Association, Inc. - Community Activities",rescission,earlier_resolution,
 fy23-tr08-p023-r012,8,23,2023,designate,131632530,35000,"Union Settlement Association, Inc. - Community Activities",matched,cleared,10139
-fy23-tr08-p024-r001,8,24,2023,rescind,132738818,-125000,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",rescission,partial,
+fy23-tr08-p024-r001,8,24,2023,rescind,132738818,-125000,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",rescission,schedule_c,
 fy23-tr08-p024-r002,8,24,2023,designate,132738818,125000,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",matched,cleared,6623
 fy23-tr08-p025-r001,8,25,2023,rescind,852810883,-885000,"Justice Innovation, Inc.",rescission,partial,
 fy23-tr08-p025-r002,8,25,2023,rescind,852810883,-710000,"Justice Innovation, Inc.",rescission,partial,
@@ -6841,7 +6841,7 @@ fy23-tr08-p037-r002,8,37,2023,designate,432115174,10000,"Entertainers for Educat
 fy23-tr08-p037-r003,8,37,2023,rescind,132612524,-83000,"Fund for the City of New York, Inc.",rescission,earlier_resolution,
 fy23-tr08-p037-r004,8,37,2023,designate,852810883,83000,"Justice Innovation, Inc.",matched,cleared,5887
 fy23-tr08-p038-r002,8,38,2023,designate,822237105,100000,"Transnational Villages Network/Red De Pueblos Trasnacionales, Inc.",matched,cleared,10058
-fy23-tr08-p039-r001,8,39,2023,rescind,141713034,-250000,Bard College,rescission,not_found,
+fy23-tr08-p039-r001,8,39,2023,rescind,141713034,-250000,Bard College,rescission,schedule_c,
 fy23-tr08-p039-r002,8,39,2023,designate,141713034,250000,Bard College,matched,cleared,809
 fy23-tr08-p040-r001,8,40,2022,rescind,136202692,-5000,"Chinese American Planning Council, Inc. - Literacy Programming - Council District 33",rescission,earlier_resolution,
 fy23-tr08-p040-r002,8,40,2022,designate,136202692,5000,"Chinese American Planning Council, Inc. - Council District 33",matched,cleared,2225
@@ -7129,7 +7129,7 @@ fy23-tr10-p022-r001,10,22,2023,rescind,135564934,-69000,Beth Israel Medical Cent
 fy23-tr10-p022-r002,10,22,2023,designate,135564934,69000,Beth Israel Medical Center,matched,cleared,923
 fy23-tr10-p022-r003,10,22,2023,rescind,833015257,-50000,"Bridging The Gap Queens, Inc.",rescission,earlier_resolution,
 fy23-tr10-p022-r004,10,22,2023,designate,833015257,50000,"Bridging The Gap Queens, Inc.",matched,cleared,1201
-fy23-tr10-p022-r005,10,22,2023,rescind,133409680,-100000,"Community Health Project, Inc.",rescission,partial,
+fy23-tr10-p022-r005,10,22,2023,rescind,133409680,-100000,"Community Health Project, Inc.",rescission,schedule_c,
 fy23-tr10-p022-r006,10,22,2023,designate,133409680,100000,"Community Health Project, Inc.",matched,cleared,2625
 fy23-tr10-p022-r007,10,22,2023,rescind,815080860,-415000,"Crime Victims Treatment Center, Inc.",rescission,schedule_c,
 fy23-tr10-p022-r008,10,22,2023,designate,815080860,415000,"Crime Victims Treatment Center, Inc.",matched,cleared,2899
@@ -7143,7 +7143,7 @@ fy23-tr10-p022-r015,10,22,2023,rescind,133593806,-86250,Sakhi for South Asian Wo
 fy23-tr10-p022-r016,10,22,2023,designate,133593806,86250,Sakhi for South Asian Women,matched,cleared,9100
 fy23-tr10-p022-r017,10,22,2023,rescind,133540337,-172500,Violence Intervention Program,rescission,earlier_resolution,
 fy23-tr10-p022-r018,10,22,2023,designate,133540337,172500,Violence Intervention Program,matched,cleared,10440
-fy23-tr10-p023-r001,10,23,2023,rescind,133267496,-100000,"Avenues For Justice, Inc.",rescission,not_found,
+fy23-tr10-p023-r001,10,23,2023,rescind,133267496,-100000,"Avenues For Justice, Inc.",rescission,schedule_c,
 fy23-tr10-p023-r002,10,23,2023,designate,133267496,100000,"Avenues For Justice, Inc.",matched,cleared,723
 fy23-tr10-p023-r003,10,23,2023,rescind,901014588,-200000,"Brooklyn Community Bail Fund, Inc.",rescission,earlier_resolution,
 fy23-tr10-p023-r004,10,23,2023,designate,901014588,200000,"Brooklyn Community Bail Fund, Inc.",matched,cleared,1495
@@ -7155,7 +7155,7 @@ fy23-tr10-p023-r009,10,23,2023,rescind,135563028,-265000,"Osborne Association, I
 fy23-tr10-p023-r010,10,23,2023,designate,135563028,265000,"Osborne Association, Inc., The",matched,cleared,8104
 fy23-tr10-p024-r001,10,24,2023,rescind,136127348,-75000,"Door - A Center of Alternatives, Inc., The",rescission,schedule_c,
 fy23-tr10-p024-r002,10,24,2023,designate,136127348,75000,"Door - A Center of Alternatives, Inc., The",matched,cleared,3563
-fy23-tr10-p024-r003,10,24,2023,rescind,237085442,-200000,Legal Momentum,rescission,not_found,
+fy23-tr10-p024-r003,10,24,2023,rescind,237085442,-200000,Legal Momentum,rescission,schedule_c,
 fy23-tr10-p024-r004,10,24,2023,designate,237085442,200000,Legal Momentum,matched,cleared,6146
 fy23-tr10-p025-r001,10,25,2023,rescind,133083068,-175000,"Community Healthcare Network, Inc.",rescission,earlier_resolution,
 fy23-tr10-p025-r002,10,25,2023,designate,133083068,175000,"Community Healthcare Network, Inc.",matched,cleared,2639

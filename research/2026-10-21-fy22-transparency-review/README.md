@@ -135,9 +135,16 @@ Byte-identical on re-run (checked). Every year-specific fact is in
   runs only where named.
 - What the "Beating Hearts" organizations each receive (the PDF names none per row).
 
+## Since this review
+
+- Rescission origins (report only) now use the checked FY2022 Schedule C,
+  `data/fy22/pdf/schedule_c/fy22_sc_awards.csv` (#204, re-run 2026-10-23): 156 → 160 match a
+  Schedule C award, 56 → 53 part of a larger amount, 56 → 55 not found. The retired old-parser CSVs
+  had missed or misread those awards' (EIN, amount).
+
 ## Not done here
 
-- OCR audit; rescission origins use the *retired* FY2022 Schedule C CSVs (report only).
+- OCR audit.
 - Nothing added to the MCP or the public site; the retired `data/fy22/transparency-resolutions/`
   files are unchanged.
 

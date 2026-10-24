@@ -52,14 +52,14 @@ INK COVERAGE (H9): uncovered-ink regions inside the chart tables
 DISCLOSURE (report-only; data/fyNN/expense_disclosure)
   budget year 2017: 143 organization designations; 138 found in the disclosure on (EIN, amount) ($4,467,905); not found: amount_differs 4, later_rescinded 1
   budget year 2018: 158 organization designations; 143 found in the disclosure on (EIN, amount) ($5,348,191); not found: amount_differs 1, key_already_claimed 7, later_rescinded 7
-  budget year 2019: 4,585 organization designations; 4,041 found in the disclosure on (EIN, amount) ($140,660,080); not found: amount_differs 43, city_ein_name_mismatch 2, ein_not_in_disclosure 5, key_already_claimed 10, later_rescinded 484
-  rescissions of organizations: 1,393; where the money was designated before: earlier_resolution 713, not_found 333, partial 298, schedule_c 49
+  budget year 2019: 4,585 organization designations; 4,042 found in the disclosure on (EIN, amount) ($140,672,080); not found: amount_differs 43, city_ein_name_mismatch 2, ein_not_in_disclosure 4, key_already_claimed 10, later_rescinded 484
+  rescissions of organizations: 1,393; where the money was designated before: earlier_resolution 713, not_found 183, partial 129, schedule_c 368 (schedule_c: the checked data/fy19/pdf/schedule_c/fy19_sc_awards.csv)
 
-RETIRED CSV (data/fy19/transparency-resolutions/fy19_transparency_all.csv, old parser)
-  retired rows 7,090; these rows 7,207; same (resolution, EIN, amount) 7,090; only here 117 (EIN printed: hyphen 109, no_hyphen 5, odd 3); only in the retired file 0
+RETIRED CSV (data/retired/fy19/transparency-resolutions/fy19_transparency_all.csv, old parser)
+  retired rows 7,090; these rows 7,207; same (resolution, EIN, amount) 7,090; only here 117 (EIN printed: hyphen 109, no_hyphen 5, odd 2, page_image 1); only in the retired file 0
 
 ROW FLAG COUNTS (all listed in flags.csv; review file holds only those that could change a value)
-  ein_no_hyphen 5, ein_odd 3, made_cell_empty 2, marker_without_footnote 4, overfull_cell 33, spanning_cell 144, wrap_hyphen 24
+  ein_no_hyphen 5, ein_odd 2, ein_read_from_page_image 1, made_cell_empty 2, marker_without_footnote 4, overfull_cell 33, spanning_cell 144, wrap_hyphen 24
   zero-width chars dropped: 0
 
 REVIEW FILE: 52 rows (7 critical, 45 warn); stale decisions: 0

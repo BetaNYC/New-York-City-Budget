@@ -1,6 +1,7 @@
 severity,check_id,resolution_seq,pdf_page,row_id,field,message
 critical,T12.fiscal_year,6,5,,,"chart #2 is Fiscal 2023; the resolution text names [2024, 2025, 2026]"
 critical,T5.anchors,6,2,fy26-tr06-p002-r013,,"row prints no EIN: 'Department of Health and Mental Hygiene' ($5,000)"
+critical,T7.overlaid,2,114,fy26-tr02-p114-r001,,"text drawn on top of this row's cell is hidden on the page (purpose: Funding supports health and wellness services for children and caregivers,); kept out of the value. Confirm on the page."
 warn,T12.fiscal_year,1,67,,,chart #49 'Operation Backpack' prints no fiscal year
 warn,row_flag,1,14,fy26-tr01-p014-r013,ein_no_hyphen,ein_no_hyphen
 warn,row_flag,1,14,fy26-tr01-p014-r018,ein_no_hyphen,ein_no_hyphen
@@ -115,6 +116,8 @@ warn,row_flag,2,113,fy26-tr02-p113-r003,spanning_cell:Source+Member,spanning_cel
 warn,row_flag,2,113,fy26-tr02-p113-r004,spanning_cell:Source+Member,spanning_cell:Source+Member
 warn,row_flag,2,113,fy26-tr02-p113-r005,spanning_cell:Source+Member,spanning_cell:Source+Member
 warn,row_flag,2,114,fy26-tr02-p114-r001,spanning_cell:Source+Member,spanning_cell:Source+Member
+warn,row_flag,2,114,fy26-tr02-p114-r001,overlaid_text:New Purpose of Funds,overlaid_text:New Purpose of Funds
+warn,row_flag,2,114,fy26-tr02-p114-r001,clipped_text:purpose,clipped_text:purpose
 warn,row_flag,2,114,fy26-tr02-p114-r002,spanning_cell:Source+Member,spanning_cell:Source+Member
 warn,row_flag,2,114,fy26-tr02-p114-r003,spanning_cell:Source+Member,spanning_cell:Source+Member
 warn,row_flag,2,114,fy26-tr02-p114-r004,spanning_cell:Source+Member,spanning_cell:Source+Member

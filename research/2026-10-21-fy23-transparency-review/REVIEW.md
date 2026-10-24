@@ -76,8 +76,9 @@ made in a previous Transparency Resolution").
 - **Disclosure gaps** (report only): 525 FY2023 designations not found on (EIN, amount): 403 taken
   back later, 88 at another amount, 20 key already used, 10 City-EIN name mismatch, 4 EIN not in
   the disclosure. `data/fy23_tr_disclosure_match.csv`.
-- **Rescission origins** (report only): of 1,320, 671 take back an earlier resolution's row, 343
-  match a Schedule C award (retired CSV), 104 part of a larger amount, 202 not found.
+- **Rescission origins** (report only): of 1,320, 671 take back an earlier resolution's row, 348
+  match a Schedule C award, 102 part of a larger amount, 199 not found (checked Schedule C,
+  `data/fy23/pdf/schedule_c/`, since #204 on 2026-10-23; the retired CSV gave 343 / 104 / 202).
 
 ## Decisions for Noel
 

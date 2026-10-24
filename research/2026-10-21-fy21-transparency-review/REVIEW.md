@@ -36,8 +36,9 @@ in `data/overlays/` (named `r<reso>-p<page>-<review_id>.png`).
 - **Disclosure gaps** (report only): 241 FY2021 designations not found on (EIN, amount): 158
   taken back later, 52 at another amount, 24 EIN not in the disclosure, 5 key already used, 2
   City-EIN name mismatch. `data/fy21_tr_disclosure_match.csv`.
-- **Rescission origins** (report only): of 610, 268 take back an earlier resolution's row, 251
-  match a Schedule C award (retired CSV), 52 part of a larger amount, 39 not found.
+- **Rescission origins** (report only): of 610, 268 take back an earlier resolution's row, 256 match
+  a Schedule C award, 48 part of a larger amount, 38 not found (checked Schedule C,
+  `data/fy21/pdf/schedule_c/`, since #204 on 2026-10-23; the retired CSV gave 251 / 52 / 39).
 
 ## Decisions for Noel
 

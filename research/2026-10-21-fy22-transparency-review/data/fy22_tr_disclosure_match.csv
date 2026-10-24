@@ -5724,7 +5724,7 @@ fy22-tr06-p021-r014,6,21,2022,designate,132605599,9000,Brooklyn Legal Services C
 fy22-tr06-p022-r002,6,22,2022,designate,271848709,20000,Girl Be Heard Institute,matched,cleared,4630
 fy22-tr06-p022-r003,6,22,2022,designate,136271908,5000,"Harlem Commonwealth Council, Inc.",matched,cleared,5019
 fy22-tr06-p022-r004,6,22,2022,designate,113112635,20000,"New York Edge, Inc. - Council District 30",matched,cleared,7764
-fy22-tr06-p023-r001,6,23,2022,rescind,473679850,-18000,Partners Uplifting our Daughters and Sons - Meyer Levin High School,rescission,not_found,
+fy22-tr06-p023-r001,6,23,2022,rescind,473679850,-18000,Partners Uplifting our Daughters and Sons - Meyer Levin High School,rescission,schedule_c,
 fy22-tr06-p024-r002,6,24,2022,designate,133526938,159179,Committee Against Anti-Asian Violence,matched,cleared,2563
 fy22-tr06-p024-r003,6,24,2022,designate,112634818,74049,"Catholic Migration Services, Inc.",matched,cleared,1905
 fy22-tr06-p025-r001,6,25,2022,rescind,113305406,-85000,Brooklyn Defender Services,rescission,schedule_c,
@@ -6313,7 +6313,7 @@ fy22-tr08-p035-r003,8,35,2022,designate,133666994,40000,Care for the Homeless,ma
 fy22-tr08-p035-r005,8,35,2022,designate,132884976,13684,William F. Ryan Community Health Center,matched,cleared,11045
 fy22-tr08-p035-r006,8,35,2022,designate,133666994,9285,Care for the Homeless,matched,cleared,1745
 fy22-tr08-p036-r002,8,36,2022,designate,473679850,40000,Partners Uplifting our Daughters and Sons - Samuel Tilden Educational Campus,matched,cleared,8418
-fy22-tr08-p037-r001,8,37,2022,rescind,132946970,-748000,"Safe Horizon, Inc.",rescission,partial,
+fy22-tr08-p037-r001,8,37,2022,rescind,132946970,-748000,"Safe Horizon, Inc.",rescission,schedule_c,
 fy22-tr08-p037-r002,8,37,2022,designate,132946970,748000,"Safe Horizon, Inc.",matched,cleared,9381
 fy22-tr08-p038-r001,8,38,2021,rescind,112981085,-6000,Central Brooklyn Economic Development Corporation,rescission,not_found,
 fy22-tr08-p038-r002,8,38,2021,designate,136400434,6000,Department of Small Business Services,matched,pending,2624
@@ -6532,7 +6532,7 @@ fy22-tr09-p030-r027,9,30,2022,rescind,113099604,-5294,Women's Housing and Econom
 fy22-tr09-p030-r028,9,30,2022,designate,113099604,3356,Women's Housing and Economic Development Corporation (WHEDco),matched,cleared,11086
 fy22-tr09-p030-r029,9,30,2022,designate,113099604,63771,Women's Housing and Economic Development Corporation (WHEDco),matched,cleared,11085
 fy22-tr09-p031-r002,9,31,2022,designate,800259180,35000,"Destination Tomorrow, Inc.",matched,cleared,3467
-fy22-tr09-p032-r001,9,32,2022,rescind,510135262,-18000,"Black Spectrum Theatre Company, Inc. - Redwood Middle School 332Q",rescission,partial,
+fy22-tr09-p032-r001,9,32,2022,rescind,510135262,-18000,"Black Spectrum Theatre Company, Inc. - Redwood Middle School 332Q",rescission,schedule_c,
 fy22-tr09-p032-r002,9,32,2022,designate,510135262,18000,"Black Spectrum Theatre Company, Inc. - Catherine & Count Basie Middle School 72Q (28Q072)",matched,cleared,955
 fy22-tr09-p032-r003,9,32,2022,rescind,510135262,-18000,"Black Spectrum Theatre Company, Inc. - Intermediate School 72R",rescission,earlier_resolution,
 fy22-tr09-p032-r004,9,32,2022,designate,510135262,18000,"Black Spectrum Theatre Company, Inc. - Catherine & Count Basie Middle School 72Q (28Q072)",matched,cleared,956
@@ -6797,7 +6797,7 @@ fy22-tr10-p030-r003,10,30,2022,rescind,112518141,-10000,"Greater Ridgewood Youth
 fy22-tr10-p030-r004,10,30,2022,designate,020539734,10000,Women for Afghan Women,matched,cleared,11062
 fy22-tr10-p031-r001,10,31,2022,rescind,111633484,-90000,"Edith and Carl Marks Jewish Community House of Bensonhurst, Inc.",rescission,earlier_resolution,
 fy22-tr10-p031-r002,10,31,2022,designate,112475743,90000,"Fifth Avenue Committee, Inc.",matched,cleared,3975
-fy22-tr10-p032-r001,10,32,2022,rescind,113210593,-18000,"Society of the Educational Arts, Inc. - Heritage High School",rescission,partial,
+fy22-tr10-p032-r001,10,32,2022,rescind,113210593,-18000,"Society of the Educational Arts, Inc. - Heritage High School",rescission,schedule_c,
 fy22-tr10-p032-r002,10,32,2022,designate,113210593,18000,"Society of the Educational Arts, Inc. - Park East HS (Manhattan)",matched,cleared,9817
 fy22-tr10-p033-r001,10,33,2022,rescind,135562308,-25000,New York University - McSilver,rescission,earlier_resolution,
 fy22-tr10-p034-r001,10,34,2022,rescind,112347331,-12675,"Senior Citizens League of Flatbush, Inc.",rescission,earlier_resolution,
