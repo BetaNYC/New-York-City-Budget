@@ -478,6 +478,21 @@ def _usd(d):
     return P._usd(d)
 
 
+# What the §254 PDF reviews found against OMB (#208). Report only: no value here changes. Text,
+# not computed, since this build reads no PDF data; test_build_capital_council.py recomputes
+# every figure from data/fyNN/pdf/capital_sd/ and fails if one goes stale.
+PDF_REVIEW_NOTES = [
+    ("**The §254 PDFs against OMB** (report only; the FY2020 and FY2023 capital reviews, #208). "
+     "Each year's printed supporting detail adds the records t474 broke across rows (§2), so it "
+     "closes part of the gaps above, not all:"), "",
+    ("- FY2020: OMB is $7,353,000 higher than the PDF on 11 budget lines: 7 where OMB is higher "
+     "(`E D001` $2,500,000 after the PDF's `E CN817` and `E CN832`, $470,000; `HD D020`, "
+     "`HW D102`, `HW D104`, `P D020`, `PV D467`, `PV DN031`) and 4 with no PDF row (`ED DN973`, "
+     "`HL DN843`, `PV DN176`, `RE D024`). The PDF has no amount OMB lacks."),
+    ("- FY2023: `E D001` is $5,400,000 lower in the PDF than in OMB, after the PDF's `E CN136` "
+     "($150,000) closes that much of t474's gap. Every other line matches."), ""]
+
+
 def report_text(b):
     c = b["council"]
     by = collections.defaultdict(lambda: [0, Decimal(0), set()])
@@ -567,6 +582,7 @@ def report_text(b):
         ot = sum(Decimal(r["omb_y1"] or 0) for r in y27)
         L += ["", (f"Totals FY2027: Council {_usd(ct)}, OMB {_usd(ot)}, difference "
               f"{_usd(ot - ct)}."), ""]
+    L += PDF_REVIEW_NOTES
     d = b["diff26"]
     L += ["## 4. FY2026: the Council's workbook vs t474-a92g", "",
           (f"Keyed on (project ID, whitespace collapsed; fiscal year). Workbook {d['wb_rows']:,} "
