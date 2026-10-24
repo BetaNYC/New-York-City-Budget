@@ -207,6 +207,16 @@ cells. After editing a decisions file by hand, run the same command with `--sync
 decisions file does not (#195). A `read_from_page_image` decision also changes its data row: re-run
 the reader (Step 2) and `code/build_pdf_promoted.py --write`.
 
+Each review folder (`research/<date>-fyNN-<family>-review/`) is a dated snapshot of that
+session's run and review notes. It is not regenerated when a reader improves, so its CSVs can
+differ from a fresh re-run; the published tables are `data/fyNN/pdf/` (decided 2026-10-24). The
+one file in it that stays current is the decisions file (`data/*_review_decisions.csv`), the
+record, and `--sync` keeps the review CSVs' decision columns in step with it. The folders add
+nothing to what people download: the npm package ships only `dist` and `data/budget.db`
+(`mcp/package.json` `files`), and the PDF-tables data release only the tables
+(`pdf-tables.db.gz`), the PDFs they cite and `pdf-tables.manifest.json`
+(`mcp/scripts/build-pdf-release.mjs`).
+
 Each `parser_bug` means fixing the code, re-running Steps 2 and 5, and checking the item again.
 
 ## Step 8: record it on GitHub
