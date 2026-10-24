@@ -801,3 +801,15 @@ def test_rescission_origins_use_checked_schedule_c(tmp_path, monkeypatch):
     (new / "fy26_sc_awards.csv").unlink()
     with pytest.raises(FileNotFoundError, match="fy26_sc_awards.csv"):
         disclosure.align(rows, 2026)
+
+
+def test_no_page_picture_line_reaches_checks_file(tmp_path, monkeypatch):
+    # #197: items review_crops could not draw are listed in the checks file. The image checks
+    # are stubbed out (no row results); the rest of the run is real.
+    monkeypatch.setattr(ptv, "run_cv", lambda cfg, R, rows, out: ({}, {}, [], {}))
+    monkeypatch.setattr(ptv, "review_crops", lambda cfg, R, rv, by_id, outdir: [
+        dict(check_id="T3.charts", resolution_seq=2, pdf_page=0)])
+    assert ptv.main(["--fy", "2026", "--out", str(tmp_path)]) == 0
+    txt = open(os.path.join(tmp_path, "fy26_tr_checks.txt"), encoding="utf-8").read()
+    assert ("  no page picture for 1 item(s) with no single page (a whole resolution, or a page "
+            "the PDF does not have): T3.charts Reso 2 p.0\n") in txt

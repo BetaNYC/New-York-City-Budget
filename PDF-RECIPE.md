@@ -92,6 +92,11 @@ To try a few pages without writing anything, Schedule C takes `--pages`:
 .venv/bin/python code/review_terms.py --fy 2025              # Terms and Conditions
 ```
 
+**Order: Schedule C before transparency.** The transparency run reads the year's promoted
+`data/fyNN/pdf/schedule_c/fyNN_sc_awards.csv` (to trace rescissions) and stops if it is missing
+(#204). Promote a year's Schedule C first. A later change to that file also changes the
+transparency tables: re-run `build_pdf_promoted.py --write`, or `--check` reports drift.
+
 Then prove two things:
 
 - [ ] **Re-running gives the same files, byte for byte.**

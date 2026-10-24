@@ -49,7 +49,7 @@ warn). They are #25 and #26 at the end, so the numbers above stay as they were.
 | # | review_id | Reso, page | $ | What | What we did | Suggest |
 |---:|---|---|---:|---|---|---|
 | 25 | `34ac4848782b` | 02, p.114 | 63,165 | **Critical: a line drawn on top of the purpose's last line.** Chart #64 "Purpose of Funds Changes", Diaspora Community Services, Inc., 11-3122295, $63,165. The page shows the purpose ending "… aiming to promote healthy development from pregnancy through early childhood." The text layer also holds "Funding supports health and wellness services for children and caregivers," (the first line of the next row's purpose, which that row's cell clips away) drawn on the same spot. Read together they came out interleaved: "pFurengdninagn csyu pthproorutsg hh …". | Named page (`T7.overlaid`, as FY2022 Reso 09 p.38): the drawn-over line is hidden and kept in `hidden_text`; `purpose` is what the page shows. Both grids agree. The next row's purpose ("focusing on …") is unchanged. | `accepted_as_printed` |
-| 26 | `3466f1432813` | 02, p.114 | 63,165 | The same row, listed again as hidden text (`W.clipped_text`). | Same. | `accepted_as_printed` |
+| 26 | `3466f1432813` | 02, p.114 | 63,165 | The same row, listed again as hidden text (`W.clipped_text`). | Same. Known limit: the hidden line belongs to row 2 (`fy26-tr02-p114-r002`; it sits just above that row's cell, which clips it), but it is kept in row 1's `hidden_text`, the cell it is drawn over, and this item's note says "under the next cell". No value is affected. Not moved, to leave the promoted data as reviewed. | `accepted_as_printed` |
 
 ## Not in the review file, on purpose
 
