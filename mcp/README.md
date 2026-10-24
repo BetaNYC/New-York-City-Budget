@@ -10,11 +10,16 @@ Four more tools answer from the **checked tables BetaNYC reads from the Council'
 tables are an **optional download** (about 17 MB; 115 MB on disk), not part of the package: see
 [The checked PDF tables](#the-checked-pdf-tables-optional-download).
 
-> **2.0.0 is a breaking release.** The five tools built on data extracted from the
-> adopted-budget PDFs (Schedule C, Terms & Conditions, §254 capital, transparency resolutions)
-> and `get_legistar_link` are removed. See [Migrating from 1.x](#migrating-from-1x) and
-> [`CHANGELOG.md`](CHANGELOG.md). The retired data stays in the repository for history; it is
-> not in the package.
+> **Version 2.0.2** (2026-10-23; 2.0.3 in progress) adds the four PDF tools and the optional
+> download; nothing is removed. The downloader always takes the newest data release
+> ([releases page](https://github.com/BetaNYC/New-York-City-Budget/releases)). As of 2026-10-24 that is
+> [`pdf-tables-2026-10-24-260d16e`](https://github.com/BetaNYC/New-York-City-Budget/releases/tag/pdf-tables-2026-10-24-260d16e): 36 checked family-years, FY2018–FY2027 (17.4 MB of tables), and, with `--pdfs`, the
+> 126 PDFs they cite (148 MB). The first was `pdf-tables-2026-10-23-5bab77c`.
+>
+> **2.0.0 was a breaking release.** It removed the five tools built on the old PDF parser's
+> output (Schedule C, Terms & Conditions, §254 capital, transparency resolutions) and
+> `get_legistar_link`. The four PDF tools in 2.0.2 read the new, checked tables, not that output.
+> See [Migrating from 1.x](#migrating-from-1x) and [`CHANGELOG.md`](CHANGELOG.md).
 
 Published on npm as [`@betanyc/nyc-budget-mcp`](https://www.npmjs.com/package/@betanyc/nyc-budget-mcp) and run via `npx`. The package ships a prebuilt SQLite index, so no clone, build or data checkout is needed to run it.
 
@@ -55,7 +60,7 @@ PDF-derived data.
 |---|---|---|---|
 | Expense funding **disclosure** | **FY2009, FY2011–FY2027** (156,544 rows) | The Council's own award-level workbooks: FY2013–FY2027 downloaded from the Council RnD site on 2026-10-12, FY2009, FY2011 and FY2012 from the Council's archived workbooks via the Internet Archive (retrieved 2026-10-14) | **FY2010 is not included**: the Council's workbook (2,592 rows) is incomplete against NYC Open Data's (5,981 rows), and the two are never mixed. **FY2009 and FY2013 are early snapshots**, frozen while much was Pending and never revised: their Cleared totals are not headline figures. Per-year provenance: [`../data/disclosure_years.csv`](../data/disclosure_years.csv) |
 | Council **capital** designations | **FY2015–FY2017, FY2019–FY2027** (16,916 rows) | The Council's capital workbooks (FY2015–FY2017 and FY2026 via the Internet Archive, FY2027 from the RnD site) and NYC Open Data `t474-a92g`, which the Council publishes (FY2019–FY2025) | **FY2018 is missing** from every source found. Exact by budget line only: Council project IDs do not link to OMB, FMS or Checkbook, and there is no contract-level data. Overview: [`../data/capital/README.md`](../data/capital/README.md) |
-| **Checked PDF tables** (optional download) | Schedule C FY2018–FY2027 · transparency resolutions FY2018–FY2026 · capital book FY2018–FY2020, FY2022–FY2027 · Terms and Conditions FY2018, FY2021–FY2027 | Read by BetaNYC from the Council's PDFs (`../source/FYNN/`) and checked (`../PDF-RECIPE.md`); statuses in [`../data/pdf_years.csv`](../data/pdf_years.csv) | Every family-year is `reviewed` ("checked, review in progress") today; none is `closed` ("checked and reviewed") yet. FY2008–FY2017 were read only by the old parser and are not served |
+| **Checked PDF tables** (optional download) | Schedule C FY2018–FY2027 · transparency resolutions FY2018–FY2026 · capital book FY2018–FY2020, FY2022–FY2027 · Terms and Conditions FY2018, FY2021–FY2027 | Read by BetaNYC from the Council's PDFs (`../source/FYNN/`) and checked (`../PDF-RECIPE.md`); statuses in [`../data/pdf_years.csv`](../data/pdf_years.csv) | As of 2026-10-24 every family-year is `reviewed` ("checked, review in progress"); none is `closed` ("checked and reviewed") yet. FY2008–FY2017 were read only by the old parser and are not served |
 | Council vs **OMB** adopted capital budget | **FY2019–FY2027** (1,425 line-year comparisons, 515 distinct budget lines) | This repo's arithmetic on the capital table and OMB's `46m8-77gv` adopted release | Not a Council or OMB reconciliation. [`../data/capital/RECONCILIATION.md`](../data/capital/RECONCILIATION.md) §3 |
 
 `list_available_fiscal_years` reports this per year, with every gap stated.
@@ -250,6 +255,19 @@ else `~/Library/Application Support/nyc-budget-mcp` (macOS), `$XDG_DATA_HOME/nyc
   server downloads in the background on its next start; the other tools answer meanwhile, and the
   PDF tools say the download is under way.
 
+| Setting | What it does |
+|---|---|
+| `download --pdf-tables` | Download the checked tables (about 17 MB) |
+| `download --pdf-tables --pdfs` | The tables and the PDFs the rows cite (148 MB more), so each row can name the PDF's copy on your machine |
+| `download ... --from <manifest>` | Use another release's manifest (URL or local path) |
+| `NYC_BUDGET_PDF_DATA=on` | Download the tables in the background when the server starts, if none are installed |
+| `NYC_BUDGET_PDF_DATA=pdfs` | The same, with the PDFs (also fetches PDFs missing from an install) |
+| `NYC_BUDGET_PDF_DATA_URL` | Use another release's manifest, like `--from` |
+| `NYC_BUDGET_DATA_DIR` | Where the files go (default: the per-user folder above) |
+
+The setting does not update an install. To get a newer release, run `download --pdf-tables`
+again.
+
 By default the downloader asks GitHub for this repo's newest published release whose tag starts
 with `pdf-tables-` and that carries `pdf-tables.manifest.json`. `NYC_BUDGET_PDF_DATA_URL` (or
 `--from`) points at another manifest, over `https://`, `file:` or a local path. Every file is
@@ -261,14 +279,25 @@ download left are removed by the next one. One download runs at a time per folde
 `pdf-tables/download.lock`). Plain `http:` is refused except on this machine. A running server
 picks up tables `download` installs, without a restart.
 
-> **No release exists yet.** `.github/workflows/pdf-tables-release.yml` (W7, #216) publishes them
-> once it is on `main` and a maintainer runs it (see "Publishing a release" below). Until then, build one
-> locally: `npm run build-pdf-release -- --out <dir> [--pdfs] [--allow-local-commit]`
-> (`--allow-local-commit` is for local trials only: it warns, the manifest says
-> `"source_commit_scope": "local"`, and a server builds no GitHub link from such tables), and install it
-> with `download --pdf-tables --from <dir>/pdf-tables.manifest.json`.
+**Releases.** The releases are listed on
+[GitHub](https://github.com/BetaNYC/New-York-City-Budget/releases); the data releases' tags start
+with `pdf-tables-`, and the downloader takes the newest. As of 2026-10-24 that is
+`pdf-tables-2026-10-24-260d16e` (a hand run from commit `260d16e`): 36 family-years, all
+`reviewed` (17.4 MB of tables), and 126 PDFs (148 MB). The first was
+`pdf-tables-2026-10-23-5bab77c`, published on 2026-10-23 from commit `5bab77c`.
 
-### Publishing a release (automatic, W7)
+**To try tables you built yourself**, build a release locally:
+`npm run build-pdf-release -- --out <dir> [--pdfs] [--allow-local-commit]`
+(`--allow-local-commit` is for local trials only: it warns, the manifest says
+`"source_commit_scope": "local"`, and a server builds no GitHub link from such tables), and install it
+with `download --pdf-tables --from <dir>/pdf-tables.manifest.json`.
+
+### Publishing a release (W7)
+
+**Today releases are hand runs.** The repository variable `PDF_TABLES_AUTO_PUBLISH` is not set,
+so a push to `main` builds and checks a release but does not publish it. Both releases so far
+(2026-10-23 and 2026-10-24) were hand runs.
+
 
 `.github/workflows/pdf-tables-release.yml` runs on a push to `main` that changes the PDF tables:
 `data/fy*/pdf/**`, `data/pdf_years.csv`, `research/*/data/*_review_decisions.csv`, or the
@@ -305,17 +334,17 @@ The actions it uses are pinned by commit id, their version in a comment.
 Run by hand: Actions → "PDF tables release" → Run workflow, on `main`. `dry_run` (default: on)
 builds and checks without publishing; uncheck it to publish.
 
-**The first run** (a maintainer's decision; nothing publishes before it):
+**A hand run** (a maintainer's decision):
 
-1. Merge the PR that adds the workflow to `main`. Its push builds and checks only: the publish
-   job is skipped while `PDF_TABLES_AUTO_PUBLISH` is unset.
-2. Actions → "PDF tables release" → Run workflow on `main`, `dry_run` checked. Read the run's
-   summary: the tag, file count and size (about 160 MB: 17 MB of tables, 141 MB of PDFs).
-3. Run it again with `dry_run` unchecked: the first release.
-4. Check it from any machine: `NYC_BUDGET_DATA_DIR=$(mktemp -d) npx @betanyc/nyc-budget-mcp download --pdf-tables`,
+1. Actions → "PDF tables release" → Run workflow on `main`, `dry_run` checked. Read the run's
+   summary: the tag, file count and size (the first was about 165 MB: 17 MB of tables, 148 MB
+   of PDFs).
+2. Run it again with `dry_run` unchecked to publish.
+3. Check it from any machine: `NYC_BUDGET_DATA_DIR=$(mktemp -d) npx @betanyc/nyc-budget-mcp download --pdf-tables`,
    then a PDF tool with the same `NYC_BUDGET_DATA_DIR`.
-5. To publish on every merge from then on, set the repository variable
-   `PDF_TABLES_AUTO_PUBLISH` to `true`. Delete it to go back to hand runs.
+
+To publish on every merge instead, set the repository variable `PDF_TABLES_AUTO_PUBLISH` to
+`true`. Delete it to go back to hand runs.
 
 To withdraw a release, delete it (and its tag) on GitHub; the downloader then picks the newest
 remaining one.
@@ -371,7 +400,7 @@ from the PDFs, and the old parser lost and merged rows.
 
 TypeScript + the MCP SDK + zod over stdio, on a local SQLite index (no live upstream API).
 
-- **The parent repo's structured datasets** are the single source of truth: `../data/disclosure_years.csv`, `../data/fyNN/expense_disclosure/`, `../data/capital/`, and the `MANIFEST.csv` of each source folder whose files they cite.
+- **The parent repo's structured datasets** are the single source of truth: `../data/disclosure_years.csv`, `../data/fyNN/expense_disclosure/`, `../data/capital/`, `../data/open_data/` (whether each record is also on NYC Open Data, which the explorer shows), and the `MANIFEST.csv` of each source folder whose files they cite.
 - **`scripts/build-index.mjs`** reads only those files and builds `mcp/data/budget.db` (git-ignored) with `better-sqlite3`. It records every file it read in the index's `meta.inputs`, stops on any value outside a documented vocabulary (a status, a flag, a row count that disagrees with `disclosure_years.csv`, a capital source whose sha256 differs from its manifest), and is idempotent: the `.db` is dropped and rebuilt each run.
 - **The PDF tables, kept out of the package.** The index also has empty `pdf_*` tables (`scripts/pdf-families.mjs`). The package's build (`npm run build-index` = `build-index.mjs --spreadsheet-only`) loads no PDF family, whatever its status; with no flag, `closed` families load (the explorer's default build); `--include-reviewed --out <file>` adds `reviewed` ones and refuses to write `data/budget.db`. Every build records the commit it was built from (`meta.source_commit`, `NYC_BUDGET_SOURCE_COMMIT` overrides `git rev-parse HEAD`) and whether every cited PDF has the same bytes at that commit.
 - **`scripts/build-pdf-release.mjs`** builds the optional download from an `--include-reviewed` build (see [the release format](#the-release-format-nyc-budget-pdf-tables1)).
@@ -431,6 +460,12 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/license.test.js` | One license: the license statements name no second license; `LICENSE` names code, data and docs and excludes `source/`; `mcp/LICENSE` equals the repository's. |
 | `test/cleared-label.mjs` | Helper, not a test: the Cleared-line label expected for a set of CSV rows. |
 | `test/strict-schema.test.js` | Issue #37: every tool advertises and enforces `additionalProperties: false`, with per-tool hints |
+| `test/build-guard.test.js` | The index build fails loudly on a dataset with no rows or a missing year, and installs the new index in one step (#95) |
+| `test/checkwords.test.js` | Every check code in the promoted files has a plain sentence (`src/checkwords.ts`); questions to Council Finance are worded by status (`src/questions.ts`) |
+| `test/fold-roundtrip.test.js` | A printed value pasted back exactly finds its own rows, including accented and garbled text as published |
+| `test/open-data.test.js` | Whether each record is on NYC Open Data (`data/open_data/`), as the explorer shows it |
+| `test/pdf-align.test.js` | How a Schedule C row is matched to the disclosure spreadsheet (`disclosure_status`) |
+| `test/rowlinks.test.js` | The row-link builder (`src/rowlinks.ts`), shared with the explorer: the explorer link, the GitHub links, the publisher's copy |
 
 The 1.x tests and the Legistar enrichment script are parked in `retired-1.x/` (not run, not
 shipped) until a maintainer deletes them.
@@ -448,7 +483,8 @@ Published to npm by CI, never from a laptop:
 - **To release** after the version-bump PR merges: `git tag mcp-v<version>` and
   `git push origin mcp-v<version>`.
 - **The PDF tables** are not in the npm package: `.github/workflows/pdf-tables-release.yml`
-  publishes them as `pdf-tables-*` GitHub Releases on merge (see "Publishing a release").
+  publishes them as `pdf-tables-*` GitHub Releases, by hand for now (see "Publishing a release").
+  The latest npm release is 2.0.2 (tag `mcp-v2.0.2`); 2.0.3 is in progress.
 - **CI**: `.github/workflows/ci.yml` builds and tests `mcp/` on Node 22 and 24 for every PR into
   `main` that touches `mcp/` or the data the index is built from.
 

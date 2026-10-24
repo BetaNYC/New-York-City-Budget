@@ -3,9 +3,11 @@
 **Report generated:** 2026-10-22. Prepared by BetaNYC with AI assistance.
 **Data current as of:** `main` @ `3af3c7c` (FY2018–FY2027 checked tables merged in #203); the live
 explorer as deployed from that commit.
-**Last revised:** 2026-10-22, after the grill with Noel Hidalgo: every open question is decided
-(see "Decisions").
-**Status:** epic plan for #190. Nothing here changes code, data or the published package yet.
+**Last revised:** 2026-10-23: eight decisions made after the plan (see "Decisions after the
+plan") and each workstream's status. Before that, 2026-10-22, after the grill with Noel Hidalgo:
+every open question is decided (see "Decisions").
+**Status:** epic plan for #190. W1–W9 and W11 are merged; MCP 2.0.2 is on npm and the first data
+release is published. W10 (docs) is #219. No family-year is `closed` yet.
 
 ## The goal, in one line
 
@@ -55,7 +57,8 @@ A family-year is `closed` when:
    30 days the row is published as printed with a visible label ("Question sent to Council Finance
    on <date>, no answer yet"); the question stays open as a GitHub issue.
 
-`code/validate_review_decisions.py --complete` must enforce this (#194).
+`code/validate_review_decisions.py --complete` must enforce this (#194, fixed by #253 on 2026-10-24:
+`needs_info` now counts as open, unless its question was sent 30 or more days ago).
 
 ## Families and where each stands
 
@@ -66,21 +69,24 @@ A family-year is `closed` when:
 | Capital §254 supporting detail | FY2018–FY2027 except FY2021 (OMB's copy is in `source/gpp/`, #186) | none | Beside the workbook rows in Capital; Part III in Orgs |
 | Terms and Conditions | FY2018, FY2021–FY2027 | none | Terms view |
 
+This table is as of 2026-10-22. Since 2026-10-23 all four families are served by MCP 2.0.2 (with
+the optional download) and each has its own searchable page in the explorer.
+
 ## Workstreams (each becomes a child issue)
 
-| # | Workstream | What "done" means |
-|---|---|---|
-| W1 | **Shared row-link builder** | One function, used by the MCP and the explorer, turns a row's `source_pdf`, `pdf_page`, `bbox_pt` into the three links; tests prove both produce identical links |
-| W2 | **Explorer source view scrolls to the row** | Opening a link lands on the highlighted box |
-| W3 | **MCP tools** | Four tools: `search_schedule_c_awards` (with each row's `disclosure_status`), `search_transparency_changes`, `search_capital_book`, `search_terms_conditions`. Each row returns values as printed, review status label, flags, decision, hidden text (labeled) and the three links. `search_disclosure_awards` stays separate. `list_available_fiscal_years` reports each family-year's status; the `REMOVED_TOOLS` notes point at the new tools |
-| W4 | **Explorer: a searchable page for every family** | Schedule C search across all rows; a new Transparency view (by organization, member, resolution and date); a capital-book search; Terms with book-order numbers labeled. Reviewed and closed years, each row labeled with its status and linking to its page. Includes #205 and #206 |
-| W5 | **Tests that guard the rules** | Replace, on purpose, the two tests that forbid PDF data today (`mcp/test/no-pdf-data.test.js`, `mcp/test/pdf-families.test.js`). New: no old-parser row is ever served; every served row carries its status label; MCP answers equal the explorer's; every link resolves |
-| W6 | **Optional PDF data download** | The npm package keeps only the spreadsheet data (about 51 MB) on the user's drive. The PDF tables (about 115 MB more) and, optionally, the PDF files themselves download on request, through both `npx @betanyc/nyc-budget-mcp download --pdf-tables [--pdfs]` and a config setting (e.g. `NYC_BUDGET_PDF_DATA=on`). Files come from this repo's GitHub Releases and are checked against published sha256s. Until downloaded, the four PDF tools say how to add them |
-| W7 | **Automatic data releases** | A workflow builds, checks and publishes a dated data release to GitHub Releases whenever a merge to `main` changes the PDF tables. npm releases still need Noel's tag |
-| W8 | **Schema changes from the grill** | A `fiscal_conduit` field in Schedule C and transparency for every year; a field for the `*` mark (named from the PDF's own footnote); a `program_or_subheading` field so `purpose` holds only the printed purpose; a sub-awards table for the Jobs to Build On partner list (FY2019, FY2018), linked to the CWE award; "no dollar amount" rows (Beating Hearts) kept and marked; the page-image rule above, applied first to FY2023 Laundromat Project and FY2019 Himalayan Elders |
-| W9 | **Data housekeeping** | Retired PDF-parser CSVs move to `data/retired/` with a pointer, year by year as each is redone; `wb_pick_by_amount` turned on for FY2026 and its 3 decided items re-checked; FY2018 capital fills the gap in `data/capital/`, labeled "from the PDF", once FY2018 capital is closed (#202); FY2024 capital signed off, with the PDF's "no copying" setting noted in DATA-ANOMALIES |
-| W10 | **Docs** | The repo README rewritten for how things work now; MCP README; DATA-ANOMALIES (a section that narrows §27); the explorer's About page; `PDF-RECIPE.md` (what reviewed and closed mean) |
-| W11 | **Release** | MCP minor version (new tools, nothing removed), e.g. 2.1.0; tag pushed by Noel only; the explorer redeploys on merge |
+| # | Workstream | What "done" means | Status (2026-10-23) |
+|---|---|---|---|
+| W1 | **Shared row-link builder** | One function, used by the MCP and the explorer, turns a row's `source_pdf`, `pdf_page`, `bbox_pt` into the three links; tests prove both produce identical links | Done: #221 (#210) |
+| W2 | **Explorer source view scrolls to the row** | Opening a link lands on the highlighted box | Done: #221 (#211) |
+| W3 | **MCP tools** | Four tools: `search_schedule_c_awards` (with each row's `disclosure_status`), `search_transparency_changes`, `search_capital_book`, `search_terms_conditions`. Each row returns values as printed, review status label, flags, decision, hidden text (labeled) and the three links. `search_disclosure_awards` stays separate. `list_available_fiscal_years` reports each family-year's status; the `REMOVED_TOOLS` notes point at the new tools | Done: #226, in #229 (#212); released in 2.0.2 |
+| W4 | **Explorer: a searchable page for every family** | Schedule C search across all rows; a new Transparency view (by organization, member, resolution and date); a capital-book search; Terms with book-order numbers labeled. Reviewed and closed years, each row labeled with its status and linking to its page. Includes #205 and #206 | Done: #224, in #229 (#213); each tab loads its data when it opens, #230 |
+| W5 | **Tests that guard the rules** | Replace, on purpose, the two tests that forbid PDF data today (`mcp/test/no-pdf-data.test.js`, `mcp/test/pdf-families.test.js`). New: no old-parser row is ever served; every served row carries its status label; MCP answers equal the explorer's; every link resolves | Done: #226, in #229 (#214) |
+| W6 | **Optional PDF data download** | The npm package keeps only the spreadsheet data (about 51 MB) on the user's drive. The PDF tables (about 115 MB more) and, optionally, the PDF files themselves download on request, through both `npx @betanyc/nyc-budget-mcp download --pdf-tables [--pdfs]` and a config setting (e.g. `NYC_BUDGET_PDF_DATA=on`). Files come from this repo's GitHub Releases and are checked against published sha256s. Until downloaded, the four PDF tools say how to add them | Done: #226, in #229 (#215) |
+| W7 | **Automatic data releases** | A workflow builds, checks and publishes a dated data release to GitHub Releases whenever a merge to `main` changes the PDF tables. npm releases still need Noel's tag | Done: #230 (#216). Publishing on merge waits for the `PDF_TABLES_AUTO_PUBLISH` variable, which is unset; the first release (`pdf-tables-2026-10-23-5bab77c`) was a hand run |
+| W8 | **Schema changes from the grill** | A `fiscal_conduit` field in Schedule C and transparency for every year; a field for the `*` mark (named from the PDF's own footnote); a `program_or_subheading` field so `purpose` holds only the printed purpose; a sub-awards table for the Jobs to Build On partner list (FY2019, FY2018), linked to the CWE award; "no dollar amount" rows (Beating Hearts) kept and marked; the page-image rule above, applied first to FY2023 Laundromat Project and FY2019 Himalayan Elders | Done: #222 (#217); the first two page-image decisions, #228 |
+| W9 | **Data housekeeping** | Retired PDF-parser CSVs move to `data/retired/` with a pointer, year by year as each is redone; `wb_pick_by_amount` turned on for FY2026 and its 3 decided items re-checked; FY2018 capital fills the gap in `data/capital/`, labeled "from the PDF", once FY2018 capital is closed (#202); FY2024 capital signed off, with the PDF's "no copying" setting noted in DATA-ANOMALIES | Done: #223 (#218), except FY2018 capital in `data/capital/`, which waits until FY2018 capital is closed (#202) |
+| W10 | **Docs** | The repo README rewritten for how things work now; MCP README; DATA-ANOMALIES (a section that narrows §27); the explorer's About page; `PDF-RECIPE.md` (what reviewed and closed mean) | Done in the PR that closes #219 |
+| W11 | **Release** | MCP minor version (new tools, nothing removed), e.g. 2.1.0; tag pushed by Noel only; the explorer redeploys on merge | Done: #232 (#220). The version is 2.0.2, not 2.1.0 (decision 6 below); tag `mcp-v2.0.2` |
 
 ## Working with the data owners
 
@@ -163,6 +169,25 @@ review set the real pace.
 | 24 | FY2026 `wb_pick_by_amount` | On; re-check its 3 decided items |
 | 25 | FY2018 capital in `data/capital/` | Yes, labeled "from the PDF", once closed |
 | 26 | Asking the Council to fill `t474-a92g` | Both: an email to the Council team we know, and NYC Open Data's "contact dataset owner" form |
+
+## Decisions after the plan (2026-10-22 night)
+
+Noel Hidalgo decided these while the phase 1 and phase 2 PRs were reviewed.
+
+| # | Question | Decision |
+|---|---|---|
+| 1 | What is the capital book's total? | Part I. "Of which went to non-city groups" is the Part I rows the book prints again in Part II (FY2027: 148 rows, $139,690,000). Part II as printed is its own figure (FY2027: 178 rows, $210,677,000). Rows printed only in Part II are listed apart and never added (FY2027: 30 rows, $70,987,000) |
+| 2 | Where do the dates of questions to the Council live? | In `data/council_questions.csv` (#231) |
+| 3 | How are check codes and reviewer notes shown? | In plain words, in public. The raw codes stay in the data (#231) |
+| 4 | When does the explorer load a tab's data? | When the tab opens (#230) |
+| 5 | Borough codes A and C in the capital books? | Shown as printed, labeled "meaning unclear"; the question is #227 |
+| 6 | The MCP release's version? | 2.0.2. Its changelog says it adds four tools (#232) |
+| 7 | The first page-image items? | Both approved: FY2023 Laundromat Project and FY2019 Himalayan Elders (#228) |
+| 8 | The `W.fiscal_conduit` flag on FY2018 rows? | Kept on the FY2018 Schedule C rows (50: the 49 with a fiscal conduit and one note row). The 48 routine conduit items left the review queue (#225), but the flag stays |
+
+FY2027 figures checked against `data/fy27/pdf/capital_sd/fy27_capital_sd_projects.csv` on
+2026-10-23 (FY2027 column; a Part II row is a reprint when Part I has the same SUB ID and budget
+line).
 
 ## Related
 

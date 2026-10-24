@@ -9,6 +9,12 @@ Honest catalog of every known gap, quirk, and caveat in this dataset. Nothing he
 > the old explorer online, frozen as of 2026-10-16, under a "do not cite" banner). Where an entry says "the MCP" serves or indexes those files, it
 > describes 1.x. The structured datasets are covered by §22–§26.
 
+> **2.0.2 (2026-10-23): checked PDF tables are served again (§56).** What 2.0 retired is the
+> old parser's output, and that stays retired. The tables re-read from the PDFs by the checked
+> process (`PDF-RECIPE.md`, §29–§55) are served by `@betanyc/nyc-budget-mcp` 2.0.2 and shown in
+> the explorer, each row labeled with its review status. The "Not served by the MCP" notes in
+> §29–§55 were true when written; they now point here.
+
 > **Corrections, 2026-10-20.** A re-read of the source PDFs (details: PR #98, open; the §23
 > note carries its own evidence) found wrong claims in this file, `code/PARSING.md`,
 > `DATA-DICTIONARY.md`, `README.md` and `data/capital/README.md`, most of them reading a
@@ -23,7 +29,7 @@ Honest catalog of every known gap, quirk, and caveat in this dataset. Nothing he
 > `source/`), and in `code/PARSING.md` the FY2027 capital "in-source gaps", the transparency
 > totals and the Terms and Conditions text (about 393 mid-word splits). FY2010–FY2012
 > transparency charts also print totals, so §28's "FY2009 is the *only* Transparency-Resolution
-> year whose charts print totals at all" is too narrow; §28 is left as its author wrote it. No
+> year whose charts print totals at all" was too narrow; §28 is corrected in place (2026-10-23). No
 > data or code changed, so some copies of the old claims remain until the parsers are revised
 > (issue #5) or the files are next regenerated: `data/capital/RECONCILIATION.md` ("FY2018 is in
 > no source found"); the docstrings and printed messages in `code/parse_schedule_c_legacy.py`
@@ -844,6 +850,11 @@ number here is this repo's arithmetic on those files.
 
 ## 27. PDF-derived data retired in 2.0 (2026-10-14)
 
+> **Narrowed on 2026-10-23 by §56.** What stays retired is the **old parser's output**, listed
+> below. The checked PDF tables are served again, labeled (§56). The test named below,
+> `mcp/test/no-pdf-data.test.js`, was replaced by `mcp/test/shipped-data.test.js` (the npm package
+> still ships no PDF data) and `mcp/test/pdf-families.test.js` (no old-parser file is ever loaded).
+
 Noel Hidalgo's decision of 2026-10-14: version 2.0 of `@betanyc/nyc-budget-mcp` and the GitHub
 Pages site use structured sources only. Retired and no longer served or shown: Schedule C
 (awards, initiatives, appendices), Terms & Conditions, per-year §254 capital, transparency
@@ -859,6 +870,13 @@ answers surfaced when FY2009 entered the served set: the 53 rows with no grantee
 - **Fractional amounts.** FY2009–FY2012 carry amounts such as `7481.296758`; the MCP shows them
   rounded to cents and totals the exact values.
 
+**Rescission origins use the checked Schedule C (since #204, 2026-10-24).** The checked
+transparency tables trace each rescission to the award it takes money from. They now look it up in
+the checked `data/fyNN/pdf/schedule_c/` awards, not in the retired old-parser CSVs; a year with no
+checked Schedule C stops the run. 879 FY2018–FY2023 rows changed origin, mostly from `not_found`
+or `partial` to `schedule_c` (FY2018 318, FY2019 333, FY2020 214, FY2021 5, FY2022 4, FY2023 5;
+FY2024–FY2026 unchanged). One more place the retired files are no longer read.
+
 ---
 
 ## 28. FY2009 Transparency Resolutions are OCR-derived — the one year whose numbers are model-read
@@ -873,7 +891,7 @@ answers surfaced when FY2009 entered the served set: the 53 rows with no grantee
 
 **What is checked instead.** Four things stand in for the missing text layer:
 
-1. **Printed chart totals.** FY2009 is the *only* Transparency-Resolution year whose charts print totals at all (e.g. `$500,000.00` on the Veterans Resource Center chart; `$0.00` on a net-zero transfer chart). Where a total is printed, the OCR'd rows must sum to it **exactly**. Charts with no printed total stay `NOT RECONCILABLE`, as in every other year.
+1. **Printed chart totals.** FY2009's charts print totals (**corrected 2026-10-23:** this said FY2009 is the only year whose charts do; FY2010–FY2012 charts print them too, e.g. FY2011 Reso 02 p.24, $1,200,000.00, and FY2010 Reso 09 p.15, $0.00; the old parser does not check them) (e.g. `$500,000.00` on the Veterans Resource Center chart; `$0.00` on a net-zero transfer chart). Where a total is printed, the OCR'd rows must sum to it **exactly**. Charts with no printed total stay `NOT RECONCILABLE`, as in every other year.
 2. **Shape checks** on EIN (`##-#######`), amount (`$#,###.##`; parenthesised = rescission), and the 3-digit `Agy #` / `U/A` codes.
 3. **An agency-code dictionary** harvested from the already-parsed FY2010–FY2027 transparency CSVs, so a plausible OCR slip (`DYGD` for `DYCD`) fails where a generic uppercase-letters regex would pass.
 4. **No quiet repair.** Only characters that cannot occur in the target grammar and have exactly one reading (bracket variants, whitespace) are normalized. Letter/digit confusions (`O`/`0`, `S`/`$`) are never guessed — the value is left unparsed, flagged with an `ocr:*` code in the `flags` column, and queued in `fy09_transparency_needs_review.csv` with a crop of the original pixels.
@@ -893,7 +911,7 @@ answers surfaced when FY2009 entered the served set: the 53 rows with no grantee
 > (`code/parse_schedule_c_v2.py`, `config/schedule_c/fy2027.toml`). Its review record is
 > [`research/2026-10-20-fy27-schedule-c-review/`](research/2026-10-20-fy27-schedule-c-review/README.md).
 > The old `data/retired/fy27/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
-> Not served by the MCP.
+> Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 9,979 award rows, $655,045,412 (body 6,119 / $605,246,412; appendices A, B, C
 467 / $5,610,000, 2,558 / $36,539,000, 835 / $7,650,000, the pots in §19). The old parse had
@@ -922,7 +940,7 @@ to match the disclosure (9 rows pair different agencies by amount alone).
 > (`code/parse_transparency_v2.py`, `code/transreso/`, `config/transparency/fy2026.toml`). Its
 > review record is [`research/2026-10-21-fy26-transparency-review/`](research/2026-10-21-fy26-transparency-review/README.md).
 > The old `data/retired/fy26/transparency-resolutions/*.csv` files are unchanged and stay the historical
-> record (§27). Not served by the MCP.
+> record (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 4,952 rows from 388 charts (the old parse had 4,755, all of which are here). Every row
 carries its resolution's number and adoption date (`resolution_number`, `resolution_date`), so a
@@ -961,7 +979,7 @@ row 2's, and its `W.clipped_text` note says "under the next cell". No value is a
 > toolkit (`code/parse_schedule_c_v2.py`, `config/schedule_c/fy2026.toml`). Its review record is
 > [`research/2026-10-21-fy26-schedule-c-review/`](research/2026-10-21-fy26-schedule-c-review/README.md).
 > The old `data/retired/fy26/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
-> Not served by the MCP.
+> Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 9,765 award rows, $545,669,395 (body 5,850 / $495,870,395; appendices A, B, C
 473 / $5,610,000, 2,619 / $36,539,000, 823 / $7,650,000). The old parse had 9,752 rows: the 13
@@ -993,14 +1011,14 @@ letter of each box label on p.162. Six glyphs are unmapped (`(cid:9)`, e.g. p.34
 
 ---
 
-## 32. FY2025 Schedule C rebuilt from the PDF, checked (#104) — REVIEW NOT STARTED
+## 32. FY2025 Schedule C rebuilt from the PDF, checked (#104) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY25/Fiscal-2025-Schedule-C-MERGE-FINAL-2.pdf` with
 > the §29 toolkit (`code/parse_schedule_c_v2.py`, `config/schedule_c/fy2025.toml`). Its review
 > record is
 > [`research/2026-10-21-fy25-schedule-c-review/`](research/2026-10-21-fy25-schedule-c-review/README.md).
 > The old `data/retired/fy25/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
-> Not served by the MCP.
+> Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 9,579 award rows, $471,876,698 (body 5,659 / $422,077,698; appendices A, B, C
 470 / $5,610,000, 2,616 / $36,539,000, 834 / $7,650,000). The old parse has 9,566 rows: the 13
@@ -1040,12 +1058,12 @@ second box hides inside the first box's table (p.35). 17 summary-table titles; o
 
 ---
 
-## 33. FY2025 transparency resolutions parsed from the PDFs, checked (#104) — REVIEW NOT STARTED
+## 33. FY2025 transparency resolutions parsed from the PDFs, checked (#104) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** The first parse of the 13 PDFs in `source/FY25/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2025`, `config/transparency/fy2025.toml`). Its review record
 > is [`research/2026-10-21-fy25-transparency-review/`](research/2026-10-21-fy25-transparency-review/README.md).
-> The old parser never read FY2025, so there is no retired file. Not served by the MCP.
+> The old parser never read FY2025, so there is no retired file. Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 3,555 rows from 309 charts, each with its resolution's adoption date. An independent
 image grid agrees on every row; ink coverage finds nothing on the page that was not read. The
@@ -1063,9 +1081,9 @@ no `***` footnote. Reso 02 prints the same two Black Spectrum rows under Fiscal 
 
 ---
 
-## 34. FY2025 capital and T&C, re-read from the PDFs (GitHub #104) — REVIEW NOT STARTED
+## 34. FY2025 capital and T&C, re-read from the PDFs (GitHub #104) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
-> **Scope.** Its review record is [`research/2026-10-21-fy25-capital-terms-review/`](research/2026-10-21-fy25-capital-terms-review/README.md). Not served by the MCP.
+> **Scope.** Its review record is [`research/2026-10-21-fy25-capital-terms-review/`](research/2026-10-21-fy25-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 Capital: 32 / 32 printed totals tie; Part I equals NYC Open Data `t474-a92g` on all 1,325 of its
 FY2025 rows (2 FY2026-only amounts are not in t474). t474's FY2025 accents are cp437 mojibake (50
@@ -1076,13 +1094,13 @@ headings into the text of 14, the FSR table into #16, dropped hyphens in 4, and 
 
 ---
 
-## 35. FY2024 Schedule C rebuilt from the PDF, checked (#105) — REVIEW NOT STARTED
+## 35. FY2024 Schedule C rebuilt from the PDF, checked (#105) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY24/Fiscal-2024-Schedule-C-Merge-Final.pdf` with
 > the §29 toolkit (`config/schedule_c/fy2024.toml`). Its review record is
 > [`research/2026-10-21-fy24-schedule-c-review/`](research/2026-10-21-fy24-schedule-c-review/README.md).
 > The old `data/retired/fy24/schedule_c/*.csv` files are unchanged and stay the historical record (§27).
-> Not served by the MCP.
+> Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 9,291 award rows, $453,858,561 (body 5,380 / $404,059,561; appendices A, B, C
 477 / $5,610,000, 2,616 / $36,539,000, 818 / $7,650,000). Nothing the first PDF parse had is
@@ -1111,13 +1129,13 @@ following providers" with no designated amount (45 boxes). The Speaker's pages u
 
 ---
 
-## 36. FY2024 transparency resolutions rebuilt from the PDFs, checked (#105) — REVIEW NOT STARTED
+## 36. FY2024 transparency resolutions rebuilt from the PDFs, checked (#105) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 9 PDFs in `source/FY24/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2024`, `config/transparency/fy2024.toml`). Its review record
 > is [`research/2026-10-21-fy24-transparency-review/`](research/2026-10-21-fy24-transparency-review/README.md).
 > The old `data/retired/fy24/transparency-resolutions/*.csv` files are unchanged and stay the historical
-> record (§27). Not served by the MCP.
+> record (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 3,303 rows from 329 charts (the old parse had 3,294, all of which are here), each with
 its resolution's number and adoption date. An independent image grid agrees on every row,
@@ -1137,9 +1155,9 @@ also in Schedule C; corrected by the same resolution). "#" in the `*` column (Re
 
 ---
 
-## 37. FY2024 capital and T&C, re-read from the PDFs (GitHub #105) — REVIEW NOT STARTED
+## 37. FY2024 capital and T&C, re-read from the PDFs (GitHub #105) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
-> **Scope.** Its review record is [`research/2026-10-21-fy24-capital-terms-review/`](research/2026-10-21-fy24-capital-terms-review/README.md). Not served by the MCP.
+> **Scope.** Its review record is [`research/2026-10-21-fy24-capital-terms-review/`](research/2026-10-21-fy24-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 Capital (an encrypted PDF with an empty user password): 32 / 32 printed totals tie; Part I equals
 NYC Open Data `t474-a92g` on all 1,241 amounts. t474's FY2024 accents are UTF-8 read as cp437 (78
@@ -1157,12 +1175,12 @@ text extraction: the PDF opens with no password and every character extracts
 
 ---
 
-## 38. FY2023 Schedule C rebuilt from the PDF, checked (#106) — REVIEW NOT STARTED
+## 38. FY2023 Schedule C rebuilt from the PDF, checked (#106) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY23/Fiscal-2023-Schedule-C-Merge-6.13.22-Final-1.pdf`
 > with the §29 toolkit (`config/schedule_c/fy2023.toml`). Its review record is
 > [`research/2026-10-21-fy23-schedule-c-review/`](research/2026-10-21-fy23-schedule-c-review/README.md). The old `data/retired/fy23/schedule_c/*.csv` files are
-> unchanged and stay the historical record (§27). Not served by the MCP.
+> unchanged and stay the historical record (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 5,925 award rows, $323,063,807 (body 1,867 / $273,264,807; appendices A, B, C
 489 / $5,610,000, 2,728 / $36,539,000, 841 / $7,650,000). Nothing the first PDF parse had is
@@ -1189,13 +1207,13 @@ put the reserve after the providers ("... and $N will be designated post-adoptio
 
 ---
 
-## 39. FY2023 transparency resolutions rebuilt from the PDFs, checked (#106) — REVIEW NOT STARTED
+## 39. FY2023 transparency resolutions rebuilt from the PDFs, checked (#106) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 14 PDFs in `source/FY23/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2023`, `config/transparency/fy2023.toml`). Its review
 > record is [`research/2026-10-21-fy23-transparency-review/`](research/2026-10-21-fy23-transparency-review/README.md).
 > The old `data/retired/fy23/transparency-resolutions/*.csv` files are unchanged and stay the historical
-> record (§27). Not served by the MCP.
+> record (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 8,424 rows from 502 charts (the old parse had 8,354, all of which are here), each
 with its resolution's number and adoption date. An independent image grid agrees on every row;
@@ -1215,9 +1233,9 @@ p.19). Two $0 rows (Reso 07 p.27).
 
 ---
 
-## 40. FY2023 capital and T&C, re-read from the PDFs (GitHub #106) — REVIEW NOT STARTED
+## 40. FY2023 capital and T&C, re-read from the PDFs (GitHub #106) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
-> **Scope.** Its review record is [`research/2026-10-21-fy23-capital-terms-review/`](research/2026-10-21-fy23-capital-terms-review/README.md). Not served by the MCP.
+> **Scope.** Its review record is [`research/2026-10-21-fy23-capital-terms-review/`](research/2026-10-21-fy23-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 Capital: 32 / 32 printed totals tie; Part I equals NYC Open Data `t474-a92g` on all 1,411 of its
 FY2023 amounts, and adds the one t474 lost to a broken record (`E CN136`, $150,000), so t474's
@@ -1230,12 +1248,12 @@ as the retired CSV numbered them; it put the FSR table into condition 24's text.
 
 ---
 
-## 41. FY2022 Schedule C rebuilt from the PDF, checked (#107) — REVIEW NOT STARTED
+## 41. FY2022 Schedule C rebuilt from the PDF, checked (#107) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY22/Fiscal-2022-Schedule-C-Merge-6.30.21.pdf` with
 > the §29 toolkit (`config/schedule_c/fy2022.toml`). Its review record is
 > [`research/2026-10-21-fy22-schedule-c-review/`](research/2026-10-21-fy22-schedule-c-review/README.md). The old `data/retired/fy22/schedule_c/*.csv` files are
-> unchanged and stay the historical record (§27). Not served by the MCP.
+> unchanged and stay the historical record (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 5,732 award rows, $285,155,968 (body 1,550 / $235,356,968; appendices A, B, C
 510 / $5,610,000, 2,790 / $36,539,000, 882 / $7,650,000). Nothing the first PDF parse had is
@@ -1260,13 +1278,13 @@ drawn as one wide cell each (pp.117–118). "TOTAL:" (p.32). A box drawn inside 
 
 ---
 
-## 42. FY2022 transparency resolutions rebuilt from the PDFs, checked (#107) — REVIEW NOT STARTED
+## 42. FY2022 transparency resolutions rebuilt from the PDFs, checked (#107) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 14 PDFs in `source/FY22/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2022`, `config/transparency/fy2022.toml`). Its review
 > record is [`research/2026-10-21-fy22-transparency-review/`](research/2026-10-21-fy22-transparency-review/README.md).
 > The old `data/retired/fy22/transparency-resolutions/*.csv` files are unchanged and stay the historical
-> record (§27). Not served by the MCP.
+> record (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 7,918 rows from 424 charts (the old parse had 7,768, all of which are here), each
 with its resolution's number and adoption date. An independent image grid agrees on 7,917.
@@ -1290,9 +1308,9 @@ p.38).
 
 ---
 
-## 43. FY2022 capital and T&C, re-read from the PDFs (GitHub #107) — REVIEW NOT STARTED
+## 43. FY2022 capital and T&C, re-read from the PDFs (GitHub #107) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
-> **Scope.** Its review record is [`research/2026-10-21-fy22-capital-terms-review/`](research/2026-10-21-fy22-capital-terms-review/README.md). Not served by the MCP.
+> **Scope.** Its review record is [`research/2026-10-21-fy22-capital-terms-review/`](research/2026-10-21-fy22-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 Capital: 34 / 34 printed totals tie; Part I equals NYC Open Data `t474-a92g` on all 1,490 of its
 FY2022 amounts and adds the one t474 lost to a broken record (`E CN673`, $55,000), so t474's
@@ -1307,12 +1325,12 @@ the FSR table's months are out of order as printed.
 
 ---
 
-## 44. FY2021 Schedule C rebuilt from the PDF, checked (#108) — REVIEW NOT STARTED
+## 44. FY2021 Schedule C rebuilt from the PDF, checked (#108) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY21/Fiscal-2021-Schedule-C-Cover-REPORT-Final.pdf`
 > with the §29 toolkit (`config/schedule_c/fy2021.toml`). Its review record is
 > [`research/2026-10-22-fy21-schedule-c-review/`](research/2026-10-22-fy21-schedule-c-review/README.md). The old `data/retired/fy21/schedule_c/*.csv` files are
-> unchanged and stay the historical record (§27). Not served by the MCP.
+> unchanged and stay the historical record (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 6,179 award rows, $262,477,792 (body 1,869 / $212,678,792; appendices A, B, C
 514 / $5,610,000, 2,902 / $36,539,000, 894 / $7,650,000). Nothing the first PDF parse had is
@@ -1335,13 +1353,13 @@ last digits (pp.105–106). A box amount outside its box (p.98); an empty band o
 
 ---
 
-## 45. FY2021 transparency resolutions rebuilt from the PDFs, checked (#108) — REVIEW NOT STARTED
+## 45. FY2021 transparency resolutions rebuilt from the PDFs, checked (#108) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 8 PDFs in `source/FY21/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2021`, `config/transparency/fy2021.toml`). Its review
 > record is [`research/2026-10-21-fy21-transparency-review/`](research/2026-10-21-fy21-transparency-review/README.md).
 > The old `data/retired/fy21/transparency-resolutions/*.csv` files are unchanged and stay the historical
-> record (§27). Not served by the MCP.
+> record (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 4,500 rows from 237 charts (the old parse had 4,463, all of which are here), each
 with its resolution's number and adoption date. An independent image grid agrees on all 4,500.
@@ -1361,9 +1379,9 @@ amount. Reso 02 p.20 prints "(continued)" on a chart's first page. 15 chart page
 
 ---
 
-## 46. FY2021 Terms & Conditions, re-read from the PDF (GitHub #108) — REVIEW NOT STARTED
+## 46. FY2021 Terms & Conditions, re-read from the PDF (GitHub #108) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
-> **Scope.** Its review record is [`research/2026-10-21-fy21-capital-terms-review/`](research/2026-10-21-fy21-capital-terms-review/README.md). Not served by the MCP.
+> **Scope.** Its review record is [`research/2026-10-21-fy21-capital-terms-review/`](research/2026-10-21-fy21-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 46 conditions, unnumbered and with no page furniture, numbered here in book order; all 111 unit and
 budget-line heading lines placed; the FSR table (p.8) agrees under both lattices. The retired
@@ -1375,12 +1393,12 @@ capital supporting detail in `source/`.
 
 ---
 
-## 47. FY2020 Schedule C rebuilt from the PDF, checked (#109) — REVIEW NOT STARTED
+## 47. FY2020 Schedule C rebuilt from the PDF, checked (#109) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY20/Fiscal-2020-Schedule-C-Final-Merge.pdf` with
 > the §29 toolkit (`config/schedule_c/fy2020.toml`). Its review record is
 > [`research/2026-10-22-fy20-schedule-c-review/`](research/2026-10-22-fy20-schedule-c-review/README.md). The old `data/retired/fy20/schedule_c/*.csv` files are
-> unchanged and stay the historical record (§27). Not served by the MCP.
+> unchanged and stay the historical record (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 7,921 award rows, $336,750,073 (body 3,528 / $286,951,073; appendices A, B, C
 510 / $5,610,000, 2,986 / $36,539,000, 897 / $7,650,000). Nothing the first PDF parse had is
@@ -1403,13 +1421,13 @@ padded (p.111). A summary amount whose text is doubled (p.145). Page-origin offs
 
 ---
 
-## 48. FY2020 transparency resolutions rebuilt from the PDFs, checked (#109) — REVIEW NOT STARTED
+## 48. FY2020 transparency resolutions rebuilt from the PDFs, checked (#109) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 8 PDFs in `source/FY20/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2020`, `config/transparency/fy2020.toml`). Its review
 > record is [`research/2026-10-21-fy20-transparency-review/`](research/2026-10-21-fy20-transparency-review/README.md).
 > The old `data/retired/fy20/transparency-resolutions/*.csv` files are unchanged and stay the historical
-> record (§27). Not served by the MCP.
+> record (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 5,396 rows from 300 charts (the old parse had 5,319, all of which are here), each
 with its resolution's number and adoption date. An independent image grid agrees on all 5,396.
@@ -1431,9 +1449,9 @@ separator (Reso 05 p.67).
 
 ---
 
-## 49. FY2020 capital supporting detail, re-read from the PDF (GitHub #109) — REVIEW NOT STARTED
+## 49. FY2020 capital supporting detail, re-read from the PDF (GitHub #109) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
-> **Scope.** Its review record is [`research/2026-10-21-fy20-capital-terms-review/`](research/2026-10-21-fy20-capital-terms-review/README.md). Not served by the MCP.
+> **Scope.** Its review record is [`research/2026-10-21-fy20-capital-terms-review/`](research/2026-10-21-fy20-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 The book is Part I only (no Part II or III), encrypted with an empty password and rotated. 24 / 24
 printed totals tie (1,663 projects, $701,210,000 FY2020, $5,000,000 FY2021). Part I equals NYC Open
@@ -1447,12 +1465,12 @@ Conditions in `source/`.
 
 ---
 
-## 50. FY2019 Schedule C rebuilt from the PDF, checked (#110) — REVIEW NOT STARTED
+## 50. FY2019 Schedule C rebuilt from the PDF, checked (#110) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY19/Fiscal-2019-Schedule-C-Final-Report.pdf` with
 > the §29 toolkit (`config/schedule_c/fy2019.toml`). Its review record is
 > [`research/2026-10-22-fy19-schedule-c-review/`](research/2026-10-22-fy19-schedule-c-review/README.md). The old `data/retired/fy19/schedule_c/*.csv` files are
-> unchanged and stay the historical record (§27). Not served by the MCP.
+> unchanged and stay the historical record (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 5,995 award rows, $248,436,176 (body 1,551 / $198,637,176; appendices A, B, C
 523 / $5,610,000, 3,016 / $36,539,000, 905 / $7,650,000). Nothing the first PDF parse had is
@@ -1480,13 +1498,13 @@ titled without "Council" (pp.41, 102).
 
 ---
 
-## 51. FY2019 transparency resolutions rebuilt from the PDFs, checked (#110) — REVIEW NOT STARTED
+## 51. FY2019 transparency resolutions rebuilt from the PDFs, checked (#110) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 11 PDFs in `source/FY19/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2019`, `config/transparency/fy2019.toml`). Its review
 > record is [`research/2026-10-22-fy19-transparency-review/`](research/2026-10-22-fy19-transparency-review/README.md).
 > The old `data/retired/fy19/transparency-resolutions/*.csv` files are unchanged and stay the historical
-> record (§27). Not served by the MCP.
+> record (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 7,207 rows from 445 charts (the old parse had 7,090, all of which are here), each
 with its resolution's number and adoption date. An independent image grid agrees on all 7,207.
@@ -1510,9 +1528,9 @@ spaces around the separator (Reso 07 p.30).
 
 ---
 
-## 52. FY2019 capital supporting detail, re-read from the PDF (GitHub #110) — REVIEW NOT STARTED
+## 52. FY2019 capital supporting detail, re-read from the PDF (GitHub #110) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
-> **Scope.** Its review record is [`research/2026-10-22-fy19-capital-terms-review/`](research/2026-10-22-fy19-capital-terms-review/README.md). Not served by the MCP.
+> **Scope.** Its review record is [`research/2026-10-22-fy19-capital-terms-review/`](research/2026-10-22-fy19-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 The book is the Council's database printed from Excel (every cell ruled; no agency totals, no Part
 II or III, no summary page), read from its vector grid and checked against the image grid. 1,625
@@ -1526,14 +1544,14 @@ $15,460,000 more on 11 lines. FY2019 has no Terms & Conditions in `source/`.
 
 ---
 
-## 53. FY2018 Schedule C rebuilt from the PDF, checked (#111) — REVIEW NOT STARTED
+## 53. FY2018 Schedule C rebuilt from the PDF, checked (#111) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of
 > `source/FY18/FY-2018-Schedule-C-Cover-Template-FINAL-MERGE.pdf` with the §29 toolkit
 > (`config/schedule_c/fy2018.toml`). Its review record is
 > [`research/2026-10-22-fy18-schedule-c-review/`](research/2026-10-22-fy18-schedule-c-review/README.md).
 > The old `data/retired/fy18/schedule_c/*.csv` files are unchanged and stay the historical record
-> (§27). Not served by the MCP.
+> (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 5,906 award rows, $203,804,505 (body 1,420 / $154,005,505; appendices A, B, C
 537 / $5,610,000, 3,054 / $36,539,000, 895 / $7,650,000). Everything the first parse had is
@@ -1561,13 +1579,13 @@ pages where the text layer glues an EIN to the name before it; pp.115–119 blan
 
 ---
 
-## 54. FY2018 transparency resolutions rebuilt from the PDFs, checked (#111) — REVIEW NOT STARTED
+## 54. FY2018 transparency resolutions rebuilt from the PDFs, checked (#111) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 12 PDFs in `source/FY18/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2018`, `config/transparency/fy2018.toml`). Its review
 > record is [`research/2026-10-22-fy18-transparency-review/`](research/2026-10-22-fy18-transparency-review/README.md).
 > The old `data/retired/fy18/transparency-resolutions/*.csv` files are unchanged and stay the historical
-> record (§27). Not served by the MCP.
+> record (§27). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 **Result.** 5,558 rows from 400 charts, each with its resolution's number and adoption date, and,
 where printed, the fiscal conduit and its EIN (63 rows). An independent image grid agrees on all
@@ -1590,9 +1608,9 @@ footnotes (Reso 05 p.23).
 
 ---
 
-## 55. FY2018 capital supporting detail and Terms & Conditions, re-read from the PDFs (GitHub #111) — REVIEW NOT STARTED
+## 55. FY2018 capital supporting detail and Terms & Conditions, re-read from the PDFs (GitHub #111) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
-> **Scope.** Its review record is [`research/2026-10-22-fy18-capital-terms-review/`](research/2026-10-22-fy18-capital-terms-review/README.md). Not served by the MCP.
+> **Scope.** Its review record is [`research/2026-10-22-fy18-capital-terms-review/`](research/2026-10-22-fy18-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
 The capital book, filed as `FY18-Sec254-Capital-ResoA-…pdf`, is the §254 supporting detail, Parts
 I–III (encrypted with an empty password, no summary page). It is the only source for FY2018 Council
@@ -1602,3 +1620,66 @@ source to compare with. 15 rows name the sponsor `DISTRICT 28`; Part II adds 52 
 rows not in Part I. The T&C have 33 unnumbered conditions, one a page, all heading lines placed;
 the retired `data/retired/fy18/terms` CSV has the same 33 but folds the FSR table into #14's text, drops
 two line-end hyphens and files budget-line headings as units.
+
+---
+
+## 56. Checked PDF tables served again, labeled (MCP 2.0.2, 2026-10-23; epic #190)
+
+> **Scope.** Narrows §27. Plan and decisions: [`research/2026-10-22-mcp-pdf-tables/PLAN.md`](research/2026-10-22-mcp-pdf-tables/PLAN.md),
+> #209. How a year is checked: [`PDF-RECIPE.md`](PDF-RECIPE.md).
+
+**What is served again.** The tables read from the Council's budget PDFs by the checked process
+(§29–§55), for every family-year `data/pdf_years.csv` lists as `reviewed` or `closed`:
+
+| Family | Years |
+|---|---|
+| Schedule C | FY2018–FY2027 |
+| Transparency resolutions | FY2018–FY2026 |
+| Capital §254 supporting detail | FY2018–FY2020, FY2022–FY2027 |
+| Terms and Conditions | FY2018, FY2021–FY2027 |
+
+That is 36 family-years. As of 2026-10-24 all 36 are `reviewed` and none is `closed`.
+
+**From which process.** Each table is read from the PDF's own text and ruled lines, checked
+against a second reading of the page image, tied to every total the PDF prints, and checked for
+printed marks it missed. Every flagged row goes to a review queue a person decides. Promotion
+(`code/build_pdf_promoted.py`) regenerates the tables from the PDFs into `data/fyNN/pdf/`; nothing
+is typed in by hand. No language model reads the figures.
+
+**Where.**
+
+- **The explorer** (https://betanyc.github.io/New-York-City-Budget/explorer/): a page for each
+  family (Schedule C, Transparency resolutions, Capital book, Organizations, Terms & Conditions).
+- **The MCP**, `@betanyc/nyc-budget-mcp` 2.0.2: four tools (`search_schedule_c_awards`,
+  `search_transparency_changes`, `search_capital_book`, `search_terms_conditions`). The npm package
+  still ships only spreadsheet data. The PDF tables are an optional download from this repo's
+  GitHub Releases: `npx @betanyc/nyc-budget-mcp download --pdf-tables [--pdfs]`. The downloader
+  always takes the newest ([releases page](https://github.com/BetaNYC/New-York-City-Budget/releases)). As of 2026-10-24 that is
+  [`pdf-tables-2026-10-24-260d16e`](https://github.com/BetaNYC/New-York-City-Budget/releases/tag/pdf-tables-2026-10-24-260d16e): the 36 family-years (17.4 MB of tables) and 126 PDFs (148 MB). The first was
+  `pdf-tables-2026-10-23-5bab77c`.
+
+**With which labels.** Every row carries:
+
+- its status: "checked, review in progress" (`reviewed`) or "checked and reviewed" (`closed`);
+- its values as printed, never corrected. A row the PDF gets wrong carries its decision
+  (`source_error`) and note. Where a person confirmed that the page shows something other than
+  the PDF's text layer, the page's value is used and the row is labeled "read from the page
+  image" (two so far: FY2023 Laundromat Project, FY2019 Himalayan Elders; #228);
+- its review entries in plain words, with the decision once made. The check codes stay in the
+  data and are not shown;
+- the status of any question to Council Finance that covers it (`data/council_questions.csv`);
+- hidden text, in its own field, labeled "hidden text, not visible on the printed page";
+- links to its page in the explorer, the PDF on GitHub at the commit the tables were built from,
+  and the publisher's copy where known.
+
+Two capital rules: the book's total is Part I's, and rows printed only in Part II are listed
+apart and never added. Borough codes A and C are shown as printed, labeled "meaning unclear"
+(#227).
+
+**What stays retired.** The old parser's output: `data/fyNN/schedule_c/`, `terms/`, `capital/`
+and `transparency-resolutions/` for the years not yet redone, everything under
+[`data/retired/`](data/retired/README.md), `data/combined/` and `data/recovered/`. It is never
+served. `mcp/test/pdf-families.test.js` checks that no old-parser file is loaded. FY2008–FY2017
+have only the old parser's output, so the MCP answers "not available yet" for them. The FY2009
+OCR transparency files (§28) stay a research dataset and are not served.
+
