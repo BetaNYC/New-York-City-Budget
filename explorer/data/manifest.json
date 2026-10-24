@@ -1,0 +1,286 @@
+{
+  "generated_at": "2026-10-24T13:44:40.685Z",
+  "source_repo": "BetaNYC/New-York-City-Budget",
+  "source_commit": "02e5a7615d8c7af6f6f2edf4901c7c57e667ba56",
+  "index_built_at": "2026-10-24T13:39:10.239Z",
+  "index_counts": {
+    "disclosure": 156544,
+    "capital": 16916,
+    "capital_vs_omb": 1425,
+    "pdf_years": 36,
+    "pdf_capital_sd": 13913,
+    "pdf_capital_sd_orgs": 927,
+    "pdf_capital_sd_totals": 272,
+    "pdf_terms": 458,
+    "pdf_terms_units": 1414,
+    "pdf_terms_fsr": 49,
+    "pdf_schedule_c": 76272,
+    "pdf_schedule_c_subawards": 56,
+    "pdf_schedule_c_categories": 1706,
+    "pdf_schedule_c_initiatives": 1478,
+    "pdf_transparency": 50813,
+    "pdf_transparency_charts": 3334,
+    "pdf_transparency_resolutions": 99,
+    "pdf_capital_sd_series": 9,
+    "pdf_sc_disclosure": 107218,
+    "pdf_review": 1704,
+    "pdf_review_suggestions": 1704,
+    "pdf_council_questions": 11,
+    "open_data_crosswalk": 145385,
+    "open_data_rules": 990,
+    "open_data_coverage": 89,
+    "open_data_datasets": 8
+  },
+  "index": "viz/explorer/.cache/budget-public.db",
+  "include_reviewed": true,
+  "build": "public",
+  "review_screen": false,
+  "withheld": [
+    "pdf_review_suggestions"
+  ],
+  "dropped_columns": {
+    "pdf_review": [
+      "check_id",
+      "severity",
+      "dollars",
+      "expected",
+      "observed",
+      "detail"
+    ]
+  },
+  "pdf_families": {
+    "capital_sd": {
+      "label": "Capital §254 supporting detail",
+      "main": "pdf_capital_sd",
+      "tables": [
+        "pdf_capital_sd",
+        "pdf_capital_sd_orgs",
+        "pdf_capital_sd_totals"
+      ],
+      "decisions": {
+        "2018": "research/2026-10-22-fy18-capital-terms-review/data/fy18_capital_sd_review_decisions.csv",
+        "2019": "research/2026-10-22-fy19-capital-terms-review/data/fy19_capital_sd_review_decisions.csv",
+        "2020": "research/2026-10-21-fy20-capital-terms-review/data/fy20_capital_sd_review_decisions.csv",
+        "2022": "research/2026-10-21-fy22-capital-terms-review/data/fy22_capital_sd_review_decisions.csv",
+        "2023": "research/2026-10-21-fy23-capital-terms-review/data/fy23_capital_sd_review_decisions.csv",
+        "2024": "research/2026-10-21-fy24-capital-terms-review/data/fy24_capital_sd_review_decisions.csv",
+        "2025": "research/2026-10-21-fy25-capital-terms-review/data/fy25_capital_sd_review_decisions.csv",
+        "2026": "research/2026-10-21-fy26-capital-terms-review/data/fy26_capital_sd_review_decisions.csv",
+        "2027": "research/2026-10-20-fy27-capital-terms-review/data/fy27_capital_sd_review_decisions.csv"
+      }
+    },
+    "terms": {
+      "label": "Terms and Conditions",
+      "main": "pdf_terms",
+      "tables": [
+        "pdf_terms",
+        "pdf_terms_units",
+        "pdf_terms_fsr"
+      ],
+      "decisions": {
+        "2018": "research/2026-10-22-fy18-capital-terms-review/data/fy18_terms_review_decisions.csv",
+        "2021": "research/2026-10-21-fy21-capital-terms-review/data/fy21_terms_review_decisions.csv",
+        "2022": "research/2026-10-21-fy22-capital-terms-review/data/fy22_terms_review_decisions.csv",
+        "2023": "research/2026-10-21-fy23-capital-terms-review/data/fy23_terms_review_decisions.csv",
+        "2024": "research/2026-10-21-fy24-capital-terms-review/data/fy24_terms_review_decisions.csv",
+        "2025": "research/2026-10-21-fy25-capital-terms-review/data/fy25_terms_review_decisions.csv",
+        "2026": "research/2026-10-21-fy26-capital-terms-review/data/fy26_terms_review_decisions.csv",
+        "2027": "research/2026-10-20-fy27-capital-terms-review/data/fy27_terms_review_decisions.csv"
+      }
+    },
+    "schedule_c": {
+      "label": "Schedule C",
+      "main": "pdf_schedule_c",
+      "tables": [
+        "pdf_schedule_c",
+        "pdf_schedule_c_subawards",
+        "pdf_schedule_c_categories",
+        "pdf_schedule_c_initiatives"
+      ],
+      "decisions": {
+        "2018": "research/2026-10-22-fy18-schedule-c-review/data/fy18_sc_review_decisions.csv",
+        "2019": "research/2026-10-22-fy19-schedule-c-review/data/fy19_sc_review_decisions.csv",
+        "2020": "research/2026-10-22-fy20-schedule-c-review/data/fy20_sc_review_decisions.csv",
+        "2021": "research/2026-10-22-fy21-schedule-c-review/data/fy21_sc_review_decisions.csv",
+        "2022": "research/2026-10-21-fy22-schedule-c-review/data/fy22_sc_review_decisions.csv",
+        "2023": "research/2026-10-21-fy23-schedule-c-review/data/fy23_sc_review_decisions.csv",
+        "2024": "research/2026-10-21-fy24-schedule-c-review/data/fy24_sc_review_decisions.csv",
+        "2025": "research/2026-10-21-fy25-schedule-c-review/data/fy25_sc_review_decisions.csv",
+        "2026": "research/2026-10-21-fy26-schedule-c-review/data/fy26_sc_review_decisions.csv",
+        "2027": "research/2026-10-20-fy27-schedule-c-review/data/fy27_sc_review_decisions.csv"
+      }
+    },
+    "transparency": {
+      "label": "Transparency resolutions",
+      "main": "pdf_transparency",
+      "tables": [
+        "pdf_transparency",
+        "pdf_transparency_charts",
+        "pdf_transparency_resolutions"
+      ],
+      "decisions": {
+        "2018": "research/2026-10-22-fy18-transparency-review/data/fy18_tr_review_decisions.csv",
+        "2019": "research/2026-10-22-fy19-transparency-review/data/fy19_tr_review_decisions.csv",
+        "2020": "research/2026-10-21-fy20-transparency-review/data/fy20_tr_review_decisions.csv",
+        "2021": "research/2026-10-21-fy21-transparency-review/data/fy21_tr_review_decisions.csv",
+        "2022": "research/2026-10-21-fy22-transparency-review/data/fy22_tr_review_decisions.csv",
+        "2023": "research/2026-10-21-fy23-transparency-review/data/fy23_tr_review_decisions.csv",
+        "2024": "research/2026-10-21-fy24-transparency-review/data/fy24_tr_review_decisions.csv",
+        "2025": "research/2026-10-21-fy25-transparency-review/data/fy25_tr_review_decisions.csv",
+        "2026": "research/2026-10-21-fy26-transparency-review/data/fy26_tr_review_decisions.csv"
+      }
+    }
+  },
+  "capital": {
+    "first": 2015,
+    "last": 2027,
+    "gaps": [
+      {
+        "year": 2018,
+        "reason": "No workbook was found, and t474-a92g starts at FY2019. A gap."
+      }
+    ]
+  },
+  "files": {
+    "disclosure.parquet": {
+      "rows": 156544,
+      "bytes": 2856371,
+      "sha256": "38d662c629b4e54691e2a032de8dc9b3cccf8780f5dd72e5eac2053282d69c9f"
+    },
+    "disclosure_years.parquet": {
+      "rows": 19,
+      "bytes": 5538,
+      "sha256": "0a4308c4b1ee61f2c673aa2d781069dab65fe1745f31d36baac7688a6323e1a5"
+    },
+    "capital_council.parquet": {
+      "rows": 16916,
+      "bytes": 770252,
+      "sha256": "dfc7b1a77040868ba86ed10c5674984dcc21ca389d256787da0f6a32dea501c1"
+    },
+    "capital_sources.parquet": {
+      "rows": 12,
+      "bytes": 3514,
+      "sha256": "45ab03b44b0e9abdf9db318679c270e24b460e610b3958498382ed9f6c5aff1b"
+    },
+    "capital_vs_omb.parquet": {
+      "rows": 1425,
+      "bytes": 14536,
+      "sha256": "0cf473d01f7ad12d998042422ff26d28ffd3d95f9a60c9a19899c1e6d94edce9"
+    },
+    "meta.parquet": {
+      "rows": 10,
+      "bytes": 4094,
+      "sha256": "0acd550613d9540c6c544f6d96b66ff5742c16e87e7c3e8f22f0e8127a098d04"
+    },
+    "pdf_years.parquet": {
+      "rows": 36,
+      "bytes": 8379,
+      "sha256": "5dd31dd08453c732294bb81a698b29f39b810f0ffb1f877ea018e5b0679bcf9a"
+    },
+    "pdf_capital_sd.parquet": {
+      "rows": 13913,
+      "bytes": 589325,
+      "sha256": "d0331682f658964ffe61a6468fc3102e1a2c4ceadbe8f7f2bc186a200d9e50fa"
+    },
+    "pdf_capital_sd_orgs.parquet": {
+      "rows": 927,
+      "bytes": 28102,
+      "sha256": "64ed4c37569bcbe2bff56318963ebecdd756d12ff859d55ec350e5ad32e38899"
+    },
+    "pdf_capital_sd_totals.parquet": {
+      "rows": 272,
+      "bytes": 14732,
+      "sha256": "ef65cf8d2bb3a67ca35112745c2f00ca39fae5e1f5a29b03ed9e3d6dba1f7ed8"
+    },
+    "pdf_terms.parquet": {
+      "rows": 458,
+      "bytes": 126923,
+      "sha256": "fac67e55d6083b2787512f999f7439e4d51fd39386d511d189021a143ccb9c80"
+    },
+    "pdf_terms_units.parquet": {
+      "rows": 1414,
+      "bytes": 16813,
+      "sha256": "447ebe1c092be42ae401044a5df513be43fc22860b7c9c34deaae754fbbc7a8b"
+    },
+    "pdf_terms_fsr.parquet": {
+      "rows": 49,
+      "bytes": 5964,
+      "sha256": "77e1754584a4ecb6f9fb63bcee3014417dc8286dad3e41dedff96659d8fd1ffa"
+    },
+    "pdf_schedule_c.parquet": {
+      "rows": 76272,
+      "bytes": 4337370,
+      "sha256": "e551a9369c5436047ae130031c2a028087a15a912117db260ef56f0d4fb38938"
+    },
+    "pdf_schedule_c_subawards.parquet": {
+      "rows": 56,
+      "bytes": 8963,
+      "sha256": "3517c04270ec38f0839eef10e250b2e66d2857be93fae536828d30bc30c509fe"
+    },
+    "pdf_schedule_c_categories.parquet": {
+      "rows": 1706,
+      "bytes": 35090,
+      "sha256": "55ce328f3f13de2a8daac187f8237edb5405608e669593dfae35c601fee6a823"
+    },
+    "pdf_schedule_c_initiatives.parquet": {
+      "rows": 1478,
+      "bytes": 56907,
+      "sha256": "57caacad50dd94ca7e9b8b7d8cc09e2816fcee258b7ed24ea59c637d47a68618"
+    },
+    "pdf_transparency.parquet": {
+      "rows": 50813,
+      "bytes": 1819166,
+      "sha256": "66fdfb9cac46d2d68b2ec6c13050cb8f71c605c25a377d024c7bec35fbb4603c"
+    },
+    "pdf_transparency_charts.parquet": {
+      "rows": 3334,
+      "bytes": 57667,
+      "sha256": "873c45215e14d51f02b71123159e8a8886d0ddbb1bba44c09047a7455763ea8b"
+    },
+    "pdf_transparency_resolutions.parquet": {
+      "rows": 99,
+      "bytes": 15923,
+      "sha256": "505cffef635c1d2f9d92dcdbbd6f8111a89260b80472efe507cc12d0872b9e7b"
+    },
+    "pdf_capital_sd_series.parquet": {
+      "rows": 9,
+      "bytes": 1055,
+      "sha256": "d4b5675d60984fe158f98d86ec14b018d384595383081d825a838215fbb078e5"
+    },
+    "pdf_sc_disclosure.parquet": {
+      "rows": 107218,
+      "bytes": 880934,
+      "sha256": "415f64efc7d53541a15af1902320f0b71ff29c3454d841e83cbc509e883f5a6c"
+    },
+    "pdf_review.parquet": {
+      "rows": 1704,
+      "bytes": 67027,
+      "sha256": "460885ba9d78ea309a65103c9e30c46fef2611ed894038e02b1120790ec65fe6"
+    },
+    "pdf_council_questions.parquet": {
+      "rows": 11,
+      "bytes": 1958,
+      "sha256": "ad098f986e33e345d8252ccece25ca3fdaa55f148b1735316f1e448f797fe79d"
+    },
+    "open_data_crosswalk.parquet": {
+      "rows": 145385,
+      "bytes": 1515886,
+      "sha256": "9015b366e27911d0f0e10806acc478a322cab0524927e26aaaa31dad1db4624d"
+    },
+    "open_data_rules.parquet": {
+      "rows": 990,
+      "bytes": 6084,
+      "sha256": "e2544e8f1237cda28661f646a461b0079733a3d2b9a8b8397ad9e477bb05ef6f"
+    },
+    "open_data_coverage.parquet": {
+      "rows": 89,
+      "bytes": 5172,
+      "sha256": "805322f3f126d69b19f4c315ab554151f9257f357c3dcc232797dff1345d1b03"
+    },
+    "open_data_datasets.parquet": {
+      "rows": 8,
+      "bytes": 2047,
+      "sha256": "2fb53b94359d820195fe1fa28d9f676ca2fe3ab5422711974a25928dcea54421"
+    }
+  }
+}

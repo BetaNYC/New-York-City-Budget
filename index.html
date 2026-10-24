@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 2.0.0 retirement notice. Self-contained: no script or stylesheet beyond this file.
+         Tested by viz/test_pages_site.py. -->
+    <meta name="description" content="BetaNYC's NYC Council Schedule C explorer is frozen and no longer updated. NYC Council budget data now comes from the Council's own spreadsheets and NYC Open Data, via nyc-budget-mcp 2.0 and the New-York-City-Budget repository.">
+    <meta name="author" content="BetaNYC">
+    <meta content="NYC Council budget data — the Schedule C explorer is frozen" property="og:title">
+    <meta content="article" property="og:type">
+    <meta content="The explorer was built on figures extracted from the Council's adopted-budget PDFs. Current data comes from the Council's own spreadsheets and NYC Open Data." property="og:description">
+    <title>NYC Council budget data — the Schedule C explorer is frozen — BetaNYC</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <style>
+      body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1d2b3a; background: #f4f6f8; line-height: 1.55; }
+      main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 3rem; background: #fff; min-height: 100vh; box-sizing: border-box; }
+      h1 { color: #0b3059; font-size: 1.75rem; line-height: 1.25; margin: 0 0 1rem; }
+      h2 { color: #0b3059; font-size: 1.2rem; margin: 2rem 0 0.5rem; }
+      a { color: #b33a00; }
+      .notice { background: #fff3cd; color: #5c4400; border: 2px solid #b38600; border-radius: 4px; padding: 0.75rem 1rem; }
+      .notice a { color: #5c4400; }
+      ul { padding-left: 1.25rem; }
+      li { margin: 0.35rem 0; }
+      code { background: #eef1f4; padding: 0.05rem 0.3rem; border-radius: 3px; font-size: 0.92em; }
+      footer { margin-top: 2.5rem; font-size: 0.9rem; color: #4a5a6a; }
+      #deep-link { display: none; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>NYC Council discretionary funding: the Schedule C explorer is frozen</h1>
+
+      <p class="notice" id="retired-notice"><strong>The explorer that was here is frozen and no longer updated. We are rebuilding the underlying data and code.</strong> Its figures were extracted from the text of the Council's adopted-budget PDFs, and BetaNYC no longer stands behind that extraction. Please do not cite figures from it.</p>
+
+      <p id="deep-link">You followed a link into the frozen explorer. That view is still online, frozen and marked do not cite, at <a id="deep-link-a" href="legacy.html">legacy.html</a>.</p>
+
+      <h2>Where the data comes from now</h2>
+      <p>BetaNYC rebuilt its NYC Council budget data on structured sources only:</p>
+      <ul>
+        <li><strong>Discretionary expense designations:</strong> the Council's own expense funding disclosure spreadsheets, FY2009 and FY2011 through FY2027, one row per published designation, with clearance status and the grantee's mailing address. FY2010 is not included: the Council's archived workbook for that year is incomplete against NYC Open Data's. FY2009 and FY2013 are early snapshots, frozen while many designations were still pending.</li>
+        <li><strong>Capital designations:</strong> the Council's own capital workbooks and NYC Open Data, FY2015 through FY2017 and FY2019 through FY2027. FY2018 is missing from every source found.</li>
+      </ul>
+      <p>Every row says which file it came from and when that file was downloaded.</p>
+
+      <h2>Use it</h2>
+      <ul>
+        <li><strong>Search it in your browser:</strong> the <a href="explorer/">NYC Council budget explorer</a>, built from the same data as the MCP server below, with every row linked to the spreadsheet it came from.</li>
+        <li><strong>Ask an AI assistant:</strong> the <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a> server, version 2.0. Its <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/README.md">README</a> covers setup and what each tool answers.</li>
+        <li><strong>Download the data:</strong> the <a href="https://github.com/BetaNYC/New-York-City-Budget">New-York-City-Budget repository</a> on GitHub. The disclosure is in <code>data/fyNN/expense_disclosure/</code> with per-year sources in <code>data/disclosure_years.csv</code>; capital is in <code>data/capital/</code>.</li>
+        <li><strong>What changed and why:</strong> the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/CHANGELOG.md">2.0.0 changelog</a>.</li>
+      </ul>
+
+      <h2>The frozen explorer</h2>
+      <p>It stays online, frozen as of 2026-10-16 and marked do not cite, so that existing links still resolve: <a href="legacy.html">legacy.html</a>. The PDF-derived files behind it remain in the repository as a historical record.</p>
+
+      <footer>
+        <p>Built and maintained by <a href="https://beta.nyc">BetaNYC</a>, New York's civic technology and open-data community. Questions, or something that looks wrong? <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Open an issue on GitHub</a>.</p>
+      </footer>
+    </main>
+    <script>
+      // A link into the old explorer (e.g. #Fund/...) lands here now: offer the same view in
+      // the retired copy instead of silently dropping it. No redirect.
+      (function () {
+        var h = window.location.hash;
+        if (h && h.length > 1) {
+          document.getElementById("deep-link-a").setAttribute("href", "legacy.html" + h);
+          document.getElementById("deep-link").style.display = "block";
+        }
+      })();
+    </script>
+  </body>
+</html>
