@@ -184,7 +184,10 @@ def sync(path, decisions):
 
 def waited(needs_info, questions, today):
     """{review_id: sent_on} for the needs_info items that may close under the 30-day rule: the
-    question covering it has status `sent` and was sent WAIT_DAYS or more before `today`."""
+    question covering it has status `sent` and was sent WAIT_DAYS or more before `today`, and no
+    question covering it is `answered` (that answer waits for a person to record it)."""
+    ids = lambda q: set(filter(None, (s.strip() for s in (q.get("review_ids") or "").split(";"))))
+    answered = set().union(*(ids(q) for q in questions if q.get("status") == "answered"))
     out = {}
     for q in questions:
         if q.get("status") != "sent" or not ISO.match(q.get("sent_on") or ""):
@@ -192,8 +195,8 @@ def waited(needs_info, questions, today):
         sent = dt.date.fromisoformat(q["sent_on"][:10])
         if (today - sent).days < WAIT_DAYS:
             continue
-        for rid in filter(None, (s.strip() for s in (q.get("review_ids") or "").split(";"))):
-            if rid in needs_info:
+        for rid in ids(q):
+            if rid in needs_info and rid not in answered:
                 out[rid] = q["sent_on"]
     return out
 
@@ -219,6 +222,11 @@ def main(argv=None):
         # Copying an unsaved merge into the review files would make them say what the record does not.
         print("  PROBLEM --add with --sync needs --write: the merged decisions are not saved otherwise")
         return 1
+    try:
+        today = dt.date.fromisoformat(a.today) if a.today else dt.date.today()
+    except ValueError:
+        print(f"  PROBLEM --today {a.today!r} is not an ISO date (2026-10-23)")
+        return 1
     _, review_rows = read(a.review)
     header, decisions = read(a.decisions)
     merge_problems = []
@@ -238,7 +246,6 @@ def main(argv=None):
     for r in res["open"]:
         print(f"  open    {r['review_id']}  {r.get('check_id', '')}  p.{r.get('pdf_page', '')}")
     by_id = {r["review_id"]: r for r in review_rows if r.get("review_id")}
-    today = dt.date.fromisoformat(a.today) if a.today else dt.date.today()
     may_close = {}
     if a.complete and res["needs_info"] and os.path.exists(a.questions):
         _, questions = read(a.questions)

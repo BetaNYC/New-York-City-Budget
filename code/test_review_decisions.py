@@ -416,3 +416,25 @@ def test_complete_lets_a_needs_info_close_30_days_after_its_question_was_sent(tm
     run("sent", "2026-09-24")
     out = capsys.readouterr().out
     assert "not complete: 1 needs_info" in out
+
+
+def test_an_answered_question_blocks_even_beside_an_older_sent_one(tmp_path, capsys):
+    # An item covered by an answered question waits for a person to record the answer, even if
+    # another question covering it was sent 30+ days ago.
+    rv = tmp_path / "review.csv"
+    with open(rv, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["review_id", "check_id", "pdf_page"])
+        w.writeheader()
+        w.writerows(REVIEW)
+    d = tmp_path / "decisions.csv"
+    d.write_text(vrd.to_csv([dec("aaa"), dec("bbb", "needs_info"), dec("ccc")]))
+    q = tmp_path / "questions.csv"
+    q.write_text("question_id,review_ids,issue,sent_on,answered_on,answer,status\n"
+                 "q1,bbb,1,2026-08-01,,,sent\n"
+                 "q2,bbb,2,2026-09-01,2026-10-01,It is P.S. 199.,answered\n")
+    args = ["--review", str(rv), "--decisions", str(d), "--complete", "--questions", str(q)]
+    assert vrd.main(args + ["--today", "2026-10-23"]) == 2
+    # A bad --today is a clear problem, not a traceback.
+    capsys.readouterr()
+    assert vrd.main(args + ["--today", "23/10/2026"]) == 1
+    assert "--today '23/10/2026' is not an ISO date" in capsys.readouterr().out
