@@ -161,6 +161,17 @@ resolution_seq = 6
 chart_number = 2
 fy_printed = "2023"
 
+# Reso 02 p.114 row 1 (chart #64, Diaspora Community Services, $63,165): the line "Funding
+# supports health and wellness services for children and caregivers," is drawn on top of the
+# purpose's last line "pregnancy through early childhood."; the page shows only that last line
+# (row 2's purpose starts "focusing on ..."). Read together, the two lines came out interleaved
+# ("pFurengdninagn ..."). On this page a run that starts on top of a cell's own text is hidden
+# (kept in hidden_text) and the row goes to review (T7.overlaid), as FY2022 Reso 09 p.38 (#196).
+[[exceptions]]
+check_id = "T7.overlaid"
+resolution_seq = 2
+pdf_page = 114
+
 # Places a person has looked at and that stay in the review file as named items.
 [[known_issues]]
 check_id = "K.no_fiscal_year"

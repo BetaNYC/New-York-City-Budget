@@ -118,6 +118,45 @@ def test_golden_made_purpose_cell_reso03_p81():
     assert "made_cell:Purpose of Funds" in r["flags"]
 
 
+def test_golden_overlaid_purpose_reso02_p114():
+    # The page shows row 1's purpose ending "... healthy development from pregnancy through
+    # early childhood."; "Funding supports health ..." is drawn on top of that last line and
+    # does not show. The config names the page (T7.overlaid), so the drawn-over line is hidden.
+    pages = reader.read_pdf(PDF[2], CFG["x_tolerance"], CFG["run_gap_pt"], pages=[109, 114],
+                            overlay_pages=ptv.overlay_pages(CFG, 2))
+    res = next(r for r in CFG["resolutions"] if r["seq"] == 2)
+    rows = [r for r in structure.build(res, pages, CFG["x_tolerance"], 2026)["rows"]
+            if r["pdf_page"] == 114]
+    r = rows[0]
+    assert (r["org"], r["ein"], r["amount"]) == ("Diaspora Community Services, Inc.", "113122295", 63165)
+    assert r["purpose"].endswith("aiming to promote healthy development from pregnancy through "
+                                 "early childhood.")
+    assert r["hidden_text"] == ("purpose: Funding supports health and wellness services for "
+                                "children and caregivers,")
+    assert "overlaid_text:New Purpose of Funds" in r["row_flags"]
+    # The row below, whose cell clips that line away, reads as the page shows it.
+    assert rows[1]["purpose"].startswith("focusing on improving maternal and child health")
+    assert not any(f.startswith("overlaid_text") for x in rows[1:] for f in x["row_flags"])
+
+
+def test_review_crops_skip_items_with_no_single_page(tmp_path):
+    # #197: a failed whole-resolution check (T3 "Page n labels", pdf_page 0) or an item naming
+    # a page the PDF does not have gets no picture, and is returned for the checks file; the
+    # row and page items are still drawn.
+    pytest.importorskip("cv2")
+    res = next(r for r in CFG["resolutions"] if r["seq"] == 10)
+    R = [dict(res=res, npages=res["pages"])]
+    item = lambda rid, check, page, row="": dict(review_id=rid, check_id=check, resolution_seq=10,
+                                                 pdf_page=page, row_id=row, overlay="")
+    rv = [item("a", "T5.anchors", 2, "fy26-tr10-p002-r001"), item("b", "T3.charts", 0),
+          item("c", "T12.fiscal_year", 2), item("d", "T7.overfull", res["pages"] + 1)]
+    by_id = {"fy26-tr10-p002-r001": dict(bbox_pt=[20.0, 100.0, 700.0, 130.0])}
+    skipped = ptv.review_crops(CFG, R, rv, by_id, str(tmp_path))
+    assert [o["review_id"] for o in skipped] == ["b", "d"]
+    assert [o["overlay"] for o in rv] == ["overlays/r10-p002-a.png", "", "overlays/r10-p002-c.png", ""]
+    assert sorted(os.listdir(tmp_path)) == ["r10-p002-a.png", "r10-p002-c.png"]
+
+
 # --- snapshot of the committed review run ----------------------------------------------------------
 def _read(name):
     path = os.path.join(OUT, name)
@@ -727,3 +766,38 @@ def test_snapshot_fy18_rows_and_checks():
     assert "FAIL" not in txt.replace("(FAIL)", "")
     assert "(PASS)" in txt and "agree on every field: 5,558 of 5,558" in txt
     assert "regions: 0 " in txt
+
+
+# --- rescission origins (#204) ----------------------------------------------------------------------
+def test_rescission_origins_use_checked_schedule_c(tmp_path, monkeypatch):
+    # The checked Schedule C (data/fyNN/pdf/schedule_c/) is the cross-check, not the retired
+    # old-parser CSVs (data/retired/fyNN/schedule_c/). A row for a later budget year must not
+    # move the document year the rescissions are checked against.
+    from transreso import disclosure
+    monkeypatch.setattr(disclosure, "ROOT", str(tmp_path))   # no disclosure files there either
+    new = tmp_path / "data" / "fy26" / "pdf" / "schedule_c"
+    old = tmp_path / "data" / "retired" / "fy26" / "schedule_c"
+    new.mkdir(parents=True)
+    old.mkdir(parents=True)
+    (new / "fy26_sc_awards.csv").write_text("section,ein,amount\nbody,111111111,5000\n"
+                                            "appendix_b,333333333,4000\nbody,,6000\n")
+    for fn in ("fy26_schedule_c_awards.csv", "fy26_appendix_a_aging.csv",
+               "fy26_appendix_b_local.csv", "fy26_appendix_c_youth.csv"):
+        (old / fn).write_text("ein,amount\n22-2222222,7000\n")
+
+    def row(i, ein, amount, by=2026):
+        return dict(row_id=f"r{i}", chart_kind="designation", agency_side="", ein=ein, amount=amount,
+                    budget_fiscal_year=by, resolution_seq=1, pdf_page=1, row_index=i, org="X")
+    # r4 prints no EIN: an award with no EIN at the same amount is not where it came from.
+    rows = [row(1, "111111111", -5000), row(2, "222222222", -7000), row(3, "333333333", -1000),
+            row(4, "", -6000)]
+    want = [("rescission", "schedule_c", ""), ("rescission", "not_found", ""),
+            ("rescission", "partial", ""), ("rescission", "not_found", "")]
+    got = disclosure.align(rows, 2026)["per_row"]
+    assert [got[f"r{i}"] for i in (1, 2, 3, 4)] == want
+    rows.append(row(5, "444444444", 10, by=2099))     # a later budget year
+    got = disclosure.align(rows, 2026)["per_row"]
+    assert [got[f"r{i}"] for i in (1, 2, 3, 4)] == want
+    (new / "fy26_sc_awards.csv").unlink()
+    with pytest.raises(FileNotFoundError, match="fy26_sc_awards.csv"):
+        disclosure.align(rows, 2026)

@@ -210,8 +210,9 @@ def read_page(page, page_no, x_tolerance=3.0, run_gap=RUN_GAP, overlay=False, ov
 
     clipped_ids, clipped, hidden_of, hidden_at, overlay_cells = set(), [], {}, {}, set()
     all_runs = runs(chars, run_gap, cell=lambda c: cell_of[idx[id(c)]], restart=restart)
-    # Only on pages the year's config names (T7.overlaid): FY2024 Reso 06 p.26 and FY2026
-    # Reso 02 p.114 have text drawn over text too, and their committed outputs predate the rule.
+    # Only on pages the year's config names (T7.overlaid: FY2022 Reso 09 p.38, FY2026 Reso 02
+    # p.114). FY2024 Reso 06 p.26 has text drawn over text too, and its committed output
+    # predates the rule.
     over = overlaid(all_runs, lambda c: cell_of[idx[id(c)]]) if overlay else set()
     for ri, run in enumerate(all_runs):
         k0 = cell_of[idx[id(run[0])]]

@@ -103,7 +103,7 @@ def write_csv(path, rows, cols):
 
 def overlay_pages(cfg, seq):
     """Pages of resolution `seq` where text drawn over a cell's own text is hidden (T7.overlaid,
-    a named exception in the config; FY2022 Reso 09 p.38)."""
+    a named exception in the config; FY2022 Reso 09 p.38, FY2026 Reso 02 p.114)."""
     return sorted(e["pdf_page"] for e in cfg.get("exceptions", [])
                   if e["check_id"] == "T7.overlaid" and e["resolution_seq"] == seq)
 
@@ -335,14 +335,23 @@ def _overlay_crops(gray, dpi, marks, stem):
 
 def review_crops(cfg, R, rv, by_id, outdir):
     """One crop per review item that points at a row (the row boxed in red), or at a page
-    (the page's top third, where the caption is). Sets each item's `overlay`."""
+    (the page's top third, where the caption is). Sets each item's `overlay`. An item with no
+    page of its own (a whole-resolution check such as T3's "Page n labels are not 1..n", which
+    carries pdf_page 0) or a page the PDF does not have gets no picture; those items are
+    returned, for the checks file (#197)."""
     import cv2
     import pypdfium2 as pdfium
     dpi = cfg["image"]["dpi"]
     os.makedirs(outdir, exist_ok=True)
+    npages = {str(x["res"]["seq"]): x["npages"] for x in R}
+    def on_a_page(o):
+        n = npages.get(str(o["resolution_seq"]), 0)
+        return str(o["pdf_page"]).isdigit() and 1 <= int(o["pdf_page"]) <= n
+    drawable = [o for o in rv if on_a_page(o)]
+    skipped = [o for o in rv if not on_a_page(o)]
     for x in R:
         seq = x["res"]["seq"]
-        mine = [o for o in rv if str(o["resolution_seq"]) == str(seq) and o["pdf_page"] not in ("", 0)]
+        mine = [o for o in drawable if str(o["resolution_seq"]) == str(seq)]
         if not mine:
             continue
         doc = pdfium.PdfDocument(os.path.join(ROOT, x["res"]["pdf"]))
@@ -366,6 +375,7 @@ def review_crops(cfg, R, rv, by_id, outdir):
                     o["overlay"] = f"overlays/{name}"
         finally:
             doc.close()
+    return skipped
 
 
 def purpose_pairs(rows):
@@ -544,8 +554,9 @@ def main(argv=None):
         rv.append(o)
     # one entry per id (a row can raise the same check twice through two paths)
     rv = list({o["review_id"]: o for o in rv}.values())
+    no_picture = []
     if not a.no_cv:
-        review_crops(cfg, R, rv, by_id, os.path.join(outdir, "overlays"))
+        no_picture = review_crops(cfg, R, rv, by_id, os.path.join(outdir, "overlays"))
     sev = {"critical": 0, "warn": 1}
     rv.sort(key=lambda o: (sev.get(o["severity"], 2), -int(o["dollar_impact"] or 0),
                            int(o["resolution_seq"] or 0), int(o["pdf_page"] or 0), o["review_id"]))
@@ -745,7 +756,8 @@ def main(argv=None):
           + ", ".join(f"{k} {v}" for k, v in sorted(reasons.items())))
     resc = [r for r in rows if r["disclosure_status"] == "rescission"]
     w(f"  rescissions of organizations: {len(resc):,}; where the money was designated before: " +
-      ", ".join(f"{k} {v}" for k, v in sorted(Counter(r["disclosure_reason"] for r in resc).items())))
+      ", ".join(f"{k} {v}" for k, v in sorted(Counter(r["disclosure_reason"] for r in resc).items())) +
+      f" (schedule_c: the checked {disclosure.schedule_c_path(a.fy)})")
     w("")
     if "old_rows" not in old:
         w(f"RETIRED CSV: none ({disclosure.retired_path(a.fy)} does not exist)")
@@ -765,6 +777,10 @@ def main(argv=None):
     sv = Counter(o["severity"] for o in rv)
     w(f"REVIEW FILE: {len(rv)} rows ({sv.get('critical', 0)} critical, {sv.get('warn', 0)} warn); "
       f"stale decisions: {len(stale)}")
+    if no_picture:
+        w(f"  no page picture for {len(no_picture)} item(s) with no single page (a whole "
+          f"resolution, or a page the PDF does not have): " +
+          "; ".join(f"{o['check_id']} Reso {o['resolution_seq']} p.{o['pdf_page']}" for o in no_picture))
     open(os.path.join(outdir, f"{yy}_tr_checks.txt"), "w").write("\n".join(L) + "\n")
 
     import pdfplumber
