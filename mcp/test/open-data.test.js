@@ -66,9 +66,10 @@ test("a reviewed index adds them, and every one names a loaded record", () => {
   withDb(REVIEWED_DB, (db) => {
     assert.ok(n(db, "SELECT COUNT(*) n FROM open_data_crosswalk WHERE family = 'terms_unit'") > 400);
     // Part I amounts that equal t474 exactly, per report year (each year's capital review README).
+    // Matched on the full project ID since #198: FY2019 +2 (HD/PW NC026), FY2020 +11 (MT/T/TF, HW/P CN905).
     assert.deepEqual(db.prepare(`SELECT fiscal_year fy, COUNT(*) n FROM open_data_crosswalk WHERE record_pdf = 1
       AND family = 'capital_award' AND match_status = 'same' GROUP BY 1 ORDER BY 1`).all(),
-      [[2019, 1623], [2020, 1644], [2022, 1487], [2023, 1411], [2024, 1241], [2025, 1325], [2026, 1252]]
+      [[2019, 1625], [2020, 1655], [2022, 1487], [2023, 1411], [2024, 1241], [2025, 1325], [2026, 1252]]
         .map(([fy, n]) => ({ fy, n })));
     assert.equal(n(db, `SELECT COUNT(*) n FROM open_data_crosswalk x WHERE record_pdf = 1 AND family = 'capital_award'
       AND NOT EXISTS (SELECT 1 FROM pdf_capital_sd p WHERE p.fiscal_year = x.fiscal_year AND p.part = 'I'

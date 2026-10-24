@@ -83,6 +83,39 @@ lower-case boroughs `k`, `x` (FY2016) and CD `1696` (FY2015, one record), kept a
   project IDs and no budget line, so FY2016 cannot be reconciled by line.
 - **2cmn-uidm carries one row with no release, line or year** whose amounts are the size of
   grand totals; stripped and listed.
+- **Accented names are garbled in t474, as published** (#199). Open Data shows `OssΘ` or
+  `Oss├⌐` for Ossé, `Avil├⌐s` for Avilés, `Cab├ín` for Cabán, `FA├çADE` for FAÇADE: text
+  decoded with the wrong character set before it was posted. FY2025 is Windows-1252 read as
+  code page 437 (`OssΘ`, `Cabßn`, `CAF╔`); FY2019–FY2024 and FY2026 are UTF-8 read as code
+  page 437 (`Oss├⌐`; `┬á` is a non-breaking space). Accented sponsors appear from FY2023 (rows here:
+  FY2023 71, FY2024 78, FY2025 49); FY2019–FY2022 have it in titles and descriptions only. A few
+  words (`FA╬ñADE`) do not come back in one step. This table keeps t474's text as published;
+  the capital PDF reviews decode it only to compare (`workbook_mojibake` in
+  `config/capital_sd/`) and write nothing back. Compare names after decoding:
+  `s.encode("cp437").decode("cp1252")` for FY2025, `.decode("utf-8")` for the others. The FY2026
+  and FY2027 workbooks print the accents correctly (t474's FY2026 rows are garbled; see
+  `data/open_data/README.md`). A few FY2015–FY2017 workbook titles show the reverse, code page
+  437 read as Windows-1252 (`CAF‚` for CAFé, `FA‡ADE` for FAçADE).
+- **`project_id` is not a key, even with its agency code** (#208). Within one report year the
+  same full ID names two different projects, and the §254 PDFs print them the same way:
+  FY2019 6 (`LB CN001`–`LB CN006`, each once on `LN D008`, the New York Public Library, and once
+  on `LB D104` or `HN D300`), FY2020 2 (`P CN967` on `P D019` and `PV DN01L`; `TF CN90` twice on
+  `TF D005` at $200,000, two projects), FY2022 2 (`E CN884` twice on `E D001` at $500,000, two
+  schools; `PV NC101` on `PV D235` and `PW DN725`), FY2025 6 (`E CN810`, `ED NC128`,
+  `HN CN018`, `HN CN020`, `HN CN021`, `HO CN019`). The workbooks do it too: FY2017 32 IDs
+  (17 of them `E CN755`–`E CN776`), FY2026 `HN CN1451` (its $125,000 row is `HN CN0092` in the
+  FY2026 PDF). And one ID number is used by different agencies, so never match on the number
+  alone: FY2023 `HD NC040` / `HR NC040` on `HD D020`, `HA CN001` / `P CN001` on `HA D001`. Key a
+  record on (report year, project ID, budget line, `amount_fy`), and on `source_row` where that
+  repeats.
+- **The §254 PDFs and OMB differ in most years** (#208, report only). Part I's first-year
+  total per budget line against OMB's adopted release (`council_vs_omb_by_budget_line.csv`),
+  OMB minus PDF: FY2019 11 lines, $15,460,000; FY2020 11 lines, $7,353,000; FY2022 1 line,
+  $2,214,000; FY2023 1 line, $5,400,000; FY2024 none; FY2025 6 lines, $11,200,000; FY2026 1 line,
+  $500,000; FY2027 15 lines, $25,789,000 net. OMB is the higher one on every such line except
+  one in FY2027 (`P D017`, OMB $579,000 lower). No FY2021 PDF is promoted; FY2018's is, but
+  OMB's series here starts at FY2019. The FY2020 and FY2023 lines are listed in
+  RECONCILIATION §3.
 
 ## Terms of use
 

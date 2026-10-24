@@ -33,7 +33,7 @@ Families and rules (PLAN §5; the first rule that gives exactly one portal row w
   capital_award data/capital/council_capital_awards.csv (and, where present, Part I of
                 data/fyNN/pdf/capital_sd/).
     t474-a92g   report years FY2019-FY2026. A row that came from t474 is that portal row. A
-                workbook or PDF row matches on (report year, project ID without agency prefix,
+                workbook or PDF row matches on (report year, full project ID with agency code,
                 budget line, amount FY, amount); then borough, district, sponsor and title are
                 compared as printed (whitespace collapsed).
   capital_line  distinct (report year, budget line) of the Council awards. Status `context`
@@ -295,7 +295,9 @@ def expense_ujre(records, snap, mocs):
 # ------------------------------------------------------------------------------------------
 
 def pid(s):
-    return " ".join((s or "").split()).split(" ")[-1]
+    # The full ID, agency code included (#198): HD NC026 and PW NC026 are two projects. The
+    # portal pads some codes with a second space (`TF  CN90`), so whitespace is collapsed.
+    return " ".join((s or "").split())
 
 
 def capital_records(root=ROOT):
