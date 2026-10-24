@@ -285,7 +285,8 @@ SC_NOTE = {
     2024: ("24/25 category TOTALs tie (Parks prints no summary table, p.201); PDF self-errors "
            "flagged (p.63 TOTAL $52,935 under its lines; six statements whose reserve and rows "
            "do not make the box); pp.130-137 (191 rows, $12,028,500) attached to NYC Cleanup, "
-           "flagged; 1,438 rows in tables with no vertical rules checked by pixel rules only; "
+           "flagged; 1,438 rows in tables with no vertical rules read again through columns found "
+           "in the pixels, all agreeing; "
            "bbox_pt from the MediaBox corner (216 pages start at -18,18). "
            "Review: research/2026-10-21-fy24-schedule-c-review/REVIEW.md"),
     2023: ("26/26 category TOTALs tie; appendices equal their fixed pots, including the two "
@@ -293,8 +294,9 @@ SC_NOTE = {
            "vs summary: p.83 Low Wage Worker Support $120,000 vs $2,000,000, p.86 Autism "
            "Awareness; six boxes whose rows or reserve do not make the box; four rounded "
            "statements; roll-up +$646,350); Asiyah Women's Center printed with another org's "
-           "EIN (pp.13, 175); 1,028 rows in tables with no vertical rules checked by pixel rules "
-           "only. Review: research/2026-10-21-fy23-schedule-c-review/REVIEW.md"),
+           "EIN (pp.13, 175); 1,028 rows in tables with no vertical rules read again through "
+           "columns found in the pixels, all agreeing. "
+           "Review: research/2026-10-21-fy23-schedule-c-review/REVIEW.md"),
     2022: ("25/25 category TOTALs tie; appendices equal their fixed pots; PDF self-errors flagged "
            "(p.57 Public Health Funding Backfill box $4,467,933 vs summary $4,667,933; six "
            "statements holding a reserve while their rows make the whole box; three more and one "
@@ -306,13 +308,13 @@ SC_NOTE = {
            "(p.122 box printed '$477,00', read as $477,000; three statements holding a reserve "
            "while their rows make the whole box; one $1 over and one rounding; roll-up "
            "+$129,070); 6 EINs of the wrong length; award headers printed outside the table "
-           "rules; 431 rows checked by pixel rules only. "
+           "rules; 431 rows read again through columns found in the pixels, all agreeing. "
            "Review: research/2026-10-22-fy21-schedule-c-review/REVIEW.md"),
     2020: ("27/27 category TOTALs tie; appendices (amounts printed with no '$') equal their fixed "
            "pots; PDF self-errors flagged (p.46 three EINs printed one row off; p.46 rows "
            "$200,000 short of the box; p.45 $2,000 over; five rounded statements; roll-up "
            "-$219,300); 3 EINs of the wrong length; DATA-ANOMALIES §20's FY2020 row read as two "
-           "awards; 1,532 rows checked by pixel rules only. "
+           "awards; 1,532 rows read again through columns found in the pixels, all agreeing. "
            "Review: research/2026-10-22-fy20-schedule-c-review/REVIEW.md"),
     2019: ("27/27 category TOTALs tie; appendices (amounts printed with no '$') equal their fixed "
            "pots; a '*' column (review not complete) read into review_not_completed, 304 rows; "
@@ -320,7 +322,7 @@ SC_NOTE = {
            "rows; p.62 Ending the Epidemic rows $150,000 over; roll-up +$914,919); a partner "
            "list under one award (pp.105-106) read as its 28 sub-awards ($4,463,500), not "
            "counted; all 39 of DATA-ANOMALIES §20's FY2019 merged rows read as 82 awards; 902 "
-           "rows checked by pixel rules only. "
+           "rows read again through columns found in the pixels, all agreeing. "
            "Review: research/2026-10-22-fy19-schedule-c-review/REVIEW.md"),
     2018: ("25/26 category TOTALs tie (Community Development's prints $100,000 over its lines, "
            "a named PDF self-error); appendices equal their fixed pots (Appendix A's amounts "
@@ -329,8 +331,9 @@ SC_NOTE = {
            "self-errors flagged (two reserves printed again as City-agency rows; six boxes whose "
            "rows do not make them; roll-up +$2,754,028); p.55 Good Shepherd printed with another "
            "org's EIN; a partner list (p.106) read as its 28 sub-awards ($4,463,500), not "
-           "counted; all 94 of DATA-ANOMALIES §20's FY2018 merged rows read as 224 awards; 646 "
-           "rows checked by pixel rules only. "
+           "counted; all 94 of DATA-ANOMALIES §20's FY2018 merged rows read as 224 awards; 645 "
+           "rows read again through columns found in the pixels, all agreeing, and 1 (p.107, an "
+           "EIN of the wrong length) checked by pixel rules only. "
            "Review: research/2026-10-22-fy18-schedule-c-review/REVIEW.md"),
 }
 SC_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108, 2020: 109, 2019: 110, 2018: 111}

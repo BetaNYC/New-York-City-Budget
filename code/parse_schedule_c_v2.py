@@ -105,6 +105,12 @@ def cached_vector(cfg, pdf_sha, cache_dir, pages=None):
     return pg
 
 
+# Image-check statuses that need no person: the image lattice read the row the same way;
+# the pixel rules confirm its band (no columns found); or they confirm its band and the
+# pixel columns read it the same way (#193).
+AGREE = ("agree", "bands_agree", "columns_agree")
+
+
 def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
     """Image lattice compare + ink coverage, one page render at a time. Returns
     (row_results{award_id: rec}, page_results{page: dict}, flags, ink_acceptance)."""
@@ -121,6 +127,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
     row_res, page_res, flags = {}, {}, []
     carry = {} if im.get("carry_header") else None
     hrule_cache = {}
+    col_carry = {}
     roles = imagegrid.ROLE + [tuple(r) for r in im.get("extra_roles", [])]
     pdf = pdfplumber.open(cfg["_pdf_abs"])
     doc = pdfium.PdfDocument(cfg["_pdf_abs"])
@@ -154,11 +161,36 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
                             gray, dpi, t["bbox"][0], t["bbox"][2], im["kernel_px"])
                     st, d = imagegrid.check_bands([a], ys, im["row_tol_pt"])[a["award_id"]]
                     r.update(status=st, diffs=d)
+            # Rows whose band the pixel rules confirm are then read again through columns the
+            # image side finds itself (imagegrid.pixel_columns, #193), table by table from the
+            # top of the page, so a header carries down to a table printed without one.
+            banded = {}
+            for r in res:
+                if r["status"] == "bands_agree":
+                    a = next(x for x in aw if x["award_id"] == r["award_id"])
+                    banded.setdefault(a["table_index"], []).append((r, a))
+            if banded:
+                tink = imagegrid.text_ink(gray, im["kernel_px"])
+                pchars = [c for c in vector.shift(page.chars, ox, oy)
+                          if c["text"] not in vector.ZERO_WIDTH]
+                for ti in sorted(banded, key=lambda ti: (vt[ti]["bbox"][1], ti)):
+                    ys = hrule_cache[(pn, ti)]
+                    tops = [min(x["bbox_pt"][1] for x in aw if x["table_index"] == ti),
+                            min(a["bbox_pt"][1] for _, a in banded[ti])]
+                    cols = imagegrid.pixel_columns(tink, dpi, pchars, ys, vt[ti]["bbox"], tops,
+                                                   cfg["x_tolerance"], im["row_tol_pt"],
+                                                   col_carry, roles)
+                    if cols is None:
+                        continue
+                    for r, a in banded[ti]:
+                        st, d, f = imagegrid.check_columns(a, cols, ys, pchars,
+                                                           cfg["x_tolerance"], im["row_tol_pt"])
+                        r.update(status=st, diffs=d, image=f)
             for r in res:
                 row_res[r["award_id"]] = r
             marks = []
             for r in res:
-                if r["status"] not in ("agree", "bands_agree"):
+                if r["status"] not in AGREE:
                     a = next(x for x in aw if x["award_id"] == r["award_id"])
                     marks.append(a["bbox_pt"])
                     flags.append(dict(check_id="H8.lattice", severity="critical", pdf_page=pn,
@@ -196,8 +228,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
             n_lat = sum(1 for L in lats if L["xs_pt"])
             page_res[pn] = dict(image_regions=len(lats), image_lattices=n_lat,
                                 image_rows=len(irows),
-                                rows_agree=sum(1 for r in res if r["status"] in
-                                               ("agree", "bands_agree")),
+                                rows_agree=sum(1 for r in res if r["status"] in AGREE),
                                 ink_px=ik["ink_px"], uncovered_px=ik["uncovered_px"],
                                 ink_regions=len(ik["regions"]))
             if marks and out_overlays:
@@ -272,15 +303,21 @@ def subaward_proxies(S):
     take an award row: the whole row, its wrapped line included (the pixels draw no rule above
     "Placement", FY2019 p.105, so the image lattice reads the two bands as one row), and its
     cell texts (FY2018 p.106's one "Amount Service Type" header cell is the image side's
-    `amount` column). Their ids are the sub-award ids, so their H8 flags and results are theirs."""
+    `amount` column). Their ids are the sub-award ids, so their H8 flags and results are theirs.
+    The pixel columns (imagegrid.check_columns) see "Amount" and "Service Type" as two labels,
+    so where the two share a cell they compare the amount and service type the cell was split
+    into (`_columns_raw`)."""
     out = []
     for sa in S.get("subawards", []):
         raw = {("amount" if f == "amount_service" else f): v for f, v in sa["_raw"].items()
                if f != "service_type"}
+        cols = dict(raw, amount=sa["amount_printed"], service_type=sa["service_type_raw"]) \
+            if "amount_service" in sa["_raw"] else None
         out.append(dict(award_id=sa["subaward_id"], pdf_page=sa["pdf_page"],
                         table_index=sa["table_index"], row_index=sa["row_index"],
                         bbox_pt=sa["bbox_pt"], amount=sa["amount"], _raw=raw,
-                        _char_boxes=sa["_char_boxes"], subaward=True))
+                        _columns_raw=cols, _char_boxes=sa["_char_boxes"],
+                        row_flags=sa["row_flags"], subaward=True))
     return out
 
 
@@ -353,6 +390,7 @@ def main(argv=None):
         r["image_check"] = (cr["status"] + (":" + ";".join(cr["diffs"]) if cr["diffs"] else "")
                             ) if cr else ("not_run" if a.no_cv else "no_result")
         r["lattice"] = "both" if cr and cr["status"] == "agree" else \
+            "vector+columns" if cr and cr["status"] == "columns_agree" else \
             "vector+bands" if cr and cr["status"] == "bands_agree" else "vector"
         r["row_flags_s"] = ";".join(r["row_flags"])
 
@@ -634,12 +672,18 @@ def main(argv=None):
         sc = Counter(r["status"] for k, r in cv_rows.items() if k not in subs)
         w("IMAGE LATTICE (H8): rows read independently through code/ocr/grid.py lattices")
         w(f"  agree on every field: {sc.get('agree', 0):,} of {len(S['awards']):,}")
-        if "bands_agree" in sc or "bands_differ" in sc:
+        nb = sum(sc.get(k, 0) for k in ("bands_agree", "bands_differ", "columns_agree",
+                                         "columns_differ"))
+        if nb:
             w(f"  rows in tables with no drawn vertical rules, which the image lattice cannot "
-              f"see: {sc.get('bands_agree', 0) + sc.get('bands_differ', 0):,}; the pixels' "
-              f"horizontal rules confirm the row band of {sc.get('bands_agree', 0):,}")
+              f"see: {nb:,}; the pixels' horizontal rules confirm the row band of "
+              f"{nb - sc.get('bands_differ', 0):,}")
+            w(f"  of those, read again through columns found in the pixels (header labels, "
+              f"blank gutters): agree on every field {sc.get('columns_agree', 0):,}, differ "
+              f"{sc.get('columns_differ', 0):,}; no columns found, band only "
+              f"{sc.get('bands_agree', 0):,}")
         for k in sorted(sc):
-            if k not in ("agree", "bands_agree"):
+            if k not in AGREE:
                 w(f"  {k}: {sc[k]}")
         w(f"  image rows with no vector row: {sum(1 for f in cv_flags if f['check_id'] == 'H8.image_only_row')}")
         if subs:

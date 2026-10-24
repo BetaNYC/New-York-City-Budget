@@ -554,6 +554,85 @@ def test_golden24_mediabox_offset_p242(pages24):
     assert "Medicare Rights Center" in t and "133505372" in t
 
 
+# --- pixel columns (#193): rows the image lattice cannot see, read a second time ---------------
+def test_pixel_columns_unit():
+    np = pytest.importorskip("numpy")
+    from schedc_cv import imagegrid
+    # 72 dpi: 1 px = 1 pt. Header "Name" and "EIN"; two rows whose names end at x 40 and 60.
+    tink = np.zeros((40, 120), dtype=bool)
+    tink[2:8, 2:20] = tink[2:8, 90:100] = True            # the two labels
+    tink[12:18, 2:40] = tink[12:18, 85:110] = True        # row 1
+    tink[22:28, 2:60] = tink[22:28, 85:110] = True        # row 2
+    tink[22:28, 64:66] = True                             # a speck: the widest gap still wins
+    labels = imagegrid.header_labels(tink, 72, 0, 120, 0, 10)
+    assert labels == [(2.0, 20.0), (90.0, 100.0)]
+    assert imagegrid.column_edges(tink, 72, labels, 0, 30) == [75.5]
+    tink[30:36, 0:120] = True                             # a line of text across the gutter
+    assert imagegrid.column_edges(tink, 72, labels, 0, 40) is None
+
+
+def test_pixel_columns_star_in_its_own_cell():
+    from schedc_cv import imagegrid
+    c = lambda t, x0: dict(text=t, x0=x0, x1=x0 + 5, top=1, bottom=9)
+    chars = [c("A", 5), c("1", 105), c("*", 205), c("$", 250), c("5", 255)]
+    cols = dict(xs=[0, 100, 200, 300], roles=["org", "ein", "amount"])
+    a = dict(award_id="x", bbox_pt=[0, 0, 300, 10], _raw={"org": "A", "ein": "1", "amount": "$5"},
+             row_flags=["asterisk", "star_in_cell"])
+    assert imagegrid.check_columns(a, cols, [0, 10], chars, 3, 1.0)[:2] == ("columns_agree", [])
+    a["row_flags"] = []
+    assert imagegrid.check_columns(a, cols, [0, 10], chars, 3, 1.0)[:2] == \
+        ("columns_differ", ["amount"])
+
+
+def _cv_pages(cfg, pns):
+    s = cfg["structure"]
+    ps = vector.read_pdf(cfg["_pdf_abs"], pages=set(pns), x_tolerance=cfg["x_tolerance"],
+                         hrule=bool(s.get("hrule_tables")), open_top=bool(s.get("open_top_rows")),
+                         opts=tuple(o for o in vector.VECTOR_OPTS if s.get(o)))
+    vp = structure.split_merged_tables(ps, cfg)
+    return structure.build(vp, cfg), vp
+
+
+def test_pixel_columns_read_hrule_rows_again_p65():
+    # FY2024 p.65 is ruled across only: no image lattice, so its rows were read once.
+    pytest.importorskip("cv2")
+    import parse_schedule_c_v2 as sc
+    S, vp = _cv_pages(CFG24, [65])
+    rows, _, flags, _ = sc.run_cv(CFG24, S, vp, None, {65})
+    aw = [a for a in S["awards"] if a["pdf_page"] == 65]
+    assert len(aw) == 28 and {rows[a["award_id"]]["status"] for a in aw} == {"columns_agree"}
+    r = _one(S, "132946970", 873000)
+    assert rows[r["award_id"]]["image"] == {"org": "Safe Horizon, Inc.", "ein": "13-2946970",
+                                            "amount": "$873,000"}
+    # It is a second reading: a value the vector side read wrong is caught.
+    r["_raw"] = dict(r["_raw"], ein="13-2946971")
+    rows, _, flags, _ = sc.run_cv(CFG24, S, vp, None, {65})
+    assert (rows[r["award_id"]]["status"], rows[r["award_id"]]["diffs"]) == ("columns_differ", ["ein"])
+    assert [f["field"] for f in flags if f.get("award_id") == r["award_id"]] == ["ein"]
+
+
+def test_pixel_columns_carry_the_header_p36():
+    # p.36's table continues p.35's with no header of its own (the FY2024 README's 423 rows).
+    pytest.importorskip("cv2")
+    import parse_schedule_c_v2 as sc
+    S, vp = _cv_pages(CFG24, [35, 36])
+    rows, _, _, _ = sc.run_cv(CFG24, S, vp, None, {35, 36})
+    p36 = [a for a in S["awards"] if a["pdf_page"] == 36]
+    assert p36 and all("headerless_table" in a["row_flags"] for a in p36)
+    assert {rows[a["award_id"]]["status"] for a in p36} == {"columns_agree"}
+
+
+def test_pixel_columns_header_outside_the_grid_fy21_p63():
+    # FY2021 p.63: a ruled grid whose header is printed above it, outside its cells.
+    pytest.importorskip("cv2")
+    import parse_schedule_c_v2 as sc
+    cfg = config.load(2021)
+    S, vp = _cv_pages(cfg, [63])
+    rows, _, _, _ = sc.run_cv(cfg, S, vp, None, {63})
+    aw = [a for a in S["awards"] if a["pdf_page"] == 63]
+    assert len(aw) == 45 and {rows[a["award_id"]]["status"] for a in aw} == {"columns_agree"}
+
+
 @pytest.mark.skipif(not os.path.exists(OUT24), reason="FY2024 outputs not built")
 def test_snapshot24_rows_and_checks():
     with open(os.path.join(OUT24, "fy24_sc_awards.csv"), newline="", encoding="utf-8") as f:
