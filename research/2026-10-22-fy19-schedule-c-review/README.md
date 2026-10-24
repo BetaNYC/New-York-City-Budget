@@ -122,9 +122,16 @@ except the 4 decision cells a re-run fills from its committed decisions file.
   most of FY2019's body (the h-rule tables and the tables whose header is printed outside the
   grid). The pixels confirm the rows; the EIN census and H7 the columns; no second reader read
   those fields.
+  *Update 2026-10-23 (#193):* the image side now finds these tables' columns itself (the header's
+  labels and the blank strips between them, `imagegrid.pixel_columns`) and reads all 902 a second
+  time: all agree on every field (p.68 once the config names its "Institute" header for the image
+  side) (`image_check` `columns_agree`, `lattice` `vector+columns`). Like the image lattice it
+  reads the PDF's text layer, so a text-layer error still passes both.
 - **The partner list on pp.105–106 is not ink-checked or read twice**: the ink check covers award
   tables only. Its sum is read from its amount column.
 - **The ink check treats a table's first row as its header** (shared code, not changed).
+  *Update 2026-10-23 (#192):* fixed. The first row of the 7 award tables with no header row of
+  their own is now ink-checked like any other; the re-run found no unread ink in them.
 - That an agency row holding a reserve is a reserve and not an award to the agency; that the
   partner list is not a set of awards; that Ending the Epidemic's extra $150,000 is the PDF's
   error and not a missing reserve figure.

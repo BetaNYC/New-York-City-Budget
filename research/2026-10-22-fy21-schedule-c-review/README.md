@@ -112,9 +112,16 @@ Same tool versions as FY2022. The run is byte-identical on re-run (checked, over
   The pixels confirm the rows, the EIN census and H7 confirm the columns; no second reader read
   those fields. Teaching the image side to use loose header words is shared code and would change
   other years' outputs, so it is a decision for Noel.
+  *Update 2026-10-23 (#193):* the image side now finds these tables' columns itself (the header's
+  labels and the blank strips between them, `imagegrid.pixel_columns`) and reads all 431, a header
+  printed above the grid included a second time: all agree on every field (`image_check`
+  `columns_agree`, `lattice` `vector+columns`). Like the image lattice it reads the PDF's text
+  layer, so a text-layer error still passes both.
 - **The ink check treats a table's first row as its header** (as in FY2022–FY2024): for a table
   whose header is outside its rules that first row is an award row, and its ink is not checked.
   H7 and the image grid still cover those rows. Not changed here (shared code).
+  *Update 2026-10-23 (#192):* fixed. The first row of the 36 award tables with no header row of
+  their own is now ink-checked like any other; the re-run found no unread ink in them.
 - That the sub-headings of pp.70–72 belong in `purpose`, and the "Program" column of pp.93–94:
   the schema has no other home.
 - Which side is right where the PDF disagrees with itself (pp.39, 44, 93, 107, 122), or what a

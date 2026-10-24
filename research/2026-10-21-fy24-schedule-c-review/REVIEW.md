@@ -72,6 +72,10 @@ Rows carry the **box** title. Suggest `accepted_as_printed` for all.
 - **1,438 rows checked by pixel rules only** (`lattice` = `vector+bands`): tables with no drawn
   vertical rules. Their row bands are confirmed by the pixels; their fields are read once. See
   README, "What these checks cannot prove".
+  *Update 2026-10-24 (#193):* All 1,438 now have `lattice` = `vector+columns` (`image_check`
+  `columns_agree`): the image side finds their columns from the header's labels and the blank
+  strips between them, and the text layer, clipped a second time through those cells, gives the
+  same value in every field. It is the same text layer, so a text-layer error still passes.
 - **645 rows read with a header carried from the page before** (`W.headerless_table`, 38 pages),
   **81 with a loose header** (`W.loose_header`), **927 in tables built from horizontal rules**
   (`W.hrule_table`). Routine flags; the image grid or the pixel rules checked each row.

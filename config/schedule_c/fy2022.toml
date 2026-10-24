@@ -213,6 +213,7 @@ region_pad_px = 8
 row_tol_pt = 1.0
 carry_header = true
 band_check = true
+extra_roles = [["institute", "org"]]   # pp.60-61: the image side's header word for the name column (pixel columns, #193)
 char_pad_px = 1
 rule_pad_px = 1
 ink_cell_px = 16

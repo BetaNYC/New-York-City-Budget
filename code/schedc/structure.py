@@ -619,7 +619,7 @@ def build(pages, cfg):
 
     category, section = None, "body"
     current, initiatives, summary, awards = None, [], [], []
-    header_rows = {}  # (page, table_index) -> header row bands, where not 1
+    header_rows = {}  # (page, table_index) -> header row bands (0 or 2), where not 1
     band_words = {}   # (page, table_index) -> boxes of loose header words read (header_band_words)
     beside = set()    # ids of loose lines read into a statement beside its label
     # Sub-headings printed as a row of an award table (FY2021 p.70 "Technical Assistance",
@@ -1060,6 +1060,10 @@ def build(pages, cfg):
         cols, unknown = (last_cols, []) if headerless else \
             (loose_hdr, []) if loose_hdr else (band_hdr, []) if band_hdr else header_map(hdr, labels)
         first = 0 if (headerless or loose_hdr) else 1
+        if not first:
+            # No header row of its own: its first row is an award row, and the ink check must
+            # check it like any other (#192).
+            header_rows[(pn, t["table_index"])] = 0
         if unknown and not headerless and not loose_hdr and s.get("header_two_bands") and \
                 len(t["rows"]) > 1:
             # A header printed over two row bands (FY2025 pp.131-144: "Council" over "Member",

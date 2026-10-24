@@ -98,12 +98,20 @@ Same tool versions as FY2023. The run is byte-identical on re-run (checked, over
 - For the 106 rows checked only by pixel rules, the **text** of each field is read once, from the
   text layer. The pixels confirm the rows, the EIN census and the "nothing crosses a split" check
   confirm the columns; no second reader read those fields.
+  *Update 2026-10-23 (#193):* the image side now finds these tables' columns itself (the header's
+  labels and the blank strips between them, `imagegrid.pixel_columns`) and reads 100 of them a
+  second time: all agree on every field (`image_check` `columns_agree`, `lattice`
+  `vector+columns`). The other 6 (pp.60–61) are read by the image lattice itself once the config
+  names their "Institute" header, and agree. Like the image lattice it reads the PDF's text layer,
+  so a text-layer error still passes both.
 - **The ink check treats a table's first row as its header.** For a table with no header row of
   its own (a header carried from the page before, or printed as loose text) that first row is
   an award row, and its ink is not checked: 1 row here (p.84, $18,000), 42 in FY2023
   ($5,979,833), 45 in FY2024. H7 (every character in a cell) and the image grid still cover
   them. This is in shared code (`parse_schedule_c_v2.py` `run_cv`), not changed here, because a
   fix changes the other years' outputs; a decision for Noel.
+  *Update 2026-10-23 (#192):* fixed. The first row of the one award table with no header row of
+  its own (p.84) is now ink-checked like any other; the re-run found no unread ink in it.
 - Which side is right where the PDF disagrees with itself (pp.34, 39, 44, 54, 57, 58, 85, 115,
   119), or what a rounded statement meant to the dollar (pp.36, 37).
 - That the "Program" column (pp.84–85) belongs in `purpose`: the PDF gives it no other home.
@@ -136,7 +144,8 @@ Not added to `DATA-ANOMALIES.md` here (parallel sessions); for the integrator to
 >
 > **Things a re-parse must know.** A four-column table with a "Program" column (pp.84–85). Rows
 > drawn as one wide cell each (pp.117–118). "TOTAL:" (p.32). A box drawn inside an award table
-> (p.81). The ink check skips the first row of a table with no header row of its own.
+> (p.81). The ink check skipped the first row of a table with no header row of its own, until
+> #192.
 
 ## Not done here
 

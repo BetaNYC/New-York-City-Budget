@@ -673,9 +673,9 @@ def test_subawards_jobs_to_build_on(built):
         assert not any((r["pdf_page"], r["bbox_pt"]) in boxes for r in subs)
         assert len({r["table_index"] + r["pdf_page"] for r in subs}) == n_tables
         assert all("K.side_list" in r["flags"].split(";") and r["review_id"] for r in subs)
-        # Checked like awards: both grids (FY2019) or the pixels' row rules (FY2018's tables have no
-        # vertical rules), and every EIN and amount read.
-        assert {r["image_check"] for r in subs} == ({"agree"} if fy == 2019 else {"bands_agree"}), fy
+        # Checked like awards: both grids (FY2019) or the pixels' row rules and columns (FY2018's
+        # tables have no vertical rules; #193), and every EIN and amount read.
+        assert {r["image_check"] for r in subs} == ({"agree"} if fy == 2019 else {"columns_agree"}), fy
         assert all(r["ein"] and r["amount"] for r in subs)
     # Award and category totals are main's (3af3c7c): sub-awards are counted in neither.
     CAT_TOTALS = {2019: 338301000, 2018: 330801000}   # category TOTAL lines, as on main

@@ -191,6 +191,22 @@ def test_golden_rows(built):
     assert any(r["fiscal_year"] == "2021" and r["match_status"] == "context" and "|040|" in r["record_key"] for r in t)
 
 
+def test_capital_project_id_keeps_its_agency_code():
+    """FAILS if two projects that share a number under different agencies (FY2019 HD NC026 and
+    PW NC026) are one key (#198), or if the portal's doubled space splits one ID."""
+    assert X.pid("HD NC026") != X.pid("PW NC026")
+    assert X.pid("TF  CN90") == X.pid("TF CN90")
+
+
+def test_capital_ambiguous_only_where_the_full_id_repeats(built):
+    """FAILS if a capital record is `ambiguous` though its full project ID (agency code included)
+    is printed once in its year (#198). The two left, TF CN90 (FY2020) and E CN884 (FY2022), are
+    the same ID printed twice."""
+    amb = [r for r in rows(built["data/open_data/crosswalk_capital_award.csv"])
+           if r["match_status"] == "ambiguous"]
+    assert {r["record_key"].split("|")[2] for r in amb} == {"TF CN90", "E CN884"}
+
+
 def test_coverage_adds_up(built):
     """FAILS if a covered year's statuses do not sum to its records."""
     for r in rows(built["data/open_data/coverage.csv"]):

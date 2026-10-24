@@ -105,9 +105,16 @@ Byte-identical on re-run (checked). Every year-specific fact is in
 - Text where both grids read the same wrong text layer (no OCR sample).
 - What the "Beating Hearts" organizations each receive (the PDF names none per row).
 
+## Since this review
+
+- Rescission origins (report only) now use the checked FY2021 Schedule C,
+  `data/fy21/pdf/schedule_c/fy21_sc_awards.csv` (#204, re-run 2026-10-23): 251 → 256 match a
+  Schedule C award, 52 → 48 part of a larger amount, 39 → 38 not found. The retired old-parser CSVs
+  had missed or misread those awards' (EIN, amount).
+
 ## Not done here
 
-- OCR audit; rescission origins use the *retired* FY2021 Schedule C CSVs (report only).
+- OCR audit.
 - The "Beating Hearts" note is bold italic, and the text layer gives it no spaces between words
   ("***StatenIslandHeartSociety,Inc.hasreceived$175,000…"), so the review file quotes it that
   way. It is not a table cell and no row value depends on it.

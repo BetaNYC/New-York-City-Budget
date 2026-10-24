@@ -54,7 +54,7 @@ DISCLOSURE (report-only; data/fyNN/expense_disclosure)
   budget year 2023: 13 organization designations; 5 found in the disclosure on (EIN, amount) ($380,500); not found: amount_differs 6, city_ein_name_mismatch 2
   budget year 2024: 42 organization designations; 37 found in the disclosure on (EIN, amount) ($640,771); not found: later_rescinded 5
   budget year 2025: 2,256 organization designations; 2,067 found in the disclosure on (EIN, amount) ($90,602,749); not found: amount_differs 27, city_ein_name_mismatch 8, key_already_claimed 5, later_rescinded 149
-  rescissions of organizations: 825; where the money was designated before: earlier_resolution 385, not_found 48, partial 58, schedule_c 334
+  rescissions of organizations: 825; where the money was designated before: earlier_resolution 385, not_found 48, partial 58, schedule_c 334 (schedule_c: the checked data/fy25/pdf/schedule_c/fy25_sc_awards.csv)
 
 RETIRED CSV: none (data/fy25/transparency-resolutions/fy25_transparency_all.csv does not exist)
 

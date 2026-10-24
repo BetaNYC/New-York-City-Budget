@@ -114,6 +114,11 @@ Same tool versions as FY2024 (Python 3.12.13, pdfplumber 0.11.10, pypdfium2 5.14
   the text layer, with columns split at the EIN and amount words. The pixels confirm the rows,
   the EIN census and the "nothing crosses a split" check confirm the columns; no second reader
   read those fields.
+  *Update 2026-10-23 (#193):* the image side now finds these tables' columns itself (the header's
+  labels and the blank strips between them, `imagegrid.pixel_columns`) and reads all 1,028 a
+  second time: all agree on every field (`image_check` `columns_agree`, `lattice`
+  `vector+columns`). Like the image lattice it reads the PDF's text layer, so a text-layer error
+  still passes both.
 - Which side is right where the PDF disagrees with itself (pp.34, 43, 53, 54, 82, 83, 86, 136),
   or what a rounded statement meant to the dollar (pp.42, 43, 44, 59).
 - That Asiyah Women's Center's EIN is wrong in the PDF: it prints Muslims Giving Back's

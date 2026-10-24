@@ -34,11 +34,11 @@ explorer say *when* a designation was made, and so which Speaker made a "Speaker
 | Ink coverage | 0 uncovered regions on 532 chart pages (18 loose px of 189 million). Self-test passes: hiding one row, or one letter, makes the check fire |
 | Anchor census | 4,951 EIN-shaped words on the visible text = 4,951 rows with an EIN, page by page; 1 row prints no EIN (on the page, too) |
 | Sign vs colour | 1,617 amounts in parentheses, all red; 0 disagree |
-| Characters | 713,428 non-space characters; 0 in a table but in no cell; 157 hidden under a neighbouring cell (12 runs), each in the review file |
+| Characters | 713,428 non-space characters; 0 in a table but in no cell; 222 hidden (13 runs), each in the review file: 157 under a neighbouring cell (12 runs), and since #196 one line drawn on top of a cell's own text on Reso 02 p.114 (65 letters, named `T7.overlaid`) |
 | Dates | Reso 01 and 02 print their date ("dated August 14, 2025") and it matches; Reso 03–10 print none, so the date is the Legistar adoption date, equal to the filename date in all 10 |
 | Disclosure (report only) | FY2026: 2,440 of 2,653 organization designations ($153.6M) are in the 2026-07-15 disclosure on (EIN, amount); 157 of the rest were taken back by a later resolution |
 | Old CSV (`data/fy26/transparency-resolutions/`) | Every one of its 4,755 rows is here. It missed 197: 173 EINs printed without a hyphen, 21 rows on the prior-year purpose-of-funds chart of 7 resolutions (Fiscal 2025 in 6, Fiscal 2024 in 1), the 2 clipped Pilsudski rows, 1 row with no EIN |
-| Review file | **23 rows**, largest $500,000 (`REVIEW.md`) |
+| Review file | **26 rows** (3 critical, 23 warn; the two for Reso 02 p.114 added 2026-10-23, #196), largest $500,000 (`REVIEW.md`) |
 
 ### Per resolution
 
@@ -126,10 +126,13 @@ The run is byte-identical on re-run (checked). Every year-specific fact is in
 - Text where both grids read the same wrong text layer. No OCR sample was run (ink is clean and
   the PDFs are born-digital).
 
+## Since this review
+
+- Rescission origins (report only) now use the checked FY2026 Schedule C,
+  `data/fy26/pdf/schedule_c/fy26_sc_awards.csv` (#204, re-run 2026-10-23): no rescission's origin
+  changed.
+
 ## Not done here
 
 - OCR audit (PLAN stage 10) and the review UI (stage 11), as for FY2027.
-- Rescission origins against the FY2026 Schedule C use the *retired* committed CSVs in
-  `data/fy26/schedule_c/` (old parser, report only). Re-run when the FY2026 Schedule C review
-  (`feature/fy26-schedule-c-review`) lands.
 - Nothing added to the MCP or the public site.
