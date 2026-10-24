@@ -80,8 +80,9 @@ Backfill, which is #1 above.
 
 ## Not in the review file, on purpose
 
-- **106 rows checked by pixel rules only** (`lattice` = `vector+bands`): the h-rule tables of
-  pp.84, 85, 116. Their row bands are confirmed by the pixels; their fields are read once.
+- **106 rows checked by pixel rules only** (`lattice` = `vector+bands`): tables whose columns the
+  image lattice could not read, on pp.60, 61, 74, 84–86 and 115–118 (page list corrected
+  2026-10-24). Their row bands are confirmed by the pixels; their fields are read once.
   *Update 2026-10-24 (#193):* 100 of these rows now have `lattice` = `vector+columns`
   (`image_check` `columns_agree`): the image side finds their columns from the header's labels and
   the blank strips between them, and the text layer, clipped a second time through those cells,
