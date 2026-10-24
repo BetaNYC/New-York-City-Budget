@@ -245,6 +245,39 @@ def test_golden26_headerless_carry_over_p157(pages26):
     assert len(hb) == 1 and hb[0]["amount"] == 4393244
 
 
+def test_ink_checks_first_row_of_headerless_table_p157(pages26):
+    # #192: a table with no header row of its own has an award row first. The ink check must
+    # not count that row's text as header, or a row the parser dropped there goes unseen.
+    pytest.importorskip("numpy")
+    import pypdfium2 as pdfium
+    import parse_schedule_c_v2 as sc
+    from schedc_cv import ink
+    S = _rows26(pages26, [156, 157])
+    r = next(a for a in S["awards"] if a["ein"] == "264417161")
+    vp = pages26[157]
+    hdr = sc.header_boxes(S, vp, {r["table_index"]})
+    im = CFG26["image"]
+    doc = pdfium.PdfDocument(CFG26["_pdf_abs"])
+    gray = doc[156].render(scale=im["dpi"] / 72.0, grayscale=True).to_numpy()
+    doc.close()
+    if gray.ndim == 3:
+        gray = gray[:, :, 0]
+    import pdfplumber
+    with pdfplumber.open(CFG26["_pdf_abs"]) as pdf:
+        rules = ink.rule_shapes(pdf.pages[156])
+    tbox = [t["bbox"] for t in vp["tables"] if t["table_index"] == r["table_index"]]
+    others = [b for a in S["awards"] if a["pdf_page"] == 157 and a is not r
+              and a["table_index"] == r["table_index"] for b in a["_char_boxes"]]
+
+    def regions(boxes):
+        return ink.coverage(gray, im["dpi"], tbox, boxes + hdr, rules, im["char_pad_px"],
+                            im["rule_pad_px"], im["ink_cell_px"], im["ink_min_region_px"])["regions"]
+    assert regions(others + r["_char_boxes"]) == []
+    assert regions(others)                    # the row withheld: its ink is seen
+    assert not set(map(tuple, r["_char_boxes"])) & set(map(tuple, hdr))
+    assert S["header_rows"][(157, r["table_index"])] == 0
+
+
 def test_golden26_bronx_defenders_p176(pages26):
     S = _rows26(pages26, [175, 176])
     r = [a for a in S["awards"] if a["pdf_page"] == 176 and a["ein"] in

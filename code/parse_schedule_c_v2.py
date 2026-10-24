@@ -184,16 +184,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
             vp = vmap[pn]
             tids = {a["table_index"] for a in aw}
             tboxes = [t["bbox"] for t in vp["tables"] if t["table_index"] in tids]
-            cboxes = [b for a in aw for b in a["_char_boxes"]]
-            # Text read into a table but into no award row: loose header words and award-table
-            # sub-headings (structure `header_band_words`, `award_subheadings`; FY2021).
-            cboxes += [b for ti in tids for b in S.get("covered", {}).get((pn, ti), [])]
-            hrows = S.get("header_rows", {})
-            for t in vp["tables"]:
-                if t["table_index"] in tids:
-                    for r in t["rows"][:hrows.get((pn, t["table_index"]), 1)]:
-                        for c in r["cells"]:
-                            cboxes += c["char_boxes"]
+            cboxes = [b for a in aw for b in a["_char_boxes"]] + header_boxes(S, vp, tids)
             rules = _shift_rules(ink.rule_shapes(page), ox, oy)
             ik = ink.coverage(gray, dpi, tboxes, cboxes, rules, im["char_pad_px"],
                               im["rule_pad_px"], im["ink_cell_px"], im["ink_min_region_px"])
@@ -228,11 +219,7 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
             vp = vmap[pn]
             tids = {a["table_index"] for a in aw}
             tboxes = [t["bbox"] for t in vp["tables"] if t["table_index"] in tids]
-            hrows = S.get("header_rows", {})
-            hdr = [b for t in vp["tables"] if t["table_index"] in tids
-                   for r in t["rows"][:hrows.get((pn, t["table_index"]), 1)]
-                   for c in r["cells"] for b in c["char_boxes"]]
-            hdr += [b for ti in tids for b in S.get("covered", {}).get((pn, ti), [])]
+            hdr = header_boxes(S, vp, tids)
             rules = _shift_rules(ink.rule_shapes(page), ox, oy)
             target = cfg["image"]["ink_acceptance_award_id"]
 
@@ -266,6 +253,18 @@ def run_cv(cfg, S, vpages, out_overlays, only_pages=None):
         pdf.close()
         doc.close()
     return row_res, page_res, flags, acc
+
+
+def header_boxes(S, vp, tids):
+    """Character boxes on page `vp` that the ink check counts as read without being in an award
+    row: each award table's header row bands (structure `header_rows`, 1 unless named there)
+    and text read into a table but into no award row: loose header words and award-table
+    sub-headings (structure `header_band_words`, `award_subheadings`; FY2021)."""
+    pn, hrows = vp["page"], S.get("header_rows", {})
+    out = [b for t in vp["tables"] if t["table_index"] in tids
+           for r in t["rows"][:hrows.get((pn, t["table_index"]), 1)]
+           for c in r["cells"] for b in c["char_boxes"]]
+    return out + [b for ti in tids for b in S.get("covered", {}).get((pn, ti), [])]
 
 
 def subaward_proxies(S):
@@ -651,6 +650,10 @@ def main(argv=None):
         w(f"  regions: {sum(1 for f in cv_flags if f['check_id'] == 'H9.ink')}  "
           f"uncovered px total: {sum(p['uncovered_px'] for p in cv_pages.values()):,} of "
           f"{sum(p['ink_px'] for p in cv_pages.values()):,} ink px")
+        nh = sum(1 for v in S.get("header_rows", {}).values() if v == 0)
+        if nh:
+            w(f"  award tables with no header row of their own: {nh}; their first row is an "
+              "award row, checked like the others (#192)")
         if acc:
             im = cfg["image"]
             w(f"  acceptance on p.{acc['page']} ({acc['award_id']}): clean run {acc['clean']} regions; "
