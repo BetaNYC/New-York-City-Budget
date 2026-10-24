@@ -8,6 +8,34 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 
 Nothing yet.
 
+## 2.0.3 — 2026-10-24
+
+A data and accuracy release from epic #244. No tool is added or removed. The package's data
+changed, so the version moves (the "merged ≠ shipped" guard).
+
+### Changed (in the package)
+- **Capital rows matched to NYC Open Data on the full project ID** (#198, PR #254). The Open Data
+  crosswalk dropped the agency code from capital project IDs, so different agencies' projects
+  with the same number looked ambiguous. Matched on the full ID, 13 more capital book rows now
+  equal their `t474-a92g` row: FY2019 +2, FY2020 +11. Four rows stay ambiguous: two pairs
+  that print the same ID, line, year and amount twice (#257).
+
+### Changed (in the optional PDF tables download)
+The new tables release, `pdf-tables-2026-10-24-260d16e`, carries these fixes. Run
+`npx @betanyc/nyc-budget-mcp download --pdf-tables` to get them.
+- **Schedule C checks** (#192, #193, PR #252). The ink check now covers the first row of tables
+  with no header row. Rows with no drawn column lines are checked again through columns found in
+  the page image. About 6,100 FY2018–FY2024 rows now say a column check confirmed them. No
+  amount, EIN or name changed.
+- **Transparency resolutions** (#196, #197, #204, PR #255).
+  - FY2026 Reso 02 p.114 had text drawn over text. It now reads cleanly and goes to review.
+  - Review items get page pictures without crashing.
+  - Rescission origins now come from the checked Schedule C instead of the retired CSVs: 879
+    FY2018–FY2023 rows changed origin. No amount or EIN changed.
+- **Review decisions** (#194, #195, PR #253). `needs_info` no longer counts as decided. Such an
+  item may close 30 days after its Council question was sent (`data/council_questions.csv`), and
+  an answered question blocks until the answer is recorded. The decisions file is the one record.
+
 ## 2.0.2 — 2026-10-23
 
 **Adds four tools** over the checked tables read from the Council's budget PDFs, and an optional
