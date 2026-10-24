@@ -57,8 +57,8 @@ A family-year is `closed` when:
    30 days the row is published as printed with a visible label ("Question sent to Council Finance
    on <date>, no answer yet"); the question stays open as a GitHub issue.
 
-`code/validate_review_decisions.py --complete` must enforce this (#194, still open on 2026-10-23:
-it counts `needs_info` as decided, so a person checks those by hand before closing).
+`code/validate_review_decisions.py --complete` must enforce this (#194, fixed by #253 on 2026-10-24:
+`needs_info` now counts as open, unless its question was sent 30 or more days ago).
 
 ## Families and where each stands
 

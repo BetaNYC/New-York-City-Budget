@@ -870,7 +870,7 @@ answers surfaced when FY2009 entered the served set: the 53 rows with no grantee
 - **Fractional amounts.** FY2009–FY2012 carry amounts such as `7481.296758`; the MCP shows them
   rounded to cents and totals the exact values.
 
-**Rescission origins use the checked Schedule C (since #204, 2026-10-23).** The checked
+**Rescission origins use the checked Schedule C (since #204, 2026-10-24).** The checked
 transparency tables trace each rescission to the award it takes money from. They now look it up in
 the checked `data/fyNN/pdf/schedule_c/` awards, not in the retired old-parser CSVs; a year with no
 checked Schedule C stops the run. 879 FY2018–FY2023 rows changed origin, mostly from `not_found`
@@ -1011,7 +1011,7 @@ letter of each box label on p.162. Six glyphs are unmapped (`(cid:9)`, e.g. p.34
 
 ---
 
-## 32. FY2025 Schedule C rebuilt from the PDF, checked (#104) — REVIEW NOT STARTED
+## 32. FY2025 Schedule C rebuilt from the PDF, checked (#104) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY25/Fiscal-2025-Schedule-C-MERGE-FINAL-2.pdf` with
 > the §29 toolkit (`code/parse_schedule_c_v2.py`, `config/schedule_c/fy2025.toml`). Its review
@@ -1058,7 +1058,7 @@ second box hides inside the first box's table (p.35). 17 summary-table titles; o
 
 ---
 
-## 33. FY2025 transparency resolutions parsed from the PDFs, checked (#104) — REVIEW NOT STARTED
+## 33. FY2025 transparency resolutions parsed from the PDFs, checked (#104) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** The first parse of the 13 PDFs in `source/FY25/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2025`, `config/transparency/fy2025.toml`). Its review record
@@ -1081,7 +1081,7 @@ no `***` footnote. Reso 02 prints the same two Black Spectrum rows under Fiscal 
 
 ---
 
-## 34. FY2025 capital and T&C, re-read from the PDFs (GitHub #104) — REVIEW NOT STARTED
+## 34. FY2025 capital and T&C, re-read from the PDFs (GitHub #104) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** Its review record is [`research/2026-10-21-fy25-capital-terms-review/`](research/2026-10-21-fy25-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
@@ -1094,7 +1094,7 @@ headings into the text of 14, the FSR table into #16, dropped hyphens in 4, and 
 
 ---
 
-## 35. FY2024 Schedule C rebuilt from the PDF, checked (#105) — REVIEW NOT STARTED
+## 35. FY2024 Schedule C rebuilt from the PDF, checked (#105) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY24/Fiscal-2024-Schedule-C-Merge-Final.pdf` with
 > the §29 toolkit (`config/schedule_c/fy2024.toml`). Its review record is
@@ -1129,7 +1129,7 @@ following providers" with no designated amount (45 boxes). The Speaker's pages u
 
 ---
 
-## 36. FY2024 transparency resolutions rebuilt from the PDFs, checked (#105) — REVIEW NOT STARTED
+## 36. FY2024 transparency resolutions rebuilt from the PDFs, checked (#105) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 9 PDFs in `source/FY24/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2024`, `config/transparency/fy2024.toml`). Its review record
@@ -1155,7 +1155,7 @@ also in Schedule C; corrected by the same resolution). "#" in the `*` column (Re
 
 ---
 
-## 37. FY2024 capital and T&C, re-read from the PDFs (GitHub #105) — REVIEW NOT STARTED
+## 37. FY2024 capital and T&C, re-read from the PDFs (GitHub #105) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** Its review record is [`research/2026-10-21-fy24-capital-terms-review/`](research/2026-10-21-fy24-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
@@ -1175,7 +1175,7 @@ text extraction: the PDF opens with no password and every character extracts
 
 ---
 
-## 38. FY2023 Schedule C rebuilt from the PDF, checked (#106) — REVIEW NOT STARTED
+## 38. FY2023 Schedule C rebuilt from the PDF, checked (#106) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY23/Fiscal-2023-Schedule-C-Merge-6.13.22-Final-1.pdf`
 > with the §29 toolkit (`config/schedule_c/fy2023.toml`). Its review record is
@@ -1207,7 +1207,7 @@ put the reserve after the providers ("... and $N will be designated post-adoptio
 
 ---
 
-## 39. FY2023 transparency resolutions rebuilt from the PDFs, checked (#106) — REVIEW NOT STARTED
+## 39. FY2023 transparency resolutions rebuilt from the PDFs, checked (#106) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 14 PDFs in `source/FY23/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2023`, `config/transparency/fy2023.toml`). Its review
@@ -1233,7 +1233,7 @@ p.19). Two $0 rows (Reso 07 p.27).
 
 ---
 
-## 40. FY2023 capital and T&C, re-read from the PDFs (GitHub #106) — REVIEW NOT STARTED
+## 40. FY2023 capital and T&C, re-read from the PDFs (GitHub #106) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** Its review record is [`research/2026-10-21-fy23-capital-terms-review/`](research/2026-10-21-fy23-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
@@ -1248,7 +1248,7 @@ as the retired CSV numbered them; it put the FSR table into condition 24's text.
 
 ---
 
-## 41. FY2022 Schedule C rebuilt from the PDF, checked (#107) — REVIEW NOT STARTED
+## 41. FY2022 Schedule C rebuilt from the PDF, checked (#107) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY22/Fiscal-2022-Schedule-C-Merge-6.30.21.pdf` with
 > the §29 toolkit (`config/schedule_c/fy2022.toml`). Its review record is
@@ -1278,7 +1278,7 @@ drawn as one wide cell each (pp.117–118). "TOTAL:" (p.32). A box drawn inside 
 
 ---
 
-## 42. FY2022 transparency resolutions rebuilt from the PDFs, checked (#107) — REVIEW NOT STARTED
+## 42. FY2022 transparency resolutions rebuilt from the PDFs, checked (#107) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 14 PDFs in `source/FY22/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2022`, `config/transparency/fy2022.toml`). Its review
@@ -1308,7 +1308,7 @@ p.38).
 
 ---
 
-## 43. FY2022 capital and T&C, re-read from the PDFs (GitHub #107) — REVIEW NOT STARTED
+## 43. FY2022 capital and T&C, re-read from the PDFs (GitHub #107) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** Its review record is [`research/2026-10-21-fy22-capital-terms-review/`](research/2026-10-21-fy22-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
@@ -1325,7 +1325,7 @@ the FSR table's months are out of order as printed.
 
 ---
 
-## 44. FY2021 Schedule C rebuilt from the PDF, checked (#108) — REVIEW NOT STARTED
+## 44. FY2021 Schedule C rebuilt from the PDF, checked (#108) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY21/Fiscal-2021-Schedule-C-Cover-REPORT-Final.pdf`
 > with the §29 toolkit (`config/schedule_c/fy2021.toml`). Its review record is
@@ -1353,7 +1353,7 @@ last digits (pp.105–106). A box amount outside its box (p.98); an empty band o
 
 ---
 
-## 45. FY2021 transparency resolutions rebuilt from the PDFs, checked (#108) — REVIEW NOT STARTED
+## 45. FY2021 transparency resolutions rebuilt from the PDFs, checked (#108) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 8 PDFs in `source/FY21/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2021`, `config/transparency/fy2021.toml`). Its review
@@ -1379,7 +1379,7 @@ amount. Reso 02 p.20 prints "(continued)" on a chart's first page. 15 chart page
 
 ---
 
-## 46. FY2021 Terms & Conditions, re-read from the PDF (GitHub #108) — REVIEW NOT STARTED
+## 46. FY2021 Terms & Conditions, re-read from the PDF (GitHub #108) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** Its review record is [`research/2026-10-21-fy21-capital-terms-review/`](research/2026-10-21-fy21-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
@@ -1393,7 +1393,7 @@ capital supporting detail in `source/`.
 
 ---
 
-## 47. FY2020 Schedule C rebuilt from the PDF, checked (#109) — REVIEW NOT STARTED
+## 47. FY2020 Schedule C rebuilt from the PDF, checked (#109) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY20/Fiscal-2020-Schedule-C-Final-Merge.pdf` with
 > the §29 toolkit (`config/schedule_c/fy2020.toml`). Its review record is
@@ -1421,7 +1421,7 @@ padded (p.111). A summary amount whose text is doubled (p.145). Page-origin offs
 
 ---
 
-## 48. FY2020 transparency resolutions rebuilt from the PDFs, checked (#109) — REVIEW NOT STARTED
+## 48. FY2020 transparency resolutions rebuilt from the PDFs, checked (#109) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 8 PDFs in `source/FY20/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2020`, `config/transparency/fy2020.toml`). Its review
@@ -1449,7 +1449,7 @@ separator (Reso 05 p.67).
 
 ---
 
-## 49. FY2020 capital supporting detail, re-read from the PDF (GitHub #109) — REVIEW NOT STARTED
+## 49. FY2020 capital supporting detail, re-read from the PDF (GitHub #109) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** Its review record is [`research/2026-10-21-fy20-capital-terms-review/`](research/2026-10-21-fy20-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
@@ -1465,7 +1465,7 @@ Conditions in `source/`.
 
 ---
 
-## 50. FY2019 Schedule C rebuilt from the PDF, checked (#110) — REVIEW NOT STARTED
+## 50. FY2019 Schedule C rebuilt from the PDF, checked (#110) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of `source/FY19/Fiscal-2019-Schedule-C-Final-Report.pdf` with
 > the §29 toolkit (`config/schedule_c/fy2019.toml`). Its review record is
@@ -1498,7 +1498,7 @@ titled without "Council" (pp.41, 102).
 
 ---
 
-## 51. FY2019 transparency resolutions rebuilt from the PDFs, checked (#110) — REVIEW NOT STARTED
+## 51. FY2019 transparency resolutions rebuilt from the PDFs, checked (#110) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 11 PDFs in `source/FY19/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2019`, `config/transparency/fy2019.toml`). Its review
@@ -1528,7 +1528,7 @@ spaces around the separator (Reso 07 p.30).
 
 ---
 
-## 52. FY2019 capital supporting detail, re-read from the PDF (GitHub #110) — REVIEW NOT STARTED
+## 52. FY2019 capital supporting detail, re-read from the PDF (GitHub #110) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** Its review record is [`research/2026-10-22-fy19-capital-terms-review/`](research/2026-10-22-fy19-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
@@ -1544,7 +1544,7 @@ $15,460,000 more on 11 lines. FY2019 has no Terms & Conditions in `source/`.
 
 ---
 
-## 53. FY2018 Schedule C rebuilt from the PDF, checked (#111) — REVIEW NOT STARTED
+## 53. FY2018 Schedule C rebuilt from the PDF, checked (#111) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of
 > `source/FY18/FY-2018-Schedule-C-Cover-Template-FINAL-MERGE.pdf` with the §29 toolkit
@@ -1579,7 +1579,7 @@ pages where the text layer glues an EIN to the name before it; pp.115–119 blan
 
 ---
 
-## 54. FY2018 transparency resolutions rebuilt from the PDFs, checked (#111) — REVIEW NOT STARTED
+## 54. FY2018 transparency resolutions rebuilt from the PDFs, checked (#111) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** A new, checked parse of the 12 PDFs in `source/FY18/transparency-resolutions/`
 > (`code/parse_transparency_v2.py --fy 2018`, `config/transparency/fy2018.toml`). Its review
@@ -1608,7 +1608,7 @@ footnotes (Reso 05 p.23).
 
 ---
 
-## 55. FY2018 capital supporting detail and Terms & Conditions, re-read from the PDFs (GitHub #111) — REVIEW NOT STARTED
+## 55. FY2018 capital supporting detail and Terms & Conditions, re-read from the PDFs (GitHub #111) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
 
 > **Scope.** Its review record is [`research/2026-10-22-fy18-capital-terms-review/`](research/2026-10-22-fy18-capital-terms-review/README.md). Served since MCP 2.0.2 and in the explorer, labeled (§56).
 
@@ -1638,7 +1638,7 @@ two line-end hyphens and files budget-line headings as units.
 | Capital §254 supporting detail | FY2018–FY2020, FY2022–FY2027 |
 | Terms and Conditions | FY2018, FY2021–FY2027 |
 
-That is 36 family-years. On 2026-10-23 all 36 are `reviewed` and none is `closed`.
+That is 36 family-years. As of 2026-10-24 all 36 are `reviewed` and none is `closed`.
 
 **From which process.** Each table is read from the PDF's own text and ruled lines, checked
 against a second reading of the page image, tied to every total the PDF prints, and checked for
@@ -1653,9 +1653,10 @@ is typed in by hand. No language model reads the figures.
 - **The MCP**, `@betanyc/nyc-budget-mcp` 2.0.2: four tools (`search_schedule_c_awards`,
   `search_transparency_changes`, `search_capital_book`, `search_terms_conditions`). The npm package
   still ships only spreadsheet data. The PDF tables are an optional download from this repo's
-  GitHub Releases: `npx @betanyc/nyc-budget-mcp download --pdf-tables [--pdfs]`. The first data
-  release is [`pdf-tables-2026-10-23-5bab77c`](https://github.com/BetaNYC/New-York-City-Budget/releases/tag/pdf-tables-2026-10-23-5bab77c):
-  the 36 family-years (17 MB of tables) and 126 PDFs (148 MB).
+  GitHub Releases: `npx @betanyc/nyc-budget-mcp download --pdf-tables [--pdfs]`. The downloader
+  always takes the newest ([releases page](https://github.com/BetaNYC/New-York-City-Budget/releases)). As of 2026-10-24 that is
+  [`pdf-tables-2026-10-24-260d16e`](https://github.com/BetaNYC/New-York-City-Budget/releases/tag/pdf-tables-2026-10-24-260d16e): the 36 family-years (17.4 MB of tables) and 126 PDFs (148 MB). The first was
+  `pdf-tables-2026-10-23-5bab77c`.
 
 **With which labels.** Every row carries:
 

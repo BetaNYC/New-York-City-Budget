@@ -11,10 +11,10 @@ tables are an **optional download** (about 17 MB; 115 MB on disk), not part of t
 [The checked PDF tables](#the-checked-pdf-tables-optional-download).
 
 > **Version 2.0.2** (2026-10-23; 2.0.3 in progress) adds the four PDF tools and the optional
-> download; nothing is removed. The first data release for that download is
-> [`pdf-tables-2026-10-23-5bab77c`](https://github.com/BetaNYC/New-York-City-Budget/releases/tag/pdf-tables-2026-10-23-5bab77c):
-> 36 checked family-years, FY2018–FY2027 (17 MB of tables), and, with `--pdfs`, the 126 PDFs
-> they cite (148 MB).
+> download; nothing is removed. The downloader always takes the newest data release
+> ([releases page](https://github.com/BetaNYC/New-York-City-Budget/releases)). As of 2026-10-24 that is
+> [`pdf-tables-2026-10-24-260d16e`](https://github.com/BetaNYC/New-York-City-Budget/releases/tag/pdf-tables-2026-10-24-260d16e): 36 checked family-years, FY2018–FY2027 (17.4 MB of tables), and, with `--pdfs`, the
+> 126 PDFs they cite (148 MB). The first was `pdf-tables-2026-10-23-5bab77c`.
 >
 > **2.0.0 was a breaking release.** It removed the five tools built on the old PDF parser's
 > output (Schedule C, Terms & Conditions, §254 capital, transparency resolutions) and
@@ -60,7 +60,7 @@ PDF-derived data.
 |---|---|---|---|
 | Expense funding **disclosure** | **FY2009, FY2011–FY2027** (156,544 rows) | The Council's own award-level workbooks: FY2013–FY2027 downloaded from the Council RnD site on 2026-10-12, FY2009, FY2011 and FY2012 from the Council's archived workbooks via the Internet Archive (retrieved 2026-10-14) | **FY2010 is not included**: the Council's workbook (2,592 rows) is incomplete against NYC Open Data's (5,981 rows), and the two are never mixed. **FY2009 and FY2013 are early snapshots**, frozen while much was Pending and never revised: their Cleared totals are not headline figures. Per-year provenance: [`../data/disclosure_years.csv`](../data/disclosure_years.csv) |
 | Council **capital** designations | **FY2015–FY2017, FY2019–FY2027** (16,916 rows) | The Council's capital workbooks (FY2015–FY2017 and FY2026 via the Internet Archive, FY2027 from the RnD site) and NYC Open Data `t474-a92g`, which the Council publishes (FY2019–FY2025) | **FY2018 is missing** from every source found. Exact by budget line only: Council project IDs do not link to OMB, FMS or Checkbook, and there is no contract-level data. Overview: [`../data/capital/README.md`](../data/capital/README.md) |
-| **Checked PDF tables** (optional download) | Schedule C FY2018–FY2027 · transparency resolutions FY2018–FY2026 · capital book FY2018–FY2020, FY2022–FY2027 · Terms and Conditions FY2018, FY2021–FY2027 | Read by BetaNYC from the Council's PDFs (`../source/FYNN/`) and checked (`../PDF-RECIPE.md`); statuses in [`../data/pdf_years.csv`](../data/pdf_years.csv) | On 2026-10-23 every family-year is `reviewed` ("checked, review in progress"); none is `closed` ("checked and reviewed") yet. FY2008–FY2017 were read only by the old parser and are not served |
+| **Checked PDF tables** (optional download) | Schedule C FY2018–FY2027 · transparency resolutions FY2018–FY2026 · capital book FY2018–FY2020, FY2022–FY2027 · Terms and Conditions FY2018, FY2021–FY2027 | Read by BetaNYC from the Council's PDFs (`../source/FYNN/`) and checked (`../PDF-RECIPE.md`); statuses in [`../data/pdf_years.csv`](../data/pdf_years.csv) | As of 2026-10-24 every family-year is `reviewed` ("checked, review in progress"); none is `closed` ("checked and reviewed") yet. FY2008–FY2017 were read only by the old parser and are not served |
 | Council vs **OMB** adopted capital budget | **FY2019–FY2027** (1,425 line-year comparisons, 515 distinct budget lines) | This repo's arithmetic on the capital table and OMB's `46m8-77gv` adopted release | Not a Council or OMB reconciliation. [`../data/capital/RECONCILIATION.md`](../data/capital/RECONCILIATION.md) §3 |
 
 `list_available_fiscal_years` reports this per year, with every gap stated.
@@ -281,8 +281,10 @@ picks up tables `download` installs, without a restart.
 
 **Releases.** The releases are listed on
 [GitHub](https://github.com/BetaNYC/New-York-City-Budget/releases); the data releases' tags start
-with `pdf-tables-`. The first, `pdf-tables-2026-10-23-5bab77c`, was published on 2026-10-23 from
-commit `5bab77c`: 36 family-years, all `reviewed` (17 MB of tables), and 126 PDFs (148 MB).
+with `pdf-tables-`, and the downloader takes the newest. As of 2026-10-24 that is
+`pdf-tables-2026-10-24-260d16e` (a hand run from commit `260d16e`): 36 family-years, all
+`reviewed` (17.4 MB of tables), and 126 PDFs (148 MB). The first was
+`pdf-tables-2026-10-23-5bab77c`, published on 2026-10-23 from commit `5bab77c`.
 
 **To try tables you built yourself**, build a release locally:
 `npm run build-pdf-release -- --out <dir> [--pdfs] [--allow-local-commit]`
@@ -293,8 +295,8 @@ with `download --pdf-tables --from <dir>/pdf-tables.manifest.json`.
 ### Publishing a release (W7)
 
 **Today releases are hand runs.** The repository variable `PDF_TABLES_AUTO_PUBLISH` is not set,
-so a push to `main` builds and checks a release but does not publish it. The first release was a
-hand run on 2026-10-23.
+so a push to `main` builds and checks a release but does not publish it. Both releases so far
+(2026-10-23 and 2026-10-24) were hand runs.
 
 
 `.github/workflows/pdf-tables-release.yml` runs on a push to `main` that changes the PDF tables:

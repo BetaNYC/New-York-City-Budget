@@ -42,9 +42,10 @@ The old parser's output is never served at any status: those years are not in th
 | `reviewed` | The tables are checked (Steps 2–3), the review record is written (Step 4), and the tables are promoted (Step 5). A person's review may not be finished: some flags may still be open | Promotion writes it (Step 5) |
 | `closed` | A person has decided every flag (Step 9) | Only a person changes `reviewed` to `closed` |
 
-On 2026-10-23 all 36 family-years (FY2018–FY2027) are `reviewed`. None is `closed` yet: closing
-needs Council Finance's answers to the open questions, and on that date every question in
-`data/council_questions.csv` is still a draft, not yet sent.
+As of 2026-10-24 all 36 family-years (FY2018–FY2027) are `reviewed`. None is `closed` yet:
+closing needs Council Finance's answers to the open questions, or 30 days after each question is
+sent, and on that date every question in `data/council_questions.csv` is still a draft, not yet
+sent.
 
 **What both make public.** Once merged to `main`, a `reviewed` or `closed` family-year is:
 
@@ -208,8 +209,8 @@ from `research/`.
 
 Open **PR B** (promotion), stacked on PR A. Doing two years? Stack them: year 1 review, year 1
 promote, year 2 review, year 2 promote. Merging PR B makes the year public, labeled "checked,
-review in progress" (see "What `reviewed` and `closed` mean"). Under the proposed rule in Step 9, PR B closes the
-year's issue (`Closes #NNN` in its body).
+review in progress" (see "What `reviewed` and `closed` mean"). The year's issue closes when its
+PRs merge (Step 9): put `Closes #NNN` in the last one.
 
 ## Step 6: load it into the explorer for review
 
@@ -315,9 +316,9 @@ them all through on purpose; say why in the PR.
       already closed; see below): what worked, what didn't, what is odd about that year's PDFs,
       how to redo it, and time spent vs. the estimate. Then tick the year as `closed` in epic #101.
 
-**When the year's issue closes** (proposed 2026-10-23, waiting on the maintainer): the year's
-issue closes when its promotion PR merges, that is, when the year is `reviewed` and public.
-Epic #101 tracks the later step from `reviewed` to `closed`.
+**When the year's issue closes** (decided by Noel Hidalgo, 2026-10-23): the year's issue closes
+when its PRs merge, that is, when the year is `reviewed` and public. Epic #101 tracks the later
+step from `reviewed` to `closed`.
 
 Once that is merged to `main`, the public explorer
 (https://betanyc.github.io/New-York-City-Budget/explorer/) labels the family "checked and
