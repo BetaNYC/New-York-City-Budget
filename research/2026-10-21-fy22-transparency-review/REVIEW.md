@@ -48,8 +48,9 @@ in `data/overlays/` (named `r<reso>-p<page>-<review_id>.png`).
 - **Disclosure gaps** (report only): 611 FY2022 designations not found on (EIN, amount): 498 taken
   back later, 72 at another amount, 22 EIN not in the disclosure, 14 key already used, 5 City-EIN
   name mismatch. `data/fy22_tr_disclosure_match.csv`.
-- **Rescission origins** (report only): of 872, 604 take back an earlier resolution's row, 156
-  match a Schedule C award (retired CSV), 56 part of a larger amount, 56 not found.
+- **Rescission origins** (report only): of 872, 604 take back an earlier resolution's row, 160 match
+  a Schedule C award, 53 part of a larger amount, 55 not found (checked Schedule C,
+  `data/fy22/pdf/schedule_c/`, since #204 on 2026-10-23; the retired CSV gave 156 / 56 / 56).
 
 ## Decisions for Noel
 
@@ -61,3 +62,4 @@ in `data/overlays/` (named `r<reso>-p<page>-<review_id>.png`).
 3. **Overlaid text** (Reso 09 p.38): hidden on that page only. The same thing happens in
    **FY2026 Reso 02 p.114** (a hidden first line read into the purpose of the row above); FY2026
    was not changed. Decide whether to name that page in `config/transparency/fy2026.toml` too.
+   (Named there in #196, 2026-10-23.)

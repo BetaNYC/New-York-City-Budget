@@ -161,9 +161,16 @@ Byte-identical on re-run (checked). Every year-specific fact is in
   the 2026-07-07 notes file it.
 - Resolution numbers for Reso 03, 05, 06 and 09–12 rest on Legistar order.
 
+## Since this review
+
+- Rescission origins (report only) now use the checked FY2018 Schedule C,
+  `data/fy18/pdf/schedule_c/fy18_sc_awards.csv` (#204, re-run 2026-10-23): 47 → 355 match a Schedule
+  C award, 178 → 56 part of a larger amount, 295 → 109 not found. The retired old-parser CSVs had
+  missed or misread those awards' (EIN, amount).
+
 ## Not done here
 
-- OCR audit; rescission origins use the *retired* FY2018 Schedule C CSVs (report only).
+- OCR audit.
 - Nothing added to the MCP or the public site; the retired `data/fy18/transparency-resolutions/`
   files are unchanged.
 

@@ -71,8 +71,9 @@ The pipeline never writes that file. Nothing here changes a dollar amount. Each 
   City-EIN name mismatch, 5 key already used. FY2024 and FY2023 rows are checked against those
   years' disclosures. Every row and reason: `data/fy25_tr_disclosure_match.csv`.
 - **Rescission origins**, report only: of 825 rescissions from organizations, 385 take back an
-  earlier resolution's designation, 334 match a Schedule C award (retired CSV), 58 are part of a
-  larger earlier amount, 48 not found.
+  earlier resolution's designation, 334 match a Schedule C award, 58 are part of a larger earlier
+  amount, 48 not found (checked Schedule C, `data/fy25/pdf/schedule_c/`, since #204 on 2026-10-23;
+  unchanged from the retired CSV).
 
 ## Decisions for Noel
 

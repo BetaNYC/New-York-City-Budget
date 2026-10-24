@@ -1,80 +1,80 @@
 row_id,resolution_seq,pdf_page,budget_fiscal_year,action,ein,amount,org,status,reason,disclosure_row
-fy18-tr01-p013-r001,1,13,2018,rescind,111630813,-1000,"Brooklyn Historical Society, The",rescission,not_found,
-fy18-tr01-p013-r002,1,13,2018,rescind,237176396,-2500,"West Indian American Day Carnival Association, Inc.",rescission,not_found,
+fy18-tr01-p013-r001,1,13,2018,rescind,111630813,-1000,"Brooklyn Historical Society, The",rescission,schedule_c,
+fy18-tr01-p013-r002,1,13,2018,rescind,237176396,-2500,"West Indian American Day Carnival Association, Inc.",rescission,schedule_c,
 fy18-tr01-p013-r003,1,13,2018,designate,113456787,3500,Mosad Harim Levin,matched,cleared,5403
-fy18-tr01-p013-r004,1,13,2018,rescind,474287935,-5000,"Arts & Democracy, Inc.",rescission,not_found,
+fy18-tr01-p013-r004,1,13,2018,rescind,474287935,-5000,"Arts & Democracy, Inc.",rescission,schedule_c,
 fy18-tr01-p013-r005,1,13,2018,designate,474287935,5000,"Arts & Democracy, Inc.",matched,cleared,331
-fy18-tr01-p013-r006,1,13,2018,rescind,131623850,-10000,Kips Bay Boys & Girls Club,rescission,partial,
+fy18-tr01-p013-r006,1,13,2018,rescind,131623850,-10000,Kips Bay Boys & Girls Club,rescission,schedule_c,
 fy18-tr01-p013-r007,1,13,2018,designate,161759590,10000,LSNY Bronx Corp.,matched,cleared,4938
-fy18-tr01-p013-r008,1,13,2018,rescind,113306111,-20000,"Business Outreach Center Network, Inc.",rescission,partial,
+fy18-tr01-p013-r008,1,13,2018,rescind,113306111,-20000,"Business Outreach Center Network, Inc.",rescission,schedule_c,
 fy18-tr01-p013-r009,1,13,2018,designate,113064561,5000,"Community Center of the Rockaway Peninsula, Inc.",matched,cleared,1944
 fy18-tr01-p013-r010,1,13,2018,designate,131624015,5000,Boy Scouts of America - Greater New York Council,matched,cleared,766
 fy18-tr01-p013-r011,1,13,2018,designate,132612524,5000,"Fund for the City of New York, Inc.",matched,cleared,3437
 fy18-tr01-p013-r012,1,13,2018,designate,136400434,5000,Department of Parks and Recreation,matched,cleared,2466
-fy18-tr01-p013-r013,1,13,2018,rescind,134131863,-5000,Grace Foundation of New York,rescission,not_found,
+fy18-tr01-p013-r013,1,13,2018,rescind,134131863,-5000,Grace Foundation of New York,rescission,schedule_c,
 fy18-tr01-p013-r014,1,13,2018,designate,133833390,5000,"Staten Island Sports Hall of Fame, Inc.",matched,cleared,7933
-fy18-tr01-p013-r015,1,13,2018,rescind,237259702,-5000,"Maspeth Town Hall, Inc.",rescission,not_found,
+fy18-tr01-p013-r015,1,13,2018,rescind,237259702,-5000,"Maspeth Town Hall, Inc.",rescission,partial,
 fy18-tr01-p013-r016,1,13,2018,designate,113099784,5000,"Woodhaven Cultural and Historical Society, Inc.",matched,cleared,8720
-fy18-tr01-p013-r017,1,13,2018,rescind,237405104,-5000,"Ridgewood Volunteer Ambulance Corps, Inc.",rescission,not_found,
+fy18-tr01-p013-r017,1,13,2018,rescind,237405104,-5000,"Ridgewood Volunteer Ambulance Corps, Inc.",rescission,schedule_c,
 fy18-tr01-p013-r018,1,13,2018,designate,237405104,5000,"Ridgewood Volunteer Ambulance Corps, Inc.",matched,cleared,7156
 fy18-tr01-p013-r019,1,13,2018,rescind,133077047,-15000,"Neighborhood Self Help by Older Persons Project, Inc.",rescission,schedule_c,
 fy18-tr01-p013-r020,1,13,2018,designate,237442256,5000,"New York Junior Tennis League, Inc.",matched,cleared,6026
 fy18-tr01-p013-r021,1,13,2018,designate,061172538,5000,National Association for the Advancement of Colored People,matched,cleared,5540
 fy18-tr01-p013-r022,1,13,2018,designate,136400434,5000,New York City Housing Authority,matched,cleared,5906
-fy18-tr01-p013-r023,1,13,2018,rescind,112547268,-5000,"BRIC Arts | Media | Bklyn, Inc.",rescission,not_found,
-fy18-tr01-p013-r024,1,13,2018,rescind,112547268,-5000,"BRIC Arts | Media | Bklyn, Inc.",rescission,not_found,
+fy18-tr01-p013-r023,1,13,2018,rescind,112547268,-5000,"BRIC Arts | Media | Bklyn, Inc.",rescission,schedule_c,
+fy18-tr01-p013-r024,1,13,2018,rescind,112547268,-5000,"BRIC Arts | Media | Bklyn, Inc.",rescission,schedule_c,
 fy18-tr01-p013-r025,1,13,2018,designate,200006693,10000,"Crown Heights North Association, Inc.",unmatched,later_rescinded,
-fy18-tr01-p013-r026,1,13,2018,rescind,113271472,-7000,"Noel Pointer Foundation, Inc.",rescission,not_found,
-fy18-tr01-p013-r027,1,13,2018,rescind,900907203,-5000,"Cultural Museum of African Art, Inc. - The Eric Edwards Collection",rescission,not_found,
+fy18-tr01-p013-r026,1,13,2018,rescind,113271472,-7000,"Noel Pointer Foundation, Inc.",rescission,schedule_c,
+fy18-tr01-p013-r027,1,13,2018,rescind,900907203,-5000,"Cultural Museum of African Art, Inc. - The Eric Edwards Collection",rescission,schedule_c,
 fy18-tr01-p013-r028,1,13,2018,designate,113250772,6000,Bridge Street Development Corporation,matched,cleared,837
 fy18-tr01-p013-r029,1,13,2018,designate,112777066,6000,SCO Family of Services,matched,cleared,7410
-fy18-tr01-p013-r030,1,13,2018,rescind,112488439,-10000,"American-Italian Coalition of Organizations, Inc.",rescission,not_found,
+fy18-tr01-p013-r030,1,13,2018,rescind,112488439,-10000,"American-Italian Coalition of Organizations, Inc.",rescission,schedule_c,
 fy18-tr01-p013-r031,1,13,2018,designate,112488439,10000,"American-Italian Coalition of Organizations, Inc.",matched,cleared,252
 fy18-tr01-p013-r032,1,13,2018,rescind,112488439,-10000,"American-Italian Coalition of Organizations, Inc.",rescission,earlier_resolution,
 fy18-tr01-p013-r033,1,13,2018,designate,264164117,10000,Asian Community United Society Inc.,matched,cleared,410
-fy18-tr01-p013-r034,1,13,2018,rescind,810545837,-9000,"Added Value & Herban Solutions, Inc.",rescission,not_found,
+fy18-tr01-p013-r034,1,13,2018,rescind,810545837,-9000,"Added Value & Herban Solutions, Inc.",rescission,schedule_c,
 fy18-tr01-p013-r035,1,13,2018,designate,136400434,9000,Police Department - 72nd Precinct,unmatched,later_rescinded,
-fy18-tr01-p013-r036,1,13,2018,rescind,112934620,-10000,"Opportunities for a Better Tomorrow, Inc.",rescission,partial,
+fy18-tr01-p013-r036,1,13,2018,rescind,112934620,-10000,"Opportunities for a Better Tomorrow, Inc.",rescission,schedule_c,
 fy18-tr01-p013-r037,1,13,2018,rescind,264164117,-10000,Asian Community United Society Inc.,rescission,earlier_resolution,
 fy18-tr01-p013-r038,1,13,2018,designate,112490531,20000,"United Puerto Rican Organizations of Sunset Park (UPROSE), Inc.",unmatched,amount_differs,
-fy18-tr01-p013-r039,1,13,2018,rescind,753163555,-20000,Muslim Community Network,rescission,not_found,
+fy18-tr01-p013-r039,1,13,2018,rescind,753163555,-20000,Muslim Community Network,rescission,partial,
 fy18-tr01-p013-r040,1,13,2018,designate,753163555,20000,Muslim Community Network - Community Education Program,matched,cleared,5513
-fy18-tr01-p013-r041,1,13,2018,rescind,133740434,-22000,"125th Street District Management Association, Inc.",rescission,not_found,
+fy18-tr01-p013-r041,1,13,2018,rescind,133740434,-22000,"125th Street District Management Association, Inc.",rescission,schedule_c,
 fy18-tr01-p013-r042,1,13,2018,designate,136400434,3500,New York City Housing Authority - Drew Hamilton,matched,cleared,5880
 fy18-tr01-p013-r043,1,13,2018,designate,136400434,3500,New York City Housing Authority - P.S. 139 Conversion,matched,cleared,5881
 fy18-tr01-p013-r044,1,13,2018,designate,133891881,15000,"Uptown Dance Academy, Inc.",matched,cleared,8290
-fy18-tr01-p013-r045,1,13,2018,rescind,202545574,-15200,"Maysles Institute, Inc.",rescission,not_found,
+fy18-tr01-p013-r045,1,13,2018,rescind,202545574,-15200,"Maysles Institute, Inc.",rescission,schedule_c,
 fy18-tr01-p013-r046,1,13,2018,designate,133891881,15200,"Uptown Dance Academy, Inc.",matched,cleared,8291
-fy18-tr01-p014-r001,1,14,2018,rescind,133630066,-5000,"Apollo Theater Foundation, Inc.",rescission,not_found,
-fy18-tr01-p014-r002,1,14,2018,rescind,133630066,-11000,"Apollo Theater Foundation, Inc.",rescission,not_found,
-fy18-tr01-p014-r003,1,14,2018,rescind,133688519,-5000,"Her Justice, Inc.",rescission,not_found,
+fy18-tr01-p014-r001,1,14,2018,rescind,133630066,-5000,"Apollo Theater Foundation, Inc.",rescission,schedule_c,
+fy18-tr01-p014-r002,1,14,2018,rescind,133630066,-11000,"Apollo Theater Foundation, Inc.",rescission,schedule_c,
+fy18-tr01-p014-r003,1,14,2018,rescind,133688519,-5000,"Her Justice, Inc.",rescission,schedule_c,
 fy18-tr01-p014-r004,1,14,2018,designate,136400434,10500,New York City Housing Authority - Ralph J. Rangel Senior Center,matched,cleared,5943
 fy18-tr01-p014-r005,1,14,2018,designate,136400434,10500,New York City Housing Authority - Polo Ground Senior Center,matched,cleared,5944
-fy18-tr01-p014-r006,1,14,2018,rescind,135562308,-50000,New York University,rescission,partial,
+fy18-tr01-p014-r006,1,14,2018,rescind,135562308,-50000,New York University,rescission,schedule_c,
 fy18-tr01-p014-r007,1,14,2018,designate,135562308,50000,New York University,matched,cleared,6159
-fy18-tr01-p014-r008,1,14,2018,rescind,116104901,-5000,American Legion - Continental Post 1424,rescission,not_found,
+fy18-tr01-p014-r008,1,14,2018,rescind,116104901,-5000,American Legion - Continental Post 1424,rescission,schedule_c,
 fy18-tr01-p014-r009,1,14,2018,designate,116104901,5000,American Legion - Continental Post 1424,unmatched,later_rescinded,
 fy18-tr01-p014-r010,1,14,2018,rescind,116104901,-5000,American Legion - Continental Post 1424,rescission,earlier_resolution,
 fy18-tr01-p014-r011,1,14,2018,designate,116104901,5000,American Legion - Continental Post 1424,unmatched,later_rescinded,
 fy18-tr01-p015-r001,1,15,2018,rescind,264164117,-10000,Asian Community United Society Inc.,rescission,earlier_resolution,
 fy18-tr01-p015-r002,1,15,2018,designate,112488439,10000,"American-Italian Coalition of Organizations, Inc.",unmatched,key_already_claimed,
-fy18-tr01-p015-r003,1,15,2018,rescind,112733344,-6750,"Sumner Houses Tenants Association, Inc.",rescission,not_found,
+fy18-tr01-p015-r003,1,15,2018,rescind,112733344,-6750,"Sumner Houses Tenants Association, Inc.",rescission,schedule_c,
 fy18-tr01-p015-r004,1,15,2018,designate,112300840,1500,"Fort Greene Council, Inc - Stuyvesant Heights Neighborhood Association",matched,cleared,3307
 fy18-tr01-p015-r005,1,15,2018,designate,112300840,1500,"Fort Greene Council, Inc - Albany Senior Center",matched,cleared,3308
 fy18-tr01-p015-r006,1,15,2018,designate,131624210,1500,VISIONS/Services for the Blind and Visual Impaired,matched,cleared,8440
 fy18-tr01-p015-r007,1,15,2018,designate,131624228,2250,Young Men's Christian Association of Greater New York - Bedford Stuyvesant,matched,cleared,8816
-fy18-tr01-p016-r001,1,16,2018,rescind,111723786,-6000,Our Lady of the Miraculous Medal,rescission,not_found,
+fy18-tr01-p016-r001,1,16,2018,rescind,111723786,-6000,Our Lady of the Miraculous Medal,rescission,schedule_c,
 fy18-tr01-p016-r002,1,16,2018,designate,111723786,6000,Our Lady of the Miraculous Medal,matched,cleared,6435
-fy18-tr01-p016-r003,1,16,2018,rescind,111666876,-6000,Sacred Heart Youth Program,rescission,not_found,
+fy18-tr01-p016-r003,1,16,2018,rescind,111666876,-6000,Sacred Heart Youth Program,rescission,schedule_c,
 fy18-tr01-p016-r004,1,16,2018,designate,111666876,6000,Sacred Heart Youth Program,matched,cleared,7281
-fy18-tr01-p017-r001,1,17,2018,rescind,861096987,-10000,"East River Development Alliance, Inc.",rescission,partial,
+fy18-tr01-p017-r001,1,17,2018,rescind,861096987,-10000,"East River Development Alliance, Inc.",rescission,schedule_c,
 fy18-tr01-p017-r002,1,17,2018,designate,861096987,10000,"East River Development Alliance, Inc.",matched,cleared,2799
-fy18-tr01-p017-r003,1,17,2018,rescind,270364845,-30000,Queens Law Associates Not-For-Profit Corporation,rescission,not_found,
+fy18-tr01-p017-r003,1,17,2018,rescind,270364845,-30000,Queens Law Associates Not-For-Profit Corporation,rescission,schedule_c,
 fy18-tr01-p017-r004,1,17,2018,designate,364391337,5000,"Battalion Pentecostal Assembly, Inc.",matched,cleared,523
 fy18-tr01-p017-r005,1,17,2018,designate,133709095,5000,"Sheltering Arms Children and Family Services, Inc.",matched,cleared,7573
 fy18-tr01-p017-r006,1,17,2018,designate,454926515,10000,"Rockaway Youth Task Force, Inc.",unmatched,later_rescinded,
 fy18-tr01-p017-r007,1,17,2018,designate,841622031,10000,Ocean Bay Community Development Corp.,matched,cleared,6304
-fy18-tr01-p018-r001,1,18,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,not_found,
+fy18-tr01-p018-r001,1,18,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,schedule_c,
 fy18-tr01-p018-r002,1,18,2018,designate,132612524,5000,"Fund for the City of New York, Inc.",matched,cleared,3438
 fy18-tr01-p019-r003,1,19,2018,designate,270889467,20000,"ARTs East New York, Inc. - Cultural After School Adventure (CASA) Initiative: East New York Family Academy",matched,cleared,351
 fy18-tr01-p019-r004,1,19,2018,designate,112547268,20000,"BRIC Arts | Media | Bklyn, Inc. - Ethan Allen School",matched,cleared,820
@@ -275,15 +275,15 @@ fy18-tr01-p023-r024,1,23,2018,rescind,237072915,-20000,"Brooklyn Arts Council, I
 fy18-tr01-p023-r025,1,23,2018,designate,237072915,20000,"Brooklyn Arts Council, Inc. - Public School 94K",matched,cleared,1067
 fy18-tr01-p023-r026,1,23,2018,rescind,237072915,-20000,"Brooklyn Arts Council, Inc.",rescission,earlier_resolution,
 fy18-tr01-p023-r027,1,23,2018,designate,237072915,20000,"Brooklyn Arts Council, Inc. - Public School 24k",matched,cleared,1068
-fy18-tr01-p023-r028,1,23,2018,rescind,113129249,-20000,"Brooklyn Youth Chorus Academy, Inc.",rescission,not_found,
+fy18-tr01-p023-r028,1,23,2018,rescind,113129249,-20000,"Brooklyn Youth Chorus Academy, Inc.",rescission,schedule_c,
 fy18-tr01-p023-r029,1,23,2018,designate,113129249,20000,"Brooklyn Youth Chorus Academy, Inc. - Public School 1K",matched,cleared,1255
-fy18-tr01-p023-r030,1,23,2018,rescind,133015965,-20000,"Dance Theatre Etcetera, Inc.",rescission,not_found,
+fy18-tr01-p023-r030,1,23,2018,rescind,133015965,-20000,"Dance Theatre Etcetera, Inc.",rescission,schedule_c,
 fy18-tr01-p023-r031,1,23,2018,designate,133015965,20000,"Dance Theatre Etcetera, Inc. - Public School 15K",matched,cleared,2251
-fy18-tr01-p023-r032,1,23,2018,rescind,271848709,-20000,Girl Be Heard Institute,rescission,not_found,
+fy18-tr01-p023-r032,1,23,2018,rescind,271848709,-20000,Girl Be Heard Institute,rescission,schedule_c,
 fy18-tr01-p023-r033,1,23,2018,designate,271848709,20000,Girl Be Heard Institute - Middle School 88K,matched,cleared,3554
 fy18-tr01-p023-r034,1,23,2018,rescind,133192793,-20000,"Midtown Management Group, Inc.",rescission,earlier_resolution,
 fy18-tr01-p023-r035,1,23,2018,designate,133192793,20000,"Midtown Management Group, Inc. - The Edward B Shallow School - Intermediate School 227K",matched,cleared,5321
-fy18-tr01-p023-r036,1,23,2018,rescind,132890779,-20000,"National Dance Institute, Inc.",rescission,not_found,
+fy18-tr01-p023-r036,1,23,2018,rescind,132890779,-20000,"National Dance Institute, Inc.",rescission,schedule_c,
 fy18-tr01-p023-r037,1,23,2018,designate,132890779,20000,"National Dance Institute, Inc. - Public School 10K",matched,cleared,5561
 fy18-tr01-p024-r002,1,24,2018,designate,461763706,40000,East New York Restoration Local Development Corporation,matched,cleared,2793
 fy18-tr01-p024-r003,1,24,2018,designate,111950787,20000,United Community Centers,unmatched,later_rescinded,
@@ -746,7 +746,7 @@ fy18-tr01-p036-r036,1,36,2018,designate,131624178,12000,"Selfhelp Community Serv
 fy18-tr01-p036-r037,1,36,2018,designate,510189327,12000,"Sunnyside Community Services, Inc.",unmatched,amount_differs,
 fy18-tr01-p036-r038,1,36,2018,designate,550882599,30000,"Older Adults Technology Services (OATS), Inc.",matched,cleared,6369
 fy18-tr01-p036-r039,1,36,2018,designate,030381957,30000,"Young Israel Programs, Inc.",matched,cleared,8796
-fy18-tr01-p037-r001,1,37,2018,rescind,461227433,-207000,"Good Shepherd Services, Inc.",rescission,not_found,
+fy18-tr01-p037-r001,1,37,2018,rescind,461227433,-207000,"Good Shepherd Services, Inc.",rescission,schedule_c,
 fy18-tr01-p037-r002,1,37,2018,designate,135598710,207000,"Good Shepherd Services, Inc.",matched,cleared,3649
 fy18-tr01-p038-r002,1,38,2018,designate,133212867,80333,"Broadway Housing Communities, Inc.",unmatched,amount_differs,
 fy18-tr01-p038-r003,1,38,2018,designate,111733454,155334,"Child Center of New York, Inc., The",unmatched,later_rescinded,
@@ -790,9 +790,9 @@ fy18-tr01-p042-r014,1,42,2018,designate,112436149,65000,Queens Economic Developm
 fy18-tr01-p044-r002,1,44,2018,designate,135564937,100000,"Jewish Board of Family and Children's Services, Inc.",matched,cleared,4449
 fy18-tr01-p044-r003,1,44,2018,designate,132608325,70309,"Epilepsy Institute, The",matched,cleared,2950
 fy18-tr01-p045-r002,1,45,2018,designate,132729071,85000,"Coalition for Behavioral Health, Inc., The",matched,cleared,1884
-fy18-tr01-p046-r001,1,46,2018,rescind,131847137,-55000,"Lincoln Center for the Performing Arts, Inc.",rescission,not_found,
+fy18-tr01-p046-r001,1,46,2018,rescind,131847137,-55000,"Lincoln Center for the Performing Arts, Inc.",rescission,schedule_c,
 fy18-tr01-p046-r002,1,46,2018,designate,131847137,55000,"Lincoln Center for the Performing Arts, Inc.",unmatched,later_rescinded,
-fy18-tr01-p047-r002,1,47,2018,rescind,472375867,-2150000,"A&G Early Child Care Community Network, Inc.",rescission,not_found,
+fy18-tr01-p047-r002,1,47,2018,rescind,472375867,-2150000,"A&G Early Child Care Community Network, Inc.",rescission,schedule_c,
 fy18-tr01-p047-r003,1,47,2018,designate,203108162,481197,"Nasry Michelen Day Care Center, Inc.",matched,cleared,5537
 fy18-tr01-p048-r002,1,48,2018,designate,141719016,70000,"Crenulated Company, Ltd., The",matched,cleared,2180
 fy18-tr01-p048-r003,1,48,2018,designate,455576128,370100,Historic Tappen Park Community Partnership,matched,cleared,4011
@@ -833,62 +833,62 @@ fy18-tr01-p059-r002,1,59,2017,designate,462946211,160000,Safe Passage Project Co
 fy18-tr01-p060-r001,1,60,2017,rescind,203108162,-504380,"Nasry Michelen Day Care Center, Inc.",rescission,not_found,
 fy18-tr01-p061-r001,1,61,2017,rescind,133611138,-17000,Harlem Artist Development League Especially for You - H.A.D.L.E.Y. Players,rescission,not_found,
 fy18-tr01-p061-r002,1,61,2017,designate,132683678,17000,"New Heritage Theatre Group, Inc.",matched,cleared,5356
-fy18-tr02-p016-r001,2,16,2018,rescind,113048765,-5000,"Ingersoll Resident Association, Inc.",rescission,not_found,
-fy18-tr02-p016-r002,2,16,2018,rescind,113556000,-8000,"Residents Association of Lafayette Gardens, Inc.",rescission,not_found,
-fy18-tr02-p016-r003,2,16,2018,rescind,112843920,-5000,"Walt Whitman Houses Tenant Association, Inc.",rescission,not_found,
+fy18-tr02-p016-r001,2,16,2018,rescind,113048765,-5000,"Ingersoll Resident Association, Inc.",rescission,schedule_c,
+fy18-tr02-p016-r002,2,16,2018,rescind,113556000,-8000,"Residents Association of Lafayette Gardens, Inc.",rescission,schedule_c,
+fy18-tr02-p016-r003,2,16,2018,rescind,112843920,-5000,"Walt Whitman Houses Tenant Association, Inc.",rescission,schedule_c,
 fy18-tr02-p016-r004,2,16,2018,designate,136400434,5000,New York City Housing Authority - Ingersoll Houses,matched,cleared,5903
 fy18-tr02-p016-r005,2,16,2018,designate,136400434,8000,New York City Housing Authority - Lafayette Gardens,matched,cleared,5933
 fy18-tr02-p016-r006,2,16,2018,designate,136400434,5000,New York City Housing Authority - Walt Whitman Houses,matched,cleared,5904
-fy18-tr02-p016-r007,2,16,2018,rescind,133682472,-5000,"Midori Foundation, Inc.",rescission,partial,
+fy18-tr02-p016-r007,2,16,2018,rescind,133682472,-5000,"Midori Foundation, Inc.",rescission,schedule_c,
 fy18-tr02-p016-r008,2,16,2018,designate,136400434,5000,New York City Housing Authority - Frederick E. Samuels Resdient Association-MHOP,matched,cleared,5905
-fy18-tr02-p016-r009,2,16,2018,rescind,136400434,-500,New York City Housing Authority - LaGuardia 282 Cherry TA,rescission,partial,
+fy18-tr02-p016-r009,2,16,2018,rescind,136400434,-500,New York City Housing Authority - LaGuardia 282 Cherry TA,rescission,schedule_c,
 fy18-tr02-p016-r010,2,16,2018,designate,136400434,500,New York City Housing Authority - LaGuardia Houses TA,matched,cleared,5768
-fy18-tr02-p016-r011,2,16,2018,rescind,133912768,-5000,"Publicolor, Inc.",rescission,not_found,
+fy18-tr02-p016-r011,2,16,2018,rescind,133912768,-5000,"Publicolor, Inc.",rescission,schedule_c,
 fy18-tr02-p016-r012,2,16,2018,designate,133912768,5000,"Publicolor, Inc.",matched,cleared,6735
-fy18-tr02-p016-r013,2,16,2018,rescind,131635251,-5000,"Actors Fund of America, The",rescission,partial,
+fy18-tr02-p016-r013,2,16,2018,rescind,131635251,-5000,"Actors Fund of America, The",rescission,schedule_c,
 fy18-tr02-p016-r014,2,16,2018,designate,131635251,5000,"Actors Fund of America, The",matched,cleared,80
-fy18-tr02-p016-r015,2,16,2018,rescind,472852025,-100000,"History UnErased, Inc.",rescission,not_found,
+fy18-tr02-p016-r015,2,16,2018,rescind,472852025,-100000,"History UnErased, Inc.",rescission,schedule_c,
 fy18-tr02-p016-r016,2,16,2018,designate,472852025,100000,"History UnErased, Inc.",matched,cleared,4012
-fy18-tr02-p016-r017,2,16,2018,rescind,133236281,-5000,Hunter College High School PTA,rescission,not_found,
+fy18-tr02-p016-r017,2,16,2018,rescind,133236281,-5000,Hunter College High School PTA,rescission,schedule_c,
 fy18-tr02-p016-r018,2,16,2018,designate,133236281,5000,Hunter College High School PTA,matched,cleared,4158
-fy18-tr02-p016-r019,2,16,2018,rescind,133236281,-3500,Hunter College High School PTA,rescission,partial,
+fy18-tr02-p016-r019,2,16,2018,rescind,133236281,-3500,Hunter College High School PTA,rescission,schedule_c,
 fy18-tr02-p016-r020,2,16,2018,designate,133236281,3500,Hunter College High School PTA,matched,cleared,4157
-fy18-tr02-p016-r021,2,16,2018,rescind,464361220,-5000,Charter High School for Law and Social Justice,rescission,not_found,
+fy18-tr02-p016-r021,2,16,2018,rescind,464361220,-5000,Charter High School for Law and Social Justice,rescission,schedule_c,
 fy18-tr02-p016-r022,2,16,2018,designate,464361220,5000,Charter High School for Law and Social Justice,matched,cleared,1577
-fy18-tr02-p016-r023,2,16,2018,rescind,272157824,-5000,"Talk Therapy Television, Inc.",rescission,not_found,
+fy18-tr02-p016-r023,2,16,2018,rescind,272157824,-5000,"Talk Therapy Television, Inc.",rescission,schedule_c,
 fy18-tr02-p016-r024,2,16,2018,designate,272157824,5000,"Talk Therapy Television, Inc.",unmatched,later_rescinded,
-fy18-tr02-p016-r025,2,16,2018,rescind,112925587,-7000,Jackson Heights Beautification Group,rescission,not_found,
+fy18-tr02-p016-r025,2,16,2018,rescind,112925587,-7000,Jackson Heights Beautification Group,rescission,schedule_c,
 fy18-tr02-p016-r026,2,16,2018,designate,112925587,7000,Jackson Heights Beautification Group,matched,cleared,4294
 fy18-tr02-p016-r027,2,16,2018,rescind,131624015,-5000,Boy Scouts of America - Greater New York Council,rescission,earlier_resolution,
 fy18-tr02-p016-r028,2,16,2018,designate,260092086,5000,FAN4Kids,matched,cleared,2990
-fy18-tr02-p016-r029,2,16,2018,rescind,133556132,-25000,"Community Health Action of Staten Island, Inc.",rescission,not_found,
+fy18-tr02-p016-r029,2,16,2018,rescind,133556132,-25000,"Community Health Action of Staten Island, Inc.",rescission,schedule_c,
 fy18-tr02-p016-r030,2,16,2018,designate,463358895,25000,"Pride Center of Staten Island, Inc.",matched,cleared,6668
-fy18-tr02-p016-r031,2,16,2018,rescind,205751217,-5000,"Make Music New York, Inc.",rescission,not_found,
+fy18-tr02-p016-r031,2,16,2018,rescind,205751217,-5000,"Make Music New York, Inc.",rescission,schedule_c,
 fy18-tr02-p016-r032,2,16,2018,designate,205751217,5000,"Make Music New York, Inc.",matched,cleared,4962
-fy18-tr02-p016-r033,2,16,2018,rescind,132638292,-5000,"Little Orchestra Society-Orpheon, Inc., The",rescission,partial,
+fy18-tr02-p016-r033,2,16,2018,rescind,132638292,-5000,"Little Orchestra Society-Orpheon, Inc., The",rescission,schedule_c,
 fy18-tr02-p016-r034,2,16,2018,designate,141813190,5000,"Innovative Charitable Initiatives, Inc.",unmatched,later_rescinded,
-fy18-tr02-p016-r035,2,16,2018,rescind,133109387,-5000,Mosholu Preservation Corporation,rescission,not_found,
+fy18-tr02-p016-r035,2,16,2018,rescind,133109387,-5000,Mosholu Preservation Corporation,rescission,partial,
 fy18-tr02-p016-r036,2,16,2018,designate,133877808,5000,Mosholu-Jerome East Gun Hill Road District Management Association,matched,cleared,5412
-fy18-tr02-p016-r037,2,16,2018,rescind,132725423,-24800,Wildcat Service Corporation,rescission,partial,
+fy18-tr02-p016-r037,2,16,2018,rescind,132725423,-24800,Wildcat Service Corporation,rescission,schedule_c,
 fy18-tr02-p016-r038,2,16,2018,designate,136400434,8265,"New York City Housing Authority - Ravenswood Residents Association, Inc.",unmatched,amount_differs,
 fy18-tr02-p016-r039,2,16,2018,designate,136400434,8265,New York City Housing Authority - Queensbridge Tenant's Association,unmatched,amount_differs,
 fy18-tr02-p016-r040,2,16,2018,designate,136400434,8270,New York City Housing Authority - Woodside Houses Tenants Association,unmatched,amount_differs,
-fy18-tr02-p016-r041,2,16,2018,rescind,237158715,-3500,Medicine Show Theatre Ensemble,rescission,not_found,
+fy18-tr02-p016-r041,2,16,2018,rescind,237158715,-3500,Medicine Show Theatre Ensemble,rescission,schedule_c,
 fy18-tr02-p016-r042,2,16,2018,designate,136400434,3500,Department of Education - Public School 84M,matched,cleared,2379
-fy18-tr02-p016-r043,2,16,2018,rescind,112665181,-115000,"Jewish Community Council of Greater Coney Island, Inc.",rescission,partial,
+fy18-tr02-p016-r043,2,16,2018,rescind,112665181,-115000,"Jewish Community Council of Greater Coney Island, Inc.",rescission,schedule_c,
 fy18-tr02-p016-r044,2,16,2018,designate,112665181,115000,"Jewish Community Council of Greater Coney Island, Inc.",matched,cleared,4527
-fy18-tr02-p017-r001,2,17,2018,rescind,135591750,-5000,"Boys Club of New York, Inc., The",rescission,not_found,
+fy18-tr02-p017-r001,2,17,2018,rescind,135591750,-5000,"Boys Club of New York, Inc., The",rescission,schedule_c,
 fy18-tr02-p017-r002,2,17,2018,designate,133638436,5000,"Creative Arts Workshops for Kids, Inc.",matched,cleared,2164
-fy18-tr02-p017-r003,2,17,2018,rescind,134085631,-15000,"JLSC Educational Tour Bus, Inc.",rescission,not_found,
+fy18-tr02-p017-r003,2,17,2018,rescind,134085631,-15000,"JLSC Educational Tour Bus, Inc.",rescission,schedule_c,
 fy18-tr02-p017-r004,2,17,2018,designate,113249055,5000,"Bangladesh Institute of Performing Arts, Inc.",unmatched,later_rescinded,
 fy18-tr02-p017-r005,2,17,2018,designate,113192966,5000,"Long Island Gay and Lesbian Youth, Inc.",matched,cleared,4906
 fy18-tr02-p017-r006,2,17,2018,designate,132612524,5000,"Fund for the City of New York, Inc.",matched,cleared,3436
-fy18-tr02-p018-r001,2,18,2018,rescind,205960877,-5000,"Boys Town New York, Inc.",rescission,not_found,
+fy18-tr02-p018-r001,2,18,2018,rescind,205960877,-5000,"Boys Town New York, Inc.",rescission,schedule_c,
 fy18-tr02-p018-r002,2,18,2018,designate,131624015,5000,Boy Scouts of America - Greater New York Council,matched,cleared,765
-fy18-tr02-p018-r003,2,18,2018,rescind,136119036,-7000,"Chess-in-the-Schools, Inc.",rescission,partial,
+fy18-tr02-p018-r003,2,18,2018,rescind,136119036,-7000,"Chess-in-the-Schools, Inc.",rescission,schedule_c,
 fy18-tr02-p018-r004,2,18,2018,designate,133912768,2000,"Publicolor, Inc.",matched,cleared,6733
 fy18-tr02-p018-r005,2,18,2018,designate,132765465,5000,"Council on the Environment, Inc.",matched,cleared,2133
-fy18-tr02-p018-r006,2,18,2018,rescind,205960877,-5000,"Boys Town New York, Inc.",rescission,not_found,
+fy18-tr02-p018-r006,2,18,2018,rescind,205960877,-5000,"Boys Town New York, Inc.",rescission,schedule_c,
 fy18-tr02-p018-r007,2,18,2018,designate,135591750,5000,"Boys Club of New York, Inc., The",matched,cleared,793
 fy18-tr02-p019-r002,2,19,2018,designate,421727647,20000,IlluminArt Productions - Intermediate School 63R,matched,cleared,4188
 fy18-tr02-p019-r003,2,19,2018,designate,133047206,20000,Marquis Studios Ltd. - Public School 1R,matched,cleared,5058
@@ -954,9 +954,9 @@ fy18-tr02-p020-r016,2,20,2018,designate,112692485,20000,"Sesame Flyers Internati
 fy18-tr02-p020-r017,2,20,2018,designate,135562374,20000,University Settlement Society of New York - Public School 067K,unmatched,amount_differs,
 fy18-tr02-p020-r018,2,20,2018,rescind,461842768,-20000,"USA Bangladeshi Organization, Inc. - Public School 171 - Patrick Henry School",rescission,earlier_resolution,
 fy18-tr02-p020-r019,2,20,2018,designate,136400434,20000,Department of Cultural Affairs,unmatched,later_rescinded,
-fy18-tr02-p020-r020,2,20,2018,rescind,132999528,-20000,"Bronx Dance Theatre, Inc. - Public School 036 Unionport",rescission,not_found,
+fy18-tr02-p020-r020,2,20,2018,rescind,132999528,-20000,"Bronx Dance Theatre, Inc. - Public School 036 Unionport",rescission,schedule_c,
 fy18-tr02-p020-r021,2,20,2018,designate,133997265,20000,Arthur Aviles Typical Theatre - Public School 36X - Unionport,matched,cleared,327
-fy18-tr02-p020-r022,2,20,2018,rescind,132999528,-20000,"Bronx Dance Theatre, Inc. - Public School 069 Journey Prep School",rescission,not_found,
+fy18-tr02-p020-r022,2,20,2018,rescind,132999528,-20000,"Bronx Dance Theatre, Inc. - Public School 069 Journey Prep School",rescission,schedule_c,
 fy18-tr02-p020-r023,2,20,2018,designate,133520970,20000,"Children's Museum of the Arts, Inc. - Public School 69X - Journey Prep School",matched,cleared,1676
 fy18-tr02-p020-r024,2,20,2018,rescind,131624124,-20000,New York Historical Society - Manhattan Hunter Science High School,rescission,earlier_resolution,
 fy18-tr02-p020-r025,2,20,2018,designate,131624124,20000,New York Historical Society - Public School 84M,matched,cleared,6010
@@ -1070,7 +1070,7 @@ fy18-tr02-p024-r002,2,24,2018,designate,132620896,45000,Jewish Association for S
 fy18-tr02-p024-r003,2,24,2018,designate,133609811,53074,Korean American Family Services,matched,cleared,4677
 fy18-tr02-p024-r004,2,24,2018,rescind,132738818,-30000,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",rescission,earlier_resolution,
 fy18-tr02-p024-r005,2,24,2018,designate,133286250,30000,"New York Asian Women's Center, Inc.",matched,cleared,5692
-fy18-tr02-p024-r006,2,24,2018,rescind,111733454,-10000,"Child Center of New York, Inc., The",rescission,partial,
+fy18-tr02-p024-r006,2,24,2018,rescind,111733454,-10000,"Child Center of New York, Inc., The",rescission,schedule_c,
 fy18-tr02-p025-r002,2,25,2018,designate,133524533,15490,Eger Health Care and Rehabilitation Center,matched,cleared,2879
 fy18-tr02-p025-r003,2,25,2018,designate,132778244,10000,"Staten Island Community Services Friendship Clubs, Inc. - Great Kills Senior Center",matched,cleared,7879
 fy18-tr02-p025-r004,2,25,2018,designate,132778244,10000,"Staten Island Community Services Friendship Clubs, Inc. - Mount Loretto Friendship Club",matched,cleared,7880
@@ -1311,7 +1311,7 @@ fy18-tr02-p033-r013,2,33,2018,designate,134051235,15000,"Film Fleadh Foundation,
 fy18-tr02-p033-r014,2,33,2018,designate,237448611,20000,"Thalia Spanish Theatre, Inc.",matched,cleared,8098
 fy18-tr02-p033-r015,2,33,2018,designate,134137551,20000,"Topaz Arts, Inc.",matched,cleared,8124
 fy18-tr02-p033-r016,2,33,2018,designate,270521135,15000,"Ayazamana Cultural Center, Inc.",matched,cleared,482
-fy18-tr02-p034-r001,2,34,2018,rescind,261385792,-109000,"Bronx Freedom Fund, Inc., The",rescission,not_found,
+fy18-tr02-p034-r001,2,34,2018,rescind,261385792,-109000,"Bronx Freedom Fund, Inc., The",rescission,schedule_c,
 fy18-tr02-p034-r003,2,34,2018,designate,383974312,1030000,"Liberty Fund, Inc.",matched,cleared,4831
 fy18-tr02-p034-r004,2,34,2018,designate,132900682,125000,New York City Criminal Justice Agency,matched,cleared,5748
 fy18-tr02-p034-r005,2,34,2018,designate,131941627,50000,"Vera Institute of Justice, Inc.",matched,cleared,8398
@@ -1440,22 +1440,22 @@ fy18-tr02-p048-r002,2,48,2018,designate,112444676,25000,The Center for Anti-Viol
 fy18-tr02-p048-r003,2,48,2018,designate,237085442,125000,Legal Momentum,matched,cleared,4781
 fy18-tr02-p048-r004,2,48,2018,designate,136127348,25000,"Door - A Center of Alternatives, Inc., The",matched,cleared,2714
 fy18-tr02-p049-r002,2,49,2018,designate,113604970,18000,"NY Writer's Coalition, Inc. - Brooklyn East Collegiate (K780)",matched,cleared,6290
-fy18-tr02-p050-r001,2,50,2018,rescind,133893536,-120000,CUNY Creative Arts Team,rescission,not_found,
+fy18-tr02-p050-r001,2,50,2018,rescind,133893536,-120000,CUNY Creative Arts Team,rescission,partial,
 fy18-tr02-p050-r002,2,50,2018,rescind,800612019,-40000,"East Flatbush Village, Inc.",rescission,schedule_c,
 fy18-tr02-p050-r003,2,50,2018,rescind,135675643,-80000,Edwin Gould Services for Children and Famlies,rescission,schedule_c,
 fy18-tr02-p050-r004,2,50,2018,rescind,132612524,-80000,"Fund for the City of New York, Inc.",rescission,partial,
-fy18-tr02-p050-r005,2,50,2018,rescind,453359451,-40000,"Gangstas Making Astronomical Community Changes, Inc.",rescission,not_found,
-fy18-tr02-p050-r006,2,50,2018,rescind,113027538,-40000,"Ifetayo Cultural Arts Academy, Inc.",rescission,not_found,
+fy18-tr02-p050-r005,2,50,2018,rescind,453359451,-40000,"Gangstas Making Astronomical Community Changes, Inc.",rescission,schedule_c,
+fy18-tr02-p050-r006,2,50,2018,rescind,113027538,-40000,"Ifetayo Cultural Arts Academy, Inc.",rescission,schedule_c,
 fy18-tr02-p050-r007,2,50,2018,rescind,111729398,-40000,"Jacob A. Riis Neighborhood Settlement, Inc.",rescission,schedule_c,
 fy18-tr02-p050-r008,2,50,2018,rescind,112665181,-80000,"Jewish Community Council of Greater Coney Island, Inc.",rescission,schedule_c,
-fy18-tr02-p050-r009,2,50,2018,rescind,200814999,-80000,"Life Camp, Inc.",rescission,not_found,
+fy18-tr02-p050-r009,2,50,2018,rescind,200814999,-80000,"Life Camp, Inc.",rescission,schedule_c,
 fy18-tr02-p050-r010,2,50,2018,rescind,030553092,-160000,"Man Up, Inc.",rescission,schedule_c,
-fy18-tr02-p050-r011,2,50,2018,rescind,237085239,-80000,"New York Center for Interpersonal Development, Inc.",rescission,not_found,
+fy18-tr02-p050-r011,2,50,2018,rescind,237085239,-80000,"New York Center for Interpersonal Development, Inc.",rescission,schedule_c,
 fy18-tr02-p050-r012,2,50,2018,rescind,451964622,-80000,"New York Peace Institute, Inc.",rescission,schedule_c,
 fy18-tr02-p050-r013,2,50,2018,rescind,135596811,-40000,"Police Athletic League, Inc.",rescission,schedule_c,
 fy18-tr02-p050-r014,2,50,2018,rescind,132912963,-40000,"SCAN-New York Volunteer Parent-Aides Association, Inc.",rescission,partial,
 fy18-tr02-p050-r015,2,50,2018,rescind,260149521,-40000,"Street Corner Resources, Inc.",rescission,schedule_c,
-fy18-tr02-p050-r016,2,50,2018,rescind,132969182,-120000,"Urban Youth Alliance International, Inc.",rescission,not_found,
+fy18-tr02-p050-r016,2,50,2018,rescind,132969182,-120000,"Urban Youth Alliance International, Inc.",rescission,partial,
 fy18-tr02-p050-r017,2,50,2018,designate,133893536,40000,CUNY Creative Arts Team -Boys and Girls HS - 16K455,unmatched,later_rescinded,
 fy18-tr02-p050-r018,2,50,2018,designate,133893536,40000,CUNY Creative Arts Team - PS 308 - 16K308,unmatched,later_rescinded,
 fy18-tr02-p050-r019,2,50,2018,designate,133893536,40000,CUNY Creative Arts Team - IS 204 - 30Q204,unmatched,later_rescinded,
@@ -1488,15 +1488,15 @@ fy18-tr02-p051-r014,2,51,2018,designate,132969182,40000,"Urban Youth Alliance In
 fy18-tr02-p051-r015,2,51,2018,rescind,132612524,-40000,"Fund for the City of New York, Inc.",rescission,earlier_resolution,
 fy18-tr02-p051-r016,2,51,2018,designate,132612524,40000,"Fund for the City of New York, Inc. - Launch Charter",matched,cleared,3469
 fy18-tr02-p051-r017,2,51,2018,rescind,112870465,-35000,"Berean Community And Family Life Center, Inc.",rescission,schedule_c,
-fy18-tr02-p051-r018,2,51,2018,rescind,131624169,-35000,"Floating Hospital, Inc., The",rescission,not_found,
+fy18-tr02-p051-r018,2,51,2018,rescind,131624169,-35000,"Floating Hospital, Inc., The",rescission,schedule_c,
 fy18-tr02-p051-r019,2,51,2018,rescind,132612524,-70000,"Fund for the City of New York, Inc.",rescission,schedule_c,
-fy18-tr02-p051-r020,2,51,2018,rescind,453359451,-35000,"Gangstas Making Astronomical Community Changes, Inc.",rescission,partial,
-fy18-tr02-p051-r021,2,51,2018,rescind,260847222,-65000,Harlem Mother's Stop Another Violent End (S.A.V.E.),rescission,not_found,
+fy18-tr02-p051-r020,2,51,2018,rescind,453359451,-35000,"Gangstas Making Astronomical Community Changes, Inc.",rescission,schedule_c,
+fy18-tr02-p051-r021,2,51,2018,rescind,260847222,-65000,Harlem Mother's Stop Another Violent End (S.A.V.E.),rescission,schedule_c,
 fy18-tr02-p051-r022,2,51,2018,rescind,112665181,-35000,"Jewish Community Council of Greater Coney Island, Inc.",rescission,schedule_c,
-fy18-tr02-p051-r023,2,51,2018,rescind,260894097,-35000,"Not Another Child, Inc.",rescission,not_found,
+fy18-tr02-p051-r023,2,51,2018,rescind,260894097,-35000,"Not Another Child, Inc.",rescission,schedule_c,
 fy18-tr02-p051-r024,2,51,2018,rescind,133709095,-35000,"Sheltering Arms Children and Family Services, Inc.",rescission,earlier_resolution,
 fy18-tr02-p051-r025,2,51,2018,rescind,131632530,-35000,"Union Settlement Association, Inc.",rescission,schedule_c,
-fy18-tr02-p051-r026,2,51,2018,rescind,132969182,-140000,"Urban Youth Alliance International, Inc.",rescission,not_found,
+fy18-tr02-p051-r026,2,51,2018,rescind,132969182,-140000,"Urban Youth Alliance International, Inc.",rescission,schedule_c,
 fy18-tr02-p051-r027,2,51,2018,designate,112870465,35000,"Berean Community And Family Life Center, Inc.",matched,cleared,606
 fy18-tr02-p051-r028,2,51,2018,designate,131624169,35000,"Floating Hospital, Inc., The",matched,cleared,3090
 fy18-tr02-p051-r029,2,51,2018,designate,132612524,70000,"Fund for the City of New York, Inc.",matched,cleared,3473
@@ -1562,33 +1562,33 @@ fy18-tr02-p063-r001,2,63,2017,rescind,203945728,-32941,"D and Y Youth Apprentice
 fy18-tr02-p063-r002,2,63,2017,designate,134169405,32941,"Building 13 Association, Inc.",matched,cleared,1200
 fy18-tr02-p064-r001,2,64,2017,rescind,132969182,-4000,"Urban Youth Alliance International, Inc. - Academy for Language and Tech. - 09X365",rescission,not_found,
 fy18-tr02-p064-r002,2,64,2017,designate,132969182,4000,"Urban Youth Alliance International, Inc. - School for Excellence - 09X404",unmatched,amount_differs,
-fy18-tr03-p015-r001,3,15,2018,rescind,131624225,-50000,Yeshiva University,rescission,partial,
+fy18-tr03-p015-r001,3,15,2018,rescind,131624225,-50000,Yeshiva University,rescission,schedule_c,
 fy18-tr03-p015-r002,3,15,2018,designate,131740114,50000,Montefiore Medical Center,unmatched,later_rescinded,
-fy18-tr03-p015-r003,3,15,2018,rescind,030381957,-3500,"Young Israel Programs, Inc.",rescission,partial,
+fy18-tr03-p015-r003,3,15,2018,rescind,030381957,-3500,"Young Israel Programs, Inc.",rescission,schedule_c,
 fy18-tr03-p015-r004,3,15,2018,designate,112665181,3500,Jewish Community Council of Greater Coney Island - Nonprofit Helpdesk,matched,cleared,4496
 fy18-tr03-p015-r005,3,15,2018,rescind,112665181,-3500,Jewish Community Council of Greater Coney Island - Nonprofit Helpdesk,rescission,earlier_resolution,
 fy18-tr03-p015-r006,3,15,2018,designate,112665181,3500,Jewish Community Council of Greater Coney Island - Nonprofit Helpdesk,unmatched,key_already_claimed,
-fy18-tr03-p015-r007,3,15,2018,rescind,136400434,-1000,New York City Housing Authority - Moore Houses Events,rescission,partial,
+fy18-tr03-p015-r007,3,15,2018,rescind,136400434,-1000,New York City Housing Authority - Moore Houses Events,rescission,schedule_c,
 fy18-tr03-p015-r008,3,15,2018,designate,136400434,1000,New York City Housing Authority - Morris Houses Events,matched,cleared,5770
-fy18-tr03-p015-r009,3,15,2018,rescind,262810489,-50000,WNET,rescission,not_found,
+fy18-tr03-p015-r009,3,15,2018,rescind,262810489,-50000,WNET,rescission,schedule_c,
 fy18-tr03-p015-r010,3,15,2018,designate,262810489,50000,WNET,matched,cleared,8699
-fy18-tr03-p015-r011,3,15,2018,rescind,200221451,-5000,Bailey's Café,rescission,not_found,
+fy18-tr03-p015-r011,3,15,2018,rescind,200221451,-5000,Bailey's Café,rescission,schedule_c,
 fy18-tr03-p015-r012,3,15,2018,designate,200221451,5000,Bailey's Café,matched,cleared,490
 fy18-tr03-p015-r013,3,15,2018,rescind,136400434,-3500,Department of Education - Public School 84M,rescission,earlier_resolution,
 fy18-tr03-p015-r014,3,15,2018,designate,136400434,3500,Department of Education - Public School 452M,matched,cleared,2378
-fy18-tr03-p015-r015,3,15,2018,rescind,112843233,-12000,Brighton Beach District Management Association,rescission,not_found,
+fy18-tr03-p015-r015,3,15,2018,rescind,112843233,-12000,Brighton Beach District Management Association,rescission,schedule_c,
 fy18-tr03-p015-r016,3,15,2018,designate,112843233,12000,Brighton Beach District Management Association,matched,cleared,860
-fy18-tr03-p015-r017,3,15,2018,rescind,132655001,-5000,Health and Hospitals Corporation,rescission,partial,
+fy18-tr03-p015-r017,3,15,2018,rescind,132655001,-5000,Health and Hospitals Corporation,rescission,schedule_c,
 fy18-tr03-p015-r018,3,15,2018,designate,136400434,5000,Queens Community Board #4,matched,cleared,6850
-fy18-tr03-p015-r019,3,15,2018,rescind,132658431,-6000,"Workers Defense League, Inc.",rescission,not_found,
+fy18-tr03-p015-r019,3,15,2018,rescind,132658431,-6000,"Workers Defense League, Inc.",rescission,schedule_c,
 fy18-tr03-p015-r020,3,15,2018,designate,132658431,6000,"Workers Defense League, Inc.",matched,cleared,8739
-fy18-tr03-p015-r021,3,15,2018,rescind,453665976,-15000,"Afro-Latin Jazz Alliance of New York, Inc.",rescission,partial,
+fy18-tr03-p015-r021,3,15,2018,rescind,453665976,-15000,"Afro-Latin Jazz Alliance of New York, Inc.",rescission,schedule_c,
 fy18-tr03-p015-r022,3,15,2018,designate,136400434,15000,Department of Cultural Affairs,matched,cleared,2302
-fy18-tr03-p015-r023,3,15,2018,rescind,133497284,-10000,"P.S. 75 Parent-Teacher Association, Ltd.",rescission,not_found,
+fy18-tr03-p015-r023,3,15,2018,rescind,133497284,-10000,"P.S. 75 Parent-Teacher Association, Ltd.",rescission,schedule_c,
 fy18-tr03-p015-r024,3,15,2018,designate,133497284,10000,"P.S. 75 Parent-Teacher Association, Ltd.",matched,cleared,6453
 fy18-tr03-p015-r025,3,15,2018,rescind,136400434,-1000,New York City Housing Authority - Moore Houses Events,rescission,earlier_resolution,
 fy18-tr03-p015-r026,3,15,2018,designate,136400434,1000,New York City Housing Authority - Morris Houses Events,matched,cleared,5771
-fy18-tr03-p015-r027,3,15,2018,rescind,113528680,-50000,"Wayside Out-Reach Development, Inc. (WORD)",rescission,not_found,
+fy18-tr03-p015-r027,3,15,2018,rescind,113528680,-50000,"Wayside Out-Reach Development, Inc. (WORD)",rescission,schedule_c,
 fy18-tr03-p015-r028,3,15,2018,designate,901013912,10000,CUNY School of Law Justice & Auxiliary Services Corporation,matched,cleared,2227
 fy18-tr03-p015-r029,3,15,2018,designate,113640507,10000,PTA New York Congress PS5,matched,pending,6719
 fy18-tr03-p015-r030,3,15,2018,designate,201056519,10000,Open Door Family Life Center,unmatched,later_rescinded,
@@ -1596,35 +1596,35 @@ fy18-tr03-p015-r031,3,15,2018,designate,133788986,10000,Animal Care and Control 
 fy18-tr03-p015-r032,3,15,2018,designate,462093140,10000,"Young Astronaut Council, Inc.",matched,cleared,8778
 fy18-tr03-p015-r033,3,15,2018,rescind,472167056,-20000,"Victory Music and Dance Company, Inc.",rescission,earlier_resolution,
 fy18-tr03-p015-r034,3,15,2018,designate,113462888,20000,Highland Park Community Development Corporation,matched,cleared,3979
-fy18-tr03-p015-r035,3,15,2018,rescind,113427470,-10000,"Nia Theatrical Production Company, Inc.",rescission,not_found,
+fy18-tr03-p015-r035,3,15,2018,rescind,113427470,-10000,"Nia Theatrical Production Company, Inc.",rescission,partial,
 fy18-tr03-p015-r036,3,15,2018,designate,133520970,5000,"Children's Museum of the Arts, Inc.",matched,cleared,1669
 fy18-tr03-p015-r037,3,15,2018,designate,320086097,5000,"Behind the Book, Inc.",matched,cleared,584
-fy18-tr03-p015-r038,3,15,2018,rescind,113427470,-10000,"Nia Theatrical Production Company, Inc.",rescission,not_found,
+fy18-tr03-p015-r038,3,15,2018,rescind,113427470,-10000,"Nia Theatrical Production Company, Inc.",rescission,partial,
 fy18-tr03-p015-r039,3,15,2018,designate,133505428,10000,"New York Legal Assistance Group, Inc.",matched,cleared,6062
-fy18-tr03-p015-r040,3,15,2018,rescind,205960877,-45000,"Boys Town New York, Inc.",rescission,not_found,
+fy18-tr03-p015-r040,3,15,2018,rescind,205960877,-45000,"Boys Town New York, Inc.",rescission,schedule_c,
 fy18-tr03-p015-r041,3,15,2018,designate,200176184,45000,"PortSide NewYork, Inc.",matched,cleared,6596
 fy18-tr03-p016-r001,3,16,2018,rescind,112665181,-3500,Jewish Community Council of Greater Coney Island,rescission,earlier_resolution,
 fy18-tr03-p016-r002,3,16,2018,designate,030381957,3500,"Young Israel Programs, Inc.",matched,cleared,8789
 fy18-tr03-p016-r003,3,16,2018,rescind,112300840,-15000,"Fort Greene Council, Inc. - Jazz 966",rescission,schedule_c,
 fy18-tr03-p016-r004,3,16,2018,designate,112300840,5000,"Fort Greene Council, Inc. - Willoughby Center",matched,cleared,3309
 fy18-tr03-p016-r005,3,16,2018,designate,112300840,10000,"Fort Greene Council, Inc. - Grace Agard",matched,cleared,3315
-fy18-tr03-p017-r001,3,17,2018,rescind,651217975,-10000,School Sisters of Notre Dame,rescission,not_found,
+fy18-tr03-p017-r001,3,17,2018,rescind,651217975,-10000,School Sisters of Notre Dame,rescission,schedule_c,
 fy18-tr03-p017-r002,3,17,2018,designate,680602829,10000,"One Stop Richmond Hill Community Center, Inc.",matched,cleared,6384
-fy18-tr03-p017-r003,3,17,2018,rescind,200019695,-5000,"Shooting Stars of Queens, Inc.",rescission,not_found,
+fy18-tr03-p017-r003,3,17,2018,rescind,200019695,-5000,"Shooting Stars of Queens, Inc.",rescission,schedule_c,
 fy18-tr03-p017-r004,3,17,2018,designate,200019695,5000,"Shooting Stars of Queens, Inc.",matched,cleared,7593
-fy18-tr03-p017-r005,3,17,2018,rescind,320119937,-6000,"Salvatore LaRussa Dance Company, Inc.",rescission,not_found,
+fy18-tr03-p017-r005,3,17,2018,rescind,320119937,-6000,"Salvatore LaRussa Dance Company, Inc.",rescission,schedule_c,
 fy18-tr03-p017-r006,3,17,2018,designate,320119937,6000,"Salvatore LaRussa Dance Company, Inc.",matched,cleared,7311
-fy18-tr03-p017-r007,3,17,2018,rescind,111981305,-9500,Saint Stanislaus Athletic Association,rescission,not_found,
+fy18-tr03-p017-r007,3,17,2018,rescind,111981305,-9500,Saint Stanislaus Athletic Association,rescission,schedule_c,
 fy18-tr03-p017-r008,3,17,2018,designate,111981305,9500,Saint Stanislaus Athletic Association,matched,cleared,7297
 fy18-tr03-p017-r009,3,17,2018,rescind,453023036,-4000,"2020 Vision for Schools, Inc.",rescission,partial,
 fy18-tr03-p017-r010,3,17,2018,designate,113388067,4000,"Families United, Inc.",matched,cleared,2980
 fy18-tr03-p017-r011,3,17,2018,rescind,111630780,-5000,Brooklyn Bureau of Community Services,rescission,schedule_c,
 fy18-tr03-p017-r012,3,17,2018,designate,331057846,5000,"Golf Elite League of Youth, Inc.",matched,pending,3625
-fy18-tr03-p017-r013,3,17,2018,rescind,043784543,-5000,"71st Precinct Community Council, Inc.",rescission,not_found,
+fy18-tr03-p017-r013,3,17,2018,rescind,043784543,-5000,"71st Precinct Community Council, Inc.",rescission,schedule_c,
 fy18-tr03-p017-r014,3,17,2018,designate,112778372,5000,Caribbean American Sports and Cultural Youth Movement (CASYM,matched,cleared,1343
-fy18-tr03-p018-r001,3,18,2018,rescind,473710354,-5000,"Parkside Empire, The | Flatbush Avenue Merchants Association, Inc.",rescission,not_found,
+fy18-tr03-p018-r001,3,18,2018,rescind,473710354,-5000,"Parkside Empire, The | Flatbush Avenue Merchants Association, Inc.",rescission,schedule_c,
 fy18-tr03-p018-r002,3,18,2018,designate,473710354,5000,"Parkside Empire, The | Flatbush Avenue Merchants Association, Inc.",unmatched,later_rescinded,
-fy18-tr03-p019-r001,3,19,2018,rescind,133104537,-225000,"Hetrick-Martin Institute, Inc.",rescission,partial,
+fy18-tr03-p019-r001,3,19,2018,rescind,133104537,-225000,"Hetrick-Martin Institute, Inc.",rescission,schedule_c,
 fy18-tr03-p019-r002,3,19,2018,designate,133104537,225000,"Hetrick-Martin Institute, Inc.",matched,cleared,3976
 fy18-tr03-p020-r001,3,20,2018,rescind,300475160,-20000,DIVAS for Social Justice - P.S. 206,rescission,earlier_resolution,
 fy18-tr03-p020-r002,3,20,2018,designate,472589237,20000,"RPGA Studio, Inc.- Public School 206Q",matched,cleared,7270
@@ -2503,7 +2503,7 @@ fy18-tr03-p044-r008,3,44,2018,designate,455192099,35000,"CaribBeing, Inc.",match
 fy18-tr03-p044-r009,3,44,2018,designate,342034041,40000,"Haiti Cultural Exchange, Inc.",matched,cleared,3811
 fy18-tr03-p044-r010,3,44,2018,designate,112692485,20000,"Sesame Flyers International, Inc.",matched,cleared,7538
 fy18-tr03-p044-r011,3,44,2018,designate,753046891,20000,"Council of Peoples Organization, Inc.",matched,cleared,2121
-fy18-tr03-p044-r012,3,44,2018,rescind,273402327,-5000,"Braata Productions, Inc.",rescission,partial,
+fy18-tr03-p044-r012,3,44,2018,rescind,273402327,-5000,"Braata Productions, Inc.",rescission,schedule_c,
 fy18-tr03-p044-r013,3,44,2018,designate,134051235,5000,"Film Fleadh Foundation, Inc.",matched,cleared,3041
 fy18-tr03-p045-r002,3,45,2018,designate,113167245,129500,"Arab-American Family Support Center, Inc., The",matched,cleared,312
 fy18-tr03-p045-r003,3,45,2018,designate,202508411,92500,"Sunset Park Health Council, Inc.",matched,cleared,8048
@@ -2584,7 +2584,7 @@ fy18-tr03-p057-r005,3,57,2018,designate,133709095,70000,"Sheltering Arms Childre
 fy18-tr03-p057-r006,3,57,2018,designate,135564937,165000,"Jewish Board of Family and Children's Services, Inc.",unmatched,amount_differs,
 fy18-tr03-p057-r007,3,57,2018,designate,112777066,45000,SCO Family of Services,unmatched,later_rescinded,
 fy18-tr03-p057-r008,3,57,2018,designate,474998799,20000,"City Living NY, Inc.",unmatched,later_rescinded,
-fy18-tr03-p058-r002,3,58,2018,rescind,141885605,-14600,"Take Wing And Soar Productions, Inc.",rescission,not_found,
+fy18-tr03-p058-r002,3,58,2018,rescind,141885605,-14600,"Take Wing And Soar Productions, Inc.",rescission,schedule_c,
 fy18-tr03-p058-r003,3,58,2018,designate,133985592,29800,"LAByrinth, Inc.",matched,cleared,4718
 fy18-tr03-p058-r004,3,58,2018,designate,710991159,14600,"ID Studio Theater Performance and Research Center, Inc.",matched,cleared,4168
 fy18-tr03-p058-r005,3,58,2018,designate,272594048,14600,Noor Theatre,matched,pending,6222
@@ -2623,23 +2623,23 @@ fy18-tr03-p069-r001,3,69,2017,rescind,113397470,-220000,"Rochdale Village Social
 fy18-tr03-p069-r002,3,69,2017,designate,132620896,220000,Jewish Association for Services for the Aged (JASA) - Rochdale Village NORC,matched,cleared,4177
 fy18-tr04-p015-r001,4,15,2018,rescind,132612524,-5000,"Fund for the City of New York, Inc. - Bronx Community Solutions",rescission,earlier_resolution,
 fy18-tr04-p015-r002,4,15,2018,designate,132612524,5000,"Fund for the City of New York, Inc. - Bronx Community Solutions",matched,cleared,3434
-fy18-tr04-p015-r003,4,15,2018,rescind,131847137,-5000,"Lincoln Center for the Performing Arts, Inc.",rescission,partial,
+fy18-tr04-p015-r003,4,15,2018,rescind,131847137,-5000,"Lincoln Center for the Performing Arts, Inc.",rescission,schedule_c,
 fy18-tr04-p015-r004,4,15,2018,designate,136400434,5000,Department of Education - Martin Van Buren High School - (School Rebranding),matched,cleared,2386
 fy18-tr04-p015-r005,4,15,2018,rescind,141813190,-5000,"Innovative Charitable Initiatives, Inc.",rescission,earlier_resolution,
 fy18-tr04-p015-r006,4,15,2018,designate,141813190,5000,"Innovative Charitable Initiatives, Inc. - Public School 77X",matched,cleared,4221
-fy18-tr04-p015-r007,4,15,2018,rescind,131740024,-25000,"Riverdale Neighborhood House, Inc.",rescission,not_found,
+fy18-tr04-p015-r007,4,15,2018,rescind,131740024,-25000,"Riverdale Neighborhood House, Inc.",rescission,schedule_c,
 fy18-tr04-p015-r008,4,15,2018,designate,131740024,25000,"Riverdale Neighborhood House, Inc. - Telephone Reassurance Program",matched,cleared,7190
-fy18-tr04-p015-r009,4,15,2018,rescind,133530740,-7000,"National Black Leadership Commission on AIDS, Inc.",rescission,not_found,
+fy18-tr04-p015-r009,4,15,2018,rescind,133530740,-7000,"National Black Leadership Commission on AIDS, Inc.",rescission,partial,
 fy18-tr04-p015-r010,4,15,2018,designate,136400434,7000,New York City Housing Authority - Tompkins Houses Resident Association,matched,cleared,5931
-fy18-tr04-p015-r011,4,15,2018,rescind,136400434,-1500,Department of Education - Frances Perkins Academy,rescission,partial,
+fy18-tr04-p015-r011,4,15,2018,rescind,136400434,-1500,Department of Education - Frances Perkins Academy,rescission,schedule_c,
 fy18-tr04-p015-r012,4,15,2018,designate,136400434,1500,Department of Education - Automotive High School,matched,cleared,2336
-fy18-tr04-p015-r013,4,15,2018,rescind,134114145,-5000,"Community-Word Project, Inc.",rescission,partial,
-fy18-tr04-p015-r014,4,15,2018,rescind,132903183,-5000,"Green Guerillas, Inc.",rescission,partial,
-fy18-tr04-p015-r015,4,15,2018,rescind,550882599,-5000,"Older Adults Technology Services (OATS), Inc.",rescission,partial,
+fy18-tr04-p015-r013,4,15,2018,rescind,134114145,-5000,"Community-Word Project, Inc.",rescission,schedule_c,
+fy18-tr04-p015-r014,4,15,2018,rescind,132903183,-5000,"Green Guerillas, Inc.",rescission,schedule_c,
+fy18-tr04-p015-r015,4,15,2018,rescind,550882599,-5000,"Older Adults Technology Services (OATS), Inc.",rescission,schedule_c,
 fy18-tr04-p015-r016,4,15,2018,designate,134091062,15000,"Read Alliance, Inc.",matched,cleared,7040
-fy18-tr04-p015-r017,4,15,2018,rescind,133109387,-2000,Mosholu Preservation Corporation,rescission,not_found,
+fy18-tr04-p015-r017,4,15,2018,rescind,133109387,-2000,Mosholu Preservation Corporation,rescission,schedule_c,
 fy18-tr04-p015-r018,4,15,2018,designate,136400434,2000,New York City Housing Authority - Bailey Houses,matched,cleared,5827
-fy18-tr04-p015-r019,4,15,2018,rescind,136400434,-1200,Department of Parks and Recreation,rescission,partial,
+fy18-tr04-p015-r019,4,15,2018,rescind,136400434,-1200,Department of Parks and Recreation,rescission,schedule_c,
 fy18-tr04-p015-r020,4,15,2018,designate,131740011,1200,Wildlife Conservation Society - Bronx Zoo,matched,cleared,8650
 fy18-tr04-p015-r021,4,15,2018,rescind,111646313,-5000,St. Mel Leisure Club,rescission,schedule_c,
 fy18-tr04-p015-r022,4,15,2018,designate,111646313,5000,Roman Catholic Church of St. Mel,matched,cleared,7237
@@ -2652,33 +2652,33 @@ fy18-tr04-p015-r028,4,15,2018,rescind,136400434,-10000,New York City Housing Aut
 fy18-tr04-p015-r029,4,15,2018,designate,136400434,10000,"Presbyterian Senior Services, Inc. - Andrew Jackson Neighborhood Senior Center",unmatched,city_ein_name_mismatch,
 fy18-tr04-p015-r030,4,15,2018,rescind,136400434,-10000,New York City Housing Authority - Carmen Parsons Senior Center,rescission,earlier_resolution,
 fy18-tr04-p015-r031,4,15,2018,designate,136400434,10000,Department for the Aging - Carmen Parsons Senior Center,matched,cleared,2291
-fy18-tr04-p015-r032,4,15,2018,rescind,116083182,-75000,Bedford Stuyvesant Restoration Corporation,rescission,partial,
+fy18-tr04-p015-r032,4,15,2018,rescind,116083182,-75000,Bedford Stuyvesant Restoration Corporation,rescission,schedule_c,
 fy18-tr04-p015-r033,4,15,2018,designate,116083182,75000,Bedford Stuyvesant Restoration Corporation,matched,cleared,573
-fy18-tr04-p015-r034,4,15,2018,rescind,113250772,-5000,Bridge Street Development Corporation,rescission,partial,
+fy18-tr04-p015-r034,4,15,2018,rescind,113250772,-5000,Bridge Street Development Corporation,rescission,schedule_c,
 fy18-tr04-p015-r035,4,15,2018,designate,113250772,5000,Bridge Street Development Corporation,matched,cleared,834
-fy18-tr04-p016-r001,4,16,2018,rescind,113306111,-15000,"Business Outreach Center Network, Inc.",rescission,partial,
+fy18-tr04-p016-r001,4,16,2018,rescind,113306111,-15000,"Business Outreach Center Network, Inc.",rescission,schedule_c,
 fy18-tr04-p016-r002,4,16,2018,designate,113306111,15000,"Business Outreach Center Network, Inc.",unmatched,later_rescinded,
-fy18-tr04-p016-r003,4,16,2018,rescind,113306111,-50000,"Business Outreach Center Network, Inc.",rescission,partial,
+fy18-tr04-p016-r003,4,16,2018,rescind,113306111,-50000,"Business Outreach Center Network, Inc.",rescission,schedule_c,
 fy18-tr04-p016-r004,4,16,2018,designate,113306111,50000,"Business Outreach Center Network, Inc.",unmatched,later_rescinded,
-fy18-tr04-p016-r005,4,16,2018,rescind,110559220,-5000,"Chamber of Commerce Borough of Queens, Inc.",rescission,partial,
+fy18-tr04-p016-r005,4,16,2018,rescind,110559220,-5000,"Chamber of Commerce Borough of Queens, Inc.",rescission,schedule_c,
 fy18-tr04-p016-r006,4,16,2018,designate,110559220,5000,"Chamber of Commerce Borough of Queens, Inc.",matched,cleared,1553
-fy18-tr04-p016-r007,4,16,2018,rescind,141845651,-6000,"New York Women's Chamber of Commerce, Inc.",rescission,partial,
+fy18-tr04-p016-r007,4,16,2018,rescind,141845651,-6000,"New York Women's Chamber of Commerce, Inc.",rescission,schedule_c,
 fy18-tr04-p016-r008,4,16,2018,designate,141845651,6000,"New York Women's Chamber of Commerce, Inc.",unmatched,later_rescinded,
-fy18-tr04-p016-r009,4,16,2018,rescind,141845651,-5000,"New York Women's Chamber of Commerce, Inc.",rescission,partial,
+fy18-tr04-p016-r009,4,16,2018,rescind,141845651,-5000,"New York Women's Chamber of Commerce, Inc.",rescission,schedule_c,
 fy18-tr04-p016-r010,4,16,2018,designate,141845651,5000,"New York Women's Chamber of Commerce, Inc.",matched,cleared,6175
-fy18-tr04-p016-r011,4,16,2018,rescind,111630822,-10000,Pratt Institute,rescission,not_found,
+fy18-tr04-p016-r011,4,16,2018,rescind,111630822,-10000,Pratt Institute,rescission,schedule_c,
 fy18-tr04-p016-r012,4,16,2018,designate,111630822,10000,Pratt Institute,matched,cleared,6644
-fy18-tr04-p016-r013,4,16,2018,rescind,131624154,-10000,Regional Plan Association,rescission,not_found,
+fy18-tr04-p016-r013,4,16,2018,rescind,131624154,-10000,Regional Plan Association,rescission,schedule_c,
 fy18-tr04-p016-r014,4,16,2018,designate,131624154,10000,Regional Plan Association,matched,cleared,7082
-fy18-tr04-p016-r015,4,16,2018,rescind,131624154,-5000,Regional Plan Association,rescission,partial,
+fy18-tr04-p016-r015,4,16,2018,rescind,131624154,-5000,Regional Plan Association,rescission,schedule_c,
 fy18-tr04-p016-r016,4,16,2018,designate,131624154,5000,Regional Plan Association,matched,cleared,7081
-fy18-tr04-p016-r017,4,16,2018,rescind,133706442,-25000,Staten Island Economic Development Corporation,rescission,not_found,
+fy18-tr04-p016-r017,4,16,2018,rescind,133706442,-25000,Staten Island Economic Development Corporation,rescission,schedule_c,
 fy18-tr04-p016-r018,4,16,2018,designate,133706442,25000,Staten Island Economic Development Corporation,matched,cleared,7892
-fy18-tr04-p017-r001,4,17,2018,rescind,200934854,-16000,"Bed-Stuy Campaign Against Hunger, Inc.",rescission,partial,
+fy18-tr04-p017-r001,4,17,2018,rescind,200934854,-16000,"Bed-Stuy Campaign Against Hunger, Inc.",rescission,schedule_c,
 fy18-tr04-p017-r002,4,17,2018,designate,200934854,16000,"Bed-Stuy Campaign Against Hunger, Inc.",matched,cleared,582
 fy18-tr04-p017-r003,4,17,2018,rescind,300836513,-5000,"Drama Club, Inc.",rescission,partial,
 fy18-tr04-p017-r004,4,17,2018,designate,134091062,5000,"Read Alliance, Inc.",matched,cleared,7037
-fy18-tr04-p017-r005,4,17,2018,rescind,133255591,-3500,Northern Manhattan Coalition for Immigrant Rights,rescission,partial,
+fy18-tr04-p017-r005,4,17,2018,rescind,133255591,-3500,Northern Manhattan Coalition for Immigrant Rights,rescission,schedule_c,
 fy18-tr04-p017-r006,4,17,2018,designate,133255591,3500,Northern Manhattan Coalition for Immigrant Rights,matched,cleared,6249
 fy18-tr04-p018-r002,4,18,2018,designate,133759661,20000,"DreamYard Project, Inc. - PS 226",matched,cleared,2741
 fy18-tr04-p018-r003,4,18,2018,designate,132999528,20000,"Bronx Dance Theatre, Inc. - PS 109 Sedgwick",unmatched,later_rescinded,
@@ -2853,7 +2853,7 @@ fy18-tr04-p028-r025,4,28,2018,designate,133286419,20000,Spanish Dance Arts Compa
 fy18-tr04-p028-r026,4,28,2018,designate,133261148,20000,"Bronx River Art Center, Inc.",matched,cleared,977
 fy18-tr04-p028-r027,4,28,2018,rescind,201090906,-8000,"New York African Chorus Ensemble, Inc.",rescission,partial,
 fy18-tr04-p028-r028,4,28,2018,designate,562545700,8000,Mano a Mano: Mexican Culture Witout Borders,matched,cleared,5033
-fy18-tr04-p029-r001,4,29,2018,rescind,132814327,-50000,"National Association on Drug Abuse Problems, Inc.",rescission,not_found,
+fy18-tr04-p029-r001,4,29,2018,rescind,132814327,-50000,"National Association on Drug Abuse Problems, Inc.",rescission,schedule_c,
 fy18-tr04-p029-r002,4,29,2018,designate,133185808,50000,"National Association on Drug Abuse Problems (New York State), Inc.",matched,cleared,5542
 fy18-tr04-p030-r002,4,30,2018,designate,133749744,28800,"African Services Committee, Inc.",matched,cleared,104
 fy18-tr04-p030-r003,4,30,2018,designate,331007278,90000,"After Hours Project, Inc.",matched,cleared,133
@@ -2904,7 +2904,7 @@ fy18-tr04-p031-r013,4,31,2018,designate,111950787,15000,"United Community Center
 fy18-tr04-p031-r014,4,31,2018,designate,133224700,28800,Vocational Instruction Project Community,matched,cleared,8480
 fy18-tr04-p031-r015,4,31,2018,designate,208672015,90000,"Washington Heights Corner Projects, Inc.",matched,cleared,8502
 fy18-tr04-p031-r016,4,31,2018,designate,135596836,107712,Women's Prison Association's Hopper Home,matched,cleared,8718
-fy18-tr04-p032-r001,4,32,2018,rescind,202015286,-72000,Choices in Childbirth,rescission,not_found,
+fy18-tr04-p032-r001,4,32,2018,rescind,202015286,-72000,Choices in Childbirth,rescission,schedule_c,
 fy18-tr04-p032-r002,4,32,2018,rescind,237360305,-121320,"Urban Health Plan, Inc.",rescission,schedule_c,
 fy18-tr04-p032-r003,4,32,2018,designate,133323168,193320,"Caribbean Womens Health Association, Inc.",unmatched,amount_differs,
 fy18-tr04-p033-r002,4,33,2018,designate,133149298,83000,"New Alternatives for Children, Inc.",matched,cleared,5651
@@ -2923,11 +2923,11 @@ fy18-tr04-p042-r003,4,42,2018,designate,133682471,655666,"Asian-American Coaliti
 fy18-tr04-p042-r004,4,42,2018,designate,133573852,1224667,"Hispanic Federation, Inc.",matched,cleared,3999
 fy18-tr04-p042-r005,4,42,2018,designate,131671035,1204667,"New York Urban League, Inc.",matched,cleared,6167
 fy18-tr04-p043-r002,4,43,2018,designate,680635936,72000,"Black Girls Rock, Inc.",unmatched,later_rescinded,
-fy18-tr04-p043-r003,4,43,2018,rescind,472167056,-18000,"Victory Music and Dance Company, Inc. - Essence School",rescission,partial,
+fy18-tr04-p043-r003,4,43,2018,rescind,472167056,-18000,"Victory Music and Dance Company, Inc. - Essence School",rescission,schedule_c,
 fy18-tr04-p043-r004,4,43,2018,designate,030553092,18000,Man Up! Inc. - High School for Civil Rights,matched,cleared,4990
-fy18-tr04-p043-r005,4,43,2018,rescind,205332584,-18000,Purelements: An Evolution in Dance - Public School 306K,rescission,partial,
+fy18-tr04-p043-r005,4,43,2018,rescind,205332584,-18000,Purelements: An Evolution in Dance - Public School 306K,rescission,schedule_c,
 fy18-tr04-p043-r006,4,43,2018,designate,030553092,18000,Man Up! Inc. - Academy for Young Writers,matched,cleared,4991
-fy18-tr04-p043-r007,4,43,2018,rescind,133919147,-18000,"Groove With Me, Inc. - Junior High School 162",rescission,not_found,
+fy18-tr04-p043-r007,4,43,2018,rescind,133919147,-18000,"Groove With Me, Inc. - Junior High School 162",rescission,schedule_c,
 fy18-tr04-p043-r008,4,43,2018,designate,133919147,18000,"Groove With Me, Inc. - Urban Assembly of Bronx Academy of Letters",matched,cleared,3768
 fy18-tr04-p044-r002,4,44,2018,designate,113317234,3000,"Accion East, Inc.",matched,cleared,70
 fy18-tr04-p044-r003,4,44,2018,designate,133187792,3000,"Asian Americans For Equality, Inc.",matched,cleared,389
@@ -3057,7 +3057,7 @@ fy18-tr04-p058-r001,4,58,2018,rescind,133272001,-25000,Non-Traditional Employmen
 fy18-tr04-p058-r002,4,58,2018,designate,510192170,25000,St. Nick's Alliance Corporation,unmatched,amount_differs,
 fy18-tr05-p015-r001,5,15,2018,rescind,131740114,-50000,Montefiore Medical Center,rescission,earlier_resolution,
 fy18-tr05-p015-r002,5,15,2018,designate,131624225,50000,Yeshiva University,matched,cleared,8768
-fy18-tr05-p015-r003,5,15,2018,rescind,112047151,-35500,"Catholic Charities Neighborhood Services, Inc.",rescission,partial,
+fy18-tr05-p015-r003,5,15,2018,rescind,112047151,-35500,"Catholic Charities Neighborhood Services, Inc.",rescission,schedule_c,
 fy18-tr05-p015-r004,5,15,2018,designate,112295424,35500,St. Sebastian Roman Catholic Church,matched,cleared,7831
 fy18-tr05-p015-r005,5,15,2018,rescind,136400434,-3265,New York City Housing Authority,rescission,partial,
 fy18-tr05-p015-r006,5,15,2018,rescind,136400434,-3265,New York City Housing Authority,rescission,partial,
@@ -3070,70 +3070,70 @@ fy18-tr05-p015-r012,5,15,2018,rescind,136400434,-15000,Department of Sanitation,
 fy18-tr05-p015-r013,5,15,2018,designate,136400434,15000,Department of Sanitation,matched,cleared,2578
 fy18-tr05-p015-r014,5,15,2018,rescind,136400434,-15000,Department of Sanitation,rescission,earlier_resolution,
 fy18-tr05-p015-r015,5,15,2018,designate,136400434,15000,Department of Sanitation,matched,cleared,2579
-fy18-tr05-p015-r016,5,15,2018,rescind,136400434,-7500,Department of Sanitation,rescission,partial,
+fy18-tr05-p015-r016,5,15,2018,rescind,136400434,-7500,Department of Sanitation,rescission,schedule_c,
 fy18-tr05-p015-r017,5,15,2018,designate,136400434,7500,Department of Sanitation,matched,cleared,2568
-fy18-tr05-p015-r018,5,15,2018,rescind,136400434,-6000,Department of Sanitation,rescission,partial,
+fy18-tr05-p015-r018,5,15,2018,rescind,136400434,-6000,Department of Sanitation,rescission,schedule_c,
 fy18-tr05-p015-r019,5,15,2018,designate,136400434,6000,Department of Sanitation,matched,cleared,2566
-fy18-tr05-p015-r020,5,15,2018,rescind,454700701,-1500,"DSNY Strongest Football, Inc.",rescission,not_found,
+fy18-tr05-p015-r020,5,15,2018,rescind,454700701,-1500,"DSNY Strongest Football, Inc.",rescission,schedule_c,
 fy18-tr05-p015-r021,5,15,2018,designate,454700701,1500,"DSNY Strongest Football, Inc.",matched,cleared,2750
-fy18-tr05-p015-r022,5,15,2018,rescind,133320984,-4000,"Outstanding Renewal Enterprises, Inc.",rescission,partial,
+fy18-tr05-p015-r022,5,15,2018,rescind,133320984,-4000,"Outstanding Renewal Enterprises, Inc.",rescission,schedule_c,
 fy18-tr05-p015-r023,5,15,2018,designate,133320984,4000,"Outstanding Renewal Enterprises, Inc.",matched,cleared,6444
-fy18-tr05-p015-r024,5,15,2018,rescind,133320984,-3000,"Outstanding Renewal Enterprises, Inc.",rescission,partial,
+fy18-tr05-p015-r024,5,15,2018,rescind,133320984,-3000,"Outstanding Renewal Enterprises, Inc.",rescission,schedule_c,
 fy18-tr05-p015-r025,5,15,2018,designate,133320984,3000,"Outstanding Renewal Enterprises, Inc.",matched,cleared,6441
 fy18-tr05-p015-r026,5,15,2018,rescind,133320984,-5000,"Outstanding Renewal Enterprises, Inc.",rescission,earlier_resolution,
 fy18-tr05-p015-r027,5,15,2018,designate,133320984,5000,"Outstanding Renewal Enterprises, Inc.",matched,cleared,6445
 fy18-tr05-p015-r028,5,15,2018,rescind,133320984,-5000,"Outstanding Renewal Enterprises, Inc.",rescission,earlier_resolution,
 fy18-tr05-p015-r029,5,15,2018,designate,133320984,5000,"Outstanding Renewal Enterprises, Inc.",matched,cleared,6446
-fy18-tr05-p015-r030,5,15,2018,rescind,133320984,-3500,"Outstanding Renewal Enterprises, Inc.",rescission,partial,
+fy18-tr05-p015-r030,5,15,2018,rescind,133320984,-3500,"Outstanding Renewal Enterprises, Inc.",rescission,schedule_c,
 fy18-tr05-p015-r031,5,15,2018,designate,133320984,3500,"Outstanding Renewal Enterprises, Inc.",matched,cleared,6442
 fy18-tr05-p015-r032,5,15,2018,rescind,133320984,-5000,"Outstanding Renewal Enterprises, Inc.",rescission,earlier_resolution,
 fy18-tr05-p015-r033,5,15,2018,designate,133320984,5000,"Outstanding Renewal Enterprises, Inc.",matched,cleared,6447
 fy18-tr05-p015-r034,5,15,2018,rescind,133320984,-3500,"Outstanding Renewal Enterprises, Inc.",rescission,earlier_resolution,
 fy18-tr05-p015-r035,5,15,2018,designate,133320984,3500,"Outstanding Renewal Enterprises, Inc.",matched,cleared,6443
-fy18-tr05-p015-r036,5,15,2018,rescind,133116064,-5000,"Upper West Side Recycling Center, Inc.",rescission,not_found,
+fy18-tr05-p015-r036,5,15,2018,rescind,133116064,-5000,"Upper West Side Recycling Center, Inc.",rescission,schedule_c,
 fy18-tr05-p015-r037,5,15,2018,designate,133116064,5000,"Upper West Side Recycling Center, Inc.",matched,cleared,8289
-fy18-tr05-p015-r038,5,15,2018,rescind,200542826,-2500,"Nigerian-American Community Association (USA), Inc.",rescission,not_found,
+fy18-tr05-p015-r038,5,15,2018,rescind,200542826,-2500,"Nigerian-American Community Association (USA), Inc.",rescission,schedule_c,
 fy18-tr05-p015-r039,5,15,2018,designate,200542826,2500,"Nigerian-American Community Association (USA), Inc.",matched,cleared,6207
-fy18-tr05-p015-r040,5,15,2018,rescind,133234441,-3500,Project Hospitality,rescission,partial,
+fy18-tr05-p015-r040,5,15,2018,rescind,133234441,-3500,Project Hospitality,rescission,schedule_c,
 fy18-tr05-p015-r041,5,15,2018,designate,133234441,3500,Project Hospitality,matched,cleared,6686
-fy18-tr05-p016-r001,5,16,2018,rescind,262252152,-2500,United States Sierra Leonean Association,rescission,not_found,
+fy18-tr05-p016-r001,5,16,2018,rescind,262252152,-2500,United States Sierra Leonean Association,rescission,schedule_c,
 fy18-tr05-p016-r002,5,16,2018,designate,262252152,2500,United States Sierra Leonean Association,matched,cleared,8251
-fy18-tr05-p016-r003,5,16,2018,rescind,136400434,-8400,Department of Parks and Recreation - Dry Harbor Playground,rescission,partial,
+fy18-tr05-p016-r003,5,16,2018,rescind,136400434,-8400,Department of Parks and Recreation - Dry Harbor Playground,rescission,schedule_c,
 fy18-tr05-p016-r004,5,16,2018,designate,136400434,8400,Department of Parks and Recreation - Juniper Valley Park,unmatched,later_rescinded,
 fy18-tr05-p016-r005,5,16,2018,rescind,272464042,-5000,"New York Cancer Center, Inc.",rescission,partial,
 fy18-tr05-p016-r006,5,16,2018,designate,113550153,5000,Family Perservation Services of New York Corp,matched,cleared,2984
-fy18-tr05-p016-r007,5,16,2018,rescind,113195590,-3000,"Brighton Ballet Theater Company, Inc.",rescission,partial,
+fy18-tr05-p016-r007,5,16,2018,rescind,113195590,-3000,"Brighton Ballet Theater Company, Inc.",rescission,schedule_c,
 fy18-tr05-p016-r008,5,16,2018,designate,462357985,3000,"We Care New York, Inc.",matched,cleared,8546
-fy18-tr05-p016-r009,5,16,2018,rescind,113019763,-5000,"Gravesend Athletic Association, Inc.",rescission,not_found,
+fy18-tr05-p016-r009,5,16,2018,rescind,113019763,-5000,"Gravesend Athletic Association, Inc.",rescission,partial,
 fy18-tr05-p016-r010,5,16,2018,designate,452871053,5000,Health Essential Association Inc,matched,cleared,3905
-fy18-tr05-p016-r011,5,16,2018,rescind,133229941,-5000,"Pan American Musical Art Research, Inc.",rescission,not_found,
+fy18-tr05-p016-r011,5,16,2018,rescind,133229941,-5000,"Pan American Musical Art Research, Inc.",rescission,schedule_c,
 fy18-tr05-p016-r012,5,16,2018,designate,133229941,5000,"Pan American Musical Art Research, Inc.",matched,cleared,6462
 fy18-tr05-p016-r013,5,16,2018,rescind,133912768,-5000,"Publicolor, Inc.",rescission,earlier_resolution,
 fy18-tr05-p016-r014,5,16,2018,designate,133912768,5000,"Publicolor, Inc.",matched,cleared,6734
-fy18-tr05-p016-r015,5,16,2018,rescind,132622748,-5000,"MFY Legal Services, Inc.",rescission,partial,
+fy18-tr05-p016-r015,5,16,2018,rescind,132622748,-5000,"MFY Legal Services, Inc.",rescission,schedule_c,
 fy18-tr05-p016-r016,5,16,2018,designate,132622748,5000,"Mobilization for Justice, Inc.",matched,cleared,5368
-fy18-tr05-p016-r017,5,16,2018,rescind,132622748,-2500,"MFY Legal Services, Inc.",rescission,partial,
+fy18-tr05-p016-r017,5,16,2018,rescind,132622748,-2500,"MFY Legal Services, Inc.",rescission,schedule_c,
 fy18-tr05-p016-r018,5,16,2018,designate,132622748,2500,"Mobilization for Justice, Inc.",matched,cleared,5366
-fy18-tr05-p016-r019,5,16,2018,rescind,132622748,-2000,"MFY Legal Services, Inc.",rescission,partial,
+fy18-tr05-p016-r019,5,16,2018,rescind,132622748,-2000,"MFY Legal Services, Inc.",rescission,schedule_c,
 fy18-tr05-p016-r020,5,16,2018,designate,132622748,2000,"Mobilization for Justice, Inc.",matched,cleared,5364
-fy18-tr05-p016-r021,5,16,2018,rescind,132622748,-7500,"MFY Legal Services, Inc.",rescission,partial,
+fy18-tr05-p016-r021,5,16,2018,rescind,132622748,-7500,"MFY Legal Services, Inc.",rescission,schedule_c,
 fy18-tr05-p016-r022,5,16,2018,designate,132622748,7500,"Mobilization for Justice, Inc.",matched,cleared,5372
-fy18-tr05-p016-r023,5,16,2018,rescind,132622748,-3500,"MFY Legal Services, Inc.",rescission,partial,
+fy18-tr05-p016-r023,5,16,2018,rescind,132622748,-3500,"MFY Legal Services, Inc.",rescission,schedule_c,
 fy18-tr05-p016-r024,5,16,2018,designate,132622748,3500,"Mobilization for Justice, Inc.",matched,cleared,5367
 fy18-tr05-p016-r025,5,16,2018,rescind,132622748,-2000,"MFY Legal Services, Inc.",rescission,earlier_resolution,
 fy18-tr05-p016-r026,5,16,2018,designate,132622748,2000,"Mobilization for Justice, Inc.",matched,cleared,5365
-fy18-tr05-p016-r027,5,16,2018,rescind,112740189,-7000,"City Lore, Inc.",rescission,partial,
+fy18-tr05-p016-r027,5,16,2018,rescind,112740189,-7000,"City Lore, Inc.",rescission,schedule_c,
 fy18-tr05-p016-r028,5,16,2018,designate,112740189,7000,"City Lore, Inc.",matched,cleared,1786
-fy18-tr05-p016-r029,5,16,2018,rescind,135562185,-5000,"Catholic Charities Community Services, Archdiocese of New York",rescission,partial,
+fy18-tr05-p016-r029,5,16,2018,rescind,135562185,-5000,"Catholic Charities Community Services, Archdiocese of New York",rescission,schedule_c,
 fy18-tr05-p016-r030,5,16,2018,designate,135562286,5000,Catholic Charities of Staten Island,matched,cleared,1446
-fy18-tr05-p016-r031,5,16,2018,rescind,133255838,-1000,Staten Island Federation of Parent Teacher Associations,rescission,not_found,
+fy18-tr05-p016-r031,5,16,2018,rescind,133255838,-1000,Staten Island Federation of Parent Teacher Associations,rescission,schedule_c,
 fy18-tr05-p016-r032,5,16,2018,designate,133255838,1000,Staten Island Federation of Parent Teacher Associations,matched,cleared,7898
-fy18-tr05-p016-r033,5,16,2018,rescind,133255838,-2500,Staten Island Federation of Parent Teacher Associations,rescission,not_found,
+fy18-tr05-p016-r033,5,16,2018,rescind,133255838,-2500,Staten Island Federation of Parent Teacher Associations,rescission,schedule_c,
 fy18-tr05-p016-r034,5,16,2018,designate,133255838,2500,Staten Island Federation of Parent Teacher Associations,matched,cleared,7899
-fy18-tr05-p016-r035,5,16,2018,rescind,133097367,-4000,Staten Island Employment Education Consortium,rescission,not_found,
+fy18-tr05-p016-r035,5,16,2018,rescind,133097367,-4000,Staten Island Employment Education Consortium,rescission,schedule_c,
 fy18-tr05-p016-r036,5,16,2018,designate,133097367,4000,Staten Island Employment Education Consortium,matched,cleared,7897
 fy18-tr05-p017-r001,5,17,2018,rescind,136400434,-25000,Department of Parks and Recreation,rescission,earlier_resolution,
-fy18-tr05-p017-r002,5,17,2018,rescind,205960877,-3000,"Boys Town New York, Inc.",rescission,not_found,
+fy18-tr05-p017-r002,5,17,2018,rescind,205960877,-3000,"Boys Town New York, Inc.",rescission,schedule_c,
 fy18-tr05-p017-r003,5,17,2018,designate,116003455,4000,Bais Yaakov Academy for Girls,unmatched,later_rescinded,
 fy18-tr05-p017-r004,5,17,2018,designate,270559746,4000,"EMET Outreach, Inc.",matched,cleared,2921
 fy18-tr05-p017-r005,5,17,2018,designate,111733454,5000,"Child Center of New York, Inc., The",unmatched,later_rescinded,
@@ -3141,37 +3141,37 @@ fy18-tr05-p017-r006,5,17,2018,designate,111714878,1500,St. Nicholas of Tolentine
 fy18-tr05-p017-r007,5,17,2018,designate,136400434,5000,Queens Borough Public Library,matched,cleared,6794
 fy18-tr05-p017-r008,5,17,2018,designate,474857582,5000,Austism Society Habilitation Association,matched,cleared,479
 fy18-tr05-p017-r009,5,17,2018,designate,462790519,3500,"Queens Long Island Basketball, Inc.",matched,cleared,6920
-fy18-tr05-p018-r001,5,18,2018,rescind,112164803,-3000,Seabreeze Jewish Center,rescission,not_found,
+fy18-tr05-p018-r001,5,18,2018,rescind,112164803,-3000,Seabreeze Jewish Center,rescission,schedule_c,
 fy18-tr05-p018-r002,5,18,2018,designate,112164803,3000,Seabreeze Jewish Center,matched,pending,7424
 fy18-tr05-p018-r003,5,18,2018,rescind,432061329,-10000,San Gennaro Senior Center,rescission,schedule_c,
 fy18-tr05-p018-r004,5,18,2018,designate,550882599,10000,"Older Adults Technology Services (OATS), Inc.",matched,cleared,6331
-fy18-tr05-p018-r005,5,18,2018,rescind,111714878,-5000,St. Nicholas of Tolentine,rescission,not_found,
+fy18-tr05-p018-r005,5,18,2018,rescind,111714878,-5000,St. Nicholas of Tolentine,rescission,schedule_c,
 fy18-tr05-p018-r006,5,18,2018,designate,112047151,5000,"Catholic Charities Neighborhood Services, Inc.",matched,cleared,1418
-fy18-tr05-p019-r001,5,19,2018,rescind,814512141,-2500,"Girlz Powered Up!, Inc.",rescission,not_found,
+fy18-tr05-p019-r001,5,19,2018,rescind,814512141,-2500,"Girlz Powered Up!, Inc.",rescission,schedule_c,
 fy18-tr05-p019-r002,5,19,2018,designate,814512141,2500,"Girlz Powered Up!, Inc.",matched,cleared,3581
-fy18-tr05-p019-r003,5,19,2018,rescind,113304088,-3500,Rugby Delivery Tabernacle,rescission,partial,
+fy18-tr05-p019-r003,5,19,2018,rescind,113304088,-3500,Rugby Delivery Tabernacle,rescission,schedule_c,
 fy18-tr05-p019-r004,5,19,2018,designate,113304088,3500,Rugby Deliverance Tabernacle,matched,cleared,7273
 fy18-tr05-p020-r001,5,20,2018,rescind,473710354,-5000,"Parkside Empire, The | Flatbush Avenue Merchants Association, Inc.",rescission,earlier_resolution,
 fy18-tr05-p020-r002,5,20,2018,designate,112451752,5000,"Pratt Area Community Council, Inc.",matched,cleared,6634
-fy18-tr05-p020-r003,5,20,2018,rescind,132622748,-7000,"MFY Legal Services, Inc.",rescission,partial,
+fy18-tr05-p020-r003,5,20,2018,rescind,132622748,-7000,"MFY Legal Services, Inc.",rescission,schedule_c,
 fy18-tr05-p020-r004,5,20,2018,designate,132622748,7000,"Mobilization for Justice, Inc.",matched,cleared,5370
 fy18-tr05-p020-r005,5,20,2018,rescind,132622748,-7000,"MFY Legal Services, Inc.",rescission,earlier_resolution,
 fy18-tr05-p020-r006,5,20,2018,designate,132622748,7000,"Mobilization for Justice, Inc.",matched,cleared,5371
 fy18-tr05-p020-r007,5,20,2018,rescind,132622748,-5000,"MFY Legal Services, Inc.",rescission,earlier_resolution,
 fy18-tr05-p020-r008,5,20,2018,designate,132622748,5000,"Mobilization for Justice, Inc.",matched,cleared,5369
-fy18-tr05-p021-r001,5,21,2018,rescind,136400434,-7051,Department of Sanitation,rescission,partial,
+fy18-tr05-p021-r001,5,21,2018,rescind,136400434,-7051,Department of Sanitation,rescission,schedule_c,
 fy18-tr05-p021-r002,5,21,2018,designate,136400434,7051,Department of Sanitation,matched,cleared,2567
-fy18-tr05-p021-r003,5,21,2018,rescind,113306111,-5000,"Business Outreach Center Network, Inc.",rescission,partial,
+fy18-tr05-p021-r003,5,21,2018,rescind,113306111,-5000,"Business Outreach Center Network, Inc.",rescission,schedule_c,
 fy18-tr05-p021-r004,5,21,2018,designate,113306111,5000,"Business Outreach Center Network, Inc.",matched,cleared,1275
-fy18-tr05-p021-r005,5,21,2018,rescind,131624154,-50000,Regional Plan Association,rescission,not_found,
+fy18-tr05-p021-r005,5,21,2018,rescind,131624154,-50000,Regional Plan Association,rescission,schedule_c,
 fy18-tr05-p021-r006,5,21,2018,designate,131624154,50000,Regional Plan Association,matched,cleared,7083
-fy18-tr05-p021-r007,5,21,2018,rescind,112608645,-5750,"Jewish Community Council of Canarsie, Inc.",rescission,partial,
+fy18-tr05-p021-r007,5,21,2018,rescind,112608645,-5750,"Jewish Community Council of Canarsie, Inc.",rescission,schedule_c,
 fy18-tr05-p021-r008,5,21,2018,designate,112608645,5750,"Jewish Community Council of Canarsie, Inc.",matched,cleared,4487
-fy18-tr05-p021-r009,5,21,2018,rescind,132622748,-10555,"MFY Legal Services, Inc.",rescission,partial,
+fy18-tr05-p021-r009,5,21,2018,rescind,132622748,-10555,"MFY Legal Services, Inc.",rescission,schedule_c,
 fy18-tr05-p021-r010,5,21,2018,designate,132622748,10555,"Mobilization for Justice, Inc.",matched,cleared,5373
-fy18-tr05-p021-r011,5,21,2018,rescind,133586505,-3500,"Travis Fourth of July Celebration Committee, Inc.",rescission,not_found,
+fy18-tr05-p021-r011,5,21,2018,rescind,133586505,-3500,"Travis Fourth of July Celebration Committee, Inc.",rescission,schedule_c,
 fy18-tr05-p021-r012,5,21,2018,designate,133586505,3500,"Travis Fourth of July Celebration Committee, Inc.",matched,cleared,8144
-fy18-tr05-p021-r013,5,21,2018,rescind,133981477,-4000,"Staten Island Hindu Temple, Inc.",rescission,not_found,
+fy18-tr05-p021-r013,5,21,2018,rescind,133981477,-4000,"Staten Island Hindu Temple, Inc.",rescission,schedule_c,
 fy18-tr05-p021-r014,5,21,2018,designate,133981477,4000,"Staten Island Hindu Temple, Inc.",matched,cleared,7901
 fy18-tr05-p022-r002,5,22,2018,designate,133192793,20000,"Midtown Management Group, Inc. - Public School 20X",matched,cleared,5298
 fy18-tr05-p022-r003,5,22,2018,designate,130854930,20000,"Horticultural Society of New York, Inc. - Public School 116M",unmatched,later_rescinded,
@@ -3186,13 +3186,13 @@ fy18-tr05-p022-r011,5,22,2018,designate,133894314,20000,"Multicultural Music Gro
 fy18-tr05-p022-r012,5,22,2018,designate,113783397,20000,Rockaway Waterfront Alliance Inc. - Public Schoo 183Q,matched,cleared,7220
 fy18-tr05-p022-r013,5,22,2018,designate,134085631,20000,"JLSC Educational Tour Bus, Inc. - I.S 356Q",matched,cleared,4568
 fy18-tr05-p022-r014,5,22,2018,designate,223886369,20000,"Waterwell Productions, Inc. - MS 245M",matched,cleared,8529
-fy18-tr05-p022-r015,5,22,2018,rescind,133893536,-20000,CUNY Creative Arts Team - P.S. 54Q,rescission,partial,
+fy18-tr05-p022-r015,5,22,2018,rescind,133893536,-20000,CUNY Creative Arts Team - P.S. 54Q,rescission,schedule_c,
 fy18-tr05-p022-r016,5,22,2018,designate,131988190,20000,Research Foundation of CUNY - Creative Arts Team - P.S. 54Q,matched,cleared,7099
-fy18-tr05-p022-r017,5,22,2018,rescind,133893536,-20000,CUNY Creative Arts Team - J.H.S. 185Q Edward Bleeker,rescission,partial,
+fy18-tr05-p022-r017,5,22,2018,rescind,133893536,-20000,CUNY Creative Arts Team - J.H.S. 185Q Edward Bleeker,rescission,schedule_c,
 fy18-tr05-p022-r018,5,22,2018,designate,131988190,20000,Research Foundation of CUNY - Creative Arts Team - J.H.S. 185Q Edward Bleeker,matched,cleared,7100
-fy18-tr05-p022-r019,5,22,2018,rescind,133893536,-20000,CUNY Creative Arts Team - P.S. Q159,rescission,partial,
+fy18-tr05-p022-r019,5,22,2018,rescind,133893536,-20000,CUNY Creative Arts Team - P.S. Q159,rescission,schedule_c,
 fy18-tr05-p022-r020,5,22,2018,designate,131988190,20000,Research Foundation of CUNY - Creative Arts Team - P.S. Q159,matched,cleared,7101
-fy18-tr05-p022-r021,5,22,2018,rescind,133893536,-20000,CUNY Creative Arts Team - P.S. 119K,rescission,partial,
+fy18-tr05-p022-r021,5,22,2018,rescind,133893536,-20000,CUNY Creative Arts Team - P.S. 119K,rescission,schedule_c,
 fy18-tr05-p022-r022,5,22,2018,designate,131988190,20000,Research Foundation of CUNY - Creative Arts Team - P.S. 119K,matched,cleared,7102
 fy18-tr05-p022-r023,5,22,2018,rescind,510244834,-20000,"An Claidheamh Soluis, Inc. - Our World Neighborhood Charter School",rescission,earlier_resolution,
 fy18-tr05-p022-r024,5,22,2018,designate,132685755,20000,"Ballet Hispanico of New York, Inc. - Public School 76Q",matched,cleared,497
@@ -3215,7 +3215,7 @@ fy18-tr05-p023-r011,5,23,2018,rescind,132612524,-22500,"Fund for the City of New
 fy18-tr05-p023-r012,5,23,2018,designate,132612524,22500,"Fund for the City of New York, Inc. - Cafeteria Culture Program - PS 34 CD 2",matched,cleared,3465
 fy18-tr05-p024-r001,5,24,2018,rescind,136400434,-20000,Queens Borough Public Library,rescission,earlier_resolution,
 fy18-tr05-p024-r002,5,24,2018,designate,136400434,20000,Queens Borough Public Library,matched,cleared,6806
-fy18-tr05-p025-r002,5,25,2018,rescind,132738818,-15000,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",rescission,partial,
+fy18-tr05-p025-r002,5,25,2018,rescind,132738818,-15000,"Metropolitan New York Coordinating Council on Jewish Poverty, Inc.",rescission,schedule_c,
 fy18-tr05-p025-r003,5,25,2018,designate,113302911,5000,Battered Women's Resource Center,matched,cleared,526
 fy18-tr05-p025-r004,5,25,2018,designate,043697166,5000,"Girls for Gender Equity, Inc.",matched,cleared,3570
 fy18-tr05-p025-r005,5,25,2018,designate,113463615,25000,"Jericho Road, Inc.",matched,cleared,4356
@@ -3389,11 +3389,11 @@ fy18-tr05-p035-r008,5,35,2018,designate,133205023,33720,"La Casa de la Herencia 
 fy18-tr05-p035-r009,5,35,2018,rescind,133632234,-228630,"Community Research Initiative on AIDS, Inc.",rescission,earlier_resolution,
 fy18-tr05-p036-r001,5,36,2018,rescind,131847137,-55000,"Lincoln Center for the Performing Arts, Inc.",rescission,earlier_resolution,
 fy18-tr05-p036-r002,5,36,2018,designate,131847137,55000,"Lincoln Center for the Performing Arts, Inc.",matched,cleared,4866
-fy18-tr05-p037-r001,5,37,2018,rescind,112870422,-35484,Queens Comprehensive Perinatal Council,rescission,not_found,
+fy18-tr05-p037-r001,5,37,2018,rescind,112870422,-35484,Queens Comprehensive Perinatal Council,rescission,schedule_c,
 fy18-tr05-p037-r003,5,37,2018,rescind,133323168,-121320,"Caribbean Women's Health Association, Inc.",rescission,partial,
 fy18-tr05-p037-r004,5,37,2018,designate,237360305,121320,"Urban Health Plan, Inc.",matched,cleared,8310
 fy18-tr05-p038-r003,5,38,2018,designate,132572034,70000,"Stanley M. Isaacs Neighborhood Center, Inc.",matched,cleared,7854
-fy18-tr05-p039-r001,5,39,2018,rescind,135582895,-915000,United Federation of Teachers,rescission,not_found,
+fy18-tr05-p039-r001,5,39,2018,rescind,135582895,-915000,United Federation of Teachers,rescission,schedule_c,
 fy18-tr05-p039-r002,5,39,2018,designate,139226721,915000,"United Federation of Teachers Educational Foundation, Inc.",matched,cleared,8223
 fy18-tr05-p041-r001,5,41,2018,designate,135562167,30000,Bank Street College of Education,matched,cleared,520
 fy18-tr05-p042-r004,5,42,2018,designate,113344389,50000,Make the Road New York,matched,cleared,4976
@@ -3405,9 +3405,9 @@ fy18-tr05-p042-r009,5,42,2018,designate,112480339,50000,"CAMBA, Inc.",matched,cl
 fy18-tr05-p042-r010,5,42,2018,designate,135669201,50000,Public Health Solutions,unmatched,later_rescinded,
 fy18-tr05-p042-r011,5,42,2018,designate,112145956,50000,"Brooklyn Alliance, Inc.",unmatched,later_rescinded,
 fy18-tr05-p042-r012,5,42,2018,designate,113632920,50000,South Asian Council for Social Services,unmatched,later_rescinded,
-fy18-tr05-p043-r001,5,43,2018,rescind,132683678,-18000,New Heritage,rescission,partial,
+fy18-tr05-p043-r001,5,43,2018,rescind,132683678,-18000,New Heritage,rescission,schedule_c,
 fy18-tr05-p043-r002,5,43,2018,designate,132683678,18000,New Heritage Theatre Group,matched,cleared,5670
-fy18-tr05-p043-r003,5,43,2018,rescind,132709368,-18000,"Bronx Museum of the Arts, The - Junior High School 145",rescission,not_found,
+fy18-tr05-p043-r003,5,43,2018,rescind,132709368,-18000,"Bronx Museum of the Arts, The - Junior High School 145",rescission,schedule_c,
 fy18-tr05-p043-r004,5,43,2018,designate,132709368,18000,"Bronx Museum of the Arts, The - I.S. 218 Rafael Hernandez Dual Language School",matched,cleared,944
 fy18-tr05-p045-r001,5,45,2018,rescind,135564937,-50000,"Jewish Board of Family and Children's Services, Inc.",rescission,partial,
 fy18-tr05-p045-r002,5,45,2018,designate,135564937,50000,"Jewish Board of Family and Children's Services, Inc.",matched,cleared,4445
@@ -3487,66 +3487,66 @@ fy18-tr05-p058-r004,5,58,2017,designate,113526774,20000,"Museum of Contemporary 
 fy18-tr05-p059-r001,5,59,2017,rescind,133609811,-20000,Korean American Family Services,rescission,not_found,
 fy18-tr05-p059-r002,5,59,2017,designate,133609811,20000,"Korean American Family Services Center , Inc., The",unmatched,amount_differs,
 fy18-tr06-p014-r001,6,14,2018,rescind,113249055,-5000,Bangladesh Institute of Performing Arts Inc.,rescission,earlier_resolution,
-fy18-tr06-p014-r002,6,14,2018,rescind,132605604,-5000,Queens Legal Services Corporation,rescission,partial,
+fy18-tr06-p014-r002,6,14,2018,rescind,132605604,-5000,Queens Legal Services Corporation,rescission,schedule_c,
 fy18-tr06-p014-r003,6,14,2018,designate,135562308,5000,New York University,matched,cleared,6158
 fy18-tr06-p014-r004,6,14,2018,designate,136400434,5000,La Guardia and Wagner Archives at La Guardia Community College,matched,cleared,4706
 fy18-tr06-p014-r005,6,14,2018,rescind,200006693,-10000,"Crown Heights North Association, Inc.",rescission,earlier_resolution,
 fy18-tr06-p014-r006,6,14,2018,designate,200006693,10000,"Crown Heights North Association, Inc.",matched,cleared,2201
-fy18-tr06-p014-r007,6,14,2018,rescind,364428246,-2000,"Camp Extreme, Inc. - Miryam's House",rescission,not_found,
+fy18-tr06-p014-r007,6,14,2018,rescind,364428246,-2000,"Camp Extreme, Inc. - Miryam's House",rescission,schedule_c,
 fy18-tr06-p014-r008,6,14,2018,designate,136400434,2000,Department of Transportation,unmatched,later_rescinded,
-fy18-tr06-p014-r009,6,14,2018,rescind,237072915,-3000,"Brooklyn Arts Council, Inc.",rescission,partial,
+fy18-tr06-p014-r009,6,14,2018,rescind,237072915,-3000,"Brooklyn Arts Council, Inc.",rescission,schedule_c,
 fy18-tr06-p014-r010,6,14,2018,designate,275281758,3000,Little Essentials,matched,cleared,4885
 fy18-tr06-p014-r011,6,14,2018,rescind,136400434,-8400,Department of Parks and Recreation - Juniper Valley Park,rescission,earlier_resolution,
 fy18-tr06-p014-r012,6,14,2018,designate,136400434,3150,Department of Parks and Recreation - Juniper Valley Park,matched,cleared,2460
 fy18-tr06-p014-r013,6,14,2018,designate,133636555,5250,"Unique People Services, Inc.",matched,cleared,8195
-fy18-tr06-p014-r014,6,14,2018,rescind,364428246,-5000,"Camp Extreme, Inc.",rescission,not_found,
+fy18-tr06-p014-r014,6,14,2018,rescind,364428246,-5000,"Camp Extreme, Inc.",rescission,schedule_c,
 fy18-tr06-p014-r015,6,14,2018,designate,510189327,5000,"Sunnyside Community Services, Inc.",matched,cleared,8027
 fy18-tr06-p014-r016,6,14,2018,rescind,383873130,-50000,"Westchester Square District Management Association, Inc.",rescission,partial,
 fy18-tr06-p014-r017,6,14,2018,designate,270834463,40000,"Belmont District Management Association, Inc.",matched,cleared,598
 fy18-tr06-p014-r018,6,14,2018,designate,132806160,10000,"Northwest Bronx Community and Clergy Coalition, Inc.",matched,cleared,6277
-fy18-tr06-p014-r019,6,14,2018,rescind,454316117,-25000,Atlas DIY,rescission,partial,
+fy18-tr06-p014-r019,6,14,2018,rescind,454316117,-25000,Atlas DIY,rescission,schedule_c,
 fy18-tr06-p014-r020,6,14,2018,designate,454316117,25000,Atlas: DIY Corporation,matched,cleared,476
-fy18-tr06-p014-r021,6,14,2018,rescind,275281758,-2000,Little Essentials,rescission,partial,
+fy18-tr06-p014-r021,6,14,2018,rescind,275281758,-2000,Little Essentials,rescission,schedule_c,
 fy18-tr06-p014-r022,6,14,2018,designate,275281758,2000,Little Essentials,matched,cleared,4884
 fy18-tr06-p014-r023,6,14,2018,rescind,111630822,-10000,Pratt Institute,rescission,earlier_resolution,
 fy18-tr06-p014-r024,6,14,2018,designate,111630822,10000,Pratt Institute,matched,cleared,6643
-fy18-tr06-p014-r025,6,14,2018,rescind,861096987,-8500,"East River Development Alliance, Inc.",rescission,partial,
+fy18-tr06-p014-r025,6,14,2018,rescind,861096987,-8500,"East River Development Alliance, Inc.",rescission,schedule_c,
 fy18-tr06-p014-r026,6,14,2018,rescind,133846431,-2500,"Association of Community Employment Programs for the Homeless, Inc.",rescission,partial,
-fy18-tr06-p014-r027,6,14,2018,rescind,461334329,-3500,"Pride Not Prejudice, Inc.",rescission,not_found,
+fy18-tr06-p014-r027,6,14,2018,rescind,461334329,-3500,"Pride Not Prejudice, Inc.",rescission,schedule_c,
 fy18-tr06-p014-r028,6,14,2018,designate,112278998,11500,Queens Museum of Art,matched,cleared,6927
 fy18-tr06-p014-r029,6,14,2018,designate,113214382,3000,"Corona Community Volunteer Ambulance Corps, Inc.",matched,cleared,2076
-fy18-tr06-p014-r030,6,14,2018,rescind,471006046,-3500,"Bronx Neighborhood Housing Services CDC, Inc.",rescission,partial,
+fy18-tr06-p014-r030,6,14,2018,rescind,471006046,-3500,"Bronx Neighborhood Housing Services CDC, Inc.",rescission,schedule_c,
 fy18-tr06-p014-r031,6,14,2018,designate,471006046,3500,"The Bronx Neighborhood Housing Services CDC, Inc.",matched,cleared,949
-fy18-tr06-p014-r032,6,14,2018,rescind,453437108,-5000,"Mary Miss / City as Living Laboratory (CALL), Inc.",rescission,not_found,
+fy18-tr06-p014-r032,6,14,2018,rescind,453437108,-5000,"Mary Miss / City as Living Laboratory (CALL), Inc.",rescission,schedule_c,
 fy18-tr06-p014-r033,6,14,2018,designate,453437108,5000,"Mary Miss / City as Living Laboratory (CALL), Inc.",matched,cleared,5094
-fy18-tr06-p014-r034,6,14,2018,rescind,463299217,-20000,I'RAISE Girls & Boys International Corporation,rescission,partial,
+fy18-tr06-p014-r034,6,14,2018,rescind,463299217,-20000,I'RAISE Girls & Boys International Corporation,rescission,schedule_c,
 fy18-tr06-p014-r035,6,14,2018,designate,463299217,20000,I'RAISE Girls & Boys International Corporation,matched,cleared,4274
-fy18-tr06-p014-r036,6,14,2018,rescind,465189061,-50000,"One Brooklyn Fund, Inc.",rescission,not_found,
+fy18-tr06-p014-r036,6,14,2018,rescind,465189061,-50000,"One Brooklyn Fund, Inc.",rescission,schedule_c,
 fy18-tr06-p014-r037,6,14,2018,designate,205751217,50000,"Make Music New York, Inc.",matched,cleared,4964
 fy18-tr06-p015-r001,6,15,2018,rescind,112997255,-8000,"Latin American Cultural Center of Queens, Inc.",rescission,schedule_c,
 fy18-tr06-p015-r002,6,15,2018,designate,132605604,8000,Queens Legal Services Corporation,matched,cleared,6913
 fy18-tr06-p015-r003,6,15,2018,rescind,111675278,-5000,St. Joan of Arc,rescission,schedule_c,
 fy18-tr06-p015-r004,6,15,2018,designate,133192793,5000,"Midtown Management Group, Inc.",matched,cleared,5290
-fy18-tr06-p016-r001,6,16,2018,rescind,464146072,-5000,"Soapbox: The Feminist Foundation, Inc.",rescission,not_found,
+fy18-tr06-p016-r001,6,16,2018,rescind,464146072,-5000,"Soapbox: The Feminist Foundation, Inc.",rescission,schedule_c,
 fy18-tr06-p016-r002,6,16,2018,designate,822613408,5000,"Drag Queen Story Hour NYC, Ltd.",unmatched,later_rescinded,
 fy18-tr06-p016-r003,6,16,2018,rescind,454316117,-20000,Atlas DIY,rescission,schedule_c,
 fy18-tr06-p016-r004,6,16,2018,designate,454316117,20000,Atlas: DIY Corporation,matched,cleared,474
-fy18-tr06-p016-r005,6,16,2018,rescind,113106422,-10000,"Lefrak City Youth and Adult Activities Association, Inc.",rescission,not_found,
+fy18-tr06-p016-r005,6,16,2018,rescind,113106422,-10000,"Lefrak City Youth and Adult Activities Association, Inc.",rescission,schedule_c,
 fy18-tr06-p016-r006,6,16,2018,designate,861096987,6500,"East River Development Alliance, Inc.",matched,cleared,2797
 fy18-tr06-p016-r007,6,16,2018,designate,461334329,3500,"Pride Not Prejudice, Inc.",matched,cleared,6672
-fy18-tr06-p016-r008,6,16,2018,rescind,472765517,-5000,Lead by Example and Reverse the Trend,rescission,not_found,
+fy18-tr06-p016-r008,6,16,2018,rescind,472765517,-5000,Lead by Example and Reverse the Trend,rescission,schedule_c,
 fy18-tr06-p016-r009,6,16,2018,designate,472765517,5000,"Lead by Example and Reverse the Trend, Inc.",matched,cleared,4736
-fy18-tr06-p016-r010,6,16,2018,rescind,111639802,-5000,Roman Catholic Church of the Holy Child Jesus in the Borough of Queens,rescission,not_found,
+fy18-tr06-p016-r010,6,16,2018,rescind,111639802,-5000,Roman Catholic Church of the Holy Child Jesus in the Borough of Queens,rescission,schedule_c,
 fy18-tr06-p016-r011,6,16,2018,designate,111639802,5000,Holy Child Jesus,matched,cleared,7239
-fy18-tr06-p016-r012,6,16,2018,rescind,900932357,-3000,"Staten Island Cricket Club, Inc.",rescission,not_found,
+fy18-tr06-p016-r012,6,16,2018,rescind,900932357,-3000,"Staten Island Cricket Club, Inc.",rescission,schedule_c,
 fy18-tr06-p016-r013,6,16,2018,designate,900932357,3000,"Staten Island Cricket Club, Inc.",matched,cleared,7886
 fy18-tr06-p017-r001,6,17,2018,rescind,133192793,-5000,"Midtown Management Group, Inc.",rescission,earlier_resolution,
 fy18-tr06-p017-r002,6,17,2018,designate,131988190,5000,Research Foundation of the City University of New York - LGBTQI Student Leadership Program,matched,cleared,7114
-fy18-tr06-p017-r003,6,17,2018,rescind,136202692,-5000,"Chinese American Planning Council, Inc. - CPC Queens Senior Employment Program",rescission,partial,
+fy18-tr06-p017-r003,6,17,2018,rescind,136202692,-5000,"Chinese American Planning Council, Inc. - CPC Queens Senior Employment Program",rescission,schedule_c,
 fy18-tr06-p017-r004,6,17,2018,designate,136202692,5000,"Chinese American Planning Council, Inc. - CPC Queens Senior Employment Program",matched,cleared,1688
-fy18-tr06-p018-r001,6,18,2018,rescind,133212867,-10556,"Broadway Housing Communities, Inc.",rescission,partial,
+fy18-tr06-p018-r001,6,18,2018,rescind,133212867,-10556,"Broadway Housing Communities, Inc.",rescission,schedule_c,
 fy18-tr06-p018-r002,6,18,2018,designate,133212867,10556,"Broadway Housing Communities, Inc.",matched,cleared,870
-fy18-tr06-p019-r001,6,19,2018,rescind,133212867,-100000,"Broadway Housing Communities, Inc.",rescission,not_found,
+fy18-tr06-p019-r001,6,19,2018,rescind,133212867,-100000,"Broadway Housing Communities, Inc.",rescission,schedule_c,
 fy18-tr06-p019-r002,6,19,2018,designate,133212867,100000,"Broadway Housing Communities, Inc.",matched,cleared,872
 fy18-tr06-p020-r002,6,20,2018,rescind,133054001,-20000,Visual Arts Research and Resource Center Relating to the Caribbean,rescission,earlier_resolution,
 fy18-tr06-p020-r003,6,20,2018,rescind,133894314,-20000,"Multicultural Music Group, Inc. - Mott Hall Middle School",rescission,earlier_resolution,
@@ -3660,7 +3660,7 @@ fy18-tr06-p033-r001,6,33,2018,rescind,454316117,-20000,Atlas DIY,rescission,earl
 fy18-tr06-p033-r002,6,33,2018,designate,454316117,20000,Atlas: DIY Corporation,matched,cleared,475
 fy18-tr06-p034-r001,6,34,2018,rescind,454316117,-53000,Atlas DIY,rescission,earlier_resolution,
 fy18-tr06-p034-r002,6,34,2018,designate,454316117,53000,Atlas: DIY Corporation,matched,cleared,477
-fy18-tr06-p035-r001,6,35,2018,rescind,132997301,-150000,St. Luke's-Roosevelt Hospital Center,rescission,not_found,
+fy18-tr06-p035-r001,6,35,2018,rescind,132997301,-150000,St. Luke's-Roosevelt Hospital Center,rescission,schedule_c,
 fy18-tr06-p035-r002,6,35,2018,designate,815080860,150000,"Crime Victims Treatment Center, Inc.",matched,cleared,2185
 fy18-tr06-p037-r001,6,37,2017,rescind,134006535,-16667,Youth Ministries for Peace and Justice,rescission,not_found,
 fy18-tr06-p037-r002,6,37,2017,designate,133385032,4167,"Mary Mitchell Family and Youth Center, Inc.",matched,cleared,4793
@@ -3707,52 +3707,52 @@ fy18-tr06-p048-r001,6,48,2016,rescind,133848582,-12800,Young Women of Color HIV/
 fy18-tr06-p048-r002,6,48,2016,designate,263178076,12800,Young Women of Color HIV/AIDS Coalition,matched,cleared,7535
 fy18-tr06-p049-r001,6,49,2016,rescind,133805049,-50000,Fordham Bedford - Children's Services,rescission,not_found,
 fy18-tr06-p049-r002,6,49,2016,designate,133805049,50000,Fordham Bedford Community Services,matched,cleared,7488
-fy18-tr07-p011-r001,7,11,2018,rescind,465189061,-19000,"One Brooklyn Fund, Inc.",rescission,not_found,
+fy18-tr07-p011-r001,7,11,2018,rescind,465189061,-19000,"One Brooklyn Fund, Inc.",rescission,schedule_c,
 fy18-tr07-p011-r002,7,11,2018,designate,205751217,19000,"Make Music New York, Inc.",matched,cleared,4963
-fy18-tr07-p011-r003,7,11,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,not_found,
+fy18-tr07-p011-r003,7,11,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,schedule_c,
 fy18-tr07-p011-r004,7,11,2018,designate,205751217,5000,"Make Music New York, Inc.",matched,cleared,4956
-fy18-tr07-p011-r005,7,11,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,not_found,
+fy18-tr07-p011-r005,7,11,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,schedule_c,
 fy18-tr07-p011-r006,7,11,2018,designate,205751217,5000,"Make Music New York, Inc.",matched,cleared,4957
-fy18-tr07-p011-r007,7,11,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,not_found,
+fy18-tr07-p011-r007,7,11,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,schedule_c,
 fy18-tr07-p011-r008,7,11,2018,designate,205751217,5000,"Make Music New York, Inc.",matched,cleared,4958
-fy18-tr07-p011-r009,7,11,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,not_found,
+fy18-tr07-p011-r009,7,11,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,schedule_c,
 fy18-tr07-p011-r010,7,11,2018,designate,205751217,5000,"Make Music New York, Inc.",matched,cleared,4959
-fy18-tr07-p011-r011,7,11,2018,rescind,465189061,-2000,"One Brooklyn Fund, Inc.",rescission,not_found,
+fy18-tr07-p011-r011,7,11,2018,rescind,465189061,-2000,"One Brooklyn Fund, Inc.",rescission,schedule_c,
 fy18-tr07-p011-r012,7,11,2018,designate,205751217,2000,"Make Music New York, Inc.",matched,cleared,4955
-fy18-tr07-p011-r013,7,11,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,not_found,
+fy18-tr07-p011-r013,7,11,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,schedule_c,
 fy18-tr07-p011-r014,7,11,2018,designate,205751217,5000,"Make Music New York, Inc.",matched,cleared,4960
 fy18-tr07-p011-r015,7,11,2018,rescind,141845651,-6000,"New York Women's Chamber of Commerce, Inc.",rescission,earlier_resolution,
 fy18-tr07-p011-r016,7,11,2018,rescind,141845651,-5000,"New York Women's Chamber of Commerce, Inc.",rescission,earlier_resolution,
 fy18-tr07-p011-r017,7,11,2018,designate,141845651,6000,"New York Women's Chamber of Commerce, Inc.",matched,cleared,6176
 fy18-tr07-p011-r018,7,11,2018,designate,141845651,5000,"New York Women's Chamber of Commerce, Inc.",matched,cleared,6174
-fy18-tr07-p011-r019,7,11,2018,rescind,111950787,-25000,United Community Centers,rescission,not_found,
+fy18-tr07-p011-r019,7,11,2018,rescind,111950787,-25000,United Community Centers,rescission,schedule_c,
 fy18-tr07-p011-r020,7,11,2018,designate,111950787,25000,"United Community Centers, Inc.",matched,cleared,8221
-fy18-tr07-p011-r021,7,11,2018,rescind,113572515,-5000,Reaching Across the World Ministries,rescission,not_found,
-fy18-tr07-p011-r022,7,11,2018,rescind,113572515,-10000,Reaching Across the World Ministries,rescission,not_found,
+fy18-tr07-p011-r021,7,11,2018,rescind,113572515,-5000,Reaching Across the World Ministries,rescission,schedule_c,
+fy18-tr07-p011-r022,7,11,2018,rescind,113572515,-10000,Reaching Across the World Ministries,rescission,schedule_c,
 fy18-tr07-p011-r023,7,11,2018,designate,113572515,5000,"Reaching Across the World Ministries, Inc.",matched,cleared,7025
 fy18-tr07-p011-r024,7,11,2018,designate,113572515,10000,"Reaching Across the World Ministries, Inc.",matched,cleared,7026
 fy18-tr07-p011-r025,7,11,2018,rescind,136400434,-2000,Department of Transportation,rescission,earlier_resolution,
 fy18-tr07-p011-r026,7,11,2018,designate,112037770,2000,"Queensborough Community College Auxiliary Enterprise Association, Inc.",unmatched,amount_differs,
 fy18-tr07-p011-r027,7,11,2018,rescind,136400434,-5000,Department of Parks and Recreation,rescission,earlier_resolution,
 fy18-tr07-p011-r028,7,11,2018,designate,136400434,5000,Department of Transportation,matched,cleared,2645
-fy18-tr07-p011-r029,7,11,2018,rescind,133193351,-20000,Friends of the Upper East Side Historic Districts,rescission,partial,
+fy18-tr07-p011-r029,7,11,2018,rescind,133193351,-20000,Friends of the Upper East Side Historic Districts,rescission,schedule_c,
 fy18-tr07-p011-r030,7,11,2018,designate,133193351,20000,Friends of the Upper East Side Historic Districts,matched,cleared,3415
-fy18-tr07-p011-r031,7,11,2018,rescind,112219193,-15000,"Queens Council on the Arts, Inc.",rescission,not_found,
+fy18-tr07-p011-r031,7,11,2018,rescind,112219193,-15000,"Queens Council on the Arts, Inc.",rescission,schedule_c,
 fy18-tr07-p011-r032,7,11,2018,designate,813540107,15000,"Titan Productions, Inc.",unmatched,later_rescinded,
 fy18-tr07-p011-r033,7,11,2018,rescind,136400434,-6300,Department of Youth and Community Development,rescission,earlier_resolution,
 fy18-tr07-p011-r034,7,11,2018,designate,311669271,1500,"EarSay, Inc.",matched,cleared,2767
 fy18-tr07-p011-r035,7,11,2018,designate,542143785,4800,"Sunnyside Gardens Preservation Alliance, Inc.",matched,cleared,8039
-fy18-tr07-p012-r001,7,12,2018,rescind,510602645,-10000,"Coney Island Youth Alive, Inc.",rescission,not_found,
+fy18-tr07-p012-r001,7,12,2018,rescind,510602645,-10000,"Coney Island Youth Alive, Inc.",rescission,schedule_c,
 fy18-tr07-p012-r002,7,12,2018,designate,510602645,10000,"C.I. Youth Alive, Inc.",matched,cleared,1286
-fy18-tr07-p012-r003,7,12,2018,rescind,133609811,-5000,Korean American Family Services,rescission,partial,
+fy18-tr07-p012-r003,7,12,2018,rescind,133609811,-5000,Korean American Family Services,rescission,schedule_c,
 fy18-tr07-p012-r004,7,12,2018,designate,133609811,5000,"Korean American Family Service Center, Inc., The",matched,cleared,4660
 fy18-tr07-p012-r005,7,12,2018,rescind,133609811,-5000,Korean American Family Services,rescission,earlier_resolution,
 fy18-tr07-p012-r006,7,12,2018,designate,133609811,5000,"Korean American Family Service Center, Inc., The",matched,cleared,4661
-fy18-tr07-p012-r007,7,12,2018,rescind,111666228,-5000,Corpus Christi Church,rescission,not_found,
+fy18-tr07-p012-r007,7,12,2018,rescind,111666228,-5000,Corpus Christi Church,rescission,schedule_c,
 fy18-tr07-p012-r008,7,12,2018,designate,111666228,5000,Roman Catholic Church of Corpus Christi,matched,cleared,7228
 fy18-tr07-p012-r009,7,12,2018,rescind,111666228,-5000,Corpus Christi Church,rescission,earlier_resolution,
 fy18-tr07-p012-r010,7,12,2018,designate,111666228,5000,Roman Catholic Church of Corpus Christi,matched,cleared,7229
-fy18-tr07-p013-r001,7,13,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,not_found,
+fy18-tr07-p013-r001,7,13,2018,rescind,465189061,-5000,"One Brooklyn Fund, Inc.",rescission,schedule_c,
 fy18-tr07-p013-r002,7,13,2018,designate,205751217,5000,"Make Music New York, Inc.",matched,cleared,4961
 fy18-tr07-p014-r001,7,14,2018,designate,461245243,80000,"Leslie-Lohman Museum of Gay and Lesbian Art, The",matched,cleared,4826
 fy18-tr07-p014-r002,7,14,2018,designate,136400434,100000,Department of City Planning,matched,cleared,2298
@@ -3852,14 +3852,14 @@ fy18-tr07-p022-r032,7,22,2018,designate,113804421,10000,"A Better Jamaica, Inc."
 fy18-tr07-p022-r033,7,22,2018,rescind,463299217,-35000,I'RAISE Girls & Boys International Corporation,rescission,earlier_resolution,
 fy18-tr07-p022-r034,7,22,2018,designate,463299217,35000,I'RAISE Girls & Boys International Corporation,matched,cleared,4275
 fy18-tr07-p023-r002,7,23,2018,designate,132621497,20000,"Planned Parenthood of New York City, Inc.",matched,cleared,6548
-fy18-tr07-p024-r001,7,24,2018,rescind,116000202,-18000,Brooklyn Music School - Middle School - The School for Integrated Learning,rescission,partial,
+fy18-tr07-p024-r001,7,24,2018,rescind,116000202,-18000,Brooklyn Music School - Middle School - The School for Integrated Learning,rescission,schedule_c,
 fy18-tr07-p024-r002,7,24,2018,designate,116000202,18000,Brooklyn Music School - Ebbets Field Middle School - 17K352,matched,cleared,1200
 fy18-tr07-p024-r003,7,24,2018,rescind,132683678,-18000,New Heritage Theatre Group - Eagle Academy for Young Men III,rescission,earlier_resolution,
 fy18-tr07-p024-r004,7,24,2018,designate,132683678,18000,New Heritage Theatre Group - Harlem Renaissance 05M285,matched,cleared,5669
 fy18-tr07-p025-r001,7,25,2018,rescind,133564313,-200000,Consortium for Worker Education (CWE),rescission,earlier_resolution,
 fy18-tr07-p025-r002,7,25,2018,designate,133564313,150000,Consortium for Worker Education (CWE) - Make the Road New York,matched,cleared,2052
 fy18-tr07-p025-r003,7,25,2018,designate,133564313,50000,Consortium for Worker Education (CWE) - The Association of Legal Aid Attorneys UAW Local 2325,matched,cleared,2051
-fy18-tr07-p026-r001,7,26,2018,rescind,139226721,-1500000,United Federation of Teachers,rescission,not_found,
+fy18-tr07-p026-r001,7,26,2018,rescind,139226721,-1500000,United Federation of Teachers,rescission,schedule_c,
 fy18-tr07-p026-r002,7,26,2018,designate,461227433,1500000,"New York City Community Learning Schools Initiative, Inc.",matched,cleared,5747
 fy18-tr07-p030-r001,7,30,2018,rescind,112567809,-183000,"Sephardic Community Youth Center, Inc. - House of Jacob",rescission,earlier_resolution,
 fy18-tr07-p030-r002,7,30,2018,designate,112301220,183000,"Sephardic Multi Service Senior Citizens Center, Inc. - House of Jacob",matched,cleared,7491
@@ -3916,33 +3916,33 @@ fy18-tr08-p012-r001,8,12,2018,rescind,813540107,-15000,"Titan Productions, Inc."
 fy18-tr08-p012-r002,8,12,2018,designate,813540107,15000,"Titan Productions, Inc.",matched,cleared,8115
 fy18-tr08-p012-r003,8,12,2018,rescind,113306111,-50000,"Business Outreach Center Network, Inc.",rescission,earlier_resolution,
 fy18-tr08-p012-r004,8,12,2018,designate,113306111,50000,"Business Outreach Center Network, Inc.",matched,cleared,1281
-fy18-tr08-p012-r005,8,12,2018,rescind,237360305,-20000,"Urban Health Plan, Inc.",rescission,partial,
+fy18-tr08-p012-r005,8,12,2018,rescind,237360305,-20000,"Urban Health Plan, Inc.",rescission,schedule_c,
 fy18-tr08-p012-r006,8,12,2018,designate,136400434,20000,Bronx Community Board #2,matched,cleared,911
-fy18-tr08-p012-r007,8,12,2018,rescind,270974276,-5000,Flanbwayan Haitian Literacy Project,rescission,not_found,
+fy18-tr08-p012-r007,8,12,2018,rescind,270974276,-5000,Flanbwayan Haitian Literacy Project,rescission,schedule_c,
 fy18-tr08-p012-r008,8,12,2018,designate,270974276,5000,"Flanbwayan Haitian Literacy Project, Inc.",matched,cleared,3068
-fy18-tr08-p012-r009,8,12,2018,rescind,111723787,-3500,Queen of Angels Youth Center,rescission,not_found,
+fy18-tr08-p012-r009,8,12,2018,rescind,111723787,-3500,Queen of Angels Youth Center,rescission,schedule_c,
 fy18-tr08-p012-r010,8,12,2018,designate,111723787,3500,Queen of Angels RC Church,matched,cleared,6789
-fy18-tr08-p012-r011,8,12,2018,rescind,136178558,-5000,"Workmen's Circle/Arbeter Ring, Inc.",rescission,not_found,
+fy18-tr08-p012-r011,8,12,2018,rescind,136178558,-5000,"Workmen's Circle/Arbeter Ring, Inc.",rescission,schedule_c,
 fy18-tr08-p012-r012,8,12,2018,designate,136178558,5000,"Workmen's Circle/Arbeter Ring, Inc., The",matched,cleared,8746
-fy18-tr08-p012-r013,8,12,2018,rescind,112870465,-3500,Berean Community & Family Life Center,rescission,partial,
+fy18-tr08-p012-r013,8,12,2018,rescind,112870465,-3500,Berean Community & Family Life Center,rescission,schedule_c,
 fy18-tr08-p012-r014,8,12,2018,designate,112870465,3500,"Berean Community and Family Life Center, Inc.",matched,cleared,603
 fy18-tr08-p012-r015,8,12,2018,rescind,113306111,-15000,"Business Outreach Center Network, Inc.",rescission,earlier_resolution,
 fy18-tr08-p012-r016,8,12,2018,designate,113306111,15000,"Business Outreach Center Network, Inc.",matched,cleared,1280
-fy18-tr08-p012-r017,8,12,2018,rescind,300539949,-5000,4 Kids in Need,rescission,not_found,
+fy18-tr08-p012-r017,8,12,2018,rescind,300539949,-5000,4 Kids in Need,rescission,schedule_c,
 fy18-tr08-p012-r018,8,12,2018,designate,300539949,5000,"4 Kids in Need, Inc.",matched,cleared,2
-fy18-tr08-p012-r019,8,12,2018,rescind,133632234,-5000,"Community Research Initiative on AIDS, Inc.",rescission,partial,
+fy18-tr08-p012-r019,8,12,2018,rescind,133632234,-5000,"Community Research Initiative on AIDS, Inc.",rescission,schedule_c,
 fy18-tr08-p012-r020,8,12,2018,designate,474287935,5000,"Arts & Democracy, Inc.",matched,cleared,330
-fy18-tr08-p012-r021,8,12,2018,rescind,133944380,-20000,"Pro-Rads, Inc.",rescission,not_found,
+fy18-tr08-p012-r021,8,12,2018,rescind,133944380,-20000,"Pro-Rads, Inc.",rescission,schedule_c,
 fy18-tr08-p012-r022,8,12,2018,designate,136202692,20000,"Chinese American Planning Council, Inc.",matched,cleared,1701
-fy18-tr08-p012-r023,8,12,2018,rescind,133964284,-20000,"Independence Care System, Inc.",rescission,not_found,
+fy18-tr08-p012-r023,8,12,2018,rescind,133964284,-20000,"Independence Care System, Inc.",rescission,schedule_c,
 fy18-tr08-p012-r024,8,12,2018,designate,133964284,20000,"Independence Care System, Inc.",matched,cleared,4204
-fy18-tr08-p012-r025,8,12,2018,rescind,133860770,-5000,Hell's Kitchen Neighborhood Association,rescission,not_found,
+fy18-tr08-p012-r025,8,12,2018,rescind,133860770,-5000,Hell's Kitchen Neighborhood Association,rescission,schedule_c,
 fy18-tr08-p012-r026,8,12,2018,designate,133860770,5000,"Hell's Kitchen Neighborhood Association, Inc.",matched,cleared,3944
-fy18-tr08-p012-r027,8,12,2018,rescind,461206478,-5000,"Corbin Hill Food Project, Inc.",rescission,not_found,
+fy18-tr08-p012-r027,8,12,2018,rescind,461206478,-5000,"Corbin Hill Food Project, Inc.",rescission,schedule_c,
 fy18-tr08-p012-r028,8,12,2018,designate,461206478,5000,"Corbin Hill Food Project, Inc., The",matched,cleared,2066
-fy18-tr08-p012-r029,8,12,2018,rescind,461206478,-75000,"Corbin Hill Food Project, Inc.",rescission,not_found,
+fy18-tr08-p012-r029,8,12,2018,rescind,461206478,-75000,"Corbin Hill Food Project, Inc.",rescission,schedule_c,
 fy18-tr08-p012-r030,8,12,2018,designate,461206478,75000,"Corbin Hill Food Project, Inc., The",matched,cleared,2067
-fy18-tr08-p013-r001,8,13,2018,rescind,057509019,-5000,Golden Age Club of Nativity,rescission,not_found,
+fy18-tr08-p013-r001,8,13,2018,rescind,057509019,-5000,Golden Age Club of Nativity,rescission,schedule_c,
 fy18-tr08-p013-r002,8,13,2018,designate,111633526,5000,Golden Age Club of Nativity,matched,cleared,3624
 fy18-tr08-p013-r003,8,13,2018,rescind,112453853,-14125,"Ridgewood Bushwick Senior Citizens Council, Inc.",rescission,schedule_c,
 fy18-tr08-p013-r004,8,13,2018,designate,112453853,14125,"Riseboro Community Partnership, Inc.",matched,cleared,7169
@@ -3958,41 +3958,41 @@ fy18-tr08-p013-r013,8,13,2018,rescind,112453853,-9250,"Ridgewood Bushwick Senior
 fy18-tr08-p013-r014,8,13,2018,designate,112453853,9250,"Riseboro Community Partnership, Inc.",matched,cleared,7162
 fy18-tr08-p013-r015,8,13,2018,rescind,112453853,-9250,"Ridgewood Bushwick Senior Citizens Council, Inc.",rescission,earlier_resolution,
 fy18-tr08-p013-r016,8,13,2018,designate,112453853,9250,"Riseboro Community Partnership, Inc.",matched,cleared,7163
-fy18-tr08-p014-r001,8,14,2018,rescind,113553172,-10000,"Ecuadorian Civic Committee of New York, Inc.",rescission,not_found,
+fy18-tr08-p014-r001,8,14,2018,rescind,113553172,-10000,"Ecuadorian Civic Committee of New York, Inc.",rescission,schedule_c,
 fy18-tr08-p014-r002,8,14,2018,designate,113553172,10000,"Ecuadorian Civic Committee of New York City, Inc.",matched,cleared,2829
-fy18-tr08-p014-r003,8,14,2018,rescind,111954969,-5000,"St. Luke's Roman Catholic Church at Whitestone, Queens, NY",rescission,not_found,
+fy18-tr08-p014-r003,8,14,2018,rescind,111954969,-5000,"St. Luke's Roman Catholic Church at Whitestone, Queens, NY",rescission,schedule_c,
 fy18-tr08-p014-r004,8,14,2018,designate,111954969,5000,"St. Luke's Roman Catholic Church, Inc.",matched,cleared,7802
-fy18-tr08-p014-r005,8,14,2018,rescind,270974276,-3500,Flanbwayan Haitian Literacy Project,rescission,partial,
+fy18-tr08-p014-r005,8,14,2018,rescind,270974276,-3500,Flanbwayan Haitian Literacy Project,rescission,schedule_c,
 fy18-tr08-p014-r006,8,14,2018,designate,270974276,3500,"Flanbwayan Haitian Literacy Project, Inc.",matched,cleared,3067
-fy18-tr08-p014-r007,8,14,2018,rescind,133942063,-5000,"Lower East Side Girls Club, The",rescission,partial,
+fy18-tr08-p014-r007,8,14,2018,rescind,133942063,-5000,"Lower East Side Girls Club, The",rescission,schedule_c,
 fy18-tr08-p014-r008,8,14,2018,designate,133942063,5000,"Lower East Side Girls Club of New York, Inc., The",matched,cleared,4929
 fy18-tr08-p014-r009,8,14,2018,rescind,133942063,-5000,"Lower East Side Girls Club, The",rescission,earlier_resolution,
 fy18-tr08-p014-r010,8,14,2018,designate,133942063,5000,"Lower East Side Girls Club of New York, Inc., The",matched,cleared,4930
-fy18-tr08-p014-r011,8,14,2018,rescind,131771421,-7000,Trail Blazer Camps,rescission,not_found,
+fy18-tr08-p014-r011,8,14,2018,rescind,131771421,-7000,Trail Blazer Camps,rescission,schedule_c,
 fy18-tr08-p014-r012,8,14,2018,designate,131771421,7000,"Trail Blazer Camps, Inc.",matched,cleared,8132
-fy18-tr08-p014-r013,8,14,2018,rescind,112870465,-5000,Berean Community & Family Life Center,rescission,partial,
+fy18-tr08-p014-r013,8,14,2018,rescind,112870465,-5000,Berean Community & Family Life Center,rescission,schedule_c,
 fy18-tr08-p014-r014,8,14,2018,designate,112870465,5000,"Berean Community and Family Life Center, Inc.",matched,cleared,604
-fy18-tr08-p014-r015,8,14,2018,rescind,133944380,-5000,"Pro-Rads, Inc.",rescission,not_found,
+fy18-tr08-p014-r015,8,14,2018,rescind,133944380,-5000,"Pro-Rads, Inc.",rescission,schedule_c,
 fy18-tr08-p014-r016,8,14,2018,designate,136202692,5000,"Chinese American Planning Council, Inc.",matched,cleared,1687
-fy18-tr08-p014-r017,8,14,2018,rescind,133944380,-10000,"Pro-Rads, Inc.",rescission,not_found,
+fy18-tr08-p014-r017,8,14,2018,rescind,133944380,-10000,"Pro-Rads, Inc.",rescission,schedule_c,
 fy18-tr08-p014-r018,8,14,2018,designate,136202692,10000,"Chinese American Planning Council, Inc.",matched,cleared,1694
-fy18-tr08-p014-r019,8,14,2018,rescind,116036253,-5000,B'nai B'rith Hillel Foundation,rescission,not_found,
+fy18-tr08-p014-r019,8,14,2018,rescind,116036253,-5000,B'nai B'rith Hillel Foundation,rescission,schedule_c,
 fy18-tr08-p014-r020,8,14,2018,designate,116036253,5000,"B'nai B'rith Hillel Foundation, Inc.",matched,cleared,712
-fy18-tr08-p014-r021,8,14,2018,rescind,116036253,-2500,B'nai B'rith Hillel Foundation,rescission,partial,
+fy18-tr08-p014-r021,8,14,2018,rescind,116036253,-2500,B'nai B'rith Hillel Foundation,rescission,schedule_c,
 fy18-tr08-p014-r022,8,14,2018,designate,116036253,2500,"B'nai B'rith Hillel Foundation, Inc.",matched,cleared,711
-fy18-tr08-p014-r023,8,14,2018,rescind,113632924,-5000,Row New York,rescission,partial,
+fy18-tr08-p014-r023,8,14,2018,rescind,113632924,-5000,Row New York,rescission,schedule_c,
 fy18-tr08-p014-r024,8,14,2018,designate,113632924,5000,"Row New York, Inc.",matched,cleared,7264
-fy18-tr08-p014-r025,8,14,2018,rescind,133354150,-20000,Service Alliance For Youth,rescission,not_found,
+fy18-tr08-p014-r025,8,14,2018,rescind,133354150,-20000,Service Alliance For Youth,rescission,schedule_c,
 fy18-tr08-p014-r026,8,14,2018,designate,133354150,20000,"Service Alliance For Youth, Inc.",matched,cleared,7495
-fy18-tr08-p014-r027,8,14,2018,rescind,134006535,-25000,Youth Ministries for Peace and Justice,rescission,not_found,
+fy18-tr08-p014-r027,8,14,2018,rescind,134006535,-25000,Youth Ministries for Peace and Justice,rescission,schedule_c,
 fy18-tr08-p014-r028,8,14,2018,designate,134006535,25000,"Youth Ministries for Peace and Justice, Inc.",matched,cleared,8879
-fy18-tr08-p015-r001,8,15,2018,rescind,135078662,-30000,Union Grove Missionary Baptist Church,rescission,not_found,
+fy18-tr08-p015-r001,8,15,2018,rescind,135078662,-30000,Union Grove Missionary Baptist Church,rescission,schedule_c,
 fy18-tr08-p015-r002,8,15,2018,designate,135078662,30000,"Union Grove Baptist Church, The",matched,cleared,8179
-fy18-tr08-p015-r003,8,15,2018,rescind,131941627,-3000,"Vera Institute of Justice, Inc.",rescission,partial,
+fy18-tr08-p015-r003,8,15,2018,rescind,131941627,-3000,"Vera Institute of Justice, Inc.",rescission,schedule_c,
 fy18-tr08-p015-r004,8,15,2018,designate,131941627,3000,"Vera Institute of Justice, Inc.",matched,cleared,8391
-fy18-tr08-p016-r001,8,16,2018,rescind,133942063,-25000,"Lower East Side Girls Club, The",rescission,partial,
+fy18-tr08-p016-r001,8,16,2018,rescind,133942063,-25000,"Lower East Side Girls Club, The",rescission,schedule_c,
 fy18-tr08-p016-r002,8,16,2018,designate,133942063,25000,"Lower East Side Girls Club of New York, Inc., The",matched,cleared,4931
-fy18-tr08-p016-r003,8,16,2018,rescind,131941627,-95000,"Vera Institute of Justice, Inc.",rescission,partial,
+fy18-tr08-p016-r003,8,16,2018,rescind,131941627,-95000,"Vera Institute of Justice, Inc.",rescission,schedule_c,
 fy18-tr08-p016-r004,8,16,2018,designate,131941627,95000,"Vera Institute of Justice, Inc.",matched,cleared,8399
 fy18-tr08-p017-r002,8,17,2018,designate,814482839,20000,"Elite Learners, Inc. - Mott Hall Bridges Academy",matched,cleared,2899
 fy18-tr08-p017-r003,8,17,2018,rescind,453665976,-20000,"Afro-Latin Jazz Alliance of New York, Inc. - Bronx Charter School for the Arts",rescission,earlier_resolution,
@@ -4186,8 +4186,8 @@ fy18-tr08-p029-r001,8,29,2018,designate,453665976,15000,"Afro-Latin Jazz Allianc
 fy18-tr08-p029-r002,8,29,2018,designate,453665976,15000,"Afro-Latin Jazz Alliance of New York, Inc. - PSS Davidson Neighborhood Senior Center (Presbyterian Senior Services)",matched,cleared,118
 fy18-tr08-p029-r003,8,29,2018,designate,133098471,15000,"Urbanglass New York Contemporary Glass Center, Inc. - CCNS St Charles Neighborhood Senior Cent (Catholic Charities Neighborhood Services Inc)",matched,cleared,8373
 fy18-tr08-p029-r004,8,29,2018,designate,116000202,15000,Brooklyn Music School - Williamsburg Satmar Neighborhood Sr Ctr (Congregation Yetev Lev Dsatmar),matched,cleared,1199
-fy18-tr08-p030-r001,8,30,2018,rescind,800612019,-18000,"East Flatbush Village, Inc. - Meyer Levin High School",rescission,partial,
-fy18-tr08-p030-r002,8,30,2018,rescind,800612019,-18000,"East Flatbush Village, Inc. - Andries Hudde",rescission,partial,
+fy18-tr08-p030-r001,8,30,2018,rescind,800612019,-18000,"East Flatbush Village, Inc. - Meyer Levin High School",rescission,schedule_c,
+fy18-tr08-p030-r002,8,30,2018,rescind,800612019,-18000,"East Flatbush Village, Inc. - Andries Hudde",rescission,schedule_c,
 fy18-tr08-p030-r004,8,30,2018,rescind,680635936,-72000,"Black Girls Rock, Inc.",rescission,earlier_resolution,
 fy18-tr08-p030-r005,8,30,2018,designate,800612019,18000,"East Flatbush Village, Inc. - Meyer Levin High School",matched,cleared,2777
 fy18-tr08-p030-r006,8,30,2018,designate,800612019,18000,"East Flatbush Village, Inc. - Andries Hudde",matched,cleared,2778
@@ -4262,24 +4262,24 @@ fy18-tr08-p042-r005,8,42,2017,rescind,136400434,-10000,Department of Education -
 fy18-tr08-p042-r006,8,42,2017,designate,133497284,10000,"P.S. 75 Parent-Teacher Association, Ltd.",matched,cleared,6142
 fy18-tr08-p043-r001,8,43,2017,rescind,133471350,-2000,Hunger Free America,rescission,earlier_resolution,
 fy18-tr08-p043-r002,8,43,2017,designate,133471350,2000,"Hunger Free America, Inc.",matched,cleared,3915
-fy18-tr09-p010-r001,9,10,2018,rescind,132921818,-1500,Richmond Choral Society,rescission,partial,
-fy18-tr09-p010-r002,9,10,2018,rescind,202732542,-1500,"Staten Island Philharmonic Orchestra, Inc.",rescission,partial,
+fy18-tr09-p010-r001,9,10,2018,rescind,132921818,-1500,Richmond Choral Society,rescission,schedule_c,
+fy18-tr09-p010-r002,9,10,2018,rescind,202732542,-1500,"Staten Island Philharmonic Orchestra, Inc.",rescission,schedule_c,
 fy18-tr09-p010-r003,9,10,2018,designate,463856711,3000,121st Police Precinct Community Council,matched,cleared,27
-fy18-tr09-p010-r004,9,10,2018,rescind,463856711,-2000,121st Police Precinct Community Council,rescission,partial,
+fy18-tr09-p010-r004,9,10,2018,rescind,463856711,-2000,121st Police Precinct Community Council,rescission,schedule_c,
 fy18-tr09-p010-r005,9,10,2018,designate,463856711,2000,121st Police Precinct Community Council,matched,cleared,26
 fy18-tr09-p010-r006,9,10,2018,designate,113249055,5000,Bangladesh Institute of Performing Arts Inc.,matched,cleared,514
 fy18-tr09-p010-r007,9,10,2018,designate,133192793,5000,"Midtown Management Group, Inc.",matched,cleared,5289
-fy18-tr09-p010-r008,9,10,2018,rescind,113469831,-2500,"Emergency Medical Rescue of New York City, Inc.",rescission,not_found,
+fy18-tr09-p010-r008,9,10,2018,rescind,113469831,-2500,"Emergency Medical Rescue of New York City, Inc.",rescission,schedule_c,
 fy18-tr09-p010-r009,9,10,2018,designate,113469831,2500,"Emergency Medical Rescue of New York City, Inc.",matched,cleared,2919
-fy18-tr09-p010-r010,9,10,2018,rescind,800915297,-5000,Hopey's Heart Foundation,rescission,not_found,
+fy18-tr09-p010-r010,9,10,2018,rescind,800915297,-5000,Hopey's Heart Foundation,rescission,schedule_c,
 fy18-tr09-p010-r011,9,10,2018,designate,814182354,5000,"Art Transforms, Inc.",matched,cleared,322
-fy18-tr09-p010-r012,9,10,2018,rescind,112453853,-10000,"Ridgewood Bushwick Senior Citizens Council, Inc.",rescission,partial,
+fy18-tr09-p010-r012,9,10,2018,rescind,112453853,-10000,"Ridgewood Bushwick Senior Citizens Council, Inc.",rescission,schedule_c,
 fy18-tr09-p010-r013,9,10,2018,rescind,112453853,-5000,"Ridgewood Bushwick Senior Citizens Council, Inc.",rescission,earlier_resolution,
-fy18-tr09-p010-r014,9,10,2018,rescind,112453853,-250000,"Ridgewood Bushwick Senior Citizens Council, Inc.",rescission,not_found,
+fy18-tr09-p010-r014,9,10,2018,rescind,112453853,-250000,"Ridgewood Bushwick Senior Citizens Council, Inc.",rescission,schedule_c,
 fy18-tr09-p010-r015,9,10,2018,designate,112453853,10000,"Riseboro Community Partnership, Inc.",matched,cleared,7164
 fy18-tr09-p010-r016,9,10,2018,designate,112453853,5000,"Riseboro Community Partnership, Inc.",matched,cleared,7158
 fy18-tr09-p010-r017,9,10,2018,designate,112453853,250000,"Riseboro Community Partnership, Inc.",matched,cleared,7177
-fy18-tr09-p010-r018,9,10,2018,rescind,112518141,-12500,"Greater Ridgewood Youth Council, Inc.",rescission,partial,
+fy18-tr09-p010-r018,9,10,2018,rescind,112518141,-12500,"Greater Ridgewood Youth Council, Inc.",rescission,schedule_c,
 fy18-tr09-p010-r019,9,10,2018,rescind,112518141,-50000,"Greater Ridgewood Youth Council, Inc.",rescission,earlier_resolution,
 fy18-tr09-p010-r020,9,10,2018,designate,112518141,12500,"Greater Ridgewood Youth Council, Inc., The",matched,cleared,3708
 fy18-tr09-p010-r021,9,10,2018,designate,112518141,50000,"Greater Ridgewood Youth Council, Inc., The",matched,cleared,3714
@@ -4287,22 +4287,22 @@ fy18-tr09-p010-r022,9,10,2018,rescind,116104901,-5000,American Legion - Continen
 fy18-tr09-p010-r023,9,10,2018,rescind,116104901,-5000,American Legion - Continental Post 1424,rescission,earlier_resolution,
 fy18-tr09-p010-r024,9,10,2018,designate,116104901,5000,American Legion - Continental Post 1424,matched,cleared,223
 fy18-tr09-p010-r025,9,10,2018,designate,116104901,5000,American Legion - Continental Post 1424,matched,cleared,224
-fy18-tr09-p010-r026,9,10,2018,rescind,112502910,-9500,"Glendale Civilian Observation Patrol, Inc., The",rescission,not_found,
+fy18-tr09-p010-r026,9,10,2018,rescind,112502910,-9500,"Glendale Civilian Observation Patrol, Inc., The",rescission,schedule_c,
 fy18-tr09-p010-r027,9,10,2018,designate,112502910,9500,"Glendale Civilian Observation Patrol, Inc., The",matched,cleared,3587
-fy18-tr09-p010-r028,9,10,2018,rescind,465145713,-5000,Howard Beach Lindenwood Civic Association,rescission,not_found,
+fy18-tr09-p010-r028,9,10,2018,rescind,465145713,-5000,Howard Beach Lindenwood Civic Association,rescission,schedule_c,
 fy18-tr09-p010-r029,9,10,2018,designate,465145713,5000,Howard Beach Lindenwood Civic Association,matched,cleared,4126
-fy18-tr09-p010-r030,9,10,2018,rescind,116003455,-10000,Bais Yaakov Academy for Girls,rescission,not_found,
+fy18-tr09-p010-r030,9,10,2018,rescind,116003455,-10000,Bais Yaakov Academy for Girls,rescission,schedule_c,
 fy18-tr09-p010-r031,9,10,2018,rescind,116003455,-4000,Bais Yaakov Academy for Girls,rescission,earlier_resolution,
 fy18-tr09-p010-r032,9,10,2018,designate,113331303,5000,Bnos Malka Academy,matched,cleared,713
 fy18-tr09-p010-r033,9,10,2018,designate,111733454,5000,"Child Center of New York, Inc., The",unmatched,later_rescinded,
 fy18-tr09-p010-r034,9,10,2018,designate,133761446,4000,"Project Lead, Inc.",matched,cleared,6692
-fy18-tr09-p011-r001,9,11,2018,rescind,812505465,-5000,"United Task Force, Inc.",rescission,not_found,
+fy18-tr09-p011-r001,9,11,2018,rescind,812505465,-5000,"United Task Force, Inc.",rescission,schedule_c,
 fy18-tr09-p011-r002,9,11,2018,designate,812505465,5000,"United Task Force, Inc.",matched,cleared,8259
-fy18-tr09-p011-r003,9,11,2018,rescind,133572287,-10000,Asian American Federation of New York,rescission,partial,
-fy18-tr09-p011-r004,9,11,2018,rescind,133572287,-5000,Asian American Federation of New York,rescission,partial,
-fy18-tr09-p011-r005,9,11,2018,rescind,133572287,-5000,Asian American Federation of New York,rescission,partial,
-fy18-tr09-p011-r006,9,11,2018,rescind,133572287,-2000,Asian American Federation of New York,rescission,partial,
-fy18-tr09-p011-r007,9,11,2018,rescind,133572287,-200000,Asian American Federation of New York,rescission,partial,
+fy18-tr09-p011-r003,9,11,2018,rescind,133572287,-10000,Asian American Federation of New York,rescission,schedule_c,
+fy18-tr09-p011-r004,9,11,2018,rescind,133572287,-5000,Asian American Federation of New York,rescission,schedule_c,
+fy18-tr09-p011-r005,9,11,2018,rescind,133572287,-5000,Asian American Federation of New York,rescission,schedule_c,
+fy18-tr09-p011-r006,9,11,2018,rescind,133572287,-2000,Asian American Federation of New York,rescission,schedule_c,
+fy18-tr09-p011-r007,9,11,2018,rescind,133572287,-200000,Asian American Federation of New York,rescission,schedule_c,
 fy18-tr09-p011-r008,9,11,2018,designate,133572287,10000,"Asian American Federation, Inc.",matched,cleared,378
 fy18-tr09-p011-r009,9,11,2018,designate,133572287,5000,"Asian American Federation, Inc.",matched,cleared,376
 fy18-tr09-p011-r010,9,11,2018,designate,133572287,5000,"Asian American Federation, Inc.",matched,cleared,377
@@ -4314,22 +4314,22 @@ fy18-tr09-p011-r015,9,11,2018,rescind,135562308,-5000,New York University,rescis
 fy18-tr09-p011-r016,9,11,2018,designate,133682471,5000,"Asian-American Coalition for Children and Families, Inc.",unmatched,later_rescinded,
 fy18-tr09-p011-r017,9,11,2018,rescind,311558645,-6000,"Forest Park Trust, Inc.",rescission,partial,
 fy18-tr09-p011-r018,9,11,2018,designate,110559220,6000,"Chamber of Commerce Borough of Queens, Inc.",matched,cleared,1556
-fy18-tr09-p012-r001,9,12,2018,rescind,112453853,-70000,"Ridgewood Bushwick Senior Citizens Council, Inc.",rescission,partial,
+fy18-tr09-p012-r001,9,12,2018,rescind,112453853,-70000,"Ridgewood Bushwick Senior Citizens Council, Inc.",rescission,schedule_c,
 fy18-tr09-p012-r002,9,12,2018,designate,112453853,70000,"Riseboro Community Partnership, Inc.",matched,cleared,7175
-fy18-tr09-p012-r003,9,12,2018,rescind,112518141,-22500,"Greater Ridgewood Youth Council, Inc.",rescission,partial,
+fy18-tr09-p012-r003,9,12,2018,rescind,112518141,-22500,"Greater Ridgewood Youth Council, Inc.",rescission,schedule_c,
 fy18-tr09-p012-r004,9,12,2018,rescind,112518141,-5000,"Greater Ridgewood Youth Council, Inc.",rescission,earlier_resolution,
-fy18-tr09-p012-r005,9,12,2018,rescind,112518141,-13500,"Greater Ridgewood Youth Council, Inc.",rescission,partial,
+fy18-tr09-p012-r005,9,12,2018,rescind,112518141,-13500,"Greater Ridgewood Youth Council, Inc.",rescission,schedule_c,
 fy18-tr09-p012-r006,9,12,2018,designate,112518141,22500,"Greater Ridgewood Youth Council, Inc., The",matched,cleared,3710
 fy18-tr09-p012-r007,9,12,2018,designate,112518141,5000,"Greater Ridgewood Youth Council, Inc., The",matched,cleared,3706
 fy18-tr09-p012-r008,9,12,2018,designate,112518141,13500,"Greater Ridgewood Youth Council, Inc., The",matched,cleared,3709
 fy18-tr09-p012-r009,9,12,2018,rescind,822613408,-5000,"Drag Queen Story Hour NYC, Ltd.",rescission,earlier_resolution,
 fy18-tr09-p012-r010,9,12,2018,designate,822613408,5000,"Drag Queen Story Hour NYC, Ltd.",matched,cleared,2736
-fy18-tr09-p013-r001,9,13,2018,rescind,112453853,-50000,"Ridgewood Bushwick Senior Citizens Council, Inc.",rescission,partial,
+fy18-tr09-p013-r001,9,13,2018,rescind,112453853,-50000,"Ridgewood Bushwick Senior Citizens Council, Inc.",rescission,schedule_c,
 fy18-tr09-p013-r002,9,13,2018,designate,112453853,50000,"Riseboro Community Partnership, Inc.",matched,cleared,7173
 fy18-tr09-p014-r001,9,14,2018,designate,473818158,30000,"Placeful Company, Inc.",matched,cleared,6538
 fy18-tr09-p015-r001,9,15,2018,rescind,113306111,-5000,"Business Outreach Center Network, Inc.",rescission,earlier_resolution,
 fy18-tr09-p015-r002,9,15,2018,designate,113306111,5000,"Business Outreach Center Network, Inc.",matched,cleared,1274
-fy18-tr09-p015-r003,9,15,2018,rescind,800915297,-5000,Hopey's Heart Foundation,rescission,not_found,
+fy18-tr09-p015-r003,9,15,2018,rescind,800915297,-5000,Hopey's Heart Foundation,rescission,schedule_c,
 fy18-tr09-p015-r004,9,15,2018,designate,112626155,5000,Interfaith Medical Center,matched,cleared,4242
 fy18-tr09-p015-r005,9,15,2018,rescind,112518141,-50000,"Greater Ridgewood Youth Council, Inc.",rescission,earlier_resolution,
 fy18-tr09-p015-r006,9,15,2018,designate,112518141,50000,"Greater Ridgewood Youth Council, Inc., The",matched,cleared,3715
@@ -4394,31 +4394,31 @@ fy18-tr09-p029-r001,9,29,2018,rescind,133609811,-40000,Korean American Family Se
 fy18-tr09-p029-r002,9,29,2018,designate,133609811,40000,"Korean American Family Service Center, Inc., The",matched,cleared,4674
 fy18-tr09-p031-r001,9,31,2017,rescind,134006535,-8333,Youth Ministries for Peace and Justice,rescission,not_found,
 fy18-tr09-p031-r002,9,31,2017,designate,134006535,8333,"Youth Ministries for Peace and Justice, Inc.",matched,cleared,8654
-fy18-tr10-p007-r001,10,7,2018,rescind,113012147,-5000,"Salt and Sea Mission Church, Inc.",rescission,partial,
+fy18-tr10-p007-r001,10,7,2018,rescind,113012147,-5000,"Salt and Sea Mission Church, Inc.",rescission,schedule_c,
 fy18-tr10-p007-r002,10,7,2018,designate,200934854,5000,"Bed-Stuy Campaign Against Hunger, Inc.",matched,cleared,576
 fy18-tr10-p007-r003,10,7,2018,rescind,272157824,-5000,"Talk Therapy Television, Inc.",rescission,earlier_resolution,
 fy18-tr10-p007-r004,10,7,2018,designate,272157824,5000,"Talk Therapy Television, Inc.",matched,cleared,8080
-fy18-tr10-p007-r005,10,7,2018,rescind,272918478,-5000,"New York Harbor Foundation, Inc.",rescission,partial,
+fy18-tr10-p007-r005,10,7,2018,rescind,272918478,-5000,"New York Harbor Foundation, Inc.",rescission,schedule_c,
 fy18-tr10-p007-r006,10,7,2018,designate,133973196,5000,"Mouse, Inc.",matched,cleared,5446
 fy18-tr10-p007-r007,10,7,2018,rescind,133973196,-5000,"Mouse, Inc.",rescission,earlier_resolution,
 fy18-tr10-p007-r008,10,7,2018,designate,131740011,5000,Wildlife Conservation Society - Discovery Guides - Queens Zoo,matched,cleared,8655
-fy18-tr10-p007-r009,10,7,2018,rescind,112683663,-55000,Cypress Hills Local Development Corporation,rescission,partial,
+fy18-tr10-p007-r009,10,7,2018,rescind,112683663,-55000,Cypress Hills Local Development Corporation,rescission,schedule_c,
 fy18-tr10-p007-r010,10,7,2018,designate,112683663,55000,"Cypress Hills Local Development Corporation, Inc.",matched,cleared,2240
-fy18-tr10-p007-r011,10,7,2018,rescind,237361016,-5000,"Murray Hill Committee, Inc.",rescission,not_found,
+fy18-tr10-p007-r011,10,7,2018,rescind,237361016,-5000,"Murray Hill Committee, Inc.",rescission,schedule_c,
 fy18-tr10-p007-r012,10,7,2018,designate,237361016,5000,"Murray Hill Committee, Inc.",matched,cleared,5471
-fy18-tr10-p007-r013,10,7,2018,rescind,237361016,-4500,"Murray Hill Committee, Inc.",rescission,partial,
+fy18-tr10-p007-r013,10,7,2018,rescind,237361016,-4500,"Murray Hill Committee, Inc.",rescission,schedule_c,
 fy18-tr10-p007-r014,10,7,2018,designate,237361016,4500,"Murray Hill Committee, Inc.",matched,cleared,5470
 fy18-tr10-p008-r001,10,8,2018,rescind,465631277,-5000,"Queens World Film Initiative, Inc.",rescission,schedule_c,
 fy18-tr10-p008-r002,10,8,2018,designate,550869151,5000,"New York Irish Center, Inc.",matched,cleared,6015
-fy18-tr10-p009-r001,10,9,2018,rescind,208562533,-33500,Coney Island Generation Gap Reunion Committee Corp,rescission,not_found,
+fy18-tr10-p009-r001,10,9,2018,rescind,208562533,-33500,Coney Island Generation Gap Reunion Committee Corp,rescission,schedule_c,
 fy18-tr10-p009-r002,10,9,2018,designate,460802042,18200,"Alliance for Coney Island, Inc.",matched,cleared,185
 fy18-tr10-p009-r003,10,9,2018,designate,112697931,15300,"NIA Community Services Network, Inc.",matched,cleared,6193
-fy18-tr10-p009-r004,10,9,2018,rescind,200763333,-7000,"Friends of Kaiser Park, Inc.",rescission,partial,
+fy18-tr10-p009-r004,10,9,2018,rescind,200763333,-7000,"Friends of Kaiser Park, Inc.",rescission,schedule_c,
 fy18-tr10-p009-r005,10,9,2018,designate,371469112,7000,United Chinese Association of Brooklyn,matched,cleared,8212
 fy18-tr10-p009-r006,10,9,2018,rescind,133973196,-5000,"Mouse, Inc.",rescission,earlier_resolution,
 fy18-tr10-p009-r007,10,9,2018,designate,272918478,5000,"New York Harbor Foundation, Inc.",matched,cleared,6001
 fy18-tr10-p010-r001,10,10,2018,designate,030553092,400000,"Man Up, Inc.",matched,cleared,5003
-fy18-tr10-p011-r001,10,11,2018,rescind,208562533,-16250,Coney Island Generation Gap Reunion Committee Corp,rescission,not_found,
+fy18-tr10-p011-r001,10,11,2018,rescind,208562533,-16250,Coney Island Generation Gap Reunion Committee Corp,rescission,schedule_c,
 fy18-tr10-p011-r002,10,11,2018,designate,870790139,5000,"Art's House Schools, Inc.",matched,cleared,354
 fy18-tr10-p011-r003,10,11,2018,designate,113195590,5000,"Brighton Ballet Theater Company, Inc.",matched,cleared,849
 fy18-tr10-p011-r004,10,11,2018,designate,131624228,6250,Young Men's Christian Association of Greater New York,matched,cleared,8830
@@ -4457,28 +4457,28 @@ fy18-tr10-p016-r003,10,16,2018,designate,111633484,10000,"Edith and Carl Marks J
 fy18-tr10-p016-r004,10,16,2018,designate,112665181,10000,"Jewish Community Council of Greater Coney Island, Inc.",matched,cleared,4510
 fy18-tr10-p017-r001,10,17,2018,rescind,112683663,-125000,Cypress Hills Local Development Corporation,rescission,schedule_c,
 fy18-tr10-p017-r002,10,17,2018,designate,112683663,125000,"Cypress Hills Local Development Corporation, Inc.",matched,cleared,2241
-fy18-tr11-p007-r001,11,7,2018,rescind,260741506,-8500,"American Bangali Hindu Foundation, Inc.",rescission,not_found,
+fy18-tr11-p007-r001,11,7,2018,rescind,260741506,-8500,"American Bangali Hindu Foundation, Inc.",rescission,schedule_c,
 fy18-tr11-p007-r002,11,7,2018,designate,200814999,8500,"Life Camp, Inc.",matched,cleared,4832
-fy18-tr11-p007-r003,11,7,2018,rescind,562526290,-10000,Kehilas Ishei Yisrael,rescission,not_found,
-fy18-tr11-p007-r004,11,7,2018,rescind,260741506,-5000,"American Bangali Hindu Foundation, Inc.",rescission,not_found,
+fy18-tr11-p007-r003,11,7,2018,rescind,562526290,-10000,Kehilas Ishei Yisrael,rescission,schedule_c,
+fy18-tr11-p007-r004,11,7,2018,rescind,260741506,-5000,"American Bangali Hindu Foundation, Inc.",rescission,schedule_c,
 fy18-tr11-p007-r005,11,7,2018,designate,274592919,5000,"Achiezer Community Resource Center, Inc.",matched,cleared,73
 fy18-tr11-p007-r006,11,7,2018,designate,133187792,5000,"Asian Americans For Equality, Inc.",matched,cleared,392
 fy18-tr11-p007-r007,11,7,2018,designate,113336257,5000,Beth Gavriel Bukharian Congregation,matched,cleared,633
-fy18-tr11-p007-r008,11,7,2018,rescind,275265003,-10000,"Ballroom Basix USA, Inc.",rescission,not_found,
+fy18-tr11-p007-r008,11,7,2018,rescind,275265003,-10000,"Ballroom Basix USA, Inc.",rescission,schedule_c,
 fy18-tr11-p007-r009,11,7,2018,designate,273218865,10000,"Ballroom Basix USA, Inc.",matched,cleared,508
-fy18-tr11-p007-r010,11,7,2018,rescind,275265003,-4000,"Ballroom Basix USA, Inc.",rescission,not_found,
+fy18-tr11-p007-r010,11,7,2018,rescind,275265003,-4000,"Ballroom Basix USA, Inc.",rescission,schedule_c,
 fy18-tr11-p007-r011,11,7,2018,designate,273218865,4000,"Ballroom Basix USA, Inc.",matched,cleared,506
-fy18-tr11-p007-r012,11,7,2018,rescind,275265003,-5000,"Ballroom Basix USA, Inc.",rescission,not_found,
+fy18-tr11-p007-r012,11,7,2018,rescind,275265003,-5000,"Ballroom Basix USA, Inc.",rescission,schedule_c,
 fy18-tr11-p007-r013,11,7,2018,designate,273218865,5000,"Ballroom Basix USA, Inc.",matched,cleared,507
-fy18-tr11-p007-r014,11,7,2018,rescind,371616159,-3000,"Kiwanis Club of Howard Beach New York, Inc.",rescission,not_found,
+fy18-tr11-p007-r014,11,7,2018,rescind,371616159,-3000,"Kiwanis Club of Howard Beach New York, Inc.",rescission,partial,
 fy18-tr11-p007-r015,11,7,2018,designate,136400434,3000,Department of Education - Robert H. Goddard High School of Communication Arts and Technology,matched,cleared,2351
-fy18-tr11-p007-r016,11,7,2018,rescind,237334565,-5000,Veterans of Foreign Wars Department of New York - PFC. John G. McLaughlin,rescission,not_found,
+fy18-tr11-p007-r016,11,7,2018,rescind,237334565,-5000,Veterans of Foreign Wars Department of New York - PFC. John G. McLaughlin,rescission,schedule_c,
 fy18-tr11-p007-r017,11,7,2018,designate,237334565,5000,Veterans of Foreign Wars Department of New York,matched,cleared,8403
-fy18-tr11-p007-r018,11,7,2018,rescind,110615740,-5000,"Soul Tigers Marching Band, Inc.",rescission,not_found,
+fy18-tr11-p007-r018,11,7,2018,rescind,110615740,-5000,"Soul Tigers Marching Band, Inc.",rescission,schedule_c,
 fy18-tr11-p007-r019,11,7,2018,designate,461763706,5000,East New York Restoration Local Development Corporation,matched,cleared,2790
 fy18-tr11-p007-r020,11,7,2018,rescind,136400434,-5000,Department of Parks and Recreation,rescission,earlier_resolution,
 fy18-tr11-p007-r021,11,7,2018,designate,116049457,5000,Bayside Historical Society,matched,cleared,546
-fy18-tr11-p008-r001,11,8,2018,rescind,113375393,-3500,Smack Mellon Studios,rescission,not_found,
+fy18-tr11-p008-r001,11,8,2018,rescind,113375393,-3500,Smack Mellon Studios,rescission,schedule_c,
 fy18-tr11-p008-r002,11,8,2018,designate,113375393,3500,"Smack Mellon Studios, Inc.",matched,cleared,7618
 fy18-tr11-p009-r001,11,9,2018,rescind,133411791,-25000,"Barrow Group, Inc",rescission,earlier_resolution,
 fy18-tr11-p009-r002,11,9,2018,designate,134085631,15000,"JLSC Educational Tour Bus, Inc.",matched,cleared,4564
@@ -4509,37 +4509,37 @@ fy18-tr11-p015-r001,11,15,2017,rescind,112585935,-5000,Congregation Etz Chaim of
 fy18-tr11-p015-r002,11,15,2017,designate,208747291,5000,India Home,matched,cleared,3956
 fy18-tr11-p016-r001,11,16,2017,rescind,271274060,-500,Parents-Teachers Association of Quest 2 Learn,rescission,not_found,
 fy18-tr11-p016-r002,11,16,2017,designate,136192346,500,"Roundabout Theatre Company, Inc.",matched,cleared,7033
-fy18-tr12-p013-r001,12,13,2018,rescind,743154752,-9000,"Briarwood Community Association, Inc.",rescission,not_found,
+fy18-tr12-p013-r001,12,13,2018,rescind,743154752,-9000,"Briarwood Community Association, Inc.",rescission,schedule_c,
 fy18-tr12-p013-r002,12,13,2018,designate,743154752,9000,"Briarwood Community Foundation, Inc.",matched,cleared,801
 fy18-tr12-p013-r003,12,13,2018,rescind,201209795,-10000,Sauti Yetu Center for African Women,rescission,earlier_resolution,
 fy18-tr12-p013-r004,12,13,2018,designate,201209795,10000,"Sauti Yetu Center for African Women, Inc.",matched,cleared,7366
-fy18-tr12-p013-r005,12,13,2018,rescind,201209795,-5000,Sauti Yetu Center for African Women - Children & Family Services - State Island office,rescission,partial,
+fy18-tr12-p013-r005,12,13,2018,rescind,201209795,-5000,Sauti Yetu Center for African Women - Children & Family Services - State Island office,rescission,schedule_c,
 fy18-tr12-p013-r006,12,13,2018,designate,201209795,5000,"Sauti Yetu Center for African Women, Inc. - Children & Family Services - State Island office",matched,cleared,7365
-fy18-tr12-p013-r007,12,13,2018,rescind,270589817,-5000,Adelaide Sanford Institute,rescission,not_found,
+fy18-tr12-p013-r007,12,13,2018,rescind,270589817,-5000,Adelaide Sanford Institute,rescission,schedule_c,
 fy18-tr12-p013-r008,12,13,2018,designate,270589817,5000,Adelaide L. Sanford Institute,matched,cleared,84
-fy18-tr12-p013-r009,12,13,2018,rescind,113382931,-5000,Narrows Botanical Gardens - Botanical Garden Maintenance and Beautification,rescission,not_found,
+fy18-tr12-p013-r009,12,13,2018,rescind,113382931,-5000,Narrows Botanical Gardens - Botanical Garden Maintenance and Beautification,rescission,schedule_c,
 fy18-tr12-p013-r010,12,13,2018,designate,113382931,5000,"Narrows Botanical Gardens, Inc. - Botanical Garden Maintenance and Beautification",matched,cleared,5535
-fy18-tr12-p013-r011,12,13,2018,rescind,130854930,-5000,"Horticultural Society of New York, Inc.",rescission,partial,
+fy18-tr12-p013-r011,12,13,2018,rescind,130854930,-5000,"Horticultural Society of New York, Inc.",rescission,schedule_c,
 fy18-tr12-p013-r012,12,13,2018,designate,130854930,5000,"Horticultural Society of New York, Inc., The",matched,cleared,4049
 fy18-tr12-p013-r013,12,13,2018,rescind,130854930,-5000,"Horticultural Society of New York, Inc.",rescission,earlier_resolution,
 fy18-tr12-p013-r014,12,13,2018,designate,130854930,5000,"Horticultural Society of New York, Inc., The",matched,cleared,4050
-fy18-tr12-p013-r015,12,13,2018,rescind,130854930,-50000,"Horticultural Society of New York, Inc.",rescission,partial,
+fy18-tr12-p013-r015,12,13,2018,rescind,130854930,-50000,"Horticultural Society of New York, Inc.",rescission,schedule_c,
 fy18-tr12-p013-r016,12,13,2018,designate,130854930,50000,"Horticultural Society of New York, Inc., The",matched,cleared,4068
-fy18-tr12-p013-r017,12,13,2018,rescind,133842270,-3500,New Economy Project,rescission,partial,
+fy18-tr12-p013-r017,12,13,2018,rescind,133842270,-3500,New Economy Project,rescission,schedule_c,
 fy18-tr12-p013-r018,12,13,2018,designate,133842270,3500,"New Economy Project, Inc.",matched,cleared,5663
-fy18-tr12-p013-r019,12,13,2018,rescind,133842270,-5000,New Economy Project,rescission,partial,
+fy18-tr12-p013-r019,12,13,2018,rescind,133842270,-5000,New Economy Project,rescission,schedule_c,
 fy18-tr12-p013-r020,12,13,2018,designate,133842270,5000,"New Economy Project, Inc.",matched,cleared,5666
 fy18-tr12-p013-r021,12,13,2018,rescind,133842270,-3500,New Economy Project,rescission,earlier_resolution,
 fy18-tr12-p013-r022,12,13,2018,designate,133842270,3500,"New Economy Project, Inc.",matched,cleared,5664
 fy18-tr12-p013-r023,12,13,2018,rescind,133842270,-3500,New Economy Project - NYC Financial Justice Project,rescission,earlier_resolution,
 fy18-tr12-p013-r024,12,13,2018,designate,133842270,3500,"New Economy Project, Inc. - NYC Financial Justice Project",matched,cleared,5665
-fy18-tr12-p013-r025,12,13,2018,rescind,270654876,-5500,New American Self Help Jewish Education World,rescission,not_found,
+fy18-tr12-p013-r025,12,13,2018,rescind,270654876,-5500,New American Self Help Jewish Education World,rescission,schedule_c,
 fy18-tr12-p013-r026,12,13,2018,designate,270654876,5500,"NASH JEW - New American Self Help Jewish Education World, Inc.",matched,cleared,5536
-fy18-tr12-p013-r027,12,13,2018,rescind,471889899,-7500,Latino Social Work Coalition and Scholarship Fund,rescission,not_found,
+fy18-tr12-p013-r027,12,13,2018,rescind,471889899,-7500,Latino Social Work Coalition and Scholarship Fund,rescission,schedule_c,
 fy18-tr12-p013-r028,12,13,2018,designate,471889899,7500,"Latino Social Work Coalition and Scholarship Fund, Inc.",matched,cleared,4733
-fy18-tr12-p013-r029,12,13,2018,rescind,111733454,-2500,"Child Center of New York, Inc., The",rescission,partial,
+fy18-tr12-p013-r029,12,13,2018,rescind,111733454,-2500,"Child Center of New York, Inc., The",rescission,schedule_c,
 fy18-tr12-p013-r030,12,13,2018,designate,111733454,2500,"Child Center of NY, Inc., The",matched,cleared,1621
-fy18-tr12-p013-r031,12,13,2018,rescind,111733454,-25000,"Child Center of New York, Inc., The",rescission,partial,
+fy18-tr12-p013-r031,12,13,2018,rescind,111733454,-25000,"Child Center of New York, Inc., The",rescission,schedule_c,
 fy18-tr12-p013-r032,12,13,2018,designate,111733454,25000,"Child Center of NY, Inc., The",matched,cleared,1630
 fy18-tr12-p013-r033,12,13,2018,rescind,111733454,-5000,"Child Center of New York, Inc., The",rescission,earlier_resolution,
 fy18-tr12-p013-r034,12,13,2018,designate,111733454,5000,"Child Center of NY, Inc., The",matched,cleared,1622
@@ -4547,57 +4547,57 @@ fy18-tr12-p013-r035,12,13,2018,rescind,111733454,-5000,"Child Center of New York
 fy18-tr12-p013-r036,12,13,2018,designate,111733454,5000,"Child Center of NY, Inc., The",matched,cleared,1623
 fy18-tr12-p013-r037,12,13,2018,rescind,201056519,-10000,Open Door Family Life Center,rescission,earlier_resolution,
 fy18-tr12-p013-r038,12,13,2018,designate,201056519,10000,"Open Door Family Life Center, Inc.",matched,cleared,6390
-fy18-tr12-p013-r039,12,13,2018,rescind,421642691,-9500,Hip-Hop Theater Festival - Artist Residency @ PS 109,rescission,partial,
+fy18-tr12-p013-r039,12,13,2018,rescind,421642691,-9500,Hip-Hop Theater Festival - Artist Residency @ PS 109,rescission,schedule_c,
 fy18-tr12-p013-r040,12,13,2018,designate,421642691,9500,"Hip-Hop Theater Festival, Inc. - Artist Residency @ PS 109",matched,cleared,3990
-fy18-tr12-p013-r041,12,13,2018,rescind,133447662,-7000,"Council For Living Music, Inc.",rescission,partial,
+fy18-tr12-p013-r041,12,13,2018,rescind,133447662,-7000,"Council For Living Music, Inc.",rescission,schedule_c,
 fy18-tr12-p013-r042,12,13,2018,designate,133447662,7000,"Council For Living Music, Inc., The",matched,cleared,2084
-fy18-tr12-p014-r001,12,14,2018,rescind,223495873,-35000,"Father's Heart Ministries, Inc., The - Father's Heart Soup Kitchen",rescission,not_found,
+fy18-tr12-p014-r001,12,14,2018,rescind,223495873,-35000,"Father's Heart Ministries, Inc., The - Father's Heart Soup Kitchen",rescission,schedule_c,
 fy18-tr12-p014-r002,12,14,2018,designate,223495873,35000,"Father's Heart Ministries, The - Father's Heart Soup Kitchen",matched,cleared,3002
 fy18-tr12-p014-r003,12,14,2018,rescind,111675278,-5000,St. Joan of Arc - Youth Program,rescission,schedule_c,
 fy18-tr12-p014-r004,12,14,2018,designate,136202692,5000,"Chinese American Planning Council, Inc.",matched,cleared,1686
 fy18-tr12-p014-r005,12,14,2018,rescind,133682471,-5000,"Asian-American Coalition for Children and Families, Inc. - Elmhurst Lunar New Year",rescission,earlier_resolution,
 fy18-tr12-p014-r006,12,14,2018,designate,133682471,5000,"Asian American Coalition for Children and Families, Inc. - Elmhurst Lunar New Year",matched,cleared,367
-fy18-tr12-p014-r007,12,14,2018,rescind,133682471,-10000,"Asian-American Coalition for Children and Families, Inc.",rescission,partial,
+fy18-tr12-p014-r007,12,14,2018,rescind,133682471,-10000,"Asian-American Coalition for Children and Families, Inc.",rescission,schedule_c,
 fy18-tr12-p014-r008,12,14,2018,designate,133682471,10000,"Asian American Coalition for Children and Families, Inc.",matched,cleared,371
 fy18-tr12-p014-r009,12,14,2018,rescind,421642691,-9500,Hip-Hop Theater Festival - Artist Residency @ PS 109,rescission,earlier_resolution,
 fy18-tr12-p014-r010,12,14,2018,designate,421642691,9500,"Hip-Hop Theater Festival, Inc. - Artist Residency @ PS 109",unmatched,key_already_claimed,
 fy18-tr12-p014-r011,12,14,2018,rescind,136400434,-9000,Police Department - 72nd Precinct,rescission,earlier_resolution,
 fy18-tr12-p014-r012,12,14,2018,designate,200732447,9000,Falconworks Artists Group,matched,cleared,2977
-fy18-tr12-p015-r001,12,15,2018,rescind,112688282,-5000,"Jackson Heights Art Club, Inc.",rescission,not_found,
+fy18-tr12-p015-r001,12,15,2018,rescind,112688282,-5000,"Jackson Heights Art Club, Inc.",rescission,schedule_c,
 fy18-tr12-p015-r002,12,15,2018,designate,112688282,5000,"Jackson Heights Art Club, Inc., The",matched,cleared,4293
-fy18-tr12-p015-r003,12,15,2018,rescind,412055310,-5000,Humane Education Advocates Reaching Teachers,rescission,not_found,
+fy18-tr12-p015-r003,12,15,2018,rescind,412055310,-5000,Humane Education Advocates Reaching Teachers,rescission,schedule_c,
 fy18-tr12-p015-r004,12,15,2018,designate,412055310,5000,"Humane Education Advocates Reaching Teachers, Inc.",matched,cleared,4146
-fy18-tr12-p015-r005,12,15,2018,rescind,412055310,-15000,Humane Education Advocates Reaching Teachers,rescission,not_found,
+fy18-tr12-p015-r005,12,15,2018,rescind,412055310,-15000,Humane Education Advocates Reaching Teachers,rescission,schedule_c,
 fy18-tr12-p015-r006,12,15,2018,designate,412055310,15000,"Humane Education Advocates Reaching Teachers, Inc.",matched,cleared,4147
-fy18-tr12-p015-r007,12,15,2018,rescind,201239616,-2000,Art of Problem Solving Foundation,rescission,not_found,
+fy18-tr12-p015-r007,12,15,2018,rescind,201239616,-2000,Art of Problem Solving Foundation,rescission,schedule_c,
 fy18-tr12-p015-r008,12,15,2018,designate,201239616,2000,"Art of Problem Solving Initiative, Inc., The",matched,cleared,321
-fy18-tr12-p015-r009,12,15,2018,rescind,550844926,-10000,Washington Heights Jaybie's Sports Academy,rescission,not_found,
+fy18-tr12-p015-r009,12,15,2018,rescind,550844926,-10000,Washington Heights Jaybie's Sports Academy,rescission,schedule_c,
 fy18-tr12-p015-r010,12,15,2018,designate,550844926,10000,"Washington Heights Jaybie's Sports Academy, Inc.",matched,cleared,8503
-fy18-tr12-p015-r011,12,15,2018,rescind,135562210,-10000,"Educational Alliance, Inc.",rescission,partial,
+fy18-tr12-p015-r011,12,15,2018,rescind,135562210,-10000,"Educational Alliance, Inc.",rescission,schedule_c,
 fy18-tr12-p015-r012,12,15,2018,designate,135562210,10000,"Educational Alliance, Inc., The",matched,cleared,2857
-fy18-tr12-p015-r013,12,15,2018,rescind,111733454,-30000,"Child Center of New York, Inc., The",rescission,partial,
+fy18-tr12-p015-r013,12,15,2018,rescind,111733454,-30000,"Child Center of New York, Inc., The",rescission,schedule_c,
 fy18-tr12-p015-r014,12,15,2018,designate,111733454,30000,"Child Center of NY, Inc., The",matched,cleared,1632
 fy18-tr12-p015-r015,12,15,2018,rescind,111733454,-10000,"Child Center of New York, Inc., The - Programming at Child Center",rescission,earlier_resolution,
 fy18-tr12-p015-r016,12,15,2018,designate,111733454,10000,"Child Center of NY, Inc., The - Programming at Child Center",matched,cleared,1625
 fy18-tr12-p015-r017,12,15,2018,rescind,111733454,-10000,"Child Center of New York, Inc., The - Latimer Gardens Cornerstone Community Center",rescission,earlier_resolution,
 fy18-tr12-p015-r018,12,15,2018,designate,111733454,10000,"Child Center of NY, Inc., The - Latimer Gardens Cornerstone Community Center",matched,cleared,1626
-fy18-tr12-p015-r019,12,15,2018,rescind,111733454,-5500,"Child Center of New York, Inc., The - Court-Involved Youth Program",rescission,partial,
+fy18-tr12-p015-r019,12,15,2018,rescind,111733454,-5500,"Child Center of New York, Inc., The - Court-Involved Youth Program",rescission,schedule_c,
 fy18-tr12-p015-r020,12,15,2018,designate,111733454,5500,"Child Center of NY, Inc., The - Court-Involved Youth Program",matched,cleared,1624
 fy18-tr12-p015-r021,12,15,2018,rescind,111733454,-10000,"Child Center of New York, Inc., The",rescission,earlier_resolution,
 fy18-tr12-p015-r022,12,15,2018,designate,111733454,10000,"Child Center of NY, Inc., The",matched,cleared,1627
-fy18-tr12-p015-r023,12,15,2018,rescind,753077676,-5000,Voices Unbroken - Creative Writing Workshops,rescission,not_found,
+fy18-tr12-p015-r023,12,15,2018,rescind,753077676,-5000,Voices Unbroken - Creative Writing Workshops,rescission,schedule_c,
 fy18-tr12-p015-r024,12,15,2018,designate,753077676,5000,"Voices Unbroken, Inc. - Creative Writing Workshops",matched,cleared,8487
-fy18-tr12-p015-r025,12,15,2018,rescind,223495873,-5000,"Father's Heart Ministries, Inc., The - KidZone Program",rescission,partial,
+fy18-tr12-p015-r025,12,15,2018,rescind,223495873,-5000,"Father's Heart Ministries, Inc., The - KidZone Program",rescission,schedule_c,
 fy18-tr12-p015-r026,12,15,2018,designate,223495873,5000,"Father's Heart Ministries, The - KidZone Program",matched,cleared,3000
-fy18-tr12-p015-r027,12,15,2018,rescind,311614732,-8000,"Mama Foundation for the Arts, Inc.",rescission,partial,
+fy18-tr12-p015-r027,12,15,2018,rescind,311614732,-8000,"Mama Foundation for the Arts, Inc.",rescission,schedule_c,
 fy18-tr12-p015-r028,12,15,2018,designate,311614732,8000,"Mama Foundation for the Arts, Inc., The",matched,cleared,4987
 fy18-tr12-p015-r029,12,15,2018,rescind,133682471,-5000,"Asian-American Coalition for Children and Families, Inc.",rescission,earlier_resolution,
 fy18-tr12-p015-r030,12,15,2018,designate,133682471,5000,"Asian American Coalition for Children and Families, Inc.",matched,cleared,368
-fy18-tr12-p015-r031,12,15,2018,rescind,133682471,-6000,"Asian-American Coalition for Children and Families, Inc. - Asian American Student Advocacy Project (ASAP)",rescission,partial,
+fy18-tr12-p015-r031,12,15,2018,rescind,133682471,-6000,"Asian-American Coalition for Children and Families, Inc. - Asian American Student Advocacy Project (ASAP)",rescission,schedule_c,
 fy18-tr12-p015-r032,12,15,2018,designate,133682471,6000,"Asian American Coalition for Children and Families, Inc. - Asian American Student Advocacy Project (ASAP)",matched,cleared,370
 fy18-tr12-p015-r033,12,15,2018,rescind,133682471,-5000,"Asian-American Coalition for Children and Families, Inc. - ASAP",rescission,earlier_resolution,
 fy18-tr12-p015-r034,12,15,2018,designate,133682471,5000,"Asian American Coalition for Children and Families, Inc. - ASAP",matched,cleared,369
-fy18-tr12-p015-r035,12,15,2018,rescind,133682471,-3500,"Asian-American Coalition for Children and Families, Inc. - ASAP",rescission,partial,
+fy18-tr12-p015-r035,12,15,2018,rescind,133682471,-3500,"Asian-American Coalition for Children and Families, Inc. - ASAP",rescission,schedule_c,
 fy18-tr12-p015-r036,12,15,2018,designate,133682471,3500,"Asian American Coalition for Children and Families, Inc. - ASAP",matched,cleared,366
 fy18-tr12-p016-r001,12,16,2018,rescind,135562210,-6000,"Educational Alliance, Inc. - Weinberg Center for Balanced Living",rescission,schedule_c,
 fy18-tr12-p016-r002,12,16,2018,designate,135562210,6000,"Educational Alliance, Inc., The - Weinberg Center for Balanced Living",matched,cleared,2856
@@ -4605,13 +4605,13 @@ fy18-tr12-p016-r003,12,16,2018,rescind,135562210,-15000,"Educational Alliance, I
 fy18-tr12-p016-r004,12,16,2018,designate,135562210,15000,"Educational Alliance, Inc., The - Sirovich Senior Center",matched,cleared,2859
 fy18-tr12-p017-r001,12,17,2018,rescind,753077676,-5000,Voices Unbroken - Creative Writing Workshops,rescission,earlier_resolution,
 fy18-tr12-p017-r002,12,17,2018,designate,753077676,5000,"Voices Unbroken, Inc. - Creative Writing Workshops",matched,cleared,8488
-fy18-tr12-p017-r003,12,17,2018,rescind,223495873,-10000,"Father's Heart Ministries, Inc., The - Hunger Prevention Program",rescission,partial,
+fy18-tr12-p017-r003,12,17,2018,rescind,223495873,-10000,"Father's Heart Ministries, Inc., The - Hunger Prevention Program",rescission,schedule_c,
 fy18-tr12-p017-r004,12,17,2018,designate,223495873,10000,"Father's Heart Ministries, The - Hunger Prevention Program",matched,cleared,3001
-fy18-tr12-p018-r001,12,18,2018,rescind,201209795,-100000,Sauti Yetu Center for African Women,rescission,not_found,
+fy18-tr12-p018-r001,12,18,2018,rescind,201209795,-100000,Sauti Yetu Center for African Women,rescission,schedule_c,
 fy18-tr12-p018-r002,12,18,2018,designate,201209795,100000,"Sauti Yetu Center for African Women, Inc.",matched,cleared,7374
-fy18-tr12-p018-r003,12,18,2018,rescind,471889899,-25000,Latino Social Work Coalition and Scholarship Fund,rescission,not_found,
+fy18-tr12-p018-r003,12,18,2018,rescind,471889899,-25000,Latino Social Work Coalition and Scholarship Fund,rescission,schedule_c,
 fy18-tr12-p018-r004,12,18,2018,designate,471889899,25000,"Latino Social Work Coalition and Scholarship Fund, Inc.",matched,cleared,4734
-fy18-tr12-p019-r001,12,19,2018,rescind,135562210,-10556,"Educational Alliance, Inc.",rescission,partial,
+fy18-tr12-p019-r001,12,19,2018,rescind,135562210,-10556,"Educational Alliance, Inc.",rescission,schedule_c,
 fy18-tr12-p019-r002,12,19,2018,designate,135562210,10556,"Educational Alliance, Inc., The",matched,cleared,2858
 fy18-tr12-p019-r003,12,19,2018,rescind,111733454,-25000,"Child Center of New York, Inc., The - Immigrant Assistance Program",rescission,earlier_resolution,
 fy18-tr12-p019-r004,12,19,2018,designate,111733454,25000,"Child Center of NY, Inc., The - Immigrant Assistance Program",matched,cleared,1631
@@ -4649,7 +4649,7 @@ fy18-tr12-p022-r001,12,22,2018,rescind,130854930,-20000,"Horticultural Society o
 fy18-tr12-p022-r002,12,22,2018,designate,130854930,20000,"Horticultural Society of New York, Inc., The - P.S./I.S. 210 - Twenty-first Century Academy for Community Leadership",matched,cleared,4057
 fy18-tr12-p022-r003,12,22,2018,rescind,130854930,-20000,"Horticultural Society of New York, Inc. - Public School 116M",rescission,earlier_resolution,
 fy18-tr12-p022-r004,12,22,2018,designate,130854930,20000,"Horticultural Society of New York, Inc., The - Public School 116M",matched,cleared,4058
-fy18-tr12-p022-r005,12,22,2018,rescind,135562210,-20000,"Educational Alliance, Inc. - PS 064M- Robert Simon",rescission,partial,
+fy18-tr12-p022-r005,12,22,2018,rescind,135562210,-20000,"Educational Alliance, Inc. - PS 064M- Robert Simon",rescission,schedule_c,
 fy18-tr12-p022-r006,12,22,2018,designate,135562210,20000,"Educational Alliance, Inc., The - PS 064M- Robert Simon",matched,cleared,2860
 fy18-tr12-p022-r007,12,22,2018,rescind,133447662,-20000,"Council For Living Music, Inc. - Public School 33M",rescission,earlier_resolution,
 fy18-tr12-p022-r008,12,22,2018,designate,133447662,20000,"Council For Living Music, Inc., The - Public School 33M",matched,cleared,2085

@@ -50,9 +50,9 @@ DISCLOSURE (report-only; data/fyNN/expense_disclosure)
   budget year 2019: 6 organization designations; 6 found in the disclosure on (EIN, amount) ($226,855); not found: 
   budget year 2020: 37 organization designations; 35 found in the disclosure on (EIN, amount) ($674,930); not found: amount_differs 2
   budget year 2021: 3,335 organization designations; 3,094 found in the disclosure on (EIN, amount) ($103,568,681); not found: amount_differs 52, city_ein_name_mismatch 2, ein_not_in_disclosure 24, key_already_claimed 5, later_rescinded 158
-  rescissions of organizations: 610; where the money was designated before: earlier_resolution 268, not_found 39, partial 52, schedule_c 251
+  rescissions of organizations: 610; where the money was designated before: earlier_resolution 268, not_found 38, partial 48, schedule_c 256 (schedule_c: the checked data/fy21/pdf/schedule_c/fy21_sc_awards.csv)
 
-RETIRED CSV (data/fy21/transparency-resolutions/fy21_transparency_all.csv, old parser)
+RETIRED CSV (data/retired/fy21/transparency-resolutions/fy21_transparency_all.csv, old parser)
   retired rows 4,463; these rows 4,500; same (resolution, EIN, amount) 4,463; only here 37 (EIN printed: blank 1, hyphen 28, no_hyphen 8); only in the retired file 0
 
 ROW FLAG COUNTS (all listed in flags.csv; review file holds only those that could change a value)

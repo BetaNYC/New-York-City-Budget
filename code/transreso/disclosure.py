@@ -19,10 +19,11 @@ never EIN alone, never the member; the City's EIN 13-6400434 also needs a name m
 2. **Where did each rescission come from?** Every negative row on a designation chart (not an
    agency's side) is looked for, as (EIN, |amount|), among earlier designations: the same
    resolution's own earlier rows, earlier resolutions' positive rows, and, for the document
-   year itself, that year's committed Schedule C award files (data/retired/fyNN/schedule_c/,
-   or data/fyNN/schedule_c/ for a year not yet redone; PDF-derived by the old parser and not
-   trusted as values; used here as a cross-check only). Reasons: earlier_resolution,
-   schedule_c, partial (the EIN has a larger earlier amount), not_found.
+   year itself, that year's checked Schedule C awards (data/fyNN/pdf/schedule_c/fyNN_sc_awards.csv,
+   body and appendices A-C; code/parse_schedule_c_v2.py). Not the retired old-parser CSVs
+   under data/retired/fyNN/schedule_c/ (DATA-ANOMALIES §27; #204). A year with no checked
+   Schedule C stops the run. Reasons: earlier_resolution, schedule_c, partial (the EIN has a
+   larger earlier amount), not_found.
 """
 import csv
 import os
@@ -58,20 +59,30 @@ def load_disclosure(fy):
     return out
 
 
-def load_schedule_c(fy):
-    """(EIN, amount) multiset from the committed Schedule C award files of fiscal year `fy`."""
+def schedule_c_path(fy):
+    """The checked Schedule C awards of fiscal year `fy` (every section: body, appendices A-C)."""
     yy = f"fy{fy % 100:02d}"
-    d = family_dir(os.path.join(ROOT, "data"), yy, "schedule_c")
+    return os.path.join("data", yy, "pdf", "schedule_c", f"{yy}_sc_awards.csv")
+
+
+def load_schedule_c(fy):
+    """(EIN, amount) multiset from the checked Schedule C awards of fiscal year `fy`. Awards that
+    print no EIN are left out: a rescission with no EIN would match any of them on amount alone
+    (FY2026 Reso 06 p.2's ($5,000) and Morris Heights Health Center's $5,000)."""
+    path = os.path.join(ROOT, schedule_c_path(fy))
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"{schedule_c_path(fy)} is missing: rescission origins need the "
+                                f"year's checked Schedule C (promote it first)")
     keys = defaultdict(int)
-    for fn in (f"{yy}_schedule_c_awards.csv", f"{yy}_appendix_a_aging.csv",
-               f"{yy}_appendix_b_local.csv", f"{yy}_appendix_c_youth.csv"):
-        with open(os.path.join(d, fn), newline="", encoding="utf-8") as f:
-            for r in csv.DictReader(f):
-                ein = re.sub(r"\D", "", r["ein"] or "")
-                try:
-                    keys[(ein, int(Decimal(r["amount"])))] += 1
-                except Exception:
-                    pass
+    with open(path, newline="", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            ein = re.sub(r"\D", "", r["ein"] or "")
+            if not ein:
+                continue
+            try:
+                keys[(ein, int(Decimal(r["amount"])))] += 1
+            except Exception:
+                pass
     return keys
 
 
@@ -83,13 +94,14 @@ def align(rows, fy=2026):
     """`fy` is the document year (its Schedule C is the rescission cross-check). Returns dict(per_row{row_id: (status, reason, disclosure_row)}, disc_years, summary)."""
     per_row, summary = {}, {}
     years = sorted({r["budget_fiscal_year"] for r in rows if r["budget_fiscal_year"]})
-    for fy in years:
-        disc = load_disclosure(fy)
-        mine = [r for r in rows if r["budget_fiscal_year"] == fy and _is_award(r)]
+    # `by` is each budget year; `fy` stays the document year for the rescission origins below.
+    for by in years:
+        disc = load_disclosure(by)
+        mine = [r for r in rows if r["budget_fiscal_year"] == by and _is_award(r)]
         if disc is None:
             for r in mine:
-                per_row[r["row_id"]] = ("no_disclosure", f"no fy{fy % 100:02d} disclosure in data/", "")
-            summary[fy] = dict(disclosure_rows=0)
+                per_row[r["row_id"]] = ("no_disclosure", f"no fy{by % 100:02d} disclosure in data/", "")
+            summary[by] = dict(disclosure_rows=0)
             continue
         by_key = defaultdict(list)
         for i, d in enumerate(disc):
@@ -119,7 +131,7 @@ def align(rows, fy=2026):
             else:
                 reason = "ein_not_in_disclosure"
             per_row[r["row_id"]] = ("unmatched", reason, "")
-        summary[fy] = dict(disclosure_rows=len(disc), positive_rows=len(pos),
+        summary[by] = dict(disclosure_rows=len(disc), positive_rows=len(pos),
                            matched=sum(1 for r in pos if per_row[r["row_id"]][0] == "matched"))
 
     # Rescission origins.

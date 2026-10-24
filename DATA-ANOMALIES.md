@@ -947,6 +947,12 @@ year; the budget year a row changes is `budget_fiscal_year` (2023-2026), from th
 2023" that names a Council Member who took office in 2024 (likely 2026). Reso 01 p.67 "Operation
 Backpack" prints no fiscal year. Reso 06 p.2 prints one row with no EIN.
 
+**Text drawn over text (#196, 2026-10-23).** On Reso 02 p.114 the first line of row 2's purpose
+("Funding supports health …") is drawn over row 1's last purpose line, outside row 2's cell, and
+does not show. The page is named `T7.overlaid` (as FY2022 Reso 09 p.38), so row 1 reads as the
+page shows it. The hidden line is kept in row 1's `hidden_text` (the cell it is drawn over), not
+row 2's, and its `W.clipped_text` note says "under the next cell". No value is affected.
+
 ---
 
 ## 31. FY2026 Schedule C rebuilt from the PDF, checked (#103) — REVIEW IN PROGRESS (4 of 28 decided)

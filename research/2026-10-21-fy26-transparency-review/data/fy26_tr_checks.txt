@@ -31,7 +31,7 @@ HARD CHECKS
   ok    T4.headers           0 unrecognised headers
   ok    T5.anchors           4951 EIN-shaped words on the visible text (4949 counting clipped letters), 4951 rows with an EIN; 0 pages differ; 0 rows without a readable amount; 1 rows print no EIN
   ok    T6.furniture         0 data cells holding header/footer text; 0 unexpected lines under tables
-  ok    T7.chars             713428 non-space chars; 0 in a table but in no cell; 157 clipped (hidden) chars in 12 runs, each listed for review
+  ok    T7.chars             713428 non-space chars; 0 in a table but in no cell; 222 clipped (hidden) chars in 13 runs, each listed for review; 1 runs drawn on top of other text and not shown on the page (1 rows, critical review items)
   ok    T10.sign_colour      1617 amounts in parentheses, all red; 0 rows where sign and colour disagree
   ok    T11.markers          528 rows marked **, 33 marked ***, 1 pending pre-qualification; 0 without their footnote or with an odd * cell
   ok    T12.fiscal_year      387 charts print a fiscal year, all named in their resolution's text; 1 print none (warn, in the review file); 1 name a year the text does not (1 a named exception in the config, kept as printed and in the review file)
@@ -53,13 +53,13 @@ DISCLOSURE (report-only; data/fyNN/expense_disclosure)
   budget year 2024: 41 organization designations; 41 found in the disclosure on (EIN, amount) ($1,658,747); not found: 
   budget year 2025: 147 organization designations; 136 found in the disclosure on (EIN, amount) ($6,510,931); not found: city_ein_name_mismatch 2, later_rescinded 9
   budget year 2026: 2,653 organization designations; 2,440 found in the disclosure on (EIN, amount) ($153,558,984); not found: amount_differs 44, city_ein_name_mismatch 6, ein_not_in_disclosure 2, key_already_claimed 4, later_rescinded 157
-  rescissions of organizations: 974; where the money was designated before: earlier_resolution 346, not_found 77, partial 116, schedule_c 435
+  rescissions of organizations: 974; where the money was designated before: earlier_resolution 346, not_found 77, partial 116, schedule_c 435 (schedule_c: the checked data/fy26/pdf/schedule_c/fy26_sc_awards.csv)
 
-RETIRED CSV (data/fy26/transparency-resolutions/fy26_transparency_all.csv, old parser)
+RETIRED CSV (data/retired/fy26/transparency-resolutions/fy26_transparency_all.csv, old parser)
   retired rows 4,755; these rows 4,952; same (resolution, EIN, amount) 4,755; only here 197 (EIN printed: blank 1, hyphen 23, no_hyphen 173); only in the retired file 0
 
 ROW FLAG COUNTS (all listed in flags.csv; review file holds only those that could change a value)
-  clipped_text 11, ein_blank 1, ein_no_hyphen 173, made_cell 1, made_cell_empty 90, prequal_star_in_org 1, spanning_cell 448, unpaired_purpose 7, wrap_hyphen 97
+  clipped_text 12, ein_blank 1, ein_no_hyphen 173, made_cell 1, made_cell_empty 90, overlaid_text 1, prequal_star_in_org 1, spanning_cell 448, unpaired_purpose 7, wrap_hyphen 97
   zero-width chars dropped: 1
 
-REVIEW FILE: 24 rows (2 critical, 22 warn); stale decisions: 0
+REVIEW FILE: 26 rows (3 critical, 23 warn); stale decisions: 0

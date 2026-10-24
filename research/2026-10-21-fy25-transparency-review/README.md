@@ -128,10 +128,14 @@ Byte-identical on re-run (checked). Every year-specific fact is in
 - Text where both grids read the same wrong text layer (no OCR sample; the PDFs are born-digital
   and ink is clean).
 
+## Since this review
+
+- Rescission origins (report only) now use the checked FY2025 Schedule C,
+  `data/fy25/pdf/schedule_c/fy25_sc_awards.csv` (#204, re-run 2026-10-23): no rescission's origin
+  changed.
+
 ## Not done here
 
 - OCR audit (PLAN stage 10), as for FY2026 and FY2027.
-- Rescission origins against Schedule C use the *retired* committed CSVs in `data/fy25/schedule_c/`
-  (old parser, report only). Re-run when the FY2025 Schedule C review lands.
 - 8 hyphenless EINs are read as printed (flag `W.ein_no_hyphen`); not in the review file.
 - Nothing added to the MCP or the public site.

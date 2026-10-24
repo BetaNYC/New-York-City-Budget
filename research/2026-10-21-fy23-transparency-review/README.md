@@ -121,9 +121,16 @@ Byte-identical on re-run (checked). Every year-specific fact is in
 - Text where both grids read the same wrong text layer (no OCR sample).
 - Why the old parser dropped the 9 ordinary rows; not investigated (the retired files stay as they are).
 
+## Since this review
+
+- Rescission origins (report only) now use the checked FY2023 Schedule C,
+  `data/fy23/pdf/schedule_c/fy23_sc_awards.csv` (#204, re-run 2026-10-23): 343 → 348 match a
+  Schedule C award, 104 → 102 part of a larger amount, 202 → 199 not found. The retired old-parser
+  CSVs had missed or misread those awards' (EIN, amount).
+
 ## Not done here
 
-- OCR audit; rescission origins use the *retired* FY2023 Schedule C CSVs (report only).
+- OCR audit.
 - Nothing added to the MCP or the public site; the retired `data/fy23/transparency-resolutions/`
   files are unchanged.
 
