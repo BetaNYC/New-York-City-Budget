@@ -113,7 +113,8 @@ lower-case boroughs `k`, `x` (FY2016) and CD `1696` (FY2015, one record), kept a
   OMB minus PDF: FY2019 11 lines, $15,460,000; FY2020 11 lines, $7,353,000; FY2022 1 line,
   $2,214,000; FY2023 1 line, $5,400,000; FY2024 none; FY2025 6 lines, $11,200,000; FY2026 1 line,
   $500,000; FY2027 15 lines, $25,789,000 net. OMB is the higher one on every such line except
-  some in FY2027. No FY2021 PDF is promoted. The FY2020 and FY2023 lines are listed in
+  one in FY2027 (`P D017`, OMB $579,000 lower). No FY2021 PDF is promoted; FY2018's is, but
+  OMB's series here starts at FY2019. The FY2020 and FY2023 lines are listed in
   RECONCILIATION §3.
 
 ## Terms of use
