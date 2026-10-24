@@ -146,7 +146,9 @@ from `research/`.
       stops with an error. Capital and terms take the issue from their config.
 - [ ] Run it. It writes the tables and the year's rows in `data/pdf_years.csv`, with
       `status = reviewed` and the year's issue number.
-- [ ] Run `--check` yourself before opening the PR. CI does not run the Python checks.
+- [ ] Run `--check` yourself before opening the PR (about 20 minutes on a laptop). CI runs it
+      too, with `pytest code` and `build_review_suggestions.py --check`
+      (`.github/workflows/python-checks.yml`, #200), but CI takes about an hour.
 
 ```bash
 .venv/bin/python code/build_pdf_promoted.py --write
@@ -202,6 +204,24 @@ and merge it into the committed file:
     --add ~/Downloads/<exported file> --write
 ```
 
+The decisions file is the record of a decision. The review files' `decision` and `note` columns
+are copies of it (the readers fill them on every run), so `--write` also copies the merged
+decisions into the review file beside the decisions file and into `--review`, changing only those
+cells. After editing a decisions file by hand, run the same command with `--sync` instead of
+`--add`. `code/test_review_decisions.py` fails while a committed review file says something its
+decisions file does not (#195). A `read_from_page_image` decision also changes its data row: re-run
+the reader (Step 2) and `code/build_pdf_promoted.py --write`.
+
+Each review folder (`research/<date>-fyNN-<family>-review/`) is a dated snapshot of that
+session's run and review notes. It is not regenerated when a reader improves, so its CSVs can
+differ from a fresh re-run; the published tables are `data/fyNN/pdf/` (decided 2026-10-24). The
+one file in it that stays current is the decisions file (`data/*_review_decisions.csv`), the
+record, and `--sync` keeps the review CSVs' decision columns in step with it. The folders add
+nothing to what people download: the npm package ships only `dist` and `data/budget.db`
+(`mcp/package.json` `files`), and the PDF-tables data release only the tables
+(`pdf-tables.db.gz`), the PDFs they cite and `pdf-tables.manifest.json`
+(`mcp/scripts/build-pdf-release.mjs`).
+
 Each `parser_bug` means fixing the code, re-running Steps 2 and 5, and checking the item again.
 
 ## Step 8: record it on GitHub
@@ -221,8 +241,10 @@ A family is done when every item has a final decision:
 # exit 0: every item has a decision; 1: the decisions file is invalid; 2: something is still open
 ```
 
-`--complete` counts `needs_info` as a decision. Before closing, find every `needs_info` row in
-the decisions file and settle it by hand, with the answer in the note.
+`--complete` counts `needs_info` as open (#194) and lists each one, unless its question in
+`data/council_questions.csv` is `sent` and was sent 30 or more days ago. To settle one, change
+its `decision` by hand, put the answer in the note, and run `--sync`. `--allow-needs-info` lets
+them all through on purpose; say why in the PR.
 
 - [ ] A person changes the family's `status` from `reviewed` to `closed` in `data/pdf_years.csv`.
       Only a person does this.
