@@ -27,8 +27,12 @@ is a valid decision but not a final one (it still needs an answer), so it is lis
         --decisions research/2026-10-20-fy27-schedule-c-review/data/fy27_sc_review_decisions.csv
 
 --complete also exits 2 when anything is open or decided `needs_info` (#194): a family is not done
-while a question is outstanding. --allow-needs-info lets those through on purpose (for example, a
-question sent to Council Finance that has waited its 30 days). Exit 0: valid.
+while a question is outstanding. The one exception is the rule in
+research/2026-10-22-mcp-pdf-tables/PLAN.md ("What closed means", 3): a `needs_info` item whose
+question to Council Finance (data/council_questions.csv, `review_ids`) has status `sent` and was
+sent 30 days ago or more may close, published as printed with the question's label. A draft
+question, a question with no date, or an answered one (record the answer as a final decision)
+still blocks. --allow-needs-info lets every `needs_info` through on purpose. Exit 0: valid.
 
 Merging an export from the explorer's review screen into the committed file:
 
@@ -49,6 +53,7 @@ fails while any committed copy differs from its record.
 """
 import argparse
 import csv
+import datetime as dt
 import io
 import os
 import re
@@ -57,6 +62,9 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import page_image  # noqa: E402
 
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+QUESTIONS = os.path.join(REPO, "data", "council_questions.csv")
+WAIT_DAYS = 30
 HEADER = ["review_id", "decision", "note", "decided_by", "decided_at"]
 DECISIONS = ("source_error", "parser_bug", "accepted_as_printed", "needs_info", page_image.DECISION)
 ISO = re.compile(r"^\d{4}-\d{2}-\d{2}([T ]\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?\d{2})?)?$")
@@ -174,6 +182,22 @@ def sync(path, decisions):
     return changed
 
 
+def waited(needs_info, questions, today):
+    """{review_id: sent_on} for the needs_info items that may close under the 30-day rule: the
+    question covering it has status `sent` and was sent WAIT_DAYS or more before `today`."""
+    out = {}
+    for q in questions:
+        if q.get("status") != "sent" or not ISO.match(q.get("sent_on") or ""):
+            continue
+        sent = dt.date.fromisoformat(q["sent_on"][:10])
+        if (today - sent).days < WAIT_DAYS:
+            continue
+        for rid in filter(None, (s.strip() for s in (q.get("review_ids") or "").split(";"))):
+            if rid in needs_info:
+                out[rid] = q["sent_on"]
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     ap.add_argument("--review", required=True, help="the family's review CSV")
@@ -182,12 +206,19 @@ def main(argv=None):
                     help="exit 2 if any review row is still open or decided needs_info")
     ap.add_argument("--allow-needs-info", action="store_true",
                     help="with --complete: do not count needs_info decisions as open")
+    ap.add_argument("--questions", default=QUESTIONS,
+                    help="the questions to Council Finance (default data/council_questions.csv)")
+    ap.add_argument("--today", help="with --complete: the date the 30-day rule counts to (default: today)")
     ap.add_argument("--add", help="an exported decisions CSV to merge into --decisions")
     ap.add_argument("--write", action="store_true", help="with --add: save the merged file over --decisions if valid, "
                     "and copy the decisions into the review files")
     ap.add_argument("--sync", action="store_true", help="copy the decisions into the review files that carry "
                     "decision and note columns (the one beside --decisions, and --review), if valid")
     a = ap.parse_args(argv)
+    if a.add and a.sync and not a.write:
+        # Copying an unsaved merge into the review files would make them say what the record does not.
+        print("  PROBLEM --add with --sync needs --write: the merged decisions are not saved otherwise")
+        return 1
     _, review_rows = read(a.review)
     header, decisions = read(a.decisions)
     merge_problems = []
@@ -207,9 +238,16 @@ def main(argv=None):
     for r in res["open"]:
         print(f"  open    {r['review_id']}  {r.get('check_id', '')}  p.{r.get('pdf_page', '')}")
     by_id = {r["review_id"]: r for r in review_rows if r.get("review_id")}
+    today = dt.date.fromisoformat(a.today) if a.today else dt.date.today()
+    may_close = {}
+    if a.complete and res["needs_info"] and os.path.exists(a.questions):
+        _, questions = read(a.questions)
+        may_close = waited(set(res["needs_info"]), questions, today)
     for rid in res["needs_info"]:
         r = by_id.get(rid, {})
-        print(f"  needs_info {rid}  {r.get('check_id', '')}  p.{r.get('pdf_page', '')}")
+        why = (f"  (question sent {may_close[rid]}, {WAIT_DAYS}+ days: may close as printed)"
+               if rid in may_close else "")
+        print(f"  needs_info {rid}  {r.get('check_id', '')}  p.{r.get('pdf_page', '')}{why}")
     if res["errors"]:
         if (a.add and a.write) or a.sync:
             print("  not written: fix the problems above")
@@ -227,10 +265,11 @@ def main(argv=None):
             if any(kinds.get(rid) == page_image.DECISION for rid in changed):
                 print("  a read_from_page_image decision changes its data row too: re-run the reader "
                       "and code/build_pdf_promoted.py --write")
-    if a.complete and (res["open"] or (res["needs_info"] and not a.allow_needs_info)):
-        if res["needs_info"] and not a.allow_needs_info:
-            print(f"  not complete: {len(res['needs_info'])} needs_info still to answer "
-                  "(--allow-needs-info to accept them on purpose)")
+    blocking = [] if a.allow_needs_info else [rid for rid in res["needs_info"] if rid not in may_close]
+    if a.complete and (res["open"] or blocking):
+        if blocking:
+            print(f"  not complete: {len(blocking)} needs_info still to answer; a question sent "
+                  f"{WAIT_DAYS} days ago may close (--allow-needs-info accepts them all on purpose)")
         return 2
     return 0
 

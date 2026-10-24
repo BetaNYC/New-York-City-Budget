@@ -141,9 +141,9 @@ from `research/`.
       stops with an error. Capital and terms take the issue from their config.
 - [ ] Run it. It writes the tables and the year's rows in `data/pdf_years.csv`, with
       `status = reviewed` and the year's issue number.
-- [ ] Run `--check` yourself before opening the PR. CI runs it too, with `pytest code` and
-      `build_review_suggestions.py --check` (`.github/workflows/python-checks.yml`, #200), but
-      it takes about 20 minutes, so don't wait for CI to find a drift.
+- [ ] Run `--check` yourself before opening the PR (about 20 minutes on a laptop). CI runs it
+      too, with `pytest code` and `build_review_suggestions.py --check`
+      (`.github/workflows/python-checks.yml`, #200), but CI takes about an hour.
 
 ```bash
 .venv/bin/python code/build_pdf_promoted.py --write
@@ -223,15 +223,13 @@ A family is done when every item has a final decision:
 
 ```bash
 .venv/bin/python code/validate_review_decisions.py --review <review csv> --decisions <decisions csv> --complete
-# exit 0: every item has a final decision; 1: the decisions file is invalid;
-# 2: something is still open, or decided needs_info
+# exit 0: every item has a decision; 1: the decisions file is invalid; 2: something is still open
 ```
 
-`--complete` counts `needs_info` as open: it lists each one with its check and page and exits 2.
-Settle each by hand: change its `decision` in the decisions file to the final one, put the
-answer in the note, and run `--sync` (`--add` never overwrites a committed decision). To close a
-family with a `needs_info` left on purpose (for example, a question to Council Finance that has
-waited 30 days), add `--allow-needs-info` and say why in the PR.
+`--complete` counts `needs_info` as open (#194) and lists each one, unless its question in
+`data/council_questions.csv` is `sent` and was sent 30 or more days ago. To settle one, change
+its `decision` by hand, put the answer in the note, and run `--sync`. `--allow-needs-info` lets
+them all through on purpose; say why in the PR.
 
 - [ ] A person changes the family's `status` from `reviewed` to `closed` in `data/pdf_years.csv`.
       Only a person does this.

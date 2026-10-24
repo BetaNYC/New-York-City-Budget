@@ -342,12 +342,77 @@ def test_write_copies_the_decisions_into_the_review_files(tmp_path):
     assert "source_error" in research.read_text() and "parser_bug" not in research.read_text()
 
 
-def test_sync_leaves_a_committed_review_file_byte_identical():
-    # The rewrite must keep every committed review file's bytes as they are when it agrees.
-    for path in glob.glob(os.path.join(REPO, "data", "fy*", "pdf", "*", "*_review.csv")) + \
-            glob.glob(os.path.join(REPO, "research", "*", "data", "*_review.csv")):
-        with open(path, newline="", encoding="utf-8") as f:
-            text = f.read()
-        header, rows = vrd.read(path)
-        if "decision" in header:
-            assert vrd.review_csv(header, rows) == text, path
+def test_sync_leaves_a_committed_review_file_byte_identical(tmp_path):
+    # Blank every decision and note in a copy of each committed review file, sync it from its
+    # decisions file, and get the committed bytes back: the copy is wholly derived from the record.
+    n = 0
+    for path in glob.glob(os.path.join(REPO, "research", "*", "data", "*_review_decisions.csv")):
+        name = os.path.basename(path)[:-len("_review_decisions.csv")]
+        yy, pre = name.split("_", 1)
+        _, decisions = vrd.read(path)
+        for copy in (os.path.join(os.path.dirname(path), f"{name}_review.csv"),
+                     os.path.join(REPO, "data", yy, "pdf", FAMILY[pre], f"{name}_review.csv")):
+            header, rows = vrd.read(copy)
+            if "decision" not in header:
+                continue
+            with open(copy, newline="", encoding="utf-8") as f:
+                text = f.read()
+            assert vrd.review_csv(header, rows) == text, copy
+            scratch = tmp_path / f"{n}.csv"
+            scratch.write_text(vrd.review_csv(header, [dict(r, decision="", note="") for r in rows]),
+                               encoding="utf-8")
+            vrd.sync(str(scratch), decisions)
+            assert scratch.read_text(encoding="utf-8") == text, copy
+            n += 1
+    assert n >= 30
+
+
+def test_add_with_sync_but_no_write_is_refused(tmp_path):
+    # --add X --sync without --write would copy an unsaved decision into the review files,
+    # the mismatch #195 is about. It is refused and nothing is written.
+    cols = ["review_id", "check_id", "pdf_page", "decision", "note"]
+    folder = tmp_path / "data"
+    folder.mkdir()
+    review = folder / "fy99_sc_review.csv"
+    with open(review, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=cols, lineterminator="\n")
+        w.writeheader()
+        w.writerows(dict(r, decision="", note="") for r in REVIEW)
+    committed = folder / "fy99_sc_review_decisions.csv"
+    committed.write_text(vrd.to_csv([]))
+    export = tmp_path / "export.csv"
+    export.write_text(vrd.to_csv([dec("bbb", "source_error")]))
+    before = (review.read_text(), committed.read_text())
+    assert vrd.main(["--review", str(review), "--decisions", str(committed), "--add", str(export), "--sync"]) == 1
+    assert (review.read_text(), committed.read_text()) == before
+
+
+def test_complete_lets_a_needs_info_close_30_days_after_its_question_was_sent(tmp_path, capsys):
+    # PLAN.md "What closed means" 3 (#194): answered, or 30 days since the question was sent.
+    rv = tmp_path / "review.csv"
+    with open(rv, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["review_id", "check_id", "pdf_page"])
+        w.writeheader()
+        w.writerows(REVIEW)
+    d = tmp_path / "decisions.csv"
+    d.write_text(vrd.to_csv([dec("aaa"), dec("bbb", "needs_info"), dec("ccc", "needs_info")]))
+    q = tmp_path / "questions.csv"
+
+    def run(bbb_status, bbb_sent, ccc_status="sent", ccc_sent="2026-09-01", today="2026-10-23"):
+        q.write_text("question_id,review_ids,issue,sent_on,answered_on,answer,status\n"
+                     f"q1,x1;bbb,1,{bbb_sent},,,{bbb_status}\n"
+                     f"q2,ccc,2,{ccc_sent},,,{ccc_status}\n")
+        return vrd.main(["--review", str(rv), "--decisions", str(d), "--complete",
+                         "--questions", str(q), "--today", today])
+
+    assert run("sent", "2026-09-23") == 0              # 30 days exactly: both may close
+    assert "may close as printed" in capsys.readouterr().out
+    assert run("sent", "2026-09-24") == 2              # 29 days: bbb still blocks
+    assert run("draft", "") == 2                       # never sent
+    assert run("sent", "") == 2                        # no date: not counted
+    assert run("answered", "2026-09-01") == 2          # answered: record the answer instead
+    assert run("sent", "2026-09-01", ccc_status="draft", ccc_sent="") == 2
+    capsys.readouterr()
+    run("sent", "2026-09-24")
+    out = capsys.readouterr().out
+    assert "not complete: 1 needs_info" in out
