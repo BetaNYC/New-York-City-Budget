@@ -88,6 +88,10 @@ Rows carry the **box** title. Suggest `accepted_as_printed` for all.
 - **431 rows checked by pixel rules only** (`lattice` = `vector+bands`), all in the body: the
   tables whose header is printed outside the drawn grid. Their row bands are confirmed by the
   pixels; their fields are read once. See README "cannot prove".
+  *Update 2026-10-24 (#193):* All 431 now have `lattice` = `vector+columns` (`image_check`
+  `columns_agree`): the image side finds their columns from the header's labels and the blank
+  strips between them, and the text layer, clipped a second time through those cells, gives the
+  same value in every field. It is the same text layer, so a text-layer error still passes.
 - **Sub-headings in `purpose`** (pp.70–72, 67 rows, `W.subheading`): Technical Assistance (2 rows,
   $135,540), Community Consultant Contracts (34, $859,190), Housing Preservation Initiative (31,
   $2,031,500). With the $77,120 reserve they make the $3,103,350 box; the scope text's $884,460

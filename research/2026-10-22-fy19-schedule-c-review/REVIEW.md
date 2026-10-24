@@ -73,6 +73,10 @@ Rows carry the **box** title. Suggest `accepted_as_printed` for all.
   not yet been completed …". Every "*" in the award tables is on a row.
 - **902 rows checked by pixel rules only** (`lattice` = `vector+bands`), all in the body. Their
   bands are confirmed by the pixels; their fields are read once.
+  *Update 2026-10-24 (#193):* All 902 now have `lattice` = `vector+columns` (`image_check`
+  `columns_agree`): the image side finds their columns from the header's labels and the blank
+  strips between them, and the text layer, clipped a second time through those cells, gives the
+  same value in every field. It is the same text layer, so a text-layer error still passes.
 - **5,092 amounts printed with no "$"** (`W.amount_bare`): every row of the member tables
   (Anti-Poverty, Boroughwide Needs, Speaker's Initiative) and of the three appendices.
 - **The "Program" column of Art as a Catalyst for Change** (pp.93–94, $720,000), in `purpose`, as
