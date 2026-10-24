@@ -62,6 +62,27 @@ def test_cli_exit_codes(tmp_path):
     assert vrd.main(["--review", str(rv), "--decisions", str(d)]) == 1
 
 
+def test_complete_counts_needs_info_as_open(tmp_path, capsys):
+    # #194: needs_info means "can't tell yet", so --complete must not report a family as done
+    # while one is outstanding. It exits 2 and lists it, unless --allow-needs-info says so on purpose.
+    rv = tmp_path / "review.csv"
+    with open(rv, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["review_id", "check_id", "pdf_page"])
+        w.writeheader()
+        w.writerows(REVIEW)
+    d = tmp_path / "decisions.csv"
+    d.write_text(vrd.to_csv([dec("aaa"), dec("bbb", "needs_info"), dec("ccc", "source_error")]))
+    args = ["--review", str(rv), "--decisions", str(d)]
+    assert vrd.main(args) == 0
+    capsys.readouterr()
+    assert vrd.main(args + ["--complete"]) == 2
+    out = capsys.readouterr().out
+    assert "needs_info bbb" in out and "C2" in out and "p.5" in out
+    assert vrd.main(args + ["--complete", "--allow-needs-info"]) == 0
+    d.write_text(vrd.to_csv([dec("aaa"), dec("bbb"), dec("ccc", "source_error")]))
+    assert vrd.main(args + ["--complete"]) == 0
+
+
 def test_committed_decision_files_are_valid():
     # The decisions files committed for each FY2027 and FY2026 family.
     pairs = [
@@ -263,3 +284,157 @@ def test_page_image_suggestions_for_laundromat_and_himalayan_elders():
         with open(os.path.join(REPO, path), newline="", encoding="utf-8") as f:
             row = next(r for r in csv.DictReader(f) if r["review_id"] == rid)
         assert row["ein"] == ein and row["read_from_page_image"] == "ein", path
+
+
+# ---------------------------------------------------------------- one record of a decision (#195)
+
+FAMILY = {"sc": "schedule_c", "tr": "transparency", "capital_sd": "capital_sd", "terms": "terms"}
+
+
+def test_review_files_carry_exactly_the_committed_decisions():
+    # The decisions CSV is the record; a review file's decision and note columns are copied from
+    # it (the readers do it on every run). Both copies, the review folder's and the promoted one,
+    # must say what the record says, so a re-run of a decided year changes nothing.
+    paths = glob.glob(os.path.join(REPO, "research", "*", "data", "*_review_decisions.csv"))
+    assert len(paths) >= 36
+    wrong = []
+    for path in paths:
+        name = os.path.basename(path)[:-len("_review_decisions.csv")]
+        yy, pre = name.split("_", 1)
+        _, decisions = vrd.read(path)
+        record = {d["review_id"]: (d["decision"], d["note"]) for d in decisions}
+        for copy in (os.path.join(os.path.dirname(path), f"{name}_review.csv"),
+                     os.path.join(REPO, "data", yy, "pdf", FAMILY[pre], f"{name}_review.csv")):
+            header, rows = vrd.read(copy)
+            if "decision" not in header:
+                continue    # capital_sd and terms review files carry no decision column yet
+            for r in rows:
+                if r["review_id"] != "ok" and (r["decision"], r["note"]) != record.get(r["review_id"], ("", "")):
+                    wrong.append((os.path.relpath(copy, REPO), r["review_id"]))
+    assert wrong == [], "run code/validate_review_decisions.py --sync (PDF-RECIPE.md Step 7)"
+
+
+def test_write_copies_the_decisions_into_the_review_files(tmp_path):
+    cols = ["review_id", "check_id", "pdf_page", "decision", "note"]
+    folder = tmp_path / "data"
+    folder.mkdir()
+    research = folder / "fy99_sc_review.csv"
+    promoted = tmp_path / "promoted_review.csv"
+    for p in (research, promoted):
+        with open(p, "w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=cols, lineterminator="\n")
+            w.writeheader()
+            w.writerows(dict(r, decision="", note="") for r in REVIEW)
+    committed = folder / "fy99_sc_review_decisions.csv"
+    committed.write_text(vrd.to_csv([]))
+    export = tmp_path / "export.csv"
+    export.write_text(vrd.to_csv([dict(dec("bbb", "source_error"), note='The PDF says "x", twice')]))
+    assert vrd.main(["--review", str(promoted), "--decisions", str(committed), "--add", str(export), "--write"]) == 0
+    for p in (research, promoted):
+        _, rows = vrd.read(str(p))
+        assert [(r["review_id"], r["decision"], r["note"]) for r in rows] == [
+            ("aaa", "", ""), ("bbb", "source_error", 'The PDF says "x", twice'), ("ccc", "", "")], p
+    # Nothing else in the file moves: only those two cells.
+    assert research.read_text().splitlines()[1] == "aaa,C1,4,,"
+    # --sync alone repairs a copy edited out of step, and says so.
+    research.write_text(research.read_text().replace("source_error", "parser_bug"))
+    assert vrd.main(["--review", str(promoted), "--decisions", str(committed), "--sync"]) == 0
+    assert "source_error" in research.read_text() and "parser_bug" not in research.read_text()
+
+
+def test_sync_leaves_a_committed_review_file_byte_identical(tmp_path):
+    # Blank every decision and note in a copy of each committed review file, sync it from its
+    # decisions file, and get the committed bytes back: the copy is wholly derived from the record.
+    n = 0
+    for path in glob.glob(os.path.join(REPO, "research", "*", "data", "*_review_decisions.csv")):
+        name = os.path.basename(path)[:-len("_review_decisions.csv")]
+        yy, pre = name.split("_", 1)
+        _, decisions = vrd.read(path)
+        for copy in (os.path.join(os.path.dirname(path), f"{name}_review.csv"),
+                     os.path.join(REPO, "data", yy, "pdf", FAMILY[pre], f"{name}_review.csv")):
+            header, rows = vrd.read(copy)
+            if "decision" not in header:
+                continue
+            with open(copy, newline="", encoding="utf-8") as f:
+                text = f.read()
+            assert vrd.review_csv(header, rows) == text, copy
+            scratch = tmp_path / f"{n}.csv"
+            scratch.write_text(vrd.review_csv(header, [dict(r, decision="", note="") for r in rows]),
+                               encoding="utf-8")
+            vrd.sync(str(scratch), decisions)
+            assert scratch.read_text(encoding="utf-8") == text, copy
+            n += 1
+    assert n >= 30
+
+
+def test_add_with_sync_but_no_write_is_refused(tmp_path):
+    # --add X --sync without --write would copy an unsaved decision into the review files,
+    # the mismatch #195 is about. It is refused and nothing is written.
+    cols = ["review_id", "check_id", "pdf_page", "decision", "note"]
+    folder = tmp_path / "data"
+    folder.mkdir()
+    review = folder / "fy99_sc_review.csv"
+    with open(review, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=cols, lineterminator="\n")
+        w.writeheader()
+        w.writerows(dict(r, decision="", note="") for r in REVIEW)
+    committed = folder / "fy99_sc_review_decisions.csv"
+    committed.write_text(vrd.to_csv([]))
+    export = tmp_path / "export.csv"
+    export.write_text(vrd.to_csv([dec("bbb", "source_error")]))
+    before = (review.read_text(), committed.read_text())
+    assert vrd.main(["--review", str(review), "--decisions", str(committed), "--add", str(export), "--sync"]) == 1
+    assert (review.read_text(), committed.read_text()) == before
+
+
+def test_complete_lets_a_needs_info_close_30_days_after_its_question_was_sent(tmp_path, capsys):
+    # PLAN.md "What closed means" 3 (#194): answered, or 30 days since the question was sent.
+    rv = tmp_path / "review.csv"
+    with open(rv, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["review_id", "check_id", "pdf_page"])
+        w.writeheader()
+        w.writerows(REVIEW)
+    d = tmp_path / "decisions.csv"
+    d.write_text(vrd.to_csv([dec("aaa"), dec("bbb", "needs_info"), dec("ccc", "needs_info")]))
+    q = tmp_path / "questions.csv"
+
+    def run(bbb_status, bbb_sent, ccc_status="sent", ccc_sent="2026-09-01", today="2026-10-23"):
+        q.write_text("question_id,review_ids,issue,sent_on,answered_on,answer,status\n"
+                     f"q1,x1;bbb,1,{bbb_sent},,,{bbb_status}\n"
+                     f"q2,ccc,2,{ccc_sent},,,{ccc_status}\n")
+        return vrd.main(["--review", str(rv), "--decisions", str(d), "--complete",
+                         "--questions", str(q), "--today", today])
+
+    assert run("sent", "2026-09-23") == 0              # 30 days exactly: both may close
+    assert "may close as printed" in capsys.readouterr().out
+    assert run("sent", "2026-09-24") == 2              # 29 days: bbb still blocks
+    assert run("draft", "") == 2                       # never sent
+    assert run("sent", "") == 2                        # no date: not counted
+    assert run("answered", "2026-09-01") == 2          # answered: record the answer instead
+    assert run("sent", "2026-09-01", ccc_status="draft", ccc_sent="") == 2
+    capsys.readouterr()
+    run("sent", "2026-09-24")
+    out = capsys.readouterr().out
+    assert "not complete: 1 needs_info" in out
+
+
+def test_an_answered_question_blocks_even_beside_an_older_sent_one(tmp_path, capsys):
+    # An item covered by an answered question waits for a person to record the answer, even if
+    # another question covering it was sent 30+ days ago.
+    rv = tmp_path / "review.csv"
+    with open(rv, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["review_id", "check_id", "pdf_page"])
+        w.writeheader()
+        w.writerows(REVIEW)
+    d = tmp_path / "decisions.csv"
+    d.write_text(vrd.to_csv([dec("aaa"), dec("bbb", "needs_info"), dec("ccc")]))
+    q = tmp_path / "questions.csv"
+    q.write_text("question_id,review_ids,issue,sent_on,answered_on,answer,status\n"
+                 "q1,bbb,1,2026-08-01,,,sent\n"
+                 "q2,bbb,2,2026-09-01,2026-10-01,It is P.S. 199.,answered\n")
+    args = ["--review", str(rv), "--decisions", str(d), "--complete", "--questions", str(q)]
+    assert vrd.main(args + ["--today", "2026-10-23"]) == 2
+    # A bad --today is a clear problem, not a traceback.
+    capsys.readouterr()
+    assert vrd.main(args + ["--today", "23/10/2026"]) == 1
+    assert "--today '23/10/2026' is not an ISO date" in capsys.readouterr().out

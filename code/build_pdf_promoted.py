@@ -29,6 +29,7 @@ Check: .venv/bin/python code/build_pdf_promoted.py --check   (regenerates and co
 import argparse
 import ast
 import csv
+import difflib
 import io
 import os
 import shutil
@@ -557,6 +558,16 @@ def build_all():
     return out
 
 
+def drift(cur, text, limit=12):
+    """The lines a --check run prints under a DRIFT file: the changed lines (committed `-`,
+    regenerated `+`), at most `limit`, so a CI log says what moved, not only which file."""
+    if cur is None:
+        return ["  (no committed file)"]
+    out = [f"  {l[:300]}" for l in difflib.unified_diff(cur.splitlines(), text.splitlines(), lineterm="", n=0)
+           if not l.startswith(("---", "+++", "@@"))]
+    return out[:limit] + ([f"  ... {len(out) - limit} more changed lines"] if len(out) > limit else [])
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     g = ap.add_mutually_exclusive_group(required=True)
@@ -577,6 +588,7 @@ def main():
             if cur != text:
                 bad += 1
                 print(f"DRIFT {path}")
+                print("\n".join(drift(cur, text)))
             else:
                 print(f"ok    {path}")
     sys.exit(1 if bad else 0)

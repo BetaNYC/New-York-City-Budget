@@ -26,6 +26,17 @@ def built():
     return bp.build_all()
 
 
+def test_drift_says_what_changed():
+    # A DRIFT line alone does not say what moved; on CI the regenerated file is gone afterwards.
+    cur = "h\n" + "".join(f"{i},a\n" for i in range(20))
+    new = cur.replace("\n3,a", "\n3,b").replace("\n7,a", "\n7,c")
+    assert bp.drift(cur, new) == ["  -3,a", "  +3,b", "  -7,a", "  +7,c"]
+    many = "h\n" + "".join(f"{i},z\n" for i in range(20))
+    out = bp.drift(cur, many, limit=5)
+    assert len(out) == 6 and out[-1] == "  ... 35 more changed lines"
+    assert bp.drift(None, new) == ["  (no committed file)"]
+
+
 def rows(text):
     return list(csv.DictReader(io.StringIO(text)))
 
@@ -33,7 +44,8 @@ def rows(text):
 def test_committed_files_equal_regeneration(built):
     for path, text in built.items():
         with open(os.path.join(REPO, path), encoding="utf-8") as f:
-            assert f.read() == text, f"{path} drifted: run build_pdf_promoted.py --write"
+            cur = f.read()
+        assert cur == text, "\n".join([f"{path} drifted: run build_pdf_promoted.py --write"] + bp.drift(cur, text))
 
 
 def test_row_contract(built):
