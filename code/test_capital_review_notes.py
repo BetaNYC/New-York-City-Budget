@@ -161,3 +161,20 @@ def test_readme_garbled_accents_are_the_source_and_decode_as_stated():
                             if r["source_kind"] == "open_data_t474" and any(ord(c) > 127 for c in r["sponsor"]))
     assert min(n) == "2023"
     assert f"FY2023 {n['2023']}, FY2024 {n['2024']}, FY2025 {n['2025']}" in note
+
+
+@pytest.mark.parametrize("fy,want", [
+    (2019, "FY2019 11 lines, $15,460,000"), (2020, "FY2020 11 lines, $7,353,000"),
+    (2022, "FY2022 1 line, $2,214,000"), (2023, "FY2023 1 line, $5,400,000"), (2024, "FY2024 none"),
+    (2025, "FY2025 6 lines, $11,200,000"), (2026, "FY2026 1 line, $500,000"),
+    (2027, "FY2027 15 lines, $25,789,000 net"),
+])
+def test_readme_gives_every_years_pdf_gap_to_omb(fy, want):
+    """FAILS if the README's per-year PDF-vs-OMB gaps (#208) leave a year out or go stale, or if
+    OMB is not the higher side wherever it says so (QA 2026-10-24: it named only FY2020, FY2023)."""
+    note = text("data/capital/README.md").split("The §254 PDFs and OMB differ")[1].split("- **")[0]
+    d = pdf_vs_omb(fy)
+    n, gap = len(d), sum(o - p for p, o in d.values())
+    got = f"FY{fy} none" if not d else f"FY{fy} {n} line{'s' if n > 1 else ''}, ${gap:,}"
+    assert want.startswith(got) and want in note
+    assert all(o > p for p, o in d.values()) == (fy != 2027)

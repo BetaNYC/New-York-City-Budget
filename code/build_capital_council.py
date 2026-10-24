@@ -479,10 +479,11 @@ def _usd(d):
 
 
 # What the §254 PDF reviews found against OMB (#208). Report only: no value here changes. Text,
-# not computed, since this build reads no PDF data; test_build_capital_council.py recomputes
+# not computed, since this build reads no PDF data; test_capital_review_notes.py recomputes
 # every figure from data/fyNN/pdf/capital_sd/ and fails if one goes stale.
 PDF_REVIEW_NOTES = [
-    ("**The §254 PDFs against OMB** (report only; the FY2020 and FY2023 capital reviews, #208). "
+    "### The §254 PDFs against OMB (FY2020 and FY2023 reviews)", "",
+    ("Report only (#208). "
      "Each year's printed supporting detail adds the records t474 broke across rows (§2), so it "
      "closes part of the gaps above, not all:"), "",
     ("- FY2020: OMB is $7,353,000 higher than the PDF on 11 budget lines: 7 where OMB is higher "

@@ -90,7 +90,9 @@ OMB lines in the Council series with no Council row:
 
 Totals FY2027: Council 853,688,000, OMB 879,477,000, difference 25,789,000.
 
-**The §254 PDFs against OMB** (report only; the FY2020 and FY2023 capital reviews, #208). Each year's printed supporting detail adds the records t474 broke across rows (§2), so it closes part of the gaps above, not all:
+### The §254 PDFs against OMB (FY2020 and FY2023 reviews)
+
+Report only (#208). Each year's printed supporting detail adds the records t474 broke across rows (§2), so it closes part of the gaps above, not all:
 
 - FY2020: OMB is $7,353,000 higher than the PDF on 11 budget lines: 7 where OMB is higher (`E D001` $2,500,000 after the PDF's `E CN817` and `E CN832`, $470,000; `HD D020`, `HW D102`, `HW D104`, `P D020`, `PV D467`, `PV DN031`) and 4 with no PDF row (`ED DN973`, `HL DN843`, `PV DN176`, `RE D024`). The PDF has no amount OMB lacks.
 - FY2023: `E D001` is $5,400,000 lower in the PDF than in OMB, after the PDF's `E CN136` ($150,000) closes that much of t474's gap. Every other line matches.
