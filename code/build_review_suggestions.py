@@ -147,6 +147,9 @@ TR26_BY_ID = {
     "bf7f09c1f8e1": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #22"),
     "ebdf1f207c90": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #23"),
     "b58a6462dcf7": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #24"),
+    # Reso 02 p.114, named T7.overlaid in #196 (added 2026-10-23).
+    "34ac4848782b": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Critical #25"),
+    "3466f1432813": ("accepted_as_printed", "As the transparency REVIEW.md suggests; see its item.", "Warn #26"),
 }
 
 # FY2026 (research/2026-10-21-fy26-capital-terms-review/REVIEW.md, tables A, B, C).

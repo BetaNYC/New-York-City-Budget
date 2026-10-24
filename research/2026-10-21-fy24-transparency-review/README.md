@@ -102,8 +102,14 @@ Byte-identical on re-run (checked). Every year-specific fact is in
 - That a change exists which no PDF printed (no totals, and no chart counts this year).
 - Text where both grids read the same wrong text layer (no OCR sample).
 
+## Since this review
+
+- Rescission origins (report only) now use the checked FY2024 Schedule C,
+  `data/fy24/pdf/schedule_c/fy24_sc_awards.csv` (#204, re-run 2026-10-23): no rescission's origin
+  changed.
+
 ## Not done here
 
-- OCR audit; rescission origins use the *retired* FY2024 Schedule C CSVs (report only).
+- OCR audit.
 - Nothing added to the MCP or the public site; the retired `data/fy24/transparency-resolutions/`
   files are unchanged.

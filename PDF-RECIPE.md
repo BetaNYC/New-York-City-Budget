@@ -143,6 +143,11 @@ To try a few pages without writing anything, Schedule C takes `--pages`:
 .venv/bin/python code/review_terms.py --fy 2025              # Terms and Conditions
 ```
 
+**Order: Schedule C before transparency.** The transparency run reads the year's promoted
+`data/fyNN/pdf/schedule_c/fyNN_sc_awards.csv` (to trace rescissions) and stops if it is missing
+(#204). Promote a year's Schedule C first. A later change to that file also changes the
+transparency tables: re-run `build_pdf_promoted.py --write`, or `--check` reports drift.
+
 Then prove two things:
 
 - [ ] **Re-running gives the same files, byte for byte.**
@@ -158,7 +163,7 @@ Each run writes a `*_checks.txt` into `<review_dir>/data/`. The checks, in plain
 
 | Check | What it asks | If it fails |
 |---|---|---|
-| Vector grid vs image grid | Do two independent readings (the PDF's drawn lines, and the page image) find the same cells and values? | A person looks; the text layer is the record, unless the person confirms the page shows something else (`read_from_page_image`, Step 7) |
+| Vector grid vs image grid | Do two independent readings (the PDF's drawn lines, and the page image) find the same cells and values? Where the page draws no column lines, the image side takes each row from its pixel rules and the columns from the header's labels and the blank strips between them (Schedule C, #193) | A person looks; the text layer is the record, unless the person confirms the page shows something else (`read_from_page_image`, Step 7) |
 | Printed totals | Do the rows add up to every total the PDF prints (category, initiative, chart, `TOTALS FOR`)? | A parser bug until proven otherwise; if the PDF is wrong, it becomes a named exception in the config |
 | Anchor census | Does every EIN (or other row anchor) on the page become exactly one row? | Rows were dropped or merged |
 | Ink coverage | Is any printed mark on the page outside every parsed cell? | Something was dropped |

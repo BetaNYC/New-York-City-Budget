@@ -80,8 +80,15 @@ Backfill, which is #1 above.
 
 ## Not in the review file, on purpose
 
-- **106 rows checked by pixel rules only** (`lattice` = `vector+bands`): the h-rule tables of
-  pp.84, 85, 116. Their row bands are confirmed by the pixels; their fields are read once.
+- **106 rows checked by pixel rules only** (`lattice` = `vector+bands`): tables whose columns the
+  image lattice could not read, on pp.60, 61, 74, 84–86 and 115–118 (page list corrected
+  2026-10-24). Their row bands are confirmed by the pixels; their fields are read once.
+  *Update 2026-10-24 (#193):* 100 of these rows now have `lattice` = `vector+columns`
+  (`image_check` `columns_agree`): the image side finds their columns from the header's labels and
+  the blank strips between them, and the text layer, clipped a second time through those cells,
+  gives the same value in every field. The other 6 (pp.60–61) are read by the image lattice itself
+  (`both`) once the config names their "Institute" header. It is the same text layer, so a
+  text-layer error still passes.
 - **The "Program" column of Art as a Catalyst for Change** (pp.84–85, 40 rows): read into
   `purpose` (e.g. "Heritage High School"). A decision for Noel (PR body), not a review row.
 - **p.65 Financial Empowerment for NYC's Renters** ($450,000): "has allocated $195,000 directly

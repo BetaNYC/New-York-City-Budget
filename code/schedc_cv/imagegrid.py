@@ -72,14 +72,17 @@ def _band(seps, v):
     return i if 0 <= i < len(seps) - 1 else None
 
 
-def _roles(texts, roles=ROLE):
+def _roles(texts, roles=ROLE, squeeze=False):
+    """{column: role} from header cell texts. `squeeze` matches with the spaces taken out
+    (the pixel columns: FY2020 p.39 prints "Councilmember")."""
     out = {}
     for j, c in enumerate(texts):
         h = " ".join(c.split()).lower()
         if not h or len(h) > 60:
             continue
         for k, r in roles:
-            if k in h and r not in out.values():
+            if (k.replace(" ", "") in h.replace(" ", "") if squeeze else k in h) and \
+                    r not in out.values():
                 out[j] = r
                 break
     return out
@@ -246,3 +249,181 @@ def check_bands(awards, ys, tol_pt):
             diffs.append("rule_inside_row")
         out[a["award_id"]] = ("bands_agree" if not diffs else "bands_differ", diffs)
     return out
+
+
+# --- pixel columns: a second reading of rows the image lattice cannot see (#193) -------------
+#
+# A table ruled across only (FY2024 p.65), or whose vertical "rules" are the edges of white
+# boxes (p.178), or whose header is printed outside its grid (FY2021 p.63), gives the image
+# lattice no cells, and its rows were read once. Here the image side finds their columns
+# itself: the header's labels are runs of ink in the header band, and between each two labels
+# the column edge is the widest run of pixel columns that holds no ink from the header down to
+# the table's last rule. Each row is the band between its two pixel rules (`check_bands`);
+# its characters are clipped to those cells by centre, as in `image_rows`. The vector side's
+# only inputs are which table to look in (its box) and which band a row is in (its edges,
+# matched to pixel rules); every edge used is a pixel one.
+
+LABEL_GAP_PT = 4.5        # ink runs closer than this are one header label (a word space ~2.5 pt)
+LOOSE_HEADER_PT = 14.0    # a header printed above the table's top rule (FY2021 p.63, FY2024 p.149)
+HEADER_BAND_MAX_PT = 40.0
+HEADER_RULE_TOL_PT = 3.0  # the rule under a header may sit off the first row's edge (FY2023 p.35)
+RULE_FRINGE_PX = 2        # rules are taken out with their antialiased edges
+# Header words read only here: a sub-award list prints "Amount" and "Service Type" as two
+# labels over what the vector side reads as one cell (FY2018 p.106; `subaward_proxies`).
+COLUMN_ROLES = [("service type", "service_type")]
+
+
+def text_ink(gray, kernel_px):
+    """The page's ink with its drawn rules taken out: a bool mask, True where there is type."""
+    import cv2
+    import numpy as np
+    from ocr import grid as G
+    ink = G.binarize(gray)
+    horiz, vert = G.rule_masks(ink, kernel_px=kernel_px)
+    k = 2 * RULE_FRINGE_PX + 1
+    rules = cv2.dilate(np.maximum(horiz, vert), np.ones((k, k), np.uint8))
+    return (ink > 0) & (rules == 0)
+
+
+def _runs(flags):
+    """[(start, end)) of the runs of True in a 1-d bool array."""
+    out, start = [], None
+    for i, v in enumerate(flags):
+        if v and start is None:
+            start = i
+        elif not v and start is not None:
+            out.append((start, i))
+            start = None
+    if start is not None:
+        out.append((start, len(flags)))
+    return out
+
+
+def header_labels(tink, dpi, x0_pt, x1_pt, y0_pt, y1_pt, gap_pt=LABEL_GAP_PT):
+    """x extents (pt) of the labels printed in a header band: runs of inked pixel columns,
+    joined across gaps narrower than gap_pt."""
+    s = dpi / 72.0
+    a, b = max(0, int(x0_pt * s)), min(tink.shape[1], int(x1_pt * s))
+    t, u = max(0, int(y0_pt * s)), min(tink.shape[0], int(y1_pt * s))
+    if b <= a or u <= t:
+        return []
+    out = []
+    for r0, r1 in _runs(tink[t:u, a:b].any(axis=0)):
+        if out and r0 - out[-1][1] < gap_pt * s:
+            out[-1] = (out[-1][0], r1)
+        else:
+            out.append((r0, r1))
+    return [((a + r0) / s, (a + r1) / s) for r0, r1 in out]
+
+
+def column_edges(tink, dpi, labels, y0_pt, y1_pt):
+    """Between each two consecutive labels [(x0, x1)], the centre (pt) of the widest run of
+    pixel columns with no ink from y0 to y1; None when a pair has no such run."""
+    s = dpi / 72.0
+    t, u = max(0, int(y0_pt * s)), min(tink.shape[0], int(y1_pt * s))
+    out = []
+    for (_, l1), (r0, _) in zip(labels, labels[1:]):
+        a, b = int(l1 * s) + 1, int(r0 * s)
+        free = _runs(~tink[t:u, a:b].any(axis=0)) if b > a else []
+        if not free:
+            return None
+        w0, w1 = max(free, key=lambda r: (r[1] - r[0], -r[0]))
+        out.append(round((a + (w0 + w1) / 2) / s, 2))
+    return out
+
+
+def _text_in(chars, x0, x1, y0, y1, x_tolerance):
+    return chars_to_text([c for c in chars if x0 <= (c["x0"] + c["x1"]) / 2 < x1 and
+                          y0 <= (c["top"] + c["bottom"]) / 2 < y1], x_tolerance)
+
+
+def pixel_header(tink, dpi, chars, x0_pt, x1_pt, y0_pt, y1_pt, x_tolerance, roles=ROLE):
+    """The header printed in a band, read as labels: [(x0, x1, role or None)], or None unless
+    it names an org, an EIN and an amount column."""
+    labels = header_labels(tink, dpi, x0_pt, x1_pt, y0_pt, y1_pt)
+    texts = [_text_in(chars, l0 - 0.5, l1 + 0.5, y0_pt, y1_pt, x_tolerance) for l0, l1 in labels]
+    rl = _roles(texts, list(roles) + COLUMN_ROLES, squeeze=True)
+    if not {"org", "ein", "amount"} <= set(rl.values()):
+        return None
+    return [(l0, l1, rl.get(j)) for j, (l0, l1) in enumerate(labels)]
+
+
+def _rule_near(ys, y, tol):
+    near = [v for v in ys if abs(v - y) <= tol]
+    return min(near, key=lambda v: abs(v - y)) if near else None
+
+
+def pixel_columns(tink, dpi, chars, ys, table_bbox, first_tops, x_tolerance, tol_pt, carry=None,
+                  roles=ROLE):
+    """The columns of one table the image lattice cannot see: {xs, roles, header} or None.
+
+    The header is looked for in the band above the table's first row (between its top pixel
+    rule and the rule above, when that band is under HEADER_BAND_MAX_PT), then in the
+    LOOSE_HEADER_PT over that rule. `first_tops` are the tops of the table's first award row
+    and of its first row whose band the pixel rules confirm; the first with a pixel rule near
+    it is used (a first row drawn without its top rule, FY2024 p.152). Failing both bands,
+    `carry` (the last pixel header, kept by the caller) is used when its EIN column holds an
+    EIN in that first row. `ys` are the page's pixel rules across the table (`hrule_ys`)."""
+    x0, _, x1, bot = table_bbox
+    r_top = next((r for r in (_rule_near(ys, y, max(tol_pt, HEADER_RULE_TOL_PT))
+                              for y in first_tops) if r is not None), None)
+    r_bot = _rule_near(ys, bot, tol_pt) or bot
+    if r_top is None:
+        return None
+    above = [v for v in ys if v < r_top - 1]
+    bands = []
+    if above and r_top - max(above) <= HEADER_BAND_MAX_PT:
+        bands.append((max(above), r_top))
+    bands.append((r_top - LOOSE_HEADER_PT, r_top))
+    for b0, b1 in bands:
+        hdr = pixel_header(tink, dpi, chars, x0, x1, b0 + 0.5, b1 - 0.5, x_tolerance, roles)
+        if hdr is None:
+            continue
+        edges = column_edges(tink, dpi, [(l0, l1) for l0, l1, _ in hdr], b0, r_bot)
+        if edges is None:
+            return None
+        if carry is not None:
+            carry["labels"] = hdr
+        return dict(xs=[x0] + edges + [x1], roles=[r for _, _, r in hdr], header="own")
+    if carry is None or not carry.get("labels"):
+        return None
+    hdr = carry["labels"]
+    edges = column_edges(tink, dpi, [(l0, l1) for l0, l1, _ in hdr], r_top, r_bot)
+    if edges is None:
+        return None
+    xs = [x0] + edges + [x1]
+    ci = [r for _, _, r in hdr].index("ein")
+    r_next = min((v for v in ys if v > r_top + 1), default=None)
+    if r_next is None or not re.fullmatch(r"\d{2}-\d{7}|\d{9}", _text_in(
+            chars, xs[ci], xs[ci + 1], r_top, r_next, x_tolerance).strip()):
+        return None
+    return dict(xs=xs, roles=[r for _, _, r in hdr], header="carried")
+
+
+def _drop_star(text):
+    """The text without one "*" printed as a word of its own."""
+    return re.sub(r"(^|\s)\*(?=\s|$)", "", text, count=1).strip()
+
+
+def check_columns(award, cols, ys, chars, x_tolerance, tol_pt):
+    """Read one award row through pixel columns: (status, diffs, image fields). The row's band
+    is between the pixel rules at its top and bottom edge (it passed `check_bands`).
+
+    The row is compared as the vector side read it into its fields (`_columns_raw` where a
+    row gives one, else `_raw`). A "*" the vector side read from a cell of its own under a
+    header with no "*" column (row flag `star_in_cell`, FY2018 p.127; a review item already)
+    has no pixel column either and lands in a neighbour's; it is not counted as a difference."""
+    y0 = _rule_near(ys, award["bbox_pt"][1], tol_pt)
+    y1 = _rule_near(ys, award["bbox_pt"][3], tol_pt)
+    xs = cols["xs"]
+    fields = {r: _text_in(chars, xs[i], xs[i + 1], y0, y1, x_tolerance)
+              for i, r in enumerate(cols["roles"]) if r}
+    vec = award.get("_columns_raw") or award["_raw"]
+    star = "star_in_cell" in award.get("row_flags", [])
+    diffs = []
+    for f in FIELDS + (("service_type",) if "service_type" in vec else ()):
+        if f in vec or f in fields:
+            v, i = vec.get(f), fields.get(f)
+            if v != i and not (star and i is not None and v == _drop_star(i)):
+                diffs.append(f)
+    return ("columns_agree" if not diffs else "columns_differ"), diffs, fields

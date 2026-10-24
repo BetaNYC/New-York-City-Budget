@@ -2918,9 +2918,9 @@ fy21-tr02-p055-r005,2,55,2021,designate,133442022,50000,Urban Justice Center,mat
 fy21-tr02-p056-r001,2,56,2021,rescind,135562220,-63650,"Federation of Protestant Welfare Agencies, Inc.",rescission,schedule_c,
 fy21-tr02-p056-r002,2,56,2021,designate,042261109,63650,Third Sector New England,matched,cleared,8272
 fy21-tr02-p057-r002,2,57,2021,designate,237398279,51850,"Neighborhood Housing Services of Jamaica, Inc.",matched,cleared,5708
-fy21-tr02-p058-r001,2,58,2021,rescind,030553092,-15300,"Man Up, Inc. - High School for Civil Rights (Thomas Jefferson HS Campus) (Brooklyn School)",rescission,partial,
-fy21-tr02-p058-r002,2,58,2021,rescind,030553092,-15300,"Man Up, Inc. - Junior High School 292K",rescission,partial,
-fy21-tr02-p058-r003,2,58,2021,rescind,030553092,-15300,"Man Up, Inc. - Van Siclen Community School (Brooklyn School)",rescission,partial,
+fy21-tr02-p058-r001,2,58,2021,rescind,030553092,-15300,"Man Up, Inc. - High School for Civil Rights (Thomas Jefferson HS Campus) (Brooklyn School)",rescission,schedule_c,
+fy21-tr02-p058-r002,2,58,2021,rescind,030553092,-15300,"Man Up, Inc. - Junior High School 292K",rescission,schedule_c,
+fy21-tr02-p058-r003,2,58,2021,rescind,030553092,-15300,"Man Up, Inc. - Van Siclen Community School (Brooklyn School)",rescission,schedule_c,
 fy21-tr02-p058-r004,2,58,2021,designate,814482839,15300,"Elite Learners, Inc. - Public School 292K",matched,cleared,2932
 fy21-tr02-p058-r005,2,58,2021,designate,814482839,15300,"Elite Learners, Inc. - East New York Family Academy - Brooklyn",matched,cleared,2933
 fy21-tr02-p058-r006,2,58,2021,designate,814482839,15300,"Elite Learners, Inc. - High School for Civil Rights (Thomas Jefferson HS Campus) - Brooklyn",matched,cleared,2934
@@ -3860,7 +3860,7 @@ fy21-tr07-p022-r016,7,22,2021,designate,132617681,2500000,United Way of New York
 fy21-tr07-p022-r017,7,22,2021,designate,710908184,200000,"West Side Center for Community Life, Inc.",matched,cleared,8758
 fy21-tr07-p023-r001,7,23,2021,rescind,133893536,-575000,City University of New York,rescission,earlier_resolution,
 fy21-tr07-p024-r001,7,24,2021,rescind,133598671,-63750,"Hunter College Foundation, Inc.",rescission,earlier_resolution,
-fy21-tr07-p025-r001,7,25,2021,rescind,133919147,-15300,"Groove With Me, Inc. - Esperanza",rescission,not_found,
+fy21-tr07-p025-r001,7,25,2021,rescind,133919147,-15300,"Groove With Me, Inc. - Esperanza",rescission,schedule_c,
 fy21-tr07-p025-r002,7,25,2021,designate,133919147,15300,"Groove With Me, Inc. - Public School 108K",matched,cleared,3861
 fy21-tr07-p026-r002,7,26,2021,designate,133572287,50000,"Asian American Federation, Inc.",matched,cleared,394
 fy21-tr07-p027-r001,7,27,2021,rescind,133634381,-180800,CityMeals on Wheels,rescission,partial,
@@ -3983,7 +3983,7 @@ fy21-tr08-p018-r005,8,18,2021,rescind,133058019,-10000,"Harlem Week, Inc.",resci
 fy21-tr08-p018-r006,8,18,2021,designate,133058019,10000,"Harlem Week, Inc.",matched,cleared,3956
 fy21-tr08-p018-r007,8,18,2021,rescind,841650571,-25000,"Boricua Festival Committee, Inc.",rescission,earlier_resolution,
 fy21-tr08-p018-r008,8,18,2021,designate,136400434,25000,Department of Youth and Community Development,matched,pending,2655
-fy21-tr08-p019-r001,8,19,2021,rescind,510135262,-15300,"Black Spectrum Theatre Company, Inc. - New Prep Middle School 8Q",rescission,partial,
+fy21-tr08-p019-r001,8,19,2021,rescind,510135262,-15300,"Black Spectrum Theatre Company, Inc. - New Prep Middle School 8Q",rescission,schedule_c,
 fy21-tr08-p019-r002,8,19,2021,designate,510135262,15300,"Black Spectrum Theatre Company, Inc. - Redwood Middle School 332Q",matched,cleared,713
 fy21-tr08-p020-r001,8,20,2020,rescind,111639802,-5000,Roman Catholic Church of the Holy Child Jesus in the Borough of Queens in the City of New York - Golden Age Club,rescission,not_found,
 fy21-tr08-p020-r002,8,20,2020,designate,111639802,5000,Roman Catholic Church of the Holy Child Jesus in the Borough of Queens in the City of New York,matched,cleared,8731

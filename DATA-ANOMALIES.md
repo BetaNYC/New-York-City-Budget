@@ -958,6 +958,12 @@ year; the budget year a row changes is `budget_fiscal_year` (2023-2026), from th
 2023" that names a Council Member who took office in 2024 (likely 2026). Reso 01 p.67 "Operation
 Backpack" prints no fiscal year. Reso 06 p.2 prints one row with no EIN.
 
+**Text drawn over text (#196, 2026-10-23).** On Reso 02 p.114 the first line of row 2's purpose
+("Funding supports health …") is drawn over row 1's last purpose line, outside row 2's cell, and
+does not show. The page is named `T7.overlaid` (as FY2022 Reso 09 p.38), so row 1 reads as the
+page shows it. The hidden line is kept in row 1's `hidden_text` (the cell it is drawn over), not
+row 2's, and its `W.clipped_text` note says "under the next cell". No value is affected.
+
 ---
 
 ## 31. FY2026 Schedule C rebuilt from the PDF, checked (#103) — REVIEW IN PROGRESS (4 of 28 decided)
@@ -1093,7 +1099,8 @@ headings into the text of 14, the FSR table into #16, dropped hyphens in 4, and 
 477 / $5,610,000, 2,616 / $36,539,000, 818 / $7,650,000). Nothing the first PDF parse had is
 missing; 81 rows are new. The §20 row (p.234) comes back as two awards. 24 of 25 category
 TOTALs tie. The image grid agrees on 7,844 rows; 1,447 rows sit in tables with no vertical
-rules, and the pixels' horizontal rules confirm the row band of 1,438 of them.
+rules, and the pixels' horizontal rules confirm the row band of 1,438 of them. Since #193 the
+image side also finds those tables' columns and reads the 1,438 again: all agree.
 
 **What the PDF itself gets wrong (flagged, never fixed).**
 
@@ -1173,6 +1180,7 @@ text extraction: the PDF opens with no password and every character extracts
 missing; 45 rows are new, including the two $5,000 Local rows §19 describes, so Appendix B is
 the $36,539,000 pot. All 26 category TOTALs tie. The image grid agrees on 4,884 rows; 1,040
 rows sit in tables with no vertical rules, and the pixels' horizontal rules confirm 1,028.
+Since #193 the image side also finds those tables' columns and reads the 1,028 again: all agree.
 
 **What the PDF itself gets wrong (flagged, never fixed).**
 - **Two boxes print a different amount from their summary line:** Low Wage Worker Support
@@ -1243,7 +1251,9 @@ as the retired CSV numbered them; it put the FSR table into condition 24's text.
 **Result.** 5,732 award rows, $285,155,968 (body 1,550 / $235,356,968; appendices A, B, C
 510 / $5,610,000, 2,790 / $36,539,000, 882 / $7,650,000). Nothing the first PDF parse had is
 missing; 71 rows are new, among them Art as a Catalyst for Change (40 rows, $720,000, pp.84–85),
-which the old parse dropped. All 25 category TOTALs tie. The image grid agrees on 5,616 rows.
+which the old parse dropped. All 25 category TOTALs tie. The image grid agrees on 5,622 rows
+(5,616 before #193 taught it the "Institute" header, pp.60–61), and its columns found in the
+pixels on the 100 rows of tables with no vertical rules (#193).
 
 **What the PDF itself gets wrong (flagged, never fixed).**
 - **p.57.** Public Health Funding Backfill's box prints $4,467,933; its summary line $4,667,933.
@@ -1256,7 +1266,8 @@ which the old parse dropped. All 25 category TOTALs tie. The image grid agrees o
 
 **Things a re-parse must know.** A four-column table with a "Program" column (pp.84–85). Rows
 drawn as one wide cell each (pp.117–118). "TOTAL:" (p.32). A box drawn inside an award table
-(p.81). The ink check skips the first row of a table with no header row of its own.
+(p.81). The ink check skipped the first row of a table with no header row of its own, until
+#192.
 
 ---
 
@@ -1317,7 +1328,8 @@ the FSR table's months are out of order as printed.
 **Result.** 6,179 award rows, $262,477,792 (body 1,869 / $212,678,792; appendices A, B, C
 514 / $5,610,000, 2,902 / $36,539,000, 894 / $7,650,000). Nothing the first PDF parse had is
 missing; 69 rows are new ($11,149,604), among them 36 of Art as a Catalyst for Change's 40 rows. All 26
-category TOTALs tie. The image grid agrees on 5,744 rows.
+category TOTALs tie. The image grid agrees on 5,744 rows, and its columns found in the pixels
+(#193) on the other 431 whose row band the pixels confirm.
 
 **What the PDF itself gets wrong (flagged, never fixed).**
 - **p.122** prints the box "$477,00" (its summary line $477,000).
@@ -1385,7 +1397,8 @@ capital supporting detail in `source/`.
 510 / $5,610,000, 2,986 / $36,539,000, 897 / $7,650,000). Nothing the first PDF parse had is
 missing; 5,080 rows are new ($77,987,688), 4,180 of them in the appendices: #59's FY2020
 loss, recovered from the PDF. All 27 category TOTALs tie. §20's one FY2020 merged row comes
-back as two awards. The image grid agrees on 6,380 rows.
+back as two awards. The image grid agrees on 6,380 rows, and its columns found in the pixels
+(#193) on the 1,532 more whose row band the pixels confirm.
 
 **What the PDF itself gets wrong (flagged, never fixed).**
 - **p.46**: three EINs printed one row off (Foundling, North Brooklyn Coalition, Safe Horizon).
@@ -1457,7 +1470,8 @@ Conditions in `source/`.
 missing except 27 rows of a partner list that are not awards (below); 5,176 rows are new
 ($71,772,745), 4,444 of them in the appendices: #59's FY2019 loss, recovered from the PDF. All
 27 category TOTALs tie. **All 39 of §20's FY2019 merged rows come back as separate awards (82
-awards).** The image grid agrees on 5,090 rows.
+awards).** The image grid agrees on 5,090 rows, and its columns found in the pixels (#193) on
+the 902 more whose row band the pixels confirm.
 
 **What the PDF itself does (flagged, never fixed).**
 - **A "*" column** (p.10: review not complete at adoption) on 304 rows; kept as a row flag.
@@ -1537,7 +1551,9 @@ $15,460,000 more on 11 lines. FY2019 has no Terms & Conditions in `source/`.
 here except 27 rows of a partner list that are not awards; 5,031 rows are new ($101,056,774),
 Appendices B and C among them: #59's FY2018 loss. Appendix A's amounts with cents are read
 as whole dollars (§21 `fy18_aging_shift` does not arise). **All 94 of §20's FY2018 merged rows
-come back as separate awards (224 awards).** The image grid agrees on 5,260 rows.
+come back as separate awards (224 awards).** The image grid agrees on 5,260 rows, and its
+columns found in the pixels (#193) on 645 of the 646 more whose row band the pixels confirm
+(not p.107's Urban Health Plan, whose EIN is printed with 10 digits).
 
 **What the PDF itself does (flagged, never fixed).**
 - **Fiscal conduit columns**: 50 rows print one; kept in the review file.

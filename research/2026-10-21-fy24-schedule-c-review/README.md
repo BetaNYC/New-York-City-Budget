@@ -78,7 +78,7 @@ is shared. Each switch changes FY2024's output when turned off (checked one by o
 |---|---|
 | `REVIEW.md` | The review list in plain words, by dollars |
 | `ISSUE-LOG-DRAFT.md` | #105 issue-log comments, drafted, **not posted** |
-| `data/fy24_sc_awards.csv` | Every award row, same columns as FY2025 (`lattice` adds `vector+bands` for rows checked by pixel rules) |
+| `data/fy24_sc_awards.csv` | Every award row, same columns as FY2025 (`lattice` adds `vector+bands` for rows checked by pixel rules; since #193, 2026-10-24, those 1,438 rows are `vector+columns`: their columns are found in the pixels too) |
 | `data/fy24_sc_initiatives.csv` | 148 initiatives: box amount, designation statement and its kind, reserve, rows and their sum |
 | `data/fy24_sc_categories.csv` | The 25 category summary tables, line by line, with TOTALs |
 | `data/fy24_sc_review.csv` | The review file (same columns as `fy26_sc_review.csv`) |
@@ -110,6 +110,11 @@ Same tool versions as FY2025 (Python 3.12.13, pdfplumber 0.11.10, pypdfium2 5.14
   the text layer, with columns split by rule of thumb (the EIN and amount words). The pixels
   confirm the rows, the EIN census and the "nothing crosses a split" check confirm the columns,
   and every row the first PDF parse had is here; but no second reader read those fields.
+  *Update 2026-10-23 (#193):* the image side now finds these tables' columns itself (the header's
+  labels and the blank strips between them, `imagegrid.pixel_columns`) and reads all 1,438 a
+  second time: all agree on every field (`image_check` `columns_agree`, `lattice`
+  `vector+columns`). Like the image lattice it reads the PDF's text layer, so a text-layer error
+  still passes both.
 - That the eight landscape pages belong to NYC Cleanup is an inference from their content and
   their sum, not something the PDF says. It is the largest review row.
 - Which side is right where the PDF disagrees with itself (pp.63, 109, 129, 147, 148, 176, 181).

@@ -49,8 +49,9 @@ in `data/overlays/` (named `r<reso>-p<page>-<review_id>.png`).
   taken back later, 43 at another amount, 10 key already used, 5 EIN not in the disclosure, 2
   City-EIN name mismatch. FY2018 and FY2017 charts: 143 of 158 and 138 of 143 found.
   `data/fy19_tr_disclosure_match.csv`.
-- **Rescission origins** (report only): of 1,393, 713 take back an earlier resolution's row, 49
-  match a Schedule C award (retired CSV), 298 part of a larger amount, 333 not found.
+- **Rescission origins** (report only): of 1,393, 713 take back an earlier resolution's row, 368
+  match a Schedule C award, 129 part of a larger amount, 183 not found (checked Schedule C,
+  `data/fy19/pdf/schedule_c/`, since #204 on 2026-10-23; the retired CSV gave 49 / 298 / 333).
 
 ## Decisions for Noel
 

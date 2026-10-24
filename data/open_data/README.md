@@ -65,7 +65,10 @@ Reading it:
   `same`, 218 `differs`: 173 where the workbook lists district `00` (citywide) beside the member's and
   the portal drops it, and 44 where the **portal's text is damaged** (`Avilés` → `Avil├⌐s`, `Cabán`,
   `Ossé`: UTF-8 read as code page 437), plus `P CN1606`, broken on the portal (RECONCILIATION §2).
-  FY2015–FY2017 and FY2027: no dataset.
+  FY2015–FY2017 and FY2027: no dataset. PDF rows (not in the table) match on the full project ID,
+  agency code included (#198): `HD NC026` and `PW NC026` are two projects. Matching on the number
+  alone left 17 PDF rows `ambiguous`; 4 still are, `TF CN90` (FY2020) and `E CN884` (FY2022), each
+  printed twice with the same line, year and amount, in the PDF and on the portal.
 - **Capital lines** are context. `46m8-77gv` uses `data/capital/council_vs_omb_by_budget_line.csv`
   (verdicts other than `match` are in `differing_fields`). `2cmn-uidm` portal-only counts every
   Council-series line in that year's plan that has no award that year (most carry over from earlier

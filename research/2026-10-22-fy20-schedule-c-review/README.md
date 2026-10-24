@@ -112,8 +112,15 @@ Same tool versions as FY2021. The run is byte-identical on re-run (checked, over
   is a fifth of FY2020's body (all of it in the body): the h-rule tables and the tables whose
   header is printed outside the grid. The pixels confirm the rows; the EIN census and H7 the
   columns; no second reader read those fields.
+  *Update 2026-10-23 (#193):* the image side now finds these tables' columns itself (the header's
+  labels and the blank strips between them, `imagegrid.pixel_columns`) and reads all 1,532 a
+  second time: all agree on every field (`image_check` `columns_agree`, `lattice`
+  `vector+columns`). Like the image lattice it reads the PDF's text layer, so a text-layer error
+  still passes both.
 - **The ink check treats a table's first row as its header** (shared code, not changed): for a
   table with no header row of its own, that first row's ink is not checked.
+  *Update 2026-10-23 (#192):* fixed. The first row of the 6 award tables with no header row of
+  their own is now ink-checked like any other; the re-run found no unread ink in them.
 - That the amounts with no "$" are what the Council meant; that p.46's EINs are shifted rather
   than wrong some other way; which side is right where the PDF disagrees with itself; what a
   rounded statement meant to the dollar.
