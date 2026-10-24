@@ -82,6 +82,12 @@ Institute" (p.70), "NYC Renters" / "NYC's Renters" (p.76), "(SHIP)" (p.76), "(LI
 - **537 Appendix A amounts printed with cents** (`W.amount_cents`, "$30,000.00") and **4,512
   amounts printed with no "$"** (`W.amount_bare`): the year's layout.
 - **646 rows checked by pixel rules only**, all in the body.
+  *Update 2026-10-24 (#193):* 645 of these rows now have `lattice` = `vector+columns`
+  (`image_check` `columns_agree`): the image side finds their columns from the header's labels and
+  the blank strips between them, and the text layer, clipped a second time through those cells,
+  gives the same value in every field. The other one, p.107 Urban Health Plan (EIN printed
+  `15-24042810`), keeps `vector+bands`; see README. It is the same text layer, so a text-layer
+  error still passes.
 - **14 TOTAL rows inside award tables**: not awards; 13 equal their rows (the 14th is #12).
 - **The "School" column of Art as a Catalyst for Change** (pp.92–93), in `purpose`, as FY2019's
   "Program".

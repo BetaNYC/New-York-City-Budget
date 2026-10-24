@@ -144,7 +144,8 @@ Not added to `DATA-ANOMALIES.md` here (parallel sessions); for the integrator to
 >
 > **Things a re-parse must know.** A four-column table with a "Program" column (pp.84–85). Rows
 > drawn as one wide cell each (pp.117–118). "TOTAL:" (p.32). A box drawn inside an award table
-> (p.81). The ink check skips the first row of a table with no header row of its own.
+> (p.81). The ink check skipped the first row of a table with no header row of its own, until
+> #192.
 
 ## Not done here
 

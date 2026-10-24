@@ -129,8 +129,11 @@ cells a re-run fills from its committed decisions file.
   labels and the blank strips between them, `imagegrid.pixel_columns`) and reads 645 of these rows
   a second time: all agree on every field (`image_check` `columns_agree`, `lattice`
   `vector+columns`). The other row (p.107, Urban Health Plan, its EIN printed `15-24042810`) keeps
-  its band check only: a table with no header of its own takes the last header only when its EIN
-  column holds a well-formed EIN. Like the image lattice it reads the PDF's text layer, so a
+  its band check only. On the page it sits in the MWBE Leadership Associations table, under that
+  table's header; the vector parse splits the table at that row into three (tables 3, 4 and 5, a
+  split older than #193), so the image side sees a one-row table with no header. It takes the
+  last header for such a table only when its EIN column holds a well-formed EIN, and this one
+  does not. Like the image lattice it reads the PDF's text layer, so a
   text-layer error still passes both.
 - **The fiscal conduits are kept only in the review file** (and `flags.csv`), not in an awards
   column. The partner list on p.106 is not ink-checked or read twice.

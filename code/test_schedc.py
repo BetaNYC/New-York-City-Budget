@@ -1314,6 +1314,21 @@ def test_golden18_appendix_a_amounts_with_cents_p131(pages18):
     assert r["amount_printed"] == "$19,000.00" and "amount_cents" in r["row_flags"]
 
 
+def test_pixel_columns_carried_header_needs_an_ein_p107():
+    # #193: FY2018 p.107's MWBE table is split by the vector parse at Urban Health Plan, whose
+    # EIN is printed with 10 digits. The one-row table between the splits has no header, and the
+    # carried one is refused because its EIN column holds no well-formed EIN; the table under
+    # it takes the carried header.
+    pytest.importorskip("cv2")
+    import parse_schedule_c_v2 as sc
+    S, vp = _cv_pages(CFG18, [107])
+    rows, _, _, _ = sc.run_cv(CFG18, S, vp, None, {107})
+    st = {a["award_id"]: rows[a["award_id"]]["status"] for a in S["awards"]
+          if a["pdf_page"] == 107 and a["table_index"] in (4, 5)}
+    assert st == {"fy18-p107-t04-r000": "bands_agree", "fy18-p107-t05-r000": "columns_agree",
+                  "fy18-p107-t05-r001": "columns_agree"}
+
+
 @pytest.mark.skipif(not os.path.exists(OUT18), reason="FY2018 outputs not built")
 def test_snapshot18_rows_and_checks():
     with open(os.path.join(OUT18, "fy18_sc_awards.csv"), newline="", encoding="utf-8") as f:

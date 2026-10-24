@@ -78,7 +78,7 @@ is shared. Each switch changes FY2024's output when turned off (checked one by o
 |---|---|
 | `REVIEW.md` | The review list in plain words, by dollars |
 | `ISSUE-LOG-DRAFT.md` | #105 issue-log comments, drafted, **not posted** |
-| `data/fy24_sc_awards.csv` | Every award row, same columns as FY2025 (`lattice` adds `vector+bands` for rows checked by pixel rules) |
+| `data/fy24_sc_awards.csv` | Every award row, same columns as FY2025 (`lattice` adds `vector+bands` for rows checked by pixel rules; since #193, 2026-10-24, those 1,438 rows are `vector+columns`: their columns are found in the pixels too) |
 | `data/fy24_sc_initiatives.csv` | 148 initiatives: box amount, designation statement and its kind, reserve, rows and their sum |
 | `data/fy24_sc_categories.csv` | The 25 category summary tables, line by line, with TOTALs |
 | `data/fy24_sc_review.csv` | The review file (same columns as `fy26_sc_review.csv`) |
