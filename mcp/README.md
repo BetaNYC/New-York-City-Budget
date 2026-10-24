@@ -10,7 +10,7 @@ Four more tools answer from the **checked tables BetaNYC reads from the Council'
 tables are an **optional download** (about 17 MB; 115 MB on disk), not part of the package: see
 [The checked PDF tables](#the-checked-pdf-tables-optional-download).
 
-> **The current version is 2.0.2** (2026-10-23). It adds the four PDF tools and the optional
+> **Version 2.0.2** (2026-10-23; 2.0.3 in progress) adds the four PDF tools and the optional
 > download; nothing is removed. The first data release for that download is
 > [`pdf-tables-2026-10-23-5bab77c`](https://github.com/BetaNYC/New-York-City-Budget/releases/tag/pdf-tables-2026-10-23-5bab77c):
 > 36 checked family-years, FY2018–FY2027 (17 MB of tables), and, with `--pdfs`, the 126 PDFs
@@ -398,7 +398,7 @@ from the PDFs, and the old parser lost and merged rows.
 
 TypeScript + the MCP SDK + zod over stdio, on a local SQLite index (no live upstream API).
 
-- **The parent repo's structured datasets** are the single source of truth: `../data/disclosure_years.csv`, `../data/fyNN/expense_disclosure/`, `../data/capital/`, and the `MANIFEST.csv` of each source folder whose files they cite.
+- **The parent repo's structured datasets** are the single source of truth: `../data/disclosure_years.csv`, `../data/fyNN/expense_disclosure/`, `../data/capital/`, `../data/open_data/` (whether each record is also on NYC Open Data, which the explorer shows), and the `MANIFEST.csv` of each source folder whose files they cite.
 - **`scripts/build-index.mjs`** reads only those files and builds `mcp/data/budget.db` (git-ignored) with `better-sqlite3`. It records every file it read in the index's `meta.inputs`, stops on any value outside a documented vocabulary (a status, a flag, a row count that disagrees with `disclosure_years.csv`, a capital source whose sha256 differs from its manifest), and is idempotent: the `.db` is dropped and rebuilt each run.
 - **The PDF tables, kept out of the package.** The index also has empty `pdf_*` tables (`scripts/pdf-families.mjs`). The package's build (`npm run build-index` = `build-index.mjs --spreadsheet-only`) loads no PDF family, whatever its status; with no flag, `closed` families load (the explorer's default build); `--include-reviewed --out <file>` adds `reviewed` ones and refuses to write `data/budget.db`. Every build records the commit it was built from (`meta.source_commit`, `NYC_BUDGET_SOURCE_COMMIT` overrides `git rev-parse HEAD`) and whether every cited PDF has the same bytes at that commit.
 - **`scripts/build-pdf-release.mjs`** builds the optional download from an `--include-reviewed` build (see [the release format](#the-release-format-nyc-budget-pdf-tables1)).
@@ -458,6 +458,12 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/license.test.js` | One license: the license statements name no second license; `LICENSE` names code, data and docs and excludes `source/`; `mcp/LICENSE` equals the repository's. |
 | `test/cleared-label.mjs` | Helper, not a test: the Cleared-line label expected for a set of CSV rows. |
 | `test/strict-schema.test.js` | Issue #37: every tool advertises and enforces `additionalProperties: false`, with per-tool hints |
+| `test/build-guard.test.js` | The index build fails loudly on a dataset with no rows or a missing year, and installs the new index in one step (#95) |
+| `test/checkwords.test.js` | Every check code in the promoted files has a plain sentence (`src/checkwords.ts`); questions to Council Finance are worded by status (`src/questions.ts`) |
+| `test/fold-roundtrip.test.js` | A printed value pasted back exactly finds its own rows, including accented and garbled text as published |
+| `test/open-data.test.js` | Whether each record is on NYC Open Data (`data/open_data/`), as the explorer shows it |
+| `test/pdf-align.test.js` | How a Schedule C row is matched to the disclosure spreadsheet (`disclosure_status`) |
+| `test/rowlinks.test.js` | The row-link builder (`src/rowlinks.ts`), shared with the explorer: the explorer link, the GitHub links, the publisher's copy |
 
 The 1.x tests and the Legistar enrichment script are parked in `retired-1.x/` (not run, not
 shipped) until a maintainer deletes them.
@@ -476,7 +482,7 @@ Published to npm by CI, never from a laptop:
   `git push origin mcp-v<version>`.
 - **The PDF tables** are not in the npm package: `.github/workflows/pdf-tables-release.yml`
   publishes them as `pdf-tables-*` GitHub Releases, by hand for now (see "Publishing a release").
-  The latest npm release is 2.0.2 (tag `mcp-v2.0.2`).
+  The latest npm release is 2.0.2 (tag `mcp-v2.0.2`); 2.0.3 is in progress.
 - **CI**: `.github/workflows/ci.yml` builds and tests `mcp/` on Node 22 and 24 for every PR into
   `main` that touches `mcp/` or the data the index is built from.
 

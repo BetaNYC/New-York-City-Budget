@@ -6,11 +6,11 @@ funds, for how much, through which agency, and at which Council member's request
 Data. Every row says where it came from.
 
 - **Search it in a browser:** the [budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/).
-- **Ask an AI assistant:** the [`@betanyc/nyc-budget-mcp`](mcp/README.md) server (2.0.2).
+- **Ask an AI assistant:** the [`@betanyc/nyc-budget-mcp`](mcp/README.md) server.
 - **Download it:** the CSVs in [`data/`](data/), or the [data releases](https://github.com/BetaNYC/New-York-City-Budget/releases).
 - **Report a problem:** [GitHub issues](https://github.com/BetaNYC/New-York-City-Budget/issues).
 
-**Last revised:** 2026-10-23.
+**Last revised:** 2026-10-24.
 
 ---
 
@@ -71,7 +71,8 @@ checked process ([`PDF-RECIPE.md`](PDF-RECIPE.md)):
 | Capital book (§254 supporting detail) | The Council's capital additions, project by project | FY2018–FY2020, FY2022–FY2027 |
 | Terms and Conditions | The reports the budget requires agencies to make | FY2018, FY2021–FY2027 |
 
-That is 36 family-years (one family in one fiscal year), in `data/fyNN/pdf/`. Each one's status is
+That is 36 family-years (one family in one fiscal year), in `data/fyNN/pdf/`. The gaps in that
+table are years with no PDF of that kind in `source/` (see [what is not done yet](#what-is-not-done-yet)). Each one's status is
 in [`data/pdf_years.csv`](data/pdf_years.csv). Values are kept as printed, never corrected. The
 PDFs themselves are in [`source/`](source/).
 
@@ -119,7 +120,7 @@ It has eight tools:
 | `search_capital_book` | The capital book, from the checked PDF tables |
 | `search_terms_conditions` | Terms and Conditions, from the checked PDF tables |
 
-The npm package holds only the spreadsheet data. The checked PDF tables are an **optional
+The npm package holds the server's code and its spreadsheet index (`dist` and `data/budget.db`). The checked PDF tables are an **optional
 download** (about 17 MB) from this repo's data releases:
 
 ```bash
@@ -128,7 +129,7 @@ npx @betanyc/nyc-budget-mcp download --pdf-tables --pdfs   # the tables and the 
 ```
 
 Or set `"env": { "NYC_BUDGET_PDF_DATA": "on" }` in the config, and the server downloads them when
-it starts. Until then, the four PDF tools say how to add them. Every file is checked against its
+it starts, if none are installed (run `download` again to get a newer release). Until then, the four PDF tools say how to add them. Every file is checked against its
 published sha256. Full details: [`mcp/README.md`](mcp/README.md); changes:
 [`mcp/CHANGELOG.md`](mcp/CHANGELOG.md).
 
@@ -158,14 +159,21 @@ Each family-year then has one of two statuses, and every row shows it:
 
 - **`reviewed`: "checked, review in progress."** The table is checked and public. A person may
   still be deciding some flagged rows.
-- **`closed`: "checked and reviewed."** A person has decided every flagged row. Some need answers
-  from Council Finance first; those questions and their dates are in
+- **`closed`: "checked and reviewed."** A person has decided every flagged row: critical items
+  one by one, warnings by type, and every "needs more information" item answered, or 30 days past
+  the date its question went to Council Finance. The questions, with their issues and dates, are in
   [`data/council_questions.csv`](data/COUNCIL-QUESTIONS.md).
 
 On 2026-10-23 all 36 family-years are `reviewed`, and none is `closed` yet.
 
 Rows show their review notes in plain words, and the status of any question to Council Finance.
 Text in the PDF that can't be seen on the printed page is shown apart, labeled "hidden text".
+
+**The checks run in CI.** On every pull request that touches the readers, configs, PDFs or
+tables, [`python-checks.yml`](.github/workflows/python-checks.yml) runs `python -m pytest code`
+and re-reads every promoted PDF to prove the committed tables match (about an hour, on macOS).
+[`ci.yml`](.github/workflows/ci.yml) builds and tests the MCP and the explorer, and checks that the
+two agree. How to run each check yourself: [`PDF-RECIPE.md`](PDF-RECIPE.md), Steps 2, 5 and 6.
 
 **Data releases.** The checked tables (and the PDFs they cite) are published as GitHub Releases
 tagged `pdf-tables-<date>-<commit>`, each with a manifest of sha256s. The first,
@@ -187,12 +195,47 @@ explorer redeploys on every merge that changes the data.
 - **Check an older year.** FY2008–FY2017 are not redone yet. Their issues are under epic
   [#101](https://github.com/BetaNYC/New-York-City-Budget/issues/101); the recipe has every step.
 - **Change code.** Open a pull request against `main`. CI builds and tests the MCP and the
-  explorer. A change to what the npm package ships needs a version bump and a changelog entry.
-  The Python checks are not in CI: run `python -m pytest code` yourself.
+  explorer, and a macOS job runs the Python checks (about an hour; run `python -m pytest code`
+  yourself first). A change to what the npm package ships needs a version bump and a changelog
+  entry.
 - **Never fix a value by hand.** Change the reader or record a decision, so every value can be
   traced to its source.
 
 Questions: hello@beta.nyc.
+
+## What is not done yet
+
+Open work is tracked in three epics: [#101](https://github.com/BetaNYC/New-York-City-Budget/issues/101)
+(read every PDF, one year at a time), [#190](https://github.com/BetaNYC/New-York-City-Budget/issues/190)
+(serve the checked tables) and [#244](https://github.com/BetaNYC/New-York-City-Budget/issues/244)
+(fix the bugs the FY2018–FY2027 reviews found).
+
+- **No year is `closed` yet.** All 36 family-years are `reviewed`.
+- **Questions to Council Finance are drafts, not yet sent.** One issue each:
+  [#227](https://github.com/BetaNYC/New-York-City-Budget/issues/227) and
+  [#233](https://github.com/BetaNYC/New-York-City-Budget/issues/233)–[#242](https://github.com/BetaNYC/New-York-City-Budget/issues/242).
+- **FY2017 back to FY2008 are not re-read yet.** Only the old parser's output exists for them, and
+  it is not served (#101).
+- **Scanned PDFs wait for an OCR step** in the recipe
+  ([#251](https://github.com/BetaNYC/New-York-City-Budget/issues/251)): all FY2009 transparency
+  resolutions and some of FY2010–FY2012.
+- **Gaps in FY2018–FY2027:** FY2027 transparency resolutions are not in `source/`; two are known
+  with no download route ([#246](https://github.com/BetaNYC/New-York-City-Budget/issues/246)).
+  There is no FY2021 capital supporting detail in `source/` (OMB's copy is in `source/gpp/`, not
+  yet reviewed) and no FY2019 or FY2020 Terms and Conditions.
+- **FY2010 disclosure is held.** The Council's archived workbook is incomplete compared with NYC
+  Open Data, and we don't mix the two (DATA-ANOMALIES §25).
+- **FY2018 Council capital** waits for the FY2018 capital book to be closed
+  ([#202](https://github.com/BetaNYC/New-York-City-Budget/issues/202)).
+- **Other open issues:** the readers give a few pixels' different counts on Linux, so the Python
+  checks run on macOS for now ([#256](https://github.com/BetaNYC/New-York-City-Budget/issues/256));
+  4 capital rows still match NYC Open Data two ways
+  ([#257](https://github.com/BetaNYC/New-York-City-Budget/issues/257)); checking mailing addresses
+  ([#247](https://github.com/BetaNYC/New-York-City-Budget/issues/247)); scheduled re-pulls of the
+  Council's workbooks ([#248](https://github.com/BetaNYC/New-York-City-Budget/issues/248)); a
+  Checkbook spot check ([#249](https://github.com/BetaNYC/New-York-City-Budget/issues/249)); and
+  serving OMB's commitment plan and DCP's capital data in the MCP
+  ([#250](https://github.com/BetaNYC/New-York-City-Budget/issues/250)).
 
 ## Repository layout
 

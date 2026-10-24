@@ -870,6 +870,13 @@ answers surfaced when FY2009 entered the served set: the 53 rows with no grantee
 - **Fractional amounts.** FY2009–FY2012 carry amounts such as `7481.296758`; the MCP shows them
   rounded to cents and totals the exact values.
 
+**Rescission origins use the checked Schedule C (since #204, 2026-10-23).** The checked
+transparency tables trace each rescission to the award it takes money from. They now look it up in
+the checked `data/fyNN/pdf/schedule_c/` awards, not in the retired old-parser CSVs; a year with no
+checked Schedule C stops the run. 879 FY2018–FY2023 rows changed origin, mostly from `not_found`
+or `partial` to `schedule_c` (FY2018 318, FY2019 333, FY2020 214, FY2021 5, FY2022 4, FY2023 5;
+FY2024–FY2026 unchanged). One more place the retired files are no longer read.
+
 ---
 
 ## 28. FY2009 Transparency Resolutions are OCR-derived — the one year whose numbers are model-read

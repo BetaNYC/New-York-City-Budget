@@ -7,7 +7,7 @@ way. The plan behind it is
 [`research/2026-10-19-schedule-c-pdf-toolkit/PLAN.md`](research/2026-10-19-schedule-c-pdf-toolkit/PLAN.md),
 and the epic that tracks every year is [#101](https://github.com/BetaNYC/New-York-City-Budget/issues/101).
 
-**Last revised:** 2026-10-23 (what `reviewed` and `closed` mean, and what each makes public).
+**Last revised:** 2026-10-24 (what `reviewed` and `closed` mean, and what each makes public).
 
 ## The idea in four lines
 
@@ -284,8 +284,10 @@ Check the decisions file:
 # exit 0: every item has a decision; 1: the decisions file is invalid; 2: something is still open
 ```
 
-`--complete` still counts `needs_info` as a decision (#194). Until that is fixed, find every
-`needs_info` row in the decisions file before closing and check it against rule 3 by hand.
+`--complete` counts `needs_info` as open (#194) and lists each one, unless its question in
+`data/council_questions.csv` is `sent` and was sent 30 or more days ago. To settle one, change
+its `decision` by hand, put the answer in the note, and run `--sync`. `--allow-needs-info` lets
+them all through on purpose; say why in the PR.
 
 - [ ] A person changes the family's `status` from `reviewed` to `closed` in `data/pdf_years.csv`.
       Only a person does this.
