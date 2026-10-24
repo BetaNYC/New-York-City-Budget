@@ -125,9 +125,20 @@ cells a re-run fills from its committed decisions file.
 
 - **For the 646 rows checked only by pixel rules, the text of each field is read once** (the
   h-rule tables and the tables with no drawn vertical rules, all in the body).
+  *Update 2026-10-23 (#193):* the image side now finds these tables' columns itself (the header's
+  labels and the blank strips between them, `imagegrid.pixel_columns`) and reads 645 of these rows
+  a second time: all agree on every field (`image_check` `columns_agree`, `lattice`
+  `vector+columns`). The other row (p.107, Urban Health Plan, its EIN printed `15-24042810`) keeps
+  its band check only: a table with no header of its own takes the last header only when its EIN
+  column holds a well-formed EIN. Like the image lattice it reads the PDF's text layer, so a
+  text-layer error still passes both.
 - **The fiscal conduits are kept only in the review file** (and `flags.csv`), not in an awards
   column. The partner list on p.106 is not ink-checked or read twice.
+  *Update 2026-10-23 (#193):* its 28 rows are now read a second time through the pixel columns,
+  and agree. It is still not ink-checked.
 - **The ink check treats a table's first row as its header** (shared code, not changed).
+  *Update 2026-10-23 (#192):* fixed. The first row of the 6 award tables with no header row of
+  their own is now ink-checked like any other; the re-run found no unread ink in them.
 - That an agency row holding a reserve is a reserve and not an award to the agency; that the
   partner list is not a set of awards; which side is right where the PDF disagrees with itself;
   which EIN Good Shepherd's p.55 row should carry.
