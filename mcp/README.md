@@ -200,12 +200,15 @@ and the answer lists it (one today: FY2021 `PW MN02A`, $304,000).
   "(AI)", "AI-powered" and "BetaNYC's AI", but not "Jamaica" or "AIDS"; `DOE` finds "DOE's".
   A longer term stays a substring, so `Fellow` still finds "Fellowship" and `BetaNYC` still
   finds "BetaNYC's". A term with no letter or digit (`%`, `_`) stays a substring. Every tool with
-  a text filter takes **`whole_word`**, which overrides the default for all its text filters in
-  that call: `false` to find a short term inside words (`CC1` inside `CC1053`), `true` to keep a
+  a text filter takes **`whole_word`**, which overrides the default for all its name and prose
+  filters in that call: `false` to find a short term inside words (`AI` inside `AIDS`), `true` to keep a
   longer word from matching longer ones (`Fellow` but not `Fellowship`). When any filter matched
   as whole words, the answer's second line names it and says how to get a substring instead.
   Folding is the same either way, the matching runs in SQL so the totals cover exactly the rows
-  matched, and exact filters (EIN, IDs, budget line, codes, city, zip) are not affected. The
+  matched, and exact filters (EIN, IDs, budget line, codes, city, zip) are not affected.
+  Identifier filters that match substrings, the capital book's `project_id` and the transparency
+  `resolution_number`, always stay substrings: an ID fragment such as `CC1` or `101` finds every
+  ID containing it, whatever its length and whatever `whole_word` says. The
   explorer's search is still a substring.
 - **A blank text filter is an error**, never "no filter": `legal_name: ""` is refused with a
   message instead of returning all 156,544 rows. Filters are capped at 500 characters.

@@ -14,13 +14,15 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   it is not inside a longer word (that search returns the one row, $20,000), and longer terms
   keep substring matching (`Fellow` still finds "Fellowship"). Case and accent folding are
   unchanged, `%` and `_` stay literal, and exact filters (EIN, IDs, budget line) are unaffected.
+  Identifier filters (`project_id` on `search_capital_book`, `resolution_number` on
+  `search_transparency_changes`) always stay substrings, so ID fragments such as `CC1` still match.
   The matching runs in SQL, so totals cover exactly the rows matched.
 
 ### Added
 - **`whole_word`** on the six tools with free-text filters (`search_disclosure_awards`,
   `search_council_capital`, `search_schedule_c_awards`, `search_transparency_changes`,
   `search_capital_book`, `search_terms_conditions`; `compare_capital_to_omb` has none). `false`
-  matches every text filter in the call as a substring, `true` as whole words. When a filter
+  matches every name and prose filter in the call as a substring, `true` as whole words. When a filter
   matched as whole words, the answer says which and how to ask for a substring.
 
 ## 2.0.3 — 2026-10-24

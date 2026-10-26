@@ -843,8 +843,8 @@ export const server = new Server(
 );
 
 /** #259: the whole_word parameter, on every tool with a free-text filter. */
-const WHOLE_WORD_DESC = `How this call's text filters match. Omit it for the default: a term of ${SHORT_TERM} or fewer letters and digits (after trimming) matches whole words, a longer term matches anywhere, as a substring. true: every text filter matches whole words only, the term not inside a longer word ('AI' finds 'AI Training Program', '(AI)', 'AI-powered', 'BetaNYC's AI', but not 'Jamaica' or 'AIDS'). false: every text filter matches substrings. Pass false to find a short term inside words (e.g. 'CC1' inside 'CC1053'); pass true to keep a longer word from matching longer ones ('Fellow' but not 'Fellowship'). Case, accents and punctuation folding are the same either way, and % and _ stay literal. Exact filters (EIN, IDs, budget line, codes, city, zip) are not affected. The answer says which filters matched as whole words.`;
-const TEXT_RULE = ` Text filters match case- and accent-insensitive substrings, except that a term of ${SHORT_TERM} or fewer letters and digits matches whole words ('AI' does not match 'Jamaica'); whole_word overrides that for the call, and the answer says when it applied.`;
+const WHOLE_WORD_DESC = `How this call's text filters match. Omit it for the default: a term of ${SHORT_TERM} or fewer letters and digits (after trimming) matches whole words, a longer term matches anywhere, as a substring. true: every name and prose filter matches whole words only, the term not inside a longer word ('AI' finds 'AI Training Program', '(AI)', 'AI-powered', 'BetaNYC's AI', but not 'Jamaica' or 'AIDS'). false: every name and prose filter matches substrings. Pass false to find a short term inside words (e.g. 'AI' inside 'AIDS'); pass true to keep a longer word from matching longer ones ('Fellow' but not 'Fellowship'). Case, accents and punctuation folding are the same either way, and % and _ stay literal. It applies to name and prose filters only: identifier filters (project_id, resolution_number) always match substrings, so an ID fragment such as 'CC1' or '101' finds the IDs that contain it, and exact filters (EIN, IDs, budget line, codes, city, zip) are not affected. The answer says which filters matched as whole words.`;
+const TEXT_RULE = ` Text filters match case- and accent-insensitive substrings, except that a term of ${SHORT_TERM} or fewer letters and digits matches whole words ('AI' does not match 'Jamaica'); whole_word overrides that for the call, and the answer says when it applied. Identifier filters (project_id, resolution_number) always match substrings.`;
 
 /** The answer with the whole-word note (#259) as its second line, when any filter matched as whole words. */
 function withWordNote(text: string, words: WordFilter[], explicit?: boolean): string {
@@ -984,7 +984,7 @@ export const TOOLS = [
         organization: { type: "string", description: "Organization as printed (substring)" },
         ein: { type: "string", description: "EIN, exactly 9 digits, hyphens optional. Matches the organization's EIN or its fiscal conduit's" },
         member: { type: "string", description: "Council member as printed (substring)" },
-        resolution_number: { type: "string", description: "Resolution number (substring), e.g. 'Res 1013-2025' or '1013-2025'" },
+        resolution_number: { type: "string", description: "Resolution number (substring, always: an identifier, so whole_word and the short-term rule do not apply; '101' finds '1013-2025'), e.g. 'Res 1013-2025' or '1013-2025'" },
         resolution_date: { type: "string", description: "Resolution date, exactly, YYYY-MM-DD" },
         date_from: { type: "string", description: "Resolutions dated on or after, YYYY-MM-DD" },
         date_to: { type: "string", description: "Resolutions dated on or before, YYYY-MM-DD" },
@@ -1002,7 +1002,7 @@ export const TOOLS = [
       type: "object",
       properties: {
         fiscal_year: { type: "number", description: "The book's fiscal year: FY2018–FY2020 or FY2022–FY2027 (FY2021 is not checked yet)" },
-        project_id: { type: "string", description: "Project ID as the book prints it (substring, case-insensitive): 'HO CC0001', or 'CC0001' without the agency code" },
+        project_id: { type: "string", description: "Project ID as the book prints it (substring, case-insensitive, always: an identifier, so whole_word and the short-term rule do not apply; 'CC1' finds 'AG CC1053'): 'HO CC0001', or 'CC0001' without the agency code" },
         budget_line: { type: "string", description: "Budget line, exact, agency code then line ('P D018', 'PW-DN846')" },
         sponsor: { type: "string", description: "Sponsor as printed (substring), e.g. 'Speaker', 'Avilés'. 'CD 22' is a district with no member" },
         borough: { type: "string", description: "Borough code as printed, any case: K, M, Q, R, X; 'A' and 'C' also match the rows that print them (not boroughs, meaning unclear; issue #227)" },

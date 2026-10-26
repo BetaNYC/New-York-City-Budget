@@ -74,6 +74,16 @@ class Where {
       this.add(`(${cols.map((c) => `instr(fold(${c}), ?) > 0`).join(" OR ")})`, ...cols.map(() => q));
     }
   }
+  /**
+   * An identifier filter (project_id, resolution_number): always a folded substring, never the
+   * whole-word default or whole_word (#259), because people search ID fragments ("CC1", "101").
+   */
+  id(name: string, cols: string[], v?: string) {
+    if (v == null) return;
+    const q = fold(v);
+    if (q === "") throw new Error(`${name} is empty; omit it, or give a value.`);
+    this.add(`(${cols.map((c) => `instr(fold(${c}), ?) > 0`).join(" OR ")})`, ...cols.map(() => q));
+  }
   eq(c: string, v: unknown) {
     if (v == null) return;
     this.add(`${c} = ?`, v);
@@ -314,7 +324,7 @@ function trWhere(f: TransparencyFilters): Where {
   w.text("organization", ["t.org"], f.organization);
   if (f.ein != null) w.add("(t.ein = ? OR t.fiscal_conduit_ein = ?)", f.ein.replace(/\D/g, ""), f.ein.replace(/\D/g, ""));
   w.text("member", ["t.member"], f.member);
-  w.text("resolution_number", ["t.resolution_number"], f.resolution_number);
+  w.id("resolution_number", ["t.resolution_number"], f.resolution_number);
   w.eq("t.resolution_date", f.resolution_date);
   if (f.date_from != null) w.add("t.resolution_date >= ?", f.date_from);
   if (f.date_to != null) w.add("t.resolution_date <= ?", f.date_to);
@@ -410,7 +420,7 @@ function cbWhere(f: CapitalBookFilters): Where {
   w.add(SERVED("c", "capital_sd"));
   w.eq("c.fiscal_year", f.fiscal_year);
   // Substrings, as the explorer's book search: "CC1053" finds "AG CC1053".
-  w.text("project_id", ["c.sub_id"], f.project_id);
+  w.id("project_id", ["c.sub_id"], f.project_id);
   if (f.budget_line != null) w.eq("c.budget_line", f.budget_line);
   w.text("sponsor", ["c.sponsor", "c.sponsor_raw"], f.sponsor);
   if (f.borough != null) w.add("upper(c.boro) = ?", f.borough.trim().toUpperCase());

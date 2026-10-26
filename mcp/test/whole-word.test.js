@@ -209,6 +209,24 @@ test("transparency, capital book and Terms: the default and the override reach e
   assert.deepEqual(te({ text: "DOE", agency: "education" }).word_filters.map((w) => w.filter), ["text"]);
 });
 
+test("identifier filters stay substrings: a short project_id or resolution_number fragment still matches", () => {
+  // FAILS if project_id or resolution_number takes the whole-word default or obeys whole_word:
+  // "CC1" must find "HO CC1053", and "101" must find "1013-2025" (coordinator review of PR #260).
+  const cb = (f) => searchCapitalBook(db, "", { ...f, limit: 1 });
+  const all = db.prepare("SELECT sub_id FROM pdf_capital_sd").pluck().all();
+  const cc1 = cb({ project_id: "CC1" });
+  assert.ok(cc1.matched > 0, "premise: some IDs contain CC1");
+  assert.ok(all.some((v) => /CC1\d/i.test(v)), "premise: CC1 appears inside longer IDs");
+  assert.equal(cb({ project_id: "CC1", whole_word: true }).matched, cc1.matched);
+  assert.equal(cb({ project_id: "CC1", whole_word: false }).matched, cc1.matched);
+  assert.deepEqual(cc1.word_filters, []);
+  const tr = (f) => searchTransparency(db, "", { ...f, limit: 1 });
+  const r101 = tr({ resolution_number: "101" });
+  assert.ok(r101.resolutions.some((r) => /101\d/.test(r.resolution_number)), "premise: '101' inside a longer number");
+  assert.equal(tr({ resolution_number: "101", whole_word: true }).matched, r101.matched);
+  assert.deepEqual(r101.word_filters, []);
+});
+
 // ---------------------------------------------------------------- the tools
 
 let client;
