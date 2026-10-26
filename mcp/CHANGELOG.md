@@ -4,7 +4,7 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 2.0.4 — 2026-10-25
 
 ### Changed
 - **Short text-filter terms match whole words** (#259). Every text filter matched a substring,
