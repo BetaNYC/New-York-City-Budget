@@ -10,8 +10,9 @@ Four more tools answer from the **checked tables BetaNYC reads from the Council'
 tables are an **optional download** (about 17 MB; 115 MB on disk), not part of the package: see
 [The checked PDF tables](#the-checked-pdf-tables-optional-download).
 
-> **Version 2.0.2** (2026-10-23; 2.0.3 in progress) adds the four PDF tools and the optional
-> download; nothing is removed. The downloader always takes the newest data release
+> **Version 2.0.4** (2026-10-25). 2.0.2 (2026-10-23) added the four PDF tools and the optional
+> download; nothing was removed. 2.0.3 matched capital IDs in full, and 2.0.4 makes short
+> text-filter terms match whole words (`whole_word`). The downloader always takes the newest data release
 > ([releases page](https://github.com/BetaNYC/New-York-City-Budget/releases)). As of 2026-10-24 that is
 > [`pdf-tables-2026-10-24-260d16e`](https://github.com/BetaNYC/New-York-City-Budget/releases/tag/pdf-tables-2026-10-24-260d16e): 36 checked family-years, FY2018–FY2027 (17.4 MB of tables), and, with `--pdfs`, the
 > 126 PDFs they cite (148 MB). The first was `pdf-tables-2026-10-23-5bab77c`.
@@ -501,7 +502,7 @@ Published to npm by CI, never from a laptop:
   `git push origin mcp-v<version>`.
 - **The PDF tables** are not in the npm package: `.github/workflows/pdf-tables-release.yml`
   publishes them as `pdf-tables-*` GitHub Releases, by hand for now (see "Publishing a release").
-  The latest npm release is 2.0.2 (tag `mcp-v2.0.2`); 2.0.3 is in progress.
+  The latest npm release is 2.0.4 (tag `mcp-v2.0.4`).
 - **CI**: `.github/workflows/ci.yml` builds and tests `mcp/` on Node 22 and 24 for every PR into
   `main` that touches `mcp/` or the data the index is built from.
 
