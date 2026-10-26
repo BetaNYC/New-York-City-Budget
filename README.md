@@ -176,6 +176,14 @@ Each family-year then has one of two statuses, and every row shows it:
 
 As of 2026-10-24 all 36 family-years are `reviewed`, and none is `closed` yet.
 
+**Where the checks stand** (the `pdf-tables-2026-10-24-260d16e` release): 141,456 rows in 36
+family-years, FY2018–FY2027. In Schedule C, 76,216 of 76,272 rows read the same from the text
+and from the page image; the other 56 are flagged for a person. 515 of 519 printed totals tie
+exactly; the other 4 are totals the PDF gets wrong itself (one each in Schedule C FY2018, FY2024,
+FY2025 and FY2026), flagged and not fixed. 1,704 review items wait for a person's decision (195
+critical, 1,509 warnings); 14 are decided. In short: every row is checked, the review of each
+row is not finished, and we never change a number.
+
 Rows show their review notes in plain words, and the status of any question to Council Finance.
 Text in the PDF that can't be seen on the printed page is shown apart, labeled "hidden text".
 
