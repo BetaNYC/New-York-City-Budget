@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 2.0.0 retirement notice. Self-contained: no script or stylesheet beyond this file.
+    <!-- Front page. Self-contained: no script or stylesheet beyond this file.
          Tested by viz/test_pages_site.py. -->
-    <meta name="description" content="BetaNYC's NYC Council Schedule C explorer is frozen and no longer updated. NYC Council budget data now comes from the Council's own spreadsheets and NYC Open Data, via nyc-budget-mcp 2.0 and the New-York-City-Budget repository.">
+    <meta name="description" content="Checked NYC Council budget data from BetaNYC: the Council's spreadsheets and NYC Open Data, plus Schedule C, transparency resolutions, the capital book and Terms and Conditions read from the budget PDFs, FY2018–FY2027, every row checked twice and tied to the printed totals.">
     <meta name="author" content="BetaNYC">
-    <meta content="NYC Council budget data — the Schedule C explorer is frozen" property="og:title">
+    <meta content="NYC Council budget data, checked — BetaNYC" property="og:title">
     <meta content="article" property="og:type">
-    <meta content="The explorer was built on figures extracted from the Council's adopted-budget PDFs. Current data comes from the Council's own spreadsheets and NYC Open Data." property="og:description">
-    <title>NYC Council budget data — the Schedule C explorer is frozen — BetaNYC</title>
+    <meta content="Every row of the Council's FY2018–FY2027 budget PDFs read twice and tied to every printed total. Where they disagree, a person reviews it. No number is changed." property="og:description">
+    <title>NYC Council budget data, checked — BetaNYC</title>
     <link rel="shortcut icon" href="images/favicon.ico">
     <style>
       body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1d2b3a; background: #f4f6f8; line-height: 1.55; }
@@ -29,30 +29,38 @@
   </head>
   <body>
     <main>
-      <h1>NYC Council discretionary funding: the Schedule C explorer is frozen</h1>
+      <h1>NYC Council budget data, checked</h1>
 
-      <p class="notice" id="retired-notice"><strong>The explorer that was here is frozen and no longer updated. We are rebuilding the underlying data and code.</strong> Its figures were extracted from the text of the Council's adopted-budget PDFs, and BetaNYC no longer stands behind that extraction. Please do not cite figures from it.</p>
+      <p>BetaNYC publishes how the New York City Council gives out money: which organizations it funds, for how much, through which agency, and at whose request. Every row says where it came from.</p>
 
-      <p id="deep-link">You followed a link into the frozen explorer. That view is still online, frozen and marked do not cite, at <a id="deep-link-a" href="legacy.html">legacy.html</a>.</p>
+      <h2>How the PDF tables are checked</h2>
+      <p>We read every row of the Council's FY2018–FY2027 budget PDFs twice, once from the PDF's text and once from a picture of the page, and tied the rows to every total the PDFs print. Where the two readings or the totals disagree, a person reviews it. We never change a number: values are shown exactly as printed.</p>
+      <ul>
+        <li><strong>141,456 rows</strong> in 36 tables: Schedule C, the transparency resolutions, the capital book and Terms and Conditions.</li>
+        <li><strong>Schedule C:</strong> 76,216 of 76,272 rows read the same both ways. The other 56 went to a person.</li>
+        <li><strong>515 of 519 printed totals</strong> tie exactly. The other 4 are totals the PDF itself gets wrong, and they are flagged, not fixed.</li>
+        <li><strong>The review is still going.</strong> Every row is labeled "checked, review in progress" until a person has decided every flagged item for its year. No year is finished yet.</li>
+      </ul>
+      <p>Figures as of the <code>pdf-tables-2026-10-24-260d16e</code> data release. FY2017 and earlier are not re-read yet.</p>
 
-      <h2>Where the data comes from now</h2>
-      <p>BetaNYC rebuilt its NYC Council budget data on structured sources only:</p>
+      <h2>The Council's spreadsheets and NYC Open Data</h2>
       <ul>
         <li><strong>Discretionary expense designations:</strong> the Council's own expense funding disclosure spreadsheets, FY2009 and FY2011 through FY2027, one row per published designation, with clearance status and the grantee's mailing address. FY2010 is not included: the Council's archived workbook for that year is incomplete against NYC Open Data's. FY2009 and FY2013 are early snapshots, frozen while many designations were still pending.</li>
         <li><strong>Capital designations:</strong> the Council's own capital workbooks and NYC Open Data, FY2015 through FY2017 and FY2019 through FY2027. FY2018 is missing from every source found.</li>
       </ul>
-      <p>Every row says which file it came from and when that file was downloaded.</p>
 
       <h2>Use it</h2>
       <ul>
-        <li><strong>Search it in your browser:</strong> the <a href="explorer/">NYC Council budget explorer</a>, built from the same data as the MCP server below, with every row linked to the spreadsheet it came from.</li>
-        <li><strong>Ask an AI assistant:</strong> the <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a> server, version 2.0. Its <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/README.md">README</a> covers setup and what each tool answers.</li>
-        <li><strong>Download the data:</strong> the <a href="https://github.com/BetaNYC/New-York-City-Budget">New-York-City-Budget repository</a> on GitHub. The disclosure is in <code>data/fyNN/expense_disclosure/</code> with per-year sources in <code>data/disclosure_years.csv</code>; capital is in <code>data/capital/</code>.</li>
-        <li><strong>What changed and why:</strong> the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/CHANGELOG.md">2.0.0 changelog</a>.</li>
+        <li><strong>Search it in your browser:</strong> the <a href="explorer/">NYC Council budget explorer</a>, built from the same data as the MCP server below. Every row links to the file or PDF page it came from.</li>
+        <li><strong>Ask an AI assistant:</strong> the <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a> server. Its <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/README.md">README</a> covers setup and what each tool answers.</li>
+        <li><strong>Download the data:</strong> the <a href="https://github.com/BetaNYC/New-York-City-Budget">New-York-City-Budget repository</a> and its <a href="https://github.com/BetaNYC/New-York-City-Budget/releases">data releases</a>.</li>
+        <li><strong>What changed and why:</strong> the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/CHANGELOG.md">changelog</a>.</li>
       </ul>
 
-      <h2>The frozen explorer</h2>
-      <p>It stays online, frozen as of 2026-10-16 and marked do not cite, so that existing links still resolve: <a href="legacy.html">legacy.html</a>. The PDF-derived files behind it remain in the repository as a historical record.</p>
+      <h2>The old explorer</h2>
+      <p class="notice" id="retired-notice"><strong>Our first explorer, from July 2026, is frozen and no longer updated.</strong> Its figures were extracted from the text of the Council's PDFs by an earlier parser that lost and merged rows, and BetaNYC no longer stands behind that extraction. Please do not cite figures from it.</p>
+      <p id="deep-link">You followed a link into the frozen explorer. That view is still online, frozen and marked do not cite, at <a id="deep-link-a" href="legacy.html">legacy.html</a>.</p>
+      <p>It stays online, frozen as of 2026-10-16 and marked do not cite, so that existing links still resolve: <a href="legacy.html">legacy.html</a>. The files behind it remain in the repository as a historical record.</p>
 
       <footer>
         <p>Built and maintained by <a href="https://beta.nyc">BetaNYC</a>, New York's civic technology and open-data community. Questions, or something that looks wrong? <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Open an issue on GitHub</a>.</p>
