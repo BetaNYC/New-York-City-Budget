@@ -29,6 +29,7 @@ import * as budgetServer from "../dist/server.js";
 import { closePdfTables } from "../dist/pdfdata.js";
 import { searchScheduleC, searchTransparency, searchCapitalBook, searchTerms, councilQuestions, STATUS_LABEL, HIDDEN_TEXT_LABEL } from "../dist/pdfquery.js";
 import { fold } from "../dist/fold.js";
+import { registerTextFunctions } from "../dist/textmatch.js";
 import { BOROUGH_CODES_QUESTION, questionById, questionWords, seriesWords } from "../dist/questions.js";
 import * as explorer from "../../viz/explorer/src/query/pdf.js";
 
@@ -66,7 +67,8 @@ before(async () => {
   client = new Client({ name: "pdf-tools-test", version: "0" }, { capabilities: {} });
   await client.connect(ct);
   db = new Database(TABLES_DB, { readonly: true });
-  db.function("fold", { deterministic: true }, (v) => fold(v == null ? "" : String(v)));
+  // fold() and word_match() (#259), as openPdfTables() registers them.
+  registerTextFunctions(db);
 });
 after(async () => {
   await client.close();
@@ -450,7 +452,11 @@ test('capital book: borough "A" and "C" are shown as printed, not as boroughs, w
 
 // ---------------------------------------------------------------- parity with the explorer
 
-/** Run one of the explorer's DuckDB queries on SQLite, with DuckDB's functions supplied. */
+/**
+ * Run one of the explorer's DuckDB queries on SQLite, with DuckDB's functions supplied. The
+ * explorer's text search is a substring, so the MCP side of every comparison below passes
+ * whole_word: false: a short term ("lee", "072") matches whole words by default in the MCP (#259).
+ */
 function explorerDb() {
   const x = new Database(TABLES_DB, { readonly: true });
   const key = (v) => String(v ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "");
@@ -474,7 +480,7 @@ test("Terms and Conditions: the MCP answers what the explorer's Terms view finds
     for (const f of cases) {
       const ex = run(x, explorer.termsCountQuery(f), false);
       const page = run(x, explorer.termsQuery(f, 0)).map((r) => `${r.fiscal_year}|${r.item_number}`);
-      const mcp = searchTerms(db, COMMIT(), { ...f, limit: 100 });
+      const mcp = searchTerms(db, COMMIT(), { ...f, whole_word: false, limit: 100 });
       assert.equal(mcp.matched, ex.n, JSON.stringify(f));
       assert.equal(mcp.agencies, ex.agencies, JSON.stringify(f));
       assert.deepEqual(mcp.rows.slice(0, page.length).map((s) => `${s.row.fiscal_year}|${s.row.item_number}`), page, JSON.stringify(f));
@@ -500,7 +506,7 @@ test("Schedule C: the MCP's unmatched rows are the explorer's 'Schedule C only' 
     ];
     for (const [ef, mf] of cases) {
       const ex = run(x, explorer.scOnlyTotalsQuery(ef), false);
-      const mcp = searchScheduleC(db, COMMIT(), { ...mf, disclosure_status: "unmatched", limit: 500 });
+      const mcp = searchScheduleC(db, COMMIT(), { ...mf, disclosure_status: "unmatched", whole_word: false, limit: 500 });
       assert.equal(mcp.matched, ex.n, JSON.stringify(ef));
       assert.equal(mcp.amount, ex.amount, JSON.stringify(ef));
       const exIds = new Set(run(x, explorer.scOnlyQuery(ef, 0)).map((r) => `${r.fiscal_year}|${r.award_id}`));
@@ -541,7 +547,7 @@ test("Schedule C search: the MCP and the explorer's search agree on counts, tota
     ];
     for (const [ef, mf] of cases) {
       const ex = run(x, explorer.scSearchTotalsQuery(ef), false);
-      const mcp = searchScheduleC(db, COMMIT(), { ...mf, limit: 500 });
+      const mcp = searchScheduleC(db, COMMIT(), { ...mf, whole_word: false, limit: 500 });
       assert.equal(mcp.matched, ex.n, JSON.stringify(ef));
       assert.equal(mcp.amount, ex.amount, JSON.stringify(ef));
       assert.equal(mcp.no_amount, ex.no_amount, JSON.stringify(ef));
@@ -566,7 +572,7 @@ test("transparency search: the MCP and the explorer agree per action", w4, () =>
     ];
     for (const [ef, mf] of cases) {
       const ex = explorer.rollupTr(run(x, explorer.trTotalsQuery(ef)));
-      const mcp = searchTransparency(db, COMMIT(), { ...mf, limit: 500 });
+      const mcp = searchTransparency(db, COMMIT(), { ...mf, whole_word: false, limit: 500 });
       assert.equal(mcp.matched, ex.matched, JSON.stringify(ef));
       for (const a of mcp.by_action) {
         // Organization money and City-agency lines apart, as the explorer keeps them.
@@ -597,7 +603,7 @@ test("capital book search: the MCP and the explorer agree on counts, totals, red
     ];
     for (const [ef, mf] of cases) {
       const ex = run(x, explorer.bookTotalsQuery(ef), false);
-      const mcp = searchCapitalBook(db, COMMIT(), { ...mf, limit: 500 });
+      const mcp = searchCapitalBook(db, COMMIT(), { ...mf, whole_word: false, limit: 500 });
       assert.equal(mcp.matched, ex.n, JSON.stringify(ef));
       // The total is Part I's; of which non-city; Part II as printed; Part-II-only (Noel, 2026-10-23).
       const at = JSON.stringify(ef);
@@ -651,7 +657,8 @@ test("transparency: the MCP's totals equal the committed CSVs, per resolution", 
       const exact = res.resolutions.find((r) => r.resolution_number === reso);
       assert.equal(exact.rows, mine.length, `FY${fy} ${reso}`);
     }
-    const res = searchTransparency(db, COMMIT(), { fiscal_year: fy, organization: "Inc", limit: 1 });
+    // A substring count: "Inc" is 3 letters, so it would match whole words by default (#259).
+    const res = searchTransparency(db, COMMIT(), { fiscal_year: fy, organization: "Inc", whole_word: false, limit: 1 });
     const want = csv.filter((r) => fold(r.org).includes("inc"));
     assert.equal(res.matched, want.length, `FY${fy} organization ~ Inc`);
   }

@@ -4,9 +4,26 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 2.0.4 — 2026-10-25
 
-Nothing yet.
+### Changed
+- **Short text-filter terms match whole words** (#259). Every text filter matched a substring,
+  so a short term matched inside unrelated words: `search_schedule_c_awards` with EIN 132612524
+  and organization `AI` returned 34 rows, one of them the "AI Training Program" wanted and the
+  rest "Jamaica" and "AIDS" rows. Now a term of 3 or fewer letters and digits matches only where
+  it is not inside a longer word (that search returns the one row, $20,000), and longer terms
+  keep substring matching (`Fellow` still finds "Fellowship"). Case and accent folding are
+  unchanged, `%` and `_` stay literal, and exact filters (EIN, IDs, budget line) are unaffected.
+  Identifier filters (`project_id` on `search_capital_book`, `resolution_number` on
+  `search_transparency_changes`) always stay substrings, so ID fragments such as `CC1` still match.
+  The matching runs in SQL, so totals cover exactly the rows matched.
+
+### Added
+- **`whole_word`** on the six tools with free-text filters (`search_disclosure_awards`,
+  `search_council_capital`, `search_schedule_c_awards`, `search_transparency_changes`,
+  `search_capital_book`, `search_terms_conditions`; `compare_capital_to_omb` has none). `false`
+  matches every name and prose filter in the call as a substring, `true` as whole words. When a filter
+  matched as whole words, the answer says which and how to ask for a substring.
 
 ## 2.0.3 — 2026-10-24
 

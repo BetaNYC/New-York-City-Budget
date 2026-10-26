@@ -27,7 +27,7 @@ import { Readable, Transform } from "stream";
 import { pipeline } from "stream/promises";
 import { fileURLToPath, pathToFileURL } from "url";
 import { createGunzip } from "zlib";
-import { fold } from "./fold.js";
+import { registerTextFunctions } from "./textmatch.js";
 import { REPO } from "./rowlinks.js";
 
 /** The download's format; any other is refused (scripts/build-pdf-release.mjs FORMAT). */
@@ -110,8 +110,9 @@ function checkTables(db: DB): string | null {
 
 /**
  * The installed PDF tables, opened read-only, or null with the reason (absent, or unusable). The
- * connection carries fold() as a SQL function, so text filters fold both sides with the same rule
- * as every other tool (src/fold.ts).
+ * connection carries fold() and word_match() as SQL functions (src/textmatch.ts), so text filters
+ * fold both sides with the same rule as every other tool (src/fold.ts), and whole-word matching
+ * (#259) stays in SQL.
  */
 export function openPdfTables(): { tables: PdfTables | null; problem: string | null } {
   const path = tablesPath();
@@ -131,7 +132,7 @@ export function openPdfTables(): { tables: PdfTables | null; problem: string | n
       openedFailure = { path, stamp, error: `The PDF tables at ${path} cannot be used: ${bad}. Download them again (see below).` };
       return { tables: null, problem: openedFailure.error };
     }
-    db.function("fold", { deterministic: true }, (v: unknown) => fold(v == null ? "" : String(v)));
+    registerTextFunctions(db);
     const meta = Object.fromEntries((db.prepare("SELECT key, value FROM meta").all() as { key: string; value: string }[]).map((r) => [r.key, r.value]));
     opened = { db, path, meta, stamp };
     return { tables: opened, problem: null };

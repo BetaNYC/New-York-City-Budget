@@ -10,8 +10,9 @@ Four more tools answer from the **checked tables BetaNYC reads from the Council'
 tables are an **optional download** (about 17 MB; 115 MB on disk), not part of the package: see
 [The checked PDF tables](#the-checked-pdf-tables-optional-download).
 
-> **Version 2.0.2** (2026-10-23; 2.0.3 in progress) adds the four PDF tools and the optional
-> download; nothing is removed. The downloader always takes the newest data release
+> **Version 2.0.4** (2026-10-25). 2.0.2 (2026-10-23) added the four PDF tools and the optional
+> download; nothing was removed. 2.0.3 matched capital IDs in full, and 2.0.4 makes short
+> text-filter terms match whole words (`whole_word`). The downloader always takes the newest data release
 > ([releases page](https://github.com/BetaNYC/New-York-City-Budget/releases)). As of 2026-10-24 that is
 > [`pdf-tables-2026-10-24-260d16e`](https://github.com/BetaNYC/New-York-City-Budget/releases/tag/pdf-tables-2026-10-24-260d16e): 36 checked family-years, FY2018–FY2027 (17.4 MB of tables), and, with `--pdfs`, the
 > 126 PDFs they cite (148 MB). The first was `pdf-tables-2026-10-23-5bab77c`.
@@ -194,6 +195,22 @@ and the answer lists it (one today: FY2021 `PW MN02A`, $304,000).
 - **Text filters fold before they match**, on the query and on the data: case, accents, curly
   quotes and dashes do not matter (`Women's` finds `Women’s`; `Jewish Emigre` and `Jewish
   Émigré` find the same 6 rows). `%` and `_` are literal.
+- **Short terms match whole words** (#259). A term of 3 or fewer letters and digits, after
+  trimming, matches only where it is not inside a longer word: the characters just before and
+  just after it (once folded) are not letters or digits. `AI` finds "AI Training Program",
+  "(AI)", "AI-powered" and "BetaNYC's AI", but not "Jamaica" or "AIDS"; `DOE` finds "DOE's".
+  A longer term stays a substring, so `Fellow` still finds "Fellowship" and `BetaNYC` still
+  finds "BetaNYC's". A term with no letter or digit (`%`, `_`) stays a substring. Every tool with
+  a text filter takes **`whole_word`**, which overrides the default for all its name and prose
+  filters in that call: `false` to find a short term inside words (`AI` inside `AIDS`), `true` to keep a
+  longer word from matching longer ones (`Fellow` but not `Fellowship`). When any filter matched
+  as whole words, the answer's second line names it and says how to get a substring instead.
+  Folding is the same either way, the matching runs in SQL so the totals cover exactly the rows
+  matched, and exact filters (EIN, IDs, budget line, codes, city, zip) are not affected.
+  Identifier filters that match substrings, the capital book's `project_id` and the transparency
+  `resolution_number`, always stay substrings: an ID fragment such as `CC1` or `101` finds every
+  ID containing it, whatever its length and whatever `whole_word` says. The
+  explorer's search is still a substring.
 - **A blank text filter is an error**, never "no filter": `legal_name: ""` is refused with a
   message instead of returning all 156,544 rows. Filters are capped at 500 characters.
 - **"(headline)" is earned per year, whatever the filter.** A Cleared total is labeled a headline
@@ -462,6 +479,7 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/strict-schema.test.js` | Issue #37: every tool advertises and enforces `additionalProperties: false`, with per-tool hints |
 | `test/build-guard.test.js` | The index build fails loudly on a dataset with no rows or a missing year, and installs the new index in one step (#95) |
 | `test/checkwords.test.js` | Every check code in the promoted files has a plain sentence (`src/checkwords.ts`); questions to Council Finance are worded by status (`src/questions.ts`) |
+| `test/whole-word.test.js` | #259: short terms match whole words (`AI` not in `Jamaica` or `AIDS`; punctuation and either end of the text are word edges; accents folded), the 3-character default and `whole_word` overriding it both ways on every text-filter tool, totals equal to the rows matched, the answer's note |
 | `test/fold-roundtrip.test.js` | A printed value pasted back exactly finds its own rows, including accented and garbled text as published |
 | `test/open-data.test.js` | Whether each record is on NYC Open Data (`data/open_data/`), as the explorer shows it |
 | `test/pdf-align.test.js` | How a Schedule C row is matched to the disclosure spreadsheet (`disclosure_status`) |
@@ -484,7 +502,7 @@ Published to npm by CI, never from a laptop:
   `git push origin mcp-v<version>`.
 - **The PDF tables** are not in the npm package: `.github/workflows/pdf-tables-release.yml`
   publishes them as `pdf-tables-*` GitHub Releases, by hand for now (see "Publishing a release").
-  The latest npm release is 2.0.2 (tag `mcp-v2.0.2`); 2.0.3 is in progress.
+  The latest npm release is 2.0.4 (tag `mcp-v2.0.4`).
 - **CI**: `.github/workflows/ci.yml` builds and tests `mcp/` on Node 22 and 24 for every PR into
   `main` that touches `mcp/` or the data the index is built from.
 
