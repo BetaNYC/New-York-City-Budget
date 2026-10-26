@@ -133,6 +133,15 @@ it starts, if none are installed (run `download` again to get a newer release). 
 published sha256. Full details: [`mcp/README.md`](mcp/README.md); changes:
 [`mcp/CHANGELOG.md`](mcp/CHANGELOG.md).
 
+**How text searches match.** Name and text filters (organization, member, purpose, title and so on)
+ignore case and accents. A term of 3 or fewer letters and digits matches whole words only, so `AI`
+finds "AI Training Program" but not "Jamaica" or "AIDS". Longer terms match anywhere, so `Fellow`
+also finds "Fellowship". Each tool takes `whole_word: true` or `false` to choose either way, and
+the answer says when it matched whole words. Exact filters (EIN, budget line) are unchanged.
+The capital book's `project_id` and the transparency `resolution_number` always match anywhere,
+so fragments like `CC1` work.
+A name search finds only the rows whose text matches, so report it as "at least".
+
 ## Search in a browser: the explorer
 
 The **[budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/)** searches the
@@ -277,6 +286,11 @@ New-York-City-Budget/
 - **2.0.2 (2026-10-23):** the checked tables are served again, labeled, in the MCP and the
   explorer (epic [#190](https://github.com/BetaNYC/New-York-City-Budget/issues/190),
   DATA-ANOMALIES §56). The old parser's output stays retired.
+- **2.0.3 (2026-10-24):** fixes for the bugs found in the FY2018–FY2027 reviews (epic
+  [#244](https://github.com/BetaNYC/New-York-City-Budget/issues/244)), including the capital
+  crosswalk matching on the full project ID.
+- **2.0.4 (2026-10-25):** short search terms match whole words
+  ([#259](https://github.com/BetaNYC/New-York-City-Budget/issues/259)).
 
 More: [`mcp/CHANGELOG.md`](mcp/CHANGELOG.md), [`data/retired/README.md`](data/retired/README.md),
 [`code/PARSING.md`](code/PARSING.md) (how each old file was made), and
