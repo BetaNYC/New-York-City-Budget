@@ -19,10 +19,13 @@
  * answer alike: the same columns per filter, an EIN matching the organization's or its fiscal
  * conduit's, the same row order, and the same totals. Text filters are case- and
  * accent-insensitive substrings, folded with src/fold.ts on both sides (the fold() SQL function
- * pdfdata.ts registers). LIKE wildcards are not used, so % and _ are literal.
+ * pdfdata.ts registers). LIKE wildcards are not used, so % and _ are literal. One difference from
+ * the explorer (#259): a short term (3 or fewer letters and digits) matches whole words, through
+ * the word_match() SQL function (src/textmatch.ts), unless the call passes whole_word: false.
  */
 import type { Database as DB } from "better-sqlite3";
 import { fold } from "./fold.js";
+import { useWholeWord, type WordFilter } from "./textmatch.js";
 import { rowLinks, type RowLinks } from "./rowlinks.js";
 import { localPdfPath } from "./pdfdata.js";
 import { plainReviewNote } from "./checkwords.js";
@@ -48,16 +51,28 @@ const SERVED = (alias: string, family: string) =>
 class Where {
   clauses: string[] = [];
   params: unknown[] = [];
+  /** Filters matched as whole words (#259), for the answer's note. */
+  words: WordFilter[] = [];
+  /** The call's whole_word argument: undefined means the per-term default (src/textmatch.ts). */
+  constructor(private wholeWord?: boolean) {}
   add(c: string, ...p: unknown[]) {
     this.clauses.push(c);
     this.params.push(...p);
   }
-  /** Substring in any of `cols`, folded on both sides. */
-  text(cols: string[], v?: string) {
+  /**
+   * Filter `name`: a substring in any of `cols`, folded on both sides, or whole words there when
+   * the term is short or whole_word is true (src/textmatch.ts).
+   */
+  text(name: string, cols: string[], v?: string) {
     if (v == null) return;
     const q = fold(v);
-    if (q === "") throw new Error(`a text filter is empty; omit it, or give a value.`);
-    this.add(`(${cols.map((c) => `instr(fold(${c}), ?) > 0`).join(" OR ")})`, ...cols.map(() => q));
+    if (q === "") throw new Error(`${name} is empty; omit it, or give a value.`);
+    if (useWholeWord(v, this.wholeWord)) {
+      this.words.push({ filter: name, value: v });
+      this.add(`(${cols.map((c) => `word_match(${c}, ?)`).join(" OR ")})`, ...cols.map(() => q));
+    } else {
+      this.add(`(${cols.map((c) => `instr(fold(${c}), ?) > 0`).join(" OR ")})`, ...cols.map(() => q));
+    }
   }
   eq(c: string, v: unknown) {
     if (v == null) return;
@@ -165,6 +180,8 @@ export interface StatusTotal {
 export const SC_DISCLOSURE_STATUSES = ["cleared", "pending", "unmatched"] as const;
 
 export interface ScheduleCFilters {
+  /** #259: true or false matches every text filter as whole words or substrings; omitted, short terms match whole words. */
+  whole_word?: boolean;
   fiscal_year?: number;
   organization?: string;
   ein?: string;
@@ -180,18 +197,18 @@ export interface ScheduleCFilters {
 }
 
 function scWhere(f: ScheduleCFilters): Where {
-  const w = new Where();
+  const w = new Where(f.whole_word);
   w.add(SERVED("a", "schedule_c"));
   w.eq("a.fiscal_year", f.fiscal_year);
-  w.text(["a.org"], f.organization);
+  w.text("organization", ["a.org"], f.organization);
   // The organization's EIN, or its fiscal conduit's (the group that receives the money for it).
   if (f.ein != null) w.add("(a.ein = ? OR a.fiscal_conduit_ein = ?)", f.ein.replace(/\D/g, ""), f.ein.replace(/\D/g, ""));
   // A member, the Speaker, or a delegation: whichever the row prints.
-  w.text(["a.member", "a.sponsor", "a.delegation"], f.member);
-  w.text(["a.category"], f.category);
-  w.text(["a.initiative"], f.initiative);
-  w.text(["a.agency"], f.agency);
-  w.text(["a.purpose"], f.purpose);
+  w.text("member", ["a.member", "a.sponsor", "a.delegation"], f.member);
+  w.text("category", ["a.category"], f.category);
+  w.text("initiative", ["a.initiative"], f.initiative);
+  w.text("agency", ["a.agency"], f.agency);
+  w.text("purpose", ["a.purpose"], f.purpose);
   w.eq("a.disclosure_status", f.disclosure_status);
   if (f.min_amount != null) w.add("a.amount >= ?", f.min_amount);
   if (f.max_amount != null) w.add("a.amount <= ?", f.max_amount);
@@ -211,6 +228,8 @@ export interface ScheduleCResult {
   subawards: Map<string, Row[]>;
   /** Sub-awards whose own organization matches the organization filter (never in a total). */
   subaward_matches: { rows: number; amount: number };
+  /** Filters matched as whole words (#259). */
+  word_filters: WordFilter[];
 }
 
 export function searchScheduleC(db: DB, commit: string, f: ScheduleCFilters): ScheduleCResult {
@@ -242,10 +261,10 @@ export function searchScheduleC(db: DB, commit: string, f: ScheduleCFilters): Sc
   }
   let subaward_matches = { rows: 0, amount: 0 };
   if (f.organization != null) {
-    const s = new Where();
+    const s = new Where(f.whole_word);
     s.add(SERVED("s", "schedule_c"));
     s.eq("s.fiscal_year", f.fiscal_year);
-    s.text(["s.org"], f.organization);
+    s.text("organization", ["s.org"], f.organization);
     if (f.ein != null) s.eq("s.ein", f.ein.replace(/\D/g, ""));
     subaward_matches = db
       .prepare(`SELECT COUNT(*) AS rows, COALESCE(SUM(s.amount), 0) AS amount FROM pdf_schedule_c_subawards s ${s.sql()}`)
@@ -262,6 +281,7 @@ export function searchScheduleC(db: DB, commit: string, f: ScheduleCFilters): Sc
     by_disclosure,
     subawards,
     subaward_matches,
+    word_filters: w.words,
   };
 }
 
@@ -270,6 +290,8 @@ export function searchScheduleC(db: DB, commit: string, f: ScheduleCFilters): Sc
 export const TR_ACTIONS = ["designate", "rescind", "purpose_from", "purpose_to", "listed"] as const;
 
 export interface TransparencyFilters {
+  /** #259: true or false matches every text filter as whole words or substrings; omitted, short terms match whole words. */
+  whole_word?: boolean;
   fiscal_year?: number;
   budget_fiscal_year?: number;
   organization?: string;
@@ -285,14 +307,14 @@ export interface TransparencyFilters {
 }
 
 function trWhere(f: TransparencyFilters): Where {
-  const w = new Where();
+  const w = new Where(f.whole_word);
   w.add(SERVED("t", "transparency"));
   w.eq("t.fiscal_year", f.fiscal_year);
   w.eq("t.budget_fiscal_year", f.budget_fiscal_year);
-  w.text(["t.org"], f.organization);
+  w.text("organization", ["t.org"], f.organization);
   if (f.ein != null) w.add("(t.ein = ? OR t.fiscal_conduit_ein = ?)", f.ein.replace(/\D/g, ""), f.ein.replace(/\D/g, ""));
-  w.text(["t.member"], f.member);
-  w.text(["t.resolution_number"], f.resolution_number);
+  w.text("member", ["t.member"], f.member);
+  w.text("resolution_number", ["t.resolution_number"], f.resolution_number);
   w.eq("t.resolution_date", f.resolution_date);
   if (f.date_from != null) w.add("t.resolution_date >= ?", f.date_from);
   if (f.date_to != null) w.add("t.resolution_date <= ?", f.date_to);
@@ -314,6 +336,8 @@ export interface TransparencyResult {
   /** Per year and side (agency_side 1: City-agency lines): never one net of both. */
   by_year: (StatusTotal & { agency_side: number; amount: number })[];
   resolutions: { fiscal_year: number; resolution_number: string; resolution_date: string; rows: number }[];
+  /** Filters matched as whole words (#259). */
+  word_filters: WordFilter[];
 }
 
 export function searchTransparency(db: DB, commit: string, f: TransparencyFilters): TransparencyResult {
@@ -355,12 +379,15 @@ export function searchTransparency(db: DB, commit: string, f: TransparencyFilter
     no_dollar_amount: nd.n,
     by_year,
     resolutions,
+    word_filters: w.words,
   };
 }
 
 // ---------------------------------------------------------------- capital book (§254 supporting detail)
 
 export interface CapitalBookFilters {
+  /** #259: true or false matches every text filter as whole words or substrings; omitted, short terms match whole words. */
+  whole_word?: boolean;
   fiscal_year?: number;
   project_id?: string;
   budget_line?: string;
@@ -379,17 +406,17 @@ export interface CapitalBookFilters {
 export const VACANT_DISTRICT = /^CD *\d+$/i;
 
 function cbWhere(f: CapitalBookFilters): Where {
-  const w = new Where();
+  const w = new Where(f.whole_word);
   w.add(SERVED("c", "capital_sd"));
   w.eq("c.fiscal_year", f.fiscal_year);
   // Substrings, as the explorer's book search: "CC1053" finds "AG CC1053".
-  w.text(["c.sub_id"], f.project_id);
+  w.text("project_id", ["c.sub_id"], f.project_id);
   if (f.budget_line != null) w.eq("c.budget_line", f.budget_line);
-  w.text(["c.sponsor", "c.sponsor_raw"], f.sponsor);
+  w.text("sponsor", ["c.sponsor", "c.sponsor_raw"], f.sponsor);
   if (f.borough != null) w.add("upper(c.boro) = ?", f.borough.trim().toUpperCase());
-  w.text(["c.agency"], f.agency);
+  w.text("agency", ["c.agency"], f.agency);
   // FY2019's book also prints a description under each title (#206).
-  w.text(["c.title", "c.description"], f.title);
+  w.text("title", ["c.title", "c.description"], f.title);
   w.eq("c.part", f.part);
   if (f.min_amount != null) w.add("c.amount_y1 >= ?", f.min_amount);
   if (f.max_amount != null) w.add("c.amount_y1 <= ?", f.max_amount);
@@ -432,6 +459,8 @@ export interface CapitalBookResult {
   vacant_rows: number;
   /** Per year: Part I rows and their first-year total. */
   by_year: (StatusTotal & { y1: number })[];
+  /** Filters matched as whole words (#259). */
+  word_filters: WordFilter[];
 }
 
 /** The same project (year, SUB ID, budget line) printed in the other part: the explorer's IN_OTHER_PART. */
@@ -502,12 +531,15 @@ export function searchCapitalBook(db: DB, commit: string, f: CapitalBookFilters)
     negative_y1: t[23],
     vacant_rows: t[24],
     by_year,
+    word_filters: w.words,
   };
 }
 
 // ---------------------------------------------------------------- Terms and Conditions
 
 export interface TermsFilters {
+  /** #259: true or false matches every text filter as whole words or substrings; omitted, short terms match whole words. */
+  whole_word?: boolean;
   fiscal_year?: number;
   agency?: string;
   unit?: string;
@@ -517,11 +549,11 @@ export interface TermsFilters {
 
 /** The explorer's termsWhere (viz/explorer/src/query/pdf.js), with the serving gate. */
 function termsWhere(f: TermsFilters): Where {
-  const w = new Where();
+  const w = new Where(f.whole_word);
   w.add(SERVED("pdf_terms", "terms"));
   w.eq("pdf_terms.fiscal_year", f.fiscal_year);
-  w.text(["pdf_terms.agency_name", "pdf_terms.agency_code"], f.agency);
-  w.text(["pdf_terms.condition_text", "pdf_terms.heading_raw"], f.text);
+  w.text("agency", ["pdf_terms.agency_name", "pdf_terms.agency_code"], f.agency);
+  w.text("text", ["pdf_terms.condition_text", "pdf_terms.heading_raw"], f.text);
   if (f.unit != null) {
     // A unit as printed in the heading ("001", "All"), or the start of a budget line, which is
     // printed with its scope ("HD-0009 – All Projects").
@@ -540,6 +572,8 @@ export interface TermsResult {
   matched: number;
   agencies: number;
   by_year: StatusTotal[];
+  /** Filters matched as whole words (#259). */
+  word_filters: WordFilter[];
 }
 
 export function searchTerms(db: DB, commit: string, f: TermsFilters): TermsResult {
@@ -558,5 +592,6 @@ export function searchTerms(db: DB, commit: string, f: TermsFilters): TermsResul
     matched: c.n,
     agencies: c.agencies,
     by_year,
+    word_filters: w.words,
   };
 }

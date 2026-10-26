@@ -9,8 +9,9 @@
  * back. The checked PDF tables are a separate, optional download (pdfdata.ts, pdfquery.ts).
  *
  * This module opens the index read-only and exposes one function per tool. Text filters are
- * case-insensitive substrings with LIKE wildcards taken literally; every search returns the
- * true match count and totals computed in SQL over every match, never over the page.
+ * case-insensitive substrings with LIKE wildcards taken literally, or whole words for a short term
+ * (#259, src/textmatch.ts); every search returns the true match count and totals computed in SQL
+ * over every match, never over the page.
  */
 import Database from "better-sqlite3";
 import type { Database as DB } from "better-sqlite3";
@@ -18,6 +19,7 @@ import { existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { fold } from "./fold.js";
+import { registerTextFunctions, useWholeWord, type WordFilter } from "./textmatch.js";
 
 export { fold };
 
@@ -32,6 +34,8 @@ export function getDb(): DB {
     throw new Error(`Budget index not found at ${DB_PATH}. Run: npm run build-index`);
   }
   _db = new Database(DB_PATH, { readonly: true, fileMustExist: true });
+  // word_match() for whole-word text filters (#259), and fold() beside it.
+  registerTextFunctions(_db);
   return _db;
 }
 
@@ -63,13 +67,25 @@ function cap(limit?: number, def = 50, max = 500): number {
  * "100%" means those characters (legal_name "_" used to match every row). A blank value is
  * refused by the tool before it gets here (red team S3); it is never a silent "no filter".
  */
-function likeLiteral(column: string, params: unknown[], value?: string): string | null {
+function likeLiteral(column: string, params: unknown[], value?: string, words?: WordText): string | null {
   if (value == null) return null;
   const q = fold(value);
   if (q === "") throw new Error(`${column} is empty; omit it, or give a value.`);
   params.push(`%${q.replace(/[\\%_]/g, (c) => "\\" + c)}%`);
   // The twin is NULL where folding changes only ASCII case; NOCASE covers that case.
-  return `COALESCE(${column}_fold, ${column}) LIKE ? ESCAPE '\\' COLLATE NOCASE`;
+  const like = `COALESCE(${column}_fold, ${column}) LIKE ? ESCAPE '\\' COLLATE NOCASE`;
+  if (!words || !useWholeWord(value, words.explicit)) return like;
+  // #259: whole words. The LIKE narrows the rows cheaply; word_match() then checks the word edges
+  // on the folded text (src/textmatch.ts).
+  words.matched.push({ filter: column, value });
+  params.push(q);
+  return `(${like} AND word_match(COALESCE(${column}_fold, ${column}), ?))`;
+}
+
+/** A search's whole-word setting and the filters it matched as whole words (#259). */
+interface WordText {
+  explicit?: boolean;
+  matched: WordFilter[];
 }
 
 /** Exact match ignoring case and surrounding whitespace. */
@@ -160,6 +176,8 @@ export interface DisclosureFilters {
   mocs_id?: string;
   /** Exact, case- and whitespace-insensitive: NYC Open Data's MOCS ID (FY2009–FY2021). */
   od_mocs_id?: string;
+  /** #259: true or false matches every text filter as whole words or substrings; omitted, short terms match whole words. */
+  whole_word?: boolean;
   min_amount?: number;
   max_amount?: number;
   limit?: number;
@@ -218,6 +236,8 @@ export interface DisclosureResult {
    * the label is about comparing a year's Cleared total with other years' (review S7).
    */
   other_statuses: { fiscal_year: number; status: string; rows: number; amount: number }[];
+  /** Filters matched as whole words (#259). */
+  word_filters: WordFilter[];
 }
 
 const emptyTotals = (): Record<DisclosureStatus, DisclosureTotal> => ({
@@ -233,16 +253,17 @@ const emptyTotals = (): Record<DisclosureStatus, DisclosureTotal> => ({
  */
 export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
   const p: unknown[] = [];
+  const wt: WordText = { explicit: f.whole_word, matched: [] };
   const w = where([
     eqClause("fiscal_year", p, f.fiscal_year),
     f.ein ? (p.push(normEin(f.ein)), "ein = ?") : null,
-    likeLiteral("legal_name", p, f.legal_name),
-    likeLiteral("council_member", p, f.council_member),
+    likeLiteral("legal_name", p, f.legal_name, wt),
+    likeLiteral("council_member", p, f.council_member, wt),
     f.council_member_id != null ? (p.push(f.council_member_id), "council_member_id = ?") : null,
-    likeLiteral("source", p, f.source),
+    likeLiteral("source", p, f.source, wt),
     eqNoCase("source", p, f.source_exact),
-    likeLiteral("agency", p, f.agency),
-    likeLiteral("program_name", p, f.program_name),
+    likeLiteral("agency", p, f.agency, wt),
+    likeLiteral("program_name", p, f.program_name, wt),
     f.zip != null ? (p.push(f.zip.trim()), "zip = ?") : null,
     f.zip_status != null ? (p.push(f.zip_status), "zip_status = ?") : null,
     eqNoCase("city", p, f.city),
@@ -357,6 +378,7 @@ export function searchDisclosure(f: DisclosureFilters): DisclosureResult {
     duplicates: d,
     flagged,
     no_ein,
+    word_filters: wt.matched,
   };
 }
 
@@ -421,6 +443,8 @@ export interface CapitalFilters {
   council_district?: number;
   title?: string;
   description?: string;
+  /** #259: true or false matches every text filter as whole words or substrings; omitted, short terms match whole words. */
+  whole_word?: boolean;
   min_amount?: number;
   max_amount?: number;
   limit?: number;
@@ -464,22 +488,25 @@ export interface CapitalResult {
   matched_sponsors?: { value: string; rows: number; amount: number }[];
   /** Report years whose rows cannot match a council_district filter (t474: lists collapsed). */
   district_unusable_years: number[];
+  /** Filters matched as whole words (#259). */
+  word_filters: WordFilter[];
 }
 
 export function searchCapital(f: CapitalFilters): CapitalResult {
   const p: unknown[] = [];
+  const wt: WordText = { explicit: f.whole_word, matched: [] };
   const w = where([
     eqClause("report_year", p, f.fiscal_year),
     eqClause("amount_fy", p, f.amount_fy),
     f.budget_line != null ? (p.push(f.budget_line), "budget_line_norm = ?") : null,
     f.project_id != null ? (p.push(f.project_id), "project_id_norm = ?") : null,
-    likeLiteral("sponsor", p, f.sponsor),
+    likeLiteral("sponsor", p, f.sponsor, wt),
     eqNoCase("sponsor", p, f.sponsor_exact),
     f.borough != null ? (p.push(f.borough), "borough = ?") : null,
     // District tokens are stored as ",N," with numbers unpadded (",8,22,"), workbook years only.
     f.council_district != null ? (p.push(`%,${f.council_district},%`), "district_tokens LIKE ?") : null,
-    likeLiteral("title", p, f.title),
-    likeLiteral("description", p, f.description),
+    likeLiteral("title", p, f.title, wt),
+    likeLiteral("description", p, f.description, wt),
     f.min_amount != null ? (p.push(f.min_amount), "amount >= ?") : null,
     f.max_amount != null ? (p.push(f.max_amount), "amount <= ?") : null,
   ]);
@@ -566,6 +593,7 @@ export function searchCapital(f: CapitalFilters): CapitalResult {
     sources,
     matched_sponsors,
     district_unusable_years,
+    word_filters: wt.matched,
   };
 }
 

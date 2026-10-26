@@ -57,6 +57,7 @@ import {
   type ServedRow,
 } from "./pdfquery.js";
 import { otherFlagWords } from "./checkwords.js";
+import { SHORT_TERM, wholeWordNote, type WordFilter } from "./textmatch.js";
 import {
   BOROUGH_CODES_QUESTION,
   MA_SERIES_QUESTION,
@@ -841,12 +842,24 @@ export const server = new Server(
   { capabilities: { tools: {} } }
 );
 
+/** #259: the whole_word parameter, on every tool with a free-text filter. */
+const WHOLE_WORD_DESC = `How this call's text filters match. Omit it for the default: a term of ${SHORT_TERM} or fewer letters and digits (after trimming) matches whole words, a longer term matches anywhere, as a substring. true: every text filter matches whole words only, the term not inside a longer word ('AI' finds 'AI Training Program', '(AI)', 'AI-powered', 'BetaNYC's AI', but not 'Jamaica' or 'AIDS'). false: every text filter matches substrings. Pass false to find a short term inside words (e.g. 'CC1' inside 'CC1053'); pass true to keep a longer word from matching longer ones ('Fellow' but not 'Fellowship'). Case, accents and punctuation folding are the same either way, and % and _ stay literal. Exact filters (EIN, IDs, budget line, codes, city, zip) are not affected. The answer says which filters matched as whole words.`;
+const TEXT_RULE = ` Text filters match case- and accent-insensitive substrings, except that a term of ${SHORT_TERM} or fewer letters and digits matches whole words ('AI' does not match 'Jamaica'); whole_word overrides that for the call, and the answer says when it applied.`;
+
+/** The answer with the whole-word note (#259) as its second line, when any filter matched as whole words. */
+function withWordNote(text: string, words: WordFilter[], explicit?: boolean): string {
+  const note = wholeWordNote(words, explicit);
+  if (!note) return text;
+  const at = text.indexOf("\n");
+  return at === -1 ? `${text}\n${note}` : `${text.slice(0, at)}\n${note}${text.slice(at)}`;
+}
+
 const LIMIT_DESC = "Max rows shown, 1–500 (default 50; above 500 is capped at 500, below 1 is an error). Totals always cover every match.";
 
 export const TOOLS = [
   {
     name: "search_disclosure_awards",
-    description: `Search the NYC Council's expense funding disclosure — the Council's own award-level list of discretionary expense designations, FY2009 and FY2011–FY2027 (FY2010 is NOT included: the Council's archived workbook for it is incomplete against NYC Open Data, so it is left out). One row per published row (exact copies are kept and flagged), with clearance status, funding stream, agency and the grantee's mailing address; MOCS ID from FY2024, and for FY2009–FY2021 the MOCS ID NYC Open Data gives the same designation (od_mocs_id) where the pairing is unambiguous. FY2009 and FY2013 are EARLY SNAPSHOTS: frozen while much was Pending and never revised, so their Cleared totals are not headline figures; the answer says so. This is a later snapshot than the adopted budget: it includes designations made after adoption, and council_member is the roster when the workbook was exported. Every row is returned whatever its status unless you filter on status; the response gives the TRUE number of matching rows and totals over all of them (Cleared and Pending separately), even when the rows shown are limited, plus the file, sheet, source and retrieval date of each year. Filter by any combination of fiscal_year, ein, legal_name, council_member (substring) or council_member_id (exact Legistar person ID — 'Levin' and 'Levine' are different people), source (substring) or source_exact, agency, program_name, zip (exact 5-digit), zip_status, city (exact), status, mocs_id, od_mocs_id, min_amount, max_amount. Rows come highest amount first. Purpose text is not served; each row gives its workbook row number in the source repo.`,
+    description: `Search the NYC Council's expense funding disclosure — the Council's own award-level list of discretionary expense designations, FY2009 and FY2011–FY2027 (FY2010 is NOT included: the Council's archived workbook for it is incomplete against NYC Open Data, so it is left out). One row per published row (exact copies are kept and flagged), with clearance status, funding stream, agency and the grantee's mailing address; MOCS ID from FY2024, and for FY2009–FY2021 the MOCS ID NYC Open Data gives the same designation (od_mocs_id) where the pairing is unambiguous. FY2009 and FY2013 are EARLY SNAPSHOTS: frozen while much was Pending and never revised, so their Cleared totals are not headline figures; the answer says so. This is a later snapshot than the adopted budget: it includes designations made after adoption, and council_member is the roster when the workbook was exported. Every row is returned whatever its status unless you filter on status; the response gives the TRUE number of matching rows and totals over all of them (Cleared and Pending separately), even when the rows shown are limited, plus the file, sheet, source and retrieval date of each year. Filter by any combination of fiscal_year, ein, legal_name, council_member (substring) or council_member_id (exact Legistar person ID — 'Levin' and 'Levine' are different people), source (substring) or source_exact, agency, program_name, zip (exact 5-digit), zip_status, city (exact), status, mocs_id, od_mocs_id, min_amount, max_amount. Rows come highest amount first. Purpose text is not served; each row gives its workbook row number in the source repo.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
       properties: {
@@ -893,6 +906,7 @@ export const TOOLS = [
         od_mocs_id: { type: "string", description: "NYC Open Data 4d7f-74pe's MOCS ID for the same designation, exact (case and surrounding whitespace ignored), e.g. 'FY09 2838'. FY2009–FY2021 only, and only where the pairing is unambiguous. A cross-reference, not a source." },
         min_amount: { type: "number", description: "Minimum designation amount, dollars (inclusive)" },
         max_amount: { type: "number", description: "Maximum designation amount, dollars (inclusive)" },
+        whole_word: { type: "boolean", description: WHOLE_WORD_DESC },
         limit: { type: "number", description: LIMIT_DESC },
       },
       additionalProperties: false,
@@ -900,7 +914,7 @@ export const TOOLS = [
   },
   {
     name: "search_council_capital",
-    description: `Search the NYC Council's capital designations (Council-funded capital projects), FY2015–FY2017 and FY2019–FY2027 (FY2018 is missing from every source found). FY2015–FY2017, FY2026 and FY2027 come from the Council's own capital workbooks, FY2019–FY2025 from NYC Open Data t474-a92g, which the Council publishes; each answer names the file, retrieval date and sha256 of every year it draws on. One row per (record, fiscal-year amount): a list's own-year amount and any out-year amounts are separate rows, totaled separately. Filter by any combination of fiscal_year (the list's year), amount_fy, budget_line (exact, e.g. 'P D018'), project_id (exact), sponsor (substring) or sponsor_exact, borough (exact code), council_district (workbook years only), title and description (substrings), min_amount, max_amount. Answers give the TRUE match count and totals over every match, highest amount first. Exact by budget line only: the Council's project IDs are internal and do not link to OMB, FMS or Checkbook projects, and there is no contract-level data. sponsor carries no Legistar ID.`,
+    description: `Search the NYC Council's capital designations (Council-funded capital projects), FY2015–FY2017 and FY2019–FY2027 (FY2018 is missing from every source found). FY2015–FY2017, FY2026 and FY2027 come from the Council's own capital workbooks, FY2019–FY2025 from NYC Open Data t474-a92g, which the Council publishes; each answer names the file, retrieval date and sha256 of every year it draws on. One row per (record, fiscal-year amount): a list's own-year amount and any out-year amounts are separate rows, totaled separately. Filter by any combination of fiscal_year (the list's year), amount_fy, budget_line (exact, e.g. 'P D018'), project_id (exact), sponsor (substring) or sponsor_exact, borough (exact code), council_district (workbook years only), title and description (substrings), min_amount, max_amount. Answers give the TRUE match count and totals over every match, highest amount first. Exact by budget line only: the Council's project IDs are internal and do not link to OMB, FMS or Checkbook projects, and there is no contract-level data. sponsor carries no Legistar ID.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
       properties: {
@@ -916,6 +930,7 @@ export const TOOLS = [
         description: { type: "string", description: "Project description (substring, case-insensitive; % and _ literal)." },
         min_amount: { type: "number", description: "Minimum amount, dollars (inclusive)" },
         max_amount: { type: "number", description: "Maximum amount, dollars (inclusive)" },
+        whole_word: { type: "boolean", description: WHOLE_WORD_DESC },
         limit: { type: "number", description: LIMIT_DESC },
       },
       additionalProperties: false,
@@ -937,7 +952,7 @@ export const TOOLS = [
   },
   {
     name: "search_schedule_c_awards",
-    description: `Search the adopted budget's Schedule C (the Council's discretionary awards as printed in the budget PDF: the body and appendices A, B and C), FY2018–FY2027, from the checked tables BetaNYC reads from the PDFs. Every row is labeled "checked, review in progress" or "checked and reviewed", with its flags, review decision and note where decided, three links (the row highlighted on its page in the explorer, the PDF on GitHub at the build's commit, the publisher's copy where known), and disclosure_status: whether the same EIN and amount is in the Council's disclosure spreadsheet (search_disclosure_awards, a separate tool and a later snapshot) as cleared or pending, or unmatched with the reason. Values are as printed. Sub-awards printed under an award (the Jobs to Build On partner list, FY2018 and FY2019) are listed under it and never counted. Filter by any combination of fiscal_year, organization, ein, member (member or sponsor), category, initiative, agency, purpose, disclosure_status, min_amount, max_amount; the answer gives the TRUE match count and totals over every match, highest amount first. Needs the optional PDF tables download; without it the answer says how to add it.`,
+    description: `Search the adopted budget's Schedule C (the Council's discretionary awards as printed in the budget PDF: the body and appendices A, B and C), FY2018–FY2027, from the checked tables BetaNYC reads from the PDFs. Every row is labeled "checked, review in progress" or "checked and reviewed", with its flags, review decision and note where decided, three links (the row highlighted on its page in the explorer, the PDF on GitHub at the build's commit, the publisher's copy where known), and disclosure_status: whether the same EIN and amount is in the Council's disclosure spreadsheet (search_disclosure_awards, a separate tool and a later snapshot) as cleared or pending, or unmatched with the reason. Values are as printed. Sub-awards printed under an award (the Jobs to Build On partner list, FY2018 and FY2019) are listed under it and never counted. Filter by any combination of fiscal_year, organization, ein, member (member or sponsor), category, initiative, agency, purpose, disclosure_status, min_amount, max_amount; the answer gives the TRUE match count and totals over every match, highest amount first. Needs the optional PDF tables download; without it the answer says how to add it.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
       properties: {
@@ -952,6 +967,7 @@ export const TOOLS = [
         disclosure_status: { type: "string", enum: [...SC_DISCLOSURE_STATUSES], description: "cleared or pending: paired with a row of that status in the disclosure spreadsheet by EIN and amount; unmatched: not found there" },
         min_amount: { type: "number", description: "Minimum amount, dollars (inclusive)" },
         max_amount: { type: "number", description: "Maximum amount, dollars (inclusive)" },
+        whole_word: { type: "boolean", description: WHOLE_WORD_DESC },
         limit: { type: "number", description: LIMIT_DESC },
       },
       additionalProperties: false,
@@ -959,7 +975,7 @@ export const TOOLS = [
   },
   {
     name: "search_transparency_changes",
-    description: `Search the Council's transparency resolutions, FY2018–FY2026: the changes made to the adopted budget's designations after adoption (new designations, rescissions, purpose-of-funds changes), from the checked tables BetaNYC reads from the resolution PDFs. Each row gives the resolution number and date, the chart, the budget year it changes, the organization, EIN, member, agency and amount as printed, with its status label ("checked, review in progress" or "checked and reviewed"), flags, review decision where decided, any hidden text (text in the PDF a reader cannot see on the page, always labeled), and its three links. Rows from charts that print no dollar amount are kept and never summed. Filter by fiscal_year (the resolutions' year), budget_fiscal_year, organization, ein, member, resolution_number (substring, e.g. '1013-2025'), resolution_date (YYYY-MM-DD) or a date_from / date_to range, action. Newest resolution first. Totals per kind of change cover every match. Needs the optional PDF tables download.`,
+    description: `Search the Council's transparency resolutions, FY2018–FY2026: the changes made to the adopted budget's designations after adoption (new designations, rescissions, purpose-of-funds changes), from the checked tables BetaNYC reads from the resolution PDFs. Each row gives the resolution number and date, the chart, the budget year it changes, the organization, EIN, member, agency and amount as printed, with its status label ("checked, review in progress" or "checked and reviewed"), flags, review decision where decided, any hidden text (text in the PDF a reader cannot see on the page, always labeled), and its three links. Rows from charts that print no dollar amount are kept and never summed. Filter by fiscal_year (the resolutions' year), budget_fiscal_year, organization, ein, member, resolution_number (substring, e.g. '1013-2025'), resolution_date (YYYY-MM-DD) or a date_from / date_to range, action. Newest resolution first. Totals per kind of change cover every match. Needs the optional PDF tables download.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
       properties: {
@@ -973,6 +989,7 @@ export const TOOLS = [
         date_from: { type: "string", description: "Resolutions dated on or after, YYYY-MM-DD" },
         date_to: { type: "string", description: "Resolutions dated on or before, YYYY-MM-DD" },
         action: { type: "string", enum: [...TR_ACTIONS], description: "designate, rescind, purpose_from / purpose_to (a purpose-of-funds change), listed (a chart with no dollar amount)" },
+        whole_word: { type: "boolean", description: WHOLE_WORD_DESC },
         limit: { type: "number", description: LIMIT_DESC },
       },
       additionalProperties: false,
@@ -980,7 +997,7 @@ export const TOOLS = [
   },
   {
     name: "search_capital_book",
-    description: `Search the capital budget's §254 supporting detail (the "capital book": OMB's list of the Council's changes to the executive capital budget, Parts I and II), FY2018–FY2020 and FY2022–FY2027, from the checked tables BetaNYC reads from the PDFs. Each project row gives its ID, budget line, borough, agency, title, sponsor and the four printed year amounts as printed, with its status label, flags, review decision where decided, and three links. Filter by fiscal_year, project_id (substring: 'CC0001' finds 'HO CC0001'), budget_line (exact, e.g. 'P D018'), sponsor, borough (code), agency, title (also searches FY2019's descriptions), part, min_amount / max_amount (the book's own year). Rows in book order. The total is Part I's (it ties to the book's printed total), with "of which … went to non-city groups" from Part II; rows printed only in Part II are listed apart and never added. Reductions (negative amounts) are counted on their own. A sponsor printed "CD nn" is a district with no member. For the Council's own capital lists, use search_council_capital. Needs the optional PDF tables download.`,
+    description: `Search the capital budget's §254 supporting detail (the "capital book": OMB's list of the Council's changes to the executive capital budget, Parts I and II), FY2018–FY2020 and FY2022–FY2027, from the checked tables BetaNYC reads from the PDFs. Each project row gives its ID, budget line, borough, agency, title, sponsor and the four printed year amounts as printed, with its status label, flags, review decision where decided, and three links. Filter by fiscal_year, project_id (substring: 'CC0001' finds 'HO CC0001'), budget_line (exact, e.g. 'P D018'), sponsor, borough (code), agency, title (also searches FY2019's descriptions), part, min_amount / max_amount (the book's own year). Rows in book order. The total is Part I's (it ties to the book's printed total), with "of which … went to non-city groups" from Part II; rows printed only in Part II are listed apart and never added. Reductions (negative amounts) are counted on their own. A sponsor printed "CD nn" is a district with no member. For the Council's own capital lists, use search_council_capital. Needs the optional PDF tables download.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
       properties: {
@@ -994,6 +1011,7 @@ export const TOOLS = [
         part: { type: "string", enum: ["I", "II"], description: "The book's part: I, the projects (the total), or II, the non-city groups' list" },
         min_amount: { type: "number", description: "Minimum amount in the book's own year column, dollars (inclusive; reductions are negative)" },
         max_amount: { type: "number", description: "Maximum amount in the book's own year column, dollars (inclusive)" },
+        whole_word: { type: "boolean", description: WHOLE_WORD_DESC },
         limit: { type: "number", description: LIMIT_DESC },
       },
       additionalProperties: false,
@@ -1001,7 +1019,7 @@ export const TOOLS = [
   },
   {
     name: "search_terms_conditions",
-    description: `Search the adopted budget's Terms and Conditions (the conditions the Council attaches to agencies' appropriations, with the reports they require), FY2018 and FY2021–FY2027, from the checked tables BetaNYC reads from the PDFs. Each item gives its number in the book, pages, agency, units of appropriation, budget lines, report deadlines and the condition's text as printed, with its status label, flags, review decision where decided, and three links. Filter by fiscal_year, agency (name or code, substring), unit (a unit of appropriation as printed, e.g. '001', or the start of a budget line), text (substring of the condition or its heading). The same filters as the explorer's Terms view. Needs the optional PDF tables download.`,
+    description: `Search the adopted budget's Terms and Conditions (the conditions the Council attaches to agencies' appropriations, with the reports they require), FY2018 and FY2021–FY2027, from the checked tables BetaNYC reads from the PDFs. Each item gives its number in the book, pages, agency, units of appropriation, budget lines, report deadlines and the condition's text as printed, with its status label, flags, review decision where decided, and three links. Filter by fiscal_year, agency (name or code, substring), unit (a unit of appropriation as printed, e.g. '001', or the start of a budget line), text (substring of the condition or its heading). The same filters as the explorer's Terms view. Needs the optional PDF tables download.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
       properties: {
@@ -1009,6 +1027,7 @@ export const TOOLS = [
         agency: { type: "string", description: "Agency name or code (substring), e.g. 'Correction' or '072'" },
         unit: { type: "string", description: "Unit of appropriation as printed ('001', 'All'), or the start of a budget line ('HD-0009')" },
         text: { type: "string", description: "Words in the condition's text or heading (substring)" },
+        whole_word: { type: "boolean", description: WHOLE_WORD_DESC },
         limit: { type: "number", description: "Max items shown, 1–100 (default 20). Counts always cover every match." },
       },
       additionalProperties: false,
@@ -1172,6 +1191,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             od_mocs_id: z.string().optional(),
             min_amount: z.number().optional(),
             max_amount: z.number().optional(),
+            whole_word: z.boolean().optional(),
             limit: z.number().int().optional(),
           }).strict(), args);
         // #70: a ZIP is 5 digits. A ZIP+4 or a 4-digit value is refused, never trimmed or padded.
@@ -1222,11 +1242,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             .filter((s) => s.loaded)
             .map((s) => ` FY${s.fiscal_year} is from ${s.file}, sheet "${s.sheet}", retrieved ${s.retrieved}.`)
             .join("");
-          return textResult(
-            `No matching designations in the Council's expense funding disclosure (covers ${yearSpan(loaded)}).${snap}\n\n${coverage}\n\n${DISCLOSURE_CAVEAT}\n\n${DISCLOSURE_FOOTER}`
-          );
+          return textResult(withWordNote(
+            `No matching designations in the Council's expense funding disclosure (covers ${yearSpan(loaded)}).${snap}\n\n${coverage}\n\n${DISCLOSURE_CAVEAT}\n\n${DISCLOSURE_FOOTER}`,
+            res.word_filters, a.whole_word
+          ));
         }
-        return textResult(`${disclosureText(res, coverage)}\n\n${DISCLOSURE_FOOTER}`);
+        return textResult(withWordNote(`${disclosureText(res, coverage)}\n\n${DISCLOSURE_FOOTER}`, res.word_filters, a.whole_word));
       }
 
       case "search_council_capital": {
@@ -1243,6 +1264,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             description: z.string().optional(),
             min_amount: z.number().optional(),
             max_amount: z.number().optional(),
+            whole_word: z.boolean().optional(),
             limit: z.number().int().optional(),
           }).strict(), args);
         const line = budgetLineArg(a.budget_line);
@@ -1274,16 +1296,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         });
         if (res.matched === 0) {
           const src = res.sources.map((s) => `\n${capitalSourceLine(s)}`).join("");
-          return textResult(
+          return textResult(withWordNote(
             `No matching rows in the Council's capital designations (covers ${yearSpan(years)}; FY2018 missing).` +
               (src ? `\nSearched:${src}` : "") +
               (a.council_district != null
                 ? `\nNote: council_district never matches FY2019–FY2025 (t474) rows; their district lists were collapsed by Open Data.`
                 : "") +
-              `\n\n${CAPITAL_CAVEAT}\n\n${CAPITAL_FOOTER}`
-          );
+              `\n\n${CAPITAL_CAVEAT}\n\n${CAPITAL_FOOTER}`,
+            res.word_filters, a.whole_word
+          ));
         }
-        return textResult(`${capitalText(res, a.council_district != null)}\n\n${CAPITAL_FOOTER}`);
+        return textResult(withWordNote(`${capitalText(res, a.council_district != null)}\n\n${CAPITAL_FOOTER}`, res.word_filters, a.whole_word));
       }
 
       case "compare_capital_to_omb": {
@@ -1325,6 +1348,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             disclosure_status: z.enum(SC_DISCLOSURE_STATUSES).optional(),
             min_amount: z.number().optional(),
             max_amount: z.number().optional(),
+            whole_word: z.boolean().optional(),
             limit: z.number().int().optional(),
           }).strict(), args);
         const guard =
@@ -1339,8 +1363,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (yg.text) return textResult(yg.text);
         const res = searchScheduleC(t.db, linkCommit(t), a);
         if (res.matched === 0)
-          return textResult(`No matching award rows in Schedule C (checked years ${yearSpan(yg.years)}).${res.subaward_matches.rows ? ` ${n(res.subaward_matches.rows)} sub-award row(s) printed under another award match the organization; they are not awards (search that award's organization to see them).` : ""}\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "schedule_c")}`);
-        return textResult(`${scheduleCText(res)}\n\n${pdfFooter(t, "schedule_c")}`);
+          return textResult(withWordNote(`No matching award rows in Schedule C (checked years ${yearSpan(yg.years)}).${res.subaward_matches.rows ? ` ${n(res.subaward_matches.rows)} sub-award row(s) printed under another award match the organization; they are not awards (search that award's organization to see them).` : ""}\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "schedule_c")}`, res.word_filters, a.whole_word));
+        return textResult(withWordNote(`${scheduleCText(res)}\n\n${pdfFooter(t, "schedule_c")}`, res.word_filters, a.whole_word));
       }
 
       case "search_transparency_changes": {
@@ -1355,6 +1379,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             date_from: z.string().optional(),
             date_to: z.string().optional(),
             action: z.enum(TR_ACTIONS).optional(),
+            whole_word: z.boolean().optional(),
             limit: z.number().int().optional(),
           }).strict(), args);
         for (const [k, v] of [["resolution_date", a.resolution_date], ["date_from", a.date_from], ["date_to", a.date_to]] as const)
@@ -1372,8 +1397,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const yg = pdfYearGuard(t, "transparency", a.fiscal_year);
         if (yg.text) return textResult(yg.text);
         const res = searchTransparency(t.db, linkCommit(t), { ...a, resolution_date: a.resolution_date?.trim(), date_from: a.date_from?.trim(), date_to: a.date_to?.trim() });
-        if (res.matched === 0) return textResult(`No matching rows in the transparency resolutions (checked years ${yearSpan(yg.years)}).\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "transparency")}`);
-        return textResult(`${transparencyText(res)}\n\n${pdfFooter(t, "transparency")}`);
+        if (res.matched === 0) return textResult(withWordNote(`No matching rows in the transparency resolutions (checked years ${yearSpan(yg.years)}).\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "transparency")}`, res.word_filters, a.whole_word));
+        return textResult(withWordNote(`${transparencyText(res)}\n\n${pdfFooter(t, "transparency")}`, res.word_filters, a.whole_word));
       }
 
       case "search_capital_book": {
@@ -1388,6 +1413,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             part: z.enum(["I", "II"]).optional(),
             min_amount: z.number().optional(),
             max_amount: z.number().optional(),
+            whole_word: z.boolean().optional(),
             limit: z.number().int().optional(),
           }).strict(), args);
         const line = budgetLineArg(a.budget_line);
@@ -1404,8 +1430,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const yg = pdfYearGuard(t, "capital_sd", a.fiscal_year);
         if (yg.text) return textResult(yg.text);
         const res = searchCapitalBook(t.db, linkCommit(t), { ...a, budget_line: line.value, borough: a.borough?.trim() });
-        if (res.matched === 0) return textResult(`No matching project rows in the capital book (checked years ${yearSpan(yg.years)}).\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "capital_sd")}`);
-        return textResult(`${capitalBookText(res, councilQuestions(t.db))}\n\n${pdfFooter(t, "capital_sd")}`);
+        if (res.matched === 0) return textResult(withWordNote(`No matching project rows in the capital book (checked years ${yearSpan(yg.years)}).\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "capital_sd")}`, res.word_filters, a.whole_word));
+        return textResult(withWordNote(`${capitalBookText(res, councilQuestions(t.db))}\n\n${pdfFooter(t, "capital_sd")}`, res.word_filters, a.whole_word));
       }
 
       case "search_terms_conditions": {
@@ -1414,6 +1440,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             agency: z.string().optional(),
             unit: z.string().optional(),
             text: z.string().optional(),
+            whole_word: z.boolean().optional(),
             limit: z.number().int().optional(),
           }).strict(), args);
         const guard = emptyError("agency", a.agency) ?? emptyError("unit", a.unit) ?? emptyError("text", a.text) ?? limitError(a.limit);
@@ -1424,8 +1451,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const yg = pdfYearGuard(t, "terms", a.fiscal_year);
         if (yg.text) return textResult(yg.text);
         const res = searchTerms(t.db, linkCommit(t), a);
-        if (res.matched === 0) return textResult(`No matching items in Terms and Conditions (checked years ${yearSpan(yg.years)}).\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "terms")}`);
-        return textResult(`${termsText(res)}\n\n${pdfFooter(t, "terms")}`);
+        if (res.matched === 0) return textResult(withWordNote(`No matching items in Terms and Conditions (checked years ${yearSpan(yg.years)}).\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "terms")}`, res.word_filters, a.whole_word));
+        return textResult(withWordNote(`${termsText(res)}\n\n${pdfFooter(t, "terms")}`, res.word_filters, a.whole_word));
       }
 
       case "list_available_fiscal_years": {

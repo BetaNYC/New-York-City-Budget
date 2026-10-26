@@ -194,6 +194,19 @@ and the answer lists it (one today: FY2021 `PW MN02A`, $304,000).
 - **Text filters fold before they match**, on the query and on the data: case, accents, curly
   quotes and dashes do not matter (`Women's` finds `Women’s`; `Jewish Emigre` and `Jewish
   Émigré` find the same 6 rows). `%` and `_` are literal.
+- **Short terms match whole words** (#259). A term of 3 or fewer letters and digits, after
+  trimming, matches only where it is not inside a longer word: the characters just before and
+  just after it (once folded) are not letters or digits. `AI` finds "AI Training Program",
+  "(AI)", "AI-powered" and "BetaNYC's AI", but not "Jamaica" or "AIDS"; `DOE` finds "DOE's".
+  A longer term stays a substring, so `Fellow` still finds "Fellowship" and `BetaNYC` still
+  finds "BetaNYC's". A term with no letter or digit (`%`, `_`) stays a substring. Every tool with
+  a text filter takes **`whole_word`**, which overrides the default for all its text filters in
+  that call: `false` to find a short term inside words (`CC1` inside `CC1053`), `true` to keep a
+  longer word from matching longer ones (`Fellow` but not `Fellowship`). When any filter matched
+  as whole words, the answer's second line names it and says how to get a substring instead.
+  Folding is the same either way, the matching runs in SQL so the totals cover exactly the rows
+  matched, and exact filters (EIN, IDs, budget line, codes, city, zip) are not affected. The
+  explorer's search is still a substring.
 - **A blank text filter is an error**, never "no filter": `legal_name: ""` is refused with a
   message instead of returning all 156,544 rows. Filters are capped at 500 characters.
 - **"(headline)" is earned per year, whatever the filter.** A Cleared total is labeled a headline
@@ -462,6 +475,7 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/strict-schema.test.js` | Issue #37: every tool advertises and enforces `additionalProperties: false`, with per-tool hints |
 | `test/build-guard.test.js` | The index build fails loudly on a dataset with no rows or a missing year, and installs the new index in one step (#95) |
 | `test/checkwords.test.js` | Every check code in the promoted files has a plain sentence (`src/checkwords.ts`); questions to Council Finance are worded by status (`src/questions.ts`) |
+| `test/whole-word.test.js` | #259: short terms match whole words (`AI` not in `Jamaica` or `AIDS`; punctuation and either end of the text are word edges; accents folded), the 3-character default and `whole_word` overriding it both ways on every text-filter tool, totals equal to the rows matched, the answer's note |
 | `test/fold-roundtrip.test.js` | A printed value pasted back exactly finds its own rows, including accented and garbled text as published |
 | `test/open-data.test.js` | Whether each record is on NYC Open Data (`data/open_data/`), as the explorer shows it |
 | `test/pdf-align.test.js` | How a Schedule C row is matched to the disclosure spreadsheet (`disclosure_status`) |

@@ -101,6 +101,7 @@ test("the npm tarball ships the code and the spreadsheet index only", () => {
   assert.doesNotMatch(r.stderr, /"script":"build-index"|> tsc/, "npm pack --ignore-scripts must not rebuild");
   const files = JSON.parse(r.stdout)[0].files.map((f) => f.path).sort();
   assert.deepEqual(files, ["LICENSE", "README.md", "data/budget.db", "dist/checkwords.js", "dist/db.js", "dist/fold.js", "dist/index.js", "dist/pdfdata.js",
-    "dist/pdfquery.js", "dist/publisher-copies.js", "dist/questions.js", "dist/rowlinks.js", "dist/server.js", "package.json"]);
+    "dist/pdfquery.js", "dist/publisher-copies.js", "dist/questions.js", "dist/rowlinks.js", "dist/server.js",
+    "dist/textmatch.js", "package.json"]);
   for (const f of files) assert.ok(!PDF_DERIVED.some((re) => re.test(f)), f);
 });
