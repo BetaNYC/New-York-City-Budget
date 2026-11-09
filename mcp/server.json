@@ -1,0 +1,45 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.BetaNYC/nyc-budget-mcp",
+  "title": "NYC Budget",
+  "description": "NYC Council budget data: discretionary awards, capital designations, Schedule C, OMB capital",
+  "repository": {
+    "url": "https://github.com/BetaNYC/New-York-City-Budget",
+    "source": "github",
+    "subfolder": "mcp"
+  },
+  "version": "2.0.5",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@betanyc/nyc-budget-mcp",
+      "version": "2.0.5",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "NYC_BUDGET_PDF_DATA",
+          "description": "Set to on to download the checked PDF tables on start if none are installed, or pdfs to also fetch the PDFs",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        },
+        {
+          "name": "NYC_BUDGET_PDF_DATA_URL",
+          "description": "Use another release's PDF-tables manifest instead of the newest release",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        },
+        {
+          "name": "NYC_BUDGET_DATA_DIR",
+          "description": "Where the downloaded PDF tables go (default: a per-user data folder)",
+          "isRequired": false,
+          "format": "filepath",
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}

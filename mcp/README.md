@@ -500,6 +500,11 @@ Published to npm by CI, never from a laptop:
   `npm publish --provenance --access public` from `mcp/`, then cuts a GitHub Release.
 - **To release** after the version-bump PR merges: `git tag mcp-v<version>` and
   `git push origin mcp-v<version>`.
+- **MCP Registry listing.** `mcp/server.json` lists the server in the official MCP Registry as
+  `io.github.BetaNYC/nyc-budget-mcp`. Bump its two `version` fields with `package.json`;
+  `release.yml` refuses to publish if they differ. After Release succeeds,
+  `.github/workflows/publish-mcp.yml` publishes `server.json` to the registry (GitHub OIDC, no
+  secret) and can be re-run by hand with a tag.
 - **The PDF tables** are not in the npm package: `.github/workflows/pdf-tables-release.yml`
   publishes them as `pdf-tables-*` GitHub Releases, by hand for now (see "Publishing a release").
   The latest npm release is 2.0.4 (tag `mcp-v2.0.4`).
