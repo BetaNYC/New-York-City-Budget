@@ -4,6 +4,18 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.0.5 — Unreleased
+
+No change to the tools or the data. This release exists so npm carries `mcpName`, which the
+official MCP Registry requires before it will list the server.
+
+### Added
+- **`mcpName`** (`io.github.BetaNYC/nyc-budget-mcp`) in `package.json`.
+- **`server.json`**, the MCP Registry listing, next to `package.json`. `release.yml` now stops
+  before `npm publish` if its version or name is out of step with `package.json`, and a new
+  `publish-mcp.yml` sends it to the registry after a successful release.
+- **`glama.json`** at the repository root, so BetaNYC can claim the server on Glama.
+
 ## 2.0.4 — 2026-10-25
 
 ### Changed

@@ -1,0 +1,158 @@
+# Publish @betanyc/nyc-budget-mcp to the official MCP Registry
+# (registry.modelcontextprotocol.io) as io.github.BetaNYC/nyc-budget-mcp.
+#
+# Follows the registry's own guide:
+# https://github.com/modelcontextprotocol/registry/blob/main/docs/modelcontextprotocol-io/github-actions.mdx
+# Copied from BetaNYC/ny-data-registry-mcp's publish-mcp.yml, with two
+# differences, the same two release.yml already has:
+#   - The MCP lives in mcp/, not the repo root. server.json sits next to
+#     mcp/package.json, and every step that reads them or runs mcp-publisher
+#     runs with working-directory: mcp.
+#   - Release tags are mcp-v<version> (e.g. mcp-v2.0.5), not v<version>. The
+#     tag check and the version strip both handle the mcp- prefix.
+#
+# Two ways in:
+#   1. Automatic: after the Release workflow (release.yml, name: Release)
+#      succeeds for an mcp-v* tag. The npm package must exist before the
+#      registry will accept the listing, so this runs after Release, never
+#      alongside it.
+#   2. By hand (workflow_dispatch) with a tag, e.g. to retry a listing.
+#
+# Login is GitHub OIDC (`mcp-publisher login github-oidc`). No secret is
+# stored. The registry grants the namespace of the repo owner, io.github.BetaNYC.
+# Anyone who can push an mcp-v* tag or run this workflow can publish under that
+# namespace, which is the same group that can already publish to npm.
+#
+# mcp-publisher is pinned to one release and its Sigstore bundle is verified
+# before use. To upgrade, change MCP_PUBLISHER_VERSION on purpose; never point
+# it at releases/latest.
+
+name: Publish to MCP Registry
+
+on:
+  workflow_run:
+    workflows: ["Release"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "MCP release tag to list, e.g. mcp-v2.0.5. Its npm package must already be published."
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mcp-registry-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish server.json to the MCP Registry
+    runs-on: ubuntu-latest
+    # Automatic path: only a successful Release that came from an mcp-v* tag push.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       startsWith(github.event.workflow_run.head_branch, 'mcp-v'))
+    permissions:
+      contents: read
+      id-token: write # GitHub OIDC login to the registry
+    defaults:
+      run:
+        working-directory: mcp
+    env:
+      MCP_PUBLISHER_VERSION: v1.8.8
+      # head_branch holds the tag name for a tag-triggered run.
+      TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.event.workflow_run.head_branch }}
+    steps:
+      - name: Check the tag looks like an MCP version tag
+        # Runs before checkout, so mcp/ does not exist yet.
+        working-directory: .
+        run: |
+          if ! printf '%s' "$TAG" | grep -Eq '^mcp-v[0-9]+\.[0-9]+\.[0-9]+([-.][0-9A-Za-z.]+)?$'; then
+            echo "Not an MCP version tag (expected mcp-v<version>): '$TAG'" >&2
+            exit 1
+          fi
+
+      - name: Checkout the tag
+        uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ env.TAG }}
+          persist-credentials: false
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+
+      - name: Check server.json matches the tag, package.json and npm
+        run: |
+          set -euo pipefail
+          # shellcheck disable=SC2016 # the node -e script is single-quoted on purpose
+          node -e '
+            const p = require("./package.json"), s = require("./server.json");
+            const want = process.env.TAG.replace(/^mcp-v/, "");
+            const bad = [p.version, s.version, ...s.packages.map((x) => x.version)].filter((v) => v !== want);
+            if (bad.length) { console.error(`mcp/server.json or mcp/package.json is not at ${want}`); process.exit(1); }
+            if (s.name !== p.mcpName) { console.error("mcp/server.json name does not match mcp/package.json mcpName"); process.exit(1); }
+          '
+          pkg="$(node -p 'require("./package.json").name')"
+          ver="${TAG#mcp-v}"
+          got="$(npm view "${pkg}@${ver}" mcpName)"
+          want="$(node -p 'require("./server.json").name')"
+          if [ "$got" != "$want" ]; then
+            echo "npm ${pkg}@${ver} has mcpName '${got}', expected '${want}'. Is the package published?" >&2
+            exit 1
+          fi
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+
+      - name: Download and verify mcp-publisher
+        run: |
+          set -euo pipefail
+          os="$(uname -s | tr '[:upper:]' '[:lower:]')"
+          arch="$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')"
+          archive="mcp-publisher_${os}_${arch}.tar.gz"
+          base_url="https://github.com/modelcontextprotocol/registry/releases/download/${MCP_PUBLISHER_VERSION}"
+
+          curl --fail --location --silent --show-error --output "$archive" "$base_url/$archive"
+          curl --fail --location --silent --show-error --output "$archive.sigstore.json" "$base_url/$archive.sigstore.json"
+          cosign verify-blob \
+            --bundle "$archive.sigstore.json" \
+            --certificate-identity "https://github.com/modelcontextprotocol/registry/.github/workflows/release.yml@refs/tags/${MCP_PUBLISHER_VERSION}" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            "$archive"
+          tar xzf "$archive" mcp-publisher
+          rm -f "$archive" "$archive.sigstore.json"
+
+      - name: Authenticate to MCP Registry
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish server to MCP Registry
+        # Run from mcp/, where server.json is.
+        run: ./mcp-publisher publish
+
+      - name: Confirm the listing
+        run: |
+          set -euo pipefail
+          name="$(node -p 'require("./server.json").name')"
+          ver="${TAG#mcp-v}"
+          for _ in 1 2 3 4 5 6; do
+            if curl -fsS "https://registry.modelcontextprotocol.io/v0/servers?search=${name}" \
+              | node -e '
+                  let d=""; process.stdin.on("data",c=>d+=c).on("end",()=>{
+                    const j = JSON.parse(d);
+                    const hit = (j.servers||[]).some(s => (s.server||s).name === process.argv[1] && (s.server||s).version === process.argv[2]);
+                    process.exit(hit ? 0 : 1);
+                  });' "$name" "$ver"; then
+              echo "Listed: ${name} ${ver}"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "Published, but ${name} ${ver} not yet visible in search after 60 s. Check by hand." >&2
+          exit 1
