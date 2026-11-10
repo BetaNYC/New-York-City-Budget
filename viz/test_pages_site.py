@@ -289,7 +289,8 @@ def test_every_page_has_the_current_site_shell():
 def test_every_page_reaches_every_other_in_one_click():
     shell = _shell()
     site_pages = {"": "index.html", "agencies/": "agencies/index.html", "explorer/": "explorer/index.html",
-                  "about.html/": "about.html", "mcp.html/": "mcp.html"}
+                  "about.html/": "about.html", "mcp.html/": "mcp.html",
+                  "agencies/boards.html/": "agencies/boards.html"}
     for page in shell.PAGES:
         here = os.path.dirname(page["path"])
         top = _read(page["path"]).split(shell.TOP_START.split(" (")[0], 1)[1].split(shell.TOP_END, 1)[0]
