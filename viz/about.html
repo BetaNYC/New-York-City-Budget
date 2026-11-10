@@ -102,6 +102,7 @@
     <button class="bnyc-menu-btn" type="button" aria-expanded="false" aria-controls="bnyc-menu" hidden><svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M2 4h16M2 10h16M2 16h16" stroke="currentColor" stroke-width="2" fill="none"/></svg>Menu</button>
     <ul id="bnyc-menu">
       <li><a href="./">Home</a></li>
+      <li><a href="./agencies/boards.html">Community boards</a></li>
       <li><a href="./explorer/">Council discretionary funding</a></li>
       <li><a href="./agencies/">City agency budgets</a></li>
       <li><a href="./mcp.html">Budget MCP</a></li>
@@ -146,7 +147,7 @@
       <table>
         <thead><tr><th scope="col">Your question</th><th scope="col">Where to look</th></tr></thead>
         <tbody>
-          <tr><td>How much does my community board get?</td><td><a href="agencies/">City agency budgets</a>. Each of the 59 boards is its own agency (Manhattan 341–352, Bronx 381–392, Brooklyn 471–488, Queens 431–444, Staten Island 491–493).</td></tr>
+          <tr><td>How much does my community board get?</td><td><a href="agencies/boards.html">Community board budgets</a>, all 59 in one table, with a CSV download. Each of the 59 boards is its own agency (Manhattan 341–352, Bronx 381–392, Brooklyn 471–488, Queens 431–444, Staten Island 491–493).</td></tr>
           <tr><td>How did an agency's budget change, year to year or during the year?</td><td><a href="agencies/">City agency budgets</a>: Adopted and Modified, by year.</td></tr>
           <tr><td>Which groups did my Council member fund? Did this nonprofit get Council money?</td><td><a href="explorer/">Council discretionary funding</a>: the expense awards (search by name or EIN).</td></tr>
           <tr><td>What did the Council change after the budget was adopted? Which capital projects did it fund?</td><td><a href="explorer/">Council discretionary funding</a>: transparency resolutions; capital and the capital book.</td></tr>
@@ -172,7 +173,7 @@
         <dt id="agency">Agency</dt>
         <dd>A City department or office with its own budget, such as the Department of Education. Each community board is its own agency.</dd>
         <dt id="community-board">Community board</dt>
-        <dd>One of New York City's 59 community boards. In the City's budget, each board is its own agency, with its own agency number. The numbers come from OMB's budget data on NYC Open Data (the Expense Budget's agency number): Manhattan 341–352, Bronx 381–392, Brooklyn 471–488, Queens 431–444, and Staten Island 491–493. Board <em>n</em> in a borough is the first number plus <em>n</em>−1: Brooklyn Community Board 6 is 476.</dd>
+        <dd>One of New York City's 59 community boards. In the City's budget, each board is its own agency, with its own agency number. The numbers come from OMB's budget data on NYC Open Data (the Expense Budget's agency number): Manhattan 341–352, Bronx 381–392, Brooklyn 471–488, Queens 431–444, and Staten Island 491–493. Board <em>n</em> in a borough is the first number plus <em>n</em>−1: Brooklyn Community Board 6 is 476. See every board's budget on the <a href="agencies/boards.html">Community boards</a> page.</dd>
         <dt id="unit-of-appropriation">Unit of appropriation</dt>
         <dd>The lines the expense budget is adopted by. An agency has one or more, often split into Personal Services and Other Than Personal Services.</dd>
         <dt id="ps-otps">Personal Services (PS) and Other Than Personal Services (OTPS)</dt>
@@ -260,6 +261,7 @@
       <h2 id="download">Download the data</h2>
       <ul>
         <li><strong>City agency budgets:</strong> <a href="agencies/data/nyc_budget.csv">one CSV, every agency and unit of appropriation, FY2017–FY2027</a> (<a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/viz/agencies/data/SCHEMA.md">what each column means</a>).</li>
+        <li><strong>Community boards:</strong> <a href="agencies/data/community_boards.csv">one CSV, all 59 boards, FY2017–FY2027</a>, with the source of each figure.</li>
         <li><strong>Council discretionary funding:</strong> the CSVs in the repository's <a href="https://github.com/BetaNYC/New-York-City-Budget/tree/main/data">data folder</a>, described in the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/DATA-DICTIONARY.md">data dictionary</a>; the checked tables from the Council's budget PDFs in the <a href="https://github.com/BetaNYC/New-York-City-Budget/releases">data releases</a>.</li>
         <li><strong>Ask an AI assistant:</strong> the <a href="mcp.html">budget MCP server</a> (<a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a>). Its <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/README.md">README</a> covers setup and what each tool answers.</li>
         <li><strong>What changed and why:</strong> the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/CHANGELOG.md">changelog</a>.</li>
@@ -277,6 +279,7 @@
         <h2 id="bnyc-foot-h-site">This site</h2>
         <ul>
           <li><a href="./">Home</a></li>
+          <li><a href="./agencies/boards.html">Community boards</a></li>
           <li><a href="./explorer/">Council discretionary funding</a></li>
           <li><a href="./agencies/">City agency budgets</a></li>
           <li><a href="./mcp.html">Budget MCP</a></li>

@@ -175,6 +175,7 @@ def test_every_local_asset_legacy_loads_exists():
 
 
 AGENCY_PAGES = [os.path.join("agencies", "index.html"), os.path.join("agencies", "faq.html")]
+BOARDS_PAGE = os.path.join("agencies", "boards.html")
 
 
 def _is_external(u):
@@ -288,7 +289,8 @@ def test_every_page_has_the_current_site_shell():
 def test_every_page_reaches_every_other_in_one_click():
     shell = _shell()
     site_pages = {"": "index.html", "agencies/": "agencies/index.html", "explorer/": "explorer/index.html",
-                  "about.html/": "about.html", "mcp.html/": "mcp.html"}
+                  "about.html/": "about.html", "mcp.html/": "mcp.html",
+                  "agencies/boards.html/": "agencies/boards.html"}
     for page in shell.PAGES:
         here = os.path.dirname(page["path"])
         top = _read(page["path"]).split(shell.TOP_START.split(" (")[0], 1)[1].split(shell.TOP_END, 1)[0]
@@ -382,6 +384,21 @@ def test_about_has_the_glossary_and_every_source():
 def test_no_stale_citywide_total_in_copy():
     for name in ("legacy.html", "README.md", "index.html", os.path.join("agencies", "index.html")):
         assert "$114B" not in _read(name), name
+
+
+def test_community_board_page_loads_its_csv_relatively_and_offers_the_download():
+    # #269: the table reads data/community_boards.csv (code/build_community_boards.py) and
+    # offers it for download; relative paths only.
+    html = _read(BOARDS_PAGE)
+    r = _refs(BOARDS_PAGE)
+    assert r.scripts == [] and r.styles == [], "self-contained page"
+    assert 'fetch("data/community_boards.csv")' in html
+    assert 'href="data/community_boards.csv" download' in html
+    assert os.path.exists(os.path.join(HERE, "agencies", "data", "community_boards.csv"))
+    bad = [u for u in r.urls if u.startswith("/") and not u.startswith("//")]
+    assert not bad, bad
+    assert 'href="agencies/boards.html"' in _read("index.html"), "front page links the table"
+    assert 'href="boards.html"' in _read(os.path.join("agencies", "index.html"))
 
 
 def _run_standalone():

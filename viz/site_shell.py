@@ -54,6 +54,10 @@ PAGES = [
         "revised": "2026-11-10",
     },
     {
+        "path": "agencies/boards.html", "root": "../", "current": "boards", "skip": "main",
+        "revised": "2026-11-10",
+    },
+    {
         # The explorer's source page; Vite builds it into explorer/index.html. Its React app has
         # its own header, <main id="main"> and footer, which stay.
         "path": "explorer/index.html", "root": "../", "current": "council", "skip": "main",
@@ -68,6 +72,7 @@ PAGES = [
 # The site's pages, in the order Noel set on 2026-11-10: the top bar and the footer both use it.
 NAV = [
     ("home", "", "Home"),
+    ("boards", "agencies/boards.html", "Community boards"),
     ("council", "explorer/", "Council discretionary funding"),
     ("agencies", "agencies/", "City agency budgets"),
     ("mcp", "mcp.html", "Budget MCP"),
