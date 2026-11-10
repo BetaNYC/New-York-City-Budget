@@ -22,13 +22,13 @@ export function ReviewedLabel({ status, block = false }) {
   if (!block) return text;
   return status === "closed" ? (
     <p className="reviewed-block">
-      {text} This comes from a PDF re-read in the PDF review (<a href="https://github.com/BetaNYC/New-York-City-Budget/issues/101">GitHub epic #101</a>, one issue per fiscal year): every printed total was checked, every doubt was
-      decided, and a person signed the year off.
+      {text} We read this table again from the PDF and checked it against every printed total. A person has decided every doubt and signed the year off
+      (<a href="https://github.com/BetaNYC/New-York-City-Budget/issues/101">the review on GitHub</a>).
     </p>
   ) : (
     <p className="reviewed-block">
-      {text} This comes from a PDF re-read in the PDF review (<a href="https://github.com/BetaNYC/New-York-City-Budget/issues/101">GitHub epic #101</a>, one issue per fiscal year); every printed total was checked, and the doubts are
-      listed, but a person has not signed it off yet.
+      {text} We read this table again from the PDF and checked it against every printed total. We list anything we are unsure of, but a person has not
+      signed the year off yet (<a href="https://github.com/BetaNYC/New-York-City-Budget/issues/101">the review on GitHub</a>).
     </p>
   );
 }

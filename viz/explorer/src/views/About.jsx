@@ -8,15 +8,15 @@ export default function About({ manifest }) {
     <section className="prose">
       <h2>About the data</h2>
       <p>
-        This explorer shows the NYC Council's discretionary designations from the Council's own expense funding disclosure spreadsheets, its capital workbooks,
-        and NYC Open Data. It is built from exactly the index the <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a>{" "}
-        server answers from, and a test checks, year by year, that the two hold the same rows and the same totals.
+        This page shows the money the NYC Council directs to organizations and projects, from the Council's own spreadsheets, its capital workbooks, and NYC
+        Open Data. It uses the same data as our <a href="../mcp.html">budget MCP server</a>, and a test checks, year by year, that the two have the same rows
+        and the same totals.
       </p>
       {manifest?.include_reviewed ? (
         <>
           <p>
-            It also shows <strong>tables read from the Council's budget PDFs</strong>: Schedule C, transparency resolutions, the capital book and Terms and
-            Conditions, FY2018 on. These are the only data here read from a PDF. More below.
+            It also shows <strong>tables we read from the Council's budget PDFs</strong>, FY2018 on: Schedule C, the transparency resolutions, the capital book,
+            and Terms and Conditions. Nothing else here comes from a PDF.
           </p>
           <p>The PDF tables load only when you open their page, so the first page opens faster.</p>
         </>
@@ -35,8 +35,8 @@ export default function About({ manifest }) {
           shown as headline figures.
         </li>
         <li>
-          <code>council_member</code> is the roster when the workbook was exported, not necessarily the sponsor at adoption. Addresses are mailing addresses,
-          not where services were delivered.
+          The Council member listed is the one in the Council's file when it was saved, who may not be the member who sponsored the award. Addresses are
+          mailing addresses, not where services were delivered.
         </li>
         <li>The disclosure is the Council's later, award-level list. It is not the adopted budget's Schedule C, and its totals are not Schedule C totals.</li>
       </ul>
@@ -88,24 +88,23 @@ export default function About({ manifest }) {
       <HowWeCheck />
       <h3>Every row cites its file</h3>
       <p>
-        Each award and capital row links to the spreadsheet it came from, at the commit this site was built from, with the sheet, row, retrieval date and
-        sha256. Column definitions: <a href={docUrl(commit, "DATA-DICTIONARY.md")}>DATA-DICTIONARY.md</a>.
+        Each award and capital row links to the spreadsheet it came from, with the sheet, the row, the date we downloaded it, and a fingerprint (sha256) that
+        proves the file has not changed. What each column means: <a href={docUrl(commit, "DATA-DICTIONARY.md")}>the data dictionary</a>.
       </p>
       <h3>Download or ask</h3>
       <ul>
         <li>
-          The data: <a href={REPO_URL}>the New-York-City-Budget repository</a>.
+          Download the data: see <a href="../about.html#download">Download the data</a> on the About page.
         </li>
         <li>
-          Ask an AI assistant: the <a href={`${REPO_URL}/blob/main/mcp/README.md`}>nyc-budget-mcp README</a>. Its PDF tables are an optional download (
-          <code>npx @betanyc/nyc-budget-mcp download --pdf-tables</code>) from the repository's <a href={`${REPO_URL}/releases`}>data releases</a>.
+          Ask an AI assistant: set up our <a href="../mcp.html">budget MCP server</a>.
         </li>
       </ul>
       <h3>Credits</h3>
       <p>
-        Built by <a href="https://beta.nyc">BetaNYC</a>. The app's structure (DuckDB-WASM over Parquet, URL-hash state, query building) is adapted from
-        BetaNYC's <a href="https://github.com/BetaNYC/nyc-eo-explorer">nyc-eo-explorer</a>, MIT License. Source documents are © the City of New York. Queries run
-        in your browser with <a href="https://github.com/duckdb/duckdb-wasm">DuckDB-WASM</a>.
+        Built by <a href="https://beta.nyc">BetaNYC</a>. The app is adapted from our <a href="https://github.com/BetaNYC/nyc-eo-explorer">nyc-eo-explorer</a>
+        (MIT License), and searches run in your browser with <a href="https://github.com/duckdb/duckdb-wasm">DuckDB-WASM</a>. Source documents are © the City
+        of New York.
       </p>
     </section>
   );

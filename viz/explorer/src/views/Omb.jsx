@@ -16,8 +16,8 @@ export default function Omb({ state, set, ombYears }) {
     <section>
       <h2>Council capital vs OMB</h2>
       <p className="lede">
-        For each report year and budget line, the Council's capital rows against OMB's adopted Capital Budget (NYC Open Data 46m8-77gv; the release used
-        is shown on each row), first and second year. The budget line is the only key the two share; nothing here is matched at project level. Years:{" "}
+        For each year and budget line, the Council's capital money next to OMB's adopted Capital Budget (NYC Open Data 46m8-77gv; each row names the release
+        used), for that year and the next. The budget line is the only thing the two lists share, so nothing here is matched project by project. Years:{" "}
         {ombYears.map((y) => `FY${y}`).join(", ")}.
       </p>
       <form className="filters" onSubmit={(e) => e.preventDefault()}>

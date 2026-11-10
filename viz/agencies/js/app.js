@@ -25,10 +25,10 @@
     };
     
     app.GlobalChartOpts = {
-        apropColor:   '#264870',
+        apropColor:   '#2359a8',   // BetaNYC Blue (brand.md)
         apropSymbol:  'circle',
         
-        expendColor:  '#7d9abb',
+        expendColor:  '#949494',   // BetaNYC border gray (brand.md)
         expendSybmol: 'square',
 
         apropTitle:   apropTitle, 

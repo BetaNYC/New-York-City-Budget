@@ -24,9 +24,13 @@ What these guard (each would have failed before the change that introduced it):
   8. The Look at Cook leftovers stay gone (#266): no "Who controls it?" view, NYC labels instead
      of "Fund"/"Department", no empty description panel, the DataMade credit line, no empty
      hidden image, no Cook County images, and sharing tags on both pages.
+  9. One site shell (#267): every page carries the same top bar and footer (site_shell.py
+     --check), reaches every other page in one click, and states the fiscal year, its source
+     and when it was last revised.
 """
 from __future__ import annotations
 
+import importlib.util
 import os
 import re
 from html.parser import HTMLParser
@@ -93,16 +97,24 @@ def test_index_is_the_retirement_notice_and_loads_no_data():
 
 
 def test_index_states_the_gaps_and_links_to_the_retired_copy():
+    # The data gaps moved to the About page with the rest of the detail (2026-11-10); the front
+    # page keeps the link to the frozen copy and to the MCP server.
     html = _read("index.html")
-    assert "FY2010 is not included" in html
-    assert "FY2018 is missing" in html
+    about = _read("about.html")
+    assert "FY2010 is not included" in about
+    assert "FY2018 is missing" in about
     assert 'href="legacy.html"' in html
-    assert "@betanyc/nyc-budget-mcp" in html
+    # The front page links the MCP's own page, which names the package (2026-11-10).
+    assert 'href="mcp.html"' in html and "@betanyc/nyc-budget-mcp" in _read("mcp.html")
+    assert 'href="about.html"' in html
 
 
 def test_index_links_to_the_explorer():
     html = _read("index.html")
-    assert html.count('href="explorer/"') == 1, "one link from the notice to the explorer"
+    # The front page has two doors (#267): the Council explorer and the agency explorer, each
+    # linked from its door and from "Use it" (and the site bar, written as ./explorer/).
+    assert html.count('href="explorer/"') >= 1, "the front page links to the Council explorer"
+    assert html.count('href="agencies/"') >= 1, "the front page links to the agency explorer"
     # The explorer's source lives in viz/explorer/; the deploy builds it into explorer/ beside
     # this page (.github/workflows/deploy-viz.yml, viz/explorer/scripts/assemble-site.mjs).
     assert os.path.exists(os.path.join(HERE, "explorer", "index.html"))
@@ -236,7 +248,7 @@ def test_agencies_no_empty_description_panel_or_columns():
 def test_agencies_credit_hidden_image_cook_images_and_sharing():
     for page in AGENCY_PAGES:
         html = _read(page)
-        assert "Built by <a" not in html, f"{page}: old 'Built by DataMade' line"
+        assert not re.search(r"Built by <a[^>]*datamade", html, re.I), f"{page}: old 'Built by DataMade' line"
         assert "Original code by <a href=\"https://datamade.us\">DataMade</a>" in html
         assert 'look-at-cook">Look at Cook</a>, MIT License' in html
         assert not re.search(r"<img[^>]*src=(\"\"|'')", html), f"{page}: empty img src"
@@ -256,6 +268,120 @@ def test_agencies_faq_loads_no_app_and_links_the_csv():
     assert r.scripts == [] or all("html5shiv" in u or "respond" in u for u in r.scripts), r.scripts
     assert 'id="download-button" class="btn btn-primary" href="data/nyc_budget.csv"' in _read(
         os.path.join("agencies", "faq.html"))
+
+
+def _shell():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("site_shell", os.path.join(HERE, "site_shell.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_every_page_has_the_current_site_shell():
+    shell = _shell()
+    for page in shell.PAGES:
+        probs = shell.problems(page, _read(page["path"]))
+        assert not probs, (page["path"], probs)
+
+
+def test_every_page_reaches_every_other_in_one_click():
+    shell = _shell()
+    site_pages = {"": "index.html", "agencies/": "agencies/index.html", "explorer/": "explorer/index.html",
+                  "about.html/": "about.html", "mcp.html/": "mcp.html"}
+    for page in shell.PAGES:
+        here = os.path.dirname(page["path"])
+        top = _read(page["path"]).split(shell.TOP_START.split(" (")[0], 1)[1].split(shell.TOP_END, 1)[0]
+        reached = set()
+        for href in re.findall(r'href="([^"]+)"', top):
+            if href.startswith("#"):
+                continue
+            target = os.path.normpath(os.path.join(here, href.split("#")[0])).replace(os.sep, "/")
+            target = "" if target == "." else target.rstrip("/") + "/"
+            reached.add(target)
+        for want in site_pages:
+            assert want in reached, f"{page['path']}: no one-click link to {want or 'the front page'}"
+        # Every relative link goes somewhere that exists in viz/.
+        for want in reached:
+            assert os.path.exists(os.path.join(HERE, site_pages.get(want, want))), want
+
+
+def test_every_page_dates_its_text_and_points_to_the_sources():
+    """FAILS if a page's footer loses its last-revised date or its link to the data sources, or
+    the About page loses the fiscal year, the sources, or how current the data is. Noel,
+    2026-11-10: the sources and the fiscal year live on the About page, not in every footer."""
+    shell = _shell()
+    for page in shell.PAGES:
+        foot = _read(page["path"]).split(shell.BOT_START.split(" (")[0], 1)[1]
+        assert re.search(r"Last revised:</strong> [A-Z][a-z]+ \d{1,2}, \d{4}\.", foot), page["path"]
+        assert re.search(r'href="[./]*about\.html#sources"', foot), page["path"]
+    about = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", _read("about.html")))
+    assert "runs July 1 to June 30 and is named for the year it ends" in about
+    assert "through the release of June 30, 2026" in about
+    assert "pdf-tables-2026-10-24-260d16e" in about
+
+def test_about_offers_the_download_and_it_exists():
+    """FAILS if the About page's download section, or a file it links, is missing."""
+    about = _read("about.html")
+    assert 'id="download"' in about
+    for href in re.findall(r'href="([^":#]+\.csv)"', about):
+        assert os.path.exists(os.path.join(HERE, href)), href
+
+def test_every_footer_has_the_site_and_betanyc():
+    """FAILS if a page's footer loses one of its columns (2026-11-10): every page of the site, and
+    About BetaNYC with its links."""
+    shell = _shell()
+    for page in shell.PAGES:
+        foot = _read(page["path"]).split(shell.BOT_START.split(" (")[0], 1)[1]
+        for h in (">This site<", ">About BetaNYC<"):
+            assert h in foot, (page["path"], h)
+        for _key, _href, label in shell.NAV:
+            assert f">{label}<" in foot, (page["path"], label)
+        for url, _t in shell.BETANYC_LINKS:
+            assert url in foot, (page["path"], url)
+
+
+def test_mcp_page_names_every_tool_and_our_other_servers():
+    """FAILS if the budget MCP's page (Noel, 2026-11-10) misses a tool the server registers
+    (mcp/src), its setup line, or one of BetaNYC's other MCP servers."""
+    page = _read("mcp.html")
+    src = ""
+    for root, _dirs, files in os.walk(os.path.join(HERE, "..", "mcp", "src")):
+        for name in files:
+            if name.endswith(".ts"):
+                with open(os.path.join(root, name), encoding="utf-8") as fh:
+                    src += fh.read()
+    tools = set(re.findall(r'name: "((?:search|list|compare)_[a-z_]+)"', src))
+    assert len(tools) >= 8, tools
+    for tool in tools:
+        assert f"<code>{tool}</code>" in page, tool
+    assert "@betanyc/nyc-budget-mcp@2" in page and "download --pdf-tables" in page
+    for repo in ("nyc-checkbook-mcp", "nyc-council-mcp", "nyc-record-mcp", "nyc-311-mcp",
+                 "nys-openlegislation-mcp", "ny-data-registry-mcp", "mta-mcp"):
+        assert f"https://github.com/BetaNYC/{repo}" in page, repo
+    assert 'href="mcp.html"' in _read("index.html")
+
+
+def test_about_has_the_glossary_and_every_source():
+    """FAILS if the About page loses the fiscal year definition, a glossary term, or a dataset the
+    repository reads (code/open_data_registry.py)."""
+    about = _read("about.html")
+    assert 'id="glossary"' in about and 'id="sources"' in about
+    assert "runs July 1 to June 30 and is named for the year it ends" in about
+    for term in ("fiscal-year", "adopted", "modified", "year-rule", "unit-of-appropriation", "intra-city",
+                 "net-and-gross", "schedule-c", "transparency-resolution", "disclosure", "community-board"):
+        assert f'id="{term}"' in about, term
+    spec = importlib.util.spec_from_file_location(
+        "open_data_registry", os.path.join(HERE, "..", "code", "open_data_registry.py"))
+    reg = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(reg)
+    for ds in reg.DATASETS:
+        assert f"/d/{ds}" in about, f"{ds} not listed on the About page"
+
+
+def test_no_stale_citywide_total_in_copy():
+    for name in ("legacy.html", "README.md", "index.html", os.path.join("agencies", "index.html")):
+        assert "$114B" not in _read(name), name
 
 
 def _run_standalone():

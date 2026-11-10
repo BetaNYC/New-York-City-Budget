@@ -69,9 +69,9 @@ Neither half is a source for revenue, actual spending, or spending over decades.
 **One site, two halves.** The agency budget explorer used to be a separate site
 ([`nyc-budget-viz`](https://github.com/BetaNYC/nyc-budget-viz)). It now lives in this repo at
 [`viz/agencies/`](viz/agencies/README.md), published at `/agencies/` beside the Council explorer
-at `/explorer/` (#265). The old address still works until it is forwarded (#271). The rest of
-the plan (one front page with two doors, one shared header) is epic
-[#272](https://github.com/BetaNYC/New-York-City-Budget/issues/272).
+at `/explorer/` (#265). The old address still works until it is forwarded (#271). The front
+page has a door to each half, and every page shares one top bar and footer (#267). The rest of
+the plan is epic [#272](https://github.com/BetaNYC/New-York-City-Budget/issues/272).
 
 ## The fiscal year
 

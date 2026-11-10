@@ -90,9 +90,9 @@ export default function App() {
       <header className="site">
         <div className="wrap">
           <p className="kicker">
-            <a href="../">BetaNYC · New York City Budget</a>
+            <a href="../">BetaNYC · NYC budget data</a>
           </p>
-          <h1>NYC Council budget explorer</h1>
+          <h1>Council discretionary funding</h1>
           <nav className="tabs" aria-label="Views">
             {TABS.filter(([, , fam]) => !fam || (fam === "review" ? Boolean(db.manifest?.review_screen) && (db.manifest?.files?.["pdf_review.parquet"]?.rows ?? 0) > 0 : (db.manifest?.files?.[`${db.manifest?.pdf_families?.[fam]?.main}.parquet`]?.rows ?? 0) > 0)).map(([v, label]) => (
               <HashLink key={v} href={writeHash({ ...state, view: v })} onGo={() => go({ view: v })} className={tab === v ? "active" : undefined} current={tab === v}>
@@ -102,7 +102,7 @@ export default function App() {
           </nav>
         </div>
       </header>
-      <main className="wrap">
+      <main className="wrap" id="main">
         {db.manifest?.review_screen ? (
           <Notice tone="warn">
             <strong>Local review build.</strong> This build has the Review tab, where a person decides the flagged rows; the public site does not. Rows marked{" "}
@@ -133,7 +133,7 @@ export default function App() {
         <div className="wrap">
           <p>
             Built by <a href="https://beta.nyc">BetaNYC</a> from the NYC Council's own spreadsheets and NYC Open Data, the same data as the{" "}
-            <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a> server
+            <a href="../mcp.html">budget MCP server</a>
             {db.manifest?.include_reviewed ? (
               <>
                 , plus the tables read from the Council's budget PDFs and checked against every printed total (each row says "{REVIEWED_LABEL}" or "{CLOSED_LABEL}")
@@ -142,14 +142,16 @@ export default function App() {
             .{" "}
             {db.manifest ? (
               <>
-                Data build of {db.manifest.generated_at.slice(0, 10)} from commit{" "}
+                Data built on{" "}
+                {new Date(`${db.manifest.generated_at.slice(0, 10)}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })}{" "}
+                (version{" "}
                 <a href={`https://github.com/${db.manifest.source_repo}/commit/${db.manifest.source_commit}`}>
                   <code>{db.manifest.source_commit.slice(0, 7)}</code>
                 </a>
-                .{" "}
+                ).{" "}
               </>
             ) : null}
-            Something wrong? <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Open an issue</a>.
+            Something wrong? <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.
           </p>
         </div>
       </footer>

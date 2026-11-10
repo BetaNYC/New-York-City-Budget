@@ -49,8 +49,9 @@ export default function Awards({ state, set, go, years, pdfYears, manifest }) {
     <section>
       <h2>Expense awards</h2>
       <p className="lede">
-        The Council's own expense funding disclosure: one row per designation it publishes, with the grantee, EIN, amount, clearance status and the
-        Council member listed. <code>council_member</code> is the roster when the workbook was exported, not necessarily the sponsor at adoption.
+        The Council's own list of the money it gives to organizations (its expense funding disclosure). Each row is one award, with the grantee, EIN,
+        amount, clearance status, and the Council member listed. The member listed is the one in the Council's file when it was saved, who may not be the
+        member who sponsored the award.
       </p>
       <form className="filters" onSubmit={(e) => e.preventDefault()}>
         <SelectFilter label="Fiscal year" value={state.fy ?? ""} options={yearOptions} onApply={(v) => set({ fy: v === "" ? null : Number(v) })} />

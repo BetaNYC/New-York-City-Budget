@@ -15,9 +15,9 @@ export default function Years({ manifest, go }) {
     <section>
       <h2>Year overview</h2>
       <p className="lede">
-        Each fiscal year is a separate Council file, downloaded on a recorded date. Cleared is the expense headline figure, except where a year is an early
-        snapshot or prints statuses beyond Cleared and Pending. Capital figures are the amounts for the list's own year; out-year amounts are plans for later
-        years.
+        Each fiscal year is a separate Council file, and we record the date we downloaded it. The Cleared total is the headline figure, except in early
+        snapshots and in years that list other statuses besides Cleared and Pending. Capital figures are the amounts for the list's own year; amounts for
+        later years are only plans.
       </p>
       <Status loading={q.loading} error={q.error}>
         {q.data && <Table rows={buildYears(q.data.disc, Q.rollupCapital(q.data.cap).by_report_year, manifest.capital)} go={go} />}
