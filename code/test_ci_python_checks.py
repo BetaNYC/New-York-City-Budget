@@ -12,7 +12,9 @@ REPO = os.path.dirname(HERE)
 WORKFLOW = os.path.join(REPO, ".github", "workflows", "python-checks.yml")
 
 # The paths #200 names: a pull request touching any of them runs the checks.
-PATHS = ["code/**", "config/**", "data/fy*/pdf/**", "data/pdf_years.csv", "research/*/data/**"]
+PATHS = ["code/**", "config/**", "data/fy*/pdf/**", "data/pdf_years.csv", "research/*/data/**",
+         # The agency CSV (#265): code/test_agency_budget_cleanup.py checks it.
+         "viz/agencies/data/**"]
 COMMANDS = ["python -m pytest code",
             "python code/build_pdf_promoted.py --check",
             "python code/build_review_suggestions.py --check"]

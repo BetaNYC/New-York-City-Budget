@@ -9,8 +9,7 @@ questions. Find yours below.
 
 From NYC Open Data, Expense Budget ([`mwzb-yiwb`](https://data.cityofnewyork.us/d/mwzb-yiwb)).
 Every agency, by unit of appropriation, adopted and modified, FY2017–FY2027. Look it up in the
-[agency budget explorer](https://betanyc.github.io/nyc-budget-viz/) (moving to `/agencies/` on
-this site, [#265](https://github.com/BetaNYC/New-York-City-Budget/issues/265)).
+[agency budget explorer](https://betanyc.github.io/New-York-City-Budget/agencies/).
 
 | Your question | Where to look |
 |---|---|
