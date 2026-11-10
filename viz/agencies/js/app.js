@@ -13,6 +13,16 @@
 
     // CSV data source for budget data
     dataSource  = 'data/nyc_budget.csv';
+
+    // The CSV keeps Look at Cook's column names ('Fund', 'Department'), which this code uses as
+    // keys. People see NYC's words (#266).
+    var displayLabels = {
+        'Fund': 'Agency',
+        'Department': 'Unit of appropriation'
+    };
+    window.budgetLabel = function(view){
+        return displayLabels[view] || view;
+    };
     
     app.GlobalChartOpts = {
         apropColor:   '#264870',
@@ -119,7 +129,10 @@
             } else {
                 this.bdView = view;
             }
-            $('#secondary-title').text(this.topLevelView);
+            // The column header names what the table lists: agencies at the top, units of
+            // appropriation inside an agency. (Look at Cook always showed the top level here, so a
+            // link into an agency labeled its units "Fund".)
+            $('#secondary-title').text(budgetLabel(view));
             if (typeof year === 'undefined'){
                 year = this.activeYear;
             }
@@ -235,7 +248,6 @@
                         }
                         j['Fund Slug'] = BudgetHelpers.convertToSlug(j['Fund']);
                         j['Department Slug'] = BudgetHelpers.convertToSlug(j['Department']);
-                        j['Control Officer Slug'] = BudgetHelpers.convertToSlug(j['Control Officer']);
                         loadit.push(j)
                     });
                     self.reset(loadit);
@@ -243,9 +255,11 @@
                         console.log("Reset loadit");
                         console.log(loadit);
                     }
+                    // One view: agency, then unit of appropriation. Look at Cook's second view
+                    // ("Who controls it?", by Control Officer) was removed in #266: here the
+                    // control officer was the agency itself on every row.
                     self.hierarchy = {
-                        Fund: ['Fund', 'Department'],
-                        "Control Officer": ['Control Officer', 'Department']
+                        Fund: ['Fund', 'Department']
                     }
                     if (typeof init === 'undefined'){
                         self.topLevelView = 'Fund';
@@ -328,17 +342,12 @@
                 summary['rowName'] = item.get(view);
                 summary['prevYear'] = year - 1;
                 summary['year'] = year;
-                summary['description'] = item.get(view + ' Description');
                 summary['expenditures'] = self.reduceTotals(exp);
                 summary['appropriations'] = self.reduceTotals(approp);
                 summary['expChange'] = expChange;
                 summary['appropChange'] = appropChange;
                 summary['rowId'] = item.get(view + ' ID');
                 summary['type'] = view
-                // 'Link to Website' column refers to department website, not fund or control officer
-                if (view == 'Department'){
-                    summary['link'] = item.get('Link to Website');
-                }
                 var hierarchy = self.hierarchy[self.topLevelView]
                 var ranking = hierarchy.indexOf(view)
                 if (ranking == 0){
@@ -370,10 +379,6 @@
         // The bulk of the chart options are defined in the budget_highcharts.js file
         // and attached to the window over there. Dunno if that's the best approach but it works
         chartOpts: window.mainChartOpts,
-
-        events: {
-            'click .breakdown-choice': 'breakIt'
-        },
 
         // Render the view when you initialize it.
         initialize: function(){
@@ -535,16 +540,6 @@
                 var width = $(bar).text();
                 $(bar).css('width', width);
             });
-        },
-        breakIt: function(e){
-            e.preventDefault();
-            var view = $(e.currentTarget).data('choice');
-            var year = window.location.hash.split('=')[1];
-            if (year==undefined){
-                year = activeYear;
-            }
-            app_router.navigate('?year=' + year);
-            collection.updateTables(view, municipalityName, undefined, year);
         }
     })
 
@@ -676,13 +671,8 @@
             }
             collection.updateTables(this.model.get('child'), this.model.get('rowName'), filter, this.model.get('year'));
             document.title = document.title + ' | ' + this.model.get('rowName');
-            $('#secondary-title').text(this.model.get('child'));
-            var pathStart = null;
-            if(collection.topLevelView == 'Fund'){
-                pathStart = 'fund-detail/';
-            } else {
-                pathStart = 'control-officer-detail/';
-            }
+            $('#secondary-title').text(budgetLabel(this.model.get('child')));
+            var pathStart = 'fund-detail/';
             $('html, body').animate({
                 scrollTop: $('#breadcrumbs').offset().top
             });
@@ -822,10 +812,9 @@
     });
 
     app.Router = Backbone.Router.extend({
-        // Maybe the thing to do here is to construct a separate route for
-        // the two different top level views. So, fund-detail and control-officer-detail
-        // or something. That would require making sure the correct route is
-        // triggered when links are clicked. Not impossible but probably cleaner
+        // fund-detail/ is the agency view; its address is kept so existing links work.
+        // control-officer-detail/ was Look at Cook's second view, removed in #266. The control
+        // officer was the agency on every row, so an old link is sent to the same agency view.
         routes: {
             "fund-detail/:topName(/:secondName)": "fundDetailRoute",
             "control-officer-detail/:topName(/:secondName)": "controlDetailRoute",
@@ -835,7 +824,7 @@
             this.collection = options.collection;
         },
         defaultRoute: function(year){
-            $('#secondary-title').text('Fund');
+            $('#secondary-title').text(budgetLabel('Fund'));
             var init = undefined;
             this.collection.bootstrap(init, year);
         },
@@ -846,10 +835,8 @@
             this.collection.bootstrap(init, year);
         },
         controlDetailRoute: function(topName, secondName){
-            var initYear = this.getInitYear('Control Officer', topName, secondName);
-            var init = initYear[0];
-            var year = initYear[1];
-            this.collection.bootstrap(init, year);
+            var fragment = 'fund-detail/' + topName + (secondName ? '/' + secondName : '');
+            this.navigate(fragment, {trigger: true, replace: true});
         },
         getInitYear: function(view, topName, secondName){
             var init = [view];

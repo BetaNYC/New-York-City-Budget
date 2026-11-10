@@ -111,14 +111,15 @@ The build-time constants live at the top of `js/app.js`:
 
 This is a working v1. Outstanding items:
 
-- **`Control Officer` is a placeholder** (duplicates the agency view). A real second dimension
-  (e.g. object class) would make the second top-level view meaningful.
 - **BetaNYC brand pass is light.** The Look at Cook visual theme is largely intact; a full pass
   against BetaNYC's brand (color `#2359a8`, Poppins/Roboto, logo) remains.
 - **Hosting:** published with the rest of this repo's GitHub Pages site at `agencies/` by
   `.github/workflows/deploy-viz.yml` (#265).
-- `Short Title`, `Link to Website`, and `Department Description` are empty; they could be
-  populated from an agency reference table.
+- **Removed in #266:** Look at Cook's "Who controls it?" view and its `control-officer-detail/`
+  routes (old links open the same agency view), the empty `Control Officer`, `Short Title`,
+  `Link to Website` and `Department Description` columns and the empty description panel, a
+  hidden empty image, and the unused Cook County images. The site says "Agency" and "Unit of
+  appropriation" instead of "Fund" and "Department"; the CSV keeps the old column names.
 
 ## About BetaNYC
 

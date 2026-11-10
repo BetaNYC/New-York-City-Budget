@@ -9,6 +9,19 @@
 
     <title>FAQ — NYC Budget Explorer</title>
 
+    <meta content="NYC Budget Explorer" property="og:site_name">
+    <meta content="FAQ — NYC Budget Explorer" property="og:title">
+    <meta content="website" property="og:type">
+    <meta content="Frequently asked questions about the NYC Budget Explorer — data source, adopted vs. modified budgets, and methodology." property="og:description">
+    <!-- Sharing (#266). og:url, og:image and the canonical link must be absolute URLs. -->
+    <link rel="canonical" href="https://betanyc.github.io/New-York-City-Budget/agencies/faq.html">
+    <meta content="https://betanyc.github.io/New-York-City-Budget/agencies/faq.html" property="og:url">
+    <meta content="https://betanyc.github.io/New-York-City-Budget/agencies/images/og-image.png" property="og:image">
+    <meta content="1200" property="og:image:width">
+    <meta content="630" property="og:image:height">
+    <meta content="Chart of New York City's adopted and modified expense budget, Fiscal Years 2017 to 2027" property="og:image:alt">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="shortcut icon" href="images/favicon.ico">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
@@ -21,7 +34,6 @@
 
   <body>
     <a href="#content" class="sr-only">Skip to content</a>
-    <div id="readme" style="display: none;"><img src="" alt="Click points to see annual budgets below"></div>
     <div class="container">
       <div id='header'>
         <div class='row'>
@@ -44,7 +56,7 @@
         <li><a href="#q1">Where does this data come from?</a></li>
         <li><a href="#q2">What's the difference between "Adopted" and "Modified"?</a></li>
         <li><a href="#q3">Why Fiscal Years 2017 through 2027?</a></li>
-        <li><a href="#q4">What are "Fund" and "Department" in this tool?</a></li>
+        <li><a href="#q4">What are "agency" and "unit of appropriation"?</a></li>
         <li><a href="#q5">How is the citywide total calculated?</a></li>
         <li><a href="#q6">Why is the newest year's "Modified" amount missing?</a></li>
       </ul>
@@ -63,8 +75,9 @@
       <h2 id="q3">Why Fiscal Years 2017 through 2027?</h2>
       <p>That is the range of fiscal years currently available in the published Expense Budget dataset. As the City publishes new fiscal years, the underlying data file can be regenerated and the range extended.</p>
 
-      <h2 id="q4">What are "Fund" and "Department" in this tool?</h2>
-      <p>This tool reuses DataMade's Look at Cook front-end, which organizes a budget into a top-level grouping ("Fund") and a sub-grouping ("Department"). Here, <strong>Fund</strong> is the city <strong>agency</strong> (for example, the Department of Education or the Police Department), and <strong>Department</strong> is the agency's <strong>unit of appropriation</strong> — the line-item grouping the City uses to break an agency's budget into parts. In this first version the secondary "control officer" view mirrors the agency view; a richer second dimension may be added later.</p>
+      <h2 id="q4">What are "agency" and "unit of appropriation"?</h2>
+      <p>An <strong>agency</strong> is a City agency or office in the budget, for example the Department of Education, the Police Department, or a community board (each of the 59 community boards is its own agency in the budget). A <strong>unit of appropriation</strong> is one of the lines an agency's budget is adopted by, often Personal Services (pay) and Other Than Personal Services (everything else). The chart starts with every agency; open one to see its units of appropriation.</p>
+      <p>This tool is adapted from DataMade's Look at Cook, built for Cook County, Illinois, which called these "Fund" and "Department". The downloadable file still uses those two column names, <code>Fund</code> for the agency and <code>Department</code> for the unit of appropriation, so that existing copies keep working. <code>Department ID</code> is the unit of appropriation's number.</p>
 
       <h2 id="q5">How is the citywide total calculated?</h2>
       <p>Because each fiscal year is published several times and each publication restates the entire budget, adding every row would count the same money more than once. This tool keeps only the June release for each year, then adds up the budget lines in it. As a check, the Fiscal Year 2026 adopted total comes to $117,791,473,676. That matches the City's printed Fiscal Year 2026 Adopted Budget: a net total of $115,907,309,727, plus $1,884,163,949 that City agencies pay each other ("intra-city" spending). The City's data includes those intra-city amounts, so the totals here are about $1.9 billion higher than the City's headline figure.</p>
@@ -76,39 +89,16 @@
 
       <div id='footer'>
         <p class='pull-left'>
-          <a id="download-button" class="btn btn-primary" href="">View &amp; download data</a>
+          <a id="download-button" class="btn btn-primary" href="data/nyc_budget.csv">View &amp; download data</a>
           All the data for this project is freely available to download or explore.
           <br />
           <br />
-          A <a href="https://beta.nyc">BetaNYC</a> project, adapted from DataMade's <a href="https://github.com/datamade/look-at-cook">Look at Cook</a> (MIT-licensed). Built by <a href="http://datamade.us">DataMade</a>.
+          A <a href="https://beta.nyc">BetaNYC</a> project. Original code by <a href="https://datamade.us">DataMade</a> (<a href="https://github.com/datamade/look-at-cook">Look at Cook</a>, MIT License).
         </p>
       </div>
     </div>
-    <!-- loading javascript at the bottom of the page for performance -->
-    <!-- javascript libraries -->
-    <script src="lib/jquery.min.js" type="text/javascript"></script>
-    <script src="lib/spin.min.js" type="text/javascript"></script>
-    <script src="lib/jquery.spin.js" type="text/javascript"></script>
-    <script src="lib/accounting.min.js" type="text/javascript"></script>
-    <script src="lib/fuse.min.js" type="text/javascript"></script>
-    <script src="lib/reduce.js" type="text/javascript"></script>
-    <script src="lib/range.js" type="text/javascript"></script>
-    <script src="lib/array_indexof.js" type="text/javascript"></script>
-    <script src="lib/array_getunique.js" type="text/javascript"></script>
-    <script src="lib/jquery.csv.min.js" type="text/javascript"></script>
-    <script src="lib/bootstrap.min.js" type="text/javascript"></script>
-    <script src="lib/highcharts.js" type="text/javascript"></script>
-    <script src="lib/jquery.dataTables.js" type="text/javascript"></script>
-    <script src="lib/jquery.cookie.js" type="text/javascript"></script>
-    <script src="lib/underscore.min.js" type="text/javascript"></script>
-    <script src="lib/backbone.min.js" type="text/javascript"></script>
-    <script src="lib/Backbone.ModelBinder.min.js" type="text/javascript"></script>
-
-    <!-- custom javascript -->
-    <script src="js/dataTables.sorting.js" type="text/javascript"></script>
-    <script src="js/budget_helpers.js" type="text/javascript"></script>
-    <script src="js/budget_highcharts.js" type="text/javascript"></script>
-
-    <script src="js/app.js" type="text/javascript"></script>
+    <!-- No scripts (#266): this page has no chart. It used to load the whole app, which looked
+         for the chart, logged "rootEl must be specified", and downloaded the CSV only to set the
+         link below. -->
   </body>
 </html>

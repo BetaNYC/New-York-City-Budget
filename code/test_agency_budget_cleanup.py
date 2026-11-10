@@ -282,6 +282,11 @@ class HeaderContractTests(unittest.TestCase):
     def test_internal_agency_key_not_written(self):
         self.assertNotIn(m.AGENCY_KEY, m.STATIC_COLUMNS + m.year_columns())
 
+    def test_look_at_cook_leftover_columns_are_gone(self):
+        # #266: Control Officer equaled Fund on all 764 rows; the other three were empty.
+        for col in m.REMOVED_COLUMNS:
+            self.assertNotIn(col, m.STATIC_COLUMNS)
+
 
 class ShippedCsvTests(unittest.TestCase):
     """The CSV the site actually loads must carry OMB's published figures."""
@@ -316,6 +321,10 @@ class ShippedCsvTests(unittest.TestCase):
 
     def test_department_ids_are_three_digit(self):
         self.assertTrue(all(len(r["Department ID"]) == 3 for r in self.rows))
+
+    def test_csv_has_no_look_at_cook_leftover_columns(self):
+        for col in m.REMOVED_COLUMNS:
+            self.assertNotIn(col, self.rows[0], col)
 
     def test_newest_modified_empty(self):
         last = m.FISCAL_YEARS[-1]
