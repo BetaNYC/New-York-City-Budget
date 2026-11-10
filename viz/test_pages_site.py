@@ -305,36 +305,34 @@ def test_every_page_reaches_every_other_in_one_click():
             assert os.path.exists(os.path.join(HERE, site_pages.get(want, want))), want
 
 
-def test_every_page_states_fiscal_year_source_and_date():
-    shell = _shell()
-    for page in shell.PAGES:
-        text = re.sub(r"<[^>]+>", " ", _read(page["path"]))
-        text = re.sub(r"\s+", " ", text)
-        assert "fiscal year runs July 1 to June 30 and is named for the year it ends" in text, page["path"]
-        assert "Source." in text and re.search(r"Last revised: \d{4}-\d{2}-\d{2}", text), page["path"]
-    assert "mwzb-yiwb" in _read("agencies/index.html").split(shell.BOT_START.split(" (")[0])[1]
-
-
-def test_every_page_offers_the_download_and_it_exists():
-    """FAILS if a page's footer has no "Download the data" link, or the About page's download
-    section, or a file it links, is missing (2026-11-10)."""
+def test_every_page_dates_its_text_and_points_to_the_sources():
+    """FAILS if a page's footer loses its last-revised date or its link to the data sources, or
+    the About page loses the fiscal year, the sources, or how current the data is. Noel,
+    2026-11-10: the sources and the fiscal year live on the About page, not in every footer."""
     shell = _shell()
     for page in shell.PAGES:
         foot = _read(page["path"]).split(shell.BOT_START.split(" (")[0], 1)[1]
-        assert re.search(r'href="[./]*about\.html#download"[^>]*>Download the data<', foot), page["path"]
+        assert re.search(r"Last revised:</strong> \d{4}-\d{2}-\d{2}", foot), page["path"]
+        assert re.search(r'href="[./]*about\.html#sources"', foot), page["path"]
+    about = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", _read("about.html")))
+    assert "runs July 1 to June 30 and is named for the year it ends" in about
+    assert "through the release of 2026-06-30" in about
+    assert "pdf-tables-2026-10-24-260d16e" in about
+
+def test_about_offers_the_download_and_it_exists():
+    """FAILS if the About page's download section, or a file it links, is missing."""
     about = _read("about.html")
     assert 'id="download"' in about
     for href in re.findall(r'href="([^":#]+\.csv)"', about):
         assert os.path.exists(os.path.join(HERE, href)), href
 
-
-def test_every_footer_has_the_data_the_site_and_betanyc():
-    """FAILS if a page's footer loses one of its three columns (2026-11-10): the data, every page
-    of the site, and About BetaNYC with its links."""
+def test_every_footer_has_the_site_and_betanyc():
+    """FAILS if a page's footer loses one of its columns (2026-11-10): every page of the site, and
+    About BetaNYC with its links."""
     shell = _shell()
     for page in shell.PAGES:
         foot = _read(page["path"]).split(shell.BOT_START.split(" (")[0], 1)[1]
-        for h in (">The data<", ">This site<", ">About BetaNYC<"):
+        for h in (">This site<", ">About BetaNYC<"):
             assert h in foot, (page["path"], h)
         for _key, _href, label in shell.NAV:
             assert f">{label}<" in foot, (page["path"], label)

@@ -29,50 +29,34 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-FISCAL_YEAR = ("New York City's fiscal year runs July 1 to June 30 and is named for the year it "
-               "ends: FY2026 is July 1, 2025 to June 30, 2026.")
-
-AGENCY_SOURCE = ('City agency budgets: NYC Open Data, Expense Budget '
-                 '(<a href="https://data.cityofnewyork.us/d/mwzb-yiwb">mwzb-yiwb</a>), the June '
-                 'release of each year, through the release of 2026-06-30 (FY2027 adopted). '
-                 'FY2027 modified is not yet published.')
-COUNCIL_SOURCE = ("Council discretionary funding: the Council's expense funding disclosure and "
-                  "capital lists, NYC Open Data, and the tables read from the Council's budget "
-                  "PDFs (data release pdf-tables-2026-10-24-260d16e).")
-
 # Each page: its path under viz/, the prefix that reaches the site root from it, which nav item
-# is the current page, the id the skip link jumps to, what the footer says about its data, and
-# when its text was last revised.
+# is the current page, the id the skip link jumps to, and when its text was last revised. Where
+# the data comes from, and how current it is, is on the About page (Noel, 2026-11-10).
 PAGES = [
     {
         "path": "index.html", "root": "./", "current": "home", "skip": "main",
-        "source": AGENCY_SOURCE + "<br>" + COUNCIL_SOURCE,
         "revised": "2026-11-10",
     },
     {
         "path": "agencies/index.html", "root": "../", "current": "agencies", "skip": "content",
-        "source": AGENCY_SOURCE, "revised": "2026-11-10",
+        "revised": "2026-11-10",
     },
     {
         "path": "agencies/faq.html", "root": "../", "current": "agencies", "skip": "content",
-        "source": AGENCY_SOURCE, "revised": "2026-11-10",
+        "revised": "2026-11-10",
     },
     {
         "path": "about.html", "root": "./", "current": "about", "skip": "main",
-        "source": AGENCY_SOURCE + "<br>" + COUNCIL_SOURCE + " Every source: the list on this page.",
         "revised": "2026-11-10",
     },
     {
         # The explorer's source page; Vite builds it into explorer/index.html. Its React app has
         # its own header, <main id="main"> and footer, which stay.
         "path": "explorer/index.html", "root": "../", "current": "council", "skip": "main",
-        "source": COUNCIL_SOURCE + " The explorer's own footer gives the date of its data build.",
         "revised": "2026-11-09",
     },
     {
         "path": "legacy.html", "root": "./", "current": "legacy", "skip": "content",
-        "source": ("Frozen 2026-10-16: an early parser's reading of the Council's Schedule C PDFs. "
-                   "Do not cite. Current Council data: the Council explorer."),
         "revised": "2026-11-09",
     },
 ]
@@ -104,7 +88,7 @@ STYLE = """<style>
   .bnyc-shell a[aria-current="page"] { text-decoration-thickness: 3px; text-underline-offset: 4px; }
   .bnyc-shell-foot { background: #EEF4FF; color: #414141; border-top: 1px solid #949494; font-size: 14px; margin-top: 2rem; }
   .bnyc-shell-foot-in { display: block; padding: 1.75rem 1.25rem 1rem; }
-  .bnyc-foot-cols { display: grid; grid-template-columns: 2fr 1fr 1.3fr; gap: 1.5rem 2.5rem; }
+  .bnyc-foot-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2.5rem; }
   .bnyc-shell-foot h2 { font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; color: #2359a8; margin: 0 0 0.5rem; }
   .bnyc-shell-foot ul { list-style: none; margin: 0; padding: 0; }
   .bnyc-shell-foot li { margin: 0; padding: 0; }
@@ -114,8 +98,6 @@ STYLE = """<style>
   @media (max-width: 781px) { .bnyc-foot-cols { grid-template-columns: 1fr; } .bnyc-shell-foot li a { min-height: 44px; } }
   .bnyc-shell-foot p { margin: 0.3rem 0; }
   .bnyc-shell-foot a { color: #2359a8; }
-  .bnyc-shell-foot .bnyc-dl { display: inline-block; margin: 0.2rem 0.6rem 0.4rem 0; padding: 6px 24px; background: #2359a8; color: #FFFFFF; text-decoration: none; font-weight: 700; }
-  .bnyc-shell-foot .bnyc-dl:hover { background: #1c4785; text-decoration: underline; }
   /* Menu button (burger) below 782px, brand.md's tablet breakpoint. Without JavaScript the
      button stays hidden and the links show as a wrapped row, as before. */
   .bnyc-menu-btn { display: none; margin-left: auto; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 0.85rem; background: transparent; color: #FFFFFF; border: 1px solid #FFFFFF; border-radius: 0; font: 700 15px "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; cursor: pointer; }
@@ -194,9 +176,9 @@ BETANYC_LINKS = [
 
 
 def bottom_block(page: dict) -> str:
-    """The footer: three columns, as on beta.nyc (brand.md: a column footer), stacked on a phone.
-    The data (download, fiscal year, source), this site (every page), About BetaNYC; then a line
-    with the date the page's text was last revised."""
+    """The footer: columns, as on beta.nyc (brand.md: a column footer), stacked on a phone. This
+    site (every page) and About BetaNYC; then a line with the date the page's text was last
+    revised and a link to the data sources and glossary on the About page."""
     root = page["root"]
     site = []
     for key, href, label in NAV:
@@ -208,12 +190,6 @@ def bottom_block(page: dict) -> str:
         '<div class="bnyc-shell-foot" role="region" aria-label="About this site">',
         '  <div class="bnyc-shell-foot-in">',
         '    <div class="bnyc-foot-cols">',
-        '      <section class="bnyc-foot-data" aria-labelledby="bnyc-foot-h-data">',
-        '        <h2 id="bnyc-foot-h-data">The data</h2>',
-        f'        <p><a class="bnyc-dl" href="{root}about.html#download">Download the data</a></p>',
-        f'        <p><strong>Fiscal year.</strong> {html.escape(FISCAL_YEAR)}</p>',
-        f'        <p><strong>Source.</strong> {page["source"]} <a href="{root}about.html#sources">Every source</a>.</p>',
-        '      </section>',
         '      <section aria-labelledby="bnyc-foot-h-site">',
         '        <h2 id="bnyc-foot-h-site">This site</h2>',
         '        <ul>',
@@ -229,7 +205,9 @@ def bottom_block(page: dict) -> str:
         '        </ul>',
         '      </section>',
         '    </div>',
-        f'    <p class="bnyc-foot-line"><strong>Last revised:</strong> {page["revised"]}. Built by <a href="https://beta.nyc">BetaNYC</a>. '
+        f'    <p class="bnyc-foot-line"><strong>Last revised:</strong> {page["revised"]}. '
+        f'<a href="{root}about.html#sources">Data sources</a> · <a href="{root}about.html#glossary">Glossary</a>. '
+        'Built by <a href="https://beta.nyc">BetaNYC</a>. '
         '<a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · '
         '<a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>',
         '  </div>',
