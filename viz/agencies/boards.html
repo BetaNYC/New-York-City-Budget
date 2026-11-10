@@ -17,46 +17,57 @@
     <title>Community board budgets — BetaNYC</title>
     <link rel="shortcut icon" href="images/favicon.ico">
     <style>
-      body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1d2b3a; background: #f4f6f8; line-height: 1.5; }
-      main { max-width: 64rem; margin: 0 auto; padding: 2rem 1.25rem 3rem; background: #fff; box-sizing: border-box; }
-      h1 { color: #0b3059; font-size: 1.7rem; margin: 0 0 0.75rem; }
-      h2 { color: #0b3059; font-size: 1.2rem; margin: 1.75rem 0 0.5rem; }
-      a { color: #b33a00; }
+      /* BetaNYC brand tokens (archive/betanyc/brand.md), the same set as the front page and viz/site_shell.py. */
+      :root { --bnyc-blue: #2359a8; --bnyc-bg-blue: #EEF4FF; --bnyc-dark-gray: #414141; --bnyc-border-gray: #949494;
+              --font-display: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif; --font-heading: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      body { margin: 0; font-family: var(--font-display); font-size: 17px; color: var(--bnyc-dark-gray); background: #FFFFFF; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+      main { max-width: 1230px; margin: 0 auto; padding: 2rem 1.25rem 3rem; box-sizing: border-box; }
+      h1, h2 { color: var(--bnyc-blue); font-weight: 700; }
+      h1 { font-family: var(--font-display); font-size: clamp(1.9rem, 4.5vw, 2.8rem); line-height: 1.3; margin: 0.5rem 0 0.75rem; }
+      h2 { font-family: var(--font-heading); font-size: clamp(1.3rem, 3vw, 1.6rem); margin: 1.75rem 0 0.5rem; }
+      p { max-width: 750px; }
+      a { color: var(--bnyc-blue); }
       .controls { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; align-items: end; margin: 1rem 0; }
-      label { display: block; font-weight: 700; margin-bottom: 0.25rem; }
-      select { font-size: 1rem; padding: 0.35rem 0.4rem; min-width: 15rem; }
-      .download { display: inline-block; background: #0b3059; color: #fff; padding: 0.5rem 0.9rem; border-radius: 4px; font-weight: 700; text-decoration: none; }
+      label { display: block; font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.25rem; }
+      select { font: inherit; font-size: 1rem; padding: 0.35rem 0.4rem; min-width: 15rem; border: 1px solid var(--bnyc-border-gray); border-radius: 0; background: #FFFFFF; color: var(--bnyc-dark-gray); }
+      .download { display: inline-block; background: var(--bnyc-blue); color: #FFFFFF; padding: 8px 30px; text-decoration: none; }
       .download:hover, .download:focus-visible { text-decoration: underline; }
-      a:focus-visible, select:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
+      a:focus-visible, select:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: 2px; }
       .scroll { overflow-x: auto; }
       table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
-      caption { text-align: left; font-weight: 700; color: #0b3059; padding: 0.4rem 0; }
-      th, td { border-bottom: 1px solid #d8dee4; padding: 0.35rem 0.5rem; text-align: right; white-space: nowrap; }
+      caption { text-align: left; font-family: var(--font-heading); font-weight: 700; color: var(--bnyc-blue); padding: 0.4rem 0; }
+      th, td { border: 1px solid var(--bnyc-border-gray); padding: 0.4rem 0.6rem; text-align: right; white-space: nowrap; }
       th:first-child, td:first-child { text-align: left; }
-      thead th { background: #eef1f4; vertical-align: bottom; }
+      thead th { background: var(--bnyc-bg-blue); color: var(--bnyc-blue); font-family: var(--font-heading); vertical-align: bottom; }
       tr.total td, tr.total th { font-weight: 700; }
-      .na { color: #4a5a6a; font-style: italic; }
-      .note { color: #4a5a6a; font-size: 0.92rem; }
+      .na { color: var(--bnyc-dark-gray); font-style: italic; }
+      .note { color: var(--bnyc-dark-gray); font-size: 0.92rem; }
       .status { min-height: 1.5rem; }
     </style>
   </head>
   <body>
 <!-- site-shell:top:start (written by viz/site_shell.py; do not edit) -->
 <style>
-  .bnyc-shell, .bnyc-shell-foot { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.45; box-sizing: border-box; }
-  .bnyc-skip { position: absolute; left: -10000px; top: 0; z-index: 1000; background: #ffd166; color: #0b3059; padding: 0.5rem 0.9rem; font-weight: 700; }
+  /* BetaNYC brand tokens: BetaNYC_AI_Workspace archive/betanyc/brand.md (finalized 2026-05-06),
+     the same set as grounding-ai-audit-card's assets/css/betanyc.css. No font files are fetched:
+     Poppins and Roboto are used when installed, else the system fallback. */
+  .bnyc-shell, .bnyc-shell-foot, .bnyc-skip { font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 1.5; box-sizing: border-box; }
+  .bnyc-skip { position: absolute; left: -10000px; top: 0; z-index: 1000; background: #FFFFFF; color: #2359a8; border: 2px solid #2359a8; padding: 0.5rem 0.9rem; font-weight: 700; }
   .bnyc-skip:focus { left: 0.5rem; top: 0.5rem; }
-  .bnyc-shell { background: #0b3059; color: #ffffff; font-size: 15px; }
-  .bnyc-shell-in, .bnyc-shell-foot-in { max-width: 78rem; margin: 0 auto; padding: 0.45rem 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.25rem; }
-  .bnyc-shell-name { font-weight: 700; color: #ffffff; text-decoration: none; margin-right: 0.5rem; }
-  .bnyc-shell ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; }
-  .bnyc-shell a { color: #ffffff; }
-  .bnyc-shell a:focus-visible, .bnyc-shell-foot a:focus-visible, .bnyc-skip:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
-  .bnyc-shell a[aria-current="page"] { font-weight: 700; text-decoration-thickness: 3px; }
-  .bnyc-shell-foot { background: #eef1f4; color: #1d2b3a; border-top: 1px solid #d8dee4; font-size: 14px; margin-top: 2rem; }
+  .bnyc-shell { background: #2359a8; color: #FFFFFF; font-size: 15px; }
+  .bnyc-shell-in, .bnyc-shell-foot-in { max-width: 1230px; margin: 0 auto; padding: 0.6rem 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; }
+  .bnyc-shell-name { font-weight: 700; color: #FFFFFF; text-decoration: none; margin-right: 0.5rem; }
+  .bnyc-shell ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.1rem; }
+  .bnyc-shell ul a { font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; }
+  .bnyc-shell a { color: #FFFFFF; }
+  .bnyc-shell a:focus-visible { outline: 3px solid #B8D6FF; outline-offset: 2px; }
+  .bnyc-shell-foot a:focus-visible, .bnyc-skip:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
+  .bnyc-shell a[aria-current="page"] { text-decoration-thickness: 3px; text-underline-offset: 4px; }
+  .bnyc-shell-foot { background: #EEF4FF; color: #414141; border-top: 1px solid #949494; font-size: 14px; margin-top: 2rem; }
   .bnyc-shell-foot-in { display: block; padding: 1rem 1.25rem; }
   .bnyc-shell-foot p { margin: 0.3rem 0; }
-  .bnyc-shell-foot a { color: #0b3059; }
+  .bnyc-shell-foot a { color: #2359a8; }
+  @media (max-width: 600px) { .bnyc-shell-in { padding: 0.4rem 1.25rem 0.2rem; } .bnyc-shell ul { gap: 0 1.1rem; } .bnyc-shell ul a { display: inline-flex; align-items: center; min-height: 44px; } }
 </style>
 <a class="bnyc-skip" href="#main">Skip to content</a>
 <nav class="bnyc-shell" aria-label="NYC budget data">
