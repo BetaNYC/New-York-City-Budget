@@ -14,8 +14,9 @@ pipeline that produces it. See [Attribution](#attribution).
 
 - Interactive chart of the citywide budget over 11 fiscal years, with a per-agency and
   per-unit breakdown table.
-- Two series per year: **Adopted** (the budget as adopted) and **Modified** (the current
-  modified budget at the adopted snapshot).
+- Two series per year: **Adopted** (the budget adopted for that fiscal year) and **Modified**
+  (that year's budget as modified through June, near year end). The newest year's Modified
+  is "not yet published" until the City adopts the following year's budget.
 - All data downloadable as a single CSV.
 
 ## Data
@@ -23,16 +24,27 @@ pipeline that produces it. See [Attribution](#attribution).
 - **Source:** [NYC Open Data — Expense Budget](https://data.cityofnewyork.us/City-Government/Expense-Budget/mwzb-yiwb),
   dataset id `mwzb-yiwb`. Public, no API token.
 - **Coverage:** Fiscal Years 2017–2027.
-- **Validation:** FY2026 adopted total = **$114,384,991,832** (~$114.385B), matching the City's
-  published adopted expense budget.
+- **Validation:** FY2026 adopted total = **$117,791,473,676**, matching OMB's printed FY2026
+  Adopted Budget (net $115,907,309,727 + intra-city $1,884,163,949). The run aborts if this,
+  the FY2025 totals, or the Manhattan Community Board 1 lines from the same PDF don't match.
 
-### The adopted-snapshot methodology (important)
+> **Correction (2026-11-09).** Before this date every year in the explorer was labeled one
+> year late: "Adopted 2026" was really FY2025. In a release tagged `fiscal_year = Y`, the
+> dataset's `adopted_budget_amount` and `current_modified_budget_amount` describe FY Y−1, and
+> `financial_plan_amount` describes FY Y. Details: [`data/SCHEMA.md`](data/SCHEMA.md).
+
+### Methodology (important)
 
 Each fiscal year is published up to three times — Preliminary (Jan), Executive (Apr/May), and
 Adopted (June) — and **each publication restates the whole budget**. Naively summing every row
-would count the same money up to three times (~$343B for FY2026 instead of ~$114B). The pipeline
-keeps only the **Adopted (latest) snapshot per fiscal year** and sums within it. A validation
-gate aborts the run if the FY2026 total ever falls outside `[110B, 118B]`.
+would count the same money up to three times. The pipeline keeps only the **June release** of
+each year, then maps each amount to the year it describes:
+
+- **Adopted Y** = `financial_plan_amount` from the June release tagged Y (cross-checked against
+  `adopted_budget_amount` in the release tagged Y+1; they agree to the dollar)
+- **Modified Y** = `current_modified_budget_amount` from the June release tagged Y+1
+
+A validation gate aborts the run unless the output reproduces OMB's printed figures.
 
 Full column definitions and methodology: [`data/SCHEMA.md`](data/SCHEMA.md).
 
@@ -72,7 +84,7 @@ index.html, faq.html      front-end pages (masthead adapted for NYC)
 js/, css/, lib/, fonts/    Look at Cook front-end (Backbone + Highcharts)
 images/                    front-end assets
 data/
-  nyc_budget_cleanup.py    pipeline: SODA pull -> adopted-snapshot filter -> pivot -> CSV
+  nyc_budget_cleanup.py    pipeline: SODA pull -> June-release filter -> year mapping -> CSV
   test_nyc_budget_cleanup.py  hermetic regression tests (no live API)
   nyc_budget.csv           the cleaned data the site loads
   SCHEMA.md                column + methodology documentation
@@ -128,7 +140,7 @@ BetaNYC maintains a growing suite of open-source tools for NYC and NYS civic dat
 
 This visualization is a companion to **[New York City Budget](https://github.com/BetaNYC/New-York-City-Budget)** — machine-readable, reconciled NYC Council *discretionary* funding (Schedule C), Terms & Conditions, and Section 254 capital data, extracted line-by-line from the Council's adopted-budget PDFs. That repo also ships the [`@betanyc/nyc-budget-mcp`](https://github.com/BetaNYC/New-York-City-Budget/tree/main/mcp) server and a companion **Schedule C funding visualization** (`viz/`) built on this same [Look at Cook](https://github.com/datamade/look-at-cook) toolkit.
 
-Where this repo shows the **citywide expense budget** (~$114B, every agency), the Schedule C visualization shows **Council discretionary funding** (~$656M) — different datasets, same toolkit.
+Where this repo shows the **citywide expense budget** (~$118B for FY2026, every agency), the Schedule C visualization shows **Council discretionary funding** (~$656M) — different datasets, same toolkit.
 
 ## Attribution
 

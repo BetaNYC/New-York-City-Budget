@@ -3,68 +3,96 @@
 nyc_budget_cleanup.py — NYC Expense Budget -> DataMade "Look at Cook" nyc_budget.csv
 
 Pipeline for BetaNYC's NYC budget visualization (fork of DataMade's look-at-cook front-end).
-Pulls NYC's live Expense Budget from NYC Open Data, filters out the triple-count publication
-gotcha, aggregates to agency x unit-of-appropriation x fiscal year, and emits a CSV matching
-the look-at-cook cleaned-CSV contract exactly so the front-end renders with zero JS changes.
-The output filename (nyc_budget.csv) matches js/app.js `dataSource = '/data/nyc_budget.csv'`.
+Pulls NYC's Expense Budget from NYC Open Data, keeps one release per budget cycle, maps each
+money column to the fiscal year it actually describes, aggregates to agency x unit of
+appropriation x fiscal year, and emits a CSV matching the look-at-cook cleaned-CSV contract so
+the front-end renders it. The output filename (nyc_budget.csv) matches js/app.js
+`dataSource = '/data/nyc_budget.csv'`.
 
 DATA SOURCE (build-against-docs, never guess — Engineering Standard sec 0)
   NYC Open Data "Expense Budget", dataset id mwzb-yiwb, via the Socrata SODA 2.1 API.
   - Resource endpoint : https://data.cityofnewyork.us/resource/mwzb-yiwb.json
   - Metadata endpoint : https://data.cityofnewyork.us/api/views/mwzb-yiwb.json
+  - Data dictionary   : Expense_Budget_Data_Dictionary.xlsx, attached to the metadata
   - Public, read-only, NO app token required.
   - SODA query docs   : https://dev.socrata.com/docs/queries/
-  Field names below were CONFIRMED from the metadata endpoint on 2026-07-09 (not guessed):
+  Field names CONFIRMED from the metadata endpoint (2026-07-09, re-checked 2026-11-09):
     publication_date (text, YYYYMMDD), fiscal_year (number),
     agency_number (text), agency_name (text),
     unit_appropriation_number (text), unit_appropriation_name (text),
-    adopted_budget_amount (number), current_modified_budget_amount (number).
+    adopted_budget_amount (number), current_modified_budget_amount (number),
+    financial_plan_amount (number).
 
-THE TRIPLE-COUNT GOTCHA
-  Each fiscal year is published up to three times — Preliminary (Jan), Executive (Apr/May),
-  Adopted (June) — and each snapshot restates the ENTIRE budget. Summing across snapshots
-  triple-counts. We keep exactly ONE publication_date per fiscal year: the ADOPTED (June)
-  snapshot, which is the latest (max) publication_date for that fiscal year. Because
-  publication_date is zero-padded YYYYMMDD text, lexical max == chronological max.
+WHICH YEAR EACH MONEY COLUMN DESCRIBES (the 2026-11-09 fix)
+  A release's `fiscal_year` is the budget being PROPOSED or ADOPTED in that release, not the
+  year of every column in it. The data dictionary defines the three amounts but does not say
+  which year each one covers. OMB's printed Adopted Budget settles it: the FY2026 Adopted
+  Budget, Expense/Revenue/Contract volume (adopt25/erc6-25.pdf), is the same publication as the
+  Open Data release dated 20250630 with fiscal_year = 2026, and its columns are headed
+  "ADOPTED BUDGET FOR FY 2025", "CURRENT MODIFIED BUDGET FOR FY 2025" and "ADOPTED BUDGET FOR
+  FY 2026". So in a release tagged fiscal_year = Y:
+    adopted_budget_amount          = FY(Y-1) adopted
+    current_modified_budget_amount = FY(Y-1) modified, as of that release's date
+    financial_plan_amount          = FY Y plan (in the June release: FY Y adopted)
+  Before this fix the pipeline labeled the first two as FY Y, so every year shown was one
+  year late. This pipeline now uses:
+    Adopted Y  = financial_plan_amount from the June release tagged Y
+                 (cross-checked: equals adopted_budget_amount in the release tagged Y+1)
+    Modified Y = current_modified_budget_amount from the June release tagged Y+1
+                 (FY Y's budget as modified through June of FY Y, near year end)
+  The newest year has no Modified figure until the City adopts the NEXT year's budget. That
+  cell is written EMPTY, not 0, and the site says "not yet published".
+
+ONE RELEASE PER BUDGET CYCLE (avoids triple counting)
+  Each fiscal_year tag is published up to three times — Preliminary (Jan), Executive (Apr/May),
+  Adopted (June) — and each release restates the entire budget. Summing across releases counts
+  the same money up to three times. We keep the June release only: the latest
+  publication_date for the tag, and it must fall in June or later of the prior calendar year
+  (an adoption-cycle release). A tag whose latest release is earlier than that is still in
+  progress and is not used.
+
+ZERO-PADDING
+  Releases before 2023 write agency and unit numbers without leading zeros ("40", "1"); later
+  releases pad them ("040", "001"). Both are normalized to three digits so one unit is one row.
 
 OUTPUT SCHEMA (look-at-cook cleaned-CSV contract; header names are case-sensitive)
   Static : Fund, Department, Control Officer, Department ID, Short Title,
            Link to Website, Department Description
   Per FY : "Adopted {year}" and "Modified {year}" for year 2017..2027
-           (plain years, e.g. "Adopted 2017", NOT "FY2017").
-  Value mapping (v1):
-    Fund                  = agency_name
-    Department            = unit_appropriation_name
-    Control Officer       = agency_name   (v1 PLACEHOLDER — duplicates Fund so the
-                            front-end's second top-level view renders. A real second axis,
-                            e.g. object class, replaces this later.)
-    Department ID         = unit_appropriation_number
+  Value mapping:
+    Fund            = agency_name
+    Department      = unit_appropriation_name
+    Control Officer = agency_name   (v1 PLACEHOLDER — duplicates Fund)
+    Department ID   = unit_appropriation_number (zero-padded to 3)
     Short Title / Link to Website / Department Description = "" (empty for v1)
-    Adopted {year}        = sum(adopted_budget_amount)          over the (agency, unit) group
-    Modified {year}       = sum(current_modified_budget_amount) over the same group
-  Both series come from the same Adopted snapshot. At that snapshot Modified diverges from
-  Adopted (e.g. FY2026: $114.4B adopted vs $123.8B modified), so the two chart lines show a
-  real spread. Numbers are written plain (no $, no commas) — the front-end parses floats.
+  Numbers are written plain (no $, no commas) — the front-end parses floats.
 
 COLUMN/LABEL COUPLING (critical — do not drift)
-  js/app.js builds each per-year data key as `<apropTitle> + ' ' + year` and
-  `<expendTitle> + ' ' + year` (getTotals / getChartTotals). The config sets
-  apropTitle='Adopted' and expendTitle='Modified', so the CSV column PREFIXES here MUST be
-  exactly 'Adopted' and 'Modified' (see APROP_LABEL / EXPEND_LABEL below). Rename one side and
-  you must rename the other, or the chart reads NaN.
+  js/app.js reads each year's value via `<apropTitle> + ' ' + year` and
+  `<expendTitle> + ' ' + year`, with apropTitle='Adopted' and expendTitle='Modified'.
+  APROP_LABEL / EXPEND_LABEL below MUST equal those.
 
-VALIDATION GATE
-  After filtering, NYC's FY2026 Adopted total must be ~$114.4B. If it falls outside
-  [110B, 118B] the run aborts non-zero rather than emitting a suspect CSV.
+VALIDATION GATE (OMB's published numbers)
+  The run aborts, writing nothing, unless the emitted CSV reproduces OMB's printed FY2026
+  Adopted Budget (adopt25/erc6-25.pdf), exactly:
+    - citywide FY2026 adopted, gross of intra-city  = $117,791,473,676
+      (page 1E: net total $115,907,309,727 + intra-city $1,884,163,949)
+    - citywide FY2025 adopted, gross                 = $114,384,991,832
+      (page 1E: net $112,431,582,240 + intra-city $1,953,409,592)
+    - citywide FY2025 modified as of June 2025, gross = $123,844,584,236
+      (page 1E: net $121,598,357,432 + intra-city $2,246,226,804)
+    - Manhattan Community Board 1 (agency 341), page 182E: FY2025 adopted PS $267,484;
+      FY2025 modified PS $249,484 and OTPS $190,939; FY2026 adopted PS $275,060, OTPS $27,245.
+  It also aborts if, for any year with both releases, the citywide financial_plan_amount of
+  the June release tagged Y differs from adopted_budget_amount of the release tagged Y+1.
 
 RUNTIME
-  Stdlib only (urllib, csv, json) — no third-party deps, portable across the team's Python
-  spread. Tested range: Python >=3.11,<3.15. Idempotent: re-running overwrites the output
-  CSVs deterministically. Read-only against the API; writes only local CSV files.
+  Stdlib only (urllib, csv, json). Tested range: Python >=3.11,<3.15. Idempotent. Read-only
+  against the API; writes only local CSV files.
 
 USAGE
   python3 nyc_budget_cleanup.py                 # full CSV + sample CSV
-  python3 nyc_budget_cleanup.py --sample-only   # sample CSV only (fast)
+  python3 nyc_budget_cleanup.py --sample-only   # sample CSV only
   python3 nyc_budget_cleanup.py --out DIR       # write into DIR (default: script dir)
 """
 
@@ -85,9 +113,8 @@ from pathlib import Path
 
 DATASET_ID = "mwzb-yiwb"
 RESOURCE_URL = f"https://data.cityofnewyork.us/resource/{DATASET_ID}.json"
-FISCAL_YEARS = list(range(2017, 2028))  # FY2017 .. FY2027 inclusive
+FISCAL_YEARS = list(range(2017, 2028))  # FY2017 .. FY2027 inclusive (years SHOWN)
 
-# look-at-cook cleaned-CSV contract (case-sensitive header names).
 STATIC_COLUMNS = [
     "Fund",
     "Department",
@@ -98,12 +125,12 @@ STATIC_COLUMNS = [
     "Department Description",
 ]
 
-# Per-year column PREFIXES. These MUST equal js/app.js apropTitle / expendTitle — the
-# front-end reads each year's value via `<label> + ' ' + year` (see module docstring,
-# COLUMN/LABEL COUPLING). APROP_LABEL carries adopted_budget_amount; EXPEND_LABEL carries
-# current_modified_budget_amount.
+# Must equal js/app.js apropTitle / expendTitle (see COLUMN/LABEL COUPLING).
 APROP_LABEL = "Adopted"
 EXPEND_LABEL = "Modified"
+
+# Internal-only record key (not written to the CSV): the normalized agency number.
+AGENCY_KEY = "_agency_number"
 
 
 def year_columns() -> list[str]:
@@ -114,7 +141,7 @@ def year_columns() -> list[str]:
     return cols
 
 
-# Recognizable agencies for the hand-checkable sample CSV (agency_number).
+# Recognizable agencies for the hand-checkable sample CSV (agency_number, 3-digit).
 SAMPLE_AGENCY_NUMBERS = {
     "040",  # Department of Education
     "056",  # Police Department
@@ -123,12 +150,26 @@ SAMPLE_AGENCY_NUMBERS = {
     "806",  # Housing Preservation and Development
     "827",  # Department of Sanitation
     "846",  # Department of Parks and Recreation
+    "341",  # Manhattan Community Board 1 (OMB gate agency)
 }
 
-# Validation gate: FY2026 Adopted (Appropriations) total must land near $114.4B.
-GATE_FY = 2026
-GATE_MIN = 110_000_000_000
-GATE_MAX = 118_000_000_000
+# Validation gate — OMB FY2026 Adopted Budget, Expense/Revenue/Contract volume,
+# https://www.nyc.gov/assets/omb/downloads/pdf/adopt25/erc6-25.pdf
+# Citywide totals are GROSS (OMB's "Net Total Budget" plus "Intra-City Expenditures"),
+# because the Open Data rows include intra-city amounts.
+GATE_CITYWIDE = {
+    (APROP_LABEL, 2026): 115_907_309_727 + 1_884_163_949,   # = 117,791,473,676
+    (APROP_LABEL, 2025): 112_431_582_240 + 1_953_409_592,   # = 114,384,991,832
+    (EXPEND_LABEL, 2025): 121_598_357_432 + 2_246_226_804,  # = 123,844,584,236
+}
+# (agency_number, unit_number, label, year) -> dollars, page 182E (Manhattan CB 1).
+GATE_UNITS = {
+    ("341", "001", APROP_LABEL, 2025): 267_484,
+    ("341", "001", EXPEND_LABEL, 2025): 249_484,
+    ("341", "002", EXPEND_LABEL, 2025): 190_939,
+    ("341", "001", APROP_LABEL, 2026): 275_060,
+    ("341", "002", APROP_LABEL, 2026): 27_245,
+}
 
 PAGE_SIZE = 50_000
 HTTP_TIMEOUT = 120
@@ -146,7 +187,7 @@ def log(event: str, **fields: object) -> None:
 # --- SODA client -------------------------------------------------------------
 
 def soda_get(params: dict[str, str]) -> list[dict]:
-    """One SODA GET. Fails loud on any transport/HTTP error (runtime-reliability)."""
+    """One SODA GET. Fails loud on any transport/HTTP error."""
     url = f"{RESOURCE_URL}?{urllib.parse.urlencode(params)}"
     req = urllib.request.Request(url, headers={"Accept": "application/json"})
     try:
@@ -188,13 +229,25 @@ def soda_get_all(select: str, where: str, group: str) -> list[dict]:
 
 # --- pipeline steps ----------------------------------------------------------
 
-def discover_adopted_snapshots() -> dict[int, str]:
-    """
-    Return {fiscal_year: adopted_publication_date} for each target FY.
+def norm_code(value: str | None) -> str:
+    """Zero-pad an agency or unit number to 3 digits ('1' -> '001', '040' stays)."""
+    v = (value or "").strip()
+    return v.zfill(3) if v.isdigit() else v
 
-    The Adopted snapshot is the latest (max) publication_date for a fiscal year. Computed
-    dynamically from the data so the pipeline survives future publications rather than
-    hard-coding dates.
+
+def is_adoption_release(tag: int, publication_date: str) -> bool:
+    """A release tagged FY `tag` is the June adoption release if published in or after
+    June of calendar year tag-1 (NYC adopts FY `tag` in June of tag-1)."""
+    return publication_date >= f"{tag - 1}0601"
+
+
+def discover_june_releases() -> dict[int, str]:
+    """
+    Return {release_tag: publication_date} of the June (adoption) release for every tag
+    needed: FISCAL_YEARS (for Adopted) and FISCAL_YEARS[-1] + 1 (for the newest Modified).
+
+    Tags in FISCAL_YEARS must have a June release or the run aborts. The tag after the last
+    shown year is optional: until it is adopted, the newest Modified stays empty.
     """
     rows = soda_get(
         {
@@ -204,40 +257,46 @@ def discover_adopted_snapshots() -> dict[int, str]:
             "$limit": "5000",
         }
     )
+    wanted = set(FISCAL_YEARS) | {FISCAL_YEARS[-1] + 1}
     latest: dict[int, str] = {}
     for r in rows:
-        fy = int(r["fiscal_year"])
-        if fy not in FISCAL_YEARS:
+        tag = int(r["fiscal_year"])
+        if tag not in wanted:
             continue
         pd = r["publication_date"]  # YYYYMMDD text; lexical max == chronological max
-        if fy not in latest or pd > latest[fy]:
-            latest[fy] = pd
-    missing = [fy for fy in FISCAL_YEARS if fy not in latest]
+        if tag not in latest or pd > latest[tag]:
+            latest[tag] = pd
+    june = {t: pd for t, pd in latest.items() if is_adoption_release(t, pd)}
+    missing = [fy for fy in FISCAL_YEARS if fy not in june]
     if missing:
-        raise SystemExit(f"FATAL: no Adopted snapshot found for FY(s): {missing}")
-    for fy in FISCAL_YEARS:
-        log("adopted.snapshot", fy=fy, publication_date=latest[fy])
-    return latest
+        raise SystemExit(
+            f"FATAL: no June (adoption) release found for FY(s) {missing}. "
+            f"Latest releases seen: { {t: latest.get(t) for t in missing} }"
+        )
+    for tag in sorted(june):
+        log("june.release", tag=tag, publication_date=june[tag])
+    nxt = FISCAL_YEARS[-1] + 1
+    if nxt not in june:
+        log("modified.pending", fy=FISCAL_YEARS[-1],
+            reason=f"no June release tagged {nxt} yet; Modified {FISCAL_YEARS[-1]} left empty")
+    return june
 
 
-def build_where(adopted: dict[int, str]) -> str:
-    """OR of (fiscal_year=X AND publication_date='Y') across the target FYs."""
-    clauses = [
-        f"(fiscal_year={fy} AND publication_date='{adopted[fy]}')" for fy in FISCAL_YEARS
-    ]
-    return " OR ".join(clauses)
+def build_where(releases: dict[int, str]) -> str:
+    """OR of (fiscal_year=T AND publication_date='D') across the chosen releases."""
+    return " OR ".join(
+        f"(fiscal_year={t} AND publication_date='{releases[t]}')" for t in sorted(releases)
+    )
 
 
 def pull_aggregated(where: str) -> list[dict]:
-    """
-    Server-side aggregate: sum adopted_budget_amount (Appropriations) and
-    current_modified_budget_amount (Expenditures) by agency x unit x fiscal year.
-    """
+    """Server-side aggregate of the three amounts by agency x unit x release tag."""
     select = (
         "agency_number,agency_name,"
         "unit_appropriation_number,unit_appropriation_name,fiscal_year,"
-        "sum(adopted_budget_amount) as appropriations,"
-        "sum(current_modified_budget_amount) as expenditures"
+        "sum(adopted_budget_amount) as adopted,"
+        "sum(current_modified_budget_amount) as modified,"
+        "sum(financial_plan_amount) as finplan"
     )
     group = (
         "agency_number,agency_name,"
@@ -246,50 +305,85 @@ def pull_aggregated(where: str) -> list[dict]:
     return soda_get_all(select, where, group)
 
 
-def pivot(rows: list[dict]) -> list[dict]:
+def check_release_agreement(rows: list[dict], releases: dict[int, str]) -> dict[int, float]:
     """
-    Collapse to one record per (agency_number, unit_appropriation_number) with an
-    Appropriations and an Expenditures column per fiscal year. Names are taken from the
-    most recent fiscal year present, so agency/unit renames resolve to their latest label.
+    Cross-check the two documented routes to "Adopted Y": financial_plan_amount in the June
+    release tagged Y must equal adopted_budget_amount in the release tagged Y+1. Citywide
+    totals must match to the dollar or the run aborts. Returns {Y: difference}.
+    """
+    fin: dict[int, float] = defaultdict(float)
+    adp: dict[int, float] = defaultdict(float)
+    for r in rows:
+        tag = int(r["fiscal_year"])
+        fin[tag] += float(r.get("finplan") or 0.0)
+        adp[tag] += float(r.get("adopted") or 0.0)
+    diffs: dict[int, float] = {}
+    for y in FISCAL_YEARS:
+        if y in releases and (y + 1) in releases:
+            diffs[y] = fin[y] - adp[y + 1]
+            log("crosscheck.adopted", fy=y, finplan_tag_y=f"{fin[y]:.0f}",
+                adopted_tag_y_plus_1=f"{adp[y + 1]:.0f}", diff=f"{diffs[y]:.0f}")
+    bad = {y: d for y, d in diffs.items() if abs(d) >= 1}
+    if bad:
+        raise SystemExit(
+            f"FATAL: financial_plan_amount (release Y) != adopted_budget_amount (release Y+1) "
+            f"citywide for FY {sorted(bad)}: {bad}. The year mapping no longer holds."
+        )
+    return diffs
+
+
+def pivot(rows: list[dict], releases: dict[int, str]) -> list[dict]:
+    """
+    One record per (agency_number, unit_number), with "Adopted Y" and "Modified Y" columns.
+
+      Adopted Y  <- finplan  from release tagged Y
+      Modified Y <- modified from release tagged Y+1  ("" if that release does not exist)
+
+    Display names come from the newest release in which the unit appears.
     """
     appro: dict[tuple[str, str], dict[int, float]] = defaultdict(
         lambda: {fy: 0.0 for fy in FISCAL_YEARS}
     )
-    expen: dict[tuple[str, str], dict[int, float]] = defaultdict(
+    modif: dict[tuple[str, str], dict[int, float]] = defaultdict(
         lambda: {fy: 0.0 for fy in FISCAL_YEARS}
     )
-    # (agency_no, unit_no) -> (latest_fy_seen, agency_name, unit_name)
     labels: dict[tuple[str, str], tuple[int, str, str]] = {}
 
     for r in rows:
-        agency_no = (r.get("agency_number") or "").strip()
-        unit_no = (r.get("unit_appropriation_number") or "").strip()
-        fy = int(r["fiscal_year"])
-        key = (agency_no, unit_no)
-        appro[key][fy] += float(r.get("appropriations") or 0.0)
-        expen[key][fy] += float(r.get("expenditures") or 0.0)
-
+        key = (norm_code(r.get("agency_number")), norm_code(r.get("unit_appropriation_number")))
+        tag = int(r["fiscal_year"])
+        if tag in FISCAL_YEARS:
+            appro[key][tag] += float(r.get("finplan") or 0.0)
+        if (tag - 1) in FISCAL_YEARS:
+            modif[key][tag - 1] += float(r.get("modified") or 0.0)
         agency_name = (r.get("agency_name") or "").strip()
         unit_name = (r.get("unit_appropriation_name") or "").strip()
-        if key not in labels or fy > labels[key][0]:
-            labels[key] = (fy, agency_name, unit_name)
+        if key not in labels or tag > labels[key][0]:
+            labels[key] = (tag, agency_name, unit_name)
 
+    keys = set(appro) | set(modif)
     records: list[dict] = []
-    for key in sorted(appro, key=lambda k: (k[0], k[1])):
+    for key in sorted(keys):
         agency_no, unit_no = key
         _, agency_name, unit_name = labels[key]
         rec = {
             "Fund": agency_name,
             "Department": unit_name,
-            "Control Officer": agency_name,  # v1 placeholder (see module docstring)
+            "Control Officer": agency_name,  # v1 placeholder
             "Department ID": unit_no,
             "Short Title": "",
             "Link to Website": "",
             "Department Description": "",
+            AGENCY_KEY: agency_no,
         }
         for fy in FISCAL_YEARS:
-            rec[f"{APROP_LABEL} {fy}"] = _fmt_amount(appro[key][fy])
-            rec[f"{EXPEND_LABEL} {fy}"] = _fmt_amount(expen[key][fy])
+            rec[f"{APROP_LABEL} {fy}"] = _fmt_amount(appro[key][fy] if key in appro else 0.0)
+            if (fy + 1) in releases:
+                rec[f"{EXPEND_LABEL} {fy}"] = _fmt_amount(
+                    modif[key][fy] if key in modif else 0.0
+                )
+            else:
+                rec[f"{EXPEND_LABEL} {fy}"] = ""  # not published yet; never invent a value
         records.append(rec)
     return records
 
@@ -299,24 +393,42 @@ def _fmt_amount(v: float) -> str:
     return str(int(round(v))) if abs(v - round(v)) < 0.005 else f"{v:.2f}"
 
 
-def validate_gate(records: list[dict]) -> float:
-    """Recompute FY2026 Adopted total from emitted records; abort if out of range."""
-    col = f"{APROP_LABEL} {GATE_FY}"
-    total = sum(float(rec[col]) for rec in records)
-    log("gate.fy2026_appropriations", value=f"{total:.0f}", billions=f"{total / 1e9:.3f}")
-    if not (GATE_MIN <= total <= GATE_MAX):
-        raise SystemExit(
-            f"FATAL: FY{GATE_FY} Appropriations total ${total / 1e9:.2f}B outside expected "
-            f"[{GATE_MIN / 1e9:.0f}B, {GATE_MAX / 1e9:.0f}B]. Filtering is wrong — "
-            f"not writing CSV."
-        )
-    return total
+def _num(cell: str) -> float:
+    return float(cell) if cell != "" else 0.0
+
+
+def validate_gate(records: list[dict]) -> dict[str, float]:
+    """Recompute OMB's published figures from the emitted records; abort on any mismatch."""
+    problems: list[str] = []
+    seen: dict[str, float] = {}
+    for (label, fy), expected in GATE_CITYWIDE.items():
+        col = f"{label} {fy}"
+        total = sum(_num(rec[col]) for rec in records)
+        seen[col] = total
+        log("gate.citywide", column=col, value=f"{total:.0f}", expected=expected)
+        if round(total) != expected:
+            problems.append(f"citywide {col} = {total:,.0f}, OMB says {expected:,}")
+    for (agency, unit, label, fy), expected in GATE_UNITS.items():
+        col = f"{label} {fy}"
+        match = [r for r in records
+                 if r.get(AGENCY_KEY) == agency and r["Department ID"] == unit]
+        value = sum(_num(r[col]) for r in match)
+        seen[f"{agency}/{unit} {col}"] = value
+        log("gate.unit", agency=agency, unit=unit, column=col, value=f"{value:.0f}",
+            expected=expected)
+        if round(value) != expected:
+            problems.append(f"agency {agency} unit {unit} {col} = {value:,.0f}, "
+                            f"OMB says {expected:,}")
+    if problems:
+        raise SystemExit("FATAL: validation gate failed — not writing CSV.\n  "
+                         + "\n  ".join(problems))
+    return seen
 
 
 def write_csv(records: list[dict], path: Path) -> None:
     columns = STATIC_COLUMNS + year_columns()
     with path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=columns)
+        w = csv.DictWriter(f, fieldnames=columns, extrasaction="ignore")
         w.writeheader()
         w.writerows(records)
     log("csv.written", path=str(path), rows=len(records))
@@ -325,7 +437,8 @@ def write_csv(records: list[dict], path: Path) -> None:
 # --- main --------------------------------------------------------------------
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__)
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument(
         "--out",
         default=str(Path(__file__).resolve().parent),
@@ -342,29 +455,20 @@ def main() -> int:
 
     log("run.start", dataset=DATASET_ID, fiscal_years=f"{FISCAL_YEARS[0]}-{FISCAL_YEARS[-1]}")
 
-    adopted = discover_adopted_snapshots()
-    where = build_where(adopted)
-    raw = pull_aggregated(where)
+    releases = discover_june_releases()
+    raw = pull_aggregated(build_where(releases))
     log("aggregate.pulled", rows=len(raw))
 
-    records = pivot(raw)
+    check_release_agreement(raw, releases)
+    records = pivot(raw, releases)
     log("pivot.done", departments=len(records),
-        agencies=len({rec["Fund"] for rec in records}))
+        agencies=len({rec[AGENCY_KEY] for rec in records}))
 
-    validate_gate(records)  # aborts if FY2026 total is wrong
+    validate_gate(records)  # aborts on any mismatch with OMB's printed budget
 
     if not args.sample_only:
         write_csv(records, out_dir / "nyc_budget.csv")
-
-    sample_names = {a for a in SAMPLE_AGENCY_NUMBERS}
-    # Sample selection is by agency_number, but records no longer carry it; rebuild the
-    # agency_number -> keep decision from the raw rows.
-    keep_funds = {
-        (r.get("agency_name") or "").strip()
-        for r in raw
-        if (r.get("agency_number") or "").strip() in sample_names
-    }
-    sample = [rec for rec in records if rec["Fund"] in keep_funds]
+    sample = [rec for rec in records if rec[AGENCY_KEY] in SAMPLE_AGENCY_NUMBERS]
     write_csv(sample, out_dir / "nyc_budget_sample.csv")
 
     log("run.done")

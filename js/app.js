@@ -33,8 +33,8 @@
             var expChange = BudgetHelpers.calc_change(exp[index], exp[index -1]);
             var appropChange = BudgetHelpers.calc_change(approp[index], approp[index - 1]);
             this.set({
-                'selectedExp': accounting.formatMoney(exp[index]),
-                'selectedApprop': accounting.formatMoney(approp[index]),
+                'selectedExp': BudgetHelpers.formatMoney(exp[index]),
+                'selectedApprop': BudgetHelpers.formatMoney(approp[index]),
                 'expChange': expChange,
                 'appropChange': appropChange,
                 'viewYear': year,
@@ -58,17 +58,24 @@
                 row.yearIndex = index;
             });
             
-            var max_app = _.max(this.models, function(obj){return obj.get('appropriations')});
-            var max_exp = _.max(this.models, function(obj){return obj.get('expenditures')});
-            var maxes = [max_app.get('appropriations'), max_exp.get('expenditures')];
+            // Largest published value this year. Unpublished years (NaN, e.g. the newest
+            // year's Modified) are skipped; _.max over all-NaN would return -Infinity.
+            var maxes = [];
+            $.each(this.models, function(i, row){
+                var a = row.get('appropriations');
+                var e = row.get('expenditures');
+                if (!isNaN(a)) maxes.push(a);
+                if (!isNaN(e)) maxes.push(e);
+            });
             this.maxNum = maxes.sort(function(a,b){return b-a})[0];
             $.each(this.models, function(i, row){
 
                 var apps = row.get('appropriations');
                 var exps = row.get('expenditures');
 
-                var app_perc = parseFloat((apps/self.maxNum) * 100) + '%';
-                var exp_perc = parseFloat((exps/self.maxNum) * 100) + '%';
+                // An unpublished value (NaN) gets no bar at all, so it can't read as a real 0%.
+                var app_perc = isNaN(apps) ? '' : parseFloat((apps/self.maxNum) * 100) + '%';
+                var exp_perc = isNaN(exps) ? '' : parseFloat((exps/self.maxNum) * 100) + '%';
                 row.set({app_perc:app_perc, exp_perc:exp_perc});
             });
         }
@@ -147,8 +154,8 @@
                 title: title,
                 viewYear: year,
                 prevYear: year - 1,
-                selectedExp: accounting.formatMoney(selExp),
-                selectedApprop: accounting.formatMoney(selApprop),
+                selectedExp: BudgetHelpers.formatMoney(selExp),
+                selectedApprop: BudgetHelpers.formatMoney(selApprop),
                 appropChange: appropChange,
                 expChange: expChange,
                 view: self.topLevelView
@@ -165,8 +172,9 @@
                 if (summary){
                     var row = new app.BreakdownRow(summary);
                     bd.push(row);
-                    all_nums.push(summary['expenditures']);
-                    all_nums.push(summary['appropriations']);
+                    // Skip unpublished (NaN) years so they can't poison the max.
+                    if (!isNaN(summary['expenditures'])) all_nums.push(summary['expenditures']);
+                    if (!isNaN(summary['appropriations'])) all_nums.push(summary['appropriations']);
                 }
             });
 
@@ -176,10 +184,12 @@
             this.breakdownChartData.maxNum = maxNum;
             if (debugMode == true) console.log("max bar chart num: " + maxNum);
             this.breakdownChartData.forEach(function(row){
+                // "Not yet published" would unformat to 0; give it no bar instead of a 0% bar.
+                var unpublished = function(v){ return v === 'Not yet published' || (typeof v === 'number' && isNaN(v)); };
                 var exps = accounting.unformat(row.get('expenditures'));
                 var apps = accounting.unformat(row.get('appropriations'));
-                var exp_perc = parseFloat((exps/maxNum) * 100) + '%';
-                var app_perc = parseFloat((apps/maxNum) * 100) + '%';
+                var exp_perc = unpublished(row.get('expenditures')) ? '' : parseFloat((exps/maxNum) * 100) + '%';
+                var app_perc = unpublished(row.get('appropriations')) ? '' : parseFloat((apps/maxNum) * 100) + '%';
                 row.set({app_perc:app_perc, exp_perc:exp_perc});
                 var rowView = new app.BreakdownSummary({model:row});
                 $('#breakdown-table-body').append(rowView.render().el);
@@ -584,7 +594,7 @@
             return this;
         },
         moneyChanger: function(direction, value){
-            return accounting.formatMoney(value);
+            return BudgetHelpers.formatMoney(value);
         },
         details: function(e){
             e.preventDefault();
