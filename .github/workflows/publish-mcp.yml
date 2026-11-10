@@ -101,8 +101,24 @@ jobs:
           '
           pkg="$(node -p 'require("./package.json").name')"
           ver="${TAG#mcp-v}"
-          got="$(npm view "${pkg}@${ver}" mcpName)"
           want="$(node -p 'require("./server.json").name')"
+          # npm can take a minute or more to serve a just-published version
+          # (this step once ran ~20 s after npm publish and failed). Poll
+          # every 10 s for up to ~5 minutes before giving up. npm view exits
+          # non-zero (E404) while the version is not visible yet, hence
+          # `|| true`; it already skips the local cache (preferOnline).
+          got=""
+          tries=30
+          for i in $(seq 1 "$tries"); do
+            got="$(npm view "${pkg}@${ver}" mcpName || true)"
+            if [ "$got" = "$want" ]; then
+              break
+            fi
+            if [ "$i" -lt "$tries" ]; then
+              echo "npm ${pkg}@${ver} mcpName is '${got}', waiting for '${want}' (try ${i}/${tries}); retrying in 10 s"
+              sleep 10
+            fi
+          done
           if [ "$got" != "$want" ]; then
             echo "npm ${pkg}@${ver} has mcpName '${got}', expected '${want}'. Is the package published?" >&2
             exit 1
