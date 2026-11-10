@@ -1,6 +1,18 @@
-# `viz/` — the GitHub Pages site (Schedule C explorer frozen in 2.0; budget explorer added)
+# `viz/` — the GitHub Pages site
 
-**Since 2.0.0 the site root is a retirement notice.** The interactive Schedule C explorer that
+One site, two halves (epic #272), at https://betanyc.github.io/New-York-City-Budget/:
+
+| Path | What |
+|---|---|
+| `./` | Front page: two doors and "which tool answers my question?" |
+| `agencies/` | **City agency budgets** (NYC Open Data `mwzb-yiwb`), from `viz/agencies/` |
+| `explorer/` | **Council discretionary funding**, built from `viz/explorer/` |
+| `legacy.html` | The first Council explorer, frozen 2026-10-16, do not cite |
+
+Every page carries the same top bar and footer, written by `site_shell.py` (#267).
+
+
+**History: from 2.0.0 to #267 the site root was a retirement notice.** The interactive Schedule C explorer that
 used to be the root is built on figures extracted from the Council's adopted-budget PDFs, and
 BetaNYC no longer stands behind that extraction. It stays online, unchanged apart from a
 "frozen, do not cite" banner, at `legacy.html`, so existing links still resolve; `index.html` explains the
@@ -37,9 +49,10 @@ page are published exactly as before.
 
 | Path | What |
 |---|---|
-| `index.html` | The retirement notice. Self-contained: no stylesheet or script file, one inline script that only fills the deep link. Links to the explorer. |
+| `index.html` | The front page: two doors (City agency budgets, Council discretionary funding), "which tool answers my question?", how the PDF tables are checked, and the notice about the frozen first explorer. Self-contained: no stylesheet or script file, one inline script that only fills the deep link. |
 | `legacy.html` | The retired look-at-cook explorer (was `index.html`), frozen 2026-10-16, with a "frozen, do not cite" banner, `noindex`, and a breadcrumb that points at itself. |
-| `test_pages_site.py` | Tests for both pages (stdlib only; `python3 viz/test_pages_site.py` or pytest). |
+| `site_shell.py` | Writes the shared top bar (skip link, nav to every page) and footer (fiscal year, source, data date, last revised) into every page (#267). `python3 viz/site_shell.py --check` fails if a page's blocks are missing or stale; the Pages test runs it. |
+| `test_pages_site.py` | Tests for the pages (stdlib only; `python3 viz/test_pages_site.py` or pytest). |
 | `schedulec_cleanup.py` | Builds `data/schedule_c.csv`, the retired explorer's data, from the PDF-derived `data/{year}/schedule_c/*.csv`. Kept so the legacy page's data stays reproducible; not rerun, since the page is frozen. |
 | `test_schedulec_cleanup.py` | Its regression tests: still meaningful for the legacy page (the reconciliation gate, axis totals, the column contract the JS reads). |
 | `data/schedule_c.csv` | The retired explorer's data (PDF-derived). |
@@ -94,7 +107,7 @@ If you build something with this project, we'd love to hear about it. We can hel
 
 See the full suite of BetaNYC's civic-data tools at **[beta.nyc/ai-tools](https://beta.nyc/ai-tools)**.
 
-The retired Schedule C explorer shares its toolkit (DataMade's [Look at Cook](https://github.com/datamade/look-at-cook)) with BetaNYC's citywide budget explorer, **[nyc-budget-viz](https://github.com/BetaNYC/nyc-budget-viz)** — a multi-year visualization of NYC's full **expense budget** (~$114B, every agency, adopted vs. modified), FY2017–FY2027, from NYC Open Data. That one covers the citywide total.
+The retired Schedule C explorer shares its toolkit (DataMade's [Look at Cook](https://github.com/datamade/look-at-cook)) with the **City agency budgets** explorer in [`agencies/`](agencies/README.md) (from [nyc-budget-viz](https://github.com/BetaNYC/nyc-budget-viz), #265): NYC's full **expense budget**, every agency, adopted vs. modified, FY2017–FY2027, from NYC Open Data `mwzb-yiwb`. FY2026 adopted: $115.9 billion net (OMB's figure), or $117,791,473,676 as counted in Open Data, which includes $1,884,163,949 of intra-city money. That one covers the citywide total.
 
 ## Attribution
 

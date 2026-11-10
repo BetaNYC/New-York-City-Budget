@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Front page. Self-contained: no script or stylesheet beyond this file.
-         Tested by viz/test_pages_site.py. -->
-    <meta name="description" content="Checked NYC Council budget data from BetaNYC: the Council's spreadsheets and NYC Open Data, plus Schedule C, transparency resolutions, the capital book and Terms and Conditions read from the budget PDFs, FY2018–FY2027, every row checked twice and tied to the printed totals.">
+         Tested by viz/test_pages_site.py. The top bar and footer are written by viz/site_shell.py. -->
+    <meta name="description" content="Two halves of New York City's budget, from BetaNYC: every City agency's adopted and modified budget, FY2017–FY2027, from NYC Open Data; and the Council's discretionary funding, who got what, from the Council's spreadsheets and budget PDFs.">
     <meta name="author" content="BetaNYC">
-    <meta content="NYC Council budget data, checked — BetaNYC" property="og:title">
+    <meta content="NYC budget data, checked — BetaNYC" property="og:title">
     <meta content="article" property="og:type">
-    <meta content="Every row of the Council's FY2018–FY2027 budget PDFs read twice and tied to every printed total. Where they disagree, a person reviews it. No number is changed." property="og:description">
-    <title>NYC Council budget data, checked — BetaNYC</title>
+    <meta content="City agency budgets from NYC Open Data, and Council discretionary funding from the Council's own spreadsheets and budget PDFs, every PDF row read twice and tied to the printed totals. No number is changed." property="og:description">
+    <title>NYC budget data, checked — BetaNYC</title>
     <link rel="shortcut icon" href="images/favicon.ico">
     <style>
       body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1d2b3a; background: #f4f6f8; line-height: 1.55; }
@@ -25,15 +25,91 @@
       code { background: #eef1f4; padding: 0.05rem 0.3rem; border-radius: 3px; font-size: 0.92em; }
       footer { margin-top: 2.5rem; font-size: 0.9rem; color: #4a5a6a; }
       #deep-link { display: none; }
+      .doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+      .door { border: 2px solid #0b3059; border-radius: 6px; padding: 1rem 1.1rem; }
+      .door h2 { margin-top: 0; }
+      .door p { margin: 0.4rem 0; }
+      .door .go { display: inline-block; margin-top: 0.6rem; background: #0b3059; color: #ffffff; padding: 0.5rem 0.9rem; border-radius: 4px; font-weight: 700; text-decoration: none; }
+      .door .go:hover, .door .go:focus-visible { text-decoration: underline; }
+      .door .go:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
+      table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+      th, td { text-align: left; vertical-align: top; border-bottom: 1px solid #d8dee4; padding: 0.4rem 0.5rem 0.4rem 0; }
+      .correction { background: #eef1f4; border-left: 4px solid #0b3059; padding: 0.6rem 0.9rem; }
     </style>
   </head>
   <body>
-    <main>
-      <h1>NYC Council budget data, checked</h1>
+<!-- site-shell:top:start (written by viz/site_shell.py; do not edit) -->
+<style>
+  .bnyc-shell, .bnyc-shell-foot { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.45; box-sizing: border-box; }
+  .bnyc-skip { position: absolute; left: -10000px; top: 0; z-index: 1000; background: #ffd166; color: #0b3059; padding: 0.5rem 0.9rem; font-weight: 700; }
+  .bnyc-skip:focus { left: 0.5rem; top: 0.5rem; }
+  .bnyc-shell { background: #0b3059; color: #ffffff; font-size: 15px; }
+  .bnyc-shell-in, .bnyc-shell-foot-in { max-width: 78rem; margin: 0 auto; padding: 0.45rem 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.25rem; }
+  .bnyc-shell-name { font-weight: 700; color: #ffffff; text-decoration: none; margin-right: 0.5rem; }
+  .bnyc-shell ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; }
+  .bnyc-shell a { color: #ffffff; }
+  .bnyc-shell a:focus-visible, .bnyc-shell-foot a:focus-visible, .bnyc-skip:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
+  .bnyc-shell a[aria-current="page"] { font-weight: 700; text-decoration-thickness: 3px; }
+  .bnyc-shell-foot { background: #eef1f4; color: #1d2b3a; border-top: 1px solid #d8dee4; font-size: 14px; margin-top: 2rem; }
+  .bnyc-shell-foot-in { display: block; padding: 1rem 1.25rem; }
+  .bnyc-shell-foot p { margin: 0.3rem 0; }
+  .bnyc-shell-foot a { color: #0b3059; }
+</style>
+<a class="bnyc-skip" href="#main">Skip to content</a>
+<nav class="bnyc-shell" aria-label="NYC budget data">
+  <div class="bnyc-shell-in">
+    <a class="bnyc-shell-name" href="./">BetaNYC · NYC budget data</a>
+    <ul>
+      <li><a href="./" aria-current="page">Home</a></li>
+      <li><a href="./agencies/">City agency budgets</a></li>
+      <li><a href="./explorer/">Council discretionary funding</a></li>
+      <li><a href="#which-tool">Which tool answers my question?</a></li>
+    </ul>
+  </div>
+</nav>
+<!-- site-shell:top:end -->
 
-      <p>BetaNYC publishes how the New York City Council gives out money: which organizations it funds, for how much, through which agency, and at whose request. Every row says where it came from.</p>
+    <main id="main">
+      <h1>NYC budget data, checked</h1>
 
-      <h2>How the PDF tables are checked</h2>
+      <p>BetaNYC publishes New York City's budget as data you can search and check. There are two halves, and they answer different questions. Every number comes from the City's own data, and we never change one by hand.</p>
+
+      <div class="doors">
+        <section class="door" aria-labelledby="door-agencies">
+          <h2 id="door-agencies">City agency budgets</h2>
+          <p>How much each City agency was given in the adopted budget, and how it changed during the year, FY2017–FY2027. Every agency and community board, by unit of appropriation.</p>
+          <p><strong>Answers:</strong> How much does my community board get? How did an agency's budget change?</p>
+          <p><strong>Source:</strong> NYC Open Data, Expense Budget (<code>mwzb-yiwb</code>), published for the Mayor's Office of Management and Budget (OMB). FY2026 adopted: $115.9 billion net; $117,791,473,676 as counted in Open Data, which includes $1,884,163,949 of intra-city money.</p>
+          <p><strong>Checked:</strong> the data build stops unless it matches OMB's printed FY2026 Adopted Budget to the dollar.</p>
+          <a class="go" href="agencies/">Look up agency budgets</a>
+        </section>
+        <section class="door" aria-labelledby="door-council">
+          <h2 id="door-council">Council discretionary funding</h2>
+          <p>Which organizations the City Council funds, for how much, through which agency, and at whose request. Expense awards FY2009 and FY2011–FY2027, capital designations, and the tables from the Council's budget PDFs.</p>
+          <p><strong>Answers:</strong> Which groups did my Council member fund? Did this nonprofit get Council money?</p>
+          <p><strong>Source:</strong> the Council's spreadsheets and budget PDFs, and NYC Open Data.</p>
+          <p><strong>Checked:</strong> every row of the FY2018–FY2027 budget PDFs read twice and tied to the printed totals; review in progress.</p>
+          <a class="go" href="explorer/">Search Council funding</a>
+        </section>
+      </div>
+
+      <p class="correction" id="correction"><strong>Correction, 2026-11-09.</strong> Before this date the agency budget explorer showed every year one year late: "Adopted 2026" was really FY2025. It is fixed. If you copied agency figures before 2026-11-09, please download them again. The Council half was not affected.</p>
+
+      <h2 id="which-tool">Which tool answers my question?</h2>
+      <table>
+        <thead><tr><th scope="col">Your question</th><th scope="col">Where to look</th></tr></thead>
+        <tbody>
+          <tr><td>How much does my community board get?</td><td><a href="agencies/">City agency budgets</a>. Each of the 59 boards is its own agency (Manhattan 341–352, Bronx 381–392, Brooklyn 471–488, Queens 431–444, Staten Island 491–493).</td></tr>
+          <tr><td>How did an agency's budget change, year to year or during the year?</td><td><a href="agencies/">City agency budgets</a>: Adopted and Modified, by year.</td></tr>
+          <tr><td>Which groups did my Council member fund? Did this nonprofit get Council money?</td><td><a href="explorer/">Council discretionary funding</a>: the expense awards (search by name or EIN).</td></tr>
+          <tr><td>What did the Council change after the budget was adopted? Which capital projects did it fund?</td><td><a href="explorer/">Council discretionary funding</a>: transparency resolutions; capital and the capital book.</td></tr>
+          <tr><td>Was the money actually spent? Did an award become a contract?</td><td><a href="https://www.checkbooknyc.com">Checkbook NYC</a> (the Comptroller). This site has budgets, not spending.</td></tr>
+          <tr><td>Revenue, debt, or spending over decades?</td><td>The <a href="https://www.ibo.nyc.gov/content/data-center">Independent Budget Office's Data Center</a>.</td></tr>
+        </tbody>
+      </table>
+      <p>More questions, and the words explained (fiscal year, adopted and modified, unit of appropriation, intra-city): <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/WHICH-TOOL.md">Which tool answers my question? and glossary</a>.</p>
+
+      <h2>How the Council's PDF tables are checked</h2>
       <p>We read every row of the Council's FY2018–FY2027 budget PDFs twice, once from the PDF's text and once from a picture of the page, and tied the rows to every total the PDFs print. Where the two readings or the totals disagree, a person reviews it. We never change a number: values are shown exactly as printed.</p>
       <ul>
         <li><strong>141,456 rows</strong> in 36 tables: Schedule C, the transparency resolutions, the capital book and Terms and Conditions.</li>
@@ -51,7 +127,8 @@
 
       <h2>Use it</h2>
       <ul>
-        <li><strong>Search it in your browser:</strong> the <a href="explorer/">NYC Council budget explorer</a>, built from the same data as the MCP server below. Every row links to the file or PDF page it came from.</li>
+        <li><strong>Look up agency budgets:</strong> the <a href="agencies/">City agency budget explorer</a>, every agency and unit of appropriation, adopted and modified, FY2017–FY2027, with the data as one CSV.</li>
+        <li><strong>Search Council funding in your browser:</strong> the <a href="explorer/">NYC Council budget explorer</a>, built from the same data as the MCP server below. Every row links to the file or PDF page it came from.</li>
         <li><strong>Ask an AI assistant:</strong> the <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a> server. Its <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/README.md">README</a> covers setup and what each tool answers.</li>
         <li><strong>Download the data:</strong> the <a href="https://github.com/BetaNYC/New-York-City-Budget">New-York-City-Budget repository</a> and its <a href="https://github.com/BetaNYC/New-York-City-Budget/releases">data releases</a>.</li>
         <li><strong>What changed and why:</strong> the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/CHANGELOG.md">changelog</a>.</li>
@@ -76,6 +153,15 @@
           document.getElementById("deep-link").style.display = "block";
         }
       })();
-    </script>
+    </script><!-- site-shell:bottom:start (written by viz/site_shell.py; do not edit) -->
+<div class="bnyc-shell-foot" role="region" aria-label="About this data">
+  <div class="bnyc-shell-foot-in">
+    <p><strong>Fiscal year.</strong> New York City&#x27;s fiscal year runs July 1 to June 30 and is named for the year it ends: FY2026 is July 1, 2025 to June 30, 2026.</p>
+    <p><strong>Source.</strong> City agency budgets: NYC Open Data, Expense Budget (<a href="https://data.cityofnewyork.us/d/mwzb-yiwb">mwzb-yiwb</a>), the June release of each year, through the release of 2026-06-30 (FY2027 adopted). FY2027 modified is not yet published.<br>Council discretionary funding: the Council's expense funding disclosure and capital lists, NYC Open Data, and the tables read from the Council's budget PDFs (data release pdf-tables-2026-10-24-260d16e).</p>
+    <p><strong>Last revised:</strong> 2026-11-09. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+  </div>
+</div>
+<!-- site-shell:bottom:end -->
+
   </body>
 </html>

@@ -102,7 +102,7 @@ export default function App() {
           </nav>
         </div>
       </header>
-      <main className="wrap">
+      <main className="wrap" id="main">
         {db.manifest?.review_screen ? (
           <Notice tone="warn">
             <strong>Local review build.</strong> This build has the Review tab, where a person decides the flagged rows; the public site does not. Rows marked{" "}

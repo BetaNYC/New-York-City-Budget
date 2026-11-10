@@ -24,6 +24,9 @@ What these guard (each would have failed before the change that introduced it):
   8. The Look at Cook leftovers stay gone (#266): no "Who controls it?" view, NYC labels instead
      of "Fund"/"Department", no empty description panel, the DataMade credit line, no empty
      hidden image, no Cook County images, and sharing tags on both pages.
+  9. One site shell (#267): every page carries the same top bar and footer (site_shell.py
+     --check), reaches every other page in one click, and states the fiscal year, its source
+     and when it was last revised.
 """
 from __future__ import annotations
 
@@ -102,7 +105,10 @@ def test_index_states_the_gaps_and_links_to_the_retired_copy():
 
 def test_index_links_to_the_explorer():
     html = _read("index.html")
-    assert html.count('href="explorer/"') == 1, "one link from the notice to the explorer"
+    # The front page has two doors (#267): the Council explorer and the agency explorer, each
+    # linked from its door and from "Use it" (and the site bar, written as ./explorer/).
+    assert html.count('href="explorer/"') >= 1, "the front page links to the Council explorer"
+    assert html.count('href="agencies/"') >= 1, "the front page links to the agency explorer"
     # The explorer's source lives in viz/explorer/; the deploy builds it into explorer/ beside
     # this page (.github/workflows/deploy-viz.yml, viz/explorer/scripts/assemble-site.mjs).
     assert os.path.exists(os.path.join(HERE, "explorer", "index.html"))
@@ -236,7 +242,7 @@ def test_agencies_no_empty_description_panel_or_columns():
 def test_agencies_credit_hidden_image_cook_images_and_sharing():
     for page in AGENCY_PAGES:
         html = _read(page)
-        assert "Built by <a" not in html, f"{page}: old 'Built by DataMade' line"
+        assert not re.search(r"Built by <a[^>]*datamade", html, re.I), f"{page}: old 'Built by DataMade' line"
         assert "Original code by <a href=\"https://datamade.us\">DataMade</a>" in html
         assert 'look-at-cook">Look at Cook</a>, MIT License' in html
         assert not re.search(r"<img[^>]*src=(\"\"|'')", html), f"{page}: empty img src"
@@ -256,6 +262,56 @@ def test_agencies_faq_loads_no_app_and_links_the_csv():
     assert r.scripts == [] or all("html5shiv" in u or "respond" in u for u in r.scripts), r.scripts
     assert 'id="download-button" class="btn btn-primary" href="data/nyc_budget.csv"' in _read(
         os.path.join("agencies", "faq.html"))
+
+
+def _shell():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("site_shell", os.path.join(HERE, "site_shell.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_every_page_has_the_current_site_shell():
+    shell = _shell()
+    for page in shell.PAGES:
+        probs = shell.problems(page, _read(page["path"]))
+        assert not probs, (page["path"], probs)
+
+
+def test_every_page_reaches_every_other_in_one_click():
+    shell = _shell()
+    site_pages = {"": "index.html", "agencies/": "agencies/index.html", "explorer/": "explorer/index.html"}
+    for page in shell.PAGES:
+        here = os.path.dirname(page["path"])
+        top = _read(page["path"]).split(shell.TOP_START.split(" (")[0], 1)[1].split(shell.TOP_END, 1)[0]
+        reached = set()
+        for href in re.findall(r'href="([^"]+)"', top):
+            if href.startswith("#"):
+                continue
+            target = os.path.normpath(os.path.join(here, href.split("#")[0])).replace(os.sep, "/")
+            target = "" if target == "." else target.rstrip("/") + "/"
+            reached.add(target)
+        for want in site_pages:
+            assert want in reached, f"{page['path']}: no one-click link to {want or 'the front page'}"
+        # Every relative link goes somewhere that exists in viz/.
+        for want in reached:
+            assert os.path.exists(os.path.join(HERE, site_pages.get(want, want))), want
+
+
+def test_every_page_states_fiscal_year_source_and_date():
+    shell = _shell()
+    for page in shell.PAGES:
+        text = re.sub(r"<[^>]+>", " ", _read(page["path"]))
+        text = re.sub(r"\s+", " ", text)
+        assert "fiscal year runs July 1 to June 30 and is named for the year it ends" in text, page["path"]
+        assert "Source." in text and re.search(r"Last revised: \d{4}-\d{2}-\d{2}", text), page["path"]
+    assert "mwzb-yiwb" in _read("agencies/index.html").split(shell.BOT_START.split(" (")[0])[1]
+
+
+def test_no_stale_citywide_total_in_copy():
+    for name in ("legacy.html", "README.md", "index.html", os.path.join("agencies", "index.html")):
+        assert "$114B" not in _read(name), name
 
 
 def _run_standalone():
