@@ -47,6 +47,7 @@ page are published exactly as before.
 | `PLAN.md` | The original design notes for the explorer (historical). |
 | `explorer/` | The budget explorer's source (Vite + React + DuckDB-WASM): data build, app, unit and parity tests. Built into `explorer/` on the published site. See [`explorer/README.md`](explorer/README.md). |
 | `explorer/PLAN.md` | The explorer's plan. |
+| `agencies/` | The City agency budgets explorer, from [BetaNYC/nyc-budget-viz](https://github.com/BetaNYC/nyc-budget-viz) by `git subtree add` (#265). Static; published as is at `agencies/`. Its data pipeline and tests are in `code/agency_budget_cleanup.py`. See [`agencies/README.md`](agencies/README.md). |
 | `LICENSE.md` | DataMade's MIT license for look-at-cook (retained verbatim). |
 
 ## Run it locally
