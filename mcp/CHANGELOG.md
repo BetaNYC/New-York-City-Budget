@@ -8,7 +8,7 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 
 ### Fixed
 - **T&C unit amounts were one fiscal year late** (#274). The Open Data crosswalk gives each
-  unit of appropriation a Terms and Conditions condition names its adopted amount from NYC Open
+  unit of appropriation named in a Terms and Conditions condition its adopted amount from NYC Open
   Data `mwzb-yiwb` (`portal_value` in `open_data_crosswalk`, family `terms_unit`). For fiscal
   year Y it summed `adopted_budget_amount` in the June release tagged Y, but in that release
   that column is FY Y−1's adopted budget. It now sums `financial_plan_amount`, which is FY Y's.
