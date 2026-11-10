@@ -21,6 +21,9 @@ What these guard (each would have failed before the change that introduced it):
   7. The City agency budgets explorer (agencies/, from nyc-budget-viz, #265) is in place: every
      local file its pages load exists, its data file exists, and no link or asset path starts
      with "/" (the site lives under /New-York-City-Budget/, so "/" leaves it).
+  8. The Look at Cook leftovers stay gone (#266): no "Who controls it?" view, NYC labels instead
+     of "Fund"/"Department", no empty description panel, the DataMade credit line, no empty
+     hidden image, no Cook County images, and sharing tags on both pages.
 """
 from __future__ import annotations
 
@@ -192,6 +195,67 @@ def test_agencies_explorer_uses_relative_links_only():
     for js in ("app.js", "budget_helpers.js"):
         text = _read(os.path.join("agencies", "js", js))
         assert not re.search(r"""href=['"]/[^/]""", text), f"agencies/js/{js} writes a root-absolute link"
+
+
+def _agency_text(*names):
+    return "\n".join(_read(os.path.join("agencies", *n.split("/"))) for n in names)
+
+
+def test_agencies_who_controls_it_view_is_gone():
+    views = _agency_text("js/views/mainChart.html")
+    assert "Who controls it" not in views and "breakdown-choice" not in views
+    app = _read(os.path.join("agencies", "js", "app.js"))
+    assert "'Control Officer Slug'" not in app and '"Control Officer": [' not in app
+    # Old links keep working: the route stays, and sends them to the same agency view.
+    assert re.search(r"controlDetailRoute: function\(topName, secondName\)\{\s*var fragment = 'fund-detail/'", app)
+    assert "fund-detail/:topName" in app, "the agency route (and every existing link) stays"
+    faq = _read(os.path.join("agencies", "faq.html"))
+    assert "richer second dimension" not in faq and "control officer" not in faq.lower()
+
+
+def test_agencies_labels_are_nyc_words():
+    app = _read(os.path.join("agencies", "js", "app.js"))
+    assert "'Fund': 'Agency'" in app and "'Department': 'Unit of appropriation'" in app
+    assert '<span id="secondary-title">Agency</span>' in _read(os.path.join("agencies", "index.html"))
+    assert "budgetLabel(" in _agency_text("js/views/breakdownDetail.html")
+    search = _agency_text("js/views/search.html")
+    assert "Department search" not in search and "Search agencies and units" in search
+    faq = _read(os.path.join("agencies", "faq.html"))
+    assert 'What are "agency" and "unit of appropriation"?' in faq
+    assert 'What are "Fund" and "Department" in this tool?' not in faq
+
+
+def test_agencies_no_empty_description_panel_or_columns():
+    detail = _agency_text("js/views/breakdownDetail.html")
+    assert "description" not in detail and "Read more on their website" not in detail
+    header = _read(os.path.join("agencies", "data", "nyc_budget.csv")).split("\n", 1)[0]
+    for col in ("Control Officer", "Short Title", "Link to Website", "Department Description"):
+        assert col not in header, col
+
+
+def test_agencies_credit_hidden_image_cook_images_and_sharing():
+    for page in AGENCY_PAGES:
+        html = _read(page)
+        assert "Built by <a" not in html, f"{page}: old 'Built by DataMade' line"
+        assert "Original code by <a href=\"https://datamade.us\">DataMade</a>" in html
+        assert 'look-at-cook">Look at Cook</a>, MIT License' in html
+        assert not re.search(r"<img[^>]*src=(\"\"|'')", html), f"{page}: empty img src"
+        assert 'id="readme"' not in html, f"{page}: hidden readme leftover"
+        for tag in ('property="og:image"', 'property="og:url"', 'rel="canonical"'):
+            assert tag in html, f"{page} lacks {tag}"
+        url = re.search(r'<link rel="canonical" href="([^"]+)"', html).group(1)
+        assert url.startswith("https://betanyc.github.io/New-York-City-Budget/agencies/"), url
+    assert os.path.exists(os.path.join(HERE, "agencies", "images", "og-image.png"))
+    for gone in ("logo.png", "logo-print.png", "look-at-cook-screenshot.jpg", "signature.png"):
+        assert not os.path.exists(os.path.join(HERE, "agencies", "images", gone)), gone
+
+
+def test_agencies_faq_loads_no_app_and_links_the_csv():
+    # The FAQ has no chart. Loading app.js there logged "rootEl must be specified" (#266).
+    r = _refs(os.path.join("agencies", "faq.html"))
+    assert r.scripts == [] or all("html5shiv" in u or "respond" in u for u in r.scripts), r.scripts
+    assert 'id="download-button" class="btn btn-primary" href="data/nyc_budget.csv"' in _read(
+        os.path.join("agencies", "faq.html"))
 
 
 def _run_standalone():

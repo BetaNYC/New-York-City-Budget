@@ -88,15 +88,19 @@ Header names are **case-sensitive** and must not change without a matching chang
 
 ### Static columns
 
-| Column | Meaning | v1 source |
+| Column | Meaning | Source |
 |---|---|---|
-| `Fund` | Top-level grouping | `agency_name` |
-| `Department` | Sub-grouping under Fund | `unit_appropriation_name` |
-| `Control Officer` | Second top-level axis | `agency_name` (**v1 placeholder** — duplicates `Fund` so the front-end's second view renders; a real second axis, e.g. object class, replaces this later) |
-| `Department ID` | Stable id for the unit | `unit_appropriation_number`, zero-padded to 3 digits (keep as text) |
-| `Short Title` | — | empty in v1 |
-| `Link to Website` | — | empty in v1 |
-| `Department Description` | — | empty in v1 |
+| `Fund` | The **agency** (the site shows it as "Agency") | `agency_name` |
+| `Department` | The agency's **unit of appropriation** (shown as "Unit of appropriation") | `unit_appropriation_name` |
+| `Department ID` | The unit of appropriation's number | `unit_appropriation_number`, zero-padded to 3 digits (keep as text) |
+
+The names `Fund` and `Department` are Look at Cook's (it was built for Cook County). They are kept
+because `js/app.js` reads them and existing downloads use them.
+
+**Removed in #266 (2026-11-09):** `Control Officer`, which equaled `Fund` on all 764 rows (it
+fed Look at Cook's "Who controls it?" view, also removed), and `Short Title`, `Link to Website`
+and `Department Description`, which were empty on all 764 rows. No descriptions or websites were
+added: none came from an official City source, and none is invented.
 
 ### Per-fiscal-year columns
 
@@ -148,5 +152,5 @@ overwrites the output deterministically. Read-only against the API; writes only 
   year mapping, never the raw multi-publication rows.
 - Keep `agency_number` / `unit_appropriation_number` as **strings**; they are zero-padded and
   casting to int drops leading zeros (`040` → `40`).
-- The `Control Officer` placeholder is the one field that is not yet a real second dimension;
-  design any second-axis query around a real field (e.g. object class) rather than this column.
+- There is one dimension, agency then unit of appropriation. A second one (e.g. object class)
+  would need a real field from the source, not a copy of the agency.

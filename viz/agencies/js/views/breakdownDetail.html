@@ -2,12 +2,6 @@
     <div class='row'>
         <div class='col-md-5'>
             <h2 class="rowName"><%= model.get('rowName') %></h2>
-            <p class='expanded-description'>
-                <%= model.get('description') %>
-            </p>
-            <% if (model.get('link')){ %>
-            <p><a href="<%= model.get('link') %>" target="_blank">Read more on their website&raquo;</a></p>
-            <%}%>
             <ul class='stats'>
                 <li>
                   <% if (model.get('child')){ %>
@@ -19,7 +13,7 @@
                       <% } %>
                       data-child="<%= model.get('child') %>"
                   >
-                      Breakdown by <%= model.get('child') %> &raquo;
+                      Breakdown by <%= budgetLabel(model.get('child')).toLowerCase() %> &raquo;
                     </a>
                     <% } %>
                 </li>

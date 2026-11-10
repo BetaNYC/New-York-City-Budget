@@ -8,6 +8,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- Open Graph metadata -->
+    <!-- Sharing (#266). og:url, og:image and the canonical link must be absolute URLs. -->
+    <link rel="canonical" href="https://betanyc.github.io/New-York-City-Budget/agencies/">
+    <meta content="https://betanyc.github.io/New-York-City-Budget/agencies/" property="og:url">
+    <meta content="https://betanyc.github.io/New-York-City-Budget/agencies/images/og-image.png" property="og:image">
+    <meta content="1200" property="og:image:width">
+    <meta content="630" property="og:image:height">
+    <meta content="Chart of New York City's adopted and modified expense budget, Fiscal Years 2017 to 2027" property="og:image:alt">
+    <meta name="twitter:card" content="summary_large_image">
     <meta content="NYC Budget Explorer" property="og:site_name">
     <meta content="NYC Budget Explorer" property="og:title">
     <meta content="website" property="og:type">
@@ -28,7 +36,6 @@
   <body>
     <a href="#content" class="sr-only">Skip to content</a>
 
-    <div id="readme" style="display: none;"><img src="" alt="Click points to see annual budgets below"></div>
     <div class="container">
       <div id='header'>
         <div class='row'>
@@ -47,7 +54,7 @@
         <table id="breakdown" class='table table-condensed table-bordered'>
             <thead>
               <tr>
-                <th id='breakdown-item-title'><span id="secondary-title">Fund</span></th>
+                <th id='breakdown-item-title'><span id="secondary-title">Agency</span></th>
                 <th class="num"><span>Adopted</span></th>
                 <th class="num"><span>Modified</span></th>
                 <th class="charts sorting_disabled"><span>Adopted vs. Modified</span></th>
@@ -82,7 +89,7 @@
           All the data for this project is freely available to download or explore.
           <br />
           <br />
-          A <a href="https://beta.nyc">BetaNYC</a> project, adapted from DataMade's <a href="https://github.com/datamade/look-at-cook">Look at Cook</a> (MIT-licensed). Built by <a href="http://datamade.us">DataMade</a>.
+          A <a href="https://beta.nyc">BetaNYC</a> project. Original code by <a href="https://datamade.us">DataMade</a> (<a href="https://github.com/datamade/look-at-cook">Look at Cook</a>, MIT License).
         </p>
       </div>
     </div>
