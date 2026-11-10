@@ -46,8 +46,10 @@ Families and rules (PLAN §5; the first rule that gives exactly one portal row w
   terms_unit    (fiscal year, agency, unit of appropriation) named by T&C: data/fyNN/pdf/terms/
                 where present, else the retired data/fyNN/terms/ or data/retired/fyNN/terms/ (a multi-agency condition there
                 does not say which unit is whose, so its units match under any listed agency).
-    mwzb-yiwb   the adopted-release extract. A pair outside the extract's filter, an `All` unit,
-                or a year before FY2017 is `not_covered`, never `absent`.
+    mwzb-yiwb   the adopted-release extract. portal_value is the sum of financial_plan_amount in
+                the June release tagged FY Y, which is FY Y's adopted budget; that release's
+                adopted_budget_amount is FY Y-1's (#274). A pair outside the extract's filter, an
+                `All` unit, or a year before FY2017 is `not_covered`, never `absent`.
 
 Statuses: same, differs, ambiguous, absent, context, not_covered. Crosswalk files carry no
 `not_covered` rows (coverage.csv counts them), which keeps them small; a record with no row and a
@@ -552,7 +554,9 @@ def terms_units(snap):
         # Releases before 2023 drop leading zeros ('40', '1'); compare padded.
         a = agg[(int(o["fiscal_year"]), o["agency_number"].zfill(3), o["unit_appropriation_number"].zfill(3))]
         a[0] += 1
-        a[1] += Decimal(o["adopted_budget_amount"] or 0)
+        # FY Y adopted is financial_plan_amount in the June release tagged Y. That release's
+        # adopted_budget_amount is FY Y-1's adopted budget (#274; the year rule, DATA-ANOMALIES §57).
+        a[1] += Decimal(o["financial_plan_amount"] or 0)
         a[2] = o["unit_appropriation_name"]
     out, nc = [], Counter()
     seen_keys = Counter()
@@ -576,7 +580,7 @@ def terms_units(snap):
                            f"adopted release {rel[fy]}: no row for the unit"))
             continue
         a, (n, amt, name) = hits[0]
-        rule = f"adopted release {rel[fy]}: agency {a}, unit {unit}" + \
+        rule = f"adopted release {rel[fy]}: agency {a}, unit {unit}, financial_plan_amount" + \
             ("" if ag else " (retired CSV: unit matched under a listed agency)")
         out.append(row("terms_unit", key, fy, ds, snap, "context", rule,
                        portal_value=str(amt), portal_status=f"{n} rows; {name}", portal_as_of=rel[fy]))

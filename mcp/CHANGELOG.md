@@ -4,7 +4,20 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 2.0.5 — Unreleased
+## 2.0.6 — Unreleased
+
+### Fixed
+- **T&C unit amounts were one fiscal year late** (#274). The Open Data crosswalk gives each
+  unit of appropriation a Terms and Conditions condition names its adopted amount from NYC Open
+  Data `mwzb-yiwb` (`portal_value` in `open_data_crosswalk`, family `terms_unit`). For fiscal
+  year Y it summed `adopted_budget_amount` in the June release tagged Y, but in that release
+  that column is FY Y−1's adopted budget. It now sums `financial_plan_amount`, which is FY Y's.
+  1,344 of 1,376 amounts changed; no match status changed. Example: DOE unit 401, FY2017, was
+  $5,844,620,680 (the FY2016 figure) and is now $6,164,926,031. Every changed amount that can be
+  cross-checked (1,048) equals `adopted_budget_amount` in the next year's release. If you quoted
+  a T&C unit amount from this server, check it again.
+
+## 2.0.5 — 2026-11-09
 
 No change to the tools or the data. This release exists so npm carries `mcpName`, which the
 official MCP Registry requires before it will list the server.

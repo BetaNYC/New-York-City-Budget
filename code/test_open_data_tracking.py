@@ -191,6 +191,33 @@ def test_golden_rows(built):
     assert any(r["fiscal_year"] == "2021" and r["match_status"] == "context" and "|040|" in r["record_key"] for r in t)
 
 
+def test_terms_unit_amount_is_that_years_adopted_budget(built):
+    """FAILS if a T&C unit's portal_value is not FY Y's adopted budget (#274). In mwzb-yiwb's June
+    release tagged Y, financial_plan_amount is FY Y adopted and adopted_budget_amount is FY Y-1's.
+    The crosswalk once summed adopted_budget_amount, so every amount was one year late.
+
+    Pinned: DOE (040) unit 401, FY2017 adopted = $6,164,926,031 (read-only SODA, 2026-11-09);
+    the old, one-year-late value was $5,844,620,680 (FY2016). Cross-check: for every year whose
+    next release is in the extract, the amount equals adopted_budget_amount in the release tagged Y+1."""
+    t = {r["record_key"]: r for r in rows(built["data/open_data/crosswalk_terms_unit.csv"])}
+    doe = [r for k, r in t.items() if k.startswith("2017|") and k.endswith("|040|401")]
+    assert doe and {r["portal_value"] for r in doe} == {"6164926031"}, [r["portal_value"] for r in doe]
+    next_adopted = {}
+    for o in X.read_gz("source/open-data-mwzb-yiwb/mwzb-yiwb.csv.gz"):
+        k = (int(o["fiscal_year"]) - 1, o["agency_number"].zfill(3), o["unit_appropriation_number"].zfill(3))
+        next_adopted[k] = next_adopted.get(k, X.Decimal(0)) + X.Decimal(o["adopted_budget_amount"] or 0)
+    checked = 0
+    for r in t.values():
+        if r["match_status"] != "context":
+            continue
+        ag, unit = r["match_rule"].split("agency ", 1)[1][:3], r["match_rule"].split("unit ", 1)[1][:3]
+        k = (int(r["fiscal_year"]), ag, unit)
+        if k in next_adopted:
+            checked += 1
+            assert X.Decimal(r["portal_value"]) == next_adopted[k], (r["record_key"], r["portal_value"], next_adopted[k])
+    assert checked > 1000, checked
+
+
 def test_capital_project_id_keeps_its_agency_code():
     """FAILS if two projects that share a number under different agencies (FY2019 HD NC026 and
     PW NC026) are one key (#198), or if the portal's doubled space splits one ID."""
