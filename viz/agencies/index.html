@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore New York City's expense budget from Fiscal Year 2017 to 2027 — see how each city agency's adopted budget compares to its modified budget.">
+    <meta name="author" content="BetaNYC">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Open Graph metadata -->
+    <meta content="NYC Budget Explorer" property="og:site_name">
+    <meta content="NYC Budget Explorer" property="og:title">
+    <meta content="website" property="og:type">
+    <meta content="Explore New York City's expense budget from Fiscal Year 2017 to 2027 — see how each city agency's adopted budget compares to its modified budget." property="og:description">
+
+    <title>NYC Budget Explorer — BetaNYC</title>
+
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+      <script src="lib/html5shiv.js"></script>
+      <script src="lib/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <a href="#content" class="sr-only">Skip to content</a>
+
+    <div id="readme" style="display: none;"><img src="" alt="Click points to see annual budgets below"></div>
+    <div class="container">
+      <div id='header'>
+        <div class='row'>
+          <div class='col-md-9'>
+            <div id='logo'>
+              <a href='./'>NYC Budget Explorer</a>
+            </div>
+            <p>Explore New York City's expense budget from Fiscal Year 2017 to 2027 and see how the money is adopted and modified across city agencies. <a onclick="window.scrollTo(0, document.body.scrollHeight);">Read more</a> or <a href='/faq.html'>check out the FAQ</a> &raquo;</p>
+            <p class="correction-note"><strong>Correction, November 9, 2026:</strong> until this date, every year in this explorer was labeled one year late. For example, the FY2025 adopted budget was shown as 2026. The labels are now fixed. <a href="faq.html#correction">What changed</a></p>
+            <p class="related-tool">Looking for <strong>City Council discretionary funding</strong> (member items and Schedule C initiatives)? Explore the companion <a href="https://betanyc.github.io/New-York-City-Budget/">NYC Council Discretionary Funding explorer</a>.</p>
+          </div>
+        </div>
+      </div>
+      <div class='well'>
+        <div id='main-chart'></div>
+        <table id="breakdown" class='table table-condensed table-bordered'>
+            <thead>
+              <tr>
+                <th id='breakdown-item-title'><span id="secondary-title">Fund</span></th>
+                <th class="num"><span>Adopted</span></th>
+                <th class="num"><span>Modified</span></th>
+                <th class="charts sorting_disabled"><span>Adopted vs. Modified</span></th>
+              </tr>
+            </thead>
+            <tbody id="breakdown-table-body"></tbody>
+        </table>
+
+        <div id="footnotes">
+        </div>
+      </div>
+
+      <div class='well about'>
+        <h2>About</h2>
+        <div class='row'>
+          <div class='col-md-12'>
+            <h2>Where's the money going?</h2>
+            <p>Every year New York City adopts an expense budget of well over $100 billion&mdash;$117.8 billion for Fiscal Year 2026 as counted here, or $115.9 billion in the City's headline figure, which leaves out money agencies pay each other. It funds the public schools, sanitation, policing, fire protection, public health, housing, parks, and hundreds of other services New Yorkers rely on every day. Its funding comes from you: your income and property taxes, sales taxes, fees, and intergovernmental aid.</p>
+            <p>This tool lets you explore that budget by agency and unit of appropriation, and compare each agency's <strong>adopted</strong> budget against its <strong>modified</strong> budget, across Fiscal Years 2017 through 2027. Have a question about where the money goes? Check out the <a href="faq.html">FAQ</a>.</p>
+            <p><strong>On our use of AI.</strong> The code behind this project was written with the help of an AI coding assistant (Anthropic's Claude), directed and reviewed by BetaNYC staff. We tell you this because transparency is part of <a href="https://beta.nyc/about/ai-policy">BetaNYC's AI policy</a>: we explain when and how we use these tools.</p>
+
+            <p>What AI did and did not do here matters. AI helped us write the software that loads the City's published budget data and builds this visualization. It did not read, interpret, or generate any of the dollar figures. Every number comes straight from NYC Open Data's Expense Budget dataset, unchanged. A person reviewed the result before it was published. The AI assisted the work; BetaNYC remains accountable for it.</p>
+
+            <p class="mute">Data comes from <a href="https://data.cityofnewyork.us/City-Government/Expense-Budget/mwzb-yiwb">NYC Open Data's Expense Budget dataset</a> (mwzb-yiwb). We use the June release of each year. "Adopted" is the budget the City adopted for that fiscal year. "Modified" is that year's budget as modified through June, near year end; the newest year's is not yet published. Until November 9, 2026, years here were labeled one year late; <a href="faq.html#correction">see the correction</a>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id='footer'>
+        <p class='pull-left'>
+          <a id="download-button" class="btn btn-warning" href="">View &amp; download data</a>
+          All the data for this project is freely available to download or explore.
+          <br />
+          <br />
+          A <a href="https://beta.nyc">BetaNYC</a> project, adapted from DataMade's <a href="https://github.com/datamade/look-at-cook">Look at Cook</a> (MIT-licensed). Built by <a href="http://datamade.us">DataMade</a>.
+        </p>
+      </div>
+    </div>
+    <!-- loading javascript at the bottom of the page for performance -->
+    <!-- javascript libraries -->
+    <script src="lib/jquery.min.js" type="text/javascript"></script>
+    <script src="lib/spin.min.js" type="text/javascript"></script>
+    <script src="lib/jquery.spin.js" type="text/javascript"></script>
+    <script src="lib/accounting.min.js" type="text/javascript"></script>
+    <script src="lib/fuse.min.js" type="text/javascript"></script>
+    <script src="lib/reduce.js" type="text/javascript"></script>
+    <script src="lib/range.js" type="text/javascript"></script>
+    <script src="lib/array_indexof.js" type="text/javascript"></script>
+    <script src="lib/array_getunique.js" type="text/javascript"></script>
+    <script src="lib/jquery.csv.min.js" type="text/javascript"></script>
+    <script src="lib/bootstrap.min.js" type="text/javascript"></script>
+    <script src="lib/highcharts.js" type="text/javascript"></script>
+    <script src="lib/jquery.dataTables.js" type="text/javascript"></script>
+    <script src="lib/jquery.cookie.js" type="text/javascript"></script>
+    <script src="lib/underscore.min.js" type="text/javascript"></script>
+    <script src="lib/backbone.min.js" type="text/javascript"></script>
+    <script src="lib/Backbone.ModelBinder.min.js" type="text/javascript"></script>
+
+    <!-- custom javascript -->
+    <script src="js/dataTables.sorting.js" type="text/javascript"></script>
+    <script src="js/budget_helpers.js" type="text/javascript"></script>
+    <script src="js/budget_highcharts.js" type="text/javascript"></script>
+
+    <script src="js/app.js" type="text/javascript"></script>
+
+  </body>
+</html>
