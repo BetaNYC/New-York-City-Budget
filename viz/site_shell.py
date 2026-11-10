@@ -47,7 +47,7 @@ PAGES = [
     {
         "path": "index.html", "root": "./", "current": "home", "skip": "main",
         "source": AGENCY_SOURCE + "<br>" + COUNCIL_SOURCE,
-        "revised": "2026-11-09",
+        "revised": "2026-11-10",
     },
     {
         "path": "agencies/index.html", "root": "../", "current": "agencies", "skip": "content",

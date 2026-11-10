@@ -97,11 +97,15 @@ def test_index_is_the_retirement_notice_and_loads_no_data():
 
 
 def test_index_states_the_gaps_and_links_to_the_retired_copy():
+    # The data gaps moved to the About page with the rest of the detail (2026-11-10); the front
+    # page keeps the link to the frozen copy and to the MCP server.
     html = _read("index.html")
-    assert "FY2010 is not included" in html
-    assert "FY2018 is missing" in html
+    about = _read("about.html")
+    assert "FY2010 is not included" in about
+    assert "FY2018 is missing" in about
     assert 'href="legacy.html"' in html
     assert "@betanyc/nyc-budget-mcp" in html
+    assert 'href="about.html"' in html
 
 
 def test_index_links_to_the_explorer():
