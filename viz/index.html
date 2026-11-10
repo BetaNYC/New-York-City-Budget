@@ -13,47 +13,63 @@
     <title>NYC budget data, checked — BetaNYC</title>
     <link rel="shortcut icon" href="images/favicon.ico">
     <style>
-      body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1d2b3a; background: #f4f6f8; line-height: 1.55; }
-      main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.25rem 3rem; background: #fff; min-height: 100vh; box-sizing: border-box; }
-      h1 { color: #0b3059; font-size: 1.75rem; line-height: 1.25; margin: 0 0 1rem; }
-      h2 { color: #0b3059; font-size: 1.2rem; margin: 2rem 0 0.5rem; }
-      a { color: #b33a00; }
-      .notice { background: #fff3cd; color: #5c4400; border: 2px solid #b38600; border-radius: 4px; padding: 0.75rem 1rem; }
-      .notice a { color: #5c4400; }
-      ul { padding-left: 1.25rem; }
+      /* BetaNYC brand tokens (archive/betanyc/brand.md), the same set as viz/site_shell.py's bar. */
+      :root { --bnyc-blue: #2359a8; --bnyc-blue-secondary: #B8D6FF; --bnyc-bg-blue: #EEF4FF; --bnyc-bg-blue-light: #F9FAFF; --bnyc-dark-gray: #414141; --bnyc-light-gray: #F1F1F1; --bnyc-border-gray: #949494;
+              --font-display: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif; --font-heading: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      body { margin: 0; font-family: var(--font-display); font-size: 17px; line-height: 1.75; color: var(--bnyc-dark-gray); background: #FFFFFF; -webkit-font-smoothing: antialiased; }
+      main { max-width: 1230px; margin: 0 auto; padding: 2.25rem 1.25rem 3rem; box-sizing: border-box; }
+      main > * { max-width: 750px; }
+      main > .doors, main > table { max-width: none; }
+      h1, h2, h3 { color: var(--bnyc-blue); font-weight: 700; }
+      h1 { font-family: var(--font-display); font-size: clamp(1.9rem, 4.5vw, 3.2rem); line-height: 1.3; margin: 0.5rem 0 1rem; }
+      h2 { font-family: var(--font-heading); font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.4; margin: 2.25rem 0 0.7rem; }
+      a { color: var(--bnyc-blue); }
+      a:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: 2px; }
+      p, ul { margin: 0 0 1rem; }
+      ul { padding-left: 1.3rem; }
       li { margin: 0.35rem 0; }
-      code { background: #eef1f4; padding: 0.05rem 0.3rem; border-radius: 3px; font-size: 0.92em; }
-      footer { margin-top: 2.5rem; font-size: 0.9rem; color: #4a5a6a; }
+      code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--bnyc-light-gray); padding: 0.1em 0.35em; font-size: 0.88em; }
+      .notice, .correction { background: var(--bnyc-bg-blue); border: 1px solid var(--bnyc-border-gray); border-left: 6px solid var(--bnyc-blue); padding: 0.8rem 1.1rem; }
+      footer { margin-top: 2.5rem; font-size: 0.94rem; }
       #deep-link { display: none; }
-      .doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1rem; margin: 1.5rem 0; }
-      .door { border: 2px solid #0b3059; border-radius: 6px; padding: 1rem 1.1rem; }
+      /* Cards: 1px #949494 border, square corners (brand.md, card standard 2026-06-22). */
+      .doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 1.5rem; margin: 1.5rem 0 2rem; }
+      .door { border: 1px solid var(--bnyc-border-gray); border-radius: 0; background: #FFFFFF; padding: 1.25rem 1.4rem; display: flex; flex-direction: column; }
       .door h2 { margin-top: 0; }
-      .door p { margin: 0.4rem 0; }
-      .door .go { display: inline-block; margin-top: 0.6rem; background: #0b3059; color: #ffffff; padding: 0.5rem 0.9rem; border-radius: 4px; font-weight: 700; text-decoration: none; }
-      .door .go:hover, .door .go:focus-visible { text-decoration: underline; }
-      .door .go:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
-      table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
-      th, td { text-align: left; vertical-align: top; border-bottom: 1px solid #d8dee4; padding: 0.4rem 0.5rem 0.4rem 0; }
-      .correction { background: #eef1f4; border-left: 4px solid #0b3059; padding: 0.6rem 0.9rem; }
+      .door p { margin: 0 0 0.6rem; font-size: 0.97rem; }
+      .door strong { color: var(--bnyc-blue); }
+      .door .go { align-self: flex-start; margin-top: auto; background: var(--bnyc-blue); color: #FFFFFF; padding: 8px 30px; text-decoration: none; }
+      .door .go:hover { text-decoration: underline; }
+      .door .go:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: 3px; }
+      table { border-collapse: collapse; width: 100%; font-size: 0.95rem; margin-bottom: 1rem; }
+      th, td { text-align: left; vertical-align: top; border: 1px solid var(--bnyc-border-gray); padding: 0.5rem 0.7rem; }
+      th { background: var(--bnyc-bg-blue); color: var(--bnyc-blue); font-family: var(--font-heading); font-weight: 700; }
+      @media (max-width: 600px) { body { font-size: 16px; } table { display: block; overflow-x: auto; } }
     </style>
   </head>
   <body>
 <!-- site-shell:top:start (written by viz/site_shell.py; do not edit) -->
 <style>
-  .bnyc-shell, .bnyc-shell-foot { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.45; box-sizing: border-box; }
-  .bnyc-skip { position: absolute; left: -10000px; top: 0; z-index: 1000; background: #ffd166; color: #0b3059; padding: 0.5rem 0.9rem; font-weight: 700; }
+  /* BetaNYC brand tokens: BetaNYC_AI_Workspace archive/betanyc/brand.md (finalized 2026-05-06),
+     the same set as grounding-ai-audit-card's assets/css/betanyc.css. No font files are fetched:
+     Poppins and Roboto are used when installed, else the system fallback. */
+  .bnyc-shell, .bnyc-shell-foot, .bnyc-skip { font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 1.5; box-sizing: border-box; }
+  .bnyc-skip { position: absolute; left: -10000px; top: 0; z-index: 1000; background: #FFFFFF; color: #2359a8; border: 2px solid #2359a8; padding: 0.5rem 0.9rem; font-weight: 700; }
   .bnyc-skip:focus { left: 0.5rem; top: 0.5rem; }
-  .bnyc-shell { background: #0b3059; color: #ffffff; font-size: 15px; }
-  .bnyc-shell-in, .bnyc-shell-foot-in { max-width: 78rem; margin: 0 auto; padding: 0.45rem 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.25rem; }
-  .bnyc-shell-name { font-weight: 700; color: #ffffff; text-decoration: none; margin-right: 0.5rem; }
-  .bnyc-shell ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; }
-  .bnyc-shell a { color: #ffffff; }
-  .bnyc-shell a:focus-visible, .bnyc-shell-foot a:focus-visible, .bnyc-skip:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
-  .bnyc-shell a[aria-current="page"] { font-weight: 700; text-decoration-thickness: 3px; }
-  .bnyc-shell-foot { background: #eef1f4; color: #1d2b3a; border-top: 1px solid #d8dee4; font-size: 14px; margin-top: 2rem; }
+  .bnyc-shell { background: #2359a8; color: #FFFFFF; font-size: 15px; }
+  .bnyc-shell-in, .bnyc-shell-foot-in { max-width: 1230px; margin: 0 auto; padding: 0.6rem 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; }
+  .bnyc-shell-name { font-weight: 700; color: #FFFFFF; text-decoration: none; margin-right: 0.5rem; }
+  .bnyc-shell ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.1rem; }
+  .bnyc-shell ul a { font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; }
+  .bnyc-shell a { color: #FFFFFF; }
+  .bnyc-shell a:focus-visible { outline: 3px solid #B8D6FF; outline-offset: 2px; }
+  .bnyc-shell-foot a:focus-visible, .bnyc-skip:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
+  .bnyc-shell a[aria-current="page"] { text-decoration-thickness: 3px; text-underline-offset: 4px; }
+  .bnyc-shell-foot { background: #EEF4FF; color: #414141; border-top: 1px solid #949494; font-size: 14px; margin-top: 2rem; }
   .bnyc-shell-foot-in { display: block; padding: 1rem 1.25rem; }
   .bnyc-shell-foot p { margin: 0.3rem 0; }
-  .bnyc-shell-foot a { color: #0b3059; }
+  .bnyc-shell-foot a { color: #2359a8; }
+  @media (max-width: 600px) { .bnyc-shell-in { padding: 0.4rem 1.25rem 0.2rem; } .bnyc-shell ul { gap: 0 1.1rem; } .bnyc-shell ul a { display: inline-flex; align-items: center; min-height: 44px; } }
 </style>
 <a class="bnyc-skip" href="#main">Skip to content</a>
 <nav class="bnyc-shell" aria-label="NYC budget data">

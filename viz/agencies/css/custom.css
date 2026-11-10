@@ -197,8 +197,13 @@ a:hover { text-decoration: underline; }
 
 /* Dated correction note under the masthead (2026-11-09 fiscal-year label fix). */
 .correction-note {
-  background: #fff8e1;
+  /* BetaNYC note style (brand.md tokens). Text color is set here: inherited from the dark
+     header, it was light gray on this box and could not be read. */
+  background: #EEF4FF;
+  color: #414141;
+  border: 1px solid #949494;
   border-left: 4px solid #2359a8;
   padding: 6px 10px;
   font-size: 14px;
 }
+#header .correction-note a, .correction-note a, .correction-note a:visited { color: #2359a8; text-decoration: underline; }
