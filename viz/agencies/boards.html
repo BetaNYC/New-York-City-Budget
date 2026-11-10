@@ -9,12 +9,12 @@
     <meta name="description" content="The budgets of all 59 New York City community boards, FY2017–FY2027, adopted and modified, by unit of appropriation, from NYC Open Data. Download all 59 as one CSV.">
     <meta name="author" content="BetaNYC">
     <link rel="canonical" href="https://betanyc.github.io/New-York-City-Budget/agencies/boards.html">
-    <meta content="NYC community board budgets — BetaNYC" property="og:title">
+    <meta content="Community board budgets · NYC budget data · BetaNYC" property="og:title">
     <meta content="website" property="og:type">
     <meta content="https://betanyc.github.io/New-York-City-Budget/agencies/boards.html" property="og:url">
     <meta content="The budgets of all 59 New York City community boards, FY2017–FY2027, adopted and modified, from NYC Open Data." property="og:description">
     <meta content="https://betanyc.github.io/New-York-City-Budget/agencies/images/og-image.png" property="og:image">
-    <title>Community board budgets — BetaNYC</title>
+    <title>Community board budgets · NYC budget data · BetaNYC</title>
     <link rel="shortcut icon" href="images/favicon.ico">
     <style>
       /* BetaNYC brand tokens (archive/betanyc/brand.md), the same set as the front page and viz/site_shell.py. */
@@ -100,7 +100,7 @@
       <li><a href="../">Home</a></li>
       <li><a href="../agencies/boards.html" aria-current="page">Community boards</a></li>
       <li><a href="../explorer/">Council discretionary funding</a></li>
-      <li><a href="../agencies/">City budget</a></li>
+      <li><a href="../agencies/">City agency budgets</a></li>
       <li><a href="../mcp.html">Budget MCP</a></li>
       <li><a href="../about.html">About</a></li>
     </ul>
@@ -121,7 +121,7 @@
 <!-- site-shell:top:end -->
 
     <main id="main">
-      <p><a href="./">&laquo; City budget</a></p>
+      <p><a href="./">&laquo; City agency budgets</a></p>
       <h1>Community board budgets</h1>
       <p>Each of New York City's 59 community boards is its own agency in the City's budget. Pick your board to see its budget for every year, or pick a year to compare all 59. Amounts are from NYC Open Data's Expense Budget (<code>mwzb-yiwb</code>), unchanged.</p>
 
@@ -145,10 +145,10 @@
 
       <h2>Where each number comes from</h2>
       <p><strong>Adopted</strong> is the budget adopted in June, before the fiscal year starts. <strong>Modified</strong> is that year's budget as changed during the year, as of June, near the year's end. The fiscal year runs July 1 to June 30 and is named for the year it ends.</p>
-      <p>Adopted FY<em>Y</em> is <code>financial_plan_amount</code> in the June release tagged <em>Y</em>; Modified FY<em>Y</em> is <code>current_modified_budget_amount</code> in the June release tagged <em>Y</em>+1. FY2027's Modified figure is not yet published: the City publishes it when it adopts the FY2028 budget, normally in June 2027. Each row of the CSV names the release each figure comes from.</p>
-      <p><strong>Personal Services</strong> is pay for the board's staff. <strong>Other Than Personal Services</strong> is everything else. Most boards also have a unit for <strong>Rent</strong> (or Rent and Energy). The total adds a board's units.</p>
+      <p>We take a year's adopted budget from that year's June release on NYC Open Data, and its modified budget from the next year's June release. FY2027's modified budget is not yet published. The City publishes it when it adopts the FY2028 budget, normally in June 2027. Each row of the CSV names the release each figure comes from (for data users: adopted is <code>financial_plan_amount</code>, modified is <code>current_modified_budget_amount</code>).</p>
+      <p><strong>Personal Services</strong> is pay for the board's staff. <strong>Other Than Personal Services</strong> is everything else. Most boards also have a unit for <strong>Rent</strong> (or Rent and Energy). The total is the sum of a board's units.</p>
       <p class="note">These are budgets, not spending. For what a board actually spent, search for it on <a href="https://www.checkbooknyc.com">Checkbook NYC</a>, the Comptroller's site. OMB's printed budget is on <a href="https://www.nyc.gov/site/omb/publications/publications.page">OMB's publications page</a>; Manhattan Community Board 1's FY2025 and FY2026 figures here match page 182E of OMB's FY2026 Adopted Budget, Expense, Revenue and Contract volume.</p>
-      <p class="note">Before 2026-11-09 the agency explorer showed every year one year late (<a href="faq.html#correction">the correction</a>). This table uses the corrected years.</p>
+      <p class="note">Before November 9, 2026, the City agency budgets page showed every year one year late (<a href="faq.html#correction">the correction</a>). This table uses the corrected years.</p>
     </main>
 
     <script>
@@ -283,7 +283,7 @@
           <li><a href="../">Home</a></li>
           <li><a href="../agencies/boards.html" aria-current="page">Community boards</a></li>
           <li><a href="../explorer/">Council discretionary funding</a></li>
-          <li><a href="../agencies/">City budget</a></li>
+          <li><a href="../agencies/">City agency budgets</a></li>
           <li><a href="../mcp.html">Budget MCP</a></li>
           <li><a href="../about.html">About</a></li>
         </ul>
@@ -292,14 +292,14 @@
         <h2 id="bnyc-foot-h-beta">About BetaNYC</h2>
         <p>New York's civic technology and open-data community. We built and maintain this site.</p>
         <ul>
-          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">Our MCP servers: AI tools for NYC&#x27;s democracy</a></li>
+          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">All our AI tools for NYC&#x27;s democracy</a></li>
           <li><a href="https://www.beta.nyc/about/ai-policy/">Our AI policy</a></li>
           <li><a href="https://www.beta.nyc/betabuilders/">Join BetaBuilders</a></li>
-          <li>This site's MCP server: <a href="../mcp.html">@betanyc/nyc-budget-mcp</a></li>
+          <li><a href="../mcp.html">This site's budget MCP server</a></li>
         </ul>
       </section>
     </div>
-    <p class="bnyc-foot-line"><strong>Last revised:</strong> 2026-11-10. <a href="../about.html#sources">Data sources</a> · <a href="../about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 10, 2026. <a href="../about.html#sources">Data sources</a> · <a href="../about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
   </div>
 </div>
 <!-- site-shell:bottom:end -->
