@@ -59,15 +59,17 @@ ZERO-PADDING
   releases pad them ("040", "001"). Both are normalized to three digits so one unit is one row.
 
 OUTPUT SCHEMA (look-at-cook cleaned-CSV contract; header names are case-sensitive)
-  Static : Fund, Department, Control Officer, Department ID, Short Title,
-           Link to Website, Department Description
+  Static : Fund, Department, Department ID
   Per FY : "Adopted {year}" and "Modified {year}" for year 2017..2027
   Value mapping:
     Fund            = agency_name
     Department      = unit_appropriation_name
-    Control Officer = agency_name   (v1 PLACEHOLDER — duplicates Fund)
     Department ID   = unit_appropriation_number (zero-padded to 3)
-    Short Title / Link to Website / Department Description = "" (empty for v1)
+  Removed in #266 (Look at Cook leftovers): Control Officer (it equaled Fund on every row) and
+  Short Title, Link to Website, Department Description (empty on every row; no official City
+  source for them was used, and none is invented).
+  The site shows Fund as "Agency" and Department as "Unit of appropriation"; the CSV keeps the
+  Look at Cook column names because viz/agencies/js/app.js reads them.
   Numbers are written plain (no $, no commas) — the front-end parses floats.
 
 COLUMN/LABEL COUPLING (critical — do not drift)
@@ -120,14 +122,14 @@ RESOURCE_URL = f"https://data.cityofnewyork.us/resource/{DATASET_ID}.json"
 FISCAL_YEARS = list(range(2017, 2028))  # FY2017 .. FY2027 inclusive (years SHOWN)
 
 STATIC_COLUMNS = [
-    "Fund",
-    "Department",
-    "Control Officer",
-    "Department ID",
-    "Short Title",
-    "Link to Website",
-    "Department Description",
+    "Fund",          # the agency (agency_name); shown as "Agency"
+    "Department",    # the unit of appropriation (unit_appropriation_name); shown as "Unit of appropriation"
+    "Department ID", # unit_appropriation_number, zero-padded
 ]
+
+# Look at Cook columns this pipeline no longer writes (#266). Kept as a list so a test can make
+# sure none comes back.
+REMOVED_COLUMNS = ["Control Officer", "Short Title", "Link to Website", "Department Description"]
 
 # Must equal viz/agencies/js/app.js apropTitle / expendTitle (see COLUMN/LABEL COUPLING).
 APROP_LABEL = "Adopted"
@@ -376,11 +378,7 @@ def pivot(rows: list[dict], releases: dict[int, str]) -> list[dict]:
         rec = {
             "Fund": agency_name,
             "Department": unit_name,
-            "Control Officer": agency_name,  # v1 placeholder
             "Department ID": unit_no,
-            "Short Title": "",
-            "Link to Website": "",
-            "Department Description": "",
             AGENCY_KEY: agency_no,
         }
         for fy in FISCAL_YEARS:
