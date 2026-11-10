@@ -36,7 +36,20 @@ var BudgetHelpers = {
       return BudgetHelpers.template_cache.tmpl_cache[tmpl_name](tmpl_data);
   },
 
+  // Money for display. A year with no published figure (an empty CSV cell, which sums to
+  // NaN) shows as "Not yet published" rather than "$0.00". Used for the newest year's
+  // Modified budget, which the City publishes only after the next year is adopted.
+  formatMoney: function(value){
+      if (value === null || typeof value === 'undefined' || isNaN(value)){
+          return 'Not yet published';
+      }
+      return accounting.formatMoney(value);
+  },
+
   calc_change: function(cur, prev){
+      if (isNaN(cur) || isNaN(prev)){
+          return null
+      }
       if (prev == 0){
           return null
       }

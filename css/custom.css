@@ -194,3 +194,11 @@ a:hover { text-decoration: underline; }
 
   #breadcrumbs { font-size: 16px; }
 }
+
+/* Dated correction note under the masthead (2026-11-09 fiscal-year label fix). */
+.correction-note {
+  background: #fff8e1;
+  border-left: 4px solid #2359a8;
+  padding: 6px 10px;
+  font-size: 14px;
+}

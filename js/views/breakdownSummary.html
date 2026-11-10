@@ -9,7 +9,7 @@
 <td class='num expenditures' name="expenditures"><%= model.get('expenditures') %></td>
 <td>
     <div class="bars">
-        <span class="budgeted outer" name="app_perc" style="width: <%= model.get('app_perc') %>;"></span>
-        <span class="spent inner" name="exp_perc" style="width: <%= model.get('exp_perc') %>;"></span>
+        <span class="budgeted outer" name="app_perc" style="width: <%= model.get('app_perc') || '0' %>;<%= model.get('app_perc') ? '' : ' display: none;' %>"></span>
+        <span class="spent inner" name="exp_perc" style="width: <%= model.get('exp_perc') || '0' %>;<%= model.get('exp_perc') ? '' : ' display: none;' %>"></span>
     </div>
 </td>
