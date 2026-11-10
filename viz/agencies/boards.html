@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Community board budgets (#269). Self-contained: no library. Reads data/community_boards.csv,
+         built by code/build_community_boards.py from data/nyc_budget.csv. Tested by
+         viz/test_pages_site.py. The top bar and footer are written by viz/site_shell.py. -->
+    <meta name="description" content="The budgets of all 59 New York City community boards, FY2017–FY2027, adopted and modified, by unit of appropriation, from NYC Open Data. Download all 59 as one CSV.">
+    <meta name="author" content="BetaNYC">
+    <link rel="canonical" href="https://betanyc.github.io/New-York-City-Budget/agencies/boards.html">
+    <meta content="NYC community board budgets — BetaNYC" property="og:title">
+    <meta content="website" property="og:type">
+    <meta content="https://betanyc.github.io/New-York-City-Budget/agencies/boards.html" property="og:url">
+    <meta content="The budgets of all 59 New York City community boards, FY2017–FY2027, adopted and modified, from NYC Open Data." property="og:description">
+    <meta content="https://betanyc.github.io/New-York-City-Budget/agencies/images/og-image.png" property="og:image">
+    <title>Community board budgets — BetaNYC</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <style>
+      body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1d2b3a; background: #f4f6f8; line-height: 1.5; }
+      main { max-width: 64rem; margin: 0 auto; padding: 2rem 1.25rem 3rem; background: #fff; box-sizing: border-box; }
+      h1 { color: #0b3059; font-size: 1.7rem; margin: 0 0 0.75rem; }
+      h2 { color: #0b3059; font-size: 1.2rem; margin: 1.75rem 0 0.5rem; }
+      a { color: #b33a00; }
+      .controls { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; align-items: end; margin: 1rem 0; }
+      label { display: block; font-weight: 700; margin-bottom: 0.25rem; }
+      select { font-size: 1rem; padding: 0.35rem 0.4rem; min-width: 15rem; }
+      .download { display: inline-block; background: #0b3059; color: #fff; padding: 0.5rem 0.9rem; border-radius: 4px; font-weight: 700; text-decoration: none; }
+      .download:hover, .download:focus-visible { text-decoration: underline; }
+      a:focus-visible, select:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
+      .scroll { overflow-x: auto; }
+      table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
+      caption { text-align: left; font-weight: 700; color: #0b3059; padding: 0.4rem 0; }
+      th, td { border-bottom: 1px solid #d8dee4; padding: 0.35rem 0.5rem; text-align: right; white-space: nowrap; }
+      th:first-child, td:first-child { text-align: left; }
+      thead th { background: #eef1f4; vertical-align: bottom; }
+      tr.total td, tr.total th { font-weight: 700; }
+      .na { color: #4a5a6a; font-style: italic; }
+      .note { color: #4a5a6a; font-size: 0.92rem; }
+      .status { min-height: 1.5rem; }
+    </style>
+  </head>
+  <body>
+<!-- site-shell:top:start (written by viz/site_shell.py; do not edit) -->
+<style>
+  .bnyc-shell, .bnyc-shell-foot { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.45; box-sizing: border-box; }
+  .bnyc-skip { position: absolute; left: -10000px; top: 0; z-index: 1000; background: #ffd166; color: #0b3059; padding: 0.5rem 0.9rem; font-weight: 700; }
+  .bnyc-skip:focus { left: 0.5rem; top: 0.5rem; }
+  .bnyc-shell { background: #0b3059; color: #ffffff; font-size: 15px; }
+  .bnyc-shell-in, .bnyc-shell-foot-in { max-width: 78rem; margin: 0 auto; padding: 0.45rem 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.25rem; }
+  .bnyc-shell-name { font-weight: 700; color: #ffffff; text-decoration: none; margin-right: 0.5rem; }
+  .bnyc-shell ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; }
+  .bnyc-shell a { color: #ffffff; }
+  .bnyc-shell a:focus-visible, .bnyc-shell-foot a:focus-visible, .bnyc-skip:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
+  .bnyc-shell a[aria-current="page"] { font-weight: 700; text-decoration-thickness: 3px; }
+  .bnyc-shell-foot { background: #eef1f4; color: #1d2b3a; border-top: 1px solid #d8dee4; font-size: 14px; margin-top: 2rem; }
+  .bnyc-shell-foot-in { display: block; padding: 1rem 1.25rem; }
+  .bnyc-shell-foot p { margin: 0.3rem 0; }
+  .bnyc-shell-foot a { color: #0b3059; }
+</style>
+<a class="bnyc-skip" href="#main">Skip to content</a>
+<nav class="bnyc-shell" aria-label="NYC budget data">
+  <div class="bnyc-shell-in">
+    <a class="bnyc-shell-name" href="../">BetaNYC · NYC budget data</a>
+    <ul>
+      <li><a href="../">Home</a></li>
+      <li><a href="../agencies/" aria-current="page">City agency budgets</a></li>
+      <li><a href="../explorer/">Council discretionary funding</a></li>
+      <li><a href="../#which-tool">Which tool answers my question?</a></li>
+    </ul>
+  </div>
+</nav>
+<!-- site-shell:top:end -->
+
+    <main id="main">
+      <p><a href="./">&laquo; City agency budgets</a></p>
+      <h1>Community board budgets</h1>
+      <p>Each of New York City's 59 community boards is its own agency in the City's budget. Pick your board to see its budget for every year, or pick a year to compare all 59. Amounts are from NYC Open Data's Expense Budget (<code>mwzb-yiwb</code>), unchanged.</p>
+
+      <div class="controls">
+        <div>
+          <label for="board">Your community board</label>
+          <select id="board"><option value="">Choose a board…</option></select>
+        </div>
+        <div>
+          <label for="year">Or compare all 59 in a year</label>
+          <select id="year"><option value="">Choose a year…</option></select>
+        </div>
+        <div>
+          <a class="download" href="data/community_boards.csv" download>Download all 59 boards (CSV)</a>
+        </div>
+      </div>
+
+      <p class="status" id="status" role="status" aria-live="polite">Loading the data…</p>
+      <noscript><p>This table needs JavaScript. The same data is in <a href="data/community_boards.csv">community_boards.csv</a>.</p></noscript>
+      <div class="scroll" id="out"></div>
+
+      <h2>Where each number comes from</h2>
+      <p><strong>Adopted</strong> is the budget adopted in June, before the fiscal year starts. <strong>Modified</strong> is that year's budget as changed during the year, as of June, near the year's end. The fiscal year runs July 1 to June 30 and is named for the year it ends.</p>
+      <p>Adopted FY<em>Y</em> is <code>financial_plan_amount</code> in the June release tagged <em>Y</em>; Modified FY<em>Y</em> is <code>current_modified_budget_amount</code> in the June release tagged <em>Y</em>+1. FY2027's Modified figure is not yet published: the City publishes it when it adopts the FY2028 budget, normally in June 2027. Each row of the CSV names the release each figure comes from.</p>
+      <p><strong>Personal Services</strong> is pay for the board's staff. <strong>Other Than Personal Services</strong> is everything else. Most boards also have a unit for <strong>Rent</strong> (or Rent and Energy). The total adds a board's units.</p>
+      <p class="note">These are budgets, not spending. For what a board actually spent, search for it on <a href="https://www.checkbooknyc.com">Checkbook NYC</a>, the Comptroller's site. OMB's printed budget is on <a href="https://www.nyc.gov/site/omb/publications/publications.page">OMB's publications page</a>; Manhattan Community Board 1's FY2025 and FY2026 figures here match page 182E of OMB's FY2026 Adopted Budget, Expense, Revenue and Contract volume.</p>
+      <p class="note">Before 2026-11-09 the agency explorer showed every year one year late (<a href="faq.html#correction">the correction</a>). This table uses the corrected years.</p>
+    </main>
+
+    <script>
+      (function () {
+        "use strict";
+        var UNITS = [["001", "Personal Services"], ["002", "Other Than Personal Services"], ["003", "Rent"], ["total", "Total"]];
+        var data = [];
+        var out = document.getElementById("out");
+        var status = document.getElementById("status");
+        var boardSel = document.getElementById("board");
+        var yearSel = document.getElementById("year");
+
+        function parseCSV(text) {
+          var rows = [], row = [], field = "", q = false, i, c;
+          for (i = 0; i < text.length; i++) {
+            c = text[i];
+            if (q) {
+              if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else { q = false; } }
+              else { field += c; }
+            } else if (c === '"') { q = true; }
+            else if (c === ",") { row.push(field); field = ""; }
+            else if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
+            else if (c !== "\r") { field += c; }
+          }
+          if (field !== "" || row.length) { row.push(field); rows.push(row); }
+          var head = rows.shift();
+          return rows.filter(function (r) { return r.length === head.length; }).map(function (r) {
+            var o = {}; head.forEach(function (h, j) { o[h] = r[j]; }); return o;
+          });
+        }
+
+        function money(s) {
+          if (s === "" || s === undefined) { return '<span class="na">Not yet published</span>'; }
+          var n = Number(s);
+          return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+        }
+
+        function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+        function boardName(r) { return r.borough + " Community Board " + r.board; }
+
+        function find(code, fy, unit) {
+          for (var i = 0; i < data.length; i++) {
+            var r = data[i];
+            if (r.agency_code === code && r.fiscal_year === fy && r.unit_code === unit) { return r; }
+          }
+          return null;
+        }
+
+        function header(first) {
+          var h = '<thead><tr><th scope="col" rowspan="2">' + first + "</th>";
+          UNITS.forEach(function (u) { h += '<th scope="colgroup" colspan="2">' + u[1] + "</th>"; });
+          h += "</tr><tr>";
+          UNITS.forEach(function () { h += '<th scope="col">Adopted</th><th scope="col">Modified</th>'; });
+          return h + "</tr></thead>";
+        }
+
+        function cells(code, fy) {
+          var h = "";
+          UNITS.forEach(function (u) {
+            var r = find(code, fy, u[0]);
+            h += r ? "<td>" + money(r.adopted) + "</td><td>" + money(r.modified) + "</td>" : '<td><span class="na">none</span></td><td><span class="na">none</span></td>';
+          });
+          return h;
+        }
+
+        function showBoard(code) {
+          var any = data.filter(function (r) { return r.agency_code === code; })[0];
+          if (!any) { out.innerHTML = ""; return; }
+          var years = unique(data.filter(function (r) { return r.agency_code === code; }).map(function (r) { return r.fiscal_year; }));
+          var h = "<table><caption>" + esc(boardName(any)) + " (budget agency " + esc(code) + "), FY" + years[0] + "–FY" + years[years.length - 1] + "</caption>" + header("Fiscal year") + "<tbody>";
+          years.forEach(function (fy) { h += '<tr><th scope="row">FY' + fy + "</th>" + cells(code, fy) + "</tr>"; });
+          out.innerHTML = h + "</tbody></table>";
+          status.textContent = boardName(any) + ": " + years.length + " fiscal years.";
+        }
+
+        function showYear(fy) {
+          var codes = unique(data.filter(function (r) { return r.fiscal_year === fy; }).map(function (r) { return r.agency_code; }));
+          var h = "<table><caption>All 59 community boards, FY" + esc(fy) + "</caption>" + header("Board") + "<tbody>";
+          codes.forEach(function (code) {
+            var any = find(code, fy, "total");
+            h += '<tr><th scope="row"><a href="#board=' + code + '">' + esc(boardName(any)) + "</a></th>" + cells(code, fy) + "</tr>";
+          });
+          out.innerHTML = h + "</tbody></table>";
+          status.textContent = "FY" + fy + ": " + codes.length + " community boards.";
+        }
+
+        function unique(a) { var s = {}, o = []; a.forEach(function (x) { if (!s[x]) { s[x] = 1; o.push(x); } }); return o; }
+
+        function route() {
+          var m = /^#(board|year)=(\d+)$/.exec(window.location.hash);
+          if (!m) { out.innerHTML = ""; status.textContent = "Choose a board or a year."; boardSel.value = ""; yearSel.value = ""; return; }
+          if (m[1] === "board") { boardSel.value = m[2]; yearSel.value = ""; showBoard(m[2]); }
+          else { yearSel.value = m[2]; boardSel.value = ""; showYear(m[2]); }
+        }
+
+        boardSel.addEventListener("change", function () { if (boardSel.value) { window.location.hash = "board=" + boardSel.value; } });
+        yearSel.addEventListener("change", function () { if (yearSel.value) { window.location.hash = "year=" + yearSel.value; } });
+        window.addEventListener("hashchange", route);
+
+        fetch("data/community_boards.csv").then(function (r) {
+          if (!r.ok) { throw new Error("HTTP " + r.status); }
+          return r.text();
+        }).then(function (text) {
+          data = parseCSV(text);
+          var groups = {};
+          data.filter(function (r) { return r.unit_code === "total"; }).forEach(function (r) {
+            (groups[r.borough] = groups[r.borough] || {})[r.agency_code] = boardName(r);
+          });
+          Object.keys(groups).forEach(function (b) {
+            var g = document.createElement("optgroup"); g.label = b;
+            Object.keys(groups[b]).sort(function (x, y) { return x - y; }).forEach(function (code) {
+              var o = document.createElement("option"); o.value = code; o.textContent = groups[b][code]; g.appendChild(o);
+            });
+            boardSel.appendChild(g);
+          });
+          unique(data.map(function (r) { return r.fiscal_year; })).sort().reverse().forEach(function (fy) {
+            var o = document.createElement("option"); o.value = fy; o.textContent = "FY" + fy; yearSel.appendChild(o);
+          });
+          route();
+        }).catch(function (e) {
+          status.textContent = "The data could not be loaded (" + e.message + "). Download it instead: data/community_boards.csv.";
+        });
+      })();
+    </script><!-- site-shell:bottom:start (written by viz/site_shell.py; do not edit) -->
+<div class="bnyc-shell-foot" role="region" aria-label="About this data">
+  <div class="bnyc-shell-foot-in">
+    <p><strong>Fiscal year.</strong> New York City&#x27;s fiscal year runs July 1 to June 30 and is named for the year it ends: FY2026 is July 1, 2025 to June 30, 2026.</p>
+    <p><strong>Source.</strong> City agency budgets: NYC Open Data, Expense Budget (<a href="https://data.cityofnewyork.us/d/mwzb-yiwb">mwzb-yiwb</a>), the June release of each year, through the release of 2026-06-30 (FY2027 adopted). FY2027 modified is not yet published.</p>
+    <p><strong>Last revised:</strong> 2026-11-09. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+  </div>
+</div>
+<!-- site-shell:bottom:end -->
+
+  </body>
+</html>

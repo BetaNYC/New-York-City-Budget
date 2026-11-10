@@ -40,7 +40,7 @@ function main() {
   for (const name of Object.keys(manifest.files)) {
     if (!existsSync(join(DIST, "data", name))) throw new Error(`assemble-site: dist/data/${name} is missing`);
   }
-  for (const f of ["index.html", "legacy.html", "agencies/index.html", "agencies/faq.html", "agencies/data/nyc_budget.csv"]) {
+  for (const f of ["index.html", "legacy.html", "agencies/index.html", "agencies/faq.html", "agencies/data/nyc_budget.csv", "agencies/boards.html", "agencies/data/community_boards.csv"]) {
     if (!existsSync(join(VIZ, f))) throw new Error(`assemble-site: viz/${f} is missing`);
   }
 

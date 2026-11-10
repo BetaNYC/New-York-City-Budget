@@ -13,7 +13,7 @@ Every agency, by unit of appropriation, adopted and modified, FY2017–FY2027. L
 
 | Your question | Where to look |
 |---|---|
-| How much does my community board get? | Agency budgets. Each community board is its own agency in the budget (codes below). |
+| How much does my community board get? | Agency budgets: the [community board table](https://betanyc.github.io/New-York-City-Budget/agencies/boards.html), all 59 boards, FY2017–FY2027, with a CSV download ([`viz/agencies/data/community_boards.csv`](viz/agencies/data/community_boards.csv)). Each community board is its own agency in the budget (codes below). |
 | How did an agency's budget change from one year to the next? | Agency budgets: compare its Adopted figures year by year. |
 | How much did an agency's budget change during the year? | Agency budgets: compare a year's Adopted with its Modified. |
 | How big is the City's budget? | Agency budgets: the citywide total. Mind [gross vs. net](#net-and-gross). |

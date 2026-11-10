@@ -279,6 +279,11 @@ explorer redeploys on every merge that changes the data.
   citywide budget, FY2017–FY2027, with a table by agency and unit of appropriation, adopted vs.
   modified, and the whole dataset as one CSV. Adapted from DataMade's
   [Look at Cook](https://github.com/datamade/look-at-cook). Code: [`viz/agencies/`](viz/agencies/README.md).
+- **[Community board budgets](https://betanyc.github.io/New-York-City-Budget/agencies/boards.html)**:
+  all 59 boards, FY2017–FY2027, adopted and modified by unit (Personal Services, Other Than
+  Personal Services, Rent), each figure with the Open Data release it comes from; download all 59
+  as [one CSV](viz/agencies/data/community_boards.csv) (built by
+  [`code/build_community_boards.py`](code/build_community_boards.py)).
 - **The first Council explorer** (July 2026) is frozen and marked do not cite, at
   [`legacy.html`](https://betanyc.github.io/New-York-City-Budget/legacy.html), so old links still
   work ([`viz/README.md`](viz/README.md)).
