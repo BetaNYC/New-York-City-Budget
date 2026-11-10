@@ -55,7 +55,7 @@ PAGES = [
     },
     {
         "path": "agencies/boards.html", "root": "../", "current": "boards", "skip": "main",
-        "source": AGENCY_SOURCE, "revised": "2026-11-10", "toc": True,
+        "source": AGENCY_SOURCE, "revised": "2026-11-10",
     },
     {
         # The explorer's source page; Vite builds it into explorer/index.html. Its React app has
