@@ -46,6 +46,10 @@ PAGES = [
         "revised": "2026-11-10",
     },
     {
+        "path": "mcp.html", "root": "./", "current": "mcp", "skip": "main",
+        "revised": "2026-11-10",
+    },
+    {
         "path": "about.html", "root": "./", "current": "about", "skip": "main",
         "revised": "2026-11-10",
     },
@@ -66,6 +70,7 @@ NAV = [
     ("home", "", "Home"),
     ("council", "explorer/", "Council discretionary funding"),
     ("agencies", "agencies/", "City budget"),
+    ("mcp", "mcp.html", "Budget MCP"),
     ("about", "about.html", "About"),
 ]
 
@@ -201,7 +206,7 @@ def bottom_block(page: dict) -> str:
         "        <p>New York's civic technology and open-data community. We built and maintain this site.</p>",
         '        <ul>',
         *beta,
-        '          <li>This site\'s MCP server: <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a></li>',
+        f'          <li>This site\'s MCP server: <a href="{root}mcp.html">@betanyc/nyc-budget-mcp</a></li>',
         '        </ul>',
         '      </section>',
         '    </div>',

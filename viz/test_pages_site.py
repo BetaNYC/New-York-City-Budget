@@ -287,7 +287,7 @@ def test_every_page_has_the_current_site_shell():
 def test_every_page_reaches_every_other_in_one_click():
     shell = _shell()
     site_pages = {"": "index.html", "agencies/": "agencies/index.html", "explorer/": "explorer/index.html",
-                  "about.html/": "about.html"}
+                  "about.html/": "about.html", "mcp.html/": "mcp.html"}
     for page in shell.PAGES:
         here = os.path.dirname(page["path"])
         top = _read(page["path"]).split(shell.TOP_START.split(" (")[0], 1)[1].split(shell.TOP_END, 1)[0]
@@ -338,6 +338,27 @@ def test_every_footer_has_the_site_and_betanyc():
             assert f">{label}<" in foot, (page["path"], label)
         for url, _t in shell.BETANYC_LINKS:
             assert url in foot, (page["path"], url)
+
+
+def test_mcp_page_names_every_tool_and_our_other_servers():
+    """FAILS if the budget MCP's page (Noel, 2026-11-10) misses a tool the server registers
+    (mcp/src), its setup line, or one of BetaNYC's other MCP servers."""
+    page = _read("mcp.html")
+    src = ""
+    for root, _dirs, files in os.walk(os.path.join(HERE, "..", "mcp", "src")):
+        for name in files:
+            if name.endswith(".ts"):
+                with open(os.path.join(root, name), encoding="utf-8") as fh:
+                    src += fh.read()
+    tools = set(re.findall(r'name: "((?:search|list|compare)_[a-z_]+)"', src))
+    assert len(tools) >= 8, tools
+    for tool in tools:
+        assert f"<code>{tool}</code>" in page, tool
+    assert "@betanyc/nyc-budget-mcp@2" in page and "download --pdf-tables" in page
+    for repo in ("nyc-checkbook-mcp", "nyc-council-mcp", "nyc-record-mcp", "nyc-311-mcp",
+                 "nys-openlegislation-mcp", "ny-data-registry-mcp", "mta-mcp"):
+        assert f"https://github.com/BetaNYC/{repo}" in page, repo
+    assert 'href="mcp.html"' in _read("index.html")
 
 
 def test_about_has_the_glossary_and_every_source():
