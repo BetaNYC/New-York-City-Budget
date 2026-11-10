@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Hermetic regression tests for nyc_budget_cleanup.py — no live API.
+Hermetic regression tests for agency_budget_cleanup.py — no live API.
 
 Mock SODA payloads mirror the DOCUMENTED response shape (Engineering Standard sec 0):
 Socrata .json serializes `number`-typed fields as JSON strings, so mock rows use string
@@ -10,7 +10,8 @@ The year-mapping fixtures use real figures from Open Data mwzb-yiwb and OMB's pr
 Adopted Budget, Expense/Revenue/Contract volume (adopt25/erc6-25.pdf, page 182E, Manhattan
 Community Board 1, agency 341), so a regression to the old off-by-one labels fails here.
 
-Run:  python3 -m unittest test_nyc_budget_cleanup   (or: pytest)
+Run:  python -m pytest code/test_agency_budget_cleanup.py
+      (or, from code/: python3 -m unittest test_agency_budget_cleanup)
 """
 
 from __future__ import annotations
@@ -19,9 +20,11 @@ import csv
 import unittest
 from pathlib import Path
 
-import nyc_budget_cleanup as m
+import agency_budget_cleanup as m
 
-CSV_PATH = Path(__file__).resolve().parent / "nyc_budget.csv"
+# The committed CSV the agency explorer loads. In this repo it must exist: the class below used
+# to skip when it was missing, which would let a lost file pass CI.
+CSV_PATH = m.DEFAULT_OUT / "nyc_budget.csv"
 
 
 class _Years:
@@ -280,7 +283,6 @@ class HeaderContractTests(unittest.TestCase):
         self.assertNotIn(m.AGENCY_KEY, m.STATIC_COLUMNS + m.year_columns())
 
 
-@unittest.skipUnless(CSV_PATH.exists(), "data/nyc_budget.csv not present")
 class ShippedCsvTests(unittest.TestCase):
     """The CSV the site actually loads must carry OMB's published figures."""
 

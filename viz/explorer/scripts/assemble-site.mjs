@@ -5,6 +5,8 @@
  *   site/                 everything in viz/ except viz/explorer/ — the retirement notice
  *                         (index.html), the frozen legacy.html and its assets, exactly as the old
  *                         `git subtree split --prefix viz` deploy published them
+ *   site/agencies/        the City agency budgets explorer (viz/agencies/, #265), copied as is:
+ *                         a static page that loads agencies/data/nyc_budget.csv
  *   site/explorer/        the built explorer (viz/explorer/dist/, including dist/data/*.parquet)
  *
  * Run after `npm run data` and `npm run build`. A missing build or data file is a stop: a site
@@ -38,7 +40,7 @@ function main() {
   for (const name of Object.keys(manifest.files)) {
     if (!existsSync(join(DIST, "data", name))) throw new Error(`assemble-site: dist/data/${name} is missing`);
   }
-  for (const f of ["index.html", "legacy.html"]) {
+  for (const f of ["index.html", "legacy.html", "agencies/index.html", "agencies/faq.html", "agencies/data/nyc_budget.csv"]) {
     if (!existsSync(join(VIZ, f))) throw new Error(`assemble-site: viz/${f} is missing`);
   }
 
@@ -52,6 +54,7 @@ function main() {
     cpSync(join(VIZ, entry), join(OUT, entry), { recursive: true });
   }
   cpSync(DIST, join(OUT, "explorer"), { recursive: true });
+  if (!existsSync(join(OUT, "agencies", "data", "nyc_budget.csv"))) throw new Error("assemble-site: agencies/data/nyc_budget.csv did not reach the site");
   log("assembled", { out: OUT, commit: manifest.source_commit });
 }
 

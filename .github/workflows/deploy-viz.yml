@@ -17,12 +17,14 @@
 #      A failure stops the deploy; the last good gh-pages stays live.
 #   4. Build the app (Vite, relative base, so it works under /New-York-City-Budget/explorer/).
 #   5. Assemble the site: everything in viz/ except viz/explorer/ (as the subtree split published
-#      it) plus the built explorer in explorer/ (viz/explorer/scripts/assemble-site.mjs).
+#      it), which includes the City agency budgets explorer in agencies/ (viz/agencies/, #265),
+#      plus the built explorer in explorer/ (viz/explorer/scripts/assemble-site.mjs).
 #   6. Publish: commit the assembled tree with git plumbing (a temporary index, no checkout) and
 #      force-push it to gh-pages. Uses only first-party actions plus plain git.
 #
 # Scope: data/**, mcp/scripts/**, mcp/src/fold.ts, mcp/src/rowlinks.ts (+ publisher-copies.ts) and viz/**
-# feed the site, so a data merge redeploys.
+# (including viz/agencies/**) feed the site, so a data merge redeploys. The agency pipeline in
+# code/ does not change the site by itself; python-checks.yml tests it.
 # workflow_dispatch is kept for manual redeploys and for the PR that changes this file.
 #
 # Safety: force-push targets only the generated gh-pages deploy branch (never main). If a run
@@ -40,6 +42,7 @@ on:
       - "mcp/src/rowlinks.ts"   # the explorer's source links import the MCP's row-link builder
       - "mcp/src/publisher-copies.ts"
       - "viz/**"
+      - "viz/agencies/**"   # the City agency budgets half (#265); already inside viz/**, listed so it is never dropped
       - ".github/workflows/deploy-viz.yml"
   workflow_dispatch:
 
@@ -80,10 +83,13 @@ jobs:
         working-directory: viz/explorer
         run: npm run data
 
-      - name: Test (Pages notice, explorer unit tests, parity with the MCP index)
+      - name: Test (Pages notice, agency budgets, explorer unit tests, parity with the MCP index)
         run: |
           set -euo pipefail
           python3 viz/test_pages_site.py
+          # The agency pipeline's tests, stdlib only: the year rule, and OMB's printed totals in
+          # the CSV that agencies/ loads (#265).
+          (cd code && python3 -m unittest test_agency_budget_cleanup)
           (cd viz/explorer && npm test)
 
       - name: Build the explorer app

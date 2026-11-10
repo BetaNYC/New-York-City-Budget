@@ -1,6 +1,6 @@
 # `nyc_budget.csv` — schema and methodology
 
-Stable documentation of the cleaned CSV emitted by `nyc_budget_cleanup.py`. This file is the
+Stable documentation of the cleaned CSV emitted by [`code/agency_budget_cleanup.py`](../../../code/agency_budget_cleanup.py) (until #265, `data/nyc_budget_cleanup.py` in BetaNYC/nyc-budget-viz). This file is the
 contract a downstream consumer (the front-end today, an MCP or API tomorrow) can build against
 without re-reading the pipeline code.
 
@@ -84,7 +84,7 @@ release the unit appears in.
 ## Columns
 
 Header names are **case-sensitive** and must not change without a matching change in
-`js/app.js` (see the coupling note below).
+`viz/agencies/js/app.js` (see the coupling note below).
 
 ### Static columns
 
@@ -132,9 +132,10 @@ here must equal those labels exactly. The pipeline centralizes them in `APROP_LA
 ## Regenerating
 
 ```bash
-python3 data/nyc_budget_cleanup.py            # writes data/nyc_budget.csv (full) + sample
-python3 data/nyc_budget_cleanup.py --sample-only   # sample only (fast)
-python3 data/nyc_budget_cleanup.py --out DIR       # write into DIR
+# from the repo root
+python3 code/agency_budget_cleanup.py            # writes viz/agencies/data/nyc_budget.csv (full) + sample
+python3 code/agency_budget_cleanup.py --sample-only   # sample only (fast)
+python3 code/agency_budget_cleanup.py --out DIR       # write into DIR
 ```
 
 Stdlib only (`urllib`, `csv`, `json`) — no third-party dependencies. Idempotent: re-running

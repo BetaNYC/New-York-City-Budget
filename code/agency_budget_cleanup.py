@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """
-nyc_budget_cleanup.py — NYC Expense Budget -> DataMade "Look at Cook" nyc_budget.csv
+agency_budget_cleanup.py — NYC Expense Budget -> DataMade "Look at Cook" nyc_budget.csv
+
+Moved here from BetaNYC/nyc-budget-viz data/nyc_budget_cleanup.py (#265). It writes
+viz/agencies/data/nyc_budget.csv, which the agency explorer at viz/agencies/ loads.
 
 Pipeline for BetaNYC's NYC budget visualization (fork of DataMade's look-at-cook front-end).
 Pulls NYC's Expense Budget from NYC Open Data, keeps one release per budget cycle, maps each
 money column to the fiscal year it actually describes, aggregates to agency x unit of
 appropriation x fiscal year, and emits a CSV matching the look-at-cook cleaned-CSV contract so
-the front-end renders it. The output filename (nyc_budget.csv) matches js/app.js
+the front-end renders it. The output filename (nyc_budget.csv) matches viz/agencies/js/app.js
 `dataSource = '/data/nyc_budget.csv'`.
 
 DATA SOURCE (build-against-docs, never guess — Engineering Standard sec 0)
@@ -68,7 +71,7 @@ OUTPUT SCHEMA (look-at-cook cleaned-CSV contract; header names are case-sensitiv
   Numbers are written plain (no $, no commas) — the front-end parses floats.
 
 COLUMN/LABEL COUPLING (critical — do not drift)
-  js/app.js reads each year's value via `<apropTitle> + ' ' + year` and
+  viz/agencies/js/app.js reads each year's value via `<apropTitle> + ' ' + year` and
   `<expendTitle> + ' ' + year`, with apropTitle='Adopted' and expendTitle='Modified'.
   APROP_LABEL / EXPEND_LABEL below MUST equal those.
 
@@ -91,9 +94,10 @@ RUNTIME
   against the API; writes only local CSV files.
 
 USAGE
-  python3 nyc_budget_cleanup.py                 # full CSV + sample CSV
-  python3 nyc_budget_cleanup.py --sample-only   # sample CSV only
-  python3 nyc_budget_cleanup.py --out DIR       # write into DIR (default: script dir)
+  python3 code/agency_budget_cleanup.py                 # full CSV + sample CSV
+  python3 code/agency_budget_cleanup.py --sample-only   # sample CSV only
+  python3 code/agency_budget_cleanup.py --out DIR       # write into DIR
+                                                        # (default: viz/agencies/data/)
 """
 
 from __future__ import annotations
@@ -125,7 +129,7 @@ STATIC_COLUMNS = [
     "Department Description",
 ]
 
-# Must equal js/app.js apropTitle / expendTitle (see COLUMN/LABEL COUPLING).
+# Must equal viz/agencies/js/app.js apropTitle / expendTitle (see COLUMN/LABEL COUPLING).
 APROP_LABEL = "Adopted"
 EXPEND_LABEL = "Modified"
 
@@ -171,6 +175,9 @@ GATE_UNITS = {
     ("341", "002", APROP_LABEL, 2026): 27_245,
 }
 
+# Where the agency explorer loads its CSV from (viz/agencies/js/app.js `dataSource`).
+DEFAULT_OUT = Path(__file__).resolve().parent.parent / "viz" / "agencies" / "data"
+
 PAGE_SIZE = 50_000
 HTTP_TIMEOUT = 120
 
@@ -181,7 +188,7 @@ def log(event: str, **fields: object) -> None:
     """Structured, timestamped, secret-free log line."""
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     extra = " ".join(f"{k}={v}" for k, v in fields.items())
-    print(f"[nyc_budget_cleanup] {ts} {event} {extra}".rstrip(), file=sys.stderr)
+    print(f"[agency_budget_cleanup] {ts} {event} {extra}".rstrip(), file=sys.stderr)
 
 
 # --- SODA client -------------------------------------------------------------
@@ -441,8 +448,8 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument(
         "--out",
-        default=str(Path(__file__).resolve().parent),
-        help="Output directory (default: this script's directory).",
+        default=str(DEFAULT_OUT),
+        help="Output directory (default: viz/agencies/data/).",
     )
     ap.add_argument(
         "--sample-only",

@@ -20,6 +20,10 @@
 # Python 3.12 and the two requirement files PDF-RECIPE.md's venv uses (code/requirements.txt,
 # code/requirements-cv.txt). The PDFs are committed under source/, so a plain checkout has them.
 # Keep the paths below and code/test_ci_python_checks.py in step.
+#
+# The City agency budgets pipeline (code/agency_budget_cleanup.py, #265) and its 31 tests run in
+# `python -m pytest code` with the rest. viz/agencies/data/** is a trigger because those tests
+# also check the committed CSV the agency explorer loads.
 
 name: Python checks
 
@@ -34,6 +38,7 @@ on:
       - "data/pdf_review_suggestions.csv"
       - "research/*/data/**"
       - "source/**"
+      - "viz/agencies/data/**"   # the agency CSV; code/test_agency_budget_cleanup.py checks it (#265)
       - ".github/workflows/python-checks.yml"
   push:
     branches: [main]
@@ -45,6 +50,7 @@ on:
       - "data/pdf_review_suggestions.csv"
       - "research/*/data/**"
       - "source/**"
+      - "viz/agencies/data/**"   # the agency CSV; code/test_agency_budget_cleanup.py checks it (#265)
       - ".github/workflows/python-checks.yml"
   workflow_dispatch:
 

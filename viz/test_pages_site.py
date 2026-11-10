@@ -18,6 +18,9 @@ What these guard (each would have failed before the change that introduced it):
      to cite them; it has a heading, and it links to the new data (front page, repo, MCP).
   6. The notice links once to the in-browser explorer (explorer/), whose source and site
      assembly script exist in viz/explorer/.
+  7. The City agency budgets explorer (agencies/, from nyc-budget-viz, #265) is in place: every
+     local file its pages load exists, its data file exists, and no link or asset path starts
+     with "/" (the site lives under /New-York-City-Budget/, so "/" leaves it).
 """
 from __future__ import annotations
 
@@ -34,15 +37,20 @@ def _read(name):
 
 
 class _Refs(HTMLParser):
-    """Collect script srcs, stylesheet hrefs, img srcs, and inline script bodies."""
+    """Collect script srcs, stylesheet hrefs, img srcs, every href and src, and inline script
+    bodies."""
 
     def __init__(self):
         super().__init__()
         self.scripts, self.styles, self.imgs, self.inline = [], [], [], []
+        self.urls = []
         self._in_script = False
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
+        for k in ("href", "src"):
+            if a.get(k) is not None:
+                self.urls.append(a[k])
         if tag == "script":
             if a.get("src"):
                 self.scripts.append(a["src"])
@@ -149,6 +157,41 @@ def test_every_local_asset_legacy_loads_exists():
     m = re.search(r"dataSource\s*=\s*'([^']+)'", app)
     assert m and os.path.exists(os.path.join(HERE, m.group(1))), "app.js data file"
     assert '<a href="/">' not in app, 'breadcrumb must not point at "/" (the notice since 2.0.0)'
+
+
+AGENCY_PAGES = [os.path.join("agencies", "index.html"), os.path.join("agencies", "faq.html")]
+
+
+def _is_external(u):
+    return bool(re.match(r"^([a-z]+:|//|#)", u))
+
+
+def test_agencies_explorer_is_in_place_and_loads_only_files_that_exist():
+    for page in AGENCY_PAGES:
+        r = _refs(page)
+        local = [u for u in r.scripts + r.styles + r.imgs if u and not _is_external(u)]
+        assert local, f"premise: {page} loads local assets"
+        missing = [u for u in local if not os.path.exists(os.path.join(HERE, "agencies", u.split("?")[0]))]
+        assert not missing, f"{page} loads missing files: {missing}"
+    app = _read(os.path.join("agencies", "js", "app.js"))
+    m = re.search(r"dataSource\s*=\s*'([^']+)'", app)
+    assert m, "agencies/js/app.js names its data file"
+    assert not m.group(1).startswith("/"), f"dataSource must be relative: {m.group(1)}"
+    assert os.path.exists(os.path.join(HERE, "agencies", m.group(1))), m.group(1)
+    tmpl = _read(os.path.join("agencies", "js", "budget_helpers.js"))
+    t = re.search(r"tmpl_dir\s*=\s*'([^']+)'", tmpl)
+    assert t and os.path.isdir(os.path.join(HERE, "agencies", t.group(1))), "chart templates"
+
+
+def test_agencies_explorer_uses_relative_links_only():
+    # The site is served from /New-York-City-Budget/. A path starting with "/" (not "//") points
+    # at betanyc.github.io itself and breaks. nyc-budget-viz's index.html had href='/faq.html'.
+    for page in AGENCY_PAGES:
+        bad = [u for u in _refs(page).urls if u.startswith("/") and not u.startswith("//")]
+        assert not bad, f"{page} has root-absolute links: {bad}"
+    for js in ("app.js", "budget_helpers.js"):
+        text = _read(os.path.join("agencies", "js", js))
+        assert not re.search(r"""href=['"]/[^/]""", text), f"agencies/js/{js} writes a root-absolute link"
 
 
 def _run_standalone():
