@@ -20,6 +20,7 @@
   .bnyc-shell-in, .bnyc-shell-foot-in { max-width: 1230px; margin: 0 auto; padding: 0.6rem 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; }
   .bnyc-shell-name { font-weight: 700; color: #FFFFFF; text-decoration: none; margin-right: 0.5rem; }
   .bnyc-shell ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.1rem; }
+  .bnyc-shell li { margin: 0; padding: 0; }
   .bnyc-shell ul a { font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; }
   .bnyc-shell a { color: #FFFFFF; }
   .bnyc-shell a:focus-visible { outline: 3px solid #B8D6FF; outline-offset: 2px; }
@@ -29,13 +30,27 @@
   .bnyc-shell-foot-in { display: block; padding: 1rem 1.25rem; }
   .bnyc-shell-foot p { margin: 0.3rem 0; }
   .bnyc-shell-foot a { color: #2359a8; }
-  @media (max-width: 600px) { .bnyc-shell-in { padding: 0.4rem 1.25rem 0.2rem; } .bnyc-shell ul { gap: 0 1.1rem; } .bnyc-shell ul a { display: inline-flex; align-items: center; min-height: 44px; } }
+  /* Menu button (burger) below 782px, brand.md's tablet breakpoint. Without JavaScript the
+     button stays hidden and the links show as a wrapped row, as before. */
+  .bnyc-menu-btn { display: none; margin-left: auto; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 0.85rem; background: transparent; color: #FFFFFF; border: 1px solid #FFFFFF; border-radius: 0; font: 700 15px "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; cursor: pointer; }
+  .bnyc-menu-btn:hover { background: #1c4785; }
+  .bnyc-menu-btn:focus-visible { outline: 3px solid #B8D6FF; outline-offset: 2px; }
+  .bnyc-menu-btn svg { width: 20px; height: 20px; }
+  @media (max-width: 781px) {
+    .bnyc-shell-in { flex-wrap: wrap; }
+    .bnyc-shell.bnyc-js .bnyc-menu-btn { display: inline-flex; }
+    .bnyc-shell.bnyc-js ul { display: none; }
+    .bnyc-shell.bnyc-js ul.bnyc-open { display: flex; flex-direction: column; flex-basis: 100%; gap: 0; padding: 0.25rem 0 0.5rem; border-top: 1px solid #B8D6FF; margin-top: 0.4rem; }
+    .bnyc-shell ul a { display: flex; align-items: center; min-height: 44px; }
+  }
+  @media (max-width: 600px) { .bnyc-shell-in { padding: 0.4rem 1.25rem; } .bnyc-shell ul { gap: 0 1.1rem; } }
 </style>
 <a class="bnyc-skip" href="#main">Skip to content</a>
 <nav class="bnyc-shell" aria-label="NYC budget data">
   <div class="bnyc-shell-in">
     <a class="bnyc-shell-name" href="../">BetaNYC · NYC budget data</a>
-    <ul>
+    <button class="bnyc-menu-btn" type="button" aria-expanded="false" aria-controls="bnyc-menu" hidden><svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M2 4h16M2 10h16M2 16h16" stroke="currentColor" stroke-width="2" fill="none"/></svg>Menu</button>
+    <ul id="bnyc-menu">
       <li><a href="../">Home</a></li>
       <li><a href="../agencies/">City agency budgets</a></li>
       <li><a href="../explorer/" aria-current="page">Council discretionary funding</a></li>
@@ -43,6 +58,18 @@
     </ul>
   </div>
 </nav>
+<script>
+(function () {
+  var nav = document.querySelector(".bnyc-shell"), btn = nav && nav.querySelector(".bnyc-menu-btn"),
+      list = nav && nav.querySelector("ul");
+  if (!btn || !list) return;
+  nav.classList.add("bnyc-js");
+  btn.hidden = false;
+  function set(open) { list.classList.toggle("bnyc-open", open); btn.setAttribute("aria-expanded", open ? "true" : "false"); }
+  btn.addEventListener("click", function () { set(btn.getAttribute("aria-expanded") !== "true"); });
+  nav.addEventListener("keydown", function (e) { if (e.key === "Escape" && btn.getAttribute("aria-expanded") === "true") { set(false); btn.focus(); } });
+})();
+</script>
 <!-- site-shell:top:end -->
 
     <div id="root"></div>
