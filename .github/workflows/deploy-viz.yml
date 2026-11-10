@@ -90,6 +90,9 @@ jobs:
           # The agency pipeline's tests, stdlib only: the year rule, and OMB's printed totals in
           # the CSV that agencies/ loads (#265).
           (cd code && python3 -m unittest test_agency_budget_cleanup)
+          # Every Adopted/Modified cell agencies/ shows, recomputed from the committed Open Data
+          # snapshot with the year rule (#268). Exit 1 on any difference.
+          python3 code/qa_agency_budget.py
           (cd viz/explorer && npm test)
 
       - name: Build the explorer app
