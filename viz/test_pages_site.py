@@ -30,6 +30,7 @@ What these guard (each would have failed before the change that introduced it):
 """
 from __future__ import annotations
 
+import importlib.util
 import os
 import re
 from html.parser import HTMLParser
@@ -281,7 +282,8 @@ def test_every_page_has_the_current_site_shell():
 
 def test_every_page_reaches_every_other_in_one_click():
     shell = _shell()
-    site_pages = {"": "index.html", "agencies/": "agencies/index.html", "explorer/": "explorer/index.html"}
+    site_pages = {"": "index.html", "agencies/": "agencies/index.html", "explorer/": "explorer/index.html",
+                  "about.html/": "about.html"}
     for page in shell.PAGES:
         here = os.path.dirname(page["path"])
         top = _read(page["path"]).split(shell.TOP_START.split(" (")[0], 1)[1].split(shell.TOP_END, 1)[0]
@@ -307,6 +309,50 @@ def test_every_page_states_fiscal_year_source_and_date():
         assert "fiscal year runs July 1 to June 30 and is named for the year it ends" in text, page["path"]
         assert "Source." in text and re.search(r"Last revised: \d{4}-\d{2}-\d{2}", text), page["path"]
     assert "mwzb-yiwb" in _read("agencies/index.html").split(shell.BOT_START.split(" (")[0])[1]
+
+
+def test_every_page_offers_the_download_and_it_exists():
+    """FAILS if a page's footer has no "Download the data" link, or the About page's download
+    section, or a file it links, is missing (2026-11-10)."""
+    shell = _shell()
+    for page in shell.PAGES:
+        foot = _read(page["path"]).split(shell.BOT_START.split(" (")[0], 1)[1]
+        assert re.search(r'href="[./]*about\.html#download"[^>]*>Download the data<', foot), page["path"]
+    about = _read("about.html")
+    assert 'id="download"' in about
+    for href in re.findall(r'href="([^":#]+\.csv)"', about):
+        assert os.path.exists(os.path.join(HERE, href)), href
+
+
+def test_about_has_the_glossary_and_every_source():
+    """FAILS if the About page loses the fiscal year definition, a glossary term, or a dataset the
+    repository reads (code/open_data_registry.py)."""
+    about = _read("about.html")
+    assert 'id="glossary"' in about and 'id="sources"' in about
+    assert "runs July 1 to June 30 and is named for the year it ends" in about
+    for term in ("fiscal-year", "adopted", "modified", "year-rule", "unit-of-appropriation", "intra-city",
+                 "net-and-gross", "schedule-c", "transparency-resolution", "disclosure", "community-board"):
+        assert f'id="{term}"' in about, term
+    spec = importlib.util.spec_from_file_location(
+        "open_data_registry", os.path.join(HERE, "..", "code", "open_data_registry.py"))
+    reg = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(reg)
+    for ds in reg.DATASETS:
+        assert f"/d/{ds}" in about, f"{ds} not listed on the About page"
+
+
+def test_city_budget_pages_list_the_site_contents():
+    """FAILS if the contents list under the City budget page's introduction (and its FAQ's) is
+    missing or does not name every page in the site bar."""
+    shell = _shell()
+    for page in shell.PAGES:
+        if not page.get("toc"):
+            continue
+        text = _read(page["path"])
+        assert shell.TOC_START in text, page["path"]
+        toc = text.split(shell.TOC_START, 1)[1].split(shell.TOC_END, 1)[0]
+        for _key, _href, label in shell.NAV:
+            assert f">{label}<" in toc, (page["path"], label)
 
 
 def test_no_stale_citywide_total_in_copy():

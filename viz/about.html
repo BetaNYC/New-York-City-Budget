@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- About page (#267): the glossary, every data source, the downloads, and how AI is used.
+         Self-contained like the front page. The top bar and footer are written by viz/site_shell.py. -->
+    <meta name="description" content="About BetaNYC's NYC budget data: a glossary of budget words, every data source, where to download the data, and how we use AI.">
+    <meta name="author" content="BetaNYC">
+    <title>About — NYC budget data — BetaNYC</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <style>
+      /* BetaNYC brand tokens (archive/betanyc/brand.md), the same set as viz/site_shell.py's bar. */
+      :root { --bnyc-blue: #2359a8; --bnyc-blue-secondary: #B8D6FF; --bnyc-bg-blue: #EEF4FF; --bnyc-bg-blue-light: #F9FAFF; --bnyc-dark-gray: #414141; --bnyc-light-gray: #F1F1F1; --bnyc-border-gray: #949494;
+              --font-display: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif; --font-heading: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      body { margin: 0; font-family: var(--font-display); font-size: 17px; line-height: 1.75; color: var(--bnyc-dark-gray); background: #FFFFFF; -webkit-font-smoothing: antialiased; }
+      main { max-width: 1230px; margin: 0 auto; padding: 2.25rem 1.25rem 3rem; box-sizing: border-box; }
+      main > * { max-width: 750px; }
+      main > .doors, main > table, main > .table-wrap { max-width: none; }
+      h1, h2, h3 { color: var(--bnyc-blue); font-weight: 700; }
+      h1 { font-family: var(--font-display); font-size: clamp(1.9rem, 4.5vw, 3.2rem); line-height: 1.3; margin: 0.5rem 0 1rem; }
+      h2 { font-family: var(--font-heading); font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.4; margin: 2.25rem 0 0.7rem; }
+      a { color: var(--bnyc-blue); }
+      a:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: 2px; }
+      p, ul { margin: 0 0 1rem; }
+      ul { padding-left: 1.3rem; }
+      li { margin: 0.35rem 0; }
+      code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--bnyc-light-gray); padding: 0.1em 0.35em; font-size: 0.88em; }
+      .notice, .correction { background: var(--bnyc-bg-blue); border: 1px solid var(--bnyc-border-gray); border-left: 6px solid var(--bnyc-blue); padding: 0.8rem 1.1rem; }
+      footer { margin-top: 2.5rem; font-size: 0.94rem; }
+      #deep-link { display: none; }
+      /* Cards: 1px #949494 border, square corners (brand.md, card standard 2026-06-22). */
+      .doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 1.5rem; margin: 1.5rem 0 2rem; }
+      .door { border: 1px solid var(--bnyc-border-gray); border-radius: 0; background: #FFFFFF; padding: 1.25rem 1.4rem; display: flex; flex-direction: column; }
+      .door h2 { margin-top: 0; }
+      .door p { margin: 0 0 0.6rem; font-size: 0.97rem; }
+      .door strong { color: var(--bnyc-blue); }
+      .door .go { align-self: flex-start; margin-top: auto; background: var(--bnyc-blue); color: #FFFFFF; padding: 8px 30px; text-decoration: none; }
+      .door .go:hover { text-decoration: underline; }
+      .door .go:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: 3px; }
+      table { border-collapse: collapse; width: 100%; font-size: 0.95rem; margin-bottom: 1rem; }
+      th, td { text-align: left; vertical-align: top; border: 1px solid var(--bnyc-border-gray); padding: 0.5rem 0.7rem; }
+      th { background: var(--bnyc-bg-blue); color: var(--bnyc-blue); font-family: var(--font-heading); font-weight: 700; }
+      @media (max-width: 600px) { body { font-size: 16px; } table { display: block; overflow-x: auto; } }
+      dl.glossary dt { font-family: var(--font-heading); font-weight: 700; color: var(--bnyc-blue); margin-top: 1rem; }
+      dl.glossary dd { margin: 0.2rem 0 0; }
+      .table-wrap { overflow-x: auto; }
+      .contents { font-size: 0.97rem; }
+    </style>
+  </head>
+  <body>
+<!-- site-shell:top:start (written by viz/site_shell.py; do not edit) -->
+<style>
+  /* BetaNYC brand tokens: BetaNYC_AI_Workspace archive/betanyc/brand.md (finalized 2026-05-06),
+     the same set as grounding-ai-audit-card's assets/css/betanyc.css. No font files are fetched:
+     Poppins and Roboto are used when installed, else the system fallback. */
+  .bnyc-shell, .bnyc-shell-foot, .bnyc-skip { font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 1.5; box-sizing: border-box; }
+  .bnyc-skip { position: absolute; left: -10000px; top: 0; z-index: 1000; background: #FFFFFF; color: #2359a8; border: 2px solid #2359a8; padding: 0.5rem 0.9rem; font-weight: 700; }
+  .bnyc-skip:focus { left: 0.5rem; top: 0.5rem; }
+  .bnyc-shell { background: #2359a8; color: #FFFFFF; font-size: 15px; }
+  .bnyc-shell-in, .bnyc-shell-foot-in { max-width: 1230px; margin: 0 auto; padding: 0.6rem 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; }
+  .bnyc-shell-name { font-weight: 700; color: #FFFFFF; text-decoration: none; margin-right: 0.5rem; }
+  .bnyc-shell ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.1rem; }
+  .bnyc-shell li { margin: 0; padding: 0; }
+  .bnyc-shell ul a { font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; }
+  .bnyc-shell a { color: #FFFFFF; }
+  .bnyc-shell a:focus-visible { outline: 3px solid #B8D6FF; outline-offset: 2px; }
+  .bnyc-shell-foot a:focus-visible, .bnyc-skip:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
+  .bnyc-shell a[aria-current="page"] { text-decoration-thickness: 3px; text-underline-offset: 4px; }
+  .bnyc-shell-foot { background: #EEF4FF; color: #414141; border-top: 1px solid #949494; font-size: 14px; margin-top: 2rem; }
+  .bnyc-shell-foot-in { display: block; padding: 1rem 1.25rem; }
+  .bnyc-shell-foot p { margin: 0.3rem 0; }
+  .bnyc-shell-foot a { color: #2359a8; }
+  .bnyc-toc { margin: 0.75rem 0 1rem; font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  .bnyc-toc h2 { font-size: 15px; font-weight: 700; color: #414141; margin: 0 0 0.3rem; text-transform: none; }
+  .bnyc-toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.3rem 0.5rem; }
+  .bnyc-toc li { margin: 0; }
+  .bnyc-toc a, .bnyc-toc a:visited { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.9rem; border: 1px solid #2359a8; color: #2359a8; background: #FFFFFF; font-weight: 700; text-decoration: none; }
+  .bnyc-toc a:hover { background: #EEF4FF; text-decoration: underline; color: #2359a8; }
+  /* !important: a page's own link color (the agency page's "#header a") would otherwise win. */
+  .bnyc-toc a[aria-current="page"], .bnyc-toc a[aria-current="page"]:visited, .bnyc-toc a[aria-current="page"]:hover { background: #2359a8; color: #FFFFFF !important; }
+  .bnyc-toc a:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
+  .bnyc-shell-foot .bnyc-dl { display: inline-block; margin: 0.2rem 0.6rem 0.4rem 0; padding: 6px 24px; background: #2359a8; color: #FFFFFF; text-decoration: none; font-weight: 700; }
+  .bnyc-shell-foot .bnyc-dl:hover { background: #1c4785; text-decoration: underline; }
+  /* Menu button (burger) below 782px, brand.md's tablet breakpoint. Without JavaScript the
+     button stays hidden and the links show as a wrapped row, as before. */
+  .bnyc-menu-btn { display: none; margin-left: auto; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 0.85rem; background: transparent; color: #FFFFFF; border: 1px solid #FFFFFF; border-radius: 0; font: 700 15px "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; cursor: pointer; }
+  .bnyc-menu-btn:hover { background: #1c4785; }
+  .bnyc-menu-btn:focus-visible { outline: 3px solid #B8D6FF; outline-offset: 2px; }
+  .bnyc-menu-btn svg { width: 20px; height: 20px; }
+  @media (max-width: 781px) {
+    .bnyc-shell-in { flex-wrap: wrap; }
+    .bnyc-shell.bnyc-js .bnyc-menu-btn { display: inline-flex; }
+    .bnyc-shell.bnyc-js ul { display: none; }
+    .bnyc-shell.bnyc-js ul.bnyc-open { display: flex; flex-direction: column; flex-basis: 100%; gap: 0; padding: 0.25rem 0 0.5rem; border-top: 1px solid #B8D6FF; margin-top: 0.4rem; }
+    .bnyc-shell ul a { display: flex; align-items: center; min-height: 44px; }
+  }
+  @media (max-width: 600px) { .bnyc-shell-in { padding: 0.4rem 1.25rem; } .bnyc-shell ul { gap: 0 1.1rem; } }
+</style>
+<a class="bnyc-skip" href="#main">Skip to content</a>
+<nav class="bnyc-shell" aria-label="NYC budget data">
+  <div class="bnyc-shell-in">
+    <a class="bnyc-shell-name" href="./">BetaNYC · NYC budget data</a>
+    <button class="bnyc-menu-btn" type="button" aria-expanded="false" aria-controls="bnyc-menu" hidden><svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M2 4h16M2 10h16M2 16h16" stroke="currentColor" stroke-width="2" fill="none"/></svg>Menu</button>
+    <ul id="bnyc-menu">
+      <li><a href="./">Home</a></li>
+      <li><a href="./explorer/">Council discretionary funding</a></li>
+      <li><a href="./agencies/">City budget</a></li>
+      <li><a href="./about.html" aria-current="page">About</a></li>
+    </ul>
+  </div>
+</nav>
+<script>
+(function () {
+  var nav = document.querySelector(".bnyc-shell"), btn = nav && nav.querySelector(".bnyc-menu-btn"),
+      list = nav && nav.querySelector("ul");
+  if (!btn || !list) return;
+  nav.classList.add("bnyc-js");
+  btn.hidden = false;
+  function set(open) { list.classList.toggle("bnyc-open", open); btn.setAttribute("aria-expanded", open ? "true" : "false"); }
+  btn.addEventListener("click", function () { set(btn.getAttribute("aria-expanded") !== "true"); });
+  nav.addEventListener("keydown", function (e) { if (e.key === "Escape" && btn.getAttribute("aria-expanded") === "true") { set(false); btn.focus(); } });
+})();
+</script>
+<!-- site-shell:top:end -->
+
+    <main id="main">
+      <h1>About NYC budget data</h1>
+
+      <p>BetaNYC publishes New York City's budget as data you can search and check, in two halves. <strong>City budget</strong>: every City agency's adopted and modified budget, FY2017–FY2027, from NYC Open Data. <strong>Council discretionary funding</strong>: which organizations the Council funds, for how much, from the Council's own spreadsheets, its budget PDFs and NYC Open Data. Every number comes from the City's own data, and we never change one by hand.</p>
+
+      <nav class="contents" aria-label="On this page">
+        <p><strong>On this page:</strong> <a href="#glossary">Glossary</a> · <a href="#sources">Data sources</a> · <a href="#download">Download the data</a> · <a href="#ai">How we use AI</a></p>
+      </nav>
+
+      <h2 id="glossary">Glossary</h2>
+      <dl class="glossary">
+        <dt id="fiscal-year">Fiscal year (FY)</dt>
+        <dd>New York City's budget year runs July 1 to June 30 and is named for the year it ends. FY2026 is July 1, 2025 to June 30, 2026. Every year on this site is a fiscal year.</dd>
+        <dt id="adopted">Adopted budget</dt>
+        <dd>The budget the Mayor and Council agree in June, before the fiscal year starts.</dd>
+        <dt id="modified">Modified budget</dt>
+        <dd>The adopted budget as changed during the year. In the City budget half, "Modified" is the figure as of June, near the year's end; Checkbook NYC's year-end figure can differ slightly. The newest year's Modified is "Not yet published": the City publishes it in the release that adopts the next year's budget.</dd>
+        <dt id="releases">Preliminary, Executive and Adopted releases</dt>
+        <dd>OMB publishes each year's budget up to three times: Preliminary (January), Executive (April or May) and Adopted (June). Each restates the whole budget, so they must never be added together. The City budget half uses only the June release.</dd>
+        <dt id="year-rule">The <code>mwzb-yiwb</code> year rule</dt>
+        <dd>In the Open Data release tagged <code>fiscal_year = Y</code>, <code>financial_plan_amount</code> is FY Y and the other two amounts are FY Y−1. So Adopted Y = <code>financial_plan_amount</code> from the June release tagged Y, and Modified Y = <code>current_modified_budget_amount</code> from the June release tagged Y+1.</dd>
+        <dt id="agency">Agency</dt>
+        <dd>A City department or office with its own budget, such as the Department of Education. Each community board is its own agency.</dd>
+        <dt id="community-board">Community board</dt>
+        <dd>One of New York City's 59 community boards. Each is its own agency in the budget: Manhattan 341–352, Bronx 381–392, Brooklyn 471–488, Queens 431–444, Staten Island 491–493. Board <em>n</em> in a borough is the first code plus <em>n</em>−1: Brooklyn Community Board 6 is 476.</dd>
+        <dt id="unit-of-appropriation">Unit of appropriation</dt>
+        <dd>The lines the expense budget is adopted by. An agency has one or more, often split into Personal Services and Other Than Personal Services.</dd>
+        <dt id="ps-otps">Personal Services (PS) and Other Than Personal Services (OTPS)</dt>
+        <dd>PS is pay for the agency's staff. OTPS is everything else: supplies, contracts, rent and so on.</dd>
+        <dt id="intra-city">Intra-city</dt>
+        <dd>Money one City agency pays another for services it buys from it. The same dollars appear in both agencies' budgets.</dd>
+        <dt id="net-and-gross">Net and gross</dt>
+        <dd>OMB's headline "net total budget" leaves intra-city money out, so it is not counted twice. NYC Open Data rows include it, so a total added up from Open Data is gross. FY2026 adopted: $115.9 billion net, $117,791,473,676 gross as counted in Open Data, of which $1,884,163,949 is intra-city.</dd>
+        <dt id="expense-capital">Expense and capital budgets</dt>
+        <dd>The expense budget pays for running the City each year: staff, services, supplies. The capital budget pays for things that last: buildings, parks, equipment. The City budget half is the expense budget. The Council half has both.</dd>
+        <dt id="discretionary">Council discretionary funding</dt>
+        <dd>Money in the budget that the Council, not the Mayor, directs to particular organizations and programs. It is a small part of the budget.</dd>
+        <dt id="schedule-c">Schedule C</dt>
+        <dd>The list, printed with the adopted budget, of the Council's discretionary awards, with each award's initiative and category.</dd>
+        <dt id="initiative">Initiative</dt>
+        <dd>In Schedule C, the program a discretionary award is funded under.</dd>
+        <dt id="transparency-resolution">Transparency resolution</dt>
+        <dd>A Council resolution, after the budget is adopted, that adds, removes or changes discretionary awards.</dd>
+        <dt id="disclosure">Expense funding disclosure</dt>
+        <dd>The Council's spreadsheet of discretionary awards, with each grantee's EIN, amount and clearance status. It is a later list than Schedule C, with awards added during the year.</dd>
+        <dt id="clearance-status">Clearance status</dt>
+        <dd>The status the disclosure gives each award, such as Cleared or Pending. An early snapshot (FY2009, FY2013) has many awards still Pending, so its Cleared total is not the year's outcome.</dd>
+        <dt id="capital-designation">Capital designation</dt>
+        <dd>Capital money the Council directs to a particular project, from the Council's capital lists.</dd>
+        <dt id="capital-book">Capital book (§254 supporting detail)</dt>
+        <dd>The detail behind the capital changes the Council adopts under Section 254 of the City Charter: the Council's capital additions, project by project.</dd>
+        <dt id="budget-line">Budget line</dt>
+        <dd>A line of the City's capital budget. The Council explorer compares the Council's capital money with OMB's, budget line by budget line.</dd>
+        <dt id="terms-and-conditions">Terms and Conditions</dt>
+        <dd>The reports the adopted budget requires agencies to make.</dd>
+        <dt id="ein">EIN</dt>
+        <dd>An organization's federal tax ID number.</dd>
+        <dt id="mocs-id">MOCS ID</dt>
+        <dd>The Mayor's Office of Contract Services' ID for an award, which NYC Open Data adds to matching disclosure rows (FY2009–FY2021).</dd>
+        <dt id="omb">OMB</dt>
+        <dd>The Mayor's Office of Management and Budget. It prepares the budget and publishes the agency data in <code>mwzb-yiwb</code>.</dd>
+        <dt id="open-data">NYC Open Data</dt>
+        <dd>The City's open data portal, <a href="https://data.cityofnewyork.us">data.cityofnewyork.us</a>. Each dataset has a short ID, such as <code>mwzb-yiwb</code>.</dd>
+        <dt id="mcp">MCP server</dt>
+        <dd>A tool an AI assistant can use. BetaNYC's <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a> lets an assistant search the Council data and answer with the source of each row.</dd>
+      </dl>
+
+      <h2 id="sources">Data sources</h2>
+      <p>Every source the site and its data use. Each Council row says which one it came from.</p>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Source</th><th scope="col">What it gives</th><th scope="col">Years</th></tr></thead>
+        <tbody>
+          <tr><td>NYC Open Data, Expense Budget <a href="https://data.cityofnewyork.us/d/mwzb-yiwb"><code>mwzb-yiwb</code></a>, published for OMB</td><td>City budget: every agency's adopted and modified budget, by unit of appropriation. The June release of each year.</td><td>FY2017–FY2027</td></tr>
+          <tr><td>OMB's printed Adopted Budget (<a href="https://www.nyc.gov/site/omb/publications/publications.page">OMB publications</a>)</td><td>A check: the City budget data build stops unless it matches OMB's printed FY2026 Adopted Budget to the dollar.</td><td>FY2026</td></tr>
+          <tr><td>The Council's expense funding disclosure (<a href="https://rnd.council.nyc.gov/expense_funding/">Council Research &amp; Data</a>)</td><td>Each discretionary award: grantee, EIN, amount, clearance status, mailing address.</td><td>FY2013–FY2027</td></tr>
+          <tr><td>The Council's own workbooks, saved by the <a href="https://web.archive.org/">Internet Archive</a></td><td>The disclosure for the early years, and other files the Council once published on council.nyc.gov.</td><td>FY2009, FY2011, FY2012</td></tr>
+          <tr><td>The Council's capital workbooks</td><td>Capital designations.</td><td>FY2015–FY2017, FY2026, FY2027</td></tr>
+          <tr><td>NYC Open Data, City Council Capital Budget <a href="https://data.cityofnewyork.us/d/t474-a92g"><code>t474-a92g</code></a>, published by the Council</td><td>Capital designations.</td><td>FY2019–FY2025</td></tr>
+          <tr><td>The Council's budget PDFs (<a href="https://council.nyc.gov/budget/">Council budget pages</a>)</td><td>Read twice and checked: Schedule C (FY2018–FY2027), transparency resolutions (FY2018–FY2026), the capital book (FY2018–FY2020, FY2022–FY2027) and Terms and Conditions (FY2018, FY2021–FY2027).</td><td>FY2018–FY2027</td></tr>
+          <tr><td>The City's Government Publications Portal (DORIS)</td><td>Copies of budget PDFs City agencies filed there, mostly OMB's copies of the Council's capital supporting detail books.</td><td>FY2009–FY2027</td></tr>
+          <tr><td>NYC Open Data, Capital Budget <a href="https://data.cityofnewyork.us/d/46m8-77gv"><code>46m8-77gv</code></a> and Capital Commitment Plan <a href="https://data.cityofnewyork.us/d/2cmn-uidm"><code>2cmn-uidm</code></a>, OMB's</td><td>To compare the Council's capital money with OMB's, by budget line.</td><td>FY2019–FY2027</td></tr>
+          <tr><td>NYC Open Data, Capital Projects Database (CPDB) – Commitments <a href="https://data.cityofnewyork.us/d/djxg-kcfi"><code>djxg-kcfi</code></a></td><td>Whether a Council capital line has a planned commitment now.</td><td>FY2026 on</td></tr>
+          <tr><td>NYC Open Data, City Council Discretionary Funding <a href="https://data.cityofnewyork.us/d/4d7f-74pe"><code>4d7f-74pe</code></a></td><td>A cross-check of the disclosure, and the MOCS ID. It stopped updating in April 2021.</td><td>FY2009–FY2021</td></tr>
+          <tr><td>NYC Open Data, Discretionary Award Tracker <a href="https://data.cityofnewyork.us/d/ujre-m2tj"><code>ujre-m2tj</code></a></td><td>A cross-check of the disclosure: each award's latest posting.</td><td>FY2019–FY2021</td></tr>
+          <tr><td>NYC Open Data, City Council Members (1999 to Present) <a href="https://data.cityofnewyork.us/d/uvw5-9znb"><code>uvw5-9znb</code></a></td><td>Council member IDs and terms.</td><td>1999 on</td></tr>
+          <tr><td>U.S. Census Bureau, 2020 ZCTA-to-County relationship file</td><td>To check the ZIP codes in the disclosure's mailing addresses. ZIP codes are flagged, never rewritten.</td><td>2020</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>More detail on every column: the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/DATA-DICTIONARY.md">data dictionary</a>. Known problems in the sources: <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/DATA-ANOMALIES.md">data anomalies</a>.</p>
+
+      <h2 id="download">Download the data</h2>
+      <ul>
+        <li><strong>City budget:</strong> <a href="agencies/data/nyc_budget.csv">one CSV, every agency and unit of appropriation, FY2017–FY2027</a> (<a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/viz/agencies/data/SCHEMA.md">what each column means</a>).</li>
+        <li><strong>Council discretionary funding:</strong> the CSVs in the repository's <a href="https://github.com/BetaNYC/New-York-City-Budget/tree/main/data">data folder</a>, described in the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/DATA-DICTIONARY.md">data dictionary</a>; the checked tables from the Council's budget PDFs in the <a href="https://github.com/BetaNYC/New-York-City-Budget/releases">data releases</a>.</li>
+        <li><strong>Ask an AI assistant:</strong> the <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a> server.</li>
+      </ul>
+
+      <h2 id="ai">How we use AI</h2>
+      <p>BetaNYC uses AI tools openly and with people accountable for the result. The code here was built by AI agents (Anthropic's Claude) working under the direction and review of BetaNYC staff. We tell you this because transparency is part of <a href="https://beta.nyc/about/ai-policy">BetaNYC's AI policy</a>.</p>
+      <p><strong>The figures are not AI-generated.</strong> Agency figures are read from NYC Open Data's API and summed by a script. Council spreadsheet values are read cell by cell. PDF values are read from the PDF's own text and ruled lines, and checked against an image of the page by ordinary image processing, not a language model. Where a person confirmed that the page shows something the text layer doesn't, the row says so. Every row keeps its source.</p>
+      <p>One exception, not served: the FY2009 transparency resolutions are scans with no text, so they were read by OCR (a model). They stay in the repository as a research dataset.</p>
+    </main><!-- site-shell:bottom:start (written by viz/site_shell.py; do not edit) -->
+<div class="bnyc-shell-foot" role="region" aria-label="About this data">
+  <div class="bnyc-shell-foot-in">
+    <p><a class="bnyc-dl" href="./about.html#download">Download the data</a> CSV files for every agency and every Council award, and where each comes from.</p>
+    <p><strong>Fiscal year.</strong> New York City&#x27;s fiscal year runs July 1 to June 30 and is named for the year it ends: FY2026 is July 1, 2025 to June 30, 2026.</p>
+    <p><strong>Source.</strong> City agency budgets: NYC Open Data, Expense Budget (<a href="https://data.cityofnewyork.us/d/mwzb-yiwb">mwzb-yiwb</a>), the June release of each year, through the release of 2026-06-30 (FY2027 adopted). FY2027 modified is not yet published.<br>Council discretionary funding: the Council's expense funding disclosure and capital lists, NYC Open Data, and the tables read from the Council's budget PDFs (data release pdf-tables-2026-10-24-260d16e). Every source: the list on this page.</p>
+    <p><strong>Last revised:</strong> 2026-11-10. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+  </div>
+</div>
+<!-- site-shell:bottom:end -->
+
+  </body>
+</html>

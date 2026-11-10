@@ -51,11 +51,16 @@ PAGES = [
     },
     {
         "path": "agencies/index.html", "root": "../", "current": "agencies", "skip": "content",
-        "source": AGENCY_SOURCE, "revised": "2026-11-09",
+        "source": AGENCY_SOURCE, "revised": "2026-11-10", "toc": True,
     },
     {
         "path": "agencies/faq.html", "root": "../", "current": "agencies", "skip": "content",
-        "source": AGENCY_SOURCE, "revised": "2026-11-09",
+        "source": AGENCY_SOURCE, "revised": "2026-11-10", "toc": True,
+    },
+    {
+        "path": "about.html", "root": "./", "current": "about", "skip": "main",
+        "source": AGENCY_SOURCE + "<br>" + COUNCIL_SOURCE + " Every source: the list on this page.",
+        "revised": "2026-11-10",
     },
     {
         # The explorer's source page; Vite builds it into explorer/index.html. Its React app has
@@ -72,11 +77,13 @@ PAGES = [
     },
 ]
 
+# The site's pages, in the order Noel set on 2026-11-10: the top bar and the contents list on the
+# City budget pages both use it.
 NAV = [
     ("home", "", "Home"),
-    ("agencies", "agencies/", "City agency budgets"),
     ("council", "explorer/", "Council discretionary funding"),
-    ("which", "#which-tool", "Which tool answers my question?"),
+    ("agencies", "agencies/", "City budget"),
+    ("about", "about.html", "About"),
 ]
 
 STYLE = """<style>
@@ -100,6 +107,17 @@ STYLE = """<style>
   .bnyc-shell-foot-in { display: block; padding: 1rem 1.25rem; }
   .bnyc-shell-foot p { margin: 0.3rem 0; }
   .bnyc-shell-foot a { color: #2359a8; }
+  .bnyc-toc { margin: 0.75rem 0 1rem; font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  .bnyc-toc h2 { font-size: 15px; font-weight: 700; color: #414141; margin: 0 0 0.3rem; text-transform: none; }
+  .bnyc-toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.3rem 0.5rem; }
+  .bnyc-toc li { margin: 0; }
+  .bnyc-toc a, .bnyc-toc a:visited { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.9rem; border: 1px solid #2359a8; color: #2359a8; background: #FFFFFF; font-weight: 700; text-decoration: none; }
+  .bnyc-toc a:hover { background: #EEF4FF; text-decoration: underline; color: #2359a8; }
+  /* !important: a page's own link color (the agency page's "#header a") would otherwise win. */
+  .bnyc-toc a[aria-current="page"], .bnyc-toc a[aria-current="page"]:visited, .bnyc-toc a[aria-current="page"]:hover { background: #2359a8; color: #FFFFFF !important; }
+  .bnyc-toc a:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
+  .bnyc-shell-foot .bnyc-dl { display: inline-block; margin: 0.2rem 0.6rem 0.4rem 0; padding: 6px 24px; background: #2359a8; color: #FFFFFF; text-decoration: none; font-weight: 700; }
+  .bnyc-shell-foot .bnyc-dl:hover { background: #1c4785; text-decoration: underline; }
   /* Menu button (burger) below 782px, brand.md's tablet breakpoint. Without JavaScript the
      button stays hidden and the links show as a wrapped row, as before. */
   .bnyc-menu-btn { display: none; margin-left: auto; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 0.85rem; background: transparent; color: #FFFFFF; border: 1px solid #FFFFFF; border-radius: 0; font: 700 15px "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; cursor: pointer; }
@@ -133,6 +151,7 @@ SCRIPT = """<script>
 </script>"""
 
 TOP_START, TOP_END = "<!-- site-shell:top:start (written by viz/site_shell.py; do not edit) -->", "<!-- site-shell:top:end -->"
+TOC_START, TOC_END = "<!-- site-shell:toc:start (written by viz/site_shell.py; do not edit) -->", "<!-- site-shell:toc:end -->"
 BOT_START, BOT_END = "<!-- site-shell:bottom:start (written by viz/site_shell.py; do not edit) -->", "<!-- site-shell:bottom:end -->"
 
 
@@ -165,11 +184,35 @@ def top_block(page: dict) -> str:
     ])
 
 
+def _nav_target(page: dict, href: str) -> str:
+    return href if (href.startswith("#") and page["path"] == "index.html") else page["root"] + href
+
+
+def toc_block(page: dict) -> str:
+    """The site's pages as a short contents list, under a page's own introduction."""
+    items = []
+    for key, href, label in NAV:
+        cur = ' aria-current="page"' if key == page["current"] else ""
+        items.append(f'                <li><a href="{_nav_target(page, href)}"{cur}>{html.escape(label)}</a></li>')
+    return "\n".join([
+        TOC_START,
+        '            <nav class="bnyc-toc" aria-labelledby="bnyc-toc-h">',
+        '              <h2 id="bnyc-toc-h">Contents</h2>',
+        '              <ul>',
+        *items,
+        '              </ul>',
+        '            </nav>',
+        "            " + TOC_END,
+    ])
+
+
 def bottom_block(page: dict) -> str:
     return "\n".join([
         BOT_START,
         '<div class="bnyc-shell-foot" role="region" aria-label="About this data">',
         '  <div class="bnyc-shell-foot-in">',
+        f'    <p><a class="bnyc-dl" href="{page["root"]}about.html#download">Download the data</a> '
+        'CSV files for every agency and every Council award, and where each comes from.</p>',
         f'    <p><strong>Fiscal year.</strong> {html.escape(FISCAL_YEAR)}</p>',
         f'    <p><strong>Source.</strong> {page["source"]}</p>',
         f'    <p><strong>Last revised:</strong> {page["revised"]}. Built by <a href="https://beta.nyc">BetaNYC</a>. '
@@ -195,6 +238,9 @@ def _replace_or_insert(text: str, start: str, end: str, block: str, anchor: str,
 def render(page: dict, text: str) -> str:
     text = _replace_or_insert(text, TOP_START, TOP_END, top_block(page), r"<body[^>]*>", after=True)
     text = _replace_or_insert(text, BOT_START, BOT_END, bottom_block(page), r"\s*</body>", after=False)
+    if page.get("toc"):
+        # Placed by hand under the page's introduction; the script refreshes what is between.
+        text = _replace_or_insert(text, TOC_START, TOC_END, toc_block(page), r"(?!)", after=True)
     return text
 
 
