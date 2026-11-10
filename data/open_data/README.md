@@ -76,7 +76,11 @@ Reading it:
   commitment now says nothing about FY2015, so `djxg-kcfi` covers FY2026 on only (QA 2026-10-21;
   before, 123 older lines read "not on Open Data").
 - **T&C units** are context: the unit is in OMB's adopted expense budget for that year, with its
-  adopted amount (`portal_value`) and row count. `not_covered`: `All` units, budget lines, and years
+  adopted amount (`portal_value`, the sum of `financial_plan_amount` in the June release tagged
+  that year) and row count. **Corrected 2026-11-10 (#274):** before, `portal_value` summed
+  `adopted_budget_amount`, which in that release is the year before's adopted budget, so every
+  amount was one year late (DOE unit 401, FY2017: $5,844,620,680 shown, $6,164,926,031 right).
+  Match statuses did not change. `not_covered`: `All` units, budget lines, and years
   before FY2017 (the dataset starts there).
 
 ## Watch and refresh

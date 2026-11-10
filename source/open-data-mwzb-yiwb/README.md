@@ -6,7 +6,7 @@ approved by Noel Hidalgo 2026-10-21. Last updated by the publisher 2026-07-08 (r
 
 **An extract, not the whole dataset** (PLAN Q2, approved 2026-10-21): 180,885 of 1,137,678 rows. Kept: the adopted release of each fiscal year that has Terms & Conditions in the repo (FY2017, FY2018, FY2021–FY2027; the last `publication_date` before July 1 of the year before), and only the (agency, unit of appropriation) pairs those T&C files name. A multi-agency condition contributes every agency × every unit it lists, so the extract over-covers rather than misses. Releases before 2023 write agency and unit numbers without leading zeros (`40`, `1`), later ones padded (`040`, `001`); the filter asks for both. The exact `$where` is in `MANIFEST.csv`. FY2015–FY2016 are before the dataset starts (FY2017). Latest-only snapshot (PLAN Q3). It replaced a same-day first pull (105,717 rows) whose filter asked for padded numbers only and so missed FY2017–FY2023 for most agencies.
 
-Used by: T&C crosswalk (`data/open_data/crosswalk_terms_unit.csv`): whether each unit of appropriation a condition names is in OMB's adopted expense budget, with its adopted amount. Context, not the condition.
+Used by: T&C crosswalk (`data/open_data/crosswalk_terms_unit.csv`): whether each unit of appropriation a condition names is in OMB's adopted expense budget, with its adopted amount (`financial_plan_amount`; in the release tagged Y, `adopted_budget_amount` is FY Y−1's, #274). Context, not the condition.
 
 ## Snapshots
 
