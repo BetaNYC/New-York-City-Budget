@@ -43,7 +43,7 @@ assistant through the [MCP server](mcp/README.md).
 
 | Your question | Where to look |
 |---|---|
-| Was the money actually spent? Did an award become a contract? | [Checkbook NYC](https://www.checkbooknyc.com) (the Comptroller). This repo has budgets, not spending. |
+| Was the money actually spent? Did an award become a contract? | [Checkbook NYC](https://www.checkbooknyc.com) (the Comptroller). Use its **Spending** tab for payments and its **Contracts** tab for contracts. This repo has budgets, not spending. |
 | City revenue, debt, headcount, or spending over decades | [NYC Independent Budget Office, Data Center](https://www.ibo.nyc.gov/content/data-center). |
 | The official printed budget | [OMB's publications](https://www.nyc.gov/site/omb/publications/publications.page) and the [Council's budget pages](https://council.nyc.gov/budget/). |
 
