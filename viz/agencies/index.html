@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Explore New York City's expense budget from Fiscal Year 2017 to 2027 — see how each city agency's adopted budget compares to its modified budget.">
+    <meta name="description" content="How much each New York City agency was given in the adopted budget, FY2017–FY2027, and how that changed during the year.">
     <meta name="author" content="BetaNYC">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -16,12 +16,12 @@
     <meta content="630" property="og:image:height">
     <meta content="Chart of New York City's adopted and modified expense budget, Fiscal Years 2017 to 2027" property="og:image:alt">
     <meta name="twitter:card" content="summary_large_image">
-    <meta content="NYC Budget Explorer" property="og:site_name">
-    <meta content="NYC Budget Explorer" property="og:title">
+    <meta content="NYC budget data · BetaNYC" property="og:site_name">
+    <meta content="City agency budgets · NYC budget data · BetaNYC" property="og:title">
     <meta content="website" property="og:type">
-    <meta content="Explore New York City's expense budget from Fiscal Year 2017 to 2027 — see how each city agency's adopted budget compares to its modified budget." property="og:description">
+    <meta content="How much each New York City agency was given in the adopted budget, FY2017–FY2027, and how that changed during the year." property="og:description">
 
-    <title>NYC Budget Explorer — BetaNYC</title>
+    <title>City agency budgets · NYC budget data · BetaNYC</title>
 
     <link rel="shortcut icon" href="images/favicon.ico">
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -87,7 +87,7 @@
     <ul id="bnyc-menu">
       <li><a href="../">Home</a></li>
       <li><a href="../explorer/">Council discretionary funding</a></li>
-      <li><a href="../agencies/" aria-current="page">City budget</a></li>
+      <li><a href="../agencies/" aria-current="page">City agency budgets</a></li>
       <li><a href="../mcp.html">Budget MCP</a></li>
       <li><a href="../about.html">About</a></li>
     </ul>
@@ -113,11 +113,11 @@
         <div class='row'>
           <div class='col-md-9'>
             <div id='logo'>
-              <a href='./'>NYC Budget Explorer</a>
+              <a href='./'>City agency budgets</a>
             </div>
-            <p>Explore New York City's expense budget from Fiscal Year 2017 to 2027 and see how the money is adopted and modified across city agencies. <a href="../about.html">Read more</a> or <a href='faq.html'>check out the FAQ</a> &raquo;</p>
+            <p>How much each City agency was given in the adopted budget, FY2017–FY2027, and how that changed during the year. <a href="../about.html">How this data works</a> · <a href='faq.html'>Questions and answers</a></p>
             <p class="correction-note"><strong>Correction, November 9, 2026:</strong> until this date, every year in this explorer was labeled one year late. For example, the FY2025 adopted budget was shown as 2026. The labels are now fixed. <a href="faq.html#correction">What changed</a></p>
-            <p class="related-tool">Looking for <strong>City Council discretionary funding</strong> (member items and Schedule C initiatives)? Explore the companion <a href="../explorer/">NYC Council budget explorer</a>.</p>
+            <p class="related-tool">Looking for the money the Council gives to organizations? See <a href="../explorer/">Council discretionary funding</a>.</p>
           </div>
         </div>
       </div>
@@ -143,10 +143,10 @@
         <div class='row'>
           <div class='col-md-12'>
             <h2>Where's the money going?</h2>
-            <p>Every year New York City adopts an expense budget of well over $100 billion&mdash;$117.8 billion for Fiscal Year 2026 as counted here, or $115.9 billion in the City's headline figure, which leaves out money agencies pay each other. It funds the public schools, sanitation, policing, fire protection, public health, housing, parks, and hundreds of other services New Yorkers rely on every day. Its funding comes from you: your income and property taxes, sales taxes, fees, and intergovernmental aid.</p>
-            <p>This tool lets you explore that budget by agency and unit of appropriation, and compare each agency's <strong>adopted</strong> budget against its <strong>modified</strong> budget, across Fiscal Years 2017 through 2027. Have a question about where the money goes? Check out the <a href="faq.html">FAQ</a>.</p>
+            <p>Every year New York City adopts an expense budget of well over $100 billion. For FY2026 it was $117.8 billion as counted here, or $115.9 billion in the City's headline figure, which leaves out money agencies pay each other. It funds the public schools, sanitation, policing, fire protection, public health, housing, parks, and hundreds of other services New Yorkers rely on every day. Its funding comes from you: your income and property taxes, sales taxes, fees, and money from the state and federal governments.</p>
+            <p>This tool lets you explore that budget by agency and unit of appropriation, and compare each agency's <strong>adopted</strong> budget against its <strong>modified</strong> budget, for FY2017–FY2027. Questions? See the <a href="faq.html">questions and answers</a>.</p>
             <p class="mute">Data comes from <a href="https://data.cityofnewyork.us/City-Government/Expense-Budget/mwzb-yiwb">NYC Open Data's Expense Budget dataset</a> (mwzb-yiwb). We use the June release of each year. "Adopted" is the budget the City adopted for that fiscal year. "Modified" is that year's budget as modified through June, near year end; the newest year's is not yet published. Until November 9, 2026, years here were labeled one year late; <a href="faq.html#correction">see the correction</a>.</p>
-            <p>What the words mean, every data source, and how we use AI: <a href="../about.html">About</a>.</p>
+            <p>The <a href="../about.html">About page</a> explains the words, lists every data source, and says how we use AI.</p>
           </div>
         </div>
       </div>
@@ -154,7 +154,7 @@
       <div id='footer'>
         <p class='pull-left'>
           <a id="download-button" class="btn btn-warning" href="">View &amp; download data</a>
-          All the data for this project is freely available to download or explore.
+          Download every agency's budget, FY2017–FY2027, as one CSV file.
           <br />
           <br />
           A <a href="https://beta.nyc">BetaNYC</a> project. Original code by <a href="https://datamade.us">DataMade</a> (<a href="https://github.com/datamade/look-at-cook">Look at Cook</a>, MIT License).
@@ -195,7 +195,7 @@
         <ul>
           <li><a href="../">Home</a></li>
           <li><a href="../explorer/">Council discretionary funding</a></li>
-          <li><a href="../agencies/" aria-current="page">City budget</a></li>
+          <li><a href="../agencies/" aria-current="page">City agency budgets</a></li>
           <li><a href="../mcp.html">Budget MCP</a></li>
           <li><a href="../about.html">About</a></li>
         </ul>
@@ -204,14 +204,14 @@
         <h2 id="bnyc-foot-h-beta">About BetaNYC</h2>
         <p>New York's civic technology and open-data community. We built and maintain this site.</p>
         <ul>
-          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">Our MCP servers: AI tools for NYC&#x27;s democracy</a></li>
+          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">All our AI tools for NYC&#x27;s democracy</a></li>
           <li><a href="https://www.beta.nyc/about/ai-policy/">Our AI policy</a></li>
           <li><a href="https://www.beta.nyc/betabuilders/">Join BetaBuilders</a></li>
-          <li>This site's MCP server: <a href="../mcp.html">@betanyc/nyc-budget-mcp</a></li>
+          <li><a href="../mcp.html">This site's budget MCP server</a></li>
         </ul>
       </section>
     </div>
-    <p class="bnyc-foot-line"><strong>Last revised:</strong> 2026-11-10. <a href="../about.html#sources">Data sources</a> · <a href="../about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 10, 2026. <a href="../about.html#sources">Data sources</a> · <a href="../about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
   </div>
 </div>
 <!-- site-shell:bottom:end -->

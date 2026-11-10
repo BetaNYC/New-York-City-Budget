@@ -3,16 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Frequently asked questions about the NYC Budget Explorer — data source, adopted vs. modified budgets, and methodology.">
+    <meta name="description" content="Questions and answers about City agency budgets: where the data comes from, adopted and modified budgets, and how the totals are counted.">
     <meta name="author" content="BetaNYC">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>FAQ — NYC Budget Explorer</title>
+    <title>City agency budgets questions and answers · NYC budget data · BetaNYC</title>
 
-    <meta content="NYC Budget Explorer" property="og:site_name">
-    <meta content="FAQ — NYC Budget Explorer" property="og:title">
+    <meta content="NYC budget data · BetaNYC" property="og:site_name">
+    <meta content="City agency budgets questions and answers · NYC budget data · BetaNYC" property="og:title">
     <meta content="website" property="og:type">
-    <meta content="Frequently asked questions about the NYC Budget Explorer — data source, adopted vs. modified budgets, and methodology." property="og:description">
+    <meta content="Questions and answers about City agency budgets: where the data comes from, adopted and modified budgets, and how the totals are counted." property="og:description">
     <!-- Sharing (#266). og:url, og:image and the canonical link must be absolute URLs. -->
     <link rel="canonical" href="https://betanyc.github.io/New-York-City-Budget/agencies/faq.html">
     <meta content="https://betanyc.github.io/New-York-City-Budget/agencies/faq.html" property="og:url">
@@ -86,7 +86,7 @@
     <ul id="bnyc-menu">
       <li><a href="../">Home</a></li>
       <li><a href="../explorer/">Council discretionary funding</a></li>
-      <li><a href="../agencies/" aria-current="page">City budget</a></li>
+      <li><a href="../agencies/" aria-current="page">City agency budgets</a></li>
       <li><a href="../mcp.html">Budget MCP</a></li>
       <li><a href="../about.html">About</a></li>
     </ul>
@@ -111,17 +111,17 @@
         <div class='row'>
           <div class='col-md-9'>
             <div id='logo'>
-              <a href='./'>NYC Budget Explorer</a>
+              <a href='./'>City agency budgets</a>
             </div>
-            <p>Explore New York City's expense budget from Fiscal Year 2017 to 2027 and see how the money is adopted and modified across city agencies.</p>
+            <p>How much each City agency was given in the adopted budget, FY2017–FY2027, and how that changed during the year.</p>
           </div>
         </div>
       </div>
 
       <div class='well about'>
-        <a href='./'>&laquo; Back to the budget</a>
+        <a href='./'>&laquo; City agency budgets</a>
 
-        <h1>Frequently asked questions</h1>
+        <h1>Questions and answers</h1>
 
       <ul id="faq">
         <li><a href="#correction">Correction: years were shown one year late (November 9, 2026)</a></li>
@@ -135,21 +135,21 @@
 
       <h2 id="correction">Correction: years were shown one year late (November 9, 2026)</h2>
       <p>Until November 9, 2026, every year in this explorer was labeled one year late, for every agency. The amount shown as "Adopted 2026" was really the Fiscal Year 2025 adopted budget, and "Modified 2026" was really the Fiscal Year 2025 modified budget. The dollar amounts themselves came from the City's data unchanged. Only the year they were filed under was wrong.</p>
-      <p>The cause: in the City's dataset, each release is tagged with the fiscal year being budgeted, but its "adopted" and "modified" columns describe the year before. We read the tag as the year of every column. We checked the corrected labels against the Mayor's Office of Management and Budget's printed <a href="https://www.nyc.gov/assets/omb/downloads/pdf/adopt25/erc6-25.pdf">Fiscal Year 2026 Adopted Budget</a>. If you copied numbers from this explorer before November 9, 2026, move each year back by one: what it called 2026 is Fiscal Year 2025.</p>
+      <p>Why it happened: in the City's dataset, each release is labeled with the fiscal year being budgeted, but its "adopted" and "modified" columns describe the year before. We used that label as the year of every column. We checked the corrected labels against the Mayor's Office of Management and Budget's printed <a href="https://www.nyc.gov/assets/omb/downloads/pdf/adopt25/erc6-25.pdf">Fiscal Year 2026 Adopted Budget</a>. If you copied numbers from this explorer before November 9, 2026, move each year back by one: what it called 2026 is Fiscal Year 2025.</p>
 
       <h2 id="q1">Where does this data come from?</h2>
-      <p>Every dollar shown here comes from <a href="https://data.cityofnewyork.us/City-Government/Expense-Budget/mwzb-yiwb">NYC Open Data's Expense Budget dataset</a> (dataset id <code>mwzb-yiwb</code>), published by the City. It is public, and this tool reads it directly. New York City's fiscal year runs from July 1 to June 30, and the budget for each fiscal year is published several times as it moves through the year: a Preliminary budget (January), an Executive budget (April/May), and the Adopted budget (June). This tool uses only the June (adopted) release of each year.</p>
+      <p>Every dollar shown here comes from <a href="https://data.cityofnewyork.us/City-Government/Expense-Budget/mwzb-yiwb">NYC Open Data's Expense Budget dataset</a> (dataset id <code>mwzb-yiwb</code>), published by the City. It is public, and this tool reads it directly. New York City's fiscal year runs from July 1 to June 30, and the budget for each fiscal year is published several times as it moves through the year: a Preliminary budget (January), an Executive budget (April or May), and the Adopted budget (June). This tool uses only the June (adopted) release of each year.</p>
 
       <h2 id="q2">What's the difference between "Adopted" and "Modified"?</h2>
-      <p><strong>Adopted</strong> is the budget the City adopted for that fiscal year, in June before the year starts. <strong>Modified</strong> is that same year's budget after the changes made during the year, as recorded in June near the end of the year. The two chart lines let you compare them. For Fiscal Year 2025, for example, the City adopted $114.4 billion and the modified budget reached $123.8 billion. For Fiscal Year 2026, the City adopted $117.8 billion and the modified budget reached $129.2 billion. These totals are as counted here: they include money City agencies pay each other, so they run higher than the City's headline figure ($115.9 billion adopted for Fiscal Year 2026).</p>
-      <p>Each June release of the City's data carries three amounts: the adopted and modified budgets for the year that is ending, and the plan for the year about to start. So this tool takes a year's adopted amount from the June release that adopts it, and its modified amount from the next June's release. In the dataset's own field names: "Adopted" is <code>financial_plan_amount</code> from the June release tagged with that year, and "Modified" is <code>current_modified_budget_amount</code> from the June release tagged with the next year.</p>
+      <p><strong>Adopted</strong> is the budget the City adopted for that fiscal year, in June before the year starts. <strong>Modified</strong> is that same year's budget after the changes made during the year, as recorded in June near the end of the year. The two chart lines let you compare them. For Fiscal Year 2025, for example, the City adopted $114.4 billion and the modified budget reached $123.8 billion. For Fiscal Year 2026, the City adopted $117.8 billion and the modified budget reached $129.2 billion. These totals include money City agencies pay each other, so they run higher than the City's headline figure ($115.9 billion adopted for Fiscal Year 2026).</p>
+      <p>Each June release of the City's data carries three amounts: the adopted and modified budgets for the year that is ending, and the plan for the year about to start. So this tool takes a year's adopted amount from the June release that adopts it, and its modified amount from the next June's release. For data users, in the dataset's own field names, "Adopted" is <code>financial_plan_amount</code> from the June release tagged with that year, and "Modified" is <code>current_modified_budget_amount</code> from the June release tagged with the next year.</p>
 
       <h2 id="q3">Why Fiscal Years 2017 through 2027?</h2>
-      <p>That is the range of fiscal years currently available in the published Expense Budget dataset. As the City publishes new fiscal years, the underlying data file can be regenerated and the range extended.</p>
+      <p>That is the range of fiscal years currently available in the published Expense Budget dataset. As the City publishes new fiscal years, we can add them by rebuilding the data file.</p>
 
       <h2 id="q4">What are "agency" and "unit of appropriation"?</h2>
       <p>An <strong>agency</strong> is a City agency or office in the budget, for example the Department of Education, the Police Department, or a community board (each of the 59 community boards is its own agency in the budget). A <strong>unit of appropriation</strong> is one of the lines an agency's budget is adopted by, often Personal Services (pay) and Other Than Personal Services (everything else). The chart starts with every agency; open one to see its units of appropriation.</p>
-      <p>This tool is adapted from DataMade's Look at Cook, built for Cook County, Illinois, which called these "Fund" and "Department". The downloadable file still uses those two column names, <code>Fund</code> for the agency and <code>Department</code> for the unit of appropriation, so that existing copies keep working. <code>Department ID</code> is the unit of appropriation's number.</p>
+      <p>This tool is adapted from DataMade's Look at Cook, built for Cook County, Illinois, which called these "Fund" and "Department". The downloadable file still uses those two column names, <code>Fund</code> for the agency and <code>Department</code> for the unit of appropriation, so files people already use keep working. <code>Department ID</code> is the unit of appropriation's number.</p>
 
       <h2 id="q5">How is the citywide total calculated?</h2>
       <p>Because each fiscal year is published several times and each publication restates the entire budget, adding every row would count the same money more than once. This tool keeps only the June release for each year, then adds up the budget lines in it. As a check, the Fiscal Year 2026 adopted total comes to $117,791,473,676. That matches the City's printed Fiscal Year 2026 Adopted Budget: a net total of $115,907,309,727, plus $1,884,163,949 that City agencies pay each other ("intra-city" spending). The City's data includes those intra-city amounts, so the totals here are about $1.9 billion higher than the City's headline figure.</p>
@@ -180,7 +180,7 @@
         <ul>
           <li><a href="../">Home</a></li>
           <li><a href="../explorer/">Council discretionary funding</a></li>
-          <li><a href="../agencies/" aria-current="page">City budget</a></li>
+          <li><a href="../agencies/" aria-current="page">City agency budgets</a></li>
           <li><a href="../mcp.html">Budget MCP</a></li>
           <li><a href="../about.html">About</a></li>
         </ul>
@@ -189,14 +189,14 @@
         <h2 id="bnyc-foot-h-beta">About BetaNYC</h2>
         <p>New York's civic technology and open-data community. We built and maintain this site.</p>
         <ul>
-          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">Our MCP servers: AI tools for NYC&#x27;s democracy</a></li>
+          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">All our AI tools for NYC&#x27;s democracy</a></li>
           <li><a href="https://www.beta.nyc/about/ai-policy/">Our AI policy</a></li>
           <li><a href="https://www.beta.nyc/betabuilders/">Join BetaBuilders</a></li>
-          <li>This site's MCP server: <a href="../mcp.html">@betanyc/nyc-budget-mcp</a></li>
+          <li><a href="../mcp.html">This site's budget MCP server</a></li>
         </ul>
       </section>
     </div>
-    <p class="bnyc-foot-line"><strong>Last revised:</strong> 2026-11-10. <a href="../about.html#sources">Data sources</a> · <a href="../about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 10, 2026. <a href="../about.html#sources">Data sources</a> · <a href="../about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
   </div>
 </div>
 <!-- site-shell:bottom:end -->

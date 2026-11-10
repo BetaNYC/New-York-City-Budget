@@ -7,7 +7,7 @@
          the front page. The top bar and footer are written by viz/site_shell.py. -->
     <meta name="description" content="BetaNYC's NYC budget MCP server lets an AI assistant answer questions about NYC Council discretionary funding, with the source of every row. Setup, tools, coverage, and BetaNYC's other MCP servers.">
     <meta name="author" content="BetaNYC">
-    <title>The NYC budget MCP server — BetaNYC</title>
+    <title>The budget MCP server · NYC budget data · BetaNYC</title>
     <link rel="shortcut icon" href="images/favicon.ico">
     <style>
       /* BetaNYC brand tokens (archive/betanyc/brand.md), the same set as viz/site_shell.py's bar. */
@@ -107,7 +107,7 @@
     <ul id="bnyc-menu">
       <li><a href="./">Home</a></li>
       <li><a href="./explorer/">Council discretionary funding</a></li>
-      <li><a href="./agencies/">City budget</a></li>
+      <li><a href="./agencies/">City agency budgets</a></li>
       <li><a href="./mcp.html" aria-current="page">Budget MCP</a></li>
       <li><a href="./about.html">About</a></li>
     </ul>
@@ -154,7 +154,7 @@
 }</code></pre>
       <p>Four of the tools answer from the tables we read from the Council's budget PDFs. Those tables are a separate, one-time download (about 17 MB). Run this once in a terminal:</p>
 <pre><code>npx @betanyc/nyc-budget-mcp download --pdf-tables</code></pre>
-      <p>Until then, those four tools reply with that command instead of data. Full setup, every option, and what changed in each version: the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/README.md">README</a> and the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/CHANGELOG.md">changelog</a>.</p>
+      <p>Until then, those four tools reply with that command instead of data. The <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/README.md">README</a> has the full setup and every option, and the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/CHANGELOG.md">changelog</a> lists what changed in each version.</p>
 
       <h2 id="tools">What it can answer</h2>
       <p>You don't call the tools by name. Ask your assistant the question, and it picks the tool.</p>
@@ -163,7 +163,7 @@
         <thead><tr><th scope="col">Tool</th><th scope="col">What it answers</th><th scope="col">Example question</th></tr></thead>
         <tbody>
           <tr><td><code>search_disclosure_awards</code></td><td>The Council&#x27;s list of discretionary expense awards (the expense funding disclosure): by organization, EIN, Council member, funding source, agency, ZIP, status, or amount.</td><td>“How much Council discretionary funding did EIN 13-2612524 get in FY2026, cleared vs. pending?”</td></tr>
-          <tr><td><code>search_council_capital</code></td><td>The Council&#x27;s capital designations: projects the Council funded, by budget line, sponsor, borough, or title.</td><td>“Which Bronx capital projects did the Council fund in FY2027?”</td></tr>
+          <tr><td><code>search_council_capital</code></td><td>The capital projects the Council funded, by budget line, sponsor, borough, or title.</td><td>“Which Bronx capital projects did the Council fund in FY2027?”</td></tr>
           <tr><td><code>compare_capital_to_omb</code></td><td>For each capital budget line, the Council&#x27;s total next to OMB&#x27;s adopted capital budget, with a verdict: match, differ, or only on one side.</td><td>“Which Council capital budget lines in FY2026 don&#x27;t match OMB&#x27;s adopted budget?”</td></tr>
           <tr><td><code>list_available_fiscal_years</code></td><td>What each fiscal year holds, where it came from, which years are missing, and whether the PDF tables are installed.</td><td>“Which years does the budget tool cover?”</td></tr>
           <tr><td><code>search_schedule_c_awards</code><br><small>needs the PDF tables</small></td><td>Schedule C: the discretionary awards as printed in the adopted budget, by organization, EIN, member, initiative, agency, or purpose.</td><td>“Which Digital Inclusion awards in the FY2027 adopted budget went through the Fund for the City of New York?”</td></tr>
@@ -179,7 +179,7 @@
       <table>
         <thead><tr><th scope="col">Data</th><th scope="col">Years</th><th scope="col">Gaps</th></tr></thead>
         <tbody>
-          <tr><td>Expense funding disclosure</td><td>FY2009, FY2011–FY2027</td><td>FY2010 is not included: the Council's own workbook is incomplete against NYC Open Data's, and the two are never mixed. FY2009 and FY2013 are early snapshots, so their Cleared totals are not headline figures.</td></tr>
+          <tr><td>Expense funding disclosure</td><td>FY2009, FY2011–FY2027</td><td>FY2010 is not included, because the Council's own file for that year is missing rows that NYC Open Data has, and we never mix the two. FY2009 and FY2013 are early snapshots, so their Cleared totals are not headline figures.</td></tr>
           <tr><td>Council capital designations</td><td>FY2015–FY2017, FY2019–FY2027</td><td>FY2018 is in no source found.</td></tr>
           <tr><td>Council vs. OMB capital</td><td>FY2019–FY2027</td><td></td></tr>
           <tr><td>Schedule C (PDF tables)</td><td>FY2018–FY2027</td><td></td></tr>
@@ -189,7 +189,7 @@
         </tbody>
       </table>
       </div>
-      <p>The PDF tables are "checked, review in progress": the reader's output passed its checks, and people are still working through the review. FY2017 and earlier are not re-read yet. More on how they are checked: <a href="about.html#pdf-checks">About</a>.</p>
+      <p>The PDF tables are "checked, review in progress": the reader's output passed its checks, and people are still working through the review. FY2017 and earlier are not re-read yet. The <a href="about.html#pdf-checks">About page</a> explains how they are checked.</p>
 
       <h2 id="cite">How to cite an answer</h2>
       <ul>
@@ -226,7 +226,7 @@
         <ul>
           <li><a href="./">Home</a></li>
           <li><a href="./explorer/">Council discretionary funding</a></li>
-          <li><a href="./agencies/">City budget</a></li>
+          <li><a href="./agencies/">City agency budgets</a></li>
           <li><a href="./mcp.html" aria-current="page">Budget MCP</a></li>
           <li><a href="./about.html">About</a></li>
         </ul>
@@ -235,14 +235,14 @@
         <h2 id="bnyc-foot-h-beta">About BetaNYC</h2>
         <p>New York's civic technology and open-data community. We built and maintain this site.</p>
         <ul>
-          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">Our MCP servers: AI tools for NYC&#x27;s democracy</a></li>
+          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">All our AI tools for NYC&#x27;s democracy</a></li>
           <li><a href="https://www.beta.nyc/about/ai-policy/">Our AI policy</a></li>
           <li><a href="https://www.beta.nyc/betabuilders/">Join BetaBuilders</a></li>
-          <li>This site's MCP server: <a href="./mcp.html">@betanyc/nyc-budget-mcp</a></li>
+          <li><a href="./mcp.html">This site's budget MCP server</a></li>
         </ul>
       </section>
     </div>
-    <p class="bnyc-foot-line"><strong>Last revised:</strong> 2026-11-10. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 10, 2026. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
   </div>
 </div>
 <!-- site-shell:bottom:end -->

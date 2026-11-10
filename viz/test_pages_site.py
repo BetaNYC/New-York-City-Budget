@@ -104,7 +104,8 @@ def test_index_states_the_gaps_and_links_to_the_retired_copy():
     assert "FY2010 is not included" in about
     assert "FY2018 is missing" in about
     assert 'href="legacy.html"' in html
-    assert "@betanyc/nyc-budget-mcp" in html
+    # The front page links the MCP's own page, which names the package (2026-11-10).
+    assert 'href="mcp.html"' in html and "@betanyc/nyc-budget-mcp" in _read("mcp.html")
     assert 'href="about.html"' in html
 
 
@@ -312,11 +313,11 @@ def test_every_page_dates_its_text_and_points_to_the_sources():
     shell = _shell()
     for page in shell.PAGES:
         foot = _read(page["path"]).split(shell.BOT_START.split(" (")[0], 1)[1]
-        assert re.search(r"Last revised:</strong> \d{4}-\d{2}-\d{2}", foot), page["path"]
+        assert re.search(r"Last revised:</strong> [A-Z][a-z]+ \d{1,2}, \d{4}\.", foot), page["path"]
         assert re.search(r'href="[./]*about\.html#sources"', foot), page["path"]
     about = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", _read("about.html")))
     assert "runs July 1 to June 30 and is named for the year it ends" in about
-    assert "through the release of 2026-06-30" in about
+    assert "through the release of June 30, 2026" in about
     assert "pdf-tables-2026-10-24-260d16e" in about
 
 def test_about_offers_the_download_and_it_exists():

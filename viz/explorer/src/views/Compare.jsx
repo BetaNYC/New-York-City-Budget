@@ -36,8 +36,8 @@ export default function Compare({ state, set, go, manifest, years, capitalYears,
     <section>
       <h2>Compare two fiscal years</h2>
       <p className="lede">
-        A prototype. Pick two years; every figure is this repository's sum of the rows it links to. Amounts are compared to the cent. A source that has no data
-        for a year says so; nothing is shown as $0 or as "dropped" because a year is missing.
+        This view is still being built. Pick two years. Every figure is our sum of the rows it links to, compared to the cent. When a source has no data for
+        a year, it says so; a missing year is never shown as $0 or as "dropped".
       </p>
       <form className="filters" onSubmit={(e) => e.preventDefault()}>
         <SelectFilter label="Year A" value={String(fyA)} options={yearOpts} onApply={(v) => set({ cmpa: Number(v), ckey: "" })} />

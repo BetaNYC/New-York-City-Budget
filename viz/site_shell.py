@@ -69,7 +69,7 @@ PAGES = [
 NAV = [
     ("home", "", "Home"),
     ("council", "explorer/", "Council discretionary funding"),
-    ("agencies", "agencies/", "City budget"),
+    ("agencies", "agencies/", "City agency budgets"),
     ("mcp", "mcp.html", "Budget MCP"),
     ("about", "about.html", "About"),
 ]
@@ -174,10 +174,18 @@ def _nav_target(page: dict, href: str) -> str:
 
 # BetaNYC's own links, in the footer of every page (Noel's 2026-11-10 sketch: "About BetaNYC").
 BETANYC_LINKS = [
-    ("https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/", "Our MCP servers: AI tools for NYC's democracy"),
+    ("https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/", "All our AI tools for NYC's democracy"),
     ("https://www.beta.nyc/about/ai-policy/", "Our AI policy"),
     ("https://www.beta.nyc/betabuilders/", "Join BetaBuilders"),
 ]
+
+
+def long_date(iso: str) -> str:
+    """2026-11-10 -> November 10, 2026 (BetaNYC's voice guide: dates in words in body text)."""
+    y, m, d = (int(x) for x in iso.split("-"))
+    months = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+              "October", "November", "December"]
+    return f"{months[m - 1]} {d}, {y}"
 
 
 def bottom_block(page: dict) -> str:
@@ -206,11 +214,11 @@ def bottom_block(page: dict) -> str:
         "        <p>New York's civic technology and open-data community. We built and maintain this site.</p>",
         '        <ul>',
         *beta,
-        f'          <li>This site\'s MCP server: <a href="{root}mcp.html">@betanyc/nyc-budget-mcp</a></li>',
+        f'          <li><a href="{root}mcp.html">This site\'s budget MCP server</a></li>',
         '        </ul>',
         '      </section>',
         '    </div>',
-        f'    <p class="bnyc-foot-line"><strong>Last revised:</strong> {page["revised"]}. '
+        f'    <p class="bnyc-foot-line"><strong>Last revised:</strong> {long_date(page["revised"])}. '
         f'<a href="{root}about.html#sources">Data sources</a> · <a href="{root}about.html#glossary">Glossary</a>. '
         'Built by <a href="https://beta.nyc">BetaNYC</a>. '
         '<a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · '

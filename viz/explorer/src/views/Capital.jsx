@@ -46,8 +46,8 @@ export default function Capital({ state, set, go, manifest, capitalYears, pdfYea
     <section>
       <h2>Council capital</h2>
       <p className="lede">
-        The Council's capital designations from its capital workbooks and NYC Open Data (t474-a92g). A list's designations are the rows whose amount is for the
-        list's own year; out-year rows are plans for later years. Sums are this repository's arithmetic: only FY2015 and FY2016 print totals.
+        The capital projects the Council funds, from its capital workbooks and NYC Open Data (t474-a92g). A year's list counts the rows for that year; rows
+        for later years are only plans. We add up the totals ourselves, because only the FY2015 and FY2016 lists print their own.
       </p>
       <form className="filters" onSubmit={(e) => e.preventDefault()}>
         <SelectFilter label="Report year" value={state.cfy ?? ""} options={yearOptions} onApply={(v) => set({ cfy: v === "" ? null : Number(v) })} />

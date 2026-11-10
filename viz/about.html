@@ -7,7 +7,7 @@
          Self-contained like the front page. The top bar and footer are written by viz/site_shell.py. -->
     <meta name="description" content="About BetaNYC's NYC budget data: a glossary of budget words, every data source, where to download the data, and how we use AI.">
     <meta name="author" content="BetaNYC">
-    <title>About — NYC budget data — BetaNYC</title>
+    <title>About · NYC budget data · BetaNYC</title>
     <link rel="shortcut icon" href="images/favicon.ico">
     <style>
       /* BetaNYC brand tokens (archive/betanyc/brand.md), the same set as viz/site_shell.py's bar. */
@@ -103,7 +103,7 @@
     <ul id="bnyc-menu">
       <li><a href="./">Home</a></li>
       <li><a href="./explorer/">Council discretionary funding</a></li>
-      <li><a href="./agencies/">City budget</a></li>
+      <li><a href="./agencies/">City agency budgets</a></li>
       <li><a href="./mcp.html">Budget MCP</a></li>
       <li><a href="./about.html" aria-current="page">About</a></li>
     </ul>
@@ -126,7 +126,7 @@
     <main id="main">
       <h1>About NYC budget data</h1>
 
-      <p>We publish New York City's budget as data you can search and check, in two halves. <strong>City budget</strong>: every City agency's adopted and modified budget, FY2017–FY2027, from NYC Open Data. <strong>Council discretionary funding</strong>: which organizations the Council funds, for how much, from the Council's own spreadsheets, its budget PDFs, and NYC Open Data. Every number comes from the City's own data, and we never change one by hand.</p>
+      <p>We publish New York City's budget as data you can search and check, in two halves. <strong>City agency budgets</strong>: every City agency's adopted and modified budget, FY2017–FY2027, from NYC Open Data. <strong>Council discretionary funding</strong>: which organizations the Council funds, for how much, from the Council's own spreadsheets, its budget PDFs, and NYC Open Data. Every number comes from the City's own data, and we never change one by hand.</p>
 
       <nav class="contents" aria-labelledby="on-this-page">
         <h2 id="on-this-page">On this page</h2>
@@ -164,11 +164,11 @@
         <dt id="adopted">Adopted budget</dt>
         <dd>The budget the Mayor and Council agree in June, before the fiscal year starts.</dd>
         <dt id="modified">Modified budget</dt>
-        <dd>The adopted budget as changed during the year. In the City budget half, "Modified" is the figure as of June, near the year's end; Checkbook NYC's year-end figure can differ slightly. The newest year's Modified is "Not yet published": the City publishes it in the release that adopts the next year's budget.</dd>
+        <dd>The adopted budget as changed during the year. In the City agency budgets half, "Modified" is the figure as of June, near the year's end; Checkbook NYC's year-end figure can differ slightly. The newest year's Modified is "Not yet published": the City publishes it in the release that adopts the next year's budget.</dd>
         <dt id="releases">Preliminary, Executive and Adopted releases</dt>
-        <dd>OMB publishes each year's budget up to three times: Preliminary (January), Executive (April or May) and Adopted (June). Each restates the whole budget, so they must never be added together. The City budget half uses only the June release.</dd>
+        <dd>OMB publishes each year's budget up to three times: Preliminary (January), Executive (April or May) and Adopted (June). Each restates the whole budget, so they must never be added together. The City agency budgets half uses only the June release.</dd>
         <dt id="year-rule">Which year a figure belongs to</dt>
-        <dd>NYC Open Data's Expense Budget labels each June release with the coming fiscal year, but two of the three amounts in it describe the year before. So we take a year's adopted budget from the release labeled with that year, and its modified budget from the next year's release. Until November 9, 2026, the City budget page got this wrong and showed every year one year late.</dd>
+        <dd>NYC Open Data's Expense Budget labels each June release with the coming fiscal year, but two of the three amounts in it describe the year before. So we take a year's adopted budget from the release labeled with that year, and its modified budget from the next year's release. Until November 9, 2026, the City agency budgets page got this wrong and showed every year one year late.</dd>
         <dt id="agency">Agency</dt>
         <dd>A City department or office with its own budget, such as the Department of Education. Each community board is its own agency.</dd>
         <dt id="community-board">Community board</dt>
@@ -176,13 +176,13 @@
         <dt id="unit-of-appropriation">Unit of appropriation</dt>
         <dd>The lines the expense budget is adopted by. An agency has one or more, often split into Personal Services and Other Than Personal Services.</dd>
         <dt id="ps-otps">Personal Services (PS) and Other Than Personal Services (OTPS)</dt>
-        <dd>PS is pay for the agency's staff. OTPS is everything else: supplies, contracts, rent and so on.</dd>
+        <dd>PS is pay for the agency's staff. OTPS is everything else, such as supplies, contracts, and rent.</dd>
         <dt id="intra-city">Intra-city</dt>
         <dd>Money one City agency pays another for services it buys from it. The same dollars appear in both agencies' budgets.</dd>
         <dt id="net-and-gross">Net and gross</dt>
         <dd>OMB's headline "net total budget" leaves intra-city money out, so it is not counted twice. NYC Open Data rows include it, so a total added up from Open Data is gross. FY2026 adopted: $115.9 billion net, $117,791,473,676 gross as counted in Open Data, of which $1,884,163,949 is intra-city.</dd>
         <dt id="expense-capital">Expense and capital budgets</dt>
-        <dd>The expense budget pays for running the City each year: staff, services, supplies. The capital budget pays for things that last: buildings, parks, equipment. The City budget half is the expense budget. The Council half has both.</dd>
+        <dd>The expense budget pays for running the City each year: staff, services, supplies. The capital budget pays for things that last: buildings, parks, equipment. The City agency budgets half is the expense budget. The Council half has both.</dd>
         <dt id="discretionary">Council discretionary funding</dt>
         <dd>Money in the budget that the Council, not the Mayor, directs to particular organizations and programs. It is a small part of the budget.</dd>
         <dt id="schedule-c">Schedule C</dt>
@@ -221,8 +221,8 @@
       <table>
         <thead><tr><th scope="col">Source</th><th scope="col">What it gives</th><th scope="col">Years</th></tr></thead>
         <tbody>
-          <tr><td>NYC Open Data, Expense Budget <a href="https://data.cityofnewyork.us/d/mwzb-yiwb"><code>mwzb-yiwb</code></a>, published for OMB</td><td>City budget: every agency's adopted and modified budget, by unit of appropriation. The June release of each year.</td><td>FY2017–FY2027</td></tr>
-          <tr><td>OMB's printed Adopted Budget (<a href="https://www.nyc.gov/site/omb/publications/publications.page">OMB publications</a>)</td><td>A check: the City budget data build stops unless it matches OMB's printed FY2026 Adopted Budget to the dollar.</td><td>FY2026</td></tr>
+          <tr><td>NYC Open Data, Expense Budget <a href="https://data.cityofnewyork.us/d/mwzb-yiwb"><code>mwzb-yiwb</code></a>, published for OMB</td><td>City agency budgets: every agency's adopted and modified budget, by unit of appropriation. The June release of each year.</td><td>FY2017–FY2027</td></tr>
+          <tr><td>OMB's printed Adopted Budget (<a href="https://www.nyc.gov/site/omb/publications/publications.page">OMB publications</a>)</td><td>A check: the City agency budgets data build stops unless it matches OMB's printed FY2026 Adopted Budget to the dollar.</td><td>FY2026</td></tr>
           <tr><td>The Council's expense funding disclosure (<a href="https://rnd.council.nyc.gov/expense_funding/">Council Research &amp; Data</a>)</td><td>Each discretionary award: grantee, EIN, amount, clearance status, mailing address.</td><td>FY2013–FY2027</td></tr>
           <tr><td>The Council's own workbooks, saved by the <a href="https://web.archive.org/">Internet Archive</a></td><td>The disclosure for the early years, and other files the Council once published on council.nyc.gov.</td><td>FY2009, FY2011, FY2012</td></tr>
           <tr><td>The Council's capital workbooks</td><td>Capital designations.</td><td>FY2015–FY2017, FY2026, FY2027</td></tr>
@@ -238,11 +238,11 @@
         </tbody>
       </table>
       </div>
-      <p><strong>How current the data is.</strong> City budget: NYC Open Data's Expense Budget, through the release of 2026-06-30 (the FY2027 adopted budget); FY2027's modified budget is not yet published. Council discretionary funding: the Council's PDF tables are from the data release <code>pdf-tables-2026-10-24-260d16e</code>, and the Council explorer's own footer gives the date of its data build. The old explorer (<a href="legacy.html">legacy.html</a>) is frozen as of 2026-10-16; do not cite it.</p>
+      <p><strong>How current the data is.</strong> City agency budgets: NYC Open Data's Expense Budget, through the release of June 30, 2026 (the FY2027 adopted budget); FY2027's modified budget is not yet published. Council discretionary funding: the Council's PDF tables are from the data release <code>pdf-tables-2026-10-24-260d16e</code>, and the Council explorer's own footer gives the date of its data build. The old explorer (<a href="legacy.html">legacy.html</a>) is frozen as of October 16, 2026; do not cite it.</p>
       <p>More detail on every column: the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/DATA-DICTIONARY.md">data dictionary</a>. Known problems in the sources: <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/DATA-ANOMALIES.md">data anomalies</a>.</p>
 
       <h2 id="pdf-checks">How the Council's PDF tables are checked</h2>
-      <p>We read every row of the Council's FY2018–FY2027 budget PDFs twice, once from the PDF's text and once from a picture of the page, and tied the rows to every total the PDFs print. Where the two readings or the totals disagree, a person reviews it. We never change a number: values are shown exactly as printed.</p>
+      <p>We read every row of the Council's FY2018–FY2027 budget PDFs twice, once from the PDF's text and once from a picture of the page, and tied the rows to every total the PDFs print. Where the two readings or the totals disagree, a person reviews it. We never change a number. Values are shown exactly as printed.</p>
       <ul>
         <li><strong>141,456 rows</strong> in 36 tables: Schedule C, the transparency resolutions, the capital book and Terms and Conditions.</li>
         <li><strong>Schedule C:</strong> 76,216 of 76,272 rows read the same both ways. The other 56 went to a person.</li>
@@ -253,13 +253,13 @@
 
       <h2 id="spreadsheets">The Council's spreadsheets and NYC Open Data</h2>
       <ul>
-        <li><strong>Discretionary expense designations:</strong> the Council's own expense funding disclosure spreadsheets, FY2009 and FY2011 through FY2027, one row per published designation, with clearance status and the grantee's mailing address. FY2010 is not included: the Council's archived workbook for that year is incomplete against NYC Open Data's. FY2009 and FY2013 are early snapshots, frozen while many designations were still pending.</li>
+        <li><strong>Discretionary expense designations:</strong> the Council's own expense funding disclosure spreadsheets, FY2009 and FY2011 through FY2027, one row per published designation, with clearance status and the grantee's mailing address. FY2010 is not included, because the Council's saved file for that year is missing rows that NYC Open Data has. FY2009 and FY2013 are early snapshots, frozen while many designations were still pending.</li>
         <li><strong>Capital designations:</strong> the Council's own capital workbooks and NYC Open Data, FY2015 through FY2017 and FY2019 through FY2027. FY2018 is missing from every source found.</li>
       </ul>
 
       <h2 id="download">Download the data</h2>
       <ul>
-        <li><strong>City budget:</strong> <a href="agencies/data/nyc_budget.csv">one CSV, every agency and unit of appropriation, FY2017–FY2027</a> (<a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/viz/agencies/data/SCHEMA.md">what each column means</a>).</li>
+        <li><strong>City agency budgets:</strong> <a href="agencies/data/nyc_budget.csv">one CSV, every agency and unit of appropriation, FY2017–FY2027</a> (<a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/viz/agencies/data/SCHEMA.md">what each column means</a>).</li>
         <li><strong>Council discretionary funding:</strong> the CSVs in the repository's <a href="https://github.com/BetaNYC/New-York-City-Budget/tree/main/data">data folder</a>, described in the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/DATA-DICTIONARY.md">data dictionary</a>; the checked tables from the Council's budget PDFs in the <a href="https://github.com/BetaNYC/New-York-City-Budget/releases">data releases</a>.</li>
         <li><strong>Ask an AI assistant:</strong> the <a href="mcp.html">budget MCP server</a> (<a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a>). Its <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/README.md">README</a> covers setup and what each tool answers.</li>
         <li><strong>What changed and why:</strong> the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/CHANGELOG.md">changelog</a>.</li>
@@ -278,7 +278,7 @@
         <ul>
           <li><a href="./">Home</a></li>
           <li><a href="./explorer/">Council discretionary funding</a></li>
-          <li><a href="./agencies/">City budget</a></li>
+          <li><a href="./agencies/">City agency budgets</a></li>
           <li><a href="./mcp.html">Budget MCP</a></li>
           <li><a href="./about.html" aria-current="page">About</a></li>
         </ul>
@@ -287,14 +287,14 @@
         <h2 id="bnyc-foot-h-beta">About BetaNYC</h2>
         <p>New York's civic technology and open-data community. We built and maintain this site.</p>
         <ul>
-          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">Our MCP servers: AI tools for NYC&#x27;s democracy</a></li>
+          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">All our AI tools for NYC&#x27;s democracy</a></li>
           <li><a href="https://www.beta.nyc/about/ai-policy/">Our AI policy</a></li>
           <li><a href="https://www.beta.nyc/betabuilders/">Join BetaBuilders</a></li>
-          <li>This site's MCP server: <a href="./mcp.html">@betanyc/nyc-budget-mcp</a></li>
+          <li><a href="./mcp.html">This site's budget MCP server</a></li>
         </ul>
       </section>
     </div>
-    <p class="bnyc-foot-line"><strong>Last revised:</strong> 2026-11-10. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 10, 2026. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
   </div>
 </div>
 <!-- site-shell:bottom:end -->

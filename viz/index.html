@@ -7,10 +7,10 @@
          Tested by viz/test_pages_site.py. The top bar and footer are written by viz/site_shell.py. -->
     <meta name="description" content="Two halves of New York City's budget, from BetaNYC: every City agency's adopted and modified budget, FY2017–FY2027, from NYC Open Data; and the Council's discretionary funding, who got what, from the Council's spreadsheets and budget PDFs.">
     <meta name="author" content="BetaNYC">
-    <meta content="NYC budget data, checked — BetaNYC" property="og:title">
+    <meta content="NYC budget data, checked · BetaNYC" property="og:title">
     <meta content="article" property="og:type">
     <meta content="City agency budgets from NYC Open Data, and Council discretionary funding from the Council's own spreadsheets and budget PDFs, every PDF row read twice and tied to the printed totals. No number is changed." property="og:description">
-    <title>NYC budget data, checked — BetaNYC</title>
+    <title>NYC budget data, checked · BetaNYC</title>
     <link rel="shortcut icon" href="images/favicon.ico">
     <style>
       /* BetaNYC brand tokens (archive/betanyc/brand.md), the same set as viz/site_shell.py's bar. */
@@ -105,7 +105,7 @@
     <ul id="bnyc-menu">
       <li><a href="./" aria-current="page">Home</a></li>
       <li><a href="./explorer/">Council discretionary funding</a></li>
-      <li><a href="./agencies/">City budget</a></li>
+      <li><a href="./agencies/">City agency budgets</a></li>
       <li><a href="./mcp.html">Budget MCP</a></li>
       <li><a href="./about.html">About</a></li>
     </ul>
@@ -129,7 +129,7 @@
       <h1>NYC budget data, checked</h1>
 
       <h2 id="about-this-site">About</h2>
-      <p>We publish New York City's budget as data you can search and check. There are two halves, and they answer different questions: what each City agency is given, and which organizations the Council funds. Every number comes from the City's own data, and we never change one by hand. <a href="about.html">How it works, every source, and the glossary</a>.</p>
+      <p>We publish New York City's budget as data you can search and check. There are two halves, and they answer different questions: what each City agency is given, and which organizations the Council funds. Every number comes from the City's own data, and we never change one by hand. <a href="about.html">Read how it works and where every number comes from</a>.</p>
 
       <div class="doors">
         <section class="door" aria-labelledby="door-agencies">
@@ -144,7 +144,7 @@
         </section>
         <section class="door" aria-labelledby="door-mcp">
           <h2 id="door-mcp">Ask an AI assistant</h2>
-          <p>Our budget MCP server lets Claude and other AI assistants answer questions about the Council's discretionary funding, with the source of every row. Free and open source, with links to our other MCP servers.</p>
+          <p>Our budget MCP server lets Claude and other AI assistants answer questions about the Council's discretionary funding, with the source of every row. It is free and open source.</p>
           <a class="go" href="mcp.html">Set up the budget MCP</a>
         </section>
         <section class="door" aria-labelledby="door-city">
@@ -163,8 +163,8 @@
       </div>
 
       <div class="notes">
-        <p class="correction" id="correction"><strong>Correction, 2026-11-09.</strong> Before this date the agency budget explorer showed every year one year late: "Adopted 2026" was really FY2025. It is fixed. If you copied agency figures before 2026-11-09, please download them again. The Council half was not affected.</p>
-        <p class="notice" id="retired-notice"><strong>Our first explorer, from July 2026, is frozen and no longer updated.</strong> An earlier parser lost and merged rows from the Council's PDFs, and we no longer stand behind it. Please do not cite figures from it. It stays online so old links still work: <a href="legacy.html">legacy.html</a>.</p>
+        <p class="correction" id="correction"><strong>Correction, November 9, 2026.</strong> Before this date the agency budget explorer showed every year one year late: "Adopted 2026" was really FY2025. It is fixed. If you copied agency figures before then, please download them again. The Council half was not affected.</p>
+        <p class="notice" id="retired-notice"><strong>Our first explorer, from July 2026, is frozen and no longer updated.</strong> An earlier parser lost and merged rows from the Council's PDFs, and we no longer stand behind it. Please do not cite figures from it. It stays online at <a href="legacy.html">legacy.html</a> so old links still work.</p>
         <p id="deep-link">You followed a link into the frozen explorer. That view is still online, frozen and marked do not cite, at <a id="deep-link-a" href="legacy.html">legacy.html</a>.</p>
       </div>
 
@@ -188,7 +188,7 @@
         <ul>
           <li><a href="./" aria-current="page">Home</a></li>
           <li><a href="./explorer/">Council discretionary funding</a></li>
-          <li><a href="./agencies/">City budget</a></li>
+          <li><a href="./agencies/">City agency budgets</a></li>
           <li><a href="./mcp.html">Budget MCP</a></li>
           <li><a href="./about.html">About</a></li>
         </ul>
@@ -197,14 +197,14 @@
         <h2 id="bnyc-foot-h-beta">About BetaNYC</h2>
         <p>New York's civic technology and open-data community. We built and maintain this site.</p>
         <ul>
-          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">Our MCP servers: AI tools for NYC&#x27;s democracy</a></li>
+          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">All our AI tools for NYC&#x27;s democracy</a></li>
           <li><a href="https://www.beta.nyc/about/ai-policy/">Our AI policy</a></li>
           <li><a href="https://www.beta.nyc/betabuilders/">Join BetaBuilders</a></li>
-          <li>This site's MCP server: <a href="./mcp.html">@betanyc/nyc-budget-mcp</a></li>
+          <li><a href="./mcp.html">This site's budget MCP server</a></li>
         </ul>
       </section>
     </div>
-    <p class="bnyc-foot-line"><strong>Last revised:</strong> 2026-11-10. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 10, 2026. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
   </div>
 </div>
 <!-- site-shell:bottom:end -->
