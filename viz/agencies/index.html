@@ -53,7 +53,15 @@
   .bnyc-shell-foot a:focus-visible, .bnyc-skip:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
   .bnyc-shell a[aria-current="page"] { text-decoration-thickness: 3px; text-underline-offset: 4px; }
   .bnyc-shell-foot { background: #EEF4FF; color: #414141; border-top: 1px solid #949494; font-size: 14px; margin-top: 2rem; }
-  .bnyc-shell-foot-in { display: block; padding: 1rem 1.25rem; }
+  .bnyc-shell-foot-in { display: block; padding: 1.75rem 1.25rem 1rem; }
+  .bnyc-foot-cols { display: grid; grid-template-columns: 2fr 1fr 1.3fr; gap: 1.5rem 2.5rem; }
+  .bnyc-shell-foot h2 { font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; color: #2359a8; margin: 0 0 0.5rem; }
+  .bnyc-shell-foot ul { list-style: none; margin: 0; padding: 0; }
+  .bnyc-shell-foot li { margin: 0; padding: 0; }
+  .bnyc-shell-foot li a { display: inline-flex; align-items: center; min-height: 32px; }
+  .bnyc-shell-foot li a[aria-current="page"] { font-weight: 700; }
+  .bnyc-foot-line { border-top: 1px solid #949494; margin-top: 1.25rem !important; padding-top: 0.75rem; }
+  @media (max-width: 781px) { .bnyc-foot-cols { grid-template-columns: 1fr; } .bnyc-shell-foot li a { min-height: 44px; } }
   .bnyc-shell-foot p { margin: 0.3rem 0; }
   .bnyc-shell-foot a { color: #2359a8; }
   .bnyc-toc { margin: 0.75rem 0 1rem; font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; }
@@ -200,12 +208,36 @@
     <script src="js/budget_highcharts.js" type="text/javascript"></script>
 
     <script src="js/app.js" type="text/javascript"></script><!-- site-shell:bottom:start (written by viz/site_shell.py; do not edit) -->
-<div class="bnyc-shell-foot" role="region" aria-label="About this data">
+<div class="bnyc-shell-foot" role="region" aria-label="About this site">
   <div class="bnyc-shell-foot-in">
-    <p><a class="bnyc-dl" href="../about.html#download">Download the data</a> CSV files for every agency and every Council award, and where each comes from.</p>
-    <p><strong>Fiscal year.</strong> New York City&#x27;s fiscal year runs July 1 to June 30 and is named for the year it ends: FY2026 is July 1, 2025 to June 30, 2026.</p>
-    <p><strong>Source.</strong> City agency budgets: NYC Open Data, Expense Budget (<a href="https://data.cityofnewyork.us/d/mwzb-yiwb">mwzb-yiwb</a>), the June release of each year, through the release of 2026-06-30 (FY2027 adopted). FY2027 modified is not yet published.</p>
-    <p><strong>Last revised:</strong> 2026-11-10. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+    <div class="bnyc-foot-cols">
+      <section class="bnyc-foot-data" aria-labelledby="bnyc-foot-h-data">
+        <h2 id="bnyc-foot-h-data">The data</h2>
+        <p><a class="bnyc-dl" href="../about.html#download">Download the data</a></p>
+        <p><strong>Fiscal year.</strong> New York City&#x27;s fiscal year runs July 1 to June 30 and is named for the year it ends: FY2026 is July 1, 2025 to June 30, 2026.</p>
+        <p><strong>Source.</strong> City agency budgets: NYC Open Data, Expense Budget (<a href="https://data.cityofnewyork.us/d/mwzb-yiwb">mwzb-yiwb</a>), the June release of each year, through the release of 2026-06-30 (FY2027 adopted). FY2027 modified is not yet published. <a href="../about.html#sources">Every source</a>.</p>
+      </section>
+      <section aria-labelledby="bnyc-foot-h-site">
+        <h2 id="bnyc-foot-h-site">This site</h2>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../explorer/">Council discretionary funding</a></li>
+          <li><a href="../agencies/" aria-current="page">City budget</a></li>
+          <li><a href="../about.html">About</a></li>
+        </ul>
+      </section>
+      <section aria-labelledby="bnyc-foot-h-beta">
+        <h2 id="bnyc-foot-h-beta">About BetaNYC</h2>
+        <p>New York's civic technology and open-data community. We built and maintain this site.</p>
+        <ul>
+          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">Our MCP servers: AI tools for NYC&#x27;s democracy</a></li>
+          <li><a href="https://www.beta.nyc/about/ai-policy/">Our AI policy</a></li>
+          <li><a href="https://www.beta.nyc/betabuilders/">Join BetaBuilders</a></li>
+          <li>This site's MCP server: <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a></li>
+        </ul>
+      </section>
+    </div>
+    <p class="bnyc-foot-line"><strong>Last revised:</strong> 2026-11-10. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
   </div>
 </div>
 <!-- site-shell:bottom:end -->

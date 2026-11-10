@@ -104,7 +104,15 @@ STYLE = """<style>
   .bnyc-shell-foot a:focus-visible, .bnyc-skip:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
   .bnyc-shell a[aria-current="page"] { text-decoration-thickness: 3px; text-underline-offset: 4px; }
   .bnyc-shell-foot { background: #EEF4FF; color: #414141; border-top: 1px solid #949494; font-size: 14px; margin-top: 2rem; }
-  .bnyc-shell-foot-in { display: block; padding: 1rem 1.25rem; }
+  .bnyc-shell-foot-in { display: block; padding: 1.75rem 1.25rem 1rem; }
+  .bnyc-foot-cols { display: grid; grid-template-columns: 2fr 1fr 1.3fr; gap: 1.5rem 2.5rem; }
+  .bnyc-shell-foot h2 { font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; color: #2359a8; margin: 0 0 0.5rem; }
+  .bnyc-shell-foot ul { list-style: none; margin: 0; padding: 0; }
+  .bnyc-shell-foot li { margin: 0; padding: 0; }
+  .bnyc-shell-foot li a { display: inline-flex; align-items: center; min-height: 32px; }
+  .bnyc-shell-foot li a[aria-current="page"] { font-weight: 700; }
+  .bnyc-foot-line { border-top: 1px solid #949494; margin-top: 1.25rem !important; padding-top: 0.75rem; }
+  @media (max-width: 781px) { .bnyc-foot-cols { grid-template-columns: 1fr; } .bnyc-shell-foot li a { min-height: 44px; } }
   .bnyc-shell-foot p { margin: 0.3rem 0; }
   .bnyc-shell-foot a { color: #2359a8; }
   .bnyc-toc { margin: 0.75rem 0 1rem; font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; }
@@ -206,16 +214,51 @@ def toc_block(page: dict) -> str:
     ])
 
 
+# BetaNYC's own links, in the footer of every page (Noel's 2026-11-10 sketch: "About BetaNYC").
+BETANYC_LINKS = [
+    ("https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/", "Our MCP servers: AI tools for NYC's democracy"),
+    ("https://www.beta.nyc/about/ai-policy/", "Our AI policy"),
+    ("https://www.beta.nyc/betabuilders/", "Join BetaBuilders"),
+]
+
+
 def bottom_block(page: dict) -> str:
+    """The footer: three columns, as on beta.nyc (brand.md: a column footer), stacked on a phone.
+    The data (download, fiscal year, source), this site (every page), About BetaNYC; then a line
+    with the date the page's text was last revised."""
+    root = page["root"]
+    site = []
+    for key, href, label in NAV:
+        cur = ' aria-current="page"' if key == page["current"] else ""
+        site.append(f'          <li><a href="{_nav_target(page, href)}"{cur}>{html.escape(label)}</a></li>')
+    beta = [f'          <li><a href="{u}">{html.escape(t)}</a></li>' for u, t in BETANYC_LINKS]
     return "\n".join([
         BOT_START,
-        '<div class="bnyc-shell-foot" role="region" aria-label="About this data">',
+        '<div class="bnyc-shell-foot" role="region" aria-label="About this site">',
         '  <div class="bnyc-shell-foot-in">',
-        f'    <p><a class="bnyc-dl" href="{page["root"]}about.html#download">Download the data</a> '
-        'CSV files for every agency and every Council award, and where each comes from.</p>',
-        f'    <p><strong>Fiscal year.</strong> {html.escape(FISCAL_YEAR)}</p>',
-        f'    <p><strong>Source.</strong> {page["source"]}</p>',
-        f'    <p><strong>Last revised:</strong> {page["revised"]}. Built by <a href="https://beta.nyc">BetaNYC</a>. '
+        '    <div class="bnyc-foot-cols">',
+        '      <section class="bnyc-foot-data" aria-labelledby="bnyc-foot-h-data">',
+        '        <h2 id="bnyc-foot-h-data">The data</h2>',
+        f'        <p><a class="bnyc-dl" href="{root}about.html#download">Download the data</a></p>',
+        f'        <p><strong>Fiscal year.</strong> {html.escape(FISCAL_YEAR)}</p>',
+        f'        <p><strong>Source.</strong> {page["source"]} <a href="{root}about.html#sources">Every source</a>.</p>',
+        '      </section>',
+        '      <section aria-labelledby="bnyc-foot-h-site">',
+        '        <h2 id="bnyc-foot-h-site">This site</h2>',
+        '        <ul>',
+        *site,
+        '        </ul>',
+        '      </section>',
+        '      <section aria-labelledby="bnyc-foot-h-beta">',
+        '        <h2 id="bnyc-foot-h-beta">About BetaNYC</h2>',
+        "        <p>New York's civic technology and open-data community. We built and maintain this site.</p>",
+        '        <ul>',
+        *beta,
+        '          <li>This site\'s MCP server: <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a></li>',
+        '        </ul>',
+        '      </section>',
+        '    </div>',
+        f'    <p class="bnyc-foot-line"><strong>Last revised:</strong> {page["revised"]}. Built by <a href="https://beta.nyc">BetaNYC</a>. '
         '<a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · '
         '<a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>',
         '  </div>',

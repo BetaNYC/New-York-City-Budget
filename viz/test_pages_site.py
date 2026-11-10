@@ -328,6 +328,20 @@ def test_every_page_offers_the_download_and_it_exists():
         assert os.path.exists(os.path.join(HERE, href)), href
 
 
+def test_every_footer_has_the_data_the_site_and_betanyc():
+    """FAILS if a page's footer loses one of its three columns (2026-11-10): the data, every page
+    of the site, and About BetaNYC with its links."""
+    shell = _shell()
+    for page in shell.PAGES:
+        foot = _read(page["path"]).split(shell.BOT_START.split(" (")[0], 1)[1]
+        for h in (">The data<", ">This site<", ">About BetaNYC<"):
+            assert h in foot, (page["path"], h)
+        for _key, _href, label in shell.NAV:
+            assert f">{label}<" in foot, (page["path"], label)
+        for url, _t in shell.BETANYC_LINKS:
+            assert url in foot, (page["path"], url)
+
+
 def test_about_has_the_glossary_and_every_source():
     """FAILS if the About page loses the fiscal year definition, a glossary term, or a dataset the
     repository reads (code/open_data_registry.py)."""
