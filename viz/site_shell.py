@@ -51,11 +51,11 @@ PAGES = [
     },
     {
         "path": "agencies/index.html", "root": "../", "current": "agencies", "skip": "content",
-        "source": AGENCY_SOURCE, "revised": "2026-11-10", "toc": True,
+        "source": AGENCY_SOURCE, "revised": "2026-11-10",
     },
     {
         "path": "agencies/faq.html", "root": "../", "current": "agencies", "skip": "content",
-        "source": AGENCY_SOURCE, "revised": "2026-11-10", "toc": True,
+        "source": AGENCY_SOURCE, "revised": "2026-11-10",
     },
     {
         "path": "about.html", "root": "./", "current": "about", "skip": "main",
@@ -77,8 +77,7 @@ PAGES = [
     },
 ]
 
-# The site's pages, in the order Noel set on 2026-11-10: the top bar and the contents list on the
-# City budget pages both use it.
+# The site's pages, in the order Noel set on 2026-11-10: the top bar and the footer both use it.
 NAV = [
     ("home", "", "Home"),
     ("council", "explorer/", "Council discretionary funding"),
@@ -115,15 +114,6 @@ STYLE = """<style>
   @media (max-width: 781px) { .bnyc-foot-cols { grid-template-columns: 1fr; } .bnyc-shell-foot li a { min-height: 44px; } }
   .bnyc-shell-foot p { margin: 0.3rem 0; }
   .bnyc-shell-foot a { color: #2359a8; }
-  .bnyc-toc { margin: 0.75rem 0 1rem; font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; }
-  .bnyc-toc h2 { font-size: 15px; font-weight: 700; color: #414141; margin: 0 0 0.3rem; text-transform: none; }
-  .bnyc-toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.3rem 0.5rem; }
-  .bnyc-toc li { margin: 0; }
-  .bnyc-toc a, .bnyc-toc a:visited { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.9rem; border: 1px solid #2359a8; color: #2359a8; background: #FFFFFF; font-weight: 700; text-decoration: none; }
-  .bnyc-toc a:hover { background: #EEF4FF; text-decoration: underline; color: #2359a8; }
-  /* !important: a page's own link color (the agency page's "#header a") would otherwise win. */
-  .bnyc-toc a[aria-current="page"], .bnyc-toc a[aria-current="page"]:visited, .bnyc-toc a[aria-current="page"]:hover { background: #2359a8; color: #FFFFFF !important; }
-  .bnyc-toc a:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
   .bnyc-shell-foot .bnyc-dl { display: inline-block; margin: 0.2rem 0.6rem 0.4rem 0; padding: 6px 24px; background: #2359a8; color: #FFFFFF; text-decoration: none; font-weight: 700; }
   .bnyc-shell-foot .bnyc-dl:hover { background: #1c4785; text-decoration: underline; }
   /* Menu button (burger) below 782px, brand.md's tablet breakpoint. Without JavaScript the
@@ -159,7 +149,6 @@ SCRIPT = """<script>
 </script>"""
 
 TOP_START, TOP_END = "<!-- site-shell:top:start (written by viz/site_shell.py; do not edit) -->", "<!-- site-shell:top:end -->"
-TOC_START, TOC_END = "<!-- site-shell:toc:start (written by viz/site_shell.py; do not edit) -->", "<!-- site-shell:toc:end -->"
 BOT_START, BOT_END = "<!-- site-shell:bottom:start (written by viz/site_shell.py; do not edit) -->", "<!-- site-shell:bottom:end -->"
 
 
@@ -194,24 +183,6 @@ def top_block(page: dict) -> str:
 
 def _nav_target(page: dict, href: str) -> str:
     return href if (href.startswith("#") and page["path"] == "index.html") else page["root"] + href
-
-
-def toc_block(page: dict) -> str:
-    """The site's pages as a short contents list, under a page's own introduction."""
-    items = []
-    for key, href, label in NAV:
-        cur = ' aria-current="page"' if key == page["current"] else ""
-        items.append(f'                <li><a href="{_nav_target(page, href)}"{cur}>{html.escape(label)}</a></li>')
-    return "\n".join([
-        TOC_START,
-        '            <nav class="bnyc-toc" aria-labelledby="bnyc-toc-h">',
-        '              <h2 id="bnyc-toc-h">Contents</h2>',
-        '              <ul>',
-        *items,
-        '              </ul>',
-        '            </nav>',
-        "            " + TOC_END,
-    ])
 
 
 # BetaNYC's own links, in the footer of every page (Noel's 2026-11-10 sketch: "About BetaNYC").
@@ -281,9 +252,6 @@ def _replace_or_insert(text: str, start: str, end: str, block: str, anchor: str,
 def render(page: dict, text: str) -> str:
     text = _replace_or_insert(text, TOP_START, TOP_END, top_block(page), r"<body[^>]*>", after=True)
     text = _replace_or_insert(text, BOT_START, BOT_END, bottom_block(page), r"\s*</body>", after=False)
-    if page.get("toc"):
-        # Placed by hand under the page's introduction; the script refreshes what is between.
-        text = _replace_or_insert(text, TOC_START, TOC_END, toc_block(page), r"(?!)", after=True)
     return text
 
 

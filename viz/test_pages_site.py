@@ -359,20 +359,6 @@ def test_about_has_the_glossary_and_every_source():
         assert f"/d/{ds}" in about, f"{ds} not listed on the About page"
 
 
-def test_city_budget_pages_list_the_site_contents():
-    """FAILS if the contents list under the City budget page's introduction (and its FAQ's) is
-    missing or does not name every page in the site bar."""
-    shell = _shell()
-    for page in shell.PAGES:
-        if not page.get("toc"):
-            continue
-        text = _read(page["path"])
-        assert shell.TOC_START in text, page["path"]
-        toc = text.split(shell.TOC_START, 1)[1].split(shell.TOC_END, 1)[0]
-        for _key, _href, label in shell.NAV:
-            assert f">{label}<" in toc, (page["path"], label)
-
-
 def test_no_stale_citywide_total_in_copy():
     for name in ("legacy.html", "README.md", "index.html", os.path.join("agencies", "index.html")):
         assert "$114B" not in _read(name), name

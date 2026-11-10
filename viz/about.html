@@ -45,7 +45,8 @@
       dl.glossary dt { font-family: var(--font-heading); font-weight: 700; color: var(--bnyc-blue); margin-top: 1rem; }
       dl.glossary dd { margin: 0.2rem 0 0; }
       .table-wrap { overflow-x: auto; }
-      .contents { font-size: 0.97rem; }
+      .contents h2 { font-size: 1.15rem; margin-top: 1.5rem; }
+      .contents ul { margin-bottom: 1.5rem; }
     </style>
   </head>
   <body>
@@ -79,15 +80,6 @@
   @media (max-width: 781px) { .bnyc-foot-cols { grid-template-columns: 1fr; } .bnyc-shell-foot li a { min-height: 44px; } }
   .bnyc-shell-foot p { margin: 0.3rem 0; }
   .bnyc-shell-foot a { color: #2359a8; }
-  .bnyc-toc { margin: 0.75rem 0 1rem; font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; }
-  .bnyc-toc h2 { font-size: 15px; font-weight: 700; color: #414141; margin: 0 0 0.3rem; text-transform: none; }
-  .bnyc-toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.3rem 0.5rem; }
-  .bnyc-toc li { margin: 0; }
-  .bnyc-toc a, .bnyc-toc a:visited { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.9rem; border: 1px solid #2359a8; color: #2359a8; background: #FFFFFF; font-weight: 700; text-decoration: none; }
-  .bnyc-toc a:hover { background: #EEF4FF; text-decoration: underline; color: #2359a8; }
-  /* !important: a page's own link color (the agency page's "#header a") would otherwise win. */
-  .bnyc-toc a[aria-current="page"], .bnyc-toc a[aria-current="page"]:visited, .bnyc-toc a[aria-current="page"]:hover { background: #2359a8; color: #FFFFFF !important; }
-  .bnyc-toc a:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
   .bnyc-shell-foot .bnyc-dl { display: inline-block; margin: 0.2rem 0.6rem 0.4rem 0; padding: 6px 24px; background: #2359a8; color: #FFFFFF; text-decoration: none; font-weight: 700; }
   .bnyc-shell-foot .bnyc-dl:hover { background: #1c4785; text-decoration: underline; }
   /* Menu button (burger) below 782px, brand.md's tablet breakpoint. Without JavaScript the
@@ -137,8 +129,17 @@
 
       <p>BetaNYC publishes New York City's budget as data you can search and check, in two halves. <strong>City budget</strong>: every City agency's adopted and modified budget, FY2017–FY2027, from NYC Open Data. <strong>Council discretionary funding</strong>: which organizations the Council funds, for how much, from the Council's own spreadsheets, its budget PDFs and NYC Open Data. Every number comes from the City's own data, and we never change one by hand.</p>
 
-      <nav class="contents" aria-label="On this page">
-        <p><strong>On this page:</strong> <a href="#which-tool">Which tool answers my question?</a> · <a href="#glossary">Glossary</a> · <a href="#sources">Data sources</a> · <a href="#pdf-checks">How the PDF tables are checked</a> · <a href="#spreadsheets">The Council's spreadsheets</a> · <a href="#download">Download the data</a> · <a href="#ai">How we use AI</a></p>
+      <nav class="contents" aria-labelledby="on-this-page">
+        <h2 id="on-this-page">On this page</h2>
+        <ul>
+          <li><a href="#which-tool">Which tool answers my question?</a></li>
+          <li><a href="#glossary">Glossary</a></li>
+          <li><a href="#sources">Data sources</a></li>
+          <li><a href="#pdf-checks">How the PDF tables are checked</a></li>
+          <li><a href="#spreadsheets">The Council's spreadsheets</a></li>
+          <li><a href="#download">Download the data</a></li>
+          <li><a href="#ai">How we use AI</a></li>
+        </ul>
       </nav>
 
       <h2 id="which-tool">Which tool answers my question?</h2>
