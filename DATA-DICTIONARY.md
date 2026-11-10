@@ -398,3 +398,62 @@ with `funding` CITY / NON CITY, `num_yrs_prsnt`, and `year1_amt_k`…`year5_amt_
 `council_y1` / `omb_y1` (the report year), `council_y2` / `omb_y2` (the next year), `verdict`:
 `match` (both years equal to the dollar), `differ`, `council_only`, `omb_only`. OMB amounts are
 summed over funding sources. This repo's arithmetic, not a Council or OMB figure.
+
+---
+
+## City agency budgets: `viz/agencies/data/nyc_budget.csv` (NYC Open Data `mwzb-yiwb`)
+
+Added 2026-11-09 (#268). The other half of the repo (epic #272): every City agency's expense
+budget, not the Council's discretionary funding. Built by
+[`code/agency_budget_cleanup.py`](code/agency_budget_cleanup.py); loaded by the agency explorer
+at `agencies/`. Full column notes: [`viz/agencies/data/SCHEMA.md`](viz/agencies/data/SCHEMA.md).
+
+**Source.** NYC Open Data, Expense Budget, [`mwzb-yiwb`](https://data.cityofnewyork.us/d/mwzb-yiwb),
+published for the Mayor's Office of Management and Budget (OMB). Public; read through the SODA API
+(`https://data.cityofnewyork.us/resource/mwzb-yiwb.json`) with no token. Field names are from the
+dataset's metadata (`/api/views/mwzb-yiwb.json`), and its data dictionary is in
+[`source/open-data-mwzb-yiwb/Expense_Budget_Data_Dictionary.xlsx`](source/open-data-mwzb-yiwb/).
+
+| Source field | Type | Meaning in this repo |
+|---|---|---|
+| `publication_date` | text, `YYYYMMDD` | The release date. Each fiscal year is released up to three times: Preliminary (January), Executive (April or May), Adopted (June). Each restates the whole budget, so releases are never added together |
+| `fiscal_year` | number | The **tag** of the release: the fiscal year being proposed or adopted in it. Not the year of every amount in the row (below) |
+| `agency_number`, `agency_name` | text | The agency. Unpadded before 2023 (`40`), padded after (`040`); always compare padded |
+| `unit_appropriation_number`, `unit_appropriation_name` | text | The unit of appropriation, the line the budget is adopted by. Padded the same way |
+| `adopted_budget_amount` | number | In the release tagged Y: the **FY Y−1** adopted budget |
+| `current_modified_budget_amount` | number | In the release tagged Y: the **FY Y−1** budget as modified to the release date |
+| `financial_plan_amount` | number | In the release tagged Y: **FY Y** (in the June release, the FY Y adopted budget) |
+
+**The year rule** (DATA-ANOMALIES §57). OMB's printed FY2026 Adopted Budget (Expense, Revenue and
+Contract volume, `adopt25/erc6-25.pdf`) is the same publication as the June 2025 release tagged
+2026, and heads its columns "Adopted Budget for FY 2025", "Current Modified Budget for FY 2025"
+and "Adopted Budget for FY 2026". So:
+
+- **Adopted Y** = `financial_plan_amount` from the June release tagged Y. It equals
+  `adopted_budget_amount` in the release tagged Y+1, to the dollar, citywide, FY2017–FY2026.
+- **Modified Y** = `current_modified_budget_amount` from the June release tagged Y+1 (the budget as
+  modified through June of FY Y, near the year's end; Checkbook NYC's year-end figure can differ).
+- The newest year's Modified is blank ("Not yet published") until the next June release.
+
+**Totals are gross.** The rows include intra-city amounts (one agency paying another), which OMB
+leaves out of its headline "net total budget". FY2026 adopted: $115,907,309,727 net, plus
+$1,884,163,949 intra-city, = **$117,791,473,676** as counted in Open Data. CI pins this total.
+
+| Column | Meaning |
+|---|---|
+| `Fund` | The agency (`agency_name`, from the newest release the unit appears in). Shown as "Agency" |
+| `Department` | The unit of appropriation (`unit_appropriation_name`). Shown as "Unit of appropriation" |
+| `Department ID` | The unit's number, zero-padded to 3 digits (text) |
+| `Adopted YYYY`, `Modified YYYY` | FY2017–FY2027, by the year rule above. Plain numbers; blank means not published, never zero |
+
+The names `Fund` and `Department` are from the Look at Cook front end the explorer is adapted
+from. As of 2026-11-09: 764 units of appropriation; the 59 community boards are agencies 341–352
+(Manhattan), 381–392 (Bronx), 431–444 (Queens), 471–488 (Brooklyn) and 491–493 (Staten Island).
+
+**How it is checked.** The pipeline stops, writing nothing, unless it reproduces OMB's printed
+FY2026 Adopted Budget (citywide FY2026 and FY2025 adopted, FY2025 modified, Manhattan Community
+Board 1 on p. 182E). [`code/test_qa_agency_budget.py`](code/test_qa_agency_budget.py) recomputes
+all 16,808 cells (764 units × 11 years × 2) from a committed snapshot,
+[`source/agency-budget-qa/`](source/agency-budget-qa/README.md), with code that shares nothing
+with the pipeline, and fails on any difference, on a file filed one year late, or if the FY2026
+total moves.

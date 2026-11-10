@@ -1683,3 +1683,40 @@ served. `mcp/test/pdf-families.test.js` checks that no old-parser file is loaded
 have only the old parser's output, so the MCP answers "not available yet" for them. The FY2009
 OCR transparency files (§28) stay a research dataset and are not served.
 
+
+## 57. Expense Budget (`mwzb-yiwb`): a release's `fiscal_year` is not the year of all its amounts (2026-11-09; #268, nyc-budget-viz#3/#4)
+
+**What.** In NYC Open Data's Expense Budget, each release is tagged with a `fiscal_year`: the
+budget being proposed or adopted in it. Two of its three amounts describe the year **before**:
+in the release tagged Y, `adopted_budget_amount` and `current_modified_budget_amount` are FY Y−1,
+and only `financial_plan_amount` is FY Y. The dataset's data dictionary defines the three amounts
+but does not say which year each covers.
+
+**Evidence.** OMB's printed FY2026 Adopted Budget (Expense, Revenue and Contract volume,
+<https://www.nyc.gov/assets/omb/downloads/pdf/adopt25/erc6-25.pdf>) is the same publication as
+the release dated 2025-06-30 and tagged 2026. Its columns are headed "Adopted Budget for FY 2025",
+"Current Modified Budget for FY 2025" and "Adopted Budget for FY 2026". In the data, citywide
+`financial_plan_amount` in the June release tagged Y equals `adopted_budget_amount` in the release
+tagged Y+1, to the dollar, for every Y from FY2017 to FY2026 (checked again 2026-11-09:
+FY2026 = $117,791,473,676 both ways).
+
+**What it broke.** The agency budget explorer (then `BetaNYC/nyc-budget-viz`) read the tag as the
+year of every amount, so every year it showed was one year late: "Adopted 2026" was the FY2025
+adopted budget. A community board staffer's spreadsheet showed it on 2026-11-09, and it was fixed
+the same day (nyc-budget-viz#4). The dollar amounts were the City's, unchanged; only the year
+they were filed under was wrong.
+
+**Also affected, not yet fixed:** the Terms and Conditions crosswalk in this repo
+(`code/build_open_data_crosswalk.py`, `data/open_data/crosswalk_terms_unit.csv`) gives each unit
+its FY Y "adopted" amount from `adopted_budget_amount` in the release tagged Y, which is FY Y−1.
+Example: DOE (040) unit 401, FY2017, shows $5,844,620,680, the FY2016 adopted budget; FY2017 is
+$6,164,926,031. Tracked in #274. The match status is right; only the amount's year is wrong.
+
+**The rule now used** (DATA-DICTIONARY, "City agency budgets"): Adopted Y = `financial_plan_amount`
+from the June release tagged Y; Modified Y = `current_modified_budget_amount` from the June release
+tagged Y+1; the newest year's Modified is "Not yet published". Use one release per year (the June
+one): the Preliminary, Executive and Adopted releases each restate the whole budget.
+
+**Guarded by** `code/test_qa_agency_budget.py`, which recomputes every cell the explorer shows from
+`source/agency-budget-qa/` and fails if any year is moved, and `code/test_agency_budget_cleanup.py`
+(the pipeline's own tests and its check against OMB's printed totals).
