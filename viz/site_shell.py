@@ -61,7 +61,7 @@ PAGES = [
         # The explorer's source page; Vite builds it into explorer/index.html. Its React app has
         # its own header, <main id="main"> and footer, which stay.
         "path": "explorer/index.html", "root": "../", "current": "council", "skip": "main",
-        "revised": "2026-11-09",
+        "revised": "2026-11-10",
     },
     {
         "path": "legacy.html", "root": "./", "current": "legacy", "skip": "content",
