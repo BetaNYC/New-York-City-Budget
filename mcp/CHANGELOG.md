@@ -22,6 +22,13 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   - Figures are **gross**: they include intra-city transfers. OMB's headline totals are net.
   - The browser explorer reads the same table (`agency_budget.parquet`), so the site and this
     server can't disagree.
+- **Two tools for City agency budgets** (#285). `search_agency_budget` finds agencies and units
+  by number (`056` or `56`) or words from the name (`police`), for one fiscal year, with totals.
+  `compare_adopted_modified` gives one agency's or unit's adopted and modified budget and the
+  change. Every answer names the release, says the amounts are gross, and says "not in that
+  year's budget" or "not yet published" instead of $0. Budgets only: spending questions go to
+  `@betanyc/nyc-checkbook-mcp`, and both tools say so.
+- `list_available_fiscal_years` reports the agency budget years and the snapshot date.
 <!-- TODO(#270): link the cross-repo "What's changed" log here when that standard lands. -->
 
 ## 2.0.6 — 2026-11-10
