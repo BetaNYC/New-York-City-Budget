@@ -10,7 +10,7 @@ Four more tools answer from the **checked tables BetaNYC reads from the Council'
 tables are an **optional download** (about 17 MB; 115 MB on disk), not part of the package: see
 [The checked PDF tables](#the-checked-pdf-tables-optional-download).
 
-> **Version 2.0.6** (unreleased). 2.0.2 (2026-10-23) added the four PDF tools and the optional
+> **Version 2.0.6** (2026-11-10). 2.0.2 (2026-10-23) added the four PDF tools and the optional
 > download; nothing was removed. 2.0.3 matched capital IDs in full, 2.0.4 (2026-10-25) made short
 > text-filter terms match whole words (`whole_word`), and 2.0.5 (2026-11-09) added `mcpName` for
 > the MCP Registry. 2.0.6 fixes Terms and Conditions unit amounts that were one fiscal year late
@@ -509,7 +509,7 @@ Published to npm by CI, never from a laptop:
   secret) and can be re-run by hand with a tag.
 - **The PDF tables** are not in the npm package: `.github/workflows/pdf-tables-release.yml`
   publishes them as `pdf-tables-*` GitHub Releases, by hand for now (see "Publishing a release").
-  The latest npm release is 2.0.5 (tag `mcp-v2.0.5`).
+  The latest npm release is 2.0.6 (tag `mcp-v2.0.6`).
 - **CI**: `.github/workflows/ci.yml` builds and tests `mcp/` on Node 22 and 24 for every PR into
   `main` that touches `mcp/` or the data the index is built from.
 
