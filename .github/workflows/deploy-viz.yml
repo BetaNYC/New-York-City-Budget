@@ -87,8 +87,11 @@ jobs:
         run: |
           set -euo pipefail
           python3 viz/test_pages_site.py
-          # The agency pipeline's tests, stdlib only: the year rule, and OMB's printed totals in
-          # the CSV that agencies/ loads (#265).
+          # agencies/ is the forwarding page to the explorer's City agency budgets view (#288):
+          # no old library, every old route forwarded, a plain link, the CSV at its address.
+          python3 -m unittest viz/test_agencies_retired.py
+          # OMB's printed totals in the CSV agencies/ offers for download (#265); the CSV equals
+          # the index byte for byte in `npm test` below (test/agency-csv.test.mjs, #288).
           (cd code && python3 -m unittest test_agency_budget_cleanup)
           # Every Adopted/Modified cell agencies/ shows, recomputed from the committed Open Data
           # snapshot with the year rule (#268). Exit 1 on any difference.

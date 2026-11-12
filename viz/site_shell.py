@@ -39,11 +39,11 @@ PAGES = [
     },
     {
         "path": "agencies/index.html", "root": "../", "current": "agencies", "skip": "content",
-        "revised": "2026-11-10",
+        "revised": "2026-11-12",
     },
     {
         "path": "agencies/faq.html", "root": "../", "current": "agencies", "skip": "content",
-        "revised": "2026-11-10",
+        "revised": "2026-11-12",
     },
     {
         "path": "mcp.html", "root": "./", "current": "mcp", "skip": "main",
@@ -74,7 +74,8 @@ NAV = [
     ("home", "", "Home"),
     ("boards", "agencies/boards.html", "Community boards"),
     ("council", "explorer/", "Council discretionary funding"),
-    ("agencies", "agencies/", "City agency budgets"),
+    # The City agency budgets view in the explorer (#270, #288); agencies/ forwards old links there.
+    ("agencies", "explorer/#view=agencies", "City agency budgets"),
     ("mcp", "mcp.html", "Budget MCP"),
     ("about", "about.html", "About"),
 ]

@@ -18,12 +18,13 @@ What these guard (each would have failed before the change that introduced it):
      to cite them; it has a heading, and it links to the new data (front page, repo, MCP).
   6. The notice links once to the in-browser explorer (explorer/), whose source and site
      assembly script exist in viz/explorer/.
-  7. The City agency budgets explorer (agencies/, from nyc-budget-viz, #265) is in place: every
-     local file its pages load exists, its data file exists, and no link or asset path starts
-     with "/" (the site lives under /New-York-City-Budget/, so "/" leaves it).
-  8. The Look at Cook leftovers stay gone (#266): no "Who controls it?" view, NYC labels instead
-     of "Fund"/"Department", no empty description panel, the DataMade credit line, no empty
-     hidden image, no Cook County images, and sharing tags on both pages.
+  7. The City agency budgets pages (agencies/): since #288 agencies/index.html forwards old links
+     to the explorer's view (viz/test_agencies_retired.py checks the forwarding). Every local file
+     the pages load exists, the data file stays, and no link or asset path starts with "/" (the
+     site lives under /New-York-City-Budget/, so "/" leaves it).
+  8. The Look at Cook leftovers stay gone (#266): no "Who controls it?" in the FAQ, NYC labels,
+     no Cook County columns in the CSV, the DataMade credit in the FAQ, no empty hidden image, no
+     Cook County images, and sharing tags on both pages.
   9. One site shell (#267): every page carries the same top bar and footer (site_shell.py
      --check), reaches every other page in one click, and states the fiscal year, its source
      and when it was last revised.
@@ -182,21 +183,16 @@ def _is_external(u):
     return bool(re.match(r"^([a-z]+:|//|#)", u))
 
 
-def test_agencies_explorer_is_in_place_and_loads_only_files_that_exist():
+def test_agency_pages_load_only_files_that_exist():
+    # #288: agencies/index.html is the forwarding page (no app); the FAQ keeps its stylesheets.
     for page in AGENCY_PAGES:
         r = _refs(page)
         local = [u for u in r.scripts + r.styles + r.imgs if u and not _is_external(u)]
-        assert local, f"premise: {page} loads local assets"
         missing = [u for u in local if not os.path.exists(os.path.join(HERE, "agencies", u.split("?")[0]))]
         assert not missing, f"{page} loads missing files: {missing}"
-    app = _read(os.path.join("agencies", "js", "app.js"))
-    m = re.search(r"dataSource\s*=\s*'([^']+)'", app)
-    assert m, "agencies/js/app.js names its data file"
-    assert not m.group(1).startswith("/"), f"dataSource must be relative: {m.group(1)}"
-    assert os.path.exists(os.path.join(HERE, "agencies", m.group(1))), m.group(1)
-    tmpl = _read(os.path.join("agencies", "js", "budget_helpers.js"))
-    t = re.search(r"tmpl_dir\s*=\s*'([^']+)'", tmpl)
-    assert t and os.path.isdir(os.path.join(HERE, "agencies", t.group(1))), "chart templates"
+    assert os.path.exists(os.path.join(HERE, "agencies", "data", "nyc_budget.csv")), "the CSV keeps its address"
+    assert not os.path.exists(os.path.join(HERE, "agencies", "js", "app.js")), "the Backbone app is retired (#288)"
+    assert not os.path.exists(os.path.join(HERE, "agencies", "lib")), "the old libraries are retired (#288)"
 
 
 def test_agencies_explorer_uses_relative_links_only():
@@ -205,9 +201,6 @@ def test_agencies_explorer_uses_relative_links_only():
     for page in AGENCY_PAGES:
         bad = [u for u in _refs(page).urls if u.startswith("/") and not u.startswith("//")]
         assert not bad, f"{page} has root-absolute links: {bad}"
-    for js in ("app.js", "budget_helpers.js"):
-        text = _read(os.path.join("agencies", "js", js))
-        assert not re.search(r"""href=['"]/[^/]""", text), f"agencies/js/{js} writes a root-absolute link"
 
 
 def _agency_text(*names):
@@ -215,43 +208,32 @@ def _agency_text(*names):
 
 
 def test_agencies_who_controls_it_view_is_gone():
-    views = _agency_text("js/views/mainChart.html")
-    assert "Who controls it" not in views and "breakdown-choice" not in views
-    app = _read(os.path.join("agencies", "js", "app.js"))
-    assert "'Control Officer Slug'" not in app and '"Control Officer": [' not in app
-    # Old links keep working: the route stays, and sends them to the same agency view.
-    assert re.search(r"controlDetailRoute: function\(topName, secondName\)\{\s*var fragment = 'fund-detail/'", app)
-    assert "fund-detail/:topName" in app, "the agency route (and every existing link) stays"
+    # Old #control-officer-detail/ links still land on the agency: the forwarding page (#288).
+    fwd = _read(os.path.join("agencies", "index.html"))
+    assert "control-officer-detail" in fwd and "fund-detail" in fwd
     faq = _read(os.path.join("agencies", "faq.html"))
     assert "richer second dimension" not in faq and "control officer" not in faq.lower()
 
 
 def test_agencies_labels_are_nyc_words():
-    app = _read(os.path.join("agencies", "js", "app.js"))
-    assert "'Fund': 'Agency'" in app and "'Department': 'Unit of appropriation'" in app
-    assert '<span id="secondary-title">Agency</span>' in _read(os.path.join("agencies", "index.html"))
-    assert "budgetLabel(" in _agency_text("js/views/breakdownDetail.html")
-    search = _agency_text("js/views/search.html")
-    assert "Department search" not in search and "Search agencies and units" in search
     faq = _read(os.path.join("agencies", "faq.html"))
     assert 'What are "agency" and "unit of appropriation"?' in faq
     assert 'What are "Fund" and "Department" in this tool?' not in faq
 
 
 def test_agencies_no_empty_description_panel_or_columns():
-    detail = _agency_text("js/views/breakdownDetail.html")
-    assert "description" not in detail and "Read more on their website" not in detail
     header = _read(os.path.join("agencies", "data", "nyc_budget.csv")).split("\n", 1)[0]
     for col in ("Control Officer", "Short Title", "Link to Website", "Department Description"):
         assert col not in header, col
 
 
 def test_agencies_credit_hidden_image_cook_images_and_sharing():
+    faq = _read(os.path.join("agencies", "faq.html"))
+    assert "Original code by <a href=\"https://datamade.us\">DataMade</a>" in faq
+    assert 'look-at-cook">Look at Cook</a>, MIT License' in faq
     for page in AGENCY_PAGES:
         html = _read(page)
         assert not re.search(r"Built by <a[^>]*datamade", html, re.I), f"{page}: old 'Built by DataMade' line"
-        assert "Original code by <a href=\"https://datamade.us\">DataMade</a>" in html
-        assert 'look-at-cook">Look at Cook</a>, MIT License' in html
         assert not re.search(r"<img[^>]*src=(\"\"|'')", html), f"{page}: empty img src"
         assert 'id="readme"' not in html, f"{page}: hidden readme leftover"
         for tag in ('property="og:image"', 'property="og:url"', 'rel="canonical"'):
@@ -288,7 +270,8 @@ def test_every_page_has_the_current_site_shell():
 
 def test_every_page_reaches_every_other_in_one_click():
     shell = _shell()
-    site_pages = {"": "index.html", "agencies/": "agencies/index.html", "explorer/": "explorer/index.html",
+    # City agency budgets is the explorer's view since #288 (agencies/ forwards old links there).
+    site_pages = {"": "index.html", "explorer/#view=agencies": "explorer/index.html", "explorer/": "explorer/index.html",
                   "about.html/": "about.html", "mcp.html/": "mcp.html",
                   "agencies/boards.html/": "agencies/boards.html"}
     for page in shell.PAGES:
@@ -300,7 +283,8 @@ def test_every_page_reaches_every_other_in_one_click():
                 continue
             target = os.path.normpath(os.path.join(here, href.split("#")[0])).replace(os.sep, "/")
             target = "" if target == "." else target.rstrip("/") + "/"
-            reached.add(target)
+            frag = href.split("#", 1)[1] if "#" in href else ""
+            reached.add(target + "#" + frag if frag.startswith("view=") else target)
         for want in site_pages:
             assert want in reached, f"{page['path']}: no one-click link to {want or 'the front page'}"
         # Every relative link goes somewhere that exists in viz/.
