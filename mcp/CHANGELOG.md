@@ -29,6 +29,9 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   year's budget" or "not yet published" instead of $0. Budgets only: spending questions go to
   `@betanyc/nyc-checkbook-mcp`, and both tools say so.
 - `list_available_fiscal_years` reports the agency budget years and the snapshot date.
+- **FY2027 transparency resolutions** (#246). `search_transparency_changes` now reaches FY2027:
+  Res 0551-2026, 0595-2026, 0652-2026 and 0695-2026 (2026-07-16 to 2026-10-22), 2,808 rows,
+  labeled "checked, review in progress", from the next PDF-tables data release.
 <!-- TODO(#270): link the cross-repo "What's changed" log here when that standard lands. -->
 
 ## 2.0.6 — 2026-11-10
