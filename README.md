@@ -200,7 +200,7 @@ checked process ([next section](#how-the-council-pdf-tables-are-checked)):
 | Family | What it is | Years |
 |---|---|---|
 | Schedule C | The discretionary awards as adopted, with the initiative and category | FY2018–FY2027 |
-| Transparency resolutions | Changes made after adoption: new awards, rescissions, changes of purpose | FY2018–FY2026 |
+| Transparency resolutions | Changes made after adoption: new awards, rescissions, changes of purpose | FY2018–FY2027 |
 | Capital book (§254 supporting detail: the detail behind the capital changes the Council adopts under Section 254 of the City Charter) | The Council's capital additions, project by project | FY2018–FY2020, FY2022–FY2027 |
 | Terms and Conditions | The reports the budget requires agencies to make | FY2018, FY2021–FY2027 |
 
