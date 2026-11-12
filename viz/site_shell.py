@@ -35,7 +35,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PAGES = [
     {
         "path": "index.html", "root": "./", "current": "home", "skip": "main",
-        "revised": "2026-11-10",
+        "revised": "2026-11-12",
     },
     {
         "path": "agencies/index.html", "root": "../", "current": "agencies", "skip": "content",
@@ -51,7 +51,7 @@ PAGES = [
     },
     {
         "path": "about.html", "root": "./", "current": "about", "skip": "main",
-        "revised": "2026-11-10",
+        "revised": "2026-11-12",
     },
     {
         "path": "agencies/boards.html", "root": "../", "current": "boards", "skip": "main",

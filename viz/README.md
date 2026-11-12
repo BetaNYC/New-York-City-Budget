@@ -5,8 +5,8 @@ One site, two halves (epic #272), at https://betanyc.github.io/New-York-City-Bud
 | Path | What |
 |---|---|
 | `./` | Front page: two doors and "which tool answers my question?" |
-| `agencies/` | **City agency budgets** (NYC Open Data `mwzb-yiwb`), from `viz/agencies/` |
-| `explorer/` | **Council discretionary funding**, built from `viz/explorer/` |
+| `agencies/` | Forwards old City agency budgets links to `explorer/#view=agencies` (#288); the CSV download, the FAQ and the community boards table |
+| `explorer/` | **Council discretionary funding** and, at `#view=agencies`, **City agency budgets** (NYC Open Data `mwzb-yiwb`), built from `viz/explorer/` |
 | `legacy.html` | The first Council explorer, frozen 2026-10-16, do not cite |
 
 Every page carries the same top bar and footer, written by `site_shell.py` (#267).
@@ -60,7 +60,7 @@ page are published exactly as before.
 | `PLAN.md` | The original design notes for the explorer (historical). |
 | `explorer/` | The budget explorer's source (Vite + React + DuckDB-WASM): data build, app, unit and parity tests. Built into `explorer/` on the published site. See [`explorer/README.md`](explorer/README.md). |
 | `explorer/PLAN.md` | The explorer's plan. |
-| `agencies/` | The City agency budgets explorer, from [BetaNYC/nyc-budget-viz](https://github.com/BetaNYC/nyc-budget-viz) by `git subtree add` (#265). Static; published as is at `agencies/`. Its data pipeline and tests are in `code/agency_budget_cleanup.py`. See [`agencies/README.md`](agencies/README.md). |
+| `agencies/` | From [BetaNYC/nyc-budget-viz](https://github.com/BetaNYC/nyc-budget-viz) by `git subtree add` (#265). Since #288 its app is retired: `index.html` forwards old links to the explorer's City agency budgets view; the CSV (`data/nyc_budget.csv`, written from the MCP index), the FAQ and `boards.html` stay. See [`agencies/README.md`](agencies/README.md). |
 | `LICENSE.md` | DataMade's MIT license for look-at-cook (retained verbatim). |
 
 ## Run it locally
@@ -107,7 +107,7 @@ If you build something with this project, we'd love to hear about it. We can hel
 
 See the full suite of BetaNYC's civic-data tools at **[beta.nyc/ai-tools](https://beta.nyc/ai-tools)**.
 
-The retired Schedule C explorer shares its toolkit (DataMade's [Look at Cook](https://github.com/datamade/look-at-cook)) with the **City agency budgets** explorer in [`agencies/`](agencies/README.md) (from [nyc-budget-viz](https://github.com/BetaNYC/nyc-budget-viz), #265): NYC's full **expense budget**, every agency, adopted vs. modified, FY2017–FY2027, from NYC Open Data `mwzb-yiwb`. FY2026 adopted: $115.9 billion net (OMB's figure), or $117,791,473,676 as counted in Open Data, which includes $1,884,163,949 of intra-city money. That one covers the citywide total.
+The retired Schedule C explorer shared its toolkit (DataMade's [Look at Cook](https://github.com/datamade/look-at-cook)) with the first **City agency budgets** explorer (from [nyc-budget-viz](https://github.com/BetaNYC/nyc-budget-viz), #265; retired in #288, now the explorer's `#view=agencies`): NYC's full **expense budget**, every agency, adopted vs. modified, FY2017–FY2027, from NYC Open Data `mwzb-yiwb`. FY2026 adopted: $115.9 billion net (OMB's figure), or $117,791,473,676 as counted in Open Data, which includes $1,884,163,949 of intra-city money. That one covers the citywide total.
 
 ## Attribution
 

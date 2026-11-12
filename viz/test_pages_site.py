@@ -115,7 +115,7 @@ def test_index_links_to_the_explorer():
     # The front page has two doors (#267): the Council explorer and the agency explorer, each
     # linked from its door and from "Use it" (and the site bar, written as ./explorer/).
     assert html.count('href="explorer/"') >= 1, "the front page links to the Council explorer"
-    assert html.count('href="agencies/"') >= 1, "the front page links to the agency explorer"
+    assert html.count('href="explorer/#view=agencies"') >= 1, "the front page links to City agency budgets (#288)"
     # The explorer's source lives in viz/explorer/; the deploy builds it into explorer/ beside
     # this page (.github/workflows/deploy-viz.yml, viz/explorer/scripts/assemble-site.mjs).
     assert os.path.exists(os.path.join(HERE, "explorer", "index.html"))

@@ -32,7 +32,9 @@ Node 22.12 or newer. From a fresh clone:
 cd viz/explorer
 npm ci
 npm run data                  # rebuild the index (public build), export Parquet to public/data/
-npm test                      # unit tests + parity with budget.db and the MCP
+npm test                      # unit tests + parity with budget.db, the MCP and the old /agencies/ CSV
+npm run e2e:site && npx playwright install chromium && npm run test:e2e
+                              # City agency budgets: axe WCAG 2.2 AA, phones (320/375 px), old links
 npm run dev                   # http://localhost:5276/
 npm run build                 # dist/
 node scripts/assemble-site.mjs --out /tmp/site   # the whole Pages site, as deployed
@@ -90,6 +92,7 @@ each once.
 | Capital | Council capital rows by report year, sponsor, borough, district, budget line, title, amount; report-year vs out-year amounts; detail with source link. |
 | Capital vs OMB | The Council-vs-OMB comparison by budget line, disagreements first. |
 | About the data | Coverage, gaps, provenance, credits. Readable before the data loads. |
+| City agency budgets (`#view=agencies`, #270) | The site's other half, with its own h1 and no Council tabs. All agencies for a fiscal year (`abfy`), one agency's units of appropriation (`abag`), one unit across FY2017 on (`abunit`): adopted and modified side by side, the change, a small SVG chart with a table of the same numbers, and a CSV download of what is on screen. A missing figure is words: "Not yet published" or "Not in this year's budget", never $0. Reads `agency_budget.parquet` (the MCP index's table, `mcp/scripts/agency-budget.mjs`), loaded when the view opens. Old `/agencies/` links arrive as `legacy=<slug path>` and are resolved here (`src/agency/legacy.js`). |
 | Capital, with a §254 book loaded | The book's printed totals and summary page above the rows, and per row the book's Part I sponsor as printed (`SANCHEZ J.` / `SANCHEZ P.` where the workbook says `Sanchez`), its FY+1..FY+3 columns, its page and review flags. Matched on report year, Council ID (without the agency code) and budget line. |
 | Organizations | §254 Part III: each non-city organization's printed line and its budget-line rows, with whether they add up. Only when a capital book is loaded. |
 | Schedule C | Every row of each loaded year's Schedule C (not only the rows paired with the disclosure): search by year, organization, EIN (the row's or its fiscal conduit's), sponsor (member, Speaker or delegation), category, initiative, agency, amount, and where the row stands against the disclosure (Cleared, Pending, not paired; a paired row links to its spreadsheet row). Shows the program or sub-heading, the fiscal conduit, the FY2018–FY2019 `*` mark ("review not completed") and "no dollar amount" where present. Sub-awards (the Jobs to Build On partner lists) are listed under their award and never added to a total. |

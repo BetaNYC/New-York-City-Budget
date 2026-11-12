@@ -73,7 +73,9 @@ PDF-derived data.
 **In a browser:** the [budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/)
 ([`../viz/explorer/`](../viz/explorer/README.md)) is built from this server's own index
 (`scripts/build-index.mjs` → `data/budget.db` → Parquet), and a parity test in CI checks that the
-two agree year by year. A change to the index build reaches the explorer on its next deploy.
+two agree year by year. A change to the index build reaches the explorer on its next deploy. The
+City agency budgets are the explorer's [`#view=agencies`](https://betanyc.github.io/New-York-City-Budget/explorer/#view=agencies),
+from the same `agency_budget` table as `search_agency_budget`.
 
 ## Tools
 

@@ -1719,4 +1719,17 @@ one): the Preliminary, Executive and Adopted releases each restate the whole bud
 
 **Guarded by** `code/test_qa_agency_budget.py`, which recomputes every cell the explorer shows from
 `source/agency-budget-qa/` and fails if any year is moved, and `code/test_agency_budget_cleanup.py`
-(the pipeline's own tests and its check against OMB's printed totals).
+(OMB's printed totals in the CSV).
+
+**Since 2.1.0 (#270, 2026-11-12): one year rule.** The rule is coded once, in
+`mcp/scripts/agency-budget.mjs`, which builds the `agency_budget` table the MCP, the explorer and
+the CSV download all read. `code/agency_budget_cleanup.py` no longer applies it. The #274 fix
+(2.0.6) and this table agree on every T&C unit amount (`mcp/test/agency-budget.test.js`), so the
+two Open Data snapshots (2026-10-21 and 2026-11-09) show no restatement by the City.
+
+**One visible change, on purpose.** The old app showed $0 where a unit was not in a year's
+budget at all. The explorer and the MCP now say "Not in this year's budget" there: 936 adopted
+and 801 modified cells as of the 2026-11-09 snapshot (`viz/explorer/test/agency-parity.test.mjs`
+counts them; every other cell of the 16,808 compared is equal). The CSV download keeps its
+0s, so files people already use keep their shape. Agency 866 also shows once, by number, not under
+its old and new names.

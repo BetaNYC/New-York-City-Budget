@@ -404,9 +404,11 @@ summed over funding sources. This repo's arithmetic, not a Council or OMB figure
 ## City agency budgets: `viz/agencies/data/nyc_budget.csv` (NYC Open Data `mwzb-yiwb`)
 
 Added 2026-11-09 (#268). The other half of the repo (epic #272): every City agency's expense
-budget, not the Council's discretionary funding. Built by
-[`code/agency_budget_cleanup.py`](code/agency_budget_cleanup.py); loaded by the agency explorer
-at `agencies/`. Full column notes: [`viz/agencies/data/SCHEMA.md`](viz/agencies/data/SCHEMA.md).
+budget, not the Council's discretionary funding. Since #288 the CSV is written from the MCP
+index's `agency_budget` table (below) by
+[`viz/explorer/scripts/agency-csv.mjs`](viz/explorer/scripts/agency-csv.mjs) (run it with
+`python3 code/agency_budget_cleanup.py`), and offered for download at `agencies/data/nyc_budget.csv`.
+Full column notes: [`viz/agencies/data/SCHEMA.md`](viz/agencies/data/SCHEMA.md).
 
 **Source.** NYC Open Data, Expense Budget, [`mwzb-yiwb`](https://data.cityofnewyork.us/d/mwzb-yiwb),
 published for the Mayor's Office of Management and Budget (OMB). Public; read through the SODA API
@@ -444,16 +446,42 @@ $1,884,163,949 intra-city, = **$117,791,473,676** as counted in Open Data. CI pi
 | `Fund` | The agency (`agency_name`, from the newest release the unit appears in). Shown as "Agency" |
 | `Department` | The unit of appropriation (`unit_appropriation_name`). Shown as "Unit of appropriation" |
 | `Department ID` | The unit's number, zero-padded to 3 digits (text) |
-| `Adopted YYYY`, `Modified YYYY` | FY2017–FY2027, by the year rule above. Plain numbers; blank means not published, never zero |
+| `Adopted YYYY`, `Modified YYYY` | FY2017–FY2027, by the year rule above. Plain numbers. Blank means not yet published (the newest Modified). `0` is either a real $0 or a unit not in that year's budget: the file keeps the old app's 0s, and the `agency_budget` table below tells them apart |
 
 The names `Fund` and `Department` are from the Look at Cook front end the explorer is adapted
 from. As of 2026-11-09: 764 units of appropriation; the 59 community boards are agencies 341–352
 (Manhattan), 381–392 (Bronx), 431–444 (Queens), 471–488 (Brooklyn) and 491–493 (Staten Island).
 
-**How it is checked.** The pipeline stops, writing nothing, unless it reproduces OMB's printed
-FY2026 Adopted Budget (citywide FY2026 and FY2025 adopted, FY2025 modified, Manhattan Community
-Board 1 on p. 182E). [`code/test_qa_agency_budget.py`](code/test_qa_agency_budget.py) recomputes
+**How it is checked.** [`mcp/test/agency-budget.test.js`](mcp/test/agency-budget.test.js)
+re-derives every `agency_budget` cell from the snapshot and checks OMB's printed FY2026 Adopted
+Budget (citywide FY2026 and FY2025 adopted, FY2025 modified, Manhattan Community Board 1 on
+p. 182E); [`viz/explorer/test/agency-csv.test.mjs`](viz/explorer/test/agency-csv.test.mjs) checks
+the CSV equals the table byte for byte. [`code/test_qa_agency_budget.py`](code/test_qa_agency_budget.py) recomputes
 all 16,808 cells (764 units × 11 years × 2) from a committed snapshot,
 [`source/agency-budget-qa/`](source/agency-budget-qa/README.md), with code that shares nothing
 with the pipeline, and fails on any difference, on a file filed one year late, or if the FY2026
 total moves.
+
+### `agency_budget` (MCP index and explorer, since 2.1.0, #284)
+
+The same figures as one table, in `mcp/data/budget.db` and the explorer's
+`agency_budget.parquet`. Built by [`mcp/scripts/agency-budget.mjs`](mcp/scripts/agency-budget.mjs),
+the one place the year rule is coded, from [`source/agency-budget-qa/`](source/agency-budget-qa/README.md).
+One row per fiscal year × agency × unit, FY2017 on, where the unit is in that year's adopted
+release or the next year's (7,611 rows as of the 2026-11-09 snapshot). The MCP's
+`search_agency_budget` and `compare_adopted_modified` and the explorer's City agency budgets view
+read it.
+
+| Column | Type | Meaning |
+|---|---|---|
+| `fiscal_year` | integer | The fiscal year the figures describe (not the release tag) |
+| `agency_number` | text | 3 characters, zero kept (`040`) |
+| `agency_name` | text | As published in that year's adopted release (or the modified release, if the unit is only there) |
+| `unit_number` | text | Unit of appropriation, 3 characters (`001`) |
+| `unit_name` | text | As `agency_name` |
+| `adopted` | real | `financial_plan_amount`, June release tagged `fiscal_year`. **NULL** when the unit is not in that release ("Not in this year's budget"), never 0 |
+| `modified` | real | `current_modified_budget_amount`, June release tagged `fiscal_year` + 1. **NULL** when the unit is not in that release, or it is not out yet ("Not yet published") |
+| `adopted_release`, `modified_release` | text | The `publication_date` (`YYYYMMDD`) each figure comes from; NULL with its figure |
+
+Gross, like the CSV. `meta.agency_budget` (JSON) records the dataset, the snapshot's retrieval
+time, the first and last year, and each tag's June release.

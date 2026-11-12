@@ -16,12 +16,12 @@ Not sure which half you need? See [**Which tool answers my question?**](WHICH-TO
 has a [glossary](WHICH-TOOL.md#glossary): fiscal year, adopted vs. modified, unit of
 appropriation, intra-city, discretionary funding.
 
-- **Search it in a browser:** the [Council budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/) and the [agency budget explorer](https://betanyc.github.io/New-York-City-Budget/agencies/).
-- **Ask an AI assistant:** the [`@betanyc/nyc-budget-mcp`](mcp/README.md) server (Council funding today; agency budgets planned, [#270](https://github.com/BetaNYC/New-York-City-Budget/issues/270)).
-- **Download it:** the CSVs in [`data/`](data/), the [data releases](https://github.com/BetaNYC/New-York-City-Budget/releases), and the agency explorer's [one-file CSV](viz/agencies/data/nyc_budget.csv).
+- **Search it in a browser:** the [Council budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/) and the [City agency budgets view](https://betanyc.github.io/New-York-City-Budget/explorer/#view=agencies) in the same explorer.
+- **Ask an AI assistant:** the [`@betanyc/nyc-budget-mcp`](mcp/README.md) server: Council funding, and since 2.1.0 City agency budgets (`search_agency_budget`, `compare_adopted_modified`, [#270](https://github.com/BetaNYC/New-York-City-Budget/issues/270)).
+- **Download it:** the CSVs in [`data/`](data/), the [data releases](https://github.com/BetaNYC/New-York-City-Budget/releases), and the agency budgets' [one-file CSV](viz/agencies/data/nyc_budget.csv).
 - **Report a problem:** [GitHub issues](https://github.com/BetaNYC/New-York-City-Budget/issues).
 
-**Last revised:** 2026-11-09.
+**Last revised:** 2026-11-12.
 
 > **Correction, 2026-11-09.** Before this date the agency budget explorer labeled every year one
 > year late: "Adopted 2026" was really the FY2025 adopted budget. A community board staffer's
@@ -67,10 +67,11 @@ Neither half is a source for revenue, actual spending, or spending over decades.
 [other sources](#how-this-relates-to-other-nyc-budget-data).
 
 **One site, two halves.** The agency budget explorer used to be a separate site
-([`nyc-budget-viz`](https://github.com/BetaNYC/nyc-budget-viz)). It now lives in this repo at
-[`viz/agencies/`](viz/agencies/README.md), published at `/agencies/` beside the Council explorer
-at `/explorer/` (#265). The old address still works until it is forwarded (#271). The front
-page has a door to each half, and every page shares one top bar and footer (#267). The rest of
+([`nyc-budget-viz`](https://github.com/BetaNYC/nyc-budget-viz)), then a separate app in this repo
+at `/agencies/` (#265). Since #270 it is a view of the explorer, `/explorer/#view=agencies`,
+built from the same index as the MCP server, so the site and the MCP can't disagree. `/agencies/`
+now forwards every old link there (#288). The front page has a door to each half, and every page
+shares one top bar and footer (#267). The rest of
 the plan is epic [#272](https://github.com/BetaNYC/New-York-City-Budget/issues/272).
 
 ## The fiscal year
@@ -130,13 +131,25 @@ Getting this wrong labels every year one year late. That is the mistake correcte
 
 ### How the agency figures are checked
 
-The agency pipeline ([`code/agency_budget_cleanup.py`](code/agency_budget_cleanup.py)) stops and
-writes nothing unless its output reproduces OMB's printed FY2026 Adopted Budget, to the dollar:
-the citywide FY2026 and FY2025 adopted totals, the FY2025 modified total, and Manhattan
-Community Board 1's lines (page 182E). It also stops if the two routes to "Adopted Y" above ever
-disagree. 31 tests ([`code/test_agency_budget_cleanup.py`](code/test_agency_budget_cleanup.py))
-cover the year rule, the June-release rule, the check itself, and OMB's figures in the committed
-CSV; CI runs them with the other Python checks and before each deploy. Details:
+The year rule is coded once, in the MCP's loader
+([`mcp/scripts/agency-budget.mjs`](mcp/scripts/agency-budget.mjs), #284). It builds the
+`agency_budget` table from the committed Open Data snapshot
+([`source/agency-budget-qa/`](source/agency-budget-qa/README.md)); the explorer's view, the MCP's
+tools and the CSV download ([`viz/explorer/scripts/agency-csv.mjs`](viz/explorer/scripts/agency-csv.mjs))
+all read that table. Three checks, each with its own code:
+
+- [`mcp/test/agency-budget.test.js`](mcp/test/agency-budget.test.js) re-derives every cell from
+  the snapshot, and checks OMB's printed FY2026 Adopted Budget to the dollar: the citywide FY2026
+  and FY2025 adopted totals, the FY2025 modified total, and Manhattan Community Board 1's lines
+  (page 182E).
+- [`code/qa_agency_budget.py`](code/qa_agency_budget.py) recomputes every cell of the CSV in
+  Python ([`code/test_agency_budget_cleanup.py`](code/test_agency_budget_cleanup.py) checks OMB's
+  figures in it too).
+- [`viz/explorer/test/agency-parity.test.mjs`](viz/explorer/test/agency-parity.test.mjs) checks
+  the explorer's data and queries against the old app's 16,808 cells: 0 differences, plus 936
+  cells that were $0 and now say "Not in this year's budget".
+
+CI runs them on every PR and before each deploy. Details:
 [`viz/agencies/data/SCHEMA.md`](viz/agencies/data/SCHEMA.md).
 
 This is **not** the row-by-row review the Council PDF tables get (below). The agency numbers are
@@ -275,10 +288,12 @@ explorer redeploys on every merge that changes the data.
   totals. Every spreadsheet row links to its file. Every PDF row opens its page with the row
   highlighted. The "About the data" page explains what each label means. Code:
   [`viz/explorer/`](viz/explorer/README.md).
-- **[Agency budget explorer](https://betanyc.github.io/New-York-City-Budget/agencies/)**: a chart of the
-  citywide budget, FY2017–FY2027, with a table by agency and unit of appropriation, adopted vs.
-  modified, and the whole dataset as one CSV. Adapted from DataMade's
-  [Look at Cook](https://github.com/datamade/look-at-cook). Code: [`viz/agencies/`](viz/agencies/README.md).
+- **[City agency budgets](https://betanyc.github.io/New-York-City-Budget/explorer/#view=agencies)**:
+  a view of the same explorer. Every agency for a year, an agency's units of appropriation, and
+  one unit across FY2017–FY2027, adopted vs. modified, with a chart and a table of the same
+  numbers. A unit that is not in a year's budget says "Not in this year's budget", never $0.
+  Downloads: what is on screen, or the whole dataset as one CSV. The old address, `/agencies/`,
+  forwards every old link there. Code: [`viz/explorer/src/views/Agencies.jsx`](viz/explorer/src/views/Agencies.jsx).
 - **[Community board budgets](https://betanyc.github.io/New-York-City-Budget/agencies/boards.html)**:
   all 59 boards, FY2017–FY2027, adopted and modified by unit (Personal Services, Other Than
   Personal Services, Rent), each figure with the Open Data release it comes from; download all 59
@@ -456,6 +471,10 @@ New-York-City-Budget/
 - **2026-11-09:** the agency explorer's year labels corrected
   ([nyc-budget-viz#4](https://github.com/BetaNYC/nyc-budget-viz/pull/4)), and the work to bring
   it into this repo started (epic [#272](https://github.com/BetaNYC/New-York-City-Budget/issues/272)).
+- **2.1.0 (2026-11-12, tagged by a maintainer):** City agency budgets in the MCP index and the
+  explorer, from one loader and one year rule ([#270](https://github.com/BetaNYC/New-York-City-Budget/issues/270));
+  two MCP tools, `search_agency_budget` and `compare_adopted_modified`; the old `/agencies/` app
+  retired, its links forwarded.
 
 More: [`mcp/CHANGELOG.md`](mcp/CHANGELOG.md), [`data/retired/README.md`](data/retired/README.md),
 [`code/PARSING.md`](code/PARSING.md) (how each old file was made), and
@@ -502,7 +521,7 @@ source.
 **Not covered:** the Council and City documents in `source/` are public records, © The City of
 New York, reproduced here for transparency. BetaNYC's license does not apply to them.
 Third-party libraries in `viz/` keep their own licenses (see [`viz/LICENSE.md`](viz/LICENSE.md)).
-Both the frozen legacy explorer and the agency explorer are built on DataMade's
+The frozen legacy explorer, and the first version of the agency explorer (retired in #288), were built on DataMade's
 [Look at Cook](https://github.com/datamade/look-at-cook), © 2019 DataMade, Derek Eder, Nick
 Rougeux and Open City, MIT License; that copyright notice is kept with the code.
 NYC Open Data is under the [NYC Open Data Terms of Use](https://opendata.cityofnewyork.us/overview/#termsofuse).
