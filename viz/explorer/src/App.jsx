@@ -20,6 +20,7 @@ import Transparency from "./views/Transparency.jsx";
 import Book from "./views/Book.jsx";
 import { CLOSED_LABEL, pdfYearsQuery, REVIEWED_LABEL } from "./query/pdf.js";
 import Years from "./views/Years.jsx";
+import Agencies from "./views/Agencies.jsx";
 
 // The review screen is only in a review build: load its code only when it is opened.
 const Review = lazy(() => import("./views/Review.jsx"));
@@ -50,7 +51,19 @@ export default function App() {
 
   useEffect(() => {
     ensureData().catch(() => {});
-    const sync = () => setState(readHash());
+    const sync = () => {
+      // An in-page anchor, such as the shell's "Skip to content" link (#main), is not app state:
+      // read as state it would reset the page to the default view. Keep the view, put its
+      // address back, and move focus to the target.
+      const id = window.location.hash.slice(1);
+      const target = id && !id.includes("=") ? document.getElementById(id) : null;
+      if (target) {
+        window.history.replaceState(window.history.state, "", writeHash(current.current) || window.location.pathname + window.location.search);
+        target.focus({ preventScroll: true });
+        return;
+      }
+      setState(readHash());
+    };
     window.addEventListener("hashchange", sync);
     window.addEventListener("popstate", sync);
     return () => {
@@ -84,6 +97,21 @@ export default function App() {
 
   const ready = db.phase === PHASES.READY;
   const tab = PARENT[state.view] ?? state.view;
+  // City agency budgets is the site's other half (#270): its own h1, no Council tabs.
+  const agencies = state.view === "agencies";
+  useEffect(() => {
+    // The shell's menu (viz/site_shell.py) marks the page; on this view the current page is
+    // "City agency budgets", not "Council discretionary funding".
+    for (const a of document.querySelectorAll(".bnyc-shell a, .bnyc-shell-foot a")) {
+      const href = a.getAttribute("href") ?? "";
+      const isAgencies = /(^|\/)explorer\/#view=agencies$|(^|\.\.\/)agencies\/$/.test(href);
+      const isCouncil = /(^|\.\.\/)explorer\/$/.test(href);
+      if (!isAgencies && !isCouncil) continue;
+      if (isAgencies === agencies) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    }
+    if (!agencies) document.title = "Council discretionary funding · NYC budget data · BetaNYC";
+  }, [agencies]);
 
   return (
     <>
@@ -92,7 +120,16 @@ export default function App() {
           <p className="kicker">
             <a href="../">BetaNYC · NYC budget data</a>
           </p>
-          <h1>Council discretionary funding</h1>
+          <h1>{agencies ? "City agency budgets" : "Council discretionary funding"}</h1>
+          {agencies ? (
+            <p className="half-note">
+              What the City budgets for each agency, adopted and modified, FY2017 on. For the Council's discretionary awards, see{" "}
+              <HashLink href={writeHash({ ...state, view: "awards" })} onGo={() => go({ view: "awards" })}>
+                Council discretionary funding
+              </HashLink>
+              .
+            </p>
+          ) : (
           <nav className="tabs" aria-label="Views">
             {TABS.filter(([, , fam]) => !fam || (fam === "review" ? Boolean(db.manifest?.review_screen) && (db.manifest?.files?.["pdf_review.parquet"]?.rows ?? 0) > 0 : (db.manifest?.files?.[`${db.manifest?.pdf_families?.[fam]?.main}.parquet`]?.rows ?? 0) > 0)).map(([v, label]) => (
               <HashLink key={v} href={writeHash({ ...state, view: v })} onGo={() => go({ view: v })} className={tab === v ? "active" : undefined} current={tab === v}>
@@ -100,9 +137,10 @@ export default function App() {
               </HashLink>
             ))}
           </nav>
+          )}
         </div>
       </header>
-      <main className="wrap" id="main">
+      <main className="wrap" id="main" tabIndex={-1}>
         {db.manifest?.review_screen ? (
           <Notice tone="warn">
             <strong>Local review build.</strong> This build has the Review tab, where a person decides the flagged rows; the public site does not. Rows marked{" "}
@@ -121,7 +159,7 @@ export default function App() {
           state.view === "about" ? (
             <About manifest={db.manifest} />
           ) : (
-            <Loading phase={db.phase} progress={db.progress} manifest={db.manifest} />
+            <Loading phase={db.phase} progress={db.progress} manifest={db.manifest} agencies={agencies} />
           )
         ) : (
           <ReviewScreenContext.Provider value={Boolean(db.manifest?.review_screen)}>
@@ -162,7 +200,7 @@ export default function App() {
 /** The first visit's data download, in whole MB, from the manifest's file sizes (needs.js BASE). */
 export const dataMb = (manifest) => Math.max(1, Math.round(bytesOf(manifest, BASE) / 1e6));
 
-function Loading({ phase, progress, manifest }) {
+function Loading({ phase, progress, manifest, agencies }) {
   const what = { idle: "Starting", manifest: "Reading the data manifest", engine: "Loading the query engine", data: "Loading the data" }[phase] ?? "Loading";
   return (
     <div className="loading" role="status" aria-live="polite">
@@ -171,6 +209,11 @@ function Loading({ phase, progress, manifest }) {
       </p>
       <progress value={progress} max={1} />
       <p className="muted small">The explorer runs in your browser: it downloads the query engine (about 33 MB, cached after the first visit) and about {dataMb(manifest)} MB of data. The PDF tables load when you open a page that uses them.</p>
+      {agencies ? (
+        <p className="small">
+          On a slow connection? Every agency's budget, every year, is also one small file: <a href="../agencies/data/nyc_budget.csv" download>download the CSV (about 150 KB)</a>.
+        </p>
+      ) : null}
     </div>
   );
 }
@@ -253,6 +296,8 @@ function Ready({ state, set, go, back, manifest }) {
       return <Compare {...props} />;
     case "about":
       return <About manifest={manifest} />;
+    case "agencies":
+      return <Agencies {...props} />;
     default:
       return <Awards {...props} />;
   }

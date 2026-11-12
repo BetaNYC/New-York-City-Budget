@@ -270,3 +270,44 @@ button.primary:focus-visible { outline: 3px solid var(--accent); outline-offset:
 button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .od-y-maybe { color: var(--warn-ink); font-size: 0.75rem; }
 .od-how { max-width: 60rem; color: var(--ink); background: var(--bg); padding: 0.4rem 0.6rem; border-radius: 0; }
+
+/* City agency budgets (#270, #286). Phones: tables become stacked rows below 600px, each cell
+   labeled with its column (data-label), and the header row stays as a visible key, so no table
+   scrolls sideways at 320px (WCAG 1.4.10). Controls are at least 44x44 (the shell's rule). */
+.half-note { margin: 0 0 1rem; max-width: 750px; }
+.agencies h2 { scroll-margin-top: 1rem; }
+.agencies h2:focus { outline: none; }
+.agencies h2:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: 2px; }
+.agencies .agency-filters .field { min-width: 0; max-width: 100%; }
+.agencies .agency-filters .field select { min-height: 44px; width: 9rem; max-width: 100%; }
+.agencies .big { overflow-wrap: anywhere; }
+.agencies .words { font-style: italic; color: var(--ink); white-space: normal; }
+.agencies .table-note { max-width: 750px; }
+.agencies table.rows caption { text-align: left; font-weight: 700; color: var(--navy); padding: 0.4rem 0; caption-side: top; }
+.agencies table.rows th[scope="row"] { font-weight: 400; }
+.agencies table.rows th[scope="row"] a { font-weight: 600; }
+.agencies table.rows th[scope="row"] a, .crumbs a, .downloads a { display: inline-block; min-height: 24px; padding: 0.1rem 0; }
+.crumbs ol { list-style: none; margin: 0.25rem 0 0.5rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; font-size: 0.9rem; }
+.crumbs li + li::before { content: "›"; margin-right: 0.5rem; color: var(--muted); }
+.downloads { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin: 1rem 0; }
+.button-link { display: inline-flex !important; align-items: center; min-height: 44px; padding: 0 0.9rem !important; border: 1px solid var(--bnyc-blue); color: var(--bnyc-blue); background: #fff; font-weight: 700; text-decoration: none; }
+.button-link:hover { background: var(--bnyc-bg-blue); text-decoration: underline; }
+.source-note { max-width: 750px; margin-top: 1.5rem; }
+.year-chart { margin: 0.5rem 0 1rem; max-width: 760px; }
+.year-chart svg { width: 100%; height: auto; display: block; }
+.chart-key { font-size: 0.85rem; color: var(--ink); }
+.chart-key .key { display: inline-block; width: 1.6rem; height: 0; vertical-align: middle; margin: 0 0.3rem 0 0.6rem; }
+.chart-key .key:first-child { margin-left: 0; }
+.chart-key .key-adopted { border-top: 3px solid #2359a8; }
+.chart-key .key-modified { border-top: 3px dashed #414141; }
+@media (max-width: 600px) {
+  table.stack, table.stack caption, table.stack thead, table.stack tbody, table.stack tr, table.stack th, table.stack td { display: block; width: auto; }
+  table.stack thead tr { display: flex; flex-wrap: wrap; gap: 0 0.75rem; border: 0; margin: 0 0 0.4rem; padding: 0; }
+  table.stack thead th { position: static; background: none; border: 0; padding: 0; font-size: 0.75rem; color: var(--muted); }
+  table.stack thead th.num { text-align: left !important; }
+  table.stack thead th + th::before { content: "·"; margin-right: 0.75rem; }
+  table.stack tbody tr { border: 1px solid var(--line); margin: 0 0 0.6rem; padding: 0.4rem 0.6rem; }
+  table.stack td, table.stack th { border: 0; padding: 0.15rem 0; text-align: left !important; white-space: normal; overflow-wrap: anywhere; }
+  table.stack td[data-label]::before { content: attr(data-label); display: block; font-size: 0.75rem; color: var(--muted); font-weight: 600; }
+}
+main.wrap:focus { outline: none; }

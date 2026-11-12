@@ -1,0 +1,53 @@
+/**
+ * Pure helpers of the Agency budgets view (#286): the "Download this table" CSV, and the chart's
+ * text alternative and axis. Each test says what would make it FAIL.
+ */
+import { describe, expect, test } from "vitest";
+
+import { csvCell, toCsv } from "../../src/agency/csv.js";
+import { chartSummary, niceScale, shortMoney } from "../../src/components/YearChart.jsx";
+import { change, pad3 } from "../../src/query/agency.js";
+
+describe("Agency budgets view helpers", () => {
+  test("CSV cells are quoted only when needed, and a missing figure is empty, not 0", () => {
+    // FAILS if a name with a comma splits a row, or NULL is written as 0.
+    expect(csvCell("DEPT OF CONSUMER & WORKER PROTECTION")).toBe("DEPT OF CONSUMER & WORKER PROTECTION");
+    expect(csvCell('A, "B"')).toBe('"A, ""B"""');
+    expect(csvCell(null)).toBe("");
+    expect(csvCell(0)).toBe("0");
+    const csv = toCsv([{ a: "056", n: "POLICE, NYC", v: null }], [["Agency", "a"], ["Name", "n"], ["Adopted", "v"], ["Year", () => 2025]]);
+    expect(csv).toBe('Agency,Name,Adopted,Year\r\n056,"POLICE, NYC",,2025\r\n');
+  });
+
+  test("the chart's name sums it up from the numbers, and says what is not published", () => {
+    // FAILS if the chart's text alternative drops the years, the words adopted / modified, or
+    // calls an unpublished figure anything else.
+    const s = chartSummary(
+      [
+        { year: 2017, adopted: 100, modified: 120 },
+        { year: 2018, adopted: 300, modified: null },
+      ],
+      "TEST AGENCY",
+      2018
+    );
+    expect(s).toMatch(/adopted and modified/i);
+    expect(s).toMatch(/FY2017–FY2018/);
+    expect(s).toMatch(/\$100 in FY2017 to \$300 in FY2018/);
+    expect(s).toMatch(/FY2018 modified is not yet published/);
+  });
+
+  test("axis steps are round, and labels short", () => {
+    expect(niceScale(117_791_473_676)).toEqual({ top: 120_000_000_000, step: 20_000_000_000 });
+    expect(shortMoney(20_000_000_000)).toBe("$20B");
+    expect(shortMoney(2_500_000)).toBe("$2.5M");
+  });
+
+  test("change is null when either figure is missing, and agency numbers keep three digits", () => {
+    // FAILS if a missing figure is treated as $0 (a -100% change), or "56" is not "056".
+    expect(change(null, 5)).toBeNull();
+    expect(change(5, null)).toBeNull();
+    expect(change(200, 150)).toEqual({ dollars: -50, pct: -25 });
+    expect(pad3("56")).toBe("056");
+    expect(pad3("police")).toBe("police");
+  });
+});
