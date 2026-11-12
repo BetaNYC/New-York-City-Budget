@@ -7,7 +7,7 @@
  * passed through.
  */
 
-export const VIEWS = ["awards", "award", "years", "capital", "capital-row", "omb", "orgs", "terms", "schedc", "transparency", "book", "source", "review", "compare", "about"];
+export const VIEWS = ["awards", "award", "years", "capital", "capital-row", "omb", "orgs", "terms", "schedc", "transparency", "book", "source", "review", "compare", "about", "agencies"];
 
 export const DEFAULT_STATE = {
   view: "awards",
@@ -105,10 +105,17 @@ export const DEFAULT_STATE = {
   spage: null,
   sbox: "",
   slabel: "",
+  // City agency budgets (#270, #286): fiscal year (null = the newest), agency number, unit of
+  // appropriation number (both TEXT, zeros kept: "056", "001"), and an old /agencies/ route
+  // ("police-department/operations"), resolved once by src/agency/legacy.js and then removed.
+  abfy: null,
+  abag: "",
+  abunit: "",
+  legacy: "",
 };
 
 const INT_KEYS = ["fy", "page", "ay", "row", "cfy", "afy", "district", "cpage", "seq", "ofy", "opage", "gfy", "gpage", "tfy", "tpage", "spage", "rfy", "cmpa", "cmpb", "cfyd",
-  "scfy", "scpage", "trfy", "trbfy", "trpage", "bkfy", "bkpage"];
+  "scfy", "scpage", "trfy", "trbfy", "trpage", "bkfy", "bkpage", "abfy"];
 const NUM_KEYS = ["min", "max", "cmin", "cmax", "scmin", "scmax", "bkmin", "bkmax"];
 
 export function readHash(hash = typeof window === "undefined" ? "" : window.location.hash) {
