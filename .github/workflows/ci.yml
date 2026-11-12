@@ -165,6 +165,59 @@ jobs:
         working-directory: viz/explorer
         run: npm run data -- --include-reviewed && npm run test:parity
 
+  # City agency budgets view (#270, #287): WCAG 2.2 AA with axe, and phone checks (no sideways
+  # scrolling at 320 and 375 CSS px, touch targets, 200% text), in Chromium at a desktop and a
+  # phone (Pixel 7) size. viz/explorer/e2e/*.spec.js; playwright.config.js serves the assembled
+  # site under /New-York-City-Budget/ like GitHub Pages. Chromium only, so the phone project needs
+  # no WebKit. Browsers are installed each run, not cached: Playwright's CI docs
+  # (https://playwright.dev/docs/ci, read 2026-11-12) say "Caching browser binaries is not
+  # recommended", since restoring takes about as long as downloading.
+  e2e:
+    name: Agency budgets — accessibility and phones (Playwright + axe)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "npm"
+          cache-dependency-path: |
+            mcp/package-lock.json
+            viz/explorer/package-lock.json
+
+      - name: Build the MCP index
+        working-directory: mcp
+        run: npm ci
+
+      - name: Install the explorer
+        working-directory: viz/explorer
+        run: npm ci
+
+      - name: Build the data and app, and assemble the site
+        working-directory: viz/explorer
+        run: npm run e2e:site
+
+      - name: Install Chromium
+        working-directory: viz/explorer
+        run: npx playwright install --with-deps chromium
+
+      - name: Accessibility and phone checks
+        working-directory: viz/explorer
+        run: npm run test:e2e
+
+      - name: Upload the Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v5
+        with:
+          name: playwright-report
+          path: viz/explorer/e2e/.report/
+          retention-days: 30
+
   # Merged ≠ shipped guard. Consumers run `npx -y @betanyc/nyc-budget-mcp`, so
   # the npm registry — not main — is what ships. A PR that changes shipped code
   # but leaves mcp/package.json at a version already on the registry would merge
