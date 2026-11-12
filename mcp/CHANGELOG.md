@@ -4,6 +4,26 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.1.0 — 2026-11-12
+
+### Added
+- **City agency budgets** (#270, #284). A new table in the index, `agency_budget`: every City
+  agency's adopted and modified budget by unit of appropriation, FY2017 to the newest adopted
+  year, from NYC Open Data's Expense Budget (`mwzb-yiwb`, the committed snapshot in
+  `source/agency-budget-qa/`, pulled 2026-11-09). One row per fiscal year, agency and unit
+  (7,611 rows). Agency and unit numbers are 3-character text (`040`). Each figure says which
+  release it came from.
+  - **The year rule is in one place**, `scripts/agency-budget.mjs`. Adopted FY Y is
+    `financial_plan_amount` in the June release tagged Y. Modified FY Y is
+    `current_modified_budget_amount` in the June release tagged Y+1. It never reads
+    `adopted_budget_amount`, which is the year before (the #274 bug).
+  - **Missing is not $0.** A unit that is not in a year's budget has no adopted figure (NULL),
+    and the newest year's modified figure is NULL until the next June release is out.
+  - Figures are **gross**: they include intra-city transfers. OMB's headline totals are net.
+  - The browser explorer reads the same table (`agency_budget.parquet`), so the site and this
+    server can't disagree.
+<!-- TODO(#270): link the cross-repo "What's changed" log here when that standard lands. -->
+
 ## 2.0.6 — 2026-11-10
 
 ### Fixed

@@ -7,7 +7,8 @@
  *      there reaches the explorer on the next build, by construction.
  *   2. Copies the index's tables, column for column, into Parquet with DuckDB (@duckdb/node-api):
  *        disclosure, disclosure_years, capital_council, capital_sources, capital_vs_omb, meta,
- *        the pdf_* tables, and the open_data_* tables (is each record on NYC Open Data?)
+ *        the pdf_* tables, the open_data_* tables (is each record on NYC Open Data?), and
+ *        agency_budget (City agency budgets, NYC Open Data mwzb-yiwb, #284)
  *      The SQLite rows are read with better-sqlite3 (the MCP's own driver) and appended with
  *      DuckDB's appender under the column types the index declares (INTEGER -> BIGINT, REAL ->
  *      DOUBLE, TEXT -> VARCHAR). A value whose JS type does not fit its declared column is a stop,
@@ -58,6 +59,7 @@ import { capitalGaps } from "./lib/capital-gaps.mjs";
 import { CAPITAL_REPORT_YEARS } from "../../../mcp/scripts/verify-index.mjs";
 import { PDF_FAMILIES, PDF_TABLES, SUGGESTIONS } from "../../../mcp/scripts/pdf-families.mjs";
 import { OPEN_DATA_TABLES } from "../../../mcp/scripts/open-data.mjs";
+import { AGENCY_BUDGET_TABLES } from "../../../mcp/scripts/agency-budget.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const APP = resolve(HERE, "..");
@@ -91,7 +93,7 @@ const DROPPED = BUILD === "public" ? { pdf_review: ["check_id", "severity", "dol
 
 /** The tables the explorer reads, in the order they are written. */
 const ALL_TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta",
-  ...PDF_TABLES, ...OPEN_DATA_TABLES];
+  ...PDF_TABLES, ...OPEN_DATA_TABLES, ...AGENCY_BUDGET_TABLES];
 const TABLES = ALL_TABLES.filter((t) => !WITHHELD.includes(t));
 
 const DUCK_TYPE = { INTEGER: "BIGINT", REAL: "DOUBLE", TEXT: "VARCHAR" };
