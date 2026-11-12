@@ -10,11 +10,14 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "npm run test:unit && npm run test:parity && npm run test:lazy",
+    "test": "npm run test:unit && npm run test:parity && npm run test:lazy && npm run test:agency",
     "test:unit": "vitest run",
     "test:parity": "node --test test/parity.test.mjs",
     "test:lazy": "node --test test/lazy-load.test.mjs",
-    "site": "node scripts/assemble-site.mjs"
+    "test:agency": "node --test test/agency-parity.test.mjs",
+    "site": "node scripts/assemble-site.mjs",
+    "test:e2e": "playwright test",
+    "e2e:site": "npm run data && npm run build && node scripts/assemble-site.mjs --out e2e/.site/New-York-City-Budget"
   },
   "dependencies": {
     "@duckdb/duckdb-wasm": "1.32.0",
@@ -23,7 +26,9 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@duckdb/node-api": "~1.5.6-r.2",
+    "@playwright/test": "^1.65.0",
     "@vitejs/plugin-react": "^5.2.0",
     "better-sqlite3": "^12.10.0",
     "vite": "^7.3.7",
