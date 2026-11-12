@@ -47,7 +47,7 @@ PAGES = [
     },
     {
         "path": "mcp.html", "root": "./", "current": "mcp", "skip": "main",
-        "revised": "2026-11-10",
+        "revised": "2026-11-12",
     },
     {
         "path": "about.html", "root": "./", "current": "about", "skip": "main",
