@@ -1634,11 +1634,12 @@ two line-end hyphens and files budget-line headings as units.
 | Family | Years |
 |---|---|
 | Schedule C | FY2018–FY2027 |
-| Transparency resolutions | FY2018–FY2026 |
+| Transparency resolutions | FY2018–FY2027 (FY2027 added 2026-11-12, §58) |
 | Capital §254 supporting detail | FY2018–FY2020, FY2022–FY2027 |
 | Terms and Conditions | FY2018, FY2021–FY2027 |
 
-That is 36 family-years. As of 2026-10-24 all 36 are `reviewed` and none is `closed`.
+That is 37 family-years (36 until FY2027 transparency was added, §58). As of 2026-11-12 all 37
+are `reviewed` and none is `closed`.
 
 **From which process.** Each table is read from the PDF's own text and ruled lines, checked
 against a second reading of the page image, tied to every total the PDF prints, and checked for
@@ -1733,3 +1734,37 @@ and 801 modified cells as of the 2026-11-09 snapshot (`viz/explorer/test/agency-
 counts them; every other cell of the 16,808 compared is equal). The CSV download keeps its
 0s, so files people already use keep their shape. Agency 866 also shows once, by number, not under
 its old and new names.
+
+---
+
+## 58. FY2027 transparency resolutions, read and checked from the PDFs (#246, #102) — STATUS `reviewed`: PUBLIC, REVIEW IN PROGRESS
+
+> **Scope.** The first checked parse of the 4 resolutions adopted after the FY2027 budget, in
+> `source/FY27/transparency-resolutions/` (`code/parse_transparency_v2.py --fy 2027`,
+> `config/transparency/fy2027.toml`). Review record:
+> [`research/2026-11-12-fy27-transparency-review/`](research/2026-11-12-fy27-transparency-review/README.md).
+> There was no older FY2027 transparency file. Served by the MCP and the explorer, labeled (§56).
+
+**Result.** 2,808 rows from 155 charts in Res 0551-2026, 0595-2026, 0652-2026 and 0695-2026
+(2026-07-16 to 2026-10-22), each with its resolution's number and adoption date. An independent
+image grid agrees on all 2,808. Most rows change the FY2027 budget; 49 change FY2026 and 10
+FY2025. No money totals are printed.
+
+**How they were found.** The Legistar website and the Legistar Web API number matters
+differently, so a website URL built from an API id fails ("Invalid parameters!"). Search the
+website, open the matter with its own ID/GUID, and download the attachments
+(`View.ashx?M=F&ID=..&GUID=..`) with plain curl. URLs and sha256 in `source/FY27/README.md`.
+
+**Things a re-parse must know.** The charts PDFs print **no resolution text**; it is a separate
+"Res. No." Word file on the same Legistar page, kept beside each PDF. The fiscal years it names
+(2025-2027) and its "Charts 1 through N" (38, 40, 49, 28) are what the checks use. Two captions
+repeat without "(continued)" (Reso 03 p.9, Reso 04 p.9); three print "(Continued)".
+
+**What the PDF itself gets wrong (flagged, never fixed).** Reso 04 p.13 prints an EIN where an
+organization's name belongs ("113271472 - Urban Assembly Institute of Math and Science for Young
+Women (13K527)", EIN 11-3271472, which Reso 01 p.21 prints for Noel Pointer Foundation, Inc.;
+$20,000). Three charts print no fiscal year (Reso 01 pp.37, 40; Reso 02 p.29). One line-end
+hyphen probably lost its spaces ("Special Projects-Council District 16", Reso 01 p.28).
+Noel Hidalgo decided all 10 flags `accepted_as_printed` on 2026-11-13: every row stays as printed.
+
+**Next.** T2026-2764 was on the 2026-11-19 Finance agenda with no files yet (as of 2026-11-12).

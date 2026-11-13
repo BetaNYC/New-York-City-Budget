@@ -1,5 +1,7 @@
 /**
- * Accessibility and phone checks for the Agency budgets view (#270; specs in e2e/, built in #287).
+ * Accessibility and phone checks: the Agency budgets view (#270; specs in e2e/, built in #287), and
+ * since #304 every page of the site and every Council explorer view (e2e/site.a11y.spec.js), plus
+ * legacy.html's old links (e2e/legacy.spec.js).
  *
  *   npm run e2e:site     build the data and app, and assemble the site into e2e/.site/
  *   npm run test:e2e     run the specs (Playwright starts a static server on the assembled site)
@@ -16,7 +18,8 @@ import { BASE_URL, PORT, SITE_BUILT, SITE_ROOT } from "./e2e/pending.js";
 
 export default defineConfig({
   testDir: "e2e",
-  // The first visit downloads the query engine (about 33 MB) and the data.
+  // A Council view's first visit downloads the query engine (about 33 MB) and the data; City
+  // agency budgets does not (#299, e2e/agencies.weight.spec.js).
   timeout: 180_000,
   expect: { timeout: 30_000 },
   fullyParallel: true,

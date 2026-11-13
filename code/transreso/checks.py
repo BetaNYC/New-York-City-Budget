@@ -190,6 +190,20 @@ def run(cfg, R, S):
     # FY2018: a fiscal conduit's EIN is an EIN-shaped word on the page too.
     n_conduit = sum(1 for r in rows if r.get("fiscal_conduit_ein"))
     by_page.update((r["resolution_seq"], r["pdf_page"]) for r in rows if r.get("fiscal_conduit_ein"))
+    # FY2027 Reso 04 p.13: an EIN-shaped word printed inside a row's organization text (not its
+    # EIN cell) is one more anchor on the page; allowed only as a named exception (T5.ein_in_text)
+    # naming the word, and only where a row on that page prints it in its organization.
+    in_text, unused5 = 0, []
+    for e in cfg.get("exceptions", []):
+        if e["check_id"] != "T5.ein_in_text":
+            continue
+        k = (e["resolution_seq"], e["pdf_page"])
+        if any((r["resolution_seq"], r["pdf_page"]) == k and e["word"] in (r.get("org_raw") or "")
+               for r in rows):
+            by_page[k] += 1
+            in_text += 1
+        else:
+            unused5.append((k, e["word"]))
     diffs, n_tok, n_tok_all = [], 0, 0
     for r in R:
         for p in r["pages"]:
@@ -201,10 +215,12 @@ def run(cfg, R, S):
     no_amt = [r for r in rows if r["amount"] is None and r["chart_kind"] != "no_amount"]
     no_ein = [r for r in rows if not r["ein"]]
     empty = S.get("empty_rows", [])
-    out("T5.anchors", not diffs and not no_amt,
+    out("T5.anchors", not diffs and not no_amt and not unused5,
         f"{n_tok} EIN-shaped words on the visible text ({n_tok_all} counting clipped letters), "
-        f"{sum(by_page.values()) - n_conduit} rows with an EIN"
+        f"{sum(by_page.values()) - n_conduit - in_text} rows with an EIN"
         + (f" and {n_conduit} with a fiscal conduit EIN" if n_conduit else "")
+        + (f"; {in_text} printed inside an organization (a named exception in the config)"
+           if in_text or unused5 else "")
         + f"; {len(diffs)} pages differ; "
         f"{len(no_amt)} rows without a readable amount; {len(no_ein)} rows print no EIN"
         + (f"; {len(empty)} drawn rows print nothing and are not rows (" +
@@ -212,6 +228,8 @@ def run(cfg, R, S):
                      for e in empty) + ")" if empty else ""))
     for (s, pg), w, n in diffs:
         flag("T5.anchors", s, pg, f"{w} EIN-shaped words but {n} rows with an EIN")
+    for (s, pg), w in unused5:
+        flag("T5.anchors", s, pg, f"named exception: EIN-shaped word {w!r} is in no organization on the page")
     for a in no_amt:
         flag("T5.anchors", a["resolution_seq"], a["pdf_page"], "row without a readable amount",
              row_id=a["row_id"])

@@ -3,10 +3,13 @@
  * assemble-site.mjs — lay out the GitHub Pages site in viz/explorer/site/:
  *
  *   site/                 everything in viz/ except viz/explorer/ — the retirement notice
- *                         (index.html), the frozen legacy.html and its assets, exactly as the old
+ *                         front page (index.html), legacy.html (the retired first explorer's
+ *                         "this moved" page, #304) and the old app's data it reads, as the old
  *                         `git subtree split --prefix viz` deploy published them
- *   site/agencies/        the City agency budgets explorer (viz/agencies/, #265), copied as is:
- *                         a static page that loads agencies/data/nyc_budget.csv
+ *   site/agencies/        viz/agencies/, copied as is: the old City agency budgets address, now a
+ *                         page that forwards old links to the explorer (#288), its FAQ, the
+ *                         community board budgets page, and agencies/data/nyc_budget.csv (the
+ *                         download keeps its address)
  *   site/explorer/        the built explorer (viz/explorer/dist/, including dist/data/*.parquet)
  *
  * Run after `npm run data` and `npm run build`. A missing build or data file is a stop: a site

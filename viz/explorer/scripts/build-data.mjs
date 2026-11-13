@@ -60,6 +60,7 @@ import { CAPITAL_REPORT_YEARS } from "../../../mcp/scripts/verify-index.mjs";
 import { PDF_FAMILIES, PDF_TABLES, SUGGESTIONS } from "../../../mcp/scripts/pdf-families.mjs";
 import { OPEN_DATA_TABLES } from "../../../mcp/scripts/open-data.mjs";
 import { AGENCY_BUDGET_TABLES } from "../../../mcp/scripts/agency-budget.mjs";
+import { verifyAgencyJson, writeAgencyJson } from "./agency-json.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const APP = resolve(HERE, "..");
@@ -188,8 +189,19 @@ async function main() {
   const instance = await DuckDBInstance.create(":memory:");
   const conn = await instance.connect();
   let files;
+  let agencyJson;
+  const generatedAt = new Date().toISOString();
   try {
     files = await exportTables(sqlite, conn);
+    // The City agency budgets view reads small JSON files, not DuckDB (#299). Written from the same
+    // table, then checked against it with SQL: any difference stops the build.
+    const source = meta.agency_budget ? JSON.parse(meta.agency_budget) : null;
+    agencyJson = writeAgencyJson(sqlite, OUT_DIR, { generated_at: generatedAt, source });
+    const check = verifyAgencyJson(sqlite, OUT_DIR);
+    if (check.diffs.length) {
+      throw new Error(`agency_budget JSON differs from the table in ${check.diffs.length} of ${check.cells} cells:\n  ${check.diffs.slice(0, 20).join("\n  ")}`);
+    }
+    log("agency json", { ...agencyJson, cells_checked: check.cells });
   } finally {
     conn.closeSync();
     instance.closeSync();
@@ -197,7 +209,7 @@ async function main() {
   }
 
   const manifest = {
-    generated_at: new Date().toISOString(),
+    generated_at: generatedAt,
     source_repo: "BetaNYC/New-York-City-Budget",
     source_commit: sourceCommit(),
     index_built_at: meta.built_at,
@@ -213,6 +225,8 @@ async function main() {
     pdf_families: Object.fromEntries(Object.entries(PDF_FAMILIES).map(([k, f]) => [k, { label: f.label, main: f.main, tables: f.tables.map((t) => t.table), decisions: f.decisions ?? {} }])),
     capital: capitalGaps(readFileSync(join(REPO, "data", "capital", "README.md"), "utf8"), CAPITAL_REPORT_YEARS),
     files,
+    // data/agency_budget/: the City agency budgets view's JSON (#299; scripts/agency-json.mjs).
+    agency_json: agencyJson,
   };
   writeFileSync(join(OUT_DIR, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
   log("built", { out: OUT_DIR, commit: manifest.source_commit, files: Object.keys(files).length });
