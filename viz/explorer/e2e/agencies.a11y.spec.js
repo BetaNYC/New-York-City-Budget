@@ -108,8 +108,11 @@ describe(`Agency budgets: WCAG 2.2 AA${VIEW_PENDING ? ` (${VIEW_PENDING})` : ""}
     // FAILS if a screen reader user browsing by heading meets the year picker's section before
     // the explanation and the trend (#306), or the explainer's terms are not a list.
     await openView(page, PAGES.list);
-    const h3 = await page.locator('[data-view="agencies"] h3').allTextContents();
-    expect(h3.slice(0, 3)).toEqual(["What adopted and modified mean", "The whole city, over time", "Agencies in FY2025"]);
+    // Accessible names: the step circles ("1", "2") are aria-hidden, so headings read cleanly.
+    const h3 = page.locator('[data-view="agencies"] h3');
+    for (const [i, name] of ["What adopted and modified mean", "The whole city, over time", "Agencies in FY2025"].entries()) {
+      await expect(h3.nth(i)).toHaveAccessibleName(name);
+    }
     await expect(page.locator("section.explainer dt")).toHaveText(["Adopted", "Modified"]);
     for (const id of ["section.explainer", "section.trend", "section.one-year"]) {
       const named = await page.locator(id).evaluate((el) => document.getElementById(el.getAttribute("aria-labelledby") ?? "")?.textContent ?? "");

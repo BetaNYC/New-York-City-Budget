@@ -312,14 +312,49 @@ button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 main.wrap:focus { outline: none; }
 
-/* #306: trend first, then one year. Section 2 has a visible top rule in #414141 (10:1 on white, 9.2:1 on the page blue). */
-.agencies .explainer { border: 1px solid var(--bnyc-blue); border-left: 4px solid var(--bnyc-blue); background: var(--paper); padding: 0.75rem 1rem; margin: 1rem 0 1.5rem; max-width: 750px; }
+/* #306 / #307: trend first, then one year, to the BetaNYC brand (/tmp/mock-gen/brand.html and
+   sort-colors.html): blue #2359a8 headings, links, adopted line and step circles; gray #414141 text
+   and modified line; #949494 borders; square corners. Contrast (checked): #0a7a3d 5.4:1 on white,
+   4.9:1 on #EEF4FF; #b3261e 6.5:1 and 5.9:1; #2359a8 6.9:1 and 6.2:1; #414141 10.2:1 and 9.3:1. */
+.agencies .explainer, .agencies .explainer-note { background: var(--bnyc-bg-blue-light); border: 1px solid var(--bnyc-border-gray); border-left: 4px solid var(--bnyc-blue); border-radius: 0; max-width: 750px; }
+.agencies .explainer { padding: 0.75rem 1rem; margin: 1rem 0 1.5rem; }
 .agencies .explainer h3 { margin-top: 0; }
-.agencies .explainer dl { margin: 0.5rem 0; }
-.agencies .explainer dt { font-weight: 700; }
-.agencies .explainer dd { margin: 0 0 0.5rem; }
+.agencies .explainer dl { margin: 0.5rem 0; display: grid; grid-template-columns: max-content 1fr; gap: 0.25rem 0.75rem; }
+.agencies .explainer dt { font-weight: 700; white-space: nowrap; }
+.agencies .explainer dd { margin: 0; }
 .agencies .explainer p { margin: 0.5rem 0 0; }
-.agencies .explainer-note { max-width: 750px; }
+@media (max-width: 480px) { .agencies .explainer dl { grid-template-columns: 1fr; } .agencies .explainer dd { margin-bottom: 0.4rem; } }
+.agencies .swatch { display: inline-block; width: 18px; height: 0; margin: 0 0.4rem 0.25rem 0; vertical-align: middle; }
+.agencies .swatch-adopted { border-top: 3px solid var(--bnyc-blue); }
+.agencies .swatch-modified { border-top: 3px dashed var(--bnyc-dark-gray); }
+.agencies .explainer-note { padding: 0.5rem 0.75rem; margin: 0.5rem 0 1rem; }
 .agencies .explainer-note a { display: inline-block; min-height: 24px; }
+.agencies .step-heading { display: flex; align-items: center; gap: 0.5rem; }
+.agencies .step { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--bnyc-blue); color: #fff; font-size: 0.85rem; }
 .agencies .trend { margin: 1rem 0 2rem; }
-.agencies .one-year { border-top: 2px solid var(--bnyc-dark-gray); padding-top: 1rem; margin-top: 2rem; }
+.agencies .trend .step-heading { border-top: 1px solid var(--bnyc-border-gray); padding-top: 1rem; }
+.agencies .one-year { background: var(--bnyc-bg-blue); border: 1px solid var(--bnyc-border-gray); border-top: 3px solid var(--bnyc-blue); border-radius: 0; padding: 1rem 1.25rem 1.25rem; margin-top: 2rem; }
+.agencies .one-year .step-heading { margin-top: 0.25rem; }
+.agencies .one-year table { background: var(--paper); }
+.agencies .hint, .agencies .split-note { font-size: 0.9rem; max-width: 750px; }
+.agencies .split-note { font-style: italic; }
+.agencies .split { display: block; font-size: 0.8rem; font-style: italic; font-weight: 400; color: var(--ink); }
+.agencies .unit-number { color: var(--ink); font-weight: 400; font-size: 0.85em; }
+.agencies select, .agencies .button-link { border-radius: 0; }
+/* Change: green up, red down, both 600; zero and words stay body gray. The sign is always there. */
+.agencies .up { color: #0a7a3d; font-weight: 600; }
+.agencies .down { color: #b3261e; font-weight: 600; }
+/* Sortable headers: a button filling the th, at least 44px tall. */
+.agencies table.sortable-table thead th.sortable { padding: 0; background: var(--bnyc-bg-blue-light); border-bottom: 2px solid var(--bnyc-border-gray); }
+.agencies table.sortable-table thead th button { all: unset; box-sizing: border-box; display: flex; gap: 0.35rem; align-items: center; width: 100%; min-height: 44px; padding: 0.35rem 0.5rem; cursor: pointer; color: var(--bnyc-blue); font-weight: 600; }
+.agencies table.sortable-table thead th.num button { justify-content: flex-end; text-align: right; }
+.agencies table.sortable-table thead th button:hover { background: var(--bnyc-bg-blue); }
+.agencies table.sortable-table thead th button:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: -3px; }
+.agencies table.sortable-table thead th[aria-sort] button { background: var(--bnyc-blue-secondary); color: #000; }
+.agencies table.sortable-table .arrow { font-size: 0.75em; color: var(--ink); min-width: 0.8em; }
+.agencies .sort-status { font-size: 0.9rem; font-style: italic; margin: 0.5rem 0 0; min-height: 1.2em; }
+@media (max-width: 600px) {
+  .agencies table.stack.sortable-table thead th.sortable { background: none; border: 0; }
+  .agencies table.stack.sortable-table thead th.num button { justify-content: flex-start; text-align: left; }
+  .agencies table.stack.sortable-table thead th + th::before { content: none; }
+}

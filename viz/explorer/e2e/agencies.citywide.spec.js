@@ -54,12 +54,13 @@ describe(`City agency budgets: trend first, then one year${VIEW_PENDING ? ` (${V
       const headings = await view(page).locator("h2, h3").allTextContents();
       const withYear = headings.filter((h) => /FY\s?\d{4}(?!–)/.test(h) && !/FY\d{4}–FY\d{4}/.test(h));
       expect(withYear).toEqual([await page.locator("section.one-year h3").textContent()]);
+      expect(withYear[0]).toMatch(/^2\s/);
     });
 
     test(`change columns say which change, never a bare "Change": ${name}`, async ({ page }) => {
       await openView(page, PAGES[name]);
       for (const th of await view(page).locator("thead th").allTextContents()) expect(th.trim()).not.toMatch(/^(change|—)$/i);
-      await expect(view(page).locator("thead th", { hasText: /^Modified vs\. adopted$/ })).toHaveCount(2);
+      await expect(view(page).locator("thead th", { hasText: /^Modified vs\. adopted\s*$/ })).toHaveCount(2);
       // No change cell is a bare dash: a missing figure says why.
       const cells = await view(page).locator("tbody td").allTextContents();
       expect(cells.filter((c) => c.trim() === "—")).toEqual([]);
@@ -77,25 +78,35 @@ describe(`City agency budgets: trend first, then one year${VIEW_PENDING ? ` (${V
     expect(await before(page, "section.explainer", "section.trend")).toBe(true);
 
     const trend = page.locator("section.trend");
-    await expect(trend.getByRole("heading", { level: 3 })).toHaveText("The whole city, over time");
-    await expect(trend.locator(".citywide-summary")).toContainText(/Adopted: \$[\d,]+ in FY2017, \$[\d,]+ in FY2027/);
+    await expect(trend.getByRole("heading", { level: 3, name: "The whole city, over time" })).toBeVisible();
+    await expect(trend.locator(".step")).toHaveText("1");
+    // Short money on screen; the exact figure for screen readers and on hover (#307).
+    const summary = trend.locator(".citywide-summary");
+    await expect(summary).toContainText("In FY2026 the City adopted $117.8B");
+    await expect(summary).toContainText("By year's end it stood at $129.2B");
+    await expect(summary.locator('[title="$117,791,473,676"] .visually-hidden')).toHaveText("$117,791,473,676");
     await expect(trend.getByRole("img", { name: /^New York City budget: adopted and modified budget, FY2017–FY/ })).toBeVisible();
     const table = trend.getByRole("table");
     await expect(table).toBeVisible(); // open, not in a closed box
     await expect(table.locator("thead th")).toHaveText(["Fiscal year", "Adopted", "Adopted vs. year before", "Modified", "Modified vs. adopted"]);
+    const shown = (cell) => cell.locator('[aria-hidden="true"]').first();
     await expect(table.locator("tbody tr")).toHaveCount(11);
     // The old /agencies/ app's FY2026 figures (Noel's QA), and the change from FY2025.
     const fy26 = table.locator("tbody tr", { has: page.locator("th", { hasText: /^FY2026$/ }) });
-    await expect(fy26.locator("td").nth(0)).toHaveText("$117,791,473,676");
-    await expect(fy26.locator("td").nth(1)).toHaveText("+$3,406,481,844 (+3.0%)");
-    await expect(fy26.locator("td").nth(2)).toHaveText("$129,228,819,136");
+    await expect(shown(fy26.locator("td").nth(0))).toHaveText("$117.8B");
+    await expect(fy26.locator("td").nth(0).locator(".visually-hidden")).toHaveText("$117,791,473,676");
+    await expect(shown(fy26.locator("td").nth(1))).toHaveText("+3.0%");
+    await expect(fy26.locator("td").nth(1).locator(".visually-hidden")).toHaveText("+$3,406,481,844 (+3.0%)");
+    await expect(fy26.locator("td").nth(1).locator(".up")).toHaveCount(1);
+    await expect(fy26.locator("td").nth(2).locator(".visually-hidden")).toHaveText("$129,228,819,136");
     await expect(table.locator("tbody tr").first().locator("td").nth(1)).toHaveText("No FY2016 figure");
     const fy27 = table.locator("tbody tr").last();
     await expect(fy27.locator("td").nth(2)).toHaveText("Not yet published");
     await expect(fy27.locator("td").nth(3)).toHaveText("Not yet published");
 
     const year = page.locator("section.one-year");
-    await expect(year.getByRole("heading", { level: 3 })).toHaveText("Agencies in FY2026");
+    await expect(year.getByRole("heading", { level: 3, name: "Agencies in FY2026" })).toBeVisible();
+    await expect(year.locator(".step")).toHaveText("2");
     await expect(year.getByLabel("Fiscal year")).toHaveValue("2026");
     await expect(year.locator("table.agency-table")).toBeVisible();
     // A visible boundary between the two sections.
@@ -107,10 +118,12 @@ describe(`City agency budgets: trend first, then one year${VIEW_PENDING ? ` (${V
     await openView(page, PAGES.agency);
     const note = view(page).locator(".explainer-note");
     await expect(note).toContainText(/adopted/i);
-    await expect(view(page).locator("section.trend h3")).toHaveText("POLICE DEPARTMENT, over time");
+    await expect(note).toHaveText("Adopted = the plan agreed on in June. Modified = where it stood a year later. More about these.");
+    await expect(view(page).getByRole("heading", { level: 3, name: "POLICE DEPARTMENT, over time" })).toBeVisible();
+    await expect(view(page).locator("section.trend .citywide-summary")).toContainText(/In FY2026 the City adopted \$[\d.]+B\$[\d,]+ for POLICE DEPARTMENT/);
     await expect(view(page).locator("section.trend table")).toBeVisible();
-    await expect(view(page).locator("section.one-year h3")).toHaveText("Its units in FY2025");
-    await note.getByRole("link", { name: "What adopted and modified mean" }).click();
+    await expect(view(page).getByRole("heading", { level: 3, name: "Its units in FY2025" })).toBeVisible();
+    await note.getByRole("link", { name: "More about these" }).click();
     await expect(page.locator("section.explainer h3")).toHaveText("What adopted and modified mean");
     await expect(page).not.toHaveURL(/abag=/);
   });
@@ -120,14 +133,14 @@ describe(`City agency budgets: trend first, then one year${VIEW_PENDING ? ` (${V
     const table = page.locator("section.one-year table");
     await expect(table.locator('td[data-label="Modified FY2027"]').first()).toHaveText("Not yet published");
     await expect(table.locator('td[data-label="Modified vs. adopted"]').first()).toHaveText("Not yet published");
-    await expect(page.locator("section.trend .citywide-summary")).toContainText("FY2027 modified: not yet published");
+    await expect(page.locator("section.trend .citywide-summary")).toContainText("its modified figure is not yet published");
     await expect(page.locator("section.trend .citywide-summary")).not.toContainText("$0");
   });
 
   test("nothing in the trend section scrolls on its own (a scroll area a keyboard can't reach)", async ({ page }) => {
     await openView(page, PAGES.list);
     const scrollers = await page.evaluate(() =>
-      [...document.querySelectorAll("section.trend *")].filter((el) => el.scrollWidth > el.clientWidth + 1 && getComputedStyle(el).overflowX !== "visible").length
+      [...document.querySelectorAll("section.trend *")].filter((el) => !el.closest(".visually-hidden") && el.scrollWidth > el.clientWidth + 1 && getComputedStyle(el).overflowX !== "visible").length
     );
     expect(scrollers).toBe(0);
   });
