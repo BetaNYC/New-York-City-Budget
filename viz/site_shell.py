@@ -3,7 +3,7 @@
 site_shell.py — the shared top bar and footer of every page on the GitHub Pages site (#267).
 
 The site has two halves, City agency budgets (agencies/) and Council discretionary funding
-(explorer/), plus the front page and the frozen legacy.html. Each page keeps its own design; this
+(explorer/), plus the front page and legacy.html (retired: a "this moved" page, #304). Each page keeps its own design; this
 script writes the same two blocks into each one:
 
   top     a skip link and a "NYC budget data" nav bar that links every page to every other
@@ -35,7 +35,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PAGES = [
     {
         "path": "index.html", "root": "./", "current": "home", "skip": "main",
-        "revised": "2026-11-12",
+        "revised": "2026-11-13",
     },
     {
         "path": "agencies/index.html", "root": "../", "current": "agencies", "skip": "content",
@@ -43,15 +43,15 @@ PAGES = [
     },
     {
         "path": "agencies/faq.html", "root": "../", "current": "agencies", "skip": "content",
-        "revised": "2026-11-12",
+        "revised": "2026-11-13",
     },
     {
         "path": "mcp.html", "root": "./", "current": "mcp", "skip": "main",
-        "revised": "2026-11-12",
+        "revised": "2026-11-13",
     },
     {
         "path": "about.html", "root": "./", "current": "about", "skip": "main",
-        "revised": "2026-11-12",
+        "revised": "2026-11-13",
     },
     {
         "path": "agencies/boards.html", "root": "../", "current": "boards", "skip": "main",
@@ -65,7 +65,7 @@ PAGES = [
     },
     {
         "path": "legacy.html", "root": "./", "current": "legacy", "skip": "content",
-        "revised": "2026-11-09",
+        "revised": "2026-11-13",
     },
 ]
 

@@ -34,7 +34,8 @@ npm ci
 npm run data                  # rebuild the index (public build), export Parquet to public/data/
 npm test                      # unit tests + parity with budget.db, the MCP and the old /agencies/ CSV
 npm run e2e:site && npx playwright install chromium && npm run test:e2e
-                              # City agency budgets: axe WCAG 2.2 AA, phones (320/375 px), old links
+                              # every page and view: axe WCAG 2.2 AA and structure (#304);
+                              # City agency budgets: phones (320/375 px), old links
 npm run dev                   # http://localhost:5276/
 npm run build                 # dist/
 node scripts/assemble-site.mjs --out /tmp/site   # the whole Pages site, as deployed

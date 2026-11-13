@@ -167,7 +167,10 @@ jobs:
 
   # City agency budgets view (#270, #287): WCAG 2.2 AA with axe, and phone checks (no sideways
   # scrolling at 320 and 375 CSS px, touch targets, 200% text), in Chromium at a desktop and a
-  # phone (Pixel 7) size. viz/explorer/e2e/*.spec.js; playwright.config.js serves the assembled
+  # phone (Pixel 7) size. Since #304 the same axe and structure checks (one main, one h1, named
+  # navs, no skipped heading level, a caption on every table) run on every page of the site and
+  # every Council explorer view (e2e/site.a11y.spec.js), and legacy.html's old links are followed
+  # (e2e/legacy.spec.js). The job keeps its name, so a required check by that name still matches. viz/explorer/e2e/*.spec.js; playwright.config.js serves the assembled
   # site under /New-York-City-Budget/ like GitHub Pages. Chromium only, so the phone project needs
   # no WebKit. Browsers are installed each run, not cached: Playwright's CI docs
   # (https://playwright.dev/docs/ci, read 2026-11-12) say "Caching browser binaries is not

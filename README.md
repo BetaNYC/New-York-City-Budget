@@ -299,9 +299,9 @@ explorer redeploys on every merge that changes the data.
   Personal Services, Rent), each figure with the Open Data release it comes from; download all 59
   as [one CSV](viz/agencies/data/community_boards.csv) (built by
   [`code/build_community_boards.py`](code/build_community_boards.py)).
-- **The first Council explorer** (July 2026) is frozen and marked do not cite, at
-  [`legacy.html`](https://betanyc.github.io/New-York-City-Budget/legacy.html), so old links still
-  work ([`viz/README.md`](viz/README.md)).
+- **The first Council explorer** (July 2026) is retired. Its address,
+  [`legacy.html`](https://betanyc.github.io/New-York-City-Budget/legacy.html), says so and forwards
+  old links into the explorer (#304; [`viz/README.md`](viz/README.md)).
 
 ### Ask an AI assistant: the MCP server
 
@@ -443,7 +443,7 @@ New-York-City-Budget/
 ├── code/        the readers, checks and tests (Python), including the agency pipeline
 ├── mcp/         the MCP server (TypeScript)
 ├── viz/         the GitHub Pages site: front page, Council explorer (explorer/), agency
-│                explorer (agencies/), frozen legacy.html
+│                explorer (agencies/), legacy.html (retired: forwards old links)
 └── research/    plans, review records and research notes
 ```
 
@@ -455,9 +455,10 @@ New-York-City-Budget/
   ([`nyc-budget-viz`](https://github.com/BetaNYC/nyc-budget-viz)), from DataMade's Look at Cook
   and NYC Open Data `mwzb-yiwb`.
 - **2.0.0 (2026-10-17):** we stopped serving anything read from a PDF and moved to the Council's
-  spreadsheets and NYC Open Data (DATA-ANOMALIES §27). The old Schedule C explorer stays online,
+  spreadsheets and NYC Open Data (DATA-ANOMALIES §27). The old Schedule C explorer stayed online,
   frozen, at [`legacy.html`](https://betanyc.github.io/New-York-City-Budget/legacy.html), with a
-  banner saying not to cite it.
+  banner saying not to cite it. On 2026-11-13 it was retired: the page now says where it went and
+  forwards old links into the explorer (#304).
 - **October 2026:** FY2018–FY2027 were read again from the PDFs with the checked process (epic
   [#101](https://github.com/BetaNYC/New-York-City-Budget/issues/101)).
 - **2.0.2 (2026-10-23):** the checked tables are served again, labeled, in the MCP and the
@@ -521,7 +522,7 @@ source.
 **Not covered:** the Council and City documents in `source/` are public records, © The City of
 New York, reproduced here for transparency. BetaNYC's license does not apply to them.
 Third-party libraries in `viz/` keep their own licenses (see [`viz/LICENSE.md`](viz/LICENSE.md)).
-The frozen legacy explorer, and the first version of the agency explorer (retired in #288), were built on DataMade's
+The retired legacy explorer, and the first version of the agency explorer (retired in #288), were built on DataMade's
 [Look at Cook](https://github.com/datamade/look-at-cook), © 2019 DataMade, Derek Eder, Nick
 Rougeux and Open City, MIT License; that copyright notice is kept with the code.
 NYC Open Data is under the [NYC Open Data Terms of Use](https://opendata.cityofnewyork.us/overview/#termsofuse).

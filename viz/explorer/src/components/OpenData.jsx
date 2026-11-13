@@ -154,7 +154,7 @@ export function CoverageStrip({ family, coverage, title = "On NYC Open Data, by 
             <a href={OD.datasetUrl(ds)}>{cs[0].dataset_name ?? ds}</a> <code className="small">{ds}</code>{" "}
             <span className="muted small">as of {cs[0].snapshot_date}</span>
           </div>
-          <ol className="od-years" aria-label={`${ds} by fiscal year`}>
+          <ol className="od-years" aria-label={`${ds} by fiscal year`} tabIndex={0}>
             {cs.map((c) => {
               const covered = Number(c.covered) === 1;
               const rec = Number(c.records);
