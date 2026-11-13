@@ -41,12 +41,14 @@
       table { border-collapse: collapse; width: 100%; font-size: 0.95rem; margin-bottom: 1rem; }
       th, td { text-align: left; vertical-align: top; border: 1px solid var(--bnyc-border-gray); padding: 0.5rem 0.7rem; }
       th { background: var(--bnyc-bg-blue); color: var(--bnyc-blue); font-family: var(--font-heading); font-weight: 700; }
-      @media (max-width: 600px) { body { font-size: 16px; } table { display: block; overflow-x: auto; } }
+      @media (max-width: 600px) { body { font-size: 16px; } main > table { display: block; overflow-x: auto; } }
       dl.glossary dt { font-family: var(--font-heading); font-weight: 700; color: var(--bnyc-blue); margin-top: 1rem; }
       dl.glossary dd { margin: 0.2rem 0 0; }
       .table-wrap { overflow-x: auto; }
+      .table-wrap:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
       .contents h2 { font-size: 1.15rem; margin-top: 1.5rem; }
       .contents ul { margin-bottom: 1.5rem; }
+      .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     </style>
   </head>
   <body>
@@ -102,9 +104,9 @@
     <button class="bnyc-menu-btn" type="button" aria-expanded="false" aria-controls="bnyc-menu" hidden><svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M2 4h16M2 10h16M2 16h16" stroke="currentColor" stroke-width="2" fill="none"/></svg>Menu</button>
     <ul id="bnyc-menu">
       <li><a href="./">Home</a></li>
-      <li><a href="./agencies/boards.html">Community boards</a></li>
+      <li><a href="./explorer/#view=agencies">City agency budgets</a></li>
+      <li><a href="./agencies/boards.html">Community board budgets</a></li>
       <li><a href="./explorer/">Council discretionary funding</a></li>
-      <li><a href="./agencies/">City agency budgets</a></li>
       <li><a href="./mcp.html">Budget MCP</a></li>
       <li><a href="./about.html" aria-current="page">About</a></li>
     </ul>
@@ -143,12 +145,13 @@
       </nav>
 
       <h2 id="which-tool">Which tool answers my question?</h2>
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Which tool answers which question">
       <table>
+        <caption class="visually-hidden">Which tool answers which question</caption>
         <thead><tr><th scope="col">Your question</th><th scope="col">Where to look</th></tr></thead>
         <tbody>
           <tr><td>How much does my community board get?</td><td><a href="agencies/boards.html">Community board budgets</a>, all 59 in one table, with a CSV download. Each of the 59 boards is its own agency (Manhattan 341–352, Bronx 381–392, Brooklyn 471–488, Queens 431–444, Staten Island 491–493).</td></tr>
-          <tr><td>How did an agency's budget change, year to year or during the year?</td><td><a href="agencies/">City agency budgets</a>: Adopted and Modified, by year.</td></tr>
+          <tr><td>How did an agency's budget change, year to year or during the year?</td><td><a href="explorer/#view=agencies">City agency budgets</a>: Adopted and Modified, by year. Or ask the <a href="mcp.html">budget MCP server</a>.</td></tr>
           <tr><td>Which groups did my Council member fund? Did this nonprofit get Council money?</td><td><a href="explorer/">Council discretionary funding</a>: the expense awards (search by name or EIN).</td></tr>
           <tr><td>What did the Council change after the budget was adopted? Which capital projects did it fund?</td><td><a href="explorer/">Council discretionary funding</a>: transparency resolutions; capital and the capital book.</td></tr>
           <tr><td>Was the money actually spent? Did an award become a contract?</td><td><a href="https://www.checkbooknyc.com">Checkbook NYC</a> (the Comptroller). Use its <strong>Spending</strong> tab for payments and its <strong>Contracts</strong> tab for contracts. This site has budgets, not spending.</td></tr>
@@ -218,8 +221,9 @@
 
       <h2 id="sources">Data sources</h2>
       <p>Every source the site and its data use. Each Council row says which one it came from.</p>
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Every data source, what it holds, and where it comes from">
       <table>
+        <caption class="visually-hidden">Every data source, what it holds, and where it comes from</caption>
         <thead><tr><th scope="col">Source</th><th scope="col">What it gives</th><th scope="col">Years</th></tr></thead>
         <tbody>
           <tr><td>NYC Open Data, Expense Budget <a href="https://data.cityofnewyork.us/d/mwzb-yiwb"><code>mwzb-yiwb</code></a>, published for OMB</td><td>City agency budgets: every agency's adopted and modified budget, by unit of appropriation. The June release of each year.</td><td>FY2017–FY2027</td></tr>
@@ -228,7 +232,7 @@
           <tr><td>The Council's own workbooks, saved by the <a href="https://web.archive.org/">Internet Archive</a></td><td>The disclosure for the early years, and other files the Council once published on council.nyc.gov.</td><td>FY2009, FY2011, FY2012</td></tr>
           <tr><td>The Council's capital workbooks</td><td>Capital designations.</td><td>FY2015–FY2017, FY2026, FY2027</td></tr>
           <tr><td>NYC Open Data, City Council Capital Budget <a href="https://data.cityofnewyork.us/d/t474-a92g"><code>t474-a92g</code></a>, published by the Council</td><td>Capital designations.</td><td>FY2019–FY2025</td></tr>
-          <tr><td>The Council's budget PDFs (<a href="https://council.nyc.gov/budget/">Council budget pages</a>)</td><td>Read twice and checked: Schedule C (FY2018–FY2027), transparency resolutions (FY2018–FY2026), the capital book (FY2018–FY2020, FY2022–FY2027) and Terms and Conditions (FY2018, FY2021–FY2027).</td><td>FY2018–FY2027</td></tr>
+          <tr><td>The Council's budget PDFs (<a href="https://council.nyc.gov/budget/">Council budget pages</a>)</td><td>Read twice and checked: Schedule C (FY2018–FY2027), transparency resolutions (FY2018–FY2027), the capital book (FY2018–FY2020, FY2022–FY2027) and Terms and Conditions (FY2018, FY2021–FY2027).</td><td>FY2018–FY2027</td></tr>
           <tr><td>The City's Government Publications Portal (DORIS)</td><td>Copies of budget PDFs City agencies filed there, mostly OMB's copies of the Council's capital supporting detail books.</td><td>FY2009–FY2027</td></tr>
           <tr><td>NYC Open Data, Capital Budget <a href="https://data.cityofnewyork.us/d/46m8-77gv"><code>46m8-77gv</code></a> and Capital Commitment Plan <a href="https://data.cityofnewyork.us/d/2cmn-uidm"><code>2cmn-uidm</code></a>, OMB's</td><td>To compare the Council's capital money with OMB's, by budget line.</td><td>FY2019–FY2027</td></tr>
           <tr><td>NYC Open Data, Capital Projects Database (CPDB) – Commitments <a href="https://data.cityofnewyork.us/d/djxg-kcfi"><code>djxg-kcfi</code></a></td><td>Whether a Council capital line has a planned commitment now.</td><td>FY2026 on</td></tr>
@@ -239,7 +243,7 @@
         </tbody>
       </table>
       </div>
-      <p><strong>How current the data is.</strong> City agency budgets: NYC Open Data's Expense Budget, through the release of June 30, 2026 (the FY2027 adopted budget); FY2027's modified budget is not yet published. Council discretionary funding: the Council's PDF tables are from the data release <code>pdf-tables-2026-10-24-260d16e</code>, and the Council explorer's own footer gives the date of its data build. The old explorer (<a href="legacy.html">legacy.html</a>) is frozen as of October 16, 2026; do not cite it.</p>
+      <p><strong>How current the data is.</strong> City agency budgets: NYC Open Data's Expense Budget, through the release of June 30, 2026 (the FY2027 adopted budget); FY2027's modified budget is not yet published. Council discretionary funding: the Council's PDF tables are from the data release <code>pdf-tables-2026-10-24-260d16e</code>, and the Council explorer's own footer gives the date of its data build. Our first Council explorer was frozen on October 16, 2026 and is now retired (<a href="legacy.html">legacy.html</a> says where it went); do not cite figures copied from it.</p>
       <p>More detail on every column: the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/DATA-DICTIONARY.md">data dictionary</a>. Known problems in the sources: <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/DATA-ANOMALIES.md">data anomalies</a>.</p>
 
       <h2 id="pdf-checks">How the Council's PDF tables are checked</h2>
@@ -279,9 +283,9 @@
         <h2 id="bnyc-foot-h-site">This site</h2>
         <ul>
           <li><a href="./">Home</a></li>
-          <li><a href="./agencies/boards.html">Community boards</a></li>
+          <li><a href="./explorer/#view=agencies">City agency budgets</a></li>
+          <li><a href="./agencies/boards.html">Community board budgets</a></li>
           <li><a href="./explorer/">Council discretionary funding</a></li>
-          <li><a href="./agencies/">City agency budgets</a></li>
           <li><a href="./mcp.html">Budget MCP</a></li>
           <li><a href="./about.html" aria-current="page">About</a></li>
         </ul>
@@ -297,7 +301,7 @@
         </ul>
       </section>
     </div>
-    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 10, 2026. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 13, 2026. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
   </div>
 </div>
 <!-- site-shell:bottom:end -->

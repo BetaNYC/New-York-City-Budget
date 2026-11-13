@@ -21,9 +21,14 @@ and [`DATA-ANOMALIES.md`](../../DATA-ANOMALIES.md) §57.
 keeps all of their dates but sums only each tag's latest (June) release, the one the explorer uses.
 The full rows of a different extract are in [`../open-data-mwzb-yiwb/`](../open-data-mwzb-yiwb/README.md).
 
+**Since #284 it is also the source of the City agency budgets everywhere.**
+[`mcp/scripts/agency-budget.mjs`](../../mcp/scripts/agency-budget.mjs) reads `releases.csv`,
+`by_unit.csv` and `MANIFEST.csv` into the MCP index's `agency_budget` table, which the explorer's
+City agency budgets view, the MCP tools and the CSV download all read.
+
 **Replacing it.** Run `python3 code/fetch_agency_budget_qa.py` after the City publishes a new
-June release, then `python3 code/qa_agency_budget.py`. A new year makes the check fail until the
-explorer's pipeline (`code/agency_budget_cleanup.py`) shows it too; `test_the_june_releases_are_pinned`
+June release, then `python3 code/agency_budget_cleanup.py` (index build, then the CSV) and
+`python3 code/qa_agency_budget.py`. A new year makes the check fail until the CSV shows it too; `test_the_june_releases_are_pinned`
 also fails until a person updates the pinned list. Both are on purpose: a person looks at every
 change in the City's numbers before the site does.
 

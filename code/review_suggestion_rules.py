@@ -1,6 +1,6 @@
 """
-Review-suggestion rules for FY2025 back to FY2018, every family (used by
-code/build_review_suggestions.py).
+Review-suggestion rules for FY2025 back to FY2018, every family, and FY2027 transparency (#246)
+(used by code/build_review_suggestions.py).
 
 RULES[(fiscal_year, family)] = (that year's REVIEW.md, [(item, decision, note, selector), ...]).
 `item` is where in that REVIEW.md the call is made; `decision` is only what the REVIEW.md itself
@@ -731,6 +731,39 @@ RULES[("2018", "schedule_c")] = ("research/2026-10-22-fy18-schedule-c-review/REV
 ])
 
 # Transparency.
+# Transparency, FY2027 (#246): its REVIEW.md's "Suggest" column, by review_id.
+RULES[("2027", "transparency")] = ("research/2026-11-12-fy27-transparency-review/REVIEW.md", [
+    ("Critical #1", "needs_info",
+     "As the FY2027 transparency REVIEW.md suggests (needs_info: which organization the row means); see its item.",
+     ["c983e4543f60"]),
+    ("Warn #2", "accepted_as_printed",
+     "As the FY2027 transparency REVIEW.md suggests; see its item.",
+     ["dd6186017c15"]),
+    ("Warn #3", "accepted_as_printed",
+     "As the FY2027 transparency REVIEW.md suggests; see its item.",
+     ["843b700617c6"]),
+    ("Warn #4", "accepted_as_printed",
+     "As the FY2027 transparency REVIEW.md suggests; see its item.",
+     ["8a66539867c8"]),
+    ("Warn #5", "accepted_as_printed",
+     "As the FY2027 transparency REVIEW.md suggests; see its item.",
+     ["f5fe42087cd0"]),
+    ("Warn #6", "accepted_as_printed",
+     "As the FY2027 transparency REVIEW.md suggests; see its item.",
+     ["32a603505c39"]),
+    ("Warn #7", "accepted_as_printed",
+     "As the FY2027 transparency REVIEW.md suggests; see its item.",
+     ["2dd5104fe949"]),
+    ("Warn #8", "accepted_as_printed",
+     "As the FY2027 transparency REVIEW.md suggests; see its item.",
+     ["35992519dff3"]),
+    ("Warn #9", "accepted_as_printed",
+     "As the FY2027 transparency REVIEW.md suggests; see its item.",
+     ["4e37d0bb4fc2"]),
+    ("Warn #10", "accepted_as_printed",
+     "As the FY2027 transparency REVIEW.md suggests; see its item.",
+     ["c54044418234"]),
+])
 RULES[("2025", "transparency")] = ("research/2026-10-21-fy25-transparency-review/REVIEW.md", [
     ("Critical #1", "source_error",
      "As the FY2025 transparency REVIEW.md suggests; see its item.",

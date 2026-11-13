@@ -173,6 +173,7 @@ function ReviewScreen({ state, set, manifest, pdfYears }) {
           change a decision already there), and commit:
         </p>
         <table className="rows small">
+          <caption className="visually-hidden">Where each family's decisions file is committed</caption>
           <thead>
             <tr>
               <th>Family</th>

@@ -1,0 +1,164 @@
+# FY2027 transparency resolutions: every year-specific fact the pipeline needs (GitHub #102, #246).
+# Shared code: code/transreso/ (and code/schedc/, code/schedc_cv/ underneath it).
+
+fiscal_year = 2027
+review_dir = "research/2026-11-12-fy27-transparency-review"   # outputs land in <review_dir>/data
+x_tolerance = 3.0          # pdfplumber default; these charts print real space glyphs
+run_gap_pt = 3.0           # code/transreso/reader.py RUN_GAP
+
+# Resolution number and adoption date: from each matter's page on the Council's Legistar website,
+# read 2026-11-12 (route and sha256 in source/FY27/README.md). `legistar_id` is left out: the
+# FY2026 config's ids are the older Legistar ids, and these four were found only by the website's
+# own matter ids (noted per resolution below), a different numbering. None of the four PDFs
+# prints resolution text: each opens with "CHART #1: Local Initiatives - Fiscal 2027" on p.1.
+# The text is the matter's separate "Res. No." attachment (a Word file), kept beside each PDF as
+# `text` with its `text_sha256`; the run reads the fiscal years it names (T12) from there, and
+# `charts_printed` is its "as set forth in Charts 1 through N". It prints no date, so
+# `printed_date` is blank.
+numbers_source = "source/FY27/README.md"
+
+# Line-end hyphens (W5.wrap_hyphen): all 7 were read by hand from the flags file on 2026-11-12.
+# Six are compound words and keep the hyphen (one-on-one, School-Community x2, YM-YWHA,
+# back-to-school x2). This one could be "Special Projects - Council District 16" with the spaces
+# lost, so it goes to review.
+wrap_hyphen_review = ["Projects-\nCouncil"]
+
+[[resolutions]]
+seq = 1
+pdf = "source/FY27/transparency-resolutions/Transparency-Reso-01-2026-07-16.pdf"
+text = "source/FY27/transparency-resolutions/Transparency-Reso-01-2026-07-16-text.docx"
+text_sha256 = "71bb6f5efe3b271b046696a8d321c5d96b27300ce8a03b86e7d29a38112ab7ca"
+sha256 = "454393cb7276f228bcce5ba080c67573c5d0ffeba34b785d74f14bbfc00674ec"
+pages = 54
+number = "Res 0551-2026"
+date = "2026-07-16"
+printed_date = ""
+charts_printed = 38   # text: "as set forth in Charts 1 through 38"
+# Website matter page: https://legistar.council.nyc.gov/LegislationDetail.aspx?ID=8134167&GUID=1B43C13F-6DF6-4D49-82F7-A5AA8F7DCD1F
+# PDF ("Charts for Resolution"): https://legistar.council.nyc.gov/View.ashx?M=F&ID=15695414&GUID=BDC9DD90-BF61-47BC-9024-C64DC6257B53
+# Text ("Res. No."): https://legistar.council.nyc.gov/View.ashx?M=F&ID=15693883&GUID=F8813FC8-01AE-4699-B850-EB94F4BAF1D9
+
+[[resolutions]]
+seq = 2
+pdf = "source/FY27/transparency-resolutions/Transparency-Reso-02-2026-08-13.pdf"
+text = "source/FY27/transparency-resolutions/Transparency-Reso-02-2026-08-13-text.docx"
+text_sha256 = "fb367c484140ca1ea75c9abc001b3fb61ebb7d3da86e5e564260b1dca4780b7e"
+sha256 = "5df6d3d6eb28e5e3837a25a2f13cab72f084e5cff55b6c16d6694556f4a1fd98"
+pages = 48
+number = "Res 0595-2026"
+date = "2026-08-13"
+printed_date = ""
+charts_printed = 40   # text: "as set forth in Charts 1 through 40"
+# Website matter page: https://legistar.council.nyc.gov/LegislationDetail.aspx?ID=8166249&GUID=313C164B-F4F1-4D98-927D-B4B5702C3C64
+# PDF ("Charts for Resolution"): https://legistar.council.nyc.gov/View.ashx?M=F&ID=15762246&GUID=1FADC333-B4D8-45EB-A7EE-428AB1D9DD9C
+# Text ("Res. No."): https://legistar.council.nyc.gov/View.ashx?M=F&ID=15762248&GUID=805B269C-8454-4B1F-9F27-04FEEEDF5750
+
+[[resolutions]]
+seq = 3
+pdf = "source/FY27/transparency-resolutions/Transparency-Reso-03-2026-09-24.pdf"
+text = "source/FY27/transparency-resolutions/Transparency-Reso-03-2026-09-24-text.docx"
+text_sha256 = "e952c46b37ff80813c5e022ec5504d72b531a30b26726ad492ab0d0faae32358"
+sha256 = "668731690e142ac1215e69b1b9904bed9a2ef4afe1bf4201ad2392041e8df9bb"
+pages = 89
+number = "Res 0652-2026"
+date = "2026-09-24"
+printed_date = ""
+charts_printed = 49   # text: "as set forth in Charts 1 through 49"
+# Website matter page: https://legistar.council.nyc.gov/LegislationDetail.aspx?ID=8219009&GUID=2A859448-CA37-40B2-848B-1D8CF1215BC0
+# PDF ("Charts for Resolution"): https://legistar.council.nyc.gov/View.ashx?M=F&ID=15932384&GUID=0D49435D-1213-41E1-9FAA-F8A779E21C20
+# Text ("Res. No."): https://legistar.council.nyc.gov/View.ashx?M=F&ID=15932076&GUID=D196E0CE-02DC-4077-876B-64C1EB728222
+
+[[resolutions]]
+seq = 4
+pdf = "source/FY27/transparency-resolutions/Transparency-Reso-04-2026-10-22.pdf"
+text = "source/FY27/transparency-resolutions/Transparency-Reso-04-2026-10-22-text.docx"
+text_sha256 = "419bf2579e1620705350519f566039cbbce69f90ef5c867342a3209798aae4c1"
+sha256 = "bd92d7699ff96872cb93ac2faad6a1b0a0b28a1aaf77af05c5690b31fd5fbfac"
+pages = 36
+number = "Res 0695-2026"
+date = "2026-10-22"
+printed_date = ""
+charts_printed = 28   # text: "as set forth in Charts 1 through 28"
+# Website matter page: https://legistar.council.nyc.gov/LegislationDetail.aspx?ID=8286520&GUID=936A2CC8-6EC1-4D0C-A37D-38AD07AD987D
+# PDF ("Charts for Resolution"): https://legistar.council.nyc.gov/View.ashx?M=F&ID=16084529&GUID=A8894D44-AB9A-4A4B-9042-93C8933461F2
+# Text ("Res. No."): https://legistar.council.nyc.gov/View.ashx?M=F&ID=16084528&GUID=918C89FB-60D1-4D0E-B3A1-C34CF73F6CC0
+
+[image]
+# Same values as config/transparency/fy2026.toml (from config/schedule_c/fy2027.toml); the FY2027
+# charts are the same Excel-to-PDF layout. Re-checked by the acceptance run below.
+dpi = 300
+kernel_px = 60
+region_pad_px = 8
+row_tol_pt = 1.0
+char_pad_px = 1
+rule_pad_px = 1
+ink_cell_px = 16
+ink_min_region_px = 64
+# Acceptance: withholding this row (Reso 01 p.1, Brooks-Powers / East River Development Alliance,
+# ($7,000)), or one character of it, must make the ink check fire.
+ink_acceptance_seq = 1
+ink_acceptance_page = 1
+ink_acceptance_row_id = "fy27-tr01-p001-r003"
+
+
+# Named exceptions: places where the PDF disagrees with itself. Each must match exactly or the
+# check still fails; each stays in the review file.
+# A caption repeated on the next page without "(continued)" (same number, title and year):
+# Reso 03 p.9 and Reso 04 p.9 (chart #6 Speaker's Initiative to Address Citywide Needs -
+# Fiscal 2027, starts p.8 in both). Read as continuations.
+[[exceptions]]
+check_id = "T3.continued_missing"
+resolution_seq = 3
+pdf_page = 9
+
+[[exceptions]]
+check_id = "T3.continued_missing"
+resolution_seq = 4
+pdf_page = 9
+
+# Reso 04 p.13 (chart #8 CASA - Fiscal 2027, Restler, $20,000): the Organization cell prints
+# "113271472 - Urban Assembly Institute of Math and Science for Young Women (13K527)", an EIN where
+# the organization's name belongs; its EIN cell prints 11-3271472, the EIN Reso 01 p.21 prints for
+# Noel Pointer Foundation, Inc. So the page has 24 EIN-shaped words for 23 rows. Kept as printed;
+# the row goes to review (known_issues below).
+[[exceptions]]
+check_id = "T5.ein_in_text"
+resolution_seq = 4
+pdf_page = 13
+word = "113271472"
+
+# Places a person has looked at and that stay in the review file as named items.
+[[known_issues]]
+check_id = "K.org_is_ein"
+severity = "critical"
+resolution_seq = 4
+pdf_page = 13
+row_index = 10
+row_id = "fy27-tr04-p013-r010"
+field = "org"
+dollar_impact = 20000
+what_to_check = "Chart #8 CASA - Fiscal 2027, Restler, $20,000 (row fy27-tr04-p013-r010): the Organization cell starts with '113271472' where the organization's name belongs, and the EIN cell prints 11-3271472, which Reso 01 p.21 prints for Noel Pointer Foundation, Inc. (four CASA rows for Osse). The organization is likely Noel Pointer Foundation, Inc., but the PDF does not say so. Kept as printed. Check the FY2027 disclosure workbook or ask Council Finance."
+
+[[known_issues]]
+check_id = "K.no_fiscal_year"
+resolution_seq = 1
+pdf_page = 37
+field = "budget_fiscal_year"
+dollar_impact = 0
+what_to_check = "Chart #22 'Educational Programs for Students' prints no '- Fiscal YYYY'. It sits between charts #21 and #23, both Fiscal 2027, among the resolution's Fiscal 2027 charts. budget_fiscal_year left blank, as printed."
+
+[[known_issues]]
+check_id = "K.no_fiscal_year"
+resolution_seq = 1
+pdf_page = 40
+field = "budget_fiscal_year"
+dollar_impact = 0
+what_to_check = "Chart #25 'Nontraditional Worker Organizing and Education' prints no '- Fiscal YYYY'. It sits between charts #24 and #26, both Fiscal 2027, among the resolution's Fiscal 2027 charts. budget_fiscal_year left blank, as printed."
+
+[[known_issues]]
+check_id = "K.no_fiscal_year"
+resolution_seq = 2
+pdf_page = 29
+field = "budget_fiscal_year"
+dollar_impact = 0
+what_to_check = "Chart #24 'Nontraditional Worker Organizing and Education' prints no '- Fiscal YYYY'. It sits between charts #23 and #25, both Fiscal 2027, among the resolution's Fiscal 2027 charts. budget_fiscal_year left blank, as printed."

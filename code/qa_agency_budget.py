@@ -2,11 +2,13 @@
 """
 qa_agency_budget.py — check every figure the City agency budgets explorer shows (#268).
 
-The explorer (viz/agencies/) loads viz/agencies/data/nyc_budget.csv: one row per agency x unit
-of appropriation, with "Adopted YYYY" and "Modified YYYY" for FY2017 onward. This checker
-recomputes every one of those cells from a snapshot of NYC Open Data mwzb-yiwb
+viz/agencies/data/nyc_budget.csv (the download; since #288 written from the MCP index's
+agency_budget table, which the explorer's City agency budgets view and the MCP also read) has one
+row per agency x unit of appropriation, with "Adopted YYYY" and "Modified YYYY" for FY2017 onward.
+This checker recomputes every one of those cells from a snapshot of NYC Open Data mwzb-yiwb
 (source/agency-budget-qa/, pulled by code/fetch_agency_budget_qa.py), with its own code (it
-imports nothing from code/agency_budget_cleanup.py), and compares them to the dollar.
+imports nothing from mcp/scripts/agency-budget.mjs, which applies the year rule for the site and
+the MCP), and compares them to the dollar.
 
 THE YEAR RULE it applies (the 2026-11-09 correction, nyc-budget-viz#3/#4):
 

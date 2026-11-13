@@ -89,6 +89,7 @@ def test_committed_decision_files_are_valid():
         ("data/fy27/pdf/schedule_c/fy27_sc_review.csv", "research/2026-10-20-fy27-schedule-c-review/data/fy27_sc_review_decisions.csv"),
         ("data/fy27/pdf/capital_sd/fy27_capital_sd_review.csv", "research/2026-10-20-fy27-capital-terms-review/data/fy27_capital_sd_review_decisions.csv"),
         ("data/fy27/pdf/terms/fy27_terms_review.csv", "research/2026-10-20-fy27-capital-terms-review/data/fy27_terms_review_decisions.csv"),
+        ("data/fy27/pdf/transparency/fy27_tr_review.csv", "research/2026-11-12-fy27-transparency-review/data/fy27_tr_review_decisions.csv"),
         ("data/fy26/pdf/capital_sd/fy26_capital_sd_review.csv", "research/2026-10-21-fy26-capital-terms-review/data/fy26_capital_sd_review_decisions.csv"),
         ("data/fy26/pdf/terms/fy26_terms_review.csv", "research/2026-10-21-fy26-capital-terms-review/data/fy26_terms_review_decisions.csv"),
         ("data/fy26/pdf/schedule_c/fy26_sc_review.csv", "research/2026-10-21-fy26-schedule-c-review/data/fy26_sc_review_decisions.csv"),
@@ -438,3 +439,16 @@ def test_an_answered_question_blocks_even_beside_an_older_sent_one(tmp_path, cap
     capsys.readouterr()
     assert vrd.main(args + ["--today", "23/10/2026"]) == 1
     assert "--today '23/10/2026' is not an ISO date" in capsys.readouterr().out
+
+
+def test_fy27_transparency_every_flag_decided():
+    # Noel Hidalgo decided all 10 FY2027 transparency flags on 2026-11-13 (#246, PR #298):
+    # accepted_as_printed for each. --complete passes with no needs_info left.
+    review = os.path.join(REPO, "data/fy27/pdf/transparency/fy27_tr_review.csv")
+    decisions = os.path.join(REPO, "research/2026-11-12-fy27-transparency-review/data/fy27_tr_review_decisions.csv")
+    assert vrd.main(["--review", review, "--decisions", decisions, "--complete"]) == 0
+    with open(decisions, newline="", encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    assert len(rows) == 10
+    assert {r["decision"] for r in rows} == {"accepted_as_printed"}
+    assert {r["decided_by"] for r in rows} == {"Noel Hidalgo"}
