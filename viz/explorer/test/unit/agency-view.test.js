@@ -55,13 +55,15 @@ describe("Agency budgets view helpers", () => {
 describe("citywide summary (#300)", () => {
   test("the change from the year before reads like the old app's summary", async () => {
     // FY2026 vs FY2025, as the old /agencies/ app showed them (Noel's QA, 2026-11-12).
-    const { pctText } = await import("../../src/views/Agencies.jsx");
-    expect(pctText(114384991832, 117791473676)).toBe("+3.0%");
-    expect(pctText(123844584236, 129228819136)).toBe("+4.3%");
-    expect(pctText(100, 90)).toBe("−10.0%");
+    // The summary's percents come from change() and changeText() (pctText was removed: QA of #307).
+    const { changeText } = await import("../../src/views/Agencies.jsx");
+    const pct = (a, b) => (change(a, b) ? changeText(change(a, b)).short : null);
+    expect(pct(114384991832, 117791473676)).toBe("+3.0%");
+    expect(pct(123844584236, 129228819136)).toBe("+4.3%");
+    expect(pct(100, 90)).toBe("−10.0%");
     // FAILS if a missing figure (not yet published) turns into a change from or to $0.
-    expect(pctText(123844584236, null)).toBeNull();
-    expect(pctText(null, 5)).toBeNull();
+    expect(change(123844584236, null)).toBeNull();
+    expect(change(null, 5)).toBeNull();
   });
 });
 
@@ -99,6 +101,18 @@ describe("short money, colored changes, sorting, split units (#307)", () => {
     expect(moneyShort(420)).toBe("$420");
     expect(moneyShort(-2500000)).toBe("−$2.5M");
     expect(moneyShort(null)).toBeNull();
+  });
+
+  test("short money steps up a unit after rounding, never $1000.0M or $1000K (QA of #307)", async () => {
+    const { moneyShort } = await import("../../src/views/Agencies.jsx");
+    expect(moneyShort(999_950_000)).toBe("$1.0B");
+    expect(moneyShort(999_949_999)).toBe("$999.9M");
+    expect(moneyShort(999_600)).toBe("$1.0M");
+    expect(moneyShort(999_499)).toBe("$999K");
+    expect(moneyShort(999.5)).toBe("$1K");
+    expect(moneyShort(999.4)).toBe("$999");
+    expect(moneyShort(-999_950_000)).toBe("−$1.0B");
+    expect(moneyShort(1_000_000_000)).toBe("$1.0B");
   });
 
   test("a change keeps its sign and exact dollars; up is green, down red, zero neither", async () => {

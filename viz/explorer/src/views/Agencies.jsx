@@ -87,9 +87,11 @@ export function moneyShort(v) {
   const n = Number(v);
   const a = Math.abs(n);
   const sign = n < 0 ? "−" : "";
-  if (a >= 1e9) return `${sign}$${(a / 1e9).toFixed(1)}B`;
-  if (a >= 1e6) return `${sign}$${(a / 1e6).toFixed(1)}M`;
-  if (a >= 1e3) return `${sign}$${Math.round(a / 1e3)}K`;
+  // Pick the unit after rounding: 999,950,000 is "$1.0B", never "$1000.0M"; 999,600 is "$1.0M",
+  // never "$1000K" (QA of #307).
+  if (a >= 1e9 || Math.round(a / 1e5) >= 10_000) return `${sign}$${(a / 1e9).toFixed(1)}B`;
+  if (a >= 1e6 || Math.round(a / 1e3) >= 1000) return `${sign}$${(a / 1e6).toFixed(1)}M`;
+  if (a >= 1e3 || Math.round(a) >= 1000) return `${sign}$${Math.round(a / 1e3)}K`;
   return `${sign}$${Math.round(a)}`;
 }
 
@@ -560,14 +562,6 @@ function TrendSummary({ rows, newest, who = null }) {
       ) : null}
     </p>
   );
-}
-
-/** "+3.0%" / "−1.2%" from one figure to the next, or null when either is missing. */
-export function pctText(from, to) {
-  const c = change(from, to);
-  if (!c || c.pct == null) return null;
-  const sign = c.pct > 0 ? "+" : c.pct < 0 ? "−" : "";
-  return `${sign}${Math.abs(c.pct).toFixed(1)}%`;
 }
 
 // ---------------------------------------------------------------- one agency

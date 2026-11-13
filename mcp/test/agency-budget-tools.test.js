@@ -180,6 +180,40 @@ describe("search_agency_budget", { skip: skipUnless("search_agency_budget") }, (
   });
 });
 
+describe("agency words match whole words (QA of #293)", { skip: skipUnless("search_agency_budget") }, () => {
+  /** Every agency name in the index that has the board number as a whole word. */
+  function boards(n) {
+    const db = new Database(DB_PATH, { readonly: true });
+    try {
+      const rows = db.prepare("SELECT DISTINCT agency_number, agency_name FROM agency_budget WHERE agency_name LIKE '%COMMUNITY BOARD%'").all();
+      return [...new Set(rows.filter((r) => new RegExp(`#${n}(?![0-9])`).test(r.agency_name)).map((r) => r.agency_number))].sort();
+    } finally {
+      db.close();
+    }
+  }
+
+  for (const n of [1, 10]) {
+    test(`"community board #${n}" (the tool's own example) finds only the #${n} boards`, async () => {
+      // FAILS if "#1" matches "#10" to "#18" too (25 agencies and one combined total, before).
+      const { matchAgencies } = await import("../dist/agency.js");
+      const want = boards(n);
+      assert.ok(want.length >= 4 && want.length <= 5, want.join(","));
+      assert.deepEqual(matchAgencies(`community board #${n}`).sort(), want);
+      assert.deepEqual(matchAgencies(`community board ${n}`).sort(), want);
+      const text = textOf(await client.callTool({ name: "search_agency_budget", arguments: { agency: `community board #${n}`, fiscal_year: 2025 } }));
+      const other = n === 1 ? /BOARD #1[0-9]/ : /BOARD #1(?![0-9])|BOARD #1[1-9]/;
+      assert.doesNotMatch(text, other);
+    });
+  }
+
+  test("other words still match the start of a name word", async () => {
+    const { matchAgencies } = await import("../dist/agency.js");
+    assert.ok(matchAgencies("police").includes("056"));
+    assert.ok(matchAgencies("educ").includes("040"));
+    assert.ok(!matchAgencies("lice").includes("056"), "not the middle of a word");
+  });
+});
+
 describe("compare_adopted_modified", { skip: skipUnless("compare_adopted_modified") }, () => {
   test("is listed with a schema that takes agency, unit and fiscal_year, fiscal_year required", async () => {
     // FAILS if the schema drifts from the contract.
@@ -215,6 +249,16 @@ describe("compare_adopted_modified", { skip: skipUnless("compare_adopted_modifie
     const text = textOf(await client.callTool({ name: "compare_adopted_modified", arguments: { agency: "056", fiscal_year: y } }));
     assert.match(text, /not yet published/i);
     assert.doesNotMatch(text, /-100(\.0)?%/);
+    // QA of #293: no unit has both figures, so there is no "largest change" list ranked by size.
+    assert.doesNotMatch(text, /largest change first/);
+    assert.match(text, /By unit: no change to rank yet/);
+  });
+
+  test("a past year still ranks units by their change", async () => {
+    const text = textOf(await client.callTool({ name: "compare_adopted_modified", arguments: { agency: "056", fiscal_year: 2025 } }));
+    assert.match(text, /By unit, largest change first:/);
+    const first = text.split("largest change first:\n")[1].split("\n")[0];
+    assert.match(first, /change [+-]\$/);
   });
 
   test("without agency or unit, it is an error", async () => {
