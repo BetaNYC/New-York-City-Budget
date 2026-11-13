@@ -7,7 +7,9 @@ and `source/FY27/README.md`, downloaded and checked 2026-11-12); expense disclos
 in `data/fyNN/expense_disclosure/`; rescission origins from the checked
 `data/fy27/pdf/schedule_c/fy27_sc_awards.csv`; code at this branch's commit.
 **Status:** checked, review in progress. Every check passes or is a named, listed exception.
-No person has reviewed the flags yet.
+Noel Hidalgo decided all 10 flags on 2026-11-13: `accepted_as_printed` for each
+(`data/fy27_tr_review_decisions.csv`). The status stays `reviewed` until a person changes it to
+`closed` (PDF-RECIPE.md Step 9).
 
 Part of #246 and #102 (epic #101). Done the same way as FY2026
 (`research/2026-10-21-fy26-transparency-review/`), with the same code, plus two small additions
@@ -66,7 +68,7 @@ held back at adoption being designated later. Reported, not flagged.
 ## Files
 
 As FY2026: `REVIEW.md`, `ISSUE-LOG-DRAFT.md` (not posted), and in `data/`: rows, charts,
-resolutions, review, review decisions (header only: no decisions yet), checks, flags, pages,
+resolutions, review, review decisions (10, all `accepted_as_printed`), checks, flags, pages,
 disclosure match, retired-CSV compare (none: there was no old FY2027 CSV), manifest, and a page
 crop per review item in `overlays/`.
 

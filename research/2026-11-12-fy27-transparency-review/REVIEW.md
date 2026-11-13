@@ -50,3 +50,11 @@ amount. Each item has a crop in `data/overlays/` (`r<reso>-p<page>-<review_id>.p
 1. **Reso 04 p.13** (#1): ask Council Finance which organization this is? Suggested `needs_info`.
 2. **The 3 charts with no year** (#3-#5): leave blank (current), as FY2026 did for Operation
    Backpack?
+
+## Decided (2026-11-13)
+
+Noel Hidalgo decided all 10 items `accepted_as_printed`: keep every row as the PDF prints it,
+including No. 1 (the EIN in the organization cell) and the 3 charts with no fiscal year. Two were
+exported from the explorer's Review tab; the other 8 he gave to Marvin in chat ("keep all 8").
+The record is `data/fy27_tr_review_decisions.csv`; `code/validate_review_decisions.py --complete`
+passes. No value changed.

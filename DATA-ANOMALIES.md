@@ -1765,5 +1765,6 @@ organization's name belongs ("113271472 - Urban Assembly Institute of Math and S
 Women (13K527)", EIN 11-3271472, which Reso 01 p.21 prints for Noel Pointer Foundation, Inc.;
 $20,000). Three charts print no fiscal year (Reso 01 pp.37, 40; Reso 02 p.29). One line-end
 hyphen probably lost its spaces ("Special Projects-Council District 16", Reso 01 p.28).
+Noel Hidalgo decided all 10 flags `accepted_as_printed` on 2026-11-13: every row stays as printed.
 
 **Next.** T2026-2764 was on the 2026-11-19 Finance agenda with no files yet (as of 2026-11-12).
