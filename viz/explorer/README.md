@@ -68,6 +68,15 @@ tables and `pdf_years`, the list of PDF family-years the tabs are built from, ab
 Parquet (13.3 MB before; measured on the public build with `npx vite preview`). The query engine
 (DuckDB-WASM, about 34 MB) comes on top, cached by the browser after the first visit, as before.
 
+City agency budgets (`#view=agencies`) is the exception: it never loads DuckDB (#299). The build
+writes small JSON files from the same `agency_budget` table (`scripts/agency-json.mjs`, laid out
+by `src/agency/data.js`) and checks every cell against the table with SQL; any difference stops
+the build. A first visit to the agency list downloads about 0.73 MB uncompressed (the app's
+JavaScript, its CSS, `citywide.json` and `agencies.json`; GitHub Pages compresses it to about
+0.17 MB), measured by `e2e/agencies.weight.spec.js` and held under 1 MB there. Opening an agency
+adds its own file, `agency_budget/agency/<NNN>.json`. The engine's JavaScript is imported only
+when another view starts it.
+
 Each PDF family's files load the first time a page that reads them opens, from a tab or a link
 straight into it, with a short "Loading the data for this page" message, and stay loaded for the
 rest of the visit. Schedule C brings its pairing with the spreadsheet (`pdf_sc_disclosure`);
@@ -92,7 +101,7 @@ each once.
 | Capital | Council capital rows by report year, sponsor, borough, district, budget line, title, amount; report-year vs out-year amounts; detail with source link. |
 | Capital vs OMB | The Council-vs-OMB comparison by budget line, disagreements first. |
 | About the data | Coverage, gaps, provenance, credits. Readable before the data loads. |
-| City agency budgets (`#view=agencies`, #270) | The site's other half, with its own h1 and no Council tabs. All agencies for a fiscal year (`abfy`), one agency's units of appropriation (`abag`), one unit across FY2017 on (`abunit`): adopted and modified side by side, the change, a small SVG chart with a table of the same numbers, and a CSV download of what is on screen. A missing figure is words: "Not yet published" or "Not in this year's budget", never $0. Reads `agency_budget.parquet` (the MCP index's table, `mcp/scripts/agency-budget.mjs`), loaded when the view opens. Old `/agencies/` links arrive as `legacy=<slug path>` and are resolved here (`src/agency/legacy.js`). |
+| City agency budgets (`#view=agencies`, #270) | The site's other half, with its own h1 and no Council tabs. All agencies for a fiscal year (`abfy`), one agency's units of appropriation (`abag`), one unit across FY2017 on (`abunit`): adopted and modified side by side, the change, a small SVG chart with a table of the same numbers, and a CSV download of what is on screen. A missing figure is words: "Not yet published" or "Not in this year's budget", never $0. Reads JSON built from the MCP index's `agency_budget` table (`mcp/scripts/agency-budget.mjs`; `data/agency_budget/`: `citywide.json`, `agencies.json`, one `agency/<NNN>.json` per agency, fetched when it is opened), with no DuckDB (#299). Old `/agencies/` links arrive as `legacy=<slug path>` and are resolved here (`src/agency/legacy.js`). |
 | Capital, with a §254 book loaded | The book's printed totals and summary page above the rows, and per row the book's Part I sponsor as printed (`SANCHEZ J.` / `SANCHEZ P.` where the workbook says `Sanchez`), its FY+1..FY+3 columns, its page and review flags. Matched on report year, Council ID (without the agency code) and budget line. |
 | Organizations | §254 Part III: each non-city organization's printed line and its budget-line rows, with whether they add up. Only when a capital book is loaded. |
 | Schedule C | Every row of each loaded year's Schedule C (not only the rows paired with the disclosure): search by year, organization, EIN (the row's or its fiscal conduit's), sponsor (member, Speaker or delegation), category, initiative, agency, amount, and where the row stands against the disclosure (Cleared, Pending, not paired; a paired row links to its spreadsheet row). Shows the program or sub-heading, the fiscal conduit, the FY2018–FY2019 `*` mark ("review not completed") and "no dollar amount" where present. Sub-awards (the Jobs to Build On partner lists) are listed under their award and never added to a total. |

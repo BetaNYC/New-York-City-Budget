@@ -16,7 +16,8 @@ import { BASE_URL, PORT, SITE_BUILT, SITE_ROOT } from "./e2e/pending.js";
 
 export default defineConfig({
   testDir: "e2e",
-  // The first visit downloads the query engine (about 33 MB) and the data.
+  // A Council view's first visit downloads the query engine (about 33 MB) and the data; City
+  // agency budgets does not (#299, e2e/agencies.weight.spec.js).
   timeout: 180_000,
   expect: { timeout: 30_000 },
   fullyParallel: true,

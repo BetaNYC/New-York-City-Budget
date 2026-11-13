@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef } from "react";
 
-import { useQueries } from "../duckdb/useDuckDB.js";
 import { money, plural } from "../format.js";
-import { agencyFiscalYearsQuery, agencyListQuery, agencyNamesQuery, agencyUnitsQuery, agencyYearsQuery, change, pad3 } from "../query/agency.js";
+import { change, pad3 } from "../query/agency.js";
+import { agencyByYear, agencyList, agencyNames, agencyPath, agencyUnits, agenciesPath, cityByYear, citywidePath, fiscalYears, hasAgency, unitByYear, unitNames } from "../agency/data.js";
+import { useAgencyJson } from "../agency/useAgencyJson.js";
 import { resolveLegacy } from "../agency/legacy.js";
 import { writeHash } from "../state/hash.js";
 import { HashLink, Notice } from "../components/ui.jsx";
@@ -12,6 +13,9 @@ import { csvHref } from "../agency/csv.js";
 /**
  * City agency budgets (#270, #286): every City agency's adopted and modified budget, by unit of
  * appropriation, FY2017 on, from NYC Open Data mwzb-yiwb (mcp/scripts/agency-budget.mjs).
+ *
+ * Read from small JSON files built from the same table (src/agency/data.js, #299), never DuckDB:
+ * a first visit is well under 1 MB, where the query engine alone is about 33 MB.
  *
  * Three screens, one view: all agencies for a year (abfy), one agency's units (abag), one unit
  * across every year (abag + abunit). A figure that does not exist is words, never $0:
@@ -25,9 +29,12 @@ import { csvHref } from "../agency/csv.js";
 export const NOT_PUBLISHED = "Not yet published";
 export const NOT_IN_BUDGET = "Not in this year's budget";
 
-export default function Agencies({ state, set, go, manifest }) {
-  const yq = useQueries(true, "agency-years", () => ({ years: agencyFiscalYearsQuery() }));
-  const years = useMemo(() => (yq.data?.years ?? []).map((r) => ({ fiscal_year: Number(r.fiscal_year), has_modified: Boolean(r.has_modified) })), [yq.data]);
+export default function Agencies({ state, set, go }) {
+  const yq = useAgencyJson([citywidePath()]);
+  const city = yq.data?.[citywidePath()] ?? null;
+  const years = useMemo(() => fiscalYears(city), [city]);
+  // The build stamp, for the source note.
+  const manifest = city ? { generated_at: city.generated_at } : null;
   const newest = years[0]?.fiscal_year ?? null;
   const fy = state.abfy && years.some((y) => y.fiscal_year === state.abfy) ? state.abfy : newest;
   const abag = state.abag ? pad3(state.abag) : "";
@@ -37,13 +44,25 @@ export default function Agencies({ state, set, go, manifest }) {
     document.title = "City agency budgets · NYC budget data · BetaNYC";
   }, []);
 
-  if (yq.error) return <Notice tone="error">{String(yq.error.message ?? yq.error)}</Notice>;
+  if (yq.error) return <LoadError q={yq} />;
   if (!years.length) return <Root ready={false}><p className="muted">Loading…</p></Root>;
   if (state.legacy) return <Legacy state={state} set={set} go={go} fy={fy} />;
   const props = { state, set, go, fy, years, newest, abag, abunit, manifest };
   if (abag && abunit) return <UnitScreen {...props} />;
   if (abag) return <AgencyScreen {...props} />;
   return <ListScreen {...props} />;
+}
+
+/** A file that would not load, with a way to try again. */
+function LoadError({ q }) {
+  return (
+    <Notice tone="error">
+      The agency budgets could not be loaded: {String(q.error.message ?? q.error)}.{" "}
+      <button type="button" className="linkish" onClick={q.retry}>
+        Try again
+      </button>
+    </Notice>
+  );
 }
 
 function Root({ ready, children }) {
@@ -161,19 +180,16 @@ function Downloads({ rows, columns, name }) {
 // ---------------------------------------------------------------- all agencies
 
 function ListScreen({ state, set, go, fy, years, newest, manifest }) {
-  const q = useQueries(true, `agency-list|${fy}`, () => ({
-    now: agencyListQuery({ abfy: fy }),
-    prev: years.some((y) => y.fiscal_year === fy - 1) ? agencyListQuery({ abfy: fy - 1 }) : null,
-    city: agencyYearsQuery({ abag: "", abunit: "" }),
-  }));
+  const q = useAgencyJson([agenciesPath()]);
   const heading = useFocusOnChange("list");
   const ready = !q.loading && !q.error && Boolean(q.data);
   const rows = useMemo(() => {
     if (!q.data) return [];
-    const prev = new Map((q.data.prev ?? []).map((r) => [r.agency_number, r]));
-    return q.data.now.map((r) => ({ ...r, prevAdopted: prev.get(r.agency_number)?.adopted ?? null }));
-  }, [q.data]);
-  const city = q.data?.city?.find((r) => Number(r.fiscal_year) === fy);
+    const all = q.data[agenciesPath()];
+    const prev = new Map(agencyList(all, fy - 1).map((r) => [r.agency_number, r]));
+    return agencyList(all, fy).map((r) => ({ ...r, prevAdopted: prev.get(r.agency_number)?.adopted ?? null }));
+  }, [q.data, fy]);
+  const city = cityByYear(q.data?.[citywidePath()]).find((r) => r.fiscal_year === fy);
   return (
     <Root ready={ready}>
       <h2 ref={heading} tabIndex={-1}>
@@ -185,7 +201,7 @@ function ListScreen({ state, set, go, fy, years, newest, manifest }) {
       </p>
       <YearPicker fy={fy} years={years} set={set} />
       <Live text={ready ? `Showing FY${fy}, all agencies, ${plural(rows.length, "agency", "agencies")}.` : ""} />
-      {q.error ? <Notice tone="error">{String(q.error.message ?? q.error)}</Notice> : null}
+      {q.error ? <LoadError q={q} /> : null}
       {ready ? (
         <>
           {city ? (
@@ -284,15 +300,26 @@ function ByYear({ rows, years, newest, title, caption }) {
   );
 }
 
+/**
+ * One agency's file, once agencies.json says the agency exists (an unknown number shows "No
+ * agency" without asking the server for a file that is not there). data is { path: object }; an
+ * unknown agency gives data with no file in it.
+ */
+function useAgencyFile(abag) {
+  const list = useAgencyJson([agenciesPath()]);
+  const known = list.data ? hasAgency(list.data[agenciesPath()], abag) : undefined;
+  const one = useAgencyJson([known ? agencyPath(abag) : null]);
+  if (list.loading || list.error || known === undefined) return list;
+  return known ? one : { ...list, data: {} };
+}
+
 function AgencyScreen({ state, set, go, fy, years, newest, abag, manifest }) {
-  const q = useQueries(true, `agency|${abag}|${fy}`, () => ({
-    units: agencyUnitsQuery({ abfy: fy, abag }),
-    byYear: agencyYearsQuery({ abag, abunit: "" }),
-  }));
+  const q = useAgencyFile(abag);
   const heading = useFocusOnChange(`agency|${abag}`);
   const ready = !q.loading && !q.error && Boolean(q.data);
-  const units = q.data?.units ?? [];
-  const byYear = q.data?.byYear ?? [];
+  const file = q.data?.[agencyPath(abag)];
+  const units = useMemo(() => agencyUnits(file, fy), [file, fy]);
+  const byYear = agencyByYear(file);
   const name = byYear.find((r) => Number(r.fiscal_year) === fy)?.agency_name ?? byYear.at(-1)?.agency_name ?? `Agency ${abag}`;
   const listHref = writeHash({ ...state, abfy: fy, abag: "", abunit: "" });
   if (ready && byYear.length === 0) {
@@ -311,7 +338,7 @@ function AgencyScreen({ state, set, go, fy, years, newest, abag, manifest }) {
       </h2>
       <YearPicker fy={fy} years={years} set={set} />
       <Live text={ready ? `Showing FY${fy}, ${name}, ${plural(units.length, "unit")}.` : ""} />
-      {q.error ? <Notice tone="error">{String(q.error.message ?? q.error)}</Notice> : null}
+      {q.error ? <LoadError q={q} /> : null}
       {ready ? (
         <>
           <h3>Units of appropriation, FY{fy}</h3>
@@ -371,10 +398,10 @@ function AgencyScreen({ state, set, go, fy, years, newest, abag, manifest }) {
 // ---------------------------------------------------------------- one unit
 
 function UnitScreen({ state, set, go, fy, years, newest, abag, abunit, manifest }) {
-  const q = useQueries(true, `unit|${abag}|${abunit}`, () => ({ byYear: agencyYearsQuery({ abag, abunit }) }));
+  const q = useAgencyFile(abag);
   const heading = useFocusOnChange(`unit|${abag}|${abunit}`);
   const ready = !q.loading && !q.error && Boolean(q.data);
-  const byYear = q.data?.byYear ?? [];
+  const byYear = unitByYear(q.data?.[agencyPath(abag)], abunit);
   const latest = byYear.at(-1);
   const agencyName = latest?.agency_name ?? `Agency ${abag}`;
   const unitName = latest?.unit_name ?? "";
@@ -398,7 +425,7 @@ function UnitScreen({ state, set, go, fy, years, newest, abag, abunit, manifest 
       </h2>
       <p className="lede">One unit of appropriation, every year: the budget adopted for it, and the modified budget a year later.</p>
       <Live text={ready ? `Showing ${agencyName}, unit ${abunit} ${unitName}, every year.` : ""} />
-      {q.error ? <Notice tone="error">{String(q.error.message ?? q.error)}</Notice> : null}
+      {q.error ? <LoadError q={q} /> : null}
       {ready ? (
         <>
           <ByYear rows={byYear} years={years} newest={newest} title={`${agencyName}, ${abunit} ${unitName}`} caption={`${agencyName}, unit ${abunit} ${unitName}: adopted and modified by fiscal year`} />
@@ -419,14 +446,24 @@ function UnitScreen({ state, set, go, fy, years, newest, abag, abunit, manifest 
 // ---------------------------------------------------------------- old /agencies/ links
 
 function Legacy({ state, set, go, fy }) {
-  const q = useQueries(true, "agency-names", () => ({ names: agencyNamesQuery() }));
-  const r = useMemo(() => (q.data ? resolveLegacy(state.legacy, q.data.names) : undefined), [q.data, state.legacy]);
+  // The agency first, from every name in agencies.json; then, for a unit, that agency's file.
+  const [agencyPart = "", unitPart = ""] = String(state.legacy ?? "").split("/");
+  const aq = useAgencyJson([agenciesPath()]);
+  const found = useMemo(() => (aq.data ? resolveLegacy(agencyPart, agencyNames(aq.data[agenciesPath()])) : undefined), [aq.data, agencyPart]);
+  const fq = useAgencyJson([found && unitPart ? agencyPath(found.abag) : null]);
+  const q = aq.error ? aq : fq;
+  const r = useMemo(() => {
+    if (found === undefined) return undefined;
+    if (found === null || !unitPart) return found;
+    const file = fq.data?.[agencyPath(found.abag)];
+    return file ? resolveLegacy(state.legacy, unitNames(file)) ?? found : undefined;
+  }, [found, unitPart, fq.data, state.legacy]);
   const resolved = r && r.candidates.length === 0;
   useEffect(() => {
     // Replace, not push: the old link becomes the new address, and Back leaves the page.
     if (resolved) set({ legacy: "", abfy: state.abfy, abag: r.abag, abunit: r.abunit });
   }, [resolved]); // eslint-disable-line react-hooks/exhaustive-deps
-  if (q.error) return <Notice tone="error">{String(q.error.message ?? q.error)}</Notice>;
+  if (q.error) return <LoadError q={q} />;
   if (r === undefined || resolved) return <Root ready={false}><p className="muted" role="status">Opening your link…</p></Root>;
   const listHref = writeHash({ ...state, legacy: "", abag: "", abunit: "" });
   if (r === null) {

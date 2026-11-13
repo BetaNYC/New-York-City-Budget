@@ -19,7 +19,10 @@ export const TABLES = ["disclosure", "disclosure_years", "capital_council", "cap
  */
 export const BASE = [...TABLES, "pdf_years"];
 
-/** City agency budgets (mcp/scripts/agency-budget.mjs AGENCY_BUDGET_TABLES); never on a first Council visit. */
+/**
+ * City agency budgets (mcp/scripts/agency-budget.mjs AGENCY_BUDGET_TABLES). The build still writes
+ * its Parquet (the parity tests and SQL users read it), but the agency view reads JSON (#299).
+ */
 export const AGENCY_TABLES = ["agency_budget"];
 
 /** Review notes behind every PDF row's flag badge (src/components/pdf.jsx), for any family, and the
@@ -77,9 +80,8 @@ export function tablesForView(state, manifest, { extras = false } = {}) {
     case "about":
       return [];
     case "agencies":
-      // City agency budgets (#270): its one table, loaded when the view first opens.
-      need = AGENCY_TABLES;
-      break;
+      // City agency budgets reads JSON, not DuckDB (#299; src/agency/data.js): no table at all.
+      return [];
     case "award":
       need = [...fam("schedule_c"), ...od];
       break;
