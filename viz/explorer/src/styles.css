@@ -311,3 +311,9 @@ button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
   table.stack td[data-label]::before { content: attr(data-label); display: block; font-size: 0.75rem; color: var(--muted); font-weight: 600; }
 }
 main.wrap:focus { outline: none; }
+
+/* The citywide chart and summary on the agency list (#300). */
+.agencies .citywide { margin: 1rem 0 1.5rem; }
+.agencies .yoy { display: block; }
+.agencies .table-details > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 600; color: var(--bnyc-blue); }
+.agencies .table-details > summary:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: 2px; }

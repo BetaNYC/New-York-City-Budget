@@ -58,11 +58,13 @@ describe(`Agency budgets: WCAG 2.2 AA${VIEW_PENDING ? ` (${VIEW_PENDING})` : ""}
       expect(await tables.count()).toBeGreaterThan(0);
       for (const t of await tables.all()) {
         await expect(t.locator("caption")).toHaveCount(1);
-        expect((await t.locator("caption").innerText()).trim().length).toBeGreaterThan(0);
+        // textContent, not innerText: a table in a closed <details> (the citywide one, #300) is
+        // still a captioned table; innerText of a hidden element is "".
+        expect(((await t.locator("caption").textContent()) ?? "").trim().length).toBeGreaterThan(0);
         for (const th of await t.locator("th").all()) expect(["col", "row", "colgroup", "rowgroup"]).toContain(await th.getAttribute("scope"));
       }
-      await expect(page.locator('[data-view="agencies"] th', { hasText: /adopted/i }).first()).toBeVisible();
-      await expect(page.locator('[data-view="agencies"] th', { hasText: /modified/i }).first()).toBeVisible();
+      await expect(page.locator('[data-view="agencies"] th:visible', { hasText: /adopted/i }).first()).toBeVisible();
+      await expect(page.locator('[data-view="agencies"] th:visible', { hasText: /modified/i }).first()).toBeVisible();
     });
   }
 

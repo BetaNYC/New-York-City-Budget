@@ -51,3 +51,16 @@ describe("Agency budgets view helpers", () => {
     expect(pad3("police")).toBe("police");
   });
 });
+
+describe("citywide summary (#300)", () => {
+  test("the change from the year before reads like the old app's summary", async () => {
+    // FY2026 vs FY2025, as the old /agencies/ app showed them (Noel's QA, 2026-11-12).
+    const { pctText } = await import("../../src/views/Agencies.jsx");
+    expect(pctText(114384991832, 117791473676)).toBe("+3.0%");
+    expect(pctText(123844584236, 129228819136)).toBe("+4.3%");
+    expect(pctText(100, 90)).toBe("−10.0%");
+    // FAILS if a missing figure (not yet published) turns into a change from or to $0.
+    expect(pctText(123844584236, null)).toBeNull();
+    expect(pctText(null, 5)).toBeNull();
+  });
+});

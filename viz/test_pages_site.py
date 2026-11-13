@@ -327,6 +327,20 @@ def test_every_footer_has_the_site_and_betanyc():
             assert url in foot, (page["path"], url)
 
 
+def test_site_nav_order_and_labels():
+    """FAILS if the primary nav, top bar or footer, on any page, is not in Noel's order with Noel's
+    labels (2026-11-12, #300)."""
+    want = ["Home", "City agency budgets", "Community board budgets", "Council discretionary funding", "Budget MCP", "About"]
+    shell = _shell()
+    assert [label for _k, _h, label in shell.NAV] == want
+    for page in shell.PAGES:
+        text = _read(page["path"])
+        top = text.split('<nav class="bnyc-shell"', 1)[1].split("</nav>", 1)[0]
+        foot = text.split(shell.BOT_START.split(" (")[0], 1)[1].split('id="bnyc-foot-h-site"', 1)[1].split("</ul>", 1)[0]
+        for where, part in (("top", top), ("footer", foot)):
+            got = re.findall(r"<li><a [^>]*>([^<]+)</a></li>", part)
+            assert got == want, (page["path"], where, got)
+
 def test_mcp_page_names_every_tool_and_our_other_servers():
     """FAILS if the budget MCP's page (Noel, 2026-11-10) misses a tool the server registers
     (mcp/src), its setup line, or one of BetaNYC's other MCP servers."""

@@ -70,12 +70,14 @@ PAGES = [
 ]
 
 # The site's pages, in the order Noel set on 2026-11-10: the top bar and the footer both use it.
+# The site's primary nav, top bar and footer, in this order with these labels (Noel, 2026-11-12;
+# #300). viz/test_pages_site.py checks the order.
 NAV = [
     ("home", "", "Home"),
-    ("boards", "agencies/boards.html", "Community boards"),
-    ("council", "explorer/", "Council discretionary funding"),
     # The City agency budgets view in the explorer (#270, #288); agencies/ forwards old links there.
     ("agencies", "explorer/#view=agencies", "City agency budgets"),
+    ("boards", "agencies/boards.html", "Community board budgets"),
+    ("council", "explorer/", "Council discretionary funding"),
     ("mcp", "mcp.html", "Budget MCP"),
     ("about", "about.html", "About"),
 ]

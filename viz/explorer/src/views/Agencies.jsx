@@ -189,7 +189,7 @@ function ListScreen({ state, set, go, fy, years, newest, manifest }) {
     const prev = new Map(agencyList(all, fy - 1).map((r) => [r.agency_number, r]));
     return agencyList(all, fy).map((r) => ({ ...r, prevAdopted: prev.get(r.agency_number)?.adopted ?? null }));
   }, [q.data, fy]);
-  const city = cityByYear(q.data?.[citywidePath()]).find((r) => r.fiscal_year === fy);
+  const cityRows = cityByYear(q.data?.[citywidePath()]);
   return (
     <Root ready={ready}>
       <h2 ref={heading} tabIndex={-1}>
@@ -204,11 +204,8 @@ function ListScreen({ state, set, go, fy, years, newest, manifest }) {
       {q.error ? <LoadError q={q} /> : null}
       {ready ? (
         <>
-          {city ? (
-            <p className="big">
-              Citywide, FY{fy}: adopted <strong>{money(city.adopted)}</strong>; modified <strong><Fig v={city.modified} kind="modified" year={fy} newest={newest} /></strong>.
-            </p>
-          ) : null}
+          <Citywide rows={cityRows} fy={fy} years={years} newest={newest} />
+          <h3>Agencies, FY{fy}</h3>
           <table className="rows stack agency-table">
             <caption>
               Adopted and modified budgets by agency, FY{fy} ({plural(rows.length, "agency", "agencies")}, largest adopted first)
@@ -257,9 +254,60 @@ function ListScreen({ state, set, go, fy, years, newest, manifest }) {
   );
 }
 
+/** "+3.0%" / "−1.2%" from one figure to the next, or null when either is missing. */
+export function pctText(from, to) {
+  const c = change(from, to);
+  if (!c || c.pct == null) return null;
+  const sign = c.pct > 0 ? "+" : c.pct < 0 ? "−" : "";
+  return `${sign}${Math.abs(c.pct).toFixed(1)}%`;
+}
+
+/**
+ * The citywide budget, the old /agencies/ app's opening chart (#300): adopted and modified for
+ * every year, with the chosen year's summary line (each figure and its change from the year
+ * before), from citywide.json. The newest year's modified is "Not yet published", never $0.
+ */
+function Citywide({ rows, fy, years, newest }) {
+  const now = rows.find((r) => r.fiscal_year === fy);
+  const prev = rows.find((r) => r.fiscal_year === fy - 1);
+  if (!now) return null;
+  const first = rows[0]?.fiscal_year;
+  const part = (kind) => {
+    const pct = pctText(prev?.[kind], now[kind]);
+    return (
+      <>
+        {kind} <strong><Fig v={now[kind]} kind={kind} year={fy} newest={newest} /></strong>
+        {pct ? ` (${pct} from FY${fy - 1})` : ""}
+      </>
+    );
+  };
+  return (
+    <section className="citywide" aria-labelledby="citywide-h">
+      <h3 id="citywide-h">New York City budget, FY{first}–FY{newest}</h3>
+      <p className="big citywide-summary">
+        FY{fy}: {part("adopted")}; {part("modified")}.
+      </p>
+      <ByYear
+        rows={rows}
+        years={years}
+        newest={newest}
+        title="New York City budget"
+        caption={`New York City budget, all agencies: adopted and modified by fiscal year, FY${first}–FY${newest}, with the change from the year before`}
+        yearOverYear
+        tableLabel="Show the citywide numbers as a table"
+      />
+    </section>
+  );
+}
+
 // ---------------------------------------------------------------- one agency
 
-function ByYear({ rows, years, newest, title, caption }) {
+/**
+ * The chart, then a table of the same numbers. With `tableLabel`, the table sits in a closed
+ * <details> (the citywide one is eleven rows that would push the agency list far down a phone);
+ * the chart's text alternative and the summary line still say what it shows.
+ */
+function ByYear({ rows, years, newest, title, caption, yearOverYear = false, tableLabel = null }) {
   const byYear = new Map(rows.map((r) => [Number(r.fiscal_year), r]));
   const all = [...years].map((y) => y.fiscal_year).sort((a, b) => a - b);
   const series = all.map((y) => {
@@ -269,6 +317,7 @@ function ByYear({ rows, years, newest, title, caption }) {
   return (
     <>
       <YearChart series={series} title={title} newest={newest} />
+      <MaybeDetails label={tableLabel}>
       <table className="rows stack agency-years">
         <caption>{caption}</caption>
         <thead>
@@ -276,27 +325,42 @@ function ByYear({ rows, years, newest, title, caption }) {
             <th scope="col">Fiscal year</th>
             <th scope="col" className="num">Adopted</th>
             <th scope="col" className="num">Modified</th>
-            <th scope="col" className="num">Modified minus adopted</th>
+            {yearOverYear ? null : <th scope="col" className="num">Modified minus adopted</th>}
           </tr>
         </thead>
         <tbody>
-          {series.map((s) => (
+          {series.map((s, i) => (
             <tr key={s.year}>
               <th scope="row">FY{s.year}</th>
               <td className="num" data-label="Adopted">
                 <Fig v={s.adopted} kind="adopted" year={s.year} newest={newest} />
+                {yearOverYear ? <YoY from={series[i - 1]?.adopted} to={s.adopted} /> : null}
               </td>
               <td className="num" data-label="Modified">
                 <Fig v={s.modified} kind="modified" year={s.year} newest={newest} />
+                {yearOverYear ? <YoY from={series[i - 1]?.modified} to={s.modified} /> : null}
               </td>
-              <td className="num" data-label="Modified minus adopted">
-                <Change c={change(s.adopted, s.modified)} />
-              </td>
+              {yearOverYear ? null : (
+                <td className="num" data-label="Modified minus adopted">
+                  <Change c={change(s.adopted, s.modified)} />
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
       </table>
+      </MaybeDetails>
     </>
+  );
+}
+
+function MaybeDetails({ label, children }) {
+  if (!label) return children;
+  return (
+    <details className="table-details">
+      <summary>{label}</summary>
+      {children}
+    </details>
   );
 }
 
@@ -311,6 +375,12 @@ function useAgencyFile(abag) {
   const one = useAgencyJson([known ? agencyPath(abag) : null]);
   if (list.loading || list.error || known === undefined) return list;
   return known ? one : { ...list, data: {} };
+}
+
+/** A figure's change from the year before, under it ("+3.0% from the year before"). */
+function YoY({ from, to }) {
+  const pct = pctText(from, to);
+  return pct ? <span className="yoy muted small">{pct} from the year before</span> : null;
 }
 
 function AgencyScreen({ state, set, go, fy, years, newest, abag, manifest }) {
