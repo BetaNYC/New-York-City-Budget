@@ -369,3 +369,8 @@ main.wrap:focus { outline: none; }
   .agencies table.sortable-table thead th.num button { white-space: normal; min-width: 5.5rem; }
 }
 .agencies .split { margin-top: 0.15rem; }
+/* Phones (the stacked layout, and any touch screen): row, crumb, explainer and download links are
+   44px tall tap targets, like the buttons and selects (QA of #294/#307). */
+@media (max-width: 600px), (pointer: coarse) {
+  .agencies table.rows th[scope="row"] a, .agencies .crumbs a, .agencies .explainer-note a, .agencies .downloads a { display: inline-flex; align-items: center; min-height: 44px; }
+}
