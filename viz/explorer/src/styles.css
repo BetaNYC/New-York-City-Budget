@@ -358,3 +358,14 @@ main.wrap:focus { outline: none; }
   .agencies table.stack.sortable-table thead th.num button { justify-content: flex-start; text-align: left; }
   .agencies table.stack.sortable-table thead th + th::before { content: none; }
 }
+/* One-year tables on wider screens (#307 QA at 1000px): the name column takes the room, number
+   columns stay snug (figures on one line, words and header labels may wrap), nothing is cut off. */
+@media (min-width: 601px) {
+  .agencies table.sortable-table { width: 100%; table-layout: auto; }
+  .agencies table.sortable-table tbody th[scope="row"] { width: auto; min-width: 12rem; }
+  .agencies table.sortable-table td.num { width: 1%; white-space: nowrap; }
+  .agencies table.sortable-table td.num .words { display: inline-block; white-space: normal; min-width: 6.5rem; max-width: 8.5rem; text-align: right; }
+  .agencies table.sortable-table thead th.num { width: 1%; }
+  .agencies table.sortable-table thead th.num button { white-space: normal; min-width: 5.5rem; }
+}
+.agencies .split { margin-top: 0.15rem; }

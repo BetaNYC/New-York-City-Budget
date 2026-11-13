@@ -100,7 +100,9 @@ describe(`City agency budgets: sorting, colors, split units${VIEW_PENDING ? ` ($
     await openView(page, NYPD_26);
     await expect(page.locator("section.one-year .split-note")).toHaveText("Units can be split or renumbered between years; a large change may be a move, not a cut.");
     const row = page.locator("section.one-year tbody tr", { has: page.locator("th", { hasText: /^001\s/ }) });
-    await expect(row.locator(".split")).toHaveText("POLICE DEPARTMENT added units 011, 012, 110, 120 in FY2026");
+    // In the Unit cell, under the name (#307 QA), in the same normal case.
+    await expect(row.locator('th[scope="row"] .split')).toHaveText("Police Department added units 011, 012, 110, 120 in FY2026.");
+    await expect(row.locator("td .split")).toHaveCount(0);
     const unit11 = page.locator("section.one-year tbody tr", { has: page.locator("th", { hasText: /^011\s/ }) });
     await expect(unit11.locator('td[data-label="vs. FY2025 adopted"]')).toHaveText("New unit in FY2026");
   });
@@ -112,4 +114,41 @@ describe(`City agency budgets: sorting, colors, split units${VIEW_PENDING ? ` ($
     await expect(cell.locator("[title]")).toHaveAttribute("title", "$766,619,276");
     await expect(cell.locator(".visually-hidden")).toHaveText("$766,619,276");
   });
+
+  test("names in normal case on screen, the source capitals in a title; links and CSV keep the source", async ({ page }) => {
+    await openView(page, NYPD_26);
+    await expect(page.locator('[data-view="agencies"] h2 [title="POLICE DEPARTMENT"]')).toHaveText("Police Department");
+    const names = page.locator("section.one-year tbody th[scope=row] a [title]");
+    const shown = Object.fromEntries(await names.evaluateAll((els) => els.map((el) => [el.getAttribute("title"), el.textContent])));
+    expect(shown["PATROL - PS"]).toBe("Patrol - PS");
+    expect(shown["CHIEF OF DEPARTMENT - OTPS"]).toBe("Chief of Department - OTPS");
+    expect(shown["SCHOOL SAFETY- P.S."]).toBe("School Safety - PS");
+    const csv = decodeURIComponent((await page.locator(".downloads a").first().getAttribute("href")) ?? "");
+    expect(csv).toContain("PATROL - PS");
+  });
+
+  for (const width of [1000, 1280]) {
+    for (const [name, path] of [
+      ["list", PAGES.list],
+      ["agency", NYPD_26],
+    ]) {
+      test(`nothing is cut off at ${width}px; the name column is the widest: ${name}`, async ({ page }, info) => {
+        // FAILS if the one-year table is wider than its section (the last column cut off), or a
+        // number column takes more room than the names (#307 QA at 1000px).
+        test.skip(info.project.name !== "desktop", "Pixel 7 keeps the stacked layout (agencies.mobile)");
+        await page.setViewportSize({ width, height: 900 });
+        await openView(page, path);
+        const m = await page.locator("section.one-year table").evaluate((t) => {
+          const box = t.parentElement.getBoundingClientRect();
+          const heads = [...t.querySelectorAll("thead th")].map((th) => th.getBoundingClientRect().width);
+          return { scroll: t.scrollWidth, container: t.parentElement.clientWidth, right: t.getBoundingClientRect().right, boxRight: box.right, heads };
+        });
+        expect(m.scroll, "table scrollWidth vs. its container").toBeLessThanOrEqual(m.container);
+        expect(m.right).toBeLessThanOrEqual(m.boxRight + 0.5);
+        expect(m.heads[0], `column widths ${m.heads.map(Math.round).join(", ")}`).toBeGreaterThan(Math.max(...m.heads.slice(1)));
+        const last = await page.locator("section.one-year thead th").last().boundingBox();
+        expect(last.x + last.width).toBeLessThanOrEqual(width);
+      });
+    }
+  }
 });

@@ -151,3 +151,19 @@ describe("short money, colored changes, sorting, split units (#307)", () => {
     expect(splitHints(units, 2017, 2017).added).toEqual([]);
   });
 });
+
+describe("names in normal case for the screen (#307)", () => {
+  test("acronyms stay capitals; of, and, for lowercase; P.S. and dashes tidied", async () => {
+    const { displayName } = await import("../../src/agency/names.js");
+    expect(displayName("PATROL - PS")).toBe("Patrol - PS");
+    expect(displayName("CHIEF OF DEPARTMENT - OTPS")).toBe("Chief of Department - OTPS");
+    expect(displayName("POLICE DEPARTMENT")).toBe("Police Department");
+    expect(displayName("SCHOOL SAFETY- P.S.")).toBe("School Safety - PS");
+    expect(displayName("PATROL, HOUSING & TRANSIT - OTPS")).toBe("Patrol, Housing & Transit - OTPS");
+    expect(displayName("CITY UNIVERSITY OF NEW YORK - CUNY")).toBe("City University of New York - CUNY");
+    expect(displayName("DEPT OF EDUCATION")).toBe("Dept of Education");
+    expect(displayName("FOR NYC PRE-K")).toBe("For NYC Pre-K");
+    expect(displayName("MAYOR'S OFFICE")).toBe("Mayor's Office");
+    expect(displayName(null)).toBeNull();
+  });
+});

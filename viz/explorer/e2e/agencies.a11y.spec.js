@@ -94,13 +94,13 @@ describe(`Agency budgets: WCAG 2.2 AA${VIEW_PENDING ? ` (${VIEW_PENDING})` : ""}
     await expect(year).toBeFocused();
     const outline = await year.evaluate((el) => getComputedStyle(el).outlineStyle);
     expect(outline, "focus is visible on the year picker").not.toBe("none");
-    const nypd = page.locator('[data-view="agencies"] a', { hasText: "POLICE DEPARTMENT" }).first();
+    const nypd = page.locator('[data-view="agencies"] a', { hasText: /^Police Department$/ }).first();
     await nypd.focus();
     await page.keyboard.press("Enter");
     await page.locator('[data-view="agencies"][data-ready="true"]').waitFor();
     await expect(page).toHaveURL(/abag=056/);
     const focused = page.locator(":focus");
-    await expect(focused).toHaveText(/POLICE DEPARTMENT/);
+    await expect(focused).toHaveText(/Police Department/);
     expect(await focused.evaluate((el) => /^H[1-6]$/.test(el.tagName))).toBe(true);
   });
 

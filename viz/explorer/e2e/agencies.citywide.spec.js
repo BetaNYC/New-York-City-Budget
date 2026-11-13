@@ -119,8 +119,8 @@ describe(`City agency budgets: trend first, then one year${VIEW_PENDING ? ` (${V
     const note = view(page).locator(".explainer-note");
     await expect(note).toContainText(/adopted/i);
     await expect(note).toHaveText("Adopted = the plan agreed on in June. Modified = where it stood a year later. More about these.");
-    await expect(view(page).getByRole("heading", { level: 3, name: "POLICE DEPARTMENT, over time" })).toBeVisible();
-    await expect(view(page).locator("section.trend .citywide-summary")).toContainText(/In FY2026 the City adopted \$[\d.]+B\$[\d,]+ for POLICE DEPARTMENT/);
+    await expect(view(page).getByRole("heading", { level: 3, name: "Police Department, over time" })).toBeVisible();
+    await expect(view(page).locator("section.trend .citywide-summary")).toContainText(/In FY2026 the City adopted \$[\d.]+B\$[\d,]+ for Police Department/);
     await expect(view(page).locator("section.trend table")).toBeVisible();
     await expect(view(page).getByRole("heading", { level: 3, name: "Its units in FY2025" })).toBeVisible();
     await note.getByRole("link", { name: "More about these" }).click();

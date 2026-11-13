@@ -5,6 +5,7 @@ import { change, pad3 } from "../query/agency.js";
 import { agencyByYear, agencyList, agencyNames, agencyPath, agencyUnits, agenciesPath, cityByYear, citywidePath, fiscalYears, hasAgency, unitByYear, unitNames } from "../agency/data.js";
 import { useAgencyJson } from "../agency/useAgencyJson.js";
 import { resolveLegacy } from "../agency/legacy.js";
+import { displayName } from "../agency/names.js";
 import { writeHash } from "../state/hash.js";
 import { HashLink, Notice } from "../components/ui.jsx";
 import { YearChart } from "../components/YearChart.jsx";
@@ -327,6 +328,11 @@ function Downloads({ rows, columns, name }) {
 // ---------------------------------------------------------------- all agencies
 
 /** A section heading with its numbered step circle (1: over time, 2: one year). */
+/** A name in normal case on screen, its source capitals in a title (#307). */
+function Name({ s }) {
+  return <span title={s}>{displayName(s)}</span>;
+}
+
 function StepHeading({ n, id, children }) {
   return (
     <h3 id={id} className="step-heading">
@@ -350,13 +356,15 @@ function OneYearTable({ caption, rows, cols, sort, noun, renderName, fy, first, 
         <tbody>
           {sort.sorted.map((r) => (
             <tr key={cols[0].number(r)}>
-              <th scope="row">{renderName(r)}</th>
+              <th scope="row">
+                {renderName(r)}
+                {split?.(r)}
+              </th>
               <td className="num" data-label={cols[1].label}>
                 <Fig v={r.adopted} kind="adopted" year={fy} newest={newest} />
               </td>
               <td className="num" data-label={cols[2].label}>
                 <VsLastYear prevRow={r.prev} row={r} year={fy} first={first} noun={noun} seenBefore={r.seenBefore} />
-                {split?.(r)}
               </td>
               <td className="num" data-label={cols[3].label}>
                 <Fig v={r.modified} kind="modified" year={fy} newest={newest} />
@@ -436,7 +444,7 @@ function ListScreen({ state, set, go, fy, years, newest, manifest }) {
               renderName={(r) => (
                 <>
                   <HashLink href={writeHash({ ...state, abfy: fy, abag: r.agency_number, abunit: "" })} onGo={() => go({ abfy: fy, abag: r.agency_number, abunit: "" })}>
-                    {r.agency_name}
+                    <Name s={r.agency_name} />
                   </HashLink>{" "}
                   <span className="muted small">{r.agency_number}</span>
                 </>
@@ -699,7 +707,8 @@ function AgencyScreen({ state, set, go, fy, years, newest, abag, manifest }) {
   const sort = useSort(units, cols, "unit");
   const hints = useMemo(() => splitHints(units, fy, first), [units, fy, first]);
   const byYear = agencyByYear(file);
-  const name = byYear.find((r) => Number(r.fiscal_year) === fy)?.agency_name ?? byYear.at(-1)?.agency_name ?? `Agency ${abag}`;
+  const sourceName = byYear.find((r) => Number(r.fiscal_year) === fy)?.agency_name ?? byYear.at(-1)?.agency_name ?? `Agency ${abag}`;
+  const name = displayName(sourceName);
   const listHref = writeHash({ ...state, abfy: fy, abag: "", abunit: "" });
   if (ready && byYear.length === 0) {
     return (
@@ -714,7 +723,7 @@ function AgencyScreen({ state, set, go, fy, years, newest, abag, manifest }) {
     <Root ready={ready}>
       <Crumbs items={[["All agencies", listHref, () => go({ abag: "", abunit: "" })], [name]]} />
       <h2 ref={heading} tabIndex={-1}>
-        {name} <span className="muted small">agency {abag}</span>
+        <span title={sourceName}>{name}</span> <span className="muted small">agency {abag}</span>
       </h2>
       <ExplainerNote state={{ ...state, abfy: fy }} go={go} />
       {q.error ? <LoadError q={q} /> : null}
@@ -753,13 +762,13 @@ function AgencyScreen({ state, set, go, fy, years, newest, abag, manifest }) {
                   split={(u) =>
                     hints.dropped.has(u.unit_number) && others(u).length ? (
                       <span className="split">
-                        {name} added unit{others(u).length > 1 ? "s" : ""} {others(u).join(", ")} in FY{fy}
+                        {name} added unit{others(u).length > 1 ? "s" : ""} {others(u).join(", ")} in FY{fy}.
                       </span>
                     ) : null
                   }
                   renderName={(u) => (
                     <HashLink href={writeHash({ ...state, abfy: fy, abag, abunit: u.unit_number })} onGo={() => go({ abfy: fy, abag, abunit: u.unit_number })}>
-                      <span className="unit-number">{u.unit_number}</span> {u.unit_name}
+                      <span className="unit-number">{u.unit_number}</span> <Name s={u.unit_name} />
                     </HashLink>
                   )}
                 />
@@ -788,8 +797,8 @@ function UnitScreen({ state, set, go, fy, years, newest, abag, abunit, manifest 
   const ready = !q.loading && !q.error && Boolean(q.data);
   const byYear = unitByYear(q.data?.[agencyPath(abag)], abunit);
   const latest = byYear.at(-1);
-  const agencyName = latest?.agency_name ?? `Agency ${abag}`;
-  const unitName = latest?.unit_name ?? "";
+  const agencyName = displayName(latest?.agency_name ?? `Agency ${abag}`);
+  const unitName = displayName(latest?.unit_name ?? "");
   const listHref = writeHash({ ...state, abfy: fy, abag: "", abunit: "" });
   const agencyHref = writeHash({ ...state, abfy: fy, abag, abunit: "" });
   if (ready && byYear.length === 0) {
@@ -806,7 +815,7 @@ function UnitScreen({ state, set, go, fy, years, newest, abag, abunit, manifest 
     <Root ready={ready}>
       <Crumbs items={[["All agencies", listHref, () => go({ abag: "", abunit: "" })], [agencyName, agencyHref, () => go({ abunit: "" })], [`${abunit} ${unitName}`]]} />
       <h2 ref={heading} tabIndex={-1}>
-        {abunit} {unitName} <span className="muted small">{agencyName}</span>
+        {abunit} <span title={latest?.unit_name}>{unitName}</span> <span className="muted small" title={latest?.agency_name}>{agencyName}</span>
       </h2>
       <p className="lede">One unit of appropriation, every year: the budget adopted for it, and the modified budget a year later.</p>
       <Live text={ready ? `Showing ${agencyName}, unit ${abunit} ${unitName}, every year.` : ""} />
@@ -870,7 +879,7 @@ function Legacy({ state, set, go, fy }) {
         {r.candidates.map((c) => (
           <li key={c.unit_number}>
             <HashLink href={writeHash({ ...state, legacy: "", abag: r.abag, abunit: c.unit_number })} onGo={() => set({ legacy: "", abag: r.abag, abunit: c.unit_number })}>
-              Unit {c.unit_number}: {c.unit_name}
+              Unit {c.unit_number}: <Name s={c.unit_name} />
             </HashLink>
           </li>
         ))}
