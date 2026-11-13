@@ -69,6 +69,7 @@ export const CHECK_WORDS: Record<string, string> = {
   // ---- Transparency resolutions: code/transreso/checks.py, code/parse_transparency_v2.py
   "K.adopted_before_fy": "This resolution is dated before its fiscal year began.",
   "K.no_fiscal_year": "This chart prints no fiscal year.",
+  "K.org_is_ein": "The PDF prints a tax ID number where the organization's name should be.",
   "K.no_resolution_number": "The PDF prints no resolution number.",
   "K.repeated_chart": "The same rows are printed more than once in this resolution.",
   "T3.chart_number": "A chart's caption prints a different number from the one it is read as.",

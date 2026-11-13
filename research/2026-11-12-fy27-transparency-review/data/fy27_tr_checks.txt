@@ -1,0 +1,56 @@
+TRANSPARENCY RESOLUTIONS FY2027 -- checks (code/parse_transparency_v2.py; config config/transparency/fy2027.toml)
+4 PDFs, 227 pages, 227 chart pages, 155 charts
+
+rows: 2,808
+  designate      2,020 rows  $      79,942,733
+  rescind          650 rows  $     -78,697,733
+  purpose_from      69 rows  $     -12,683,750
+  purpose_to        69 rows  $      12,683,750
+  budget year 2025: 10 rows
+  budget year 2026: 49 rows
+  budget year 2027: 2,742 rows
+  no budget year printed: 7 rows
+
+PER RESOLUTION (rows; organizations: designations / rescissions; agency side net; purpose rows)
+   1 Res 0551-2026 2026-07-16:   719 rows, 38 charts (prints 38); +448 $13,417,188 / 202 $-7,052,800; agency side $-6,364,388; purpose 22
+   2 Res 0595-2026 2026-08-13:   425 rows, 40 charts (prints 40); +240 $22,821,060 / 106 $-7,974,500; agency side $-14,706,560; purpose 30
+   3 Res 0652-2026 2026-09-24: 1,297 rows, 49 charts (prints 49); +1,091 $33,872,762 / 113 $-5,970,074; agency side $-27,302,688; purpose 56
+   4 Res 0695-2026 2026-10-22:   367 rows, 28 charts (prints 28); +208 $5,971,781 / 99 $-2,271,973; agency side $-3,194,808; purpose 30
+
+HARD CHECKS
+  ok    T1.input             4 PDFs, 227 pages; 0 differ from config
+  ok    T2.triage            227 pages surveyed; 0 fail the text-layer gate
+  ok    T3.charts            155 charts on 227 pages; printed chart counts tie on 4 of 4 resolutions that print one; 0 caption problems; 0 numbering problems; 2 pages repeat a caption without '(continued)' and 0 print the wrong chart number on a '(continued)' caption (named exceptions, read as continuations)
+  ok    T4.headers           0 unrecognised headers
+  ok    T5.anchors           2809 EIN-shaped words on the visible text (2809 counting clipped letters), 2808 rows with an EIN; 1 printed inside an organization (a named exception in the config); 0 pages differ; 0 rows without a readable amount; 0 rows print no EIN
+  ok    T6.furniture         0 data cells holding header/footer text; 0 unexpected lines under tables
+  ok    T7.chars             325852 non-space chars; 0 in a table but in no cell; 0 clipped (hidden) chars in 0 runs, each listed for review
+  ok    T10.sign_colour      719 amounts in parentheses, all red; 0 rows where sign and colour disagree
+  ok    T11.markers          429 rows marked **, 8 marked ***, 0 pending pre-qualification; 0 without their footnote or with an odd * cell
+  ok    T12.fiscal_year      152 charts print a fiscal year, all named in their resolution's text; 3 print none (warn, in the review file); 0 name a year the text does not (0 a named exception in the config, kept as printed and in the review file)
+  ok    T13.dates            0 resolutions print their date and it matches; all 4 filename dates equal the Legistar adoption dates in the config
+  ok    T14.provenance       2808 row ids, 2808 unique
+  ok    T15.printed_totals   0 money amounts printed outside the tables on chart pages: the FY2027 charts print no totals, so there is nothing to tie (the arithmetic is reported, not checked)
+  ok    T16.values           0 clean values not reproducible from raw
+
+IMAGE LATTICE (H8): rows rebuilt from code/ocr/grid.py lattices, compared field by field
+  agree on every field: 2,808 of 2,808
+  image rows with no vector row: 0
+  header rules found in header pixels (not in the lattice): 20 pages
+INK COVERAGE (H9): uncovered-ink regions inside the chart tables
+  regions: 0  uncovered px total: 0 of 105,851,609 ink px
+  acceptance on Reso 01 p.1 (fy27-tr01-p001-r003): clean run 0 regions; row withheld -> 7; one char withheld -> 1 (PASS)
+
+DISCLOSURE (report-only; data/fyNN/expense_disclosure)
+  budget year 2025: 3 organization designations; 3 found in the disclosure on (EIN, amount) ($20,000); not found: 
+  budget year 2026: 19 organization designations; 15 found in the disclosure on (EIN, amount) ($2,410,000); not found: amount_differs 1, city_ein_name_mismatch 3
+  budget year 2027: 1,962 organization designations; 952 found in the disclosure on (EIN, amount) ($36,196,864); not found: amount_differs 796, city_ein_name_mismatch 14, ein_not_in_disclosure 70, key_already_claimed 89, later_rescinded 41
+  rescissions of organizations: 520; where the money was designated before: earlier_resolution 205, not_found 23, partial 49, schedule_c 243 (schedule_c: the checked data/fy27/pdf/schedule_c/fy27_sc_awards.csv)
+
+RETIRED CSV: none (data/fy27/transparency-resolutions/fy27_transparency_all.csv does not exist)
+
+ROW FLAG COUNTS (all listed in flags.csv; review file holds only those that could change a value)
+  ein_no_hyphen 31, made_cell_empty 31, spanning_cell 118, wrap_hyphen 7
+  zero-width chars dropped: 13
+
+REVIEW FILE: 10 rows (1 critical, 9 warn); stale decisions: 0

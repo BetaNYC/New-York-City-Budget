@@ -367,7 +367,7 @@ test("the release manifest pretest built is well formed", () => {
   assert.match(m.source_commit, /^[0-9a-f]{40}$/);
   assert.equal(m.files[0].sha256, sha256(join(RELEASE, "pdf-tables.db.gz")));
   assert.equal(m.files[0].unpacked.sha256, sha256(join(RELEASE, "pdf-tables.db")));
-  assert.equal(m.families.length, 36);
+  assert.equal(m.families.length, 37);   // data/pdf_years.csv: FY2027 transparency added (#246)
   assert.equal(m.source_commit_scope, "local", "pretest builds with --allow-local-commit");
   assert.ok(requests.every((u) => !/github/.test(u)));
 });
