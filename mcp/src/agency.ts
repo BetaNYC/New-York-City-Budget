@@ -8,7 +8,8 @@
  *
  * `agency` and `unit` take a number ("056", "56", "1") or words from the name ("police"). Words
  * match every name the agency or unit has had in any year, folded the way every other text filter
- * here is (src/fold.ts), each word anywhere in the name.
+ * here is (src/fold.ts), each word as the start of a word in the name; a number ("#1", "1") only as
+ * a whole word.
  */
 import { getDb, getMeta } from "./db.js";
 import { fold } from "./fold.js";
@@ -54,10 +55,18 @@ export function numberArg(v: string): string | null {
 }
 
 const words = (v: string) => fold(v).split(/[^a-z0-9#&']+/).filter(Boolean);
-const hasAll = (name: string, ws: string[]) => {
-  const f = fold(name);
-  return ws.every((w) => f.includes(w));
-};
+/** A number word ("#1", "1", "10"): matched whole, never as part of "#10" or "#18". */
+const isNumberWord = (w: string) => /^#?\d+$/.test(w);
+/**
+ * Every query word matches a whole word of the name: a number word ("#1", "1") exactly (with or
+ * without its "#"), any other word as the start of a name word ("educ" finds EDUCATION). So
+ * "community board #1" finds the five #1 boards, not #10 to #18 as well (QA of #293).
+ */
+export function nameMatches(name: string, ws: string[]): boolean {
+  const ts = words(name);
+  return ws.every((w) => (isNumberWord(w) ? ts.some((t) => isNumberWord(t) && t.replace(/^#/, "") === w.replace(/^#/, "")) : ts.some((t) => t.startsWith(w))));
+}
+const hasAll = nameMatches;
 
 /** Agency numbers an `agency` argument names, in number order. */
 export function matchAgencies(agency: string): string[] {
@@ -318,13 +327,22 @@ export function compareAdoptedModifiedText(a: CompareArgs): string {
   if (noM && year !== newest) L.push(`${plural(noM, "unit")} not in the modified budget (counted only in adopted).`);
   if (res.rows.length > 1) {
     L.push("");
+    const both = (u: AgencyBudgetRow) => u.adopted != null && u.modified != null;
+    if (!res.rows.some(both)) {
+      // The newest year (or any year with no unit holding both figures): nothing to rank yet (QA of #293).
+      L.push(year === newest
+        ? `By unit: no change to rank yet. The FY${year} modified budget is not yet published.`
+        : "By unit: no change to rank, because no unit has both an adopted and a modified figure.");
+    } else {
     L.push("By unit, largest change first:");
-    const by = [...res.rows].sort((x, y) => Math.abs((y.modified ?? 0) - (y.adopted ?? 0)) - Math.abs((x.modified ?? 0) - (x.adopted ?? 0)));
+    const gap = (u: AgencyBudgetRow) => (both(u) ? Math.abs((u.modified as number) - (u.adopted as number)) : -1);
+    const by = [...res.rows].sort((x, y) => gap(y) - gap(x));
     for (const u of by.slice(0, 50)) {
       const c = u.adopted != null && u.modified != null ? ` · change ${u.modified - u.adopted >= 0 ? "+" : "-"}${usd(Math.abs(u.modified - u.adopted))}` : "";
       L.push(`  ${u.agency_number}/${u.unit_number} ${u.unit_name}: adopted ${fig(u.adopted, "adopted", year, newest)} · modified ${fig(u.modified, "modified", year, newest)}${c}`);
     }
     if (by.length > 50) L.push(`  … ${by.length - 50} more units; the totals above cover all of them.`);
+    }
   }
   L.push("");
   L.push(GROSS_NOTE);

@@ -21,9 +21,11 @@
 # code/requirements-cv.txt). The PDFs are committed under source/, so a plain checkout has them.
 # Keep the paths below and code/test_ci_python_checks.py in step.
 #
-# The City agency budgets pipeline (code/agency_budget_cleanup.py, #265) and its 31 tests run in
-# `python -m pytest code` with the rest. viz/agencies/data/** is a trigger because those tests
-# also check the committed CSV the agency explorer loads.
+# The City agency budgets download (viz/agencies/data/nyc_budget.csv): since #288 it is written
+# from the MCP index (code/agency_budget_cleanup.py runs viz/explorer/scripts/agency-csv.mjs; no
+# year math of its own), and code/test_agency_budget_cleanup.py checks the committed file against
+# OMB's printed totals, in `python -m pytest code` with the rest. viz/agencies/data/** is a
+# trigger because those tests check that file.
 
 name: Python checks
 

@@ -2,7 +2,8 @@
 """
 fetch_agency_budget_qa.py — pull the snapshot the agency budget accuracy test checks against (#268).
 
-The City agency budgets half (viz/agencies/, built by code/agency_budget_cleanup.py) shows, for
+The City agency budgets half (the explorer's #view=agencies and the MCP, both built from this
+snapshot by mcp/scripts/agency-budget.mjs since #284) shows, for
 every agency and unit of appropriation, an Adopted and a Modified figure per fiscal year, from
 NYC Open Data "Expense Budget" (mwzb-yiwb). code/qa_agency_budget.py recomputes every one of
 those figures from this snapshot, with its own code, and compares.
