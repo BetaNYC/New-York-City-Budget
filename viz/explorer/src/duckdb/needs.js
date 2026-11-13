@@ -19,12 +19,6 @@ export const TABLES = ["disclosure", "disclosure_years", "capital_council", "cap
  */
 export const BASE = [...TABLES, "pdf_years"];
 
-/**
- * City agency budgets (mcp/scripts/agency-budget.mjs AGENCY_BUDGET_TABLES). The build still writes
- * its Parquet (the parity tests and SQL users read it), but the agency view reads JSON (#299).
- */
-export const AGENCY_TABLES = ["agency_budget"];
-
 /** Review notes behind every PDF row's flag badge (src/components/pdf.jsx), for any family, and the
  * Council questions they join to (src/query/pdf.js). */
 const REVIEW_NOTES = ["pdf_review", "pdf_council_questions"];

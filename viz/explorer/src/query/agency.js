@@ -76,14 +76,6 @@ export function agencyYearsQuery({ abag, abunit }) {
   };
 }
 
-/** Every agency and unit name ever published, for old links (src/agency/legacy.js resolveLegacy). */
-export function agencyNamesQuery() {
-  return {
-    sql: `SELECT DISTINCT agency_number, agency_name, unit_number, unit_name FROM agency_budget ORDER BY agency_number, unit_number`,
-    params: [],
-  };
-}
-
 /** Change from one figure to another: { dollars, pct } or null when either is missing. */
 export function change(from, to) {
   if (from == null || to == null) return null;

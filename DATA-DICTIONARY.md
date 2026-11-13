@@ -464,8 +464,10 @@ total moves.
 
 ### `agency_budget` (MCP index and explorer, since 2.1.0, #284)
 
-The same figures as one table, in `mcp/data/budget.db` and the explorer's
-`agency_budget.parquet`. Built by [`mcp/scripts/agency-budget.mjs`](mcp/scripts/agency-budget.mjs),
+The same figures as one table, in `mcp/data/budget.db` and `agency_budget.parquet`. The
+explorer's City agency budgets view reads JSON built from this table at build time
+(`public/data/agency_budget/`: citywide, the agency list, one file per agency; since #302,
+checked cell by cell against the table, and the build stops on any difference). Built by [`mcp/scripts/agency-budget.mjs`](mcp/scripts/agency-budget.mjs),
 the one place the year rule is coded, from [`source/agency-budget-qa/`](source/agency-budget-qa/README.md).
 One row per fiscal year × agency × unit, FY2017 on, where the unit is in that year's adopted
 release or the next year's (7,611 rows as of the 2026-11-09 snapshot). The MCP's
