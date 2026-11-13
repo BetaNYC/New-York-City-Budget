@@ -1,5 +1,7 @@
 /**
- * Accessibility and phone checks for the Agency budgets view (#270; specs in e2e/, built in #287).
+ * Accessibility and phone checks: the Agency budgets view (#270; specs in e2e/, built in #287), and
+ * since #304 every page of the site and every Council explorer view (e2e/site.a11y.spec.js), plus
+ * legacy.html's old links (e2e/legacy.spec.js).
  *
  *   npm run e2e:site     build the data and app, and assemble the site into e2e/.site/
  *   npm run test:e2e     run the specs (Playwright starts a static server on the assembled site)

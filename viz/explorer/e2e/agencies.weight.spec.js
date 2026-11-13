@@ -62,8 +62,8 @@ describe(`City agency budgets: first-visit download${VIEW_PENDING ? ` (${VIEW_PE
     await openView(page, PAGES.list);
     await settle(page, log);
     const before = log.urls.length;
-    await page.getByRole("link", { name: /^POLICE DEPARTMENT$/ }).click();
-    await page.locator('[data-view="agencies"][data-ready="true"] h2', { hasText: "POLICE DEPARTMENT" }).waitFor();
+    await page.getByRole("link", { name: /^Police Department$/ }).click();
+    await page.locator('[data-view="agencies"][data-ready="true"] h2', { hasText: "Police Department" }).waitFor();
     await settle(page, log);
     const fetched = log.urls.slice(before).map((u) => new URL(u).pathname.split("/").slice(-2).join("/"));
     expect(fetched).toEqual(["agency/056.json"]);

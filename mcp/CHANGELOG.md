@@ -20,8 +20,9 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   - **Missing is not $0.** A unit that is not in a year's budget has no adopted figure (NULL),
     and the newest year's modified figure is NULL until the next June release is out.
   - Figures are **gross**: they include intra-city transfers. OMB's headline totals are net.
-  - The browser explorer reads the same table (`agency_budget.parquet`), so the site and this
-    server can't disagree.
+  - The browser explorer reads the same table, as small JSON files built from it at build time
+    (since #302; the build checks every cell against the table), so the site and this server
+    can't disagree. `agency_budget.parquet` is still built, for the parity tests and SQL users.
 - **Two tools for City agency budgets** (#285). `search_agency_budget` finds agencies and units
   by number (`056` or `56`) or words from the name (`police`), for one fiscal year, with totals.
   `compare_adopted_modified` gives one agency's or unit's adopted and modified budget and the

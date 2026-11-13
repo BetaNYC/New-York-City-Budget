@@ -31,6 +31,7 @@ function Table({ rows, go }) {
   return (
     <div className="table-wrap">
       <table className="rows years">
+        <caption className="visually-hidden">Council discretionary funding by fiscal year</caption>
         <thead>
           <tr>
             <th scope="col">FY</th>

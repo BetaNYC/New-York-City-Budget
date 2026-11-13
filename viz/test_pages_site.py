@@ -10,12 +10,12 @@ What these guard (each would have failed before the change that introduced it):
      but its own inline one, and no look-at-cook asset, so it cannot present PDF-derived figures.
   2. It states the 2.0 coverage gaps (FY2010 disclosure, FY2018 capital) and links to the
      retired copy.
-  3. The retired explorer (legacy.html) carries the retired banner above everything else, is
-     marked noindex, and its title and logo say retired.
-  4. Every local file legacy.html and the app load exists (the move from index.html broke
-     nothing), and the breadcrumb no longer points at "/".
-  5. The banner says, in real text, that the page is frozen, why its figures are wrong, and not
-     to cite them; it has a heading, and it links to the new data (front page, repo, MCP).
+  3. legacy.html, the retired first explorer, is a short "this moved" page in the site shell
+     (#304): noindex, one main and one h1, no look-at-cook asset, links to the explorer and the
+     data sources.
+  4. It forwards the old app's links (#fund-detail/..., #control-officer-detail/..., #?year=Y)
+     into the explorer's Schedule C search, reading only the old app's own data file.
+  5. (Folded into 3 since #304: the old retired banner went with the app.)
   6. The notice links once to the in-browser explorer (explorer/), whose source and site
      assembly script exist in viz/explorer/.
   7. The City agency budgets pages (agencies/): since #288 agencies/index.html forwards old links
@@ -122,57 +122,42 @@ def test_index_links_to_the_explorer():
     assert os.path.exists(os.path.join(HERE, "explorer", "scripts", "assemble-site.mjs"))
 
 
-def test_legacy_page_is_marked_retired():
+# The look-at-cook app's files. legacy.html loads none of them since it was retired (#304).
+OLD_APP = ("backbone", "jquery", "highcharts", "datatables", "underscore", "accounting.min", "fuse.min",
+           "spin.min", "budget_highcharts", "budget_helpers", "js/app.js", "modelbinder", "bootstrap")
+
+
+def test_legacy_is_a_this_moved_page():
+    # #304 (Noel, 2026-11-13): legacy.html is a short page in the site shell, not the frozen app.
     html = _read("legacy.html")
-    banner = html.find('id="retired-banner"')
-    header = html.find("id='header'")
-    assert banner != -1, "legacy.html lost its retired banner"
-    assert banner < header, "the banner must come before the explorer's header"
-    assert '<meta name="robots" content="noindex">' in html
-    assert re.search(r"<title>RETIRED", html)
-    assert "NYC Council Discretionary Funding (retired)" in html
-
-
-def _banner(html):
-    start = html.find('id="retired-banner"')
-    end = html.find("id='header'")
-    return html[start:end]
-
-
-def test_legacy_banner_says_frozen_do_not_cite_and_links_to_new_data():
-    banner = _banner(_read("legacy.html"))
-    text = re.sub(r"<[^>]+>", " ", banner)
-    text = re.sub(r"\s+", " ", text).lower()
-    assert re.search(r"<h2[^>]*>", banner), "the banner needs a real heading"
-    # A landmark, not a live region: the banner is static, so role="alert" would be announced
-    # assertively and often twice (review S6, 2026-10-17).
-    assert 'role="region"' in banner and 'aria-labelledby="retired-banner-heading"' in banner
-    assert 'role="alert"' not in banner
-    assert "frozen" in text and "no longer updated" in text
-    assert "do not cite" in text
-    assert "found errors" in text
-    assert "spreadsheets" in text and "nyc open data" in text
-    assert 'href="./"' in banner, "link to the front page"
-    assert "github.com/BetaNYC/New-York-City-Budget" in banner, "link to the repo data"
-    assert "@betanyc/nyc-budget-mcp" in banner, "link to the MCP"
-    assert "<img" not in banner, "the banner must be text, not an image"
-    assert html_count_banners(_read("legacy.html")) == 1, "one banner, not two"
-
-
-def html_count_banners(html):
-    return html.count('id="retired-banner"')
-
-
-def test_every_local_asset_legacy_loads_exists():
     r = _refs("legacy.html")
-    local = [u for u in r.scripts + r.styles + r.imgs if u and not re.match(r"^(https?:)?//", u)]
-    assert local, "premise: legacy.html loads local assets"
-    missing = [u for u in local if not os.path.exists(os.path.join(HERE, u))]
-    assert not missing, f"missing: {missing}"
-    app = _read(os.path.join("js", "app.js"))
-    m = re.search(r"dataSource\s*=\s*'([^']+)'", app)
-    assert m and os.path.exists(os.path.join(HERE, m.group(1))), "app.js data file"
-    assert '<a href="/">' not in app, 'breadcrumb must not point at "/" (the notice since 2.0.0)'
+    assert '<meta name="robots" content="noindex">' in html
+    assert r.scripts == [] and r.styles == [], "no script or stylesheet file: the page is self-contained"
+    assert not [u for u in r.urls if any(lib in u.lower() for lib in OLD_APP)], "no look-at-cook asset"
+    assert html.count("<main") == 1 and html.count("<h1") == 1
+    assert "site-shell:top:start" in html and "site-shell:bottom:start" in html
+    text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html)).lower()
+    assert "retired" in text and "october 16, 2026" in text and "do not cite" in text
+    # Links to Council discretionary funding and to the data sources, relative to the site.
+    assert 'href="explorer/"' in html
+    assert 'href="about.html#sources"' in html
+    assert not [u for u in r.urls if u.startswith("/") and not u.startswith("//")]
+
+
+def test_legacy_forwards_old_links_into_the_explorer():
+    # Old links can only be read in the browser (GitHub Pages never sees the #fragment); the
+    # script maps them (viz/explorer/e2e/legacy.spec.js follows real ones).
+    js = "".join(_refs("legacy.html").inline)
+    for route in ("fund-detail", "control-officer-detail", "year="):
+        assert route in js, route
+    for key in ("view=schedc", "scfy=", "sccat=", "scagency=", "scinit="):
+        assert key in js, key
+    assert re.search(r"location\.replace\(", js)
+    # It reads only the old app's own data, to turn its slugs back into names.
+    assert re.findall(r"fetch\(\"([^\"]+)\"\)", js) == ["data/schedule_c.csv"]
+    assert os.path.exists(os.path.join(HERE, "data", "schedule_c.csv")), "the old app's data stays (frozen)"
+    # No old link: the page shows, and stays put on its own skip link.
+    assert 'if (!h || h === "content") return;' in js
 
 
 AGENCY_PAGES = [os.path.join("agencies", "index.html"), os.path.join("agencies", "faq.html")]
@@ -326,6 +311,20 @@ def test_every_footer_has_the_site_and_betanyc():
         for url, _t in shell.BETANYC_LINKS:
             assert url in foot, (page["path"], url)
 
+
+def test_site_nav_order_and_labels():
+    """FAILS if the primary nav, top bar or footer, on any page, is not in Noel's order with Noel's
+    labels (2026-11-12, #300)."""
+    want = ["Home", "City agency budgets", "Community board budgets", "Council discretionary funding", "Budget MCP", "About"]
+    shell = _shell()
+    assert [label for _k, _h, label in shell.NAV] == want
+    for page in shell.PAGES:
+        text = _read(page["path"])
+        top = text.split('<nav class="bnyc-shell"', 1)[1].split("</nav>", 1)[0]
+        foot = text.split(shell.BOT_START.split(" (")[0], 1)[1].split('id="bnyc-foot-h-site"', 1)[1].split("</ul>", 1)[0]
+        for where, part in (("top", top), ("footer", foot)):
+            got = re.findall(r"<li><a [^>]*>([^<]+)</a></li>", part)
+            assert got == want, (page["path"], where, got)
 
 def test_mcp_page_names_every_tool_and_our_other_servers():
     """FAILS if the budget MCP's page (Noel, 2026-11-10) misses a tool the server registers

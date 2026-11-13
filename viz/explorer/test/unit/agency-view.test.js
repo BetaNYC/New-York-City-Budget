@@ -51,3 +51,133 @@ describe("Agency budgets view helpers", () => {
     expect(pad3("police")).toBe("police");
   });
 });
+
+describe("citywide summary (#300)", () => {
+  test("the change from the year before reads like the old app's summary", async () => {
+    // FY2026 vs FY2025, as the old /agencies/ app showed them (Noel's QA, 2026-11-12).
+    // The summary's percents come from change() and changeText() (pctText was removed: QA of #307).
+    const { changeText } = await import("../../src/views/Agencies.jsx");
+    const pct = (a, b) => (change(a, b) ? changeText(change(a, b)).short : null);
+    expect(pct(114384991832, 117791473676)).toBe("+3.0%");
+    expect(pct(123844584236, 129228819136)).toBe("+4.3%");
+    expect(pct(100, 90)).toBe("−10.0%");
+    // FAILS if a missing figure (not yet published) turns into a change from or to $0.
+    expect(change(123844584236, null)).toBeNull();
+    expect(change(null, 5)).toBeNull();
+  });
+});
+
+describe("change columns say which change, or why there is none (#306)", () => {
+  test("adopted vs. the year before: a reason instead of a bare dash", async () => {
+    // FAILS if a missing prior-year figure shows as "—", $0, or a -100% change.
+    const { vsLastYearWords } = await import("../../src/views/Agencies.jsx");
+    const row = { adopted: 5, modified: 6 };
+    expect(vsLastYearWords({ prevRow: { adopted: 4 }, row, year: 2026, first: 2017, noun: "unit" })).toBeNull();
+    expect(vsLastYearWords({ prevRow: null, row, year: 2026, first: 2017, noun: "unit", seenBefore: false })).toBe("New unit in FY2026");
+    expect(vsLastYearWords({ prevRow: null, row, year: 2026, first: 2017, noun: "unit", seenBefore: true })).toBe("Not in the FY2025 budget");
+    expect(vsLastYearWords({ prevRow: { adopted: null }, row, year: 2026, first: 2017, noun: "unit", seenBefore: true })).toBe("No FY2025 adopted figure");
+    // NYPD 011 has an FY2025 row with no adopted figure: it is new in FY2026.
+    expect(vsLastYearWords({ prevRow: { adopted: null }, row, year: 2026, first: 2017, noun: "unit", seenBefore: false })).toBe("New unit in FY2026");
+    expect(vsLastYearWords({ prevRow: null, row, year: 2017, first: 2017, noun: "agency" })).toBe("No FY2016 figure");
+    expect(vsLastYearWords({ prevRow: { adopted: 4 }, row: { adopted: null }, year: 2026, first: 2017, noun: "unit" })).toBe("No FY2026 adopted figure");
+  });
+
+  test("modified vs. adopted: the newest year is not yet published, never $0", async () => {
+    const { vsAdoptedWords, NOT_PUBLISHED, NOT_IN_BUDGET } = await import("../../src/views/Agencies.jsx");
+    expect(vsAdoptedWords({ row: { adopted: 5, modified: 6 }, year: 2026, newest: 2027 })).toBeNull();
+    expect(vsAdoptedWords({ row: { adopted: 5, modified: null }, year: 2027, newest: 2027 })).toBe(NOT_PUBLISHED);
+    expect(vsAdoptedWords({ row: { adopted: 5, modified: null }, year: 2025, newest: 2027 })).toBe("No FY2025 modified figure");
+    expect(vsAdoptedWords({ row: null, year: 2025, newest: 2027 })).toBe(NOT_IN_BUDGET);
+  });
+});
+
+describe("short money, colored changes, sorting, split units (#307)", () => {
+  test("short money: $117.8B, $767.0M, $562K", async () => {
+    const { moneyShort } = await import("../../src/views/Agencies.jsx");
+    expect(moneyShort(117791473676)).toBe("$117.8B");
+    expect(moneyShort(766619276)).toBe("$766.6M");
+    expect(moneyShort(767000000)).toBe("$767.0M");
+    expect(moneyShort(562059)).toBe("$562K");
+    expect(moneyShort(420)).toBe("$420");
+    expect(moneyShort(-2500000)).toBe("−$2.5M");
+    expect(moneyShort(null)).toBeNull();
+  });
+
+  test("short money steps up a unit after rounding, never $1000.0M or $1000K (QA of #307)", async () => {
+    const { moneyShort } = await import("../../src/views/Agencies.jsx");
+    expect(moneyShort(999_950_000)).toBe("$1.0B");
+    expect(moneyShort(999_949_999)).toBe("$999.9M");
+    expect(moneyShort(999_600)).toBe("$1.0M");
+    expect(moneyShort(999_499)).toBe("$999K");
+    expect(moneyShort(999.5)).toBe("$1K");
+    expect(moneyShort(999.4)).toBe("$999");
+    expect(moneyShort(-999_950_000)).toBe("−$1.0B");
+    expect(moneyShort(1_000_000_000)).toBe("$1.0B");
+  });
+
+  test("a change keeps its sign and exact dollars; up is green, down red, zero neither", async () => {
+    // FAILS if color becomes the only signal (WCAG 1.4.1) or the exact figure is lost.
+    const { changeText } = await import("../../src/views/Agencies.jsx");
+    expect(changeText({ dollars: 3406481844, pct: 2.978 })).toEqual({ short: "+3.0%", full: "+$3,406,481,844 (+3.0%)", tone: "up" });
+    expect(changeText({ dollars: -10, pct: -10 })).toMatchObject({ short: "−10.0%", tone: "down" });
+    expect(changeText({ dollars: 0, pct: 0 })).toMatchObject({ short: "0.0%", tone: undefined });
+  });
+
+  test("sorting: numbers low to high first then flip; names by number then A–Z; no figure last", async () => {
+    const { SORT_DEFAULT, nextSort, sortRows, sortMessage } = await import("../../src/views/Agencies.jsx");
+    const cols = [
+      { key: "name", kind: "name", label: "Unit", number: (r) => r.n, name: (r) => r.name },
+      { key: "adopted", kind: "num", label: "Adopted FY2026", value: (r) => r.a },
+    ];
+    const rows = [
+      { n: "002", name: "B", a: 5 },
+      { n: "001", name: "C", a: null },
+      { n: "003", name: "A", a: 9 },
+    ];
+    const ids = (st) => sortRows(rows, cols, st).map((r) => r.n);
+    expect(ids(SORT_DEFAULT)).toEqual(["003", "002", "001"]);
+    let st = nextSort(SORT_DEFAULT, cols[0]);
+    expect(ids(st)).toEqual(["001", "002", "003"]);
+    expect(sortMessage(cols, st, "unit")).toBe("Sorted by unit number.");
+    st = nextSort(st, cols[0]);
+    expect(ids(st)).toEqual(["003", "002", "001"]);
+    expect(sortMessage(cols, st, "unit")).toBe("Sorted by unit name, A to Z.");
+    st = nextSort(st, cols[1]);
+    expect(st.dir).toBe("ascending");
+    expect(ids(st)).toEqual(["002", "003", "001"]);
+    expect(sortMessage(cols, st, "unit")).toBe("Sorted by Adopted FY2026, low to high. Rows with no figure are last.");
+    expect(ids(nextSort(st, cols[1]))).toEqual(["003", "002", "001"]);
+  });
+
+  test("split units: a big drop in a year the agency added units names the new ones", async () => {
+    // NYPD FY2026: 001 Operations $1.51B -> $271M while 011 and 012 appear.
+    const { splitHints } = await import("../../src/views/Agencies.jsx");
+    const units = [
+      { unit_number: "001", adopted: 270725018, prev: { adopted: 1506991264 }, seenBefore: true },
+      { unit_number: "002", adopted: 367421058, prev: { adopted: 360865805 }, seenBefore: true },
+      { unit_number: "011", adopted: 766619276, prev: { adopted: null }, seenBefore: false },
+      { unit_number: "012", adopted: 659228617, prev: null, seenBefore: false },
+    ];
+    const h = splitHints(units, 2026, 2017);
+    expect(h.added).toEqual(["011", "012"]);
+    expect([...h.dropped]).toEqual(["001"]);
+    expect(splitHints(units.slice(0, 2), 2026, 2017).dropped.size).toBe(0);
+    expect(splitHints(units, 2017, 2017).added).toEqual([]);
+  });
+});
+
+describe("names in normal case for the screen (#307)", () => {
+  test("acronyms stay capitals; of, and, for lowercase; P.S. and dashes tidied", async () => {
+    const { displayName } = await import("../../src/agency/names.js");
+    expect(displayName("PATROL - PS")).toBe("Patrol - PS");
+    expect(displayName("CHIEF OF DEPARTMENT - OTPS")).toBe("Chief of Department - OTPS");
+    expect(displayName("POLICE DEPARTMENT")).toBe("Police Department");
+    expect(displayName("SCHOOL SAFETY- P.S.")).toBe("School Safety - PS");
+    expect(displayName("PATROL, HOUSING & TRANSIT - OTPS")).toBe("Patrol, Housing & Transit - OTPS");
+    expect(displayName("CITY UNIVERSITY OF NEW YORK - CUNY")).toBe("City University of New York - CUNY");
+    expect(displayName("DEPT OF EDUCATION")).toBe("Dept of Education");
+    expect(displayName("FOR NYC PRE-K")).toBe("For NYC Pre-K");
+    expect(displayName("MAYOR'S OFFICE")).toBe("Mayor's Office");
+    expect(displayName(null)).toBeNull();
+  });
+});

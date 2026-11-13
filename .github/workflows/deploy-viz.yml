@@ -1,5 +1,5 @@
-# Build and deploy the GitHub Pages site: the viz/ notice and frozen legacy explorer, plus the
-# in-browser budget explorer at explorer/.
+# Build and deploy the GitHub Pages site: the viz/ pages (legacy.html is the retired explorer's
+# "this moved" page, #304), plus the in-browser budget explorer at explorer/.
 #
 # Pages for this repo is configured as "deploy from a branch" (source: gh-pages, /), served at
 # https://betanyc.github.io/New-York-City-Budget/. Until the explorer, this workflow published

@@ -135,6 +135,36 @@ describe("agency JSON equals agency_budget through the explorer's SQL (#299)", {
     }
   });
 
+  test("citywide totals equal the old /agencies/ app's top line, every year (#300)", () => {
+    // The old app summed viz/agencies/data/nyc_budget.csv's columns (0 where a unit is absent, so
+    // the sums agree); its newest Modified column is blank, which the view says is not published.
+    const csv = readFileSync(join(resolve(HERE, "..", "..", ".."), "viz", "agencies", "data", "nyc_budget.csv"), "utf8").trim().split(/\r?\n/);
+    const split = (line) => [...line.matchAll(/("(?:[^"]|"")*"|[^,]*)(,|$)/g)].map((m) => m[1].replace(/^"|"$/g, "").replace(/""/g, '"')).slice(0, -1);
+    const head = split(csv[0]);
+    const sums = new Map();
+    for (const line of csv.slice(1)) {
+      split(line).forEach((v, i) => {
+        if (!/^(Adopted|Modified) \d{4}$/.test(head[i])) return;
+        const cur = sums.get(head[i]) ?? null;
+        sums.set(head[i], v === "" ? cur : (cur ?? 0) + Math.round(Number(v) * 100));
+      });
+    }
+    const diffs = [];
+    let cells = 0;
+    for (const y of read(J.citywidePath()).years) {
+      for (const [kind, col] of [["adopted", `Adopted ${y.fiscal_year}`], ["modified", `Modified ${y.fiscal_year}`]]) {
+        cells++;
+        if (cents(y[kind]) !== (sums.get(col) ?? null)) diffs.push(`FY${y.fiscal_year} ${kind}: JSON ${y[kind]}, old app ${sums.get(col)}`);
+      }
+    }
+    assert.deepEqual(diffs, []);
+    assert.equal(cells, 22);
+    // The figures Noel's QA quoted from the old app (FY2026).
+    const fy26 = read(J.citywidePath()).years.find((y) => y.fiscal_year === 2026);
+    assert.equal(fy26.adopted, 117791473676);
+    assert.equal(fy26.modified, 129228819136);
+  });
+
   test("the manifest records the JSON build", () => {
     const m = JSON.parse(readFileSync(join(DATA, "manifest.json"), "utf8"));
     assert.equal(m.agency_json.files, read(J.agenciesPath()).agencies.length + 2);
