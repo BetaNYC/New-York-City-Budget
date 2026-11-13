@@ -34,6 +34,7 @@ export function ScPanel({ fy, scYears, set }) {
               amount (the City's own EIN also needs a matching name). Whole year, before the filters below:
             </p>
             <table className="totals">
+              <caption className="visually-hidden">Schedule C beside this spreadsheet, whole year</caption>
               <tbody>
                 {["matched", "disclosure_only", "pdf_only"].map((side) => (
                   <tr key={side}>
@@ -114,6 +115,7 @@ export function ScOnlyResults({ f, state, set, go }) {
           {Number(t.n) > 0 && (
             <div className="table-wrap">
               <table className="rows">
+                <caption className="visually-hidden">Schedule C rows with no spreadsheet partner</caption>
                 <thead>
                   <tr>
                     <th scope="col">FY</th>

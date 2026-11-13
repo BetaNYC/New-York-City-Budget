@@ -48,12 +48,12 @@ describe.skipIf(PENDING)("Agency budgets: URL state (PENDING #286 until VIEWS ha
     expect(readHash("#view=agencies&abfy=abc").abfy).toBeNull();
   });
 
-  test("the agency data loads when the view opens, not on a first visit to the Council views", () => {
-    // FAILS if agency_budget is added to the first-visit download (BASE), or the view doesn't ask
-    // for it (it would wait forever, or query a table that isn't there).
-    const manifest = { files: { "agency_budget.parquet": { rows: 1, bytes: 1 } } };
+  test("the agency view asks DuckDB for nothing, and the Council views never load agency_budget", () => {
+    // FAILS if agency_budget is added to the first-visit download (BASE), or the agency view asks
+    // for any table: it reads JSON (src/agency/data.js, #299), never the 33 MB query engine.
+    const manifest = { files: { "agency_budget.parquet": { rows: 1, bytes: 1 }, "disclosure.parquet": { rows: 1, bytes: 1 } } };
     expect(BASE).not.toContain("agency_budget");
-    expect(tablesForView({ ...DEFAULT_STATE, view: "agencies" }, manifest)).toContain("agency_budget");
+    expect(tablesForView({ ...DEFAULT_STATE, view: "agencies" }, manifest)).toEqual([]);
     expect(tablesForView({ ...DEFAULT_STATE, view: "awards" }, manifest)).not.toContain("agency_budget");
   });
 });

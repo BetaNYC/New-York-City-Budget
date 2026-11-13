@@ -141,3 +141,33 @@ describe.skipIf(!L)("Agency budgets: old /agencies/ links (PENDING #286 until sr
     expect(r?.candidates).toEqual([]);
   });
 });
+
+describe("the /agencies/ forwarder and legacyToExplorerHash agree on years (QA of #292)", () => {
+  // The inline script in viz/agencies/index.html, run with a stand-in `location`.
+  const html = readFileSync(join(REPO, "viz", "agencies", "index.html"), "utf8");
+  const script = /<script>\s*(\(function \(\) \{[\s\S]*?\}\)\(\);)\s*<\/script>/.exec(html)[1];
+  const forward = (hash) => {
+    let to = null;
+    new Function("location", script)({ hash, replace: (u) => (to = u) });
+    return new URLSearchParams(to.split("#")[1]);
+  };
+  test.each([
+    "#?year=2025",
+    "#?year=2025x",
+    "#?year=25",
+    "#?year=+2024",
+    "#?year=%32024",
+    "#?year=",
+    "#?foo=1&year=2023&year=2020",
+    "#fund-detail/police-department?year=2019",
+    "#control-officer-detail/manhattan-community-board-1/personal-services?year=2025",
+  ])("%s: the same abfy and legacy", (hash) => {
+    // FAILS if the page and the module read a year differently (the page took only 4 digits).
+    const page = forward(hash);
+    const mod = new URLSearchParams(L.legacyToExplorerHash(hash).replace(/^#/, ""));
+    expect(page.get("view")).toBe("agencies");
+    expect(page.get("abfy")).toBe(mod.get("abfy"));
+    expect(page.get("legacy") ?? "").toBe(mod.get("legacy") ?? "");
+  });
+});
+

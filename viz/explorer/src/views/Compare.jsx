@@ -104,6 +104,7 @@ function Totals({ fyA, fyB, ctx, state, go }) {
       {q.data && (
         <div className="table-wrap">
           <table className="rows compare">
+            <caption className="visually-hidden">What each source has in the two years</caption>
             <thead>
               <tr>
                 <th scope="col">Source</th>
@@ -272,6 +273,7 @@ function Dimension({ dim, fyA, fyB, ctx, state, set, go }) {
               </div>
               <div className="table-wrap">
                 <table className="rows compare">
+                  <caption className="visually-hidden">Differences between the two years, one row per name</caption>
                   <thead>
                     <tr>
                       <th scope="col">{dim === "org" ? "Organization (EIN)" : dim === "line" ? "Budget line" : dim === "agency" ? "Agency" : "Member / sponsor (as printed)"}</th>
@@ -357,6 +359,7 @@ function Terms({ fyA, fyB, ctx, state, go }) {
       </p>
       <div className="table-wrap">
         <table className="rows compare">
+          <caption className="visually-hidden">Terms and Conditions: conditions by status</caption>
           <thead>
             <tr>
               <th scope="col">Status</th>
@@ -415,6 +418,7 @@ function Drill({ state, set, go }) {
         )}
         <div className="table-wrap">
           <table className="rows">
+            <caption className="visually-hidden">The rows in this group</caption>
             <thead>
               <tr>
                 <th>Name / title</th>
