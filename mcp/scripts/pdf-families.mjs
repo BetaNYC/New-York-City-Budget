@@ -289,6 +289,7 @@ PDF_FAMILIES.transparency = {
     2024: "research/2026-10-21-fy24-transparency-review/data/fy24_tr_review_decisions.csv",
     2025: "research/2026-10-21-fy25-transparency-review/data/fy25_tr_review_decisions.csv",
     2026: "research/2026-10-21-fy26-transparency-review/data/fy26_tr_review_decisions.csv",
+    2027: "research/2026-11-12-fy27-transparency-review/data/fy27_tr_review_decisions.csv",
   },
   review: {
     file: "review",

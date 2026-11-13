@@ -73,6 +73,9 @@ export function tablesForView(state, manifest, { extras = false } = {}) {
   switch (state.view) {
     case "about":
       return [];
+    case "agencies":
+      // City agency budgets reads JSON, not DuckDB (#299; src/agency/data.js): no table at all.
+      return [];
     case "award":
       need = [...fam("schedule_c"), ...od];
       break;

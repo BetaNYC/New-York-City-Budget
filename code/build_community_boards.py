@@ -2,8 +2,8 @@
 """
 build_community_boards.py — the 59 community boards' budgets, one table (#269).
 
-Reads viz/agencies/data/nyc_budget.csv (built from NYC Open Data mwzb-yiwb by
-code/agency_budget_cleanup.py) and writes viz/agencies/data/community_boards.csv: one row per
+Reads viz/agencies/data/nyc_budget.csv (NYC Open Data mwzb-yiwb; since #288 written from the MCP
+index by viz/explorer/scripts/agency-csv.mjs) and writes viz/agencies/data/community_boards.csv: one row per
 board, fiscal year and unit of appropriation, with the adopted and modified amounts and the Open
 Data release each one comes from. viz/agencies/boards.html shows it, and anyone can download it.
 

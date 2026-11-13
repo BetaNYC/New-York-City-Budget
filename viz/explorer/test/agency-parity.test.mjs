@@ -157,6 +157,8 @@ describe("2. the new data equals /agencies/ (viz/agencies/data/nyc_budget.csv), 
     // The by-design difference, counted so a change in it is seen. Update with the data, in a PR
     // that says why (DATA-ANOMALIES §57).
     assert.equal(absentAdopted, 936, "adopted cells the old app shows as $0 that are not in that year's budget");
+    // viz/agencies/index.html and faq.html quote 1,737 = 936 adopted + 801 modified (QA of the #270 stack).
+    assert.equal(absentModified, 801, "modified cells the old app shows as $0 that are not in that year's budget");
     console.log(`agency parity: ${compared} cells compared; ${absentAdopted} adopted and ${absentModified} modified cells are "not in this year's budget" (old app: $0)`);
   });
 

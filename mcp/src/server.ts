@@ -10,6 +10,10 @@
  * the capital book (§254 supporting detail) and Terms and Conditions, `reviewed` and `closed`
  * family-years only. Those tables are an optional download (src/pdfdata.ts, #215); until it is
  * installed, the four tools say how to add it.
+ *
+ * Two tools answer City agency budgets (#270, #285), adopted and modified by unit of
+ * appropriation, from NYC Open Data mwzb-yiwb (src/agency.ts): search_agency_budget and
+ * compare_adopted_modified. Budgets only; spending questions go to @betanyc/nyc-checkbook-mcp.
  */
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
@@ -57,6 +61,7 @@ import {
   type ServedRow,
 } from "./pdfquery.js";
 import { otherFlagWords } from "./checkwords.js";
+import { agencyYearsSection, compareAdoptedModifiedText, searchAgencyBudgetText } from "./agency.js";
 import { SHORT_TERM, wholeWordNote, type WordFilter } from "./textmatch.js";
 import {
   BOROUGH_CODES_QUESTION,
@@ -975,11 +980,11 @@ export const TOOLS = [
   },
   {
     name: "search_transparency_changes",
-    description: `Search the Council's transparency resolutions, FY2018–FY2026: the changes made to the adopted budget's designations after adoption (new designations, rescissions, purpose-of-funds changes), from the checked tables BetaNYC reads from the resolution PDFs. Each row gives the resolution number and date, the chart, the budget year it changes, the organization, EIN, member, agency and amount as printed, with its status label ("checked, review in progress" or "checked and reviewed"), flags, review decision where decided, any hidden text (text in the PDF a reader cannot see on the page, always labeled), and its three links. Rows from charts that print no dollar amount are kept and never summed. Filter by fiscal_year (the resolutions' year), budget_fiscal_year, organization, ein, member, resolution_number (substring, e.g. '1013-2025'), resolution_date (YYYY-MM-DD) or a date_from / date_to range, action. Newest resolution first. Totals per kind of change cover every match. Needs the optional PDF tables download.${TEXT_RULE}`,
+    description: `Search the Council's transparency resolutions, FY2018–FY2027: the changes made to the adopted budget's designations after adoption (new designations, rescissions, purpose-of-funds changes), from the checked tables BetaNYC reads from the resolution PDFs. Each row gives the resolution number and date, the chart, the budget year it changes, the organization, EIN, member, agency and amount as printed, with its status label ("checked, review in progress" or "checked and reviewed"), flags, review decision where decided, any hidden text (text in the PDF a reader cannot see on the page, always labeled), and its three links. Rows from charts that print no dollar amount are kept and never summed. Filter by fiscal_year (the resolutions' year), budget_fiscal_year, organization, ein, member, resolution_number (substring, e.g. '1013-2025'), resolution_date (YYYY-MM-DD) or a date_from / date_to range, action. Newest resolution first. Totals per kind of change cover every match. Needs the optional PDF tables download.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
       properties: {
-        fiscal_year: { type: "number", description: "The fiscal year whose resolutions to search, FY2018–FY2026" },
+        fiscal_year: { type: "number", description: "The fiscal year whose resolutions to search, FY2018–FY2027" },
         budget_fiscal_year: { type: "number", description: "The budget year a row's chart changes (a year's resolutions can change another year's budget)" },
         organization: { type: "string", description: "Organization as printed (substring)" },
         ein: { type: "string", description: "EIN, exactly 9 digits, hyphens optional. Matches the organization's EIN or its fiscal conduit's" },
@@ -1034,8 +1039,36 @@ export const TOOLS = [
     },
   },
   {
+    name: "search_agency_budget",
+    description: `City agency budgets: what the City budgeted for each agency and unit of appropriation, adopted and modified, FY2017 to the newest adopted year, from NYC Open Data's Expense Budget (mwzb-yiwb, OMB). Adopted is the budget adopted in June for that fiscal year; modified is the same budget a year later, from the next June's release (the newest year's modified is not yet published). Amounts are gross: they include intra-city transfers, so they add up to more than OMB's headline net budget. agency takes an agency number ('056', '56') or words from its name ('police'); unit takes a unit of appropriation number ('001') or words from its name. With no agency or unit, lists every agency's total for the year. Every answer names the release each figure comes from, and says "not in that year's budget" or "not yet published" instead of $0. This is the budget, not spending: for what the City spent, paid or contracted, use @betanyc/nyc-checkbook-mcp (Checkbook NYC).`,
+    inputSchema: {
+      type: "object",
+      properties: {
+        agency: { type: "string", description: "Agency number ('056' or '56') or words from the agency's name ('police', 'community board #1')" },
+        unit: { type: "string", description: "Unit of appropriation number ('001') or words from its name ('operations')" },
+        fiscal_year: { type: "number", description: "FY2017 to the newest adopted year (default: the newest)" },
+        limit: { type: "number", description: "Max agencies or units listed, 1–500 (default 50). Totals always cover every match." },
+      },
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "compare_adopted_modified",
+    description: `For one City agency or unit of appropriation and one fiscal year: the adopted budget, the modified budget a year later, and the change in dollars and percent, from NYC Open Data's Expense Budget (mwzb-yiwb). agency or unit is required (a number or words from the name). Gross amounts (include intra-city transfers). The newest year's modified budget is not yet published, so there is no change to report for it. Budget, not spending: for what the City spent, use @betanyc/nyc-checkbook-mcp.`,
+    inputSchema: {
+      type: "object",
+      properties: {
+        agency: { type: "string", description: "Agency number ('056' or '56') or words from the agency's name" },
+        unit: { type: "string", description: "Unit of appropriation number ('001') or words from its name" },
+        fiscal_year: { type: "number", description: "FY2017 to the newest adopted year" },
+      },
+      required: ["fiscal_year"],
+      additionalProperties: false,
+    },
+  },
+  {
     name: "list_available_fiscal_years",
-    description: `Report, for every fiscal year, which structured datasets this server holds and where each came from: the expense funding disclosure (loaded or not, Council RnD download or Internet Archive capture, retrieval date, early-snapshot flag), the Council capital list (Council workbook or NYC Open Data t474-a92g), and whether the year is in the Council-vs-OMB comparison. Also reports each family-year of the checked PDF tables (Schedule C, transparency resolutions, the capital book, Terms and Conditions) with its status, and whether the optional PDF tables download is installed. States the gaps plainly: FY2010 disclosure not loaded, FY2018 capital missing, nothing before FY2009, no PDF table before FY2018.`,
+    description: `Report, for every fiscal year, which structured datasets this server holds and where each came from: the expense funding disclosure (loaded or not, Council RnD download or Internet Archive capture, retrieval date, early-snapshot flag), the Council capital list (Council workbook or NYC Open Data t474-a92g), and whether the year is in the Council-vs-OMB comparison. Also reports each family-year of the checked PDF tables (Schedule C, transparency resolutions, the capital book, Terms and Conditions) with its status, and whether the optional PDF tables download is installed. Also reports the City agency budget years (search_agency_budget, compare_adopted_modified; NYC Open Data mwzb-yiwb) and when that snapshot was taken. States the gaps plainly: FY2010 disclosure not loaded, FY2018 capital missing, nothing before FY2009, no PDF table before FY2018.`,
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
 ];
@@ -1049,7 +1082,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOLS }))
 export const REMOVED_TOOLS: Record<string, string> = {
   search_awards: "Use search_disclosure_awards (filters legal_name, program_name, council_member or council_member_id, fiscal_year, ein) for the Council's disclosure spreadsheet, or search_schedule_c_awards for the adopted budget's Schedule C as printed, FY2018–FY2027, from the checked PDF tables (an optional download). The old parser's Schedule C it served is retired.",
   get_awards_by_ein: "Use search_disclosure_awards with ein (and fiscal_year if you need one year); its totals and per-year split cover every match. For Schedule C as printed, search_schedule_c_awards takes ein too.",
-  search_transparency_resolutions: "Use search_transparency_changes: the transparency resolutions FY2018–FY2026 from the checked PDF tables (an optional download), filtered by organization, ein, member, resolution_number or resolution_date. For a resolution's Legistar record, use the NYC Council MCP (@betanyc/nyc-council-mcp).",
+  search_transparency_resolutions: "Use search_transparency_changes: the transparency resolutions FY2018–FY2027 from the checked PDF tables (an optional download), filtered by organization, ein, member, resolution_number or resolution_date. For a resolution's Legistar record, use the NYC Council MCP (@betanyc/nyc-council-mcp).",
   search_capital_projects: "Use search_capital_book for the §254 supporting detail from the checked PDF tables (an optional download), or search_council_capital for the Council's capital designations from its own workbooks and NYC Open Data t474-a92g. The old parser's §254 tables are retired.",
   get_terms_conditions: "Use search_terms_conditions: Terms & Conditions FY2018 and FY2021–FY2027 from the checked PDF tables (an optional download), filtered by agency, unit or text. The old parser's CSVs under data/fyNN/terms/ are retired.",
   get_legistar_link: "Retired: its crosswalk indexed the adopted-budget PDF documents and several rows were researchers' candidates rather than verified links. For a resolution's Legistar record, use the NYC Council MCP (@betanyc/nyc-council-mcp).",
@@ -1455,6 +1488,25 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return textResult(withWordNote(`${termsText(res)}\n\n${pdfFooter(t, "terms")}`, res.word_filters, a.whole_word));
       }
 
+      case "search_agency_budget": {
+        const a = parseArgs("search_agency_budget", z.object({
+            agency: z.string().optional(),
+            unit: z.string().optional(),
+            fiscal_year: z.number().int().optional(),
+            limit: z.number().int().optional(),
+          }).strict(), args);
+        return textResult(searchAgencyBudgetText(a));
+      }
+
+      case "compare_adopted_modified": {
+        const a = parseArgs("compare_adopted_modified", z.object({
+            agency: z.string().optional(),
+            unit: z.string().optional(),
+            fiscal_year: z.number().int(),
+          }).strict(), args);
+        return textResult(compareAdoptedModifiedText(a));
+      }
+
       case "list_available_fiscal_years": {
         parseArgs("list_available_fiscal_years", z.object({}).strict(), args);
         const disc = new Map(listDisclosureYears().map((y) => [y.fiscal_year, y]));
@@ -1491,6 +1543,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           "• Retired in 2.0.0 and never served: the old PDF parser's output (Schedule C and its appendices, Terms & Conditions, §254 capital, transparency resolutions, and the Legistar crosswalk of those documents). They remain in the source repo for history. The checked tables below replace them, year by year.",
           "",
           ...pdfYearsSection(),
+          "",
+          ...agencyYearsSection(),
           "",
           `Source repo: ${REPO_URL}. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`,
         ].join("\n");

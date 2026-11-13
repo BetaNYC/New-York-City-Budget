@@ -20,8 +20,19 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   - **Missing is not $0.** A unit that is not in a year's budget has no adopted figure (NULL),
     and the newest year's modified figure is NULL until the next June release is out.
   - Figures are **gross**: they include intra-city transfers. OMB's headline totals are net.
-  - The browser explorer reads the same table (`agency_budget.parquet`), so the site and this
-    server can't disagree.
+  - The browser explorer reads the same table, as small JSON files built from it at build time
+    (since #302; the build checks every cell against the table), so the site and this server
+    can't disagree. `agency_budget.parquet` is still built, for the parity tests and SQL users.
+- **Two tools for City agency budgets** (#285). `search_agency_budget` finds agencies and units
+  by number (`056` or `56`) or words from the name (`police`), for one fiscal year, with totals.
+  `compare_adopted_modified` gives one agency's or unit's adopted and modified budget and the
+  change. Every answer names the release, says the amounts are gross, and says "not in that
+  year's budget" or "not yet published" instead of $0. Budgets only: spending questions go to
+  `@betanyc/nyc-checkbook-mcp`, and both tools say so.
+- `list_available_fiscal_years` reports the agency budget years and the snapshot date.
+- **FY2027 transparency resolutions** (#246). `search_transparency_changes` now reaches FY2027:
+  Res 0551-2026, 0595-2026, 0652-2026 and 0695-2026 (2026-07-16 to 2026-10-22), 2,808 rows,
+  labeled "checked, review in progress", from the next PDF-tables data release.
 <!-- TODO(#270): link the cross-repo "What's changed" log here when that standard lands. -->
 
 ## 2.0.6 — 2026-11-10
