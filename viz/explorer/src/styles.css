@@ -312,8 +312,14 @@ button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 main.wrap:focus { outline: none; }
 
-/* The citywide chart and summary on the agency list (#300). */
-.agencies .citywide { margin: 1rem 0 1.5rem; }
-.agencies .yoy { display: block; }
-.agencies .table-details > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 600; color: var(--bnyc-blue); }
-.agencies .table-details > summary:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: 2px; }
+/* #306: trend first, then one year. Section 2 has a visible top rule in #414141 (10:1 on white, 9.2:1 on the page blue). */
+.agencies .explainer { border: 1px solid var(--bnyc-blue); border-left: 4px solid var(--bnyc-blue); background: var(--paper); padding: 0.75rem 1rem; margin: 1rem 0 1.5rem; max-width: 750px; }
+.agencies .explainer h3 { margin-top: 0; }
+.agencies .explainer dl { margin: 0.5rem 0; }
+.agencies .explainer dt { font-weight: 700; }
+.agencies .explainer dd { margin: 0 0 0.5rem; }
+.agencies .explainer p { margin: 0.5rem 0 0; }
+.agencies .explainer-note { max-width: 750px; }
+.agencies .explainer-note a { display: inline-block; min-height: 24px; }
+.agencies .trend { margin: 1rem 0 2rem; }
+.agencies .one-year { border-top: 2px solid var(--bnyc-dark-gray); padding-top: 1rem; margin-top: 2rem; }

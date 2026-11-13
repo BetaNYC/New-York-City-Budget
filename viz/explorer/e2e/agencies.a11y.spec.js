@@ -8,7 +8,8 @@
  *   - The page's h1 names the half: "City agency budgets".
  *   - Every table has a caption and th scope; the year chart is an svg with role="img" and a name,
  *     next to a table with the same numbers.
- *   - The year picker is a <select> labeled "Fiscal year".
+ *   - The year picker is a <select> labeled "Fiscal year", inside the one-year section, after
+ *     the over-time chart (#306; the order is checked in agencies.citywide.spec.js).
  *   - A polite live region says what is shown after a change ("Showing FY2024 ...").
  *   - Moving to an agency or unit puts focus on its heading.
  *
@@ -58,8 +59,7 @@ describe(`Agency budgets: WCAG 2.2 AA${VIEW_PENDING ? ` (${VIEW_PENDING})` : ""}
       expect(await tables.count()).toBeGreaterThan(0);
       for (const t of await tables.all()) {
         await expect(t.locator("caption")).toHaveCount(1);
-        // textContent, not innerText: a table in a closed <details> (the citywide one, #300) is
-        // still a captioned table; innerText of a hidden element is "".
+        // textContent, not innerText, so a table inside a closed <details> would still count.
         expect(((await t.locator("caption").textContent()) ?? "").trim().length).toBeGreaterThan(0);
         for (const th of await t.locator("th").all()) expect(["col", "row", "colgroup", "rowgroup"]).toContain(await th.getAttribute("scope"));
       }
@@ -102,6 +102,19 @@ describe(`Agency budgets: WCAG 2.2 AA${VIEW_PENDING ? ` (${VIEW_PENDING})` : ""}
     const focused = page.locator(":focus");
     await expect(focused).toHaveText(/POLICE DEPARTMENT/);
     expect(await focused.evaluate((el) => /^H[1-6]$/.test(el.tagName))).toBe(true);
+  });
+
+  test("the explainer and the trend are in the page's outline, before the one-year section", async ({ page }) => {
+    // FAILS if a screen reader user browsing by heading meets the year picker's section before
+    // the explanation and the trend (#306), or the explainer's terms are not a list.
+    await openView(page, PAGES.list);
+    const h3 = await page.locator('[data-view="agencies"] h3').allTextContents();
+    expect(h3.slice(0, 3)).toEqual(["What adopted and modified mean", "The whole city, over time", "Agencies in FY2025"]);
+    await expect(page.locator("section.explainer dt")).toHaveText(["Adopted", "Modified"]);
+    for (const id of ["section.explainer", "section.trend", "section.one-year"]) {
+      const named = await page.locator(id).evaluate((el) => document.getElementById(el.getAttribute("aria-labelledby") ?? "")?.textContent ?? "");
+      expect(named.length, `${id} is named by its heading`).toBeGreaterThan(0);
+    }
   });
 
   test("a change of year is announced in a polite live region", async ({ page }) => {

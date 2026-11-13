@@ -64,3 +64,25 @@ describe("citywide summary (#300)", () => {
     expect(pctText(null, 5)).toBeNull();
   });
 });
+
+describe("change columns say which change, or why there is none (#306)", () => {
+  test("adopted vs. the year before: a reason instead of a bare dash", async () => {
+    // FAILS if a missing prior-year figure shows as "—", $0, or a -100% change.
+    const { vsLastYearWords } = await import("../../src/views/Agencies.jsx");
+    const row = { adopted: 5, modified: 6 };
+    expect(vsLastYearWords({ prevRow: { adopted: 4 }, row, year: 2026, first: 2017, noun: "unit" })).toBeNull();
+    expect(vsLastYearWords({ prevRow: null, row, year: 2026, first: 2017, noun: "unit", seenBefore: false })).toBe("New unit in FY2026");
+    expect(vsLastYearWords({ prevRow: null, row, year: 2026, first: 2017, noun: "unit", seenBefore: true })).toBe("Not in the FY2025 budget");
+    expect(vsLastYearWords({ prevRow: { adopted: null }, row, year: 2026, first: 2017, noun: "unit" })).toBe("No FY2025 adopted figure");
+    expect(vsLastYearWords({ prevRow: null, row, year: 2017, first: 2017, noun: "agency" })).toBe("No FY2016 figure");
+    expect(vsLastYearWords({ prevRow: { adopted: 4 }, row: { adopted: null }, year: 2026, first: 2017, noun: "unit" })).toBe("No FY2026 adopted figure");
+  });
+
+  test("modified vs. adopted: the newest year is not yet published, never $0", async () => {
+    const { vsAdoptedWords, NOT_PUBLISHED, NOT_IN_BUDGET } = await import("../../src/views/Agencies.jsx");
+    expect(vsAdoptedWords({ row: { adopted: 5, modified: 6 }, year: 2026, newest: 2027 })).toBeNull();
+    expect(vsAdoptedWords({ row: { adopted: 5, modified: null }, year: 2027, newest: 2027 })).toBe(NOT_PUBLISHED);
+    expect(vsAdoptedWords({ row: { adopted: 5, modified: null }, year: 2025, newest: 2027 })).toBe("No FY2025 modified figure");
+    expect(vsAdoptedWords({ row: null, year: 2025, newest: 2027 })).toBe(NOT_IN_BUDGET);
+  });
+});

@@ -183,74 +183,154 @@ function ListScreen({ state, set, go, fy, years, newest, manifest }) {
   const q = useAgencyJson([agenciesPath()]);
   const heading = useFocusOnChange("list");
   const ready = !q.loading && !q.error && Boolean(q.data);
+  const first = years.at(-1)?.fiscal_year;
   const rows = useMemo(() => {
     if (!q.data) return [];
     const all = q.data[agenciesPath()];
     const prev = new Map(agencyList(all, fy - 1).map((r) => [r.agency_number, r]));
-    return agencyList(all, fy).map((r) => ({ ...r, prevAdopted: prev.get(r.agency_number)?.adopted ?? null }));
-  }, [q.data, fy]);
+    const earlier = new Set(years.filter((y) => y.fiscal_year < fy).flatMap((y) => agencyList(all, y.fiscal_year).map((r) => r.agency_number)));
+    return agencyList(all, fy).map((r) => ({ ...r, prev: prev.get(r.agency_number) ?? null, seenBefore: earlier.has(r.agency_number) }));
+  }, [q.data, fy, years]);
   const cityRows = cityByYear(q.data?.[citywidePath()]);
   return (
     <Root ready={ready}>
       <h2 ref={heading} tabIndex={-1}>
-        All City agencies, FY{fy}
+        All City agencies
       </h2>
       <p className="lede">
-        How much each City agency was given in the budget the City adopted, and how that budget stood a year later (the modified budget). Pick an agency to see its
-        units of appropriation, the lines the Council votes on.
+        How much each City agency was given in the budget the City adopted, and how that budget stood a year later. Pick an agency to see its units of
+        appropriation, the lines the Council votes on.
       </p>
-      <YearPicker fy={fy} years={years} set={set} />
-      <Live text={ready ? `Showing FY${fy}, all agencies, ${plural(rows.length, "agency", "agencies")}.` : ""} />
+      <Explainer />
       {q.error ? <LoadError q={q} /> : null}
       {ready ? (
-        <>
-          <Citywide rows={cityRows} fy={fy} years={years} newest={newest} />
-          <h3>Agencies, FY{fy}</h3>
-          <table className="rows stack agency-table">
-            <caption>
-              Adopted and modified budgets by agency, FY{fy} ({plural(rows.length, "agency", "agencies")}, largest adopted first)
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Agency</th>
-                <th scope="col" className="num">Adopted FY{fy}</th>
-                <th scope="col" className="num">Modified FY{fy}</th>
-                <th scope="col" className="num">Adopted change from FY{fy - 1}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r) => (
-                <tr key={r.agency_number}>
-                  <th scope="row">
-                    <HashLink href={writeHash({ ...state, abfy: fy, abag: r.agency_number, abunit: "" })} onGo={() => go({ abfy: fy, abag: r.agency_number, abunit: "" })}>
-                      {r.agency_name}
-                    </HashLink>{" "}
-                    <span className="muted small">{r.agency_number}</span>
-                  </th>
-                  <td className="num" data-label={`Adopted FY${fy}`}>
-                    <Fig v={r.adopted} kind="adopted" year={fy} newest={newest} />
-                  </td>
-                  <td className="num" data-label={`Modified FY${fy}`}>
-                    <Fig v={r.modified} kind="modified" year={fy} newest={newest} />
-                  </td>
-                  <td className="num" data-label={`Adopted change from FY${fy - 1}`}>
-                    <Change c={change(r.prevAdopted, r.adopted)} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Downloads
-            rows={rows}
-            name={`nyc-agency-budgets-fy${fy}.csv`}
-            columns={[["Fiscal year", () => fy], ["Agency number", "agency_number"], ["Agency", "agency_name"], ["Adopted", "adopted"], ["Modified", "modified"]]}
+        <section className="trend" aria-labelledby="trend-h">
+          <h3 id="trend-h">The whole city, over time</h3>
+          <CitySummary rows={cityRows} newest={newest} />
+          <ByYear
+            rows={cityRows}
+            years={years}
+            newest={newest}
+            title="New York City budget"
+            noun="figure"
+            caption={`New York City budget, all agencies: adopted and modified by fiscal year, FY${first}–FY${newest}`}
           />
-        </>
-      ) : !q.error ? (
-        <p className="muted" role="status">Loading FY{fy}…</p>
+        </section>
       ) : null}
+      <section className="one-year" aria-labelledby="one-year-h">
+        <h3 id="one-year-h">Agencies in FY{fy}</h3>
+        <YearPicker fy={fy} years={years} set={set} />
+        <Live text={ready ? `Showing FY${fy}, all agencies, ${plural(rows.length, "agency", "agencies")}.` : ""} />
+        {ready ? (
+          <>
+            <table className="rows stack agency-table">
+              <caption>
+                Adopted and modified budgets by agency, FY{fy} ({plural(rows.length, "agency", "agencies")}, largest adopted first)
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Agency</th>
+                  <th scope="col" className="num">Adopted FY{fy}</th>
+                  <th scope="col" className="num">Adopted vs. FY{fy - 1} adopted</th>
+                  <th scope="col" className="num">Modified FY{fy}</th>
+                  <th scope="col" className="num">Modified vs. adopted</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((r) => (
+                  <tr key={r.agency_number}>
+                    <th scope="row">
+                      <HashLink href={writeHash({ ...state, abfy: fy, abag: r.agency_number, abunit: "" })} onGo={() => go({ abfy: fy, abag: r.agency_number, abunit: "" })}>
+                        {r.agency_name}
+                      </HashLink>{" "}
+                      <span className="muted small">{r.agency_number}</span>
+                    </th>
+                    <td className="num" data-label={`Adopted FY${fy}`}>
+                      <Fig v={r.adopted} kind="adopted" year={fy} newest={newest} />
+                    </td>
+                    <td className="num" data-label={`Adopted vs. FY${fy - 1} adopted`}>
+                      <VsLastYear prevRow={r.prev} row={r} year={fy} first={first} noun="agency" seenBefore={r.seenBefore} />
+                    </td>
+                    <td className="num" data-label={`Modified FY${fy}`}>
+                      <Fig v={r.modified} kind="modified" year={fy} newest={newest} />
+                    </td>
+                    <td className="num" data-label="Modified vs. adopted">
+                      <VsAdopted row={r} year={fy} newest={newest} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <Downloads
+              rows={rows}
+              name={`nyc-agency-budgets-fy${fy}.csv`}
+              columns={[["Fiscal year", () => fy], ["Agency number", "agency_number"], ["Agency", "agency_name"], ["Adopted", "adopted"], ["Modified", "modified"]]}
+            />
+          </>
+        ) : !q.error ? (
+          <p className="muted" role="status">Loading FY{fy}…</p>
+        ) : null}
+      </section>
       <SourceNote manifest={manifest} />
     </Root>
+  );
+}
+
+/** What adopted and modified mean (#306): the full box on the list page. */
+export const EXPLAINER_ID = "adopted-modified";
+function Explainer() {
+  return (
+    <section className="explainer" id={EXPLAINER_ID} aria-labelledby={`${EXPLAINER_ID}-h`}>
+      <h3 id={`${EXPLAINER_ID}-h`}>What adopted and modified mean</h3>
+      <dl>
+        <dt>Adopted</dt>
+        <dd>The budget the Mayor and City Council agree on in June, before the fiscal year starts. The plan.</dd>
+        <dt>Modified</dt>
+        <dd>The same budget as it stood the next June, near the end of the year, after the City moved money around. Closer to what happened.</dd>
+      </dl>
+      <p>
+        The gap between the two lines shows where plans changed during the year. NYC's fiscal year runs July 1 to June 30, so FY2026 is July 2025 to June
+        2026.
+      </p>
+    </section>
+  );
+}
+
+/** The one-line version on an agency page, with a link to the full box. */
+function ExplainerNote({ state, go }) {
+  return (
+    <p className="explainer-note">
+      Adopted is the plan agreed in June; modified is that budget a year later, after the City moved money around.{" "}
+      <HashLink href={writeHash({ ...state, abag: "", abunit: "" })} onGo={() => go({ abag: "", abunit: "" })}>
+        What adopted and modified mean
+      </HashLink>
+    </p>
+  );
+}
+
+/**
+ * The citywide trend in one line (#306): first year to newest adopted, and the newest modified
+ * figure against its own adopted. Not tied to the year picker, which only changes Section 2.
+ */
+function CitySummary({ rows, newest }) {
+  const a = rows.filter((r) => r.adopted != null);
+  const m = rows.filter((r) => r.modified != null).at(-1);
+  if (!a.length) return null;
+  const [lo, hi] = [a[0], a.at(-1)];
+  const pct = pctText(lo.adopted, hi.adopted);
+  return (
+    <p className="big citywide-summary">
+      Adopted: <strong>{money(lo.adopted)}</strong> in FY{lo.fiscal_year}, <strong>{money(hi.adopted)}</strong> in FY{hi.fiscal_year}
+      {pct ? ` (${pct})` : ""}.
+      {m ? (
+        <>
+          {" "}
+          Modified: <strong>{money(m.modified)}</strong> in FY{m.fiscal_year}
+          {pctText(m.adopted, m.modified) ? ` (${pctText(m.adopted, m.modified)} vs. FY${m.fiscal_year} adopted)` : ""}.
+        </>
+      ) : null}
+      {hi.fiscal_year === newest && hi.modified == null ? ` FY${newest} modified: ${NOT_PUBLISHED.toLowerCase()}.` : ""}
+    </p>
   );
 }
 
@@ -262,70 +342,33 @@ export function pctText(from, to) {
   return `${sign}${Math.abs(c.pct).toFixed(1)}%`;
 }
 
-/**
- * The citywide budget, the old /agencies/ app's opening chart (#300): adopted and modified for
- * every year, with the chosen year's summary line (each figure and its change from the year
- * before), from citywide.json. The newest year's modified is "Not yet published", never $0.
- */
-function Citywide({ rows, fy, years, newest }) {
-  const now = rows.find((r) => r.fiscal_year === fy);
-  const prev = rows.find((r) => r.fiscal_year === fy - 1);
-  if (!now) return null;
-  const first = rows[0]?.fiscal_year;
-  const part = (kind) => {
-    const pct = pctText(prev?.[kind], now[kind]);
-    return (
-      <>
-        {kind} <strong><Fig v={now[kind]} kind={kind} year={fy} newest={newest} /></strong>
-        {pct ? ` (${pct} from FY${fy - 1})` : ""}
-      </>
-    );
-  };
-  return (
-    <section className="citywide" aria-labelledby="citywide-h">
-      <h3 id="citywide-h">New York City budget, FY{first}–FY{newest}</h3>
-      <p className="big citywide-summary">
-        FY{fy}: {part("adopted")}; {part("modified")}.
-      </p>
-      <ByYear
-        rows={rows}
-        years={years}
-        newest={newest}
-        title="New York City budget"
-        caption={`New York City budget, all agencies: adopted and modified by fiscal year, FY${first}–FY${newest}, with the change from the year before`}
-        yearOverYear
-        tableLabel="Show the citywide numbers as a table"
-      />
-    </section>
-  );
-}
-
 // ---------------------------------------------------------------- one agency
 
 /**
- * The chart, then a table of the same numbers. With `tableLabel`, the table sits in a closed
- * <details> (the citywide one is eleven rows that would push the agency list far down a phone);
- * the chart's text alternative and the summary line still say what it shows.
+ * The chart, then a table of the same numbers, open (#306). The trend table (list and agency
+ * pages) has Year · Adopted · vs. year before · Modified · Modified vs. adopted; `simple` (the
+ * unit page, unchanged by #306) keeps Year · Adopted · Modified · Modified minus adopted.
  */
-function ByYear({ rows, years, newest, title, caption, yearOverYear = false, tableLabel = null }) {
+function ByYear({ rows, years, newest, title, caption, noun, simple = false }) {
   const byYear = new Map(rows.map((r) => [Number(r.fiscal_year), r]));
   const all = [...years].map((y) => y.fiscal_year).sort((a, b) => a - b);
   const series = all.map((y) => {
     const r = byYear.get(y);
-    return { year: y, adopted: r?.adopted ?? null, modified: r?.modified ?? null };
+    return { year: y, row: r ?? null, adopted: r?.adopted ?? null, modified: r?.modified ?? null };
   });
+  const first = all[0];
   return (
     <>
       <YearChart series={series} title={title} newest={newest} />
-      <MaybeDetails label={tableLabel}>
       <table className="rows stack agency-years">
         <caption>{caption}</caption>
         <thead>
           <tr>
             <th scope="col">Fiscal year</th>
             <th scope="col" className="num">Adopted</th>
+            {simple ? null : <th scope="col" className="num">Adopted vs. year before</th>}
             <th scope="col" className="num">Modified</th>
-            {yearOverYear ? null : <th scope="col" className="num">Modified minus adopted</th>}
+            <th scope="col" className="num">{simple ? "Modified minus adopted" : "Modified vs. adopted"}</th>
           </tr>
         </thead>
         <tbody>
@@ -334,34 +377,58 @@ function ByYear({ rows, years, newest, title, caption, yearOverYear = false, tab
               <th scope="row">FY{s.year}</th>
               <td className="num" data-label="Adopted">
                 <Fig v={s.adopted} kind="adopted" year={s.year} newest={newest} />
-                {yearOverYear ? <YoY from={series[i - 1]?.adopted} to={s.adopted} /> : null}
               </td>
-              <td className="num" data-label="Modified">
-                <Fig v={s.modified} kind="modified" year={s.year} newest={newest} />
-                {yearOverYear ? <YoY from={series[i - 1]?.modified} to={s.modified} /> : null}
-              </td>
-              {yearOverYear ? null : (
-                <td className="num" data-label="Modified minus adopted">
-                  <Change c={change(s.adopted, s.modified)} />
+              {simple ? null : (
+                <td className="num" data-label={`Adopted vs. FY${s.year - 1} adopted`}>
+                  <VsLastYear prevRow={series[i - 1]?.row ?? null} row={s.row} year={s.year} first={first} noun={noun} seenBefore={series.slice(0, i).some((p) => p.row)} />
                 </td>
               )}
+              <td className="num" data-label="Modified">
+                <Fig v={s.modified} kind="modified" year={s.year} newest={newest} />
+              </td>
+              <td className="num" data-label={simple ? "Modified minus adopted" : "Modified vs. adopted"}>
+                {simple ? <Change c={change(s.adopted, s.modified)} /> : <VsAdopted row={s.row} year={s.year} newest={newest} />}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-      </MaybeDetails>
     </>
   );
 }
 
-function MaybeDetails({ label, children }) {
-  if (!label) return children;
-  return (
-    <details className="table-details">
-      <summary>{label}</summary>
-      {children}
-    </details>
-  );
+/**
+ * Adopted against the year before's adopted, or why there is no change to show (#306): never a
+ * bare dash. `noun` names what is new ("agency", "unit"); `seenBefore` is false when nothing came
+ * before (a row missing from an earlier year then present is "Not in the FY… budget", not new).
+ */
+export function vsLastYearWords({ prevRow, row, year, first, noun, seenBefore = Boolean(prevRow) }) {
+  if (!row || row.adopted == null) return `No FY${year} adopted figure`;
+  if (year === first) return `No FY${year - 1} figure`;
+  if (!prevRow && noun && noun !== "figure" && !seenBefore) return `New ${noun} in FY${year}`;
+  if (!prevRow) return `Not in the FY${year - 1} budget`;
+  if (prevRow.adopted == null) return `No FY${year - 1} adopted figure`;
+  return null;
+}
+
+function VsLastYear(props) {
+  const words = vsLastYearWords(props);
+  if (words) return <span className="words">{words}</span>;
+  return <Change c={change(props.prevRow.adopted, props.row.adopted)} />;
+}
+
+/** Modified against the same year's adopted, or why not: the newest year is not published yet. */
+export function vsAdoptedWords({ row, year, newest }) {
+  if (!row) return NOT_IN_BUDGET;
+  if (row.modified == null) return year === newest ? NOT_PUBLISHED : `No FY${year} modified figure`;
+  if (row.adopted == null) return `No FY${year} adopted figure`;
+  return null;
+}
+
+function VsAdopted(props) {
+  const words = vsAdoptedWords(props);
+  if (words) return <span className="words">{words}</span>;
+  return <Change c={change(props.row.adopted, props.row.modified)} />;
 }
 
 /**
@@ -377,18 +444,20 @@ function useAgencyFile(abag) {
   return known ? one : { ...list, data: {} };
 }
 
-/** A figure's change from the year before, under it ("+3.0% from the year before"). */
-function YoY({ from, to }) {
-  const pct = pctText(from, to);
-  return pct ? <span className="yoy muted small">{pct} from the year before</span> : null;
-}
-
 function AgencyScreen({ state, set, go, fy, years, newest, abag, manifest }) {
   const q = useAgencyFile(abag);
   const heading = useFocusOnChange(`agency|${abag}`);
   const ready = !q.loading && !q.error && Boolean(q.data);
   const file = q.data?.[agencyPath(abag)];
-  const units = useMemo(() => agencyUnits(file, fy), [file, fy]);
+  const first = years.at(-1)?.fiscal_year;
+  const units = useMemo(() => {
+    const prev = new Map(agencyUnits(file, fy - 1).map((u) => [u.unit_number, u]));
+    const all = file?.units ?? [];
+    return agencyUnits(file, fy).map((u) => {
+      const yrs = all.find((x) => x.unit_number === u.unit_number)?.years ?? [];
+      return { ...u, prev: prev.get(u.unit_number) ?? null, seenBefore: yrs.some((y) => y.fiscal_year < fy) };
+    });
+  }, [file, fy]);
   const byYear = agencyByYear(file);
   const name = byYear.find((r) => Number(r.fiscal_year) === fy)?.agency_name ?? byYear.at(-1)?.agency_name ?? `Agency ${abag}`;
   const listHref = writeHash({ ...state, abfy: fy, abag: "", abunit: "" });
@@ -406,60 +475,71 @@ function AgencyScreen({ state, set, go, fy, years, newest, abag, manifest }) {
       <h2 ref={heading} tabIndex={-1}>
         {name} <span className="muted small">agency {abag}</span>
       </h2>
-      <YearPicker fy={fy} years={years} set={set} />
-      <Live text={ready ? `Showing FY${fy}, ${name}, ${plural(units.length, "unit")}.` : ""} />
+      <ExplainerNote state={{ ...state, abfy: fy }} go={go} />
       {q.error ? <LoadError q={q} /> : null}
       {ready ? (
-        <>
-          <h3>Units of appropriation, FY{fy}</h3>
-          {units.length === 0 ? (
-            <Notice>{name} has no unit in the FY{fy} budget.</Notice>
-          ) : (
-            <table className="rows stack agency-table">
-              <caption>
-                {name}: adopted and modified budget by unit of appropriation, FY{fy} ({plural(units.length, "unit")})
-              </caption>
-              <thead>
-                <tr>
-                  <th scope="col">Unit of appropriation</th>
-                  <th scope="col" className="num">Adopted FY{fy}</th>
-                  <th scope="col" className="num">Modified FY{fy}</th>
-                  <th scope="col" className="num">Modified minus adopted</th>
-                </tr>
-              </thead>
-              <tbody>
-                {units.map((u) => (
-                  <tr key={u.unit_number}>
-                    <th scope="row">
-                      <HashLink href={writeHash({ ...state, abfy: fy, abag, abunit: u.unit_number })} onGo={() => go({ abfy: fy, abag, abunit: u.unit_number })}>
-                        {u.unit_number} {u.unit_name}
-                      </HashLink>
-                    </th>
-                    <td className="num" data-label={`Adopted FY${fy}`}>
-                      <Fig v={u.adopted} kind="adopted" year={fy} newest={newest} />
-                    </td>
-                    <td className="num" data-label={`Modified FY${fy}`}>
-                      <Fig v={u.modified} kind="modified" year={fy} newest={newest} />
-                    </td>
-                    <td className="num" data-label="Modified minus adopted">
-                      <Change c={change(u.adopted, u.modified)} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-          <h3>{name}, every year</h3>
-          <ByYear rows={byYear} years={years} newest={newest} title={name} caption={`${name}: adopted and modified by fiscal year, FY${years.at(-1).fiscal_year}–FY${newest}`} />
-          <Downloads
-            rows={units}
-            name={`nyc-agency-${abag}-fy${fy}.csv`}
-            columns={[["Fiscal year", () => fy], ["Agency number", () => abag], ["Agency", "agency_name"], ["Unit number", "unit_number"], ["Unit", "unit_name"], ["Adopted", "adopted"], ["Modified", "modified"], ["Adopted release", "adopted_release"], ["Modified release", "modified_release"]]}
-          />
-        </>
-      ) : !q.error ? (
-        <p className="muted" role="status">Loading…</p>
+        <section className="trend" aria-labelledby="trend-h">
+          <h3 id="trend-h">{name}, over time</h3>
+          <ByYear rows={byYear} years={years} newest={newest} title={name} noun="agency" caption={`${name}: adopted and modified by fiscal year, FY${first}–FY${newest}`} />
+        </section>
       ) : null}
+      <section className="one-year" aria-labelledby="one-year-h">
+        <h3 id="one-year-h">Its units in FY{fy}</h3>
+        <YearPicker fy={fy} years={years} set={set} />
+        <Live text={ready ? `Showing FY${fy}, ${name}, ${plural(units.length, "unit")}.` : ""} />
+        {ready ? (
+          <>
+            {units.length === 0 ? (
+              <Notice>{name} has no unit in the FY{fy} budget.</Notice>
+            ) : (
+              <table className="rows stack agency-table">
+                <caption>
+                  {name}: adopted and modified budget by unit of appropriation, FY{fy} ({plural(units.length, "unit")})
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Unit of appropriation</th>
+                    <th scope="col" className="num">Adopted FY{fy}</th>
+                    <th scope="col" className="num">Adopted vs. FY{fy - 1} adopted</th>
+                    <th scope="col" className="num">Modified FY{fy}</th>
+                    <th scope="col" className="num">Modified vs. adopted</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {units.map((u) => (
+                    <tr key={u.unit_number}>
+                      <th scope="row">
+                        <HashLink href={writeHash({ ...state, abfy: fy, abag, abunit: u.unit_number })} onGo={() => go({ abfy: fy, abag, abunit: u.unit_number })}>
+                          {u.unit_number} {u.unit_name}
+                        </HashLink>
+                      </th>
+                      <td className="num" data-label={`Adopted FY${fy}`}>
+                        <Fig v={u.adopted} kind="adopted" year={fy} newest={newest} />
+                      </td>
+                      <td className="num" data-label={`Adopted vs. FY${fy - 1} adopted`}>
+                        <VsLastYear prevRow={u.prev} row={u} year={fy} first={first} noun="unit" seenBefore={u.seenBefore} />
+                      </td>
+                      <td className="num" data-label={`Modified FY${fy}`}>
+                        <Fig v={u.modified} kind="modified" year={fy} newest={newest} />
+                      </td>
+                      <td className="num" data-label="Modified vs. adopted">
+                        <VsAdopted row={u} year={fy} newest={newest} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            <Downloads
+              rows={units}
+              name={`nyc-agency-${abag}-fy${fy}.csv`}
+              columns={[["Fiscal year", () => fy], ["Agency number", () => abag], ["Agency", "agency_name"], ["Unit number", "unit_number"], ["Unit", "unit_name"], ["Adopted", "adopted"], ["Modified", "modified"], ["Adopted release", "adopted_release"], ["Modified release", "modified_release"]]}
+            />
+          </>
+        ) : !q.error ? (
+          <p className="muted" role="status">Loading…</p>
+        ) : null}
+      </section>
       <SourceNote manifest={manifest} />
     </Root>
   );
@@ -498,7 +578,7 @@ function UnitScreen({ state, set, go, fy, years, newest, abag, abunit, manifest 
       {q.error ? <LoadError q={q} /> : null}
       {ready ? (
         <>
-          <ByYear rows={byYear} years={years} newest={newest} title={`${agencyName}, ${abunit} ${unitName}`} caption={`${agencyName}, unit ${abunit} ${unitName}: adopted and modified by fiscal year`} />
+          <ByYear simple rows={byYear} years={years} newest={newest} title={`${agencyName}, ${abunit} ${unitName}`} caption={`${agencyName}, unit ${abunit} ${unitName}: adopted and modified by fiscal year`} />
           <Downloads
             rows={byYear}
             name={`nyc-agency-${abag}-unit-${abunit}.csv`}

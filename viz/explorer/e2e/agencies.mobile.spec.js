@@ -56,6 +56,23 @@ describe(`Agency budgets on a phone${VIEW_PENDING ? ` (${VIEW_PENDING})` : ""}`,
     });
   }
 
+  for (const name of ["list", "agency"]) {
+    test(`the open over-time table stacks at 320px, every cell labeled, picker below it: ${name}`, async ({ page }) => {
+      // FAILS if the five-column trend table (#306) scrolls sideways or loses its labels when
+      // stacked, or the year picker moves above the chart on a phone.
+      await page.setViewportSize({ width: 320, height: 740 });
+      await openView(page, PAGES[name]);
+      const table = page.locator("section.trend table");
+      await expect(table).toBeVisible();
+      const unlabeled = await table.locator("tbody td").evaluateAll((tds) => tds.filter((td) => !td.getAttribute("data-label")).length);
+      expect(unlabeled).toBe(0);
+      const chart = await page.locator('section.trend svg[role="img"]').boundingBox();
+      const picker = await page.locator("section.one-year select").boundingBox();
+      expect(picker.y, "picker is below the chart").toBeGreaterThan(chart.y + chart.height);
+      expect(picker.height).toBeGreaterThanOrEqual(44);
+    });
+  }
+
   test("text at 200% still fits: list at 375px", async ({ page }) => {
     // FAILS if enlarged text (WCAG 1.4.4) pushes the list off the side of a phone.
     await page.setViewportSize({ width: 375, height: 740 });
