@@ -63,6 +63,7 @@ function Results({ data, state, set, go }) {
       {n > 0 && (
         <div className="table-wrap">
           <table className="rows">
+            <caption className="visually-hidden">Matching organization rows from the capital book</caption>
             <thead>
               <tr>
                 <th scope="col">FY</th>

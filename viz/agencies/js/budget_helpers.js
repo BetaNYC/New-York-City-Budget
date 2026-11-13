@@ -1,3 +1,6 @@
+// Kept after the app was retired (#270, #288): nothing on the site loads this file. The explorer's
+// old-link test (viz/explorer/test/unit/agency-legacy.test.js) runs convertToSlug from it, so old
+// /agencies/ links are checked against the real slug rule.
 var BudgetHelpers = BudgetHelpers || {};
 var BudgetHelpers = {
 

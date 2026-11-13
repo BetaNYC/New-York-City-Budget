@@ -1,8 +1,13 @@
 # `nyc_budget.csv` — schema and methodology
 
-Stable documentation of the cleaned CSV emitted by [`code/agency_budget_cleanup.py`](../../../code/agency_budget_cleanup.py) (until #265, `data/nyc_budget_cleanup.py` in BetaNYC/nyc-budget-viz). This file is the
-contract a downstream consumer (the front-end today, an MCP or API tomorrow) can build against
-without re-reading the pipeline code.
+Stable documentation of the City agency budgets CSV, `agencies/data/nyc_budget.csv`. Since
+#288 (2026-11-12) it is written from the MCP index's `agency_budget` table by
+[`viz/explorer/scripts/agency-csv.mjs`](../../explorer/scripts/agency-csv.mjs); the table is built
+by [`mcp/scripts/agency-budget.mjs`](../../../mcp/scripts/agency-budget.mjs), the one place the
+year rule below is coded. (Until #288 [`code/agency_budget_cleanup.py`](../../../code/agency_budget_cleanup.py)
+pulled Open Data and applied the rule itself; before #265 it was `data/nyc_budget_cleanup.py` in
+BetaNYC/nyc-budget-viz.) This file is the contract a downstream consumer can build against without
+re-reading the code. The explorer's view and the MCP read the table, not this file.
 
 ## Source
 
@@ -53,8 +58,8 @@ chronological maximum. Release dates are discovered from the data, not hard-code
 
 ## Validation gate
 
-The run aborts, writing nothing, unless the CSV reproduces OMB's printed FY2026 Adopted
-Budget (link above) exactly:
+`mcp/test/agency-budget.test.js` (the table) and `code/test_agency_budget_cleanup.py` (this CSV)
+fail unless the figures reproduce OMB's printed FY2026 Adopted Budget (link above) exactly:
 
 | Check | Value | Where in the PDF |
 |---|---:|---|
@@ -66,10 +71,9 @@ Budget (link above) exactly:
 | Manhattan CB 1 unit 001 / 002 FY2026 adopted | $275,060 / $27,245 | p. 182E |
 
 Totals here are **gross**: Open Data rows include intra-city transfers, which OMB subtracts to
-get its headline "net total budget" ($115.9 billion for FY2026). It also aborts if, for any
-year, the citywide `financial_plan_amount` in the June release tagged Y differs from the
-`adopted_budget_amount` in the release tagged Y+1 (the two routes to "FY Y adopted"; they
-agree to the dollar for FY2017–FY2026).
+get its headline "net total budget" ($115.9 billion for FY2026). The two routes to "FY Y
+adopted" (the citywide `financial_plan_amount` in the June release tagged Y, and
+`adopted_budget_amount` in the release tagged Y+1) agree to the dollar for FY2017–FY2026.
 
 ## Grain
 
@@ -83,8 +87,8 @@ release the unit appears in.
 
 ## Columns
 
-Header names are **case-sensitive** and must not change without a matching change in
-`viz/agencies/js/app.js` (see the coupling note below).
+Header names are **case-sensitive** and kept as they were, so files and scripts that read them
+keep working (Noel's default for #270: keep `Fund` / `Department` until a major release).
 
 ### Static columns
 
@@ -116,6 +120,11 @@ the release that adopts FY `YYYY+1`. Until then (today: `Modified 2027`, until t
 budget is adopted in June 2027) the cell is an empty string, not `0`. The site shows it as
 "Not yet published". Consumers must treat empty as "no data", not zero.
 
+**`0` can mean "not in this year's budget".** A unit that is not in a year's release at all is
+written as `0` here, as the old app did (936 adopted cells as of 2026-11-09; 229 more are a real
+$0). The explorer and the MCP say "Not in this year's budget" there; the `agency_budget` table
+(DATA-DICTIONARY.md) has NULL. This file keeps the 0s so its shape does not change.
+
 **"Modified" here is as of June.** It is the modified budget recorded in the June release,
 shortly before the fiscal year closes on June 30. Checkbook NYC's year-end modified figure can
 differ slightly.
@@ -126,30 +135,26 @@ budgets, but the site's range starts at FY2017, so those amounts are not used.
 Values are written plain — no `$`, no thousands separators. Whole-dollar amounts render as
 integers; cents are preserved only when actually present. Consumers should parse them as floats.
 
-### Column/label coupling (do not drift)
-
-`js/app.js` reads each year's value with the key `<label> + ' ' + year`, where `label` is the
-config's `apropTitle` (`'Adopted'`) or `expendTitle` (`'Modified'`). The CSV column **prefixes**
-here must equal those labels exactly. The pipeline centralizes them in `APROP_LABEL` /
-`EXPEND_LABEL`; rename one side and you must rename the other, or the chart reads `NaN`.
-
 ## Regenerating
 
 ```bash
-# from the repo root
-python3 code/agency_budget_cleanup.py            # writes viz/agencies/data/nyc_budget.csv (full) + sample
-python3 code/agency_budget_cleanup.py --sample-only   # sample only (fast)
-python3 code/agency_budget_cleanup.py --out DIR       # write into DIR
+# from the repo root, after `npm ci` in mcp/ and viz/explorer/
+python3 code/agency_budget_cleanup.py            # index build, then writes viz/agencies/data/nyc_budget.csv
+python3 code/agency_budget_cleanup.py --check    # exit 1 if the committed file differs from the index
 ```
 
-Stdlib only (`urllib`, `csv`, `json`) — no third-party dependencies. Idempotent: re-running
-overwrites the output deterministically. Read-only against the API; writes only local CSVs.
+The same as `node viz/explorer/scripts/agency-csv.mjs` after the index build. Deterministic:
+`viz/explorer/test/agency-csv.test.mjs` checks the committed file equals the index byte for byte
+(CRLF line ends, minimal quoting, as Python's `csv` module wrote it before). To take in a new
+June release, refresh the snapshot first (`python3 code/fetch_agency_budget_qa.py`), then run
+`python3 code/qa_agency_budget.py`, the independent check.
 
-## Notes for a future MCP / API
+## The MCP and the explorer
 
-- The `(agency, unit)` grain, the one-June-release rule and the year mapping above are the
-  stable primitives — an MCP should expose totals from the June release with the corrected
-  year mapping, never the raw multi-publication rows.
+- Since 2.1.0 the budget MCP serves these figures (`search_agency_budget`,
+  `compare_adopted_modified`) from the `agency_budget` table, and the explorer's City agency
+  budgets view reads the same table as Parquet. Both use the `(agency, unit)` grain, the
+  one-June-release rule and the year mapping above, never the raw multi-publication rows.
 - Keep `agency_number` / `unit_appropriation_number` as **strings**; they are zero-padded and
   casting to int drops leading zeros (`040` → `40`).
 - There is one dimension, agency then unit of appropriation. A second one (e.g. object class)

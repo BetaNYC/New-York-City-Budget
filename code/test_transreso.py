@@ -813,3 +813,69 @@ def test_no_page_picture_line_reaches_checks_file(tmp_path, monkeypatch):
     txt = open(os.path.join(tmp_path, "fy26_tr_checks.txt"), encoding="utf-8").read()
     assert ("  no page picture for 1 item(s) with no single page (a whole resolution, or a page "
             "the PDF does not have): T3.charts Reso 2 p.0\n") in txt
+
+
+# --- FY2027 (#102, #246) ----------------------------------------------------------------------------
+CFG27 = ptv.load_config(2027)
+OUT27 = os.path.join(ROOT, CFG27["review_dir"], "data")
+
+
+def _read27(name):
+    path = os.path.join(OUT27, name)
+    if not os.path.exists(path):
+        pytest.skip(f"{name} not built")
+    return list(csv.DictReader(open(path, encoding="utf-8")))
+
+
+def test_fy27_resolution_text_from_word_file():
+    # The FY2027 charts PDFs print no resolution text; it is the matter's "Res. No." Word file.
+    res = {r["seq"]: r for r in CFG27["resolutions"]}
+    t1 = ptv.front_text(res[1])
+    assert t1.startswith("Preconsidered Res. No. 551")
+    assert "pursuant to the Fiscal 2027, Fiscal 2026, and Fiscal 2025 Expense Budgets, as set forth in Charts 1 through 38." in t1
+    assert "Fiscal 2025" not in ptv.front_text(res[2])      # Reso 02 names 2026 and 2027 only
+    for r in res.values():
+        assert f"Charts 1 through {r['charts_printed']}." in ptv.front_text(r)
+    # A text file whose bytes differ from the config stops the run.
+    with pytest.raises(SystemExit, match="sha256 differs"):
+        ptv.front_text(dict(res[1], text_sha256="0" * 64))
+
+
+def test_snapshot_fy27_rows_and_checks():
+    rows = _read27("fy27_tr_rows.csv")
+    assert len(rows) == 2808
+    by = {}
+    for r in rows:
+        by[(r["resolution_seq"], r["resolution_number"], r["resolution_date"])] = \
+            by.get((r["resolution_seq"], r["resolution_number"], r["resolution_date"]), 0) + 1
+    assert by == {("1", "Res 0551-2026", "2026-07-16"): 719, ("2", "Res 0595-2026", "2026-08-13"): 425,
+                  ("3", "Res 0652-2026", "2026-09-24"): 1297, ("4", "Res 0695-2026", "2026-10-22"): 367}
+    txt = open(os.path.join(OUT27, "fy27_tr_checks.txt"), encoding="utf-8").read()
+    assert "FAIL" not in txt.replace("(FAIL)", "")
+    assert "agree on every field: 2,808 of 2,808" in txt and "(PASS)" in txt
+    assert "printed chart counts tie on 4 of 4" in txt
+    assert "1 printed inside an organization (a named exception in the config)" in txt
+
+
+def test_golden_fy27_ein_in_org_reso04_p13():
+    # Read off the rendered page: Restler | 113271472 - Urban Assembly Institute of Math and
+    # Science for Young Women (13K527) ** | 11-3271472 | DCLA | $20,000 | 126 | 003.
+    r = next(r for r in _read27("fy27_tr_rows.csv") if r["row_id"] == "fy27-tr04-p013-r010")
+    assert r["member"] == "Restler" and r["ein"] == "113271472" and r["ein_printed"] == "11-3271472"
+    assert r["org"] == "113271472 - Urban Assembly Institute of Math and Science for Young Women (13K527)"
+    assert (r["agency"], r["amount"], r["agy_num"], r["ua"]) == ("DCLA", "20000", "126", "003")
+
+
+def test_fy27_ein_in_text_exception_must_match(tmp_path, monkeypatch):
+    # A T5.ein_in_text exception naming a word no organization on the page prints fails T5.
+    cfg = ptv.load_config(2027)
+    for e in cfg["exceptions"]:
+        if e["check_id"] == "T5.ein_in_text":
+            e["word"] = "999999999"
+    monkeypatch.setattr(ptv, "load_config", lambda fy: cfg)
+    monkeypatch.setattr(ptv, "run_cv", lambda cfg, R, rows, out: ({}, {}, [], {}))
+    monkeypatch.setattr(ptv, "review_crops", lambda cfg, R, rv, by_id, outdir: [])
+    ptv.main(["--fy", "2027", "--out", str(tmp_path)])
+    txt = open(os.path.join(tmp_path, "fy27_tr_checks.txt"), encoding="utf-8").read()
+    t5 = next(l for l in txt.splitlines() if "T5.anchors" in l)
+    assert t5.lstrip().startswith("FAIL")

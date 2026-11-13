@@ -1,0 +1,17 @@
+{
+  "config": "config/transparency/fy2027.toml",
+  "config_sha256": "bd2246c51848dd32922b98d5193c7fac7eff474a497777425c1aea6b66d495e0",
+  "fiscal_year": 2027,
+  "numpy": "2.5.4",
+  "opencv": "4.14.0",
+  "pdfium": "159.0.8149.0@sourcebuild-toolchained",
+  "pdfplumber": "0.11.10",
+  "pdfs": {
+    "source/FY27/transparency-resolutions/Transparency-Reso-01-2026-07-16.pdf": "454393cb7276f228bcce5ba080c67573c5d0ffeba34b785d74f14bbfc00674ec",
+    "source/FY27/transparency-resolutions/Transparency-Reso-02-2026-08-13.pdf": "5df6d3d6eb28e5e3837a25a2f13cab72f084e5cff55b6c16d6694556f4a1fd98",
+    "source/FY27/transparency-resolutions/Transparency-Reso-03-2026-09-24.pdf": "668731690e142ac1215e69b1b9904bed9a2ef4afe1bf4201ad2392041e8df9bb",
+    "source/FY27/transparency-resolutions/Transparency-Reso-04-2026-10-22.pdf": "bd92d7699ff96872cb93ac2faad6a1b0a0b28a1aaf77af05c5690b31fd5fbfac"
+  },
+  "pypdfium2": "5.15.2",
+  "python": "3.15.2"
+}

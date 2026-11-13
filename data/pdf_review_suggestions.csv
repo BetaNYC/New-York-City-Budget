@@ -158,6 +158,16 @@ fiscal_year,family,review_id,check_id,suggested_decision,suggested_note,source
 2027,schedule_c,7253bd6cce3a,H13.rollup,source_error,The same $1 in the roll-up (item 4).,research/2026-10-20-fy27-schedule-c-review/REVIEW.md item 5
 2027,schedule_c,d68b985e6c58,H12.designated_sum,source_error,"The PDF disagrees with itself by $1 (statement $7,229,999, rows $7,229,998).",research/2026-10-20-fy27-schedule-c-review/REVIEW.md item 4
 2027,schedule_c,173122c5ffd8,K.text_layer,,No suggestion in the Schedule C REVIEW.md.,research/2026-10-20-fy27-schedule-c-review/REVIEW.md
+2027,transparency,c983e4543f60,K.org_is_ein,needs_info,As the FY2027 transparency REVIEW.md suggests (needs_info: which organization the row means); see its item.,research/2026-11-12-fy27-transparency-review/REVIEW.md Critical #1
+2027,transparency,dd6186017c15,W5.wrap_hyphen,accepted_as_printed,As the FY2027 transparency REVIEW.md suggests; see its item.,research/2026-11-12-fy27-transparency-review/REVIEW.md Warn #2
+2027,transparency,843b700617c6,K.no_fiscal_year,accepted_as_printed,As the FY2027 transparency REVIEW.md suggests; see its item.,research/2026-11-12-fy27-transparency-review/REVIEW.md Warn #3
+2027,transparency,8a66539867c8,K.no_fiscal_year,accepted_as_printed,As the FY2027 transparency REVIEW.md suggests; see its item.,research/2026-11-12-fy27-transparency-review/REVIEW.md Warn #4
+2027,transparency,f5fe42087cd0,K.no_fiscal_year,accepted_as_printed,As the FY2027 transparency REVIEW.md suggests; see its item.,research/2026-11-12-fy27-transparency-review/REVIEW.md Warn #5
+2027,transparency,32a603505c39,T3.continued_missing,accepted_as_printed,As the FY2027 transparency REVIEW.md suggests; see its item.,research/2026-11-12-fy27-transparency-review/REVIEW.md Warn #6
+2027,transparency,2dd5104fe949,T3.continued_missing,accepted_as_printed,As the FY2027 transparency REVIEW.md suggests; see its item.,research/2026-11-12-fy27-transparency-review/REVIEW.md Warn #7
+2027,transparency,35992519dff3,W.caption_format,accepted_as_printed,As the FY2027 transparency REVIEW.md suggests; see its item.,research/2026-11-12-fy27-transparency-review/REVIEW.md Warn #8
+2027,transparency,4e37d0bb4fc2,W.caption_format,accepted_as_printed,As the FY2027 transparency REVIEW.md suggests; see its item.,research/2026-11-12-fy27-transparency-review/REVIEW.md Warn #9
+2027,transparency,c54044418234,W.caption_format,accepted_as_printed,As the FY2027 transparency REVIEW.md suggests; see its item.,research/2026-11-12-fy27-transparency-review/REVIEW.md Warn #10
 2026,capital_sd,0a4bc5e267ec,C3.part2_only,accepted_as_printed,Part II only (MA ID on a 0N line); accept as printed and include in the Council Finance question.,research/2026-10-21-fy26-capital-terms-review/REVIEW.md A3
 2026,capital_sd,138c84722a95,C3.part2_only,accepted_as_printed,"Part II only, on a DN line; accept as printed and include in the Council Finance question.",research/2026-10-21-fy26-capital-terms-review/REVIEW.md A7
 2026,capital_sd,80b21af34f06,C3.part2_only,accepted_as_printed,"A negative row (-183,000), Part II only; a reduction, accept as printed.",research/2026-10-21-fy26-capital-terms-review/REVIEW.md A8

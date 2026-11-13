@@ -187,6 +187,7 @@ function Results({ data, state, set, go, years, scYears, odIn }) {
         <>
           <div className="table-wrap">
             <table className="rows">
+              <caption className="visually-hidden">Matching expense awards, largest first</caption>
               <thead>
                 <tr>
                   <th scope="col">FY</th>
