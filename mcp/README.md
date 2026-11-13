@@ -10,11 +10,12 @@ Four more tools answer from the **checked tables BetaNYC reads from the Council'
 tables are an **optional download** (about 17 MB; 115 MB on disk), not part of the package: see
 [The checked PDF tables](#the-checked-pdf-tables-optional-download).
 
-> **Version 2.0.6** (2026-11-10). 2.0.2 (2026-10-23) added the four PDF tools and the optional
+> **Version 2.1.0** (2026-11-12). 2.0.2 (2026-10-23) added the four PDF tools and the optional
 > download; nothing was removed. 2.0.3 matched capital IDs in full, 2.0.4 (2026-10-25) made short
 > text-filter terms match whole words (`whole_word`), and 2.0.5 (2026-11-09) added `mcpName` for
 > the MCP Registry. 2.0.6 fixes Terms and Conditions unit amounts that were one fiscal year late
-> (#274). The downloader always takes the newest data release
+> (#274). 2.1.0 adds City agency budgets, adopted and modified by unit of appropriation,
+> FY2017 on, from NYC Open Data (`agency_budget`, #270). The downloader always takes the newest data release
 > ([releases page](https://github.com/BetaNYC/New-York-City-Budget/releases)). As of 2026-10-24 that is
 > [`pdf-tables-2026-10-24-260d16e`](https://github.com/BetaNYC/New-York-City-Budget/releases/tag/pdf-tables-2026-10-24-260d16e): 36 checked family-years, FY2018–FY2027 (17.4 MB of tables), and, with `--pdfs`, the
 > 126 PDFs they cite (148 MB). The first was `pdf-tables-2026-10-23-5bab77c`.
@@ -39,7 +40,7 @@ Add this to your MCP client config (Claude Desktop, Claude Code, etc.):
 }
 ```
 
-Restart the client; the eight `nyc-budget` tools become available. The four PDF tools answer
+Restart the client; the ten `nyc-budget` tools become available. The four PDF tools answer
 with how to add their tables until you download them:
 
 ```json
@@ -63,7 +64,8 @@ PDF-derived data.
 |---|---|---|---|
 | Expense funding **disclosure** | **FY2009, FY2011–FY2027** (156,544 rows) | The Council's own award-level workbooks: FY2013–FY2027 downloaded from the Council RnD site on 2026-10-12, FY2009, FY2011 and FY2012 from the Council's archived workbooks via the Internet Archive (retrieved 2026-10-14) | **FY2010 is not included**: the Council's workbook (2,592 rows) is incomplete against NYC Open Data's (5,981 rows), and the two are never mixed. **FY2009 and FY2013 are early snapshots**, frozen while much was Pending and never revised: their Cleared totals are not headline figures. Per-year provenance: [`../data/disclosure_years.csv`](../data/disclosure_years.csv) |
 | Council **capital** designations | **FY2015–FY2017, FY2019–FY2027** (16,916 rows) | The Council's capital workbooks (FY2015–FY2017 and FY2026 via the Internet Archive, FY2027 from the RnD site) and NYC Open Data `t474-a92g`, which the Council publishes (FY2019–FY2025) | **FY2018 is missing** from every source found. Exact by budget line only: Council project IDs do not link to OMB, FMS or Checkbook, and there is no contract-level data. Overview: [`../data/capital/README.md`](../data/capital/README.md) |
-| **Checked PDF tables** (optional download) | Schedule C FY2018–FY2027 · transparency resolutions FY2018–FY2026 · capital book FY2018–FY2020, FY2022–FY2027 · Terms and Conditions FY2018, FY2021–FY2027 | Read by BetaNYC from the Council's PDFs (`../source/FYNN/`) and checked (`../PDF-RECIPE.md`); statuses in [`../data/pdf_years.csv`](../data/pdf_years.csv) | As of 2026-10-24 every family-year is `reviewed` ("checked, review in progress"); none is `closed` ("checked and reviewed") yet. FY2008–FY2017 were read only by the old parser and are not served |
+| **Checked PDF tables** (optional download) | Schedule C FY2018–FY2027 · transparency resolutions FY2018–FY2027 · capital book FY2018–FY2020, FY2022–FY2027 · Terms and Conditions FY2018, FY2021–FY2027 | Read by BetaNYC from the Council's PDFs (`../source/FYNN/`) and checked (`../PDF-RECIPE.md`); statuses in [`../data/pdf_years.csv`](../data/pdf_years.csv) | As of 2026-10-24 every family-year is `reviewed` ("checked, review in progress"); none is `closed` ("checked and reviewed") yet. FY2008–FY2017 were read only by the old parser and are not served |
+| **City agency budgets** (2.1.0) | **FY2017–FY2027** adopted; modified FY2017–FY2026 (FY2027 not yet published) | NYC Open Data `mwzb-yiwb` (Expense Budget, OMB), each tag's June release, snapshot in [`../source/agency-budget-qa/`](../source/agency-budget-qa/README.md) (pulled 2026-11-09) | Every agency × unit of appropriation × year (7,611 rows). **Gross**: includes intra-city transfers. A unit not in a year's budget says so, never $0. Budgets, not spending |
 | Council vs **OMB** adopted capital budget | **FY2019–FY2027** (1,425 line-year comparisons, 515 distinct budget lines) | This repo's arithmetic on the capital table and OMB's `46m8-77gv` adopted release | Not a Council or OMB reconciliation. [`../data/capital/RECONCILIATION.md`](../data/capital/RECONCILIATION.md) §3 |
 
 `list_available_fiscal_years` reports this per year, with every gap stated.
@@ -71,7 +73,9 @@ PDF-derived data.
 **In a browser:** the [budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/)
 ([`../viz/explorer/`](../viz/explorer/README.md)) is built from this server's own index
 (`scripts/build-index.mjs` → `data/budget.db` → Parquet), and a parity test in CI checks that the
-two agree year by year. A change to the index build reaches the explorer on its next deploy.
+two agree year by year. A change to the index build reaches the explorer on its next deploy. The
+City agency budgets are the explorer's [`#view=agencies`](https://betanyc.github.io/New-York-City-Budget/explorer/#view=agencies),
+from the same `agency_budget` table as `search_agency_budget`.
 
 ## Tools
 
@@ -84,6 +88,8 @@ two agree year by year. A change to the index build reaches the explorer on its 
 | `search_transparency_changes` | The transparency resolutions: designations, rescissions and purpose-of-funds changes after adoption, by fiscal year / budget year / organization / EIN / member / `resolution_number` / `resolution_date` or a `date_from`–`date_to` range / action, newest first. Totals per kind of change; "no dollar amount" rows counted, never summed. PDF tables |
 | `search_capital_book` | The §254 supporting detail (Parts I and II) by fiscal year / `project_id` / `budget_line` / sponsor / borough / agency / title / part / amount range, in book order. The total is Part I's (it ties to the book's printed total); "of which … went to non-city groups" is the Part I rows the book lists again in Part II (the same year, SUB ID and budget line, as the explorer); rows printed only in Part II are listed apart and never added, and only the year's Part II series among them ("MA" IDs on "0N" lines; FY2026 "MM"; from `config/capital_sd/fyYYYY.toml`) is labeled with its question to Council Finance and that question's status (`data/council_questions.csv`). Reductions counted on their own; "CD nn" sponsors labeled as districts with no member; borough "A" and "C" shown as printed, "not a borough, meaning unclear" (question to the Council: #227, with its status), and matched as printed by a borough filter. PDF tables |
 | `search_terms_conditions` | Terms and Conditions by fiscal year / agency / unit of appropriation / text, the same filters as the explorer's Terms view. PDF tables |
+| `search_agency_budget` | City agency budgets (2.1.0): adopted and modified, by agency (`056`, `56` or words from the name) / unit of appropriation (`001` or words) / fiscal year, FY2017 on. Agency and unit totals, each figure's Open Data release, gross amounts stated. No filter: every agency's total for the year |
+| `compare_adopted_modified` | One agency or unit, one fiscal year: adopted, modified, and the change in dollars and percent. The newest year's modified is "not yet published", so no change is reported |
 | `list_available_fiscal_years` | What each fiscal year holds in each dataset and where it came from; FY2010 (disclosure) and FY2018 (capital) stated as gaps; each PDF family-year's status, and whether the PDF tables are installed |
 
 ### Unknown parameters are rejected, not ignored
@@ -191,6 +197,19 @@ both years; it does not show that the projects under the line are the same. A li
 one side shows `—` there, never `$0`. Counts are line-year comparisons (1,425 over 515 distinct
 budget lines, FY2019–FY2027). A Council row on a line outside the Council series is not compared
 and the answer lists it (one today: FY2021 `PW MN02A`, $304,000).
+
+### City agency budgets, and where spending questions go
+
+`search_agency_budget` and `compare_adopted_modified` answer **budgets**: what the City adopted
+for each agency and unit of appropriation, and the modified budget a year later, from NYC Open
+Data's Expense Budget (`mwzb-yiwb`). Adopted FY Y comes from the June release tagged Y
+(`financial_plan_amount`); modified FY Y from the June release tagged Y+1
+(`current_modified_budget_amount`). Every figure names its release. Amounts are gross (they
+include intra-city transfers), so they add up to more than OMB's headline net budget.
+
+They do not answer **spending**: what the City actually spent, paid or put under contract. Those
+questions go to [`@betanyc/nyc-checkbook-mcp`](https://www.npmjs.com/package/@betanyc/nyc-checkbook-mcp)
+(Checkbook NYC). Both tool descriptions, and every answer, say so.
 
 ### Behavior common to the searches
 
@@ -471,7 +490,7 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/pdf-download.test.js` | The download, against a local HTTP server and folder only: install, `--pdfs`, a tampered, oversized or missing file (or PDF) installs nothing and leaves no temp file, a killed download's temp files are swept, one download at a time, plain http refused, `NYC_BUDGET_PDF_DATA=on` in the background and `=pdfs` not re-downloading a release without PDFs, release picking |
 | `test/pdf-release.test.js` | The automatic release (W7): `verify-pdf-release.mjs` accepts pretest's release and lists exactly its files, manifest last; refuses a local build, another commit, a tampered or missing file, another format; the workflow's tag is one the downloader picks, and the CLI installs from exactly the uploaded files on a local HTTP server; the workflow never runs on a PR, has write access only in its publish job, never builds with `--allow-local-commit` |
 | `test/source-commit.test.js` | The commit recorded for the GitHub links, on a throwaway repo: only a clean commit on `origin/main` whose PDFs match |
-| `test/tools.test.js` | Exactly eight tools listed; every removed 1.x tool answers with its migration note; `list_available_fiscal_years` matches the datasets year by year |
+| `test/tools.test.js` | Exactly ten tools listed; every removed 1.x tool answers with its migration note; `list_available_fiscal_years` matches the datasets year by year |
 | `test/disclosure.test.js` | Every row of every year indexed with its provenance; FY2010 not loaded; true counts and Cleared / Pending totals under any `limit`; ordering; status, amount, address and member filters; caveat and footer; strict-schema hints |
 | `test/disclosure-audit.test.js` | The audit questions (`../data/DISCLOSURE-AUDIT.md`, M1–M13): exact-to-the-cent totals for every year × status, truncation, sort before limit, limit edges, EIN rules, literal wildcards, multi-value notices, address filters, and the EIN-less note |
 | `test/disclosure-v2.test.js` | FY2009, FY2011, FY2012 with `od_mocs_id`, `od_match`, `row_flag`; early-snapshot labeling; the coverage line; FY2010's reason; exact `mocs_id` / `od_mocs_id`; the `row_flag` note |
@@ -509,7 +528,7 @@ Published to npm by CI, never from a laptop:
   secret) and can be re-run by hand with a tag.
 - **The PDF tables** are not in the npm package: `.github/workflows/pdf-tables-release.yml`
   publishes them as `pdf-tables-*` GitHub Releases, by hand for now (see "Publishing a release").
-  The latest npm release is 2.0.6 (tag `mcp-v2.0.6`).
+  The latest npm release is 2.1.0 (tag `mcp-v2.1.0`).
 - **CI**: `.github/workflows/ci.yml` builds and tests `mcp/` on Node 22 and 24 for every PR into
   `main` that touches `mcp/` or the data the index is built from.
 

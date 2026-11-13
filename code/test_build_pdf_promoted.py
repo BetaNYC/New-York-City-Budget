@@ -84,7 +84,7 @@ def test_pdf_years(built):
     assert set(y26) == {"capital_sd", "schedule_c", "terms", "transparency"}
     assert y26["schedule_c"]["rows"] == "9765" and y26["schedule_c"]["issue"] == "103"
     assert y26["schedule_c"]["printed_totals_tied"] == "24/25"
-    assert set(ys) == {"capital_sd", "schedule_c", "terms"}
+    assert set(ys) == {"capital_sd", "schedule_c", "terms", "transparency"}
     assert ys["capital_sd"]["rows"] == "1391" and ys["capital_sd"]["printed_totals_tied"] == "28/28"
     assert ys["terms"]["rows"] == "75"
     assert ys["schedule_c"]["rows"] == "9979" and ys["schedule_c"]["printed_totals_tied"] == "25/25"
@@ -125,6 +125,31 @@ def test_transparency_rows_carry_resolution(built):
     assert r["org"].endswith("Modern History of Polan") and r["hidden_text"] == "org: d, Inc. - Stories of Greenpoint"
     t = boxed_text(r["source_pdf"], int(r["pdf_page"]), r["bbox_pt"])
     assert "23-7164776" in t and "Restler" in t and "Banks" not in t
+
+
+def test_fy27_transparency(built):
+    """FY2027 (#246): four resolutions whose PDFs print no resolution text; the text (fiscal
+    years named, "Charts 1 through N") is read from each matter's "Res. No." Word file."""
+    ys = [y for y in rows(built["data/pdf_years.csv"])
+          if y["fiscal_year"] == "2027" and y["family"] == "transparency"]
+    assert len(ys) == 1
+    y = ys[0]
+    assert y["issue"] == "102" and y["status"] == "reviewed" and y["rows"] == "2808"
+    assert y["printed_totals_tied"] == "4/4"
+    assert y["source_pdf"] == "source/FY27/transparency-resolutions/"
+    rs = rows(built["data/fy27/pdf/transparency/fy27_tr_rows.csv"])
+    by_res = {}
+    for r in rs:
+        by_res.setdefault((r["resolution_seq"], r["resolution_number"], r["resolution_date"]), []).append(r)
+    assert {k: len(v) for k, v in by_res.items()} == {
+        ("1", "Res 0551-2026", "2026-07-16"): 719, ("2", "Res 0595-2026", "2026-08-13"): 425,
+        ("3", "Res 0652-2026", "2026-09-24"): 1297, ("4", "Res 0695-2026", "2026-10-22"): 367}
+    assert {r["budget_fiscal_year"] for r in rs} == {"2025", "2026", "2027", ""}
+    # Reso 04 p.13: an EIN printed where the organization's name belongs; kept, and in review.
+    r = next(r for r in rs if r["row_id"] == "fy27-tr04-p013-r010")
+    assert r["org"].startswith("113271472 - Urban Assembly") and r["amount"] == "20000"
+    rev = rows(built["data/fy27/pdf/transparency/fy27_tr_review.csv"])
+    assert any(v["check_id"] == "K.org_is_ein" and v["severity"] == "critical" for v in rev)
 
 
 def test_fy25_transparency(built):

@@ -1,125 +1,76 @@
-# NYC Budget Explorer
+# City agency budgets: `agencies/` (forwarding page, data and FAQ)
 
 > **This folder is the City agency budgets half of
 > [New-York-City-Budget](../../README.md)** (epic #272). It came from
 > [BetaNYC/nyc-budget-viz](https://github.com/BetaNYC/nyc-budget-viz) `main` at `b90f922` by
-> `git subtree add` (#265), so its history is kept. The pipeline and its tests now live in
-> [`code/`](../../code/agency_budget_cleanup.py); the site is published at `agencies/`.
+> `git subtree add` (#265), so its history is kept.
 
-A multi-year visualization of **New York City's expense budget**, built by
-[BetaNYC](https://beta.nyc). It shows every city agency's budget — broken down by unit of
-appropriation — across Fiscal Years 2017 through 2027, and compares each agency's **adopted**
-budget against its **modified** budget.
+**Since #288 (2026-11-12) the City agency budgets are a view of the explorer:**
+[`explorer/#view=agencies`](https://betanyc.github.io/New-York-City-Budget/explorer/#view=agencies)
+(code: [`viz/explorer/src/views/Agencies.jsx`](../explorer/src/views/Agencies.jsx)). It reads the
+same `agency_budget` table as the budget MCP server, built by
+[`mcp/scripts/agency-budget.mjs`](../../mcp/scripts/agency-budget.mjs), so the site and the MCP
+can't disagree. The old app here (DataMade's Look at Cook front end: Backbone, jQuery,
+Highcharts, DataTables) is retired.
 
-This is an adaptation of DataMade's [Look at Cook](https://github.com/datamade/look-at-cook),
-a budget-transparency front-end originally built for Cook County, Illinois. The interactive
-front-end is theirs (MIT-licensed); BetaNYC swapped in New York City's budget data and a data
-pipeline that produces it. See [Attribution](#attribution).
+## What is in this folder
 
-## What it does
+```
+index.html            forwards every old link to the explorer's view (see below), with a
+                      plain link for visitors without JavaScript
+faq.html              questions and answers about City agency budgets
+boards.html           every community board's budget in one table (#269)
+data/
+  nyc_budget.csv      every agency x unit of appropriation, FY2017 on (same address and columns
+                      as before; written from the index, see data/SCHEMA.md)
+  community_boards.csv   the community boards table (code/build_community_boards.py)
+  SCHEMA.md           the CSV's columns and the year rule
+css/, fonts/, images/ the FAQ's stylesheets and the sharing image
+js/budget_helpers.js  kept only so the explorer's old-link test runs the old slug rule from it;
+                      no page loads it
+```
 
-- Interactive chart of the citywide budget over 11 fiscal years, with a per-agency and
-  per-unit breakdown table.
-- Two series per year: **Adopted** (the budget adopted for that fiscal year) and **Modified**
-  (that year's budget as modified through June, near year end). The newest year's Modified
-  is "not yet published" until the City adopts the following year's budget.
-- All data downloadable as a single CSV.
+## Old links
+
+GitHub Pages can't redirect on a `#fragment` (browsers never send it to the server), so
+`index.html`'s script reads the old link and forwards it:
+
+| Old link | Goes to |
+|---|---|
+| `agencies/#?year=2019` | `explorer/#view=agencies&abfy=2019` |
+| `agencies/#fund-detail/police-department?year=2025` | the Police Department, FY2025 |
+| `agencies/#fund-detail/police-department/operations?year=2024` | its unit 001 Operations |
+| `agencies/#control-officer-detail/...` | the same as `fund-detail` (#266) |
+
+The explorer matches the old name slug against every name each agency ever had (agency 866's old
+name, DEPARTMENT OF CONSUMER AFFAIRS, still works). When two units of one agency share a name
+(39 cases, for example City Council's two "Committee on the Aging" units, 600 and 800), it asks
+which one instead of guessing. Tests: `viz/explorer/e2e/agencies.retired.spec.js` and
+`viz/test_agencies_retired.py`.
 
 ## Data
 
-- **Source:** [NYC Open Data — Expense Budget](https://data.cityofnewyork.us/City-Government/Expense-Budget/mwzb-yiwb),
-  dataset id `mwzb-yiwb`. Public, no API token.
-- **Coverage:** Fiscal Years 2017–2027.
-- **Validation:** FY2026 adopted total = **$117,791,473,676**, matching OMB's printed FY2026
-  Adopted Budget (net $115,907,309,727 + intra-city $1,884,163,949). The run aborts if this,
-  the FY2025 totals, or the Manhattan Community Board 1 lines from the same PDF don't match.
+- **Source:** [NYC Open Data, Expense Budget](https://data.cityofnewyork.us/d/mwzb-yiwb)
+  (`mwzb-yiwb`), the committed snapshot in [`source/agency-budget-qa/`](../../source/agency-budget-qa/README.md).
+- **The year rule:** Adopted Y = `financial_plan_amount` from the June release tagged Y;
+  Modified Y = `current_modified_budget_amount` from the June release tagged Y+1. Coded once, in
+  the MCP's loader. Full notes: [`data/SCHEMA.md`](data/SCHEMA.md).
+- **Checked:** FY2026 adopted total = **$117,791,473,676**, matching OMB's printed FY2026
+  Adopted Budget (net $115,907,309,727 + intra-city $1,884,163,949), and every cell is
+  recomputed independently by `code/qa_agency_budget.py`.
 
-> **Correction (2026-11-09).** Before this date every year in the explorer was labeled one
-> year late: "Adopted 2026" was really FY2025. In a release tagged `fiscal_year = Y`, the
-> dataset's `adopted_budget_amount` and `current_modified_budget_amount` describe FY Y−1, and
-> `financial_plan_amount` describes FY Y. Details: [`data/SCHEMA.md`](data/SCHEMA.md).
+> **Correction (2026-11-09).** Before this date every year in the old explorer was labeled one
+> year late: "Adopted 2026" was really FY2025. Details: [`data/SCHEMA.md`](data/SCHEMA.md).
 
-### Methodology (important)
-
-Each fiscal year is published up to three times — Preliminary (Jan), Executive (Apr/May), and
-Adopted (June) — and **each publication restates the whole budget**. Naively summing every row
-would count the same money up to three times. The pipeline keeps only the **June release** of
-each year, then maps each amount to the year it describes:
-
-- **Adopted Y** = `financial_plan_amount` from the June release tagged Y (cross-checked against
-  `adopted_budget_amount` in the release tagged Y+1; they agree to the dollar)
-- **Modified Y** = `current_modified_budget_amount` from the June release tagged Y+1
-
-A validation gate aborts the run unless the output reproduces OMB's printed figures.
-
-Full column definitions and methodology: [`data/SCHEMA.md`](data/SCHEMA.md).
-
-## Regenerating the data
-
-The cleaned CSV the site loads (`data/nyc_budget.csv`) is produced by
-[`code/agency_budget_cleanup.py`](../../code/agency_budget_cleanup.py) (moved there from this
-folder's `data/` in #265). From the repo root:
+## Regenerating the CSV
 
 ```bash
-python3 code/agency_budget_cleanup.py
+python3 code/fetch_agency_budget_qa.py     # after the City publishes a new June release
+python3 code/agency_budget_cleanup.py      # index build, then data/nyc_budget.csv
+python3 code/qa_agency_budget.py           # independent check, every cell
 ```
 
-Stdlib only (`urllib`, `csv`, `json`) — no third-party dependencies. Requires Python
-`>=3.11,<3.15`. Idempotent and read-only against the API.
-
-Tests:
-
-```bash
-python -m pytest code/test_agency_budget_cleanup.py   # also run in CI by python-checks.yml
-```
-
-## Running the site locally
-
-The front-end is fully static. From `viz/` in this repo:
-
-```bash
-python3 -m http.server 8000
-```
-
-Then open <http://localhost:8000/agencies/>. `js/app.js` loads `data/nyc_budget.csv`, a relative
-path, so the page works under `/New-York-City-Budget/agencies/` on GitHub Pages too.
-
-## Layout
-
-```
-index.html, faq.html      front-end pages (masthead adapted for NYC)
-js/, css/, lib/, fonts/    Look at Cook front-end (Backbone + Highcharts)
-images/                    front-end assets
-data/
-  nyc_budget.csv           the cleaned data the site loads (built by code/agency_budget_cleanup.py)
-  SCHEMA.md                column + methodology documentation
-```
-
-## Configuration
-
-The build-time constants live at the top of `js/app.js`:
-
-| Constant | Value | Note |
-|---|---|---|
-| `startYear` / `endYear` | 2017 / 2027 | fiscal-year range |
-| `activeYear` | 2026 | default selected year |
-| `municipalityName` | `New York City Budget` | masthead / breadcrumb |
-| `apropTitle` / `expendTitle` | `Adopted` / `Modified` | chart line labels — **must match the CSV column prefixes** |
-| `dataSource` | `data/nyc_budget.csv` | the cleaned CSV |
-
-## Status and known TODOs
-
-This is a working v1. Outstanding items:
-
-- **BetaNYC brand pass is light.** The Look at Cook visual theme is largely intact; a full pass
-  against BetaNYC's brand (color `#2359a8`, Poppins/Roboto, logo) remains.
-- **Hosting:** published with the rest of this repo's GitHub Pages site at `agencies/` by
-  `.github/workflows/deploy-viz.yml` (#265).
-- **Removed in #266:** Look at Cook's "Who controls it?" view and its `control-officer-detail/`
-  routes (old links open the same agency view), the empty `Control Officer`, `Short Title`,
-  `Link to Website` and `Department Description` columns and the empty description panel, a
-  hidden empty image, and the unused Cook County images. The site says "Agency" and "Unit of
-  appropriation" instead of "Fund" and "Department"; the CSV keeps the old column names.
+Needs Node 22+ and `npm ci` in `mcp/` and `viz/explorer/`.
 
 ## About BetaNYC
 
@@ -145,14 +96,14 @@ If you build something with this project, we'd love to hear about it. We can hel
 
 BetaNYC maintains a growing suite of open-source tools for NYC and NYS civic data — see the full directory at **[beta.nyc/ai-tools](https://beta.nyc/ai-tools)**.
 
-This visualization is a companion to **[New York City Budget](https://github.com/BetaNYC/New-York-City-Budget)** — machine-readable, reconciled NYC Council *discretionary* funding (Schedule C), Terms & Conditions, and Section 254 capital data, extracted line-by-line from the Council's adopted-budget PDFs. That repo also ships the [`@betanyc/nyc-budget-mcp`](https://github.com/BetaNYC/New-York-City-Budget/tree/main/mcp) server and a companion **Schedule C funding visualization** (`viz/`) built on this same [Look at Cook](https://github.com/datamade/look-at-cook) toolkit.
-
-Where this repo shows the **citywide expense budget** (~$118B for FY2026, every agency), the Schedule C visualization shows **Council discretionary funding** (~$656M) — different datasets, same toolkit.
+This folder is part of **[New York City Budget](https://github.com/BetaNYC/New-York-City-Budget)**: the City agency budgets (every agency, about $118B gross for FY2026) beside the Council's discretionary funding (about $656M), with the [`@betanyc/nyc-budget-mcp`](https://github.com/BetaNYC/New-York-City-Budget/tree/main/mcp) server answering both.
 
 ## Attribution
 
-Adapted from **[Look at Cook](https://github.com/datamade/look-at-cook)** by DataMade, Derek
-Eder, Nick Rougeux, and Open City. The original front-end is © 2019 DataMade and released under
-the MIT License, preserved here in [`LICENSE.md`](LICENSE.md). BetaNYC's adaptation — the NYC
+The first version of this tool (retired in #288) was adapted from
+**[Look at Cook](https://github.com/datamade/look-at-cook)** by DataMade, Derek Eder, Nick
+Rougeux, and Open City. The original front-end is © 2019 DataMade and released under the MIT
+License, preserved here in [`LICENSE.md`](LICENSE.md) with the files that remain (the FAQ's
+stylesheet and `js/budget_helpers.js`). BetaNYC's adaptation — the NYC
 data pipeline, the cleaned dataset, and the NYC-specific copy — is likewise available under the
 same terms. If you reuse this, keep the DataMade copyright and license intact.

@@ -41,16 +41,18 @@
       table { border-collapse: collapse; width: 100%; font-size: 0.95rem; margin-bottom: 1rem; }
       th, td { text-align: left; vertical-align: top; border: 1px solid var(--bnyc-border-gray); padding: 0.5rem 0.7rem; }
       th { background: var(--bnyc-bg-blue); color: var(--bnyc-blue); font-family: var(--font-heading); font-weight: 700; }
-      @media (max-width: 600px) { body { font-size: 16px; } table { display: block; overflow-x: auto; } }
+      @media (max-width: 600px) { body { font-size: 16px; } main > table { display: block; overflow-x: auto; } }
       dl.glossary dt { font-family: var(--font-heading); font-weight: 700; color: var(--bnyc-blue); margin-top: 1rem; }
       dl.glossary dd { margin: 0.2rem 0 0; }
       .table-wrap { overflow-x: auto; }
+      .table-wrap:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
       .contents h2 { font-size: 1.15rem; margin-top: 1.5rem; }
       .contents ul { margin-bottom: 1.5rem; }
       pre { background: var(--bnyc-light-gray); border: 1px solid var(--bnyc-border-gray); padding: 0.9rem 1rem; overflow-x: auto; font-size: 0.85rem; line-height: 1.5; }
       pre code { background: none; padding: 0; }
       .mcp-list dt { font-family: var(--font-heading); font-weight: 700; margin-top: 1rem; }
       .mcp-list dd { margin: 0.2rem 0 0; }
+      .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     </style>
   </head>
   <body>
@@ -106,9 +108,9 @@
     <button class="bnyc-menu-btn" type="button" aria-expanded="false" aria-controls="bnyc-menu" hidden><svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M2 4h16M2 10h16M2 16h16" stroke="currentColor" stroke-width="2" fill="none"/></svg>Menu</button>
     <ul id="bnyc-menu">
       <li><a href="./">Home</a></li>
-      <li><a href="./agencies/boards.html">Community boards</a></li>
+      <li><a href="./explorer/#view=agencies">City agency budgets</a></li>
+      <li><a href="./agencies/boards.html">Community board budgets</a></li>
       <li><a href="./explorer/">Council discretionary funding</a></li>
-      <li><a href="./agencies/">City agency budgets</a></li>
       <li><a href="./mcp.html" aria-current="page">Budget MCP</a></li>
       <li><a href="./about.html">About</a></li>
     </ul>
@@ -132,7 +134,7 @@
       <h1>The NYC budget MCP server</h1>
 
       <p>An MCP server lets an AI assistant, such as Claude, look things up in real data instead of guessing. Ours, <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a>, answers questions about the Council's discretionary funding and capital money, and gives the source of every row. It is built from the same data as the <a href="explorer/">Council explorer</a> on this site, and a test checks that the two agree.</p>
-      <p>The City agency budgets on this site are not in the MCP server yet.</p>
+      <p>Since version 2.1.0 it also answers City agency budgets: what the City adopted for each agency and unit of appropriation, and the modified budget a year later, FY2017 on, from NYC Open Data. Those are budgets, not spending: for what the City spent or paid, use <a href="https://github.com/BetaNYC/nyc-checkbook-mcp">nyc-checkbook-mcp</a>.</p>
 
       <nav class="contents" aria-labelledby="on-this-page">
         <h2 id="on-this-page">On this page</h2>
@@ -159,13 +161,16 @@
 
       <h2 id="tools">What it can answer</h2>
       <p>You don't call the tools by name. Ask your assistant the question, and it picks the tool.</p>
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0" role="region" aria-label="What the MCP server's tools answer">
       <table>
+        <caption class="visually-hidden">What the MCP server's tools answer</caption>
         <thead><tr><th scope="col">Tool</th><th scope="col">What it answers</th><th scope="col">Example question</th></tr></thead>
         <tbody>
           <tr><td><code>search_disclosure_awards</code></td><td>The Council&#x27;s list of discretionary expense awards (the expense funding disclosure): by organization, EIN, Council member, funding source, agency, ZIP, status, or amount.</td><td>“How much Council discretionary funding did EIN 13-2612524 get in FY2026, cleared vs. pending?”</td></tr>
           <tr><td><code>search_council_capital</code></td><td>The capital projects the Council funded, by budget line, sponsor, borough, or title.</td><td>“Which Bronx capital projects did the Council fund in FY2027?”</td></tr>
           <tr><td><code>compare_capital_to_omb</code></td><td>For each capital budget line, the Council&#x27;s total next to OMB&#x27;s adopted capital budget, with a verdict: match, differ, or only on one side.</td><td>“Which Council capital budget lines in FY2026 don&#x27;t match OMB&#x27;s adopted budget?”</td></tr>
+          <tr><td><code>search_agency_budget</code></td><td>City agency budgets: each agency&#x27;s and unit of appropriation&#x27;s adopted and modified budget for a fiscal year, FY2017 on, with the NYC Open Data release each figure comes from.</td><td>“What was the Police Department&#x27;s adopted budget for FY2026?”</td></tr>
+          <tr><td><code>compare_adopted_modified</code></td><td>One agency or unit, one year: the adopted budget, the modified budget a year later, and the change.</td><td>“How much did Manhattan Community Board 1&#x27;s budget change during FY2025?”</td></tr>
           <tr><td><code>list_available_fiscal_years</code></td><td>What each fiscal year holds, where it came from, which years are missing, and whether the PDF tables are installed.</td><td>“Which years does the budget tool cover?”</td></tr>
           <tr><td><code>search_schedule_c_awards</code><br><small>needs the PDF tables</small></td><td>Schedule C: the discretionary awards as printed in the adopted budget, by organization, EIN, member, initiative, agency, or purpose.</td><td>“Which Digital Inclusion awards in the FY2027 adopted budget went through the Fund for the City of New York?”</td></tr>
           <tr><td><code>search_transparency_changes</code><br><small>needs the PDF tables</small></td><td>The transparency resolutions: designations, rescissions, and purpose changes made after the budget was adopted.</td><td>“What transparency resolution changes in FY2026 involved this organization?”</td></tr>
@@ -176,15 +181,16 @@
       </div>
 
       <h2 id="coverage">Years it covers</h2>
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Which years each kind of data covers">
       <table>
+        <caption class="visually-hidden">Which years each kind of data covers</caption>
         <thead><tr><th scope="col">Data</th><th scope="col">Years</th><th scope="col">Gaps</th></tr></thead>
         <tbody>
           <tr><td>Expense funding disclosure</td><td>FY2009, FY2011–FY2027</td><td>FY2010 is not included, because the Council's own file for that year is missing rows that NYC Open Data has, and we never mix the two. FY2009 and FY2013 are early snapshots, so their Cleared totals are not headline figures.</td></tr>
           <tr><td>Council capital designations</td><td>FY2015–FY2017, FY2019–FY2027</td><td>FY2018 is in no source found.</td></tr>
           <tr><td>Council vs. OMB capital</td><td>FY2019–FY2027</td><td></td></tr>
           <tr><td>Schedule C (PDF tables)</td><td>FY2018–FY2027</td><td></td></tr>
-          <tr><td>Transparency resolutions (PDF tables)</td><td>FY2018–FY2026</td><td></td></tr>
+          <tr><td>Transparency resolutions (PDF tables)</td><td>FY2018–FY2027</td><td></td></tr>
           <tr><td>Capital book (PDF tables)</td><td>FY2018–FY2020, FY2022–FY2027</td><td></td></tr>
           <tr><td>Terms and Conditions (PDF tables)</td><td>FY2018, FY2021–FY2027</td><td></td></tr>
         </tbody>
@@ -226,9 +232,9 @@
         <h2 id="bnyc-foot-h-site">This site</h2>
         <ul>
           <li><a href="./">Home</a></li>
-          <li><a href="./agencies/boards.html">Community boards</a></li>
+          <li><a href="./explorer/#view=agencies">City agency budgets</a></li>
+          <li><a href="./agencies/boards.html">Community board budgets</a></li>
           <li><a href="./explorer/">Council discretionary funding</a></li>
-          <li><a href="./agencies/">City agency budgets</a></li>
           <li><a href="./mcp.html" aria-current="page">Budget MCP</a></li>
           <li><a href="./about.html">About</a></li>
         </ul>
@@ -244,7 +250,7 @@
         </ul>
       </section>
     </div>
-    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 10, 2026. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 13, 2026. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
   </div>
 </div>
 <!-- site-shell:bottom:end -->

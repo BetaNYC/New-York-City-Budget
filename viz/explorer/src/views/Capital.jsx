@@ -168,6 +168,7 @@ function Results({ data, state, set, go, pdfYears }) {
         <>
           <div className="table-wrap">
             <table className="rows">
+              <caption className="visually-hidden">Matching Council capital rows</caption>
               <thead>
                 <tr>
                   <th scope="col">Report year</th>

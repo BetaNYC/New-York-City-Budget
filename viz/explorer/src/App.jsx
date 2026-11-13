@@ -20,6 +20,7 @@ import Transparency from "./views/Transparency.jsx";
 import Book from "./views/Book.jsx";
 import { CLOSED_LABEL, pdfYearsQuery, REVIEWED_LABEL } from "./query/pdf.js";
 import Years from "./views/Years.jsx";
+import Agencies from "./views/Agencies.jsx";
 
 // The review screen is only in a review build: load its code only when it is opened.
 const Review = lazy(() => import("./views/Review.jsx"));
@@ -48,9 +49,27 @@ export default function App() {
   const current = useRef(state);
   current.current = state;
 
+  // The query engine and the Council data load for every view but City agency budgets, which reads
+  // small JSON files instead (#299): about 33 MB it never needs.
+  const needsDb = state.view !== "agencies";
   useEffect(() => {
-    ensureData().catch(() => {});
-    const sync = () => setState(readHash());
+    if (needsDb) ensureData().catch(() => {});
+  }, [needsDb]);
+
+  useEffect(() => {
+    const sync = () => {
+      // An in-page anchor, such as the shell's "Skip to content" link (#main), is not app state:
+      // read as state it would reset the page to the default view. Keep the view, put its
+      // address back, and move focus to the target.
+      const id = window.location.hash.slice(1);
+      const target = id && !id.includes("=") ? document.getElementById(id) : null;
+      if (target) {
+        window.history.replaceState(window.history.state, "", writeHash(current.current) || window.location.pathname + window.location.search);
+        target.focus({ preventScroll: true });
+        return;
+      }
+      setState(readHash());
+    };
     window.addEventListener("hashchange", sync);
     window.addEventListener("popstate", sync);
     return () => {
@@ -84,6 +103,21 @@ export default function App() {
 
   const ready = db.phase === PHASES.READY;
   const tab = PARENT[state.view] ?? state.view;
+  // City agency budgets is the site's other half (#270): its own h1, no Council tabs.
+  const agencies = state.view === "agencies";
+  useEffect(() => {
+    // The shell's menu (viz/site_shell.py) marks the page; on this view the current page is
+    // "City agency budgets", not "Council discretionary funding".
+    for (const a of document.querySelectorAll(".bnyc-shell a, .bnyc-shell-foot a")) {
+      const href = a.getAttribute("href") ?? "";
+      const isAgencies = /(^|\/)explorer\/#view=agencies$|(^|\.\.\/)agencies\/$/.test(href);
+      const isCouncil = /(^|\.\.\/)explorer\/$/.test(href);
+      if (!isAgencies && !isCouncil) continue;
+      if (isAgencies === agencies) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    }
+    if (!agencies) document.title = "Council discretionary funding · NYC budget data · BetaNYC";
+  }, [agencies]);
 
   return (
     <>
@@ -92,7 +126,16 @@ export default function App() {
           <p className="kicker">
             <a href="../">BetaNYC · NYC budget data</a>
           </p>
-          <h1>Council discretionary funding</h1>
+          <h1>{agencies ? "City agency budgets" : "Council discretionary funding"}</h1>
+          {agencies ? (
+            <p className="half-note">
+              What the City budgets for each agency, adopted and modified, FY2017 on. For the Council's discretionary awards, see{" "}
+              <HashLink href={writeHash({ ...state, view: "awards" })} onGo={() => go({ view: "awards" })}>
+                Council discretionary funding
+              </HashLink>
+              .
+            </p>
+          ) : (
           <nav className="tabs" aria-label="Views">
             {TABS.filter(([, , fam]) => !fam || (fam === "review" ? Boolean(db.manifest?.review_screen) && (db.manifest?.files?.["pdf_review.parquet"]?.rows ?? 0) > 0 : (db.manifest?.files?.[`${db.manifest?.pdf_families?.[fam]?.main}.parquet`]?.rows ?? 0) > 0)).map(([v, label]) => (
               <HashLink key={v} href={writeHash({ ...state, view: v })} onGo={() => go({ view: v })} className={tab === v ? "active" : undefined} current={tab === v}>
@@ -100,9 +143,10 @@ export default function App() {
               </HashLink>
             ))}
           </nav>
+          )}
         </div>
       </header>
-      <main className="wrap" id="main">
+      <main className="wrap" id="main" tabIndex={-1}>
         {db.manifest?.review_screen ? (
           <Notice tone="warn">
             <strong>Local review build.</strong> This build has the Review tab, where a person decides the flagged rows; the public site does not. Rows marked{" "}
@@ -110,7 +154,9 @@ export default function App() {
             e.g. #102 for FY2027, #103 for FY2026): every printed total was checked and the doubts are listed, but a person has not signed them off.
           </Notice>
         ) : null}
-        {db.phase === PHASES.ERROR ? (
+        {agencies ? (
+          <Agencies state={state} set={set} go={go} />
+        ) : db.phase === PHASES.ERROR ? (
           <Notice tone="error">
             The data could not be loaded: {String(db.error?.message ?? db.error)}.{" "}
             <button type="button" className="linkish" onClick={() => ensureData().catch(() => {})}>

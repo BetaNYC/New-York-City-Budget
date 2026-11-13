@@ -9,8 +9,8 @@ review_id, flags`, with values as printed. `bbox_pt` is `x0,top,x1,bottom` in PD
 This script re-runs the parsers (code/review_capital_sd.py, code/review_terms.py,
 code/parse_schedule_c_v2.py, code/parse_transparency_v2.py) into a scratch folder, so the
 promoted files are regenerated from the PDFs, never copied from research/.
-Families promoted here: FY2027 `capital_sd`, `schedule_c` and `terms` (GitHub #102); FY2026
-`capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
+Families promoted here: FY2027 `capital_sd`, `schedule_c`, `terms` and `transparency` (GitHub
+#102; transparency #246); FY2026 `capital_sd`, `terms` (from config/capital_sd/ and config/terms/), `schedule_c` and `transparency`
 (via code/parse_transparency_v2.py), all GitHub #103. For FY2025 back to FY2018 (FY2025 #104,
 FY2024 #105, FY2023 #106, FY2022 #107, FY2021 #108, FY2020 #109, FY2019 #110, FY2018 #111):
 `schedule_c` and `transparency` every year; `capital_sd` and `terms` FY2025-FY2022 and FY2018;
@@ -402,10 +402,10 @@ def build_schedule_c(scratch, fy=2027):
 
 
 # ------------------------------------------------------------------------------------------
-# Transparency resolutions (FY2026 .. FY2018)
+# Transparency resolutions (FY2027 .. FY2018)
 # ------------------------------------------------------------------------------------------
 
-TR_ISSUE = {2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108, 2020: 109, 2019: 110, 2018: 111}
+TR_ISSUE = {2027: 102, 2026: 103, 2025: 104, 2024: 105, 2023: 106, 2022: 107, 2021: 108, 2020: 109, 2019: 110, 2018: 111}
 
 
 def tr_note(fy, cfg, rows_, charts):
@@ -443,7 +443,8 @@ def tr_note(fy, cfg, rows_, charts):
 
 def build_transparency(scratch, fy=2026):
     """Re-run code/parse_transparency_v2.py (all checks, image lattice and ink included) into the
-    scratch folder and promote its row, chart, resolution and review tables (GitHub #103 FY2026,
+    scratch folder and promote its row, chart, resolution and review tables (GitHub #102 FY2027 (#246),
+    #103 FY2026,
     #104 FY2025, #105 FY2024, #106 FY2023, #107 FY2022, #108 FY2021, #109 FY2020, #110 FY2019, #111 FY2018). FY2022 Reso 02's media box starts at
     (-8.39, -8.39); the parser already writes its bbox_pt on the rendered page.
 
@@ -510,6 +511,7 @@ def build_transparency(scratch, fy=2026):
 FAMILIES = [("fy27", "capital_sd", lambda d: build_capital_sd(d, 2027)),
             ("fy27", "schedule_c", build_schedule_c),
             ("fy27", "terms", lambda d: build_terms(d, 2027)),
+            ("fy27", "transparency", lambda d: build_transparency(d, 2027)),
             ("fy26", "capital_sd", lambda d: build_capital_sd(d, 2026)),
             ("fy26", "terms", lambda d: build_terms(d, 2026)),
             ("fy26", "transparency", build_transparency),

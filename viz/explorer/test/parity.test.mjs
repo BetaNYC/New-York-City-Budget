@@ -45,6 +45,7 @@ import * as C from "../src/compare/queries.js";
 import * as P from "../src/query/pdf.js";
 import { PDF_FAMILIES, PDF_TABLES } from "../../../mcp/scripts/pdf-families.mjs";
 import { OPEN_DATA_TABLES } from "../../../mcp/scripts/open-data.mjs";
+import { AGENCY_BUDGET_TABLES } from "../../../mcp/scripts/agency-budget.mjs";
 import { inPart2Series } from "../../../mcp/dist/questions.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -57,7 +58,7 @@ const DB_PATH = join(REPO, MANIFEST.index ?? "mcp/data/budget.db");
 // A public build withholds the review screen's tables (manifest.withheld); every other table is compared.
 const WITHHELD = MANIFEST.withheld ?? [];
 const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta",
-  ...PDF_TABLES, ...OPEN_DATA_TABLES].filter((t) => !WITHHELD.includes(t));
+  ...PDF_TABLES, ...OPEN_DATA_TABLES, ...AGENCY_BUDGET_TABLES].filter((t) => !WITHHELD.includes(t));
 const COMPARED_PDF_TABLES = PDF_TABLES.filter((t) => !WITHHELD.includes(t));
 // ...and leaves internal columns out of some it ships (manifest.dropped_columns): compare the rest.
 const DROPPED = MANIFEST.dropped_columns ?? {};
