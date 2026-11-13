@@ -10,8 +10,10 @@
  * (needs.js BASE, about 3.7 MB); a PDF family's files load when a view that reads them first opens
  * (ensureTables), once per visit. Every file is fetched with its sha256 as the cache key, so the
  * browser's cache works as before.
+ *
+ * The engine's JavaScript is imported only when boot() runs, so a page that never needs it (City
+ * agency budgets, #299) downloads none of it: not the 33 MB .wasm, not its JS API.
  */
-import * as duckdb from "@duckdb/duckdb-wasm";
 import ehWasm from "@duckdb/duckdb-wasm/dist/duckdb-eh.wasm?url";
 import ehWorker from "@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url";
 
@@ -100,6 +102,7 @@ async function boot() {
   }
   emit({ manifest });
 
+  const duckdb = await import("@duckdb/duckdb-wasm");
   const features = await duckdb.getPlatformFeatures();
   if (!features.wasmExceptions) {
     throw new Error("This browser does not support WebAssembly exception handling, which the explorer needs. Try a browser released after mid-2022.");

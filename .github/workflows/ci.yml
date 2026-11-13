@@ -42,8 +42,21 @@ on:
       - "source/open-data-watch.csv"
       - "source/gpp/MANIFEST.csv"   # mcp/src/publisher-copies.ts is built from it
       - "source/agency-budget-qa/**"   # agency_budget (mcp/scripts/agency-budget.mjs, #284)
-      - "viz/agencies/data/nyc_budget.csv"   # the agency parity test compares against it
       - "viz/explorer/**"
+      # The assembled site is everything in viz/ (scripts/assemble-site.mjs), and the e2e job
+      # checks every page of it (e2e/site.a11y.spec.js, legacy.spec.js, agencies.*.spec.js):
+      # viz/*.html, viz/site_shell.py (the shared header and nav), viz/agencies/** (the
+      # forwarding page, FAQ, boards and nyc_budget.csv, which the agency parity test reads),
+      # and the shared css/js/fonts/images. QA of the #270 stack.
+      - "viz/*.html"
+      - "viz/site_shell.py"
+      - "viz/agencies/**"
+      - "viz/css/**"
+      - "viz/js/**"
+      - "viz/fonts/**"
+      - "viz/images/**"
+      - "viz/lib/**"
+      - "viz/data/**"
   push:
     branches: [main]
     paths:
@@ -62,8 +75,21 @@ on:
       - "source/open-data-watch.csv"
       - "source/gpp/MANIFEST.csv"   # mcp/src/publisher-copies.ts is built from it
       - "source/agency-budget-qa/**"   # agency_budget (mcp/scripts/agency-budget.mjs, #284)
-      - "viz/agencies/data/nyc_budget.csv"   # the agency parity test compares against it
       - "viz/explorer/**"
+      # The assembled site is everything in viz/ (scripts/assemble-site.mjs), and the e2e job
+      # checks every page of it (e2e/site.a11y.spec.js, legacy.spec.js, agencies.*.spec.js):
+      # viz/*.html, viz/site_shell.py (the shared header and nav), viz/agencies/** (the
+      # forwarding page, FAQ, boards and nyc_budget.csv, which the agency parity test reads),
+      # and the shared css/js/fonts/images. QA of the #270 stack.
+      - "viz/*.html"
+      - "viz/site_shell.py"
+      - "viz/agencies/**"
+      - "viz/css/**"
+      - "viz/js/**"
+      - "viz/fonts/**"
+      - "viz/images/**"
+      - "viz/lib/**"
+      - "viz/data/**"
   # Manual trigger — lets us fire a run on any branch. A path-scoped
   # pull_request/push event does not fire on the very PR that introduces the
   # workflow, so this dispatch is retained as a low-cost on-demand affordance.
@@ -167,8 +193,12 @@ jobs:
 
   # City agency budgets view (#270, #287): WCAG 2.2 AA with axe, and phone checks (no sideways
   # scrolling at 320 and 375 CSS px, touch targets, 200% text), in Chromium at a desktop and a
-  # phone (Pixel 7) size. viz/explorer/e2e/*.spec.js; playwright.config.js serves the assembled
-  # site under /New-York-City-Budget/ like GitHub Pages. Chromium only, so the phone project needs
+  # phone (Pixel 7) size. Since #304 the same axe and structure checks (one main, one h1, named
+  # navs, no skipped heading level, a caption on every table) run on every page of the site and
+  # every Council explorer view (e2e/site.a11y.spec.js), and legacy.html's old links are followed
+  # (e2e/legacy.spec.js). The job keeps its name, so a required check by that name still matches.
+  # The specs are viz/explorer/e2e/*.spec.js; playwright.config.js serves the assembled site under
+  # /New-York-City-Budget/ like GitHub Pages. Chromium only, so the phone project needs
   # no WebKit. Browsers are installed each run, not cached: Playwright's CI docs
   # (https://playwright.dev/docs/ci, read 2026-11-12) say "Caching browser binaries is not
   # recommended", since restoring takes about as long as downloading.

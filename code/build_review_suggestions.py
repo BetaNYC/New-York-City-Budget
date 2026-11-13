@@ -13,8 +13,8 @@ left blank: the reviewer decides with no default.
   FY2027 Schedule C:           research/2026-10-20-fy27-schedule-c-review/REVIEW.md
   FY2026 capital §254 and T&C: research/2026-10-21-fy26-capital-terms-review/REVIEW.md
   FY2026 Schedule C and transparency: research/2026-10-21-fy26-{schedule-c,transparency}-review/REVIEW.md
-  FY2025-FY2018, every family: code/review_suggestion_rules.py, one rule list per family-year, each
-    citing that year's own research/<date>-fyNN-<family>-review/REVIEW.md
+  FY2027 transparency (#246) and FY2025-FY2018, every family: code/review_suggestion_rules.py, one
+    rule list per family-year, each citing that year's own research/<date>-fyNN-<family>-review/REVIEW.md
 Items that say "ask Council Finance" become needs_info (they stay open until answered), as for FY2027.
 
 Every review_id in the families' review CSVs (data/fyNN/pdf/<family>/*_review.csv) gets exactly
@@ -50,6 +50,7 @@ REVIEW_FILES = {
     ("2027", "capital_sd"): "data/fy27/pdf/capital_sd/fy27_capital_sd_review.csv",
     ("2027", "terms"): "data/fy27/pdf/terms/fy27_terms_review.csv",
     ("2027", "schedule_c"): "data/fy27/pdf/schedule_c/fy27_sc_review.csv",
+    ("2027", "transparency"): "data/fy27/pdf/transparency/fy27_tr_review.csv",
     ("2026", "capital_sd"): "data/fy26/pdf/capital_sd/fy26_capital_sd_review.csv",
     ("2026", "terms"): "data/fy26/pdf/terms/fy26_terms_review.csv",
     ("2026", "transparency"): "data/fy26/pdf/transparency/fy26_tr_review.csv",

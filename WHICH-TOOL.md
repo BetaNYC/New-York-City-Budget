@@ -3,19 +3,22 @@
 This repo has two halves of NYC budget data ([README](README.md)). They answer different
 questions. Find yours below.
 
-**Last revised:** 2026-11-09.
+**Last revised:** 2026-11-12.
 
 ## City agency budgets
 
 From NYC Open Data, Expense Budget ([`mwzb-yiwb`](https://data.cityofnewyork.us/d/mwzb-yiwb)).
 Every agency, by unit of appropriation, adopted and modified, FY2017–FY2027. Look it up in the
-[agency budget explorer](https://betanyc.github.io/New-York-City-Budget/agencies/).
+explorer's [City agency budgets view](https://betanyc.github.io/New-York-City-Budget/explorer/#view=agencies),
+or ask an AI assistant with the [budget MCP server](mcp/README.md) (`search_agency_budget`,
+`compare_adopted_modified`). For what the City actually **spent** or paid, use Checkbook NYC or
+[`@betanyc/nyc-checkbook-mcp`](https://github.com/BetaNYC/nyc-checkbook-mcp): these are budgets.
 
 | Your question | Where to look |
 |---|---|
 | How much does my community board get? | Agency budgets: the [community board table](https://betanyc.github.io/New-York-City-Budget/agencies/boards.html), all 59 boards, FY2017–FY2027, with a CSV download ([`viz/agencies/data/community_boards.csv`](viz/agencies/data/community_boards.csv)). Each community board is its own agency in the budget (codes below). |
 | How did an agency's budget change from one year to the next? | Agency budgets: compare its Adopted figures year by year. |
-| How much did an agency's budget change during the year? | Agency budgets: compare a year's Adopted with its Modified. |
+| How much did an agency's budget change during the year? | Agency budgets: compare a year's Adopted with its Modified (the MCP's `compare_adopted_modified` does it for you). |
 | How big is the City's budget? | Agency budgets: the citywide total. Mind [gross vs. net](#net-and-gross). |
 | How much goes to pay vs. everything else? | Agency budgets: units named Personal Services and Other Than Personal Services. |
 
@@ -74,8 +77,8 @@ Adopted Y = `financial_plan_amount` from the June release tagged Y, and Modified
 
 <a id="unit-of-appropriation"></a>**Unit of appropriation.** The lines the expense budget is
 adopted by. An agency has one or more, often split into Personal Services and Other Than
-Personal Services. The agency explorer used to call these "Department" (a word left from the
-Cook County tool it was adapted from).
+Personal Services. The first agency explorer called these "Department" (a word left from the
+Cook County tool it was adapted from), and the CSV download still names the column `Department`.
 
 <a id="ps-otps"></a>**Personal Services (PS) and Other Than Personal Services (OTPS).** PS is pay
 for the agency's staff. OTPS is everything else: supplies, contracts, rent and so on.

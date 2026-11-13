@@ -3,35 +3,93 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Customize meta description -->
-    <meta name="description" content="RETIRED: BetaNYC's Schedule C explorer, built on figures extracted from the Council's adopted-budget PDFs. Kept for reference; not maintained. Current data: the Council's own spreadsheets, via nyc-budget-mcp 2.0.">
     <meta name="robots" content="noindex">
-    <!-- Customize meta author -->
-    <meta name="author" content="BetaNYC — built on look-at-cook by DataMade / Open City">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <!-- Facebook metadata -->
-    <meta content="" property="og:site_name">
-    <meta content="RETIRED — NYC Council Discretionary Funding (Schedule C)" property="og:title">
-    <meta content="article" property="og:type">
-    <meta content="RETIRED: built on figures extracted from the Council's adopted-budget PDFs. Kept for reference; not maintained." property="og:description">
-
-
-    <!-- Customize page title -->
-    <title>RETIRED — NYC Council Discretionary Funding (Schedule C) — BetaNYC</title>
-
-    <!-- Bootstrap core CSS -->
+    <meta name="description" content="Our first Council discretionary funding explorer was retired on October 16, 2026. Council discretionary funding is now in the budget explorer.">
+    <meta name="author" content="BetaNYC">
+    <title>Our first Council explorer has moved · NYC budget data · BetaNYC</title>
     <link rel="shortcut icon" href="images/favicon.ico">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
+    <!--
+      #304 (Noel, 2026-11-13): the look-at-cook explorer that lived here, frozen since 2026-10-16,
+      is retired. This page says so and forwards old links into the budget explorer. GitHub Pages
+      can't redirect on a #fragment (browsers never send it), so this script reads the old link:
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="lib/html5shiv.js"></script>
-      <script src="lib/respond.min.js"></script>
-    <![endif]-->
+        #?year=Y                                                 -> explorer/#view=schedc&scfy=Y
+        #fund-detail/<category>?year=Y                           -> view=schedc&scfy=Y&sccat=<category>
+        #control-officer-detail/<agency>?year=Y                  -> view=schedc&scfy=Y&scagency=<agency>
+        either, with /<initiative>                               -> view=schedc&scfy=Y&scinit=<initiative>
+        anything else, or a year outside FY2018-FY2027           -> explorer/ (its home)
+
+      The old links carry slugs ("older-adult-services"). The page reads the old app's own data,
+      data/schedule_c.csv (kept, frozen), to turn each slug back into the name it printed. A slug
+      it cannot resolve is dropped; the year still applies. The explorer's Schedule C search
+      covers FY2018-FY2027 (data/pdf_years.csv). With no old link, nothing happens: the page shows.
+    -->
+    <script>
+      (function () {
+        var h = (location.hash || "").replace(/^#/, "");
+        // No old link, or this page's own skip link (#content): show the page.
+        if (!h || h === "content") return;
+        var EXPLORER = "explorer/";
+        var q = h.indexOf("?");
+        var path = q < 0 ? h : h.slice(0, q);
+        var query = q < 0 ? "" : h.slice(q + 1);
+        var m = /(?:^|&)year=(\d{4})(?:&|$)/.exec(query);
+        var year = m ? Number(m[1]) : null;
+        var route = /^(fund-detail|control-officer-detail)\/([^?]+)$/.exec(path);
+        var known = path === "" || route;
+        function go(params) {
+          location.replace(EXPLORER + (params && params.length ? "#" + params.join("&") : ""));
+        }
+        if (!known || (year !== null && (year < 2018 || year > 2027)) || (year === null && !route)) return go(null);
+        var params = ["view=schedc"];
+        if (year !== null) params.push("scfy=" + year);
+        if (!route) return go(params);
+        var parts = route[2].split("/").filter(Boolean).slice(0, 2);
+        // The old app's slug rule (js/budget_helpers.js convertToSlug).
+        function slug(t) { return String(t || "").toLowerCase().replace(/[^\w ]+/g, "").replace(/ +/g, "-"); }
+        function cell(row, i) { return row[i] == null ? "" : row[i]; }
+        function csv(text) {
+          var rows = [], row = [], f = "", inq = false;
+          for (var i = 0; i < text.length; i++) {
+            var c = text[i];
+            if (inq) { if (c === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else inq = false; } else f += c; }
+            else if (c === '"') inq = true;
+            else if (c === ",") { row.push(f); f = ""; }
+            else if (c === "\n") { row.push(f.replace(/\r$/, "")); rows.push(row); row = []; f = ""; }
+            else f += c;
+          }
+          if (f || row.length) { row.push(f); rows.push(row); }
+          return rows;
+        }
+        var timer = setTimeout(function () { go(params); }, 4000);
+        fetch("data/schedule_c.csv").then(function (r) { return r.ok ? r.text() : ""; }).then(function (text) {
+          var rows = csv(text), head = rows[0] || [];
+          var top = head.indexOf(route[1] === "fund-detail" ? "Fund" : "Control Officer"), dept = head.indexOf("Department");
+          var name = null, initiative = null;
+          for (var i = 1; i < rows.length; i++) {
+            if (name === null && top >= 0 && slug(cell(rows[i], top)) === parts[0]) name = cell(rows[i], top);
+            if (parts[1] && initiative === null && dept >= 0 && slug(cell(rows[i], dept)) === parts[1]) initiative = cell(rows[i], dept);
+          }
+          // "Multiple agencies" and "Unspecified agency" were the old app's own groupings, not agencies.
+          // The initiative is the most specific name, and Schedule C often prints no category or
+          // agency on an initiative's rows, so a link with one searches by the initiative alone.
+          if (initiative) params.push("scinit=" + encodeURIComponent(initiative));
+          else if (name && !/^(multiple agencies|unspecified agency)$/i.test(name)) params.push((route[1] === "fund-detail" ? "sccat=" : "scagency=") + encodeURIComponent(name));
+        }).catch(function () {}).then(function () { clearTimeout(timer); go(params); });
+      })();
+    </script>
+    <style>
+      body { margin: 0; font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #414141; line-height: 1.5; }
+      .moved { max-width: 750px; margin: 0 auto; padding: 1.5rem 1.25rem 2rem; }
+      .moved h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); line-height: 1.25; color: #2359a8; margin: 0.5rem 0 1rem; }
+      .moved a { color: #2359a8; }
+      .moved a:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
+      .moved .go { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem; background: #2359a8; color: #FFFFFF; font-weight: 700; text-decoration: none; }
+      .moved .go:focus-visible { outline-color: #B8D6FF; }
+      .moved ul { padding-left: 1.2rem; }
+      .moved li { margin: 0.35rem 0; }
+    </style>
   </head>
-
   <body>
 <!-- site-shell:top:start (written by viz/site_shell.py; do not edit) -->
 <style>
@@ -85,9 +143,9 @@
     <button class="bnyc-menu-btn" type="button" aria-expanded="false" aria-controls="bnyc-menu" hidden><svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M2 4h16M2 10h16M2 16h16" stroke="currentColor" stroke-width="2" fill="none"/></svg>Menu</button>
     <ul id="bnyc-menu">
       <li><a href="./">Home</a></li>
-      <li><a href="./agencies/boards.html">Community boards</a></li>
-      <li><a href="./explorer/">Council discretionary funding</a></li>
       <li><a href="./explorer/#view=agencies">City agency budgets</a></li>
+      <li><a href="./agencies/boards.html">Community board budgets</a></li>
+      <li><a href="./explorer/">Council discretionary funding</a></li>
       <li><a href="./mcp.html">Budget MCP</a></li>
       <li><a href="./about.html">About</a></li>
     </ul>
@@ -106,113 +164,21 @@
 })();
 </script>
 <!-- site-shell:top:end -->
-    <div class="container" id="content" role="main">
-      <!-- 2.0.0 retirement banner: tested by viz/test_pages_site.py. Do not remove without
-           retiring this page entirely. Frozen 2026-10-16: no further data updates.
-           Colors: white on #7a1c1c is 10.4:1 contrast (WCAG AAA). -->
-      <div id="retired-banner" role="region" aria-labelledby="retired-banner-heading" style="background:#7a1c1c;color:#ffffff;border:4px solid #3d0e0e;border-radius:4px;padding:16px 20px;margin:16px 0 0 0;font-size:17px;line-height:1.5;">
-        <h2 id="retired-banner-heading" style="color:#ffffff;margin:0 0 8px 0;font-size:24px;font-weight:bold;">This page is frozen. Do not cite its figures.</h2>
-        <p style="margin:0 0 8px 0;">This page is no longer updated. It has been frozen since October 16, 2026. Its numbers came from an older parser that read the Council's budget PDFs, and we found errors in that parser's output.</p>
-        <p style="margin:0 0 8px 0;">We are rebuilding the underlying data and code from the Council's own spreadsheets and NYC Open Data.</p>
-        <p style="margin:0;"><strong>Use the new data instead:</strong>
-          <a href="./" style="color:#ffffff;text-decoration:underline;">the project's front page</a>,
-          <a href="https://github.com/BetaNYC/New-York-City-Budget/tree/main/data" style="color:#ffffff;text-decoration:underline;">the data in the repository</a>,
-          or <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp" style="color:#ffffff;text-decoration:underline;">nyc-budget-mcp 2.0</a>.</p>
-      </div>
-      <div id='header'>
-        <div class='row'>
-          <div class='col-md-9'>
-            <div id='logo'>
-              <!-- Customize logo -->
-              <a href='legacy.html'>NYC Council Discretionary Funding (retired)</a>
-            </div>
-            <!-- Customize page text below logo -->
-            <p>Explore New York City Council discretionary (Schedule C) funding, FY2015&ndash;FY2027, reconciled line-by-line from the Council's own adopted-budget documents. FY2027 totals <strong>$655,764,999</strong>. <a onclick="window.scrollTo(0, document.body.scrollHeight);">Read more</a> &raquo;</p>
-            <p class="related-tool">Looking for the <strong>full citywide expense budget</strong> ($115.9 billion adopted for FY2026, every City agency)? See <a href="agencies/">City agency budgets</a>.</p>
-          </div>
-        </div>
-      </div>
-      <div class='well'>
-        <div id='main-chart'></div>
-        <table id="breakdown" class='table table-condensed table-bordered'>
-            <thead>
-              <tr>
-                <th id='breakdown-item-title'><span id="secondary-title">Category</span></th>
-                <th class="num"><span>Adopted</span></th>
-                <th class="num"><span>Itemized</span></th>
-                <th class="charts sorting_disabled"><span>Adopted vs. Itemized</span></th>
-              </tr>
-            </thead>
-            <tbody id="breakdown-table-body"></tbody>
-        </table>
-
-        <div id="footnotes">
-          <!-- <ul>
-            <li id="f-officers">* These budgets are controlled by the officers and offices listed even though not all expenses are incurred by the respective control officer.</li>
-          </ul> -->
-        </div>
-      </div>
-
-      <div class='well about'>
-        <h2>About</h2>
-        <div class='row'>
-          <div class='col-md-12'>
-            <!-- Customize about -->
-            <h2>Where's the discretionary money going?</h2>
-            <p>Each year the New York City Council designates hundreds of millions of dollars in <strong>discretionary funding</strong> &mdash; the "Schedule C" of the adopted budget &mdash; to community organizations, cultural institutions, senior centers, anti-violence programs, and more. In FY2027 that total is <strong>$655,764,999</strong>. This tool lets you explore it two ways: <strong>by category</strong> (what the money is for) and <strong>by administering agency</strong> (which City agency routes it), drilling down to the individual initiative.</p>
-            <p>Two lines are shown for each slice. <strong>Adopted</strong> is the discretionary total from the Council's adopted budget &mdash; the authoritative figure, reconciled to the dollar against the source document's printed totals. <strong>Itemized</strong> is the portion designated to a <em>named</em> recipient organization in the same document. The gap between them is money that flows through lump-sum or citywide initiatives (such as the Speaker's Initiative) with no organization-level breakout in the adopted schedule. <em>Prototype note:</em> the Itemized line depends on matching award records to initiative names and is materially complete only for recent years (roughly FY2023 onward); earlier years understate it. Always read the <strong>Adopted</strong> line as the reconciled truth.</p>
-
-            <p><strong>&#9887; Editorial note on names.</strong> The City spells the same category and initiative differently across years (an ALL-CAPS era vs Title Case, "&amp;" vs "and", singular/plural, and renames such as <em>Senior Services &rarr; Older Adult Services</em>). So that a program's funding line stays continuous, BetaNYC made an <strong>editorial decision to consolidate these into canonical names</strong>, checked against the organizations funded under each name. The original source names are preserved in the underlying data; only the display is consolidated. Full mapping and rationale: <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/DATA-ANOMALIES.md">DATA-ANOMALIES.md</a> #17&ndash;#18.</p>
-
-            <p><strong>On our use of AI.</strong> The code behind this project was written with the help of an AI coding assistant (Anthropic's Claude), directed and reviewed by BetaNYC staff. We tell you this because transparency is part of <a href="https://beta.nyc/about/ai-policy">BetaNYC's AI policy</a>: we explain when and how we use these tools.</p>
-
-            <p>What AI did and did not do here matters. AI helped us write the software that reads the Council's budget PDFs and builds this visualization. It did not read, interpret, or generate any of the dollar figures. Every number is extracted deterministically by that code and checked line by line against the source document's own printed totals, so any figure traces back to the page it came from. A person reviewed the result before it was published. The AI assisted the work; BetaNYC remains accountable for it.</p>
-
-            <p class="mute">Data: <a href="https://github.com/BetaNYC/New-York-City-Budget">BetaNYC/New-York-City-Budget</a>, extracted deterministically from NYC Council adopted-budget PDFs (© City of New York) and released under the MIT License. This visualization is built on <a href="https://github.com/datamade/look-at-cook">look-at-cook</a> by <a href="http://datamade.us">DataMade</a> (Derek Eder, Nick Rougeux) and Open City, also MIT-licensed. Built by <a href="https://beta.nyc">BetaNYC</a>.</p>
-
-          </div>
-        </div>
-      </div>
-
-      <div id='footer'>
-        <p class='pull-left'>
-          <!-- Customize download link -->
-          <a id="download-button" class="btn btn-warning" href="">View &amp; download data</a>
-          The full dataset (this CSV, and the reconciled source CSVs it is built from) is freely available in the
-          <a href="https://github.com/BetaNYC/New-York-City-Budget">BetaNYC/New-York-City-Budget</a> repository.
-          <br />
-          <br />
-          Built by <a href="https://beta.nyc">BetaNYC</a> on <a href="https://github.com/datamade/look-at-cook">look-at-cook</a> by <a href="http://datamade.us">DataMade</a> &amp; Open City.
-        </p>
-      </div>
-    </div>
-    <!-- loading javascript at the bottom of the page for performance -->
-    <!-- HTML templates for Backbone views -->
-    <!-- javascript libraries -->
-    <script src="lib/jquery.min.js" type="text/javascript"></script>
-    <script src="lib/spin.min.js" type="text/javascript"></script>
-    <script src="lib/jquery.spin.js" type="text/javascript"></script>
-    <script src="lib/accounting.min.js" type="text/javascript"></script>
-    <script src="lib/fuse.min.js" type="text/javascript"></script>
-    <script src="lib/reduce.js" type="text/javascript"></script>
-    <script src="lib/range.js" type="text/javascript"></script>
-    <script src="lib/array_indexof.js" type="text/javascript"></script>
-    <script src="lib/array_getunique.js" type="text/javascript"></script>
-    <script src="lib/jquery.csv.min.js" type="text/javascript"></script>
-    <script src="lib/bootstrap.min.js" type="text/javascript"></script>
-    <script src="lib/highcharts.js" type="text/javascript"></script>
-    <script src="lib/jquery.dataTables.js" type="text/javascript"></script>
-    <script src="lib/jquery.cookie.js" type="text/javascript"></script>
-    <script src="lib/underscore.min.js" type="text/javascript"></script>
-    <script src="lib/backbone.min.js" type="text/javascript"></script>
-    <script src="lib/Backbone.ModelBinder.min.js" type="text/javascript"></script>
-
-    <!-- custom javascript -->
-    <script src="js/dataTables.sorting.js" type="text/javascript"></script>
-    <script src="js/budget_helpers.js" type="text/javascript"></script>
-    <script src="js/budget_highcharts.js" type="text/javascript"></script>
-
-    <script src="js/app.js" type="text/javascript"></script><!-- site-shell:bottom:start (written by viz/site_shell.py; do not edit) -->
+    <main class="moved" id="content">
+      <h1>Our first Council explorer has moved</h1>
+      <p>This page was our first Council discretionary funding explorer, from July 2026. It showed Schedule C by category and by agency, with figures an older parser read from the Council's budget PDFs. We found errors in that parser's output, froze the page on October 16, 2026, and have now retired it. Please do not cite figures you copied from it.</p>
+      <p>Council discretionary funding is now in the budget explorer, read again from the Council's own spreadsheets and PDFs and checked against every printed total.</p>
+      <p><a class="go" href="explorer/">Open Council discretionary funding</a></p>
+      <p>Old links still work: a link to a year, a category, an agency or an initiative opens the explorer's Schedule C search for the same year and name. If a name is not found there, the search shows the whole year.</p>
+      <h2>Where the data comes from</h2>
+      <ul>
+        <li><a href="about.html#sources">Data sources</a>: what each table is, and how current it is.</li>
+        <li><a href="about.html#pdf-checks">How the Council's PDF tables are checked</a>.</li>
+        <li><a href="https://github.com/BetaNYC/New-York-City-Budget/tree/main/data">The data in the repository</a> (CSV files).</li>
+        <li>The same figures are in the <a href="mcp.html">budget MCP server</a>.</li>
+      </ul>
+    </main>
+<!-- site-shell:bottom:start (written by viz/site_shell.py; do not edit) -->
 <div class="bnyc-shell-foot" role="region" aria-label="About this site">
   <div class="bnyc-shell-foot-in">
     <div class="bnyc-foot-cols">
@@ -220,9 +186,9 @@
         <h2 id="bnyc-foot-h-site">This site</h2>
         <ul>
           <li><a href="./">Home</a></li>
-          <li><a href="./agencies/boards.html">Community boards</a></li>
-          <li><a href="./explorer/">Council discretionary funding</a></li>
           <li><a href="./explorer/#view=agencies">City agency budgets</a></li>
+          <li><a href="./agencies/boards.html">Community board budgets</a></li>
+          <li><a href="./explorer/">Council discretionary funding</a></li>
           <li><a href="./mcp.html">Budget MCP</a></li>
           <li><a href="./about.html">About</a></li>
         </ul>
@@ -238,11 +204,9 @@
         </ul>
       </section>
     </div>
-    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 9, 2026. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 13, 2026. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
   </div>
 </div>
 <!-- site-shell:bottom:end -->
-
-
   </body>
 </html>

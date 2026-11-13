@@ -14,7 +14,7 @@
     "test:unit": "vitest run",
     "test:parity": "node --test test/parity.test.mjs",
     "test:lazy": "node --test test/lazy-load.test.mjs",
-    "test:agency": "node --test test/agency-parity.test.mjs test/agency-csv.test.mjs",
+    "test:agency": "node --test test/agency-parity.test.mjs test/agency-csv.test.mjs test/agency-json.test.mjs",
     "site": "node scripts/assemble-site.mjs",
     "test:e2e": "playwright test",
     "e2e:site": "npm run data && npm run build && node scripts/assemble-site.mjs --out e2e/.site/New-York-City-Budget"

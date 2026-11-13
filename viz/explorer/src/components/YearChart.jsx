@@ -9,7 +9,7 @@ import { money } from "../format.js";
  * Accessibility (WCAG 2.2 AA, docs/plans/2026-11-12-270-agency-budgets.md "Chart"):
  *   - svg role="img" with a name that sums it up, from the numbers;
  *   - the two lines differ by dash and marker shape, not only color (adopted: solid, circles;
- *     modified: dashed, squares), and both colors are at least 3:1 on white
+ *     modified: dashed, open circles), and both colors are at least 3:1 on white
  *     (#2359a8 6.2:1, #414141 10:1);
  *   - a missing figure is a gap in the line, never a drop to $0.
  */
@@ -101,13 +101,13 @@ export function YearChart({ series, title, newest }) {
             s.adopted == null ? null : <circle key={`a${s.year}`} cx={x(i)} cy={y(s.adopted)} r="4.5" fill={COLORS.adopted} />
           )}
           {series.map((s, i) =>
-            s.modified == null ? null : <rect key={`m${s.year}`} x={x(i) - 4} y={y(s.modified) - 4} width="8" height="8" fill="#FFFFFF" stroke={COLORS.modified} strokeWidth="2" />
+            s.modified == null ? null : <circle key={`m${s.year}`} cx={x(i)} cy={y(s.modified)} r="4.5" fill="#FFFFFF" stroke={COLORS.modified} strokeWidth="2" />
           )}
         </g>
       </svg>
       <figcaption className="chart-key">
-        <span className="key key-adopted" aria-hidden="true" /> Adopted (solid line, dots) <span className="key key-modified" aria-hidden="true" /> Modified (dashed line,
-        squares). A gap means no figure for that year.
+        <span className="key key-adopted" aria-hidden="true" /> Adopted (solid blue line, filled dots) <span className="key key-modified" aria-hidden="true" /> Modified
+        (dashed gray line, open dots). A gap means no figure for that year.
       </figcaption>
     </figure>
   );

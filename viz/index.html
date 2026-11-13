@@ -104,9 +104,9 @@
     <button class="bnyc-menu-btn" type="button" aria-expanded="false" aria-controls="bnyc-menu" hidden><svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M2 4h16M2 10h16M2 16h16" stroke="currentColor" stroke-width="2" fill="none"/></svg>Menu</button>
     <ul id="bnyc-menu">
       <li><a href="./" aria-current="page">Home</a></li>
-      <li><a href="./agencies/boards.html">Community boards</a></li>
-      <li><a href="./explorer/">Council discretionary funding</a></li>
       <li><a href="./explorer/#view=agencies">City agency budgets</a></li>
+      <li><a href="./agencies/boards.html">Community board budgets</a></li>
+      <li><a href="./explorer/">Council discretionary funding</a></li>
       <li><a href="./mcp.html">Budget MCP</a></li>
       <li><a href="./about.html">About</a></li>
     </ul>
@@ -136,7 +136,7 @@
         <section class="door" aria-labelledby="door-agencies">
           <h2 id="door-agencies">City agency budgets</h2>
           <p>How much each City agency was given in the adopted budget, and how it changed during the year, FY2017–FY2027. From NYC Open Data, checked against OMB's printed FY2026 Adopted Budget to the dollar.</p>
-          <a class="go" href="agencies/">Look up agency budgets</a>
+          <a class="go" href="explorer/#view=agencies">Look up agency budgets</a>
         </section>
         <section class="door" aria-labelledby="door-council">
           <h2 id="door-council">Council discretionary funding</h2>
@@ -170,14 +170,14 @@
 
       <div class="notes">
         <p class="correction" id="correction"><strong>Correction, November 9, 2026.</strong> Before this date the agency budget explorer showed every year one year late: "Adopted 2026" was really FY2025. It is fixed. If you copied agency figures before then, please download them again. The Council half was not affected.</p>
-        <p class="notice" id="retired-notice"><strong>Our first explorer, from July 2026, is frozen and no longer updated.</strong> An earlier parser lost and merged rows from the Council's PDFs, and we no longer stand behind it. Please do not cite figures from it. It stays online at <a href="legacy.html">legacy.html</a> so old links still work.</p>
-        <p id="deep-link">You followed a link into the frozen explorer. That view is still online, frozen and marked do not cite, at <a id="deep-link-a" href="legacy.html">legacy.html</a>.</p>
+        <p class="notice" id="retired-notice"><strong>Our first explorer, from July 2026, is retired.</strong> An earlier parser lost and merged rows from the Council's PDFs, and we no longer stand behind it. Please do not cite figures from it. Its address, <a href="legacy.html">legacy.html</a>, sends old links to the same year and name in Council discretionary funding.</p>
+        <p id="deep-link">You followed a link into our first explorer, which is retired. <a id="deep-link-a" href="legacy.html">Open the same view in Council discretionary funding</a>.</p>
       </div>
 
     </main>
     <script>
-      // A link into the old explorer (e.g. #Fund/...) lands here now: offer the same view in
-      // the retired copy instead of silently dropping it. No redirect.
+      // A link into the old explorer (e.g. #fund-detail/...) lands here now: offer it to
+      // legacy.html, which forwards it into the explorer (#304). No redirect.
       (function () {
         var h = window.location.hash;
         if (h && h.length > 1) {
@@ -193,9 +193,9 @@
         <h2 id="bnyc-foot-h-site">This site</h2>
         <ul>
           <li><a href="./" aria-current="page">Home</a></li>
-          <li><a href="./agencies/boards.html">Community boards</a></li>
-          <li><a href="./explorer/">Council discretionary funding</a></li>
           <li><a href="./explorer/#view=agencies">City agency budgets</a></li>
+          <li><a href="./agencies/boards.html">Community board budgets</a></li>
+          <li><a href="./explorer/">Council discretionary funding</a></li>
           <li><a href="./mcp.html">Budget MCP</a></li>
           <li><a href="./about.html">About</a></li>
         </ul>
@@ -211,7 +211,7 @@
         </ul>
       </section>
     </div>
-    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 10, 2026. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 13, 2026. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
   </div>
 </div>
 <!-- site-shell:bottom:end -->

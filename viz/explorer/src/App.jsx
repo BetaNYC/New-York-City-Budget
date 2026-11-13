@@ -49,8 +49,14 @@ export default function App() {
   const current = useRef(state);
   current.current = state;
 
+  // The query engine and the Council data load for every view but City agency budgets, which reads
+  // small JSON files instead (#299): about 33 MB it never needs.
+  const needsDb = state.view !== "agencies";
   useEffect(() => {
-    ensureData().catch(() => {});
+    if (needsDb) ensureData().catch(() => {});
+  }, [needsDb]);
+
+  useEffect(() => {
     const sync = () => {
       // An in-page anchor, such as the shell's "Skip to content" link (#main), is not app state:
       // read as state it would reset the page to the default view. Keep the view, put its
@@ -148,7 +154,9 @@ export default function App() {
             e.g. #102 for FY2027, #103 for FY2026): every printed total was checked and the doubts are listed, but a person has not signed them off.
           </Notice>
         ) : null}
-        {db.phase === PHASES.ERROR ? (
+        {agencies ? (
+          <Agencies state={state} set={set} go={go} />
+        ) : db.phase === PHASES.ERROR ? (
           <Notice tone="error">
             The data could not be loaded: {String(db.error?.message ?? db.error)}.{" "}
             <button type="button" className="linkish" onClick={() => ensureData().catch(() => {})}>
@@ -159,7 +167,7 @@ export default function App() {
           state.view === "about" ? (
             <About manifest={db.manifest} />
           ) : (
-            <Loading phase={db.phase} progress={db.progress} manifest={db.manifest} agencies={agencies} />
+            <Loading phase={db.phase} progress={db.progress} manifest={db.manifest} />
           )
         ) : (
           <ReviewScreenContext.Provider value={Boolean(db.manifest?.review_screen)}>
@@ -200,7 +208,7 @@ export default function App() {
 /** The first visit's data download, in whole MB, from the manifest's file sizes (needs.js BASE). */
 export const dataMb = (manifest) => Math.max(1, Math.round(bytesOf(manifest, BASE) / 1e6));
 
-function Loading({ phase, progress, manifest, agencies }) {
+function Loading({ phase, progress, manifest }) {
   const what = { idle: "Starting", manifest: "Reading the data manifest", engine: "Loading the query engine", data: "Loading the data" }[phase] ?? "Loading";
   return (
     <div className="loading" role="status" aria-live="polite">
@@ -209,11 +217,6 @@ function Loading({ phase, progress, manifest, agencies }) {
       </p>
       <progress value={progress} max={1} />
       <p className="muted small">The explorer runs in your browser: it downloads the query engine (about 33 MB, cached after the first visit) and about {dataMb(manifest)} MB of data. The PDF tables load when you open a page that uses them.</p>
-      {agencies ? (
-        <p className="small">
-          On a slow connection? Every agency's budget, every year, is also one small file: <a href="../agencies/data/nyc_budget.csv" download>download the CSV (about 150 KB)</a>.
-        </p>
-      ) : null}
     </div>
   );
 }
@@ -296,8 +299,6 @@ function Ready({ state, set, go, back, manifest }) {
       return <Compare {...props} />;
     case "about":
       return <About manifest={manifest} />;
-    case "agencies":
-      return <Agencies {...props} />;
     default:
       return <Awards {...props} />;
   }

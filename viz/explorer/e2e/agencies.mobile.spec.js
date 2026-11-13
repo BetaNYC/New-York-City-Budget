@@ -7,7 +7,8 @@
  * width WCAG 1.4.10 (Reflow) names: content must fit with no sideways scrolling. Tables reflow
  * (stacked rows or fewer columns), they do not scroll sideways.
  * Touch targets: at least 24x24 CSS px for every control (WCAG 2.2, 2.5.8, AA), and 44x44 for
- * the view's own buttons, selects and inputs (the site shell's rule, viz/site_shell.py).
+ * the view's own buttons, selects and inputs (the site shell's rule, viz/site_shell.py), and for
+ * its row, crumb, explainer and download links.
  */
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
@@ -53,6 +54,32 @@ describe(`Agency budgets on a phone${VIEW_PENDING ? ` (${VIEW_PENDING})` : ""}`,
           .filter((b) => b.w < 44 || b.h < 44)
       );
       expect(small).toEqual([]);
+      // Links too (QA of #294/#307): a row's name, the crumbs, "More about these", the downloads.
+      const links = await page.locator('[data-view="agencies"] :is(th[scope="row"] a, .crumbs a, .explainer-note a, .downloads a)').evaluateAll((els) =>
+        els
+          .filter((el) => el.offsetParent !== null)
+          .map((el) => ({ el: el.outerHTML.slice(0, 80), h: el.getBoundingClientRect().height }))
+          .filter((b) => b.h < 44)
+      );
+      expect(links).toEqual([]);
+      expect(await page.locator('[data-view="agencies"] :is(th[scope="row"] a, .crumbs a, .downloads a)').count()).toBeGreaterThan(0);
+    });
+  }
+
+  for (const name of ["list", "agency"]) {
+    test(`the open over-time table stacks at 320px, every cell labeled, picker below it: ${name}`, async ({ page }) => {
+      // FAILS if the five-column trend table (#306) scrolls sideways or loses its labels when
+      // stacked, or the year picker moves above the chart on a phone.
+      await page.setViewportSize({ width: 320, height: 740 });
+      await openView(page, PAGES[name]);
+      const table = page.locator("section.trend table");
+      await expect(table).toBeVisible();
+      const unlabeled = await table.locator("tbody td").evaluateAll((tds) => tds.filter((td) => !td.getAttribute("data-label")).length);
+      expect(unlabeled).toBe(0);
+      const chart = await page.locator('section.trend svg[role="img"]').boundingBox();
+      const picker = await page.locator("section.one-year select").boundingBox();
+      expect(picker.y, "picker is below the chart").toBeGreaterThan(chart.y + chart.height);
+      expect(picker.height).toBeGreaterThanOrEqual(44);
     });
   }
 

@@ -37,8 +37,10 @@
         var path = q < 0 ? h : h.slice(0, q);
         var query = q < 0 ? "" : h.slice(q + 1);
         var params = ["view=agencies"];
-        var year = /(?:^|&)year=(\d{4})(?:&|$)/.exec(query);
-        if (year) params.push("abfy=" + year[1]);
+        // The same year rule as legacyToExplorerHash (src/agency/legacy.js): the first year=, read
+        // by URLSearchParams and parseInt (QA of #292; agency-legacy.test.js runs both).
+        var year = parseInt(new URLSearchParams(query).get("year") || "", 10);
+        if (isFinite(year)) params.push("abfy=" + year);
         var route = /^(?:fund-detail|control-officer-detail)\/([^?]+)/.exec(path);
         if (route) {
           var legacy = route[1].split("/").filter(Boolean).slice(0, 2).join("/");
@@ -112,9 +114,9 @@
     <button class="bnyc-menu-btn" type="button" aria-expanded="false" aria-controls="bnyc-menu" hidden><svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M2 4h16M2 10h16M2 16h16" stroke="currentColor" stroke-width="2" fill="none"/></svg>Menu</button>
     <ul id="bnyc-menu">
       <li><a href="../">Home</a></li>
-      <li><a href="../agencies/boards.html">Community boards</a></li>
-      <li><a href="../explorer/">Council discretionary funding</a></li>
       <li><a href="../explorer/#view=agencies" aria-current="page">City agency budgets</a></li>
+      <li><a href="../agencies/boards.html">Community board budgets</a></li>
+      <li><a href="../explorer/">Council discretionary funding</a></li>
       <li><a href="../mcp.html">Budget MCP</a></li>
       <li><a href="../about.html">About</a></li>
     </ul>
@@ -140,7 +142,7 @@
       <p>Old links still work: a link to an agency, a unit or a year opens the same agency, unit and year there.</p>
       <h2>What is different</h2>
       <ul>
-        <li>A unit that is not in a year's budget now says <strong>"Not in this year's budget"</strong>. This page used to show $0 there. The numbers are the same; 936 of those cells were never a real $0.</li>
+        <li>A unit that is not in a year's budget now says <strong>"Not in this year's budget"</strong>. This page used to show $0 there. The numbers are the same: 1,737 amounts it showed as $0 (936 adopted and 801 modified) were units that were not in that year's budget.</li>
         <li>Agencies are grouped by agency number, so the Department of Consumer and Worker Protection (agency 866) shows once, under the name in each year's budget, not twice under its old and new names.</li>
         <li>The same figures are in the <a href="../mcp.html">budget MCP server</a> (<code>search_agency_budget</code>, <code>compare_adopted_modified</code>).</li>
       </ul>
@@ -160,9 +162,9 @@
         <h2 id="bnyc-foot-h-site">This site</h2>
         <ul>
           <li><a href="../">Home</a></li>
-          <li><a href="../agencies/boards.html">Community boards</a></li>
-          <li><a href="../explorer/">Council discretionary funding</a></li>
           <li><a href="../explorer/#view=agencies" aria-current="page">City agency budgets</a></li>
+          <li><a href="../agencies/boards.html">Community board budgets</a></li>
+          <li><a href="../explorer/">Council discretionary funding</a></li>
           <li><a href="../mcp.html">Budget MCP</a></li>
           <li><a href="../about.html">About</a></li>
         </ul>

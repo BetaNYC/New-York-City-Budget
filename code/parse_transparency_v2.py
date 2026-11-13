@@ -166,7 +166,27 @@ def cached_pages(cfg, res, sha, cache_dir):
     return json.load(open(path))     # same shape as a cache hit (JSON keys are strings)
 
 
+def docx_text(path):
+    """The paragraphs of a Word file's body, one line each (stdlib only). FY2027's charts PDFs
+    print no resolution text; it is a separate "Res. No." attachment on the matter's page
+    (GitHub #246, source/FY27/README.md)."""
+    import html
+    import re
+    import zipfile
+    with zipfile.ZipFile(path) as z:
+        xml = z.read("word/document.xml").decode("utf-8")
+    paras = [re.sub(r"<[^>]+>", "", p) for p in re.split(r"</w:p>", xml)]
+    return "\n".join(html.unescape(p) for p in paras if p.strip())
+
+
 def front_text(res):
+    """The resolution's own text: the PDF's pages before its first table, or, where the config
+    names one (`text`, with its `text_sha256`), the separate resolution-text file."""
+    if res.get("text"):
+        path = os.path.join(ROOT, res["text"])
+        if sha256_file(path) != res["text_sha256"]:
+            raise SystemExit(f"{res['text']}: sha256 differs from the config")
+        return " ".join(docx_text(path).split())
     import pdfplumber
     out = []
     with pdfplumber.open(os.path.join(ROOT, res["pdf"])) as pdf:
