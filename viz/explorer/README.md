@@ -86,6 +86,14 @@ the wire instead of 12.4 MB. A query a fast view runs carries a `json` form next
 (`src/council/data.js`), and `test/council-parity.test.mjs` holds every json form to its SQL, row
 for row.
 
+Expense awards opens on the newest fiscal year (#301, pick 2) and answers any filter within one
+year from that year's file (`awards/fyYYYY.json`), with no engine: a first visit is about 0.49 MB
+over the wire instead of 12.4 MB. "All years" with no filter reads `awards/index.json`; a filter
+over all years, a later all-years page, or the Schedule C side loads the engine, as before. A link
+that carries a filter and no year keeps its old meaning, all years (`awardsYear` in
+`src/state/hash.js`). One award reads its row from its year's file (about 0.53 MB); its NYC Open
+Data and Schedule C panels load the engine when asked for ("Show them").
+
 The Council views are moving to the same pattern (#301). The build writes `data/council/`
 (`scripts/council-json.mjs`, file names in `src/council/paths.js`): `years.json` (the lookups,
 each year's source and the Years totals), `omb.json` (every Council-vs-OMB row),

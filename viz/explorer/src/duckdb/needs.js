@@ -9,6 +9,7 @@
  * so a view never waits for a file that does not exist.
  */
 import { DIM_SOURCES, SOURCES } from "../compare/queries.js";
+import { AWARDS_FILTERS } from "../state/hash.js";
 
 /** The spreadsheet tables, written by every build (scripts/build-data.mjs TABLES). */
 export const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta"];
@@ -124,10 +125,21 @@ export function tablesForView(state, manifest, { extras = false } = {}) {
  * reads only manifest.json, and Years and Council vs OMB read the Council JSON files. Review needs it only in a review build: on the public site it
  * just says there is no queue. null: the answer depends on the manifest, which is not in yet.
  */
-export function needsEngine(view, manifest) {
-  // Years and Council vs OMB read the Council JSON files (data/council/; #301).
-  if (view === "agencies" || view === "about" || view === "years" || view === "omb") return false;
+export function needsEngine(view, manifest, state = {}) {
+  // Years and Council vs OMB read the Council JSON files (data/council/; #301), and so does one
+  // award: its Schedule C and Open Data panels load the engine when asked for.
+  if (view === "agencies" || view === "about" || view === "years" || view === "omb" || view === "award") return false;
   if (view === "review") return manifest ? Boolean(manifest.review_screen) : null;
+  if (view === undefined || view === "awards") {
+    // The expense list: one fiscal year (any filter within it) reads that year's file, and the
+    // unfiltered first page over all years reads awards/index.json. The Schedule C side, and any
+    // other filter over all years, need the engine (state/hash.js awardsYear).
+    if (state.scside) return true;
+    const filtered = AWARDS_FILTERS.some((k) => state[k] !== null && state[k] !== undefined && state[k] !== "");
+    if (state.fy > 0) return false;
+    if (state.fy === 0) return filtered || (state.page ?? 0) > 0;
+    return filtered;
+  }
   return true;
 }
 

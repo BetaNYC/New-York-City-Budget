@@ -18,7 +18,7 @@
  * engine. test/council-parity.test.mjs holds each json form to its SQL, row for row.
  */
 import { fold } from "../../../../mcp/dist/fold.js";
-import { councilYearsPath, decodeRows, ombPath } from "../council/paths.js";
+import { awardsIndexPath, awardsYearPath, councilYearsPath, decodeRows, ombPath, rowsOf } from "../council/paths.js";
 
 export { fold };
 
@@ -42,6 +42,9 @@ export function normBudgetLine(v) {
 
 const blank = (v) => v === null || v === undefined || (typeof v === "string" && v.trim() === "");
 const num = (v) => (blank(v) ? null : Number.isFinite(Number(v)) ? Number(v) : null);
+
+/** Ascending, as DuckDB orders these values (numbers by value, ASCII text by code point). */
+export const cmp = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
 
 /** Collects WHERE clauses and their parameters in step. */
 class Where {
@@ -99,14 +102,84 @@ export function disclosureWhere(f = {}) {
 
 export const DISCLOSURE_LIST_COLUMNS =
   "fiscal_year, source_row, legal_name, ein, council_member, source, agency, program_name, status, status_norm, amount, row_flag, duplicate_group";
+const LIST_KEYS = DISCLOSURE_LIST_COLUMNS.split(", ");
+
+/**
+ * disclosureWhere, in JS, for one fiscal year's file (#301): the same filters, the text ones on
+ * the same folded twin with the same fold() (DuckDB: contains(lower(COALESCE(x_fold, x)), q)).
+ * null when the filter needs the engine: no fiscal year, or the Schedule C pairing.
+ */
+export function disclosureMatches(f = {}) {
+  if (num(f.fiscal_year) === null || f.sc_side === "matched" || f.sc_side === "disclosure_only") return null;
+  const tests = [];
+  if (DISCLOSURE_STATUSES.includes(f.status)) tests.push((r) => r.status_norm === f.status);
+  if (!blank(f.ein) && normEin(f.ein) !== "") {
+    const ein = normEin(f.ein);
+    tests.push((r) => r.ein === ein);
+  }
+  for (const c of DISCLOSURE_TEXT) {
+    if (blank(f[c])) continue;
+    const q = fold(f[c]);
+    if (q === "") continue;
+    const twin = `${c}_fold`;
+    tests.push((r) => {
+      const v = r[twin] ?? r[c];
+      return v != null && v.toLowerCase().includes(q);
+    });
+  }
+  const min = num(f.min_amount);
+  const max = num(f.max_amount);
+  if (min !== null) tests.push((r) => r.amount >= min);
+  if (max !== null) tests.push((r) => r.amount <= max);
+  return (r) => tests.every((t) => t(r));
+}
+
+/** Whether a filter is the unfiltered list over all years (awards/index.json answers its first page). */
+const noFilter = (f = {}) =>
+  num(f.fiscal_year) === null && !DISCLOSURE_STATUSES.includes(f.status) && (blank(f.ein) || normEin(f.ein) === "") &&
+  DISCLOSURE_TEXT.every((c) => blank(f[c]) || fold(f[c]) === "") && num(f.min_amount) === null && num(f.max_amount) === null &&
+  f.sc_side !== "matched" && f.sc_side !== "disclosure_only";
+
+/** One year's matching rows, from its file. */
+const yearRows = (f, file) => rowsOf(file).filter(disclosureMatches(f));
+
+/** The json form of a disclosure query: one year's file, or index.json for the unfiltered list. */
+function disclosureJson(f, fromYear, fromIndex) {
+  if (disclosureMatches(f)) return { files: [awardsYearPath(num(f.fiscal_year))], run: ([file]) => fromYear(yearRows(f, file)) };
+  if (fromIndex && noFilter(f)) return { files: [awardsIndexPath()], run: ([ix]) => fromIndex(ix) };
+  return undefined;
+}
+
+/** Group matching rows as disclosureTotalsQuery does. */
+function totalsOf(rows) {
+  const g = new Map();
+  for (const r of rows) {
+    const k = `${r.fiscal_year}|${r.status_norm}`;
+    const t = g.get(k) ?? { fiscal_year: r.fiscal_year, status_norm: r.status_norm, n: 0, amount: 0 };
+    t.n++;
+    t.amount += r.amount;
+    g.set(k, t);
+  }
+  return [...g.values()].sort((a, b) => a.fiscal_year - b.fiscal_year || cmp(a.status_norm, b.status_norm));
+}
 
 export function disclosureRowsQuery(f = {}, page = 0) {
   const w = disclosureWhere(f);
-  const offset = Math.max(0, Math.trunc(Number(page) || 0)) * PAGE_SIZE;
+  const p = Math.max(0, Math.trunc(Number(page) || 0));
+  const offset = p * PAGE_SIZE;
   return {
     sql: `SELECT ${DISCLOSURE_LIST_COLUMNS} FROM disclosure ${w.sql}
           ORDER BY amount DESC, fiscal_year, source_row LIMIT ${PAGE_SIZE} OFFSET ${offset}`,
     params: w.params,
+    json: disclosureJson(
+      f,
+      (rows) =>
+        [...rows]
+          .sort((a, b) => b.amount - a.amount || a.fiscal_year - b.fiscal_year || a.source_row - b.source_row)
+          .slice(offset, offset + PAGE_SIZE)
+          .map((r) => Object.fromEntries(LIST_KEYS.map((k) => [k, r[k]]))),
+      p === 0 ? (ix) => ix.rows : null
+    ),
   };
 }
 
@@ -117,6 +190,7 @@ export function disclosureTotalsQuery(f = {}) {
     sql: `SELECT fiscal_year, status_norm, COUNT(*) AS n, SUM(amount) AS amount
           FROM disclosure ${w.sql} GROUP BY fiscal_year, status_norm ORDER BY fiscal_year, status_norm`,
     params: w.params,
+    json: disclosureJson(f, totalsOf, (ix) => ix.totals),
   };
 }
 
@@ -127,6 +201,21 @@ export function disclosureFlagsQuery(f = {}) {
     sql: `SELECT row_flag, COUNT(*) AS n, SUM(amount) AS amount FROM disclosure ${w.and("row_flag <> ''")}
           GROUP BY row_flag ORDER BY row_flag`,
     params: w.params,
+    json: disclosureJson(
+      f,
+      (rows) => {
+        const g = new Map();
+        for (const r of rows) {
+          if (r.row_flag == null || r.row_flag === "") continue;
+          const t = g.get(r.row_flag) ?? { row_flag: r.row_flag, n: 0, amount: 0 };
+          t.n++;
+          t.amount += r.amount;
+          g.set(r.row_flag, t);
+        }
+        return [...g.values()].sort((a, b) => cmp(a.row_flag, b.row_flag));
+      },
+      (ix) => ix.flags
+    ),
   };
 }
 
@@ -153,12 +242,26 @@ export function rollupDisclosure(grouped) {
 }
 
 export function awardQuery(fiscal_year, source_row) {
+  const fy = Number(fiscal_year);
+  const row = Number(source_row);
   return {
     sql: `SELECT d.*, y.source_path, y.url AS source_url, y.sheet, y.retrieved, y.sha256, y.wayback_timestamp,
                  y.source_kind, y.early_snapshot, y.note AS year_note
           FROM disclosure d JOIN disclosure_years y USING (fiscal_year)
           WHERE d.fiscal_year = ? AND d.source_row = ?`,
-    params: [Number(fiscal_year), Number(source_row)],
+    params: [fy, row],
+    // #301: the row from its year's file, joined to the year's source in years.json.
+    json: {
+      files: [awardsYearPath(fy), councilYearsPath()],
+      optional: [awardsYearPath(fy)],
+      run: ([file, years]) => {
+        const y = years.disclosure_years.find((x) => x.fiscal_year === fy);
+        const d = file && y ? rowsOf(file).find((r) => r.source_row === row) : null;
+        if (!d) return [];
+        return [{ ...d, source_path: y.source_path, source_url: y.url, sheet: y.sheet, retrieved: y.retrieved, sha256: y.sha256,
+          wayback_timestamp: y.wayback_timestamp, source_kind: y.source_kind, early_snapshot: y.early_snapshot, year_note: y.note }];
+      },
+    },
   };
 }
 
@@ -270,8 +373,6 @@ export function ombMatches(f = {}) {
   return (r) => (year === null || r.report_year === year) && (line === null || r.budget_line_norm === line) && (verdict === null || r.verdict === verdict);
 }
 
-/** Ascending, as DuckDB orders these values (numbers by value, ASCII text by code point). */
-export const cmp = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
 
 /** Lines that disagree first, then the largest absolute first-year difference (as the MCP). */
 export function ombRowsQuery(f = {}, page = 0) {

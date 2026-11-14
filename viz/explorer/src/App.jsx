@@ -54,7 +54,7 @@ export default function App() {
   // needsEngine): not City agency budgets, which reads small JSON files (#299), not About the data,
   // and not Review on the public site, which has no review queue (#301). Every Council view reads
   // the manifest; City agency budgets does not.
-  const engine = needsEngine(state.view, db.manifest);
+  const engine = needsEngine(state.view, db.manifest, state);
   const council = state.view !== "agencies";
   useEffect(() => {
     if (council) ensureManifest().catch(() => {});

@@ -13,6 +13,13 @@ export const capitalYearPath = (fy) => `${COUNCIL_JSON_DIR}/capital/fy${fy}.json
  * A row file's rows as objects. Columns listed in `dicts` hold each cell's position in that
  * column's list of values (scripts/council-json.mjs).
  */
+const decoded = new WeakMap();
+/** decodeRows, once per parsed file (a view re-runs its queries on every filter change). */
+export function rowsOf(file) {
+  if (!decoded.has(file)) decoded.set(file, decodeRows(file));
+  return decoded.get(file);
+}
+
 export function decodeRows({ columns, rows, dicts = {} }) {
   const lookups = columns.map((c) => dicts[c] ?? null);
   return rows.map((r) => {

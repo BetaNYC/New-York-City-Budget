@@ -56,8 +56,39 @@ for (const [name, path, cell] of [
   });
 }
 
-test("leaving About for the expense awards still loads the engine and the data", async ({ page }) => {
-  // FAILS if the gate leaves a view that needs DuckDB without it.
+test("the landing page opens on the newest year, from its file, with no engine", async ({ page }) => {
+  // FAILS if the first page starts DuckDB or fetches Parquet, or is not the newest year (#301 step 5).
+  const log = urls(page);
+  await page.goto("explorer/");
+  await expect(page.locator("main table").first()).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByLabel("Fiscal year")).toHaveValue(/^20\d\d$/);
+  await page.waitForLoadState("networkidle");
+  expect(log.filter((u) => ENGINE.test(u))).toEqual([]);
+  expect(log.filter((u) => PARQUET.test(u))).toEqual([]);
+  expect(log.some((u) => /\/data\/council\/awards\/fy20\d\d\.json/.test(u))).toBe(true);
+});
+
+test("a search over all years loads the engine", async ({ page }) => {
+  // FAILS if an all-years text search is answered without DuckDB (it needs every year).
+  const log = urls(page);
+  await page.goto("explorer/#view=awards&fy=0&legal_name=food");
+  await expect(page.locator("main table").first()).toBeVisible({ timeout: 150_000 });
+  expect(log.some((u) => ENGINE.test(u))).toBe(true);
+});
+
+test("one award opens from its year's file; its Open Data and Schedule C panels load on request", async ({ page }) => {
+  // FAILS if a link to one award starts DuckDB on its own, or the panels never come.
+  const log = urls(page);
+  await page.goto("explorer/#view=award&ay=2026&row=2");
+  await expect(page.getByRole("heading", { name: "Every column" })).toBeVisible({ timeout: 60_000 });
+  await page.waitForLoadState("networkidle");
+  expect(log.filter((u) => ENGINE.test(u))).toEqual([]);
+  await page.getByRole("button", { name: "Show them" }).click();
+  await expect(page.getByRole("heading", { name: "On NYC Open Data?" })).toBeVisible({ timeout: 150_000 });
+});
+
+test("leaving About for the expense awards shows the list", async ({ page }) => {
+  // FAILS if the list does not come after About (from the JSON files since #301 step 5).
   await page.goto("explorer/#view=about");
   await expect(page.getByRole("heading", { name: "About the data" })).toBeVisible();
   await page.getByRole("link", { name: "Expense awards" }).click();

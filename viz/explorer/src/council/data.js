@@ -37,8 +37,15 @@ export function councilFile(path) {
   return loads.get(path);
 }
 
-/** Run a query's JSON form. */
+/** Whether the build wrote this file (a year that is not loaded has none). */
+export const hasCouncilFile = (path) => Boolean(getSnapshot().manifest?.council_json?.files?.[path]);
+
+/**
+ * Run a query's JSON form. A file listed in `optional` that the build did not write is passed as
+ * null (one award in a year that is not loaded: no such row).
+ */
 export async function runJson(q) {
-  const files = await Promise.all(q.json.files.map(councilFile));
+  const optional = new Set(q.json.optional ?? []);
+  const files = await Promise.all(q.json.files.map((p) => (optional.has(p) && !hasCouncilFile(p) ? null : councilFile(p))));
   return q.json.run(files);
 }

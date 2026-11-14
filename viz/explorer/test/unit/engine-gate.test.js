@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
 
 import { needsEngine, tablesForView } from "../../src/duckdb/needs.js";
+import { awardsYear } from "../../src/state/hash.js";
 
 /**
  * Which views start the query engine (#301, first PR). The engine is DuckDB-WASM: about 8.6 MB
@@ -40,7 +41,7 @@ describe("needsEngine (needs.js)", () => {
 
   test("every other Council view still starts the engine", () => {
     // FAILS if this fix stops a view that reads DuckDB from loading it.
-    for (const view of [undefined, "awards", "award", "compare", "capital", "capital-row", "schedc", "transparency", "book", "orgs", "terms", "source"]) {
+    for (const view of ["compare", "capital", "capital-row", "schedc", "transparency", "book", "orgs", "terms", "source"]) {
       expect(needsEngine(view, PUBLIC), String(view)).toBe(true);
     }
   });
@@ -80,5 +81,31 @@ describe("ensureManifest (store.js)", () => {
     expect(store.getSnapshot().manifest).toEqual(PUBLIC);
     expect(engineImported).toBe(false);
     expect(store.getSnapshot().phase).not.toBe("engine");
+  });
+});
+
+describe("the expense list (#301 pick 2: the first page is the newest year)", () => {
+  test("which year the list shows", () => {
+    // FAILS if the landing page does not open on the newest year, "All years" is lost, or an old
+    // link with a filter and no year changes meaning.
+    expect(awardsYear({}, 2027)).toBe(2027);
+    expect(awardsYear({ fy: 0 }, 2027)).toBe(null);
+    expect(awardsYear({ fy: 2015 }, 2027)).toBe(2015);
+    expect(awardsYear({ legal_name: "food" }, 2027)).toBe(null);
+    expect(awardsYear({ fy: 2015, legal_name: "food" }, 2027)).toBe(2015);
+  });
+
+  test("the engine loads only for a filter over all years, a later all-years page, or the Schedule C side", () => {
+    // FAILS if a one-year view starts DuckDB, or an all-years search does not.
+    for (const view of [undefined, "awards"]) {
+      expect(needsEngine(view, PUBLIC, {})).toBe(false);
+      expect(needsEngine(view, PUBLIC, { fy: 2026, legal_name: "food", status: "pending", min: 5 })).toBe(false);
+      expect(needsEngine(view, PUBLIC, { fy: 0 })).toBe(false);
+      expect(needsEngine(view, PUBLIC, { fy: 0, page: 1 })).toBe(true);
+      expect(needsEngine(view, PUBLIC, { fy: 0, legal_name: "food" })).toBe(true);
+      expect(needsEngine(view, PUBLIC, { legal_name: "food" })).toBe(true);
+      expect(needsEngine(view, PUBLIC, { fy: 2026, scside: "matched" })).toBe(true);
+    }
+    expect(needsEngine("award", PUBLIC, { ay: 2026, row: 2 })).toBe(false);
   });
 });
