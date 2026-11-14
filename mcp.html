@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- The budget MCP's page (Noel, 2026-11-10): the site is where the MCP lives. Self-contained like
+         the front page. The top bar and footer are written by viz/site_shell.py. -->
+    <meta name="description" content="BetaNYC's NYC budget MCP server lets an AI assistant answer questions about NYC Council discretionary funding, with the source of every row. Setup, tools, coverage, and BetaNYC's other MCP servers.">
+    <meta name="author" content="BetaNYC">
+    <title>The budget MCP server · NYC budget data · BetaNYC</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <style>
+      /* BetaNYC brand tokens (archive/betanyc/brand.md), the same set as viz/site_shell.py's bar. */
+      :root { --bnyc-blue: #2359a8; --bnyc-blue-secondary: #B8D6FF; --bnyc-bg-blue: #EEF4FF; --bnyc-bg-blue-light: #F9FAFF; --bnyc-dark-gray: #414141; --bnyc-light-gray: #F1F1F1; --bnyc-border-gray: #949494;
+              --font-display: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif; --font-heading: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      body { margin: 0; font-family: var(--font-display); font-size: 17px; line-height: 1.75; color: var(--bnyc-dark-gray); background: #FFFFFF; -webkit-font-smoothing: antialiased; }
+      main { max-width: 1230px; margin: 0 auto; padding: 2.25rem 1.25rem 3rem; box-sizing: border-box; }
+      main > * { max-width: 750px; }
+      main > .doors, main > table, main > .table-wrap { max-width: none; }
+      h1, h2, h3 { color: var(--bnyc-blue); font-weight: 700; }
+      h1 { font-family: var(--font-display); font-size: clamp(1.9rem, 4.5vw, 3.2rem); line-height: 1.3; margin: 0.5rem 0 1rem; }
+      h2 { font-family: var(--font-heading); font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.4; margin: 2.25rem 0 0.7rem; }
+      a { color: var(--bnyc-blue); }
+      a:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: 2px; }
+      p, ul { margin: 0 0 1rem; }
+      ul { padding-left: 1.3rem; }
+      li { margin: 0.35rem 0; }
+      code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--bnyc-light-gray); padding: 0.1em 0.35em; font-size: 0.88em; }
+      .notice, .correction { background: var(--bnyc-bg-blue); border: 1px solid var(--bnyc-border-gray); border-left: 6px solid var(--bnyc-blue); padding: 0.8rem 1.1rem; }
+      footer { margin-top: 2.5rem; font-size: 0.94rem; }
+      #deep-link { display: none; }
+      /* Cards: 1px #949494 border, square corners (brand.md, card standard 2026-06-22). */
+      .doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 1.5rem; margin: 1.5rem 0 2rem; }
+      .door { border: 1px solid var(--bnyc-border-gray); border-radius: 0; background: #FFFFFF; padding: 1.25rem 1.4rem; display: flex; flex-direction: column; }
+      .door h2 { margin-top: 0; }
+      .door p { margin: 0 0 0.6rem; font-size: 0.97rem; }
+      .door strong { color: var(--bnyc-blue); }
+      .door .go { align-self: flex-start; margin-top: auto; background: var(--bnyc-blue); color: #FFFFFF; padding: 8px 30px; text-decoration: none; }
+      .door .go:hover { text-decoration: underline; }
+      .door .go:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: 3px; }
+      table { border-collapse: collapse; width: 100%; font-size: 0.95rem; margin-bottom: 1rem; }
+      th, td { text-align: left; vertical-align: top; border: 1px solid var(--bnyc-border-gray); padding: 0.5rem 0.7rem; }
+      th { background: var(--bnyc-bg-blue); color: var(--bnyc-blue); font-family: var(--font-heading); font-weight: 700; }
+      @media (max-width: 600px) { body { font-size: 16px; } main > table { display: block; overflow-x: auto; } }
+      dl.glossary dt { font-family: var(--font-heading); font-weight: 700; color: var(--bnyc-blue); margin-top: 1rem; }
+      dl.glossary dd { margin: 0.2rem 0 0; }
+      .table-wrap { overflow-x: auto; }
+      .table-wrap:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
+      .contents h2 { font-size: 1.15rem; margin-top: 1.5rem; }
+      .contents ul { margin-bottom: 1.5rem; }
+      pre { background: var(--bnyc-light-gray); border: 1px solid var(--bnyc-border-gray); padding: 0.9rem 1rem; overflow-x: auto; font-size: 0.85rem; line-height: 1.5; }
+      pre code { background: none; padding: 0; }
+      .mcp-list dt { font-family: var(--font-heading); font-weight: 700; margin-top: 1rem; }
+      .mcp-list dd { margin: 0.2rem 0 0; }
+      .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    </style>
+  </head>
+  <body>
+<!-- site-shell:top:start (written by viz/site_shell.py; do not edit) -->
+<style>
+  /* BetaNYC brand tokens: BetaNYC_AI_Workspace archive/betanyc/brand.md (finalized 2026-05-06),
+     the same set as grounding-ai-audit-card's assets/css/betanyc.css. No font files are fetched:
+     Poppins and Roboto are used when installed, else the system fallback. */
+  .bnyc-shell, .bnyc-shell-foot, .bnyc-skip { font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 1.5; box-sizing: border-box; }
+  .bnyc-skip { position: absolute; left: -10000px; top: 0; z-index: 1000; background: #FFFFFF; color: #2359a8; border: 2px solid #2359a8; padding: 0.5rem 0.9rem; font-weight: 700; }
+  .bnyc-skip:focus { left: 0.5rem; top: 0.5rem; }
+  .bnyc-shell { background: #2359a8; color: #FFFFFF; font-size: 15px; }
+  .bnyc-shell-in, .bnyc-shell-foot-in { max-width: 1230px; margin: 0 auto; padding: 0.6rem 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; }
+  .bnyc-shell-name { font-weight: 700; color: #FFFFFF; text-decoration: none; margin-right: 0.5rem; }
+  .bnyc-shell ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.1rem; }
+  .bnyc-shell li { margin: 0; padding: 0; }
+  .bnyc-shell ul a { font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; }
+  .bnyc-shell a { color: #FFFFFF; }
+  .bnyc-shell a:focus-visible { outline: 3px solid #B8D6FF; outline-offset: 2px; }
+  .bnyc-shell-foot a:focus-visible, .bnyc-skip:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
+  .bnyc-shell a[aria-current="page"] { text-decoration-thickness: 3px; text-underline-offset: 4px; }
+  .bnyc-shell-foot { background: #EEF4FF; color: #414141; border-top: 1px solid #949494; font-size: 14px; margin-top: 2rem; }
+  .bnyc-shell-foot-in { display: block; padding: 1.75rem 1.25rem 1rem; }
+  .bnyc-foot-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2.5rem; }
+  .bnyc-shell-foot h2 { font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; color: #2359a8; margin: 0 0 0.5rem; }
+  .bnyc-shell-foot ul { list-style: none; margin: 0; padding: 0; }
+  .bnyc-shell-foot li { margin: 0; padding: 0; }
+  .bnyc-shell-foot li a { display: inline-flex; align-items: center; min-height: 32px; }
+  .bnyc-shell-foot li a[aria-current="page"] { font-weight: 700; }
+  .bnyc-foot-line { border-top: 1px solid #949494; margin-top: 1.25rem !important; padding-top: 0.75rem; }
+  @media (max-width: 781px) { .bnyc-foot-cols { grid-template-columns: 1fr; } .bnyc-shell-foot li a { min-height: 44px; } }
+  .bnyc-shell-foot p { margin: 0.3rem 0; }
+  .bnyc-shell-foot a { color: #2359a8; }
+  /* Menu button (burger) below 782px, brand.md's tablet breakpoint. Without JavaScript the
+     button stays hidden and the links show as a wrapped row, as before. */
+  .bnyc-menu-btn { display: none; margin-left: auto; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 0.85rem; background: transparent; color: #FFFFFF; border: 1px solid #FFFFFF; border-radius: 0; font: 700 15px "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; cursor: pointer; }
+  .bnyc-menu-btn:hover { background: #1c4785; }
+  .bnyc-menu-btn:focus-visible { outline: 3px solid #B8D6FF; outline-offset: 2px; }
+  .bnyc-menu-btn svg { width: 20px; height: 20px; }
+  @media (max-width: 781px) {
+    .bnyc-shell-in { flex-wrap: wrap; }
+    .bnyc-shell.bnyc-js .bnyc-menu-btn { display: inline-flex; }
+    .bnyc-shell.bnyc-js ul { display: none; }
+    .bnyc-shell.bnyc-js ul.bnyc-open { display: flex; flex-direction: column; flex-basis: 100%; gap: 0; padding: 0.25rem 0 0.5rem; border-top: 1px solid #B8D6FF; margin-top: 0.4rem; }
+    .bnyc-shell ul a { display: flex; align-items: center; min-height: 44px; }
+  }
+  @media (max-width: 600px) { .bnyc-shell-in { padding: 0.4rem 1.25rem; } .bnyc-shell ul { gap: 0 1.1rem; } }
+</style>
+<a class="bnyc-skip" href="#main">Skip to content</a>
+<nav class="bnyc-shell" aria-label="NYC budget data">
+  <div class="bnyc-shell-in">
+    <a class="bnyc-shell-name" href="./">BetaNYC · NYC budget data</a>
+    <button class="bnyc-menu-btn" type="button" aria-expanded="false" aria-controls="bnyc-menu" hidden><svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M2 4h16M2 10h16M2 16h16" stroke="currentColor" stroke-width="2" fill="none"/></svg>Menu</button>
+    <ul id="bnyc-menu">
+      <li><a href="./">Home</a></li>
+      <li><a href="./explorer/#view=agencies">City agency budgets</a></li>
+      <li><a href="./agencies/boards.html">Community board budgets</a></li>
+      <li><a href="./explorer/">Council discretionary funding</a></li>
+      <li><a href="./mcp.html" aria-current="page">Budget MCP</a></li>
+      <li><a href="./about.html">About</a></li>
+    </ul>
+  </div>
+</nav>
+<script>
+(function () {
+  var nav = document.querySelector(".bnyc-shell"), btn = nav && nav.querySelector(".bnyc-menu-btn"),
+      list = nav && nav.querySelector("ul");
+  if (!btn || !list) return;
+  nav.classList.add("bnyc-js");
+  btn.hidden = false;
+  function set(open) { list.classList.toggle("bnyc-open", open); btn.setAttribute("aria-expanded", open ? "true" : "false"); }
+  btn.addEventListener("click", function () { set(btn.getAttribute("aria-expanded") !== "true"); });
+  nav.addEventListener("keydown", function (e) { if (e.key === "Escape" && btn.getAttribute("aria-expanded") === "true") { set(false); btn.focus(); } });
+})();
+</script>
+<!-- site-shell:top:end -->
+
+    <main id="main">
+      <h1>The NYC budget MCP server</h1>
+
+      <p>An MCP server lets an AI assistant, such as Claude, look things up in real data instead of guessing. Ours, <a href="https://www.npmjs.com/package/@betanyc/nyc-budget-mcp">@betanyc/nyc-budget-mcp</a>, answers questions about the Council's discretionary funding and capital money, and gives the source of every row. It is built from the same data as the <a href="explorer/">Council explorer</a> on this site, and a test checks that the two agree.</p>
+      <p>Since version 2.1.0 it also answers City agency budgets: what the City adopted for each agency and unit of appropriation, and the modified budget a year later, FY2017 on, from NYC Open Data. Those are budgets, not spending: for what the City spent or paid, use <a href="https://github.com/BetaNYC/nyc-checkbook-mcp">nyc-checkbook-mcp</a>.</p>
+
+      <nav class="contents" aria-labelledby="on-this-page">
+        <h2 id="on-this-page">On this page</h2>
+        <ul>
+          <li><a href="#setup">Set it up</a></li>
+          <li><a href="#tools">What it can answer</a></li>
+          <li><a href="#coverage">Years it covers</a></li>
+          <li><a href="#cite">How to cite an answer</a></li>
+          <li><a href="#other-mcps">Our other MCP servers</a></li>
+        </ul>
+      </nav>
+
+      <h2 id="setup">Set it up</h2>
+      <p>You need Node 22 or newer. Add this to your MCP client's settings (Claude Desktop, Claude Code, and others), then restart the client:</p>
+<pre><code>"mcpServers": {
+  "nyc-budget": {
+    "command": "npx",
+    "args": ["-y", "@betanyc/nyc-budget-mcp@2"]
+  }
+}</code></pre>
+      <p>Four of the tools answer from the tables we read from the Council's budget PDFs. Those tables are a separate, one-time download (about 17 MB). Run this once in a terminal:</p>
+<pre><code>npx @betanyc/nyc-budget-mcp download --pdf-tables</code></pre>
+      <p>Until then, those four tools reply with that command instead of data. The <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/README.md">README</a> has the full setup and every option, and the <a href="https://github.com/BetaNYC/New-York-City-Budget/blob/main/mcp/CHANGELOG.md">changelog</a> lists what changed in each version.</p>
+
+      <h2 id="tools">What it can answer</h2>
+      <p>You don't call the tools by name. Ask your assistant the question, and it picks the tool.</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="What the MCP server's tools answer">
+      <table>
+        <caption class="visually-hidden">What the MCP server's tools answer</caption>
+        <thead><tr><th scope="col">Tool</th><th scope="col">What it answers</th><th scope="col">Example question</th></tr></thead>
+        <tbody>
+          <tr><td><code>search_disclosure_awards</code></td><td>The Council&#x27;s list of discretionary expense awards (the expense funding disclosure): by organization, EIN, Council member, funding source, agency, ZIP, status, or amount.</td><td>“How much Council discretionary funding did EIN 13-2612524 get in FY2026, cleared vs. pending?”</td></tr>
+          <tr><td><code>search_council_capital</code></td><td>The capital projects the Council funded, by budget line, sponsor, borough, or title.</td><td>“Which Bronx capital projects did the Council fund in FY2027?”</td></tr>
+          <tr><td><code>compare_capital_to_omb</code></td><td>For each capital budget line, the Council&#x27;s total next to OMB&#x27;s adopted capital budget, with a verdict: match, differ, or only on one side.</td><td>“Which Council capital budget lines in FY2026 don&#x27;t match OMB&#x27;s adopted budget?”</td></tr>
+          <tr><td><code>search_agency_budget</code></td><td>City agency budgets: each agency&#x27;s and unit of appropriation&#x27;s adopted and modified budget for a fiscal year, FY2017 on, with the NYC Open Data release each figure comes from.</td><td>“What was the Police Department&#x27;s adopted budget for FY2026?”</td></tr>
+          <tr><td><code>compare_adopted_modified</code></td><td>One agency or unit, one year: the adopted budget, the modified budget a year later, and the change.</td><td>“How much did Manhattan Community Board 1&#x27;s budget change during FY2025?”</td></tr>
+          <tr><td><code>list_available_fiscal_years</code></td><td>What each fiscal year holds, where it came from, which years are missing, and whether the PDF tables are installed.</td><td>“Which years does the budget tool cover?”</td></tr>
+          <tr><td><code>search_schedule_c_awards</code><br><small>needs the PDF tables</small></td><td>Schedule C: the discretionary awards as printed in the adopted budget, by organization, EIN, member, initiative, agency, or purpose.</td><td>“Which Digital Inclusion awards in the FY2027 adopted budget went through the Fund for the City of New York?”</td></tr>
+          <tr><td><code>search_transparency_changes</code><br><small>needs the PDF tables</small></td><td>The transparency resolutions: designations, rescissions, and purpose changes made after the budget was adopted.</td><td>“What transparency resolution changes in FY2026 involved this organization?”</td></tr>
+          <tr><td><code>search_capital_book</code><br><small>needs the PDF tables</small></td><td>The capital book (the §254 supporting detail, Parts I and II).</td><td>“What does the FY2025 capital book list for budget line PV CT001?”</td></tr>
+          <tr><td><code>search_terms_conditions</code><br><small>needs the PDF tables</small></td><td>Terms and Conditions: the reports the budget requires agencies to make.</td><td>“What reports does the FY2027 budget require from the Department of Education?”</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h2 id="coverage">Years it covers</h2>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="Which years each kind of data covers">
+      <table>
+        <caption class="visually-hidden">Which years each kind of data covers</caption>
+        <thead><tr><th scope="col">Data</th><th scope="col">Years</th><th scope="col">Gaps</th></tr></thead>
+        <tbody>
+          <tr><td>Expense funding disclosure</td><td>FY2009, FY2011–FY2027</td><td>FY2010 is not included, because the Council's own file for that year is missing rows that NYC Open Data has, and we never mix the two. FY2009 and FY2013 are early snapshots, so their Cleared totals are not headline figures.</td></tr>
+          <tr><td>Council capital designations</td><td>FY2015–FY2017, FY2019–FY2027</td><td>FY2018 is in no source found.</td></tr>
+          <tr><td>Council vs. OMB capital</td><td>FY2019–FY2027</td><td></td></tr>
+          <tr><td>Schedule C (PDF tables)</td><td>FY2018–FY2027</td><td></td></tr>
+          <tr><td>Transparency resolutions (PDF tables)</td><td>FY2018–FY2027</td><td></td></tr>
+          <tr><td>Capital book (PDF tables)</td><td>FY2018–FY2020, FY2022–FY2027</td><td></td></tr>
+          <tr><td>Terms and Conditions (PDF tables)</td><td>FY2018, FY2021–FY2027</td><td></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>The PDF tables are "checked, review in progress": the reader's output passed its checks, and people are still working through the review. FY2017 and earlier are not re-read yet. The <a href="about.html#pdf-checks">About page</a> explains how they are checked.</p>
+
+      <h2 id="cite">How to cite an answer</h2>
+      <ul>
+        <li><strong>Disclosure figures:</strong> name the fiscal year and the Council workbook it came from; every answer lists it. Use the Cleared total as the headline, and only when the answer labels it a headline.</li>
+        <li><strong>PDF-table figures:</strong> every row gives its PDF page and a link to the row in the Council explorer. Cite the page or the explorer view, and say "checked, review in progress".</li>
+        <li><strong>Searches by name:</strong> a name search finds only the rows whose text matches, so write "at least". Search by EIN where you can.</li>
+      </ul>
+
+      <h2 id="other-mcps">Our other MCP servers</h2>
+      <p>BetaNYC maintains a set of open-source MCP servers for NYC and New York State civic data. The full directory, with install details for each, is on <a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">beta.nyc: AI tools for NYC's democracy</a>.</p>
+      <dl class="mcp-list">
+        <dt>nyc-checkbook-mcp</dt>
+        <dd>NYC Checkbook: spending, contracts, budget, payroll, and revenue. Pairs with this server: follow an organization&#x27;s money by EIN. <a href="https://github.com/BetaNYC/nyc-checkbook-mcp">GitHub</a> · <a href="https://www.npmjs.com/package/@betanyc/nyc-checkbook-mcp">npm</a></dd>
+        <dt>nyc-council-mcp</dt>
+        <dd>NYC Council legislation from Legistar: bills, sponsors, votes, and the resolutions that adopt and change the budget. <a href="https://github.com/BetaNYC/nyc-council-mcp">GitHub</a> · <a href="https://www.npmjs.com/package/@betanyc/nyc-council-mcp">npm</a></dd>
+        <dt>nyc-record-mcp</dt>
+        <dd>NYC City Record notices, from NYC Open Data. <a href="https://github.com/BetaNYC/nyc-record-mcp">GitHub</a> · <a href="https://www.npmjs.com/package/@betanyc/nyc-record-mcp">npm</a></dd>
+        <dt>nyc-311-mcp</dt>
+        <dd>The NYC 311 Public API: the city-services calendar, status alerts, and 311 service-request lookup. <a href="https://github.com/BetaNYC/nyc-311-mcp">GitHub</a> · <a href="https://www.npmjs.com/package/@betanyc/nyc-311-mcp">npm</a></dd>
+        <dt>nys-openlegislation-mcp</dt>
+        <dd>New York State legislation, from the NYS Open Legislation API. <a href="https://github.com/BetaNYC/nys-openlegislation-mcp">GitHub</a> · <a href="https://www.npmjs.com/package/@betanyc/nys-openlegislation-mcp">npm</a></dd>
+        <dt>ny-data-registry-mcp</dt>
+        <dd>Finds open data across every New York portal in BetaNYC&#x27;s registry: which portal covers a place, how to query it, and what datasets and columns exist. <a href="https://github.com/BetaNYC/ny-data-registry-mcp">GitHub</a> · <a href="https://www.npmjs.com/package/@betanyc/ny-data-registry-mcp">npm</a></dd>
+        <dt>mta-mcp</dt>
+        <dd>NYC subway service alerts and elevator and escalator outages, from the MTA&#x27;s public feeds. Early (alpha); build it from source, it is not on npm. <a href="https://github.com/BetaNYC/mta-mcp">GitHub</a></dd>
+      </dl>
+      <p>Built something with these? <a href="https://www.beta.nyc/newsletter-inbox/">Tell us</a>, and we may share it in our newsletter. Something wrong? <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+    </main><!-- site-shell:bottom:start (written by viz/site_shell.py; do not edit) -->
+<div class="bnyc-shell-foot" role="region" aria-label="About this site">
+  <div class="bnyc-shell-foot-in">
+    <div class="bnyc-foot-cols">
+      <section aria-labelledby="bnyc-foot-h-site">
+        <h2 id="bnyc-foot-h-site">This site</h2>
+        <ul>
+          <li><a href="./">Home</a></li>
+          <li><a href="./explorer/#view=agencies">City agency budgets</a></li>
+          <li><a href="./agencies/boards.html">Community board budgets</a></li>
+          <li><a href="./explorer/">Council discretionary funding</a></li>
+          <li><a href="./mcp.html" aria-current="page">Budget MCP</a></li>
+          <li><a href="./about.html">About</a></li>
+        </ul>
+      </section>
+      <section aria-labelledby="bnyc-foot-h-beta">
+        <h2 id="bnyc-foot-h-beta">About BetaNYC</h2>
+        <p>New York's civic technology and open-data community. We built and maintain this site.</p>
+        <ul>
+          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">All our AI tools for NYC&#x27;s democracy</a></li>
+          <li><a href="https://www.beta.nyc/about/ai-policy/">Our AI policy</a></li>
+          <li><a href="https://www.beta.nyc/betabuilders/">Join BetaBuilders</a></li>
+          <li><a href="./mcp.html">This site's budget MCP server</a></li>
+        </ul>
+      </section>
+    </div>
+    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 13, 2026. <a href="./about.html#sources">Data sources</a> · <a href="./about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+  </div>
+</div>
+<!-- site-shell:bottom:end -->
+
+  </body>
+</html>

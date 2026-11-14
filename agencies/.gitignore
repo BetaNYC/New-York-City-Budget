@@ -1,0 +1,10 @@
+.DS_Store
+
+# Python pipeline artifacts
+__pycache__/
+*.pyc
+.ruff_cache/
+.venv/
+
+# Optional QA-only derived CSV (regenerate with: python3 data/nyc_budget_cleanup.py --sample-only)
+data/nyc_budget_sample.csv

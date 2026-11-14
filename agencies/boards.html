@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Community board budgets (#269). Self-contained: no library. Reads data/community_boards.csv,
+         built by code/build_community_boards.py from data/nyc_budget.csv. Tested by
+         viz/test_pages_site.py. The top bar and footer are written by viz/site_shell.py. -->
+    <meta name="description" content="The budgets of all 59 New York City community boards, FY2017–FY2027, adopted and modified, by unit of appropriation, from NYC Open Data. Download all 59 as one CSV.">
+    <meta name="author" content="BetaNYC">
+    <link rel="canonical" href="https://betanyc.github.io/New-York-City-Budget/agencies/boards.html">
+    <meta content="Community board budgets · NYC budget data · BetaNYC" property="og:title">
+    <meta content="website" property="og:type">
+    <meta content="https://betanyc.github.io/New-York-City-Budget/agencies/boards.html" property="og:url">
+    <meta content="The budgets of all 59 New York City community boards, FY2017–FY2027, adopted and modified, from NYC Open Data." property="og:description">
+    <meta content="https://betanyc.github.io/New-York-City-Budget/agencies/images/og-image.png" property="og:image">
+    <title>Community board budgets · NYC budget data · BetaNYC</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <style>
+      /* BetaNYC brand tokens (archive/betanyc/brand.md), the same set as the front page and viz/site_shell.py. */
+      :root { --bnyc-blue: #2359a8; --bnyc-bg-blue: #EEF4FF; --bnyc-dark-gray: #414141; --bnyc-border-gray: #949494;
+              --font-display: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif; --font-heading: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+      body { margin: 0; font-family: var(--font-display); font-size: 17px; color: var(--bnyc-dark-gray); background: #FFFFFF; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+      main { max-width: 1230px; margin: 0 auto; padding: 2rem 1.25rem 3rem; box-sizing: border-box; }
+      h1, h2 { color: var(--bnyc-blue); font-weight: 700; }
+      h1 { font-family: var(--font-display); font-size: clamp(1.9rem, 4.5vw, 2.8rem); line-height: 1.3; margin: 0.5rem 0 0.75rem; }
+      h2 { font-family: var(--font-heading); font-size: clamp(1.3rem, 3vw, 1.6rem); margin: 1.75rem 0 0.5rem; }
+      p { max-width: 750px; }
+      a { color: var(--bnyc-blue); }
+      .controls { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; align-items: end; margin: 1rem 0; }
+      label { display: block; font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.25rem; }
+      select { font: inherit; font-size: 1rem; padding: 0.35rem 0.4rem; min-width: 15rem; border: 1px solid var(--bnyc-border-gray); border-radius: 0; background: #FFFFFF; color: var(--bnyc-dark-gray); }
+      .download { display: inline-block; background: var(--bnyc-blue); color: #FFFFFF; padding: 8px 30px; text-decoration: none; }
+      .download:hover, .download:focus-visible { text-decoration: underline; }
+      a:focus-visible, select:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: 2px; }
+      .scroll { overflow-x: auto; }
+      table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
+      caption { text-align: left; font-family: var(--font-heading); font-weight: 700; color: var(--bnyc-blue); padding: 0.4rem 0; }
+      th, td { border: 1px solid var(--bnyc-border-gray); padding: 0.4rem 0.6rem; text-align: right; white-space: nowrap; }
+      th:first-child, td:first-child { text-align: left; }
+      thead th { background: var(--bnyc-bg-blue); color: var(--bnyc-blue); font-family: var(--font-heading); vertical-align: bottom; }
+      tr.total td, tr.total th { font-weight: 700; }
+      .na { color: var(--bnyc-dark-gray); font-style: italic; }
+      .note { color: var(--bnyc-dark-gray); font-size: 0.92rem; }
+      .status { min-height: 1.5rem; }
+    </style>
+  </head>
+  <body>
+<!-- site-shell:top:start (written by viz/site_shell.py; do not edit) -->
+<style>
+  /* BetaNYC brand tokens: BetaNYC_AI_Workspace archive/betanyc/brand.md (finalized 2026-05-06),
+     the same set as grounding-ai-audit-card's assets/css/betanyc.css. No font files are fetched:
+     Poppins and Roboto are used when installed, else the system fallback. */
+  .bnyc-shell, .bnyc-shell-foot, .bnyc-skip { font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 1.5; box-sizing: border-box; }
+  .bnyc-skip { position: absolute; left: -10000px; top: 0; z-index: 1000; background: #FFFFFF; color: #2359a8; border: 2px solid #2359a8; padding: 0.5rem 0.9rem; font-weight: 700; }
+  .bnyc-skip:focus { left: 0.5rem; top: 0.5rem; }
+  .bnyc-shell { background: #2359a8; color: #FFFFFF; font-size: 15px; }
+  .bnyc-shell-in, .bnyc-shell-foot-in { max-width: 1230px; margin: 0 auto; padding: 0.6rem 1.25rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.5rem; }
+  .bnyc-shell-name { font-weight: 700; color: #FFFFFF; text-decoration: none; margin-right: 0.5rem; }
+  .bnyc-shell ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.1rem; }
+  .bnyc-shell li { margin: 0; padding: 0; }
+  .bnyc-shell ul a { font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; }
+  .bnyc-shell a { color: #FFFFFF; }
+  .bnyc-shell a:focus-visible { outline: 3px solid #B8D6FF; outline-offset: 2px; }
+  .bnyc-shell-foot a:focus-visible, .bnyc-skip:focus-visible { outline: 3px solid #2359a8; outline-offset: 2px; }
+  .bnyc-shell a[aria-current="page"] { text-decoration-thickness: 3px; text-underline-offset: 4px; }
+  .bnyc-shell-foot { background: #EEF4FF; color: #414141; border-top: 1px solid #949494; font-size: 14px; margin-top: 2rem; }
+  .bnyc-shell-foot-in { display: block; padding: 1.75rem 1.25rem 1rem; }
+  .bnyc-foot-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2.5rem; }
+  .bnyc-shell-foot h2 { font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; color: #2359a8; margin: 0 0 0.5rem; }
+  .bnyc-shell-foot ul { list-style: none; margin: 0; padding: 0; }
+  .bnyc-shell-foot li { margin: 0; padding: 0; }
+  .bnyc-shell-foot li a { display: inline-flex; align-items: center; min-height: 32px; }
+  .bnyc-shell-foot li a[aria-current="page"] { font-weight: 700; }
+  .bnyc-foot-line { border-top: 1px solid #949494; margin-top: 1.25rem !important; padding-top: 0.75rem; }
+  @media (max-width: 781px) { .bnyc-foot-cols { grid-template-columns: 1fr; } .bnyc-shell-foot li a { min-height: 44px; } }
+  .bnyc-shell-foot p { margin: 0.3rem 0; }
+  .bnyc-shell-foot a { color: #2359a8; }
+  /* Menu button (burger) below 782px, brand.md's tablet breakpoint. Without JavaScript the
+     button stays hidden and the links show as a wrapped row, as before. */
+  .bnyc-menu-btn { display: none; margin-left: auto; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 0.85rem; background: transparent; color: #FFFFFF; border: 1px solid #FFFFFF; border-radius: 0; font: 700 15px "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; cursor: pointer; }
+  .bnyc-menu-btn:hover { background: #1c4785; }
+  .bnyc-menu-btn:focus-visible { outline: 3px solid #B8D6FF; outline-offset: 2px; }
+  .bnyc-menu-btn svg { width: 20px; height: 20px; }
+  @media (max-width: 781px) {
+    .bnyc-shell-in { flex-wrap: wrap; }
+    .bnyc-shell.bnyc-js .bnyc-menu-btn { display: inline-flex; }
+    .bnyc-shell.bnyc-js ul { display: none; }
+    .bnyc-shell.bnyc-js ul.bnyc-open { display: flex; flex-direction: column; flex-basis: 100%; gap: 0; padding: 0.25rem 0 0.5rem; border-top: 1px solid #B8D6FF; margin-top: 0.4rem; }
+    .bnyc-shell ul a { display: flex; align-items: center; min-height: 44px; }
+  }
+  @media (max-width: 600px) { .bnyc-shell-in { padding: 0.4rem 1.25rem; } .bnyc-shell ul { gap: 0 1.1rem; } }
+</style>
+<a class="bnyc-skip" href="#main">Skip to content</a>
+<nav class="bnyc-shell" aria-label="NYC budget data">
+  <div class="bnyc-shell-in">
+    <a class="bnyc-shell-name" href="../">BetaNYC · NYC budget data</a>
+    <button class="bnyc-menu-btn" type="button" aria-expanded="false" aria-controls="bnyc-menu" hidden><svg aria-hidden="true" focusable="false" viewBox="0 0 20 20"><path d="M2 4h16M2 10h16M2 16h16" stroke="currentColor" stroke-width="2" fill="none"/></svg>Menu</button>
+    <ul id="bnyc-menu">
+      <li><a href="../">Home</a></li>
+      <li><a href="../explorer/#view=agencies">City agency budgets</a></li>
+      <li><a href="../agencies/boards.html" aria-current="page">Community board budgets</a></li>
+      <li><a href="../explorer/">Council discretionary funding</a></li>
+      <li><a href="../mcp.html">Budget MCP</a></li>
+      <li><a href="../about.html">About</a></li>
+    </ul>
+  </div>
+</nav>
+<script>
+(function () {
+  var nav = document.querySelector(".bnyc-shell"), btn = nav && nav.querySelector(".bnyc-menu-btn"),
+      list = nav && nav.querySelector("ul");
+  if (!btn || !list) return;
+  nav.classList.add("bnyc-js");
+  btn.hidden = false;
+  function set(open) { list.classList.toggle("bnyc-open", open); btn.setAttribute("aria-expanded", open ? "true" : "false"); }
+  btn.addEventListener("click", function () { set(btn.getAttribute("aria-expanded") !== "true"); });
+  nav.addEventListener("keydown", function (e) { if (e.key === "Escape" && btn.getAttribute("aria-expanded") === "true") { set(false); btn.focus(); } });
+})();
+</script>
+<!-- site-shell:top:end -->
+
+    <main id="main">
+      <p><a href="./">&laquo; City agency budgets</a></p>
+      <h1>Community board budgets</h1>
+      <p>Each of New York City's 59 community boards is its own agency in the City's budget. Pick your board to see its budget for every year, or pick a year to compare all 59. Amounts are from NYC Open Data's Expense Budget (<code>mwzb-yiwb</code>), unchanged.</p>
+
+      <div class="controls">
+        <div>
+          <label for="board">Your community board</label>
+          <select id="board"><option value="">Choose a board…</option></select>
+        </div>
+        <div>
+          <label for="year">Or compare all 59 in a year</label>
+          <select id="year"><option value="">Choose a year…</option></select>
+        </div>
+        <div>
+          <a class="download" href="data/community_boards.csv" download>Download all 59 boards (CSV)</a>
+        </div>
+      </div>
+
+      <p class="status" id="status" role="status" aria-live="polite">Loading the data…</p>
+      <noscript><p>This table needs JavaScript. The same data is in <a href="data/community_boards.csv">community_boards.csv</a>.</p></noscript>
+      <div class="scroll" id="out"></div>
+
+      <h2>Where each number comes from</h2>
+      <p><strong>Adopted</strong> is the budget adopted in June, before the fiscal year starts. <strong>Modified</strong> is that year's budget as changed during the year, as of June, near the year's end. The fiscal year runs July 1 to June 30 and is named for the year it ends.</p>
+      <p>We take a year's adopted budget from that year's June release on NYC Open Data, and its modified budget from the next year's June release. FY2027's modified budget is not yet published. The City publishes it when it adopts the FY2028 budget, normally in June 2027. Each row of the CSV names the release each figure comes from (for data users: adopted is <code>financial_plan_amount</code>, modified is <code>current_modified_budget_amount</code>).</p>
+      <p><strong>Personal Services</strong> is pay for the board's staff. <strong>Other Than Personal Services</strong> is everything else. Most boards also have a unit for <strong>Rent</strong> (or Rent and Energy). The total is the sum of a board's units.</p>
+      <p class="note">These are budgets, not spending. For what a board actually spent, search for it on <a href="https://www.checkbooknyc.com">Checkbook NYC</a>, the Comptroller's site. OMB's printed budget is on <a href="https://www.nyc.gov/site/omb/publications/publications.page">OMB's publications page</a>; Manhattan Community Board 1's FY2025 and FY2026 figures here match page 182E of OMB's FY2026 Adopted Budget, Expense, Revenue and Contract volume.</p>
+      <p class="note">Before November 9, 2026, the City agency budgets page showed every year one year late (<a href="faq.html#correction">the correction</a>). This table uses the corrected years.</p>
+    </main>
+
+    <script>
+      (function () {
+        "use strict";
+        var UNITS = [["001", "Personal Services"], ["002", "Other Than Personal Services"], ["003", "Rent"], ["total", "Total"]];
+        var data = [];
+        var out = document.getElementById("out");
+        var status = document.getElementById("status");
+        var boardSel = document.getElementById("board");
+        var yearSel = document.getElementById("year");
+
+        function parseCSV(text) {
+          var rows = [], row = [], field = "", q = false, i, c;
+          for (i = 0; i < text.length; i++) {
+            c = text[i];
+            if (q) {
+              if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else { q = false; } }
+              else { field += c; }
+            } else if (c === '"') { q = true; }
+            else if (c === ",") { row.push(field); field = ""; }
+            else if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
+            else if (c !== "\r") { field += c; }
+          }
+          if (field !== "" || row.length) { row.push(field); rows.push(row); }
+          var head = rows.shift();
+          return rows.filter(function (r) { return r.length === head.length; }).map(function (r) {
+            var o = {}; head.forEach(function (h, j) { o[h] = r[j]; }); return o;
+          });
+        }
+
+        function money(s) {
+          if (s === "" || s === undefined) { return '<span class="na">Not yet published</span>'; }
+          var n = Number(s);
+          return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+        }
+
+        function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+        function boardName(r) { return r.borough + " Community Board " + r.board; }
+
+        function find(code, fy, unit) {
+          for (var i = 0; i < data.length; i++) {
+            var r = data[i];
+            if (r.agency_code === code && r.fiscal_year === fy && r.unit_code === unit) { return r; }
+          }
+          return null;
+        }
+
+        function header(first) {
+          var h = '<thead><tr><th scope="col" rowspan="2">' + first + "</th>";
+          UNITS.forEach(function (u) { h += '<th scope="colgroup" colspan="2">' + u[1] + "</th>"; });
+          h += "</tr><tr>";
+          UNITS.forEach(function () { h += '<th scope="col">Adopted</th><th scope="col">Modified</th>'; });
+          return h + "</tr></thead>";
+        }
+
+        function cells(code, fy) {
+          var h = "";
+          UNITS.forEach(function (u) {
+            var r = find(code, fy, u[0]);
+            h += r ? "<td>" + money(r.adopted) + "</td><td>" + money(r.modified) + "</td>" : '<td><span class="na">none</span></td><td><span class="na">none</span></td>';
+          });
+          return h;
+        }
+
+        function showBoard(code) {
+          var any = data.filter(function (r) { return r.agency_code === code; })[0];
+          if (!any) { out.innerHTML = ""; return; }
+          var years = unique(data.filter(function (r) { return r.agency_code === code; }).map(function (r) { return r.fiscal_year; }));
+          var h = "<table><caption>" + esc(boardName(any)) + " (budget agency " + esc(code) + "), FY" + years[0] + "–FY" + years[years.length - 1] + "</caption>" + header("Fiscal year") + "<tbody>";
+          years.forEach(function (fy) { h += '<tr><th scope="row">FY' + fy + "</th>" + cells(code, fy) + "</tr>"; });
+          out.innerHTML = h + "</tbody></table>";
+          status.textContent = boardName(any) + ": " + years.length + " fiscal years.";
+        }
+
+        function showYear(fy) {
+          var codes = unique(data.filter(function (r) { return r.fiscal_year === fy; }).map(function (r) { return r.agency_code; }));
+          var h = "<table><caption>All 59 community boards, FY" + esc(fy) + "</caption>" + header("Board") + "<tbody>";
+          codes.forEach(function (code) {
+            var any = find(code, fy, "total");
+            h += '<tr><th scope="row"><a href="#board=' + code + '">' + esc(boardName(any)) + "</a></th>" + cells(code, fy) + "</tr>";
+          });
+          out.innerHTML = h + "</tbody></table>";
+          status.textContent = "FY" + fy + ": " + codes.length + " community boards.";
+        }
+
+        function unique(a) { var s = {}, o = []; a.forEach(function (x) { if (!s[x]) { s[x] = 1; o.push(x); } }); return o; }
+
+        function route() {
+          var m = /^#(board|year)=(\d+)$/.exec(window.location.hash);
+          if (!m) { out.innerHTML = ""; status.textContent = "Choose a board or a year."; boardSel.value = ""; yearSel.value = ""; return; }
+          if (m[1] === "board") { boardSel.value = m[2]; yearSel.value = ""; showBoard(m[2]); }
+          else { yearSel.value = m[2]; boardSel.value = ""; showYear(m[2]); }
+        }
+
+        boardSel.addEventListener("change", function () { if (boardSel.value) { window.location.hash = "board=" + boardSel.value; } });
+        yearSel.addEventListener("change", function () { if (yearSel.value) { window.location.hash = "year=" + yearSel.value; } });
+        window.addEventListener("hashchange", route);
+
+        fetch("data/community_boards.csv").then(function (r) {
+          if (!r.ok) { throw new Error("HTTP " + r.status); }
+          return r.text();
+        }).then(function (text) {
+          data = parseCSV(text);
+          var groups = {};
+          data.filter(function (r) { return r.unit_code === "total"; }).forEach(function (r) {
+            (groups[r.borough] = groups[r.borough] || {})[r.agency_code] = boardName(r);
+          });
+          Object.keys(groups).forEach(function (b) {
+            var g = document.createElement("optgroup"); g.label = b;
+            Object.keys(groups[b]).sort(function (x, y) { return x - y; }).forEach(function (code) {
+              var o = document.createElement("option"); o.value = code; o.textContent = groups[b][code]; g.appendChild(o);
+            });
+            boardSel.appendChild(g);
+          });
+          unique(data.map(function (r) { return r.fiscal_year; })).sort().reverse().forEach(function (fy) {
+            var o = document.createElement("option"); o.value = fy; o.textContent = "FY" + fy; yearSel.appendChild(o);
+          });
+          route();
+        }).catch(function (e) {
+          status.textContent = "The data could not be loaded (" + e.message + "). Download it instead: data/community_boards.csv.";
+        });
+      })();
+    </script><!-- site-shell:bottom:start (written by viz/site_shell.py; do not edit) -->
+<div class="bnyc-shell-foot" role="region" aria-label="About this site">
+  <div class="bnyc-shell-foot-in">
+    <div class="bnyc-foot-cols">
+      <section aria-labelledby="bnyc-foot-h-site">
+        <h2 id="bnyc-foot-h-site">This site</h2>
+        <ul>
+          <li><a href="../">Home</a></li>
+          <li><a href="../explorer/#view=agencies">City agency budgets</a></li>
+          <li><a href="../agencies/boards.html" aria-current="page">Community board budgets</a></li>
+          <li><a href="../explorer/">Council discretionary funding</a></li>
+          <li><a href="../mcp.html">Budget MCP</a></li>
+          <li><a href="../about.html">About</a></li>
+        </ul>
+      </section>
+      <section aria-labelledby="bnyc-foot-h-beta">
+        <h2 id="bnyc-foot-h-beta">About BetaNYC</h2>
+        <p>New York's civic technology and open-data community. We built and maintain this site.</p>
+        <ul>
+          <li><a href="https://www.beta.nyc/featured-tools/ai-tools-for-nyc-democracy/">All our AI tools for NYC&#x27;s democracy</a></li>
+          <li><a href="https://www.beta.nyc/about/ai-policy/">Our AI policy</a></li>
+          <li><a href="https://www.beta.nyc/betabuilders/">Join BetaBuilders</a></li>
+          <li><a href="../mcp.html">This site's budget MCP server</a></li>
+        </ul>
+      </section>
+    </div>
+    <p class="bnyc-foot-line"><strong>Last revised:</strong> November 10, 2026. <a href="../about.html#sources">Data sources</a> · <a href="../about.html#glossary">Glossary</a>. Built by <a href="https://beta.nyc">BetaNYC</a>. <a href="https://github.com/BetaNYC/New-York-City-Budget">Code and data on GitHub</a> · <a href="https://github.com/BetaNYC/New-York-City-Budget/issues">Report a problem</a>.</p>
+  </div>
+</div>
+<!-- site-shell:bottom:end -->
+
+  </body>
+</html>

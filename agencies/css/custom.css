@@ -1,0 +1,234 @@
+/* ---------------------------------------------------------------------------
+   BetaNYC brand tokens: BetaNYC_AI_Workspace archive/betanyc/brand.md (finalized
+   2026-05-06), the same set as the front page, viz/site_shell.py and
+   grounding-ai-audit-card's assets/css/betanyc.css. No font files are fetched:
+   Poppins and Roboto are used when installed, else the system fallback.
+   Adopted is BetaNYC Blue; Modified is the border gray (#949494, 3:1 on white,
+   enough for chart marks) with dark-gray text where it is written out.
+   --------------------------------------------------------------------------- */
+:root {
+  --bnyc-blue: #2359a8;
+  --bnyc-blue-secondary: #B8D6FF;
+  --bnyc-bg-blue: #EEF4FF;
+  --bnyc-bg-blue-light: #F9FAFF;
+  --bnyc-dark-gray: #414141;
+  --bnyc-light-gray: #F1F1F1;
+  --bnyc-border-gray: #949494;
+  --font-display: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-heading: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+  background: #FFFFFF;
+  color: var(--bnyc-dark-gray);
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 { color: var(--bnyc-blue); font-family: var(--font-heading); font-weight: 700; }
+
+a { color: var(--bnyc-blue); text-decoration: underline; }
+a:hover, a:focus { color: var(--bnyc-blue); text-decoration: underline; }
+a:focus-visible, button:focus-visible, .btn:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: 2px; }
+
+#header, #footer { color: var(--bnyc-dark-gray); }
+#header a, #footer a { color: var(--bnyc-blue); }
+#header h1 a, #footer h1 a { color: var(--bnyc-blue); }
+#header p { max-width: 750px; }
+
+#logo, #credit { padding: 10px 0 10px 0; }
+#logo {
+  padding-bottom: 10px;
+  padding-top: 36px;
+}
+#logo img {
+  max-height: 80px;
+  display: inline;
+}
+#logo a {
+  display: inline;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4.5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--bnyc-blue);
+  text-decoration: none;
+}
+
+#nav-upper { margin-top: 50px;}
+
+/* Buttons: BetaNYC Blue, white text, square corners (brand.md). */
+.btn { border-radius: 0; font-family: var(--font-display); }
+.btn-primary, .btn-info, .btn-warning,
+.btn-primary:visited, .btn-info:visited, .btn-warning:visited {
+  background-color: var(--bnyc-blue);
+  border-color: var(--bnyc-blue);
+  color: #FFFFFF;
+  text-decoration: none;
+}
+.btn-primary:hover, .btn-info:hover, .btn-warning:hover,
+.btn-primary:focus, .btn-info:focus, .btn-warning:focus {
+  background-color: #1c4785;
+  border-color: #1c4785;
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+#footer .btn, #footer .btn:hover { color: #FFFFFF; }
+#download-button { padding: 8px 30px; margin-right: 0.5rem; }
+
+#readme {
+  display: none;
+  left: 0px;
+  position: absolute;
+  top: 320px;
+}
+
+#timeline-chart { height: 300px; }
+
+#main-chart {
+    min-height: 300px;
+}
+
+#breadcrumbs { font-family: var(--font-heading); font-weight: 700; font-size: 20px; }
+
+/* Breakdown table */
+#breakdown a { cursor: pointer; }
+#breakdown .num { text-align: right; }
+#breakdown td, #breakdown th { border: 1px solid var(--bnyc-border-gray); font-size: 15px; padding: 0.35em 10px; }
+#breakdown th { background: var(--bnyc-bg-blue); color: var(--bnyc-blue); font-family: var(--font-heading); font-size: 14px; font-weight: 700; text-align: left; }
+#breakdown th.charts { width: 50%; }
+#breakdown th.controls { width: 20px; }
+#breakdown th span { color: var(--bnyc-blue); cursor: pointer; }
+
+#breakdown th.sorting_asc span {
+  background: url(../images/sort-up.png) no-repeat 100% 50%;
+  padding-right: 10px;
+}
+
+#breakdown th.sorting_desc span {
+  background: url(../images/sort-down.png) no-repeat 100% 50%;
+  padding-right: 10px;
+}
+
+/* Bars */
+  .bars span { border-style: solid; border-width: 5px 0; display: block; height: 1px; margin: 1px 0; text-indent: -5000px;}
+
+.bars .budgeted {
+    background: none repeat scroll 0 0 var(--bnyc-blue);
+    border-color: var(--bnyc-blue);
+}
+.bars .spent {
+    background: none repeat scroll 0 0 var(--bnyc-border-gray);
+    border-color: var(--bnyc-border-gray);
+}
+
+  /* Colors */
+  .appropriations { color: var(--bnyc-blue); }
+  .expenditures { color: var(--bnyc-dark-gray); }
+  .bars .appropriations { background: var(--bnyc-blue); border-color: var(--bnyc-blue); }
+  .bars .expenditures { background: var(--bnyc-border-gray); border-color: var(--bnyc-border-gray); }
+
+/* Expanded rows */
+#breakdown .expanded-content td {
+  border-top: 0;
+  padding-top: 20px;
+}
+
+#breakdown .expanded-head td {
+  border-top: 2px solid var(--bnyc-dark-gray);
+  font-weight: bold;
+}
+
+.expanded-primary { float: left; width: 48%; margin-left: 10px; }
+.expanded-secondary { float: left; width: 48%; }
+
+/* Nav */
+#breakdown-nav { margin-top: -1px;}
+#breakdown-nav a { display: block; padding: 0.4em 1em 0.3em; }
+#breakdown-nav li { float: left; padding: 0.4em 1em 0.3em; }
+#breakdown-nav li.current { background: var(--bnyc-blue); color: #FFFFFF; }
+#breakdown-nav li.current a {  color: #FFFFFF; }
+#breakdown-nav ul { list-style: none; margin: 0; }
+
+#department-search { margin: 50px 0 10px 0; }
+#department-search a { color: #FFFFFF; }
+
+/* Scorecard */
+#scorecard { border-top: 1px solid var(--bnyc-border-gray); margin: 0; }
+#scorecard h2 { font-size: 20px; }
+#scorecard h2, #scorecard p { margin: 0; }
+#scorecard td { border: 1px solid var(--bnyc-border-gray); border-bottom: 0; padding: 0.8em 10px; width: 25%; }
+#scorecard td#scorecard-desc { width: 50%; }
+
+/* Stats */
+.stats { list-style: none; margin: 0 0 0.5em 0; }
+.stats { padding: 0; }
+.stats li { display: inline; margin-right: 1em; white-space: nowrap; padding: 0;}
+.stats strong { font-size: 25px; }
+
+/* Sparklines */
+.sparkline { height: 120px; margin-bottom: 10px; }
+
+/* Cards: 1px #949494 border, square corners, no shadow (brand.md card standard). */
+.well {
+  background-color: #FFFFFF;
+  border: 1px solid var(--bnyc-border-gray);
+  border-radius: 0;
+  box-shadow: none;
+}
+.table-bordered, .table-bordered > thead > tr > th, .table-bordered > tbody > tr > td { border-color: var(--bnyc-border-gray); }
+.mute { color: var(--bnyc-dark-gray); }
+
+.about { font-size: 16px;}
+
+/* ---------------------------------------------------------------------------
+   Mobile responsiveness (phones, ≤ 640px).
+   The look-at-cook toolkit is desktop-first: on a phone the data tables were
+   wider than the viewport and pushed the whole page sideways. These rules keep
+   the tables inside the phone screen instead of overflowing it.
+   --------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  /* Safety net: any residual table width scrolls inside its own white card,
+     so the page body itself never scrolls horizontally. */
+  .well { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* Scorecard summary: stack the three cells (title + the two dollar figures)
+     vertically so each big number gets full width instead of being clipped. */
+  #scorecard, #scorecard tbody, #scorecard tr, #scorecard td { display: block; }
+  #scorecard td,
+  #scorecard td#scorecard-desc { width: auto; padding: 0.6em 10px; border-bottom: 1px solid var(--bnyc-border-gray); }
+  #scorecard tr td:last-child { border-bottom: 0; }
+  #scorecard h2 { font-size: 18px; }
+
+  /* Breakdown table: hide the redundant "Adopted vs. Modified" bar column
+     (the two dollar columns already carry those numbers) and tighten the cells
+     so Fund + Adopted + Modified fit a phone width. */
+  #breakdown thead th:nth-child(4),
+  #breakdown tbody > tr > td:nth-child(4),
+  #breakdown th.charts { display: none; }
+  /* Citywide figures are billions (e.g. $2,787,331,198.00) — wider than the
+     Council viz's millions — so the two number columns need slightly tighter
+     type to fit Fund + Adopted + Modified on a phone without clipping. */
+  #breakdown td, #breakdown th { font-size: 11px; padding: 0.3em 4px; }
+
+  #breadcrumbs { font-size: 16px; }
+}
+
+/* Dated correction note under the masthead (2026-11-09 fiscal-year label fix). */
+.correction-note {
+  /* BetaNYC note style (brand.md tokens). Text color is set here: inherited from the dark
+     header, it was light gray on this box and could not be read. */
+  background: #EEF4FF;
+  color: #414141;
+  border: 1px solid #949494;
+  border-left: 4px solid #2359a8;
+  padding: 6px 10px;
+  font-size: 14px;
+}
+#header .correction-note a, .correction-note a, .correction-note a:visited { color: #2359a8; text-decoration: underline; }
+
+/* Reading width and code text, BetaNYC style (brand.md: content max-width 750px). */
+.well p, .well li { max-width: 750px; }
+code { color: var(--bnyc-dark-gray); background: var(--bnyc-light-gray); border-radius: 0; padding: 0.1em 0.35em; }
