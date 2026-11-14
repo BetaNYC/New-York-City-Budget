@@ -12,7 +12,8 @@
  * browser's cache works as before.
  *
  * The engine's JavaScript is imported only when boot() runs, so a page that never needs it (City
- * agency budgets, #299) downloads none of it: not the 33 MB .wasm, not its JS API.
+ * agency budgets, #299; the fast Council views, #301) downloads none of it: not the 34 MB .wasm
+ * (8.6 MB over the wire), not its JS API.
  */
 import ehWasm from "@duckdb/duckdb-wasm/dist/duckdb-eh.wasm?url";
 import ehWorker from "@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url";
