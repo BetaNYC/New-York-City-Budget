@@ -64,6 +64,15 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   (`scripts/whats_changed.py check --base-ref`), and the release workflow refuses to publish
   while its 2.1.0 entry is still "Unreleased". Thirteen tools in all.
 
+- **The last 4 capital rows that were ambiguous now match NYC Open Data** (#257). `TF CN90`
+  (FY2020) and `E CN884` (FY2022) are each printed twice in the capital book with the same budget
+  line, year and amount, on two boroughs, and `t474-a92g` has one row per borough. A full-ID
+  bucket with several portal rows now breaks the tie on borough, only where exactly one portal row
+  and one of ours have it. All 4 are `same`; no capital row is `ambiguous`. These are PDF-derived rows: the explorer's
+  Open Data badges show them, and neither the npm index nor the PDF tables download carries a
+  PDF-derived crosswalk row, so no MCP answer changes. The Council questions #239 and #240 are
+  still open.
+
 ### Fixed
 - **2.0.6's note overstated who was affected.** It said "If you quoted a T&C unit amount from this
   server, check it again." The server never had those amounts: neither the package's index nor the PDF

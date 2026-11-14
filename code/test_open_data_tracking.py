@@ -227,11 +227,40 @@ def test_capital_project_id_keeps_its_agency_code():
 
 def test_capital_ambiguous_only_where_the_full_id_repeats(built):
     """FAILS if a capital record is `ambiguous` though its full project ID (agency code included)
-    is printed once in its year (#198). The two left, TF CN90 (FY2020) and E CN884 (FY2022), are
-    the same ID printed twice."""
+    is printed once in its year (#198), or though borough leaves one portal row (#257). The two
+    IDs printed twice, TF CN90 (FY2020) and E CN884 (FY2022), differ in borough, so none is left."""
     amb = [r for r in rows(built["data/open_data/crosswalk_capital_award.csv"])
            if r["match_status"] == "ambiguous"]
-    assert {r["record_key"].split("|")[2] for r in amb} == {"TF CN90", "E CN884"}
+    assert amb == []
+
+
+def test_capital_borough_breaks_the_two_repeated_ids(built):
+    """#257. Each pair prints one ID, budget line, year and amount twice, on two boroughs, and
+    t474 has one row per borough. FAILS if a row is not `same` with the portal row of its own
+    borough, or two of ours claim one portal row."""
+    got = {}
+    for r in rows(built["data/open_data/crosswalk_capital_award.csv"]):
+        if "borough (#257)" in r["match_rule"]:
+            got.setdefault(r["record_key"].split("|")[2], []).append((r["match_status"], r["portal_row_id"], r["match_rule"]))
+    assert set(got) == {"TF CN90", "E CN884"}, got
+    want = {"TF CN90": {"row-txji_c7b9.n9d3", "row-bsbc.meee_88g7"},
+            "E CN884": {"row-s5xr~ncmk-n4qu", "row-gs5i_4thf.rphx"}}
+    for pid, ids in want.items():
+        assert sorted(s for s, _, _ in got[pid]) == ["same", "same"], got[pid]
+        assert {i for _, i, _ in got[pid]} == ids, got[pid]
+        assert all("borough" in rule for _, _, rule in got[pid]), got[pid]
+
+
+def test_borough_tiebreak_only_when_one_candidate_is_left():
+    """#257. FAILS if borough picks a row when two of ours share that borough, or when no
+    portal row or several portal rows have it."""
+    ts = [{"borough": "M", ":id": "a"}, {"borough": "Q", ":id": "b"}, {"borough": "Q", ":id": "c"}]
+    assert X.borough_tiebreak("M", ts, {"M": 1, "Q": 1})[":id"] == "a"
+    assert X.borough_tiebreak("m", ts, {"M": 1})[":id"] == "a"          # case folded
+    assert X.borough_tiebreak("M", ts, {"M": 2}) is None                # two of ours in M
+    assert X.borough_tiebreak("Q", ts, {"Q": 1}) is None                # two portal rows in Q
+    assert X.borough_tiebreak("K", ts, {"K": 1}) is None                # none in K
+    assert X.borough_tiebreak("", ts, {"": 1}) is None                  # no borough printed
 
 
 def test_coverage_adds_up(built):
