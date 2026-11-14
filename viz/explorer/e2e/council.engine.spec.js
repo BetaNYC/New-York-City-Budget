@@ -107,6 +107,17 @@ for (const [name, path, heading] of [
   });
 }
 
+test("a power tool loads DuckDB's extensions from this site, never extensions.duckdb.org", async ({ page }) => {
+  // FAILS if any request goes to DuckDB's server, or the self-hosted files are not used (#301 step 8).
+  const log = urls(page);
+  await page.goto("explorer/#view=orgs");
+  await expect(page.locator("main table").first()).toBeVisible({ timeout: 150_000 });
+  await page.waitForLoadState("networkidle");
+  expect(log.filter((u) => /extensions\.duckdb\.org/.test(u))).toEqual([]);
+  expect(log.some((u) => /\/duckdb-extensions\/v1\.4\.3\/wasm_eh\/parquet\.duckdb_extension\.wasm/.test(u))).toBe(true);
+  expect(log.some((u) => /\/duckdb-extensions\/v1\.4\.3\/wasm_eh\/json\.duckdb_extension\.wasm/.test(u))).toBe(true);
+});
+
 test("leaving About for the expense awards shows the list", async ({ page }) => {
   // FAILS if the list does not come after About (from the JSON files since #301 step 5).
   await page.goto("explorer/#view=about");

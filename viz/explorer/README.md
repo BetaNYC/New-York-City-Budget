@@ -81,6 +81,14 @@ browser after the first visit. A fast view's extras that need the engine (an awa
 and Open Data panels; the capital list's book columns and Open Data badges) say so, with their
 size, and load on "Show them".
 
+**Nothing is fetched from a third party** (#301 step 8). DuckDB-WASM loads its `parquet` and
+`json` extensions at run time; they used to come from `extensions.duckdb.org`, so every visit
+contacted DuckDB's server and the explorer broke when it was down. They are now served from this
+site (`public/duckdb-extensions/`, the same files byte for byte, with their source and sha256 in
+its README; `custom_extension_repository` in `src/duckdb/store.js`). `capital_council` (0.76 MB)
+now loads with the views that read it (capital, Years and Compare) instead of with every engine
+start.
+
 City agency budgets (`#view=agencies`) is the exception: it never loads DuckDB (#299). The build
 writes small JSON files from the same `agency_budget` table (`scripts/agency-json.mjs`, laid out
 by `src/agency/data.js`) and checks every cell against the table with SQL; any difference stops
