@@ -9,7 +9,7 @@
  * so a view never waits for a file that does not exist.
  */
 import { DIM_SOURCES, SOURCES } from "../compare/queries.js";
-import { AWARDS_FILTERS } from "../state/hash.js";
+import { AWARDS_FILTERS, CAPITAL_FILTERS } from "../state/hash.js";
 
 /** The spreadsheet tables, written by every build (scripts/build-data.mjs TABLES). */
 export const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta"];
@@ -128,7 +128,7 @@ export function tablesForView(state, manifest, { extras = false } = {}) {
 export function needsEngine(view, manifest, state = {}) {
   // Years and Council vs OMB read the Council JSON files (data/council/; #301), and so does one
   // award: its Schedule C and Open Data panels load the engine when asked for.
-  if (view === "agencies" || view === "about" || view === "years" || view === "omb" || view === "award") return false;
+  if (view === "agencies" || view === "about" || view === "years" || view === "omb" || view === "award" || view === "capital-row") return false;
   if (view === "review") return manifest ? Boolean(manifest.review_screen) : null;
   if (view === undefined || view === "awards") {
     // The expense list: one fiscal year (any filter within it) reads that year's file, and the
@@ -139,6 +139,12 @@ export function needsEngine(view, manifest, state = {}) {
     if (state.fy > 0) return false;
     if (state.fy === 0) return filtered || (state.page ?? 0) > 0;
     return filtered;
+  }
+  if (view === "capital") {
+    // The capital list, the same way: one report year reads its file (capital/fyYYYY.json).
+    const filtered = CAPITAL_FILTERS.some((k) => state[k] !== null && state[k] !== undefined && state[k] !== "");
+    if (state.cfy > 0) return false;
+    return filtered || state.cfy === 0;
   }
   return true;
 }

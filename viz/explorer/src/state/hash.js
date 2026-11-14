@@ -235,3 +235,13 @@ export function awardsYear(state, newest) {
   if (state.fy != null) return state.fy;
   return AWARDS_FILTERS.some((k) => set_(state[k])) ? null : newest ?? null;
 }
+
+/** The capital list's filters besides the report year. */
+export const CAPITAL_FILTERS = ["afy", "sponsor", "borough", "district", "line", "title", "description", "cmin", "cmax"];
+
+/** The report year the capital list shows: as awardsYear (cfy = 0 is "All report years"). */
+export function capitalYear(state, newest) {
+  if (state.cfy === 0) return null;
+  if (state.cfy != null) return state.cfy;
+  return CAPITAL_FILTERS.some((k) => set_(state[k])) ? null : newest ?? null;
+}

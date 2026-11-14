@@ -94,6 +94,13 @@ that carries a filter and no year keeps its old meaning, all years (`awardsYear`
 `src/state/hash.js`). One award reads its row from its year's file (about 0.53 MB); its NYC Open
 Data and Schedule C panels load the engine when asked for ("Show them").
 
+Council capital works the same way: it opens on the newest report year (`capitalYear`) and answers
+any filter within one year from `capital/fyYYYY.json` (about 0.22 MB over the wire instead of
+14.6 MB); "All report years" or a filter over all years loads the engine. One capital project finds
+its year from `years.json` (`capital_seq`: each report year's rows are one run of `seq`, and the
+build stops if that ever changes) and reads its row from that year's file. The §254 book's columns
+and the NYC Open Data badges need the engine, and load on "Show them".
+
 The Council views are moving to the same pattern (#301). The build writes `data/council/`
 (`scripts/council-json.mjs`, file names in `src/council/paths.js`): `years.json` (the lookups,
 each year's source and the Years totals), `omb.json` (every Council-vs-OMB row),

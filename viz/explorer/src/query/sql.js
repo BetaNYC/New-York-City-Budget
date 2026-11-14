@@ -18,7 +18,7 @@
  * engine. test/council-parity.test.mjs holds each json form to its SQL, row for row.
  */
 import { fold } from "../../../../mcp/dist/fold.js";
-import { awardsIndexPath, awardsYearPath, councilYearsPath, decodeRows, ombPath, rowsOf } from "../council/paths.js";
+import { awardsIndexPath, awardsYearPath, capitalYearPath, councilYearsPath, decodeRows, ombPath, rowsOf } from "../council/paths.js";
 
 export { fold };
 
@@ -290,6 +290,44 @@ export function capitalWhere(f = {}) {
 
 export const CAPITAL_LIST_COLUMNS =
   "seq, report_year, amount_fy, project_id, borough, budget_line, budget_line_norm, council_district, sponsor, title, description, amount, source_kind, source_file, source_row, row_flag";
+const CAPITAL_KEYS = CAPITAL_LIST_COLUMNS.split(", ");
+
+/** capitalWhere, in JS, for one report year's file (#301); null without a report year. */
+export function capitalMatches(f = {}) {
+  if (num(f.fiscal_year) === null) return null;
+  const tests = [];
+  const afy = num(f.amount_fy);
+  if (afy !== null) tests.push((r) => r.amount_fy === afy);
+  if (!blank(f.budget_line)) {
+    const line = normBudgetLine(f.budget_line) ?? "\u0000unreadable";
+    tests.push((r) => r.budget_line_norm === line);
+  }
+  if (!blank(f.borough)) tests.push((r) => r.borough === String(f.borough));
+  if (num(f.council_district) !== null) {
+    const tok = `,${Math.trunc(num(f.council_district))},`;
+    tests.push((r) => r.district_tokens != null && r.district_tokens.includes(tok));
+  }
+  for (const c of CAPITAL_TEXT) {
+    if (blank(f[c])) continue;
+    const q = fold(f[c]);
+    if (q === "") continue;
+    const twin = `${c}_fold`;
+    tests.push((r) => {
+      const v = r[twin] ?? r[c];
+      return v != null && v.toLowerCase().includes(q);
+    });
+  }
+  const min = num(f.min_amount);
+  const max = num(f.max_amount);
+  if (min !== null) tests.push((r) => r.amount !== null && r.amount >= min);
+  if (max !== null) tests.push((r) => r.amount !== null && r.amount <= max);
+  return (r) => tests.every((t) => t(r));
+}
+
+function capitalJson(f, run) {
+  const m = capitalMatches(f);
+  return m ? { files: [capitalYearPath(num(f.fiscal_year))], run: ([file]) => run(rowsOf(file).filter(m)) } : undefined;
+}
 
 export function capitalRowsQuery(f = {}, page = 0) {
   const w = capitalWhere(f);
@@ -298,6 +336,12 @@ export function capitalRowsQuery(f = {}, page = 0) {
     sql: `SELECT ${CAPITAL_LIST_COLUMNS} FROM capital_council ${w.sql}
           ORDER BY amount IS NULL, amount DESC, report_year, source_file, seq LIMIT ${PAGE_SIZE} OFFSET ${offset}`,
     params: w.params,
+    json: capitalJson(f, (rows) =>
+      [...rows]
+        .sort((a, b) => cmp(a.amount === null, b.amount === null) || (b.amount ?? 0) - (a.amount ?? 0) || a.report_year - b.report_year || cmp(a.source_file, b.source_file) || a.seq - b.seq)
+        .slice(offset, offset + PAGE_SIZE)
+        .map((r) => Object.fromEntries(CAPITAL_KEYS.map((k) => [k, r[k]])))
+    ),
   };
 }
 
@@ -310,6 +354,17 @@ export function capitalTotalsQuery(f = {}) {
                  COUNT(*) AS n, COALESCE(SUM(amount), 0) AS amount
           FROM capital_council ${w.sql} GROUP BY report_year, kind ORDER BY report_year, kind`,
     params: w.params,
+    json: capitalJson(f, (rows) => {
+      const g = new Map();
+      for (const r of rows) {
+        const kind = r.amount === null ? "unknown" : r.amount_fy === r.report_year ? "report" : "out";
+        const t = g.get(kind) ?? { report_year: r.report_year, kind, n: 0, amount: 0 };
+        t.n++;
+        t.amount += r.amount ?? 0;
+        g.set(kind, t);
+      }
+      return [...g.values()].sort((a, b) => a.report_year - b.report_year || cmp(a.kind, b.kind));
+    }),
   };
 }
 
@@ -348,10 +403,28 @@ export function rollupCapital(grouped) {
 }
 
 export function capitalRowQuery(seq) {
+  const n = Number(seq);
   return {
     sql: `SELECT c.*, s.url AS source_url, s.retrieved, s.sha256, s.wayback_timestamp, s.note AS source_note
           FROM capital_council c LEFT JOIN capital_sources s USING (report_year) WHERE c.seq = ?`,
-    params: [Number(seq)],
+    params: [n],
+    // #301: years.json says which report year holds this seq; that year's file has the row.
+    json: {
+      files: [councilYearsPath()],
+      next: ([years]) => {
+        const at = years.capital_seq.find((g) => n >= g.first && n <= g.last);
+        if (!at) return { files: [], run: () => [] };
+        return {
+          files: [capitalYearPath(at.report_year)],
+          run: ([file]) => {
+            const c = rowsOf(file).find((r) => r.seq === n);
+            if (!c) return [];
+            const s = years.capital_sources.find((x) => x.report_year === c.report_year) ?? {};
+            return [{ ...c, source_url: s.url ?? null, retrieved: s.retrieved ?? null, sha256: s.sha256 ?? null, wayback_timestamp: s.wayback_timestamp ?? null, source_note: s.note ?? null }];
+          },
+        };
+      },
+    },
   };
 }
 

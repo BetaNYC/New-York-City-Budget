@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
 
 import { needsEngine, tablesForView } from "../../src/duckdb/needs.js";
-import { awardsYear } from "../../src/state/hash.js";
+import { awardsYear, capitalYear } from "../../src/state/hash.js";
 
 /**
  * Which views start the query engine (#301, first PR). The engine is DuckDB-WASM: about 8.6 MB
@@ -41,7 +41,7 @@ describe("needsEngine (needs.js)", () => {
 
   test("every other Council view still starts the engine", () => {
     // FAILS if this fix stops a view that reads DuckDB from loading it.
-    for (const view of ["compare", "capital", "capital-row", "schedc", "transparency", "book", "orgs", "terms", "source"]) {
+    for (const view of ["compare", "schedc", "transparency", "book", "orgs", "terms", "source"]) {
       expect(needsEngine(view, PUBLIC), String(view)).toBe(true);
     }
   });
@@ -107,5 +107,21 @@ describe("the expense list (#301 pick 2: the first page is the newest year)", ()
       expect(needsEngine(view, PUBLIC, { fy: 2026, scside: "matched" })).toBe(true);
     }
     expect(needsEngine("award", PUBLIC, { ay: 2026, row: 2 })).toBe(false);
+  });
+});
+
+describe("the capital list (#301 step 6)", () => {
+  test("which report year it shows, and when it needs the engine", () => {
+    // FAILS if the capital list does not open on the newest report year from its file, or an
+    // all-years list or an old filtered link is answered without DuckDB.
+    expect(capitalYear({}, 2027)).toBe(2027);
+    expect(capitalYear({ cfy: 0 }, 2027)).toBe(null);
+    expect(capitalYear({ sponsor: "levin" }, 2027)).toBe(null);
+    expect(capitalYear({ cfy: 2020, sponsor: "levin" }, 2027)).toBe(2020);
+    expect(needsEngine("capital", PUBLIC, {})).toBe(false);
+    expect(needsEngine("capital", PUBLIC, { cfy: 2020, sponsor: "levin", district: 8 })).toBe(false);
+    expect(needsEngine("capital", PUBLIC, { cfy: 0 })).toBe(true);
+    expect(needsEngine("capital", PUBLIC, { sponsor: "levin" })).toBe(true);
+    expect(needsEngine("capital-row", PUBLIC, { seq: 1 })).toBe(false);
   });
 });
