@@ -62,8 +62,9 @@ const shownAmounts = (text) =>
 
 test("the index holds every capital row, per report year, with amounts and flags as the CSV has them", () => {
   // FAILS if a row or a year is dropped or doubled, an amount is mis-parsed, a split record gets
-  // an invented amount (0 instead of NULL), or FY2018 appears from nowhere.
-  assert.deepEqual(YEARS, [2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027], "fixture premise");
+  // an invented amount (0 instead of NULL), or FY2018 (PDF-derived since #202) is not all
+  // pdf_capital_sd rows tying to the book's Part I total.
+  assert.deepEqual(YEARS, [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027], "fixture premise");
   const db = new Database(DB_PATH, { readonly: true });
   try {
     for (const fy of YEARS) {
@@ -78,7 +79,11 @@ test("the index holds every capital row, per report year, with amounts and flags
       assert.equal(got.own ?? 0, sum(own(rows)), `FY${fy} own-year amount`);
       assert.equal(got.unknown, rows.filter((r) => r.row_flag === "split_record_amount_unknown").length, `FY${fy} split`);
     }
-    assert.equal(db.prepare("SELECT COUNT(*) AS n FROM capital_council WHERE report_year = 2018").get().n, 0);
+    const f18 = db.prepare(`SELECT COUNT(*) AS n, SUM(source_kind <> 'pdf_capital_sd') AS other,
+      SUM(CASE WHEN amount_fy = 2018 THEN amount END) AS own, SUM(council_district <> '') AS district
+      FROM capital_council WHERE report_year = 2018`).get();
+    // The book's Part I: 1,485 projects, $575,000,000 for FY2018 (35 of 35 printed totals tie, #177).
+    assert.deepEqual({ ...f18 }, { n: 1496, other: 0, own: 575000000, district: 0 });
   } finally {
     db.close();
   }
@@ -101,6 +106,13 @@ test("each report year cites its one source file, hashed at build and equal to i
       assert.equal(src.source_file, files[0]);
       const sha = createHash("sha256").update(readFileSync(join(REPO, files[0]))).digest("hex");
       assert.equal(src.sha256, sha, `FY${fy} sha256`);
+      if (src.source_kind === "pdf_capital_sd") {
+        // #202: the closed §254 book; its manifest is its data/pdf_years.csv row.
+        const y = readCsv("data/pdf_years.csv").find((r) => r.family === "capital_sd" && Number(r.fiscal_year) === fy);
+        assert.deepEqual([y.status, y.source_pdf, y.pdf_sha256], ["closed", files[0], sha], `FY${fy} pdf_years`);
+        assert.match(src.note, /PDF-derived/);
+        continue;
+      }
       const [prefix, man] = Object.entries(manifests).find(([p]) => files[0].startsWith(p));
       const m = man.find((r) => r.file === files[0].slice(prefix.length));
       assert.equal(m.sha256, sha, `FY${fy} manifest sha256`);
@@ -239,14 +251,17 @@ test("title is a literal, case-insensitive substring; min/max bound inclusively"
 
 // ---------------------------------------------------------------- honesty
 
-test("FY2018 answers with why it is missing; every answer carries the caveat and names its sources", async () => {
-  // FAILS if FY2018 reads as an empty year, or an answer drops the caveat (missing FY2018,
-  // unconfirmed codes, no contract-level link) or the per-year source line.
-  const f18 = await cap({ fiscal_year: 2018 });
+test("FY2018 answers from the closed §254 book, every row and source line labeled PDF-derived; every answer carries the caveat", async () => {
+  // FAILS if a FY2018 row or its source line is not labeled PDF-derived (#202), or an answer drops
+  // the caveat (FY2018 PDF-derived, unconfirmed codes, no contract-level link) or the per-year
+  // source line.
+  const f18 = await cap({ fiscal_year: 2018, limit: 3 });
   assert.equal(f18.isError, false);
-  assert.match(f18.text, /^FY2018 is in no source found/);
+  assert.equal(matchedOf(f18.text), CAP.filter((r) => r.report_year === "2018").length);
+  assert.equal((f18.text.match(/PDF-derived: page \d+, row \d+ of the checked §254 book/g) ?? []).length, 3);
+  assert.match(f18.text, /^  FY2018: PDF-derived: the checked capital supporting-detail book \(§254\), Part I, review closed, source\/FY18\//m);
   const { text } = await cap({ sponsor_exact: "Restler", limit: 1 });
-  assert.match(text, /FY2018 is missing/);
+  assert.match(text, /FY2018 is PDF-DERIVED/);
   assert.match(text, /borough A, council district 80, ID prefix CC and ID type PN .* unconfirmed/);
   assert.match(text, /there is no contract-level data here/);
   const years = [...new Set(CAP.filter((r) => r.sponsor.trim() === "Restler").map((r) => r.report_year))];

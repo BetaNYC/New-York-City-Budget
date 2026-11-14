@@ -598,6 +598,18 @@ describe("3. the explorer's queries answer what the MCP answers", () => {
       assert.deepEqual(mine.by_year.map((y) => y.fiscal_year), m.by_year.map((y) => y.fiscal_year), "years");
       const r = Q.disclosureRowsQuery(f, 0);
       assert.deepEqual((await duck(r.sql, r.params)).map(rowKey), m.rows.map(rowKey), "first page, in order");
+      // #301: the third engine. Where the explorer answers from the Council JSON files (one year,
+      // or the unfiltered list), those answers equal the MCP's too.
+      if (r.json && t.json) {
+        const files = (q) => q.json.files.map((p) => JSON.parse(readFileSync(join(DATA, p), "utf8")));
+        const fromJson = Q.rollupDisclosure(t.json.run(files(t)));
+        assert.equal(fromJson.matched, m.matched, "JSON: matched");
+        for (const s of Q.DISCLOSURE_STATUSES) {
+          assert.equal(fromJson.totals[s].rows, m.totals[s].rows, `JSON: ${s} rows`);
+          near(fromJson.totals[s].amount, m.totals[s].amount, `JSON: ${s} amount`);
+        }
+        assert.deepEqual(r.json.run(files(r)).map(rowKey), m.rows.map(rowKey), "JSON: first page, in order");
+      }
     });
   }
 

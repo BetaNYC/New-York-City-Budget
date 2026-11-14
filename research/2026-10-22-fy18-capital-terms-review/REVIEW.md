@@ -45,3 +45,15 @@ in Part II only. T&C: 33 conditions, 0 critical.
    `source_kind = pdf`?
 2. Retire the old `data/fy18/terms` CSV once this is closed?
 3. Is FY2018's Resolution A book (not in `source/`) worth finding (`families/capital.md` Q4)?
+
+## Decided (Noel Hidalgo, 2026-11-13)
+
+- **Capital: all 50 flags `accepted_as_printed`.** That is A1 (the three `TA` rows; the question to
+  Council Finance stays open as #237), B1–B3, and the checked items in C. Recorded in
+  `data/fy18_capital_sd_review_decisions.csv` with `code/validate_review_decisions.py --add --write`;
+  `--complete`: 50/50 decided, 0 open. FY2018 `capital_sd` moved from `reviewed` to `closed` in
+  `data/pdf_years.csv` on his instruction (#202).
+- **D1: yes.** FY2018 is added to `data/capital/council_capital_awards.csv` with
+  `source_kind = pdf_capital_sd` (Part I only; DATA-ANOMALIES §26).
+- **Not decided:** the Terms and Conditions items B4 and B5 (their family-year stays `reviewed`),
+  and D2 and D3.

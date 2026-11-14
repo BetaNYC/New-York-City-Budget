@@ -4,6 +4,7 @@
 **Data current as of:** Open Data snapshots `4d7f-74pe`, `t474-a92g`, `46m8-77gv`, `2cmn-uidm` pulled
 2026-10-14 (still current on 2026-10-21, `source/open-data-watch.csv`); `ujre-m2tj`, `djxg-kcfi`,
 `mwzb-yiwb` (extract), `uvw5-9znb` pulled 2026-10-21.
+`fi59-268w` (CPDB - Projects) pulled 2026-11-14 for #250; it has no budget line, so no crosswalk here uses it.
 **Plan:** [`research/2026-10-21-open-data-tracking/PLAN.md`](../../research/2026-10-21-open-data-tracking/PLAN.md),
 approved by Noel Hidalgo 2026-10-21.
 

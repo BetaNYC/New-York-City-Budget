@@ -15,7 +15,11 @@ Sources (every one committed, every one pinned by sha256 in its folder's manifes
     FY2027                   rnd.council.nyc.gov, source/expense-funding-disclosure/ (2026-10-12)
   NYC Open Data t474-a92g "City Council Capital Budget" (the Council's own publication), for
     the report years with no workbook: FY2019-FY2025. Its FY2026 rows are diffed against the
-    FY2026 workbook, never mixed in. FY2018 exists in neither: a gap, stated.
+    FY2026 workbook, never mixed in. FY2018 exists in neither.
+  FY2018 (#202, decided by Noel Hidalgo 2026-11-13): the checked capital supporting-detail book
+    (§254), Part I, from data/fy18/pdf/capital_sd/ -- PDF-DERIVED, labeled source_kind
+    pdf_capital_sd, and used only while that family-year is `closed` in data/pdf_years.csv and
+    the PDF's sha256 is the one pdf_years.csv records.
   NYC Open Data 46m8-77gv "Capital Budget" (OMB, whole dollars) and 2cmn-uidm "Capital
     Commitment Plan" (OMB, THOUSANDS of dollars): reference tables, Council-series lines only.
 
@@ -71,7 +75,9 @@ OMB_BUDGET = "source/open-data-46m8-77gv/46m8-77gv.csv.gz"
 OMB_PLAN = "source/open-data-2cmn-uidm/2cmn-uidm.csv.gz"
 T474_YEARS = range(2019, 2026)      # report years taken from t474 (no workbook)
 DIFF_YEARS = (2026,)                # report years with both: diffed, workbook wins
-MISSING_YEARS = (2018,)
+# #202: report years read from a CLOSED checked §254 book (data/pdf_years.csv family capital_sd),
+# because no Council workbook or t474 year exists for them. PDF-derived, and labeled so.
+PDF_YEARS = {2018: "data/fy18/pdf/capital_sd/fy18_capital_sd_projects.csv"}
 
 # Header text -> field. Mapped by text, never by position; an unknown header is a stop.
 HEADERS = {
@@ -242,6 +248,46 @@ def workbook_rows(fy):
                 "source_kind": "council_workbook", "source_file": rel,
                 "source_row": r["source_row"], "row_flag": ""})
     return out, records, stripped, note
+
+
+# ---------------------------------------------------------------- the closed §254 book (#202)
+
+def pdf_year(fy):
+    """The data/pdf_years.csv row of fy's capital_sd; a stop unless it is `closed` and its PDF
+    has the sha256 recorded there."""
+    with open(os.path.join(ROOT, "data", "pdf_years.csv"), newline="", encoding="utf-8") as f:
+        rows = [r for r in csv.DictReader(f) if r["family"] == "capital_sd" and int(r["fiscal_year"]) == fy]
+    if len(rows) != 1 or rows[0]["status"] != "closed":
+        raise ValueError(f"FY{fy} capital_sd is not `closed` in data/pdf_years.csv: it cannot feed data/capital/ (#202)")
+    y = rows[0]
+    if sha256(os.path.join(ROOT, y["source_pdf"])) != y["pdf_sha256"]:
+        raise ValueError(f"{y['source_pdf']}: sha256 differs from data/pdf_years.csv")
+    return y
+
+
+def pdf_rows(fy):
+    """council_capital_awards rows for a report year read from its closed §254 book: Part I only
+    (Part II re-prints Part I rows and adds the non-Council MA rows), one row per non-zero
+    fiscal-year column, a record with no non-zero amount kept once at $0. source_row is the
+    page and row ('p4r1'); the sponsor is as printed; the book prints no district."""
+    y = pdf_year(fy)
+    with open(os.path.join(ROOT, PDF_YEARS[fy]), newline="", encoding="utf-8") as f:
+        rows = [r for r in csv.DictReader(f) if r["part"] == "I"]
+    fys = sorted(c for c in rows[0] if re.fullmatch(r"fy20\d\d", c))
+    out = []
+    for r in rows:
+        if r["source_pdf"] != y["source_pdf"]:
+            raise ValueError(f"{PDF_YEARS[fy]}: a row from {r['source_pdf']}")
+        amts = {int(c[2:]): Decimal(r[c]) for c in fys if r[c] not in ("", "0")} or {fy: Decimal(0)}
+        for yr, a in sorted(amts.items()):
+            out.append({
+                "report_year": fy, "amount_fy": yr, "project_id": r["sub_id"],
+                "borough": r["boro"], "budget_line": r["budget_line"],
+                "budget_line_norm": norm_line(r["budget_line"]), "council_district": "",
+                "sponsor": r["sponsor"], "title": r["title"], "description": "", "amount": fmt(a),
+                "source_kind": "pdf_capital_sd", "source_file": y["source_pdf"],
+                "source_row": f"p{r['pdf_page']}r{r['row_in_page']}", "row_flag": ""})
+    return out
 
 
 # ---------------------------------------------------------------- Open Data t474-a92g
@@ -454,6 +500,8 @@ def build():
     t474_all = read_gz(T474)
     trows, heads, tails = t474_rows(t474_all)
     council += trows
+    for fy in sorted(PDF_YEARS):
+        council += pdf_rows(fy)
     council.sort(key=lambda r: (r["report_year"], r["source_kind"], str(r["source_row"]).zfill(8),
                                 str(r["amount_fy"])))
     omb_b = omb_budget_rows(read_gz(OMB_BUDGET))
@@ -512,9 +560,11 @@ def report_text(b):
          "|---|---|---:|---:|---:|"]
     for (y, kind), (n, tot, recs) in sorted(by.items()):
         L.append(f"| FY{y} | {kind} | {len(recs):,} | {n:,} | {_usd(tot)} |")
-    L += ["", (f"FY{MISSING_YEARS[0]} is in no source found (no Council workbook, and t474-a92g "
-          "starts at FY2019). The first-year amount is the sum of rows whose `amount_fy` is "
-          "the report year; out-year rows are in the table under their own `amount_fy`."), ""]
+    L += ["", ("FY2018 has no Council workbook and is not in t474-a92g (which starts at FY2019): it "
+          "comes from the checked capital supporting-detail book (§254), Part I, closed "
+          "2026-11-13 (#202), and its rows are labeled `pdf_capital_sd` (**PDF-derived**). The "
+          "first-year amount is the sum of rows whose `amount_fy` is the report year; out-year "
+          "rows are in the table under their own `amount_fy`."), ""]
     L += ["## 2. Rows stripped or flagged", "",
           ("**Workbook totals rows** (FY2015 and FY2016 end in one row whose amounts equal the "
           "column sums above it; stripped, never counted):"), ""]

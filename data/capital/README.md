@@ -6,7 +6,9 @@ FY2027 2026-10-12); NYC Open Data pulled 2026-10-14 (t474-a92g rows last updated
 46m8-77gv 2026-07-13; 2cmn-uidm 2026-09-28). GitHub #89 A6, A7.
 
 Built by `code/build_capital_council.py` (`--write`, `--check`); audited by
-`code/audit_capital.py` ([`CAPITAL-AUDIT.md`](CAPITAL-AUDIT.md)). No PDF-derived data: the
+`code/audit_capital.py` ([`CAPITAL-AUDIT.md`](CAPITAL-AUDIT.md)). One PDF-derived year, labeled:
+**FY2018** comes from Part I of the checked §254 book, whose review is `closed` (#202, below);
+every other year is a structured source. The
 older `data/fyNN/capital/` files (under `data/retired/` for the years redone) come from the Section 254 PDFs, are a separate dataset, and are retired in 2.0 (kept for history, not served). This dataset is served by `@betanyc/nyc-budget-mcp` 2.0 (`search_council_capital`, `compare_capital_to_omb`).
 Column definitions: [`DATA-DICTIONARY.md`](../../DATA-DICTIONARY.md) § `data/capital/`.
 
@@ -14,7 +16,7 @@ Column definitions: [`DATA-DICTIONARY.md`](../../DATA-DICTIONARY.md) § `data/ca
 
 | File | What it is |
 |---|---|
-| `council_capital_awards.csv` | The Council's capital designations: one row per (record, fiscal-year column) with a non-zero amount, except that a record whose amounts are all zero is kept as one $0 row (FY2016 rows 573, `E CN679`, and 715, `E CN845`; CAPITAL-AUDIT K1). FY2015–FY2017, FY2019–FY2027. |
+| `council_capital_awards.csv` | The Council's capital designations: one row per (record, fiscal-year column) with a non-zero amount, except that a record whose amounts are all zero is kept as one $0 row (FY2016 rows 573, `E CN679`, and 715, `E CN845`; CAPITAL-AUDIT K1). FY2015–FY2027; FY2018 PDF-derived (`source_kind = pdf_capital_sd`). |
 | `omb_capital_budget_council_lines.csv` | OMB's Capital Budget (`46m8-77gv`), every release FY2019–FY2027, Council-series budget lines only, whole dollars. |
 | `omb_commitment_plan_council_lines.csv` | OMB's Capital Commitment Plan (`2cmn-uidm`), every release April 2016–September 2026, Council-series lines only, **thousands of dollars**. |
 | `council_vs_omb_by_budget_line.csv` | Per report year and budget line: the Council table vs OMB's adopted release, first and second year. |
@@ -26,7 +28,7 @@ Column definitions: [`DATA-DICTIONARY.md`](../../DATA-DICTIONARY.md) § `data/ca
 | Report year | Source | Why |
 |---|---|---|
 | FY2015, FY2016, FY2017 | Council workbook, Internet Archive capture (`source/wayback-council/`) | The Council's own file. |
-| FY2018 | **none** | No workbook was found, and t474-a92g starts at FY2019. A gap. |
+| FY2018 | **PDF-derived**: Part I of the checked §254 supporting-detail book (`source/FY18/FY18-Sec254-Capital-ResoA-M499-Res1534-Res1535.pdf`, `data/fy18/pdf/capital_sd/`), `source_kind = pdf_capital_sd` | No workbook was found, and t474-a92g starts at FY2019. Added 2026-11-13 once the book's review was `closed` (#202; DATA-ANOMALIES §26). The book prints no council district, and its sponsor is upper case, sometimes several names. |
 | FY2019–FY2025 | NYC Open Data `t474-a92g` (published by the Council) | No workbook found for these years. |
 | FY2026 | Council workbook (RnD site, captured 2025-12-03) | Preferred over t474; the two are diffed (RECONCILIATION §4). |
 | FY2027 | Council workbook (RnD site, 2026-10-12) | t474 has no FY2027 yet. |
