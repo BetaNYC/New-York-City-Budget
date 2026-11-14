@@ -201,7 +201,15 @@ function Results({ data, state, set, go, pdfYears }) {
                       <td>{row.sponsor}</td>
                       <td>{row.budget_line}</td>
                       <td>{row.borough}</td>
-                      <td>{row.source_kind === "open_data_t474" ? <span className="muted">unusable (t474)</span> : row.council_district}</td>
+                      <td>
+                        {row.source_kind === "open_data_t474" ? (
+                          <span className="muted">unusable (t474)</span>
+                        ) : row.source_kind === "pdf_capital_sd" ? (
+                          <span className="muted">none printed (PDF-derived)</span>
+                        ) : (
+                          row.council_district
+                        )}
+                      </td>
                       <td className="num">{row.amount === null ? <span className="muted">unknown</span> : money(row.amount)}</td>
                       {pdf ? <PdfCell m={P.pdfMatchFor(pdf, row)} state={state} go={go} /> : null}
                       <OdCell xs={od?.get(`${Number(row.report_year)}|${row.source_row}|${row.amount_fy ?? ""}`)} coverage={odCov} fy={row.report_year} />
@@ -291,11 +299,19 @@ export function CapitalRow({ state, go, back, manifest, pdfYears }) {
               </Notice>
             ))}
             <h3>Source</h3>
-            <p>
-              {c.source_kind === "open_data_t474" ? "NYC Open Data t474-a92g, row id " : "Row "}
-              <strong>{c.source_row}</strong> of <code>{c.source_file}</code>, retrieved {c.retrieved}
-              {c.wayback_timestamp ? `, from an Internet Archive capture (${c.wayback_timestamp})` : ""}.
-            </p>
+            {c.source_kind === "pdf_capital_sd" ? (
+              <p>
+                <strong>PDF-derived.</strong> FY2018 has no Council workbook and no NYC Open Data year, so this row is read from Part I of the checked
+                capital supporting-detail book (§254), whose review is closed: page and row <strong>{c.source_row}</strong> of{" "}
+                <code>{c.source_file}</code>. The book prints no council district.
+              </p>
+            ) : (
+              <p>
+                {c.source_kind === "open_data_t474" ? "NYC Open Data t474-a92g, row id " : "Row "}
+                <strong>{c.source_row}</strong> of <code>{c.source_file}</code>, retrieved {c.retrieved}
+                {c.wayback_timestamp ? `, from an Internet Archive capture (${c.wayback_timestamp})` : ""}.
+              </p>
+            )}
             <ul>
               {links && (
                 <li>

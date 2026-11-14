@@ -771,3 +771,18 @@ def test_page_image_decision_reaches_the_row_and_the_disclosure(tmp_path):
     assert (r["ein"], r["ein_printed"], r["read_from_page_image"]) == ("472383238", "472383238(cid:9)", "ein")
     assert r["ein_format"] == "page_image" and "ein_odd" not in r["row_flags"].split(";")
     assert r["disclosure_status"] == "matched"
+
+
+def test_promotion_keeps_a_closed_status_a_person_set(tmp_path):
+    """#202 (PDF-RECIPE.md Step 9: only a person changes `reviewed` to `closed`). FAILS if
+    promotion writes `reviewed` over a committed `closed` for the same PDF, or keeps `closed` when
+    the PDF changed."""
+    import build_pdf_promoted as BP
+    p = tmp_path / "pdf_years.csv"
+    p.write_text("fiscal_year,family,pdf_sha256,status\n2018,capital_sd,aaa,closed\n2019,capital_sd,bbb,reviewed\n",
+                 encoding="utf-8")
+    years = [{"fiscal_year": 2018, "family": "capital_sd", "pdf_sha256": "aaa", "status": "reviewed"},
+             {"fiscal_year": 2019, "family": "capital_sd", "pdf_sha256": "bbb", "status": "reviewed"}]
+    assert [y["status"] for y in BP.keep_closed(years, str(p))] == ["closed", "reviewed"]
+    changed = [dict(years[0], pdf_sha256="zzz")]
+    assert [y["status"] for y in BP.keep_closed(changed, str(p))] == ["reviewed"]
