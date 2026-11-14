@@ -9,15 +9,20 @@
  * so a view never waits for a file that does not exist.
  */
 import { DIM_SOURCES, SOURCES } from "../compare/queries.js";
+import { AWARDS_FILTERS, CAPITAL_FILTERS } from "../state/hash.js";
 
 /** The spreadsheet tables, written by every build (scripts/build-data.mjs TABLES). */
 export const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta"];
 
 /**
- * Loaded on every visit: the spreadsheet tables, and pdf_years (8 KB), the list of PDF family-years
- * the tabs and every view's year lists are built from. Not a family's rows.
+ * Loaded whenever the engine starts: the spreadsheet tables but capital_council, and pdf_years
+ * (8 KB), the list of PDF family-years the tabs and every view's year lists are built from. Not a
+ * family's rows. capital_council (0.76 MB) loads with the views that read it (#301 step 8).
  */
-export const BASE = [...TABLES, "pdf_years"];
+export const BASE = [...TABLES.filter((t) => t !== "capital_council"), "pdf_years"];
+
+/** The views that read capital_council: the capital list and row, Years and Compare. */
+const CAPITAL = ["capital_council"];
 
 /** Review notes behind every PDF row's flag badge (src/components/pdf.jsx), for any family, and the
  * Council questions they join to (src/query/pdf.js). */
@@ -81,6 +86,8 @@ export function tablesForView(state, manifest, { extras = false } = {}) {
       break;
     case "capital":
     case "capital-row":
+      need = [...CAPITAL, ...fam("capital_sd"), ...od];
+      break;
     case "book":
       need = [...fam("capital_sd"), ...od];
       break;
@@ -97,7 +104,7 @@ export function tablesForView(state, manifest, { extras = false } = {}) {
       need = fam("transparency");
       break;
     case "compare":
-      need = compareFamilies(state).flatMap(fam);
+      need = [...CAPITAL, ...compareFamilies(state).flatMap(fam)];
       break;
     case "review":
       // The review screen reads every family and the suggestions, in a local review build only.
@@ -106,6 +113,8 @@ export function tablesForView(state, manifest, { extras = false } = {}) {
       need = fileTables(manifest);
       break;
     case "years":
+      need = CAPITAL;
+      break;
     case "omb":
     case "source":
       need = [];
@@ -124,10 +133,27 @@ export function tablesForView(state, manifest, { extras = false } = {}) {
  * reads only manifest.json, and Years and Council vs OMB read the Council JSON files. Review needs it only in a review build: on the public site it
  * just says there is no queue. null: the answer depends on the manifest, which is not in yet.
  */
-export function needsEngine(view, manifest) {
-  // Years and Council vs OMB read the Council JSON files (data/council/; #301).
-  if (view === "agencies" || view === "about" || view === "years" || view === "omb") return false;
+export function needsEngine(view, manifest, state = {}) {
+  // Years and Council vs OMB read the Council JSON files (data/council/; #301), and so does one
+  // award: its Schedule C and Open Data panels load the engine when asked for.
+  if (view === "agencies" || view === "about" || view === "years" || view === "omb" || view === "award" || view === "capital-row") return false;
   if (view === "review") return manifest ? Boolean(manifest.review_screen) : null;
+  if (view === undefined || view === "awards") {
+    // The expense list: one fiscal year (any filter within it) reads that year's file, and the
+    // unfiltered first page over all years reads awards/index.json. The Schedule C side, and any
+    // other filter over all years, need the engine (state/hash.js awardsYear).
+    if (state.scside) return true;
+    const filtered = AWARDS_FILTERS.some((k) => state[k] !== null && state[k] !== undefined && state[k] !== "");
+    if (state.fy > 0) return false;
+    if (state.fy === 0) return filtered || (state.page ?? 0) > 0;
+    return filtered;
+  }
+  if (view === "capital") {
+    // The capital list, the same way: one report year reads its file (capital/fyYYYY.json).
+    const filtered = CAPITAL_FILTERS.some((k) => state[k] !== null && state[k] !== undefined && state[k] !== "");
+    if (state.cfy > 0) return false;
+    return filtered || state.cfy === 0;
+  }
   return true;
 }
 

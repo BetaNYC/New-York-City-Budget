@@ -54,7 +54,7 @@ export default function App() {
   // needsEngine): not City agency budgets, which reads small JSON files (#299), not About the data,
   // and not Review on the public site, which has no review queue (#301). Every Council view reads
   // the manifest; City agency budgets does not.
-  const engine = needsEngine(state.view, db.manifest);
+  const engine = needsEngine(state.view, db.manifest, state);
   const council = state.view !== "agencies";
   useEffect(() => {
     if (council) ensureManifest().catch(() => {});
@@ -229,7 +229,10 @@ function Loading({ phase, progress, manifest }) {
         {what}… {phase === "engine" || phase === "data" ? `${Math.round(progress * 100)}%` : ""}
       </p>
       <progress value={progress} max={1} />
-      <p className="muted small">The explorer runs in your browser: it downloads the query engine (about 33 MB, cached after the first visit) and about {dataMb(manifest)} MB of data. The PDF tables load when you open a page that uses them.</p>
+      <p className="muted small">
+        This page searches in your browser with a query engine: about 9 MB to download (cached after the first visit) and about {dataMb(manifest)} MB of data. The
+        PDF tables load when you open a page that uses them. Expense awards for one year, one award, Years, Council capital and Capital vs OMB need none of it.
+      </p>
     </div>
   );
 }
