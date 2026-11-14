@@ -73,7 +73,11 @@ def test_row_contract(built):
 
 def test_pdf_years(built):
     all_years = rows(built["data/pdf_years.csv"])
-    assert {y["status"] for y in all_years} == {"reviewed"}
+    # Promotion writes `reviewed`; FY2018 capital is `closed` by Noel Hidalgo, 2026-11-13 (#202),
+    # and promotion keeps it (keep_closed).
+    closed = {(y["fiscal_year"], y["family"]) for y in all_years if y["status"] == "closed"}
+    assert closed == {("2018", "capital_sd")}
+    assert {y["status"] for y in all_years if (y["fiscal_year"], y["family"]) not in closed} == {"reviewed"}
     tr = [y for y in all_years if y["fiscal_year"] == "2026" and y["family"] == "transparency"]
     assert len(tr) == 1
     assert tr[0]["issue"] == "103" and tr[0]["status"] == "reviewed" and tr[0]["rows"] == "4952"
