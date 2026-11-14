@@ -68,6 +68,7 @@ import {
 } from "./pdfquery.js";
 import { otherFlagWords } from "./checkwords.js";
 import { agencyYearsSection, compareAdoptedModifiedText, searchAgencyBudgetText } from "./agency.js";
+import { allPlanReleases, capitalPlanYearsSection, PLAN_FUNDING, searchCapitalPlanText } from "./capitalplan.js";
 import { SHORT_TERM, wholeWordNote, type WordFilter } from "./textmatch.js";
 import {
   BOROUGH_CODES_QUESTION,
@@ -1068,6 +1069,21 @@ export const TOOLS = [
     },
   },
   {
+    name: "search_capital_plan",
+    description: `When is a capital budget line's money planned to be committed, and how has that plan moved? For one budget line: OMB's Capital Commitment Plan (NYC Open Data 2cmn-uidm, 32 releases from 2016-04-26; in thousands of dollars, as OMB publishes it), the chosen release (default the newest) and every release's figures for the line; DCP's Capital Projects Database (CPDB, djxg-kcfi) planned commitments on the line by fiscal year and by project, in dollars; each project's CPDB totals (fi59-268w: planned, adopted, allocated, committed, spent, and Checkbook NYC checks), always the WHOLE project's, across all its budget lines; and the Council's own capital rows on the line (search_council_capital), apart. Or, with project_id, one CPDB project's totals and its commitments on every line. Links by budget line only, never by project; figures from different sources are never added together. CPDB is one version (it cannot show change over time) and DCP does not state its unit in writing; BetaNYC checked it is dollars. For spending detail, use @betanyc/nyc-checkbook-mcp.`,
+    inputSchema: {
+      type: "object",
+      properties: {
+        budget_line: { type: "string", description: "Budget line, as agency code then line ('P D018', 'HD-0201'). Required unless project_id is given." },
+        project_id: { type: "string", description: "A CPDB project: DCP's maprojid, the managing agency's three digits then the project ID ('850GKOH15-01'), any case." },
+        release: { type: "string", description: "A plan release, YYYY-MM-DD (default the newest, 2026-09-28). Every release with the line is listed in the answer either way." },
+        funding: { type: "string", enum: [...PLAN_FUNDING], description: "OMB's funding: CITY or NON CITY (default both, shown apart)" },
+        limit: { type: "number", description: "Max CPDB projects shown for the line, 1–500 (default 25, largest planned total first). Line totals always cover every project." },
+      },
+      additionalProperties: false,
+    },
+  },
+  {
     name: "search_schedule_c_awards",
     description: `Search the adopted budget's Schedule C (the Council's discretionary awards as printed in the budget PDF: the body and appendices A, B and C), FY2018–FY2027, from the checked tables BetaNYC reads from the PDFs. Every row is labeled "checked, review in progress" or "checked and reviewed", with its flags, review decision and note where decided, three links (the row highlighted on its page in the explorer, the PDF on GitHub at the build's commit, the publisher's copy where known), and disclosure_status: whether the same EIN and amount is in the Council's disclosure spreadsheet (search_disclosure_awards, a separate tool and a later snapshot) as cleared or pending, or unmatched with the reason. Values are as printed. Sub-awards printed under an award (the Jobs to Build On partner list, FY2018 and FY2019) are listed under it and never counted. Filter by any combination of fiscal_year, organization, ein, member (member, sponsor or delegation, as printed) or council_member_id (exact Legistar person ID, resolved per year from the printed member: 'Levin' and 'Levine' are different people), category, initiative, agency, purpose, disclosure_status, min_amount, max_amount; the answer gives the TRUE match count and totals over every match, highest amount first. Needs the optional PDF tables download; without it the answer says how to add it.${TEXT_RULE}`,
     inputSchema: {
@@ -1182,7 +1198,7 @@ export const TOOLS = [
   },
   {
     name: "list_available_fiscal_years",
-    description: `Report, for every fiscal year, which structured datasets this server holds and where each came from: the expense funding disclosure (loaded or not, Council RnD download or Internet Archive capture, retrieval date, early-snapshot flag), the Council capital list (Council workbook or NYC Open Data t474-a92g), and whether the year is in the Council-vs-OMB comparison. Also reports each family-year of the checked PDF tables (Schedule C, transparency resolutions, the capital book, Terms and Conditions) with its status, and whether the optional PDF tables download is installed. Also reports the City agency budget years (search_agency_budget, compare_adopted_modified; NYC Open Data mwzb-yiwb) and when that snapshot was taken. States the gaps plainly: FY2010 disclosure not loaded, FY2018 capital PDF-derived (the checked §254 book), nothing before FY2009, no PDF table before FY2018.`,
+    description: `Report, for every fiscal year, which structured datasets this server holds and where each came from: the expense funding disclosure (loaded or not, Council RnD download or Internet Archive capture, retrieval date, early-snapshot flag), the Council capital list (Council workbook or NYC Open Data t474-a92g), and whether the year is in the Council-vs-OMB comparison. Also reports each family-year of the checked PDF tables (Schedule C, transparency resolutions, the capital book, Terms and Conditions) with its status, and whether the optional PDF tables download is installed. Also reports the City agency budget years (search_agency_budget, compare_adopted_modified; NYC Open Data mwzb-yiwb) and when that snapshot was taken. Also reports OMB's Capital Commitment Plan releases (NYC Open Data 2cmn-uidm, in thousands of dollars) and the version of DCP's Capital Projects Database (CPDB: djxg-kcfi, fi59-268w) this index holds. States the gaps plainly: FY2010 disclosure not loaded, FY2018 capital PDF-derived (the checked §254 book), nothing before FY2009, no PDF table before FY2018.`,
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
   ...betanyc.tools,
@@ -1488,6 +1504,30 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return textResult(`${ombText(res)}\n\n${OMB_FOOTER}`);
       }
 
+      case "search_capital_plan": {
+        const a = parseArgs("search_capital_plan", z.object({
+            budget_line: z.string().optional(),
+            project_id: z.string().optional(),
+            release: z.string().optional(),
+            funding: z.enum(PLAN_FUNDING).optional(),
+            limit: z.number().int().optional(),
+          }).strict(), args);
+        if (a.budget_line == null && a.project_id == null) return errorResult("give a budget_line or project_id.");
+        const line = budgetLineArg(a.budget_line);
+        if (line.error) return errorResult(line.error);
+        const guard = limitError(a.limit);
+        if (guard) return errorResult(guard);
+        let release: string | undefined;
+        if (a.release != null) {
+          const all = allPlanReleases();
+          release = /^\d{4}-\d{2}-\d{2}$/.test(a.release) ? a.release.replace(/-/g, "") : "";
+          if (!all.includes(release))
+            return errorResult(`release must be one of OMB's ${all.length} plan releases, as YYYY-MM-DD: ${all.map((d) => `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6)}`).join(", ")}; got ${JSON.stringify(a.release)}.`);
+        }
+        const text = searchCapitalPlanText({ ...a, budget_line: line.value, release, limit: Math.min(a.limit ?? 25, 500) });
+        return textResult(`${text} Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`);
+      }
+
       case "search_schedule_c_awards": {
         const a = parseArgs("search_schedule_c_awards", z.object({
             fiscal_year: z.number().int().optional(),
@@ -1669,6 +1709,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           ...pdfYearsSection(),
           "",
           ...agencyYearsSection(),
+          "",
+          ...capitalPlanYearsSection(),
           "",
           `Source repo: ${REPO_URL}. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`,
         ].join("\n");

@@ -1,4 +1,6 @@
-import { useQueries } from "../duckdb/useDuckDB.js";
+import { useDuckDB, useQueries } from "../duckdb/useDuckDB.js";
+import { PHASES, ensureData } from "../duckdb/store.js";
+import { aboutMb, bytesOf, tablesForView } from "../duckdb/needs.js";
 import { DISCLOSURE_FLAG_NOTE, STATUS_LABEL, flagNotes, money } from "../format.js";
 import { sourceLinks } from "../paths.js";
 import * as Q from "../query/sql.js";
@@ -63,9 +65,8 @@ export default function Award({ state, go, back, manifest, pdfYears }) {
 
 function Detail({ a, manifest, state, go, scYears }) {
   const links = sourceLinks(manifest.source_commit, a.source_path);
-  const odCov = useOdCoverage("expense");
-  const od = useOdForRows("expense", [a], (r) => [r.fiscal_year, r.source_row]);
   const flags = flagNotes(a.row_flag, DISCLOSURE_FLAG_NOTE);
+  const db = useDuckDB();
   return (
     <>
       <h2>
@@ -107,8 +108,11 @@ function Detail({ a, manifest, state, go, scYears }) {
         </li>
       </ul>
 
-      <OdPanel xs={od?.get(`${Number(a.fiscal_year)}|${a.source_row}`)} coverage={odCov} fy={a.fiscal_year} what="expense award" />
-      <ScForAward a={a} scYears={scYears} state={state} go={go} />
+      {db.phase === PHASES.READY ? (
+        <Panels a={a} scYears={scYears} state={state} go={go} />
+      ) : (
+        <PanelsOffer manifest={manifest} state={state} phase={db.phase} />
+      )}
       <h3>Every column</h3>
       <dl className="fields">
         {FIELDS.map(([k, label, note]) => (
@@ -123,6 +127,45 @@ function Detail({ a, manifest, state, go, scYears }) {
           </div>
         ))}
       </dl>
+    </>
+  );
+}
+
+/** Whether this award is on NYC Open Data, and where it stands in Schedule C: DuckDB queries. */
+function Panels({ a, scYears, state, go }) {
+  const odCov = useOdCoverage("expense");
+  const od = useOdForRows("expense", [a], (r) => [r.fiscal_year, r.source_row]);
+  return (
+    <>
+      <OdPanel xs={od?.get(`${Number(a.fiscal_year)}|${a.source_row}`)} coverage={odCov} fy={a.fiscal_year} what="expense award" />
+      <ScForAward a={a} scYears={scYears} state={state} go={go} />
+    </>
+  );
+}
+
+/**
+ * The award itself comes from its year's small file (#301). Whether it is on NYC Open Data and
+ * where it stands in Schedule C need the query engine and those tables: offered, with their size.
+ */
+function PanelsOffer({ manifest, state, phase }) {
+  const tables = tablesForView(state, manifest);
+  const loading = phase !== PHASES.IDLE && phase !== PHASES.ERROR;
+  return (
+    <>
+      <h3>On NYC Open Data, and in Schedule C</h3>
+      <p>
+        {loading ? (
+          <span role="status">Loading the query engine and those tables…</span>
+        ) : (
+          <>
+            Whether this award is on NYC Open Data, and where it stands in Schedule C (the adopted budget&apos;s PDF), need the query engine (about 8.6 MB) and{" "}
+            {aboutMb(bytesOf(manifest, tables))} of data.{" "}
+            <button type="button" className="linkish" onClick={() => ensureData().catch(() => {})}>
+              {phase === PHASES.ERROR ? "Could not load them. Try again" : "Show them"}
+            </button>
+          </>
+        )}
+      </p>
     </>
   );
 }
