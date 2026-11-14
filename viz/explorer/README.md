@@ -64,10 +64,30 @@ of this against the index. Then
 
 ## What a visit downloads
 
-The first visit downloads only what the landing page (Expense awards) needs: the spreadsheet
-tables and `pdf_years`, the list of PDF family-years the tabs are built from, about 3.7 MB of
-Parquet (13.3 MB before; measured on the public build with `npx vite preview`). The query engine
-(DuckDB-WASM, about 34 MB) comes on top, cached by the browser after the first visit, as before.
+**The fast views load no query engine** (#301). Expense awards (it opens on the newest year), one
+award, Years, Council vs OMB, Council capital (newest report year), one capital project and About
+the data read small JSON files, described below. `e2e/council.weight.spec.js` holds each of them,
+on a first visit at desktop and phone width, under **1 MB over the wire** (counted gzipped, as
+GitHub Pages sends it) and **3 MB decoded**, with no engine request; a change that breaks that
+fails CI. Measured 2026-11-14, over the wire: expense awards 0.49 MB, one award 0.53 MB, Years
+0.16 MB, Council vs OMB 0.17 MB, capital 0.22 MB, one capital project 0.21 MB, About 0.16 MB
+(each was 12.4 to 19.2 MB before).
+
+**The power tools load the engine right away** (pick 5): Compare years, Schedule C,
+Transparency resolutions, Capital book, Organizations, Terms & Conditions, Source and Review, and
+a fast view's search across all years. They download the spreadsheet tables and `pdf_years` (about
+3.7 MB of Parquet) plus DuckDB-WASM (about 8.6 MB over the wire, 34 MB decoded), cached by the
+browser after the first visit. A fast view's extras that need the engine (an award's Schedule C
+and Open Data panels; the capital list's book columns and Open Data badges) say so, with their
+size, and load on "Show them".
+
+**Nothing is fetched from a third party** (#301 step 8). DuckDB-WASM loads its `parquet` and
+`json` extensions at run time; they used to come from `extensions.duckdb.org`, so every visit
+contacted DuckDB's server and the explorer broke when it was down. They are now served from this
+site (`public/duckdb-extensions/`, the same files byte for byte, with their source and sha256 in
+its README; `custom_extension_repository` in `src/duckdb/store.js`). `capital_council` (0.76 MB)
+now loads with the views that read it (capital, Years and Compare) instead of with every engine
+start.
 
 City agency budgets (`#view=agencies`) is the exception: it never loads DuckDB (#299). The build
 writes small JSON files from the same `agency_budget` table (`scripts/agency-json.mjs`, laid out
@@ -77,6 +97,39 @@ JavaScript, its CSS, `citywide.json` and `agencies.json`; GitHub Pages compresse
 0.17 MB), measured by `e2e/agencies.weight.spec.js` and held under 1 MB there. Opening an agency
 adds its own file, `agency_budget/agency/<NNN>.json`. The engine's JavaScript is imported only
 when another view starts it.
+
+About the data, and Review on the public site (which has no review queue), read only
+`manifest.json` and start no engine either (#301; `needsEngine` in `src/duckdb/needs.js`). Years
+and Council capital vs OMB read the Council JSON files below: a first visit is about 0.16 MB over
+the wire instead of 12.4 MB. A query a fast view runs carries a `json` form next to its SQL
+(`src/query/sql.js`); while the engine is not loaded, `useQueries` answers from the JSON files
+(`src/council/data.js`), and `test/council-parity.test.mjs` holds every json form to its SQL, row
+for row.
+
+Expense awards opens on the newest fiscal year (#301, pick 2) and answers any filter within one
+year from that year's file (`awards/fyYYYY.json`), with no engine: a first visit is about 0.49 MB
+over the wire instead of 12.4 MB. "All years" with no filter reads `awards/index.json`; a filter
+over all years, a later all-years page, or the Schedule C side loads the engine, as before. A link
+that carries a filter and no year keeps its old meaning, all years (`awardsYear` in
+`src/state/hash.js`). One award reads its row from its year's file (about 0.53 MB); its NYC Open
+Data and Schedule C panels load the engine when asked for ("Show them").
+
+Council capital works the same way: it opens on the newest report year (`capitalYear`) and answers
+any filter within one year from `capital/fyYYYY.json` (about 0.22 MB over the wire instead of
+14.6 MB); "All report years" or a filter over all years loads the engine. One capital project finds
+its year from `years.json` (`capital_seq`: each report year's rows are one run of `seq`, and the
+build stops if that ever changes) and reads its row from that year's file. The §254 book's columns
+and the NYC Open Data badges need the engine, and load on "Show them".
+
+The Council views are moving to the same pattern (#301). The build writes `data/council/`
+(`scripts/council-json.mjs`, file names in `src/council/paths.js`): `years.json` (the lookups,
+each year's source and the Years totals), `omb.json` (every Council-vs-OMB row),
+`awards/index.json` (all years, no filter: totals, flags, the first page), one
+`awards/fyYYYY.json` per loaded disclosure year and one `capital/fyYYYY.json` per capital report
+year (every row, every column; a column that repeats a few values is stored once per file). Then it
+reads every file back and checks it against `budget.db` with its own SQL, every cell and every
+total; any difference stops the build. The largest file, FY2026's awards, is about 0.37 MB over
+the wire and 1.6 MB decoded. `manifest.json` lists each file with its size and sha256.
 
 Each PDF family's files load the first time a page that reads them opens, from a tab or a link
 straight into it, with a short "Loading the data for this page" message, and stay loaded for the

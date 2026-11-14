@@ -1812,3 +1812,30 @@ hyphen probably lost its spaces ("Special Projects-Council District 16", Reso 01
 Noel Hidalgo decided all 10 flags `accepted_as_printed` on 2026-11-13: every row stays as printed.
 
 **Next.** T2026-2764 was on the 2026-11-19 Finance agenda with no files yet (as of 2026-11-12).
+
+---
+
+## 59. City Planning's Capital Projects Database does not state its unit (2026-11-14; #250) — SETTLED BY A CHECK
+
+DCP's Capital Projects Database (CPDB: NYC Open Data `djxg-kcfi`, commitments, and `fi59-268w`,
+projects) never says whether its amounts are in dollars or thousands. Neither dataset's column
+descriptions say, neither has a data-dictionary attachment, and DCP's own data dictionary
+([`cpdb_data_dictionary.xlsx`](https://s-media.nyc.gov/agencies/dcp/assets/files/excel/data-tools/bytes/cpdb_data_dictionary.xlsx))
+has a column for "the unit of measurement of the data field, e.g. thousands, millions" that says
+only "double precision" for every amount. OMB's Capital Commitment Plan (`2cmn-uidm`), which covers
+the same planned commitments, is in thousands: its data dictionary says "The dollar values are in
+thousands."
+
+**The check.** CPDB's City total per budget line and fiscal year (`plancommdate`, July to June),
+divided by OMB's City amount for the same line and year, is exactly 1,000 at the median for every
+plan release from 2025-09-30 to 2026-09-28. Against the 2026-05-12 release, 1,875 of 2,348
+line-years are equal to the dollar after × 1,000, and none without it. DCP's own code agrees: its
+older build multiplied OMB's amounts by 1000 (`NYCPlanning/db-cpdb`, `sql/cpdb_build_master.sql`
+lines 68, 87, 98), and its capital-projects map treats the stored values as dollars. So CPDB is
+served in **dollars**, and every answer says DCP does not state the unit.
+
+**Guarded by** `verifyCapitalPlan` in `mcp/scripts/capital-plan.mjs`, which stops the index build
+if the median ratio against the newest release is not 1,000, and `mcp/test/capital-plan.test.js`,
+which recomputes it from the raw snapshots. If DCP ever publishes CPDB in thousands, the build
+fails before a figure 1,000 times too small is served. Plan and sources:
+[`docs/plans/2026-11-13-250-capital-plan-and-cpdb.md`](docs/plans/2026-11-13-250-capital-plan-and-cpdb.md) §1.

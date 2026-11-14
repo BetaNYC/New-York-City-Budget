@@ -73,12 +73,17 @@ test("whats_changed answers from the repo's WHATS-CHANGED.md, corrections first-
   for (const e of sc.entries) assert.ok(e.if_you_used_the_old_numbers, e.title);
 });
 
-test("whats_changed leaves the Unreleased 2.1.0 entry out and says so", async () => {
-  // FAILS if an undated entry is served as if released.
+test("whats_changed serves the 2.1.0 entry under the CHANGELOG's 2.1.0 date, and every entry is dated", async () => {
+  // FAILS if the 2.1.0 entry is still "Unreleased" (release.yml's check --release would refuse
+  // to publish), or its date differs from the CHANGELOG's.
+  const date = /^## 2\.1\.0 — (\d{4}-\d{2}-\d{2})$/m.exec(readFileSync(join(MCP, "CHANGELOG.md"), "utf8"))?.[1];
+  assert.ok(date, "CHANGELOG.md has a dated 2.1.0 heading");
   const r = await call("whats_changed", { tag: "MCP", limit: 50 });
   const sc = r.structuredContent;
   assert.ok(sc.entries.every((e) => /^\d{4}-\d{2}-\d{2}$/.test(e.date)));
-  assert.match(sc.note ?? "", /[Uu]nreleased|not released/);
+  const e = sc.entries.find((x) => x.title === "Server adds City agency budgets, FY2027 changes and Council Members by person");
+  assert.ok(e, sc.entries.map((x) => x.title).join(" | "));
+  assert.equal(e.date, date);
 });
 
 test("the copy the package ships is the repo's file", () => {
