@@ -331,6 +331,39 @@ One row per (fiscal year, PDF family) promoted.
 Values are as printed. Where a value is parsed (amounts), the printed text is kept beside it
 (`*_printed`, `*_raw`).
 
+### `data/pdf_council_member_crosswalk.csv` (GitHub #51)
+
+The printed `member` of the Schedule C awards and the transparency rows, resolved to a Legistar
+person per fiscal year. One row per (`family`, `fiscal_year`, `council_member`) of every
+family-year `data/pdf_years.csv` lists as reviewed or closed. Built by
+`code/build_member_crosswalk.py`, with the **same roster and rules as the disclosure crosswalk**
+(#72, above): `--write` writes both files, `--check` fails if either is stale.
+
+| Column | Meaning |
+|---|---|
+| `family` | `schedule_c` or `transparency` |
+| `fiscal_year` | The row's `fiscal_year`: Schedule C's adopted year, a resolution's own year. Not `budget_fiscal_year`: a resolution that changes an earlier year's budget mostly prints the member in office when it passes (resolving on the budget year put 42 pairs outside the person's service, against 5). |
+| `council_member` | The printed `member`, exactly as in the tables (blank included) |
+| `rows` | Rows with that value that year; the MCP build checks these against the loaded tables |
+| `council_member_type`, `council_member_id`, `legistar_full_name`, `method`, `evidence` | As in the disclosure crosswalk. `member_outside_fy` says why in the PDF's terms: all 5 are FY2019–FY2023 resolution rows that change an earlier year's budget and name that year's member (Garodnick, Gentile, Ferreras-Copeland, Espinal, Levine). |
+| `candidate_ids` | `ambiguous` only: the Legistar IDs it could be, `;`-separated, so a search for one of them can say which rows it could not count |
+
+Not resolved, by design: Schedule C's `sponsor` (co-sponsor lists, like `capital.sponsor`) and
+`delegation` columns. There are no file conventions here; the disclosure's FY2021 `Diaz` rule
+rests on that workbook's own evidence and applies to it only. Never join Schedule C to the
+disclosure on the name (DATA-ANOMALIES §21: they print different rosters).
+
+**Outcome (rows):** Schedule C — `member` 56,165; `ambiguous` 328 (FY2021 and FY2022 `Diaz`,
+FY2022 `Barron`, FY2026 `Sanchez`); `unresolved` 3 (`N/A`); `speaker` 2,070; `delegation` 465;
+`citywide` 72; `district_label` 247; `blank` 16,922. Transparency — `member` 33,550;
+`member_outside_fy` 12; `ambiguous` 235 (adds FY2023 `Rodriguez`, where neither match voted);
+`unresolved` 66 (misspellings such as `Ferraras`, `Menchcaca`, `Dinowtiz`, `D Diaz`; member and
+delegation in one cell, such as `Powers/Manhattan`; `Local`, `Anti-Poverty`); `speaker` 1,561;
+`delegation` 5,271; `citywide` 51; `district_label` 251 (including FY2026 `Council District 2`
+and `3`, read by the same district rule as `CD 22`); `blank` 12,624. The non-person values #51
+listed from the retired parser (`Center`, `Placement`, `The`, `Program`, `Brooks-`) are not in
+the checked tables.
+
 ### `data/fy27/pdf/capital_sd/`
 
 The FY2027 §254 supporting-detail book.

@@ -308,6 +308,12 @@ function build() {
     );
 
     CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT);
+
+    CREATE TABLE member_crosswalk (
+      family TEXT, fiscal_year INTEGER, council_member TEXT, rows INTEGER, council_member_type TEXT,
+      council_member_id TEXT, legistar_full_name TEXT, candidate_ids TEXT, method TEXT,
+      PRIMARY KEY (family, fiscal_year, council_member)
+    );
   `);
   db.exec(pdfSchemaSql());
   db.exec(openDataSchemaSql());
@@ -516,6 +522,30 @@ function build() {
     return cmp.length;
   })();
 
+  // --- #51: the PDF tables' printed member -> Legistar person, per (family, fiscal_year) --------
+  // In the npm index, not the PDF download, so the tools resolve members with any installed
+  // download. Built by code/build_member_crosswalk.py with #72's rules; a type the rules do not
+  // know, or an ID or candidate list that does not fit its type, is a stop.
+  counts.member_crosswalk = (() => {
+    const rel = "data/pdf_council_member_crosswalk.csv";
+    const xw = readCsv(rel);
+    need(xw, ["family", "fiscal_year", "council_member", "rows", "council_member_type", "council_member_id", "legistar_full_name", "candidate_ids", "method"], rel);
+    const ins = db.prepare("INSERT INTO member_crosswalk VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    db.transaction(() => {
+      for (const r of xw) {
+        const where = `${rel}: ${r.family} FY${r.fiscal_year} ${JSON.stringify(r.council_member)}`;
+        if (!["schedule_c", "transparency"].includes(r.family)) throw new Error(`${where}: family ${JSON.stringify(r.family)}`);
+        const t = r.council_member_type;
+        if (!MEMBER_TYPES.has(t)) throw new Error(`${where}: council_member_type ${JSON.stringify(t)}`);
+        if ((t === "member" || t === "member_outside_fy") !== /^\d+$/.test(r.council_member_id)) throw new Error(`${where}: council_member_id ${JSON.stringify(r.council_member_id)} does not fit type ${t}`);
+        if ((t === "ambiguous") !== /^\d+(;\d+)+$/.test(r.candidate_ids)) throw new Error(`${where}: candidate_ids ${JSON.stringify(r.candidate_ids)} does not fit type ${t}`);
+        ins.run(r.family, Number(r.fiscal_year), r.council_member, Number(r.rows), t, r.council_member_id, r.legistar_full_name, r.candidate_ids, r.method);
+      }
+    })();
+    if (!xw.length) throw new Error(`${rel}: no rows`);
+    return xw.length;
+  })();
+
   // --- reviewed PDF tables, gated by status (scripts/pdf-families.mjs) ------------------------
   // Every family-year data/pdf_years.csv lists, loaded or not, so an index without the PDF tables
   // can still say what exists and at what status (list_available_fiscal_years).
@@ -524,6 +554,20 @@ function build() {
     ? { counts: Object.fromEntries(PDF_TABLES.map((t) => [t, 0])), loaded: [], includeReviewed: false }
     : loadPdfFamilies(db, { readCsv, readText, sha256Of }, INCLUDE_REVIEWED);
   Object.assign(counts, pdf.counts);
+  // #51: every loaded Schedule C and transparency row's printed member is in the crosswalk, with
+  // the same row count (a stale crosswalk would leave rows the council_member_id filter misses).
+  for (const [fam, table] of [["schedule_c", "pdf_schedule_c"], ["transparency", "pdf_transparency"]]) {
+    const off = db
+      .prepare(
+        `SELECT p.fiscal_year, COALESCE(p.member, '') AS member, COUNT(*) AS n, x.rows AS xrows FROM ${table} p
+         LEFT JOIN member_crosswalk x ON x.family = ? AND x.fiscal_year = p.fiscal_year AND x.council_member = COALESCE(p.member, '')
+         GROUP BY 1, 2 HAVING xrows IS NULL OR xrows <> n`
+      )
+      .all(fam);
+    if (off.length)
+      throw new Error(`data/pdf_council_member_crosswalk.csv is stale for ${fam} (run code/build_member_crosswalk.py --write): ` +
+        off.slice(0, 5).map((o) => `FY${o.fiscal_year} ${JSON.stringify(o.member)} ${o.n} row(s), crosswalk ${o.xrows ?? "none"}`).join("; "));
+  }
 
   // --- is it on NYC Open Data? (scripts/open-data.mjs; PDF-derived records follow the PDF gate) --
   const od = loadOpenData(db, { readCsv }, pdf.loaded);

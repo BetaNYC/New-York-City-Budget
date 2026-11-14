@@ -20,6 +20,7 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { fold } from "./fold.js";
 import { registerTextFunctions, useWholeWord, type WordFilter } from "./textmatch.js";
+import { MemberCrosswalk } from "./pdfquery.js";
 
 export { fold };
 
@@ -37,6 +38,28 @@ export function getDb(): DB {
   // word_match() for whole-word text filters (#259), and fold() beside it.
   registerTextFunctions(_db);
   return _db;
+}
+
+let _members: MemberCrosswalk | null = null;
+
+/**
+ * #51: the PDF tables' printed members resolved to Legistar person IDs (table member_crosswalk,
+ * from data/pdf_council_member_crosswalk.csv). Empty for an index built before it existed.
+ */
+export function memberCrosswalk(): MemberCrosswalk {
+  if (_members) return _members;
+  const db = getDb();
+  const has = db.prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'member_crosswalk'").get();
+  const rows = has
+    ? (db.prepare("SELECT family, fiscal_year, council_member, rows, council_member_type, council_member_id, legistar_full_name, candidate_ids, method FROM member_crosswalk").all() as Record<string, any>[])
+    : [];
+  _members = new MemberCrosswalk(
+    rows.map((r) => ({
+      family: r.family, fiscal_year: r.fiscal_year, council_member: r.council_member, rows: r.rows, type: r.council_member_type,
+      id: r.council_member_id ?? "", name: r.legistar_full_name ?? "", candidates: r.candidate_ids ? String(r.candidate_ids).split(";") : [], method: r.method ?? "",
+    }))
+  );
+  return _members;
 }
 
 /** Digits-only EIN so "13-2612524" and "132612524" match. */

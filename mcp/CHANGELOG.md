@@ -33,6 +33,25 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 - **FY2027 transparency resolutions** (#246). `search_transparency_changes` now reaches FY2027:
   Res 0551-2026, 0595-2026, 0652-2026 and 0695-2026 (2026-07-16 to 2026-10-22), 2,808 rows,
   labeled "checked, review in progress", from the next PDF-tables data release.
+- **One council member, not a surname, in the PDF tables** (#51). `search_schedule_c_awards`
+  and `search_transparency_changes` resolve each row's printed member to a Legistar person for
+  its fiscal year, with the same roster and rules the disclosure uses (#72), from the new
+  `data/pdf_council_member_crosswalk.csv` (in the npm index as `member_crosswalk`, so it works
+  with the PDF tables already installed; no new data release is needed).
+  - **`council_member_id`** (new, on both tools): an exact Legistar person ID. It finds one
+    person under every label they were printed with (Pierina Ana Sanchez is `Sanchez` to FY2025
+    and `P. Sanchez` in FY2027) and never another person (`Levin` 7567 is not `Levine` 7634;
+    `Won` 7816 is not `Wong` 7900).
+  - **Never guessed.** Where two members of a name served in the year (FY2022 `Barron`, FY2021
+    and FY2022 `Diaz`, FY2026 `Sanchez`), the row has no ID and says who it could be. An ID
+    search names those rows as "not counted" and how to see them.
+  - **Each row** shows its person after the printed name, or why it has none.
+  - **The `member` filter** is still a substring match, as before, but the answer now lists every
+    printed name and person it blended (`Williams` is Jumaane D. Williams to FY2019 and Nantasha
+    M. Williams from FY2023), and, on Schedule C, the rows it matched only in the sponsor or
+    delegation column, which are not resolved.
+  - Borough delegation labels still match as before and are never a person. Schedule C's
+    sponsor column and the capital tools are unchanged.
 <!-- TODO(#270): link the cross-repo "What's changed" log here when that standard lands. -->
 
 ## 2.0.6 — 2026-11-10

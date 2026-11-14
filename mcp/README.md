@@ -84,8 +84,8 @@ from the same `agency_budget` table as `search_agency_budget`.
 | `search_disclosure_awards` | The Council's expense funding disclosure by fiscal year / EIN / legal name / council member (substring) or **`council_member_id`** (exact Legistar person ID: `Levin` 7567 and `Levine` 7634 never blend) / source (substring) or **`source_exact`** / agency / program / grantee **`zip`** (exact 5-digit) / **`zip_status`** / **`city`** (exact) / status / **`mocs_id`** / **`od_mocs_id`** / amount range. Each row shows the grantee's mailing address as printed, its derived zip and zip_status, and, FY2009–FY2021, the MOCS ID NYC Open Data gives the same designation where the pairing is unambiguous. Reports the true match count, Cleared and Pending totals over **all** matches, the source and retrieval date of each year, the early-snapshot years and FY2010's exclusion |
 | `search_council_capital` | The Council's capital designations by fiscal year (the list's year) / `amount_fy` / **`budget_line`** (exact, `P D018`) / **`project_id`** (exact) / sponsor (substring) or `sponsor_exact` / `borough` (exact code) / `council_district` (workbook years only) / title / description / amount range. Totals the list's own year separately from out-year amounts; names the file, retrieval date and sha256 of every year it draws on |
 | `compare_capital_to_omb` | For each report year and Council-series budget line, the Council table's total vs OMB's adopted release, this year and next, with a verdict (`match`, `differ`, `council_only`, `omb_only`). Lines that disagree first |
-| `search_schedule_c_awards` | The adopted budget's Schedule C as printed, by fiscal year / organization / EIN (the organization's or its fiscal conduit's) / member, sponsor or delegation / category / initiative / agency / purpose / `disclosure_status` / amount range. Each row says whether the same EIN and amount is in the disclosure spreadsheet (cleared, pending or unmatched, with the reason). Sub-awards listed under their award, never counted. PDF tables |
-| `search_transparency_changes` | The transparency resolutions: designations, rescissions and purpose-of-funds changes after adoption, by fiscal year / budget year / organization / EIN / member / `resolution_number` / `resolution_date` or a `date_from`–`date_to` range / action, newest first. Totals per kind of change; "no dollar amount" rows counted, never summed. PDF tables |
+| `search_schedule_c_awards` | The adopted budget's Schedule C as printed, by fiscal year / organization / EIN (the organization's or its fiscal conduit's) / member, sponsor or delegation (substring) or **`council_member_id`** (exact Legistar person ID, on the printed member) / category / initiative / agency / purpose / `disclosure_status` / amount range. Each row says whether the same EIN and amount is in the disclosure spreadsheet (cleared, pending or unmatched, with the reason), and who its printed member is (see [The checked PDF tables](#the-checked-pdf-tables-optional-download)). Sub-awards listed under their award, never counted. PDF tables |
+| `search_transparency_changes` | The transparency resolutions: designations, rescissions and purpose-of-funds changes after adoption, by fiscal year / budget year / organization / EIN / member (substring) or **`council_member_id`** (exact Legistar person ID) / `resolution_number` / `resolution_date` or a `date_from`–`date_to` range / action, newest first. Totals per kind of change; "no dollar amount" rows counted, never summed. PDF tables |
 | `search_capital_book` | The §254 supporting detail (Parts I and II) by fiscal year / `project_id` / `budget_line` / sponsor / borough / agency / title / part / amount range, in book order. The total is Part I's (it ties to the book's printed total); "of which … went to non-city groups" is the Part I rows the book lists again in Part II (the same year, SUB ID and budget line, as the explorer); rows printed only in Part II are listed apart and never added, and only the year's Part II series among them ("MA" IDs on "0N" lines; FY2026 "MM"; from `config/capital_sd/fyYYYY.toml`) is labeled with its question to Council Finance and that question's status (`data/council_questions.csv`). Reductions counted on their own; "CD nn" sponsors labeled as districts with no member; borough "A" and "C" shown as printed, "not a borough, meaning unclear" (question to the Council: #227, with its status), and matched as printed by a borough filter. PDF tables |
 | `search_terms_conditions` | Terms and Conditions by fiscal year / agency / unit of appropriation / text, the same filters as the explorer's Terms view. PDF tables |
 | `search_agency_budget` | City agency budgets (2.1.0): adopted and modified, by agency (`056`, `56` or words from the name) / unit of appropriation (`001` or words) / fiscal year, FY2017 on. Agency and unit totals, each figure's Open Data release, gross amounts stated. No filter: every agency's total for the year |
@@ -281,6 +281,25 @@ The four PDF tools follow the rules settled for epic #190
   columns per filter (an EIN also matches the fiscal conduit's; an organization never matches a
   sub-award's partner), the same row order and the same totals. `test/pdf-tools.test.js` checks
   counts, totals and the first page against the explorer's own queries.
+- **Council members, one person at a time** (#51). The tables print a member as a surname, and a
+  surname is not a person: `Williams` is Jumaane D. Williams to FY2019 and Nantasha M. Williams
+  from FY2023, and `Levin` is inside `Levine`. Schedule C and transparency rows are resolved to a
+  Legistar person **for their fiscal year**, with the disclosure's roster and rules (#72), from
+  `data/pdf_council_member_crosswalk.csv`, which ships in the npm index, not the download.
+  - `council_member_id` (exact) finds one person under every label they were printed with
+    (`Sanchez` to FY2025, `P. Sanchez` in FY2027). On Schedule C it reads the printed member
+    column, not sponsor or delegation.
+  - Each row shows the person after the printed name, `[Mark Levine (Legistar person 7634)]`, or
+    why there is none: two members of that name served that year (`[not resolved: Charles Barron
+    (Legistar person 5288) or Inez D. Barron (Legistar person 7623); ...]`, never guessed), or
+    the value is not a member's name. A delegation, `Speaker` or a blank carries no tag.
+  - An ID search says which rows it could not count (FY2026 Schedule C prints both Sanchezes as
+    `Sanchez`: 138 rows) and how to see them.
+  - The `member` filter stays a substring match (it must agree with the explorer), and its answer
+    lists every printed name and person it blended, and on Schedule C the rows it matched only in
+    the sponsor or delegation column.
+  - Don't join these to the disclosure on the name: Schedule C prints the member at adoption,
+    the disclosure the roster when the workbook was exported.
 
 ### Getting it
 

@@ -29,6 +29,7 @@ import {
   listOmbComparisonYears,
   normEin,
   fold,
+  memberCrosswalk,
   normBudgetLine,
   normProjectId,
   DISCLOSURE_STATUSES,
@@ -58,6 +59,10 @@ import {
   STATUS_LABEL,
   TR_ACTIONS,
   VACANT_DISTRICT,
+  type MatchedMember,
+  type MemberCrosswalk,
+  type MemberIdReport,
+  type MemberResolution,
   type ServedRow,
 } from "./pdfquery.js";
 import { otherFlagWords } from "./checkwords.js";
@@ -614,9 +619,85 @@ function byYearLines(rows: { fiscal_year: number; status: string; rows: number }
 
 const amt = (v: unknown) => (typeof v === "number" ? usd(v) : "no amount");
 
-function scheduleCText(res: ReturnType<typeof searchScheduleC>): string {
+// ---- #51: council members in the PDF tables, resolved per year with #72's rules
+
+/** Why a PDF row names someone with no recorded vote in its year (code/build_member_crosswalk.py PDF_OUTSIDE). */
+const PDF_OUTSIDE: Record<string, string> = {
+  schedule_c: "Schedule C prints the member at adoption",
+  transparency: "a resolution can change an earlier year's budget and name that year's member",
+};
+
+/** How a row's printed member resolved, in brackets after the name. */
+function pdfMemberTag(m: MemberResolution | null | undefined, members: MemberCrosswalk): string {
+  if (!m) return "";
+  switch (m.type) {
+    case "member":
+      return ` [${members.person(m.id)}]`;
+    case "member_outside_fy":
+      return ` [${members.person(m.id)}; no recorded vote in FY${m.fiscal_year}: ${PDF_OUTSIDE[m.family] ?? "outside their service"}]`;
+    case "ambiguous":
+      return ` [not resolved: ${m.candidates.map((c) => members.person(c)).join(" or ")}; more than one member of that name served in FY${m.fiscal_year}]`;
+    case "unresolved":
+      return " [not a Legistar member name; not resolved]";
+    case "district_label":
+      return " [a district label, not a person]";
+    default:
+      return ""; // speaker, delegation, citywide, blank: the printed value says what it is
+  }
+}
+
+/** One matched printed name and its person, for the member filter's note. */
+function matchedMemberWords(m: MatchedMember, members: MemberCrosswalk, money: boolean): string {
+  const who =
+    m.type === "member" || m.type === "member_outside_fy"
+      ? members.person(m.id)
+      : m.type === "ambiguous"
+        ? `not resolved (${m.candidates.map((c) => members.person(c)).join(" or ")})`
+        : m.type === "unresolved"
+          ? "not resolved (not a Legistar member name)"
+          : m.type === "unknown"
+            ? "not in the member crosswalk"
+            : m.type.replace("_", " ");
+  return `'${m.council_member || "(blank)"}' ${yearSpan(m.years)} → ${who} (${n(m.rows)} row(s)${money ? `, ${usd(m.amount)}` : ""})`;
+}
+
+/**
+ * The member filter's note (#51, as #72's for the disclosure): every printed name and person it
+ * blended, whenever that is more than one person or a name that resolves to no one.
+ */
+function memberFilterNote(ms: MatchedMember[], members: MemberCrosswalk, money: boolean): string[] {
+  const people = new Set(ms.map((m) => (m.id ? `id:${m.id}` : `${m.type}:${m.council_member}`)));
+  if (people.size < 2 && !ms.some((m) => m.type === "ambiguous" || m.type === "unresolved" || m.type === "unknown")) return [];
+  const list = ms.slice(0, 20).map((m) => matchedMemberWords(m, members, money));
+  return [
+    "",
+    `Note: the member filter is a substring match on the name as printed. It matched ${n(ms.length)} printed name/person pair(s), and the totals above combine them: ` +
+      list.join("; ") + (ms.length > 20 ? `; and ${n(ms.length - 20)} more` : "") +
+      ". For one person exactly, use council_member_id (a Legistar person ID).",
+  ];
+}
+
+/** What a council_member_id search counted, and the rows it could not count. */
+function memberIdLines(r: MemberIdReport | null, members: MemberCrosswalk, family: string): string[] {
+  if (!r) return [];
+  const L = [
+    r.printed.length
+      ? `council_member_id ${r.id} is ${members.person(r.id)}. Counted: the rows whose printed member resolves to that person for its year: ` +
+        r.printed.map((p) => `'${p.council_member}' (${yearSpan(p.years)})`).join(", ") + "."
+      : `No ${PDF_FAMILY_LABEL[family]} row's printed member resolves to Legistar person ${r.id}${members.names.has(r.id) ? ` (${members.names.get(r.id)})` : ""}.`,
+  ];
+  if (r.not_counted.length)
+    L.push(
+      `Not counted: ${r.not_counted.map((m) => `${n(m.rows)} row(s) printed '${m.council_member}' in FY${m.fiscal_year}`).join("; ")}. ` +
+        `In those years more than one member of that name served (${[...new Set(r.not_counted.flatMap((m) => m.candidates))].map((c) => members.person(c)).join(" or ")}), so the name is not resolved and is never guessed. To see them, search member '${r.not_counted[0].council_member}' with fiscal_year ${r.not_counted[0].fiscal_year}.`
+    );
+  return ["", ...L];
+}
+
+function scheduleCText(res: ReturnType<typeof searchScheduleC>, members: MemberCrosswalk): string {
   const L: string[] = [
     `${n(res.matched)} matching award row(s) in the adopted budget's Schedule C, read from the PDF. ${shownLine(res.rows.length, res.matched, "highest amount first", 500)}`,
+    ...memberIdLines(res.member_id, members, "schedule_c"),
     "",
     `Totals over all ${n(res.matched)} match(es): ${n(res.with_amount)} row(s) with an amount, ${usd(res.amount)}` +
       (res.no_amount ? `; ${n(res.no_amount)} row(s) with no amount read, in no sum` : "") +
@@ -625,6 +706,12 @@ function scheduleCText(res: ReturnType<typeof searchScheduleC>): string {
       res.by_disclosure.map((d) => `${d.disclosure_status} ${n(d.rows)} row(s) ${usd(d.amount)}`).join("; ") + ".",
     ...byYearLines(res.by_year, (y) => usd(y.amount)),
   ];
+  L.push(...memberFilterNote(res.matched_members, members, true));
+  if (res.member_other_columns.rows)
+    L.push(
+      "",
+      `Note: ${n(res.member_other_columns.rows)} more matched row(s), ${usd(res.member_other_columns.amount)}, match the member filter only in the sponsor or delegation column. Those columns are printed as is (co-sponsor lists and borough delegations) and are not resolved to a person; council_member_id does not search them.`
+    );
   if (res.subaward_matches.rows)
     L.push("", `Note: ${n(res.subaward_matches.rows)} sub-award row(s), ${usd(res.subaward_matches.amount)}, also match the organization filter: they are a list printed under one award saying who it passes the money to, not awards, and are in no total. They are listed under their award when it is shown.`);
   L.push("", "Rows:");
@@ -633,7 +720,7 @@ function scheduleCText(res: ReturnType<typeof searchScheduleC>): string {
     const subs = res.subawards.get(`${r.fiscal_year}|${r.award_id}`) ?? [];
     L.push(
       `FY${r.fiscal_year} · ${amt(r.amount)}${r.amount_printed ? ` (printed "${r.amount_printed}")` : ""} · ${r.org} (EIN ${r.ein_printed || r.ein || "—"})` +
-        (r.member ? ` · member ${r.member}` : "") + (r.sponsor ? ` · sponsor ${r.sponsor}` : "") + (r.delegation ? ` · delegation ${r.delegation}` : "") +
+        (r.member ? ` · member ${r.member}${pdfMemberTag(s.member, members)}` : "") + (r.sponsor ? ` · sponsor ${r.sponsor}` : "") + (r.delegation ? ` · delegation ${r.delegation}` : "") +
         (r.agency ? ` · agency ${r.agency}` : "") +
         `\n    ${String(r.section).replace("_", " ")}` + (r.category ? ` · category: ${r.category}` : "") + (r.initiative ? ` · initiative: ${r.initiative}` : "") + ` · award ${r.award_id}` +
         (r.purpose ? `\n    purpose: ${r.purpose}` : "") +
@@ -669,9 +756,10 @@ function trActionLines(rows: { action: string; rows: number; with_amount: number
   ];
 }
 
-function transparencyText(res: ReturnType<typeof searchTransparency>): string {
+function transparencyText(res: ReturnType<typeof searchTransparency>, members: MemberCrosswalk): string {
   const L: string[] = [
     `${n(res.matched)} matching row(s) in the Council's transparency resolutions (changes to the adopted budget's designations), read from the PDFs. ${shownLine(res.rows.length, res.matched, "newest resolution first, then in printed order", 500)}`,
+    ...memberIdLines(res.member_id, members, "transparency"),
     "",
     `Totals over all ${n(res.matched)} match(es), by kind of change (rescissions print as negative amounts):`,
     ...trActionLines(res.by_action.filter((a) => a.agency_side !== 1), "  Money to or from organizations:"),
@@ -695,6 +783,7 @@ function transparencyText(res: ReturnType<typeof searchTransparency>): string {
         );
       })
     );
+  L.push(...memberFilterNote(res.matched_members, members, false));
   if (res.resolutions.length)
     L.push("", `Resolutions matched (${res.resolutions.length}): ` + res.resolutions.slice(0, 30).map((r) => `FY${r.fiscal_year} ${r.resolution_number} (${r.resolution_date}) ${n(r.rows)} row(s)`).join("; ") + (res.resolutions.length > 30 ? `; and ${res.resolutions.length - 30} more` : ""));
   L.push("", "Rows:");
@@ -705,7 +794,7 @@ function transparencyText(res: ReturnType<typeof searchTransparency>): string {
         (r.budget_fiscal_year !== r.fiscal_year ? ` · changes the FY${r.budget_fiscal_year} budget` : "") +
         `\n    ${ACTION_WORDS[r.action] ?? r.action} · ${r.amount_kind === "no_dollar_amount" ? "no dollar amount (in no sum)" : `${amt(r.amount)}${r.amount_printed ? ` (printed "${r.amount_printed}")` : ""}`}` +
         (r.org ? ` · ${r.org}` : "") + (r.ein || r.ein_printed ? ` (EIN ${r.ein_printed || r.ein})` : "") +
-        (r.member ? ` · member ${r.member}` : "") + (r.source ? ` · source ${r.source}` : "") + (r.agency ? ` · agency ${r.agency}` : "") +
+        (r.member ? ` · member ${r.member}${pdfMemberTag(s.member, members)}` : "") + (r.source ? ` · source ${r.source}` : "") + (r.agency ? ` · agency ${r.agency}` : "") +
         (r.agency_side === 1 ? " · a City-agency line (the agency's own line, not money to or from an organization)" : "") +
         (r.purpose ? `\n    purpose: ${r.purpose}` : "") +
         (r.fiscal_conduit ? `\n    fiscal conduit: ${r.fiscal_conduit}${r.fiscal_conduit_ein ? ` (EIN ${r.fiscal_conduit_ein})` : ""}` : "") +
@@ -957,14 +1046,15 @@ export const TOOLS = [
   },
   {
     name: "search_schedule_c_awards",
-    description: `Search the adopted budget's Schedule C (the Council's discretionary awards as printed in the budget PDF: the body and appendices A, B and C), FY2018–FY2027, from the checked tables BetaNYC reads from the PDFs. Every row is labeled "checked, review in progress" or "checked and reviewed", with its flags, review decision and note where decided, three links (the row highlighted on its page in the explorer, the PDF on GitHub at the build's commit, the publisher's copy where known), and disclosure_status: whether the same EIN and amount is in the Council's disclosure spreadsheet (search_disclosure_awards, a separate tool and a later snapshot) as cleared or pending, or unmatched with the reason. Values are as printed. Sub-awards printed under an award (the Jobs to Build On partner list, FY2018 and FY2019) are listed under it and never counted. Filter by any combination of fiscal_year, organization, ein, member (member or sponsor), category, initiative, agency, purpose, disclosure_status, min_amount, max_amount; the answer gives the TRUE match count and totals over every match, highest amount first. Needs the optional PDF tables download; without it the answer says how to add it.${TEXT_RULE}`,
+    description: `Search the adopted budget's Schedule C (the Council's discretionary awards as printed in the budget PDF: the body and appendices A, B and C), FY2018–FY2027, from the checked tables BetaNYC reads from the PDFs. Every row is labeled "checked, review in progress" or "checked and reviewed", with its flags, review decision and note where decided, three links (the row highlighted on its page in the explorer, the PDF on GitHub at the build's commit, the publisher's copy where known), and disclosure_status: whether the same EIN and amount is in the Council's disclosure spreadsheet (search_disclosure_awards, a separate tool and a later snapshot) as cleared or pending, or unmatched with the reason. Values are as printed. Sub-awards printed under an award (the Jobs to Build On partner list, FY2018 and FY2019) are listed under it and never counted. Filter by any combination of fiscal_year, organization, ein, member (member, sponsor or delegation, as printed) or council_member_id (exact Legistar person ID, resolved per year from the printed member: 'Levin' and 'Levine' are different people), category, initiative, agency, purpose, disclosure_status, min_amount, max_amount; the answer gives the TRUE match count and totals over every match, highest amount first. Needs the optional PDF tables download; without it the answer says how to add it.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
       properties: {
         fiscal_year: { type: "number", description: "FY2018–FY2027. Earlier years were read only by the old parser and are not served." },
         organization: { type: "string", description: "Organization as printed (case- and accent-insensitive substring; % and _ literal)" },
         ein: { type: "string", description: "EIN, exactly 9 digits, hyphens optional. Matches the organization's EIN or its fiscal conduit's (the group that receives the money for it), as the explorer does" },
-        member: { type: "string", description: "Council member, sponsor or delegation as printed (substring), e.g. 'Brewer', 'Speaker', 'Queens Delegation'" },
+        member: { type: "string", description: "Council member, sponsor or delegation as printed (substring), e.g. 'Brewer', 'Speaker', 'Queens Delegation'. A surname is not a person ('Levin' also matches 'Levine'; 'Williams' is two people in different years): the answer lists every printed name and person it matched. For one person, use council_member_id." },
+        council_member_id: { type: "string", description: "Exact Legistar person ID of a council member (digits only, e.g. '7567' Stephen T. Levin, '7634' Mark Levine), matched on the row's printed member column (not sponsor or delegation) as resolved for its fiscal year by the repo's member crosswalk (data/pdf_council_member_crosswalk.csv, #72's rules, from the Council MCP's Legistar index). One person's rows are found under every label they were printed with ('Sanchez' to FY2026, 'P. Sanchez' in FY2027). Rows whose printed name is ambiguous (two members of that name served that year, e.g. FY2022 'Barron', FY2026 'Sanchez'), unresolved, a delegation, 'Speaker' or blank carry no ID and never match; the answer says which of them could be the person." },
         category: { type: "string", description: "Category heading (substring), e.g. 'Older Adult Services'" },
         initiative: { type: "string", description: "Initiative (substring)" },
         agency: { type: "string", description: "Agency as printed (substring), e.g. 'DYCD'" },
@@ -980,7 +1070,7 @@ export const TOOLS = [
   },
   {
     name: "search_transparency_changes",
-    description: `Search the Council's transparency resolutions, FY2018–FY2027: the changes made to the adopted budget's designations after adoption (new designations, rescissions, purpose-of-funds changes), from the checked tables BetaNYC reads from the resolution PDFs. Each row gives the resolution number and date, the chart, the budget year it changes, the organization, EIN, member, agency and amount as printed, with its status label ("checked, review in progress" or "checked and reviewed"), flags, review decision where decided, any hidden text (text in the PDF a reader cannot see on the page, always labeled), and its three links. Rows from charts that print no dollar amount are kept and never summed. Filter by fiscal_year (the resolutions' year), budget_fiscal_year, organization, ein, member, resolution_number (substring, e.g. '1013-2025'), resolution_date (YYYY-MM-DD) or a date_from / date_to range, action. Newest resolution first. Totals per kind of change cover every match. Needs the optional PDF tables download.${TEXT_RULE}`,
+    description: `Search the Council's transparency resolutions, FY2018–FY2027: the changes made to the adopted budget's designations after adoption (new designations, rescissions, purpose-of-funds changes), from the checked tables BetaNYC reads from the resolution PDFs. Each row gives the resolution number and date, the chart, the budget year it changes, the organization, EIN, member, agency and amount as printed, with its status label ("checked, review in progress" or "checked and reviewed"), flags, review decision where decided, any hidden text (text in the PDF a reader cannot see on the page, always labeled), and its three links. Rows from charts that print no dollar amount are kept and never summed. Filter by fiscal_year (the resolutions' year), budget_fiscal_year, organization, ein, member (as printed) or council_member_id (exact Legistar person ID, resolved per year from the printed member), resolution_number (substring, e.g. '1013-2025'), resolution_date (YYYY-MM-DD) or a date_from / date_to range, action. Newest resolution first. Totals per kind of change cover every match. Needs the optional PDF tables download.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
       properties: {
@@ -988,7 +1078,8 @@ export const TOOLS = [
         budget_fiscal_year: { type: "number", description: "The budget year a row's chart changes (a year's resolutions can change another year's budget)" },
         organization: { type: "string", description: "Organization as printed (substring)" },
         ein: { type: "string", description: "EIN, exactly 9 digits, hyphens optional. Matches the organization's EIN or its fiscal conduit's" },
-        member: { type: "string", description: "Council member as printed (substring)" },
+        member: { type: "string", description: "Council member as printed (substring). A surname is not a person ('Levin' also matches 'Levine'; 'Williams' is two people in different years): the answer lists every printed name and person it matched. For one person, use council_member_id." },
+        council_member_id: { type: "string", description: "Exact Legistar person ID of a council member (digits only, e.g. '7567' Stephen T. Levin, '7634' Mark Levine), matched on the row's printed member as resolved for its fiscal year by the repo's member crosswalk (data/pdf_council_member_crosswalk.csv, #72's rules, from the Council MCP's Legistar index). One person's rows are found under every label they were printed with ('Sanchez' to FY2026, 'P. Sanchez' in FY2027). Rows whose printed name is ambiguous (two members of that name served that year, e.g. FY2022 'Barron', FY2026 'Sanchez'), unresolved, a delegation, 'Speaker' or blank carry no ID and never match; the answer says which of them could be the person." },
         resolution_number: { type: "string", description: "Resolution number (substring, always: an identifier, so whole_word and the short-term rule do not apply; '101' finds '1013-2025'), e.g. 'Res 1013-2025' or '1013-2025'" },
         resolution_date: { type: "string", description: "Resolution date, exactly, YYYY-MM-DD" },
         date_from: { type: "string", description: "Resolutions dated on or after, YYYY-MM-DD" },
@@ -1120,7 +1211,7 @@ const ALIAS_HINTS: Record<string, { targets: string[]; why: string; whyByTool?: 
   postal_code: { targets: ["zip"], why: "zip is the 5-digit ZIP derived from the published postal_code" },
   zip_code: { targets: ["zip"], why: "the ZIP filter is named zip" },
   council_member: {
-    targets: ["sponsor", "sponsor_exact", "member"],
+    targets: ["sponsor", "sponsor_exact", "member", "council_member_id"],
     why: "capital rows name the sponsor as printed",
     whyByTool: {
       search_schedule_c_awards: "member matches the printed member or sponsor",
@@ -1183,6 +1274,13 @@ function emptyError(name: string, v?: string): string | null {
   if (v.length > MAX_FILTER_LENGTH) return `${name} is ${n(v.length)} characters; the limit is ${MAX_FILTER_LENGTH}.`;
   return fold(v) === "" ? `${name} is empty; omit it, or give a value.` : null;
 }
+
+/** #51: council_member_id on the PDF tools is a Legistar person ID, digits only, as on search_disclosure_awards. */
+function memberIdError(v?: string | number): string | null {
+  if (v == null) return null;
+  return /^\d+$/.test(String(v).trim()) ? null : `council_member_id must be a Legistar person ID (digits only); got ${JSON.stringify(v)}. To search by name, use member.`;
+}
+const memberIdArg = (v?: string | number) => (v == null ? undefined : String(v).trim());
 
 /** An EIN filter is 9 digits, hyphens optional; anything else is refused, never guessed at. */
 function einError(v?: string): string | null {
@@ -1374,6 +1472,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             organization: z.string().optional(),
             ein: z.string().optional(),
             member: z.string().optional(),
+            council_member_id: z.union([z.string(), z.number().int()]).optional(),
             category: z.string().optional(),
             initiative: z.string().optional(),
             agency: z.string().optional(),
@@ -1385,7 +1484,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             limit: z.number().int().optional(),
           }).strict(), args);
         const guard =
-          einError(a.ein) ?? emptyError("organization", a.organization) ?? emptyError("member", a.member) ??
+          einError(a.ein) ?? emptyError("organization", a.organization) ?? emptyError("member", a.member) ?? memberIdError(a.council_member_id) ??
           emptyError("category", a.category) ?? emptyError("initiative", a.initiative) ?? emptyError("agency", a.agency) ??
           emptyError("purpose", a.purpose) ?? limitError(a.limit) ?? rangeError(a.min_amount, a.max_amount);
         if (guard) return errorResult(guard);
@@ -1394,10 +1493,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const t = got.tables;
         const yg = pdfYearGuard(t, "schedule_c", a.fiscal_year);
         if (yg.text) return textResult(yg.text);
-        const res = searchScheduleC(t.db, linkCommit(t), a);
+        const members = memberCrosswalk();
+        const res = searchScheduleC(t.db, linkCommit(t), { ...a, council_member_id: memberIdArg(a.council_member_id) }, members);
         if (res.matched === 0)
-          return textResult(withWordNote(`No matching award rows in Schedule C (checked years ${yearSpan(yg.years)}).${res.subaward_matches.rows ? ` ${n(res.subaward_matches.rows)} sub-award row(s) printed under another award match the organization; they are not awards (search that award's organization to see them).` : ""}\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "schedule_c")}`, res.word_filters, a.whole_word));
-        return textResult(withWordNote(`${scheduleCText(res)}\n\n${pdfFooter(t, "schedule_c")}`, res.word_filters, a.whole_word));
+          return textResult(withWordNote(`No matching award rows in Schedule C (checked years ${yearSpan(yg.years)}).${memberIdLines(res.member_id, members, "schedule_c").join("\n")}${res.subaward_matches.rows ? ` ${n(res.subaward_matches.rows)} sub-award row(s) printed under another award match the organization; they are not awards (search that award's organization to see them).` : ""}\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "schedule_c")}`, res.word_filters, a.whole_word));
+        return textResult(withWordNote(`${scheduleCText(res, members)}\n\n${pdfFooter(t, "schedule_c")}`, res.word_filters, a.whole_word));
       }
 
       case "search_transparency_changes": {
@@ -1407,6 +1507,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             organization: z.string().optional(),
             ein: z.string().optional(),
             member: z.string().optional(),
+            council_member_id: z.union([z.string(), z.number().int()]).optional(),
             resolution_number: z.string().optional(),
             resolution_date: z.string().optional(),
             date_from: z.string().optional(),
@@ -1421,7 +1522,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (a.date_from != null && a.date_to != null && a.date_from.trim() > a.date_to.trim())
           return errorResult(`date_from (${a.date_from}) is after date_to (${a.date_to}); nothing can match.`);
         const guard =
-          einError(a.ein) ?? emptyError("organization", a.organization) ?? emptyError("member", a.member) ??
+          einError(a.ein) ?? emptyError("organization", a.organization) ?? emptyError("member", a.member) ?? memberIdError(a.council_member_id) ??
           emptyError("resolution_number", a.resolution_number) ?? limitError(a.limit);
         if (guard) return errorResult(guard);
         const got = pdfTablesOrAnswer(name);
@@ -1429,9 +1530,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const t = got.tables;
         const yg = pdfYearGuard(t, "transparency", a.fiscal_year);
         if (yg.text) return textResult(yg.text);
-        const res = searchTransparency(t.db, linkCommit(t), { ...a, resolution_date: a.resolution_date?.trim(), date_from: a.date_from?.trim(), date_to: a.date_to?.trim() });
-        if (res.matched === 0) return textResult(withWordNote(`No matching rows in the transparency resolutions (checked years ${yearSpan(yg.years)}).\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "transparency")}`, res.word_filters, a.whole_word));
-        return textResult(withWordNote(`${transparencyText(res)}\n\n${pdfFooter(t, "transparency")}`, res.word_filters, a.whole_word));
+        const members = memberCrosswalk();
+        const res = searchTransparency(t.db, linkCommit(t), { ...a, council_member_id: memberIdArg(a.council_member_id), resolution_date: a.resolution_date?.trim(), date_from: a.date_from?.trim(), date_to: a.date_to?.trim() }, members);
+        if (res.matched === 0) return textResult(withWordNote(`No matching rows in the transparency resolutions (checked years ${yearSpan(yg.years)}).${memberIdLines(res.member_id, members, "transparency").join("\n")}\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "transparency")}`, res.word_filters, a.whole_word));
+        return textResult(withWordNote(`${transparencyText(res, members)}\n\n${pdfFooter(t, "transparency")}`, res.word_filters, a.whole_word));
       }
 
       case "search_capital_book": {

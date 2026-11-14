@@ -25,7 +25,11 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const MCP = join(HERE, "..");
 const DB_PATH = join(MCP, "data", "budget.db");
 
-const ALLOWED_TABLES = ["capital_council", "capital_sources", "capital_vs_omb", "disclosure", "disclosure_years", "meta",
+// member_crosswalk (#51) is the one PDF-derived table the package carries, on purpose: printed
+// member names of the checked (reviewed or closed) Schedule C and transparency years, their row
+// counts and the Legistar person each resolves to. No amount, no organization, no row: the PDF
+// tools use it only when the download is installed. Its own test below holds it to that.
+const ALLOWED_TABLES = ["capital_council", "capital_sources", "capital_vs_omb", "disclosure", "disclosure_years", "member_crosswalk", "meta",
   ...PDF_TABLES, ...OPEN_DATA_TABLES, ...AGENCY_BUDGET_TABLES].sort();
 /** Every input must match one of these: the structured datasets and their manifests. */
 const ALLOWED_INPUTS = [
@@ -40,6 +44,8 @@ const ALLOWED_INPUTS = [
   /^data\/pdf_years\.csv$/,
   /^data\/open_data\/(crosswalk_(expense|capital_award|capital_line|terms_unit)|coverage)\.csv$/,
   /^source\/open-data-watch\.csv$/,
+  // #51: names and Legistar IDs only (see member_crosswalk above).
+  /^data\/pdf_council_member_crosswalk\.csv$/,
   // City agency budgets: NYC Open Data mwzb-yiwb, June-release sums by agency x unit (#284).
   /^source\/agency-budget-qa\/(releases|by_unit|MANIFEST)\.csv$/,
 ];
@@ -72,6 +78,23 @@ test("the package's index holds the spreadsheet tables, and every PDF table is e
   }
 });
 
+test("member_crosswalk, the one PDF-derived table shipped, holds names and person IDs only (#51)", () => {
+  // FAILS if it gains a money, organization or row-level column, or rows of a family-year that
+  // is not checked (reviewed or closed in data/pdf_years.csv).
+  const db = new Database(DB_PATH, { readonly: true });
+  try {
+    const cols = db.prepare("PRAGMA table_info(member_crosswalk)").all().map((c) => c.name);
+    assert.deepEqual(cols, ["family", "fiscal_year", "council_member", "rows", "council_member_type", "council_member_id", "legistar_full_name", "candidate_ids", "method"]);
+    const csv = parse(readFileSync(join(MCP, "..", "data", "pdf_years.csv"), "utf8"), { columns: true, skip_empty_lines: true });
+    const checked = new Set(csv.filter((y) => ["reviewed", "closed"].includes(y.status)).map((y) => `${y.family}|${y.fiscal_year}`));
+    const years = db.prepare("SELECT DISTINCT family, fiscal_year FROM member_crosswalk").all();
+    assert.ok(years.length > 0);
+    for (const y of years) assert.ok(checked.has(`${y.family}|${y.fiscal_year}`), `${y.family} FY${y.fiscal_year} is not a checked family-year`);
+  } finally {
+    db.close();
+  }
+});
+
 test("every file the package's index build read is a structured source", () => {
   // FAILS if build-index --spreadsheet-only reads a PDF, a checked PDF table, or an old-parser CSV.
   const db = new Database(DB_PATH, { readonly: true });
@@ -84,7 +107,7 @@ test("every file the package's index build read is a structured source", () => {
   assert.ok(inputs.length >= 20, `premise: inputs recorded (${inputs.length})`);
   for (const f of inputs) {
     assert.ok(ALLOWED_INPUTS.some((re) => re.test(f)), `not on the structured allowlist: ${f}`);
-    assert.ok(!PDF_DERIVED.some((re) => re.test(f)), `PDF-derived input: ${f}`);
+    if (f !== "data/pdf_council_member_crosswalk.csv") assert.ok(!PDF_DERIVED.some((re) => re.test(f)), `PDF-derived input: ${f}`);
   }
 });
 
