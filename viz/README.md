@@ -38,7 +38,7 @@ presenting those figures as current.
 
 **The budget explorer (`explorer/`, added 2026-10-20).** An in-browser explorer for the
 structured data the MCP serves: the Council's expense funding disclosure (FY2009, FY2011–FY2027)
-and Council capital (FY2015–FY2017, FY2019–FY2027), with the Council-vs-OMB comparison. Its data
+and Council capital (FY2015–FY2027; FY2018 PDF-derived, from the checked §254 book), with the Council-vs-OMB comparison. Its data
 build runs the MCP's own index build and exports that index to Parquet, and a parity test in CI
 checks, year by year, that the two hold the same rows and the same totals. Years with no data
 show "no data for this year" and the recorded reason, never $0. Every row links to the source

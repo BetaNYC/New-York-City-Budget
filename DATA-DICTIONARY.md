@@ -153,6 +153,35 @@ the printed-abbreviation rule); `speaker` 18 / 7,193; `delegation` 97 / 7,870; `
 `district_label` 5 / 384; `blank` 18 / 26,530. 156,544 rows in all, the disclosure table's count.
 `python3 code/build_member_crosswalk.py` prints these.
 
+**Grantee ZIP** (GitHub #70, #247). The address columns are the grantee's **mailing** address as
+printed, not where services were delivered.
+
+| Column | Meaning |
+|---|---|
+| `postal_code` | The ZIP cell as published, never rewritten. |
+| `zip` | **Derived** five-digit ZIP, or blank. Read from `postal_code` and the row's `state` against the Census 2020 ZCTAs (`code/zcta_states.py`), then, for the rows that check leaves `ambiguous_extra_digit` or `state_mismatch`, from the street-address check below. |
+| `zip_status` | How `zip` was read: `valid`, `padded`, `trimmed`, `repaired_extra_digit`, `ambiguous_extra_digit` (no `zip`), `not_a_zcta` (not verified, not fake), `state_mismatch`, `invalid` (no `zip`), `blank` (no `zip`); and from the address check (#247), `repaired_by_address` (was `ambiguous_extra_digit`: the street address matches exactly one NYC address in the City's PAD file, whose ZIP is one of the candidates; `zip` = that ZIP) and `nyc_address_confirmed` (was `state_mismatch`: the address and the printed ZIP are exactly one NYC address, so the printed state is wrong; `zip` unchanged). Rules and counts: DATA-ANOMALIES §22. |
+| `zip_candidates` | `;`-joined five-digit ZIPs, set only on `ambiguous_extra_digit` and `repaired_by_address` rows: every one-digit deletion of the six printed digits that is a ZCTA in the row's state. |
+
+### `data/disclosure_address_check.csv` (GitHub #247)
+
+One row per disclosure row the Census check leaves `ambiguous_extra_digit` or `state_mismatch`
+(63 rows, FY2012–FY2027), checked offline against DCP Planning Labs' normalized PAD file (the file
+NYC's GeoSearch is built from; **not committed**) by `code/disclosure_address_check.py --pad
+<local copy> --write`. `--check` (CI, no PAD needed) fails if the file stops covering exactly
+those rows, a printed value changed, or a settled row does not follow from one match. The
+disclosure build reads it (`code/parse_expense_disclosure.py`) and refuses a row it no longer fits.
+
+| Column | Meaning |
+|---|---|
+| `fiscal_year`, `source_row` | The disclosure row. |
+| `zcta_status`, `postal_code`, `zip_candidates` | The row as the Census check left it. |
+| `borough`, `borough_from` | The borough matched in: from the printed `city` (`city`), else from the ZIP or every candidate ZIP when all point to one borough (`zip`); blank when neither does. |
+| `house_number`, `street_key`, `rules` | The match key after cleanup, and the cleanup rules used (`after_comma_dropped`, `unit_dropped`, `name_before_number`). |
+| `pad_matches`, `pad_zip`, `pad_bbl` | How many distinct PAD addresses (ZIP and tax lot) match, and the one's ZIP and BBL. |
+| `result`, `reason` | `repaired_by_address`, `nyc_address_confirmed`, or `left` (unchanged), and why. |
+| `pad_version`, `pad_sha256` | The PAD release (`26c`) and the sha256 of the downloaded CSV. |
+
 ## `data/{year}/terms/{year}_terms_and_conditions.csv`
 
 Reporting mandates the Council attaches to appropriations. **No printed totals to reconcile against** — this is a list of conditions, not dollars.
@@ -331,6 +360,39 @@ One row per (fiscal year, PDF family) promoted.
 Values are as printed. Where a value is parsed (amounts), the printed text is kept beside it
 (`*_printed`, `*_raw`).
 
+### `data/pdf_council_member_crosswalk.csv` (GitHub #51)
+
+The printed `member` of the Schedule C awards and the transparency rows, resolved to a Legistar
+person per fiscal year. One row per (`family`, `fiscal_year`, `council_member`) of every
+family-year `data/pdf_years.csv` lists as reviewed or closed. Built by
+`code/build_member_crosswalk.py`, with the **same roster and rules as the disclosure crosswalk**
+(#72, above): `--write` writes both files, `--check` fails if either is stale.
+
+| Column | Meaning |
+|---|---|
+| `family` | `schedule_c` or `transparency` |
+| `fiscal_year` | The row's `fiscal_year`: Schedule C's adopted year, a resolution's own year. Not `budget_fiscal_year`: a resolution that changes an earlier year's budget mostly prints the member in office when it passes (resolving on the budget year put 42 pairs outside the person's service, against 5). |
+| `council_member` | The printed `member`, exactly as in the tables (blank included) |
+| `rows` | Rows with that value that year; the MCP build checks these against the loaded tables |
+| `council_member_type`, `council_member_id`, `legistar_full_name`, `method`, `evidence` | As in the disclosure crosswalk. `member_outside_fy` says why in the PDF's terms: all 5 are FY2019–FY2023 resolution rows that change an earlier year's budget and name that year's member (Garodnick, Gentile, Ferreras-Copeland, Espinal, Levine). |
+| `candidate_ids` | `ambiguous` only: the Legistar IDs it could be, `;`-separated, so a search for one of them can say which rows it could not count |
+
+Not resolved, by design: Schedule C's `sponsor` (co-sponsor lists, like `capital.sponsor`) and
+`delegation` columns. There are no file conventions here; the disclosure's FY2021 `Diaz` rule
+rests on that workbook's own evidence and applies to it only. Never join Schedule C to the
+disclosure on the name (DATA-ANOMALIES §21: they print different rosters).
+
+**Outcome (rows):** Schedule C — `member` 56,165; `ambiguous` 328 (FY2021 and FY2022 `Diaz`,
+FY2022 `Barron`, FY2026 `Sanchez`); `unresolved` 3 (`N/A`); `speaker` 2,070; `delegation` 465;
+`citywide` 72; `district_label` 247; `blank` 16,922. Transparency — `member` 33,550;
+`member_outside_fy` 12; `ambiguous` 235 (adds FY2023 `Rodriguez`, where neither match voted);
+`unresolved` 66 (misspellings such as `Ferraras`, `Menchcaca`, `Dinowtiz`, `D Diaz`; member and
+delegation in one cell, such as `Powers/Manhattan`; `Local`, `Anti-Poverty`); `speaker` 1,561;
+`delegation` 5,271; `citywide` 51; `district_label` 251 (including FY2026 `Council District 2`
+and `3`, read by the same district rule as `CD 22`); `blank` 12,624. The non-person values #51
+listed from the retired parser (`Center`, `Placement`, `The`, `Program`, `Brooks-`) are not in
+the checked tables.
+
 ### `data/fy27/pdf/capital_sd/`
 
 The FY2027 §254 supporting-detail book.
@@ -377,7 +439,7 @@ Built by `code/build_capital_council.py`; overview, sources per year and code me
 | `sponsor` | As printed: member surnames, delegations, caucuses, "Technical Adjustments", "Admin". |
 | `title`, `description` | As printed. t474's FY2019 `title` often names the organization. |
 | `amount` | Dollars, as printed; negative on some technical adjustments; blank only on a flagged split record. |
-| `source_kind` | `council_workbook` or `open_data_t474`. |
+| `source_kind` | `council_workbook`, `open_data_t474`, or `pdf_capital_sd` (#202: FY2018 only, **PDF-derived**, Part I of the checked §254 book whose review is `closed`; `source_file` is the PDF, `source_row` its page and row such as `p4r1`, `council_district` blank because the book prints none, `sponsor` upper case as printed). |
 | `source_file`, `source_row` | The workbook and its 1-based sheet row, or the t474 file and the row's SODA `:id`. |
 | `row_flag` | `split_record_amount_unknown`: a t474 record broken across rows whose amount the Council's own files cannot prove (data/capital/RECONCILIATION.md §2). Blank otherwise. |
 
@@ -487,3 +549,25 @@ read it.
 
 Gross, like the CSV. `meta.agency_budget` (JSON) records the dataset, the snapshot's retrieval
 time, the first and last year, and each tag's June release.
+
+## OMB's Capital Commitment Plan and City Planning's CPDB (MCP index, since 2.1.0, #250)
+
+Built by [`mcp/scripts/capital-plan.mjs`](mcp/scripts/capital-plan.mjs) from the committed NYC Open
+Data snapshots in `source/open-data-2cmn-uidm/`, `source/open-data-djxg-kcfi/` and
+`source/open-data-fi59-268w/`, each checked against its `MANIFEST.csv` (sha256 and row count)
+before a row is read. Values are as published; the only changes are the budget line's normal form
+(`budget_line_norm`, "P D018", the same rule as `council_capital_awards.csv`), dates as
+`YYYY-MM-DD`, and a planned commitment's fiscal year. The MCP's `search_capital_plan` reads them.
+
+| Table | Rows | One row per | Unit |
+|---|---:|---|---|
+| `capital_plan` | 60,738 | plan release (`pub_date`) × budget line × funding (`CITY` / `NON CITY`) | **Thousands of dollars**, as OMB publishes them: `year1_amt_k` … `year5_amt_k`, for `yr1_fy` and the next years. A fifth year OMB did not publish is NULL |
+| `cpdb_commitments` | 41,277 | planned commitment: project (`maprojid`) × budget line × date | Dollars (DATA-ANOMALIES §59). `plan_fy` is the fiscal year of `plancommdate`, July to June |
+| `cpdb_projects` | 12,929 | FMS project (`maprojid`) | Dollars: planned, adopted, allocated, committed and spent totals, and `spent_total_checkbooknyc`. **No budget line**; a project's totals are the whole project's, never split to a line |
+| `cpdb_codes` | — | sponsor agency or commitment code | The name behind each code in `cpdb_commitments` |
+| `capital_plan_sources` | 3 | dataset | Each snapshot's file, sha256, rows, `rowsUpdatedAt`, retrieval date, unit and CPDB version |
+
+`capital_plan` leaves out the one `2cmn-uidm` row with no release, line or year (amounts that look
+like grand totals), as `code/build_capital_council.py` does; 343 rows whose `budline` does not
+start with their `projtype` have no `budget_line_norm`. These tables link to the Council's capital
+list by budget line only: Council project IDs appear in no OMB or DCP dataset.

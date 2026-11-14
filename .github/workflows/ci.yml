@@ -34,6 +34,9 @@ on:
       - "data/capital/**"
       - "data/pdf_years.csv"
       - "data/pdf_review_suggestions.csv"
+      - "data/pdf_council_member_crosswalk.csv"   # member_crosswalk in the npm index (#51)
+      - "WHATS-CHANGED.md"           # shipped in the npm package; job whats-changed checks it (#310)
+      - "scripts/whats_changed.py"
       - "data/fy*/pdf/**"
       - "source/wayback-council/**"
       - "source/expense-funding-disclosure/**"
@@ -67,6 +70,9 @@ on:
       - "data/capital/**"
       - "data/pdf_years.csv"
       - "data/pdf_review_suggestions.csv"
+      - "data/pdf_council_member_crosswalk.csv"   # member_crosswalk in the npm index (#51)
+      - "WHATS-CHANGED.md"           # shipped in the npm package; job whats-changed checks it (#310)
+      - "scripts/whats_changed.py"
       - "data/fy*/pdf/**"
       - "source/wayback-council/**"
       - "source/expense-funding-disclosure/**"
@@ -252,6 +258,23 @@ jobs:
   # the npm registry — not main — is what ships. A PR that changes shipped code
   # but leaves mcp/package.json at a version already on the registry would merge
   # "green" yet publish nothing. This job fails such a PR with a bump reminder.
+  # The What's changed standard (BetaNYC/betanyc-ai-workspace#1637, #310), § 10 checks 1-8:
+  # WHATS-CHANGED.md parses, dates and tags hold, corrections say what to re-check, MCP entries
+  # name a version that exists, old entries are append-only against the base, and a version
+  # bump has an entry. scripts/whats_changed.py is the workspace's file, copied in unchanged.
+  # fetch-depth: 0 so the base ref exists for the append-only and version-bump checks.
+  whats-changed:
+    name: What's changed
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: What's changed
+        run: python3 scripts/whats_changed.py check WHATS-CHANGED.md --package-json mcp/package.json --changelog mcp/CHANGELOG.md --base-ref "origin/${{ github.base_ref || 'main' }}"
+
   # PR-only. Runs at repo root (no working-directory default) because it diffs
   # the whole tree and reads mcp/package.json by path.
   # Docs/CI-only PRs and PRs outside the shipped paths skip untouched.
@@ -280,7 +303,7 @@ jobs:
           # datasets build-index.mjs bakes into the shipped SQLite index (2.0.0;
           # before 2.0 this was data/combined, which no longer ships). The repo's
           # wider budget-data pipeline outside these paths is excluded.
-          SHIPPED="mcp/src mcp/scripts mcp/package.json data/disclosure_years.csv :(glob)data/fy*/expense_disclosure/** data/capital source/wayback-council source/expense-funding-disclosure source/open-data-t474-a92g data/open_data source/open-data-watch.csv source/agency-budget-qa"
+          SHIPPED="mcp/src mcp/scripts mcp/package.json data/disclosure_years.csv :(glob)data/fy*/expense_disclosure/** data/capital source/wayback-council source/expense-funding-disclosure source/open-data-t474-a92g data/open_data source/open-data-watch.csv source/agency-budget-qa data/pdf_council_member_crosswalk.csv WHATS-CHANGED.md"
           # Word-split SHIPPED into pathspecs, with shell globbing off so git (not
           # bash) expands the :(glob) pathspec.
           set -f

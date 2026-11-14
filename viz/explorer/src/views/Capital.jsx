@@ -1,9 +1,11 @@
-import { useQueries } from "../duckdb/useDuckDB.js";
+import { useDuckDB, useQueries } from "../duckdb/useDuckDB.js";
+import { PHASES, ensureData } from "../duckdb/store.js";
+import { aboutMb, bytesOf, tablesForView } from "../duckdb/needs.js";
 import { CAPITAL_BEFORE_FIRST } from "../data/years.js";
 import { CAPITAL_FLAG_NOTE, count, flagNotes, money, plural } from "../format.js";
 import { sourceLinks } from "../paths.js";
 import * as Q from "../query/sql.js";
-import { capitalFilters, writeHash } from "../state/hash.js";
+import { capitalFilters, capitalYear, writeHash } from "../state/hash.js";
 import { HashLink, Matched, NoData, Notice, Pager, SelectFilter, Status, TextFilter } from "../components/ui.jsx";
 import * as P from "../query/pdf.js";
 import { FlagBadge, ReviewedLabel, SourcePageLink } from "../components/pdf.jsx";
@@ -20,9 +22,9 @@ const bookYears = (pdfYears) => (pdfYears ?? []).filter((y) => y.family === "cap
  * budget line): the PDF adds per-member sponsors (SANCHEZ J. / SANCHEZ P., where the workbook says
  * "Sanchez") and the FY+1..FY+3 columns. Null when no book is loaded for those years.
  */
-function usePdfMatches(rows, pdfYears) {
+function usePdfMatches(rows, pdfYears, on = true) {
   const years = bookYears(pdfYears).map((y) => Number(y.fiscal_year));
-  const want = [...new Set((rows ?? []).map((r) => Number(r.report_year)))].filter((y) => years.includes(y));
+  const want = on ? [...new Set((rows ?? []).map((r) => Number(r.report_year)))].filter((y) => years.includes(y)) : [];
   const q = useQueries(true, `pdfm|${want.join(",")}`, () => {
     const mq = P.capitalPdfMatchesQuery(want);
     return mq ? { m: mq } : null;
@@ -32,14 +34,18 @@ function usePdfMatches(rows, pdfYears) {
 
 /** Council capital designations: by report year, sponsor, borough, district, budget line. */
 export default function Capital({ state, set, go, manifest, capitalYears, pdfYears }) {
-  const f = capitalFilters(state);
-  const gap = gapFor(state.cfy, manifest.capital, capitalYears);
+  // The report year shown: the one chosen, or with no year in the link the newest (#301).
+  const cfy = capitalYear(state, capitalYears.at(-1));
+  const f = capitalFilters({ ...state, cfy });
+  const gap = gapFor(cfy, manifest.capital, capitalYears);
+  // The §254 book's columns and the NYC Open Data badges are DuckDB queries: with the engine only.
+  const extras = useDuckDB().phase === PHASES.READY;
   const q = useQueries(true, JSON.stringify([f, state.cpage]), () =>
     gap ? null : { totals: Q.capitalTotalsQuery(f), rows: Q.capitalRowsQuery(f, state.cpage) }
   );
   const first = manifest.capital.first;
   const last = manifest.capital.last;
-  const yearOptions = [["", "All report years"]];
+  const yearOptions = [["0", "All report years"]];
   for (let y = last; y >= first; y--) yearOptions.push([String(y), capitalYears.includes(y) ? `FY${y}` : `FY${y} (no data)`]);
 
   return (
@@ -50,7 +56,7 @@ export default function Capital({ state, set, go, manifest, capitalYears, pdfYea
         for later years are only plans. We add up the totals ourselves, because only the FY2015 and FY2016 lists print their own.
       </p>
       <form className="filters" onSubmit={(e) => e.preventDefault()}>
-        <SelectFilter label="Report year" value={state.cfy ?? ""} options={yearOptions} onApply={(v) => set({ cfy: v === "" ? null : Number(v) })} />
+        <SelectFilter label="Report year" value={cfy == null ? "0" : String(cfy)} options={yearOptions} onApply={(v) => set({ cfy: Number(v) })} />
         <TextFilter label="Amount for FY" type="number" value={state.afy ?? ""} onApply={(v) => set({ afy: v === "" ? null : Number(v) })} width="7rem" />
         <TextFilter label="Sponsor" value={state.sponsor} onApply={(v) => set({ sponsor: v })} placeholder="surname" />
         <SelectFilter
@@ -77,16 +83,16 @@ export default function Capital({ state, set, go, manifest, capitalYears, pdfYea
           "{state.line}" is not a budget line: give an agency code of one or two letters, a space or "-", then the line (e.g. P D018).
         </Notice>
       )}
-      {bookYears(pdfYears)
-        .filter((y) => state.cfy == null || Number(y.fiscal_year) === state.cfy)
-        .map((y) => (
-          <BookSummary key={y.fiscal_year} y={y} state={state} go={go} />
-        ))}
+      {extras
+        ? bookYears(pdfYears)
+            .filter((y) => cfy == null || Number(y.fiscal_year) === cfy)
+            .map((y) => <BookSummary key={y.fiscal_year} y={y} state={state} go={go} />)
+        : <ExtrasOffer manifest={manifest} state={state} what="the §254 book's columns and whether each row is on NYC Open Data" />}
       {gap ? (
-        <NoData year={state.cfy} what="capital" reason={gap} />
+        <NoData year={cfy} what="capital" reason={gap} />
       ) : (
         <Status loading={q.loading && !q.data} updating={q.loading && Boolean(q.data)} error={q.error}>
-          {q.data && <Results data={q.data} state={state} set={set} go={go} pdfYears={pdfYears} />}
+          {q.data && <Results data={q.data} state={state} set={set} go={go} pdfYears={pdfYears} extras={extras} />}
         </Status>
       )}
     </section>
@@ -131,15 +137,15 @@ function BookSummary({ y, state, go }) {
   );
 }
 
-function Results({ data, state, set, go, pdfYears }) {
+function Results({ data, state, set, go, pdfYears, extras }) {
   const r = Q.rollupCapital(data.totals);
-  const odCov = useOdCoverage("capital_award");
-  const od = useOdForRows("capital_award", data.rows, capKey);
-  const pdf = usePdfMatches(data.rows, pdfYears);
+  const odCov = useOdCoverage("capital_award", extras);
+  const od = useOdForRows("capital_award", data.rows, capKey, { on: extras });
+  const pdf = usePdfMatches(data.rows, pdfYears, extras);
   return (
     <>
       <Matched matched={r.matched} what="capital rows" />
-      <CoverageStrip family="capital_award" coverage={odCov} title="Council capital awards on NYC Open Data, by report year" />
+      {extras ? <CoverageStrip family="capital_award" coverage={odCov} title="Council capital awards on NYC Open Data, by report year" /> : null}
       {r.matched > 0 && (
         <table className="totals">
           <caption>Totals over all {count(r.matched)} matching rows</caption>
@@ -182,7 +188,7 @@ function Results({ data, state, set, go, pdfYears }) {
                     Amount
                   </th>
                   {pdf ? <th scope="col">§254 book (PDF)</th> : null}
-                  <th scope="col">NYC Open Data</th>
+                  {extras ? <th scope="col">NYC Open Data</th> : null}
                 </tr>
               </thead>
               <tbody>
@@ -201,10 +207,18 @@ function Results({ data, state, set, go, pdfYears }) {
                       <td>{row.sponsor}</td>
                       <td>{row.budget_line}</td>
                       <td>{row.borough}</td>
-                      <td>{row.source_kind === "open_data_t474" ? <span className="muted">unusable (t474)</span> : row.council_district}</td>
+                      <td>
+                        {row.source_kind === "open_data_t474" ? (
+                          <span className="muted">unusable (t474)</span>
+                        ) : row.source_kind === "pdf_capital_sd" ? (
+                          <span className="muted">none printed (PDF-derived)</span>
+                        ) : (
+                          row.council_district
+                        )}
+                      </td>
                       <td className="num">{row.amount === null ? <span className="muted">unknown</span> : money(row.amount)}</td>
                       {pdf ? <PdfCell m={P.pdfMatchFor(pdf, row)} state={state} go={go} /> : null}
-                      <OdCell xs={od?.get(`${Number(row.report_year)}|${row.source_row}|${row.amount_fy ?? ""}`)} coverage={odCov} fy={row.report_year} />
+                      {extras ? <OdCell xs={od?.get(`${Number(row.report_year)}|${row.source_row}|${row.amount_fy ?? ""}`)} coverage={odCov} fy={row.report_year} /> : null}
                     </tr>
                   );
                 })}
@@ -258,13 +272,15 @@ const CAPITAL_FIELDS = [
 export function CapitalRow({ state, go, back, manifest, pdfYears }) {
   const q = useQueries(true, String(state.seq), () => (state.seq != null ? { row: Q.capitalRowQuery(state.seq) } : null));
   const c = q.data?.row?.[0];
-  const pdf = usePdfMatches(c ? [c] : [], pdfYears);
+  // The row itself comes from its report year's file (#301); the book and Open Data panels need the engine.
+  const extras = useDuckDB().phase === PHASES.READY;
+  const pdf = usePdfMatches(c ? [c] : [], pdfYears, extras);
   const m = c && pdf ? P.pdfMatchFor(pdf, c) : null;
   const links = c ? sourceLinks(manifest.source_commit, c.source_file) : null;
-  const odCov = useOdCoverage("capital_award");
-  const od = useOdForRows("capital_award", c ? [c] : [], capKey);
-  const lq = useQueries(true, c ? `odline|${c.report_year}|${c.budget_line_norm}` : "odline|", () => {
-    const q2 = c && c.budget_line_norm ? odForLinesQuery([[c.report_year, c.budget_line_norm]]) : null;
+  const odCov = useOdCoverage("capital_award", extras);
+  const od = useOdForRows("capital_award", c ? [c] : [], capKey, { on: extras });
+  const lq = useQueries(true, c && extras ? `odline|${c.report_year}|${c.budget_line_norm}` : "odline|", () => {
+    const q2 = c && extras && c.budget_line_norm ? odForLinesQuery([[c.report_year, c.budget_line_norm]]) : null;
     return q2 ? { l: q2 } : null;
   });
   return (
@@ -291,11 +307,19 @@ export function CapitalRow({ state, go, back, manifest, pdfYears }) {
               </Notice>
             ))}
             <h3>Source</h3>
-            <p>
-              {c.source_kind === "open_data_t474" ? "NYC Open Data t474-a92g, row id " : "Row "}
-              <strong>{c.source_row}</strong> of <code>{c.source_file}</code>, retrieved {c.retrieved}
-              {c.wayback_timestamp ? `, from an Internet Archive capture (${c.wayback_timestamp})` : ""}.
-            </p>
+            {c.source_kind === "pdf_capital_sd" ? (
+              <p>
+                <strong>PDF-derived.</strong> FY2018 has no Council workbook and no NYC Open Data year, so this row is read from Part I of the checked
+                capital supporting-detail book (§254), whose review is closed: page and row <strong>{c.source_row}</strong> of{" "}
+                <code>{c.source_file}</code>. The book prints no council district.
+              </p>
+            ) : (
+              <p>
+                {c.source_kind === "open_data_t474" ? "NYC Open Data t474-a92g, row id " : "Row "}
+                <strong>{c.source_row}</strong> of <code>{c.source_file}</code>, retrieved {c.retrieved}
+                {c.wayback_timestamp ? `, from an Internet Archive capture (${c.wayback_timestamp})` : ""}.
+              </p>
+            )}
             <ul>
               {links && (
                 <li>
@@ -314,7 +338,11 @@ export function CapitalRow({ state, go, back, manifest, pdfYears }) {
                 </li>
               )}
             </ul>
-            <OdPanel xs={od?.get(`${Number(c.report_year)}|${c.source_row}|${c.amount_fy ?? ""}`)} coverage={odCov} fy={c.report_year} what="capital award" />
+            {extras ? (
+              <OdPanel xs={od?.get(`${Number(c.report_year)}|${c.source_row}|${c.amount_fy ?? ""}`)} coverage={odCov} fy={c.report_year} what="capital award" />
+            ) : (
+              <ExtrasOffer manifest={manifest} state={state} what="whether this row is on NYC Open Data, and where it is in the §254 book" />
+            )}
             {lq.data?.l?.length ? (
               <>
                 <h3>Its budget line on NYC Open Data</h3>
@@ -365,5 +393,29 @@ export function CapitalRow({ state, go, back, manifest, pdfYears }) {
         )}
       </Status>
     </section>
+  );
+}
+
+/**
+ * The capital list and a capital row come from small JSON files (#301). The §254 book's columns and
+ * the NYC Open Data badges need the query engine and their tables: offered, with their size.
+ */
+function ExtrasOffer({ manifest, state, what }) {
+  const phase = useDuckDB().phase;
+  const tables = tablesForView({ ...state, view: "capital" }, manifest);
+  const loading = phase !== PHASES.IDLE && phase !== PHASES.ERROR;
+  return (
+    <p className="muted small">
+      {loading ? (
+        <span role="status">Loading the query engine and those tables…</span>
+      ) : (
+        <>
+          To keep this page small, it does not yet show {what}. They need the query engine (about 8.6 MB) and {aboutMb(bytesOf(manifest, tables))} of data.{" "}
+          <button type="button" className="linkish" onClick={() => ensureData().catch(() => {})}>
+            {phase === PHASES.ERROR ? "Could not load them. Try again" : "Show them"}
+          </button>
+        </>
+      )}
+    </p>
   );
 }

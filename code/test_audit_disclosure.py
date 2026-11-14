@@ -553,7 +553,9 @@ def test_corpus_pins(real):
     assert "'trimmed': 41" in by["G7"]["note"] and "'invalid': 169" in by["G7"]["note"]
     assert by["G11"]["status"] == "pass" and "41 rows trimmed (13 values" in by["G11"]["note"]
     assert by["G12"]["status"] == "pass" and "69 six-digit rows (13 values)" in by["G12"]["note"]
-    assert "'ambiguous_extra_digit': 32, 'repaired_extra_digit': 37" in by["G12"]["note"]
+    # #247: 25 of the 32 ambiguous rows are settled by the PAD address check (repaired_by_address).
+    assert "'ambiguous_extra_digit': 7, 'repaired_by_address': 25, 'repaired_extra_digit': 37" in by["G12"]["note"]
+    assert "'nyc_address_confirmed': 16" in by["G7"]["note"] and "'state_mismatch': 15" in by["G7"]["note"]
     # Issue #72: only the 3 export-time names (341 rows) fall outside their year; no shared IDs;
     # Levin != Levine.
     assert by["G8"]["count"] == 341 and "0 rows typed member fail" in by["G8"]["note"]

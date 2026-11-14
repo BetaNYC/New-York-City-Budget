@@ -41,6 +41,7 @@ on:
       - "research/*/data/**"
       - "source/**"
       - "viz/agencies/data/**"   # the agency CSV; code/test_agency_budget_cleanup.py checks it (#265)
+      - "data/disclosure_address_check.csv"   # the PAD address check; code/test_disclosure_address_check.py (#247)
       - ".github/workflows/python-checks.yml"
   push:
     branches: [main]
@@ -53,6 +54,7 @@ on:
       - "research/*/data/**"
       - "source/**"
       - "viz/agencies/data/**"   # the agency CSV; code/test_agency_budget_cleanup.py checks it (#265)
+      - "data/disclosure_address_check.csv"   # the PAD address check; code/test_disclosure_address_check.py (#247)
       - ".github/workflows/python-checks.yml"
   workflow_dispatch:
 

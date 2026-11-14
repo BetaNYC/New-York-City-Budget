@@ -20,7 +20,8 @@
  * The Council capital report years the repo publishes. FY2018 is a documented gap
  * (data/capital/README.md). Adding or dropping a year is a deliberate edit here AND there.
  */
-export const CAPITAL_REPORT_YEARS = [2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027];
+// FY2018 since #202: PDF-derived, from the closed §254 book (source_kind pdf_capital_sd).
+export const CAPITAL_REPORT_YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027];
 
 /**
  * @param {import("better-sqlite3").Database} db  the built index (read-only is fine)

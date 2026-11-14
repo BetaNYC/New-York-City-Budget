@@ -1240,6 +1240,18 @@ def _audit_state(cell, known):
     return _AUDIT_STATE_NAMES.get(state.lower(), "")
 
 
+def _address_settled(path=None):
+    """{(fiscal_year, source_row): (result, pad_zip)} for the rows the PAD address check settled
+    (data/disclosure_address_check.csv, #247), read directly, not through its module."""
+    path = path or os.path.join(ROOT, "data", "disclosure_address_check.csv")
+    if not os.path.exists(path):
+        return {}
+    with open(path, newline="", encoding="utf-8") as f:
+        return {(r["fiscal_year"], r["source_row"]): (r["result"], r["pad_zip"])
+                for r in csv.DictReader(f) if r["result"] != "left" and r["pad_matches"] == "1"}
+
+
+
 @question("G7", "Is every ZIP the dataset pads, trims or calls valid a real 2020 ZCTA (Census), "
           "is a 4-digit ZIP padded (or a ragged ZIP+4 trimmed, or a 6-digit ZIP repaired) only "
           "into a ZCTA of the row's own state, and is every '#N/A' or '0' ZIP invalid?", "leading-zero loss padded blindly / ZIP not checked (issue #70)", "new",
@@ -1257,9 +1269,11 @@ def q_zip(ctx):
     (its source file's sha256 is in source/census-zcta/MANIFEST.csv). Reports counts by status."""
     zctas = _census_zctas()
     known = set().union(*zctas.values())
+    settled = _address_settled()
     bad, counts = [], collections.Counter()
     for r in ctx["csv"]:
         st, z, raw = r.get("zip_status"), r.get("zip", ""), r["postal_code"]
+        chk = settled.get((str(r.get("fiscal_year", "")), str(r.get("source_row", ""))))
         counts[st] += 1
         state = _audit_state(r["state"], known)
         ok = {
@@ -1275,6 +1289,12 @@ def q_zip(ctx):
             and r.get("zip_candidates", "") == ";".join(_audit_deletions(raw, state, zctas)),
             "invalid": z == "",
             "blank": raw == "" and z == "",
+            # #247: settled by the committed PAD address check; read here from the file itself.
+            "repaired_by_address": chk == ("repaired_by_address", z)
+            and z in _audit_deletions(raw, _audit_state(r["state"], known), zctas)
+            and r.get("zip_candidates", "") == ";".join(_audit_deletions(raw, state, zctas)),
+            "nyc_address_confirmed": chk == ("nyc_address_confirmed", z) and z in zctas
+            and bool(state) and state not in zctas[z],
         }.get(st, False)
         if raw in ("#N/A", "0") and st != "invalid":
             ok = False
@@ -1440,6 +1460,10 @@ def q_zip_extra_digit(ctx):
         cands = r.get("zip_candidates", "")
         want = (("repaired_extra_digit", d[0], "") if len(d) == 1 else
                 ("ambiguous_extra_digit", "", ";".join(d)) if d else ("invalid", "", ""))
+        # #247: an ambiguous row the PAD address check settled keeps its candidates, and its zip
+        # is one of them (G7 checks it against the committed check file).
+        if st == "repaired_by_address" and len(d) > 1 and z in d:
+            want = ("repaired_by_address", z, ";".join(d))
         if (st, z, cands) != want:
             bad.append(f"{ref(r)} postal_code={raw!r} state={r['state']!r} -> {st!r} {z!r} "
                        f"{cands!r}, expected {want}")

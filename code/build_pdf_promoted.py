@@ -555,6 +555,7 @@ def build_all():
             for name, text in files.items():
                 out[os.path.join("data", fy, "pdf", fam, name)] = text
             years.append(year)
+    years = keep_closed(years)
     out["data/pdf_years.csv"] = to_csv(sorted(years, key=lambda y: (-y["fiscal_year"], y["family"])),
                                        YEARS_COLS)
     return out
@@ -568,6 +569,19 @@ def drift(cur, text, limit=12):
     out = [f"  {l[:300]}" for l in difflib.unified_diff(cur.splitlines(), text.splitlines(), lineterm="", n=0)
            if not l.startswith(("---", "+++", "@@"))]
     return out[:limit] + ([f"  ... {len(out) - limit} more changed lines"] if len(out) > limit else [])
+
+
+def keep_closed(years, path=YEARS_CSV):
+    """Promotion writes `reviewed`; only a person changes a family-year to `closed` (PDF-RECIPE.md
+    Step 9). So a family-year the committed data/pdf_years.csv calls `closed` stays `closed`, as
+    long as it is the same PDF (same sha256); a re-read of a different PDF goes back to `reviewed`."""
+    if not os.path.exists(path):
+        return years
+    with open(path, newline="", encoding="utf-8") as f:
+        closed = {(int(r["fiscal_year"]), r["family"]): r["pdf_sha256"]
+                  for r in csv.DictReader(f) if r["status"] == "closed"}
+    return [dict(y, status="closed") if closed.get((int(y["fiscal_year"]), y["family"])) == y["pdf_sha256"]
+            else y for y in years]
 
 
 def main():

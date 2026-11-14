@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Resolve the expense disclosure's `council_member` values to Legistar person IDs, per fiscal
-year, and publish the crosswalk (GitHub #72).
+year, and publish the crosswalk (GitHub #72); and, by the same rules, the printed `member` of the
+checked Schedule C and transparency PDF tables (GitHub #51).
 
 The disclosure prints a member as a bare surname ("Levin"), sometimes with an initial
 ("D. Diaz", "Sanchez, J"), and the value is the Council's roster when the workbook was exported,
@@ -75,10 +76,26 @@ prove it. The build stops if the generic rule stops calling the value ambiguous,
 value is gone or resolves to someone else, or if the addresses stop pointing the stated way. A
 rule names one fiscal year and one printed value and applies nowhere else.
 
+The PDF tables (GitHub #51): data/pdf_council_member_crosswalk.csv, one row per (family,
+fiscal_year, printed member) of every family-year data/pdf_years.csv lists as reviewed or closed.
+Same roster, same classify(), the same year (the row's fiscal_year: Schedule C's adopted year, a
+transparency resolution's own year), and no file conventions (the disclosure's FY2021 'Diaz'
+rule was decided on the disclosure's own evidence and names that file only). Resolving a
+transparency row on the budget year it changes instead was tried and is worse: 42 (year, name)
+pairs fall outside the person's service against 5, because a resolution that changes an earlier
+year's budget mostly prints the member in office when it passes (FY2022 resolutions name Restler
+on FY2021 lines). The one difference: a name with no recorded vote in its year
+(member_outside_fy) is explained in the PDF's terms, not as the workbook's export-time roster,
+which a PDF does not have (all 5 are FY2019-FY2023 resolution rows that change an earlier year's
+budget and name that year's member: Garodnick, Gentile, Ferreras-Copeland, Espinal, Levine).
+An ambiguous row lists its candidates' IDs in candidate_ids, so a search for one of them can say
+which rows it could not count. Schedule C's `sponsor` (co-sponsor lists, as capital.sponsor) and
+`delegation` columns are not resolved; they are borough delegations or several names at once.
+
 Run:
   python3 code/build_member_crosswalk.py           print a summary
-  python3 code/build_member_crosswalk.py --write   write the crosswalk
-  python3 code/build_member_crosswalk.py --check   exit 1 if the committed crosswalk is stale
+  python3 code/build_member_crosswalk.py --write   write both crosswalks
+  python3 code/build_member_crosswalk.py --check   exit 1 if either committed crosswalk is stale
 """
 
 import argparse
@@ -95,6 +112,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 ROSTER = os.path.join(ROOT, "data", "reference", "council_members_legistar.csv")
 OUT = os.path.join(ROOT, "data", "disclosure_council_member_crosswalk.csv")
+PDF_OUT = os.path.join(ROOT, "data", "pdf_council_member_crosswalk.csv")
+PDF_YEARS = os.path.join(ROOT, "data", "pdf_years.csv")
 
 FIELDS = ["fiscal_year", "council_member", "rows", "council_member_type", "council_member_id",
           "legistar_full_name", "method", "evidence"]
@@ -106,6 +125,11 @@ ID_TYPES = ("member", "member_outside_fy")
 _DELEGATION = re.compile(r"(?:bronx|brooklyn|manhattan|queens|staten island|si)"
                          r"(?:\s*/\s*(?:bronx|brooklyn|manhattan|queens|staten island))?"
                          r"(?: delegation)?", re.IGNORECASE)
+# A council district printed where a member would be ("CD28" in the disclosure; "CD 22" and
+# "Council District 2" in the PDF tables, a district with no member): never a person.
+_DISTRICT = re.compile(r"(?:cd|council district)\s*\d+")
+# Why a person with no recorded vote in the year is still the one named, per source.
+EXPORT_TIME = "the workbook's export-time roster"
 
 
 def fold(s):
@@ -247,8 +271,9 @@ def check_label_conventions(pairs, conventions=None):
                                  f"{abbr!r} may not mean {rival!r} there -- review the convention")
 
 
-def classify(value, fy, roster):
-    """-> dict with council_member_type, council_member_id, legistar_full_name, method, evidence."""
+def classify(value, fy, roster, outside=EXPORT_TIME):
+    """-> dict with council_member_type, council_member_id, legistar_full_name, method, evidence.
+    `outside` says, for member_outside_fy, why the file names someone not in office that year."""
     v = " ".join((value or "").split())
     out = {"council_member_type": "", "council_member_id": "", "legistar_full_name": "",
            "method": "", "evidence": ""}
@@ -265,7 +290,7 @@ def classify(value, fy, roster):
         return dict(out, council_member_type="delegation", method="borough delegation label")
     if fold(v) == "citywide":
         return dict(out, council_member_type="citywide", method="citywide label")
-    if re.fullmatch(r"cd\s*\d+", fold(v)):
+    if _DISTRICT.fullmatch(fold(v)):
         return dict(out, council_member_type="district_label",
                     method="council district label, not a person; not resolved to one")
     cands, how = name_candidates(v, roster)
@@ -295,7 +320,7 @@ def classify(value, fy, roster):
         return dict(out, council_member_type="member_outside_fy", council_member_id=p.id,
                     legistar_full_name=p.full,
                     method=f"{how}; the only match, but no recorded vote in FY{fy} "
-                           f"(the workbook's export-time roster)", evidence=ev)
+                           f"({outside})", evidence=ev)
     return dict(out, council_member_type="ambiguous",
                 method=f"{how}; {len(voted)} matches, none voted in FY{fy}; not guessed",
                 evidence=ev)
@@ -424,9 +449,9 @@ def disclosure_pairs():
     return disclosure_inputs()[0]
 
 
-def text(rows):
+def text(rows, fields=FIELDS):
     buf = io.StringIO()
-    w = csv.DictWriter(buf, fieldnames=FIELDS, lineterminator="\n")
+    w = csv.DictWriter(buf, fieldnames=fields, lineterminator="\n")
     w.writeheader()
     w.writerows(rows)
     return buf.getvalue()
@@ -437,6 +462,60 @@ def load(path=OUT):
     with open(path, newline="", encoding="utf-8") as f:
         return {(int(r["fiscal_year"]), r["council_member"]):
                 (r["council_member_type"], r["council_member_id"]) for r in csv.DictReader(f)}
+
+
+# ---------------------------------------------------------------- the PDF tables (#51)
+
+PDF_FIELDS = ["family", "fiscal_year", "council_member", "rows", "council_member_type",
+              "council_member_id", "legistar_full_name", "candidate_ids", "method", "evidence"]
+# family -> (file prefix, file)
+PDF_FAMILIES = {"schedule_c": ("sc", "awards"), "transparency": ("tr", "rows")}
+PDF_OUTSIDE = {
+    "schedule_c": "Schedule C prints the member at adoption",
+    "transparency": "a resolution can change an earlier year's budget and name that year's member",
+}
+
+
+def pdf_pairs():
+    """{(family, fiscal_year, member): rows} over every family-year data/pdf_years.csv
+    lists as reviewed or closed (the years the MCP serves), from the committed tables."""
+    pairs = collections.Counter()
+    with open(PDF_YEARS, newline="", encoding="utf-8") as f:
+        years = [r for r in csv.DictReader(f)
+                 if r["family"] in PDF_FAMILIES and r["status"] in ("reviewed", "closed")]
+    for y in years:
+        prefix, name = PDF_FAMILIES[y["family"]]
+        yy = y["fiscal_year"][-2:]
+        path = os.path.join(ROOT, "data", f"fy{yy}", "pdf", y["family"], f"fy{yy}_{prefix}_{name}.csv")
+        if not os.path.exists(path):
+            raise SystemExit(f"{os.path.relpath(path, ROOT)}: listed in data/pdf_years.csv, not found")
+        with open(path, newline="", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                if r["fiscal_year"] != y["fiscal_year"]:
+                    raise SystemExit(f"{os.path.relpath(path, ROOT)}: a FY{r['fiscal_year']} row")
+                pairs[(y["family"], int(r["fiscal_year"]), r["member"])] += 1
+    return pairs
+
+
+def candidate_ids(value, fy, roster):
+    """The people an ambiguous value could be: those with a recorded vote in `fy` if two or more
+    did, else every match with a recorded vote (classify's two ambiguous cases)."""
+    cands, _how = name_candidates(" ".join((value or "").split()), roster)
+    voted = [p for p in cands if p.years]
+    in_fy = [p for p in voted if p.voted_in(fy)]
+    return sorted((in_fy if len(in_fy) > 1 else voted), key=lambda p: int(p.id))
+
+
+def build_pdf(pairs, roster):
+    """pairs: {(family, fiscal_year, printed member): rows} -> crosswalk rows, sorted."""
+    rows = []
+    for (fam, fy, v), n in sorted(pairs.items(), key=lambda kv: (kv[0][0], kv[0][1], kv[0][2].lower(), kv[0][2])):
+        fields = classify(v, fy, roster, outside=PDF_OUTSIDE[fam])
+        cands = (";".join(p.id for p in candidate_ids(v, fy, roster))
+                 if fields["council_member_type"] == "ambiguous" else "")
+        rows.append({"family": fam, "fiscal_year": fy, "council_member": v, "rows": n,
+                     **fields, "candidate_ids": cands})
+    return rows
 
 
 def summary(rows):
@@ -454,26 +533,36 @@ def main(argv=None):
     g.add_argument("--check", action="store_true", help="exit 1 if the committed crosswalk is stale")
     a = ap.parse_args(argv)
     pairs, addresses = disclosure_inputs()
+    roster = load_roster()
     try:
-        rows = build(pairs, load_roster(), addresses)
+        rows = build(pairs, roster, addresses)
     except ValueError as e:
         print(f"STOP: {e}")
         return 1
-    t = text(rows)
-    if a.check:
-        cur = ""
-        if os.path.exists(OUT):
-            with open(OUT, encoding="utf-8") as f:
-                cur = f.read()
-        if cur != t:
-            print(f"STALE: {os.path.relpath(OUT, ROOT)} -- run code/build_member_crosswalk.py --write")
-            return 1
-        print(f"{os.path.relpath(OUT, ROOT)} is current")
-    elif a.write:
-        with open(OUT, "w", encoding="utf-8", newline="") as f:
-            f.write(t)
-        print(f"wrote {os.path.relpath(OUT, ROOT)}")
+    pdf_rows = build_pdf(pdf_pairs(), roster)
+    stale = 0
+    for path, t in ((OUT, text(rows)), (PDF_OUT, text(pdf_rows, PDF_FIELDS))):
+        if a.check:
+            cur = ""
+            if os.path.exists(path):
+                with open(path, encoding="utf-8") as f:
+                    cur = f.read()
+            if cur != t:
+                print(f"STALE: {os.path.relpath(path, ROOT)} -- run code/build_member_crosswalk.py --write")
+                stale = 1
+            else:
+                print(f"{os.path.relpath(path, ROOT)} is current")
+        elif a.write:
+            with open(path, "w", encoding="utf-8", newline="") as f:
+                f.write(t)
+            print(f"wrote {os.path.relpath(path, ROOT)}")
+    if stale:
+        return 1
+    print("disclosure:")
     for typ, (values, n) in summary(rows).items():
+        print(f"{typ:<18} {values:>5} (year, value) pairs {n:>8,} rows")
+    print("PDF tables (Schedule C and transparency):")
+    for typ, (values, n) in summary(pdf_rows).items():
         print(f"{typ:<18} {values:>5} (year, value) pairs {n:>8,} rows")
     for r in rows:
         if r["method"].startswith("file_convention") and r["council_member_id"]:

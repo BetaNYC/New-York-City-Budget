@@ -83,6 +83,13 @@ jobs:
             if (bad.length || s.name !== p.mcpName) { console.error("mcp/server.json is out of step with mcp/package.json (version or name/mcpName)"); process.exit(1); }
           '
 
+      # The What's changed release gate (#310): no "## Unreleased:" entry may be left, so a
+      # release cannot ship undated. Date the entry and the CHANGELOG heading in the commit
+      # that gets the tag.
+      - name: What's changed release gate
+        working-directory: .
+        run: python3 scripts/whats_changed.py check WHATS-CHANGED.md --package-json mcp/package.json --changelog mcp/CHANGELOG.md --release
+
       - name: Publish to npm
         run: npm publish --provenance --access public
         env:

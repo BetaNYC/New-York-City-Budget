@@ -93,6 +93,121 @@ class Where {
   }
 }
 
+// ---------------------------------------------------------------- council members (#51)
+
+/**
+ * How a printed `member` resolves, per (family, fiscal_year, printed name): the crosswalk
+ * code/build_member_crosswalk.py builds with #72's rules (data/pdf_council_member_crosswalk.csv,
+ * loaded into the npm index as member_crosswalk, so it works with any installed download).
+ */
+export interface MemberResolution {
+  family: string;
+  fiscal_year: number;
+  council_member: string;
+  rows: number;
+  /** member, member_outside_fy, ambiguous, unresolved, speaker, delegation, citywide, district_label, blank. */
+  type: string;
+  /** Legistar person ID: only for member and member_outside_fy. */
+  id: string;
+  name: string;
+  /** ambiguous only: the people it could be. */
+  candidates: string[];
+  method: string;
+}
+
+export class MemberCrosswalk {
+  private byKey = new Map<string, MemberResolution>();
+  /** Legistar person ID -> full name, from every resolved row. */
+  readonly names = new Map<string, string>();
+  constructor(readonly entries: MemberResolution[]) {
+    for (const e of entries) {
+      this.byKey.set(MemberCrosswalk.key(e.family, e.fiscal_year, e.council_member), e);
+      if (e.id && e.name) this.names.set(e.id, e.name);
+    }
+  }
+  private static key = (family: string, fy: number, printed: string) => `${family}|${fy}|${printed}`;
+  /** A row's resolution, or null where the crosswalk has none (an older index). */
+  of(family: string, fy: number, printed: unknown): MemberResolution | null {
+    return this.byKey.get(MemberCrosswalk.key(family, fy, String(printed ?? ""))) ?? null;
+  }
+  /** The (year, printed name) pairs that resolve to `id` in a family. */
+  pairs(family: string, id: string, fy?: number): MemberResolution[] {
+    return this.entries.filter((e) => e.family === family && e.id === id && (fy == null || e.fiscal_year === fy));
+  }
+  /** The ambiguous (year, printed name) pairs that could be `id`: never counted for it. */
+  maybe(family: string, id: string, fy?: number): MemberResolution[] {
+    return this.entries.filter((e) => e.family === family && e.type === "ambiguous" && e.candidates.includes(id) && (fy == null || e.fiscal_year === fy));
+  }
+  person(id: string): string {
+    const n = this.names.get(id);
+    return n ? `${n} (Legistar person ${id})` : `Legistar person ${id}`;
+  }
+}
+
+export const NO_MEMBERS = new MemberCrosswalk([]);
+
+/** A printed name and the person it resolved to, with the rows the filter matched. */
+export interface MatchedMember {
+  council_member: string;
+  type: string;
+  id: string;
+  name: string;
+  candidates: string[];
+  years: number[];
+  rows: number;
+  amount: number;
+}
+
+/**
+ * The matched rows grouped by printed name and resolution, over (fiscal_year, printed name)
+ * counts: 'Williams' is two people in different years, so it is two entries.
+ */
+function matchedMembers(family: string, members: MemberCrosswalk, counts: { fiscal_year: number; member: string; rows: number; amount: number }[]): MatchedMember[] {
+  const out = new Map<string, MatchedMember>();
+  for (const c of counts) {
+    const m = members.of(family, c.fiscal_year, c.member);
+    const type = m?.type ?? "unknown";
+    const id = m?.id ?? "";
+    const k = `${c.member}|${type}|${id}|${type === "ambiguous" ? m!.candidates.join(";") : ""}`;
+    const e = out.get(k) ?? { council_member: c.member, type, id, name: m?.name ?? "", candidates: m?.candidates ?? [], years: [], rows: 0, amount: 0 };
+    e.years.push(c.fiscal_year);
+    e.rows += c.rows;
+    e.amount += c.amount ?? 0;
+    out.set(k, e);
+  }
+  return [...out.values()].map((e) => ({ ...e, years: [...new Set(e.years)].sort((a, b) => a - b) })).sort((a, b) => b.rows - a.rows || a.council_member.localeCompare(b.council_member));
+}
+
+/** council_member_id: the row's (fiscal_year, printed member) is one of the person's pairs. */
+function memberIdClause(w: Where, alias: string, family: string, members: MemberCrosswalk, id?: string, fy?: number) {
+  if (id == null) return;
+  const pairs = members.pairs(family, id, fy);
+  if (!pairs.length) return w.add("0");
+  w.add(`(${pairs.map(() => `(${alias}.fiscal_year = ? AND ${alias}.member = ?)`).join(" OR ")})`, ...pairs.flatMap((p) => [p.fiscal_year, p.council_member]));
+}
+
+/** What a council_member_id search found and could not count. */
+export interface MemberIdReport {
+  id: string;
+  person: string;
+  /** The printed names counted for the person, with their years. */
+  printed: { council_member: string; years: number[] }[];
+  /** Ambiguous names that could be the person: not counted. */
+  not_counted: MemberResolution[];
+}
+
+function memberIdReport(family: string, members: MemberCrosswalk, id: string | undefined, fy?: number): MemberIdReport | null {
+  if (id == null) return null;
+  const by = new Map<string, number[]>();
+  for (const p of members.pairs(family, id, fy)) by.set(p.council_member, [...(by.get(p.council_member) ?? []), p.fiscal_year]);
+  return {
+    id,
+    person: members.person(id),
+    printed: [...by].map(([council_member, years]) => ({ council_member, years: years.sort((a, b) => a - b) })),
+    not_counted: members.maybe(family, id, fy),
+  };
+}
+
 const cap = (limit: number | undefined, def: number, max: number) =>
   limit == null || Number.isNaN(limit) ? def : Math.min(Math.max(1, Math.trunc(limit)), max);
 
@@ -124,6 +239,8 @@ export interface ServedRow {
   links: RowLinks;
   /** The downloaded PDF's path on this machine (download --pdfs), or null. */
   local_pdf: string | null;
+  /** #51: how the row's printed member resolved (Schedule C and transparency only). */
+  member?: MemberResolution | null;
 }
 
 /** The questions to Council Finance in the tables, or none when the download predates them. */
@@ -196,6 +313,8 @@ export interface ScheduleCFilters {
   organization?: string;
   ein?: string;
   member?: string;
+  /** #51: exact Legistar person ID, matched on the row's printed member as resolved for its year. */
+  council_member_id?: string;
   category?: string;
   initiative?: string;
   agency?: string;
@@ -206,7 +325,7 @@ export interface ScheduleCFilters {
   limit?: number;
 }
 
-function scWhere(f: ScheduleCFilters): Where {
+function scWhere(f: ScheduleCFilters, members: MemberCrosswalk): Where {
   const w = new Where(f.whole_word);
   w.add(SERVED("a", "schedule_c"));
   w.eq("a.fiscal_year", f.fiscal_year);
@@ -215,6 +334,7 @@ function scWhere(f: ScheduleCFilters): Where {
   if (f.ein != null) w.add("(a.ein = ? OR a.fiscal_conduit_ein = ?)", f.ein.replace(/\D/g, ""), f.ein.replace(/\D/g, ""));
   // A member, the Speaker, or a delegation: whichever the row prints.
   w.text("member", ["a.member", "a.sponsor", "a.delegation"], f.member);
+  memberIdClause(w, "a", "schedule_c", members, f.council_member_id, f.fiscal_year);
   w.text("category", ["a.category"], f.category);
   w.text("initiative", ["a.initiative"], f.initiative);
   w.text("agency", ["a.agency"], f.agency);
@@ -240,10 +360,16 @@ export interface ScheduleCResult {
   subaward_matches: { rows: number; amount: number };
   /** Filters matched as whole words (#259). */
   word_filters: WordFilter[];
+  /** #51, with a member filter: the printed members it matched, each with its person. */
+  matched_members: MatchedMember[];
+  /** #51, with a member filter: rows matched through the sponsor or delegation column only. */
+  member_other_columns: { rows: number; amount: number };
+  /** #51, with council_member_id: the person, the names counted, and the names not counted. */
+  member_id: MemberIdReport | null;
 }
 
-export function searchScheduleC(db: DB, commit: string, f: ScheduleCFilters): ScheduleCResult {
-  const w = scWhere(f);
+export function searchScheduleC(db: DB, commit: string, f: ScheduleCFilters, members: MemberCrosswalk = NO_MEMBERS): ScheduleCResult {
+  const w = scWhere(f, members);
   const rows = db
     .prepare(`SELECT a.* FROM pdf_schedule_c a ${w.sql()} ORDER BY a.amount IS NULL, a.amount DESC, a.fiscal_year DESC, a.award_id LIMIT ${cap(f.limit, 50, 500)}`)
     .all(...w.params) as Row[];
@@ -280,9 +406,22 @@ export function searchScheduleC(db: DB, commit: string, f: ScheduleCFilters): Sc
       .prepare(`SELECT COUNT(*) AS rows, COALESCE(SUM(s.amount), 0) AS amount FROM pdf_schedule_c_subawards s ${s.sql()}`)
       .get(...s.params) as { rows: number; amount: number };
   }
+  let matched_members: MatchedMember[] = [];
+  let member_other_columns = { rows: 0, amount: 0 };
+  if (f.member != null) {
+    // The member filter's own match on the printed member column, beside every other filter.
+    const m = new Where(f.whole_word);
+    m.text("member", ["a.member"], f.member);
+    const counts = db
+      .prepare(`SELECT a.fiscal_year, COALESCE(a.member, '') AS member, COUNT(*) AS rows, COALESCE(SUM(a.amount), 0) AS amount FROM pdf_schedule_c a ${w.sql()} AND ${m.clauses[0]} GROUP BY 1, 2`)
+      .all(...w.params, ...m.params) as { fiscal_year: number; member: string; rows: number; amount: number }[];
+    matched_members = matchedMembers("schedule_c", members, counts);
+    const inMember = counts.reduce((t, c) => ({ rows: t.rows + c.rows, amount: t.amount + c.amount }), { rows: 0, amount: 0 });
+    member_other_columns = { rows: t.n - inMember.rows, amount: t.amount - inMember.amount };
+  }
   const usd = (v: unknown) => (typeof v === "number" ? `$${v.toLocaleString("en-US")}` : "no amount");
   return {
-    rows: serve(db, "schedule_c", rows, commit, (r) => `${r.org}, ${usd(r.amount)}`),
+    rows: serve(db, "schedule_c", rows, commit, (r) => `${r.org}, ${usd(r.amount)}`).map((s) => ({ ...s, member: members.of("schedule_c", s.row.fiscal_year, s.row.member) })),
     matched: t.n,
     with_amount: t.with_amount,
     amount: t.amount,
@@ -292,6 +431,9 @@ export function searchScheduleC(db: DB, commit: string, f: ScheduleCFilters): Sc
     subawards,
     subaward_matches,
     word_filters: w.words,
+    matched_members,
+    member_other_columns,
+    member_id: memberIdReport("schedule_c", members, f.council_member_id, f.fiscal_year),
   };
 }
 
@@ -307,6 +449,8 @@ export interface TransparencyFilters {
   organization?: string;
   ein?: string;
   member?: string;
+  /** #51: exact Legistar person ID, matched on the row's printed member as resolved for its year. */
+  council_member_id?: string;
   resolution_number?: string;
   resolution_date?: string;
   /** Resolutions dated on or after / on or before (YYYY-MM-DD). */
@@ -316,7 +460,7 @@ export interface TransparencyFilters {
   limit?: number;
 }
 
-function trWhere(f: TransparencyFilters): Where {
+function trWhere(f: TransparencyFilters, members: MemberCrosswalk): Where {
   const w = new Where(f.whole_word);
   w.add(SERVED("t", "transparency"));
   w.eq("t.fiscal_year", f.fiscal_year);
@@ -324,6 +468,7 @@ function trWhere(f: TransparencyFilters): Where {
   w.text("organization", ["t.org"], f.organization);
   if (f.ein != null) w.add("(t.ein = ? OR t.fiscal_conduit_ein = ?)", f.ein.replace(/\D/g, ""), f.ein.replace(/\D/g, ""));
   w.text("member", ["t.member"], f.member);
+  memberIdClause(w, "t", "transparency", members, f.council_member_id, f.fiscal_year);
   w.id("resolution_number", ["t.resolution_number"], f.resolution_number);
   w.eq("t.resolution_date", f.resolution_date);
   if (f.date_from != null) w.add("t.resolution_date >= ?", f.date_from);
@@ -348,10 +493,14 @@ export interface TransparencyResult {
   resolutions: { fiscal_year: number; resolution_number: string; resolution_date: string; rows: number }[];
   /** Filters matched as whole words (#259). */
   word_filters: WordFilter[];
+  /** #51, with a member filter: the printed members it matched, each with its person. */
+  matched_members: MatchedMember[];
+  /** #51, with council_member_id: the person, the names counted, and the names not counted. */
+  member_id: MemberIdReport | null;
 }
 
-export function searchTransparency(db: DB, commit: string, f: TransparencyFilters): TransparencyResult {
-  const w = trWhere(f);
+export function searchTransparency(db: DB, commit: string, f: TransparencyFilters, members: MemberCrosswalk = NO_MEMBERS): TransparencyResult {
+  const w = trWhere(f, members);
   const rows = db
     .prepare(
       `SELECT t.* FROM pdf_transparency t ${w.sql()}
@@ -381,15 +530,28 @@ export function searchTransparency(db: DB, commit: string, f: TransparencyFilter
        GROUP BY 1, 2, 3 ORDER BY 1 DESC, 3`
     )
     .all(...w.params) as TransparencyResult["resolutions"];
+  // The member filter searches the printed member only, so every matched row is in these counts.
+  const matched_members =
+    f.member == null
+      ? []
+      : matchedMembers(
+          "transparency",
+          members,
+          db
+            .prepare(`SELECT t.fiscal_year, COALESCE(t.member, '') AS member, COUNT(*) AS rows, COALESCE(SUM(t.amount), 0) AS amount FROM pdf_transparency t ${w.sql()} GROUP BY 1, 2`)
+            .all(...w.params) as { fiscal_year: number; member: string; rows: number; amount: number }[]
+        );
   const usd = (v: unknown) => (typeof v === "number" ? `${v < 0 ? "-" : ""}$${Math.abs(v).toLocaleString("en-US")}` : "no dollar amount");
   return {
-    rows: serve(db, "transparency", rows, commit, (r) => `${r.org || r.agency || r.purpose || r.row_id}, ${usd(r.amount)}`),
+    rows: serve(db, "transparency", rows, commit, (r) => `${r.org || r.agency || r.purpose || r.row_id}, ${usd(r.amount)}`).map((s) => ({ ...s, member: members.of("transparency", s.row.fiscal_year, s.row.member) })),
     matched: by_action.reduce((s, a) => s + a.rows, 0),
     by_action,
     no_dollar_amount: nd.n,
     by_year,
     resolutions,
     word_filters: w.words,
+    matched_members,
+    member_id: memberIdReport("transparency", members, f.council_member_id, f.fiscal_year),
   };
 }
 

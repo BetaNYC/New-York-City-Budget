@@ -40,6 +40,7 @@ assistant through the [MCP server](mcp/README.md).
 | What did the Council change after the budget was adopted? | Council: the transparency resolutions (MCP `search_transparency_changes`). |
 | Which capital projects did the Council pay for? | Council: capital designations and the capital book (MCP `search_council_capital`, `search_capital_book`). |
 | Does the Council's capital money match OMB's? | Council: capital vs. OMB (MCP `compare_capital_to_omb`). |
+| When is a capital budget line's money planned to be committed, and has that moved? | OMB's Capital Commitment Plan and City Planning's Capital Projects Database, by budget line (MCP `search_capital_plan`). |
 | What reports must an agency make to the Council? | Council: Terms and Conditions (MCP `search_terms_conditions`). |
 
 ## Somewhere else

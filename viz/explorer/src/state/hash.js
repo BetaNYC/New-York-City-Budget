@@ -220,3 +220,28 @@ export const FILTER_KEYS = {
   book: ["bkfy", "bkid", "bksponsor", "bkboro", "bkagency", "bktitle", "bkline", "bkpart", "bkmin", "bkmax"],
 };
 export const PAGE_KEY = { awards: "page", capital: "cpage", omb: "opage", orgs: "gpage", terms: "tpage", schedc: "scpage", transparency: "trpage", book: "bkpage" };
+
+/** The expense list's filters besides the year (FILTER_KEYS.awards without fy and the Schedule C side). */
+export const AWARDS_FILTERS = ["status", "legal_name", "council_member", "agency", "program_name", "source", "ein", "min", "max"];
+const set_ = (v) => v !== null && v !== undefined && v !== "";
+
+/**
+ * The fiscal year the expense list shows (#301, pick 2: the first page is the newest year).
+ * fy = 0 is "All years", chosen. With no fy in the link, the list opens on the newest loaded year;
+ * but a link that carries another filter and no year keeps its old meaning, all years. null: all years.
+ */
+export function awardsYear(state, newest) {
+  if (state.fy === 0) return null;
+  if (state.fy != null) return state.fy;
+  return AWARDS_FILTERS.some((k) => set_(state[k])) ? null : newest ?? null;
+}
+
+/** The capital list's filters besides the report year. */
+export const CAPITAL_FILTERS = ["afy", "sponsor", "borough", "district", "line", "title", "description", "cmin", "cmax"];
+
+/** The report year the capital list shows: as awardsYear (cfy = 0 is "All report years"). */
+export function capitalYear(state, newest) {
+  if (state.cfy === 0) return null;
+  if (state.cfy != null) return state.cfy;
+  return CAPITAL_FILTERS.some((k) => set_(state[k])) ? null : newest ?? null;
+}

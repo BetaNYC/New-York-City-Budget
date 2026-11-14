@@ -467,11 +467,11 @@ test("zip is an exact 5-digit filter on the derived zip, trimmed rows included",
   assert.match(alias.text, /Use `zip` instead of `postal_code`/);
 });
 
-test("zip_status filters one status; 41 trimmed, 37 repaired, 32 ambiguous six-digit rows (FY2009, FY2011–FY2027)", async () => {
+test("zip_status filters one status; 41 trimmed, 37 repaired, 7 ambiguous six-digit rows, 25 and 16 settled by address (FY2009, FY2011–FY2027)", async () => {
   // FAILS if zip_status is not an exact filter, if the trimmed / extra-digit counts are not the
   // CSV's, or if a status outside the documented nine is accepted.
   const rows = allRows();
-  for (const st of ["trimmed", "repaired_extra_digit", "ambiguous_extra_digit", "invalid", "blank"]) {
+  for (const st of ["trimmed", "repaired_extra_digit", "ambiguous_extra_digit", "invalid", "blank", "repaired_by_address", "nyc_address_confirmed", "state_mismatch"]) {
     const mine = rows.filter((r) => r.zip_status === st);
     const res = await call({ zip_status: st, limit: 1 });
     assert.ok(res.text.startsWith(`${mine.length.toLocaleString("en-US")} matching designation(s)`), `${st}: ${res.text.slice(0, 80)}`);
@@ -479,7 +479,12 @@ test("zip_status filters one status; 41 trimmed, 37 repaired, 32 ambiguous six-d
   // 2.0.0 adds FY2009, FY2011, FY2012: 35/35/30 over FY2013–FY2027 became 41/37/32.
   assert.equal(rows.filter((r) => r.zip_status === "trimmed").length, 41);
   assert.equal(rows.filter((r) => r.zip_status === "repaired_extra_digit").length, 37);
-  assert.equal(rows.filter((r) => r.zip_status === "ambiguous_extra_digit").length, 32);
+  // #247: the PAD address check settled 25 of the 32 ambiguous rows and 16 of the 31 state
+  // mismatches (data/disclosure_address_check.csv).
+  assert.equal(rows.filter((r) => r.zip_status === "ambiguous_extra_digit").length, 7);
+  assert.equal(rows.filter((r) => r.zip_status === "repaired_by_address").length, 25);
+  assert.equal(rows.filter((r) => r.zip_status === "nyc_address_confirmed").length, 16);
+  assert.equal(rows.filter((r) => r.zip_status === "state_mismatch").length, 15);
   const bad = await call({ zip_status: "ok" });
   assert.equal(bad.isError, true);
 });
@@ -524,15 +529,23 @@ test("a six-digit ZIP: repaired rows file under their zip; ambiguous rows show e
   assert.ok(rep.length > 0 && rep.every((r) => r.zip === "11691"));
   const under = await call({ zip: "11691", zip_status: "repaired_extra_digit", limit: 1 });
   assert.ok(under.text.startsWith(`${rows.filter((r) => r.zip === "11691" && r.zip_status === "repaired_extra_digit").length.toLocaleString("en-US")} matching designation(s)`), under.text.slice(0, 80));
-  const amb = rows.find((r) => r.zip_status === "ambiguous_extra_digit" && r.postal_code === "114345");
+  // #247: the PAD address check left the California '900069' rows ambiguous (no NYC borough).
+  const amb = rows.find((r) => r.zip_status === "ambiguous_extra_digit" && r.postal_code === "900069");
   assert.equal(amb.zip, "");
-  assert.equal(amb.zip_candidates, "11434;11435");
-  for (const z of ["11434", "11435"]) {
+  assert.equal(amb.zip_candidates, "90006;90069");
+  for (const z of ["90006", "90069"]) {
     const res = await call({ zip: z, zip_status: "ambiguous_extra_digit" });
     assert.match(res.text, /^No matching designations/, z);
   }
   const res = await call({ fiscal_year: Number(amb.fiscal_year), legal_name: amb.legal_name, zip_status: "ambiguous_extra_digit", limit: 500 });
-  assert.ok(res.text.includes(" · zip — (ambiguous_extra_digit: six digits printed; more than one one-digit deletion is an in-state 2020 ZCTA, none picked) · candidates 11434, 11435"), res.text);
+  assert.ok(res.text.includes(" · zip — (ambiguous_extra_digit: six digits printed; more than one one-digit deletion is an in-state 2020 ZCTA, none picked) · candidates 90006, 90069"), res.text);
+  // #247: '114345' (11434 or 11435) is settled by the street address: it files under 11434, says
+  // how, and still lists both candidates.
+  const byAddr = rows.filter((r) => r.postal_code === "114345");
+  assert.ok(byAddr.length > 0 && byAddr.every((r) => r.zip_status === "repaired_by_address" && r.zip === "11434"));
+  const settled = await call({ zip: "11434", zip_status: "repaired_by_address", limit: 500 });
+  assert.ok(settled.text.startsWith(`${byAddr.length} matching designation(s)`), settled.text.slice(0, 80));
+  assert.ok(settled.text.includes("(repaired_by_address: six digits printed; the street address matches exactly one NYC address in the City's address file (PAD), whose ZIP is one of the candidates) · candidates 11434, 11435"), settled.text);
   const other = await call({ zip: "11691", zip_status: "repaired_extra_digit", limit: 500 });
   assert.doesNotMatch(other.text, /candidates/);
 });

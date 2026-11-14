@@ -1,8 +1,8 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useDuckDB, useQueries, useTables } from "./duckdb/useDuckDB.js";
-import { PHASES, ensureData } from "./duckdb/store.js";
-import { BASE, aboutMb, bytesOf, tablesForView } from "./duckdb/needs.js";
+import { PHASES, ensureData, ensureManifest } from "./duckdb/store.js";
+import { BASE, aboutMb, bytesOf, needsEngine, tablesForView } from "./duckdb/needs.js";
 import { FILTER_KEYS, PAGE_KEY, historyDepth, pushHash, readHash, writeHash } from "./state/hash.js";
 import { HashLink, Notice } from "./components/ui.jsx";
 import { ReviewScreenContext } from "./components/pdf.jsx";
@@ -19,6 +19,7 @@ import ScheduleCSearch from "./views/ScheduleCSearch.jsx";
 import Transparency from "./views/Transparency.jsx";
 import Book from "./views/Book.jsx";
 import { CLOSED_LABEL, pdfYearsQuery, REVIEWED_LABEL } from "./query/pdf.js";
+import { LOOKUP_QUERIES } from "./query/sql.js";
 import Years from "./views/Years.jsx";
 import Agencies from "./views/Agencies.jsx";
 
@@ -49,12 +50,19 @@ export default function App() {
   const current = useRef(state);
   current.current = state;
 
-  // The query engine and the Council data load for every view but City agency budgets, which reads
-  // small JSON files instead (#299): about 33 MB it never needs.
-  const needsDb = state.view !== "agencies";
+  // The query engine and the Council data load only for views that read them (needs.js
+  // needsEngine): not City agency budgets, which reads small JSON files (#299), not About the data,
+  // and not Review on the public site, which has no review queue (#301). Every Council view reads
+  // the manifest; City agency budgets does not.
+  const engine = needsEngine(state.view, db.manifest, state);
+  const council = state.view !== "agencies";
   useEffect(() => {
-    if (needsDb) ensureData().catch(() => {});
-  }, [needsDb]);
+    if (council) ensureManifest().catch(() => {});
+  }, [council]);
+  useEffect(() => {
+    if (engine) ensureData().catch(() => {});
+  }, [engine]);
+  const noQueue = state.view === "review" && engine === false;
 
   useEffect(() => {
     const sync = () => {
@@ -159,19 +167,24 @@ export default function App() {
         ) : db.phase === PHASES.ERROR ? (
           <Notice tone="error">
             The data could not be loaded: {String(db.error?.message ?? db.error)}.{" "}
-            <button type="button" className="linkish" onClick={() => ensureData().catch(() => {})}>
+            <button type="button" className="linkish" onClick={() => (engine ? ensureData() : ensureManifest()).catch(() => {})}>
               Try again
             </button>
           </Notice>
-        ) : !ready ? (
+        ) : noQueue ? (
+          <Notice>
+            No review queue in this build. It appears in a local build made with <code>npm run data -- --include-reviewed</code>.
+          </Notice>
+        ) : !ready && !(engine === false && db.manifest) ? (
           state.view === "about" ? (
             <About manifest={db.manifest} />
           ) : (
             <Loading phase={db.phase} progress={db.progress} manifest={db.manifest} />
           )
         ) : (
+          // With the engine, or, for a view that needs none (#301), with the manifest alone.
           <ReviewScreenContext.Provider value={Boolean(db.manifest?.review_screen)}>
-            <Ready state={state} set={set} go={go} back={back} manifest={db.manifest} />
+            <Ready state={state} set={set} go={go} back={back} manifest={db.manifest} engine={ready} />
           </ReviewScreenContext.Provider>
         )}
       </main>
@@ -216,7 +229,10 @@ function Loading({ phase, progress, manifest }) {
         {what}… {phase === "engine" || phase === "data" ? `${Math.round(progress * 100)}%` : ""}
       </p>
       <progress value={progress} max={1} />
-      <p className="muted small">The explorer runs in your browser: it downloads the query engine (about 33 MB, cached after the first visit) and about {dataMb(manifest)} MB of data. The PDF tables load when you open a page that uses them.</p>
+      <p className="muted small">
+        This page searches in your browser with a query engine: about 9 MB to download (cached after the first visit) and about {dataMb(manifest)} MB of data. The
+        PDF tables load when you open a page that uses them. Expense awards for one year, one award, Years, Council capital and Capital vs OMB need none of it.
+      </p>
     </div>
   );
 }
@@ -240,14 +256,12 @@ export function TablesLoading({ need, manifest }) {
   );
 }
 
-/** Lookups every view needs, read once the data is in. */
-function Ready({ state, set, go, back, manifest }) {
-  const q = useQueries(true, "lookups", () => ({
-    years: { sql: "SELECT fiscal_year, loaded, early_snapshot, note FROM disclosure_years ORDER BY fiscal_year DESC", params: [] },
-    capYears: { sql: "SELECT report_year FROM capital_sources ORDER BY report_year", params: [] },
-    ombYears: { sql: "SELECT DISTINCT report_year FROM capital_vs_omb ORDER BY report_year", params: [] },
-    pdfYears: pdfYearsQuery(),
-  }));
+/**
+ * Lookups every view needs, read once the data is in: from DuckDB when the engine is loaded, else
+ * from the Council JSON files (data/council/years.json; #301). `engine` says which.
+ */
+function Ready({ state, set, go, back, manifest, engine }) {
+  const q = useQueries(true, `lookups-${engine ? "db" : "json"}`, () => ({ ...LOOKUP_QUERIES, pdfYears: pdfYearsQuery() }));
   const lookups = useMemo(() => {
     if (!q.data) return null;
     return {
@@ -257,7 +271,7 @@ function Ready({ state, set, go, back, manifest }) {
       pdfYears: q.data.pdfYears.map((y) => ({ ...y, fiscal_year: Number(y.fiscal_year) })),
     };
   }, [q.data]);
-  const need = useTables(tablesForView(state, manifest));
+  const need = useTables(engine ? tablesForView(state, manifest) : []);
   if (q.error) return <Notice tone="error">{String(q.error.message ?? q.error)}</Notice>;
   if (!lookups) return <p className="muted">Loading…</p>;
   if (!need.ready) return <TablesLoading need={need} manifest={manifest} />;

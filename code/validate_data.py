@@ -521,10 +521,14 @@ NO_GRANTEE_EIN_VALUES = {"", "NA"}
 # repaired_extra_digit, a 6-digit value with one digit deleted); the others carry none.
 # ambiguous_extra_digit carries no zip but two or more such deletions in zip_candidates, and
 # zip_candidates is blank on every other row.
+# #247: repaired_by_address (an ambiguous_extra_digit row whose street address matches one PAD
+# address; zip = that address's ZIP, one of zip_candidates, which stay) and nyc_address_confirmed
+# (a state_mismatch row whose street address and ZIP match one NYC address; zip unchanged).
 ZIP_STATUS = {"valid", "padded", "trimmed", "repaired_extra_digit", "ambiguous_extra_digit",
-              "not_a_zcta", "state_mismatch", "invalid", "blank"}
+              "not_a_zcta", "state_mismatch", "invalid", "blank",
+              "repaired_by_address", "nyc_address_confirmed"}
 ZIP_HAS_VALUE = {"valid", "padded", "trimmed", "repaired_extra_digit", "not_a_zcta",
-                 "state_mismatch"}
+                 "state_mismatch", "repaired_by_address", "nyc_address_confirmed"}
 RAGGED_ZIP4 = re.compile(r"\d{5}(?:\s*-\s*(?!\d{4}$)\d*|\s*=\s*\d*|\s*ZipCode2:\s*\d*)")
 
 
@@ -539,9 +543,10 @@ def _zip_fits(postal, zv, zs, cands):
     """True when a row's zip / zip_status / zip_candidates agree with its postal_code."""
     if zs not in ZIP_STATUS or bool(re.fullmatch(r"\d{5}", zv)) != (zs in ZIP_HAS_VALUE):
         return False
-    if zs == "ambiguous_extra_digit":
+    if zs in ("ambiguous_extra_digit", "repaired_by_address"):
         c = cands.split(";")
-        return len(c) >= 2 and c == sorted(set(c)) and set(c) <= _one_digit_deletions(postal)
+        ok = len(c) >= 2 and c == sorted(set(c)) and set(c) <= _one_digit_deletions(postal)
+        return ok and (zs == "ambiguous_extra_digit" or zv in c)
     if cands:
         return False
     if zs == "repaired_extra_digit":

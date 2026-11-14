@@ -149,8 +149,11 @@ def read_manifest(path=MANIFEST):
 
 # ---------------------------------------------------------------- ZIP status (GitHub #70)
 
+# repaired_by_address and nyc_address_confirmed are set after derive_zip, from the PAD address
+# check (#247, code/disclosure_address_check.py); derive_zip itself never returns them.
 ZIP_STATUSES = ("valid", "padded", "trimmed", "repaired_extra_digit", "ambiguous_extra_digit",
-                "not_a_zcta", "state_mismatch", "invalid", "blank")
+                "not_a_zcta", "state_mismatch", "invalid", "blank",
+                "repaired_by_address", "nyc_address_confirmed")
 _ZIP5 = re.compile(r"(\d{5})")
 _ZIP9 = re.compile(r"(\d{5})(?:\s*-\s*\d{4}|\d{4})")
 # A ragged ZIP+4: five digits, a ZIP+4 separator, then digits. The separators are the three the

@@ -1,0 +1,7 @@
+file,url,wayback_timestamp,retrieved_at,http_status,bytes,sha256,rows,note
+count.json,https://data.cityofnewyork.us/resource/fi59-268w.json?$select=count(*),,2026-11-14T07:33:07-05:00,200,20,5a4919bbd9838a956842cf551d74802331125c6417d416e84e60d85d90ee8183,1,"[{""count"":""12929""}]"
+fi59-268w.csv.gz,(assembled from pages/*.json by code/fetch_open_data_snapshots.py; not a download),,2026-11-14T07:33:22-05:00,,1293044,0d72606eba38964be4b383a2264bf3bcdec4b29b15e84435f05965e98abcbd03,12929,rowsUpdatedAt 1787586651; csv sha256 beacf9304fe96097fc337a7f1c7b8a49b1020c1679b2a20df20ed43c7cda6166; gzip mtime 0; app token none
+metadata.json,https://data.cityofnewyork.us/api/views/fi59-268w.json,,2026-11-14T07:33:04-05:00,200,95159,92fb6a3dffcc486bef69bcc18c9cb99a2231d909cbc3f44159797b66831c22bd,,rowsUpdatedAt 1787586651
+pages/offset-000000.json,"https://data.cityofnewyork.us/resource/fi59-268w.json?$select=:*,*&$order=:id&$limit=5000&$offset=0",,2026-11-14T07:33:13-05:00,200,7354406,4464e5eb1c026c1f780340c19a74b1eaf9d090fc938478a11673fd87c6ec7e7d,5000,
+pages/offset-005000.json,"https://data.cityofnewyork.us/resource/fi59-268w.json?$select=:*,*&$order=:id&$limit=5000&$offset=5000",,2026-11-14T07:33:18-05:00,200,7329916,a28985054bc3b1e49d16c3778b59ca3159566e8a9d08270da53fb85f8cd8d7a8,5000,
+pages/offset-010000.json,"https://data.cityofnewyork.us/resource/fi59-268w.json?$select=:*,*&$order=:id&$limit=5000&$offset=10000",,2026-11-14T07:33:22-05:00,200,4391897,ef72ad9d4436d2fb5f9e5f30841f1dfe77b0e04c728252306cd958f196e9c237,2929,

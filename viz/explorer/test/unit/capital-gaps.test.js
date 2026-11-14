@@ -15,15 +15,16 @@ describe("capital gap reasons from data/capital/README.md", () => {
     expect(yearsOf("FY2018")).toEqual([2018]);
   });
 
-  test("the real README explains FY2018, and only FY2018 is a gap", () => {
+  test("the real README: no gap since FY2018 is published, PDF-derived (#202)", async () => {
     const readme = readFileSync(join(REPO, "data", "capital", "README.md"), "utf8");
-    const published = [2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027];
-    const g = capitalGaps(readme, published);
+    const { CAPITAL_REPORT_YEARS } = await import("../../../../mcp/scripts/verify-index.mjs");
+    expect(CAPITAL_REPORT_YEARS).toContain(2018);
+    const g = capitalGaps(readme, CAPITAL_REPORT_YEARS);
     expect(g.first).toBe(2015);
     expect(g.last).toBe(2027);
-    expect(g.gaps.map((x) => x.year)).toEqual([2018]);
-    expect(g.gaps[0].reason).toMatch(/No workbook was found/);
-    expect(g.gaps[0].reason).not.toContain("**");
+    expect(g.gaps).toEqual([]);
+    // Without FY2018, the README's table would not explain the gap: FY2018's row is no longer "none".
+    expect(() => capitalGaps(readme, CAPITAL_REPORT_YEARS.filter((y) => y !== 2018))).toThrow(/FY2018/);
   });
 
   test("a gap year the README does not explain is a stop", () => {
