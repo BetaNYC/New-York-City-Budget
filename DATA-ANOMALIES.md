@@ -1724,7 +1724,7 @@ one): the Preliminary, Executive and Adopted releases each restate the whole bud
 `source/agency-budget-qa/` and fails if any year is moved, and `code/test_agency_budget_cleanup.py`
 (OMB's printed totals in the CSV).
 
-**Since 2.1.0 (#270, 2026-11-12): one year rule.** The rule is coded once, in
+**Since 2.1.0 (#270, 2026-11-14): one year rule.** The rule is coded once, in
 `mcp/scripts/agency-budget.mjs`, which builds the `agency_budget` table the MCP, the explorer and
 the CSV download all read. `code/agency_budget_cleanup.py` no longer applies it. The #274 fix
 (2.0.6) and this table agree on every T&C unit amount (`mcp/test/agency-budget.test.js`), so the

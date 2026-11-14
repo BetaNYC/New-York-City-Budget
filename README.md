@@ -22,7 +22,7 @@ appropriation, intra-city, discretionary funding.
 - **What's changed:** [`WHATS-CHANGED.md`](WHATS-CHANGED.md) lists every change a reader would notice, newest first, with each correction and what to re-check.
 - **Report a problem:** [GitHub issues](https://github.com/BetaNYC/New-York-City-Budget/issues).
 
-**Last revised:** 2026-11-12.
+**Last revised:** 2026-11-13.
 
 > **Correction, 2026-11-09.** Before this date the agency budget explorer labeled every year one
 > year late: "Adopted 2026" was really the FY2025 adopted budget. A community board staffer's
@@ -473,7 +473,7 @@ New-York-City-Budget/
 - **2026-11-09:** the agency explorer's year labels corrected
   ([nyc-budget-viz#4](https://github.com/BetaNYC/nyc-budget-viz/pull/4)), and the work to bring
   it into this repo started (epic [#272](https://github.com/BetaNYC/New-York-City-Budget/issues/272)).
-- **2.1.0 (2026-11-12, tagged by a maintainer):** City agency budgets in the MCP index and the
+- **2.1.0 (2026-11-14, tagged by a maintainer):** City agency budgets in the MCP index and the
   explorer, from one loader and one year rule ([#270](https://github.com/BetaNYC/New-York-City-Budget/issues/270));
   two MCP tools, `search_agency_budget` and `compare_adopted_modified`; the old `/agencies/` app
   retired, its links forwarded.

@@ -10,7 +10,7 @@ Four more tools answer from the **checked tables BetaNYC reads from the Council'
 tables are an **optional download** (about 17 MB; 115 MB on disk), not part of the package: see
 [The checked PDF tables](#the-checked-pdf-tables-optional-download).
 
-> **Version 2.1.0** (2026-11-12). 2.0.2 (2026-10-23) added the four PDF tools and the optional
+> **Version 2.1.0** (2026-11-14). 2.0.2 (2026-10-23) added the four PDF tools and the optional
 > download; nothing was removed. 2.0.3 matched capital IDs in full, 2.0.4 (2026-10-25) made short
 > text-filter terms match whole words (`whole_word`), and 2.0.5 (2026-11-09) added `mcpName` for
 > the MCP Registry. 2.0.6 fixes Terms and Conditions unit amounts that were one fiscal year late
