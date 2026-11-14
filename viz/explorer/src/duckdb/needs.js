@@ -15,10 +15,14 @@ import { AWARDS_FILTERS, CAPITAL_FILTERS } from "../state/hash.js";
 export const TABLES = ["disclosure", "disclosure_years", "capital_council", "capital_sources", "capital_vs_omb", "meta"];
 
 /**
- * Loaded on every visit: the spreadsheet tables, and pdf_years (8 KB), the list of PDF family-years
- * the tabs and every view's year lists are built from. Not a family's rows.
+ * Loaded whenever the engine starts: the spreadsheet tables but capital_council, and pdf_years
+ * (8 KB), the list of PDF family-years the tabs and every view's year lists are built from. Not a
+ * family's rows. capital_council (0.76 MB) loads with the views that read it (#301 step 8).
  */
-export const BASE = [...TABLES, "pdf_years"];
+export const BASE = [...TABLES.filter((t) => t !== "capital_council"), "pdf_years"];
+
+/** The views that read capital_council: the capital list and row, Years and Compare. */
+const CAPITAL = ["capital_council"];
 
 /** Review notes behind every PDF row's flag badge (src/components/pdf.jsx), for any family, and the
  * Council questions they join to (src/query/pdf.js). */
@@ -82,6 +86,8 @@ export function tablesForView(state, manifest, { extras = false } = {}) {
       break;
     case "capital":
     case "capital-row":
+      need = [...CAPITAL, ...fam("capital_sd"), ...od];
+      break;
     case "book":
       need = [...fam("capital_sd"), ...od];
       break;
@@ -98,7 +104,7 @@ export function tablesForView(state, manifest, { extras = false } = {}) {
       need = fam("transparency");
       break;
     case "compare":
-      need = compareFamilies(state).flatMap(fam);
+      need = [...CAPITAL, ...compareFamilies(state).flatMap(fam)];
       break;
     case "review":
       // The review screen reads every family and the suggestions, in a local review build only.
@@ -107,6 +113,8 @@ export function tablesForView(state, manifest, { extras = false } = {}) {
       need = fileTables(manifest);
       break;
     case "years":
+      need = CAPITAL;
+      break;
     case "omb":
     case "source":
       need = [];

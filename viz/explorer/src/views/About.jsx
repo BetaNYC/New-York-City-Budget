@@ -104,7 +104,7 @@ export default function About({ manifest }) {
       <h3>Credits</h3>
       <p>
         Built by <a href="https://beta.nyc">BetaNYC</a>. The app is adapted from our <a href="https://github.com/BetaNYC/nyc-eo-explorer">nyc-eo-explorer</a>
-        (MIT License), and searches run in your browser with <a href="https://github.com/duckdb/duckdb-wasm">DuckDB-WASM</a>. Source documents are © the City
+        (MIT License), and searches run in your browser: one year at a time from small files the build checks against the data, and across all years or in the PDF tables with <a href="https://github.com/duckdb/duckdb-wasm">DuckDB-WASM</a>. Source documents are © the City
         of New York.
       </p>
     </section>

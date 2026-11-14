@@ -229,7 +229,10 @@ function Loading({ phase, progress, manifest }) {
         {what}… {phase === "engine" || phase === "data" ? `${Math.round(progress * 100)}%` : ""}
       </p>
       <progress value={progress} max={1} />
-      <p className="muted small">The explorer runs in your browser: it downloads the query engine (about 33 MB, cached after the first visit) and about {dataMb(manifest)} MB of data. The PDF tables load when you open a page that uses them.</p>
+      <p className="muted small">
+        This page searches in your browser with a query engine: about 9 MB to download (cached after the first visit) and about {dataMb(manifest)} MB of data. The
+        PDF tables load when you open a page that uses them. Expense awards for one year, one award, Years, Council capital and Capital vs OMB need none of it.
+      </p>
     </div>
   );
 }
