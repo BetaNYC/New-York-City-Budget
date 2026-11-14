@@ -115,6 +115,17 @@ def test_committed_snapshots_match_their_manifests():
         assert "X-App-Token" not in text and "app token none" in text
 
 
+def test_cpdb_projects_is_tracked_and_pulled_whole():
+    """FAILS if CPDB - Projects (fi59-268w, #250) is not in the registry with its verified
+    schema, or its committed snapshot is missing. It has no budget line (only maprojid), so it
+    joins nothing in the crosswalk; djxg-kcfi links its projects to budget lines."""
+    cfg = R.DATASETS["fi59-268w"]
+    assert "fi59-268w" in S.OWN and cfg["policy"] == "every_change"
+    assert cfg["columns"][:3] == ["ccpversion", "maprojid", "magencyacro"]
+    assert "budgetline" not in cfg["columns"] and "spent_total_checkbooknyc" in cfg["columns"]
+    assert os.path.exists(os.path.join(S.source_dir("fi59-268w"), "fi59-268w.csv.gz"))
+
+
 # ---- crosswalk -----------------------------------------------------------------------------
 
 @pytest.fixture(scope="module")

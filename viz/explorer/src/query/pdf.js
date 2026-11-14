@@ -5,6 +5,7 @@
  *
  * Text filters are case- and accent-insensitive substrings (strip_accents + lower on both sides).
  */
+import { councilYearsPath } from "../council/paths.js";
 import { PAGE_SIZE, normBudgetLine } from "./sql.js";
 
 export const REVIEWED_LABEL = "checked, review in progress";
@@ -51,6 +52,8 @@ class Where {
 export const pdfYearsQuery = () => ({
   sql: "SELECT fiscal_year, family, source_pdf, pdf_sha256, issue, status, rows, flagged, printed_totals_tied, note FROM pdf_years ORDER BY fiscal_year DESC, family",
   params: [],
+  // #301: the build runs this very query into years.json (scripts/council-json.mjs).
+  json: { files: [councilYearsPath()], run: ([y]) => y.pdf_years },
 });
 
 // ---------------------------------------------------------------- capital §254, Part I matches

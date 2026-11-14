@@ -1,6 +1,7 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 
-import { ensureTables, getSnapshot, run, subscribe } from "./store.js";
+import { PHASES, ensureTables, getSnapshot, run, subscribe } from "./store.js";
+import { runJson } from "../council/data.js";
 
 /** Engine and data status (nyc-eo-explorer's hook, MIT). */
 export function useDuckDB() {
@@ -22,7 +23,8 @@ export function useTables(names) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [snap.phase, key]);
   return {
-    ready: snap.phase === "ready" && missing.length === 0,
+    // A view that reads no table (a JSON view, #301) is ready without the engine.
+    ready: names.length === 0 || (snap.phase === "ready" && missing.length === 0),
     loading: missing,
     error: failed ? snap.tableError : null,
     retry: () => ensureTables(names).catch(() => {}),
@@ -50,7 +52,9 @@ export function useQueries(ready, key, make) {
     // One after another: they share one connection, and the worker serializes them anyway.
     (async () => {
       const data = {};
-      for (const [name, q] of Object.entries(queries)) data[name] = await run(q);
+      // #301: while the engine is not loaded, a query with a json form answers from the Council
+      // JSON files (src/council/data.js); once it is, every query runs in DuckDB.
+      for (const [name, q] of Object.entries(queries)) data[name] = q.json && getSnapshot().phase !== PHASES.READY ? await runJson(q) : await run(q);
       return data;
     })()
       .then((data) => live && setSt({ key, data, error: null }))
