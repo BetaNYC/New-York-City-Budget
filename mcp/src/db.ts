@@ -134,6 +134,8 @@ export type DisclosureStatus = (typeof DISCLOSURE_STATUSES)[number];
 export const ZIP_STATUSES = [
   "valid", "padded", "trimmed", "repaired_extra_digit", "ambiguous_extra_digit",
   "not_a_zcta", "state_mismatch", "invalid", "blank",
+  // #247: settled by the PAD address check (data/disclosure_address_check.csv).
+  "repaired_by_address", "nyc_address_confirmed",
 ] as const;
 export type ZipStatus = (typeof ZIP_STATUSES)[number];
 
@@ -511,6 +513,8 @@ export interface CapitalResult {
   matched_sponsors?: { value: string; rows: number; amount: number }[];
   /** Report years whose rows cannot match a council_district filter (t474: lists collapsed). */
   district_unusable_years: number[];
+  /** #202: report years whose rows print no district at all (the §254 book, FY2018). */
+  district_unprinted_years: number[];
   /** Filters matched as whole words (#259). */
   word_filters: WordFilter[];
 }
@@ -603,7 +607,10 @@ export function searchCapital(f: CapitalFilters): CapitalResult {
           .all(...p) as { value: string; rows: number; amount: number }[])
       : undefined;
   const district_unusable_years = (db
-    .prepare(`SELECT DISTINCT report_year FROM capital_council WHERE district_tokens IS NULL ORDER BY report_year`)
+    .prepare(`SELECT DISTINCT report_year FROM capital_council WHERE district_tokens IS NULL AND source_kind = 'open_data_t474' ORDER BY report_year`)
+    .all() as { report_year: number }[]).map((r) => r.report_year);
+  const district_unprinted_years = (db
+    .prepare(`SELECT DISTINCT report_year FROM capital_council WHERE source_kind = 'pdf_capital_sd' ORDER BY report_year`)
     .all() as { report_year: number }[]).map((r) => r.report_year);
 
   return {
@@ -616,6 +623,7 @@ export function searchCapital(f: CapitalFilters): CapitalResult {
     sources,
     matched_sponsors,
     district_unusable_years,
+    district_unprinted_years,
     word_filters: wt.matched,
   };
 }

@@ -20,6 +20,7 @@ import { parse } from "csv-parse/sync";
 import { PDF_TABLES } from "../scripts/pdf-families.mjs";
 import { OPEN_DATA_TABLES } from "../scripts/open-data.mjs";
 import { AGENCY_BUDGET_TABLES } from "../scripts/agency-budget.mjs";
+import { CAPITAL_PLAN_TABLES } from "../scripts/capital-plan.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const MCP = join(HERE, "..");
@@ -30,7 +31,7 @@ const DB_PATH = join(MCP, "data", "budget.db");
 // counts and the Legistar person each resolves to. No amount, no organization, no row: the PDF
 // tools use it only when the download is installed. Its own test below holds it to that.
 const ALLOWED_TABLES = ["capital_council", "capital_sources", "capital_vs_omb", "disclosure", "disclosure_years", "member_crosswalk", "meta",
-  ...PDF_TABLES, ...OPEN_DATA_TABLES, ...AGENCY_BUDGET_TABLES].sort();
+  ...PDF_TABLES, ...OPEN_DATA_TABLES, ...AGENCY_BUDGET_TABLES, ...CAPITAL_PLAN_TABLES].sort();
 /** Every input must match one of these: the structured datasets and their manifests. */
 const ALLOWED_INPUTS = [
   /^data\/disclosure_years\.csv$/,
@@ -48,6 +49,8 @@ const ALLOWED_INPUTS = [
   /^data\/pdf_council_member_crosswalk\.csv$/,
   // City agency budgets: NYC Open Data mwzb-yiwb, June-release sums by agency x unit (#284).
   /^source\/agency-budget-qa\/(releases|by_unit|MANIFEST)\.csv$/,
+  // OMB's capital commitment plan and DCP's CPDB, NYC Open Data snapshots (#250).
+  /^source\/open-data-(2cmn-uidm|djxg-kcfi|fi59-268w)\/(\1\.csv\.gz|MANIFEST\.csv)$/,
 ];
 /** PDF-derived trees and file shapes, retired or checked: none may be read for, or shipped in, the package. */
 const PDF_DERIVED = [
@@ -126,7 +129,8 @@ test("the npm tarball ships the code and the spreadsheet index only", () => {
   assert.equal(r.status, 0, r.stderr);
   assert.doesNotMatch(r.stderr, /"script":"build-index"|> tsc/, "npm pack --ignore-scripts must not rebuild");
   const files = JSON.parse(r.stdout)[0].files.map((f) => f.path).sort();
-  assert.deepEqual(files, ["LICENSE", "README.md", "data/budget.db", "dist/agency.js", "dist/checkwords.js", "dist/db.js", "dist/fold.js", "dist/index.js", "dist/pdfdata.js",
+  // WHATS-CHANGED.md: the repo's file, copied in by prebuild for whats_changed (#310).
+  assert.deepEqual(files, ["LICENSE", "README.md", "WHATS-CHANGED.md", "data/budget.db", "dist/agency.js", "dist/betanyc-tools.js", "dist/capitalplan.js", "dist/checkwords.js", "dist/db.js", "dist/fold.js", "dist/index.js", "dist/pdfdata.js",
     "dist/pdfquery.js", "dist/publisher-copies.js", "dist/questions.js", "dist/rowlinks.js", "dist/server.js",
     "dist/textmatch.js", "package.json"]);
   for (const f of files) assert.ok(!PDF_DERIVED.some((re) => re.test(f)), f);

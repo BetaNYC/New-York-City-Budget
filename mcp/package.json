@@ -2,7 +2,7 @@
   "name": "@betanyc/nyc-budget-mcp",
   "version": "2.1.0",
   "mcpName": "io.github.BetaNYC/nyc-budget-mcp",
-  "description": "MCP server for BetaNYC's New York City Budget data, built only from structured sources: the NYC Council's expense funding disclosure workbooks (FY2009, FY2011–FY2027) and its capital designations (Council workbooks and NYC Open Data, FY2015–FY2027, FY2018 missing), with a by-budget-line comparison to OMB's adopted capital budget, and City agency budgets (adopted and modified, FY2017 on, NYC Open Data).",
+  "description": "MCP server for BetaNYC's New York City Budget data: the NYC Council's expense funding disclosure (FY2009, FY2011–FY2027) and capital designations (FY2015–FY2027; FY2018 read from the checked capital book and labeled), City agency budgets (adopted and modified, FY2017 on), OMB's capital commitment plan and City Planning's Capital Projects Database by budget line, and an optional download of checked tables from the Council's budget PDFs.",
   "keywords": [
     "mcp",
     "model-context-protocol",
@@ -14,6 +14,8 @@
     "discretionary-funding",
     "capital-budget",
     "expense-disclosure",
+    "agency-budget",
+    "capital-commitment-plan",
     "betanyc"
   ],
   "license": "MIT",
@@ -34,9 +36,11 @@
   },
   "files": [
     "dist",
-    "data/budget.db"
+    "data/budget.db",
+    "WHATS-CHANGED.md"
   ],
   "scripts": {
+    "prebuild": "node -e \"require('fs').copyFileSync('../WHATS-CHANGED.md','WHATS-CHANGED.md')\"",
     "build": "tsc",
     "build-index": "node scripts/build-index.mjs --spreadsheet-only",
     "dev": "tsc --watch",

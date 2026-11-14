@@ -4,6 +4,7 @@
 **Data current as of:** Open Data snapshots `4d7f-74pe`, `t474-a92g`, `46m8-77gv`, `2cmn-uidm` pulled
 2026-10-14 (still current on 2026-10-21, `source/open-data-watch.csv`); `ujre-m2tj`, `djxg-kcfi`,
 `mwzb-yiwb` (extract), `uvw5-9znb` pulled 2026-10-21.
+`fi59-268w` (CPDB - Projects) pulled 2026-11-14 for #250; it has no budget line, so no crosswalk here uses it.
 **Plan:** [`research/2026-10-21-open-data-tracking/PLAN.md`](../../research/2026-10-21-open-data-tracking/PLAN.md),
 approved by Noel Hidalgo 2026-10-21.
 
@@ -67,8 +68,12 @@ Reading it:
   `Ossé`: UTF-8 read as code page 437), plus `P CN1606`, broken on the portal (RECONCILIATION §2).
   FY2015–FY2017 and FY2027: no dataset. PDF rows (not in the table) match on the full project ID,
   agency code included (#198): `HD NC026` and `PW NC026` are two projects. Matching on the number
-  alone left 17 PDF rows `ambiguous`; 4 still are, `TF CN90` (FY2020) and `E CN884` (FY2022), each
-  printed twice with the same line, year and amount, in the PDF and on the portal.
+  alone left 17 PDF rows `ambiguous`. The last 4, `TF CN90` (FY2020) and `E CN884` (FY2022), are each
+  printed twice with the same line, year and amount, in the PDF and on the portal, but on two
+  boroughs (M and Q; K and X). Since #257 a full-ID bucket with several portal rows breaks the tie
+  on borough: a row is `same` only when exactly one portal row has its borough and no other row of
+  ours in the bucket does (rule `…, then borough (#257)`). None is left `ambiguous`. The Council
+  questions on whether each pair is one project or two (#239, #240) are still open.
 - **Capital lines** are context. `46m8-77gv` uses `data/capital/council_vs_omb_by_budget_line.csv`
   (verdicts other than `match` are in `differing_fields`). `2cmn-uidm` portal-only counts every
   Council-series line in that year's plan that has no award that year (most carry over from earlier

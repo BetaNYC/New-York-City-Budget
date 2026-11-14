@@ -43,8 +43,9 @@ export default function About({ manifest }) {
       <h3>Capital</h3>
       <ul>
         <li>
-          Council capital lists for FY2015–FY2017 and FY2019–FY2027, from the Council's workbooks and NYC Open Data t474-a92g.{" "}
-          <strong>FY2018 is missing</strong> from every source found; nothing before FY2015 is in this dataset. See{" "}
+          Council capital lists for FY2015–FY2027, from the Council's workbooks and NYC Open Data t474-a92g.{" "}
+          <strong>FY2018 is PDF-derived</strong>: no workbook or Open Data year exists, so it comes from the checked capital book, and every
+          FY2018 row says so. Nothing before FY2015 is in this dataset. See{" "}
           <a href={docUrl(commit, "data/capital/README.md")}>data/capital/README.md</a>.
         </li>
         <li>The comparison with OMB's adopted capital budget is by budget line only, the one key the two share.</li>
@@ -103,7 +104,7 @@ export default function About({ manifest }) {
       <h3>Credits</h3>
       <p>
         Built by <a href="https://beta.nyc">BetaNYC</a>. The app is adapted from our <a href="https://github.com/BetaNYC/nyc-eo-explorer">nyc-eo-explorer</a>
-        (MIT License), and searches run in your browser with <a href="https://github.com/duckdb/duckdb-wasm">DuckDB-WASM</a>. Source documents are © the City
+        (MIT License), and searches run in your browser: one year at a time from small files the build checks against the data, and across all years or in the PDF tables with <a href="https://github.com/duckdb/duckdb-wasm">DuckDB-WASM</a>. Source documents are © the City
         of New York.
       </p>
     </section>
