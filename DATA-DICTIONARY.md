@@ -153,6 +153,35 @@ the printed-abbreviation rule); `speaker` 18 / 7,193; `delegation` 97 / 7,870; `
 `district_label` 5 / 384; `blank` 18 / 26,530. 156,544 rows in all, the disclosure table's count.
 `python3 code/build_member_crosswalk.py` prints these.
 
+**Grantee ZIP** (GitHub #70, #247). The address columns are the grantee's **mailing** address as
+printed, not where services were delivered.
+
+| Column | Meaning |
+|---|---|
+| `postal_code` | The ZIP cell as published, never rewritten. |
+| `zip` | **Derived** five-digit ZIP, or blank. Read from `postal_code` and the row's `state` against the Census 2020 ZCTAs (`code/zcta_states.py`), then, for the rows that check leaves `ambiguous_extra_digit` or `state_mismatch`, from the street-address check below. |
+| `zip_status` | How `zip` was read: `valid`, `padded`, `trimmed`, `repaired_extra_digit`, `ambiguous_extra_digit` (no `zip`), `not_a_zcta` (not verified, not fake), `state_mismatch`, `invalid` (no `zip`), `blank` (no `zip`); and from the address check (#247), `repaired_by_address` (was `ambiguous_extra_digit`: the street address matches exactly one NYC address in the City's PAD file, whose ZIP is one of the candidates; `zip` = that ZIP) and `nyc_address_confirmed` (was `state_mismatch`: the address and the printed ZIP are exactly one NYC address, so the printed state is wrong; `zip` unchanged). Rules and counts: DATA-ANOMALIES §22. |
+| `zip_candidates` | `;`-joined five-digit ZIPs, set only on `ambiguous_extra_digit` and `repaired_by_address` rows: every one-digit deletion of the six printed digits that is a ZCTA in the row's state. |
+
+### `data/disclosure_address_check.csv` (GitHub #247)
+
+One row per disclosure row the Census check leaves `ambiguous_extra_digit` or `state_mismatch`
+(63 rows, FY2012–FY2027), checked offline against DCP Planning Labs' normalized PAD file (the file
+NYC's GeoSearch is built from; **not committed**) by `code/disclosure_address_check.py --pad
+<local copy> --write`. `--check` (CI, no PAD needed) fails if the file stops covering exactly
+those rows, a printed value changed, or a settled row does not follow from one match. The
+disclosure build reads it (`code/parse_expense_disclosure.py`) and refuses a row it no longer fits.
+
+| Column | Meaning |
+|---|---|
+| `fiscal_year`, `source_row` | The disclosure row. |
+| `zcta_status`, `postal_code`, `zip_candidates` | The row as the Census check left it. |
+| `borough`, `borough_from` | The borough matched in: from the printed `city` (`city`), else from the ZIP or every candidate ZIP when all point to one borough (`zip`); blank when neither does. |
+| `house_number`, `street_key`, `rules` | The match key after cleanup, and the cleanup rules used (`after_comma_dropped`, `unit_dropped`, `name_before_number`). |
+| `pad_matches`, `pad_zip`, `pad_bbl` | How many distinct PAD addresses (ZIP and tax lot) match, and the one's ZIP and BBL. |
+| `result`, `reason` | `repaired_by_address`, `nyc_address_confirmed`, or `left` (unchanged), and why. |
+| `pad_version`, `pad_sha256` | The PAD release (`26c`) and the sha256 of the downloaded CSV. |
+
 ## `data/{year}/terms/{year}_terms_and_conditions.csv`
 
 Reporting mandates the Council attaches to appropriations. **No printed totals to reconcile against** — this is a list of conditions, not dollars.

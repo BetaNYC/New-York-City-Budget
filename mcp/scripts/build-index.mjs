@@ -151,9 +151,12 @@ function dupGroup(r, year) {
 const EXCEL_ERROR = /^#(?:N\/A|REF!|VALUE!|DIV\/0!|NAME\?|NUM!|NULL!|SPILL!|CALC!|GETTING_DATA)$/;
 
 // #70: zip_status vocabulary, and which statuses carry a 5-digit zip.
+// #247: repaired_by_address and nyc_address_confirmed come from the PAD address check
+// (data/disclosure_address_check.csv); repaired_by_address keeps its zip_candidates.
 const ZIP_STATUSES = new Set(["valid", "padded", "trimmed", "repaired_extra_digit", "ambiguous_extra_digit",
-  "not_a_zcta", "state_mismatch", "invalid", "blank"]);
-const ZIP_HAS_VALUE = new Set(["valid", "padded", "trimmed", "repaired_extra_digit", "not_a_zcta", "state_mismatch"]);
+  "not_a_zcta", "state_mismatch", "invalid", "blank", "repaired_by_address", "nyc_address_confirmed"]);
+const ZIP_HAS_VALUE = new Set(["valid", "padded", "trimmed", "repaired_extra_digit", "not_a_zcta", "state_mismatch",
+  "repaired_by_address", "nyc_address_confirmed"]);
 function zipOf(r, year) {
   if (!ZIP_STATUSES.has(r.zip_status)) {
     throw new Error(`FY${year} row ${r.source_row}: zip_status ${JSON.stringify(r.zip_status)}`);
@@ -161,8 +164,9 @@ function zipOf(r, year) {
   if (/^\d{5}$/.test(r.zip) !== ZIP_HAS_VALUE.has(r.zip_status)) {
     throw new Error(`FY${year} row ${r.source_row}: zip ${JSON.stringify(r.zip)} does not fit zip_status ${r.zip_status}`);
   }
-  const ambiguous = r.zip_status === "ambiguous_extra_digit";
-  if (ambiguous !== /^\d{5}(;\d{5})+$/.test(r.zip_candidates) || (!ambiguous && r.zip_candidates !== "")) {
+  const ambiguous = r.zip_status === "ambiguous_extra_digit" || r.zip_status === "repaired_by_address";
+  if (ambiguous !== /^\d{5}(;\d{5})+$/.test(r.zip_candidates) || (!ambiguous && r.zip_candidates !== "")
+    || (r.zip_status === "repaired_by_address" && !r.zip_candidates.split(";").includes(r.zip))) {
     throw new Error(`FY${year} row ${r.source_row}: zip_candidates ${JSON.stringify(r.zip_candidates)} does not fit zip_status ${r.zip_status}`);
   }
   return r.zip;

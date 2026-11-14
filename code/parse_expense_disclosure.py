@@ -969,6 +969,24 @@ def duplicate_groups(awards):
 _ZCTAS = None
 
 
+def _address_check():
+    """code/disclosure_address_check.py, imported on use (#247)."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import disclosure_address_check as A
+    return A
+
+
+_CHECKS = None
+
+
+def _address_checks():
+    """{(fiscal_year, source_row): check row} from data/disclosure_address_check.csv, loaded once."""
+    global _CHECKS
+    if _CHECKS is None:
+        _CHECKS = _address_check().load()
+    return _CHECKS
+
+
 def _zctas():
     """The committed ZCTA -> state(s) table (code/zcta_states.py, GitHub #70), loaded once."""
     global _ZCTAS
@@ -1156,6 +1174,12 @@ def csv_text(awards):
         d["row_flag"] = flagged.get(a.source_row, "")
         d["zip"], d["zip_status"], d["zip_candidates"] = z.derive_zip(a.postal_code, a.state,
                                                                       z.TABLE_DATA)
+        # #247: a row the Census check leaves ambiguous_extra_digit or state_mismatch is settled
+        # only where its street address matches exactly one PAD address whose ZIP agrees
+        # (data/disclosure_address_check.csv, code/disclosure_address_check.py).
+        d["zip"], d["zip_status"], d["zip_candidates"] = _address_check().apply(
+            d["zip"], d["zip_status"], d["zip_candidates"],
+            _address_checks().get((str(a.fiscal_year), str(a.source_row))))
         d["council_member_id"], d["council_member_type"] = member_of(a)
         w.writerow([d[f] for f in OUT_FIELDS])
     return buf.getvalue()

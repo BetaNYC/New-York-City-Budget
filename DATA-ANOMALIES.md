@@ -594,6 +594,29 @@ in the Schedule C files moved. What a reader needs to know before using it:
   on Staten Island addresses), plus a few out-of-state ZIPs on rows marked New York
   (`07087`, `08701`, `15050`, `19454`, `94110`). Street addresses are not checked; NYC Planning's GeoSearch would
   be the next step and needs its own approval (about 140,000 lookups).
+- **Update 2026-11-13 (#247): street addresses checked against the City's PAD file, offline.**
+  No GeoSearch call was made. `code/disclosure_address_check.py` matches each row the Census check
+  leaves `ambiguous_extra_digit` or `state_mismatch` (63 rows, FY2012–FY2027) against DCP Planning
+  Labs' normalized PAD file, the file GeoSearch is built from (**PAD 26c**, `Last-Modified`
+  2026-08-21, sha256 `d934dfd3…74e3` of the CSV; not committed), on (house number, normalized
+  street, borough), by BetaNYC's NYC address-matching method (the workspace's
+  `team/reference/nyc-address-matching.md`, §3 and §5). A row is settled only when its address
+  matches **exactly one** PAD address and that address's ZIP **agrees** with what the row printed:
+  - `ambiguous_extra_digit` → **`repaired_by_address`** (25 rows): PAD's ZIP is one of the
+    candidates; `zip` is set to it and `zip_candidates` stay (`104658` → 10458 ×11, `100037` →
+    10037 ×10, `114345` → 11434 ×3, `100115` → 10115 ×1).
+  - `state_mismatch` → **`nyc_address_confirmed`** (16 rows: 14 in FY2013–FY2027, both archived
+    FY2012 rows): the address and the printed ZIP are one NYC address, so the state cell is what
+    is wrong; `zip` is unchanged.
+  - **Left as they were, with the reason** in `data/disclosure_address_check.csv` (22 rows): the 5
+    California `900069` rows and 5 out-of-state rows (no NYC borough); 10 rows whose address is one
+    NYC address but whose printed ZIP differs from it (PAD's ZIP is recorded, not applied); and the
+    2 archived `100215` rows, whose city is Brooklyn, so PAD's ZIP is not one of the Manhattan
+    candidates.
+  Nothing printed changed: `postal_code`, `state`, the address and every amount are as published.
+  The cleanup rules used are recorded per row (`after_comma_dropped`, `unit_dropped`,
+  `name_before_number`). Audit G7 and G12 read the check file themselves. These are grantee
+  **mailing** addresses, not where services were delivered.
 - **One FY2016 `address2` cell (row 640) is a number formatted as a date** (`42037`, which Excel
   shows as 2015-02-02). The stored value is kept; what was meant is not knowable from the file.
 

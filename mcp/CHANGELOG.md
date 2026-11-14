@@ -85,6 +85,15 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   PDF: the rows come from `data/capital/council_capital_awards.csv`, and FY2018's provenance from
   `data/pdf_years.csv`. 18,412 capital rows in all (was 16,916).
 
+- **Grantee ZIPs settled by the street address** (#247). Rows the Census check could not settle are
+  now checked against the City's own address file (DCP's normalized PAD, release 26c), offline: no
+  geocoding service was called. A row changes only where its mailing address matches exactly one
+  NYC address whose ZIP agrees with what was printed. 25 of the 32 `ambiguous_extra_digit` rows are
+  now **`repaired_by_address`** (the zip is that address's ZIP, one of the candidates), and 16 of
+  the 31 `state_mismatch` rows are **`nyc_address_confirmed`** (the address and ZIP are in NYC; the
+  printed state is wrong). The other 22 are unchanged. `zip_status` takes the two new values, and
+  the `zip` filter now finds the 25 repaired rows. Nothing printed changed, and no amount.
+
 ### Fixed
 - **2.0.6's note overstated who was affected.** It said "If you quoted a T&C unit amount from this
   server, check it again." The server never had those amounts: neither the package's index nor the PDF

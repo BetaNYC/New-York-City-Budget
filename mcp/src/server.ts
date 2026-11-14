@@ -132,6 +132,10 @@ const ZIP_STATUS_NOTE: Record<string, string> = {
   state_mismatch: "a 2020 ZCTA in another state than the row's",
   invalid: "no ZIP could be read from the cell",
   blank: "no ZIP printed",
+  repaired_by_address:
+    "six digits printed; the street address matches exactly one NYC address in the City's address file (PAD), whose ZIP is one of the candidates",
+  nyc_address_confirmed:
+    "the street address and this ZIP match exactly one NYC address in the City's address file (PAD); the printed state names another state",
 };
 
 const ROW_FLAG_NOTE: Record<string, string> = {
@@ -999,12 +1003,12 @@ export const TOOLS = [
         program_name: { type: "string", description: "Program name (substring)" },
         zip: {
           type: "string",
-          description: "Grantee mailing ZIP, exactly 5 digits (anything else is an error). Matches the 5-digit zip derived from the published postal_code (ZIP+4 read to its first five; a 4-digit ZIP padded, a ragged ZIP+4 trimmed, or a 6-digit ZIP repaired, only into a 2020 ZCTA of the row's own state). Rows whose zip_status is ambiguous_extra_digit, invalid or blank have no zip and never match. A mailing address, not where services were delivered.",
+          description: "Grantee mailing ZIP, exactly 5 digits (anything else is an error). Matches the 5-digit zip derived from the published postal_code (ZIP+4 read to its first five; a 4-digit ZIP padded, a ragged ZIP+4 trimmed, or a 6-digit ZIP repaired, only into a 2020 ZCTA of the row's own state; or settled by the street address where it matches exactly one address in the City's PAD file, zip_status repaired_by_address). Rows whose zip_status is ambiguous_extra_digit, invalid or blank have no zip and never match. A mailing address, not where services were delivered.",
         },
         zip_status: {
           type: "string",
           enum: [...ZIP_STATUSES],
-          description: "How the zip was read, checked against the Census 2020 ZCTAs: valid, padded (leading zero restored), trimmed (ragged ZIP+4 such as '11203-', '11231=1020' or '11413 ZipCode2: 3929'), repaired_extra_digit (6 digits printed; exactly one one-digit deletion is an in-state ZCTA, e.g. '111691' -> 11691), ambiguous_extra_digit (6 digits; two or more deletions are, e.g. '114345' -> 11434 or 11435; no zip, candidates shown on the row), not_a_zcta (not verified, not fake: PO-box ZIPs have no ZCTA), state_mismatch, invalid (no ZIP readable), blank (none printed).",
+          description: "How the zip was read, checked against the Census 2020 ZCTAs: valid, padded (leading zero restored), trimmed (ragged ZIP+4 such as '11203-', '11231=1020' or '11413 ZipCode2: 3929'), repaired_extra_digit (6 digits printed; exactly one one-digit deletion is an in-state ZCTA, e.g. '111691' -> 11691), ambiguous_extra_digit (6 digits; two or more deletions are, e.g. '114345' -> 11434 or 11435; no zip, candidates shown on the row), not_a_zcta (not verified, not fake: PO-box ZIPs have no ZCTA), state_mismatch, invalid (no ZIP readable), blank (none printed); and, from the street-address check against the City's PAD address file (#247), repaired_by_address (an ambiguous_extra_digit row whose address matches exactly one NYC address, whose ZIP is one of the candidates) and nyc_address_confirmed (a state_mismatch row whose address and ZIP match exactly one NYC address: the printed state is wrong).",
         },
         city: {
           type: "string",
