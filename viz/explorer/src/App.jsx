@@ -1,8 +1,8 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useDuckDB, useQueries, useTables } from "./duckdb/useDuckDB.js";
-import { PHASES, ensureData } from "./duckdb/store.js";
-import { BASE, aboutMb, bytesOf, tablesForView } from "./duckdb/needs.js";
+import { PHASES, ensureData, ensureManifest } from "./duckdb/store.js";
+import { BASE, aboutMb, bytesOf, needsEngine, tablesForView } from "./duckdb/needs.js";
 import { FILTER_KEYS, PAGE_KEY, historyDepth, pushHash, readHash, writeHash } from "./state/hash.js";
 import { HashLink, Notice } from "./components/ui.jsx";
 import { ReviewScreenContext } from "./components/pdf.jsx";
@@ -49,12 +49,19 @@ export default function App() {
   const current = useRef(state);
   current.current = state;
 
-  // The query engine and the Council data load for every view but City agency budgets, which reads
-  // small JSON files instead (#299): about 33 MB it never needs.
-  const needsDb = state.view !== "agencies";
+  // The query engine and the Council data load only for views that read them (needs.js
+  // needsEngine): not City agency budgets, which reads small JSON files (#299), not About the data,
+  // and not Review on the public site, which has no review queue (#301). Every Council view reads
+  // the manifest; City agency budgets does not.
+  const engine = needsEngine(state.view, db.manifest);
+  const council = state.view !== "agencies";
   useEffect(() => {
-    if (needsDb) ensureData().catch(() => {});
-  }, [needsDb]);
+    if (council) ensureManifest().catch(() => {});
+  }, [council]);
+  useEffect(() => {
+    if (engine) ensureData().catch(() => {});
+  }, [engine]);
+  const noQueue = state.view === "review" && engine === false;
 
   useEffect(() => {
     const sync = () => {
@@ -159,9 +166,13 @@ export default function App() {
         ) : db.phase === PHASES.ERROR ? (
           <Notice tone="error">
             The data could not be loaded: {String(db.error?.message ?? db.error)}.{" "}
-            <button type="button" className="linkish" onClick={() => ensureData().catch(() => {})}>
+            <button type="button" className="linkish" onClick={() => (engine ? ensureData() : ensureManifest()).catch(() => {})}>
               Try again
             </button>
+          </Notice>
+        ) : noQueue ? (
+          <Notice>
+            No review queue in this build. It appears in a local build made with <code>npm run data -- --include-reviewed</code>.
           </Notice>
         ) : !ready ? (
           state.view === "about" ? (

@@ -38,6 +38,7 @@ const listeners = new Set();
 let db = null;
 let conn = null;
 let bootPromise = null;
+let manifestPromise = null;
 /** One load per table: table -> promise, kept once it succeeds so a table is never fetched twice. */
 const tableLoads = new Map();
 
@@ -94,13 +95,33 @@ export function ensureTables(names) {
   );
 }
 
+/**
+ * manifest.json alone (a few KB), once per visit: what the build holds, with no engine and no
+ * table. Views that need no engine (About the data, Review on a public build; needs.js
+ * needsEngine) read only this (#301).
+ */
+export function ensureManifest() {
+  if (!manifestPromise) {
+    manifestPromise = (async () => {
+      const manifest = await (await fetchOk(dataUrl("manifest.json", String(Date.now())))).json();
+      for (const t of TABLES) {
+        if (!manifest.files?.[`${t}.parquet`]) throw new Error(`manifest.json lists no ${t}.parquet; the data build is incomplete`);
+      }
+      // A retry after a failed manifest clears the error; boot() sets its own phases after this.
+      emit(snapshot.phase === PHASES.ERROR ? { manifest, phase: PHASES.IDLE, error: null } : { manifest });
+      return manifest;
+    })().catch((error) => {
+      manifestPromise = null;
+      emit({ phase: PHASES.ERROR, error });
+      throw error;
+    });
+  }
+  return manifestPromise;
+}
+
 async function boot() {
   emit({ phase: PHASES.MANIFEST });
-  const manifest = await (await fetchOk(dataUrl("manifest.json", String(Date.now())))).json();
-  for (const t of TABLES) {
-    if (!manifest.files?.[`${t}.parquet`]) throw new Error(`manifest.json lists no ${t}.parquet; the data build is incomplete`);
-  }
-  emit({ manifest });
+  const manifest = await ensureManifest();
 
   const duckdb = await import("@duckdb/duckdb-wasm");
   const features = await duckdb.getPlatformFeatures();
