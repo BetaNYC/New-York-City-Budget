@@ -17,12 +17,12 @@ has a [glossary](WHICH-TOOL.md#glossary): fiscal year, adopted vs. modified, uni
 appropriation, intra-city, discretionary funding.
 
 - **Search it in a browser:** the [Council budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/) and the [City agency budgets view](https://betanyc.github.io/New-York-City-Budget/explorer/#view=agencies) in the same explorer.
-- **Ask an AI assistant:** the [`@betanyc/nyc-budget-mcp`](mcp/README.md) server: Council funding, and since 2.1.0 City agency budgets (`search_agency_budget`, `compare_adopted_modified`, [#270](https://github.com/BetaNYC/New-York-City-Budget/issues/270)).
+- **Ask an AI assistant:** the [`@betanyc/nyc-budget-mcp`](mcp/README.md) server: Council funding, and since 2.1.0 City agency budgets (`search_agency_budget`, `compare_adopted_modified`, [#270](https://github.com/BetaNYC/New-York-City-Budget/issues/270)) and OMB's capital commitment plan by budget line (`search_capital_plan`, [#250](https://github.com/BetaNYC/New-York-City-Budget/issues/250)).
 - **Download it:** the CSVs in [`data/`](data/), the [data releases](https://github.com/BetaNYC/New-York-City-Budget/releases), and the agency budgets' [one-file CSV](viz/agencies/data/nyc_budget.csv).
 - **What's changed:** [`WHATS-CHANGED.md`](WHATS-CHANGED.md) lists every change a reader would notice, newest first, with each correction and what to re-check.
 - **Report a problem:** [GitHub issues](https://github.com/BetaNYC/New-York-City-Budget/issues).
 
-**Last revised:** 2026-11-13.
+**Last revised:** 2026-11-14.
 
 > **Correction, 2026-11-09.** Before this date the agency budget explorer labeled every year one
 > year late: "Adopted 2026" was really the FY2025 adopted budget. A community board staffer's
@@ -321,7 +321,7 @@ Add it to your client's config:
 }
 ```
 
-It has eight tools:
+It has fourteen tools:
 
 | Tool | Answers from |
 |---|---|
@@ -334,6 +334,11 @@ It has eight tools:
 | `search_transparency_changes` | The transparency resolutions, from the checked PDF tables |
 | `search_capital_book` | The capital book, from the checked PDF tables |
 | `search_terms_conditions` | Terms and Conditions, from the checked PDF tables |
+| `search_agency_budget` | City agency budgets, adopted and modified, by agency and unit of appropriation, FY2017 on |
+| `compare_adopted_modified` | One agency's or unit's adopted and modified budget for a year, and the change |
+| `whats_changed` | What changed in the server and its data, from [`WHATS-CHANGED.md`](WHATS-CHANGED.md), with each correction and what to re-check (BetaNYC's shared tool) |
+| `about_betanyc` | Who built the server and where to report a problem (BetaNYC's shared tool) |
+| `about_data` | Where the data comes from, once this repo has a `DATA-SOURCES.json`; until then it says so (BetaNYC's shared tool) |
 
 The npm package holds the server's code and its spreadsheet index (`dist` and `data/budget.db`).
 The checked PDF tables are an **optional download** (about 17 MB) from this repo's data
@@ -477,7 +482,16 @@ New-York-City-Budget/
 - **2.1.0 (2026-11-14, tagged by a maintainer):** City agency budgets in the MCP index and the
   explorer, from one loader and one year rule ([#270](https://github.com/BetaNYC/New-York-City-Budget/issues/270));
   two MCP tools, `search_agency_budget` and `compare_adopted_modified`; the old `/agencies/` app
-  retired, its links forwarded.
+  retired, its links forwarded. Also: OMB's capital commitment plan and City Planning's Capital
+  Projects Database by budget line (`search_capital_plan`,
+  [#250](https://github.com/BetaNYC/New-York-City-Budget/issues/250)); FY2018 Council capital from
+  the checked book ([#202](https://github.com/BetaNYC/New-York-City-Budget/issues/202)); one
+  Council Member per row in the PDF tools ([#51](https://github.com/BetaNYC/New-York-City-Budget/issues/51));
+  grantee ZIPs checked against the City's address file
+  ([#247](https://github.com/BetaNYC/New-York-City-Budget/issues/247)); BetaNYC's three shared
+  tools and [`WHATS-CHANGED.md`](WHATS-CHANGED.md) ([#310](https://github.com/BetaNYC/New-York-City-Budget/issues/310));
+  and an explorer whose common pages load in under 1 MB on a phone
+  ([#301](https://github.com/BetaNYC/New-York-City-Budget/issues/301)).
 
 More: [`mcp/CHANGELOG.md`](mcp/CHANGELOG.md), [`data/retired/README.md`](data/retired/README.md),
 [`code/PARSING.md`](code/PARSING.md) (how each old file was made), and
