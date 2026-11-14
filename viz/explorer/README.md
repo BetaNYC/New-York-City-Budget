@@ -78,6 +78,19 @@ JavaScript, its CSS, `citywide.json` and `agencies.json`; GitHub Pages compresse
 adds its own file, `agency_budget/agency/<NNN>.json`. The engine's JavaScript is imported only
 when another view starts it.
 
+About the data, and Review on the public site (which has no review queue), read only
+`manifest.json` and start no engine either (#301; `needsEngine` in `src/duckdb/needs.js`).
+
+The Council views are moving to the same pattern (#301). The build writes `data/council/`
+(`scripts/council-json.mjs`, file names in `src/council/paths.js`): `years.json` (the lookups,
+each year's source and the Years totals), `omb.json` (every Council-vs-OMB row),
+`awards/index.json` (all years, no filter: totals, flags, the first page), one
+`awards/fyYYYY.json` per loaded disclosure year and one `capital/fyYYYY.json` per capital report
+year (every row, every column; a column that repeats a few values is stored once per file). Then it
+reads every file back and checks it against `budget.db` with its own SQL, every cell and every
+total; any difference stops the build. The largest file, FY2026's awards, is about 0.37 MB over
+the wire and 1.6 MB decoded. `manifest.json` lists each file with its size and sha256.
+
 Each PDF family's files load the first time a page that reads them opens, from a tab or a link
 straight into it, with a short "Loading the data for this page" message, and stay loaded for the
 rest of the visit. Schedule C brings its pairing with the spreadsheet (`pdf_sc_disclosure`);
