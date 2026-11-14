@@ -1713,6 +1713,8 @@ its FY Y "adopted" amount from `adopted_budget_amount` in the release tagged Y, 
 Example: DOE (040) unit 401, FY2017, shows $5,844,620,680, the FY2016 adopted budget; FY2017 is
 $6,164,926,031. Tracked in #274. The match status is right; only the amount's year is wrong.
 
+**Fixed 2026-11-10** in nyc-budget-mcp 2.0.6 ([#281](https://github.com/BetaNYC/New-York-City-Budget/pull/281)): the crosswalk now sums `financial_plan_amount`. The explorer's Terms and Conditions page showed the old amounts from 2026-10-23. The MCP server never had them: neither its package nor the PDF tables download carries a `terms_unit` crosswalk row. The reader-facing account is in [WHAT'S CHANGED](WHATS-CHANGED.md#2026-11-10-agency-amounts-in-the-terms-and-conditions-tables-were-one-year-late).
+
 **The rule now used** (DATA-DICTIONARY, "City agency budgets"): Adopted Y = `financial_plan_amount`
 from the June release tagged Y; Modified Y = `current_modified_budget_amount` from the June release
 tagged Y+1; the newest year's Modified is "Not yet published". Use one release per year (the June

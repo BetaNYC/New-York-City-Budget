@@ -25,6 +25,8 @@ tables are an **optional download** (about 17 MB; 115 MB on disk), not part of t
 > `get_legistar_link`. The four PDF tools in 2.0.2 read the new, checked tables, not that output.
 > See [Migrating from 1.x](#migrating-from-1x) and [`CHANGELOG.md`](CHANGELOG.md).
 
+**What's changed:** [`WHATS-CHANGED.md`](../WHATS-CHANGED.md) lists every change a reader would notice, with each correction and what to re-check. The server answers from it too (`whats_changed`).
+
 Published on npm as [`@betanyc/nyc-budget-mcp`](https://www.npmjs.com/package/@betanyc/nyc-budget-mcp) and run via `npx`. The package ships a prebuilt SQLite index, so no clone, build or data checkout is needed to run it.
 
 ## Quick start (npx)
@@ -90,6 +92,9 @@ from the same `agency_budget` table as `search_agency_budget`.
 | `search_terms_conditions` | Terms and Conditions by fiscal year / agency / unit of appropriation / text, the same filters as the explorer's Terms view. PDF tables |
 | `search_agency_budget` | City agency budgets (2.1.0): adopted and modified, by agency (`056`, `56` or words from the name) / unit of appropriation (`001` or words) / fiscal year, FY2017 on. Agency and unit totals, each figure's Open Data release, gross amounts stated. No filter: every agency's total for the year |
 | `compare_adopted_modified` | One agency or unit, one fiscal year: adopted, modified, and the change in dollars and percent. The newest year's modified is "not yet published", so no change is reported |
+| `whats_changed` | What changed in this server and its data, from [`WHATS-CHANGED.md`](../WHATS-CHANGED.md), newest first: filter by `since` (a date), `tag` (`Site`, `Data`, `MCP` or `Correction`) and `limit`. Each correction says what to re-check. BetaNYC's shared tool (2.1.0) |
+| `about_betanyc` | Who built this server (BetaNYC, a project of the Fund for the City of New York), where to report a bug or ask for a feature, and where the change history is. BetaNYC's shared tool (2.1.0) |
+| `about_data` | Where the data comes from, source by source, from a `DATA-SOURCES.json`. This repo has none yet, so it says so and points to each tool's own source notes. BetaNYC's shared tool (2.1.0) |
 | `list_available_fiscal_years` | What each fiscal year holds in each dataset and where it came from; FY2010 (disclosure) and FY2018 (capital) stated as gaps; each PDF family-year's status, and whether the PDF tables are installed |
 
 ### Unknown parameters are rejected, not ignored
@@ -509,7 +514,7 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/pdf-download.test.js` | The download, against a local HTTP server and folder only: install, `--pdfs`, a tampered, oversized or missing file (or PDF) installs nothing and leaves no temp file, a killed download's temp files are swept, one download at a time, plain http refused, `NYC_BUDGET_PDF_DATA=on` in the background and `=pdfs` not re-downloading a release without PDFs, release picking |
 | `test/pdf-release.test.js` | The automatic release (W7): `verify-pdf-release.mjs` accepts pretest's release and lists exactly its files, manifest last; refuses a local build, another commit, a tampered or missing file, another format; the workflow's tag is one the downloader picks, and the CLI installs from exactly the uploaded files on a local HTTP server; the workflow never runs on a PR, has write access only in its publish job, never builds with `--allow-local-commit` |
 | `test/source-commit.test.js` | The commit recorded for the GitHub links, on a throwaway repo: only a clean commit on `origin/main` whose PDFs match |
-| `test/tools.test.js` | Exactly ten tools listed; every removed 1.x tool answers with its migration note; `list_available_fiscal_years` matches the datasets year by year |
+| `test/tools.test.js` | Exactly thirteen tools listed (ten budget tools and BetaNYC's three shared ones); every removed 1.x tool answers with its migration note; `list_available_fiscal_years` matches the datasets year by year |
 | `test/disclosure.test.js` | Every row of every year indexed with its provenance; FY2010 not loaded; true counts and Cleared / Pending totals under any `limit`; ordering; status, amount, address and member filters; caveat and footer; strict-schema hints |
 | `test/disclosure-audit.test.js` | The audit questions (`../data/DISCLOSURE-AUDIT.md`, M1–M13): exact-to-the-cent totals for every year × status, truncation, sort before limit, limit edges, EIN rules, literal wildcards, multi-value notices, address filters, and the EIN-less note |
 | `test/disclosure-v2.test.js` | FY2009, FY2011, FY2012 with `od_mocs_id`, `od_match`, `row_flag`; early-snapshot labeling; the coverage line; FY2010's reason; exact `mocs_id` / `od_mocs_id`; the `row_flag` note |

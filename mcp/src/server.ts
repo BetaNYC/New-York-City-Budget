@@ -45,6 +45,7 @@ import {
 } from "./db.js";
 import { getMeta } from "./db.js";
 import { REPO_URL } from "./rowlinks.js";
+import { createBetanycTools } from "./betanyc-tools.js";
 import { howToAdd, maybeAutoDownload, openPdfTables, progress, type PdfTables } from "./pdfdata.js";
 import {
   searchScheduleC,
@@ -931,9 +932,23 @@ function pdfYearsSection(): string[] {
 // Tool definitions
 // ===========================================================================
 
+/**
+ * BetaNYC's shared tools (#310; the What's changed standard, BetaNYC/betanyc-ai-workspace#1637):
+ * whats_changed, about_betanyc and about_data, from the shared module copied in unchanged
+ * (src/betanyc-tools.ts). WHATS-CHANGED.md sits at the repo root; the prebuild script copies it
+ * into mcp/ so the package ships it beside dist/. This repo has no DATA-SOURCES.json yet, so
+ * about_data says so (the about-data standard is a separate adoption).
+ */
+const betanyc = createBetanycTools({
+  serverName: "nyc-budget-mcp",
+  version: PACKAGE_VERSION,
+  repoUrl: REPO_URL,
+  whatsChangedPath: new URL("../WHATS-CHANGED.md", import.meta.url),
+});
+
 export const server = new Server(
   { name: "nyc-budget-mcp", version: PACKAGE_VERSION },
-  { capabilities: { tools: {} } }
+  { capabilities: { tools: {} }, instructions: betanyc.instructions }
 );
 
 /** #259: the whole_word parameter, on every tool with a free-text filter. */
@@ -1162,6 +1177,7 @@ export const TOOLS = [
     description: `Report, for every fiscal year, which structured datasets this server holds and where each came from: the expense funding disclosure (loaded or not, Council RnD download or Internet Archive capture, retrieval date, early-snapshot flag), the Council capital list (Council workbook or NYC Open Data t474-a92g), and whether the year is in the Council-vs-OMB comparison. Also reports each family-year of the checked PDF tables (Schedule C, transparency resolutions, the capital book, Terms and Conditions) with its status, and whether the optional PDF tables download is installed. Also reports the City agency budget years (search_agency_budget, compare_adopted_modified; NYC Open Data mwzb-yiwb) and when that snapshot was taken. States the gaps plainly: FY2010 disclosure not loaded, FY2018 capital missing, nothing before FY2009, no PDF table before FY2018.`,
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
+  ...betanyc.tools,
 ];
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOLS }));
@@ -1301,6 +1317,7 @@ function budgetLineArg(v: string | undefined): { value?: string; error?: string 
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
+  if (betanyc.handles(name)) return betanyc.call(name, args);
   try {
     switch (name) {
       case "search_disclosure_awards": {

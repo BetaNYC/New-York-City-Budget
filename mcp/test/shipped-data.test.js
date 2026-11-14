@@ -126,7 +126,8 @@ test("the npm tarball ships the code and the spreadsheet index only", () => {
   assert.equal(r.status, 0, r.stderr);
   assert.doesNotMatch(r.stderr, /"script":"build-index"|> tsc/, "npm pack --ignore-scripts must not rebuild");
   const files = JSON.parse(r.stdout)[0].files.map((f) => f.path).sort();
-  assert.deepEqual(files, ["LICENSE", "README.md", "data/budget.db", "dist/agency.js", "dist/checkwords.js", "dist/db.js", "dist/fold.js", "dist/index.js", "dist/pdfdata.js",
+  // WHATS-CHANGED.md: the repo's file, copied in by prebuild for whats_changed (#310).
+  assert.deepEqual(files, ["LICENSE", "README.md", "WHATS-CHANGED.md", "data/budget.db", "dist/agency.js", "dist/betanyc-tools.js", "dist/checkwords.js", "dist/db.js", "dist/fold.js", "dist/index.js", "dist/pdfdata.js",
     "dist/pdfquery.js", "dist/publisher-copies.js", "dist/questions.js", "dist/rowlinks.js", "dist/server.js",
     "dist/textmatch.js", "package.json"]);
   for (const f of files) assert.ok(!PDF_DERIVED.some((re) => re.test(f)), f);

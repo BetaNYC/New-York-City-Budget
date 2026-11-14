@@ -19,6 +19,7 @@ appropriation, intra-city, discretionary funding.
 - **Search it in a browser:** the [Council budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/) and the [City agency budgets view](https://betanyc.github.io/New-York-City-Budget/explorer/#view=agencies) in the same explorer.
 - **Ask an AI assistant:** the [`@betanyc/nyc-budget-mcp`](mcp/README.md) server: Council funding, and since 2.1.0 City agency budgets (`search_agency_budget`, `compare_adopted_modified`, [#270](https://github.com/BetaNYC/New-York-City-Budget/issues/270)).
 - **Download it:** the CSVs in [`data/`](data/), the [data releases](https://github.com/BetaNYC/New-York-City-Budget/releases), and the agency budgets' [one-file CSV](viz/agencies/data/nyc_budget.csv).
+- **What's changed:** [`WHATS-CHANGED.md`](WHATS-CHANGED.md) lists every change a reader would notice, newest first, with each correction and what to re-check.
 - **Report a problem:** [GitHub issues](https://github.com/BetaNYC/New-York-City-Budget/issues).
 
 **Last revised:** 2026-11-12.

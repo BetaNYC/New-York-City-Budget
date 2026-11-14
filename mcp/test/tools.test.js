@@ -24,7 +24,9 @@ const fmt = (n) => n.toLocaleString("en-US");
 const TOOLS_2 = ["search_disclosure_awards", "search_council_capital", "compare_capital_to_omb", "list_available_fiscal_years",
   "search_schedule_c_awards", "search_transparency_changes", "search_capital_book", "search_terms_conditions",
   // City agency budgets (#270, #285; test/agency-budget-tools.test.js).
-  "search_agency_budget", "compare_adopted_modified"];
+  "search_agency_budget", "compare_adopted_modified",
+  // BetaNYC's shared tools (#310; test/shared-tools.test.js).
+  "whats_changed", "about_betanyc", "about_data"];
 const REMOVED = {
   search_awards: "search_disclosure_awards",
   get_awards_by_ein: "search_disclosure_awards",
@@ -45,7 +47,7 @@ after(async () => {
   await client.close();
 });
 
-test("tools/list exposes exactly the ten tools", async () => {
+test("tools/list exposes exactly the thirteen tools (ten budget tools, three shared)", async () => {
   // FAILS if a retired tool is still listed, or a 2.0 tool is missing.
   const { tools } = await client.listTools();
   assert.deepEqual(tools.map((t) => t.name).sort(), [...TOOLS_2].sort());

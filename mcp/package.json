@@ -34,9 +34,11 @@
   },
   "files": [
     "dist",
-    "data/budget.db"
+    "data/budget.db",
+    "WHATS-CHANGED.md"
   ],
   "scripts": {
+    "prebuild": "node -e \"require('fs').copyFileSync('../WHATS-CHANGED.md','WHATS-CHANGED.md')\"",
     "build": "tsc",
     "build-index": "node scripts/build-index.mjs --spreadsheet-only",
     "dev": "tsc --watch",

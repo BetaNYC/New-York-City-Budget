@@ -52,7 +52,23 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
     delegation column, which are not resolved.
   - Borough delegation labels still match as before and are never a person. Schedule C's
     sponsor column and the capital tools are unchanged.
-<!-- TODO(#270): link the cross-repo "What's changed" log here when that standard lands. -->
+- **BetaNYC's shared tools and a "What's changed" record** (#310, the workspace's What's changed
+  standard, BetaNYC/betanyc-ai-workspace#1637). Three tools from BetaNYC's shared module,
+  `src/betanyc-tools.ts`, copied in unchanged: `whats_changed` answers from the repo's new
+  `WHATS-CHANGED.md` (filters `since`, `tag`, `limit`), `about_betanyc` says who built the server
+  and where to report a bug or ask for a feature, and `about_data` says where the data comes from
+  once the repo has a `DATA-SOURCES.json` (it has none yet, and the tool says so). The server's
+  `instructions` now carry the module's. `WHATS-CHANGED.md` is backfilled from this file,
+  `DATA-ANOMALIES.md` and the merged PRs back to 2026-07-06, with every correction a reader
+  should know about; it ships in the package (copied into `mcp/` by `prebuild`). CI checks it
+  (`scripts/whats_changed.py check --base-ref`), and the release workflow refuses to publish
+  while its 2.1.0 entry is still "Unreleased". Thirteen tools in all.
+
+### Fixed
+- **2.0.6's note overstated who was affected.** It said "If you quoted a T&C unit amount from this
+  server, check it again." The server never had those amounts: neither the package's index nor the PDF
+  tables download carried a `terms_unit` crosswalk row, so no answer was affected. Only the
+  explorer's Terms and Conditions page showed them, from 2026-10-23 to 2026-11-10. The reader-facing account is in `WHATS-CHANGED.md`.
 
 ## 2.0.6 — 2026-11-10
 
