@@ -3,3 +3,6 @@ dist/
 site/
 public/data/
 .cache/
+e2e/.site/
+e2e/.results/
+e2e/.report/

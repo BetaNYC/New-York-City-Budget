@@ -15,6 +15,9 @@
  *   data/open_data/crosswalk_*.csv, coverage.csv, source/open-data-watch.csv
  *                                                      whether each record is on NYC Open Data
  *                                                      (scripts/open-data.mjs)
+ *   source/agency-budget-qa/{releases,by_unit,MANIFEST}.csv City agency budgets, NYC Open Data
+ *                                                      mwzb-yiwb, under the year rule
+ *                                                      (scripts/agency-budget.mjs, #284)
  *
  * The retired PDF extracts are never read: not data/fyNN/schedule_c/, its appendices or recovered
  * sidecars, data/fyNN/terms/, data/fyNN/capital/ (§254), transparency resolutions, data/combined/
@@ -45,6 +48,7 @@ import { verifyIndex } from "./verify-index.mjs";
 import { sourceCommit } from "./source-commit.mjs";
 import { loadPdfFamilies, pdfSchemaSql, verifyPdf, PDF_TABLES, PDF_FAMILIES } from "./pdf-families.mjs";
 import { loadOpenData, openDataSchemaSql, verifyOpenData } from "./open-data.mjs";
+import { loadAgencyBudget, agencyBudgetSchemaSql, verifyAgencyBudget } from "./agency-budget.mjs";
 // The folding rule db.ts applies to queries (src/fold.ts); `npm run build` always runs first.
 import { fold } from "../dist/fold.js";
 
@@ -307,6 +311,7 @@ function build() {
   `);
   db.exec(pdfSchemaSql());
   db.exec(openDataSchemaSql());
+  db.exec(agencyBudgetSchemaSql());
 
   const counts = {};
 
@@ -524,6 +529,10 @@ function build() {
   const od = loadOpenData(db, { readCsv }, pdf.loaded);
   Object.assign(counts, od.counts);
 
+  // --- City agency budgets (NYC Open Data mwzb-yiwb; the year rule lives in agency-budget.mjs) --
+  const ab = loadAgencyBudget(db, { readCsv });
+  Object.assign(counts, ab.counts);
+
   const setMeta = db.prepare("INSERT INTO meta (key, value) VALUES (?, ?)");
   setMeta.run("include_reviewed", INCLUDE_REVIEWED ? "yes" : "no");
   setMeta.run("pdf_gate", SPREADSHEET_ONLY ? "none" : INCLUDE_REVIEWED ? "reviewed_and_closed" : "closed");
@@ -536,6 +545,7 @@ function build() {
   setMeta.run("source_commit_scope", ALLOW_LOCAL_COMMIT ? "local" : "origin/main");
   setMeta.run("built_at", new Date().toISOString());
   setMeta.run("source", "BetaNYC/New-York-City-Budget (committed structured datasets only)");
+  setMeta.run("agency_budget", JSON.stringify(ab.meta));
   setMeta.run("inputs", JSON.stringify(INPUTS));
   setMeta.run("counts", JSON.stringify(counts));
 
@@ -546,7 +556,7 @@ function build() {
   const capitalRowsByYear = new Map();
   for (const r of cap) capitalRowsByYear.set(Number(r.report_year), (capitalRowsByYear.get(Number(r.report_year)) ?? 0) + 1);
   const problems = [...verifyIndex(db, { disclosureYears: years, capitalRowsByYear }), ...verifyPdf(db, pdf),
-    ...verifyOpenData(db)];
+    ...verifyOpenData(db), ...verifyAgencyBudget(db, ab)];
   db.close();
   if (problems.length) {
     log("verify_failed", { problems });

@@ -63,6 +63,7 @@ function Results({ data, state, set }) {
         <>
           <div className="table-wrap">
             <table className="rows">
+              <caption className="visually-hidden">Council capital lines beside OMB's commitment plan</caption>
               <thead>
                 <tr>
                   <th scope="col">Report year</th>

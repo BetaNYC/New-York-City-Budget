@@ -19,13 +19,14 @@ import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
 import { PDF_TABLES } from "../scripts/pdf-families.mjs";
 import { OPEN_DATA_TABLES } from "../scripts/open-data.mjs";
+import { AGENCY_BUDGET_TABLES } from "../scripts/agency-budget.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const MCP = join(HERE, "..");
 const DB_PATH = join(MCP, "data", "budget.db");
 
 const ALLOWED_TABLES = ["capital_council", "capital_sources", "capital_vs_omb", "disclosure", "disclosure_years", "meta",
-  ...PDF_TABLES, ...OPEN_DATA_TABLES].sort();
+  ...PDF_TABLES, ...OPEN_DATA_TABLES, ...AGENCY_BUDGET_TABLES].sort();
 /** Every input must match one of these: the structured datasets and their manifests. */
 const ALLOWED_INPUTS = [
   /^data\/disclosure_years\.csv$/,
@@ -39,6 +40,8 @@ const ALLOWED_INPUTS = [
   /^data\/pdf_years\.csv$/,
   /^data\/open_data\/(crosswalk_(expense|capital_award|capital_line|terms_unit)|coverage)\.csv$/,
   /^source\/open-data-watch\.csv$/,
+  // City agency budgets: NYC Open Data mwzb-yiwb, June-release sums by agency x unit (#284).
+  /^source\/agency-budget-qa\/(releases|by_unit|MANIFEST)\.csv$/,
 ];
 /** PDF-derived trees and file shapes, retired or checked: none may be read for, or shipped in, the package. */
 const PDF_DERIVED = [
@@ -100,7 +103,7 @@ test("the npm tarball ships the code and the spreadsheet index only", () => {
   assert.equal(r.status, 0, r.stderr);
   assert.doesNotMatch(r.stderr, /"script":"build-index"|> tsc/, "npm pack --ignore-scripts must not rebuild");
   const files = JSON.parse(r.stdout)[0].files.map((f) => f.path).sort();
-  assert.deepEqual(files, ["LICENSE", "README.md", "data/budget.db", "dist/checkwords.js", "dist/db.js", "dist/fold.js", "dist/index.js", "dist/pdfdata.js",
+  assert.deepEqual(files, ["LICENSE", "README.md", "data/budget.db", "dist/agency.js", "dist/checkwords.js", "dist/db.js", "dist/fold.js", "dist/index.js", "dist/pdfdata.js",
     "dist/pdfquery.js", "dist/publisher-copies.js", "dist/questions.js", "dist/rowlinks.js", "dist/server.js",
     "dist/textmatch.js", "package.json"]);
   for (const f of files) assert.ok(!PDF_DERIVED.some((re) => re.test(f)), f);
