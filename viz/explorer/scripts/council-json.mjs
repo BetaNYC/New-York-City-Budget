@@ -64,6 +64,17 @@ function columnar(sqlite, table, where = "", params = []) {
   return { columns, rows, dicts };
 }
 
+/**
+ * Each report year's capital rows hold one unbroken run of seq: { report_year, first, last }.
+ * The index numbers rows in file order, one report year after another; if that ever changes, the
+ * build stops here rather than send a link to the wrong year's file.
+ */
+function capitalSeqRanges(sqlite) {
+  const r = sqlite.prepare("SELECT report_year, MIN(seq) first, MAX(seq) last, COUNT(*) n FROM capital_council GROUP BY 1 ORDER BY 2").all();
+  for (const y of r) if (y.last - y.first + 1 !== y.n) throw new Error(`council-json: FY${y.report_year} capital rows are not one run of seq (${y.first}-${y.last}, ${y.n} rows)`);
+  return r.map(({ report_year, first, last }) => ({ report_year, first, last }));
+}
+
 /** Every file: { path: object }. */
 export async function councilJsonFiles(sqlite, conn, stamp = {}) {
   const head = { schema: 1, generated_at: stamp.generated_at ?? null };
@@ -76,6 +87,8 @@ export async function councilJsonFiles(sqlite, conn, stamp = {}) {
     disclosure_years: disclosureYears,
     capital_sources: capitalSources,
     omb_years: sqlite.prepare("SELECT DISTINCT report_year FROM capital_vs_omb ORDER BY report_year").all().map((r) => r.report_year),
+    // Which report year's file holds a capital row (a link names the row by seq alone).
+    capital_seq: capitalSeqRanges(sqlite),
     pdf_years: await duck(conn, pdfYearsQuery()),
     year_disclosure: await duck(conn, Q.YEAR_DISCLOSURE_QUERY),
     year_capital: await duck(conn, Q.YEAR_CAPITAL_QUERY),
@@ -178,6 +191,11 @@ export function verifyCouncilJson(sqlite, outDir) {
     if (yj[key].length !== want.length) diffs.push(`years.json ${key}: ${yj[key].length} rows, table ${want.length}`);
     want.forEach((w, i) => Object.keys(w).forEach((c) => same(`years.json ${key}[${i}].${c}`, yj[key][i]?.[c], w[c])));
   }
+  for (const g of yj.capital_seq ?? []) {
+    const w = sqlite.prepare("SELECT COUNT(*) n, MIN(report_year) a, MAX(report_year) b FROM capital_council WHERE seq BETWEEN ? AND ?").get(g.first, g.last);
+    same(`years.json capital_seq FY${g.report_year}`, `${w.a}-${w.b} ${w.n}`, `${g.report_year}-${g.report_year} ${g.last - g.first + 1}`);
+  }
+  same("years.json capital_seq rows", (yj.capital_seq ?? []).reduce((t, g) => t + g.last - g.first + 1, 0), sqlite.prepare("SELECT COUNT(*) n FROM capital_council").get().n);
   same("years.json omb_years", JSON.stringify(yj.omb_years), JSON.stringify(sqlite.prepare("SELECT DISTINCT report_year y FROM capital_vs_omb ORDER BY 1").all().map((r) => r.y)));
   const pdfWant = sqlite.prepare("SELECT fiscal_year, family, status, rows FROM pdf_years ORDER BY fiscal_year DESC, family").all();
   if (yj.pdf_years.length !== pdfWant.length) diffs.push(`years.json pdf_years: ${yj.pdf_years.length} rows, table ${pdfWant.length}`);

@@ -549,3 +549,25 @@ read it.
 
 Gross, like the CSV. `meta.agency_budget` (JSON) records the dataset, the snapshot's retrieval
 time, the first and last year, and each tag's June release.
+
+## OMB's Capital Commitment Plan and City Planning's CPDB (MCP index, since 2.1.0, #250)
+
+Built by [`mcp/scripts/capital-plan.mjs`](mcp/scripts/capital-plan.mjs) from the committed NYC Open
+Data snapshots in `source/open-data-2cmn-uidm/`, `source/open-data-djxg-kcfi/` and
+`source/open-data-fi59-268w/`, each checked against its `MANIFEST.csv` (sha256 and row count)
+before a row is read. Values are as published; the only changes are the budget line's normal form
+(`budget_line_norm`, "P D018", the same rule as `council_capital_awards.csv`), dates as
+`YYYY-MM-DD`, and a planned commitment's fiscal year. The MCP's `search_capital_plan` reads them.
+
+| Table | Rows | One row per | Unit |
+|---|---:|---|---|
+| `capital_plan` | 60,738 | plan release (`pub_date`) × budget line × funding (`CITY` / `NON CITY`) | **Thousands of dollars**, as OMB publishes them: `year1_amt_k` … `year5_amt_k`, for `yr1_fy` and the next years. A fifth year OMB did not publish is NULL |
+| `cpdb_commitments` | 41,277 | planned commitment: project (`maprojid`) × budget line × date | Dollars (DATA-ANOMALIES §59). `plan_fy` is the fiscal year of `plancommdate`, July to June |
+| `cpdb_projects` | 12,929 | FMS project (`maprojid`) | Dollars: planned, adopted, allocated, committed and spent totals, and `spent_total_checkbooknyc`. **No budget line**; a project's totals are the whole project's, never split to a line |
+| `cpdb_codes` | — | sponsor agency or commitment code | The name behind each code in `cpdb_commitments` |
+| `capital_plan_sources` | 3 | dataset | Each snapshot's file, sha256, rows, `rowsUpdatedAt`, retrieval date, unit and CPDB version |
+
+`capital_plan` leaves out the one `2cmn-uidm` row with no release, line or year (amounts that look
+like grand totals), as `code/build_capital_council.py` does; 343 rows whose `budline` does not
+start with their `projtype` have no `budget_line_norm`. These tables link to the Council's capital
+list by budget line only: Council project IDs appear in no OMB or DCP dataset.

@@ -43,11 +43,16 @@ after(() => {
 const norm = (v) => (typeof v === "bigint" ? Number(v) : typeof v === "number" && !Number.isInteger(v) ? Math.round(v * 100) / 100 : v);
 const normRows = (rows) => rows.map((r) => Object.fromEntries(Object.entries(r).map(([k, v]) => [k, norm(v)])));
 
+/** A json form against the files on disk, following `next` (src/council/data.js runJson). */
+function runForm(form) {
+  const files = form.files.map((p) => (existsSync(join(DATA, p)) ? JSON.parse(readFileSync(join(DATA, p), "utf8")) : null));
+  return form.next ? runForm(form.next(files)) : form.run(files);
+}
+
 async function both(q, label) {
   assert.ok(q.json, `${label}: no json form`);
   const sql = normRows((await conn.runAndReadAll(q.sql, q.params ?? [])).getRowObjectsJS());
-  const files = q.json.files.map((p) => JSON.parse(readFileSync(join(DATA, p), "utf8")));
-  const json = normRows(q.json.run(files));
+  const json = normRows(runForm(q.json));
   assert.deepEqual(json, sql, label);
   return sql.length;
 }
@@ -167,6 +172,51 @@ describe("Expense awards: one year's file, and the unfiltered list", () => {
       const files = q.json.files.map((p) => (existsSync(join(DATA, p)) ? JSON.parse(readFileSync(join(DATA, p), "utf8")) : null));
       assert.deepEqual(q.json.run(files), []);
       assert.deepEqual(sql, []);
+    }
+  });
+});
+
+describe("Council capital: one report year's file, and one row", () => {
+  const yj = JSON.parse(readFileSync(join(DATA, "council", "years.json"), "utf8"));
+  const years = yj.capital_sources.map((s) => s.report_year);
+  const within = [
+    {},
+    { amount_fy: 2028 },
+    { sponsor: "avilés" },
+    { sponsor: "AVILES" },
+    { council_district: 8 },
+    { budget_line: "p-d018" },
+    { budget_line: "PD018" },
+    { borough: "X", min_amount: 1000000 },
+    { title: "library", description: "renovat" },
+    { max_amount: 50000 },
+    { title: "zzzz-no-such-project" },
+  ];
+
+  test("every report year, every filter: totals and the first two pages", async () => {
+    // FAILS if a JS filter, the amount kinds, or the order differs from DuckDB in any year.
+    let rows = 0;
+    for (const fiscal_year of years) {
+      for (const g of within) {
+        const f = { ...g, fiscal_year };
+        await both(Q.capitalTotalsQuery(f), `capital totals ${JSON.stringify(f)}`);
+        for (const page of g === within[0] ? [0, 1] : [0]) rows += await both(Q.capitalRowsQuery(f, page), `capital rows ${JSON.stringify(f)} page ${page}`);
+      }
+    }
+    assert.ok(rows > 1500, `${rows} rows compared`);
+    assert.equal(Q.capitalRowsQuery({}, 0).json, undefined, "all report years need the engine");
+  });
+
+  test("one capital row, by seq alone, across every report year", async () => {
+    // FAILS if years.json's seq ranges send a row to the wrong year's file, or a row differs.
+    let n = 0;
+    for (const g of yj.capital_seq) for (const seq of [g.first, Math.floor((g.first + g.last) / 2), g.last]) n += await both(Q.capitalRowQuery(seq), `capital row ${seq}`);
+    assert.equal(n, yj.capital_seq.length * 3);
+    const last = yj.capital_seq.at(-1).last;
+    for (const seq of [0, last + 1]) {
+      const q = Q.capitalRowQuery(seq);
+      assert.deepEqual(runForm(q.json), []);
+      assert.deepEqual((await conn.runAndReadAll(q.sql, q.params)).getRowObjectsJS(), []);
     }
   });
 });

@@ -45,7 +45,12 @@ export const hasCouncilFile = (path) => Boolean(getSnapshot().manifest?.council_
  * null (one award in a year that is not loaded: no such row).
  */
 export async function runJson(q) {
-  const optional = new Set(q.json.optional ?? []);
-  const files = await Promise.all(q.json.files.map((p) => (optional.has(p) && !hasCouncilFile(p) ? null : councilFile(p))));
-  return q.json.run(files);
+  return runForm(q.json);
+}
+
+/** A json form, or `next(files)` -> another json form when the first files say which to read. */
+async function runForm(form) {
+  const optional = new Set(form.optional ?? []);
+  const files = await Promise.all(form.files.map((p) => (optional.has(p) && !hasCouncilFile(p) ? null : councilFile(p))));
+  return form.next ? runForm(form.next(files)) : form.run(files);
 }

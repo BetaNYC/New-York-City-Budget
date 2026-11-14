@@ -87,6 +87,37 @@ test("one award opens from its year's file; its Open Data and Schedule C panels 
   await expect(page.getByRole("heading", { name: "On NYC Open Data?" })).toBeVisible({ timeout: 150_000 });
 });
 
+for (const [name, path, heading] of [
+  ["the capital list", "explorer/#view=capital", null],
+  ["one capital project", "explorer/#view=capital-row&seq=1", "Every column"],
+]) {
+  test(`${name} opens from its report year's file, with no engine; its extras load on request`, async ({ page }) => {
+    // FAILS if the view starts DuckDB on its own, or its book and Open Data parts never come (#301 step 6).
+    const log = urls(page);
+    await page.goto(path);
+    if (heading) await expect(page.getByRole("heading", { name: heading })).toBeVisible({ timeout: 60_000 });
+    else await expect(page.locator("main table").first()).toBeVisible({ timeout: 60_000 });
+    await page.waitForLoadState("networkidle");
+    expect(log.filter((u) => ENGINE.test(u))).toEqual([]);
+    expect(log.filter((u) => PARQUET.test(u))).toEqual([]);
+    await page.getByRole("button", { name: "Show them" }).first().click();
+    await expect.poll(() => log.some((u) => ENGINE.test(u)), { timeout: 60_000 }).toBe(true);
+    if (heading) await expect(page.getByRole("heading", { name: "On NYC Open Data?" })).toBeVisible({ timeout: 150_000 });
+    else await expect(page.getByRole("columnheader", { name: "NYC Open Data" })).toBeVisible({ timeout: 150_000 });
+  });
+}
+
+test("a power tool loads DuckDB's extensions from this site, never extensions.duckdb.org", async ({ page }) => {
+  // FAILS if any request goes to DuckDB's server, or the self-hosted files are not used (#301 step 8).
+  const log = urls(page);
+  await page.goto("explorer/#view=orgs");
+  await expect(page.locator("main table").first()).toBeVisible({ timeout: 150_000 });
+  await page.waitForLoadState("networkidle");
+  expect(log.filter((u) => /extensions\.duckdb\.org/.test(u))).toEqual([]);
+  expect(log.some((u) => /\/duckdb-extensions\/v1\.4\.3\/wasm_eh\/parquet\.duckdb_extension\.wasm/.test(u))).toBe(true);
+  expect(log.some((u) => /\/duckdb-extensions\/v1\.4\.3\/wasm_eh\/json\.duckdb_extension\.wasm/.test(u))).toBe(true);
+});
+
 test("leaving About for the expense awards shows the list", async ({ page }) => {
   // FAILS if the list does not come after About (from the JSON files since #301 step 5).
   await page.goto("explorer/#view=about");
