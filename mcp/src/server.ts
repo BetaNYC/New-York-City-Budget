@@ -29,6 +29,7 @@ import {
   listOmbComparisonYears,
   normEin,
   fold,
+  memberCrosswalk,
   normBudgetLine,
   normProjectId,
   DISCLOSURE_STATUSES,
@@ -44,6 +45,7 @@ import {
 } from "./db.js";
 import { getMeta } from "./db.js";
 import { REPO_URL } from "./rowlinks.js";
+import { createBetanycTools } from "./betanyc-tools.js";
 import { howToAdd, maybeAutoDownload, openPdfTables, progress, type PdfTables } from "./pdfdata.js";
 import {
   searchScheduleC,
@@ -58,10 +60,15 @@ import {
   STATUS_LABEL,
   TR_ACTIONS,
   VACANT_DISTRICT,
+  type MatchedMember,
+  type MemberCrosswalk,
+  type MemberIdReport,
+  type MemberResolution,
   type ServedRow,
 } from "./pdfquery.js";
 import { otherFlagWords } from "./checkwords.js";
 import { agencyYearsSection, compareAdoptedModifiedText, searchAgencyBudgetText } from "./agency.js";
+import { allPlanReleases, capitalPlanYearsSection, PLAN_FUNDING, searchCapitalPlanText } from "./capitalplan.js";
 import { SHORT_TERM, wholeWordNote, type WordFilter } from "./textmatch.js";
 import {
   BOROUGH_CODES_QUESTION,
@@ -126,6 +133,10 @@ const ZIP_STATUS_NOTE: Record<string, string> = {
   state_mismatch: "a 2020 ZCTA in another state than the row's",
   invalid: "no ZIP could be read from the cell",
   blank: "no ZIP printed",
+  repaired_by_address:
+    "six digits printed; the street address matches exactly one NYC address in the City's address file (PAD), whose ZIP is one of the candidates",
+  nyc_address_confirmed:
+    "the street address and this ZIP match exactly one NYC address in the City's address file (PAD); the printed state names another state",
 };
 
 const ROW_FLAG_NOTE: Record<string, string> = {
@@ -347,14 +358,17 @@ const CAPITAL_FOOTER = `
 Source: the NYC Council's capital designations — the Council's own capital workbooks (FY2015–FY2017 and FY2026 from Internet Archive captures, FY2027 downloaded from the Council RnD site) and, for FY2019–FY2025, NYC Open Data t474-a92g, published by the Council — built by BetaNYC (code/build_capital_council.py, data/capital/ in ${REPO_URL}). Amounts are as published. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`.trim();
 
 const CAPITAL_CAVEAT =
-  "Caveat: FY2018 is missing (no Council workbook found, and t474-a92g starts at FY2019). A Council project ID is internal to budget negotiations, unique within one year only, and not an FMS/Checkbook project ID; the only key shared with OMB is the budget line, so any link from a row to a city project or contract would be a match by budget line and title, which this tool does not make, and there is no contract-level data here. sponsor is the surname or body as printed, with no Legistar ID attached (one surname can be different members in different years). The codes borough A, council district 80, ID prefix CC and ID type PN are not in the Council's data dictionary and their meaning is unconfirmed. Sums are this repo's arithmetic, not a Council figure (FY2015 and FY2016 print totals, and the rows equal them).";
+  "Caveat: FY2018 is PDF-DERIVED: no Council workbook was found and t474-a92g starts at FY2019, so its rows are Part I of the checked capital supporting-detail book (§254), whose review is closed (#202); every FY2018 row says so, prints no council district, and has its sponsor as printed (upper case, sometimes several names). A Council project ID is internal to budget negotiations, unique within one year only, and not an FMS/Checkbook project ID; the only key shared with OMB is the budget line, so any link from a row to a city project or contract would be a match by budget line and title, which this tool does not make, and there is no contract-level data here. sponsor is the surname or body as printed, with no Legistar ID attached (one surname can be different members in different years). The codes borough A, council district 80, ID prefix CC and ID type PN are not in the Council's data dictionary and their meaning is unconfirmed. Sums are this repo's arithmetic, not a Council figure (FY2015 and FY2016 print totals, and the rows equal them).";
 
 const SOURCE_KIND_LABEL: Record<string, string> = {
   council_workbook: "Council capital workbook",
   open_data_t474: "NYC Open Data t474-a92g (published by the Council)",
+  pdf_capital_sd: "PDF-derived: the checked capital supporting-detail book (§254), Part I, review closed",
 };
 
 function capitalSourceLine(s: CapitalSource): string {
+  if (s.source_kind === "pdf_capital_sd")
+    return `  FY${s.report_year}: ${SOURCE_KIND_LABEL.pdf_capital_sd}, ${s.source_file} (in this repo; sha256 ${s.sha256.slice(0, 12)}, as data/pdf_years.csv records it)`;
   const where = s.wayback_timestamp
     ? `Internet Archive capture ${s.wayback_timestamp} of ${s.url}`
     : s.source_kind === "open_data_t474"
@@ -382,7 +396,7 @@ function capitalRowLine(r: CapitalRow): string {
     (r.borough ? ` · borough ${r.borough}` : "") +
     `\n    title: ${r.title || "(none)"}` +
     (r.description ? `\n    description: ${r.description}` : "") +
-    `\n    ${r.source_kind === "open_data_t474" ? `t474-a92g row ${r.source_row}` : `workbook row ${r.source_row}`}`
+    `\n    ${r.source_kind === "open_data_t474" ? `t474-a92g row ${r.source_row}` : r.source_kind === "pdf_capital_sd" ? `PDF-derived: page ${r.source_row.replace(/^p(\d+)r(\d+)$/, "$1, row $2")} of the checked §254 book, ${r.source_file}` : `workbook row ${r.source_row}`}`
   );
 }
 
@@ -427,7 +441,8 @@ function capitalText(res: CapitalResult, districtGiven: boolean): string {
   if (districtGiven)
     L.push(
       "",
-      `Note: council_district matches only rows from the Council's own workbooks. Rows from ${yearSpan(res.district_unusable_years)} (NYC Open Data t474-a92g) never match it: Open Data stored the district as a number, which collapsed every comma list ("22, 25, 29") into one integer, so no value there can be trusted to be one district. Use sponsor for those years.`
+      `Note: council_district matches only rows from the Council's own workbooks. Rows from ${yearSpan(res.district_unusable_years)} (NYC Open Data t474-a92g) never match it: Open Data stored the district as a number, which collapsed every comma list ("22, 25, 29") into one integer, so no value there can be trusted to be one district. Use sponsor for those years.` +
+        (res.district_unprinted_years.length ? ` Rows from ${yearSpan(res.district_unprinted_years)} (PDF-derived, the checked §254 book) never match it either: the book prints no district.` : "")
     );
   L.push("", "Sources (which file each report year comes from):", ...res.sources.map(capitalSourceLine));
   L.push("", "Rows:", ...res.rows.map(capitalRowLine), "", CAPITAL_CAVEAT);
@@ -443,7 +458,7 @@ const OMB_FOOTER = `
 Source: this repo's comparison (data/capital/council_vs_omb_by_budget_line.csv, data/capital/RECONCILIATION.md §3 in ${REPO_URL}) of the Council capital table with OMB's Capital Budget on NYC Open Data (46m8-77gv), the adopted release for each first fiscal year. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`.trim();
 
 const OMB_CAVEAT =
-  "Caveat: this is BetaNYC's arithmetic, not a Council or OMB reconciliation. For each report year it sums the Council table's rows by budget line (the list's own year and the next year) and OMB's adopted release for that first fiscal year (the last release of the year, published in July), summed over funding sources, Council-series lines only (D, DN). 'match' means both years are equal to the dollar for the LINE; it does not show that the projects under the line are the same. 'differ', 'council_only' and 'omb_only' are not errors by either party: OMB's adopted figure can include changes the Council's list does not. FY2015–FY2017 are not compared (OMB's dataset starts at FY2019; FY2016 prints no budget lines), and FY2018 has no Council list.";
+  "Caveat: this is BetaNYC's arithmetic, not a Council or OMB reconciliation. For each report year it sums the Council table's rows by budget line (the list's own year and the next year) and OMB's adopted release for that first fiscal year (the last release of the year, published in July), summed over funding sources, Council-series lines only (D, DN). 'match' means both years are equal to the dollar for the LINE; it does not show that the projects under the line are the same. 'differ', 'council_only' and 'omb_only' are not errors by either party: OMB's adopted figure can include changes the Council's list does not. FY2015–FY2017 are not compared (OMB's dataset starts at FY2019; FY2016 prints no budget lines), and neither is FY2018 (its list is PDF-derived, and OMB's dataset starts at FY2019).";
 
 const VERDICT_LABEL: Record<string, string> = {
   match: "match (both years equal)",
@@ -614,9 +629,85 @@ function byYearLines(rows: { fiscal_year: number; status: string; rows: number }
 
 const amt = (v: unknown) => (typeof v === "number" ? usd(v) : "no amount");
 
-function scheduleCText(res: ReturnType<typeof searchScheduleC>): string {
+// ---- #51: council members in the PDF tables, resolved per year with #72's rules
+
+/** Why a PDF row names someone with no recorded vote in its year (code/build_member_crosswalk.py PDF_OUTSIDE). */
+const PDF_OUTSIDE: Record<string, string> = {
+  schedule_c: "Schedule C prints the member at adoption",
+  transparency: "a resolution can change an earlier year's budget and name that year's member",
+};
+
+/** How a row's printed member resolved, in brackets after the name. */
+function pdfMemberTag(m: MemberResolution | null | undefined, members: MemberCrosswalk): string {
+  if (!m) return "";
+  switch (m.type) {
+    case "member":
+      return ` [${members.person(m.id)}]`;
+    case "member_outside_fy":
+      return ` [${members.person(m.id)}; no recorded vote in FY${m.fiscal_year}: ${PDF_OUTSIDE[m.family] ?? "outside their service"}]`;
+    case "ambiguous":
+      return ` [not resolved: ${m.candidates.map((c) => members.person(c)).join(" or ")}; more than one member of that name served in FY${m.fiscal_year}]`;
+    case "unresolved":
+      return " [not a Legistar member name; not resolved]";
+    case "district_label":
+      return " [a district label, not a person]";
+    default:
+      return ""; // speaker, delegation, citywide, blank: the printed value says what it is
+  }
+}
+
+/** One matched printed name and its person, for the member filter's note. */
+function matchedMemberWords(m: MatchedMember, members: MemberCrosswalk, money: boolean): string {
+  const who =
+    m.type === "member" || m.type === "member_outside_fy"
+      ? members.person(m.id)
+      : m.type === "ambiguous"
+        ? `not resolved (${m.candidates.map((c) => members.person(c)).join(" or ")})`
+        : m.type === "unresolved"
+          ? "not resolved (not a Legistar member name)"
+          : m.type === "unknown"
+            ? "not in the member crosswalk"
+            : m.type.replace("_", " ");
+  return `'${m.council_member || "(blank)"}' ${yearSpan(m.years)} → ${who} (${n(m.rows)} row(s)${money ? `, ${usd(m.amount)}` : ""})`;
+}
+
+/**
+ * The member filter's note (#51, as #72's for the disclosure): every printed name and person it
+ * blended, whenever that is more than one person or a name that resolves to no one.
+ */
+function memberFilterNote(ms: MatchedMember[], members: MemberCrosswalk, money: boolean): string[] {
+  const people = new Set(ms.map((m) => (m.id ? `id:${m.id}` : `${m.type}:${m.council_member}`)));
+  if (people.size < 2 && !ms.some((m) => m.type === "ambiguous" || m.type === "unresolved" || m.type === "unknown")) return [];
+  const list = ms.slice(0, 20).map((m) => matchedMemberWords(m, members, money));
+  return [
+    "",
+    `Note: the member filter is a substring match on the name as printed. It matched ${n(ms.length)} printed name/person pair(s), and the totals above combine them: ` +
+      list.join("; ") + (ms.length > 20 ? `; and ${n(ms.length - 20)} more` : "") +
+      ". For one person exactly, use council_member_id (a Legistar person ID).",
+  ];
+}
+
+/** What a council_member_id search counted, and the rows it could not count. */
+function memberIdLines(r: MemberIdReport | null, members: MemberCrosswalk, family: string): string[] {
+  if (!r) return [];
+  const L = [
+    r.printed.length
+      ? `council_member_id ${r.id} is ${members.person(r.id)}. Counted: the rows whose printed member resolves to that person for its year: ` +
+        r.printed.map((p) => `'${p.council_member}' (${yearSpan(p.years)})`).join(", ") + "."
+      : `No ${PDF_FAMILY_LABEL[family]} row's printed member resolves to Legistar person ${r.id}${members.names.has(r.id) ? ` (${members.names.get(r.id)})` : ""}.`,
+  ];
+  if (r.not_counted.length)
+    L.push(
+      `Not counted: ${r.not_counted.map((m) => `${n(m.rows)} row(s) printed '${m.council_member}' in FY${m.fiscal_year}`).join("; ")}. ` +
+        `In those years more than one member of that name served (${[...new Set(r.not_counted.flatMap((m) => m.candidates))].map((c) => members.person(c)).join(" or ")}), so the name is not resolved and is never guessed. To see them, search member '${r.not_counted[0].council_member}' with fiscal_year ${r.not_counted[0].fiscal_year}.`
+    );
+  return ["", ...L];
+}
+
+function scheduleCText(res: ReturnType<typeof searchScheduleC>, members: MemberCrosswalk): string {
   const L: string[] = [
     `${n(res.matched)} matching award row(s) in the adopted budget's Schedule C, read from the PDF. ${shownLine(res.rows.length, res.matched, "highest amount first", 500)}`,
+    ...memberIdLines(res.member_id, members, "schedule_c"),
     "",
     `Totals over all ${n(res.matched)} match(es): ${n(res.with_amount)} row(s) with an amount, ${usd(res.amount)}` +
       (res.no_amount ? `; ${n(res.no_amount)} row(s) with no amount read, in no sum` : "") +
@@ -625,6 +716,12 @@ function scheduleCText(res: ReturnType<typeof searchScheduleC>): string {
       res.by_disclosure.map((d) => `${d.disclosure_status} ${n(d.rows)} row(s) ${usd(d.amount)}`).join("; ") + ".",
     ...byYearLines(res.by_year, (y) => usd(y.amount)),
   ];
+  L.push(...memberFilterNote(res.matched_members, members, true));
+  if (res.member_other_columns.rows)
+    L.push(
+      "",
+      `Note: ${n(res.member_other_columns.rows)} more matched row(s), ${usd(res.member_other_columns.amount)}, match the member filter only in the sponsor or delegation column. Those columns are printed as is (co-sponsor lists and borough delegations) and are not resolved to a person; council_member_id does not search them.`
+    );
   if (res.subaward_matches.rows)
     L.push("", `Note: ${n(res.subaward_matches.rows)} sub-award row(s), ${usd(res.subaward_matches.amount)}, also match the organization filter: they are a list printed under one award saying who it passes the money to, not awards, and are in no total. They are listed under their award when it is shown.`);
   L.push("", "Rows:");
@@ -633,7 +730,7 @@ function scheduleCText(res: ReturnType<typeof searchScheduleC>): string {
     const subs = res.subawards.get(`${r.fiscal_year}|${r.award_id}`) ?? [];
     L.push(
       `FY${r.fiscal_year} · ${amt(r.amount)}${r.amount_printed ? ` (printed "${r.amount_printed}")` : ""} · ${r.org} (EIN ${r.ein_printed || r.ein || "—"})` +
-        (r.member ? ` · member ${r.member}` : "") + (r.sponsor ? ` · sponsor ${r.sponsor}` : "") + (r.delegation ? ` · delegation ${r.delegation}` : "") +
+        (r.member ? ` · member ${r.member}${pdfMemberTag(s.member, members)}` : "") + (r.sponsor ? ` · sponsor ${r.sponsor}` : "") + (r.delegation ? ` · delegation ${r.delegation}` : "") +
         (r.agency ? ` · agency ${r.agency}` : "") +
         `\n    ${String(r.section).replace("_", " ")}` + (r.category ? ` · category: ${r.category}` : "") + (r.initiative ? ` · initiative: ${r.initiative}` : "") + ` · award ${r.award_id}` +
         (r.purpose ? `\n    purpose: ${r.purpose}` : "") +
@@ -669,9 +766,10 @@ function trActionLines(rows: { action: string; rows: number; with_amount: number
   ];
 }
 
-function transparencyText(res: ReturnType<typeof searchTransparency>): string {
+function transparencyText(res: ReturnType<typeof searchTransparency>, members: MemberCrosswalk): string {
   const L: string[] = [
     `${n(res.matched)} matching row(s) in the Council's transparency resolutions (changes to the adopted budget's designations), read from the PDFs. ${shownLine(res.rows.length, res.matched, "newest resolution first, then in printed order", 500)}`,
+    ...memberIdLines(res.member_id, members, "transparency"),
     "",
     `Totals over all ${n(res.matched)} match(es), by kind of change (rescissions print as negative amounts):`,
     ...trActionLines(res.by_action.filter((a) => a.agency_side !== 1), "  Money to or from organizations:"),
@@ -695,6 +793,7 @@ function transparencyText(res: ReturnType<typeof searchTransparency>): string {
         );
       })
     );
+  L.push(...memberFilterNote(res.matched_members, members, false));
   if (res.resolutions.length)
     L.push("", `Resolutions matched (${res.resolutions.length}): ` + res.resolutions.slice(0, 30).map((r) => `FY${r.fiscal_year} ${r.resolution_number} (${r.resolution_date}) ${n(r.rows)} row(s)`).join("; ") + (res.resolutions.length > 30 ? `; and ${res.resolutions.length - 30} more` : ""));
   L.push("", "Rows:");
@@ -705,7 +804,7 @@ function transparencyText(res: ReturnType<typeof searchTransparency>): string {
         (r.budget_fiscal_year !== r.fiscal_year ? ` · changes the FY${r.budget_fiscal_year} budget` : "") +
         `\n    ${ACTION_WORDS[r.action] ?? r.action} · ${r.amount_kind === "no_dollar_amount" ? "no dollar amount (in no sum)" : `${amt(r.amount)}${r.amount_printed ? ` (printed "${r.amount_printed}")` : ""}`}` +
         (r.org ? ` · ${r.org}` : "") + (r.ein || r.ein_printed ? ` (EIN ${r.ein_printed || r.ein})` : "") +
-        (r.member ? ` · member ${r.member}` : "") + (r.source ? ` · source ${r.source}` : "") + (r.agency ? ` · agency ${r.agency}` : "") +
+        (r.member ? ` · member ${r.member}${pdfMemberTag(s.member, members)}` : "") + (r.source ? ` · source ${r.source}` : "") + (r.agency ? ` · agency ${r.agency}` : "") +
         (r.agency_side === 1 ? " · a City-agency line (the agency's own line, not money to or from an organization)" : "") +
         (r.purpose ? `\n    purpose: ${r.purpose}` : "") +
         (r.fiscal_conduit ? `\n    fiscal conduit: ${r.fiscal_conduit}${r.fiscal_conduit_ein ? ` (EIN ${r.fiscal_conduit_ein})` : ""}` : "") +
@@ -842,9 +941,23 @@ function pdfYearsSection(): string[] {
 // Tool definitions
 // ===========================================================================
 
+/**
+ * BetaNYC's shared tools (#310; the What's changed standard, BetaNYC/betanyc-ai-workspace#1637):
+ * whats_changed, about_betanyc and about_data, from the shared module copied in unchanged
+ * (src/betanyc-tools.ts). WHATS-CHANGED.md sits at the repo root; the prebuild script copies it
+ * into mcp/ so the package ships it beside dist/. This repo has no DATA-SOURCES.json yet, so
+ * about_data says so (the about-data standard is a separate adoption).
+ */
+const betanyc = createBetanycTools({
+  serverName: "nyc-budget-mcp",
+  version: PACKAGE_VERSION,
+  repoUrl: REPO_URL,
+  whatsChangedPath: new URL("../WHATS-CHANGED.md", import.meta.url),
+});
+
 export const server = new Server(
   { name: "nyc-budget-mcp", version: PACKAGE_VERSION },
-  { capabilities: { tools: {} } }
+  { capabilities: { tools: {} }, instructions: betanyc.instructions }
 );
 
 /** #259: the whole_word parameter, on every tool with a free-text filter. */
@@ -891,12 +1004,12 @@ export const TOOLS = [
         program_name: { type: "string", description: "Program name (substring)" },
         zip: {
           type: "string",
-          description: "Grantee mailing ZIP, exactly 5 digits (anything else is an error). Matches the 5-digit zip derived from the published postal_code (ZIP+4 read to its first five; a 4-digit ZIP padded, a ragged ZIP+4 trimmed, or a 6-digit ZIP repaired, only into a 2020 ZCTA of the row's own state). Rows whose zip_status is ambiguous_extra_digit, invalid or blank have no zip and never match. A mailing address, not where services were delivered.",
+          description: "Grantee mailing ZIP, exactly 5 digits (anything else is an error). Matches the 5-digit zip derived from the published postal_code (ZIP+4 read to its first five; a 4-digit ZIP padded, a ragged ZIP+4 trimmed, or a 6-digit ZIP repaired, only into a 2020 ZCTA of the row's own state; or settled by the street address where it matches exactly one address in the City's PAD file, zip_status repaired_by_address). Rows whose zip_status is ambiguous_extra_digit, invalid or blank have no zip and never match. A mailing address, not where services were delivered.",
         },
         zip_status: {
           type: "string",
           enum: [...ZIP_STATUSES],
-          description: "How the zip was read, checked against the Census 2020 ZCTAs: valid, padded (leading zero restored), trimmed (ragged ZIP+4 such as '11203-', '11231=1020' or '11413 ZipCode2: 3929'), repaired_extra_digit (6 digits printed; exactly one one-digit deletion is an in-state ZCTA, e.g. '111691' -> 11691), ambiguous_extra_digit (6 digits; two or more deletions are, e.g. '114345' -> 11434 or 11435; no zip, candidates shown on the row), not_a_zcta (not verified, not fake: PO-box ZIPs have no ZCTA), state_mismatch, invalid (no ZIP readable), blank (none printed).",
+          description: "How the zip was read, checked against the Census 2020 ZCTAs: valid, padded (leading zero restored), trimmed (ragged ZIP+4 such as '11203-', '11231=1020' or '11413 ZipCode2: 3929'), repaired_extra_digit (6 digits printed; exactly one one-digit deletion is an in-state ZCTA, e.g. '111691' -> 11691), ambiguous_extra_digit (6 digits; two or more deletions are, e.g. '114345' -> 11434 or 11435; no zip, candidates shown on the row), not_a_zcta (not verified, not fake: PO-box ZIPs have no ZCTA), state_mismatch, invalid (no ZIP readable), blank (none printed); and, from the street-address check against the City's PAD address file (#247), repaired_by_address (an ambiguous_extra_digit row whose address matches exactly one NYC address, whose ZIP is one of the candidates) and nyc_address_confirmed (a state_mismatch row whose address and ZIP match exactly one NYC address: the printed state is wrong).",
         },
         city: {
           type: "string",
@@ -919,11 +1032,11 @@ export const TOOLS = [
   },
   {
     name: "search_council_capital",
-    description: `Search the NYC Council's capital designations (Council-funded capital projects), FY2015–FY2017 and FY2019–FY2027 (FY2018 is missing from every source found). FY2015–FY2017, FY2026 and FY2027 come from the Council's own capital workbooks, FY2019–FY2025 from NYC Open Data t474-a92g, which the Council publishes; each answer names the file, retrieval date and sha256 of every year it draws on. One row per (record, fiscal-year amount): a list's own-year amount and any out-year amounts are separate rows, totaled separately. Filter by any combination of fiscal_year (the list's year), amount_fy, budget_line (exact, e.g. 'P D018'), project_id (exact), sponsor (substring) or sponsor_exact, borough (exact code), council_district (workbook years only), title and description (substrings), min_amount, max_amount. Answers give the TRUE match count and totals over every match, highest amount first. Exact by budget line only: the Council's project IDs are internal and do not link to OMB, FMS or Checkbook projects, and there is no contract-level data. sponsor carries no Legistar ID.${TEXT_RULE}`,
+    description: `Search the NYC Council's capital designations (Council-funded capital projects), FY2015–FY2027. FY2015–FY2017, FY2026 and FY2027 come from the Council's own capital workbooks, FY2019–FY2025 from NYC Open Data t474-a92g, which the Council publishes, and FY2018, which neither has, from Part I of the checked capital supporting-detail book (§254), labeled PDF-derived on every row (no council district printed); each answer names the file, retrieval date and sha256 of every year it draws on. One row per (record, fiscal-year amount): a list's own-year amount and any out-year amounts are separate rows, totaled separately. Filter by any combination of fiscal_year (the list's year), amount_fy, budget_line (exact, e.g. 'P D018'), project_id (exact), sponsor (substring) or sponsor_exact, borough (exact code), council_district (workbook years only), title and description (substrings), min_amount, max_amount. Answers give the TRUE match count and totals over every match, highest amount first. Exact by budget line only: the Council's project IDs are internal and do not link to OMB, FMS or Checkbook projects, and there is no contract-level data. sponsor carries no Legistar ID.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
       properties: {
-        fiscal_year: { type: "number", description: "The Council capital list's fiscal year (report year): FY2015–FY2017 or FY2019–FY2027. FY2018 returns why it is missing." },
+        fiscal_year: { type: "number", description: "The Council capital list's fiscal year (report year): FY2015–FY2027. FY2018 is PDF-derived (the checked §254 book; no council district)." },
         amount_fy: { type: "number", description: "The fiscal year an amount is for: the list's own year or an out-year (e.g. fiscal_year 2027 with amount_fy 2028 gives FY2027's out-year amounts)." },
         budget_line: { type: "string", description: "Budget line, exact, as agency code then line, separated by a space or '-' ('P D018', 'PW-DN846', 'hl dn164'). A value without the separator ('PD018') is refused, because where the agency code ends cannot be told. The only key shared with OMB's capital datasets. FY2016 prints no budget lines." },
         project_id: { type: "string", description: "The Council's project ID, exact, ignoring case and runs of spaces ('E  CN459' = 'e cn459'). Unique within one year only; not an FMS or Checkbook ID. FY2015 prints none." },
@@ -956,15 +1069,31 @@ export const TOOLS = [
     },
   },
   {
+    name: "search_capital_plan",
+    description: `When is a capital budget line's money planned to be committed, and how has that plan moved? For one budget line: OMB's Capital Commitment Plan (NYC Open Data 2cmn-uidm, 32 releases from 2016-04-26; in thousands of dollars, as OMB publishes it), the chosen release (default the newest) and every release's figures for the line; DCP's Capital Projects Database (CPDB, djxg-kcfi) planned commitments on the line by fiscal year and by project, in dollars; each project's CPDB totals (fi59-268w: planned, adopted, allocated, committed, spent, and Checkbook NYC checks), always the WHOLE project's, across all its budget lines; and the Council's own capital rows on the line (search_council_capital), apart. Or, with project_id, one CPDB project's totals and its commitments on every line. Links by budget line only, never by project; figures from different sources are never added together. CPDB is one version (it cannot show change over time) and DCP does not state its unit in writing; BetaNYC checked it is dollars. For spending detail, use @betanyc/nyc-checkbook-mcp.`,
+    inputSchema: {
+      type: "object",
+      properties: {
+        budget_line: { type: "string", description: "Budget line, as agency code then line ('P D018', 'HD-0201'). Required unless project_id is given." },
+        project_id: { type: "string", description: "A CPDB project: DCP's maprojid, the managing agency's three digits then the project ID ('850GKOH15-01'), any case." },
+        release: { type: "string", description: "A plan release, YYYY-MM-DD (default the newest, 2026-09-28). Every release with the line is listed in the answer either way." },
+        funding: { type: "string", enum: [...PLAN_FUNDING], description: "OMB's funding: CITY or NON CITY (default both, shown apart)" },
+        limit: { type: "number", description: "Max CPDB projects shown for the line, 1–500 (default 25, largest planned total first). Line totals always cover every project." },
+      },
+      additionalProperties: false,
+    },
+  },
+  {
     name: "search_schedule_c_awards",
-    description: `Search the adopted budget's Schedule C (the Council's discretionary awards as printed in the budget PDF: the body and appendices A, B and C), FY2018–FY2027, from the checked tables BetaNYC reads from the PDFs. Every row is labeled "checked, review in progress" or "checked and reviewed", with its flags, review decision and note where decided, three links (the row highlighted on its page in the explorer, the PDF on GitHub at the build's commit, the publisher's copy where known), and disclosure_status: whether the same EIN and amount is in the Council's disclosure spreadsheet (search_disclosure_awards, a separate tool and a later snapshot) as cleared or pending, or unmatched with the reason. Values are as printed. Sub-awards printed under an award (the Jobs to Build On partner list, FY2018 and FY2019) are listed under it and never counted. Filter by any combination of fiscal_year, organization, ein, member (member or sponsor), category, initiative, agency, purpose, disclosure_status, min_amount, max_amount; the answer gives the TRUE match count and totals over every match, highest amount first. Needs the optional PDF tables download; without it the answer says how to add it.${TEXT_RULE}`,
+    description: `Search the adopted budget's Schedule C (the Council's discretionary awards as printed in the budget PDF: the body and appendices A, B and C), FY2018–FY2027, from the checked tables BetaNYC reads from the PDFs. Every row is labeled "checked, review in progress" or "checked and reviewed", with its flags, review decision and note where decided, three links (the row highlighted on its page in the explorer, the PDF on GitHub at the build's commit, the publisher's copy where known), and disclosure_status: whether the same EIN and amount is in the Council's disclosure spreadsheet (search_disclosure_awards, a separate tool and a later snapshot) as cleared or pending, or unmatched with the reason. Values are as printed. Sub-awards printed under an award (the Jobs to Build On partner list, FY2018 and FY2019) are listed under it and never counted. Filter by any combination of fiscal_year, organization, ein, member (member, sponsor or delegation, as printed) or council_member_id (exact Legistar person ID, resolved per year from the printed member: 'Levin' and 'Levine' are different people), category, initiative, agency, purpose, disclosure_status, min_amount, max_amount; the answer gives the TRUE match count and totals over every match, highest amount first. Needs the optional PDF tables download; without it the answer says how to add it.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
       properties: {
         fiscal_year: { type: "number", description: "FY2018–FY2027. Earlier years were read only by the old parser and are not served." },
         organization: { type: "string", description: "Organization as printed (case- and accent-insensitive substring; % and _ literal)" },
         ein: { type: "string", description: "EIN, exactly 9 digits, hyphens optional. Matches the organization's EIN or its fiscal conduit's (the group that receives the money for it), as the explorer does" },
-        member: { type: "string", description: "Council member, sponsor or delegation as printed (substring), e.g. 'Brewer', 'Speaker', 'Queens Delegation'" },
+        member: { type: "string", description: "Council member, sponsor or delegation as printed (substring), e.g. 'Brewer', 'Speaker', 'Queens Delegation'. A surname is not a person ('Levin' also matches 'Levine'; 'Williams' is two people in different years): the answer lists every printed name and person it matched. For one person, use council_member_id." },
+        council_member_id: { type: "string", description: "Exact Legistar person ID of a council member (digits only, e.g. '7567' Stephen T. Levin, '7634' Mark Levine), matched on the row's printed member column (not sponsor or delegation) as resolved for its fiscal year by the repo's member crosswalk (data/pdf_council_member_crosswalk.csv, #72's rules, from the Council MCP's Legistar index). One person's rows are found under every label they were printed with ('Sanchez' to FY2026, 'P. Sanchez' in FY2027). Rows whose printed name is ambiguous (two members of that name served that year, e.g. FY2022 'Barron', FY2026 'Sanchez'), unresolved, a delegation, 'Speaker' or blank carry no ID and never match; the answer says which of them could be the person." },
         category: { type: "string", description: "Category heading (substring), e.g. 'Older Adult Services'" },
         initiative: { type: "string", description: "Initiative (substring)" },
         agency: { type: "string", description: "Agency as printed (substring), e.g. 'DYCD'" },
@@ -980,7 +1109,7 @@ export const TOOLS = [
   },
   {
     name: "search_transparency_changes",
-    description: `Search the Council's transparency resolutions, FY2018–FY2027: the changes made to the adopted budget's designations after adoption (new designations, rescissions, purpose-of-funds changes), from the checked tables BetaNYC reads from the resolution PDFs. Each row gives the resolution number and date, the chart, the budget year it changes, the organization, EIN, member, agency and amount as printed, with its status label ("checked, review in progress" or "checked and reviewed"), flags, review decision where decided, any hidden text (text in the PDF a reader cannot see on the page, always labeled), and its three links. Rows from charts that print no dollar amount are kept and never summed. Filter by fiscal_year (the resolutions' year), budget_fiscal_year, organization, ein, member, resolution_number (substring, e.g. '1013-2025'), resolution_date (YYYY-MM-DD) or a date_from / date_to range, action. Newest resolution first. Totals per kind of change cover every match. Needs the optional PDF tables download.${TEXT_RULE}`,
+    description: `Search the Council's transparency resolutions, FY2018–FY2027: the changes made to the adopted budget's designations after adoption (new designations, rescissions, purpose-of-funds changes), from the checked tables BetaNYC reads from the resolution PDFs. Each row gives the resolution number and date, the chart, the budget year it changes, the organization, EIN, member, agency and amount as printed, with its status label ("checked, review in progress" or "checked and reviewed"), flags, review decision where decided, any hidden text (text in the PDF a reader cannot see on the page, always labeled), and its three links. Rows from charts that print no dollar amount are kept and never summed. Filter by fiscal_year (the resolutions' year), budget_fiscal_year, organization, ein, member (as printed) or council_member_id (exact Legistar person ID, resolved per year from the printed member), resolution_number (substring, e.g. '1013-2025'), resolution_date (YYYY-MM-DD) or a date_from / date_to range, action. Newest resolution first. Totals per kind of change cover every match. Needs the optional PDF tables download.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
       properties: {
@@ -988,7 +1117,8 @@ export const TOOLS = [
         budget_fiscal_year: { type: "number", description: "The budget year a row's chart changes (a year's resolutions can change another year's budget)" },
         organization: { type: "string", description: "Organization as printed (substring)" },
         ein: { type: "string", description: "EIN, exactly 9 digits, hyphens optional. Matches the organization's EIN or its fiscal conduit's" },
-        member: { type: "string", description: "Council member as printed (substring)" },
+        member: { type: "string", description: "Council member as printed (substring). A surname is not a person ('Levin' also matches 'Levine'; 'Williams' is two people in different years): the answer lists every printed name and person it matched. For one person, use council_member_id." },
+        council_member_id: { type: "string", description: "Exact Legistar person ID of a council member (digits only, e.g. '7567' Stephen T. Levin, '7634' Mark Levine), matched on the row's printed member as resolved for its fiscal year by the repo's member crosswalk (data/pdf_council_member_crosswalk.csv, #72's rules, from the Council MCP's Legistar index). One person's rows are found under every label they were printed with ('Sanchez' to FY2026, 'P. Sanchez' in FY2027). Rows whose printed name is ambiguous (two members of that name served that year, e.g. FY2022 'Barron', FY2026 'Sanchez'), unresolved, a delegation, 'Speaker' or blank carry no ID and never match; the answer says which of them could be the person." },
         resolution_number: { type: "string", description: "Resolution number (substring, always: an identifier, so whole_word and the short-term rule do not apply; '101' finds '1013-2025'), e.g. 'Res 1013-2025' or '1013-2025'" },
         resolution_date: { type: "string", description: "Resolution date, exactly, YYYY-MM-DD" },
         date_from: { type: "string", description: "Resolutions dated on or after, YYYY-MM-DD" },
@@ -1068,9 +1198,10 @@ export const TOOLS = [
   },
   {
     name: "list_available_fiscal_years",
-    description: `Report, for every fiscal year, which structured datasets this server holds and where each came from: the expense funding disclosure (loaded or not, Council RnD download or Internet Archive capture, retrieval date, early-snapshot flag), the Council capital list (Council workbook or NYC Open Data t474-a92g), and whether the year is in the Council-vs-OMB comparison. Also reports each family-year of the checked PDF tables (Schedule C, transparency resolutions, the capital book, Terms and Conditions) with its status, and whether the optional PDF tables download is installed. Also reports the City agency budget years (search_agency_budget, compare_adopted_modified; NYC Open Data mwzb-yiwb) and when that snapshot was taken. States the gaps plainly: FY2010 disclosure not loaded, FY2018 capital missing, nothing before FY2009, no PDF table before FY2018.`,
+    description: `Report, for every fiscal year, which structured datasets this server holds and where each came from: the expense funding disclosure (loaded or not, Council RnD download or Internet Archive capture, retrieval date, early-snapshot flag), the Council capital list (Council workbook or NYC Open Data t474-a92g), and whether the year is in the Council-vs-OMB comparison. Also reports each family-year of the checked PDF tables (Schedule C, transparency resolutions, the capital book, Terms and Conditions) with its status, and whether the optional PDF tables download is installed. Also reports the City agency budget years (search_agency_budget, compare_adopted_modified; NYC Open Data mwzb-yiwb) and when that snapshot was taken. Also reports OMB's Capital Commitment Plan releases (NYC Open Data 2cmn-uidm, in thousands of dollars) and the version of DCP's Capital Projects Database (CPDB: djxg-kcfi, fi59-268w) this index holds. States the gaps plainly: FY2010 disclosure not loaded, FY2018 capital PDF-derived (the checked §254 book), nothing before FY2009, no PDF table before FY2018.`,
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
+  ...betanyc.tools,
 ];
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOLS }));
@@ -1120,7 +1251,7 @@ const ALIAS_HINTS: Record<string, { targets: string[]; why: string; whyByTool?: 
   postal_code: { targets: ["zip"], why: "zip is the 5-digit ZIP derived from the published postal_code" },
   zip_code: { targets: ["zip"], why: "the ZIP filter is named zip" },
   council_member: {
-    targets: ["sponsor", "sponsor_exact", "member"],
+    targets: ["sponsor", "sponsor_exact", "member", "council_member_id"],
     why: "capital rows name the sponsor as printed",
     whyByTool: {
       search_schedule_c_awards: "member matches the printed member or sponsor",
@@ -1184,6 +1315,13 @@ function emptyError(name: string, v?: string): string | null {
   return fold(v) === "" ? `${name} is empty; omit it, or give a value.` : null;
 }
 
+/** #51: council_member_id on the PDF tools is a Legistar person ID, digits only, as on search_disclosure_awards. */
+function memberIdError(v?: string | number): string | null {
+  if (v == null) return null;
+  return /^\d+$/.test(String(v).trim()) ? null : `council_member_id must be a Legistar person ID (digits only); got ${JSON.stringify(v)}. To search by name, use member.`;
+}
+const memberIdArg = (v?: string | number) => (v == null ? undefined : String(v).trim());
+
 /** An EIN filter is 9 digits, hyphens optional; anything else is refused, never guessed at. */
 function einError(v?: string): string | null {
   if (v == null) return null;
@@ -1203,6 +1341,7 @@ function budgetLineArg(v: string | undefined): { value?: string; error?: string 
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
+  if (betanyc.handles(name)) return betanyc.call(name, args);
   try {
     switch (name) {
       case "search_disclosure_awards": {
@@ -1315,10 +1454,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const sources = listCapitalSources();
         const years = sources.map((s) => s.report_year);
         if (a.fiscal_year != null && !years.includes(a.fiscal_year)) {
-          const why =
-            a.fiscal_year === 2018
-              ? "FY2018 is in no source found: no Council capital workbook for it was located, and NYC Open Data t474-a92g starts at FY2019."
-              : `FY${a.fiscal_year} is outside the dataset.`;
+          const why = `FY${a.fiscal_year} is outside the dataset.`;
           return textResult(`${why} The Council capital list covers ${yearSpan(years)}.\n\n${CAPITAL_CAVEAT}\n\n${CAPITAL_FOOTER}`);
         }
         const res = searchCapital({
@@ -1330,7 +1466,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (res.matched === 0) {
           const src = res.sources.map((s) => `\n${capitalSourceLine(s)}`).join("");
           return textResult(withWordNote(
-            `No matching rows in the Council's capital designations (covers ${yearSpan(years)}; FY2018 missing).` +
+            `No matching rows in the Council's capital designations (covers ${yearSpan(years)}; FY2018 is PDF-derived).` +
               (src ? `\nSearched:${src}` : "") +
               (a.council_district != null
                 ? `\nNote: council_district never matches FY2019–FY2025 (t474) rows; their district lists were collapsed by Open Data.`
@@ -1368,12 +1504,37 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return textResult(`${ombText(res)}\n\n${OMB_FOOTER}`);
       }
 
+      case "search_capital_plan": {
+        const a = parseArgs("search_capital_plan", z.object({
+            budget_line: z.string().optional(),
+            project_id: z.string().optional(),
+            release: z.string().optional(),
+            funding: z.enum(PLAN_FUNDING).optional(),
+            limit: z.number().int().optional(),
+          }).strict(), args);
+        if (a.budget_line == null && a.project_id == null) return errorResult("give a budget_line or project_id.");
+        const line = budgetLineArg(a.budget_line);
+        if (line.error) return errorResult(line.error);
+        const guard = limitError(a.limit);
+        if (guard) return errorResult(guard);
+        let release: string | undefined;
+        if (a.release != null) {
+          const all = allPlanReleases();
+          release = /^\d{4}-\d{2}-\d{2}$/.test(a.release) ? a.release.replace(/-/g, "") : "";
+          if (!all.includes(release))
+            return errorResult(`release must be one of OMB's ${all.length} plan releases, as YYYY-MM-DD: ${all.map((d) => `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6)}`).join(", ")}; got ${JSON.stringify(a.release)}.`);
+        }
+        const text = searchCapitalPlanText({ ...a, budget_line: line.value, release, limit: Math.min(a.limit ?? 25, 500) });
+        return textResult(`${text} Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`);
+      }
+
       case "search_schedule_c_awards": {
         const a = parseArgs("search_schedule_c_awards", z.object({
             fiscal_year: z.number().int().optional(),
             organization: z.string().optional(),
             ein: z.string().optional(),
             member: z.string().optional(),
+            council_member_id: z.union([z.string(), z.number().int()]).optional(),
             category: z.string().optional(),
             initiative: z.string().optional(),
             agency: z.string().optional(),
@@ -1385,7 +1546,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             limit: z.number().int().optional(),
           }).strict(), args);
         const guard =
-          einError(a.ein) ?? emptyError("organization", a.organization) ?? emptyError("member", a.member) ??
+          einError(a.ein) ?? emptyError("organization", a.organization) ?? emptyError("member", a.member) ?? memberIdError(a.council_member_id) ??
           emptyError("category", a.category) ?? emptyError("initiative", a.initiative) ?? emptyError("agency", a.agency) ??
           emptyError("purpose", a.purpose) ?? limitError(a.limit) ?? rangeError(a.min_amount, a.max_amount);
         if (guard) return errorResult(guard);
@@ -1394,10 +1555,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const t = got.tables;
         const yg = pdfYearGuard(t, "schedule_c", a.fiscal_year);
         if (yg.text) return textResult(yg.text);
-        const res = searchScheduleC(t.db, linkCommit(t), a);
+        const members = memberCrosswalk();
+        const res = searchScheduleC(t.db, linkCommit(t), { ...a, council_member_id: memberIdArg(a.council_member_id) }, members);
         if (res.matched === 0)
-          return textResult(withWordNote(`No matching award rows in Schedule C (checked years ${yearSpan(yg.years)}).${res.subaward_matches.rows ? ` ${n(res.subaward_matches.rows)} sub-award row(s) printed under another award match the organization; they are not awards (search that award's organization to see them).` : ""}\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "schedule_c")}`, res.word_filters, a.whole_word));
-        return textResult(withWordNote(`${scheduleCText(res)}\n\n${pdfFooter(t, "schedule_c")}`, res.word_filters, a.whole_word));
+          return textResult(withWordNote(`No matching award rows in Schedule C (checked years ${yearSpan(yg.years)}).${memberIdLines(res.member_id, members, "schedule_c").join("\n")}${res.subaward_matches.rows ? ` ${n(res.subaward_matches.rows)} sub-award row(s) printed under another award match the organization; they are not awards (search that award's organization to see them).` : ""}\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "schedule_c")}`, res.word_filters, a.whole_word));
+        return textResult(withWordNote(`${scheduleCText(res, members)}\n\n${pdfFooter(t, "schedule_c")}`, res.word_filters, a.whole_word));
       }
 
       case "search_transparency_changes": {
@@ -1407,6 +1569,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             organization: z.string().optional(),
             ein: z.string().optional(),
             member: z.string().optional(),
+            council_member_id: z.union([z.string(), z.number().int()]).optional(),
             resolution_number: z.string().optional(),
             resolution_date: z.string().optional(),
             date_from: z.string().optional(),
@@ -1421,7 +1584,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         if (a.date_from != null && a.date_to != null && a.date_from.trim() > a.date_to.trim())
           return errorResult(`date_from (${a.date_from}) is after date_to (${a.date_to}); nothing can match.`);
         const guard =
-          einError(a.ein) ?? emptyError("organization", a.organization) ?? emptyError("member", a.member) ??
+          einError(a.ein) ?? emptyError("organization", a.organization) ?? emptyError("member", a.member) ?? memberIdError(a.council_member_id) ??
           emptyError("resolution_number", a.resolution_number) ?? limitError(a.limit);
         if (guard) return errorResult(guard);
         const got = pdfTablesOrAnswer(name);
@@ -1429,9 +1592,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const t = got.tables;
         const yg = pdfYearGuard(t, "transparency", a.fiscal_year);
         if (yg.text) return textResult(yg.text);
-        const res = searchTransparency(t.db, linkCommit(t), { ...a, resolution_date: a.resolution_date?.trim(), date_from: a.date_from?.trim(), date_to: a.date_to?.trim() });
-        if (res.matched === 0) return textResult(withWordNote(`No matching rows in the transparency resolutions (checked years ${yearSpan(yg.years)}).\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "transparency")}`, res.word_filters, a.whole_word));
-        return textResult(withWordNote(`${transparencyText(res)}\n\n${pdfFooter(t, "transparency")}`, res.word_filters, a.whole_word));
+        const members = memberCrosswalk();
+        const res = searchTransparency(t.db, linkCommit(t), { ...a, council_member_id: memberIdArg(a.council_member_id), resolution_date: a.resolution_date?.trim(), date_from: a.date_from?.trim(), date_to: a.date_to?.trim() }, members);
+        if (res.matched === 0) return textResult(withWordNote(`No matching rows in the transparency resolutions (checked years ${yearSpan(yg.years)}).${memberIdLines(res.member_id, members, "transparency").join("\n")}\n\n${PDF_CAVEAT}\n\n${pdfFooter(t, "transparency")}`, res.word_filters, a.whole_word));
+        return textResult(withWordNote(`${transparencyText(res, members)}\n\n${pdfFooter(t, "transparency")}`, res.word_filters, a.whole_word));
       }
 
       case "search_capital_book": {
@@ -1522,10 +1686,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
               ? "disclosure: NOT LOADED (see below)"
               : `disclosure: ${n(d.award_rows)} rows, ${d.source_kind === "internet_archive" ? `Internet Archive capture ${d.wayback_timestamp}` : "Council RnD"}, retrieved ${d.retrieved}${d.early_snapshot ? ", EARLY SNAPSHOT" : ""}`;
           const cTxt = c
-            ? `capital: ${n(c.rows)} rows, ${c.source_kind === "open_data_t474" ? "NYC Open Data t474-a92g" : "Council workbook"}, retrieved ${c.retrieved}`
-            : fy === 2018
-              ? "capital: MISSING (no source found)"
-              : "capital: none";
+            ? c.source_kind === "pdf_capital_sd"
+              ? `capital: ${n(c.rows)} rows, PDF-DERIVED from the checked §254 book (review closed; no Council workbook or Open Data year exists)`
+              : `capital: ${n(c.rows)} rows, ${c.source_kind === "open_data_t474" ? "NYC Open Data t474-a92g" : "Council workbook"}, retrieved ${c.retrieved}`
+            : "capital: none";
           return `  FY${fy} · ${dTxt} · ${cTxt}${omb.has(fy) ? " · in the OMB comparison" : ""}`;
         });
         const excluded = [...disc.values()].filter((y) => !y.loaded);
@@ -1538,13 +1702,15 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           "Gaps and flags:",
           ...excluded.map((y) => `• FY${y.fiscal_year} disclosure is not loaded: ${noteText(y.note)}`),
           ...early.map((y) => `• FY${y.fiscal_year} disclosure is an early snapshot: ${noteText(y.note)}`),
-          "• FY2018 capital: no Council workbook was found and NYC Open Data t474-a92g starts at FY2019.",
+          "• FY2018 capital is PDF-derived: no Council workbook was found and NYC Open Data t474-a92g starts at FY2019, so it is Part I of the checked capital supporting-detail book (§254), whose review is closed (#202). It prints no council district.",
           "• Nothing before FY2009 (disclosure) or FY2015 (capital). The OMB comparison covers " + yearSpan([...omb].sort((x, y) => x - y)) + ".",
           "• Retired in 2.0.0 and never served: the old PDF parser's output (Schedule C and its appendices, Terms & Conditions, §254 capital, transparency resolutions, and the Legistar crosswalk of those documents). They remain in the source repo for history. The checked tables below replace them, year by year.",
           "",
           ...pdfYearsSection(),
           "",
           ...agencyYearsSection(),
+          "",
+          ...capitalPlanYearsSection(),
           "",
           `Source repo: ${REPO_URL}. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`,
         ].join("\n");

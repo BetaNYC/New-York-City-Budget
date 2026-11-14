@@ -42,8 +42,10 @@ The old parser's output is never served at any status: those years are not in th
 | `reviewed` | The tables are checked (Steps 2–3), the review record is written (Step 4), and the tables are promoted (Step 5). A person's review may not be finished: some flags may still be open | Promotion writes it (Step 5) |
 | `closed` | A person has decided every flag (Step 9) | Only a person changes `reviewed` to `closed` |
 
-As of 2026-11-12 all 37 family-years (FY2018–FY2027; FY2027 transparency added that day, #246) are
-`reviewed`. None is `closed` yet:
+As of 2026-11-13 one family-year is `closed`: FY2018 capital (`capital_sd`), after Noel Hidalgo
+decided all 50 of its flags `accepted_as_printed` that day (#202; DATA-ANOMALIES §26). The other
+36 (FY2018–FY2027; FY2027 transparency added 2026-11-12, #246) are `reviewed`. Most are not
+`closed` yet:
 closing needs Council Finance's answers to the open questions, or 30 days after each question is
 sent, and on that date every question in `data/council_questions.csv` is still a draft, not yet
 sent.

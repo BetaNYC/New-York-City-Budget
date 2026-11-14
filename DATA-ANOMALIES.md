@@ -594,6 +594,29 @@ in the Schedule C files moved. What a reader needs to know before using it:
   on Staten Island addresses), plus a few out-of-state ZIPs on rows marked New York
   (`07087`, `08701`, `15050`, `19454`, `94110`). Street addresses are not checked; NYC Planning's GeoSearch would
   be the next step and needs its own approval (about 140,000 lookups).
+- **Update 2026-11-13 (#247): street addresses checked against the City's PAD file, offline.**
+  No GeoSearch call was made. `code/disclosure_address_check.py` matches each row the Census check
+  leaves `ambiguous_extra_digit` or `state_mismatch` (63 rows, FY2012–FY2027) against DCP Planning
+  Labs' normalized PAD file, the file GeoSearch is built from (**PAD 26c**, `Last-Modified`
+  2026-08-21, sha256 `d934dfd3…74e3` of the CSV; not committed), on (house number, normalized
+  street, borough), by BetaNYC's NYC address-matching method (the workspace's
+  `team/reference/nyc-address-matching.md`, §3 and §5). A row is settled only when its address
+  matches **exactly one** PAD address and that address's ZIP **agrees** with what the row printed:
+  - `ambiguous_extra_digit` → **`repaired_by_address`** (25 rows): PAD's ZIP is one of the
+    candidates; `zip` is set to it and `zip_candidates` stay (`104658` → 10458 ×11, `100037` →
+    10037 ×10, `114345` → 11434 ×3, `100115` → 10115 ×1).
+  - `state_mismatch` → **`nyc_address_confirmed`** (16 rows: 14 in FY2013–FY2027, both archived
+    FY2012 rows): the address and the printed ZIP are one NYC address, so the state cell is what
+    is wrong; `zip` is unchanged.
+  - **Left as they were, with the reason** in `data/disclosure_address_check.csv` (22 rows): the 5
+    California `900069` rows and 5 out-of-state rows (no NYC borough); 10 rows whose address is one
+    NYC address but whose printed ZIP differs from it (PAD's ZIP is recorded, not applied); and the
+    2 archived `100215` rows, whose city is Brooklyn, so PAD's ZIP is not one of the Manhattan
+    candidates.
+  Nothing printed changed: `postal_code`, `state`, the address and every amount are as published.
+  The cleanup rules used are recorded per row (`after_comma_dropped`, `unit_dropped`,
+  `name_before_number`). Audit G7 and G12 read the check file themselves. These are grantee
+  **mailing** addresses, not where services were delivered.
 - **One FY2016 `address2` cell (row 640) is a number formatted as a date** (`42037`, which Excel
   shows as 2015-02-02). The stored value is kept; what was meant is not knowable from the file.
 
@@ -810,6 +833,24 @@ number here is this repo's arithmetic on those files.
   PROJECTS) 575,000,000`; the 96-page book also has Parts II and III). It is a PDF,
   so under §27 it is not part of this structured dataset, and it has not been parsed. The FY2018
   Resolution A book is not in `source/`.
+- **Update 2026-11-13 (#202): FY2018 is in this dataset, PDF-derived and labeled.** The book has
+  since been read and checked (#177; `data/fy18/pdf/capital_sd/`, 35 of 35 printed totals tie).
+  Noel Hidalgo decided all 50 of its review flags on 2026-11-13, every one `accepted_as_printed`
+  (`research/2026-10-22-fy18-capital-terms-review/data/fy18_capital_sd_review_decisions.csv`; the
+  question to Council Finance on the three `TA` rows stays open, #237), and the family-year moved
+  from `reviewed` to `closed` in `data/pdf_years.csv` on his instruction. He answered the review's
+  policy question D1 the same day: add FY2018 to `data/capital/` with a PDF source label.
+  `code/build_capital_council.py` now writes Part I of the book (1,485 projects, 1,496 rows: one
+  per non-zero fiscal-year column) into `council_capital_awards.csv` with
+  `source_kind = pdf_capital_sd`, `source_file` the PDF and `source_row` its page and row
+  (`p4r1`); FY2018's first-year total is the book's printed `TOTALS FOR ALL`, $575,000,000. The
+  build refuses these rows unless the family-year is `closed` and the PDF's sha256 is the one
+  `data/pdf_years.csv` records; `code/audit_capital.py` K6 re-checks them against the book's own
+  totals. What differs from the other years: the book prints **no council district** (FY2018
+  rows never match a district filter), its sponsor is printed in upper case and can list several
+  members, and the values are read from a PDF, not a Council spreadsheet. Every MCP answer and
+  source line says "PDF-derived". Part II (the non-city list) and Part III are not added. The
+  T&C flags of the same review (B4, B5) and questions D2 and D3 stay open.
 - **The Council's list and OMB's adopted budget agree by budget line in most lines, not all**
   (`data/capital/RECONCILIATION.md` §3). FY2027: 146 of 153 Council lines match OMB's July 2026
   release to the dollar in both years; 7 differ (`P D017` $579,000 lower at OMB and `P D020`
@@ -1639,7 +1680,8 @@ two line-end hyphens and files budget-line headings as units.
 | Terms and Conditions | FY2018, FY2021–FY2027 |
 
 That is 37 family-years (36 until FY2027 transparency was added, §58). As of 2026-11-12 all 37
-are `reviewed` and none is `closed`.
+were `reviewed` and none `closed`. Since 2026-11-13, FY2018 capital is `closed` (§26, #202); the
+other 36 are `reviewed`.
 
 **From which process.** Each table is read from the PDF's own text and ruled lines, checked
 against a second reading of the page image, tied to every total the PDF prints, and checked for
@@ -1713,6 +1755,8 @@ its FY Y "adopted" amount from `adopted_budget_amount` in the release tagged Y, 
 Example: DOE (040) unit 401, FY2017, shows $5,844,620,680, the FY2016 adopted budget; FY2017 is
 $6,164,926,031. Tracked in #274. The match status is right; only the amount's year is wrong.
 
+**Fixed 2026-11-10** in nyc-budget-mcp 2.0.6 ([#281](https://github.com/BetaNYC/New-York-City-Budget/pull/281)): the crosswalk now sums `financial_plan_amount`. The explorer's Terms and Conditions page showed the old amounts from 2026-10-23. The MCP server never had them: neither its package nor the PDF tables download carries a `terms_unit` crosswalk row. The reader-facing account is in [WHAT'S CHANGED](WHATS-CHANGED.md#2026-11-10-agency-amounts-in-the-terms-and-conditions-tables-were-one-year-late).
+
 **The rule now used** (DATA-DICTIONARY, "City agency budgets"): Adopted Y = `financial_plan_amount`
 from the June release tagged Y; Modified Y = `current_modified_budget_amount` from the June release
 tagged Y+1; the newest year's Modified is "Not yet published". Use one release per year (the June
@@ -1722,7 +1766,7 @@ one): the Preliminary, Executive and Adopted releases each restate the whole bud
 `source/agency-budget-qa/` and fails if any year is moved, and `code/test_agency_budget_cleanup.py`
 (OMB's printed totals in the CSV).
 
-**Since 2.1.0 (#270, 2026-11-12): one year rule.** The rule is coded once, in
+**Since 2.1.0 (#270, 2026-11-14): one year rule.** The rule is coded once, in
 `mcp/scripts/agency-budget.mjs`, which builds the `agency_budget` table the MCP, the explorer and
 the CSV download all read. `code/agency_budget_cleanup.py` no longer applies it. The #274 fix
 (2.0.6) and this table agree on every T&C unit amount (`mcp/test/agency-budget.test.js`), so the
@@ -1768,3 +1812,30 @@ hyphen probably lost its spaces ("Special Projects-Council District 16", Reso 01
 Noel Hidalgo decided all 10 flags `accepted_as_printed` on 2026-11-13: every row stays as printed.
 
 **Next.** T2026-2764 was on the 2026-11-19 Finance agenda with no files yet (as of 2026-11-12).
+
+---
+
+## 59. City Planning's Capital Projects Database does not state its unit (2026-11-14; #250) — SETTLED BY A CHECK
+
+DCP's Capital Projects Database (CPDB: NYC Open Data `djxg-kcfi`, commitments, and `fi59-268w`,
+projects) never says whether its amounts are in dollars or thousands. Neither dataset's column
+descriptions say, neither has a data-dictionary attachment, and DCP's own data dictionary
+([`cpdb_data_dictionary.xlsx`](https://s-media.nyc.gov/agencies/dcp/assets/files/excel/data-tools/bytes/cpdb_data_dictionary.xlsx))
+has a column for "the unit of measurement of the data field, e.g. thousands, millions" that says
+only "double precision" for every amount. OMB's Capital Commitment Plan (`2cmn-uidm`), which covers
+the same planned commitments, is in thousands: its data dictionary says "The dollar values are in
+thousands."
+
+**The check.** CPDB's City total per budget line and fiscal year (`plancommdate`, July to June),
+divided by OMB's City amount for the same line and year, is exactly 1,000 at the median for every
+plan release from 2025-09-30 to 2026-09-28. Against the 2026-05-12 release, 1,875 of 2,348
+line-years are equal to the dollar after × 1,000, and none without it. DCP's own code agrees: its
+older build multiplied OMB's amounts by 1000 (`NYCPlanning/db-cpdb`, `sql/cpdb_build_master.sql`
+lines 68, 87, 98), and its capital-projects map treats the stored values as dollars. So CPDB is
+served in **dollars**, and every answer says DCP does not state the unit.
+
+**Guarded by** `verifyCapitalPlan` in `mcp/scripts/capital-plan.mjs`, which stops the index build
+if the median ratio against the newest release is not 1,000, and `mcp/test/capital-plan.test.js`,
+which recomputes it from the raw snapshots. If DCP ever publishes CPDB in thousands, the build
+fails before a figure 1,000 times too small is served. Plan and sources:
+[`docs/plans/2026-11-13-250-capital-plan-and-cpdb.md`](docs/plans/2026-11-13-250-capital-plan-and-cpdb.md) §1.

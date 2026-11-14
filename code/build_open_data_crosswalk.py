@@ -339,6 +339,17 @@ def capital_records(root=ROOT):
     return recs
 
 
+def borough_tiebreak(borough, ts, ours_by_borough):
+    """#257: a full-ID bucket with several portal rows. The portal row whose borough is this
+    record's, when exactly one portal row has it and no other record of ours in the bucket does;
+    else None (the record stays ambiguous). Borough is compared folded; a blank one never picks."""
+    b = norm_text(borough).upper()
+    if not b or sum(n for k, n in ours_by_borough.items() if norm_text(k).upper() == b) != 1:
+        return None
+    hit = [t for t in ts if norm_text(t["borough"]).upper() == b]
+    return hit[0] if len(hit) == 1 else None
+
+
 def capital_t474(recs, snap):
     ds = "t474-a92g"
     t474 = read_gz("source/open-data-t474-a92g/t474-a92g.csv.gz")
@@ -354,6 +365,13 @@ def capital_t474(recs, snap):
     ours_n = Counter((r["fy"], pid(r["project_id"]), norm_text(r["budget_line"]), str(r["amount_fy"]),
                       Decimal(P.parse_amount_text(r["amount"])) if r["amount"] else None)
                      for r in recs if r["source_kind"] != "open_data_t474")
+    # #257: our records per bucket and borough, so a borough tie-break never gives two of ours
+    # one portal row.
+    ours_boro = defaultdict(Counter)
+    for r in recs:
+        if r["source_kind"] != "open_data_t474" and r["amount"]:
+            ours_boro[(r["fy"], pid(r["project_id"]), norm_text(r["budget_line"]), str(r["amount_fy"]),
+                       Decimal(P.parse_amount_text(r["amount"])))][norm_text(r["borough"]).upper()] += 1
     used, out = set(), []
     for r in recs:
         if r["fy"] not in years:
@@ -371,6 +389,11 @@ def capital_t474(recs, snap):
         k = (r["fy"], pid(r["project_id"]), norm_text(r["budget_line"]), str(r["amount_fy"]),
              Decimal(P.parse_amount_text(r["amount"])))
         ts = idx.get(k, [])
+        rule = "report_year_id_line_fy_amount"
+        if len(ts) > 1:
+            t = borough_tiebreak(r["borough"], ts, ours_boro[k])
+            if t is not None:
+                ts, rule = [t], "report_year_id_line_fy_amount, then borough (#257): the one portal row of this borough"
         if len(ts) == 1:
             t = ts[0]
             used.add(t[":id"])
@@ -389,7 +412,7 @@ def capital_t474(recs, snap):
                     diffs.append(f"{name}: ours {a!r}, portal {b!r}")
             out.append(row("capital_award", r["key"], r["fy"], ds, snap,
                            "differs" if diffs else "same",
-                           "report_year_id_line_fy_amount", portal_row_id=t[":id"],
+                           rule, portal_row_id=t[":id"],
                            portal_value=t["award"], differing_fields="; ".join(diffs)))
         elif ts:
             out.append(row("capital_award", r["key"], r["fy"], ds, snap, "ambiguous",

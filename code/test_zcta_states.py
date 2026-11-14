@@ -183,30 +183,35 @@ def test_committed_zip_statuses_issue_70():
                     assert r["zip_status"] == "invalid" and r["zip"] == "", r
                 if r["zip_status"] == "padded":
                     assert r["zip"] == "0" + r["postal_code"], r
+                elif r["zip_status"] == "repaired_by_address":     # #247: one of the candidates
+                    assert r["zip"] in r["zip_candidates"].split(";"), r
                 elif r["zip_status"] == "repaired_extra_digit":
                     p = r["postal_code"]
                     assert len(p) == 6 and r["zip"] in {p[:i] + p[i + 1:] for i in range(6)}, r
                 elif r["zip"]:
                     assert r["postal_code"].startswith(r["zip"]), r
-                assert bool(r["zip_candidates"]) == (r["zip_status"] == "ambiguous_extra_digit"), r
+                assert bool(r["zip_candidates"]) == (r["zip_status"] in ("ambiguous_extra_digit", "repaired_by_address")), r
                 if r["zip_status"] == "trimmed":
                     assert Z._RAGGED.fullmatch(r["postal_code"]), r
                     trimmed[r["postal_code"]] += 1
-                if r["zip_status"].endswith("_extra_digit"):
+                if r["zip_status"].endswith("_extra_digit") or r["zip_status"] == "repaired_by_address":
                     six[(r["postal_code"], r["zip_status"], r["zip"] or r["zip_candidates"])] += 1
+    # #247: the PAD address check settled 25 of the 30 ambiguous rows (repaired_by_address) and
+    # 14 of the 29 state mismatches (nyc_address_confirmed) in FY2013-FY2027, and 2 of the 2
+    # archived mismatches. The 5 left ambiguous are the California '900069' rows.
     assert dict(c) == {"valid": 127343, "blank": 10834, "not_a_zcta": 1073, "invalid": 164,
-                       "state_mismatch": 29, "padded": 13, "trimmed": 35,
-                       "repaired_extra_digit": 35, "ambiguous_extra_digit": 30}
+                       "state_mismatch": 15, "nyc_address_confirmed": 14, "padded": 13, "trimmed": 35,
+                       "repaired_extra_digit": 35, "ambiguous_extra_digit": 5, "repaired_by_address": 25}
     assert dict(old) == {"valid": 15324, "blank": 1471, "not_a_zcta": 176, "invalid": 5,
-                         "state_mismatch": 2, "trimmed": 6, "repaired_extra_digit": 2,
+                         "nyc_address_confirmed": 2, "trimmed": 6, "repaired_extra_digit": 2,
                          "ambiguous_extra_digit": 2}
     assert dict(trimmed) == {"11203-": 24, "10027-000": 2, "10037-999": 2, "11217-11217": 1,
                              "11204-11204": 1, "10033-10033": 1, "11102-20": 1,
                              "11231=1020": 1, "11413 ZipCode2: 3929": 1, "11233 ZipCode2: 150": 1}
-    R, A = "repaired_extra_digit", "ambiguous_extra_digit"
+    R, A, P = "repaired_extra_digit", "ambiguous_extra_digit", "repaired_by_address"
     assert dict(six) == {("111691", R, "11691"): 30, ("100665", R, "10065"): 2,
                          ("115300", R, "11530"): 1, ("111234", R, "11234"): 1,
                          ("110027", R, "10027"): 1,
-                         ("104658", A, "10458;10465;10468"): 11, ("100037", A, "10003;10007;10037"): 10,
-                         ("900069", A, "90006;90069"): 5, ("114345", A, "11434;11435"): 3,
-                         ("100115", A, "10011;10115"): 1}
+                         ("104658", P, "10458"): 11, ("100037", P, "10037"): 10,
+                         ("900069", A, "90006;90069"): 5, ("114345", P, "11434"): 3,
+                         ("100115", P, "10115"): 1}

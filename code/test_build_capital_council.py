@@ -174,7 +174,7 @@ def test_fy2027_reproduces_146_of_153(built):
 
 
 def test_corpus_pins(built):
-    """FAILS if a year's first-year total moves, a totals row is counted, FY2018 appears, the
+    """FAILS if a year's first-year total moves, a totals row is counted, FY2018 is not the book's Part I, the
     split records change, or the FY2026 overlap stops being exactly P CN1606 $2,000,000."""
     tot = collections.Counter()
     for r in built["council"]:
@@ -182,10 +182,27 @@ def test_corpus_pins(built):
             tot[r["report_year"]] += Decimal(r["amount"])
     assert tot[2015] == 465_143_000 and tot[2016] == 500_000_000 and tot[2017] == 514_807_000
     assert tot[2025] == 775_000_000 and tot[2026] == 779_320_000 and tot[2027] == 853_688_000
-    assert 2018 not in tot
+    # #202: FY2018 is the closed §254 book's Part I, PDF-derived (its printed ALL line: $575,000,000).
+    assert tot[2018] == 575_000_000
     assert [h["id"] for h in built["heads"]] == ["E  CN817", "E  CN832", "E  CN673", "E  CN136",
                                                  "P CN1606"]
     assert len(built["tails"]) == 7
     d = built["diff26"]
     assert d["only_wb"] == [(("P CN1606", 2026), [Decimal(2_000_000)])]
     assert d["only_od"] == [] and d["differ"] == []
+
+
+def test_fy2018_comes_only_from_a_closed_book(tmp_path, monkeypatch):
+    """#202. FAILS if FY2018 rows are built while the §254 book's family-year is not `closed`, or
+    if a row is not labeled pdf_capital_sd with its page and row."""
+    import re
+    rows = C.pdf_rows(2018)
+    assert rows and {r["source_kind"] for r in rows} == {"pdf_capital_sd"}
+    assert all(re.fullmatch(r"p\d+r\d+", r["source_row"]) and r["council_district"] == "" for r in rows)
+    fake = tmp_path / "data"
+    fake.mkdir()
+    text = open(os.path.join(C.ROOT, "data", "pdf_years.csv"), encoding="utf-8").read()
+    (fake / "pdf_years.csv").write_text(text.replace(",closed,", ",reviewed,"), encoding="utf-8")
+    monkeypatch.setattr(C, "ROOT", str(tmp_path))
+    with pytest.raises(ValueError, match="not `closed`"):
+        C.pdf_year(2018)
