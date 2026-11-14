@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.BetaNYC/nyc-budget-mcp",
   "title": "NYC Budget",
-  "description": "NYC Council budget data: discretionary awards, capital designations, Schedule C, OMB capital",
+  "description": "NYC budget data: Council awards and capital, City agency budgets, OMB capital plan, and CPDB",
   "repository": {
     "url": "https://github.com/BetaNYC/New-York-City-Budget",
     "source": "github",

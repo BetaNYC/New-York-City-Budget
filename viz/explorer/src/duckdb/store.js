@@ -12,12 +12,13 @@
  * browser's cache works as before.
  *
  * The engine's JavaScript is imported only when boot() runs, so a page that never needs it (City
- * agency budgets, #299) downloads none of it: not the 33 MB .wasm, not its JS API.
+ * agency budgets, #299; the fast Council views, #301) downloads none of it: not the 34 MB .wasm
+ * (8.6 MB over the wire), not its JS API.
  */
 import ehWasm from "@duckdb/duckdb-wasm/dist/duckdb-eh.wasm?url";
 import ehWorker from "@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url";
 
-import { dataUrl } from "../paths.js";
+import { assetUrl, dataUrl } from "../paths.js";
 import { BASE, TABLES } from "./needs.js";
 
 const BUNDLES = {
@@ -26,6 +27,9 @@ const BUNDLES = {
 };
 
 export { TABLES };
+
+/** Where DuckDB fetches its extensions: public/duckdb-extensions/ on this site. */
+export const EXTENSIONS_URL = () => assetUrl("duckdb-extensions").replace(/\/$/, "");
 
 export const PHASES = { IDLE: "idle", MANIFEST: "manifest", ENGINE: "engine", DATA: "data", READY: "ready", ERROR: "error" };
 
@@ -138,6 +142,9 @@ async function boot() {
   });
   await db.open({ path: ":memory:", query: { castBigIntToDouble: true } });
   conn = await db.connect();
+  // The parquet and json extensions come from this site, not extensions.duckdb.org (#301;
+  // public/duckdb-extensions/README.md). Absolute: the worker resolves URLs against itself.
+  await conn.query(`SET custom_extension_repository = '${EXTENSIONS_URL()}'`);
 
   // The landing page's tables only (needs.js BASE); the rest load with the view that reads them.
   emit({ phase: PHASES.DATA, progress: 0 });

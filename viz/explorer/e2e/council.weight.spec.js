@@ -1,7 +1,9 @@
 /**
- * What a first visit to each Council explorer view downloads (#301, second PR). REPORT ONLY: it
- * records, it does not fail on size yet. A later #301 PR turns the budget on: the fast views under
- * 1 MB over the wire and 3 MB decoded, with no query engine.
+ * What a first visit to each Council explorer view downloads (#301). Every view is recorded. The
+ * FAST views (#301 pick 1: expense awards, one award, Years, Council vs OMB, capital, one capital
+ * project, About) must stay under 1 MB over the wire and 3 MB decoded (pick 3), with no query
+ * engine at all. The power tools (Compare, the PDF tabs, Source, Review) load the engine, and are
+ * recorded only.
  *
  * Two numbers per view, as the #301 triage counted them
  * (https://github.com/BetaNYC/New-York-City-Budget/issues/301#issuecomment-6872266067):
@@ -24,7 +26,7 @@
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { gzipSync } from "node:zlib";
-import { test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 import { councilReady } from "./site.js";
 
@@ -46,6 +48,12 @@ export const WEIGHT_VIEWS = {
   book: "explorer/#view=book",
   review: "explorer/#view=review",
 };
+
+/** #301 pick 1: the views that must be fast on a phone. */
+export const FAST = ["expense awards (landing)", "expense awards", "one award", "years", "omb", "capital", "one capital project", "about"];
+/** #301 pick 3: counted compressed, as GitHub Pages sends it, with a cap on what the phone unpacks. */
+export const WIRE_LIMIT = 1_000_000;
+export const DECODED_LIMIT = 3_000_000;
 
 const COMPRESSIBLE = /\.(html?|css|m?js|json|wasm|parquet|svg|txt|csv)(\?|$)|\/(\?|$)/i;
 const ENGINE = /duckdb|\.wasm(\?|$)/i;
@@ -76,7 +84,7 @@ function record(page) {
 
 const results = {};
 
-test.describe("Council views: first-visit download (report only)", () => {
+test.describe("Council views: first-visit download (fast views held to the budget)", () => {
   test.describe.configure({ mode: "serial" });
 
   for (const [name, path] of Object.entries(WEIGHT_VIEWS)) {
@@ -99,6 +107,13 @@ test.describe("Council views: first-visit download (report only)", () => {
       results[name] = r;
       info.annotations.push({ type: "first visit", description: JSON.stringify(r) });
       console.log(`${info.project.name} · ${name}: ${(r.wire / 1e6).toFixed(2)} MB wire, ${(r.decoded / 1e6).toFixed(2)} MB decoded, ${r.requests} requests${r.engine ? ", engine" : ""}`);
+      if (FAST.includes(name)) {
+        // FAILS if a fast view loads the query engine, or its first visit passes 1 MB over the
+        // wire or 3 MB decoded.
+        expect(r.engine, `${name}: the query engine was requested`).toBe(false);
+        expect(r.wire, `${name}: bytes over the wire`).toBeLessThan(WIRE_LIMIT);
+        expect(r.decoded, `${name}: bytes decoded`).toBeLessThan(DECODED_LIMIT);
+      }
     });
   }
 
