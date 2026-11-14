@@ -68,6 +68,7 @@ import {
 } from "./pdfquery.js";
 import { otherFlagWords } from "./checkwords.js";
 import { agencyYearsSection, compareAdoptedModifiedText, searchAgencyBudgetText } from "./agency.js";
+import { capitalPlanYearsSection } from "./capitalplan.js";
 import { SHORT_TERM, wholeWordNote, type WordFilter } from "./textmatch.js";
 import {
   BOROUGH_CODES_QUESTION,
@@ -1182,7 +1183,7 @@ export const TOOLS = [
   },
   {
     name: "list_available_fiscal_years",
-    description: `Report, for every fiscal year, which structured datasets this server holds and where each came from: the expense funding disclosure (loaded or not, Council RnD download or Internet Archive capture, retrieval date, early-snapshot flag), the Council capital list (Council workbook or NYC Open Data t474-a92g), and whether the year is in the Council-vs-OMB comparison. Also reports each family-year of the checked PDF tables (Schedule C, transparency resolutions, the capital book, Terms and Conditions) with its status, and whether the optional PDF tables download is installed. Also reports the City agency budget years (search_agency_budget, compare_adopted_modified; NYC Open Data mwzb-yiwb) and when that snapshot was taken. States the gaps plainly: FY2010 disclosure not loaded, FY2018 capital PDF-derived (the checked §254 book), nothing before FY2009, no PDF table before FY2018.`,
+    description: `Report, for every fiscal year, which structured datasets this server holds and where each came from: the expense funding disclosure (loaded or not, Council RnD download or Internet Archive capture, retrieval date, early-snapshot flag), the Council capital list (Council workbook or NYC Open Data t474-a92g), and whether the year is in the Council-vs-OMB comparison. Also reports each family-year of the checked PDF tables (Schedule C, transparency resolutions, the capital book, Terms and Conditions) with its status, and whether the optional PDF tables download is installed. Also reports the City agency budget years (search_agency_budget, compare_adopted_modified; NYC Open Data mwzb-yiwb) and when that snapshot was taken. Also reports OMB's Capital Commitment Plan releases (NYC Open Data 2cmn-uidm, in thousands of dollars) and the version of DCP's Capital Projects Database (CPDB: djxg-kcfi, fi59-268w) this index holds. States the gaps plainly: FY2010 disclosure not loaded, FY2018 capital PDF-derived (the checked §254 book), nothing before FY2009, no PDF table before FY2018.`,
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
   ...betanyc.tools,
@@ -1669,6 +1670,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           ...pdfYearsSection(),
           "",
           ...agencyYearsSection(),
+          "",
+          ...capitalPlanYearsSection(),
           "",
           `Source repo: ${REPO_URL}. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`,
         ].join("\n");
