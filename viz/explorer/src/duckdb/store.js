@@ -12,12 +12,13 @@
  * browser's cache works as before.
  *
  * The engine's JavaScript is imported only when boot() runs, so a page that never needs it (City
- * agency budgets, #299) downloads none of it: not the 33 MB .wasm, not its JS API.
+ * agency budgets, #299; the fast Council views, #301) downloads none of it: not the 34 MB .wasm
+ * (8.6 MB over the wire), not its JS API.
  */
 import ehWasm from "@duckdb/duckdb-wasm/dist/duckdb-eh.wasm?url";
 import ehWorker from "@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url";
 
-import { dataUrl } from "../paths.js";
+import { assetUrl, dataUrl } from "../paths.js";
 import { BASE, TABLES } from "./needs.js";
 
 const BUNDLES = {
@@ -26,6 +27,9 @@ const BUNDLES = {
 };
 
 export { TABLES };
+
+/** Where DuckDB fetches its extensions: public/duckdb-extensions/ on this site. */
+export const EXTENSIONS_URL = () => assetUrl("duckdb-extensions").replace(/\/$/, "");
 
 export const PHASES = { IDLE: "idle", MANIFEST: "manifest", ENGINE: "engine", DATA: "data", READY: "ready", ERROR: "error" };
 
@@ -38,6 +42,7 @@ const listeners = new Set();
 let db = null;
 let conn = null;
 let bootPromise = null;
+let manifestPromise = null;
 /** One load per table: table -> promise, kept once it succeeds so a table is never fetched twice. */
 const tableLoads = new Map();
 
@@ -94,13 +99,33 @@ export function ensureTables(names) {
   );
 }
 
+/**
+ * manifest.json alone (a few KB), once per visit: what the build holds, with no engine and no
+ * table. Views that need no engine (About the data, Review on a public build; needs.js
+ * needsEngine) read only this (#301).
+ */
+export function ensureManifest() {
+  if (!manifestPromise) {
+    manifestPromise = (async () => {
+      const manifest = await (await fetchOk(dataUrl("manifest.json", String(Date.now())))).json();
+      for (const t of TABLES) {
+        if (!manifest.files?.[`${t}.parquet`]) throw new Error(`manifest.json lists no ${t}.parquet; the data build is incomplete`);
+      }
+      // A retry after a failed manifest clears the error; boot() sets its own phases after this.
+      emit(snapshot.phase === PHASES.ERROR ? { manifest, phase: PHASES.IDLE, error: null } : { manifest });
+      return manifest;
+    })().catch((error) => {
+      manifestPromise = null;
+      emit({ phase: PHASES.ERROR, error });
+      throw error;
+    });
+  }
+  return manifestPromise;
+}
+
 async function boot() {
   emit({ phase: PHASES.MANIFEST });
-  const manifest = await (await fetchOk(dataUrl("manifest.json", String(Date.now())))).json();
-  for (const t of TABLES) {
-    if (!manifest.files?.[`${t}.parquet`]) throw new Error(`manifest.json lists no ${t}.parquet; the data build is incomplete`);
-  }
-  emit({ manifest });
+  const manifest = await ensureManifest();
 
   const duckdb = await import("@duckdb/duckdb-wasm");
   const features = await duckdb.getPlatformFeatures();
@@ -117,6 +142,9 @@ async function boot() {
   });
   await db.open({ path: ":memory:", query: { castBigIntToDouble: true } });
   conn = await db.connect();
+  // The parquet and json extensions come from this site, not extensions.duckdb.org (#301;
+  // public/duckdb-extensions/README.md). Absolute: the worker resolves URLs against itself.
+  await conn.query(`SET custom_extension_repository = '${EXTENSIONS_URL()}'`);
 
   // The landing page's tables only (needs.js BASE); the rest load with the view that reads them.
   emit({ phase: PHASES.DATA, progress: 0 });

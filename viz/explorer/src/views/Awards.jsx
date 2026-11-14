@@ -5,7 +5,7 @@ import { ensureTables } from "../duckdb/store.js";
 import { aboutMb, awardsExtras, bytesOf, familyTables, openDataTables } from "../duckdb/needs.js";
 import { DISCLOSURE_FLAG_NOTE, OTHER_STATUS_NOTE, STATUS_LABEL, count, money, plural } from "../format.js";
 import * as Q from "../query/sql.js";
-import { disclosureFilters, writeHash } from "../state/hash.js";
+import { awardsYear, disclosureFilters, writeHash } from "../state/hash.js";
 import { HashLink, Matched, NoData, Notice, Pager, SelectFilter, Status, TextFilter } from "../components/ui.jsx";
 import { SC_SIDE_LABEL } from "../query/pdf.js";
 import { ScCell, ScOnlyResults, ScPanel, scYearsOf, useScForRows } from "./ScheduleC.jsx";
@@ -16,7 +16,9 @@ import { CoverageStrip, OdCell, useOdCoverage, useOdForRows } from "../component
  * the table shows one page, highest amount first (the MCP's order).
  */
 export default function Awards({ state, set, go, years, pdfYears, manifest }) {
-  const f = disclosureFilters(state);
+  // The year shown: the one chosen, or with no year in the link the newest loaded one (#301).
+  const fy = awardsYear(state, years.find((y) => y.loaded)?.fiscal_year);
+  const f = disclosureFilters({ ...state, fy });
   // The Schedule C pairing and the Open Data badges are extra downloads (needs.js): shown once
   // their tables are in, which they are after a click here, a Schedule C filter, or any page that
   // loaded them earlier in the visit.
@@ -27,7 +29,7 @@ export default function Awards({ state, set, go, years, pdfYears, manifest }) {
   const scYears = scIn ? scYearsOf(pdfYears) : [];
   const canSc = scYearsOf(pdfYears).length > 0;
   const scOnly = state.scside === "pdf_only" && scYears.length > 0;
-  const yearRow = state.fy != null ? years.find((y) => y.fiscal_year === state.fy) : null;
+  const yearRow = fy != null ? years.find((y) => y.fiscal_year === fy) : null;
   const notLoaded = yearRow && !yearRow.loaded;
   const key = JSON.stringify([f, state.page]);
   const q = useQueries(true, key, () =>
@@ -41,7 +43,7 @@ export default function Awards({ state, set, go, years, pdfYears, manifest }) {
   );
 
   const yearOptions = [
-    ["", "All years"],
+    ["0", "All years"],
     ...years.map((y) => [String(y.fiscal_year), `FY${y.fiscal_year}${y.loaded ? (y.early_snapshot ? " (early snapshot)" : "") : " (not loaded)"}`]),
   ];
 
@@ -54,7 +56,7 @@ export default function Awards({ state, set, go, years, pdfYears, manifest }) {
         member who sponsored the award.
       </p>
       <form className="filters" onSubmit={(e) => e.preventDefault()}>
-        <SelectFilter label="Fiscal year" value={state.fy ?? ""} options={yearOptions} onApply={(v) => set({ fy: v === "" ? null : Number(v) })} />
+        <SelectFilter label="Fiscal year" value={fy == null ? "0" : String(fy)} options={yearOptions} onApply={(v) => set({ fy: Number(v) })} />
         <SelectFilter
           label="Status"
           value={state.status}
@@ -78,13 +80,13 @@ export default function Awards({ state, set, go, years, pdfYears, manifest }) {
           />
         )}
       </form>
-      <ScPanel fy={state.fy} scYears={scYears} set={set} />
+      <ScPanel fy={fy} scYears={scYears} set={set} />
       <MoreColumns manifest={manifest} tables={db.tables} canSc={canSc} scIn={scIn} odIn={odIn} />
 
       {scOnly ? (
         <ScOnlyResults f={f} state={state} set={set} go={go} />
       ) : notLoaded ? (
-        <NoData year={state.fy} what="expense award" reason={yearRow.note} />
+        <NoData year={fy} what="expense award" reason={yearRow.note} />
       ) : (
         <Status loading={q.loading && !q.data} updating={q.loading && Boolean(q.data)} error={q.error}>
           {q.data && <Results data={q.data} state={state} set={set} go={go} years={years} scYears={scYears} odIn={odIn} />}
@@ -166,7 +168,7 @@ function Results({ data, state, set, go, years, scYears, odIn }) {
       )}
       {otherYears.length > 0 && <Notice tone="warn">{OTHER_STATUS_NOTE}</Notice>}
       {odIn ? <CoverageStrip family="expense" coverage={odCov} title="These awards on NYC Open Data, by year" /> : null}
-      {matchedYears.length > 1 && state.fy == null && r.matched > 0 && (
+      {matchedYears.length > 1 && r.matched > 0 && (
         <p className="muted">These totals add up {matchedYears.length} fiscal years. Each year is a separate Council workbook; see Years for the per-year view.</p>
       )}
       {data.flags.length > 0 && (

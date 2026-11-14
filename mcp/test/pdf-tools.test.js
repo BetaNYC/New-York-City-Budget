@@ -100,12 +100,12 @@ const COMMIT = () => db.prepare("SELECT value FROM meta WHERE key = 'source_comm
 
 // ---------------------------------------------------------------- the tool surface
 
-test("the four PDF tools are listed, with the four spreadsheet tools, the two agency budget tools and the three shared tools", async () => {
+test("the four PDF tools are listed, with the four spreadsheet tools, the two agency budget tools, the capital plan tool and the three shared tools", async () => {
   // FAILS if a PDF tool is missing, or search_disclosure_awards was merged into Schedule C.
   // (The agency budget tools of 2.1.0, #285, are covered in test/agency-budget-tools.test.js.)
   const { tools } = await client.listTools();
   assert.deepEqual(tools.map((t) => t.name).sort(), [...PDF_TOOLS, "search_disclosure_awards", "search_council_capital", "compare_capital_to_omb", "list_available_fiscal_years",
-    "search_agency_budget", "compare_adopted_modified", "whats_changed", "about_betanyc", "about_data"].sort());
+    "search_agency_budget", "compare_adopted_modified", "search_capital_plan", "whats_changed", "about_betanyc", "about_data"].sort());
 });
 
 test("without the download, each PDF tool says how to add it (not an error, no rows)", async () => {

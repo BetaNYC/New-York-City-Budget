@@ -103,7 +103,8 @@ def test_index_states_the_gaps_and_links_to_the_retired_copy():
     html = _read("index.html")
     about = _read("about.html")
     assert "FY2010 is not included" in about
-    assert "FY2018 is missing" in about
+    # FY2018 Council capital is PDF-derived since #202, and the page says where it comes from.
+    assert "FY2018 has no workbook and is not on NYC Open Data" in about
     assert 'href="legacy.html"' in html
     # The front page links the MCP's own page, which names the package (2026-11-10).
     assert 'href="mcp.html"' in html and "@betanyc/nyc-budget-mcp" in _read("mcp.html")
