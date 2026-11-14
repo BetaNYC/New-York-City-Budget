@@ -10,7 +10,7 @@ halves, and they answer different questions:
 | **Source** | NYC Open Data, Expense Budget ([`mwzb-yiwb`](https://data.cityofnewyork.us/d/mwzb-yiwb)), published by the Mayor's Office of Management and Budget (OMB) | The Council's spreadsheets, its budget PDFs (Schedule C and others) and NYC Open Data |
 | **Years** | FY2017–FY2027 | FY2009, FY2011–FY2027 (by dataset; see below) |
 | **Size** | The whole expense budget: $117.8 billion adopted for FY2026, as counted in Open Data | The Council's own share: discretionary awards and capital designations |
-| **Look at it** | The [agency budget explorer](https://betanyc.github.io/New-York-City-Budget/agencies/) (moved here from [`nyc-budget-viz`](https://github.com/BetaNYC/nyc-budget-viz) in [#265](https://github.com/BetaNYC/New-York-City-Budget/issues/265)) | The [Council budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/) |
+| **Look at it** | The [agency budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/#view=agencies) (moved here from [`nyc-budget-viz`](https://github.com/BetaNYC/nyc-budget-viz) in [#265](https://github.com/BetaNYC/New-York-City-Budget/issues/265)) | The [Council budget explorer](https://betanyc.github.io/New-York-City-Budget/explorer/) |
 
 Not sure which half you need? See [**Which tool answers my question?**](WHICH-TOOL.md) It also
 has a [glossary](WHICH-TOOL.md#glossary): fiscal year, adopted vs. modified, unit of
