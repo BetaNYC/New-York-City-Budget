@@ -285,6 +285,63 @@ def q_lines(ctx):
                   f"{len(ctx['table']):,} rows checked.")
 
 
+@question("K6", "For FY2018 (#202), does the table hold exactly Part I of the checked §254 book, "
+          "tying to the book's own printed agency totals, and only while that family-year is "
+          "closed with the PDF hash data/pdf_years.csv records?")
+def q_fy18_book(ctx):
+    """data/pdf_years.csv read with csv: FY2018 capital_sd must be `closed`, and the PDF's sha256
+    (hashed here) the one recorded. data/fy18/pdf/capital_sd/fy18_capital_sd_totals.csv: the
+    printed `TOTALS FOR <agency> (N PROJECTS)` lines of Part I, summed per fiscal year, and their
+    printed project counts. The table's pdf_capital_sd rows, summed per (2018, amount_fy) and
+    counted by distinct source_row, must equal them; every such row must be report year 2018."""
+    import hashlib
+    bad = []
+    with open(os.path.join(ROOT, "data", "pdf_years.csv"), newline="", encoding="utf-8") as f:
+        y = [r for r in csv.DictReader(f) if r["family"] == "capital_sd" and r["fiscal_year"] == "2018"]
+    if len(y) != 1 or y[0]["status"] != "closed":
+        bad.append(f"FY2018 capital_sd status is {[r['status'] for r in y]}, not closed")
+    else:
+        with open(os.path.join(ROOT, y[0]["source_pdf"]), "rb") as f:
+            if hashlib.sha256(f.read()).hexdigest() != y[0]["pdf_sha256"]:
+                bad.append(f"{y[0]['source_pdf']}: sha256 differs from data/pdf_years.csv")
+    # The agency lines ('TOTALS FOR AGING (7 PROJECTS)') must add up to the book's 'TOTALS FOR
+    # ALL' line, and the table must equal that line.
+    want, agencies, n_want, n_agencies = {}, collections.defaultdict(Decimal), None, 0
+    with open(os.path.join(ROOT, "data", "fy18", "pdf", "capital_sd", "fy18_capital_sd_totals.csv"),
+              newline="", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            if r["kind"] != "totals_for" or r["part"] != "I":
+                continue
+            amts = {fy: Decimal(r[f"printed_fy{fy}"] or 0) for fy in (2018, 2019, 2020, 2021)}
+            if r["name"] == "ALL":
+                want, n_want = amts, int(r["printed_count"])
+            else:
+                n_agencies += int(r["printed_count"])
+                for fy, v in amts.items():
+                    agencies[fy] += v
+    if not want:
+        bad.append("no 'TOTALS FOR ALL' line for Part I")
+    elif dict(agencies) != want or n_agencies != n_want:
+        bad.append(f"the agency totals ({n_agencies} projects, {dict(agencies)}) do not make the ALL line ({n_want}, {want})")
+    want = collections.defaultdict(Decimal, want)
+    got, recs = collections.defaultdict(Decimal), set()
+    for r in ctx["table"]:
+        if r["source_kind"] != "pdf_capital_sd":
+            continue
+        if r["report_year"] != "2018":
+            bad.append(f"a pdf_capital_sd row in report year {r['report_year']}")
+        recs.add(r["source_row"])
+        got[int(r["amount_fy"])] += Decimal(r["amount"])
+    for fy in sorted(set(want) | set(got)):
+        if want[fy] != got[fy]:
+            bad.append(f"FY{fy}: printed Part I totals {want[fy]} vs table {got[fy]}")
+    if n_want != len(recs):
+        bad.append(f"printed project counts {n_want} vs table records {len(recs)}")
+    return result("finding" if bad else "pass", len(bad), bad,
+                  f"{len(recs):,} records; printed Part I totals by fiscal year: "
+                  + ", ".join(f"FY{fy} {want[fy]:,}" for fy in sorted(want)) + ".")
+
+
 def run(ctx):
     return [{**{k: v for k, v in q.items() if k != "fn"}, **q["fn"](ctx)} for q in QUESTIONS]
 

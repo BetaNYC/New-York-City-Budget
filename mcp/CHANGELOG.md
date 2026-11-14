@@ -62,7 +62,54 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   `DATA-ANOMALIES.md` and the merged PRs back to 2026-07-06, with every correction a reader
   should know about; it ships in the package (copied into `mcp/` by `prebuild`). CI checks it
   (`scripts/whats_changed.py check --base-ref`), and the release workflow refuses to publish
-  while its 2.1.0 entry is still "Unreleased". Thirteen tools in all.
+  while its 2.1.0 entry is still "Unreleased".
+
+- **The last 4 capital rows that were ambiguous now match NYC Open Data** (#257). `TF CN90`
+  (FY2020) and `E CN884` (FY2022) are each printed twice in the capital book with the same budget
+  line, year and amount, on two boroughs, and `t474-a92g` has one row per borough. A full-ID
+  bucket with several portal rows now breaks the tie on borough, only where exactly one portal row
+  and one of ours have it. All 4 are `same`; no capital row is `ambiguous`. These are PDF-derived rows: the explorer's
+  Open Data badges show them, and neither the npm index nor the PDF tables download carries a
+  PDF-derived crosswalk row, so no MCP answer changes. The Council questions #239 and #240 are
+  still open.
+
+- **FY2018 Council capital, PDF-derived and labeled** (#202). FY2018 had no source: no Council
+  workbook, and `t474-a92g` starts at FY2019. Noel Hidalgo decided every review flag of the checked
+  FY2018 capital supporting-detail book (§254) on 2026-11-13 (`accepted_as_printed`, all 50), and
+  that family-year is now `closed`. Its Part I (1,485 projects, $575,000,000 for FY2018, tying to
+  the book's printed total) is in `search_council_capital` as `source_kind = pdf_capital_sd`: every
+  FY2018 row and source line says "PDF-derived", the book prints no council district (a district
+  filter never matches FY2018), and the sponsor is printed in upper case. `list_available_fiscal_years`
+  now says where FY2018 comes from instead of calling it missing. FY2018 is not in
+  `compare_capital_to_omb` (OMB's dataset starts at FY2019). The package's index still reads no
+  PDF: the rows come from `data/capital/council_capital_awards.csv`, and FY2018's provenance from
+  `data/pdf_years.csv`. 18,412 capital rows in all (was 16,916).
+
+- **Grantee ZIPs settled by the street address** (#247). Rows the Census check could not settle are
+  now checked against the City's own address file (DCP's normalized PAD, release 26c), offline: no
+  geocoding service was called. A row changes only where its mailing address matches exactly one
+  NYC address whose ZIP agrees with what was printed. 25 of the 32 `ambiguous_extra_digit` rows are
+  now **`repaired_by_address`** (the zip is that address's ZIP, one of the candidates), and 16 of
+  the 31 `state_mismatch` rows are **`nyc_address_confirmed`** (the address and ZIP are in NYC; the
+  printed state is wrong). The other 22 are unchanged. `zip_status` takes the two new values, and
+  the `zip` filter now finds the 25 repaired rows. Nothing printed changed, and no amount.
+
+- **`search_capital_plan`: when a capital budget line's money is planned to be committed** (#250;
+  plan in `docs/plans/2026-11-13-250-capital-plan-and-cpdb.md`). Three NYC Open Data datasets join
+  the index, each from its committed snapshot, checked against its manifest: OMB's Capital
+  Commitment Plan (`2cmn-uidm`, all 32 releases 2016-04-26 to 2026-09-28, 60,738 rows, in
+  **thousands of dollars** as published; table `capital_plan`), and DCP's Capital Projects
+  Database, version `fisa_2026` published 2026-08-24 (`djxg-kcfi`, 41,277 planned commitments;
+  `fi59-268w`, 12,929 projects, newly pulled; tables `cpdb_commitments`, `cpdb_projects`,
+  `cpdb_codes`), with `capital_plan_sources` naming each file, hash, unit and version. For a
+  budget line the tool shows the plan for a release (default the newest) and every release with
+  the line; CPDB's commitments on the line by fiscal year and project; each project's own totals,
+  always the whole project's; and the Council's rows on the line, apart. `project_id` shows one
+  CPDB project on every line. No figure from one source is added to another's. CPDB's unit is not
+  stated by DCP: BetaNYC checked that it is dollars (CPDB's City totals are OMB's thousands times
+  1,000), and the index build stops if that check fails. `list_available_fiscal_years` reports the
+  plan's releases and CPDB's version. The index grows from 52.8 MB to 72.9 MB (17.5 MB
+  compressed). Fourteen tools in all.
 
 ### Fixed
 - **2.0.6's note overstated who was affected.** It said "If you quoted a T&C unit amount from this
