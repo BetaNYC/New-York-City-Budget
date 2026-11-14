@@ -42,7 +42,7 @@ Add this to your MCP client config (Claude Desktop, Claude Code, etc.):
 }
 ```
 
-Restart the client; the ten `nyc-budget` tools become available. The four PDF tools answer
+Restart the client; the fourteen `nyc-budget` tools become available. The four PDF tools answer
 with how to add their tables until you download them:
 
 ```json
@@ -86,6 +86,7 @@ from the same `agency_budget` table as `search_agency_budget`.
 | `search_disclosure_awards` | The Council's expense funding disclosure by fiscal year / EIN / legal name / council member (substring) or **`council_member_id`** (exact Legistar person ID: `Levin` 7567 and `Levine` 7634 never blend) / source (substring) or **`source_exact`** / agency / program / grantee **`zip`** (exact 5-digit) / **`zip_status`** / **`city`** (exact) / status / **`mocs_id`** / **`od_mocs_id`** / amount range. Each row shows the grantee's mailing address as printed, its derived zip and zip_status, and, FY2009–FY2021, the MOCS ID NYC Open Data gives the same designation where the pairing is unambiguous. Reports the true match count, Cleared and Pending totals over **all** matches, the source and retrieval date of each year, the early-snapshot years and FY2010's exclusion |
 | `search_council_capital` | The Council's capital designations by fiscal year (the list's year) / `amount_fy` / **`budget_line`** (exact, `P D018`) / **`project_id`** (exact) / sponsor (substring) or `sponsor_exact` / `borough` (exact code) / `council_district` (workbook years only) / title / description / amount range. Totals the list's own year separately from out-year amounts; names the file, retrieval date and sha256 of every year it draws on |
 | `compare_capital_to_omb` | For each report year and Council-series budget line, the Council table's total vs OMB's adopted release, this year and next, with a verdict (`match`, `differ`, `council_only`, `omb_only`). Lines that disagree first |
+| `search_capital_plan` | When a capital budget line's money is planned to be committed, and how that plan moved (2.1.0, #250): OMB's Capital Commitment Plan (NYC Open Data `2cmn-uidm`, every release from 2016-04-26; **thousands of dollars**, as published), DCP's Capital Projects Database planned commitments on the line by fiscal year and project (`djxg-kcfi`, dollars), each project's own totals (`fi59-268w`: planned, adopted, allocated, committed, spent; the **whole** project's, never this line's share), and the Council's rows on the line, apart. By **`budget_line`** or a CPDB **`project_id`**, with `release`, `funding` and `limit`. Never adds one source's figures to another's |
 | `search_schedule_c_awards` | The adopted budget's Schedule C as printed, by fiscal year / organization / EIN (the organization's or its fiscal conduit's) / member, sponsor or delegation (substring) or **`council_member_id`** (exact Legistar person ID, on the printed member) / category / initiative / agency / purpose / `disclosure_status` / amount range. Each row says whether the same EIN and amount is in the disclosure spreadsheet (cleared, pending or unmatched, with the reason), and who its printed member is (see [The checked PDF tables](#the-checked-pdf-tables-optional-download)). Sub-awards listed under their award, never counted. PDF tables |
 | `search_transparency_changes` | The transparency resolutions: designations, rescissions and purpose-of-funds changes after adoption, by fiscal year / budget year / organization / EIN / member (substring) or **`council_member_id`** (exact Legistar person ID) / `resolution_number` / `resolution_date` or a `date_from`–`date_to` range / action, newest first. Totals per kind of change; "no dollar amount" rows counted, never summed. PDF tables |
 | `search_capital_book` | The §254 supporting detail (Parts I and II) by fiscal year / `project_id` / `budget_line` / sponsor / borough / agency / title / part / amount range, in book order. The total is Part I's (it ties to the book's printed total); "of which … went to non-city groups" is the Part I rows the book lists again in Part II (the same year, SUB ID and budget line, as the explorer); rows printed only in Part II are listed apart and never added, and only the year's Part II series among them ("MA" IDs on "0N" lines; FY2026 "MM"; from `config/capital_sd/fyYYYY.toml`) is labeled with its question to Council Finance and that question's status (`data/council_questions.csv`). Reductions counted on their own; "CD nn" sponsors labeled as districts with no member; borough "A" and "C" shown as printed, "not a borough, meaning unclear" (question to the Council: #227, with its status), and matched as printed by a borough filter. PDF tables |
@@ -202,6 +203,30 @@ both years; it does not show that the projects under the line are the same. A li
 one side shows `—` there, never `$0`. Counts are line-year comparisons (1,425 over 515 distinct
 budget lines, FY2019–FY2027). A Council row on a line outside the Council series is not compared
 and the answer lists it (one today: FY2021 `PW MN02A`, $304,000).
+
+### `search_capital_plan`
+
+Three sources, one budget line, never blended (#250; plan in
+[`docs/plans/2026-11-13-250-capital-plan-and-cpdb.md`](../docs/plans/2026-11-13-250-capital-plan-and-cpdb.md)):
+
+- **OMB's Capital Commitment Plan** (`2cmn-uidm`): for each release, the line's planned
+  commitments for four or five fiscal years, City and Non City apart, in **thousands of dollars**
+  as OMB publishes them ("The dollar values are in thousands", OMB's data dictionary). The answer
+  shows the chosen release (default the newest) and every release with the line, so you can see
+  how the plan moved. 32 releases, 2016-04-26 to 2026-09-28.
+- **DCP's Capital Projects Database (CPDB)**, one version (`fisa_2026`, published 2026-08-24), so
+  it cannot show change over time: the line's planned commitments by fiscal year (July to June)
+  and by project (`djxg-kcfi`), and each project's own totals (`fi59-268w`). A project can sit on
+  several budget lines (3,501 of 12,929 do), so its totals are always labeled as the whole
+  project's and never split or summed to a line. **Unit:** dollars. DCP does not state it in
+  writing; BetaNYC checked that CPDB's City totals per line and year equal OMB's (in thousands)
+  times 1,000, and the index build stops if that ever stops being true.
+- **The Council's capital rows** on the line (`search_council_capital`), counted by report year,
+  apart.
+
+These sources link to each other only by budget line: Council project IDs appear in no OMB or DCP
+dataset. CPDB's spent and Checkbook figures are DCP's, per project; for spending, use
+`nyc-checkbook-mcp`.
 
 ### City agency budgets, and where spending questions go
 
@@ -514,7 +539,9 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/pdf-download.test.js` | The download, against a local HTTP server and folder only: install, `--pdfs`, a tampered, oversized or missing file (or PDF) installs nothing and leaves no temp file, a killed download's temp files are swept, one download at a time, plain http refused, `NYC_BUDGET_PDF_DATA=on` in the background and `=pdfs` not re-downloading a release without PDFs, release picking |
 | `test/pdf-release.test.js` | The automatic release (W7): `verify-pdf-release.mjs` accepts pretest's release and lists exactly its files, manifest last; refuses a local build, another commit, a tampered or missing file, another format; the workflow's tag is one the downloader picks, and the CLI installs from exactly the uploaded files on a local HTTP server; the workflow never runs on a PR, has write access only in its publish job, never builds with `--allow-local-commit` |
 | `test/source-commit.test.js` | The commit recorded for the GitHub links, on a throwaway repo: only a clean commit on `origin/main` whose PDFs match |
-| `test/tools.test.js` | Exactly thirteen tools listed (ten budget tools and BetaNYC's three shared ones); every removed 1.x tool answers with its migration note; `list_available_fiscal_years` matches the datasets year by year |
+| `test/capital-plan.test.js` | The plan and CPDB tables (#250): every snapshot row loaded (but 2cmn-uidm's one total row), amounts equal per release and column, a missing fifth year NULL not 0, budget lines in the Python build's normal form, every raw CPDB commitment rebuilt field for field, the July–June year, CPDB = OMB × 1,000, each source's hash, unit and version |
+| `test/capital-plan-tool.test.js` | `search_capital_plan` on three lines (P D018, HD 0201, E D001): OMB's figures in thousands per release and funding, CPDB's by fiscal year in dollars, the Council's rows apart, a multi-line project's totals labeled the whole project's, `project_id`, `release`, `funding`, refused arguments |
+| `test/tools.test.js` | Exactly fourteen tools listed (eleven budget tools and BetaNYC's three shared ones); every removed 1.x tool answers with its migration note; `list_available_fiscal_years` matches the datasets year by year |
 | `test/disclosure.test.js` | Every row of every year indexed with its provenance; FY2010 not loaded; true counts and Cleared / Pending totals under any `limit`; ordering; status, amount, address and member filters; caveat and footer; strict-schema hints |
 | `test/disclosure-audit.test.js` | The audit questions (`../data/DISCLOSURE-AUDIT.md`, M1–M13): exact-to-the-cent totals for every year × status, truncation, sort before limit, limit edges, EIN rules, literal wildcards, multi-value notices, address filters, and the EIN-less note |
 | `test/disclosure-v2.test.js` | FY2009, FY2011, FY2012 with `od_mocs_id`, `od_match`, `row_flag`; early-snapshot labeling; the coverage line; FY2010's reason; exact `mocs_id` / `od_mocs_id`; the `row_flag` note |

@@ -25,6 +25,8 @@ const TOOLS_2 = ["search_disclosure_awards", "search_council_capital", "compare_
   "search_schedule_c_awards", "search_transparency_changes", "search_capital_book", "search_terms_conditions",
   // City agency budgets (#270, #285; test/agency-budget-tools.test.js).
   "search_agency_budget", "compare_adopted_modified",
+  // OMB's capital commitment plan and DCP's CPDB (#250; test/capital-plan-tool.test.js).
+  "search_capital_plan",
   // BetaNYC's shared tools (#310; test/shared-tools.test.js).
   "whats_changed", "about_betanyc", "about_data"];
 const REMOVED = {
@@ -47,7 +49,7 @@ after(async () => {
   await client.close();
 });
 
-test("tools/list exposes exactly the thirteen tools (ten budget tools, three shared)", async () => {
+test("tools/list exposes exactly the fourteen tools (eleven budget tools, three shared)", async () => {
   // FAILS if a retired tool is still listed, or a 2.0 tool is missing.
   const { tools } = await client.listTools();
   assert.deepEqual(tools.map((t) => t.name).sort(), [...TOOLS_2].sort());

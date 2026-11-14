@@ -328,6 +328,7 @@ It has eight tools:
 | `search_disclosure_awards` | The Council's expense funding disclosure |
 | `search_council_capital` | The Council's capital lists |
 | `compare_capital_to_omb` | The Council's capital vs. OMB's adopted capital budget, by budget line |
+| `search_capital_plan` | When a capital budget line's money is planned to be committed, and how that moved: OMB's Capital Commitment Plan (thousands of dollars) and DCP's Capital Projects Database, by budget line |
 | `list_available_fiscal_years` | What each year holds, where it came from, and each PDF family-year's status |
 | `search_schedule_c_awards` | Schedule C, from the checked PDF tables |
 | `search_transparency_changes` | The transparency resolutions, from the checked PDF tables |
