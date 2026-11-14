@@ -120,12 +120,13 @@ export function tablesForView(state, manifest, { extras = false } = {}) {
 
 /**
  * Whether a view starts the query engine (DuckDB-WASM, about 8.6 MB over the wire and 34 MB
- * decoded, before any data; #301). City agency budgets reads its own JSON (#299) and About the
- * data reads only manifest.json. Review needs it only in a review build: on the public site it
+ * decoded, before any data; #301). City agency budgets reads its own JSON (#299), About the data
+ * reads only manifest.json, and Years and Council vs OMB read the Council JSON files. Review needs it only in a review build: on the public site it
  * just says there is no queue. null: the answer depends on the manifest, which is not in yet.
  */
 export function needsEngine(view, manifest) {
-  if (view === "agencies" || view === "about") return false;
+  // Years and Council vs OMB read the Council JSON files (data/council/; #301).
+  if (view === "agencies" || view === "about" || view === "years" || view === "omb") return false;
   if (view === "review") return manifest ? Boolean(manifest.review_screen) : null;
   return true;
 }

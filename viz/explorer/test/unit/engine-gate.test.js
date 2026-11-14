@@ -24,9 +24,9 @@ const PUBLIC = {
 const REVIEW_BUILD = { ...PUBLIC, review_screen: true };
 
 describe("needsEngine (needs.js)", () => {
-  test("City agency budgets and About the data never start the engine", () => {
-    // FAILS if either view starts DuckDB, with or without a manifest.
-    for (const view of ["agencies", "about"]) {
+  test("City agency budgets, About the data, Years and Council vs OMB never start the engine", () => {
+    // FAILS if one of them starts DuckDB, with or without a manifest.
+    for (const view of ["agencies", "about", "years", "omb"]) {
       for (const m of [null, PUBLIC, REVIEW_BUILD]) expect(needsEngine(view, m), `${view} ${m ? "manifest" : "no manifest"}`).toBe(false);
     }
   });
@@ -40,7 +40,7 @@ describe("needsEngine (needs.js)", () => {
 
   test("every other Council view still starts the engine", () => {
     // FAILS if this fix stops a view that reads DuckDB from loading it.
-    for (const view of [undefined, "awards", "award", "years", "compare", "capital", "capital-row", "omb", "schedc", "transparency", "book", "orgs", "terms", "source"]) {
+    for (const view of [undefined, "awards", "award", "compare", "capital", "capital-row", "schedc", "transparency", "book", "orgs", "terms", "source"]) {
       expect(needsEngine(view, PUBLIC), String(view)).toBe(true);
     }
   });

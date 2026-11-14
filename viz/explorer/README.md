@@ -79,7 +79,12 @@ adds its own file, `agency_budget/agency/<NNN>.json`. The engine's JavaScript is
 when another view starts it.
 
 About the data, and Review on the public site (which has no review queue), read only
-`manifest.json` and start no engine either (#301; `needsEngine` in `src/duckdb/needs.js`).
+`manifest.json` and start no engine either (#301; `needsEngine` in `src/duckdb/needs.js`). Years
+and Council capital vs OMB read the Council JSON files below: a first visit is about 0.16 MB over
+the wire instead of 12.4 MB. A query a fast view runs carries a `json` form next to its SQL
+(`src/query/sql.js`); while the engine is not loaded, `useQueries` answers from the JSON files
+(`src/council/data.js`), and `test/council-parity.test.mjs` holds every json form to its SQL, row
+for row.
 
 The Council views are moving to the same pattern (#301). The build writes `data/council/`
 (`scripts/council-json.mjs`, file names in `src/council/paths.js`): `years.json` (the lookups,

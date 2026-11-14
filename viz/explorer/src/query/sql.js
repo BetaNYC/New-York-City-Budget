@@ -12,8 +12,13 @@
  *   - rows sort the way the MCP sorts them.
  * The one deliberate difference: a blank text filter is "no filter" here (a form field left
  * empty), where the MCP refuses it.
+ *
+ * #301: a query a fast view runs also carries a `json` form, { files, run(files) }, that answers
+ * the same question from the Council JSON files (data/council/, src/council/data.js) with no query
+ * engine. test/council-parity.test.mjs holds each json form to its SQL, row for row.
  */
 import { fold } from "../../../../mcp/dist/fold.js";
+import { councilYearsPath, decodeRows, ombPath } from "../council/paths.js";
 
 export { fold };
 
@@ -257,15 +262,35 @@ export function ombWhere(f = {}) {
   return w;
 }
 
+/** ombWhere, in JS, for the JSON form: the same three filters. */
+export function ombMatches(f = {}) {
+  const year = num(f.report_year);
+  const line = blank(f.budget_line) ? null : normBudgetLine(f.budget_line) ?? "\u0000unreadable";
+  const verdict = OMB_VERDICTS.includes(f.verdict) ? f.verdict : null;
+  return (r) => (year === null || r.report_year === year) && (line === null || r.budget_line_norm === line) && (verdict === null || r.verdict === verdict);
+}
+
+/** Ascending, as DuckDB orders these values (numbers by value, ASCII text by code point). */
+export const cmp = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
+
 /** Lines that disagree first, then the largest absolute first-year difference (as the MCP). */
 export function ombRowsQuery(f = {}, page = 0) {
   const w = ombWhere(f);
   const offset = Math.max(0, Math.trunc(Number(page) || 0)) * PAGE_SIZE;
+  const gap = (r) => Math.abs((r.council_y1 ?? 0) - (r.omb_y1 ?? 0));
   return {
     sql: `SELECT * FROM capital_vs_omb ${w.sql}
           ORDER BY verdict = 'match', ABS(COALESCE(council_y1, 0) - COALESCE(omb_y1, 0)) DESC, report_year, budget_line_norm
           LIMIT ${PAGE_SIZE} OFFSET ${offset}`,
     params: w.params,
+    json: {
+      files: [ombPath()],
+      run: ([o]) =>
+        decodeRows(o)
+          .filter(ombMatches(f))
+          .sort((a, b) => cmp(a.verdict === "match", b.verdict === "match") || gap(b) - gap(a) || a.report_year - b.report_year || cmp(a.budget_line_norm, b.budget_line_norm))
+          .slice(offset, offset + PAGE_SIZE),
+    },
   };
 }
 
@@ -275,6 +300,19 @@ export function ombCountsQuery(f = {}) {
     sql: `SELECT report_year, omb_pub_date, verdict, COUNT(*) AS n FROM capital_vs_omb ${w.sql}
           GROUP BY report_year, omb_pub_date, verdict ORDER BY report_year, verdict`,
     params: w.params,
+    json: {
+      files: [ombPath()],
+      run: ([o]) => {
+        const groups = new Map();
+        for (const r of decodeRows(o).filter(ombMatches(f))) {
+          const k = JSON.stringify([r.report_year, r.omb_pub_date, r.verdict]);
+          const g = groups.get(k) ?? { report_year: r.report_year, omb_pub_date: r.omb_pub_date, verdict: r.verdict, n: 0 };
+          g.n++;
+          groups.set(k, g);
+        }
+        return [...groups.values()].sort((a, b) => a.report_year - b.report_year || cmp(a.verdict, b.verdict));
+      },
+    },
   };
 }
 
@@ -292,6 +330,35 @@ export const YEAR_DISCLOSURE_QUERY = {
         FROM disclosure_years y LEFT JOIN disclosure d USING (fiscal_year)
         GROUP BY ALL ORDER BY y.fiscal_year`,
   params: [],
+  // Pre-run by the build (scripts/council-json.mjs runs this very SQL).
+  json: { files: [councilYearsPath()], run: ([y]) => y.year_disclosure },
 };
 
-export const YEAR_CAPITAL_QUERY = capitalTotalsQuery({});
+export const YEAR_CAPITAL_QUERY = { ...capitalTotalsQuery({}), json: { files: [councilYearsPath()], run: ([y]) => y.year_capital } };
+
+// ---------------------------------------------------------------- lookups every view reads
+
+/** The year lists every view is built from (App.jsx Ready), from the tables or years.json. */
+export const LOOKUP_QUERIES = {
+  years: {
+    sql: "SELECT fiscal_year, loaded, early_snapshot, note FROM disclosure_years ORDER BY fiscal_year DESC",
+    params: [],
+    json: {
+      files: [councilYearsPath()],
+      run: ([y]) =>
+        [...y.disclosure_years]
+          .sort((a, b) => b.fiscal_year - a.fiscal_year)
+          .map(({ fiscal_year, loaded, early_snapshot, note }) => ({ fiscal_year, loaded, early_snapshot, note })),
+    },
+  },
+  capYears: {
+    sql: "SELECT report_year FROM capital_sources ORDER BY report_year",
+    params: [],
+    json: { files: [councilYearsPath()], run: ([y]) => y.capital_sources.map(({ report_year }) => ({ report_year })).sort((a, b) => a.report_year - b.report_year) },
+  },
+  ombYears: {
+    sql: "SELECT DISTINCT report_year FROM capital_vs_omb ORDER BY report_year",
+    params: [],
+    json: { files: [councilYearsPath()], run: ([y]) => y.omb_years.map((report_year) => ({ report_year })) },
+  },
+};

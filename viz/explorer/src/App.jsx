@@ -19,6 +19,7 @@ import ScheduleCSearch from "./views/ScheduleCSearch.jsx";
 import Transparency from "./views/Transparency.jsx";
 import Book from "./views/Book.jsx";
 import { CLOSED_LABEL, pdfYearsQuery, REVIEWED_LABEL } from "./query/pdf.js";
+import { LOOKUP_QUERIES } from "./query/sql.js";
 import Years from "./views/Years.jsx";
 import Agencies from "./views/Agencies.jsx";
 
@@ -174,15 +175,16 @@ export default function App() {
           <Notice>
             No review queue in this build. It appears in a local build made with <code>npm run data -- --include-reviewed</code>.
           </Notice>
-        ) : !ready ? (
+        ) : !ready && !(engine === false && db.manifest) ? (
           state.view === "about" ? (
             <About manifest={db.manifest} />
           ) : (
             <Loading phase={db.phase} progress={db.progress} manifest={db.manifest} />
           )
         ) : (
+          // With the engine, or, for a view that needs none (#301), with the manifest alone.
           <ReviewScreenContext.Provider value={Boolean(db.manifest?.review_screen)}>
-            <Ready state={state} set={set} go={go} back={back} manifest={db.manifest} />
+            <Ready state={state} set={set} go={go} back={back} manifest={db.manifest} engine={ready} />
           </ReviewScreenContext.Provider>
         )}
       </main>
@@ -251,14 +253,12 @@ export function TablesLoading({ need, manifest }) {
   );
 }
 
-/** Lookups every view needs, read once the data is in. */
-function Ready({ state, set, go, back, manifest }) {
-  const q = useQueries(true, "lookups", () => ({
-    years: { sql: "SELECT fiscal_year, loaded, early_snapshot, note FROM disclosure_years ORDER BY fiscal_year DESC", params: [] },
-    capYears: { sql: "SELECT report_year FROM capital_sources ORDER BY report_year", params: [] },
-    ombYears: { sql: "SELECT DISTINCT report_year FROM capital_vs_omb ORDER BY report_year", params: [] },
-    pdfYears: pdfYearsQuery(),
-  }));
+/**
+ * Lookups every view needs, read once the data is in: from DuckDB when the engine is loaded, else
+ * from the Council JSON files (data/council/years.json; #301). `engine` says which.
+ */
+function Ready({ state, set, go, back, manifest, engine }) {
+  const q = useQueries(true, `lookups-${engine ? "db" : "json"}`, () => ({ ...LOOKUP_QUERIES, pdfYears: pdfYearsQuery() }));
   const lookups = useMemo(() => {
     if (!q.data) return null;
     return {
@@ -268,7 +268,7 @@ function Ready({ state, set, go, back, manifest }) {
       pdfYears: q.data.pdfYears.map((y) => ({ ...y, fiscal_year: Number(y.fiscal_year) })),
     };
   }, [q.data]);
-  const need = useTables(tablesForView(state, manifest));
+  const need = useTables(engine ? tablesForView(state, manifest) : []);
   if (q.error) return <Notice tone="error">{String(q.error.message ?? q.error)}</Notice>;
   if (!lookups) return <p className="muted">Loading…</p>;
   if (!need.ready) return <TablesLoading need={need} manifest={manifest} />;
