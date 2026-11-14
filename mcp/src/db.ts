@@ -134,6 +134,8 @@ export type DisclosureStatus = (typeof DISCLOSURE_STATUSES)[number];
 export const ZIP_STATUSES = [
   "valid", "padded", "trimmed", "repaired_extra_digit", "ambiguous_extra_digit",
   "not_a_zcta", "state_mismatch", "invalid", "blank",
+  // #247: settled by the PAD address check (data/disclosure_address_check.csv).
+  "repaired_by_address", "nyc_address_confirmed",
 ] as const;
 export type ZipStatus = (typeof ZIP_STATUSES)[number];
 

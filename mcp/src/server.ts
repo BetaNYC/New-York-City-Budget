@@ -68,6 +68,7 @@ import {
 } from "./pdfquery.js";
 import { otherFlagWords } from "./checkwords.js";
 import { agencyYearsSection, compareAdoptedModifiedText, searchAgencyBudgetText } from "./agency.js";
+import { allPlanReleases, capitalPlanYearsSection, PLAN_FUNDING, searchCapitalPlanText } from "./capitalplan.js";
 import { SHORT_TERM, wholeWordNote, type WordFilter } from "./textmatch.js";
 import {
   BOROUGH_CODES_QUESTION,
@@ -132,6 +133,10 @@ const ZIP_STATUS_NOTE: Record<string, string> = {
   state_mismatch: "a 2020 ZCTA in another state than the row's",
   invalid: "no ZIP could be read from the cell",
   blank: "no ZIP printed",
+  repaired_by_address:
+    "six digits printed; the street address matches exactly one NYC address in the City's address file (PAD), whose ZIP is one of the candidates",
+  nyc_address_confirmed:
+    "the street address and this ZIP match exactly one NYC address in the City's address file (PAD); the printed state names another state",
 };
 
 const ROW_FLAG_NOTE: Record<string, string> = {
@@ -999,12 +1004,12 @@ export const TOOLS = [
         program_name: { type: "string", description: "Program name (substring)" },
         zip: {
           type: "string",
-          description: "Grantee mailing ZIP, exactly 5 digits (anything else is an error). Matches the 5-digit zip derived from the published postal_code (ZIP+4 read to its first five; a 4-digit ZIP padded, a ragged ZIP+4 trimmed, or a 6-digit ZIP repaired, only into a 2020 ZCTA of the row's own state). Rows whose zip_status is ambiguous_extra_digit, invalid or blank have no zip and never match. A mailing address, not where services were delivered.",
+          description: "Grantee mailing ZIP, exactly 5 digits (anything else is an error). Matches the 5-digit zip derived from the published postal_code (ZIP+4 read to its first five; a 4-digit ZIP padded, a ragged ZIP+4 trimmed, or a 6-digit ZIP repaired, only into a 2020 ZCTA of the row's own state; or settled by the street address where it matches exactly one address in the City's PAD file, zip_status repaired_by_address). Rows whose zip_status is ambiguous_extra_digit, invalid or blank have no zip and never match. A mailing address, not where services were delivered.",
         },
         zip_status: {
           type: "string",
           enum: [...ZIP_STATUSES],
-          description: "How the zip was read, checked against the Census 2020 ZCTAs: valid, padded (leading zero restored), trimmed (ragged ZIP+4 such as '11203-', '11231=1020' or '11413 ZipCode2: 3929'), repaired_extra_digit (6 digits printed; exactly one one-digit deletion is an in-state ZCTA, e.g. '111691' -> 11691), ambiguous_extra_digit (6 digits; two or more deletions are, e.g. '114345' -> 11434 or 11435; no zip, candidates shown on the row), not_a_zcta (not verified, not fake: PO-box ZIPs have no ZCTA), state_mismatch, invalid (no ZIP readable), blank (none printed).",
+          description: "How the zip was read, checked against the Census 2020 ZCTAs: valid, padded (leading zero restored), trimmed (ragged ZIP+4 such as '11203-', '11231=1020' or '11413 ZipCode2: 3929'), repaired_extra_digit (6 digits printed; exactly one one-digit deletion is an in-state ZCTA, e.g. '111691' -> 11691), ambiguous_extra_digit (6 digits; two or more deletions are, e.g. '114345' -> 11434 or 11435; no zip, candidates shown on the row), not_a_zcta (not verified, not fake: PO-box ZIPs have no ZCTA), state_mismatch, invalid (no ZIP readable), blank (none printed); and, from the street-address check against the City's PAD address file (#247), repaired_by_address (an ambiguous_extra_digit row whose address matches exactly one NYC address, whose ZIP is one of the candidates) and nyc_address_confirmed (a state_mismatch row whose address and ZIP match exactly one NYC address: the printed state is wrong).",
         },
         city: {
           type: "string",
@@ -1059,6 +1064,21 @@ export const TOOLS = [
         budget_line: { type: "string", description: "Budget line, exact, as agency code then line ('P D018')" },
         verdict: { type: "string", enum: [...OMB_VERDICTS], description: "match (both years equal to the dollar), differ, council_only (no OMB line), omb_only (no Council row)" },
         limit: { type: "number", description: "Max lines shown, 1–500 (default 50). Counts always cover every match." },
+      },
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "search_capital_plan",
+    description: `When is a capital budget line's money planned to be committed, and how has that plan moved? For one budget line: OMB's Capital Commitment Plan (NYC Open Data 2cmn-uidm, 32 releases from 2016-04-26; in thousands of dollars, as OMB publishes it), the chosen release (default the newest) and every release's figures for the line; DCP's Capital Projects Database (CPDB, djxg-kcfi) planned commitments on the line by fiscal year and by project, in dollars; each project's CPDB totals (fi59-268w: planned, adopted, allocated, committed, spent, and Checkbook NYC checks), always the WHOLE project's, across all its budget lines; and the Council's own capital rows on the line (search_council_capital), apart. Or, with project_id, one CPDB project's totals and its commitments on every line. Links by budget line only, never by project; figures from different sources are never added together. CPDB is one version (it cannot show change over time) and DCP does not state its unit in writing; BetaNYC checked it is dollars. For spending detail, use @betanyc/nyc-checkbook-mcp.`,
+    inputSchema: {
+      type: "object",
+      properties: {
+        budget_line: { type: "string", description: "Budget line, as agency code then line ('P D018', 'HD-0201'). Required unless project_id is given." },
+        project_id: { type: "string", description: "A CPDB project: DCP's maprojid, the managing agency's three digits then the project ID ('850GKOH15-01'), any case." },
+        release: { type: "string", description: "A plan release, YYYY-MM-DD (default the newest, 2026-09-28). Every release with the line is listed in the answer either way." },
+        funding: { type: "string", enum: [...PLAN_FUNDING], description: "OMB's funding: CITY or NON CITY (default both, shown apart)" },
+        limit: { type: "number", description: "Max CPDB projects shown for the line, 1–500 (default 25, largest planned total first). Line totals always cover every project." },
       },
       additionalProperties: false,
     },
@@ -1178,7 +1198,7 @@ export const TOOLS = [
   },
   {
     name: "list_available_fiscal_years",
-    description: `Report, for every fiscal year, which structured datasets this server holds and where each came from: the expense funding disclosure (loaded or not, Council RnD download or Internet Archive capture, retrieval date, early-snapshot flag), the Council capital list (Council workbook or NYC Open Data t474-a92g), and whether the year is in the Council-vs-OMB comparison. Also reports each family-year of the checked PDF tables (Schedule C, transparency resolutions, the capital book, Terms and Conditions) with its status, and whether the optional PDF tables download is installed. Also reports the City agency budget years (search_agency_budget, compare_adopted_modified; NYC Open Data mwzb-yiwb) and when that snapshot was taken. States the gaps plainly: FY2010 disclosure not loaded, FY2018 capital PDF-derived (the checked §254 book), nothing before FY2009, no PDF table before FY2018.`,
+    description: `Report, for every fiscal year, which structured datasets this server holds and where each came from: the expense funding disclosure (loaded or not, Council RnD download or Internet Archive capture, retrieval date, early-snapshot flag), the Council capital list (Council workbook or NYC Open Data t474-a92g), and whether the year is in the Council-vs-OMB comparison. Also reports each family-year of the checked PDF tables (Schedule C, transparency resolutions, the capital book, Terms and Conditions) with its status, and whether the optional PDF tables download is installed. Also reports the City agency budget years (search_agency_budget, compare_adopted_modified; NYC Open Data mwzb-yiwb) and when that snapshot was taken. Also reports OMB's Capital Commitment Plan releases (NYC Open Data 2cmn-uidm, in thousands of dollars) and the version of DCP's Capital Projects Database (CPDB: djxg-kcfi, fi59-268w) this index holds. States the gaps plainly: FY2010 disclosure not loaded, FY2018 capital PDF-derived (the checked §254 book), nothing before FY2009, no PDF table before FY2018.`,
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
   ...betanyc.tools,
@@ -1484,6 +1504,30 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return textResult(`${ombText(res)}\n\n${OMB_FOOTER}`);
       }
 
+      case "search_capital_plan": {
+        const a = parseArgs("search_capital_plan", z.object({
+            budget_line: z.string().optional(),
+            project_id: z.string().optional(),
+            release: z.string().optional(),
+            funding: z.enum(PLAN_FUNDING).optional(),
+            limit: z.number().int().optional(),
+          }).strict(), args);
+        if (a.budget_line == null && a.project_id == null) return errorResult("give a budget_line or project_id.");
+        const line = budgetLineArg(a.budget_line);
+        if (line.error) return errorResult(line.error);
+        const guard = limitError(a.limit);
+        if (guard) return errorResult(guard);
+        let release: string | undefined;
+        if (a.release != null) {
+          const all = allPlanReleases();
+          release = /^\d{4}-\d{2}-\d{2}$/.test(a.release) ? a.release.replace(/-/g, "") : "";
+          if (!all.includes(release))
+            return errorResult(`release must be one of OMB's ${all.length} plan releases, as YYYY-MM-DD: ${all.map((d) => `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6)}`).join(", ")}; got ${JSON.stringify(a.release)}.`);
+        }
+        const text = searchCapitalPlanText({ ...a, budget_line: line.value, release, limit: Math.min(a.limit ?? 25, 500) });
+        return textResult(`${text} Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`);
+      }
+
       case "search_schedule_c_awards": {
         const a = parseArgs("search_schedule_c_awards", z.object({
             fiscal_year: z.number().int().optional(),
@@ -1665,6 +1709,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           ...pdfYearsSection(),
           "",
           ...agencyYearsSection(),
+          "",
+          ...capitalPlanYearsSection(),
           "",
           `Source repo: ${REPO_URL}. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`,
         ].join("\n");

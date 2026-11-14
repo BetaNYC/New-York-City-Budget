@@ -61,6 +61,7 @@ import { PDF_FAMILIES, PDF_TABLES, SUGGESTIONS } from "../../../mcp/scripts/pdf-
 import { OPEN_DATA_TABLES } from "../../../mcp/scripts/open-data.mjs";
 import { AGENCY_BUDGET_TABLES } from "../../../mcp/scripts/agency-budget.mjs";
 import { verifyAgencyJson, writeAgencyJson } from "./agency-json.mjs";
+import { verifyCouncilJson, writeCouncilJson } from "./council-json.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const APP = resolve(HERE, "..");
@@ -190,6 +191,7 @@ async function main() {
   const conn = await instance.connect();
   let files;
   let agencyJson;
+  let councilJson;
   const generatedAt = new Date().toISOString();
   try {
     files = await exportTables(sqlite, conn);
@@ -202,6 +204,14 @@ async function main() {
       throw new Error(`agency_budget JSON differs from the table in ${check.diffs.length} of ${check.cells} cells:\n  ${check.diffs.slice(0, 20).join("\n  ")}`);
     }
     log("agency json", { ...agencyJson, cells_checked: check.cells });
+    // The Council explorer's fast views read small JSON files (#301), written from the same
+    // tables and checked against budget.db with separate SQL: any difference stops the build.
+    councilJson = await writeCouncilJson(sqlite, conn, OUT_DIR, { generated_at: generatedAt });
+    const ccheck = verifyCouncilJson(sqlite, OUT_DIR);
+    if (ccheck.diffs.length) {
+      throw new Error(`Council JSON differs from the tables in ${ccheck.diffs.length} of ${ccheck.cells} values:\n  ${ccheck.diffs.slice(0, 20).join("\n  ")}`);
+    }
+    log("council json", { files: Object.keys(councilJson.files).length, bytes: councilJson.bytes, values_checked: ccheck.cells });
   } finally {
     conn.closeSync();
     instance.closeSync();
@@ -227,6 +237,8 @@ async function main() {
     files,
     // data/agency_budget/: the City agency budgets view's JSON (#299; scripts/agency-json.mjs).
     agency_json: agencyJson,
+    // data/council/: the Council explorer's fast views (#301; scripts/council-json.mjs).
+    council_json: councilJson,
   };
   writeFileSync(join(OUT_DIR, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
   log("built", { out: OUT_DIR, commit: manifest.source_commit, files: Object.keys(files).length });

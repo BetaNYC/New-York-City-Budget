@@ -18,6 +18,9 @@
  *   source/agency-budget-qa/{releases,by_unit,MANIFEST}.csv City agency budgets, NYC Open Data
  *                                                      mwzb-yiwb, under the year rule
  *                                                      (scripts/agency-budget.mjs, #284)
+ *   source/open-data-{2cmn-uidm,djxg-kcfi,fi59-268w}/{<id>.csv.gz,MANIFEST.csv}
+ *                                                      OMB's capital commitment plan and DCP's
+ *                                                      CPDB (scripts/capital-plan.mjs, #250)
  *
  * The retired PDF extracts are never read: not data/fyNN/schedule_c/, its appendices or recovered
  * sidecars, data/fyNN/terms/, data/fyNN/capital/ (§254), transparency resolutions, data/combined/
@@ -49,6 +52,7 @@ import { sourceCommit } from "./source-commit.mjs";
 import { loadPdfFamilies, pdfSchemaSql, verifyPdf, PDF_TABLES, PDF_FAMILIES } from "./pdf-families.mjs";
 import { loadOpenData, openDataSchemaSql, verifyOpenData } from "./open-data.mjs";
 import { loadAgencyBudget, agencyBudgetSchemaSql, verifyAgencyBudget } from "./agency-budget.mjs";
+import { loadCapitalPlan, capitalPlanSchemaSql, verifyCapitalPlan, bytesReader } from "./capital-plan.mjs";
 // The folding rule db.ts applies to queries (src/fold.ts); `npm run build` always runs first.
 import { fold } from "../dist/fold.js";
 
@@ -151,9 +155,12 @@ function dupGroup(r, year) {
 const EXCEL_ERROR = /^#(?:N\/A|REF!|VALUE!|DIV\/0!|NAME\?|NUM!|NULL!|SPILL!|CALC!|GETTING_DATA)$/;
 
 // #70: zip_status vocabulary, and which statuses carry a 5-digit zip.
+// #247: repaired_by_address and nyc_address_confirmed come from the PAD address check
+// (data/disclosure_address_check.csv); repaired_by_address keeps its zip_candidates.
 const ZIP_STATUSES = new Set(["valid", "padded", "trimmed", "repaired_extra_digit", "ambiguous_extra_digit",
-  "not_a_zcta", "state_mismatch", "invalid", "blank"]);
-const ZIP_HAS_VALUE = new Set(["valid", "padded", "trimmed", "repaired_extra_digit", "not_a_zcta", "state_mismatch"]);
+  "not_a_zcta", "state_mismatch", "invalid", "blank", "repaired_by_address", "nyc_address_confirmed"]);
+const ZIP_HAS_VALUE = new Set(["valid", "padded", "trimmed", "repaired_extra_digit", "not_a_zcta", "state_mismatch",
+  "repaired_by_address", "nyc_address_confirmed"]);
 function zipOf(r, year) {
   if (!ZIP_STATUSES.has(r.zip_status)) {
     throw new Error(`FY${year} row ${r.source_row}: zip_status ${JSON.stringify(r.zip_status)}`);
@@ -161,8 +168,9 @@ function zipOf(r, year) {
   if (/^\d{5}$/.test(r.zip) !== ZIP_HAS_VALUE.has(r.zip_status)) {
     throw new Error(`FY${year} row ${r.source_row}: zip ${JSON.stringify(r.zip)} does not fit zip_status ${r.zip_status}`);
   }
-  const ambiguous = r.zip_status === "ambiguous_extra_digit";
-  if (ambiguous !== /^\d{5}(;\d{5})+$/.test(r.zip_candidates) || (!ambiguous && r.zip_candidates !== "")) {
+  const ambiguous = r.zip_status === "ambiguous_extra_digit" || r.zip_status === "repaired_by_address";
+  if (ambiguous !== /^\d{5}(;\d{5})+$/.test(r.zip_candidates) || (!ambiguous && r.zip_candidates !== "")
+    || (r.zip_status === "repaired_by_address" && !r.zip_candidates.split(";").includes(r.zip))) {
     throw new Error(`FY${year} row ${r.source_row}: zip_candidates ${JSON.stringify(r.zip_candidates)} does not fit zip_status ${r.zip_status}`);
   }
   return r.zip;
@@ -319,6 +327,7 @@ function build() {
   db.exec(pdfSchemaSql());
   db.exec(openDataSchemaSql());
   db.exec(agencyBudgetSchemaSql());
+  db.exec(capitalPlanSchemaSql());
 
   const counts = {};
 
@@ -594,6 +603,10 @@ function build() {
   const ab = loadAgencyBudget(db, { readCsv });
   Object.assign(counts, ab.counts);
 
+  // --- OMB's capital commitment plan and DCP's CPDB (scripts/capital-plan.mjs, #250) ---------
+  const cp = loadCapitalPlan(db, { readCsv, readBytes: bytesReader(repoPath) });
+  Object.assign(counts, cp.counts);
+
   const setMeta = db.prepare("INSERT INTO meta (key, value) VALUES (?, ?)");
   setMeta.run("include_reviewed", INCLUDE_REVIEWED ? "yes" : "no");
   setMeta.run("pdf_gate", SPREADSHEET_ONLY ? "none" : INCLUDE_REVIEWED ? "reviewed_and_closed" : "closed");
@@ -617,7 +630,7 @@ function build() {
   const capitalRowsByYear = new Map();
   for (const r of cap) capitalRowsByYear.set(Number(r.report_year), (capitalRowsByYear.get(Number(r.report_year)) ?? 0) + 1);
   const problems = [...verifyIndex(db, { disclosureYears: years, capitalRowsByYear }), ...verifyPdf(db, pdf),
-    ...verifyOpenData(db), ...verifyAgencyBudget(db, ab)];
+    ...verifyOpenData(db), ...verifyAgencyBudget(db, ab), ...verifyCapitalPlan(db)];
   db.close();
   if (problems.length) {
     log("verify_failed", { problems });
