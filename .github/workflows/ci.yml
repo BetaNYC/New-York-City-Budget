@@ -34,6 +34,7 @@ on:
       - "data/capital/**"
       - "data/pdf_years.csv"
       - "data/pdf_review_suggestions.csv"
+      - "data/pdf_council_member_crosswalk.csv"   # member_crosswalk in the npm index (#51)
       - "data/fy*/pdf/**"
       - "source/wayback-council/**"
       - "source/expense-funding-disclosure/**"
@@ -67,6 +68,7 @@ on:
       - "data/capital/**"
       - "data/pdf_years.csv"
       - "data/pdf_review_suggestions.csv"
+      - "data/pdf_council_member_crosswalk.csv"   # member_crosswalk in the npm index (#51)
       - "data/fy*/pdf/**"
       - "source/wayback-council/**"
       - "source/expense-funding-disclosure/**"
@@ -280,7 +282,7 @@ jobs:
           # datasets build-index.mjs bakes into the shipped SQLite index (2.0.0;
           # before 2.0 this was data/combined, which no longer ships). The repo's
           # wider budget-data pipeline outside these paths is excluded.
-          SHIPPED="mcp/src mcp/scripts mcp/package.json data/disclosure_years.csv :(glob)data/fy*/expense_disclosure/** data/capital source/wayback-council source/expense-funding-disclosure source/open-data-t474-a92g data/open_data source/open-data-watch.csv source/agency-budget-qa"
+          SHIPPED="mcp/src mcp/scripts mcp/package.json data/disclosure_years.csv :(glob)data/fy*/expense_disclosure/** data/capital source/wayback-council source/expense-funding-disclosure source/open-data-t474-a92g data/open_data source/open-data-watch.csv source/agency-budget-qa data/pdf_council_member_crosswalk.csv"
           # Word-split SHIPPED into pathspecs, with shell globbing off so git (not
           # bash) expands the :(glob) pathspec.
           set -f
