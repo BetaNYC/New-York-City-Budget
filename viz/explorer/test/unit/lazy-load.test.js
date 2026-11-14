@@ -50,12 +50,15 @@ describe("which files each view needs (needs.js)", () => {
     expect(extra("orgs")).toEqual(["pdf_capital_sd", "pdf_capital_sd_orgs", "pdf_capital_sd_series", "pdf_capital_sd_totals", "pdf_council_questions", "pdf_review"]);
     const od = ["open_data_coverage", "open_data_crosswalk", "open_data_datasets", "open_data_rules"];
     expect(extra("book")).toEqual(["pdf_capital_sd", "pdf_capital_sd_orgs", "pdf_capital_sd_series", "pdf_capital_sd_totals", "pdf_council_questions", "pdf_review", ...od].sort());
-    expect(extra("capital")).toEqual(extra("book"));
+    // capital_council loads with the views that read it, not on every first visit (#301 step 8).
+    expect(extra("capital")).toEqual(["capital_council", ...extra("book")].sort());
     expect(extra("terms")).toEqual(["pdf_council_questions", "pdf_review", "pdf_terms", "pdf_terms_fsr", "pdf_terms_units", ...od].sort());
   });
 
   test("views over the spreadsheets only need nothing more; About the data needs nothing at all", () => {
-    for (const view of ["years", "omb", "source"]) expect(extra(view)).toEqual([]);
+    for (const view of ["omb", "source"]) expect(extra(view)).toEqual([]);
+    expect(extra("years")).toEqual(["capital_council"]);
+    expect(BASE).not.toContain("capital_council");
     expect(tablesForView({ view: "about" }, MANIFEST)).toEqual([]);
   });
 
@@ -66,11 +69,11 @@ describe("which files each view needs (needs.js)", () => {
   });
 
   test("Compare loads the sources of its section only", () => {
-    expect(extra("compare", { csec: "terms" })).toEqual(["pdf_council_questions", "pdf_review", "pdf_terms", "pdf_terms_fsr", "pdf_terms_units"]);
-    expect(extra("compare", { csec: "line" })).toEqual(extra("orgs"));
+    expect(extra("compare", { csec: "terms" })).toEqual(["capital_council", "pdf_council_questions", "pdf_review", "pdf_terms", "pdf_terms_fsr", "pdf_terms_units"]);
+    expect(extra("compare", { csec: "line" })).toEqual(["capital_council", ...extra("orgs")].sort());
     expect(pdfFamilyFiles(extra("compare", { csec: "org" }))).not.toContain("pdf_capital_sd");
     // The totals compare every source, the Schedule C pairing and the T&C count.
-    expect(extra("compare")).toEqual(pdfFamilyFiles(Object.keys(MANIFEST.files).map((f) => f.replace(".parquet", ""))).sort());
+    expect(extra("compare")).toEqual(["capital_council", ...pdfFamilyFiles(Object.keys(MANIFEST.files).map((f) => f.replace(".parquet", "")))].sort());
   });
 
   test("a file the build did not write is never asked for", () => {
@@ -83,6 +86,7 @@ describe("which files each view needs (needs.js)", () => {
 
 const requested = [];
 const created = [];
+const ran = [];
 
 vi.mock("@duckdb/duckdb-wasm", () => {
   class AsyncDuckDB {
@@ -90,7 +94,14 @@ vi.mock("@duckdb/duckdb-wasm", () => {
     async open() {}
     async registerFileBuffer() {}
     async connect() {
-      return { query: async (sql) => (created.push(/CREATE TABLE "([^"]+)"/.exec(sql)?.[1]), { toArray: () => [] }) };
+      return {
+        query: async (sql) => {
+          ran.push(sql);
+          const t = /CREATE TABLE "([^"]+)"/.exec(sql)?.[1];
+          if (t) created.push(t);
+          return { toArray: () => [] };
+        },
+      };
     }
   }
   return {
@@ -124,6 +135,12 @@ describe("the store fetches only what is asked, once (store.js)", () => {
   beforeEach(() => {
     requested.length = 0;
     created.length = 0;
+  });
+
+  test("the engine fetches its extensions from this site, not extensions.duckdb.org (#301)", () => {
+    // FAILS if the store does not point DuckDB at public/duckdb-extensions/ before loading data.
+    // The app's base URL (import.meta.env.BASE_URL) plus duckdb-extensions, absolute, no trailing slash.
+    expect(ran.find((q) => /custom_extension_repository/.test(q))).toMatch(/^SET custom_extension_repository = 'https:\/\/example\.test\/(explorer\/)?duckdb-extensions'$/);
   });
 
   test("the first visit fetches the manifest's landing-page files and no PDF family's file", () => {
