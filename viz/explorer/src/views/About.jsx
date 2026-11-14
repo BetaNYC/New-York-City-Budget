@@ -43,8 +43,9 @@ export default function About({ manifest }) {
       <h3>Capital</h3>
       <ul>
         <li>
-          Council capital lists for FY2015–FY2017 and FY2019–FY2027, from the Council's workbooks and NYC Open Data t474-a92g.{" "}
-          <strong>FY2018 is missing</strong> from every source found; nothing before FY2015 is in this dataset. See{" "}
+          Council capital lists for FY2015–FY2027, from the Council's workbooks and NYC Open Data t474-a92g.{" "}
+          <strong>FY2018 is PDF-derived</strong>: no workbook or Open Data year exists, so it comes from the checked capital book, and every
+          FY2018 row says so. Nothing before FY2015 is in this dataset. See{" "}
           <a href={docUrl(commit, "data/capital/README.md")}>data/capital/README.md</a>.
         </li>
         <li>The comparison with OMB's adopted capital budget is by budget line only, the one key the two share.</li>

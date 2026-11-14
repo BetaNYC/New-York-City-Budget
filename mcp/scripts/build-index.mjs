@@ -203,7 +203,8 @@ const DISCLOSURE_COLUMNS = ["fiscal_year", "mocs_id", "od_mocs_id", "od_match", 
 const CAPITAL_COLUMNS = ["report_year", "amount_fy", "project_id", "borough", "budget_line", "budget_line_norm",
   "council_district", "sponsor", "title", "description", "amount", "source_kind", "source_file", "source_row",
   "row_flag"];
-const CAPITAL_SOURCE_KINDS = new Set(["council_workbook", "open_data_t474"]);
+// pdf_capital_sd (#202): FY2018, read from the CLOSED checked §254 book (PDF-derived, labeled).
+const CAPITAL_SOURCE_KINDS = new Set(["council_workbook", "open_data_t474", "pdf_capital_sd"]);
 const CAPITAL_ROW_FLAGS = new Set(["", "split_record_amount_unknown"]);
 const BUDGET_LINE_NORM = /^[A-Z]{1,2} [A-Z0-9]+$/;
 
@@ -449,6 +450,7 @@ function build() {
   })();
 
   // --- capital provenance: one source per report year, hashed here and checked ---------------
+  const listedPdf = readCsv("data/pdf_years.csv").map((y) => ({ ...y, fiscal_year: Number(y.fiscal_year) }));
   const manifests = [
     ["source/wayback-council/", readCsv("source/wayback-council/MANIFEST.csv"), (k) => k],
     ["source/expense-funding-disclosure/", readCsv("source/expense-funding-disclosure/MANIFEST.csv"), (k) => k],
@@ -463,6 +465,21 @@ function build() {
       if (files.size !== 1) throw new Error(`capital report year ${year}: ${files.size} source files; expected one`);
       const [[k, rows]] = [...files.entries()];
       const [source_kind, source_file] = k.split("\t");
+      if (source_kind === "pdf_capital_sd") {
+        // #202: the book's row in data/pdf_years.csv is its manifest. It must be `closed`; its sha256
+        // is the one the PDF build checked. The PDF itself is not read here, so the package's
+        // index reads no PDF (test/shipped-data.test.js).
+        const y = listedPdf.find((p) => p.family === "capital_sd" && p.fiscal_year === year);
+        if (!y || y.status !== "closed") throw new Error(`capital report year ${year}: capital_sd is not closed in data/pdf_years.csv (#202)`);
+        if (y.source_pdf !== source_file) throw new Error(`capital report year ${year}: rows cite ${source_file}, data/pdf_years.csv lists ${y.source_pdf}`);
+        if (!/^[0-9a-f]{64}$/.test(y.pdf_sha256)) throw new Error(`capital report year ${year}: no pdf_sha256 in data/pdf_years.csv`);
+        insSrc.run({
+          report_year: year, source_kind, source_file, url: "", wayback_timestamp: "", retrieved: "",
+          sha256: y.pdf_sha256, rows,
+          note: "PDF-derived: Part I of the checked capital supporting-detail book (§254), status closed in data/pdf_years.csv (#202)",
+        });
+        continue;
+      }
       const m = manifestFor(source_file, manifests);
       const sha = sha256Of(source_file);
       if (sha !== m.sha256) throw new Error(`${source_file}: sha256 ${sha} differs from its manifest (${m.sha256})`);

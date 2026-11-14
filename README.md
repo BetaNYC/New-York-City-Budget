@@ -169,7 +169,7 @@ This half has three sources, and each row says which one it came from.
 | Dataset | Years | Rows | Where |
 |---|---|---:|---|
 | **Expense funding disclosure**: each discretionary award, with grantee, EIN, amount, clearance status and mailing address | FY2009, FY2011–FY2027 | 156,544 | [`data/fyNN/expense_disclosure/`](data/fy27/expense_disclosure/), [`data/disclosure_years.csv`](data/disclosure_years.csv) |
-| **Capital designations**: the Council's capital lists, from its workbooks (FY2015–FY2017, FY2026, FY2027) and, for FY2019–FY2025, from NYC Open Data `t474-a92g`, which the Council publishes | FY2015–FY2017, FY2019–FY2027 | 16,916 | [`data/capital/`](data/capital/README.md) |
+| **Capital designations**: the Council's capital lists, from its workbooks (FY2015–FY2017, FY2026, FY2027) and, for FY2019–FY2025, from NYC Open Data `t474-a92g`, which the Council publishes; FY2018, which neither has, from the checked §254 book, labeled PDF-derived (#202) | FY2015–FY2027 | 18,412 | [`data/capital/`](data/capital/README.md) |
 
 FY2013–FY2027 disclosure files come from the Council's
 [Research & Data site](https://rnd.council.nyc.gov/expense_funding/); FY2009, FY2011 and FY2012
@@ -245,7 +245,7 @@ Each family-year then has one of two statuses, and every row shows it:
   [`data/council_questions.csv`](data/council_questions.csv) (explained in
   [`data/COUNCIL-QUESTIONS.md`](data/COUNCIL-QUESTIONS.md)).
 
-As of 2026-10-24 all 36 family-years are `reviewed`, and none is `closed` yet.
+As of 2026-11-13 FY2018 capital is `closed` (#202); every other family-year is `reviewed`.
 
 **Where the checks stand** (the `pdf-tables-2026-10-24-260d16e` release): 141,456 rows in 36
 family-years, FY2018–FY2027. In Schedule C, 76,216 of 76,272 rows read the same from the text

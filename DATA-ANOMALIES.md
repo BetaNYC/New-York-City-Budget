@@ -810,6 +810,24 @@ number here is this repo's arithmetic on those files.
   PROJECTS) 575,000,000`; the 96-page book also has Parts II and III). It is a PDF,
   so under §27 it is not part of this structured dataset, and it has not been parsed. The FY2018
   Resolution A book is not in `source/`.
+- **Update 2026-11-13 (#202): FY2018 is in this dataset, PDF-derived and labeled.** The book has
+  since been read and checked (#177; `data/fy18/pdf/capital_sd/`, 35 of 35 printed totals tie).
+  Noel Hidalgo decided all 50 of its review flags on 2026-11-13, every one `accepted_as_printed`
+  (`research/2026-10-22-fy18-capital-terms-review/data/fy18_capital_sd_review_decisions.csv`; the
+  question to Council Finance on the three `TA` rows stays open, #237), and the family-year moved
+  from `reviewed` to `closed` in `data/pdf_years.csv` on his instruction. He answered the review's
+  policy question D1 the same day: add FY2018 to `data/capital/` with a PDF source label.
+  `code/build_capital_council.py` now writes Part I of the book (1,485 projects, 1,496 rows: one
+  per non-zero fiscal-year column) into `council_capital_awards.csv` with
+  `source_kind = pdf_capital_sd`, `source_file` the PDF and `source_row` its page and row
+  (`p4r1`); FY2018's first-year total is the book's printed `TOTALS FOR ALL`, $575,000,000. The
+  build refuses these rows unless the family-year is `closed` and the PDF's sha256 is the one
+  `data/pdf_years.csv` records; `code/audit_capital.py` K6 re-checks them against the book's own
+  totals. What differs from the other years: the book prints **no council district** (FY2018
+  rows never match a district filter), its sponsor is printed in upper case and can list several
+  members, and the values are read from a PDF, not a Council spreadsheet. Every MCP answer and
+  source line says "PDF-derived". Part II (the non-city list) and Part III are not added. The
+  T&C flags of the same review (B4, B5) and questions D2 and D3 stay open.
 - **The Council's list and OMB's adopted budget agree by budget line in most lines, not all**
   (`data/capital/RECONCILIATION.md` §3). FY2027: 146 of 153 Council lines match OMB's July 2026
   release to the dollar in both years; 7 differ (`P D017` $579,000 lower at OMB and `P D020`
@@ -1639,7 +1657,8 @@ two line-end hyphens and files budget-line headings as units.
 | Terms and Conditions | FY2018, FY2021–FY2027 |
 
 That is 37 family-years (36 until FY2027 transparency was added, §58). As of 2026-11-12 all 37
-are `reviewed` and none is `closed`.
+were `reviewed` and none `closed`. Since 2026-11-13, FY2018 capital is `closed` (§26, #202); the
+other 36 are `reviewed`.
 
 **From which process.** Each table is read from the PDF's own text and ruled lines, checked
 against a second reading of the page image, tied to every total the PDF prints, and checked for

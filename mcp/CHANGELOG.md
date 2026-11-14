@@ -73,6 +73,18 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   PDF-derived crosswalk row, so no MCP answer changes. The Council questions #239 and #240 are
   still open.
 
+- **FY2018 Council capital, PDF-derived and labeled** (#202). FY2018 had no source: no Council
+  workbook, and `t474-a92g` starts at FY2019. Noel Hidalgo decided every review flag of the checked
+  FY2018 capital supporting-detail book (§254) on 2026-11-13 (`accepted_as_printed`, all 50), and
+  that family-year is now `closed`. Its Part I (1,485 projects, $575,000,000 for FY2018, tying to
+  the book's printed total) is in `search_council_capital` as `source_kind = pdf_capital_sd`: every
+  FY2018 row and source line says "PDF-derived", the book prints no council district (a district
+  filter never matches FY2018), and the sponsor is printed in upper case. `list_available_fiscal_years`
+  now says where FY2018 comes from instead of calling it missing. FY2018 is not in
+  `compare_capital_to_omb` (OMB's dataset starts at FY2019). The package's index still reads no
+  PDF: the rows come from `data/capital/council_capital_awards.csv`, and FY2018's provenance from
+  `data/pdf_years.csv`. 18,412 capital rows in all (was 16,916).
+
 ### Fixed
 - **2.0.6's note overstated who was affected.** It said "If you quoted a T&C unit amount from this
   server, check it again." The server never had those amounts: neither the package's index nor the PDF

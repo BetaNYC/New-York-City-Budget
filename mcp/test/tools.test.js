@@ -90,11 +90,13 @@ test("list_available_fiscal_years reports every year from the datasets, gaps sta
     }
     const capRows = cap.filter((r) => r.report_year === y.fiscal_year);
     if (capRows.length) assert.ok(l.includes(`capital: ${fmt(capRows.length)} rows`), `FY${y.fiscal_year}: ${l}`);
-    else assert.match(l, y.fiscal_year === "2018" ? /capital: MISSING/ : /capital: none/);
+    else assert.match(l, /capital: none/);
+    // #202: FY2018 capital is the closed §254 book, and says so.
+    if (y.fiscal_year === "2018") assert.match(l, /capital: 1,496 rows, PDF-DERIVED from the checked §254 book/);
     assert.equal(l.includes("in the OMB comparison"), cmpYears.has(y.fiscal_year), `FY${y.fiscal_year} OMB`);
   }
   assert.match(text, /• FY2010 disclosure is not loaded: the Council's workbook \(2,592 rows/);
-  assert.match(text, /• FY2018 capital: no Council workbook was found/);
+  assert.match(text, /• FY2018 capital is PDF-derived: no Council workbook was found/);
   assert.match(text, /Retired in 2\.0\.0 and never served: the old PDF parser's output/);
   assert.doesNotMatch(text, /Schedule C awards:|Terms & Conditions:|Transparency Resolutions:/);
 });

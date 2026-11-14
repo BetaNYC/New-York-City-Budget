@@ -410,7 +410,7 @@ Built by `code/build_capital_council.py`; overview, sources per year and code me
 | `sponsor` | As printed: member surnames, delegations, caucuses, "Technical Adjustments", "Admin". |
 | `title`, `description` | As printed. t474's FY2019 `title` often names the organization. |
 | `amount` | Dollars, as printed; negative on some technical adjustments; blank only on a flagged split record. |
-| `source_kind` | `council_workbook` or `open_data_t474`. |
+| `source_kind` | `council_workbook`, `open_data_t474`, or `pdf_capital_sd` (#202: FY2018 only, **PDF-derived**, Part I of the checked §254 book whose review is `closed`; `source_file` is the PDF, `source_row` its page and row such as `p4r1`, `council_district` blank because the book prints none, `sponsor` upper case as printed). |
 | `source_file`, `source_row` | The workbook and its 1-based sheet row, or the t474 file and the row's SODA `:id`. |
 | `row_flag` | `split_record_amount_unknown`: a t474 record broken across rows whose amount the Council's own files cannot prove (data/capital/RECONCILIATION.md §2). Blank otherwise. |
 
