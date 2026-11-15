@@ -35,6 +35,12 @@
 body { margin: 0; }
 a { color: var(--accent); }
 code { background: var(--bnyc-light-gray); padding: 0.05rem 0.3rem; border-radius: 0; font-size: 0.9em; }
+/*
+ * A long link or code (a source URL, a sha256) breaks where it must, so it never makes the page
+ * wider than a phone's screen (e2e/council.reflow.spec.js). Not inside tables: a wide table
+ * scrolls in its .table-wrap, and its codes and links stay whole.
+ */
+main :is(a, code):not(table *) { overflow-wrap: anywhere; }
 a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--bnyc-blue); outline-offset: 2px; }
 .wrap { max-width: 1230px; margin: 0 auto; padding: 0 1.25rem; }
 header.site { background: var(--paper); color: var(--ink); padding: 1.5rem 0 0; border-bottom: 1px solid var(--line); }
@@ -86,6 +92,8 @@ table { border-collapse: collapse; }
 .totals { margin: 0.5rem 0 1rem; }
 .totals caption { text-align: left; font-size: 0.85rem; color: var(--muted); padding-bottom: 0.25rem; }
 .totals th, .totals td { padding: 0.25rem 1rem 0.25rem 0; text-align: left; }
+/* On a narrow screen a totals value with words ("4 rows · -$395,000 in the book's year") wraps. */
+@media (max-width: 600px) { .totals td.num { white-space: normal; } }
 /*
  * Wide tables scroll sideways inside their column, with a visible cue: a shadow appears on the
  * side that has more to see (the "local" white covers fade out as the content scrolls).
@@ -162,7 +170,8 @@ ol.conditions { padding-left: 0; list-style: none; }
 .pdfstage { position: relative; height: 75vh; }
 .pdfscroll { position: absolute; inset: 0; overflow: auto; border: 1px solid var(--line); border-radius: 0; background: var(--bnyc-light-gray); }
 .pdfloading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); pointer-events: none; }
-.pdfmissing { border: 1px solid var(--line); border-radius: 0; padding: 16px; color: var(--muted); font-size: 13px; }
+/* The error quotes the PDF's URL in plain text; it wraps on a phone (e2e/council.reflow.spec.js). */
+.pdfmissing { border: 1px solid var(--line); border-radius: 0; padding: 16px; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
 .rowhighlight { position: absolute; z-index: 10; pointer-events: none; border: 2px solid #d9480f; background: rgba(255, 196, 0, 0.22); border-radius: 0; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.06); }
 
 /* Review queue (--include-reviewed builds only) */
