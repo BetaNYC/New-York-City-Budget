@@ -14,6 +14,7 @@ import { parse } from "csv-parse/sync";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { assertEveryToolExplained } from "../dist/betanyc-tools.js";
+import { newYorkDay } from "../dist/freshness.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const MCP = join(HERE, "..");
@@ -22,6 +23,8 @@ const DOC = JSON.parse(readFileSync(ROOT_FILE, "utf8"));
 /** A committed CSV, by repo path: the expected dates come from these, never from the index. */
 const csv = (rel) => parse(readFileSync(join(MCP, "..", rel), "utf8"), { columns: true, bom: true, skip_empty_lines: true });
 const manifestDate = (dir, file) => csv(`source/${dir}/MANIFEST.csv`).find((r) => r.file === file).retrieved_at.slice(0, 10);
+/** The day a date-time falls on in New York, the way about_data shows it. */
+const nyDay = (v) => (/T/.test(v) ? new Date(v).toLocaleDateString("en-CA", { timeZone: "America/New_York" }) : v);
 
 let client;
 let TOOLS;
@@ -73,8 +76,8 @@ test("the figures are official only where BetaNYC passed the values on unchanged
 });
 
 test("each source's date is the day its committed copy was downloaded, never typed in the file", async () => {
-  // FAILS if a hook is unwired (reported "not reported by this server"), or reads another
-  // source's date. The expected dates come from the committed manifests.
+  // FAILS if a hook is unwired (reported "not reported by this server"), reads another source's
+  // date, or shows a time or a UTC day. The expected dates come from the committed manifests.
   const sc = (await call()).structuredContent;
   const asOf = Object.fromEntries(sc.sources.map((s) => [s.topic, [s.as_of_status, s.as_of]]));
   const years = csv("data/disclosure_years.csv").filter((r) => r.loaded === "yes");
@@ -82,13 +85,14 @@ test("each source's date is the day its committed copy was downloaded, never typ
   assert.deepEqual(asOf["expense-disclosure"], ["read", max(years.filter((r) => r.source_kind === "council_rnd").map((r) => r.retrieved))]);
   assert.deepEqual(asOf["council-capital-workbook"], ["read", csv("source/expense-funding-disclosure/MANIFEST.csv").find((r) => r.file === "Capital-Database.xlsx").retrieved]);
   assert.deepEqual(asOf["council-capital-open-data"], ["read", manifestDate("open-data-t474-a92g", "t474-a92g.csv.gz")]);
-  assert.deepEqual(asOf["agency-budgets"], ["read", max(csv("source/agency-budget-qa/MANIFEST.csv").map((r) => r.retrieved_at))]);
+  assert.deepEqual(asOf["agency-budgets"], ["read", nyDay(max(csv("source/agency-budget-qa/MANIFEST.csv").map((r) => r.retrieved_at)))]);
   assert.deepEqual(asOf["capital-plan"], ["read", manifestDate("open-data-2cmn-uidm", "2cmn-uidm.csv.gz")]);
   assert.deepEqual(asOf["cpdb-commitments"], ["read", manifestDate("open-data-djxg-kcfi", "djxg-kcfi.csv.gz")]);
   assert.deepEqual(asOf["cpdb-projects"], ["read", manifestDate("open-data-fi59-268w", "fi59-268w.csv.gz")]);
   const roster = Object.fromEntries(csv("data/reference/council_members_legistar_meta.csv").map((r) => [r.key, r.value]));
-  assert.deepEqual(asOf["member-crosswalk"], ["read", roster.db_last_indexed_at]);
+  assert.deepEqual(asOf["member-crosswalk"], ["read", nyDay(roster.db_last_indexed_at)]);
   for (const id of ["wayback-copies", "omb-capital-budget"]) assert.match(asOf[id][1], /^\d{4}-\d{2}-\d{2}$/, id);
+  for (const [id, [status, v]] of Object.entries(asOf)) if (status === "read") assert.match(v, /^\d{4}-\d{2}-\d{2}$/, `${id}: a day, no time`);
   // No download date is recorded for the FY2018 book; it says so instead of inventing one.
   assert.equal(asOf["fy2018-capital-book"][0], "unavailable");
   // The PDF tables are not installed in this test's data folder.
@@ -121,4 +125,22 @@ test("a topic in other words is refused with the list of topics, not guessed", a
   const r = await call({ topic: "capital plan" });
   assert.equal(r.isError, true);
   assert.match(text(r), /Topics: .*capital-plan/);
+});
+
+test("a date-time is shown as its day in New York, so a late-evening download is not a day late", () => {
+  // FAILS if a UTC time is cut to its UTC day: 03:37 UTC on November 10 is still November 9 in New York.
+  assert.equal(newYorkDay("2026-11-10T03:37:52Z"), "2026-11-09");
+  assert.equal(newYorkDay("2026-11-14T22:07:26.232Z"), "2026-11-14");
+  assert.equal(newYorkDay("2026-10-14T06:58:58-04:00"), "2026-10-14");
+  assert.equal(newYorkDay("2026-10-12"), "2026-10-12");
+  assert.equal(newYorkDay(null), null);
+});
+
+test("a source's update code never contradicts its caveats, and no license is claimed for the publisher", () => {
+  // FAILS if a source says "irregular" while a caveat gives its schedule, or a license line asserts
+  // a copyright holder the publisher never stated.
+  for (const s of DOC.sources) {
+    if (s.caveats.some((c) => /times a year|every four months/.test(c))) assert.equal(s.update_frequency, undefined, s.id);
+    assert.doesNotMatch(s.terms.license_name ?? "", /©|reproduced as/, s.id);
+  }
 });

@@ -46,7 +46,7 @@
       ],
       "accrualPeriodicity": "irregular",
       "rights": [
-        "License: None stated by the publisher. © The City of New York; reproduced as public records"
+        "License: No license stated by the publisher."
       ]
     },
     {
@@ -79,14 +79,14 @@
       ],
       "accrualPeriodicity": "annually",
       "rights": [
-        "License: None stated by the publisher. © The City of New York; reproduced as public records"
+        "License: No license stated by the publisher."
       ]
     },
     {
       "@id": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*",
       "@type": "Dataset",
-      "title": "Council budget files at council.nyc.gov/downloads/excel/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
-      "description": "Council budget files at council.nyc.gov/downloads/excel/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine, published by New York City Council.",
+      "title": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
+      "description": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine, published by New York City Council.",
       "identifier": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*",
       "contactPoint": {
         "@type": "Kind",
@@ -100,19 +100,19 @@
       },
       "landingPage": {
         "@type": "Document",
-        "title": "Council budget files at council.nyc.gov/downloads/excel/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
+        "title": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
         "accessURL": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*"
       },
       "page": [
         {
           "@type": "Document",
           "title": "Check a figure at the source",
-          "accessURL": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*"
+          "accessURL": "https://github.com/BetaNYC/New-York-City-Budget/blob/main/source/wayback-council/MANIFEST.csv"
         }
       ],
       "accrualPeriodicity": "notPlanned",
       "rights": [
-        "License: None stated by the publisher. © The City of New York; reproduced as public records"
+        "License: No license stated by the publisher."
       ]
     },
     {
@@ -179,7 +179,7 @@
       ],
       "accrualPeriodicity": "notPlanned",
       "rights": [
-        "License: None stated by the publisher. © The City of New York; reproduced as public records"
+        "License: No license stated by the publisher."
       ]
     },
     {
@@ -212,7 +212,7 @@
       ],
       "accrualPeriodicity": "irregular",
       "rights": [
-        "License: None stated by the publisher. © The City of New York; reproduced as public records"
+        "License: No license stated by the publisher."
       ]
     },
     {
@@ -243,7 +243,6 @@
           "accessURL": "https://data.cityofnewyork.us/d/mwzb-yiwb"
         }
       ],
-      "accrualPeriodicity": "irregular",
       "rights": [
         "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
         "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
@@ -277,7 +276,6 @@
           "accessURL": "https://data.cityofnewyork.us/d/46m8-77gv"
         }
       ],
-      "accrualPeriodicity": "irregular",
       "rights": [
         "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
         "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
@@ -311,7 +309,6 @@
           "accessURL": "https://data.cityofnewyork.us/d/2cmn-uidm"
         }
       ],
-      "accrualPeriodicity": "irregular",
       "rights": [
         "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
         "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
@@ -345,7 +342,6 @@
           "accessURL": "https://data.cityofnewyork.us/d/djxg-kcfi"
         }
       ],
-      "accrualPeriodicity": "irregular",
       "rights": [
         "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
         "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
@@ -379,7 +375,6 @@
           "accessURL": "https://data.cityofnewyork.us/d/fi59-268w"
         }
       ],
-      "accrualPeriodicity": "irregular",
       "rights": [
         "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
         "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
@@ -415,8 +410,7 @@
       ],
       "accrualPeriodicity": "asNeeded",
       "rights": [
-        "License: None stated by the publisher",
-        "Terms of use: https://council.nyc.gov/legislation/api/"
+        "License: No license stated by the publisher."
       ]
     },
     {
@@ -472,14 +466,14 @@
           ],
           "accrualPeriodicity": "irregular",
           "rights": [
-            "License: None stated by the publisher. © The City of New York; reproduced as public records"
+            "License: No license stated by the publisher."
           ]
         }
       ],
       "provenance": [
         "Official source: yes. This data is BetaNYC's, derived from it, not an official New York City Council record.",
         "BetaNYC downloaded the Council's own workbooks from the Research & Data site (last on 2026-10-12) and committed them with their sha256 (source/expense-funding-disclosure/). This server answers from the SQLite index in its npm package, with no network call. The index is built from the copy committed to this repo. How current: the day BetaNYC downloaded the copy, read from the index.",
-        "Changed by BetaNYC: Amounts, names and statuses are as published; exact copies of a row are kept and flagged. Embedded total and footer rows are stripped, never counted. The purpose text is not served. Added by BetaNYC: a 5-digit zip from the published postal code (a ragged or 6-digit ZIP repaired only into a 2020 Census ZCTA of the row's own state, or settled by the street address where it matches exactly one address in the City's PAD file), the Council Member's Legistar person ID from BetaNYC's member crosswalk, and, FY2009–FY2021, the MOCS ID NYC Open Data 4d7f-74pe gives the same designation where the pairing is unambiguous."
+        "Changed by BetaNYC: Amounts, names and statuses are as published; exact copies of a row are kept and flagged. Embedded total and footer rows are stripped, never counted. The purpose text is not served. Added by BetaNYC: a 5-digit ZIP from the published postal code (a ragged or 6-digit ZIP repaired only into a 2020 Census ZIP Code Tabulation Area (ZCTA) of the row's own state, or settled by the street address where it matches exactly one address in the City's Property Address Directory (PAD)), the Council Member's Legistar person ID from BetaNYC's member crosswalk, and, FY2009–FY2021, the Mayor's Office of Contract Services (MOCS) ID that NYC Open Data dataset 4d7f-74pe gives the same designation, where the pairing is unambiguous."
       ],
       "page": [
         {
@@ -523,10 +517,10 @@
       ],
       "accrualPeriodicity": "irregular",
       "rights": [
-        "License: None stated by the publisher. © The City of New York; reproduced as public records",
+        "License: No license stated by the publisher.",
         "Credit: Source: New York City Council, Expense Funding Disclosure; compiled by BetaNYC."
       ],
-      "scopeNote": "Known gap: FY2009, FY2011 and FY2012 come from Internet Archive copies (the topic wayback-copies). Known gap: FY2010 is not served: the Council's workbook is incomplete against NYC Open Data's. Known gap: Nothing before FY2009. Caveat: FY2013 is an early snapshot, frozen while much was Pending and never revised: its Cleared total is not a headline figure. Caveat: The disclosure is a later snapshot than the adopted budget: it includes designations made after adoption, and the Council Member is the roster when the workbook was exported. Caveat: The address is the grantee's mailing address, not where services were delivered."
+      "scopeNote": "Known gap: FY2009, FY2011 and FY2012 come from Internet Archive copies (the topic wayback-copies). Known gap: FY2010 is not served, because the Council's workbook is missing rows that NYC Open Data's copy has. Known gap: Nothing before FY2009. Caveat: FY2013 is an early snapshot, frozen while much was Pending and never revised: its Cleared total is not a headline figure. Caveat: The disclosure is a later snapshot than the adopted budget: it includes designations made after adoption, and the Council Member is the roster when the workbook was exported. Caveat: The address is the grantee's mailing address, not where services were delivered."
     },
     {
       "@id": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#council-capital-workbook",
@@ -581,7 +575,7 @@
           ],
           "accrualPeriodicity": "annually",
           "rights": [
-            "License: None stated by the publisher. © The City of New York; reproduced as public records"
+            "License: No license stated by the publisher."
           ]
         }
       ],
@@ -620,16 +614,16 @@
       ],
       "accrualPeriodicity": "annually",
       "rights": [
-        "License: None stated by the publisher. © The City of New York; reproduced as public records",
+        "License: No license stated by the publisher.",
         "Credit: Source: New York City Council, capital designations; compiled by BetaNYC."
       ],
-      "scopeNote": "Known gap: Other report years come from the Internet Archive (FY2015–FY2017, FY2026), NYC Open Data t474-a92g (FY2019–FY2025) and the checked FY2018 book. Caveat: Exact by budget line only: Council project IDs do not link to OMB, FMS or Checkbook, and there is no contract-level data. Caveat: Totals are this repo's arithmetic: the workbook prints none for FY2027."
+      "scopeNote": "Caveat: Other report years come from the Internet Archive (FY2015–FY2017, FY2026), NYC Open Data t474-a92g (FY2019–FY2025) and the checked FY2018 book. Caveat: Council capital links to OMB data only by budget line, because Council project IDs appear in no OMB, Financial Management System (FMS) or Checkbook NYC data. There is no contract-level data. Caveat: The FY2027 workbook prints no totals, so the totals are BetaNYC's arithmetic."
     },
     {
       "@id": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#wayback-copies",
       "@type": "Dataset",
       "title": "Council workbooks recovered from the Internet Archive (NYC Budget MCP server)",
-      "description": "The Council's own workbooks the Council no longer serves: the expense funding disclosure for FY2009, FY2011 and FY2012, and the capital designations for report years FY2015, FY2016, FY2017 and FY2026.",
+      "description": "Council workbooks BetaNYC took from the Internet Archive's copies: the expense funding disclosure for FY2009, FY2011 and FY2012, and the capital designations for report years FY2015, FY2016, FY2017 and FY2026. Some are still posted on council.nyc.gov. The FY2015 and FY2016 capital workbooks are no longer at the addresses the Archive captured, and the FY2026 workbook's address now holds FY2027's.",
       "identifier": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#wayback-copies",
       "contactPoint": {
         "@type": "Kind",
@@ -651,8 +645,8 @@
         {
           "@id": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*",
           "@type": "Dataset",
-          "title": "Council budget files at council.nyc.gov/downloads/excel/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
-          "description": "Council budget files at council.nyc.gov/downloads/excel/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine, published by New York City Council.",
+          "title": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
+          "description": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine, published by New York City Council.",
           "identifier": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*",
           "contactPoint": {
             "@type": "Kind",
@@ -666,19 +660,19 @@
           },
           "landingPage": {
             "@type": "Document",
-            "title": "Council budget files at council.nyc.gov/downloads/excel/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
+            "title": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
             "accessURL": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*"
           },
           "page": [
             {
               "@type": "Document",
               "title": "Check a figure at the source",
-              "accessURL": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*"
+              "accessURL": "https://github.com/BetaNYC/New-York-City-Budget/blob/main/source/wayback-council/MANIFEST.csv"
             }
           ],
           "accrualPeriodicity": "notPlanned",
           "rights": [
-            "License: None stated by the publisher. © The City of New York; reproduced as public records"
+            "License: No license stated by the publisher."
           ]
         }
       ],
@@ -691,7 +685,7 @@
         {
           "@type": "Document",
           "title": "Check a figure at the source",
-          "accessURL": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*"
+          "accessURL": "https://github.com/BetaNYC/New-York-City-Budget/blob/main/source/wayback-council/MANIFEST.csv"
         }
       ],
       "temporal": [
@@ -729,10 +723,10 @@
       ],
       "accrualPeriodicity": "notPlanned",
       "rights": [
-        "License: None stated by the publisher. © The City of New York; reproduced as public records",
+        "License: No license stated by the publisher.",
         "Credit: Source: New York City Council, via the Internet Archive's Wayback Machine; compiled by BetaNYC."
       ],
-      "scopeNote": "Known gap: The Council's FY2010 disclosure workbook was recovered but is not served: it is incomplete against NYC Open Data's. Known gap: Disclosure FY2010 and FY2013 on, and capital FY2018 to FY2025 and FY2027, are not from these copies. Caveat: FY2009 is an early snapshot, frozen while much was Pending and never revised: its Cleared total is not a headline figure. Caveat: The capital workbooks' codes are documented only for the Open Data table; that the workbooks use the same codes is likely but unconfirmed."
+      "scopeNote": "Known gap: The Council's FY2010 disclosure workbook was recovered but is not served, because it is missing rows that NYC Open Data's copy has. Caveat: Disclosure FY2010 and FY2013 on, and capital FY2018 to FY2025 and FY2027, are not from these copies. Caveat: FY2009 is an early snapshot, frozen while much was Pending and never revised: its Cleared total is not a headline figure. Caveat: The capital workbooks' codes are documented only for the Open Data table; that the workbooks use the same codes is likely but unconfirmed."
     },
     {
       "@id": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#council-capital-open-data",
@@ -831,7 +825,7 @@
         "Credit: Source: New York City Council, City Council Capital Budget (t474-a92g), via NYC Open Data.",
         "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
       ],
-      "scopeNote": "Caveat: Exact by budget line only: Council project IDs do not link to OMB, FMS or Checkbook."
+      "scopeNote": "Caveat: Council capital links to OMB data only by budget line, because Council project IDs appear in no OMB, Financial Management System (FMS) or Checkbook NYC data."
     },
     {
       "@id": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#fy2018-capital-book",
@@ -886,7 +880,7 @@
           ],
           "accrualPeriodicity": "notPlanned",
           "rights": [
-            "License: None stated by the publisher. © The City of New York; reproduced as public records"
+            "License: No license stated by the publisher."
           ]
         }
       ],
@@ -925,10 +919,10 @@
       ],
       "accrualPeriodicity": "notPlanned",
       "rights": [
-        "License: None stated by the publisher. © The City of New York; reproduced as public records",
+        "License: No license stated by the publisher.",
         "Credit: Source: New York City Council, FY2018 §254 supporting detail; read and checked by BetaNYC."
       ],
-      "scopeNote": "Known gap: No council district: the book prints none. Caveat: PDF-derived: these rows were read by BetaNYC from a PDF, not published as data by the Council."
+      "scopeNote": "Known gap: No council district: the book prints none. Caveat: PDF-derived: these rows were read by BetaNYC from a PDF, not published as data by the Council. Caveat: The book does not change. BetaNYC's review of it closed on 2026-11-13. Caveat: To find the book, search Legistar for Res 1534-2017. The book is its attachment 'M 499, Res 1534 and Res 1535 - Capital Budget Resolution.'"
     },
     {
       "@id": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#pdf-tables",
@@ -983,13 +977,13 @@
           ],
           "accrualPeriodicity": "irregular",
           "rights": [
-            "License: None stated by the publisher. © The City of New York; reproduced as public records"
+            "License: No license stated by the publisher."
           ]
         }
       ],
       "provenance": [
         "Official source: yes. This data is BetaNYC's, derived from it, not an official New York City Council record.",
-        "BetaNYC read the tables from the PDFs in this repo (source/FYNN/) and checked them (PDF-RECIPE.md; statuses in data/pdf_years.csv). They are not in the npm package: the server downloads them on request from this repo's GitHub releases and checks each file's sha256 before installing.",
+        "BetaNYC read the tables from the PDFs in this repo (source/FYNN/) and checked them (PDF-RECIPE.md; statuses in data/pdf_years.csv). They are not in the npm package: the server downloads them on request from this repo's GitHub releases and checks each file's sha256 before installing. How current: the day the installed tables were built.",
         "Changed by BetaNYC: Read from the PDFs and checked against their printed totals; each row keeps its page and position. BetaNYC adds whether a Schedule C row is in the disclosure spreadsheet, the printed member's Legistar person ID, and, for Terms and Conditions, the unit's adopted amount from NYC Open Data mwzb-yiwb."
       ],
       "page": [
@@ -1026,10 +1020,10 @@
       ],
       "accrualPeriodicity": "irregular",
       "rights": [
-        "License: None stated by the publisher. © The City of New York; reproduced as public records",
+        "License: No license stated by the publisher.",
         "Credit: Source: New York City Council budget documents; read and checked by BetaNYC."
       ],
-      "scopeNote": "Known gap: Schedule C and transparency resolutions FY2018–FY2027; the capital book FY2018–FY2020 and FY2022–FY2027; Terms and Conditions FY2018 and FY2021–FY2027. Known gap: FY2008–FY2017 were read only by an old parser and are not served. Caveat: Every family-year is 'reviewed' (checked, review in progress) except the FY2018 capital book, 'closed' (checked and reviewed). Caveat: Without the download these tools say how to add it and return no rows.",
+      "scopeNote": "Known gap: Not served: the capital book for FY2021, and Terms and Conditions for FY2019 and FY2020. Known gap: FY2008–FY2017 were read only by an old parser and are not served. Caveat: Every table has been checked, against its printed totals where the PDF prints them (Terms and Conditions and the transparency resolutions print no money totals). The full review is finished for the FY2018 capital book and still under way for the rest. Caveat: Without the download these tools say how to add it and return no rows.",
       "isReferencedBy": [
         "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/WHATS-CHANGED.md#2026-11-10-agency-amounts-in-the-terms-and-conditions-tables-were-one-year-late",
         "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/WHATS-CHANGED.md#2026-10-20-our-notes-said-some-years-had-no-records-but-the-city-printed-them",
@@ -1089,7 +1083,6 @@
               "accessURL": "https://data.cityofnewyork.us/d/mwzb-yiwb"
             }
           ],
-          "accrualPeriodicity": "irregular",
           "rights": [
             "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
             "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
@@ -1133,7 +1126,6 @@
           "label": "reshaped"
         }
       ],
-      "accrualPeriodicity": "irregular",
       "rights": [
         "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
         "Credit: Source: Mayor's Office of Management and Budget (OMB), Expense Budget (mwzb-yiwb), via NYC Open Data.",
@@ -1196,7 +1188,6 @@
               "accessURL": "https://data.cityofnewyork.us/d/46m8-77gv"
             }
           ],
-          "accrualPeriodicity": "irregular",
           "rights": [
             "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
             "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
@@ -1240,13 +1231,12 @@
           "label": "counted"
         }
       ],
-      "accrualPeriodicity": "irregular",
       "rights": [
         "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
         "Credit: Source: Mayor's Office of Management and Budget (OMB), Capital Budget (46m8-77gv), via NYC Open Data.",
         "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
       ],
-      "scopeNote": "Caveat: Not a Council or OMB reconciliation: this repo's arithmetic on two sources. Caveat: OMB updates this dataset three times a year, after the Preliminary, Executive and Adopted budgets."
+      "scopeNote": "Caveat: Not a Council or OMB reconciliation. These are BetaNYC's sums of two sources. Caveat: OMB updates this dataset three times a year, after the Preliminary, Executive and Adopted budgets."
     },
     {
       "@id": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#capital-plan",
@@ -1299,7 +1289,6 @@
               "accessURL": "https://data.cityofnewyork.us/d/2cmn-uidm"
             }
           ],
-          "accrualPeriodicity": "irregular",
           "rights": [
             "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
             "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
@@ -1339,13 +1328,12 @@
           "label": "reshaped"
         }
       ],
-      "accrualPeriodicity": "irregular",
       "rights": [
         "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
         "Credit: Source: Mayor's Office of Management and Budget (OMB), Capital Commitment Plan (2cmn-uidm), via NYC Open Data.",
         "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
       ],
-      "scopeNote": "Known gap: Coverage is the first and last plan release in this server's copy. Caveat: In thousands of dollars, as OMB publishes it. Caveat: Linked to the Council's list by budget line only. Caveat: OMB updates this dataset three times a year, after the Preliminary, Executive and Adopted financial plans."
+      "scopeNote": "Caveat: The dates are the first and last plan release in this server's copy. Caveat: In thousands of dollars, as OMB publishes it. Caveat: Linked to the Council's list by budget line only. Caveat: OMB updates this dataset three times a year, after the Preliminary, Executive and Adopted financial plans."
     },
     {
       "@id": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#cpdb-commitments",
@@ -1398,7 +1386,6 @@
               "accessURL": "https://data.cityofnewyork.us/d/djxg-kcfi"
             }
           ],
-          "accrualPeriodicity": "irregular",
           "rights": [
             "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
             "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
@@ -1434,13 +1421,12 @@
           "label": "reshaped"
         }
       ],
-      "accrualPeriodicity": "irregular",
       "rights": [
         "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
         "Credit: Source: NYC Department of City Planning, Capital Projects Database (CPDB) - Commitments (djxg-kcfi), via NYC Open Data.",
         "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
       ],
-      "scopeNote": "Known gap: One CPDB version, fisa_2026. Caveat: The amounts are in dollars. City Planning does not state the unit; BetaNYC checked that CPDB's City totals equal OMB's plan, published in thousands, times 1,000. Caveat: City Planning updates CPDB about every four months."
+      "scopeNote": "Known gap: One CPDB version, fisa_2026. Caveat: The amounts are in dollars. City Planning does not state the unit; BetaNYC checked that CPDB's City totals equal OMB's plan, published in thousands, times 1,000. Caveat: City Planning updates CPDB about every four months. Caveat: search_capital_plan's line totals, and a project's totals on one line, are BetaNYC's sums of these rows. City Planning publishes the rows, not these sums."
     },
     {
       "@id": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#cpdb-projects",
@@ -1493,7 +1479,6 @@
               "accessURL": "https://data.cityofnewyork.us/d/fi59-268w"
             }
           ],
-          "accrualPeriodicity": "irregular",
           "rights": [
             "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
             "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
@@ -1522,13 +1507,12 @@
           "label": "reshaped"
         }
       ],
-      "accrualPeriodicity": "irregular",
       "rights": [
         "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
         "Credit: Source: NYC Department of City Planning, Capital Projects Database (CPDB) - Projects (fi59-268w), via NYC Open Data.",
         "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
       ],
-      "scopeNote": "Known gap: One CPDB version, fisa_2026. Known gap: No budget line: a project reaches a budget line only through the commitments table. Caveat: A project's totals are the whole project's, never one budget line's share. Caveat: The amounts are in dollars; City Planning does not state the unit (see cpdb-commitments)."
+      "scopeNote": "Known gap: One CPDB version, fisa_2026. Known gap: No budget line: a project reaches a budget line only through the commitments table. Caveat: A project's totals are the whole project's, never one budget line's share. Caveat: City Planning updates CPDB about every four months. Caveat: The amounts are in dollars; City Planning does not state the unit (see cpdb-commitments)."
     },
     {
       "@id": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#member-crosswalk",
@@ -1583,15 +1567,14 @@
           ],
           "accrualPeriodicity": "asNeeded",
           "rights": [
-            "License: None stated by the publisher",
-            "Terms of use: https://council.nyc.gov/legislation/api/"
+            "License: No license stated by the publisher."
           ]
         }
       ],
       "provenance": [
         "Not an official record: curated by BetaNYC from material published by New York City Council.",
         "BetaNYC extracted the roster and each person's recorded votes from the Legistar index that @betanyc/nyc-council-mcp builds, committed that extract (data/reference/), and resolved each printed name by fixed rules (code/build_member_crosswalk.py): the only person with that name who voted in that fiscal year. The crosswalk is in the server's index; how current is the day that Legistar index was built.",
-        "Changed by BetaNYC: A name is resolved only when exactly one Legistar person has it; a name two people share in a year is left ambiguous with its candidates, never guessed. A few printed conventions were decided by a person and recorded with their evidence. Delegations, 'Speaker', district labels and blanks get no person ID."
+        "Changed by BetaNYC: A name is resolved only when exactly one Legistar person with that name voted in that fiscal year. A name two such people share is left ambiguous with its candidates, never guessed. A few printed forms were matched by hand, each with its evidence recorded. Delegations, 'Speaker', district labels and blanks get no person ID."
       ],
       "page": [
         {
@@ -1623,9 +1606,8 @@
       ],
       "accrualPeriodicity": "asNeeded",
       "rights": [
-        "License: None stated by the publisher",
-        "Credit: Council Member IDs: New York City Council, Legistar; matched by BetaNYC.",
-        "Terms of use: https://council.nyc.gov/legislation/api/"
+        "License: No license stated by the publisher.",
+        "Credit: Council Member IDs: New York City Council, Legistar; matched by BetaNYC."
       ],
       "scopeNote": "Known gap: A fiscal year counts only if Legistar records a vote by that person in it. Caveat: The printed name is the Council's roster when the file was exported, not proof of who made a designation."
     }

@@ -47,7 +47,7 @@
           "address-matched",
           "merged"
         ],
-        "detail": "Amounts, names and statuses are as published; exact copies of a row are kept and flagged. Embedded total and footer rows are stripped, never counted. The purpose text is not served. Added by BetaNYC: a 5-digit zip from the published postal code (a ragged or 6-digit ZIP repaired only into a 2020 Census ZCTA of the row's own state, or settled by the street address where it matches exactly one address in the City's PAD file), the Council Member's Legistar person ID from BetaNYC's member crosswalk, and, FY2009–FY2021, the MOCS ID NYC Open Data 4d7f-74pe gives the same designation where the pairing is unambiguous."
+        "detail": "Amounts, names and statuses are as published; exact copies of a row are kept and flagged. Embedded total and footer rows are stripped, never counted. The purpose text is not served. Added by BetaNYC: a 5-digit ZIP from the published postal code (a ragged or 6-digit ZIP repaired only into a 2020 Census ZIP Code Tabulation Area (ZCTA) of the row's own state, or settled by the street address where it matches exactly one address in the City's Property Address Directory (PAD)), the Council Member's Legistar person ID from BetaNYC's member crosswalk, and, FY2009–FY2021, the Mayor's Office of Contract Services (MOCS) ID that NYC Open Data dataset 4d7f-74pe gives the same designation, where the pairing is unambiguous."
       },
       "verify_at": "https://rnd.council.nyc.gov/expense_funding/",
       "freshness": {
@@ -61,12 +61,12 @@
         "geography": "New York City",
         "known_gaps": [
           "FY2009, FY2011 and FY2012 come from Internet Archive copies (the topic wayback-copies).",
-          "FY2010 is not served: the Council's workbook is incomplete against NYC Open Data's.",
+          "FY2010 is not served, because the Council's workbook is missing rows that NYC Open Data's copy has.",
           "Nothing before FY2009."
         ]
       },
       "terms": {
-        "license_name": "None stated by the publisher. © The City of New York; reproduced as public records",
+        "license_name": "No license stated by the publisher.",
         "credit_line": "Source: New York City Council, Expense Funding Disclosure; compiled by BetaNYC."
       },
       "report_errors": {
@@ -114,12 +114,10 @@
         "start": "2026-07-01",
         "end": "2027-06-30",
         "geography": "New York City, by council district",
-        "known_gaps": [
-          "Other report years come from the Internet Archive (FY2015–FY2017, FY2026), NYC Open Data t474-a92g (FY2019–FY2025) and the checked FY2018 book."
-        ]
+        "known_gaps": []
       },
       "terms": {
-        "license_name": "None stated by the publisher. © The City of New York; reproduced as public records",
+        "license_name": "No license stated by the publisher.",
         "credit_line": "Source: New York City Council, capital designations; compiled by BetaNYC."
       },
       "report_errors": {
@@ -133,16 +131,17 @@
         "list_available_fiscal_years"
       ],
       "caveats": [
-        "Exact by budget line only: Council project IDs do not link to OMB, FMS or Checkbook, and there is no contract-level data.",
-        "Totals are this repo's arithmetic: the workbook prints none for FY2027."
+        "Other report years come from the Internet Archive (FY2015–FY2017, FY2026), NYC Open Data t474-a92g (FY2019–FY2025) and the checked FY2018 book.",
+        "Council capital links to OMB data only by budget line, because Council project IDs appear in no OMB, Financial Management System (FMS) or Checkbook NYC data. There is no contract-level data.",
+        "The FY2027 workbook prints no totals, so the totals are BetaNYC's arithmetic."
       ],
       "corrections": []
     },
     {
       "id": "wayback-copies",
       "title": "Council workbooks recovered from the Internet Archive",
-      "what": "The Council's own workbooks the Council no longer serves: the expense funding disclosure for FY2009, FY2011 and FY2012, and the capital designations for report years FY2015, FY2016, FY2017 and FY2026.",
-      "source_name": "Council budget files at council.nyc.gov/downloads/excel/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
+      "what": "Council workbooks BetaNYC took from the Internet Archive's copies: the expense funding disclosure for FY2009, FY2011 and FY2012, and the capital designations for report years FY2015, FY2016, FY2017 and FY2026. Some are still posted on council.nyc.gov. The FY2015 and FY2016 capital workbooks are no longer at the addresses the Archive captured, and the FY2026 workbook's address now holds FY2027's.",
+      "source_name": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
       "publisher": {
         "name": "New York City Council",
         "url": "https://council.nyc.gov/"
@@ -161,7 +160,7 @@
         ],
         "detail": "The same handling as the topics expense-disclosure and council-capital-workbook: amounts as published, total and footer rows stripped, capital amounts one row per fiscal year, purpose text not served, and BetaNYC's zip, member ID and Open Data cross-reference added to the disclosure rows."
       },
-      "verify_at": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*",
+      "verify_at": "https://github.com/BetaNYC/New-York-City-Budget/blob/main/source/wayback-council/MANIFEST.csv",
       "freshness": {
         "kind": "hook",
         "key": "wayback_retrieved"
@@ -172,12 +171,11 @@
         "end": "2026-06-30",
         "geography": "New York City",
         "known_gaps": [
-          "The Council's FY2010 disclosure workbook was recovered but is not served: it is incomplete against NYC Open Data's.",
-          "Disclosure FY2010 and FY2013 on, and capital FY2018 to FY2025 and FY2027, are not from these copies."
+          "The Council's FY2010 disclosure workbook was recovered but is not served, because it is missing rows that NYC Open Data's copy has."
         ]
       },
       "terms": {
-        "license_name": "None stated by the publisher. © The City of New York; reproduced as public records",
+        "license_name": "No license stated by the publisher.",
         "credit_line": "Source: New York City Council, via the Internet Archive's Wayback Machine; compiled by BetaNYC."
       },
       "report_errors": {
@@ -192,6 +190,7 @@
         "list_available_fiscal_years"
       ],
       "caveats": [
+        "Disclosure FY2010 and FY2013 on, and capital FY2018 to FY2025 and FY2027, are not from these copies.",
         "FY2009 is an early snapshot, frozen while much was Pending and never revised: its Cleared total is not a headline figure.",
         "The capital workbooks' codes are documented only for the Open Data table; that the workbooks use the same codes is likely but unconfirmed."
       ],
@@ -245,7 +244,7 @@
         "list_available_fiscal_years"
       ],
       "caveats": [
-        "Exact by budget line only: Council project IDs do not link to OMB, FMS or Checkbook."
+        "Council capital links to OMB data only by budget line, because Council project IDs appear in no OMB, Financial Management System (FMS) or Checkbook NYC data."
       ],
       "corrections": []
     },
@@ -284,7 +283,7 @@
         ]
       },
       "terms": {
-        "license_name": "None stated by the publisher. © The City of New York; reproduced as public records",
+        "license_name": "No license stated by the publisher.",
         "credit_line": "Source: New York City Council, FY2018 §254 supporting detail; read and checked by BetaNYC."
       },
       "report_errors": {
@@ -297,7 +296,9 @@
         "list_available_fiscal_years"
       ],
       "caveats": [
-        "PDF-derived: these rows were read by BetaNYC from a PDF, not published as data by the Council."
+        "PDF-derived: these rows were read by BetaNYC from a PDF, not published as data by the Council.",
+        "The book does not change. BetaNYC's review of it closed on 2026-11-13.",
+        "To find the book, search Legistar for Res 1534-2017. The book is its attachment 'M 499, Res 1534 and Res 1535 - Capital Budget Resolution.'"
       ],
       "corrections": []
     },
@@ -312,7 +313,7 @@
       },
       "source_url": "https://council.nyc.gov/budget/",
       "official": true,
-      "how_gathered": "BetaNYC read the tables from the PDFs in this repo (source/FYNN/) and checked them (PDF-RECIPE.md; statuses in data/pdf_years.csv). They are not in the npm package: the server downloads them on request from this repo's GitHub releases and checks each file's sha256 before installing.",
+      "how_gathered": "BetaNYC read the tables from the PDFs in this repo (source/FYNN/) and checked them (PDF-RECIPE.md; statuses in data/pdf_years.csv). They are not in the npm package: the server downloads them on request from this repo's GitHub releases and checks each file's sha256 before installing. How current: the day the installed tables were built.",
       "changes": {
         "changed": true,
         "steps": [
@@ -333,12 +334,12 @@
         "end": "2027-06-30",
         "geography": "New York City",
         "known_gaps": [
-          "Schedule C and transparency resolutions FY2018–FY2027; the capital book FY2018–FY2020 and FY2022–FY2027; Terms and Conditions FY2018 and FY2021–FY2027.",
+          "Not served: the capital book for FY2021, and Terms and Conditions for FY2019 and FY2020.",
           "FY2008–FY2017 were read only by an old parser and are not served."
         ]
       },
       "terms": {
-        "license_name": "None stated by the publisher. © The City of New York; reproduced as public records",
+        "license_name": "No license stated by the publisher.",
         "credit_line": "Source: New York City Council budget documents; read and checked by BetaNYC."
       },
       "report_errors": {
@@ -353,7 +354,7 @@
         "list_available_fiscal_years"
       ],
       "caveats": [
-        "Every family-year is 'reviewed' (checked, review in progress) except the FY2018 capital book, 'closed' (checked and reviewed).",
+        "Every table has been checked, against its printed totals where the PDF prints them (Terms and Conditions and the transparency resolutions print no money totals). The full review is finished for the FY2018 capital book and still under way for the rest.",
         "Without the download these tools say how to add it and return no rows."
       ],
       "corrections": [
@@ -390,7 +391,6 @@
         "kind": "hook",
         "key": "agency_budget_retrieved"
       },
-      "update_frequency": "irregular",
       "coverage": {
         "start": "2016-07-01",
         "end": "2027-06-30",
@@ -449,7 +449,6 @@
         "kind": "hook",
         "key": "omb_capital_budget_retrieved"
       },
-      "update_frequency": "irregular",
       "coverage": {
         "start": "2018-07-01",
         "end": "2027-06-30",
@@ -470,7 +469,7 @@
         "list_available_fiscal_years"
       ],
       "caveats": [
-        "Not a Council or OMB reconciliation: this repo's arithmetic on two sources.",
+        "Not a Council or OMB reconciliation. These are BetaNYC's sums of two sources.",
         "OMB updates this dataset three times a year, after the Preliminary, Executive and Adopted budgets."
       ],
       "corrections": []
@@ -500,14 +499,11 @@
         "kind": "hook",
         "key": "capital_plan_retrieved"
       },
-      "update_frequency": "irregular",
       "coverage": {
         "start": "2016-04-26",
         "end": "2026-09-28",
         "geography": "New York City, by budget line",
-        "known_gaps": [
-          "Coverage is the first and last plan release in this server's copy."
-        ]
+        "known_gaps": []
       },
       "terms": {
         "license_name": "None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
@@ -523,6 +519,7 @@
         "list_available_fiscal_years"
       ],
       "caveats": [
+        "The dates are the first and last plan release in this server's copy.",
         "In thousands of dollars, as OMB publishes it.",
         "Linked to the Council's list by budget line only.",
         "OMB updates this dataset three times a year, after the Preliminary, Executive and Adopted financial plans."
@@ -553,7 +550,6 @@
         "kind": "hook",
         "key": "cpdb_commitments_retrieved"
       },
-      "update_frequency": "irregular",
       "coverage": {
         "start": "2025-07-01",
         "end": "2039-06-01",
@@ -577,7 +573,8 @@
       ],
       "caveats": [
         "The amounts are in dollars. City Planning does not state the unit; BetaNYC checked that CPDB's City totals equal OMB's plan, published in thousands, times 1,000.",
-        "City Planning updates CPDB about every four months."
+        "City Planning updates CPDB about every four months.",
+        "search_capital_plan's line totals, and a project's totals on one line, are BetaNYC's sums of these rows. City Planning publishes the rows, not these sums."
       ],
       "corrections": []
     },
@@ -605,7 +602,6 @@
         "kind": "hook",
         "key": "cpdb_projects_retrieved"
       },
-      "update_frequency": "irregular",
       "coverage": {
         "start": null,
         "end": null,
@@ -630,6 +626,7 @@
       ],
       "caveats": [
         "A project's totals are the whole project's, never one budget line's share.",
+        "City Planning updates CPDB about every four months.",
         "The amounts are in dollars; City Planning does not state the unit (see cpdb-commitments)."
       ],
       "corrections": []
@@ -652,7 +649,7 @@
           "curated",
           "merged"
         ],
-        "detail": "A name is resolved only when exactly one Legistar person has it; a name two people share in a year is left ambiguous with its candidates, never guessed. A few printed conventions were decided by a person and recorded with their evidence. Delegations, 'Speaker', district labels and blanks get no person ID."
+        "detail": "A name is resolved only when exactly one Legistar person with that name voted in that fiscal year. A name two such people share is left ambiguous with its candidates, never guessed. A few printed forms were matched by hand, each with its evidence recorded. Delegations, 'Speaker', district labels and blanks get no person ID."
       },
       "verify_at": "https://legistar.council.nyc.gov/People.aspx",
       "freshness": {
@@ -669,8 +666,7 @@
         ]
       },
       "terms": {
-        "license_name": "None stated by the publisher",
-        "terms_url": "https://council.nyc.gov/legislation/api/",
+        "license_name": "No license stated by the publisher.",
         "credit_line": "Council Member IDs: New York City Council, Legistar; matched by BetaNYC."
       },
       "report_errors": {
