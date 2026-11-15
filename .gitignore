@@ -20,3 +20,5 @@ mcp/.pdf-test/
 
 # Copied from ../WHATS-CHANGED.md by the prebuild script (#310); the root file is the one to edit.
 mcp/WHATS-CHANGED.md
+# Copied from ../DATA-SOURCES.json by the prebuild script (#329); the root file is the one to edit.
+mcp/DATA-SOURCES.json

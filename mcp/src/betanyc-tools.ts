@@ -1,5 +1,5 @@
-// betanyc-shared: betanyc-tools.ts v1.3.6
-// betanyc-shared-sha256: 517ae41ca046fd9f4611ef228177322ed4795bd5c8e6779e853c6c0b85b07bb0
+// betanyc-shared: betanyc-tools.ts v1.3.7
+// betanyc-shared-sha256: e1383ff7f9fa0ae55e9a8618547209d1646e127818524b2a91307089fac97336
 // Canonical copy: betanyc-ai-workspace scripts/mcp_shared/betanyc-tools.ts. Do not edit a copy
 // in a server repo; change the canonical file, re-stamp it, and copy it again.
 // Drift check: scripts/whats_changed_drift.py. Standard: platform/system/whats-changed-standard.md.
@@ -23,7 +23,7 @@
 import { readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 
-export const SHARED_MODULE_VERSION = "1.3.6";
+export const SHARED_MODULE_VERSION = "1.3.7";
 
 // --------------------------------------------------------------------------- types
 
@@ -1131,7 +1131,7 @@ const DS_SPEC: Spec = obj([
       ["terms_url", f("url", false)],
       ["credit_line", f("str", false)],
     ])],
-    ["report_errors", obj([["upstream_url", f("url")], ["upstream_email", f("email", false)]])],
+    ["report_errors", obj([["upstream_url", f("url")], ["upstream_email", f("email", false)], ["upstream_name", f("str", false)]])],
     ["tools", list(f("tool"))],
     ["caveats", list(f("str"))],
     ["corrections", list(f("anchor"))],
@@ -1185,7 +1185,7 @@ export interface DataSource {
   update_frequency: string | null;
   coverage: { start: string | null; end: string | null; geography: string | null; known_gaps: string[] } | null;
   terms: { license_name: string | null; license_url: string | null; terms_url: string | null; credit_line: string | null } | null;
-  report_errors: { upstream_url: string | null; upstream_email: string | null } | null;
+  report_errors: { upstream_url: string | null; upstream_email: string | null; upstream_name: string | null } | null;
   tools: string[];
   caveats: string[];
   corrections: string[];
@@ -1599,6 +1599,10 @@ export const ABOUT_DATA_TOOL: ToolDefinition = {
               properties: {
                 in_the_data: { type: "string", description: "The publisher's page for data errors" },
                 in_the_data_email: NULLABLE_STRING,
+                in_the_data_name: {
+                  type: "string",
+                  description: "Who handles reports at in_the_data: the publisher, the organization named in the file when someone else runs the route (for example a city's open data team), or BetaNYC",
+                },
                 in_the_data_handled_by: {
                   type: "string",
                   enum: ["publisher", "betanyc"],
@@ -1610,7 +1614,7 @@ export const ABOUT_DATA_TOOL: ToolDefinition = {
                 },
                 in_this_server: { type: "string", description: "This server's GitHub issues" },
               },
-              required: ["in_the_data", "in_the_data_email", "in_the_data_handled_by", "in_these_figures", "in_this_server"],
+              required: ["in_the_data", "in_the_data_email", "in_the_data_name", "in_the_data_handled_by", "in_these_figures", "in_this_server"],
             },
             tools: { type: "array", items: { type: "string" } },
             caveats: { type: "array", items: { type: "string" } },
@@ -1813,8 +1817,9 @@ const ROUTE_URL_RE = /^https?:\/\/([A-Za-z0-9.-]+)(?::[0-9]{1,5})?([/?#].*)?$/;
  * never count as BetaNYC's: github.com/BetaNYC/x/../../evil resolves somewhere else. */
 const DOT_SEGMENT_RE = /(?:^|\/)(?:\.|%2e){1,2}(?:\/|$)/i;
 
-/** True when an error-report URL is BetaNYC's own (a BetaNYC repo, its issues, or beta.nyc), so
- * the route is worded as reporting to BetaNYC. Same as route_is_betanyc() in whats_changed.py. */
+/** True when an error-report URL is BetaNYC's own (a BetaNYC repo, its issues, beta.nyc, or a
+ * BetaNYC GitHub Pages site on betanyc.github.io), so the route is worded as reporting to BetaNYC.
+ * Same as route_is_betanyc() in whats_changed.py. */
 export function routeIsBetanyc(url: string): boolean {
   const m = ROUTE_URL_RE.exec(url ?? "");
   if (!m) return false;
@@ -1822,6 +1827,7 @@ export function routeIsBetanyc(url: string): boolean {
   const path = (m[2] ?? "").split(/[?#]/)[0];
   if (DOT_SEGMENT_RE.test(path)) return false;
   if (host === "beta.nyc" || host.endsWith(".beta.nyc")) return true;
+  if (host === "betanyc.github.io") return true; // BetaNYC's GitHub Pages sites (1.3.7)
   if (host === "github.com" || host === "www.github.com") return path.split("/")[1]?.toLowerCase() === "betanyc";
   return false;
 }
@@ -1835,10 +1841,20 @@ export function valuesChanged(changed: boolean, steps: readonly string[]): boole
   return changed && steps.some((st) => !DS_FORMAT_ONLY_STEPS.includes(st));
 }
 
+/** True when a source's publisher is BetaNYC itself: the name "BetaNYC" (any case), or a URL that
+ * routeIsBetanyc() accepts. Same as publisher_is_betanyc() in whats_changed.py (1.3.7). */
+export function publisherIsBetanyc(name: string, url: string | null = null): boolean {
+  return trim(name ?? "").toLowerCase() === "betanyc" || (typeof url === "string" && routeIsBetanyc(url));
+}
+
 /** What to say about officialness. Same words as official_wording() in whats_changed.py. */
-export function officialWording(official: boolean, changed: boolean, publisher: string, steps: readonly string[] = []): string {
-  if (!official) return `Not an official record: curated by BetaNYC from material published by ${publisher}.`;
-  if (valuesChanged(changed, steps)) return `Official source: yes. These figures are BetaNYC's, derived from it, not an official ${publisher} report.`;
+export function officialWording(official: boolean, changed: boolean, publisher: string, steps: readonly string[] = [], publisherUrl: string | null = null): string {
+  if (!official) {
+    return publisherIsBetanyc(publisher, publisherUrl)
+      ? "Not an official record: curated by BetaNYC."
+      : `Not an official record: curated by BetaNYC from material published by ${publisher}.`;
+  }
+  if (valuesChanged(changed, steps)) return `Official source: yes. This data is BetaNYC's, derived from it, not an official ${publisher} record.`;
   if (changed) {
     const removed = steps.includes("fields-removed");
     if (removed && steps.includes("reshaped")) return "Official record: yes, reshaped by BetaNYC with some fields left out (values unchanged).";
@@ -2005,6 +2021,7 @@ function aboutData(config: BetanycServerConfig, args: unknown, now: Date, outcom
       report_errors: {
         in_the_data: s.report_errors!.upstream_url!,
         in_the_data_email: s.report_errors!.upstream_email,
+        in_the_data_name: routeIsBetanyc(s.report_errors!.upstream_url!) ? "BetaNYC" : (s.report_errors!.upstream_name ?? s.publisher!.name!),
         in_the_data_handled_by: (routeIsBetanyc(s.report_errors!.upstream_url!) ? "betanyc" : "publisher") as "betanyc" | "publisher",
         in_these_figures: !s.official || valuesChanged(s.changes!.changed!, s.changes!.steps) ? issues : null,
         in_this_server: issues,
@@ -2031,15 +2048,15 @@ function aboutData(config: BetanycServerConfig, args: unknown, now: Date, outcom
     topic === null
       ? `Where the data in ${config.serverName} ${config.version} comes from: ${plural(out.length, "source")}.`
       : `Where the data in ${config.serverName} ${config.version} comes from, for '${topic}'.`,
-    "An official source passed on unchanged is the publisher's record. Where BetaNYC changed it, the figures are BetaNYC's, derived from the official source, not an official report. Where it is BetaNYC's curation, it is not an official record. Say which when you use a figure.",
+    "An official source passed on unchanged is the publisher's record. Where BetaNYC changed it, the data is BetaNYC's, derived from the official source, not an official record. Where it is BetaNYC's curation, it is not an official record. Say which when you use it.",
     `Full list: ${base.source_file}`,
   ];
-  const blocks = out.map((s) => {
+  const blocks = out.map((s, i) => {
     const lines = [
       `${s.title} [topic: ${s.topic}]`,
       `What it is: ${s.what}`,
       `Source: ${s.source}, published by ${s.publisher}. ${s.source_url}`,
-      officialWording(s.official, s.changed_by_betanyc.changed, s.publisher, s.changed_by_betanyc.steps),
+      officialWording(s.official, s.changed_by_betanyc.changed, s.publisher, s.changed_by_betanyc.steps, picked[i].publisher!.url ?? null),
       `How it is gathered: ${s.how_gathered}`,
       s.changed_by_betanyc.changed
         ? `Changed by BetaNYC (${s.changed_by_betanyc.steps.join(", ")}): ${s.changed_by_betanyc.detail}`
@@ -2061,8 +2078,8 @@ function aboutData(config: BetanycServerConfig, args: unknown, now: Date, outcom
       (re.in_the_data_handled_by === "betanyc"
         ? `Report an error in this data to BetaNYC: ${re.in_the_data}`
         : re.in_these_figures
-          ? `Report an error in these figures to BetaNYC: ${re.in_these_figures}; an error in the original records to ${s.publisher}: ${re.in_the_data}${email}`
-          : `Report an error in the data to ${s.publisher}: ${re.in_the_data}${email}`) +
+          ? `Report an error in this data to BetaNYC: ${re.in_these_figures}; an error in the original records to ${re.in_the_data_name}: ${re.in_the_data}${email}`
+          : `Report an error in the data to ${re.in_the_data_name}: ${re.in_the_data}${email}`) +
         `. Report a bug in this server or ask for a new feature: ${re.in_this_server}`,
     );
     if (s.tools.length) lines.push(`Tools that use it: ${s.tools.join(", ")}`);

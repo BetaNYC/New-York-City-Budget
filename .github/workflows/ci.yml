@@ -275,6 +275,14 @@ jobs:
       - name: What's changed
         run: python3 scripts/whats_changed.py check WHATS-CHANGED.md --package-json mcp/package.json --changelog mcp/CHANGELOG.md --base-ref "origin/${{ github.base_ref || 'main' }}"
 
+      # about_data's file (#329; BetaNYC's about-data standard § 7). Every tool has a source is
+      # mcp/test/about-data.test.js; here, the file's own rules and the generated DCAT catalog.
+      - name: DATA-SOURCES.json
+        run: python3 scripts/whats_changed.py about-data check DATA-SOURCES.json
+
+      - name: DCAT catalog is current
+        run: python3 scripts/whats_changed.py about-data catalog DATA-SOURCES.json --dcat viz/data.json --check
+
   # PR-only. Runs at repo root (no working-directory default) because it diffs
   # the whole tree and reads mcp/package.json by path.
   # Docs/CI-only PRs and PRs outside the shipped paths skip untouched.
@@ -303,7 +311,7 @@ jobs:
           # datasets build-index.mjs bakes into the shipped SQLite index (2.0.0;
           # before 2.0 this was data/combined, which no longer ships). The repo's
           # wider budget-data pipeline outside these paths is excluded.
-          SHIPPED="mcp/src mcp/scripts mcp/package.json data/disclosure_years.csv :(glob)data/fy*/expense_disclosure/** data/capital source/wayback-council source/expense-funding-disclosure source/open-data-t474-a92g data/open_data source/open-data-watch.csv source/agency-budget-qa data/pdf_council_member_crosswalk.csv WHATS-CHANGED.md"
+          SHIPPED="mcp/src mcp/scripts mcp/package.json data/disclosure_years.csv :(glob)data/fy*/expense_disclosure/** data/capital source/wayback-council source/expense-funding-disclosure source/open-data-t474-a92g data/open_data source/open-data-watch.csv source/agency-budget-qa data/pdf_council_member_crosswalk.csv data/reference/council_members_legistar_meta.csv WHATS-CHANGED.md DATA-SOURCES.json"
           # Word-split SHIPPED into pathspecs, with shell globbing off so git (not
           # bash) expands the :(glob) pathspec.
           set -f

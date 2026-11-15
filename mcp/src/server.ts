@@ -46,6 +46,7 @@ import {
 import { getMeta } from "./db.js";
 import { REPO_URL } from "./rowlinks.js";
 import { createBetanycTools } from "./betanyc-tools.js";
+import { FRESHNESS_HOOKS } from "./freshness.js";
 import { howToAdd, maybeAutoDownload, openPdfTables, progress, type PdfTables } from "./pdfdata.js";
 import {
   searchScheduleC,
@@ -944,15 +945,17 @@ function pdfYearsSection(): string[] {
 /**
  * BetaNYC's shared tools (#310; the What's changed standard, BetaNYC/betanyc-ai-workspace#1637):
  * whats_changed, about_betanyc and about_data, from the shared module copied in unchanged
- * (src/betanyc-tools.ts). WHATS-CHANGED.md sits at the repo root; the prebuild script copies it
- * into mcp/ so the package ships it beside dist/. This repo has no DATA-SOURCES.json yet, so
- * about_data says so (the about-data standard is a separate adoption).
+ * (src/betanyc-tools.ts). WHATS-CHANGED.md and DATA-SOURCES.json sit at the repo root; the
+ * prebuild script copies both into mcp/ so the package ships them beside dist/. about_data
+ * answers from DATA-SOURCES.json (#329), with each source's date read by src/freshness.ts.
  */
 const betanyc = createBetanycTools({
   serverName: "nyc-budget-mcp",
   version: PACKAGE_VERSION,
   repoUrl: REPO_URL,
   whatsChangedPath: new URL("../WHATS-CHANGED.md", import.meta.url),
+  dataSourcesPath: new URL("../DATA-SOURCES.json", import.meta.url),
+  freshness: FRESHNESS_HOOKS,
 });
 
 export const server = new Server(

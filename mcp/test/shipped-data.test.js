@@ -47,6 +47,8 @@ const ALLOWED_INPUTS = [
   /^source\/open-data-watch\.csv$/,
   // #51: names and Legistar IDs only (see member_crosswalk above).
   /^data\/pdf_council_member_crosswalk\.csv$/,
+  // #329: when the Legistar index behind the member roster was built (about_data's date for it).
+  /^data\/reference\/council_members_legistar_meta\.csv$/,
   // City agency budgets: NYC Open Data mwzb-yiwb, June-release sums by agency x unit (#284).
   /^source\/agency-budget-qa\/(releases|by_unit|MANIFEST)\.csv$/,
   // OMB's capital commitment plan and DCP's CPDB, NYC Open Data snapshots (#250).
@@ -129,8 +131,9 @@ test("the npm tarball ships the code and the spreadsheet index only", () => {
   assert.equal(r.status, 0, r.stderr);
   assert.doesNotMatch(r.stderr, /"script":"build-index"|> tsc/, "npm pack --ignore-scripts must not rebuild");
   const files = JSON.parse(r.stdout)[0].files.map((f) => f.path).sort();
-  // WHATS-CHANGED.md: the repo's file, copied in by prebuild for whats_changed (#310).
-  assert.deepEqual(files, ["LICENSE", "README.md", "WHATS-CHANGED.md", "data/budget.db", "dist/agency.js", "dist/betanyc-tools.js", "dist/capitalplan.js", "dist/checkwords.js", "dist/db.js", "dist/fold.js", "dist/index.js", "dist/pdfdata.js",
+  // WHATS-CHANGED.md and DATA-SOURCES.json: the repo's files, copied in by prebuild for
+  // whats_changed (#310) and about_data (#329).
+  assert.deepEqual(files, ["DATA-SOURCES.json", "LICENSE", "README.md", "WHATS-CHANGED.md", "data/budget.db", "dist/agency.js", "dist/betanyc-tools.js", "dist/capitalplan.js", "dist/checkwords.js", "dist/db.js", "dist/fold.js", "dist/freshness.js", "dist/index.js", "dist/pdfdata.js",
     "dist/pdfquery.js", "dist/publisher-copies.js", "dist/questions.js", "dist/rowlinks.js", "dist/server.js",
     "dist/textmatch.js", "package.json"]);
   for (const f of files) assert.ok(!PDF_DERIVED.some((re) => re.test(f)), f);

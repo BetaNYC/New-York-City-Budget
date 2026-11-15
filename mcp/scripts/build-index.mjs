@@ -620,6 +620,11 @@ function build() {
   setMeta.run("built_at", new Date().toISOString());
   setMeta.run("source", "BetaNYC/New-York-City-Budget (committed structured datasets only)");
   setMeta.run("agency_budget", JSON.stringify(ab.meta));
+  // about_data's date for the member crosswalk (DATA-SOURCES.json member-crosswalk, #329): when
+  // the Legistar index the roster was extracted from was built (code/extract_council_roster.py).
+  const roster = Object.fromEntries(readCsv("data/reference/council_members_legistar_meta.csv").map((r) => [r.key, r.value]));
+  if (!roster.db_last_indexed_at) throw new Error("data/reference/council_members_legistar_meta.csv: no db_last_indexed_at");
+  setMeta.run("member_roster", JSON.stringify({ source: roster.source, db_last_indexed_at: roster.db_last_indexed_at }));
   setMeta.run("inputs", JSON.stringify(INPUTS));
   setMeta.run("counts", JSON.stringify(counts));
 

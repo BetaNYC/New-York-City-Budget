@@ -338,7 +338,7 @@ It has fourteen tools:
 | `compare_adopted_modified` | One agency's or unit's adopted and modified budget for a year, and the change |
 | `whats_changed` | What changed in the server and its data, from [`WHATS-CHANGED.md`](WHATS-CHANGED.md), with each correction and what to re-check (BetaNYC's shared tool) |
 | `about_betanyc` | Who built the server and where to report a problem (BetaNYC's shared tool) |
-| `about_data` | Where the data comes from, once this repo has a `DATA-SOURCES.json`; until then it says so (BetaNYC's shared tool) |
+| `about_data` | Where the data comes from, source by source, from [`DATA-SOURCES.json`](DATA-SOURCES.json): whether each source's figures are an official record, how current it is, and where to check them (BetaNYC's shared tool) |
 
 The npm package holds the server's code and its spreadsheet index (`dist` and `data/budget.db`).
 The checked PDF tables are an **optional download** (about 17 MB) from this repo's data

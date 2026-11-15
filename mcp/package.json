@@ -37,10 +37,11 @@
   "files": [
     "dist",
     "data/budget.db",
-    "WHATS-CHANGED.md"
+    "WHATS-CHANGED.md",
+    "DATA-SOURCES.json"
   ],
   "scripts": {
-    "prebuild": "node -e \"require('fs').copyFileSync('../WHATS-CHANGED.md','WHATS-CHANGED.md')\"",
+    "prebuild": "node -e \"for (const f of ['WHATS-CHANGED.md','DATA-SOURCES.json']) require('fs').copyFileSync('../' + f, f)\"",
     "build": "tsc",
     "build-index": "node scripts/build-index.mjs --spreadsheet-only",
     "dev": "tsc --watch",

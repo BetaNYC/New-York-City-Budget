@@ -56,8 +56,8 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   standard, BetaNYC/betanyc-ai-workspace#1637). Three tools from BetaNYC's shared module,
   `src/betanyc-tools.ts`, copied in unchanged: `whats_changed` answers from the repo's new
   `WHATS-CHANGED.md` (filters `since`, `tag`, `limit`), `about_betanyc` says who built the server
-  and where to report a bug or ask for a feature, and `about_data` says where the data comes from
-  once the repo has a `DATA-SOURCES.json` (it has none yet, and the tool says so). The server's
+  and where to report a bug or ask for a feature, and `about_data` says where the data comes from,
+  from the repo's `DATA-SOURCES.json` (below). The server's
   `instructions` now carry the module's. `WHATS-CHANGED.md` is backfilled from this file,
   `DATA-ANOMALIES.md` and the merged PRs back to 2026-07-06, with every correction a reader
   should know about; it ships in the package (copied into `mcp/` by `prebuild`). CI checks it
@@ -110,6 +110,20 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   1,000), and the index build stops if that check fails. `list_available_fiscal_years` reports the
   plan's releases and CPDB's version. The index grows from 52.8 MB to 72.9 MB (17.5 MB
   compressed). Fourteen tools in all.
+- **`about_data` answers from `DATA-SOURCES.json`** (#329, BetaNYC's about-data standard). The
+  new file at the repo root lists the 12 sources the tools serve: the Council's expense disclosure
+  and capital workbooks, their Internet Archive copies, Open Data `t474-a92g`, the checked FY2018
+  §254 book, the PDF tables download, City agency budgets (`mwzb-yiwb`), OMB's capital budget
+  (`46m8-77gv`) and commitment plan (`2cmn-uidm`), CPDB (`djxg-kcfi`, `fi59-268w`) and the
+  member crosswalk. For each: who publishes it, what BetaNYC changed, whether the figures are an
+  official record (only CPDB's, passed on unchanged, are), where to check a figure and report an
+  error, and how current it is. The dates are read at run time (`src/freshness.ts`) from the
+  index or the installed PDF tables, never typed into the file; the index now records when the
+  Legistar index behind the member crosswalk was built (`meta.member_roster`). The package ships
+  the file (copied in by `prebuild`), and `test/about-data.test.js` fails when a tool has no
+  source. The shared module is now 1.3.7 (`src/betanyc-tools.ts` and `scripts/whats_changed.py`,
+  copied in unchanged), for its wording of BetaNYC-routed errors. `viz/data.json` is the DCAT-US
+  catalog generated from the file; CI checks both.
 
 ### Fixed
 - **2.0.6's note overstated who was affected.** It said "If you quoted a T&C unit amount from this
