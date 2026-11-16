@@ -145,8 +145,8 @@
       ],
       "accrualPeriodicity": "annually",
       "rights": [
-        "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
-        "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+        "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
+        "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ]
     },
     {
@@ -244,8 +244,8 @@
         }
       ],
       "rights": [
-        "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
-        "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+        "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
+        "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ]
     },
     {
@@ -277,8 +277,8 @@
         }
       ],
       "rights": [
-        "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
-        "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+        "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
+        "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ]
     },
     {
@@ -310,8 +310,8 @@
         }
       ],
       "rights": [
-        "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
-        "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+        "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
+        "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ]
     },
     {
@@ -343,8 +343,8 @@
         }
       ],
       "rights": [
-        "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
-        "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+        "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
+        "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ]
     },
     {
@@ -376,8 +376,8 @@
         }
       ],
       "rights": [
-        "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
-        "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+        "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
+        "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ]
     },
     {
@@ -781,8 +781,8 @@
           ],
           "accrualPeriodicity": "annually",
           "rights": [
-            "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
-            "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+            "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
+            "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
           ]
         }
       ],
@@ -821,9 +821,9 @@
       ],
       "accrualPeriodicity": "annually",
       "rights": [
-        "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
+        "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
         "Credit: Source: New York City Council, City Council Capital Budget (t474-a92g), via NYC Open Data.",
-        "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+        "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ],
       "scopeNote": "Caveat: Council capital links to OMB data only by budget line, because Council project IDs appear in no OMB, Financial Management System (FMS) or Checkbook NYC data."
     },
@@ -1084,8 +1084,8 @@
             }
           ],
           "rights": [
-            "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
-            "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+            "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
+            "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
           ]
         }
       ],
@@ -1127,9 +1127,9 @@
         }
       ],
       "rights": [
-        "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
+        "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
         "Credit: Source: Mayor's Office of Management and Budget (OMB), Expense Budget (mwzb-yiwb), via NYC Open Data.",
-        "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+        "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ],
       "scopeNote": "Known gap: The newest year's modified budget is not published until the next June release. Caveat: Gross: the figures include intra-city transfers. OMB's headline totals are net. Caveat: Budgets, not spending. Caveat: OMB updates this dataset three times a year, after the Preliminary, Executive and Adopted budgets.",
       "isReferencedBy": [
@@ -1189,8 +1189,8 @@
             }
           ],
           "rights": [
-            "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
-            "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+            "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
+            "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
           ]
         }
       ],
@@ -1232,9 +1232,9 @@
         }
       ],
       "rights": [
-        "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
+        "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
         "Credit: Source: Mayor's Office of Management and Budget (OMB), Capital Budget (46m8-77gv), via NYC Open Data.",
-        "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+        "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ],
       "scopeNote": "Caveat: Not a Council or OMB reconciliation. These are BetaNYC's sums of two sources. Caveat: OMB updates this dataset three times a year, after the Preliminary, Executive and Adopted budgets."
     },
@@ -1290,8 +1290,8 @@
             }
           ],
           "rights": [
-            "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
-            "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+            "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
+            "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
           ]
         }
       ],
@@ -1329,9 +1329,9 @@
         }
       ],
       "rights": [
-        "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
+        "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
         "Credit: Source: Mayor's Office of Management and Budget (OMB), Capital Commitment Plan (2cmn-uidm), via NYC Open Data.",
-        "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+        "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ],
       "scopeNote": "Caveat: The dates are the first and last plan release in this server's copy. Caveat: In thousands of dollars, as OMB publishes it. Caveat: Linked to the Council's list by budget line only. Caveat: OMB updates this dataset three times a year, after the Preliminary, Executive and Adopted financial plans."
     },
@@ -1387,8 +1387,8 @@
             }
           ],
           "rights": [
-            "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
-            "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+            "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
+            "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
           ]
         }
       ],
@@ -1422,9 +1422,9 @@
         }
       ],
       "rights": [
-        "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
+        "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
         "Credit: Source: NYC Department of City Planning, Capital Projects Database (CPDB) - Commitments (djxg-kcfi), via NYC Open Data.",
-        "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+        "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ],
       "scopeNote": "Known gap: One CPDB version, fisa_2026. Caveat: The amounts are in dollars. City Planning does not state the unit; BetaNYC checked that CPDB's City totals equal OMB's plan, published in thousands, times 1,000. Caveat: City Planning updates CPDB about every four months. Caveat: search_capital_plan's line totals, and a project's totals on one line, are BetaNYC's sums of these rows. City Planning publishes the rows, not these sums."
     },
@@ -1480,8 +1480,8 @@
             }
           ],
           "rights": [
-            "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
-            "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+            "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
+            "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
           ]
         }
       ],
@@ -1508,9 +1508,9 @@
         }
       ],
       "rights": [
-        "License: None stated by the publisher (the dataset's metadata carries no license); the NYC Open Data Terms of Use apply",
+        "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
         "Credit: Source: NYC Department of City Planning, Capital Projects Database (CPDB) - Projects (fi59-268w), via NYC Open Data.",
-        "Terms of use: https://opendata.cityofnewyork.us/overview/#termsofuse"
+        "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ],
       "scopeNote": "Known gap: One CPDB version, fisa_2026. Known gap: No budget line: a project reaches a budget line only through the commitments table. Caveat: A project's totals are the whole project's, never one budget line's share. Caveat: City Planning updates CPDB about every four months. Caveat: The amounts are in dollars; City Planning does not state the unit (see cpdb-commitments)."
     },
