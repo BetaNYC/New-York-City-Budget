@@ -9,6 +9,9 @@
  * Touch targets: at least 24x24 CSS px for every control (WCAG 2.2, 2.5.8, AA), and 44x44 for
  * the view's own buttons, selects and inputs (the site shell's rule, viz/site_shell.py), and for
  * its row, crumb, explainer and download links.
+ *
+ * Widths are measured against document.documentElement.clientWidth, the screen. Not
+ * window.innerWidth, which on a phone grows with content that sticks out (council.reflow.spec.js).
  */
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
@@ -29,13 +32,13 @@ describe(`Agency budgets on a phone${VIEW_PENDING ? ` (${VIEW_PENDING})` : ""}`,
         // FAILS if the page, or any table in the view, is wider than the screen.
         if (width) await page.setViewportSize({ width, height: 740 });
         await openView(page, path);
-        const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+        const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
         expect(over, "page wider than the viewport, in CSS px").toBeLessThanOrEqual(0);
         for (const t of await page.locator('[data-view="agencies"] table').all()) {
           const box = await t.boundingBox();
           if (!box) continue;
           expect(box.x, "table starts on screen").toBeGreaterThanOrEqual(0);
-          expect(box.x + box.width, "table ends on screen").toBeLessThanOrEqual(await page.evaluate(() => window.innerWidth) + 0.5);
+          expect(box.x + box.width, "table ends on screen").toBeLessThanOrEqual(await page.evaluate(() => document.documentElement.clientWidth) + 0.5);
         }
       });
     }
@@ -88,7 +91,7 @@ describe(`Agency budgets on a phone${VIEW_PENDING ? ` (${VIEW_PENDING})` : ""}`,
     await page.setViewportSize({ width: 375, height: 740 });
     await openView(page, PAGES.list);
     await page.addStyleTag({ content: "html { font-size: 200% !important; }" });
-    const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    const over = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(over).toBeLessThanOrEqual(0);
   });
 });
