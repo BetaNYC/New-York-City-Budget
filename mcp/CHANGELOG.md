@@ -115,14 +115,14 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   and capital workbooks, their Internet Archive copies, Open Data `t474-a92g`, the checked FY2018
   §254 book, the PDF tables download, City agency budgets (`mwzb-yiwb`), OMB's capital budget
   (`46m8-77gv`) and commitment plan (`2cmn-uidm`), CPDB (`djxg-kcfi`, `fi59-268w`) and the
-  member crosswalk. For each: who publishes it, what BetaNYC changed, whether the figures are an
-  official record (only CPDB's, passed on unchanged, are), where to check a figure and report an
-  error, and how current it is. The dates are read at run time (`src/freshness.ts`) from the
+  member crosswalk. For each: who publishes it, what BetaNYC changed, which of the three answers
+  on whether it is official it gets (none is an official record: BetaNYC modified or produced
+  every source), where to check a figure and report an error, and how current it is. The dates are read at run time (`src/freshness.ts`) from the
   index or the installed PDF tables, never typed into the file; the index now records when the
   Legistar index behind the member crosswalk was built (`meta.member_roster`). The package ships
   the file (copied in by `prebuild`), and `test/about-data.test.js` fails when a tool has no
-  source. The shared module is now 1.3.7 (`src/betanyc-tools.ts` and `scripts/whats_changed.py`,
-  copied in unchanged), for its wording of BetaNYC-routed errors. `viz/data.json` is the DCAT-US
+  source. The shared module is now 1.4.0 (`src/betanyc-tools.ts` and `scripts/whats_changed.py`,
+  copied in unchanged), for its three answers to "is this data official?" (BetaNYC/betanyc-ai-workspace#1672). `viz/data.json` is the DCAT-US
   catalog generated from the file; CI checks both.
 
 ### Fixed

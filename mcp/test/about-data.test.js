@@ -65,13 +65,14 @@ test("with no topic, about_data lists every source from the file, with BetaNYC's
   assert.match(sc.source_file, /^https:\/\/github\.com\/BetaNYC\/New-York-City-Budget\/blob\/HEAD\/DATA-SOURCES\.json$/);
 });
 
-test("the figures are official only where BetaNYC passed the values on unchanged", async () => {
-  // FAILS if a source BetaNYC read from a PDF, matched, filtered or summed is called official,
-  // or the member crosswalk (BetaNYC's own matching) is called an official record.
+test("no figures are official: BetaNYC modified or produced every source (shared module 1.4.0)", async () => {
+  // FAILS if any source is called official. From 1.4.0 any step at all, including reshaping
+  // (the two CPDB sources), means BetaNYC modified the data, so this copy is not the official
+  // record; the member crosswalk (BetaNYC's own matching) is produced by BetaNYC.
   const sc = (await call()).structuredContent;
   const official = Object.fromEntries(sc.sources.map((s) => [s.topic, s.figures_official]));
-  assert.deepEqual(Object.keys(official).filter((k) => official[k]), ["cpdb-commitments", "cpdb-projects"]);
-  for (const id of ["fy2018-capital-book", "pdf-tables", "expense-disclosure", "agency-budgets", "member-crosswalk"]) assert.equal(official[id], false, id);
+  assert.deepEqual(Object.keys(official).filter((k) => official[k]), []);
+  for (const id of ["fy2018-capital-book", "pdf-tables", "expense-disclosure", "agency-budgets", "member-crosswalk", "cpdb-commitments", "cpdb-projects"]) assert.equal(official[id], false, id);
   assert.equal(sc.sources.find((s) => s.topic === "member-crosswalk").official, false);
 });
 

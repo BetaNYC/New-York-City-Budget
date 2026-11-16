@@ -141,14 +141,14 @@
       "id": "wayback-copies",
       "title": "Council workbooks recovered from the Internet Archive",
       "what": "Council workbooks BetaNYC took from the Internet Archive's copies: the expense funding disclosure for FY2009, FY2011 and FY2012, and the capital designations for report years FY2015, FY2016, FY2017 and FY2026. Some are still posted on council.nyc.gov. The FY2015 and FY2016 capital workbooks are no longer at the addresses the Archive captured, and the FY2026 workbook's address now holds FY2027's.",
-      "source_name": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
+      "source_name": "Council budget workbooks, as captured by the Internet Archive's Wayback Machine",
       "publisher": {
         "name": "New York City Council",
         "url": "https://council.nyc.gov/"
       },
       "source_url": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*",
       "official": true,
-      "how_gathered": "BetaNYC listed the captures with the Wayback CDX API and downloaded the archived bytes unmodified (the id_ replay flag) on 2026-10-14, checking each file's digest against the one the Archive reported (source/wayback-council/). This server answers from the SQLite index in its npm package, with no network call. The index is built from the copy committed to this repo. How current: the day BetaNYC downloaded the copy, read from the index.",
+      "how_gathered": "The Council published these workbooks at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site. BetaNYC listed the captures with the Wayback CDX API and downloaded the archived bytes unmodified (the id_ replay flag) on 2026-10-14, checking each file's digest against the one the Archive reported (source/wayback-council/). This server answers from the SQLite index in its npm package, with no network call. The index is built from the copy committed to this repo. How current: the day BetaNYC downloaded the copy, read from the index.",
       "changes": {
         "changed": true,
         "steps": [
@@ -200,7 +200,7 @@
       "id": "council-capital-open-data",
       "title": "The Council's capital budget on NYC Open Data",
       "what": "The Council's capital awards, one row per award and fiscal year, used for report years FY2019–FY2025.",
-      "source_name": "City Council Capital Budget (t474-a92g)",
+      "source_name": "City Council Capital Budget",
       "publisher": {
         "name": "New York City Council",
         "url": "https://council.nyc.gov/"
@@ -257,7 +257,7 @@
         "name": "New York City Council",
         "url": "https://council.nyc.gov/"
       },
-      "source_url": "https://legistar.council.nyc.gov/Legislation.aspx",
+      "source_url": "https://nyc.legistar1.com/nyc/attachments/4cb7df6c-e44e-410d-a841-4008c93b083d.pdf",
       "official": true,
       "how_gathered": "BetaNYC downloaded the book from the attachment of Res 1534-2017 on Legistar, read its tables, and checked them (PDF-RECIPE.md); the review was closed on 2026-11-13 (#202). The rows are in the server's index, labeled PDF-derived on every row.",
       "changes": {
@@ -268,7 +268,7 @@
         ],
         "detail": "Read from the PDF by BetaNYC and checked by hand against the book's printed totals, then shaped like the other capital years. The book prints no council district, and its sponsor is upper case, sometimes several names."
       },
-      "verify_at": "https://legistar.council.nyc.gov/Legislation.aspx",
+      "verify_at": "https://nyc.legistar1.com/nyc/attachments/4cb7df6c-e44e-410d-a841-4008c93b083d.pdf",
       "freshness": {
         "kind": "hook",
         "key": "fy2018_book"
@@ -369,9 +369,9 @@
       "id": "agency-budgets",
       "title": "City agency budgets, adopted and modified",
       "what": "Every City agency's adopted and modified expense budget by unit of appropriation, FY2017 on, with agency and unit totals.",
-      "source_name": "Expense Budget (mwzb-yiwb)",
+      "source_name": "Expense Budget",
       "publisher": {
-        "name": "Mayor's Office of Management and Budget (OMB)",
+        "name": "Mayor's Office of Management and Budget",
         "url": "https://www.nyc.gov/site/omb/index.page"
       },
       "source_url": "https://data.cityofnewyork.us/d/mwzb-yiwb",
@@ -427,9 +427,9 @@
       "id": "omb-capital-budget",
       "title": "OMB's adopted capital budget, compared with the Council's list",
       "what": "For each report year and Council-series budget line, the Council table's total next to OMB's adopted release, this year and next, with a verdict.",
-      "source_name": "Capital Budget (46m8-77gv)",
+      "source_name": "Capital Budget",
       "publisher": {
-        "name": "Mayor's Office of Management and Budget (OMB)",
+        "name": "Mayor's Office of Management and Budget",
         "url": "https://www.nyc.gov/site/omb/index.page"
       },
       "source_url": "https://data.cityofnewyork.us/d/46m8-77gv",
@@ -478,9 +478,9 @@
       "id": "capital-plan",
       "title": "OMB's Capital Commitment Plan",
       "what": "When the money on a capital budget line is planned to be committed, by fiscal year, City and non-City funds, in every plan release from April 2016.",
-      "source_name": "Capital Commitment Plan (2cmn-uidm)",
+      "source_name": "Capital Commitment Plan",
       "publisher": {
-        "name": "Mayor's Office of Management and Budget (OMB)",
+        "name": "Mayor's Office of Management and Budget",
         "url": "https://www.nyc.gov/site/omb/index.page"
       },
       "source_url": "https://data.cityofnewyork.us/d/2cmn-uidm",
@@ -530,9 +530,9 @@
       "id": "cpdb-commitments",
       "title": "City Planning's Capital Projects Database: planned commitments",
       "what": "Planned commitments by project, budget line and fiscal year, from one version of the Capital Projects Database (CPDB).",
-      "source_name": "Capital Projects Database (CPDB) - Commitments (djxg-kcfi)",
+      "source_name": "Capital Projects Database (CPDB) - Commitments",
       "publisher": {
-        "name": "NYC Department of City Planning (DCP)",
+        "name": "NYC Department of City Planning",
         "url": "https://www.nyc.gov/site/planning/index.page"
       },
       "source_url": "https://data.cityofnewyork.us/d/djxg-kcfi",
@@ -582,9 +582,9 @@
       "id": "cpdb-projects",
       "title": "City Planning's Capital Projects Database: projects",
       "what": "Each capital project's own totals (planned, adopted, allocated, committed and spent) and description, from the same CPDB version.",
-      "source_name": "Capital Projects Database (CPDB) - Projects (fi59-268w)",
+      "source_name": "Capital Projects Database (CPDB) - Projects",
       "publisher": {
-        "name": "NYC Department of City Planning (DCP)",
+        "name": "NYC Department of City Planning",
         "url": "https://www.nyc.gov/site/planning/index.page"
       },
       "source_url": "https://data.cityofnewyork.us/d/fi59-268w",

@@ -85,8 +85,8 @@
     {
       "@id": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*",
       "@type": "Dataset",
-      "title": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
-      "description": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine, published by New York City Council.",
+      "title": "Council budget workbooks, as captured by the Internet Archive's Wayback Machine",
+      "description": "Council budget workbooks, as captured by the Internet Archive's Wayback Machine, published by New York City Council.",
       "identifier": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*",
       "contactPoint": {
         "@type": "Kind",
@@ -100,7 +100,7 @@
       },
       "landingPage": {
         "@type": "Document",
-        "title": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
+        "title": "Council budget workbooks, as captured by the Internet Archive's Wayback Machine",
         "accessURL": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*"
       },
       "page": [
@@ -118,8 +118,8 @@
     {
       "@id": "https://data.cityofnewyork.us/d/t474-a92g",
       "@type": "Dataset",
-      "title": "City Council Capital Budget (t474-a92g)",
-      "description": "City Council Capital Budget (t474-a92g), published by New York City Council.",
+      "title": "City Council Capital Budget",
+      "description": "City Council Capital Budget, published by New York City Council.",
       "identifier": "https://data.cityofnewyork.us/d/t474-a92g",
       "contactPoint": {
         "@type": "Kind",
@@ -133,7 +133,7 @@
       },
       "landingPage": {
         "@type": "Document",
-        "title": "City Council Capital Budget (t474-a92g)",
+        "title": "City Council Capital Budget",
         "accessURL": "https://data.cityofnewyork.us/d/t474-a92g"
       },
       "page": [
@@ -150,11 +150,11 @@
       ]
     },
     {
-      "@id": "https://legistar.council.nyc.gov/Legislation.aspx",
+      "@id": "https://nyc.legistar1.com/nyc/attachments/4cb7df6c-e44e-410d-a841-4008c93b083d.pdf",
       "@type": "Dataset",
       "title": "Supporting Detail for Fiscal Year 2018 Changes to the Executive Capital Budget Adopted by the City Council Pursuant to Section 254 of the City Charter",
       "description": "Supporting Detail for Fiscal Year 2018 Changes to the Executive Capital Budget Adopted by the City Council Pursuant to Section 254 of the City Charter, published by New York City Council.",
-      "identifier": "https://legistar.council.nyc.gov/Legislation.aspx",
+      "identifier": "https://nyc.legistar1.com/nyc/attachments/4cb7df6c-e44e-410d-a841-4008c93b083d.pdf",
       "contactPoint": {
         "@type": "Kind",
         "fn": "New York City Council",
@@ -168,13 +168,13 @@
       "landingPage": {
         "@type": "Document",
         "title": "Supporting Detail for Fiscal Year 2018 Changes to the Executive Capital Budget Adopted by the City Council Pursuant to Section 254 of the City Charter",
-        "accessURL": "https://legistar.council.nyc.gov/Legislation.aspx"
+        "accessURL": "https://nyc.legistar1.com/nyc/attachments/4cb7df6c-e44e-410d-a841-4008c93b083d.pdf"
       },
       "page": [
         {
           "@type": "Document",
           "title": "Check a figure at the source",
-          "accessURL": "https://legistar.council.nyc.gov/Legislation.aspx"
+          "accessURL": "https://nyc.legistar1.com/nyc/attachments/4cb7df6c-e44e-410d-a841-4008c93b083d.pdf"
         }
       ],
       "accrualPeriodicity": "notPlanned",
@@ -218,8 +218,8 @@
     {
       "@id": "https://data.cityofnewyork.us/d/mwzb-yiwb",
       "@type": "Dataset",
-      "title": "Expense Budget (mwzb-yiwb)",
-      "description": "Expense Budget (mwzb-yiwb), published by Mayor's Office of Management and Budget (OMB).",
+      "title": "Expense Budget",
+      "description": "Expense Budget, published by Mayor's Office of Management and Budget.",
       "identifier": "https://data.cityofnewyork.us/d/mwzb-yiwb",
       "contactPoint": {
         "@type": "Kind",
@@ -228,12 +228,12 @@
       },
       "publisher": {
         "@type": "Organization",
-        "name": "Mayor's Office of Management and Budget (OMB)",
+        "name": "Mayor's Office of Management and Budget",
         "@id": "https://www.nyc.gov/site/omb/index.page"
       },
       "landingPage": {
         "@type": "Document",
-        "title": "Expense Budget (mwzb-yiwb)",
+        "title": "Expense Budget",
         "accessURL": "https://data.cityofnewyork.us/d/mwzb-yiwb"
       },
       "page": [
@@ -251,8 +251,8 @@
     {
       "@id": "https://data.cityofnewyork.us/d/46m8-77gv",
       "@type": "Dataset",
-      "title": "Capital Budget (46m8-77gv)",
-      "description": "Capital Budget (46m8-77gv), published by Mayor's Office of Management and Budget (OMB).",
+      "title": "Capital Budget",
+      "description": "Capital Budget, published by Mayor's Office of Management and Budget.",
       "identifier": "https://data.cityofnewyork.us/d/46m8-77gv",
       "contactPoint": {
         "@type": "Kind",
@@ -261,12 +261,12 @@
       },
       "publisher": {
         "@type": "Organization",
-        "name": "Mayor's Office of Management and Budget (OMB)",
+        "name": "Mayor's Office of Management and Budget",
         "@id": "https://www.nyc.gov/site/omb/index.page"
       },
       "landingPage": {
         "@type": "Document",
-        "title": "Capital Budget (46m8-77gv)",
+        "title": "Capital Budget",
         "accessURL": "https://data.cityofnewyork.us/d/46m8-77gv"
       },
       "page": [
@@ -284,8 +284,8 @@
     {
       "@id": "https://data.cityofnewyork.us/d/2cmn-uidm",
       "@type": "Dataset",
-      "title": "Capital Commitment Plan (2cmn-uidm)",
-      "description": "Capital Commitment Plan (2cmn-uidm), published by Mayor's Office of Management and Budget (OMB).",
+      "title": "Capital Commitment Plan",
+      "description": "Capital Commitment Plan, published by Mayor's Office of Management and Budget.",
       "identifier": "https://data.cityofnewyork.us/d/2cmn-uidm",
       "contactPoint": {
         "@type": "Kind",
@@ -294,12 +294,12 @@
       },
       "publisher": {
         "@type": "Organization",
-        "name": "Mayor's Office of Management and Budget (OMB)",
+        "name": "Mayor's Office of Management and Budget",
         "@id": "https://www.nyc.gov/site/omb/index.page"
       },
       "landingPage": {
         "@type": "Document",
-        "title": "Capital Commitment Plan (2cmn-uidm)",
+        "title": "Capital Commitment Plan",
         "accessURL": "https://data.cityofnewyork.us/d/2cmn-uidm"
       },
       "page": [
@@ -317,8 +317,8 @@
     {
       "@id": "https://data.cityofnewyork.us/d/djxg-kcfi",
       "@type": "Dataset",
-      "title": "Capital Projects Database (CPDB) - Commitments (djxg-kcfi)",
-      "description": "Capital Projects Database (CPDB) - Commitments (djxg-kcfi), published by NYC Department of City Planning (DCP).",
+      "title": "Capital Projects Database (CPDB) - Commitments",
+      "description": "Capital Projects Database (CPDB) - Commitments, published by NYC Department of City Planning.",
       "identifier": "https://data.cityofnewyork.us/d/djxg-kcfi",
       "contactPoint": {
         "@type": "Kind",
@@ -327,12 +327,12 @@
       },
       "publisher": {
         "@type": "Organization",
-        "name": "NYC Department of City Planning (DCP)",
+        "name": "NYC Department of City Planning",
         "@id": "https://www.nyc.gov/site/planning/index.page"
       },
       "landingPage": {
         "@type": "Document",
-        "title": "Capital Projects Database (CPDB) - Commitments (djxg-kcfi)",
+        "title": "Capital Projects Database (CPDB) - Commitments",
         "accessURL": "https://data.cityofnewyork.us/d/djxg-kcfi"
       },
       "page": [
@@ -350,8 +350,8 @@
     {
       "@id": "https://data.cityofnewyork.us/d/fi59-268w",
       "@type": "Dataset",
-      "title": "Capital Projects Database (CPDB) - Projects (fi59-268w)",
-      "description": "Capital Projects Database (CPDB) - Projects (fi59-268w), published by NYC Department of City Planning (DCP).",
+      "title": "Capital Projects Database (CPDB) - Projects",
+      "description": "Capital Projects Database (CPDB) - Projects, published by NYC Department of City Planning.",
       "identifier": "https://data.cityofnewyork.us/d/fi59-268w",
       "contactPoint": {
         "@type": "Kind",
@@ -360,12 +360,12 @@
       },
       "publisher": {
         "@type": "Organization",
-        "name": "NYC Department of City Planning (DCP)",
+        "name": "NYC Department of City Planning",
         "@id": "https://www.nyc.gov/site/planning/index.page"
       },
       "landingPage": {
         "@type": "Document",
-        "title": "Capital Projects Database (CPDB) - Projects (fi59-268w)",
+        "title": "Capital Projects Database (CPDB) - Projects",
         "accessURL": "https://data.cityofnewyork.us/d/fi59-268w"
       },
       "page": [
@@ -388,7 +388,7 @@
       "identifier": "https://legistar.council.nyc.gov/People.aspx",
       "contactPoint": {
         "@type": "Kind",
-        "fn": "BetaNYC (lists this dataset; report errors in this data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues)",
+        "fn": "BetaNYC (lists this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues)",
         "hasEmail": "mailto:lab@beta.nyc"
       },
       "publisher": {
@@ -421,7 +421,7 @@
       "identifier": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#expense-disclosure",
       "contactPoint": {
         "@type": "Kind",
-        "fn": "BetaNYC (serves this dataset; report errors in this data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to New York City Council: https://council.nyc.gov/budget/)",
+        "fn": "BetaNYC (serves this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to New York City Council: https://council.nyc.gov/budget/)",
         "hasEmail": "mailto:lab@beta.nyc"
       },
       "publisher": {
@@ -471,9 +471,9 @@
         }
       ],
       "provenance": [
-        "Official source: yes. This data is BetaNYC's, derived from it, not an official New York City Council record.",
+        "BetaNYC modified this data: cleaned it, reshaped it, left some fields out, matched addresses to places, and joined it with other data. This copy should not be considered the official record. Official record: Expense Funding Disclosure spreadsheets (funded_disclosure_FYyyyy), Research & Data division (New York City Council), https://rnd.council.nyc.gov/expense_funding/",
         "BetaNYC downloaded the Council's own workbooks from the Research & Data site (last on 2026-10-12) and committed them with their sha256 (source/expense-funding-disclosure/). This server answers from the SQLite index in its npm package, with no network call. The index is built from the copy committed to this repo. How current: the day BetaNYC downloaded the copy, read from the index.",
-        "Changed by BetaNYC: Amounts, names and statuses are as published; exact copies of a row are kept and flagged. Embedded total and footer rows are stripped, never counted. The purpose text is not served. Added by BetaNYC: a 5-digit ZIP from the published postal code (a ragged or 6-digit ZIP repaired only into a 2020 Census ZIP Code Tabulation Area (ZCTA) of the row's own state, or settled by the street address where it matches exactly one address in the City's Property Address Directory (PAD)), the Council Member's Legistar person ID from BetaNYC's member crosswalk, and, FY2009–FY2021, the Mayor's Office of Contract Services (MOCS) ID that NYC Open Data dataset 4d7f-74pe gives the same designation, where the pairing is unambiguous."
+        "Modified by BetaNYC: Amounts, names and statuses are as published; exact copies of a row are kept and flagged. Embedded total and footer rows are stripped, never counted. The purpose text is not served. Added by BetaNYC: a 5-digit ZIP from the published postal code (a ragged or 6-digit ZIP repaired only into a 2020 Census ZIP Code Tabulation Area (ZCTA) of the row's own state, or settled by the street address where it matches exactly one address in the City's Property Address Directory (PAD)), the Council Member's Legistar person ID from BetaNYC's member crosswalk, and, FY2009–FY2021, the Mayor's Office of Contract Services (MOCS) ID that NYC Open Data dataset 4d7f-74pe gives the same designation, where the pairing is unambiguous."
       ],
       "page": [
         {
@@ -530,7 +530,7 @@
       "identifier": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#council-capital-workbook",
       "contactPoint": {
         "@type": "Kind",
-        "fn": "BetaNYC (serves this dataset; report errors in this data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to New York City Council: https://council.nyc.gov/budget/)",
+        "fn": "BetaNYC (serves this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to New York City Council: https://council.nyc.gov/budget/)",
         "hasEmail": "mailto:lab@beta.nyc"
       },
       "publisher": {
@@ -580,9 +580,9 @@
         }
       ],
       "provenance": [
-        "Official source: yes. This data is BetaNYC's, derived from it, not an official New York City Council record.",
+        "BetaNYC modified this data: cleaned it and reshaped it. This copy should not be considered the official record. Official record: Capital-Database.xlsx, Research & Data division (New York City Council), https://rnd.council.nyc.gov/src/assets/Capital-Database.xlsx",
         "BetaNYC downloaded the Council's workbook from the Research & Data site on 2026-10-12 and committed it with its sha256 (source/expense-funding-disclosure/Capital-Database.xlsx). This server answers from the SQLite index in its npm package, with no network call. The index is built from the copy committed to this repo. How current: the day BetaNYC downloaded the copy, read from the index.",
-        "Changed by BetaNYC: One row per record and fiscal-year column with a non-zero amount; the amounts are as published. Total rows are stripped, never counted. BetaNYC adds a normalized budget line and project ID for matching."
+        "Modified by BetaNYC: One row per record and fiscal-year column with a non-zero amount; the amounts are as published. Total rows are stripped, never counted. BetaNYC adds a normalized budget line and project ID for matching."
       ],
       "page": [
         {
@@ -627,7 +627,7 @@
       "identifier": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#wayback-copies",
       "contactPoint": {
         "@type": "Kind",
-        "fn": "BetaNYC (serves this dataset; report errors in this data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to New York City Council: https://council.nyc.gov/budget/)",
+        "fn": "BetaNYC (serves this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to New York City Council: https://council.nyc.gov/budget/)",
         "hasEmail": "mailto:lab@beta.nyc"
       },
       "publisher": {
@@ -645,8 +645,8 @@
         {
           "@id": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*",
           "@type": "Dataset",
-          "title": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
-          "description": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine, published by New York City Council.",
+          "title": "Council budget workbooks, as captured by the Internet Archive's Wayback Machine",
+          "description": "Council budget workbooks, as captured by the Internet Archive's Wayback Machine, published by New York City Council.",
           "identifier": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*",
           "contactPoint": {
             "@type": "Kind",
@@ -660,7 +660,7 @@
           },
           "landingPage": {
             "@type": "Document",
-            "title": "Council budget files at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site, as captured by the Internet Archive's Wayback Machine",
+            "title": "Council budget workbooks, as captured by the Internet Archive's Wayback Machine",
             "accessURL": "https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*"
           },
           "page": [
@@ -677,9 +677,9 @@
         }
       ],
       "provenance": [
-        "Official source: yes. This data is BetaNYC's, derived from it, not an official New York City Council record.",
-        "BetaNYC listed the captures with the Wayback CDX API and downloaded the archived bytes unmodified (the id_ replay flag) on 2026-10-14, checking each file's digest against the one the Archive reported (source/wayback-council/). This server answers from the SQLite index in its npm package, with no network call. The index is built from the copy committed to this repo. How current: the day BetaNYC downloaded the copy, read from the index.",
-        "Changed by BetaNYC: The same handling as the topics expense-disclosure and council-capital-workbook: amounts as published, total and footer rows stripped, capital amounts one row per fiscal year, purpose text not served, and BetaNYC's zip, member ID and Open Data cross-reference added to the disclosure rows."
+        "BetaNYC modified this data: cleaned it, reshaped it, left some fields out, matched addresses to places, and joined it with other data. This copy should not be considered the official record. Official record: Council budget workbooks, as captured by the Internet Archive's Wayback Machine (New York City Council), https://web.archive.org/web/*/council.nyc.gov/downloads/excel/*",
+        "The Council published these workbooks at council.nyc.gov/downloads/excel/, council.nyc.gov/budget/wp-content/uploads/ and the Research & Data site. BetaNYC listed the captures with the Wayback CDX API and downloaded the archived bytes unmodified (the id_ replay flag) on 2026-10-14, checking each file's digest against the one the Archive reported (source/wayback-council/). This server answers from the SQLite index in its npm package, with no network call. The index is built from the copy committed to this repo. How current: the day BetaNYC downloaded the copy, read from the index.",
+        "Modified by BetaNYC: The same handling as the topics expense-disclosure and council-capital-workbook: amounts as published, total and footer rows stripped, capital amounts one row per fiscal year, purpose text not served, and BetaNYC's zip, member ID and Open Data cross-reference added to the disclosure rows."
       ],
       "page": [
         {
@@ -736,7 +736,7 @@
       "identifier": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#council-capital-open-data",
       "contactPoint": {
         "@type": "Kind",
-        "fn": "BetaNYC (serves this dataset; report errors in this data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to NYC Open Data: https://www.nyc.gov/opendata/contact-us)",
+        "fn": "BetaNYC (serves this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to NYC Open Data: https://www.nyc.gov/opendata/contact-us)",
         "hasEmail": "mailto:lab@beta.nyc"
       },
       "publisher": {
@@ -754,8 +754,8 @@
         {
           "@id": "https://data.cityofnewyork.us/d/t474-a92g",
           "@type": "Dataset",
-          "title": "City Council Capital Budget (t474-a92g)",
-          "description": "City Council Capital Budget (t474-a92g), published by New York City Council.",
+          "title": "City Council Capital Budget",
+          "description": "City Council Capital Budget, published by New York City Council.",
           "identifier": "https://data.cityofnewyork.us/d/t474-a92g",
           "contactPoint": {
             "@type": "Kind",
@@ -769,7 +769,7 @@
           },
           "landingPage": {
             "@type": "Document",
-            "title": "City Council Capital Budget (t474-a92g)",
+            "title": "City Council Capital Budget",
             "accessURL": "https://data.cityofnewyork.us/d/t474-a92g"
           },
           "page": [
@@ -787,9 +787,9 @@
         }
       ],
       "provenance": [
-        "Official source: yes. This data is BetaNYC's, derived from it, not an official New York City Council record.",
+        "BetaNYC modified this data: left some records out and reshaped it. This copy should not be considered the official record. Official record: City Council Capital Budget (New York City Council), https://data.cityofnewyork.us/d/t474-a92g",
         "BetaNYC pulled every row through NYC Open Data's API on 2026-10-14 and committed the snapshot with its sha256 (source/open-data-t474-a92g/). This server answers from the SQLite index in its npm package, with no network call. The index is built from the copy committed to this repo. How current: the day BetaNYC downloaded the copy, read from the index.",
-        "Changed by BetaNYC: Only report years FY2019–FY2025 are used (FY2026 comes from the Council's workbook, preferred and diffed against this table). Amounts as published, one row per fiscal year; BetaNYC adds a normalized budget line and project ID for matching."
+        "Modified by BetaNYC: Only report years FY2019–FY2025 are used (FY2026 comes from the Council's workbook, preferred and diffed against this table). Amounts as published, one row per fiscal year; BetaNYC adds a normalized budget line and project ID for matching."
       ],
       "page": [
         {
@@ -835,7 +835,7 @@
       "identifier": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#fy2018-capital-book",
       "contactPoint": {
         "@type": "Kind",
-        "fn": "BetaNYC (serves this dataset; report errors in this data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to New York City Council: https://council.nyc.gov/budget/)",
+        "fn": "BetaNYC (serves this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to New York City Council: https://council.nyc.gov/budget/)",
         "hasEmail": "mailto:lab@beta.nyc"
       },
       "publisher": {
@@ -851,11 +851,11 @@
       },
       "source": [
         {
-          "@id": "https://legistar.council.nyc.gov/Legislation.aspx",
+          "@id": "https://nyc.legistar1.com/nyc/attachments/4cb7df6c-e44e-410d-a841-4008c93b083d.pdf",
           "@type": "Dataset",
           "title": "Supporting Detail for Fiscal Year 2018 Changes to the Executive Capital Budget Adopted by the City Council Pursuant to Section 254 of the City Charter",
           "description": "Supporting Detail for Fiscal Year 2018 Changes to the Executive Capital Budget Adopted by the City Council Pursuant to Section 254 of the City Charter, published by New York City Council.",
-          "identifier": "https://legistar.council.nyc.gov/Legislation.aspx",
+          "identifier": "https://nyc.legistar1.com/nyc/attachments/4cb7df6c-e44e-410d-a841-4008c93b083d.pdf",
           "contactPoint": {
             "@type": "Kind",
             "fn": "New York City Council",
@@ -869,13 +869,13 @@
           "landingPage": {
             "@type": "Document",
             "title": "Supporting Detail for Fiscal Year 2018 Changes to the Executive Capital Budget Adopted by the City Council Pursuant to Section 254 of the City Charter",
-            "accessURL": "https://legistar.council.nyc.gov/Legislation.aspx"
+            "accessURL": "https://nyc.legistar1.com/nyc/attachments/4cb7df6c-e44e-410d-a841-4008c93b083d.pdf"
           },
           "page": [
             {
               "@type": "Document",
               "title": "Check a figure at the source",
-              "accessURL": "https://legistar.council.nyc.gov/Legislation.aspx"
+              "accessURL": "https://nyc.legistar1.com/nyc/attachments/4cb7df6c-e44e-410d-a841-4008c93b083d.pdf"
             }
           ],
           "accrualPeriodicity": "notPlanned",
@@ -885,15 +885,15 @@
         }
       ],
       "provenance": [
-        "Official source: yes. This data is BetaNYC's, derived from it, not an official New York City Council record.",
+        "BetaNYC modified this data: read it from the published document and checked it, and reshaped it. This copy should not be considered the official record. Official record: Supporting Detail for Fiscal Year 2018 Changes to the Executive Capital Budget Adopted by the City Council Pursuant to Section 254 of the City Charter (New York City Council), https://nyc.legistar1.com/nyc/attachments/4cb7df6c-e44e-410d-a841-4008c93b083d.pdf",
         "BetaNYC downloaded the book from the attachment of Res 1534-2017 on Legistar, read its tables, and checked them (PDF-RECIPE.md); the review was closed on 2026-11-13 (#202). The rows are in the server's index, labeled PDF-derived on every row.",
-        "Changed by BetaNYC: Read from the PDF by BetaNYC and checked by hand against the book's printed totals, then shaped like the other capital years. The book prints no council district, and its sponsor is upper case, sometimes several names."
+        "Modified by BetaNYC: Read from the PDF by BetaNYC and checked by hand against the book's printed totals, then shaped like the other capital years. The book prints no council district, and its sponsor is upper case, sometimes several names."
       ],
       "page": [
         {
           "@type": "Document",
           "title": "Check a figure at the source",
-          "accessURL": "https://legistar.council.nyc.gov/Legislation.aspx"
+          "accessURL": "https://nyc.legistar1.com/nyc/attachments/4cb7df6c-e44e-410d-a841-4008c93b083d.pdf"
         }
       ],
       "temporal": [
@@ -932,7 +932,7 @@
       "identifier": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#pdf-tables",
       "contactPoint": {
         "@type": "Kind",
-        "fn": "BetaNYC (serves this dataset; report errors in this data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to New York City Council: https://council.nyc.gov/budget/)",
+        "fn": "BetaNYC (serves this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to New York City Council: https://council.nyc.gov/budget/)",
         "hasEmail": "mailto:lab@beta.nyc"
       },
       "publisher": {
@@ -982,9 +982,9 @@
         }
       ],
       "provenance": [
-        "Official source: yes. This data is BetaNYC's, derived from it, not an official New York City Council record.",
+        "BetaNYC modified this data: read it from the published document and checked it, reshaped it, and joined it with other data. This copy should not be considered the official record. Official record: The Council's adopted budget documents and transparency resolutions (PDF) (New York City Council), https://council.nyc.gov/budget/",
         "BetaNYC read the tables from the PDFs in this repo (source/FYNN/) and checked them (PDF-RECIPE.md; statuses in data/pdf_years.csv). They are not in the npm package: the server downloads them on request from this repo's GitHub releases and checks each file's sha256 before installing. How current: the day the installed tables were built.",
-        "Changed by BetaNYC: Read from the PDFs and checked against their printed totals; each row keeps its page and position. BetaNYC adds whether a Schedule C row is in the disclosure spreadsheet, the printed member's Legistar person ID, and, for Terms and Conditions, the unit's adopted amount from NYC Open Data mwzb-yiwb."
+        "Modified by BetaNYC: Read from the PDFs and checked against their printed totals; each row keeps its page and position. BetaNYC adds whether a Schedule C row is in the disclosure spreadsheet, the printed member's Legistar person ID, and, for Terms and Conditions, the unit's adopted amount from NYC Open Data mwzb-yiwb."
       ],
       "page": [
         {
@@ -1040,7 +1040,7 @@
       "identifier": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#agency-budgets",
       "contactPoint": {
         "@type": "Kind",
-        "fn": "BetaNYC (serves this dataset; report errors in this data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to NYC Open Data: https://www.nyc.gov/opendata/contact-us)",
+        "fn": "BetaNYC (serves this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to NYC Open Data: https://www.nyc.gov/opendata/contact-us)",
         "hasEmail": "mailto:lab@beta.nyc"
       },
       "publisher": {
@@ -1058,8 +1058,8 @@
         {
           "@id": "https://data.cityofnewyork.us/d/mwzb-yiwb",
           "@type": "Dataset",
-          "title": "Expense Budget (mwzb-yiwb)",
-          "description": "Expense Budget (mwzb-yiwb), published by Mayor's Office of Management and Budget (OMB).",
+          "title": "Expense Budget",
+          "description": "Expense Budget, published by Mayor's Office of Management and Budget.",
           "identifier": "https://data.cityofnewyork.us/d/mwzb-yiwb",
           "contactPoint": {
             "@type": "Kind",
@@ -1068,12 +1068,12 @@
           },
           "publisher": {
             "@type": "Organization",
-            "name": "Mayor's Office of Management and Budget (OMB)",
+            "name": "Mayor's Office of Management and Budget",
             "@id": "https://www.nyc.gov/site/omb/index.page"
           },
           "landingPage": {
             "@type": "Document",
-            "title": "Expense Budget (mwzb-yiwb)",
+            "title": "Expense Budget",
             "accessURL": "https://data.cityofnewyork.us/d/mwzb-yiwb"
           },
           "page": [
@@ -1090,9 +1090,9 @@
         }
       ],
       "provenance": [
-        "Official source: yes. This data is BetaNYC's, derived from it, not an official Mayor's Office of Management and Budget (OMB) record.",
+        "BetaNYC modified this data: left some records out, counted or added up records, and reshaped it. This copy should not be considered the official record. Official record: Expense Budget (Mayor's Office of Management and Budget), https://data.cityofnewyork.us/d/mwzb-yiwb",
         "BetaNYC pulled the June release of each fiscal year through NYC Open Data's API on 2026-11-09, summed by agency and unit, and committed it (source/agency-budget-qa/). This server answers from the SQLite index in its npm package, with no network call. The index is built from the copy committed to this repo. How current: the day BetaNYC downloaded the copy, read from the index.",
-        "Changed by BetaNYC: Only each fiscal year's June release is used. Adopted FY Y is financial_plan_amount in the June release tagged Y; modified FY Y is current_modified_budget_amount in the June release tagged Y+1 (adopted_budget_amount is never read: it is the year before). Amounts are summed by agency and unit; compare_adopted_modified computes the change. A unit not in a year's budget has no figure, never $0."
+        "Modified by BetaNYC: Only each fiscal year's June release is used. Adopted FY Y is financial_plan_amount in the June release tagged Y; modified FY Y is current_modified_budget_amount in the June release tagged Y+1 (adopted_budget_amount is never read: it is the year before). Amounts are summed by agency and unit; compare_adopted_modified computes the change. A unit not in a year's budget has no figure, never $0."
       ],
       "page": [
         {
@@ -1145,7 +1145,7 @@
       "identifier": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#omb-capital-budget",
       "contactPoint": {
         "@type": "Kind",
-        "fn": "BetaNYC (serves this dataset; report errors in this data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to NYC Open Data: https://www.nyc.gov/opendata/contact-us)",
+        "fn": "BetaNYC (serves this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to NYC Open Data: https://www.nyc.gov/opendata/contact-us)",
         "hasEmail": "mailto:lab@beta.nyc"
       },
       "publisher": {
@@ -1163,8 +1163,8 @@
         {
           "@id": "https://data.cityofnewyork.us/d/46m8-77gv",
           "@type": "Dataset",
-          "title": "Capital Budget (46m8-77gv)",
-          "description": "Capital Budget (46m8-77gv), published by Mayor's Office of Management and Budget (OMB).",
+          "title": "Capital Budget",
+          "description": "Capital Budget, published by Mayor's Office of Management and Budget.",
           "identifier": "https://data.cityofnewyork.us/d/46m8-77gv",
           "contactPoint": {
             "@type": "Kind",
@@ -1173,12 +1173,12 @@
           },
           "publisher": {
             "@type": "Organization",
-            "name": "Mayor's Office of Management and Budget (OMB)",
+            "name": "Mayor's Office of Management and Budget",
             "@id": "https://www.nyc.gov/site/omb/index.page"
           },
           "landingPage": {
             "@type": "Document",
-            "title": "Capital Budget (46m8-77gv)",
+            "title": "Capital Budget",
             "accessURL": "https://data.cityofnewyork.us/d/46m8-77gv"
           },
           "page": [
@@ -1195,9 +1195,9 @@
         }
       ],
       "provenance": [
-        "Official source: yes. This data is BetaNYC's, derived from it, not an official Mayor's Office of Management and Budget (OMB) record.",
+        "BetaNYC modified this data: left some records out, joined it with other data, and counted or added up records. This copy should not be considered the official record. Official record: Capital Budget (Mayor's Office of Management and Budget), https://data.cityofnewyork.us/d/46m8-77gv",
         "BetaNYC pulled every row through NYC Open Data's API on 2026-10-14 and committed the snapshot (source/open-data-46m8-77gv/). This server answers from the SQLite index in its npm package, with no network call. The index is built from the copy committed to this repo. How current: the day BetaNYC downloaded the copy, read from the index.",
-        "Changed by BetaNYC: Council-series budget lines only, each report year's adopted release; amounts summed by budget line and set beside the Council's own sums, with a verdict (match, differ, council_only, omb_only)."
+        "Modified by BetaNYC: Council-series budget lines only, each report year's adopted release; amounts summed by budget line and set beside the Council's own sums, with a verdict (match, differ, council_only, omb_only)."
       ],
       "page": [
         {
@@ -1246,7 +1246,7 @@
       "identifier": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#capital-plan",
       "contactPoint": {
         "@type": "Kind",
-        "fn": "BetaNYC (serves this dataset; report errors in this data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to NYC Open Data: https://www.nyc.gov/opendata/contact-us)",
+        "fn": "BetaNYC (serves this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to NYC Open Data: https://www.nyc.gov/opendata/contact-us)",
         "hasEmail": "mailto:lab@beta.nyc"
       },
       "publisher": {
@@ -1264,8 +1264,8 @@
         {
           "@id": "https://data.cityofnewyork.us/d/2cmn-uidm",
           "@type": "Dataset",
-          "title": "Capital Commitment Plan (2cmn-uidm)",
-          "description": "Capital Commitment Plan (2cmn-uidm), published by Mayor's Office of Management and Budget (OMB).",
+          "title": "Capital Commitment Plan",
+          "description": "Capital Commitment Plan, published by Mayor's Office of Management and Budget.",
           "identifier": "https://data.cityofnewyork.us/d/2cmn-uidm",
           "contactPoint": {
             "@type": "Kind",
@@ -1274,12 +1274,12 @@
           },
           "publisher": {
             "@type": "Organization",
-            "name": "Mayor's Office of Management and Budget (OMB)",
+            "name": "Mayor's Office of Management and Budget",
             "@id": "https://www.nyc.gov/site/omb/index.page"
           },
           "landingPage": {
             "@type": "Document",
-            "title": "Capital Commitment Plan (2cmn-uidm)",
+            "title": "Capital Commitment Plan",
             "accessURL": "https://data.cityofnewyork.us/d/2cmn-uidm"
           },
           "page": [
@@ -1296,9 +1296,9 @@
         }
       ],
       "provenance": [
-        "Official source: yes. This data is BetaNYC's, derived from it, not an official Mayor's Office of Management and Budget (OMB) record.",
+        "BetaNYC modified this data: left some records out and reshaped it. This copy should not be considered the official record. Official record: Capital Commitment Plan (Mayor's Office of Management and Budget), https://data.cityofnewyork.us/d/2cmn-uidm",
         "BetaNYC pulled every row through NYC Open Data's API on 2026-10-14 and committed the snapshot (source/open-data-2cmn-uidm/). This server answers from the SQLite index in its npm package, with no network call. The index is built from the copy committed to this repo. How current: the day BetaNYC downloaded the copy, read from the index.",
-        "Changed by BetaNYC: Every release is loaded with its amounts as published, in thousands of dollars. One row with no release, budget line or year (amounts the size of grand totals) is left out. BetaNYC adds a normalized budget line for matching."
+        "Modified by BetaNYC: Every release is loaded with its amounts as published, in thousands of dollars. One row with no release, budget line or year (amounts the size of grand totals) is left out. BetaNYC adds a normalized budget line for matching."
       ],
       "page": [
         {
@@ -1343,7 +1343,7 @@
       "identifier": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#cpdb-commitments",
       "contactPoint": {
         "@type": "Kind",
-        "fn": "BetaNYC (serves this dataset; report errors in the data to NYC Open Data: https://www.nyc.gov/opendata/contact-us; errors in this server: https://github.com/BetaNYC/New-York-City-Budget/issues)",
+        "fn": "BetaNYC (serves this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to NYC Open Data: https://www.nyc.gov/opendata/contact-us)",
         "hasEmail": "mailto:lab@beta.nyc"
       },
       "publisher": {
@@ -1361,8 +1361,8 @@
         {
           "@id": "https://data.cityofnewyork.us/d/djxg-kcfi",
           "@type": "Dataset",
-          "title": "Capital Projects Database (CPDB) - Commitments (djxg-kcfi)",
-          "description": "Capital Projects Database (CPDB) - Commitments (djxg-kcfi), published by NYC Department of City Planning (DCP).",
+          "title": "Capital Projects Database (CPDB) - Commitments",
+          "description": "Capital Projects Database (CPDB) - Commitments, published by NYC Department of City Planning.",
           "identifier": "https://data.cityofnewyork.us/d/djxg-kcfi",
           "contactPoint": {
             "@type": "Kind",
@@ -1371,12 +1371,12 @@
           },
           "publisher": {
             "@type": "Organization",
-            "name": "NYC Department of City Planning (DCP)",
+            "name": "NYC Department of City Planning",
             "@id": "https://www.nyc.gov/site/planning/index.page"
           },
           "landingPage": {
             "@type": "Document",
-            "title": "Capital Projects Database (CPDB) - Commitments (djxg-kcfi)",
+            "title": "Capital Projects Database (CPDB) - Commitments",
             "accessURL": "https://data.cityofnewyork.us/d/djxg-kcfi"
           },
           "page": [
@@ -1393,9 +1393,9 @@
         }
       ],
       "provenance": [
-        "Official record: yes, reshaped by BetaNYC (values unchanged).",
+        "BetaNYC modified this data: reshaped it. This copy should not be considered the official record. Official record: Capital Projects Database (CPDB) - Commitments (NYC Department of City Planning), https://data.cityofnewyork.us/d/djxg-kcfi",
         "BetaNYC pulled every row through NYC Open Data's API on 2026-10-21 and committed the snapshot (source/open-data-djxg-kcfi/). This server answers from the SQLite index in its npm package, with no network call. The index is built from the copy committed to this repo. How current: the day BetaNYC downloaded the copy, read from the index.",
-        "Reshaped by BetaNYC (values unchanged): Every row loaded, values as published; project fields are kept once per project and repeated codes once per code. BetaNYC adds a normalized budget line for matching."
+        "Modified by BetaNYC: Every row loaded, values as published; project fields are kept once per project and repeated codes once per code. BetaNYC adds a normalized budget line for matching."
       ],
       "page": [
         {
@@ -1436,7 +1436,7 @@
       "identifier": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#cpdb-projects",
       "contactPoint": {
         "@type": "Kind",
-        "fn": "BetaNYC (serves this dataset; report errors in the data to NYC Open Data: https://www.nyc.gov/opendata/contact-us; errors in this server: https://github.com/BetaNYC/New-York-City-Budget/issues)",
+        "fn": "BetaNYC (serves this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues; errors in the original records to NYC Open Data: https://www.nyc.gov/opendata/contact-us)",
         "hasEmail": "mailto:lab@beta.nyc"
       },
       "publisher": {
@@ -1454,8 +1454,8 @@
         {
           "@id": "https://data.cityofnewyork.us/d/fi59-268w",
           "@type": "Dataset",
-          "title": "Capital Projects Database (CPDB) - Projects (fi59-268w)",
-          "description": "Capital Projects Database (CPDB) - Projects (fi59-268w), published by NYC Department of City Planning (DCP).",
+          "title": "Capital Projects Database (CPDB) - Projects",
+          "description": "Capital Projects Database (CPDB) - Projects, published by NYC Department of City Planning.",
           "identifier": "https://data.cityofnewyork.us/d/fi59-268w",
           "contactPoint": {
             "@type": "Kind",
@@ -1464,12 +1464,12 @@
           },
           "publisher": {
             "@type": "Organization",
-            "name": "NYC Department of City Planning (DCP)",
+            "name": "NYC Department of City Planning",
             "@id": "https://www.nyc.gov/site/planning/index.page"
           },
           "landingPage": {
             "@type": "Document",
-            "title": "Capital Projects Database (CPDB) - Projects (fi59-268w)",
+            "title": "Capital Projects Database (CPDB) - Projects",
             "accessURL": "https://data.cityofnewyork.us/d/fi59-268w"
           },
           "page": [
@@ -1486,9 +1486,9 @@
         }
       ],
       "provenance": [
-        "Official record: yes, reshaped by BetaNYC (values unchanged).",
+        "BetaNYC modified this data: reshaped it. This copy should not be considered the official record. Official record: Capital Projects Database (CPDB) - Projects (NYC Department of City Planning), https://data.cityofnewyork.us/d/fi59-268w",
         "BetaNYC pulled every row through NYC Open Data's API on 2026-11-14 and committed the snapshot (source/open-data-fi59-268w/). This server answers from the SQLite index in its npm package, with no network call. The index is built from the copy committed to this repo. How current: the day BetaNYC downloaded the copy, read from the index.",
-        "Reshaped by BetaNYC (values unchanged): Every row loaded, values as published, one row per project."
+        "Modified by BetaNYC: Every row loaded, values as published, one row per project."
       ],
       "page": [
         {
@@ -1522,7 +1522,7 @@
       "identifier": "https://github.com/BetaNYC/New-York-City-Budget/blob/HEAD/DATA-SOURCES.json#member-crosswalk",
       "contactPoint": {
         "@type": "Kind",
-        "fn": "BetaNYC (serves this dataset; report errors in this data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues)",
+        "fn": "BetaNYC (serves this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues)",
         "hasEmail": "mailto:lab@beta.nyc"
       },
       "publisher": {
@@ -1545,7 +1545,7 @@
           "identifier": "https://legistar.council.nyc.gov/People.aspx",
           "contactPoint": {
             "@type": "Kind",
-            "fn": "BetaNYC (lists this dataset; report errors in this data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues)",
+            "fn": "BetaNYC (lists this dataset; report errors in the data to BetaNYC: https://github.com/BetaNYC/New-York-City-Budget/issues)",
             "hasEmail": "mailto:lab@beta.nyc"
           },
           "publisher": {
@@ -1572,9 +1572,9 @@
         }
       ],
       "provenance": [
-        "Not an official record: curated by BetaNYC from material published by New York City Council.",
+        "BetaNYC produced this. It is not an official record. Built from: NYC Council Legistar (people and recorded votes), https://legistar.council.nyc.gov/People.aspx",
         "BetaNYC extracted the roster and each person's recorded votes from the Legistar index that @betanyc/nyc-council-mcp builds, committed that extract (data/reference/), and resolved each printed name by fixed rules (code/build_member_crosswalk.py): the only person with that name who voted in that fiscal year. The crosswalk is in the server's index; how current is the day that Legistar index was built.",
-        "Changed by BetaNYC: A name is resolved only when exactly one Legistar person with that name voted in that fiscal year. A name two such people share is left ambiguous with its candidates, never guessed. A few printed forms were matched by hand, each with its evidence recorded. Delegations, 'Speaker', district labels and blanks get no person ID."
+        "Modified by BetaNYC: A name is resolved only when exactly one Legistar person with that name voted in that fiscal year. A name two such people share is left ambiguous with its candidates, never guessed. A few printed forms were matched by hand, each with its evidence recorded. Delegations, 'Speaker', district labels and blanks get no person ID."
       ],
       "page": [
         {
