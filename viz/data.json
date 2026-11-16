@@ -1128,7 +1128,7 @@
       ],
       "rights": [
         "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
-        "Credit: Source: Mayor's Office of Management and Budget (OMB), Expense Budget (mwzb-yiwb), via NYC Open Data.",
+        "Credit: Source: Mayor's Office of Management and Budget, Expense Budget (mwzb-yiwb), via NYC Open Data.",
         "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ],
       "scopeNote": "Known gap: The newest year's modified budget is not published until the next June release. Caveat: Gross: the figures include intra-city transfers. OMB's headline totals are net. Caveat: Budgets, not spending. Caveat: OMB updates this dataset three times a year, after the Preliminary, Executive and Adopted budgets.",
@@ -1233,7 +1233,7 @@
       ],
       "rights": [
         "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
-        "Credit: Source: Mayor's Office of Management and Budget (OMB), Capital Budget (46m8-77gv), via NYC Open Data.",
+        "Credit: Source: Mayor's Office of Management and Budget, Capital Budget (46m8-77gv), via NYC Open Data.",
         "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ],
       "scopeNote": "Caveat: Not a Council or OMB reconciliation. These are BetaNYC's sums of two sources. Caveat: OMB updates this dataset three times a year, after the Preliminary, Executive and Adopted budgets."
@@ -1330,7 +1330,7 @@
       ],
       "rights": [
         "License: No restrictions on use: NYC Administrative Code § 23-502(d) (the Open Data Law, Local Law 11 of 2012)",
-        "Credit: Source: Mayor's Office of Management and Budget (OMB), Capital Commitment Plan (2cmn-uidm), via NYC Open Data.",
+        "Credit: Source: Mayor's Office of Management and Budget, Capital Commitment Plan (2cmn-uidm), via NYC Open Data.",
         "Terms of use: https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-216807"
       ],
       "scopeNote": "Caveat: The dates are the first and last plan release in this server's copy. Caveat: In thousands of dollars, as OMB publishes it. Caveat: Linked to the Council's list by budget line only. Caveat: OMB updates this dataset three times a year, after the Preliminary, Executive and Adopted financial plans."

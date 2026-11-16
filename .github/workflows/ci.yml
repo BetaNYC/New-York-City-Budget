@@ -37,6 +37,8 @@ on:
       - "data/pdf_council_member_crosswalk.csv"   # member_crosswalk in the npm index (#51)
       - "WHATS-CHANGED.md"           # shipped in the npm package; job whats-changed checks it (#310)
       - "scripts/whats_changed.py"
+      - "DATA-SOURCES.json"          # shipped; about_data answers from it, and job whats-changed checks it
+      - "viz/data.json"              # the DCAT catalog job whats-changed checks with catalog --check
       - "data/fy*/pdf/**"
       - "source/wayback-council/**"
       - "source/expense-funding-disclosure/**"
@@ -73,6 +75,8 @@ on:
       - "data/pdf_council_member_crosswalk.csv"   # member_crosswalk in the npm index (#51)
       - "WHATS-CHANGED.md"           # shipped in the npm package; job whats-changed checks it (#310)
       - "scripts/whats_changed.py"
+      - "DATA-SOURCES.json"          # shipped; about_data answers from it, and job whats-changed checks it
+      - "viz/data.json"              # the DCAT catalog job whats-changed checks with catalog --check
       - "data/fy*/pdf/**"
       - "source/wayback-council/**"
       - "source/expense-funding-disclosure/**"
