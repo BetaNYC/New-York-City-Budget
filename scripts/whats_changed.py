@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-# betanyc-shared: whats_changed.py v1.3.5
-# betanyc-shared-sha256: 125a173f47d916e0b1c61d2d34935429d399e1ffd7107b0321f8be657e91ba2f
+# betanyc-shared: whats_changed.py v1.4.0
+# betanyc-shared-sha256: d00a13a9ca5e49908d37a54a2b6eb50aedd2d1550909f29067667fe400daa8a3
 # Canonical copy: betanyc-ai-workspace scripts/whats_changed.py. Do not edit a copy in
 # another repo; change the canonical file, re-stamp it, and copy it again.
 # Drift check: scripts/whats_changed_drift.py. Standard: platform/system/whats-changed-standard.md.
@@ -1090,6 +1090,10 @@ def _write_or_check(target: Path, content: str, *, into: bool, start: str, end: 
 DS_FORMAT = "betanyc-data-sources/1"
 DS_FILE = "DATA-SOURCES.json"
 DS_MAX_STRING = 5_000
+# A source_name is one dataset or document's name: at most this many characters (room for a long
+# official title), and no ";" (a list of several names breaks "Built from: {source}
+# ({publisher})"). 1.4.0.
+DS_SOURCE_NAME_MAX = 160
 DS_ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 # ASCII only, so both readers agree on every character: a non-ASCII character must be %-encoded.
 DS_URL_RE = re.compile(r"^https?://[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+(?::[0-9]{1,5})?"
@@ -1117,12 +1121,20 @@ DS_NOT_ENDPOINT_RE = re.compile(r"^https?://(?:www\.)?(?:npmjs\.com|github\.com)
 DS_CONTACT_PLACEHOLDER = "contact-not-yet-named@example.invalid"
 # What BetaNYC did to the data. Plain verbs a reader understands; the standard defines each.
 DS_STEPS = ("cleaned", "filtered", "reshaped", "fields-removed", "address-matched", "merged", "counted", "curated")
-# Steps that never change a value the publisher released: reshaped (format or structure) and
-# fields-removed (whole fields left out, such as ZIP codes; every value kept is as published).
-# Every other step changes values: cleaned (fixes or drops records), filtered (drops records, so
-# totals change), address-matched (adds values), merged (adds another source's values), counted
-# (new figures), curated (hand-collected). Only these keep "Official record: yes".
-DS_FORMAT_ONLY_STEPS = ("reshaped", "fields-removed")
+# Plain words for each step, for the "modified" answer; every step in DS_STEPS has one (a test
+# checks). Same table as DS_STEP_WORDS in the TS module. Before 1.4.0, reshaped and fields-removed
+# (DS_FORMAT_ONLY_STEPS, now retired) kept "Official record: yes". From 1.4.0 any step at all
+# means BetaNYC modified the data, so this copy is not the official record (Noel, 2026-11-15).
+DS_STEP_WORDS = {
+    "cleaned": "cleaned it",
+    "filtered": "left some records out",
+    "reshaped": "reshaped it",
+    "fields-removed": "left some fields out",
+    "address-matched": "matched addresses to places",
+    "merged": "joined it with other data",
+    "counted": "counted or added up records",
+    "curated": "read it from the published document and checked it",
+}
 # ISO 19115 maintenance frequency codes, as listed in DCAT-US 3.0 definitions/Dataset.json
 # (accrualPeriodicity, first enum), GSA/dcat-us@4996591.
 DS_FREQUENCIES = ("continual", "daily", "weekly", "fortnightly", "monthly", "quarterly", "biannually",
@@ -1175,8 +1187,8 @@ DS_SPEC = _obj([
         ("id", _f(I)),
         ("title", _f(S)),
         ("what", _f(S)),
-        ("source_name", _f(S)),
-        ("publisher", _obj([("name", _f(S)), ("url", _f(U, False))])),
+        ("source_name", _f("source-name")),
+        ("publisher", _obj([("name", _f("publisher-name")), ("url", _f(U, False))])),
         ("source_url", _f(U)),
         ("official", _f(B)),
         ("how_gathered", _f(S)),
@@ -1205,7 +1217,7 @@ DS_SPEC = _obj([
             ("terms_url", _f(U, False)),
             ("credit_line", _f(S, False)),
         ])),
-        ("report_errors", _obj([("upstream_url", _f(U)), ("upstream_email", _f(E, False))])),
+        ("report_errors", _obj([("upstream_url", _f(U)), ("upstream_email", _f(E, False)), ("upstream_name", _f(S, False))])),
         ("tools", _list(_f(T))),
         ("caveats", _list(_f(S))),
         ("corrections", _list(_f(A))),
@@ -1259,6 +1271,10 @@ DS_HINTS = {
     "bad-sha256": "64 lowercase hex characters",
     "bad-mime": "a media type such as text/csv",
     "bad-path": "a path relative to the package root, with no .. and no leading /",
+    "bad-source-name": (f"source_name is the name of one dataset or document: at most {DS_SOURCE_NAME_MAX} characters "
+                        "and no ';'. Give each dataset its own source, and put any other names in what or how_gathered"),
+    "bad-publisher-name": ("write the publisher's full name with no parentheses, for example \"Mayor's Office of "
+                           "Management and Budget\", not \"... (OMB)\". The answers print it in parentheses"),
     "duplicate-id": "ids must be unique",
     "reserved-id": "'all' is reserved for the topic filter",
     "changes-mismatch": "changed true needs steps and detail; changed false needs no steps",
@@ -1372,6 +1388,10 @@ def _ds_walk(spec, value, path: str, errors: list[dict]):
         code = "bad-mime"
     elif kind == "path" and not DS_PATH_RE.fullmatch(value):
         code = "bad-path"
+    elif kind == "source-name" and (";" in value or len(value) > DS_SOURCE_NAME_MAX):
+        code = "bad-source-name"
+    elif kind == "publisher-name" and ("(" in value or ")" in value):
+        code = "bad-publisher-name"
     if code:
         errors.append({"code": code, "path": path})
         return None
@@ -1620,8 +1640,9 @@ def _url_path(url: str) -> str:
 
 
 def route_is_betanyc(url: str) -> bool:
-    """True when an error-report URL is BetaNYC's own: beta.nyc or any subdomain, or a
-    github.com/BetaNYC (or www.github.com) repo, with no dot segments. Same as routeIsBetanyc()."""
+    """True when an error-report URL is BetaNYC's own: beta.nyc or any subdomain, a
+    github.com/BetaNYC (or www.github.com) repo, or a BetaNYC GitHub Pages site on
+    betanyc.github.io, with no dot segments. Same as routeIsBetanyc()."""
     m = ROUTE_URL_RE.fullmatch(url or "")
     if not m:
         return False
@@ -1631,6 +1652,8 @@ def route_is_betanyc(url: str) -> bool:
         return False
     if host == "beta.nyc" or host.endswith(".beta.nyc"):
         return True
+    if host == "betanyc.github.io":  # BetaNYC's GitHub Pages sites (1.3.7)
+        return True
     if host in ("github.com", "www.github.com"):
         parts = path.split("/")
         return len(parts) > 1 and parts[1].lower() == "betanyc"
@@ -1638,49 +1661,96 @@ def route_is_betanyc(url: str) -> bool:
 
 
 def error_route(s: dict, issues: str) -> str:
-    """Where to report an error, worded by who fixes it. BetaNYC's own route: to BetaNYC. Figures
-    BetaNYC changed or curated: to BetaNYC first (`issues`), the original records to the
-    publisher. Data passed on as published (or only reshaped, or fields left out): the publisher."""
+    """Where to report an error, worded by who fixes it. BetaNYC's own route: to BetaNYC. Data
+    BetaNYC modified (any step at all) or produced: to BetaNYC first (`issues`), the original
+    records to the publisher. Only data published as is: the publisher."""
     url = s["report_errors"]["upstream_url"]
-    pub = s["publisher"]["name"]
+    pub = route_name(s)
     if route_is_betanyc(url):
-        return f"report errors in this data to {BETANYC_NAME}: {url}"
-    if not s["official"] or values_changed(s):
-        return (f"report errors in these figures to {BETANYC_NAME}: {issues}; "
+        return f"report errors in the data to {BETANYC_NAME}: {url}"
+    if official_kind(s) != "published-as-is":
+        return (f"report errors in the data to {BETANYC_NAME}: {issues}; "
                 f"errors in the original records to {pub}: {url}")
     return f"report errors in the data to {pub}: {url}"
+
+
+def route_name(s: dict) -> str:
+    """Who handles reports at upstream_url when it is not BetaNYC's: report_errors.upstream_name
+    when given (someone other than the publisher runs the route), else the publisher (1.3.7)."""
+    return s["report_errors"].get("upstream_name") or s["publisher"]["name"]
 
 
 def upstream_route(s: dict) -> str:
     """The route on the upstream Dataset, which is the publisher's own records."""
     url = s["report_errors"]["upstream_url"]
     if route_is_betanyc(url):
-        return f"report errors in this data to {BETANYC_NAME}: {url}"
-    return f"report errors in the data to {s['publisher']['name']}: {url}"
+        return f"report errors in the data to {BETANYC_NAME}: {url}"
+    return f"report errors in the data to {route_name(s)}: {url}"
 
 
-def values_changed(s: dict) -> bool:
-    """True when BetaNYC changed any value: any step but `reshaped` (DS_FORMAT_ONLY_STEPS)."""
+def official_kind(s: dict) -> str:
+    """Which of the three answers a source gets (1.4.0): produced-by-betanyc when it is not
+    official, modified-by-betanyc when BetaNYC took any step at all, else published-as-is. Same as
+    officialKind() in the TS module."""
+    if not s["official"]:
+        return "produced-by-betanyc"
     ch = s["changes"]
-    return bool(ch["changed"]) and any(step not in DS_FORMAT_ONLY_STEPS for step in ch["steps"])
+    return "modified-by-betanyc" if ch["changed"] or ch["steps"] else "published-as-is"
+
+
+def what_was_done(steps: list[str]) -> str:
+    """What BetaNYC did, in plain words, in the file's order, Oxford comma. Two steps join with
+    " and ", unless a step's own words contain " and ": then commas and a final ", and", so
+    "read it ... and checked it, and reshaped it". Same as whatWasDone()."""
+    words = [DS_STEP_WORDS.get(st, st) for st in dict.fromkeys(steps)]
+    if len(words) <= 1 or (len(words) == 2 and not any(" and " in w for w in words)):
+        return " and ".join(words)
+    return ", ".join(words[:-1]) + ", and " + words[-1]
+
+
+def publisher_is_betanyc(pub: dict) -> bool:
+    """True when the publisher is BetaNYC itself: the name BetaNYC (any case), or a URL that
+    route_is_betanyc() accepts. Same as publisherIsBetanyc() in the TS module (1.3.7)."""
+    url = pub.get("url")
+    return (pub.get("name") or "").strip(" \t\u00a0\ufeff").lower() == "betanyc" or (isinstance(url, str) and route_is_betanyc(url))
+
+
+_NYC_RE = re.compile(r"(?<![a-z0-9])new york city(?![a-z0-9])")
+
+
+def _name_key(s: str) -> str:
+    """A name as the "already names the publisher" check compares it: trimmed, lower case, runs of
+    spaces as one, and "New York City" read as "NYC". Same as nameKey() in the TS module."""
+    return _NYC_RE.sub("nyc", re.sub(r" +", " ", s.strip(TRIM).lower()))
+
+
+def built_from(s: dict) -> str:
+    """The source part of the modified ("Official record:") and produced ("Built from:") answers:
+    the source's name, then the publisher's full name in parentheses. The publisher is left out
+    when it is BetaNYC or the source's name already names it (1.3.7). A publisher name never has
+    parentheses (the readers reject it, bad-publisher-name), so they never nest. Same as
+    builtFrom() in the TS module."""
+    name = s["source_name"]
+    pub = s["publisher"]["name"]
+    if publisher_is_betanyc(s["publisher"]) or _name_key(pub) in _name_key(name):
+        return name
+    return f"{name} ({pub})"
 
 
 def official_wording(s: dict) -> str:
-    """What to say about officialness. Same words as officialWording() in the TS module."""
+    """The one answer to "is this data official?" (1.4.0). Same words as officialWording() in the
+    TS module. Every answer names the source (its name), its publisher and a link (Noel,
+    2026-11-15). No period after a link: some apps take it into the link."""
     pub = s["publisher"]["name"]
-    if not s["official"]:
-        return f"Not an official record: curated by {BETANYC_NAME} from material published by {pub}."
-    if values_changed(s):
-        return (f"Official source: yes. These figures are {BETANYC_NAME}'s, derived from it, "
-                f"not an official {pub} report.")
-    if s["changes"]["changed"]:
-        steps = s["changes"]["steps"]
-        if "fields-removed" in steps and "reshaped" in steps:
-            return f"Official record: yes, reshaped by {BETANYC_NAME} with some fields left out (values unchanged)."
-        if "fields-removed" in steps:
-            return f"Official record: yes, with some fields left out by {BETANYC_NAME} (values unchanged)."
-        return f"Official record: yes, reshaped by {BETANYC_NAME} (values unchanged)."
-    return f"Official record: yes, passed on as {pub} publishes it."
+    kind = official_kind(s)
+    if kind == "produced-by-betanyc":
+        return (f"{BETANYC_NAME} produced this. It is not an official record. "
+                f"Built from: {built_from(s)}, {s['source_url']}")
+    if kind == "modified-by-betanyc":
+        return (f"{BETANYC_NAME} modified this data: {what_was_done(s['changes']['steps'])}. "
+                f"This copy should not be considered the official record. "
+                f"Official record: {built_from(s)}, {s['source_url']}")
+    return f"Publisher: {pub}. {BETANYC_NAME} did not modify it. Source: {s['source_name']}, {s['source_url']}"
 
 
 def build_dcat(doc: dict) -> dict:
@@ -1691,7 +1761,7 @@ def build_dcat(doc: dict) -> dict:
       every source             -> a BetaNYC Dataset for the data as this repo serves it, with
                                  `source` = the upstream Dataset; it carries what BetaNYC changed,
                                  coverage, gaps, caveats and corrections, and never implies the
-                                 figures are official when BetaNYC changed them
+                                 data is official when BetaNYC modified or produced it
       published_data           -> a BetaNYC Dataset with one Distribution per file
       hosted endpoint_urls     -> a DataService. A stdio server run with npx has no endpoint, so
                                  it gets none; its package page is the catalog's homepage.
@@ -1710,7 +1780,7 @@ def build_dcat(doc: dict) -> dict:
         t = s["terms"]
         if s["source_url"] not in upstream:
             if s["report_errors"]["upstream_email"]:
-                up_contact = {"@type": "Kind", "fn": s["publisher"]["name"],
+                up_contact = {"@type": "Kind", "fn": route_name(s),
                               "hasEmail": "mailto:" + s["report_errors"]["upstream_email"]}
             else:
                 up_contact = {**contact,
@@ -1742,16 +1812,10 @@ def build_dcat(doc: dict) -> dict:
         cov = s["coverage"]
         ds_id = f"{src_file}#{s['id']}"
         provenance = [official_wording(s), s["how_gathered"]]
-        if values_changed(s):
-            provenance.append(f"Changed by {BETANYC_NAME}: {s['changes']['detail']}")
-        elif s["changes"]["changed"]:
-            steps = s["changes"]["steps"]
-            label = (f"Reshaped by {BETANYC_NAME}, some fields left out" if "reshaped" in steps and "fields-removed" in steps
-                     else f"Fields left out by {BETANYC_NAME}" if "fields-removed" in steps
-                     else f"Reshaped by {BETANYC_NAME}")
-            provenance.append(f"{label} (values unchanged): {s['changes']['detail']}")
+        if s["changes"]["changed"]:
+            provenance.append(f"Modified by {BETANYC_NAME}: {s['changes']['detail']}")
         issues = f"{server['repository']}/issues"
-        if s["official"] and not values_changed(s) and not route_is_betanyc(s["report_errors"]["upstream_url"]):
+        if official_kind(s) == "published-as-is" and not route_is_betanyc(s["report_errors"]["upstream_url"]):
             # Passed on as published: errors in the figures are the publisher's to fix.
             served_contact = {**contact, "fn": (
                 f"{BETANYC_NAME} (serves this dataset; {error_route(s, issues)}; errors in this server: {issues})")}

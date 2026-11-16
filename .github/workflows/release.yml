@@ -90,6 +90,11 @@ jobs:
         working-directory: .
         run: python3 scripts/whats_changed.py check WHATS-CHANGED.md --package-json mcp/package.json --changelog mcp/CHANGELOG.md --release
 
+      # The about-data release gate (#329): DATA-SOURCES.json valid, with BetaNYC's real contact.
+      - name: About-data release gate
+        working-directory: .
+        run: python3 scripts/whats_changed.py about-data check DATA-SOURCES.json --release
+
       - name: Publish to npm
         run: npm publish --provenance --access public
         env:

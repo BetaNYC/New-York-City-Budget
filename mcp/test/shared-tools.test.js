@@ -91,12 +91,12 @@ test("the copy the package ships is the repo's file", () => {
   assert.equal(readFileSync(join(MCP, "WHATS-CHANGED.md"), "utf8"), readFileSync(join(MCP, "..", "WHATS-CHANGED.md"), "utf8"));
 });
 
-test("about_data says plainly that this repo has no DATA-SOURCES.json yet, without an error", async () => {
-  // FAILS if the missing file is an error, or the answer pretends to list sources.
+test("about_data answers from the repo's DATA-SOURCES.json (#329; more in about-data.test.js)", async () => {
+  // FAILS if the server is wired without the file, so about_data says it has none.
   const r = await call("about_data");
   assert.equal(r.isError, undefined);
-  assert.deepEqual(r.structuredContent.sources, []);
-  assert.match(text(r), /has no DATA-SOURCES\.json yet/);
+  assert.ok(r.structuredContent.sources.length > 0);
+  assert.doesNotMatch(text(r), /has no DATA-SOURCES\.json yet/);
 });
 
 test("bad arguments are refused by name, as every tool here does", async () => {
