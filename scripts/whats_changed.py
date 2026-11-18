@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-# betanyc-shared: whats_changed.py v1.4.0
-# betanyc-shared-sha256: d00a13a9ca5e49908d37a54a2b6eb50aedd2d1550909f29067667fe400daa8a3
+# betanyc-shared: whats_changed.py v1.4.1
+# betanyc-shared-sha256: 9ef15b660a56f3461214e06bc44e979bee8e43879a71e63994629e9afe5bece3
 # Canonical copy: betanyc-ai-workspace scripts/whats_changed.py. Do not edit a copy in
 # another repo; change the canonical file, re-stamp it, and copy it again.
 # Drift check: scripts/whats_changed_drift.py. Standard: platform/system/whats-changed-standard.md.

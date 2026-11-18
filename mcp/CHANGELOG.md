@@ -125,6 +125,17 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   copied in unchanged), for its three answers to "is this data official?" (BetaNYC/betanyc-ai-workspace#1672). `viz/data.json` is the DCAT-US
   catalog generated from the file; CI checks both.
 
+### Changed (BetaNYC's MCP practices, epic #334)
+- **Every tool says it only reads** (#336). Each tool in `tools/list` now carries `annotations`:
+  `readOnlyHint: true`, `openWorldHint: false` (every tool answers from data on this machine:
+  the shipped index or the downloaded PDF tables) and a `title`, through the shared module's
+  `annotateTools`. `test/annotations.test.js` fails on a tool without them.
+- **A size budget for the tool list** (#342). `test/tool-size.test.js` caps the `tools/list` JSON
+  plus the server instructions; a raise is recorded in the test with its date and reason.
+- **Shared module 1.5.0** (#335; `src/betanyc-tools.ts` and `scripts/whats_changed.py` 1.4.1,
+  copied in unchanged from BetaNYC/betanyc-ai-workspace). It adds the helpers above; the three
+  shared tools answer as before.
+
 ### Fixed
 - **2.0.6's note overstated who was affected.** It said "If you quoted a T&C unit amount from this
   server, check it again." The server never had those amounts: neither the package's index nor the PDF

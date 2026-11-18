@@ -107,6 +107,10 @@ from the same `agency_budget` table as `search_agency_budget`.
 | `about_data` | Where the data comes from, source by source, from the repo's [`DATA-SOURCES.json`](../DATA-SOURCES.json): who publishes it, what BetaNYC changed, whether the figures are an official record, how current it is, where to check a figure and where to report an error. `topic`: a source (`capital-plan`, `agency-budgets`, …) or a tool name. BetaNYC's shared tool (2.1.0) |
 | `list_available_fiscal_years` | What each fiscal year holds in each dataset and where it came from; FY2010 (disclosure) stated as a gap and FY2018 capital as PDF-derived; each PDF family-year's status, and whether the PDF tables are installed |
 
+Every tool is marked read-only for MCP clients (#336): `readOnlyHint: true`, `openWorldHint: false`
+(each answers from data on this machine, the shipped index or the downloaded PDF tables, never a
+live outside API) and a `title`.
+
 ### Unknown parameters are rejected, not ignored
 
 Every tool declares `additionalProperties: false` and validates its arguments against a strict
@@ -560,6 +564,8 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/capital.test.js` | Every capital row and its provenance (sha256 recomputed from the committed file); own-year vs out-year totals; ordering; split records; every filter's exactness; FY2018; caveats; and `compare_capital_to_omb` verdict counts, figures and ordering |
 | `test/license.test.js` | One license: the license statements name no second license; `LICENSE` names code, data and docs and excludes `source/`; `mcp/LICENSE` equals the repository's. |
 | `test/cleared-label.mjs` | Helper, not a test: the Cleared-line label expected for a set of CSV rows. |
+| `test/annotations.test.js` | #336: every tool, in `TOOLS` and in a client's `tools/list`, is `readOnlyHint: true`, `openWorldHint: false`, with a title (the shared module's `assertEveryToolAnnotated`) |
+| `test/tool-size.test.js` | #342: the `tools/list` JSON plus the server instructions stay under a size budget (`toolListSize`); a raise is recorded in the test with its date and reason |
 | `test/strict-schema.test.js` | Issue #37: every tool advertises and enforces `additionalProperties: false`, with per-tool hints |
 | `test/build-guard.test.js` | The index build fails loudly on a dataset with no rows or a missing year, and installs the new index in one step (#95) |
 | `test/checkwords.test.js` | Every check code in the promoted files has a plain sentence (`src/checkwords.ts`); questions to Council Finance are worded by status (`src/questions.ts`) |

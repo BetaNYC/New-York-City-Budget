@@ -45,7 +45,7 @@ import {
 } from "./db.js";
 import { getMeta } from "./db.js";
 import { REPO_URL } from "./rowlinks.js";
-import { createBetanycTools } from "./betanyc-tools.js";
+import { annotateTools, createBetanycTools } from "./betanyc-tools.js";
 import { FRESHNESS_HOOKS } from "./freshness.js";
 import { howToAdd, maybeAutoDownload, openPdfTables, progress, type PdfTables } from "./pdfdata.js";
 import {
@@ -958,9 +958,12 @@ const betanyc = createBetanycTools({
   freshness: FRESHNESS_HOOKS,
 });
 
+/** What the client gives the model once, beside the tool list (test/tool-size.test.js measures both). */
+export const INSTRUCTIONS = betanyc.instructions;
+
 export const server = new Server(
   { name: "nyc-budget-mcp", version: PACKAGE_VERSION },
-  { capabilities: { tools: {} }, instructions: betanyc.instructions }
+  { capabilities: { tools: {} }, instructions: INSTRUCTIONS }
 );
 
 /** #259: the whole_word parameter, on every tool with a free-text filter. */
@@ -977,7 +980,13 @@ function withWordNote(text: string, words: WordFilter[], explicit?: boolean): st
 
 const LIMIT_DESC = "Max rows shown, 1–500 (default 50; above 500 is capped at 500, below 1 is an error). Totals always cover every match.";
 
-export const TOOLS = [
+/**
+ * Every tool only reads, and every one answers from data on this machine: the index the package
+ * ships, or the PDF tables once downloaded (the download is a separate command or a start-up
+ * setting, never a tool call). So each is readOnlyHint true and openWorldHint false (#336);
+ * annotateTools adds a title and keeps the shared tools' own annotations.
+ */
+export const TOOLS = annotateTools([
   {
     name: "search_disclosure_awards",
     description: `Search the NYC Council's expense funding disclosure — the Council's own award-level list of discretionary expense designations, FY2009 and FY2011–FY2027 (FY2010 is NOT included: the Council's archived workbook for it is incomplete against NYC Open Data, so it is left out). One row per published row (exact copies are kept and flagged), with clearance status, funding stream, agency and the grantee's mailing address; MOCS ID from FY2024, and for FY2009–FY2021 the MOCS ID NYC Open Data gives the same designation (od_mocs_id) where the pairing is unambiguous. FY2009 and FY2013 are EARLY SNAPSHOTS: frozen while much was Pending and never revised, so their Cleared totals are not headline figures; the answer says so. This is a later snapshot than the adopted budget: it includes designations made after adoption, and council_member is the roster when the workbook was exported. Every row is returned whatever its status unless you filter on status; the response gives the TRUE number of matching rows and totals over all of them (Cleared and Pending separately), even when the rows shown are limited, plus the file, sheet, source and retrieval date of each year. Filter by any combination of fiscal_year, ein, legal_name, council_member (substring) or council_member_id (exact Legistar person ID — 'Levin' and 'Levine' are different people), source (substring) or source_exact, agency, program_name, zip (exact 5-digit), zip_status, city (exact), status, mocs_id, od_mocs_id, min_amount, max_amount. Rows come highest amount first. Purpose text is not served; each row gives its workbook row number in the source repo.${TEXT_RULE}`,
@@ -1205,7 +1214,7 @@ export const TOOLS = [
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
   ...betanyc.tools,
-];
+], false);
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOLS }));
 

@@ -1,5 +1,5 @@
-// betanyc-shared: betanyc-tools.ts v1.4.0
-// betanyc-shared-sha256: c5614c4a3233df51f0c4618cba4ed89424ce2a8e6c63a1b80557da909af6e994
+// betanyc-shared: betanyc-tools.ts v1.5.0
+// betanyc-shared-sha256: 7c16016c691086bd4b8d43cc1b9d7b04ee49161d79a31215d6dd984cb23084f4
 // Canonical copy: betanyc-ai-workspace scripts/mcp_shared/betanyc-tools.ts. Do not edit a copy
 // in a server repo; change the canonical file, re-stamp it, and copy it again.
 // Drift check: scripts/whats_changed_drift.py. Standard: platform/system/whats-changed-standard.md.
@@ -10,6 +10,11 @@
 //   about_betanyc   who built this server and how to reach BetaNYC
 //   about_data      where this server's data comes from, from its DATA-SOURCES.json
 //                   (standard: platform/system/about-data-standard.md)
+// From 1.5.0, helpers for a server's OWN tools, so all servers do these the same way:
+//   readOnlyAnnotations, annotateTools, assertEveryToolAnnotated   tool annotations
+//   provenance        the source, publisher, link and as-of line for one answer
+//   toolError         an isError result: plain sentence, cut upstream body, secrets redacted
+//   toolListSize      characters in tools/list plus instructions, for a size-budget test
 //
 // Dependency-free: only node:fs and node:url. Uses no TypeScript syntax that needs transforming (no enums,
 // namespaces or parameter properties), so Node 22.18+ runs it directly by type stripping and
@@ -18,12 +23,13 @@
 // MCP contract followed (spec 2025-11-25, as shipped in @modelcontextprotocol/sdk 1.32.2
 // types.js): a tool may declare `outputSchema` (root `type: "object"`); when it does, a
 // successful result MUST carry `structuredContent` matching it. Clients skip that check when
-// `isError` is true. `annotations` uses ToolAnnotations (title, readOnlyHint, openWorldHint).
+// `isError` is true. `annotations` uses ToolAnnotations (title, readOnlyHint, openWorldHint;
+// checked 2026-11-18 against the spec's schema/2025-11-25/schema.ts and SDK 1.32.2 types.js).
 
 import { readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 
-export const SHARED_MODULE_VERSION = "1.4.0";
+export const SHARED_MODULE_VERSION = "1.5.0";
 
 // --------------------------------------------------------------------------- types
 
@@ -2229,4 +2235,164 @@ export function createBetanycTools(config: BetanycServerConfig): {
           : name === "about_betanyc" ? handleAboutBetanyc(config, args)
             : errorResult(`Unknown tool: ${name}`),
   };
+}
+
+// --------------------------------------------------------------------------- helpers for a server's own tools (1.5.0)
+
+// Small helpers so every BetaNYC server labels, sources and fails its OWN tools the same way.
+// None of them change the three shared tools above.
+
+/** The annotations every BetaNYC tool carries: it only reads (readOnlyHint: true), and says
+ * whether it reaches outside (openWorldHint: true when it calls a live outside API, false when
+ * it answers from bundled or local data). For the SDK's high-level registerTool:
+ *   server.registerTool("search_spending", { ..., annotations: readOnlyAnnotations(true, "Search spending") }, cb) */
+export function readOnlyAnnotations(openWorld: boolean, title?: string): ToolAnnotations {
+  if (typeof openWorld !== "boolean") throw new Error("readOnlyAnnotations: openWorld must be true or false");
+  return { ...(title ? { title } : {}), readOnlyHint: true, openWorldHint: openWorld };
+}
+
+type Annotatable = { name: string; title?: string; annotations?: ToolAnnotations };
+
+/** A tool's title for people: its own title, else its name with "_" as spaces, capitalized. */
+function titleFor(t: Annotatable): string {
+  const s = t.title?.trim() || t.name.replace(/_/g, " ").trim();
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+/** A copy of a server's tool list with `annotations` filled for the low-level TOOLS array:
+ * readOnlyHint true, the openWorldHint the caller gives, and a title when there is none.
+ * `openWorld` is one value for every tool, or one per tool name. A tool that already declares
+ * both hints (the three shared tools do) needs no entry and passes through as is. Throws on a
+ * tool with no openWorld value, a name the list does not have, a tool that declares
+ * readOnlyHint false, or an openWorldHint that disagrees with the caller's.
+ *   export const TOOLS = annotateTools([...domainTools, ...betanyc.tools],
+ *     { search_bills: false, search_legislation_live: true }); */
+export function annotateTools<T extends Annotatable>(
+  tools: readonly T[],
+  openWorld: boolean | Readonly<Record<string, boolean>>,
+): (T & { annotations: ToolAnnotations })[] {
+  const per = typeof openWorld === "boolean" ? null : openWorld;
+  const problems: string[] = [];
+  if (per) {
+    const names = new Set(tools.map((t) => t.name));
+    for (const k of Object.keys(per)) if (!names.has(k)) problems.push(`${k} is not in the tool list`);
+  }
+  const out = tools.map((t) => {
+    const a = t.annotations ?? {};
+    const given = per ? (Object.hasOwn(per, t.name) ? per[t.name] : undefined) : openWorld;
+    if (a.readOnlyHint === false) problems.push(`${t.name} declares readOnlyHint false`);
+    if (given !== undefined && typeof given !== "boolean") problems.push(`${t.name}: openWorld must be true or false`);
+    if (given !== undefined && typeof a.openWorldHint === "boolean" && a.openWorldHint !== given) {
+      problems.push(`${t.name} declares openWorldHint ${a.openWorldHint}, but ${given} was given`);
+    }
+    const hint = typeof a.openWorldHint === "boolean" ? a.openWorldHint : given;
+    if (given === undefined && typeof hint !== "boolean") problems.push(`${t.name} has no openWorld value`);
+    return { ...t, annotations: { ...a, title: a.title || titleFor(t), readOnlyHint: true, openWorldHint: hint as boolean } };
+  });
+  if (problems.length) throw new Error(`annotateTools: ${problems.join("; ")}`);
+  return out;
+}
+
+/** For each MCP's own test suite: throws, naming them, when a tool lacks readOnlyHint or
+ * openWorldHint (a boolean each). Takes the TOOLS array, or tools/list from an SDK client.
+ *   test("every tool is annotated", () => assertEveryToolAnnotated(TOOLS)); */
+export function assertEveryToolAnnotated(tools: readonly { name: string; annotations?: ToolAnnotations }[]): void {
+  const bad = tools.flatMap((t) => {
+    const a = t.annotations ?? {};
+    const missing = [
+      typeof a.readOnlyHint === "boolean" ? "" : "readOnlyHint",
+      typeof a.openWorldHint === "boolean" ? "" : "openWorldHint",
+    ].filter(Boolean);
+    return missing.length ? [`${t.name} (no ${missing.join(" or ")})`] : [];
+  });
+  if (bad.length) throw new Error(`Tools without annotations: ${bad.join(", ")}. Use annotateTools() or readOnlyAnnotations().`);
+}
+
+export interface ProvenanceInput {
+  /** The dataset or document's name, as in DATA-SOURCES.json source_name. */
+  sourceName: string;
+  /** Its publisher's full name. */
+  publisher: string;
+  /** A link a person can open: the dataset page, record page or document (http or https). */
+  sourceUrl: string;
+  /** "live": fetched from the source for this answer (as of = asOf, else now). "snapshot": a
+   * copy built into or downloaded by the server (as of = the copy's date, required). */
+  kind: "live" | "snapshot";
+  /** An ISO 8601 date or date-time with a zone (isUsableAsOf). */
+  asOf?: string | null;
+}
+
+/** The plain object half of a provenance block. Same field names as about_data's sources. */
+export interface Provenance {
+  source: string;
+  publisher: string;
+  source_url: string;
+  as_of: string | null;
+  /** "retrieved" (live), "snapshot" (a copy's date), or "unknown" (no usable date). */
+  as_of_kind: "retrieved" | "snapshot" | "unknown";
+}
+
+/** The source block for one answer: who published the data, a link, and how current it is, as
+ * a plain-text line and an object. A date that isUsableAsOf() rejects (garbled, or in the
+ * future) is never passed on: it reads "as of: unknown". Throws on an empty name or publisher,
+ * or a link that is not http(s), so a mistake shows in the server's tests.
+ *   const p = provenance({ sourceName: "City Record Online", publisher: "NYC DCAS", sourceUrl, kind: "live" });
+ *   return { content: [{ type: "text", text: `${body}\n\n${p.text}` }] }; */
+export function provenance(input: ProvenanceInput, now: Date = new Date()): { text: string; provenance: Provenance } {
+  const name = trim(input.sourceName ?? "");
+  const publisher = trim(input.publisher ?? "");
+  const url = trim(input.sourceUrl ?? "");
+  if (!name || !publisher) throw new Error("provenance: sourceName and publisher are required");
+  if (!/^https?:\/\/[^\s/?#]+[^\s]*$/i.test(url)) throw new Error(`provenance: sourceUrl must be an http(s) link (got ${JSON.stringify(input.sourceUrl)})`);
+  if (input.kind !== "live" && input.kind !== "snapshot") throw new Error('provenance: kind must be "live" or "snapshot"');
+  const raw = input.asOf ?? (input.kind === "live" ? now.toISOString() : null);
+  const usable = isUsableAsOf(raw, now);
+  const asOf = usable ? (raw as string) : null;
+  const kind: Provenance["as_of_kind"] = !usable ? "unknown" : input.kind === "live" ? "retrieved" : "snapshot";
+  const when = kind === "retrieved" ? `As of ${asOf} (fetched from the source for this answer).`
+    : kind === "snapshot" ? `As of ${asOf} (the date of the copy this server answers from).`
+      : "As of: unknown (this server has no usable date for it).";
+  // No period after the link: some apps take it into the link.
+  const text = `Source: ${builtFrom(name, publisher)}. ${when} Link: ${url}`;
+  return { text, provenance: { source: name, publisher, source_url: url, as_of: asOf, as_of_kind: kind } };
+}
+
+/** Most characters of an upstream error body that toolError passes on. */
+export const UPSTREAM_BODY_MAX = 500;
+
+/** Lines that look like a JavaScript or Python stack frame. */
+const STACK_LINE_RE = /^\s*(?:at\s+\S.*|File\s+".*",\s+line\s+\d+.*|Traceback \(most recent call last\):.*)$/;
+
+function scrub(text: string, secrets: readonly string[]): string {
+  let s = text.split(/\r?\n/).filter((l) => !STACK_LINE_RE.test(l)).join("\n");
+  for (const v of secrets) s = s.split(v).join("[redacted]");
+  return s;
+}
+
+/** An isError result from a plain sentence (what went wrong, what to try), plus an optional
+ * upstream body cut to UPSTREAM_BODY_MAX characters. Stack-frame lines are dropped, and every
+ * secret value given (an API key, a token; also its URL-encoded form) is replaced by
+ * "[redacted]" in both, before the cut, so no part of a key survives it.
+ *   catch (e) { return toolError("The Legistar API did not answer. Try again in a minute.",
+ *     { upstreamBody: body, secrets: [process.env.LEGISTAR_TOKEN] }); } */
+export function toolError(
+  message: string,
+  opts: { upstreamBody?: string | null; secrets?: readonly (string | null | undefined)[] } = {},
+): ToolResult {
+  const secrets = [...new Set((opts.secrets ?? []).flatMap((v) =>
+    typeof v === "string" && v ? [v, encodeURIComponent(v)] : []))].sort((a, b) => b.length - a.length);
+  const msg = trim(scrub(String(message ?? ""), secrets)) || "The tool failed.";
+  const body = typeof opts.upstreamBody === "string" ? trim(scrub(opts.upstreamBody, secrets)) : "";
+  if (!body) return errorResult(msg);
+  const cp = [...body];
+  const cut = cp.length > UPSTREAM_BODY_MAX ? `${cp.slice(0, UPSTREAM_BODY_MAX).join("")}… (cut at ${UPSTREAM_BODY_MAX} characters)` : body;
+  return errorResult(`${msg}\nThe source said: ${cut}`);
+}
+
+/** The size, in characters, of a server's tools/list (JSON of its tools) plus its instructions:
+ * what the model reads every turn. Each server's test caps it, and records any raise with a date
+ * and reason (the nyc-311-mcp test/tool-size.test.mjs pattern; same measure, so its budget holds).
+ *   assert.ok(toolListSize(TOOLS, INSTRUCTIONS) <= 47_000); */
+export function toolListSize(tools: readonly object[], instructions = ""): number {
+  return JSON.stringify(tools).length + instructions.length;
 }
