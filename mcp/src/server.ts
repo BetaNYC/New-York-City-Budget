@@ -452,9 +452,15 @@ function capitalText(res: CapitalResult, districtGiven: boolean): string {
 // compare_capital_to_omb
 // ===========================================================================
 
-const OMB_FOOTER = `
----
-Source: this repo's comparison (data/capital/council_vs_omb_by_budget_line.csv, data/capital/RECONCILIATION.md §3 in ${REPO_URL}) of the Council capital table with OMB's Capital Budget on NYC Open Data (46m8-77gv), the adopted release for each first fiscal year. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`.trim();
+/** #338, #339: the OMB dataset's link, and when BetaNYC retrieved each compared year of the Council list. */
+function ombFooter(): string {
+  const compared = new Set(listOmbComparisonYears());
+  const byDate = new Map<string, number[]>();
+  for (const s of listCapitalSources()) if (compared.has(s.report_year)) byDate.set(s.retrieved, [...(byDate.get(s.retrieved) ?? []), s.report_year]);
+  const council = [...byDate].map(([d, ys]) => `${yearSpan(ys.sort((x, y) => x - y))} retrieved ${d}`).join("; ");
+  return `---
+Source: this repo's comparison (data/capital/council_vs_omb_by_budget_line.csv, data/capital/RECONCILIATION.md §3 in ${REPO_URL}) of the Council capital table with OMB's Capital Budget on NYC Open Data (46m8-77gv, https://data.cityofnewyork.us/d/46m8-77gv), the adopted release for each first fiscal year (each row gives its release date). The Council side as BetaNYC retrieved it: ${council}. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`;
+}
 
 const OMB_CAVEAT =
   "Caveat: this is BetaNYC's arithmetic, not a Council or OMB reconciliation. For each report year it sums the Council table's rows by budget line (the list's own year and the next year) and OMB's adopted release for that first fiscal year (the last release of the year, published in July), summed over funding sources, Council-series lines only (D, DN). 'match' means both years are equal to the dollar for the LINE; it does not show that the projects under the line are the same. 'differ', 'council_only' and 'omb_only' are not errors by either party: OMB's adopted figure can include changes the Council's list does not. FY2015–FY2017 are not compared (OMB's dataset starts at FY2019; FY2016 prints no budget lines), and neither is FY2018 (its list is PDF-derived, and OMB's dataset starts at FY2019).";
@@ -1506,16 +1512,16 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const years = listOmbComparisonYears();
         if (a.report_year != null && !years.includes(a.report_year))
           return textResult(
-            `FY${a.report_year} is not in the comparison, which covers ${yearSpan(years)}.\n\n${OMB_CAVEAT}\n\n${OMB_FOOTER}`
+            `FY${a.report_year} is not in the comparison, which covers ${yearSpan(years)}.\n\n${OMB_CAVEAT}\n\n${ombFooter()}`
           );
         const res = compareCapitalToOmb({ ...a, budget_line: line.value });
         if (res.matched === 0)
           return textResult(
             `No budget lines matched (the comparison covers ${yearSpan(years)}).` +
               (res.not_compared.length ? `\n\n${notComparedText(res)}` : "") +
-              `\n\n${OMB_CAVEAT}\n\n${OMB_FOOTER}`
+              `\n\n${OMB_CAVEAT}\n\n${ombFooter()}`
           );
-        return textResult(`${ombText(res)}\n\n${OMB_FOOTER}`);
+        return textResult(`${ombText(res)}\n\n${ombFooter()}`);
       }
 
       case "search_capital_plan": {

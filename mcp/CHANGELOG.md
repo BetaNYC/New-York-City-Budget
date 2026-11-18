@@ -142,6 +142,12 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 - **Errors are plain sentences** (#341). A wrong argument type (`fiscal_year: "2025"`) used to return
   zod's JSON issue list; it now says which parameter and what it expects. Every failure goes through
   the shared module's `toolError`, which drops stack-frame lines. `test/errors.test.js`.
+- **Every data answer links its source and dates it** (#338, #339). `compare_capital_to_omb` now
+  links OMB's dataset (`https://data.cityofnewyork.us/d/46m8-77gv`) and says when BetaNYC retrieved
+  each compared year of the Council's list; `search_capital_plan` links `2cmn-uidm`, `djxg-kcfi`
+  and `fi59-268w`, and its project list says to raise `limit` to see more (#340).
+  `test/provenance-lists.test.js` checks every data tool for a link and a date, and every list
+  tool for "showing N of M" and its cap.
 - **Shared module 1.5.0** (#335; `src/betanyc-tools.ts` and `scripts/whats_changed.py` 1.4.1,
   copied in unchanged from BetaNYC/betanyc-ai-workspace). It adds the helpers above; the three
   shared tools answer as before.
