@@ -18,7 +18,7 @@
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
-import { readFileSync } from "fs";
+import { PACKAGE_VERSION } from "./version.js";
 import { z } from "zod";
 import {
   searchDisclosure,
@@ -45,7 +45,7 @@ import {
 } from "./db.js";
 import { getMeta } from "./db.js";
 import { REPO_URL } from "./rowlinks.js";
-import { annotateTools, createBetanycTools } from "./betanyc-tools.js";
+import { annotateTools, createBetanycTools, toolError } from "./betanyc-tools.js";
 import { FRESHNESS_HOOKS } from "./freshness.js";
 import { howToAdd, maybeAutoDownload, openPdfTables, progress, type PdfTables } from "./pdfdata.js";
 import {
@@ -83,9 +83,6 @@ import {
   type CouncilQuestion,
 } from "./questions.js";
 
-const PACKAGE_VERSION = (
-  JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf-8")) as { version: string }
-).version;
 
 const n = (x: number) => x.toLocaleString("en-US");
 
@@ -96,7 +93,8 @@ const usd = (v: number): string => {
   return c < 0 ? `-$${s}` : `$${s}`;
 };
 
-const errorResult = (text: string) => ({ content: [{ type: "text", text: `Error: ${text}` }], isError: true });
+/** Every failure, through the shared toolError (#341): "Error: " and a plain sentence, stack-frame lines dropped. */
+const errorResult = (text: string) => toolError(text);
 const textResult = (text: string) => ({ content: [{ type: "text", text }] });
 
 /** "2009, 2011–2027" from a sorted year list. */
@@ -1292,7 +1290,11 @@ function parseArgs<S extends z.ZodObject<z.ZodRawShape, "strict">>(tool: string,
   if (parsed.success) return parsed.data as z.infer<S>;
   const accepted = Object.keys(schema.shape);
   const unknown = parsed.error.issues.flatMap((i) => (i.code === "unrecognized_keys" ? i.keys : []));
-  if (unknown.length === 0) throw parsed.error;
+  if (unknown.length === 0) {
+    // #341: zod's issues as one sentence, never its JSON (`fiscal_year: "2025"` names the parameter).
+    const what = parsed.error.issues.map((i) => `${i.path.length ? i.path.join(".") : "the arguments"}: ${i.message}`).join("; ");
+    throw new Error(`${tool} could not use its arguments (${what}). Check each parameter's type in the tool's input schema and try again.`);
+  }
   const hints = unknown.flatMap((key) => {
     const hint = ALIAS_HINTS[key];
     const targets = hint?.targets.filter((t) => accepted.includes(t)) ?? [];

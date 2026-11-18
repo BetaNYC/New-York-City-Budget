@@ -132,6 +132,16 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   `annotateTools`. `test/annotations.test.js` fails on a tool without them.
 - **A size budget for the tool list** (#342). `test/tool-size.test.js` caps the `tools/list` JSON
   plus the server instructions; a raise is recorded in the test with its date and reason.
+- **The PDF tables download times out and retries politely** (#337). Every request names the
+  package, its version and the repo in its User-Agent (`nyc-budget-mcp/2.1.0 (+https://github.com/BetaNYC/New-York-City-Budget)`);
+  it gives up after 30 s with no answer, or 30 s with no data in the middle of a file (there is no
+  cap on a whole file, which is tens of MB on a slow line); and a 429 or 5xx is tried up to three
+  times, waiting what `Retry-After` asks (at most 30 s), else 1 s then 2 s. Before, a server that
+  stopped answering hung the download for good. `src/version.ts` now holds the package version for
+  the server and the download. `test/upstream.test.js`, against a local server.
+- **Errors are plain sentences** (#341). A wrong argument type (`fiscal_year: "2025"`) used to return
+  zod's JSON issue list; it now says which parameter and what it expects. Every failure goes through
+  the shared module's `toolError`, which drops stack-frame lines. `test/errors.test.js`.
 - **Shared module 1.5.0** (#335; `src/betanyc-tools.ts` and `scripts/whats_changed.py` 1.4.1,
   copied in unchanged from BetaNYC/betanyc-ai-workspace). It adds the helpers above; the three
   shared tools answer as before.

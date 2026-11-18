@@ -111,6 +111,9 @@ Every tool is marked read-only for MCP clients (#336): `readOnlyHint: true`, `op
 (each answers from data on this machine, the shipped index or the downloaded PDF tables, never a
 live outside API) and a `title`.
 
+A failure is one plain sentence with `isError: true`, saying what went wrong and what to try,
+never a stack trace or a JSON dump (#341; the shared module's `toolError`).
+
 ### Unknown parameters are rejected, not ignored
 
 Every tool declares `additionalProperties: false` and validates its arguments against a strict
@@ -380,6 +383,12 @@ download left are removed by the next one. One download runs at a time per folde
 `pdf-tables/download.lock`). Plain `http:` is refused except on this machine. A running server
 picks up tables `download` installs, without a restart.
 
+Each request to GitHub says who is asking (User-Agent `nyc-budget-mcp/<version>
+(+https://github.com/BetaNYC/New-York-City-Budget)`), gives up after 30 s with no answer or 30 s
+with no data in the middle of a file, and tries a 429 or 5xx answer up to three times, waiting
+what `Retry-After` asks (at most 30 s). Nothing polls: a download runs only when you ask for one,
+or once at start-up with `NYC_BUDGET_PDF_DATA` set (#337).
+
 **Releases.** The releases are listed on
 [GitHub](https://github.com/BetaNYC/New-York-City-Budget/releases); the data releases' tags start
 with `pdf-tables-`, and the downloader takes the newest. As of 2026-10-24 that is
@@ -566,6 +575,8 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/cleared-label.mjs` | Helper, not a test: the Cleared-line label expected for a set of CSV rows. |
 | `test/annotations.test.js` | #336: every tool, in `TOOLS` and in a client's `tools/list`, is `readOnlyHint: true`, `openWorldHint: false`, with a title (the shared module's `assertEveryToolAnnotated`) |
 | `test/tool-size.test.js` | #342: the `tools/list` JSON plus the server instructions stay under a size budget (`toolListSize`); a raise is recorded in the test with its date and reason |
+| `test/upstream.test.js` | #337: the download's requests, against a local server only: a User-Agent naming the package, version and repo; a timeout for no answer and for a stalled body; up to three tries on 429 and 5xx honoring `Retry-After` (seconds or a date), never a wait past the cap, never a retry on a 404 |
+| `test/errors.test.js` | #341: a wrong argument type, an unknown tool and a guard each fail as one plain sentence with `isError`, never zod's JSON or a stack frame |
 | `test/strict-schema.test.js` | Issue #37: every tool advertises and enforces `additionalProperties: false`, with per-tool hints |
 | `test/build-guard.test.js` | The index build fails loudly on a dataset with no rows or a missing year, and installs the new index in one step (#95) |
 | `test/checkwords.test.js` | Every check code in the promoted files has a plain sentence (`src/checkwords.ts`); questions to Council Finance are worded by status (`src/questions.ts`) |
