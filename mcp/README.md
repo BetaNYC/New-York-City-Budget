@@ -577,6 +577,7 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/tool-size.test.js` | #342: the `tools/list` JSON plus the server instructions stay under a size budget (`toolListSize`); a raise is recorded in the test with its date and reason |
 | `test/upstream.test.js` | #337: the download's requests, against a local server only: a User-Agent naming the package, version and repo; a timeout for no answer and for a stalled body; up to three tries on 429 and 5xx honoring `Retry-After` (seconds or a date), never a wait past the cap, never a retry on a 404 |
 | `test/errors.test.js` | #341: a wrong argument type, an unknown tool and a guard each fail as one plain sentence with `isError`, never zod's JSON or a stack frame |
+| `test/provenance-lists.test.js` | #338–#340: every data tool's answer has an `https` link and a date; the OMB comparison links `46m8-77gv` and dates the Council side; the capital plan links its three datasets; every list tool with `limit: 1` says "showing 1 of M" and how to see more, and a limit above its maximum is capped |
 | `test/strict-schema.test.js` | Issue #37: every tool advertises and enforces `additionalProperties: false`, with per-tool hints |
 | `test/build-guard.test.js` | The index build fails loudly on a dataset with no rows or a missing year, and installs the new index in one step (#95) |
 | `test/checkwords.test.js` | Every check code in the promoted files has a plain sentence (`src/checkwords.ts`); questions to Council Finance are worded by status (`src/questions.ts`) |
