@@ -24,6 +24,7 @@ test("the release date is the same in every place that states it", () => {
     ["README.md", `**${v} (${date}, tagged by a maintainer):**`],
     ["DATA-ANOMALIES.md", `**Since ${v} (#270, ${date}): one year rule.**`],
     ["WHATS-CHANGED.md", `## ${date}: Server adds City agency budgets, FY2027 changes and Council Members by person`],
+    ["WHATS-CHANGED.md", `## ${date}: Server tools say they only read, and more answers link to the City's data`],
   ];
   for (const [file, text] of places) assert.ok(read(file).includes(text), `${file} lacks: ${text}`);
   assert.ok(!/^## Unreleased:/m.test(read("WHATS-CHANGED.md")), "WHATS-CHANGED.md still has an Unreleased entry");

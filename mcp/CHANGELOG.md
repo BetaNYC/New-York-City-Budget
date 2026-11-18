@@ -148,6 +148,16 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   and `fi59-268w`, and its project list says to raise `limit` to see more (#340).
   `test/provenance-lists.test.js` checks every data tool for a link and a date, and every list
   tool for "showing N of M" and its cap.
+- **Text shared by several tools is said once, in the server instructions** (#344). The
+  text-matching rule (#259) was in six tool descriptions and, longer, in six `whole_word`
+  descriptions; it is now in the instructions, with a one-line pointer in each tool. The tool list
+  plus instructions went from 49,958 to 45,244 characters (about 1,200 tokens less every turn), and
+  the size budget was lowered to 46,500. `test/instructions.test.js`.
+- **A test that stdout carries only protocol** (#343). `test/stdout.test.js` starts the built
+  server over stdio and checks every stdout line is a JSON-RPC message.
+- **An evaluation set** (#345). `eval/questions.json`: twelve questions with known answers
+  worked out from the repo's own files; `npm run eval`; results in `eval/runs/`.
+  `test/eval.test.js` runs it.
 - **Shared module 1.5.0** (#335; `src/betanyc-tools.ts` and `scripts/whats_changed.py` 1.4.1,
   copied in unchanged from BetaNYC/betanyc-ai-workspace). It adds the helpers above; the three
   shared tools answer as before.

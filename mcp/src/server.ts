@@ -962,17 +962,22 @@ const betanyc = createBetanycTools({
   freshness: FRESHNESS_HOOKS,
 });
 
+/**
+ * #259's text-matching rule, said once in the server instructions (#344; BetaNYC MCP practice 6)
+ * instead of in full in six tool descriptions and six whole_word descriptions. Each keeps a
+ * one-line pointer, so a client that drops the instructions still sees the short-term rule.
+ */
+const TEXT_MATCHING = `How text filters match, on every tool that has them (search_disclosure_awards, search_council_capital, search_schedule_c_awards, search_transparency_changes, search_capital_book, search_terms_conditions): case- and accent-insensitive, and % and _ are literal. By default a term of ${SHORT_TERM} or fewer letters and digits (after trimming) matches whole words only ('AI' finds 'AI Training Program', '(AI)', 'AI-powered', 'BetaNYC's AI', but not 'Jamaica' or 'AIDS'), and a longer term matches anywhere, as a substring. The whole_word parameter overrides that for every name and prose filter in the call: false to find a short term inside words ('AI' inside 'AIDS'), true to keep a longer word from matching longer ones ('Fellow' but not 'Fellowship'). Identifier filters (project_id, resolution_number) always match substrings, so a fragment such as 'CC1' or '101' finds the IDs that contain it; exact filters (EIN, IDs, budget line, codes, city, zip) are not affected. When any filter matched as whole words, the answer's second line says so.`;
+const WHOLE_WORD_DESC = `true: name and prose filters match whole words only ('AI' but not 'Jamaica' or 'AIDS'); false: substrings. Omit for the default (a term of ${SHORT_TERM} or fewer letters and digits matches whole words). The server instructions give the full rule.`;
+const TEXT_RULE = ` A text term of ${SHORT_TERM} or fewer letters and digits matches whole words; whole_word overrides it, and the server instructions give the full rule.`;
+
 /** What the client gives the model once, beside the tool list (test/tool-size.test.js measures both). */
-export const INSTRUCTIONS = betanyc.instructions;
+export const INSTRUCTIONS = `${TEXT_MATCHING}\n\n${betanyc.instructions}`;
 
 export const server = new Server(
   { name: "nyc-budget-mcp", version: PACKAGE_VERSION },
   { capabilities: { tools: {} }, instructions: INSTRUCTIONS }
 );
-
-/** #259: the whole_word parameter, on every tool with a free-text filter. */
-const WHOLE_WORD_DESC = `How this call's text filters match. Omit it for the default: a term of ${SHORT_TERM} or fewer letters and digits (after trimming) matches whole words, a longer term matches anywhere, as a substring. true: every name and prose filter matches whole words only, the term not inside a longer word ('AI' finds 'AI Training Program', '(AI)', 'AI-powered', 'BetaNYC's AI', but not 'Jamaica' or 'AIDS'). false: every name and prose filter matches substrings. Pass false to find a short term inside words (e.g. 'AI' inside 'AIDS'); pass true to keep a longer word from matching longer ones ('Fellow' but not 'Fellowship'). Case, accents and punctuation folding are the same either way, and % and _ stay literal. It applies to name and prose filters only: identifier filters (project_id, resolution_number) always match substrings, so an ID fragment such as 'CC1' or '101' finds the IDs that contain it, and exact filters (EIN, IDs, budget line, codes, city, zip) are not affected. The answer says which filters matched as whole words.`;
-const TEXT_RULE = ` Text filters match case- and accent-insensitive substrings, except that a term of ${SHORT_TERM} or fewer letters and digits matches whole words ('AI' does not match 'Jamaica'); whole_word overrides that for the call, and the answer says when it applied. Identifier filters (project_id, resolution_number) always match substrings.`;
 
 /** The answer with the whole-word note (#259) as its second line, when any filter matched as whole words. */
 function withWordNote(text: string, words: WordFilter[], explicit?: boolean): string {

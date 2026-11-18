@@ -12,7 +12,9 @@ import { toolListSize } from "../dist/betanyc-tools.js";
 // 12,500 tokens). The budget is that plus about 2%, so any growth is a decision, not drift.
 // To raise it, add a dated line here with the new measure and the reason, and put text that
 // several tools share in the server instructions rather than in each tool.
-const BUDGET_CHARS = 51_000;
+// Lowered 2026-11-18 (#344): the text-matching rule moved into the server instructions, said once
+// instead of in six tool descriptions and six whole_word descriptions. Measured 45,244.
+const BUDGET_CHARS = 46_500;
 
 test("tool definitions plus server instructions stay within the size budget", () => {
   // FAILS if the tool list or the instructions grow past the budget.
