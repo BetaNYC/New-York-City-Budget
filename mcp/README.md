@@ -263,7 +263,7 @@ questions go to [`@betanyc/nyc-checkbook-mcp`](https://www.npmjs.com/package/@be
 - **Text filters fold before they match**, on the query and on the data: case, accents, curly
   quotes and dashes do not matter (`Women's` finds `Women’s`; `Jewish Emigre` and `Jewish
   Émigré` find the same 6 rows). `%` and `_` are literal.
-- **Short terms match whole words** (#259). A term of 3 or fewer letters and digits, after
+- **Short terms match whole words** (#259; the full rule is in the server's instructions, said once, #344). A term of 3 or fewer letters and digits, after
   trimming, matches only where it is not inside a longer word: the characters just before and
   just after it (once folded) are not letters or digits. `AI` finds "AI Training Program",
   "(AI)", "AI-powered" and "BetaNYC's AI", but not "Jamaica" or "AIDS"; `DOE` finds "DOE's".
@@ -578,6 +578,9 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/upstream.test.js` | #337: the download's requests, against a local server only: a User-Agent naming the package, version and repo; a timeout for no answer and for a stalled body; up to three tries on 429 and 5xx honoring `Retry-After` (seconds or a date), never a wait past the cap, never a retry on a 404 |
 | `test/errors.test.js` | #341: a wrong argument type, an unknown tool and a guard each fail as one plain sentence with `isError`, never zod's JSON or a stack frame |
 | `test/provenance-lists.test.js` | #338–#340: every data tool's answer has an `https` link and a date; the OMB comparison links `46m8-77gv` and dates the Council side; the capital plan links its three datasets; every list tool with `limit: 1` says "showing 1 of M" and how to see more, and a limit above its maximum is capped |
+| `test/instructions.test.js` | #344: the text-matching rule is in the server instructions once, beside BetaNYC's about_data paragraph, and no tool description or parameter repeats it in full |
+| `test/stdout.test.js` | #343: the built server, started over stdio, writes only JSON-RPC messages to stdout through initialize, tools/list and two tool calls |
+| `test/eval.test.js` | #345: the evaluation set (`eval/questions.json`) has at least ten questions, each with its check and where its answer came from, and every one passes |
 | `test/strict-schema.test.js` | Issue #37: every tool advertises and enforces `additionalProperties: false`, with per-tool hints |
 | `test/build-guard.test.js` | The index build fails loudly on a dataset with no rows or a missing year, and installs the new index in one step (#95) |
 | `test/checkwords.test.js` | Every check code in the promoted files has a plain sentence (`src/checkwords.ts`); questions to Council Finance are worded by status (`src/questions.ts`) |
@@ -586,6 +589,11 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/open-data.test.js` | Whether each record is on NYC Open Data (`data/open_data/`), as the explorer shows it |
 | `test/pdf-align.test.js` | How a Schedule C row is matched to the disclosure spreadsheet (`disclosure_status`) |
 | `test/rowlinks.test.js` | The row-link builder (`src/rowlinks.ts`), shared with the explorer: the explorer link, the GitHub links, the publisher's copy |
+
+**Evaluation set** (#345). `eval/questions.json` holds twelve questions a person would ask, each
+with the answer worked out from the repo's own files (the file is named in `from`) before the
+questions were run. `npm run eval` runs them offline against the shipped index and the PDF tables
+pretest builds (`--tables <file>` for others; `--record` saves the run in `eval/runs/`).
 
 The 1.x tests and the Legistar enrichment script are parked in `retired-1.x/` (not run, not
 shipped) until a maintainer deletes them.
