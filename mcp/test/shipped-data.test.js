@@ -135,6 +135,6 @@ test("the npm tarball ships the code and the spreadsheet index only", () => {
   // whats_changed (#310) and about_data (#329).
   assert.deepEqual(files, ["DATA-SOURCES.json", "LICENSE", "README.md", "WHATS-CHANGED.md", "data/budget.db", "dist/agency.js", "dist/betanyc-tools.js", "dist/capitalplan.js", "dist/checkwords.js", "dist/db.js", "dist/fold.js", "dist/freshness.js", "dist/index.js", "dist/pdfdata.js",
     "dist/pdfquery.js", "dist/publisher-copies.js", "dist/questions.js", "dist/rowlinks.js", "dist/server.js",
-    "dist/textmatch.js", "package.json"]);
+    "dist/textmatch.js", "dist/version.js", "package.json"]);
   for (const f of files) assert.ok(!PDF_DERIVED.some((re) => re.test(f)), f);
 });
