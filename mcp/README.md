@@ -12,7 +12,7 @@ Four more tools answer from the **checked tables BetaNYC reads from the Council'
 tables are an **optional download** (about 17 MB; 115 MB on disk), not part of the package: see
 [The checked PDF tables](#the-checked-pdf-tables-optional-download).
 
-> **Version 2.1.0** (2026-11-14). 2.0.2 (2026-10-23) added the four PDF tools and the optional
+> **Version 2.1.0** (2026-11-19). 2.0.2 (2026-10-23) added the four PDF tools and the optional
 > download; nothing was removed. 2.0.3 matched capital IDs in full, 2.0.4 (2026-10-25) made short
 > text-filter terms match whole words (`whole_word`), and 2.0.5 (2026-11-09) added `mcpName` for
 > the MCP Registry. 2.0.6 fixes Terms and Conditions unit amounts that were one fiscal year late
@@ -92,7 +92,7 @@ from the same `agency_budget` table as `search_agency_budget`.
 
 | Tool | Purpose |
 |---|---|
-| `search_disclosure_awards` | The Council's expense funding disclosure by fiscal year / EIN / legal name / council member (substring) or **`council_member_id`** (exact Legistar person ID: `Levin` 7567 and `Levine` 7634 never blend) / source (substring) or **`source_exact`** / agency / program / grantee **`zip`** (exact 5-digit) / **`zip_status`** / **`city`** (exact) / status / **`mocs_id`** / **`od_mocs_id`** / amount range. Each row shows the grantee's mailing address as printed, its derived zip and zip_status, and, FY2009–FY2021, the MOCS ID NYC Open Data gives the same designation where the pairing is unambiguous. Reports the true match count, Cleared and Pending totals over **all** matches, the source and retrieval date of each year, the early-snapshot years and FY2010's exclusion |
+| `search_disclosure_awards` | The Council's expense funding disclosure by fiscal year / EIN / legal name / council member (substring) or **`council_member_id`** (exact Legistar person ID: `Levin` 7567 and `Levine` 7634 never blend) / source (substring) or **`source_exact`** / agency / program / grantee **`zip`** (exact 5-digit) / **`zip_status`** / **`city`** (exact) / status / **`mocs_id`** / **`od_mocs_id`** / amount range. Each row shows the grantee's mailing address as printed, then BetaNYC's ZIP check on its own line (derived zip, what was checked, zip_status), and, FY2009–FY2021, the MOCS ID NYC Open Data gives the same designation where the pairing is unambiguous. Reports the true match count, Cleared and Pending totals over **all** matches, the source and retrieval date of each year, the early-snapshot years and FY2010's exclusion |
 | `search_council_capital` | The Council's capital designations by fiscal year (the list's year) / `amount_fy` / **`budget_line`** (exact, `P D018`) / **`project_id`** (exact) / sponsor (substring) or `sponsor_exact` / `borough` (exact code) / `council_district` (workbook years only) / title / description / amount range. Totals the list's own year separately from out-year amounts; names the file, retrieval date and sha256 of every year it draws on |
 | `compare_capital_to_omb` | For each report year and Council-series budget line, the Council table's total vs OMB's adopted release, this year and next, with a verdict (`match`, `differ`, `council_only`, `omb_only`). Lines that disagree first |
 | `search_capital_plan` | When a capital budget line's money is planned to be committed, and how that plan moved (2.1.0, #250): OMB's Capital Commitment Plan (NYC Open Data `2cmn-uidm`, every release from 2016-04-26; **thousands of dollars**, as published), DCP's Capital Projects Database planned commitments on the line by fiscal year and project (`djxg-kcfi`, dollars), each project's own totals (`fi59-268w`: planned, adopted, allocated, committed, spent; the **whole** project's, never this line's share), and the Council's rows on the line, apart. By **`budget_line`** or a CPDB **`project_id`**, with `release`, `funding` and `limit`. Never adds one source's figures to another's |
@@ -157,9 +157,15 @@ response carries:
   counted as published) or `no_grantee_ein` (the 53 rows that print no grantee EIN, each shown
   with "No grantee EIN printed by the Council. Often a city program rather than a nonprofit.",
   plus a note with their matched count and dollars);
-- each row's grantee **mailing address** as printed, with the 5-digit `zip` derived from it and
-  its `zip_status` (rules in [`../DATA-DICTIONARY.md`](../DATA-DICTIONARY.md)). It is where the
-  grantee gets mail, **not where services were delivered**.
+- each row's grantee **mailing address** exactly as the Council printed it. It is where the
+  grantee gets mail, **not where services were delivered**. Under it, on its own line,
+  **BetaNYC's ZIP check** (not a Council field): the 5-digit `zip` derived from the printed ZIP,
+  what the check found, and its `zip_status` (rules in [`../DATA-DICTIONARY.md`](../DATA-DICTIONARY.md)).
+  The check tests the ZIP's digits and that it is a 2020 Census ZIP area in the row's state. It
+  does **not** check the ZIP against the street, except the two PAD statuses (#247), so a real ZIP
+  that is wrong for the street passes as `valid`. Example: from FY2026 the Council prints the Fund
+  for the City of New York's Manhattan address, 121 Avenue of the Americas, with ZIP 11691 (Far
+  Rockaway). The answer shows it as printed and says the street was not checked.
 
 **Address filters.** `zip` is exact and 5 digits only: it matches the derived zip, so the
 `11203-` rows (zip `11203`, `trimmed`) and a Brookline `2446` (zip `02446`, `padded`) are found
@@ -190,7 +196,8 @@ Coverage: FY2009, FY2011–FY2027. FY2010 is NOT included (…). Early snapshots
 Rows:
 FY2026 · FY26 08060 · $1,000,000 · Cleared · (no member) → Food Bank For New York City (EIN 133179546) · source: Food Pantries · agency: DYCD
     program: School Pantries
-    grantee mailing address: 39 Broadway, 10th Flr, New York, NY 10006 · zip 10006 (valid: a 2020 Census ZCTA)
+    grantee mailing address, as the Council printed it: 39 Broadway, 10th Flr, New York, NY 10006
+    BetaNYC's ZIP check, not the Council's: 10006 is a 2020 Census ZIP area, in the row's state when one is printed; not checked against the street address (zip_status=valid)
     workbook row 7688
 …
 ```

@@ -4,7 +4,7 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 2.1.0 — Unreleased
+## 2.1.0 — 2026-11-19
 
 ### Added
 - **City agency budgets** (#270, #284). A new table in the index, `agency_budget`: every City
@@ -215,6 +215,18 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
   `officialWording`, the function `about_data` uses.
 
 ### Fixed
+- **The ZIP check read as if it confirmed the address** (live check, 2026-11-19).
+  `search_disclosure_awards` printed `zip 11691 (valid: a 2020 Census ZCTA)` on the same line as
+  the Council's address. That ZIP is printed by the Council for the Fund for the City of New York's
+  Manhattan address (121 Avenue of the Americas; 11691 is Far Rockaway) on its FY2026–FY2027 rows,
+  and "valid" only meant the ZIP is a 2020 Census ZIP area in the row's state. Each row now shows
+  the address exactly as printed, labeled as the Council's, and BetaNYC's check on a line of its
+  own that says what it tested: for `valid`, `padded`, `trimmed` and `repaired_extra_digit`,
+  "not checked against the street address". The caveat says a wrong ZIP can pass the check, and the
+  `zip_status` filter's description says the same. The data is unchanged: the printed ZIP, the
+  derived `zip` and the `zip_status` values (the filter's and the CSVs') stay as they are.
+  `test/disclosure.test.js` fails if the check shares the address line, is not named as
+  BetaNYC's, or shows "valid" outside `zip_status=valid`.
 - **Two source labels in `DATA-SOURCES.json` did not match the tools** (review of #349).
   `search_schedule_c_awards` says whether each row is in the disclosure spreadsheet
   (`disclosure_status`), but `about_data` did not list the disclosure for it; it now does. (The
