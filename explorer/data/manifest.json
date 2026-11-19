@@ -1,0 +1,440 @@
+{
+  "generated_at": "2026-11-19T07:23:01.065Z",
+  "source_repo": "BetaNYC/New-York-City-Budget",
+  "source_commit": "998393595fe38219b8243a4b794bb7fc9c67f58a",
+  "index_built_at": "2026-11-19T07:17:16.579Z",
+  "index_counts": {
+    "disclosure": 156544,
+    "capital": 18412,
+    "capital_vs_omb": 1425,
+    "member_crosswalk": 1253,
+    "pdf_years": 37,
+    "pdf_capital_sd": 13913,
+    "pdf_capital_sd_orgs": 927,
+    "pdf_capital_sd_totals": 272,
+    "pdf_terms": 458,
+    "pdf_terms_units": 1414,
+    "pdf_terms_fsr": 49,
+    "pdf_schedule_c": 76272,
+    "pdf_schedule_c_subawards": 56,
+    "pdf_schedule_c_categories": 1706,
+    "pdf_schedule_c_initiatives": 1478,
+    "pdf_transparency": 53621,
+    "pdf_transparency_charts": 3489,
+    "pdf_transparency_resolutions": 103,
+    "pdf_capital_sd_series": 9,
+    "pdf_sc_disclosure": 107218,
+    "pdf_review": 1714,
+    "pdf_review_suggestions": 1714,
+    "pdf_council_questions": 11,
+    "open_data_crosswalk": 145385,
+    "open_data_rules": 990,
+    "open_data_coverage": 89,
+    "open_data_datasets": 8,
+    "agency_budget": 7611,
+    "capital_plan": 60738,
+    "cpdb_projects": 12929,
+    "cpdb_commitments": 41277,
+    "cpdb_codes": 41
+  },
+  "index": "viz/explorer/.cache/budget-public.db",
+  "include_reviewed": true,
+  "build": "public",
+  "review_screen": false,
+  "withheld": [
+    "pdf_review_suggestions"
+  ],
+  "dropped_columns": {
+    "pdf_review": [
+      "check_id",
+      "severity",
+      "dollars",
+      "expected",
+      "observed",
+      "detail"
+    ]
+  },
+  "pdf_families": {
+    "capital_sd": {
+      "label": "Capital §254 supporting detail",
+      "main": "pdf_capital_sd",
+      "tables": [
+        "pdf_capital_sd",
+        "pdf_capital_sd_orgs",
+        "pdf_capital_sd_totals"
+      ],
+      "decisions": {
+        "2018": "research/2026-10-22-fy18-capital-terms-review/data/fy18_capital_sd_review_decisions.csv",
+        "2019": "research/2026-10-22-fy19-capital-terms-review/data/fy19_capital_sd_review_decisions.csv",
+        "2020": "research/2026-10-21-fy20-capital-terms-review/data/fy20_capital_sd_review_decisions.csv",
+        "2022": "research/2026-10-21-fy22-capital-terms-review/data/fy22_capital_sd_review_decisions.csv",
+        "2023": "research/2026-10-21-fy23-capital-terms-review/data/fy23_capital_sd_review_decisions.csv",
+        "2024": "research/2026-10-21-fy24-capital-terms-review/data/fy24_capital_sd_review_decisions.csv",
+        "2025": "research/2026-10-21-fy25-capital-terms-review/data/fy25_capital_sd_review_decisions.csv",
+        "2026": "research/2026-10-21-fy26-capital-terms-review/data/fy26_capital_sd_review_decisions.csv",
+        "2027": "research/2026-10-20-fy27-capital-terms-review/data/fy27_capital_sd_review_decisions.csv"
+      }
+    },
+    "terms": {
+      "label": "Terms and Conditions",
+      "main": "pdf_terms",
+      "tables": [
+        "pdf_terms",
+        "pdf_terms_units",
+        "pdf_terms_fsr"
+      ],
+      "decisions": {
+        "2018": "research/2026-10-22-fy18-capital-terms-review/data/fy18_terms_review_decisions.csv",
+        "2021": "research/2026-10-21-fy21-capital-terms-review/data/fy21_terms_review_decisions.csv",
+        "2022": "research/2026-10-21-fy22-capital-terms-review/data/fy22_terms_review_decisions.csv",
+        "2023": "research/2026-10-21-fy23-capital-terms-review/data/fy23_terms_review_decisions.csv",
+        "2024": "research/2026-10-21-fy24-capital-terms-review/data/fy24_terms_review_decisions.csv",
+        "2025": "research/2026-10-21-fy25-capital-terms-review/data/fy25_terms_review_decisions.csv",
+        "2026": "research/2026-10-21-fy26-capital-terms-review/data/fy26_terms_review_decisions.csv",
+        "2027": "research/2026-10-20-fy27-capital-terms-review/data/fy27_terms_review_decisions.csv"
+      }
+    },
+    "schedule_c": {
+      "label": "Schedule C",
+      "main": "pdf_schedule_c",
+      "tables": [
+        "pdf_schedule_c",
+        "pdf_schedule_c_subawards",
+        "pdf_schedule_c_categories",
+        "pdf_schedule_c_initiatives"
+      ],
+      "decisions": {
+        "2018": "research/2026-10-22-fy18-schedule-c-review/data/fy18_sc_review_decisions.csv",
+        "2019": "research/2026-10-22-fy19-schedule-c-review/data/fy19_sc_review_decisions.csv",
+        "2020": "research/2026-10-22-fy20-schedule-c-review/data/fy20_sc_review_decisions.csv",
+        "2021": "research/2026-10-22-fy21-schedule-c-review/data/fy21_sc_review_decisions.csv",
+        "2022": "research/2026-10-21-fy22-schedule-c-review/data/fy22_sc_review_decisions.csv",
+        "2023": "research/2026-10-21-fy23-schedule-c-review/data/fy23_sc_review_decisions.csv",
+        "2024": "research/2026-10-21-fy24-schedule-c-review/data/fy24_sc_review_decisions.csv",
+        "2025": "research/2026-10-21-fy25-schedule-c-review/data/fy25_sc_review_decisions.csv",
+        "2026": "research/2026-10-21-fy26-schedule-c-review/data/fy26_sc_review_decisions.csv",
+        "2027": "research/2026-10-20-fy27-schedule-c-review/data/fy27_sc_review_decisions.csv"
+      }
+    },
+    "transparency": {
+      "label": "Transparency resolutions",
+      "main": "pdf_transparency",
+      "tables": [
+        "pdf_transparency",
+        "pdf_transparency_charts",
+        "pdf_transparency_resolutions"
+      ],
+      "decisions": {
+        "2018": "research/2026-10-22-fy18-transparency-review/data/fy18_tr_review_decisions.csv",
+        "2019": "research/2026-10-22-fy19-transparency-review/data/fy19_tr_review_decisions.csv",
+        "2020": "research/2026-10-21-fy20-transparency-review/data/fy20_tr_review_decisions.csv",
+        "2021": "research/2026-10-21-fy21-transparency-review/data/fy21_tr_review_decisions.csv",
+        "2022": "research/2026-10-21-fy22-transparency-review/data/fy22_tr_review_decisions.csv",
+        "2023": "research/2026-10-21-fy23-transparency-review/data/fy23_tr_review_decisions.csv",
+        "2024": "research/2026-10-21-fy24-transparency-review/data/fy24_tr_review_decisions.csv",
+        "2025": "research/2026-10-21-fy25-transparency-review/data/fy25_tr_review_decisions.csv",
+        "2026": "research/2026-10-21-fy26-transparency-review/data/fy26_tr_review_decisions.csv",
+        "2027": "research/2026-11-12-fy27-transparency-review/data/fy27_tr_review_decisions.csv"
+      }
+    }
+  },
+  "capital": {
+    "first": 2015,
+    "last": 2027,
+    "gaps": []
+  },
+  "files": {
+    "disclosure.parquet": {
+      "rows": 156544,
+      "bytes": 2856398,
+      "sha256": "237239692690aa3cd04346a05fd727b62c7702ba22dfe2526285512fb9e59763"
+    },
+    "disclosure_years.parquet": {
+      "rows": 19,
+      "bytes": 5538,
+      "sha256": "0a4308c4b1ee61f2c673aa2d781069dab65fe1745f31d36baac7688a6323e1a5"
+    },
+    "capital_council.parquet": {
+      "rows": 18412,
+      "bytes": 800685,
+      "sha256": "fbd2d0de9730496eaf7d09a115ddfe508a9bbbae40ccfea100f806be833e9a43"
+    },
+    "capital_sources.parquet": {
+      "rows": 13,
+      "bytes": 3314,
+      "sha256": "9f12451a8d94c065025fb98866d6a2262321fe906adbe201f6a9b05c6037b691"
+    },
+    "capital_vs_omb.parquet": {
+      "rows": 1425,
+      "bytes": 14536,
+      "sha256": "0cf473d01f7ad12d998042422ff26d28ffd3d95f9a60c9a19899c1e6d94edce9"
+    },
+    "meta.parquet": {
+      "rows": 12,
+      "bytes": 4322,
+      "sha256": "c5b16f118f5ac2846b97d88bf2ffc7d1516db1188e0df92655b24511dac5fe17"
+    },
+    "pdf_years.parquet": {
+      "rows": 37,
+      "bytes": 8343,
+      "sha256": "61f019744ca1dfaa8c222dd808afc12d0e56f05132efece8e4951096babc774f"
+    },
+    "pdf_capital_sd.parquet": {
+      "rows": 13913,
+      "bytes": 589335,
+      "sha256": "56e78b337a0c519ef555699b11becb795b094eb09dbaf32f77acdc49e5e8b07a"
+    },
+    "pdf_capital_sd_orgs.parquet": {
+      "rows": 927,
+      "bytes": 28112,
+      "sha256": "0aad0ed833e30015e37348ba32087c15d020b283b0f70ca8489d9c3adbd21d78"
+    },
+    "pdf_capital_sd_totals.parquet": {
+      "rows": 272,
+      "bytes": 14741,
+      "sha256": "3473b4a389bdb7d3c5d5271d03647321986e64b14df78915fb8e45dd62cfdbd0"
+    },
+    "pdf_terms.parquet": {
+      "rows": 458,
+      "bytes": 126923,
+      "sha256": "fac67e55d6083b2787512f999f7439e4d51fd39386d511d189021a143ccb9c80"
+    },
+    "pdf_terms_units.parquet": {
+      "rows": 1414,
+      "bytes": 16813,
+      "sha256": "447ebe1c092be42ae401044a5df513be43fc22860b7c9c34deaae754fbbc7a8b"
+    },
+    "pdf_terms_fsr.parquet": {
+      "rows": 49,
+      "bytes": 5964,
+      "sha256": "77e1754584a4ecb6f9fb63bcee3014417dc8286dad3e41dedff96659d8fd1ffa"
+    },
+    "pdf_schedule_c.parquet": {
+      "rows": 76272,
+      "bytes": 4337370,
+      "sha256": "e551a9369c5436047ae130031c2a028087a15a912117db260ef56f0d4fb38938"
+    },
+    "pdf_schedule_c_subawards.parquet": {
+      "rows": 56,
+      "bytes": 8963,
+      "sha256": "3517c04270ec38f0839eef10e250b2e66d2857be93fae536828d30bc30c509fe"
+    },
+    "pdf_schedule_c_categories.parquet": {
+      "rows": 1706,
+      "bytes": 35090,
+      "sha256": "55ce328f3f13de2a8daac187f8237edb5405608e669593dfae35c601fee6a823"
+    },
+    "pdf_schedule_c_initiatives.parquet": {
+      "rows": 1478,
+      "bytes": 56907,
+      "sha256": "57caacad50dd94ca7e9b8b7d8cc09e2816fcee258b7ed24ea59c637d47a68618"
+    },
+    "pdf_transparency.parquet": {
+      "rows": 53621,
+      "bytes": 1916265,
+      "sha256": "4ac435377770e30fcf66669f70ae7248a7f916be52d9ec231c07ab58398fcbb0"
+    },
+    "pdf_transparency_charts.parquet": {
+      "rows": 3489,
+      "bytes": 59756,
+      "sha256": "07f890d97e4e3d8f240a7732c0c708f0f449276d258cd9a3065c36c0c4cd5120"
+    },
+    "pdf_transparency_resolutions.parquet": {
+      "rows": 103,
+      "bytes": 16306,
+      "sha256": "91eb5a9c9d199577d4089bf6381eb8ff6ebd4affae733b5425a7d629757d9289"
+    },
+    "pdf_capital_sd_series.parquet": {
+      "rows": 9,
+      "bytes": 987,
+      "sha256": "079b4d75ab152df680e3e233a5c6377c9431fcb52e3d05c9416540828f74be27"
+    },
+    "pdf_sc_disclosure.parquet": {
+      "rows": 107218,
+      "bytes": 880934,
+      "sha256": "415f64efc7d53541a15af1902320f0b71ff29c3454d841e83cbc509e883f5a6c"
+    },
+    "pdf_review.parquet": {
+      "rows": 1714,
+      "bytes": 67758,
+      "sha256": "890ab3b53213b66f8929a13a7814d1e0aa886638d28a6cedab5fbd441eb46fd9"
+    },
+    "pdf_council_questions.parquet": {
+      "rows": 11,
+      "bytes": 1958,
+      "sha256": "ad098f986e33e345d8252ccece25ca3fdaa55f148b1735316f1e448f797fe79d"
+    },
+    "open_data_crosswalk.parquet": {
+      "rows": 145385,
+      "bytes": 1515772,
+      "sha256": "7c0741018b7c8d3c6f4981a03d8788b2ce140521ada7974535e02d9381556f55"
+    },
+    "open_data_rules.parquet": {
+      "rows": 990,
+      "bytes": 6370,
+      "sha256": "9c0b76f09b4d1ecb060ee452c6919cfd77aba0e327d8c1363d3d12f6ac502799"
+    },
+    "open_data_coverage.parquet": {
+      "rows": 89,
+      "bytes": 5172,
+      "sha256": "805322f3f126d69b19f4c315ab554151f9257f357c3dcc232797dff1345d1b03"
+    },
+    "open_data_datasets.parquet": {
+      "rows": 8,
+      "bytes": 2047,
+      "sha256": "2fb53b94359d820195fe1fa28d9f676ca2fe3ab5422711974a25928dcea54421"
+    },
+    "agency_budget.parquet": {
+      "rows": 7611,
+      "bytes": 67151,
+      "sha256": "4a047f22b4930b1242bd449c434239ebcf278f9d25229cfaf554e4402c79bf4a"
+    }
+  },
+  "agency_json": {
+    "files": 147,
+    "bytes": 2106537,
+    "sha256": "1e7c82aa44842086d6c5676a269fc32311df4c7145f7ca0e8290a700127b2def"
+  },
+  "council_json": {
+    "files": {
+      "council/awards/fy2009.json": {
+        "bytes": 924399,
+        "sha256": "a92a09ea95df53279445121556a3abc777f0b031b85830b71869a14e645ac703"
+      },
+      "council/awards/fy2011.json": {
+        "bytes": 889616,
+        "sha256": "dcbe6e1ae6a51b2bb800896a21715500d862626e760eda3cb43213a9cddf4e09"
+      },
+      "council/awards/fy2012.json": {
+        "bytes": 925973,
+        "sha256": "295957f23213722f2692281c90bbd313e385ed3a327cb57163303a7d6dcb633b"
+      },
+      "council/awards/fy2013.json": {
+        "bytes": 786794,
+        "sha256": "f791fdc13e49baa81039a95a1c4724142991c4c99bbd1135c2048c42e3d085ca"
+      },
+      "council/awards/fy2014.json": {
+        "bytes": 1029102,
+        "sha256": "f497c9293095b68abd09d19b25fb3d144ee906cf47e6e8a37b562338e9bb01fb"
+      },
+      "council/awards/fy2015.json": {
+        "bytes": 1030524,
+        "sha256": "c1227fb2a5421e552c5fe7fadd1689e8ab320935a7c209ca504eb31b76a73832"
+      },
+      "council/awards/fy2016.json": {
+        "bytes": 1214185,
+        "sha256": "ad6d93451d5add737769273e74a956dc0beb08f9a2ac3d52e6fa91aa91edb0ad"
+      },
+      "council/awards/fy2017.json": {
+        "bytes": 1386661,
+        "sha256": "be70111fa32d3faa34a69239a1dc33494615f10f9daa4744fbcbe6aa8af32820"
+      },
+      "council/awards/fy2018.json": {
+        "bytes": 1303278,
+        "sha256": "0ccc09149072de666e27e249c0845320d83006a16e8c6bc57da3c39e92a147e0"
+      },
+      "council/awards/fy2019.json": {
+        "bytes": 1186362,
+        "sha256": "e65d4d2611254f4ccc43b7f5d5de68408a86261337e625ac0e1b0862c264bff5"
+      },
+      "council/awards/fy2020.json": {
+        "bytes": 1302769,
+        "sha256": "d6c20ffe4b7c2041e309a447f1b252699792153b050c60578fd83ac7d1dd6ac1"
+      },
+      "council/awards/fy2021.json": {
+        "bytes": 1143352,
+        "sha256": "1588471f9d0d05292d2bd377e9c7b76cd309337ed4643fc7bd5cfa23f742a8a0"
+      },
+      "council/awards/fy2022.json": {
+        "bytes": 1326389,
+        "sha256": "31d4d4976141879cf0a33425430b516d6f999e0dc0d8d1a8dd09618438a35938"
+      },
+      "council/awards/fy2023.json": {
+        "bytes": 1339278,
+        "sha256": "7a1c83a95056312ba4d1678cdd052ac8950329965f953731429b0e74adecb462"
+      },
+      "council/awards/fy2024.json": {
+        "bytes": 1469631,
+        "sha256": "ab243fad025efd5bea57544358e9aa245818a1c0483b804d4974df9f2eb04dc7"
+      },
+      "council/awards/fy2025.json": {
+        "bytes": 1539049,
+        "sha256": "43b04ff08cfd8772350ae731460ec2151ca0d38af3793971cfbb4dbf500c9383"
+      },
+      "council/awards/fy2026.json": {
+        "bytes": 1627790,
+        "sha256": "2c5331b59d2d6412c351b7754116463c8c56617e04d4272fb0d725b84e1d1315"
+      },
+      "council/awards/fy2027.json": {
+        "bytes": 1473367,
+        "sha256": "ce84fd8895b57d31243c842558c0073262aad586903d9d4d3a9c649924b0daa2"
+      },
+      "council/awards/index.json": {
+        "bytes": 18160,
+        "sha256": "dcc0ed499318039d4317ec0a7b0217b38eebfb2b268e962b2a499b7205a11d55"
+      },
+      "council/capital/fy2015.json": {
+        "bytes": 187634,
+        "sha256": "230ebe0dc1aabf2ff12dafa5d48bc8e75ff8a9df293a05ed679cc76a5fb46fd6"
+      },
+      "council/capital/fy2016.json": {
+        "bytes": 213499,
+        "sha256": "3c73c2845b48e6c944c9a274574918263ea0bb9fbbc6a219251bd4fb8acf92fe"
+      },
+      "council/capital/fy2017.json": {
+        "bytes": 244102,
+        "sha256": "c7d89c80d417e331d46dca58f80a879214ad544bd921bb803d9c79b16e2296d9"
+      },
+      "council/capital/fy2018.json": {
+        "bytes": 166252,
+        "sha256": "764eeeda018c26044d7f071bbded1d17db0afc6882d0545f6f82bcd6e5d9f34a"
+      },
+      "council/capital/fy2019.json": {
+        "bytes": 287326,
+        "sha256": "2dc842369885457af4056c02af406ee819a8b42e60b7d0b04ac2ace93d995a11"
+      },
+      "council/capital/fy2020.json": {
+        "bytes": 304543,
+        "sha256": "3a37500dcd63ddd245bbd4afe02b1f47319f455a6d0cfd3ca138d1ed4ee342e9"
+      },
+      "council/capital/fy2021.json": {
+        "bytes": 275238,
+        "sha256": "706457742db5d3d19bac8c91001629dc4acb9222e3b98c16200b2191b16e4cb4"
+      },
+      "council/capital/fy2022.json": {
+        "bytes": 267521,
+        "sha256": "195e81b9c544f1456985431e570b4b2f13ec2d757cf852ed426b5e0189db23f4"
+      },
+      "council/capital/fy2023.json": {
+        "bytes": 264165,
+        "sha256": "0d8ebe3fc7cd5372d6e4f38c074346d5c2f134c5e5f2ae25304f0be8166a0357"
+      },
+      "council/capital/fy2024.json": {
+        "bytes": 218074,
+        "sha256": "8c4c0c3c16cf82aaf5c8e20f0a9c023dcec9acc4ba0f6f65227651f90e242b15"
+      },
+      "council/capital/fy2025.json": {
+        "bytes": 234975,
+        "sha256": "271d6efc0a79b04f4798769816941e91477bfc9d73226c8d05e459066a086cf2"
+      },
+      "council/capital/fy2026.json": {
+        "bytes": 207827,
+        "sha256": "cf10c2171dd87f68e5ef15fab219ed18ad7c0d8c280229ab6b87dcf340c59f82"
+      },
+      "council/capital/fy2027.json": {
+        "bytes": 197158,
+        "sha256": "f0c7db0f2ec19f7a872d6724d56f1471b646b3501d7b57adfec53ef0647c4b3b"
+      },
+      "council/omb.json": {
+        "bytes": 57624,
+        "sha256": "de725e599238632db69ed6a4d3e37209345ee172ddf5d1862b307bcb946be8e8"
+      },
+      "council/years.json": {
+        "bytes": 48897,
+        "sha256": "50d995bb886e0b2758a7dc1d9983a6d6bd576e15a32bbcdb616513601eb08034"
+      }
+    },
+    "bytes": 25091514,
+    "sha256": "4bee00fc3fef1d206091f7e4ff51e971c0c212d7c1cb7416d776df9bbcc7c69d"
+  }
+}
