@@ -1,0 +1,55 @@
+{
+  "ran": "2026-11-19T03:51:48.550Z",
+  "version": "2.1.0",
+  "note": "Run after the review fixes to #349 (review-fixes PR, epic #334), offline against the shipped index and pretest's local PDF tables. Q03's and Q04's checks were made specific before this run (see their notes in questions.json); Q10's note still holds. 12 pass on the first run of the new checks.",
+  "results": [
+    {
+      "id": "Q01",
+      "result": "pass"
+    },
+    {
+      "id": "Q02",
+      "result": "pass"
+    },
+    {
+      "id": "Q03",
+      "result": "pass"
+    },
+    {
+      "id": "Q04",
+      "result": "pass"
+    },
+    {
+      "id": "Q05",
+      "result": "pass"
+    },
+    {
+      "id": "Q06",
+      "result": "pass"
+    },
+    {
+      "id": "Q07",
+      "result": "pass"
+    },
+    {
+      "id": "Q08",
+      "result": "pass"
+    },
+    {
+      "id": "Q09",
+      "result": "pass"
+    },
+    {
+      "id": "Q10",
+      "result": "pass"
+    },
+    {
+      "id": "Q11",
+      "result": "pass"
+    },
+    {
+      "id": "Q12",
+      "result": "pass"
+    }
+  ]
+}

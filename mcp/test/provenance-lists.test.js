@@ -66,11 +66,38 @@ test("every data tool is covered here", () => {
   assert.deepEqual(domain.sort(), Object.keys(CALLS).sort());
 });
 
-test("every data answer has a link a person can open and a date", async () => {
-  // FAILS if an answer names its source without a link, or gives no as-of date.
+/**
+ * The link to the data's own source each tool's answer must carry: the publisher's page, dataset
+ * or file. BetaNYC's repo link alone does not count. The four PDF tools link each row on its page
+ * of the Council's PDF in the explorer (`#view=source&spdf=source/...`), which is the source
+ * document itself; in a published release they also link the PDF on GitHub and the publisher's
+ * copy, which a local test release (no checked commit) leaves out. No data tool is exempt.
+ */
+const EXPLORER_PDF = /https:\/\/betanyc\.github\.io\/New-York-City-Budget\/explorer\/#view=source&spdf=source%2F\S+/;
+const SOURCE_LINK = {
+  search_disclosure_awards: /https:\/\/rnd\.council\.nyc\.gov\/\S+/,
+  search_council_capital: /https:\/\/data\.cityofnewyork\.us\/\S*t474-a92g/,
+  compare_capital_to_omb: /https:\/\/data\.cityofnewyork\.us\/d\/46m8-77gv/,
+  search_capital_plan: /https:\/\/data\.cityofnewyork\.us\/d\/2cmn-uidm/,
+  search_schedule_c_awards: EXPLORER_PDF,
+  search_transparency_changes: EXPLORER_PDF,
+  search_capital_book: EXPLORER_PDF,
+  search_terms_conditions: EXPLORER_PDF,
+  search_agency_budget: /https:\/\/data\.cityofnewyork\.us\/d\/mwzb-yiwb/,
+  compare_adopted_modified: /https:\/\/data\.cityofnewyork\.us\/d\/mwzb-yiwb/,
+  list_available_fiscal_years: /^(?=[\s\S]*https:\/\/data\.cityofnewyork\.us\/d\/\S+)(?=[\s\S]*https:\/\/rnd\.council\.nyc\.gov\/\S+)/,
+};
+const REPO_LINK = /^https:\/\/github\.com\/BetaNYC\/New-York-City-Budget\/?[.,;)]*$/;
+
+test("every data answer links the data's own source, not only BetaNYC's repo, and has a date", async () => {
+  // FAILS if an answer's only link is the GitHub repo (list_available_fiscal_years had only that),
+  // if it names its source without linking it, or if it gives no as-of date.
+  assert.deepEqual(Object.keys(SOURCE_LINK).sort(), Object.keys(CALLS).sort());
   for (const [name, args] of Object.entries(CALLS)) {
     const text = await call(name, args);
-    assert.match(text, /https:\/\/\S+/, `${name}: no link`);
+    const links = text.match(/https:\/\/\S+/g) ?? [];
+    assert.ok(links.some((l) => !REPO_LINK.test(l)), `${name}: no link but the repo's`);
+    assert.match(text, SOURCE_LINK[name], `${name}: no link to the data's source`);
     assert.match(text, /\b20\d\d-\d\d-\d\d(?!\d)/, `${name}: no date`);
   }
 });
@@ -92,7 +119,7 @@ test("the capital plan links its three datasets", async () => {
 const LISTS = {
   search_disclosure_awards: [{ fiscal_year: 2025 }, /Showing (\d+) of ([\d,]+).*raise limit \(max 500\)/, 500],
   search_council_capital: [{ fiscal_year: 2025 }, /Showing (\d+) of ([\d,]+).*raise limit \(max 500\)/, 500],
-  compare_capital_to_omb: [{}, /Showing (\d+) of ([\d,]+)/, 500],
+  compare_capital_to_omb: [{}, /Showing (\d+) of ([\d,]+).*raise limit \(max 500\)/, 500],
   search_schedule_c_awards: [{ fiscal_year: 2025 }, /Showing (\d+) of ([\d,]+).*raise limit \(max 500\)/, 500],
   search_transparency_changes: [{}, /Showing (\d+) of ([\d,]+).*raise limit \(max 500\)/, 500],
   search_capital_book: [{}, /Showing (\d+) of ([\d,]+).*raise limit \(max 500\)/, 500],

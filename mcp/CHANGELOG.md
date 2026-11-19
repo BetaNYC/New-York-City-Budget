@@ -4,7 +4,7 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 2.1.0 — 2026-11-14
+## 2.1.0 — Unreleased
 
 ### Added
 - **City agency budgets** (#270, #284). A new table in the index, `agency_budget`: every City
@@ -128,39 +128,67 @@ All notable changes to `@betanyc/nyc-budget-mcp` are documented here. Format fol
 ### Changed (BetaNYC's MCP practices, epic #334)
 - **Every tool says it only reads** (#336). Each tool in `tools/list` now carries `annotations`:
   `readOnlyHint: true`, `openWorldHint: false` (every tool answers from data on this machine:
-  the shipped index or the downloaded PDF tables) and a `title`, through the shared module's
-  `annotateTools`. `test/annotations.test.js` fails on a tool without them.
+  the shipped index or the downloaded PDF tables) and a title of its own, through the shared module's
+  `annotateTools`. Each tool sets `title` (copied to `annotations.title`) in plain words, such as
+  "Compare Council capital to OMB" and "Search Schedule C awards"; before, titles were built from
+  the tool names ("Compare capital to omb"). `test/annotations.test.js` fails on a tool without
+  them, or with a title built from its name.
 - **A size budget for the tool list** (#342). `test/tool-size.test.js` caps the `tools/list` JSON
   plus the server instructions; a raise is recorded in the test with its date and reason.
 - **The PDF tables download times out and retries politely** (#337). Every request names the
   package, its version and the repo in its User-Agent (`nyc-budget-mcp/2.1.0 (+https://github.com/BetaNYC/New-York-City-Budget)`);
   it gives up after 30 s with no answer, or 30 s with no data in the middle of a file (there is no
   cap on a whole file, which is tens of MB on a slow line); and a 429 or 5xx is tried up to three
-  times, waiting what `Retry-After` asks (at most 30 s), else 1 s then 2 s. Before, a server that
+  times, waiting what `Retry-After` asks (at most 30 s), else 1 s then 2 s. A connection that fails
+  before any answer (`fetch` itself rejects: refused, reset, DNS) is tried again the same way,
+  within the same three tries; a request stopped by its own timeout is not. Before, a server that
   stopped answering hung the download for good. `src/version.ts` now holds the package version for
-  the server and the download. `test/upstream.test.js`, against a local server.
+  the server and the download. `test/upstream.test.js`, against a local server and, for dropped
+  connections, a stubbed `fetch`.
 - **Errors are plain sentences** (#341). A wrong argument type (`fiscal_year: "2025"`) used to return
   zod's JSON issue list; it now says which parameter and what it expects. Every failure goes through
   the shared module's `toolError`, which drops stack-frame lines. `test/errors.test.js`.
 - **Every data answer links its source and dates it** (#338, #339). `compare_capital_to_omb` now
   links OMB's dataset (`https://data.cityofnewyork.us/d/46m8-77gv`) and says when BetaNYC retrieved
   each compared year of the Council's list; `search_capital_plan` links `2cmn-uidm`, `djxg-kcfi`
-  and `fi59-268w`, and its project list says to raise `limit` to see more (#340).
-  `test/provenance-lists.test.js` checks every data tool for a link and a date, and every list
-  tool for "showing N of M" and its cap.
+  and `fi59-268w`, and its project list says to raise `limit` to see more (#340), as the OMB
+  comparison now does too ("raise limit (max 500) to see more lines"). `list_available_fiscal_years`
+  now ends with a Sources block linking each dataset it reports on; before, its only link was the
+  GitHub repo. `test/provenance-lists.test.js` checks every data tool for a link to the data's own
+  source (the repo's link does not count; no tool is exempt) and a date, and every list tool for
+  "showing N of M", its cap and how to see more.
 - **Text shared by several tools is said once, in the server instructions** (#344). The
   text-matching rule (#259) was in six tool descriptions and, longer, in six `whole_word`
-  descriptions; it is now in the instructions, with a one-line pointer in each tool. The tool list
-  plus instructions went from 49,958 to 45,244 characters (about 1,200 tokens less every turn), and
-  the size budget was lowered to 46,500. `test/instructions.test.js`.
+  descriptions; it is now in the instructions, and each of those tools and its `whole_word` keeps
+  the rule in one self-contained line, with no "see the instructions", because some AI apps never
+  show a model the server instructions. The tool list plus instructions went from 49,958 to 45,244
+  characters (about 1,200 tokens less every turn) and the size budget was lowered to 46,500; the
+  titles and self-contained hints bring it to 46,392, still within it. `test/instructions.test.js`.
 - **A test that stdout carries only protocol** (#343). `test/stdout.test.js` starts the built
   server over stdio and checks every stdout line is a JSON-RPC message.
 - **An evaluation set** (#345). `eval/questions.json`: twelve questions with known answers
-  worked out from the repo's own files; `npm run eval`; results in `eval/runs/`.
+  worked out from the repo's own files; `npm run eval`; results in `eval/runs/` (a later run on
+  the same day gets its own file). It tests the answers of the named tools, not whether a model
+  picks the right tool. Q10's check was corrected after its first run, and Q03's (`"36"`) and
+  Q04's (`"differ 1"`) were made specific after review; each question's `note` says so.
   `test/eval.test.js` runs it.
-- **Shared module 1.5.0** (#335; `src/betanyc-tools.ts` and `scripts/whats_changed.py` 1.4.1,
-  copied in unchanged from BetaNYC/betanyc-ai-workspace). It adds the helpers above; the three
-  shared tools answer as before.
+- **Behavior change: "PDF tables not installed" is an error** (review of #349). When a PDF tool
+  (`search_schedule_c_awards`, `search_transparency_changes`, `search_capital_book`,
+  `search_terms_conditions`) has no tables (not installed, still downloading, a failed download or
+  an unusable file), its answer is now `isError: true`. The text is the same plain explanation of
+  how to add them, with no "Error:" prefix. A client that treated that answer as data should
+  treat it as a failed call. `test/pdf-tools.test.js`.
+- **Shared module 1.5.1** (#335; `src/betanyc-tools.ts` 1.5.1 and `scripts/whats_changed.py` 1.4.1,
+  copied in unchanged from BetaNYC/betanyc-ai-workspace; `betanyc-tools.ts` is that repo's commit
+  17938f20, raw file sha256 `567838e0cf659690f3e07885fdfedefa461274e1f51477084f3b48f4e683a72d`,
+  stamp on its line 2 `e1e15642c1a34141ecc37f2347ac3e352b5305a7ff703b82df38f3f482a13e96`, which is
+  the hash of the file without that line). It adds the helpers above; the three shared tools
+  answer as before. 1.5.1: `assertEveryToolAnnotated` requires `readOnlyHint: true`, a boolean
+  `openWorldHint` and a title; `annotateTools` lets a tool's own declared `openWorldHint` win;
+  `provenance()` gives a live answer's time in New York to the minute, labels a live `asOf` as the
+  data's own date and adds `as_of_kind` and `retrieved_at`, and refuses links with a username or
+  password and names with control characters; `toolError` no longer filters the caller's own
+  message and ignores secrets under 8 characters. This server does not call `provenance()`.
 
 ### Fixed
 - **2.0.6's note overstated who was affected.** It said "If you quoted a T&C unit amount from this

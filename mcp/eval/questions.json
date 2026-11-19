@@ -3,7 +3,9 @@
     "Fixed question set for @betanyc/nyc-budget-mcp, written 2026-11-18 before scoring (#345).",
     "Each answer was worked out from the repo's own committed files (the path in `from`), never from the server's index, then the questions were run.",
     "A question passes when every `contains` string is in the answer text and no `not_contains` string is. `tables: true` needs the PDF tables (pretest builds them).",
-    "Run: npm run eval (after npm test's pretest, or with --tables <pdf-tables.db>). Add --record to save the run in eval/runs/."
+    "Run: npm run eval (after npm test's pretest, or with --tables <pdf-tables.db>). Add --record to save the run in eval/runs/.",
+    "It tests the answers of the named tools: each question names its tool and arguments. It does not test whether a model picks the right tool.",
+    "A check changed after a run says so, with the date and why, in the question's `note`."
   ],
   "questions": [
     {
@@ -27,16 +29,18 @@
       "q": "How much did the Council put on capital budget line P D018 in its FY2025 list?",
       "tool": "search_council_capital",
       "args": { "fiscal_year": 2025, "budget_line": "P D018" },
-      "contains": ["36", "$35,989,000"],
-      "from": "data/capital/council_capital_awards.csv: report_year 2025, budget_line_norm 'P D018': 36 rows, all FY2025 money, summing to 35989000"
+      "contains": ["36 matching row(s) in the Council's capital designations", "For the list's own year (amount_fy = report year): 36 row(s), $35,989,000"],
+      "from": "data/capital/council_capital_awards.csv: report_year 2025, budget_line_norm 'P D018': 36 rows, all FY2025 money, summing to 35989000",
+      "note": "Check made specific on 2026-11-18 after review of #349: it was \"36\" and \"$35,989,000\", and \"36\" alone matches almost any answer. Now it asks for the match count and the own-year total line in full. The answer did not change"
     },
     {
       "id": "Q04",
       "q": "Did the Council's FY2023 capital list agree with OMB's adopted capital budget on every budget line?",
       "tool": "compare_capital_to_omb",
       "args": { "report_year": 2023 },
-      "contains": ["match (both years equal) 129", "differ 1", "E D001"],
-      "from": "data/capital/council_vs_omb_by_budget_line.csv: report_year 2023 has 129 'match' and 1 'differ' (E D001: Council 224296000, OMB 229846000)"
+      "contains": ["match (both years equal) 129 · differ 1 · ", "E D001"],
+      "from": "data/capital/council_vs_omb_by_budget_line.csv: report_year 2023 has 129 'match' and 1 'differ' (E D001: Council 224296000, OMB 229846000)",
+      "note": "Check made specific on 2026-11-18 after review of #349: \"differ 1\" alone also matches \"differ 10\"; it now reads the verdict line through the separator. The answer did not change"
     },
     {
       "id": "Q05",

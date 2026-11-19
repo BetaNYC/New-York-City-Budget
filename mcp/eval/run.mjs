@@ -2,7 +2,11 @@
 /**
  * Runs the evaluation set (eval/questions.json, #345) against the built server, offline: the
  * shipped index, and the PDF tables at --tables (default: pretest's .pdf-test/release). Prints one
- * line per question and exits 1 if any fails. --record saves the run as eval/runs/<date>.json.
+ * line per question and exits 1 if any fails. --record saves the run as eval/runs/<date>.json
+ * (<date>-2.json and so on for a later run the same day).
+ *
+ * It tests the answers of the named tools: each question names the tool and its arguments. It does
+ * not test whether a model picks the right tool for a question.
  *   node eval/run.mjs [--tables <pdf-tables.db>] [--record]
  */
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
@@ -64,7 +68,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const version = JSON.parse(readFileSync(join(MCP, "package.json"), "utf8")).version;
     const ran = new Date().toISOString();
     mkdirSync(join(HERE, "runs"), { recursive: true });
-    writeFileSync(join(HERE, "runs", `${ran.slice(0, 10)}.json`), JSON.stringify({ ran, version, results }, null, 2) + "\n");
+    // One file per run, never overwriting an earlier one of the same day (eval/runs/ is the record).
+    let file = join(HERE, "runs", `${ran.slice(0, 10)}.json`);
+    for (let k = 2; existsSync(file); k++) file = join(HERE, "runs", `${ran.slice(0, 10)}-${k}.json`);
+    writeFileSync(file, JSON.stringify({ ran, version, results }, null, 2) + "\n");
   }
   process.exit(count("fail") ? 1 : 0);
 }

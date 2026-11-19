@@ -14,6 +14,8 @@ import { toolListSize } from "../dist/betanyc-tools.js";
 // several tools share in the server instructions rather than in each tool.
 // Lowered 2026-11-18 (#344): the text-matching rule moved into the server instructions, said once
 // instead of in six tool descriptions and six whole_word descriptions. Measured 45,244.
+// 2026-11-18, review fixes (not a raise): each tool's own title and a self-contained one-line
+// text-matching hint in each tool (some apps never show the instructions). Measured 46,392.
 const BUDGET_CHARS = 46_500;
 
 test("tool definitions plus server instructions stay within the size budget", () => {

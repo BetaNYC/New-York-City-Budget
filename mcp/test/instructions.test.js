@@ -40,3 +40,21 @@ test("no tool description or parameter repeats the full rule", async () => {
     for (const p of FULL_RULE) assert.ok(!json.includes(p), `${t.name} repeats: ${p}`);
   }
 });
+
+test("each tool with text filters states the rule itself, in one line, without pointing at the instructions", async () => {
+  // FAILS if a tool's description or its whole_word parameter only says "see the server
+  // instructions": some AI apps never show a model the instructions, so the hint must stand alone.
+  const { tools } = await client.listTools();
+  const withRule = tools.filter((t) => t.inputSchema.properties?.whole_word);
+  assert.equal(withRule.length, 6, withRule.map((t) => t.name).join(", "));
+  for (const t of withRule) {
+    const ww = t.inputSchema.properties.whole_word.description;
+    for (const [what, text] of [["description", t.description], ["whole_word", ww]]) {
+      assert.doesNotMatch(text, /instructions/i, `${t.name} ${what} points at the instructions`);
+      assert.match(text, /3 or fewer letters and digits matches whole words/, `${t.name} ${what}: no short-term rule`);
+      assert.match(text, /a longer one (matches )?anywhere/, `${t.name} ${what}: no long-term rule`);
+    }
+    assert.match(t.description, /whole_word true or false overrides/, `${t.name}: no override`);
+    assert.match(ww, /true, whole words only.*false, anywhere/, `${t.name}: whole_word does not say what true and false do`);
+  }
+});

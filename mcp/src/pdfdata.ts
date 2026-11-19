@@ -227,10 +227,13 @@ const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]", "::1"]);
  * its version and repo; waits at most `headersMs` for the response to start and at most `stallMs`
  * between chunks of the body (there is no cap on the whole file, which is tens of MB on a slow
  * line, only on a stall); and is tried up to `tries` times when GitHub answers 429 or 5xx, waiting
- * what Retry-After asks (else 1 s, then 2 s), never more than `maxWaitMs` at once. Nothing polls:
- * a download runs only when asked for, at most once per process at start-up. Mutable for tests.
+ * what Retry-After asks (else `retryBaseMs`, then twice that: 1 s, then 2 s), never more than
+ * `maxWaitMs` at once. A request whose connection fails before any answer (fetch itself rejects:
+ * refused, reset, DNS) is tried again the same way, within the same `tries`; one stopped by our own
+ * timeout is not. Nothing polls: a download runs only when asked for, at most once per process at
+ * start-up. Mutable for tests.
  */
-export const HTTP = { headersMs: 30_000, stallMs: 30_000, tries: 3, maxWaitMs: 30_000 };
+export const HTTP = { headersMs: 30_000, stallMs: 30_000, tries: 3, maxWaitMs: 30_000, retryBaseMs: 1000 };
 export const USER_AGENT = `nyc-budget-mcp/${PACKAGE_VERSION} (+https://github.com/${REPO})`;
 
 /** Retry-After in milliseconds: delay-seconds or an HTTP-date (RFC 9110 § 10.2.3); null if absent or unreadable. */
@@ -261,11 +264,22 @@ export async function fetchStream(url: URL): Promise<Readable> {
       res = await fetch(url, { headers: { "user-agent": USER_AGENT, accept: "application/octet-stream, application/json" }, redirect: "follow", signal: ac.signal });
     } catch (err) {
       clearTimeout(timer);
-      throw why ? new Error(why) : err;
+      // Our own timeout fired: say so, and do not try again (the server is not answering).
+      if (why) throw new Error(why);
+      // fetch rejects with a TypeError when the connection fails (refused, reset, DNS); anything
+      // else (an abort we did not start, a bug) is passed on as it is.
+      if (!(err instanceof TypeError)) throw err;
+      if (attempt < HTTP.tries) {
+        await new Promise((r) => setTimeout(r, HTTP.retryBaseMs * 2 ** (attempt - 1)));
+        continue;
+      }
+      const cause = (err as { cause?: { code?: unknown; message?: unknown } }).cause;
+      const detail = typeof cause?.code === "string" ? cause.code : typeof cause?.message === "string" ? cause.message : err.message;
+      throw new Error(`${url.href}: the connection failed (${detail})${attempt > 1 ? ` after ${attempt} tries` : ""}`, { cause: err });
     }
     clearTimeout(timer);
     if ((res.status === 429 || res.status >= 500) && attempt < HTTP.tries) {
-      const wait = retryAfterMs(res.headers.get("retry-after")) ?? 1000 * 2 ** (attempt - 1);
+      const wait = retryAfterMs(res.headers.get("retry-after")) ?? HTTP.retryBaseMs * 2 ** (attempt - 1);
       await res.body?.cancel().catch(() => {});
       if (wait > HTTP.maxWaitMs) throw new Error(`${url.href}: HTTP ${res.status}, and the server asks to wait ${Math.ceil(wait / 1000)} s. Try again later.`);
       await new Promise((r) => setTimeout(r, wait));

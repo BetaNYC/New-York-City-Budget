@@ -108,13 +108,15 @@ test("the four PDF tools are listed, with the four spreadsheet tools, the two ag
     "search_agency_budget", "compare_adopted_modified", "search_capital_plan", "whats_changed", "about_betanyc", "about_data"].sort());
 });
 
-test("without the download, each PDF tool says how to add it (not an error, no rows)", async () => {
-  // FAILS if a tool errors, returns rows, or omits either way to add the tables.
+test("without the download, each PDF tool is an error that says how to add it (no rows)", async () => {
+  // FAILS if the answer is not marked isError (it has no data), loses its plain text (no "Error:"
+  // line instead of the explanation), returns rows, or omits either way to add the tables.
   useDir(WITHOUT);
   try {
     for (const name of PDF_TOOLS) {
       const r = await call(name, { fiscal_year: 2026 });
-      assert.equal(r.isError, false, name);
+      assert.equal(r.isError, true, name);
+      assert.match(r.text, new RegExp(`^${name} answers from the checked tables read from the Council's PDFs`), name);
       assert.match(r.text, /optional download that is not part of the npm package/, name);
       assert.match(r.text, /npx @betanyc\/nyc-budget-mcp download --pdf-tables/, name);
       assert.match(r.text, /NYC_BUDGET_PDF_DATA=on/, name);
@@ -749,7 +751,7 @@ test("a download of another format is refused with a way forward", async () => {
   plant({ pdf_tables_format: "nyc-budget-pdf-tables/0", built_at: "x", source_commit: "", source_commit_check: "" });
   try {
     const r = await call("search_terms_conditions", {});
-    assert.equal(r.isError, false);
+    assert.equal(r.isError, true, "no data, so an error, with the way forward as its text");
     assert.match(r.text, /cannot be used: its format is "nyc-budget-pdf-tables\/0"/);
     assert.match(r.text, /download --pdf-tables/);
   } finally {

@@ -109,10 +109,13 @@ from the same `agency_budget` table as `search_agency_budget`.
 
 Every tool is marked read-only for MCP clients (#336): `readOnlyHint: true`, `openWorldHint: false`
 (each answers from data on this machine, the shipped index or the downloaded PDF tables, never a
-live outside API) and a `title`.
+live outside API) and a title of its own in plain words ("Compare Council capital to OMB",
+"Search Schedule C awards"), never one built from the tool's name.
 
 A failure is one plain sentence with `isError: true`, saying what went wrong and what to try,
-never a stack trace or a JSON dump (#341; the shared module's `toolError`).
+never a stack trace or a JSON dump (#341; the shared module's `toolError`). A PDF tool asked
+while the PDF tables are not installed (or still downloading, or unusable) also answers with
+`isError: true`: its text is the plain explanation of how to add them.
 
 ### Unknown parameters are rejected, not ignored
 
@@ -386,7 +389,9 @@ picks up tables `download` installs, without a restart.
 Each request to GitHub says who is asking (User-Agent `nyc-budget-mcp/<version>
 (+https://github.com/BetaNYC/New-York-City-Budget)`), gives up after 30 s with no answer or 30 s
 with no data in the middle of a file, and tries a 429 or 5xx answer up to three times, waiting
-what `Retry-After` asks (at most 30 s). Nothing polls: a download runs only when you ask for one,
+what `Retry-After` asks (at most 30 s), else 1 s then 2 s. A connection that fails before any
+answer (refused, reset, a DNS failure) is tried again the same way, within the same three tries; a
+request stopped by its own 30 s timeout is not. Nothing polls: a download runs only when you ask for one,
 or once at start-up with `NYC_BUDGET_PDF_DATA` set (#337).
 
 **Releases.** The releases are listed on
@@ -559,7 +564,7 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/about-data.test.js` | `about_data` answers from `DATA-SOURCES.json`: every tool has a source; the package's copy is the repo's file; the figures are official only where BetaNYC passed values on unchanged; each source's date is the day its committed copy was downloaded (from the manifests), the PDF tables "not fetched" until installed; a topic or a tool name picks its sources |
 | `test/shipped-data.test.js` | The package's index has only the expected tables, every `pdf_*` table empty, the commit recorded; every file its build read is on a structured allowlist and none is PDF-derived; `npm pack` would ship exactly the `dist/` code, README, LICENSE, package.json and the index (replaces 2.0.0's `no-pdf-data.test.js`) |
 | `test/pdf-families.test.js` | The PDF families' gate: `--include-reviewed` never writes `data/budget.db`; a reviewed build loads exactly what `pdf_years.csv` lists, from no old-parser file; the download holds the `pdf_*` tables only, every row of a listed reviewed or closed family-year; the spreadsheet tools answer the same with or without it |
-| `test/pdf-tools.test.js` | The four PDF tools: without the download, how to add it; every served row labeled, with its page and links at the build's commit (never a branch; none when the PDFs were not checked against it); planted rows of an unlisted year or another status never served; hidden text always labeled; decisions shown; "no dollar amount" rows and Part II never summed; totals equal the CSVs; **parity** with the explorer's queries (`viz/explorer/src/query/pdf.js`: Terms, Schedule C only rows, capital Part I) |
+| `test/pdf-tools.test.js` | The four PDF tools: without the download, an `isError` answer that says how to add it; every served row labeled, with its page and links at the build's commit (never a branch; none when the PDFs were not checked against it); planted rows of an unlisted year or another status never served; hidden text always labeled; decisions shown; "no dollar amount" rows and Part II never summed; totals equal the CSVs; **parity** with the explorer's queries (`viz/explorer/src/query/pdf.js`: Terms, Schedule C only rows, capital Part I) |
 | `test/pdf-download.test.js` | The download, against a local HTTP server and folder only: install, `--pdfs`, a tampered, oversized or missing file (or PDF) installs nothing and leaves no temp file, a killed download's temp files are swept, one download at a time, plain http refused, `NYC_BUDGET_PDF_DATA=on` in the background and `=pdfs` not re-downloading a release without PDFs, release picking |
 | `test/pdf-release.test.js` | The automatic release (W7): `verify-pdf-release.mjs` accepts pretest's release and lists exactly its files, manifest last; refuses a local build, another commit, a tampered or missing file, another format; the workflow's tag is one the downloader picks, and the CLI installs from exactly the uploaded files on a local HTTP server; the workflow never runs on a PR, has write access only in its publish job, never builds with `--allow-local-commit` |
 | `test/source-commit.test.js` | The commit recorded for the GitHub links, on a throwaway repo: only a clean commit on `origin/main` whose PDFs match |
@@ -573,12 +578,12 @@ tests were mutation-checked (see `CHANGELOG.md`).
 | `test/capital.test.js` | Every capital row and its provenance (sha256 recomputed from the committed file); own-year vs out-year totals; ordering; split records; every filter's exactness; FY2018; caveats; and `compare_capital_to_omb` verdict counts, figures and ordering |
 | `test/license.test.js` | One license: the license statements name no second license; `LICENSE` names code, data and docs and excludes `source/`; `mcp/LICENSE` equals the repository's. |
 | `test/cleared-label.mjs` | Helper, not a test: the Cleared-line label expected for a set of CSV rows. |
-| `test/annotations.test.js` | #336: every tool, in `TOOLS` and in a client's `tools/list`, is `readOnlyHint: true`, `openWorldHint: false`, with a title (the shared module's `assertEveryToolAnnotated`) |
+| `test/annotations.test.js` | #336: every tool, in `TOOLS` and in a client's `tools/list`, is `readOnlyHint: true`, `openWorldHint: false`, with a title (the shared module's `assertEveryToolAnnotated`), and each tool's title is its own, not built from its name |
 | `test/tool-size.test.js` | #342: the `tools/list` JSON plus the server instructions stay under a size budget (`toolListSize`); a raise is recorded in the test with its date and reason |
-| `test/upstream.test.js` | #337: the download's requests, against a local server only: a User-Agent naming the package, version and repo; a timeout for no answer and for a stalled body; up to three tries on 429 and 5xx honoring `Retry-After` (seconds or a date), never a wait past the cap, never a retry on a 404 |
+| `test/upstream.test.js` | #337: the download's requests, against a local server only: a User-Agent naming the package, version and repo; a timeout for no answer and for a stalled body, never retried; up to three tries on 429 and 5xx honoring `Retry-After` (seconds or a date), never a wait past the cap, never a retry on a 404; up to three tries on a dropped connection (a stubbed `fetch`), and no retry on any other failure |
 | `test/errors.test.js` | #341: a wrong argument type, an unknown tool and a guard each fail as one plain sentence with `isError`, never zod's JSON or a stack frame |
-| `test/provenance-lists.test.js` | #338–#340: every data tool's answer has an `https` link and a date; the OMB comparison links `46m8-77gv` and dates the Council side; the capital plan links its three datasets; every list tool with `limit: 1` says "showing 1 of M" and how to see more, and a limit above its maximum is capped |
-| `test/instructions.test.js` | #344: the text-matching rule is in the server instructions once, beside BetaNYC's about_data paragraph, and no tool description or parameter repeats it in full |
+| `test/provenance-lists.test.js` | #338–#340: every data tool's answer links the data's own source (the GitHub repo's link alone does not count) and has a date; the OMB comparison links `46m8-77gv` and dates the Council side; the capital plan links its three datasets; every list tool with `limit: 1` says "showing 1 of M" and how to see more, and a limit above its maximum is capped |
+| `test/instructions.test.js` | #344: the text-matching rule is in the server instructions once, beside BetaNYC's about_data paragraph, and no tool description or parameter repeats it in full; each tool with text filters, and its `whole_word`, states the rule itself in one line without pointing at the instructions |
 | `test/stdout.test.js` | #343: the built server, started over stdio, writes only JSON-RPC messages to stdout through initialize, tools/list and two tool calls |
 | `test/eval.test.js` | #345: the evaluation set (`eval/questions.json`) has at least ten questions, each with its check and where its answer came from, and every one passes |
 | `test/strict-schema.test.js` | Issue #37: every tool advertises and enforces `additionalProperties: false`, with per-tool hints |
@@ -593,7 +598,11 @@ tests were mutation-checked (see `CHANGELOG.md`).
 **Evaluation set** (#345). `eval/questions.json` holds twelve questions a person would ask, each
 with the answer worked out from the repo's own files (the file is named in `from`) before the
 questions were run. `npm run eval` runs them offline against the shipped index and the PDF tables
-pretest builds (`--tables <file>` for others; `--record` saves the run in `eval/runs/`).
+pretest builds (`--tables <file>` for others; `--record` saves the run in `eval/runs/`). It tests
+the answers of the named tools: each question names its tool and arguments, so it does not test
+whether a model picks the right tool. A check changed after a run says so in the question's
+`note`: Q10's was corrected after its first run, and Q03's and Q04's were made specific after
+review (Q03 checked only "36").
 
 The 1.x tests and the Legistar enrichment script are parked in `retired-1.x/` (not run, not
 shipped) until a maintainer deletes them.

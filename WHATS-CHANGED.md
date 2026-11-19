@@ -7,10 +7,10 @@ This page lists the changes to BetaNYC's New York City Budget site and its AI se
 
 To report a bug in this server or ask for a new feature, open an issue at https://github.com/BetaNYC/New-York-City-Budget/issues.
 
-## 2026-11-14: Server tools say they only read, and more answers link to the City's data
+## Unreleased: Server tools say they only read, and more answers link to the City's data
 
 - **Tags:** MCP
-- **What changed:** Every tool in the server now tells your AI app that it only reads data and never changes anything. Apps that ask you to approve tool calls can use this when deciding whether to ask. The answers about OMB's capital commitment plan and about the Council-versus-OMB capital comparison now link to the City's dataset pages, and the comparison says when BetaNYC downloaded each year of the Council's list. When a question is asked the wrong way, such as a year given as text, the answer says which part was wrong in one plain sentence. The optional download of the tables read from the Council's budget documents now stops with a message if GitHub stops answering, instead of waiting forever, and tries again when GitHub is briefly busy.
+- **What changed:** Every tool in the server now tells your AI app that it only reads data and never changes anything. Apps that ask you to approve tool calls can use this when deciding whether to ask. The answers about OMB's capital commitment plan and about the Council-versus-OMB capital comparison now link to the City's dataset pages, and the comparison says when BetaNYC downloaded each year of the Council's list. When a question is asked the wrong way, such as a year given as text, the answer says which part was wrong in one plain sentence. The optional download of the tables read from the Council's budget documents now stops with a message if GitHub stops answering, instead of waiting forever, and tries again when GitHub is briefly busy or the connection drops. Each tool has a proper name your app can show, such as "Compare Council capital to OMB", and the answer about which years the server holds now links each source. When the tables from the Council's budget documents are not installed, the answer that says how to get them is now marked as an error, so your app does not take it for data.
 - **Who it affects:** People who use the server with an AI assistant.
 - **MCP version:** [nyc-budget-mcp 2.1.0](mcp/CHANGELOG.md)
 - **More detail:** [Developer notes](mcp/CHANGELOG.md) · [The plan](https://github.com/BetaNYC/New-York-City-Budget/issues/334)

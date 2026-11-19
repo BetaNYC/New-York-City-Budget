@@ -490,7 +490,7 @@ function ombText(res: OmbComparisonResult): string {
   const L: string[] = [
     `${n(res.matched)} line-year comparison(s) (report year, budget line) over ${n(res.distinct_lines)} distinct budget line(s). ` +
       (shown < res.matched
-        ? `Showing ${shown} of ${n(res.matched)}: lines that disagree first, then the largest first-year difference. Counts below cover all ${n(res.matched)}.`
+        ? `Showing ${shown} of ${n(res.matched)}: lines that disagree first, then the largest first-year difference. Counts below cover all ${n(res.matched)}. Narrow the filters or raise limit (max 500) to see more lines.`
         : `Showing all ${shown}: lines that disagree first.`),
     "",
     "Verdicts over all matches: " + OMB_VERDICTS.map((v) => `${VERDICT_LABEL[v]} ${n(res.verdicts[v])}`).join(" · "),
@@ -549,8 +549,23 @@ const SC_REASON: Record<string, string> = {
 const PDF_CAVEAT =
   'Caveat: these tables are read from the Council\'s PDFs by BetaNYC and checked (each row against a second reading of the page image, each printed total tied, flagged rows sent to a person). Every row says its status: "checked, review in progress" (the year\'s review is not finished, so a flag may still be open) or "checked and reviewed". Values are as printed, never corrected; a row the PDF gets wrong carries its review decision. The old parser\'s output (1.x, and FY2008–FY2017) is never served.';
 
-/** The PDF tables, or the answer to give without them (absent, downloading, failed, unusable). */
-function pdfTablesOrAnswer(tool: string): { tables: PdfTables } | { answer: ReturnType<typeof textResult> } {
+/** Where each dataset list_available_fiscal_years reports on comes from (the links in DATA-SOURCES.json). */
+const YEARS_SOURCES = [
+  "Sources:",
+  "  Expense funding disclosure: the Council's Research & Data site, https://rnd.council.nyc.gov/expense_funding/",
+  "  Council capital: the Council's workbook, https://rnd.council.nyc.gov/src/assets/Capital-Database.xlsx, and NYC Open Data t474-a92g, https://data.cityofnewyork.us/d/t474-a92g",
+  "  OMB comparison: OMB's Capital Budget on NYC Open Data, https://data.cityofnewyork.us/d/46m8-77gv",
+  "  PDF tables: the Council's budget documents, https://council.nyc.gov/budget/",
+  "  Agency budgets: NYC Open Data mwzb-yiwb, https://data.cityofnewyork.us/d/mwzb-yiwb",
+  "  Capital plan: NYC Open Data 2cmn-uidm, https://data.cityofnewyork.us/d/2cmn-uidm; CPDB djxg-kcfi, https://data.cityofnewyork.us/d/djxg-kcfi, and fi59-268w, https://data.cityofnewyork.us/d/fi59-268w",
+];
+
+/**
+ * The PDF tables, or the answer to give without them (absent, downloading, failed, unusable). That
+ * answer has no data, so it is an error (isError: true) for the client, though its text is not an
+ * "Error:" line: it says plainly why there is nothing and how to get the tables.
+ */
+function pdfTablesOrAnswer(tool: string): { tables: PdfTables } | { answer: ReturnType<typeof textResult> & { isError: true } } {
   const { tables, problem } = openPdfTables();
   if (tables) return { tables };
   const family = PDF_FAMILY_LABEL[PDF_TOOLS[tool]];
@@ -562,9 +577,12 @@ function pdfTablesOrAnswer(tool: string): { tables: PdfTables } | { answer: Retu
         ? `The download this server started failed: ${p.error}`
         : problem ?? "They are not installed on this machine.";
   return {
-    answer: textResult(
-      `${tool} answers from the checked tables read from the Council's PDFs (${family}), an optional download that is not part of the npm package. ${state}\n\n${howToAdd()}\n\nThe spreadsheet tools (search_disclosure_awards, search_council_capital, compare_capital_to_omb) work without it. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`
-    ),
+    answer: {
+      ...textResult(
+        `${tool} answers from the checked tables read from the Council's PDFs (${family}), an optional download that is not part of the npm package. ${state}\n\n${howToAdd()}\n\nThe spreadsheet tools (search_disclosure_awards, search_council_capital, compare_capital_to_omb) work without it. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`
+      ),
+      isError: true,
+    },
   };
 }
 
@@ -964,12 +982,13 @@ const betanyc = createBetanycTools({
 
 /**
  * #259's text-matching rule, said once in the server instructions (#344; BetaNYC MCP practice 6)
- * instead of in full in six tool descriptions and six whole_word descriptions. Each keeps a
- * one-line pointer, so a client that drops the instructions still sees the short-term rule.
+ * instead of in full in six tool descriptions and six whole_word descriptions. Each keeps the rule
+ * in one self-contained line, with no "see the instructions": some AI apps never show a model the
+ * server instructions, and the line alone must be enough to use the filters right.
  */
 const TEXT_MATCHING = `How text filters match, on every tool that has them (search_disclosure_awards, search_council_capital, search_schedule_c_awards, search_transparency_changes, search_capital_book, search_terms_conditions): case- and accent-insensitive, and % and _ are literal. By default a term of ${SHORT_TERM} or fewer letters and digits (after trimming) matches whole words only ('AI' finds 'AI Training Program', '(AI)', 'AI-powered', 'BetaNYC's AI', but not 'Jamaica' or 'AIDS'), and a longer term matches anywhere, as a substring. The whole_word parameter overrides that for every name and prose filter in the call: false to find a short term inside words ('AI' inside 'AIDS'), true to keep a longer word from matching longer ones ('Fellow' but not 'Fellowship'). Identifier filters (project_id, resolution_number) always match substrings, so a fragment such as 'CC1' or '101' finds the IDs that contain it; exact filters (EIN, IDs, budget line, codes, city, zip) are not affected. When any filter matched as whole words, the answer's second line says so.`;
-const WHOLE_WORD_DESC = `true: name and prose filters match whole words only ('AI' but not 'Jamaica' or 'AIDS'); false: substrings. Omit for the default (a term of ${SHORT_TERM} or fewer letters and digits matches whole words). The server instructions give the full rule.`;
-const TEXT_RULE = ` A text term of ${SHORT_TERM} or fewer letters and digits matches whole words; whole_word overrides it, and the server instructions give the full rule.`;
+const WHOLE_WORD_DESC = `Sets how name and prose filters match: true, whole words only ('AI' not in 'Jamaica', 'Fellow' not in 'Fellowship'); false, anywhere ('AI' in 'AIDS'). Omit for the default: a term of ${SHORT_TERM} or fewer letters and digits matches whole words, a longer one anywhere.`;
+const TEXT_RULE = ` Text filters ignore case and accents; a term of ${SHORT_TERM} or fewer letters and digits matches whole words only ('AI' finds 'AI-powered', not 'AIDS'), a longer one matches anywhere; whole_word true or false overrides that.`;
 
 /** What the client gives the model once, beside the tool list (test/tool-size.test.js measures both). */
 export const INSTRUCTIONS = `${TEXT_MATCHING}\n\n${betanyc.instructions}`;
@@ -998,6 +1017,7 @@ const LIMIT_DESC = "Max rows shown, 1–500 (default 50; above 500 is capped at 
 export const TOOLS = annotateTools([
   {
     name: "search_disclosure_awards",
+    title: "Search Council disclosure awards",
     description: `Search the NYC Council's expense funding disclosure — the Council's own award-level list of discretionary expense designations, FY2009 and FY2011–FY2027 (FY2010 is NOT included: the Council's archived workbook for it is incomplete against NYC Open Data, so it is left out). One row per published row (exact copies are kept and flagged), with clearance status, funding stream, agency and the grantee's mailing address; MOCS ID from FY2024, and for FY2009–FY2021 the MOCS ID NYC Open Data gives the same designation (od_mocs_id) where the pairing is unambiguous. FY2009 and FY2013 are EARLY SNAPSHOTS: frozen while much was Pending and never revised, so their Cleared totals are not headline figures; the answer says so. This is a later snapshot than the adopted budget: it includes designations made after adoption, and council_member is the roster when the workbook was exported. Every row is returned whatever its status unless you filter on status; the response gives the TRUE number of matching rows and totals over all of them (Cleared and Pending separately), even when the rows shown are limited, plus the file, sheet, source and retrieval date of each year. Filter by any combination of fiscal_year, ein, legal_name, council_member (substring) or council_member_id (exact Legistar person ID — 'Levin' and 'Levine' are different people), source (substring) or source_exact, agency, program_name, zip (exact 5-digit), zip_status, city (exact), status, mocs_id, od_mocs_id, min_amount, max_amount. Rows come highest amount first. Purpose text is not served; each row gives its workbook row number in the source repo.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
@@ -1053,6 +1073,7 @@ export const TOOLS = annotateTools([
   },
   {
     name: "search_council_capital",
+    title: "Search Council capital designations",
     description: `Search the NYC Council's capital designations (Council-funded capital projects), FY2015–FY2027. FY2015–FY2017, FY2026 and FY2027 come from the Council's own capital workbooks, FY2019–FY2025 from NYC Open Data t474-a92g, which the Council publishes, and FY2018, which neither has, from Part I of the checked capital supporting-detail book (§254), labeled PDF-derived on every row (no council district printed); each answer names the file, retrieval date and sha256 of every year it draws on. One row per (record, fiscal-year amount): a list's own-year amount and any out-year amounts are separate rows, totaled separately. Filter by any combination of fiscal_year (the list's year), amount_fy, budget_line (exact, e.g. 'P D018'), project_id (exact), sponsor (substring) or sponsor_exact, borough (exact code), council_district (workbook years only), title and description (substrings), min_amount, max_amount. Answers give the TRUE match count and totals over every match, highest amount first. Exact by budget line only: the Council's project IDs are internal and do not link to OMB, FMS or Checkbook projects, and there is no contract-level data. sponsor carries no Legistar ID.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
@@ -1077,6 +1098,7 @@ export const TOOLS = annotateTools([
   },
   {
     name: "compare_capital_to_omb",
+    title: "Compare Council capital to OMB",
     description: `Compare the Council capital list with OMB's adopted Capital Budget (NYC Open Data 46m8-77gv), by budget line, FY2019–FY2027: for each report year and Council-series budget line, the Council's total and OMB's adopted total for that year and the next, and a verdict (match, differ, council_only, omb_only). This is BetaNYC's arithmetic, not a Council or OMB reconciliation; 'match' is about the line's totals, not its projects. Filter by report_year, budget_line (exact) and verdict. Lines that disagree come first.`,
     inputSchema: {
       type: "object",
@@ -1091,6 +1113,7 @@ export const TOOLS = annotateTools([
   },
   {
     name: "search_capital_plan",
+    title: "Search OMB's capital commitment plan",
     description: `When is a capital budget line's money planned to be committed, and how has that plan moved? For one budget line: OMB's Capital Commitment Plan (NYC Open Data 2cmn-uidm, 32 releases from 2016-04-26; in thousands of dollars, as OMB publishes it), the chosen release (default the newest) and every release's figures for the line; DCP's Capital Projects Database (CPDB, djxg-kcfi) planned commitments on the line by fiscal year and by project, in dollars; each project's CPDB totals (fi59-268w: planned, adopted, allocated, committed, spent, and Checkbook NYC checks), always the WHOLE project's, across all its budget lines; and the Council's own capital rows on the line (search_council_capital), apart. Or, with project_id, one CPDB project's totals and its commitments on every line. Links by budget line only, never by project; figures from different sources are never added together. CPDB is one version (it cannot show change over time) and DCP does not state its unit in writing; BetaNYC checked it is dollars. For spending detail, use @betanyc/nyc-checkbook-mcp.`,
     inputSchema: {
       type: "object",
@@ -1106,6 +1129,7 @@ export const TOOLS = annotateTools([
   },
   {
     name: "search_schedule_c_awards",
+    title: "Search Schedule C awards",
     description: `Search the adopted budget's Schedule C (the Council's discretionary awards as printed in the budget PDF: the body and appendices A, B and C), FY2018–FY2027, from the checked tables BetaNYC reads from the PDFs. Every row is labeled "checked, review in progress" or "checked and reviewed", with its flags, review decision and note where decided, three links (the row highlighted on its page in the explorer, the PDF on GitHub at the build's commit, the publisher's copy where known), and disclosure_status: whether the same EIN and amount is in the Council's disclosure spreadsheet (search_disclosure_awards, a separate tool and a later snapshot) as cleared or pending, or unmatched with the reason. Values are as printed. Sub-awards printed under an award (the Jobs to Build On partner list, FY2018 and FY2019) are listed under it and never counted. Filter by any combination of fiscal_year, organization, ein, member (member, sponsor or delegation, as printed) or council_member_id (exact Legistar person ID, resolved per year from the printed member: 'Levin' and 'Levine' are different people), category, initiative, agency, purpose, disclosure_status, min_amount, max_amount; the answer gives the TRUE match count and totals over every match, highest amount first. Needs the optional PDF tables download; without it the answer says how to add it.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
@@ -1130,6 +1154,7 @@ export const TOOLS = annotateTools([
   },
   {
     name: "search_transparency_changes",
+    title: "Search transparency resolution changes",
     description: `Search the Council's transparency resolutions, FY2018–FY2027: the changes made to the adopted budget's designations after adoption (new designations, rescissions, purpose-of-funds changes), from the checked tables BetaNYC reads from the resolution PDFs. Each row gives the resolution number and date, the chart, the budget year it changes, the organization, EIN, member, agency and amount as printed, with its status label ("checked, review in progress" or "checked and reviewed"), flags, review decision where decided, any hidden text (text in the PDF a reader cannot see on the page, always labeled), and its three links. Rows from charts that print no dollar amount are kept and never summed. Filter by fiscal_year (the resolutions' year), budget_fiscal_year, organization, ein, member (as printed) or council_member_id (exact Legistar person ID, resolved per year from the printed member), resolution_number (substring, e.g. '1013-2025'), resolution_date (YYYY-MM-DD) or a date_from / date_to range, action. Newest resolution first. Totals per kind of change cover every match. Needs the optional PDF tables download.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
@@ -1153,6 +1178,7 @@ export const TOOLS = annotateTools([
   },
   {
     name: "search_capital_book",
+    title: "Search the capital book (§254)",
     description: `Search the capital budget's §254 supporting detail (the "capital book": OMB's list of the Council's changes to the executive capital budget, Parts I and II), FY2018–FY2020 and FY2022–FY2027, from the checked tables BetaNYC reads from the PDFs. Each project row gives its ID, budget line, borough, agency, title, sponsor and the four printed year amounts as printed, with its status label, flags, review decision where decided, and three links. Filter by fiscal_year, project_id (substring: 'CC0001' finds 'HO CC0001'), budget_line (exact, e.g. 'P D018'), sponsor, borough (code), agency, title (also searches FY2019's descriptions), part, min_amount / max_amount (the book's own year). Rows in book order. The total is Part I's (it ties to the book's printed total), with "of which … went to non-city groups" from Part II; rows printed only in Part II are listed apart and never added. Reductions (negative amounts) are counted on their own. A sponsor printed "CD nn" is a district with no member. For the Council's own capital lists, use search_council_capital. Needs the optional PDF tables download.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
@@ -1175,6 +1201,7 @@ export const TOOLS = annotateTools([
   },
   {
     name: "search_terms_conditions",
+    title: "Search Terms and Conditions",
     description: `Search the adopted budget's Terms and Conditions (the conditions the Council attaches to agencies' appropriations, with the reports they require), FY2018 and FY2021–FY2027, from the checked tables BetaNYC reads from the PDFs. Each item gives its number in the book, pages, agency, units of appropriation, budget lines, report deadlines and the condition's text as printed, with its status label, flags, review decision where decided, and three links. Filter by fiscal_year, agency (name or code, substring), unit (a unit of appropriation as printed, e.g. '001', or the start of a budget line), text (substring of the condition or its heading). The same filters as the explorer's Terms view. Needs the optional PDF tables download.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
@@ -1191,6 +1218,7 @@ export const TOOLS = annotateTools([
   },
   {
     name: "search_agency_budget",
+    title: "Search City agency budgets",
     description: `City agency budgets: what the City budgeted for each agency and unit of appropriation, adopted and modified, FY2017 to the newest adopted year, from NYC Open Data's Expense Budget (mwzb-yiwb, OMB). Adopted is the budget adopted in June for that fiscal year; modified is the same budget a year later, from the next June's release (the newest year's modified is not yet published). Amounts are gross: they include intra-city transfers, so they add up to more than OMB's headline net budget. agency takes an agency number ('056', '56') or words from its name ('police'); unit takes a unit of appropriation number ('001') or words from its name. With no agency or unit, lists every agency's total for the year. Every answer names the release each figure comes from, and says "not in that year's budget" or "not yet published" instead of $0. This is the budget, not spending: for what the City spent, paid or contracted, use @betanyc/nyc-checkbook-mcp (Checkbook NYC).`,
     inputSchema: {
       type: "object",
@@ -1205,6 +1233,7 @@ export const TOOLS = annotateTools([
   },
   {
     name: "compare_adopted_modified",
+    title: "Compare adopted and modified budgets",
     description: `For one City agency or unit of appropriation and one fiscal year: the adopted budget, the modified budget a year later, and the change in dollars and percent, from NYC Open Data's Expense Budget (mwzb-yiwb). agency or unit is required (a number or words from the name). Gross amounts (include intra-city transfers). The newest year's modified budget is not yet published, so there is no change to report for it. Budget, not spending: for what the City spent, use @betanyc/nyc-checkbook-mcp.`,
     inputSchema: {
       type: "object",
@@ -1219,6 +1248,7 @@ export const TOOLS = annotateTools([
   },
   {
     name: "list_available_fiscal_years",
+    title: "Fiscal years and sources available",
     description: `Report, for every fiscal year, which structured datasets this server holds and where each came from: the expense funding disclosure (loaded or not, Council RnD download or Internet Archive capture, retrieval date, early-snapshot flag), the Council capital list (Council workbook or NYC Open Data t474-a92g), and whether the year is in the Council-vs-OMB comparison. Also reports each family-year of the checked PDF tables (Schedule C, transparency resolutions, the capital book, Terms and Conditions) with its status, and whether the optional PDF tables download is installed. Also reports the City agency budget years (search_agency_budget, compare_adopted_modified; NYC Open Data mwzb-yiwb) and when that snapshot was taken. Also reports OMB's Capital Commitment Plan releases (NYC Open Data 2cmn-uidm, in thousands of dollars) and the version of DCP's Capital Projects Database (CPDB: djxg-kcfi, fi59-268w) this index holds. States the gaps plainly: FY2010 disclosure not loaded, FY2018 capital PDF-derived (the checked §254 book), nothing before FY2009, no PDF table before FY2018.`,
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
@@ -1736,6 +1766,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           ...agencyYearsSection(),
           "",
           ...capitalPlanYearsSection(),
+          "",
+          ...YEARS_SOURCES,
           "",
           `Source repo: ${REPO_URL}. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`,
         ].join("\n");

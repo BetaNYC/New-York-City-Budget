@@ -1,8 +1,9 @@
 /**
  * The PDF tables download's requests (#337; BetaNYC MCP practice 18): a User-Agent naming the
  * package, its version and repo; a timeout for the response and for a stalled body; up to three
- * tries on 429 and 5xx that honor Retry-After. Against a local server only, never GitHub. Each
- * test says what result would make it FAIL.
+ * tries on 429 and 5xx that honor Retry-After, and on a connection that fails before any answer
+ * (a stubbed fetch). Against a local server only, never GitHub. Each test says what result would
+ * make it FAIL.
  */
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
@@ -17,7 +18,7 @@ let server;
 let base;
 
 before(async () => {
-  Object.assign(HTTP, { headersMs: 300, stallMs: 300, tries: 3, maxWaitMs: 2000 });
+  Object.assign(HTTP, { headersMs: 300, stallMs: 300, tries: 3, maxWaitMs: 2000, retryBaseMs: 20 });
   server = createServer((req, res) => {
     const n = (hits.get(req.url) ?? 0) + 1;
     hits.set(req.url, n);
@@ -79,6 +80,45 @@ test("a 404 is not retried", async () => {
 test("a server that never answers times out with a plain reason", async () => {
   // FAILS if the request hangs, or the error does not say it timed out.
   await assert.rejects(get("/no-answer"), /no answer within 0.3 s/);
+  // FAILS if our own timeout is treated as a dropped connection and tried again.
+  assert.equal(hits.get("/no-answer"), 1);
+});
+
+/** Runs fn with globalThis.fetch replaced: the first `failures` calls reject as a dropped
+ * connection does (fetch's TypeError with a cause code), later ones go to the real fetch. */
+async function withDroppedConnections(failures, fn, error = () => Object.assign(new TypeError("fetch failed"), { cause: { code: "ECONNRESET" } })) {
+  const real = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = (...args) => (++calls <= failures ? Promise.reject(error()) : real(...args));
+  try {
+    return { value: await fn(), calls: () => calls };
+  } catch (err) {
+    return { error: err, calls: () => calls };
+  } finally {
+    globalThis.fetch = real;
+  }
+}
+
+test("a dropped connection is tried again, and the next answer is used", async () => {
+  // FAILS if only 429 and 5xx are retried, so one reset connection ends the download.
+  const r = await withDroppedConnections(2, () => get("/ok"));
+  assert.equal(r.error, undefined, String(r.error));
+  assert.equal(r.value, "fine");
+  assert.equal(r.calls(), 3);
+});
+
+test("a connection that keeps failing is tried three times, then fails in a plain sentence", async () => {
+  // FAILS if the retries are unbounded, or the error hides what happened.
+  const r = await withDroppedConnections(99, () => get("/ok"));
+  assert.match(String(r.error?.message), /the connection failed \(ECONNRESET\) after 3 tries$/);
+  assert.equal(r.calls(), 3);
+});
+
+test("a failure that is not a dropped connection is not retried", async () => {
+  // FAILS if any rejection (an abort we did not start, a bug) is tried again.
+  const r = await withDroppedConnections(99, () => get("/ok"), () => new RangeError("not a network error"));
+  assert.match(String(r.error?.message), /not a network error/);
+  assert.equal(r.calls(), 1);
 });
 
 test("a body that stops coming times out with a plain reason", async () => {
