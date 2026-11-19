@@ -1,5 +1,5 @@
-// betanyc-shared: betanyc-tools.ts v1.5.1
-// betanyc-shared-sha256: e1e15642c1a34141ecc37f2347ac3e352b5305a7ff703b82df38f3f482a13e96
+// betanyc-shared: betanyc-tools.ts v1.5.2
+// betanyc-shared-sha256: eb29cbfb9f6cf4198f84e558e07c7b70cd19b243f292799c8912a39f9479c9aa
 // Canonical copy: betanyc-ai-workspace scripts/mcp_shared/betanyc-tools.ts. Do not edit a copy
 // in a server repo; change the canonical file, re-stamp it, and copy it again.
 // Drift check: scripts/whats_changed_drift.py. Standard: platform/system/whats-changed-standard.md.
@@ -14,6 +14,7 @@
 //   readOnlyAnnotations, annotateTools, assertEveryToolAnnotated   tool annotations
 //   provenance        the source, publisher, link and as-of line for one answer
 //   toolError         an isError result: plain sentence, cut upstream body, secrets redacted
+//   errorSummary      one safe line from an unknown caught value (1.5.2)
 //   toolListSize      characters in tools/list plus instructions, for a size-budget test
 //
 // Dependency-free: only node:fs and node:url. Uses no TypeScript syntax that needs transforming (no enums,
@@ -29,7 +30,7 @@
 import { readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 
-export const SHARED_MODULE_VERSION = "1.5.1";
+export const SHARED_MODULE_VERSION = "1.5.2";
 
 // --------------------------------------------------------------------------- types
 
@@ -2333,6 +2334,18 @@ export interface ProvenanceInput {
    * as the source gives it (e.g. a dataset's last-updated date), not the fetch time. For
    * "snapshot", the copy's date. */
   asOf?: string | null;
+  /** Only when BetaNYC changed the data (1.5.2): "modified-by-betanyc" (BetaNYC changed an
+   * official source) or "produced-by-betanyc" (BetaNYC built or collected it), the same kinds
+   * about_data gives (OfficialKind), and `detail`, a short plain description of what BetaNYC did
+   * (one line). Use the kind that source's DATA-SOURCES.json entry gives in about_data, so the
+   * answer and about_data agree. Leave it out for data passed on as published. */
+  changedByBetanyc?: ChangedByBetanyc | null;
+}
+
+/** What BetaNYC did to the data behind one answer (provenance, 1.5.2). */
+export interface ChangedByBetanyc {
+  kind: Exclude<OfficialKind, "published-as-is">;
+  detail: string;
 }
 
 /** The plain object half of a provenance block. source, publisher, source_url and as_of are
@@ -2349,6 +2362,9 @@ export interface Provenance {
   as_of_kind: "retrieved" | "source" | "snapshot" | "unknown";
   /** When a live answer was fetched (ISO, UTC); null for a snapshot. */
   retrieved_at: string | null;
+  /** Only when the input gave changedByBetanyc (1.5.2): its kind and its detail as passed on
+   * (trimmed, no trailing period). Absent otherwise, so the object is exactly 1.5.1's. */
+  changed_by_betanyc?: ChangedByBetanyc;
 }
 
 /** A moment as New York wall-clock time to the minute, in the module's date style:
@@ -2369,11 +2385,19 @@ const PROVENANCE_BAD_CHAR_RE = /[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/u;
 /** The source block for one answer: who published the data, a link, and its dates, as a
  * plain-text line and an object. For "live" it gives the fetch time in New York time, and, when
  * asOf is given, the data's own date as a separate, labeled date. A date that isUsableAsOf()
- * rejects (garbled, or in the future) is never passed on: it reads "unknown". It adds no claim
- * of its own about the data ("official", "current"). Throws on an empty name or publisher; a
- * control, format or line-break character in the name, publisher or link; or a link that is not
- * an http(s) link to a named host, or that carries a username or password; so a mistake shows in
- * the server's tests.
+ * rejects (garbled, or in the future) is never passed on: it reads "unknown".
+ * With changedByBetanyc (1.5.2), the "Source: …" sentence is replaced by about_data's own fixed
+ * sentences for that kind (officialWording), with the dates before the closing link:
+ *   modified: "BetaNYC modified this data: <detail>. This copy should not be considered the
+ *             official record. <dates> Official record: <source (publisher)>, <link>"
+ *   produced: "BetaNYC produced this. It is not an official record. What BetaNYC did: <detail>.
+ *             <dates> Built from: <source (publisher)>, <link>"
+ * Without it, the text and object are exactly what 1.5.1 gave. Apart from those fixed sentences
+ * it adds no claim of its own about the data ("official", "current"). Throws on an empty name or
+ * publisher; a control, format or line-break character in the name, publisher, link or detail;
+ * a link that is not an http(s) link to a named host, or that carries a username or password; or
+ * a changedByBetanyc with another kind or an empty detail; so a mistake shows in the server's
+ * tests.
  *   const p = provenance({ sourceName: "City Record Online", publisher: "NYC DCAS", sourceUrl, kind: "live" });
  *   return { content: [{ type: "text", text: `${body}\n\n${p.text}` }] }; */
 export function provenance(input: ProvenanceInput, now: Date = new Date()): { text: string; provenance: Provenance } {
@@ -2391,6 +2415,7 @@ export function provenance(input: ProvenanceInput, now: Date = new Date()): { te
   if (/^[A-Za-z][A-Za-z0-9+.-]*:\/\/[^/?#]*@/.test(url)) throw new Error("provenance: sourceUrl must not carry a username or password");
   if (!DS_URL_RE.test(url)) throw new Error(`provenance: sourceUrl must be an http(s) link to a named host (got ${JSON.stringify(input.sourceUrl)})`);
   if (input.kind !== "live" && input.kind !== "snapshot") throw new Error('provenance: kind must be "live" or "snapshot"');
+  const changed = changedByBetanycOf(input.changedByBetanyc);
   const given = typeof input.asOf === "string" && trim(input.asOf) ? input.asOf : null;
   const usable = given !== null && isUsableAsOf(given, now);
   let asOf: string | null;
@@ -2409,8 +2434,28 @@ export function provenance(input: ProvenanceInput, now: Date = new Date()): { te
     [asOf, kind, when] = [null, "unknown", "As of: unknown (this server has no usable date for it)."];
   }
   // No period after the link: some apps take it into the link.
-  const text = `Source: ${builtFrom(name, publisher)}. ${when} Link: ${url}`;
-  return { text, provenance: { source: name, publisher, source_url: url, as_of: asOf, as_of_kind: kind, retrieved_at: retrievedAt } };
+  const from = `${builtFrom(name, publisher)}, ${url}`;
+  const text = !changed ? `Source: ${builtFrom(name, publisher)}. ${when} Link: ${url}`
+    : changed.kind === "modified-by-betanyc"
+      ? `BetaNYC modified this data: ${changed.detail}. This copy should not be considered the official record. ${when} Official record: ${from}`
+      : `BetaNYC produced this. It is not an official record. What BetaNYC did: ${changed.detail}. ${when} Built from: ${from}`;
+  const out: Provenance = { source: name, publisher, source_url: url, as_of: asOf, as_of_kind: kind, retrieved_at: retrievedAt };
+  if (changed) out.changed_by_betanyc = changed;
+  return { text, provenance: out };
+}
+
+/** provenance's changedByBetanyc, checked: null when absent; throws when malformed. */
+function changedByBetanycOf(v: ChangedByBetanyc | null | undefined): ChangedByBetanyc | null {
+  if (v === undefined || v === null) return null;
+  if (typeof v !== "object" || (v.kind !== "modified-by-betanyc" && v.kind !== "produced-by-betanyc")) {
+    throw new Error('provenance: changedByBetanyc.kind must be "modified-by-betanyc" or "produced-by-betanyc"');
+  }
+  if (typeof v.detail === "string" && PROVENANCE_BAD_CHAR_RE.test(v.detail)) {
+    throw new Error("provenance: changedByBetanyc.detail has a control, format or line-break character");
+  }
+  const detail = typeof v.detail === "string" ? trim(trim(v.detail).replace(/\.+$/, "")) : "";
+  if (!detail) throw new Error("provenance: changedByBetanyc.detail is required: say what BetaNYC did");
+  return { kind: v.kind, detail };
 }
 
 /** Most characters of an upstream error body that toolError passes on. */
@@ -2424,6 +2469,24 @@ export const UPSTREAM_BODY_MAX = 500;
 const NODE_FRAME_RE = /^[ \t]+at[ \t]+(?:[^()]*\([^()]+:\d+:\d+\)|[^\s()]+:\d+:\d+)[ \t]*$/;
 const PYTHON_FRAME_RE = /^[ \t]+File[ \t]+"[^"]+",[ \t]+line[ \t]+\d+,[ \t]+in[ \t]+\S.*$/;
 const TRACEBACK_RE = /^[ \t]*Traceback \(most recent call last\):[ \t]*$/;
+
+function isStackFrame(line: string): boolean {
+  return NODE_FRAME_RE.test(line) || PYTHON_FRAME_RE.test(line) || TRACEBACK_RE.test(line);
+}
+
+/** Drops the stack-frame lines (isStackFrame) from a text; keeps every other line. */
+function dropStackFrames(text: string): string {
+  return text.split(/\r?\n/).filter((l) => !isStackFrame(l)).join("\n");
+}
+
+/** Most characters of the caller's message that toolError passes on, "…" included (1.5.2). */
+const MESSAGE_MAX = 1_000;
+
+/** At most `max` characters (code points), the last one "…" when it was cut. */
+function capChars(s: string, max: number): string {
+  const cp = [...s];
+  return cp.length > max ? `${cp.slice(0, max - 1).join("")}…` : s;
+}
 
 /** Secrets shorter than this many characters are ignored: redacting "a" would redact every "a". */
 const SECRET_MIN_CHARS = 8;
@@ -2469,11 +2532,13 @@ function secretPattern(secrets: readonly (string | null | undefined)[]): RegExp 
 }
 
 /** An isError result from a plain sentence (what went wrong, what to try), plus an optional
- * upstream body cut to UPSTREAM_BODY_MAX characters. The caller's message is passed on as
- * written (no line is dropped from it). In the upstream body, Node and Python stack-frame lines
- * are dropped (see NODE_FRAME_RE). In both, before the cut (so no part of a key survives it),
- * each secret given (an API key, a token) of at least 8 characters becomes "[redacted]" in
- * these forms, and only these:
+ * upstream body cut to UPSTREAM_BODY_MAX characters. In the message and the upstream body alike,
+ * only real stack-frame lines are dropped (see NODE_FRAME_RE): servers often build the message
+ * from caught errors, so a frame there would leak a file path (1.5.2). Every other line is kept,
+ * "at least one … is required" included. The message is then capped at 1,000 characters,
+ * ending "…" when cut; if nothing is left, it is "The tool failed.". In both, before the cap
+ * and the cut (so no part of a key survives them), each secret given (an API key, a token) of
+ * at least 8 characters becomes "[redacted]" in these forms, and only these:
  *   - as is;
  *   - percent-encoded as encodeURIComponent writes it, %XX hex in either case;
  *   - form-encoded as URLSearchParams writes it (a space as "+"), %XX hex in either case;
@@ -2491,14 +2556,47 @@ export function toolError(
 ): ToolResult {
   const re = secretPattern(opts.secrets ?? []);
   const redact = (s: string) => (re ? s.replace(re, "[redacted]") : s);
-  const msg = trim(redact(String(message ?? ""))) || "The tool failed.";
-  const lines = typeof opts.upstreamBody === "string" ? opts.upstreamBody.split(/\r?\n/) : [];
-  const kept = lines.filter((l) => !NODE_FRAME_RE.test(l) && !PYTHON_FRAME_RE.test(l) && !TRACEBACK_RE.test(l));
-  const body = trim(redact(kept.join("\n")));
+  const msg = capChars(trim(redact(dropStackFrames(String(message ?? "")))), MESSAGE_MAX) || "The tool failed.";
+  const body = typeof opts.upstreamBody === "string" ? trim(redact(dropStackFrames(opts.upstreamBody))) : "";
   if (!body) return errorResult(msg);
   const cp = [...body];
   const cut = cp.length > UPSTREAM_BODY_MAX ? `${cp.slice(0, UPSTREAM_BODY_MAX).join("")}… (cut at ${UPSTREAM_BODY_MAX} characters)` : body;
   return errorResult(`${msg}\nThe source said: ${cut}`);
+}
+
+/** What errorSummary returns when a caught value has no usable message. */
+const ERROR_SUMMARY_UNKNOWN = "unknown error";
+
+/** One safe line of plain text from an unknown caught value, for a server to put in a user-facing
+ * sentence (1.5.2). Takes an Error, a string, or anything else: an Error (or any object whose
+ * `message` is a string) gives its message, a string itself, a number, boolean or bigint its
+ * text. Returns the first non-empty line of that text that is not a stack frame (indented or
+ * not), with control characters as spaces, trimmed, and at most `max` characters (code points),
+ * ending "…" when cut. Returns "unknown error" for null, undefined, an empty message, or an
+ * object with no string message. It never reads `err.stack` or `err.cause`, so no stack or file
+ * path from them is included.
+ * It does NOT redact secrets: pass the result through toolError with `secrets`:
+ *   catch (e) { return toolError(`Could not reach the Legistar API: ${errorSummary(e)}.`,
+ *     { secrets: [process.env.LEGISTAR_TOKEN] }); } */
+export function errorSummary(err: unknown, max = 300): string {
+  const limit = Number.isInteger(max) && max >= 1 ? max : 300;
+  let text = "";
+  try {
+    if (typeof err === "string") text = err;
+    else if (typeof err === "number" || typeof err === "boolean" || typeof err === "bigint") text = String(err);
+    else if (err !== null && typeof err === "object") {
+      const m = (err as { message?: unknown }).message;
+      if (typeof m === "string") text = m;
+    }
+  } catch {
+    text = ""; // a getter that throws, or a revoked proxy
+  }
+  for (const raw of text.split(/\r\n|[\n\r\u2028\u2029]/)) {
+    if (isStackFrame(raw) || isStackFrame(` ${raw.trimStart()}`)) continue;
+    const line = trim(raw.replace(/\p{Cc}/gu, " "));
+    if (line) return capChars(line, limit);
+  }
+  return ERROR_SUMMARY_UNKNOWN;
 }
 
 /** The size of a server's tools/list (JSON of its tools) plus its instructions: what the model
