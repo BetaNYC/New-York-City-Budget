@@ -120,23 +120,34 @@ Source: the NYC Council's expense funding disclosure workbooks — from the Coun
 
 /** One line, always present: the ways this source is commonly misread. */
 const DISCLOSURE_CAVEAT =
-  "Caveat: council_member is the Council's roster when the workbook was exported, not necessarily the member who sponsored the designation; the disclosure includes designations made after adoption, so it is not the adopted budget's Schedule C; status is a moment — Pending rows clear over time, so the Cleared figure is the headline, except in an early-snapshot year; the address is the grantee's mailing address as printed, not where services were delivered.";
+  "Caveat: council_member is the Council's roster when the workbook was exported, not necessarily the member who sponsored the designation; the disclosure includes designations made after adoption, so it is not the adopted budget's Schedule C; status is a moment — Pending rows clear over time, so the Cleared figure is the headline, except in an early-snapshot year; the address is the grantee's mailing address as printed, not where services were delivered; the ZIP check under it is BetaNYC's: it tests that the printed ZIP is a 2020 Census ZIP area, not that it fits the street, so a wrong ZIP can pass.";
 
-/** #70: what each zip_status says about the derived zip, shown after it on every row. */
-const ZIP_STATUS_NOTE: Record<string, string> = {
-  valid: "a 2020 Census ZCTA",
-  padded: "leading zero restored; in-state 2020 ZCTA",
-  trimmed: "first five digits of a ragged ZIP+4; in-state 2020 ZCTA",
-  repaired_extra_digit: "six digits printed; the only one-digit deletion that is an in-state 2020 ZCTA",
-  ambiguous_extra_digit: "six digits printed; more than one one-digit deletion is an in-state 2020 ZCTA, none picked",
-  not_a_zcta: "not a 2020 ZCTA: not verified, not fake (PO-box ZIPs have none)",
-  state_mismatch: "a 2020 ZCTA in another state than the row's",
-  invalid: "no ZIP could be read from the cell",
-  blank: "no ZIP printed",
-  repaired_by_address:
-    "six digits printed; the street address matches exactly one NYC address in the City's address file (PAD), whose ZIP is one of the candidates",
-  nyc_address_confirmed:
-    "the street address and this ZIP match exactly one NYC address in the City's address file (PAD); the printed state names another state",
+/**
+ * #70: what BetaNYC's ZIP check found, in words, shown on its own line under the Council's printed
+ * address. The check is BetaNYC's, not a Council field (code/zcta_states.py derive_zip). It tests the
+ * printed ZIP's digits and that they are a 2020 Census ZIP area (ZCTA), in the row's state when one
+ * is printed. Only the two PAD statuses (#247) look at the street address, so every other note says
+ * the street was not checked: a ZIP that exists but is wrong for the street passes (2026-11-19 live
+ * check: FCNY's "121 Avenue of the Americas ... NY 11691", FY2026–FY2027, is `valid`). The
+ * zip_status codes stay as they are: they are the tool's filter values and the CSV's.
+ */
+const NOT_STREET = "not checked against the street address";
+const ZIP_CHECK_NOTE: Record<string, (zip: string) => string> = {
+  valid: (z) => `${z} is a 2020 Census ZIP area, in the row's state when one is printed; ${NOT_STREET}`,
+  padded: (z) => `${z}: four digits printed, leading zero restored; a 2020 Census ZIP area in the row's state; ${NOT_STREET}`,
+  trimmed: (z) => `${z}: first five digits of a ragged ZIP+4; a 2020 Census ZIP area in the row's state; ${NOT_STREET}`,
+  repaired_extra_digit: (z) =>
+    `${z}: six digits printed; the only one-digit deletion that is a 2020 Census ZIP area in the row's state; ${NOT_STREET}`,
+  ambiguous_extra_digit: () =>
+    "no zip: six digits printed; more than one one-digit deletion is a 2020 Census ZIP area in the row's state, none picked",
+  not_a_zcta: (z) => `${z} is not a 2020 Census ZIP area: not verified, not fake (PO-box ZIPs have none)`,
+  state_mismatch: (z) => `${z} is a 2020 Census ZIP area in another state than the row's`,
+  invalid: () => "no zip: no ZIP could be read from the cell",
+  blank: () => "no zip: no ZIP printed",
+  repaired_by_address: (z) =>
+    `${z}: six digits printed; the street address matches exactly one NYC address in the City's address file (PAD), whose ZIP is one of the candidates`,
+  nyc_address_confirmed: (z) =>
+    `${z}: the street address and this ZIP match exactly one NYC address in the City's address file (PAD); the printed state names another state`,
 };
 
 const ROW_FLAG_NOTE: Record<string, string> = {
@@ -152,15 +163,21 @@ function rowFlagNotes(flag: string): string {
     .join("; ");
 }
 
-/** The grantee mailing address as printed, then the derived zip and its status. */
+/**
+ * Two lines: the grantee mailing address exactly as the Council printed it, then BetaNYC's ZIP
+ * check on a line of its own, so the check never reads as part of the Council's record or as
+ * confirming the address.
+ */
 function addressLine(r: DisclosureRow): string {
   const street = [r.address1, r.address2, r.city].filter((x) => x && x.trim() !== "").join(", ");
   const tail = [r.state, r.postal_code].filter((x) => x && x.trim() !== "").join(" ");
   const printed = [street, tail].filter((x) => x !== "").join(", ") || "(none printed)";
+  const note = ZIP_CHECK_NOTE[r.zip_status]?.(r.zip) ?? `${r.zip || "no zip"}: unknown status`;
   return (
-    `\n    grantee mailing address: ${printed}` +
-    ` · zip ${r.zip || "—"} (${r.zip_status}: ${ZIP_STATUS_NOTE[r.zip_status] ?? "unknown status"})` +
-    (r.zip_candidates ? ` · candidates ${r.zip_candidates.split(";").join(", ")}` : "")
+    `\n    grantee mailing address, as the Council printed it: ${printed}` +
+    `\n    BetaNYC's ZIP check, not the Council's: ${note}` +
+    (r.zip_candidates ? ` · candidates ${r.zip_candidates.split(";").join(", ")}` : "") +
+    ` (zip_status=${r.zip_status})`
   );
 }
 
@@ -1040,7 +1057,7 @@ export const TOOLS = annotateTools([
         zip_status: {
           type: "string",
           enum: [...ZIP_STATUSES],
-          description: "How the zip was read, checked against the Census 2020 ZCTAs: valid, padded (leading zero restored), trimmed (ragged ZIP+4 such as '11203-', '11231=1020' or '11413 ZipCode2: 3929'), repaired_extra_digit (6 digits printed; exactly one one-digit deletion is an in-state ZCTA, e.g. '111691' -> 11691), ambiguous_extra_digit (6 digits; two or more deletions are, e.g. '114345' -> 11434 or 11435; no zip, candidates shown on the row), not_a_zcta (not verified, not fake: PO-box ZIPs have no ZCTA), state_mismatch, invalid (no ZIP readable), blank (none printed); and, from the street-address check against the City's PAD address file (#247), repaired_by_address (an ambiguous_extra_digit row whose address matches exactly one NYC address, whose ZIP is one of the candidates) and nyc_address_confirmed (a state_mismatch row whose address and ZIP match exactly one NYC address: the printed state is wrong).",
+          description: "BetaNYC's ZIP check, not a Council field: the printed ZIP against the Census 2020 ZCTAs, not the street. valid (a ZCTA in the row's state; a ZIP wrong for the street passes), padded (leading zero restored), trimmed (ragged ZIP+4 such as '11203-'), repaired_extra_digit (6 digits printed; exactly one one-digit deletion is an in-state ZCTA, e.g. '111691' -> 11691), ambiguous_extra_digit (6 digits; two or more deletions are, e.g. '114345' -> 11434 or 11435; no zip, candidates shown on the row), not_a_zcta (not verified, not fake: PO-box ZIPs have no ZCTA), state_mismatch, invalid (no ZIP readable), blank (none printed); and, from a street-address check against the City's PAD address file (#247), repaired_by_address (an ambiguous_extra_digit row whose address matches exactly one NYC address, whose ZIP is one of the candidates) and nyc_address_confirmed (a state_mismatch row whose address and ZIP match exactly one NYC address: the printed state is wrong).",
         },
         city: {
           type: "string",

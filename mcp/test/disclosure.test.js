@@ -509,14 +509,46 @@ test("each row shows the grantee mailing address as printed, its zip and zip_sta
   const r = allRows().find((x) => x.zip_status === "trimmed" && x.address1 && x.city);
   const res = await call({ fiscal_year: Number(r.fiscal_year), legal_name: r.legal_name, limit: 500 });
   const want =
-    `grantee mailing address: ${[r.address1, r.address2, r.city].filter(Boolean).join(", ")}, ${r.state} ${r.postal_code}` +
-    ` · zip ${r.zip} (trimmed: first five digits of a ragged ZIP+4`;
+    `grantee mailing address, as the Council printed it: ${[r.address1, r.address2, r.city].filter(Boolean).join(", ")}, ${r.state} ${r.postal_code}` +
+    `\n    BetaNYC's ZIP check, not the Council's: ${r.zip}: first five digits of a ragged ZIP+4`;
   assert.ok(res.text.includes(want), `${want}\n---\n${res.text}`);
   assert.match(res.text, /mailing address as printed, not where services were delivered/);
   const blank = allRows().find((x) => x.zip_status === "blank" && !x.address1 && !x.address2 && !x.city && !x.state);
   assert.ok(blank, "the CSVs hold rows with no address at all");
   const b = await call({ fiscal_year: Number(blank.fiscal_year), legal_name: blank.legal_name, zip_status: "blank", limit: 500 });
-  assert.match(b.text, /grantee mailing address: \(none printed\) · zip — \(blank: no ZIP printed\)/);
+  assert.match(b.text, /grantee mailing address, as the Council printed it: \(none printed\)\n    BetaNYC's ZIP check, not the Council's: no zip: no ZIP printed \(zip_status=blank\)/);
+});
+
+test("BetaNYC's ZIP check sits apart from the Council's address and never reads as confirming it", async () => {
+  // The 2026-11-19 live check: the Council printed FCNY's "121 Avenue of the Americas, 6th Floor,
+  // New York, NY" (a Manhattan address, 10013 in every year before FY2026) with ZIP 11691 (Far
+  // Rockaway) on every FY2026–FY2027 row, BetaNYC's five among them. The ZIP is a real New York
+  // ZIP area, so the check says `valid`; it never looks at the street.
+  // FAILS if the printed ZIP is changed (we publish it as printed), if the check shares the
+  // Council's address line or is not named as BetaNYC's, if "valid" shows anywhere but as the
+  // zip_status filter value, or if a status that passes a ZIP on Census data alone stops saying
+  // the street was not checked.
+  const rows = allRows().filter((r) => r.fiscal_year === "2027" && r.address1.startsWith("121 Avenue of the Americas") && r.postal_code === "11691");
+  assert.ok(rows.length > 0 && rows.every((r) => r.zip === "11691" && r.zip_status === "valid"), "the FY2027 FCNY rows print 11691 and pass the ZIP check");
+  const res = await call({ fiscal_year: 2027, program_name: "BetaNYC", limit: 500 });
+  assert.ok(
+    res.text.includes(
+      "\n    grantee mailing address, as the Council printed it: 121 Avenue of the Americas, 6th Floor, New York, NY 11691" +
+        "\n    BetaNYC's ZIP check, not the Council's: 11691 is a 2020 Census ZIP area, in the row's state when one is printed; not checked against the street address (zip_status=valid)"
+    ),
+    res.text
+  );
+  assert.doesNotMatch(res.text.replaceAll("zip_status=valid", ""), /\bvalid\b/i);
+  assert.match(res.text, /the ZIP check under it is BetaNYC's: it tests that the printed ZIP is a 2020 Census ZIP area, not that it fits the street, so a wrong ZIP can pass/);
+  // Every status a row carries: the check line ends with its filter value, and each status that
+  // passes a ZIP on Census data alone says the street was not checked.
+  const censusOnly = ["valid", "padded", "trimmed", "repaired_extra_digit"];
+  for (const st of new Set(allRows().map((r) => r.zip_status))) {
+    const one = await call({ zip_status: st, limit: 1 });
+    const line = one.text.split("\n").find((l) => l.includes("BetaNYC's ZIP check, not the Council's:"));
+    assert.ok(line?.endsWith(`(zip_status=${st})`), `${st}: ${line}`);
+    if (censusOnly.includes(st)) assert.match(line, /not checked against the street address/, st);
+  }
 });
 
 test("a six-digit ZIP: repaired rows file under their zip; ambiguous rows show every candidate, no zip", async () => {
@@ -538,14 +570,14 @@ test("a six-digit ZIP: repaired rows file under their zip; ambiguous rows show e
     assert.match(res.text, /^No matching designations/, z);
   }
   const res = await call({ fiscal_year: Number(amb.fiscal_year), legal_name: amb.legal_name, zip_status: "ambiguous_extra_digit", limit: 500 });
-  assert.ok(res.text.includes(" · zip — (ambiguous_extra_digit: six digits printed; more than one one-digit deletion is an in-state 2020 ZCTA, none picked) · candidates 90006, 90069"), res.text);
+  assert.ok(res.text.includes("BetaNYC's ZIP check, not the Council's: no zip: six digits printed; more than one one-digit deletion is a 2020 Census ZIP area in the row's state, none picked · candidates 90006, 90069 (zip_status=ambiguous_extra_digit)"), res.text);
   // #247: '114345' (11434 or 11435) is settled by the street address: it files under 11434, says
   // how, and still lists both candidates.
   const byAddr = rows.filter((r) => r.postal_code === "114345");
   assert.ok(byAddr.length > 0 && byAddr.every((r) => r.zip_status === "repaired_by_address" && r.zip === "11434"));
   const settled = await call({ zip: "11434", zip_status: "repaired_by_address", limit: 500 });
   assert.ok(settled.text.startsWith(`${byAddr.length} matching designation(s)`), settled.text.slice(0, 80));
-  assert.ok(settled.text.includes("(repaired_by_address: six digits printed; the street address matches exactly one NYC address in the City's address file (PAD), whose ZIP is one of the candidates) · candidates 11434, 11435"), settled.text);
+  assert.ok(settled.text.includes("BetaNYC's ZIP check, not the Council's: 11434: six digits printed; the street address matches exactly one NYC address in the City's address file (PAD), whose ZIP is one of the candidates · candidates 11434, 11435 (zip_status=repaired_by_address)"), settled.text);
   const other = await call({ zip: "11691", zip_status: "repaired_extra_digit", limit: 500 });
   assert.doesNotMatch(other.text, /candidates/);
 });
