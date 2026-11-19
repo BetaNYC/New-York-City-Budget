@@ -27,8 +27,10 @@ import { Readable, Transform } from "stream";
 import { pipeline } from "stream/promises";
 import { fileURLToPath, pathToFileURL } from "url";
 import { createGunzip } from "zlib";
+import { errorSummary } from "./betanyc-tools.js";
 import { registerTextFunctions } from "./textmatch.js";
 import { REPO } from "./rowlinks.js";
+import { PACKAGE_VERSION } from "./version.js";
 
 /** The download's format; any other is refused (scripts/build-pdf-release.mjs FORMAT). */
 export const PDF_TABLES_FORMAT = "nyc-budget-pdf-tables/1";
@@ -67,6 +69,30 @@ export function dataDir(): string {
 }
 
 export const tablesPath = () => join(dataDir(), "pdf-tables", "pdf-tables.db");
+
+/**
+ * An error as a tool answer may carry it: one plain line (the shared module's errorSummary), at
+ * most `max` characters, and no local path. The data folder's default is under
+ * the person's home folder, so its path holds their username: the PDF tables file, the data folder
+ * and the home folder (as paths or file: links) become words. The CLI (`download`) keeps printing
+ * paths on the terminal, where the operator needs them; only tool answers go through this.
+ */
+export function answerError(err: unknown, max = 300): string {
+  let text = errorSummary(err, 4_000);
+  const home = homedir();
+  const swaps: [string, string][] = [
+    [tablesPath(), "the PDF tables file in this server's data folder"],
+    [dataDir(), "this server's data folder"],
+    ...(home.length > 1 ? ([[home, "the home folder"]] as [string, string][]) : []),
+  ];
+  for (const [path, words] of swaps) {
+    for (const form of [pathToFileURL(path).href, path]) text = text.split(form).join(words);
+  }
+  return errorSummary(text, max);
+}
+
+/** answerError without its closing period, to go inside a sentence. */
+export const answerClause = (err: unknown, max = 300): string => answerError(err, max).replace(/\.+$/, "");
 export const installedManifestPath = () => join(dataDir(), "pdf-tables", "manifest.json");
 /** Where a downloaded PDF sits, by its repo path ("source/FY27/…pdf"); null for any other path. */
 export function localPdfPath(repoPath: string): string | null {
@@ -129,7 +155,7 @@ export function openPdfTables(): { tables: PdfTables | null; problem: string | n
     const bad = checkTables(db);
     if (bad) {
       db.close();
-      openedFailure = { path, stamp, error: `The PDF tables at ${path} cannot be used: ${bad}. Download them again (see below).` };
+      openedFailure = { path, stamp, error: `The PDF tables file in this server's data folder cannot be used: ${answerClause(bad)}. Download them again (see below).` };
       return { tables: null, problem: openedFailure.error };
     }
     registerTextFunctions(db);
@@ -137,7 +163,7 @@ export function openPdfTables(): { tables: PdfTables | null; problem: string | n
     opened = { db, path, meta, stamp };
     return { tables: opened, problem: null };
   } catch (err) {
-    openedFailure = { path, stamp, error: `The PDF tables at ${path} cannot be opened: ${err instanceof Error ? err.message : String(err)}.` };
+    openedFailure = { path, stamp, error: `The PDF tables file in this server's data folder cannot be opened: ${answerClause(err)}.` };
     return { tables: null, problem: openedFailure.error };
   }
 }
@@ -221,20 +247,98 @@ function asUrl(loc: string): URL {
 
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]", "::1"]);
 
-async function fetchStream(url: URL): Promise<Readable> {
+/**
+ * How the download treats GitHub (BetaNYC MCP practice 18, #337). Each request names this package,
+ * its version and repo; waits at most `headersMs` for the response to start and at most `stallMs`
+ * between chunks of the body (there is no cap on the whole file, which is tens of MB on a slow
+ * line, only on a stall); and is tried up to `tries` times when GitHub answers 429 or 5xx, waiting
+ * what Retry-After asks (else `retryBaseMs`, then twice that: 1 s, then 2 s), never more than
+ * `maxWaitMs` at once. A request whose connection fails before any answer (fetch itself rejects:
+ * refused, reset, DNS) is tried again the same way, within the same `tries`; one stopped by our own
+ * timeout is not. Nothing polls: a download runs only when asked for, at most once per process at
+ * start-up. Mutable for tests.
+ */
+export const HTTP = { headersMs: 30_000, stallMs: 30_000, tries: 3, maxWaitMs: 30_000, retryBaseMs: 1000 };
+export const USER_AGENT = `nyc-budget-mcp/${PACKAGE_VERSION} (+https://github.com/${REPO})`;
+
+/** Retry-After in milliseconds: delay-seconds or an HTTP-date (RFC 9110 § 10.2.3); null if absent or unreadable. */
+export function retryAfterMs(value: string | null, now = Date.now()): number | null {
+  const v = value?.trim();
+  if (!v) return null;
+  if (/^\d+$/.test(v)) return Number(v) * 1000;
+  const at = Date.parse(v);
+  return Number.isNaN(at) ? null : Math.max(0, at - now);
+}
+
+export async function fetchStream(url: URL): Promise<Readable> {
   if (url.protocol === "file:") {
     const p = fileURLToPath(url);
     if (!existsSync(p)) throw new Error(`${p} does not exist`);
     return createReadStream(p);
   }
-  const res = await fetch(url, { headers: { "user-agent": "nyc-budget-mcp", accept: "application/octet-stream, application/json" }, redirect: "follow" });
-  if (!res.ok || !res.body) throw new Error(`${url.href}: HTTP ${res.status}`);
-  return Readable.fromWeb(res.body as import("stream/web").ReadableStream);
+  for (let attempt = 1; ; attempt++) {
+    const ac = new AbortController();
+    let why = "";
+    const stop = (msg: string) => () => {
+      why = msg;
+      ac.abort();
+    };
+    let timer = setTimeout(stop(`${url.href}: no answer within ${HTTP.headersMs / 1000} s`), HTTP.headersMs);
+    let res: Response;
+    try {
+      res = await fetch(url, { headers: { "user-agent": USER_AGENT, accept: "application/octet-stream, application/json" }, redirect: "follow", signal: ac.signal });
+    } catch (err) {
+      clearTimeout(timer);
+      // Our own timeout fired: say so, and do not try again (the server is not answering).
+      if (why) throw new Error(why);
+      // fetch rejects with a TypeError when the connection fails (refused, reset, DNS); anything
+      // else (an abort we did not start, a bug) is passed on as it is.
+      if (!(err instanceof TypeError)) throw err;
+      if (attempt < HTTP.tries) {
+        await new Promise((r) => setTimeout(r, HTTP.retryBaseMs * 2 ** (attempt - 1)));
+        continue;
+      }
+      const cause = (err as { cause?: { code?: unknown; message?: unknown } }).cause;
+      const detail = typeof cause?.code === "string" ? cause.code : typeof cause?.message === "string" ? cause.message : err.message;
+      throw new Error(`${url.href}: the connection failed (${detail})${attempt > 1 ? ` after ${attempt} tries` : ""}`, { cause: err });
+    }
+    clearTimeout(timer);
+    if ((res.status === 429 || res.status >= 500) && attempt < HTTP.tries) {
+      const wait = retryAfterMs(res.headers.get("retry-after")) ?? HTTP.retryBaseMs * 2 ** (attempt - 1);
+      await res.body?.cancel().catch(() => {});
+      if (wait > HTTP.maxWaitMs) throw new Error(`${url.href}: HTTP ${res.status}, and the server asks to wait ${Math.ceil(wait / 1000)} s. Try again later.`);
+      await new Promise((r) => setTimeout(r, wait));
+      continue;
+    }
+    if (!res.ok || !res.body) {
+      await res.body?.cancel().catch(() => {});
+      throw new Error(`${url.href}: HTTP ${res.status}${attempt > 1 ? ` after ${attempt} tries` : ""}`);
+    }
+    // The body: every chunk re-arms the stall timer; a stall aborts the request with a plain reason.
+    const body = Readable.fromWeb(res.body as import("stream/web").ReadableStream);
+    const arm = () => {
+      clearTimeout(timer);
+      timer = setTimeout(stop(`${url.href}: no data for ${HTTP.stallMs / 1000} s; stopped`), HTTP.stallMs);
+    };
+    const watch = new Transform({
+      transform(chunk, _enc, cb) {
+        arm();
+        cb(null, chunk);
+      },
+    });
+    body.on("error", (err) => watch.destroy(why ? new Error(why) : err));
+    watch.on("close", () => {
+      clearTimeout(timer);
+      body.destroy();
+    });
+    arm();
+    return body.pipe(watch);
+  }
 }
 
 /** A manifest, or GitHub's release list: small JSON. Anything past `max` bytes is refused. */
 const MAX_TEXT_BYTES = 8 << 20;
-async function fetchText(url: URL, max = MAX_TEXT_BYTES): Promise<string> {
+export async function fetchText(url: URL, max = MAX_TEXT_BYTES): Promise<string> {
   const chunks: Buffer[] = [];
   let n = 0;
   for await (const c of await fetchStream(url)) {
@@ -362,7 +466,8 @@ export async function downloadPdfData(opts: DownloadOptions = {}): Promise<Manif
     return m;
   } catch (err) {
     progress.state = "failed";
-    progress.error = err instanceof Error ? err.message : String(err);
+    // For tool answers: no local path, capped. The thrown error, for the CLI, keeps the path.
+    progress.error = answerClause(err);
     throw err;
   } finally {
     // A staged file is never left behind, whatever failed (it is 116 MB).
@@ -530,6 +635,6 @@ export function howToAdd(): string {
     "To add them (about 17 MB to download, 115 MB on disk; checked against the sha256 values this repo publishes), either:",
     "  • run once in a terminal: npx @betanyc/nyc-budget-mcp download --pdf-tables   (add --pdfs for the PDF files too)",
     '  • or set NYC_BUDGET_PDF_DATA=on in this MCP server\'s "env" settings and restart it: it downloads them in the background on the next start.',
-    `They are saved in ${dataDir()} (set NYC_BUDGET_DATA_DIR to choose another folder), not in the npm package.`,
+    "They are saved in this server's data folder, not in the npm package (set NYC_BUDGET_DATA_DIR to choose the folder; the download command prints where it is).",
   ].join("\n");
 }

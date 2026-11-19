@@ -75,6 +75,7 @@
       },
       "tools": [
         "search_disclosure_awards",
+        "search_schedule_c_awards",
         "list_available_fiscal_years"
       ],
       "caveats": [
@@ -321,7 +322,7 @@
           "reshaped",
           "merged"
         ],
-        "detail": "Read from the PDFs and checked against their printed totals; each row keeps its page and position. BetaNYC adds whether a Schedule C row is in the disclosure spreadsheet, the printed member's Legistar person ID, and, for Terms and Conditions, the unit's adopted amount from NYC Open Data mwzb-yiwb."
+        "detail": "Read from the PDFs and checked against their printed totals; each row keeps its page and position. BetaNYC adds whether a Schedule C row is in the disclosure spreadsheet and the printed member's Legistar person ID. Terms and Conditions rows are served as printed, with no unit amounts."
       },
       "verify_at": "https://council.nyc.gov/budget/",
       "freshness": {

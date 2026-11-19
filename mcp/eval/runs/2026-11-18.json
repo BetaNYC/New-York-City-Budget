@@ -1,0 +1,55 @@
+{
+  "ran": "2026-11-18T18:45:35.945Z",
+  "version": "2.1.0",
+  "note": "Second run of the day. The first, minutes earlier, had 11 pass and 1 fail: Q10, whose check was wrong (its not_contains string is also in the answer's legend line); the answer was right. The check was fixed (see Q10's note in questions.json) and nothing in the server changed between the runs.",
+  "results": [
+    {
+      "id": "Q01",
+      "result": "pass"
+    },
+    {
+      "id": "Q02",
+      "result": "pass"
+    },
+    {
+      "id": "Q03",
+      "result": "pass"
+    },
+    {
+      "id": "Q04",
+      "result": "pass"
+    },
+    {
+      "id": "Q05",
+      "result": "pass"
+    },
+    {
+      "id": "Q06",
+      "result": "pass"
+    },
+    {
+      "id": "Q07",
+      "result": "pass"
+    },
+    {
+      "id": "Q08",
+      "result": "pass"
+    },
+    {
+      "id": "Q09",
+      "result": "pass"
+    },
+    {
+      "id": "Q10",
+      "result": "pass"
+    },
+    {
+      "id": "Q11",
+      "result": "pass"
+    },
+    {
+      "id": "Q12",
+      "result": "pass"
+    }
+  ]
+}

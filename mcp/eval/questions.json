@@ -1,0 +1,115 @@
+{
+  "_readme": [
+    "Fixed question set for @betanyc/nyc-budget-mcp, written 2026-11-18 before scoring (#345).",
+    "Each answer was worked out from the repo's own committed files (the path in `from`), never from the server's index, then the questions were run.",
+    "A question passes when every `contains` string is in the answer text and no `not_contains` string is. `tables: true` needs the PDF tables (pretest builds them).",
+    "Run: npm run eval (after npm test's pretest, or with --tables <pdf-tables.db>). Add --record to save the run in eval/runs/.",
+    "It tests the answers of the named tools: each question names its tool and arguments. It does not test whether a model picks the right tool.",
+    "A check changed after a run says so, with the date and why, in the question's `note`."
+  ],
+  "questions": [
+    {
+      "id": "Q01",
+      "q": "How much Council discretionary funding cleared for the Legal Aid Society in FY2025?",
+      "tool": "search_disclosure_awards",
+      "args": { "fiscal_year": 2025, "ein": "13-5562265" },
+      "contains": ["42 matching", "$12,816,661"],
+      "from": "data/fy25/expense_disclosure/fy25_expense_awards.csv: 42 rows with ein 135562265, all cleared, summing to 12816661"
+    },
+    {
+      "id": "Q02",
+      "q": "Which year of the Council's expense disclosure is missing, and why?",
+      "tool": "list_available_fiscal_years",
+      "args": {},
+      "contains": ["FY2010 disclosure is not loaded"],
+      "from": "data/disclosure_years.csv: FY2010 loaded = false"
+    },
+    {
+      "id": "Q03",
+      "q": "How much did the Council put on capital budget line P D018 in its FY2025 list?",
+      "tool": "search_council_capital",
+      "args": { "fiscal_year": 2025, "budget_line": "P D018" },
+      "contains": ["36 matching row(s) in the Council's capital designations", "For the list's own year (amount_fy = report year): 36 row(s), $35,989,000"],
+      "from": "data/capital/council_capital_awards.csv: report_year 2025, budget_line_norm 'P D018': 36 rows, all FY2025 money, summing to 35989000",
+      "note": "Check made specific on 2026-11-18 after review of #349: it was \"36\" and \"$35,989,000\", and \"36\" alone matches almost any answer. Now it asks for the match count and the own-year total line in full. The answer did not change"
+    },
+    {
+      "id": "Q04",
+      "q": "Did the Council's FY2023 capital list agree with OMB's adopted capital budget on every budget line?",
+      "tool": "compare_capital_to_omb",
+      "args": { "report_year": 2023 },
+      "contains": ["match (both years equal) 129 · differ 1 · ", "E D001"],
+      "from": "data/capital/council_vs_omb_by_budget_line.csv: report_year 2023 has 129 'match' and 1 'differ' (E D001: Council 224296000, OMB 229846000)",
+      "note": "Check made specific on 2026-11-18 after review of #349: \"differ 1\" alone also matches \"differ 10\"; it now reads the verdict line through the separator. The answer did not change"
+    },
+    {
+      "id": "Q05",
+      "q": "How many awards are in the FY2027 adopted budget's Schedule C, and what do they add up to?",
+      "tool": "search_schedule_c_awards",
+      "args": { "fiscal_year": 2027, "limit": 1 },
+      "tables": true,
+      "contains": ["9,979 matching award row(s)", "$655,045,412"],
+      "from": "data/fy27/pdf/schedule_c/fy27_sc_awards.csv: 9979 rows, every one with an amount, summing to 655045412 (also data/pdf_years.csv's note)"
+    },
+    {
+      "id": "Q06",
+      "q": "How many lines are in the Council's FY2027 transparency resolutions?",
+      "tool": "search_transparency_changes",
+      "args": { "fiscal_year": 2027, "limit": 1 },
+      "tables": true,
+      "contains": ["2,808 matching row(s)"],
+      "from": "data/fy27/pdf/transparency/fy27_tr_rows.csv: 2808 rows (data/pdf_years.csv says the same)"
+    },
+    {
+      "id": "Q07",
+      "q": "What was the NYPD's adopted budget for FY2025?",
+      "tool": "compare_adopted_modified",
+      "args": { "agency": "056", "fiscal_year": 2025 },
+      "contains": ["$5,832,931,725"],
+      "from": "source/agency-budget-qa/by_unit.csv: tag 2025 (June release 20240630), agency 56 POLICE DEPARTMENT, financial_plan_amount over its 21 units = 5832931725 (the year rule in DATA-DICTIONARY.md)"
+    },
+    {
+      "id": "Q08",
+      "q": "Show Stephen Levin's Schedule C designations in FY2018, not Mark Levine's.",
+      "tool": "search_schedule_c_awards",
+      "args": { "fiscal_year": 2018, "council_member_id": "7567", "limit": 1 },
+      "tables": true,
+      "contains": ["188 matching award row(s)", "Stephen T. Levin"],
+      "from": "data/pdf_council_member_crosswalk.csv: schedule_c FY2018, printed 'Levin', 188 rows, council_member_id 7567, Stephen T. Levin"
+    },
+    {
+      "id": "Q09",
+      "q": "Where does the Council's FY2018 capital list come from?",
+      "tool": "list_available_fiscal_years",
+      "args": {},
+      "contains": ["FY2018 capital is PDF-derived"],
+      "from": "data/capital/council_capital_awards.csv: report_year 2018 rows have source_kind pdf_capital_sd"
+    },
+    {
+      "id": "Q10",
+      "q": "Where do the City agency budget figures come from, and are they the official record?",
+      "tool": "about_data",
+      "args": { "topic": "agency-budgets" },
+      "contains": ["mwzb-yiwb", "BetaNYC modified this data", "This copy should not be considered the official record"],
+      "from": "DATA-SOURCES.json source agency-budgets (NYC Open Data mwzb-yiwb, reshaped by BetaNYC); test/about-data.test.js: no source is passed on unchanged",
+      "note": "Changed after the first run on 2026-11-18: the first check had not_contains 'BetaNYC did not modify it', which the answer's legend line also says. The answer was right; the check now asks for the source's own official-record sentence instead"
+    },
+    {
+      "id": "Q11",
+      "q": "How many planned commitments does City Planning's Capital Projects Database copy hold?",
+      "tool": "list_available_fiscal_years",
+      "args": {},
+      "contains": ["41,277 planned commitments"],
+      "from": "source/open-data-djxg-kcfi/MANIFEST.csv: count.json says 41277"
+    },
+    {
+      "id": "Q12",
+      "q": "How many Terms and Conditions items does the FY2027 adopted budget have?",
+      "tool": "search_terms_conditions",
+      "args": { "fiscal_year": 2027, "limit": 1 },
+      "tables": true,
+      "contains": ["75 matching item(s)"],
+      "from": "data/fy27/pdf/terms/fy27_terms_conditions.csv: 75 items (data/pdf_years.csv: numbering 1..75 complete)"
+    }
+  ]
+}

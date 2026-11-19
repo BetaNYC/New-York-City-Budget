@@ -1,5 +1,5 @@
-// betanyc-shared: betanyc-tools.ts v1.4.0
-// betanyc-shared-sha256: c5614c4a3233df51f0c4618cba4ed89424ce2a8e6c63a1b80557da909af6e994
+// betanyc-shared: betanyc-tools.ts v1.5.2
+// betanyc-shared-sha256: eb29cbfb9f6cf4198f84e558e07c7b70cd19b243f292799c8912a39f9479c9aa
 // Canonical copy: betanyc-ai-workspace scripts/mcp_shared/betanyc-tools.ts. Do not edit a copy
 // in a server repo; change the canonical file, re-stamp it, and copy it again.
 // Drift check: scripts/whats_changed_drift.py. Standard: platform/system/whats-changed-standard.md.
@@ -10,6 +10,12 @@
 //   about_betanyc   who built this server and how to reach BetaNYC
 //   about_data      where this server's data comes from, from its DATA-SOURCES.json
 //                   (standard: platform/system/about-data-standard.md)
+// From 1.5.0, helpers for a server's OWN tools, so all servers do these the same way:
+//   readOnlyAnnotations, annotateTools, assertEveryToolAnnotated   tool annotations
+//   provenance        the source, publisher, link and as-of line for one answer
+//   toolError         an isError result: plain sentence, cut upstream body, secrets redacted
+//   errorSummary      one safe line from an unknown caught value (1.5.2)
+//   toolListSize      characters in tools/list plus instructions, for a size-budget test
 //
 // Dependency-free: only node:fs and node:url. Uses no TypeScript syntax that needs transforming (no enums,
 // namespaces or parameter properties), so Node 22.18+ runs it directly by type stripping and
@@ -18,12 +24,13 @@
 // MCP contract followed (spec 2025-11-25, as shipped in @modelcontextprotocol/sdk 1.32.2
 // types.js): a tool may declare `outputSchema` (root `type: "object"`); when it does, a
 // successful result MUST carry `structuredContent` matching it. Clients skip that check when
-// `isError` is true. `annotations` uses ToolAnnotations (title, readOnlyHint, openWorldHint).
+// `isError` is true. `annotations` uses ToolAnnotations (title, readOnlyHint, openWorldHint;
+// checked 2026-11-18 against the spec's schema/2025-11-25/schema.ts and SDK 1.32.2 types.js).
 
 import { readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 
-export const SHARED_MODULE_VERSION = "1.4.0";
+export const SHARED_MODULE_VERSION = "1.5.2";
 
 // --------------------------------------------------------------------------- types
 
@@ -2229,4 +2236,375 @@ export function createBetanycTools(config: BetanycServerConfig): {
           : name === "about_betanyc" ? handleAboutBetanyc(config, args)
             : errorResult(`Unknown tool: ${name}`),
   };
+}
+
+// --------------------------------------------------------------------------- helpers for a server's own tools (1.5.0)
+
+// Small helpers so every BetaNYC server labels, sources and fails its OWN tools the same way.
+// None of them change the three shared tools above.
+
+/** The annotations every BetaNYC tool carries: it only reads (readOnlyHint: true), and says
+ * whether it reaches outside (openWorldHint: true when it calls a live outside API, false when
+ * it answers from bundled or local data). For the SDK's high-level registerTool:
+ *   server.registerTool("search_spending", { ..., annotations: readOnlyAnnotations(true, "Search spending") }, cb) */
+export function readOnlyAnnotations(openWorld: boolean, title?: string): ToolAnnotations {
+  if (typeof openWorld !== "boolean") throw new Error("readOnlyAnnotations: openWorld must be true or false");
+  return { ...(title ? { title } : {}), readOnlyHint: true, openWorldHint: openWorld };
+}
+
+type Annotatable = { name: string; title?: string; annotations?: ToolAnnotations };
+
+/** A tool's title for people: its own title, else its name with "_" as spaces, capitalized. */
+function titleFor(t: Annotatable): string {
+  const s = t.title?.trim() || t.name.replace(/_/g, " ").trim();
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+/** A copy of a server's tool list with `annotations` filled for the low-level TOOLS array:
+ * readOnlyHint true, an openWorldHint, and a title when there is none. `openWorld` is either:
+ *  - one boolean: it fills openWorldHint only on tools that do not declare one. A tool's own
+ *    declared openWorldHint wins, so the three shared tools (which declare false) pass through;
+ *  - a record of one value per tool name, which is strict: it throws on a name the list does not
+ *    have, on a tool that is missing from the record and declares no openWorldHint, and on a
+ *    value that disagrees with the tool's declared openWorldHint. A tool that already declares
+ *    openWorldHint (the shared tools) needs no entry.
+ * Either way it throws on a tool that declares readOnlyHint false.
+ *   export const TOOLS = annotateTools([...domainTools, ...betanyc.tools],
+ *     { search_bills: false, search_legislation_live: true }); */
+export function annotateTools<T extends Annotatable>(
+  tools: readonly T[],
+  openWorld: boolean | Readonly<Record<string, boolean>>,
+): (T & { annotations: ToolAnnotations })[] {
+  const per = typeof openWorld === "boolean" ? null : openWorld;
+  const problems: string[] = [];
+  if (per) {
+    const names = new Set(tools.map((t) => t.name));
+    for (const k of Object.keys(per)) if (!names.has(k)) problems.push(`${k} is not in the tool list`);
+  }
+  const out = tools.map((t) => {
+    const a = t.annotations ?? {};
+    const declared = typeof a.openWorldHint === "boolean" ? a.openWorldHint : undefined;
+    const given = per ? (Object.hasOwn(per, t.name) ? per[t.name] : undefined) : openWorld;
+    if (a.readOnlyHint === false) problems.push(`${t.name} declares readOnlyHint false`);
+    if (given !== undefined && typeof given !== "boolean") problems.push(`${t.name}: openWorld must be true or false`);
+    else if (per && given !== undefined && declared !== undefined && declared !== given) {
+      problems.push(`${t.name} declares openWorldHint ${declared}, but ${given} was given`);
+    }
+    const hint = declared ?? given;
+    if (given === undefined && typeof hint !== "boolean") problems.push(`${t.name} has no openWorld value`);
+    return { ...t, annotations: { ...a, title: a.title || titleFor(t), readOnlyHint: true, openWorldHint: hint as boolean } };
+  });
+  if (problems.length) throw new Error(`annotateTools: ${problems.join("; ")}`);
+  return out;
+}
+
+/** For each MCP's own test suite: throws, naming them, when a tool is not annotated the BetaNYC
+ * way. Every BetaNYC tool only reads, so each must have readOnlyHint true (false or missing
+ * fails), an openWorldHint that is true or false, and a non-empty title (annotations.title, or
+ * the tool's own title). Takes the TOOLS array, or tools/list from an SDK client.
+ *   test("every tool is annotated", () => assertEveryToolAnnotated(TOOLS)); */
+export function assertEveryToolAnnotated(
+  tools: readonly { name: string; title?: string; annotations?: ToolAnnotations }[],
+): void {
+  const filled = (v: unknown): boolean => typeof v === "string" && trim(v) !== "";
+  const bad = tools.flatMap((t) => {
+    const a = t.annotations ?? {};
+    const problems = [
+      a.readOnlyHint === true ? "" : a.readOnlyHint === undefined ? "no readOnlyHint" : "readOnlyHint is not true",
+      typeof a.openWorldHint === "boolean" ? "" : "no openWorldHint",
+      filled(a.title) || filled(t.title) ? "" : "no title",
+    ].filter(Boolean);
+    return problems.length ? [`${t.name} (${problems.join(", ")})`] : [];
+  });
+  if (bad.length) throw new Error(`Tools not annotated: ${bad.join("; ")}. Use annotateTools() or readOnlyAnnotations().`);
+}
+
+export interface ProvenanceInput {
+  /** The dataset or document's name, as in DATA-SOURCES.json source_name. One line. */
+  sourceName: string;
+  /** Its publisher's full name. One line. */
+  publisher: string;
+  /** A link a person can open: the dataset page, record page or document (http or https, a
+   * named host, no username or password). */
+  sourceUrl: string;
+  /** "live": fetched from the source for this answer (the fetch time is now). "snapshot": a copy
+   * built into or downloaded by the server (as of = the copy's date, required). */
+  kind: "live" | "snapshot";
+  /** An ISO 8601 date or date-time with a zone (isUsableAsOf). For "live", the data's own date
+   * as the source gives it (e.g. a dataset's last-updated date), not the fetch time. For
+   * "snapshot", the copy's date. */
+  asOf?: string | null;
+  /** Only when BetaNYC changed the data (1.5.2): "modified-by-betanyc" (BetaNYC changed an
+   * official source) or "produced-by-betanyc" (BetaNYC built or collected it), the same kinds
+   * about_data gives (OfficialKind), and `detail`, a short plain description of what BetaNYC did
+   * (one line). Use the kind that source's DATA-SOURCES.json entry gives in about_data, so the
+   * answer and about_data agree. Leave it out for data passed on as published. */
+  changedByBetanyc?: ChangedByBetanyc | null;
+}
+
+/** What BetaNYC did to the data behind one answer (provenance, 1.5.2). */
+export interface ChangedByBetanyc {
+  kind: Exclude<OfficialKind, "published-as-is">;
+  detail: string;
+}
+
+/** The plain object half of a provenance block. source, publisher, source_url and as_of are
+ * about_data's field names; as_of_kind and retrieved_at are this helper's own. */
+export interface Provenance {
+  source: string;
+  publisher: string;
+  source_url: string;
+  /** For "retrieved", the fetch time (ISO, UTC); for "source", the data's own date as given; for
+   * "snapshot", the copy's date; null when "unknown". */
+  as_of: string | null;
+  /** "retrieved" (live, no date of its own given: as of the fetch), "source" (live, the data's
+   * own date), "snapshot" (a copy's date), or "unknown" (no usable date). */
+  as_of_kind: "retrieved" | "source" | "snapshot" | "unknown";
+  /** When a live answer was fetched (ISO, UTC); null for a snapshot. */
+  retrieved_at: string | null;
+  /** Only when the input gave changedByBetanyc (1.5.2): its kind and its detail as passed on
+   * (trimmed, no trailing period). Absent otherwise, so the object is exactly 1.5.1's. */
+  changed_by_betanyc?: ChangedByBetanyc;
+}
+
+/** A moment as New York wall-clock time to the minute, in the module's date style:
+ * "2026-11-18 13:05 EST (New York time)". */
+function newYorkMinute(now: Date): string {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZoneName: "short",
+  }).formatToParts(now);
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
+  return `${get("year")}-${get("month")}-${get("day")} ${get("hour")}:${get("minute")} ${get("timeZoneName")} (New York time)`;
+}
+
+/** C0 and C1 controls (newlines and tabs included), Unicode format characters (bidi overrides
+ * and isolates, zero-width characters, the BOM) and the line and paragraph separators. */
+const PROVENANCE_BAD_CHAR_RE = /[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/u;
+
+/** The source block for one answer: who published the data, a link, and its dates, as a
+ * plain-text line and an object. For "live" it gives the fetch time in New York time, and, when
+ * asOf is given, the data's own date as a separate, labeled date. A date that isUsableAsOf()
+ * rejects (garbled, or in the future) is never passed on: it reads "unknown".
+ * With changedByBetanyc (1.5.2), the "Source: …" sentence is replaced by about_data's own fixed
+ * sentences for that kind (officialWording), with the dates before the closing link:
+ *   modified: "BetaNYC modified this data: <detail>. This copy should not be considered the
+ *             official record. <dates> Official record: <source (publisher)>, <link>"
+ *   produced: "BetaNYC produced this. It is not an official record. What BetaNYC did: <detail>.
+ *             <dates> Built from: <source (publisher)>, <link>"
+ * Without it, the text and object are exactly what 1.5.1 gave. Apart from those fixed sentences
+ * it adds no claim of its own about the data ("official", "current"). Throws on an empty name or
+ * publisher; a control, format or line-break character in the name, publisher, link or detail;
+ * a link that is not an http(s) link to a named host, or that carries a username or password; or
+ * a changedByBetanyc with another kind or an empty detail; so a mistake shows in the server's
+ * tests.
+ *   const p = provenance({ sourceName: "City Record Online", publisher: "NYC DCAS", sourceUrl, kind: "live" });
+ *   return { content: [{ type: "text", text: `${body}\n\n${p.text}` }] }; */
+export function provenance(input: ProvenanceInput, now: Date = new Date()): { text: string; provenance: Provenance } {
+  const fields = [["sourceName", input.sourceName], ["publisher", input.publisher], ["sourceUrl", input.sourceUrl]] as const;
+  for (const [field, v] of fields) {
+    if (typeof v === "string" && PROVENANCE_BAD_CHAR_RE.test(v)) {
+      throw new Error(`provenance: ${field} has a control, format or line-break character`);
+    }
+  }
+  const str = (v: unknown): string => (typeof v === "string" ? trim(v) : "");
+  const name = str(input.sourceName);
+  const publisher = str(input.publisher);
+  const url = str(input.sourceUrl);
+  if (!name || !publisher) throw new Error("provenance: sourceName and publisher are required");
+  if (/^[A-Za-z][A-Za-z0-9+.-]*:\/\/[^/?#]*@/.test(url)) throw new Error("provenance: sourceUrl must not carry a username or password");
+  if (!DS_URL_RE.test(url)) throw new Error(`provenance: sourceUrl must be an http(s) link to a named host (got ${JSON.stringify(input.sourceUrl)})`);
+  if (input.kind !== "live" && input.kind !== "snapshot") throw new Error('provenance: kind must be "live" or "snapshot"');
+  const changed = changedByBetanycOf(input.changedByBetanyc);
+  const given = typeof input.asOf === "string" && trim(input.asOf) ? input.asOf : null;
+  const usable = given !== null && isUsableAsOf(given, now);
+  let asOf: string | null;
+  let kind: Provenance["as_of_kind"];
+  let when: string;
+  let retrievedAt: string | null = null;
+  if (input.kind === "live") {
+    retrievedAt = now.toISOString();
+    const fetched = `Fetched from the source for this answer at ${newYorkMinute(now)}.`;
+    if (given === null) [asOf, kind, when] = [retrievedAt, "retrieved", fetched];
+    else if (usable) [asOf, kind, when] = [given, "source", `The data's own date, as the source gives it: ${given}. ${fetched}`];
+    else [asOf, kind, when] = [null, "unknown", `The data's own date: unknown (the source gave no usable date). ${fetched}`];
+  } else if (usable) {
+    [asOf, kind, when] = [given, "snapshot", `As of ${given} (the date of the copy this server answers from).`];
+  } else {
+    [asOf, kind, when] = [null, "unknown", "As of: unknown (this server has no usable date for it)."];
+  }
+  // No period after the link: some apps take it into the link.
+  const from = `${builtFrom(name, publisher)}, ${url}`;
+  const text = !changed ? `Source: ${builtFrom(name, publisher)}. ${when} Link: ${url}`
+    : changed.kind === "modified-by-betanyc"
+      ? `BetaNYC modified this data: ${changed.detail}. This copy should not be considered the official record. ${when} Official record: ${from}`
+      : `BetaNYC produced this. It is not an official record. What BetaNYC did: ${changed.detail}. ${when} Built from: ${from}`;
+  const out: Provenance = { source: name, publisher, source_url: url, as_of: asOf, as_of_kind: kind, retrieved_at: retrievedAt };
+  if (changed) out.changed_by_betanyc = changed;
+  return { text, provenance: out };
+}
+
+/** provenance's changedByBetanyc, checked: null when absent; throws when malformed. */
+function changedByBetanycOf(v: ChangedByBetanyc | null | undefined): ChangedByBetanyc | null {
+  if (v === undefined || v === null) return null;
+  if (typeof v !== "object" || (v.kind !== "modified-by-betanyc" && v.kind !== "produced-by-betanyc")) {
+    throw new Error('provenance: changedByBetanyc.kind must be "modified-by-betanyc" or "produced-by-betanyc"');
+  }
+  if (typeof v.detail === "string" && PROVENANCE_BAD_CHAR_RE.test(v.detail)) {
+    throw new Error("provenance: changedByBetanyc.detail has a control, format or line-break character");
+  }
+  const detail = typeof v.detail === "string" ? trim(trim(v.detail).replace(/\.+$/, "")) : "";
+  if (!detail) throw new Error("provenance: changedByBetanyc.detail is required: say what BetaNYC did");
+  return { kind: v.kind, detail };
+}
+
+/** Most characters of an upstream error body that toolError passes on. */
+export const UPSTREAM_BODY_MAX = 500;
+
+/** Stack frames as the runtimes print them, always indented: a Node frame
+ * ("    at f (file.js:1:2)" or "    at file.js:1:2"), a Python frame
+ * ('  File "x.py", line 3, in f'), and Python's "Traceback (most recent call last):" header.
+ * Text that merely starts with "at" or "File" ("at least one filter is required",
+ * 'File "report.csv", line 3, is malformed') is kept. */
+const NODE_FRAME_RE = /^[ \t]+at[ \t]+(?:[^()]*\([^()]+:\d+:\d+\)|[^\s()]+:\d+:\d+)[ \t]*$/;
+const PYTHON_FRAME_RE = /^[ \t]+File[ \t]+"[^"]+",[ \t]+line[ \t]+\d+,[ \t]+in[ \t]+\S.*$/;
+const TRACEBACK_RE = /^[ \t]*Traceback \(most recent call last\):[ \t]*$/;
+
+function isStackFrame(line: string): boolean {
+  return NODE_FRAME_RE.test(line) || PYTHON_FRAME_RE.test(line) || TRACEBACK_RE.test(line);
+}
+
+/** Drops the stack-frame lines (isStackFrame) from a text; keeps every other line. */
+function dropStackFrames(text: string): string {
+  return text.split(/\r?\n/).filter((l) => !isStackFrame(l)).join("\n");
+}
+
+/** Most characters of the caller's message that toolError passes on, "…" included (1.5.2). */
+const MESSAGE_MAX = 1_000;
+
+/** At most `max` characters (code points), the last one "…" when it was cut. */
+function capChars(s: string, max: number): string {
+  const cp = [...s];
+  return cp.length > max ? `${cp.slice(0, max - 1).join("")}…` : s;
+}
+
+/** Secrets shorter than this many characters are ignored: redacting "a" would redact every "a". */
+const SECRET_MIN_CHARS = 8;
+
+function escapeRe(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
+}
+
+/** A percent-encoded form as a pattern whose %XX hex digits match in either case. */
+function percentPattern(s: string): string {
+  return s.split(/(%[0-9A-Fa-f]{2})/)
+    .map((part, i) => (i % 2 ? part.replace(/[A-Fa-f]/g, (c) => `[${c.toUpperCase()}${c.toLowerCase()}]`) : escapeRe(part)))
+    .join("");
+}
+
+function base64Of(s: string): string {
+  let bin = "";
+  for (const b of new TextEncoder().encode(s)) bin += String.fromCharCode(b);
+  return btoa(bin);
+}
+
+/** One pattern matching every form of every secret toolError scrubs, longest form first. */
+function secretPattern(secrets: readonly (string | null | undefined)[]): RegExp | null {
+  const forms = new Map<string, string>(); // literal form -> its pattern
+  const add = (literal: string, pattern: string) => { if (literal) forms.set(literal, pattern); };
+  for (const v of secrets) {
+    if (typeof v !== "string" || [...v].length < SECRET_MIN_CHARS) continue;
+    add(v, escapeRe(v));
+    const uri = encodeURIComponent(v);
+    add(uri, percentPattern(uri));
+    const form = new URLSearchParams({ s: v }).toString().slice(2);
+    add(form, percentPattern(form));
+    const json = JSON.stringify(v).slice(1, -1);
+    add(json, escapeRe(json));
+    add(json.replace(/\//g, "\\/"), escapeRe(json.replace(/\//g, "\\/")));
+    const b64 = base64Of(v);
+    add(b64, escapeRe(b64));
+    add(b64.replace(/=+$/, ""), escapeRe(b64.replace(/=+$/, "")));
+  }
+  if (!forms.size) return null;
+  const sorted = [...forms].sort((a, b) => b[0].length - a[0].length).map(([, p]) => p);
+  return new RegExp(sorted.join("|"), "g");
+}
+
+/** An isError result from a plain sentence (what went wrong, what to try), plus an optional
+ * upstream body cut to UPSTREAM_BODY_MAX characters. In the message and the upstream body alike,
+ * only real stack-frame lines are dropped (see NODE_FRAME_RE): servers often build the message
+ * from caught errors, so a frame there would leak a file path (1.5.2). Every other line is kept,
+ * "at least one … is required" included. The message is then capped at 1,000 characters,
+ * ending "…" when cut; if nothing is left, it is "The tool failed.". In both, before the cap
+ * and the cut (so no part of a key survives them), each secret given (an API key, a token) of
+ * at least 8 characters becomes "[redacted]" in these forms, and only these:
+ *   - as is;
+ *   - percent-encoded as encodeURIComponent writes it, %XX hex in either case;
+ *   - form-encoded as URLSearchParams writes it (a space as "+"), %XX hex in either case;
+ *   - JSON-escaped as JSON.stringify writes it, with "/" as is or as "\/";
+ *   - base64 of the secret alone (UTF-8), with or without "=" padding, wherever that string
+ *     appears (a Basic credential that is the secret by itself). No username is guessed, so in
+ *     a "user:secret" credential the secret is caught only when "user:" is a multiple of 3
+ *     bytes long (only then is the secret's base64 the same string); otherwise it is NOT caught.
+ * Secrets shorter than 8 characters are ignored, since redacting them would wreck the message.
+ *   catch (e) { return toolError("The Legistar API did not answer. Try again in a minute.",
+ *     { upstreamBody: body, secrets: [process.env.LEGISTAR_TOKEN] }); } */
+export function toolError(
+  message: string,
+  opts: { upstreamBody?: string | null; secrets?: readonly (string | null | undefined)[] } = {},
+): ToolResult {
+  const re = secretPattern(opts.secrets ?? []);
+  const redact = (s: string) => (re ? s.replace(re, "[redacted]") : s);
+  const msg = capChars(trim(redact(dropStackFrames(String(message ?? "")))), MESSAGE_MAX) || "The tool failed.";
+  const body = typeof opts.upstreamBody === "string" ? trim(redact(dropStackFrames(opts.upstreamBody))) : "";
+  if (!body) return errorResult(msg);
+  const cp = [...body];
+  const cut = cp.length > UPSTREAM_BODY_MAX ? `${cp.slice(0, UPSTREAM_BODY_MAX).join("")}… (cut at ${UPSTREAM_BODY_MAX} characters)` : body;
+  return errorResult(`${msg}\nThe source said: ${cut}`);
+}
+
+/** What errorSummary returns when a caught value has no usable message. */
+const ERROR_SUMMARY_UNKNOWN = "unknown error";
+
+/** One safe line of plain text from an unknown caught value, for a server to put in a user-facing
+ * sentence (1.5.2). Takes an Error, a string, or anything else: an Error (or any object whose
+ * `message` is a string) gives its message, a string itself, a number, boolean or bigint its
+ * text. Returns the first non-empty line of that text that is not a stack frame (indented or
+ * not), with control characters as spaces, trimmed, and at most `max` characters (code points),
+ * ending "…" when cut. Returns "unknown error" for null, undefined, an empty message, or an
+ * object with no string message. It never reads `err.stack` or `err.cause`, so no stack or file
+ * path from them is included.
+ * It does NOT redact secrets: pass the result through toolError with `secrets`:
+ *   catch (e) { return toolError(`Could not reach the Legistar API: ${errorSummary(e)}.`,
+ *     { secrets: [process.env.LEGISTAR_TOKEN] }); } */
+export function errorSummary(err: unknown, max = 300): string {
+  const limit = Number.isInteger(max) && max >= 1 ? max : 300;
+  let text = "";
+  try {
+    if (typeof err === "string") text = err;
+    else if (typeof err === "number" || typeof err === "boolean" || typeof err === "bigint") text = String(err);
+    else if (err !== null && typeof err === "object") {
+      const m = (err as { message?: unknown }).message;
+      if (typeof m === "string") text = m;
+    }
+  } catch {
+    text = ""; // a getter that throws, or a revoked proxy
+  }
+  for (const raw of text.split(/\r\n|[\n\r\u2028\u2029]/)) {
+    if (isStackFrame(raw) || isStackFrame(` ${raw.trimStart()}`)) continue;
+    const line = trim(raw.replace(/\p{Cc}/gu, " "));
+    if (line) return capChars(line, limit);
+  }
+  return ERROR_SUMMARY_UNKNOWN;
+}
+
+/** The size of a server's tools/list (JSON of its tools) plus its instructions: what the model
+ * reads every turn. It counts UTF-16 code units (JavaScript string length), not bytes and not
+ * characters as a person counts them: "é" is 1, "👋" is 2. Each server's test caps it, and records
+ * any raise with a date and reason (the nyc-311-mcp test/tool-size.test.mjs pattern; same
+ * measure, so its budget holds).
+ *   assert.ok(toolListSize(TOOLS, INSTRUCTIONS) <= 47_000); */
+export function toolListSize(tools: readonly object[], instructions = ""): number {
+  return JSON.stringify(tools).length + instructions.length;
 }

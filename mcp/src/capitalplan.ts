@@ -127,7 +127,7 @@ function sourcesFooter(version: string): string {
   const s = (id: string) => src.get(id);
   return [
     "---",
-    `Source: NYC Open Data ${"2cmn-uidm"} (OMB's Capital Commitment Plan; snapshot retrieved ${s("2cmn-uidm")?.retrieved}), djxg-kcfi and fi59-268w (DCP's Capital Projects Database, version ${version}, published ${s("djxg-kcfi")?.rows_updated_at}; retrieved ${s("djxg-kcfi")?.retrieved} and ${s("fi59-268w")?.retrieved}), committed in the source repo with their manifests; the Council's rows from data/capital/council_capital_awards.csv.`,
+    `Source: NYC Open Data 2cmn-uidm (OMB's Capital Commitment Plan, https://data.cityofnewyork.us/d/2cmn-uidm; snapshot retrieved ${s("2cmn-uidm")?.retrieved}), djxg-kcfi and fi59-268w (DCP's Capital Projects Database, https://data.cityofnewyork.us/d/djxg-kcfi and https://data.cityofnewyork.us/d/fi59-268w; version ${version}, published ${s("djxg-kcfi")?.rows_updated_at}; retrieved ${s("djxg-kcfi")?.retrieved} and ${s("fi59-268w")?.retrieved}), committed in the source repo with their manifests; the Council's rows from data/capital/council_capital_awards.csv.`,
   ].join("\n");
 }
 
@@ -227,7 +227,7 @@ export function searchCapitalPlanText(a: CapitalPlanArgs): string {
     L.push(
       `2. DCP Capital Projects Database (CPDB) version ${version}, published ${capitalPlanSources().get("djxg-kcfi")?.rows_updated_at}: ${fmtN(cpdb.n)} planned commitment(s) on this line, ${fmtN(cpdb.p)} project(s). ${unitCpdb}`,
       "   On this line, by fiscal year (July to June): " + byFy.map((r) => `FY${r.plan_fy} City ${dollars(r.c)} / Non-City ${dollars(r.nc)}`).join(" · "),
-      `   Projects on this line, largest planned total first (showing ${projects.length} of ${fmtN(cpdb.p)}):`
+      `   Projects on this line, largest planned total first (showing ${projects.length} of ${fmtN(cpdb.p)}${projects.length < cpdb.p ? "; raise limit, max 500, to see more" : ""}):`
     );
     const getP = db.prepare("SELECT * FROM cpdb_projects WHERE maprojid = ?");
     for (const pr of projects) {
