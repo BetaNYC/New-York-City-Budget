@@ -1,5 +1,5 @@
-// betanyc-shared: betanyc-tools.ts v1.5.0
-// betanyc-shared-sha256: 7c16016c691086bd4b8d43cc1b9d7b04ee49161d79a31215d6dd984cb23084f4
+// betanyc-shared: betanyc-tools.ts v1.5.1
+// betanyc-shared-sha256: e1e15642c1a34141ecc37f2347ac3e352b5305a7ff703b82df38f3f482a13e96
 // Canonical copy: betanyc-ai-workspace scripts/mcp_shared/betanyc-tools.ts. Do not edit a copy
 // in a server repo; change the canonical file, re-stamp it, and copy it again.
 // Drift check: scripts/whats_changed_drift.py. Standard: platform/system/whats-changed-standard.md.
@@ -29,7 +29,7 @@
 import { readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 
-export const SHARED_MODULE_VERSION = "1.5.0";
+export const SHARED_MODULE_VERSION = "1.5.1";
 
 // --------------------------------------------------------------------------- types
 
@@ -2260,11 +2260,14 @@ function titleFor(t: Annotatable): string {
 }
 
 /** A copy of a server's tool list with `annotations` filled for the low-level TOOLS array:
- * readOnlyHint true, the openWorldHint the caller gives, and a title when there is none.
- * `openWorld` is one value for every tool, or one per tool name. A tool that already declares
- * both hints (the three shared tools do) needs no entry and passes through as is. Throws on a
- * tool with no openWorld value, a name the list does not have, a tool that declares
- * readOnlyHint false, or an openWorldHint that disagrees with the caller's.
+ * readOnlyHint true, an openWorldHint, and a title when there is none. `openWorld` is either:
+ *  - one boolean: it fills openWorldHint only on tools that do not declare one. A tool's own
+ *    declared openWorldHint wins, so the three shared tools (which declare false) pass through;
+ *  - a record of one value per tool name, which is strict: it throws on a name the list does not
+ *    have, on a tool that is missing from the record and declares no openWorldHint, and on a
+ *    value that disagrees with the tool's declared openWorldHint. A tool that already declares
+ *    openWorldHint (the shared tools) needs no entry.
+ * Either way it throws on a tool that declares readOnlyHint false.
  *   export const TOOLS = annotateTools([...domainTools, ...betanyc.tools],
  *     { search_bills: false, search_legislation_live: true }); */
 export function annotateTools<T extends Annotatable>(
@@ -2279,13 +2282,14 @@ export function annotateTools<T extends Annotatable>(
   }
   const out = tools.map((t) => {
     const a = t.annotations ?? {};
+    const declared = typeof a.openWorldHint === "boolean" ? a.openWorldHint : undefined;
     const given = per ? (Object.hasOwn(per, t.name) ? per[t.name] : undefined) : openWorld;
     if (a.readOnlyHint === false) problems.push(`${t.name} declares readOnlyHint false`);
     if (given !== undefined && typeof given !== "boolean") problems.push(`${t.name}: openWorld must be true or false`);
-    if (given !== undefined && typeof a.openWorldHint === "boolean" && a.openWorldHint !== given) {
-      problems.push(`${t.name} declares openWorldHint ${a.openWorldHint}, but ${given} was given`);
+    else if (per && given !== undefined && declared !== undefined && declared !== given) {
+      problems.push(`${t.name} declares openWorldHint ${declared}, but ${given} was given`);
     }
-    const hint = typeof a.openWorldHint === "boolean" ? a.openWorldHint : given;
+    const hint = declared ?? given;
     if (given === undefined && typeof hint !== "boolean") problems.push(`${t.name} has no openWorld value`);
     return { ...t, annotations: { ...a, title: a.title || titleFor(t), readOnlyHint: true, openWorldHint: hint as boolean } };
   });
@@ -2293,105 +2297,215 @@ export function annotateTools<T extends Annotatable>(
   return out;
 }
 
-/** For each MCP's own test suite: throws, naming them, when a tool lacks readOnlyHint or
- * openWorldHint (a boolean each). Takes the TOOLS array, or tools/list from an SDK client.
+/** For each MCP's own test suite: throws, naming them, when a tool is not annotated the BetaNYC
+ * way. Every BetaNYC tool only reads, so each must have readOnlyHint true (false or missing
+ * fails), an openWorldHint that is true or false, and a non-empty title (annotations.title, or
+ * the tool's own title). Takes the TOOLS array, or tools/list from an SDK client.
  *   test("every tool is annotated", () => assertEveryToolAnnotated(TOOLS)); */
-export function assertEveryToolAnnotated(tools: readonly { name: string; annotations?: ToolAnnotations }[]): void {
+export function assertEveryToolAnnotated(
+  tools: readonly { name: string; title?: string; annotations?: ToolAnnotations }[],
+): void {
+  const filled = (v: unknown): boolean => typeof v === "string" && trim(v) !== "";
   const bad = tools.flatMap((t) => {
     const a = t.annotations ?? {};
-    const missing = [
-      typeof a.readOnlyHint === "boolean" ? "" : "readOnlyHint",
-      typeof a.openWorldHint === "boolean" ? "" : "openWorldHint",
+    const problems = [
+      a.readOnlyHint === true ? "" : a.readOnlyHint === undefined ? "no readOnlyHint" : "readOnlyHint is not true",
+      typeof a.openWorldHint === "boolean" ? "" : "no openWorldHint",
+      filled(a.title) || filled(t.title) ? "" : "no title",
     ].filter(Boolean);
-    return missing.length ? [`${t.name} (no ${missing.join(" or ")})`] : [];
+    return problems.length ? [`${t.name} (${problems.join(", ")})`] : [];
   });
-  if (bad.length) throw new Error(`Tools without annotations: ${bad.join(", ")}. Use annotateTools() or readOnlyAnnotations().`);
+  if (bad.length) throw new Error(`Tools not annotated: ${bad.join("; ")}. Use annotateTools() or readOnlyAnnotations().`);
 }
 
 export interface ProvenanceInput {
-  /** The dataset or document's name, as in DATA-SOURCES.json source_name. */
+  /** The dataset or document's name, as in DATA-SOURCES.json source_name. One line. */
   sourceName: string;
-  /** Its publisher's full name. */
+  /** Its publisher's full name. One line. */
   publisher: string;
-  /** A link a person can open: the dataset page, record page or document (http or https). */
+  /** A link a person can open: the dataset page, record page or document (http or https, a
+   * named host, no username or password). */
   sourceUrl: string;
-  /** "live": fetched from the source for this answer (as of = asOf, else now). "snapshot": a
-   * copy built into or downloaded by the server (as of = the copy's date, required). */
+  /** "live": fetched from the source for this answer (the fetch time is now). "snapshot": a copy
+   * built into or downloaded by the server (as of = the copy's date, required). */
   kind: "live" | "snapshot";
-  /** An ISO 8601 date or date-time with a zone (isUsableAsOf). */
+  /** An ISO 8601 date or date-time with a zone (isUsableAsOf). For "live", the data's own date
+   * as the source gives it (e.g. a dataset's last-updated date), not the fetch time. For
+   * "snapshot", the copy's date. */
   asOf?: string | null;
 }
 
-/** The plain object half of a provenance block. Same field names as about_data's sources. */
+/** The plain object half of a provenance block. source, publisher, source_url and as_of are
+ * about_data's field names; as_of_kind and retrieved_at are this helper's own. */
 export interface Provenance {
   source: string;
   publisher: string;
   source_url: string;
+  /** For "retrieved", the fetch time (ISO, UTC); for "source", the data's own date as given; for
+   * "snapshot", the copy's date; null when "unknown". */
   as_of: string | null;
-  /** "retrieved" (live), "snapshot" (a copy's date), or "unknown" (no usable date). */
-  as_of_kind: "retrieved" | "snapshot" | "unknown";
+  /** "retrieved" (live, no date of its own given: as of the fetch), "source" (live, the data's
+   * own date), "snapshot" (a copy's date), or "unknown" (no usable date). */
+  as_of_kind: "retrieved" | "source" | "snapshot" | "unknown";
+  /** When a live answer was fetched (ISO, UTC); null for a snapshot. */
+  retrieved_at: string | null;
 }
 
-/** The source block for one answer: who published the data, a link, and how current it is, as
- * a plain-text line and an object. A date that isUsableAsOf() rejects (garbled, or in the
- * future) is never passed on: it reads "as of: unknown". Throws on an empty name or publisher,
- * or a link that is not http(s), so a mistake shows in the server's tests.
+/** A moment as New York wall-clock time to the minute, in the module's date style:
+ * "2026-11-18 13:05 EST (New York time)". */
+function newYorkMinute(now: Date): string {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZoneName: "short",
+  }).formatToParts(now);
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
+  return `${get("year")}-${get("month")}-${get("day")} ${get("hour")}:${get("minute")} ${get("timeZoneName")} (New York time)`;
+}
+
+/** C0 and C1 controls (newlines and tabs included), Unicode format characters (bidi overrides
+ * and isolates, zero-width characters, the BOM) and the line and paragraph separators. */
+const PROVENANCE_BAD_CHAR_RE = /[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/u;
+
+/** The source block for one answer: who published the data, a link, and its dates, as a
+ * plain-text line and an object. For "live" it gives the fetch time in New York time, and, when
+ * asOf is given, the data's own date as a separate, labeled date. A date that isUsableAsOf()
+ * rejects (garbled, or in the future) is never passed on: it reads "unknown". It adds no claim
+ * of its own about the data ("official", "current"). Throws on an empty name or publisher; a
+ * control, format or line-break character in the name, publisher or link; or a link that is not
+ * an http(s) link to a named host, or that carries a username or password; so a mistake shows in
+ * the server's tests.
  *   const p = provenance({ sourceName: "City Record Online", publisher: "NYC DCAS", sourceUrl, kind: "live" });
  *   return { content: [{ type: "text", text: `${body}\n\n${p.text}` }] }; */
 export function provenance(input: ProvenanceInput, now: Date = new Date()): { text: string; provenance: Provenance } {
-  const name = trim(input.sourceName ?? "");
-  const publisher = trim(input.publisher ?? "");
-  const url = trim(input.sourceUrl ?? "");
+  const fields = [["sourceName", input.sourceName], ["publisher", input.publisher], ["sourceUrl", input.sourceUrl]] as const;
+  for (const [field, v] of fields) {
+    if (typeof v === "string" && PROVENANCE_BAD_CHAR_RE.test(v)) {
+      throw new Error(`provenance: ${field} has a control, format or line-break character`);
+    }
+  }
+  const str = (v: unknown): string => (typeof v === "string" ? trim(v) : "");
+  const name = str(input.sourceName);
+  const publisher = str(input.publisher);
+  const url = str(input.sourceUrl);
   if (!name || !publisher) throw new Error("provenance: sourceName and publisher are required");
-  if (!/^https?:\/\/[^\s/?#]+[^\s]*$/i.test(url)) throw new Error(`provenance: sourceUrl must be an http(s) link (got ${JSON.stringify(input.sourceUrl)})`);
+  if (/^[A-Za-z][A-Za-z0-9+.-]*:\/\/[^/?#]*@/.test(url)) throw new Error("provenance: sourceUrl must not carry a username or password");
+  if (!DS_URL_RE.test(url)) throw new Error(`provenance: sourceUrl must be an http(s) link to a named host (got ${JSON.stringify(input.sourceUrl)})`);
   if (input.kind !== "live" && input.kind !== "snapshot") throw new Error('provenance: kind must be "live" or "snapshot"');
-  const raw = input.asOf ?? (input.kind === "live" ? now.toISOString() : null);
-  const usable = isUsableAsOf(raw, now);
-  const asOf = usable ? (raw as string) : null;
-  const kind: Provenance["as_of_kind"] = !usable ? "unknown" : input.kind === "live" ? "retrieved" : "snapshot";
-  const when = kind === "retrieved" ? `As of ${asOf} (fetched from the source for this answer).`
-    : kind === "snapshot" ? `As of ${asOf} (the date of the copy this server answers from).`
-      : "As of: unknown (this server has no usable date for it).";
+  const given = typeof input.asOf === "string" && trim(input.asOf) ? input.asOf : null;
+  const usable = given !== null && isUsableAsOf(given, now);
+  let asOf: string | null;
+  let kind: Provenance["as_of_kind"];
+  let when: string;
+  let retrievedAt: string | null = null;
+  if (input.kind === "live") {
+    retrievedAt = now.toISOString();
+    const fetched = `Fetched from the source for this answer at ${newYorkMinute(now)}.`;
+    if (given === null) [asOf, kind, when] = [retrievedAt, "retrieved", fetched];
+    else if (usable) [asOf, kind, when] = [given, "source", `The data's own date, as the source gives it: ${given}. ${fetched}`];
+    else [asOf, kind, when] = [null, "unknown", `The data's own date: unknown (the source gave no usable date). ${fetched}`];
+  } else if (usable) {
+    [asOf, kind, when] = [given, "snapshot", `As of ${given} (the date of the copy this server answers from).`];
+  } else {
+    [asOf, kind, when] = [null, "unknown", "As of: unknown (this server has no usable date for it)."];
+  }
   // No period after the link: some apps take it into the link.
   const text = `Source: ${builtFrom(name, publisher)}. ${when} Link: ${url}`;
-  return { text, provenance: { source: name, publisher, source_url: url, as_of: asOf, as_of_kind: kind } };
+  return { text, provenance: { source: name, publisher, source_url: url, as_of: asOf, as_of_kind: kind, retrieved_at: retrievedAt } };
 }
 
 /** Most characters of an upstream error body that toolError passes on. */
 export const UPSTREAM_BODY_MAX = 500;
 
-/** Lines that look like a JavaScript or Python stack frame. */
-const STACK_LINE_RE = /^\s*(?:at\s+\S.*|File\s+".*",\s+line\s+\d+.*|Traceback \(most recent call last\):.*)$/;
+/** Stack frames as the runtimes print them, always indented: a Node frame
+ * ("    at f (file.js:1:2)" or "    at file.js:1:2"), a Python frame
+ * ('  File "x.py", line 3, in f'), and Python's "Traceback (most recent call last):" header.
+ * Text that merely starts with "at" or "File" ("at least one filter is required",
+ * 'File "report.csv", line 3, is malformed') is kept. */
+const NODE_FRAME_RE = /^[ \t]+at[ \t]+(?:[^()]*\([^()]+:\d+:\d+\)|[^\s()]+:\d+:\d+)[ \t]*$/;
+const PYTHON_FRAME_RE = /^[ \t]+File[ \t]+"[^"]+",[ \t]+line[ \t]+\d+,[ \t]+in[ \t]+\S.*$/;
+const TRACEBACK_RE = /^[ \t]*Traceback \(most recent call last\):[ \t]*$/;
 
-function scrub(text: string, secrets: readonly string[]): string {
-  let s = text.split(/\r?\n/).filter((l) => !STACK_LINE_RE.test(l)).join("\n");
-  for (const v of secrets) s = s.split(v).join("[redacted]");
-  return s;
+/** Secrets shorter than this many characters are ignored: redacting "a" would redact every "a". */
+const SECRET_MIN_CHARS = 8;
+
+function escapeRe(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
+}
+
+/** A percent-encoded form as a pattern whose %XX hex digits match in either case. */
+function percentPattern(s: string): string {
+  return s.split(/(%[0-9A-Fa-f]{2})/)
+    .map((part, i) => (i % 2 ? part.replace(/[A-Fa-f]/g, (c) => `[${c.toUpperCase()}${c.toLowerCase()}]`) : escapeRe(part)))
+    .join("");
+}
+
+function base64Of(s: string): string {
+  let bin = "";
+  for (const b of new TextEncoder().encode(s)) bin += String.fromCharCode(b);
+  return btoa(bin);
+}
+
+/** One pattern matching every form of every secret toolError scrubs, longest form first. */
+function secretPattern(secrets: readonly (string | null | undefined)[]): RegExp | null {
+  const forms = new Map<string, string>(); // literal form -> its pattern
+  const add = (literal: string, pattern: string) => { if (literal) forms.set(literal, pattern); };
+  for (const v of secrets) {
+    if (typeof v !== "string" || [...v].length < SECRET_MIN_CHARS) continue;
+    add(v, escapeRe(v));
+    const uri = encodeURIComponent(v);
+    add(uri, percentPattern(uri));
+    const form = new URLSearchParams({ s: v }).toString().slice(2);
+    add(form, percentPattern(form));
+    const json = JSON.stringify(v).slice(1, -1);
+    add(json, escapeRe(json));
+    add(json.replace(/\//g, "\\/"), escapeRe(json.replace(/\//g, "\\/")));
+    const b64 = base64Of(v);
+    add(b64, escapeRe(b64));
+    add(b64.replace(/=+$/, ""), escapeRe(b64.replace(/=+$/, "")));
+  }
+  if (!forms.size) return null;
+  const sorted = [...forms].sort((a, b) => b[0].length - a[0].length).map(([, p]) => p);
+  return new RegExp(sorted.join("|"), "g");
 }
 
 /** An isError result from a plain sentence (what went wrong, what to try), plus an optional
- * upstream body cut to UPSTREAM_BODY_MAX characters. Stack-frame lines are dropped, and every
- * secret value given (an API key, a token; also its URL-encoded form) is replaced by
- * "[redacted]" in both, before the cut, so no part of a key survives it.
+ * upstream body cut to UPSTREAM_BODY_MAX characters. The caller's message is passed on as
+ * written (no line is dropped from it). In the upstream body, Node and Python stack-frame lines
+ * are dropped (see NODE_FRAME_RE). In both, before the cut (so no part of a key survives it),
+ * each secret given (an API key, a token) of at least 8 characters becomes "[redacted]" in
+ * these forms, and only these:
+ *   - as is;
+ *   - percent-encoded as encodeURIComponent writes it, %XX hex in either case;
+ *   - form-encoded as URLSearchParams writes it (a space as "+"), %XX hex in either case;
+ *   - JSON-escaped as JSON.stringify writes it, with "/" as is or as "\/";
+ *   - base64 of the secret alone (UTF-8), with or without "=" padding, wherever that string
+ *     appears (a Basic credential that is the secret by itself). No username is guessed, so in
+ *     a "user:secret" credential the secret is caught only when "user:" is a multiple of 3
+ *     bytes long (only then is the secret's base64 the same string); otherwise it is NOT caught.
+ * Secrets shorter than 8 characters are ignored, since redacting them would wreck the message.
  *   catch (e) { return toolError("The Legistar API did not answer. Try again in a minute.",
  *     { upstreamBody: body, secrets: [process.env.LEGISTAR_TOKEN] }); } */
 export function toolError(
   message: string,
   opts: { upstreamBody?: string | null; secrets?: readonly (string | null | undefined)[] } = {},
 ): ToolResult {
-  const secrets = [...new Set((opts.secrets ?? []).flatMap((v) =>
-    typeof v === "string" && v ? [v, encodeURIComponent(v)] : []))].sort((a, b) => b.length - a.length);
-  const msg = trim(scrub(String(message ?? ""), secrets)) || "The tool failed.";
-  const body = typeof opts.upstreamBody === "string" ? trim(scrub(opts.upstreamBody, secrets)) : "";
+  const re = secretPattern(opts.secrets ?? []);
+  const redact = (s: string) => (re ? s.replace(re, "[redacted]") : s);
+  const msg = trim(redact(String(message ?? ""))) || "The tool failed.";
+  const lines = typeof opts.upstreamBody === "string" ? opts.upstreamBody.split(/\r?\n/) : [];
+  const kept = lines.filter((l) => !NODE_FRAME_RE.test(l) && !PYTHON_FRAME_RE.test(l) && !TRACEBACK_RE.test(l));
+  const body = trim(redact(kept.join("\n")));
   if (!body) return errorResult(msg);
   const cp = [...body];
   const cut = cp.length > UPSTREAM_BODY_MAX ? `${cp.slice(0, UPSTREAM_BODY_MAX).join("")}… (cut at ${UPSTREAM_BODY_MAX} characters)` : body;
   return errorResult(`${msg}\nThe source said: ${cut}`);
 }
 
-/** The size, in characters, of a server's tools/list (JSON of its tools) plus its instructions:
- * what the model reads every turn. Each server's test caps it, and records any raise with a date
- * and reason (the nyc-311-mcp test/tool-size.test.mjs pattern; same measure, so its budget holds).
+/** The size of a server's tools/list (JSON of its tools) plus its instructions: what the model
+ * reads every turn. It counts UTF-16 code units (JavaScript string length), not bytes and not
+ * characters as a person counts them: "é" is 1, "👋" is 2. Each server's test caps it, and records
+ * any raise with a date and reason (the nyc-311-mcp test/tool-size.test.mjs pattern; same
+ * measure, so its budget holds).
  *   assert.ok(toolListSize(TOOLS, INSTRUCTIONS) <= 47_000); */
 export function toolListSize(tools: readonly object[], instructions = ""): number {
   return JSON.stringify(tools).length + instructions.length;
