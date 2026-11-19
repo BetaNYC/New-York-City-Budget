@@ -47,7 +47,8 @@ import { getMeta } from "./db.js";
 import { REPO_URL } from "./rowlinks.js";
 import { annotateTools, createBetanycTools, toolError } from "./betanyc-tools.js";
 import { FRESHNESS_HOOKS } from "./freshness.js";
-import { howToAdd, maybeAutoDownload, openPdfTables, progress, type PdfTables } from "./pdfdata.js";
+import { sourcesBlock } from "./sources.js";
+import { answerError, howToAdd, maybeAutoDownload, openPdfTables, progress, type PdfTables } from "./pdfdata.js";
 import {
   searchScheduleC,
   searchTransparency,
@@ -549,17 +550,6 @@ const SC_REASON: Record<string, string> = {
 const PDF_CAVEAT =
   'Caveat: these tables are read from the Council\'s PDFs by BetaNYC and checked (each row against a second reading of the page image, each printed total tied, flagged rows sent to a person). Every row says its status: "checked, review in progress" (the year\'s review is not finished, so a flag may still be open) or "checked and reviewed". Values are as printed, never corrected; a row the PDF gets wrong carries its review decision. The old parser\'s output (1.x, and FY2008–FY2017) is never served.';
 
-/** Where each dataset list_available_fiscal_years reports on comes from (the links in DATA-SOURCES.json). */
-const YEARS_SOURCES = [
-  "Sources:",
-  "  Expense funding disclosure: the Council's Research & Data site, https://rnd.council.nyc.gov/expense_funding/",
-  "  Council capital: the Council's workbook, https://rnd.council.nyc.gov/src/assets/Capital-Database.xlsx, and NYC Open Data t474-a92g, https://data.cityofnewyork.us/d/t474-a92g",
-  "  OMB comparison: OMB's Capital Budget on NYC Open Data, https://data.cityofnewyork.us/d/46m8-77gv",
-  "  PDF tables: the Council's budget documents, https://council.nyc.gov/budget/",
-  "  Agency budgets: NYC Open Data mwzb-yiwb, https://data.cityofnewyork.us/d/mwzb-yiwb",
-  "  Capital plan: NYC Open Data 2cmn-uidm, https://data.cityofnewyork.us/d/2cmn-uidm; CPDB djxg-kcfi, https://data.cityofnewyork.us/d/djxg-kcfi, and fi59-268w, https://data.cityofnewyork.us/d/fi59-268w",
-];
-
 /**
  * The PDF tables, or the answer to give without them (absent, downloading, failed, unusable). That
  * answer has no data, so it is an error (isError: true) for the client, though its text is not an
@@ -574,7 +564,7 @@ function pdfTablesOrAnswer(tool: string): { tables: PdfTables } | { answer: Retu
     p.state === "downloading"
       ? `They are downloading now (started ${p.started}; ${(p.bytes / 1e6).toFixed(1)} of ${(p.total / 1e6).toFixed(1)} MB). Ask again in a minute or two.`
       : p.state === "failed"
-        ? `The download this server started failed: ${p.error}`
+        ? `The download this server started failed: ${p.error}.`
         : problem ?? "They are not installed on this machine.";
   return {
     answer: {
@@ -1129,7 +1119,7 @@ export const TOOLS = annotateTools([
   },
   {
     name: "search_schedule_c_awards",
-    title: "Search Schedule C awards",
+    title: "Search the Council's Schedule C awards",
     description: `Search the adopted budget's Schedule C (the Council's discretionary awards as printed in the budget PDF: the body and appendices A, B and C), FY2018–FY2027, from the checked tables BetaNYC reads from the PDFs. Every row is labeled "checked, review in progress" or "checked and reviewed", with its flags, review decision and note where decided, three links (the row highlighted on its page in the explorer, the PDF on GitHub at the build's commit, the publisher's copy where known), and disclosure_status: whether the same EIN and amount is in the Council's disclosure spreadsheet (search_disclosure_awards, a separate tool and a later snapshot) as cleared or pending, or unmatched with the reason. Values are as printed. Sub-awards printed under an award (the Jobs to Build On partner list, FY2018 and FY2019) are listed under it and never counted. Filter by any combination of fiscal_year, organization, ein, member (member, sponsor or delegation, as printed) or council_member_id (exact Legistar person ID, resolved per year from the printed member: 'Levin' and 'Levine' are different people), category, initiative, agency, purpose, disclosure_status, min_amount, max_amount; the answer gives the TRUE match count and totals over every match, highest amount first. Needs the optional PDF tables download; without it the answer says how to add it.${TEXT_RULE}`,
     inputSchema: {
       type: "object",
@@ -1397,6 +1387,21 @@ function budgetLineArg(v: string | undefined): { value?: string; error?: string 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name, arguments: args } = request.params;
   if (betanyc.handles(name)) return betanyc.call(name, args);
+  return withSources(name, await callDataTool(name, args));
+});
+
+/**
+ * A data answer, ending with its Sources block (src/sources.ts): each source the tool answers
+ * from, in about_data's own words (BetaNYC modified or produced it; the official record and its
+ * link). An error, which carries no data, is passed on as it is.
+ */
+function withSources<R extends { content: { type: string; text: string }[]; isError?: boolean }>(name: string, result: R): R {
+  if (result.isError || !result.content.length) return result;
+  const last = result.content[result.content.length - 1];
+  return { ...result, content: [...result.content.slice(0, -1), { ...last, text: `${last.text}\n\n${sourcesBlock(name)}` }] };
+}
+
+async function callDataTool(name: string, args: Record<string, unknown> | undefined) {
   try {
     switch (name) {
       case "search_disclosure_awards": {
@@ -1767,8 +1772,6 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           "",
           ...capitalPlanYearsSection(),
           "",
-          ...YEARS_SOURCES,
-          "",
           `Source repo: ${REPO_URL}. Served by @betanyc/nyc-budget-mcp v${PACKAGE_VERSION}.`,
         ].join("\n");
         return textResult(text);
@@ -1781,10 +1784,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       }
     }
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return errorResult(message);
+    // One plain line, no local path (the index's own path is under the person's home folder).
+    return errorResult(answerError(err, 1_000));
   }
-});
+}
 
 export async function main(): Promise<void> {
   maybeAutoDownload();

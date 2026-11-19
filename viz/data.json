@@ -984,7 +984,7 @@
       "provenance": [
         "BetaNYC modified this data: read it from the published document and checked it, reshaped it, and joined it with other data. This copy should not be considered the official record. Official record: The Council's adopted budget documents and transparency resolutions (PDF) (New York City Council), https://council.nyc.gov/budget/",
         "BetaNYC read the tables from the PDFs in this repo (source/FYNN/) and checked them (PDF-RECIPE.md; statuses in data/pdf_years.csv). They are not in the npm package: the server downloads them on request from this repo's GitHub releases and checks each file's sha256 before installing. How current: the day the installed tables were built.",
-        "Modified by BetaNYC: Read from the PDFs and checked against their printed totals; each row keeps its page and position. BetaNYC adds whether a Schedule C row is in the disclosure spreadsheet, the printed member's Legistar person ID, and, for Terms and Conditions, the unit's adopted amount from NYC Open Data mwzb-yiwb."
+        "Modified by BetaNYC: Read from the PDFs and checked against their printed totals; each row keeps its page and position. BetaNYC adds whether a Schedule C row is in the disclosure spreadsheet and the printed member's Legistar person ID. Terms and Conditions rows are served as printed, with no unit amounts."
       ],
       "page": [
         {

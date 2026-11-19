@@ -73,10 +73,10 @@ test("whats_changed answers from the repo's WHATS-CHANGED.md, corrections first-
   for (const e of sc.entries) assert.ok(e.if_you_used_the_old_numbers, e.title);
 });
 
-test("whats_changed serves the 2.1.0 entry under the CHANGELOG's 2.1.0 date, and every other entry is dated", async () => {
-  // FAILS if the CHANGELOG's 2.1.0 heading is neither dated nor "— Unreleased"; if, once it is
-  // dated, any entry is still Unreleased; if, before then, an entry other than the first is
-  // undated; or if the 2.1.0 entry's date differs from the CHANGELOG's (before the tag: from the
+test("whats_changed serves the 2.1.0 entry under the CHANGELOG's 2.1.0 date, and every entry it serves is dated", async () => {
+  // FAILS if the CHANGELOG's 2.1.0 heading is neither dated nor "— Unreleased"; if any entry
+  // whats_changed returns has no date (it never serves an Unreleased entry, so none is skipped
+  // here); or if the 2.1.0 entry's date differs from the CHANGELOG's (before the tag: from the
   // placeholder date mcp/README.md states). Publishing with an Unreleased entry left is refused by
   // release.yml's check --release.
   const heading = /^## 2\.1\.0 — (\d{4}-\d{2}-\d{2}|Unreleased)$/m.exec(readFileSync(join(MCP, "CHANGELOG.md"), "utf8"))?.[1];
@@ -85,8 +85,8 @@ test("whats_changed serves the 2.1.0 entry under the CHANGELOG's 2.1.0 date, and
   assert.ok(date, "no 2.1.0 date to compare with");
   const r = await call("whats_changed", { tag: "MCP", limit: 50 });
   const sc = r.structuredContent;
-  const dated = heading === "Unreleased" ? sc.entries.slice(1) : sc.entries;
-  assert.ok(dated.every((e) => /^\d{4}-\d{2}-\d{2}$/.test(e.date)), sc.entries.map((x) => `${x.date}: ${x.title}`).join(" | "));
+  assert.ok(sc.entries.length > 1, "whats_changed returned entries");
+  assert.ok(sc.entries.every((e) => /^\d{4}-\d{2}-\d{2}$/.test(e.date)), sc.entries.map((x) => `${x.date}: ${x.title}`).join(" | "));
   const e = sc.entries.find((x) => x.title === "Server adds City agency budgets, FY2027 changes and Council Members by person");
   assert.ok(e, sc.entries.map((x) => x.title).join(" | "));
   assert.equal(e.date, date);

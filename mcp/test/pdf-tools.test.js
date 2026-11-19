@@ -21,12 +21,13 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, symlinkSync,
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { homedir } from "node:os";
 import Database from "better-sqlite3";
 import { parse } from "csv-parse/sync";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import * as budgetServer from "../dist/server.js";
-import { closePdfTables } from "../dist/pdfdata.js";
+import { closePdfTables, downloadPdfData, progress } from "../dist/pdfdata.js";
 import { searchScheduleC, searchTransparency, searchCapitalBook, searchTerms, councilQuestions, STATUS_LABEL, HIDDEN_TEXT_LABEL } from "../dist/pdfquery.js";
 import { fold } from "../dist/fold.js";
 import { registerTextFunctions } from "../dist/textmatch.js";
@@ -77,6 +78,15 @@ after(async () => {
   rmSync(TMP, { recursive: true, force: true });
 });
 
+/** FAILS the test if a tool answer carries a local path: the data folder, the home folder (whose
+ * name is the person's username), or anything that looks like a home-folder path. */
+function assertNoLocalPath(text, dir, what) {
+  assert.ok(!text.includes(dir), `${what}: names the data folder`);
+  const home = homedir();
+  if (home.length > 1) assert.ok(!text.includes(home), `${what}: names the home folder`);
+  assert.doesNotMatch(text, /(?:\/Users\/|\/home\/|[A-Za-z]:\\Users\\)[^\s/\\]+/, `${what}: a home-folder path`);
+}
+
 /** Point the server at a data folder (the tools read NYC_BUDGET_DATA_DIR on every call). */
 function useDir(dir) {
   closePdfTables();
@@ -120,7 +130,8 @@ test("without the download, each PDF tool is an error that says how to add it (n
       assert.match(r.text, /optional download that is not part of the npm package/, name);
       assert.match(r.text, /npx @betanyc\/nyc-budget-mcp download --pdf-tables/, name);
       assert.match(r.text, /NYC_BUDGET_PDF_DATA=on/, name);
-      assert.ok(r.text.includes(WITHOUT), `${name}: names the folder`);
+      assert.match(r.text, /saved in this server's data folder/, name);
+      assertNoLocalPath(r.text, WITHOUT, name);
       assert.doesNotMatch(r.text, /^Rows:/m, name);
     }
     const list = await call("list_available_fiscal_years");
@@ -376,11 +387,40 @@ test("a download installed while the server runs is picked up, and a fixed file 
   try {
     assert.match((await call("search_terms_conditions", { limit: 1 })).text, /They are not installed on this machine/);
     writeFileSync(join(dir, "pdf-tables", "pdf-tables.db"), "not a database");
-    assert.match((await call("search_terms_conditions", { limit: 1 })).text, /cannot be (opened|used)/);
+    const broken = await call("search_terms_conditions", { limit: 1 });
+    assert.equal(broken.isError, true);
+    assert.match(broken.text, /The PDF tables file in this server's data folder cannot be opened: file is not a database\.\n/);
+    assertNoLocalPath(broken.text, dir, "a broken tables file");
+    const years = (await call("list_available_fiscal_years")).text;
+    assert.match(years, /NOT INSTALLED on this machine \(The PDF tables file in this server's data folder cannot be opened/);
+    assertNoLocalPath(years, dir, "list_available_fiscal_years with a broken tables file");
     rmSync(join(dir, "pdf-tables", "pdf-tables.db"));
     symlinkSync(TABLES_DB, join(dir, "pdf-tables", "pdf-tables.db"));
     assert.match((await call("search_terms_conditions", { limit: 1 })).text, /matching item\(s\) in the adopted budget's Terms and Conditions/);
   } finally {
+    useDir(WITH);
+  }
+});
+
+test("a failed download is a plain answer with no local path; the error the CLI prints keeps it", async () => {
+  // FAILS if a tool answer after a failed download carries the data folder's path (it holds the
+  // person's username) or the raw error's path, or if the thrown error loses it (the operator
+  // needs it on the terminal).
+  const dir = join(TMP, "failed-download");
+  rmSync(dir, { recursive: true, force: true });
+  mkdirSync(dir, { recursive: true });
+  useDir(dir);
+  const missing = join(dir, "no-such-release", "pdf-tables.manifest.json");
+  try {
+    await assert.rejects(downloadPdfData({ from: missing, log: () => {} }), (err) => err.message.includes(dir));
+    assert.equal(progress.state, "failed");
+    const r = await call("search_capital_book", { limit: 1 });
+    assert.equal(r.isError, true);
+    assert.match(r.text, /The download this server started failed: this server's data folder\/no-such-release\/pdf-tables\.manifest\.json does not exist\.\n/);
+    assertNoLocalPath(r.text, dir, "a failed download");
+    assert.ok(progress.error.length <= 300, "the error is capped");
+  } finally {
+    Object.assign(progress, { state: "idle", error: undefined });
     useDir(WITH);
   }
 });

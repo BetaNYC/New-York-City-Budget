@@ -7,7 +7,7 @@
  */
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
-import { mkdirSync, rmSync, symlinkSync } from "node:fs";
+import { mkdirSync, readFileSync, rmSync, symlinkSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
@@ -100,6 +100,73 @@ test("every data answer links the data's own source, not only BetaNYC's repo, an
     assert.match(text, SOURCE_LINK[name], `${name}: no link to the data's source`);
     assert.match(text, /\b20\d\d-\d\d-\d\d(?!\d)/, `${name}: no date`);
   }
+});
+
+/** The repo's DATA-SOURCES.json, the file about_data reads (the package ships a copy). */
+const SOURCES = JSON.parse(readFileSync(join(MCP, "..", "DATA-SOURCES.json"), "utf8")).sources;
+const byId = Object.fromEntries(SOURCES.map((s) => [s.id, s]));
+
+/** What about_data says of each source behind `tool`: its "is this official?" lines. */
+async function aboutDataWords(tool) {
+  const r = await client.callTool({ name: "about_data", arguments: { topic: tool } });
+  const text = r.content.map((c) => c.text).join("\n");
+  return text.split("\n").filter((l) => /^(BetaNYC modified this data: |BetaNYC produced this\. |Publisher: )/.test(l));
+}
+
+test("each data answer says what about_data says of its sources: BetaNYC modified or produced them", async () => {
+  // FAILS if an answer leaves out, for a source DATA-SOURCES.json lists the tool for, about_data's
+  // own sentence on whether it is official (and its official record and link); if an answer links
+  // or names a source (its link, or its NYC Open Data id) without that sentence; or if about_data
+  // gives a tool no source.
+  for (const [name, args] of Object.entries(CALLS)) {
+    const text = await call(name, args);
+    const words = await aboutDataWords(name);
+    const listed = SOURCES.filter((s) => s.tools.includes(name));
+    assert.equal(words.length, listed.length, `${name}: about_data gives ${words.length} source(s), DATA-SOURCES.json lists ${listed.length}`);
+    for (const w of words) {
+      assert.match(w, /^BetaNYC (modified this data|produced this)\b/, `${name}: about_data calls a source official`);
+      assert.ok(text.includes(w), `${name}: the answer does not say what about_data says:\n  ${w}`);
+    }
+    for (const s of SOURCES) {
+      const id = /data\.cityofnewyork\.us\/d\/([a-z0-9]{4}-[a-z0-9]{4})$/.exec(s.source_url)?.[1];
+      const named = text.includes(s.source_url) || (id && new RegExp(`\\b${id}\\b`).test(text));
+      if (named) assert.ok(s.tools.includes(name), `${name}: names ${s.id} (${s.source_url}), which DATA-SOURCES.json does not list for it`);
+    }
+  }
+});
+
+/** Every source list_available_fiscal_years reports on, by DATA-SOURCES.json id (not the crosswalk). */
+const YEARS_DEPEND_ON = [
+  "expense-disclosure", "wayback-copies", "council-capital-workbook", "council-capital-open-data", "fy2018-capital-book",
+  "pdf-tables", "agency-budgets", "omb-capital-budget", "capital-plan", "cpdb-commitments", "cpdb-projects",
+];
+
+test("list_available_fiscal_years links every source its years come from, from DATA-SOURCES.json", async () => {
+  // FAILS if the Sources block leaves out a source the answer reports years of (the Internet
+  // Archive copies, the FY2018 Legistar book, the PDF tables, agency budgets...), if a line of it is
+  // deleted, if it lists one it does not report, or if DATA-SOURCES.json stops listing the tool for one.
+  const text = await call("list_available_fiscal_years", {});
+  const block = text.slice(text.indexOf("\nSources (as about_data gives them):\n") + 1).split("\n").slice(1).filter((l) => l.startsWith("  "));
+  assert.equal(block.length, YEARS_DEPEND_ON.length, block.join("\n"));
+  for (const id of YEARS_DEPEND_ON) {
+    const s = byId[id];
+    assert.ok(s?.tools.includes("list_available_fiscal_years"), `DATA-SOURCES.json does not list list_available_fiscal_years for ${id}`);
+    const line = block.find((l) => l.startsWith(`  ${s.title}: `));
+    assert.ok(line, `no Sources line for ${id} (${s.title})`);
+    assert.ok(line.includes(s.source_url), `${id}: the line does not link ${s.source_url}`);
+  }
+  assert.ok(block.some((l) => l.includes("https://web.archive.org/")), "the Internet Archive copies");
+  assert.ok(block.some((l) => l.includes("https://nyc.legistar1.com/")), "the FY2018 book on Legistar");
+});
+
+test("search_schedule_c_awards names the disclosure spreadsheet it joins rows to; DATA-SOURCES.json claims no Terms and Conditions amounts", () => {
+  // FAILS if about_data for Schedule C leaves out the disclosure (disclosure_status comes from it),
+  // or if DATA-SOURCES.json says the Terms and Conditions tables carry a unit amount the tool does
+  // not serve (search_terms_conditions serves the conditions as printed, with no unit amounts).
+  assert.ok(byId["expense-disclosure"].tools.includes("search_schedule_c_awards"));
+  const pdf = JSON.stringify(byId["pdf-tables"]);
+  assert.doesNotMatch(pdf, /adopted amount|mwzb-yiwb/);
+  assert.ok(!byId["agency-budgets"].tools.includes("search_terms_conditions"));
 });
 
 test("the OMB comparison links its dataset and dates the Council side", async () => {

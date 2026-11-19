@@ -41,13 +41,14 @@ test("tools/list gives every tool readOnlyHint true, openWorldHint false and a t
 
 test("every tool has its own title, not one built from its name", async () => {
   // FAILS if a tool's title is left to annotateTools, which builds "Compare capital to omb" or
-  // "Search schedule c awards" from the name. A title is for people: it names the data properly.
-  // What annotateTools builds when a tool has no title: the name with "_" as spaces, first letter capitalized.
-  const fromName = (n) => { const s = n.replace(/_/g, " ").trim(); return s.charAt(0).toUpperCase() + s.slice(1); };
+  // "Search schedule c awards" from the name, or is the name's words in any case or spacing
+  // ("Compare Capital To Omb", "Search Schedule C Awards"). A title is for people: it names the
+  // data properly, in words of its own.
+  const words = (s) => s.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean).join(" ");
   const { tools } = await client.listTools();
   for (const t of [...budgetServer.TOOLS, ...tools]) {
     assert.ok(typeof t.title === "string" && t.title.trim(), `${t.name} has no title of its own`);
     assert.equal(t.annotations.title, t.title, `${t.name}: annotations.title differs from title`);
-    assert.notEqual(t.title.trim(), fromName(t.name), `${t.name}: title is built from the name`);
+    assert.notEqual(words(t.title), words(t.name), `${t.name}: title ${JSON.stringify(t.title)} is only the name's words`);
   }
 });

@@ -16,6 +16,8 @@ import { toolListSize } from "../dist/betanyc-tools.js";
 // instead of in six tool descriptions and six whole_word descriptions. Measured 45,244.
 // 2026-11-18, review fixes (not a raise): each tool's own title and a self-contained one-line
 // text-matching hint in each tool (some apps never show the instructions). Measured 46,392.
+// 2026-11-19, second review (not a raise): one title reworded so no title is only the name's
+// words ("Search the Council's Schedule C awards"). Measured 46,420.
 const BUDGET_CHARS = 46_500;
 
 test("tool definitions plus server instructions stay within the size budget", () => {

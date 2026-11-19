@@ -27,6 +27,7 @@ import { Readable, Transform } from "stream";
 import { pipeline } from "stream/promises";
 import { fileURLToPath, pathToFileURL } from "url";
 import { createGunzip } from "zlib";
+import { errorSummary } from "./betanyc-tools.js";
 import { registerTextFunctions } from "./textmatch.js";
 import { REPO } from "./rowlinks.js";
 import { PACKAGE_VERSION } from "./version.js";
@@ -68,6 +69,30 @@ export function dataDir(): string {
 }
 
 export const tablesPath = () => join(dataDir(), "pdf-tables", "pdf-tables.db");
+
+/**
+ * An error as a tool answer may carry it: one plain line (the shared module's errorSummary), at
+ * most `max` characters, and no local path. The data folder's default is under
+ * the person's home folder, so its path holds their username: the PDF tables file, the data folder
+ * and the home folder (as paths or file: links) become words. The CLI (`download`) keeps printing
+ * paths on the terminal, where the operator needs them; only tool answers go through this.
+ */
+export function answerError(err: unknown, max = 300): string {
+  let text = errorSummary(err, 4_000);
+  const home = homedir();
+  const swaps: [string, string][] = [
+    [tablesPath(), "the PDF tables file in this server's data folder"],
+    [dataDir(), "this server's data folder"],
+    ...(home.length > 1 ? ([[home, "the home folder"]] as [string, string][]) : []),
+  ];
+  for (const [path, words] of swaps) {
+    for (const form of [pathToFileURL(path).href, path]) text = text.split(form).join(words);
+  }
+  return errorSummary(text, max);
+}
+
+/** answerError without its closing period, to go inside a sentence. */
+export const answerClause = (err: unknown, max = 300): string => answerError(err, max).replace(/\.+$/, "");
 export const installedManifestPath = () => join(dataDir(), "pdf-tables", "manifest.json");
 /** Where a downloaded PDF sits, by its repo path ("source/FY27/…pdf"); null for any other path. */
 export function localPdfPath(repoPath: string): string | null {
@@ -130,7 +155,7 @@ export function openPdfTables(): { tables: PdfTables | null; problem: string | n
     const bad = checkTables(db);
     if (bad) {
       db.close();
-      openedFailure = { path, stamp, error: `The PDF tables at ${path} cannot be used: ${bad}. Download them again (see below).` };
+      openedFailure = { path, stamp, error: `The PDF tables file in this server's data folder cannot be used: ${answerClause(bad)}. Download them again (see below).` };
       return { tables: null, problem: openedFailure.error };
     }
     registerTextFunctions(db);
@@ -138,7 +163,7 @@ export function openPdfTables(): { tables: PdfTables | null; problem: string | n
     opened = { db, path, meta, stamp };
     return { tables: opened, problem: null };
   } catch (err) {
-    openedFailure = { path, stamp, error: `The PDF tables at ${path} cannot be opened: ${err instanceof Error ? err.message : String(err)}.` };
+    openedFailure = { path, stamp, error: `The PDF tables file in this server's data folder cannot be opened: ${answerClause(err)}.` };
     return { tables: null, problem: openedFailure.error };
   }
 }
@@ -441,7 +466,8 @@ export async function downloadPdfData(opts: DownloadOptions = {}): Promise<Manif
     return m;
   } catch (err) {
     progress.state = "failed";
-    progress.error = err instanceof Error ? err.message : String(err);
+    // For tool answers: no local path, capped. The thrown error, for the CLI, keeps the path.
+    progress.error = answerClause(err);
     throw err;
   } finally {
     // A staged file is never left behind, whatever failed (it is 116 MB).
@@ -609,6 +635,6 @@ export function howToAdd(): string {
     "To add them (about 17 MB to download, 115 MB on disk; checked against the sha256 values this repo publishes), either:",
     "  • run once in a terminal: npx @betanyc/nyc-budget-mcp download --pdf-tables   (add --pdfs for the PDF files too)",
     '  • or set NYC_BUDGET_PDF_DATA=on in this MCP server\'s "env" settings and restart it: it downloads them in the background on the next start.',
-    `They are saved in ${dataDir()} (set NYC_BUDGET_DATA_DIR to choose another folder), not in the npm package.`,
+    "They are saved in this server's data folder, not in the npm package (set NYC_BUDGET_DATA_DIR to choose the folder; the download command prints where it is).",
   ].join("\n");
 }

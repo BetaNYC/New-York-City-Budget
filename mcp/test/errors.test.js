@@ -5,6 +5,7 @@
  */
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
+import { homedir } from "node:os";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import * as budgetServer from "../dist/server.js";
@@ -53,4 +54,16 @@ test("an unknown tool and a guard both fail as plain sentences", async () => {
   // FAILS if either loses isError or its plain wording.
   assert.equal(await fail("no_such_tool", {}), "Error: Unknown tool: no_such_tool");
   assert.match(await fail("search_disclosure_awards", { limit: 0 }), /^Error: limit must be at least 1/);
+});
+
+test("a thrown error reaches the model as one plain line, with no home-folder path", async () => {
+  // FAILS if the server's catch passes err.message through as it is: here zod's message carries
+  // the value given, which holds the home folder's path and a second line. The answer must be the
+  // first line only (the shared module's errorSummary), with the home folder (whose name is the
+  // person's username) as words.
+  const home = homedir();
+  const text = await fail("search_disclosure_awards", { status: `${home}/nyc-budget-mcp/x\nsecond line` });
+  assert.match(text, /^Error: search_disclosure_awards could not use its arguments \(status: Invalid enum value\..*received 'the home folder\/nyc-budget-mcp\/x$/);
+  assert.equal(text.split("\n").length, 1, "one line");
+  if (home.length > 1) assert.ok(!text.includes(home), "the home folder's path");
 });
