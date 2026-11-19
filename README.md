@@ -479,7 +479,7 @@ New-York-City-Budget/
 - **2026-11-09:** the agency explorer's year labels corrected
   ([nyc-budget-viz#4](https://github.com/BetaNYC/nyc-budget-viz/pull/4)), and the work to bring
   it into this repo started (epic [#272](https://github.com/BetaNYC/New-York-City-Budget/issues/272)).
-- **2.1.0 (2026-11-14, tagged by a maintainer):** City agency budgets in the MCP index and the
+- **2.1.0 (2026-11-19, tagged by a maintainer):** City agency budgets in the MCP index and the
   explorer, from one loader and one year rule ([#270](https://github.com/BetaNYC/New-York-City-Budget/issues/270));
   two MCP tools, `search_agency_budget` and `compare_adopted_modified`; the old `/agencies/` app
   retired, its links forwarded. Also: OMB's capital commitment plan and City Planning's Capital
